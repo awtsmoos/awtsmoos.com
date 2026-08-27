@@ -1,8 +1,8 @@
 [
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-movie-directory-guid-f43125d048",
+		"id": "geelooy-games-mitzvahworld-directory-index-md-fe0fb36cd8",
 		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/movie/DIRECTORY_GUIDE.md",
+		"sourcePath": "geelooy/games/mitzvahWorld/DIRECTORY_INDEX.md",
 		"category": "Games",
 		"provenance": "project",
 		"headings": [
@@ -13,139 +13,112 @@
 			},
 			{
 				"level": 1,
-				"text": "Movie Maker Directory Guide",
-				"anchor": "movie-maker-directory-guide"
+				"text": "Mitzvah World Directory Index",
+				"anchor": "mitzvah-world-directory-index"
 			},
 			{
 				"level": 2,
-				"text": "Active entry and ownership",
-				"anchor": "active-entry-and-ownership"
+				"text": "Start here",
+				"anchor": "start-here"
 			},
 			{
 				"level": 2,
-				"text": "Studio shell and lifecycle",
-				"anchor": "studio-shell-and-lifecycle"
+				"text": "Categories",
+				"anchor": "categories"
+			},
+			{
+				"level": 3,
+				"text": "Application runtime",
+				"anchor": "application-runtime"
+			},
+			{
+				"level": 3,
+				"text": "Assets",
+				"anchor": "assets"
+			},
+			{
+				"level": 3,
+				"text": "Experiments",
+				"anchor": "experiments"
+			},
+			{
+				"level": 3,
+				"text": "Gameplay",
+				"anchor": "gameplay"
+			},
+			{
+				"level": 3,
+				"text": "Movie runtime",
+				"anchor": "movie-runtime"
+			},
+			{
+				"level": 3,
+				"text": "Movies",
+				"anchor": "movies"
+			},
+			{
+				"level": 3,
+				"text": "Networking",
+				"anchor": "networking"
+			},
+			{
+				"level": 3,
+				"text": "Project root",
+				"anchor": "project-root"
+			},
+			{
+				"level": 3,
+				"text": "Prototype",
+				"anchor": "prototype"
+			},
+			{
+				"level": 3,
+				"text": "References",
+				"anchor": "references"
+			},
+			{
+				"level": 3,
+				"text": "Rendering library",
+				"anchor": "rendering-library"
+			},
+			{
+				"level": 3,
+				"text": "Runtime subsystem",
+				"anchor": "runtime-subsystem"
+			},
+			{
+				"level": 3,
+				"text": "Styles",
+				"anchor": "styles"
+			},
+			{
+				"level": 3,
+				"text": "Tests",
+				"anchor": "tests"
+			},
+			{
+				"level": 3,
+				"text": "Tools",
+				"anchor": "tools"
+			},
+			{
+				"level": 3,
+				"text": "UI",
+				"anchor": "ui"
+			},
+			{
+				"level": 3,
+				"text": "World systems",
+				"anchor": "world-systems"
 			},
 			{
 				"level": 2,
-				"text": "Reversible project commands",
-				"anchor": "reversible-project-commands"
-			},
-			{
-				"level": 2,
-				"text": "Studio styling",
-				"anchor": "studio-styling"
-			},
-			{
-				"level": 2,
-				"text": "Timeline",
-				"anchor": "timeline"
-			},
-			{
-				"level": 2,
-				"text": "Professional command behavior",
-				"anchor": "professional-command-behavior"
-			},
-			{
-				"level": 2,
-				"text": "Deterministic world direction",
-				"anchor": "deterministic-world-direction"
-			},
-			{
-				"level": 2,
-				"text": "Project, transform, audio, and export",
-				"anchor": "project-transform-audio-and-export"
-			},
-			{
-				"level": 2,
-				"text": "Public API",
-				"anchor": "public-api"
-			},
-			{
-				"level": 2,
-				"text": "Verification",
-				"anchor": "verification"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries",
-				"anchor": "boundaries"
+				"text": "Coverage policy",
+				"anchor": "coverage-policy"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem. Blessed is He. Movie Maker Directory Guide Active entry and ownership MovieStudio.js is the active editor composition. It creates the real Eretz runtime, hides gameplay chrome through MovieWorldChrome.js, creates MovieStudioView.js, installs MovieStudioSession.js, binds MovieStudioInteractionControll",
-		"searchText": "b\"h boruch hashem. blessed is he. movie maker directory guide active entry and ownership moviestudio.js is the active editor composition. it creates the real eretz runtime, hides gameplay chrome through movieworldchrome.js, creates moviestudioview.js, installs moviestudiosession.js, binds moviestudiointeractioncontroller.js, and returns the published globalthis.awtsmoosmovie api. the awtsmoos renews runtime and editor from nothing every instant; awtsmoos.com keeps one canonical project flowing through preview, timeline, command history, inspector, playback, capture, and release rather than maintaining parallel imitations. studio shell and lifecycle moviestudiomarkup.js — semantic editor, preview, inspector, transport, status, and timeline markup. moviestudioview.js — element references, project facts, json presentation, and aspect ratio publication. moviestudiosession.js — canonical session, current time, playback, capture, and release. moviestudioprojectinstall.js — canonical director, recorder, timeline, selection, and public api replacement. moviestudiosessionactions.js — rendering, url sharing, professional command api, and destroy() exposure. moviestudiointeractioncontroller.js — removable controls and guarded keyboard routing. moviestudiokeyboard.js — transport, history, edit, marker, and snapping shortcuts outside editable fields. movieinspectorstate.js — visible, aria, inert, and rendered focus state for the inspector. moviestudiolifecycle.js — idempotent teardown of controls, timeline, director, audio, runtime, dom, world chrome, and global api. movieworldchrome.js — reversible concealment of ordinary gameplay ui while editing. reversible project commands moviestudiocommands.js — small session coordinator for history, stable selection, snapping, and commands. moviestudioprojectcommands.js — pure split, duplicate, delete, marker, and pre edit project resolution. moviestudiocommandhistory.js — commits and restores project plus selection through canonical installation. moviestudioedittransactions.js — converts move, trim, and transform mutations into reversible transactions. movieprojecthistory.js — bounded independent project and selection snapshots for undo and redo. movieprojectselection.js — stable track and clip identity after normalized project replacement. movieclipcommands.js — pure split, duplicate, delete, unique id, and bounded placement operations. movieprojectmarkers.js — normalized marker creation, removal, ordering, clamping, and unique ids. movietimelinesnapping.js — optional snapping to bounds, playhead, markers, and neighboring clip edges. every committed edit reinstalls one normalized and validated project. dom nodes and stale clip references never enter history. studio styling moviestudiotokenscss.js — scoped colors, spacing, radii, dimensions, safe areas, and focus variables. moviestudiolayoutcss.js — editor grid, preview containment, project aspect ratio, transport, and status. moviestudioinspectorcss.js — inspector sections and project/export controls. moviestudiocontrolscss.js — buttons, fields, focus, and control states. moviestudioresponsivecss.js — desktop panel, tablet drawer, mobile bottom sheet, and touch layouts. moviestudioloadingcss.js — boot progress and error presentation. moviestudiostyletext.js — active scoped stylesheet composition. timeline movietimelineview.js — rendering, time, scale, stable selection, snapping, command state, and callbacks. movietimelinerenderer.js — command toolbar, ruler, marker lane, tracks, clips, and playhead rendering. movietimelinetoolbar.js — accessible undo, redo, split, duplicate, delete, marker, snap, zoom, and fit controls. movietimelinemarkers.js — positioned accessible markers, click to seek, and keyboard removal. movietimelineinteractioncontroller.js — scrub, home/end, zoom keys, and modifier wheel zoom. movietimelineclipeditor.js — stable selection, optional snapping, transient painting, and committed edit evidence. movietimelineclipdrag.js — pure gesture delta, move/trim, snapping, and clip painting. movietimelineclipelement.js — accessible clip dom and trim handles. movietimelinegeometry.js — pure time, pixel, move, trim, and ruler calculations. movietimelineviewport.js — measured sticky header geometry. movietimelinezoomstate.js — pointer centered zoom and scroll restoration. moviepointercapture.js — optional pointer capture resilience. movietimeline css.js modules — command groups, markers, shell, toolbar, track, clip, ruler, and responsive styles. professional command behavior the active editor supports: bounded undo and redo with selection restoration; split selected clip at the playhead; duplicate selected clip with a unique id and bounded placement; delete selected clip and recover it through undo; move and both trim edges as reversible edits; transform inspector edits as reversible transactions; json project replacement as an undoable transaction; marker creation, visible marker lane, click to seek, and keyboard marker removal; optional snapping with visible aria pressed state; keyboard commands for history, split, duplicate, delete, marker, and snapping. deterministic world direction moviedirector.js — playback lifecycle and deterministic seeking. moviedirectorframe.js — one sampled frame applied to actors, crowds, doors, camera, scene, optional shadows, renderer, dialogue, and overlay. movieactordirector.js / movieactorstate.js / movieactorruntime.js — player and optional legacy npc capability boundary. moviedoordirector.js — optional legacy door capability boundary. moviecrowddirector.js — deterministic shared actors and procedural extras. moviecameradirector.js and camera helpers — authored camera placement and targets. moviescenedirector.js — scene state application. movieoverlaydirector.js — preview dialogue and overlays. optional runtime systems are guarded only where the active minimal world legitimately omits them. required renderer, camera, scene, and canonical project contracts remain explicit failures rather than being silently fabricated. project, transform, audio, and export movieproject.js — normalize, validate, encode, and decode the canonical project. movieprojectnormalizer.js / movieprojectvalidator.js — project, tracks, clips, graphs, and bounded markers. movietransforminspector.js / moviecliptransform.js — selected clip transform editing with original state capture. movierecorder.js / movieaudioengine.js — live browser capture and temporary audio graph lifecycle. movieexactrender.js and package/ — deterministic exact package generation. audio/ — validated audio clip and live scheduling helpers. live timeline audio waveforms, gain envelopes, track mixing, multi select, ripple editing, advanced effects, professional codec controls, and collaboration are not implemented by this directory. public api globalthis.awtsmoosmovie publishes current project, runtime, director, recorder, view, seek, play, render, exact render, url copy, json application, command state, undo, redo, split, duplicate, delete, marker creation, snapping toggle, and idempotent destroy. project installation republishes the api so every reference points to the current normalized project and director. verification unit tests live in src/test/movie. route tests live in src/test/launcher. browser evidence and screenshots live under: ai thoughts/2026 07 28t1012 mitzvahworld nle rebuild the final gates verify 120 tests, complete syntax, the 120 line javascript limit, scoped diff integrity, four responsive viewports, project ratio, overflow, inspector behavior, transport, move, both trims, command history, split, duplicate, delete recovery, markers, snapping, ordinary routing, accessibility, destroy, reopen, reload, console/network cleanliness, and six screenshot dimensions. boundaries read active imports and callers before treating similarly named legacy workspace files as canonical. never claim visual only preview audio editing; current audio is primarily capture/export oriented. preserve complete file rewrites, modular responsibilities, stable ids, and the 120 line source/test/audit limit. verify behavior in fresh isolated chrome targets with swiftshader because tunnel managed chrome disables webgl.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-movie-directory-guid-f43125d048.json"
-	},
-	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-movie-package-direct-9a0818415b",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/movie/package/DIRECTORY_GUIDE.md",
-		"category": "Games",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/src/movie/package",
-				"anchor": "directory-guide-experiments-awtsmoos-src-movie-package"
-			},
-			{
-				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
-			},
-			{
-				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
-			},
-			{
-				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Exported symbols worth searching",
-				"anchor": "exported-symbols-worth-searching"
-			},
-			{
-				"level": 2,
-				"text": "Import neighborhood",
-				"anchor": "import-neighborhood"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/movie/package Role: Movie runtime Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 4 files, 0 structural child directories Purpose Movie package metadata and packaging helpers. The Awtsmoos renews every path ",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/movie/package role: movie runtime snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 4 files, 0 structural child directories purpose movie package metadata and packaging helpers. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: movie runtime search terms: exact, package, movie, oros, responsibility, artifacts, manifest, are, browser, keilim, their, architecture file mix: .js: 3 · .md: 1 good first question: “does the behavior or asset i need belong to movie runtime, or is this only a neighboring/test/reference layer?” semantic evidence b\"h delivers exact ivf, wav, and json artifacts through browser downloads. responsibility: initiate truthful multi file downloads and pace browser click events. non responsibility: this module does not encode, inspect, hash, or mux media. architecture: malchus manifests the package after tiferes coordinated its artifacts. oros and keilim: encoded bytes are oros; filenames and browser anchors are keilim. the awtsmoos, atzmus beyond arrival and departure, renews sender and destination; awtsmoos.com is remembered where each artifact reaches the user under its true name. describes exact video/audio artifacts and release requirements truthfully. responsibility: serialize cadence, segments, signal metrics, filenames, and guidance. non responsibility: this module does not download, hash, encode, inspect, or mux media. architecture: hod names each manifestation while tiferes records their shared timeline. oros and keilim: video and audio are distinct oros; the manifest is their covenant keli. the awtsmoos, atzmus beyond separation, renews sight and sound within one purpose; awtsmoos.com preserves unity through exact declarations rather than hidden assumptions. joins exact video, audio, and manifest artifacts into one honest receipt. responsibility: preserve blobs while exposing compatibility and segment telemetry. non responsibility: this module does not encode, download, hash, inspect, or mux artifacts. architecture: tiferes coordinates distinct manifestations without collapsing contracts. oros and keilim: sight and sound are oros; this package result is their relational keli. the awtsmoos creates every artifact and their unity anew; awtsmoos.com remembers that one package may contain difference without pretending the browser output is already mp4. representative files movieexactpackagedownloader.js — delivers exact ivf, wav, and json artifacts through browser downloads. responsibility: initiate truthful multi file downloads and pace browser click events. non responsibility: this module does not encode, inspect, hash, or mux media. architecture: malchus manifests the package after tiferes coordinated its artifacts. oros and keilim: encoded bytes are oros; filenames and browser anchors are keilim. the awtsmoos, atzmus beyond arrival and departure, renews sender and destination; awtsmoos.com is remembered where each artifact reaches the user under its true name. exports: downloadmovieexactpackage. movieexactpackagemanifest.js — describes exact video/audio artifacts and release requirements truthfully. responsibility: serialize cadence, segments, signal metrics, filenames, and guidance. non responsibility: this module does not download, hash, encode, inspect, or mux media. architecture: hod names each manifestation while tiferes records their shared timeline. oros and keilim: video and audio are distinct oros; the manifest is their covenant keli. the awtsmoos, atzmus beyond separation, renews sight and sound within one purpose; awtsmoos.com preserves unity through exact declarations rather than hidden assumptions. exports: createmovieexactpackagemanifest, exactpackagemanifestfilename. movieexactpackageresult.js — joins exact video, audio, and manifest artifacts into one honest receipt. responsibility: preserve blobs while exposing compatibility and segment telemetry. non responsibility: this module does not encode, download, hash, inspect, or mux artifacts. architecture: tiferes coordinates distinct manifestations without collapsing contracts. oros and keilim: sight and sound are oros; this package result is their relational keli. the awtsmoos creates every artifact and their unity anew; awtsmoos.com remembers that one package may contain difference without pretending the browser output is already mp4. exports: createmovieexactpackageresult. exported symbols worth searching downloadmovieexactpackage · createmovieexactpackagemanifest · exactpackagemanifestfilename · createmovieexactpackageresult import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ../movierecordingresult.js ./movieexactpackagemanifest.js directory map parent: experiments/awtsmoos/src/movie children: none. related and overlapping systems movie runtime, projects, tools, and evidence — runtime movie logic is separated from authored projects, exact generation tools, and captured evidence. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-movie-package-direct-9a0818415b.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Mitzvah World Directory Index Generated from the live repository structure at 2026 07 23T23:32:30.660Z . This index covers 129 structural directories and excludes AI planning history, dependency folders, build products, coverage, caches, and Git internals. The Awtsmoos renews the whole p",
+		"searchText": "b\"h boruch hashem blessed is he mitzvah world directory index generated from the live repository structure at 2026 07 23t23:32:30.660z . this index covers 129 structural directories and excludes ai planning history, dependency folders, build products, coverage, caches, and git internals. the awtsmoos renews the whole project every instant; this index is a finite map for humans and retrieval agents seeking the current vessels through which mitzvah world is expressed on awtsmoos.com. start here for the live page and handoff context, begin with the project root guide. for overlapping or disconnected implementations, use the system overlap map. for programmatic lookup, use directory catalog.json. for the current direct meadow path, inspect index.html, experiments/awtsmoos/src/launcher, and experiments/awtsmoos/src/app. categories application runtime experiments/awtsmoos/src/app — application assembly, boot phases, meadow runtime, render fallbacks, player hydration, and high level runtime coordination. assets assets — runtime consumable models, textures, and material libraries. assets/materials — material and surface asset collections used to dress terrain, vegetation, and world geometry. assets/materials/generated — generated material derivatives and machine produced visual assets. treat these as outputs unless the generating workflow says otherwise. assets/materials/generated/catalog — generated material catalog metadata for programmatic lookup. assets/materials/local — locally curated material assets that can be consumed without an external asset service. assets/materials/local/terrain — terrain focused material files and textures. assets/materials/local/world — world scale material collections, catalogs, processed derivatives, and full resolution sources. assets/materials/local/world/awtsmoos nature — nature oriented source assets, especially forest vegetation and tree libraries. assets/materials/local/world/awtsmoos nature/chai forest — forest material sources organized around bark, ground, and leaf textures. assets/materials/local/world/awtsmoos nature/chai forest/textures — texture groups used to construct forest materials. assets/materials/local/world/awtsmoos nature/chai forest/textures/bark — collection of individual bark material sets. assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark001 1k jpg — a single bark material set named bark001 1k jpg, kept as a leaf so its texture maps remain grouped. assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark002 1k jpg — a single bark material set named bark002 1k jpg, kept as a leaf so its texture maps remain grouped. assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark003 1k jpg — a single bark material set named bark003 1k jpg, kept as a leaf so its texture maps remain grouped. assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark004 1k jpg — a single bark material set named bark004 1k jpg, kept as a leaf so its texture maps remain grouped. assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark006 1k jpg — a single bark material set named bark006 1k jpg, kept as a leaf so its texture maps remain grouped. assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark007 1k jpg — a single bark material set named bark007 1k jpg, kept as a leaf so its texture maps remain grouped. assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark008 1k jpg — a single bark material set named bark008 1k jpg, kept as a leaf so its texture maps remain grouped. assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark012 1k jpg — a single bark material set named bark012 1k jpg, kept as a leaf so its texture maps remain grouped. assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark013 1k jpg — a single bark material set named bark013 1k jpg, kept as a leaf so its texture maps remain grouped. assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark014 1k jpg — a single bark material set named bark014 1k jpg, kept as a leaf so its texture maps remain grouped. assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark015 1k jpg — a single bark material set named bark015 1k jpg, kept as a leaf so its texture maps remain grouped. assets/materials/local/world/awtsmoos nature/chai forest/textures/ground — ground cover texture sources for forest terrain. assets/materials/local/world/awtsmoos nature/chai forest/textures/leaves — leaf texture sources for foliage rendering. assets/materials/local/world/awtsmoos nature/ilanos — tree oriented source collection; “ilanos” groups arboreal assets. assets/materials/local/world/awtsmoos nature/ilanos/trees — individual tree texture or material assets. assets/materials/local/world/catalog — curated world material catalog metadata. assets/materials/local/world/full resolution — high resolution source material images retained before processing or downscaling. assets/materials/local/world/processed — processed material derivatives organized by semantic subject. assets/materials/local/world/processed/botany — processed botany material outputs. assets/materials/local/world/various — loose world material assets that do not yet belong to a narrower collection. assets/models — 3d model assets for players and reference worlds. assets/models/player — canonical player model assets, including the chossid glb used by the meadow runtime. assets/models/reference world — reference world model files used as visual or geometry evidence. assets/textures — loose top level textures that are not part of the structured material library. experiments experiments — experimental implementations and supporting libraries used to develop mitzvah world. experiments/awtsmoos — the primary modular mitzvah world experiment, including runtime source, tests, and tools. experiments/awtsmoos/src — subsystem root for the modular game runtime. gameplay experiments/awtsmoos/src/gameplay — gameplay domain rules and coordinators shared by combat, action bars, progression, abilities, and player state. experiments/awtsmoos/src/gameplay/actionbar — action bar slot models, commands, activation rules, and presentation neutral action selection. experiments/awtsmoos/src/gameplay/combat — combat turns, melee, torah abilities, cooldowns, targeting gates, progression rewards, and encounter state. movie runtime experiments/awtsmoos/src/movie — movie runtime, timeline sampling, actor direction, camera direction, recording, export, and project execution. experiments/awtsmoos/src/movie/audio — movie audio scheduling, synthesis, pcm handling, and capture support. experiments/awtsmoos/src/movie/package — movie package metadata and packaging helpers. movies movies — movie projects, generated evidence, manifests, and tool entry points. movies/evidence — rendered or captured evidence grouped by movie run. movies/evidence/chossid journey 30s corrected — evidence artifacts for the corrected 30 second chossid journey movie. movies/projects — authored movie project definitions and timelines. networking experiments/awtsmoos/src/network — realtime transport, multiplayer session state, player snapshots, remote avatars, and connection status. project root . — project entry, top level audits, handoff notes, and navigation for the mitzvah world game. prototype experiments/animalmesh — small experimental mesh generation surface for animal geometry. references references — reference snapshots retained for comparison and reconstruction. references/canonical procedural village — canonical procedural village reference files and manifest evidence. rendering library experiments/light three gltf — custom lightweight three like scene graph, math, webgl helpers, and gltf loading stack. experiments/light three gltf/test — tests for the lightweight scene graph, gltf, math, and renderer primitives. runtime subsystem experiments/awtsmoos/src/assets — asset loading, catalogs, caches, material resolution, gltf handling, and progressive fetch behavior. experiments/awtsmoos/src/bundles — narrow bundle entry definitions for selected runtime surfaces. experiments/awtsmoos/src/camera — camera profiles, orbit/follow behavior, framing, and camera state coordination. experiments/awtsmoos/src/collision — octree storage, triangle geometry, capsule collision, raycasts, and step resolution. experiments/awtsmoos/src/diagnostics — runtime observability, boot evidence, health receipts, and diagnostics serialization. experiments/awtsmoos/src/diagnostics/logs — captured diagnostic logs and runtime evidence. these are historical observations, not active logic. experiments/awtsmoos/src/input — keyboard, joystick, jump, and ui input adapters. experiments/awtsmoos/src/launcher — page boot, route selection, menu loading, mode dispatch, and the direct shared meadow entry. experiments/awtsmoos/src/lod — level of detail selection, distance policies, and scene lod coordination. experiments/awtsmoos/src/math — low level geometry and spatial mathematics used by collision and world systems. experiments/awtsmoos/src/motion — focused motion primitives or helpers that do not own a full gameplay domain. experiments/awtsmoos/src/performance — quality profiles, budgets, timing, capability probes, and performance policy. experiments/awtsmoos/src/render — focused rendering helpers outside the larger app renderer stack. styles styles — css for loading, meadow hud, menus, mobile controls, combat, game rails, and shell visibility. tests experiments/awtsmoos/src/test — colocated subsystem tests and test harnesses for the source tree. experiments/awtsmoos/src/test/app — tests for app boot, runtime assembly, meadow behavior, renderer fallbacks, and application contracts. experiments/awtsmoos/src/test/assets — tests for asset loading, catalogs, material handling, and progressive fetch behavior. experiments/awtsmoos/src/test/botany — tests for botanical generation and vegetation behavior. experiments/awtsmoos/src/test/camera — tests for camera rules and camera coordination. experiments/awtsmoos/src/test/collision — tests for octrees, capsules, raycasts, steps, and collision geometry. experiments/awtsmoos/src/test/diagnostics — tests for diagnostic receipts, logging, and boot evidence. experiments/awtsmoos/src/test/gameplay — tests for gameplay rules, progression, targeting, action bars, and combat integration. experiments/awtsmoos/src/test/gameplay/combat — structural area named combat. its immediate files and children below are the evidence for its current responsibilities. experiments/awtsmoos/src/test/geometry — tests for procedural and low level geometry generation. experiments/awtsmoos/src/test/ground — tests for ground or terrain contact behavior. experiments/awtsmoos/src/test/input — tests for keyboard, joystick, jump, or input adapters. experiments/awtsmoos/src/test/launcher — tests for page boot, route dispatch, and launcher contracts. experiments/awtsmoos/src/test/lod — tests for level of detail policies and selection. experiments/awtsmoos/src/test/movie — tests for movie timelines, actors, cameras, audio, recording, and export. experiments/awtsmoos/src/test/network — tests for multiplayer sessions, snapshots, transports, and remote state. experiments/awtsmoos/src/test/performance — tests for quality profiles, budgets, timing, and capability policy. experiments/awtsmoos/src/test/platform — tests for platform world generation and behavior. experiments/awtsmoos/src/test/render — tests for rendering helpers. experiments/awtsmoos/src/test/renderer — tests for renderer implementations and frame behavior. experiments/awtsmoos/src/test/shadows — tests for shadow related world or render behavior. experiments/awtsmoos/src/test/streaming — tests for chunk, district, asset, collision, and visibility streaming. experiments/awtsmoos/src/test/support — shared test support helpers and fixtures. experiments/awtsmoos/src/test/ui — tests for ui coordinators and browser presentation contracts. experiments/awtsmoos/src/test/visibility — tests for visibility policy and reveal/hide behavior. experiments/awtsmoos/src/test/world — tests for world generation, village systems, terrain, creatures, enemies, and environmental integration. experiments/awtsmoos/tests — higher level integration tests kept outside the source tree. experiments/awtsmoos/tests/assets — integration tests focused on the assets area. experiments/awtsmoos/tests/gameplay — integration tests focused on the gameplay area. experiments/awtsmoos/tests/world — integration tests focused on the world area. tools experiments/awtsmoos/tools — offline or developer facing utilities for diagnostics and material preparation. experiments/awtsmoos/tools/diagnostics — structural area named diagnostics. its immediate files and children below are the evidence for its current responsibilities. experiments/awtsmoos/tools/materials — structural area named materials. its immediate files and children below are the evidence for its current responsibilities. movies/tools — movie generation and inspection tools. movies/tools/exact — exact or deterministic movie production helpers. ui experiments/awtsmoos/src/ui — hud, menus, targeting presentation, action/combat widgets, dialogue, inventory, and browser dom coordination. world systems experiments/awtsmoos/src/world — world construction, terrain, streaming, village generation, vegetation, structures, creatures, npcs, and environmental systems. experiments/awtsmoos/src/world/botany — botanical generation, flower or plant geometry, and botany specific world rules. experiments/awtsmoos/src/world/creatures — creature runtime models and world side creature behavior. experiments/awtsmoos/src/world/enemy — enemy actors, populations, state, combat bridges, spawning, and hostile world behavior. experiments/awtsmoos/src/world/forest — forest level composition and coordination. experiments/awtsmoos/src/world/grass — grass generation or rendering. experiments/awtsmoos/src/world/horses — horse models, movement, population, or world integration. experiments/awtsmoos/src/world/house — house generation, geometry, interiors, and structure assembly. experiments/awtsmoos/src/world/lighting — world lighting, sun, ambient, or environment light coordination. experiments/awtsmoos/src/world/materials — world material definitions and material assignment policy. experiments/awtsmoos/src/world/npc — npc actors, behavior, dialogue, population, and world integration. experiments/awtsmoos/src/world/platform — platform world geometry and platform gameplay support. experiments/awtsmoos/src/world/primitives — reusable procedural geometry primitives for world construction. experiments/awtsmoos/src/world/proceduralapi — public procedural world api and request/response adapters. experiments/awtsmoos/src/world/proceduraltext — text driven procedural world interpretation and generation. experiments/awtsmoos/src/world/road — road layout, splines, meshes, intersections, and roadside composition. experiments/awtsmoos/src/world/room — room or interior space generation. experiments/awtsmoos/src/world/sky — sky, atmosphere, backdrop, and celestial presentation. experiments/awtsmoos/src/world/streaming — chunk, district, visibility, collision, and asset streaming for large worlds. experiments/awtsmoos/src/world/terrain — terrain data, geometry, collision, and terrain runtime helpers. experiments/awtsmoos/src/world/trees — tree generation, placement, geometry, and world integration. experiments/awtsmoos/src/world/village — large procedural village system: layout, buildings, roads, populations, materials, districts, and runtime composition. experiments/awtsmoos/src/world/visibility — world visibility policy, culling, and reveal/hide coordination. coverage policy every listed directory contains directory guide.md after this pass. existing readme files are preserved and referenced by their local guide. similar implementations are documented together but not merged in code. re run the catalog generator after adding a new structural directory.",
+		"page": "pages/geelooy-games-mitzvahworld-directory-index-md-fe0fb36cd8.json"
 	}
 ]

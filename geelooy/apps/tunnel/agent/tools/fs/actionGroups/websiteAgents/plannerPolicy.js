@@ -30,7 +30,7 @@ const ROLES = [
 
 function promptScale(input = {}) {
 	const prompt = String(input.prompt || input.goal || input.message || "");
-	const pageMatch = prompt.match(/([\d,]{3,})\s*[- ]?\s*pages?/i);
+	const pageMatch = prompt.match(/\b([\d,]{3,})\s*[- ]?\s*pages?\b/i);
 	const pageCount = Number(String(pageMatch?.[1] || "0").replaceAll(",", ""));
 	if (pageCount >= 1000 || prompt.length >= 4000 || enormousPrompt(prompt)) {
 		return "enormous";
@@ -38,18 +38,21 @@ function promptScale(input = {}) {
 	if (prompt.length >= 900 || largePrompt(prompt)) {
 		return "large";
 	}
-	if (prompt.length >= 350 || /(multiple|several|cross[- ]?cutting|multi[- ]?area)/i.test(prompt)) {
+	if (
+		prompt.length >= 350 ||
+		/\b(multiple|several|cross[- ]?cutting|multi[- ]?area)\b/i.test(prompt)
+	) {
 		return "medium";
 	}
 	return "small";
 }
 
 function enormousPrompt(prompt) {
-	return /(thousands? of pages|book[- ]length translation|dozens? of agents|scores? of agents|(?:huge|complex) (?:software|system|application|codebase))/i.test(prompt);
+	return /\b(thousands? of pages|book[- ]length translation|dozens? of agents|scores? of agents|(?:huge|complex) (?:software|system|application|codebase))\b/i.test(prompt);
 }
 
 function largePrompt(prompt) {
-	return /(entire|everything|massive|fully|whole repo|many agents|enterprise software|large monorepo)/i.test(prompt);
+	return /\b(entire|everything|massive|fully|whole repo|many agents|enterprise software|large monorepo)\b/i.test(prompt);
 }
 
 function agentCount(input = {}, scale = promptScale(input)) {

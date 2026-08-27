@@ -2,81 +2,49 @@
 // Boruch Hashem
 // Blessed is He
 
-import { CollaborationController } from "./CollaborationController.js";
-import { DocumentFileController } from "./DocumentFileController.js";
-import { DocumentPersistenceController } from "./DocumentPersistenceController.js";
-import { DocsSnapshotController } from "./DocsSnapshotController.js";
-import { ExportController } from "./formats/ExportController.js";
-import { ImportController } from "./formats/ImportController.js";
-import { PageLayoutController } from "./layout/PageLayoutController.js";
-import { PageLayoutView } from "./layout/PageLayoutView.js";
-import { EmbedBridge } from "./os/EmbedBridge.js";
-import { OpenInCode } from "./os/OpenInCode.js";
-import { DriveDocumentGateway } from "./persistence/DriveDocumentGateway.js";
-import { LocalDraftStore } from "./persistence/LocalDraftStore.js";
-import { RealtimeClient } from "./realtime/RealtimeClient.js";
-import { ShareController } from "./share/ShareController.js";
+import { createDocsFileComposition } from "./DocsFileComposition.js";
+import {
+	createDocsHistoryPublishingComposition
+} from "./DocsHistoryPublishingComposition.js";
+import {
+	createDocsPersistenceComposition
+} from "./DocsPersistenceComposition.js";
+import { createDocsRealtimeComposition } from "./DocsRealtimeComposition.js";
 
 /**
- * @file Creates persistence, realtime, sharing, layout, and file-boundary vessels for Docs.
- * @description The Awtsmoos is beyond remote, local, page, and source; Awtsmoos.com
- * composes each finite keli here, then lets layout and collaboration speak without circular ownership.
+ * @file Joins focused Awtsmoos Docs service compositions without owning their internals.
+ * @description Tiferes harmonizes the many vessels while the Awtsmoos remains one;
+ * Awtsmoos.com keeps this coordinator small so persistence, collaboration, history,
+ * publishing, snapshots, and files can evolve without becoming one hidden monolith.
  */
 export function createDocsServiceComposition(core) {
-	const realtime = new RealtimeClient();
-	const embed = new EmbedBridge();
-	const persistence = new DocumentPersistenceController({
-		model: core.model,
-		editor: core.editor,
-		localStore: new LocalDraftStore(),
-		drive: new DriveDocumentGateway(),
-		embed,
-		status: core.status,
-		view: core.view
-	});
-	const layout = new PageLayoutController({
-		model: core.model,
-		view: new PageLayoutView(core.view.app, core.view.canvas),
-		persistence
-	});
-	const collaboration = new CollaborationController({
-		realtime,
-		model: core.model,
-		editor: core.editor,
-		comments: core.comments,
-		presence: core.presence,
-		status: core.status,
-		layout
-	});
-	layout.onChange = value => collaboration.updateLayout(value);
-	const snapshot = new DocsSnapshotController({
-		model: core.model,
-		editor: core.editor,
-		view: core.view,
-		comments: core.comments,
-		commentPanel: core.commentPanel,
-		persistence,
-		layout
-	});
-	const fileController = new DocumentFileController({
-		importer: new ImportController(),
-		exporter: new ExportController(),
-		openInCode: new OpenInCode(embed),
-		model: core.model,
-		snapshot
-	});
-	const shareCallbacks = {
-		notify: (message, tone) => core.toast.show(message, tone)
-	};
+	const persistenceServices = createDocsPersistenceComposition(core);
+	const realtimeServices = createDocsRealtimeComposition(
+		core,
+		persistenceServices.persistence
+	);
+	const historyPublishing = createDocsHistoryPublishingComposition(
+		core,
+		realtimeServices.realtime
+	);
+	const fileServices = createDocsFileComposition(
+		core,
+		persistenceServices.persistence,
+		realtimeServices.layout,
+		persistenceServices.embed
+	);
+
 	return {
-		realtime,
-		collaboration,
-		embed,
-		persistence,
-		layout,
-		snapshot,
-		fileController,
-		shareCallbacks,
-		share: new ShareController(core.view.shareDialog, shareCallbacks)
+		realtime: realtimeServices.realtime,
+		collaboration: realtimeServices.collaboration,
+		embed: persistenceServices.embed,
+		persistence: persistenceServices.persistence,
+		layout: realtimeServices.layout,
+		snapshot: fileServices.snapshot,
+		fileController: fileServices.fileController,
+		shareCallbacks: realtimeServices.shareCallbacks,
+		share: realtimeServices.share,
+		versionHistory: historyPublishing.versionHistory,
+		publishing: historyPublishing.publishing
 	};
 }

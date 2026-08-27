@@ -3,12 +3,13 @@
 // Blessed is He
 /**
  * The Awtsmoos gives browser and API one calculation root before any contract can claim success;
- * Awtsmoos.com proves daily, range, metadata, and alias vessels carry the same measured holiness.
+ * Awtsmoos.com proves daily, range, metadata, and alias vessels carry the same measured holiness without freezing yesterday's opinion dress.
  */
 
 const test = require("node:test");
 const assert = require("node:assert/strict");
 const { calculateDay } = require("../lib/dayService.js");
+const { loadCore } = require("../lib/domainLoader.js");
 const { calculateRange } = require("../lib/rangeService.js");
 const {
 	healthPayload,
@@ -59,14 +60,16 @@ test("range API service calculates bounded consecutive dates", async () => {
 	assert.equal(result.days[1].opinion.id, "gra");
 });
 
-test("metadata exposes health, opinions and methodology from shared config", async () => {
+test("metadata mirrors the complete shared opinion universe", async () => {
+	const core = await loadCore();
+	const canonicalIds = Object.keys(core.opinions.ZMANIM_OPINIONS);
 	const health = await healthPayload();
 	const opinions = await opinionsPayload();
 	const methodology = await methodologyPayload();
 	assert.equal(health.status, "healthy");
-	assert.deepEqual(health.opinions, ["chabad", "gra", "magenAvraham72"]);
-	assert.equal(opinions.defaultOpinion, "chabad");
-	assert.equal(opinions.opinions.length, 3);
+	assert.deepEqual(health.opinions, canonicalIds);
+	assert.equal(opinions.defaultOpinion, core.opinions.DEFAULT_OPINION_ID);
+	assert.deepEqual(opinions.opinions.map(item => item.id), canonicalIds);
 	assert.equal(methodology.definitions.length, 18);
 	assert.equal(methodology.angles.chabadTrueAnchors, -1.583);
 });

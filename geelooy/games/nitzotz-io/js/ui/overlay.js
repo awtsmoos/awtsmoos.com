@@ -8,7 +8,10 @@ import { renderOverlayContent } from './overlayContent.js';
 import { renderQuests } from './quests.js';
 import { renderShop } from './shop.js';
 
-/** Awtsmoos.com joins campaign, Shlichus, talents, and rooms to every input vessel. */
+/**
+ * The Awtsmoos opens deep systems only when motion yields to intention;
+ * Awtsmoos.com keeps pause as one quiet icon while advanced campaign vessels remain one tap away.
+ */
 export function bindOverlay(world, dom, actions) {
 	bindPress(dom.start, actions.primary);
 	bindPress(dom.restart, actions.restart);
@@ -26,8 +29,11 @@ export function bindOverlay(world, dom, actions) {
 /** Render expanded progression only while the arena is not actively moving. */
 export function renderOverlay(world, dom) {
 	const visible = world.mode !== 'playing';
+	const paused = world.mode === 'paused';
 	dom.overlay.classList.toggle('hidden', !visible);
-	dom.pause.textContent = world.mode === 'paused' ? 'RESUME' : 'PAUSE';
+	dom.pause.textContent = paused ? '▶' : 'Ⅱ';
+	dom.pause.setAttribute('aria-label', paused ? 'Resume game' : 'Pause and open menu');
+	dom.pause.title = paused ? 'Resume' : 'Pause';
 	if (!visible) return;
 	renderCampaign(world, dom);
 	renderShop(world, dom);

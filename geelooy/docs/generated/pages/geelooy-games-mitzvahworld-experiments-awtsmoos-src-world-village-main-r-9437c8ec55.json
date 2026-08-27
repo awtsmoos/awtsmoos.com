@@ -1,0 +1,69 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-village-main-r-9437c8ec55",
+	"title": "Main River Village — Canonical Hero Slice",
+	"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/village/MAIN_RIVER_VILLAGE.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Main River Village — Canonical Hero Slice",
+			"anchor": "main-river-village-canonical-hero-slice"
+		},
+		{
+			"level": 2,
+			"text": "PURPOSE",
+			"anchor": "purpose"
+		},
+		{
+			"level": 2,
+			"text": "PRIMARY POLICY",
+			"anchor": "primary-policy"
+		},
+		{
+			"level": 2,
+			"text": "CAPABILITY MAP",
+			"anchor": "capability-map"
+		},
+		{
+			"level": 2,
+			"text": "HOUSE LAW",
+			"anchor": "house-law"
+		},
+		{
+			"level": 2,
+			"text": "RIVER LAW",
+			"anchor": "river-law"
+		},
+		{
+			"level": 2,
+			"text": "TERRAIN LAW",
+			"anchor": "terrain-law"
+		},
+		{
+			"level": 2,
+			"text": "NPC LAW",
+			"anchor": "npc-law"
+		},
+		{
+			"level": 2,
+			"text": "OBJECT PLACEMENT LAW",
+			"anchor": "object-placement-law"
+		},
+		{
+			"level": 2,
+			"text": "GAMEPLAY",
+			"anchor": "gameplay"
+		},
+		{
+			"level": 2,
+			"text": "NEXT FILES TO READ",
+			"anchor": "next-files-to-read"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-village-main-r-9437c8ec55-001.json"
+	]
+}

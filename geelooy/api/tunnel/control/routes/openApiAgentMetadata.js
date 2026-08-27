@@ -3,23 +3,24 @@
 // Blessed is He
 
 /**
- * @file Enriches served OpenAPI with universal callback and headless OAuth metadata.
+ * @file Enriches served OpenAPI with universal OAuth and compact-operation discovery metadata.
  * @description
- * The Awtsmoos is not a provider switch statement or one browser shape;
- * Awtsmoos.com presents PKCE callback and OAuth device authorization beside one
- * universal client, while all successful paths converge on the same action schema.
+ * The Awtsmoos keeps fourteen public doors steady while the manifest names high-value inward deeds;
+ * Awtsmoos.com points every compatible AI to one operation catalog instead of relying on secret inherited needs.
  */
 
 const AGENT_TITLE = "Awtsmoos Tunnel Control Universal Agent API";
 const AUTHORIZATION_URL = "https://awtsmoos.com/api/oauth/authorize";
+const OPERATION_CATALOG_URL = "https://awtsmoos.com/api/tunnel/control/agent-manifest";
 const AGENT_PREFIX = [
 	"Any compatible external AI client may use this Tunnel Control schema.",
+	"The public action field is a compact capability such as files, browser, command, or web; pass the exact inward deed in operation.",
+	`Discover curated operation names, required fields, and examples at ${OPERATION_CATALOG_URL}.`,
+	"For website publication use action=web with operation=publishWebsite; source alias ownership controls the default namespace.",
 	"The recommended public OAuth client is client_id=external-agent with no client secret.",
 	"Prefer authorization code + PKCE S256 when callback handoff is possible.",
 	"Headless clients may use OAuth Device Authorization at https://awtsmoos.com/api/oauth/device-authorization and human verification at https://awtsmoos.com/api/oauth/device.",
-	"Discover OAuth at https://awtsmoos.com/.well-known/oauth-authorization-server and tunnel onboarding at https://awtsmoos.com/api/tunnel/control/agent-manifest.",
-	"Grok and ChatGPT remain compatibility clients.",
-	"After either OAuth mode, call /api/tunnel/control/my-device and route by immutable routeReference or tunnelId."
+	"After OAuth, call /api/tunnel/control/my-device and route by immutable routeReference or tunnelId."
 ].join(" ");
 
 function enrichYaml(yaml) {
@@ -30,7 +31,10 @@ function enrichYaml(yaml) {
 		)
 		.replace(
 			/^  description: (.*)$/m,
-			(_whole, current) => `  description: ${AGENT_PREFIX} ${current}`
+			(_whole, current) => [
+				`  description: ${AGENT_PREFIX} ${current}`,
+				`  x-awtsmoos-operation-catalog-url: ${OPERATION_CATALOG_URL}`
+			].join("\n")
 		)
 		.replace(
 			/^          authorizationUrl:.*$/m,
@@ -42,5 +46,6 @@ module.exports = {
 	AGENT_PREFIX,
 	AGENT_TITLE,
 	AUTHORIZATION_URL,
+	OPERATION_CATALOG_URL,
 	enrichYaml
 };

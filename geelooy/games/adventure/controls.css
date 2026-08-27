@@ -1,0 +1,63 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/**
+ * The Awtsmoos lets intention enter through a fingertip; Awtsmoos.com gives
+ * the old keyboard-only journey a touch vessel without changing its game law.
+ */
+.dpad {
+	display: none;
+	grid-template-columns: repeat(3, 64px);
+	grid-template-rows: repeat(2, 64px);
+	gap: 8px;
+	touch-action: none;
+	user-select: none;
+}
+
+.dpad-button {
+	min-width: 56px;
+	min-height: 56px;
+	border: 2px solid #fff;
+	border-radius: 14px;
+	background: #1b1b1b;
+	color: #fff;
+	font: 800 1.4rem/1 system-ui, sans-serif;
+	touch-action: none;
+	cursor: pointer;
+}
+
+.dpad-button:focus-visible {
+	outline: 3px solid #ff0;
+	outline-offset: 3px;
+}
+
+.dpad-button:active,
+.dpad-button.is-active {
+	background: #3f3f3f;
+	transform: translateY(1px);
+}
+
+.dpad-up {
+	grid-column: 2;
+}
+
+.dpad-left {
+	grid-column: 1;
+	grid-row: 2;
+}
+
+.dpad-down {
+	grid-column: 2;
+	grid-row: 2;
+}
+
+.dpad-right {
+	grid-column: 3;
+	grid-row: 2;
+}
+
+@media (pointer: coarse), (max-width: 760px) {
+	.dpad {
+		display: grid;
+	}
+}

@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 9 | 0 | 0 | 0 | 1 | 0 | 10 |
+| 33 | 0 | 0 | 0 | 1 | 0 | 34 |
 
 ## Public entry points
 
@@ -29,11 +29,12 @@ None observed.
 
 ## Symbol evidence
 
-Source files: 9; classes: 0; functions: 19; exports: 17; samples: call, connect, withClient, openSftp, execCommand, removePath, quote, bodyOf, connectionConfig, requiredBody, ok, fail.
+Source files: 33; classes: 4; functions: 102; exports: 71; samples: call, connect, withClient, openSftp, buildCommandRoutes, execCommand, readContent, writeContent, decodeBase64, buildFileRoutes, quote, bodyOf.
 
 ## Depends on
 
-- `ayzarim/ssh` — 1 lexical reference; examples: geelooy/api/ssh/lib/client.js
+- `ayzarim/ssh` — 2 lexical references; examples: geelooy/api/ssh/lib/client.js; geelooy/api/ssh/virtual/service.js
+- `geelooy/api/social` — 2 lexical references; examples: geelooy/api/ssh/virtual/accessGuard.js
 
 ## Used by
 

@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-oros-ha-kelim-readme-md-8d3e839584",
+	"title": "Oros HaKelim",
+	"sourcePath": "geelooy/games/oros-ha-kelim/README.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Oros HaKelim",
+			"anchor": "oros-hakelim"
+		},
+		{
+			"level": 2,
+			"text": "Native Awtsmoos rendering",
+			"anchor": "native-awtsmoos-rendering"
+		},
+		{
+			"level": 2,
+			"text": "Runtime API v2 realism",
+			"anchor": "runtime-api-v2-realism"
+		},
+		{
+			"level": 2,
+			"text": "Play",
+			"anchor": "play"
+		},
+		{
+			"level": 3,
+			"text": "Desktop",
+			"anchor": "desktop"
+		},
+		{
+			"level": 3,
+			"text": "Mobile",
+			"anchor": "mobile"
+		},
+		{
+			"level": 2,
+			"text": "Rules",
+			"anchor": "rules"
+		},
+		{
+			"level": 2,
+			"text": "Runtime API",
+			"anchor": "runtime-api"
+		},
+		{
+			"level": 2,
+			"text": "Verify",
+			"anchor": "verify"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-oros-ha-kelim-readme-md-8d3e839584-001.json"
+	]
+}

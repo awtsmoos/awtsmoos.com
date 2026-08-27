@@ -1,401 +1,378 @@
 [
 	{
-		"id": "docs-generated-project-tutorials-projects-ayzarim-c859d21f-md-ffc1103fcc",
-		"title": "Project Tutorial: ayzarim",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-c859d21f.md",
-		"category": "Projects",
+		"id": "docs-generated-api-tutorials-routes-api-youtube-live-list-ead6bdc367-md-ac8edf2494",
+		"title": "API Tutorial: /api/youtube/live/list",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-live-list-ead6bdc367.md",
+		"category": "Routes",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: ayzarim",
-				"anchor": "project-tutorial-ayzarim"
+				"text": "API Tutorial: /api/youtube/live/list",
+				"anchor": "api-tutorial-api-youtube-live-list"
 			},
 			{
 				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
 			},
 			{
 				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
+				"text": "Path parameters",
+				"anchor": "path-parameters"
 			},
 			{
 				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
+				"text": "Starter call",
+				"anchor": "starter-call"
 			},
 			{
 				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
+				"text": "Observed callers",
+				"anchor": "observed-callers"
 			},
 			{
 				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
+				"text": "Related tests",
+				"anchor": "related-tests"
 			},
 			{
 				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Related routes",
+				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: ayzarim Path: ayzarim · Type: runtime root · Family: Runtime and Infrastructure Read the human Runtime and Infrastructure guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: ayzarim path: ayzarim · type: runtime root · family: runtime and infrastructure read the human runtime and infrastructure guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: documentation.md local documentation: ayzarim/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 1455 318 0 0 24 2 1799 public entry points none observed. symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 318 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-ayzarim-c859d21f-md-ffc1103fcc.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/youtube/live/list Family: YouTube · Mount: /api/youtube · Derech health: OK Source: geelooy/api/youtube/routes/table.js · Discovery: route table · Confidence: unknown method Read the human YouTube tutorial Generated evidence is a navigation and teaching aid, not an Ope",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/youtube/live/list family: youtube · mount: /api/youtube · derech health: ok source: geelooy/api/youtube/routes/table.js · discovery: route table · confidence: unknown method read the human youtube tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/youtube /api/youtube/:a /api/youtube/:a/:b /api/youtube/:a/:b/:c /api/youtube/auth/callback /api/youtube/auth/logout /api/youtube/auth/start /api/youtube/auth/status",
+		"page": "pages/docs-generated-api-tutorials-routes-api-youtube-live-list-ead6bdc367-md-ac8edf2494.json"
 	},
 	{
-		"id": "docs-generated-project-tutorials-projects-ayzarim-dosdb-eaaa802e-md-a04b09e772",
-		"title": "Project Tutorial: ayzarim/DosDB",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-dosdb-eaaa802e.md",
-		"category": "Data",
+		"id": "docs-generated-api-tutorials-routes-api-youtube-live-transition-ae1a4cbf-0359626d7b",
+		"title": "API Tutorial: /api/youtube/live/transition",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-live-transition-ae1a4cbf7f.md",
+		"category": "Routes",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: ayzarim/DosDB",
-				"anchor": "project-tutorial-ayzarim-dosdb"
+				"text": "API Tutorial: /api/youtube/live/transition",
+				"anchor": "api-tutorial-api-youtube-live-transition"
 			},
 			{
 				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
 			},
 			{
 				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
+				"text": "Path parameters",
+				"anchor": "path-parameters"
 			},
 			{
 				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
+				"text": "Starter call",
+				"anchor": "starter-call"
 			},
 			{
 				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
+				"text": "Observed callers",
+				"anchor": "observed-callers"
 			},
 			{
 				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
+				"text": "Related tests",
+				"anchor": "related-tests"
 			},
 			{
 				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Related routes",
+				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: ayzarim/DosDB Path: ayzarim/DosDB · Type: data · Family: Runtime and Infrastructure Read the human Runtime and Infrastructure guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownershi",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: ayzarim/dosdb path: ayzarim/dosdb · type: data · family: runtime and infrastructure read the human runtime and infrastructure guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.js, documentation.md local documentation: ayzarim/dosdb/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 827 160 0 0 21 0 1008 public entry points none observed. symbol evidence source files: 813; classes: 383; functions: 1117; exports: 731; samples: awtsmoosdbembedderconfig, defaultembeddingdimensions, embedtextfallback, attachdefaultembedding, awtsmoos db ai config path, loadembedderconfig, getdefaultembedderconfig, resolveembeddermodelpath, providershape, detectggufrunner, assertggufembedderready, embedtextwithconfiguredgguf. depends on none observed. used by geelooy/api/social — 33 lexical references; examples: geelooy/api/social/helper/comments/aliasindex/packedindexstore.js; geelooy/api/social/helper/comments/canonicalcommentsource.js; geelooy/api/social/helper/comments/commentawtsmoosdbbridge.js ayzarim/maintence — 2 lexical references; examples: ayzarim/maintence/transferolddbtoawtsmoosdb.js ayzarim/awtsmoosdynamicserver — 1 lexical reference; examples: ayzarim/awtsmoosdynamicserver/server/deps.js geelooy/scripts — 1 lexical reference; examples: geelooy/scripts/awtsmoos/minimax virtual os game/seed users.cjs external packages entries — 1 lexical reference verification clue observed test classified files: 160 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-ayzarim-dosdb-eaaa802e-md-a04b09e772.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/youtube/live/transition Family: YouTube · Mount: /api/youtube · Derech health: OK Source: geelooy/api/youtube/routes/table.js · Discovery: route table · Confidence: unknown method Read the human YouTube tutorial Generated evidence is a navigation and teaching aid, not ",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/youtube/live/transition family: youtube · mount: /api/youtube · derech health: ok source: geelooy/api/youtube/routes/table.js · discovery: route table · confidence: unknown method read the human youtube tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers pattern compatible evidence only; it does not prove runtime dispatch. literal source kind /api/youtube/live/transition geelooy/apps/nesher studio/modules/streaming/youtubecontrol.js runtime related tests no package script heuristic match was found. related routes /api/youtube /api/youtube/:a /api/youtube/:a/:b /api/youtube/:a/:b/:c /api/youtube/auth/callback /api/youtube/auth/logout /api/youtube/auth/start /api/youtube/auth/status",
+		"page": "pages/docs-generated-api-tutorials-routes-api-youtube-live-transition-ae1a4cbf-0359626d7b.json"
 	},
 	{
-		"id": "docs-generated-project-tutorials-projects-ayzarim-email-b0bdabd0-md-8dbce8fc60",
-		"title": "Project Tutorial: ayzarim/email",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-email-b0bdabd0.md",
-		"category": "Projects",
+		"id": "docs-generated-api-tutorials-routes-api-youtube-oauth-callback-77ef36bff-4be269fac7",
+		"title": "API Tutorial: /api/youtube/oauth/callback",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-oauth-callback-77ef36bff2.md",
+		"category": "Security",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: ayzarim/email",
-				"anchor": "project-tutorial-ayzarim-email"
+				"text": "API Tutorial: /api/youtube/oauth/callback",
+				"anchor": "api-tutorial-api-youtube-oauth-callback"
 			},
 			{
 				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
 			},
 			{
 				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
+				"text": "Path parameters",
+				"anchor": "path-parameters"
 			},
 			{
 				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
+				"text": "Starter call",
+				"anchor": "starter-call"
 			},
 			{
 				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
+				"text": "Observed callers",
+				"anchor": "observed-callers"
 			},
 			{
 				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
+				"text": "Related tests",
+				"anchor": "related-tests"
 			},
 			{
 				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Related routes",
+				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: ayzarim/email Path: ayzarim/email · Type: infrastructure · Family: Runtime and Infrastructure Read the human Runtime and Infrastructure guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtim",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: ayzarim/email path: ayzarim/email · type: infrastructure · family: runtime and infrastructure read the human runtime and infrastructure guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: — local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 5 0 0 0 0 0 5 public entry points none observed. symbol evidence source files: 5; classes: 2; functions: 18; exports: 2; samples: awtsmoosemailclient, processcapsules, sendsystemreply, isautogenerated, parsemime, embedinlineimages, parseheaders, parsefromheader, decodebody, decodequotedprintable, decodemimeheader, escapehtml. depends on geelooy/api/social — 1 lexical reference; examples: ayzarim/email/awtsmoosemailingress.js used by ayzarim/awtsmoosdynamicserver — 2 lexical references; examples: ayzarim/awtsmoosdynamicserver/server/deps.js external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-ayzarim-email-b0bdabd0-md-8dbce8fc60.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/youtube/oauth/callback Family: YouTube · Mount: /api/youtube · Derech health: OK Source: geelooy/api/youtube/routes/table.js · Discovery: route table · Confidence: unknown method Read the human YouTube tutorial Generated evidence is a navigation and teaching aid, not a",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/youtube/oauth/callback family: youtube · mount: /api/youtube · derech health: ok source: geelooy/api/youtube/routes/table.js · discovery: route table · confidence: unknown method read the human youtube tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/youtube /api/youtube/:a /api/youtube/:a/:b /api/youtube/:a/:b/:c /api/youtube/auth/callback /api/youtube/auth/logout /api/youtube/auth/start /api/youtube/auth/status",
+		"page": "pages/docs-generated-api-tutorials-routes-api-youtube-oauth-callback-77ef36bff-4be269fac7.json"
 	},
 	{
-		"id": "docs-generated-project-tutorials-projects-ayzarim-maintence-c5395902-md-1f085c468b",
-		"title": "Project Tutorial: ayzarim/maintence",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-maintence-c5395902.md",
-		"category": "Projects",
+		"id": "docs-generated-api-tutorials-routes-api-youtube-oauth-logout-b12d002f1f--d78a71c1f2",
+		"title": "API Tutorial: /api/youtube/oauth/logout",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-oauth-logout-b12d002f1f.md",
+		"category": "Security",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: ayzarim/maintence",
-				"anchor": "project-tutorial-ayzarim-maintence"
+				"text": "API Tutorial: /api/youtube/oauth/logout",
+				"anchor": "api-tutorial-api-youtube-oauth-logout"
 			},
 			{
 				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
 			},
 			{
 				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
+				"text": "Path parameters",
+				"anchor": "path-parameters"
 			},
 			{
 				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
+				"text": "Starter call",
+				"anchor": "starter-call"
 			},
 			{
 				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
+				"text": "Observed callers",
+				"anchor": "observed-callers"
 			},
 			{
 				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
+				"text": "Related tests",
+				"anchor": "related-tests"
 			},
 			{
 				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Related routes",
+				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: ayzarim/maintence Path: ayzarim/maintence · Type: infrastructure · Family: Runtime and Infrastructure Read the human Runtime and Infrastructure guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, no",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: ayzarim/maintence path: ayzarim/maintence · type: infrastructure · family: runtime and infrastructure read the human runtime and infrastructure guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: — local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 1 0 0 0 0 0 1 public entry points none observed. symbol evidence source files: 1; classes: 0; functions: 1; exports: 0; samples: convertnodetoobj. depends on ayzarim/dosdb — 2 lexical references; examples: ayzarim/maintence/transferolddbtoawtsmoosdb.js used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-ayzarim-maintence-c5395902-md-1f085c468b.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/youtube/oauth/logout Family: YouTube · Mount: /api/youtube · Derech health: OK Source: geelooy/api/youtube/routes/table.js · Discovery: route table · Confidence: unknown method Read the human YouTube tutorial Generated evidence is a navigation and teaching aid, not an ",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/youtube/oauth/logout family: youtube · mount: /api/youtube · derech health: ok source: geelooy/api/youtube/routes/table.js · discovery: route table · confidence: unknown method read the human youtube tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/youtube /api/youtube/:a /api/youtube/:a/:b /api/youtube/:a/:b/:c /api/youtube/auth/callback /api/youtube/auth/logout /api/youtube/auth/start /api/youtube/auth/status",
+		"page": "pages/docs-generated-api-tutorials-routes-api-youtube-oauth-logout-b12d002f1f--d78a71c1f2.json"
 	},
 	{
-		"id": "docs-generated-project-tutorials-projects-ayzarim-math-f7d5fed1-md-25496ac99d",
-		"title": "Project Tutorial: ayzarim/math",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-math-f7d5fed1.md",
-		"category": "Projects",
+		"id": "docs-generated-api-tutorials-routes-api-youtube-oauth-start-0855498762-m-a7ce0302f3",
+		"title": "API Tutorial: /api/youtube/oauth/start",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-oauth-start-0855498762.md",
+		"category": "Security",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: ayzarim/math",
-				"anchor": "project-tutorial-ayzarim-math"
+				"text": "API Tutorial: /api/youtube/oauth/start",
+				"anchor": "api-tutorial-api-youtube-oauth-start"
 			},
 			{
 				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
 			},
 			{
 				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
+				"text": "Path parameters",
+				"anchor": "path-parameters"
 			},
 			{
 				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
+				"text": "Starter call",
+				"anchor": "starter-call"
 			},
 			{
 				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
+				"text": "Observed callers",
+				"anchor": "observed-callers"
 			},
 			{
 				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
+				"text": "Related tests",
+				"anchor": "related-tests"
 			},
 			{
 				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Related routes",
+				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: ayzarim/math Path: ayzarim/math · Type: infrastructure · Family: Runtime and Infrastructure Read the human Runtime and Infrastructure guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: ayzarim/math path: ayzarim/math · type: infrastructure · family: runtime and infrastructure read the human runtime and infrastructure guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: — local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 1 0 0 0 0 0 1 public entry points none observed. symbol evidence source files: 1; classes: 2; functions: 0; exports: 0; samples: node, btree. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-ayzarim-math-f7d5fed1-md-25496ac99d.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/youtube/oauth/start Family: YouTube · Mount: /api/youtube · Derech health: OK Source: geelooy/api/youtube/routes/table.js · Discovery: route table · Confidence: unknown method Read the human YouTube tutorial Generated evidence is a navigation and teaching aid, not an O",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/youtube/oauth/start family: youtube · mount: /api/youtube · derech health: ok source: geelooy/api/youtube/routes/table.js · discovery: route table · confidence: unknown method read the human youtube tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/youtube /api/youtube/:a /api/youtube/:a/:b /api/youtube/:a/:b/:c /api/youtube/auth/callback /api/youtube/auth/logout /api/youtube/auth/start /api/youtube/auth/status",
+		"page": "pages/docs-generated-api-tutorials-routes-api-youtube-oauth-start-0855498762-m-a7ce0302f3.json"
 	},
 	{
-		"id": "docs-generated-project-tutorials-projects-ayzarim-ssh-099c712a-md-39862ea1b6",
-		"title": "Project Tutorial: ayzarim/ssh",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-ssh-099c712a.md",
-		"category": "Projects",
+		"id": "docs-generated-api-tutorials-routes-api-youtube-oauth-status-529fa78f69--120cf5707f",
+		"title": "API Tutorial: /api/youtube/oauth/status",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-oauth-status-529fa78f69.md",
+		"category": "Security",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: ayzarim/ssh",
-				"anchor": "project-tutorial-ayzarim-ssh"
+				"text": "API Tutorial: /api/youtube/oauth/status",
+				"anchor": "api-tutorial-api-youtube-oauth-status"
 			},
 			{
 				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
 			},
 			{
 				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
+				"text": "Path parameters",
+				"anchor": "path-parameters"
 			},
 			{
 				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
+				"text": "Starter call",
+				"anchor": "starter-call"
 			},
 			{
 				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
+				"text": "Observed callers",
+				"anchor": "observed-callers"
 			},
 			{
 				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
+				"text": "Related tests",
+				"anchor": "related-tests"
 			},
 			{
 				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Related routes",
+				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: ayzarim/ssh Path: ayzarim/ssh · Type: infrastructure · Family: Runtime and Infrastructure Read the human Runtime and Infrastructure guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ow",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: ayzarim/ssh path: ayzarim/ssh · type: infrastructure · family: runtime and infrastructure read the human runtime and infrastructure guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: documentation.md local documentation: ayzarim/ssh/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 11 0 0 0 1 0 12 public entry points none observed. symbol evidence source files: 11; classes: 19; functions: 16; exports: 51; samples: ignore, unimplemented, debug, service request, service accept, kexinit, newkeys, kexdh init, kexdh reply, userauth request, userauth failure, userauth success. depends on none observed. used by geelooy/api/ssh — 1 lexical reference; examples: geelooy/api/ssh/lib/client.js external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-ayzarim-ssh-099c712a-md-39862ea1b6.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/youtube/oauth/status Family: YouTube · Mount: /api/youtube · Derech health: OK Source: geelooy/api/youtube/routes/table.js · Discovery: route table · Confidence: unknown method Read the human YouTube tutorial Generated evidence is a navigation and teaching aid, not an ",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/youtube/oauth/status family: youtube · mount: /api/youtube · derech health: ok source: geelooy/api/youtube/routes/table.js · discovery: route table · confidence: unknown method read the human youtube tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/youtube /api/youtube/:a /api/youtube/:a/:b /api/youtube/:a/:b/:c /api/youtube/auth/callback /api/youtube/auth/logout /api/youtube/auth/start /api/youtube/auth/status",
+		"page": "pages/docs-generated-api-tutorials-routes-api-youtube-oauth-status-529fa78f69--120cf5707f.json"
 	},
 	{
-		"id": "docs-generated-project-tutorials-projects-ayzarim-tools-550b3dd6-md-0b0eeb249c",
-		"title": "Project Tutorial: ayzarim/tools",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-tools-550b3dd6.md",
-		"category": "Projects",
+		"id": "docs-generated-api-tutorials-routes-api-youtube-uploads-start-9d5f4138cd-bd51518496",
+		"title": "API Tutorial: /api/youtube/uploads/start",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-uploads-start-9d5f4138cd.md",
+		"category": "Routes",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: ayzarim/tools",
-				"anchor": "project-tutorial-ayzarim-tools"
+				"text": "API Tutorial: /api/youtube/uploads/start",
+				"anchor": "api-tutorial-api-youtube-uploads-start"
 			},
 			{
 				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
 			},
 			{
 				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
+				"text": "Path parameters",
+				"anchor": "path-parameters"
 			},
 			{
 				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
+				"text": "Starter call",
+				"anchor": "starter-call"
 			},
 			{
 				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
+				"text": "Observed callers",
+				"anchor": "observed-callers"
 			},
 			{
 				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
+				"text": "Related tests",
+				"anchor": "related-tests"
 			},
 			{
 				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Related routes",
+				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: ayzarim/tools Path: ayzarim/tools · Type: infrastructure · Family: Runtime and Infrastructure Read the human Runtime and Infrastructure guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtim",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: ayzarim/tools path: ayzarim/tools · type: infrastructure · family: runtime and infrastructure read the human runtime and infrastructure guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: — local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 4 0 0 0 0 0 4 public entry points none observed. symbol evidence source files: 4; classes: 2; functions: 10; exports: 7; samples: awtsmoosauth, decodecookietoken, decodetokenpayload, validatetoken, createtoken, generatesalt, hashpassword, verifypassword, encrypt, decrypt, utils, generaterandomid. depends on none observed. used by ayzarim/awtsmoosdynamicserver — 3 lexical references; examples: ayzarim/awtsmoosdynamicserver/server/deps.js external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-ayzarim-tools-550b3dd6-md-0b0eeb249c.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/youtube/uploads/start Family: YouTube · Mount: /api/youtube · Derech health: OK Source: geelooy/api/youtube/routes/table.js · Discovery: route table · Confidence: unknown method Read the human YouTube tutorial Generated evidence is a navigation and teaching aid, not an",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/youtube/uploads/start family: youtube · mount: /api/youtube · derech health: ok source: geelooy/api/youtube/routes/table.js · discovery: route table · confidence: unknown method read the human youtube tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/youtube /api/youtube/:a /api/youtube/:a/:b /api/youtube/:a/:b/:c /api/youtube/auth/callback /api/youtube/auth/logout /api/youtube/auth/start /api/youtube/auth/status",
+		"page": "pages/docs-generated-api-tutorials-routes-api-youtube-uploads-start-9d5f4138cd-bd51518496.json"
+	},
+	{
+		"id": "docs-generated-api-tutorials-routes-api-youtube-videos-53702b8520-md-3a7a20a296",
+		"title": "API Tutorial: /api/youtube/videos",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-videos-53702b8520.md",
+		"category": "Routes",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Tutorial: /api/youtube/videos",
+				"anchor": "api-tutorial-api-youtube-videos"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/youtube/videos Family: YouTube · Mount: /api/youtube · Derech health: OK Source: geelooy/api/youtube/routes/table.js · Discovery: route table · Confidence: unknown method Read the human YouTube tutorial Generated evidence is a navigation and teaching aid, not an OpenAP",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/youtube/videos family: youtube · mount: /api/youtube · derech health: ok source: geelooy/api/youtube/routes/table.js · discovery: route table · confidence: unknown method read the human youtube tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/youtube /api/youtube/:a /api/youtube/:a/:b /api/youtube/:a/:b/:c /api/youtube/auth/callback /api/youtube/auth/logout /api/youtube/auth/start /api/youtube/auth/status",
+		"page": "pages/docs-generated-api-tutorials-routes-api-youtube-videos-53702b8520-md-3a7a20a296.json"
 	}
 ]

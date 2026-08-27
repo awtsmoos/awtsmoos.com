@@ -1,8 +1,8 @@
 [
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-network-directory-gu-a8277d5bbc",
+		"id": "geelooy-games-mitzvahworld-docs-custom-player-actions-md-e74c44eab2",
 		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/network/DIRECTORY_GUIDE.md",
+		"sourcePath": "geelooy/games/mitzvahWorld/docs/CUSTOM_PLAYER_ACTIONS.md",
 		"category": "Games",
 		"provenance": "project",
 		"headings": [
@@ -13,8 +13,102 @@
 			},
 			{
 				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/src/network",
-				"anchor": "directory-guide-experiments-awtsmoos-src-network"
+				"text": "Custom Player Action Architecture",
+				"anchor": "custom-player-action-architecture"
+			},
+			{
+				"level": 2,
+				"text": "Canonical rule",
+				"anchor": "canonical-rule"
+			},
+			{
+				"level": 2,
+				"text": "Distinct messages",
+				"anchor": "distinct-messages"
+			},
+			{
+				"level": 2,
+				"text": "Extension contract",
+				"anchor": "extension-contract"
+			},
+			{
+				"level": 2,
+				"text": "Actor neutrality",
+				"anchor": "actor-neutrality"
+			},
+			{
+				"level": 2,
+				"text": "Acceptance evidence",
+				"anchor": "acceptance-evidence"
+			}
+		],
+		"excerpt": "B\"H Custom Player Action Architecture Canonical rule The Chossid GLB remains authoritative for every imported clip it actually contains: standing, walking, running, jumping, falling, punch, and stab. Custom actions are created only for missing behavior and are applied additively after imported clip sampling. Distinct m",
+		"searchText": "b\"h custom player action architecture canonical rule the chossid glb remains authoritative for every imported clip it actually contains: standing, walking, running, jumping, falling, punch, and stab. custom actions are created only for missing behavior and are applied additively after imported clip sampling. distinct messages staff and sword are separate public contracts: player.action.staff.cast player.action.sword.cast they are never aliases of one generic weapon cast. their definitions have separate keyframes, timing, equipment requirements, release events, and priorities. every message uses one phase: start progress release cancel the combat bridge locks the weapon specific message at cast start, so changing equipment during a cast cannot silently change its animation identity. extension contract a future ai authored action is declarative data registered through runtime.registerplayeraction(definition). definitions name semantic bone roles rather than exporter specific bone names. validation rejects unknown roles, duplicate ids, duplicate message types, invalid timing, missing equipment rules, and malformed keyframes. the runtime exposes: runtime.playeractionregistry runtime.playeractions runtime.registerplayeraction(definition) runtime.dispatchplayeraction(message) gameplay consequences must listen to a finite release event. they do not belong inside pose data. actor neutrality playeractionactor accepts a model, equipment authority, event bus, and actor id. the player and friendly chossid npcs use the same contract. each actor owns isolated mutable bones; sharing the canonical glb source never means sharing one skeleton instance. acceptance evidence do not use screenshots as proof. inspect: imported clip name before custom layering registered action id and message type bound semantic bone roles action phase, weight, elapsed time, and release count equipped item and attachment state garment visibility locomotion state before and after recovery console and event errors",
+		"page": "pages/geelooy-games-mitzvahworld-docs-custom-player-actions-md-e74c44eab2.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-docs-glb-wardrobe-and-tailor-md-ea7130d937",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/docs/GLB_WARDROBE_AND_TAILOR.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Canonical GLB Wardrobe and Tailor",
+				"anchor": "canonical-glb-wardrobe-and-tailor"
+			},
+			{
+				"level": 2,
+				"text": "Meaningful garment groups",
+				"anchor": "meaningful-garment-groups"
+			},
+			{
+				"level": 2,
+				"text": "Required garments",
+				"anchor": "required-garments"
+			},
+			{
+				"level": 2,
+				"text": "Appearance",
+				"anchor": "appearance"
+			},
+			{
+				"level": 2,
+				"text": "Attributes",
+				"anchor": "attributes"
+			},
+			{
+				"level": 2,
+				"text": "Tailor",
+				"anchor": "tailor"
+			}
+		],
+		"excerpt": "B\"H Canonical GLB Wardrobe and Tailor The wardrobe is derived from assets/models/player/chossid.glb, not from screenshots. The GLB preserves garment metadata in node extras and separates shirt, trousers, and shoes through body primitive material names. Meaningful garment groups Internal tefillin exporter pieces are gro",
+		"searchText": "b\"h canonical glb wardrobe and tailor the wardrobe is derived from assets/models/player/chossid.glb, not from screenshots. the glb preserves garment metadata in node extras and separates shirt, trousers, and shoes through body primitive material names. meaningful garment groups internal tefillin exporter pieces are grouped as two items: tefillin shel rosh: head box, batim, shin components, and head straps. tefillin shel yad: arm box, bayis, and arm straps. other independent visuals are glasses, top hat, yarmulke, jacket, tefillin compatible jacket, and outer shirt. inner shirt, trousers, and shoes are body material garments. required garments inner shirt, trousers, and shoes appear in equipped and may change color or fabric. they cannot be unequipped or dropped because the glb does not provide a separate bare replacement mesh. appearance color and fabric selections are validated by the item definition and persisted in inventory state. garment materials are cloned once for the actor before mutation. fabric canvases are generated once per preset and cached; no appearance texture is allocated per frame. tefillin remain restricted to black leather. attributes every garment has legacy damage, defense, and focus compatibility plus ten gameplay attributes: chochmah, binah, daas, chesed, gevurah, tiferes, netzach, hod, yesod, and malchus. equipped totals are derived by the authoritative inventory store. tailor reb shlomo the tailor is a second isolated canonical chossid glb actor. selecting him opens a dedicated clothing panel. purchases use perutas from the same inventory store that receives real loot rewards. the existing general market remains separate.",
+		"page": "pages/geelooy-games-mitzvahworld-docs-glb-wardrobe-and-tailor-md-ea7130d937.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-docs-headless-gameplay-simulation-md-a025893134",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/docs/HEADLESS_GAMEPLAY_SIMULATION.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Renderer-Free Gameplay Simulation",
+				"anchor": "renderer-free-gameplay-simulation"
 			},
 			{
 				"level": 2,
@@ -23,52 +117,121 @@
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "Real model loading",
+				"anchor": "real-model-loading"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "Real mechanics reused",
+				"anchor": "real-mechanics-reused"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
+				"text": "Deterministic time",
+				"anchor": "deterministic-time"
 			},
 			{
 				"level": 2,
-				"text": "Exported symbols worth searching",
-				"anchor": "exported-symbols-worth-searching"
+				"text": "Inspection",
+				"anchor": "inspection"
 			},
 			{
 				"level": 2,
-				"text": "Import neighborhood",
-				"anchor": "import-neighborhood"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "CLI",
+				"anchor": "cli"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/network Role: Networking Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 34 files, 0 structural child directories Purpose Realtime transport, multiplayer session state, player snapshots, remote avatars, and ",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/network role: networking snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 34 files, 0 structural child directories purpose realtime transport, multiplayer session state, player snapshots, remote avatars, and connection status. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: networking search terms: mitzvah, local, multiplayer, tab, api, connection, player, remote, rpg, client, com, eretz file mix: .js: 33 good first question: “does the behavior or asset i need belong to networking, or is this only a neighboring/test/reference layer?” semantic evidence bridges runtime truth into local tab or server authoritative remote chassidim. the awtsmoos gives every distant traveler one present form; awtsmoos.com imports this population garment only after the connection itself has already succeeded. b\"h mirrors stable combat, creature, spawn, and adventure definitions offline. the awtsmoos renews one law through server and local vessels; awtsmoos.com keeps deterministic single player rules inspectable and protected by catalog parity tests. gives every live browser tab one identity without sharing it across duplicated tabs. the awtsmoos creates every browser vessel separately; awtsmoos.com therefore keeps the live identity on the window itself and uses session storage only as a diagnostic breadcrumb. representative files multiplayereretzbootstrap.js — returns visible local playability before realtime authority connects. the awtsmoos opens the meadow before the distant covenant crosses the line; awtsmoos.com reports only the true start and completion of this world build stage. exports: createmultiplayereretzruntime. multiplayereretzruntime.js — preserves the multiplayer api through visible webgl startup. the awtsmoos is one though session and bootstrap reveal distinct measures in rhyme; awtsmoos.com keeps every caller on one bridge, one transport, and one shared time. exports: createmultiplayereretzruntime, default, multiplayereretzruntime. multiplayereretzsession.js — owns the sole connection, authority bridge, and status badge for one world. the awtsmoos joins many windows without dividing the source of their light; awtsmoos.com keeps one session, one bridge, one transport, in covenant bright. exports: multiplayereretzruntime. runtimeplayersnapshot.js — converts the local player into network truth without importing remote actors. the awtsmoos separates one traveler's coordinates from the distant population; awtsmoos.com can begin a connection without pulling every multiplayer rendering garment into the doorway. exports: runtimeplayersnapshot, currentmovementintent. authoritativemultiplayerbridge.js — bridges runtime truth into local tab or server authoritative remote chassidim. the awtsmoos gives every distant traveler one present form; awtsmoos.com imports this population garment only after the connection itself has already succeeded. exports: authoritativemultiplayerbridge, runtimeplayersnapshot. localrpgcatalog.js — mirrors stable combat, creature, spawn, and adventure definitions offline. the awtsmoos renews one law through server and local vessels; awtsmoos.com keeps deterministic single player rules inspectable and protected by catalog parity tests. exports: local rpg weapons, local rpg creatures, local creature spawns, local adventure ids. localtabidentity.js — gives every live browser tab one identity without sharing it across duplicated tabs. the awtsmoos creates every browser vessel separately; awtsmoos.com therefore keeps the live identity on the window itself and uses session storage only as a diagnostic breadcrumb. exports: localtabplayerid, localtabchannelname, localtabplayeraddress. localtabmanagedconnection.js — owns localhost tab discovery and exposes an honest managed connection state. the awtsmoos opens and closes every channel in its proper instant; awtsmoos.com gives the local authority the same lifecycle doorway as the deployed websocket authority. exports: localtabmanagedconnection. localtabrealtimeclient.js — discovers localhost tabs and exchanges exact world space player snapshots. the awtsmoos creates each tab and message separately; awtsmoos.com keeps discovery, ordering, heartbeat, explicit leave, and stale cleanup behind one normalized client. exports: localtabrealtimeclient. localtabworldstate.js — maintains exact world space tab snapshots with bounded stale peer cleanup. the awtsmoos creates every measured position anew; awtsmoos.com carries actual runtime x/y/z/facing/moving values and never integrates input or invents presentation offsets. exports: local tab stale after ms, localtabworldstate. mitzvahworldbackoff.js — computes bounded exponential reconnect delays with optional jitter. the awtsmoos renews connection without frantic repetition; awtsmoos.com spaces each attempt through measured patience while preserving a firm maximum delay. exports: mitzvahworldbackoff. mitzvahworldchatpanel.js — presents live census, scoped history, channels, and private messaging. the awtsmoos renews each shared word within its rightful boundary; awtsmoos.com renders text through dom text nodes and removes every listener when the world closes. exports: mitzvahworldchatpanel. mitzvahworldchatpanelstyle.js — styles the bounded multiplayer channel, history, census, and private ui. the awtsmoos renews shared words without covering the world; awtsmoos.com keeps chat readable, keyboard visible, collapsible, mobile aware, and absent offline. exports: installmitzvahworldchatpanelstyle. exported symbols worth searching authoritativemultiplayerbridge · runtimeplayersnapshot · local rpg weapons · local rpg creatures · local creature spawns · local adventure ids · localtabplayerid · localtabchannelname · localtabplayeraddress · localtabmanagedconnection · localtabrealtimeclient · local tab stale after ms · localtabworldstate · mitzvahworldbackoff · mitzvahworldchatpanel · installmitzvahworldchatpanelstyle import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ./remotechossidpopulation.js ./runtimeplayersnapshot.js ./localtabrealtimeclient.js ./localtabidentity.js ./localtabworldstate.js ./mitzvahworldchatpanelstyle.js ./localrpgcatalog.js ./mitzvahworldbackoff.js ./mitzvahworldrealtimeclient.js ./mitzvahworldsocketopen.js ./mitzvahworldcommunityapi.js ./mitzvahworldeconomyapi.js directory map parent: experiments/awtsmoos/src children: none. related and overlapping systems see the system overlap map before creating a similarly named subsystem elsewhere. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-network-directory-gu-a8277d5bbc.json"
+		"excerpt": "B\"H Renderer Free Gameplay Simulation Purpose The Node.js simulation advances Mitzvah World mechanics without opening a browser, creating a canvas, rendering WebGL, or taking screenshots. It is designed for automated agents, long scenarios, collision investigation, gameplay balancing, deterministic regression checks, a",
+		"searchText": "b\"h renderer free gameplay simulation purpose the node.js simulation advances mitzvah world mechanics without opening a browser, creating a canvas, rendering webgl, or taking screenshots. it is designed for automated agents, long scenarios, collision investigation, gameplay balancing, deterministic regression checks, and faster than realtime inspection. real model loading glbmanifestloader reads the shipped assets/models/player/chossid.glb binary directly. it validates the glb v2 header, extracts the json chunk, and reports real nodes, scene roots, skin joints, mesh count, and imported animation names. simulatedmodelfactory creates isolated scene and skeleton vessels from that real hierarchy. the player and friendly npcs therefore share one glb source but never mutable bones. real mechanics reused the simulator instantiates the actual: movement controller jump state movement/collision bridge octree capsule mover triangle colliders inventory store equipment runtime combat coordinator cooldown and cast lifecycle custom action registry and message bridge only presentation is replaced. simulationcombateffects performs projectile travel, impact, damage, and xp as inspectable data rather than meshes and particles. deterministic time simulationclock uses fixed steps and never sleeps. runfor(3600) may process one simulated hour as quickly as the cpu permits. its receipt contains simulated seconds, steps, wall seconds, and the measured faster than realtime ratio. inspection a snapshot includes: glb source and manifest counts imported clip list and selected clip player transforms and jump state collision triangles, contacts, and normals action id, phase, weight, release count, and bound bones inventory and equipment combat cast, cooldowns, projectiles, and enemy health friendly npc model and action state player xp bounded event history this runtime evidence is the acceptance authority. screenshots are not involved. cli from the game root: use model=/absolute/path/to/chossid.glb to inspect another canonical build while retaining the same mechanics.",
+		"page": "pages/geelooy-games-mitzvahworld-docs-headless-gameplay-simulation-md-a025893134.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-docs-live-mobile-visual-rescue-md-60cf309753",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/docs/LIVE_MOBILE_VISUAL_RESCUE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Live Mobile Visual Rescue",
+				"anchor": "live-mobile-visual-rescue"
+			},
+			{
+				"level": 2,
+				"text": "Runtime publication",
+				"anchor": "runtime-publication"
+			},
+			{
+				"level": 2,
+				"text": "Right rail",
+				"anchor": "right-rail"
+			},
+			{
+				"level": 2,
+				"text": "Terrain and road density",
+				"anchor": "terrain-and-road-density"
+			},
+			{
+				"level": 2,
+				"text": "Friendly quest NPC",
+				"anchor": "friendly-quest-npc"
+			},
+			{
+				"level": 2,
+				"text": "Houses, demons, equipment, and casting",
+				"anchor": "houses-demons-equipment-and-casting"
+			},
+			{
+				"level": 2,
+				"text": "Acceptance authority",
+				"anchor": "acceptance-authority"
+			}
+		],
+		"excerpt": "B\"H Live Mobile Visual Rescue Runtime publication MinimalMeadowFeatureReceipts uses featureNow(environment) for duration measurement. The former undefined now reference aborted deferred features and prevented stable publication of UI, rich world, and diagnostics. Right rail The right rail now starts expanded on every v",
+		"searchText": "b\"h live mobile visual rescue runtime publication minimalmeadowfeaturereceipts uses featurenow(environment) for duration measurement. the former undefined now reference aborted deferred features and prevented stable publication of ui, rich world, and diagnostics. right rail the right rail now starts expanded on every viewport. touch users retain a 44 pixel collapse control, but bag, map, quests, controls, hud, and menu are no longer hidden by default. terrain and road density terrain uv coordinates are derived from world x/z positions and a measured tileworld value. this means repetition exists in geometry rather than depending only on a renderer side repeat uniform. one composite is not stretched across the valley. the ground blends separate lush, dry, soil, mud, and marsh composites. each composite preserves its own density by storing a ratio to the shared world uv basis. the road uses a six source stone/dirt/grass composite plus shoulder and soil layers. its uv v coordinate follows measured bézier distance, its u coordinate follows road width, and its surface is raised 0.12 world units to avoid z fighting while collision remains authoritative in the underlying terrain. friendly quest npc the primitive box watchman is no longer mounted. the quest actor loads the same canonical chossid.glb source as the player, but receives an isolated skeleton, imported animation player, staff equipment runtime, custom action runtime, and quest marker. houses, demons, equipment, and casting a post mount visual stability pass disables incorrect frustum and backface disappearance on house meshes without changing their dimensions or colliders. demon meshes retain their procedural map materials, opt out of dark vertex color multiplication in the bootstrap renderer, and remain uncullable. every procedural staff and sword child is marked visible to bootstrap and rich render paths. starting a cast draws either equipped weapon, not only the wooden staff. custom action rotations begin from captured bind quaternions instead of accumulating previous frame offsets. acceptance authority screenshots are not proof. inspect feature receipts, rail dom state, glb source identity, world uv ranges, road source count, house culling and sidedness, demon mapped material count, weapon attachment state, action quaternions, console errors, and deterministic simulation receipts.",
+		"page": "pages/geelooy-games-mitzvahworld-docs-live-mobile-visual-rescue-md-60cf309753.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-documentation-md-ca33cdf71a",
+		"title": "B\"H Mitzvah World — Restored River Valley",
+		"sourcePath": "geelooy/games/mitzvahWorld/DOCUMENTATION.md",
+		"category": "Games",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H Mitzvah World — Restored River Valley",
+				"anchor": "b-h-mitzvah-world-restored-river-valley"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He B\"H Mitzvah World — Restored River Valley The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Game/simulation project beneath the canonical geelooy/games/ tree. Start here Read docs/PROJECTS/GAMES ",
+		"searchText": "b\"h boruch hashem blessed is he b\"h mitzvah world — restored river valley the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role game/simulation project beneath the canonical geelooy/games/ tree. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes observed public title: “b\"h mitzvah world — restored river valley”. start from this project’s index.html and any readme/package metadata present. check docs/generated/websocket applications.md before assuming whether this game uses the realtime platform. mitzvah world has extensive project local directory/audit documentation; use docs/projects/mitzvah world.md as the central bridge rather than duplicating those files.",
+		"page": "pages/geelooy-games-mitzvahworld-documentation-md-ca33cdf71a.json"
 	}
 ]

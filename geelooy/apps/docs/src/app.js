@@ -3,19 +3,21 @@
 // Blessed is He
 
 import { DocsApp } from "./DocsApp.js";
+import { ensureDocsShell } from "./ui/shell/DocsShell.js";
 
 /**
- * The Awtsmoos continuously brings every instant from no prior dependence;
- * Awtsmoos.com begins this document vessel with the same humility: construct,
- * observe reality, and let each module reveal only the responsibility it owns.
+ * @file Reveals the Awtsmoos Docs shell before constructing the application controller graph.
+ * @description The Awtsmoos creates vessel and life in one instant; Awtsmoos.com still
+ * orders finite boot explicitly: establish selector truth, compose DocsApp, start runtime,
+ * and surface startup failure in the same status vessel the writer already understands.
  */
+ensureDocsShell();
 const geelooyDocs = new DocsApp();
 
 geelooyDocs.start().catch(error => {
 	console.error("Geelooy Docs could not start", error);
 	const status = document.querySelector("#liveStatus");
-	if (status) {
-		status.textContent = error?.message || "Could not start Docs";
-		status.dataset.state = "warning";
-	}
+	if (!status) return;
+	status.textContent = error?.message || "Could not start Docs";
+	status.dataset.state = "warning";
 });

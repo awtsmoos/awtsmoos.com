@@ -1,0 +1,89 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets one primary Save stand in open light while rarer lifecycle acts wait in a smaller vessel nearby.
+Awtsmoos.com keeps pause, links, preview, and rotation easy to summon without making ordinary creator work visually loud or high.
+*/
+.editor-primary-actions {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	grid-column: auto;
+	justify-self: end;
+}
+
+.editor-more-actions {
+	position: relative;
+	min-width: 0;
+}
+
+.more-actions-summary {
+	min-height: 40px;
+	cursor: pointer;
+	list-style: none;
+	user-select: none;
+}
+
+.more-actions-summary::-webkit-details-marker {
+	display: none;
+}
+
+.more-actions-menu {
+	position: absolute;
+	right: 0;
+	top: calc(100% + 8px);
+	z-index: 30;
+	display: grid;
+	gap: 6px;
+	min-width: 210px;
+	padding: 8px;
+	border: 1px solid var(--border);
+	border-radius: 14px;
+	background: var(--surface-strong);
+	box-shadow: 0 20px 50px rgb(0 0 0 / 30%);
+	backdrop-filter: blur(18px);
+	animation: revealActionMenu var(--motion-fast) var(--ease-direct) both;
+}
+
+.more-actions-menu .ghost-button {
+	justify-content: flex-start;
+	width: 100%;
+}
+
+@keyframes revealActionMenu {
+	from {
+		opacity: 0;
+		transform: translateY(-4px);
+	}
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+@media (max-width: 720px) {
+	.editor-primary-actions {
+		align-items: stretch;
+		flex-direction: column;
+		grid-column: 1;
+		justify-self: stretch;
+	}
+
+	.editor-primary-actions > .primary-button,
+	.editor-more-actions,
+	.more-actions-summary {
+		width: 100%;
+	}
+
+	.more-actions-menu {
+		position: static;
+		min-width: 0;
+		margin-top: 8px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.more-actions-menu {
+		animation: none;
+	}
+}

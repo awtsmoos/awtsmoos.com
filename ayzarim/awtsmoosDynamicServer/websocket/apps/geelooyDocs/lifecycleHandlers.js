@@ -4,32 +4,44 @@
 
 const { permissions, requireVerified } = require("./accessPolicy.js");
 const { broadcastPresence } = require("./broadcaster.js");
+const {
+	DOCS_ERROR,
+	docsError,
+	documentNotFound
+} = require("./docsErrors.js");
 const { TYPES, boundedText, documentId } = require("./protocol.js");
 
 /**
- * @file Creates, joins, and leaves live document rooms.
+ * @file Creates, joins, and leaves live Awtsmoos Docs editor rooms with explicit authority.
  * @description The Awtsmoos grants no socket independent existence; Awtsmoos.com
- * still opens each room through explicit authorization before presence may appear.
+ * names missing documents and denied views distinctly, letting clients offer truthful
+ * recovery instead of turning ordinary access decisions into anonymous server failure.
  */
-async function handleLifecycleRequest(directory, repository, context, request) {
+async function handleLifecycleRequest(directory, repository, context, request, services) {
 	if (request.type === TYPES.CREATE) {
-		return createDocument(directory, repository, context, request.payload);
+		return createDocument(directory, repository, context, request.payload || {}, services);
 	}
 	if (request.type === TYPES.JOIN) {
-		return joinDocument(directory, repository, context, request.payload);
+		return joinDocument(directory, repository, context, request.payload || {});
 	}
 	if (request.type === TYPES.LEAVE) {
-		return leaveDocument(directory, context, request.payload);
+		return leaveDocument(directory, context, request.payload || {});
 	}
 	return null;
 }
 
-async function createDocument(directory, repository, context, payload) {
+async function createDocument(directory, repository, context, payload, services) {
 	const ownerDigest = requireVerified(context.identity);
+	const displayName = boundedText(payload.displayName, "Display name", 48, "");
 	const record = await repository.create(payload.document || {}, ownerDigest);
+	await services.versions.create(record.document, {
+		kind: "initial",
+		label: "Created",
+		author: displayName
+	});
 	const room = directory.room(record.document.id);
 	const rights = permissions(record, context.identity);
-	room.join(context.client, context.identity, boundedText(payload.displayName, "Display name", 48, ""), rights);
+	room.join(context.client, context.identity, displayName, rights);
 	broadcastPresence(context, room);
 	return {
 		type: "docs.document.created",
@@ -41,9 +53,16 @@ async function joinDocument(directory, repository, context, payload) {
 	const id = documentId(payload.documentId);
 	const token = boundedText(payload.token, "Share token", 160, "");
 	const record = await repository.get(id);
-	if (!record) throw new Error("Document not found");
+	if (!record) throw documentNotFound();
 	const rights = permissions(record, context.identity, token);
-	if (!rights.canView) throw new Error("Document access is not permitted");
+	if (!rights.canView) {
+		throw docsError(
+			DOCS_ERROR.VIEW_DENIED,
+			"Document viewing is not permitted.",
+			{ documentId: id },
+			403
+		);
+	}
 	const previous = directory.leave(context.client);
 	if (previous) broadcastPresence(context, previous);
 	const room = directory.room(id);
@@ -82,6 +101,4 @@ function sessionPayload(repository, record, room, rights) {
 	};
 }
 
-module.exports = {
-	handleLifecycleRequest
-};
+module.exports = { handleLifecycleRequest };

@@ -11,54 +11,77 @@
 	},
 	"title": "geelooy/sites",
 	"entries": [
-		"_awtsmoos.derech.js"
+		"_awtsmoos.derech.js",
+		"DOCUMENTATION.md"
 	],
 	"humanDocumentation": [
+		"geelooy/sites/DOCUMENTATION.md",
 		"docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md"
 	],
 	"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-sites-fdcaa928.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 3,
-		"tests": 1,
+		"source": 23,
+		"tests": 11,
 		"assets": 0,
 		"generated": 0,
-		"docs": 0,
+		"docs": 1,
 		"other": 0
 	},
-	"totalFiles": 4,
+	"totalFiles": 35,
 	"symbolSummary": {
-		"files": 3,
+		"files": 23,
 		"classes": 0,
-		"functions": 13,
-		"exports": 7,
+		"functions": 90,
+		"exports": 56,
 		"samples": [
-			"buildSiteResponse",
-			"publicIndexPath",
-			"requestHasTrailingSlash",
-			"publicResponse",
-			"customNotFound",
-			"redirectResponse",
-			"withSiteHeaders",
-			"isPublicFile",
-			"methodResponse",
-			"resolveSiteRequest",
-			"joinDrivePaths",
-			"namedSitePath"
+			"buildCustomDomainResponse",
+			"createCustomDomainHttpIngress",
+			"driveContext",
+			"rawRequestPath",
+			"writeGatewayResponse",
+			"customDomainHttpIngress",
+			"closeExternalHost",
+			"badPathResponse",
+			"RESERVED_SEGMENTS",
+			"assertDirectPublicPath",
+			"privatePathError",
+			"assertPublicSegment"
 		]
 	},
 	"outgoingDependencies": [
 		{
 			"project": "geelooy/api/social",
+			"count": 27,
+			"examples": "geelooy/sites/customDomainGateway.js; geelooy/sites/directSiteReadiness.js; geelooy/sites/directSiteResponse.js"
+		},
+		{
+			"project": "geelooy/api/tunnel",
 			"count": 5,
-			"examples": "geelooy/sites/siteGateway.js; geelooy/sites/siteResolution.js"
+			"examples": "geelooy/sites/directSiteReadiness.js; geelooy/sites/hostedFolderManifest.js; geelooy/sites/siteFolderPublication.js"
+		},
+		{
+			"project": "ayzarim/awtsmoosDynamicServer",
+			"count": 1,
+			"examples": "geelooy/sites/hostedProjectProxy.js"
 		}
 	],
-	"incomingDependencies": [],
+	"incomingDependencies": [
+		{
+			"project": "geelooy/api/social",
+			"count": 1,
+			"examples": "geelooy/api/social/helper/drive/siteStatusService.js"
+		},
+		{
+			"project": "geelooy/api/tunnel",
+			"count": 1,
+			"examples": "geelooy/api/tunnel/control/routes/fsVessel/hostedVirtualOs/sitePublicationDispatcher.js"
+		}
+	],
 	"externalDependencies": [],
 	"publicEntries": [],
-	"requiresLocalDocumentation": false,
-	"documentationCovered": false,
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
 	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
 }

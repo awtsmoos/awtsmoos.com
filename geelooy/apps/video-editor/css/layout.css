@@ -1,0 +1,70 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos reveals spacious order from crowded parts; Awtsmoos.com keeps preview and timeline in their truthful arts. */
+
+.editor-shell {
+	display: grid;
+	grid-template-columns: var(--ohr-media-width) minmax(0, 1fr);
+	grid-template-rows: minmax(0, 1fr) var(--ohr-timeline-height);
+	width: 100%;
+	height: 100%;
+	min-width: 0;
+	min-height: 0;
+	overflow: hidden;
+}
+
+.editor-shell.media-minimized {
+	grid-template-columns: var(--ohr-media-mini) minmax(0, 1fr);
+}
+
+.editor-shell.media-retracted {
+	grid-template-columns: var(--ohr-media-rail) minmax(0, 1fr);
+}
+
+.editor-shell.timeline-minimized {
+	grid-template-rows: minmax(0, 1fr) var(--ohr-timeline-mini);
+}
+
+.editor-shell.timeline-retracted {
+	grid-template-rows: minmax(0, 1fr) 54px;
+}
+
+.preview-area {
+	position: relative;
+	grid-column: 2;
+	grid-row: 1;
+	display: grid;
+	place-items: center;
+	min-width: 0;
+	min-height: 0;
+	overflow: hidden;
+	isolation: isolate;
+	background:
+		linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+		linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+		radial-gradient(circle at center, #173653, #09121f 72%);
+	background-size: 28px 28px, 28px 28px, auto;
+}
+
+.preview-empty {
+	display: grid;
+	gap: 8px;
+	max-width: 360px;
+	padding: 24px;
+	text-align: center;
+	color: var(--ohr-muted);
+}
+
+.preview-empty strong {
+	font-size: clamp(1.4rem, 4vw, 2.5rem);
+	color: var(--ohr-text);
+}
+
+.preview-image {
+	max-width: 100%;
+	max-height: 100%;
+	object-fit: contain;
+	user-select: none;
+	pointer-events: none;
+}

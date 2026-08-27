@@ -1,234 +1,222 @@
 [
 	{
-		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-1038-master-animation-compl-b4d4f4d393",
-		"title": "Phase One — Theoretical File Map",
-		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_1038_master-animation-completion-orchestrator/02_PHASE_ONE_THEORETICAL_FILE_MAP.md",
-		"category": "Apps",
-		"provenance": "project",
+		"id": "docs-security-realtime-security-md-1133b9c294",
+		"title": "Realtime Security",
+		"sourcePath": "docs/SECURITY/REALTIME_SECURITY.md",
+		"category": "Realtime",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Phase One — Theoretical File Map",
-				"anchor": "phase-one-theoretical-file-map"
+				"text": "Realtime Security",
+				"anchor": "realtime-security"
 			},
 			{
 				"level": 2,
-				"text": "Likely source families",
-				"anchor": "likely-source-families"
+				"text": "Shared authentication, separate transport boundary",
+				"anchor": "shared-authentication-separate-transport-boundary"
 			},
 			{
 				"level": 2,
-				"text": "Files that may be written",
-				"anchor": "files-that-may-be-written"
-			}
-		],
-		"excerpt": "B\"H Phase One — Theoretical File Map This is a hypothesis map only. Actual files must be confirmed before rewriting. Likely source families src/character/ : identity, performance state, evaluation, serialization. src/render/ and tools/render/ : production geometry, preview/export bridge, frame rendering. src/camera/ : ",
-		"searchText": "b\"h phase one — theoretical file map this is a hypothesis map only. actual files must be confirmed before rewriting. likely source families src/character/ : identity, performance state, evaluation, serialization. src/render/ and tools/render/ : production geometry, preview/export bridge, frame rendering. src/camera/ : views, shot plans, framing, continuity. src/persistence/ : save, import, restoration, transient filtering. src/scenes/ : one minute sitcom project, dialogue, text boxes, titles, timeline. tools/verify/ : feature smokes, browser proof, scale courts, metadata, compliance. proofs/ : source project, preview, final mp4, proof frames, manifests, hashes. package.json: only if verification or render command coverage is incomplete. files that may be written only files proven defective or missing after full readback. every changed file will be rewritten completely, kept below 120 javascript lines, tab indented, fully documented, and verified against consumers.",
-		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-1038-master-animation-compl-b4d4f4d393.json"
-	},
-	{
-		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-1038-master-animation-compl-c820193de8",
-		"title": "Phase One Critique — Twenty Improvements",
-		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_1038_master-animation-completion-orchestrator/03_PHASE_ONE_CRITIQUE_20_IMPROVEMENTS.md",
-		"category": "Apps",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Phase One Critique — Twenty Improvements",
-				"anchor": "phase-one-critique-twenty-improvements"
-			}
-		],
-		"excerpt": "B\"H Phase One Critique — Twenty Improvements 1. Distrust yesterday's None; rerun today's evidence. 2. Separate historic claims from current observations. 3. Audit the newly added realistic action branch. 4. Confirm the exact live worktree delta. 5. Read every changed file fully. 6. Trace preview and export to the same ",
-		"searchText": "b\"h phase one critique — twenty improvements 1. distrust yesterday's none; rerun today's evidence. 2. separate historic claims from current observations. 3. audit the newly added realistic action branch. 4. confirm the exact live worktree delta. 5. read every changed file fully. 6. trace preview and export to the same renderer. 7. sample dialogue frames, not only still endpoints. 8. verify mouth displacement quantitatively. 9. verify eye direction at small scale. 10. test locked poses after all motion layers. 11. inspect text box bounds at every camera cut. 12. confirm project package restoration from disk. 13. exclude cyclic and renderer only state. 14. recompute proof hashes. 15. validate mp4 duration, codecs, and audio. 16. detect loading shell screenshots. 17. record browser console errors. 18. run full verification after focused tests. 19. audit headers, tabs, syntax, and line counts. 20. challenge completion with independent agents.",
-		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-1038-master-animation-compl-c820193de8.json"
-	},
-	{
-		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-1038-master-animation-compl-7f1be5a0f2",
-		"title": "Phase Two — Improved Brainstorm",
-		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_1038_master-animation-completion-orchestrator/04_PHASE_TWO_IMPROVED_BRAINSTORM.md",
-		"category": "Apps",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Phase Two — Improved Brainstorm",
-				"anchor": "phase-two-improved-brainstorm"
+				"text": "Mission Room admission happens before handshake",
+				"anchor": "mission-room-admission-happens-before-handshake"
 			},
 			{
 				"level": 2,
-				"text": "Lanes",
-				"anchor": "lanes"
-			}
-		],
-		"excerpt": "B\"H Phase Two — Improved Brainstorm The better architecture is an evidence first audit with isolated specialist lanes. Lanes Architecture and import graph. Character identity and body diversity. Face, viseme, gaze, blink, and head turn. Body acting, gesture phases, contact locks, hands, shoes. Garments, hair, secondary",
-		"searchText": "b\"h phase two — improved brainstorm the better architecture is an evidence first audit with isolated specialist lanes. lanes architecture and import graph. character identity and body diversity. face, viseme, gaze, blink, and head turn. body acting, gesture phases, contact locks, hands, shoes. garments, hair, secondary motion. camera, shots, text, titles, and timing. customizer, serialization, import, restoration. preview, browser, export, package, metadata. pixel courts and perceptual review. compliance, regression suite, and completion gate. each lane returns exact files, tests, browser/export evidence, defects, remaining work, and next action. the master rereads all changed files and reruns the whole chain.",
-		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-1038-master-animation-compl-7f1be5a0f2.json"
-	},
-	{
-		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-1038-master-animation-compl-0d764ad940",
-		"title": "Phase Two — Execution Plan",
-		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_1038_master-animation-completion-orchestrator/05_PHASE_TWO_EXECUTION_PLAN.md",
-		"category": "Apps",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Phase Two — Execution Plan",
-				"anchor": "phase-two-execution-plan"
-			}
-		],
-		"excerpt": "B\"H Phase Two — Execution Plan 1. Refresh repository status and checkpoint evidence. 2. Create a live feature matrix from real imports and tests. 3. Spawn specialist agents sequentially through the tunnel mission system; no parallel Chrome tabs. 4. Assign nonoverlapping audit scopes first. 5. Convert every proven defec",
-		"searchText": "b\"h phase two — execution plan 1. refresh repository status and checkpoint evidence. 2. create a live feature matrix from real imports and tests. 3. spawn specialist agents sequentially through the tunnel mission system; no parallel chrome tabs. 4. assign nonoverlapping audit scopes first. 5. convert every proven defect into defect ledger.md and remaining work.md. 6. read complete target files, dependencies, consumers, and tests. 7. rewrite complete files only. 8. run focused verification for each defect. 9. run render/export and exact scale courts. 10. run full npm run verify. 11. run compliance, syntax, line count, tab, header, and git diff check gates. 12. re read all changed files and close the delta.",
-		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-1038-master-animation-compl-0d764ad940.json"
-	},
-	{
-		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-1038-master-animation-compl-a5fd8fde56",
-		"title": "Phase Two Critique — Thirty Additional Improvements",
-		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_1038_master-animation-completion-orchestrator/06_PHASE_TWO_CRITIQUE_30_IMPROVEMENTS.md",
-		"category": "Apps",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Phase Two Critique — Thirty Additional Improvements",
-				"anchor": "phase-two-critique-thirty-additional-improvements"
-			}
-		],
-		"excerpt": "B\"H Phase Two Critique — Thirty Additional Improvements 1. Use immutable tunnel routing. 2. Recover durable receipts after disconnects. 3. Avoid duplicate command dispatch. 4. Keep one spawning action at a time. 5. Allow active agents only on disjoint scopes. 6. Require structured agent receipts. 7. Verify every agent ",
-		"searchText": "b\"h phase two critique — thirty additional improvements 1. use immutable tunnel routing. 2. recover durable receipts after disconnects. 3. avoid duplicate command dispatch. 4. keep one spawning action at a time. 5. allow active agents only on disjoint scopes. 6. require structured agent receipts. 7. verify every agent claim independently. 8. pin the original worktree before edits. 9. distinguish generated from authored files. 10. preserve public exports. 11. check all call sites before rewrites. 12. detect circular imports. 13. test deterministic clocks. 14. compare preview/export frame hashes where possible. 15. confirm title card safe areas. 16. confirm captions survive camera cuts. 17. confirm eyes remain legible at 180×300. 18. confirm fingers do not alias into noise. 19. confirm heel/toe silhouettes. 20. confirm garments do not merge with limbs. 21. confirm crossed arms remain locked. 22. confirm pocket hands remain locked. 23. confirm viseme changes span spoken intervals. 24. confirm blinks are deterministic. 25. confirm gaze is view space aware. 26. confirm startup restore from a clean process. 27. confirm packaged media is self contained. 28. record file sizes and sha 256 hashes. 29. inspect representative pixels directly. 30. keep next action executable until all evidence closes.",
-		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-1038-master-animation-compl-a5fd8fde56.json"
-	},
-	{
-		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-1038-master-animation-compl-97d15d145b",
-		"title": "Phase Three — Final Brainstorm",
-		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_1038_master-animation-completion-orchestrator/07_PHASE_THREE_FINAL_BRAINSTORM.md",
-		"category": "Apps",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Phase Three — Final Brainstorm",
-				"anchor": "phase-three-final-brainstorm"
-			}
-		],
-		"excerpt": "B\"H Phase Three — Final Brainstorm The final method combines skeptical archaeology, sequential delegation, whole file repair, and proof courts. The Awtsmoos is beyond every vessel yet renews each vessel now; therefore no cached belief is accepted as present truth. Every feature is followed from authored state into geom",
-		"searchText": "b\"h phase three — final brainstorm the final method combines skeptical archaeology, sequential delegation, whole file repair, and proof courts. the awtsmoos is beyond every vessel yet renews each vessel now; therefore no cached belief is accepted as present truth. every feature is followed from authored state into geometry and pixels. every success creates a shadow audit. every export is opened, measured, hashed, and compared with its source project. every browser proof must show the loaded production canvas, not a shell. the system is considered complete only when independent auditors fail to find a meaningful defect and the master verification, render, persistence, export, pixel, and compliance gates all pass on the current tree.",
-		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-1038-master-animation-compl-97d15d145b.json"
-	},
-	{
-		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-1038-master-animation-compl-89839f361b",
-		"title": "Final Execution Plan",
-		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_1038_master-animation-completion-orchestrator/08_FINAL_EXECUTION_PLAN.md",
-		"category": "Apps",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Final Execution Plan",
-				"anchor": "final-execution-plan"
+				"text": "One-time tickets are not permanent authority",
+				"anchor": "one-time-tickets-are-not-permanent-authority"
 			},
 			{
 				"level": 2,
-				"text": "Actual files intended for writing",
-				"anchor": "actual-files-intended-for-writing"
+				"text": "Versioned realtime applications",
+				"anchor": "versioned-realtime-applications"
 			},
 			{
 				"level": 2,
-				"text": "Execution order",
-				"anchor": "execution-order"
+				"text": "Tunnel Relay",
+				"anchor": "tunnel-relay"
+			},
+			{
+				"level": 2,
+				"text": "Origin and browser context",
+				"anchor": "origin-and-browser-context"
+			},
+			{
+				"level": 2,
+				"text": "Realtime change checklist",
+				"anchor": "realtime-change-checklist"
 			}
 		],
-		"excerpt": "B\"H Final Execution Plan Actual files intended for writing This checkpoint's planning and ledger files. Product source/test/render files only when a live defect is proven by direct evidence. No speculative rewrites. Execution order 1. Baseline status, source graph, proof inventory, current checkpoints. 2. Sequential sp",
-		"searchText": "b\"h final execution plan actual files intended for writing this checkpoint's planning and ledger files. product source/test/render files only when a live defect is proven by direct evidence. no speculative rewrites. execution order 1. baseline status, source graph, proof inventory, current checkpoints. 2. sequential specialist agent dispatch and structured receipts. 3. independent master verification of findings. 4. complete file repairs for proven defects. 5. focused tests and readback. 6. browser production render and console review. 7. one minute render/export and metadata verification. 8. exact scale courts: 320×320, 180×300, 512×512, 1536×864. 9. full repository verification. 10. compliance and delta audit. 11. final completion challenge. 12. close only with empty remaining work and next action: none.",
-		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-1038-master-animation-compl-89839f361b.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Realtime Security The Awtsmoos gives every socket a living instant while Awtsmoos.com binds long lived communication to trusted identity, admission policy, protocol version and current authority. Shared authentication, separate transport boundary The dynamic server installs the same Auth",
+		"searchText": "b\"h boruch hashem blessed is he realtime security the awtsmoos gives every socket a living instant while awtsmoos.com binds long lived communication to trusted identity, admission policy, protocol version and current authority. shared authentication, separate transport boundary the dynamic server installs the same auth verifier into http and websocket infrastructure, but websocket upgrades parse their own cookies/headers and produce a trusted socket identity for the connection. application messages must not recreate identity from message payload. mission room admission happens before handshake for /api/tunnel/control/mission room/ws, inspected source requires: 1. the correct path; 2. sec websocket key; 3. trusted identity with accountid; 4. canonical/accepted origin; 5. a one time ticket from query parameter ticket; 6. current tunnel.mission authorization for the ticket's tunnel; 7. matching current/ticket authority; 8. the current room protocol version. missing or changed authority is rejected before a successful websocket session is established. one time tickets are not permanent authority the mission room ticket is consumed during admission and then checked against current authorization. a previously issued ticket cannot safely replace a fresh server side permission check when grants may have been revoked or changed. versioned realtime applications the realtimeplatform routes versioned applications through a registry/router. trusted account identity belongs to the server side client session. message types, application ids and versions are domain protocol fields, not identity credentials. tunnel relay tunnel relay has its own registration authority and account bound transport lifecycle. registration, replacement and acknowledgement behavior must preserve trusted account association. do not merge relay device identity with arbitrary message accountid or tunnel name fields. origin and browser context origin checking is an admission control where source explicitly requires it. do not assume cookie authentication alone is sufficient for every browser websocket. likewise, do not add permissive origin behavior to a sensitive socket merely because an http api uses broad cors. realtime change checklist where does trusted client identity originate? is admission checked before or after handshake? does the connection require origin, ticket, grant or scope? can permission change while the connection exists? which protocol versions are accepted? what disconnect cleanup removes presence/subscriptions/state? are errors machine readable without leaking secrets? are wrong account, stale ticket, wrong origin and wrong version cases tested?",
+		"page": "pages/docs-security-realtime-security-md-1133b9c294.json"
 	},
 	{
-		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-1038-master-animation-compl-8ddde7866e",
-		"title": "AGENTASSIGNMENTS",
-		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_1038_master-animation-completion-orchestrator/AGENT_ASSIGNMENTS.md",
-		"category": "Apps",
-		"provenance": "project",
+		"id": "docs-security-secrets-and-config-md-0f6557495f",
+		"title": "Secrets and Security-Sensitive Configuration",
+		"sourcePath": "docs/SECURITY/SECRETS_AND_CONFIG.md",
+		"category": "Security",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "AGENTASSIGNMENTS",
-				"anchor": "agentassignments"
+				"text": "Secrets and Security-Sensitive Configuration",
+				"anchor": "secrets-and-security-sensitive-configuration"
 			},
 			{
 				"level": 2,
-				"text": "Mission service",
-				"anchor": "mission-service"
+				"text": "Documentation rule",
+				"anchor": "documentation-rule"
 			},
 			{
 				"level": 2,
-				"text": "Architecture and Import Graph Auditor",
-				"anchor": "architecture-and-import-graph-auditor"
+				"text": "Canonical authentication secret",
+				"anchor": "canonical-authentication-secret"
 			},
 			{
 				"level": 2,
-				"text": "Safe fallback",
-				"anchor": "safe-fallback"
+				"text": "API keys",
+				"anchor": "api-keys"
+			},
+			{
+				"level": 2,
+				"text": "OAuth and provider secrets",
+				"anchor": "oauth-and-provider-secrets"
+			},
+			{
+				"level": 2,
+				"text": "Local configuration",
+				"anchor": "local-configuration"
+			},
+			{
+				"level": 2,
+				"text": "Debug and smoke flags",
+				"anchor": "debug-and-smoke-flags"
+			},
+			{
+				"level": 2,
+				"text": "Review checklist",
+				"anchor": "review-checklist"
 			}
 		],
-		"excerpt": "B\"H AGENT ASSIGNMENTS Mission service Mission: mission msdcptng fa702cf844 Project root preserved: /Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator Architecture and Import Graph Auditor Requested agent ID: architecture import auditor 01 Requested mode: read only Status: BLOCKED EXTERNALLY The mission service acc",
-		"searchText": "b\"h agent assignments mission service mission: mission msdcptng fa702cf844 project root preserved: /users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator architecture and import graph auditor requested agent id: architecture import auditor 01 requested mode: read only status: blocked externally the mission service accepted the exact agent id and absolute project root, but reported active: false, why: explicit block; the worker registry remained at zero active processes and produced no structured receipt. no specialist claim was accepted as evidence. safe fallback the master process will execute the same isolated audit scopes sequentially and record direct file, command, browser, export, and pixel evidence.",
-		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-1038-master-animation-compl-8ddde7866e.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Secrets and Security Sensitive Configuration The Awtsmoos gives configuration a vessel while Awtsmoos.com must distinguish a variable name that may be documented from a secret value that must remain concealed. Documentation rule Generated environment documentation records variable names,",
+		"searchText": "b\"h boruch hashem blessed is he secrets and security sensitive configuration the awtsmoos gives configuration a vessel while awtsmoos.com must distinguish a variable name that may be documented from a secret value that must remain concealed. documentation rule generated environment documentation records variable names, coarse classes and source ownership only. never copy live values, token files, oauth secrets, api keys, session cookies, provider credentials, ssh credentials or private machine paths into documentation merely to make setup look complete. canonical authentication secret the dynamic server's inspected authsetup.js reads deps.config.secret as a module path, requires that configured module, stringifies the resulting value and constructs the shared auth verifier used by http sessions and websockets. if the configured secret cannot be required, the inspected fallback object contains nokey: \"no security\". that fallback means deployment configuration for authentication deserves explicit review; documentation must not present a missing secret as an ordinary harmless default. api keys social api keys are created from cryptographically random bytes. the raw key is returned at creation; storage retains its sha 256 hash and metadata. documentation may describe the prefix/format conceptually, but must never include a real generated key. tunnel control maintains a separate verified api key system with its own scopes/account identity. do not assume social api keys and tunnel control keys share stores, scopes or header schemes. oauth and provider secrets oauth, youtube/google, paypal, streaming, email/smtp and ai integrations can use provider specific secret names. the generated environment inventory is a locator. the owning source determines required/optional status, defaults, redirect uris, encryption, token persistence and lifecycle. local configuration .awtsmoos.config.local.json is an ignored machine local configuration vessel used by database root resolution. documentation may name supported keys, but should not copy the actual local file or absolute private paths unless a troubleshooting task explicitly requires them. debug and smoke flags debug/test environment flags can cause sensitive diagnostic material to appear. social api key verification, for example, has an inspected smoke debug branch that can expose supplied key prefixes, hashes, index paths and db root information in errors. treat debug flags as security relevant and disable them outside intended controlled testing. review checklist is the value secret or merely configuration? where is it loaded? does absence disable security or change trust behavior? is it logged or included in errors? is it persisted encrypted, hashed, plaintext or not persisted? what rotates/revokes it? which tests exercise missing/invalid/expired credentials?",
+		"page": "pages/docs-security-secrets-and-config-md-0f6557495f.json"
 	},
 	{
-		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-1038-master-animation-compl-62eb8323d7",
-		"title": "COMPLETEDWORK",
-		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_1038_master-animation-completion-orchestrator/COMPLETED_WORK.md",
-		"category": "Apps",
-		"provenance": "project",
+		"id": "docs-security-trust-boundaries-md-4062c7cf1c",
+		"title": "Trust Boundaries",
+		"sourcePath": "docs/SECURITY/TRUST_BOUNDARIES.md",
+		"category": "Security",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "COMPLETEDWORK",
-				"anchor": "completedwork"
-			}
-		],
-		"excerpt": "B\"H COMPLETED WORK Connected to the live native Awtsmoos Tunnel. Read root agent law. Inspected animator root and package scripts. Read the newest relevant master checkpoint and its evidence. Created this new checkpoint without overwriting prior work. Completed three planning and critique phases. Detected and corrected",
-		"searchText": "b\"h completed work connected to the live native awtsmoos tunnel. read root agent law. inspected animator root and package scripts. read the newest relevant master checkpoint and its evidence. created this new checkpoint without overwriting prior work. completed three planning and critique phases. detected and corrected the checkpoint path typo introduced during ledger creation.",
-		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-1038-master-animation-compl-62eb8323d7.json"
-	},
-	{
-		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-1038-master-animation-compl-692cbd3576",
-		"title": "DEFECTLEDGER",
-		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_1038_master-animation-completion-orchestrator/DEFECT_LEDGER.md",
-		"category": "Apps",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "DEFECTLEDGER",
-				"anchor": "defectledger"
+				"text": "Trust Boundaries",
+				"anchor": "trust-boundaries"
 			},
 			{
 				"level": 2,
-				"text": "ORCH-001 — Checkpoint ledger path typo",
-				"anchor": "orch-001-checkpoint-ledger-path-typo"
+				"text": "Layer 1 — transport/session authentication",
+				"anchor": "layer-1-transport-session-authentication"
+			},
+			{
+				"level": 2,
+				"text": "Layer 2 — alternate authenticated credentials",
+				"anchor": "layer-2-alternate-authenticated-credentials"
+			},
+			{
+				"level": 2,
+				"text": "Layer 3 — resource authorization",
+				"anchor": "layer-3-resource-authorization"
+			},
+			{
+				"level": 2,
+				"text": "Client input is not authority",
+				"anchor": "client-input-is-not-authority"
+			},
+			{
+				"level": 2,
+				"text": "Social API keys",
+				"anchor": "social-api-keys"
+			},
+			{
+				"level": 2,
+				"text": "Re-check mutable authority",
+				"anchor": "re-check-mutable-authority"
+			},
+			{
+				"level": 2,
+				"text": "Review checklist",
+				"anchor": "review-checklist"
 			}
 		],
-		"excerpt": "B\"H DEFECT LEDGER ORCH 001 — Checkpoint ledger path typo Status: Fixed. Several new ledger files were first written beneath the misspelled root geeloy. The canonical copies were rewritten beneath geelooy, and the accidental tree was removed only after its contents were verified as artifacts of this run.",
-		"searchText": "b\"h defect ledger orch 001 — checkpoint ledger path typo status: fixed. several new ledger files were first written beneath the misspelled root geeloy. the canonical copies were rewritten beneath geelooy, and the accidental tree was removed only after its contents were verified as artifacts of this run.",
-		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-1038-master-animation-compl-692cbd3576.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Trust Boundaries The Awtsmoos gives every identity its true source while Awtsmoos.com refuses to turn user shaped input into server authority merely because the names resemble one another. Layer 1 — transport/session authentication The dynamic server installs one Auth instance as HTTP se",
+		"searchText": "b\"h boruch hashem blessed is he trust boundaries the awtsmoos gives every identity its true source while awtsmoos.com refuses to turn user shaped input into server authority merely because the names resemble one another. layer 1 — transport/session authentication the dynamic server installs one auth instance as http session middleware and also exposes it to the websocket server. this establishes trusted request/socket identity from the configured authentication covenant rather than application body fields. layer 2 — alternate authenticated credentials some api families accept additional credentials: social can verify revocable api keys. tunnel control can resolve oauth bearer records. tunnel control can verify its own api keys. provider apis can require external provider credentials in addition to awtsmoos identity. each mechanism has its own storage, lifecycle and scope semantics. do not substitute one credential family for another without source support. layer 3 — resource authorization after authentication, the application must still authorize the target action. examples include: alias ownership or permission; heichel editor/owner/governance roles; post/comment moderation or ownership; tunnel device/grant/scope checks; mission room tunnel.mission permission; privileged administrative special user checks; provider/channel/order ownership. client input is not authority query/body/route values such as userid, accountid, owner, alias, heichelid, tunnelname, deviceid or roomid locate or describe a resource. they do not become authoritative identity until matched against trusted server state and permission rules. tunnel control's inspected auth source is explicit: current identity comes from oauth, verified api key or signed session. browser submitted ownership fields are not an authority source. social api keys the social helper creates a random raw key, stores a sha 256 hash plus metadata, and returns the raw secret on creation. verification hashes the supplied key and uses both an index and the owning key record. revocation timestamps are checked in both places. re check mutable authority long lived flows should not assume permissions never change. mission room upgrade policy consumes a one time ticket and then re checks current tunnel mission authority before the handshake. the ticket's authority must still match current authorization. review checklist for every protected operation, identify: 1. trusted identity source; 2. resource identifier source; 3. authorization function/check; 4. scope/role/ownership requirement; 5. revocation/expiry behavior; 6. negative tests; 7. data or provider side effects.",
+		"page": "pages/docs-security-trust-boundaries-md-4062c7cf1c.json"
 	},
 	{
-		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-1038-master-animation-compl-b1cd57d154",
-		"title": "DELTA",
-		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_1038_master-animation-completion-orchestrator/DELTA.md",
-		"category": "Apps",
-		"provenance": "project",
+		"id": "docs-source-to-doc-md-6428a99a75",
+		"title": "Source to Documentation Map",
+		"sourcePath": "docs/SOURCE_TO_DOC.md",
+		"category": "General",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "DELTA",
-				"anchor": "delta"
+				"text": "Source to Documentation Map",
+				"anchor": "source-to-documentation-map"
+			},
+			{
+				"level": 2,
+				"text": "Generated cross-reference",
+				"anchor": "generated-cross-reference"
 			}
 		],
-		"excerpt": "B\"H DELTA The prior checkpoint claimed closure, but the current package includes a later realistic action minute branch. Present completion must therefore be independently refreshed. This run also discovered an orchestration artifact path typo; it is being repaired before delegation.",
-		"searchText": "b\"h delta the prior checkpoint claimed closure, but the current package includes a later realistic action minute branch. present completion must therefore be independently refreshed. this run also discovered an orchestration artifact path typo; it is being repaired before delegation.",
-		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-1038-master-animation-compl-b1cd57d154.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Source to Documentation Map The Awtsmoos joins source to explanation so a changed file can reveal the human chapter, generated evidence, and verification neighborhood that belong with it. Source subtree Primary human documentation index.js ARCHITECTURE.md, API/DIRECT ROOT HANDLERS.md, CO",
+		"searchText": "b\"h boruch hashem blessed is he source to documentation map the awtsmoos joins source to explanation so a changed file can reveal the human chapter, generated evidence, and verification neighborhood that belong with it. source subtree primary human documentation index.js architecture.md, api/direct root handlers.md, configuration.md ayzarim/awtsmoosdynamicserver/ projects/runtime server.md, websockets/, security/, data/ ayzarim/dosdb/ projects/dosdb.md, data/readme.md, data/path contracts.md ayzarim/ssh/, geelooy/api/ssh/ integrations.md, security/readme.md, api/other families.md geelooy/api/ api/readme.md, generated route/contract/caller/health indexes geelooy/api/social/ projects/social platform.md, api/social.md, security/trust boundaries.md geelooy/api/tunnel/ projects/tunnel platform.md, api/tunnel control.md, websockets/ geelooy/api/oauth/ api/oauth.md, systems/auth and identity.md, security/ geelooy/api/youtube/, wallet/, streaming/ family api docs plus integrations.md and configuration.md geelooy/apps/code/, compiler/runtime surfaces projects/code.md, apps/developer tools.md geelooy/ai/, gpt/gguf/search areas projects/awtsmoos ai.md, systems/ai.md, data/, integrations.md geelooy/games/ projects/games platform.md, apps/games and simulation.md geelooy/games/mitzvahworld/ projects/mitzvah world.md plus project local directory/audit docs social public/profile/editor/notification surfaces projects/social platform.md and local documentation.md geelooy/os/, node os/, platform/, shared/virtual os/ systems/geelooy os.md geelooy/shared/, libs/, public scripts/styles systems/shared libraries.md tests/, geelooy/tests, project tests test index.md, systems/testing.md, generated test ownership.md root scripts/, tools/, ops/, templates/ operations and tooling.md scripts/docs/ maintaining the docs.md, development/documentation workflow.md nested awtsmoos.com/ systems/nested awtsmoos com.md generated cross reference use generated/project atlas.md for project ownership, project dependencies.md for cross project imports, public entry points.md for browser entry paths, api route contract atlas.md for http paths, and human documentation index.md for the complete manual doc inventory. when source spans multiple rows, update every affected human contract and run the relevant broader tests before regeneration/validation.",
+		"page": "pages/docs-source-to-doc-md-6428a99a75.json"
+	},
+	{
+		"id": "docs-start-here-md-3ff203f7e3",
+		"title": "Start Here",
+		"sourcePath": "docs/START_HERE.md",
+		"category": "General",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Start Here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "New to the repository",
+				"anchor": "new-to-the-repository"
+			},
+			{
+				"level": 2,
+				"text": "You have a URL",
+				"anchor": "you-have-a-url"
+			},
+			{
+				"level": 2,
+				"text": "You have a directory or product name",
+				"anchor": "you-have-a-directory-or-product-name"
+			},
+			{
+				"level": 2,
+				"text": "You are changing persistence, identity, authorization, or realtime behavior",
+				"anchor": "you-are-changing-persistence-identity-authorization-or-realtime-behavior"
+			},
+			{
+				"level": 2,
+				"text": "Before changing behavior",
+				"anchor": "before-changing-behavior"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Start Here Use the documentation surface that matches the question you actually have. New to the repository Open /docs/?view=learn or LEARN/README.md. You have a URL Open /docs/?view=api. Follow: route tutorial → API family manual → derech/handler → callers/tests → runtime . You have a d",
+		"searchText": "b\"h boruch hashem blessed is he start here use the documentation surface that matches the question you actually have. new to the repository open /docs/?view=learn or learn/readme.md. you have a url open /docs/?view=api. follow: route tutorial → api family manual → derech/handler → callers/tests → runtime . you have a directory or product name open /docs/?view=projects. follow: project tutorial → project/system manual → entries/dependencies/symbols/tests → source → runtime . you are changing persistence, identity, authorization, or realtime behavior open /docs/?view=systems. the systems explorer separates three districts: data — database roots, dosdb, binary storage, awtsmoosdb/virtualfs, packed social data, path contracts, migrations. security — session/oauth/api key identity, authorization/ownership, secret/config names, realtime admission. realtime — socket upgrade, app routing, mission rooms, tunnel relay, application/event evidence. then use tutorials/systems/readme.md for workflow teaching. before changing behavior 1. read human meaning/risk docs. 2. inspect generated route/project/system evidence. 3. read exact current implementation/tests. 4. make the change. 5. update human docs when meaning/contracts changed. 6. regenerate and validate. generated environment evidence never contains secret values, and event strings are never treated as full protocol schemas.",
+		"page": "pages/docs-start-here-md-3ff203f7e3.json"
 	}
 ]

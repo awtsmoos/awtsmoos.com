@@ -1,273 +1,341 @@
 [
 	{
-		"id": "geelooy-api-streaming-docs-architecture-md-f8532e8814",
-		"title": "Streaming Architecture",
-		"sourcePath": "geelooy/api/streaming/docs/ARCHITECTURE.md",
-		"category": "API",
-		"provenance": "project",
+		"id": "docs-learn-ai-agent-discovery-md-5371ffd118",
+		"title": "AI Agent Discovery",
+		"sourcePath": "docs/LEARN/AI_AGENT_DISCOVERY.md",
+		"category": "General",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Streaming Architecture",
-				"anchor": "streaming-architecture"
-			}
-		],
-		"excerpt": "B\"H Streaming Architecture /api/streaming is the generic control plane. Connectors: youtube: OAuth + YouTube Live API broadcast/stream control. Supports HLS/RTMPS ingest metadata. twitch: manual stream key first. OAuth can be added later for chat/metadata. facebook: manual stream URL first. Graph API setup can be added",
-		"searchText": "b\"h streaming architecture /api/streaming is the generic control plane. connectors: youtube: oauth + youtube live api broadcast/stream control. supports hls/rtmps ingest metadata. twitch: manual stream key first. oauth can be added later for chat/metadata. facebook: manual stream url first. graph api setup can be added after app review decisions. awtsmoos: optional hosted relay/record/multicast path where video bytes intentionally pass through awtsmoos. data paths: 1. direct to platform local path: browser/webcodecs local muxer/protocol adapter platform ingest. 2. awtsmoos hosted option: browser/webcodecs awtsmoos relay viewers/platforms. 3. manual custom ingest: user supplies server url + stream key. the missing heavy piece remains the mux/protocol adapter.",
-		"page": "pages/geelooy-api-streaming-docs-architecture-md-f8532e8814.json"
-	},
-	{
-		"id": "geelooy-api-streaming-docs-local-tunnel-media-plane-md-c53c041c3d",
-		"title": "Local Tunnel Media Plane",
-		"sourcePath": "geelooy/api/streaming/docs/LOCAL_TUNNEL_MEDIA_PLANE.md",
-		"category": "API",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Local Tunnel Media Plane",
-				"anchor": "local-tunnel-media-plane"
-			}
-		],
-		"excerpt": "B\"H Local Tunnel Media Plane /api/streaming is the cloud/control plane. The local tunnel is the media plane. Why: YouTube needs HLS/RTMPS ingest bytes. Twitch/Facebook normally need RTMP/RTMPS ingest bytes. Browser JavaScript cannot cleanly push RTMP directly. Local tunnel can forward muxed bytes without ffmpeg and wit",
-		"searchText": "b\"h local tunnel media plane /api/streaming is the cloud/control plane. the local tunnel is the media plane. why: youtube needs hls/rtmps ingest bytes. twitch/facebook normally need rtmp/rtmps ingest bytes. browser javascript cannot cleanly push rtmp directly. local tunnel can forward muxed bytes without ffmpeg and without sending media through awtsmoos cloud. current state: session/counter transport exists. hls segment metadata and playlist generation exists. direct forwarding hooks exist. real muxer remains the next hard component.",
-		"page": "pages/geelooy-api-streaming-docs-local-tunnel-media-plane-md-c53c041c3d.json"
-	},
-	{
-		"id": "geelooy-api-streaming-documentation-md-2e514340ef",
-		"title": "Streaming API Documentation",
-		"sourcePath": "geelooy/api/streaming/DOCUMENTATION.md",
-		"category": "API",
-		"provenance": "breadcrumb",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Streaming API Documentation",
-				"anchor": "streaming-api-documentation"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Streaming API Documentation The Awtsmoos lets one dispatch vessel reach provider connectors while each external contract keeps its own key; Awtsmoos.com maps action, connector, caller, and configuration evidence so streaming is not mistaken for plain CRUD simplicity. Read ../../../docs/A",
-		"searchText": "b\"h boruch hashem blessed is he streaming api documentation the awtsmoos lets one dispatch vessel reach provider connectors while each external contract keeps its own key; awtsmoos.com maps action, connector, caller, and configuration evidence so streaming is not mistaken for plain crud simplicity. read ../../../docs/api/streaming.md, ../../../docs/apps/media tools.md, and ../../../docs/configuration.md.",
-		"page": "pages/geelooy-api-streaming-documentation-md-2e514340ef.json"
-	},
-	{
-		"id": "geelooy-api-text-documentation-md-b0640f09c6",
-		"title": "Text API Documentation",
-		"sourcePath": "geelooy/api/text/DOCUMENTATION.md",
-		"category": "API",
-		"provenance": "breadcrumb",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Text API Documentation",
-				"anchor": "text-api-documentation"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Text API Documentation The Awtsmoos asks the map to confess when a source cannot yet parse instead of decorating failure as health; Awtsmoos.com keeps this mount visible with its syntax defect so intended routes are not mistaken for verified wealth. Read ../../../docs/HEALTH.md and ../..",
-		"searchText": "b\"h boruch hashem blessed is he text api documentation the awtsmoos asks the map to confess when a source cannot yet parse instead of decorating failure as health; awtsmoos.com keeps this mount visible with its syntax defect so intended routes are not mistaken for verified wealth. read ../../../docs/health.md and ../../../docs/api/other families.md. current generated syntax evidence: ../../../docs/generated/derech health.md.",
-		"page": "pages/geelooy-api-text-documentation-md-b0640f09c6.json"
-	},
-	{
-		"id": "geelooy-api-tunnel-control-documentation-md-becfd8c936",
-		"title": "Tunnel Control API Documentation",
-		"sourcePath": "geelooy/api/tunnel/control/DOCUMENTATION.md",
-		"category": "API",
-		"provenance": "breadcrumb",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Tunnel Control API Documentation",
-				"anchor": "tunnel-control-api-documentation"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Tunnel Control API Documentation The Awtsmoos gives remote control a trusted account bound plane across device, preview, mission, compute, and treasury; Awtsmoos.com maps its many route families beside auth and realtime admission so client owner fields never become authority. Read ../../",
-		"searchText": "b\"h boruch hashem blessed is he tunnel control api documentation the awtsmoos gives remote control a trusted account bound plane across device, preview, mission, compute, and treasury; awtsmoos.com maps its many route families beside auth and realtime admission so client owner fields never become authority. read ../../../../docs/api/tunnel control.md, ../../../../docs/api/authentication.md, and ../../../../docs/websockets/mission rooms.md.",
-		"page": "pages/geelooy-api-tunnel-control-documentation-md-becfd8c936.json"
-	},
-	{
-		"id": "geelooy-api-tunnel-documentation-md-ddc3c1d7e8",
-		"title": "Tunnel API Documentation",
-		"sourcePath": "geelooy/api/tunnel/DOCUMENTATION.md",
-		"category": "API",
-		"provenance": "breadcrumb",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Tunnel API Documentation",
-				"anchor": "tunnel-api-documentation"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Tunnel API Documentation The Awtsmoos bridges request to remote vessel while control, install, and live relay remain separate layers in view; Awtsmoos.com maps base Tunnel status/client/request/filesystem routes beside deeper Control and WebSocket work too. Read ../../../docs/SYSTEMS/TUN",
-		"searchText": "b\"h boruch hashem blessed is he tunnel api documentation the awtsmoos bridges request to remote vessel while control, install, and live relay remain separate layers in view; awtsmoos.com maps base tunnel status/client/request/filesystem routes beside deeper control and websocket work too. read ../../../docs/systems/tunnel.md, ../../../docs/api/tunnel control.md, and ../../../docs/websockets/tunnel relay.md.",
-		"page": "pages/geelooy-api-tunnel-documentation-md-ddc3c1d7e8.json"
-	},
-	{
-		"id": "geelooy-api-tunnel-install-documentation-md-074970bfde",
-		"title": "Tunnel Installer API Documentation",
-		"sourcePath": "geelooy/api/tunnel/install/DOCUMENTATION.md",
-		"category": "API",
-		"provenance": "breadcrumb",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Tunnel Installer API Documentation",
-				"anchor": "tunnel-installer-api-documentation"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Tunnel Installer API Documentation The Awtsmoos lets a new vessel receive its agent through public installer artifacts while remote authority stays elsewhere; Awtsmoos.com maps Windows, Linux, Unix, bundles, manifest, and agent archive routes without confusing download with control layer",
-		"searchText": "b\"h boruch hashem blessed is he tunnel installer api documentation the awtsmoos lets a new vessel receive its agent through public installer artifacts while remote authority stays elsewhere; awtsmoos.com maps windows, linux, unix, bundles, manifest, and agent archive routes without confusing download with control layer trust. read ../../../../docs/api/other families.md and ../../../../docs/systems/tunnel.md.",
-		"page": "pages/geelooy-api-tunnel-install-documentation-md-074970bfde.json"
-	},
-	{
-		"id": "geelooy-api-wallet-documentation-md-39c91f6ac5",
-		"title": "Wallet API Documentation",
-		"sourcePath": "geelooy/api/wallet/DOCUMENTATION.md",
-		"category": "API",
-		"provenance": "breadcrumb",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Wallet API Documentation",
-				"anchor": "wallet-api-documentation"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Wallet API Documentation The Awtsmoos lets value move through balance, catalog, entitlement, purchase, mock, and provider paths with care; Awtsmoos.com maps Wallet beside PayPal configuration and commerce docs so no monetary contract is guessed from a route name there. Read ../../../docs",
-		"searchText": "b\"h boruch hashem blessed is he wallet api documentation the awtsmoos lets value move through balance, catalog, entitlement, purchase, mock, and provider paths with care; awtsmoos.com maps wallet beside paypal configuration and commerce docs so no monetary contract is guessed from a route name there. read ../../../docs/api/wallet.md, ../../../docs/apps/commerce and wallet.md, and ../../../docs/configuration.md.",
-		"page": "pages/geelooy-api-wallet-documentation-md-39c91f6ac5.json"
-	},
-	{
-		"id": "geelooy-api-youtube-docs-setup-md-b230bcce36",
-		"title": "B\"H — Awtsmoos YouTube integration",
-		"sourcePath": "geelooy/api/youtube/docs/SETUP.md",
-		"category": "API",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "B\"H — Awtsmoos YouTube integration",
-				"anchor": "b-h-awtsmoos-youtube-integration"
+				"text": "AI Agent Discovery",
+				"anchor": "ai-agent-discovery"
 			},
 			{
 				"level": 2,
-				"text": "Public manager",
-				"anchor": "public-manager"
+				"text": "Goal",
+				"anchor": "goal"
 			},
 			{
 				"level": 2,
-				"text": "Google Cloud configuration",
-				"anchor": "google-cloud-configuration"
+				"text": "Recommended order",
+				"anchor": "recommended-order"
 			},
 			{
 				"level": 2,
-				"text": "Secret installation",
-				"anchor": "secret-installation"
+				"text": "Route packet",
+				"anchor": "route-packet"
 			},
 			{
 				"level": 2,
-				"text": "Token model",
-				"anchor": "token-model"
+				"text": "Evidence rules",
+				"anchor": "evidence-rules"
 			},
 			{
 				"level": 2,
-				"text": "Upload model",
-				"anchor": "upload-model"
-			},
-			{
-				"level": 2,
-				"text": "API routes",
-				"anchor": "api-routes"
+				"text": "Efficient question",
+				"anchor": "efficient-question"
 			}
 		],
-		"excerpt": "B\"H — Awtsmoos YouTube integration Public manager The browser manager lives at /youtube/. A user connects Google with the server side OAuth flow, selects a YouTube channel, uploads videos, and updates owned video metadata. Google Cloud configuration Enable YouTube Data API v3 and create a Web application OAuth client. ",
-		"searchText": "b\"h — awtsmoos youtube integration public manager the browser manager lives at /youtube/. a user connects google with the server side oauth flow, selects a youtube channel, uploads videos, and updates owned video metadata. google cloud configuration enable youtube data api v3 and create a web application oauth client. the required production redirect uri is: the manager requests permissions incrementally through these modes: read: identity and youtube.readonly upload: read plus youtube.upload manage: upload plus youtube.force ssl for metadata and live broadcast changes secret installation the oauth json must never enter git. from a repository worktree, run: the script uses the repository's custom ssh and sftp implementation. it atomically installs the json at /root/.awtsmoos secrets/youtube/google oauth.json, creates independent session signing and token encryption keys, and applies mode 0700 to directories and 0600 to files. token model refresh and access tokens are encrypted with aes 256 gcm. each google subject receives a separate encrypted record under /root/.awtsmoos secrets/youtube/users. browser cookies contain only signed opaque identity state; google tokens never enter browser javascript. upload model awtsmoos authenticates the user and creates a google resumable upload session. the browser then sends the selected video directly to that google upload url. this keeps large media files out of awtsmoos process memory while preserving upload progress. api routes get /api/youtube/auth/start?mode=manage&returnto=/youtube/ get /api/youtube/oauth/callback get /api/youtube/auth/status post /api/youtube/auth/logout get /api/youtube/channel/mine post /api/youtube/uploads/start get /api/youtube/videos/list post /api/youtube/videos/update get /api/youtube/live/list post /api/youtube/live/create post /api/youtube/live/transition",
-		"page": "pages/geelooy-api-youtube-docs-setup-md-b230bcce36.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He AI Agent Discovery Goal Find the right files quickly without treating semantic search, generated evidence, or repository size as authority. Recommended order 1. llms.txt for compact navigation. 2. docs/README.md or /docs/ for human framing. 3. docs/LEARN/ when the task needs conceptual c",
+		"searchText": "b\"h boruch hashem blessed is he ai agent discovery goal find the right files quickly without treating semantic search, generated evidence, or repository size as authority. recommended order 1. llms.txt for compact navigation. 2. docs/readme.md or /docs/ for human framing. 3. docs/learn/ when the task needs conceptual context. 4. docs/ai/manifest.json for project discovery. 5. docs/ai/api tutorials/manifest.json for route teaching/discovery. 6. generated evidence for exhaustive lists. 7. current source and tests for final authority. route packet each ai tutorial record includes stable id, route, source, family/manual, derech health, dynamic parameters, source level method/vessel/status/header evidence, selected callers/tests, starter example only when method evidence exists, and related routes. evidence rules unknown method is unknown; caller match is navigation evidence, not runtime proof; lexical statuses/headers are not exhaustive runtime schemas; failed derech syntax weakens runtime confidence; generated family/test matching can be heuristic; source/test evidence wins when stale docs disagree. efficient question concept → human tutorial → route/project record → source → related callers/tests → runtime verification.",
+		"page": "pages/docs-learn-ai-agent-discovery-md-5371ffd118.json"
 	},
 	{
-		"id": "geelooy-api-youtube-documentation-md-7a7869cb77",
-		"title": "YouTube API Documentation",
-		"sourcePath": "geelooy/api/youtube/DOCUMENTATION.md",
-		"category": "API",
-		"provenance": "breadcrumb",
+		"id": "docs-learn-api-requests-101-md-30ca4256fb",
+		"title": "API Requests 101",
+		"sourcePath": "docs/LEARN/API_REQUESTS_101.md",
+		"category": "General",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "YouTube API Documentation",
-				"anchor": "youtube-api-documentation"
+				"text": "API Requests 101",
+				"anchor": "api-requests-101"
+			},
+			{
+				"level": 2,
+				"text": "What you will learn",
+				"anchor": "what-you-will-learn"
+			},
+			{
+				"level": 2,
+				"text": "Common vessels",
+				"anchor": "common-vessels"
+			},
+			{
+				"level": 2,
+				"text": "Method warning",
+				"anchor": "method-warning"
+			},
+			{
+				"level": 2,
+				"text": "Starter workflow",
+				"anchor": "starter-workflow"
+			},
+			{
+				"level": 2,
+				"text": "Examples",
+				"anchor": "examples"
+			},
+			{
+				"level": 2,
+				"text": "Next",
+				"anchor": "next"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He YouTube API Documentation The Awtsmoos lets account, channel, video, upload, live, and provider OAuth move through explicit routes and guarded keys; Awtsmoos.com maps this family to YouTube Manager and configuration docs without ever copying secrets into these leaves. Read ../../../docs/",
-		"searchText": "b\"h boruch hashem blessed is he youtube api documentation the awtsmoos lets account, channel, video, upload, live, and provider oauth move through explicit routes and guarded keys; awtsmoos.com maps this family to youtube manager and configuration docs without ever copying secrets into these leaves. read ../../../docs/api/youtube.md, ../../../docs/apps/media tools.md, and ../../../docs/configuration.md.",
-		"page": "pages/geelooy-api-youtube-documentation-md-7a7869cb77.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Requests 101 What you will learn How Awtsmoos handlers receive path variables, query/body/delete vessels, headers, cookies, trusted identity, and shared database context. Common vessels route variables are values bound from :name / :path patterns; $ GET is query oriented input eviden",
+		"searchText": "b\"h boruch hashem blessed is he api requests 101 what you will learn how awtsmoos handlers receive path variables, query/body/delete vessels, headers, cookies, trusted identity, and shared database context. common vessels route variables are values bound from :name / :path patterns; $ get is query oriented input evidence; $ post is parsed post/body oriented input evidence; $ delete appears in delete oriented handlers; $i is the broader dynamic request/context vessel; headers/cookies remain separate transport evidence; $i.db and related context can expose the initialized dosdb instance; trusted user/account identity comes from server auth, not browser owner fields. method warning generated route tutorials show source file lexical method evidence. a large route factory may contain several methods, while a particular route delegates to deeper handlers. unknown does not mean get. starter workflow 1. find the route in docs/generated/api tutorial index.md. 2. open its generated tutorial. 3. check derech health and method confidence. 4. read the exact source handler. 5. identify authorization and resource ownership. 6. only then construct body/query data. examples generated curl/fetch skeletons are emitted only when method evidence exists, and they deliberately use empty placeholder payloads rather than inventing schemas. next authentication 101 and responses 101.",
+		"page": "pages/docs-learn-api-requests-101-md-30ca4256fb.json"
 	},
 	{
-		"id": "geelooy-apps-android-emulator-documentation-md-16656cb8e6",
-		"title": "Android Emulator Documentation",
-		"sourcePath": "geelooy/apps/android-emulator/DOCUMENTATION.md",
-		"category": "Apps",
-		"provenance": "breadcrumb",
+		"id": "docs-learn-authentication-101-md-12645e54df",
+		"title": "Authentication 101",
+		"sourcePath": "docs/LEARN/AUTHENTICATION_101.md",
+		"category": "Security",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Android Emulator Documentation",
-				"anchor": "android-emulator-documentation"
+				"text": "Authentication 101",
+				"anchor": "authentication-101"
+			},
+			{
+				"level": 2,
+				"text": "What you will learn",
+				"anchor": "what-you-will-learn"
+			},
+			{
+				"level": 2,
+				"text": "Identity sources observed",
+				"anchor": "identity-sources-observed"
+			},
+			{
+				"level": 2,
+				"text": "Social API keys",
+				"anchor": "social-api-keys"
+			},
+			{
+				"level": 2,
+				"text": "Tunnel Control",
+				"anchor": "tunnel-control"
+			},
+			{
+				"level": 2,
+				"text": "Resource authorization",
+				"anchor": "resource-authorization"
+			},
+			{
+				"level": 2,
+				"text": "Other gates",
+				"anchor": "other-gates"
+			},
+			{
+				"level": 2,
+				"text": "Safe question sequence",
+				"anchor": "safe-question-sequence"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Android Emulator Documentation The Awtsmoos lets another machine world be simulated inside the browser through a large project vessel; Awtsmoos.com maps this app with games/simulation rather than treating its thousand file tree as a small utility level. Read ../../../docs/APPS/GAMES AND ",
-		"searchText": "b\"h boruch hashem blessed is he android emulator documentation the awtsmoos lets another machine world be simulated inside the browser through a large project vessel; awtsmoos.com maps this app with games/simulation rather than treating its thousand file tree as a small utility level. read ../../../docs/apps/games and simulation.md and ../../../docs/generated/app inventory.md.",
-		"page": "pages/geelooy-apps-android-emulator-documentation-md-16656cb8e6.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Authentication 101 What you will learn Why identity, authorization, ownership, origin policy, scopes, and realtime admission are separate questions. Identity sources observed signed server session state; verified Social API key evidence; OAuth bearer evidence; Tunnel Control API key evid",
+		"searchText": "b\"h boruch hashem blessed is he authentication 101 what you will learn why identity, authorization, ownership, origin policy, scopes, and realtime admission are separate questions. identity sources observed signed server session state; verified social api key evidence; oauth bearer evidence; tunnel control api key evidence; special privileged identity checks on selected administrative routes. social api keys social accepts key material through supported input/header/bearer forms. the raw secret is shown when created; sha 256 hash and metadata are persisted for verification/revocation. tunnel control core/auth.js treats oauth bearer, verified api key, or signed session state as authoritative. browser fields such as owner or userid do not become identity merely because a client sends them. resource authorization login is not enough for many social operations. heichel ownership/editor/member/moderation checks can gate writes after identity is established. other gates fetch checks authenticated state plus an awtsmoos origin condition and limits. /api/admin/code is a privileged execution surface. realtime mission rooms use origin/ticket/current authority/version admission before handshake. safe question sequence who are you? → what scope/role do you hold? → do you own/control this resource? → does transport/origin policy allow this request? → does current handler permit this method? see api authentication and security.",
+		"page": "pages/docs-learn-authentication-101-md-12645e54df.json"
 	},
 	{
-		"id": "geelooy-apps-animator-agent-prior-ledger-md-ba9dc773b9",
-		"title": "Remaining Work",
-		"sourcePath": "geelooy/apps/animator/.agent-prior-ledger.md",
-		"category": "Apps",
-		"provenance": "project",
+		"id": "docs-learn-content-platform-101-md-13e0c94c11",
+		"title": "Content Platform 101",
+		"sourcePath": "docs/LEARN/CONTENT_PLATFORM_101.md",
+		"category": "General",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Remaining Work",
-				"anchor": "remaining-work"
+				"text": "Content Platform 101",
+				"anchor": "content-platform-101"
+			},
+			{
+				"level": 2,
+				"text": "What you will learn",
+				"anchor": "what-you-will-learn"
+			},
+			{
+				"level": 2,
+				"text": "Core hierarchy",
+				"anchor": "core-hierarchy"
+			},
+			{
+				"level": 2,
+				"text": "Canonical and compatibility layers",
+				"anchor": "canonical-and-compatibility-layers"
+			},
+			{
+				"level": 2,
+				"text": "Trust",
+				"anchor": "trust"
+			},
+			{
+				"level": 2,
+				"text": "Beyond CRUD",
+				"anchor": "beyond-crud"
+			},
+			{
+				"level": 2,
+				"text": "Next",
+				"anchor": "next"
 			}
 		],
-		"excerpt": "B\"H Remaining Work [ ] Save and inspect git status. [ ] Read prior continuation notes and live changed files. [ ] Render fresh production baseline and crops. [ ] Generate fresh landmarks and bounds. [ ] Resolve Dovid crossed arm and shirt family. [ ] Complete Miriam overshirt, pocket arm, hand, skirt, and flats. [ ] Co",
-		"searchText": "b\"h remaining work [ ] save and inspect git status. [ ] read prior continuation notes and live changed files. [ ] render fresh production baseline and crops. [ ] generate fresh landmarks and bounds. [ ] resolve dovid crossed arm and shirt family. [ ] complete miriam overshirt, pocket arm, hand, skirt, and flats. [ ] complete ari jacket, open palm, chest fist, trousers, and shoes. [ ] review headwear, face, eyes, beards, and mouths against final evidence. [ ] implement true line hierarchy. [ ] refine palette after geometry. [ ] verify neutral and phoneme expressions. [ ] run and read all required tests and exit codes. [ ] re read every touched file. [ ] compare planned versus actual work. [ ] inspect piano export architecture after character acceptance. [ ] close only when direct evidence meets every acceptance criterion.",
-		"page": "pages/geelooy-apps-animator-agent-prior-ledger-md-ba9dc773b9.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Content Platform 101 What you will learn How Social identity, Heichel spaces, posts/questions/answers, series, comments, governance, search, mail, notifications, and drive fit together. Core hierarchy A user can own aliases. An alias is the Social facing identity. A Heichel is a governed",
+		"searchText": "b\"h boruch hashem blessed is he content platform 101 what you will learn how social identity, heichel spaces, posts/questions/answers, series, comments, governance, search, mail, notifications, and drive fit together. core hierarchy a user can own aliases. an alias is the social facing identity. a heichel is a governed content/community space. heichel content includes posts/questions/answers and can be organized through series. comments/replies attach to content and subsection/verse surfaces. governance decides who can edit, submit, moderate, approve, or publish. canonical and compatibility layers the social api contains both newer /content/... paths and many compatibility routes under /heichelos/.... series/post code intentionally preserves old path shapes while richer entity/content models evolve beside them. trust server session/api key identity is established first. resource authorization—owner/editor/member/moderation roles—is checked separately by content handlers. beyond crud social also contains profiles, follows, feeds, search/rag, graph/object apis, drive, mail, notifications, media, moderation, migrations, unified social adapters, and live/realtime features. next start social content model, then heichel/posts/series/comments/governance tutorials.",
+		"page": "pages/docs-learn-content-platform-101-md-13e0c94c11.json"
 	},
 	{
-		"id": "geelooy-apps-animator-ai-thoughts-2026-07-30-0243-dynamic-character-comp-80359ccd7a",
-		"title": "PLANNED VS ACTUAL DELTA",
-		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-07-30_0243_dynamic-character-completion/DELTA.md",
-		"category": "Apps",
-		"provenance": "project",
+		"id": "docs-learn-database-101-md-52f95ba46f",
+		"title": "Database 101",
+		"sourcePath": "docs/LEARN/DATABASE_101.md",
+		"category": "General",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "PLANNED VS ACTUAL DELTA",
-				"anchor": "planned-vs-actual-delta"
+				"text": "Database 101",
+				"anchor": "database-101"
 			},
 			{
 				"level": 2,
-				"text": "Planned",
-				"anchor": "planned"
+				"text": "What you will learn",
+				"anchor": "what-you-will-learn"
 			},
 			{
 				"level": 2,
-				"text": "Actual",
-				"anchor": "actual"
+				"text": "Main initialization",
+				"anchor": "main-initialization"
 			},
 			{
 				"level": 2,
-				"text": "Resolved Delta",
-				"anchor": "resolved-delta"
+				"text": "Root precedence",
+				"anchor": "root-precedence"
 			},
 			{
 				"level": 2,
-				"text": "Open Delta",
-				"anchor": "open-delta"
+				"text": "Why paths matter",
+				"anchor": "why-paths-matter"
+			},
+			{
+				"level": 2,
+				"text": "Safe workflow",
+				"anchor": "safe-workflow"
+			},
+			{
+				"level": 2,
+				"text": "Evidence",
+				"anchor": "evidence"
+			},
+			{
+				"level": 2,
+				"text": "Never infer",
+				"anchor": "never-infer"
 			}
 		],
-		"excerpt": "B\"H PLANNED VS ACTUAL DELTA Planned Wire face, gaze, blink, speech, body acting, gesture phases, hands, garments, secondary motion, views, customization, serialization, preview, scale proofs, and export. Preserve complete file rewrites, tabs, B\"H headers, poetic JSDoc, and JavaScript files below 120 lines. Actual All p",
-		"searchText": "b\"h planned vs actual delta planned wire face, gaze, blink, speech, body acting, gesture phases, hands, garments, secondary motion, views, customization, serialization, preview, scale proofs, and export. preserve complete file rewrites, tabs, b\"h headers, poetic jsdoc, and javascript files below 120 lines. actual all planned channels were connected through the production composition and rendering paths. legacy gesture doubling was removed. blink became single sourced. secondary motion became deterministic. persisted characters now exclude runtime caches and resurrect during startup. garments consume hem, sleeve, and sway channels. four production browser courts were captured. the complete repository verification command exits zero. resolved delta the full verification chain exposed a delighted expression contract below the required threshold. the canonical positive pose was restored to a 0.86 smile without changing neutral identity. the complete chain then passed. open delta none.",
-		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-07-30-0243-dynamic-character-comp-80359ccd7a.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Database 101 What you will learn How the server establishes DosDB, why persisted paths are compatibility contracts, and how route code receives shared database context. Main initialization ayzarim/awtsmoosDynamicServer/server/initDb.js selects the DB root and stores the initialized DosDB",
+		"searchText": "b\"h boruch hashem blessed is he database 101 what you will learn how the server establishes dosdb, why persisted paths are compatibility contracts, and how route code receives shared database context. main initialization ayzarim/awtsmoosdynamicserver/server/initdb.js selects the db root and stores the initialized dosdb on shared runtime context. root precedence current documented precedence is environment override → machine local ignored config → tracked config → repository fallback. inspect the initializer before relying on exact variable/file names. why paths matter social, sefarim, contact signals, identity/account state, and many older systems encode behavior in path shapes. renaming a path can be a migration, not a refactor. safe workflow 1. find every reader and writer of the path. 2. check legacy/new storage adapters. 3. find migration scripts/tests. 4. decide compatibility/fallback order. 5. back up or snapshot before mutation tooling. 6. update docs when persisted contracts change. evidence use docs/data/, docs/systems/database and storage.md, generated dependency/project indexes, and the exact route source. never infer an environment name mentioning db does not necessarily control the main dosdb instance; generator classification is advisory.",
+		"page": "pages/docs-learn-database-101-md-52f95ba46f.json"
+	},
+	{
+		"id": "docs-learn-http-routing-101-md-8c0aeafff5",
+		"title": "HTTP Routing 101",
+		"sourcePath": "docs/LEARN/HTTP_ROUTING_101.md",
+		"category": "General",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "HTTP Routing 101",
+				"anchor": "http-routing-101"
+			},
+			{
+				"level": 2,
+				"text": "What you will learn",
+				"anchor": "what-you-will-learn"
+			},
+			{
+				"level": 2,
+				"text": "Derech discovery",
+				"anchor": "derech-discovery"
+			},
+			{
+				"level": 2,
+				"text": "Matching grammar",
+				"anchor": "matching-grammar"
+			},
+			{
+				"level": 2,
+				"text": "Request flow",
+				"anchor": "request-flow"
+			},
+			{
+				"level": 2,
+				"text": "Evidence versus runtime",
+				"anchor": "evidence-versus-runtime"
+			},
+			{
+				"level": 2,
+				"text": "Try a trace",
+				"anchor": "try-a-trace"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He HTTP Routing 101 What you will learn How URLs meet awtsmoos.derech.js, how path variables work, and why generated route evidence can differ from runtime availability. Derech discovery The dynamic server walks ancestor directories looking for awtsmoos.derech.js. A derech can therefore own",
+		"searchText": "b\"h boruch hashem blessed is he http routing 101 what you will learn how urls meet awtsmoos.derech.js, how path variables work, and why generated route evidence can differ from runtime availability. derech discovery the dynamic server walks ancestor directories looking for awtsmoos.derech.js. a derech can therefore own nested source paths without each folder having its own mount file. matching grammar exact segment: /api/gpt/health variable: :name terminal catch all: :path dollar prefixed names such as $i, $ get, and $ post are request/context vessels, not url syntax. request flow 1. normalize the path. 2. locate the owning derech by ancestor discovery. 3. match route forms. 4. bind dynamic segment values. 5. invoke the owning route/handler logic. 6. if no dynamic route handles the request, continue toward static behavior. evidence versus runtime docs/generated/api route atlas.md is source derived. docs/generated/derech health.md tells whether each derech currently parses. text routes remain visible even though the text derech currently fails syntax checking. try a trace use trace a request with one route from api tutorial index.",
+		"page": "pages/docs-learn-http-routing-101-md-8c0aeafff5.json"
+	},
+	{
+		"id": "docs-learn-readme-md-ece31d9925",
+		"title": "Learn Awtsmoos.com",
+		"sourcePath": "docs/LEARN/README.md",
+		"category": "General",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Learn Awtsmoos.com",
+				"anchor": "learn-awtsmoos-com"
+			},
+			{
+				"level": 2,
+				"text": "Choose a track",
+				"anchor": "choose-a-track"
+			},
+			{
+				"level": 3,
+				"text": "Foundation",
+				"anchor": "foundation"
+			},
+			{
+				"level": 3,
+				"text": "Runtime builder",
+				"anchor": "runtime-builder"
+			},
+			{
+				"level": 3,
+				"text": "Content builder",
+				"anchor": "content-builder"
+			},
+			{
+				"level": 3,
+				"text": "AI investigator",
+				"anchor": "ai-investigator"
+			},
+			{
+				"level": 2,
+				"text": "Exhaustive reference beneath the lessons",
+				"anchor": "exhaustive-reference-beneath-the-lessons"
+			},
+			{
+				"level": 2,
+				"text": "Learning rule",
+				"anchor": "learning-rule"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Learn Awtsmoos.com The Awtsmoos lets a vast repository become a curriculum: begin with meaning, descend into generated evidence, and finish at current source and tests. Choose a track Foundation 1. Repository 101 2. Server Lifecycle 101 3. HTTP Routing 101 4. API Requests 101 5. Authenti",
+		"searchText": "b\"h boruch hashem blessed is he learn awtsmoos.com the awtsmoos lets a vast repository become a curriculum: begin with meaning, descend into generated evidence, and finish at current source and tests. choose a track foundation 1. repository 101 2. server lifecycle 101 3. http routing 101 4. api requests 101 5. authentication 101 6. responses 101 runtime builder database 101 websockets 101 trace a request add an api route troubleshoot apis content builder content platform 101 social content tutorials ai investigator ai agent discovery ai tutorial manifest exhaustive reference beneath the lessons generated api tutorial index contains one generated teaching page for every currently discovered api route. generated method/caller/test data is evidence, not an openapi promise. learning rule human tutorial → generated route tutorial → exact source → callers/tests → runtime verification. never reverse that order into guesswork.",
+		"page": "pages/docs-learn-readme-md-ece31d9925.json"
 	}
 ]

@@ -1,0 +1,100 @@
+<!-- B"H -->
+<!-- Boruch Hashem -->
+<!-- Blessed is He -->
+<!-- The Awtsmoos renews every gate before the screen can glow; Awtsmoos.com keeps hidden depth one gesture from the flow. -->
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+	<meta name="theme-color" content="#07101f">
+	<title>Ohrbound: Gates of Asiyah</title>
+	<link rel="stylesheet" href="./styles/base.css">
+	<link rel="stylesheet" href="./styles/menu.css">
+	<link rel="stylesheet" href="./styles/levels.css">
+	<link rel="stylesheet" href="./styles/game.css">
+	<link rel="stylesheet" href="./styles/touch.css">
+	<link rel="stylesheet" href="./styles/customizer.css">
+	<link rel="stylesheet" href="./styles/editor.css">
+	<link rel="stylesheet" href="./styles/advanced.css">
+	<link rel="stylesheet" href="./styles/motion.css">
+	<link rel="stylesheet" href="./styles/polish.css">
+	<link rel="stylesheet" href="./styles/hud-polish.css">
+</head>
+<body data-mode="menu">
+	<main class="app-shell">
+		<section class="menu-pane" data-pane="menu">
+			<header class="topbar">
+				<a class="brand-mark" href="/">AWTSMOOS</a>
+				<div class="topbar-tools">
+					<div class="identity-strip" data-identity>
+						<span data-identity-label>Finding your vessel…</span>
+						<button class="quiet-button" type="button" data-identity-login>Sign in</button>
+					</div>
+					<button class="icon-button" type="button" data-open-advanced aria-controls="advanced-drawer" aria-expanded="false" aria-label="Open experience controls">⌁</button>
+				</div>
+			</header>
+			<div class="menu-content">
+				<section class="hero">
+					<p class="eyebrow">48 procedural gates · one living journey</p>
+					<h1>Ohrbound</h1>
+					<p class="hero-copy">Run, rise, rest, and create through eight worlds rendered directly by the Awtsmoos Procedural Core.</p>
+					<div class="hero-actions">
+						<button class="quick-play-button" type="button" data-quick-play>
+							<span data-quick-play-label>Play now</span>
+							<small data-quick-play-meta>Begin with First Footfall</small>
+						</button>
+						<a class="secondary-button" href="#levels">Browse gates</a>
+					</div>
+				</section>
+				<section class="levels-panel" id="levels">
+					<div class="section-heading">
+						<span>Choose a world</span>
+						<small>Six stages at a time.</small>
+					</div>
+					<div data-levels></div>
+				</section>
+			</div>
+		</section>
+		<section class="game-pane" data-pane="game" hidden>
+			<div id="ohrbound-render-host" class="render-host" aria-label="Ohrbound procedural world"></div>
+			<header class="game-hud" data-game-hud data-compact="false">
+				<button class="hud-button" type="button" data-game-menu aria-label="Return to menu">☰</button>
+				<strong data-hud-title>Gate</strong>
+				<span data-hud-sparks>✦ 0/0</span>
+				<span data-hud-time>0.0s</span>
+				<button class="hud-button" type="button" data-open-advanced aria-controls="advanced-drawer" aria-expanded="false" aria-label="Open experience controls">⌁</button>
+			</header>
+			<p class="game-hint">Move · jump · find the gate</p>
+			<div class="mobile-controls" data-mobile-controls hidden>
+				<div class="joystick" data-joystick><span class="joystick-knob" data-joystick-knob></span></div>
+				<div class="touch-actions">
+					<button type="button" data-touch-action="restart" aria-label="Restart from checkpoint">↻</button>
+					<button class="jump-button" type="button" data-touch-action="jump" aria-label="Jump">↑</button>
+				</div>
+			</div>
+		</section>
+		<section class="editor-pane" data-pane="editor" hidden>
+			<header class="editor-header">
+				<div><small>Ohrbound Creator</small><h1>Build a gate</h1></div>
+				<button type="button" data-editor-close>Done</button>
+			</header>
+			<div class="editor-toolbar"><input type="text" maxlength="100" data-editor-title aria-label="Level title"><select data-editor-mode aria-label="Level mode"><option value="adventure">Adventure</option><option value="chill">Chill</option></select><div data-editor-palette></div></div>
+			<div class="editor-grid-scroll"><div data-editor-grid></div></div>
+			<div class="editor-actions"><button type="button" data-editor-undo>Undo</button><button type="button" data-editor-redo>Redo</button><button type="button" data-editor-import>Import</button><button type="button" data-editor-export>Export</button><button type="button" data-editor-test>Test</button><button class="primary-button" type="button" data-editor-publish>Publish</button></div>
+			<p class="editor-status" data-editor-status></p>
+		</section>
+	</main>
+	<aside class="advanced-overlay" id="advanced-drawer" data-advanced-drawer data-open="false" aria-hidden="true">
+		<section class="advanced-sheet">
+			<header class="advanced-heading"><div><small>Experience</small><h2>Quiet power</h2></div><button class="icon-button" type="button" data-advanced-close aria-label="Close experience controls">×</button></header>
+			<div class="advanced-actions"><button type="button" data-advanced-action="customize"><span>Character</span><small>Change your vessel</small></button><button type="button" data-advanced-action="create"><span>Creator</span><small>Build a gate</small></button></div>
+			<div class="preference-list"><label><span>Particles<small>Ambient WebGL depth</small></span><select data-pref="particles"><option value="off">Off</option><option value="low">Low</option><option value="standard">Standard</option></select></label><label><span>Quality<small>Battery to sharp</small></span><select data-pref="quality"><option value="battery">Battery</option><option value="balanced">Balanced</option><option value="sharp">Sharp</option></select></label><label><span>Motion<small>Interface + motes</small></span><select data-pref="motion"><option value="system">System</option><option value="reduced">Reduced</option></select></label><label><span>HUD<small>Retract while playing</small></span><select data-pref="hud"><option value="adaptive">Adaptive</option><option value="full">Always full</option></select></label><label class="toggle-row"><span>Control hints<small>Brief guidance in game</small></span><input type="checkbox" data-pref="hints"></label></div>
+		</section>
+	</aside>
+	<div class="toast" data-toast hidden></div>
+	<dialog id="character-dialog" class="focus-dialog"><div class="dialog-heading"><div><small>Character vessel</small><h2>Choose your light</h2></div><button type="button" data-character-close>×</button></div><p>Cosmetic only. Every vessel keeps the exact same hitbox and movement.</p><div class="character-grid" data-character-grid></div></dialog>
+	<dialog id="account-dialog" class="focus-dialog"><form method="dialog"><div class="dialog-heading"><div><small>Awtsmoos account</small><h2>Continue your journey</h2></div><button type="button" data-login-close>×</button></div><label>Username<input name="username" autocomplete="username" required></label><label>Password<input name="password" type="password" autocomplete="current-password" required></label><button class="primary-button" type="submit">Sign in</button><p data-login-status></p></form></dialog>
+	<script type="module" src="./src/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-zmanim-documentation-md-ebe14d8d2c",
+	"title": "Zmanim Public API",
+	"sourcePath": "geelooy/api/zmanim/DOCUMENTATION.md",
+	"category": "API",
+	"provenance": "breadcrumb",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Zmanim Public API",
+			"anchor": "zmanim-public-api"
+		},
+		{
+			"level": 2,
+			"text": "Entry point",
+			"anchor": "entry-point"
+		},
+		{
+			"level": 2,
+			"text": "Contract",
+			"anchor": "contract"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-zmanim-documentation-md-ebe14d8d2c-001.json"
+	]
+}

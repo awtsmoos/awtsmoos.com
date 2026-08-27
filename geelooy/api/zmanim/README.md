@@ -4,102 +4,84 @@ Blessed is He
 
 # Awtsmoos Zmanim Public API
 
-The Awtsmoos renews every measured instant while clients ask through JSON gates;
-Awtsmoos.com exposes one shared calculation engine so browser and API never invent competing dates.
+The Awtsmoos renews every measured instant while clients ask through JSON, comparison, and HTML gates;
+Awtsmoos.com exposes one shared calculation engine so browser, API, and embed never invent competing dates.
 
 ## Base paths
 
 Canonical: `/api/zmanim`
 Compatibility alias: `/api/zmanimms`
 
-Both paths execute the same route module. All endpoints are read-only and support public CORS. Core day and range calculations perform no external network request.
+Both paths execute the same read-only route module with public CORS. Daily and comparison calculation itself requires no external network request.
 
 ## Daily zmanim
 
 `GET /api/zmanim`
 `GET /api/zmanim/day`
 
-Required query parameters:
-- `lat`: latitude from -90 through 90.
-- `lng`: longitude from -180 through 180.
+Required: `lat` and `lng`.
 
-Optional parameters:
+Optional:
 - `date`: Gregorian `YYYY-MM-DD`; defaults to today in the requested timezone.
-- `timezone` or `tz`: valid IANA timezone; defaults to `UTC`.
-- `opinion`: `chabad`, `gra`, or `magenAvraham72`; defaults to `chabad`.
-- `label`: display label for the coordinates.
+- `timezone` or `tz`: IANA timezone; defaults to UTC.
+- `opinion`: one supported primary calculation profile; defaults to `chabad`.
+- `label`: display label.
 
-Example:
+The response contains location/timezone, one opinion, shaah zmanis, solar anchors, 18 canonical zmanim with ISO/local displays, and warnings.
 
-```text
-/api/zmanim/day?lat=40.6501&lng=-73.9496&date=2026-08-13&timezone=America%2FNew_York&opinion=chabad&label=Brooklyn
-```
+## Multi-opinion comparison
 
-The response includes location metadata, selected opinion, shaah zmanis duration, canonical solar anchors, 18 zmanim with ISO instants and localized display strings, and practical-use warnings.
+`GET /api/zmanim/compare`
 
-## Date ranges
+Uses the same location/date/timezone parameters as `/day` and adds:
+- `opinions=all` to calculate every shared supported profile.
+- `opinions=id1,id2,...` to calculate an explicit ordered subset.
+- `opinion=id` to request the primary profile inside that selected set.
+
+Unknown selected opinion ids return HTTP 400. With no `opinions` parameter, `/compare` returns the validated primary opinion as a one-column comparison instead of silently changing it.
+
+The comparison response deduplicates shared date/location/solar anchors and returns `calculations`, one serialized zmanim set per selected opinion.
+
+## Range and location
 
 `GET /api/zmanim/range`
 
-Use the daily location/opinion parameters plus:
-- `start`: first Gregorian date.
-- `days`: integer from 1 through 31; defaults to 7.
-
-Each returned day is generated through the same daily service used by `/day`.
-
-## Worldwide location search
+Uses daily parameters plus `start` and `days` from 1 through 31.
 
 `GET /api/zmanim/location?q=11213&count=5`
 
-`q` accepts city names or postal/ZIP codes. Search text is bounded to 2-160 characters and `count` to 1-10. Results use the same normalized Open-Meteo geocoder adapter as the browser application.
+Search accepts city names and postal/ZIP codes through the same geocoder adapter as the browser.
 
-## Opinions and methodology
+## Presentation and embeds
+
+`GET /api/zmanim/options`
+
+Returns the exact browser-supported view, sky, theme, density, motion, section choices, defaults, named embed presets, and JSON day/comparison endpoints.
+
+`GET /api/zmanim/embed`
+
+Returns standalone semantic `text/html` generated from the same calculation services. Add `opinions=all` or a comma-separated subset to render a horizontally scrollable comparison matrix. See `EMBEDS.md`.
+
+## Calculation metadata
 
 `GET /api/zmanim/opinions`
-
-Returns supported calculation profiles directly from the shared configuration.
-
 `GET /api/zmanim/methodology`
 
-Returns the public zman definitions, key Chabad solar-angle anchors, and source provenance.
+These endpoints expose the canonical shared opinion universe, definitions, angles, and source provenance.
 
-## U.S. Naval Observatory comparison
+## Independent comparison and health
 
 `GET /api/zmanim/usno`
-
-Accepts the daily location/date parameters and returns local standard sunrise/sunset alongside U.S. Naval Observatory phenomena and minute differences. This endpoint is optional validation and is never required by `/day` or `/range`.
-
-## Health
-
 `GET /api/zmanim/health`
 
-Loads the shared ESM calculation engine inside the API process and returns API version, health, default opinion, supported opinions, and server time.
+USNO comparison is optional and external; `/day`, `/compare`, and `/range` never depend on it.
 
-## Errors
+## Errors and verification
 
-Invalid user input returns HTTP 400:
-
-```json
-{
-	"BH": "B\"H",
-	"ok": false,
-	"apiVersion": "1.0.0",
-	"error": {
-		"code": "INVALID_OPINION",
-		"message": "Unknown opinion: mystery.",
-		"field": "opinion"
-	}
-}
-```
-
-Unexpected failures return a generic 500 response without private stack traces.
-
-## Verification
-
-From the repository root:
+Invalid input returns HTTP 400 with a bounded error. Unexpected failures return a generic 500 without private stack traces. HTML embeds return escaped HTML error documents with equivalent status semantics.
 
 ```text
 node --test geelooy/api/zmanim/test/*.test.cjs geelooy/zmanim/tests/*.test.mjs
 ```
 
-The real Awtsmoos dynamic router has also been verified over HTTP for canonical and alias routes, location lookup, USNO, CORS, OPTIONS, valid calculations, and invalid-request status codes.
+Also verify `/day`, `/compare`, `/options`, `/embed`, CORS/OPTIONS, invalid selected opinions, and comparison HTML over real HTTP.

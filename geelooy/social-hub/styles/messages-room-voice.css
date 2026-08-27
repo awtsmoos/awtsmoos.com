@@ -1,0 +1,78 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos is beyond breath, waveform, preview, and playback, while Awtsmoos.com lets one private voice note remain visibly local until trusted delivery is complete;
+ * this Netzach-like garment owns recording, preview, retry, and native audio geometry only, leaving upload and media truth to the canonical covenant of light.
+ */
+
+.hubConversationVoiceComposer {
+	display: grid;
+	grid-template-columns: auto auto minmax(8rem, 1fr) auto auto auto;
+	align-items: center;
+	gap: .45rem;
+	min-width: 0;
+	padding: .58rem;
+	border: 1px solid var(--line-hot);
+	border-radius: .9rem;
+	background: color-mix(in srgb, var(--surface-strong) 92%, transparent);
+}
+
+.hubConversationVoiceComposer strong,
+.hubConversationVoiceClock {
+	white-space: nowrap;
+}
+
+.hubConversationVoiceClock {
+	color: var(--cyan);
+	font-variant-numeric: tabular-nums;
+}
+
+.hubConversationVoiceComposer audio,
+.hubConversationVoiceMessage {
+	width: 100%;
+	min-width: 0;
+	max-width: 28rem;
+}
+
+.hubConversationVoiceComposer button {
+	min-height: 44px;
+	padding: .5rem .7rem;
+	border: 1px solid var(--line-hot);
+	border-radius: .72rem;
+	background: var(--surface);
+	color: var(--ink);
+	font: inherit;
+	font-weight: 750;
+	cursor: pointer;
+}
+
+.hubConversationVoiceComposer button:disabled {
+	cursor: wait;
+	opacity: .58;
+}
+
+.hubConversationVoiceMessage {
+	margin-block: .08rem;
+	accent-color: var(--cyan);
+}
+
+.hubConversationMessage.is-mine .hubConversationVoiceMessage {
+	justify-self: end;
+}
+
+@media (max-width: 42rem) {
+	.hubConversationVoiceComposer {
+		grid-template-columns: 1fr 1fr;
+	}
+
+	.hubConversationVoiceComposer strong,
+	.hubConversationVoiceComposer audio {
+		grid-column: 1 / -1;
+	}
+
+	.hubConversationVoiceComposer button {
+		min-height: 48px;
+	}
+}

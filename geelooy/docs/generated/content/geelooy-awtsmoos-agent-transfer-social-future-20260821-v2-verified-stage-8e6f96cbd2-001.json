@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# YouTube Migration · Verified Stage\n\nThe Awtsmoos preserves this verified staging copy as deployment evidence while Awtsmoos.com keeps current behavior grounded in the live YouTube migration source.\n\nThe staged contract covers Google Takeout archives, owned-video downloads, advanced creator-owned `yt-dlp` workflows, playlist-to-Series provenance, chronology preservation, captions/transcripts, optional Archive.org workflows, dry planning, idempotent unified-social publication, and resumable checkpoints.\n\nFor current runtime behavior use `geelooy/youtube/DOCUMENTATION.md`, `/youtube/`, and `/youtube/migrate/`. This directory is transfer evidence, not the live authority.\n"
+}

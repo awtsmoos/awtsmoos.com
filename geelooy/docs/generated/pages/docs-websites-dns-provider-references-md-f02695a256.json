@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-websites-dns-provider-references-md-f02695a256",
+	"title": "Official DNS Provider References",
+	"sourcePath": "docs/WEBSITES/DNS_PROVIDER_REFERENCES.md",
+	"category": "General",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Official DNS Provider References",
+			"anchor": "official-dns-provider-references"
+		},
+		{
+			"level": 2,
+			"text": "Cloudflare",
+			"anchor": "cloudflare"
+		},
+		{
+			"level": 2,
+			"text": "GoDaddy",
+			"anchor": "godaddy"
+		},
+		{
+			"level": 2,
+			"text": "Namecheap",
+			"anchor": "namecheap"
+		},
+		{
+			"level": 2,
+			"text": "Squarespace Domains",
+			"anchor": "squarespace-domains"
+		},
+		{
+			"level": 2,
+			"text": "Amazon Route 53",
+			"anchor": "amazon-route-53"
+		},
+		{
+			"level": 2,
+			"text": "Awtsmoos rule",
+			"anchor": "awtsmoos-rule"
+		}
+	],
+	"markdownParts": [
+		"content/docs-websites-dns-provider-references-md-f02695a256-001.json"
+	]
+}

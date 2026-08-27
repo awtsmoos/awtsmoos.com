@@ -1,0 +1,87 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos is beyond day, twilight, compass, and every created color entering sight;
+ * Awtsmoos.com lets measured solar altitude clothe the fallback atmosphere while azimuth receives an exact panoramic guide through night.
+ */
+
+.celestial-sky[data-sky-phase="day"] {
+	background:
+		radial-gradient(circle at 50% 112%, rgba(255, 225, 160, .3), transparent 44%),
+		linear-gradient(180deg, #236fa8 0%, #65a9cf 56%, #d8bc82 100%);
+}
+
+.celestial-sky[data-sky-phase="civil-twilight"] {
+	background:
+		radial-gradient(circle at 50% 108%, rgba(255, 142, 76, .36), transparent 43%),
+		linear-gradient(180deg, #142746 0%, #654967 58%, #d37550 100%);
+}
+
+.celestial-sky[data-sky-phase="nautical-twilight"] {
+	background:
+		radial-gradient(circle at 50% 108%, rgba(205, 97, 76, .18), transparent 41%),
+		linear-gradient(180deg, #07142c 0%, #162b48 61%, #55425c 100%);
+}
+
+.celestial-sky[data-sky-phase="night"] {
+	background:
+		radial-gradient(circle at 50% 112%, rgba(53, 121, 105, .13), transparent 39%),
+		linear-gradient(180deg, #010610 0%, #071327 58%, #10271f 100%);
+}
+
+.celestial-cardinals {
+	position: absolute;
+	z-index: 6;
+	inset: 0;
+	pointer-events: none;
+	color: rgba(226, 243, 237, .64);
+	font-size: .58rem;
+	font-weight: 820;
+	letter-spacing: .12em;
+	text-shadow: 0 1px 6px rgba(0, 0, 0, .55);
+}
+
+.celestial-cardinals span,
+.celestial-cardinals::after {
+	position: absolute;
+	bottom: .48rem;
+	transform: translateX(-50%);
+}
+
+.celestial-cardinals span:nth-child(1) {
+	left: .6rem;
+	transform: none;
+}
+
+.celestial-cardinals span:nth-child(2) {
+	left: 25%;
+}
+
+.celestial-cardinals span:nth-child(3) {
+	left: 50%;
+}
+
+.celestial-cardinals span:nth-child(4) {
+	left: 75%;
+}
+
+.celestial-cardinals::after {
+	right: .6rem;
+	transform: none;
+	content: "N";
+}
+
+.celestial-sky-unavailable {
+	display: grid;
+	place-items: center;
+	padding: 2rem;
+	color: var(--ink-soft);
+	text-align: center;
+}
+
+@media (max-width: 430px) {
+	.celestial-cardinals {
+		font-size: .54rem;
+	}
+}

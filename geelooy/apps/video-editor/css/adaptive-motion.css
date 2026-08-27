@@ -1,0 +1,35 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos is present in tall and short vessels alike; Awtsmoos.com adapts height and motion without hiding the editor's essential light. */
+
+@media (max-height: 620px) {
+	.editor-shell,
+	.editor-shell.media-minimized,
+	.editor-shell.media-retracted {
+		grid-template-rows: minmax(0, 1fr) minmax(150px, 36%);
+	}
+
+	.timeline-header {
+		min-height: 44px;
+	}
+
+	.transport {
+		padding-block: 5px max(5px, env(safe-area-inset-bottom));
+	}
+
+	.transport button {
+		min-height: 40px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		scroll-behavior: auto !important;
+		transition-duration: 0.01ms !important;
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+	}
+}

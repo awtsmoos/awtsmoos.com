@@ -24,19 +24,19 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-heichel-review-b8b78ec5.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 26,
-		"tests": 2,
+		"source": 34,
+		"tests": 4,
 		"assets": 0,
 		"generated": 0,
 		"docs": 2,
 		"other": 0
 	},
-	"totalFiles": 30,
+	"totalFiles": 40,
 	"symbolSummary": {
-		"files": 13,
-		"classes": 8,
-		"functions": 14,
-		"exports": 12,
+		"files": 19,
+		"classes": 10,
+		"functions": 37,
+		"exports": 18,
 		"samples": [
 			"GovernanceApi",
 			"renderInvitations",
@@ -45,11 +45,11 @@
 			"memberCard",
 			"GovernanceMutations",
 			"GovernancePanel",
+			"reviewActionPolicy",
+			"reviewActionNames",
 			"ReviewApi",
-			"ReviewController",
-			"async",
-			"decideSubmission",
-			"ReviewDetail"
+			"ensureConsequenceSurface",
+			"setDecisionFieldVisibility"
 		]
 	},
 	"outgoingDependencies": [

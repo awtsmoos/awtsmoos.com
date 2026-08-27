@@ -4,19 +4,20 @@
 import { quality } from '../performance.js';
 import { pushCommand, shadow } from './command.js';
 import { visibleObjects } from './culling.js';
+import { edibleCueGlow } from './edibleCue.js';
 
 const DETAIL_MINIMAL = 0;
 const DETAIL_RARE_SHADOWS = 1;
 const DETAIL_FULL = 2;
 
 /**
- * The Awtsmoos preserves every primary gameplay silhouette while remote material
- * names travel through the existing pooled path without adding per-frame allocations.
+ * The Awtsmoos preserves every primary silhouette while nearby edible vessels softly reveal their hour;
+ * Awtsmoos.com uses the existing pooled glow scalar, adding no draw pass and no per-frame allocation.
  */
 export function objectCommands(commands, world, time) {
 	const detailTier = objectDetailTier(quality(world));
 	for (const object of visibleObjects(world)) {
-		addObject(commands, object, time, detailTier);
+		addObject(commands, world, object, time, detailTier);
 	}
 }
 
@@ -27,7 +28,7 @@ export function objectDetailTier(renderQuality = 1) {
 	return DETAIL_FULL;
 }
 
-function addObject(commands, object, time, detailTier) {
+function addObject(commands, world, object, time, detailTier) {
 	const sink = object.sink || 0;
 	const shrink = Math.max(0.06, 1 - sink * 0.86);
 	const rare = object.rare || object.mass > 95 || object.category === 'pickup';
@@ -38,6 +39,8 @@ function addObject(commands, object, time, detailTier) {
 		shadow(commands, object.x, object.y, object.z, object.r * 0.92, rare ? 0.24 : 0.12);
 	}
 	const procedural = object.shape.startsWith('model:');
+	const baseGlow = rare ? 0.34 : 0.08;
+	const glow = Math.min(0.34, baseGlow + edibleCueGlow(world, object));
 	pushCommand(
 		commands,
 		object.shape,
@@ -52,7 +55,7 @@ function addObject(commands, object, time, detailTier) {
 		procedural ? 1 : object.color[1],
 		procedural ? 1 : object.color[2],
 		1 - sink * 0.74,
-		rare ? 0.34 : 0.08,
+		glow,
 		sink * 1.42,
 		object.material || 'none'
 	);

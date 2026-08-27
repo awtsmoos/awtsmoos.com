@@ -4,22 +4,26 @@
 
 import { createSheet } from "../model/workbook.js";
 import { Requests } from "../realtime/protocol.js";
+import {
+	applyRangeStyle,
+	applyRangeValues
+} from "./rangeMutations.js";
+import { GevurahStructureActions } from "./structureActions.js";
 
 /**
- * @file Gives UI controllers one capability-aware command surface for workbook mutations.
+ * @file Gives UI controllers one capability-aware command surface for workbook and structural mutations.
  * @description The Awtsmoos joins local draft and shared document without mixing their gate;
- * Awtsmoos.com sends durable work through realtime while local work remains useful in its state.
+ * Awtsmoos.com lets dimension, value, and style inherit beside one another in ordered state.
  */
-export class GevurahWorkbookActions {
-	constructor(workbook, session) {
-		this.workbook = workbook;
-		this.session = session;
-	}
-
+export class GevurahWorkbookActions extends GevurahStructureActions {
 	/** Commits one raw value locally or through the authoritative shared workbook. */
 	async cell(address, value) {
 		if (!this.workbook.data.id) {
-			this.workbook.patchCell(this.workbook.activeSheetId, address, { value });
+			this.workbook.patchCell(
+				this.workbook.activeSheetId,
+				address,
+				{ value }
+			);
 			return;
 		}
 		await this.session.mutate(Requests.cellUpdate, {
@@ -29,31 +33,23 @@ export class GevurahWorkbookActions {
 		});
 	}
 
-	/** Commits a bounded group of value patches as one collaborative revision. */
+	/** Commits every value patch locally or through server-safe collaborative batches. */
 	async values(patches) {
-		if (!Array.isArray(patches) || !patches.length) {
-			return;
-		}
-		if (!this.workbook.data.id) {
-			for (const patch of patches) {
-				this.workbook.patchCell(
-					this.workbook.activeSheetId,
-					patch.address,
-					{ value: patch.value }
-				);
-			}
-			return;
-		}
-		await this.session.mutate(Requests.rangeValues, {
-			patches: patches.slice(0, 500),
-			sheetId: this.workbook.activeSheetId
-		});
+		return await applyRangeValues(
+			this.workbook,
+			this.session,
+			patches
+		);
 	}
 
 	/** Stores one note separately from cell text. */
 	async note(address, note) {
 		if (!this.workbook.data.id) {
-			this.workbook.patchCell(this.workbook.activeSheetId, address, { note });
+			this.workbook.patchCell(
+				this.workbook.activeSheetId,
+				address,
+				{ note }
+			);
 			return;
 		}
 		await this.session.mutate(Requests.noteSet, {
@@ -63,19 +59,14 @@ export class GevurahWorkbookActions {
 		});
 	}
 
-	/** Applies one supported style patch across the selected address list. */
+	/** Applies one supported style patch to every requested address without clipping the range. */
 	async style(addresses, style) {
-		if (!this.workbook.data.id) {
-			for (const address of addresses) {
-				this.workbook.patchCell(this.workbook.activeSheetId, address, { style });
-			}
-			return;
-		}
-		await this.session.mutate(Requests.rangeStyle, {
+		return await applyRangeStyle(
+			this.workbook,
+			this.session,
 			addresses,
-			sheetId: this.workbook.activeSheetId,
 			style
-		});
+		);
 	}
 
 	/** Adds a local or server-identified worksheet. */
@@ -94,7 +85,10 @@ export class GevurahWorkbookActions {
 			this.workbook.renameSheet(sheetId, name);
 			return;
 		}
-		await this.session.mutate(Requests.sheetRename, { name, sheetId });
+		await this.session.mutate(
+			Requests.sheetRename,
+			{ name, sheetId }
+		);
 	}
 
 	/** Renames the workbook locally or durably according to its current materialization. */
@@ -109,11 +103,17 @@ export class GevurahWorkbookActions {
 
 	/** Changes owner-only workbook visibility. */
 	async visibility(visibility) {
-		return await this.session.share(Requests.shareUpdate, { visibility });
+		return await this.session.share(
+			Requests.shareUpdate,
+			{ visibility }
+		);
 	}
 
 	/** Adds one verified account identifier to the durable editor ACL. */
 	async invite(editorId) {
-		return await this.session.share(Requests.shareInvite, { editorId });
+		return await this.session.share(
+			Requests.shareInvite,
+			{ editorId }
+		);
 	}
 }

@@ -1,5 +1,0 @@
-{
-	"BH": "B\"H / Boruch Hashem / Blessed is He",
-	"schema": "awtsmoos-doc-content-v1",
-	"content": "B\"H\n\n# PERSISTENCE_AUDIT\n\n## Persisted authored data\n\n- Three neutral identities and render-adapter values.\n- Wardrobe, body, face, hair, and persistent design traits.\n- Nine dialogue lines and deterministic lip-sync cues.\n- Gaze, emotion, gesture, gesture phase, locked contact, lean, and camera-relative performance.\n- Ten shots, three sequences, title cards, text boxes, asset uses, and native NLE clips.\n\n## Restoration evidence\n\n- JSON round-trip preserved exact 60000ms duration.\n- Identity IDs preserved in order.\n- First dialogue line's complete lip-sync cue array preserved.\n- Text boxes preserved.\n- Restored `NLEStore` contained the exact compiled clip count.\n- `ProjectPackageAssembler` retained exact 60000ms production plan and timeline.\n\n## Excluded transient data\n\nVerified absent from serialized/project-package output:\n\n- `_stablePose`\n- canvas/context references\n- frame-local time state\n- Blob URLs and runtime audio URLs\n- functions and cyclic renderer state\n\nResult: PASS.\n"
-}

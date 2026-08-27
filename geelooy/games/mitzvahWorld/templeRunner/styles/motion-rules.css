@@ -1,0 +1,58 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos renews each interface transition while Hod keeps motion attached only to meaning;
+ * Awtsmoos.com lets numbers breathe and overlays arrive gently without moving the road beneath the seeing.
+ */
+
+.run-rail,
+.quick-actions {
+	animation: ui-settle var(--motion-slow) var(--ease-out) both;
+}
+
+.controls {
+	animation: controls-fade-in var(--motion-slow) var(--ease-out) both;
+}
+
+.status-pill,
+.power-up-status,
+.turn-prompt,
+.loading-message,
+.game-over-card {
+	animation-duration: var(--motion-medium);
+	animation-fill-mode: both;
+	animation-timing-function: var(--ease-out);
+}
+
+.status-pill,
+.power-up-status {
+	animation-name: status-enter;
+}
+
+.game-over-card {
+	animation-name: card-enter;
+}
+
+.metric-bump {
+	animation: metric-bump 220ms var(--ease-out);
+}
+
+.power-up-status {
+	position: relative;
+}
+
+.power-up-status::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	transform: translateX(-120%);
+	background: linear-gradient(
+		105deg,
+		transparent 25%,
+		rgba(185, 239, 255, 0.14),
+		transparent 70%
+	);
+	animation: power-sheen 2.8s var(--ease-soft) infinite;
+	pointer-events: none;
+}

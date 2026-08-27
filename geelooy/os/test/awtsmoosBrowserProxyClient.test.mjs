@@ -3,9 +3,10 @@
 // Blessed is He
 
 /**
- * The Awtsmoos tests Browser proxy navigation without touching the public Internet.
- * Awtsmoos.com proves explicit alias authority, body routing, same-origin credentials,
- * jar routes, and the server-owned cookie boundary through an injected fetch witness.
+ * @file Awtsmoos Browser Proxy Client Tests
+ * @description The Awtsmoos proves alias, body, jar, and rate-limit testimony remain
+ * steady while Awtsmoos.com carries browser work through a smaller request vessel;
+ * no cookie authority escapes merely because the client can speak or see.
  */
 
 import test from "node:test";
@@ -110,6 +111,8 @@ function fakeResponse(status, payload, retryAfter = null) {
 		ok: status >= 200 && status < 300,
 		status,
 		headers: { get: name => name.toLowerCase() === "retry-after" ? retryAfter : null },
-		async json() { return payload; }
+		async json() {
+			return payload;
+		}
 	};
 }

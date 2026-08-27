@@ -5,74 +5,101 @@
 const { cleanText } = require('./TextSanitizer.js');
 
 /**
- * SourceProvenanceSchema keeps imported history typed, bounded, and secret-free.
- * The Awtsmoos recreates every instant yet origin may still be truthfully named;
- * Awtsmoos.com preserves provider, date, archive, playlists, and transcripts without credentials being claimed.
+ * @module SourceProvenanceSchema
+ * @description
+ * The Awtsmoos lets imported memory carry its former address without becoming the former network;
+ * Awtsmoos.com preserves bounded provenance for YouTube, Facebook, Instagram, and future trusted migrations.
  */
-function parse(value) {
-	if (!value) return {};
+function parse(value, fallback) {
+	if (value === undefined || value === null || value === '') return fallback;
 	if (typeof value === 'object') return value;
 	try {
 		return JSON.parse(value);
 	} catch {
-		return {};
+		return fallback;
 	}
 }
 
-function cleanUrl(value) {
-	const text = cleanText(value, 1400);
-	return /^https:\/\/[^\s]+$/i.test(text) ? text : '';
+function cleanUrl(value = '') {
+	const text = cleanText(value, 2000);
+	return /^https:\/\//i.test(text) ? text : '';
 }
 
-function normalizeUrls(values = [], maximum = 40) {
-	if (!Array.isArray(values)) return [];
-	return [...new Set(values.slice(0, maximum).map(cleanUrl).filter(Boolean))];
+function normalizeUrls(value, max = 40) {
+	const list = parse(value, []);
+	return (Array.isArray(list) ? list : [])
+		.map(cleanUrl)
+		.filter(Boolean)
+		.slice(0, max);
 }
 
-function normalizePlaylists(values = []) {
-	if (!Array.isArray(values)) return [];
-	return values.slice(0, 24).map(item => ({
-		id: cleanText(item?.id, 180),
-		title: cleanText(item?.title, 300),
-		index: Math.max(0, Number(item?.index || 0))
-	})).filter(item => item.id || item.title);
+function normalizePaths(value, max = 40) {
+	const list = parse(value, []);
+	return [...new Set((Array.isArray(list) ? list : [])
+		.map(item => cleanText(item, 1600))
+		.filter(Boolean))].slice(0, max);
 }
 
-function normalizeArchive(value = {}) {
-	const item = parse(value);
+function normalizePlaylists(value) {
+	const list = parse(value, []);
+	return (Array.isArray(list) ? list : []).slice(0, 24).map(item => ({
+		id: cleanText(item?.id, 160),
+		title: cleanText(item?.title, 400),
+		url: cleanUrl(item?.url)
+	}));
+}
+
+function normalizeProfile(value = {}) {
+	const profile = parse(value, {});
 	return {
-		identifier: cleanText(item.identifier, 180),
-		itemUrl: cleanUrl(item.itemUrl),
-		mediaUrl: cleanUrl(item.mediaUrl),
-		infoJsonUrl: cleanUrl(item.infoJsonUrl),
-		transcriptUrls: normalizeUrls(item.transcriptUrls)
+		id: cleanText(profile?.id, 240),
+		name: cleanText(profile?.name || profile?.username, 400),
+		url: cleanUrl(profile?.url)
 	};
 }
 
-function normalizeSourceProvenance(value = {}) {
-	const item = parse(value);
-	const languages = Array.isArray(item.transcriptLanguages)
-		? item.transcriptLanguages.slice(0, 40).map(language => cleanText(language, 40)).filter(Boolean)
-		: [];
+function normalizeArchive(value = {}) {
+	const archive = parse(value, {});
 	return {
-		provider: cleanText(item.provider, 40),
-		sourceId: cleanText(item.sourceId, 180),
-		sourceUrl: cleanUrl(item.sourceUrl),
-		channelId: cleanText(item.channelId, 180),
-		channelUrl: cleanUrl(item.channelUrl),
-		publishedAt: cleanText(item.publishedAt, 80),
-		rawUploadDate: cleanText(item.rawUploadDate, 20),
-		playlists: normalizePlaylists(item.playlists),
-		archive: normalizeArchive(item.archive),
-		transcriptLanguages: [...new Set(languages)],
-		commentCount: Math.max(0, Number(item.commentCount || 0)),
-		importedAt: cleanText(item.importedAt, 80)
+		identifier: cleanText(archive?.identifier, 240),
+		itemUrl: cleanUrl(archive?.itemUrl),
+		mediaUrl: cleanUrl(archive?.mediaUrl),
+		infoJsonUrl: cleanUrl(archive?.infoJsonUrl),
+		transcriptUrls: normalizeUrls(archive?.transcriptUrls, 24),
+		rawPath: cleanText(archive?.rawPath, 1600),
+		mediaPaths: normalizePaths(archive?.mediaPaths, 40)
+	};
+}
+
+function safeCount(value) {
+	const number = Number(value);
+	return Number.isFinite(number) && number >= 0 ? Math.floor(number) : 0;
+}
+
+function normalizeSourceProvenance(value = {}) {
+	const input = parse(value, {});
+	return {
+		provider: cleanText(input?.provider, 80),
+		sourceId: cleanText(input?.sourceId, 240),
+		sourceUrl: cleanUrl(input?.sourceUrl),
+		sourceType: cleanText(input?.sourceType, 80),
+		sourceProfile: normalizeProfile(input?.sourceProfile),
+		channelId: cleanText(input?.channelId, 240),
+		channelUrl: cleanUrl(input?.channelUrl),
+		publishedAt: cleanText(input?.publishedAt, 80),
+		rawUploadDate: cleanText(input?.rawUploadDate, 80),
+		playlists: normalizePlaylists(input?.playlists),
+		archive: normalizeArchive(input?.archive),
+		transcriptLanguages: normalizePaths(input?.transcriptLanguages, 32),
+		reactionCount: safeCount(input?.reactionCount),
+		commentCount: safeCount(input?.commentCount),
+		shareCount: safeCount(input?.shareCount),
+		importedAt: cleanText(input?.importedAt, 80)
 	};
 }
 
 module.exports = {
-	normalizeSourceProvenance,
-	normalizePlaylists,
-	normalizeArchive,
-	normalizeUrls
+	parse,
+	cleanUrl,
+	normalizeSourceProvenance
 };

@@ -1,243 +1,83 @@
 [
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-games-kabbalah-shooter-4073f72e16",
-		"title": "Project Tutorial: Kabbalah Infinite — The Breaking of Vessels",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-kabbalah-shooter-5fd11ab3.md",
+		"id": "docs-generated-project-tutorial-index-projects-001-md-0fa25b4558",
+		"title": "Project Tutorial Index 1–45",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIAL_INDEX/projects-001.md",
 		"category": "Projects",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: Kabbalah Infinite — The Breaking of Vessels",
-				"anchor": "project-tutorial-kabbalah-infinite-the-breaking-of-vessels"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Project Tutorial Index 1–45",
+				"anchor": "project-tutorial-index-1-45"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Kabbalah Infinite — The Breaking of Vessels Path: geelooy/games/kabbalah shooter · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observa",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: kabbalah infinite — the breaking of vessels path: geelooy/games/kabbalah shooter · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, main.js, package.json, documentation.md local documentation: geelooy/games/kabbalah shooter/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 38 0 0 0 1 0 39 public entry points /games/kabbalah shooter → geelooy/games/kabbalah shooter/index.html — kabbalah infinite — the breaking of vessels symbol evidence source files: 35; classes: 32; functions: 16; exports: 61; samples: config, hebrew letters, colors, sprites, audiosynth, settings, weapons, sounds, scales, sefirot, traits, spells. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-kabbalah-shooter-4073f72e16.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial Index 1–45 Every discovered project boundary linked to generated evidence teaching. Project Type Files Tests Public entries Tutorial ai thoughts evidence 75 0 0 tutorial ai thoughts alias 8663 100 0 tutorial awtsmoos.com project 8 0 0 tutorial ayzarim runtime root 2105 3",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial index 1–45 every discovered project boundary linked to generated evidence teaching. project type files tests public entries tutorial ai thoughts evidence 75 0 0 tutorial ai thoughts alias 8663 100 0 tutorial awtsmoos.com project 8 0 0 tutorial ayzarim runtime root 2105 367 0 tutorial ayzarim/dosdb data 1008 160 0 tutorial ayzarim/awtsmoosdynamicserver runtime 1035 207 0 tutorial ayzarim/email infrastructure 5 0 0 tutorial ayzarim/maintence infrastructure 1 0 0 tutorial ayzarim/math infrastructure 1 0 0 tutorial ayzarim/ssh infrastructure 48 0 0 tutorial ayzarim/tools infrastructure 4 0 0 tutorial geelooy public root 34697 4699 1 tutorial geelooy/.awtsmoos project 6 0 0 tutorial geelooy/.awtsmoos agent thoughts evidence 200 0 1 tutorial geelooy/.awtsmoos agent transfer project 139 14 1 tutorial geelooy/.awtsmoos smoke project 4 0 0 tutorial geelooy/.awtsmoos transfer project 8 0 0 tutorial geelooy/.data project 1 0 0 tutorial geelooy/.well known project 1 0 0 tutorial geelooy/@ project 3 0 0 tutorial geelooy/about public 1 0 1 tutorial geelooy/ai public 884 165 2 tutorial geelooy/api project 2242 399 0 tutorial geelooy/api/admin api 2 0 0 tutorial geelooy/api/compiler api 10 1 0 tutorial geelooy/api/contact api 2 0 0 tutorial geelooy/api/email api 2 0 0 tutorial geelooy/api/fetch api 2 0 0 tutorial geelooy/api/gpt api 14 3 0 tutorial geelooy/api/nav api 1 0 0 tutorial geelooy/api/oauth api 58 10 0 tutorial geelooy/api/ohr hagnuz api 8 1 0 tutorial geelooy/api/perutas api 33 0 0 tutorial geelooy/api/projecthosting api 8 2 0 tutorial geelooy/api/public api 2 0 0 tutorial geelooy/api/runtime api 6 0 0 tutorial geelooy/api/sefarim api 3 1 0 tutorial geelooy/api/social api 1516 250 0 tutorial geelooy/api/ssh api 34 0 0 tutorial geelooy/api/streaming api 17 0 0 tutorial geelooy/api/text api 2 0 0 tutorial geelooy/api/tunnel api 381 106 0 tutorial geelooy/api/wallet api 85 19 0 tutorial geelooy/api/youtube api 22 1 0 tutorial geelooy/api/zmanim api 30 5 0 tutorial",
+		"page": "pages/docs-generated-project-tutorial-index-projects-001-md-0fa25b4558.json"
 	},
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-games-kavanah-e1949492-608e7677a1",
-		"title": "Project Tutorial: KAVANAH",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-kavanah-e1949492.md",
+		"id": "docs-generated-project-tutorial-index-projects-002-md-73bd49a25d",
+		"title": "Project Tutorial Index 46–90",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIAL_INDEX/projects-002.md",
 		"category": "Projects",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: KAVANAH",
-				"anchor": "project-tutorial-kavanah"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Project Tutorial Index 46–90",
+				"anchor": "project-tutorial-index-46-90"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: KAVANAH Path: geelooy/games/KAVANAH · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guaran",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: kavanah path: geelooy/games/kavanah · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, documentation.md local documentation: geelooy/games/kavanah/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 11 0 0 0 1 0 12 public entry points /games/kavanah → geelooy/games/kavanah/index.html — kavanah symbol evidence source files: 9; classes: 6; functions: 24; exports: 46; samples: otiot, tzomeach, chai, and, entity, particle, hebrew letters, plant emojis, animal emojis, getpointerstate, setupcontrols, handlepointerdown. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-kavanah-e1949492-608e7677a1.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial Index 46–90 Every discovered project boundary linked to generated evidence teaching. Project Type Files Tests Public entries Tutorial geelooy/api/zmanimms api 1 0 0 tutorial geelooy/apps public 10325 1790 1 tutorial geelooy/apps/android emulator app 1495 566 0 tutorial g",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial index 46–90 every discovered project boundary linked to generated evidence teaching. project type files tests public entries tutorial geelooy/api/zmanimms api 1 0 0 tutorial geelooy/apps public 10325 1790 1 tutorial geelooy/apps/android emulator app 1495 566 0 tutorial geelooy/apps/animator app 2488 0 1 tutorial geelooy/apps/archive uploader app 3 0 1 tutorial geelooy/apps/audio editor app 4 0 1 tutorial geelooy/apps/awtsmoos gguf app 88 0 1 tutorial geelooy/apps/bookcovermaker app 1 0 1 tutorial geelooy/apps/broadcaster app 3 0 1 tutorial geelooy/apps/byteviewer app 4 0 1 tutorial geelooy/apps/captions app 68 0 2 tutorial geelooy/apps/code app 1125 44 1 tutorial geelooy/apps/compiler app 79 1 1 tutorial geelooy/apps/csv app 5 0 1 tutorial geelooy/apps/docs app 194 0 2 tutorial geelooy/apps/drive app 105 9 1 tutorial geelooy/apps/editor app 40 0 2 tutorial geelooy/apps/exe emulator app 416 133 2 tutorial geelooy/apps/forms app 0 0 0 tutorial geelooy/apps/gpt api pulse garden app 1 0 1 tutorial geelooy/apps/lyric sync app 4 0 1 tutorial geelooy/apps/merkava native browser app 79 0 1 tutorial geelooy/apps/mitzvah pushkuh app 150 7 1 tutorial geelooy/apps/nesher studio app 542 117 1 tutorial geelooy/apps/pdf to img app 1 0 1 tutorial geelooy/apps/piano app 60 0 1 tutorial geelooy/apps/rebbe app 126 0 1 tutorial geelooy/apps/scripts app 16 0 0 tutorial geelooy/apps/sheets app 130 2 1 tutorial geelooy/apps/slides app 82 10 1 tutorial geelooy/apps/styles app 6 0 0 tutorial geelooy/apps/tests app 1 1 0 tutorial geelooy/apps/transcribe app 2 0 1 tutorial geelooy/apps/tunnel app 2295 820 6 tutorial geelooy/apps/tunnel control app 490 57 3 tutorial geelooy/apps/universal chat app 173 22 1 tutorial geelooy/apps/video editor app 2 0 1 tutorial geelooy/apps/virtual os stress light counter app 1 0 1 tutorial geelooy/apps/wallet app 40 1 1 tutorial geelooy/apps/watermark remover app 1 0 1 tutorial geelooy/awtai db public 9 0 1 tutorial geelooy/ayin public 1 0 1 tutorial geelooy/browser test project 2 1 0 tutorial geelooy/comment thread public 23 2 1 tutorial geelooy/contact public 3 0 1 tutorial",
+		"page": "pages/docs-generated-project-tutorial-index-projects-002-md-73bd49a25d.json"
 	},
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-games-merkava-6e442b98-cf2799587a",
-		"title": "Project Tutorial: Merkava — War of the Sparks",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-merkava-6e442b98.md",
+		"id": "docs-generated-project-tutorial-index-projects-003-md-dc048d0f3c",
+		"title": "Project Tutorial Index 91–135",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIAL_INDEX/projects-003.md",
 		"category": "Projects",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: Merkava — War of the Sparks",
-				"anchor": "project-tutorial-merkava-war-of-the-sparks"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Project Tutorial Index 91–135",
+				"anchor": "project-tutorial-index-91-135"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Merkava — War of the Sparks Path: geelooy/games/Merkava · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime owners",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: merkava — war of the sparks path: geelooy/games/merkava · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, package.json, documentation.md, readme.md, readme.md local documentation: geelooy/games/merkava/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 86 31 0 0 2 1 120 public entry points /games/merkava → geelooy/games/merkava/index.html — merkava — war of the sparks symbol evidence source files: 76; classes: 39; functions: 154; exports: 129; samples: appdiagnostics, creatediagnosticcontrols, checkpoint, setlane, chargeability, advancelevel, setworld, setlevel, grantprutahs, defeatboss, completeworldrotation, clampindex. depends on geelooy/libs — 2 lexical references; examples: geelooy/games/merkava/src/render/createcoremeshes.js; geelooy/games/merkava/src/render/createenemymeshes.js used by none observed. external packages none observed. verification clue observed test classified files: 31 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-merkava-6e442b98-cf2799587a.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial Index 91–135 Every discovered project boundary linked to generated evidence teaching. Project Type Files Tests Public entries Tutorial geelooy/control public 3 0 1 tutorial geelooy/css project 1 0 0 tutorial geelooy/db public 9 0 3 tutorial geelooy/docs public 3555 0 1 t",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial index 91–135 every discovered project boundary linked to generated evidence teaching. project type files tests public entries tutorial geelooy/control public 3 0 1 tutorial geelooy/css project 1 0 0 tutorial geelooy/db public 9 0 3 tutorial geelooy/docs public 3555 0 1 tutorial geelooy/donate public 1 0 1 tutorial geelooy/drive public 213 52 1 tutorial geelooy/editor public 1 0 1 tutorial geelooy/email public 167 4 1 tutorial geelooy/entity view public 2 0 1 tutorial geelooy/fetch public 1 0 1 tutorial geelooy/game public 1 0 1 tutorial geelooy/games public 8519 1469 1 tutorial geelooy/games/kavanah game 16 0 1 tutorial geelooy/games/merkava game 128 32 1 tutorial geelooy/games/nachash game 5 0 1 tutorial geelooy/games/adventure game 1 0 1 tutorial geelooy/games/brick blast game 80 0 1 tutorial geelooy/games/cards game 11 0 1 tutorial geelooy/games/chess game 97 22 2 tutorial geelooy/games/city of light game 80 11 1 tutorial geelooy/games/connect4 game 6 0 1 tutorial geelooy/games/dove game 8 0 1 tutorial geelooy/games/emojis game 37 0 1 tutorial geelooy/games/kabbalah shooter game 39 0 1 tutorial geelooy/games/migdol game 12 0 1 tutorial geelooy/games/mitzvahworld game 3920 1015 3 tutorial geelooy/games/neshama quest game 7 0 1 tutorial geelooy/games/nitzotz io game 250 29 1 tutorial geelooy/games/ohr hagnuz game 793 89 1 tutorial geelooy/games/oros ha kelim game 76 14 1 tutorial geelooy/games/party game 16 0 1 tutorial geelooy/games/pong game 12 0 1 tutorial geelooy/games/rambam game 1 0 1 tutorial geelooy/games/rebbe runner game 4 0 1 tutorial geelooy/games/scribe journey game 476 99 1 tutorial geelooy/games/scripts game 81 0 0 tutorial geelooy/games/sefira clash game 1381 41 1 tutorial geelooy/games/seven mitzvos game 597 66 1 tutorial geelooy/games/shema strike game 173 21 1 tutorial geelooy/games/soul jump game 2 0 1 tutorial geelooy/games/styles game 14 0 0 tutorial geelooy/games/sulam ha sod game 167 14 1 tutorial geelooy/games/tests game 17 16 4 tutorial geelooy/games/tetris game 8 0 1 tutorial geelooy/geelooy project 5 3 0 tutorial",
+		"page": "pages/docs-generated-project-tutorial-index-projects-003-md-dc048d0f3c.json"
 	},
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-games-migdol-2c237fda--87914ace9d",
-		"title": "Project Tutorial: Migdol - Kabbalah Tower Defense",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-migdol-2c237fda.md",
+		"id": "docs-generated-project-tutorial-index-projects-004-md-3bd5b39520",
+		"title": "Project Tutorial Index 136–179",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIAL_INDEX/projects-004.md",
 		"category": "Projects",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: Migdol - Kabbalah Tower Defense",
-				"anchor": "project-tutorial-migdol-kabbalah-tower-defense"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Project Tutorial Index 136–179",
+				"anchor": "project-tutorial-index-136-179"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Migdol Kabbalah Tower Defense Path: geelooy/games/migdol · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime owner",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: migdol kabbalah tower defense path: geelooy/games/migdol · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, documentation.md local documentation: geelooy/games/migdol/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 11 0 0 0 1 0 12 public entry points /games/migdol → geelooy/games/migdol/index.html — migdol kabbalah tower defense symbol evidence source files: 9; classes: 7; functions: 9; exports: 12; samples: tile size, maps, tower types, enemy types, groundeffect, letterparticle, enemy, projectile, game, initializemainmenu, startgame, returntomainmenu. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-migdol-2c237fda--87914ace9d.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial Index 136–179 Every discovered project boundary linked to generated evidence teaching. Project Type Files Tests Public entries Tutorial geelooy/git project 1 0 0 tutorial geelooy/heichel project 1 0 0 tutorial geelooy/heichel editor public 19 2 1 tutorial geelooy/heichel",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial index 136–179 every discovered project boundary linked to generated evidence teaching. project type files tests public entries tutorial geelooy/git project 1 0 0 tutorial geelooy/heichel project 1 0 0 tutorial geelooy/heichel editor public 19 2 1 tutorial geelooy/heichel review public 40 4 1 tutorial geelooy/heichelos project 1051 131 4 tutorial geelooy/legal project 6 0 2 tutorial geelooy/libs library 2268 138 0 tutorial geelooy/login public 1 0 1 tutorial geelooy/logout public 1 0 1 tutorial geelooy/mawgawl public 80 14 2 tutorial geelooy/node os public 2 0 1 tutorial geelooy/notifications public 34 2 1 tutorial geelooy/ocr public 1 0 1 tutorial geelooy/os public 729 79 1 tutorial geelooy/parsers project 1 0 1 tutorial geelooy/platform project 110 19 0 tutorial geelooy/post editor public 15 2 1 tutorial geelooy/profile public 39 4 2 tutorial geelooy/public project 17 0 8 tutorial geelooy/record public 7 0 1 tutorial geelooy/recorder public 13 0 1 tutorial geelooy/reeyuh public 1 0 1 tutorial geelooy/register public 1 0 1 tutorial geelooy/resources project 2 0 0 tutorial geelooy/scripts library 1587 113 9 tutorial geelooy/shared library 154 28 0 tutorial geelooy/sites project 35 11 0 tutorial geelooy/social public 62 7 2 tutorial geelooy/social actions project 11 1 0 tutorial geelooy/social composer public 354 28 2 tutorial geelooy/social hub public 265 46 1 tutorial geelooy/sod public 1 0 1 tutorial geelooy/style library 1184 48 0 tutorial geelooy/tests test 109 107 0 tutorial geelooy/tmp project 9 0 0 tutorial geelooy/view project 1 0 0 tutorial geelooy/webscrapers project 5 0 0 tutorial geelooy/youtube public 10 0 1 tutorial geelooy/zmanim public 128 16 1 tutorial ops operations 5 0 0 tutorial scripts tooling 398 30 0 tutorial templates tooling 17 1 0 tutorial tests test 93 92 0 tutorial tools tooling 201 29 0 tutorial",
+		"page": "pages/docs-generated-project-tutorial-index-projects-004-md-3bd5b39520.json"
 	},
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-games-mitzvahworld-e62-103631907b",
-		"title": "Project Tutorial: B&quot;H Mitzvah World — Restored River Valley",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-mitzvahworld-e62d44db.md",
+		"id": "docs-generated-project-tutorials-projects-ai-thoughts-021beb76-md-67e55b525a",
+		"title": "Project Tutorial: ai-thoughts",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ai-thoughts-021beb76.md",
 		"category": "Projects",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: B&quot;H Mitzvah World — Restored River Valley",
-				"anchor": "project-tutorial-b-quot-h-mitzvah-world-restored-river-valley"
+				"text": "Project Tutorial: ai-thoughts",
+				"anchor": "project-tutorial-ai-thoughts"
 			},
 			{
 				"level": 2,
@@ -280,21 +120,21 @@
 				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: B&quot;H Mitzvah World — Restored River Valley Path: geelooy/games/mitzvahWorld · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observat",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: b&quot;h mitzvah world — restored river valley path: geelooy/games/mitzvahworld · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, documentation.md local documentation: geelooy/games/mitzvahworld/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 2536 956 0 53 9 282 3836 public entry points /games/mitzvahworld → geelooy/games/mitzvahworld/index.html — b&quot;h mitzvah world — restored river valley symbol evidence source files: 2448; classes: 489; functions: 7734; exports: 4785; samples: send, evaluate, waitfor, waitfordevtools, findtarget, waitforready, delay, publishstate, publishverificationfailure, createbootsnapshot, boundedbootcount, bootdebugenabled. depends on geelooy/libs — 17 lexical references; examples: geelooy/games/mitzvahworld/experiments/awtsmoos/src/app/minimalmeadowcreaturemesh.js; geelooy/games/mitzvahworld/experiments/awtsmoos/src/app/minimalmeadowproceduralcreature.js; geelooy/games/mitzvahworld/experiments/awtsmoos/src/movie/movieproceduralseed.js libs — 1 lexical reference; examples: geelooy/games/mitzvahworld/experiments/awtsmoos/src/app/minimalmeadowtreecorefacade.js used by geelooy/social composer — 4 lexical references; examples: geelooy/social composer/reel studio/nle/nleaiprojectcodec.js; geelooy/social composer/reel studio/nle/nlemovieactionexecutor.js; geelooy/social composer/reel studio/nle/nlemoviepackage.js external packages ws — 1 lexical reference verification clue observed test classified files: 956 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-mitzvahworld-e62-103631907b.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: ai thoughts Path: ai thoughts · Type: evidence · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime owners",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: ai thoughts path: ai thoughts · type: evidence · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: — local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 0 0 0 0 0 75 75 public entry points none observed. symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-ai-thoughts-021beb76-md-67e55b525a.json"
 	},
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-games-nachash-85ff920d-df1bb0fc3e",
-		"title": "Project Tutorial: Tikkun HaNachash",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-nachash-85ff920d.md",
+		"id": "docs-generated-project-tutorials-projects-ai-thoughts-e431fde4-md-542cb14530",
+		"title": "Project Tutorial: aithoughts",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ai-thoughts-e431fde4.md",
 		"category": "Projects",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: Tikkun HaNachash",
-				"anchor": "project-tutorial-tikkun-hanachash"
+				"text": "Project Tutorial: aithoughts",
+				"anchor": "project-tutorial-aithoughts"
 			},
 			{
 				"level": 2,
@@ -337,8 +177,65 @@
 				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Tikkun HaNachash Path: geelooy/games/Nachash · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or heal",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: tikkun hanachash path: geelooy/games/nachash · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, main.js local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 5 0 0 0 0 0 5 public entry points /games/nachash → geelooy/games/nachash/index.html — tikkun hanachash symbol evidence source files: 3; classes: 8; functions: 31; exports: 0; samples: onpointerdown, onpointermove, onpointerup, updatekeyboarddirection, handlekeydown, handlekeyup, handleresize, startgame, endgame, createandshowgameoverscreen, handleworkermessage, init. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-nachash-85ff920d-df1bb0fc3e.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: ai thoughts Path: ai thoughts · Type: alias · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: ai thoughts path: ai thoughts · type: alias · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: — local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: /users/awtsmoos/work/awtsmoos.com artifacts/ai thoughts file shape source tests assets generated docs other total 5733 100 0 0 60 2770 8663 public entry points none observed. symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 100 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-ai-thoughts-e431fde4-md-542cb14530.json"
+	},
+	{
+		"id": "docs-generated-project-tutorials-projects-awtsmoos-com-0c3ac1c0-md-d5ed92968a",
+		"title": "Project Tutorial: awtsmoos.com",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/awtsmoos-com-0c3ac1c0.md",
+		"category": "Projects",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Project Tutorial: awtsmoos.com",
+				"anchor": "project-tutorial-awtsmoos-com"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: awtsmoos.com Path: awtsmoos.com · Type: project · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime owner",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: awtsmoos.com path: awtsmoos.com · type: project · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: documentation.md local documentation: awtsmoos.com/documentation.md local doc requirement: no; covered: yes symlink target: — file shape source tests assets generated docs other total 1 0 0 0 1 6 8 public entry points none observed. symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-awtsmoos-com-0c3ac1c0-md-d5ed92968a.json"
 	}
 ]

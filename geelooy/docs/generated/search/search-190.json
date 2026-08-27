@@ -1,270 +1,401 @@
 [
 	{
-		"id": "docs-generated-system-tutorials-systems-database-root-resolution-md-9326197d90",
-		"title": "System Tutorial: Database Root Resolution",
-		"sourcePath": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/database-root-resolution.md",
-		"category": "Systems",
+		"id": "docs-generated-project-tutorials-projects-geelooy-apps-watermark-remover-abdec39add",
+		"title": "Project Tutorial: SVG Mask Alpha Brute-Force",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-watermark-remover-f9935a2b.md",
+		"category": "Projects",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "System Tutorial: Database Root Resolution",
-				"anchor": "system-tutorial-database-root-resolution"
+				"text": "Project Tutorial: SVG Mask Alpha Brute-Force",
+				"anchor": "project-tutorial-svg-mask-alpha-brute-force"
 			},
 			{
 				"level": 2,
-				"text": "Claims boundary",
-				"anchor": "claims-boundary"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Change risk",
-				"anchor": "change-risk"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "Human manuals",
-				"anchor": "human-manuals"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
 			},
 			{
 				"level": 2,
-				"text": "Related project boundaries",
-				"anchor": "related-project-boundaries"
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Source anchors",
-				"anchor": "source-anchors"
+				"text": "Depends on",
+				"anchor": "depends-on"
 			},
 			{
 				"level": 2,
-				"text": "Generated evidence",
-				"anchor": "generated-evidence"
+				"text": "Used by",
+				"anchor": "used-by"
 			},
 			{
 				"level": 2,
-				"text": "Environment-name evidence",
-				"anchor": "environment-name-evidence"
+				"text": "External packages",
+				"anchor": "external-packages"
 			},
 			{
 				"level": 2,
-				"text": "Realtime application registration evidence",
-				"anchor": "realtime-application-registration-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Lexical event/message evidence",
-				"anchor": "lexical-event-message-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Tags",
-				"anchor": "tags"
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He System Tutorial: Database Root Resolution District: data · System ID: database root resolution How the runtime chooses the persistence root before DosDB or newer storage layers operate. Generated evidence below is a navigation aid. Trust, migration, consistency, protocol, and authorizati",
-		"searchText": "b\"h boruch hashem blessed is he system tutorial: database root resolution district: data · system id: database root resolution how the runtime chooses the persistence root before dosdb or newer storage layers operate. generated evidence below is a navigation aid. trust, migration, consistency, protocol, and authorization semantics remain grounded in the linked human manuals and current source. claims boundary environment names and inspected manuals describe precedence; no environment value is read or published. change risk changing root precedence or defaults can redirect an existing deployment to different persisted data. human manuals docs/data/readme.md docs/data/path contracts.md related project boundaries ayzarim/awtsmoosdynamicserver (runtime) — ayzarim/awtsmoosdynamicserver source anchors ayzarim/awtsmoosdynamicserver/server/initdb.js generated evidence docs/generated/environment variables.md environment name evidence name class source refs example sources awts entry limit test/tuning 1 ayzarim/awtsmoosdynamicserver/tests/compactjs.entrysweep.test.js awts entry match test/tuning 1 ayzarim/awtsmoosdynamicserver/tests/compactjs.entrysweep.test.js awts entry offset test/tuning 1 ayzarim/awtsmoosdynamicserver/tests/compactjs.entrysweep.test.js awts entry roots test/tuning 1 ayzarim/awtsmoosdynamicserver/tests/compactjs.entrysweep.test.js awtsmoos registration stress count test/tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/test/registrationreplacementstress.test.cjs awtsmoos relay stress count test/tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay.concurrent correlation.test.cjs awtsmoos sefira profile path path/storage 1 ayzarim/awtsmoosdynamicserver/websocket/apps/sefiraclash/expeditionprofilerepository.js awtsmoos tunnel completed limit tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/constants.js awtsmoos tunnel consumer progress ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/requestackhandler.js awtsmoos tunnel control store path/storage 9 ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms/missionroomsocketintegration.test.cjs; ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms/missionroomupgrade.test.cjs; ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms/upgradepolicy.test.cjs awtsmoos tunnel pending ttl ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/constants.js awtsmoos tunnel quarantine limit tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/constants.js awtsmoos tunnel relay max safe wait ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/constants.js awtsmoos tunnel relay safe wait ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/constants.js awtsmoos tunnel relay state root path/storage 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/durablepaths.js awtsmoos tunnel request acceptance ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/requestdispatch.js awtsmoos ws max missed heartbeats runtime config 1 ayzarim/awtsmoosdynamicserver/websocket/core/clientliveness.js awtsmoos ws probe grace ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/core/clientliveness.js awtsmoos ws stale ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/core/clientliveness.js mw load clients runtime config 1 ayzarim/awtsmoosdynamicserver/websocket/apps/mitzvahworld/sessionloadprobe.cjs realtime application registration evidence no versioned application registrations are attached to this packet. lexical event/message evidence none observed for this system packet. tags persistence · environment · path · migration",
-		"page": "pages/docs-generated-system-tutorials-systems-database-root-resolution-md-9326197d90.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: SVG Mask Alpha Brute Force Path: geelooy/apps/watermark remover · Type: app · Family: Applications Read the human Applications guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownersh",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: svg mask alpha brute force path: geelooy/apps/watermark remover · type: app · family: applications read the human applications guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 1 0 0 0 0 0 1 public entry points /apps/watermark remover → geelooy/apps/watermark remover/index.html — svg mask alpha brute force symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-apps-watermark-remover-abdec39add.json"
 	},
 	{
-		"id": "docs-generated-system-tutorials-systems-dosdb-filesystem-md-89a5581fb9",
-		"title": "System Tutorial: DosDB Filesystem Storage",
-		"sourcePath": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/dosdb-filesystem.md",
-		"category": "Data",
+		"id": "docs-generated-project-tutorials-projects-geelooy-awtai-db-0b65315b-md-e22821febf",
+		"title": "Project Tutorial: AWTAI-DB Model Foundry",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-awtai-db-0b65315b.md",
+		"category": "Projects",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "System Tutorial: DosDB Filesystem Storage",
-				"anchor": "system-tutorial-dosdb-filesystem-storage"
+				"text": "Project Tutorial: AWTAI-DB Model Foundry",
+				"anchor": "project-tutorial-awtai-db-model-foundry"
 			},
 			{
 				"level": 2,
-				"text": "Claims boundary",
-				"anchor": "claims-boundary"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Change risk",
-				"anchor": "change-risk"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "Human manuals",
-				"anchor": "human-manuals"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
 			},
 			{
 				"level": 2,
-				"text": "Related project boundaries",
-				"anchor": "related-project-boundaries"
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Source anchors",
-				"anchor": "source-anchors"
+				"text": "Depends on",
+				"anchor": "depends-on"
 			},
 			{
 				"level": 2,
-				"text": "Generated evidence",
-				"anchor": "generated-evidence"
+				"text": "Used by",
+				"anchor": "used-by"
 			},
 			{
 				"level": 2,
-				"text": "Environment-name evidence",
-				"anchor": "environment-name-evidence"
+				"text": "External packages",
+				"anchor": "external-packages"
 			},
 			{
 				"level": 2,
-				"text": "Realtime application registration evidence",
-				"anchor": "realtime-application-registration-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Lexical event/message evidence",
-				"anchor": "lexical-event-message-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Tags",
-				"anchor": "tags"
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He System Tutorial: DosDB Filesystem Storage District: data · System ID: dosdb filesystem The legacy filesystem oriented database layer and its compatibility surface. Generated evidence below is a navigation aid. Trust, migration, consistency, protocol, and authorization semantics remain gr",
-		"searchText": "b\"h boruch hashem blessed is he system tutorial: dosdb filesystem storage district: data · system id: dosdb filesystem the legacy filesystem oriented database layer and its compatibility surface. generated evidence below is a navigation aid. trust, migration, consistency, protocol, and authorization semantics remain grounded in the linked human manuals and current source. claims boundary project and source presence establish implementation location, not the complete physical format of every persisted record. change risk filesystem layout and compatibility behavior can be migration sensitive. human manuals docs/data/dosdb.md docs/data/readme.md related project boundaries ayzarim/dosdb (data) — ayzarim/dosdb source anchors ayzarim/dosdb/index.js generated evidence docs/generated/project tutorial index.md environment name evidence name class source refs example sources awtsmoos embed mode runtime config 1 ayzarim/dosdb/aisearch/textembedrunner.js awtsmoos embed model root test/tuning 1 ayzarim/dosdb/awtsmoosbinary/awtsmoosdb/test/ai search model root precedence test.js awtsmoosdb fast test test/tuning 3 ayzarim/dosdb/awtsmoosbinary/awtsmoosdb/core/idle/fastgate.js; ayzarim/dosdb/awtsmoosbinary/awtsmoosdb/test/lightning/env.js; ayzarim/dosdb/awtsmoosbinary/awtsmoosdb/test/semantic ai dosdb test.js awtsmoosdb test scale test/tuning 1 ayzarim/dosdb/awtsmoosbinary/awtsmoosdb/test/lightning/env.js node env runtime config 3 ayzarim/dosdb/awtsmoosbinary/awtsmoosdb/test/lightning/env.js; geelooy/api/wallet/core/paypalenvironment.js; geelooy/api/wallet/tests/paypalenvironment.test.js realtime application registration evidence no versioned application registrations are attached to this packet. lexical event/message evidence none observed for this system packet. tags persistence · filesystem · compatibility",
-		"page": "pages/docs-generated-system-tutorials-systems-dosdb-filesystem-md-89a5581fb9.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: AWTAI DB Model Foundry Path: geelooy/awtai db · Type: public · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not ",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: awtai db model foundry path: geelooy/awtai db · type: public · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, app.js local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 9 0 0 0 0 0 9 public entry points /awtai db → geelooy/awtai db/index.html — awtai db model foundry symbol evidence source files: 2; classes: 0; functions: 10; exports: 5; samples: wiredropzone, selectfile, convertselection, preparedownload, revokedownload, collectview, showselectedfile, setstatus, showresult, formatbytes. depends on geelooy/scripts — 1 lexical reference; examples: geelooy/awtai db/app.js used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-awtai-db-0b65315b-md-e22821febf.json"
 	},
 	{
-		"id": "docs-generated-system-tutorials-systems-mission-room-admission-md-62b962c4ff",
-		"title": "System Tutorial: Mission Room Admission",
-		"sourcePath": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/mission-room-admission.md",
-		"category": "Systems",
+		"id": "docs-generated-project-tutorials-projects-geelooy-awtsmoos-agent-thought-55eb75c8a5",
+		"title": "Project Tutorial: geelooy/.awtsmoos-agent-thoughts",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-awtsmoos-agent-thoughts-250aba07.md",
+		"category": "Projects",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "System Tutorial: Mission Room Admission",
-				"anchor": "system-tutorial-mission-room-admission"
+				"text": "Project Tutorial: geelooy/.awtsmoos-agent-thoughts",
+				"anchor": "project-tutorial-geelooy-awtsmoos-agent-thoughts"
 			},
 			{
 				"level": 2,
-				"text": "Claims boundary",
-				"anchor": "claims-boundary"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Change risk",
-				"anchor": "change-risk"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "Human manuals",
-				"anchor": "human-manuals"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
 			},
 			{
 				"level": 2,
-				"text": "Related project boundaries",
-				"anchor": "related-project-boundaries"
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Source anchors",
-				"anchor": "source-anchors"
+				"text": "Depends on",
+				"anchor": "depends-on"
 			},
 			{
 				"level": 2,
-				"text": "Generated evidence",
-				"anchor": "generated-evidence"
+				"text": "Used by",
+				"anchor": "used-by"
 			},
 			{
 				"level": 2,
-				"text": "Environment-name evidence",
-				"anchor": "environment-name-evidence"
+				"text": "External packages",
+				"anchor": "external-packages"
 			},
 			{
 				"level": 2,
-				"text": "Realtime application registration evidence",
-				"anchor": "realtime-application-registration-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Lexical event/message evidence",
-				"anchor": "lexical-event-message-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Tags",
-				"anchor": "tags"
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He System Tutorial: Mission Room Admission District: realtime · System ID: mission room admission Ticket issuance, account scoped authority, origin/protocol validation, initial snapshot proof, and upgrade policy. Generated evidence below is a navigation aid. Trust, migration, consistency, p",
-		"searchText": "b\"h boruch hashem blessed is he system tutorial: mission room admission district: realtime · system id: mission room admission ticket issuance, account scoped authority, origin/protocol validation, initial snapshot proof, and upgrade policy. generated evidence below is a navigation aid. trust, migration, consistency, protocol, and authorization semantics remain grounded in the linked human manuals and current source. claims boundary generated event strings remain lexical evidence; room admission meaning comes from inspected policy/ticket source and human manuals. change risk ticket binding, origin, protocol version, snapshot proof, or permission changes are security/protocol sensitive. human manuals docs/websockets/mission rooms.md docs/security/realtime security.md related project boundaries geelooy/api/tunnel (api) — geelooy/api/tunnel ayzarim/awtsmoosdynamicserver (runtime) — ayzarim/awtsmoosdynamicserver source anchors geelooy/api/tunnel/control/missionrooms/ticketissuer.js geelooy/api/tunnel/control/missionrooms/missionaccess.js ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms/upgradepolicy.js generated evidence docs/generated/websocket event index.md environment name evidence name class source refs example sources awts entry limit test/tuning 1 ayzarim/awtsmoosdynamicserver/tests/compactjs.entrysweep.test.js awts entry match test/tuning 1 ayzarim/awtsmoosdynamicserver/tests/compactjs.entrysweep.test.js awts entry offset test/tuning 1 ayzarim/awtsmoosdynamicserver/tests/compactjs.entrysweep.test.js awts entry roots test/tuning 1 ayzarim/awtsmoosdynamicserver/tests/compactjs.entrysweep.test.js awtsmoos binding history per identity runtime config 1 geelooy/api/tunnel/control/core/tunnelsecurity/bindingretentionpolicy.js awtsmoos binding retention ms tuning 1 geelooy/api/tunnel/control/core/tunnelsecurity/bindingretentionpolicy.js awtsmoos native recovering ms tuning 1 geelooy/api/tunnel/control/routes/fsvessel/livedeviceidentity.js awtsmoos registration stress count test/tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/test/registrationreplacementstress.test.cjs awtsmoos relay stress count test/tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay.concurrent correlation.test.cjs awtsmoos sefira profile path path/storage 1 ayzarim/awtsmoosdynamicserver/websocket/apps/sefiraclash/expeditionprofilerepository.js awtsmoos tunnel completed limit tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/constants.js awtsmoos tunnel consumer progress ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/requestackhandler.js awtsmoos tunnel control store path/storage 9 ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms/missionroomsocketintegration.test.cjs; ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms/missionroomupgrade.test.cjs; ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms/upgradepolicy.test.cjs awtsmoos tunnel pending ttl ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/constants.js awtsmoos tunnel quarantine limit tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/constants.js awtsmoos tunnel relay max safe wait ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/constants.js awtsmoos tunnel relay safe wait ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/constants.js awtsmoos tunnel relay state root path/storage 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/durablepaths.js awtsmoos tunnel request acceptance ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/requestdispatch.js awtsmoos ws max missed heartbeats runtime config 1 ayzarim/awtsmoosdynamicserver/websocket/core/clientliveness.js awtsmoos ws probe grace ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/core/clientliveness.js awtsmoos ws stale ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/core/clientliveness.js mw load clients runtime config 1 ayzarim/awtsmoosdynamicserver/websocket/apps/mitzvahworld/sessionloadprobe.cjs realtime application registration evidence no versioned application registrations are attached to this packet. lexical event/message evidence none observed for this system packet. tags websocket · mission room · ticket · origin · authorization · protocol",
-		"page": "pages/docs-generated-system-tutorials-systems-mission-room-admission-md-62b962c4ff.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/.awtsmoos agent thoughts Path: geelooy/.awtsmoos agent thoughts · Type: evidence · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries ar",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/.awtsmoos agent thoughts path: geelooy/.awtsmoos agent thoughts · type: evidence · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: — local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 21 0 0 0 0 179 200 public entry points /.awtsmoos agent thoughts/2026 08 14 1212 chess engine careful upgrade/baseline/ui → geelooy/.awtsmoos agent thoughts/2026 08 14 1212 chess engine careful upgrade/baseline/ui/index.html — ultimate chess ai symbol evidence source files: 20; classes: 1; functions: 48; exports: 0; samples: revealrepairedsearch, search, revealmovecommand, historyhashes, legalbookchoice, handlecalculatemove, revealrootsearch, prepareheuristics, searchroot, revealsearchsupport, checktime, isthreefold. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-awtsmoos-agent-thought-55eb75c8a5.json"
 	},
 	{
-		"id": "docs-generated-system-tutorials-systems-oauth-bearer-identity-md-2f3b479c4c",
-		"title": "System Tutorial: OAuth Bearer Identity",
-		"sourcePath": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/oauth-bearer-identity.md",
-		"category": "Security",
+		"id": "docs-generated-project-tutorials-projects-geelooy-awtsmoos-agent-transfe-a96e3c15ea",
+		"title": "Project Tutorial: geelooy/.awtsmoos-agent-transfer",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-awtsmoos-agent-transfer-dc912f6b.md",
+		"category": "Projects",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "System Tutorial: OAuth Bearer Identity",
-				"anchor": "system-tutorial-oauth-bearer-identity"
+				"text": "Project Tutorial: geelooy/.awtsmoos-agent-transfer",
+				"anchor": "project-tutorial-geelooy-awtsmoos-agent-transfer"
 			},
 			{
 				"level": 2,
-				"text": "Claims boundary",
-				"anchor": "claims-boundary"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Change risk",
-				"anchor": "change-risk"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "Human manuals",
-				"anchor": "human-manuals"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
 			},
 			{
 				"level": 2,
-				"text": "Related project boundaries",
-				"anchor": "related-project-boundaries"
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Source anchors",
-				"anchor": "source-anchors"
+				"text": "Depends on",
+				"anchor": "depends-on"
 			},
 			{
 				"level": 2,
-				"text": "Generated evidence",
-				"anchor": "generated-evidence"
+				"text": "Used by",
+				"anchor": "used-by"
 			},
 			{
 				"level": 2,
-				"text": "Environment-name evidence",
-				"anchor": "environment-name-evidence"
+				"text": "External packages",
+				"anchor": "external-packages"
 			},
 			{
 				"level": 2,
-				"text": "Realtime application registration evidence",
-				"anchor": "realtime-application-registration-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Lexical event/message evidence",
-				"anchor": "lexical-event-message-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Tags",
-				"anchor": "tags"
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He System Tutorial: OAuth Bearer Identity District: security · System ID: oauth bearer identity OAuth route/token surface and server side use of verified bearer records as authoritative identity. Generated evidence below is a navigation aid. Trust, migration, consistency, protocol, and auth",
-		"searchText": "b\"h boruch hashem blessed is he system tutorial: oauth bearer identity district: security · system id: oauth bearer identity oauth route/token surface and server side use of verified bearer records as authoritative identity. generated evidence below is a navigation aid. trust, migration, consistency, protocol, and authorization semantics remain grounded in the linked human manuals and current source. claims boundary a bearer token becomes identity only after server side verification; request fields are not trusted substitutes. change risk token validation, expiry, issuer/subject, scope, or cors behavior is security sensitive. human manuals docs/security/trust boundaries.md docs/tutorials/api/oauth.md related project boundaries geelooy/api/oauth (api) — geelooy/api/oauth geelooy/api/tunnel (api) — geelooy/api/tunnel source anchors geelooy/api/oauth/ awtsmoos.derech.js geelooy/api/tunnel/control/core/auth.js generated evidence docs/generated/api tutorial index.md environment name evidence name class source refs example sources awtsmoos binding history per identity runtime config 1 geelooy/api/tunnel/control/core/tunnelsecurity/bindingretentionpolicy.js awtsmoos binding retention ms tuning 1 geelooy/api/tunnel/control/core/tunnelsecurity/bindingretentionpolicy.js awtsmoos dir path/storage 1 geelooy/api/oauth/core/serversecret.js awtsmoos native recovering ms tuning 1 geelooy/api/tunnel/control/routes/fsvessel/livedeviceidentity.js realtime application registration evidence no versioned application registrations are attached to this packet. lexical event/message evidence none observed for this system packet. tags identity · oauth · bearer · security",
-		"page": "pages/docs-generated-system-tutorials-systems-oauth-bearer-identity-md-2f3b479c4c.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/.awtsmoos agent transfer Path: geelooy/.awtsmoos agent transfer · Type: project · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/.awtsmoos agent transfer path: geelooy/.awtsmoos agent transfer · type: project · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: documentation.md local documentation: geelooy/.awtsmoos agent transfer/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 79 14 0 0 4 42 139 public entry points /.awtsmoos agent transfer/social future 20260821 v2/verified stage/social/migrate → geelooy/.awtsmoos agent transfer/social future 20260821 v2/verified stage/social/migrate/index.html — social migration studio · awtsmoos symbol evidence source files: 65; classes: 32; functions: 101; exports: 98; samples: postmigrationroutes, normalizesourceprovenance, normalizeplaylists, normalizearchive, normalizeurls, parse, cleanurl, creatorintent, creatorexperience, kind map, metacontentkind, knowndate. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 14 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-awtsmoos-agent-transfe-a96e3c15ea.json"
+	},
+	{
+		"id": "docs-generated-project-tutorials-projects-geelooy-awtsmoos-e1aae0c6-md-d2c5fe4c7a",
+		"title": "Project Tutorial: geelooy/.awtsmoos",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-awtsmoos-e1aae0c6.md",
+		"category": "Projects",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Project Tutorial: geelooy/.awtsmoos",
+				"anchor": "project-tutorial-geelooy-awtsmoos"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/.awtsmoos Path: geelooy/.awtsmoos · Type: project · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not run",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/.awtsmoos path: geelooy/.awtsmoos · type: project · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: — local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 6 0 0 0 0 0 6 public entry points none observed. symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-awtsmoos-e1aae0c6-md-d2c5fe4c7a.json"
+	},
+	{
+		"id": "docs-generated-project-tutorials-projects-geelooy-awtsmoos-smoke-3fb6bf7-f3dddefc69",
+		"title": "Project Tutorial: geelooy/.awtsmoos-smoke",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-awtsmoos-smoke-3fb6bf7b.md",
+		"category": "Projects",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Project Tutorial: geelooy/.awtsmoos-smoke",
+				"anchor": "project-tutorial-geelooy-awtsmoos-smoke"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/.awtsmoos smoke Path: geelooy/.awtsmoos smoke · Type: project · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observati",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/.awtsmoos smoke path: geelooy/.awtsmoos smoke · type: project · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: — local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 4 0 0 0 0 0 4 public entry points none observed. symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-awtsmoos-smoke-3fb6bf7-f3dddefc69.json"
+	},
+	{
+		"id": "docs-generated-project-tutorials-projects-geelooy-awtsmoos-transfer-163a-91450e4767",
+		"title": "Project Tutorial: geelooy/.awtsmoos-transfer",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-awtsmoos-transfer-163a56bf.md",
+		"category": "Projects",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Project Tutorial: geelooy/.awtsmoos-transfer",
+				"anchor": "project-tutorial-geelooy-awtsmoos-transfer"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/.awtsmoos transfer Path: geelooy/.awtsmoos transfer · Type: project · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical obs",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/.awtsmoos transfer path: geelooy/.awtsmoos transfer · type: project · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: — local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 0 0 0 0 0 8 8 public entry points none observed. symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-awtsmoos-transfer-163a-91450e4767.json"
 	}
 ]

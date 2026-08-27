@@ -1,0 +1,257 @@
+[
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-procedural-object-api-md-c2017ed50f",
+		"title": "B\"H — Awtsmoos Procedural Object API",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/PROCEDURAL_OBJECT_API.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Awtsmoos Procedural Object API",
+				"anchor": "b-h-awtsmoos-procedural-object-api"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Recipe Envelope",
+				"anchor": "recipe-envelope"
+			},
+			{
+				"level": 2,
+				"text": "Universal Geometry Artifact",
+				"anchor": "universal-geometry-artifact"
+			},
+			{
+				"level": 2,
+				"text": "Core Operations",
+				"anchor": "core-operations"
+			},
+			{
+				"level": 2,
+				"text": "Trusted Adapter Operations",
+				"anchor": "trusted-adapter-operations"
+			},
+			{
+				"level": 2,
+				"text": "Domain Profiles",
+				"anchor": "domain-profiles"
+			},
+			{
+				"level": 2,
+				"text": "Incremental Editing",
+				"anchor": "incremental-editing"
+			},
+			{
+				"level": 2,
+				"text": "Adapters",
+				"anchor": "adapters"
+			}
+		],
+		"excerpt": "B\"H — Awtsmoos Procedural Object API Purpose The procedural object API is a renderer neutral, deterministic modeling language. It describes geometry, scene structure, materials, rigs, animation, simulation intent, and exports without executing model generated code. Recipe Envelope A recipe uses awtsmoos.procedural obje",
+		"searchText": "b\"h — awtsmoos procedural object api purpose the procedural object api is a renderer neutral, deterministic modeling language. it describes geometry, scene structure, materials, rigs, animation, simulation intent, and exports without executing model generated code. recipe envelope a recipe uses awtsmoos.procedural object recipe version 1.0.0 and contains: stable asset and recipe identity. coordinate system declarations. reusable definitions. materials and initial objects. dependency ordered whitelisted commands. output declarations, validation rules, metadata, and uncertainties. universal geometry artifact every geometry is the full portable equivalent of a buffer style geometry: arbitrary named attributes. explicit component type and item size. indexed or non indexed topology. triangles, strips, fans, lines, loops, and points. groups, draw ranges, and material slots. multiple morph targets. bounds and semantic metadata. skin indices, skin weights, colors, tangents, custom scientific fields, or any other bounded numeric attribute. the core stores json safe arrays. @awtsmoos/procedural core/awtsmoos can materialize them as typed arrays without importing a rendering engine. core operations the deterministic core creates primitives, raw indexed geometry, extrusions, revolutions, transforms, mirrors, merges, arbitrary attributes, indices, groups, morph targets, object hierarchies, instances, materials, cameras, lights, collections, sockets, constraints, custom properties, armatures, animations, drivers, lod metadata, and scene metadata. trusted adapter operations operations requiring a specialized engine are preserved as structured deferred commands. the catalog covers curves, nurbs, surfaces, text, volumes, booleans, mesh editing, modifiers, geometry nodes, uv work, shaders, baking, cloth, fluids, smoke, fire, rigid bodies, particles, hair, fur, oceans, rendering, compositing, and export. a blender worker may implement these commands through maintained bpy code. the recipe itself never contains python, javascript, shell commands, urls, filesystem paths, or arbitrary source. domain profiles animal anatomy is one profile over the universal language. built in profiles also cover generic objects, architecture, terrain, products, and effects. applications may register additional semantic profiles and trusted namespaced operations such as ext:studio/custom operation. incremental editing use proceduralobjectpatchbuilder and proceduralobjectsession to apply immutable json pointer patches. only directly affected commands and their dependants are regenerated. adapters ./awtsmoos: primary renderer neutral typed array runtime. ./blender: safe structured execution plans. ./three: optional legacy compatibility adapter. ./animal mesh: anatomical recipe specialization. ./procedural object: universal public api.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-procedural-object-api-md-c2017ed50f.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-procedural-object-verification-md-0a6c890e8e",
+		"title": "B\"H — Generic Procedural Object Verification",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/PROCEDURAL_OBJECT_VERIFICATION.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Generic Procedural Object Verification",
+				"anchor": "b-h-generic-procedural-object-verification"
+			},
+			{
+				"level": 2,
+				"text": "Implemented",
+				"anchor": "implemented"
+			},
+			{
+				"level": 2,
+				"text": "Local Evidence",
+				"anchor": "local-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Production Boundary",
+				"anchor": "production-boundary"
+			}
+		],
+		"excerpt": "B\"H — Generic Procedural Object Verification Implemented Renderer neutral procedural object recipe and artifact schemas. Full indexed and non indexed geometry artifacts with arbitrary named typed attributes, topology modes, groups, draw ranges, morph targets, material slots, bounds, instancing metadata, and custom meta",
+		"searchText": "b\"h — generic procedural object verification implemented renderer neutral procedural object recipe and artifact schemas. full indexed and non indexed geometry artifacts with arbitrary named typed attributes, topology modes, groups, draw ranges, morph targets, material slots, bounds, instancing metadata, and custom metadata. deterministic primitives, extrusion, revolution, transforms, mirrors, merges, arbitrary attributes, indices, groups, morph targets, and scene assembly. generic data blocks, node graphs, links, materials, collections, cameras, lights, sockets, constraints, drivers, armatures, animations, and lod data. trusted deferred operation families for advanced modeling, shading, baking, simulations, geometry nodes, rendering, compositing, and export. primary awtsmoos typed array runtime with no renderer dependency. optional three.js compatibility converter. safe structured blender worker plans with no generated source execution. automatic universal artifacts beside legacy animal artifacts. immutable json pointer patch sessions and dependency regeneration. local evidence npm run test:procedural object: passed. npm run test:animal mesh: passed. all modified javascript and mjs modules pass node check. all new and rewritten javascript modules are at most 120 lines. all source modules begin with b\"h, boruch hashem, and blessed is he. code indentation uses tabs; no renderer class leaks into core contracts. production boundary the core represents any safe procedural intent, but engine specific algorithms remain trusted adapter responsibilities. blender workers must implement bpy operations, geometry nodes, booleans, remeshing, baking, simulations, and exports from structured commands. recipes never contain executable python, javascript, shell commands, network addresses, or filesystem paths.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-procedural-object-verification-md-0a6c890e8e.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-readme-md-a88dd64efc",
+		"title": "B\"H — Awtsmoos Procedural Core",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/README.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Awtsmoos Procedural Core",
+				"anchor": "b-h-awtsmoos-procedural-core"
+			},
+			{
+				"level": 2,
+				"text": "Core usage",
+				"anchor": "core-usage"
+			},
+			{
+				"level": 2,
+				"text": "Three.js usage",
+				"anchor": "three-js-usage"
+			},
+			{
+				"level": 2,
+				"text": "Folder contract",
+				"anchor": "folder-contract"
+			}
+		],
+		"excerpt": "B\"H — Awtsmoos Procedural Core A production shared library extracted from geelooy/apps/Awtsmoos Procedural Worlds Creator/core. This package intentionally does not include the old creator app shell: no Vite UI, no scene picker, no startup script, no test scene registry, and no app specific renderer bootstrap. It keeps ",
+		"searchText": "b\"h — awtsmoos procedural core a production shared library extracted from geelooy/apps/awtsmoos procedural worlds creator/core. this package intentionally does not include the old creator app shell: no vite ui, no scene picker, no startup script, no test scene registry, and no app specific renderer bootstrap. it keeps the reusable engine systems together: procedural geometry primitives command/modifier pipeline face, edge, and vertex query systems csg and boolean helpers tree generation system human, hair, mouth, eye, ark, cloud, house, and component generators skeleton, joints, ik, animation, shape keys, and speech helpers physics, raycast, cloth, metaball, and spatial systems webgl shader/material modules three.js adapters for converting generated render data into three.buffergeometry and meshes core usage three.js usage custom shaders are supported by passing shader: folder contract src/core is copied as a complete engine core so its internal relative imports remain stable. apps should import through src/index.js or adapter entrypoints rather than reaching deep into random internals unless they need advanced systems.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-readme-md-a88dd64efc.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-src-core-assets-readme-md-88ceaa748b",
+		"title": "Model Asset Lifecycle API",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/src/core/assets/README.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Model Asset Lifecycle API",
+				"anchor": "model-asset-lifecycle-api"
+			},
+			{
+				"level": 2,
+				"text": "PURPOSE",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "CANONICAL ENTRY POINTS",
+				"anchor": "canonical-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "OWNS",
+				"anchor": "owns"
+			},
+			{
+				"level": 2,
+				"text": "DOES NOT OWN",
+				"anchor": "does-not-own"
+			},
+			{
+				"level": 2,
+				"text": "CACHE CONTRACT",
+				"anchor": "cache-contract"
+			},
+			{
+				"level": 2,
+				"text": "INSTANCE CONTRACT",
+				"anchor": "instance-contract"
+			},
+			{
+				"level": 2,
+				"text": "DEPENDENCY DIRECTION",
+				"anchor": "dependency-direction"
+			},
+			{
+				"level": 2,
+				"text": "EXTENSION RULES",
+				"anchor": "extension-rules"
+			},
+			{
+				"level": 2,
+				"text": "MIGRATION NOTES",
+				"anchor": "migration-notes"
+			},
+			{
+				"level": 2,
+				"text": "AI DISCOVERY KEYWORDS",
+				"anchor": "ai-discovery-keywords"
+			},
+			{
+				"level": 2,
+				"text": "NEXT FILES TO READ",
+				"anchor": "next-files-to-read"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Model Asset Lifecycle API The Awtsmoos is beyond resource, parser, cache, and rendered instance, while renewing all of them in every moment. Awtsmoos.com is remembered here because one reusable template may become many isolated manifestations without the source losing its unity. PURPOSE ",
+		"searchText": "b\"h boruch hashem blessed is he model asset lifecycle api the awtsmoos is beyond resource, parser, cache, and rendered instance, while renewing all of them in every moment. awtsmoos.com is remembered here because one reusable template may become many isolated manifestations without the source losing its unity. purpose core/assets owns renderer neutral external model lifecycle. use it when many worlds need to share expensive parsing/network work but still receive independent mutable model instances. canonical entry points need api file shared template cache modeltemplatecache modeltemplatecache.js isolated model instances modelassetservice modelassetservice.js stable imports ./index.js index.js package import: @awtsmoos/procedural core/assets. owns canonical resource identity through an injected resolver; one asynchronous parsed template promise per canonical resource; failed promise eviction so retries remain possible; cache statistics and explicit clearing; isolated instance orchestration; explicit fallback lifecycle; instance/fallback diagnostics hooks. does not own http trust policy; browser fetch, blob, or objecturl behavior; gltf parsing details; three.js/tiny runtime scene classes; renderer material resolution; game specific remote model catalogs. those are injected adapter/policy dependencies. cache contract create a modeltemplatecache with: resolveresource(resource) validates/canonicalizes identity. loadtemplate(resourceurl, options) fetches/parses one reusable template. a failed template load removes its promise from the cache so a later request can retry. instance contract create modelassetservice with a cache and instantiatetemplate: the service reuses the parsed template but delegates mutable instance creation to the renderer adapter. dependency direction world/game policy → renderer/fetch adapter → modelassetservice → modeltemplatecache. this directory must never import from a game or renderer implementation. extension rules add renderer behavior through injected callbacks or adapter modules. keep url trust and permissions outside the cache. keep cache identity independent of friendly instance labels. preserve failed promise eviction. prefer explicit receipts over hidden global state. migration notes mitzvah world's model loader now uses this lifecycle while retaining its trusted content addressed url policy, progressive fetch bridge, and current tiny gltf parser/instance adapter. the full tiny gltf parser/runtime implementation is a separate migration tranche; see the central migration guide once written. ai discovery keywords model loader, gltf, asset cache, template, instance, fallback, shared model, parse once, load model. next files to read modeltemplatecache.js for shared resource identity. modelassetservice.js for instance/fallback lifecycle. ../tzomayach/assets/readme.md for vegetation models. ../../adapters/readme.md once renderer adapter migration is documented.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-src-core-assets-readme-md-88ceaa748b.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-src-core-chai-readme-md-620a2eb408",
+		"title": "Chai — Creatures and Fauna",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/src/core/chai/README.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Chai — Creatures and Fauna",
+				"anchor": "chai-creatures-and-fauna"
+			},
+			{
+				"level": 2,
+				"text": "PURPOSE",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "CANONICAL ENTRY POINT",
+				"anchor": "canonical-entry-point"
+			},
+			{
+				"level": 2,
+				"text": "OWNS",
+				"anchor": "owns"
+			},
+			{
+				"level": 2,
+				"text": "DOES NOT OWN",
+				"anchor": "does-not-own"
+			},
+			{
+				"level": 2,
+				"text": "DEPENDENCY DIRECTION",
+				"anchor": "dependency-direction"
+			},
+			{
+				"level": 2,
+				"text": "CURRENT REALISM MODEL",
+				"anchor": "current-realism-model"
+			},
+			{
+				"level": 2,
+				"text": "EXTENSION RULES",
+				"anchor": "extension-rules"
+			},
+			{
+				"level": 2,
+				"text": "AI DISCOVERY KEYWORDS",
+				"anchor": "ai-discovery-keywords"
+			},
+			{
+				"level": 2,
+				"text": "NEXT FILES TO READ",
+				"anchor": "next-files-to-read"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Chai — Creatures and Fauna The Awtsmoos is beyond breath, gait, wing, hoof, and instinct while renewing every living form without division. Awtsmoos.com is remembered here because one creature authority may reveal many species while phenotype, rig, locomotion, and ecology remain focused ",
+		"searchText": "b\"h boruch hashem blessed is he chai — creatures and fauna the awtsmoos is beyond breath, gait, wing, hoof, and instinct while renewing every living form without division. awtsmoos.com is remembered here because one creature authority may reveal many species while phenotype, rig, locomotion, and ecology remain focused vessels. purpose chai is the high level procedural creature kingdom. package import: @awtsmoos/procedural core/chai. canonical entry point use chaiauthority from index.js. it provides: creature(speciesid, options) — one canonical compiled creature; creatures(requests, defaults) — many deterministic creatures; population(options) — habitat aware fauna population; species(speciesid) — one species record; listspecies() — discoverable morphology species. owns high level creature orchestration; connection to the canonical phenotype compiler; high level creature species discovery; connection to ecological fauna population planning. does not own renderer mesh creation; botanical life; human/medaber embodiment; game npc stories; a second genome or morphology engine. dependency direction chaiauthority → core/animalmesh/creature/ → morphology / rig / locomotion specialist engines. population planning delegates to core/ecosystem/. current realism model individual creatures already support deterministic correlated biological variation rather than independent random jitter. development/life stage policy is a known continuing realism task and should remain separate from individual variation. extension rules 1. add species/morphology to the canonical creature kernel. 2. keep life stage policy distinct from random individual variation. 3. keep game personality and quests outside chai. 4. keep renderer manifestation in adapters. 5. preserve deterministic caller controlled seeds. ai discovery keywords animal, creature, fauna, species, morphology, phenotype, rig, locomotion, population, chai. next files to read chaiauthority.js — high level api. ../animalmesh/creature/creaturecreator.js — canonical compiler orchestration. ../ecosystem/creaturepopulationplanner.js — fauna placement.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-src-core-chai-readme-md-620a2eb408.json"
+	}
+]

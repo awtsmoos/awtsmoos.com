@@ -14,8 +14,8 @@
 		},
 		{
 			"level": 2,
-			"text": "One authoritative generation",
-			"anchor": "one-authoritative-generation"
+			"text": "Authoritative generation",
+			"anchor": "authoritative-generation"
 		},
 		{
 			"level": 2,
@@ -24,23 +24,13 @@
 		},
 		{
 			"level": 2,
-			"text": "Unified validator",
-			"anchor": "unified-validator"
-		},
-		{
-			"level": 2,
 			"text": "Manual versus generated",
 			"anchor": "manual-versus-generated"
 		},
 		{
 			"level": 2,
-			"text": "Project documentation workflow",
-			"anchor": "project-documentation-workflow"
-		},
-		{
-			"level": 2,
-			"text": "Frontend/publication workflow",
-			"anchor": "frontend-publication-workflow"
+			"text": "System workflow",
+			"anchor": "system-workflow"
 		}
 	],
 	"markdownParts": [

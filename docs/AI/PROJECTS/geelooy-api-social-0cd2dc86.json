@@ -23,19 +23,19 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-social-0cd2dc86.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 1038,
-		"tests": 148,
+		"source": 1260,
+		"tests": 250,
 		"assets": 0,
 		"generated": 0,
 		"docs": 5,
 		"other": 1
 	},
-	"totalFiles": 1192,
+	"totalFiles": 1516,
 	"symbolSummary": {
-		"files": 532,
-		"classes": 11,
-		"functions": 2574,
-		"exports": 2151,
+		"files": 754,
+		"classes": 23,
+		"functions": 3427,
+		"exports": 2838,
 		"samples": [
 			"metadata",
 			"requireLogin",
@@ -43,12 +43,12 @@
 			"createAliasSafely",
 			"deleteAliasSafely",
 			"aliasEntityRoute",
-			"needs",
+			"copyInput",
+			"requireMethod",
 			"targetFromBody",
-			"method",
-			"input",
-			"json",
-			"query"
+			"guarded",
+			"failure",
+			"method"
 		]
 	},
 	"outgoingDependencies": [
@@ -56,18 +56,53 @@
 			"project": "ayzarim/DosDB",
 			"count": 33,
 			"examples": "geelooy/api/social/helper/comments/aliasIndex/PackedIndexStore.js; geelooy/api/social/helper/comments/canonicalCommentSource.js; geelooy/api/social/helper/comments/commentAwtsmoosDbBridge.js"
+		},
+		{
+			"project": "ayzarim/awtsmoosDynamicServer",
+			"count": 5,
+			"examples": "geelooy/api/social/helper/drive/projectDatabaseService.js; geelooy/api/social/helper/drive/projectRuntimeMaterializer.js; geelooy/api/social/helper/drive/routes/projectHostingRoutes.js"
+		},
+		{
+			"project": "geelooy/ai",
+			"count": 2,
+			"examples": "geelooy/api/social/helper/drive/browser/interactiveBrowserTargetCatalog.js; geelooy/api/social/helper/drive/browser/interactiveTargetController.js"
+		},
+		{
+			"project": "geelooy/api/tunnel",
+			"count": 1,
+			"examples": "geelooy/api/social/helper/repositories/gitCloneService.js"
+		},
+		{
+			"project": "geelooy/sites",
+			"count": 1,
+			"examples": "geelooy/api/social/helper/drive/siteStatusService.js"
 		}
 	],
 	"incomingDependencies": [
 		{
 			"project": "geelooy/sites",
-			"count": 5,
-			"examples": "geelooy/sites/siteGateway.js; geelooy/sites/siteResolution.js"
+			"count": 27,
+			"examples": "geelooy/sites/customDomainGateway.js; geelooy/sites/directSiteReadiness.js; geelooy/sites/directSiteResponse.js"
+		},
+		{
+			"project": "ayzarim/awtsmoosDynamicServer",
+			"count": 6,
+			"examples": "ayzarim/awtsmoosDynamicServer/websocket/apps/privateMessaging/integrationGateway.js; ayzarim/awtsmoosDynamicServer/websocket/apps/privateMessaging/meaningfulActivity.js; ayzarim/awtsmoosDynamicServer/websocket/apps/universalChat/activityAdapter.js"
 		},
 		{
 			"project": "geelooy/api/tunnel",
+			"count": 4,
+			"examples": "geelooy/api/tunnel/control/routes/fsVessel/hostedVirtualOs/sitePublicationDispatcher.js; geelooy/api/tunnel/control/routes/osFs/listRead.js; geelooy/api/tunnel/control/routes/osFs/writeOps.js"
+		},
+		{
+			"project": "geelooy/api/projectHosting",
 			"count": 2,
-			"examples": "geelooy/api/tunnel/control/routes/osFs/listRead.js; geelooy/api/tunnel/control/routes/osFs/writeOps.js"
+			"examples": "geelooy/api/projectHosting/requestIdentity.js"
+		},
+		{
+			"project": "geelooy/api/ssh",
+			"count": 2,
+			"examples": "geelooy/api/ssh/virtual/accessGuard.js"
 		},
 		{
 			"project": "ayzarim/email",
@@ -83,6 +118,16 @@
 			"project": "geelooy/api/wallet",
 			"count": 1,
 			"examples": "geelooy/api/wallet/core/transferIdentity.js"
+		},
+		{
+			"project": "geelooy/git",
+			"count": 1,
+			"examples": "geelooy/git/_awtsmoos.derech.js"
+		},
+		{
+			"project": "geelooy/scripts",
+			"count": 1,
+			"examples": "geelooy/scripts/release-assets/seed-drive.js"
 		}
 	],
 	"externalDependencies": [],

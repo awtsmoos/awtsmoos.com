@@ -4,9 +4,8 @@
 /**
  * @module SocialApiDerech
  * @description
- * The Awtsmoos remembers one request before asynchronous identity gates open.
- * Awtsmoos.com gathers public discovery, safe identity bootstrap, and every live social route
- * without allowing concurrent requests to exchange query or body vessels.
+ * The Awtsmoos remembers one request before asynchronous identity gates open; Awtsmoos.com now gathers the unified
+ * Social Kernel beside discovery, summaries, identity, content, community, and every proven route without changing their home.
  */
 const aliases = require('./_awtsmoos.alias.js');
 const assets = require('./_awtsmoos.assets.js');
@@ -38,6 +37,8 @@ const profile = require('./_awtsmoos.profile.js');
 const publicDiscovery = require('./_awtsmoos.publicDiscovery.js');
 const search = require('./_awtsmoos.search.js');
 const series = require('./_awtsmoos.series.js');
+const socialKernel = require('./_awtsmoos.socialKernel.js');
+const socialSummary = require('./_awtsmoos.socialSummary.js');
 const thoughts = require('./_awtsmoos.thoughts.js');
 const { verifyApiKey } = require('./helper/apiKeys.js');
 const { loggedIn } = require('./helper/general.js');
@@ -48,10 +49,7 @@ async function resolveUser($i) {
 	const apiKeyIdentity = await verifyApiKey({ $i });
 	if (!apiKeyIdentity?.success?.userId) return null;
 	const userid = apiKeyIdentity.success.userId;
-	$i.request.user = {
-		info: { userId: userid },
-		apiKey: apiKeyIdentity.success.key
-	};
+	$i.request.user = { info: { userId: userid }, apiKey: apiKeyIdentity.success.key };
 	return userid;
 }
 
@@ -61,10 +59,7 @@ async function fetchProxy($i, variables) {
 		const response = await $i.fetch(decodeURIComponent(encoded));
 		return await response.text();
 	} catch (error) {
-		return {
-			BH: 'B"H',
-			error: { message: 'Issue', code: 'PROBLEM', details: String(error) }
-		};
+		return { BH: 'B"H', error: { message: 'Issue', code: 'PROBLEM', details: String(error) } };
 	}
 }
 
@@ -73,14 +68,7 @@ function optionalNodeOs(vessel) {
 		return require('./_awtsmoos.nodeOs.js')(vessel);
 	} catch (error) {
 		console.warn('B"H - NodeOS routes skipped, social core remains alive:', error.message);
-		return {
-			'/nodeOs/status': async () => ({
-				BH: 'B"H',
-				ok: false,
-				disabled: true,
-				error: error.message
-			})
-		};
+		return { '/nodeOs/status': async () => ({ BH: 'B"H', ok: false, disabled: true, error: error.message }) };
 	}
 }
 
@@ -91,13 +79,13 @@ module.exports = async $i => {
 	await $i.use({
 		'/': async () => ({ BH: 'yes', session: $i.request.user }),
 		'/fetch/:url': async variables => fetchProxy($i, variables),
-		...profile(vessel), ...publicDiscovery(vessel), ...identityBootstrap(vessel),
-		...communications(vessel), ...civilization(vessel), ...objects(vessel), ...aliases(vessel),
-		...keys(vessel), ...graph(vessel), ...search(vessel), ...content(vessel), ...community(vessel),
-		...entities(vessel), ...living(vessel), ...thoughts(vessel), ...assets(vessel),
-		...drive(vessel), ...editor(vessel), ...governance(vessel), ...notifications(vessel),
-		...packed(vessel), ...platform(vessel), ...migrations(vessel), ...heichelos(vessel),
-		...posts(vessel), ...counters(vessel), ...mail(vessel), ...fileSystem({ $i }),
-		...optionalNodeOs(vessel), ...comments(vessel), ...series(vessel), ...books(vessel)
+		...socialKernel(vessel), ...profile(vessel), ...publicDiscovery(vessel), ...socialSummary(vessel),
+		...identityBootstrap(vessel), ...communications(vessel), ...civilization(vessel), ...objects(vessel),
+		...aliases(vessel), ...keys(vessel), ...graph(vessel), ...search(vessel), ...content(vessel),
+		...community(vessel), ...entities(vessel), ...living(vessel), ...thoughts(vessel), ...assets(vessel),
+		...drive(vessel), ...editor(vessel), ...governance(vessel), ...notifications(vessel), ...packed(vessel),
+		...platform(vessel), ...migrations(vessel), ...heichelos(vessel), ...posts(vessel), ...counters(vessel),
+		...mail(vessel), ...fileSystem({ $i }), ...optionalNodeOs(vessel), ...comments(vessel),
+		...series(vessel), ...books(vessel)
 	});
 };

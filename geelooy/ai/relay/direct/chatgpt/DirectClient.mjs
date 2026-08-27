@@ -7,13 +7,14 @@ import { AuthenticatedSocketController } from "../browser/AuthenticatedSocketCon
 import { StageTimingLedger } from "../core/StageTimingLedger.mjs";
 import { DirectClientResultPresenter } from "./DirectClientResultPresenter.mjs";
 import { DirectTurnExecutor } from "./DirectTurnExecutor.mjs";
+import { VerifiedSendHold } from "./VerifiedSendHold.mjs";
 
 /**
- * @file Sends once, verifies acceptance, closes once, and never awaits an answer.
+ * @file Verifies one prompt, one accepted POST, one twenty-second witness, then one close.
  * @description
- * The Awtsmoos gives the browser one bounded shlichus: deliver the prompt.
- * Awtsmoos.com verifies closure, marks failed acceptance persistence as uncertain,
- * and lets durable tools and shared rooms continue after the tab disappears.
+ * The Awtsmoos gives the browser one bounded shlichus and Awtsmoos.com refuses haste:
+ * exact composer letters and accepted network testimony come first; the same target then
+ * remains alive for twenty seconds, while ambiguous Send boundaries stay open for inspection.
  */
 export class DirectClient {
 	constructor(options = {}) {
@@ -28,26 +29,28 @@ export class DirectClient {
 		this.hostLease = options.hostLease || new AuthenticatedHostLease({ openHost });
 		this.turnExecutor = options.turnExecutor || new DirectTurnExecutor();
 		this.presenter = options.presenter || new DirectClientResultPresenter();
+		this.sendHold = options.sendHold || new VerifiedSendHold({ minimumMs: options.verifiedSendHoldMs });
 	}
 
 	async send(options = {}) {
 		this.assertNotAborted(options.signal);
 		const ledger = new StageTimingLedger();
+		const boundary = { started: false, accepted: false, acceptedAt: 0 };
+		const guarded = this.guardCallbacks(options, boundary);
 		let submitted = null;
 		try {
-			submitted = await this.hostLease.run(
-				(controller, lease) => this.turnExecutor.execute(
-					options,
-					controller,
-					lease,
-					ledger
-				),
-				{ closeAfterTask: true }
-			);
+			submitted = await this.hostLease.run(async (controller, lease) => {
+				const result = await this.turnExecutor.execute(guarded, controller, lease, ledger);
+				const hold = await this.sendHold.wait(result.submission.acceptedAt);
+				return { ...result, verifiedSendHold: hold };
+			}, {
+				closeAfterTask: true,
+				retainOnError: () => boundary.started
+			});
 		} catch (error) {
-			if (error.submissionAccepted && error.tabClose?.verified) {
-				await this.notifyClosed(options, error.tabClose, Date.now(), true);
-			}
+			error.submissionStarted ||= boundary.started;
+			error.submissionAccepted ||= boundary.accepted;
+			error.acceptedAt ||= boundary.acceptedAt || undefined;
 			throw error;
 		}
 		if (!submitted.tabClose?.verified) throw closeError(submitted.tabClose);
@@ -56,22 +59,28 @@ export class DirectClient {
 		return this.presenter.dispatch(submitted, ledger, closedAt);
 	}
 
-	async recover() {
-		throw codedError("response_recovery_disabled_submit_only");
+	guardCallbacks(options, boundary) {
+		return {
+			...options,
+			onSubmissionStarted: async receipt => {
+				await options.onSubmissionStarted?.(receipt);
+				boundary.started = true;
+			},
+			onSubmissionAccepted: async receipt => {
+				boundary.accepted = true;
+				boundary.acceptedAt = Number(receipt?.acceptedAt || Date.now());
+				await options.onSubmissionAccepted?.(receipt);
+			}
+		};
 	}
+
+	async recover() { throw codedError("response_recovery_disabled_submit_only"); }
 
 	notifyClosed(options, tabClose, closedAt, submissionUncertain) {
-		return options.onTabClosed?.({
-			tabClose,
-			closedAt,
-			verified: true,
-			submissionUncertain
-		});
+		return options.onTabClosed?.({ tabClose, closedAt, verified: true, submissionUncertain });
 	}
 
-	close() {
-		return this.hostLease.close();
-	}
+	close() { return this.hostLease.close(); }
 
 	status() {
 		return {
@@ -79,15 +88,13 @@ export class DirectClient {
 			forceNewTarget: this.forceNewTarget,
 			detachedPolling: false,
 			waitsForAnswer: false,
-			resultContract: "prompt-dispatch-receipt",
+			resultContract: "verified-prompt-post-hold-close",
 			hostLease: this.hostLease.status()
 		};
 	}
 
 	assertNotAborted(signal) {
-		if (signal?.aborted) {
-			throw signal.reason || codedError("direct_request_cancelled");
-		}
+		if (signal?.aborted) throw signal.reason || codedError("direct_request_cancelled");
 	}
 }
 

@@ -1,344 +1,36 @@
 [
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-apps-exe-emulator-d3f8-2596b42f5b",
-		"title": "Project Tutorial: Awtsmoos EXE Emulator",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-exe-emulator-d3f8122b.md",
-		"category": "Projects",
+		"id": "docs-generated-dynamic-parameters-dynamic-parameters-004-md-6fc94bf3cd",
+		"title": "Generated Dynamic Parameter Inventory 256–340",
+		"sourcePath": "docs/GENERATED/DYNAMIC_PARAMETERS/dynamic-parameters-004.md",
+		"category": "General",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: Awtsmoos EXE Emulator",
-				"anchor": "project-tutorial-awtsmoos-exe-emulator"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Generated Dynamic Parameter Inventory 256–340",
+				"anchor": "generated-dynamic-parameter-inventory-256-340"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Awtsmoos EXE Emulator Path: geelooy/apps/exe emulator · Type: app · Family: Applications Read the human Applications guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or heal",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: awtsmoos exe emulator path: geelooy/apps/exe emulator · type: app · family: applications read the human applications guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, documentation.md local documentation: geelooy/apps/exe emulator/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 271 133 1 9 2 1 417 public entry points /apps/exe emulator → geelooy/apps/exe emulator/index.html — awtsmoos exe emulator /apps/exe emulator/examples/blender webgl fixture → geelooy/apps/exe emulator/examples/blender webgl fixture/index.html — awtsmoos blender studio symbol evidence source files: 258; classes: 9; functions: 895; exports: 409; samples: async, runawtexepackage, expectedpayloadformat, inspectunknownbinary, createbinaryscanwindows, decodebinarywindow, boundedpositive, makebytevessel, readascii, drawcanvas2d, clearcanvas, drawtext. depends on geelooy/scripts — 8 lexical references; examples: geelooy/apps/exe emulator/examples/progressive/generatedartifacts.mjs; geelooy/apps/exe emulator/source/compilesourceartifact.js; geelooy/apps/exe emulator/source/nativecontainers.js geelooy/shared — 8 lexical references; examples: geelooy/apps/exe emulator/core/awtexeruntime.js; geelooy/apps/exe emulator/core/executablehost.js; geelooy/apps/exe emulator/core/wasmguiimports.js geelooy/apps/android emulator — 1 lexical reference; examples: geelooy/apps/exe emulator/source/runsourceartifact.js used by geelooy/os — 9 lexical references; examples: geelooy/os/programs/awtsmoos executable/browserruntime.js; geelooy/os/programs/awtsmoos executable/index.js; geelooy/os/programs/awtsmoos executable/nativelifecycle.js external packages none observed. verification clue observed test classified files: 133 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-apps-exe-emulator-d3f8-2596b42f5b.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Dynamic Parameter Inventory 256–340 Colon prefixed URL parameters are path grammar; dollar prefixed request vessels are not. URL pattern Source Discovery /api/social/living/heichelos/:heichel/posts/:post geelooy/api/social/ awtsmoos.living.js static literal /api/social/living/h",
+		"searchText": "b\"h boruch hashem blessed is he generated dynamic parameter inventory 256–340 colon prefixed url parameters are path grammar; dollar prefixed request vessels are not. url pattern source discovery /api/social/living/heichelos/:heichel/posts/:post geelooy/api/social/ awtsmoos.living.js static literal /api/social/living/heichelos/:heichel/series/:series/posts/:post geelooy/api/social/ awtsmoos.living.js static literal /api/social/mail/approve/:senderid geelooy/api/social/ awtsmoos.mail.js static literal /api/social/mail/delete/:messageid geelooy/api/social/ awtsmoos.mail.js static literal /api/social/mail/get/:mailid geelooy/api/social/ awtsmoos.mail.js static literal /api/social/mail/get/:mailid/read geelooy/api/social/ awtsmoos.mail.js static literal /api/social/mail/sendto/:toalias/from/:fromalias geelooy/api/social/ awtsmoos.mail.js static literal /api/social/mail/thread/delete/:threadid geelooy/api/social/ awtsmoos.mail.js static literal /api/social/mail/universe/:thread/link geelooy/api/social/ awtsmoos.mail.js static literal /api/social/node os/mount/assets/:alias geelooy/api/social/ awtsmoos.nodeos.js static literal /api/social/node os/mount/entity/:type/:id geelooy/api/social/ awtsmoos.nodeos.js static literal /api/social/node os/nodes/:node geelooy/api/social/ awtsmoos.nodeos.js static literal /api/social/node os/nodes/:node/children geelooy/api/social/ awtsmoos.nodeos.js static literal /api/social/notifications/:alias geelooy/api/social/ awtsmoos.notifications.js static literal /api/social/notifications/:alias/:notification geelooy/api/social/ awtsmoos.notifications.js static literal /api/social/notifications/:alias/:notification/archive geelooy/api/social/ awtsmoos.notifications.js static literal /api/social/notifications/:alias/:notification/read geelooy/api/social/ awtsmoos.notifications.js static literal /api/social/notifications/:alias/poll geelooy/api/social/ awtsmoos.notifications.js static literal /api/social/notifications/:alias/preferences geelooy/api/social/ awtsmoos.notifications.js static literal /api/social/notifications/:alias/read/all geelooy/api/social/ awtsmoos.notifications.js static literal /api/social/notifications/:alias/unread/count geelooy/api/social/ awtsmoos.notifications.js static literal /api/social/notifications/digest/:alias geelooy/api/social/ awtsmoos.platform.js static literal /api/social/objects/:type/:id geelooy/api/social/ awtsmoos.objects.js static literal /api/social/objects/:type/:id/card geelooy/api/social/ awtsmoos.objects.js static literal /api/social/objects/:type/:id/inspect geelooy/api/social/ awtsmoos.objects.js static literal /api/social/objects/:type/:id/relationships geelooy/api/social/ awtsmoos.objects.js static literal /api/social/objects/:type/:id/timeline geelooy/api/social/ awtsmoos.objects.js static literal /api/social/objects/adapt/:adapter geelooy/api/social/ awtsmoos.objects.js static literal /api/social/profile/:alias geelooy/api/social/ awtsmoos.profile.js static literal /api/social/profile/:alias/activity geelooy/api/social/ awtsmoos.profile.js static literal /api/social/profile/:alias/comments geelooy/api/social/ awtsmoos.profile.js static literal /api/social/profile/:alias/heichelos geelooy/api/social/ awtsmoos.profile.js static literal /api/social/profile/:alias/posts geelooy/api/social/ awtsmoos.profile.js static literal /api/social/profile/:alias/series tree geelooy/api/social/ awtsmoos.profile.js static literal /api/social/profile/:alias/tree geelooy/api/social/ awtsmoos.profile.js static literal /api/social/profiles/:alias geelooy/api/social/ awtsmoos.profile.js static literal /api/social/profiles/:alias/activity geelooy/api/social/ awtsmoos.profile.js static literal /api/social/profiles/:alias/analytics geelooy/api/social/ awtsmoos.profile.js static literal /api/social/profiles/:alias/graph geelooy/api/social/ awtsmoos.profile.js static literal /api/social/profiles/:alias/history geelooy/api/social/ awtsmoos.profile.js static literal /api/social/profiles/:alias/living card geelooy/api/social/ awtsmoos.profile.js static literal /api/social/reactions/:type/:id geelooy/api/social/ awtsmoos.reactions.js static literal /api/social/recommendations/:alias geelooy/api/social/ awtsmoos.profile.js static literal /api/social/relationships/:alias geelooy/api/social/ awtsmoos.platform.js static literal /api/social/relationships/:alias/:type/:target geelooy/api/social/ awtsmoos.platform.js static literal /api/social/search/rag/comments/:comment geelooy/api/social/helper/search/routes/comments.js static literal /api/social/sync/pull/:alias geelooy/api/social/ awtsmoos.platform.js static literal /api/social/thoughts/:entitytype/:entityid geelooy/api/social/ awtsmoos.thoughts.js static literal /api/social/thoughts/:entitytype/:entityid/stats geelooy/api/social/ awtsmoos.thoughts.js static literal /api/social/thoughts/:thoughtid geelooy/api/social/ awtsmoos.thoughts.js static literal /api/social/thoughts/:thoughtid/reactions geelooy/api/social/ awtsmoos.thoughts.js static literal /api/social/thoughts/:thoughtid/replies geelooy/api/social/ awtsmoos.thoughts.js static literal /api/social/thoughts/thread/:thoughtid geelooy/api/social/ awtsmoos.thoughts.js static literal /api/social/unified social/activity/:alias geelooy/api/social/ awtsmoos.activityledger.js static literal /api/social/unified social/activity/:alias/events/:event geelooy/api/social/ awtsmoos.activityledger.js static literal /api/social/unified social/activity/:alias/export geelooy/api/social/ awtsmoos.activityledger.js static literal /api/social/unified social/activity/:alias/preferences geelooy/api/social/ awtsmoos.activityledger.js static literal /api/social/unified social/activity/:alias/shared geelooy/api/social/ awtsmoos.activityledger.js static literal /api/social/unified social/destinations/:heichel/:series geelooy/api/social/ awtsmoos.destinations.js static literal /api/social/unified social/heichelos/:heichel/access geelooy/api/social/ awtsmoos.destinations.js static literal /api/social/unified social/heichelos/:heichel/governance geelooy/api/social/ awtsmoos.membergovernance.js static literal /api/social/unified social/heichelos/:heichel/invitations geelooy/api/social/ awtsmoos.membergovernance.js static literal /api/social/unified social/heichelos/:heichel/invitations/:invitation/respond geelooy/api/social/ awtsmoos.membergovernance.js static literal /api/social/unified social/heichelos/:heichel/members geelooy/api/social/ awtsmoos.destinations.js static literal /api/social/unified social/heichelos/:heichel/members/:member geelooy/api/social/ awtsmoos.membergovernance.js static literal /api/social/unified social/heichelos/:heichel/review geelooy/api/social/ awtsmoos.reviewcenter.js static literal /api/social/unified social/heichelos/:heichel/review/:submission geelooy/api/social/ awtsmoos.reviewcenter.js static literal /api/social/unified social/heichelos/:heichel/series geelooy/api/social/ awtsmoos.destinations.js static literal /api/social/unified social/heichelos/:heichel/series/:series/placements geelooy/api/social/ awtsmoos.publishflow.js static literal /api/social/unified social/heichelos/:heichel/series/:series/policy geelooy/api/social/ awtsmoos.destinations.js static literal /api/social/unified social/interactions/comments/:comment/promote geelooy/api/social/ awtsmoos.interactionflow.js static literal /api/social/unified social/interactions/comments/:comment/promote preview geelooy/api/social/ awtsmoos.interactionflow.js static literal /api/social/unified social/interactions/posts/:post/embed comment geelooy/api/social/ awtsmoos.interactionflow.js static literal /api/social/unified social/profile hub/:alias geelooy/api/social/ awtsmoos.profilehub.js static literal /api/social/user/:user/aliases geelooy/api/social/ awtsmoos.alias.js static literal /api/social/user/:user/aliases/:alias geelooy/api/social/ awtsmoos.alias.js static literal /api/social/user/:user/aliases/:alias/details geelooy/api/social/ awtsmoos.alias.js static literal /api/social/user/:user/aliases/details geelooy/api/social/ awtsmoos.alias.js static literal /api/streaming/:connector geelooy/api/streaming/ awtsmoos.derech.js static literal /api/streaming/:connector/:action geelooy/api/streaming/ awtsmoos.derech.js static literal /api/text/timestamp/:jobid geelooy/api/text/ awtsmoos.derech.js static literal /api/text/timestamp/:jobid/result geelooy/api/text/ awtsmoos.derech.js static literal /api/tunnel/control/blob/:blobid geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/blob/:blobid/manifest geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/blob/:blobid/view geelooy/api/tunnel/control/routes/table.js route table",
+		"page": "pages/docs-generated-dynamic-parameters-dynamic-parameters-004-md-6fc94bf3cd.json"
 	},
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-apps-gpt-api-pulse-gar-fc995306cd",
-		"title": "Project Tutorial: Awtsmoos Pulse Garden",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-gpt-api-pulse-garden-4c75a3cc.md",
-		"category": "Projects",
+		"id": "docs-generated-dynamic-parameters-dynamic-parameters-005-md-b269c99ec3",
+		"title": "Generated Dynamic Parameter Inventory 341–358",
+		"sourcePath": "docs/GENERATED/DYNAMIC_PARAMETERS/dynamic-parameters-005.md",
+		"category": "General",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: Awtsmoos Pulse Garden",
-				"anchor": "project-tutorial-awtsmoos-pulse-garden"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Generated Dynamic Parameter Inventory 341–358",
+				"anchor": "generated-dynamic-parameter-inventory-341-358"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Awtsmoos Pulse Garden Path: geelooy/apps/gpt api pulse garden · Type: app · Family: Applications Read the human Applications guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: awtsmoos pulse garden path: geelooy/apps/gpt api pulse garden · type: app · family: applications read the human applications guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 1 0 0 0 0 0 1 public entry points /apps/gpt api pulse garden → geelooy/apps/gpt api pulse garden/index.html — awtsmoos pulse garden symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-apps-gpt-api-pulse-gar-fc995306cd.json"
-	},
-	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-apps-lyric-sync-78687d-bafeac5051",
-		"title": "Project Tutorial: Lyric Sync Engine",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-lyric-sync-78687d22.md",
-		"category": "Projects",
-		"provenance": "generated",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Project Tutorial: Lyric Sync Engine",
-				"anchor": "project-tutorial-lyric-sync-engine"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Lyric Sync Engine Path: geelooy/apps/lyric sync · Type: app · Family: Applications Read the human Applications guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health gua",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: lyric sync engine path: geelooy/apps/lyric sync · type: app · family: applications read the human applications guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 4 0 0 0 0 0 4 public entry points /apps/lyric sync → geelooy/apps/lyric sync/index.html — lyric sync engine symbol evidence source files: 2; classes: 2; functions: 18; exports: 0; samples: savesettings, loadsettings, parsevtt, collectsettings, updatelyrics, timetoseconds, formattime, downloadblob, particlesystem, is, handleexport, drawframe. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-apps-lyric-sync-78687d-bafeac5051.json"
-	},
-	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-apps-merkava-native-br-3eea5bfb2a",
-		"title": "Project Tutorial: geelooy/apps/merkava-native-browser",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-merkava-native-browser-86788fea.md",
-		"category": "Projects",
-		"provenance": "generated",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Project Tutorial: geelooy/apps/merkava-native-browser",
-				"anchor": "project-tutorial-geelooy-apps-merkava-native-browser"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/apps/merkava native browser Path: geelooy/apps/merkava native browser · Type: app · Family: Applications Read the human Applications guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not r",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/apps/merkava native browser path: geelooy/apps/merkava native browser · type: app · family: applications read the human applications guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: package.json, documentation.md local documentation: geelooy/apps/merkava native browser/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 60 0 0 10 1 8 79 public entry points /apps/merkava native browser/tmp chrome webgl → geelooy/apps/merkava native browser/tmp chrome webgl/index.html symbol evidence source files: 55; classes: 0; functions: 55; exports: 10; samples: readsample, cstringliteral, cmacrostring, stopgeneratedexeifrunning, filestats, buildreport, injectcssintohtml, collectcssassets, collectscriptassets, attrsof, fetchtext, describeembeddedexecutor. depends on geelooy/scripts — 44 lexical references; examples: geelooy/apps/merkava native browser/.inspect md2.cjs; geelooy/apps/merkava native browser/.test compile webgl.cjs; geelooy/apps/merkava native browser/build seed.mjs used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-apps-merkava-native-br-3eea5bfb2a.json"
-	},
-	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-apps-mitzvah-pushkuh-8-102756bbb1",
-		"title": "Project Tutorial: Mitzvah Pushkuh · Garden of Sparks",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-mitzvah-pushkuh-8cd09b5d.md",
-		"category": "Projects",
-		"provenance": "generated",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Project Tutorial: Mitzvah Pushkuh · Garden of Sparks",
-				"anchor": "project-tutorial-mitzvah-pushkuh-garden-of-sparks"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Mitzvah Pushkuh · Garden of Sparks Path: geelooy/apps/mitzvah pushkuh · Type: app · Family: Applications Read the human Applications guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime o",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: mitzvah pushkuh · garden of sparks path: geelooy/apps/mitzvah pushkuh · type: app · family: applications read the human applications guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, documentation.md local documentation: geelooy/apps/mitzvah pushkuh/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 140 7 0 0 1 2 150 public entry points /apps/mitzvah pushkuh → geelooy/apps/mitzvah pushkuh/index.html — mitzvah pushkuh · garden of sparks symbol evidence source files: 131; classes: 0; functions: 361; exports: 181; samples: setritual, setfilter, refresh, async, plant, open, mutate, relightselected, persist, seed, bindgarden, startgarden. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 7 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-apps-mitzvah-pushkuh-8-102756bbb1.json"
-	},
-	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-apps-nesher-studio-ad4-692e7407be",
-		"title": "Project Tutorial: 🦅 Nesher Studio",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-nesher-studio-ad4bc144.md",
-		"category": "Projects",
-		"provenance": "generated",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Project Tutorial: 🦅 Nesher Studio",
-				"anchor": "project-tutorial-nesher-studio"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: 🦅 Nesher Studio Path: geelooy/apps/nesher studio · Type: app · Family: Applications Read the human Applications guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health g",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: 🦅 nesher studio path: geelooy/apps/nesher studio · type: app · family: applications read the human applications guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, main.js, documentation.md local documentation: geelooy/apps/nesher studio/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 416 117 0 0 5 4 542 public entry points /apps/nesher studio → geelooy/apps/nesher studio/index.html — 🦅 nesher studio symbol evidence source files: 368; classes: 13; functions: 1176; exports: 909; samples: renderaudiomixerpanel, mountaudiomixerpanel, renderbinpanel, mountbinpanel, rendercolorpanel, mountcolorpanel, rendereffectspanel, mounteffectspanel, renderexportpanel, mountexportpanel, renderpreviewmonitor, mountpreviewmonitor. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 117 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-apps-nesher-studio-ad4-692e7407be.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Dynamic Parameter Inventory 341–358 Colon prefixed URL parameters are path grammar; dollar prefixed request vessels are not. URL pattern Source Discovery /api/tunnel/control/ephemeral/:resultId geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/ephemeral",
+		"searchText": "b\"h boruch hashem blessed is he generated dynamic parameter inventory 341–358 colon prefixed url parameters are path grammar; dollar prefixed request vessels are not. url pattern source discovery /api/tunnel/control/ephemeral/:resultid geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/ephemeral/:resultid/delete geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/ephemeral/:resultid/page geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/ephemeral/:resultid/search geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/fs/:tunnelname geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/handoff/:tunnelname geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/preview/:tunnelname geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/view/:previewid geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/view/:previewid/proxy geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/view/:previewid/raw geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/control/view/:previewid/ws geelooy/api/tunnel/control/routes/table.js route table /api/tunnel/fs/:tunnelname geelooy/api/tunnel/ awtsmoos.derech.js static literal /api/tunnel/request/:tunnelname geelooy/api/tunnel/ awtsmoos.derech.js static literal /api/what/:are/you/:doing geelooy/api/ awtsmoos.derech.js static literal /api/wow/:asd/asd/:rt/k geelooy/api/ awtsmoos.derech.js static literal /api/youtube/:a geelooy/api/youtube/ awtsmoos.derech.js static literal /api/youtube/:a/:b geelooy/api/youtube/ awtsmoos.derech.js static literal /api/youtube/:a/:b/:c geelooy/api/youtube/ awtsmoos.derech.js static literal",
+		"page": "pages/docs-generated-dynamic-parameters-dynamic-parameters-005-md-b269c99ec3.json"
 	}
 ]

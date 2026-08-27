@@ -29,7 +29,15 @@ No executable starter is generated because method evidence is unknown. Inspect t
 
 ## Observed callers
 
-No matching literal caller evidence was found.
+Pattern-compatible evidence only; it does not prove runtime dispatch.
+
+| Literal | Source | Kind |
+| --- | --- | --- |
+| `/api/social/unified-social/publish` | `geelooy/.awtsmoos-agent-transfer/social-future-20260821-v2/verified-stage/api/social/helper/migrations/meta/MetaMigrationCapabilities.js` | runtime |
+| `/api/social/unified-social/publish` | `geelooy/.awtsmoos-agent-transfer/social-future-20260821-v2/verified-stage/social/migrate/js/publish/MigrationApi.js` | runtime |
+| `/api/social/unified-social/publish` | `geelooy/.awtsmoos-agent-transfer/social-future-20260821-v2/verified-stage/social/migrate/test/server-meta-api.test.cjs` | test |
+| `/api/social/unified-social/publish` | `geelooy/social/migrate/js/publish/MigrationApi.js` | runtime |
+| `/api/social/unified-social/publish` | `geelooy/social/migrate/test/server-meta-api.test.cjs` | test |
 
 ## Related tests
 

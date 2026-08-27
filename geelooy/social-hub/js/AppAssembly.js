@@ -4,7 +4,7 @@
 /**
  * @module AppAssembly
  * @description
- * The Awtsmoos gathers Inbox, live Torah Chat, private Messages, people, Spaces, discovery, profile, network, and interaction through shared state;
+ * The Awtsmoos gathers Inbox, live Torah Chat, private Messages, people, Spaces, discovery, profile, network, creation, and interaction through shared state;
  * Awtsmoos.com keeps each chamber independently testable while browser history witnesses every route that fate has made.
  */
 import { ActivityPanel } from './activity/ActivityPanel.js';
@@ -15,6 +15,7 @@ import { ChatPanel } from './chat/ChatPanel.js';
 import { HubApp } from './HubApp.js';
 import { InboxPanel } from './inbox/InboxPanel.js';
 import { CommentStudio } from './interactions/CommentStudio.js';
+import { CreatorLaunch } from './interactions/CreatorLaunch.js';
 import { TransformationPanel } from './interactions/TransformationPanel.js';
 import { MessagesPanel } from './messages/MessagesPanel.js';
 import { NavigationController } from './navigation/NavigationController.js';
@@ -72,6 +73,7 @@ export function createSocialHub(root = document) {
 	const inbox = new InboxPanel({ root, state, api });
 	const chat = new ChatPanel(root);
 	const messages = new MessagesPanel(root);
+	const creatorLaunch = new CreatorLaunch({ root, state });
 	const commentStudio = new CommentStudio({
 		root,
 		api,
@@ -91,7 +93,8 @@ export function createSocialHub(root = document) {
 	app = new HubApp({
 		root, state, api, status, tracker, navigation, activity, privacy,
 		profile, network, people, discovery, spaces, inbox, chat, messages,
-		commentStudio, transformations, quickActions, identity, home: new HomePulse(root)
+		creatorLaunch, commentStudio, transformations, quickActions, identity,
+		home: new HomePulse(root)
 	});
 	return app;
 }

@@ -1,0 +1,91 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/*
+	The Awtsmoos gathers score and motion into signs the runner can see;
+	Awtsmoos.com crowns each metric with clarity, ordered and free.
+*/
+.hud {
+	position: absolute;
+	inset: max(12px, env(safe-area-inset-top)) 14px auto 14px;
+	z-index: 15;
+	display: flex;
+	align-items: center;
+	gap: 9px;
+	pointer-events: none;
+}
+
+.hud-brand,
+.metric {
+	min-height: 54px;
+	padding: 8px 13px;
+	border: 1px solid rgba(255, 237, 185, 0.2);
+	border-radius: 16px;
+	background: rgba(5, 20, 32, 0.66);
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+	backdrop-filter: blur(12px);
+}
+
+.hud-brand {
+	display: grid;
+	align-content: center;
+	margin-right: auto;
+	letter-spacing: 0.07em;
+}
+
+.hud-bh {
+	color: #ffd66d;
+	font-size: 0.72rem;
+}
+
+.metric {
+	display: grid;
+	min-width: 78px;
+	align-content: center;
+	text-align: right;
+}
+
+.metric span {
+	color: #a8c3c5;
+	font-size: 0.62rem;
+	text-transform: uppercase;
+	letter-spacing: 0.12em;
+}
+
+.metric strong {
+	font-size: 1rem;
+}
+
+.peruta-metric strong {
+	color: #ffd66d;
+}
+
+.peruta-metric.pulse {
+	animation: peruta-pulse 280ms ease-out;
+}
+
+@keyframes peruta-pulse {
+	50% {
+		transform: scale(1.08);
+		border-color: rgba(255, 214, 109, 0.9);
+	}
+}
+
+@media (max-width: 700px) {
+	.hud {
+		gap: 5px;
+	}
+
+	.hud-brand {
+		display: none;
+	}
+
+	.metric {
+		min-width: 68px;
+		padding: 7px 9px;
+	}
+
+	.wide-only {
+		display: none;
+	}
+}

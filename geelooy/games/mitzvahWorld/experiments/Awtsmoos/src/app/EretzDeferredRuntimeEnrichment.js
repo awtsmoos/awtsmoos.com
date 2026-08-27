@@ -4,15 +4,15 @@
 
 /**
  * @file EretzDeferredRuntimeEnrichment.js
- * @description Promotes the canonical world before any later texture, botany, actor, model, or district enrichment.
- * The Awtsmoos lets the traveler move upon bootstrap earth only while the complete valley gathers off-scene;
- * Awtsmoos.com swaps one lawful world first, then every later garment knows exactly which mountain it is meant to green.
+ * @description Promotes the canonical valley, reveals friendly life, then lets heavier garments and systems follow independently.
+ * The Awtsmoos brings earth, neighbor, and authored form in an ordered ray instead of one crowded blaze;
+ * Awtsmoos.com keeps optional wilderness and secondary actors from blocking the village while canonical NPC garments join the friendly phase.
  */
 
-import { startEretzActorHydration } from './EretzActorHydration.js?v=20260722-fallback-first-02';
+import { startEretzActorHydration } from './EretzActorHydration.js?v=20260820-friendly-first-01';
 import { startEretzCanonicalWorldPromotion } from './EretzCanonicalWorldPromotion.js';
 import { startEretzPostMovementStreaming } from './EretzPostMovementStreaming.js';
-import { startEretzWorldActorHydration } from './EretzWorldActorHydration.js?v=20260722-world-stream-01';
+import { startEretzWorldActorHydration } from './EretzWorldActorHydration.js?v=20260820-friendly-first-01';
 
 export async function startEretzDeferredRuntimeEnrichment(context) {
 	const { boot, diagnostics, foundation, options, runtime } = context;
@@ -25,13 +25,18 @@ export async function startEretzDeferredRuntimeEnrichment(context) {
 	diagnostics.worldActorHydrationPromise = promotion.then(() => (
 		startEretzWorldActorHydration(runtime, options, boot)
 	));
-	diagnostics.actorHydrationPromise = diagnostics.worldActorHydrationPromise.then(() => (
+	diagnostics.friendlyActorHydrationPromise = promotion.then(() => {
+		startEretzWorldActorHydration(runtime, options, boot);
+		return runtime.friendlyActorHydrationPromise;
+	});
+	diagnostics.actorHydrationPromise = diagnostics.friendlyActorHydrationPromise.then(() => (
 		startEretzActorHydration(runtime, foundation.actorHydration, boot)
 	));
 	return Promise.allSettled([
 		promotion,
 		diagnostics.postMovementStreamingPromise,
-		diagnostics.worldActorHydrationPromise,
-		diagnostics.actorHydrationPromise
+		diagnostics.friendlyActorHydrationPromise,
+		diagnostics.actorHydrationPromise,
+		diagnostics.worldActorHydrationPromise
 	]);
 }

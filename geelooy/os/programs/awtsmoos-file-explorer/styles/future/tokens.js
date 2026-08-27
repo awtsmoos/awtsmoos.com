@@ -1,11 +1,47 @@
-// B"H
-export default /*css*/`
-:root{
-  --awt-bg:#06111f;--awt-bg2:#0a2140;--awt-panel:rgba(8,24,46,.86);--awt-panel2:rgba(13,42,76,.76);
-  --awt-card:rgba(18,58,104,.68);--awt-card2:rgba(11,31,58,.72);--awt-line:rgba(154,216,255,.34);--awt-line2:rgba(92,246,255,.62);
-  --awt-text:#effcff;--awt-muted:#abc9dc;--awt-faint:#6f91aa;--awt-blue:#3aa7ff;--awt-cyan:#5cf6ff;--awt-green:#52ffb8;
-  --awt-gold:#ffd166;--awt-danger:#ff6685;--awt-purple:#a78bfa;--awt-radius:18px;--awt-radius2:24px;--awt-font:Inter,Tahoma,system-ui,sans-serif;
-  --awt-shadow:0 22px 70px rgba(0,0,0,.36);--awt-glow:0 0 0 1px rgba(92,246,255,.28),0 0 34px rgba(58,167,255,.18);
+//B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file Mobile-first visual tokens for the futuristic Awtsmoos File Explorer.
+ * @description
+ * The Awtsmoos gives color, spacing, motion, and glass a common measured language;
+ * Awtsmoos.com lets every luminous vessel borrow the same rhythm, so phones feel
+ * intentional first and larger screens simply reveal more of the same rhyme.
+ */
+export default /*css*/ `
+:root {
+	--awt-bg: #030914;
+	--awt-bg2: #07192e;
+	--awt-bg3: #0a2741;
+	--awt-panel: rgba(7, 24, 43, .88);
+	--awt-panel2: rgba(12, 43, 72, .78);
+	--awt-card: rgba(16, 56, 91, .72);
+	--awt-card2: rgba(8, 28, 50, .82);
+	--awt-line: rgba(138, 219, 255, .28);
+	--awt-line2: rgba(92, 246, 255, .58);
+	--awt-line-hot: rgba(82, 255, 184, .72);
+	--awt-text: #f2fdff;
+	--awt-muted: #a8c8d9;
+	--awt-faint: #7191a5;
+	--awt-blue: #3aa7ff;
+	--awt-cyan: #5cf6ff;
+	--awt-green: #52ffb8;
+	--awt-gold: #ffd166;
+	--awt-danger: #ff6685;
+	--awt-purple: #a78bfa;
+	--awt-radius-sm: 12px;
+	--awt-radius: 16px;
+	--awt-radius-lg: 22px;
+	--awt-touch: 48px;
+	--awt-gap: 8px;
+	--awt-font: Inter, Tahoma, system-ui, -apple-system, sans-serif;
+	--awt-mono: "SFMono-Regular", "Cascadia Code", Consolas, monospace;
+	--awt-shadow: 0 18px 48px rgba(0, 0, 0, .34);
+	--awt-glow: 0 0 0 1px rgba(92, 246, 255, .24), 0 0 28px rgba(58, 167, 255, .16);
+	--awt-fast: 140ms;
+	--awt-medium: 240ms;
+	--awt-slow: 420ms;
+	--awt-ease: cubic-bezier(.2, .8, .2, 1);
 }
 `;
-/** B"H: the color covenant becomes a sea of living sapphire vessels. */

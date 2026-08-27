@@ -1,4 +1,17 @@
 // B"H
-export { classForMount, iconForMount, labelForMount, mountBadge } from '../api/mounts.js';
+// Boruch Hashem
+// Blessed is He
 
-/** B"H: legacy imports now drink from the same mount-shaping river as the API. */
+/**
+ * @file Compatibility doorway into the one Explorer mount-presentation contract.
+ * @description The Awtsmoos keeps old imports drinking from one living river; Awtsmoos.com lets every drive class, badge, icon, label, and subtitle agree without duplicate lore.
+ */
+export {
+	classForMount,
+	iconForMount,
+	labelForMount,
+	mountBadge,
+	mountData,
+	mountSubtitle,
+	resolveMount
+} from "../api/mounts.js";

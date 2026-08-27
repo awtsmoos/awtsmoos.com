@@ -1,71 +1,109 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 "use strict";
 
 /**
- * @file SFTP-shaped file routes for real remote computers.
- * @description The Awtsmoos lets a distant file become a near vessel; Awtsmoos.com names each guarded motion so browse and save may rhyme.
+ * @file SFTP-shaped file routes for text and exact-byte access to real remote computers.
+ * @description
+ * The Awtsmoos lets a distant file become a near vessel without forcing every
+ * byte through UTF-8. Awtsmoos.com preserves old text callers, carries untouched
+ * bytes through base64, and removes trees through SFTP itself so fake and native
+ * remote worlds share one shell-independent filesystem covenant in rhyme.
  */
 const { call } = require("./callbacks.js");
-const { removePath } = require("./commands.js");
+const Content = require("./fileContentTransport.js");
 const { route } = require("./routeSupport.js");
-const { listFolder, readFile, writeFile } = require("./sftpFiles.js");
+const { listFolder, writeFile } = require("./sftpFiles.js");
+const { removeTree } = require("./sftpRemove.js");
 
-/**
- * Builds the remote-file route family consumed by the Geelooy SSH drive.
- * @param {object} context Request-scoped SSH helpers.
- * @returns {object} Dynamic route map.
- */
 function buildFileRoutes(context) {
 	return {
-		"/getFolderList/:username/:host": route(async vars => {
+		"/getFolderList/:username/:host": route(async variables => {
 			const folderPath = context.body().folderPath || ".";
-			const files = await context.withSftp(vars, sftp => listFolder(sftp, folderPath));
+			const files = await context.withSftp(
+				variables,
+				sftp => listFolder(sftp, folderPath)
+			);
 			return { files };
 		}),
-		"/getFileContent/:username/:host": route(async vars => {
+
+		"/getFileContent/:username/:host": route(async variables => {
 			const filePath = context.required("filePath");
-			const content = await context.withSftp(vars, sftp => readFile(sftp, filePath));
-			return { content };
+			const encoding = context.body().encoding || "utf8";
+			return context.withSftp(
+				variables,
+				sftp => Content.readContent(sftp, filePath, encoding)
+			);
 		}),
-		"/writeFile/:username/:host": route(async vars => {
+
+		"/writeFile/:username/:host": route(async variables => {
 			const filePath = context.required("filePath");
-			const content = context.body().content || "";
-			const result = await context.withSftp(vars, sftp => writeFile(sftp, filePath, content));
+			const content = Content.writeContent(context.body());
+			const result = await context.withSftp(
+				variables,
+				sftp => writeFile(sftp, filePath, content)
+			);
 			return { ...result, message: "File written." };
 		}),
-		"/makeFolder/:username/:host": route(async vars => {
+
+		"/makeFolder/:username/:host": route(async variables => {
 			const folderPath = context.required("folderPath");
-			await context.withSftp(vars, sftp => call(callback => sftp.mkdir(folderPath, callback)));
+			await context.withSftp(
+				variables,
+				sftp => call(callback => sftp.mkdir(folderPath, callback))
+			);
 			return { message: `Folder created at ${folderPath}` };
 		}),
-		"/deleteAtPath/:username/:host": route(async vars => {
+
+		"/deleteAtPath/:username/:host": route(async variables => {
 			const deletePath = context.required("deletePath");
-			await context.withClient(vars, client => removePath(client, deletePath));
-			return { message: `Deleted path ${deletePath}` };
+			const result = await context.withSftp(
+				variables,
+				sftp => removeTree(sftp, deletePath)
+			);
+			return {
+				...result,
+				message: `Deleted path ${deletePath}`
+			};
 		}),
-		"/stat/:username/:host": route(async vars => {
-			const path = context.required("path");
-			const attrs = await context.withSftp(vars, sftp => call(callback => sftp.stat(path, callback)));
+
+		"/stat/:username/:host": route(async variables => {
+			const remotePath = context.required("path");
+			const attrs = await context.withSftp(
+				variables,
+				sftp => call(callback => sftp.stat(remotePath, callback))
+			);
 			return { attrs };
 		}),
-		"/rename/:username/:host": route(async vars => {
+
+		"/rename/:username/:host": route(async variables => {
 			const oldPath = context.required("oldPath");
 			const newPath = context.required("newPath");
-			await context.withSftp(vars, sftp => call(callback => sftp.rename(oldPath, newPath, callback)));
+			await context.withSftp(
+				variables,
+				sftp => call(callback => sftp.rename(oldPath, newPath, callback))
+			);
 			return { message: "Path renamed." };
 		}),
-		"/chmod/:username/:host": route(async vars => {
-			const path = context.required("path");
+
+		"/chmod/:username/:host": route(async variables => {
+			const remotePath = context.required("path");
 			const mode = Number(context.required("mode"));
-			await context.withSftp(vars, sftp => call(callback => sftp.chmod(path, mode, callback)));
+			await context.withSftp(
+				variables,
+				sftp => call(callback => sftp.chmod(remotePath, mode, callback))
+			);
 			return { message: "Mode changed." };
 		}),
-		"/realpath/:username/:host": route(async vars => {
-			const path = context.required("path");
-			const resolved = await context.withSftp(vars, sftp => call(callback => sftp.realpath(path, callback)));
+
+		"/realpath/:username/:host": route(async variables => {
+			const remotePath = context.required("path");
+			const resolved = await context.withSftp(
+				variables,
+				sftp => call(callback => sftp.realpath(remotePath, callback))
+			);
 			return { path: resolved };
 		})
 	};

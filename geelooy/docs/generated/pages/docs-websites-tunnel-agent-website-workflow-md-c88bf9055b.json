@@ -1,0 +1,64 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-websites-tunnel-agent-website-workflow-md-c88bf9055b",
+	"title": "Tunnel Agent Website Workflow",
+	"sourcePath": "docs/WEBSITES/TUNNEL_AGENT_WEBSITE_WORKFLOW.md",
+	"category": "Tunnel",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Tunnel Agent Website Workflow",
+			"anchor": "tunnel-agent-website-workflow"
+		},
+		{
+			"level": 2,
+			"text": "The shortest safe flow",
+			"anchor": "the-shortest-safe-flow"
+		},
+		{
+			"level": 2,
+			"text": "Publication protocol v1",
+			"anchor": "publication-protocol-v1"
+		},
+		{
+			"level": 2,
+			"text": "Direct versus snapshot",
+			"anchor": "direct-versus-snapshot"
+		},
+		{
+			"level": 2,
+			"text": "Build from nothing",
+			"anchor": "build-from-nothing"
+		},
+		{
+			"level": 2,
+			"text": "If automation is already inside Drive",
+			"anchor": "if-automation-is-already-inside-drive"
+		},
+		{
+			"level": 2,
+			"text": "Dynamic Node on the owner's machine",
+			"anchor": "dynamic-node-on-the-owner-s-machine"
+		},
+		{
+			"level": 2,
+			"text": "Custom domains",
+			"anchor": "custom-domains"
+		},
+		{
+			"level": 2,
+			"text": "When a mutation result is uncertain",
+			"anchor": "when-a-mutation-result-is-uncertain"
+		},
+		{
+			"level": 2,
+			"text": "Completion testimony",
+			"anchor": "completion-testimony"
+		}
+	],
+	"markdownParts": [
+		"content/docs-websites-tunnel-agent-website-workflow-md-c88bf9055b-001.json"
+	]
+}

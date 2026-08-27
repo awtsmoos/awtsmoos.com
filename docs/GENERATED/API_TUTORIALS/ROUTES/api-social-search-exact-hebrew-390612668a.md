@@ -29,7 +29,13 @@ No executable starter is generated because method evidence is unknown. Inspect t
 
 ## Observed callers
 
-No matching literal caller evidence was found.
+Pattern-compatible evidence only; it does not prove runtime dispatch.
+
+| Literal | Source | Kind |
+| --- | --- | --- |
+| `/api/social/search/exact/hebrew` | `geelooy/heichelos/post/functions/ui/context/relatedSearchApi.test.mjs` | test |
+| `/api/social/search/exact/hebrew?${parameters}` | `geelooy/mawgawl/sefarim/exactApi.js` | runtime |
+| `/api/social/search/exact/hebrew?${values}` | `geelooy/heichelos/post/functions/ui/context/relatedSearchApi.js` | runtime |
 
 ## Related tests
 

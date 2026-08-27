@@ -1,0 +1,64 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-drive-readme-md-0b446fdf63",
+	"title": "Geelooy Sites",
+	"sourcePath": "geelooy/drive/README.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Geelooy Sites",
+			"anchor": "geelooy-sites"
+		},
+		{
+			"level": 2,
+			"text": "Source truth",
+			"anchor": "source-truth"
+		},
+		{
+			"level": 2,
+			"text": "Human and machine parity",
+			"anchor": "human-and-machine-parity"
+		},
+		{
+			"level": 2,
+			"text": "Storage modes",
+			"anchor": "storage-modes"
+		},
+		{
+			"level": 3,
+			"text": "Standalone Tunnel",
+			"anchor": "standalone-tunnel"
+		},
+		{
+			"level": 3,
+			"text": "Embedded Geelooy OS",
+			"anchor": "embedded-geelooy-os"
+		},
+		{
+			"level": 2,
+			"text": "Publication stages",
+			"anchor": "publication-stages"
+		},
+		{
+			"level": 2,
+			"text": "Domains and nameservers",
+			"anchor": "domains-and-nameservers"
+		},
+		{
+			"level": 2,
+			"text": "Managed runtime",
+			"anchor": "managed-runtime"
+		},
+		{
+			"level": 2,
+			"text": "Verification",
+			"anchor": "verification"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-drive-readme-md-0b446fdf63-001.json"
+	]
+}

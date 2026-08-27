@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-generated-api-tutorials-routes-api-projecthosting-restart-332876897-1f1dc72f92",
+	"title": "API Tutorial: /api/projectHosting/restart",
+	"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-projecthosting-restart-3328768971.md",
+	"category": "Projects",
+	"provenance": "generated",
+	"headings": [
+		{
+			"level": 1,
+			"text": "API Tutorial: /api/projectHosting/restart",
+			"anchor": "api-tutorial-api-projecthosting-restart"
+		},
+		{
+			"level": 2,
+			"text": "Contract evidence",
+			"anchor": "contract-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Path parameters",
+			"anchor": "path-parameters"
+		},
+		{
+			"level": 2,
+			"text": "Starter call",
+			"anchor": "starter-call"
+		},
+		{
+			"level": 2,
+			"text": "Observed callers",
+			"anchor": "observed-callers"
+		},
+		{
+			"level": 2,
+			"text": "Related tests",
+			"anchor": "related-tests"
+		},
+		{
+			"level": 2,
+			"text": "Related routes",
+			"anchor": "related-routes"
+		}
+	],
+	"markdownParts": [
+		"content/docs-generated-api-tutorials-routes-api-projecthosting-restart-332876897-1f1dc72f92-001.json"
+	]
+}

@@ -1,58 +1,84 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
- * The Awtsmoos reveals a complete phenotype through already-authoritative
- * vessels. This Awtsmoos.com coordinator creates no rival compiler, schema,
- * renderer, or solver; every intermediate contract remains inspectable.
+ * @file createAnimalPhenotype.js
+ * @description Joins authoritative morphology with reusable anatomy components, real quality budgets, locomotion, biomechanics, and the established compiler.
+ * RESPONSIBILITY: coordinate profile → base guides → component guides → recipe → artifact without introducing another creature engine.
+ * NON-RESPONSIBILITY: this file does not implement geometry operations or renderer adaptation.
+ * The Awtsmoos is one while phenotype reveals many organs; Awtsmoos.com lets horn, foot, feather, web, body, and motion descend through one inspectable deterministic path.
  */
 
-import { AnimalMeshCompiler } from "../compiler/AnimalMeshCompiler.js";
-import { createAnimalLocomotionProfile } from "../motion/createLocomotionProfile.js";
-import { createAnimalMorphologyReport } from "../validation/morphologyReport.js";
-import { deriveAnimalBiomechanics } from "./biomechanics/deriveAnimalBiomechanics.js";
-import { createAnimalMorphologyProfile } from "./createAnimalMorphologyProfile.js";
-import { createAppendagePhenotypeGuides } from "./phenotype/appendageGuides.js";
-import { createAxialPhenotypeGuides } from "./phenotype/axialGuides.js";
-import { createPhenotypeRecipe } from "./phenotype/phenotypeRecipeFactory.js";
+import { AnimalMeshCompiler } from '../compiler/AnimalMeshCompiler.js';
+import { createCreatureComponentProfile } from '../creature/components/CreatureComponentProfile.js';
+import { creatureQualityProfile } from '../creature/components/CreatureQualityProfile.js';
+import { createAnimalLocomotionProfile } from '../motion/createLocomotionProfile.js';
+import { createAnimalMorphologyReport } from '../validation/morphologyReport.js';
+import { deriveAnimalBiomechanics } from './biomechanics/deriveAnimalBiomechanics.js';
+import { createAnimalMorphologyProfile } from './createAnimalMorphologyProfile.js';
+import { createAppendagePhenotypeGuides } from './phenotype/appendageGuides.js';
+import { createAxialPhenotypeGuides } from './phenotype/axialGuides.js';
+import { createPhenotypeRecipe } from './phenotype/phenotypeRecipeFactory.js';
 
-function locomotionOptions(profile, options) {
-	return {
-		archetypeId: profile.archetype_id,
-		mode: options.locomotionMode || options.mode,
-		cycleDuration: options.cycleDuration,
-		segmentCount: profile.segments.length * 4,
-		legPairs: profile.genome.traits.leg_pairs
-	};
-}
-
+/** Creates one component-aware renderer-neutral phenotype. */
 export function createAnimalPhenotype(options = {}) {
 	const profile = createAnimalMorphologyProfile(options);
-	const axial = createAxialPhenotypeGuides(profile);
-	const appendages = createAppendagePhenotypeGuides(profile, axial.anchors);
-	const guides = Object.freeze({ ...axial.guides, ...appendages.guides });
+	const quality = options.qualityProfile || creatureQualityProfile(options.quality);
+	const axial = createAxialPhenotypeGuides(profile, quality);
+	const appendages = createAppendagePhenotypeGuides(
+		profile,
+		axial.anchors,
+		quality
+	);
+	const baseGuides = {
+		...axial.guides,
+		...appendages.guides
+	};
+	const components = createCreatureComponentProfile({
+		guides: baseGuides,
+		quality,
+		speciesId: options.speciesId
+	});
+	const guides = Object.freeze({
+		...baseGuides,
+		...components.guides
+	});
+	const symmetryPairs = Object.freeze([
+		...appendages.symmetryPairs,
+		...components.symmetryPairs
+	]);
 	const recipe = createPhenotypeRecipe(
 		profile,
 		guides,
-		appendages.symmetryPairs,
-		options.recipe || options
+		symmetryPairs,
+		{
+			...(options.recipe || options),
+			targetTriangleCount: options.targetTriangleCount || quality.targetTriangles
+		},
+		components.surfaceRoles
 	);
 	const phenotype = {
-		schema: "awtsmoos.animal-phenotype",
-		version: "1.0.0",
-		id: `phenotype_${profile.genome.id}`,
-		profile,
-		genome: profile.genome,
-		recipe,
-		symmetry_pairs: appendages.symmetryPairs,
-		locomotion: createAnimalLocomotionProfile(locomotionOptions(profile, options)),
+		anatomy: components.anatomy,
 		biomechanics: deriveAnimalBiomechanics(profile),
+		genome: profile.genome,
+		id: `phenotype_${profile.genome.id}`,
+		locomotion: createAnimalLocomotionProfile(locomotionOptions(profile, options)),
+		profile,
 		provenance: {
-			genome_id: profile.genome.id,
 			archetype_id: profile.archetype_id,
+			component_pipeline: true,
+			deterministic: true,
 			existing_compiler_contract: true,
-			deterministic: true
-		}
+			genome_id: profile.genome.id,
+			quality: quality.id
+		},
+		quality,
+		recipe,
+		schema: 'awtsmoos.animal-phenotype',
+		surface_roles: components.surfaceRoles,
+		symmetry_pairs: symmetryPairs,
+		version: '1.1.0'
 	};
 	return Object.freeze({
 		...phenotype,
@@ -60,6 +86,7 @@ export function createAnimalPhenotype(options = {}) {
 	});
 }
 
+/** Compiles one component-aware phenotype with the established AnimalMeshCompiler. */
 export function compileAnimalPhenotype(options = {}) {
 	const phenotype = createAnimalPhenotype(options);
 	const compiler = options.compiler || new AnimalMeshCompiler(options.compilerOptions);
@@ -67,4 +94,14 @@ export function compileAnimalPhenotype(options = {}) {
 		...phenotype,
 		artifact: compiler.compile(phenotype.recipe, options.compileOptions || {})
 	});
+}
+
+function locomotionOptions(profile, options) {
+	return {
+		archetypeId: profile.archetype_id,
+		cycleDuration: options.cycleDuration,
+		legPairs: profile.genome.traits.leg_pairs,
+		mode: options.locomotionMode || options.mode,
+		segmentCount: profile.segments.length * 4
+	};
 }

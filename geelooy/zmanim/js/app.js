@@ -2,12 +2,15 @@
 // Boruch Hashem
 // Blessed is He
 /**
- * The Awtsmoos joins place, day, shita, sky, and living time without making the page feel heavy;
- * Awtsmoos.com composes compact controls first, daily meaning second, and full depth when the reader is ready.
+ * The Awtsmoos joins place, day, shitos, plain HTML, celestial sky, and living time without dividing their source;
+ * Awtsmoos.com composes one calculation flow whose presentation, embeds, and native light remain optional vessels along the course.
  */
 
+import "./state/presentation-bootstrap.js";
+import "./components/celestial-panel.js";
 import "./components/date-control.js";
 import "./components/day-timeline.js";
+import "./components/embed-actions.js";
 import "./components/key-zmanim.js";
 import "./components/location-search.js";
 import "./components/methodology-panel.js";
@@ -15,31 +18,32 @@ import "./components/next-zman.js";
 import "./components/opinion-selector.js";
 import "./components/share-actions.js";
 import "./components/trust-strip.js";
+import "./components/view-mode-control.js";
 import "./components/zmanim-grid.js";
-import { ZMANIM_OPINIONS } from "./config/opinions.js";
 import { YesodAppEvents } from "./controllers/app-events.js";
+import { MalchusAppView } from "./controllers/app-view.js";
 import { GevurahUsnoValidator } from "./controllers/usno-validator.js";
-import { buildDayStatus } from "./domain/day-status.js";
+import { NetzachOpinionComparison } from "./domain/opinion-comparison.js";
 import { ChochmahSolarEvents } from "./domain/solar-events.js";
 import { MalchusTimeFormatter } from "./domain/timezone.js";
-import { TiferesZmanimCalculator } from "./domain/zmanim-calculator.js";
 import { YesodZmanimStore } from "./state/zmanim-store.js";
 import { writeZmanimUrl } from "./state/url-state.js";
 
-/** Thin browser composition root for the daily-first Zmanim experience. */
+/** Thin browser composition root for comparison-aware, presentation-aware Zmanim. */
 class ZmanimApp {
 	constructor() {
 		this.store = new YesodZmanimStore();
 		this.elements = this.collectElements();
+		this.view = new MalchusAppView(this.elements);
 		this.validator = new GevurahUsnoValidator(this.elements.validation);
-		this.events = new YesodAppEvents(this.store, this.elements.opinion, state => {
+		this.events = new YesodAppEvents(this.store, state => {
 			this.render(state);
 		});
-		this.populateOpinions();
 		this.events.bind();
 		this.render(this.store.getSnapshot());
 	}
 
+	/** Collect each DOM vessel once so rendering remains explicit and inexpensive. */
 	collectElements() {
 		return {
 			location: document.querySelector("awtsmoos-location-search"),
@@ -47,11 +51,11 @@ class ZmanimApp {
 			next: document.querySelector("awtsmoos-next-zman"),
 			keyTimes: document.querySelector("awtsmoos-key-zmanim"),
 			timeline: document.querySelector("awtsmoos-day-timeline"),
+			celestial: document.querySelector("awtsmoos-celestial-panel"),
 			grid: document.querySelector("awtsmoos-zmanim-grid"),
 			opinionCards: document.querySelector("awtsmoos-opinion-selector"),
 			share: document.querySelector("awtsmoos-share-actions"),
 			methodology: document.querySelector("awtsmoos-methodology-panel"),
-			opinion: document.querySelector("#zmanim-opinion"),
 			shaah: document.querySelector("#seasonal-hour"),
 			method: document.querySelector("#method-label"),
 			stickyPlace: document.querySelector("#sticky-place"),
@@ -61,53 +65,17 @@ class ZmanimApp {
 		};
 	}
 
-	populateOpinions() {
-		for (const opinion of Object.values(ZMANIM_OPINIONS)) {
-			const option = document.createElement("option");
-			option.value = opinion.id;
-			option.textContent = opinion.label;
-			this.elements.opinion.append(option);
-		}
-	}
-
+	/** Recalculate selected profiles over one solar model and synchronize every calculation vessel. */
 	render(state) {
 		const solar = ChochmahSolarEvents.forDate(state.date, state.location);
-		const calculation = TiferesZmanimCalculator.calculate(solar, state.opinionId);
-		const status = buildDayStatus(state.date, state.location.timezone, calculation.times);
+		const comparison = NetzachOpinionComparison.build(solar, state);
 		const civilDate = MalchusTimeFormatter.civilDate(state.date);
 		const hebrewDate = MalchusTimeFormatter.hebrewDate(state.date);
-		this.syncControls(state, civilDate, hebrewDate);
-		this.syncDashboard(state, calculation, status, civilDate);
-		this.syncContext(state, calculation, status, civilDate);
+		this.view.syncControls(state, civilDate, hebrewDate, comparison);
+		this.view.syncDashboard(state, civilDate, comparison);
+		this.view.syncContext(state, civilDate, comparison);
 		history.replaceState({}, "", writeZmanimUrl(state));
 		this.validator.validate(state, solar);
-	}
-
-	syncControls(state, civilDate, hebrewDate) {
-		this.elements.location.selectedLocation = state.location;
-		this.elements.date.data = { date: state.date, civilDate, hebrewDate };
-		this.elements.opinion.value = state.opinionId;
-		this.elements.opinionCards.value = state.opinionId;
-	}
-
-	syncDashboard(state, calculation, status, civilDate) {
-		const shared = { times: calculation.times, timezone: state.location.timezone, status };
-		this.elements.next.data = { status, timezone: state.location.timezone, dateLabel: civilDate };
-		this.elements.keyTimes.data = shared;
-		this.elements.timeline.data = shared;
-		this.elements.grid.data = shared;
-		this.elements.share.data = { ...state, times: calculation.times, dateLabel: civilDate, opinionLabel: calculation.opinion.label };
-		this.elements.methodology.data = { opinionId: state.opinionId };
-	}
-
-	syncContext(state, calculation, status, civilDate) {
-		this.elements.shaah.textContent = MalchusTimeFormatter.seasonalHour(calculation.shaahMillis);
-		this.elements.method.textContent = `${calculation.opinion.label} · ${state.location.timezone}`;
-		this.elements.stickyPlace.textContent = state.location.name || state.location.label;
-		this.elements.stickyDate.textContent = civilDate;
-		this.elements.stickyNext.textContent = status.next
-			? `${status.next.label} · ${MalchusTimeFormatter.time(status.next.time, state.location.timezone)}`
-			: "Selected day";
 	}
 }
 

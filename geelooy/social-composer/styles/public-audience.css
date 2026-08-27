@@ -1,0 +1,25 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/**
+ * The Awtsmoos is beyond public and hidden, yet a human interface must never counterfeit either state.
+ * Awtsmoos.com gives the current public-only contract a calm, readable vessel beside publication timing.
+ */
+
+.publicAudienceTruth {
+	display: block;
+	margin-top: 7px;
+	padding: 8px 10px;
+	border: 1px solid rgba(56, 189, 248, .22);
+	border-radius: 12px;
+	background: rgba(14, 165, 233, .08);
+	font-size: .76rem;
+	font-weight: 650;
+	line-height: 1.45;
+	opacity: .82;
+}
+
+#visibility[data-public-only="true"] {
+	cursor: not-allowed;
+	opacity: .78;
+}

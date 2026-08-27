@@ -1,13 +1,9 @@
-/* B"H */
-/* Boruch Hashem */
-/* Blessed is He */
-
-/**
- * The Awtsmoos renews tool, purpose, status, and visible card without becoming
- * limited by any finite app. Awtsmoos.com keeps planned commerce visually distinct
- * from free core access so a roadmap label can never masquerade as a live paywall.
- */
-
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos renews every Awtsmoos.com tool card without stealing the motion of the larger shell;
+a deliberate rise, a gentle press, then stillness returns so useful creation remains easy to tell.
+*/
 .g-app-card {
 	display: flex;
 	flex-direction: column;
@@ -20,6 +16,10 @@
 .g-app-card:hover {
 	border-color: var(--g-accent);
 	transform: translateY(-3px);
+}
+
+.g-app-card:active {
+	transform: translateY(-1px) scale(.995);
 }
 
 .g-app-icon {
@@ -61,4 +61,18 @@
 	border-color: color-mix(in srgb, #73e69a, transparent 55%);
 	color: #9ff3b8;
 	background: rgba(92, 208, 126, 0.08);
+}
+
+@media (prefers-reduced-motion: no-preference) and (hover: hover) {
+	.g-page .g-grid a.g-card.g-app-card[data-app-card] {
+		transition:
+			transform 220ms cubic-bezier(.2, .8, .2, 1),
+			border-color 180ms ease,
+			box-shadow 220ms ease,
+			background-position var(--g-motion-medium) var(--g-ease),
+			background-size var(--g-motion-medium) var(--g-ease),
+			color var(--g-motion-fast) var(--g-ease),
+			filter var(--g-motion-fast) var(--g-ease),
+			text-shadow var(--g-motion-medium) var(--g-ease);
+	}
 }

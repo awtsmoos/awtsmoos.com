@@ -18,15 +18,25 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-tmp-39336fb9.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 0,
+		"source": 3,
 		"tests": 0,
 		"assets": 0,
 		"generated": 0,
 		"docs": 0,
-		"other": 5
+		"other": 6
 	},
-	"totalFiles": 5,
-	"symbolSummary": null,
+	"totalFiles": 9,
+	"symbolSummary": {
+		"files": 1,
+		"classes": 0,
+		"functions": 3,
+		"exports": 0,
+		"samples": [
+			"send",
+			"captureBrowserEvent",
+			"readPageState"
+		]
+	},
 	"outgoingDependencies": [],
 	"incomingDependencies": [],
 	"externalDependencies": [],

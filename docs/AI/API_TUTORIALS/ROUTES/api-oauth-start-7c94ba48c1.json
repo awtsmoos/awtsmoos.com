@@ -41,28 +41,28 @@
 	"confidence": "unknown-method",
 	"related": [
 		{
-			"id": "api-oauth-fc9dd9335e",
-			"route": "/api/oauth"
-		},
-		{
 			"id": "api-oauth-route-99d253c847",
 			"route": "/api/oauth/:route"
+		},
+		{
+			"id": "api-oauth-agent-callback-b4e6bf1061",
+			"route": "/api/oauth/agent-callback"
 		},
 		{
 			"id": "api-oauth-authorize-bdf605a5c6",
 			"route": "/api/oauth/authorize"
 		},
 		{
-			"id": "api-oauth-clients-16fe905ae5",
-			"route": "/api/oauth/clients"
+			"id": "api-oauth-device-ff7c9e5d87",
+			"route": "/api/oauth/device"
 		},
 		{
-			"id": "api-oauth-logout-fc5a0d5108",
-			"route": "/api/oauth/logout"
+			"id": "api-oauth-device-authorization-c8c90e0df0",
+			"route": "/api/oauth/device-authorization"
 		},
 		{
-			"id": "api-oauth-me-c9c68a0fb0",
-			"route": "/api/oauth/me"
+			"id": "api-oauth-metadata-323cb59001",
+			"route": "/api/oauth/metadata"
 		},
 		{
 			"id": "api-oauth-token-037d29e842",

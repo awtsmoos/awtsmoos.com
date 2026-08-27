@@ -22,19 +22,19 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-android-emulator-e917cd40.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 884,
-		"tests": 535,
+		"source": 926,
+		"tests": 566,
 		"assets": 0,
 		"generated": 0,
 		"docs": 1,
-		"other": 0
+		"other": 2
 	},
-	"totalFiles": 1420,
+	"totalFiles": 1495,
 	"symbolSummary": {
-		"files": 884,
+		"files": 922,
 		"classes": 64,
-		"functions": 3700,
-		"exports": 1977,
+		"functions": 3825,
+		"exports": 2047,
 		"samples": [
 			"async",
 			"launchInitialActivity",

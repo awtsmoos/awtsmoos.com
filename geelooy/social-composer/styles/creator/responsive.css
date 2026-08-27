@@ -1,0 +1,86 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets the creator begin in the hand and then expand into tablet and desktop;
+Awtsmoos.com protects safe areas, thumb reach, and fluid breadth before larger screens receive extra room.
+*/
+.creatorSurface,
+.creatorMetadata,
+.creatorPlatform {
+	inline-size: 100%;
+	max-inline-size: 100%;
+}
+
+.creatorMetadata,
+.creatorPlatform {
+	content-visibility: auto;
+	contain-intrinsic-size: auto 12rem;
+}
+
+.creatorDock {
+	position: sticky;
+	z-index: 70;
+	bottom: calc(6.35rem + env(safe-area-inset-bottom));
+	margin-inline: -.7rem;
+	padding:
+		.58rem
+		max(.72rem, env(safe-area-inset-right))
+		.62rem
+		max(.72rem, env(safe-area-inset-left));
+	border: 1px solid var(--composer-border);
+	border-inline: 0;
+	background: rgba(8, 13, 20, .92);
+	box-shadow: 0 -.55rem 1.7rem rgba(0, 0, 0, .24);
+	backdrop-filter: blur(14px) saturate(126%);
+}
+
+@media (min-width: 42.51rem) {
+	.creatorSurface {
+		gap: .7rem;
+		padding: .86rem;
+		border-radius: var(--composer-radius-lg);
+	}
+
+	.creatorDock {
+		position: static;
+		margin-inline: 0;
+		padding: .55rem .18rem .16rem;
+		border-inline: 1px solid var(--composer-border-soft);
+		background: transparent;
+		box-shadow: none;
+		backdrop-filter: none;
+	}
+
+	.creatorDockButton {
+		flex-basis: 5.15rem;
+	}
+}
+
+@media (min-width: 68rem) {
+	.creatorSurfaceHeading {
+		grid-template-columns: minmax(0, 1fr) auto;
+		align-items: end;
+	}
+
+	.creatorSurfaceHeading small {
+		max-width: 34rem;
+		text-align: end;
+	}
+}
+
+@media (max-width: 23rem) {
+	.creatorDock {
+		bottom: calc(9.8rem + env(safe-area-inset-bottom));
+	}
+
+	.creatorDockButton {
+		flex-basis: 4.6rem;
+	}
+}
+
+@supports not (backdrop-filter: blur(1px)) {
+	.creatorDock {
+		background: rgb(8 13 20 / 98%);
+	}
+}

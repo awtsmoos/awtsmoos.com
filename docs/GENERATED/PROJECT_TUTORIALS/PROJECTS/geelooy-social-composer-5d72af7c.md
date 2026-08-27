@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 242 | 17 | 0 | 0 | 9 | 0 | 268 |
+| 317 | 28 | 0 | 0 | 9 | 0 | 354 |
 
 ## Public entry points
 
@@ -30,12 +30,12 @@ Blessed is He
 
 ## Symbol evidence
 
-Source files: 147; classes: 46; functions: 371; exports: 241; samples: createComposer, createWorkflow, createController, createDestinationAssembly, createEditorAssembly, createReelAssembly, installComposerAccessibility, hasAccessibleName, nameField, nameComposerFields, ApiTransport, SocialComposerApi.
+Source files: 200; classes: 81; functions: 452; exports: 323; samples: createComposer, createWorkflow, createController, createCreatorAssembly, createDestinationAssembly, DraftAssembly, createDraftAssembly, createEditorAssembly, createReelAssembly, createReviewAssembly, installComposerAccessibility, hasAccessibleName.
 
 ## Depends on
 
 - `geelooy/games/mitzvahWorld` — 4 lexical references; examples: geelooy/social-composer/reel-studio/nle/NleAiProjectCodec.js; geelooy/social-composer/reel-studio/nle/NleMovieActionExecutor.js; geelooy/social-composer/reel-studio/nle/NleMoviePackage.js
-- `geelooy/shared` — 1 lexical reference; examples: geelooy/social-composer/js/main.js
+- `geelooy/shared` — 4 lexical references; examples: geelooy/social-composer/js/creator/CreatorCommandCatalog.js; geelooy/social-composer/js/creator/CreatorCommandPalette.js; geelooy/social-composer/js/creator/CreatorIntentModel.js
 
 ## Used by
 
@@ -47,4 +47,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **17**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **28**. Treat this as file evidence, not proof of behavioral coverage.

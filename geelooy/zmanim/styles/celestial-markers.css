@@ -1,0 +1,99 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos is beyond every numbered hour while each zman opens a measured gate in the day;
+ * Awtsmoos.com makes those gates thumb-friendly, focused, kinetic, and calm so mobile comparison never loses the celestial way.
+ */
+
+.celestial-marker-rail {
+	display: grid;
+	grid-auto-columns: minmax(154px, 48vw);
+	grid-auto-flow: column;
+	gap: .5rem;
+	overflow-x: auto;
+	overscroll-behavior-inline: contain;
+	padding: .08rem .85rem .52rem .08rem;
+	scroll-padding-inline: .65rem;
+	scroll-snap-type: x mandatory;
+	scrollbar-width: thin;
+	scrollbar-color: rgba(124, 231, 197, .28) transparent;
+	-webkit-overflow-scrolling: touch;
+	-webkit-mask-image: linear-gradient(90deg, #000 0, #000 calc(100% - 18px), transparent 100%);
+	mask-image: linear-gradient(90deg, #000 0, #000 calc(100% - 18px), transparent 100%);
+}
+
+.celestial-marker {
+	position: relative;
+	display: grid;
+	align-content: center;
+	gap: .14rem;
+	min-height: 82px;
+	padding: .62rem .7rem;
+	border: 1px solid rgba(181, 225, 210, .15);
+	border-radius: 13px;
+	background: linear-gradient(145deg, rgba(255, 255, 255, .035), rgba(255, 255, 255, .012));
+	color: var(--ink-soft);
+	text-align: left;
+	scroll-snap-align: center;
+	cursor: pointer;
+	touch-action: manipulation;
+	-webkit-tap-highlight-color: transparent;
+	transition:
+		transform 130ms cubic-bezier(.2, .8, .2, 1),
+		border-color 170ms ease,
+		background 170ms ease,
+		box-shadow 190ms ease;
+}
+
+.celestial-marker::before {
+	position: absolute;
+	top: .55rem;
+	right: .55rem;
+	width: 5px;
+	height: 5px;
+	border-radius: 50%;
+	background: transparent;
+	box-shadow: 0 0 0 transparent;
+	content: "";
+}
+
+.celestial-marker strong {
+	padding-right: .5rem;
+	color: var(--ink);
+	font-size: .72rem;
+	line-height: 1.2;
+}
+
+.celestial-marker span {
+	color: var(--accent-strong);
+	font-size: .8rem;
+	font-weight: 820;
+	font-variant-numeric: tabular-nums;
+}
+
+.celestial-marker small {
+	color: var(--ink-muted);
+	font-size: .6rem;
+	line-height: 1.35;
+}
+
+.celestial-marker[data-selected="true"] {
+	border-color: rgba(255, 213, 138, .5);
+	background: linear-gradient(145deg, rgba(255, 213, 138, .11), rgba(124, 231, 197, .035));
+	box-shadow: inset 0 0 0 1px rgba(255, 213, 138, .06), 0 10px 30px rgba(0, 0, 0, .15);
+}
+
+.celestial-marker[data-selected="true"]::before {
+	background: var(--solar);
+	box-shadow: 0 0 12px rgba(255, 213, 138, .7);
+}
+
+.celestial-marker:focus-visible {
+	outline: 2px solid var(--accent);
+	outline-offset: 2px;
+}
+
+.celestial-marker:active {
+	transform: scale(.972);
+}

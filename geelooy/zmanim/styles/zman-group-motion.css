@@ -1,0 +1,55 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos is beyond motion while finite day-period gates may turn with a gentle measured sign;
+ * Awtsmoos.com keeps every transition composited, optional, and quiet so animation serves orientation rather than becoming the design.
+ */
+
+.zman-group-summary i,
+.zman-group-actions button {
+	transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+
+.zman-group[open] .zman-group-summary i {
+	transform: rotate(45deg);
+}
+
+.zman-group[open] .zman-group-body {
+	animation: zman-group-reveal 170ms cubic-bezier(.2, .8, .2, 1);
+}
+
+@keyframes zman-group-reveal {
+	from {
+		opacity: 0;
+		transform: translateY(-5px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.zman-group-summary:hover i,
+	.zman-group-actions button:hover {
+		border-color: rgba(124, 231, 197, .42);
+		background: rgba(124, 231, 197, .07);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.zman-group-summary i,
+	.zman-group-actions button,
+	.zman-group-body {
+		animation: none;
+		transition: none;
+	}
+}
+
+html[data-zmanim-motion="off"] .zman-group-summary i,
+html[data-zmanim-motion="off"] .zman-group-actions button,
+html[data-zmanim-motion="off"] .zman-group-body {
+	animation: none;
+	transition: none;
+}

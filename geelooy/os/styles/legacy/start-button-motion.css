@@ -1,0 +1,59 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/**
+ * Start button motion.
+ * The Awtsmoos renews movement from instant to instant; Awtsmoos.com keeps the old motion ordered and consistent.
+ */
+/*__LEGACY_BODY__*/
+
+/* 
+---------------------------------
+	VIVID & EXTREME ANIMATIONS
+---------------------------------
+*/
+
+/* The animation for the glowing orb */
+@keyframes insaneGlow {
+	0%, 100% {
+		box-shadow: 0 0 10px #00aaff, inset 0 0 5px white, 0 0 15px rgba(0,0,0,0.5);
+		transform: translateY(-50%) scale(1);
+	}
+	50% {
+		box-shadow: 0 0 25px #00aaff, 0 0 40px #ffffff, inset 0 0 10px white, 0 0 25px rgba(0,0,0,0.5);
+		transform: translateY(-50%) scale(1.1);
+	}
+}
+
+#start-button:hover {
+	transform: scale(1.05); /* Lifts the whole button */
+}
+
+/* Make the green part brighter and shift the orb on hover */
+#start-button:hover::before {
+	background: linear-gradient(135deg, #2fbd52, #28a745);
+}
+
+#start-button:hover::after {
+	/* Start the insane glowing animation */
+	animation: insaneGlow 1.5s infinite;
+	left: 12%; /* Make it slide slightly */
+}
+
+/* On click, create a satisfying "press-in" effect */
+#start-button:active {
+	transform: scale(0.98);
+	transition-duration: 0.1s;
+}
+
+#start-button:active::before {
+	background: linear-gradient(135deg, #218838, #1e7e34);
+	box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.5);
+}
+
+#start-button:active::after {
+	transform: translateY(-50%) scale(0.9);
+	box-shadow: 0 0 5px #00aaff, inset 0 0 15px rgba(0,0,0,0.8);
+}
+
+

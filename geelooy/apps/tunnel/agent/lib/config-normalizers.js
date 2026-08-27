@@ -3,15 +3,16 @@
 // Blessed is He
 
 const Defaults = require("./config-defaults.js");
+const FakeSsh = require("./config-fakeSsh.js");
 const Ai = require("./config-ai-normalizers.js");
 const ProfileState = require("../tools/chrome/profileState.js");
 
 /**
- * B"H
- *
- * Core normalization preserves old transport keys while moving only the legacy
- * default Chrome profile outside replaceable runtime. The Awtsmoos renews config;
- * Awtsmoos.com leaves explicit custom profile paths untouched and bounded.
+ * @file Normalizes durable tunnel-agent configuration without dropping fake SSH policy.
+ * @description
+ * The Awtsmoos lets old config cross into a renewed agent without losing intent;
+ * Awtsmoos.com now preserves the guarded SSH doorway too, while public binding
+ * remains false unless the human explicitly stored that covenant in rhyme.
  */
 function normalizeConfig(old = {}, defaults = Defaults.buildDefaults()) {
 	const tools = old.tools || {};
@@ -28,18 +29,14 @@ function normalizeConfig(old = {}, defaults = Defaults.buildDefaults()) {
 		allowSecrets: Ai.boolOrDefault(old.allowSecrets, true),
 		allowCommands: Ai.boolOrDefault(old.allowCommands, true),
 		enableLocalHttpProxy: Ai.boolOrDefault(old.enableLocalHttpProxy, true),
+		...FakeSsh.normalize(old, defaults),
 		aiAgents: Ai.normalizeAiAgents(old.aiAgents || {}),
 		gitHygiene: Ai.normalizeGitHygiene(old.gitHygiene || {}),
 		mission: Ai.normalizeMission(old.mission || {}),
 		localApi: {
 			enabled: Ai.boolOrDefault(localApi.enabled, true),
 			host: localApi.host || defaults.localApi.host,
-			port: Ai.numberOrDefault(
-				localApi.port,
-				defaults.localApi.port,
-				1,
-				65535
-			)
+			port: Ai.numberOrDefault(localApi.port, defaults.localApi.port, 1, 65535)
 		},
 		tools: normalizeTools(tools),
 		command: normalizeCommand(command, defaults.command),
@@ -63,18 +60,8 @@ function normalizeCommand(command, defaults) {
 		enabled: Ai.boolOrDefault(command.enabled, true),
 		allowNodeScript: Ai.boolOrDefault(command.allowNodeScript, true),
 		defaultShell: command.defaultShell || defaults.defaultShell,
-		timeoutMs: Ai.numberOrDefault(
-			command.timeoutMs,
-			defaults.timeoutMs,
-			1000,
-			Defaults.FOUR_MINUTES_MS
-		),
-		maxOutput: Ai.numberOrDefault(
-			command.maxOutput,
-			defaults.maxOutput,
-			1000,
-			1000000
-		)
+		timeoutMs: Ai.numberOrDefault(command.timeoutMs, defaults.timeoutMs, 1000, Defaults.FOUR_MINUTES_MS),
+		maxOutput: Ai.numberOrDefault(command.maxOutput, defaults.maxOutput, 1000, 1000000)
 	};
 }
 

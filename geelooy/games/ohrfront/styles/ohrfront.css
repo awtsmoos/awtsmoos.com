@@ -1,0 +1,37 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives every finite color and border its instant of being;
+Awtsmoos.com lets the HUD become a clear vessel instead of a veil over the battlefield.
+*/
+:root {
+	font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+	color: #efffff;
+	background: #071319;
+}
+* { box-sizing: border-box; }
+html, body, #ohrfront-shell, #game-canvas { width: 100%; height: 100%; margin: 0; overflow: hidden; }
+body { user-select: none; }
+canvas { display: block; width: 100%; height: 100%; }
+.hidden { display: none !important; }
+#hud { position: fixed; inset: 0; pointer-events: none; text-shadow: 0 0 12px #24e6ff; }
+.hud-top { position: absolute; top: 24px; left: 30px; right: 30px; display: flex; justify-content: space-between; font-weight: 800; letter-spacing: .13em; }
+.hud-bottom { position: absolute; left: 32px; bottom: 28px; width: min(430px, calc(100vw - 64px)); display: grid; gap: 8px; }
+.meter { display: grid; grid-template-columns: 74px 1fr; align-items: center; gap: 10px; font-size: 12px; font-weight: 800; letter-spacing: .08em; }
+progress { width: 100%; height: 9px; accent-color: #56f4ff; border: 0; }
+#crosshair { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 42px; height: 42px; display: grid; place-items: center; font: 800 22px serif; color: #bdfdff; border: 1px solid rgba(189,253,255,.5); border-radius: 50%; box-shadow: inset 0 0 14px rgba(61,224,255,.35); }
+#hit-marker { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) scale(.5); opacity: 0; font-size: 58px; transition: opacity .08s, transform .08s; }
+#hit-marker.active { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+.launch-overlay, .completion { position: fixed; inset: 0; display: grid; place-items: center; background: radial-gradient(circle at 70% 25%, rgba(26,126,152,.28), rgba(2,9,12,.9)); }
+.launch-panel, .completion { text-align: center; }
+.launch-panel { width: min(620px, calc(100vw - 42px)); padding: 42px; border: 1px solid rgba(104,236,255,.35); background: rgba(3,20,27,.82); backdrop-filter: blur(14px); box-shadow: 0 0 70px rgba(0,194,255,.14); }
+.eyebrow { color: #79eefe; font-size: 12px; letter-spacing: .2em; }
+h1 { margin: 6px 0 0; font-size: clamp(54px, 10vw, 104px); line-height: .9; letter-spacing: -.05em; }
+h2 { margin: 10px 0 24px; letter-spacing: .22em; color: #80ecff; }
+.launch-panel p { line-height: 1.55; color: #c9e4e9; }
+label { display: block; margin-top: 26px; font-weight: 800; letter-spacing: .1em; }
+select, button { margin-top: 10px; width: 100%; padding: 14px 16px; border: 1px solid #4adff5; color: #eaffff; background: #082834; font: inherit; font-weight: 800; }
+button { cursor: pointer; background: linear-gradient(90deg, #0f8ca8, #18b9c8); }
+.controls { font-size: 12px; opacity: .75; }
+.completion { z-index: 10; background: rgba(2,15,20,.78); }
+.completion h2 { font-size: clamp(32px, 6vw, 68px); margin: 0; }

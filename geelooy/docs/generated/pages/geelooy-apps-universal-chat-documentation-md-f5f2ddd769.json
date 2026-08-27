@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-universal-chat-documentation-md-f5f2ddd769",
+	"title": "Messages & Torah Chat",
+	"sourcePath": "geelooy/apps/universal-chat/DOCUMENTATION.md",
+	"category": "Apps",
+	"provenance": "breadcrumb",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Messages & Torah Chat",
+			"anchor": "messages-torah-chat"
+		},
+		{
+			"level": 2,
+			"text": "Entry point",
+			"anchor": "entry-point"
+		},
+		{
+			"level": 2,
+			"text": "Module boundary",
+			"anchor": "module-boundary"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-universal-chat-documentation-md-f5f2ddd769-001.json"
+	]
+}

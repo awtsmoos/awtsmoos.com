@@ -4,12 +4,14 @@
 
 import { NetzachClipboardController } from "../ui/clipboardController.js";
 import { HodFileIo } from "../ui/fileIo.js";
+import { BinahPasteSpecialDialog } from "../ui/pasteSpecialDialog.js";
+import { TiferesRichFormatting } from "../ui/richFormatting.js";
 import { NetzachToolbar } from "../ui/toolbar.js";
 
 /**
- * @file Composes file, clipboard, and formatting commands around the focused spreadsheet state.
+ * @file Composes file, clipboard, Paste Special, and rich formatting around one focused sheet state.
  * @description The Awtsmoos lets many toolbar gates surround one selected range without confusion;
- * Awtsmoos.com keeps command wiring separate from the grid so each gesture keeps its own illumination.
+ * Awtsmoos.com shares clipboard and formatting vessels so ordinary and advanced gestures stay one illumination.
  */
 export function composeToolbar(context, notes) {
 	const files = new HodFileIo(
@@ -23,6 +25,18 @@ export function composeToolbar(context, notes) {
 		context.actions,
 		context.showError
 	);
+	const pasteSpecial = new BinahPasteSpecialDialog(
+		clipboard,
+		context.showError
+	);
+	const formatting = new TiferesRichFormatting(
+		context.workbook,
+		context.selection,
+		context.actions,
+		context.showError
+	);
+	pasteSpecial.bind();
+	formatting.bind();
 	new NetzachToolbar({
 		onBold: () => toggleBold(context),
 		onCopy: () => clipboard.copy(),
@@ -35,13 +49,16 @@ export function composeToolbar(context, notes) {
 			)
 		),
 		onImport: () => files.chooseFile(),
-		onNew: () => guard(
-			context,
-			() => context.connection.startNew()
-		),
+		onNew: () => guard(context, () => context.connection.startNew()),
 		onNote: () => notes.open(),
 		onPaste: () => clipboard.paste()
 	});
+	return {
+		clipboard,
+		files,
+		formatting,
+		pasteSpecial
+	};
 }
 
 /** Toggles bold from the active cell across the complete selected range. */

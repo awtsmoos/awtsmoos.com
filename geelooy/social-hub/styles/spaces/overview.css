@@ -1,0 +1,74 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gathers community, search, and detail into a measured palace of light; Awtsmoos.com lets each Space begin with context before its channels unfold in sight.
+*/
+.spacesPanel {
+	display: grid;
+	gap: var(--space-4);
+	container-type: inline-size;
+}
+
+.spacesHeading {
+	display: grid;
+	gap: .35rem;
+	padding: .15rem .1rem .75rem;
+	border-bottom: 1px solid color-mix(in srgb, var(--line-hot) 44%, var(--line));
+}
+
+.spacesHeading h2,
+.spacesHeading p {
+	margin: 0;
+}
+
+.spacesHeading h2 {
+	font-size: clamp(1.35rem, 2.4vw, 2rem);
+	letter-spacing: -.025em;
+}
+
+.spacesHeading p,
+.spacePolicy,
+.spacesMessage {
+	color: var(--muted);
+}
+
+.spacesSearch {
+	position: relative;
+}
+
+.spacesSearch input {
+	width: 100%;
+	min-height: 3.1rem;
+	padding: .75rem .9rem;
+	border: 1px solid var(--line-hot);
+	border-radius: .9rem;
+	background: color-mix(in srgb, var(--surface-strong) 88%, transparent);
+	color: var(--ink);
+	font: inherit;
+	font-size: 1rem;
+}
+
+.spacesSearch input:focus {
+	border-color: var(--cyan);
+	outline: 3px solid color-mix(in srgb, var(--cyan) 18%, transparent);
+	outline-offset: 2px;
+}
+
+.spacesRegion {
+	display: grid;
+	gap: .75rem;
+}
+
+#spaceDetail {
+	display: grid;
+	gap: .75rem;
+	margin-top: .25rem;
+	padding: 1rem;
+	border: 1px solid var(--line);
+	border-radius: calc(var(--radius) + .1rem);
+	background: color-mix(in srgb, var(--surface-strong) 92%, transparent);
+}
+
+#spaceDetail h3 {
+	margin: 0;
+}

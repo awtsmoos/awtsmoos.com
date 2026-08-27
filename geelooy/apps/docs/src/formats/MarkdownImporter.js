@@ -13,8 +13,9 @@ import {
 
 /**
  * @file Directs supported Markdown syntax into semantic Awtsmoos Docs blocks.
- * @description The Awtsmoos precedes source and page; Awtsmoos.com reads each line
- * into a named vessel while preserving an intentionally bounded, testable Markdown subset.
+ * @description The Awtsmoos precedes source and page; Awtsmoos.com reads H1-H6,
+ * lists, tables, code, fragments, and safe navigation markers into named vessels
+ * while keeping the Markdown subset bounded enough to remain predictable and testable.
  */
 export class MarkdownImporter {
 	static parse(markdown = "") {
@@ -35,7 +36,7 @@ function readBlock(lines, index) {
 	const line = lines[index];
 	if (!line.trim()) return { nextIndex: index + 1 };
 	if (/^```/.test(line)) return readFence(lines, index);
-	const heading = /^(#{1,3})\s+(.+)$/.exec(line);
+	const heading = /^(#{1,6})\s+(.+)$/.exec(line);
 	if (heading) {
 		return singleBlock(
 			`h${heading[1].length}`,
@@ -60,7 +61,7 @@ function readBlock(lines, index) {
 function startsBlock(lines, index) {
 	if (index === 0) return false;
 	const line = lines[index];
-	return /^```|^#{1,3}\s|^\s*>|^\s*[-+*]\s+|^\s*\d+[.)]\s+/.test(line)
+	return /^```|^#{1,6}\s|^\s*>|^\s*[-+*]\s+|^\s*\d+[.)]\s+/.test(line)
 		|| isDivider(line)
 		|| isTableStart(lines, index);
 }

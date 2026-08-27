@@ -20,4 +20,6 @@ Every currently discovered API route receives a tutorial record and bounded gene
 | [routes-010.md](API_TUTORIAL_INDEX/routes-010.md) | 406–450 | 45 |
 | [routes-011.md](API_TUTORIAL_INDEX/routes-011.md) | 451–495 | 45 |
 | [routes-012.md](API_TUTORIAL_INDEX/routes-012.md) | 496–540 | 45 |
-| [routes-013.md](API_TUTORIAL_INDEX/routes-013.md) | 541–576 | 36 |
+| [routes-013.md](API_TUTORIAL_INDEX/routes-013.md) | 541–585 | 45 |
+| [routes-014.md](API_TUTORIAL_INDEX/routes-014.md) | 586–630 | 45 |
+| [routes-015.md](API_TUTORIAL_INDEX/routes-015.md) | 631–634 | 4 |

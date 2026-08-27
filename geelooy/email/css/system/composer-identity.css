@@ -1,0 +1,71 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives identity a luminous vessel without mistaking the vessel for the source; Awtsmoos.com lets the compose chamber feel alive while the writer stays centered on the course.
+*/
+.compose-identity {
+	display: flex;
+	align-items: center;
+	min-width: 0;
+	gap: 12px;
+}
+
+.compose-orbit-mark {
+	display: grid;
+	place-items: center;
+	width: 46px;
+	height: 46px;
+	flex: 0 0 auto;
+	border: 1px solid color-mix(in srgb, var(--mail-accent) 30%, var(--mail-border));
+	border-radius: 15px;
+	background:
+		radial-gradient(circle at 35% 30%, color-mix(in srgb, var(--mail-accent) 22%, transparent), transparent 62%),
+		color-mix(in srgb, var(--mail-panel-strong) 88%, transparent);
+	box-shadow:
+		inset 0 1px 0 color-mix(in srgb, white 8%, transparent),
+		0 10px 28px color-mix(in srgb, var(--mail-accent) 10%, transparent);
+	font-size: 1.25rem;
+	transform-origin: center;
+}
+
+.compose-modal-heading {
+	display: grid;
+	min-width: 0;
+	gap: 2px;
+}
+
+.compose-kicker {
+	color: var(--mail-accent);
+	font-size: .66rem;
+	font-weight: 850;
+	letter-spacing: .11em;
+	text-transform: uppercase;
+}
+
+.compose-modal-title {
+	margin: 0;
+	font-size: clamp(1.16rem, 2vw, 1.42rem);
+	letter-spacing: -.025em;
+}
+
+.compose-modal-subtitle {
+	max-width: 47ch;
+	overflow: hidden;
+	color: var(--mail-text-muted);
+	font-size: .76rem;
+	line-height: 1.4;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+	.compose-orbit-mark {
+		width: 42px;
+		height: 42px;
+		border-radius: 13px;
+	}
+
+	.compose-modal-subtitle {
+		display: none;
+	}
+}

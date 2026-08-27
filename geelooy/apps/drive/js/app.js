@@ -5,12 +5,13 @@
 /**
  * @module DriveApp
  * @description
- * The Awtsmoos coordinates identity, files, sites, durable project intent, and server-backed Project Testimony as one visible world;
- * Awtsmoos.com refreshes file truth, publication truth, creator intent, and capability evidence together so no surface drifts from another.
+ * The Awtsmoos coordinates identity, files, sites, durable project intent, and the Website Maker as one visible world;
+ * Awtsmoos.com refreshes server testimony without destroying editor state, while each sub-vessel keeps its own failure boundary clear.
  */
 
 import { getProjectPlan, getSiteStatus, getUsage, listEntries, listSites } from './api.js';
 import { copyPublicLink, routeEntryAction } from './actions.js';
+import { installWebsiteMakerLifecycle } from './builder/studioLifecycle.js';
 import { installConnectionControls } from './connectionControls.js';
 import { installControls } from './controlBindings.js';
 import { installDialogFocusReturn } from './dialogs.js';
@@ -21,6 +22,12 @@ import { publicUrl, renderEntries, renderPagination, renderUsage, showError, sho
 import { installSiteControls, renderSiteStatus } from './siteControls.js';
 import { driveState, setEntries, setSite, setSites, updateFilters } from './state.js';
 import { uploadFiles } from './uploads.js';
+
+const websiteMaker = installWebsiteMakerLifecycle({
+	status: showStatus,
+	error: showError,
+	refresh
+});
 
 async function refresh() {
 	try {
@@ -40,6 +47,7 @@ async function refresh() {
 		renderSiteStatus(driveState.site, driveState.sites);
 		renderProjectPlatform(driveState, projectResult.project, refresh);
 		renderPagination(driveState.page, driveState.page > 1, Boolean(driveState.nextCursor));
+		await websiteMaker.refresh(driveState);
 		showStatus(`Loaded ${driveState.entries.length} entries · ${driveState.sites.length} sites · Project Testimony v${projectResult.project.version}.`);
 	} catch (error) {
 		showError(error);
@@ -54,7 +62,9 @@ async function handleEntryAction(action, entry) {
 			return;
 		}
 		const handled = routeEntryAction(action, entry, openDirectory);
-		if (!handled && entry.type === 'file') window.open(publicUrl(entry.path), '_blank', 'noopener');
+		if (!handled && entry.type === 'file') {
+			window.open(publicUrl(entry.path), '_blank', 'noopener');
+		}
 	} catch (error) {
 		showError(error);
 	}
@@ -71,10 +81,14 @@ async function handleUploads(files) {
 	const progressElement = document.querySelector('#upload-progress');
 	showStatus(`Streaming ${files.length} file(s)…`);
 	const result = await uploadFiles(files, driveState.currentPath, progress => {
-		progressElement.value = progress.totalBytes ? (progress.transferredBytes / progress.totalBytes) * 100 : 100;
+		progressElement.value = progress.totalBytes
+			? (progress.transferredBytes / progress.totalBytes) * 100
+			: 100;
 		showStatus(`${progress.uploaded}/${progress.total} uploaded · ${progress.path}`);
 	});
-	if (result.failed.length) showError(new Error(`${result.failed.length} upload(s) failed.`));
+	if (result.failed.length) {
+		showError(new Error(`${result.failed.length} upload(s) failed.`));
+	}
 	await refresh();
 }
 

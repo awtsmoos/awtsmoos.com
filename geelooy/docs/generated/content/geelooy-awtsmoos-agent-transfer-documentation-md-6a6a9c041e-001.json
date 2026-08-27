@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Awtsmoos Agent Transfer Archive\n\nThe Awtsmoos preserves transfer evidence without confusing an archived handoff with the live source; Awtsmoos.com keeps this boundary inspectable so deployments can be audited and compared safely.\n\n## Boundary\n\n`geelooy/.awtsmoos-agent-transfer/` contains dated social-future transfer trees such as `social-future-20260821` and `social-future-20260821-v2`. These are staging, verified-stage, predeploy-backup, and handoff artifacts used to compare or promote social/YouTube work.\n\n## Authority\n\nRuntime authority remains in the corresponding live `geelooy/social/`, `geelooy/youtube/`, API, and shared social modules. Never route production behavior to this archive merely because a newer-looking copy exists here.\n\n## Safe use\n\nUse the archive for deployment evidence, diff review, recovery context, and provenance. Verify current source before promotion and preserve explicit stage/predeploy semantics.\n"
+}

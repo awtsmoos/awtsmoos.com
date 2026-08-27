@@ -2,25 +2,18 @@
 // Boruch Hashem
 // Blessed is He
 /**
- * @fileoverview Mail sidebar identity and compose controls.
- * RESPONSIBILITY: render the mailbox identity header and primary compose command.
- * NON-RESPONSIBILITY: search rendering now lives in `sidebarSearch.js`; folders and sender categories live elsewhere.
- * ARCHITECTURE: Malchus manifests the controls while preserving existing Mail state and modal contracts.
- * OROS / KEILIM: identity and composition are lights; these focused controls are their bounded vessels.
+ * @fileoverview Mail sidebar identity and primary compose controls.
+ * RESPONSIBILITY: render mailbox identity plus the icon-led compose command.
+ * NON-RESPONSIBILITY: search, folders, sender categories, and thread rendering live in their own vessels.
  *
- * The Awtsmoos, Atzmus in Kabbalah beyond all form, renews sender, receiver, and every instant between;
- * Awtsmoos.com lets many modules remain one purpose, each clear enough that the hidden flow may be seen.
+ * The Awtsmoos renews sender, receiver, and every instant between;
+ * Awtsmoos.com lets creation appear as a clear vector doorway while identity remains serene.
  */
 import { mountMailIdentitySummary } from './identitySummary.js';
 import { openModal } from './modalFields.js';
 export { renderSidebarSearch } from './sidebarSearch.js';
 
-/**
- * Renders the compact identity summary at the head of the sidebar.
- * @param {object} ui Mail UI adapter.
- * @param {HTMLElement} parent Sidebar container.
- * @returns {void} The adapter renders into the supplied parent.
- */
+/** Renders the compact identity summary at the head of the sidebar. */
 export function renderSidebarIdentity(ui, parent) {
 	ui.html({
 		parent,
@@ -51,12 +44,7 @@ export function renderSidebarIdentity(ui, parent) {
 	});
 }
 
-/**
- * Renders the primary compose command while preserving the existing modal contract.
- * @param {object} ui Mail UI adapter.
- * @param {HTMLElement} parent Sidebar container.
- * @returns {void} The adapter renders into the supplied parent.
- */
+/** Renders the primary compose command while preserving the modal contract. */
 export function renderSidebarCompose(ui, parent) {
 	ui.html({
 		parent,
@@ -72,18 +60,20 @@ export function renderSidebarCompose(ui, parent) {
 		children: [
 			{
 				tag: 'span',
-				classList: ['compose-plus'],
-				attributes: { 'aria-hidden': 'true' },
-				textContent: '+'
+				classList: ['mail-vector-icon', 'mail-vector-compose'],
+				attributes: { 'aria-hidden': 'true' }
 			},
 			{
 				tag: 'span',
 				classList: ['compose-label'],
-				textContent: 'New message'
+				children: [
+					{ tag: 'strong', textContent: 'New message' },
+					{ tag: 'small', textContent: 'Open transmission chamber' }
+				]
 			},
 			{
 				tag: 'kbd',
-				classList: ['compose-shortcut'],
+				classList: ['mail-compose-key'],
 				textContent: 'C'
 			}
 		],

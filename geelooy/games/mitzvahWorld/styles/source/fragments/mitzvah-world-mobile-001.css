@@ -2,92 +2,110 @@
 Boruch Hashem
 Blessed is He
 
-The Awtsmoos makes a small screen a worthy vessel, not a crowded shore;
-Awtsmoos.com leaves the world wide while each thumb finds the control it came for.
+The Awtsmoos gives the thumb a wide quiet field while the visible ring stays small and clear;
+Awtsmoos.com keeps the meadow larger than its controls, so motion feels natural and the world feels near.
 */
 
 /**
- * Mobile gameplay shell and joystick geometry. Jump-button appearance lives in
- * its own fragment so the positioning vessel and interactive vessel stay clear.
+ * Mobile-first control shell. The full lower-left region accepts locomotion while
+ * the joystick ring floats to the first touch instead of demanding pixel-perfect aim.
  */
+#mitzvah-world-root #mobileControls,
 #mitzvah-world-root .Awtsmoos-mobile-shell {
 	position: fixed;
-	inset: auto 0 max(96px, calc(env(safe-area-inset-bottom) + 84px));
+	inset: 0;
 	z-index: 830;
 	display: none;
 	pointer-events: none;
 }
 
-#mitzvah-world-root .Awtsmoos-mobile-shell > [data-retract-toggle] {
-	position: absolute;
-	right: max(12px, env(safe-area-inset-right));
-	bottom: 104px;
-	width: 44px;
-	height: 44px;
-	border-radius: 14px;
-	pointer-events: auto;
-	touch-action: manipulation;
-}
-
+#mitzvah-world-root #joy,
 #mitzvah-world-root .Awtsmoos-mobile-joystick {
 	position: absolute;
-	left: max(16px, env(safe-area-inset-left));
+	left: 0;
 	bottom: 0;
+	width: min(58vw, 360px);
+	height: min(46vh, 300px);
+	min-width: 200px;
+	min-height: 180px;
 	pointer-events: auto;
 	touch-action: none;
+	user-select: none;
+	-webkit-user-select: none;
 }
 
 #mitzvah-world-root [data-joystick-ring] {
-	position: relative;
+	position: absolute;
+	left: max(78px, calc(env(safe-area-inset-left) + 72px));
+	top: calc(100% - max(80px, calc(env(safe-area-inset-bottom) + 70px)));
 	width: 112px;
 	height: 112px;
-	border: 2px solid rgba(255, 255, 255, .28);
+	border: 1px solid rgba(236, 255, 242, .34);
 	border-radius: 50%;
-	background: rgba(7, 22, 17, .42);
-	box-shadow: inset 0 0 26px rgba(0, 0, 0, .34);
+	background: radial-gradient(circle, rgba(18, 42, 28, .18), rgba(5, 20, 12, .38));
+	box-shadow: inset 0 0 28px rgba(255, 255, 255, .05), 0 12px 32px rgba(0, 0, 0, .18);
+	backdrop-filter: blur(7px);
+	transform: translate(-50%, -50%);
+	opacity: .62;
+	pointer-events: none;
+	transition: opacity 120ms ease, border-color 120ms ease, background 120ms ease;
 }
 
-#mitzvah-world-root [data-joystick-ring]:focus-visible {
-	outline: 3px solid rgba(126, 250, 205, .9);
-	outline-offset: 4px;
+#mitzvah-world-root [data-joystick-ring][data-active="true"] {
+	border-color: rgba(228, 255, 236, .7);
+	background: radial-gradient(circle, rgba(34, 78, 48, .25), rgba(4, 19, 11, .48));
+	opacity: 1;
 }
 
 #mitzvah-world-root [data-joystick-knob] {
 	position: absolute;
 	left: 50%;
 	top: 50%;
-	width: 48px;
-	height: 48px;
-	margin: -24px;
+	width: 46px;
+	height: 46px;
+	margin: -23px 0 0 -23px;
+	border: 1px solid rgba(255, 255, 255, .78);
 	border-radius: 50%;
-	background: rgba(105, 239, 186, .82);
-	box-shadow: 0 0 18px rgba(105, 239, 186, .42);
+	background: linear-gradient(145deg, rgba(250, 255, 251, .96), rgba(157, 220, 174, .9));
+	box-shadow: 0 7px 18px rgba(0, 0, 0, .28);
+	will-change: transform;
 }
 
 #mitzvah-world-root #jump {
 	position: absolute;
-	right: max(24px, env(safe-area-inset-right));
-	bottom: 4px;
-	width: 76px;
-	height: 76px;
-	pointer-events: none;
+	right: max(18px, calc(env(safe-area-inset-right) + 14px));
+	bottom: max(22px, calc(env(safe-area-inset-bottom) + 18px));
+	width: 68px;
+	height: 68px;
+	pointer-events: auto;
+	touch-action: manipulation;
 }
 
-#mitzvah-world-root .Awtsmoos-mobile-shell[data-collapsed="true"] #joy,
-#mitzvah-world-root .Awtsmoos-mobile-shell[data-collapsed="true"] #jump {
-	display: none;
+#mitzvah-world-root #jump button,
+#mitzvah-world-root #jump {
+	border-radius: 50%;
 }
 
-@media (pointer: coarse), (max-width: 820px) {
-	html[data-awtsmoos-gameplay="true"] #mitzvah-world-root .Awtsmoos-mobile-shell {
+@media (max-width: 820px), (pointer: coarse) {
+	#mitzvah-world-root #mobileControls,
+	#mitzvah-world-root .Awtsmoos-mobile-shell {
 		display: block;
 	}
 
-	#mitzvah-world-root .Awtsmoos-control-receipt {
+	#mitzvah-world-root .Awtsmoos-mobile-shell > [data-retract-toggle] {
 		display: none;
 	}
+}
 
-	#mitzvah-world-root .Awtsmoos-game-rail-host {
-		right: max(5px, env(safe-area-inset-right));
+@media (max-width: 430px) {
+	#mitzvah-world-root #joy,
+	#mitzvah-world-root .Awtsmoos-mobile-joystick {
+		width: 62vw;
+		height: 42vh;
+	}
+
+	#mitzvah-world-root [data-joystick-ring] {
+		width: 104px;
+		height: 104px;
 	}
 }

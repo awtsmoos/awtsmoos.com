@@ -1,212 +1,183 @@
 [
 	{
-		"id": "geelooy-games-mitzvahworld-ai-thoughts-2026-07-29-kabbalistic-combat-pro-635f075516",
-		"title": "Remaining Work",
-		"sourcePath": "geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-29-kabbalistic-combat-production/07_REMAINING_WORK.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-websites-dns-migration-md-d882d34392",
+		"title": "Move DNS Without Breaking the Website or Email",
+		"sourcePath": "docs/WEBSITES/DNS_MIGRATION.md",
+		"category": "General",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Remaining Work",
-				"anchor": "remaining-work"
+				"text": "Move DNS Without Breaking the Website or Email",
+				"anchor": "move-dns-without-breaking-the-website-or-email"
 			},
 			{
 				"level": 2,
-				"text": "Shared domain",
-				"anchor": "shared-domain"
+				"text": "Do not start by changing nameservers",
+				"anchor": "do-not-start-by-changing-nameservers"
 			},
 			{
 				"level": 2,
-				"text": "Player systems",
-				"anchor": "player-systems"
+				"text": "Recommended current Awtsmoos flow",
+				"anchor": "recommended-current-awtsmoos-flow"
 			},
 			{
 				"level": 2,
-				"text": "Enemy systems",
-				"anchor": "enemy-systems"
-			},
-			{
-				"level": 2,
-				"text": "Presentation",
-				"anchor": "presentation"
-			},
-			{
-				"level": 2,
-				"text": "Persistence and environment",
-				"anchor": "persistence-and-environment"
-			},
-			{
-				"level": 2,
-				"text": "Verification",
-				"anchor": "verification"
-			},
-			{
-				"level": 2,
-				"text": "Preserved pre-existing meadow work",
-				"anchor": "preserved-pre-existing-meadow-work"
+				"text": "If Awtsmoos nameservers become available",
+				"anchor": "if-awtsmoos-nameservers-become-available"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Remaining Work The Awtsmoos renews the ledger until no required node remains; Awtsmoos.com keeps success bound to evidence, not claims. Shared domain [ ] Canonical affinity definitions. [ ] Canonical element definitions. [ ] Canonical typed action definitions. [ ] Canonical bounded statu",
-		"searchText": "b\"h boruch hashem blessed is he remaining work the awtsmoos renews the ledger until no required node remains; awtsmoos.com keeps success bound to evidence, not claims. shared domain [ ] canonical affinity definitions. [ ] canonical element definitions. [ ] canonical typed action definitions. [ ] canonical bounded status definitions. [ ] contextual effectiveness rules and diagnostics. [ ] daas insight tiers. player systems [ ] attribute defaults and migration. [ ] typed melee actions. [ ] typed affinity casts. [ ] local authority adapter. [ ] server authoritative attack receipts. [ ] player cast interruption and projectile suppression. [ ] affinity loadouts and progression. enemy systems [ ] enemy affinity and resistance profiles. [ ] typed enemy action decks. [ ] interruptible enemy casts. [ ] mixed group behavior. [ ] kedem warden affinity phases. presentation [ ] daas filtered cast hud. [ ] world and edge cast indicators. [ ] status ui. [ ] four effect families and low cost fallbacks. [ ] accessibility modes. persistence and environment [ ] save migration. [ ] reconnect reconciliation. [ ] bounded status snapshots. [ ] environmental reactions. [ ] exact cleanup and exact once rewards. verification [ ] focused tests. [ ] full server matrix. [ ] full client matrix. [ ] compactjs determinism. [ ] canonical css determinism. [ ] performance profiling. [ ] real browser acceptance matrix. [ ] syntax, imports, tabs, whitespace, line counts, processes, and worktree audit. preserved pre existing meadow work [ ] write isolated meadow modules. [ ] rewrite the route shell while preserving its former local version. [ ] verify route, module, and model delivery. [ ] perform bounded final browser verification.",
-		"page": "pages/geelooy-games-mitzvahworld-ai-thoughts-2026-07-29-kabbalistic-combat-pro-635f075516.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Move DNS Without Breaking the Website or Email The Awtsmoos sustains every name and destination while DNS is a finite map; Awtsmoos.com treats migration as preservation first, routing second, and deletion last. Do not start by changing nameservers First export or manually inventory every",
+		"searchText": "b\"h boruch hashem blessed is he move dns without breaking the website or email the awtsmoos sustains every name and destination while dns is a finite map; awtsmoos.com treats migration as preservation first, routing second, and deletion last. do not start by changing nameservers first export or manually inventory every record at the current dns provider. record the type, owner/name, value/content, ttl, and provider specific proxy setting. keep screenshots or an export until the migration is verified. preserve at least these record families: a and aaaa — direct web/service addresses; cname — aliases such as www; mx — inbound email servers and priorities; txt — spf, dkim, dmarc, ownership and vendor verification; caa — which certificate authorities may issue tls certificates; srv — service discovery records; ns — delegated child zones; intentionally configured subdomains. recommended current awtsmoos flow 1. keep authoritative dns at the existing provider. 2. publish the site and claim the custom hostname in drive. 3. add the ownership txt record shown by the awtsmoos domain plan. 4. verify ownership in drive. 5. copy only the server attested web routing record option from the hosting plan. 6. leave mx/spf/dkim/dmarc and unrelated services unchanged. 7. activate the route only when the plan reports it eligible. 8. confirm https and the live website from outside the editor. if awtsmoos nameservers become available do not switch the registrar until the destination zone contains a verified copy of every required record. compare old and new zones record for record, lower ttls ahead of the cutover when appropriate, migrate the records, then change registrar nameservers. keep the previous zone intact until propagation and mail/web verification are complete. the current native hosting plan explicitly reports whether awtsmoos nameservers are available. trust that runtime testimony rather than a tutorial or old screenshot.",
+		"page": "pages/docs-websites-dns-migration-md-d882d34392.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-c4df479cf3",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-31-0018-mitzvah-world-compactjs-recovery/00_REMAINING_WORK.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-websites-dns-provider-playbooks-md-8a1244eec2",
+		"title": "DNS Provider Playbooks for Awtsmoos Websites",
+		"sourcePath": "docs/WEBSITES/DNS_PROVIDER_PLAYBOOKS.md",
+		"category": "General",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Remaining Work Ledger",
-				"anchor": "remaining-work-ledger"
+				"text": "DNS Provider Playbooks for Awtsmoos Websites",
+				"anchor": "dns-provider-playbooks-for-awtsmoos-websites"
 			},
 			{
 				"level": 2,
-				"text": "Mission",
-				"anchor": "mission"
+				"text": "Universal rule before touching anything",
+				"anchor": "universal-rule-before-touching-anything"
 			},
 			{
 				"level": 2,
-				"text": "Observed Evidence",
-				"anchor": "observed-evidence"
+				"text": "Cloudflare",
+				"anchor": "cloudflare"
+			},
+			{
+				"level": 3,
+				"text": "Website-only move to Awtsmoos",
+				"anchor": "website-only-move-to-awtsmoos"
+			},
+			{
+				"level": 3,
+				"text": "Full authoritative migration away from Cloudflare",
+				"anchor": "full-authoritative-migration-away-from-cloudflare"
 			},
 			{
 				"level": 2,
-				"text": "Remaining Work",
-				"anchor": "remaining-work"
+				"text": "GoDaddy",
+				"anchor": "godaddy"
+			},
+			{
+				"level": 3,
+				"text": "Website-only move to Awtsmoos",
+				"anchor": "website-only-move-to-awtsmoos-2"
+			},
+			{
+				"level": 3,
+				"text": "Full DNS-provider move",
+				"anchor": "full-dns-provider-move"
 			},
 			{
 				"level": 2,
-				"text": "Completion Gate",
-				"anchor": "completion-gate"
+				"text": "Namecheap",
+				"anchor": "namecheap"
+			},
+			{
+				"level": 3,
+				"text": "Website-only move to Awtsmoos",
+				"anchor": "website-only-move-to-awtsmoos-3"
+			},
+			{
+				"level": 3,
+				"text": "Nameserver warning",
+				"anchor": "nameserver-warning"
+			},
+			{
+				"level": 2,
+				"text": "Squarespace Domains",
+				"anchor": "squarespace-domains"
+			},
+			{
+				"level": 3,
+				"text": "Website-only move to Awtsmoos",
+				"anchor": "website-only-move-to-awtsmoos-4"
+			},
+			{
+				"level": 3,
+				"text": "Full authoritative move",
+				"anchor": "full-authoritative-move"
+			},
+			{
+				"level": 2,
+				"text": "Amazon Route 53",
+				"anchor": "amazon-route-53"
+			},
+			{
+				"level": 3,
+				"text": "Website-only move to Awtsmoos while keeping Route 53",
+				"anchor": "website-only-move-to-awtsmoos-while-keeping-route-53"
+			},
+			{
+				"level": 3,
+				"text": "Moving authoritative DNS into Route 53",
+				"anchor": "moving-authoritative-dns-into-route-53"
+			},
+			{
+				"level": 2,
+				"text": "What Awtsmoos should show beside every provider guide",
+				"anchor": "what-awtsmoos-should-show-beside-every-provider-guide"
 			}
 		],
-		"excerpt": "B\"H Remaining Work Ledger From Awtsmoos the hidden path is shown, through Awtsmoos.com each broken route is known. Mission Restore /games/mitzvahWorld/ so its source mode and CompactJS generated runtime both boot, load required assets, resolve dynamic modules, and expose working movement, combat, inventory, quest, reco",
-		"searchText": "b\"h remaining work ledger from awtsmoos the hidden path is shown, through awtsmoos.com each broken route is known. mission restore /games/mitzvahworld/ so its source mode and compactjs generated runtime both boot, load required assets, resolve dynamic modules, and expose working movement, combat, inventory, quest, recovery, and streaming readiness. observed evidence browser console reports minimal meadow not playable: inventory,equipment,combat,quest,recovery,streaming. chossid model hydration requests a malformed path containing /assets/models/player/d86fd32.../chossid.glb and receives http 404. optional chat imports resolve beneath an incorrect /experim... url and receive http 404. the generated bundle is mitzvah world.compact.js; its behavior must be traced back to source and the compactjs builder. tunnel is connected to yackovs macbook air.local. remaining work 1. read current handoff, root html, source tree, generated bundle metadata, and git state. 2. trace readiness registration and discover why six required systems never become playable. 3. trace chossid asset url construction and verify the canonical asset on disk and over http. 4. trace dynamic import rewriting for experiment modules in source and generated output. 5. inspect compactjs configuration, path rewriter, module ordering, and build entry points. 6. choose the smallest root cause repair that fixes source and generated modes without masking failure. 7. rewrite every touched file in full; preserve unrelated user work. 8. run syntax, build, focused tests, server/api checks, and browser runtime verification. 9. re read every touched file and compare planned versus actual work. 10. record verification evidence, residual risks, and exact continuation state. completion gate the ledger may close only when the public page boots without fatal console errors, required systems report playable, chossid hydration no longer 404s, dynamic imports resolve, compactjs rebuilds deterministically, and touched files pass readback plus tests.",
-		"page": "pages/geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-c4df479cf3.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He DNS Provider Playbooks for Awtsmoos Websites The Awtsmoos renews every domain and every answer while Awtsmoos.com asks the finite DNS provider to carry only the records it actually owns; a safe migration preserves mail and service records before web routing is changed, and changes namese",
+		"searchText": "b\"h boruch hashem blessed is he dns provider playbooks for awtsmoos websites the awtsmoos renews every domain and every answer while awtsmoos.com asks the finite dns provider to carry only the records it actually owns; a safe migration preserves mail and service records before web routing is changed, and changes nameservers only when a complete replacement authoritative zone is truly ready. these playbooks describe current provider concepts verified against official provider documentation in august 2026. provider dashboards may rename buttons later, so trust the record fields and the provider's current official help if labels move. universal rule before touching anything 1. export, screenshot, or copy the complete existing zone. 2. put a, aaaa, cname, txt, mx, caa, srv, ns and important subdomains into the awtsmoos project settings dns migration worksheet. 3. identify mail records: mx, spf txt, dkim txt/cname selectors, dmarc txt, autodiscover/autoconfig, mta sts/tls reporting and vendor verification records. 4. publish the website canonically on awtsmoos before changing custom domain dns. 5. claim and verify the custom domain. 6. apply only the server attested web routing record when keeping the existing dns provider. 7. do not change registrar nameservers unless a complete destination authoritative zone already exists and is answering correctly. cloudflare cloudflare's current dashboard uses dns → records with add record and per record edit controls. a/aaaa/cname records also have cloudflare specific proxy status. cloudflare supports zone file import/export. website only move to awtsmoos keep the cloudflare nameservers in place. add the awtsmoos ownership txt record. verify the hostname in drive. change only the a/aaaa/cname web routing records attested by the awtsmoos hosting plan. leave mx and mail related txt/cname records intact. decide cloudflare proxy status deliberately for web routing records; do not copy a proxy setting onto mail records. full authoritative migration away from cloudflare export/review the full zone first. build and verify the replacement zone before updating registrar nameservers. do not cancel or remove the old authoritative service until web, email and other critical services resolve correctly through the new nameservers. godaddy godaddy separates editing records from changing domain nameservers. when a domain uses godaddy nameservers, dns records are managed there; when nameservers point elsewhere, the zone is managed at that other provider. website only move to awtsmoos open the domain's dns records. preserve every non web record. add the awtsmoos ownership txt record. replace only the attested web routing record after ownership verification. do not use the nameservers control for an ordinary website only move. full dns provider move copy the complete zone to the destination first. only then use the registrar nameserver control. verify website and email through the new authoritative service before removing the old zone. namecheap namecheap exposes nameserver selection under the domain's management page. host record editing is available when the domain uses namecheap basicdns, freedns or premiumdns; domains on third party or hosting nameservers must be edited at the provider actually serving the zone. website only move to awtsmoos first identify which nameservers are authoritative. edit the records at that dns host, not necessarily at the registrar. preserve mx/spf/dkim/dmarc and other service records. add the awtsmoos ownership txt record and then the attested web route. nameserver warning switching to a different nameserver service changes where the zone is managed. rebuild all required records before changing nameservers. squarespace domains squarespace's current domains dashboard exposes dns record editing through the domain's dns panel. it distinguishes dns record editing from nameserver changes, and notes that custom nameservers move most dns management to the nameserver provider. website only move to awtsmoos keep the current nameservers. use the dns panel to add ownership txt and the final web routing record. preserve email records including mx, dkim, dmarc, spf and srv. reauthenticate if the dashboard requires password or 2fa confirmation for dns changes. full authoritative move only use the advanced nameserver controls after the replacement zone is complete and verified. amazon route 53 route 53 uses a public hosted zone containing the domain's records. a public hosted zone has authoritative ns and soa records; aws generally recommends leaving those generated records alone. website only move to awtsmoos while keeping route 53 keep the hosted zone and its assigned nameservers. add the awtsmoos ownership txt record. preserve mail/service records. change only the web route required by the awtsmoos hosting plan. moving authoritative dns into route 53 create the new public hosted zone, recreate the full set of required records, test the new zone, then update the registrar to the four nameservers assigned to the hosted zone. keep the old zone available until web, email and other services have been verified through the new authority. what awtsmoos should show beside every provider guide existing provider / authoritative nameservers. records preserved in the project worksheet. ownership txt record. server attested web routing record. mail preservation warning. nameserver availability testimony. ownership verification state. routing activation state. tls state. external live health state. the awtsmoos creates every answer, yet the migration remains truthful only when the old zone and new intention are compared record by record; awtsmoos.com therefore teaches preservation before delegation, evidence before celebration, and a living website without sacrificing the mail that gives its owner a voice.",
+		"page": "pages/docs-websites-dns-provider-playbooks-md-8a1244eec2.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-9b8f872abe",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-31-0018-mitzvah-world-compactjs-recovery/01_PHASE_ONE_BOUNDLESS_BRAINSTORM.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-websites-dns-provider-references-md-f02695a256",
+		"title": "Official DNS Provider References",
+		"sourcePath": "docs/WEBSITES/DNS_PROVIDER_REFERENCES.md",
+		"category": "General",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Phase One: Boundless Brainstorm",
-				"anchor": "phase-one-boundless-brainstorm"
+				"text": "Official DNS Provider References",
+				"anchor": "official-dns-provider-references"
 			},
 			{
 				"level": 2,
-				"text": "Possible Root Causes",
-				"anchor": "possible-root-causes"
+				"text": "Cloudflare",
+				"anchor": "cloudflare"
 			},
 			{
 				"level": 2,
-				"text": "Ideal Repair Universe",
-				"anchor": "ideal-repair-universe"
+				"text": "GoDaddy",
+				"anchor": "godaddy"
 			},
 			{
 				"level": 2,
-				"text": "Guardrails",
-				"anchor": "guardrails"
+				"text": "Namecheap",
+				"anchor": "namecheap"
+			},
+			{
+				"level": 2,
+				"text": "Squarespace Domains",
+				"anchor": "squarespace-domains"
+			},
+			{
+				"level": 2,
+				"text": "Amazon Route 53",
+				"anchor": "amazon-route-53"
+			},
+			{
+				"level": 2,
+				"text": "Awtsmoos rule",
+				"anchor": "awtsmoos-rule"
 			}
 		],
-		"excerpt": "B\"H Phase One: Boundless Brainstorm The Awtsmoos renews each frame and each line, on Awtsmoos.com may every hidden module align. Possible Root Causes CompactJS may reorder modules so readiness listeners run after readiness events. CompactJS may rewrite import() URLs relative to the generated bundle instead of the sourc",
-		"searchText": "b\"h phase one: boundless brainstorm the awtsmoos renews each frame and each line, on awtsmoos.com may every hidden module align. possible root causes compactjs may reorder modules so readiness listeners run after readiness events. compactjs may rewrite import() urls relative to the generated bundle instead of the source module. source may embed cache busting hashes as path segments rather than query parameters. the canonical chossid path may differ between local disk, public routing, and generated manifests. required systems may initialize but fail to register their capabilities. one early exception may prevent all downstream readiness publication. the minimal meadow gate may require systems intentionally excluded from compact mode. the generated bundle may contain stale source from an earlier experiment tree. asset copying may omit glb files or preserve a symlink invalid in production. dynamic imports may be impossible after flattening unless explicitly mapped. compactjs may not preserve import.meta.url, base urls, or module scoped relative paths. optional chat failure may be harmless alone but reveal a general dynamic import defect. browser cache or service worker state may serve an obsolete bundle. the server may route extensionless paths differently from static asset paths. public deployment may not match the inspected checkout. ideal repair universe 1. a deterministic build emits a manifest of every source module and rewritten url. 2. dynamic imports resolve through a stable project base resolver. 3. assets resolve through one canonical url service shared by source and compact modes. 4. readiness becomes observable as structured state rather than timing sensitive events. 5. each subsystem publishes success or a precise failure cause. 6. compactjs validates imported files and assets before emitting output. 7. build tests execute generated code in a browser equivalent harness. 8. a smoke page verifies movement, combat, inventory, quest, recovery, and streaming. 9. generated artifacts include source hashes and build provenance. 10. the public deployment endpoint exposes the same tested artifact. guardrails do not suppress minimal meadow not playable. do not replace the chossid with a fallback merely to hide the 404. do not disable chat imports without tracing their url construction. do not hand edit the compact bundle if a source or builder repair can regenerate it. do not overwrite unrelated local changes.",
-		"page": "pages/geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-9b8f872abe.json"
-	},
-	{
-		"id": "geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-30f0317974",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-31-0018-mitzvah-world-compactjs-recovery/02_PHASE_ONE_REALITY_MAP.md",
-		"category": "Games",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Phase One: Provisional Reality and File Map",
-				"anchor": "phase-one-provisional-reality-and-file-map"
-			},
-			{
-				"level": 2,
-				"text": "Known Nodes",
-				"anchor": "known-nodes"
-			},
-			{
-				"level": 2,
-				"text": "Files to Inspect Before Choosing Edits",
-				"anchor": "files-to-inspect-before-choosing-edits"
-			},
-			{
-				"level": 2,
-				"text": "Dependency Graph",
-				"anchor": "dependency-graph"
-			},
-			{
-				"level": 2,
-				"text": "Unknowns to Resolve",
-				"anchor": "unknowns-to-resolve"
-			}
-		],
-		"excerpt": "B\"H Phase One: Provisional Reality and File Map Through Awtsmoos the evidence gathers bright, through Awtsmoos.com we follow each import to light. Known Nodes Game root: geelooy/games/mitzvahWorld. Builder root: ayzarim/awtsmoosDynamicServer/compactJs. Public route: /games/mitzvahWorld/. Generated runtime: mitzvah worl",
-		"searchText": "b\"h phase one: provisional reality and file map through awtsmoos the evidence gathers bright, through awtsmoos.com we follow each import to light. known nodes game root: geelooy/games/mitzvahworld. builder root: ayzarim/awtsmoosdynamicserver/compactjs. public route: /games/mitzvahworld/. generated runtime: mitzvah world.compact.js. bootstrap symbols from console: awaitminimalmeadowreadiness, runminimalsharedmeadowreadiness, bootminimalsharedmeadow. hydration source from console: minimameadowplayerhydration.js. asset loader source from console: modelassetloader.js. optional dynamic modules: mitzvahworldchatpanel.js and mitzvahworldclientfactory.js. files to inspect before choosing edits 1. index.html for source/compact selection and cache behavior. 2. next ai readme.md and remaining work.md for current project state. 3. experiments/awtsmoos/ for the bootstrap, capability publishers, chat modules, hydration, and loader. 4. assets/models/ plus manifests and symlink targets for the chossid. 5. generated mitzvah world.compact.js and any map/manifest/config beside it. 6. compactjs package scripts, entry modules, import parsing, url rewriting, ordering, and emitters. 7. tests covering dynamic imports, relative urls, and module ordering. dependency graph index.html source entry or compact bundle minimal meadow bootstrap subsystem initializers capability registry readiness gate. player hydration model asset loader canonical url construction server static route chossid.glb. chat bootstrap dynamic import expression compactjs rewrite or browser resolution experiment module url. compactjs cli/config source graph discovery transforms ordered emitter generated bundle browser runtime. unknowns to resolve exact source entry file and build command. whether the generated bundle is committed or generated on request. whether readiness failures share one upstream exception. whether hashes are filenames, cache tokens, or accidental path segments. whether public files reflect the local checkout. existing tests and their expected invocation.",
-		"page": "pages/geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-30f0317974.json"
-	},
-	{
-		"id": "geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-77220a6d35",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-31-0018-mitzvah-world-compactjs-recovery/03_PHASE_TWO_CRITIQUE_AND_20_IMPROVEMENTS.md",
-		"category": "Games",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Phase Two: Critique and Twenty Improvements",
-				"anchor": "phase-two-critique-and-twenty-improvements"
-			},
-			{
-				"level": 2,
-				"text": "Critique of Phase One",
-				"anchor": "critique-of-phase-one"
-			},
-			{
-				"level": 2,
-				"text": "Improvements",
-				"anchor": "improvements"
-			},
-			{
-				"level": 2,
-				"text": "Revised Risk Order",
-				"anchor": "revised-risk-order"
-			}
-		],
-		"excerpt": "B\"H Phase Two: Critique and Twenty Improvements The Awtsmoos renews the question before certainty can harden; Awtsmoos.com turns each defect into a tested garden. Critique of Phase One The first plan correctly separated readiness, assets, imports, generation, and deployment, but it remained too broad. Direct inspection",
-		"searchText": "b\"h phase two: critique and twenty improvements the awtsmoos renews the question before certainty can harden; awtsmoos.com turns each defect into a tested garden. critique of phase one the first plan correctly separated readiness, assets, imports, generation, and deployment, but it remained too broad. direct inspection now proves one source level race: the runtime returns before bootstrap features install, while readiness requires those fields without awaiting their promise. the plan must therefore distinguish bootstrap mechanics from rich optional hydration and must test both readable source and relocated compact contexts. improvements 1. treat diagnostics.featurespromise as the authoritative bootstrap settlement. 2. preserve rich hydration as optional after essential bootstrap readiness. 3. never mark playable from a fabricated pending receipt. 4. add a focused readiness flow regression test. 5. assert all six bootstrap fields exist before publishing playable state. 6. verify scheduler rejection remains a visible boot failure. 7. verify rich feature rejection preserves bootstrap play. 8. trace every import.meta.url use that survives compaction. 9. compare each deferred url in source and compact execution contexts. 10. centralize app relative deferred url construction. 11. test chat panel and client factory url resolution explicitly. 12. inspect generated strings rather than assuming the transformer acted. 13. trace the chossid url from source constant to network request. 14. verify the glb exists on disk before changing code. 15. distinguish cache query tokens from accidental path segments. 16. add a compactjs fixture for relocated import.meta.url behavior. 17. rebuild the bundle only through its canonical build command. 18. compare generated output before and after source changes. 19. preserve unrelated git changes with pre write hashes and full readback. 20. require browser evidence for readiness, asset delivery, and imports. 21. check public deployment parity with the local generated artifact. 22. remove stale handoff claims only through a later full file documentation rewrite. revised risk order 1. readiness race blocks all play and is first priority. 2. deferred url relocation breaks essential scheduler or optional modules. 3. chossid url corruption degrades canonical hydration. 4. compactjs may reproduce or amplify source relative assumptions. 5. stale documentation may cause future regeneration from the wrong entry.",
-		"page": "pages/geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-77220a6d35.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Official DNS Provider References The Awtsmoos renews documentation and dashboards while Awtsmoos.com should never trap an owner inside a stale screenshot; these are official provider references verified during the August 2026 Website Maker pass. Use the Awtsmoos playbooks for the migrati",
+		"searchText": "b\"h boruch hashem blessed is he official dns provider references the awtsmoos renews documentation and dashboards while awtsmoos.com should never trap an owner inside a stale screenshot; these are official provider references verified during the august 2026 website maker pass. use the awtsmoos playbooks for the migration strategy and the provider's current page for the exact dashboard control names. cloudflare manage dns records: https://developers.cloudflare.com/dns/manage dns records/how to/create dns records/ dns records overview: https://developers.cloudflare.com/dns/manage dns records/ dns record types: https://developers.cloudflare.com/dns/manage dns records/reference/dns record types/ cloudflare's current record management documentation covers add/edit/delete, ttl and a/aaaa/cname proxy status. godaddy manage dns records: https://www.godaddy.com/en uk/help/manage dns records 680 change domain nameservers: https://www.godaddy.com/en ca/help/change my domain nameservers 664 add or edit an a record: https://www.godaddy.com/help/add or edit an a record 42546 godaddy explicitly separates editing dns records from changing the domain's nameservers. namecheap set up host records: https://www.namecheap.com/support/knowledgebase/article.aspx/434/2237/how do i set up host records for a domain/ change dns / nameservers: https://www.namecheap.com/support/knowledgebase/article.aspx/767/10/how to change dns for a domain/ namecheap's host records controls are available only when the relevant namecheap dns service is authoritative; otherwise edit records at the actual dns provider. squarespace domains edit dns records: https://support.squarespace.com/hc/en us/articles/360002101888 adding dns records to your domain change nameservers: https://support.squarespace.com/hc/en us/articles/4404183898125 making changes to nameservers dnssec: https://support.squarespace.com/hc/en us/articles/31094668921229 dnssec for squarespace domains squarespace distinguishes dns record editing from custom nameserver changes and documents mail/security record categories separately. amazon route 53 migrate dns for a domain in use: https://docs.aws.amazon.com/route53/latest/developerguide/migrate dns domain in use.html add/change domain nameservers and glue records: https://docs.aws.amazon.com/route53/latest/developerguide/domain name servers glue records.html get hosted zone nameservers: https://docs.aws.amazon.com/route53/latest/developerguide/getinfoabouthostedzone.html aws recommends reproducing and validating the destination zone before nameserver cutover, monitoring traffic afterward, preserving rollback capability, and handling dnssec explicitly when required. awtsmoos rule provider documentation tells you how to operate the provider . awtsmoos hosting testimony tells you which ownership and routing values to apply . neither source should impersonate the other.",
+		"page": "pages/docs-websites-dns-provider-references-md-f02695a256.json"
 	}
 ]

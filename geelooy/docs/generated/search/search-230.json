@@ -1,210 +1,315 @@
 [
 	{
-		"id": "geelooy-games-merkava-readme-md-87ad762f65",
-		"title": "Merkava: War of the Sparks",
-		"sourcePath": "geelooy/games/Merkava/README.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-tutorials-projects-readme-md-ef98756543",
+		"title": "Project and System Tutorials",
+		"sourcePath": "docs/TUTORIALS/PROJECTS/README.md",
+		"category": "Projects",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Merkava: War of the Sparks",
-				"anchor": "merkava-war-of-the-sparks"
+				"text": "Project and System Tutorials",
+				"anchor": "project-and-system-tutorials"
 			},
 			{
 				"level": 2,
-				"text": "Active runtime",
-				"anchor": "active-runtime"
+				"text": "Human guides",
+				"anchor": "human-guides"
 			},
 			{
 				"level": 2,
-				"text": "Controls",
-				"anchor": "controls"
+				"text": "Generated project teaching",
+				"anchor": "generated-project-teaching"
 			},
 			{
 				"level": 2,
-				"text": "Run modes",
-				"anchor": "run-modes"
-			},
+				"text": "Evidence rule",
+				"anchor": "evidence-rule"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project and System Tutorials A project boundary is a discovery vessel, not a guarantee of runtime isolation. Use these manuals to understand how to investigate each kind of boundary, then use generated project tutorials for current evidence. Human guides Applications API Projects Games a",
+		"searchText": "b\"h boruch hashem blessed is he project and system tutorials a project boundary is a discovery vessel, not a guarantee of runtime isolation. use these manuals to understand how to investigate each kind of boundary, then use generated project tutorials for current evidence. human guides applications api projects games and worlds runtime and infrastructure libraries and tooling public and other boundaries generated project teaching project tutorial index gives one generated tutorial for every current project boundary. each project tutorial joins file shape, entries, local docs, public urls, lexical symbol summaries, incoming/outgoing dependencies, external packages, and test file evidence. evidence rule imports are lexical dependency evidence, not runtime call graphs. index.html means a public entry file was found, not that the application is healthy. test file counts are not behavioral coverage scores. generated packets point you toward source and verification; they do not replace either.",
+		"page": "pages/docs-tutorials-projects-readme-md-ef98756543.json"
+	},
+	{
+		"id": "docs-tutorials-projects-runtime-and-infrastructure-md-1e31989624",
+		"title": "Runtime and Infrastructure",
+		"sourcePath": "docs/TUTORIALS/PROJECTS/RUNTIME_AND_INFRASTRUCTURE.md",
+		"category": "Projects",
+		"provenance": "manual",
+		"headings": [
 			{
-				"level": 3,
-				"text": "Campaign",
-				"anchor": "campaign"
-			},
-			{
-				"level": 3,
-				"text": "Endless",
-				"anchor": "endless"
-			},
-			{
-				"level": 2,
-				"text": "Seeded route system",
-				"anchor": "seeded-route-system"
-			},
-			{
-				"level": 2,
-				"text": "Worlds",
-				"anchor": "worlds"
+				"level": 1,
+				"text": "Runtime and Infrastructure",
+				"anchor": "runtime-and-infrastructure"
 			},
 			{
 				"level": 2,
-				"text": "Strategic systems",
-				"anchor": "strategic-systems"
+				"text": "Investigate runtime code",
+				"anchor": "investigate-runtime-code"
 			},
 			{
 				"level": 2,
-				"text": "Enemies and bosses",
-				"anchor": "enemies-and-bosses"
+				"text": "Caveats",
+				"anchor": "caveats"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Runtime and Infrastructure Runtime/infrastructure boundaries include the dynamic server, persistence machinery, operations roots, and other server side vessels whose public surface may be indirect or absent. Investigate runtime code 1. Start with central architecture/system manuals and t",
+		"searchText": "b\"h boruch hashem blessed is he runtime and infrastructure runtime/infrastructure boundaries include the dynamic server, persistence machinery, operations roots, and other server side vessels whose public surface may be indirect or absent. investigate runtime code 1. start with central architecture/system manuals and the generated project tutorial. 2. follow source entry files and symbols rather than looking for index.html. 3. trace incoming dependencies to understand who relies on the subsystem. 4. treat database paths, process boundaries, environment names, and transport protocols as compatibility/security contracts. 5. use focused server/realtime/data tests before changing behavior. caveats no public entry is normal for infrastructure. lexical incoming edges do not enumerate dynamic requires, runtime registration, or process level coupling. configuration documentation exposes names and precedence—not secret values.",
+		"page": "pages/docs-tutorials-projects-runtime-and-infrastructure-md-1e31989624.json"
+	},
+	{
+		"id": "docs-tutorials-readme-md-63e5ec071c",
+		"title": "Awtsmoos.com Tutorials",
+		"sourcePath": "docs/TUTORIALS/README.md",
+		"category": "General",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos.com Tutorials",
+				"anchor": "awtsmoos-com-tutorials"
 			},
 			{
 				"level": 2,
-				"text": "Persistence",
-				"anchor": "persistence"
+				"text": "API families",
+				"anchor": "api-families"
 			},
 			{
 				"level": 2,
-				"text": "Architecture",
-				"anchor": "architecture"
+				"text": "Server and runtime",
+				"anchor": "server-and-runtime"
+			},
+			{
+				"level": 2,
+				"text": "Content platform",
+				"anchor": "content-platform"
+			},
+			{
+				"level": 2,
+				"text": "Foundation curriculum",
+				"anchor": "foundation-curriculum"
+			},
+			{
+				"level": 2,
+				"text": "Evidence rule",
+				"anchor": "evidence-rule"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos.com Tutorials The Awtsmoos lets a tutorial explain why and how while generated evidence answers which files and routes exist right now . API families TUTORIALS/API/ contains one manual for every currently cataloged derech family. These pages explain ownership, trust boundaries, ",
+		"searchText": "b\"h boruch hashem blessed is he awtsmoos.com tutorials the awtsmoos lets a tutorial explain why and how while generated evidence answers which files and routes exist right now . api families tutorials/api/ contains one manual for every currently cataloged derech family. these pages explain ownership, trust boundaries, interpretation, and how to descend into the generated route tutorials without copying volatile route tables by hand. use ../generated/api family tutorials.md for regenerated family counts/health and ../generated/api tutorial index.md for every route. server and runtime tutorials/systems/ teaches server boot, request pipeline, dynamic routing, identity/authorization, dosdb runtime, realtime runtime, and the documentation runtime itself. content platform tutorials/content/ teaches the social content model, heichel governance, posts/series, comments, aliases/api keys, moderation, search/graph/discovery, mail/notifications/drive, and migrations. foundation curriculum if the repository is unfamiliar, start with ../learn/readme.md rather than entering a specialist tutorial in the middle. evidence rule manual tutorials describe inspected meaning and workflows. generated tutorials describe source derived evidence. neither replaces current implementation/tests when exact runtime behavior matters.",
+		"page": "pages/docs-tutorials-readme-md-63e5ec071c.json"
+	},
+	{
+		"id": "docs-tutorials-systems-documentation-runtime-md-74eedfd291",
+		"title": "Tutorial: Documentation Runtime",
+		"sourcePath": "docs/TUTORIALS/SYSTEMS/DOCUMENTATION_RUNTIME.md",
+		"category": "Systems",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Tutorial: Documentation Runtime",
+				"anchor": "tutorial-documentation-runtime"
+			},
+			{
+				"level": 2,
+				"text": "Layers",
+				"anchor": "layers"
+			},
+			{
+				"level": 2,
+				"text": "Why publication is sharded",
+				"anchor": "why-publication-is-sharded"
+			},
+			{
+				"level": 2,
+				"text": "Regeneration",
+				"anchor": "regeneration"
 			},
 			{
 				"level": 2,
 				"text": "Verification",
 				"anchor": "verification"
-			},
-			{
-				"level": 2,
-				"text": "Diagnostics and future work",
-				"anchor": "diagnostics-and-future-work"
 			}
 		],
-		"excerpt": "Merkava: War of the Sparks A raw WebGL three lane army roguelite about gathering holy sparks, collecting Prutahs, choosing arithmetic gates and seeded routes, building Sefirah paths, crossing five worlds, and confronting multi phase bosses through Campaign or Endless play. Active runtime Entry: index.html → src/main.js",
-		"searchText": "merkava: war of the sparks a raw webgl three lane army roguelite about gathering holy sparks, collecting prutahs, choosing arithmetic gates and seeded routes, building sefirah paths, crossing five worlds, and confronting multi phase bosses through campaign or endless play. active runtime entry: index.html → src/main.js → src/app/merkavaapp.js renderer: local raw webgl only meshes: /geelooy/libs/awtsmoos procedural no three.js dependency, namespace, or remote runtime dependency save key: awtsmoos.merkava.save.v4; legacy saves migrate through validated defaults controls a / d or arrows: change lane tap or drag the canvas: mobile lane control space: activate the charged merkava command p or escape: pause hud command button: mobile ability activation run modes campaign campaign crosses five worlds and ends after sar ha hester falls. each world has five named levels: introduction, pressure, elite encounter, mixed combat, and a boss. ordinary level completion opens a deterministic three road choice and then a sefirah blessing. checkpoint shrines, boss blessings, and world transitions preserve the authored campaign spine. endless endless rotates through the same five mechanically distinct worlds without declaring a campaign victory. each completed rotation advances a deterministic cycle and increases bounded road speed, encounter cadence, enemy depth, boss endurance, attack cadence, and prutah rewards. continue restores the exact mode, cycle, route seed, and strategic build. seeded route system each run receives one persisted unsigned seed. at ordinary non checkpoint level boundaries, the route generator offers three unique roads: one guaranteed low risk guarded road and two seed ranked alternatives. roads expose risk and reward before selection and apply real, bounded effects to sparks, health, shields, command charge, prutahs, score, lasting damage, or future prutah value. offered choices are validated, selected history is capped, malformed save data is repaired, and reload recreates the same strategic route sequence from the seed. worlds 1. assiyah — formations, barricades, golems, prince of dust 2. yetzirah — curved shots, lightning lanes, ravens, wheel of the storm 3. beriah — shifting arithmetic, corrupters, mirrors, architect of mirrors 4. atzilus — faster beams, elites, white fire, serpent of white fire 5. great concealment — combined corruption and sar ha hester strategic systems holy sparks control formation size, firing density, and survival. prutahs appear in trails, risky lanes, drops, elite rewards, routes, and boss showers. consecutive collection increases combo value; golden prutahs are worth more. checkpoint prices rise after purchases and as worlds deepen. temporary upgrades alter sparks, damage, fire rate, side shots, piercing, shields, magnetism, prutah value, positive gates, and between level healing. blessings level chesed, gevurah, tiferet, netzach, hod, yesod, malchut, and keter. named cross sefirah synergies change combat and economy. the first checkpoint chooses light burst, gathering call, or shofar blast. elite shells grant run changing relics with implemented effects. enemies and bosses enemy behaviors include infantry, golems, ravens, archers, drainers, splitters, summoners, gate corrupters, thieves, elites, and breakable obstacles. bosses expose names, health, phases, warned unsafe lanes, summons, rage pressure, and rewards. endless scaling copies and bounds boss values without replacing mechanics or readable counterplay. persistence versioned validation repairs malformed values and migrates partial saves through defaults. the save stores permanent prutahs, upgrades, campaign and endless records, capped history, relic discoveries, settings, and one strategic checkpoint. continue restores mode, cycle, route seed and history, world, level, army, build, relics, command, and economy while rebuilding transient combat and visible route cards. architecture src/app/: composition, lifecycle, menus, strategic choices, diagnostics src/routes/: route catalog, seed mixing, pure generation, effects, facade src/modes/: mode catalog and pure bounded endless rules src/game/: state, progression, encounters, enemies, bosses, relics, collision src/render/: raw webgl resources, procedural meshes, focused passes src/ui/: hud, overlays, mode labels, events, arithmetic labels src/audio/: optional web audio with graceful failure src/persistence/: migration, records, history, routes, checkpoints src/config/: campaign, economy, limits, colors, quality caps test/: deterministic rules, structural audits, campaign and endless cdp flows all inspected source vessels remain at 120 lines or fewer and use tabs for code indentation. verification npm run verify runs deterministic tests, syntax checks, the three.js prohibition audit, and the file size/tab audit. verify:browser drives boot, mode selection, endless rollover, route choice, blessing, checkpoint reload, input, abilities, shops, bosses, hazards, records, and continuation. it writes json and screenshot evidence under ai thoughts. diagnostics and future work window. merkava diagnostics exposes mode, seed, route step, offers, route history, route modifier, cycle, pressure, world, level, lane, sparks, health, shield, prutahs, build, enemies, boss state, timing, errors, renderer identity, and mesh registration. optional future modes remain daily seed, boss rush, one spark, no shop, speed trial, and prutah challenge, followed by a richer visual node map presentation, seed sharing, expanded scenery, adaptive music, and broader accessibility presets. no decorative modes are exposed.",
-		"page": "pages/geelooy-games-merkava-readme-md-87ad762f65.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Tutorial: Documentation Runtime The documentation system is itself a generated/public runtime surface. Layers Manual Markdown → generated evidence/tutorials → AI records → transport bounded public publication → /docs/ frontend. Why publication is sharded Real server/browser testing disco",
+		"searchText": "b\"h boruch hashem blessed is he tutorial: documentation runtime the documentation system is itself a generated/public runtime surface. layers manual markdown → generated evidence/tutorials → ai records → transport bounded public publication → /docs/ frontend. why publication is sharded real server/browser testing discovered static json response size limits. the publisher keeps search/project/page/content data below a conservative transport ceiling and losslessly reconstructs markdown. regeneration node scripts/docs/generate docs.js must become the one authoritative rebuild after tutorial integration. verification search/tutorial tests, unified validator, public response sweep, and real browser smoke protect different failure classes. read docs/interactive documentation.md.",
+		"page": "pages/docs-tutorials-systems-documentation-runtime-md-74eedfd291.json"
 	},
 	{
-		"id": "geelooy-games-migdol-documentation-md-3feffea982",
-		"title": "Migdol - Kabbalah Tower Defense",
-		"sourcePath": "geelooy/games/migdol/DOCUMENTATION.md",
-		"category": "Games",
-		"provenance": "breadcrumb",
+		"id": "docs-tutorials-systems-dosdb-runtime-md-8cb27ff28a",
+		"title": "Tutorial: DosDB Runtime",
+		"sourcePath": "docs/TUTORIALS/SYSTEMS/DOSDB_RUNTIME.md",
+		"category": "Data",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Migdol - Kabbalah Tower Defense",
-				"anchor": "migdol-kabbalah-tower-defense"
+				"text": "Tutorial: DosDB Runtime",
+				"anchor": "tutorial-dosdb-runtime"
 			},
 			{
 				"level": 2,
-				"text": "Role",
-				"anchor": "role"
+				"text": "Root selection",
+				"anchor": "root-selection"
 			},
 			{
 				"level": 2,
-				"text": "Start here",
-				"anchor": "start-here"
+				"text": "Why runtime paths matter",
+				"anchor": "why-runtime-paths-matter"
 			},
 			{
 				"level": 2,
-				"text": "Change rule",
-				"anchor": "change-rule"
-			},
-			{
-				"level": 2,
-				"text": "Project-specific notes",
-				"anchor": "project-specific-notes"
+				"text": "Safe changes",
+				"anchor": "safe-changes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Migdol Kabbalah Tower Defense The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Game/simulation project beneath the canonical geelooy/games/ tree. Start here Read docs/PROJECTS/GAMES PLATFORM.md ",
-		"searchText": "b\"h boruch hashem blessed is he migdol kabbalah tower defense the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role game/simulation project beneath the canonical geelooy/games/ tree. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes observed public title: “migdol kabbalah tower defense”. start from this project’s index.html and any readme/package metadata present. check docs/generated/websocket applications.md before assuming whether this game uses the realtime platform.",
-		"page": "pages/geelooy-games-migdol-documentation-md-3feffea982.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Tutorial: DosDB Runtime The dynamic server initializes DosDB once and shares the instance through request/server context. Root selection Environment overrides and local/tracked configuration participate in DB root selection before repository fallback. Inspect server/initDb.js for current",
+		"searchText": "b\"h boruch hashem blessed is he tutorial: dosdb runtime the dynamic server initializes dosdb once and shares the instance through request/server context. root selection environment overrides and local/tracked configuration participate in db root selection before repository fallback. inspect server/initdb.js for current precedence. why runtime paths matter many apis encode compatibility in database path shapes. sefarim reads directly from the shared db; social has multiple generations/adapters/migrations. safe changes trace every writer/reader, migration, and fallback before changing a persisted path. tests should cover old and new forms when compatibility is promised. read docs/data/readme.md and docs/data/path contracts.md.",
+		"page": "pages/docs-tutorials-systems-dosdb-runtime-md-8cb27ff28a.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-ai-thoughts-2026-07-29-complete-core-expansio-fe663ec7b7",
-		"title": "Final Verification",
-		"sourcePath": "geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-29-complete-core-expansion/09_FINAL_VERIFICATION.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-tutorials-systems-dynamic-routing-md-dae34a1cb8",
+		"title": "Tutorial: Dynamic Routing",
+		"sourcePath": "docs/TUTORIALS/SYSTEMS/DYNAMIC_ROUTING.md",
+		"category": "Systems",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Final Verification",
-				"anchor": "final-verification"
+				"text": "Tutorial: Dynamic Routing",
+				"anchor": "tutorial-dynamic-routing"
 			},
 			{
 				"level": 2,
-				"text": "Verified systems",
-				"anchor": "verified-systems"
+				"text": "Ownership",
+				"anchor": "ownership"
+			},
+			{
+				"level": 2,
+				"text": "Match forms",
+				"anchor": "match-forms"
+			},
+			{
+				"level": 2,
+				"text": "Generated route tutorials",
+				"anchor": "generated-route-tutorials"
+			},
+			{
+				"level": 2,
+				"text": "Important caveat",
+				"anchor": "important-caveat"
+			},
+			{
+				"level": 2,
+				"text": "Maintainability",
+				"anchor": "maintainability"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Final Verification The Awtsmoos revealed a complete production vessel through inspected client and server truth. Verified systems Timed manual melee, casting coexistence, defense, guard break, equipment derived stats, authoritative enemies, Kedem Warden, progression choices, activities, ",
-		"searchText": "b\"h boruch hashem blessed is he final verification the awtsmoos revealed a complete production vessel through inspected client and server truth. verified systems timed manual melee, casting coexistence, defense, guard break, equipment derived stats, authoritative enemies, kedem warden, progression choices, activities, bounties, upgrades, mastery, regions, streaming, recovery, offline parity, and reconnect safe authority. canonical production html owns one css entry and one compact javascript entry. css graph is localized, state complete, recursively compiled, diagnostics clean, and compact at 48879 bytes. compact javascript is deterministic, syntax checked, optional boundary safe, and 2661 bytes. real chrome fallback core accepted at 9.7 seconds with visible 1280×713 canvas, input, camera, model, and terrain. real chrome essential gameplay accepted at 98.4 seconds with combat, inventory, equipment, quest, recovery, and streaming. isolated high population interest soak passed in 8.46 seconds; measured loop 7.06 seconds. server per file matrix passed 37 files before the isolated soak; the only contention sensitive soak then passed alone. client exhaustive matrix identified three api drift failures; all three were repaired and rerun green. every other file in that matrix passed. final focused regression group passed. modified production and test javascript passed syntax, trailing whitespace, and 120 line gates. readable css sources passed the same line and whitespace gates. no commit was created. unrelated dirty work was preserved.",
-		"page": "pages/geelooy-games-mitzvahworld-ai-thoughts-2026-07-29-complete-core-expansio-fe663ec7b7.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Tutorial: Dynamic Routing Ownership awtsmoos.derech.js is discovered by walking ancestor directories from the requested source path. This permits one derech to own a subtree. Match forms Exact → named :segment → terminal :segment patterns. A catch all is terminal because it consumes the ",
+		"searchText": "b\"h boruch hashem blessed is he tutorial: dynamic routing ownership awtsmoos.derech.js is discovered by walking ancestor directories from the requested source path. this permits one derech to own a subtree. match forms exact → named :segment → terminal :segment patterns. a catch all is terminal because it consumes the remaining path. generated route tutorials docs/generated/api tutorial index.md gives one teaching page per discovered route row with the owning source/derech evidence. important caveat route extraction is source analysis. a syntactically invalid derech can still contain extractable strings; use generated derech health before claiming runtime reachability. maintainability prefer named route tables/focused handlers over giant derech bodies; keep auth/resource ownership close enough to the route to be traceable.",
+		"page": "pages/docs-tutorials-systems-dynamic-routing-md-dae34a1cb8.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-ai-thoughts-2026-07-29-kabbalistic-combat-pro-a458de3e49",
-		"title": "Discovery Brainstorm",
-		"sourcePath": "geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-29-kabbalistic-combat-production/01_DISCOVERY_BRAINSTORM.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-tutorials-systems-identity-and-auth-md-e15c8d2493",
+		"title": "Tutorial: Identity and Authorization",
+		"sourcePath": "docs/TUTORIALS/SYSTEMS/IDENTITY_AND_AUTH.md",
+		"category": "Security",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Discovery Brainstorm",
-				"anchor": "discovery-brainstorm"
+				"text": "Tutorial: Identity and Authorization",
+				"anchor": "tutorial-identity-and-authorization"
 			},
 			{
 				"level": 2,
-				"text": "Mission universe",
-				"anchor": "mission-universe"
+				"text": "Trusted identity evidence",
+				"anchor": "trusted-identity-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Competing architectures",
-				"anchor": "competing-architectures"
-			},
-			{
-				"level": 3,
-				"text": "A. Client-first catalog",
-				"anchor": "a-client-first-catalog"
-			},
-			{
-				"level": 3,
-				"text": "B. Server-only combat domain",
-				"anchor": "b-server-only-combat-domain"
-			},
-			{
-				"level": 3,
-				"text": "C. Shared JSON records with separate evaluators",
-				"anchor": "c-shared-json-records-with-separate-evaluators"
-			},
-			{
-				"level": 3,
-				"text": "D. Generated client/server modules",
-				"anchor": "d-generated-client-server-modules"
-			},
-			{
-				"level": 3,
-				"text": "E. Shared pure CommonJS package consumed through adapters",
-				"anchor": "e-shared-pure-commonjs-package-consumed-through-adapters"
+				"text": "Resource authority",
+				"anchor": "resource-authority"
 			},
 			{
 				"level": 2,
-				"text": "Preferred direction",
-				"anchor": "preferred-direction"
+				"text": "Client fields are not identity",
+				"anchor": "client-fields-are-not-identity"
 			},
 			{
 				"level": 2,
-				"text": "Hidden obligations",
-				"anchor": "hidden-obligations"
-			},
-			{
-				"level": 2,
-				"text": "Completion evidence",
-				"anchor": "completion-evidence"
+				"text": "Review sequence",
+				"anchor": "review-sequence"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Discovery Brainstorm The Awtsmoos renews each combat instant; Awtsmoos.com keeps every identity bright, so wisdom, fire, water, and earth become tested law instead of decorative light. Mission universe Establish one shared combat language for affinities, elements, actions, statuses, effe",
-		"searchText": "b\"h boruch hashem blessed is he discovery brainstorm the awtsmoos renews each combat instant; awtsmoos.com keeps every identity bright, so wisdom, fire, water, and earth become tested law instead of decorative light. mission universe establish one shared combat language for affinities, elements, actions, statuses, effectiveness, interruption, diagnostics, and daas disclosure. preserve staff and sword timing, casting, guard, parry, stamina, equipment statistics, enemy timelines, rewards, regions, streaming, recovery, offline parity, webgl fallback, compactjs, and canonical css. make multiplayer authority own damage, resistance, statuses, interruption, rewards, and persistence. give single player an explicit local authority adapter using the same identifiers and rules. connect player actions, enemy actions, hud, effects, persistence, and tests to the shared definitions. keep optional effects and models outside fallback readiness. competing architectures a. client first catalog fast to prototype, but duplicates server truth and violates authority. rejected. b. server only combat domain secure, but prevents deterministic local authority and readable client prediction. rejected. c. shared json records with separate evaluators portable and build safe, but needs schema validation and careful commonjs/esm adapters. strong candidate. d. generated client/server modules excellent identity parity, but adds generator and stale artifact risk. useful only if canonical json becomes too awkward. e. shared pure commonjs package consumed through adapters simple for the server, but browser loading and compactjs boundaries may become heavier. secondary candidate. preferred direction use small canonical json records in shared/combat/, plus focused pure evaluators mirrored through thin esm and commonjs adapters. keep browser only presentation and server only authority outside the shared domain. build diagnostics into authoritative receipts so tests can prove every modifier. hidden obligations save migration for affinity allocation and bounded statuses. anti replay retention and cleanup. cast cancellation that prevents phantom projectiles. daas payload filtering rather than unrestricted server truth. status cleanup on defeat, region change, reconnect, and despawn. enemy phase changes and warden readability. accessibility that never relies on color alone. deterministic build manifests and optional module audits. browser proof for cold, warm, offline, reduced motion, high contrast, webgl failure, and mobile landscape. completion evidence completion requires connected production behavior, focused and full test matrices, deterministic builds, real browser receipts, performance measurements, process cleanup, and a worktree audit that preserves unrelated changes.",
-		"page": "pages/geelooy-games-mitzvahworld-ai-thoughts-2026-07-29-kabbalistic-combat-pro-a458de3e49.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Tutorial: Identity and Authorization Identity answers “who is making the request?” Authorization answers “may that trusted identity perform this operation here?” Trusted identity evidence Sessions, verified API keys, OAuth bearer evidence, and specialized realtime admission all appear in",
+		"searchText": "b\"h boruch hashem blessed is he tutorial: identity and authorization identity answers “who is making the request?” authorization answers “may that trusted identity perform this operation here?” trusted identity evidence sessions, verified api keys, oauth bearer evidence, and specialized realtime admission all appear in the current system. resource authority social heichel/content routes can require owner/editor/member/moderation relationships after login. tunnel scopes/grants similarly constrain trusted account actions. client fields are not identity treat owner, userid, alias, or account like body/query values as data unless server auth explicitly verifies/derives them. review sequence transport/origin → identity → scope/role → resource ownership → method/action → persistence/provider side effect. read docs/learn/authentication 101.md and docs/security/trust boundaries.md.",
+		"page": "pages/docs-tutorials-systems-identity-and-auth-md-e15c8d2493.json"
+	},
+	{
+		"id": "docs-tutorials-systems-readme-md-9a71acf8f1",
+		"title": "Data, Security, and Realtime System Tutorials",
+		"sourcePath": "docs/TUTORIALS/SYSTEMS/README.md",
+		"category": "Systems",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Data, Security, and Realtime System Tutorials",
+				"anchor": "data-security-and-realtime-system-tutorials"
+			},
+			{
+				"level": 2,
+				"text": "Three districts",
+				"anchor": "three-districts"
+			},
+			{
+				"level": 2,
+				"text": "Workflow tutorials",
+				"anchor": "workflow-tutorials"
+			},
+			{
+				"level": 2,
+				"text": "Evidence rule",
+				"anchor": "evidence-rule"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Data, Security, and Realtime System Tutorials These tutorials teach how to reason across subsystem boundaries that cannot be understood from one route or one project directory alone. Three districts Data and Persistence — storage roots, DosDB, AwtsmoosBinaryJSON, AwtsmoosDB/VirtualFs, So",
+		"searchText": "b\"h boruch hashem blessed is he data, security, and realtime system tutorials these tutorials teach how to reason across subsystem boundaries that cannot be understood from one route or one project directory alone. three districts data and persistence — storage roots, dosdb, awtsmoosbinaryjson, awtsmoosdb/virtualfs, social packed storage, path contracts, and migration risk. security and trust — sessions, oauth/api key identity, authorization, ownership/grants, secret/config names, and realtime admission. realtime and websockets — socket upgrade/session, application routing, mission rooms, tunnel relay, and lexical application/event evidence. use /docs/?view=systems for the interactive evidence map and generated system tutorial index for one generated packet per stable system concept. workflow tutorials trace a database change safely trace trusted identity trace realtime admission realtime runtime identity and authentication dosdb runtime evidence rule generated environment evidence contains variable names , classifications, source reference counts, and example source paths only. it never reads values. websocket event strings are lexical search clues, not protocol schemas. security packets are navigation aids, not security audit findings.",
+		"page": "pages/docs-tutorials-systems-readme-md-9a71acf8f1.json"
+	},
+	{
+		"id": "docs-tutorials-systems-realtime-runtime-md-4c3f616442",
+		"title": "Tutorial: Realtime Runtime",
+		"sourcePath": "docs/TUTORIALS/SYSTEMS/REALTIME_RUNTIME.md",
+		"category": "Realtime",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Tutorial: Realtime Runtime",
+				"anchor": "tutorial-realtime-runtime"
+			},
+			{
+				"level": 2,
+				"text": "Layers",
+				"anchor": "layers"
+			},
+			{
+				"level": 2,
+				"text": "Specialized systems",
+				"anchor": "specialized-systems"
+			},
+			{
+				"level": 2,
+				"text": "Evidence",
+				"anchor": "evidence"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Tutorial: Realtime Runtime Awtsmoos WebSocket traffic is application routed rather than merely “HTTP over a socket.” Layers WebSocket upgrade → trusted client identity/admission → realtime platform → application registry/version → application message routing. Specialized systems Mission ",
+		"searchText": "b\"h boruch hashem blessed is he tutorial: realtime runtime awtsmoos websocket traffic is application routed rather than merely “http over a socket.” layers websocket upgrade → trusted client identity/admission → realtime platform → application registry/version → application message routing. specialized systems mission rooms enforce ticket/current authority/protocol admission. tunnel relay manages account bound registrations, generations, replacement/fencing, acknowledgements, and request lifecycle. evidence use generated application/event indexes for discovery, then read the named application source. event strings alone do not prove payload schemas. read docs/websockets/readme.md, mission rooms.md, and tunnel relay.md.",
+		"page": "pages/docs-tutorials-systems-realtime-runtime-md-4c3f616442.json"
 	}
 ]

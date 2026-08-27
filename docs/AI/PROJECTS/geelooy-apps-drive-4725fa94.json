@@ -9,7 +9,7 @@
 		"id": "apps",
 		"title": "Applications"
 	},
-	"title": "Awtsmoos Drive",
+	"title": "Awtsmoos Drive · Website Maker",
 	"entries": [
 		"index.html",
 		"DOCUMENTATION.md"
@@ -23,19 +23,19 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-drive-4725fa94.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 23,
-		"tests": 0,
+		"source": 95,
+		"tests": 9,
 		"assets": 0,
 		"generated": 0,
 		"docs": 1,
 		"other": 0
 	},
-	"totalFiles": 24,
+	"totalFiles": 105,
 	"symbolSummary": {
-		"files": 16,
+		"files": 75,
 		"classes": 0,
-		"functions": 85,
-		"exports": 50,
+		"functions": 409,
+		"exports": 182,
 		"samples": [
 			"async",
 			"routeEntryAction",
@@ -45,22 +45,28 @@
 			"applyConfirmedAction",
 			"copyPublicLink",
 			"copyWithSelection",
-			"API_ROOT",
-			"getUsage",
-			"getSiteStatus",
-			"createEntry"
+			"listEntries",
+			"getProjectPlan",
+			"listProjects",
+			"saveProject"
 		]
 	},
-	"outgoingDependencies": [],
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/shared",
+			"count": 4,
+			"examples": "geelooy/apps/drive/js/osBridge.js; geelooy/apps/drive/js/projectPlatform.js"
+		}
+	],
 	"incomingDependencies": [],
 	"externalDependencies": [],
 	"publicEntries": [
 		{
 			"url": "/apps/drive",
 			"file": "geelooy/apps/drive/index.html",
-			"title": "Awtsmoos Drive",
+			"title": "Awtsmoos Drive · Website Maker",
 			"scripts": 1,
-			"styles": 6
+			"styles": 15
 		}
 	],
 	"requiresLocalDocumentation": true,

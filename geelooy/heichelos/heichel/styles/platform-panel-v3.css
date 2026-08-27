@@ -1,0 +1,114 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/** The Awtsmoos contains operational depth behind one quiet threshold; Awtsmoos.com keeps Platform powerful, mobile, and out of the way. */
+.awtsmoos-platform-panel {
+	position: fixed;
+	right: 14px;
+	bottom: max(14px, env(safe-area-inset-bottom));
+	z-index: 90;
+	width: min(420px, calc(100vw - 28px));
+	border: 1px solid var(--social-line, rgba(148,163,184,.22));
+	border-radius: 22px;
+	background: color-mix(in srgb, Canvas 91%, transparent);
+	box-shadow: 0 18px 70px rgba(0,0,0,.22);
+	backdrop-filter: blur(18px) saturate(120%);
+}
+.awtsmoos-platform-panel:not([open]) {
+	width: auto;
+	max-width: calc(100vw - 28px);
+	border-radius: 999px;
+}
+.awtsmoos-platform-panel > .awtsmoosDisclosure__summary {
+	min-width: 112px;
+}
+.awtsmoos-platform-body {
+	display: grid;
+	gap: 12px;
+	max-height: min(72vh, 680px);
+	overflow: auto;
+	padding-inline: 2px;
+}
+.awtsmoos-platform-body header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+}
+.awtsmoos-platform-body header > div {
+	display: grid;
+	gap: 2px;
+}
+.awtsmoos-platform-search {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	gap: 7px;
+}
+.awtsmoos-platform-search input,
+.awtsmoos-platform-search button,
+.awtsmoos-platform-action {
+	min-height: 44px;
+	border-radius: 13px;
+	font: inherit;
+}
+.awtsmoos-platform-search input {
+	min-width: 0;
+	padding: 9px 11px;
+	border: 1px solid var(--social-line, currentColor);
+	background: Canvas;
+	color: CanvasText;
+}
+.awtsmoos-platform-search button,
+.awtsmoos-platform-action {
+	border: 1px solid var(--social-line, currentColor);
+	background: var(--social-soft, color-mix(in srgb, CanvasText 6%, Canvas));
+	color: inherit;
+	font-weight: 740;
+	cursor: pointer;
+}
+.awtsmoos-platform-actions {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 7px;
+}
+.awtsmoos-platform-actions--advanced {
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.awtsmoos-platform-output {
+	min-height: 84px;
+	padding-top: 8px;
+	border-top: 1px solid var(--social-line, currentColor);
+}
+.awtsmoos-platform-list {
+	display: grid;
+	gap: 6px;
+}
+.awtsmoos-platform-card {
+	padding: 9px 10px;
+	border-radius: 12px;
+	background: var(--social-soft, color-mix(in srgb, CanvasText 6%, Canvas));
+	font-size: .8rem;
+}
+.awtsmoos-platform-error {
+	color: #dc2626;
+}
+@media (max-width: 620px) {
+	.awtsmoos-platform-panel {
+		left: 10px;
+		right: 10px;
+		bottom: max(10px, env(safe-area-inset-bottom));
+		width: auto;
+	}
+	.awtsmoos-platform-panel:not([open]) {
+		left: auto;
+		width: auto;
+	}
+	.awtsmoos-platform-actions {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	.awtsmoos-platform-panel {
+		backdrop-filter: none;
+	}
+}

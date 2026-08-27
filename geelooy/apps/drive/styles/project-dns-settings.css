@@ -1,0 +1,100 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos lets every finite DNS record become a visible vessel rather than a hidden line of provider syntax;
+ * Awtsmoos.com separates portable zone intention from live infrastructure through spacing, testimony, and responsive structure in one calm visual matrix.
+ */
+
+.project-settings__dns {
+	display: grid;
+	gap: 0.8rem;
+	padding: 0.9rem;
+	border: 1px solid color-mix(in srgb, currentColor 14%, transparent);
+	border-radius: 14px;
+	background: color-mix(in srgb, var(--panel, #111827) 88%, transparent);
+}
+
+.project-settings__dns-list {
+	display: grid;
+	gap: 0.55rem;
+}
+
+.project-settings__dns-row {
+	display: grid;
+	grid-template-columns: minmax(90px, 0.55fr) minmax(120px, 1fr) minmax(90px, 0.55fr) minmax(240px, 2.4fr) auto;
+	gap: 0.5rem;
+	align-items: end;
+	padding: 0.65rem;
+	border: 1px solid color-mix(in srgb, currentColor 12%, transparent);
+	border-radius: 12px;
+}
+
+.project-settings__dns-row > select,
+.project-settings__dns-transfer {
+	width: 100%;
+	min-width: 0;
+	padding: 0.55rem 0.65rem;
+	border: 1px solid color-mix(in srgb, currentColor 18%, transparent);
+	border-radius: 9px;
+	background: transparent;
+	color: inherit;
+	font: inherit;
+}
+
+.project-settings__dns-transfer {
+	resize: vertical;
+	font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+	font-size: 0.78rem;
+	line-height: 1.55;
+}
+
+.project-settings__dns-message {
+	margin: 0;
+	padding: 0.65rem 0.75rem;
+	border-inline-start: 3px solid currentColor;
+	font-size: 0.78rem;
+	opacity: 0.78;
+}
+
+.builder-domain-guide {
+	display: grid;
+	gap: 0.7rem;
+	margin-top: 1rem;
+	padding: 0.9rem;
+	border: 1px solid color-mix(in srgb, currentColor 14%, transparent);
+	border-radius: 14px;
+}
+
+.builder-domain-records {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+	gap: 0.4rem 1rem;
+	margin: 0;
+	padding-inline-start: 1.15rem;
+}
+
+@media (max-width: 900px) {
+	.project-settings__dns-row {
+		grid-template-columns: 1fr 1fr;
+	}
+
+	.project-settings__dns-row > :nth-child(4) {
+		grid-column: 1 / -1;
+	}
+}
+
+@media (max-width: 620px) {
+	.project-settings__dns-row {
+		grid-template-columns: 1fr;
+	}
+
+	.project-settings__dns-row > :nth-child(4) {
+		grid-column: auto;
+	}
+
+	.project-settings__dns-row button,
+	.project-settings__dns .project-settings__actions button {
+		width: 100%;
+	}
+}

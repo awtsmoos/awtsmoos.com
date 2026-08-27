@@ -1,14 +1,14 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 /**
- * The Awtsmoos renews every point and polygon from nothing at every instant.
- * This vessel belongs to Awtsmoos.com and reveals one bounded responsibility
- * so the greater procedural world can remain inspectable, safe, and alive.
+ * The Awtsmoos renews every animal rule and material meaning before any finite renderer gives it a frame;
+ * Awtsmoos.com proves the portable API directly, so compiler truth remains native and no borrowed compatibility object is needed by name.
  */
 
 import assert from "node:assert/strict";
 import {
+	AnimalMeshCompiler,
 	AnimalMeshPatchBuilder,
 	analyzeAnimalReferences,
 	animalMeshPatchApplier,
@@ -21,9 +21,6 @@ import {
 import {
 	createBlenderExecutionPlan
 } from "../src/adapters/blender/BlenderExecutionPlan.js";
-import {
-	createAnimalThreeMaterials
-} from "../src/adapters/three/animalMaterialFactory.js";
 import {
 	createExampleQuadrupedRecipe
 } from "../examples/animalMesh/createExampleQuadrupedRecipe.js";
@@ -39,7 +36,11 @@ assert.ok(animalMeshRecipeSchema.properties.anatomical_guides);
 const referenceReport = analyzeAnimalReferences(recipe.references);
 assert.equal(referenceReport.width_coverage, true);
 assert.equal(referenceReport.depth_coverage, true);
-assert.ok(referenceReport.recommended_missing_views.includes("rear_or_rear_three_quarter"));
+assert.ok(
+	referenceReport.recommended_missing_views.includes(
+		"rear_or_rear_three_quarter"
+	)
+);
 
 assert.ok(estimateAnimalMeshTriangles(recipe) > 0);
 assert.equal(createAnimalLodPlan(recipe.asset).length, 3);
@@ -61,21 +62,9 @@ const blenderPlan = createBlenderExecutionPlan(recipe);
 assert.equal(blenderPlan.worker_policy.arbitrary_source_execution, false);
 assert.equal(blenderPlan.worker_policy.network_access, false);
 
-class MockStandardMaterial {
-	constructor(options) {
-		Object.assign(this, options);
-		this.userData = {};
-	}
-}
-const THREE = {
-	FrontSide: 0,
-	MeshBasicMaterial: MockStandardMaterial,
-	MeshLambertMaterial: MockStandardMaterial,
-	MeshPhongMaterial: MockStandardMaterial,
-	MeshStandardMaterial: MockStandardMaterial,
-	ShaderMaterial: MockStandardMaterial
-};
-const materialMap = createAnimalThreeMaterials(THREE, recipe.materials);
-assert.equal(materialMap.get("coat").roughness, 0.78);
+const artifact = new AnimalMeshCompiler().compile(recipe);
+const coatMaterial = artifact.proceduralArtifact.materials.coat;
+assert.equal(coatMaterial.id, "coat");
+assert.equal(coatMaterial.roughness, 0.78);
 
 console.log('B"H | animalMeshApi.test.mjs passed');

@@ -1,0 +1,93 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos does not become smaller when the screen becomes narrow; Awtsmoos.com simply folds the studio aside so the vision can remain whole. */
+
+@media (max-width: 760px) {
+	.ein-sof-shell,
+	.ein-sof-shell.studio-retracted {
+		grid-template-columns: minmax(0, 1fr);
+		grid-template-rows: 60px minmax(0, 1fr);
+	}
+
+	.topbar {
+		padding-top: max(8px, env(safe-area-inset-top));
+		padding-inline: max(10px, env(safe-area-inset-left)) max(10px, env(safe-area-inset-right));
+	}
+
+	.preview-stage {
+		grid-column: 1;
+		grid-row: 2;
+		padding: 12px;
+	}
+
+	.preview-frame {
+		width: min(100%, 390px);
+	}
+
+	.studio-panel {
+		position: fixed;
+		inset: 0 auto 0 0;
+		width: min(92vw, var(--ein-studio-width));
+		max-width: 100%;
+		transform: translateX(-104%);
+		border-right: 1px solid var(--ein-line-strong);
+		transition: transform 170ms ease;
+		z-index: var(--ein-layer-studio);
+	}
+
+	.studio-panel.is-open {
+		transform: translateX(0);
+	}
+
+	#studioClose {
+		display: grid;
+	}
+
+	.studio-backdrop:not([hidden]) {
+		display: block;
+		position: fixed;
+		inset: 0;
+		padding: 0;
+		border: 0;
+		background: rgba(0, 0, 0, .58);
+		z-index: var(--ein-layer-backdrop);
+	}
+
+	.controls-form {
+		padding-bottom: max(10px, env(safe-area-inset-bottom));
+	}
+}
+
+@media (max-width: 430px) {
+	.brand-lockup small {
+		display: none;
+	}
+
+	.panel-body {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.span-all {
+		grid-column: 1;
+	}
+
+	.randomized {
+		grid-template-columns: minmax(0, 1fr) auto;
+	}
+
+	.preview-stage {
+		padding: 8px;
+	}
+}
+
+@media (max-height: 620px) and (min-width: 761px) {
+	.ein-sof-shell,
+	.ein-sof-shell.studio-retracted {
+		grid-template-rows: 54px minmax(0, 1fr);
+	}
+
+	.preview-stage {
+		padding-block: 8px;
+	}
+}

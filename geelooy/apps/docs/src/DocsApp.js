@@ -10,41 +10,29 @@ import { DocsMutationController } from "./DocsMutationController.js";
 import { readShareLink } from "./share/SharePolicy.js";
 
 /**
- * @file Boots Awtsmoos Docs after construction, mutations, actions, commands, and bindings divide.
+ * @file Boots Awtsmoos Docs after construction, mutations, references, and services divide.
  * @description The Awtsmoos is one beyond every controller; Awtsmoos.com begins the
- * document gently, letting page, source, collaboration, and writing reveal without becoming the whole.
+ * document gently, letting source, page, references, versions, collaboration, and writing reveal in order.
  */
 export class DocsApp {
 	constructor() {
 		Object.assign(this, createDocsComposition());
 		this.mutations = new DocsMutationController(this);
+		this.references.onRegistryChange = objects => this.mutations.semanticObjectsChanged(objects);
 		this.actions = new DocsActionController(this);
-		this.commandRouter = createDocsCommandRouter({
-			actions: this.actions,
-			toast: this.toast,
-			formatting: this.formatting,
-			insertion: this.insertion,
-			layout: this.layout,
-			mutations: this.mutations,
-			quickDialog: this.quickDialog,
-			bookmark: this.bookmark,
-			view: this.view
-		});
+		this.commandRouter = createDocsCommandRouter(this.#commandParts());
 		this.bindings = new DocsBindings({
 			...this,
 			mutations: this.mutations,
 			actions: this.actions,
 			commandRouter: this.commandRouter
 		});
-		this.fileController.onImported = () => {
-			this.layout.apply();
-			this.mutations.refreshDerived();
-			this.toast.show("Document imported", "success");
-		};
+		this.fileController.onImported = () => this.#refreshImported();
 	}
 
 	async start() {
 		this.bindings.bind();
+		this.references.bind();
 		this.toolbar.bind();
 		this.embed.start();
 		const shared = readShareLink();
@@ -62,15 +50,39 @@ export class DocsApp {
 		}
 	}
 
+	#commandParts() {
+		return {
+			actions: this.actions,
+			toast: this.toast,
+			editor: this.editor,
+			findReplace: this.findReplace,
+			voice: this.voice,
+			quality: this.quality,
+			formatting: this.formatting,
+			insertion: this.insertion,
+			references: this.references,
+			layout: this.layout,
+			mutations: this.mutations,
+			quickDialog: this.quickDialog,
+			bookmark: this.bookmark,
+			versionHistory: this.versionHistory,
+			publishing: this.publishing,
+			view: this.view
+		};
+	}
+
+	#refreshImported() {
+		this.layout.apply();
+		this.mutations.refreshDerived();
+		this.toast.show("Document imported", "success");
+	}
+
 	#loadLocalBeginning() {
 		try {
 			const consumed = this.fileController.consumeCrossAppIntent();
 			if (!consumed) this.persistence.loadDraft("new");
 		} catch (error) {
-			this.status.drive(
-				error.message || "Could not open handed-off file",
-				"warning"
-			);
+			this.status.drive(error.message || "Could not open handed-off file", "warning");
 			this.persistence.loadDraft("new");
 		}
 	}

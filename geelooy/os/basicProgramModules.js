@@ -16,6 +16,7 @@ import awtsmoosCommand from "./programs/awtsmoos-command/index.js";
 import awtsmoosCompiler from "./programs/awtsmoos-compiler/index.js";
 import awtsmoosDbExplorer from "./programs/awtsmoosdb-explorer/index.js";
 import awtsmoosDiagnostics from "./programs/awtsmoos-diagnostics/index.js";
+import awtsmoosDocs from "./programs/awtsmoos-docs/index.js";
 import awtsmoosExecutable from "./programs/awtsmoos-executable/index.js";
 import awtsmoosFileExplorer from "./programs/awtsmoos-file-explorer/index.js";
 import awtsmoosPresenter from "./programs/awtsmoos-presenter/index.js";
@@ -38,6 +39,7 @@ export const programs = Object.freeze({
 	awtsmoosCompiler: program("Awtsmoos Compiler", awtsmoosCompiler),
 	awtsmoosDbExplorer: program("AwtsmoosDB Explorer", awtsmoosDbExplorer),
 	awtsmoosDiagnostics: program("Developer Diagnostics", awtsmoosDiagnostics),
+	awtsmoosDocs: program("Awtsmoos Docs", awtsmoosDocs),
 	awtsmoosExecutable: program("Executable Host", awtsmoosExecutable),
 	awtsmoosFileExplorer: program("File Explorer", awtsmoosFileExplorer),
 	awtsmoosPresenter: program("Awtsmoos Slides", awtsmoosPresenter),

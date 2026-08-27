@@ -23,15 +23,23 @@ Every discovered path joined to its source-file contract evidence; unknown remai
 | /api/gpt/chat | geelooy/api/gpt/_awtsmoos.derech.js | unknown | — | — | — |
 | /api/gpt/health | geelooy/api/gpt/_awtsmoos.derech.js | unknown | — | — | — |
 | /api/gpt/reset | geelooy/api/gpt/_awtsmoos.derech.js | unknown | — | — | — |
-| /api/oauth | geelooy/api/oauth/routes/table.js | unknown | — | — | — |
 | /api/oauth/:route | geelooy/api/oauth/_awtsmoos.derech.js | unknown | route-vars | 404 | Access-Control-Allow-Headers, Access-Control-Allow-Methods, Access-Control-Allow-Origin, Cache-Control |
+| /api/oauth/agent-callback | geelooy/api/oauth/routes/table.js | unknown | — | — | — |
 | /api/oauth/authorize | geelooy/api/oauth/routes/table.js | unknown | — | — | — |
-| /api/oauth/clients | geelooy/api/oauth/routes/table.js | unknown | — | — | — |
-| /api/oauth/logout | geelooy/api/oauth/routes/table.js | unknown | — | — | — |
-| /api/oauth/me | geelooy/api/oauth/routes/table.js | unknown | — | — | — |
+| /api/oauth/device | geelooy/api/oauth/routes/table.js | unknown | — | — | — |
+| /api/oauth/device-authorization | geelooy/api/oauth/routes/table.js | unknown | — | — | — |
+| /api/oauth/metadata | geelooy/api/oauth/routes/table.js | unknown | — | — | — |
 | /api/oauth/start | geelooy/api/oauth/routes/table.js | unknown | — | — | — |
 | /api/oauth/token | geelooy/api/oauth/routes/table.js | unknown | — | — | — |
 | /api/ohr-hagnuz/realtime-ticket | geelooy/api/ohr-hagnuz/routes/table.js | unknown | — | — | — |
+| /api/projectHosting | geelooy/api/projectHosting/_awtsmoos.derech.js | unknown | — | — | — |
+| /api/projectHosting/activity | geelooy/api/projectHosting/runtimeRoutes.js | unknown | $_GET | — | — |
+| /api/projectHosting/cleanup | geelooy/api/projectHosting/runtimeRoutes.js | unknown | $_GET | — | — |
+| /api/projectHosting/materialize | geelooy/api/projectHosting/runtimeRoutes.js | unknown | $_GET | — | — |
+| /api/projectHosting/restart | geelooy/api/projectHosting/runtimeRoutes.js | unknown | $_GET | — | — |
+| /api/projectHosting/start | geelooy/api/projectHosting/runtimeRoutes.js | unknown | $_GET | — | — |
+| /api/projectHosting/status | geelooy/api/projectHosting/runtimeRoutes.js | unknown | $_GET | — | — |
+| /api/projectHosting/stop | geelooy/api/projectHosting/runtimeRoutes.js | unknown | $_GET | — | — |
 | /api/public | geelooy/api/public/_awtsmoos.derech.js | unknown | $_GET, $_POST, route-vars, identity, db | — | — |
 | /api/runtime/native/capabilities | geelooy/api/runtime/_awtsmoos.derech.js | unknown | — | — | — |
 | /api/runtime/native/launch | geelooy/api/runtime/_awtsmoos.derech.js | unknown | — | — | — |
@@ -55,11 +63,3 @@ Every discovered path joined to its source-file contract evidence; unknown remai
 | /api/social/alias/:alias/profile/template | geelooy/api/social/_awtsmoos.profile.js | unknown | $_POST, route-vars | — | — |
 | /api/social/alias/default | geelooy/api/social/_awtsmoos.alias.js | GET, POST, PUT, DELETE | route-vars, identity | — | — |
 | /api/social/aliases | geelooy/api/social/_awtsmoos.alias.js | GET, POST, PUT, DELETE | route-vars, identity | — | — |
-| /api/social/aliases/:alias | geelooy/api/social/_awtsmoos.alias.js | GET, POST, PUT, DELETE | route-vars, identity | — | — |
-| /api/social/aliases/:alias/commentsMade | geelooy/api/social/helper/comments/routes/indexing.js | unknown | — | — | — |
-| /api/social/aliases/:alias/commentsMade/heichel/:heichel | geelooy/api/social/helper/comments/routes/indexing.js | unknown | — | — | — |
-| /api/social/aliases/:alias/commentsMade/heichel/:heichel/series | geelooy/api/social/helper/comments/routes/indexing.js | unknown | — | — | — |
-| /api/social/aliases/:alias/commentsMade/heichel/:heichel/series/:series | geelooy/api/social/helper/comments/routes/indexing.js | unknown | — | — | — |
-| /api/social/aliases/:alias/commentsMade/heichel/:heichel/series/:series/post/:post | geelooy/api/social/helper/comments/routes/indexing.js | unknown | — | — | — |
-| /api/social/aliases/:alias/commentsMade/heichel/:heichel/series/:series/posts | geelooy/api/social/helper/comments/routes/indexing.js | unknown | — | — | — |
-| /api/social/aliases/:alias/commentsMade/heichelos | geelooy/api/social/helper/comments/routes/indexing.js | unknown | — | — | — |

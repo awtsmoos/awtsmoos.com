@@ -1,8 +1,18 @@
-// B"H
-export default /*css*/`
-.file-explorer{position:relative;display:flex;flex-direction:column;width:100%;height:100%;min-height:0;overflow:hidden;color:var(--awt-text);font-family:var(--awt-font);background:radial-gradient(circle at 18% 8%,rgba(92,246,255,.16),transparent 28%),radial-gradient(circle at 82% 0,rgba(82,255,184,.12),transparent 30%),linear-gradient(135deg,var(--awt-bg),var(--awt-bg2) 58%,#050a13)}
-.file-explorer::before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(120deg,rgba(255,255,255,.07),transparent 28%,rgba(92,246,255,.04) 62%,transparent);mix-blend-mode:screen}.file-explorer *{box-sizing:border-box}.file-explorer:focus-visible{outline:2px solid var(--awt-cyan);outline-offset:-3px}
-.file-explorer-frame{position:relative;z-index:1;display:flex;flex-direction:column;min-height:0;height:100%;padding:6px;gap:6px}.file-explorer-header,.drive-shelf,.selection-action-bar,.path-bar-container,.xp-status-strip{background:linear-gradient(180deg,rgba(19,55,99,.86),rgba(8,24,46,.82));border:1px solid var(--awt-line);box-shadow:var(--awt-shadow),inset 0 1px rgba(255,255,255,.16);backdrop-filter:blur(18px);border-radius:var(--awt-radius);color:var(--awt-text)}
-.file-explorer-header{flex:0 0 auto;padding:8px;gap:8px}.file-explorer-main{display:flex;flex:1 1 auto;min-width:0;min-height:0;gap:6px}.file-explorer-content{display:flex;flex:1 1 auto;flex-direction:column;min-width:0;min-height:0;overflow:hidden;background:transparent}.file-explorer-body{flex:1 1 auto;min-width:0;min-height:0;margin:0;border:1px solid var(--awt-line);border-radius:var(--awt-radius2);background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.035));box-shadow:inset 0 1px rgba(255,255,255,.10);color:var(--awt-text);overflow:auto}.file-explorer-body:focus-within{box-shadow:inset 0 1px rgba(255,255,255,.12),var(--awt-glow)}
-`;
-/** B"H: the frame is no longer a box; it is a luminous vessel holding worlds. */
+//B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file Composition root for Explorer frame geometry and luminous surfaces.
+ * @description
+ * The Awtsmoos lets structure and garment remain distinct while creating both;
+ * Awtsmoos.com joins stable frame geometry to optional luminous depth through
+ * smaller modules, replacing the former oversized frame vessel in rhyme.
+ */
+import core from "./frameCore.js";
+import surfaces from "./frameSurfaces.js";
+
+export default [
+	core,
+	surfaces
+].join("\n");

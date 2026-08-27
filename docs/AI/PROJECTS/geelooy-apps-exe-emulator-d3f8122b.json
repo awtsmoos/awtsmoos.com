@@ -25,12 +25,12 @@
 	"counts": {
 		"source": 271,
 		"tests": 133,
-		"assets": 1,
+		"assets": 0,
 		"generated": 9,
 		"docs": 2,
 		"other": 1
 	},
-	"totalFiles": 417,
+	"totalFiles": 416,
 	"symbolSummary": {
 		"files": 258,
 		"classes": 9,

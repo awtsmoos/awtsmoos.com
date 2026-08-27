@@ -1,0 +1,53 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives destination, intention, and speech distinct signs without dividing their source; Awtsmoos.com lets each vector guide the eye with one quiet, luminous course.
+*/
+.mail-field-vector {
+	width: 22px;
+	height: 22px;
+	border-radius: 7px;
+	background: var(--mail-accent);
+	mask-position: center;
+	mask-repeat: no-repeat;
+	mask-size: 17px 17px;
+	-webkit-mask-position: center;
+	-webkit-mask-repeat: no-repeat;
+	-webkit-mask-size: 17px 17px;
+	opacity: .78;
+	transition: opacity 160ms ease, transform 160ms ease;
+}
+
+.mail-field-shell-recipient .mail-field-vector {
+	mask-image: url("../../assets/icons/compose/recipient.svg");
+	-webkit-mask-image: url("../../assets/icons/compose/recipient.svg");
+}
+
+.mail-field-shell-subject .mail-field-vector {
+	mask-image: url("../../assets/icons/compose/subject.svg");
+	-webkit-mask-image: url("../../assets/icons/compose/subject.svg");
+}
+
+.mail-field-shell-message .mail-field-vector {
+	mask-image: url("../../assets/icons/compose/message.svg");
+	-webkit-mask-image: url("../../assets/icons/compose/message.svg");
+}
+
+.mail-field-shell:is(:hover, :focus-within) .mail-field-vector {
+	opacity: 1;
+	transform: scale(1.06);
+}
+
+.mail-field-shell:focus-within .mail-field-caption {
+	color: var(--mail-accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.mail-field-vector {
+		transition: none;
+	}
+
+	.mail-field-shell:is(:hover, :focus-within) .mail-field-vector {
+		transform: none;
+	}
+}

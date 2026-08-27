@@ -1,8 +1,8 @@
 [
 	{
-		"id": "api-social-heichelos-heichel-series-series-subseries-e7cb046326",
-		"route": "/api/social/heichelos/:heichel/series/:series/subSeries",
-		"source": "geelooy/api/social/_awtsmoos.series.base.js",
+		"id": "api-social-heichelos-heichel-series-series-books-html-0bbb787c87",
+		"route": "/api/social/heichelos/:heichel/series/:series/books/html",
+		"source": "geelooy/api/social/_awtsmoos.books.js",
 		"discoveryKind": "static-literal",
 		"family": {
 			"mount": "/api/social",
@@ -26,14 +26,10 @@
 				"catchAll": false
 			}
 		],
-		"methods": [
-			"GET"
-		],
-		"methodEvidence": "GET",
+		"methods": [],
+		"methodEvidence": "unknown",
 		"vessels": [
-			"$_GET",
-			"$_POST",
-			"$_DELETE"
+			"route-vars"
 		],
 		"statuses": [],
 		"headers": [],
@@ -73,16 +69,9 @@
 				"command": "node geelooy/heichelos/heichel/modules/test/socialLiveSmoke.test.mjs"
 			}
 		],
-		"examples": [
-			{
-				"method": "GET",
-				"warning": "Starter only: method evidence is lexical at the source-file level; inspect the handler before relying on payload or response shape.",
-				"curl": "curl -X GET 'https://awtsmoos.com/api/social/heichelos/{heichel}/series/{series}/subSeries'",
-				"fetch": "const response = await fetch(\"/api/social/heichelos/{heichel}/series/{series}/subSeries\", {\n\tmethod: \"GET\"\n});\nconst result = await response.json();"
-			}
-		],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-series-series-subseries-e7cb046326.md",
-		"confidence": "source-lexical",
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-series-series-books-html-0bbb787c87.md",
+		"confidence": "unknown-method",
 		"related": [
 			{
 				"id": "api-social-9fa4891e88",
@@ -119,9 +108,9 @@
 		]
 	},
 	{
-		"id": "api-social-heichelos-heichel-series-series-subseries-a7356f5b3d",
-		"route": "/api/social/heichelos/:heichel/series/:series/subSeries",
-		"source": "geelooy/api/social/old/_awtsmoos.series.js",
+		"id": "api-social-heichelos-heichel-series-series-books-jobs-5c9e6cc80c",
+		"route": "/api/social/heichelos/:heichel/series/:series/books/jobs",
+		"source": "geelooy/api/social/_awtsmoos.books.js",
 		"discoveryKind": "static-literal",
 		"family": {
 			"mount": "/api/social",
@@ -145,14 +134,10 @@
 				"catchAll": false
 			}
 		],
-		"methods": [
-			"GET",
-			"POST"
-		],
-		"methodEvidence": "GET, POST",
+		"methods": [],
+		"methodEvidence": "unknown",
 		"vessels": [
-			"$_GET",
-			"$_POST"
+			"route-vars"
 		],
 		"statuses": [],
 		"headers": [],
@@ -192,16 +177,9 @@
 				"command": "node geelooy/heichelos/heichel/modules/test/socialLiveSmoke.test.mjs"
 			}
 		],
-		"examples": [
-			{
-				"method": "GET",
-				"warning": "Starter only: method evidence is lexical at the source-file level; inspect the handler before relying on payload or response shape.",
-				"curl": "curl -X GET 'https://awtsmoos.com/api/social/heichelos/{heichel}/series/{series}/subSeries'",
-				"fetch": "const response = await fetch(\"/api/social/heichelos/{heichel}/series/{series}/subSeries\", {\n\tmethod: \"GET\"\n});\nconst result = await response.json();"
-			}
-		],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-series-series-subseries-a7356f5b3d.md",
-		"confidence": "source-lexical",
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-series-series-books-jobs-5c9e6cc80c.md",
+		"confidence": "unknown-method",
 		"related": [
 			{
 				"id": "api-social-9fa4891e88",
@@ -238,9 +216,9 @@
 		]
 	},
 	{
-		"id": "api-social-heichelos-heichel-series-series-subseries-details-e5d98b339c",
-		"route": "/api/social/heichelos/:heichel/series/:series/subSeries/details",
-		"source": "geelooy/api/social/_awtsmoos.series.base.js",
+		"id": "api-social-heichelos-heichel-series-series-books-jobs-job-2cab491b01",
+		"route": "/api/social/heichelos/:heichel/series/:series/books/jobs/:job",
+		"source": "geelooy/api/social/_awtsmoos.books.js",
 		"discoveryKind": "static-literal",
 		"family": {
 			"mount": "/api/social",
@@ -262,16 +240,16 @@
 			{
 				"name": "series",
 				"catchAll": false
+			},
+			{
+				"name": "job",
+				"catchAll": false
 			}
 		],
-		"methods": [
-			"GET"
-		],
-		"methodEvidence": "GET",
+		"methods": [],
+		"methodEvidence": "unknown",
 		"vessels": [
-			"$_GET",
-			"$_POST",
-			"$_DELETE"
+			"route-vars"
 		],
 		"statuses": [],
 		"headers": [],
@@ -311,16 +289,9 @@
 				"command": "node geelooy/heichelos/heichel/modules/test/socialLiveSmoke.test.mjs"
 			}
 		],
-		"examples": [
-			{
-				"method": "GET",
-				"warning": "Starter only: method evidence is lexical at the source-file level; inspect the handler before relying on payload or response shape.",
-				"curl": "curl -X GET 'https://awtsmoos.com/api/social/heichelos/{heichel}/series/{series}/subSeries/details'",
-				"fetch": "const response = await fetch(\"/api/social/heichelos/{heichel}/series/{series}/subSeries/details\", {\n\tmethod: \"GET\"\n});\nconst result = await response.json();"
-			}
-		],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-series-series-subseries-details-e5d98b339c.md",
-		"confidence": "source-lexical",
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-series-series-books-jobs-job-2cab491b01.md",
+		"confidence": "unknown-method",
 		"related": [
 			{
 				"id": "api-social-9fa4891e88",
@@ -357,9 +328,9 @@
 		]
 	},
 	{
-		"id": "api-social-heichelos-heichel-series-series-subseries-details-72d585f3df",
-		"route": "/api/social/heichelos/:heichel/series/:series/subSeries/details",
-		"source": "geelooy/api/social/old/_awtsmoos.series.js",
+		"id": "api-social-heichelos-heichel-series-series-books-jobs-job-archiv-6958df4451",
+		"route": "/api/social/heichelos/:heichel/series/:series/books/jobs/:job/archive.zip",
+		"source": "geelooy/api/social/_awtsmoos.books.js",
 		"discoveryKind": "static-literal",
 		"family": {
 			"mount": "/api/social",
@@ -381,16 +352,16 @@
 			{
 				"name": "series",
 				"catchAll": false
+			},
+			{
+				"name": "job",
+				"catchAll": false
 			}
 		],
-		"methods": [
-			"GET",
-			"POST"
-		],
-		"methodEvidence": "GET, POST",
+		"methods": [],
+		"methodEvidence": "unknown",
 		"vessels": [
-			"$_GET",
-			"$_POST"
+			"route-vars"
 		],
 		"statuses": [],
 		"headers": [],
@@ -430,16 +401,9 @@
 				"command": "node geelooy/heichelos/heichel/modules/test/socialLiveSmoke.test.mjs"
 			}
 		],
-		"examples": [
-			{
-				"method": "GET",
-				"warning": "Starter only: method evidence is lexical at the source-file level; inspect the handler before relying on payload or response shape.",
-				"curl": "curl -X GET 'https://awtsmoos.com/api/social/heichelos/{heichel}/series/{series}/subSeries/details'",
-				"fetch": "const response = await fetch(\"/api/social/heichelos/{heichel}/series/{series}/subSeries/details\", {\n\tmethod: \"GET\"\n});\nconst result = await response.json();"
-			}
-		],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-series-series-subseries-details-72d585f3df.md",
-		"confidence": "source-lexical",
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-series-series-books-jobs-job-archiv-6958df4451.md",
+		"confidence": "unknown-method",
 		"related": [
 			{
 				"id": "api-social-9fa4891e88",

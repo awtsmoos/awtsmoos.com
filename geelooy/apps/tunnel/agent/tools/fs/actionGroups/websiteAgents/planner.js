@@ -43,7 +43,7 @@ function plan(config = {}, input = {}) {
 		collaborationRounds: Policy.bounded(input.collaborationRounds, 2, 1, 8),
 		maxContinuationTurns: Policy.bounded(input.maxContinuationTurns, 6, 1, 12),
 		authPollMs: Policy.bounded(input.authPollMs, 3000, 1000, 30000),
-		agents: InitialAgents.createInitialAgents(count, scopes, projectRoot)
+		agents: InitialAgents.createInitialAgents(count, scopes, projectRoot, input)
 	};
 }
 

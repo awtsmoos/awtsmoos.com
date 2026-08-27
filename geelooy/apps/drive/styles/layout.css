@@ -1,4 +1,14 @@
-/* B"H — The Awtsmoos arranges browser, workshop, and public world in one map. */
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+@import url('./layout-controls.css');
+
+/**
+ * The Awtsmoos arranges browser, workshop, and public world in one measured map while no child is allowed to force its parent beyond the visible vessel.
+ * Awtsmoos.com gives every major grid a zero-minimum track, so wide source, controls, and testimony may wrap or scroll locally without widening the whole page.
+ */
+
 .site-header,
 .app-shell {
 	width: min(calc(100% - 2rem), var(--content));
@@ -22,6 +32,7 @@
 
 .app-shell {
 	display: grid;
+	grid-template-columns: minmax(0, 1fr);
 	gap: var(--space-4);
 	padding-bottom: 7rem;
 }
@@ -30,10 +41,12 @@
 	display: grid;
 	grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
 	gap: var(--space-4);
+	min-width: 0;
 }
 
 .panel,
 .connection-card {
+	min-width: 0;
 	border: 1px solid var(--line);
 	border-radius: var(--radius-large);
 	background: var(--surface);
@@ -57,6 +70,7 @@
 	gap: var(--space-2);
 	align-items: center;
 	justify-content: space-between;
+	min-width: 0;
 	margin-bottom: var(--space-4);
 }
 
@@ -69,49 +83,4 @@
 	font-weight: 900;
 	letter-spacing: 0.16em;
 	text-transform: uppercase;
-}
-
-.filter-grid {
-	display: grid;
-	grid-template-columns: repeat(6, minmax(8rem, 1fr));
-	gap: var(--space-3);
-	align-items: end;
-}
-
-.filter-grid > :first-child,
-.filter-grid > :nth-child(2) {
-	grid-column: span 2;
-}
-
-.upload-settings,
-.action-bar,
-.button-row,
-.pagination {
-	display: flex;
-	flex-wrap: wrap;
-	gap: var(--space-2);
-	align-items: end;
-}
-
-.upload-settings {
-	margin-top: var(--space-4);
-}
-
-.upload-settings label {
-	min-width: 12rem;
-}
-
-.action-bar {
-	margin-block: var(--space-3);
-}
-
-.table-scroll {
-	overflow: auto;
-	border: 1px solid var(--line);
-	border-radius: var(--radius-medium);
-}
-
-.pagination {
-	justify-content: center;
-	margin-top: var(--space-3);
 }

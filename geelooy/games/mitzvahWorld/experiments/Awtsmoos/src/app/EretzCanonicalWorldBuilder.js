@@ -4,21 +4,22 @@
 
 /**
  * @file EretzCanonicalWorldBuilder.js
- * @description Builds a complete medium-density canonical arrival before eventual high-density enrichment.
- * The Awtsmoos reveals mountain, cottages, people, river, road, and ground as one believable valley in sight;
- * Awtsmoos.com preserves the final quality covenant while refusing to make first reality wait for every distant light.
+ * @description Builds canonical visual truth around one compact indexed collision authority.
+ * The Awtsmoos reveals mountain, cottages, people, river, road, and ground before distance is done;
+ * Awtsmoos.com shares one local index through promotion and streaming, so needless rescans become none.
  */
 
 import { resolveEretzArrivalQuality } from './EretzArrivalQuality.js';
 import { createCanonicalNpcSeed } from './EretzCanonicalNpcSeed.js';
 import { loadCanonicalWorldAssets } from './EretzCanonicalWorldAssets.js';
+import { buildLocalCollisionBootstrap } from './EretzLocalCollisionBootstrap.js';
 import {
 	loadTerrainConstructionModules,
 	loadWorldFinalizationModules
 } from './EretzWorldModuleLoader.js';
 
 export async function buildCanonicalWorldPromotion(context) {
-	const { environment, options, qualityProfile } = context;
+	const { environment, options, qualityProfile, runtime } = context;
 	const arrivalQualityProfile = resolveEretzArrivalQuality(qualityProfile);
 	const quality = arrivalQualityProfile.quality;
 	const [assets, npcSeed, terrainModules, finalModules] = await Promise.all([
@@ -46,11 +47,19 @@ export async function buildCanonicalWorldPromotion(context) {
 			quality
 		}
 	);
-	const mainOctree = await finalModules.buildWorldCollisionOctreeAsync(
-		terrain.colliders,
-		{ onProgress: options.onProgress }
-	);
-	const chunkRuntime = finalModules.createWorldChunkRuntime({ mainOctree, terrain });
+	const localCollision = await buildLocalCollisionBootstrap({
+		buildOctree: finalModules.buildWorldCollisionOctreeAsync,
+		colliders: terrain.colliders,
+		onProgress: options.onProgress,
+		playerPosition: runtime.model.position,
+		terrainGridSteps: terrain.worldMetadata?.terrainGridSteps
+	});
+	const mainOctree = localCollision.mainOctree;
+	const chunkRuntime = finalModules.createWorldChunkRuntime({
+		collisionSourceIndex: localCollision.sourceIndex,
+		mainOctree,
+		terrain
+	});
 	const collisionQuery = chunkRuntime.collisionQuery;
 	const groundSampler = phaseOneGround.withOctree(collisionQuery);
 	const ground = new finalModules.WorldGround({
@@ -59,10 +68,12 @@ export async function buildCanonicalWorldPromotion(context) {
 	});
 	terrain.stats.groundSampler = groundSampler.stats().mode;
 	terrain.stats.qualityProfile = { ...arrivalQualityProfile };
+	terrain.stats.localCollision = { ...localCollision.diagnostics };
 	return {
 		assets: assets.assets,
 		chunkRegistry: chunkRuntime.registry,
 		chunkRuntime,
+		collisionBootstrap: localCollision.diagnostics,
 		collisionQuery,
 		ground,
 		groundSampler,

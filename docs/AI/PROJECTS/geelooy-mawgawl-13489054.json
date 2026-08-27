@@ -22,19 +22,19 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-mawgawl-13489054.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 37,
-		"tests": 4,
+		"source": 65,
+		"tests": 14,
 		"assets": 0,
 		"generated": 0,
 		"docs": 1,
 		"other": 0
 	},
-	"totalFiles": 42,
+	"totalFiles": 80,
 	"symbolSummary": {
-		"files": 18,
-		"classes": 2,
-		"functions": 87,
-		"exports": 47,
+		"files": 30,
+		"classes": 3,
+		"functions": 129,
+		"exports": 71,
 		"samples": [
 			"from",
 			"showMessage",
@@ -50,7 +50,13 @@
 			"displayMinutes"
 		]
 	},
-	"outgoingDependencies": [],
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/shared",
+			"count": 1,
+			"examples": "geelooy/mawgawl/sefarim/searchHistory.js"
+		}
+	],
 	"incomingDependencies": [],
 	"externalDependencies": [],
 	"publicEntries": [
@@ -66,7 +72,7 @@
 			"file": "geelooy/mawgawl/sefarim/index.html",
 			"title": "Search the Living Library — Geelooy",
 			"scripts": 2,
-			"styles": 17
+			"styles": 18
 		}
 	],
 	"requiresLocalDocumentation": true,

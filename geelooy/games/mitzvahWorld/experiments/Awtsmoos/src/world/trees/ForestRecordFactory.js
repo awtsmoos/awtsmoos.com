@@ -4,9 +4,9 @@
 
 /**
  * @file ForestRecordFactory.js
- * @description Requests all live tree structure from the deep procedural core and validates every resulting species vessel.
- * The Awtsmoos renews every skeleton before bark or leaf reaches the valley; Awtsmoos.com passes only a named profile,
- * seed, and target scale so the game can never rewrite branch anatomy behind the canonical generator's living seal.
+ * @description Requests tree anatomy from the deep core, then applies ecology-derived life history only as world scale.
+ * The Awtsmoos renews one species as pioneer, mature canopy, or old-growth witness without rewriting a branch;
+ * Awtsmoos.com keeps structural generation canonical while succession changes height and crown presence across the ranch.
  */
 
 import {
@@ -29,10 +29,15 @@ export function buildForestRecord(placement) {
 		generationMilliseconds: now() - started,
 		index: placement.policy.index,
 		runtimeProfile: placement.policy.runtimeProfile,
-		scale: placement.policy.targetHeight / validation.height,
+		scale: recordScale(placement, validation),
 		tree,
 		validation
 	};
+}
+
+function recordScale(placement, validation) {
+	const successionScale = Number(placement.succession?.heightScale ?? 1);
+	return placement.policy.targetHeight / validation.height * successionScale;
 }
 
 function generatePolicyTree(policy) {

@@ -8,6 +8,14 @@ Every discovered path joined to its source-file contract evidence; unknown remai
 
 | URL pattern | Source | Methods | Vessels | Statuses | Headers |
 | --- | --- | --- | --- | --- | --- |
+| /api/social/aliases/:alias | geelooy/api/social/_awtsmoos.alias.js | GET, POST, PUT, DELETE | route-vars, identity | — | — |
+| /api/social/aliases/:alias/commentsMade | geelooy/api/social/helper/comments/routes/indexing.js | unknown | — | — | — |
+| /api/social/aliases/:alias/commentsMade/heichel/:heichel | geelooy/api/social/helper/comments/routes/indexing.js | unknown | — | — | — |
+| /api/social/aliases/:alias/commentsMade/heichel/:heichel/series | geelooy/api/social/helper/comments/routes/indexing.js | unknown | — | — | — |
+| /api/social/aliases/:alias/commentsMade/heichel/:heichel/series/:series | geelooy/api/social/helper/comments/routes/indexing.js | unknown | — | — | — |
+| /api/social/aliases/:alias/commentsMade/heichel/:heichel/series/:series/post/:post | geelooy/api/social/helper/comments/routes/indexing.js | unknown | — | — | — |
+| /api/social/aliases/:alias/commentsMade/heichel/:heichel/series/:series/posts | geelooy/api/social/helper/comments/routes/indexing.js | unknown | — | — | — |
+| /api/social/aliases/:alias/commentsMade/heichelos | geelooy/api/social/helper/comments/routes/indexing.js | unknown | — | — | — |
 | /api/social/aliases/:alias/details | geelooy/api/social/_awtsmoos.alias.js | GET, POST, PUT, DELETE | route-vars, identity | — | — |
 | /api/social/aliases/:alias/fileSystem/copyEntry | geelooy/api/social/_awtsmoos.fileSystem.js | unknown | $_POST, $_DELETE, route-vars | — | — |
 | /api/social/aliases/:alias/fileSystem/delete | geelooy/api/social/_awtsmoos.fileSystem.js | unknown | $_POST, $_DELETE, route-vars | — | — |
@@ -24,11 +32,6 @@ Every discovered path joined to its source-file contract evidence; unknown remai
 | /api/social/aliases/details | geelooy/api/social/_awtsmoos.alias.js | GET, POST, PUT, DELETE | route-vars, identity | — | — |
 | /api/social/analytics/metric | geelooy/api/social/_awtsmoos.platform.js | unknown | $_GET, $_POST, route-vars | — | — |
 | /api/social/asdfg | geelooy/api/social/old/_awtsmoos.posts.js | GET, POST | $_GET, $_POST, identity | — | — |
-| /api/social/assets/:alias | geelooy/api/social/_awtsmoos.assets.js | unknown | $_POST, route-vars | — | — |
-| /api/social/assets/:alias/:asset/bind | geelooy/api/social/_awtsmoos.assets.js | unknown | $_POST, route-vars | — | — |
-| /api/social/assets/:alias/:kind/:asset | geelooy/api/social/_awtsmoos.assets.js | unknown | $_POST, route-vars | — | — |
-| /api/social/assets/:alias/manifest/:asset | geelooy/api/social/_awtsmoos.assets.js | unknown | $_POST, route-vars | — | — |
-| /api/social/assets/:alias/upload | geelooy/api/social/_awtsmoos.assets.js | unknown | $_POST, route-vars | — | — |
 | /api/social/bulk | geelooy/api/social/_awtsmoos.profile.js | unknown | $_POST, route-vars | — | — |
 | /api/social/cache/get | geelooy/api/social/_awtsmoos.platform.js | unknown | $_GET, $_POST, route-vars | — | — |
 | /api/social/cache/invalidate | geelooy/api/social/_awtsmoos.platform.js | unknown | $_GET, $_POST, route-vars | — | — |
@@ -58,8 +61,5 @@ Every discovered path joined to its source-file contract evidence; unknown remai
 | /api/social/counters | geelooy/api/social/_awtsmoos.counter.js | GET, POST, DELETE | — | — | — |
 | /api/social/counters/:counter | geelooy/api/social/_awtsmoos.counter.js | GET, POST, DELETE | — | — | — |
 | /api/social/counters/:counter/increaseCount | geelooy/api/social/_awtsmoos.counter.js | GET, POST, DELETE | — | — | — |
+| /api/social/drive/:aliasId/actions/bootstrap-site-project | geelooy/api/social/helper/drive/routes/actionRoutes.js | unknown | headers | — | x-request-id |
 | /api/social/drive/:aliasId/actions/copy | geelooy/api/social/helper/drive/routes/actionRoutes.js | unknown | headers | — | x-request-id |
-| /api/social/drive/:aliasId/actions/move | geelooy/api/social/helper/drive/routes/actionRoutes.js | unknown | headers | — | x-request-id |
-| /api/social/drive/:aliasId/actions/purge | geelooy/api/social/helper/drive/routes/actionRoutes.js | unknown | headers | — | x-request-id |
-| /api/social/drive/:aliasId/actions/restore | geelooy/api/social/helper/drive/routes/actionRoutes.js | unknown | headers | — | x-request-id |
-| /api/social/drive/:aliasId/actions/trash | geelooy/api/social/helper/drive/routes/actionRoutes.js | unknown | headers | — | x-request-id |

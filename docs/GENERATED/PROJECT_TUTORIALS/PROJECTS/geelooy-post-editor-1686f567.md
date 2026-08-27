@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 10 | 1 | 0 | 0 | 1 | 0 | 12 |
+| 12 | 2 | 0 | 0 | 1 | 0 | 15 |
 
 ## Public entry points
 
@@ -29,7 +29,7 @@ Blessed is He
 
 ## Symbol evidence
 
-Source files: 9; classes: 1; functions: 21; exports: 8; samples: async, savePostDraft, publishPostDraft, request, errorMessage, readPostEditorConfig, clean, createElement, createField, renderPostEditor, hero, missingContext.
+Source files: 11; classes: 1; functions: 27; exports: 13; samples: async, savePostDraft, publishPostDraft, request, errorMessage, readPostEditorConfig, clean, createElement, saveEditorDraft, publishEditorPost, runEditorOperation, setStatus.
 
 ## Depends on
 
@@ -45,4 +45,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **1**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **2**. Treat this as file evidence, not proof of behavioral coverage.

@@ -1,0 +1,11 @@
+{
+	"name": "oroshakelim",
+	"version": "1.0.0",
+	"private": true,
+	"type": "module",
+	"bh": "B\"H · Boruch Hashem · Blessed is He · Awtsmoos.com",
+	"scripts": {
+		"test": "node --test test/*.test.mjs",
+		"check": "find src -type f -name '*.js' -exec node --check '{}' ';' && find test -type f -name '*.mjs' -exec node --check '{}' ';'"
+	}
+}

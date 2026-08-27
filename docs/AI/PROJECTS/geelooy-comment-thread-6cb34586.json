@@ -23,39 +23,39 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-comment-thread-6cb34586.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 10,
-		"tests": 1,
+		"source": 20,
+		"tests": 2,
 		"assets": 0,
 		"generated": 0,
 		"docs": 1,
 		"other": 0
 	},
-	"totalFiles": 12,
+	"totalFiles": 23,
 	"symbolSummary": {
-		"files": 9,
-		"classes": 1,
-		"functions": 21,
-		"exports": 9,
+		"files": 18,
+		"classes": 3,
+		"functions": 44,
+		"exports": 18,
 		"samples": [
 			"async",
-			"loadCommentTree",
-			"submitComment",
-			"parseResponse",
-			"errorMessage",
-			"createComposer",
-			"field",
-			"readCommentThreadConfig",
-			"clean",
-			"createElement",
-			"createMedia",
-			"createPreview"
+			"uploadMalchusCommentAsset",
+			"createCommentReactionRail",
+			"createYesodContextPanel",
+			"coordinateField",
+			"textAreaField",
+			"YesodManifestStore",
+			"ManifestStore",
+			"createChesedMediaPicker",
+			"createHodReferencePicker",
+			"referenceManifest",
+			"textField"
 		]
 	},
 	"outgoingDependencies": [
 		{
-			"project": "geelooy/scripts",
+			"project": "geelooy/social-actions",
 			"count": 1,
-			"examples": "geelooy/comment-thread/app.js"
+			"examples": "geelooy/comment-thread/modules/CommentReaction.js"
 		}
 	],
 	"incomingDependencies": [],

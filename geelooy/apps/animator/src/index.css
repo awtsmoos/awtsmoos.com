@@ -1,8 +1,8 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- * Every imported stylesheet is a vessel. The Awtsmoos renews their order, and
- * Awtsmoos.com reveals the complete editor only when the cascade remains clear.
+ * Every stylesheet is a vessel; the Awtsmoos renews their order before one creative workspace can appear;
+ * Awtsmoos.com keeps layout, authoring, interactions, timeline, and mobile revelation explicit in the cascade here.
  */
 @import './styles/base/tokens.css';
 @import './styles/base/reset.css';
@@ -22,9 +22,13 @@
 @import './styles/components/workspace.css';
 @import './styles/components/studio-workspace.css';
 @import './styles/components/studio-toolbar.css';
+@import './styles/components/studio-command-bar.css';
 @import './styles/components/studio-panels.css';
+@import './styles/components/studio-authoring.css';
+@import './styles/components/studio-interactions.css';
 @import './styles/components/studio-nle.css';
 @import './styles/components/studio-nle-clips.css';
 @import './styles/mobile/responsive.css';
 @import './styles/mobile/studio-mobile.css';
+@import './styles/mobile/studio-authoring-mobile.css';
 @import './styles/mobile/studio-mobile-nle.css';

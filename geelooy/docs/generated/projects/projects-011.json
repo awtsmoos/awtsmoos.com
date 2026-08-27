@@ -1,24 +1,24 @@
 [
 	{
-		"projectId": "geelooy-games-ohr-hagnuz-e946b787",
-		"path": "geelooy/games/ohr-hagnuz",
+		"projectId": "geelooy-games-brick-blast-e1d8b393",
+		"path": "geelooy/games/brick-blast",
 		"type": "game",
 		"family": {
 			"id": "games",
 			"title": "Games and Worlds"
 		},
-		"title": "B&quot;H — Ohr HaGnuz: The Concealed Frontier",
+		"title": "Brick Blast",
 		"entries": [
 			"index.html",
-			"package.json",
+			"index.js",
 			"DOCUMENTATION.md"
 		],
 		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-ohr-hagnuz-e946b787.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-brick-blast-e1d8b393.md",
 		"documentation": [
 			{
-				"sourcePath": "geelooy/games/ohr-hagnuz/DOCUMENTATION.md",
-				"documentId": "geelooy-games-ohr-hagnuz-documentation-md-8146254f6a"
+				"sourcePath": "geelooy/games/brick-blast/DOCUMENTATION.md",
+				"documentId": "geelooy-games-brick-blast-documentation-md-e8cf94ec9b"
 			},
 			{
 				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
@@ -31,32 +31,32 @@
 		],
 		"symlinkTarget": null,
 		"counts": {
-			"source": 700,
-			"tests": 89,
+			"source": 79,
+			"tests": 0,
 			"assets": 0,
 			"generated": 0,
 			"docs": 1,
-			"other": 3
+			"other": 0
 		},
-		"totalFiles": 793,
+		"totalFiles": 80,
 		"symbolSummary": {
-			"files": 671,
-			"classes": 189,
-			"functions": 195,
-			"exports": 1124,
+			"files": 75,
+			"classes": 17,
+			"functions": 93,
+			"exports": 86,
 			"samples": [
-				"CollisionMatrix",
-				"validates",
-				"EncounterValidator",
-				"InteractionValidator",
-				"OverworldLogic",
-				"PortalValidator",
-				"WorldMapAssembler",
-				"takes",
-				"EncounterGenerator",
-				"MovementLogic",
-				"PathLogic",
-				"DivineWill"
+				"PROVIDERS",
+				"async",
+				"fetchModels",
+				"generateLevel",
+				"handleFetchError",
+				"initAudio",
+				"playNote",
+				"playNextNote",
+				"playVictoryFanfare",
+				"playStarPing",
+				"getFrequency",
+				"playFrequency"
 			]
 		},
 		"outgoing": [],
@@ -64,11 +64,11 @@
 		"externalDependencies": [],
 		"publicEntries": [
 			{
-				"url": "/games/ohr-hagnuz",
-				"file": "geelooy/games/ohr-hagnuz/index.html",
-				"title": "B&quot;H — Ohr HaGnuz: The Concealed Frontier",
+				"url": "/games/brick-blast",
+				"file": "geelooy/games/brick-blast/index.html",
+				"title": "Brick Blast",
 				"scripts": 1,
-				"styles": 7
+				"styles": 4
 			}
 		],
 		"requiresLocalDoc": true,
@@ -76,24 +76,24 @@
 		"provenance": "generated-from-local-source"
 	},
 	{
-		"projectId": "geelooy-games-party-7fcd4a78",
-		"path": "geelooy/games/party",
+		"projectId": "geelooy-games-cards-de32ecc3",
+		"path": "geelooy/games/cards",
 		"type": "game",
 		"family": {
 			"id": "games",
 			"title": "Games and Worlds"
 		},
-		"title": "Party Challenge — Awtsmoos Games",
+		"title": "The Utterances — Blackjack on Awtsmoos",
 		"entries": [
 			"index.html",
 			"DOCUMENTATION.md"
 		],
 		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-party-7fcd4a78.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-cards-de32ecc3.md",
 		"documentation": [
 			{
-				"sourcePath": "geelooy/games/party/DOCUMENTATION.md",
-				"documentId": "geelooy-games-party-documentation-md-88dde20566"
+				"sourcePath": "geelooy/games/cards/DOCUMENTATION.md",
+				"documentId": "geelooy-games-cards-documentation-md-1b0e742765"
 			},
 			{
 				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
@@ -106,108 +106,28 @@
 		],
 		"symlinkTarget": null,
 		"counts": {
-			"source": 15,
+			"source": 10,
 			"tests": 0,
 			"assets": 0,
 			"generated": 0,
 			"docs": 1,
 			"other": 0
 		},
-		"totalFiles": 16,
-		"symbolSummary": {
-			"files": 8,
-			"classes": 1,
-			"functions": 22,
-			"exports": 21,
-			"samples": [
-				"startChallenge",
-				"reloadCurrentTurn",
-				"recordCurrentTurn",
-				"activeSession",
-				"beginCurrentTurn",
-				"finishChallenge",
-				"dom",
-				"setFrameGame",
-				"loadFreshTurn",
-				"frameGame",
-				"partyGames",
-				"resolvePartyGame"
-			]
-		},
-		"outgoing": [
-			{
-				"project": "geelooy/games/scripts",
-				"count": 1,
-				"examples": "geelooy/games/party/js/game-catalog.mjs"
-			}
-		],
-		"incoming": [],
-		"externalDependencies": [],
-		"publicEntries": [
-			{
-				"url": "/games/party",
-				"file": "geelooy/games/party/index.html",
-				"title": "Party Challenge — Awtsmoos Games",
-				"scripts": 1,
-				"styles": 1
-			}
-		],
-		"requiresLocalDoc": true,
-		"documentationCovered": true,
-		"provenance": "generated-from-local-source"
-	},
-	{
-		"projectId": "geelooy-games-pong-d3953f2b",
-		"path": "geelooy/games/pong",
-		"type": "game",
-		"family": {
-			"id": "games",
-			"title": "Games and Worlds"
-		},
-		"title": "Pong Game",
-		"entries": [
-			"index.html"
-		],
-		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-pong-d3953f2b.md",
-		"documentation": [
-			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
-				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
-			},
-			{
-				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
-				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
-			}
-		],
-		"symlinkTarget": null,
-		"counts": {
-			"source": 7,
-			"tests": 0,
-			"assets": 0,
-			"generated": 0,
-			"docs": 0,
-			"other": 0
-		},
-		"totalFiles": 7,
+		"totalFiles": 11,
 		"symbolSummary": {
 			"files": 5,
-			"classes": 0,
-			"functions": 15,
-			"exports": 0,
+			"classes": 4,
+			"functions": 4,
+			"exports": 5,
 			"samples": [
-				"createBall",
-				"getRandomEmoji",
-				"resizeCanvas",
-				"handlePaddleCollision",
-				"update",
-				"draw",
-				"gameLoop",
-				"createPaddle",
-				"createParticleExplosion",
-				"updateAndDrawParticles",
-				"drawNet",
-				"drawScore"
+				"BlackjackAI",
+				"createDeck",
+				"shuffleDeck",
+				"Renderer",
+				"BlackjackGame",
+				"orchestrates",
+				"initializeMenu",
+				"beginExperience"
 			]
 		},
 		"outgoing": [],
@@ -215,30 +135,38 @@
 		"externalDependencies": [],
 		"publicEntries": [
 			{
-				"url": "/games/pong",
-				"file": "geelooy/games/pong/index.html",
-				"title": "Pong Game",
-				"scripts": 5,
+				"url": "/games/cards",
+				"file": "geelooy/games/cards/index.html",
+				"title": "The Utterances — Blackjack on Awtsmoos",
+				"scripts": 1,
 				"styles": 1
 			}
 		],
-		"requiresLocalDoc": false,
-		"documentationCovered": false,
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
 		"provenance": "generated-from-local-source"
 	},
 	{
-		"projectId": "geelooy-games-rambam-9b03ea55",
-		"path": "geelooy/games/rambam",
+		"projectId": "geelooy-games-chess-9ba46d03",
+		"path": "geelooy/games/chess",
 		"type": "game",
 		"family": {
 			"id": "games",
 			"title": "Games and Worlds"
 		},
-		"title": "geelooy/games/rambam",
-		"entries": [],
+		"title": "Ultimate Chess AI",
+		"entries": [
+			"index.html",
+			"main.js",
+			"DOCUMENTATION.md"
+		],
 		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-rambam-9b03ea55.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-chess-9ba46d03.md",
 		"documentation": [
+			{
+				"sourcePath": "geelooy/games/chess/DOCUMENTATION.md",
+				"documentId": "geelooy-games-chess-documentation-md-10b4da5210"
+			},
 			{
 				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
 				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
@@ -250,45 +178,150 @@
 		],
 		"symlinkTarget": null,
 		"counts": {
-			"source": 1,
-			"tests": 0,
+			"source": 74,
+			"tests": 22,
 			"assets": 0,
 			"generated": 0,
-			"docs": 0,
+			"docs": 1,
 			"other": 0
 		},
-		"totalFiles": 1,
-		"symbolSummary": null,
+		"totalFiles": 97,
+		"symbolSummary": {
+			"files": 62,
+			"classes": 23,
+			"functions": 162,
+			"exports": 51,
+			"samples": [
+				"evaluate",
+				"orderMoves",
+				"quiesce",
+				"search",
+				"searchRoot",
+				"decodeMove",
+				"processRawBook",
+				"initializeEngine",
+				"forgeUniverseIndices",
+				"getLSBIndex",
+				"popBit",
+				"popcount"
+			]
+		},
 		"outgoing": [],
 		"incoming": [],
 		"externalDependencies": [],
 		"publicEntries": [
 			{
-				"url": "/games/rambam/kiddushHachodesh/12",
-				"file": "geelooy/games/rambam/kiddushHachodesh/12/index.html",
-				"title": "Sun Movement Visualization",
-				"scripts": 0,
+				"url": "/games/chess",
+				"file": "geelooy/games/chess/index.html",
+				"title": "Ultimate Chess AI",
+				"scripts": 6,
+				"styles": 7
+			},
+			{
+				"url": "/games/chess/debug",
+				"file": "geelooy/games/chess/debug/index.html",
+				"title": "Awtsmoos Engine - Debugging Harness",
+				"scripts": 1,
 				"styles": 0
 			}
 		],
-		"requiresLocalDoc": false,
-		"documentationCovered": false,
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
 		"provenance": "generated-from-local-source"
 	},
 	{
-		"projectId": "geelooy-games-rebbe-runner-775c456f",
-		"path": "geelooy/games/rebbe-runner",
+		"projectId": "geelooy-games-city-of-light-78d65cbc",
+		"path": "geelooy/games/city-of-light",
 		"type": "game",
 		"family": {
 			"id": "games",
 			"title": "Games and Worlds"
 		},
-		"title": "The Rebbe's Runner",
+		"title": "City of Light · The Complete Pilgrimage",
 		"entries": [
-			"index.html"
+			"index.html",
+			"package.json",
+			"DOCUMENTATION.md",
+			"README.md",
+			"readme.md"
 		],
 		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-rebbe-runner-775c456f.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-city-of-light-78d65cbc.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/games/city-of-light/DOCUMENTATION.md",
+				"documentId": "geelooy-games-city-of-light-documentation-md-9350b949bc"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
+				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
+			},
+			{
+				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
+				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 67,
+			"tests": 11,
+			"assets": 0,
+			"generated": 0,
+			"docs": 2,
+			"other": 0
+		},
+		"totalFiles": 80,
+		"symbolSummary": {
+			"files": 54,
+			"classes": 28,
+			"functions": 76,
+			"exports": 96,
+			"samples": [
+				"ABILITIES",
+				"abilityById",
+				"abilityList",
+				"ability",
+				"CAMPAIGN_CHAPTERS",
+				"chapterByNumber",
+				"chapterById",
+				"chapterPresentation",
+				"chaptersUnlockedThrough",
+				"CampaignProgress",
+				"clampChapter",
+				"nonNegative"
+			]
+		},
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/games/city-of-light",
+				"file": "geelooy/games/city-of-light/index.html",
+				"title": "City of Light · The Complete Pilgrimage",
+				"scripts": 2,
+				"styles": 1
+			}
+		],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-games-connect4-f617ea51",
+		"path": "geelooy/games/connect4",
+		"type": "game",
+		"family": {
+			"id": "games",
+			"title": "Games and Worlds"
+		},
+		"title": "Connect 4",
+		"entries": [
+			"index.html",
+			"main.js"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-connect4-f617ea51.md",
 		"documentation": [
 			{
 				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
@@ -301,32 +334,32 @@
 		],
 		"symlinkTarget": null,
 		"counts": {
-			"source": 4,
+			"source": 6,
 			"tests": 0,
 			"assets": 0,
 			"generated": 0,
 			"docs": 0,
 			"other": 0
 		},
-		"totalFiles": 4,
+		"totalFiles": 6,
 		"symbolSummary": {
-			"files": 2,
-			"classes": 3,
-			"functions": 9,
+			"files": 4,
+			"classes": 5,
+			"functions": 28,
 			"exports": 0,
 			"samples": [
-				"Player",
-				"Obstacle",
-				"Collectible",
-				"resizeCanvas",
-				"drawRoadLines",
-				"createBackground",
+				"getGolemMove",
+				"minimax",
+				"scorePosition",
+				"evaluateWindow",
+				"getValidLocations",
+				"ai_isTerminalNode",
+				"getNextOpenRow",
+				"ai_dropPiece",
+				"ai_checkWin",
+				"resize",
 				"init",
-				"drawBackground",
-				"animate",
-				"detectCollision",
-				"endGame",
-				"handleStart"
+				"resetGame"
 			]
 		},
 		"outgoing": [],
@@ -334,9 +367,9 @@
 		"externalDependencies": [],
 		"publicEntries": [
 			{
-				"url": "/games/rebbe-runner",
-				"file": "geelooy/games/rebbe-runner/index.html",
-				"title": "The Rebbe's Runner",
+				"url": "/games/connect4",
+				"file": "geelooy/games/connect4/index.html",
+				"title": "Connect 4",
 				"scripts": 2,
 				"styles": 1
 			}
@@ -346,24 +379,94 @@
 		"provenance": "generated-from-local-source"
 	},
 	{
-		"projectId": "geelooy-games-scribe-journey-e49e326e",
-		"path": "geelooy/games/scribe-journey",
+		"projectId": "geelooy-games-dove-c1bb7fb4",
+		"path": "geelooy/games/dove",
 		"type": "game",
 		"family": {
 			"id": "games",
 			"title": "Games and Worlds"
 		},
-		"title": "The Scribe's Journey: Echoes of Ein Sof",
+		"title": "Noah's Dove's 🕊️ Quest ❓ for Shalom",
+		"entries": [
+			"index.html"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-dove-c1bb7fb4.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
+				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
+			},
+			{
+				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
+				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 8,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 0,
+			"other": 0
+		},
+		"totalFiles": 8,
+		"symbolSummary": {
+			"files": 6,
+			"classes": 0,
+			"functions": 22,
+			"exports": 32,
+			"samples": [
+				"init",
+				"update",
+				"draw",
+				"drawWaveLine",
+				"CANVAS_WIDTH",
+				"CANVAS_HEIGHT",
+				"updateDimensions",
+				"DOVE_START_X",
+				"DOVE_START_Y",
+				"DOVE_WIDTH",
+				"DOVE_HEIGHT",
+				"DOVE_RADIUS"
+			]
+		},
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/games/dove",
+				"file": "geelooy/games/dove/index.html",
+				"title": "Noah's Dove's 🕊️ Quest ❓ for Shalom",
+				"scripts": 1,
+				"styles": 1
+			}
+		],
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-games-emojis-a9a3155b",
+		"path": "geelooy/games/emojis",
+		"type": "game",
+		"family": {
+			"id": "games",
+			"title": "Games and Worlds"
+		},
+		"title": "Emoji War — Neon Caption Arcade",
 		"entries": [
 			"index.html",
 			"DOCUMENTATION.md"
 		],
 		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-scribe-journey-e49e326e.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-emojis-a9a3155b.md",
 		"documentation": [
 			{
-				"sourcePath": "geelooy/games/scribe-journey/DOCUMENTATION.md",
-				"documentId": "geelooy-games-scribe-journey-documentation-md-5e17fccc8e"
+				"sourcePath": "geelooy/games/emojis/DOCUMENTATION.md",
+				"documentId": "geelooy-games-emojis-documentation-md-3ea2d9114e"
 			},
 			{
 				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
@@ -376,32 +479,32 @@
 		],
 		"symlinkTarget": null,
 		"counts": {
-			"source": 375,
-			"tests": 99,
+			"source": 36,
+			"tests": 0,
 			"assets": 0,
 			"generated": 0,
 			"docs": 1,
-			"other": 1
+			"other": 0
 		},
-		"totalFiles": 476,
+		"totalFiles": 37,
 		"symbolSummary": {
-			"files": 362,
-			"classes": 12,
-			"functions": 551,
-			"exports": 536,
+			"files": 30,
+			"classes": 16,
+			"functions": 103,
+			"exports": 88,
 			"samples": [
-				"amalekBeasts",
-				"binahBeasts",
-				"campaignBeasts",
-				"campaignChesedBinahBeasts",
-				"campaignChokhmahKeterBeasts",
-				"createCampaignMusag",
-				"createCampaignRoster",
-				"campaignHodNetzachBeasts",
-				"campaignMalkuthFinaleBeasts",
-				"campaignMalkuthYesodBeasts",
-				"campaignPostgameBeasts",
-				"campaignTiferetGevurahBeasts"
+				"setupAudio",
+				"playSound",
+				"configureSound",
+				"configureSweep",
+				"rebuildStars",
+				"drawBackground",
+				"drawWebcamBackground",
+				"loadCaptionDraft",
+				"prepareCaptionData",
+				"updateFileCount",
+				"revokeCaptionUrls",
+				"bindCaptionDragging"
 			]
 		},
 		"outgoing": [],
@@ -409,9 +512,86 @@
 		"externalDependencies": [],
 		"publicEntries": [
 			{
-				"url": "/games/scribe-journey",
-				"file": "geelooy/games/scribe-journey/index.html",
-				"title": "The Scribe's Journey: Echoes of Ein Sof",
+				"url": "/games/emojis",
+				"file": "geelooy/games/emojis/index.html",
+				"title": "Emoji War — Neon Caption Arcade",
+				"scripts": 1,
+				"styles": 1
+			}
+		],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-games-kabbalah-shooter-5fd11ab3",
+		"path": "geelooy/games/kabbalah-shooter",
+		"type": "game",
+		"family": {
+			"id": "games",
+			"title": "Games and Worlds"
+		},
+		"title": "Kabbalah Infinite — The Breaking of Vessels",
+		"entries": [
+			"index.html",
+			"main.js",
+			"package.json",
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-kabbalah-shooter-5fd11ab3.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/games/kabbalah-shooter/DOCUMENTATION.md",
+				"documentId": "geelooy-games-kabbalah-shooter-documentation-md-5502ac94b7"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
+				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
+			},
+			{
+				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
+				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 38,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 1,
+			"other": 0
+		},
+		"totalFiles": 39,
+		"symbolSummary": {
+			"files": 35,
+			"classes": 32,
+			"functions": 16,
+			"exports": 61,
+			"samples": [
+				"CONFIG",
+				"HEBREW_LETTERS",
+				"COLORS",
+				"SPRITES",
+				"AudioSynth",
+				"SETTINGS",
+				"WEAPONS",
+				"SOUNDS",
+				"SCALES",
+				"SEFIROT",
+				"TRAITS",
+				"SPELLS"
+			]
+		},
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/games/kabbalah-shooter",
+				"file": "geelooy/games/kabbalah-shooter/index.html",
+				"title": "Kabbalah Infinite — The Breaking of Vessels",
 				"scripts": 1,
 				"styles": 2
 			}
@@ -421,23 +601,24 @@
 		"provenance": "generated-from-local-source"
 	},
 	{
-		"projectId": "geelooy-games-scripts-3467c7e0",
-		"path": "geelooy/games/scripts",
+		"projectId": "geelooy-games-migdol-2c237fda",
+		"path": "geelooy/games/migdol",
 		"type": "game",
 		"family": {
 			"id": "games",
 			"title": "Games and Worlds"
 		},
-		"title": "geelooy/games/scripts",
+		"title": "Migdol - Kabbalah Tower Defense",
 		"entries": [
+			"index.html",
 			"DOCUMENTATION.md"
 		],
 		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-scripts-3467c7e0.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-migdol-2c237fda.md",
 		"documentation": [
 			{
-				"sourcePath": "geelooy/games/scripts/DOCUMENTATION.md",
-				"documentId": "geelooy-games-scripts-documentation-md-c1bcde5503"
+				"sourcePath": "geelooy/games/migdol/DOCUMENTATION.md",
+				"documentId": "geelooy-games-migdol-documentation-md-3feffea982"
 			},
 			{
 				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
@@ -450,122 +631,32 @@
 		],
 		"symlinkTarget": null,
 		"counts": {
-			"source": 70,
+			"source": 11,
 			"tests": 0,
 			"assets": 0,
-			"generated": 4,
-			"docs": 1,
-			"other": 2
-		},
-		"totalFiles": 77,
-		"symbolSummary": {
-			"files": 70,
-			"classes": 113,
-			"functions": 3371,
-			"exports": 50,
-			"samples": [
-				"UI",
-				"stands",
-				"MOTION_ADVENTURE_GAMES",
-				"MYSTIC_ADVENTURE_GAMES",
-				"ADVENTURE_GAMES",
-				"enrichGame",
-				"enrichGames",
-				"multiplayerCapability",
-				"NATIVE_MULTIPLAYER_GAME_IDS",
-				"visualCapability",
-				"WEBGL_GAMES",
-				"commercePlanFor"
-			]
-		},
-		"outgoing": [],
-		"incoming": [
-			{
-				"project": "geelooy/games/seven-mitzvos",
-				"count": 12,
-				"examples": "geelooy/games/seven-mitzvos/js/assets/advanced-model-hydrator.js; geelooy/games/seven-mitzvos/js/assets/gltf-model-library.js; geelooy/games/seven-mitzvos/js/city/city-district-builder.js"
-			},
-			{
-				"project": "geelooy/games/party",
-				"count": 1,
-				"examples": "geelooy/games/party/js/game-catalog.mjs"
-			}
-		],
-		"externalDependencies": [
-			{
-				"dependency": "three",
-				"count": 3,
-				"examples": "geelooy/games/scripts/jsm/exporters/GLTFExporter.js; geelooy/games/scripts/jsm/loaders/DRACOLoader.js; geelooy/games/scripts/jsm/utils/SkeletonUtils.js"
-			},
-			{
-				"dependency": "srgb-linear",
-				"count": 1,
-				"examples": "geelooy/games/scripts/jsm/loaders/GLTFLoader.js"
-			}
-		],
-		"publicEntries": [],
-		"requiresLocalDoc": true,
-		"documentationCovered": true,
-		"provenance": "generated-from-local-source"
-	},
-	{
-		"projectId": "geelooy-games-sefira-clash-94c3f01f",
-		"path": "geelooy/games/sefira-clash",
-		"type": "game",
-		"family": {
-			"id": "games",
-			"title": "Games and Worlds"
-		},
-		"title": "Sefira Clash · Open World, Expedition, Co-op, Adventure &amp; VS",
-		"entries": [
-			"index.html",
-			"package.json",
-			"DOCUMENTATION.md"
-		],
-		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-sefira-clash-94c3f01f.md",
-		"documentation": [
-			{
-				"sourcePath": "geelooy/games/sefira-clash/DOCUMENTATION.md",
-				"documentId": "geelooy-games-sefira-clash-documentation-md-c82ee9b752"
-			},
-			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
-				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
-			},
-			{
-				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
-				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
-			}
-		],
-		"symlinkTarget": null,
-		"counts": {
-			"source": 1273,
-			"tests": 40,
-			"assets": 0,
 			"generated": 0,
 			"docs": 1,
-			"other": 2
+			"other": 0
 		},
-		"totalFiles": 1316,
+		"totalFiles": 12,
 		"symbolSummary": {
-			"files": 1226,
-			"classes": 55,
-			"functions": 2709,
-			"exports": 1808,
+			"files": 9,
+			"classes": 7,
+			"functions": 9,
+			"exports": 12,
 			"samples": [
-				"neutralInput",
-				"botReport",
-				"finiteFighter",
-				"summarizeSpectacle",
-				"round",
-				"assert",
-				"snap",
-				"sumDamage",
-				"aliveCount",
-				"summarize",
-				"length",
-				"checkCase"
+				"TILE_SIZE",
+				"MAPS",
+				"TOWER_TYPES",
+				"ENEMY_TYPES",
+				"GroundEffect",
+				"LetterParticle",
+				"Enemy",
+				"Projectile",
+				"Game",
+				"initializeMainMenu",
+				"startGame",
+				"returnToMainMenu"
 			]
 		},
 		"outgoing": [],
@@ -573,98 +664,11 @@
 		"externalDependencies": [],
 		"publicEntries": [
 			{
-				"url": "/games/sefira-clash",
-				"file": "geelooy/games/sefira-clash/index.html",
-				"title": "Sefira Clash · Open World, Expedition, Co-op, Adventure &amp; VS",
+				"url": "/games/migdol",
+				"file": "geelooy/games/migdol/index.html",
+				"title": "Migdol - Kabbalah Tower Defense",
 				"scripts": 1,
-				"styles": 8
-			}
-		],
-		"requiresLocalDoc": true,
-		"documentationCovered": true,
-		"provenance": "generated-from-local-source"
-	},
-	{
-		"projectId": "geelooy-games-seven-mitzvos-50390da0",
-		"path": "geelooy/games/seven-mitzvos",
-		"type": "game",
-		"family": {
-			"id": "games",
-			"title": "Games and Worlds"
-		},
-		"title": "Seven Mitzvos · Living Material Worlds",
-		"entries": [
-			"index.html",
-			"package.json",
-			"DOCUMENTATION.md"
-		],
-		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-seven-mitzvos-50390da0.md",
-		"documentation": [
-			{
-				"sourcePath": "geelooy/games/seven-mitzvos/DOCUMENTATION.md",
-				"documentId": "geelooy-games-seven-mitzvos-documentation-md-1e46ac11f1"
-			},
-			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
-				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
-			},
-			{
-				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
-				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
-			}
-		],
-		"symlinkTarget": null,
-		"counts": {
-			"source": 447,
-			"tests": 66,
-			"assets": 1,
-			"generated": 0,
-			"docs": 1,
-			"other": 10
-		},
-		"totalFiles": 525,
-		"symbolSummary": {
-			"files": 375,
-			"classes": 238,
-			"functions": 474,
-			"exports": 522,
-			"samples": [
-				"AccessibilityProfileService",
-				"AccessibleStateProjector",
-				"population",
-				"describeAlert",
-				"InputBindingService",
-				"setPersonAction",
-				"updatePersonAction",
-				"personActionName",
-				"createState",
-				"applyPose",
-				"required",
-				"appTemplate"
-			]
-		},
-		"outgoing": [
-			{
-				"project": "geelooy/games/scripts",
-				"count": 12,
-				"examples": "geelooy/games/seven-mitzvos/js/assets/advanced-model-hydrator.js; geelooy/games/seven-mitzvos/js/assets/gltf-model-library.js; geelooy/games/seven-mitzvos/js/city/city-district-builder.js"
-			},
-			{
-				"project": "geelooy/libs",
-				"count": 1,
-				"examples": "geelooy/games/seven-mitzvos/js/procedural/core-part-factory.js"
-			}
-		],
-		"incoming": [],
-		"externalDependencies": [],
-		"publicEntries": [
-			{
-				"url": "/games/seven-mitzvos",
-				"file": "geelooy/games/seven-mitzvos/index.html",
-				"title": "Seven Mitzvos · Living Material Worlds",
-				"scripts": 1,
-				"styles": 8
+				"styles": 1
 			}
 		],
 		"requiresLocalDoc": true,

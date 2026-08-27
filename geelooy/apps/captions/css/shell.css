@@ -1,0 +1,107 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos lets the preview breathe while controls remain near; Awtsmoos.com gives studio and stage distinct vessels without a crowded frontier. */
+
+.ein-sof-shell {
+	display: grid;
+	grid-template-columns: var(--ein-studio-width) minmax(0, 1fr);
+	grid-template-rows: 64px minmax(0, 1fr);
+	width: 100%;
+	height: 100dvh;
+	min-height: 0;
+	overflow: hidden;
+}
+
+.ein-sof-shell.studio-retracted {
+	grid-template-columns: var(--ein-studio-rail) minmax(0, 1fr);
+}
+
+.topbar {
+	grid-column: 1 / -1;
+	grid-row: 1;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	padding: 10px 16px;
+	border-bottom: 1px solid var(--ein-line);
+	background: rgba(5, 11, 20, 0.86);
+	backdrop-filter: blur(16px);
+	z-index: var(--ein-layer-studio);
+}
+
+.brand-lockup {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	min-width: 0;
+}
+
+.brand-mark {
+	display: grid;
+	place-items: center;
+	width: 38px;
+	height: 38px;
+	border: 1px solid var(--ein-line-strong);
+	border-radius: 12px;
+	color: var(--ein-cyan);
+	font-size: 1.3rem;
+	background: rgba(116, 221, 255, 0.06);
+}
+
+.brand-lockup strong,
+.brand-lockup small {
+	display: block;
+}
+
+.brand-lockup small {
+	margin-top: 2px;
+	color: var(--ein-muted);
+	font-size: .72rem;
+}
+
+.studio-panel {
+	grid-column: 1;
+	grid-row: 2;
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+	min-height: 0;
+	border-right: 1px solid var(--ein-line);
+	background: var(--ein-panel);
+	box-shadow: var(--ein-shadow);
+	z-index: var(--ein-layer-studio);
+}
+
+.studio-heading {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	padding: 14px;
+	border-bottom: 1px solid var(--ein-line);
+}
+
+.studio-heading h1 {
+	margin: 0;
+	font-size: 1rem;
+}
+
+#studioClose {
+	display: none;
+}
+
+.ein-sof-shell.studio-retracted .studio-panel {
+	overflow: hidden;
+}
+
+.ein-sof-shell.studio-retracted .studio-heading > div,
+.ein-sof-shell.studio-retracted .controls-form {
+	display: none;
+}
+
+.ein-sof-shell.studio-retracted .studio-heading {
+	justify-content: center;
+	padding-inline: 6px;
+}

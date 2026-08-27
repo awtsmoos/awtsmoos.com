@@ -18,38 +18,46 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-awtsmoos-agent-thoughts-250aba07.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 68,
-		"tests": 6,
-		"assets": 28,
+		"source": 21,
+		"tests": 0,
+		"assets": 0,
 		"generated": 0,
 		"docs": 0,
-		"other": 309
+		"other": 179
 	},
-	"totalFiles": 411,
+	"totalFiles": 200,
 	"symbolSummary": {
-		"files": 51,
-		"classes": 10,
-		"functions": 85,
-		"exports": 60,
+		"files": 20,
+		"classes": 1,
+		"functions": 48,
+		"exports": 0,
 		"samples": [
-			"createTarget",
-			"captureMobile",
-			"captureViewport",
-			"captureRenders",
-			"wait",
-			"async",
-			"CdpClient",
-			"waitForDebugger",
-			"createPageTarget",
-			"auditViewport",
-			"runAudit",
-			"createLayoutExpression"
+			"revealRepairedSearch",
+			"search",
+			"revealMoveCommand",
+			"historyHashes",
+			"legalBookChoice",
+			"handleCalculateMove",
+			"revealRootSearch",
+			"prepareHeuristics",
+			"searchRoot",
+			"revealSearchSupport",
+			"checkTime",
+			"isThreefold"
 		]
 	},
 	"outgoingDependencies": [],
 	"incomingDependencies": [],
 	"externalDependencies": [],
-	"publicEntries": [],
+	"publicEntries": [
+		{
+			"url": "/.awtsmoos-agent-thoughts/2026-08-14_1212_chess-engine-careful-upgrade/baseline/ui",
+			"file": "geelooy/.awtsmoos-agent-thoughts/2026-08-14_1212_chess-engine-careful-upgrade/baseline/ui/index.html",
+			"title": "Ultimate Chess AI",
+			"scripts": 6,
+			"styles": 6
+		}
+	],
 	"requiresLocalDocumentation": false,
 	"documentationCovered": false,
 	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."

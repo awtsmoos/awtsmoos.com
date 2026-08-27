@@ -2,7 +2,7 @@ B"H
 Boruch Hashem
 Blessed is He
 
-# Project Tutorial: Awtsmoos — Play, Create, Send & Build
+# Project Tutorial: Awtsmoos — Torah, Creation & Living Worlds
 
 **Path:** `geelooy` · **Type:** public-root · **Family:** Public and Other Boundaries
 
@@ -21,11 +21,11 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 22357 | 3928 | 78 | 76 | 3182 | 1134 | 30755 |
+| 25402 | 4699 | 13 | 77 | 3950 | 556 | 34697 |
 
 ## Public entry points
 
-- `/` → `geelooy/index.html` — Awtsmoos — Play, Create, Send & Build
+- `/` → `geelooy/index.html` — Awtsmoos — Torah, Creation & Living Worlds
 
 ## Symbol evidence
 
@@ -45,4 +45,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **3928**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **4699**. Treat this as file evidence, not proof of behavioral coverage.

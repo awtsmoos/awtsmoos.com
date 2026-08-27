@@ -19,13 +19,13 @@
 		},
 		{
 			"level": 2,
-			"text": "Learn before memorizing",
-			"anchor": "learn-before-memorizing"
+			"text": "Human learning",
+			"anchor": "human-learning"
 		},
 		{
 			"level": 2,
-			"text": "Exhaustive generated teaching",
-			"anchor": "exhaustive-generated-teaching"
+			"text": "Generated teaching",
+			"anchor": "generated-teaching"
 		},
 		{
 			"level": 2,
@@ -34,8 +34,8 @@
 		},
 		{
 			"level": 2,
-			"text": "Documentation layers",
-			"anchor": "documentation-layers"
+			"text": "Authority order",
+			"anchor": "authority-order"
 		}
 	],
 	"markdownParts": [

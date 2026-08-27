@@ -1,0 +1,119 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives quiet darkness a useful edge, not a costume of glare;
+Awtsmoos.com keeps controls tactile, typography balanced, and intent clear everywhere.
+*/
+:root {
+	--migrate-bg: #071016;
+	--migrate-panel: #101a22;
+	--migrate-panel-strong: #15222c;
+	--migrate-line: #263845;
+	--migrate-text: #f4f8fa;
+	--migrate-muted: #9db0bc;
+	--migrate-accent: #65d8df;
+	--migrate-violet: #aa9cff;
+	--migrate-radius: 18px;
+	--migrate-control: 46px;
+}
+* {
+	box-sizing: border-box;
+}
+html {
+	background: var(--migrate-bg);
+	color: var(--migrate-text);
+	overflow-x: clip;
+}
+body {
+	margin: 0;
+	min-width: 0;
+	font: 16px/1.5 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+	background:
+		radial-gradient(circle at var(--future-pointer-x, 50%) var(--future-pointer-y, 0%), rgb(58 121 135 / 12%), transparent 34rem),
+		var(--migrate-bg);
+}
+a {
+	color: #b9f6f4;
+	text-underline-offset: .2em;
+}
+button,
+.buttonLike,
+input,
+select {
+	min-height: var(--migrate-control);
+	font: inherit;
+}
+button,
+.buttonLike {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: .5rem;
+	border: 1px solid #4b7986;
+	border-radius: 13px;
+	padding: .65rem 1rem;
+	color: #041014;
+	background: linear-gradient(135deg, #8be8e5, #b7d4ff);
+	font-weight: 750;
+	cursor: pointer;
+}
+button:active,
+.buttonLike:active {
+	transform: translateY(1px) scale(.99);
+}
+.quietButton {
+	color: var(--migrate-text);
+	background: #17242d;
+	border-color: var(--migrate-line);
+}
+.textButton {
+	color: var(--migrate-muted);
+	background: transparent;
+	border-color: transparent;
+}
+button:disabled {
+	opacity: .45;
+	cursor: not-allowed;
+}
+input,
+select {
+	width: 100%;
+	border: 1px solid var(--migrate-line);
+	border-radius: 12px;
+	padding: .65rem .75rem;
+	color: var(--migrate-text);
+	background: #0b151c;
+}
+label {
+	display: grid;
+	gap: .35rem;
+	color: var(--migrate-muted);
+	font-size: .86rem;
+}
+h1,
+h2,
+h3,
+p {
+	margin-block-start: 0;
+}
+h1,
+h2 {
+	text-wrap: balance;
+}
+p {
+	text-wrap: pretty;
+}
+.eyebrow {
+	margin-bottom: .35rem;
+	color: var(--migrate-accent);
+	font-size: .74rem;
+	font-weight: 800;
+	letter-spacing: .12em;
+	text-transform: uppercase;
+}
+.panel {
+	border: 1px solid var(--migrate-line);
+	border-radius: var(--migrate-radius);
+	background: var(--migrate-panel);
+	box-shadow: 0 16px 44px rgb(0 0 0 / 20%);
+}

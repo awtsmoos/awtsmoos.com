@@ -1,0 +1,63 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives navigation signs without mistaking the sign for the destination; Awtsmoos.com lets vector action and emoji identity guide the mailbox with quiet illumination.
+*/
+.mail-vector-icon {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	flex: 0 0 20px;
+	background: currentColor;
+	mask-position: center;
+	mask-repeat: no-repeat;
+	mask-size: contain;
+	-webkit-mask-position: center;
+	-webkit-mask-repeat: no-repeat;
+	-webkit-mask-size: contain;
+}
+
+.mail-vector-compose {
+	mask-image: url("../../assets/icons/navigation/compose.svg");
+	-webkit-mask-image: url("../../assets/icons/navigation/compose.svg");
+}
+
+.mail-vector-search {
+	mask-image: url("../../assets/icons/navigation/search.svg");
+	-webkit-mask-image: url("../../assets/icons/navigation/search.svg");
+}
+
+.mail-vector-clear {
+	mask-image: url("../../assets/icons/navigation/clear.svg");
+	-webkit-mask-image: url("../../assets/icons/navigation/clear.svg");
+}
+
+.mail-choice-emoji {
+	display: grid;
+	place-items: center;
+	width: 28px;
+	height: 28px;
+	flex: 0 0 28px;
+	border: 1px solid color-mix(in srgb, var(--mail-border-strong) 70%, transparent);
+	border-radius: 9px;
+	background: color-mix(in srgb, var(--mail-panel-strong) 72%, transparent);
+	font-size: .9rem;
+	line-height: 1;
+	transition: transform 150ms ease, border-color 150ms ease, background 150ms ease;
+}
+
+:is(.mail-folder-tab, .mail-sender-category):is(:hover, :focus-visible, .active) .mail-choice-emoji {
+	border-color: color-mix(in srgb, var(--mail-accent) 48%, var(--mail-border));
+	background: color-mix(in srgb, var(--mail-accent-soft) 56%, var(--mail-panel-strong));
+	transform: scale(1.05);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.mail-choice-emoji {
+		transition: none;
+	}
+
+	:is(.mail-folder-tab, .mail-sender-category):is(:hover, :focus-visible, .active) .mail-choice-emoji {
+		transform: none;
+	}
+}

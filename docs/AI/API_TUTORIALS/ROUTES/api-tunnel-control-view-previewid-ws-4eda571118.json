@@ -64,6 +64,10 @@
 			"route": "/api/tunnel/control/agent-economy"
 		},
 		{
+			"id": "api-tunnel-control-agent-manifest-3d95678bf3",
+			"route": "/api/tunnel/control/agent-manifest"
+		},
+		{
 			"id": "api-tunnel-control-api-keys-db993bf8af",
 			"route": "/api/tunnel/control/api-keys"
 		},
@@ -78,10 +82,6 @@
 		{
 			"id": "api-tunnel-control-bank-0febb5b433",
 			"route": "/api/tunnel/control/bank"
-		},
-		{
-			"id": "api-tunnel-control-blob-blobid-205f6668ce",
-			"route": "/api/tunnel/control/blob/:blobId"
 		}
 	]
 }

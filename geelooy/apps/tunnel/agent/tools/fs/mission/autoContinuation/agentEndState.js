@@ -2,58 +2,88 @@
 // Boruch Hashem
 // Blessed is He
 
-const ENDED_AGENT = new Set([
-	"complete",
-	"completed",
-	"done",
-	"stopped",
-	"recovered_by_peer",
-	"failed",
-	"dead",
-	"offline"
-]);
+const LIFECYCLES = Object.freeze({
+	COMPLETED: "completed",
+	COMPLETED_REMAINING: "completed_with_remaining_work",
+	FAILED: "failed",
+	DISCONNECTED: "disconnected",
+	STALE: "stale",
+	CANCELLED: "cancelled",
+	SUPERSEDED: "superseded",
+	ABANDONED: "abandoned",
+	ACTIVE: "active"
+});
+
+const STATUS_GROUPS = Object.freeze({
+	[LIFECYCLES.COMPLETED]: new Set(["complete", "completed", "done"]),
+	[LIFECYCLES.FAILED]: new Set(["failed", "dead", "error", "crashed"]),
+	[LIFECYCLES.DISCONNECTED]: new Set(["offline", "disconnected", "connection_lost"]),
+	[LIFECYCLES.STALE]: new Set(["stale", "expired", "unresponsive"]),
+	[LIFECYCLES.CANCELLED]: new Set(["cancelled", "canceled"]),
+	[LIFECYCLES.SUPERSEDED]: new Set(["superseded", "recovered_by_peer"]),
+	[LIFECYCLES.ABANDONED]: new Set(["stopped", "abandoned"])
+});
+
+const ENDED_AGENT = new Set(
+	Object.values(STATUS_GROUPS).flatMap(values => [...values])
+);
 
 /**
- * @file Derives durable messenger end-state without rewriting collaboration history.
- * @description The Awtsmoos lets a mission outlive one Shliach; Awtsmoos.com reads
- * explicit status and mission_agent_complete testimony together, so a heartbeat from
- * a messenger who already ended cannot imprison the unfinished mission it once served.
+ * @file Distinguishes intentional completion from failure, disconnection, staleness, and abandonment.
+ * @description
+ * The Awtsmoos renews every messenger, yet an ended voice may leave for very different
+ * reasons. Awtsmoos.com refuses to call silence success: only explicit completion
+ * testimony is intentional, while crashes, stale pulses, and abandoned work remain recoverable truth.
  */
 function describe(mission = {}, agent = {}) {
 	const id = agentId(agent);
 	const rawStatus = statusText(agent.status || "active");
-	if (ENDED_AGENT.has(rawStatus)) {
+	const completion = completionEvent(mission, id);
+	if (completion) {
+		return terminal(id, rawStatus, LIFECYCLES.COMPLETED, true, {
+			reason: "mission_agent_complete_event",
+			endedAt: plainText(completion.at, 160),
+			event: eventProjection(completion)
+		});
+	}
+	const lifecycle = lifecycleForStatus(rawStatus);
+	if (lifecycle === LIFECYCLES.ACTIVE) {
 		return {
 			agentId: id,
 			rawStatus,
-			status: rawStatus,
-			ended: true,
-			reason: "status_terminal",
-			endedAt: plainText(agent.completedAt || agent.stoppedAt || agent.updatedAt || "", 160),
+			status: rawStatus || "active",
+			lifecycle,
+			ended: false,
+			intentional: false,
+			reason: "",
+			endedAt: "",
 			event: null
 		};
 	}
-	const event = completionEvent(mission, id);
-	if (event) {
-		return {
-			agentId: id,
-			rawStatus,
-			status: "completed",
-			ended: true,
-			reason: "mission_agent_complete_event",
-			endedAt: plainText(event.at, 160),
-			event: eventProjection(event)
-		};
-	}
+	return terminal(id, rawStatus, lifecycle, lifecycle === LIFECYCLES.COMPLETED, {
+		reason: `status_${lifecycle}`,
+		endedAt: endedAt(agent),
+		event: null
+	});
+}
+
+function terminal(id, rawStatus, lifecycle, intentional, details) {
 	return {
 		agentId: id,
 		rawStatus,
-		status: rawStatus || "active",
-		ended: false,
-		reason: "",
-		endedAt: "",
-		event: null
+		status: lifecycle,
+		lifecycle,
+		ended: true,
+		intentional,
+		...details
 	};
+}
+
+function lifecycleForStatus(status) {
+	for (const [lifecycle, values] of Object.entries(STATUS_GROUPS)) {
+		if (values.has(status)) return lifecycle;
+	}
+	return LIFECYCLES.ACTIVE;
 }
 
 function completionEvent(mission = {}, id = "") {
@@ -75,16 +105,23 @@ function eventProjection(event = {}) {
 		data: {
 			agentId: plainText(event.data?.agentId, 120),
 			claimId: plainText(event.data?.claimId, 120),
-			delegationId: plainText(event.data?.delegationId, 120)
+			delegationId: plainText(event.data?.delegationId, 120),
+			spawnGroupId: plainText(event.data?.spawnGroupId, 120),
+			generation: Number(event.data?.generation || 0) || null
 		}
 	};
 }
 
-function agentId(agent = {}) {
+function endedAt(agent = {}) {
 	return plainText(
-		agent.agentId || agent.logicalAgentId || agent.id || agent.name,
-		120
+		agent.completedAt || agent.failedAt || agent.disconnectedAt || agent.staleAt ||
+		agent.cancelledAt || agent.stoppedAt || agent.updatedAt || "",
+		160
 	);
+}
+
+function agentId(agent = {}) {
+	return plainText(agent.agentId || agent.logicalAgentId || agent.id || agent.name, 120);
 }
 
 function statusText(value) {
@@ -97,9 +134,12 @@ function plainText(value, limit) {
 
 module.exports = {
 	ENDED_AGENT,
+	LIFECYCLES,
+	STATUS_GROUPS,
 	agentId,
 	completionEvent,
 	describe,
+	lifecycleForStatus,
 	plainText,
 	statusText
 };

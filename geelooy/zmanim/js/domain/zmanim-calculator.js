@@ -3,22 +3,22 @@
 // Blessed is He
 /**
  * The Awtsmoos creates the measured day while halachah clothes it with intent;
- * Awtsmoos.com keeps astronomy and psak in separate vessels, exact and transparent.
+ * Awtsmoos.com keeps every supported boundary formula explicit, comparable, and transparent.
  */
 
 import { getZmanimOpinion } from "../config/opinions.js";
 
 const MINUTE_MS = 60000;
+const ZMANIYOS_MINUTES_PER_DAY = 720;
 
-/** Return a shifted instant without mutating its source. */
+/** Shift a valid instant by ordinary clock minutes. */
 function addMinutes(date, minutes) {
-	if (!(date instanceof Date)) {
-		return null;
-	}
-	return new Date(date.getTime() + minutes * MINUTE_MS);
+	return date instanceof Date
+		? new Date(date.getTime() + minutes * MINUTE_MS)
+		: null;
 }
 
-/** Return a fractional point in the selected halachic day. */
+/** Return a fractional point in a resolved halachic day. */
 function seasonalPoint(dayStart, shaahMillis, hours) {
 	if (!(dayStart instanceof Date) || !Number.isFinite(shaahMillis)) {
 		return null;
@@ -34,23 +34,39 @@ function midpoint(start, end) {
 	return new Date(start.getTime() + (end.getTime() - start.getTime()) / 2);
 }
 
+/** Resolve a proportional-minute offset from standard sunrise through sunset. */
+function zmaniyosOffset(solar, minutes) {
+	if (!(solar.sunrise instanceof Date) || !(solar.sunset instanceof Date)) {
+		return Number.NaN;
+	}
+	const daylight = solar.sunset.getTime() - solar.sunrise.getTime();
+	return daylight * minutes / ZMANIYOS_MINUTES_PER_DAY;
+}
+
 /** Pure halachic calculations over a supplied set of astronomical anchors. */
 export class TiferesZmanimCalculator {
-	/** Resolve the seasonal-day boundaries for the selected opinion. */
+	/** Resolve the seasonal-day boundaries for any supported calculation profile. */
 	static dayBoundaries(solar, opinionId) {
 		const opinion = getZmanimOpinion(opinionId);
-		if (opinion.dayMode === "fixed72") {
+		if (opinion.dayMode === "fixed") {
 			return {
 				opinion,
-				start: addMinutes(solar.sunrise, -72),
-				end: addMinutes(solar.sunset, 72)
+				start: addMinutes(solar.sunrise, -opinion.minutes),
+				end: addMinutes(solar.sunset, opinion.minutes)
 			};
 		}
-		const isChabad = opinion.id === "chabad";
+		if (opinion.dayMode === "zmaniyos") {
+			const offset = zmaniyosOffset(solar, opinion.minutes);
+			return {
+				opinion,
+				start: Number.isFinite(offset) ? new Date(solar.sunrise.getTime() - offset) : null,
+				end: Number.isFinite(offset) ? new Date(solar.sunset.getTime() + offset) : null
+			};
+		}
 		return {
 			opinion,
-			start: isChabad ? solar.trueSunrise : solar.sunrise,
-			end: isChabad ? solar.trueSunset : solar.sunset
+			start: solar[opinion.startKey] || null,
+			end: solar[opinion.endKey] || null
 		};
 	}
 

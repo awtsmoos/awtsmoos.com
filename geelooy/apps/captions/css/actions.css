@@ -1,0 +1,84 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos reveals action through a few clear gestures, never through a wall of noise; Awtsmoos.com keeps every button reachable, luminous, and poised. */
+
+.randomize-button,
+.ghost-button,
+.icon-button,
+.generate-button {
+	border: 1px solid var(--ein-line-strong);
+	border-radius: var(--ein-radius-sm);
+	background: rgba(116, 221, 255, .045);
+	cursor: pointer;
+}
+
+.randomize-button {
+	min-height: 30px;
+	padding: 5px 9px;
+	color: var(--ein-muted);
+	font-size: .67rem;
+	font-weight: 850;
+}
+
+.randomize-button[aria-pressed="true"] {
+	border-color: rgba(116, 221, 255, .58);
+	color: var(--ein-cyan);
+	background: rgba(116, 221, 255, .1);
+}
+
+.ghost-button,
+.icon-button {
+	min-width: var(--ein-control);
+	min-height: var(--ein-control);
+	padding: 8px 12px;
+}
+
+.icon-button {
+	display: grid;
+	place-items: center;
+	padding: 0;
+	font-size: 1.2rem;
+}
+
+.switch-row {
+	display: flex;
+	align-items: center;
+	gap: 9px;
+	min-height: 40px;
+	color: var(--ein-muted);
+	font-size: .72rem;
+	font-weight: 760;
+	letter-spacing: .02em;
+}
+
+.switch-row input {
+	width: 18px;
+	height: 18px;
+	accent-color: var(--ein-cyan);
+}
+
+.generate-button {
+	display: grid;
+	width: 100%;
+	min-height: 58px;
+	padding: 10px 14px;
+	border-color: rgba(116, 221, 255, .56);
+	background: linear-gradient(135deg, rgba(116, 221, 255, .17), rgba(169, 140, 255, .12));
+	text-align: left;
+}
+
+.generate-button span {
+	font-weight: 900;
+	letter-spacing: .04em;
+}
+
+.generate-button small {
+	margin-top: 2px;
+	color: var(--ein-muted);
+}
+
+.generate-button:disabled {
+	cursor: progress;
+	opacity: .58;
+}

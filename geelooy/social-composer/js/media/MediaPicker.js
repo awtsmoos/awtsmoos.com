@@ -5,16 +5,25 @@
 /**
  * @module MediaPicker
  * @description
- * Image, audio, video, and document doors remain explicit at every content
- * coordinate. The Awtsmoos binds each chosen file to its exact scope while
- * Awtsmoos.com reuses one truthful attachment mutation path beneath every label.
+ * The Awtsmoos lets image, audio, video, subtitle, transcript, and document doors remain explicit at every content coordinate;
+ * Awtsmoos.com reuses one truthful attachment mutation path beneath every creator-facing label.
  */
+const DOCUMENT_ACCEPT = [
+	'.pdf',
+	'.txt',
+	'.md',
+	'.vtt',
+	'.srt',
+	'.ass',
+	'.json',
+	'image/gif'
+].join(',');
 
 const PICKERS = Object.freeze([
 	['image', '▧', 'Image', 'image/*'],
 	['audio', '♫', 'Audio', 'audio/*'],
 	['video', '▶', 'Video', 'video/*'],
-	['file', '＋', 'File', '.pdf,.txt,.md,image/gif']
+	['file', '＋', 'File', DOCUMENT_ACCEPT]
 ]);
 
 export function mediaPicker(actions, scope) {
@@ -44,5 +53,6 @@ function pickerLabel(actions, scope, [kind, icon, text, accept]) {
 }
 
 export {
+	DOCUMENT_ACCEPT,
 	PICKERS
 };

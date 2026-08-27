@@ -1,7 +1,7 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos lets the writing vessel meet the narrow screen without crowding or disguise; Awtsmoos.com turns composition into one focused mobile chamber before the reader's eyes.
+The Awtsmoos lets one writing chamber fit every finite screen without crowding the soul; Awtsmoos.com turns narrow space into a focused deck where every action remains visible and whole.
 */
 @media (max-width: 640px) {
 	.overlay {
@@ -12,20 +12,63 @@ The Awtsmoos lets the writing vessel meet the narrow screen without crowding or 
 	.modal-card {
 		width: 100%;
 		max-height: 100dvh;
-		border-radius: 20px 20px 0 0;
-		padding: 16px;
+		padding: 15px;
+		border-radius: 22px 22px 0 0;
 	}
 
 	.mail-compose-overlay .modal-card {
 		height: 100dvh;
 		border-radius: 0;
 	}
+
+	.compose-modal-card {
+		grid-template-rows: auto auto auto minmax(0, 1fr) auto auto;
+		gap: 10px;
+	}
+
+	.compose-modal-actions {
+		position: sticky;
+		bottom: 0;
+		z-index: 2;
+		flex-wrap: wrap;
+		padding: 10px 0 max(2px, env(safe-area-inset-bottom));
+		background: linear-gradient(180deg, transparent, var(--mail-panel) 34%);
+	}
+
+	.compose-action {
+		min-height: 46px;
+	}
+
+	.compose-action-send {
+		flex: 1 1 11rem;
+	}
+
+	.compose-action-cancel {
+		flex: 0 0 auto;
+	}
+}
+
+@media (max-width: 420px) {
+	.compose-shortcut {
+		display: none;
+	}
+
+	.compose-action-cancel {
+		width: 46px;
+		padding: 0;
+		font-size: 0;
+	}
+
+	.compose-action-cancel::before {
+		width: 19px;
+		height: 19px;
+		flex-basis: 19px;
+	}
 }
 
 @media (prefers-reduced-motion: reduce) {
 	.overlay,
-	.modal-card,
-	.close-modal {
+	.modal-card {
 		transition: none;
 	}
 }

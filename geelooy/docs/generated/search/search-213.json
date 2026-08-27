@@ -1,234 +1,142 @@
 [
 	{
-		"id": "docs-websockets-tunnel-relay-md-0cfdbb9dce",
-		"title": "Tunnel Relay WebSocket System",
-		"sourcePath": "docs/WEBSOCKETS/TUNNEL_RELAY.md",
+		"id": "docs-generated-system-tutorials-systems-websocket-upgrade-session-md-e3ca056fe3",
+		"title": "System Tutorial: WebSocket Upgrade and Session",
+		"sourcePath": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/websocket-upgrade-session.md",
 		"category": "Realtime",
-		"provenance": "manual",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Tunnel Relay WebSocket System",
-				"anchor": "tunnel-relay-websocket-system"
+				"text": "System Tutorial: WebSocket Upgrade and Session",
+				"anchor": "system-tutorial-websocket-upgrade-and-session"
 			},
 			{
 				"level": 2,
-				"text": "Source root",
-				"anchor": "source-root"
+				"text": "Claims boundary",
+				"anchor": "claims-boundary"
 			},
 			{
 				"level": 2,
-				"text": "Registration flow observed",
-				"anchor": "registration-flow-observed"
+				"text": "Change risk",
+				"anchor": "change-risk"
 			},
 			{
 				"level": 2,
-				"text": "TUNNELACK evidence",
-				"anchor": "tunnelack-evidence"
+				"text": "Human manuals",
+				"anchor": "human-manuals"
 			},
 			{
 				"level": 2,
-				"text": "Replacement activity",
-				"anchor": "replacement-activity"
+				"text": "Related project boundaries",
+				"anchor": "related-project-boundaries"
 			},
 			{
 				"level": 2,
-				"text": "Request lifecycle",
-				"anchor": "request-lifecycle"
+				"text": "Source anchors",
+				"anchor": "source-anchors"
 			},
 			{
 				"level": 2,
-				"text": "Relationship to HTTP Tunnel Control",
-				"anchor": "relationship-to-http-tunnel-control"
+				"text": "Generated evidence",
+				"anchor": "generated-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Environment-name evidence",
+				"anchor": "environment-name-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Realtime application registration evidence",
+				"anchor": "realtime-application-registration-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Lexical event/message evidence",
+				"anchor": "lexical-event-message-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Tags",
+				"anchor": "tags"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Tunnel Relay WebSocket System The Awtsmoos bridges distant vessel to server while account, generation, request, acknowledgement, and replacement remain known; Awtsmoos.com treats relay authority as a transport covenant, not a message field a contender may declare on its own. Source root ",
-		"searchText": "b\"h boruch hashem blessed is he tunnel relay websocket system the awtsmoos bridges distant vessel to server while account, generation, request, acknowledgement, and replacement remain known; awtsmoos.com treats relay authority as a transport covenant, not a message field a contender may declare on its own. source root ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/ the continuation inventory found more than fifty files in this subsystem. it contains registration authority, security bridging, request dispatch, acknowledgement tracking, transfer/replacement logic, durable paths, limits, heartbeat/progress behavior, and tests. registration flow observed register.js calls security.authorizeregistration(client, data). if identity fails, registration is rejected. a registration key is derived from trusted identity, then current server state is inspected for an incumbent connection. registration authority decides whether the contender is accepted, replaces an older connection, or is fenced. after successful registration, the server records tunnel/client state, sends an acknowledgement, recovers pending work, monitors accepted work, and publishes connection activity. tunnel ack evidence the acknowledgement emitted by inspected source includes: type: \"tunnel ack\"; ok: true; accountbound: true; tunnel id and tunnel name; whether an older connection was replaced; vessel type; protocol version; registration generation; server time. replacement activity the subsystem publishes connection.registered and can publish connection.replaced when a newer authorized contender replaces an existing connection. request lifecycle separate source files manage dispatch, response acknowledgement, pending recovery, timeout/progress bounds, quarantine/completed retention, and durable relay state. environment names controlling these policies appear in ../generated/environment variables.md. relationship to http tunnel control http routes create/control devices, grants, previews, calls, missions, compute, and other management operations. relay websockets are the live transport plane that can carry remote device work. do not flatten http control routes and relay messages into one api list.",
-		"page": "pages/docs-websockets-tunnel-relay-md-0cfdbb9dce.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He System Tutorial: WebSocket Upgrade and Session District: realtime · System ID: websocket upgrade session Upgrade time identity/admission, handshake, client session attachment, and connection activity. Generated evidence below is a navigation aid. Trust, migration, consistency, protocol, ",
+		"searchText": "b\"h boruch hashem blessed is he system tutorial: websocket upgrade and session district: realtime · system id: websocket upgrade session upgrade time identity/admission, handshake, client session attachment, and connection activity. generated evidence below is a navigation aid. trust, migration, consistency, protocol, and authorization semantics remain grounded in the linked human manuals and current source. claims boundary upgrade source establishes the handshake/session boundary; deployment reachability is not inferred. change risk handshake, identity, cookie, and admission changes can alter every realtime application. human manuals docs/websockets/readme.md docs/security/realtime security.md related project boundaries ayzarim/awtsmoosdynamicserver (runtime) — ayzarim/awtsmoosdynamicserver source anchors ayzarim/awtsmoosdynamicserver/websocket/core/socketupgrade.js generated evidence docs/generated/websocket applications.md environment name evidence name class source refs example sources awtsmoos ws max missed heartbeats runtime config 1 ayzarim/awtsmoosdynamicserver/websocket/core/clientliveness.js awtsmoos ws probe grace ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/core/clientliveness.js awtsmoos ws stale ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/core/clientliveness.js realtime application registration evidence no versioned application registrations are attached to this packet. lexical event/message evidence none observed for this system packet. tags websocket · upgrade · identity · protocol",
+		"page": "pages/docs-generated-system-tutorials-systems-websocket-upgrade-session-md-e3ca056fe3.json"
 	},
 	{
-		"id": "geelooy-ai-agents-md-b86406e7cf",
-		"title": "Awtsmoos Agent Law For geelooy/ai",
-		"sourcePath": "geelooy/ai/agents.md",
-		"category": "AI",
-		"provenance": "project",
+		"id": "docs-generated-test-ownership-md-beeceaf32d",
+		"title": "Generated Test Ownership",
+		"sourcePath": "docs/GENERATED/TEST_OWNERSHIP.md",
+		"category": "Testing",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Awtsmoos Agent Law For geelooy/ai",
-				"anchor": "awtsmoos-agent-law-for-geelooy-ai"
-			},
-			{
-				"level": 2,
-				"text": "Default council law",
-				"anchor": "default-council-law"
-			},
-			{
-				"level": 2,
-				"text": "The tunnel action crown",
-				"anchor": "the-tunnel-action-crown"
-			},
-			{
-				"level": 2,
-				"text": "Native, browser, OAuth, and Virtual OS routing",
-				"anchor": "native-browser-oauth-and-virtual-os-routing"
-			},
-			{
-				"level": 2,
-				"text": "Command payload law",
-				"anchor": "command-payload-law"
-			},
-			{
-				"level": 2,
-				"text": "Continuation and sub-agent law",
-				"anchor": "continuation-and-sub-agent-law"
-			},
-			{
-				"level": 2,
-				"text": "File and secret discipline",
-				"anchor": "file-and-secret-discipline"
-			},
-			{
-				"level": 2,
-				"text": "Truthful final answers",
-				"anchor": "truthful-final-answers"
+				"text": "Generated Test Ownership",
+				"anchor": "generated-test-ownership"
 			}
 		],
-		"excerpt": "Awtsmoos Agent Law For geelooy/ai B\"H The Awtsmoos renews every file, process, task, and thought from absolute nothing every instant. An agent working here must inspect real files, run real commands, and leave real verification behind. Never pretend that a claim is true because it appears in a prompt; prove it through ",
-		"searchText": "awtsmoos agent law for geelooy/ai b\"h the awtsmoos renews every file, process, task, and thought from absolute nothing every instant. an agent working here must inspect real files, run real commands, and leave real verification behind. never pretend that a claim is true because it appears in a prompt; prove it through files, git, tests, browser/runtime responses, tunnel actions, or explicit tool results. default council law for every non empty task on a live local or authenticated endpoint vessel, the provider gateway automatically calls the canonical agent action before the lead begins its own work. that action starts a non blocking authenticated chatgpt website mission with at least three specialists and twelve for a large prompt. do not replace it with aiagentmessage or aiagentspawntask; those are explicit external provider modes. the lead never waits idly for delegates or login. it continues useful local work immediately. if the saved chatgpt website session is authenticated, specialists launch with paced starts. if authentication is missing, one visible login window opens, the mission remains visibly waiting for login, and it resumes automatically after the user logs in. every specialist publishes its plan, scope, progress, findings, blocker, handoff, and verified outcome to the shared mission room. use concise public work notes, not hidden chain of thought. read peer messages on every safe continuation turn, teach useful findings, avoid overlapping claims, and wake unfinished agents through websiteagentmissionmessage. a long running job is not permission to idle: perform independent short work while it runs. the tunnel action crown every ai agent, sub agent, chapter agent, code chat agent, vibe agent, and provider delegate must treat the generated tunnel action catalog as the source of action names. do not guess. discover through all tunnel actions, generatedtunnelactions.js, awtsmoos tool details, or awtsmoos tool call. direct tools expose a safe convenience set. full access is through the guarded generic call surface with the exact action name and arguments. the final router decides whether the call may reach a native tunnel, browser local bridge, oauth/cloud vessel, or virtual os fallback. native, browser, oauth, and virtual os routing prefer a live native/local tunnel. browser agents should try the local tunnel api at http://127.0.0.1:3977; users may override it with localstorage key awtsmoos.localtunnelapiurl. node side local agents may use localtoolbridge against the current repository root. if no local tunnel exists, try the awtsmoos authenticated host route. use the existing awtsmoos oauth/session credentials when the platform exposes them. never ask for or store passwords in files. never print tokens or copy oauth cookies into reports. if exactly one connected device exists, select it automatically; ask only when multiple devices are connected. if no live bridge or oauth vessel exists, use virtual os fallback honestly. virtual os can read, write, list, search, bulk read/write, mkdir, stat, simulate simple runtime, and build context packs. it cannot run authenticated website missions and must return website mission requires live browser instead of pretending that agents were spawned. command payload law the canonical command field is command. the server accepts legacy aliases commands and commands64, but new prompts should teach command and command64. on windows/powershell tunnels, do not use unix heredocs or unsupported shell separators. prefer temporary .cjs files created with powershell here strings, run them, then delete them. continuation and sub agent law when an agent is spawned to write a chapter, it must keep going through the configured agentcycles / chaptercycles count, defaulting to eight cycles. a parent may return immediately after spawning children, but it must keep polling them in the background and must not mark the mission complete until all descendants are complete or failed. every chapter uses finishandcontinue semantics: summarize what was written, list what remains, and continue the next bounded piece while budget allows. if a provider response is truncated, ambiguous, or tool starved, continue with the available tool bridge. search for todos, failing tests, missing files, stale assumptions, peer handoffs, and open room messages. file and secret discipline do not store provider keys, oauth credentials, cookies, or tunnel secrets in git. use environment variables, browser/session state, or secure provider key actions. if a tool returns secret like values, summarize their presence without revealing them. rewrite whole files rather than applying partial patches. keep files small when possible. after writing, reread touched files, run syntax/tests, check git diff check, and only then commit. truthful final answers a final answer must separate verified facts from untested assumptions. say when a feature has catalog discovery but only guarded execution. say when virtual os fallback is partial. say when deployment has not picked up committed source. the awtsmoos is revealed in truth, not in overclaiming.",
-		"page": "pages/geelooy-ai-agents-md-b86406e7cf.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Test Ownership Project Type Test files Local docs geelooy public root 4699 geelooy/DOCUMENTATION.md geelooy/apps public 1790 geelooy/apps/DOCUMENTATION.md geelooy/games public 1469 geelooy/games/DOCUMENTATION.md geelooy/games/mitzvahWorld game 1015 geelooy/games/mitzvahWorld/DO",
+		"searchText": "b\"h boruch hashem blessed is he generated test ownership project type test files local docs geelooy public root 4699 geelooy/documentation.md geelooy/apps public 1790 geelooy/apps/documentation.md geelooy/games public 1469 geelooy/games/documentation.md geelooy/games/mitzvahworld game 1015 geelooy/games/mitzvahworld/documentation.md geelooy/apps/tunnel app 820 geelooy/apps/tunnel/documentation.md geelooy/apps/android emulator app 566 geelooy/apps/android emulator/documentation.md geelooy/api project 399 geelooy/api/documentation.md ayzarim runtime root 367 ayzarim/documentation.md geelooy/api/social api 250 geelooy/api/social/documentation.md ayzarim/awtsmoosdynamicserver runtime 207 ayzarim/awtsmoosdynamicserver/documentation.md geelooy/ai public 165 geelooy/ai/documentation.md ayzarim/dosdb data 160 ayzarim/dosdb/documentation.md geelooy/libs library 138 geelooy/libs/documentation.md geelooy/apps/exe emulator app 133 geelooy/apps/exe emulator/documentation.md geelooy/heichelos project 131 geelooy/heichelos/documentation.md geelooy/apps/nesher studio app 117 geelooy/apps/nesher studio/documentation.md geelooy/scripts library 113 geelooy/scripts/documentation.md geelooy/tests test 107 geelooy/tests/documentation.md geelooy/api/tunnel api 106 geelooy/api/tunnel/documentation.md ai thoughts alias 100 — geelooy/games/scribe journey game 99 geelooy/games/scribe journey/documentation.md tests test 92 tests/documentation.md geelooy/games/ohr hagnuz game 89 geelooy/games/ohr hagnuz/documentation.md geelooy/os public 79 geelooy/os/documentation.md geelooy/games/seven mitzvos game 66 geelooy/games/seven mitzvos/documentation.md geelooy/apps/tunnel control app 57 geelooy/apps/tunnel control/documentation.md geelooy/drive public 52 geelooy/drive/documentation.md geelooy/style library 48 geelooy/style/documentation.md geelooy/social hub public 46 geelooy/social hub/documentation.md geelooy/apps/code app 44 geelooy/apps/code/documentation.md geelooy/games/sefira clash game 41 geelooy/games/sefira clash/documentation.md geelooy/games/merkava game 32 geelooy/games/merkava/documentation.md scripts tooling 30 scripts/documentation.md geelooy/games/nitzotz io game 29 geelooy/games/nitzotz io/documentation.md tools tooling 29 tools/documentation.md geelooy/shared library 28 geelooy/shared/documentation.md geelooy/social composer public 28 geelooy/social composer/documentation.md geelooy/apps/universal chat app 22 geelooy/apps/universal chat/documentation.md geelooy/games/chess game 22 geelooy/games/chess/documentation.md geelooy/games/shema strike game 21 geelooy/games/shema strike/documentation.md geelooy/api/wallet api 19 geelooy/api/wallet/documentation.md geelooy/platform project 19 geelooy/platform/documentation.md geelooy/games/tests game 16 geelooy/games/tests/documentation.md geelooy/zmanim public 16 geelooy/zmanim/documentation.md geelooy/.awtsmoos agent transfer project 14 geelooy/.awtsmoos agent transfer/documentation.md geelooy/games/oros ha kelim game 14 geelooy/games/oros ha kelim/documentation.md geelooy/games/sulam ha sod game 14 geelooy/games/sulam ha sod/documentation.md geelooy/mawgawl public 14 geelooy/mawgawl/documentation.md geelooy/games/city of light game 11 geelooy/games/city of light/documentation.md geelooy/sites project 11 geelooy/sites/documentation.md geelooy/api/oauth api 10 geelooy/api/oauth/documentation.md geelooy/apps/slides app 10 geelooy/apps/slides/documentation.md geelooy/apps/drive app 9 geelooy/apps/drive/documentation.md geelooy/apps/mitzvah pushkuh app 7 geelooy/apps/mitzvah pushkuh/documentation.md geelooy/social public 7 geelooy/social/documentation.md geelooy/api/zmanim api 5 geelooy/api/zmanim/documentation.md geelooy/email public 4 geelooy/email/documentation.md geelooy/heichel review public 4 geelooy/heichel review/documentation.md geelooy/profile public 4 geelooy/profile/documentation.md geelooy/api/gpt api 3 geelooy/api/gpt/documentation.md geelooy/geelooy project 3 — geelooy/api/projecthosting api 2 — geelooy/apps/sheets app 2 geelooy/apps/sheets/documentation.md geelooy/comment thread public 2 geelooy/comment thread/documentation.md geelooy/heichel editor public 2 geelooy/heichel editor/documentation.md geelooy/notifications public 2 geelooy/notifications/documentation.md geelooy/post editor public 2 geelooy/post editor/documentation.md geelooy/api/compiler api 1 geelooy/api/compiler/documentation.md geelooy/api/ohr hagnuz api 1 geelooy/api/ohr hagnuz/documentation.md geelooy/api/sefarim api 1 geelooy/api/sefarim/documentation.md geelooy/api/youtube api 1 geelooy/api/youtube/documentation.md geelooy/apps/compiler app 1 geelooy/apps/compiler/documentation.md geelooy/apps/tests app 1 — geelooy/apps/wallet app 1 geelooy/apps/wallet/documentation.md geelooy/browser test project 1 — geelooy/social actions project 1 geelooy/social actions/documentation.md templates tooling 1 templates/documentation.md",
+		"page": "pages/docs-generated-test-ownership-md-beeceaf32d.json"
 	},
 	{
-		"id": "geelooy-ai-documentation-md-196e74f77f",
-		"title": "AI Documentation",
-		"sourcePath": "geelooy/ai/DOCUMENTATION.md",
-		"category": "AI",
-		"provenance": "breadcrumb",
+		"id": "docs-generated-test-script-index-md-412dcbafde",
+		"title": "Generated Test Script Index",
+		"sourcePath": "docs/GENERATED/TEST_SCRIPT_INDEX.md",
+		"category": "Testing",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "AI Documentation",
-				"anchor": "ai-documentation"
+				"text": "Generated Test Script Index",
+				"anchor": "generated-test-script-index"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He AI Documentation The Awtsmoos lets language computation become a tool while model, key, and runtime remain known; Awtsmoos.com maps browser AI, GPT routes, GGUF tools, and developer integrations in one zone. Read ../../docs/SYSTEMS/AI.md. GPT endpoint reference: search /api/gpt/ in ../..",
-		"searchText": "b\"h boruch hashem blessed is he ai documentation the awtsmoos lets language computation become a tool while model, key, and runtime remain known; awtsmoos.com maps browser ai, gpt routes, gguf tools, and developer integrations in one zone. read ../../docs/systems/ai.md. gpt endpoint reference: search /api/gpt/ in ../../docs/generated/api route atlas.md.",
-		"page": "pages/geelooy-ai-documentation-md-196e74f77f.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Test Script Index Script Command emailTest node ayzarim/email/emailTest.js test npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported style ownership && npm run test:css quality && npm run test:heichelos quality && npm run test:prof",
+		"searchText": "b\"h boruch hashem blessed is he generated test script index script command emailtest node ayzarim/email/emailtest.js test npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported style ownership && npm run test:css quality && npm run test:heichelos quality && npm run test:profile menu && npm run test:heichel governance && npm run test:post submissions && npm run test:comments && npm run test:api keys && npm run test:graph && npm run test:social content && npm run test:notifications && npm run test:social packed && npm run test:packed engine && npm run test:platform ops && npm run test:platform execution && npm run test:node client && npm run test:dayuh cutover test:ai node geelooy/ai/tests/harness/run.cjs all test:ai:stress awtsmoos ai test rounds=5 node geelooy/ai/tests/harness/run.cjs all test:api keys node geelooy/api/social/helper/test/apikeys.test.js test:code ai studio node geelooy/apps/code/test/ai studio isolated.test.mjs test:comments node geelooy/api/social/helper/comments/test/runallcommentstests.js test:concurrency failure node geelooy/api/social/test/concurrencyfailurestress.test.mjs test:css quality node geelooy/style/test/cssquality.test.js test:dayuh cutover node tools/dayuhchadashcutover/releasecheck.js test:dayuh release npm run test:routes && npm run test:comments && npm run test:social content && npm run test:social packed && npm run test:packed engine && node test tools/dayuhchadashmaintenance/test/ .test.js && npm run test:dayuh cutover test:graph node geelooy/api/social/helper/test/socialgraph.test.js test:heichel governance node geelooy/heichelos/heichel/modules/test/editormanagement.test.mjs && node geelooy/api/social/helper/test/heichelroles.test.js test:heichelos quality node geelooy/heichelos/test/heichelosquality.test.js test:imported style ownership node geelooy/heichelos/post/styles/test/importedstyleownership.test.js test:live smoke node geelooy/heichelos/heichel/modules/test/sociallivesmoke.test.mjs test:mission continuity actions node geelooy/apps/tunnel/agent/tools/fs/actiongroups/test/missioncontinuityactions.test.mjs test:node client node check geelooy/scripts/awtsmoos/api/social/nodeclient.mjs test:notifications node geelooy/api/social/helper/test/notifications.test.js test:packed engine node geelooy/api/social/helper/test/packedengine.test.js test:platform execution node geelooy/api/social/helper/test/platformexecution.test.js test:platform ops node geelooy/api/social/helper/test/platformops.test.js test:platform ui node geelooy/heichelos/heichel/modules/test/platformpanelnodesimulation.test.mjs && node geelooy/heichelos/heichel/modules/test/notificationspanelnodesimulation.test.mjs && node geelooy/heichelos/heichel/modules/test/platformcoveragestatic.test.mjs && node geelooy/heichelos/heichel/modules/test/browserapisurfacestatic.test.mjs && node geelooy/heichelos/heichel/modules/test/browserapirequestshapes.test.mjs && node geelooy/heichelos/heichel/modules/test/platformopsapi.test.mjs && node geelooy/heichelos/heichel/modules/test/socialgraphfoundation.test.mjs && node geelooy/heichelos/heichel/modules/test/recursivesociallayer.test.mjs test:post submissions node geelooy/api/social/helper/post/test/postsubmissions.test.js test:profile menu node geelooy/scripts/awtsmoos/social/test/profilemenusimulation.test.mjs test:real server writes node geelooy/api/social/test/realserverwrites.test.mjs test:routes node geelooy/api/social/test/routecoverage.test.js test:social content node geelooy/api/social/helper/test/socialcontent.test.js test:social packed node geelooy/api/social/helper/test/socialpacked.test.js && node geelooy/api/social/helper/test/postmigration.test.js && node geelooy/api/social/helper/test/packedsnapshotrepair.test.js test:treasury node geelooy/api/tunnel/control/test/runtreasurytests.cjs test:treasury:full node geelooy/api/tunnel/control/test/treasury/runall.cjs test:tunnel release node test scripts/tunnel/testing/ .test.cjs scripts/repository hygiene/testing/ .test.cjs test:virtual os node geelooy/tests/virtual os/run smokes.cjs",
+		"page": "pages/docs-generated-test-script-index-md-412dcbafde.json"
 	},
 	{
-		"id": "geelooy-ai-relay-direct-readme-md-ceec5bc67e",
-		"title": "ChatGPT Website Relay",
-		"sourcePath": "geelooy/ai/relay/direct/README.md",
-		"category": "AI",
-		"provenance": "project",
+		"id": "docs-generated-websocket-applications-md-58413448ec",
+		"title": "Generated Realtime Application Inventory",
+		"sourcePath": "docs/GENERATED/WEBSOCKET_APPLICATIONS.md",
+		"category": "Realtime",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "ChatGPT Website Relay",
-				"anchor": "chatgpt-website-relay"
+				"text": "Generated Realtime Application Inventory",
+				"anchor": "generated-realtime-application-inventory"
 			},
 			{
 				"level": 2,
-				"text": "Website flow",
-				"anchor": "website-flow"
-			},
-			{
-				"level": 2,
-				"text": "Commands",
-				"anchor": "commands"
-			},
-			{
-				"level": 2,
-				"text": "Direct routes",
-				"anchor": "direct-routes"
-			},
-			{
-				"level": 2,
-				"text": "Safety contracts",
-				"anchor": "safety-contracts"
+				"text": "WebSocket application directories",
+				"anchor": "websocket-application-directories"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He ChatGPT Website Relay This relay talks only to the authenticated ChatGPT website. There is no local model, downloaded model, local inference server, OpenAI API key, Responses API transport, or alternate provider. Website flow 1. The relay opens its dedicated visible Chrome profile. 2. Wh",
-		"searchText": "b\"h boruch hashem blessed is he chatgpt website relay this relay talks only to the authenticated chatgpt website. there is no local model, downloaded model, local inference server, openai api key, responses api transport, or alternate provider. website flow 1. the relay opens its dedicated visible chrome profile. 2. when the profile is not authenticated, a normal chatgpt login page opens. 3. the human signs in manually. automation never enters credentials. 4. for each turn, the real prompt is typed into chatgpt's ordinary composer. 5. chatgpt's own send control submits the website request normally. 6. the relay observes the resulting conversation id and reads completion with authenticated conversation get requests. 7. continuations navigate to the stored chatgpt website conversation before sending. the relay does not mutate, suppress, replay, fabricate, or replace chatgpt's conversation request. it does not derive or bypass proof, turnstile, sentinel, or other website challenge values. commands ai:login opens the normal visible website and closes it after authentication is detected. ai:web capability checks the saved website session without sending a message. ai:website stress sends sequential, globally paced website conversations. direct routes get /direct health get /direct capability post /direct chat post /direct reset post /direct chat defaults to: the returned conversationkey is an opaque local continuation key. upstream chatgpt conversation and message ids are not returned. safety contracts chatgpt website only. manual credential entry only. one ordinary website submission per turn. no request body mutation or challenge bypass. global turn start pacing is at least ten seconds during stress runs. completion polling uses authenticated get requests and never repeats the post. public errors contain no cookies, headers, account data, tokens, ids, or stacks. every direct relay source file is limited to 120 lines.",
-		"page": "pages/geelooy-ai-relay-direct-readme-md-ceec5bc67e.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Realtime Application Inventory Application id Versions Factory awtsmoos core 1 createAwtsmoosCoreApplication awtsmoos social 1 createAwtsmoosSocialApplication chess 1 createChessApplication geelooy code 1 createGeelooyCodeApplication geelooy docs 1 createGeelooyDocsApplication ",
+		"searchText": "b\"h boruch hashem blessed is he generated realtime application inventory application id versions factory awtsmoos core 1 createawtsmooscoreapplication awtsmoos social 1 createawtsmoossocialapplication chess 1 createchessapplication geelooy code 1 creategeelooycodeapplication geelooy docs 1 creategeelooydocsapplication sheets 1 createsheetsapplication universal chat 1 createuniversalchatapplication private messaging 1 createprivatemessagingapplication sefira clash 1 createsefiraclashapplication mitzvah world 1 createmitzvahworldapplication ohr hagnuz 1 createohrhagnuzapplication scribe journey 1, 2 createscribejourneyapplication tunnel activity 1 createtunnelactivityapplication shema strike 1 createshemastrikeapplication websocket application directories directory files source chess 28 ayzarim/awtsmoosdynamicserver/websocket/apps/chess forms 3 ayzarim/awtsmoosdynamicserver/websocket/apps/forms geelooycode 19 ayzarim/awtsmoosdynamicserver/websocket/apps/geelooycode geelooydocs 41 ayzarim/awtsmoosdynamicserver/websocket/apps/geelooydocs missionrooms 11 ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms mitzvahworld 278 ayzarim/awtsmoosdynamicserver/websocket/apps/mitzvahworld ohrhagnuz 25 ayzarim/awtsmoosdynamicserver/websocket/apps/ohrhagnuz privatemessaging 52 ayzarim/awtsmoosdynamicserver/websocket/apps/privatemessaging scribejourney 38 ayzarim/awtsmoosdynamicserver/websocket/apps/scribejourney sefiraclash 91 ayzarim/awtsmoosdynamicserver/websocket/apps/sefiraclash sheets 36 ayzarim/awtsmoosdynamicserver/websocket/apps/sheets shemastrike 77 ayzarim/awtsmoosdynamicserver/websocket/apps/shemastrike tunnelactivity 10 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelactivity tunnelrelay 83 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay universalchat 37 ayzarim/awtsmoosdynamicserver/websocket/apps/universalchat",
+		"page": "pages/docs-generated-websocket-applications-md-58413448ec.json"
 	},
 	{
-		"id": "geelooy-ai-relay-install-readme-md-23600cb9c5",
-		"title": "Awtsmoos ChatGPT Transport Installation",
-		"sourcePath": "geelooy/ai/relay/install/README.md",
-		"category": "AI",
-		"provenance": "project",
+		"id": "docs-generated-websocket-event-index-md-530cf0fd87",
+		"title": "Generated WebSocket Event Evidence",
+		"sourcePath": "docs/GENERATED/WEBSOCKET_EVENT_INDEX.md",
+		"category": "Realtime",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Awtsmoos ChatGPT Transport Installation",
-				"anchor": "awtsmoos-chatgpt-transport-installation"
-			},
-			{
-				"level": 2,
-				"text": "Browser-extension install order",
-				"anchor": "browser-extension-install-order"
-			},
-			{
-				"level": 2,
-				"text": "Optional local-relay install order",
-				"anchor": "optional-local-relay-install-order"
-			},
-			{
-				"level": 3,
-				"text": "macOS or Linux",
-				"anchor": "macos-or-linux"
-			},
-			{
-				"level": 3,
-				"text": "Windows PowerShell",
-				"anchor": "windows-powershell"
-			},
-			{
-				"level": 2,
-				"text": "Rebuilding the extension archive",
-				"anchor": "rebuilding-the-extension-archive"
+				"text": "Generated WebSocket Event Evidence",
+				"anchor": "generated-websocket-event-evidence"
 			}
 		],
-		"excerpt": "Awtsmoos ChatGPT Transport Installation The Awtsmoos renews every bridge from source to browser. This guide keeps the browser extension and the optional local relay in separate, explicit orders so one vessel is never mistaken for the other. Browser extension install order Use this path when the Awtsmoos AI page asks fo",
-		"searchText": "awtsmoos chatgpt transport installation the awtsmoos renews every bridge from source to browser. this guide keeps the browser extension and the optional local relay in separate, explicit orders so one vessel is never mistaken for the other. browser extension install order use this path when the awtsmoos ai page asks for the awtsmoos server extension . 1. download the zip from https://awtsmoos.com/ai/relay/install/awtsmoos server extension.zip. 2. extract the zip into a permanent folder. do not load the zip itself. 3. open chrome://extensions in chrome or edge://extensions in edge. 4. enable developer mode . 5. choose load unpacked and select the extracted folder that directly contains manifest.json. 6. keep the extension enabled. 7. refresh chatgpt first. 8. refresh the awtsmoos ai page second. 9. retry the chatgpt action. the archive is intentionally rooted at manifest.json; there is no extra wrapping folder inside it. optional local relay install order the local relay is a separate transport choice. it is not a prerequisite for loading the browser extension. macos or linux windows powershell after the installer starts the relay: 1. confirm the relay is listening on port 38488. 2. open the relay control page shown by the installer. 3. complete any required chatgpt sign in in that browser session. 4. refresh the awtsmoos ai page. 5. select or retry the relay backed chatgpt transport. rebuilding the extension archive from the repository root: the builder packages the canonical source at geelooy/scripts/tricks/extensions/server and refuses archives whose entries differ from that source tree.",
-		"page": "pages/geelooy-ai-relay-install-readme-md-23600cb9c5.json"
-	},
-	{
-		"id": "geelooy-ai-relay-split-browser-commands-readme-md-e58b419ca4",
-		"title": "ChatGPT Website Commands",
-		"sourcePath": "geelooy/ai/relay/split-browser/commands/README.md",
-		"category": "AI",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "ChatGPT Website Commands",
-				"anchor": "chatgpt-website-commands"
-			},
-			{
-				"level": 2,
-				"text": "Manual login",
-				"anchor": "manual-login"
-			},
-			{
-				"level": 2,
-				"text": "Website capability",
-				"anchor": "website-capability"
-			},
-			{
-				"level": 2,
-				"text": "Website stress",
-				"anchor": "website-stress"
-			},
-			{
-				"level": 2,
-				"text": "Optional environment variables",
-				"anchor": "optional-environment-variables"
-			}
-		],
-		"excerpt": "B\"H ChatGPT Website Commands The relay uses only the authenticated ChatGPT website. There is no local model, local inference server, API key, or alternate provider. Manual login A normal visible ChatGPT window opens. Sign in manually. The command detects the redacted authenticated status, saves the browser profile, and",
-		"searchText": "b\"h chatgpt website commands the relay uses only the authenticated chatgpt website. there is no local model, local inference server, api key, or alternate provider. manual login a normal visible chatgpt window opens. sign in manually. the command detects the redacted authenticated status, saves the browser profile, and closes the login window. it never types credentials or clicks login controls. website capability this checks whether the dedicated profile is authenticated. it does not send a conversation message. website stress the stress runner creates and continues chatgpt website conversations sequentially, with one global minimum ten second interval between turn starts. every real prompt enters the ordinary chatgpt composer and uses the site's own send control. optional environment variables awtsmoos stress conversations awtsmoos stress messages awtsmoos direct interval ms — values below 10000 are raised to 10000. awtsmoos chrome debug port awtsmoos login timeout ms awtsmoos login poll ms",
-		"page": "pages/geelooy-ai-relay-split-browser-commands-readme-md-e58b419ca4.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated WebSocket Event Evidence Production source lexical event/message evidence; this is not a formal protocol schema. 143 rows. Chunk Rows Count websocket events 001.md 1–85 85 websocket events 002.md 86–143 58",
+		"searchText": "b\"h boruch hashem blessed is he generated websocket event evidence production source lexical event/message evidence; this is not a formal protocol schema. 143 rows. chunk rows count websocket events 001.md 1–85 85 websocket events 002.md 86–143 58",
+		"page": "pages/docs-generated-websocket-event-index-md-530cf0fd87.json"
 	}
 ]

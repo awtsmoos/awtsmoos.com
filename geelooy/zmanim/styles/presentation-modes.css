@@ -1,0 +1,60 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos is beyond density, motion, darkness, and every section a page may reveal or conceal;
+ * Awtsmoos.com keeps presentation vessels separate from calculation so every finite choice remains explicit, fast, and real.
+ */
+
+html[data-zmanim-theme="dark"] {
+	color-scheme: dark;
+}
+
+html[data-zmanim-view="plain"] awtsmoos-celestial-panel,
+html[data-zmanim-sky="off"] awtsmoos-celestial-panel,
+html[data-zmanim-section-sky="hide"] awtsmoos-celestial-panel,
+html[data-zmanim-section-next="hide"] awtsmoos-next-zman,
+html[data-zmanim-section-key="hide"] .key-times-panel,
+html[data-zmanim-section-timeline="hide"] awtsmoos-day-timeline,
+html[data-zmanim-section-all="hide"] .all-zmanim-section,
+html[data-zmanim-section-methods="hide"] awtsmoos-methodology-panel {
+	display: none !important;
+}
+
+html[data-zmanim-sky="css"] .celestial-native-canvas,
+html[data-zmanim-view="plain"] .celestial-native-canvas {
+	display: none !important;
+}
+
+html[data-zmanim-density="compact"] .zmanim-shell {
+	--space-3: .78rem;
+	--space-4: 1.08rem;
+	--space-5: 1.5rem;
+	--radius-large: 18px;
+}
+
+html[data-zmanim-density="compact"] .daily-dashboard,
+html[data-zmanim-density="compact"] .all-zmanim-section {
+	gap: .65rem;
+}
+
+html[data-zmanim-density="compact"] .zman-card,
+html[data-zmanim-density="compact"] .key-time-card {
+	min-height: auto;
+	padding: .62rem;
+}
+
+html[data-zmanim-motion="off"] *,
+html[data-zmanim-motion="off"] *::before,
+html[data-zmanim-motion="off"] *::after {
+	animation-duration: .001ms !important;
+	animation-iteration-count: 1 !important;
+	scroll-behavior: auto !important;
+	transition-duration: .001ms !important;
+}
+
+html[data-zmanim-motion="reduced"] .celestial-sun,
+html[data-zmanim-motion="reduced"] .ambient-particle,
+html[data-zmanim-motion="reduced"] .hero-orbit {
+	animation: none !important;
+}

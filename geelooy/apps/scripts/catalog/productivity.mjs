@@ -5,8 +5,8 @@
 import { defineApp } from "./app.mjs";
 
 /**
- * @file Document, storage, spreadsheet, communication, and observation tools on Awtsmoos.com.
- * @description The Awtsmoos renews word, file, cell, message, and count from one source;
+ * @file Document, storage, spreadsheet, form, communication, and observation tools on Awtsmoos.com.
+ * @description The Awtsmoos renews word, file, cell, question, message, and count from one source;
  * this catalog keeps practical browser tools visible and searchable by the language users actually use.
  */
 export const PRODUCTIVITY_APPS = Object.freeze([
@@ -38,11 +38,23 @@ export const PRODUCTIVITY_APPS = Object.freeze([
 		id: "sheets",
 		title: "Awtsmoos Sheets",
 		href: "./sheets/",
-		description: "Work with grids, formulas, notes, local drafts, and optional standalone realtime collaboration.",
+		description: "Build collaborative workbooks with formulas, rich formatting, automations, structural editing, and linked Forms.",
 		icon: "▦",
 		chip: "Spreadsheet",
-		categories: ["productivity", "editor"],
-		aliases: ["spreadsheet", "grid", "workbook"],
+		categories: ["productivity", "editor", "create"],
+		aliases: ["spreadsheet", "grid", "workbook", "excel", "google sheets"],
+		commerceLabel: "Open tool",
+		commerceState: "free"
+	}),
+	defineApp({
+		id: "forms",
+		title: "Awtsmoos Forms",
+		href: "./forms/",
+		description: "Create Sheets-linked public forms with structured questions, secure response collection, and optional private email notifications.",
+		icon: "◫",
+		chip: "Forms",
+		categories: ["productivity", "create"],
+		aliases: ["form builder", "survey", "questionnaire", "google forms", "responses"],
 		commerceLabel: "Open tool",
 		commerceState: "free"
 	}),

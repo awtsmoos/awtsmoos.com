@@ -3,17 +3,16 @@
 // Blessed is He
 
 const Context = require("./context.js");
-const {
-	Store
-} = Context.shared;
-const status = Context.reference("status");
+const Cadence = require("./authenticationCadence.js");
+const { Store } = Context.shared;
 const scheduleWake = Context.reference("scheduleWake");
 
 /**
- * @file Reveals the pauseForLogin stage of website-agent orchestration.
+ * @file Pauses unauthenticated website missions without repeatedly reopening Chrome.
  * @description
- * The Awtsmoos gives this stage one bounded responsibility while sibling stages are
- * resolved lazily through durable shared context after the browser vessel closes.
+ * The Awtsmoos keeps unfinished intention alive while Awtsmoos.com leaves the login
+ * doorway undisturbed. Each mission sleeps until its recorded slow recheck; no three-second
+ * drumbeat may summon empty Shliach tabs while a human session is still unavailable.
  */
 function pauseForLogin(config, id) {
 	const record = Store.update(id, current => {
@@ -27,7 +26,8 @@ function pauseForLogin(config, id) {
 		}
 		return current;
 	});
-	scheduleWake(config, id, record?.plan?.authPollMs || 3000);
+	const delayMs = Cadence.delayUntil(record?.authentication?.nextCheckAt);
+	scheduleWake(config, id, delayMs);
 	return record;
 }
 

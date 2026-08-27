@@ -3,23 +3,14 @@
 // Blessed is He
 
 const Context = require("./context.js");
-const {
-	M,
-	C,
-	Store
-} = Context.shared;
-const start = Context.reference("start");
-const run = Context.reference("run");
-const progress = Context.reference("progress");
-const status = Context.reference("status");
-const message = Context.reference("message");
-const heartbeat = Context.reference("heartbeat");
+const { M, C, Store } = Context.shared;
 
 /**
- * @file Reveals the seedRoom stage of website-agent orchestration.
+ * @file Seeds website-agent room membership, delegation, and durable lineage.
  * @description
- * The Awtsmoos gives this stage one bounded responsibility while sibling stages are
- * resolved lazily through durable shared context after the browser vessel closes.
+ * The Awtsmoos gathers many shluchim into one room while Awtsmoos.com remembers
+ * sponsor, sibling group, predecessor, and generation beside each claim. The browser
+ * is only a temporary doorway; room identity survives long after that tab closes away.
  */
 async function seedRoom(config, mission, record) {
 	M.roomCreate(mission, {
@@ -40,36 +31,9 @@ async function seedRoom(config, mission, record) {
 	});
 	const ownedScopes = new Set();
 	for (const agent of record.agents) {
-		M.roomJoin(mission, {
-			agentId: agent.id,
-			name: agent.name,
-			role: agent.role,
-			capabilities: ["chatgpt-website", "shared-room", agent.focus]
-		});
-		C.join(mission, {
-			agentId: agent.id,
-			agentName: agent.name,
-			role: agent.role,
-			projectRoot: record.plan.projectRoot,
-			capabilities: ["chatgpt-website", "shared-room", agent.focus]
-		});
-		const delegated = C.delegate(mission, {
-			agentId: "lead",
-			toAgent: agent.id,
-			title: `${agent.role}: ${agent.scope}`,
-			body: agent.focus,
-			files: [agent.scope]
-		});
-		let claimed = null;
-		if (agent.claimMode === "write" && !ownedScopes.has(agent.scope)) {
-			ownedScopes.add(agent.scope);
-			claimed = C.claim(mission, {
-				agentId: agent.id,
-				delegationId: delegated.delegation.id,
-				title: `${agent.role} owns ${agent.scope}`,
-				filesToTouch: [agent.scope]
-			});
-		}
+		joinWebsiteAgent(mission, record, agent);
+		const delegated = delegateAgent(mission, agent);
+		const claimed = claimScope(mission, agent, delegated, ownedScopes);
 		Store.update(record.id, current => {
 			const target = current.agents.find(item => item.id === agent.id);
 			target.delegationId = delegated.delegation.id;
@@ -85,6 +49,50 @@ async function seedRoom(config, mission, record) {
 		body: "Inspect first, publish plans and progress, coordinate continuously, teach peers, preserve unfinished work, and verify before completion."
 	});
 	await M.save(config, mission);
+}
+
+function joinWebsiteAgent(mission, record, agent) {
+	const identity = {
+		agentId: agent.id,
+		name: agent.name,
+		role: agent.role,
+		spawnGroupId: agent.spawnGroupId,
+		generation: agent.generation,
+		parentAgentId: agent.parentAgentId,
+		sponsorAgentId: agent.sponsorAgentId,
+		predecessorAgentId: agent.predecessorAgentId
+	};
+	M.roomJoin(mission, {
+		...identity,
+		capabilities: ["chatgpt-website", "shared-room", agent.focus]
+	});
+	C.join(mission, {
+		...identity,
+		agentName: agent.name,
+		projectRoot: record.plan.projectRoot,
+		capabilities: ["chatgpt-website", "shared-room", agent.focus]
+	});
+}
+
+function delegateAgent(mission, agent) {
+	return C.delegate(mission, {
+		agentId: "lead",
+		toAgent: agent.id,
+		title: `${agent.role}: ${agent.scope}`,
+		body: agent.focus,
+		files: [agent.scope]
+	});
+}
+
+function claimScope(mission, agent, delegated, ownedScopes) {
+	if (agent.claimMode !== "write" || ownedScopes.has(agent.scope)) return null;
+	ownedScopes.add(agent.scope);
+	return C.claim(mission, {
+		agentId: agent.id,
+		delegationId: delegated.delegation.id,
+		title: `${agent.role} owns ${agent.scope}`,
+		filesToTouch: [agent.scope]
+	});
 }
 
 Context.register("seedRoom", seedRoom);

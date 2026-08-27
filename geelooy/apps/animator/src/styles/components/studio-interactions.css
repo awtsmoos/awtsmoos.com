@@ -1,0 +1,76 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos renews every press, focus, busy state, and reduced-motion choice before interaction can be felt;
+ * Awtsmoos.com keeps tactile response consistent so professional controls remain clear beneath mouse, keyboard, and touch dealt.
+ */
+.aw-studio-toolbar button,
+.aw-studio-panel button,
+.aw-studio-tab,
+.aw-studio-create-button {
+	transition:
+		background var(--aw-fast),
+		border-color var(--aw-fast),
+		color var(--aw-fast),
+		transform var(--aw-fast),
+		box-shadow var(--aw-fast);
+}
+
+.aw-studio-toolbar button:active,
+.aw-studio-panel button:active,
+.aw-studio-tab:active,
+.aw-studio-create-button:active {
+	transform: translateY(1px) scale(.97);
+}
+
+.aw-studio-toolbar button:disabled,
+.aw-studio-panel button:disabled {
+	cursor: not-allowed;
+	opacity: .48;
+	transform: none;
+}
+
+.aw-studio-panel input:focus-visible,
+.aw-studio-panel textarea:focus-visible,
+.aw-studio-search:focus-visible {
+	border-color: rgba(133, 160, 255, .72);
+	box-shadow: var(--aw-focus);
+}
+
+.aw-studio-tab.active,
+.aw-studio-asset.selected,
+.aw-studio-tree-row.selected {
+	color: var(--aw-text);
+}
+
+.aw-studio-danger:hover,
+.aw-studio-danger:focus-visible {
+	border-color: rgba(255, 111, 135, .72) !important;
+	background: rgba(125, 41, 61, .28) !important;
+}
+
+.aw-studio-create-button:hover,
+.aw-studio-create-button:focus-visible {
+	border-color: rgba(119, 149, 255, .58);
+	background: rgba(78, 97, 186, .28);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.aw-studio-toolbar button,
+	.aw-studio-panel button,
+	.aw-studio-tab,
+	.aw-studio-create-button {
+		transition: none;
+	}
+
+	.aw-studio-command[aria-busy='true'] .aw-studio-command-emoji {
+		animation: none;
+	}
+
+	.aw-studio-toolbar button:active,
+	.aw-studio-panel button:active,
+	.aw-studio-tab:active,
+	.aw-studio-create-button:active {
+		transform: none;
+	}
+}

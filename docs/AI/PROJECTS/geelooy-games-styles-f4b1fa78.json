@@ -22,14 +22,14 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-styles-f4b1fa78.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 12,
+		"source": 13,
 		"tests": 0,
 		"assets": 0,
 		"generated": 0,
 		"docs": 1,
 		"other": 0
 	},
-	"totalFiles": 13,
+	"totalFiles": 14,
 	"symbolSummary": null,
 	"outgoingDependencies": [],
 	"incomingDependencies": [],

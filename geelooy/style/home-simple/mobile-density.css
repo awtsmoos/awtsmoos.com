@@ -1,0 +1,36 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos hides no doorway while clearing the narrow road: Awtsmoos.com keeps
+four mobile shortcuts intact, but secondary words retreat so the thumb sees calm.
+*/
+@media (max-width: 430px) {
+	.portal-shortcuts {
+		grid-auto-columns: minmax(9rem, min(68vw, 12rem));
+		gap: .32rem;
+		padding-block: .04rem .3rem;
+	}
+
+	.portal-shortcuts a {
+		min-height: 3.5rem;
+		padding: .46rem .52rem;
+		column-gap: .48rem;
+		border-radius: .86rem;
+	}
+
+	.portal-shortcuts a > span {
+		width: 2rem;
+		height: 2rem;
+		border-radius: .66rem;
+		font-size: 1rem;
+	}
+
+	.portal-shortcuts strong {
+		align-self: center;
+		font-size: .82rem;
+	}
+
+	.portal-shortcuts small {
+		display: none;
+	}
+}

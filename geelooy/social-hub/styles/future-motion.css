@@ -1,88 +1,63 @@
-/* B"H
-Boruch Hashem
-Blessed is He
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
 
-The Awtsmoos renews the instant without haste; Awtsmoos.com lets motion explain arrival, focus, and relation while words remain still.
-*/
+/**
+ * The Awtsmoos renews every instant without spectacle, while Awtsmoos.com lets motion explain that a chamber arrived without making every card float for attention;
+ * this Tiferes-like garment owns only brief route-panel arrival and calm interaction feedback, leaving resting surfaces physically still in light.
+ */
+
 .workspacePanel:not([hidden]) {
-	animation: future-panel-arrive var(--future-slow) var(--future-ease) both;
+	animation: tiferes-panel-arrive 170ms ease-out both;
 }
 
 :where(.riftCard, .pulseGrid article, .quickActionGrid > *, .publicFeedCard) {
 	transition:
-		transform var(--future-normal) var(--future-spring),
-		border-color var(--future-normal) var(--future-ease),
-		box-shadow var(--future-normal) var(--future-ease),
-		background-color var(--future-normal) var(--future-ease);
+		border-color 140ms ease,
+		box-shadow 140ms ease,
+		background-color 140ms ease;
 }
 
 :where(.riftCard, .pulseGrid article, .quickActionGrid > *, .publicFeedCard):is(:hover, :focus-within) {
-	border-color: var(--future-edge-hot);
-	box-shadow: var(--future-glow-hot), var(--future-inset);
-	transform: translateY(-3px);
+	border-color: var(--yesod-edge-hot);
 }
 
 .primaryButton,
 .publicFeedCard__open,
-.publicDiscovery__lookup button,
-.quickActionGrid > * {
-	position: relative;
-	overflow: clip;
+.publicDiscovery__lookup button {
+	transition:
+		background-color 140ms ease,
+		border-color 140ms ease,
+		box-shadow 140ms ease;
 }
 
-.primaryButton::after,
-.publicFeedCard__open::after,
-.publicDiscovery__lookup button::after {
-	position: absolute;
-	top: -40%;
-	left: -65%;
-	width: 45%;
-	height: 180%;
-	background: linear-gradient(90deg, transparent, rgb(255 255 255 / 32%), transparent);
-	content: "";
-	transform: skewX(-18deg);
-	transition: left 520ms var(--future-ease);
+.primaryButton:is(:active, :focus-visible),
+.publicFeedCard__open:is(:active, :focus-visible),
+.publicDiscovery__lookup button:is(:active, :focus-visible) {
+	box-shadow: 0 0 0 2px rgb(126 239 255 / 12%);
 }
 
-.primaryButton:hover::after,
-.publicFeedCard__open:hover::after,
-.publicDiscovery__lookup button:hover::after {
-	left: 120%;
-}
-
-.pulseOrb[data-active="true"] {
-	animation: future-orb-breathe 4.8s ease-in-out infinite;
-}
-
-.pulseOrb[data-active="true"]::before {
-	animation: future-orb-core 3.6s ease-in-out infinite alternate;
-}
-
-@keyframes future-panel-arrive {
+@keyframes tiferes-panel-arrive {
 	from {
 		opacity: 0;
-		transform: translateY(10px) scale(.995);
+		transform: translateY(4px);
 	}
+
 	to {
 		opacity: 1;
-		transform: none;
+		transform: translateY(0);
 	}
 }
 
-@keyframes future-orb-breathe {
-	0%, 100% {
-		box-shadow: 0 0 28px rgb(88 212 255 / 12%), var(--future-inset);
+@media (prefers-reduced-motion: reduce) {
+	.workspacePanel:not([hidden]) {
+		animation: none;
 	}
-	50% {
-		box-shadow: 0 0 48px rgb(88 212 255 / 24%), var(--future-inset);
-	}
-}
 
-@keyframes future-orb-core {
-	from {
-		transform: scale(.92);
-	}
-	to {
-		transform: scale(1.06);
+	:where(.riftCard, .pulseGrid article, .quickActionGrid > *, .publicFeedCard),
+	.primaryButton,
+	.publicFeedCard__open,
+	.publicDiscovery__lookup button {
+		transition: none;
 	}
 }

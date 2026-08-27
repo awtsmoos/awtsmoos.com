@@ -1,0 +1,81 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos renews the creative suite inside the narrowest phone without shrinking its essential soul;
+ * Awtsmoos.com lets emoji commands, one-panel drawers, and full-width authoring controls preserve the stage as the goal.
+ */
+@media (max-width: 780px) {
+	.aw-studio-toolbar {
+		grid-template-columns: minmax(0, 1fr) auto;
+	}
+
+	.aw-studio-toolbar-actions {
+		grid-column: 1 / -1;
+		justify-content: flex-start;
+		padding-bottom: 1px;
+	}
+
+	.aw-studio-command {
+		min-width: 44px;
+		min-height: 44px !important;
+		padding-inline: 10px !important;
+	}
+
+	.aw-studio-command-label {
+		display: none;
+	}
+
+	.aw-studio-command-emoji {
+		font-size: 18px;
+	}
+
+	.aw-studio-tabs {
+		grid-template-columns: repeat(4, minmax(64px, 1fr));
+		overflow-x: auto;
+		scrollbar-width: none;
+	}
+
+	.aw-studio-tabs::-webkit-scrollbar {
+		display: none;
+	}
+
+	.aw-studio-tab {
+		min-height: 44px;
+		font-size: 9px;
+		text-transform: none;
+	}
+
+	.aw-studio-create-grid,
+	.aw-studio-layer-action-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.aw-studio-create-button,
+	.aw-studio-layer-action-grid button,
+	.aw-studio-ai-preview-actions button {
+		min-height: 48px;
+	}
+
+	.aw-studio-transform-grid {
+		grid-template-columns: 1fr 1fr;
+	}
+
+	.aw-studio-panel textarea {
+		min-height: 130px;
+	}
+}
+
+@media (max-width: 430px) {
+	.aw-studio-project-title strong {
+		font-size: 11px;
+	}
+
+	.aw-studio-timecode {
+		font-size: 10px;
+	}
+
+	.aw-studio-transform-grid,
+	.aw-studio-ai-preview-actions {
+		grid-template-columns: 1fr;
+	}
+}

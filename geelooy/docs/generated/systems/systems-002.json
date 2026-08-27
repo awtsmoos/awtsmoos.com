@@ -1,89 +1,14 @@
 [
 	{
-		"systemId": "dosdb-filesystem",
-		"district": "data",
-		"title": "DosDB Filesystem Storage",
-		"summary": "The legacy filesystem-oriented database layer and its compatibility surface.",
+		"systemId": "session-authentication",
+		"district": "security",
+		"title": "Session Authentication",
+		"summary": "Canonical HTTP session authentication and reuse of the same verifier for WebSocket upgrades.",
 		"manuals": [
-			"docs/DATA/DOSDB.md",
-			"docs/DATA/README.md"
+			"docs/SECURITY/README.md",
+			"docs/SECURITY/TRUST_BOUNDARIES.md"
 		],
 		"projects": [
-			{
-				"projectId": "ayzarim-dosdb-eaaa802e",
-				"path": "ayzarim/DosDB",
-				"type": "data",
-				"title": "ayzarim/DosDB",
-				"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-dosdb-eaaa802e.md"
-			}
-		],
-		"sources": [
-			"ayzarim/DosDB/index.js"
-		],
-		"generatedEvidence": [
-			"docs/GENERATED/PROJECT_TUTORIAL_INDEX.md"
-		],
-		"tags": [
-			"persistence",
-			"filesystem",
-			"compatibility"
-		],
-		"claimsBoundary": "Project and source presence establish implementation location, not the complete physical format of every persisted record.",
-		"changeRisk": "Filesystem layout and compatibility behavior can be migration-sensitive.",
-		"environmentEvidence": [
-			{
-				"name": "AWTSMOOS_EMBED_MODE",
-				"classification": "runtime-config",
-				"sources": 1,
-				"exampleSources": "ayzarim/DosDB/aiSearch/textEmbedRunner.js"
-			},
-			{
-				"name": "AWTSMOOS_EMBED_MODEL_ROOT",
-				"classification": "test/tuning",
-				"sources": 1,
-				"exampleSources": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/ai_search_model_root_precedence_test.js"
-			},
-			{
-				"name": "AWTSMOOSDB_FAST_TEST",
-				"classification": "test/tuning",
-				"sources": 3,
-				"exampleSources": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/idle/fastGate.js; ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/lightning/env.js; ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/semantic_ai_dosdb_test.js"
-			},
-			{
-				"name": "AWTSMOOSDB_TEST_SCALE",
-				"classification": "test/tuning",
-				"sources": 1,
-				"exampleSources": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/lightning/env.js"
-			},
-			{
-				"name": "NODE_ENV",
-				"classification": "runtime-config",
-				"sources": 3,
-				"exampleSources": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/lightning/env.js; geelooy/api/wallet/core/paypalEnvironment.js; geelooy/api/wallet/tests/paypalEnvironment.test.js"
-			}
-		],
-		"realtimeApplications": [],
-		"eventEvidence": [],
-		"tutorialFile": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/dosdb-filesystem.md",
-		"provenance": "curated-system-semantics-plus-generated-local-source-evidence"
-	},
-	{
-		"systemId": "mission-room-admission",
-		"district": "realtime",
-		"title": "Mission Room Admission",
-		"summary": "Ticket issuance, account-scoped authority, origin/protocol validation, initial snapshot proof, and upgrade policy.",
-		"manuals": [
-			"docs/WEBSOCKETS/MISSION_ROOMS.md",
-			"docs/SECURITY/REALTIME_SECURITY.md"
-		],
-		"projects": [
-			{
-				"projectId": "geelooy-api-tunnel-df787c17",
-				"path": "geelooy/api/tunnel",
-				"type": "api",
-				"title": "geelooy/api/tunnel",
-				"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-tunnel-df787c17.md"
-			},
 			{
 				"projectId": "ayzarim-awtsmoosdynamicserver-e406758e",
 				"path": "ayzarim/awtsmoosDynamicServer",
@@ -93,166 +18,23 @@
 			}
 		],
 		"sources": [
-			"geelooy/api/tunnel/control/missionRooms/ticketIssuer.js",
-			"geelooy/api/tunnel/control/missionRooms/missionAccess.js",
-			"ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/upgradePolicy.js"
+			"ayzarim/awtsmoosDynamicServer/server/authSetup.js"
 		],
 		"generatedEvidence": [
-			"docs/GENERATED/WEBSOCKET_EVENT_INDEX.md"
+			"docs/GENERATED/ENVIRONMENT_VARIABLES.md"
 		],
 		"tags": [
+			"identity",
+			"session",
 			"websocket",
-			"mission-room",
-			"ticket",
-			"origin",
-			"authorization",
-			"protocol"
+			"security"
 		],
-		"claimsBoundary": "Generated event strings remain lexical evidence; room admission meaning comes from inspected policy/ticket source and human manuals.",
-		"changeRisk": "Ticket binding, origin, protocol version, snapshot proof, or permission changes are security/protocol sensitive.",
-		"environmentEvidence": [
-			{
-				"name": "AWTS_ENTRY_LIMIT",
-				"classification": "test/tuning",
-				"sources": 1,
-				"exampleSources": "ayzarim/awtsmoosDynamicServer/tests/compactJs.entrySweep.test.js"
-			},
-			{
-				"name": "AWTS_ENTRY_MATCH",
-				"classification": "test/tuning",
-				"sources": 1,
-				"exampleSources": "ayzarim/awtsmoosDynamicServer/tests/compactJs.entrySweep.test.js"
-			},
-			{
-				"name": "AWTS_ENTRY_OFFSET",
-				"classification": "test/tuning",
-				"sources": 1,
-				"exampleSources": "ayzarim/awtsmoosDynamicServer/tests/compactJs.entrySweep.test.js"
-			},
-			{
-				"name": "AWTS_ENTRY_ROOTS",
-				"classification": "test/tuning",
-				"sources": 1,
-				"exampleSources": "ayzarim/awtsmoosDynamicServer/tests/compactJs.entrySweep.test.js"
-			},
-			{
-				"name": "AWTSMOOS_BINDING_HISTORY_PER_IDENTITY",
-				"classification": "runtime-config",
-				"sources": 1,
-				"exampleSources": "geelooy/api/tunnel/control/core/tunnelSecurity/bindingRetentionPolicy.js"
-			},
-			{
-				"name": "AWTSMOOS_BINDING_RETENTION_MS",
-				"classification": "tuning",
-				"sources": 1,
-				"exampleSources": "geelooy/api/tunnel/control/core/tunnelSecurity/bindingRetentionPolicy.js"
-			},
-			{
-				"name": "AWTSMOOS_NATIVE_RECOVERING_MS",
-				"classification": "tuning",
-				"sources": 1,
-				"exampleSources": "geelooy/api/tunnel/control/routes/fsVessel/liveDeviceIdentity.js"
-			},
-			{
-				"name": "AWTSMOOS_REGISTRATION_STRESS_COUNT",
-				"classification": "test/tuning",
-				"sources": 1,
-				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/test/registrationReplacementStress.test.cjs"
-			},
-			{
-				"name": "AWTSMOOS_RELAY_STRESS_COUNT",
-				"classification": "test/tuning",
-				"sources": 1,
-				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay.concurrent-correlation.test.cjs"
-			},
-			{
-				"name": "AWTSMOOS_SEFIRA_PROFILE_PATH",
-				"classification": "path/storage",
-				"sources": 1,
-				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/ExpeditionProfileRepository.js"
-			},
-			{
-				"name": "AWTSMOOS_TUNNEL_COMPLETED_LIMIT",
-				"classification": "tuning",
-				"sources": 1,
-				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/constants.js"
-			},
-			{
-				"name": "AWTSMOOS_TUNNEL_CONSUMER_PROGRESS_MS",
-				"classification": "tuning",
-				"sources": 1,
-				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/requestAckHandler.js"
-			},
-			{
-				"name": "AWTSMOOS_TUNNEL_CONTROL_STORE",
-				"classification": "path/storage",
-				"sources": 9,
-				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/missionRoomSocketIntegration.test.cjs; ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/missionRoomUpgrade.test.cjs; ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/upgradePolicy.test.cjs"
-			},
-			{
-				"name": "AWTSMOOS_TUNNEL_PENDING_TTL_MS",
-				"classification": "tuning",
-				"sources": 1,
-				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/constants.js"
-			},
-			{
-				"name": "AWTSMOOS_TUNNEL_QUARANTINE_LIMIT",
-				"classification": "tuning",
-				"sources": 1,
-				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/constants.js"
-			},
-			{
-				"name": "AWTSMOOS_TUNNEL_RELAY_MAX_SAFE_WAIT_MS",
-				"classification": "tuning",
-				"sources": 1,
-				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/constants.js"
-			},
-			{
-				"name": "AWTSMOOS_TUNNEL_RELAY_SAFE_WAIT_MS",
-				"classification": "tuning",
-				"sources": 1,
-				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/constants.js"
-			},
-			{
-				"name": "AWTSMOOS_TUNNEL_RELAY_STATE_ROOT",
-				"classification": "path/storage",
-				"sources": 1,
-				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/durablePaths.js"
-			},
-			{
-				"name": "AWTSMOOS_TUNNEL_REQUEST_ACCEPTANCE_MS",
-				"classification": "tuning",
-				"sources": 1,
-				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/requestDispatch.js"
-			},
-			{
-				"name": "AWTSMOOS_WS_MAX_MISSED_HEARTBEATS",
-				"classification": "runtime-config",
-				"sources": 1,
-				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/core/clientLiveness.js"
-			},
-			{
-				"name": "AWTSMOOS_WS_PROBE_GRACE_MS",
-				"classification": "tuning",
-				"sources": 1,
-				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/core/clientLiveness.js"
-			},
-			{
-				"name": "AWTSMOOS_WS_STALE_MS",
-				"classification": "tuning",
-				"sources": 1,
-				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/core/clientLiveness.js"
-			},
-			{
-				"name": "MW_LOAD_CLIENTS",
-				"classification": "runtime-config",
-				"sources": 1,
-				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/sessionLoadProbe.cjs"
-			}
-		],
+		"claimsBoundary": "Authentication establishes a verified identity source; it does not by itself authorize a resource operation.",
+		"changeRisk": "Secret loading, fallback behavior, middleware order, and socket verifier changes are security-sensitive.",
+		"environmentEvidence": [],
 		"realtimeApplications": [],
 		"eventEvidence": [],
-		"tutorialFile": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/mission-room-admission.md",
+		"tutorialFile": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/session-authentication.md",
 		"provenance": "curated-system-semantics-plus-generated-local-source-evidence"
 	},
 	{
@@ -313,12 +95,6 @@
 				"classification": "path/storage",
 				"sources": 1,
 				"exampleSources": "geelooy/api/oauth/core/serverSecret.js"
-			},
-			{
-				"name": "AWTSMOOS_NATIVE_RECOVERING_MS",
-				"classification": "tuning",
-				"sources": 1,
-				"exampleSources": "geelooy/api/tunnel/control/routes/fsVessel/liveDeviceIdentity.js"
 			}
 		],
 		"realtimeApplications": [],
@@ -327,69 +103,288 @@
 		"provenance": "curated-system-semantics-plus-generated-local-source-evidence"
 	},
 	{
-		"systemId": "parallel-awtsmoosdb",
-		"district": "data",
-		"title": "Parallel AwtsmoosDB Bridge",
-		"summary": "The DosDB-side bridge that exposes a parallel AwtsmoosDB path for newer database capabilities.",
+		"systemId": "tunnel-control-identity",
+		"district": "security",
+		"title": "Tunnel Control Identity",
+		"summary": "Tunnel Control resolves session, OAuth, or verified API-key identity into one authoritative account record.",
 		"manuals": [
-			"docs/DATA/README.md",
-			"docs/DATA/AWTSMOOSDB_AND_VIRTUALFS.md"
+			"docs/SECURITY/TRUST_BOUNDARIES.md",
+			"docs/TUTORIALS/API/TUNNEL_CONTROL.md"
 		],
 		"projects": [
 			{
-				"projectId": "ayzarim-dosdb-eaaa802e",
-				"path": "ayzarim/DosDB",
-				"type": "data",
-				"title": "ayzarim/DosDB",
-				"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-dosdb-eaaa802e.md"
+				"projectId": "geelooy-api-tunnel-df787c17",
+				"path": "geelooy/api/tunnel",
+				"type": "api",
+				"title": "geelooy/api/tunnel",
+				"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-tunnel-df787c17.md"
 			}
 		],
 		"sources": [
-			"ayzarim/DosDB/awtsmoosDbBridge.js"
+			"geelooy/api/tunnel/control/core/auth.js"
 		],
-		"generatedEvidence": [],
+		"generatedEvidence": [
+			"docs/GENERATED/API_TUTORIAL_INDEX.md"
+		],
 		"tags": [
-			"persistence",
-			"awtsmoosdb",
-			"bridge"
+			"identity",
+			"api-key",
+			"oauth",
+			"session",
+			"tunnel"
 		],
-		"claimsBoundary": "Bridge presence does not mean all legacy DosDB callers use the newer engine.",
-		"changeRisk": "Bridge selection/fallback changes can alter which physical storage family receives writes.",
+		"claimsBoundary": "The identity resolver rejects browser-supplied owner fields as authority; downstream permissions remain separate.",
+		"changeRisk": "Identity-source precedence, API-key verification, and account normalization directly affect authorization inputs.",
 		"environmentEvidence": [
 			{
-				"name": "AWTSMOOS_EMBED_MODE",
+				"name": "AWTSMOOS_BINDING_HISTORY_PER_IDENTITY",
 				"classification": "runtime-config",
 				"sources": 1,
-				"exampleSources": "ayzarim/DosDB/aiSearch/textEmbedRunner.js"
+				"exampleSources": "geelooy/api/tunnel/control/core/tunnelSecurity/bindingRetentionPolicy.js"
 			},
 			{
-				"name": "AWTSMOOS_EMBED_MODEL_ROOT",
-				"classification": "test/tuning",
+				"name": "AWTSMOOS_BINDING_RETENTION_MS",
+				"classification": "tuning",
 				"sources": 1,
-				"exampleSources": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/ai_search_model_root_precedence_test.js"
-			},
-			{
-				"name": "AWTSMOOSDB_FAST_TEST",
-				"classification": "test/tuning",
-				"sources": 3,
-				"exampleSources": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/idle/fastGate.js; ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/lightning/env.js; ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/semantic_ai_dosdb_test.js"
-			},
-			{
-				"name": "AWTSMOOSDB_TEST_SCALE",
-				"classification": "test/tuning",
-				"sources": 1,
-				"exampleSources": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/lightning/env.js"
-			},
-			{
-				"name": "NODE_ENV",
-				"classification": "runtime-config",
-				"sources": 3,
-				"exampleSources": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/lightning/env.js; geelooy/api/wallet/core/paypalEnvironment.js; geelooy/api/wallet/tests/paypalEnvironment.test.js"
+				"exampleSources": "geelooy/api/tunnel/control/core/tunnelSecurity/bindingRetentionPolicy.js"
 			}
 		],
 		"realtimeApplications": [],
 		"eventEvidence": [],
-		"tutorialFile": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/parallel-awtsmoosdb.md",
+		"tutorialFile": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/tunnel-control-identity.md",
+		"provenance": "curated-system-semantics-plus-generated-local-source-evidence"
+	},
+	{
+		"systemId": "authorization-resource-ownership",
+		"district": "security",
+		"title": "Authorization and Resource Ownership",
+		"summary": "Account-scoped ownership, explicit grants, permissions, and anti-enumeration behavior above authentication.",
+		"manuals": [
+			"docs/SECURITY/README.md",
+			"docs/SECURITY/TRUST_BOUNDARIES.md"
+		],
+		"projects": [
+			{
+				"projectId": "geelooy-api-tunnel-df787c17",
+				"path": "geelooy/api/tunnel",
+				"type": "api",
+				"title": "geelooy/api/tunnel",
+				"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-tunnel-df787c17.md"
+			},
+			{
+				"projectId": "geelooy-api-social-0cd2dc86",
+				"path": "geelooy/api/social",
+				"type": "api",
+				"title": "geelooy/api/social",
+				"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-social-0cd2dc86.md"
+			}
+		],
+		"sources": [
+			"geelooy/api/tunnel/control/core/tunnelSecurity/authorization.js"
+		],
+		"generatedEvidence": [],
+		"tags": [
+			"authorization",
+			"ownership",
+			"grants",
+			"permissions",
+			"security"
+		],
+		"claimsBoundary": "This packet demonstrates one inspected authorization boundary; it is not a repository-wide security audit.",
+		"changeRisk": "Ownership/grant resolution and information-disclosure behavior are high-impact security contracts.",
+		"environmentEvidence": [
+			{
+				"name": "AWTSMOOS_BINDING_HISTORY_PER_IDENTITY",
+				"classification": "runtime-config",
+				"sources": 1,
+				"exampleSources": "geelooy/api/tunnel/control/core/tunnelSecurity/bindingRetentionPolicy.js"
+			},
+			{
+				"name": "AWTSMOOS_BINDING_RETENTION_MS",
+				"classification": "tuning",
+				"sources": 1,
+				"exampleSources": "geelooy/api/tunnel/control/core/tunnelSecurity/bindingRetentionPolicy.js"
+			}
+		],
+		"realtimeApplications": [],
+		"eventEvidence": [],
+		"tutorialFile": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/authorization-resource-ownership.md",
+		"provenance": "curated-system-semantics-plus-generated-local-source-evidence"
+	},
+	{
+		"systemId": "secrets-runtime-config",
+		"district": "security",
+		"title": "Secrets and Runtime Configuration",
+		"summary": "Environment/configuration names that influence runtime/security while secret values remain deliberately unread.",
+		"manuals": [
+			"docs/SECURITY/SECRETS_AND_CONFIG.md",
+			"docs/SECURITY/README.md"
+		],
+		"projects": [
+			{
+				"projectId": "ayzarim-awtsmoosdynamicserver-e406758e",
+				"path": "ayzarim/awtsmoosDynamicServer",
+				"type": "runtime",
+				"title": "ayzarim/awtsmoosDynamicServer",
+				"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-awtsmoosdynamicserver-e406758e.md"
+			},
+			{
+				"projectId": "geelooy-api-oauth-98ffda8e",
+				"path": "geelooy/api/oauth",
+				"type": "api",
+				"title": "geelooy/api/oauth",
+				"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-oauth-98ffda8e.md"
+			},
+			{
+				"projectId": "geelooy-api-tunnel-df787c17",
+				"path": "geelooy/api/tunnel",
+				"type": "api",
+				"title": "geelooy/api/tunnel",
+				"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-tunnel-df787c17.md"
+			}
+		],
+		"sources": [
+			"ayzarim/awtsmoosDynamicServer/server/authSetup.js"
+		],
+		"generatedEvidence": [
+			"docs/GENERATED/ENVIRONMENT_VARIABLES.md"
+		],
+		"tags": [
+			"environment",
+			"secret-name",
+			"configuration",
+			"security"
+		],
+		"claimsBoundary": "Only environment variable names/classes/source locations are evidence; no value is read, stored, or published.",
+		"changeRisk": "Secret/config precedence and insecure fallback behavior can alter trust guarantees.",
+		"environmentEvidence": [],
+		"realtimeApplications": [],
+		"eventEvidence": [],
+		"tutorialFile": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/secrets-runtime-config.md",
+		"provenance": "curated-system-semantics-plus-generated-local-source-evidence"
+	},
+	{
+		"systemId": "realtime-identity-admission",
+		"district": "security",
+		"title": "Realtime Identity and Admission",
+		"summary": "Trusted WebSocket identity, origin/protocol/ticket checks, and Mission Room authority before realtime participation.",
+		"manuals": [
+			"docs/SECURITY/REALTIME_SECURITY.md",
+			"docs/WEBSOCKETS/MISSION_ROOMS.md"
+		],
+		"projects": [
+			{
+				"projectId": "ayzarim-awtsmoosdynamicserver-e406758e",
+				"path": "ayzarim/awtsmoosDynamicServer",
+				"type": "runtime",
+				"title": "ayzarim/awtsmoosDynamicServer",
+				"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-awtsmoosdynamicserver-e406758e.md"
+			},
+			{
+				"projectId": "geelooy-api-tunnel-df787c17",
+				"path": "geelooy/api/tunnel",
+				"type": "api",
+				"title": "geelooy/api/tunnel",
+				"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-tunnel-df787c17.md"
+			}
+		],
+		"sources": [
+			"ayzarim/awtsmoosDynamicServer/websocket/core/socketUpgrade.js",
+			"geelooy/api/tunnel/control/missionRooms/ticketIssuer.js",
+			"geelooy/api/tunnel/control/missionRooms/missionAccess.js"
+		],
+		"generatedEvidence": [
+			"docs/GENERATED/WEBSOCKET_EVENT_INDEX.md"
+		],
+		"tags": [
+			"identity",
+			"authorization",
+			"origin",
+			"protocol",
+			"websocket"
+		],
+		"claimsBoundary": "Admission combines multiple checks; a successful HTTP identity alone does not prove room authority.",
+		"changeRisk": "Weakening ticket/origin/protocol/authority checks can cross a realtime security boundary.",
+		"environmentEvidence": [
+			{
+				"name": "AWTSMOOS_WS_MAX_MISSED_HEARTBEATS",
+				"classification": "runtime-config",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/core/clientLiveness.js"
+			},
+			{
+				"name": "AWTSMOOS_WS_PROBE_GRACE_MS",
+				"classification": "tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/core/clientLiveness.js"
+			},
+			{
+				"name": "AWTSMOOS_WS_STALE_MS",
+				"classification": "tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/core/clientLiveness.js"
+			}
+		],
+		"realtimeApplications": [],
+		"eventEvidence": [],
+		"tutorialFile": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/realtime-identity-admission.md",
+		"provenance": "curated-system-semantics-plus-generated-local-source-evidence"
+	},
+	{
+		"systemId": "websocket-upgrade-session",
+		"district": "realtime",
+		"title": "WebSocket Upgrade and Session",
+		"summary": "Upgrade-time identity/admission, handshake, client-session attachment, and connection activity.",
+		"manuals": [
+			"docs/WEBSOCKETS/README.md",
+			"docs/SECURITY/REALTIME_SECURITY.md"
+		],
+		"projects": [
+			{
+				"projectId": "ayzarim-awtsmoosdynamicserver-e406758e",
+				"path": "ayzarim/awtsmoosDynamicServer",
+				"type": "runtime",
+				"title": "ayzarim/awtsmoosDynamicServer",
+				"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-awtsmoosdynamicserver-e406758e.md"
+			}
+		],
+		"sources": [
+			"ayzarim/awtsmoosDynamicServer/websocket/core/socketUpgrade.js"
+		],
+		"generatedEvidence": [
+			"docs/GENERATED/WEBSOCKET_APPLICATIONS.md"
+		],
+		"tags": [
+			"websocket",
+			"upgrade",
+			"identity",
+			"protocol"
+		],
+		"claimsBoundary": "Upgrade source establishes the handshake/session boundary; deployment reachability is not inferred.",
+		"changeRisk": "Handshake, identity, cookie, and admission changes can alter every realtime application.",
+		"environmentEvidence": [
+			{
+				"name": "AWTSMOOS_WS_MAX_MISSED_HEARTBEATS",
+				"classification": "runtime-config",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/core/clientLiveness.js"
+			},
+			{
+				"name": "AWTSMOOS_WS_PROBE_GRACE_MS",
+				"classification": "tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/core/clientLiveness.js"
+			},
+			{
+				"name": "AWTSMOOS_WS_STALE_MS",
+				"classification": "tuning",
+				"sources": 1,
+				"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/core/clientLiveness.js"
+			}
+		],
+		"realtimeApplications": [],
+		"eventEvidence": [],
+		"tutorialFile": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/websocket-upgrade-session.md",
 		"provenance": "curated-system-semantics-plus-generated-local-source-evidence"
 	}
 ]

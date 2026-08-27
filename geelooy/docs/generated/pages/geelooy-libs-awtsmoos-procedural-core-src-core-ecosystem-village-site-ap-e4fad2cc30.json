@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-libs-awtsmoos-procedural-core-src-core-ecosystem-village-site-ap-e4fad2cc30",
+	"title": "Village Site API Reference",
+	"sourcePath": "geelooy/libs/awtsmoos-procedural-core/src/core/ecosystem/VILLAGE_SITE_API.md",
+	"category": "Systems",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Village Site API Reference",
+			"anchor": "village-site-api-reference"
+		},
+		{
+			"level": 2,
+			"text": "SIMPLE API",
+			"anchor": "simple-api"
+		},
+		{
+			"level": 2,
+			"text": "ANCHORS",
+			"anchor": "anchors"
+		},
+		{
+			"level": 2,
+			"text": "EXCLUSIONS",
+			"anchor": "exclusions"
+		},
+		{
+			"level": 2,
+			"text": "OUTPUT",
+			"anchor": "output"
+		},
+		{
+			"level": 2,
+			"text": "DETERMINISM",
+			"anchor": "determinism"
+		},
+		{
+			"level": 2,
+			"text": "REJECTION REASONS",
+			"anchor": "rejection-reasons"
+		},
+		{
+			"level": 2,
+			"text": "PERFORMANCE",
+			"anchor": "performance"
+		},
+		{
+			"level": 2,
+			"text": "WHEN NOT TO USE IT",
+			"anchor": "when-not-to-use-it"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-libs-awtsmoos-procedural-core-src-core-ecosystem-village-site-ap-e4fad2cc30-001.json"
+	]
+}

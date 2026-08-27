@@ -1,0 +1,83 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets a vast spreadsheet fold into smaller garments while every command remains near in light.
+Awtsmoos.com gives Focus, Compact, and Full one quiet switch so the grid grows wider in attention, not in might.
+*/
+.app-shell {
+	position: relative;
+	z-index: 1;
+}
+
+.app-shell [hidden] {
+	display: none !important;
+}
+
+.chrome-mode-button {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	min-height: 36px;
+	padding: 6px 10px;
+	border-radius: 999px;
+	white-space: nowrap;
+}
+
+.chrome-mode-icon {
+	display: inline-grid;
+	width: 18px;
+	height: 18px;
+	place-items: center;
+	font-size: 13px;
+}
+
+.chrome-mode-label,
+.command-label {
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: .02em;
+}
+
+.chrome-mode-button[data-chrome-mode="focus"] .chrome-mode-icon {
+	transform: scale(.82);
+}
+
+.chrome-mode-button[data-chrome-mode="full"] {
+	background: rgba(19, 124, 83, .08);
+	border-color: rgba(19, 124, 83, .15);
+}
+
+.command-palette-trigger {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+}
+
+.command-glyph {
+	font-size: 15px;
+	line-height: 1;
+}
+
+.app-shell[data-chrome-mode="focus"] .app-bar,
+.app-shell[data-chrome-mode="compact"] .app-bar {
+	box-shadow: 0 1px 0 var(--glass-border);
+}
+
+@media (min-width: 761px) {
+	.command-label {
+		display: none;
+	}
+}
+
+@media (max-width: 760px) {
+	.chrome-mode-label {
+		display: none;
+	}
+
+	.chrome-mode-button,
+	.command-palette-trigger,
+	#shareButton {
+		min-width: 44px;
+		min-height: 44px;
+	}
+}

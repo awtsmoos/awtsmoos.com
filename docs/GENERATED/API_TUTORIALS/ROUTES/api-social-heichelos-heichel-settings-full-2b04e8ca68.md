@@ -42,11 +42,7 @@ const result = await response.json();
 
 ## Observed callers
 
-Pattern-compatible evidence only; it does not prove runtime dispatch.
-
-| Literal | Source | Kind |
-| --- | --- | --- |
-| `/api/social/heichelos/${config.heichelId}/settings/full` | `geelooy/heichel-editor/modules/forms/settingsForm.js` | runtime |
+No matching literal caller evidence was found.
 
 ## Related tests
 

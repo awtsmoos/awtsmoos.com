@@ -5,6 +5,7 @@
 const os = require("node:os");
 const path = require("node:path");
 const ProfileState = require("../tools/chrome/profileState.js");
+const FakeSsh = require("./config-fakeSsh.js");
 
 const FOUR_MINUTES_MS = 240000;
 const DEFAULT_AI = Object.freeze({
@@ -27,9 +28,9 @@ const DEFAULT_MISSION = Object.freeze({
 /**
  * @file Builds defaults around the one launch directory chosen by the human.
  * @description
- * The Awtsmoos renews replaceable code while Awtsmoos.com keeps the user's chosen
- * workspace fixed. A missing legacy config therefore falls back to launch cwd,
- * never to the broader home directory.
+ * The Awtsmoos renews replaceable code while Awtsmoos.com keeps the chosen
+ * workspace fixed. Fake SSH also begins on loopback, so remote light remains
+ * private until explicit policy opens a larger vessel in rhyme.
  */
 function buildDefaults(projectRoot = process.env.AWTSMOOS_PROJECT_ROOT || process.env.AWTSMOOS_INSTALL_CWD || process.cwd()) {
 	return {
@@ -41,6 +42,7 @@ function buildDefaults(projectRoot = process.env.AWTSMOOS_PROJECT_ROOT || proces
 		allowSecrets: true,
 		allowCommands: true,
 		enableLocalHttpProxy: true,
+		...FakeSsh.defaults(),
 		aiAgents: DEFAULT_AI,
 		gitHygiene: DEFAULT_GIT_HYGIENE,
 		mission: DEFAULT_MISSION,

@@ -1,10 +1,12 @@
-/* B"H
- * Boruch Hashem
- * Blessed is He
- *
- * Social Hub navigation becomes a vertical constellation of explicit chambers.
- * The Awtsmoos makes current position visible before motion begins.
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos is beyond road and destination, while Awtsmoos.com lets Social navigation remain stable enough to trust and quiet enough to disappear behind the work;
+ * this Netzach-like garment owns rail and route geometry, reserving motion and breakpoint retraction for neighboring vessels of light.
  */
+
 .desktopRail {
 	position: sticky;
 	z-index: var(--z-sticky);
@@ -13,15 +15,15 @@
 	min-block-size: calc(100vh - var(--g-header-h) - 4.6rem);
 	flex-direction: column;
 	justify-content: space-between;
-	padding: .85rem .7rem;
-	border-inline-end: 1px solid rgba(60, 236, 255, .18);
-	background: linear-gradient(180deg, rgba(8, 18, 34, .96), rgba(4, 8, 18, .98));
-	box-shadow: 18px 0 46px rgba(0, 0, 0, .22);
+	padding: .7rem .55rem;
+	border-inline-end: 1px solid rgba(126, 239, 255, .12);
+	background: rgba(6, 13, 25, .96);
+	box-shadow: 10px 0 28px rgba(0, 0, 0, .16);
 }
 
 .routeNavigation {
 	display: grid;
-	gap: .45rem;
+	gap: .34rem;
 }
 
 .routeNavigation button {
@@ -30,40 +32,39 @@
 	min-block-size: 48px;
 	grid-template-columns: 2.35rem minmax(0, 1fr);
 	align-items: center;
-	gap: .62rem;
-	padding: .48rem .58rem;
+	gap: .55rem;
+	padding: .42rem .5rem;
 	text-align: start;
 }
 
 .routeIcon {
 	display: grid;
-	inline-size: 2.25rem;
-	block-size: 2.25rem;
+	inline-size: 2.2rem;
+	block-size: 2.2rem;
 	place-items: center;
-	border: 1px solid rgba(60, 236, 255, .22);
-	border-radius: .72rem .42rem .72rem .42rem;
-	background: rgba(60, 236, 255, .08);
+	border: 1px solid rgba(126, 239, 255, .16);
+	border-radius: .65rem;
+	background: rgba(126, 239, 255, .04);
 	color: currentColor;
 	font-size: 1rem;
 }
 
 .routeNavigation button[data-active="true"] .routeIcon {
-	border-color: rgba(255, 72, 203, .58);
-	background: linear-gradient(145deg, rgba(60, 236, 255, .2), rgba(255, 72, 203, .18));
-	box-shadow: 0 0 20px rgba(60, 236, 255, .18);
+	border-color: rgba(126, 239, 255, .42);
+	background: rgba(126, 239, 255, .1);
 }
 
 .routeLabel {
 	overflow: hidden;
-	font-weight: 780;
+	font-weight: 760;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
 
 .railFooter {
 	display: grid;
-	gap: .35rem;
-	padding: .65rem;
+	gap: .3rem;
+	padding: .55rem;
 }
 
 .mobileDock {

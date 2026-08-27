@@ -71,7 +71,7 @@
 		"verify:home-production": "node scripts/verifyHomeProduction.mjs"
 	},
 	"author": "",
-	"license": "ISC",
+	"license": "SEE LICENSE IN LICENSE",
 	"devDependencies": {
 		"postcss": "^8.5.25"
 	}

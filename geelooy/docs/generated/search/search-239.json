@@ -1,9 +1,9 @@
 [
 	{
-		"id": "geelooy-games-mitzvahworld-assets-materials-local-directory-guide-md-abf1a03023",
+		"id": "geelooy-api-social-helper-unifiedsocial-readme-md-8a45e56a01",
 		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/assets/materials/local/DIRECTORY_GUIDE.md",
-		"category": "Games",
+		"sourcePath": "geelooy/api/social/helper/unifiedSocial/README.md",
+		"category": "API",
 		"provenance": "project",
 		"headings": [
 			{
@@ -13,243 +13,267 @@
 			},
 			{
 				"level": 1,
-				"text": "Directory Guide: assets/materials/local",
-				"anchor": "directory-guide-assets-materials-local"
+				"text": "Boruch Hashem",
+				"anchor": "boruch-hashem"
+			},
+			{
+				"level": 1,
+				"text": "Blessed is He",
+				"anchor": "blessed-is-he"
+			},
+			{
+				"level": 1,
+				"text": "Unified Social Backend",
+				"anchor": "unified-social-backend"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Identity",
+				"anchor": "identity"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "Acting-alias authorization",
+				"anchor": "acting-alias-authorization"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "Permissions",
+				"anchor": "permissions"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
+				"text": "Destinations",
+				"anchor": "destinations"
 			},
 			{
 				"level": 2,
-				"text": "Data keys observed",
-				"anchor": "data-keys-observed"
+				"text": "Publishing",
+				"anchor": "publishing"
 			},
 			{
 				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
+				"text": "Review",
+				"anchor": "review"
 			},
 			{
 				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
+				"text": "Governance",
+				"anchor": "governance"
 			},
 			{
 				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
+				"text": "Compatibility",
+				"anchor": "compatibility"
 			},
 			{
 				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Testing",
+				"anchor": "testing"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: assets/materials/local Role: Assets Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 73 files, 2 structural child directories Purpose Locally curated material assets that can be consumed without an external asset service. The Awtsmoo",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: assets/materials/local role: assets snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 73 files, 2 structural child directories purpose locally curated material assets that can be consumed without an external asset service. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: assets search terms: png, full, resolution, grass, forest, dirt, nature, chai, oak, textures, brick, jpg file mix: .png: 67 · .jpg: 3 · .json: 1 · .svg: 1 good first question: “does the behavior or asset i need belong to assets, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files awtsmoos nature chai forest textures bark bark001 1k jpg bark001 1k jpg 296c0f5f.jpg — a .jpg artifact in this directory. awtsmoos nature chai forest textures ground dirt color 9f8372fe.jpg — a .jpg artifact in this directory. awtsmoos nature chai forest textures ground grass f5733be1.jpg — a .jpg artifact in this directory. awtsmoos nature chai forest textures leaves ash a2a45478.png — a .png artifact in this directory. awtsmoos nature chai forest textures leaves aspen 9b18519b.png — a .png artifact in this directory. awtsmoos nature chai forest textures leaves oak 6fc9ef51.png — a .png artifact in this directory. awtsmoos nature chai forest textures leaves pine 0dc70930.png — a .png artifact in this directory. awtsmoos nature ilanos trees sakura petal 9542c53e.png — a .png artifact in this directory. full resolution bluestone 1 e5ff9c01.png — a .png artifact in this directory. full resolution cobblestone 9961d4d5.png — a .png artifact in this directory. full resolution copper 1 7caccc0d.png — a .png artifact in this directory. full resolution cow fur 1 90616b26.png — a .png artifact in this directory. data keys observed bh · generatedat · sourceroot · destinationroot · summary · records directory map parent: assets/materials children: assets/materials/local/terrain assets/materials/local/world related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. vegetation, trees, and forest systems — botany rules, tree generation, forest composition, grass, and source texture libraries overlap semantically but own different layers. boundaries and cautions this directory owns files consumed by runtime systems, not the runtime policy that selects or interprets them. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-assets-materials-local-directory-guide-md-abf1a03023.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Unified Social Backend This domain coordinates native Geelooy identity, Heichel, series, content, graph, notification, draft, asset, and governance helpers. It does not introduce a second social database. Identity identity/ returns public alias context, creates aliases through native hel",
+		"searchText": "b\"h boruch hashem blessed is he unified social backend this domain coordinates native geelooy identity, heichel, series, content, graph, notification, draft, asset, and governance helpers. it does not introduce a second social database. identity identity/ returns public alias context, creates aliases through native helpers, and selects the protected default alias. no route returns or stores passwords, cookies, tokens, authorization headers, or private session material. acting alias authorization permissions/actorauthorization.js adapts the native verifyaliasownership helper and fails closed when its signature or result is ambiguous. every acting alias route requires: 1. a live authenticated user; 2. ownership of the claimed alias; 3. compiled capabilities; 4. destination policy; 5. legal workflow or hierarchy state. a public alias id alone never grants authority. permissions the compiler dual reads: heichel owner information; current member records; legacy editors; legacy moderators; legacy contributors; legacy followers. it emits one effective role, every evidence source, named capabilities, and direct, submit, or deny explanations. destinations destinations/ provides searchable heichel evidence, bounded nested series traversal, breadcrumbs, root series semantics, effective access, and inline heichel or series creation through native helpers. publishing publishing/ enforces one canonical origin and deterministic secondary placements. it supports references, reposts, quotes, excerpts, and syndication. idempotency prevents retry duplication. native content helpers create posts, questions, and answers; native graph helpers receive provenance edges. review review/ stores typed submissions, legal transitions, reviewer assignment, history, scheduling, publication, and notifications. approval does not bypass final capability and ownership checks. governance permissions/rolemutationservice.js and invitation services provide: hierarchy safe roles; protected ownership; dual writes to current and legacy role stores; governance audit records; native notifications; seven day invitations; explicit recipient consent; authority revalidation at acceptance; expiration evidence. compatibility old routes and records remain readable. new modules delegate to existing helpers and coexist through dual read or dual write evidence until migration parity is proven. testing the test folder uses an in memory database to prove schemas, access, destinations, planning, idempotency, publication, review, native ownership adaptation, governance hierarchy, invitation consent, and route discovery. existing rich social and route coverage tests are also required. the awtsmoos is one before all stores, routes, roles, and graphs. these modules reveal that unity without erasing the older vessels through which awtsmoos.com already lives.",
+		"page": "pages/geelooy-api-social-helper-unifiedsocial-readme-md-8a45e56a01.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-assets-materials-local-terrain-directory-guid-7ae2a3ae3d",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/assets/materials/local/terrain/DIRECTORY_GUIDE.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "geelooy-api-ssh-documentation-md-3d9d9b7323",
+		"title": "SSH API Documentation",
+		"sourcePath": "geelooy/api/ssh/DOCUMENTATION.md",
+		"category": "API",
+		"provenance": "breadcrumb",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: assets/materials/local/terrain",
-				"anchor": "directory-guide-assets-materials-local-terrain"
-			},
-			{
-				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
-			},
-			{
-				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
-			},
-			{
-				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "SSH API Documentation",
+				"anchor": "ssh-api-documentation"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: assets/materials/local/terrain Role: Assets Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 7 files, 0 structural child directories Purpose Terrain focused material files and textures. The Awtsmoos renews every path and every artifa",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: assets/materials/local/terrain role: assets snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 7 files, 0 structural child directories purpose terrain focused material files and textures. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: assets search terms: png, assets, bank, earth, floor, forest, grass, guide, jpg, leaf, local, materials file mix: .png: 5 · .jpg: 1 good first question: “does the behavior or asset i need belong to assets, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files forest leaf floor.png — a .png artifact in this directory. meadow wet grass.png — a .png artifact in this directory. mountain stone.png — a .png artifact in this directory. shore sand.png — a .png artifact in this directory. stream bank mud.png — a .png artifact in this directory. worn earth.jpg — a .jpg artifact in this directory. directory map parent: assets/materials/local children: none. related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. boundaries and cautions this directory owns files consumed by runtime systems, not the runtime policy that selects or interprets them. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-assets-materials-local-terrain-directory-guid-7ae2a3ae3d.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He SSH API Documentation The Awtsmoos lets remote host, command, file, folder, stat, mode, and path enter a security sensitive gate; Awtsmoos.com maps this family so credentials, identity, method, and destructive actions are inspected before use, not after fate. Read ../../../docs/API/OTHER",
+		"searchText": "b\"h boruch hashem blessed is he ssh api documentation the awtsmoos lets remote host, command, file, folder, stat, mode, and path enter a security sensitive gate; awtsmoos.com maps this family so credentials, identity, method, and destructive actions are inspected before use, not after fate. read ../../../docs/api/other families.md, ../../../docs/api/authentication.md, and ../../../docs/api/calling cookbook.md.",
+		"page": "pages/geelooy-api-ssh-documentation-md-3d9d9b7323.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--34abf04ad4",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/assets/materials/local/world/awtsmoos-nature/chai-forest/DIRECTORY_GUIDE.md",
-		"category": "Games",
+		"id": "geelooy-api-streaming-docs-architecture-md-f8532e8814",
+		"title": "Streaming Architecture",
+		"sourcePath": "geelooy/api/streaming/docs/ARCHITECTURE.md",
+		"category": "API",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: assets/materials/local/world/awtsmoos-nature/chai-forest",
-				"anchor": "directory-guide-assets-materials-local-world-awtsmoos-nature-chai-forest"
-			},
-			{
-				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
-			},
-			{
-				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
-			},
-			{
-				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Streaming Architecture",
+				"anchor": "streaming-architecture"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: assets/materials/local/world/awtsmoos nature/chai forest Role: Assets Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 1 files, 1 structural child directories Purpose Forest material sources organized around bark, ground, and leaf te",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: assets/materials/local/world/awtsmoos nature/chai forest role: assets snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 1 files, 1 structural child directories purpose forest material sources organized around bark, ground, and leaf textures. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: assets search terms: assets, awtsmoos nature, chai forest, guide, local, materials file mix: .md: 1 good first question: “does the behavior or asset i need belong to assets, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files no immediate files. this directory is an organizational parent; follow the child guides below. directory map parent: assets/materials/local/world/awtsmoos nature children: assets/materials/local/world/awtsmoos nature/chai forest/textures related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. vegetation, trees, and forest systems — botany rules, tree generation, forest composition, grass, and source texture libraries overlap semantically but own different layers. boundaries and cautions this directory owns files consumed by runtime systems, not the runtime policy that selects or interprets them. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--34abf04ad4.json"
+		"excerpt": "B\"H Streaming Architecture /api/streaming is the generic control plane. Connectors: youtube: OAuth + YouTube Live API broadcast/stream control. Supports HLS/RTMPS ingest metadata. twitch: manual stream key first. OAuth can be added later for chat/metadata. facebook: manual stream URL first. Graph API setup can be added",
+		"searchText": "b\"h streaming architecture /api/streaming is the generic control plane. connectors: youtube: oauth + youtube live api broadcast/stream control. supports hls/rtmps ingest metadata. twitch: manual stream key first. oauth can be added later for chat/metadata. facebook: manual stream url first. graph api setup can be added after app review decisions. awtsmoos: optional hosted relay/record/multicast path where video bytes intentionally pass through awtsmoos. data paths: 1. direct to platform local path: browser/webcodecs local muxer/protocol adapter platform ingest. 2. awtsmoos hosted option: browser/webcodecs awtsmoos relay viewers/platforms. 3. manual custom ingest: user supplies server url + stream key. the missing heavy piece remains the mux/protocol adapter.",
+		"page": "pages/geelooy-api-streaming-docs-architecture-md-f8532e8814.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--e946a53394",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/assets/materials/local/world/awtsmoos-nature/chai-forest/textures/bark/Bark001_1K-JPG/DIRECTORY_GUIDE.md",
-		"category": "Games",
+		"id": "geelooy-api-streaming-docs-local-tunnel-media-plane-md-c53c041c3d",
+		"title": "Local Tunnel Media Plane",
+		"sourcePath": "geelooy/api/streaming/docs/LOCAL_TUNNEL_MEDIA_PLANE.md",
+		"category": "API",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: assets/materials/local/world/awtsmoos-nature/chai-forest/textures/bark/Bark0011K-JPG",
-				"anchor": "directory-guide-assets-materials-local-world-awtsmoos-nature-chai-forest-textures-bark-bark0011k-jpg"
-			},
-			{
-				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
-			},
-			{
-				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
-			},
-			{
-				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Local Tunnel Media Plane",
+				"anchor": "local-tunnel-media-plane"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/Bark001 1K JPG Role: Assets Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 2 files, 0 structural child directories Purpose A single bark material set named Bark",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark001 1k jpg role: assets snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 2 files, 0 structural child directories purpose a single bark material set named bark001 1k jpg, kept as a leaf so its texture maps remain grouped. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: assets search terms: jpg, assets, awtsmoos nature, bark, bark001, bark001 1k jpg, chai forest, color, guide, local, materials, textures file mix: .jpg: 1 · .md: 1 good first question: “does the behavior or asset i need belong to assets, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files bark001 1k jpg color.jpg — a .jpg artifact in this directory. directory map parent: assets/materials/local/world/awtsmoos nature/chai forest/textures/bark children: none. related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. vegetation, trees, and forest systems — botany rules, tree generation, forest composition, grass, and source texture libraries overlap semantically but own different layers. boundaries and cautions this directory owns files consumed by runtime systems, not the runtime policy that selects or interprets them. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--e946a53394.json"
+		"excerpt": "B\"H Local Tunnel Media Plane /api/streaming is the cloud/control plane. The local tunnel is the media plane. Why: YouTube needs HLS/RTMPS ingest bytes. Twitch/Facebook normally need RTMP/RTMPS ingest bytes. Browser JavaScript cannot cleanly push RTMP directly. Local tunnel can forward muxed bytes without ffmpeg and wit",
+		"searchText": "b\"h local tunnel media plane /api/streaming is the cloud/control plane. the local tunnel is the media plane. why: youtube needs hls/rtmps ingest bytes. twitch/facebook normally need rtmp/rtmps ingest bytes. browser javascript cannot cleanly push rtmp directly. local tunnel can forward muxed bytes without ffmpeg and without sending media through awtsmoos cloud. current state: session/counter transport exists. hls segment metadata and playlist generation exists. direct forwarding hooks exist. real muxer remains the next hard component.",
+		"page": "pages/geelooy-api-streaming-docs-local-tunnel-media-plane-md-c53c041c3d.json"
+	},
+	{
+		"id": "geelooy-api-streaming-documentation-md-2e514340ef",
+		"title": "Streaming API Documentation",
+		"sourcePath": "geelooy/api/streaming/DOCUMENTATION.md",
+		"category": "API",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Streaming API Documentation",
+				"anchor": "streaming-api-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Streaming API Documentation The Awtsmoos lets one dispatch vessel reach provider connectors while each external contract keeps its own key; Awtsmoos.com maps action, connector, caller, and configuration evidence so streaming is not mistaken for plain CRUD simplicity. Read ../../../docs/A",
+		"searchText": "b\"h boruch hashem blessed is he streaming api documentation the awtsmoos lets one dispatch vessel reach provider connectors while each external contract keeps its own key; awtsmoos.com maps action, connector, caller, and configuration evidence so streaming is not mistaken for plain crud simplicity. read ../../../docs/api/streaming.md, ../../../docs/apps/media tools.md, and ../../../docs/configuration.md.",
+		"page": "pages/geelooy-api-streaming-documentation-md-2e514340ef.json"
+	},
+	{
+		"id": "geelooy-api-text-documentation-md-b0640f09c6",
+		"title": "Text API Documentation",
+		"sourcePath": "geelooy/api/text/DOCUMENTATION.md",
+		"category": "API",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Text API Documentation",
+				"anchor": "text-api-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Text API Documentation The Awtsmoos asks the map to confess when a source cannot yet parse instead of decorating failure as health; Awtsmoos.com keeps this mount visible with its syntax defect so intended routes are not mistaken for verified wealth. Read ../../../docs/HEALTH.md and ../..",
+		"searchText": "b\"h boruch hashem blessed is he text api documentation the awtsmoos asks the map to confess when a source cannot yet parse instead of decorating failure as health; awtsmoos.com keeps this mount visible with its syntax defect so intended routes are not mistaken for verified wealth. read ../../../docs/health.md and ../../../docs/api/other families.md. current generated syntax evidence: ../../../docs/generated/derech health.md.",
+		"page": "pages/geelooy-api-text-documentation-md-b0640f09c6.json"
+	},
+	{
+		"id": "geelooy-api-tunnel-control-documentation-md-becfd8c936",
+		"title": "Tunnel Control API Documentation",
+		"sourcePath": "geelooy/api/tunnel/control/DOCUMENTATION.md",
+		"category": "API",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Tunnel Control API Documentation",
+				"anchor": "tunnel-control-api-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Tunnel Control API Documentation The Awtsmoos gives remote control a trusted account bound plane across device, preview, mission, compute, and treasury; Awtsmoos.com maps its many route families beside auth and realtime admission so client owner fields never become authority. Read ../../",
+		"searchText": "b\"h boruch hashem blessed is he tunnel control api documentation the awtsmoos gives remote control a trusted account bound plane across device, preview, mission, compute, and treasury; awtsmoos.com maps its many route families beside auth and realtime admission so client owner fields never become authority. read ../../../../docs/api/tunnel control.md, ../../../../docs/api/authentication.md, and ../../../../docs/websockets/mission rooms.md.",
+		"page": "pages/geelooy-api-tunnel-control-documentation-md-becfd8c936.json"
+	},
+	{
+		"id": "geelooy-api-tunnel-documentation-md-ddc3c1d7e8",
+		"title": "Tunnel API Documentation",
+		"sourcePath": "geelooy/api/tunnel/DOCUMENTATION.md",
+		"category": "API",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Tunnel API Documentation",
+				"anchor": "tunnel-api-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Tunnel API Documentation The Awtsmoos bridges request to remote vessel while control, install, and live relay remain separate layers in view; Awtsmoos.com maps base Tunnel status/client/request/filesystem routes beside deeper Control and WebSocket work too. Read ../../../docs/SYSTEMS/TUN",
+		"searchText": "b\"h boruch hashem blessed is he tunnel api documentation the awtsmoos bridges request to remote vessel while control, install, and live relay remain separate layers in view; awtsmoos.com maps base tunnel status/client/request/filesystem routes beside deeper control and websocket work too. read ../../../docs/systems/tunnel.md, ../../../docs/api/tunnel control.md, and ../../../docs/websockets/tunnel relay.md.",
+		"page": "pages/geelooy-api-tunnel-documentation-md-ddc3c1d7e8.json"
+	},
+	{
+		"id": "geelooy-api-tunnel-install-documentation-md-074970bfde",
+		"title": "Tunnel Installer API Documentation",
+		"sourcePath": "geelooy/api/tunnel/install/DOCUMENTATION.md",
+		"category": "API",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Tunnel Installer API Documentation",
+				"anchor": "tunnel-installer-api-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Tunnel Installer API Documentation The Awtsmoos lets a new vessel receive its agent through public installer artifacts while remote authority stays elsewhere; Awtsmoos.com maps Windows, Linux, Unix, bundles, manifest, and agent archive routes without confusing download with control layer",
+		"searchText": "b\"h boruch hashem blessed is he tunnel installer api documentation the awtsmoos lets a new vessel receive its agent through public installer artifacts while remote authority stays elsewhere; awtsmoos.com maps windows, linux, unix, bundles, manifest, and agent archive routes without confusing download with control layer trust. read ../../../../docs/api/other families.md and ../../../../docs/systems/tunnel.md.",
+		"page": "pages/geelooy-api-tunnel-install-documentation-md-074970bfde.json"
+	},
+	{
+		"id": "geelooy-api-wallet-documentation-md-39c91f6ac5",
+		"title": "Wallet API Documentation",
+		"sourcePath": "geelooy/api/wallet/DOCUMENTATION.md",
+		"category": "API",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Wallet API Documentation",
+				"anchor": "wallet-api-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Wallet API Documentation The Awtsmoos lets value move through balance, catalog, entitlement, purchase, mock, and provider paths with care; Awtsmoos.com maps Wallet beside PayPal configuration and commerce docs so no monetary contract is guessed from a route name there. Read ../../../docs",
+		"searchText": "b\"h boruch hashem blessed is he wallet api documentation the awtsmoos lets value move through balance, catalog, entitlement, purchase, mock, and provider paths with care; awtsmoos.com maps wallet beside paypal configuration and commerce docs so no monetary contract is guessed from a route name there. read ../../../docs/api/wallet.md, ../../../docs/apps/commerce and wallet.md, and ../../../docs/configuration.md.",
+		"page": "pages/geelooy-api-wallet-documentation-md-39c91f6ac5.json"
+	},
+	{
+		"id": "geelooy-api-youtube-docs-setup-md-b230bcce36",
+		"title": "B\"H — Awtsmoos YouTube integration",
+		"sourcePath": "geelooy/api/youtube/docs/SETUP.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Awtsmoos YouTube integration",
+				"anchor": "b-h-awtsmoos-youtube-integration"
+			},
+			{
+				"level": 2,
+				"text": "Public manager",
+				"anchor": "public-manager"
+			},
+			{
+				"level": 2,
+				"text": "Google Cloud configuration",
+				"anchor": "google-cloud-configuration"
+			},
+			{
+				"level": 2,
+				"text": "Secret installation",
+				"anchor": "secret-installation"
+			},
+			{
+				"level": 2,
+				"text": "Token model",
+				"anchor": "token-model"
+			},
+			{
+				"level": 2,
+				"text": "Upload model",
+				"anchor": "upload-model"
+			},
+			{
+				"level": 2,
+				"text": "API routes",
+				"anchor": "api-routes"
+			}
+		],
+		"excerpt": "B\"H — Awtsmoos YouTube integration Public manager The browser manager lives at /youtube/. A user connects Google with the server side OAuth flow, selects a YouTube channel, uploads videos, and updates owned video metadata. Google Cloud configuration Enable YouTube Data API v3 and create a Web application OAuth client. ",
+		"searchText": "b\"h — awtsmoos youtube integration public manager the browser manager lives at /youtube/. a user connects google with the server side oauth flow, selects a youtube channel, uploads videos, and updates owned video metadata. google cloud configuration enable youtube data api v3 and create a web application oauth client. the required production redirect uri is: the manager requests permissions incrementally through these modes: read: identity and youtube.readonly upload: read plus youtube.upload manage: upload plus youtube.force ssl for metadata and live broadcast changes secret installation the oauth json must never enter git. from a repository worktree, run: the script uses the repository's custom ssh and sftp implementation. it atomically installs the json at /root/.awtsmoos secrets/youtube/google oauth.json, creates independent session signing and token encryption keys, and applies mode 0700 to directories and 0600 to files. token model refresh and access tokens are encrypted with aes 256 gcm. each google subject receives a separate encrypted record under /root/.awtsmoos secrets/youtube/users. browser cookies contain only signed opaque identity state; google tokens never enter browser javascript. upload model awtsmoos authenticates the user and creates a google resumable upload session. the browser then sends the selected video directly to that google upload url. this keeps large media files out of awtsmoos process memory while preserving upload progress. api routes get /api/youtube/auth/start?mode=manage&returnto=/youtube/ get /api/youtube/oauth/callback get /api/youtube/auth/status post /api/youtube/auth/logout get /api/youtube/channel/mine post /api/youtube/uploads/start get /api/youtube/videos/list post /api/youtube/videos/update get /api/youtube/live/list post /api/youtube/live/create post /api/youtube/live/transition",
+		"page": "pages/geelooy-api-youtube-docs-setup-md-b230bcce36.json"
 	}
 ]

@@ -3,11 +3,9 @@
 // Blessed is He
 
 const crypto = require("node:crypto");
-const fs = require("node:fs");
-const path = require("node:path");
 const Plan = require("./promptPlan.js");
-const ProjectRoot = require("./projectRoot.js");
 const Sanitizer = require("./promptSanitizer.js");
+const TrustedPaths = require("./trustedPathContext.js");
 
 const VOLATILE_CHECKPOINT_KEYS = new Set([
 	"reason",
@@ -18,11 +16,11 @@ const VOLATILE_CHECKPOINT_KEYS = new Set([
 ]);
 
 /**
- * @file Builds path-independent continuation identity and a current-binding successor prompt.
+ * @file Builds one stable mission identity and one fresh-chat prompt with verified live paths.
  * @description
- * The Awtsmoos remembers the unfinished deed rather than its temporary machine address;
- * Awtsmoos.com hashes mission and stable checkpoint, resolves the living root only internally,
- * and tells the next chat to use present tunnel authority instead of repeating a stale path.
+ * The Awtsmoos remembers unfinished meaning while Awtsmoos.com distinguishes current authority
+ * from historical coordinates: verified roots and files remain explicit, old paths inside
+ * arbitrary evidence stay redacted, and the next shliach receives both map and mission.
  */
 function fingerprint(_config, mission = {}, lock = {}) {
 	const stable = JSON.stringify({
@@ -33,72 +31,65 @@ function fingerprint(_config, mission = {}, lock = {}) {
 }
 
 function websiteMissionId(missionId, fingerprintValue) {
-	const clean = String(missionId || "mission").replace(/[^a-z0-9_-]/gi, "_").slice(0, 42);
+	const clean = String(missionId || "mission")
+		.replace(/[^a-z0-9_-]/gi, "_")
+		.slice(0, 42);
 	return `auto_continue_${clean}_${fingerprintValue}`;
 }
 
-function build(config, mission = {}, lock = {}, fingerprintValue = fingerprint(config, mission, lock), context = {}) {
-	const projectRoot = ProjectRoot.resolve(config, mission, lock, context.binding);
+function build(
+	config,
+	mission = {},
+	lock = {},
+	fingerprintValue = fingerprint(config, mission, lock),
+	context = {}
+) {
+	const paths = TrustedPaths.build(config, mission, lock, context);
 	const missionId = mission.id || mission.missionId || lock.missionId || "";
 	const roomId = mission.room?.id || mission.roomId || "";
-	const plans = recentPlans(projectRoot);
-	const next = Sanitizer.json(stableCheckpoint(lock.lastMustCallNext || lock.mustCallNext || null));
+	const next = Sanitizer.json(stableCheckpoint(
+		lock.lastMustCallNext || lock.mustCallNext || null
+	));
 	return [
 		'B"H',
-		"Continue the SAME unfinished Awtsmoos mission. Do not create a duplicate mission.",
-		"Project binding: use the current tunnel-resolved project root for this mission; never reuse historical absolute paths.",
+		"This is a FRESH browser chat continuing the SAME unfinished Awtsmoos mission. Do not create a duplicate mission.",
+		...TrustedPaths.promptLines(paths),
 		`missionId: ${missionId}`,
 		roomId ? `roomId: ${roomId}` : "roomId: use the existing mission room",
 		`continuationFingerprint: ${fingerprintValue}`,
 		`requiredNextCheckpoint: ${next}`,
-		`recentPlanningFiles: ${plans.length ? plans.join(" | ") : "none discovered"}`,
-		...Plan.lines(context),
-		"Read the latest checkpoint and existing planning/source files before writing anything. Do not repeat completed work.",
-		"Inspect existing claims and delegations, then claim only unfinished work after synchronizing with the existing mission room.",
-		context.successorAgentId ? `Use logicalAgentId ${context.successorAgentId} for mission-room and mission-agent actions when supported.` : "Use the existing mission's agent identity system.",
-		"Treat predecessor claims as recovery context, not proof that their unfinished work was completed.",
-		"Publish PLAN, PROGRESS, HANDOFF, and COMPLETION messages in the existing mission room as the work advances.",
-		"Use only the project root supplied by the live tunnel binding; historical filesystem paths are evidence, not authority.",
-		"You may spawn bounded sub-agents only through the verified-close paced Awtsmoos Shliach system with stable request keys.",
-		"Honor user stop/cancel/pause or blocking user-message gates. Do not claim completion until the actual completion gate passes."
-	].join("\n");
+		...Plan.lines({ ...context, handoffPaths: paths.handoffReferences }),
+		"Before modifying anything, inspect current Git/filesystem reality and read each verified handoff path above.",
+		"Historical paths in predecessor notes are evidence, not authority. Do not repeat completed work.",
+		"Synchronize with the existing mission room, claims, and delegations before taking unfinished work.",
+		context.successorAgentId
+			? `Use logicalAgentId ${context.successorAgentId} for mission-room and mission-agent actions when supported.`
+			: "Use the existing mission's agent identity system.",
+		context.spawnGroupId
+			? `Rejoin sibling spawnGroupId ${context.spawnGroupId} for sibling-only coordination.`
+			: "Join the existing mission room before working.",
+		`Your successor generation is ${Number(context.successorGeneration || 2)}; predecessor is ${context.predecessorAgentId || "unknown"}.`,
+		"Publish PLAN, PROGRESS, HANDOFF, and COMPLETION messages in the existing mission room as work advances.",
+		"You may spawn sub-agents only through the verified-close paced Awtsmoos Shliach system with stable request keys.",
+		"Honor user stop/cancel/pause and blocking user-message gates. Claim completion only when the actual completion gate passes."
+	].join(String.fromCharCode(10));
 }
 
 function stableCheckpoint(value) {
 	if (Array.isArray(value)) return value.map(stableCheckpoint);
 	if (typeof value === "string") return Sanitizer.scrubText(value);
 	if (!value || typeof value !== "object") return value;
-	return Object.fromEntries(Object.keys(value)
-		.filter(key => !VOLATILE_CHECKPOINT_KEYS.has(key))
-		.sort()
-		.map(key => [key, stableCheckpoint(value[key])]));
+	return Object.fromEntries(
+		Object.keys(value)
+			.filter((key) => !VOLATILE_CHECKPOINT_KEYS.has(key))
+			.sort()
+			.map((key) => [key, stableCheckpoint(value[key])])
+	);
 }
 
-function recentPlans(projectRoot) {
-	const root = path.join(projectRoot, "geelooy", "ai", "thoughts");
-	const files = [];
-	walk(root, files, 0);
-	return files
-		.sort((left, right) => right.mtimeMs - left.mtimeMs)
-		.slice(0, 8)
-		.map(item => path.relative(projectRoot, item.path));
-}
-
-function walk(root, files, depth) {
-	if (depth > 3) return;
-	let entries = [];
-	try {
-		entries = fs.readdirSync(root, { withFileTypes: true });
-	} catch {
-		return;
-	}
-	for (const entry of entries) {
-		const target = path.join(root, entry.name);
-		if (entry.isDirectory()) walk(target, files, depth + 1);
-		else if (entry.isFile() && entry.name.endsWith(".md")) {
-			files.push({ path: target, mtimeMs: fs.statSync(target).mtimeMs });
-		}
-	}
-}
-
-module.exports = { build, fingerprint, recentPlans, stableCheckpoint, websiteMissionId };
+module.exports = {
+	build,
+	fingerprint,
+	stableCheckpoint,
+	websiteMissionId
+};

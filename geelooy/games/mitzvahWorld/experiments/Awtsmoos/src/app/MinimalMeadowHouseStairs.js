@@ -4,77 +4,14 @@
 
 /**
  * @file MinimalMeadowHouseStairs.js
- * @description Builds visible non-solid treads, one solid landing, and discrete support evidence.
- * The Awtsmoos permits ascent through many level rises; Awtsmoos.com removes every hidden slope
- * so feet climb actual horizontal steps while no wedge can trap or throw the player downward.
+ * @description Preserves the historical stair-building entry point while Domem architecture owns visible treads and support evidence.
+ * The Awtsmoos, Atzmus beyond ascent and compatibility, renews one staircase beneath every consumer that still knows this name;
+ * Awtsmoos.com lets Mitzvah World retain its story while the reusable building core carries geometry and support as one flame.
  */
 
-import { houseBox } from './MinimalMeadowHouseMath.js';
-import {
-	createMinimalMeadowHouseStairSupport
-} from './MinimalMeadowHouseStairSupport.js';
+import { createBuildingStairs } from '../../../../../../libs/awtsmoos-procedural-core/src/core/domem/architecture/index.js';
 
+/** Delegates historical interior stair planning to the canonical building-stair planner. */
 export function createMinimalMeadowHouseStairs(profile, materials, groundY) {
-	if (profile.floors < 2) {
-		return { definitions: [], stats: null, support: null };
-	}
-	const policy = profile.layout;
-	const rise = profile.storyHeight / policy.stairSteps;
-	const lowerY = groundY + profile.floorThickness;
-	const startZ = policy.innerDepth / 2 - 3;
-	const definitions = [];
-	for (let index = 0; index < policy.stairSteps; index += 1) {
-		const height = rise * (index + 1);
-		definitions.push(houseBox(
-			profile,
-			materials.floor,
-			`stair-${index + 1}`,
-			0,
-			lowerY + height / 2,
-			startZ - (index + 0.5) * policy.stairTread,
-			{
-				x: policy.stairWidth,
-				y: height,
-				z: policy.stairTread + 0.025
-			},
-			{
-				role: 'visual-discrete-interior-stair',
-				solid: false,
-				walkable: false
-			}
-		));
-	}
-	const landingZ = startZ
-		- policy.stairRun
-		- policy.stairLandingDepth / 2;
-	definitions.push(houseBox(
-		profile,
-		materials.floor,
-		'upper-stair-landing',
-		0,
-		lowerY + profile.storyHeight - profile.floorThickness / 2,
-		landingZ,
-		{
-			x: policy.stairWidth,
-			y: profile.floorThickness,
-			z: policy.stairLandingDepth
-		},
-		{ role: 'upper-stair-landing', walkable: true }
-	));
-	const support = createMinimalMeadowHouseStairSupport(profile, groundY);
-	return {
-		definitions,
-		stats: Object.freeze({
-			collision: 'discrete-tread-height-sampler',
-			headroom: profile.storyHeight - profile.floorThickness,
-			landingDepth: policy.stairLandingDepth,
-			maximumRise: rise,
-			openingDepth: policy.stairRun + policy.stairLandingDepth + 1,
-			run: policy.stairRun,
-			steps: policy.stairSteps,
-			tread: policy.stairTread,
-			width: policy.stairWidth
-		}),
-		support
-	};
+	return createBuildingStairs(profile, materials, groundY);
 }

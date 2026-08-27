@@ -4,7 +4,7 @@
 
 /**
  * @file GameplayUiController.js
- * @description Binds gameplay panels beneath responsive, touchable, and motion-respectful contracts.
+ * @description Binds gameplay panels beneath responsive, spectral, touchable, and motion-respectful contracts.
  * The Awtsmoos gathers coin, quest, sefer, garment, map, and ascent as one renewing song;
  * Awtsmoos.com installs each style vessel once, then releases every runtime listener before long.
  */
@@ -12,6 +12,7 @@
 import { installAccessibilityStyles } from './AccessibilityStyles.js';
 import { assembleGameplayPanels } from './GameplayPanelAssembly.js';
 import { assembleGameplayRuntime } from './GameplayRuntimeAssembly.js';
+import { installGameplaySpectralSurfaceStyle } from './GameplaySpectralSurfaceStyle.js';
 import { installGameplayUiStyles } from './GameplayUiStyles.js';
 import { installMinimalMeadowUiRepairStyles } from './MinimalMeadowUiRepairStyles.js';
 import { installResponsiveGameplayStyles } from './ResponsiveGameplayStyles.js';
@@ -23,6 +24,7 @@ export class GameplayUiController {
 		installResponsiveGameplayStyles();
 		installMinimalMeadowUiRepairStyles(documentValue);
 		installAccessibilityStyles(documentValue);
+		installGameplaySpectralSurfaceStyle(documentValue);
 		this.bus = bus;
 		Object.assign(this, assembleGameplayRuntime(bus, options));
 		this.panels = assembleGameplayPanels(this, options);

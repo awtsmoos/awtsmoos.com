@@ -5,20 +5,25 @@
 const Sanitizer = require("./promptSanitizer.js");
 
 /**
- * @file Turns bounded recovery evidence into successor instructions without stale machine paths.
+ * @file Turns bounded recovery evidence into path-safe successor instructions.
  * @description
  * The Awtsmoos teaches the next Shliach where the previous hand stopped; Awtsmoos.com keeps
- * completed work, unfinished work, blockers, claims, plans, and handoff truth while historical
- * absolute coordinates dissolve into redaction, leaving meaning alive without yesterday's root.
+ * unfinished work, blockers, claims, generations, and handoff truth while temporary absolute
+ * coordinates are scrubbed, leaving the mission's meaning alive inside the current vessel.
  */
 function lines(context = {}) {
 	const plan = context.recoveryCheckpoint || {};
 	return [
 		`recoveryReason: ${text(context.recoveryReason || "unfinished_mission_idle")}`,
 		`predecessorAgentId: ${text(context.predecessorAgentId || "none")}`,
-		`predecessorStatus: ${text(context.predecessorStatus || "unknown")}`,
+		`predecessorLifecycle: ${text(context.predecessorLifecycle || context.predecessorStatus || "unknown")}`,
+		`predecessorIntentional: ${context.predecessorIntentional === true}`,
+		`predecessorGeneration: ${Number(context.predecessorGeneration || 1)}`,
+		`successorGeneration: ${Number(context.successorGeneration || 2)}`,
+		`spawnGroupId: ${text(context.spawnGroupId || "none")}`,
 		`predecessorLastSeenAt: ${text(context.predecessorLastSeenAt || "unknown")}`,
 		`successorLogicalAgentId: ${text(context.successorAgentId || "successor_unassigned")}`,
+		`projectHandoffReferences: ${join(context.handoffPaths, text)}`,
 		`missionGoal: ${text(plan.goal || "")}`,
 		`missionStatus: ${text(plan.status || "unknown")}`,
 		`missionPhase: ${text(plan.phase || "unknown")}`,
@@ -41,7 +46,8 @@ function taskLabel(item = {}) {
 }
 
 function itemLabel(item = {}) {
-	return `${text(item.id)}:${text(item.status)}:${text(item.title)}${item.by ? `:${text(item.by)}` : ""}`;
+	const by = item.by ? `:${text(item.by)}` : "";
+	return `${text(item.id)}:${text(item.status)}:${text(item.title)}${by}`;
 }
 
 function planLabel(item = {}) {

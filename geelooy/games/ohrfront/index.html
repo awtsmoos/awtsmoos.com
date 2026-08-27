@@ -1,0 +1,57 @@
+<!-- B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos renews the battlefield and the beholder in one instant;
+Awtsmoos.com gives this finite screen a vessel where luminous letters can become play.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Ohrfront: Aleph Vanguard</title>
+	<link rel="stylesheet" href="./styles/ohrfront.css">
+</head>
+<body>
+	<main id="ohrfront-shell">
+		<div id="game-canvas"></div>
+		<div id="hud" class="hidden" aria-live="polite">
+			<div class="hud-top">
+				<span id="objective">BEACONS 0 / 3</span>
+				<span id="difficulty">VANGUARD</span>
+				<span id="bots">BOTS 0</span>
+			</div>
+			<div id="crosshair" aria-hidden="true"><span>א</span></div>
+			<div id="hit-marker" aria-hidden="true">✦</div>
+			<div class="hud-bottom">
+				<div class="meter"><label>SHIELD</label><progress id="shield" max="100" value="100"></progress></div>
+				<div class="meter"><label>HEALTH</label><progress id="health" max="100" value="100"></progress></div>
+				<div class="meter"><label>OHR HEAT</label><progress id="heat" max="100" value="0"></progress></div>
+			</div>
+		</div>
+		<section id="launch-overlay" class="launch-overlay">
+			<div class="launch-panel">
+				<p class="eyebrow">HAR HAOHR // CAMPAIGN NODE 01</p>
+				<h1>OHRFRONT</h1>
+				<h2>ALEPH VANGUARD</h2>
+				<p>Capture three light beacons across a living battlefield. Your emitter launches Hebrew-letter energy. Enemy squads fight back.</p>
+				<label for="difficulty-select">Difficulty</label>
+				<select id="difficulty-select">
+					<option value="pilgrim">Pilgrim</option>
+					<option value="warrior">Warrior</option>
+					<option value="vanguard" selected>Vanguard</option>
+					<option value="nasi">Nasi</option>
+					<option value="geulah">Geulah</option>
+				</select>
+				<button id="enter-battle" type="button">ENTER BATTLE</button>
+				<p class="controls">WASD move · Shift sprint · Space jump · Mouse aim · Click fire</p>
+			</div>
+		</section>
+		<div id="completion" class="completion hidden">
+			<h2>HAR HAOHR SECURED</h2>
+			<p>All three beacons answer with light.</p>
+		</div>
+	</main>
+	<script type="module" src="./src/OhrfrontEntry.js"></script>
+</body>
+</html>

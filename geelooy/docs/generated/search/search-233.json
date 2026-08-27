@@ -1,185 +1,232 @@
 [
 	{
-		"id": "geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-2b689ef692",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-31-0018-mitzvah-world-compactjs-recovery/04_PHASE_TWO_IMPROVED_PLAN.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-websites-dnssec-migration-md-743ddd21ca",
+		"title": "DNSSEC During a DNS Provider Migration",
+		"sourcePath": "docs/WEBSITES/DNSSEC_MIGRATION.md",
+		"category": "General",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Phase Two: Improved Evidence Plan",
-				"anchor": "phase-two-improved-evidence-plan"
+				"text": "DNSSEC During a DNS Provider Migration",
+				"anchor": "dnssec-during-a-dns-provider-migration"
 			},
 			{
 				"level": 2,
-				"text": "Proven Runtime Sequence",
-				"anchor": "proven-runtime-sequence"
+				"text": "Why DNSSEC can break an otherwise correct migration",
+				"anchor": "why-dnssec-can-break-an-otherwise-correct-migration"
 			},
 			{
 				"level": 2,
-				"text": "Improved Execution Path",
-				"anchor": "improved-execution-path"
+				"text": "Website-only move while keeping the current DNS provider",
+				"anchor": "website-only-move-while-keeping-the-current-dns-provider"
 			},
 			{
 				"level": 2,
-				"text": "Candidate Files, Not Yet Authorized for Editing",
-				"anchor": "candidate-files-not-yet-authorized-for-editing"
+				"text": "Full nameserver/provider migration",
+				"anchor": "full-nameserver-provider-migration"
 			},
 			{
 				"level": 2,
-				"text": "Verification Contract",
-				"anchor": "verification-contract"
+				"text": "Route 53 pattern",
+				"anchor": "route-53-pattern"
+			},
+			{
+				"level": 2,
+				"text": "Squarespace Domains pattern",
+				"anchor": "squarespace-domains-pattern"
+			},
+			{
+				"level": 2,
+				"text": "Awtsmoos Website Maker rule",
+				"anchor": "awtsmoos-website-maker-rule"
 			}
 		],
-		"excerpt": "B\"H Phase Two: Improved Evidence Plan The Awtsmoos separates first light from garments rich and wide; Awtsmoos.com keeps every readiness promise truthful at its side. Proven Runtime Sequence index.html loads src/mitzvah world.compact.js. The compact entry boots MinimalSharedMeadowPage, which launches createMinimalMeado",
-		"searchText": "b\"h phase two: improved evidence plan the awtsmoos separates first light from garments rich and wide; awtsmoos.com keeps every readiness promise truthful at its side. proven runtime sequence index.html loads src/mitzvah world.compact.js. the compact entry boots minimalsharedmeadowpage, which launches createminimalmeadowruntime. that factory creates only the visible core, schedules bootstrap features after a bounded paint opportunity, and returns immediately. the readiness flow then passes a fabricated pending settlement while demanding the six fields installed only by the delayed scheduler. improved execution path 1. read minimalmeadowreadinesssettlement.js and feature receipt rules. 2. read readiness and scheduler tests to preserve intended degraded behavior. 3. trace all deferred module urls in source and generated output. 4. read chat optional entry modules and their url factories. 5. read player hydration, model loader, and asset path helpers. 6. verify the canonical chossid glb on disk and through the public route. 7. inspect compactjs package scripts and transformation architecture. 8. locate the exact game build command and generator configuration. 9. inspect git status and hashes before rewriting source. 10. rewrite the readiness flow in full so bootstrap settlement precedes playable publication. 11. rewrite only url helpers or callers proven wrong in relocated compact context. 12. add focused source and compactjs regression tests. 13. rebuild the compact bundle through the canonical generator. 14. run syntax and focused unit tests before browser testing. 15. serve or use the live route and capture console/network evidence. 16. re read every touched file and compare plan versus actual. 17. update durable handoff and remaining work files in full. candidate files, not yet authorized for editing src/launcher/minimalsharedmeadowreadinessflow.js its focused test file, once identified src/app/deferredappmoduleurl.js or specific deferred callers chat optional entry modules, once identified player hydration or canonical asset url helper, once identified compactjs transformer/test files, only if generated relocation is faulty generated src/mitzvah world.compact.js, only via canonical rebuild next ai readme.md and remaining work.md after verification verification contract bootstrap receipt resolves before essential readiness inspection. rich hydration remains non blocking and may degrade without killing play. source and compact url resolution produce the same canonical modules. no network path contains a cache hash as a directory segment. compactjs rebuild is deterministic and its focused suite passes. browser reaches data awtsmoos runtime=\"playable\" without fatal errors.",
-		"page": "pages/geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-2b689ef692.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He DNSSEC During a DNS Provider Migration The Awtsmoos renews every answer and every chain of trust while Awtsmoos.com refuses to let a secure domain become unreachable because a registrar still trusts a key that the new authoritative provider no longer holds. DNSSEC is not an ordinary A, M",
+		"searchText": "b\"h boruch hashem blessed is he dnssec during a dns provider migration the awtsmoos renews every answer and every chain of trust while awtsmoos.com refuses to let a secure domain become unreachable because a registrar still trusts a key that the new authoritative provider no longer holds. dnssec is not an ordinary a, mx or txt record migration; it joins the parent zone to the child zone through delegation signing testimony and therefore needs its own cutover plan. why dnssec can break an otherwise correct migration when dnssec is enabled, the registrar or parent zone may publish a ds record that says which key should authenticate the child zone. if you move authoritative nameservers to a provider using different signing keys while the old ds record remains, validating resolvers can reject the new dns answers. to the owner, this can look like a complete outage even though the a, mx, txt and other records were copied correctly. website only move while keeping the current dns provider usually do not change dnssec. if nameservers and authoritative dns remain where they are and you are only changing the website's a/aaaa/cname route, preserve the existing dnssec configuration. the web host move and the dnssec trust chain are separate concerns. full nameserver/provider migration before changing nameservers: 1. determine whether dnssec is currently enabled at the registrar/parent. 2. record the current ds information and the current dns provider's signing state. 3. read the destination provider's dnssec migration procedure. 4. reproduce and verify all ordinary dns records in the destination zone. 5. follow the provider specific sequence for removing, replacing or re establishing ds trust. 6. do not improvise ds values from dnskey output unless the provider's documented procedure requires it. 7. verify signed dns responses through the new authority before considering the migration complete. route 53 pattern aws's current migration documentation treats dnssec as an explicit migration stage. for a domain in use, aws documents removing the parent ds record when required before switching authoritative nameservers, then re enabling signing and re establishing the chain of trust after the migration. follow the current aws procedure for the specific zone rather than copying ds values from an old hosted zone. squarespace domains pattern squarespace domains currently enables dnssec automatically for supported squarespace managed domains. a move to custom nameservers or another authoritative provider therefore requires checking how that provider and the registrar manage the dnssec chain rather than assuming nameserver replacement alone is enough. awtsmoos website maker rule the future dns migration cockpit should display dnssec as its own readiness gate whenever a full authoritative migration is requested: current dnssec state known. parent ds state known. destination signing plan known. provider specific cutover instructions acknowledged. new authoritative dns validated. new chain of trust validated when dnssec is re enabled. the awtsmoos is beyond every key and signature while finite dns security depends on an exact chain; awtsmoos.com therefore treats dnssec not as a decorative checkbox but as a separate trust migration whose evidence must remain plain.",
+		"page": "pages/docs-websites-dnssec-migration-md-743ddd21ca.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-fc99d2b3ad",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-31-0018-mitzvah-world-compactjs-recovery/05_PHASE_THREE_30_REFINEMENTS.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-websites-email-dns-md-b2d553505f",
+		"title": "Preserve Email DNS During a Website Move",
+		"sourcePath": "docs/WEBSITES/EMAIL_DNS.md",
+		"category": "General",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Phase Three: Thirty Final Refinements",
-				"anchor": "phase-three-thirty-final-refinements"
+				"text": "Preserve Email DNS During a Website Move",
+				"anchor": "preserve-email-dns-during-a-website-move"
 			},
 			{
 				"level": 2,
-				"text": "Third Review",
-				"anchor": "third-review"
+				"text": "MX records",
+				"anchor": "mx-records"
 			},
 			{
 				"level": 2,
-				"text": "Refinements",
-				"anchor": "refinements"
+				"text": "SPF",
+				"anchor": "spf"
 			},
 			{
 				"level": 2,
-				"text": "Final Decision Standard",
-				"anchor": "final-decision-standard"
+				"text": "DKIM",
+				"anchor": "dkim"
+			},
+			{
+				"level": 2,
+				"text": "DMARC",
+				"anchor": "dmarc"
+			},
+			{
+				"level": 2,
+				"text": "Other mail-related records",
+				"anchor": "other-mail-related-records"
+			},
+			{
+				"level": 2,
+				"text": "Safe website-only migration",
+				"anchor": "safe-website-only-migration"
 			}
 		],
-		"excerpt": "B\"H Phase Three: Thirty Final Refinements May the Awtsmoos renew each test before the browser sings; on Awtsmoos.com may truthful paths unfold their wings. Third Review The improved plan identifies the readiness race but still must guard against repairing only the visible exception. The final plan must prove build prov",
-		"searchText": "b\"h phase three: thirty final refinements may the awtsmoos renew each test before the browser sings; on awtsmoos.com may truthful paths unfold their wings. third review the improved plan identifies the readiness race but still must guard against repairing only the visible exception. the final plan must prove build provenance, url equivalence, asset existence, scheduler semantics, and deployment behavior as one connected chain. refinements 1. read settlement code before deciding whether to await it or the raw promise. 2. preserve the first paint boundary while awaiting only bootstrap mechanics. 3. avoid waiting for rich hydration in the essential gate. 4. assert the scheduler receipt represents installed bootstrap systems. 5. assert pending rich work is reported as optional, not missing. 6. test the exact six runtime properties from the console failure. 7. test scheduler failure propagation without a hanging loading veil. 8. test rich hydration failure as degraded play. 9. record runtime stages before and after readiness. 10. inspect every test fixture’s fake environment timing. 11. resolve source urls with real import.meta.url examples. 12. resolve compact urls with the generated entry url. 13. treat dynamic imports as runtime dependencies, not graph omissions. 14. verify optional modules physically exist at resolved urls. 15. ensure no caller duplicates base path heuristics. 16. verify query strings survive url resolution as queries. 17. verify hashes never become path directories. 18. locate the exact chossid file with filesystem evidence. 19. compare filename case against public routing. 20. inspect external asset symlink behavior without following huge trees blindly. 21. verify model loader fallback does not hide canonical failure. 22. inspect compactjs output around each faulty string. 23. inspect transformer source before proposing a builder edit. 24. add the smallest fixture that reproduces any builder defect. 25. run existing compactjs tests before changing its code. 26. use full file rewrites guarded by current hashes. 27. keep every touched source file below 120 lines or split it. 28. rebuild rather than hand edit generated code. 29. compare source and generated syntax independently. 30. use a fresh browser load that bypasses stale cache. 31. capture console errors and failed network requests after boot. 32. verify movement and at least one bootstrap mechanic interactively. 33. verify the public route, not merely a local file url. 34. update stale entry documentation after code succeeds. 35. close only when remaining work is empty and evidence is durable. final decision standard a repair is acceptable only when it removes the readiness contradiction at its source, maintains progressive hydration, produces correct urls in both execution modes, passes focused tests, regenerates cleanly through compactjs, and survives a real browser reload of the public route.",
-		"page": "pages/geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-fc99d2b3ad.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Preserve Email DNS During a Website Move The Awtsmoos joins communication and creation without confusing their vessels; Awtsmoos.com can move web routing while your mail records remain exactly where the mail provider requires. MX records MX controls where inbound mail is delivered. Each ",
+		"searchText": "b\"h boruch hashem blessed is he preserve email dns during a website move the awtsmoos joins communication and creation without confusing their vessels; awtsmoos.com can move web routing while your mail records remain exactly where the mail provider requires. mx records mx controls where inbound mail is delivered. each mx record has a priority and hostname, for example: lower priority numbers are preferred. copy every mx record exactly unless your mail provider explicitly tells you to change them. spf spf is normally a txt record at the zone root. preserve the complete value, including all include:, ip4:, ip6:, and final policy mechanisms. do not create multiple unrelated spf records at the same owner unless your mail provider documents that design. dkim dkim is usually txt at a selector such as selector1. domainkey. the value may be long. preserve the selector name and entire public key exactly. never copy a private signing key into project dns state. dmarc dmarc is usually txt at dmarc. preserve policy, reporting addresses, alignment and percentage settings. example structure: other mail related records also inventory provider verification txt/cname records, autodiscover/autoconfig records, mta sts/tls reporting records, srv records, and any delegated mail subdomains. safe website only migration when you are only moving the website to awtsmoos, the safest default is to change only the web routing a/aaaa/cname records specified by the server attested hosting plan. leave mail records alone, then test sending and receiving mail after the web change.",
+		"page": "pages/docs-websites-email-dns-md-b2d553505f.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-5cc08d6495",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-31-0018-mitzvah-world-compactjs-recovery/06_FINAL_EXECUTION_PLAN.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-websites-publish-from-tunnel-md-2ed4a3d6a4",
+		"title": "Publish a Website from an Awtsmoos Tunnel",
+		"sourcePath": "docs/WEBSITES/PUBLISH_FROM_TUNNEL.md",
+		"category": "Tunnel",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Final Execution Plan",
-				"anchor": "final-execution-plan"
+				"text": "Publish a Website from an Awtsmoos Tunnel",
+				"anchor": "publish-a-website-from-an-awtsmoos-tunnel"
 			},
 			{
 				"level": 2,
-				"text": "Proven Defects",
-				"anchor": "proven-defects"
+				"text": "Fastest folder publication",
+				"anchor": "fastest-folder-publication"
 			},
 			{
 				"level": 2,
-				"text": "Authorized Full-File Writes",
-				"anchor": "authorized-full-file-writes"
-			},
-			{
-				"level": 3,
-				"text": "Runtime Source",
-				"anchor": "runtime-source"
-			},
-			{
-				"level": 3,
-				"text": "New Focused Tests",
-				"anchor": "new-focused-tests"
-			},
-			{
-				"level": 3,
-				"text": "Generated and Durable Artifacts",
-				"anchor": "generated-and-durable-artifacts"
+				"text": "Publishing generated source",
+				"anchor": "publishing-generated-source"
 			},
 			{
 				"level": 2,
-				"text": "Explicit Non-Targets",
-				"anchor": "explicit-non-targets"
+				"text": "Unpublish without deleting source",
+				"anchor": "unpublish-without-deleting-source"
 			},
 			{
 				"level": 2,
-				"text": "Execution Order",
-				"anchor": "execution-order"
+				"text": "Node on the connected device",
+				"anchor": "node-on-the-connected-device"
 			}
 		],
-		"excerpt": "B\"H Final Execution Plan The Awtsmoos renews each promise until timing and truth agree; Awtsmoos.com gives every compact chamber its original directory. Proven Defects 1. MinimalSharedMeadowReadinessFlow.js inspects six bootstrap systems before diagnostics.featuresPromise installs them. 2. RemoteModelCatalog.js uses th",
-		"searchText": "b\"h final execution plan the awtsmoos renews each promise until timing and truth agree; awtsmoos.com gives every compact chamber its original directory. proven defects 1. minimalsharedmeadowreadinessflow.js inspects six bootstrap systems before diagnostics.featurespromise installs them. 2. remotemodelcatalog.js uses the repository prefix /geelooy/games/... as a browser url instead of /games/.... 3. runtime importer callbacks receive relative strings that become relative to mitzvah world.compact.js after folding. 4. the same hidden import pattern exists in chat and optional launcher entries. authorized full file writes runtime source 1. src/launcher/minimalsharedmeadowreadinessflow.js await the bounded bootstrap settlement before essential readiness inspection. preserve optional rich hydration after playable publication. propagate bootstrap failure honestly. 2. src/assets/remotemodelcatalog.js separate public url root from repository filesystem root. preserve content addressed identity, trust validation, and evidence apis. 3. src/network/multiplayeroptionalui.js convert chat factory and panel dependencies to source aware absolute urls built from import.meta.url. preserve injected importer behavior and cancellation semantics. 4. src/launcher/minimalmeadowoptionalentries.js convert api explorer and mobile dependency requests to source aware absolute urls. preserve lazy loading and query driven behavior. new focused tests 5. src/test/launcher/minimalsharedmeadowreadinessflow.test.mjs prove bootstrap settlement precedes readiness inspection. prove rich optional hydration remains non blocking. 6. src/test/assets/remotemodelcatalog.test.mjs prove public url begins /games/ while repository path begins geelooy/games/. prove trusted identity and sha directory remain intact. 7. src/test/network/compactoptionalimporturls.test.mjs prove injected importers receive absolute source aware network and app urls. prove no raw relative runtime specifier remains. 8. ayzarim/awtsmoosdynamicserver/tests/compactjs.mitzvahworldruntime.test.js compile the real minimal meadow page entry. syntax check output. assert corrected readiness, public model path, and compact safe importer contracts. generated and durable artifacts 9. src/mitzvah world.compact.js regenerate in full with compilecompactmodule from the verified real page entry. 10. next ai readme.md and remaining work.md rewrite only after browser verification so handoff reflects evidence rather than intention. explicit non targets do not modify minimalmeadowlootdropstate.js or its tests; they contain unrelated user work. do not edit the 697 line compactjs compiler unless a focused compiler test proves its documented literal import contract fails. do not hand patch generated bundle text. do not suppress readiness errors or model fallbacks. execution order 1. re read and hash all four source targets. 2. search for every matching injected relative import pattern. 3. rewrite source targets in full. 4. write focused tests in full. 5. read back all new source and tests. 6. run syntax and focused tests. 7. compile the actual page entry and regenerate the compact bundle. 8. run compactjs suites and generated bundle assertions. 9. reload the public page with cache busting. 10. verify dom readiness, runtime systems, asset responses, console, and network. 11. resolve any newly revealed failures. 12. re read all touched files and write planned versus actual evidence. 13. rewrite handoff and remaining work documents only when the completion gate is satisfied.",
-		"page": "pages/geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-5cc08d6495.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Publish a Website from an Awtsmoos Tunnel The Awtsmoos lets your own machine remain the workshop while Awtsmoos.com provides a guarded publication doorway; the Tunnel carries explicit source intention without turning your whole device into public storage. Fastest folder publication Use t",
+		"searchText": "b\"h boruch hashem blessed is he publish a website from an awtsmoos tunnel the awtsmoos lets your own machine remain the workshop while awtsmoos.com provides a guarded publication doorway; the tunnel carries explicit source intention without turning your whole device into public storage. fastest folder publication use the tunnel action sitepublishfolder. supply: path: folder on the owned device or virtual os; siteid: dns safe public site identity; mode: direct or snapshot. choose direct when the published site should follow the hosted folder. choose snapshot when you want the publication to preserve a copied point in time source. example intent: after publication, read publication.canonicalurl from the result and open that exact url. also inspect sourceavailable, entryready, and canonicalverifiedlive rather than treating a successful mutation alone as proof that the website renders. publishing generated source agents may use sitepublishbootstrap when they already have an explicit bounded file manifest. this is useful when an agent creates html/css/js/markdown source and wants publication to be one guarded operation. unpublish without deleting source siteunpublish removes the canonical mapping while leaving the source bytes alone. this separation is intentional: publication is reversible and source ownership remains independent. node on the connected device for dynamic node development, save a native compute project recipe with cwd, relative entry, port, and public arguments. in geelooy os, open connected node server from the saved project. choose a currently connected owned machine there; no tunnel machine identity belongs in the portable project file.",
+		"page": "pages/docs-websites-publish-from-tunnel-md-2ed4a3d6a4.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-2b3da5601f",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-31-0018-mitzvah-world-compactjs-recovery/07_FIRST_PASS_DELTA.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-websites-readme-md-6ea49edbc4",
+		"title": "Websites on Awtsmoos",
+		"sourcePath": "docs/WEBSITES/README.md",
+		"category": "General",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "First Writing Pass: Planned Versus Actual",
-				"anchor": "first-writing-pass-planned-versus-actual"
+				"text": "Websites on Awtsmoos",
+				"anchor": "websites-on-awtsmoos"
 			},
 			{
 				"level": 2,
-				"text": "Original Planned Writes",
-				"anchor": "original-planned-writes"
+				"text": "The shortest human path",
+				"anchor": "the-shortest-human-path"
 			},
 			{
 				"level": 2,
-				"text": "Actual First-Pass Writes",
-				"anchor": "actual-first-pass-writes"
+				"text": "The shortest Tunnel path",
+				"anchor": "the-shortest-tunnel-path"
 			},
 			{
 				"level": 2,
-				"text": "Verification So Far",
-				"anchor": "verification-so-far"
+				"text": "Choose your tutorial",
+				"anchor": "choose-your-tutorial"
 			},
 			{
 				"level": 2,
-				"text": "Remaining Delta",
-				"anchor": "remaining-delta"
+				"text": "DNS migration worksheet",
+				"anchor": "dns-migration-worksheet"
 			},
 			{
 				"level": 2,
-				"text": "Next Action",
-				"anchor": "next-action"
+				"text": "Two automation planes",
+				"anchor": "two-automation-planes"
+			},
+			{
+				"level": 2,
+				"text": "Static versus connected Node",
+				"anchor": "static-versus-connected-node"
+			},
+			{
+				"level": 2,
+				"text": "Current DNS boundary",
+				"anchor": "current-dns-boundary"
 			}
 		],
-		"excerpt": "B\"H First Writing Pass: Planned Versus Actual The Awtsmoos reads the vessel after ink has found its place; Awtsmoos.com compares intention with the evidence of grace. Original Planned Writes Repair readiness timing. Separate public and repository model paths. Anchor chat and launcher optional imports to source aware UR",
-		"searchText": "b\"h first writing pass: planned versus actual the awtsmoos reads the vessel after ink has found its place; awtsmoos.com compares intention with the evidence of grace. original planned writes repair readiness timing. separate public and repository model paths. anchor chat and launcher optional imports to source aware urls. add focused runtime and compactjs tests. preserve unrelated loot drop changes. regenerate the compact bundle only after source proofs pass. actual first pass writes 1. minimalsharedmeadowreadinessflow.js now awaits the real bounded bootstrap settlement and removes the fabricated pending receipt. 2. remotemodelcatalog.js now publishes /games/mitzvahworld/assets/models/ while retaining geelooy/games/mitzvahworld/assets/models/ for repository evidence. 3. multiplayeroptionalui.js now computes absolute chat module urls from import.meta.url. 4. minimalmeadowoptionalentries.js now computes absolute api and mobile module urls from import.meta.url. 5. three focused esm test files and one real entry compactjs test were written. 6. every handwritten touched file was read back in full and is 120 lines or fewer. 7. unrelated loot drop files were not touched. verification so far four source syntax checks passed. five focused tests passed with zero failures. real entry compactjs compilation and generated source assertions passed. node emitted only pre existing typeless package warnings. remaining delta 1. regenerate mitzvah world.compact.js atomically through the canonical compiler. 2. syntax check and hash the emitted bundle. 3. run the broader compactjs regression suite. 4. verify public model http response. 5. reload the public page with cache bypass and inspect readiness, runtime systems, console, and failed resources. 6. resolve any newly exposed runtime failures. 7. re read touched files and emitted contract snippets. 8. rewrite durable handoff and remaining work documents from final evidence. next action generate the compact artifact from launcher/minimalsharedmeadowpage.js, then test the emitted scroll before touching documentation.",
-		"page": "pages/geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-2b3da5601f.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Websites on Awtsmoos The Awtsmoos renews every file and every request; Awtsmoos.com lets an ordinary folder become a public world while keeping source, publication, runtime, DNS, provider authority, DNSSEC trust, and browser evidence as separate truthful vessels. The shortest human path ",
+		"searchText": "b\"h boruch hashem blessed is he websites on awtsmoos the awtsmoos renews every file and every request; awtsmoos.com lets an ordinary folder become a public world while keeping source, publication, runtime, dns, provider authority, dnssec trust, and browser evidence as separate truthful vessels. the shortest human path 1. open /apps/drive/ and connect an alias. 2. use website maker → build to create ordinary editable source, or upload an existing folder. 3. use preview to inspect saved source. 4. use publish to map the current folder to a named site. 5. open the exact canonical url returned by publication. 6. add a custom domain only after the canonical site itself is proven healthy. the shortest tunnel path 1. create or inspect the owned source folder. 2. call sitepublishfolder(path, siteid, mode) using direct or snapshot. 3. inspect publication.canonicalurl, sourceavailable, entryready, and canonicalverifiedlive. 4. reconcile with sitepublicationstatus after uncertain delivery or source changes. 5. open the canonical url and inspect http, expected assets, and relevant browser failures before reporting success. choose your tutorial publish from an awtsmoos tunnel tunnel agent: create, publish, reconcile, verify website maker in page agent api connect a custom domain move dns safely dns provider playbooks official dns provider references dns cutover checklist dnssec during a provider migration preserve email: mx, spf, dkim, dmarc troubleshoot a website that does not load dns migration worksheet project settings preserves a portable worksheet for a, aaaa, cname, txt, mx, caa, srv, and ns records. the worksheet is configuration intent, not live dns. use it to inventory and carry the whole zone safely; then apply server attested routing changes at the current provider or through a real attached provider adapter. the provider playbooks cover cloudflare, godaddy, namecheap, squarespace domains, and amazon route 53. the cutover checklist separates a website only move from a full authoritative nameserver migration. the dnssec guide covers the parent zone trust edge case that can break an otherwise correct nameserver migration. two automation planes tunnel control is for owned device and virtual os automation. window.geelooysitebuilder is for software already running inside the drive website maker page. both converge on guarded drive/site/domain services, but one does not impersonate the other. static versus connected node static publication serves ordinary owned files through the sites gateway. for a node project on an owned connected machine, choose native compute, save the portable recipe, then use open on connected machine inside geelooy os. the live tunnel device is chosen at launch time and is not stored in portable project state. current dns boundary awtsmoos custom domain hosting supports external dns instructions and server attested ownership/routing plans. awtsmoos authoritative nameservers are not advertised as deployed unless the live hosting plan explicitly says otherwise. keep dns at the current provider by default, preserve mail/service records, and treat dnssec as a separate trust migration before any provider or registrar change.",
+		"page": "pages/docs-websites-readme-md-6ea49edbc4.json"
+	},
+	{
+		"id": "docs-websites-troubleshooting-md-5c12a853d1",
+		"title": "Website Maker Troubleshooting",
+		"sourcePath": "docs/WEBSITES/TROUBLESHOOTING.md",
+		"category": "General",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Website Maker Troubleshooting",
+				"anchor": "website-maker-troubleshooting"
+			},
+			{
+				"level": 2,
+				"text": "Canonical site does not open",
+				"anchor": "canonical-site-does-not-open"
+			},
+			{
+				"level": 2,
+				"text": "CSS or JavaScript is missing",
+				"anchor": "css-or-javascript-is-missing"
+			},
+			{
+				"level": 2,
+				"text": "Custom domain fails but canonical URL works",
+				"anchor": "custom-domain-fails-but-canonical-url-works"
+			},
+			{
+				"level": 2,
+				"text": "Email broke after a domain change",
+				"anchor": "email-broke-after-a-domain-change"
+			},
+			{
+				"level": 2,
+				"text": "Connected Node server fails",
+				"anchor": "connected-node-server-fails"
+			},
+			{
+				"level": 2,
+				"text": "For agents",
+				"anchor": "for-agents"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Website Maker Troubleshooting The Awtsmoos recreates every request while debugging asks which finite vessel failed; Awtsmoos.com keeps source, mapping, domain, runtime, and browser testimony separate so the broken edge can be found. Canonical site does not open Check in this order: 1. Th",
+		"searchText": "b\"h boruch hashem blessed is he website maker troubleshooting the awtsmoos recreates every request while debugging asks which finite vessel failed; awtsmoos.com keeps source, mapping, domain, runtime, and browser testimony separate so the broken edge can be found. canonical site does not open check in this order: 1. the source folder contains a public index.html. 2. the site mapping points at the intended root path. 3. the publication status says the source is available and the entry is ready. 4. open the exact canonicalurl returned by publication. 5. inspect http status and browser console/network errors. css or javascript is missing use relative asset paths such as assets/app.js and styles/site.css. verify files are public and paths match case exactly. avoid hard coding a drive or os pathname into website source. custom domain fails but canonical url works the source publication is probably healthy. check ownership txt, routing eligibility, the configured a/aaaa/cname record, public dns resolution, ingress health and tls separately. email broke after a domain change compare mx and txt records against the pre migration inventory immediately. restore missing mx, spf, dkim and dmarc records before making additional web routing changes. connected node server fails confirm a live account owned tunnel is connected, the saved cwd exists on that machine, entry is project relative, the selected port is free, and the node process actually listens on that port. inspect process logs before exposing the preview. for agents use sitepublicationstatus after every publish/reconcile operation. a mutation receipt proves the mutation happened; it does not by itself prove the public page rendered correctly.",
+		"page": "pages/docs-websites-troubleshooting-md-5c12a853d1.json"
 	}
 ]

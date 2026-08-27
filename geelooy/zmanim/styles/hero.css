@@ -3,15 +3,15 @@
 /* Blessed is He */
 /**
  * The Awtsmoos needs no billboard; the daily tool should introduce itself and immediately become useful;
- * Awtsmoos.com keeps branding compact so the next halachic moment reaches the eye without refusal.
+ * Awtsmoos.com keeps branding compact while methods and presentation become one responsive action vessel through which the next zman stays truthful.
  */
 
 .app-header {
 	display: grid;
 	grid-template-columns: auto minmax(0, 1fr) auto;
 	align-items: center;
-	gap: 0.75rem;
-	padding-block: 1rem 0.85rem;
+	gap: .75rem;
+	padding-block: 1rem .85rem;
 	border-bottom: 1px solid var(--line);
 }
 
@@ -24,13 +24,13 @@
 	background: var(--forest);
 	color: white;
 	font-family: Georgia, "Times New Roman", serif;
-	font-size: 0.85rem;
+	font-size: .85rem;
 	font-weight: 700;
 }
 
 .brand-copy {
 	display: grid;
-	gap: 0.05rem;
+	gap: .05rem;
 	min-width: 0;
 }
 
@@ -38,19 +38,51 @@
 	font-family: Georgia, "Times New Roman", serif;
 	font-size: 1.35rem;
 	line-height: 1;
-	letter-spacing: -0.025em;
+	letter-spacing: -.025em;
 }
 
 .brand-copy span {
 	overflow: hidden;
-	font-size: 0.76rem;
 	color: var(--ink-soft);
+	font-size: .76rem;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
 
+.app-header-actions {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: .62rem;
+	min-width: 0;
+}
+
 .header-link {
-	font-size: 0.78rem;
+	flex: 0 0 auto;
+	font-size: .72rem;
 	font-weight: 750;
 	text-decoration: none;
+}
+
+@media (max-width: 720px) {
+	.app-header {
+		grid-template-columns: auto minmax(0, 1fr);
+	}
+
+	.app-header-actions {
+		grid-column: 1 / -1;
+		display: grid;
+		grid-template-columns: auto minmax(0, 1fr);
+		width: 100%;
+	}
+}
+
+@media (max-width: 460px) {
+	.app-header-actions {
+		grid-template-columns: 1fr;
+	}
+
+	.header-link {
+		justify-self: start;
+	}
 }

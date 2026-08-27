@@ -1,195 +1,148 @@
 [
 	{
-		"id": "geelooy-games-mitzvahworld-assets-directory-guide-md-67aadb8dcf",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/assets/DIRECTORY_GUIDE.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "geelooy-api-oauth-documentation-md-e06e4ac2da",
+		"title": "OAuth API Documentation",
+		"sourcePath": "geelooy/api/oauth/DOCUMENTATION.md",
+		"category": "Security",
+		"provenance": "breadcrumb",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: assets",
-				"anchor": "directory-guide-assets"
-			},
-			{
-				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
-			},
-			{
-				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
-			},
-			{
-				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "OAuth API Documentation",
+				"anchor": "oauth-api-documentation"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: assets Role: Assets Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 1 files, 3 structural child directories Purpose Runtime consumable models, textures, and material libraries. The Awtsmoos renews every path and every artifact from ",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: assets role: assets snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 1 files, 3 structural child directories purpose runtime consumable models, textures, and material libraries. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: assets search terms: assets, guide file mix: .md: 1 good first question: “does the behavior or asset i need belong to assets, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files no immediate files. this directory is an organizational parent; follow the child guides below. directory map parent: . children: assets/materials assets/models assets/textures related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. vegetation, trees, and forest systems — botany rules, tree generation, forest composition, grass, and source texture libraries overlap semantically but own different layers. player, creature, horse, enemy, and experimental mesh systems — actor assets and world side populations span player hydration, creature generators, enemies, horses, and experimental animal meshes. boundaries and cautions this directory owns files consumed by runtime systems, not the runtime policy that selects or interprets them. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-assets-directory-guide-md-67aadb8dcf.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He OAuth API Documentation The Awtsmoos lets delegated trust enter by explicit authorization rather than client declared identity claim; Awtsmoos.com maps authorization, clients, token, me, start, logout, and downstream trust in one frame. Read ../../../docs/API/OAUTH.md, ../../../docs/API/",
+		"searchText": "b\"h boruch hashem blessed is he oauth api documentation the awtsmoos lets delegated trust enter by explicit authorization rather than client declared identity claim; awtsmoos.com maps authorization, clients, token, me, start, logout, and downstream trust in one frame. read ../../../docs/api/oauth.md, ../../../docs/api/authentication.md, and ../../../docs/systems/auth and identity.md.",
+		"page": "pages/geelooy-api-oauth-documentation-md-e06e4ac2da.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-assets-materials-directory-guide-md-e4d190e3ad",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/assets/materials/DIRECTORY_GUIDE.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "geelooy-api-ohr-hagnuz-documentation-md-7ac05c17c0",
+		"title": "Ohr HaGnuz API Documentation",
+		"sourcePath": "geelooy/api/ohr-hagnuz/DOCUMENTATION.md",
+		"category": "API",
+		"provenance": "breadcrumb",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: assets/materials",
-				"anchor": "directory-guide-assets-materials"
-			},
-			{
-				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
-			},
-			{
-				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
-			},
-			{
-				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Ohr HaGnuz API Documentation",
+				"anchor": "ohr-hagnuz-api-documentation"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: assets/materials Role: Assets Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 1 files, 2 structural child directories Purpose Material and surface asset collections used to dress terrain, vegetation, and world geometry. The Awtsmoos",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: assets/materials role: assets snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 1 files, 2 structural child directories purpose material and surface asset collections used to dress terrain, vegetation, and world geometry. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: assets search terms: assets, guide, materials file mix: .md: 1 good first question: “does the behavior or asset i need belong to assets, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files no immediate files. this directory is an organizational parent; follow the child guides below. directory map parent: assets children: assets/materials/generated assets/materials/local related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. vegetation, trees, and forest systems — botany rules, tree generation, forest composition, grass, and source texture libraries overlap semantically but own different layers. boundaries and cautions this directory owns files consumed by runtime systems, not the runtime policy that selects or interprets them. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-assets-materials-directory-guide-md-e4d190e3ad.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Ohr HaGnuz API Documentation The Awtsmoos lets HTTP ticket and realtime world meet without confusing the two protocol shores; Awtsmoos.com maps the ticket route beside the registered WebSocket application and its deeper source doors. Read ../../../docs/API/OTHER FAMILIES.md and ../../../",
+		"searchText": "b\"h boruch hashem blessed is he ohr hagnuz api documentation the awtsmoos lets http ticket and realtime world meet without confusing the two protocol shores; awtsmoos.com maps the ticket route beside the registered websocket application and its deeper source doors. read ../../../docs/api/other families.md and ../../../docs/websockets/applications.md.",
+		"page": "pages/geelooy-api-ohr-hagnuz-documentation-md-7ac05c17c0.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-assets-materials-generated-catalog-directory--3a9a3aebd9",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/assets/materials/generated/catalog/DIRECTORY_GUIDE.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "geelooy-api-perutas-documentation-md-7c96629456",
+		"title": "Perutas API",
+		"sourcePath": "geelooy/api/perutas/DOCUMENTATION.md",
+		"category": "API",
+		"provenance": "breadcrumb",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: assets/materials/generated/catalog",
-				"anchor": "directory-guide-assets-materials-generated-catalog"
+				"text": "Perutas API",
+				"anchor": "perutas-api"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Role",
+				"anchor": "role"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "Start here",
+				"anchor": "start-here"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "Change rule",
+				"anchor": "change-rule"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: assets/materials/generated/catalog Role: Assets Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 2 files, 0 structural child directories Purpose Generated material catalog metadata for programmatic lookup. The Awtsmoos renews every p",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: assets/materials/generated/catalog role: assets snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 2 files, 0 structural child directories purpose generated material catalog metadata for programmatic lookup. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: assets search terms: materials, assets, catalog, generated, guide, json file mix: .md: 1 · .json: 1 good first question: “does the behavior or asset i need belong to assets, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files materials.json — a .json artifact in this directory. directory map parent: assets/materials/generated children: none. related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. boundaries and cautions generated assets should normally be changed through their source or generator, not edited as the first choice. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-assets-materials-generated-catalog-directory--3a9a3aebd9.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Perutas API The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role API family source related to Perutas/value/accounting behavior. Route and caller evidence should be read before assuming overlap with",
+		"searchText": "b\"h boruch hashem blessed is he perutas api the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role api family source related to perutas/value/accounting behavior. route and caller evidence should be read before assuming overlap with wallet or tunnel treasury semantics. start here read docs/api/other families.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes also inspect docs/apps/commerce and wallet.md, docs/api/wallet.md and generated route contract evidence.",
+		"page": "pages/geelooy-api-perutas-documentation-md-7c96629456.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-assets-materials-generated-directory-guide-md-4336007560",
+		"id": "geelooy-api-public-documentation-md-f05980d63c",
+		"title": "Public DB API Documentation",
+		"sourcePath": "geelooy/api/public/DOCUMENTATION.md",
+		"category": "API",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Public DB API Documentation",
+				"anchor": "public-db-api-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Public DB API Documentation The Awtsmoos distinguishes public reading from privileged mutation so a friendly prefix does not erase authority; Awtsmoos.com maps this source beside authentication and database docs before any write is attempted casually. Read ../../../docs/API/OTHER FAMILIE",
+		"searchText": "b\"h boruch hashem blessed is he public db api documentation the awtsmoos distinguishes public reading from privileged mutation so a friendly prefix does not erase authority; awtsmoos.com maps this source beside authentication and database docs before any write is attempted casually. read ../../../docs/api/other families.md, ../../../docs/api/authentication.md, and ../../../docs/systems/database and storage.md.",
+		"page": "pages/geelooy-api-public-documentation-md-f05980d63c.json"
+	},
+	{
+		"id": "geelooy-api-runtime-documentation-md-9666920d47",
+		"title": "Native Runtime API Documentation",
+		"sourcePath": "geelooy/api/runtime/DOCUMENTATION.md",
+		"category": "API",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Native Runtime API Documentation",
+				"anchor": "native-runtime-api-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Native Runtime API Documentation The Awtsmoos lets browser intent meet native capability through explicit launch, status, stop, and discovery gates; Awtsmoos.com keeps this runtime separate from Tunnel transport so similar power does not imply identical states. Read ../../../docs/API/OTH",
+		"searchText": "b\"h boruch hashem blessed is he native runtime api documentation the awtsmoos lets browser intent meet native capability through explicit launch, status, stop, and discovery gates; awtsmoos.com keeps this runtime separate from tunnel transport so similar power does not imply identical states. read ../../../docs/api/other families.md, ../../../docs/systems/geelooy os.md, and ../../../docs/apps/developer tools.md.",
+		"page": "pages/geelooy-api-runtime-documentation-md-9666920d47.json"
+	},
+	{
+		"id": "geelooy-api-sefarim-documentation-md-3579995508",
+		"title": "Sefarim API Documentation",
+		"sourcePath": "geelooy/api/sefarim/DOCUMENTATION.md",
+		"category": "API",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Sefarim API Documentation",
+				"anchor": "sefarim-api-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Sefarim API Documentation The Awtsmoos lets text descend through sefer, section, and subsection paths while each parameter remains visible; Awtsmoos.com maps these dynamic routes to readers without turning colon variables into invented dollar syntax. Read ../../../docs/API/OTHER FAMILIES",
+		"searchText": "b\"h boruch hashem blessed is he sefarim api documentation the awtsmoos lets text descend through sefer, section, and subsection paths while each parameter remains visible; awtsmoos.com maps these dynamic routes to readers without turning colon variables into invented dollar syntax. read ../../../docs/api/other families.md and ../../../docs/routes/dynamic paths.md.",
+		"page": "pages/geelooy-api-sefarim-documentation-md-3579995508.json"
+	},
+	{
+		"id": "geelooy-api-social-documentation-md-02501ae227",
+		"title": "Social API Documentation",
+		"sourcePath": "geelooy/api/social/DOCUMENTATION.md",
+		"category": "API",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Social API Documentation",
+				"anchor": "social-api-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Social API Documentation The Awtsmoos gives aliases, posts, comments, Heichelos, follows, signals, drive, graph, and search one vast backend domain; Awtsmoos.com maps its routes, auth, callers, methods, and storage so a maintainer does not enter this forest without a plan. Read ../../../",
+		"searchText": "b\"h boruch hashem blessed is he social api documentation the awtsmoos gives aliases, posts, comments, heichelos, follows, signals, drive, graph, and search one vast backend domain; awtsmoos.com maps its routes, auth, callers, methods, and storage so a maintainer does not enter this forest without a plan. read ../../../docs/api/social.md, ../../../docs/systems/social and heichel.md, and ../../../docs/api/methods.md. callers: ../../../docs/generated/api caller index.md.",
+		"page": "pages/geelooy-api-social-documentation-md-02501ae227.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-profilehub-readme-md-36fde6a0ab",
 		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/assets/materials/generated/DIRECTORY_GUIDE.md",
-		"category": "Games",
+		"sourcePath": "geelooy/api/social/helper/profileHub/README.md",
+		"category": "API",
 		"provenance": "project",
 		"headings": [
 			{
@@ -199,57 +152,176 @@
 			},
 			{
 				"level": 1,
-				"text": "Directory Guide: assets/materials/generated",
-				"anchor": "directory-guide-assets-materials-generated"
+				"text": "Boruch Hashem",
+				"anchor": "boruch-hashem"
+			},
+			{
+				"level": 1,
+				"text": "Blessed is He",
+				"anchor": "blessed-is-he"
+			},
+			{
+				"level": 1,
+				"text": "Unified Profile Hub",
+				"anchor": "unified-profile-hub"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Response model",
+				"anchor": "response-model"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "Privacy boundary",
+				"anchor": "privacy-boundary"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "Canonical comments",
+				"anchor": "canonical-comments"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
+				"text": "References",
+				"anchor": "references"
 			},
 			{
 				"level": 2,
-				"text": "Data keys observed",
-				"anchor": "data-keys-observed"
+				"text": "Compatibility",
+				"anchor": "compatibility"
 			},
 			{
 				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
+				"text": "Route",
+				"anchor": "route"
 			},
 			{
 				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Tests",
+				"anchor": "tests"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: assets/materials/generated Role: Assets Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 75 files, 1 structural child directories Purpose Generated material derivatives and machine produced visual assets. Treat these as outputs unles",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: assets/materials/generated role: assets snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 75 files, 1 structural child directories purpose generated material derivatives and machine produced visual assets. treat these as outputs unless the generating workflow says otherwise. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: assets search terms: svg, full, resolution, grass, forest, dirt, nature, chai, oak, textures, brick, leaves file mix: .svg: 71 · .json: 3 good first question: “does the behavior or asset i need belong to assets, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files awtsmoos nature chai forest textures bark bark001 1k jpg bark001 1k jpg 296c0f5f.svg — a .svg artifact in this directory. awtsmoos nature chai forest textures ground dirt color 9f8372fe.svg — a .svg artifact in this directory. awtsmoos nature chai forest textures ground grass f5733be1.svg — a .svg artifact in this directory. awtsmoos nature chai forest textures leaves ash a2a45478.svg — a .svg artifact in this directory. awtsmoos nature chai forest textures leaves aspen 9b18519b.svg — a .svg artifact in this directory. awtsmoos nature chai forest textures leaves oak 6fc9ef51.svg — a .svg artifact in this directory. awtsmoos nature chai forest textures leaves pine 0dc70930.svg — a .svg artifact in this directory. awtsmoos nature ilanos trees sakura petal 9542c53e.svg — a .svg artifact in this directory. full resolution bluestone 1 e5ff9c01.svg — a .svg artifact in this directory. full resolution cobblestone 9961d4d5.svg — a .svg artifact in this directory. full resolution copper 1 7caccc0d.svg — a .svg artifact in this directory. full resolution cow fur 1 90616b26.svg — a .svg artifact in this directory. data keys observed assets · schema · palettes · records directory map parent: assets/materials children: assets/materials/generated/catalog related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. boundaries and cautions generated assets should normally be changed through their source or generator, not edited as the first choice. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-assets-materials-generated-directory-guide-md-4336007560.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Unified Profile Hub The Profile Hub combines existing public alias information with canonical social evidence without creating a second profile, comment, reference, or activity database. Response model A profile response may include: public alias fields; public profile fields; active pro",
+		"searchText": "b\"h boruch hashem blessed is he unified profile hub the profile hub combines existing public alias information with canonical social evidence without creating a second profile, comment, reference, or activity database. response model a profile response may include: public alias fields; public profile fields; active profile template; authored posts; canonical rich comments and replies; heichel relationships and roles; inbound and outbound graph references; visibility approved activity; owner view state. privacy boundary the older return history stream remains private and is omitted from non owner responses. activity is filtered at read time: private events remain owner only; selected alias events require a verified viewer alias included in the event scope; heichel scoped events require a verified alias with a real relationship to that heichel; public events may be read anonymously. a public viewer alias string is never treated as authorization. canonical comments the alias comment index stores compact pointers only. comment bodies remain in the native rich comment tree. the profile route hydrates each pointer through the canonical comment store and exposes: whole post targets; verse targets; subsection targets; parent comment ids; parent comment section ids; voice transcripts; image, audio, and video manifests; canonical reference descriptors; comment sections. references references are read from the native social graph around authored posts and rich comments. the response may include inbound and outbound: references; reposts; quotes; answers; cross links. the edge retains exact source and target identities rather than copying content into the profile. compatibility profile comment routes prefer the packed alias comment sidecar and transparently read the legacy $i.db heichel and series maps when packed evidence is absent. the legacy bulk rebuild route walks old comment trees and writes compact packed pointers while preserving its historical success response. route an optional verified aliasid query parameter enables owner, selected alias, and heichel member visibility decisions. tests the profile tests prove: route discovery; private return history redaction; activity privacy metadata; canonical rich comment behavior; reference graph metadata. existing comment indexing route tests also remain required. the awtsmoos knows the complete person, every word, every reference, and every path at once. awtsmoos.com reveals only the canonical and deliberately shared garments of that unity.",
+		"page": "pages/geelooy-api-social-helper-profilehub-readme-md-36fde6a0ab.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-unifiedactivity-readme-md-aaa893312d",
+		"title": "B\"H",
+		"sourcePath": "geelooy/api/social/helper/unifiedActivity/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Boruch Hashem",
+				"anchor": "boruch-hashem"
+			},
+			{
+				"level": 1,
+				"text": "Blessed is He",
+				"anchor": "blessed-is-he"
+			},
+			{
+				"level": 1,
+				"text": "Unified Activity Ledger",
+				"anchor": "unified-activity-ledger"
+			},
+			{
+				"level": 2,
+				"text": "Privacy law",
+				"anchor": "privacy-law"
+			},
+			{
+				"level": 2,
+				"text": "Controls",
+				"anchor": "controls"
+			},
+			{
+				"level": 2,
+				"text": "Storage",
+				"anchor": "storage"
+			},
+			{
+				"level": 2,
+				"text": "Adoption",
+				"anchor": "adoption"
+			},
+			{
+				"level": 2,
+				"text": "Tests",
+				"anchor": "tests"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Unified Activity Ledger This domain provides user controlled page and social activity memory for verified public aliases. Privacy law Private by default. A public alias identifier is not authentication. Owner reads and mutations require native ownership verification. Selected alias and H",
+		"searchText": "b\"h boruch hashem blessed is he unified activity ledger this domain provides user controlled page and social activity memory for verified public aliases. privacy law private by default. a public alias identifier is not authentication. owner reads and mutations require native ownership verification. selected alias and heichel member views verify the viewer alias before disclosure. anonymous viewers receive only explicitly public events. cross origin paths are rejected. sensitive query keys are removed before storage. query, title, and duration capture preferences alter the stored event itself. controls pause or resume. capture categories independently. retention from one to 365 days. private, selected alias, heichel member, or public event scope. per event visibility updates. individual forgetting. complete clearing. json export. rapid same path navigation deduplication. storage event bodies and the bounded chronological index live under the alias owned social activity path. deletion removes the event from active indexes and leaves only a redacted tombstone. adoption the social hub has a full tracker with route and dwell time awareness. the social composer and heichel review center explicitly adopt the shared activitybeacon. the beacon is not secretly injected into every unrelated legacy page. additional applications can adopt it after presenting the same legal and privacy controls. tests the test folder proves sanitization, storage, deduplication, pause behavior, capture preferences, visibility acls, deletion, and clearing with an in memory database. the awtsmoos remembers every instant without a ledger. awtsmoos.com therefore treats its finite activity memory as a reversible user owned vessel rather than an invisible surveillance source.",
+		"page": "pages/geelooy-api-social-helper-unifiedactivity-readme-md-aaa893312d.json"
+	},
+	{
+		"id": "geelooy-api-social-helper-unifiedinteraction-readme-md-5bcdd3e991",
+		"title": "B\"H",
+		"sourcePath": "geelooy/api/social/helper/unifiedInteraction/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Boruch Hashem",
+				"anchor": "boruch-hashem"
+			},
+			{
+				"level": 1,
+				"text": "Blessed is He",
+				"anchor": "blessed-is-he"
+			},
+			{
+				"level": 1,
+				"text": "Unified Interaction Domain",
+				"anchor": "unified-interaction-domain"
+			},
+			{
+				"level": 2,
+				"text": "Exact targets",
+				"anchor": "exact-targets"
+			},
+			{
+				"level": 2,
+				"text": "Media",
+				"anchor": "media"
+			},
+			{
+				"level": 2,
+				"text": "References",
+				"anchor": "references"
+			},
+			{
+				"level": 2,
+				"text": "Comment becomes post",
+				"anchor": "comment-becomes-post"
+			},
+			{
+				"level": 2,
+				"text": "Routes",
+				"anchor": "routes"
+			},
+			{
+				"level": 2,
+				"text": "Native delegation",
+				"anchor": "native-delegation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Unified Interaction Domain This domain orchestrates exact target comments, replies, media reports, canonical references, and comment to post transformations through existing native social helpers. Exact targets A comment may attach to: an entire post, question, or answer; a verse; a subs",
+		"searchText": "b\"h boruch hashem blessed is he unified interaction domain this domain orchestrates exact target comments, replies, media reports, canonical references, and comment to post transformations through existing native social helpers. exact targets a comment may attach to: an entire post, question, or answer; a verse; a subsection; another comment; a section inside another comment. the target carries heichel, series, entity type and id, verse, subsection, parent comment, and parent comment section coordinates. media comments may use native alias owned: images; voice notes; video reports. media manifests are verified before the rich comment is created. pending browser blobs never enter a published comment payload. references posts, questions, and answers may appear inside a comment as canonical references. the source body is not copied. the rich comment stores a bounded reference descriptor and the native social graph receives a provenance edge. comment becomes post an alias may promote only its own canonical comment. the transformation preserves: text; transcript; media manifests; comment sections; original target coordinates; source author; source comment id; an idempotency key; a graph edge from the new post back to the comment. the source comment remains unchanged. routes native delegation the orchestration reuses native: rich comment creation; comment ownership and moderation; alias owned asset manifests; posts and publication planning; social graph references. no second comment or media database is introduced. the awtsmoos gives every response its source and every source its wider possibility. awtsmoos.com preserves that unity as exact coordinates, canonical identities, and visible transformation receipts.",
+		"page": "pages/geelooy-api-social-helper-unifiedinteraction-readme-md-5bcdd3e991.json"
 	}
 ]

@@ -1,5 +1,0 @@
-{
-	"BH": "B\"H / Boruch Hashem / Blessed is He",
-	"schema": "awtsmoos-doc-content-v1",
-	"content": "B\"H\n\n# AGENT_ASSIGNMENTS\n\n## Completed scopes\n\n- Architecture and repository archaeology: completed by direct filesystem and command workers.\n- Character/performance bridge: completed and verified.\n- Face/lip-sync/blink/gaze: completed and verified.\n- Body/gesture/locked contact: completed and verified.\n- Hands/shoes/garments/secondary motion: completed and verified.\n- Persistence/package restoration: completed and verified.\n- Camera/title/text/preview/export: completed and verified.\n- Browser/pixel courts: completed and verified.\n- Full-suite/compliance/readback/handoff: completed and verified.\n\n## Orchestration note\n\nThe mission-room subagent endpoint rejected coordinator creation because of an OAuth scope mismatch. The work was instead parallelized through isolated command/filesystem workers, and every claim was reverified against the repository. No subagent output remains unmerged.\n"
-}

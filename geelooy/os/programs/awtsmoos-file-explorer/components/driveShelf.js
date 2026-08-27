@@ -1,89 +1,66 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
- * @file Live drive shelf for local, tunnel, SSH, preview, and virtual worlds.
- * @description The Awtsmoos lets every mounted world reveal one clear card; Awtsmoos.com keeps connected state, permission, and distant identity visible without crowding the path.
+ * @file Small live Explorer shelf orchestrating connected worlds and the SSH doorway.
+ * @description
+ * The Awtsmoos gathers local, tunnel, SSH, preview, and virtual drives without
+ * making one component own every visual law. Awtsmoos.com lets one add-card,
+ * one status vessel, and many focused chips refresh together in a living rhyme.
  */
 import { createElement } from "/scripts/awtsmoos/ui/basic.js";
-import {
-	classForMount,
-	iconForMount,
-	labelForMount,
-	mountBadge,
-	mountSubtitle
-} from "../utils/mountClass.js";
+import { createDriveChip } from "./driveChip.js";
+import { driveItems, statusCopy } from "./driveShelfData.js";
+import createSshDriveControl from "./sshDriveControl.js";
+import { openSshDriveDialog } from "./sshDriveDialog.js";
 
 export default function createDriveShelf({ os, onNavigate }) {
 	const shelf = createElement({
 		tag: "div",
 		attributes: {
 			class: "drive-shelf",
-			"aria-label": "Mounted drives"
+			"aria-label": "Connected worlds"
 		}
+	});
+	const reconnect = profile => {
+		openSshDriveDialog({
+			os,
+			onNavigate,
+			profile,
+			onMounted: () => update()
+		});
+	};
+	const sshControl = createSshDriveControl({
+		os,
+		onNavigate,
+		onMounted: () => update()
 	});
 
 	function update() {
-		shelf.replaceChildren(statusNode(os), ...driveItems(os).map(item => {
-			return driveChip(os, item, onNavigate);
-		}));
+		const chips = driveItems(os).map(mount => {
+			return createDriveChip({
+				os,
+				mount,
+				onNavigate,
+				onReconnect: reconnect
+			});
+		});
+		shelf.replaceChildren(
+			createStatusNode(os),
+			sshControl.dom,
+			...chips
+		);
 	}
 
 	update();
-	return { dom: shelf, update };
-}
-
-function driveItems(os) {
-	const vfsMounts = os?.vfs?.mounts?.() || [];
-	const driveRecords = (os?.drives?.list?.() || []).map(driveAsMount);
-	const seen = new Set();
-	return [...vfsMounts, ...driveRecords].filter(item => {
-		const key = item.prefix || item.root;
-		if (!key || seen.has(key)) {
-			return false;
-		}
-		seen.add(key);
-		return true;
-	});
-}
-
-function driveAsMount(drive = {}) {
 	return {
-		...drive,
-		prefix: drive.root,
-		adapterId: drive.provider || drive.kind || "drive",
-		provider: drive.provider || drive.kind || "drive"
+		dom: shelf,
+		update
 	};
 }
 
-function driveChip(os, mount, onNavigate) {
-	const permission = os?.vfs?.can?.(mount.prefix, "read") || {};
-	const badge = mountBadge(mount, permission);
-	const subtitle = mountSubtitle(mount) || badge;
-	return createElement({
-		tag: "button",
-		attributes: {
-			class: `drive-chip ${classForMount(mount)}`,
-			type: "button",
-			title: `${labelForMount(mount)} — ${badge}`,
-			"data-provider": mount.provider || mount.adapterId || "drive",
-			"data-permission": mount.permissionState || "read-write",
-			"data-state": mount.connectionState || mount.syncState || "ready"
-		},
-		children: [
-			{ tag: "span", attributes: { class: "drive-chip-icon" }, html: iconForMount(mount) },
-			{ tag: "span", attributes: { class: "drive-chip-label" }, html: escapeHtml(labelForMount(mount)) },
-			{ tag: "small", attributes: { class: "drive-chip-meta" }, html: escapeHtml(subtitle) },
-			{ tag: "small", attributes: { class: "drive-chip-state" }, html: escapeHtml(badge) }
-		],
-		on: {
-			click: () => onNavigate(mount.prefix)
-		}
-	});
-}
-
-function statusNode(os) {
+function createStatusNode(os) {
 	const state = os?.remoteDriveState || {};
 	const copy = statusCopy(state);
 	return createElement({
@@ -95,17 +72,6 @@ function statusNode(os) {
 		},
 		html: escapeHtml(copy)
 	});
-}
-
-function statusCopy(state = {}) {
-	if (state.status === "loading") {
-		return "Refreshing connections…";
-	}
-	if (state.status === "error") {
-		return "Remote refresh issue";
-	}
-	const count = state.driveIds?.length || 0;
-	return `${count} connected computer${count === 1 ? "" : "s"}`;
 }
 
 function escapeHtml(value) {

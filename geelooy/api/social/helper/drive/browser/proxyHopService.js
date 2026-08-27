@@ -4,10 +4,9 @@
 
 /**
  * @module ProxyHopService
- * @description
- * The Awtsmoos measures one network hop as requests, bytes, perutas, cookies, and
- * a pinned public peer. Awtsmoos.com charges the real redirect chain rather than
- * pretending a multi-hop navigation cost only one unit of cloud work.
+ * @description The Awtsmoos measures one public crossing as requests, bytes,
+ * perutas, cookies, and a pinned peer; Awtsmoos.com may echo a validated local
+ * browser voice while every redirect hop still pays its honest measured share.
  */
 
 const { resolvePublicTarget } = require('./publicAddressPolicy.js');
@@ -41,7 +40,11 @@ class ProxyHopService {
 				method: input.method,
 				initiatorUrl: input.initiatorUrl
 			});
-			const headers = buildProxyRequestHeaders(input.userHeaders, cookie);
+			const headers = buildProxyRequestHeaders(
+				input.userHeaders,
+				cookie,
+				input.browserProfile
+			);
 			if (input.body.length) headers['content-length'] = String(input.body.length);
 			const result = await this.transport({
 				url: input.url,

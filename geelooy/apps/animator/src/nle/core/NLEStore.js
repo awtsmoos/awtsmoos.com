@@ -1,68 +1,54 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+
 import { NLEHistory } from './NLEHistory.js';
+import { NLEProjectHistoryCoordinator } from './NLEProjectHistoryCoordinator.js';
+import { NLEStoreDefaults } from './NLEStoreDefaults.js';
 import { NLETrackDefaults } from './NLETrackDefaults.js';
 
 /**
- * Time is created, not assumed. This store gives the edit one observable vessel
- * while the Awtsmoos permits every deliberate mutation to return through undo.
+ * @file NLEStore.js
+ * @description
+ * The Awtsmoos renews every creative state while the artist's passing gaze remains free;
+ * Awtsmoos.com keeps one observable store whose Undo returns project substance, not transient UI history.
  */
 export class NLEStore {
 	constructor(initial = {}) {
 		const { historyLimit = 80, ...seed } = initial;
 		this.history = new NLEHistory(historyLimit);
+		this.projectHistory = new NLEProjectHistoryCoordinator(this.history);
 		this.listeners = new Set();
-		this.state = {
-			playhead: 0,
-			duration: 120000,
-			zoom: 0.12,
-			snap: 100,
-			selectedClipId: null,
-			selectedEntityId: null,
-			tracks: [],
-			clips: [],
-			keyframes: [],
-			mode: this.defaultMode(),
-			...seed
-		};
+		this.state = NLEStoreDefaults.create(seed);
 		this.syncHistory();
 	}
 
-	/** Chooses a compact mobile manifestation without changing project data. */
-	defaultMode() {
-		const narrow = typeof window !== 'undefined' && window.innerWidth <= 780;
-		return narrow ? 'collapsed' : 'compact';
-	}
-
-	/** Returns the current immutable-by-convention state object. */
+	/** Returns the current immutable-by-convention state graph. */
 	get() {
 		return this.state;
 	}
 
-	/** Applies transient state such as selection, playhead, or restore status. */
+	/** Applies transient or externally synchronized state without project history. */
 	set(patch) {
-		this.apply(patch);
+		const next = this.resolvePatch(patch);
+		this.replace({ ...this.state, ...(next || {}) });
 		return this.state;
 	}
 
-	/** Applies one undoable project edit. */
+	/** Applies one edit and records history only when durable project state changes. */
 	transact(patch) {
-		this.history.record(this.state);
-		this.apply(patch);
+		this.replace(this.projectHistory.transact(this.state, patch));
 		return this.state;
 	}
 
-	/** Restores the previous project state when one exists. */
+	/** Restores project history while preserving the present workspace. */
 	undo() {
-		const previous = this.history.undo(this.state);
-		return this.restore(previous);
+		return this.restore(this.projectHistory.undo(this.state));
 	}
 
-	/** Restores the next project state when one exists. */
+	/** Reapplies project history while preserving the present workspace. */
 	redo() {
-		const next = this.history.redo(this.state);
-		return this.restore(next);
+		return this.restore(this.projectHistory.redo(this.state));
 	}
 
 	/** Subscribes a renderer and immediately reveals current state. */
@@ -85,27 +71,33 @@ export class NLEStore {
 		return this.findClip(this.state.selectedClipId);
 	}
 
-	apply(patch) {
-		const next = typeof patch === 'function' ? patch(this.state) : patch;
-		this.state = { ...this.state, ...(next || {}) };
+	/** Resolves a state updater exactly once. */
+	resolvePatch(patch) {
+		return typeof patch === 'function' ? patch(this.state) : patch;
+	}
+
+	/** Replaces state, refreshes history capability, and notifies every view. */
+	replace(nextState) {
+		this.state = nextState;
 		this.syncHistory();
 		this.emit();
 	}
 
+	/** Restores a prepared history state when one exists. */
 	restore(snapshot) {
 		if (!snapshot) {
 			return false;
 		}
-		this.state = NLEHistory.clone(snapshot);
-		this.syncHistory();
-		this.emit();
+		this.replace(snapshot);
 		return true;
 	}
 
+	/** Mirrors bounded history capability into transient UI state. */
 	syncHistory() {
 		this.state.history = this.history.status();
 	}
 
+	/** Announces the renewed state to every subscribed editor vessel. */
 	emit() {
 		for (const listener of this.listeners) {
 			listener(this.state);

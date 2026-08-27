@@ -12,12 +12,12 @@ import { hubIcon } from '../ui/IconCatalog.js';
  */
 const ROUTES = Object.freeze([
 	{ id: 'home', label: 'Pulse', icon: hubIcon('home'), title: 'Social pulse', tier: 'primary' },
-	{ id: 'inbox', label: 'Inbox', icon: hubIcon('inbox'), title: 'Communications inbox', tier: 'primary' },
-	{ id: 'messages', label: 'DMs', icon: hubIcon('messages'), title: 'Private messages', tier: 'primary' },
+	{ id: 'inbox', label: 'Inbox', icon: hubIcon('inbox'), title: 'Communications Inbox', tier: 'primary' },
+	{ id: 'messages', label: 'DMs', icon: hubIcon('messages'), title: 'Private Messages', tier: 'primary' },
 	{ id: 'spaces', label: 'Spaces', icon: hubIcon('spaces'), title: 'Communities and channels', tier: 'primary' },
 	{ id: 'people', label: 'People', icon: hubIcon('people'), title: 'Discover people', tier: 'primary' },
 	{ id: 'profile', label: 'Me', icon: hubIcon('profile'), title: 'Public profile', tier: 'primary' },
-	{ id: 'chat', label: 'Chat', icon: hubIcon('chat'), title: 'Live Torah chat', tier: 'secondary' },
+	{ id: 'chat', label: 'Chat', icon: hubIcon('chat'), title: 'Live Torah Chat', tier: 'secondary' },
 	{ id: 'interact', label: 'Create', icon: hubIcon('interact'), title: 'Interaction studio', tier: 'secondary' },
 	{ id: 'activity', label: 'Activity', icon: hubIcon('activity'), title: 'Activity ledger', tier: 'secondary' },
 	{ id: 'network', label: 'Network', icon: hubIcon('network'), title: 'Public network', tier: 'secondary' },

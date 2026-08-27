@@ -10,7 +10,7 @@ Manual Markdown pages outside the generated tree, with title, line count, and re
 | --- | --- | --- | --- |
 | docs/AI/DISCOVERY_RULES.md | AI Discovery Rules | 41 | 0 |
 | docs/AI/GENERATED_EVIDENCE.md | Generated Evidence Catalog | 54 | 0 |
-| docs/AI/README.md | AI Discovery Guide | 61 | 0 |
+| docs/AI/README.md | AI Discovery Guide | 37 | 0 |
 | docs/API/API_TO_CALLER.md | API to Human-Facing Caller Map | 37 | 0 |
 | docs/API/AUTHENTICATION.md | API Authentication and Authority | 57 | 0 |
 | docs/API/CALLING_COOKBOOK.md | Calling the APIs by Hand | 44 | 7 |
@@ -41,7 +41,7 @@ Manual Markdown pages outside the generated tree, with title, line count, and re
 | docs/DATA/AWTSMOOSDB_AND_VIRTUALFS.md | AwtsmoosDB, VirtualFs, and Legacy Compatibility | 45 | 0 |
 | docs/DATA/DOSDB.md | DosDB Architecture | 54 | 0 |
 | docs/DATA/PATH_CONTRACTS.md | Persistent Path Contracts | 51 | 0 |
-| docs/DATA/README.md | Data and Persistence Guide | 49 | 2 |
+| docs/DATA/README.md | Data and Persistence | 32 | 4 |
 | docs/DEVELOPMENT/ADDING_AN_API.md | Adding or Changing an HTTP API | 41 | 0 |
 | docs/DEVELOPMENT/ADDING_A_PROJECT.md | Adding a Project or Major Directory | 42 | 0 |
 | docs/DEVELOPMENT/ADDING_REALTIME.md | Adding or Changing Realtime Behavior | 37 | 0 |
@@ -50,9 +50,9 @@ Manual Markdown pages outside the generated tree, with title, line count, and re
 | docs/DIRECTORY_ATLAS.md | Directory Atlas | 50 | 1 |
 | docs/GLOSSARY.md | Repository Glossary | 61 | 1 |
 | docs/HEALTH.md | Source and API Health Evidence | 47 | 1 |
-| docs/HOW_TO_CHOOSE_A_PROJECT.md | How to Choose a Project | 91 | 15 |
+| docs/HOW_TO_CHOOSE_A_PROJECT.md | How to Choose a Project Boundary | 42 | 0 |
 | docs/INTEGRATIONS.md | External Integrations | 44 | 0 |
-| docs/INTERACTIVE_DOCUMENTATION.md | Interactive Documentation Application | 81 | 0 |
+| docs/INTERACTIVE_DOCUMENTATION.md | Interactive Documentation Application | 33 | 0 |
 | docs/LEARN/ADD_AN_API_ROUTE.md | Add an API Route | 36 | 0 |
 | docs/LEARN/AI_AGENT_DISCOVERY.md | AI Agent Discovery | 37 | 0 |
 | docs/LEARN/API_REQUESTS_101.md | API Requests 101 | 42 | 2 |
@@ -67,14 +67,14 @@ Manual Markdown pages outside the generated tree, with title, line count, and re
 | docs/LEARN/TRACE_A_REQUEST.md | Trace a Request | 34 | 0 |
 | docs/LEARN/TROUBLESHOOTING_API.md | Troubleshooting APIs | 38 | 0 |
 | docs/LEARN/WEBSOCKETS_101.md | WebSockets 101 | 40 | 3 |
-| docs/MAINTAINING_THE_DOCS.md | Maintaining the Documentation | 75 | 3 |
+| docs/MAINTAINING_THE_DOCS.md | Maintaining the Documentation | 45 | 0 |
 | docs/OPERATIONS_AND_TOOLING.md | Operations, Scripts, Tools and Tests | 40 | 0 |
 | docs/PROJECTS/AWTSMOOS_AI.md | Awtsmoos AI | 37 | 0 |
 | docs/PROJECTS/CODE.md | Awtsmoos Code | 38 | 0 |
 | docs/PROJECTS/DOSDB.md | DosDB Project | 42 | 0 |
 | docs/PROJECTS/GAMES_PLATFORM.md | Games and Simulation Platform | 38 | 0 |
 | docs/PROJECTS/MITZVAH_WORLD.md | Mitzvah World | 53 | 0 |
-| docs/PROJECTS/README.md | Major Project Manuals | 35 | 8 |
+| docs/PROJECTS/README.md | Awtsmoos.com Project Guide | 51 | 9 |
 | docs/PROJECTS/RUNTIME_SERVER.md | Awtsmoos Dynamic Server | 47 | 0 |
 | docs/PROJECTS/SOCIAL_PLATFORM.md | Social and Heichel Platform | 40 | 0 |
 | docs/PROJECTS/TUNNEL_PLATFORM.md | Tunnel Platform | 37 | 0 |

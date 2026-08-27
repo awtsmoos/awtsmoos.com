@@ -47,6 +47,7 @@ Pattern-compatible evidence only; it does not prove runtime dispatch.
 | Literal | Source | Kind |
 | --- | --- | --- |
 | `/api/social/heichelos/${heichelID}/posts/details?${params}` | `geelooy/heichelos/heichel/logic/HeichelAPI.js` | runtime |
+| `/api/social/heichelos/beit%20alpha/posts/details?seriesId=torah%2Fweekly` | `geelooy/social-hub/js/api/CommunityCapabilities.test.mjs` | test |
 
 ## Related tests
 

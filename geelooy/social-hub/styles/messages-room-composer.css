@@ -1,0 +1,64 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos is beyond typed draft, microphone action, send state, and visual viewport, while Awtsmoos.com lets one compact composer remain reachable above the mobile dock without hiding unsent intent;
+ * this Malchus-like garment owns core text-composer geometry and feedback only, leaving reply and voice states to their focused neighboring vessels of light.
+ */
+
+.hubConversationComposer--rich {
+	position: sticky;
+	z-index: 4;
+	bottom: 0;
+	display: grid;
+	gap: .42rem;
+	min-width: 0;
+	padding: .62rem 0 calc(.62rem + env(safe-area-inset-bottom));
+	background: color-mix(in srgb, var(--surface) 96%, transparent);
+	backdrop-filter: blur(16px);
+}
+
+.hubConversationComposer__textRow {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto auto;
+	gap: .4rem;
+	align-items: end;
+}
+
+.hubConversationComposer__textRow textarea {
+	width: 100%;
+	min-height: 46px;
+	max-height: 9rem;
+	resize: vertical;
+	font: inherit;
+	font-size: 1rem;
+}
+
+.hubConversationComposer__textRow > button {
+	min-width: 46px;
+	min-height: 46px;
+}
+
+.hubConversationComposer__hint,
+.hubConversationComposer__status {
+	margin: 0;
+	color: var(--muted);
+	font-size: .72rem;
+}
+
+.hubConversationComposer__status[data-tone="error"] {
+	color: #ff9bb4;
+}
+
+@media (max-width: 42rem) {
+	.hubConversationComposer--rich {
+		bottom: calc(4.9rem + env(safe-area-inset-bottom));
+		padding-bottom: .45rem;
+	}
+
+	.hubConversationComposer__textRow > button {
+		min-width: 48px;
+		min-height: 48px;
+	}
+}

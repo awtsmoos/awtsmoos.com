@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-websites-publish-from-tunnel-md-2ed4a3d6a4",
+	"title": "Publish a Website from an Awtsmoos Tunnel",
+	"sourcePath": "docs/WEBSITES/PUBLISH_FROM_TUNNEL.md",
+	"category": "Tunnel",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Publish a Website from an Awtsmoos Tunnel",
+			"anchor": "publish-a-website-from-an-awtsmoos-tunnel"
+		},
+		{
+			"level": 2,
+			"text": "Fastest folder publication",
+			"anchor": "fastest-folder-publication"
+		},
+		{
+			"level": 2,
+			"text": "Publishing generated source",
+			"anchor": "publishing-generated-source"
+		},
+		{
+			"level": 2,
+			"text": "Unpublish without deleting source",
+			"anchor": "unpublish-without-deleting-source"
+		},
+		{
+			"level": 2,
+			"text": "Node on the connected device",
+			"anchor": "node-on-the-connected-device"
+		}
+	],
+	"markdownParts": [
+		"content/docs-websites-publish-from-tunnel-md-2ed4a3d6a4-001.json"
+	]
+}

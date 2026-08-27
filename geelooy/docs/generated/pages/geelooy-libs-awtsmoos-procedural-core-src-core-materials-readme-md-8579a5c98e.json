@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-libs-awtsmoos-procedural-core-src-core-materials-readme-md-8579a5c98e",
+	"title": "Material and Terrain-Surface Planning",
+	"sourcePath": "geelooy/libs/awtsmoos-procedural-core/src/core/materials/README.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Material and Terrain-Surface Planning",
+			"anchor": "material-and-terrain-surface-planning"
+		},
+		{
+			"level": 2,
+			"text": "PURPOSE",
+			"anchor": "purpose"
+		},
+		{
+			"level": 2,
+			"text": "CANONICAL ENTRY POINTS",
+			"anchor": "canonical-entry-points"
+		},
+		{
+			"level": 2,
+			"text": "TERRAIN MIX LAW",
+			"anchor": "terrain-mix-law"
+		},
+		{
+			"level": 2,
+			"text": "OWNS",
+			"anchor": "owns"
+		},
+		{
+			"level": 2,
+			"text": "DOES NOT OWN",
+			"anchor": "does-not-own"
+		},
+		{
+			"level": 2,
+			"text": "EXTENSION RULES",
+			"anchor": "extension-rules"
+		},
+		{
+			"level": 2,
+			"text": "AI DISCOVERY KEYWORDS",
+			"anchor": "ai-discovery-keywords"
+		},
+		{
+			"level": 2,
+			"text": "NEXT FILES TO READ",
+			"anchor": "next-files-to-read"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-libs-awtsmoos-procedural-core-src-core-materials-readme-md-8579a5c98e-001.json"
+	]
+}

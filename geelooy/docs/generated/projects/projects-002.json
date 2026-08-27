@@ -1,5 +1,458 @@
 [
 	{
+		"projectId": "ayzarim-tools-550b3dd6",
+		"path": "ayzarim/tools",
+		"type": "infrastructure",
+		"family": {
+			"id": "runtime",
+			"title": "Runtime and Infrastructure"
+		},
+		"title": "ayzarim/tools",
+		"entries": [],
+		"humanManual": "docs/TUTORIALS/PROJECTS/RUNTIME_AND_INFRASTRUCTURE.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-tools-550b3dd6.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/RUNTIME_AND_INFRASTRUCTURE.md",
+				"documentId": "docs-tutorials-projects-runtime-and-infrastructure-md-1e31989624"
+			},
+			{
+				"sourcePath": "docs/ARCHITECTURE.md",
+				"documentId": "docs-architecture-md-ff21b6b9a3"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 4,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 0,
+			"other": 0
+		},
+		"totalFiles": 4,
+		"symbolSummary": {
+			"files": 4,
+			"classes": 2,
+			"functions": 10,
+			"exports": 7,
+			"samples": [
+				"AwtsmoosAuth",
+				"decodeCookieToken",
+				"decodeTokenPayload",
+				"validateToken",
+				"createToken",
+				"generateSalt",
+				"hashPassword",
+				"verifyPassword",
+				"encrypt",
+				"decrypt",
+				"Utils",
+				"generateRandomId"
+			]
+		},
+		"outgoing": [],
+		"incoming": [
+			{
+				"project": "ayzarim/awtsmoosDynamicServer",
+				"count": 3,
+				"examples": "ayzarim/awtsmoosDynamicServer/server/deps.js"
+			}
+		],
+		"externalDependencies": [],
+		"publicEntries": [],
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-a2e02092",
+		"path": "geelooy",
+		"type": "public-root",
+		"family": {
+			"id": "public",
+			"title": "Public and Other Boundaries"
+		},
+		"title": "Awtsmoos — Torah, Creation & Living Worlds",
+		"entries": [
+			"index.html",
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-a2e02092.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/DOCUMENTATION.md",
+				"documentId": "geelooy-documentation-md-6e23cc3842"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 25402,
+			"tests": 4699,
+			"assets": 13,
+			"generated": 77,
+			"docs": 3950,
+			"other": 556
+		},
+		"totalFiles": 34697,
+		"symbolSummary": null,
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/",
+				"file": "geelooy/index.html",
+				"title": "Awtsmoos — Torah, Creation & Living Worlds",
+				"scripts": 1,
+				"styles": 4
+			}
+		],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-awtsmoos-e1aae0c6",
+		"path": "geelooy/.awtsmoos",
+		"type": "project",
+		"family": {
+			"id": "public",
+			"title": "Public and Other Boundaries"
+		},
+		"title": "geelooy/.awtsmoos",
+		"entries": [],
+		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-awtsmoos-e1aae0c6.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 6,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 0,
+			"other": 0
+		},
+		"totalFiles": 6,
+		"symbolSummary": null,
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [],
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-awtsmoos-agent-thoughts-250aba07",
+		"path": "geelooy/.awtsmoos-agent-thoughts",
+		"type": "evidence",
+		"family": {
+			"id": "public",
+			"title": "Public and Other Boundaries"
+		},
+		"title": "geelooy/.awtsmoos-agent-thoughts",
+		"entries": [],
+		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-awtsmoos-agent-thoughts-250aba07.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 21,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 0,
+			"other": 179
+		},
+		"totalFiles": 200,
+		"symbolSummary": {
+			"files": 20,
+			"classes": 1,
+			"functions": 48,
+			"exports": 0,
+			"samples": [
+				"revealRepairedSearch",
+				"search",
+				"revealMoveCommand",
+				"historyHashes",
+				"legalBookChoice",
+				"handleCalculateMove",
+				"revealRootSearch",
+				"prepareHeuristics",
+				"searchRoot",
+				"revealSearchSupport",
+				"checkTime",
+				"isThreefold"
+			]
+		},
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/.awtsmoos-agent-thoughts/2026-08-14_1212_chess-engine-careful-upgrade/baseline/ui",
+				"file": "geelooy/.awtsmoos-agent-thoughts/2026-08-14_1212_chess-engine-careful-upgrade/baseline/ui/index.html",
+				"title": "Ultimate Chess AI",
+				"scripts": 6,
+				"styles": 6
+			}
+		],
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-awtsmoos-agent-transfer-dc912f6b",
+		"path": "geelooy/.awtsmoos-agent-transfer",
+		"type": "project",
+		"family": {
+			"id": "public",
+			"title": "Public and Other Boundaries"
+		},
+		"title": "geelooy/.awtsmoos-agent-transfer",
+		"entries": [
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-awtsmoos-agent-transfer-dc912f6b.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/.awtsmoos-agent-transfer/DOCUMENTATION.md",
+				"documentId": "geelooy-awtsmoos-agent-transfer-documentation-md-6a6a9c041e"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 79,
+			"tests": 14,
+			"assets": 0,
+			"generated": 0,
+			"docs": 4,
+			"other": 42
+		},
+		"totalFiles": 139,
+		"symbolSummary": {
+			"files": 65,
+			"classes": 32,
+			"functions": 101,
+			"exports": 98,
+			"samples": [
+				"postMigrationRoutes",
+				"normalizeSourceProvenance",
+				"normalizePlaylists",
+				"normalizeArchive",
+				"normalizeUrls",
+				"parse",
+				"cleanUrl",
+				"creatorIntent",
+				"CreatorExperience",
+				"KIND_MAP",
+				"metaContentKind",
+				"knownDate"
+			]
+		},
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/.awtsmoos-agent-transfer/social-future-20260821-v2/verified-stage/social/migrate",
+				"file": "geelooy/.awtsmoos-agent-transfer/social-future-20260821-v2/verified-stage/social/migrate/index.html",
+				"title": "Social Migration Studio · Awtsmoos",
+				"scripts": 1,
+				"styles": 2
+			}
+		],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-awtsmoos-smoke-3fb6bf7b",
+		"path": "geelooy/.awtsmoos-smoke",
+		"type": "project",
+		"family": {
+			"id": "public",
+			"title": "Public and Other Boundaries"
+		},
+		"title": "geelooy/.awtsmoos-smoke",
+		"entries": [],
+		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-awtsmoos-smoke-3fb6bf7b.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 4,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 0,
+			"other": 0
+		},
+		"totalFiles": 4,
+		"symbolSummary": null,
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [],
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-awtsmoos-transfer-163a56bf",
+		"path": "geelooy/.awtsmoos-transfer",
+		"type": "project",
+		"family": {
+			"id": "public",
+			"title": "Public and Other Boundaries"
+		},
+		"title": "geelooy/.awtsmoos-transfer",
+		"entries": [],
+		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-awtsmoos-transfer-163a56bf.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 0,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 0,
+			"other": 8
+		},
+		"totalFiles": 8,
+		"symbolSummary": null,
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [],
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-data-2189dd36",
+		"path": "geelooy/.data",
+		"type": "project",
+		"family": {
+			"id": "public",
+			"title": "Public and Other Boundaries"
+		},
+		"title": "geelooy/.data",
+		"entries": [],
+		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-data-2189dd36.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 1,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 0,
+			"other": 0
+		},
+		"totalFiles": 1,
+		"symbolSummary": null,
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [],
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-well-known-9a764220",
+		"path": "geelooy/.well-known",
+		"type": "project",
+		"family": {
+			"id": "public",
+			"title": "Public and Other Boundaries"
+		},
+		"title": "geelooy/.well-known",
+		"entries": [
+			"_awtsmoos.derech.js"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-well-known-9a764220.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 1,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 0,
+			"other": 0
+		},
+		"totalFiles": 1,
+		"symbolSummary": {
+			"files": 1,
+			"classes": 0,
+			"functions": 0,
+			"exports": 1,
+			"samples": [
+				"dynamicRoutes"
+			]
+		},
+		"outgoing": [
+			{
+				"project": "geelooy/api/oauth",
+				"count": 1,
+				"examples": "geelooy/.well-known/_awtsmoos.derech.js"
+			}
+		],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [],
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
 		"projectId": "geelooy-819b4c5b",
 		"path": "geelooy/@",
 		"type": "project",
@@ -50,58 +503,6 @@
 		"provenance": "generated-from-local-source"
 	},
 	{
-		"projectId": "geelooy-a2e02092",
-		"path": "geelooy",
-		"type": "public-root",
-		"family": {
-			"id": "public",
-			"title": "Public and Other Boundaries"
-		},
-		"title": "Awtsmoos — Play, Create, Send & Build",
-		"entries": [
-			"index.html",
-			"DOCUMENTATION.md"
-		],
-		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-a2e02092.md",
-		"documentation": [
-			{
-				"sourcePath": "geelooy/DOCUMENTATION.md",
-				"documentId": "geelooy-documentation-md-6e23cc3842"
-			},
-			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
-			}
-		],
-		"symlinkTarget": null,
-		"counts": {
-			"source": 22357,
-			"tests": 3928,
-			"assets": 78,
-			"generated": 76,
-			"docs": 3182,
-			"other": 1134
-		},
-		"totalFiles": 30755,
-		"symbolSummary": null,
-		"outgoing": [],
-		"incoming": [],
-		"externalDependencies": [],
-		"publicEntries": [
-			{
-				"url": "/",
-				"file": "geelooy/index.html",
-				"title": "Awtsmoos — Play, Create, Send & Build",
-				"scripts": 1,
-				"styles": 4
-			}
-		],
-		"requiresLocalDoc": true,
-		"documentationCovered": true,
-		"provenance": "generated-from-local-source"
-	},
-	{
 		"projectId": "geelooy-about-6ad77115",
 		"path": "geelooy/about",
 		"type": "public",
@@ -140,8 +541,8 @@
 				"url": "/about",
 				"file": "geelooy/about/index.html",
 				"title": "About — Geelooy",
-				"scripts": 1,
-				"styles": 2
+				"scripts": 2,
+				"styles": 3
 			}
 		],
 		"requiresLocalDoc": false,
@@ -176,19 +577,19 @@
 		],
 		"symlinkTarget": null,
 		"counts": {
-			"source": 649,
-			"tests": 152,
-			"assets": 2,
+			"source": 671,
+			"tests": 165,
+			"assets": 0,
 			"generated": 0,
 			"docs": 4,
-			"other": 304
+			"other": 44
 		},
-		"totalFiles": 1111,
+		"totalFiles": 884,
 		"symbolSummary": {
-			"files": 469,
-			"classes": 149,
-			"functions": 1703,
-			"exports": 840,
+			"files": 484,
+			"classes": 152,
+			"functions": 1769,
+			"exports": 883,
 			"samples": [
 				"AwtsmoosGPTify",
 				"IndexedDBHandler",
@@ -221,6 +622,11 @@
 				"project": "geelooy/apps/code",
 				"count": 3,
 				"examples": "geelooy/apps/code/js/code-chat/oracle.js; geelooy/apps/code/js/vibe/api/multimodal-adapter.js"
+			},
+			{
+				"project": "geelooy/api/social",
+				"count": 2,
+				"examples": "geelooy/api/social/helper/drive/browser/interactiveBrowserTargetCatalog.js; geelooy/api/social/helper/drive/browser/interactiveTargetController.js"
 			},
 			{
 				"project": "geelooy/shared",
@@ -282,14 +688,14 @@
 		],
 		"symlinkTarget": null,
 		"counts": {
-			"source": 1465,
-			"tests": 261,
+			"source": 1797,
+			"tests": 399,
 			"assets": 0,
 			"generated": 0,
-			"docs": 33,
-			"other": 2
+			"docs": 43,
+			"other": 3
 		},
-		"totalFiles": 1761,
+		"totalFiles": 2242,
 		"symbolSummary": null,
 		"outgoing": [],
 		"incoming": [],
@@ -297,441 +703,6 @@
 		"publicEntries": [],
 		"requiresLocalDoc": true,
 		"documentationCovered": true,
-		"provenance": "generated-from-local-source"
-	},
-	{
-		"projectId": "geelooy-api-admin-2ab9bb26",
-		"path": "geelooy/api/admin",
-		"type": "api",
-		"family": {
-			"id": "apis",
-			"title": "API Projects"
-		},
-		"title": "geelooy/api/admin",
-		"entries": [
-			"_awtsmoos.derech.js",
-			"DOCUMENTATION.md"
-		],
-		"humanManual": "docs/TUTORIALS/PROJECTS/APIS.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-admin-2ab9bb26.md",
-		"documentation": [
-			{
-				"sourcePath": "geelooy/api/admin/DOCUMENTATION.md",
-				"documentId": "geelooy-api-admin-documentation-md-9fd7e84668"
-			},
-			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/APIS.md",
-				"documentId": "docs-tutorials-projects-apis-md-030810cad3"
-			},
-			{
-				"sourcePath": "docs/API/README.md",
-				"documentId": "docs-api-readme-md-3e0443943b"
-			}
-		],
-		"symlinkTarget": null,
-		"counts": {
-			"source": 1,
-			"tests": 0,
-			"assets": 0,
-			"generated": 0,
-			"docs": 1,
-			"other": 0
-		},
-		"totalFiles": 2,
-		"symbolSummary": {
-			"files": 1,
-			"classes": 0,
-			"functions": 1,
-			"exports": 1,
-			"samples": [
-				"dynamicRoutes",
-				"runScript"
-			]
-		},
-		"outgoing": [],
-		"incoming": [],
-		"externalDependencies": [],
-		"publicEntries": [],
-		"requiresLocalDoc": false,
-		"documentationCovered": true,
-		"provenance": "generated-from-local-source"
-	},
-	{
-		"projectId": "geelooy-api-compiler-ec95dc02",
-		"path": "geelooy/api/compiler",
-		"type": "api",
-		"family": {
-			"id": "apis",
-			"title": "API Projects"
-		},
-		"title": "geelooy/api/compiler",
-		"entries": [
-			"_awtsmoos.derech.js",
-			"DOCUMENTATION.md"
-		],
-		"humanManual": "docs/TUTORIALS/PROJECTS/APIS.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-compiler-ec95dc02.md",
-		"documentation": [
-			{
-				"sourcePath": "geelooy/api/compiler/DOCUMENTATION.md",
-				"documentId": "geelooy-api-compiler-documentation-md-a537b816c5"
-			},
-			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/APIS.md",
-				"documentId": "docs-tutorials-projects-apis-md-030810cad3"
-			},
-			{
-				"sourcePath": "docs/API/README.md",
-				"documentId": "docs-api-readme-md-3e0443943b"
-			}
-		],
-		"symlinkTarget": null,
-		"counts": {
-			"source": 8,
-			"tests": 1,
-			"assets": 0,
-			"generated": 0,
-			"docs": 1,
-			"other": 0
-		},
-		"totalFiles": 10,
-		"symbolSummary": {
-			"files": 8,
-			"classes": 0,
-			"functions": 29,
-			"exports": 14,
-			"samples": [
-				"authorizeCompilerRequest",
-				"isAllowedOrigin",
-				"failure",
-				"compilerRequestBody",
-				"REQUEST_BYTES",
-				"bodyError",
-				"compilerBackends",
-				"compilerBuild",
-				"compilerRebbeApk",
-				"requestCancellation",
-				"errorResponse",
-				"statusFor"
-			]
-		},
-		"outgoing": [
-			{
-				"project": "geelooy/apps/rebbe",
-				"count": 1,
-				"examples": "geelooy/api/compiler/core/rebbeApkHandler.js"
-			}
-		],
-		"incoming": [],
-		"externalDependencies": [],
-		"publicEntries": [],
-		"requiresLocalDoc": true,
-		"documentationCovered": true,
-		"provenance": "generated-from-local-source"
-	},
-	{
-		"projectId": "geelooy-api-contact-a9bcc40b",
-		"path": "geelooy/api/contact",
-		"type": "api",
-		"family": {
-			"id": "apis",
-			"title": "API Projects"
-		},
-		"title": "geelooy/api/contact",
-		"entries": [
-			"_awtsmoos.derech.js",
-			"DOCUMENTATION.md"
-		],
-		"humanManual": "docs/TUTORIALS/PROJECTS/APIS.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-contact-a9bcc40b.md",
-		"documentation": [
-			{
-				"sourcePath": "geelooy/api/contact/DOCUMENTATION.md",
-				"documentId": "geelooy-api-contact-documentation-md-c303dc04a4"
-			},
-			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/APIS.md",
-				"documentId": "docs-tutorials-projects-apis-md-030810cad3"
-			},
-			{
-				"sourcePath": "docs/API/README.md",
-				"documentId": "docs-api-readme-md-3e0443943b"
-			}
-		],
-		"symlinkTarget": null,
-		"counts": {
-			"source": 1,
-			"tests": 0,
-			"assets": 0,
-			"generated": 0,
-			"docs": 1,
-			"other": 0
-		},
-		"totalFiles": 2,
-		"symbolSummary": {
-			"files": 1,
-			"classes": 0,
-			"functions": 11,
-			"exports": 1,
-			"samples": [
-				"dynamicRoutes",
-				"status",
-				"submit",
-				"parseBody",
-				"normalize",
-				"validate",
-				"deliverSignal",
-				"storeSignal",
-				"createReference",
-				"response",
-				"clientKey",
-				"clean"
-			]
-		},
-		"outgoing": [],
-		"incoming": [],
-		"externalDependencies": [],
-		"publicEntries": [],
-		"requiresLocalDoc": false,
-		"documentationCovered": true,
-		"provenance": "generated-from-local-source"
-	},
-	{
-		"projectId": "geelooy-api-email-25d83d80",
-		"path": "geelooy/api/email",
-		"type": "api",
-		"family": {
-			"id": "apis",
-			"title": "API Projects"
-		},
-		"title": "geelooy/api/email",
-		"entries": [
-			"_awtsmoos.derech.js",
-			"DOCUMENTATION.md"
-		],
-		"humanManual": "docs/TUTORIALS/PROJECTS/APIS.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-email-25d83d80.md",
-		"documentation": [
-			{
-				"sourcePath": "geelooy/api/email/DOCUMENTATION.md",
-				"documentId": "geelooy-api-email-documentation-md-638f6e649b"
-			},
-			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/APIS.md",
-				"documentId": "docs-tutorials-projects-apis-md-030810cad3"
-			},
-			{
-				"sourcePath": "docs/API/README.md",
-				"documentId": "docs-api-readme-md-3e0443943b"
-			}
-		],
-		"symlinkTarget": null,
-		"counts": {
-			"source": 1,
-			"tests": 0,
-			"assets": 0,
-			"generated": 0,
-			"docs": 1,
-			"other": 0
-		},
-		"totalFiles": 2,
-		"symbolSummary": {
-			"files": 1,
-			"classes": 0,
-			"functions": 3,
-			"exports": 0,
-			"samples": [
-				"getUserId",
-				"withoutMailPrefix",
-				"status"
-			]
-		},
-		"outgoing": [
-			{
-				"project": "geelooy/api/social",
-				"count": 1,
-				"examples": "geelooy/api/email/_awtsmoos.derech.js"
-			}
-		],
-		"incoming": [],
-		"externalDependencies": [],
-		"publicEntries": [],
-		"requiresLocalDoc": false,
-		"documentationCovered": true,
-		"provenance": "generated-from-local-source"
-	},
-	{
-		"projectId": "geelooy-api-fetch-79c836ba",
-		"path": "geelooy/api/fetch",
-		"type": "api",
-		"family": {
-			"id": "apis",
-			"title": "API Projects"
-		},
-		"title": "geelooy/api/fetch",
-		"entries": [
-			"_awtsmoos.derech.js",
-			"DOCUMENTATION.md"
-		],
-		"humanManual": "docs/TUTORIALS/PROJECTS/APIS.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-fetch-79c836ba.md",
-		"documentation": [
-			{
-				"sourcePath": "geelooy/api/fetch/DOCUMENTATION.md",
-				"documentId": "geelooy-api-fetch-documentation-md-e23bac59b3"
-			},
-			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/APIS.md",
-				"documentId": "docs-tutorials-projects-apis-md-030810cad3"
-			},
-			{
-				"sourcePath": "docs/API/README.md",
-				"documentId": "docs-api-readme-md-3e0443943b"
-			}
-		],
-		"symlinkTarget": null,
-		"counts": {
-			"source": 1,
-			"tests": 0,
-			"assets": 0,
-			"generated": 0,
-			"docs": 1,
-			"other": 0
-		},
-		"totalFiles": 2,
-		"symbolSummary": {
-			"files": 1,
-			"classes": 0,
-			"functions": 1,
-			"exports": 2,
-			"samples": [
-				"dynamicRoutes",
-				"status",
-				"loggedIn"
-			]
-		},
-		"outgoing": [],
-		"incoming": [],
-		"externalDependencies": [],
-		"publicEntries": [],
-		"requiresLocalDoc": false,
-		"documentationCovered": true,
-		"provenance": "generated-from-local-source"
-	},
-	{
-		"projectId": "geelooy-api-gpt-b0818377",
-		"path": "geelooy/api/gpt",
-		"type": "api",
-		"family": {
-			"id": "apis",
-			"title": "API Projects"
-		},
-		"title": "geelooy/api/gpt",
-		"entries": [
-			"_awtsmoos.derech.js",
-			"DOCUMENTATION.md"
-		],
-		"humanManual": "docs/TUTORIALS/PROJECTS/APIS.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-gpt-b0818377.md",
-		"documentation": [
-			{
-				"sourcePath": "geelooy/api/gpt/DOCUMENTATION.md",
-				"documentId": "geelooy-api-gpt-documentation-md-c61289d41a"
-			},
-			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/APIS.md",
-				"documentId": "docs-tutorials-projects-apis-md-030810cad3"
-			},
-			{
-				"sourcePath": "docs/API/README.md",
-				"documentId": "docs-api-readme-md-3e0443943b"
-			}
-		],
-		"symlinkTarget": null,
-		"counts": {
-			"source": 10,
-			"tests": 3,
-			"assets": 0,
-			"generated": 0,
-			"docs": 1,
-			"other": 0
-		},
-		"totalFiles": 14,
-		"symbolSummary": {
-			"files": 10,
-			"classes": 1,
-			"functions": 31,
-			"exports": 20,
-			"samples": [
-				"authorizeGptRequest",
-				"isLoopbackOrigin",
-				"refusal",
-				"parseGptRequest",
-				"REQUEST_BYTES",
-				"ACTIONS",
-				"MODES",
-				"parseInput",
-				"optionalConversationKey",
-				"cleanRequiredString",
-				"optionalString",
-				"cleanString"
-			]
-		},
-		"outgoing": [],
-		"incoming": [],
-		"externalDependencies": [],
-		"publicEntries": [],
-		"requiresLocalDoc": true,
-		"documentationCovered": true,
-		"provenance": "generated-from-local-source"
-	},
-	{
-		"projectId": "geelooy-api-nav-18ebe23f",
-		"path": "geelooy/api/nav",
-		"type": "api",
-		"family": {
-			"id": "apis",
-			"title": "API Projects"
-		},
-		"title": "geelooy/api/nav",
-		"entries": [],
-		"humanManual": "docs/TUTORIALS/PROJECTS/APIS.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-nav-18ebe23f.md",
-		"documentation": [
-			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/APIS.md",
-				"documentId": "docs-tutorials-projects-apis-md-030810cad3"
-			},
-			{
-				"sourcePath": "docs/API/README.md",
-				"documentId": "docs-api-readme-md-3e0443943b"
-			}
-		],
-		"symlinkTarget": null,
-		"counts": {
-			"source": 1,
-			"tests": 0,
-			"assets": 0,
-			"generated": 0,
-			"docs": 0,
-			"other": 0
-		},
-		"totalFiles": 1,
-		"symbolSummary": {
-			"files": 1,
-			"classes": 1,
-			"functions": 0,
-			"exports": 1,
-			"samples": [
-				"ParagraphHighlighter"
-			]
-		},
-		"outgoing": [],
-		"incoming": [],
-		"externalDependencies": [],
-		"publicEntries": [],
-		"requiresLocalDoc": false,
-		"documentationCovered": false,
 		"provenance": "generated-from-local-source"
 	}
 ]

@@ -1,0 +1,69 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos gives the thumb one direct river and the wide screen a calm two-column studio without multiplying permanent chrome;
+Awtsmoos.com keeps advanced chambers retractable, touch generous, and every explicit publication gate easy to find from home.
+*/
+@media (max-width: 880px) {
+	.migrationGrid {
+		grid-template-columns: 1fr;
+	}
+	.primaryMigrationCard,
+	.reviewCard {
+		grid-column: 1;
+	}
+}
+@media (max-width: 760px) {
+	.migrationHeader,
+	.migrationGrid {
+		width: min(100% - 20px, 1040px);
+	}
+	.migrationHeader {
+		padding-top: 18px;
+	}
+	.headerRail {
+		align-items: flex-start;
+		flex-direction: column;
+	}
+	.migrationHeader h1 {
+		font-size: clamp(2.4rem, 13vw, 4.2rem);
+	}
+	.fieldGrid,
+	.fileChoiceGrid {
+		grid-template-columns: 1fr;
+	}
+	section.migrationCard {
+		padding: 17px;
+	}
+	.migrationCard {
+		border-radius: 17px;
+	}
+	.summaryMeta {
+		display: none;
+	}
+	.primaryAction,
+	.buttonRow > button,
+	.buttonRow > a {
+		width: 100%;
+		justify-content: center;
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	button,
+	input,
+	select {
+		transition: none;
+	}
+	button:active {
+		transform: none;
+	}
+}
+@media (forced-colors: active) {
+	.migrationCard,
+	input,
+	select,
+	button {
+		border: 1px solid CanvasText;
+	}
+}

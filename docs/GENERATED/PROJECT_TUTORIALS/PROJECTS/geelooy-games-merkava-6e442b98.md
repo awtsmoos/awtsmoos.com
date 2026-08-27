@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 86 | 31 | 0 | 0 | 2 | 1 | 120 |
+| 93 | 32 | 0 | 0 | 2 | 1 | 128 |
 
 ## Public entry points
 
@@ -29,7 +29,7 @@ Blessed is He
 
 ## Symbol evidence
 
-Source files: 76; classes: 39; functions: 154; exports: 129; samples: appDiagnostics, createDiagnosticControls, checkpoint, setLane, chargeAbility, advanceLevel, setWorld, setLevel, grantPrutahs, defeatBoss, completeWorldRotation, clampIndex.
+Source files: 82; classes: 41; functions: 177; exports: 140; samples: appDiagnostics, createDiagnosticControls, checkpoint, setLane, chargeAbility, advanceLevel, setWorld, setLevel, grantPrutahs, defeatBoss, completeWorldRotation, clampIndex.
 
 ## Depends on
 
@@ -45,4 +45,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **31**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **32**. Treat this as file evidence, not proof of behavioral coverage.

@@ -1,0 +1,94 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos is beyond what stays visible and what waits behind More; Awtsmoos.com lets one immediate deed remain clear while secondary capability rests in a compact native chamber.
+ * This Gevurah-like garment keeps the shared action rail stable, touch-safe, logically aligned, and free from horizontal-scroll clutter.
+ */
+
+.awtsmoosActionOverflow,
+.awtsmoosActionOverflow__primary {
+	display: flex;
+	align-items: stretch;
+	gap: .5rem;
+	min-inline-size: 0;
+}
+
+.awtsmoosActionOverflow {
+	inline-size: 100%;
+}
+
+.awtsmoosActionOverflow__primary {
+	flex: 1 1 auto;
+}
+
+.awtsmoosActionOverflow__primary > :first-child {
+	flex: 1 1 auto;
+}
+
+.awtsmoosActionOverflow__more {
+	position: relative;
+	flex: 0 0 auto;
+	border: 0;
+	background: transparent;
+}
+
+.awtsmoosActionOverflow__more > .awtsmoosDisclosure__summary {
+	min-inline-size: 4.4rem;
+	min-block-size: 46px;
+	padding-inline: .72rem;
+}
+
+.awtsmoosActionOverflow__more > .awtsmoosDisclosure__body {
+	position: absolute;
+	z-index: 40;
+	inset-block-end: calc(100% + .45rem);
+	inset-inline-end: 0;
+	inline-size: min(16rem, calc(100vw - 2rem));
+	padding: .5rem;
+	border: 1px solid color-mix(in srgb, currentColor 18%, transparent);
+	border-radius: .9rem;
+	background: Canvas;
+	box-shadow: 0 18px 46px rgba(0, 0, 0, .28);
+}
+
+.awtsmoosActionOverflow__list {
+	display: grid;
+	gap: .35rem;
+}
+
+.awtsmoosActionOverflow__list .awtsmoosUniversalAction {
+	inline-size: 100%;
+	justify-content: flex-start;
+	text-align: start;
+}
+
+.awtsmoosActionOverflow__close {
+	min-block-size: 42px;
+	border: 0;
+	border-radius: .7rem;
+	background: transparent;
+	color: inherit;
+	font: inherit;
+	font-weight: 720;
+	opacity: .7;
+}
+
+@media (max-width: 39.9375rem) {
+	.awtsmoosActionOverflow__more > .awtsmoosDisclosure__body {
+		position: fixed;
+		inset-inline: .65rem;
+		inset-block-end: max(.65rem, env(safe-area-inset-bottom));
+		inline-size: auto;
+		max-block-size: min(60dvh, 30rem);
+		overflow-y: auto;
+		border-radius: 1rem;
+	}
+}
+
+@media (prefers-contrast: more) {
+	.awtsmoosActionOverflow__more > .awtsmoosDisclosure__body {
+		border-color: currentColor;
+	}
+}

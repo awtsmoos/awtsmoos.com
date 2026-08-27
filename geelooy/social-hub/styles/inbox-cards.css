@@ -1,0 +1,96 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos is beyond source chip, unread mark, title, preview, and chosen action, while Awtsmoos.com lets one Inbox record reveal each finite truth without horizontal clutter;
+ * this Hod-like garment owns attention-card hierarchy only, leaving summary and thread-shell geometry to the larger Inbox vessel of light.
+ */
+
+.communicationsInboxItem {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	gap: .6rem;
+	padding: .65rem;
+	border: 1px solid var(--line);
+	border-radius: var(--radius);
+	background: var(--surface);
+}
+
+.communicationsInboxItem[data-read="false"] {
+	border-color: var(--cyan);
+	box-shadow: inset 3px 0 0 var(--cyan);
+	background: color-mix(in srgb, var(--cyan) 7%, var(--surface));
+}
+
+.communicationsInboxOpen {
+	display: grid;
+	gap: .38rem;
+	min-width: 0;
+	min-height: 4.7rem;
+	padding: .2rem;
+	border: 0;
+	background: transparent;
+	color: var(--ink);
+	font: inherit;
+	text-align: start;
+	cursor: pointer;
+}
+
+.communicationsInboxEyebrow {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .35rem;
+}
+
+.communicationsInboxChip {
+	padding: .18rem .42rem;
+	border: 1px solid var(--line);
+	border-radius: 999px;
+	color: var(--muted);
+	font-size: .68rem;
+	font-weight: 800;
+	letter-spacing: .035em;
+}
+
+.communicationsInboxChip[data-tone="unread"] {
+	border-color: var(--cyan);
+	color: var(--ink);
+}
+
+.communicationsInboxTitle {
+	font-size: 1rem;
+	line-height: 1.3;
+}
+
+.communicationsInboxPreview,
+.communicationsInboxContext {
+	overflow: hidden;
+	color: var(--muted);
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.communicationsMarkRead {
+	align-self: center;
+	min-height: 44px;
+	padding: .55rem .75rem;
+	border: 1px solid var(--line-hot);
+	border-radius: .75rem;
+	background: var(--surface-strong);
+	color: var(--ink);
+	font: inherit;
+	font-weight: 750;
+	cursor: pointer;
+}
+
+@media (max-width: 34rem) {
+	.communicationsInboxItem {
+		grid-template-columns: 1fr;
+	}
+
+	.communicationsMarkRead {
+		width: 100%;
+		min-height: 48px;
+	}
+}

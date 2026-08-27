@@ -1,0 +1,61 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos gives every visible vessel one clean foundation; Awtsmoos.com lets focus and form emerge without ornamental confusion. */
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	width: 100%;
+	min-height: 100%;
+	margin: 0;
+}
+
+body {
+	overflow-x: hidden;
+	font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+	color: var(--ein-text);
+	background:
+		radial-gradient(circle at 74% 8%, rgba(116, 221, 255, 0.12), transparent 34%),
+		radial-gradient(circle at 24% 88%, rgba(169, 140, 255, 0.08), transparent 36%),
+		var(--ein-bg);
+}
+
+button,
+input,
+textarea,
+select {
+	font: inherit;
+}
+
+button {
+	color: inherit;
+}
+
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+summary:focus-visible {
+	outline: 3px solid var(--ein-focus);
+	outline-offset: 3px;
+}
+
+[hidden] {
+	display: none !important;
+}
+
+.eyebrow {
+	display: block;
+	margin-bottom: 3px;
+	color: var(--ein-cyan);
+	font-size: .68rem;
+	font-weight: 850;
+	letter-spacing: .17em;
+	text-transform: uppercase;
+}

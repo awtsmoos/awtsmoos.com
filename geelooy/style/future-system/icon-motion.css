@@ -1,0 +1,63 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives every Awtsmoos.com icon a tiny living answer without trapping it in endless motion;
+one gesture, one reply, then stillness returns and the symbol remains a clear devotion.
+*/
+[data-future-icon] {
+	transition:
+		translate .18s cubic-bezier(.2, .72, .2, 1),
+		rotate .18s ease,
+		scale .18s ease;
+}
+
+:where([data-future-action], .searchWrap):hover [data-future-icon="play"],
+:where([data-future-action], .searchWrap):focus-within [data-future-icon="play"] {
+	translate: 2px 0;
+	scale: 1.05;
+}
+
+:where([data-future-action], button):hover [data-future-icon="send"],
+:where([data-future-action], button):focus-visible [data-future-icon="send"] {
+	translate: 3px -1px;
+	rotate: -4deg;
+}
+
+[data-future-action]:hover [data-future-icon="wallet"],
+[data-future-action]:focus-visible [data-future-icon="wallet"] {
+	rotate: 8deg;
+	scale: 1.06;
+}
+
+.searchWrap:focus-within [data-future-icon="search"],
+[data-future-action]:hover [data-future-icon="search"] {
+	rotate: -6deg;
+	scale: 1.08;
+}
+
+[data-future-action]:hover [data-future-icon="orbit"],
+[data-future-action]:focus-visible [data-future-icon="orbit"] {
+	rotate: 14deg;
+	scale: 1.05;
+}
+
+[data-future-action]:hover [data-future-icon="create"],
+[data-future-action]:focus-visible [data-future-icon="create"] {
+	rotate: 10deg;
+	scale: 1.06;
+}
+
+[data-future-action]:hover [data-future-icon="spark"],
+[data-future-action]:focus-visible [data-future-icon="spark"],
+[data-future-action]:hover [data-future-icon="apps"] {
+	scale: 1.08;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	[data-future-icon] {
+		translate: none;
+		rotate: none;
+		scale: 1;
+		transition: none;
+	}
+}

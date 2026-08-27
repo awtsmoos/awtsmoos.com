@@ -4,16 +4,24 @@
 
 /**
  * @file MitzvahWorldModeLoaders.js
- * @description Returns playable worlds before optional presentation and audio finish hydrating.
- * The Awtsmoos opens movement before ornament; Awtsmoos.com keeps route loading small,
- * readable, and truthful while post-play presentation enters only beyond first control.
+ * @description Opens playable worlds first while freshly versioned creative and post-play systems remain explicitly secondary.
+ * The Awtsmoos reveals movement before ornament and purpose before display;
+ * Awtsmoos.com keeps each route a narrow gate, while deeper powers arrive only in their rightful and newly refreshed way.
  */
 
+import {
+	createDirectWorldRuntimeOptions,
+	directWorldErrorReceipt,
+	reportDirectWorldProgress
+} from './MitzvahWorldDirectRuntimeOptions.js';
+
+const CAPSULE_VERSION = '20260821-retractable-command-capsule-01';
 const CREATIVE_URL = './MitzvahWorldCreativeModeLoaders.js?v=20260802-game-studio-bridge-02';
-const DIRECT_EXPERIENCE_URL = './MitzvahWorldDirectExperience.js?v=20260814-direct-audio-02';
-const POST_PLAY_EXPERIENCE_URL = './MitzvahWorldPostPlayExperience.js';
+const DIRECT_EXPERIENCE_URL = `./MitzvahWorldDirectExperience.js?v=${CAPSULE_VERSION}`;
+const POST_PLAY_EXPERIENCE_URL = `./MitzvahWorldPostPlayExperience.js?v=${CAPSULE_VERSION}`;
 const SINGLE_PLAYER_RUNTIME_URL = '../app/createEretzRuntime.js?v=20260804-map-01';
 
+/** Returns the public route-loader covenant without exposing implementation details. */
 export function createMitzvahWorldModeLoaders(environment = globalThis) {
 	return Object.freeze({
 		materials: hosts => openCreative('openMaterialsMode', hosts, '', environment),
@@ -24,6 +32,7 @@ export function createMitzvahWorldModeLoaders(environment = globalThis) {
 	});
 }
 
+/** Detects explicit Movie Studio requests while preserving historic query forms. */
 export function hasMovieRequest(search = '') {
 	const parameters = search instanceof URLSearchParams
 		? search
@@ -36,14 +45,14 @@ export function hasMovieRequest(search = '') {
 }
 
 async function openSinglePlayer(hosts, options = {}, environment = globalThis) {
-	report(options, 'Preparing visible WebGL control and map…');
+	reportDirectWorldProgress(options, 'Preparing visible WebGL control and map…');
 	const [runtimeModule, badgeModule] = await Promise.all([
 		import(SINGLE_PLAYER_RUNTIME_URL),
 		import('../network/MultiplayerStatusBadge.js')
 	]);
 	const diagnostics = await runtimeModule.createEretzRuntime(
 		hosts,
-		runtimeOptions(options, environment)
+		createDirectWorldRuntimeOptions(options, environment)
 	);
 	diagnostics.connectionBadge = badgeModule.installSinglePlayerStatusBadge();
 	diagnostics.sessionMode = 'singleplayer';
@@ -58,12 +67,12 @@ async function openSinglePlayer(hosts, options = {}, environment = globalThis) {
 }
 
 async function openMultiplayer(hosts, options = {}, environment = globalThis) {
-	report(options, 'Preparing visible WebGL shared control and map…');
+	reportDirectWorldProgress(options, 'Preparing visible WebGL shared control and map…');
 	const { createMultiplayerEretzRuntime } = await import(
 		'../network/MultiplayerEretzRuntime.js?v=20260804-map-01'
 	);
 	const diagnostics = await createMultiplayerEretzRuntime(hosts, {
-		...runtimeOptions(options, environment),
+		...createDirectWorldRuntimeOptions(options, environment),
 		WebSocketClass: environment.WebSocket,
 		displayName: options.displayName,
 		location: environment.location,
@@ -90,31 +99,10 @@ function launchPostPlayExperience(diagnostics, environment) {
 	const promise = import(POST_PLAY_EXPERIENCE_URL)
 		.then(module => module.startMitzvahWorldPostPlayExperience(diagnostics, environment))
 		.catch(error => {
-			diagnostics.directExperienceBootstrapError = errorReceipt(error);
+			diagnostics.directExperienceBootstrapError = directWorldErrorReceipt(error);
 			console.warn('[MitzvahWorld] post-play helper degraded.', error);
 			return null;
 		});
 	diagnostics.directExperienceBootstrapPromise = promise;
 	return promise;
-}
-
-function errorReceipt(error) {
-	return Object.freeze({
-		message: error?.message || String(error),
-		name: error?.name || 'Error'
-	});
-}
-
-function runtimeOptions(options, environment) {
-	return {
-		environment,
-		onProgress: options.onProgress,
-		quality: options.quality,
-		signal: options.signal,
-		startLoop: true
-	};
-}
-
-function report(options, message) {
-	options.onProgress?.({ message, progress: 0.04 });
 }

@@ -1,0 +1,89 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos renews score, peruta, and streak while the road remains wider than every number;
+ * Awtsmoos.com keeps Malchus at the edge of sight, luminous enough to know and quiet enough to wonder.
+ */
+
+.run-rail {
+	position: absolute;
+	top: var(--safe-top);
+	left: var(--safe-left);
+	z-index: 8;
+	display: flex;
+	align-items: stretch;
+	gap: 5px;
+	max-width: calc(100vw - 128px);
+	padding: 4px;
+	border: 1px solid var(--line);
+	border-radius: var(--radius-medium);
+	background: linear-gradient(
+		140deg,
+		rgba(30, 20, 13, 0.78),
+		rgba(13, 9, 7, 0.58)
+	);
+	backdrop-filter: var(--glass-blur);
+	box-shadow: var(--shadow-soft);
+	pointer-events: none;
+}
+
+.run-metric {
+	position: relative;
+	min-width: 66px;
+	padding: 6px 9px;
+	border-radius: var(--radius-small);
+	text-align: left;
+}
+
+.run-metric + .run-metric::before {
+	content: "";
+	position: absolute;
+	top: 20%;
+	bottom: 20%;
+	left: -3px;
+	width: 1px;
+	background: var(--line);
+}
+
+.run-metric span {
+	display: block;
+	color: var(--ivory-500);
+	font-size: 9px;
+	font-weight: 800;
+	letter-spacing: 0.11em;
+	line-height: 1;
+	text-transform: uppercase;
+}
+
+.run-metric strong {
+	display: block;
+	margin-top: 3px;
+	color: var(--ivory-100);
+	font-size: 15px;
+	font-variant-numeric: tabular-nums;
+	font-weight: 850;
+	line-height: 1;
+	white-space: nowrap;
+}
+
+.run-metric-primary strong {
+	color: var(--gold-300);
+	font-size: 18px;
+	text-shadow: 0 0 16px rgba(255, 202, 91, 0.18);
+}
+
+@media (max-width: 390px) {
+	.run-metric {
+		min-width: 57px;
+		padding-inline: 7px;
+	}
+
+	.run-metric strong {
+		font-size: 14px;
+	}
+
+	.run-metric-primary strong {
+		font-size: 16px;
+	}
+}

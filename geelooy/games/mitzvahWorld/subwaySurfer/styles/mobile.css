@@ -1,0 +1,108 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/*
+	The Awtsmoos carries intention from fingertip to lane in flight;
+	Awtsmoos.com shapes touch into motion, bounded, clear, and light.
+*/
+.mobile-controls {
+	position: absolute;
+	inset: auto 0 max(24px, env(safe-area-inset-bottom)) 0;
+	z-index: 18;
+	display: flex;
+	align-items: flex-end;
+	justify-content: space-between;
+	padding: 0 max(22px, env(safe-area-inset-right)) 0 max(22px, env(safe-area-inset-left));
+	pointer-events: none;
+}
+
+.joystick,
+.jump-button {
+	pointer-events: auto;
+	touch-action: none;
+	user-select: none;
+}
+
+.joystick {
+	position: relative;
+	width: 126px;
+	height: 126px;
+	border: 1px solid rgba(255, 237, 185, 0.3);
+	border-radius: 50%;
+	background: radial-gradient(circle, rgba(255, 224, 137, 0.13), rgba(4, 19, 31, 0.58));
+	box-shadow: inset 0 0 28px rgba(0, 0, 0, 0.22), 0 16px 40px rgba(0, 0, 0, 0.24);
+	backdrop-filter: blur(10px);
+}
+
+.joystick::before {
+	content: "◀   ▶";
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	color: rgba(255, 248, 221, 0.45);
+	font-size: 0.78rem;
+	letter-spacing: 0.8rem;
+	white-space: nowrap;
+}
+
+.joystick-knob {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	width: 58px;
+	height: 58px;
+	transform: translate(-50%, -50%);
+	border: 1px solid rgba(255, 226, 134, 0.72);
+	border-radius: 50%;
+	background: linear-gradient(145deg, rgba(255, 216, 105, 0.9), rgba(164, 112, 30, 0.82));
+	box-shadow: 0 7px 20px rgba(0, 0, 0, 0.32), 0 0 18px rgba(255, 214, 109, 0.24);
+}
+
+.jump-button {
+	width: 108px;
+	height: 108px;
+	border: 1px solid rgba(255, 226, 134, 0.72);
+	border-radius: 50%;
+	background: radial-gradient(circle at 35% 30%, #ffe18a, #aa6c20 72%);
+	color: #172430;
+	font-weight: 900;
+	letter-spacing: 0.08em;
+	box-shadow: 0 16px 36px rgba(0, 0, 0, 0.3), 0 0 24px rgba(255, 214, 109, 0.22);
+}
+
+.jump-button:active {
+	transform: scale(0.94);
+}
+
+@media (pointer: fine) and (min-width: 801px) {
+	.mobile-controls {
+		display: none;
+	}
+}
+
+@media (max-width: 800px) {
+	.desktop-hint {
+		display: none;
+	}
+
+	.status-pill {
+		top: 116px;
+	}
+
+	.top-controls {
+		top: 70px;
+	}
+}
+
+@media (max-height: 520px) {
+	.joystick {
+		width: 92px;
+		height: 92px;
+	}
+
+	.jump-button {
+		width: 82px;
+		height: 82px;
+	}
+}

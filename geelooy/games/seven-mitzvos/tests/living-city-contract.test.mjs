@@ -1,44 +1,51 @@
 //B"H
-//Boruch Hashem
-//Blessed is He
-
-import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
-import { dirname, join } from 'node:path';
-import test from 'node:test';
-import { fileURLToPath } from 'node:url';
-
+// Boruch Hashem
+// Blessed is He
 /**
- * @module LivingCityContractTest
- * @description
- * Realism must be architectural rather than claimed. These Awtsmoos.com tests
- * prove that the city, people, animals, landmarks, and games flow through the
- * real Awtsmoos procedural core while maintaining bounded lifecycle contracts.
+ * The Awtsmoos gives one living city its form without binding procedural truth to a borrowed renderer by decree;
+ * Awtsmoos.com proves walkable discovery, portable core data, delegated encounters, and bounded animation remain free.
  */
-const project = join(dirname(fileURLToPath(import.meta.url)), '..');
-const read = path => readFileSync(join(project, path), 'utf8');
 
-test('all semantic parts originate in the real geelooy procedural core adapter', () => {
-	const source = read('js/procedural/core-part-factory.js');
-	assert.match(source, /libs\/awtsmoos-procedural-core\/src\/adapters\/three\/index\.js/);
-	assert.match(source, /createProceduralThreeMesh/);
-	assert.match(source, /this\.templates = new Map/);
-	assert.doesNotMatch(source, /new THREE\.(Box|Sphere|Cylinder)Geometry/);
+import assert from "node:assert/strict";
+import test from "node:test";
+import { readSevenSource } from "./test-source-reader.mjs";
+
+const activeGames = [
+	"false-powers-game",
+	"words-creation-game",
+	"every-life-game",
+	"households-game",
+	"honest-market-game",
+	"living-sanctuary-game",
+	"court-nations-game"
+];
+
+test("semantic core parts begin in renderer-neutral procedural geometry", () => {
+	const cache = readSevenSource("js/procedural/core-part-geometry-cache.js");
+	const factory = readSevenSource("js/procedural/core-part-factory.js");
+	assert.match(cache, /generateProceduralGeometry/);
+	assert.match(cache, /renderData\(profile\)/);
+	assert.doesNotMatch(cache, /createProceduralThreeMesh|three\.module\.js|THREE\./);
+	assert.match(factory, /geometryCache\.renderData/);
+	assert.doesNotMatch(factory, /createProceduralThreeMesh/);
 });
 
-test('semantic library exposes recognizable low-poly world objects', () => {
-	const source = read('js/procedural/semantic-asset-factory.js');
+test("semantic library exposes recognizable low-poly world objects", () => {
+	const source = readSevenSource("js/procedural/semantic-asset-factory.js");
 	for (const method of [
-		'person', 'animal', 'house', 'tower', 'stall', 'court',
-		'tree', 'rune', 'evidence', 'hazard', 'shelter'
+		"person", "animal", "house", "tower", "stall", "court",
+		"tree", "rune", "evidence", "hazard", "shelter"
 	]) {
-		assert.ok(source.includes(`\t${method}(options)`), `Missing semantic asset: ${method}`);
+		assert.ok(
+			source.includes(`\t${method}(options)`),
+			`Missing semantic asset: ${method}`
+		);
 	}
 });
 
-test('living hub owns one disposable WebGL city with seven districts', () => {
-	const stage = read('js/city/living-city-stage.js');
-	const builder = read('js/city/city-district-builder.js');
+test("living hub owns one disposable city with seven districts", () => {
+	const stage = readSevenSource("js/city/living-city-stage.js");
+	const builder = readSevenSource("js/city/city-district-builder.js");
 	assert.match(stage, /new WebglStage/);
 	assert.match(stage, /this\.stage\?\.destroy\(\)/);
 	assert.match(builder, /definitions\.forEach/);
@@ -46,21 +53,20 @@ test('living hub owns one disposable WebGL city with seven districts', () => {
 	assert.match(builder, /progress\.game/);
 });
 
-test('hub contains guide, mission, difficulty, light, city canvas, and seven-card grid', () => {
-	const template = read('js/app/app-template.js');
+test("hub exposes walkable guidance, nearby context, and explicit interaction", () => {
+	const template = readSevenSource("js/app/app-template.js");
 	for (const id of [
-		'cityStage', 'guideMessage', 'dailyMission',
-		'difficultyMode', 'cityLight', 'mitzvahGrid'
+		"cityStage", "guideMessage", "dailyMission", "difficultyMode",
+		"cityLight", "worldContext", "worldInteract"
 	]) {
 		assert.match(template, new RegExp(`id=\\"${id}\\"`));
 	}
-	assert.match(template, /Relaxed/);
-	assert.match(template, /Standard/);
-	assert.match(template, /Challenge/);
+	assert.match(template, /worldTouchControls/);
+	assert.doesNotMatch(template, /id="mitzvahGrid"/);
 });
 
-test('progress remembers city light, rescued names, and daily variety', () => {
-	const source = read('js/universe/universe-progress.js');
+test("progress remembers city light, rescued names, and daily variety", () => {
+	const source = readSevenSource("js/universe/universe-progress.js");
 	assert.match(source, /rescuedNames/);
 	assert.match(source, /this\.data\.city\.light/);
 	assert.match(source, /this\.data\.daily\.worlds/);
@@ -68,21 +74,19 @@ test('progress remembers city light, rescued names, and daily variety', () => {
 	assert.match(source, /result\.memories/);
 });
 
-test('every active game uses semantic procedural assets', () => {
-	const names = [
-		'false-powers-game', 'words-creation-game', 'every-life-game', 'households-game',
-		'honest-market-game', 'living-sanctuary-game', 'court-nations-game'
-	];
-	for (const name of names) {
-		assert.match(read(`js/games3d/${name}.js`), /this\.assets|field = new/);
+test("active game controllers avoid direct renderer primitive dependencies", () => {
+	for (const name of activeGames) {
+		const source = readSevenSource(`js/games3d/${name}.js`);
+		assert.match(source, /export class [A-Za-z]+Game extends /);
+		assert.match(source, /setup\(\)/);
+		assert.doesNotMatch(source, /three\.module\.js|\bTHREE\./);
 	}
-	assert.match(read('js/games3d/game-base.js'), /new SemanticAssetFactory/);
 });
 
-test('city animation remains bounded to transforms and shared geometry', () => {
-	const parts = read('js/procedural/core-part-factory.js');
-	const city = read('js/city/city-district-builder.js');
-	assert.match(parts, /templates\.get\(key\)\.clone/);
+test("city animation remains bounded to transforms and cached portable geometry", () => {
+	const parts = readSevenSource("js/procedural/core-part-geometry-cache.js");
+	const city = readSevenSource("js/city/city-district-builder.js");
+	assert.match(parts, /renderDataByProfile\.get/);
 	assert.match(city, /position\.y =/);
 	assert.doesNotMatch(city, /new WebglStage/);
 	assert.doesNotMatch(city, /requestAnimationFrame/);

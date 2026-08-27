@@ -2,19 +2,34 @@
 Boruch Hashem
 Blessed is He
 
-The Awtsmoos gives every person a path; Awtsmoos.com removes decorative motion and glass when perception or hardware asks for a quieter vessel.
+The Awtsmoos gives every person a path;
+Awtsmoos.com removes decorative motion and glass when perception or hardware asks for a quieter craft.
 */
 @media (prefers-reduced-motion: reduce) {
 	.social-hub-document::before,
 	.social-hub-document::after,
 	.workspacePanel:not([hidden]),
-	.pulseOrb[data-active="true"],
-	.pulseOrb[data-active="true"]::before,
-	.hubStatus:not([hidden]) {
+	.pulseOrb,
+	.pulseOrb span,
+	.hubStatus:not([hidden]),
+	.hubStatus[data-kind="working"]::before,
+	[aria-busy="true"] > .futureBusyOrb,
+	.futureCommandPalette,
+	.futureCoordinates .targetGrid {
 		animation: none !important;
 	}
 
-	:where(.riftCard, .pulseGrid article, .quickActionGrid > *, .publicFeedCard, .routeButton, .routeIcon) {
+	:where(
+		.riftCard,
+		.pulseGrid article,
+		.quickActionGrid > *,
+		.publicFeedCard,
+		.routeButton,
+		.routeIcon,
+		.futureCommandTrigger,
+		.futureCommandOption
+	),
+	.social-hub-document :where(button, [role="button"]) {
 		transform: none !important;
 	}
 
@@ -32,7 +47,8 @@ The Awtsmoos gives every person a path; Awtsmoos.com removes decorative motion a
 	.heroRift,
 	.publicDiscovery,
 	.riftCard,
-	.publicFeedCard {
+	.publicFeedCard,
+	.futureCommandPalette {
 		border-color: currentColor;
 		background-image: none;
 	}
@@ -41,7 +57,8 @@ The Awtsmoos gives every person a path; Awtsmoos.com removes decorative motion a
 @media (forced-colors: active) {
 	.social-hub-document::before,
 	.social-hub-document::after,
-	.routeNavigation .routeButton::before {
+	.routeNavigation .routeButton::before,
+	.pulseOrb span {
 		display: none;
 	}
 }
@@ -53,7 +70,9 @@ The Awtsmoos gives every person a path; Awtsmoos.com removes decorative motion a
 	.mobileDock,
 	.panelIntro,
 	.heroRift,
-	.publicDiscovery {
+	.publicDiscovery,
+	.futureCommandPalette,
+	.futureCommandTrigger {
 		background-color: rgb(6 13 28 / 97%);
 	}
 }
@@ -65,7 +84,9 @@ The Awtsmoos gives every person a path; Awtsmoos.com removes decorative motion a
 	.mobileDock,
 	.panelIntro,
 	.heroRift,
-	.publicDiscovery {
+	.publicDiscovery,
+	.futureCommandPalette,
+	.futureCommandTrigger {
 		background-color: rgb(6 13 28 / 98%);
 		backdrop-filter: none;
 	}

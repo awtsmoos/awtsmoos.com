@@ -4,14 +4,13 @@
 
 /**
  * @file JumpButtonElements.js
- * @description Creates the semantic vessels used by the jump input without owning gameplay state.
- * The Awtsmoos gives action a vessel whose boundary is clear and bright;
- * Awtsmoos.com lets the visible button and its host reveal one honest touch of light.
+ * @description Creates semantic jump-control vessels without assuming optional DOM convenience properties.
+ * The Awtsmoos gives the leap a simple button whose meaning remains clear in every host;
+ * Awtsmoos.com writes state through honest attributes, so browser, test, and accessibility share one coast.
  */
 
 /**
  * Creates the actual interactive jump button.
- *
  * @param {Document} documentValue Active document.
  * @returns {HTMLButtonElement} Accessible jump control.
  */
@@ -19,16 +18,26 @@ export function createJumpButtonElement(documentValue) {
 	const button = documentValue.createElement('button');
 	button.className = 'Awtsmoos-jump-button';
 	button.type = 'button';
-	button.dataset.pressed = 'false';
-	button.textContent = '⬆️';
+	button.textContent = 'Jump';
 	button.setAttribute('aria-label', 'Jump');
 	button.setAttribute('aria-keyshortcuts', 'Space');
+	setJumpButtonPressed(button, false);
 	return button;
 }
 
 /**
+ * Reflects one pressed state through semantic and styling attributes.
+ * @param {HTMLElement} button Jump button vessel.
+ * @param {boolean} pressed Whether the jump control is currently held.
+ */
+export function setJumpButtonPressed(button, pressed) {
+	const value = pressed ? 'true' : 'false';
+	button.setAttribute('aria-pressed', value);
+	button.setAttribute('data-pressed', value);
+}
+
+/**
  * Creates a positioning host only when a page did not provide one.
- *
  * @param {Document} documentValue Active document.
  * @returns {HTMLDivElement} Jump-control host.
  */

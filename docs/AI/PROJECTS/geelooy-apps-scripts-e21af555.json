@@ -10,8 +10,11 @@
 		"title": "Applications"
 	},
 	"title": "geelooy/apps/scripts",
-	"entries": [],
+	"entries": [
+		"DOCUMENTATION.md"
+	],
 	"humanDocumentation": [
+		"geelooy/apps/scripts/DOCUMENTATION.md",
 		"docs/TUTORIALS/PROJECTS/APPS.md",
 		"docs/APPS/README.md"
 	],
@@ -19,39 +22,45 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-scripts-e21af555.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 8,
+		"source": 15,
 		"tests": 0,
 		"assets": 0,
 		"generated": 0,
-		"docs": 0,
+		"docs": 1,
 		"other": 0
 	},
-	"totalFiles": 8,
+	"totalFiles": 16,
 	"symbolSummary": {
-		"files": 8,
+		"files": 15,
 		"classes": 1,
-		"functions": 7,
-		"exports": 8,
+		"functions": 10,
+		"exports": 16,
 		"samples": [
-			"cardSearchText",
 			"categoryMatches",
+			"announceResults",
 			"applyFilters",
 			"defineApp",
+			"CREATION_APPS",
+			"DEVELOPER_APPS",
+			"GAME_APPS",
+			"Awtsmoos",
+			"gameAsApp",
+			"publicGameHref",
 			"PUBLIC_APPS",
-			"MEDIA_APPS",
-			"renderAppCard",
-			"renderAppCatalog",
-			"name",
-			"textElement",
-			"SYSTEM_APPS",
-			"UTILITY_APPS"
+			"MEDIA_APPS"
 		]
 	},
-	"outgoingDependencies": [],
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/games/scripts",
+			"count": 1,
+			"examples": "geelooy/apps/scripts/catalog/games.mjs"
+		}
+	],
 	"incomingDependencies": [],
 	"externalDependencies": [],
 	"publicEntries": [],
-	"requiresLocalDocumentation": false,
-	"documentationCovered": false,
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
 	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
 }

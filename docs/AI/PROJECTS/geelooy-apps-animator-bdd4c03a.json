@@ -26,17 +26,17 @@
 	"counts": {
 		"source": 2458,
 		"tests": 0,
-		"assets": 43,
+		"assets": 0,
 		"generated": 0,
 		"docs": 1,
-		"other": 99
+		"other": 29
 	},
-	"totalFiles": 2601,
+	"totalFiles": 2488,
 	"symbolSummary": {
-		"files": 2394,
-		"classes": 1927,
+		"files": 2396,
+		"classes": 1929,
 		"functions": 250,
-		"exports": 2327,
+		"exports": 2331,
 		"samples": [
 			"VibeDB",
 			"Editor",

@@ -1,81 +1,112 @@
 //B"H
 //Boruch Hashem
 //Blessed is He
+
+import { InboxCollectionState } from './InboxCollectionState.js';
+import { InboxReadCoordinator } from './InboxReadCoordinator.js';
+import { InboxView } from './InboxView.js';
+
 /**
  * @class InboxPanel
  * @description
- * The Awtsmoos lets multiple communication rivers meet in one attention flow while every read state remains source-truthful;
- * Awtsmoos.com refreshes overview and bridge items together, marks only the requested record, and follows canonical action URLs carefully.
+ * The Awtsmoos renews overview, bridge thread, return, and safe passage before one Inbox action can arise;
+ * Awtsmoos.com lets this Tiferes-like controller orchestrate route-level attention while cache and read mutation live in focused neighboring vessels of light.
  */
-import { InboxView } from './InboxView.js';
-
 export class InboxPanel {
+	/** Creates one Inbox route controller around canonical Social state and communications API. */
 	constructor({ root, state, api }) {
 		Object.assign(this, { root, state, api });
 		this.view = new InboxView(root);
+		this.collection = new InboxCollectionState(this.view);
 		this.sequence = 0;
+		this.reads = new InboxReadCoordinator({
+			api,
+			view: this.view,
+			collection: this.collection,
+			aliasId: () => this.aliasId(),
+			isCurrent: requestId => requestId === this.sequence
+		});
 	}
 
+	/** Builds the panel once and binds cached collection actions to canonical controller operations. */
 	initialize() {
 		this.view.ensurePanel();
+		this.collection.bind({
+			onOpen: item => this.open(item),
+			onRead: item => this.reads.markItem(item)
+		});
 	}
 
+	/** Loads overview plus latest Inbox records while preserving previous successful content during refresh. */
 	async load() {
-		const aliasId = this.state.snapshot().identity?.aliasId;
+		const aliasId = this.aliasId();
 		const requestId = ++this.sequence;
+		this.view.overview();
 		if (!aliasId) {
-			this.view.message('Choose a verified alias to open the communications Inbox.');
+			this.view.stateView.status('Choose a verified alias to open the communications Inbox.');
 			return;
 		}
-		this.view.message('Gathering Mail, Signals, and bridge threads…');
+		this.view.stateView.refreshing();
 		try {
 			const [overview, items] = await Promise.all([
 				this.api.communicationsApi.overview(aliasId),
 				this.api.communicationsApi.inbox(aliasId, 75)
 			]);
 			if (requestId !== this.sequence) return;
-			this.view.summary(overview || {});
-			this.view.items(items || [], item => this.open(item), item => void this.markRead(item));
+			this.collection.storeOverview(overview, items);
+			this.view.stateView.ready();
 		} catch (error) {
-			if (requestId === this.sequence) {
-				this.view.message(error.message || 'The communications Inbox is temporarily unavailable.');
-			}
+			if (requestId !== this.sequence) return;
+			this.view.stateView.error(
+				error.message || 'The communications Inbox is temporarily unavailable.',
+				() => this.load()
+			);
 		}
 	}
 
-	open(item) {
-		if (!item?.readAt) void this.markRead(item, false);
-		if (item?.actionUrl && this.sameOriginPath(item.actionUrl)) {
+	/** Opens one item through safe same-origin navigation or its canonical bridge thread. */
+	async open(item) {
+		if (!item) return;
+		if (!item.readAt) void this.reads.markItem(item);
+		if (item.actionUrl && this.sameOriginPath(item.actionUrl)) {
 			location.assign(item.actionUrl);
 			return;
 		}
-		if (item?.threadId) {
-			void this.openThread(item.threadId);
-		}
+		if (item.threadId) await this.openThread(item.threadId);
 	}
 
+	/** Opens one bounded bridge thread and applies stale-response protection. */
 	async openThread(threadId) {
-		const aliasId = this.state.snapshot().identity?.aliasId;
-		if (!aliasId) return;
-		this.view.message(`Opening thread ${threadId}…`);
+		const aliasId = this.aliasId();
+		if (!aliasId || !threadId) return;
+		const requestId = ++this.sequence;
+		this.view.thread(threadId, () => this.backToOverview());
+		this.view.stateView.refreshing('Opening bridge thread…');
 		try {
 			const items = await this.api.communicationsApi.thread(aliasId, threadId, 150);
-			this.view.items(items || [], item => this.open(item), item => void this.markRead(item));
-			await this.api.communicationsApi.markThreadRead(aliasId, threadId);
+			if (requestId !== this.sequence) return;
+			this.collection.renderItems(items || []);
+			this.view.stateView.ready();
+			await this.reads.markThread(aliasId, threadId, requestId);
 		} catch (error) {
-			this.view.message(error.message || 'This bridge thread could not be opened.');
+			if (requestId !== this.sequence) return;
+			this.view.stateView.error(
+				error.message || 'This bridge thread could not be opened.',
+				() => this.openThread(threadId)
+			);
 		}
 	}
 
-	async markRead(item, reload = true) {
-		const aliasId = this.state.snapshot().identity?.aliasId;
-		if (!aliasId || !item?.id) return;
-		try {
-			await this.api.communicationsApi.markItemRead(aliasId, item.id);
-			if (reload) await this.load();
-		} catch (error) {
-			this.view.message(error.message || 'Read state could not be updated.');
-		}
+	/** Restores cached overview/list immediately and cancels any older in-flight thread response. */
+	backToOverview() {
+		this.sequence += 1;
+		this.view.overview();
+		this.collection.renderOverview();
+		this.view.stateView.ready();
+	}
+
+	aliasId() {
+		return this.state.snapshot().identity?.aliasId || '';
 	}
 
 	sameOriginPath(value) {

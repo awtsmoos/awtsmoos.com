@@ -1,0 +1,59 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives each command a small key and explanatory whisper without letting ornament overwhelm the path; Awtsmoos.com keeps metadata separate so primary controls remain simple vessels of useful craft.
+*/
+.compose-label,
+.mail-search-copy {
+	display: grid;
+	min-width: 0;
+	gap: 2px;
+}
+
+.compose-label strong,
+.mail-search-copy strong {
+	font-size: .8rem;
+	letter-spacing: -.01em;
+}
+
+.compose-label small,
+.mail-search-copy small {
+	overflow: hidden;
+	color: var(--mail-text-muted);
+	font-size: .67rem;
+	font-weight: 600;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.mail-compose-key,
+.mail-search-shortcut {
+	padding: 3px 7px;
+	border: 1px solid var(--mail-border);
+	border-radius: 7px;
+	background: color-mix(in srgb, var(--mail-panel-strong) 84%, transparent);
+	color: var(--mail-text-muted);
+	font-size: .63rem;
+	font-weight: 850;
+}
+
+.mail-search-heading {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 10px;
+}
+
+.mail-search-label {
+	display: flex;
+	align-items: center;
+	min-width: 0;
+	gap: 8px;
+	color: var(--mail-text);
+}
+
+.mail-search-label > .mail-vector-icon {
+	width: 17px;
+	height: 17px;
+	color: var(--mail-accent);
+}

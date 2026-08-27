@@ -2,14 +2,14 @@
  * Boruch Hashem
  * Blessed is He
  *
- * Shared structured-editor law for Awtsmoos.com: layout, fields, cards,
- * retractable governance, state, and actions remain small independent vessels.
+ * The Awtsmoos gives the structured editor many finite vessels while their source remains one light;
+ * Awtsmoos.com gathers shared layout and states from the parent system, then editor-specific parts reveal their work aright.
  */
-@import url("./editor/parts/layout.css");
-@import url("./editor/parts/forms.css");
-@import url("./editor/parts/cards.css");
-@import url("./editor/parts/workbench-core.css");
-@import url("./editor/parts/workbench-disclosure.css");
-@import url("./editor/parts/workbench-mobile.css");
-@import url("./editor/parts/states.css");
-@import url("./editor/parts/actions.css");
+@import url("./layout.css?v=editor-revelation-002");
+@import url("./editor/parts/forms.css?v=editor-revelation-002");
+@import url("./editor/parts/cards.css?v=editor-revelation-002");
+@import url("./editor/parts/workbench-core.css?v=editor-revelation-002");
+@import url("./editor/parts/workbench-disclosure.css?v=editor-revelation-002");
+@import url("./editor/parts/workbench-mobile.css?v=editor-revelation-002");
+@import url("./states.css?v=editor-revelation-002");
+@import url("./editor/parts/actions.css?v=editor-revelation-002");

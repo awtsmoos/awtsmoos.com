@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalMeadowDirectWorldAudio.js
- * @description Mounts the existing gameplay audio runtime onto the current staged Eretz vessel exactly once.
- * The Awtsmoos lets one river, one bus, and one traveler carry sound in rhyme; Awtsmoos.com
- * adds no parallel engine, duplicates no panel, and releases every finite node when ends its time.
+ * @description Mounts the existing audio engine exactly once while allowing its panel to live inside optional advanced UI.
+ * The Awtsmoos lets one river of sound flow through whichever quiet vessel the moment provides;
+ * Awtsmoos.com duplicates no engine and no settings, yet lets the visible panel retract while the living audio abides.
  */
 
 import { MinimalMeadowAudioRuntime } from './MinimalMeadowAudioRuntime.js?v=20260814-direct-audio-02';
@@ -14,15 +14,22 @@ import { MinimalMeadowAudioPanel } from '../ui/MinimalMeadowAudioPanel.js';
 
 const EXPERIENCE_KEY = 'AwtsmoosDirectWorldAudioExperience';
 
+/**
+ * Installs direct-world audio and its existing control panel.
+ * @param {object} runtime Staged meadow runtime.
+ * @param {Document} documentValue Active document.
+ * @param {object} environment Browser-like environment.
+ * @param {HTMLElement|null} panelHost Optional retractable advanced-control host.
+ * @returns {object} Audio experience controller.
+ */
 export function installMinimalMeadowDirectWorldAudio(
 	runtime,
 	documentValue = globalThis.document,
-	environment = globalThis
+	environment = globalThis,
+	panelHost = documentValue?.body
 ) {
 	assertRuntime(runtime);
-	if (!documentValue?.body) {
-		throw new Error('Direct-world audio requires a document body.');
-	}
+	assertPanelHost(panelHost);
 	const existing = environment[EXPERIENCE_KEY];
 	if (existing?.runtime === runtime) {
 		return existing;
@@ -31,7 +38,7 @@ export function installMinimalMeadowDirectWorldAudio(
 	const audio = new MinimalMeadowAudioRuntime(runtime, environment);
 	let panel = null;
 	try {
-		panel = new MinimalMeadowAudioPanel(documentValue.body, audio, documentValue);
+		panel = new MinimalMeadowAudioPanel(panelHost, audio, documentValue);
 	} catch (error) {
 		audio.destroy();
 		throw error;
@@ -66,5 +73,11 @@ function createExperience(runtime, audio, panel, environment) {
 function assertRuntime(runtime) {
 	if (!runtime?.state || typeof runtime.bus?.on !== 'function') {
 		throw new Error('Direct-world audio requires staged runtime state and event bus.');
+	}
+}
+
+function assertPanelHost(panelHost) {
+	if (!panelHost || typeof panelHost.append !== 'function') {
+		throw new Error('Direct-world audio requires a valid panel host.');
 	}
 }

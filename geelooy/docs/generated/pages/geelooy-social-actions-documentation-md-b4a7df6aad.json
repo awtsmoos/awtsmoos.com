@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-social-actions-documentation-md-b4a7df6aad",
+	"title": "Geelooy Social Actions",
+	"sourcePath": "geelooy/social-actions/DOCUMENTATION.md",
+	"category": "General",
+	"provenance": "breadcrumb",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Geelooy Social Actions",
+			"anchor": "geelooy-social-actions"
+		},
+		{
+			"level": 2,
+			"text": "Boundary",
+			"anchor": "boundary"
+		},
+		{
+			"level": 2,
+			"text": "Source truth",
+			"anchor": "source-truth"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-social-actions-documentation-md-b4a7df6aad-001.json"
+	]
+}

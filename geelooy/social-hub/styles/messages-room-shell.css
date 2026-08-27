@@ -1,35 +1,53 @@
-/* B"H
-Boruch Hashem
-Blessed is He
-The Awtsmoos lets one accepted private room become a full mobile chamber while Back, identity, bounded controls, and safe-area geometry remain touchable.
-*/
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos is beyond room, Back, identity, and bounded history, while Awtsmoos.com lets one accepted private chamber fill the available viewport without hiding its controls beneath the mobile dock;
+ * this Tiferes-like garment owns room shell geometry only, leaving messages, replies, voice, and composer states to their own vessels of light.
+ */
+
 .hubMessagesRoomMount {
 	min-height: min(72dvh, 54rem);
+	min-width: 0;
 }
 
 .hubConversationSurface {
 	display: grid;
 	grid-template-rows: auto auto minmax(12rem, 1fr) auto;
 	gap: .65rem;
+	min-width: 0;
 	min-height: min(72dvh, 54rem);
 }
 
 .hubConversationHeader {
 	position: sticky;
-	top: 0;
 	z-index: 3;
+	top: 0;
 	display: grid;
 	grid-template-columns: auto minmax(0, 1fr);
 	align-items: center;
 	gap: .75rem;
-	padding: .7rem 0;
-	background: var(--surface);
+	padding: .65rem 0;
+	background: color-mix(in srgb, var(--surface) 94%, transparent);
+	backdrop-filter: blur(14px);
+}
+
+.hubConversationHeader > div {
+	min-width: 0;
 }
 
 .hubConversationHeader h3,
 .hubConversationHeader p,
 .hubConversationStatus {
 	margin: 0;
+}
+
+.hubConversationHeader h3,
+.hubConversationMeta {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 .hubConversationMeta,
@@ -39,37 +57,31 @@ The Awtsmoos lets one accepted private room become a full mobile chamber while B
 
 .hubConversationBack,
 .hubConversationControls button {
-	min-height: 2.8rem;
+	min-height: 44px;
+	padding: .58rem .78rem;
 	border: 1px solid var(--line-hot);
-	border-radius: .75rem;
+	border-radius: .8rem;
 	background: var(--surface-strong);
 	color: var(--ink);
 	font: inherit;
-	font-weight: 700;
+	font-weight: 750;
 	cursor: pointer;
-}
-
-.hubConversationBack {
-	padding: .6rem .75rem;
 }
 
 .hubConversationControls {
 	display: flex;
 	justify-content: center;
-}
-
-.hubConversationControls button {
-	padding: .55rem .85rem;
+	min-height: 44px;
 }
 
 @media (max-width: 42rem) {
 	.hubMessagesRoomMount,
 	.hubConversationSurface {
-		min-height: calc(100dvh - 11rem);
+		min-height: calc(100dvh - 10.6rem - env(safe-area-inset-bottom));
 	}
 
-	.hubConversationBack,
-	.hubConversationControls button {
-		min-height: 3rem;
+	.hubConversationHeader {
+		grid-template-columns: auto minmax(0, 1fr);
+		padding-top: .45rem;
 	}
 }

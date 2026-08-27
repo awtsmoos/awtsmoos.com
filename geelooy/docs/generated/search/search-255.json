@@ -1,8 +1,8 @@
 [
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-lod-directory-guide--8cd01483e4",
+		"id": "geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--017ca1bbd6",
 		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/lod/DIRECTORY_GUIDE.md",
+		"sourcePath": "geelooy/games/mitzvahWorld/assets/materials/local/world/awtsmoos-nature/ilanos/trees/DIRECTORY_GUIDE.md",
 		"category": "Games",
 		"provenance": "project",
 		"headings": [
@@ -13,8 +13,8 @@
 			},
 			{
 				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/src/lod",
-				"anchor": "directory-guide-experiments-awtsmoos-src-lod"
+				"text": "Directory Guide: assets/materials/local/world/awtsmoos-nature/ilanos/trees",
+				"anchor": "directory-guide-assets-materials-local-world-awtsmoos-nature-ilanos-trees"
 			},
 			{
 				"level": 2,
@@ -38,16 +38,6 @@
 			},
 			{
 				"level": 2,
-				"text": "Exported symbols worth searching",
-				"anchor": "exported-symbols-worth-searching"
-			},
-			{
-				"level": 2,
-				"text": "Import neighborhood",
-				"anchor": "import-neighborhood"
-			},
-			{
-				"level": 2,
 				"text": "Directory map",
 				"anchor": "directory-map"
 			},
@@ -67,14 +57,14 @@
 				"anchor": "navigation"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/lod Role: Runtime subsystem Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 12 files, 0 structural child directories Purpose Level of detail selection, distance policies, and scene LOD coordination. The Awts",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/lod role: runtime subsystem snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 12 files, 0 structural child directories purpose level of detail selection, distance policies, and scene lod coordination. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: runtime subsystem search terms: lod, distance, scene, bounds, spatial, geometry, key, transition, visibility, class, com, controller file mix: .js: 11 good first question: “does the behavior or asset i need belong to runtime subsystem, or is this only a neighboring/test/reference layer?” semantic evidence b\"h applies event bounded distance visibility through a transition queue. the awtsmoos renews the whole valley in one instant; awtsmoos.com changes only the finite garments whose spatial, camera, quality, or streaming truth actually changed. returns visible state with asymmetric hysteresis around one distance limit. caches finite local geometry bounds and rendering cost evidence. the awtsmoos recreates every vertex without repetition; awtsmoos.com measures shared geometry once so the frame may preserve beauty while refusing needless distant work. representative files lodcontroller.js — applies event bounded distance visibility through a transition queue. the awtsmoos renews the whole valley in one instant; awtsmoos.com changes only the finite garments whose spatial, camera, quality, or streaming truth actually changed. exports: lodcontroller. lodcontrollermath.js — returns visible state with asymmetric hysteresis around one distance limit. exports: desiredlodvisibility, lodspheredistance, lodtransitionpriority, createinitiallodstats, finitelodnumber. lodgeometrybounds.js — caches finite local geometry bounds and rendering cost evidence. the awtsmoos recreates every vertex without repetition; awtsmoos.com measures shared geometry once so the frame may preserve beauty while refusing needless distant work. exports: geometrylodbounds. lodhysteresis.js — selects a distance lod without trembling at its thresholds. levels must be ordered from most detailed to least detailed by increasing maximum distance. exports: selectlodlevel, ideallevelindex. lodpolicy.js — normalizes scene semantics and resolves conservative distance visibility. the awtsmoos contains mountain, cottage, creature, and garden in one indivisible truth; awtsmoos.com gives each renderer name its proper vessel before any object may disappear. exports: normalizelodclass, inferlodclass, lodclasspolicy, lodmaximumdistance, evaluatelodvisibility. lodscenecandidate.js — converts explicitly authored static meshes into safe lod registrations. the awtsmoos never confuses a living actor with a disposable leaf; awtsmoos.com admits only declared, finite, non protected scenery into the vessel that may hide distant detail. exports: createlodscenecandidate. lodspatialkey.js — quantizes world position and camera yaw into stable event keys. exports: lodspatialkey, lodspatialkeystring, lodspatialkeychanged, yawsector. lodtransitionqueue.js — applies a bounded number of lod changes per frame. higher priority wins, then older work, so a cell crossing cannot become one giant frame long rupture. exports: lodtransitionqueue. lodworldbounds.js — transforms one cached local bound into a conservative world space sphere. the awtsmoos holds every near and distant point in one truth; awtsmoos.com lets the finite renderer measure distance without recomputing the geometry from which it arose. exports: worldlodbounds. sceneloddiagnostics.js — summarizes registered visibility, triangle relief, and semantic classes. the awtsmoos knows every revealed and concealed face; awtsmoos.com exposes finite proof so performance claims arise from counted geometry rather than hopeful declarations. exports: sceneloddiagnostics. scenelodruntime.js — registers authored static detail once and delegates event bounded visibility. the awtsmoos creates the forest continuously without rescanning it blindly; awtsmoos.com refreshes this finite registry only when world construction or streaming reveals new vessels. exports: scenelodruntime. exported symbols worth searching lodcontroller · desiredlodvisibility · lodspheredistance · lodtransitionpriority · createinitiallodstats · finitelodnumber · geometrylodbounds · selectlodlevel · ideallevelindex · normalizelodclass · inferlodclass · lodclasspolicy · lodmaximumdistance · evaluatelodvisibility · lodpolicyclasses · createlodscenecandidate import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ../performance/qualitytier.js ./lodcontrollermath.js ./lodpolicy.js ./lodspatialkey.js ./lodtransitionqueue.js ./lodgeometrybounds.js ./lodworldbounds.js ../../../light three gltf/tiny math.js ./lodcontroller.js ./lodscenecandidate.js ./sceneloddiagnostics.js directory map parent: experiments/awtsmoos/src children: none. related and overlapping systems streaming, lod, visibility, and performance policy — large world loading and frame budget concerns are separated into streaming, lod, visibility, and performance modules. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-lod-directory-guide--8cd01483e4.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: assets/materials/local/world/awtsmoos nature/ilanos/trees Role: Assets Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 34 files, 0 structural child directories Purpose Individual tree texture or material assets. The Awtsmoos renews ",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: assets/materials/local/world/awtsmoos nature/ilanos/trees role: assets snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 34 files, 0 structural child directories purpose individual tree texture or material assets. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: assets search terms: png, bark, leaf, palm, tree, acacia, apple, ash, aspen, baobab, cypress, mangrove file mix: .png: 33 good first question: “does the behavior or asset i need belong to assets, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files birch bark.png — a .png artifact in this directory. olive tree bark.png — a .png artifact in this directory. acacia bark.png — a .png artifact in this directory. acacia compound leaf.png — a .png artifact in this directory. apple leaf.png — a .png artifact in this directory. apple tree bark.png — a .png artifact in this directory. ash bark.png — a .png artifact in this directory. ash leaf.png — a .png artifact in this directory. aspen bark.png — a .png artifact in this directory. aspen leaf.png — a .png artifact in this directory. baobab bark.png — a .png artifact in this directory. baobab leaf.png — a .png artifact in this directory. directory map parent: assets/materials/local/world/awtsmoos nature/ilanos children: none. related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. vegetation, trees, and forest systems — botany rules, tree generation, forest composition, grass, and source texture libraries overlap semantically but own different layers. boundaries and cautions this directory owns files consumed by runtime systems, not the runtime policy that selects or interprets them. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--017ca1bbd6.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-math-directory-guide-6d28ea1a5c",
+		"id": "geelooy-games-mitzvahworld-assets-materials-local-world-catalog-director-e7aa53594b",
 		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/math/DIRECTORY_GUIDE.md",
+		"sourcePath": "geelooy/games/mitzvahWorld/assets/materials/local/world/catalog/DIRECTORY_GUIDE.md",
 		"category": "Games",
 		"provenance": "project",
 		"headings": [
@@ -85,8 +75,8 @@
 			},
 			{
 				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/src/math",
-				"anchor": "directory-guide-experiments-awtsmoos-src-math"
+				"text": "Directory Guide: assets/materials/local/world/catalog",
+				"anchor": "directory-guide-assets-materials-local-world-catalog"
 			},
 			{
 				"level": 2,
@@ -110,16 +100,6 @@
 			},
 			{
 				"level": 2,
-				"text": "Exported symbols worth searching",
-				"anchor": "exported-symbols-worth-searching"
-			},
-			{
-				"level": 2,
-				"text": "Import neighborhood",
-				"anchor": "import-neighborhood"
-			},
-			{
-				"level": 2,
 				"text": "Directory map",
 				"anchor": "directory-map"
 			},
@@ -139,14 +119,14 @@
 				"anchor": "navigation"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/math Role: Runtime subsystem Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 6 files, 0 structural child directories Purpose Low level geometry and spatial mathematics used by collision and world systems. Th",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/math role: runtime subsystem snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 6 files, 0 structural child directories purpose low level geometry and spatial mathematics used by collision and world systems. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: runtime subsystem search terms: ray, aabb, point, through, com, finite, segment, triangle, without, aligned, axis, clear file mix: .js: 5 good first question: “does the behavior or asset i need belong to runtime subsystem, or is this only a neighboring/test/reference layer?” semantic evidence holds one axis aligned spatial vessel with inclusive boundaries. the awtsmoos surrounds every finite form without being bounded by it; awtsmoos.com reveals exact containment and contact through readable planes. b\"h geometry helpers: normals, barycentric tests, and raw capsule math vessels. represents one normalized question traveling through the world. the awtsmoos sends a line from origin toward revelation; awtsmoos.com lets distance become a clear point without borrowing an outside geometry engine. representative files aabb.js — holds one axis aligned spatial vessel with inclusive boundaries. the awtsmoos surrounds every finite form without being bounded by it; awtsmoos.com reveals exact containment and contact through readable planes. exports: aabb. geometry3d.js — geometry helpers: normals, barycentric tests, and raw capsule math vessels. exports: v, add, sub, scale, dot. ray.js — represents one normalized question traveling through the world. the awtsmoos sends a line from origin toward revelation; awtsmoos.com lets distance become a clear point without borrowing an outside geometry engine. exports: ray. rayaabb.js — tests whether a normalized ray reaches an axis aligned box before its finite horizon. the slab closes around only the path that exists; malformed numbers cannot pretend to be a doorway through the world. exports: rayintersectsaabb. vec3.js — provides the mutable three dimensional vector vessel. the awtsmoos draws every finite direction from indivisible oneness; awtsmoos.com lets motion appear through clear coordinates without concealment. exports: vec3. exported symbols worth searching aabb · v · add · sub · scale · dot · cross · length · normalize · negate · clamp01 · rotatey · transformpoint · trianglenormal · planedistance · projecttoplane import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ./vec3.js directory map parent: experiments/awtsmoos/src children: none. related and overlapping systems see the system overlap map before creating a similarly named subsystem elsewhere. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-math-directory-guide-6d28ea1a5c.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: assets/materials/local/world/catalog Role: Assets Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 3 files, 0 structural child directories Purpose Curated world material catalog metadata. The Awtsmoos renews every path and every arti",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: assets/materials/local/world/catalog role: assets snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 3 files, 0 structural child directories purpose curated world material catalog metadata. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: assets search terms: json, materials, asset, assets, catalog, guide, inventory, local file mix: .json: 2 · .md: 1 good first question: “does the behavior or asset i need belong to assets, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files asset inventory.json — a .json artifact in this directory. materials.json — a .json artifact in this directory. directory map parent: assets/materials/local/world children: none. related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. boundaries and cautions this directory owns files consumed by runtime systems, not the runtime policy that selects or interprets them. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-assets-materials-local-world-catalog-director-e7aa53594b.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-motion-directory-gui-6d0377565a",
+		"id": "geelooy-games-mitzvahworld-assets-materials-local-world-directory-guide--a2d639fa3d",
 		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/motion/DIRECTORY_GUIDE.md",
+		"sourcePath": "geelooy/games/mitzvahWorld/assets/materials/local/world/DIRECTORY_GUIDE.md",
 		"category": "Games",
 		"provenance": "project",
 		"headings": [
@@ -157,8 +137,8 @@
 			},
 			{
 				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/src/motion",
-				"anchor": "directory-guide-experiments-awtsmoos-src-motion"
+				"text": "Directory Guide: assets/materials/local/world",
+				"anchor": "directory-guide-assets-materials-local-world"
 			},
 			{
 				"level": 2,
@@ -182,8 +162,65 @@
 			},
 			{
 				"level": 2,
-				"text": "Exported symbols worth searching",
-				"anchor": "exported-symbols-worth-searching"
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: assets/materials/local/world Role: Assets Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 1 files, 5 structural child directories Purpose World scale material collections, catalogs, processed derivatives, and full resolution sources",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: assets/materials/local/world role: assets snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 1 files, 5 structural child directories purpose world scale material collections, catalogs, processed derivatives, and full resolution sources. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: assets search terms: assets, guide, local, materials file mix: .md: 1 good first question: “does the behavior or asset i need belong to assets, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files no immediate files. this directory is an organizational parent; follow the child guides below. directory map parent: assets/materials/local children: assets/materials/local/world/awtsmoos nature assets/materials/local/world/catalog assets/materials/local/world/full resolution assets/materials/local/world/processed assets/materials/local/world/various related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. vegetation, trees, and forest systems — botany rules, tree generation, forest composition, grass, and source texture libraries overlap semantically but own different layers. boundaries and cautions this directory owns files consumed by runtime systems, not the runtime policy that selects or interprets them. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-assets-materials-local-world-directory-guide--a2d639fa3d.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-assets-materials-local-world-full-resolution--a1fcf3c3f5",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/assets/materials/local/world/full-resolution/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: assets/materials/local/world/full-resolution",
+				"anchor": "directory-guide-assets-materials-local-world-full-resolution"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
 			},
 			{
 				"level": 2,
@@ -206,8 +243,70 @@
 				"anchor": "navigation"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/motion Role: Runtime subsystem Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 2 files, 0 structural child directories Purpose Focused motion primitives or helpers that do not own a full gameplay domain. The",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/motion role: runtime subsystem snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 2 files, 0 structural child directories purpose focused motion primitives or helpers that do not own a full gameplay domain. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: runtime subsystem search terms: jump, physics, awtsmoos, current, experiments, feet, floors, guide, height, motion, only, reachable file mix: .md: 1 · .js: 1 good first question: “does the behavior or asset i need belong to runtime subsystem, or is this only a neighboring/test/reference layer?” semantic evidence b\"h jump physics samples only floors reachable from the current feet height. representative files jumpphysics.js — jump physics samples only floors reachable from the current feet height. exports: jumpphysics. exported symbols worth searching jumpphysics directory map parent: experiments/awtsmoos/src children: none. related and overlapping systems see the system overlap map before creating a similarly named subsystem elsewhere. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-motion-directory-gui-6d0377565a.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: assets/materials/local/world/full resolution Role: Assets Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 60 files, 0 structural child directories Purpose High resolution source material images retained before processing or downscal",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: assets/materials/local/world/full resolution role: assets snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 60 files, 0 structural child directories purpose high resolution source material images retained before processing or downscaling. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: assets search terms: png, grass, dirt, brick, oak, floor, fur, red, roof, tiled, water, leaf file mix: .png: 59 good first question: “does the behavior or asset i need belong to assets, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files a rustic alpine cottage wall built from rough cut local fieldstone.png — a .png artifact in this directory. bluestone 1.png — a .png artifact in this directory. cobblestone.png — a .png artifact in this directory. copper 1.png — a .png artifact in this directory. cow fur 1.png — a .png artifact in this directory. dark forest floor nonlight.png — a .png artifact in this directory. deer fur 1.png — a .png artifact in this directory. dirt 1.png — a .png artifact in this directory. dirt 2.png — a .png artifact in this directory. dirt 5.png — a .png artifact in this directory. dirt 6.png — a .png artifact in this directory. dirt grass 1.png — a .png artifact in this directory. directory map parent: assets/materials/local/world children: none. related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. boundaries and cautions this directory owns files consumed by runtime systems, not the runtime policy that selects or interprets them. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-assets-materials-local-world-full-resolution--a1fcf3c3f5.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-assets-materials-local-world-processed-botany-0956f9efd5",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/assets/materials/local/world/processed/botany/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: assets/materials/local/world/processed/botany",
+				"anchor": "directory-guide-assets-materials-local-world-processed-botany"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: assets/materials/local/world/processed/botany Role: Assets Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 2 files, 0 structural child directories Purpose Processed botany material outputs. The Awtsmoos renews every path and every a",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: assets/materials/local/world/processed/botany role: assets snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 2 files, 0 structural child directories purpose processed botany material outputs. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: assets search terms: assets, botany, guide, local, materials, petal, processed, soft, svg file mix: .md: 1 · .svg: 1 good first question: “does the behavior or asset i need belong to assets, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files petal soft.svg — a .svg artifact in this directory. directory map parent: assets/materials/local/world/processed children: none. related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. boundaries and cautions this directory owns files consumed by runtime systems, not the runtime policy that selects or interprets them. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-assets-materials-local-world-processed-botany-0956f9efd5.json"
 	}
 ]

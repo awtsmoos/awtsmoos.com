@@ -1,335 +1,337 @@
 [
 	{
-		"id": "docs-tutorials-api-tunnel-install-md-851ae40f00",
-		"title": "Tunnel Install API Tutorial",
-		"sourcePath": "docs/TUTORIALS/API/TUNNEL_INSTALL.md",
-		"category": "API",
-		"provenance": "manual",
+		"id": "docs-generated-system-tutorials-systems-awtsmoosdb-virtualfs-md-63b49daf27",
+		"title": "System Tutorial: AwtsmoosDB and VirtualFs",
+		"sourcePath": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/awtsmoosdb-virtualfs.md",
+		"category": "Systems",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Tunnel Install API Tutorial",
-				"anchor": "tunnel-install-api-tutorial"
+				"text": "System Tutorial: AwtsmoosDB and VirtualFs",
+				"anchor": "system-tutorial-awtsmoosdb-and-virtualfs"
 			},
 			{
 				"level": 2,
-				"text": "What this family owns",
-				"anchor": "what-this-family-owns"
+				"text": "Claims boundary",
+				"anchor": "claims-boundary"
 			},
 			{
 				"level": 2,
-				"text": "How to explore it",
-				"anchor": "how-to-explore-it"
+				"text": "Change risk",
+				"anchor": "change-risk"
 			},
 			{
 				"level": 2,
-				"text": "Safety / interpretation",
-				"anchor": "safety-interpretation"
+				"text": "Human manuals",
+				"anchor": "human-manuals"
 			},
 			{
 				"level": 2,
-				"text": "Evidence rule",
-				"anchor": "evidence-rule"
+				"text": "Related project boundaries",
+				"anchor": "related-project-boundaries"
 			},
 			{
 				"level": 2,
-				"text": "Next",
-				"anchor": "next"
+				"text": "Source anchors",
+				"anchor": "source-anchors"
+			},
+			{
+				"level": 2,
+				"text": "Generated evidence",
+				"anchor": "generated-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Environment-name evidence",
+				"anchor": "environment-name-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Realtime application registration evidence",
+				"anchor": "realtime-application-registration-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Lexical event/message evidence",
+				"anchor": "lexical-event-message-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Tags",
+				"anchor": "tags"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Tunnel Install API Tutorial What this family owns Mount: /api/tunnel/install Derech: geelooy/api/tunnel/install/ awtsmoos.derech.js The current literal route extractor reports zero child route rows for this mount even though installer artifacts are documented elsewhere. How to explore it",
-		"searchText": "b\"h boruch hashem blessed is he tunnel install api tutorial what this family owns mount: /api/tunnel/install derech: geelooy/api/tunnel/install/ awtsmoos.derech.js the current literal route extractor reports zero child route rows for this mount even though installer artifacts are documented elsewhere. how to explore it 1. open api family tutorials for current route counts/health. 2. filter api tutorial index to /api/tunnel/install. 3. open the generated route tutorial for source level method/vessel/status/header evidence. 4. read geelooy/api/tunnel/install/ awtsmoos.derech.js and the imported handler behind the route. 5. check identity/resource/provider/data side effects before making a write. 6. use caller/test evidence as navigation, not runtime proof. safety / interpretation follow the current derech/download implementation for exact artifact names instead of treating historical docs as live route proof. evidence rule generated tutorials are conservative: unknown method remains unknown; executable starter calls appear only when source level method evidence exists. derech health is shown beside every generated route. next return to learn awtsmoos.com or open the exact generated route tutorial before coding.",
-		"page": "pages/docs-tutorials-api-tunnel-install-md-851ae40f00.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He System Tutorial: AwtsmoosDB and VirtualFs District: data · System ID: awtsmoosdb virtualfs The newer .awtsdb storage engine and its virtual filesystem interface. Generated evidence below is a navigation aid. Trust, migration, consistency, protocol, and authorization semantics remain grou",
+		"searchText": "b\"h boruch hashem blessed is he system tutorial: awtsmoosdb and virtualfs district: data · system id: awtsmoosdb virtualfs the newer .awtsdb storage engine and its virtual filesystem interface. generated evidence below is a navigation aid. trust, migration, consistency, protocol, and authorization semantics remain grounded in the linked human manuals and current source. claims boundary source paths establish the engine/interface boundary; generated docs do not infer transaction or consistency guarantees. change risk storage engine, manifest, transaction, or path changes require compatibility review. human manuals docs/data/awtsmoosdb and virtualfs.md docs/data/readme.md related project boundaries ayzarim/dosdb (data) — ayzarim/dosdb source anchors ayzarim/dosdb/awtsmoosbinary/awtsmoosdb/index.js ayzarim/dosdb/awtsmoosbinary/awtsmoosdb/api/fs/v3/virtualfs.js generated evidence none observed for this system packet. environment name evidence name class source refs example sources awtsmoos embed model root test/tuning 1 ayzarim/dosdb/awtsmoosbinary/awtsmoosdb/test/ai search model root precedence test.js awtsmoosdb fast test test/tuning 3 ayzarim/dosdb/awtsmoosbinary/awtsmoosdb/core/idle/fastgate.js; ayzarim/dosdb/awtsmoosbinary/awtsmoosdb/test/lightning/env.js; ayzarim/dosdb/awtsmoosbinary/awtsmoosdb/test/semantic ai dosdb test.js awtsmoosdb test scale test/tuning 1 ayzarim/dosdb/awtsmoosbinary/awtsmoosdb/test/lightning/env.js node env runtime config 3 ayzarim/dosdb/awtsmoosbinary/awtsmoosdb/test/lightning/env.js; geelooy/api/wallet/core/paypalenvironment.js; geelooy/api/wallet/tests/paypalenvironment.test.js realtime application registration evidence no versioned application registrations are attached to this packet. lexical event/message evidence none observed for this system packet. tags persistence · virtualfs · awtsmoosdb · migration",
+		"page": "pages/docs-generated-system-tutorials-systems-awtsmoosdb-virtualfs-md-63b49daf27.json"
 	},
 	{
-		"id": "docs-tutorials-api-tunnel-md-8ddad49b2f",
-		"title": "Tunnel Relay API Tutorial",
-		"sourcePath": "docs/TUTORIALS/API/TUNNEL.md",
-		"category": "API",
-		"provenance": "manual",
+		"id": "docs-generated-system-tutorials-systems-database-root-resolution-md-9326197d90",
+		"title": "System Tutorial: Database Root Resolution",
+		"sourcePath": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/database-root-resolution.md",
+		"category": "Systems",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Tunnel Relay API Tutorial",
-				"anchor": "tunnel-relay-api-tutorial"
+				"text": "System Tutorial: Database Root Resolution",
+				"anchor": "system-tutorial-database-root-resolution"
 			},
 			{
 				"level": 2,
-				"text": "What this family owns",
-				"anchor": "what-this-family-owns"
+				"text": "Claims boundary",
+				"anchor": "claims-boundary"
 			},
 			{
 				"level": 2,
-				"text": "How to explore it",
-				"anchor": "how-to-explore-it"
+				"text": "Change risk",
+				"anchor": "change-risk"
 			},
 			{
 				"level": 2,
-				"text": "Safety / interpretation",
-				"anchor": "safety-interpretation"
+				"text": "Human manuals",
+				"anchor": "human-manuals"
 			},
 			{
 				"level": 2,
-				"text": "Evidence rule",
-				"anchor": "evidence-rule"
+				"text": "Related project boundaries",
+				"anchor": "related-project-boundaries"
 			},
 			{
 				"level": 2,
-				"text": "Next",
-				"anchor": "next"
+				"text": "Source anchors",
+				"anchor": "source-anchors"
+			},
+			{
+				"level": 2,
+				"text": "Generated evidence",
+				"anchor": "generated-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Environment-name evidence",
+				"anchor": "environment-name-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Realtime application registration evidence",
+				"anchor": "realtime-application-registration-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Lexical event/message evidence",
+				"anchor": "lexical-event-message-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Tags",
+				"anchor": "tags"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Tunnel Relay API Tutorial What this family owns Mount: /api/tunnel Derech: geelooy/api/tunnel/ awtsmoos.derech.js Base extracted routes relay requests/filesystem actions to a named connected tunnel. How to explore it 1. Open API Family Tutorials for current route counts/health. 2. Filter",
-		"searchText": "b\"h boruch hashem blessed is he tunnel relay api tutorial what this family owns mount: /api/tunnel derech: geelooy/api/tunnel/ awtsmoos.derech.js base extracted routes relay requests/filesystem actions to a named connected tunnel. how to explore it 1. open api family tutorials for current route counts/health. 2. filter api tutorial index to /api/tunnel. 3. open the generated route tutorial for source level method/vessel/status/header evidence. 4. read geelooy/api/tunnel/ awtsmoos.derech.js and the imported handler behind the route. 5. check identity/resource/provider/data side effects before making a write. 6. use caller/test evidence as navigation, not runtime proof. safety / interpretation trusted account/tunnel identity and action specific filesystem permissions must be checked before forwarding. evidence rule generated tutorials are conservative: unknown method remains unknown; executable starter calls appear only when source level method evidence exists. derech health is shown beside every generated route. next return to learn awtsmoos.com or open the exact generated route tutorial before coding.",
-		"page": "pages/docs-tutorials-api-tunnel-md-8ddad49b2f.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He System Tutorial: Database Root Resolution District: data · System ID: database root resolution How the runtime chooses the persistence root before DosDB or newer storage layers operate. Generated evidence below is a navigation aid. Trust, migration, consistency, protocol, and authorizati",
+		"searchText": "b\"h boruch hashem blessed is he system tutorial: database root resolution district: data · system id: database root resolution how the runtime chooses the persistence root before dosdb or newer storage layers operate. generated evidence below is a navigation aid. trust, migration, consistency, protocol, and authorization semantics remain grounded in the linked human manuals and current source. claims boundary environment names and inspected manuals describe precedence; no environment value is read or published. change risk changing root precedence or defaults can redirect an existing deployment to different persisted data. human manuals docs/data/readme.md docs/data/path contracts.md related project boundaries ayzarim/awtsmoosdynamicserver (runtime) — ayzarim/awtsmoosdynamicserver source anchors ayzarim/awtsmoosdynamicserver/server/initdb.js generated evidence docs/generated/environment variables.md environment name evidence no environment name evidence matched this system's source/project scope. realtime application registration evidence no versioned application registrations are attached to this packet. lexical event/message evidence none observed for this system packet. tags persistence · environment · path · migration",
+		"page": "pages/docs-generated-system-tutorials-systems-database-root-resolution-md-9326197d90.json"
 	},
 	{
-		"id": "docs-tutorials-api-wallet-md-4dfd493b82",
-		"title": "Wallet API Tutorial",
-		"sourcePath": "docs/TUTORIALS/API/WALLET.md",
-		"category": "API",
-		"provenance": "manual",
+		"id": "docs-generated-system-tutorials-systems-dosdb-filesystem-md-89a5581fb9",
+		"title": "System Tutorial: DosDB Filesystem Storage",
+		"sourcePath": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/dosdb-filesystem.md",
+		"category": "Data",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Wallet API Tutorial",
-				"anchor": "wallet-api-tutorial"
+				"text": "System Tutorial: DosDB Filesystem Storage",
+				"anchor": "system-tutorial-dosdb-filesystem-storage"
 			},
 			{
 				"level": 2,
-				"text": "What this family owns",
-				"anchor": "what-this-family-owns"
+				"text": "Claims boundary",
+				"anchor": "claims-boundary"
 			},
 			{
 				"level": 2,
-				"text": "How to explore it",
-				"anchor": "how-to-explore-it"
+				"text": "Change risk",
+				"anchor": "change-risk"
 			},
 			{
 				"level": 2,
-				"text": "Safety / interpretation",
-				"anchor": "safety-interpretation"
+				"text": "Human manuals",
+				"anchor": "human-manuals"
 			},
 			{
 				"level": 2,
-				"text": "Evidence rule",
-				"anchor": "evidence-rule"
+				"text": "Related project boundaries",
+				"anchor": "related-project-boundaries"
 			},
 			{
 				"level": 2,
-				"text": "Next",
-				"anchor": "next"
+				"text": "Source anchors",
+				"anchor": "source-anchors"
+			},
+			{
+				"level": 2,
+				"text": "Generated evidence",
+				"anchor": "generated-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Environment-name evidence",
+				"anchor": "environment-name-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Realtime application registration evidence",
+				"anchor": "realtime-application-registration-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Lexical event/message evidence",
+				"anchor": "lexical-event-message-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Tags",
+				"anchor": "tags"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Wallet API Tutorial What this family owns Mount: /api/wallet Derech: geelooy/api/wallet/ awtsmoos.derech.js Balance/me, catalog, entitlements, purchase, mock buy, and PayPal create/capture form the current eight route family. How to explore it 1. Open API Family Tutorials for current rou",
-		"searchText": "b\"h boruch hashem blessed is he wallet api tutorial what this family owns mount: /api/wallet derech: geelooy/api/wallet/ awtsmoos.derech.js balance/me, catalog, entitlements, purchase, mock buy, and paypal create/capture form the current eight route family. how to explore it 1. open api family tutorials for current route counts/health. 2. filter api tutorial index to /api/wallet. 3. open the generated route tutorial for source level method/vessel/status/header evidence. 4. read geelooy/api/wallet/ awtsmoos.derech.js and the imported handler behind the route. 5. check identity/resource/provider/data side effects before making a write. 6. use caller/test evidence as navigation, not runtime proof. safety / interpretation never infer currency units, settlement/idempotency/refund guarantees, or production vs mock behavior from names; inspect handlers/provider config. evidence rule generated tutorials are conservative: unknown method remains unknown; executable starter calls appear only when source level method evidence exists. derech health is shown beside every generated route. next return to learn awtsmoos.com or open the exact generated route tutorial before coding.",
-		"page": "pages/docs-tutorials-api-wallet-md-4dfd493b82.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He System Tutorial: DosDB Filesystem Storage District: data · System ID: dosdb filesystem The legacy filesystem oriented database layer and its compatibility surface. Generated evidence below is a navigation aid. Trust, migration, consistency, protocol, and authorization semantics remain gr",
+		"searchText": "b\"h boruch hashem blessed is he system tutorial: dosdb filesystem storage district: data · system id: dosdb filesystem the legacy filesystem oriented database layer and its compatibility surface. generated evidence below is a navigation aid. trust, migration, consistency, protocol, and authorization semantics remain grounded in the linked human manuals and current source. claims boundary project and source presence establish implementation location, not the complete physical format of every persisted record. change risk filesystem layout and compatibility behavior can be migration sensitive. human manuals docs/data/dosdb.md docs/data/readme.md related project boundaries ayzarim/dosdb (data) — ayzarim/dosdb source anchors ayzarim/dosdb/index.js generated evidence docs/generated/project tutorial index.md environment name evidence name class source refs example sources awtsmoos embed mode runtime config 1 ayzarim/dosdb/aisearch/textembedrunner.js awtsmoos embed model root test/tuning 1 ayzarim/dosdb/awtsmoosbinary/awtsmoosdb/test/ai search model root precedence test.js awtsmoosdb fast test test/tuning 3 ayzarim/dosdb/awtsmoosbinary/awtsmoosdb/core/idle/fastgate.js; ayzarim/dosdb/awtsmoosbinary/awtsmoosdb/test/lightning/env.js; ayzarim/dosdb/awtsmoosbinary/awtsmoosdb/test/semantic ai dosdb test.js awtsmoosdb test scale test/tuning 1 ayzarim/dosdb/awtsmoosbinary/awtsmoosdb/test/lightning/env.js node env runtime config 3 ayzarim/dosdb/awtsmoosbinary/awtsmoosdb/test/lightning/env.js; geelooy/api/wallet/core/paypalenvironment.js; geelooy/api/wallet/tests/paypalenvironment.test.js realtime application registration evidence no versioned application registrations are attached to this packet. lexical event/message evidence none observed for this system packet. tags persistence · filesystem · compatibility",
+		"page": "pages/docs-generated-system-tutorials-systems-dosdb-filesystem-md-89a5581fb9.json"
 	},
 	{
-		"id": "docs-tutorials-api-youtube-md-cd6427dc8a",
-		"title": "YouTube API Tutorial",
-		"sourcePath": "docs/TUTORIALS/API/YOUTUBE.md",
-		"category": "API",
-		"provenance": "manual",
+		"id": "docs-generated-system-tutorials-systems-mission-room-admission-md-62b962c4ff",
+		"title": "System Tutorial: Mission Room Admission",
+		"sourcePath": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/mission-room-admission.md",
+		"category": "Systems",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "YouTube API Tutorial",
-				"anchor": "youtube-api-tutorial"
+				"text": "System Tutorial: Mission Room Admission",
+				"anchor": "system-tutorial-mission-room-admission"
 			},
 			{
 				"level": 2,
-				"text": "What this family owns",
-				"anchor": "what-this-family-owns"
+				"text": "Claims boundary",
+				"anchor": "claims-boundary"
 			},
 			{
 				"level": 2,
-				"text": "How to explore it",
-				"anchor": "how-to-explore-it"
+				"text": "Change risk",
+				"anchor": "change-risk"
 			},
 			{
 				"level": 2,
-				"text": "Safety / interpretation",
-				"anchor": "safety-interpretation"
+				"text": "Human manuals",
+				"anchor": "human-manuals"
 			},
 			{
 				"level": 2,
-				"text": "Evidence rule",
-				"anchor": "evidence-rule"
+				"text": "Related project boundaries",
+				"anchor": "related-project-boundaries"
 			},
 			{
 				"level": 2,
-				"text": "Next",
-				"anchor": "next"
+				"text": "Source anchors",
+				"anchor": "source-anchors"
+			},
+			{
+				"level": 2,
+				"text": "Generated evidence",
+				"anchor": "generated-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Environment-name evidence",
+				"anchor": "environment-name-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Realtime application registration evidence",
+				"anchor": "realtime-application-registration-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Lexical event/message evidence",
+				"anchor": "lexical-event-message-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Tags",
+				"anchor": "tags"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He YouTube API Tutorial What this family owns Mount: /api/youtube Derech: geelooy/api/youtube/ awtsmoos.derech.js Auth/oauth start/callback/status/logout, channel, videos, uploads, and live stream operations coexist with broad dynamic fallback patterns. How to explore it 1. Open API Family ",
-		"searchText": "b\"h boruch hashem blessed is he youtube api tutorial what this family owns mount: /api/youtube derech: geelooy/api/youtube/ awtsmoos.derech.js auth/oauth start/callback/status/logout, channel, videos, uploads, and live stream operations coexist with broad dynamic fallback patterns. how to explore it 1. open api family tutorials for current route counts/health. 2. filter api tutorial index to /api/youtube. 3. open the generated route tutorial for source level method/vessel/status/header evidence. 4. read geelooy/api/youtube/ awtsmoos.derech.js and the imported handler behind the route. 5. check identity/resource/provider/data side effects before making a write. 6. use caller/test evidence as navigation, not runtime proof. safety / interpretation prefer explicit named routes. provider oauth state, credentials, upload payloads, ownership, and live transitions are implementation sensitive. evidence rule generated tutorials are conservative: unknown method remains unknown; executable starter calls appear only when source level method evidence exists. derech health is shown beside every generated route. next return to learn awtsmoos.com or open the exact generated route tutorial before coding.",
-		"page": "pages/docs-tutorials-api-youtube-md-cd6427dc8a.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He System Tutorial: Mission Room Admission District: realtime · System ID: mission room admission Ticket issuance, account scoped authority, origin/protocol validation, initial snapshot proof, and upgrade policy. Generated evidence below is a navigation aid. Trust, migration, consistency, p",
+		"searchText": "b\"h boruch hashem blessed is he system tutorial: mission room admission district: realtime · system id: mission room admission ticket issuance, account scoped authority, origin/protocol validation, initial snapshot proof, and upgrade policy. generated evidence below is a navigation aid. trust, migration, consistency, protocol, and authorization semantics remain grounded in the linked human manuals and current source. claims boundary generated event strings remain lexical evidence; room admission meaning comes from inspected policy/ticket source and human manuals. change risk ticket binding, origin, protocol version, snapshot proof, or permission changes are security/protocol sensitive. human manuals docs/websockets/mission rooms.md docs/security/realtime security.md related project boundaries geelooy/api/tunnel (api) — geelooy/api/tunnel ayzarim/awtsmoosdynamicserver (runtime) — ayzarim/awtsmoosdynamicserver source anchors geelooy/api/tunnel/control/missionrooms/ticketissuer.js geelooy/api/tunnel/control/missionrooms/missionaccess.js ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms/upgradepolicy.js generated evidence docs/generated/websocket event index.md environment name evidence name class source refs example sources awtsmoos tunnel control store path/storage 9 ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms/missionroomsocketintegration.test.cjs; ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms/missionroomupgrade.test.cjs; ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms/upgradepolicy.test.cjs realtime application registration evidence no versioned application registrations are attached to this packet. lexical event/message evidence none observed for this system packet. tags websocket · mission room · ticket · origin · authorization · protocol",
+		"page": "pages/docs-generated-system-tutorials-systems-mission-room-admission-md-62b962c4ff.json"
 	},
 	{
-		"id": "docs-tutorials-content-aliases-and-api-keys-md-176c87c552",
-		"title": "Aliases and API Keys",
-		"sourcePath": "docs/TUTORIALS/CONTENT/ALIASES_AND_API_KEYS.md",
-		"category": "General",
-		"provenance": "manual",
+		"id": "docs-generated-system-tutorials-systems-oauth-bearer-identity-md-2f3b479c4c",
+		"title": "System Tutorial: OAuth Bearer Identity",
+		"sourcePath": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/oauth-bearer-identity.md",
+		"category": "Security",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Aliases and API Keys",
-				"anchor": "aliases-and-api-keys"
+				"text": "System Tutorial: OAuth Bearer Identity",
+				"anchor": "system-tutorial-oauth-bearer-identity"
 			},
 			{
 				"level": 2,
-				"text": "Alias role",
-				"anchor": "alias-role"
+				"text": "Claims boundary",
+				"anchor": "claims-boundary"
 			},
 			{
 				"level": 2,
-				"text": "API keys",
-				"anchor": "api-keys"
+				"text": "Change risk",
+				"anchor": "change-risk"
 			},
 			{
 				"level": 2,
-				"text": "Inputs",
-				"anchor": "inputs"
+				"text": "Human manuals",
+				"anchor": "human-manuals"
 			},
 			{
 				"level": 2,
-				"text": "Security rule",
-				"anchor": "security-rule"
+				"text": "Related project boundaries",
+				"anchor": "related-project-boundaries"
+			},
+			{
+				"level": 2,
+				"text": "Source anchors",
+				"anchor": "source-anchors"
+			},
+			{
+				"level": 2,
+				"text": "Generated evidence",
+				"anchor": "generated-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Environment-name evidence",
+				"anchor": "environment-name-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Realtime application registration evidence",
+				"anchor": "realtime-application-registration-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Lexical event/message evidence",
+				"anchor": "lexical-event-message-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Tags",
+				"anchor": "tags"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Aliases and API Keys Alias role Aliases are Social facing identities owned through user/account state and reused across Heichel/content/profile/follow/drive/mail behavior. API keys Social keys can be created, listed, revoked, and verified. Raw key material is shown at creation; SHA 256 h",
-		"searchText": "b\"h boruch hashem blessed is he aliases and api keys alias role aliases are social facing identities owned through user/account state and reused across heichel/content/profile/follow/drive/mail behavior. api keys social keys can be created, listed, revoked, and verified. raw key material is shown at creation; sha 256 hash and metadata persist rather than plaintext secret storage. inputs supported key evidence includes named input/header/bearer forms. inspect helper/apikeys.js for current precedence and validation. security rule an alias name in a body/path is not proof the authenticated principal owns that alias. ownership checks remain required for privileged actions.",
-		"page": "pages/docs-tutorials-content-aliases-and-api-keys-md-176c87c552.json"
-	},
-	{
-		"id": "docs-tutorials-content-comments-md-2d9f464383",
-		"title": "Comments and Replies",
-		"sourcePath": "docs/TUTORIALS/CONTENT/COMMENTS.md",
-		"category": "General",
-		"provenance": "manual",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Comments and Replies",
-				"anchor": "comments-and-replies"
-			},
-			{
-				"level": 2,
-				"text": "Surfaces",
-				"anchor": "surfaces"
-			},
-			{
-				"level": 2,
-				"text": "Compatibility",
-				"anchor": "compatibility"
-			},
-			{
-				"level": 2,
-				"text": "Moderation",
-				"anchor": "moderation"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Comments and Replies Comments attach to posts and richer substructures; replies/reactions/comment trees form their own navigation domain. Surfaces post comment collections; aliases contributing comments; singular comment routes; nested replies; reactions; subsection/verse comments; submi",
-		"searchText": "b\"h boruch hashem blessed is he comments and replies comments attach to posts and richer substructures; replies/reactions/comment trees form their own navigation domain. surfaces post comment collections; aliases contributing comments; singular comment routes; nested replies; reactions; subsection/verse comments; submitted comment moderation; comment search/ranking/vector/rag evidence. compatibility some comment routes appear more than once in generated extraction because multiple route objects/factories expose compatible paths. use source ownership to distinguish implementations. moderation approval/denial/submitted comment flows are separate from ordinary comment read/write behavior.",
-		"page": "pages/docs-tutorials-content-comments-md-2d9f464383.json"
-	},
-	{
-		"id": "docs-tutorials-content-content-migrations-md-a5d67ef7d5",
-		"title": "Content Migrations",
-		"sourcePath": "docs/TUTORIALS/CONTENT/CONTENT_MIGRATIONS.md",
-		"category": "General",
-		"provenance": "manual",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Content Migrations",
-				"anchor": "content-migrations"
-			},
-			{
-				"level": 2,
-				"text": "Observed migration surfaces",
-				"anchor": "observed-migration-surfaces"
-			},
-			{
-				"level": 2,
-				"text": "Safe migration workflow",
-				"anchor": "safe-migration-workflow"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Content Migrations Social carries several storage/model generations, so migrations are first class operational behavior. Observed migration surfaces Post v2 dry run/run routes, packed content migrations/repair, node OS migrations, compatibility post/series paths, and newer rich/unified o",
-		"searchText": "b\"h boruch hashem blessed is he content migrations social carries several storage/model generations, so migrations are first class operational behavior. observed migration surfaces post v2 dry run/run routes, packed content migrations/repair, node os migrations, compatibility post/series paths, and newer rich/unified object models. safe migration workflow 1. identify source/target path contracts. 2. run dry run/read only reporting first. 3. snapshot/backup affected data. 4. verify idempotency/re run behavior in source/tests. 5. execute narrowly. 6. reconcile indexes/manifests/references. 7. validate old/new read paths as required by compatibility promises. generated route presence alone is never authorization to run a migration.",
-		"page": "pages/docs-tutorials-content-content-migrations-md-a5d67ef7d5.json"
-	},
-	{
-		"id": "docs-tutorials-content-heichelos-md-b073481c09",
-		"title": "Heichelos",
-		"sourcePath": "docs/TUTORIALS/CONTENT/HEICHELOS.md",
-		"category": "General",
-		"provenance": "manual",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Heichelos",
-				"anchor": "heichelos"
-			},
-			{
-				"level": 2,
-				"text": "Observed capabilities",
-				"anchor": "observed-capabilities"
-			},
-			{
-				"level": 2,
-				"text": "Authority",
-				"anchor": "authority"
-			},
-			{
-				"level": 2,
-				"text": "Investigation",
-				"anchor": "investigation"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Heichelos A Heichel is a governed Social content/community space, not merely a folder. Observed capabilities create/read/update/delete Heichel behavior; ownership checks; editor/member/role management; submission settings; invites/review/moderation; post/question/content organization; se",
-		"searchText": "b\"h boruch hashem blessed is he heichelos a heichel is a governed social content/community space, not merely a folder. observed capabilities create/read/update/delete heichel behavior; ownership checks; editor/member/role management; submission settings; invites/review/moderation; post/question/content organization; series/subseries relationships; community/full settings and discovery. authority login/api key identity does not automatically grant heichel mutation. read owner/editor/member/moderation checks in the exact handler. investigation start at /api/social/heichelos/:heichel, then follow its route factory imports and generated related route links.",
-		"page": "pages/docs-tutorials-content-heichelos-md-b073481c09.json"
-	},
-	{
-		"id": "docs-tutorials-content-mail-notifications-drive-md-a8eca2bd73",
-		"title": "Mail, Notifications, and Drive",
-		"sourcePath": "docs/TUTORIALS/CONTENT/MAIL_NOTIFICATIONS_DRIVE.md",
-		"category": "General",
-		"provenance": "manual",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Mail, Notifications, and Drive",
-				"anchor": "mail-notifications-and-drive"
-			},
-			{
-				"level": 2,
-				"text": "Mail",
-				"anchor": "mail"
-			},
-			{
-				"level": 2,
-				"text": "Notifications",
-				"anchor": "notifications"
-			},
-			{
-				"level": 2,
-				"text": "Drive",
-				"anchor": "drive"
-			},
-			{
-				"level": 2,
-				"text": "Security",
-				"anchor": "security"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Mail, Notifications, and Drive Social includes user facing communication and storage subsystems that share identity but have distinct persistence/permission rules. Mail Mail routes cover get/read/send/delete/thread/settings/approval/unread/notify/universe mirror concepts. /api/email is a",
-		"searchText": "b\"h boruch hashem blessed is he mail, notifications, and drive social includes user facing communication and storage subsystems that share identity but have distinct persistence/permission rules. mail mail routes cover get/read/send/delete/thread/settings/approval/unread/notify/universe mirror concepts. /api/email is a smaller façade over mail oriented behavior. notifications alias notifications support read/archive/poll/preferences/unread/digest/fanout patterns. drive alias drive supports entries, stream/public/immutable paths, copy/move/trash/restore/purge, credentials, usage/quota/reconciliation, site and manager/admin surfaces. security identity alone does not grant arbitrary drive path mutation or mail impersonation. follow alias/service/credential/ownership checks in each handler.",
-		"page": "pages/docs-tutorials-content-mail-notifications-drive-md-a8eca2bd73.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He System Tutorial: OAuth Bearer Identity District: security · System ID: oauth bearer identity OAuth route/token surface and server side use of verified bearer records as authoritative identity. Generated evidence below is a navigation aid. Trust, migration, consistency, protocol, and auth",
+		"searchText": "b\"h boruch hashem blessed is he system tutorial: oauth bearer identity district: security · system id: oauth bearer identity oauth route/token surface and server side use of verified bearer records as authoritative identity. generated evidence below is a navigation aid. trust, migration, consistency, protocol, and authorization semantics remain grounded in the linked human manuals and current source. claims boundary a bearer token becomes identity only after server side verification; request fields are not trusted substitutes. change risk token validation, expiry, issuer/subject, scope, or cors behavior is security sensitive. human manuals docs/security/trust boundaries.md docs/tutorials/api/oauth.md related project boundaries geelooy/api/oauth (api) — geelooy/api/oauth geelooy/api/tunnel (api) — geelooy/api/tunnel source anchors geelooy/api/oauth/ awtsmoos.derech.js geelooy/api/tunnel/control/core/auth.js generated evidence docs/generated/api tutorial index.md environment name evidence name class source refs example sources awtsmoos binding history per identity runtime config 1 geelooy/api/tunnel/control/core/tunnelsecurity/bindingretentionpolicy.js awtsmoos binding retention ms tuning 1 geelooy/api/tunnel/control/core/tunnelsecurity/bindingretentionpolicy.js awtsmoos dir path/storage 1 geelooy/api/oauth/core/serversecret.js realtime application registration evidence no versioned application registrations are attached to this packet. lexical event/message evidence none observed for this system packet. tags identity · oauth · bearer · security",
+		"page": "pages/docs-generated-system-tutorials-systems-oauth-bearer-identity-md-2f3b479c4c.json"
 	}
 ]

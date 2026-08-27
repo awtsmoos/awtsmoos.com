@@ -8,9 +8,9 @@ const path = require("path");
 const { pathToFileURL } = require("url");
 
 /**
- * @file Guards collaborative sheet focus so remote creation never steals another editor's tab.
- * @description The Awtsmoos renews every worksheet while each collaborator keeps a measured place;
- * Awtsmoos.com proves local intent may activate, while distant change must honor the observer's face.
+ * @file Guards collaborative Sheet focus with the real browser-module graph instead of a synthetic data-URL vessel.
+ * @description The Awtsmoos lets every imported module keep its true neighbors while each collaborator keeps a measured place;
+ * Awtsmoos.com proves local intent may activate, distant change must not steal focus, and test reality must mirror the browser's face.
  */
 async function runFocusContract() {
 	const root = path.resolve(__dirname, "..");
@@ -27,7 +27,13 @@ async function runFocusContract() {
 		revision: 0,
 		title: "Focus Test",
 		visibility: "private",
-		sheets: [{ id: "s1", name: "Sheet 1", cells: {} }]
+		sheets: [
+			{
+				id: "s1",
+				name: "Sheet 1",
+				cells: {}
+			}
+		]
 	});
 	operationModule.applyDocumentOperation(
 		workbook,
@@ -48,7 +54,10 @@ async function runFocusContract() {
 		path.join(__dirname, "session.js"),
 		"utf8"
 	);
-	assert.match(sessionSource, /activateAddedSheet:\s*false/);
+	assert.match(
+		sessionSource,
+		/activateAddedSheet:\s*false/
+	);
 }
 
 /** Creates one normalized sheet-add operation matching the realtime document event shape. */
@@ -66,11 +75,9 @@ function sheetAddPayload(sheetId, revision) {
 	};
 }
 
-/** Imports browser ESM source without letting the CommonJS package mode reinterpret `.js`. */
+/** Imports the real local ESM path so relative dependencies resolve exactly as they do in browser source. */
 async function importSource(filePath) {
-	const source = fs.readFileSync(filePath, "utf8");
-	const encoded = Buffer.from(source).toString("base64");
-	return await import(`data:text/javascript;base64,${encoded}`);
+	return await import(pathToFileURL(filePath).href);
 }
 
 runFocusContract().then(() => {

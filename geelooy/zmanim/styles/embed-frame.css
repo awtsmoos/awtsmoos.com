@@ -1,0 +1,22 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos is beyond iframe chrome while an embedded page should spend every visible pixel on measured time;
+ * Awtsmoos.com removes only host controls inside embed mode and keeps the calculated vessels responsive, uncluttered, and sublime.
+ */
+
+html[data-zmanim-embed] .app-header,
+html[data-zmanim-embed] .control-deck,
+html[data-zmanim-embed] .sticky-context,
+html[data-zmanim-embed] awtsmoos-trust-strip,
+html[data-zmanim-embed] awtsmoos-embed-actions,
+html[data-zmanim-embed] .page-footer {
+	display: none !important;
+}
+
+html[data-zmanim-embed] .zmanim-shell {
+	width: 100%;
+	max-width: none;
+	padding: .65rem;
+}

@@ -1,0 +1,70 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-api-projecthosting-73d794a5",
+	"path": "geelooy/api/projectHosting",
+	"type": "api",
+	"family": {
+		"id": "apis",
+		"title": "API Projects"
+	},
+	"title": "geelooy/api/projectHosting",
+	"entries": [
+		"_awtsmoos.derech.js"
+	],
+	"humanDocumentation": [
+		"docs/TUTORIALS/PROJECTS/APIS.md",
+		"docs/API/README.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/APIS.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-projecthosting-73d794a5.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 6,
+		"tests": 2,
+		"assets": 0,
+		"generated": 0,
+		"docs": 0,
+		"other": 0
+	},
+	"totalFiles": 8,
+	"symbolSummary": {
+		"files": 6,
+		"classes": 0,
+		"functions": 24,
+		"exports": 16,
+		"samples": [
+			"dynamicRoutes",
+			"projectHostingPlanResponse",
+			"failure",
+			"resolveProjectOwner",
+			"MAX_RUNTIME_REQUEST_BYTES",
+			"requirePost",
+			"runtimeRequestBody",
+			"text",
+			"requestError",
+			"DEFAULT_ACTIVITY_LIMIT",
+			"MAX_ACTIVITY_LIMIT",
+			"activityLimit"
+		]
+	},
+	"outgoingDependencies": [
+		{
+			"project": "ayzarim/awtsmoosDynamicServer",
+			"count": 2,
+			"examples": "geelooy/api/projectHosting/planRoute.js; geelooy/api/projectHosting/runtimeRoutes.js"
+		},
+		{
+			"project": "geelooy/api/social",
+			"count": 2,
+			"examples": "geelooy/api/projectHosting/requestIdentity.js"
+		}
+	],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [],
+	"requiresLocalDocumentation": false,
+	"documentationCovered": false,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

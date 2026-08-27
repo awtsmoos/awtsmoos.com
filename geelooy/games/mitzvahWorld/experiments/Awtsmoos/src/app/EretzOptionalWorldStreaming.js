@@ -4,13 +4,15 @@
 
 /**
  * @file EretzOptionalWorldStreaming.js
- * @description Sequences forest, landmark, and botanical enrichment after movement.
- * The Awtsmoos reveals one garden after another instead of one blocking avalanche;
- * Awtsmoos.com exposes the whole chain, its cleanup, and its bounded living state.
+ * @description Keeps deep forest and real-nature modules out of ordinary gameplay unless fidelity explicitly requests them.
+ * The Awtsmoos has already revealed mountain, road, home, and living field before the deepest thicket must awake;
+ * Awtsmoos.com preserves cinematic abundance while normal play keeps a quiet module graph for every moving frame's sake.
  */
 
-import { startEretzBotanicalStreaming } from './EretzBotanicalStreaming.js';
-import { startEretzTerrainStreaming } from './EretzTerrainStreaming.js';
+import { resolveEretzOptionalWorldStreamingPolicy } from './EretzOptionalWorldStreamingPolicy.js';
+
+const TERRAIN_URL = './EretzTerrainStreaming.js?v=20260820-stable-play-02';
+const BOTANICAL_URL = './EretzBotanicalStreaming.js?v=20260820-stable-play-02';
 
 export function startEretzOptionalWorldStreaming(
 	foundation,
@@ -18,14 +20,22 @@ export function startEretzOptionalWorldStreaming(
 	qualityProfile,
 	options = {}
 ) {
+	const policy = resolveEretzOptionalWorldStreamingPolicy(qualityProfile, options);
+	diagnostics.optionalWorldStreamingPolicy = policy;
+	if (!policy.enabled) {
+		return installDisabledStreamingDiagnostics(diagnostics, policy);
+	}
+	const loadModules = options.loadOptionalWorldStreamingModules
+		|| loadOptionalWorldStreamingModules;
 	let destroyed = false;
+	let terrain = null;
 	let botanical = null;
-	const terrain = startEretzTerrainStreaming(foundation, diagnostics, options);
-	const terrainPromise = diagnostics.terrainEnrichmentPromise
-		|| Promise.resolve({ state: 'not-required' });
-	const botanicalGatePromise = terrainPromise.then(() => {
+	const gate = Promise.resolve(loadModules()).then(async modules => {
+		if (destroyed) return { state: 'destroyed-before-streaming' };
+		terrain = modules.startTerrain(foundation, diagnostics, options);
+		await (diagnostics.terrainEnrichmentPromise || Promise.resolve());
 		if (destroyed) return { state: 'destroyed-before-botany' };
-		botanical = startEretzBotanicalStreaming(
+		botanical = modules.startBotanical(
 			foundation,
 			diagnostics,
 			qualityProfile,
@@ -33,23 +43,57 @@ export function startEretzOptionalWorldStreaming(
 		);
 		return diagnostics.botanicalEnrichmentPromise;
 	});
-	const controller = {
+	const controller = createController(policy, () => destroyed, value => {
+		destroyed = value;
+	}, () => terrain, () => botanical);
+	diagnostics.botanicalStreamingGatePromise = gate;
+	diagnostics.optionalWorldStreaming = controller;
+	diagnostics.optionalWorldStreamingState = () => controller.snapshot();
+	return controller;
+}
+
+async function loadOptionalWorldStreamingModules() {
+	const [terrainModule, botanicalModule] = await Promise.all([
+		import(TERRAIN_URL),
+		import(BOTANICAL_URL)
+	]);
+	return {
+		startBotanical: botanicalModule.startEretzBotanicalStreaming,
+		startTerrain: terrainModule.startEretzTerrainStreaming
+	};
+}
+
+function createController(policy, isDestroyed, setDestroyed, terrain, botanical) {
+	return {
 		destroy() {
-			destroyed = true;
-			botanical?.destroy();
-			terrain?.destroy();
+			setDestroyed(true);
+			botanical()?.destroy?.();
+			terrain()?.destroy?.();
 		},
 		snapshot() {
 			return Object.freeze({
-				botanical: botanical?.snapshot() || { state: 'waiting' },
-				destroyed,
-				terrain: terrain?.snapshot() || { state: 'not-required' }
+				botanical: botanical()?.snapshot?.() || { state: 'waiting' },
+				destroyed: isDestroyed(),
+				policy,
+				terrain: terrain()?.snapshot?.() || { state: 'waiting' }
 			});
 		}
 	};
-	diagnostics.botanicalStreamingGatePromise = botanicalGatePromise;
+}
+
+function installDisabledStreamingDiagnostics(diagnostics, policy) {
+	const snapshot = () => Object.freeze({
+		botanical: { state: 'disabled' },
+		destroyed: false,
+		policy,
+		terrain: { state: 'disabled' }
+	});
+	diagnostics.terrainEnrichmentPromise = Promise.resolve({ state: 'disabled' });
+	diagnostics.botanicalEnrichmentPromise = Promise.resolve({ state: 'disabled' });
+	diagnostics.botanicalStreamingGatePromise = Promise.resolve({ state: 'disabled' });
+	diagnostics.optionalWorldStreamingState = snapshot;
+	const controller = { destroy() {}, snapshot };
 	diagnostics.optionalWorldStreaming = controller;
-	diagnostics.optionalWorldStreamingState = () => controller.snapshot();
 	return controller;
 }
 

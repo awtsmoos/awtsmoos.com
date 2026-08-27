@@ -4,11 +4,12 @@
 
 /**
  * @module ProxyHeaders
- * @description
- * The Awtsmoos lets a remote origin hear only deliberate browser testimony.
- * Awtsmoos.com strips routing and proxy-control headers, never forwards its own
- * session cookies, and keeps target Set-Cookie values out of product responses.
+ * @description The Awtsmoos lets a remote origin hear only deliberate testimony;
+ * Awtsmoos.com may echo a validated local browser voice, while routing authority,
+ * session cookies, response cookies, and forbidden headers remain behind the gate.
  */
+
+const { browserProfileHeaders } = require('./proxyBrowserProfile.js');
 
 const ALLOWED_REQUEST = new Set([
 	'accept', 'accept-language', 'authorization', 'cache-control', 'content-type',
@@ -21,8 +22,8 @@ const SAFE_RESPONSE = new Set([
 	'last-modified', 'location', 'vary'
 ]);
 
-function buildProxyRequestHeaders(input = {}, cookieHeader = '') {
-	const headers = {};
+function buildProxyRequestHeaders(input = {}, cookieHeader = '', browserProfile = null) {
+	const headers = browserProfileHeaders(browserProfile);
 	for (const [rawName, rawValue] of Object.entries(input || {})) {
 		const name = rawName.toLowerCase();
 		if (!ALLOWED_REQUEST.has(name)) continue;

@@ -2,46 +2,57 @@
 // Boruch Hashem
 // Blessed is He
 
-const { isIP } = require('net');
+const { supportedDnsType, validateDnsContent } = require('./projectDnsContentPolicy.js');
+const { recordOwnerName } = require('./projectDnsNamePolicy.js');
 
 /**
  * @module DriveProjectDnsPolicy
  * @description
- * The Awtsmoos gives a project public DNS intent without confusing record with credential.
- * Awtsmoos.com bounds A, AAAA, CNAME, and TXT wishes while provider authority remains server-side.
+ * The Awtsmoos lets web, mail, service, certificate, and verification intention descend as bounded DNS records;
+ * Awtsmoos.com separates owner-name grammar from content grammar so a whole zone can migrate without flattening every record into the same form.
  */
 
-const RECORD_TYPES = new Set(['A', 'AAAA', 'CNAME', 'TXT']);
-const HOST = /^(?:@|\*|[a-z0-9](?:[a-z0-9.-]{0,251}[a-z0-9])?)$/i;
+const MAX_RECORDS = 256;
+const MAX_CONTENT_LENGTH = 2048;
 
+/**
+ * Normalizes one bounded DNS record collection for provider or manual application.
+ * @param {Array} values Candidate project DNS records.
+ * @returns {Array} Validated portable DNS records.
+ */
 function normalizeDnsRecords(values = []) {
-	if (!Array.isArray(values) || values.length > 64) throw policyError('PROJECT_DNS_RECORDS_INVALID');
+	if (!Array.isArray(values) || values.length > MAX_RECORDS) {
+		throw policyError('PROJECT_DNS_RECORDS_INVALID');
+	}
 	return values.map((value, index) => normalizeDnsRecord(value, index));
 }
 
+/** Normalizes one public DNS record while preserving its type-specific content. */
 function normalizeDnsRecord(value = {}, index = 0) {
 	const type = String(value.type || '').trim().toUpperCase();
-	const name = String(value.name || '@').trim().toLowerCase();
+	const name = String(value.name || '@').trim().toLowerCase().replace(/\.$/, '');
 	const content = String(value.content || '').trim();
 	const ttl = normalizeTtl(value.ttl);
-	if (!RECORD_TYPES.has(type)) throw policyError(`PROJECT_DNS_TYPE_INVALID:${index}`);
-	if (!HOST.test(name)) throw policyError(`PROJECT_DNS_NAME_INVALID:${index}`);
-	if (!content || content.length > 512) throw policyError(`PROJECT_DNS_CONTENT_INVALID:${index}`);
-	if (type === 'A' && isIP(content) !== 4) throw policyError(`PROJECT_DNS_A_INVALID:${index}`);
-	if (type === 'AAAA' && isIP(content) !== 6) throw policyError(`PROJECT_DNS_AAAA_INVALID:${index}`);
-	if (type === 'CNAME' && !hostname(content)) throw policyError(`PROJECT_DNS_CNAME_INVALID:${index}`);
+	if (!supportedDnsType(type)) {
+		throw policyError(`PROJECT_DNS_TYPE_INVALID:${index}`);
+	}
+	if (!recordOwnerName(name)) {
+		throw policyError(`PROJECT_DNS_NAME_INVALID:${index}`);
+	}
+	if (!content || Buffer.byteLength(content, 'utf8') > MAX_CONTENT_LENGTH) {
+		throw policyError(`PROJECT_DNS_CONTENT_INVALID:${index}`);
+	}
+	validateDnsContent(type, content, index);
 	return { type, name, content, ttl };
 }
 
+/** Normalizes TTL into a conservative provider-compatible range. */
 function normalizeTtl(value) {
 	const ttl = Number(value ?? 300);
-	if (!Number.isInteger(ttl) || ttl < 60 || ttl > 86400) throw policyError('PROJECT_DNS_TTL_INVALID');
+	if (!Number.isInteger(ttl) || ttl < 60 || ttl > 86400) {
+		throw policyError('PROJECT_DNS_TTL_INVALID');
+	}
 	return ttl;
-}
-
-function hostname(value) {
-	const text = String(value).replace(/\.$/, '').toLowerCase();
-	return text.length <= 253 && HOST.test(text) && text !== '@' && text !== '*';
 }
 
 function policyError(code) {

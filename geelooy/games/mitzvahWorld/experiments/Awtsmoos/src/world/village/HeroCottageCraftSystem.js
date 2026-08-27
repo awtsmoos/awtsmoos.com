@@ -2,34 +2,50 @@
 // Boruch Hashem
 // Blessed is He
 
-/** Adds shared porch, balcony, rail, and facade depth to the hero cottages. */
+/**
+ * @file HeroCottageCraftSystem.js
+ * @description Adds porch, balcony, rail, and facade craft only to the two visible main-river hero cottages.
+ * The Awtsmoos, Atzmus beyond ornament and structure, renews detail where an actual dwelling carries a household story;
+ * Awtsmoos.com lets two crafted homes read as intentional architecture instead of repeating balcony noise across the valley.
+ */
+
 import { TEXTURE_URLS } from '../../assets/TextureCatalog.js';
 import { canonicalFoundationTopHeight } from './CanonicalFoundationSampling.js';
-import { CANONICAL_VILLAGE_HOUSES } from './CanonicalVillageHouses.js';
+import { mainRiverVillageHouses } from './MainRiverVillageHouseSelection.js';
 import { createVillageBoxBatch } from './VillageBoxBatch.js';
 import { facadeBox } from './VillageCottageFacadeLayout.js';
 import { villageCottageScalePolicy } from './VillageCottageScalePolicy.js';
 
+/** Builds crafted detail batches for manifested hero cottages. */
 export function createHeroCottageCraftDefinitions(groundSampler) {
 	const decks = [];
 	const rails = [];
 	const posts = [];
 	const canopies = [];
-	CANONICAL_VILLAGE_HOUSES.slice(0, 12).forEach((house, index) => {
-		appendCraft({ ...house, ...villageCottageScalePolicy('near', index), base: cottageBase(house, index, groundSampler) }, index, decks, rails, posts, canopies);
+	mainRiverVillageHouses().forEach((house, index) => {
+		const scale = villageCottageScalePolicy('near', index);
+		appendCraft({
+			...house,
+			...scale,
+			base: cottageBase(house, index, groundSampler)
+		}, index, decks, rails, posts, canopies);
 	});
 	return [
 		batch('hero-cottage-balcony-decks', decks, '#59402d', TEXTURE_URLS.wood.planks1, 'balcony-deck'),
 		batch('hero-cottage-balcony-rails', rails, '#3e2a1d', TEXTURE_URLS.wood.oak3, 'balcony-rail'),
 		batch('hero-cottage-porch-posts', posts, '#432d1e', TEXTURE_URLS.wood.oak3, 'porch-and-timber-post'),
 		batch('hero-cottage-porch-canopies', canopies, '#494744', TEXTURE_URLS.roof.tile2, 'slate-porch-canopy')
-	];
+	].filter(Boolean);
 }
 
 function cottageBase(house, index, sampler) {
 	const scale = villageCottageScalePolicy('near', index);
 	return canonicalFoundationTopHeight(house.id, sampler, house.x, house.z, {
-		depth: scale.depth, width: scale.width, x: house.x, yaw: house.yaw, z: house.z
+		depth: scale.depth,
+		width: scale.width,
+		x: house.x,
+		yaw: house.yaw,
+		z: house.z
 	});
 }
 
@@ -48,8 +64,16 @@ function appendCraft(cottage, index, decks, rails, posts, canopies) {
 }
 
 function batch(id, boxes, color, textureUrl, part) {
+	if (!boxes.length) return null;
 	return createVillageBoxBatch(id, boxes, {
-		color, family: 'canonical-hero-cottage-craft', part,
-		texturePolicy: { role: part, shader: 'weathered-cottage-detail', tileWorld: 0.9 }, textureUrl
+		color,
+		family: 'canonical-hero-cottage-craft',
+		part,
+		texturePolicy: {
+			role: part,
+			shader: 'weathered-cottage-detail',
+			tileWorld: 0.9
+		},
+		textureUrl
 	});
 }

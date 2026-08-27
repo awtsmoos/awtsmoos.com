@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 2458 | 0 | 43 | 0 | 1 | 99 | 2601 |
+| 2458 | 0 | 0 | 0 | 1 | 29 | 2488 |
 
 ## Public entry points
 
@@ -29,7 +29,7 @@ Blessed is He
 
 ## Symbol evidence
 
-Source files: 2394; classes: 1927; functions: 250; exports: 2327; samples: VibeDB, Editor, FileSystemProvider, State, Tabs, UI, ExternalManifest, LoopEngineController, LoopErrorHandler, LoopGitPusher, ArchitectOfDomains, BatchExecutor.
+Source files: 2396; classes: 1929; functions: 250; exports: 2331; samples: VibeDB, Editor, FileSystemProvider, State, Tabs, UI, ExternalManifest, LoopEngineController, LoopErrorHandler, LoopGitPusher, ArchitectOfDomains, BatchExecutor.
 
 ## Depends on
 

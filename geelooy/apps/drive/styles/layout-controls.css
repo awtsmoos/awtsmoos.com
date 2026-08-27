@@ -1,0 +1,56 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos lets filters, uploads, actions, tables, and pagination occupy only the space their current vessel can truly hold.
+ * Awtsmoos.com keeps wide controls locally flexible while the surrounding Drive shell remains narrow enough for the hand, the window, and every responsive mode.
+ */
+
+.filter-grid {
+	display: grid;
+	grid-template-columns: repeat(6, minmax(0, 1fr));
+	gap: var(--space-3);
+	align-items: end;
+	min-width: 0;
+}
+
+.filter-grid > :first-child,
+.filter-grid > :nth-child(2) {
+	grid-column: span 2;
+}
+
+.upload-settings,
+.action-bar,
+.button-row,
+.pagination {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-2);
+	align-items: end;
+	min-width: 0;
+}
+
+.upload-settings {
+	margin-top: var(--space-4);
+}
+
+.upload-settings label {
+	min-width: min(12rem, 100%);
+}
+
+.action-bar {
+	margin-block: var(--space-3);
+}
+
+.table-scroll {
+	max-width: 100%;
+	overflow: auto;
+	border: 1px solid var(--line);
+	border-radius: var(--radius-medium);
+}
+
+.pagination {
+	justify-content: center;
+	margin-top: var(--space-3);
+}

@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# API Tutorial Routes 631–634\n\nEach row links one discovered API route to generated teaching. Method/contract fields remain evidence, not invented schemas.\n\n| Route | Family | Method evidence | Health | Tutorial | Source |\n| --- | --- | --- | --- | --- | --- |\n| `/api/zmanim/opinions` | /api/zmanim | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-zmanim-opinions-c99cc9fdf7.md) | `geelooy/api/zmanim/_awtsmoos.derech.js` |\n| `/api/zmanim/options` | /api/zmanim | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-zmanim-options-4bf5e888df.md) | `geelooy/api/zmanim/_awtsmoos.derech.js` |\n| `/api/zmanim/range` | /api/zmanim | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-zmanim-range-d21fa63b21.md) | `geelooy/api/zmanim/_awtsmoos.derech.js` |\n| `/api/zmanim/usno` | /api/zmanim | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-zmanim-usno-1a12361c10.md) | `geelooy/api/zmanim/_awtsmoos.derech.js` |\n"
+}

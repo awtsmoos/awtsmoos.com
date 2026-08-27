@@ -4,18 +4,15 @@
 
 /**
  * @file MinimalMeadowWorldSystems.js
- * @description Mounts immediate combat and quest truth while rich procedural systems schedule separately.
- * The Awtsmoos grants battle, purpose, teaching, and safe return before distant garments descend;
- * Awtsmoos.com separates schedule from mount so forest, water, homes, and flowers truly ascend.
+ * @description Mounts immediate world truth while delegating expansion, diagnostics, and rich scheduling to focused vessels.
+ * The Awtsmoos gives combat, quest, atmosphere, and safe return before distant abundance enters the field;
+ * Awtsmoos.com keeps this coordinator narrow, so each system may reveal its own light without making one bootstrap file refuse to yield.
  */
 
-import { ExpansionRuntime } from '../gameplay/expansion/ExpansionRuntime.js';
-import { LocalCombatMasteryBridge } from '../gameplay/expansion/LocalCombatMasteryBridge.js';
-import { LocalExpansionAuthority } from '../gameplay/expansion/LocalExpansionAuthority.js';
 import { ExpansionLandmarkPopulation } from './ExpansionLandmarkPopulation.js';
-import { afterGameplayQuietWindow } from './GameplayQuietWindow.js';
 import { GameplayRecoveryCoordinator } from './GameplayRecoveryCoordinator.js';
 import { MinimalMeadowAdaptiveQuality } from './MinimalMeadowAdaptiveQuality.js';
+import { MinimalMeadowAmbientMotes } from './MinimalMeadowAmbientMotes.js';
 import { MinimalMeadowCombat } from './MinimalMeadowCombat.js';
 import { installImmediateMinimalMeadowEnemies } from './MinimalMeadowCreatureHydration.js';
 import { MinimalMeadowRegionRuntime } from './MinimalMeadowRegionRuntime.js';
@@ -23,89 +20,49 @@ import { mountMinimalMeadowQuest } from './MinimalMeadowQuestMount.js';
 import { MinimalMeadowVerticalSliceRuntime } from './MinimalMeadowVerticalSliceRuntime.js';
 import { RegionPackageRuntime } from './RegionPackageRuntime.js';
 import { installMinimalMeadowSky } from './MinimalMeadowSky.js';
+import { minimalMeadowWorldDiagnostics } from './MinimalMeadowWorldDiagnostics.js';
+import { installMinimalMeadowLocalExpansion } from './MinimalMeadowWorldExpansionMount.js';
+import { scheduleMinimalMeadowRichWorld } from './MinimalMeadowWorldRichSchedule.js';
 import {
 	destroyMinimalMeadowWorldSystems,
 	updateMinimalMeadowWorldSystems
 } from './MinimalMeadowWorldSystemLifecycle.js';
 
+/**
+ * Installs immediately playable world systems, then schedules rich detail behind the quiet window.
+ * @param {object} runtime Mitzvah World runtime.
+ * @param {object} environment Browser-like environment.
+ * @returns {Promise<object>} Immediate world diagnostic receipt.
+ */
 export async function installMinimalMeadowWorldSystems(runtime, environment = globalThis) {
 	runtime.adaptiveQuality = new MinimalMeadowAdaptiveQuality(runtime);
 	runtime.regions = new MinimalMeadowRegionRuntime(runtime);
 	runtime.regionPackages = new RegionPackageRuntime(runtime);
 	runtime.sky = installMinimalMeadowSky(runtime.scene, runtime.camera, 'high');
+	runtime.ambientMotes = new MinimalMeadowAmbientMotes(runtime, environment);
 	installImmediateMinimalMeadowEnemies(runtime, environment);
 	runtime.combat = new MinimalMeadowCombat(runtime);
-	installLocalExpansion(runtime, environment);
+	installMinimalMeadowLocalExpansion(runtime, environment);
 	runtime.expansionLandmarks = new ExpansionLandmarkPopulation(runtime);
 	runtime.recovery = new GameplayRecoveryCoordinator(runtime);
 	runtime.verticalSlice = new MinimalMeadowVerticalSliceRuntime(runtime, environment);
 	runtime.questMountReceipt = mountMinimalMeadowQuest(runtime, environment);
-	runtime.updateWorldSystems = deltaSeconds => {
-		return updateMinimalMeadowWorldSystems(runtime, deltaSeconds);
-	};
-	runtime.destroyWorldSystems = () => {
-		return destroyMinimalMeadowWorldSystems(runtime);
-	};
-	const receipt = combatDiagnostics(runtime);
+	bindWorldLifecycle(runtime);
+	const receipt = minimalMeadowWorldDiagnostics(runtime);
 	runtime.bus.emit('world:combat-ready', receipt);
-	const schedule = scheduleRichWorld(runtime, environment);
+	const schedule = scheduleMinimalMeadowRichWorld(runtime, environment);
 	runtime.richWorldSchedulePromise = schedule;
 	runtime.richWorldPromise = schedule;
 	return receipt;
 }
 
-function installLocalExpansion(runtime, environment) {
-	runtime.localExpansionAuthority = new LocalExpansionAuthority();
-	runtime.localCombatMastery = new LocalCombatMasteryBridge(
-		runtime,
-		runtime.localExpansionAuthority
-	);
-	runtime.expansion = new ExpansionRuntime(runtime, {
-		api: dynamicExpansionApi(runtime),
-		environment,
-		mobile: Boolean(runtime.mobile || runtime.options?.mobile)
-	});
-}
-
-function dynamicExpansionApi(runtime) {
-	const authority = () => {
-		return runtime.multiplayerBridge?.client?.mmorpg?.rpg
-			|| runtime.localExpansionAuthority;
+/** Binds existing update/destroy lifecycle functions without starting a second animation loop. */
+function bindWorldLifecycle(runtime) {
+	runtime.updateWorldSystems = deltaSeconds => {
+		return updateMinimalMeadowWorldSystems(runtime, deltaSeconds);
 	};
-	return {
-		claimBounty: (...args) => authority().claimBounty(...args),
-		completeElite: (...args) => authority().completeElite(...args),
-		performActivity: (...args) => authority().performActivity(...args),
-		progressionSnapshot: (...args) => authority().progressionSnapshot(...args),
-		transitionRegion: (...args) => authority().transitionRegion(...args),
-		upgradeEquipment: (...args) => authority().upgradeEquipment(...args)
-	};
-}
-
-function scheduleRichWorld(runtime, environment) {
-	return afterGameplayQuietWindow(environment)
-		.then(() => import('./MinimalMeadowRichWorld.js'))
-		.then(module => module.installMinimalMeadowRichWorld(runtime, environment))
-		.catch(error => {
-			runtime.richWorldError = error?.message || String(error);
-			runtime.bus.emit('world:rich-failed', { error: runtime.richWorldError });
-			return null;
-		});
-}
-
-function combatDiagnostics(runtime) {
-	return {
-		adaptiveQuality: runtime.adaptiveQuality?.diagnostics?.() || null,
-		combat: runtime.combat?.diagnostics?.() || null,
-		enemies: runtime.enemies?.diagnostics?.() || null,
-		expansion: runtime.expansion?.diagnostics?.() || null,
-		landmarks: runtime.expansionLandmarks?.diagnostics?.() || null,
-		lootPanel: Boolean(runtime.corpseLootPanel),
-		recovery: runtime.recovery?.diagnostics?.() || null,
-		region: runtime.regions?.diagnostics?.() || null,
-		sky: runtime.sky?.diagnostics?.() || null,
-		targeting: runtime.targeting?.diagnostics?.() || null,
-		verticalSlice: runtime.verticalSlice?.snapshot?.() || null
+	runtime.destroyWorldSystems = () => {
+		return destroyMinimalMeadowWorldSystems(runtime);
 	};
 }
 

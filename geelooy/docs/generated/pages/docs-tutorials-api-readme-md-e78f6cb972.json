@@ -1,0 +1,39 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-tutorials-api-readme-md-e78f6cb972",
+	"title": "API Tutorials",
+	"sourcePath": "docs/TUTORIALS/API/README.md",
+	"category": "API",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "API Tutorials",
+			"anchor": "api-tutorials"
+		},
+		{
+			"level": 2,
+			"text": "How to use the API tutorials",
+			"anchor": "how-to-use-the-api-tutorials"
+		},
+		{
+			"level": 2,
+			"text": "High-value tutorial families",
+			"anchor": "high-value-tutorial-families"
+		},
+		{
+			"level": 2,
+			"text": "Generated evidence rule",
+			"anchor": "generated-evidence-rule"
+		},
+		{
+			"level": 2,
+			"text": "Mutation rule",
+			"anchor": "mutation-rule"
+		}
+	],
+	"markdownParts": [
+		"content/docs-tutorials-api-readme-md-e78f6cb972-001.json"
+	]
+}

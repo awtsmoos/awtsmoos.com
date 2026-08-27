@@ -1,136 +1,249 @@
 [
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-animalmesh-directory-guide-md-fb18ad98c2",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/animalMesh/DIRECTORY_GUIDE.md",
+		"id": "geelooy-games-documentation-md-91efed5ea4",
+		"title": "Games Documentation",
+		"sourcePath": "geelooy/games/DOCUMENTATION.md",
 		"category": "Games",
-		"provenance": "project",
+		"provenance": "breadcrumb",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: experiments/animalMesh",
-				"anchor": "directory-guide-experiments-animalmesh"
-			},
-			{
-				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
-			},
-			{
-				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
-			},
-			{
-				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Exported symbols worth searching",
-				"anchor": "exported-symbols-worth-searching"
-			},
-			{
-				"level": 2,
-				"text": "Import neighborhood",
-				"anchor": "import-neighborhood"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Games Documentation",
+				"anchor": "games-documentation"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/animalMesh Role: Prototype Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 2 files, 0 structural child directories Purpose Small experimental mesh generation surface for animal geometry. The Awtsmoos renews every path an",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/animalmesh role: prototype snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 2 files, 0 structural child directories purpose small experimental mesh generation surface for animal geometry. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: prototype search terms: animal, mesh, alive, animalmesh, belongs, bounded, can, com, experiments, greater, guide, inspectable file mix: .js: 1 · .md: 1 good first question: “does the behavior or asset i need belong to prototype, or is this only a neighboring/test/reference layer?” semantic evidence the awtsmoos renews every point and polygon from nothing at every instant. this vessel belongs to awtsmoos.com and reveals one bounded responsibility so the greater procedural world can remain inspectable, safe, and alive. b\"h representative files animalmeshruntime.js — the awtsmoos renews every point and polygon from nothing at every instant. this vessel belongs to awtsmoos.com and reveals one bounded responsibility so the greater procedural world can remain inspectable, safe, and alive. exports: animalmeshruntime. exported symbols worth searching animalmeshruntime import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ../../../../libs/awtsmoos procedural core/src/core/animalmesh/index.js ../../../../libs/awtsmoos procedural core/src/adapters/three/animalmeshgroupfactory.js directory map parent: experiments children: none. related and overlapping systems player, creature, horse, enemy, and experimental mesh systems — actor assets and world side populations span player hydration, creature generators, enemies, horses, and experimental animal meshes. boundaries and cautions this is an alternate or experimental implementation. trace the current root entry before reusing it in production. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-animalmesh-directory-guide-md-fb18ad98c2.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Games Documentation The Awtsmoos gives each world rules, motion, players, reports, and story in time; Awtsmoos.com maps game files together with editors, emulators, direct handlers, and realtime lines. Read ../../docs/APPS/GAMES AND SIMULATION.md. Mitzvah World autoplay report endpoints ",
+		"searchText": "b\"h boruch hashem blessed is he games documentation the awtsmoos gives each world rules, motion, players, reports, and story in time; awtsmoos.com maps game files together with editors, emulators, direct handlers, and realtime lines. read ../../docs/apps/games and simulation.md. mitzvah world autoplay report endpoints are documented at ../../docs/api/direct root handlers.md. realtime behavior may continue under the server websocket apps.",
+		"page": "pages/geelooy-games-documentation-md-91efed5ea4.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-directory-guide-md-8871aa9202",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/DIRECTORY_GUIDE.md",
+		"id": "geelooy-games-emojis-documentation-md-3ea2d9114e",
+		"title": "Emoji War — Neon Caption Arcade",
+		"sourcePath": "geelooy/games/emojis/DOCUMENTATION.md",
+		"category": "Games",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Emoji War — Neon Caption Arcade",
+				"anchor": "emoji-war-neon-caption-arcade"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Emoji War — Neon Caption Arcade The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Game/simulation project beneath the canonical geelooy/games/ tree. Start here Read docs/PROJECTS/GAMES PLATFORM.m",
+		"searchText": "b\"h boruch hashem blessed is he emoji war — neon caption arcade the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role game/simulation project beneath the canonical geelooy/games/ tree. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes observed public title: “emoji war — neon caption arcade”. start from this project’s index.html and any readme/package metadata present. check docs/generated/websocket applications.md before assuming whether this game uses the realtime platform.",
+		"page": "pages/geelooy-games-emojis-documentation-md-3ea2d9114e.json"
+	},
+	{
+		"id": "geelooy-games-kabbalah-shooter-documentation-md-5502ac94b7",
+		"title": "Kabbalah Infinite — The Breaking of Vessels",
+		"sourcePath": "geelooy/games/kabbalah-shooter/DOCUMENTATION.md",
+		"category": "Games",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Kabbalah Infinite — The Breaking of Vessels",
+				"anchor": "kabbalah-infinite-the-breaking-of-vessels"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Kabbalah Infinite — The Breaking of Vessels The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Game/simulation project beneath the canonical geelooy/games/ tree. Start here Read docs/PROJECTS/GAME",
+		"searchText": "b\"h boruch hashem blessed is he kabbalah infinite — the breaking of vessels the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role game/simulation project beneath the canonical geelooy/games/ tree. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes observed public title: “kabbalah infinite — the breaking of vessels”. start from this project’s index.html and any readme/package metadata present. check docs/generated/websocket applications.md before assuming whether this game uses the realtime platform.",
+		"page": "pages/geelooy-games-kabbalah-shooter-documentation-md-5502ac94b7.json"
+	},
+	{
+		"id": "geelooy-games-kavanah-documentation-md-adf23132c3",
+		"title": "KAVANAH",
+		"sourcePath": "geelooy/games/KAVANAH/DOCUMENTATION.md",
+		"category": "Games",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "KAVANAH",
+				"anchor": "kavanah"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He KAVANAH The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Game/simulation project beneath the canonical geelooy/games/ tree. Start here Read docs/PROJECTS/GAMES PLATFORM.md for the central explan",
+		"searchText": "b\"h boruch hashem blessed is he kavanah the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role game/simulation project beneath the canonical geelooy/games/ tree. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes observed public title: “kavanah”. start from this project’s index.html and any readme/package metadata present. check docs/generated/websocket applications.md before assuming whether this game uses the realtime platform.",
+		"page": "pages/geelooy-games-kavanah-documentation-md-adf23132c3.json"
+	},
+	{
+		"id": "geelooy-games-merkava-documentation-md-04dac7a852",
+		"title": "Merkava — War of the Sparks",
+		"sourcePath": "geelooy/games/Merkava/DOCUMENTATION.md",
+		"category": "Games",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Merkava — War of the Sparks",
+				"anchor": "merkava-war-of-the-sparks"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Merkava — War of the Sparks The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Game/simulation project beneath the canonical geelooy/games/ tree. Start here Read docs/PROJECTS/GAMES PLATFORM.md fo",
+		"searchText": "b\"h boruch hashem blessed is he merkava — war of the sparks the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role game/simulation project beneath the canonical geelooy/games/ tree. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes observed public title: “merkava — war of the sparks”. start from this project’s index.html and any readme/package metadata present. check docs/generated/websocket applications.md before assuming whether this game uses the realtime platform.",
+		"page": "pages/geelooy-games-merkava-documentation-md-04dac7a852.json"
+	},
+	{
+		"id": "geelooy-games-merkava-readme-md-87ad762f65",
+		"title": "Merkava: War of the Sparks",
+		"sourcePath": "geelooy/games/Merkava/README.md",
 		"category": "Games",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos",
-				"anchor": "directory-guide-experiments-awtsmoos"
+				"text": "Merkava: War of the Sparks",
+				"anchor": "merkava-war-of-the-sparks"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Active runtime",
+				"anchor": "active-runtime"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "Controls",
+				"anchor": "controls"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "Run modes",
+				"anchor": "run-modes"
+			},
+			{
+				"level": 3,
+				"text": "Campaign",
+				"anchor": "campaign"
+			},
+			{
+				"level": 3,
+				"text": "Endless",
+				"anchor": "endless"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
+				"text": "Seeded route system",
+				"anchor": "seeded-route-system"
 			},
 			{
 				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
+				"text": "Worlds",
+				"anchor": "worlds"
 			},
 			{
 				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
+				"text": "Strategic systems",
+				"anchor": "strategic-systems"
 			},
 			{
 				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
+				"text": "Enemies and bosses",
+				"anchor": "enemies-and-bosses"
 			},
 			{
 				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Persistence",
+				"anchor": "persistence"
+			},
+			{
+				"level": 2,
+				"text": "Architecture",
+				"anchor": "architecture"
+			},
+			{
+				"level": 2,
+				"text": "Verification",
+				"anchor": "verification"
+			},
+			{
+				"level": 2,
+				"text": "Diagnostics and future work",
+				"anchor": "diagnostics-and-future-work"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos Role: Experiments Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 1 files, 3 structural child directories Purpose The primary modular Mitzvah World experiment, including runtime source, tests, and tools. The Awt",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos role: experiments snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 1 files, 3 structural child directories purpose the primary modular mitzvah world experiment, including runtime source, tests, and tools. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: experiments search terms: awtsmoos, experiments, guide file mix: .md: 1 good first question: “does the behavior or asset i need belong to experiments, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files no immediate files. this directory is an organizational parent; follow the child guides below. directory map parent: experiments children: experiments/awtsmoos/src experiments/awtsmoos/tests experiments/awtsmoos/tools related and overlapping systems meadow and fallback runtimes — the former basic and emergency meadow systems were consolidated into the live app stack. the app runtime and launcher now form the single meadow ownership path. rendering stacks — the project contains a lightweight scene/gltf library, the canonical app level progressive renderer, and focused render helpers. emergency fallback visuals were absorbed into the app renderer. terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. procedural world and village generation — village, road, house, primitive, text driven, and public api systems collaborate but are maintained in separate directories. vegetation, trees, and forest systems — botany rules, tree generation, forest composition, grass, and source texture libraries overlap semantically but own different layers. combat domain, action bars, targeting, and hud — domain rules live under gameplay while browser widgets and target presentation live under ui and styles. colocated and integration test surfaces — most subsystem tests live under src/test, while a smaller external tests tree exercises broader integration contracts. movie runtime, projects, tools, and evidence — runtime movie logic is separated from authored projects, exact generation tools, and captured evidence. diagnostics, logs, tools, and root audits — live diagnostics, captured logs, offline tools, and root audit reports describe different stages of observability. player, creature, horse, enemy, and experimental mesh systems — actor assets and world side populations span player hydration, creature generators, enemies, horses, and experimental animal meshes. streaming, lod, visibility, and performance policy — large world loading and frame budget concerns are separated into streaming, lod, visibility, and performance modules. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-directory-guide-md-8871aa9202.json"
+		"excerpt": "Merkava: War of the Sparks A raw WebGL three lane army roguelite about gathering holy sparks, collecting Prutahs, choosing arithmetic gates and seeded routes, building Sefirah paths, crossing five worlds, and confronting multi phase bosses through Campaign or Endless play. Active runtime Entry: index.html → src/main.js",
+		"searchText": "merkava: war of the sparks a raw webgl three lane army roguelite about gathering holy sparks, collecting prutahs, choosing arithmetic gates and seeded routes, building sefirah paths, crossing five worlds, and confronting multi phase bosses through campaign or endless play. active runtime entry: index.html → src/main.js → src/app/merkavaapp.js renderer: local raw webgl only meshes: /geelooy/libs/awtsmoos procedural no three.js dependency, namespace, or remote runtime dependency save key: awtsmoos.merkava.save.v4; legacy saves migrate through validated defaults controls a / d or arrows: change lane tap or drag the canvas: mobile lane control space: activate the charged merkava command p or escape: pause hud command button: mobile ability activation run modes campaign campaign crosses five worlds and ends after sar ha hester falls. each world has five named levels: introduction, pressure, elite encounter, mixed combat, and a boss. ordinary level completion opens a deterministic three road choice and then a sefirah blessing. checkpoint shrines, boss blessings, and world transitions preserve the authored campaign spine. endless endless rotates through the same five mechanically distinct worlds without declaring a campaign victory. each completed rotation advances a deterministic cycle and increases bounded road speed, encounter cadence, enemy depth, boss endurance, attack cadence, and prutah rewards. continue restores the exact mode, cycle, route seed, and strategic build. seeded route system each run receives one persisted unsigned seed. at ordinary non checkpoint level boundaries, the route generator offers three unique roads: one guaranteed low risk guarded road and two seed ranked alternatives. roads expose risk and reward before selection and apply real, bounded effects to sparks, health, shields, command charge, prutahs, score, lasting damage, or future prutah value. offered choices are validated, selected history is capped, malformed save data is repaired, and reload recreates the same strategic route sequence from the seed. worlds 1. assiyah — formations, barricades, golems, prince of dust 2. yetzirah — curved shots, lightning lanes, ravens, wheel of the storm 3. beriah — shifting arithmetic, corrupters, mirrors, architect of mirrors 4. atzilus — faster beams, elites, white fire, serpent of white fire 5. great concealment — combined corruption and sar ha hester strategic systems holy sparks control formation size, firing density, and survival. prutahs appear in trails, risky lanes, drops, elite rewards, routes, and boss showers. consecutive collection increases combo value; golden prutahs are worth more. checkpoint prices rise after purchases and as worlds deepen. temporary upgrades alter sparks, damage, fire rate, side shots, piercing, shields, magnetism, prutah value, positive gates, and between level healing. blessings level chesed, gevurah, tiferet, netzach, hod, yesod, malchut, and keter. named cross sefirah synergies change combat and economy. the first checkpoint chooses light burst, gathering call, or shofar blast. elite shells grant run changing relics with implemented effects. enemies and bosses enemy behaviors include infantry, golems, ravens, archers, drainers, splitters, summoners, gate corrupters, thieves, elites, and breakable obstacles. bosses expose names, health, phases, warned unsafe lanes, summons, rage pressure, and rewards. endless scaling copies and bounds boss values without replacing mechanics or readable counterplay. persistence versioned validation repairs malformed values and migrates partial saves through defaults. the save stores permanent prutahs, upgrades, campaign and endless records, capped history, relic discoveries, settings, and one strategic checkpoint. continue restores mode, cycle, route seed and history, world, level, army, build, relics, command, and economy while rebuilding transient combat and visible route cards. architecture src/app/: composition, lifecycle, menus, strategic choices, diagnostics src/routes/: route catalog, seed mixing, pure generation, effects, facade src/modes/: mode catalog and pure bounded endless rules src/game/: state, progression, encounters, enemies, bosses, relics, collision src/render/: raw webgl resources, procedural meshes, focused passes src/ui/: hud, overlays, mode labels, events, arithmetic labels src/audio/: optional web audio with graceful failure src/persistence/: migration, records, history, routes, checkpoints src/config/: campaign, economy, limits, colors, quality caps test/: deterministic rules, structural audits, campaign and endless cdp flows all inspected source vessels remain at 120 lines or fewer and use tabs for code indentation. verification npm run verify runs deterministic tests, syntax checks, the three.js prohibition audit, and the file size/tab audit. verify:browser drives boot, mode selection, endless rollover, route choice, blessing, checkpoint reload, input, abilities, shops, bosses, hazards, records, and continuation. it writes json and screenshot evidence under ai thoughts. diagnostics and future work window. merkava diagnostics exposes mode, seed, route step, offers, route history, route modifier, cycle, pressure, world, level, lane, sparks, health, shield, prutahs, build, enemies, boss state, timing, errors, renderer identity, and mesh registration. optional future modes remain daily seed, boss rush, one spark, no shop, speed trial, and prutah challenge, followed by a richer visual node map presentation, seed sharing, expanded scenery, adaptive music, and broader accessibility presets. no decorative modes are exposed.",
+		"page": "pages/geelooy-games-merkava-readme-md-87ad762f65.json"
 	}
 ]

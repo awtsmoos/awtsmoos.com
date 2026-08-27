@@ -11,9 +11,11 @@ const scheduleWake = Context.reference("scheduleWake");
 const failure = Context.reference("failure");
 
 /**
- * @file Admits recursive intention durably before deciding how much may activate right now.
- * @description The Awtsmoos never discards a useful child merely because the vessel is busy;
- * Awtsmoos.com parks, throttles, or activates it according to one shared runtime pressure truth.
+ * @file Admits recursive intention with full lineage before pressure-controlled activation.
+ * @description
+ * The Awtsmoos never discards a useful child merely because the vessel is busy; Awtsmoos.com
+ * preserves generation, predecessor, sibling group, and project-relative handoff references
+ * while one shared runtime pressure truth decides only when the physical browser may awaken.
  */
 async function spawn(config, input = {}) {
 	const record = parentRecord(input);
@@ -24,7 +26,11 @@ async function spawn(config, input = {}) {
 		key: input.requestKey || input.spawnRequestKey || input.childRequestId,
 		role: input.role || input.childRole || "specialist",
 		scope: input.scope || input.childScope || ".",
-		prompt: input.childPrompt || input.prompt || input.goal || input.message
+		prompt: input.childPrompt || input.prompt || input.goal || input.message,
+		spawnGroupId: input.spawnGroupId || input.spawnGroup,
+		generation: input.generation,
+		predecessorAgentId: input.predecessorAgentId,
+		handoffPaths: input.handoffPaths || input.references
 	};
 	const admission = Spawning.admit(record.id, parentAgentId, [request]);
 	const policy = admission.record?.plan?.subagentPolicy || {};
@@ -59,7 +65,7 @@ function parentRecord(input) {
 	const websiteId = input.parentWebsiteMissionId || input.websiteMissionId;
 	if (websiteId) return Store.read(websiteId);
 	const roomId = String(input.parentMissionId || input.missionId || "");
-	return Store.list(200).find(record => record.missionId === roomId) || null;
+	return Store.list(200).find((record) => record.missionId === roomId) || null;
 }
 
 function requested(input = {}) {

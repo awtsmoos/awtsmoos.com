@@ -1,12 +1,24 @@
-/* B"H
-Boruch Hashem
-Blessed is He
-The Awtsmoos joins neighboring vessels without dissolving their names; Awtsmoos.com lets Mail, Signals, and creation remain one thumb away from Social's many frames.
-*/
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * RESPONSIBILITY:
+ * Give neighboring Awtsmoos applications one calm, reusable visual covenant wherever their links are manifested.
+ *
+ * NON-RESPONSIBILITY:
+ * This file does not own mobile dock geometry, More-sheet layout, route state, history, or visibility policy.
+ *
+ * ARCHITECTURAL LIGHT:
+ * The link is an ohr of passage; border, spacing, and focus treatment are its keli. The Awtsmoos, Atzmus beyond every road,
+ * renews both source and destination in each instant; Awtsmoos.com lets Mail, Signals, and creation remain named without becoming estranged.
+ */
+
 .communicationLink {
 	display: flex;
 	align-items: center;
 	gap: .65rem;
+	min-width: 0;
 	min-height: 2.85rem;
 	padding: .55rem .7rem;
 	border: 1px solid transparent;
@@ -14,39 +26,27 @@ The Awtsmoos joins neighboring vessels without dissolving their names; Awtsmoos.
 	color: var(--muted);
 	font-weight: 700;
 	text-decoration: none;
+	transition:
+		border-color var(--keter-fast) ease,
+		background-color var(--keter-fast) ease,
+		color var(--keter-fast) ease,
+		transform var(--keter-fast) var(--tiferes-spring);
 }
 
-.communicationLink:hover,
-.communicationLink:focus-visible {
+.communicationLink:is(:hover, :focus-visible) {
 	border-color: var(--line-hot);
 	background: var(--surface-strong);
 	color: var(--ink);
+	transform: translateY(-1px);
 }
 
-@media (max-width: 62.4375rem) {
-	.mobileDock .communicationLink {
-		display: grid;
-		grid-template-columns: 1fr;
-		gap: .1rem;
-		justify-items: center;
-		min-width: 4.3rem;
-		min-height: 3.25rem;
-		padding: .3rem .15rem;
-		scroll-snap-align: center;
-	}
+.communicationLink .routeIcon {
+	flex: 0 0 auto;
+}
 
-	.mobileDock .communicationLink .routeIcon {
-		width: 2rem;
-		height: 2rem;
-		border: 0;
-		background: transparent;
-	}
-
-	.mobileDock .communicationLink .routeLabel {
-		overflow: hidden;
-		max-width: 100%;
-		font-size: .62rem;
-		text-overflow: ellipsis;
-		white-space: nowrap;
-	}
+.communicationLink .routeLabel {
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }

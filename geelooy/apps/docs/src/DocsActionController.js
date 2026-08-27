@@ -2,16 +2,20 @@
 // Boruch Hashem
 // Blessed is He
 
+import { chooseDocsSaveDestination } from "./DocsSaveDestination.js";
+
 /**
  * @file Owns user-triggered file, share, and embedded-document actions.
  * @description The Awtsmoos is beyond click and destination; Awtsmoos.com keeps
- * these larger actions away from keystroke mutations while every filesystem choice stays in-app.
+ * larger actions away from keystroke mutations while embedded documents flow
+ * through the same truthful format boundary used by local and cross-app opening.
  */
 export class DocsActionController {
 	constructor(parts) {
 		Object.assign(this, parts);
 	}
 
+	/** Ensures a collaborative identity exists, then reveals the current share workspace. */
 	async openShare() {
 		try {
 			await this.collaboration.ensureShared();
@@ -25,9 +29,13 @@ export class DocsActionController {
 		}
 	}
 
+	/** Saves to the embedded OS file or to a chosen Drive destination. */
 	async save() {
 		try {
-			const destination = await this.#driveDestination();
+			const destination = await chooseDocsSaveDestination(
+				this.persistence,
+				this.quickDialog
+			);
 			if (destination === null) return null;
 			const result = await this.persistence.save(destination);
 			this.toast.show("Document saved", "success");
@@ -38,6 +46,7 @@ export class DocsActionController {
 		}
 	}
 
+	/** Opens the browser file chooser and imports the selected supported document. */
 	async importFile() {
 		try {
 			return await this.fileController.importLocal();
@@ -47,6 +56,7 @@ export class DocsActionController {
 		}
 	}
 
+	/** Imports one dropped file through the same importer as the file chooser. */
 	async importDropped(file) {
 		try {
 			return await this.fileController.importFile(file);
@@ -56,6 +66,7 @@ export class DocsActionController {
 		}
 	}
 
+	/** Exports the current document through one explicit destination format. */
 	async exportFile(format) {
 		try {
 			return await this.fileController.exportAs(format);
@@ -65,40 +76,29 @@ export class DocsActionController {
 		}
 	}
 
+	/** Opens the current semantic document source inside Awtsmoos Code. */
 	openInCode() {
 		return this.fileController.openCurrentInCode();
 	}
 
+	/** Loads the file selected by Geelooy OS through the real source-format codecs. */
 	loadEmbedded(payload) {
-		if (!payload?.content) return false;
+		if (payload?.content == null) return false;
 		try {
-			this.snapshot.applySerialized(payload.content);
-			return true;
+			return this.fileController.importEmbedded(payload);
 		} catch (error) {
-			this.#driveError(error, "Could not open document");
+			this.#driveError(error, "Could not open embedded document");
 			return false;
 		}
 	}
 
-	async #driveDestination() {
-		if (!this.persistence.needsDriveDestination()) return {};
-		const defaults = this.persistence.defaultDriveDestination();
-		const values = await this.quickDialog.ask({
-			title: "Save to Drive",
-			fields: [
-				{ name: "aliasId", label: "Drive alias", value: defaults.aliasId, required: true },
-				{ name: "path", label: "File path", value: defaults.path, required: true }
-			],
-			submitLabel: "Save"
-		});
-		return values || null;
-	}
-
+	/** Reports persistence/import/export failures through both status and transient feedback vessels. */
 	#driveError(error, fallback) {
 		this.status.drive(error?.message || fallback, "warning");
 		this.toast.show(error?.message || fallback, "warning");
 	}
 
+	/** Reports collaboration/share failures through the live status channel and toast surface. */
 	#liveError(error, fallback) {
 		this.status.live(error?.message || fallback, "warning");
 		this.toast.show(error?.message || fallback, "warning");

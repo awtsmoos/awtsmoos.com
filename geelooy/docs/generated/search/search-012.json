@@ -152,64 +152,44 @@
 	},
 	{
 		"id": "docs-data-readme-md-833c12b983",
-		"title": "Data and Persistence Guide",
+		"title": "Data and Persistence",
 		"sourcePath": "docs/DATA/README.md",
 		"category": "Data",
 		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Data and Persistence Guide",
-				"anchor": "data-and-persistence-guide"
+				"text": "Data and Persistence",
+				"anchor": "data-and-persistence"
 			},
 			{
 				"level": 2,
-				"text": "Main runtime database",
-				"anchor": "main-runtime-database"
+				"text": "Interactive system map",
+				"anchor": "interactive-system-map"
 			},
 			{
 				"level": 2,
-				"text": "Database-root precedence",
-				"anchor": "database-root-precedence"
+				"text": "Main persistence families",
+				"anchor": "main-persistence-families"
 			},
 			{
 				"level": 2,
-				"text": "Persistence families",
-				"anchor": "persistence-families"
-			},
-			{
-				"level": 3,
-				"text": "Legacy DosDB filesystem tree",
-				"anchor": "legacy-dosdb-filesystem-tree"
-			},
-			{
-				"level": 3,
-				"text": "AwtsmoosBinaryJSON",
-				"anchor": "awtsmoosbinaryjson"
-			},
-			{
-				"level": 3,
-				"text": "AwtsmoosDB / VirtualFs",
-				"anchor": "awtsmoosdb-virtualfs"
-			},
-			{
-				"level": 3,
-				"text": "Parallel AwtsmoosDB",
-				"anchor": "parallel-awtsmoosdb"
+				"text": "Database root",
+				"anchor": "database-root"
 			},
 			{
 				"level": 2,
-				"text": "Social packed storage",
-				"anchor": "social-packed-storage"
+				"text": "Change workflow",
+				"anchor": "change-workflow"
 			},
 			{
 				"level": 2,
-				"text": "Data change rule",
-				"anchor": "data-change-rule"
+				"text": "Evidence limits",
+				"anchor": "evidence-limits"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Data and Persistence Guide The Awtsmoos renews every stored letter while Awtsmoos.com carries several generations of persistence vessels whose compatibility must remain explicit. Main runtime database The dynamic server resolves a database root, publishes it as process.awtsmoosDbPath, co",
-		"searchText": "b\"h boruch hashem blessed is he data and persistence guide the awtsmoos renews every stored letter while awtsmoos.com carries several generations of persistence vessels whose compatibility must remain explicit. main runtime database the dynamic server resolves a database root, publishes it as process.awtsmoosdbpath, constructs dosdb, awaits initialization, and shares that database with runtime systems. read dosdb.md for the compatibility architecture and path contracts.md before changing persisted paths. database root precedence the inspected runtime resolves the root in this order: 1. awtsmoos db root or awts db root environment variable. 2. ignored machine local .awtsmoos.config.local.json using dbpath, databaseroot, or awtsmoos db root. 3. tracked server configuration dbpath. 4. repository relative fallback. home relative and ${home} values are expanded when a home environment value exists. persistence families legacy dosdb filesystem tree dosdb remains a filesystem backed key/value tree with method bags for reads, writes, arrays, objects, paths, directories and firebase like helpers. awtsmoosbinaryjson binary json/object formats are still part of compatibility paths, including .awtsmoosjson sidecars and old packed files whose leading magic identifies them as legacy object vessels rather than modern databases. awtsmoosdb / virtualfs modern .awtsdb storage can be opened through awtsmoosdb and virtualfs. a router allows selected dosdb logical paths to use this storage while preserving legacy fallback. parallel awtsmoosdb awtsmoosdbbridge.js exposes a lazy, parallel awtsmoosdb intended for ai search, vector memory, graph experiments and future migration work without forcing the production dosdb layout to change. social packed storage the filesystem adapter contains explicit routing for heichel comments, posts and series under socialpacked/, including separate comment shards. these filenames and logical paths are migration contracts, not incidental implementation strings. data change rule changing a persisted path, serialization format, shard layout, binary magic interpretation, cache invalidation rule or fallback order is a migration/runtime compatibility change. document old and new forms, test both when coexistence matters, and never treat a file rename as a purely cosmetic refactor.",
+		"excerpt": "B\"H Boruch Hashem Blessed is He Data and Persistence Persistence is a compatibility surface. A path, root, serializer, shard layout, manifest, or fallback can matter long after the code that created it was written. Interactive system map Open /docs/?view=systems&systemDistrict=data for curated Data systems joined to cu",
+		"searchText": "b\"h boruch hashem blessed is he data and persistence persistence is a compatibility surface. a path, root, serializer, shard layout, manifest, or fallback can matter long after the code that created it was written. interactive system map open /docs/?view=systems&systemdistrict=data for curated data systems joined to current project/source/environment name evidence. generated packets are navigation aids; human manuals and source define semantics. main persistence families dosdb — filesystem oriented legacy persistence. awtsmoosdb and virtualfs — newer .awtsdb storage/interface family. path contracts — logical persistence paths and migration risk. social packed storage — source under geelooy/api/social/helper/packed/. parallel awtsmoosdb bridge — actual inspected path: ayzarim/dosdb/awtsmoosdbbridge.js. database root runtime root selection is implemented around ayzarim/awtsmoosdynamicserver/server/initdb.js. treat environment/config precedence and fallback changes as migration sensitive. generated system evidence publishes environment names only , never values. change workflow read trace a database change safely before changing persisted paths, formats, roots, shards, transactions, caches, or migration logic. evidence limits source/file presence does not prove transaction, durability, atomicity, consistency, or backward compatibility guarantees. those require implementation/test/runtime verification.",
 		"page": "pages/docs-data-readme-md-833c12b983.json"
 	},
 	{

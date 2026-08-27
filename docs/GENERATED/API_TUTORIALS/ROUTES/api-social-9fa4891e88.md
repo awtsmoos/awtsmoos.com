@@ -33,12 +33,12 @@ Pattern-compatible evidence only; it does not prove runtime dispatch.
 
 | Literal | Source | Kind |
 | --- | --- | --- |
-| `/api/social` | `geelooy/apps/drive/js/api.js` | runtime |
+| `/api/social` | `geelooy/apps/drive/js/apiTransport.js` | runtime |
+| `/api/social` | `geelooy/drive/builder/platformApi.js` | runtime |
+| `/api/social` | `geelooy/drive/transport/projectHostingClient.js` | runtime |
 | `/api/social` | `geelooy/heichel-review/js/GovernanceApi.js` | runtime |
 | `/api/social` | `geelooy/heichel-review/js/ReviewApi.js` | runtime |
 | `/api/social` | `geelooy/heichelos/social/api/client.js` | runtime |
-| `/api/social` | `geelooy/heichelos/social/test/inMemorySocialRuntime.mjs` | test |
-| `/api/social` | `geelooy/heichelos/social/test/socialApiContract.test.mjs` | test |
 
 ## Related tests
 

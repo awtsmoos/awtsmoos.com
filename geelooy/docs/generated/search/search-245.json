@@ -1,250 +1,191 @@
 [
 	{
-		"id": "geelooy-games-mitzvahworld-assets-materials-local-world-processed-direct-d41405e16a",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/assets/materials/local/world/processed/DIRECTORY_GUIDE.md",
-		"category": "Games",
+		"id": "geelooy-apps-tunnel-agent-docs-helper-skeletons-android-readme-md-bf6b7c670c",
+		"title": "Android Remote Helper Skeleton",
+		"sourcePath": "geelooy/apps/tunnel/agent/docs/helper-skeletons/android/README.md",
+		"category": "Tunnel",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: assets/materials/local/world/processed",
-				"anchor": "directory-guide-assets-materials-local-world-processed"
-			},
-			{
-				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
-			},
-			{
-				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
-			},
-			{
-				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Android Remote Helper Skeleton",
+				"anchor": "android-remote-helper-skeleton"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: assets/materials/local/world/processed Role: Assets Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 1 files, 1 structural child directories Purpose Processed material derivatives organized by semantic subject. The Awtsmoos renews ev",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: assets/materials/local/world/processed role: assets snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 1 files, 1 structural child directories purpose processed material derivatives organized by semantic subject. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: assets search terms: assets, guide, local, materials, processed file mix: .md: 1 good first question: “does the behavior or asset i need belong to assets, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files no immediate files. this directory is an organizational parent; follow the child guides below. directory map parent: assets/materials/local/world children: assets/materials/local/world/processed/botany related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. boundaries and cautions this directory owns files consumed by runtime systems, not the runtime policy that selects or interprets them. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-assets-materials-local-world-processed-direct-d41405e16a.json"
+		"excerpt": "B\"H Android Remote Helper Skeleton Visible consent MediaProjection helper skeleton. It must never start hidden. Files planned: ConsentActivity.kt: asks Android MediaProjection permission. CaptureService.kt: foreground service with persistent stop notification. FrameEncoder.kt: encodes frames for tunnel delivery. Tunnel",
+		"searchText": "b\"h android remote helper skeleton visible consent mediaprojection helper skeleton. it must never start hidden. files planned: consentactivity.kt: asks android mediaprojection permission. captureservice.kt: foreground service with persistent stop notification. frameencoder.kt: encodes frames for tunnel delivery. tunnelbridge.kt: binds frames to a short lived session token. panicstopreceiver.kt: immediate revoke/stop path. blocked by default: clipboard, files, raw shell, credential reveal, invisible capture.",
+		"page": "pages/geelooy-apps-tunnel-agent-docs-helper-skeletons-android-readme-md-bf6b7c670c.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-assets-materials-local-world-various-director-673f954b28",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/assets/materials/local/world/various/DIRECTORY_GUIDE.md",
-		"category": "Games",
+		"id": "geelooy-apps-tunnel-agent-docs-helper-skeletons-desktop-readme-md-38b509148d",
+		"title": "Desktop Remote Helper Skeleton",
+		"sourcePath": "geelooy/apps/tunnel/agent/docs/helper-skeletons/desktop/README.md",
+		"category": "Tunnel",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: assets/materials/local/world/various",
-				"anchor": "directory-guide-assets-materials-local-world-various"
-			},
-			{
-				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
-			},
-			{
-				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
-			},
-			{
-				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Desktop Remote Helper Skeleton",
+				"anchor": "desktop-remote-helper-skeleton"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: assets/materials/local/world/various Role: Assets Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 5 files, 0 structural child directories Purpose Loose world material assets that do not yet belong to a narrower collection. The Awtsm",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: assets/materials/local/world/various role: assets snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 5 files, 0 structural child directories purpose loose world material assets that do not yet belong to a narrower collection. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: assets search terms: png, stone, assets, guide, local, masonry, materials, oak, planks, retaining, roof, rough file mix: .png: 4 · .md: 1 good first question: “does the behavior or asset i need belong to assets, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files rough weathered oak wood planks.png — a .png artifact in this directory. stone retaining wall masonry.png — a .png artifact in this directory. whitewashed stone.png — a .png artifact in this directory. slate roof shingles.png — a .png artifact in this directory. directory map parent: assets/materials/local/world children: none. related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. boundaries and cautions this directory owns files consumed by runtime systems, not the runtime policy that selects or interprets them. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-assets-materials-local-world-various-director-673f954b28.json"
+		"excerpt": "B\"H Desktop Remote Helper Skeleton Visible screen capture and optional input helper. It must show a persistent indicator and panic stop. Platform seams: macOS: ScreenCaptureKit + Screen Recording permission. Windows: Windows Graphics Capture. Linux: PipeWire portal. Input relay remains separate from capture and require",
+		"searchText": "b\"h desktop remote helper skeleton visible screen capture and optional input helper. it must show a persistent indicator and panic stop. platform seams: macos: screencapturekit + screen recording permission. windows: windows graphics capture. linux: pipewire portal. input relay remains separate from capture and requires explicit mouse/keyboard grants.",
+		"page": "pages/geelooy-apps-tunnel-agent-docs-helper-skeletons-desktop-readme-md-38b509148d.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-assets-textures-directory-guide-md-5f33f001af",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/assets/textures/DIRECTORY_GUIDE.md",
-		"category": "Games",
+		"id": "geelooy-apps-tunnel-agent-docs-remote-desktop-tunnel-md-395815d3dd",
+		"title": "Remote Desktop Tunnel: Large Next Layer",
+		"sourcePath": "geelooy/apps/tunnel/agent/docs/REMOTE_DESKTOP_TUNNEL.md",
+		"category": "Tunnel",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: assets/textures",
-				"anchor": "directory-guide-assets-textures"
+				"text": "Remote Desktop Tunnel: Large Next Layer",
+				"anchor": "remote-desktop-tunnel-large-next-layer"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "New in this layer",
+				"anchor": "new-in-this-layer"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "Helper skeletons created",
+				"anchor": "helper-skeletons-created"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Current active guarantees",
+				"anchor": "current-active-guarantees"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: assets/textures Role: Assets Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 3 files, 0 structural child directories Purpose Loose top level textures that are not part of the structured material library. The Awtsmoos renews every pa",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: assets/textures role: assets snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 3 files, 0 structural child directories purpose loose top level textures that are not part of the structured material library. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: assets search terms: svg, assets, brick, coin, gold, guide, textures, wall file mix: .svg: 2 · .md: 1 good first question: “does the behavior or asset i need belong to assets, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files brick wall.svg — a .svg artifact in this directory. gold coin.svg — a .svg artifact in this directory. directory map parent: assets children: none. related and overlapping systems see the system overlap map before creating a similarly named subsystem elsewhere. boundaries and cautions this directory owns files consumed by runtime systems, not the runtime policy that selects or interprets them. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-assets-textures-directory-guide-md-5f33f001af.json"
+		"excerpt": "B\"H Remote Desktop Tunnel: Large Next Layer New in this layer remoteDesktopPermissionContract returns a hash sealed permission contract with copyable text. remoteDesktopSessionSummary returns human readable lifecycle, grants, countdown, and audit trail. remoteDesktopSignalSummary returns peer signaling and heartbeat su",
+		"searchText": "b\"h remote desktop tunnel: large next layer new in this layer remotedesktoppermissioncontract returns a hash sealed permission contract with copyable text. remotedesktopsessionsummary returns human readable lifecycle, grants, countdown, and audit trail. remotedesktopsignalsummary returns peer signaling and heartbeat summary. android helper skeleton files now exist under agent/docs/helper skeletons/android. desktop helper skeleton files now exist under agent/docs/helper skeletons/desktop. tunnel control now has contract, summary, and signals buttons. helper skeletons created android: readme.md consentactivity.kt captureservice.kt desktop: readme.md main.ts these are not installed services; they are concrete source skeletons and consent contracts for the native helper implementation. current active guarantees permission contract hash is deterministic for the current consent body. session summaries expose countdown and grant state. signal summaries expose fingerprints and heartbeats. pause/revoke still block frame/signaling/input flows. mouse and keyboard grants remain separate.",
+		"page": "pages/geelooy-apps-tunnel-agent-docs-remote-desktop-tunnel-md-395815d3dd.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-directory-guide-md-eb13522f77",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/DIRECTORY_GUIDE.md",
-		"category": "Games",
+		"id": "geelooy-apps-tunnel-agent-tools-streaming-docs-binary-route-todo-md-2056c292e0",
+		"title": "Binary Route TODO",
+		"sourcePath": "geelooy/apps/tunnel/agent/tools/streaming/docs/BINARY_ROUTE_TODO.md",
+		"category": "Tunnel",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: .",
-				"anchor": "directory-guide"
-			},
-			{
-				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
-			},
-			{
-				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
-			},
-			{
-				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Binary Route TODO",
+				"anchor": "binary-route-todo"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: . Role: Project root Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 11 files, 5 structural child directories Purpose Project entry, top level audits, handoff notes, and navigation for the Mitzvah World game. The Awtsmoos renews eve",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: . role: project root snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 11 files, 5 structural child directories purpose project entry, top level audits, handoff notes, and navigation for the mitzvah world game. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: project root search terms: audit, mitzvah, forest, index, maker, movie, next, procedural, remaining, work, ., basic file mix: [none]: 2 · .json: 1 · .html: 1 good first question: “does the behavior or asset i need belong to project root, or is this only a neighboring/test/reference layer?” semantic evidence b\"h b\"h — mitzvah world movie maker audit b\"h — next ai: mitzvah world was simplified b\"h — mitzvah world procedural forest audit representative files movie maker audit.md — b\"h — mitzvah world movie maker audit next ai readme.md — b\"h — next ai: mitzvah world was simplified procedural forest audit.md — b\"h — mitzvah world procedural forest audit remaining work.md — mitzvah world basic meadow — remaining work index.html — a .html artifact in this directory. directory map parent: project root. children: assets experiments movies references styles existing markdown: directory index.md, movie maker audit.md, next ai readme.md, procedural forest audit.md, remaining work.md, system overlap map.md related and overlapping systems diagnostics, logs, tools, and root audits — live diagnostics, captured logs, offline tools, and root audit reports describe different stages of observability. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-directory-guide-md-eb13522f77.json"
+		"excerpt": "B\"H Binary Route TODO Today: streamingHlsSegmentPush accepts base64 JSON. This is easy for browser clients but adds size overhead. Next optimization: Add raw binary route in local API only: POST /streaming/hls segment/:sessionId/:name Headers: x awtsmoos duration x awtsmoos index content type: video/mp2t The handler sh",
+		"searchText": "b\"h binary route todo today: streaminghlssegmentpush accepts base64 json. this is easy for browser clients but adds size overhead. next optimization: add raw binary route in local api only: post /streaming/hls segment/:sessionid/:name headers: x awtsmoos duration x awtsmoos index content type: video/mp2t the handler should call the same hls session functions, not duplicate logic. this keeps platform media bytes local while avoiding base64 overhead for long streams.",
+		"page": "pages/geelooy-apps-tunnel-agent-tools-streaming-docs-binary-route-todo-md-2056c292e0.json"
+	},
+	{
+		"id": "geelooy-apps-tunnel-agent-tools-streaming-docs-readme-md-80557cf010",
+		"title": "Local Tunnel Streaming Actions",
+		"sourcePath": "geelooy/apps/tunnel/agent/tools/streaming/docs/README.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Local Tunnel Streaming Actions",
+				"anchor": "local-tunnel-streaming-actions"
+			}
+		],
+		"excerpt": "B\"H Local Tunnel Streaming Actions The local tunnel is the media plane helper. The browser sends muxed bytes to 127.0.0.1, and the tunnel forwards those bytes to YouTube/Twitch/Facebook/custom ingest. Video bytes do not pass through Awtsmoos cloud unless the user selects Awtsmoos hosted relay. Actions: streamingSession",
+		"searchText": "b\"h local tunnel streaming actions the local tunnel is the media plane helper. the browser sends muxed bytes to 127.0.0.1, and the tunnel forwards those bytes to youtube/twitch/facebook/custom ingest. video bytes do not pass through awtsmoos cloud unless the user selects awtsmoos hosted relay. actions: streamingsessionstart streamingchunkpush streaminghlssegmentpush streaminghlsplaylist streamingsessionstop streamingsessionstatus streamingsessionlist hls mode: 1. start a session with { mode:\"hls\", targetduration, maxsegments, ingest }. 2. push muxed .ts segment bytes with streaminghlssegmentpush. 3. ask for streaminghlsplaylist to get the current sliding .m3u8. 4. stop the session to receive an end list playlist. important: webcodecs encoded chunks still need a real muxer before they become platform ready hls/rtmp media bytes.",
+		"page": "pages/geelooy-apps-tunnel-agent-tools-streaming-docs-readme-md-80557cf010.json"
+	},
+	{
+		"id": "geelooy-apps-tunnel-agents-md-c5c27feed0",
+		"title": "Awtsmoos Tunnel — AI Agent Instructions",
+		"sourcePath": "geelooy/apps/tunnel/agents.md",
+		"category": "Tunnel",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos Tunnel — AI Agent Instructions",
+				"anchor": "awtsmoos-tunnel-ai-agent-instructions"
+			},
+			{
+				"level": 2,
+				"text": "Connection flow",
+				"anchor": "connection-flow"
+			},
+			{
+				"level": 2,
+				"text": "Short recovery ladder",
+				"anchor": "short-recovery-ladder"
+			},
+			{
+				"level": 3,
+				"text": "macOS/Linux",
+				"anchor": "macos-linux"
+			},
+			{
+				"level": 3,
+				"text": "Windows",
+				"anchor": "windows"
+			},
+			{
+				"level": 2,
+				"text": "Failure-layer discipline",
+				"anchor": "failure-layer-discipline"
+			},
+			{
+				"level": 2,
+				"text": "Install or refresh",
+				"anchor": "install-or-refresh"
+			},
+			{
+				"level": 2,
+				"text": "Required operating discipline",
+				"anchor": "required-operating-discipline"
+			},
+			{
+				"level": 2,
+				"text": "Durable command protocol",
+				"anchor": "durable-command-protocol"
+			},
+			{
+				"level": 2,
+				"text": "Recovery levels",
+				"anchor": "recovery-levels"
+			},
+			{
+				"level": 2,
+				"text": "Mission/watchdog recovery discipline",
+				"anchor": "mission-watchdog-recovery-discipline"
+			},
+			{
+				"level": 2,
+				"text": "Offline restore protocol",
+				"anchor": "offline-restore-protocol"
+			}
+		],
+		"excerpt": "B\"H Awtsmoos Tunnel — AI Agent Instructions These instructions govern agents operating through the Awtsmoos Tunnel tree. Inspect live reality first; never infer a tunnel, mission, lock, job, receipt, or server state from stale memory. Connection flow 1. Authenticate with Awtsmoos.com when required. 2. Discover the acti",
+		"searchText": "b\"h awtsmoos tunnel — ai agent instructions these instructions govern agents operating through the awtsmoos tunnel tree. inspect live reality first; never infer a tunnel, mission, lock, job, receipt, or server state from stale memory. connection flow 1. authenticate with awtsmoos.com when required. 2. discover the active device/tunnel automatically. 3. use the returned tunnel identity; never invent one. 4. distinguish public server health, authenticated control session health, native parent/child health, and mission controller health before choosing recovery. 5. if several tunnels are connected, ask which returned identity to use. references: , , . short recovery ladder prefer the packaged awt command over manual pid commands when it exists. macos/linux windows rescue verifies supervisor child ownership, sets level 0, restarts only the verified supervised child, and waits for replacement. normal returns to level 5 with the same guarded child restart. unknown/typo commands make no mutation and should suggest the nearest valid command. offline restore is stronger and requires explicit confirmation: never jump to reinstall/restore because a gpt oauth/control session failed. a browser tab tunnel in awtsmoos code is a separate fallback vessel. failure layer discipline oauth/client failure: reauthorize/rediscover; do not restart a healthy native child merely for authentication failure. native child wedged, supervisor verified: use awt rescue. supervisor absent/unverified: inspect/refresh the signed install; do not signal an unverified pid. server/api down: repair/deploy the server independently. mission controller blocks writes: inspect mission/lock/question/authorization evidence. do not bypass with shell redirection. recovery level left at 0 after debugging: use awt normal and verify level 5. install or refresh the installer preserves an existing runtime configuration and tunnel identity. do not delete config.json to force a restart. required operating discipline read actual files and runtime state before claims. prefer read only evidence first. never read secrets without authorization. preserve executable/production backups and rollback evidence. rewrite complete files; never use fragile partial replacements. keep modules small, descriptive, and testable. test syntax, focused behavior, integration behavior, packaging, and live behavior. preserve the user's tunnel identity and project root. if mission write policy requires authorization, use the documented mission step/token path; never defeat the firewall with shell writes. refrigerated/terminal missions are durable history, not active filesystem authority. durable command protocol commandstart and promoted heavy actions may be asynchronous. preserve returned jobid, worker/receipt ids, command, and cwd. follow with status/wait/output actions. a relay timeout does not prove command failure; inspect durable action/job history and never duplicate work merely because an http wait ended. treat response correlation mismatches as quarantined evidence, not permission to weaken validation. recovery levels level mode physical workers : 0 emergency 1 1 single 1 2 dual 2 3 four 4 4 eight 8 5 production adaptive logical admission and physical worker count are separate. after emergency verification, restore level 5. mission/watchdog recovery discipline a multiple choice watchdog reference must resolve to its original durable prompt/choices. never invent a–e choices for a missing payload. if recovery reports question payload missing, preserve mission evidence and use the suggested mission inspection/manual recovery path; unrelated filesystem authority should not remain permanently locked. if a refrigerated/terminal mission appears to own an exclusive project root lock, reconcile mission lifecycle and lock authority rather than deleting mission history. offline restore protocol use offline restore only after integrity evidence justifies it and the selected recovery archive exists. preserve config.json, recovery archives, checksums, and tunnel identity. verify status/check, selected level, one read action, and one command action after restoration. never edit immutable recovery archives in place.",
+		"page": "pages/geelooy-apps-tunnel-agents-md-c5c27feed0.json"
+	},
+	{
+		"id": "geelooy-apps-tunnel-documentation-md-5c553ce64b",
+		"title": "Tunnel App Documentation",
+		"sourcePath": "geelooy/apps/tunnel/DOCUMENTATION.md",
+		"category": "Tunnel",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Tunnel App Documentation",
+				"anchor": "tunnel-app-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Tunnel App Documentation The Awtsmoos bridges machines while preserving authority, consent, path, and trace; Awtsmoos.com maps this large Tunnel project to base APIs, Control, installers, and shared runtime space. Read ../../../docs/SYSTEMS/TUNNEL.md and ../../../docs/APPS/TUNNEL AND RUN",
+		"searchText": "b\"h boruch hashem blessed is he tunnel app documentation the awtsmoos bridges machines while preserving authority, consent, path, and trace; awtsmoos.com maps this large tunnel project to base apis, control, installers, and shared runtime space. read ../../../docs/systems/tunnel.md and ../../../docs/apps/tunnel and runtime.md. existing specialist material also lives in ../../../docs/tunnel/.",
+		"page": "pages/geelooy-apps-tunnel-documentation-md-5c553ce64b.json"
 	}
 ]

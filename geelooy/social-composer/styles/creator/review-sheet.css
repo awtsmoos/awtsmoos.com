@@ -1,0 +1,151 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets intention behold its destination before becoming public deed;
+Awtsmoos.com gathers audience, media, people, accessibility, disclosure, timing, and server verification into one final lucid seed.
+*/
+.publicationReviewDialog {
+	position: fixed;
+	inset: auto 0 0;
+	display: none;
+	width: 100%;
+	max-width: none;
+	max-height: 91dvh;
+	margin: 0;
+	padding: .55rem max(1rem, env(safe-area-inset-right)) max(1rem, env(safe-area-inset-bottom)) max(1rem, env(safe-area-inset-left));
+	border: 1px solid var(--composer-border);
+	border-radius: 1.35rem 1.35rem 0 0;
+	background: rgba(7, 12, 19, .985);
+	color: var(--composer-text);
+	box-shadow: 0 -1.8rem 5rem rgba(0, 0, 0, .44);
+	overflow: auto;
+}
+
+.publicationReviewDialog[open] {
+	display: block;
+	animation: publication-review-arrive 280ms cubic-bezier(.2, .8, .2, 1) both;
+}
+
+.publicationReviewDialog::backdrop {
+	background: rgba(0, 0, 0, .62);
+	backdrop-filter: blur(4px);
+}
+
+.publicationReviewHeader {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	padding-block-end: .72rem;
+	border-block-end: 1px solid var(--composer-border-soft);
+}
+
+.publicationReviewHeader span {
+	color: var(--composer-cyan);
+	font-size: .62rem;
+	font-weight: 850;
+	letter-spacing: .12em;
+	text-transform: uppercase;
+}
+
+.publicationReviewHeader h2 {
+	margin: .12rem 0 0;
+	font-size: clamp(1.25rem, 6vw, 1.65rem);
+}
+
+.publicationReviewIssues {
+	margin-block: .7rem;
+	padding: .75rem;
+	border: 1px solid color-mix(in srgb, var(--composer-danger) 46%, var(--composer-border));
+	border-radius: .9rem;
+	background: var(--composer-danger-soft);
+}
+
+.publicationReviewIssues ul {
+	margin: .4rem 0 0;
+	padding-inline-start: 1.1rem;
+	color: var(--composer-text-soft);
+	font-size: .75rem;
+}
+
+.publicationReviewGrid {
+	display: grid;
+	gap: .55rem;
+	margin-block: .75rem 5.5rem;
+}
+
+.publicationReviewCard {
+	display: grid;
+	gap: .16rem;
+	padding: .76rem;
+	border: 1px solid var(--composer-border-soft);
+	border-radius: .92rem;
+	background: linear-gradient(145deg, rgba(89, 189, 210, .045), transparent 58%), var(--composer-surface-1);
+	content-visibility: auto;
+	contain-intrinsic-size: auto 5.4rem;
+}
+
+.publicationReviewCard span {
+	color: var(--composer-cyan);
+	font-size: .61rem;
+	font-weight: 820;
+	letter-spacing: .08em;
+	text-transform: uppercase;
+}
+
+.publicationReviewCard strong {
+	font-size: .92rem;
+}
+
+.publicationReviewCard p {
+	margin: 0;
+	color: var(--composer-text-muted);
+	font-size: .73rem;
+	line-height: 1.42;
+	overflow-wrap: anywhere;
+}
+
+.publicationReviewActions {
+	position: sticky;
+	z-index: 2;
+	bottom: calc(-1px - env(safe-area-inset-bottom));
+	display: grid;
+	grid-template-columns: minmax(0, .7fr) minmax(0, 1.3fr);
+	gap: .55rem;
+	margin-inline: -1rem;
+	padding: .7rem 1rem calc(.7rem + env(safe-area-inset-bottom));
+	border-block-start: 1px solid var(--composer-border);
+	background: rgba(7, 12, 19, .96);
+	backdrop-filter: blur(12px) saturate(120%);
+}
+
+.publicationReviewActions button {
+	min-block-size: 3rem;
+}
+
+.publicationReviewActions .primaryAction:disabled {
+	opacity: .46;
+	filter: saturate(.3);
+}
+
+@media (min-width: 64rem) {
+	.publicationReviewDialog {
+		inset: 0 0 0 auto;
+		width: min(34rem, 42vw);
+		max-height: 100dvh;
+		height: 100dvh;
+		border-radius: 0;
+		animation-name: publication-review-desktop-arrive;
+	}
+}
+
+@keyframes publication-review-arrive {
+	from { opacity: 0; transform: translate3d(0, 30px, 0); }
+	to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@keyframes publication-review-desktop-arrive {
+	from { opacity: 0; transform: translate3d(24px, 0, 0); }
+	to { opacity: 1; transform: translate3d(0, 0, 0); }
+}

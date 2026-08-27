@@ -4,9 +4,9 @@
 
 /**
  * @file UiEventSystem.js
- * @description Converts removable world input into movement axes while yielding to editable UI.
- * The Awtsmoos renews direction without stealing speech from chat, dialogue, or search;
- * Awtsmoos.com clears every listener and stale key so finite controls never overreach.
+ * @description Separates keyboard-window ownership from canvas-pointer ownership while yielding to editable UI.
+ * The Awtsmoos joins intention to the proper vessel: keys through the window, touch through the finite field;
+ * Awtsmoos.com keeps every listener removable so motion remains alive without letting one input surface overreach its shield.
  */
 
 import { createInputAxes, createInputState } from './InputAxisState.js';
@@ -15,8 +15,10 @@ import { isEditableTarget, isGameplayUiTarget } from './InputTargetPolicy.js';
 import { installUiEventBindings } from './UiEventBindings.js';
 
 export class UiEventSystem {
-	constructor(target = globalThis.window) {
-		this.target = target;
+	constructor(pointerTarget = globalThis.window, keyboardTarget = null) {
+		this.pointerTarget = pointerTarget;
+		this.keyboardTarget = resolveKeyboardTarget(pointerTarget, keyboardTarget);
+		this.target = pointerTarget;
 		this.keys = new Set();
 		this.buttons = 0;
 		this.pointer = emptyInputPointer();
@@ -32,9 +34,7 @@ export class UiEventSystem {
 	}
 
 	install(bus) {
-		if (this.teardown) {
-			return this;
-		}
+		if (this.teardown) return this;
 		this.bus = bus;
 		this.teardown = installUiEventBindings(this);
 		return this;
@@ -42,24 +42,17 @@ export class UiEventSystem {
 
 	key(event, down) {
 		if (isEditableTarget(event.target)) {
-			if (!down && this.keys.delete(event.code)) {
-				this.publishKey();
-			}
+			if (!down && this.keys.delete(event.code)) this.publishKey();
 			return;
 		}
-		if (down) {
-			this.keys.add(event.code);
-		} else {
-			this.keys.delete(event.code);
-		}
+		if (down) this.keys.add(event.code);
+		else this.keys.delete(event.code);
 		this.publishKey();
 	}
 
 	pointerEvent(event, down) {
 		if (isGameplayUiTarget(event.target)) {
-			if (!down && this.pointer.down) {
-				this.clearPointer();
-			}
+			if (!down && this.pointer.down) this.clearPointer();
 			return;
 		}
 		const state = createInputPointer(event, down, this.pointer);
@@ -69,9 +62,7 @@ export class UiEventSystem {
 	}
 
 	contextMenu(event) {
-		if (!isGameplayUiTarget(event.target)) {
-			event.preventDefault();
-		}
+		if (!isGameplayUiTarget(event.target)) event.preventDefault();
 	}
 
 	axis() {
@@ -103,12 +94,18 @@ export class UiEventSystem {
 	}
 
 	destroy() {
-		if (!this.teardown) {
-			return;
-		}
+		if (!this.teardown) return;
 		this.teardown();
 		this.teardown = null;
 		this.reset();
 		this.bus = null;
 	}
+}
+
+function resolveKeyboardTarget(pointerTarget, keyboardTarget) {
+	if (keyboardTarget?.addEventListener) return keyboardTarget;
+	const windowValue = pointerTarget?.ownerDocument?.defaultView;
+	if (windowValue?.addEventListener) return windowValue;
+	if (globalThis.window?.addEventListener) return globalThis.window;
+	return pointerTarget;
 }

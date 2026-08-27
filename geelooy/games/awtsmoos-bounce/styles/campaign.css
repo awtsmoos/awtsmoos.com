@@ -1,0 +1,114 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews each mission before a card can overwhelm the arena it was made to explain;
+ * Awtsmoos.com keeps readiness focused, brief, and luminous while deeper detail waits outside the main frame.
+ */
+.campaign-card {
+	width: min(500px, 100%);
+	padding: clamp(22px, 5vw, 34px);
+	border-color: rgba(255, 255, 255, 0.1);
+	border-radius: 26px;
+	background:
+		linear-gradient(180deg, rgba(16, 22, 52, 0.9), rgba(6, 8, 23, 0.94));
+	box-shadow: 0 30px 90px rgba(0, 0, 0, 0.42);
+}
+
+.level-nav {
+	display: grid;
+	grid-template-columns: 46px 1fr 46px;
+	align-items: center;
+	gap: 10px;
+}
+
+.level-nav button {
+	width: 46px;
+	height: 46px;
+	padding: 0;
+	border: 1px solid rgba(255, 255, 255, 0.09);
+	border-radius: 15px;
+	background: rgba(255, 255, 255, 0.045);
+	cursor: pointer;
+}
+
+.eyebrow {
+	font-size: 0.62rem;
+	font-weight: 800;
+	letter-spacing: 0.16em;
+	text-transform: uppercase;
+	color: #8b96c4;
+}
+
+.campaign-card h1 {
+	margin: 14px 0 12px;
+	font-size: clamp(2.35rem, 12vw, 4.7rem);
+	line-height: 0.92;
+	letter-spacing: -0.055em;
+}
+
+.mission-copy {
+	font-size: clamp(0.88rem, 3.6vw, 1.04rem);
+	color: #d6dcf6;
+}
+
+.goal-copy {
+	min-height: 1.4em;
+	margin-top: 9px !important;
+	font-size: 0.72rem;
+	color: #7f8ab8 !important;
+}
+
+.stars {
+	margin: 17px 0 15px;
+	font-size: 1.22rem;
+	letter-spacing: 0.15em;
+	color: #c8fff5;
+}
+
+.primary-button {
+	min-width: min(250px, 100%);
+	min-height: 50px;
+	padding: 0 24px;
+	border: 0;
+	border-radius: 16px;
+	background: linear-gradient(105deg, #83ffe9, #76a9ff 58%, #c58cff);
+	box-shadow: 0 14px 34px rgba(86, 164, 255, 0.23);
+	font-size: 0.78rem;
+	font-weight: 850;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: #07111d;
+	cursor: pointer;
+}
+
+@media (max-width: 430px) {
+	.overlay {
+		padding: 14px;
+	}
+
+	.campaign-card {
+		padding: 20px 18px 22px;
+		border-radius: 23px;
+	}
+
+	.campaign-card h1 {
+		font-size: clamp(2.2rem, 13vw, 3.35rem);
+	}
+}
+
+@media (max-height: 560px) {
+	.campaign-card {
+		padding-block: 15px;
+	}
+
+	.campaign-card h1 {
+		margin-block: 8px;
+		font-size: 2.2rem;
+	}
+
+	.stars {
+		margin-block: 8px;
+	}
+}

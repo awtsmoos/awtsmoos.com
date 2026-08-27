@@ -1,0 +1,93 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos contains every possible gate; Awtsmoos.com gives the maker a clean grid where those sparks may take form. */
+.editor-pane {
+	min-height: 100dvh;
+	padding: max(1rem, env(safe-area-inset-top)) max(1rem, env(safe-area-inset-right)) max(1rem, env(safe-area-inset-bottom)) max(1rem, env(safe-area-inset-left));
+	background: #07101f;
+}
+.editor-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	max-width: 1180px;
+	margin: 0 auto 1rem;
+}
+.editor-header h1 {
+	margin: 0.1rem 0;
+}
+.editor-header button, .editor-actions button, [data-editor-palette] button {
+	border: 1px solid var(--line);
+	border-radius: 10px;
+	background: rgba(255, 255, 255, 0.045);
+	padding: 0.65rem 0.8rem;
+	cursor: pointer;
+}
+.editor-toolbar {
+	display: grid;
+	grid-template-columns: minmax(180px, 1fr) auto minmax(0, 2fr);
+	gap: 0.65rem;
+	max-width: 1180px;
+	margin: 0 auto 0.8rem;
+}
+.editor-toolbar input, .editor-toolbar select {
+	min-width: 0;
+	border: 1px solid var(--line);
+	border-radius: 10px;
+	background: #0b1729;
+	color: var(--ink);
+	padding: 0.7rem;
+}
+[data-editor-palette] {
+	display: flex;
+	gap: 0.35rem;
+	overflow-x: auto;
+}
+[data-editor-palette] button.selected {
+	background: var(--glow);
+	color: #062019;
+}
+.editor-grid-scroll {
+	max-width: 1180px;
+	margin: 0 auto;
+	overflow: auto;
+	border: 1px solid var(--line);
+	border-radius: 16px;
+	background: #040914;
+}
+[data-editor-grid] {
+	display: grid;
+	grid-template-columns: repeat(var(--editor-width), 30px);
+	width: max-content;
+	padding: 0.6rem;
+}
+[data-editor-grid] button {
+	width: 30px;
+	height: 30px;
+	border: 1px solid #ffffff10;
+	background: #0a1527;
+	color: #e9f4ff;
+	padding: 0;
+}
+[data-editor-grid] button[data-symbol="#"] { background: #1f4a6d; }
+[data-editor-grid] button[data-symbol="^"], [data-editor-grid] button[data-symbol="H"] { background: #8f2d40; }
+[data-editor-grid] button[data-symbol="G"] { background: #80681d; }
+[data-editor-grid] button[data-symbol="C"] { background: #176f6b; }
+.editor-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+	max-width: 1180px;
+	margin: 0.8rem auto;
+}
+.editor-status {
+	max-width: 1180px;
+	margin: 0.5rem auto;
+	color: var(--muted);
+}
+.editor-status[data-kind="error"] { color: #ff9ca7; }
+@media (max-width: 760px) {
+	.editor-toolbar { grid-template-columns: 1fr 1fr; }
+	[data-editor-palette] { grid-column: 1 / -1; }
+}

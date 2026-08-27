@@ -1,0 +1,54 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos needs no frantic motion to reveal infinite life. */
+/* Awtsmoos.com uses brief response and stillness, so animation serves meaning rather than noise. */
+
+.control-panel > summary i,
+.randomize-button,
+.ghost-button,
+.icon-button,
+.generate-button,
+.studio-panel {
+	transition:
+		transform 160ms ease,
+		border-color 160ms ease,
+		background 160ms ease,
+		color 160ms ease,
+		opacity 160ms ease;
+}
+
+.randomize-button:hover,
+.ghost-button:hover,
+.icon-button:hover,
+.generate-button:hover {
+	border-color: rgba(116, 221, 255, .68);
+	background-color: rgba(116, 221, 255, .1);
+}
+
+.generate-button:hover,
+.generate-button:focus-visible {
+	transform: translateY(-1px);
+}
+
+.generate-button:active,
+.ghost-button:active,
+.icon-button:active,
+.randomize-button:active {
+	transform: translateY(1px);
+}
+
+.control-panel[open] > summary i {
+	transform: rotate(45deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		scroll-behavior: auto !important;
+		animation-duration: .01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: .01ms !important;
+	}
+}

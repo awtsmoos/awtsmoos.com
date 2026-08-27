@@ -1,157 +1,344 @@
 [
 	{
-		"id": "docs-generated-test-script-index-md-412dcbafde",
-		"title": "Generated Test Script Index",
-		"sourcePath": "docs/GENERATED/TEST_SCRIPT_INDEX.md",
-		"category": "Testing",
+		"id": "docs-generated-project-tutorials-projects-geelooy-games-merkava-6e442b98-cf2799587a",
+		"title": "Project Tutorial: Merkava — War of the Sparks",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-merkava-6e442b98.md",
+		"category": "Projects",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Generated Test Script Index",
-				"anchor": "generated-test-script-index"
+				"text": "Project Tutorial: Merkava — War of the Sparks",
+				"anchor": "project-tutorial-merkava-war-of-the-sparks"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Test Script Index Script Command emailTest node ayzarim/email/emailTest.js test npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported style ownership && npm run test:css quality && npm run test:heichelos quality && npm run test:prof",
-		"searchText": "b\"h boruch hashem blessed is he generated test script index script command emailtest node ayzarim/email/emailtest.js test npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported style ownership && npm run test:css quality && npm run test:heichelos quality && npm run test:profile menu && npm run test:heichel governance && npm run test:post submissions && npm run test:comments && npm run test:api keys && npm run test:graph && npm run test:social content && npm run test:notifications && npm run test:social packed && npm run test:packed engine && npm run test:platform ops && npm run test:platform execution && npm run test:node client && npm run test:dayuh cutover test:ai node geelooy/ai/tests/harness/run.cjs all test:ai:stress awtsmoos ai test rounds=5 node geelooy/ai/tests/harness/run.cjs all test:api keys node geelooy/api/social/helper/test/apikeys.test.js test:code ai studio node geelooy/apps/code/test/ai studio isolated.test.mjs test:comments node geelooy/api/social/helper/comments/test/runallcommentstests.js test:concurrency failure node geelooy/api/social/test/concurrencyfailurestress.test.mjs test:css quality node geelooy/style/test/cssquality.test.js test:dayuh cutover node tools/dayuhchadashcutover/releasecheck.js test:dayuh release npm run test:routes && npm run test:comments && npm run test:social content && npm run test:social packed && npm run test:packed engine && node test tools/dayuhchadashmaintenance/test/ .test.js && npm run test:dayuh cutover test:graph node geelooy/api/social/helper/test/socialgraph.test.js test:heichel governance node geelooy/heichelos/heichel/modules/test/editormanagement.test.mjs && node geelooy/api/social/helper/test/heichelroles.test.js test:heichelos quality node geelooy/heichelos/test/heichelosquality.test.js test:imported style ownership node geelooy/heichelos/post/styles/test/importedstyleownership.test.js test:live smoke node geelooy/heichelos/heichel/modules/test/sociallivesmoke.test.mjs test:mission continuity actions node geelooy/apps/tunnel/agent/tools/fs/actiongroups/test/missioncontinuityactions.test.mjs test:node client node check geelooy/scripts/awtsmoos/api/social/nodeclient.mjs test:notifications node geelooy/api/social/helper/test/notifications.test.js test:packed engine node geelooy/api/social/helper/test/packedengine.test.js test:platform execution node geelooy/api/social/helper/test/platformexecution.test.js test:platform ops node geelooy/api/social/helper/test/platformops.test.js test:platform ui node geelooy/heichelos/heichel/modules/test/platformpanelnodesimulation.test.mjs && node geelooy/heichelos/heichel/modules/test/notificationspanelnodesimulation.test.mjs && node geelooy/heichelos/heichel/modules/test/platformcoveragestatic.test.mjs && node geelooy/heichelos/heichel/modules/test/browserapisurfacestatic.test.mjs && node geelooy/heichelos/heichel/modules/test/browserapirequestshapes.test.mjs && node geelooy/heichelos/heichel/modules/test/platformopsapi.test.mjs && node geelooy/heichelos/heichel/modules/test/socialgraphfoundation.test.mjs && node geelooy/heichelos/heichel/modules/test/recursivesociallayer.test.mjs test:post submissions node geelooy/api/social/helper/post/test/postsubmissions.test.js test:profile menu node geelooy/scripts/awtsmoos/social/test/profilemenusimulation.test.mjs test:real server writes node geelooy/api/social/test/realserverwrites.test.mjs test:routes node geelooy/api/social/test/routecoverage.test.js test:social content node geelooy/api/social/helper/test/socialcontent.test.js test:social packed node geelooy/api/social/helper/test/socialpacked.test.js && node geelooy/api/social/helper/test/postmigration.test.js && node geelooy/api/social/helper/test/packedsnapshotrepair.test.js test:treasury node geelooy/api/tunnel/control/test/runtreasurytests.cjs test:treasury:full node geelooy/api/tunnel/control/test/treasury/runall.cjs test:tunnel release node test scripts/tunnel/testing/ .test.cjs scripts/repository hygiene/testing/ .test.cjs test:virtual os node geelooy/tests/virtual os/run smokes.cjs",
-		"page": "pages/docs-generated-test-script-index-md-412dcbafde.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Merkava — War of the Sparks Path: geelooy/games/Merkava · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime owners",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: merkava — war of the sparks path: geelooy/games/merkava · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, package.json, documentation.md, readme.md, readme.md local documentation: geelooy/games/merkava/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 93 32 0 0 2 1 128 public entry points /games/merkava → geelooy/games/merkava/index.html — merkava — war of the sparks symbol evidence source files: 82; classes: 41; functions: 177; exports: 140; samples: appdiagnostics, creatediagnosticcontrols, checkpoint, setlane, chargeability, advancelevel, setworld, setlevel, grantprutahs, defeatboss, completeworldrotation, clampindex. depends on geelooy/libs — 2 lexical references; examples: geelooy/games/merkava/src/render/createcoremeshes.js; geelooy/games/merkava/src/render/createenemymeshes.js used by none observed. external packages none observed. verification clue observed test classified files: 32 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-merkava-6e442b98-cf2799587a.json"
 	},
 	{
-		"id": "docs-generated-websocket-applications-md-58413448ec",
-		"title": "Generated Realtime Application Inventory",
-		"sourcePath": "docs/GENERATED/WEBSOCKET_APPLICATIONS.md",
-		"category": "Realtime",
+		"id": "docs-generated-project-tutorials-projects-geelooy-games-migdol-2c237fda--87914ace9d",
+		"title": "Project Tutorial: Migdol - Kabbalah Tower Defense",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-migdol-2c237fda.md",
+		"category": "Projects",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Generated Realtime Application Inventory",
-				"anchor": "generated-realtime-application-inventory"
+				"text": "Project Tutorial: Migdol - Kabbalah Tower Defense",
+				"anchor": "project-tutorial-migdol-kabbalah-tower-defense"
 			},
 			{
 				"level": 2,
-				"text": "WebSocket application directories",
-				"anchor": "websocket-application-directories"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Realtime Application Inventory Application id Versions Factory awtsmoos core 1 createAwtsmoosCoreApplication awtsmoos social 1 createAwtsmoosSocialApplication chess 1 createChessApplication sefira clash 1 createSefiraClashApplication mitzvah world 1 createMitzvahWorldApplicatio",
-		"searchText": "b\"h boruch hashem blessed is he generated realtime application inventory application id versions factory awtsmoos core 1 createawtsmooscoreapplication awtsmoos social 1 createawtsmoossocialapplication chess 1 createchessapplication sefira clash 1 createsefiraclashapplication mitzvah world 1 createmitzvahworldapplication ohr hagnuz 1 createohrhagnuzapplication scribe journey 1, 2 createscribejourneyapplication tunnel activity 1 createtunnelactivityapplication shema strike 1 createshemastrikeapplication websocket application directories directory files source chess 3 ayzarim/awtsmoosdynamicserver/websocket/apps/chess missionrooms 11 ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms mitzvahworld 278 ayzarim/awtsmoosdynamicserver/websocket/apps/mitzvahworld ohrhagnuz 25 ayzarim/awtsmoosdynamicserver/websocket/apps/ohrhagnuz scribejourney 38 ayzarim/awtsmoosdynamicserver/websocket/apps/scribejourney sefiraclash 91 ayzarim/awtsmoosdynamicserver/websocket/apps/sefiraclash shemastrike 77 ayzarim/awtsmoosdynamicserver/websocket/apps/shemastrike tunnelactivity 10 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelactivity tunnelrelay 53 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay",
-		"page": "pages/docs-generated-websocket-applications-md-58413448ec.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Migdol Kabbalah Tower Defense Path: geelooy/games/migdol · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime owner",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: migdol kabbalah tower defense path: geelooy/games/migdol · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, documentation.md local documentation: geelooy/games/migdol/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 11 0 0 0 1 0 12 public entry points /games/migdol → geelooy/games/migdol/index.html — migdol kabbalah tower defense symbol evidence source files: 9; classes: 7; functions: 9; exports: 12; samples: tile size, maps, tower types, enemy types, groundeffect, letterparticle, enemy, projectile, game, initializemainmenu, startgame, returntomainmenu. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-migdol-2c237fda--87914ace9d.json"
 	},
 	{
-		"id": "docs-generated-websocket-event-index-md-530cf0fd87",
-		"title": "Generated WebSocket Event Evidence",
-		"sourcePath": "docs/GENERATED/WEBSOCKET_EVENT_INDEX.md",
-		"category": "Realtime",
+		"id": "docs-generated-project-tutorials-projects-geelooy-games-mitzvahworld-e62-103631907b",
+		"title": "Project Tutorial: B&quot;H Mitzvah World — Restored River Valley",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-mitzvahworld-e62d44db.md",
+		"category": "Projects",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Generated WebSocket Event Evidence",
-				"anchor": "generated-websocket-event-evidence"
+				"text": "Project Tutorial: B&quot;H Mitzvah World — Restored River Valley",
+				"anchor": "project-tutorial-b-quot-h-mitzvah-world-restored-river-valley"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Generated WebSocket Event Evidence Production source lexical event/message evidence; this is not a formal protocol schema. 56 rows. Chunk Rows Count websocket events 001.md 1–56 56",
-		"searchText": "b\"h boruch hashem blessed is he generated websocket event evidence production source lexical event/message evidence; this is not a formal protocol schema. 56 rows. chunk rows count websocket events 001.md 1–56 56",
-		"page": "pages/docs-generated-websocket-event-index-md-530cf0fd87.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: B&quot;H Mitzvah World — Restored River Valley Path: geelooy/games/mitzvahWorld · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observat",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: b&quot;h mitzvah world — restored river valley path: geelooy/games/mitzvahworld · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, documentation.md local documentation: geelooy/games/mitzvahworld/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 2717 1015 0 54 9 125 3920 public entry points /games/mitzvahworld → geelooy/games/mitzvahworld/index.html — b&quot;h mitzvah world — restored river valley /games/mitzvahworld/subwaysurfer → geelooy/games/mitzvahworld/subwaysurfer/index.html — peruta run — mitzvah world /games/mitzvahworld/templerunner → geelooy/games/mitzvahworld/templerunner/index.html — temple run — mitzvah world symbol evidence source files: 2647; classes: 587; functions: 8019; exports: 5110; samples: publishstate, publishverificationfailure, createbootsnapshot, boundedbootcount, bootdebugenabled, copyrecords, bootphasetracker, schedulebootprogress, renderbootprogress, flushbootprogress, bootmessage, schedulebootstrapcanonicalplayerhydration. depends on geelooy/libs — 47 lexical references; examples: geelooy/games/mitzvahworld/experiments/awtsmoos/src/app/minimalmeadowcreaturemesh.js; geelooy/games/mitzvahworld/experiments/awtsmoos/src/app/minimalmeadowhouseassembly.js; geelooy/games/mitzvahworld/experiments/awtsmoos/src/app/minimalmeadowhousedimensionpolicy.js libs — 1 lexical reference; examples: geelooy/games/mitzvahworld/experiments/awtsmoos/src/app/minimalmeadowtreecorefacade.js used by geelooy/libs — 5 lexical references; examples: geelooy/libs/awtsmoos procedural core/src/adapters/mitzvahworld/modelassets.js; geelooy/libs/awtsmoos procedural core/src/adapters/mitzvahworld/nativeruntime.js; geelooy/libs/awtsmoos procedural core/src/adapters/mitzvahworld/renderer.js geelooy/social composer — 4 lexical references; examples: geelooy/social composer/reel studio/nle/nleaiprojectcodec.js; geelooy/social composer/reel studio/nle/nlemovieactionexecutor.js; geelooy/social composer/reel studio/nle/nlemoviepackage.js external packages ws — 1 lexical reference verification clue observed test classified files: 1015 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-mitzvahworld-e62-103631907b.json"
 	},
 	{
-		"id": "docs-generated-websocket-events-websocket-events-001-md-73a3791cec",
-		"title": "Generated WebSocket Event Evidence 1–56",
-		"sourcePath": "docs/GENERATED/WEBSOCKET_EVENTS/websocket-events-001.md",
-		"category": "Realtime",
+		"id": "docs-generated-project-tutorials-projects-geelooy-games-nachash-85ff920d-df1bb0fc3e",
+		"title": "Project Tutorial: Tikkun HaNachash",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-nachash-85ff920d.md",
+		"category": "Projects",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Generated WebSocket Event Evidence 1–56",
-				"anchor": "generated-websocket-event-evidence-1-56"
+				"text": "Project Tutorial: Tikkun HaNachash",
+				"anchor": "project-tutorial-tikkun-hanachash"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Generated WebSocket Event Evidence 1–56 Production source lexical event/message evidence; this is not a formal protocol schema. Event/message literal Source ACK ayzarim/awtsmoosDynamicServer/websocket/apps/aliasRouting.js awtsmoosMyDevice ayzarim/awtsmoosDynamicServer/websocket/apps/tunn",
-		"searchText": "b\"h boruch hashem blessed is he generated websocket event evidence 1–56 production source lexical event/message evidence; this is not a formal protocol schema. event/message literal source ack ayzarim/awtsmoosdynamicserver/websocket/apps/aliasrouting.js awtsmoosmydevice ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/envelopeerrors.js bosstelegraph ayzarim/awtsmoosdynamicserver/websocket/apps/sefiraclash/coopcombat.js bridge:lanterns ayzarim/awtsmoosdynamicserver/websocket/apps/mitzvahworld/rivercrossingservice.js care ayzarim/awtsmoosdynamicserver/websocket/apps/mitzvahworld/combatactionrequest.js chess.click.accepted ayzarim/awtsmoosdynamicserver/websocket/apps/chess/application.js chess.room.created ayzarim/awtsmoosdynamicserver/websocket/apps/chess/application.js chess.room.joined ayzarim/awtsmoosdynamicserver/websocket/apps/chess/application.js close ayzarim/awtsmoosdynamicserver/websocket/core/clientsession.js data ayzarim/awtsmoosdynamicserver/websocket/apps/scribejourney/rawwebsockettestclient.cjs data ayzarim/awtsmoosdynamicserver/websocket/core/clientsession.js defeat ayzarim/awtsmoosdynamicserver/websocket/apps/mitzvahworld/combatdefeatrewards.js enrage ayzarim/awtsmoosdynamicserver/websocket/apps/mitzvahworld/enemyactionsupportrules.js error ayzarim/awtsmoosdynamicserver/websocket/core/clientsession.js error ayzarim/awtsmoosdynamicserver/websocket/platform/legacyrouting.js guard ayzarim/awtsmoosdynamicserver/websocket/apps/mitzvahworld/enemyactionsupportrules.js harvest ayzarim/awtsmoosdynamicserver/websocket/apps/mitzvahworld/animalharvestservice.js heal ayzarim/awtsmoosdynamicserver/websocket/apps/mitzvahworld/enemyactionsupportrules.js health.pong ayzarim/awtsmoosdynamicserver/websocket/apps/awtsmooscoreapplication.js live preview ayzarim/awtsmoosdynamicserver/websocket/apps/livepreview.js loot ayzarim/awtsmoosdynamicserver/websocket/apps/mitzvahworld/corpselootservice.js page entered ayzarim/awtsmoosdynamicserver/websocket/apps/sociallive.js page left ayzarim/awtsmoosdynamicserver/websocket/apps/sociallive.js page presence ayzarim/awtsmoosdynamicserver/websocket/apps/sociallive.js playerdown ayzarim/awtsmoosdynamicserver/websocket/apps/sefiraclash/coopcombat.js playerhit ayzarim/awtsmoosdynamicserver/websocket/apps/sefiraclash/coopcombat.js read ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay.correlationfixtures.cjs read ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay.retryfixtures.cjs refine ayzarim/awtsmoosdynamicserver/websocket/apps/mitzvahworld/combatdefeatrewards.js retryaction ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay.concurrenthelpers.cjs retryaction ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay.retryfixtures.cjs retryaction ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/canonicalenvelopes.js retryaction ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/envelopeidentity.js social event ayzarim/awtsmoosdynamicserver/websocket/apps/sociallive.js social pong ayzarim/awtsmoosdynamicserver/websocket/apps/sociallive.js social presence ayzarim/awtsmoosdynamicserver/websocket/apps/sociallive.js social presence ack ayzarim/awtsmoosdynamicserver/websocket/apps/sociallive.js social subscribed ayzarim/awtsmoosdynamicserver/websocket/apps/sociallive.js summon ayzarim/awtsmoosdynamicserver/websocket/apps/mitzvahworld/enemyactionsupportrules.js tunnel ack ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/register.js tunnel ack ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/registrationtransfer.js tunnel replaced ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/registrationtransfer.js tunnel request ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/requestdispatch.js tunnel response ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay.correlationfixtures.cjs tunnel response ack ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/responsehandler.js tunnelrequestconflict ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/envelopeerrors.js tunnelrequestpending ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/envelopepending.js tunnelrequestpersistencefailed ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/canonicalenvelopes.js tunnelrequestsendfailed ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/envelopeerrors.js tunnelrequeststateunknown ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/envelopeerrors.js tunnelrequesttransportstalled ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/envelopeerrors.js tunnelunavailable ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/envelopeerrors.js unknown message ayzarim/awtsmoosdynamicserver/websocket/apps/awtsmooscoreapplication.js unknown message ayzarim/awtsmoosdynamicserver/websocket/platform/legacyrouting.js upgrade ayzarim/awtsmoosdynamicserver/websocket/apps/mitzvahworld/socketintegrationfixture.cjs wander ayzarim/awtsmoosdynamicserver/websocket/apps/mitzvahworld/botbrain.js",
-		"page": "pages/docs-generated-websocket-events-websocket-events-001-md-73a3791cec.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Tikkun HaNachash Path: geelooy/games/Nachash · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or heal",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: tikkun hanachash path: geelooy/games/nachash · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, main.js local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 5 0 0 0 0 0 5 public entry points /games/nachash → geelooy/games/nachash/index.html — tikkun hanachash symbol evidence source files: 3; classes: 8; functions: 31; exports: 0; samples: onpointerdown, onpointermove, onpointerup, updatekeyboarddirection, handlekeydown, handlekeyup, handleresize, startgame, endgame, createandshowgameoverscreen, handleworkermessage, init. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-nachash-85ff920d-df1bb0fc3e.json"
 	},
 	{
-		"id": "docs-glossary-md-a84b61a5eb",
-		"title": "Repository Glossary",
-		"sourcePath": "docs/GLOSSARY.md",
-		"category": "General",
-		"provenance": "manual",
+		"id": "docs-generated-project-tutorials-projects-geelooy-games-neshama-quest-3f-b903a11a63",
+		"title": "Project Tutorial: Neshama Quest",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-neshama-quest-3f0cdf7b.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Repository Glossary",
-				"anchor": "repository-glossary"
+				"text": "Project Tutorial: Neshama Quest",
+				"anchor": "project-tutorial-neshama-quest"
 			},
 			{
 				"level": 2,
-				"text": "Awtsmoos",
-				"anchor": "awtsmoos"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Geelooy",
-				"anchor": "geelooy"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "Derech",
-				"anchor": "derech"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
 			},
 			{
 				"level": 2,
-				"text": "$i",
-				"anchor": "i"
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
 			},
 			{
 				"level": 2,
-				"text": "$GET, $POST, $DELETE",
-				"anchor": "get-post-delete"
+				"text": "Depends on",
+				"anchor": "depends-on"
 			},
 			{
 				"level": 2,
-				"text": "Dynamic parameter",
-				"anchor": "dynamic-parameter"
+				"text": "Used by",
+				"anchor": "used-by"
 			},
 			{
 				"level": 2,
-				"text": "Heichel / Heichelos",
-				"anchor": "heichel-heichelos"
+				"text": "External packages",
+				"anchor": "external-packages"
 			},
 			{
 				"level": 2,
-				"text": "Alias",
-				"anchor": "alias"
-			},
-			{
-				"level": 2,
-				"text": "DosDB",
-				"anchor": "dosdb"
-			},
-			{
-				"level": 2,
-				"text": "Perutah / Perutas",
-				"anchor": "perutah-perutas"
-			},
-			{
-				"level": 2,
-				"text": "Tunnel",
-				"anchor": "tunnel"
-			},
-			{
-				"level": 2,
-				"text": "Mission room",
-				"anchor": "mission-room"
-			},
-			{
-				"level": 2,
-				"text": "Generated docs",
-				"anchor": "generated-docs"
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Repository Glossary The Awtsmoos gives language to vessels so maintainers can share one map; Awtsmoos.com has its own names, and this glossary prevents a semantic trap. Awtsmoos The project name and recurring conceptual vocabulary throughout source comments, APIs, apps, and runtime syste",
-		"searchText": "b\"h boruch hashem blessed is he repository glossary the awtsmoos gives language to vessels so maintainers can share one map; awtsmoos.com has its own names, and this glossary prevents a semantic trap. awtsmoos the project name and recurring conceptual vocabulary throughout source comments, apis, apps, and runtime systems. this documentation uses the spelling present in the repository and user instructions. geelooy the default public filesystem root is geelooy/ because awtsmoosstaticserver.maindir defaults to config.public \"geelooy\". it contains pages, applications, games, shared browser code, and the filesystem located api tree. derech a dynamic route module convention represented by awtsmoos.derech.js. the dynamic server searches upward through the physical request path for such files, then evaluates their route definitions. the current api tree contains 21 derech mount files. $i a common server side request/context vessel passed to derech code. it can expose db access, request/user state, helper methods, url information, body/query vessels, route parameters, and response utilities depending on the runtime. it is not a url dollar path segment. $ get, $ post, $ delete php like names used by route code for parsed input vessels. they are data objects, not path grammar. dynamic parameter a url route segment declared as :name. example: /:sefer/section/:section. a terminal :name is a catch all. see routes/dynamic paths.md. heichel / heichelos a core social/content domain represented across browser surfaces and social api modules. the source includes heichel creation/editing, posts, series, editors, review/governance, comments, and discovery. treat it as a first class content container/domain, not merely a page name. alias a user/social identity concept heavily used by social routes. many write operations are authorized in terms of whether the current identity owns or may act for an alias. dosdb the persistence engine instantiated by the dynamic server. the database root is configurable by environment/local config/tracked config and exposed as process.awtsmoosdbpath. perutah / perutas value/economy vocabulary used in wallet and tunnel control commerce/treasury systems. read the route implementation before assuming units, accounting guarantees, or production payment semantics. tunnel the remote device/agent bridge spanning apps, apis, shared client code, installer artifacts, live calls, previews, mission rooms, filesystem actions, and provider/compute/economy systems. mission room a collaboration/agent orchestration concept with both http control routes and websocket server behavior. generated docs markdown under docs/generated/, fully regenerated by node scripts/docs/generate docs.js. never hand maintain them as authoritative narrative; change the generator or source instead.",
-		"page": "pages/docs-glossary-md-a84b61a5eb.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Neshama Quest Path: geelooy/games/neshama quest · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or h",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: neshama quest path: geelooy/games/neshama quest · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 7 0 0 0 0 0 7 public entry points /games/neshama quest → geelooy/games/neshama quest/index.html — neshama quest symbol evidence source files: 5; classes: 5; functions: 4; exports: 0; samples: entity, neshama, klipah, game, inputhandler, generatefullmaze, createperfectmaze, addloopstomaze, addsidetunnels. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-neshama-quest-3f-b903a11a63.json"
+	},
+	{
+		"id": "docs-generated-project-tutorials-projects-geelooy-games-nitzotz-io-7c8b9-e9591eb07d",
+		"title": "Project Tutorial: Nitzotz.io — Shlichus Adventure Metropolis",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-nitzotz-io-7c8b94b0.md",
+		"category": "Projects",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Project Tutorial: Nitzotz.io — Shlichus Adventure Metropolis",
+				"anchor": "project-tutorial-nitzotz-io-shlichus-adventure-metropolis"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Nitzotz.io — Shlichus Adventure Metropolis Path: geelooy/games/nitzotz io · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, ",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: nitzotz.io — shlichus adventure metropolis path: geelooy/games/nitzotz io · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, package.json, documentation.md local documentation: geelooy/games/nitzotz io/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 220 29 0 0 1 0 250 public entry points /games/nitzotz io → geelooy/games/nitzotz io/index.html — nitzotz.io — shlichus adventure metropolis symbol evidence source files: 187; classes: 0; functions: 574; exports: 372; samples: selectshlichus, shlichustemplates, resolvetemplate, descriptionfor, template, hash, mix, adventuremetric, adventureprogress, settleadventurereward, emptysettlement, updateadventure. depends on geelooy/libs — 2 lexical references; examples: geelooy/games/nitzotz io/js/procedural/localmeshes.js; geelooy/games/nitzotz io/js/webgl/meshupload.js used by none observed. external packages none observed. verification clue observed test classified files: 29 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-nitzotz-io-7c8b9-e9591eb07d.json"
 	}
 ]

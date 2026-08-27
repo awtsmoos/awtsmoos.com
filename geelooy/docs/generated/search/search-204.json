@@ -1,279 +1,401 @@
 [
 	{
-		"id": "docs-systems-ai-md-55176369e1",
-		"title": "AI Systems",
-		"sourcePath": "docs/SYSTEMS/AI.md",
-		"category": "Systems",
-		"provenance": "manual",
+		"id": "docs-generated-project-tutorials-projects-geelooy-social-hub-6c189d12-md-53030af59b",
+		"title": "Project Tutorial: Social Hub — Geelooy",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-social-hub-6c189d12.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "AI Systems",
-				"anchor": "ai-systems"
+				"text": "Project Tutorial: Social Hub — Geelooy",
+				"anchor": "project-tutorial-social-hub-geelooy"
 			},
 			{
 				"level": 2,
-				"text": "Browser AI",
-				"anchor": "browser-ai"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "GPT API",
-				"anchor": "gpt-api"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "Local/GGUF tools",
-				"anchor": "local-gguf-tools"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
 			},
 			{
 				"level": 2,
-				"text": "Developer AI",
-				"anchor": "developer-ai"
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Credentials/models",
-				"anchor": "credentials-models"
+				"text": "Depends on",
+				"anchor": "depends-on"
 			},
 			{
 				"level": 2,
-				"text": "Testing",
-				"anchor": "testing"
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He AI Systems The Awtsmoos lets language and model computation become tools while source and authority stay clear; Awtsmoos.com has browser AI, API AI, local model tools, and developer integrations gathered here. Browser AI geelooy/ai/ is a very large public AI project (over a thousand file",
-		"searchText": "b\"h boruch hashem blessed is he ai systems the awtsmoos lets language and model computation become tools while source and authority stay clear; awtsmoos.com has browser ai, api ai, local model tools, and developer integrations gathered here. browser ai geelooy/ai/ is a very large public ai project (over a thousand files in the immediate inventory) titled “awtsmoos ai.” treat it as a major project with internal submodules, not a single page. gpt api geelooy/api/gpt/ awtsmoos.derech.js exposes the observed route set: /api/gpt/ /api/gpt/health /api/gpt/capability /api/gpt/chat /api/gpt/reset the dynamic server also exposes a centralized ai helper method (callai) through server dependencies. local/gguf tools geelooy/apps/awtsmoos gguf/ is a substantial gguf chat/metadata project. geelooy/awtai db/ is a gguf converter style browser tool. these local/model artifacts should not be assumed to use the same backend contract as /api/gpt. developer ai awtsmoos code and related developer tooling include ai oriented workflows/tests. when changing gpt contracts, search code and other ai clients as well as the main geelooy/ai project. credentials/models model names, api keys, provider credentials, and local model paths are environment/runtime concerns. document expected configuration contracts without copying real secret values. testing package.json contains gpt and code ai related test scripts among the broader suite. use those when changing capability negotiation, chat/reset behavior, or client integration.",
-		"page": "pages/docs-systems-ai-md-55176369e1.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Social Hub — Geelooy Path: geelooy/social hub · Type: public · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not ",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: social hub — geelooy path: geelooy/social hub · type: public · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, package.json, documentation.md, readme.md, readme.md local documentation: geelooy/social hub/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 217 46 0 0 2 0 265 public entry points /social hub → geelooy/social hub/index.html — social hub — geelooy symbol evidence source files: 128; classes: 77; functions: 166; exports: 159; samples: createsocialhub, hubapp, activitycard, durationlabel, timestamp, activitypanel, activitytracker, privacyactions, prepared, privacypanel, categories, preferencesfromfields. depends on geelooy/shared — 5 lexical references; examples: geelooy/social hub/js/interactions/creatorlaunchmodel.js; geelooy/social hub/js/ui/feed/feedpostmodel.js; geelooy/social hub/js/ui/feed/feeduniversalactions.js geelooy/social actions — 4 lexical references; examples: geelooy/social hub/js/ui/feed/feedreaction.js; geelooy/social hub/js/ui/feed/socialactionrail.js used by none observed. external packages none observed. verification clue observed test classified files: 46 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-social-hub-6c189d12-md-53030af59b.json"
 	},
 	{
-		"id": "docs-systems-auth-and-identity-md-173033cff4",
-		"title": "Authentication and Identity System",
-		"sourcePath": "docs/SYSTEMS/AUTH_AND_IDENTITY.md",
-		"category": "Security",
-		"provenance": "manual",
+		"id": "docs-generated-project-tutorials-projects-geelooy-sod-9a8ec439-md-251695378f",
+		"title": "Project Tutorial: Endpoint Interaction",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-sod-9a8ec439.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Authentication and Identity System",
-				"anchor": "authentication-and-identity-system"
+				"text": "Project Tutorial: Endpoint Interaction",
+				"anchor": "project-tutorial-endpoint-interaction"
 			},
 			{
 				"level": 2,
-				"text": "Browser account surfaces",
-				"anchor": "browser-account-surfaces"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Session identity",
-				"anchor": "session-identity"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "Social API keys",
-				"anchor": "social-api-keys"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
 			},
 			{
 				"level": 2,
-				"text": "OAuth",
-				"anchor": "oauth"
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Tunnel Control identity",
-				"anchor": "tunnel-control-identity"
+				"text": "Depends on",
+				"anchor": "depends-on"
 			},
 			{
 				"level": 2,
-				"text": "Ownership after authentication",
-				"anchor": "ownership-after-authentication"
+				"text": "Used by",
+				"anchor": "used-by"
 			},
 			{
 				"level": 2,
-				"text": "Special privileged surfaces",
-				"anchor": "special-privileged-surfaces"
+				"text": "External packages",
+				"anchor": "external-packages"
 			},
 			{
 				"level": 2,
-				"text": "External-provider credentials",
-				"anchor": "external-provider-credentials"
-			},
-			{
-				"level": 2,
-				"text": "Checklist for a new protected route",
-				"anchor": "checklist-for-a-new-protected-route"
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Authentication and Identity System The Awtsmoos distinguishes who the server knows from what a client merely says; Awtsmoos.com must preserve that boundary through session, key, OAuth, ownership, and privileged ways. Browser account surfaces geelooy/login/, logout/, register/, and profil",
-		"searchText": "b\"h boruch hashem blessed is he authentication and identity system the awtsmoos distinguishes who the server knows from what a client merely says; awtsmoos.com must preserve that boundary through session, key, oauth, ownership, and privileged ways. browser account surfaces geelooy/login/, logout/, register/, and profile/ form the visible account entry/exit/profile layer. runtime authentication is installed by the dynamic server during initialization. session identity derech code commonly reads server populated request user state through $i.request.user or related context. never reconstruct trust solely from body/query identifiers. social api keys social's key helper accepts supported request fields/headers/bearer tokens, hashes secrets with sha 256 for storage, and exposes create/list/revoke/verify lifecycle operations. raw secret material should not be written into documentation or logs. oauth /api/oauth provides awtsmoos oauth server routes for authorization, clients, start, token, current identity, and logout. provider specific oauth also appears in youtube. tunnel control identity tunnel control core/auth.js resolves identity from trusted oauth bearer evidence, verified api keys, or signed session state. it explicitly rejects browser owner/user fields as authoritative ownership. ownership after authentication authenticated does not mean authorized for every object. social aliases, heichelos, posts/comments, tunnel grants/devices, and administrative routes apply additional ownership/scope/privilege logic. special privileged surfaces /api/admin/code contains a direct special user check before submitted code execution. public db mutation also has a privileged identity condition. these should receive focused security review when touched. external provider credentials youtube, paypal, ssh, streaming connectors, ai, email, and tunnel/provider systems may use additional credentials beyond the main awtsmoos identity. document mechanisms and variable names only when useful; never copy live secret values. checklist for a new protected route 1. define the trusted identity source. 2. define required scope/role/ownership. 3. reject client claimed ownership as authority. 4. validate target resource ownership after login. 5. define api key/oauth behavior intentionally rather than accidentally inheriting it. 6. add negative tests for unauthenticated and wrong owner cases.",
-		"page": "pages/docs-systems-auth-and-identity-md-173033cff4.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Endpoint Interaction Path: geelooy/sod · Type: public · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: endpoint interaction path: geelooy/sod · type: public · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 1 0 0 0 0 0 1 public entry points /sod → geelooy/sod/index.html — endpoint interaction symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-sod-9a8ec439-md-251695378f.json"
 	},
 	{
-		"id": "docs-systems-database-and-storage-md-2b2a0098c8",
-		"title": "Database and Storage",
-		"sourcePath": "docs/SYSTEMS/DATABASE_AND_STORAGE.md",
-		"category": "Systems",
-		"provenance": "manual",
+		"id": "docs-generated-project-tutorials-projects-geelooy-style-84fcde79-md-b0d75c0ae4",
+		"title": "Project Tutorial: geelooy/style",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-style-84fcde79.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Database and Storage",
-				"anchor": "database-and-storage"
+				"text": "Project Tutorial: geelooy/style",
+				"anchor": "project-tutorial-geelooy-style"
 			},
 			{
 				"level": 2,
-				"text": "Runtime initialization",
-				"anchor": "runtime-initialization"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Database-root precedence",
-				"anchor": "database-root-precedence"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "Runtime exposure",
-				"anchor": "runtime-exposure"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
 			},
 			{
 				"level": 2,
-				"text": "Browser database tools",
-				"anchor": "browser-database-tools"
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Path contracts",
-				"anchor": "path-contracts"
+				"text": "Depends on",
+				"anchor": "depends-on"
 			},
 			{
 				"level": 2,
-				"text": "Job queue",
-				"anchor": "job-queue"
+				"text": "Used by",
+				"anchor": "used-by"
 			},
 			{
 				"level": 2,
-				"text": "Secrets and local config",
-				"anchor": "secrets-and-local-config"
+				"text": "External packages",
+				"anchor": "external-packages"
 			},
 			{
 				"level": 2,
-				"text": "Verification",
-				"anchor": "verification"
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Database and Storage The Awtsmoos gives memory a vessel, but a path on disk is still part of the living design; Awtsmoos.com resolves DosDB deliberately so machine local state and tracked source need not intertwine. Runtime initialization ayzarim/awtsmoosDynamicServer/server/initDb.js re",
-		"searchText": "b\"h boruch hashem blessed is he database and storage the awtsmoos gives memory a vessel, but a path on disk is still part of the living design; awtsmoos.com resolves dosdb deliberately so machine local state and tracked source need not intertwine. runtime initialization ayzarim/awtsmoosdynamicserver/server/initdb.js resolves the database root and constructs new deps.dosdb(process.awtsmoosdbpath), then awaits database.init(). database root precedence the current resolver checks, in order: 1. environment awtsmoos db root or awts db root; 2. ignored machine local .awtsmoos.config.local.json; 3. tracked server config dbpath; 4. repository relative fallback via deps.path.resolve(directory, \"../../\"). home relative values using or ${home} are expanded when the environment provides a home directory. relative configured paths resolve from the server directory/repository root passed to initialization. runtime exposure the selected path is published as process.awtsmoosdbpath. the db instance is attached to the dynamic server and, when websocket support is present, can be shared with that runtime. browser database tools geelooy/db/ contains console/explorer oriented browser tooling. geelooy/awtai db/ is a separate gguf/database conversion style tool and should not be confused with the server's dosdb root. path contracts api families often encode domain structure in db paths. examples include social content and /contactsignals/ . changing path layouts can break reads, indexes, ownership logic, or old data; treat such changes as migrations. job queue the dynamic server's createjob writes task records through dosdb under / system/jobs/taskqueue. this is a runtime/system path, not user facing content. secrets and local config .awtsmoos.config.local.json is intended as machine local configuration. documentation should explain its recognized keys (dbpath, databaseroot, or awtsmoos db root) without copying a user's actual private path unless needed for local troubleshooting. verification ayzarim/awtsmoosdynamicserver/server/test/initdb.test.js exercises db root initialization behavior. run it when changing precedence, path expansion, or initialization. existing operations docs also contain dayuh/database synchronization runbooks.",
-		"page": "pages/docs-systems-database-and-storage-md-2b2a0098c8.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/style Path: geelooy/style · Type: library · Family: Libraries and Tooling Read the human Libraries and Tooling guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or he",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/style path: geelooy/style · type: library · family: libraries and tooling read the human libraries and tooling guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: documentation.md local documentation: geelooy/style/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 1132 48 0 0 1 3 1184 public entry points none observed. symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 48 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-style-84fcde79-md-b0d75c0ae4.json"
 	},
 	{
-		"id": "docs-systems-geelooy-os-md-9c4df9faa4",
-		"title": "Geelooy OS and Virtual Runtime",
-		"sourcePath": "docs/SYSTEMS/GEELOOY_OS.md",
-		"category": "Systems",
-		"provenance": "manual",
+		"id": "docs-generated-project-tutorials-projects-geelooy-tests-6cd96b39-md-d825e5eddb",
+		"title": "Project Tutorial: geelooy/tests",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-tests-6cd96b39.md",
+		"category": "Testing",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Geelooy OS and Virtual Runtime",
-				"anchor": "geelooy-os-and-virtual-runtime"
+				"text": "Project Tutorial: geelooy/tests",
+				"anchor": "project-tutorial-geelooy-tests"
 			},
 			{
 				"level": 2,
-				"text": "Primary public surfaces",
-				"anchor": "primary-public-surfaces"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Related applications",
-				"anchor": "related-applications"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "Native runtime",
-				"anchor": "native-runtime"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
 			},
 			{
 				"level": 2,
-				"text": "Remote OS / Tunnel relationship",
-				"anchor": "remote-os-tunnel-relationship"
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Testing evidence",
-				"anchor": "testing-evidence"
+				"text": "Depends on",
+				"anchor": "depends-on"
 			},
 			{
 				"level": 2,
-				"text": "Maintenance rule",
-				"anchor": "maintenance-rule"
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Geelooy OS and Virtual Runtime The Awtsmoos lets a browser become a workspace, windows and files arranged as a world; Awtsmoos.com gives OS, Node OS, platform, and shared virtual vessels through which applications are unfurled. Primary public surfaces geelooy/os/ — Geelooy OS, a substant",
-		"searchText": "b\"h boruch hashem blessed is he geelooy os and virtual runtime the awtsmoos lets a browser become a workspace, windows and files arranged as a world; awtsmoos.com gives os, node os, platform, and shared virtual vessels through which applications are unfurled. primary public surfaces geelooy/os/ — geelooy os, a substantial project with hundreds of files. geelooy/node os/ — awtsmoos node os browser surface. geelooy/platform/ — platform modules, including creator world os material. geelooy/shared/virtual os/ — shared virtual os primitives. related applications code, tunnel control, tunnel, native browser/runtime tools, games, and developer apps can integrate with os like files, windows, previews, or remote device capabilities. native runtime /api/runtime/native/capabilities, /launch, /status, and /stop form a distinct native runtime http family. remote tunnel execution is separate and should not be confused with native runtime state. remote os / tunnel relationship tunnel control includes fs/awtsmoos os, remote filesystem paths, preview/view routes, mission room/live call streams, and provider/compute functionality. these can make a local looking os operation cross a network boundary. testing evidence package scripts include platform/node client/virtual os style tests in addition to general route tests. search subsystem tests when changing shared os apis because breakage can surface in multiple apps. maintenance rule before changing a shared os primitive, trace all imports from geelooy/os, node os, platform, shared/virtual os, code, and tunnel related apps. a visual desktop change may also be a file/protocol/runtime change.",
-		"page": "pages/docs-systems-geelooy-os-md-9c4df9faa4.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/tests Path: geelooy/tests · Type: test · Family: Libraries and Tooling Read the human Libraries and Tooling guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or healt",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/tests path: geelooy/tests · type: test · family: libraries and tooling read the human libraries and tooling guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: documentation.md local documentation: geelooy/tests/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 0 107 0 0 2 0 109 public entry points none observed. symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 107 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-tests-6cd96b39-md-d825e5eddb.json"
 	},
 	{
-		"id": "docs-systems-nested-awtsmoos-com-md-f45f1bb880",
-		"title": "Nested awtsmoos.com/ Shell",
-		"sourcePath": "docs/SYSTEMS/NESTED_AWTSMOOS_COM.md",
-		"category": "Systems",
-		"provenance": "manual",
+		"id": "docs-generated-project-tutorials-projects-geelooy-tmp-39336fb9-md-447b7d48be",
+		"title": "Project Tutorial: geelooy/tmp",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-tmp-39336fb9.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Nested awtsmoos.com/ Shell",
-				"anchor": "nested-awtsmoos-com-shell"
+				"text": "Project Tutorial: geelooy/tmp",
+				"anchor": "project-tutorial-geelooy-tmp"
 			},
 			{
 				"level": 2,
-				"text": "Repository root",
-				"anchor": "repository-root"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Nested directory",
-				"anchor": "nested-directory"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "Documentation rule",
-				"anchor": "documentation-rule"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
 			},
 			{
 				"level": 2,
-				"text": "Duplicate-risk rule",
-				"anchor": "duplicate-risk-rule"
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Nested awtsmoos.com/ Shell The Awtsmoos reveals two similarly named chambers so a maintainer does not edit the wrong reflection; Awtsmoos.com at repository root and the nested awtsmoos.com/ directory are not interchangeable by assumption. Repository root The active checkout root inspecte",
-		"searchText": "b\"h boruch hashem blessed is he nested awtsmoos.com/ shell the awtsmoos reveals two similarly named chambers so a maintainer does not edit the wrong reflection; awtsmoos.com at repository root and the nested awtsmoos.com/ directory are not interchangeable by assumption. repository root the active checkout root inspected in this task is /users/awtsmoos/work/awtsmoos.com. it contains geelooy/, ayzarim/, docs/, root index.js, tests, scripts, operations material, and many other project directories. nested directory the nested awtsmoos.com/ directory inspected at the start of this pass contained: awtsmoos.com/ai thoughts/ awtsmoos.com/geelooy/apps/tunnel control/ it did not present the same broad top level website tree as root geelooy/. documentation rule treat the root level geelooy/ as the primary site surface because the running server's default public root is geelooy relative to the repository root. treat nested awtsmoos.com/ as a focused/nested project shell unless direct runtime/build/deployment evidence establishes another role. duplicate risk rule before syncing or editing tunnel control in both locations: 1. compare trees/hashes; 2. identify which build/deploy process references each copy; 3. do not overwrite one from the other based on name alone; 4. document the canonical relationship once verified. this page intentionally records only what filesystem/runtime inspection proves, rather than inventing “staging,” “mirror,” or “production” labels without evidence.",
-		"page": "pages/docs-systems-nested-awtsmoos-com-md-f45f1bb880.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/tmp Path: geelooy/tmp · Type: project · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownersh",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/tmp path: geelooy/tmp · type: project · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: — local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 3 0 0 0 0 6 9 public entry points none observed. symbol evidence source files: 1; classes: 0; functions: 3; exports: 0; samples: send, capturebrowserevent, readpagestate. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-tmp-39336fb9-md-447b7d48be.json"
 	},
 	{
-		"id": "docs-systems-readme-md-78adf282a3",
-		"title": "Cross-Cutting Systems",
-		"sourcePath": "docs/SYSTEMS/README.md",
-		"category": "Systems",
-		"provenance": "manual",
+		"id": "docs-generated-project-tutorials-projects-geelooy-view-c3c15515-md-4a7be07b31",
+		"title": "Project Tutorial: geelooy/view",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-view-c3c15515.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Cross-Cutting Systems",
-				"anchor": "cross-cutting-systems"
+				"text": "Project Tutorial: geelooy/view",
+				"anchor": "project-tutorial-geelooy-view"
 			},
 			{
 				"level": 2,
-				"text": "System manuals",
-				"anchor": "system-manuals"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Deeper cross-system manuals",
-				"anchor": "deeper-cross-system-manuals"
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Cross Cutting Systems The Awtsmoos gives each project a local vessel while Awtsmoos.com keeps the systems that run beneath many projects visible as their own architecture. System manuals SOCIAL AND HEICHEL.md — shared Social/content domain. AUTH AND IDENTITY.md — session/API key/OAuth id",
-		"searchText": "b\"h boruch hashem blessed is he cross cutting systems the awtsmoos gives each project a local vessel while awtsmoos.com keeps the systems that run beneath many projects visible as their own architecture. system manuals social and heichel.md — shared social/content domain. auth and identity.md — session/api key/oauth identity and ownership layers. database and storage.md — runtime db roots and persistence relationships. geelooy os.md — virtual os, node/native/platform runtime relationships. tunnel.md — remote agent/control/preview/mission ecosystem. ai.md — browser/server/local model developer ai relationships. shared libraries.md — shared libraries/scripts/styles and dependency risk. testing.md — test locations and verification philosophy. service worker.md — intentionally retired/no fetch service worker. nested awtsmoos com.md — nested shell distinct from repository root. deeper cross system manuals ../data/readme.md — dosdb, awtsmoosdb/virtualfs, legacy compatibility and path contracts. ../security/readme.md — trust boundaries, secrets and realtime security. ../websockets/readme.md — realtime platform, mission rooms and tunnel relay. ../configuration.md — environment/configuration ownership. ../integrations.md — external providers. ../projects/readme.md — major product/runtime/data project manuals. ../test index.md — task oriented test chooser. ../operations and tooling.md — repository support systems. use generated project/dependency/test indexes when a system change may affect multiple projects; use human manuals to interpret those relationships before changing source.",
-		"page": "pages/docs-systems-readme-md-78adf282a3.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/view Path: geelooy/view · Type: project · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime owner",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/view path: geelooy/view · type: project · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: awtsmoos.derech.js local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 1 0 0 0 0 0 1 public entry points none observed. symbol evidence source files: 1; classes: 0; functions: 0; exports: 1; samples: dynamicroutes. depends on geelooy/api/tunnel — 1 lexical reference; examples: geelooy/view/ awtsmoos.derech.js used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-view-c3c15515-md-4a7be07b31.json"
+	},
+	{
+		"id": "docs-generated-project-tutorials-projects-geelooy-webscrapers-1466bc35-m-34cdaf1b4f",
+		"title": "Project Tutorial: geelooy/webScrapers",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-webscrapers-1466bc35.md",
+		"category": "Projects",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Project Tutorial: geelooy/webScrapers",
+				"anchor": "project-tutorial-geelooy-webscrapers"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/webScrapers Path: geelooy/webScrapers · Type: project · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/webscrapers path: geelooy/webscrapers · type: project · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: — local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 5 0 0 0 0 0 5 public entry points none observed. symbol evidence source files: 5; classes: 0; functions: 30; exports: 0; samples: processgemarajson, processchabadonetext, doall, getfilesindirectory, formatpage, getdafdata, getpage, getentirechabadlibrarybooksequential, processitemsequential, getentirechabadlibrarybook, downloadj, getdata. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-webscrapers-1466bc35-m-34cdaf1b4f.json"
 	}
 ]

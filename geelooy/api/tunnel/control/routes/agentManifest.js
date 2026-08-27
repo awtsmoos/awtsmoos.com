@@ -5,15 +5,16 @@
 /**
  * @file Machine-readable Awtsmoos Agent Manifest for interactive and headless AI.
  * @description
- * The Awtsmoos is not learned by brand folklore or one browser shape;
- * Awtsmoos.com preserves older capability fields while revealing callback+PKCE
- * and device authorization beside one bearer and immutable-routing covenant.
+ * The Awtsmoos lets OAuth, immutable routing, compact discovery, and finite source limits meet without folklore;
+ * Awtsmoos.com gives external agents one small public surface whose inward deeds and publication bounds stay knowable.
  */
 
 const { agentLinks, oauth } = require("../docs/catalog.js");
 const { json } = require("../core/respond.js");
+const { publicationSourceLimits } = require("../../../../sites/hostedFolderManifestLimits.js");
 const { externalAgentFlow } = require("./agentFlow.js");
 const { headlessDeviceFlow } = require("./deviceFlow.js");
+const Operations = require("./agentOperationCatalog.js");
 
 const REQUIRED_BASE_CAPABILITIES = Object.freeze([
 	"HTTPS token exchange",
@@ -46,47 +47,61 @@ function manifestBody() {
 		BH: "B\"H",
 		ok: true,
 		name: "Awtsmoos External AI Agent Manifest",
-		version: "1.1.0",
+		version: "1.3.0",
 		protocol: "awtsmoos-external-agent-v1",
 		recommendedClientId: oauth.recommendedClientId,
 		requiredClientCapabilities: REQUIRED_CALLBACK_CAPABILITIES,
 		requiredBaseCapabilities: REQUIRED_BASE_CAPABILITIES,
 		authorizationModes: authorizationModes(),
-		oauth: {
-			metadata: agentLinks.oauthMetadata,
-			discovery: oauth.discoveryEndpoint,
-			authorization: oauth.authorizationEndpoint,
-			deviceAuthorization: oauth.deviceAuthorizationEndpoint,
-			deviceVerification: oauth.deviceVerificationUri,
-			token: oauth.tokenEndpoint,
-			callback: oauth.agentCallback,
-			grantTypes: oauth.grantTypes,
-			codeChallengeMethods: oauth.codeChallengeMethods,
-			client: oauth.externalAgent,
-			flow: externalAgentFlow(),
-			deviceFlow: headlessDeviceFlow()
+		oauth: oauthBody(),
+		credentials: credentialBody(),
+		tunnelDiscovery: tunnelDiscovery(),
+		compactProtocol: {
+			shape: "action=<capability>&operation=<exact-operation>",
+			operationCatalog: Operations.operationCatalog(),
+			publicationSourceLimits: publicationSourceLimits(),
+			catalogUrl: Operations.CATALOG_URL
 		},
-		credentials: {
-			bearerHeader: "Authorization: Bearer <access_token>",
-			refreshGrant: "grant_type=refresh_token&client_id=external-agent&refresh_token=<refresh_token>",
-			callbackStoresTokens: false,
-			deviceVerificationStoresTokens: false
-		},
-		tunnelDiscovery: {
-			url: agentLinks.myDevice,
-			selection: "Use routeReference when present; otherwise use tunnelId.",
-			actionField: "Pass that immutable ID in the action schema field named tunnelName."
-		},
-		firstActions: [
-			{ action: "list", params: { p: "." } },
-			{ action: "tree", params: { p: ".", depth: 2, limit: 150 } },
-			{ action: "read", params: { p: "<discovered-file>" } }
-		],
+		firstActions: Operations.compactExamples(),
 		links: agentLinks,
 		compatibilityClients: {
 			grok: oauth.grok,
 			chatgpt: oauth.chatgpt
 		}
+	};
+}
+
+function oauthBody() {
+	return {
+		metadata: agentLinks.oauthMetadata,
+		discovery: oauth.discoveryEndpoint,
+		authorization: oauth.authorizationEndpoint,
+		deviceAuthorization: oauth.deviceAuthorizationEndpoint,
+		deviceVerification: oauth.deviceVerificationUri,
+		token: oauth.tokenEndpoint,
+		callback: oauth.agentCallback,
+		grantTypes: oauth.grantTypes,
+		codeChallengeMethods: oauth.codeChallengeMethods,
+		client: oauth.externalAgent,
+		flow: externalAgentFlow(),
+		deviceFlow: headlessDeviceFlow()
+	};
+}
+
+function credentialBody() {
+	return {
+		bearerHeader: "Authorization: Bearer <access_token>",
+		refreshGrant: "grant_type=refresh_token&client_id=external-agent&refresh_token=<refresh_token>",
+		callbackStoresTokens: false,
+		deviceVerificationStoresTokens: false
+	};
+}
+
+function tunnelDiscovery() {
+	return {
+		url: agentLinks.myDevice,
+		selection: "Use routeReference when present; otherwise use tunnelId.",
+		actionField: "Pass that immutable ID in the action schema field named tunnelName."
 	};
 }
 

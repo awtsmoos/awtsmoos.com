@@ -1,0 +1,105 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos needs no dome to contain the heavens while human sight receives a bounded view;
+ * Awtsmoos.com gives the celestial disclosure a mobile-first Malchus shell whose tactile light remains calm and true.
+ */
+
+awtsmoos-celestial-panel {
+	display: block;
+	margin-top: clamp(.85rem, 3vw, 1.8rem);
+}
+
+.celestial-panel {
+	position: relative;
+	overflow: hidden;
+	border: 1px solid rgba(164, 224, 204, .23);
+	border-radius: 20px;
+	background: linear-gradient(145deg, rgba(15, 34, 29, .94), rgba(4, 12, 10, .985));
+	box-shadow:
+		0 20px 58px rgba(0, 0, 0, .32),
+		inset 0 1px 0 rgba(255, 255, 255, .035),
+		0 0 70px rgba(62, 195, 154, .045);
+}
+
+.celestial-summary {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: .8rem;
+	min-height: 62px;
+	padding: .78rem max(.82rem, env(safe-area-inset-left));
+	cursor: pointer;
+	list-style: none;
+	user-select: none;
+	-webkit-tap-highlight-color: transparent;
+}
+
+.celestial-summary::-webkit-details-marker {
+	display: none;
+}
+
+.celestial-summary-copy,
+.celestial-summary-state {
+	display: grid;
+	gap: .08rem;
+}
+
+.celestial-summary-copy small,
+.celestial-stats small {
+	color: var(--ink-muted);
+	font-size: .62rem;
+	font-weight: 780;
+	letter-spacing: .09em;
+	text-transform: uppercase;
+}
+
+.celestial-summary-copy strong {
+	color: var(--ink);
+	font-size: clamp(.94rem, 3.6vw, 1.08rem);
+	letter-spacing: -.015em;
+}
+
+.celestial-summary-state {
+	grid-template-columns: auto 24px;
+	align-items: center;
+	color: var(--solar);
+	font-variant-numeric: tabular-nums;
+}
+
+.celestial-summary-state b {
+	font-size: .78rem;
+}
+
+.celestial-summary-state i {
+	position: relative;
+	width: 24px;
+	height: 24px;
+	border: 1px solid var(--line);
+	border-radius: 50%;
+	transition: transform 180ms cubic-bezier(.2, .8, .2, 1), border-color 180ms ease;
+}
+
+.celestial-summary-state i::after {
+	position: absolute;
+	top: 7px;
+	left: 8px;
+	width: 6px;
+	height: 6px;
+	border-right: 1.5px solid currentColor;
+	border-bottom: 1.5px solid currentColor;
+	transform: rotate(45deg);
+	content: "";
+}
+
+.celestial-panel[open] .celestial-summary-state i {
+	transform: rotate(180deg);
+	border-color: rgba(255, 213, 138, .42);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.celestial-summary-state i {
+		transition: none;
+	}
+}

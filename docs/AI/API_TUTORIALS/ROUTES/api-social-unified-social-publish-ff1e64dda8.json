@@ -22,8 +22,34 @@
 	"vessels": [],
 	"statuses": [],
 	"headers": [],
-	"callers": [],
-	"callerCount": 0,
+	"callers": [
+		{
+			"literal": "/api/social/unified-social/publish",
+			"source": "geelooy/.awtsmoos-agent-transfer/social-future-20260821-v2/verified-stage/api/social/helper/migrations/meta/MetaMigrationCapabilities.js",
+			"kind": "runtime"
+		},
+		{
+			"literal": "/api/social/unified-social/publish",
+			"source": "geelooy/.awtsmoos-agent-transfer/social-future-20260821-v2/verified-stage/social/migrate/js/publish/MigrationApi.js",
+			"kind": "runtime"
+		},
+		{
+			"literal": "/api/social/unified-social/publish",
+			"source": "geelooy/.awtsmoos-agent-transfer/social-future-20260821-v2/verified-stage/social/migrate/test/server-meta-api.test.cjs",
+			"kind": "test"
+		},
+		{
+			"literal": "/api/social/unified-social/publish",
+			"source": "geelooy/social/migrate/js/publish/MigrationApi.js",
+			"kind": "runtime"
+		},
+		{
+			"literal": "/api/social/unified-social/publish",
+			"source": "geelooy/social/migrate/test/server-meta-api.test.cjs",
+			"kind": "test"
+		}
+	],
+	"callerCount": 5,
 	"tests": [
 		{
 			"name": "test",

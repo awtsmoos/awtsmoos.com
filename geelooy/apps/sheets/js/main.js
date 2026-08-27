@@ -7,6 +7,7 @@ import { MalchusChromeState } from "./app/chromeState.js";
 import { YesodConnectionCoordinator } from "./app/connectionCoordinator.js";
 import { resolveSheetsConnectionPolicy } from "./app/connectionPolicy.js";
 import { loadLocalDraft } from "./app/draft.js";
+import { composePowerUi } from "./app/powerUiComposition.js";
 import { YesodPresencePublisher } from "./app/presencePublisher.js";
 import { YesodSheetsSession } from "./app/session.js";
 import { composeSheetsUi } from "./app/uiComposition.js";
@@ -16,11 +17,9 @@ import { YesodRealtimeClient } from "./realtime/client.js";
 import { showToast } from "./ui/toast.js";
 
 /**
- * @file Awakens Awtsmoos Sheets by composing state, transport policy, commands, and UI vessels.
- * @description
- * The Awtsmoos renews every cell from nothing while this entrypoint joins focused
- * keilim. Awtsmoos.com resolves connection context explicitly so an OS embed stays
- * quiet and local-first while standalone collaboration remains fully available.
+ * @file Awakens Awtsmoos Sheets by composing state, transport, core UI, and power-command surfaces.
+ * @description The Awtsmoos renews every cell while one shared context carries grid, menu, formula, and presence light;
+ * Awtsmoos.com mounts each vessel around the same workbook authority so abundance stays coherent and right.
  */
 function awakenAwtsmoosSheets() {
 	const workbook = new MalchusWorkbook(loadLocalDraft());
@@ -43,8 +42,7 @@ function awakenAwtsmoosSheets() {
 		},
 		policy
 	);
-
-	composeSheetsUi({
+	const context = {
 		actions,
 		connection,
 		presencePublisher,
@@ -52,8 +50,9 @@ function awakenAwtsmoosSheets() {
 		session,
 		showError,
 		workbook
-	});
-
+	};
+	composeSheetsUi(context);
+	composePowerUi(context);
 	connection.start();
 }
 

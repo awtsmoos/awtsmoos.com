@@ -21,33 +21,23 @@
 				"previous": "radial-gradient(circle at 50% 20%, rgba(64, 142, 103, .26), transparent 42%), rgba(4, 15, 9, .88)"
 			},
 			{
-				"key": "@media (max-width: 820px), (pointer: coarse)|#mitzvah-world-root .Awtsmoos-player-hud-shell|top",
-				"next": "var(--safe-t)",
-				"previous": "max(6px, env(safe-area-inset-top))"
-			},
-			{
-				"key": "@media (max-width: 820px), (pointer: coarse)|#mitzvah-world-root .Awtsmoos-player-hud-shell|left",
-				"next": "var(--safe-l)",
-				"previous": "max(6px, env(safe-area-inset-left))"
-			},
-			{
 				"key": "root|#mitzvah-world-root #jump|right",
-				"next": "max(24px, env(safe-area-inset-right))",
+				"next": "max(18px, calc(env(safe-area-inset-right) + 14px))",
 				"previous": "max(20px, env(safe-area-inset-right))"
 			},
 			{
 				"key": "root|#mitzvah-world-root #jump|bottom",
-				"next": "4px",
+				"next": "max(22px, calc(env(safe-area-inset-bottom) + 18px))",
 				"previous": "max(28px, env(safe-area-inset-bottom))"
 			},
 			{
 				"key": "root|#mitzvah-world-root #jump|width",
-				"next": "76px",
+				"next": "68px",
 				"previous": "70px"
 			},
 			{
 				"key": "root|#mitzvah-world-root #jump|height",
-				"next": "76px",
+				"next": "68px",
 				"previous": "70px"
 			},
 			{
@@ -73,12 +63,27 @@
 			{
 				"key": "root|#mitzvah-world-root #jump|right",
 				"next": "max(18px, env(safe-area-inset-right))",
-				"previous": "max(24px, env(safe-area-inset-right))"
+				"previous": "max(18px, calc(env(safe-area-inset-right) + 14px))"
 			},
 			{
 				"key": "root|#mitzvah-world-root #jump|bottom",
 				"next": "max(88px, calc(env(safe-area-inset-bottom) + 76px))",
-				"previous": "4px"
+				"previous": "max(22px, calc(env(safe-area-inset-bottom) + 18px))"
+			},
+			{
+				"key": "root|#mitzvah-world-root #jump|width",
+				"next": "76px",
+				"previous": "68px"
+			},
+			{
+				"key": "root|#mitzvah-world-root #jump|height",
+				"next": "76px",
+				"previous": "68px"
+			},
+			{
+				"key": "root|#mitzvah-world-root #jump|pointer-events",
+				"next": "none",
+				"previous": "auto"
 			}
 		],
 		"zIndexConflicts": []
@@ -101,6 +106,7 @@
 		"styles/source/fragments/mitzvah-world-loading-001.css",
 		"styles/source/fragments/mitzvah-world-loading-002.css",
 		"styles/source/fragments/mitzvah-world-meadow-hud-001.css",
+		"styles/source/fragments/mitzvah-world-direct-action-001.css",
 		"styles/source/fragments/mitzvah-world-meadow-menu-001.css",
 		"styles/source/fragments/mitzvah-world-menu-shell-001.css",
 		"styles/source/fragments/mitzvah-world-mobile-integration-001.css",
@@ -121,27 +127,27 @@
 		"styles/source/imports-001.css",
 		"styles/source/mitzvah-world.css"
 	],
-	"inputBytes": 66765,
-	"outputBytes": 50012,
+	"inputBytes": 71319,
+	"outputBytes": 53708,
 	"stateCoverage": {
 		"missing": [],
 		"ready": true
 	},
 	"representations": {
 		"brotli": {
-			"bytes": 8161,
+			"bytes": 8785,
 			"encoding": "br",
-			"sha256": "be6c39b8a35703b2e122e31fd4a4e13645765d0817f18ef0d691ce9c64065ba4"
+			"sha256": "4630b0faf41ec63f5c70a1a5e8a58f5d7c2d1d78df22da50b988f7953d444bc6"
 		},
 		"gzip": {
-			"bytes": 9413,
+			"bytes": 10206,
 			"encoding": "gzip",
-			"sha256": "e339e43c5689026073ab19ca6f1b38399ad4d6b340a2497cb3c7b63648f60690"
+			"sha256": "c108df5d5347e41397213e46181a8ccd65643e8942b83b4e6a020cf3c542bdc7"
 		},
 		"identity": {
-			"bytes": 50013,
+			"bytes": 53709,
 			"encoding": "identity",
-			"sha256": "d35d95828a514a037aa19504308fae1c7abdb2253712470db78535dd0104c9b6"
+			"sha256": "78e19092085591c86c2e993f506d0dd7d9d0bc8adc562ade478fa87adfa33890"
 		}
 	}
 }

@@ -1,0 +1,43 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews the narrowest vessel before a thumb can be crowded by unnecessary chrome;
+ * Awtsmoos.com protects forty-four-pixel touch truth while the arena remains the player's home.
+ */
+@media (max-width: 430px) {
+	.hud {
+		left: 8px;
+		right: 8px;
+	}
+
+	.hud-actions {
+		gap: 5px;
+	}
+
+	.level-chip {
+		padding-inline: 9px;
+	}
+
+	.objective {
+		max-width: calc(100vw - 20px);
+		font-size: 0.6rem;
+	}
+
+	.objective span:last-child {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+}
+
+@media (max-height: 520px) {
+	.hud-bottom {
+		bottom: max(7px, calc(env(safe-area-inset-bottom) + 3px));
+	}
+
+	.objective {
+		padding-block: 6px;
+	}
+}

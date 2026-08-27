@@ -1,0 +1,80 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos renews every instant before motion can be measured in time;
+Awtsmoos.com lets transitions reveal responsiveness with restraint, rhythm, and rhyme.
+*/
+:root {
+	--motion-fast: 120ms;
+	--motion-base: 170ms;
+	--motion-panel: 240ms;
+	--ease-direct: cubic-bezier(0.2, 0.7, 0.2, 1);
+	--ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+button,
+input,
+select,
+textarea,
+.motion-surface {
+	transition:
+		background-color var(--motion-fast) var(--ease-direct),
+		border-color var(--motion-fast) var(--ease-direct),
+		box-shadow var(--motion-fast) var(--ease-direct),
+		color var(--motion-fast) var(--ease-direct),
+		opacity var(--motion-fast) var(--ease-direct),
+		transform var(--motion-fast) var(--ease-direct);
+}
+
+.motion-enter {
+	animation: awtsmoos-surface-in var(--motion-panel) var(--ease-spring) both;
+}
+
+.motion-pop {
+	animation: awtsmoos-pop-in var(--motion-base) var(--ease-spring) both;
+}
+
+button:active:not(:disabled),
+.motion-press:active {
+	transform: translateY(1px) scale(0.985);
+}
+
+@keyframes awtsmoos-surface-in {
+	from {
+		opacity: 0;
+		transform: translateY(8px) scale(0.985);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+@keyframes awtsmoos-pop-in {
+	from {
+		opacity: 0;
+		transform: translateY(4px) scale(0.97);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	:root {
+		--motion-fast: 1ms;
+		--motion-base: 1ms;
+		--motion-panel: 1ms;
+	}
+
+	*,
+	*::before,
+	*::after {
+		animation-duration: 1ms !important;
+		animation-iteration-count: 1 !important;
+		scroll-behavior: auto !important;
+		transition-duration: 1ms !important;
+	}
+}

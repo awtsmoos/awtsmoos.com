@@ -19,13 +19,28 @@
 		},
 		{
 			"level": 2,
-			"text": "Installer and restart commands",
-			"anchor": "installer-and-restart-commands"
+			"text": "Short recovery ladder",
+			"anchor": "short-recovery-ladder"
+		},
+		{
+			"level": 3,
+			"text": "macOS/Linux",
+			"anchor": "macos-linux"
+		},
+		{
+			"level": 3,
+			"text": "Windows",
+			"anchor": "windows"
 		},
 		{
 			"level": 2,
-			"text": "Verify installed capabilities before use",
-			"anchor": "verify-installed-capabilities-before-use"
+			"text": "Failure-layer discipline",
+			"anchor": "failure-layer-discipline"
+		},
+		{
+			"level": 2,
+			"text": "Install or refresh",
+			"anchor": "install-or-refresh"
 		},
 		{
 			"level": 2,
@@ -39,8 +54,13 @@
 		},
 		{
 			"level": 2,
-			"text": "Recovery-enabled health and levels",
-			"anchor": "recovery-enabled-health-and-levels"
+			"text": "Recovery levels",
+			"anchor": "recovery-levels"
+		},
+		{
+			"level": 2,
+			"text": "Mission/watchdog recovery discipline",
+			"anchor": "mission-watchdog-recovery-discipline"
 		},
 		{
 			"level": 2,

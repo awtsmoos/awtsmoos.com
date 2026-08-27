@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 37 | 4 | 0 | 0 | 1 | 0 | 42 |
+| 65 | 14 | 0 | 0 | 1 | 0 | 80 |
 
 ## Public entry points
 
@@ -30,11 +30,11 @@ Blessed is He
 
 ## Symbol evidence
 
-Source files: 18; classes: 2; functions: 87; exports: 47; samples: from, showMessage, showDivInModal, updateDivInModal, closeModal, createCalendar, resetMinutes, createCalendarWithMonth, addBooking, displayHours, minuteClickHandler, displayMinutes.
+Source files: 30; classes: 3; functions: 129; exports: 71; samples: from, showMessage, showDivInModal, updateDivInModal, closeModal, createCalendar, resetMinutes, createCalendarWithMonth, addBooking, displayHours, minuteClickHandler, displayMinutes.
 
 ## Depends on
 
-None observed.
+- `geelooy/shared` — 1 lexical reference; examples: geelooy/mawgawl/sefarim/searchHistory.js
 
 ## Used by
 
@@ -46,4 +46,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **4**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **14**. Treat this as file evidence, not proof of behavioral coverage.

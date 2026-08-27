@@ -4,9 +4,9 @@
 
 /**
  * @file localTerrainTextureBoot.test.mjs
- * @description Proves three grasses, earth, marsh, and stone bind from trusted full-resolution transport.
- * The Awtsmoos joins many blades and earth in one boot moment without a blank olive valley;
- * Awtsmoos.com requires six distinct approved images before the terrain material reveals its living tally.
+ * @description Proves production texture catalog remains valid while canonical boot stays bitmap-free.
+ * The Awtsmoos preserves every optional garment without forcing it onto first-play earth;
+ * Awtsmoos.com keeps catalog truth for experiments and procedural terrain for immediate worth.
  */
 
 import assert from 'node:assert/strict';
@@ -21,55 +21,41 @@ import { terrainLayerRecipe } from '../../world/terrain/TerrainLayerRecipe.js';
 
 const REMOTE_ROOT = /^https:\/\/awtsmoos\.com\/sites\/firebase_drive_migration\/full-resolution\//;
 
-test('all six production terrain images use approved filename transport', () => {
+test('optional production terrain catalog keeps six approved images', () => {
 	const urls = localTerrainTextureUrls();
 	const evidence = localTerrainTextureEvidence();
 	assert.equal(urls.length, 6);
 	assert.equal(evidence.roles.length, 6);
 	assert.equal(new Set(Object.values(evidence.filenames)).size, 6);
-	assert.deepEqual([
-		evidence.filenames['meadow-wet-grass'],
-		evidence.filenames['meadow-lush-grass'],
-		evidence.filenames['meadow-dry-grass']
-	], ['grass 1.png', 'grass 4.png', 'grass 8.png']);
 	for (const url of urls) {
 		assert.match(url, REMOTE_ROOT);
 		assert.equal(assertProductionMaterialUrl(url, 'uploaded terrain'), url);
 	}
 });
 
-test('high terrain recipe exposes six distinct approved maps', () => {
+test('high terrain recipe preserves six optional maps for explicit experiments', () => {
 	const recipe = terrainLayerRecipe('high');
 	assert.equal(recipe.layers.length, 6);
 	assert.equal(new Set(recipe.layers.map(layer => layer.url)).size, 6);
 	assert.ok(recipe.layers.every(layer => REMOTE_ROOT.test(layer.url)));
-	assert.ok(recipe.layers.every(layer => {
-		return assertProductionMaterialUrl(layer.publicUrl, layer.sourceRole) === layer.publicUrl;
-	}));
 });
 
-test('terrain binds a real grass base and earth mix at construction', () => {
-	const grassImage = image('grass 1.png');
-	const dirtImage = image('dirt 2.png');
+test('canonical terrain construction owns zero resident bitmap images', () => {
 	const material = createTerrainMaterial({
-		dirtImage,
-		grassImage,
+		dirtImage: image('dirt 2.png'),
+		grassImage: image('grass 1.png'),
 		quality: 'high',
 		size: 512
 	});
-	assert.equal(material.mapImage, grassImage);
-	assert.equal(material.mixImage, dirtImage);
-	assert.equal(material.texturePolicy.realBaseImage, true);
-	assert.equal(material.texturePolicy.realMixImage, true);
-	assert.equal(material.texturePolicy.hydration, 'ready-at-construction');
-	assert.equal(material.textureLayers.length, 6);
+	assert.equal(material.mapImage, null);
+	assert.equal(material.mixImage, null);
+	assert.deepEqual(material.textureLayers, []);
+	assert.equal(material.texturePolicy.realBaseImage, false);
+	assert.equal(material.texturePolicy.realMixImage, false);
+	assert.equal(material.texturePolicy.hydration, 'procedural-only-default');
+	assert.equal(material.texturePolicy.proceduralEarth, true);
 });
 
 function image(src) {
-	return {
-		complete: true,
-		naturalHeight: 4096,
-		naturalWidth: 4096,
-		src
-	};
+	return { complete: true, naturalHeight: 4096, naturalWidth: 4096, src };
 }

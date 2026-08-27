@@ -4,9 +4,9 @@
 
 /**
  * @file ForestPlacement.js
- * @description Places deep-core trees through shared village ecology, exact collider evidence, and crown-aware spacing.
- * The Awtsmoos lets one living grove bend around home, stair, road, river, clearing, and mountain; Awtsmoos.com
- * keeps candidate chance separate from physical truth so no private forest geometry can contradict the canonical world.
+ * @description Places deep-core trees through canonical exclusions, crown spacing, and shared succession evidence.
+ * The Awtsmoos lets one grove bend around home, road, river, clearing, slope, and remembered forest age;
+ * Awtsmoos.com keeps physical truth game-side while life-history returns to the shared core before branches reach the stage.
  */
 
 import {
@@ -16,6 +16,7 @@ import {
 import { ecologySpacingClearance } from '../spatial/WorldEcologySpacing.js';
 import { forestCandidateAt, forestRotationY } from './ForestCandidateField.js';
 import { forestPlacementHabitat } from './ForestPlacementHabitat.js';
+import { forestSuccessionForPlacement } from './ForestSuccessionEvidence.js';
 
 export function createForestPlacements(policies, options = {}) {
 	const placements = [];
@@ -24,39 +25,7 @@ export function createForestPlacements(policies, options = {}) {
 	const seed = options.seed || 613;
 	for (const policy of policies) {
 		const habitat = forestPlacementHabitat(policy);
-		let accepted = null;
-		for (let attempt = 0; attempt < 220 && !accepted; attempt += 1) {
-			const point = forestCandidateAt(policy.index, attempt, seed, halfSize);
-			const evidence = ecologySiteEvidenceAt(point, {
-				...habitat,
-				groundSampler: options.groundSampler,
-				obstacleTriangles: options.obstacleTriangles
-			});
-			const reason = ecologyRejectionReason(evidence);
-			if (reason) {
-				rejections[reason] = (rejections[reason] || 0) + 1;
-				continue;
-			}
-			const spacing = ecologySpacingClearance(
-				point,
-				habitat.siteRadius,
-				placements,
-				placement => placement.siteRadius
-			);
-			if (spacing < 0) {
-				rejections.spacing += 1;
-				continue;
-			}
-			accepted = Object.freeze({
-				...point,
-				ecology: evidence,
-				policy,
-				rotationY: forestRotationY(policy.index, seed),
-				sample: evidence.sample,
-				siteRadius: habitat.siteRadius,
-				y: evidence.sample.y
-			});
-		}
+		const accepted = acceptedPlacement(policy, habitat, placements, rejections, options, seed, halfSize);
 		if (accepted) placements.push(accepted);
 	}
 	return Object.freeze({
@@ -69,9 +38,48 @@ export function createForestPlacements(policies, options = {}) {
 			'canonical-water-corridor',
 			'dynamic-collider-triangles',
 			'terrain-normal',
-			'crown-aware-spacing'
+			'crown-aware-spacing',
+			'shared-core-forest-succession'
 		])
 	});
+}
+
+function acceptedPlacement(policy, habitat, placements, rejections, options, seed, halfSize) {
+	for (let attempt = 0; attempt < 220; attempt += 1) {
+		const point = forestCandidateAt(policy.index, attempt, seed, halfSize);
+		const evidence = ecologySiteEvidenceAt(point, {
+			...habitat,
+			groundSampler: options.groundSampler,
+			obstacleTriangles: options.obstacleTriangles
+		});
+		const reason = ecologyRejectionReason(evidence);
+		if (reason) {
+			rejections[reason] = (rejections[reason] || 0) + 1;
+			continue;
+		}
+		const spacing = ecologySpacingClearance(
+			point,
+			habitat.siteRadius,
+			placements,
+			placement => placement.siteRadius
+		);
+		if (spacing < 0) {
+			rejections.spacing += 1;
+			continue;
+		}
+		const succession = forestSuccessionForPlacement(policy, evidence, `${seed}:${attempt}`);
+		return Object.freeze({
+			...point,
+			ecology: evidence,
+			policy,
+			rotationY: forestRotationY(policy.index, seed),
+			sample: evidence.sample,
+			siteRadius: habitat.siteRadius * succession.crownScale,
+			succession,
+			y: evidence.sample.y
+		});
+	}
+	return null;
 }
 
 function createRejections() {

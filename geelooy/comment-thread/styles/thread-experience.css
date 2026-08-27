@@ -1,0 +1,37 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/**
+ * The Awtsmoos lets many voices branch without making one voice small;
+ * Awtsmoos.com keeps context human, reply depth readable, and mobile composition tall.
+ */
+
+.comment-composer { display: grid; gap: 12px; border-radius: 20px; }
+.comment-composer--root { position: sticky; top: max(8px, env(safe-area-inset-top)); z-index: 8; backdrop-filter: blur(18px); }
+.comment-composer textarea[name="content"] { min-height: 96px; resize: vertical; }
+.threadHero { display: grid; gap: 10px; }
+.threadHero h1 { margin: 0; font-size: clamp(1.45rem, 5vw, 2.35rem); }
+.threadHero__chips { display: flex; flex-wrap: wrap; gap: 7px; }
+.threadHero__chip { padding: 6px 9px; border-radius: 999px; background: rgba(99, 102, 241, .1); border: 1px solid rgba(129, 140, 248, .2); font-size: .78rem; font-weight: 750; }
+.threadHero__source { margin: 0; opacity: .58; font-size: .78rem; overflow-wrap: anywhere; }
+.threadContextPanel > summary { min-height: 44px; display: flex; align-items: center; cursor: pointer; font-weight: 750; }
+.threadContextBody { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding-top: 12px; }
+.threadContextBody > * { min-width: 0; }
+.threadReferencePicker, .threadAttachmentPicker, .threadVoiceRecorder { grid-column: 1 / -1; display: grid; gap: 8px; }
+.threadReferencePicker { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.threadReferencePicker > button, .threadReferencePicker > small { grid-column: 1 / -1; }
+.threadFieldStatus { min-height: 1.25em; opacity: .76; }
+.threadVoiceButton, .threadSendButton, .threadReferencePicker button { min-height: 44px; }
+.comment-replies { margin-left: clamp(10px, 3vw, 28px); padding-left: clamp(8px, 2vw, 18px); border-left: 2px solid rgba(129, 140, 248, .2); }
+.comment-card { border-radius: 18px; }
+.comment-tools button, .comment-tools a { min-height: 40px; display: inline-flex; align-items: center; }
+
+@media (max-width: 560px) {
+	.threadContextBody, .threadReferencePicker { grid-template-columns: 1fr; }
+	.comment-composer--root { top: auto; bottom: max(6px, env(safe-area-inset-bottom)); }
+	.comment-replies { margin-left: 6px; padding-left: 8px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.comment-composer, .comment-card { scroll-behavior: auto; }
+}

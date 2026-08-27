@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-websites-custom-domains-md-500d8b877f",
+	"title": "Connect a Custom Domain to an Awtsmoos Website",
+	"sourcePath": "docs/WEBSITES/CUSTOM_DOMAINS.md",
+	"category": "General",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Connect a Custom Domain to an Awtsmoos Website",
+			"anchor": "connect-a-custom-domain-to-an-awtsmoos-website"
+		},
+		{
+			"level": 2,
+			"text": "Before the domain",
+			"anchor": "before-the-domain"
+		},
+		{
+			"level": 2,
+			"text": "Claim and verify",
+			"anchor": "claim-and-verify"
+		},
+		{
+			"level": 2,
+			"text": "Route the website",
+			"anchor": "route-the-website"
+		},
+		{
+			"level": 2,
+			"text": "TLS and activation",
+			"anchor": "tls-and-activation"
+		},
+		{
+			"level": 2,
+			"text": "Nameservers",
+			"anchor": "nameservers"
+		}
+	],
+	"markdownParts": [
+		"content/docs-websites-custom-domains-md-500d8b877f-001.json"
+	]
+}

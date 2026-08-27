@@ -1,202 +1,226 @@
 [
 	{
-		"id": "geelooy-games-mitzvahworld-ai-thoughts-2026-07-29-kabbalistic-combat-pro-4224654bf1",
-		"title": "Reality File Map",
-		"sourcePath": "geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-29-kabbalistic-combat-production/02_REALITY_FILE_MAP.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-tutorials-systems-request-pipeline-md-20b718402d",
+		"title": "Tutorial: HTTP Request Pipeline",
+		"sourcePath": "docs/TUTORIALS/SYSTEMS/REQUEST_PIPELINE.md",
+		"category": "Systems",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Reality File Map",
-				"anchor": "reality-file-map"
+				"text": "Tutorial: HTTP Request Pipeline",
+				"anchor": "tutorial-http-request-pipeline"
 			},
 			{
 				"level": 2,
-				"text": "Observed client boundaries",
-				"anchor": "observed-client-boundaries"
+				"text": "Pipeline",
+				"anchor": "pipeline"
 			},
 			{
 				"level": 2,
-				"text": "Observed server boundaries",
-				"anchor": "observed-server-boundaries"
-			},
-			{
-				"level": 2,
-				"text": "Canonical shared boundary to add",
-				"anchor": "canonical-shared-boundary-to-add"
-			},
-			{
-				"level": 2,
-				"text": "Adapter boundary to add",
-				"anchor": "adapter-boundary-to-add"
-			},
-			{
-				"level": 2,
-				"text": "Initial production files expected to change",
-				"anchor": "initial-production-files-expected-to-change"
-			},
-			{
-				"level": 2,
-				"text": "Files protected from premature change",
-				"anchor": "files-protected-from-premature-change"
+				"text": "Debugging",
+				"anchor": "debugging"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Reality File Map The Awtsmoos gives every ohr a vessel and every vessel a traced import line; Awtsmoos.com keeps client prediction and server judgment distinct by design. Observed client boundaries experiments/Awtsmoos/src/gameplay/combat/TorahAbilityCatalog.js owns current cast records.",
-		"searchText": "b\"h boruch hashem blessed is he reality file map the awtsmoos gives every ohr a vessel and every vessel a traced import line; awtsmoos.com keeps client prediction and server judgment distinct by design. observed client boundaries experiments/awtsmoos/src/gameplay/combat/torahabilitycatalog.js owns current cast records. torahabilitytimeline.js, torahabilitycastrules.js, and torahabilityexecutor.js own cast sequencing. torahstatuseffectcatalog.js, torahstatuseffectrules.js, and torahstatuseffectstore.js own bounded client status behavior. playermeleeactioncatalog.js, factory, rules, geometry, controller, and turn gateway own timed staff/sword actions. physicalguardstate.js and playercombatdefense.js own player defense. spiritualstats.js, shliachprofilecatalog.js, and equipment stores own current attributes. action bar, hud, effects, runtime, and expansion directories must be traced before presentation wiring. observed server boundaries combatattackservice.js validates weapon, action, timing, geometry, stamina, replay token, damage, defeat, and reward. playercombatactionvalidation.js owns stable player action identity and bounded impact token memory. combatstate.js owns authoritative player combat snapshots. enemyactioncatalog.js, resolver, runtime, selector, and state own enemy timelines. enemydamagerules.js, hostilecombatservice.js, and creature services own enemy to player consequences. combatantcatalog.js, role catalog, elite catalog, and spawn catalog own enemy identity. equipment stat records and upgrade services own server derived statistics. persistence tests and request handlers define migration and network contracts. canonical shared boundary to add shared/combat/affinities.json shared/combat/elements.json shared/combat/statuses.json shared/combat/player actions.json shared/combat/enemy actions.json shared/combat/effectiveness rules.json shared/combat/schema version.json adapter boundary to add client esm adapters under gameplay/affinity/ will load, validate, index, predict, and format shared records. server commonjs adapters will load the same records, validate commands, resolve authoritative effectiveness, apply bounded statuses, and filter daas insight. initial production files expected to change client combat catalogs and action factories. client status catalog/store/rules. client profile/stat derivation and persistence. client combat event gateways and hud/effects integration points. server action validation, attack service, damage rules, enemy actions, combat state, persistence, and request payloads. shared combat definitions and focused tests. files protected from premature change build entrypoints, css entry, streaming, region transitions, and renderer fallback remain untouched until connected combat behavior is green and loading profiles show a need.",
-		"page": "pages/geelooy-games-mitzvahworld-ai-thoughts-2026-07-29-kabbalistic-combat-pro-4224654bf1.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Tutorial: HTTP Request Pipeline A normal request becomes useful context in stages rather than arriving as a single global object. Pipeline 1. Base response/CORS behavior is established. 2. Unsafe traversal/path forms are rejected. 3. URL/query/cookies are parsed; OPTIONS can short circui",
+		"searchText": "b\"h boruch hashem blessed is he tutorial: http request pipeline a normal request becomes useful context in stages rather than arriving as a single global object. pipeline 1. base response/cors behavior is established. 2. unsafe traversal/path forms are rejected. 3. url/query/cookies are parsed; options can short circuit. 4. static server path state is constructed beneath the public root. 5. body readers and authentication helpers are attached. 6. dynamic derech routing is attempted. 7. if not handled dynamically, static resolution continues. debugging when a handler sees unexpected input, identify which stage owns the value: path variable, $ get, parsed body/$ post, headers/cookies, trusted auth state, or shared db. source: requesthandler.js, server/awtsmoosstaticserver.js, server/requestbootstrap.js, auth/path/body helpers.",
+		"page": "pages/docs-tutorials-systems-request-pipeline-md-20b718402d.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-ai-thoughts-2026-07-29-kabbalistic-combat-pro-a37a6432ae",
-		"title": "Critique and Twenty Improvements",
-		"sourcePath": "geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-29-kabbalistic-combat-production/03_CRITIQUE_AND_20_IMPROVEMENTS.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-tutorials-systems-server-boot-md-14375e29a4",
+		"title": "Tutorial: Server Boot",
+		"sourcePath": "docs/TUTORIALS/SYSTEMS/SERVER_BOOT.md",
+		"category": "Systems",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Critique and Twenty Improvements",
-				"anchor": "critique-and-twenty-improvements"
+				"text": "Tutorial: Server Boot",
+				"anchor": "tutorial-server-boot"
 			},
 			{
 				"level": 2,
-				"text": "Critique of the initial direction",
-				"anchor": "critique-of-the-initial-direction"
+				"text": "Follow the boot",
+				"anchor": "follow-the-boot"
 			},
 			{
 				"level": 2,
-				"text": "Improved first slice",
-				"anchor": "improved-first-slice"
+				"text": "Boundaries",
+				"anchor": "boundaries"
+			},
+			{
+				"level": 2,
+				"text": "Evidence",
+				"anchor": "evidence"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Critique and Twenty Improvements The Awtsmoos turns critique into clearer form; Awtsmoos.com lets every hidden edge become warm. 1. Keep canonical records data only so both runtimes can validate them. 2. Add schema versioning before persistence fields are introduced. 3. Separate affinity",
-		"searchText": "b\"h boruch hashem blessed is he critique and twenty improvements the awtsmoos turns critique into clearer form; awtsmoos.com lets every hidden edge become warm. 1. keep canonical records data only so both runtimes can validate them. 2. add schema versioning before persistence fields are introduced. 3. separate affinity identity from element identity. 4. separate action definition from runtime action state. 5. separate status definition from active status instance. 6. return structured effectiveness diagnostics, not only final damage. 7. model contextual tags such as airborne, soaked, guarded, hidden, and channeling. 8. bound every status stack and every replay token ledger. 9. store interrupt resistance and remaining resistance separately. 10. make interruption receipts idempotent and cast instance specific. 11. require pre launch validation before projectile creation. 12. filter daas insight on the server by tier. 13. give local authority the same resolver api as multiplayer authority. 14. preserve existing melee timings and add affinity metadata through the factory. 15. preserve existing torah ability identities while enriching their typed records. 16. introduce enemy affinity profiles independently from enemy spawn identity. 17. use presentation adapters so low quality effects never alter rules. 18. keep optional visual families dynamically imported. 19. add migration defaults that preserve existing saves without reallocating player choices. 20. add focused parity tests that feed identical contexts to local and server resolvers. critique of the initial direction the first plan was too eager to create many shared json files without proving the repository's existing load conventions. it also treated ui and effects as later decoration, although cast readability is part of combat correctness. the improved direction must first establish the smallest shared schema, wire one complete vertical slice through client prediction and server authority, and only then expand the catalog. improved first slice implement affinities, elements, typed action fields, contextual effectiveness, bounded core statuses, daas insight tiers, and interrupt metadata for one chochmah projectile, one binah cast, one z\"a water cast, one malchus control cast, existing melee, and representative enemy actions. prove this slice in both local and multiplayer authority before multiplying content.",
-		"page": "pages/geelooy-games-mitzvahworld-ai-thoughts-2026-07-29-kabbalistic-combat-pro-a37a6432ae.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Tutorial: Server Boot Root index.js is the orchestration point. It initializes the dynamic server, routes ordinary HTTP, owns direct Mitzvah World report paths, delegates WebSocket upgrades, and can start SMTP. Follow the boot 1. Read index.js imports for AwtsMail/AwtsServer/AwtsSocket. ",
+		"searchText": "b\"h boruch hashem blessed is he tutorial: server boot root index.js is the orchestration point. it initializes the dynamic server, routes ordinary http, owns direct mitzvah world report paths, delegates websocket upgrades, and can start smtp. follow the boot 1. read index.js imports for awtsmail/awtsserver/awtssocket. 2. follow dynamic server initialization. 3. inspect server/initdb.js for shared dosdb setup. 4. inspect request bootstrap/auth setup. 5. inspect websocket registry/application definitions separately. 6. inspect mail disable configuration before assuming smtp is live. boundaries root direct handlers are exceptions, not the normal api convention. most dynamic http behavior belongs to derech discovery. websocket admission is separate from http routing. evidence read docs/learn/server lifecycle 101.md, docs/architecture.md, and generated public/route inventories.",
+		"page": "pages/docs-tutorials-systems-server-boot-md-14375e29a4.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-ai-thoughts-2026-07-29-kabbalistic-combat-pro-c445ad7e17",
-		"title": "Improved Plan",
-		"sourcePath": "geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-29-kabbalistic-combat-production/04_IMPROVED_PLAN.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-tutorials-systems-trace-database-change-md-26d5e54fca",
+		"title": "Trace a Database Change Safely",
+		"sourcePath": "docs/TUTORIALS/SYSTEMS/TRACE_DATABASE_CHANGE.md",
+		"category": "Systems",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Improved Plan",
-				"anchor": "improved-plan"
+				"text": "Trace a Database Change Safely",
+				"anchor": "trace-a-database-change-safely"
 			},
 			{
 				"level": 2,
-				"text": "Phase A — shared truth",
-				"anchor": "phase-a-shared-truth"
+				"text": "Investigation path",
+				"anchor": "investigation-path"
 			},
 			{
 				"level": 2,
-				"text": "Phase B — player authority",
-				"anchor": "phase-b-player-authority"
-			},
-			{
-				"level": 2,
-				"text": "Phase C — enemy authority",
-				"anchor": "phase-c-enemy-authority"
-			},
-			{
-				"level": 2,
-				"text": "Phase D — presentation",
-				"anchor": "phase-d-presentation"
-			},
-			{
-				"level": 2,
-				"text": "Phase E — environment and persistence",
-				"anchor": "phase-e-environment-and-persistence"
-			},
-			{
-				"level": 2,
-				"text": "Phase F — verification",
-				"anchor": "phase-f-verification"
+				"text": "Questions that must be answered",
+				"anchor": "questions-that-must-be-answered"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Improved Plan The Awtsmoos joins precision and mercy in one progressing line; Awtsmoos.com keeps each production gate observable by design. Phase A — shared truth 1. Add versioned affinity, element, status, and typed action records under shared/combat/. 2. Add schema validation in one sm",
-		"searchText": "b\"h boruch hashem blessed is he improved plan the awtsmoos joins precision and mercy in one progressing line; awtsmoos.com keeps each production gate observable by design. phase a — shared truth 1. add versioned affinity, element, status, and typed action records under shared/combat/. 2. add schema validation in one small client esm adapter and one small server commonjs adapter. 3. add pure contextual effectiveness resolution with ordered diagnostics. 4. add pure daas insight filtering and bounded status instance rules. phase b — player authority 5. enrich existing torah abilities and melee actions with canonical action ids and affinity metadata. 6. extend player profile defaults and migration with affinity allocation, daas, gevurah, and defense compatibility. 7. connect client prediction to the shared resolver without claiming authoritative damage. 8. connect server attack validation and damage receipts to shared actions and effectiveness diagnostics. 9. add cast instance interruption state, pre launch validation, and bounded replay protection. phase c — enemy authority 10. add enemy affinity profiles, resistance profiles, interrupt profiles, and typed action decks. 11. extend enemy action runtime receipts with cast identity, affinity, telegraph, and interruption fields. 12. apply affinity phases to the kedem warden through its existing phase machinery. 13. filter enemy cast insight by server permitted daas tier. phase d — presentation 14. add cast hud models with text, icon, shape, motion, hebrew name, translation, danger, target, and counter guidance. 15. add quality scaled effect families and reduced motion fallbacks without blocking readiness. 16. add player loadout presentation and status indicators through existing ui stores. phase e — environment and persistence 17. add bounded environmental reaction tags and cleanup. 18. migrate existing saves safely and preserve exact once rewards. 19. prove local authority and multiplayer authority use identical ids and equivalent rules. phase f — verification 20. add focused tests after production wiring. 21. run client and server matrices. 22. build compactjs twice and compare manifests. 23. build canonical css twice and compare manifests. 24. run isolated performance profiling. 25. run desktop, mobile, landscape, reduced motion, high contrast, offline, reconnect, webgl failure, and canvas2d browser acceptance. 26. audit syntax, imports, tabs, whitespace, line counts, processes, and worktree state.",
-		"page": "pages/geelooy-games-mitzvahworld-ai-thoughts-2026-07-29-kabbalistic-combat-pro-c445ad7e17.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Trace a Database Change Safely Persistence changes should be treated as compatibility work, not ordinary refactors. Investigation path 1. Open /docs/?view=systems&systemDistrict=data and select the closest persistence system. 2. Read its human manuals before generated evidence. 3. Identi",
+		"searchText": "b\"h boruch hashem blessed is he trace a database change safely persistence changes should be treated as compatibility work, not ordinary refactors. investigation path 1. open /docs/?view=systems&systemdistrict=data and select the closest persistence system. 2. read its human manuals before generated evidence. 3. identify the runtime database root and whether the caller uses legacy dosdb, awtsmoosbinaryjson, awtsmoosdb/virtualfs, social packed storage, or a bridge/fallback. 4. trace logical persisted paths separately from physical serialization/filesystem layout. 5. find existing migration/repair scripts and relevant tests. 6. determine how existing persisted data is discovered after the proposed change. 7. only then change code and add migration/backward compatibility behavior when required. questions that must be answered can old data still be read? does the same logical path resolve to the same data? does the database root precedence change? are cache/index/shard manifests compatible? is rollback possible without data loss? are partially migrated states supported or explicitly rejected? generated file/path evidence helps locate the implementation but does not prove these guarantees.",
+		"page": "pages/docs-tutorials-systems-trace-database-change-md-26d5e54fca.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-ai-thoughts-2026-07-29-kabbalistic-combat-pro-a7063e36d5",
-		"title": "Final Critique and Thirty Additional Improvements",
-		"sourcePath": "geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-29-kabbalistic-combat-production/05_FINAL_CRITIQUE_30_IMPROVEMENTS.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-tutorials-systems-trace-realtime-admission-md-694296b682",
+		"title": "Trace Realtime Admission",
+		"sourcePath": "docs/TUTORIALS/SYSTEMS/TRACE_REALTIME_ADMISSION.md",
+		"category": "Realtime",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Final Critique and Thirty Additional Improvements",
-				"anchor": "final-critique-and-thirty-additional-improvements"
+				"text": "Trace Realtime Admission",
+				"anchor": "trace-realtime-admission"
 			},
 			{
 				"level": 2,
-				"text": "Final revelation",
-				"anchor": "final-revelation"
+				"text": "Investigation path",
+				"anchor": "investigation-path"
+			},
+			{
+				"level": 2,
+				"text": "Trust rule",
+				"anchor": "trust-rule"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Final Critique and Thirty Additional Improvements The Awtsmoos reveals the missing edge before the blade can stray; Awtsmoos.com keeps every correction recorded on the way. 1. Begin with shared definitions that existing catalogs can consume incrementally. 2. Avoid static import of option",
-		"searchText": "b\"h boruch hashem blessed is he final critique and thirty additional improvements the awtsmoos reveals the missing edge before the blade can stray; awtsmoos.com keeps every correction recorded on the way. 1. begin with shared definitions that existing catalogs can consume incrementally. 2. avoid static import of optional effect families in the fallback bootstrap. 3. preserve current action ids to avoid save and network breakage. 4. add aliases only through one migration table. 5. validate hebrew names and english translations as required fields. 6. keep element and affinity ids lowercase and stable. 7. make diagnostic ordering deterministic for snapshot tests. 8. clamp every numeric multiplier and duration. 9. make immunity explicit rather than encoded as zero damage alone. 10. treat critical interaction as a labeled rule, not a random critical hit. 11. distinguish guard damage, stagger damage, interrupt force, and health damage. 12. distinguish poise from concentration so melee and casting remain readable. 13. reset interrupt resistance only through explicit cast lifecycle transitions. 14. use cast instance ids to reject stale completion after reconnect. 15. include action version in authoritative receipts. 16. keep server insight payloads independent from private resistance records. 17. make daas tiers monotonic and test each disclosure boundary. 18. preserve existing equipment derived legacy damage and defense. 19. add affinity derived mechanics without universal multipliers. 20. record status source, source action, source actor, application time, and expiry. 21. apply cleanse rules before new status reactions when ordering matters. 22. define deterministic reaction precedence for burn, soak, grounding, and illumination. 23. keep active status collections keyed and bounded. 24. use compact snapshots for multiplayer interest updates. 25. keep local authority in a separate adapter, not conditionals scattered through gameplay. 26. add world state tags through a narrow environment context provider. 27. treat accessibility text as required presentation data. 28. treat effect cancellation as part of cast cancellation tests. 29. measure initial bundle inclusion after every new import boundary. 30. delay full catalog expansion until the first vertical slice proves identity, authority, ui, and cleanup. final revelation the implementation must not attempt the entire content matrix before proving the canonical machinery. the first production pass will establish the shared domain, enrich current action catalogs, provide authoritative effectiveness and status receipts, and create tests. further enemy, hud, effect, persistence, loading, and browser work will then extend the same truth without replacement.",
-		"page": "pages/geelooy-games-mitzvahworld-ai-thoughts-2026-07-29-kabbalistic-combat-pro-a7063e36d5.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Trace Realtime Admission Realtime admission begins before ordinary message routing. A socket that reaches application code has already crossed upgrade, identity, and sometimes specialized admission boundaries. Investigation path 1. Begin at websocket/core/socketUpgrade.js and identify tr",
+		"searchText": "b\"h boruch hashem blessed is he trace realtime admission realtime admission begins before ordinary message routing. a socket that reaches application code has already crossed upgrade, identity, and sometimes specialized admission boundaries. investigation path 1. begin at websocket/core/socketupgrade.js and identify trusted upgrade identity. 2. determine whether the connection is an ordinary platform application, mission room, or tunnel relay flow. 3. for mission rooms, trace ticket issuance, canonical tunnel authority, origin, protocol version, initial snapshot proof, and upgrade policy. 4. for ordinary versioned apps, trace registry/application id/version selection through the message router. 5. for tunnel relay, trace account bound registration/authority and correlation/lifecycle separately from built in app routing. 6. treat generated event strings only as search hints; inspect handlers before claiming payload semantics. 7. verify rejection cases for missing/expired/foreign credentials and incompatible protocol versions. trust rule client message payloads must not replace server attached trusted socket identity. admission and application level authorization remain explicit contracts.",
+		"page": "pages/docs-tutorials-systems-trace-realtime-admission-md-694296b682.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-ai-thoughts-2026-07-29-kabbalistic-combat-pro-d6bc938bb2",
-		"title": "Final Execution Plan",
-		"sourcePath": "geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-29-kabbalistic-combat-production/06_FINAL_EXECUTION_PLAN.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-tutorials-systems-trace-trusted-identity-md-1372f4498d",
+		"title": "Trace Trusted Identity",
+		"sourcePath": "docs/TUTORIALS/SYSTEMS/TRACE_TRUSTED_IDENTITY.md",
+		"category": "Systems",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Final Execution Plan",
-				"anchor": "final-execution-plan"
+				"text": "Trace Trusted Identity",
+				"anchor": "trace-trusted-identity"
 			},
 			{
 				"level": 2,
-				"text": "Exact first-pass files",
-				"anchor": "exact-first-pass-files"
-			},
-			{
-				"level": 3,
-				"text": "New shared files",
-				"anchor": "new-shared-files"
-			},
-			{
-				"level": 3,
-				"text": "New client files",
-				"anchor": "new-client-files"
-			},
-			{
-				"level": 3,
-				"text": "Client files to rewrite completely if touched",
-				"anchor": "client-files-to-rewrite-completely-if-touched"
-			},
-			{
-				"level": 3,
-				"text": "New server files",
-				"anchor": "new-server-files"
-			},
-			{
-				"level": 3,
-				"text": "Server files to rewrite completely if touched",
-				"anchor": "server-files-to-rewrite-completely-if-touched"
-			},
-			{
-				"level": 3,
-				"text": "Focused tests after production wiring",
-				"anchor": "focused-tests-after-production-wiring"
+				"text": "Investigation path",
+				"anchor": "investigation-path"
 			},
 			{
 				"level": 2,
-				"text": "Pass sequence",
-				"anchor": "pass-sequence"
+				"text": "Separation rule",
+				"anchor": "separation-rule"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Final Execution Plan The Awtsmoos creates the path and proof in every present breath; Awtsmoos.com keeps authority alive and duplication put to death. Exact first pass files New shared files shared/combat/affinities.json shared/combat/elements.json shared/combat/statuses.json shared/comb",
-		"searchText": "b\"h boruch hashem blessed is he final execution plan the awtsmoos creates the path and proof in every present breath; awtsmoos.com keeps authority alive and duplication put to death. exact first pass files new shared files shared/combat/affinities.json shared/combat/elements.json shared/combat/statuses.json shared/combat/actions.json shared/combat/effectiveness.json shared/combat/schema version.json new client files experiments/awtsmoos/src/gameplay/affinity/combatdefinitionloader.js .../affinity/combatdefinitionindexes.js .../affinity/combateffectivenessresolver.js .../affinity/combatinsightrules.js .../affinity/combatstatusinstance.js .../affinity/localcombatauthority.js client files to rewrite completely if touched gameplay/combat/torahabilitycatalog.js gameplay/combat/playermeleeactioncatalog.js gameplay/combat/torahstatuseffectcatalog.js gameplay/spiritualstats.js new server files combatdefinitioncatalog.js combateffectivenessresolver.js combatinsightrules.js combatstatusrules.js server files to rewrite completely if touched combatattackservice.js combatattackreceipt.js enemyactioncatalog.js enemydamagerules.js combatstate.js focused tests after production wiring shared definition identity and schema. client effectiveness, insight, status bounds, and local authority parity. server effectiveness diagnostics, replay rejection, status cleanup, and action rejection. existing combat regression tests. pass sequence 1. read all touched files and their call sites. 2. write shared data and adapters. 3. enrich player and enemy catalogs. 4. wire authoritative receipts and local authority. 5. re read every touched file. 6. compare planned versus actual and write a delta file. 7. complete missing production wiring. 8. add tests and run focused verification. 9. expand to hud, effects, persistence, warden, environment, loading, builds, and browser acceptance. 10. perform final audit and close only when remaining work is empty.",
-		"page": "pages/geelooy-games-mitzvahworld-ai-thoughts-2026-07-29-kabbalistic-combat-pro-d6bc938bb2.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Trace Trusted Identity Identity shaped input is not the same thing as authenticated authority. Investigation path 1. Identify the transport: signed browser session, OAuth bearer, Social/Tunnel API key, or server attached WebSocket identity. 2. Find the server side verifier that turns cre",
+		"searchText": "b\"h boruch hashem blessed is he trace trusted identity identity shaped input is not the same thing as authenticated authority. investigation path 1. identify the transport: signed browser session, oauth bearer, social/tunnel api key, or server attached websocket identity. 2. find the server side verifier that turns credentials into an identity record. 3. record which account/user/issuer/subject/scope fields come from that verified record. 4. ignore request payload/query owner fields unless source explicitly verifies them. 5. continue upward into authorization: ownership, roles, grants, scopes, permissions, origin, or room authority. 6. check error behavior for cross account enumeration leaks. 7. use tests/runtime checks to prove negative cases, not only successful authentication. separation rule authentication answers who/what credential was verified . authorization answers whether that identity may perform this operation on this resource . resource ownership, heichel roles, tunnel grants, and mission room admission remain separate layers.",
+		"page": "pages/docs-tutorials-systems-trace-trusted-identity-md-1372f4498d.json"
+	},
+	{
+		"id": "docs-websites-custom-domains-md-500d8b877f",
+		"title": "Connect a Custom Domain to an Awtsmoos Website",
+		"sourcePath": "docs/WEBSITES/CUSTOM_DOMAINS.md",
+		"category": "General",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Connect a Custom Domain to an Awtsmoos Website",
+				"anchor": "connect-a-custom-domain-to-an-awtsmoos-website"
+			},
+			{
+				"level": 2,
+				"text": "Before the domain",
+				"anchor": "before-the-domain"
+			},
+			{
+				"level": 2,
+				"text": "Claim and verify",
+				"anchor": "claim-and-verify"
+			},
+			{
+				"level": 2,
+				"text": "Route the website",
+				"anchor": "route-the-website"
+			},
+			{
+				"level": 2,
+				"text": "TLS and activation",
+				"anchor": "tls-and-activation"
+			},
+			{
+				"level": 2,
+				"text": "Nameservers",
+				"anchor": "nameservers"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Connect a Custom Domain to an Awtsmoos Website The Awtsmoos gives each public name a meaning while Awtsmoos.com refuses to collapse ownership, DNS, routing, and TLS into one misleading green switch. Before the domain Publish the folder first and open its canonical Awtsmoos URL. A custom ",
+		"searchText": "b\"h boruch hashem blessed is he connect a custom domain to an awtsmoos website the awtsmoos gives each public name a meaning while awtsmoos.com refuses to collapse ownership, dns, routing, and tls into one misleading green switch. before the domain publish the folder first and open its canonical awtsmoos url. a custom domain should never be used to debug a site that has not yet proven it can render canonically. claim and verify 1. open drive → your project → custom domains. 2. select the real published site mapping. 3. enter the hostname you own. 4. choose keep dns at current provider unless you operate another nameserver service. 5. save the claim. 6. copy the ownership txt name and value shown by drive into your dns provider. 7. run verify after the record is publicly resolvable. route the website after ownership is verified, read the hosting plan. it may present direct a/aaaa targets or a cname option depending on deployed ingress. add the record exactly as attested. do not guess ip addresses from old deployments. tls and activation route activation and tls are separate readiness stages. only call the custom domain live after routing is active, https succeeds, and the returned site is the expected publication. nameservers the current native plan reports awtsmoos nameserver availability. if it reports unavailable, keep dns at your current provider. do not point registrar nameservers at undocumented hosts. for a full provider migration, read move dns safely and preserve email dns before changing anything at the registrar.",
+		"page": "pages/docs-websites-custom-domains-md-500d8b877f.json"
+	},
+	{
+		"id": "docs-websites-dns-cutover-checklist-md-5d726e74ce",
+		"title": "DNS Cutover Checklist",
+		"sourcePath": "docs/WEBSITES/DNS_CUTOVER_CHECKLIST.md",
+		"category": "General",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "DNS Cutover Checklist",
+				"anchor": "dns-cutover-checklist"
+			},
+			{
+				"level": 2,
+				"text": "Before changing web records",
+				"anchor": "before-changing-web-records"
+			},
+			{
+				"level": 2,
+				"text": "Website-only cutover at the existing DNS provider",
+				"anchor": "website-only-cutover-at-the-existing-dns-provider"
+			},
+			{
+				"level": 2,
+				"text": "Full authoritative nameserver cutover",
+				"anchor": "full-authoritative-nameserver-cutover"
+			},
+			{
+				"level": 2,
+				"text": "Rollback triggers",
+				"anchor": "rollback-triggers"
+			},
+			{
+				"level": 2,
+				"text": "Awtsmoos truth rule",
+				"anchor": "awtsmoos-truth-rule"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He DNS Cutover Checklist The Awtsmoos renews the domain every instant, while a registrar and DNS provider expose only finite records and caches; Awtsmoos.com makes the cutover reversible by refusing to destroy old testimony before the new authoritative answer is proven. Before changing web ",
+		"searchText": "b\"h boruch hashem blessed is he dns cutover checklist the awtsmoos renews the domain every instant, while a registrar and dns provider expose only finite records and caches; awtsmoos.com makes the cutover reversible by refusing to destroy old testimony before the new authoritative answer is proven. before changing web records [ ] canonical awtsmoos website url loads correctly. [ ] index.html and required assets are ready. [ ] existing dns zone is exported, copied or screenshotted. [ ] a, aaaa, cname, txt, mx, caa, srv, ns and important subdomains are inventoried. [ ] mx priorities and hosts are preserved. [ ] spf txt is preserved completely. [ ] every dkim selector and public key is preserved. [ ] dmarc policy/reporting addresses are preserved. [ ] vendor verification and email autoconfiguration records are preserved. [ ] custom domain claim points at the intended awtsmoos site. [ ] ownership txt record is published. [ ] ownership verification is successful. website only cutover at the existing dns provider [ ] do not change registrar nameservers. [ ] copy the server attested awtsmoos a/aaaa/cname target exactly. [ ] change only the intended website hostname records. [ ] leave mx and unrelated txt/cname/srv/ns records unchanged. [ ] confirm public dns returns the new web route. [ ] activate the awtsmoos route only when eligible. [ ] confirm https/tls state. [ ] open the custom domain from a real browser. [ ] confirm expected page and assets. [ ] send and receive a real email through the existing mail service. full authoritative nameserver cutover [ ] destination authoritative dns service actually exists. [ ] destination zone contains every required old zone record. [ ] destination zone answers correctly before registrar change. [ ] new authoritative nameservers are copied exactly. [ ] registrar nameservers are changed only after the zone is complete. [ ] old dns service remains active during propagation and verification. [ ] website resolves through new nameservers. [ ] email send/receive is verified. [ ] critical subdomains and services are verified. [ ] tls/caa behavior is verified. [ ] only after all checks pass may the previous zone be retired. rollback triggers rollback or restore records when any of these occur: website becomes unreachable through the intended hostname. mx resolution differs unexpectedly. mail delivery fails after the cutover. required dkim/dmarc/spf records disappear. important subdomains stop resolving. the new nameservers are not authoritative or return an incomplete zone. awtsmoos truth rule a saved dns worksheet is not live dns. an ownership claim is not routing. routing is not tls. tls is not browser health. a nameserver plan is not an authoritative nameserver deployment. each gate must be observed independently before the project can call the custom domain ready.",
+		"page": "pages/docs-websites-dns-cutover-checklist-md-5d726e74ce.json"
 	}
 ]

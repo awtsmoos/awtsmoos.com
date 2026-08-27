@@ -1,0 +1,92 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos is beyond source and response, while Awtsmoos.com lets bounded quote context, explicit Reply, and a gentle swipe point back to what was actually said;
+ * this Yesod-like garment owns reply preview, selected-source, swipe, and jump-highlight states only, never transport or draft truth in light.
+ */
+
+.hubConversationReplyPreview,
+.hubConversationReplyComposer {
+	display: grid;
+	gap: .2rem;
+	min-width: 0;
+	padding: .48rem .58rem;
+	border: 1px solid color-mix(in srgb, var(--cyan) 44%, var(--line));
+	border-inline-start-width: 3px;
+	border-radius: .72rem;
+	background: color-mix(in srgb, var(--cyan) 5%, var(--surface));
+	color: var(--ink);
+}
+
+button.hubConversationReplyPreview {
+	width: 100%;
+	font: inherit;
+	text-align: start;
+	cursor: pointer;
+}
+
+.hubConversationReplyPreview strong,
+.hubConversationReplyComposer strong {
+	font-size: .72rem;
+	color: var(--cyan);
+}
+
+.hubConversationReplyPreview span,
+.hubConversationReplyComposer span {
+	display: block;
+	overflow: hidden;
+	color: var(--muted);
+	font-size: .78rem;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.hubConversationReplyPreview.is-unavailable {
+	opacity: .72;
+}
+
+.hubConversationReplyComposer {
+	grid-template-columns: minmax(0, 1fr) auto;
+	align-items: center;
+}
+
+.hubConversationReplyComposer > div {
+	min-width: 0;
+}
+
+.hubConversationReplyCancel {
+	min-width: 40px;
+	min-height: 40px;
+	border: 0;
+	border-radius: 999px;
+	background: transparent;
+	color: var(--muted);
+	font: inherit;
+	font-size: 1.25rem;
+	cursor: pointer;
+}
+
+.hubConversationMessage[data-reply-swiping="true"] {
+	border-color: var(--cyan);
+	box-shadow: 0 8px 26px rgb(60 211 255 / 10%);
+}
+
+.hubConversationMessage[data-reply-source-active="true"] {
+	border-color: var(--cyan);
+	background: color-mix(in srgb, var(--cyan) 11%, var(--surface-strong));
+	box-shadow: 0 0 0 2px rgb(80 216 255 / 12%);
+}
+
+.hubConversationReplyAction:is(:hover, :focus-visible),
+.hubConversationReplyCancel:is(:hover, :focus-visible) {
+	background: color-mix(in srgb, var(--cyan) 9%, transparent);
+	color: var(--ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.hubConversationMessage {
+		transition: none;
+	}
+}

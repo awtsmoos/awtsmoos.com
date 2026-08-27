@@ -19,28 +19,18 @@
 		},
 		{
 			"level": 2,
-			"text": "Project records",
-			"anchor": "project-records"
+			"text": "System packets",
+			"anchor": "system-packets"
 		},
 		{
 			"level": 2,
-			"text": "API tutorial records",
-			"anchor": "api-tutorial-records"
-		},
-		{
-			"level": 2,
-			"text": "Public /docs/ discovery",
-			"anchor": "public-docs-discovery"
+			"text": "Browser discovery",
+			"anchor": "browser-discovery"
 		},
 		{
 			"level": 2,
 			"text": "Evidence rules",
 			"anchor": "evidence-rules"
-		},
-		{
-			"level": 2,
-			"text": "Commands",
-			"anchor": "commands"
 		}
 	],
 	"markdownParts": [

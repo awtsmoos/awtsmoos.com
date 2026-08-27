@@ -3,13 +3,24 @@
 // Blessed is He
 
 /**
- * @file Owns local document mutations while derived navigation remains synchronized.
- * @description The Awtsmoos renews each keystroke before a controller can count it;
- * Awtsmoos.com lets model, draft, collaboration, outline, and statistics follow one change.
+ * @file Owns local Awtsmoos document mutations through an explicit dependency vessel.
+ * @description The Awtsmoos is beyond property and method; Awtsmoos.com keeps block,
+ * comment, title, and semantic registry changes explicit so no view can shadow behavior
+ * while drafts, collaboration, references, outline, statistics, and file state stay aligned.
  */
 export class DocsMutationController {
 	constructor(parts) {
-		Object.assign(this, parts);
+		this.model = parts.model;
+		this.persistence = parts.persistence;
+		this.collaboration = parts.collaboration;
+		this.outline = parts.outline;
+		this.comments = parts.comments;
+		this.editor = parts.editor;
+		this.view = parts.view;
+		this.status = parts.status;
+		this.commentPanel = parts.commentPanel;
+		this.stats = parts.stats;
+		this.references = parts.references;
 	}
 
 	editorChanged(blocks, blockId) {
@@ -22,9 +33,7 @@ export class DocsMutationController {
 	}
 
 	titleInput() {
-		this.model.title = String(
-			this.view.title.value || "Untitled document"
-		).slice(0, 160);
+		this.model.title = String(this.view.title.value || "Untitled document").slice(0, 160);
 		this.persistence.persistDraft();
 		this.#markFileDirty();
 	}
@@ -51,7 +60,15 @@ export class DocsMutationController {
 		this.refreshDerived();
 	}
 
-	presence(event) {
+	/** Persists registry truth independently from the block carrying its inline reference. */
+	semanticObjectsChanged(objects) {
+		this.model.setSemanticObjects(objects);
+		this.persistence.persistDraft();
+		this.refreshDerived();
+		this.#markFileDirty();
+	}
+
+	focusPresence(event) {
 		const block = event.target.closest?.("[data-block-id]");
 		const blockId = block?.dataset.blockId || "";
 		this.collaboration.presenceAt(blockId);
@@ -61,18 +78,12 @@ export class DocsMutationController {
 	refreshDerived(activeBlockId = "") {
 		this.outline?.refresh(this.model.blocks);
 		if (activeBlockId) this.outline?.markActive(activeBlockId);
-		this.stats?.refresh(
-			this.model.blocks,
-			this.model.comments
-		);
+		this.stats?.refresh(this.model.blocks, this.model.comments);
+		this.references?.refresh();
 	}
 
 	#markFileDirty() {
-		if (this.model.drive.path || this.model.source.path) {
-			this.status.drive(
-				"Unsaved file changes",
-				"warning"
-			);
-		}
+		if (!this.model.drive.path && !this.model.source.path) return;
+		this.status.drive("Unsaved file changes", "warning");
 	}
 }

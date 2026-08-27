@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 74 | 14 | 0 | 0 | 1 | 1 | 90 |
+| 124 | 28 | 0 | 0 | 1 | 1 | 154 |
 
 ## Public entry points
 
@@ -29,23 +29,24 @@ None observed.
 
 ## Symbol evidence
 
-Source files: 70; classes: 11; functions: 231; exports: 177; samples: ActivityBeacon, startActivityBeacon, publicAliasFromMemory, queryAlias, verifiedAlias, eventPayload, SAFE_ACTIONS, ALL_RUNTIME_ACTIONS, VIRTUAL_ACTIONS, isWriteAction, normalizeActionName, actionCapability.
+Source files: 117; classes: 23; functions: 377; exports: 280; samples: ActivityBeacon, startActivityBeacon, publicAliasFromMemory, queryAlias, verifiedAlias, eventPayload, recordSearchActivity, recordPostView, async, recordMeaningfulActivity, postKey, seenPost.
 
 ## Depends on
 
 - `geelooy/ai` — 2 lexical references; examples: geelooy/shared/awtsmoos-runtime/actions.js; geelooy/shared/awtsmoos-runtime/agent-core.js
+- `geelooy/social-actions` — 2 lexical references; examples: geelooy/shared/social/composer/ComposerLaunch.js
 - `geelooy/apps/android-emulator` — 1 lexical reference; examples: geelooy/shared/compiling/native/apkIdentity.js
 
 ## Used by
 
+- `geelooy/os` — 54 lexical references; examples: geelooy/os/programs/advanced-code-editor/compilerBridge.js; geelooy/os/programs/advanced-code-editor/embedConfiguration.js; geelooy/os/programs/advanced-code-editor/vfsBridge.js
 - `geelooy/scripts` — 38 lexical references; examples: geelooy/scripts/awtsmoos/compiling/native/asmImage.js; geelooy/scripts/awtsmoos/compiling/native/asmObjectData.js; geelooy/scripts/awtsmoos/compiling/native/c/frame.js
-- `geelooy/os` — 25 lexical references; examples: geelooy/os/programs/advanced-code-editor/compilerBridge.js; geelooy/os/programs/advanced-code-editor/embedConfiguration.js; geelooy/os/programs/advanced-code-editor/vfsBridge.js
-- `geelooy/apps/code` — 16 lexical references; examples: geelooy/apps/code/js/actions/commands/compileProjectManifest.js; geelooy/apps/code/js/ai-studio/oracle.js; geelooy/apps/code/js/ai-studio/panel.js
+- `geelooy/apps/code` — 19 lexical references; examples: geelooy/apps/code/js/actions/commands/compileProjectManifest.js; geelooy/apps/code/js/ai-studio/oracle.js; geelooy/apps/code/js/ai-studio/panel.js
 - `geelooy/apps/compiler` — 9 lexical references; examples: geelooy/apps/compiler/embed/osCompilerChannel.js; geelooy/apps/compiler/ui/browserArtifactBuilders.js; geelooy/apps/compiler/ui/nativeBuildClient.js
 - `geelooy/apps/exe-emulator` — 8 lexical references; examples: geelooy/apps/exe-emulator/core/awtexeRuntime.js; geelooy/apps/exe-emulator/core/executableHost.js; geelooy/apps/exe-emulator/core/wasmGuiImports.js
-- `geelooy/heichelos` — 7 lexical references; examples: geelooy/heichelos/heichel/modules/legend/cardDepthObserver.js; geelooy/heichelos/heichel/modules/legend/heroScrollDepth.js; geelooy/heichelos/post/logic/legend/centerSectionObserver.js
-- `geelooy/ai` — 2 lexical references; examples: geelooy/ai/central/index.js; geelooy/ai/central/streamClient.js
-- `geelooy/apps/tunnel-control` — 2 lexical references; examples: geelooy/apps/tunnel-control/js/runtime/mesh/runtimeAdapters.js; geelooy/apps/tunnel-control/js/runtime/mesh/virtualFilesystem.js
+- `geelooy/heichelos` — 8 lexical references; examples: geelooy/heichelos/heichel/modules/legend/cardDepthObserver.js; geelooy/heichelos/heichel/modules/legend/heroScrollDepth.js; geelooy/heichelos/post/functions/ui/context/relatedSearchPanel.js
+- `geelooy/social-hub` — 5 lexical references; examples: geelooy/social-hub/js/interactions/CreatorLaunchModel.js; geelooy/social-hub/js/ui/feed/FeedPostModel.js; geelooy/social-hub/js/ui/feed/FeedUniversalActions.js
+- `geelooy/apps/drive` — 4 lexical references; examples: geelooy/apps/drive/js/osBridge.js; geelooy/apps/drive/js/projectPlatform.js
 
 ## External packages
 
@@ -53,4 +54,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **14**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **28**. Treat this as file evidence, not proof of behavioral coverage.

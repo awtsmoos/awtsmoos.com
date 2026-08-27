@@ -1,15 +1,15 @@
 [
 	{
-		"id": "docs-generated-api-tutorials-routes-api-tunnel-control-preview-create-e5-40390990b2",
-		"title": "API Tutorial: /api/tunnel/control/preview/create",
-		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-preview-create-e51606bb4a.md",
-		"category": "Tunnel",
+		"id": "docs-generated-api-tutorials-routes-api-social-unified-social-heichelos--baa149e5bf",
+		"title": "API Tutorial: /api/social/unified-social/heichelos",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-unified-social-heichelos-cee05f71f2.md",
+		"category": "Routes",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "API Tutorial: /api/tunnel/control/preview/create",
-				"anchor": "api-tutorial-api-tunnel-control-preview-create"
+				"text": "API Tutorial: /api/social/unified-social/heichelos",
+				"anchor": "api-tutorial-api-social-unified-social-heichelos"
 			},
 			{
 				"level": 2,
@@ -42,21 +42,21 @@
 				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/tunnel/control/preview/create Family: Tunnel Control · Mount: /api/tunnel/control · Derech health: OK Source: geelooy/api/tunnel/control/routes/table.js · Discovery: route table · Confidence: unknown method Read the human Tunnel Control tutorial Generated evidence is a",
-		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/tunnel/control/preview/create family: tunnel control · mount: /api/tunnel/control · derech health: ok source: geelooy/api/tunnel/control/routes/table.js · discovery: route table · confidence: unknown method read the human tunnel control tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers pattern compatible evidence only; it does not prove runtime dispatch. literal source kind /api/tunnel/control/preview/create geelooy/apps/tunnel/agent/tools/fs/test/previewactions.test.cjs test /api/tunnel/control/preview/create geelooy/os/remote/tunnelcontrolclient.js runtime related tests heuristic family matches: test:mission continuity actions — node geelooy/apps/tunnel/agent/tools/fs/actiongroups/test/missioncontinuityactions.test.mjs test:treasury — node geelooy/api/tunnel/control/test/runtreasurytests.cjs test:treasury:full — node geelooy/api/tunnel/control/test/treasury/runall.cjs test:tunnel release — node test scripts/tunnel/testing/ .test.cjs scripts/repository hygiene/testing/ .test.cjs related routes /api/tunnel/control/admin vault /api/tunnel/control/admin/perutas /api/tunnel/control/agent economy /api/tunnel/control/api keys /api/tunnel/control/api keys/create /api/tunnel/control/api keys/revoke /api/tunnel/control/bank /api/tunnel/control/blob/:blobid",
-		"page": "pages/docs-generated-api-tutorials-routes-api-tunnel-control-preview-create-e5-40390990b2.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/social/unified social/heichelos Family: Social · Mount: /api/social · Derech health: OK Source: geelooy/api/social/ awtsmoos.destinations.js · Discovery: static literal · Confidence: unknown method Read the human Social tutorial Generated evidence is a navigation and t",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/social/unified social/heichelos family: social · mount: /api/social · derech health: ok source: geelooy/api/social/ awtsmoos.destinations.js · discovery: static literal · confidence: unknown method read the human social tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests heuristic family matches: test — npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported style ownership && npm run test:css quality && npm run test:heichelos quality && npm run test:profile menu && npm run test:heichel governance && npm run test:post submissions && npm run test:comments && npm run test:api keys && npm run test:graph && npm run test:social content && npm run test:notifications && npm run test:social packed && npm run test:packed engine && npm run test:platform ops && npm run test:platform execution && npm run test:node client && npm run test:dayuh cutover test:api keys — node geelooy/api/social/helper/test/apikeys.test.js test:comments — node geelooy/api/social/helper/comments/test/runallcommentstests.js test:concurrency failure — node geelooy/api/social/test/concurrencyfailurestress.test.mjs test:dayuh release — npm run test:routes && npm run test:comments && npm run test:social content && npm run test:social packed && npm run test:packed engine && node test tools/dayuhchadashmaintenance/test/ .test.js && npm run test:dayuh cutover related routes /api/social /api/social/abuse/ratelimit/check /api/social/alias/:alias /api/social/alias/:alias/details /api/social/alias/:alias/heichelos /api/social/alias/:alias/heichelos/:heichel /api/social/alias/:alias/heichelos/:heichel/ownership /api/social/alias/:alias/heichelos/details",
+		"page": "pages/docs-generated-api-tutorials-routes-api-social-unified-social-heichelos--baa149e5bf.json"
 	},
 	{
-		"id": "docs-generated-api-tutorials-routes-api-tunnel-control-preview-grant-d4c-0e07b0fce2",
-		"title": "API Tutorial: /api/tunnel/control/preview/grant",
-		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-preview-grant-d4c4ec0d16.md",
-		"category": "Tunnel",
+		"id": "docs-generated-api-tutorials-routes-api-social-unified-social-heichelos--f34f6482bd",
+		"title": "API Tutorial: /api/social/unified-social/heichelos/:heichel/access",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-unified-social-heichelos-heichel-access-5dfe98e529.md",
+		"category": "Routes",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "API Tutorial: /api/tunnel/control/preview/grant",
-				"anchor": "api-tutorial-api-tunnel-control-preview-grant"
+				"text": "API Tutorial: /api/social/unified-social/heichelos/:heichel/access",
+				"anchor": "api-tutorial-api-social-unified-social-heichelos-heichel-access"
 			},
 			{
 				"level": 2,
@@ -89,21 +89,21 @@
 				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/tunnel/control/preview/grant Family: Tunnel Control · Mount: /api/tunnel/control · Derech health: OK Source: geelooy/api/tunnel/control/routes/table.js · Discovery: route table · Confidence: unknown method Read the human Tunnel Control tutorial Generated evidence is a ",
-		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/tunnel/control/preview/grant family: tunnel control · mount: /api/tunnel/control · derech health: ok source: geelooy/api/tunnel/control/routes/table.js · discovery: route table · confidence: unknown method read the human tunnel control tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests heuristic family matches: test:mission continuity actions — node geelooy/apps/tunnel/agent/tools/fs/actiongroups/test/missioncontinuityactions.test.mjs test:treasury — node geelooy/api/tunnel/control/test/runtreasurytests.cjs test:treasury:full — node geelooy/api/tunnel/control/test/treasury/runall.cjs test:tunnel release — node test scripts/tunnel/testing/ .test.cjs scripts/repository hygiene/testing/ .test.cjs related routes /api/tunnel/control/admin vault /api/tunnel/control/admin/perutas /api/tunnel/control/agent economy /api/tunnel/control/api keys /api/tunnel/control/api keys/create /api/tunnel/control/api keys/revoke /api/tunnel/control/bank /api/tunnel/control/blob/:blobid",
-		"page": "pages/docs-generated-api-tutorials-routes-api-tunnel-control-preview-grant-d4c-0e07b0fce2.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/social/unified social/heichelos/:heichel/access Family: Social · Mount: /api/social · Derech health: OK Source: geelooy/api/social/ awtsmoos.destinations.js · Discovery: static literal · Confidence: unknown method Read the human Social tutorial Generated evidence is a ",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/social/unified social/heichelos/:heichel/access family: social · mount: /api/social · derech health: ok source: geelooy/api/social/ awtsmoos.destinations.js · discovery: static literal · confidence: unknown method read the human social tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters name shape heichel single segment starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests heuristic family matches: test — npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported style ownership && npm run test:css quality && npm run test:heichelos quality && npm run test:profile menu && npm run test:heichel governance && npm run test:post submissions && npm run test:comments && npm run test:api keys && npm run test:graph && npm run test:social content && npm run test:notifications && npm run test:social packed && npm run test:packed engine && npm run test:platform ops && npm run test:platform execution && npm run test:node client && npm run test:dayuh cutover test:api keys — node geelooy/api/social/helper/test/apikeys.test.js test:comments — node geelooy/api/social/helper/comments/test/runallcommentstests.js test:concurrency failure — node geelooy/api/social/test/concurrencyfailurestress.test.mjs test:dayuh release — npm run test:routes && npm run test:comments && npm run test:social content && npm run test:social packed && npm run test:packed engine && node test tools/dayuhchadashmaintenance/test/ .test.js && npm run test:dayuh cutover related routes /api/social /api/social/abuse/ratelimit/check /api/social/alias/:alias /api/social/alias/:alias/details /api/social/alias/:alias/heichelos /api/social/alias/:alias/heichelos/:heichel /api/social/alias/:alias/heichelos/:heichel/ownership /api/social/alias/:alias/heichelos/details",
+		"page": "pages/docs-generated-api-tutorials-routes-api-social-unified-social-heichelos--f34f6482bd.json"
 	},
 	{
-		"id": "docs-generated-api-tutorials-routes-api-tunnel-control-preview-list-fe7b-76e5296648",
-		"title": "API Tutorial: /api/tunnel/control/preview/list",
-		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-preview-list-fe7b7f34c1.md",
-		"category": "Tunnel",
+		"id": "docs-generated-api-tutorials-routes-api-social-unified-social-heichelos--175a84427b",
+		"title": "API Tutorial: /api/social/unified-social/heichelos/:heichel/governance",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-unified-social-heichelos-heichel-governance-55f529fd96.md",
+		"category": "Routes",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "API Tutorial: /api/tunnel/control/preview/list",
-				"anchor": "api-tutorial-api-tunnel-control-preview-list"
+				"text": "API Tutorial: /api/social/unified-social/heichelos/:heichel/governance",
+				"anchor": "api-tutorial-api-social-unified-social-heichelos-heichel-governance"
 			},
 			{
 				"level": 2,
@@ -136,21 +136,21 @@
 				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/tunnel/control/preview/list Family: Tunnel Control · Mount: /api/tunnel/control · Derech health: OK Source: geelooy/api/tunnel/control/routes/table.js · Discovery: route table · Confidence: unknown method Read the human Tunnel Control tutorial Generated evidence is a n",
-		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/tunnel/control/preview/list family: tunnel control · mount: /api/tunnel/control · derech health: ok source: geelooy/api/tunnel/control/routes/table.js · discovery: route table · confidence: unknown method read the human tunnel control tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers pattern compatible evidence only; it does not prove runtime dispatch. literal source kind /api/tunnel/control/preview/list geelooy/apps/tunnel control/js/features/previewgateway.js runtime /api/tunnel/control/preview/list geelooy/os/remote/tunnelcontrolclient.js runtime related tests heuristic family matches: test:mission continuity actions — node geelooy/apps/tunnel/agent/tools/fs/actiongroups/test/missioncontinuityactions.test.mjs test:treasury — node geelooy/api/tunnel/control/test/runtreasurytests.cjs test:treasury:full — node geelooy/api/tunnel/control/test/treasury/runall.cjs test:tunnel release — node test scripts/tunnel/testing/ .test.cjs scripts/repository hygiene/testing/ .test.cjs related routes /api/tunnel/control/admin vault /api/tunnel/control/admin/perutas /api/tunnel/control/agent economy /api/tunnel/control/api keys /api/tunnel/control/api keys/create /api/tunnel/control/api keys/revoke /api/tunnel/control/bank /api/tunnel/control/blob/:blobid",
-		"page": "pages/docs-generated-api-tutorials-routes-api-tunnel-control-preview-list-fe7b-76e5296648.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/social/unified social/heichelos/:heichel/governance Family: Social · Mount: /api/social · Derech health: OK Source: geelooy/api/social/ awtsmoos.memberGovernance.js · Discovery: static literal · Confidence: unknown method Read the human Social tutorial Generated eviden",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/social/unified social/heichelos/:heichel/governance family: social · mount: /api/social · derech health: ok source: geelooy/api/social/ awtsmoos.membergovernance.js · discovery: static literal · confidence: unknown method read the human social tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters name shape heichel single segment starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers pattern compatible evidence only; it does not prove runtime dispatch. literal source kind /api/social/unified social/heichelos/beit%20alpha/governance?aliasid=yakov+yosef geelooy/social hub/js/api/governanceapi.test.mjs test related tests heuristic family matches: test — npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported style ownership && npm run test:css quality && npm run test:heichelos quality && npm run test:profile menu && npm run test:heichel governance && npm run test:post submissions && npm run test:comments && npm run test:api keys && npm run test:graph && npm run test:social content && npm run test:notifications && npm run test:social packed && npm run test:packed engine && npm run test:platform ops && npm run test:platform execution && npm run test:node client && npm run test:dayuh cutover test:api keys — node geelooy/api/social/helper/test/apikeys.test.js test:comments — node geelooy/api/social/helper/comments/test/runallcommentstests.js test:concurrency failure — node geelooy/api/social/test/concurrencyfailurestress.test.mjs test:dayuh release — npm run test:routes && npm run test:comments && npm run test:social content && npm run test:social packed && npm run test:packed engine && node test tools/dayuhchadashmaintenance/test/ .test.js && npm run test:dayuh cutover related routes /api/social /api/social/abuse/ratelimit/check /api/social/alias/:alias /api/social/alias/:alias/details /api/social/alias/:alias/heichelos /api/social/alias/:alias/heichelos/:heichel /api/social/alias/:alias/heichelos/:heichel/ownership /api/social/alias/:alias/heichelos/details",
+		"page": "pages/docs-generated-api-tutorials-routes-api-social-unified-social-heichelos--175a84427b.json"
 	},
 	{
-		"id": "docs-generated-api-tutorials-routes-api-tunnel-control-preview-revoke-57-a05b6c1469",
-		"title": "API Tutorial: /api/tunnel/control/preview/revoke",
-		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-preview-revoke-57eba464a0.md",
-		"category": "Tunnel",
+		"id": "docs-generated-api-tutorials-routes-api-social-unified-social-heichelos--3215ebd48f",
+		"title": "API Tutorial: /api/social/unified-social/heichelos/:heichel/invitations",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-unified-social-heichelos-heichel-invitations-24b6789962.md",
+		"category": "Routes",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "API Tutorial: /api/tunnel/control/preview/revoke",
-				"anchor": "api-tutorial-api-tunnel-control-preview-revoke"
+				"text": "API Tutorial: /api/social/unified-social/heichelos/:heichel/invitations",
+				"anchor": "api-tutorial-api-social-unified-social-heichelos-heichel-invitations"
 			},
 			{
 				"level": 2,
@@ -183,21 +183,21 @@
 				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/tunnel/control/preview/revoke Family: Tunnel Control · Mount: /api/tunnel/control · Derech health: OK Source: geelooy/api/tunnel/control/routes/table.js · Discovery: route table · Confidence: unknown method Read the human Tunnel Control tutorial Generated evidence is a",
-		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/tunnel/control/preview/revoke family: tunnel control · mount: /api/tunnel/control · derech health: ok source: geelooy/api/tunnel/control/routes/table.js · discovery: route table · confidence: unknown method read the human tunnel control tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests heuristic family matches: test:mission continuity actions — node geelooy/apps/tunnel/agent/tools/fs/actiongroups/test/missioncontinuityactions.test.mjs test:treasury — node geelooy/api/tunnel/control/test/runtreasurytests.cjs test:treasury:full — node geelooy/api/tunnel/control/test/treasury/runall.cjs test:tunnel release — node test scripts/tunnel/testing/ .test.cjs scripts/repository hygiene/testing/ .test.cjs related routes /api/tunnel/control/admin vault /api/tunnel/control/admin/perutas /api/tunnel/control/agent economy /api/tunnel/control/api keys /api/tunnel/control/api keys/create /api/tunnel/control/api keys/revoke /api/tunnel/control/bank /api/tunnel/control/blob/:blobid",
-		"page": "pages/docs-generated-api-tutorials-routes-api-tunnel-control-preview-revoke-57-a05b6c1469.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/social/unified social/heichelos/:heichel/invitations Family: Social · Mount: /api/social · Derech health: OK Source: geelooy/api/social/ awtsmoos.memberGovernance.js · Discovery: static literal · Confidence: unknown method Read the human Social tutorial Generated evide",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/social/unified social/heichelos/:heichel/invitations family: social · mount: /api/social · derech health: ok source: geelooy/api/social/ awtsmoos.membergovernance.js · discovery: static literal · confidence: unknown method read the human social tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters name shape heichel single segment starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers pattern compatible evidence only; it does not prove runtime dispatch. literal source kind /api/social/unified social/heichelos/beit/invitations geelooy/social hub/js/api/governanceapi.test.mjs test related tests heuristic family matches: test — npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported style ownership && npm run test:css quality && npm run test:heichelos quality && npm run test:profile menu && npm run test:heichel governance && npm run test:post submissions && npm run test:comments && npm run test:api keys && npm run test:graph && npm run test:social content && npm run test:notifications && npm run test:social packed && npm run test:packed engine && npm run test:platform ops && npm run test:platform execution && npm run test:node client && npm run test:dayuh cutover test:api keys — node geelooy/api/social/helper/test/apikeys.test.js test:comments — node geelooy/api/social/helper/comments/test/runallcommentstests.js test:concurrency failure — node geelooy/api/social/test/concurrencyfailurestress.test.mjs test:dayuh release — npm run test:routes && npm run test:comments && npm run test:social content && npm run test:social packed && npm run test:packed engine && node test tools/dayuhchadashmaintenance/test/ .test.js && npm run test:dayuh cutover related routes /api/social /api/social/abuse/ratelimit/check /api/social/alias/:alias /api/social/alias/:alias/details /api/social/alias/:alias/heichelos /api/social/alias/:alias/heichelos/:heichel /api/social/alias/:alias/heichelos/:heichel/ownership /api/social/alias/:alias/heichelos/details",
+		"page": "pages/docs-generated-api-tutorials-routes-api-social-unified-social-heichelos--3215ebd48f.json"
 	},
 	{
-		"id": "docs-generated-api-tutorials-routes-api-tunnel-control-preview-settings--dc48fc02d3",
-		"title": "API Tutorial: /api/tunnel/control/preview/settings",
-		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-preview-settings-410566c895.md",
-		"category": "Tunnel",
+		"id": "docs-generated-api-tutorials-routes-api-social-unified-social-heichelos--8ae80bcbb4",
+		"title": "API Tutorial: /api/social/unified-social/heichelos/:heichel/invitations/:invitation/respond",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-unified-social-heichelos-heichel-invitations-invitati-b03dc3e0d8.md",
+		"category": "Routes",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "API Tutorial: /api/tunnel/control/preview/settings",
-				"anchor": "api-tutorial-api-tunnel-control-preview-settings"
+				"text": "API Tutorial: /api/social/unified-social/heichelos/:heichel/invitations/:invitation/respond",
+				"anchor": "api-tutorial-api-social-unified-social-heichelos-heichel-invitations-invitation-respond"
 			},
 			{
 				"level": 2,
@@ -230,55 +230,8 @@
 				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/tunnel/control/preview/settings Family: Tunnel Control · Mount: /api/tunnel/control · Derech health: OK Source: geelooy/api/tunnel/control/routes/table.js · Discovery: route table · Confidence: unknown method Read the human Tunnel Control tutorial Generated evidence is",
-		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/tunnel/control/preview/settings family: tunnel control · mount: /api/tunnel/control · derech health: ok source: geelooy/api/tunnel/control/routes/table.js · discovery: route table · confidence: unknown method read the human tunnel control tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers pattern compatible evidence only; it does not prove runtime dispatch. literal source kind /api/tunnel/control/preview/settings geelooy/apps/tunnel control/js/features/previewgateway.js runtime related tests heuristic family matches: test:mission continuity actions — node geelooy/apps/tunnel/agent/tools/fs/actiongroups/test/missioncontinuityactions.test.mjs test:treasury — node geelooy/api/tunnel/control/test/runtreasurytests.cjs test:treasury:full — node geelooy/api/tunnel/control/test/treasury/runall.cjs test:tunnel release — node test scripts/tunnel/testing/ .test.cjs scripts/repository hygiene/testing/ .test.cjs related routes /api/tunnel/control/admin vault /api/tunnel/control/admin/perutas /api/tunnel/control/agent economy /api/tunnel/control/api keys /api/tunnel/control/api keys/create /api/tunnel/control/api keys/revoke /api/tunnel/control/bank /api/tunnel/control/blob/:blobid",
-		"page": "pages/docs-generated-api-tutorials-routes-api-tunnel-control-preview-settings--dc48fc02d3.json"
-	},
-	{
-		"id": "docs-generated-api-tutorials-routes-api-tunnel-control-preview-settings--e43be8edca",
-		"title": "API Tutorial: /api/tunnel/control/preview/settings/set",
-		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-preview-settings-set-7182d3e2e0.md",
-		"category": "Tunnel",
-		"provenance": "generated",
-		"headings": [
-			{
-				"level": 1,
-				"text": "API Tutorial: /api/tunnel/control/preview/settings/set",
-				"anchor": "api-tutorial-api-tunnel-control-preview-settings-set"
-			},
-			{
-				"level": 2,
-				"text": "Contract evidence",
-				"anchor": "contract-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Path parameters",
-				"anchor": "path-parameters"
-			},
-			{
-				"level": 2,
-				"text": "Starter call",
-				"anchor": "starter-call"
-			},
-			{
-				"level": 2,
-				"text": "Observed callers",
-				"anchor": "observed-callers"
-			},
-			{
-				"level": 2,
-				"text": "Related tests",
-				"anchor": "related-tests"
-			},
-			{
-				"level": 2,
-				"text": "Related routes",
-				"anchor": "related-routes"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/tunnel/control/preview/settings/set Family: Tunnel Control · Mount: /api/tunnel/control · Derech health: OK Source: geelooy/api/tunnel/control/routes/table.js · Discovery: route table · Confidence: unknown method Read the human Tunnel Control tutorial Generated evidenc",
-		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/tunnel/control/preview/settings/set family: tunnel control · mount: /api/tunnel/control · derech health: ok source: geelooy/api/tunnel/control/routes/table.js · discovery: route table · confidence: unknown method read the human tunnel control tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests heuristic family matches: test:mission continuity actions — node geelooy/apps/tunnel/agent/tools/fs/actiongroups/test/missioncontinuityactions.test.mjs test:treasury — node geelooy/api/tunnel/control/test/runtreasurytests.cjs test:treasury:full — node geelooy/api/tunnel/control/test/treasury/runall.cjs test:tunnel release — node test scripts/tunnel/testing/ .test.cjs scripts/repository hygiene/testing/ .test.cjs related routes /api/tunnel/control/admin vault /api/tunnel/control/admin/perutas /api/tunnel/control/agent economy /api/tunnel/control/api keys /api/tunnel/control/api keys/create /api/tunnel/control/api keys/revoke /api/tunnel/control/bank /api/tunnel/control/blob/:blobid",
-		"page": "pages/docs-generated-api-tutorials-routes-api-tunnel-control-preview-settings--e43be8edca.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/social/unified social/heichelos/:heichel/invitations/:invitation/respond Family: Social · Mount: /api/social · Derech health: OK Source: geelooy/api/social/ awtsmoos.memberGovernance.js · Discovery: static literal · Confidence: unknown method Read the human Social tuto",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/social/unified social/heichelos/:heichel/invitations/:invitation/respond family: social · mount: /api/social · derech health: ok source: geelooy/api/social/ awtsmoos.membergovernance.js · discovery: static literal · confidence: unknown method read the human social tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters name shape heichel single segment invitation single segment starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers pattern compatible evidence only; it does not prove runtime dispatch. literal source kind /api/social/unified social/heichelos/beit/invitations/invite%20one/respond geelooy/social hub/js/api/governanceapi.test.mjs test related tests heuristic family matches: test — npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported style ownership && npm run test:css quality && npm run test:heichelos quality && npm run test:profile menu && npm run test:heichel governance && npm run test:post submissions && npm run test:comments && npm run test:api keys && npm run test:graph && npm run test:social content && npm run test:notifications && npm run test:social packed && npm run test:packed engine && npm run test:platform ops && npm run test:platform execution && npm run test:node client && npm run test:dayuh cutover test:api keys — node geelooy/api/social/helper/test/apikeys.test.js test:comments — node geelooy/api/social/helper/comments/test/runallcommentstests.js test:concurrency failure — node geelooy/api/social/test/concurrencyfailurestress.test.mjs test:dayuh release — npm run test:routes && npm run test:comments && npm run test:social content && npm run test:social packed && npm run test:packed engine && node test tools/dayuhchadashmaintenance/test/ .test.js && npm run test:dayuh cutover related routes /api/social /api/social/abuse/ratelimit/check /api/social/alias/:alias /api/social/alias/:alias/details /api/social/alias/:alias/heichelos /api/social/alias/:alias/heichelos/:heichel /api/social/alias/:alias/heichelos/:heichel/ownership /api/social/alias/:alias/heichelos/details",
+		"page": "pages/docs-generated-api-tutorials-routes-api-social-unified-social-heichelos--8ae80bcbb4.json"
 	}
 ]

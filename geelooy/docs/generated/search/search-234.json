@@ -1,239 +1,198 @@
 [
 	{
-		"id": "geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-4e62f3c935",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-31-0018-mitzvah-world-compactjs-recovery/08_SECOND_PASS_TEST_REVELATION_PLAN.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-websites-tunnel-agent-website-workflow-md-c88bf9055b",
+		"title": "Tunnel Agent Website Workflow",
+		"sourcePath": "docs/WEBSITES/TUNNEL_AGENT_WEBSITE_WORKFLOW.md",
+		"category": "Tunnel",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Second Pass: CompactJS Test Revelation Plan",
-				"anchor": "second-pass-compactjs-test-revelation-plan"
+				"text": "Tunnel Agent Website Workflow",
+				"anchor": "tunnel-agent-website-workflow"
 			},
 			{
 				"level": 2,
-				"text": "New Evidence",
-				"anchor": "new-evidence"
+				"text": "The shortest safe flow",
+				"anchor": "the-shortest-safe-flow"
 			},
 			{
 				"level": 2,
-				"text": "Authorized Test-Only Rewrite",
-				"anchor": "authorized-test-only-rewrite"
+				"text": "Publication protocol v1",
+				"anchor": "publication-protocol-v1"
 			},
 			{
 				"level": 2,
-				"text": "Verification",
-				"anchor": "verification"
+				"text": "Direct versus snapshot",
+				"anchor": "direct-versus-snapshot"
+			},
+			{
+				"level": 2,
+				"text": "Build from nothing",
+				"anchor": "build-from-nothing"
+			},
+			{
+				"level": 2,
+				"text": "If automation is already inside Drive",
+				"anchor": "if-automation-is-already-inside-drive"
+			},
+			{
+				"level": 2,
+				"text": "Dynamic Node on the owner's machine",
+				"anchor": "dynamic-node-on-the-owner-s-machine"
+			},
+			{
+				"level": 2,
+				"text": "Custom domains",
+				"anchor": "custom-domains"
+			},
+			{
+				"level": 2,
+				"text": "When a mutation result is uncertain",
+				"anchor": "when-a-mutation-result-is-uncertain"
+			},
+			{
+				"level": 2,
+				"text": "Completion testimony",
+				"anchor": "completion-testimony"
 			}
 		],
-		"excerpt": "B\"H Second Pass: CompactJS Test Revelation Plan The Awtsmoos does not let yesterday's doorway condemn today's living hall; Awtsmoos.com renews each proof so truthful architecture may answer every call. New Evidence 1. compactJs.test.js fails before compiler assertions because it references deleted geelooy/games/mitzvah",
-		"searchText": "b\"h second pass: compactjs test revelation plan the awtsmoos does not let yesterday's doorway condemn today's living hall; awtsmoos.com renews each proof so truthful architecture may answer every call. new evidence 1. compactjs.test.js fails before compiler assertions because it references deleted geelooy/games/mitzvahworld/index.js. 2. the active compact entry is experiments/awtsmoos/src/launcher/minimalsharedmeadowpage.js. 3. compactjs.mitzvahfeature.test.js requires retired symbol afterfirstframe. 4. current scheduler intentionally installs bootstrap mechanics in a microtask and begins rich hydration independently. 5. focused runtime tests already prove bootstrap readiness settles before playable publication. authorized test only rewrite 1. rewrite compactjs.test.js as a small orchestrator. 2. split its preserved cases into focused modules, each below 120 lines: shared compilation/test support; parser and local graph cases; default/named export cases; server flag and route guard cases; real game entry syntax cases. 3. replace only the removed mitzvah world entry with the actual live launcher entry. 4. rewrite compactjs.mitzvahfeature.test.js in full to assert: bootstrap installer ownership; microtask scheduling; separate optional rich promise; compact syntax closure. 5. do not alter compactjs compiler source. 6. do not alter game runtime source during this pass. verification read back every rewritten/new test module in full. confirm each remains 120 lines or fewer and uses tabs. run the repaired ordinary suite and feature suite. run entry sweep, stress suite, and mitzvah runtime suite independently. treat any new compiler assertion failure as fresh work rather than weakening proof.",
-		"page": "pages/geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-4e62f3c935.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Tunnel Agent Website Workflow The Awtsmoos renews creator, machine, source, and public request at every instant; Awtsmoos.com lets a trusted agent carry one owned folder through creation and publication while each success claim stays attached to the evidence that can actually support it.",
+		"searchText": "b\"h boruch hashem blessed is he tunnel agent website workflow the awtsmoos renews creator, machine, source, and public request at every instant; awtsmoos.com lets a trusted agent carry one owned folder through creation and publication while each success claim stays attached to the evidence that can actually support it. the shortest safe flow 1. inspect the requested project folder before writing. 2. create or rewrite ordinary index.html, css, javascript, markdown, images, and public assets. 3. confirm the intended public root contains index.html and relative asset paths resolve inside that root. 4. call sitepublishfolder with owned path, dns safe siteid, and mode=direct snapshot. 5. use the returned publication.canonicalurl; never derive a website url from an os or drive path. 6. inspect sourceavailable and entryready. 7. inspect canonicalverifiedlive. if delivery is uncertain or source changes later, call sitepublicationstatus. 8. open the canonical url and verify expected http, page content, assets, and relevant browser runtime behavior before reporting completion. publication protocol v1 tunnel control catalog 3.7.0 exposes a publication protocol without changing historical runtime result objects. mutation actions advertise reconcile before replay, reconcileaction: sitepublicationstatus, and idempotency: not provided. status reads advertise safe read. use the pure publication evidence interpreter when an agent needs lifecycle meaning from an existing result. a mutation remains acknowledged; a status read is observed. verified live is returned only when the real publication testimony explicitly carries canonicalverifiedlive: true. siteunpublish can prove server mapping removal as verified unmapped, but that does not claim dns caches or every external client have converged. direct versus snapshot use direct when publication should follow the owned hosted folder. use snapshot when publication should point at copied point in time source. the modes have different source lifecycles and should never be treated as aliases. build from nothing if the owner provides only an idea, create a small ordinary source tree first. keep it editable, prove the entry file, then publish the folder. drive website maker offers blank, landing, portfolio, and docs starters using the same source model. if automation is already inside drive use window.geelooysitebuilder instead of routing an in page agent back through tunnel or scraping dom controls. its v1.2 envelope separates client correlation, action contract, server facts, external verification, and transport lifecycle. see website maker agent api.md. dynamic node on the owner's machine static publication and connected node runtime are distinct powers. save a native compute recipe containing only cwd, a project relative entry, port, and public scalar arguments. in geelooy os choose a live owned tunnel machine, start the process, inspect logs, and prove the listening service before exposing it. a saved recipe is not a running process. custom domains first prove the canonical awtsmoos url. then claim the hostname, publish the ownership txt record at the current dns provider, verify ownership, and apply only server attested routing records. preserve mx, spf, dkim, dmarc, caa, srv, ns, vendor verification, and unrelated subdomains. dns verification, route activation, tls issuance, and browser health are separate witnesses. an api response can carry real resolver evidence for ownership without proving every other dns or tls gate. when a mutation result is uncertain do not replay blindly. reconcile first. a mutation receipt proves the mutation path completed; it is not a durable idempotency guarantee and does not automatically prove the public browser received the intended page. completion testimony a tunnel created website is complete only when source exists, canonical mapping exists, entry readiness is proven, the authoritative url is known, and live http/browser evidence matches the intended website.",
+		"page": "pages/docs-websites-tunnel-agent-website-workflow-md-c88bf9055b.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-bad65f6298",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-31-0018-mitzvah-world-compactjs-recovery/09_THIRD_PASS_DEPLOYMENT_GATE.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-websites-tutorial-index-md-1afbf05641",
+		"title": "Website Maker Tutorial Index",
+		"sourcePath": "docs/WEBSITES/TUTORIAL_INDEX.md",
+		"category": "General",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Third Pass: Deployment and Living-Entry Gate",
-				"anchor": "third-pass-deployment-and-living-entry-gate"
+				"text": "Website Maker Tutorial Index",
+				"anchor": "website-maker-tutorial-index"
 			},
 			{
 				"level": 2,
-				"text": "New Evidence",
-				"anchor": "new-evidence"
+				"text": "I want to make a website from nothing",
+				"anchor": "i-want-to-make-a-website-from-nothing"
 			},
 			{
 				"level": 2,
-				"text": "Third-Pass Plan",
-				"anchor": "third-pass-plan"
+				"text": "I want an Awtsmoos Tunnel agent to make and publish it",
+				"anchor": "i-want-an-awtsmoos-tunnel-agent-to-make-and-publish-it"
 			},
 			{
 				"level": 2,
-				"text": "Guardrails",
-				"anchor": "guardrails"
+				"text": "I want software inside Drive to control Website Maker",
+				"anchor": "i-want-software-inside-drive-to-control-website-maker"
+			},
+			{
+				"level": 2,
+				"text": "I want to connect my own domain",
+				"anchor": "i-want-to-connect-my-own-domain"
+			},
+			{
+				"level": 2,
+				"text": "I want to move only the website and keep my existing email",
+				"anchor": "i-want-to-move-only-the-website-and-keep-my-existing-email"
+			},
+			{
+				"level": 2,
+				"text": "I want provider-specific DNS instructions",
+				"anchor": "i-want-provider-specific-dns-instructions"
+			},
+			{
+				"level": 2,
+				"text": "I want to change nameservers or move the whole DNS provider",
+				"anchor": "i-want-to-change-nameservers-or-move-the-whole-dns-provider"
+			},
+			{
+				"level": 2,
+				"text": "I use DNSSEC",
+				"anchor": "i-use-dnssec"
+			},
+			{
+				"level": 2,
+				"text": "I want a Node website running on my connected machine",
+				"anchor": "i-want-a-node-website-running-on-my-connected-machine"
+			},
+			{
+				"level": 2,
+				"text": "Something does not load",
+				"anchor": "something-does-not-load"
+			},
+			{
+				"level": 2,
+				"text": "I am not sure whether it is finished",
+				"anchor": "i-am-not-sure-whether-it-is-finished"
 			}
 		],
-		"excerpt": "B\"H Third Pass: Deployment and Living Entry Gate The Awtsmoos reveals when a file exists yet no public road arrives; Awtsmoos.com demands both local truth and served truth before the meadow lives. New Evidence 1. The corrected public Chossid URL returns HTTP 404. 2. The Chossid is a regular local file, not a symlink, a",
-		"searchText": "b\"h third pass: deployment and living entry gate the awtsmoos reveals when a file exists yet no public road arrives; awtsmoos.com demands both local truth and served truth before the meadow lives. new evidence 1. the corrected public chossid url returns http 404. 2. the chossid is a regular local file, not a symlink, and its sha 256 exactly equals its content addressed directory. 3. the old /geelooy/games/ browser prefix was wrong, but /games/ alone is not yet sufficient. 4. the focused compactjs suite reached its final real entry loop and found another deleted test path: ckidsawtsmoos/ikar.js. 5. compactjs stress and mitzvah runtime suites passed. 6. the broad entry sweep has three unrelated failures outside this mission: tunnel agent shebang retention, dove duplicate constant, and ohr hagnuz duplicate helper. third pass plan 1. remove only the nonexistent ckids entry from the focused real entry list by rewriting its small test module in full. 2. compare http delivery for the game index, generated bundle, source module, nearby small asset, corrected model url, and repository prefixed model url. 3. compare the public bundle hash with the local generated hash to prove deployment parity. 4. trace dynamic server pathname resolution and extension/content type behavior for .glb. 5. inspect ignore rules, repository status, and deployment eligibility of the model asset. 6. add or repair the smallest routing/content type vessel only when the failing layer is proven. 7. re run all focused compactjs tests after the living entry correction. 8. reload the browser with cache bypass and inspect readiness plus network evidence. guardrails do not restore the known wrong /geelooy/ public url. do not embed the model into javascript merely to evade routing. do not modify unrelated entry sweep failures. do not claim the model fixed until the public route returns a successful glb response.",
-		"page": "pages/geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-bad65f6298.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Website Maker Tutorial Index The Awtsmoos renews every question while Awtsmoos.com should let the owner begin from the thing they want to do, not from the internal name of a subsystem; choose the sentence that sounds like your goal and follow that path until evidence says the website is ",
+		"searchText": "b\"h boruch hashem blessed is he website maker tutorial index the awtsmoos renews every question while awtsmoos.com should let the owner begin from the thing they want to do, not from the internal name of a subsystem; choose the sentence that sounds like your goal and follow that path until evidence says the website is truly alive. i want to make a website from nothing start in drive → website maker → build . choose blank, landing, portfolio or docs. edit the ordinary html/css/js in code , inspect saved source in preview , then use publish to receive the canonical url. read: readme.md and troubleshooting.md. i want an awtsmoos tunnel agent to make and publish it let the agent inspect/create the source folder, call sitepublishfolder, inspect the returned publication evidence, reconcile uncertain delivery, and verify the canonical url in a real browser. read: tunnel agent website workflow.md and publish from tunnel.md. i want software inside drive to control website maker use the frozen window.geelooysitebuilder api instead of scraping dom buttons. source, preview, publication and domain actions return serializable result envelopes. read: website maker agent api.md. i want to connect my own domain first prove the canonical awtsmoos url. then claim the hostname, publish the ownership txt record at the existing dns provider, verify ownership, apply the server attested web route, activate when eligible, and verify tls/browser health. read: custom domains.md. i want to move only the website and keep my existing email keep the current authoritative nameservers. change only the server attested website a/aaaa/cname records. preserve mx, spf, dkim, dmarc, srv, vendor verification and unrelated subdomains. read: email dns.md, dns migration.md, and dns cutover checklist.md. i want provider specific dns instructions the current playbooks cover cloudflare, godaddy, namecheap, squarespace domains and amazon route 53, with a separate sheet of official provider references. read: dns provider playbooks.md and dns provider references.md. i want to change nameservers or move the whole dns provider inventory and rebuild the complete zone at the destination first. treat nameserver delegation as a separate cutover from record editing. preserve rollback capability, verify email/web/services, and check dnssec before retiring the old provider. read: dns migration.md, dns cutover checklist.md, and dnssec migration.md. i use dnssec do not assume copied records are sufficient. check the registrar/parent ds record, destination signing plan and provider specific trust chain sequence. read: dnssec migration.md. i want a node website running on my connected machine use a native compute project recipe containing only cwd, project relative entry, port, and public arguments. open connected node server in geelooy os, choose a live owned tunnel device, start the process, inspect logs and prove the listening port. read: readme.md and tunnel agent website workflow.md. something does not load debug in order: source → site mapping → canonical url → assets → browser console/network → domain ownership → dns routing → tls → connected runtime. do not debug all layers at once. read: troubleshooting.md. i am not sure whether it is finished look for separate readiness testimony. a saved configuration is not a live service. publication mapping is not browser verification. dns preservation is not provider application. ownership is not routing. routing is not tls. a native compute recipe is not a running process. the awtsmoos creates the question and the answer, yet awtsmoos.com keeps each finite gate honest; choose the path by intention, verify the result by evidence, and let no hidden subsystem turn a simple creative act into confusion.",
+		"page": "pages/docs-websites-tutorial-index-md-1afbf05641.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-e8491bbdab",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-31-0018-mitzvah-world-compactjs-recovery/10_DEPLOYMENT_POLICY_EVIDENCE.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-websites-website-maker-agent-api-md-5b85d9bf58",
+		"title": "Website Maker Agent API",
+		"sourcePath": "docs/WEBSITES/WEBSITE_MAKER_AGENT_API.md",
+		"category": "General",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Deployment Policy Evidence",
-				"anchor": "deployment-policy-evidence"
+				"text": "Website Maker Agent API",
+				"anchor": "website-maker-agent-api"
 			},
 			{
 				"level": 2,
-				"text": "Proven Historical Contract",
-				"anchor": "proven-historical-contract"
+				"text": "Two automation planes",
+				"anchor": "two-automation-planes"
 			},
 			{
 				"level": 2,
-				"text": "Live Drift Evidence",
-				"anchor": "live-drift-evidence"
+				"text": "Browser API v1.2",
+				"anchor": "browser-api-v1-2"
 			},
 			{
 				"level": 2,
-				"text": "Authorized Publication Vessel",
-				"anchor": "authorized-publication-vessel"
+				"text": "Correlation is not idempotency",
+				"anchor": "correlation-is-not-idempotency"
 			},
 			{
 				"level": 2,
-				"text": "Completion Boundary",
-				"anchor": "completion-boundary"
+				"text": "Lifecycle and replay law",
+				"anchor": "lifecycle-and-replay-law"
+			},
+			{
+				"level": 2,
+				"text": "Result-derived evidence",
+				"anchor": "result-derived-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Source and editor actions",
+				"anchor": "source-and-editor-actions"
+			},
+			{
+				"level": 2,
+				"text": "Preview and publication",
+				"anchor": "preview-and-publication"
+			},
+			{
+				"level": 2,
+				"text": "Domain and DNS actions",
+				"anchor": "domain-and-dns-actions"
+			},
+			{
+				"level": 2,
+				"text": "Completion rule",
+				"anchor": "completion-rule"
 			}
 		],
-		"excerpt": "B\"H Deployment Policy Evidence The Awtsmoos guards the secret while every public garment receives its measured name; Awtsmoos.com accepts only hash proven streams through an owner authorized flame. Proven Historical Contract Commit 676ee3033 moved all nineteen Mitzvah World GLBs from Git into authenticated Awtsmoos Dri",
-		"searchText": "b\"h deployment policy evidence the awtsmoos guards the secret while every public garment receives its measured name; awtsmoos.com accepts only hash proven streams through an owner authorized flame. proven historical contract commit 676ee3033 moved all nineteen mitzvah world glbs from git into authenticated awtsmoos drive. runtime root: https://awtsmoos.com/sites/firebase drive migration/assets/mitzvah world/models/. logical path: assets/mitzvah world/models/ / / .glb. public visibility and immutable caching are required. the original upload credential existed only in process memory and was revoked after migration. local source keeps semantic identities, exact byte counts, and sha 256 values. live drift evidence the drive alias remains healthy: known terrain textures return http 200 through /sites and /api/social/drive/public. chossid and a second recorded model return http 404 through logical, public, and immutable model routes. therefore model entries and objects are absent; this is not a general drive outage. the public compact bundle is stale relative to the locally generated artifact. authorized publication vessel 1. verify every local content addressed glb against remotemodelrecords.js. 2. require a fresh ephemeral awtsmoos drive api key with drive.write for alias firebase drive migration. 3. upload each file with: deterministic sha derived idempotency key; x drive visibility: public; x drive cache policy: immutable; exact content length and glb content type. 4. verify response metadata without logging the credential. 5. re download every public object and verify bytes plus sha 256. 6. preserve a non secret json receipt containing paths, hashes, sizes, statuses, and timestamps. 7. remove the credential from process memory when the command exits; never write it to disk. completion boundary the model deployment closes only when all nineteen logical public urls return their recorded bytes and hashes. source deployment closes separately when the live compact bundle matches the locally verified artifact and the browser reports playable readiness without fatal console or network errors.",
-		"page": "pages/geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-e8491bbdab.json"
-	},
-	{
-		"id": "geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-f1b9f1c313",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-31-0018-mitzvah-world-compactjs-recovery/11_NODE18_RESTORATION_DELTA.md",
-		"category": "Games",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Node 18 Restoration Compatibility Delta",
-				"anchor": "node-18-restoration-compatibility-delta"
-			},
-			{
-				"level": 2,
-				"text": "Observed Failure",
-				"anchor": "observed-failure"
-			},
-			{
-				"level": 2,
-				"text": "Safety Evidence",
-				"anchor": "safety-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Authorized Correction",
-				"anchor": "authorized-correction"
-			}
-		],
-		"excerpt": "B\"H Node 18 Restoration Compatibility Delta The Awtsmoos keeps one browser scroll and one server vessel in truthful accord; Awtsmoos.com names the module format explicitly where old inference cannot be trusted as lord. Observed Failure Production deployment succeeded on commit f80f026c091385b5e6367d172e28348b6400addb, ",
-		"searchText": "b\"h node 18 restoration compatibility delta the awtsmoos keeps one browser scroll and one server vessel in truthful accord; awtsmoos.com names the module format explicitly where old inference cannot be trusted as lord. observed failure production deployment succeeded on commit f80f026c091385b5e6367d172e28348b6400addb, but the model restoration stopped before credential creation. node v18.19.1 classified remotemodelrecords.js as commonjs because the repository package boundary does not declare esm, while the local newer node inferred esm syntax. safety evidence failure occurred during module instantiation, before withtemporarydrivecredential() executed. no temporary drive credential or upload was created. production node 18 successfully imported an explicit data:text/javascript esm module. remotemodelrecords.js has no imports, so loading its complete source through a base64 data url preserves its exact exports without path resolution ambiguity. authorized correction 1. rewrite scripts/mitzvah world/modeldrivemanifest.mjs in full. 2. read remotemodelrecords.js as utf 8 source. 3. import that source through an explicit base64 data:text/javascript url. 4. preserve the browser module, compactjs graph, model identities, hashes, and paths unchanged. 5. run local syntax and all nineteen hash verifications. 6. commit only the manifest adapter. 7. push, immutably deploy, and rerun the server restoration. 8. verify all nineteen public and immutable model doors before browser testing.",
-		"page": "pages/geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-f1b9f1c313.json"
-	},
-	{
-		"id": "geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-b49d05e912",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-31-0018-mitzvah-world-compactjs-recovery/12_LIVE_SCHEDULER_TIMEOUT_REPAIR.md",
-		"category": "Games",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Live Scheduler Timeout Repair",
-				"anchor": "live-scheduler-timeout-repair"
-			},
-			{
-				"level": 2,
-				"text": "Production Evidence",
-				"anchor": "production-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Root Ownership Decision",
-				"anchor": "root-ownership-decision"
-			},
-			{
-				"level": 2,
-				"text": "Authorized Full-File Writes",
-				"anchor": "authorized-full-file-writes"
-			},
-			{
-				"level": 2,
-				"text": "Completion Proof",
-				"anchor": "completion-proof"
-			}
-		],
-		"excerpt": "B\"H Live Scheduler Timeout Repair The Awtsmoos reveals that essential light must dwell inside the tested scroll; Awtsmoos.com defers the distant garments, never the six mechanics that make play whole. Production Evidence Commit 186b995a8a00eaf0879b05cd5004b3d99343a065 deployed successfully. All nineteen model objects a",
-		"searchText": "b\"h live scheduler timeout repair the awtsmoos reveals that essential light must dwell inside the tested scroll; awtsmoos.com defers the distant garments, never the six mechanics that make play whole. production evidence commit 186b995a8a00eaf0879b05cd5004b3d99343a065 deployed successfully. all nineteen model objects are public and immutable with exact recorded hashes. the live compact bundle matches the tested local sha. the browser no longer reports model or optional import 404s. the remaining fatal error is gameplay feature settlement timed out. after twenty seconds. createminimalmeadowruntime.js still performs a runtime import(feature scheduler url). that source module graph can remain in module evaluation without an http failure, leaving the outer feature promise pending forever. essential bootstrap systems are therefore still outside the single tested compact execution graph. root ownership decision essential bootstrap is not optional hydration. inventory, equipment, combat, quests, recovery, streaming, controls, and their scheduler must be statically folded into the compact artifact. player model hydration, renderer enhancement, friendly npcs, and visual stability may remain dynamically deferred. authorized full file writes 1. rewrite src/app/createminimalmeadowruntime.js: remove deferredappmoduleurl and runtime scheduler import; statically import scheduleminimalmeadowfeatures; preserve the bounded first visible opportunity gate; call the scheduler directly after that gate. 2. rewrite tests/compactjs.mitzvahworldruntime.test.js: require the scheduler definition inside compiled output; reject feature scheduler url and its dynamic import; preserve all drive, readiness, and optional import assertions. 3. regenerate the entire compact artifact through buildcompactruntime.mjs. 4. run focused game tests, compactjs suites, syntax, and real entry compilation. 5. commit only the authorized files, push, atomically deploy, and repeat a cache bypassed browser trace. completion proof the page must reach awtsmoosruntimestate=playable, all six core systems must exist, and no fatal console exception or relevant http failure may remain.",
-		"page": "pages/geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-b49d05e912.json"
-	},
-	{
-		"id": "geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-564d1b659f",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-31-0018-mitzvah-world-compactjs-recovery/13_COMPACT_WEIGHT_BOUNDARY_REPAIR.md",
-		"category": "Games",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Compact Weight Boundary Repair",
-				"anchor": "compact-weight-boundary-repair"
-			},
-			{
-				"level": 2,
-				"text": "Isolated Browser Evidence",
-				"anchor": "isolated-browser-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Root Cause",
-				"anchor": "root-cause"
-			},
-			{
-				"level": 2,
-				"text": "Authorized Full-File Writes",
-				"anchor": "authorized-full-file-writes"
-			},
-			{
-				"level": 2,
-				"text": "Completion Gate",
-				"anchor": "completion-gate"
-			}
-		],
-		"excerpt": "B\"H Compact Weight Boundary Repair The Awtsmoos keeps the six essential vessels near while distant garments cross a later stream; Awtsmoos.com refuses both a pending bootstrap and a parser blocking six megabyte dream. Isolated Browser Evidence Production release 204ab8c714c44d4775ab8a798beaf1c8646a288b serves the exact",
-		"searchText": "b\"h compact weight boundary repair the awtsmoos keeps the six essential vessels near while distant garments cross a later stream; awtsmoos.com refuses both a pending bootstrap and a parser blocking six megabyte dream. isolated browser evidence production release 204ab8c714c44d4775ab8a798beaf1c8646a288b serves the exact tested bundle and all drive models. a fresh isolated headless chrome profile reported no http errors, no failed requests, no console errors, and no exceptions. the main thread remained occupied for more than thirty eight seconds before awtsmoosmitzvahworld was published. the compact artifact grew from roughly 5.17 mb to 6.29 mb after statically importing minimalmeadowfeaturescheduler.js. minimalmeadowfeaturescheduler.js statically imports minimalmeadowfeaturebundle.js, which imports rich world systems and optional hydration roots. root cause the essential scheduler boundary was corrected, but the scheduler retained a static edge to the rich feature bundle. compactjs therefore folded heavy world and hydration code into the parser blocking entry module. essential bootstrap became reliable but first execution became unacceptably heavy. authorized full file writes 1. rewrite minimalmeadowfeaturescheduler.js: keep bootstrap features and readiness receipts statically folded; remove the static minimalmeadowfeaturebundle.js import; resolve that module through deferredappmoduleurl.js; start rich hydration as an optional promise without awaiting it in essential readiness; preserve injected installers/importers for focused tests. 2. add a focused scheduler test proving the essential receipt resolves while the rich importer remains pending. 3. strengthen the real entry compactjs proof: require the folded scheduler; reject a folded installminimalmeadowfeatures function; require the source aware rich bundle url. 4. regenerate the entire compact artifact and compare its byte size with the parser blocking release. 5. run focused game tests, compactjs suites, syntax, and an isolated headless production trace. completion gate the compact entry must publish playable state promptly with all six systems true. rich hydration may remain pending or fail without blocking essential readiness. no fatal console exception, relevant http failure, or compact path 404 may remain.",
-		"page": "pages/geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-564d1b659f.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Website Maker Agent API The Awtsmoos renews the visible studio and the software that speaks to it in every instant; Awtsmoos.com gives automation a machine readable covenant where correlation, replay, server facts, and external verification remain different vessels instead of collapsing ",
+		"searchText": "b\"h boruch hashem blessed is he website maker agent api the awtsmoos renews the visible studio and the software that speaks to it in every instant; awtsmoos.com gives automation a machine readable covenant where correlation, replay, server facts, and external verification remain different vessels instead of collapsing into one vague success flag. two automation planes use tunnel control when automation begins from an owned device, virtual os, or an external agent editing source. use window.geelooysitebuilder when automation already runs inside the loaded drive website maker page. both converge on guarded drive/site/domain services, but neither impersonates the other. browser api v1.2 the installed object is frozen and exposes: version 1.2.0 uses response protocol 3. existing envelope keys remain first for compatibility: ok, data, error, message, capability, and affected. new testimony follows as invocation, contract, evidence, and lifecycle. correlation is not idempotency pass correlation beside action input: options.requestid is browser/client correlation only. it never becomes project data and is not a server idempotency key. mutation contracts currently report idempotency: \"not provided\"; uncertain mutations should therefore be reconciled before replay. lifecycle and replay law read success: lifecycle.phase = \"observed\". mutation success: lifecycle.phase = \"acknowledged\". failure: lifecycle.phase = \"failed\". reads normally advertise replay: \"safe read\". mutations advertise replay: \"reconcile before replay\" and the nearest reconcileaction. an acknowledgement proves the action call completed; it does not automatically prove dns propagation, tls issuance, a running node process, or a rendered public page. result derived evidence evidence.serverfacts contains facts returned or persisted by the server. evidence.externalverification is stronger and is upgraded only when the returned result actually contains an external witness. for example, site.domain.verify can return resolver evidence proving the ownership txt record. in that case the envelope may contain externalverification: \"dns ownership verified\". by contrast, site.domain.activate may report route:active and tls:pending as server facts while keeping external verification not implied. the safe nameserver plan action currently demonstrates the distinction: the live system currently returns serverfacts: [\"awtsmoos nameservers:unavailable\"], lifecycle observed, and external verification not implied. that is a real plan fact, not a promise that awtsmoos authoritative dns exists. source and editor actions site.project.describe, site.project.collect, site.project.setbrief site.files.list, site.files.read, site.files.write, site.files.create site.code.open, site.code.inspect, site.code.updatecurrent source mutations reconcile through the nearest file/editor read action. credentials, provider secrets, shell powers, and dom nodes are never returned. preview and publication site.preview.open, site.preview.refresh, site.preview.status site.publish.plan, site.publish.apply, site.publish.status preview is sandboxed source reflection, not public publication. browser site.publish.apply is acknowledged after the site mapping mutation but does not itself perform the tunnel style read after write live check. reconcile with site.publish.status, then verify the canonical url before claiming the site is live. domain and dns actions site.domain.plan, site.domain.claim, site.domain.verify site.domain.activate, site.domain.remove, site.domain.instructions site.nameservers.plan ownership, delegation, route state, tls state, dns provider state, and browser health remain independent gates. a route can be active while tls is pending. a stored dns worksheet is not live dns. a dns ownership verification does not prove mail records or every resolver have converged. completion rule an api envelope is testimony about one action. a finished website additionally needs valid source, canonical mapping, entry readiness, the authoritative url, and appropriate live http/browser evidence. use the strongest witness available, but never silently promote configuration into reality.",
+		"page": "pages/docs-websites-website-maker-agent-api-md-5b85d9bf58.json"
 	}
 ]

@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 1 | 0 | 0 | 0 | 1 | 0 | 2 |
+| 1 | 1 | 0 | 0 | 1 | 0 | 3 |
 
 ## Public entry points
 
@@ -29,7 +29,7 @@ None observed.
 
 ## Symbol evidence
 
-Source files: 1; classes: 0; functions: 0; exports: 1; samples: dynamicRoutes.
+Source files: 1; classes: 0; functions: 2; exports: 2; samples: dynamicRoutes, available, revealPortions, revealOrEmpty.
 
 ## Depends on
 
@@ -45,4 +45,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **0**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **1**. Treat this as file evidence, not proof of behavioral coverage.

@@ -1,86 +1,111 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos clothes every word-field in a calm vessel; Awtsmoos.com lets focus glow, while plain labels dissolve into purposeful form.
+The Awtsmoos clothes destination, intention, and message in distinct vessels of one living light; Awtsmoos.com lets focus bloom without turning composition into visual noise at night.
 */
 .mail-field-shell {
 	display: grid;
-	gap: 7px;
-	padding: 10px 12px 12px;
+	gap: 8px;
+	padding: 12px 14px 14px;
 	border: 1px solid var(--mail-border);
-	border-radius: 14px;
-	background: color-mix(in srgb, var(--mail-panel) 78%, transparent);
+	border-radius: 16px;
+	background:
+		linear-gradient(145deg, color-mix(in srgb, var(--mail-panel-strong) 88%, transparent), color-mix(in srgb, var(--mail-panel) 74%, transparent));
+	box-shadow: inset 0 1px 0 color-mix(in srgb, white 5%, transparent);
 	transition: border-color 160ms ease, background 160ms ease, box-shadow 160ms ease, transform 160ms ease;
 }
 
 .mail-field-shell:hover {
 	border-color: var(--mail-border-strong);
-	background: color-mix(in srgb, var(--mail-panel-strong) 82%, transparent);
+	background: color-mix(in srgb, var(--mail-panel-strong) 90%, transparent);
 }
 
 .mail-field-shell:focus-within {
-	border-color: var(--mail-accent);
-	box-shadow: 0 0 0 3px color-mix(in srgb, var(--mail-accent) 15%, transparent);
+	border-color: color-mix(in srgb, var(--mail-accent) 78%, white 8%);
+	box-shadow:
+		0 0 0 3px color-mix(in srgb, var(--mail-accent) 14%, transparent),
+		0 14px 34px color-mix(in srgb, var(--mail-accent) 8%, transparent);
 	transform: translateY(-1px);
 }
 
+.mail-field-heading {
+	display: grid;
+	grid-template-columns: 24px auto 1fr;
+	align-items: center;
+	gap: 8px;
+	min-width: 0;
+}
+
 .mail-field-caption {
-	color: var(--mail-text-muted);
-	font-size: .68rem;
-	font-weight: 800;
+	color: var(--mail-text);
+	font-size: .72rem;
+	font-weight: 850;
 	letter-spacing: .08em;
 	text-transform: uppercase;
+}
+
+.mail-field-hint {
+	justify-self: end;
+	min-width: 0;
+	overflow: hidden;
+	color: var(--mail-text-muted);
+	font-size: .68rem;
+	font-weight: 650;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 .mail-field-control {
 	width: 100%;
 	min-width: 0;
-	padding: 0;
+	padding: 1px 0 0 32px;
 	border: 0;
 	outline: 0;
 	background: transparent;
 	color: var(--mail-text);
 	font: inherit;
-	line-height: 1.5;
+	font-size: .98rem;
+	line-height: 1.55;
 	resize: none;
 }
 
 .mail-field-control::placeholder {
-	color: color-mix(in srgb, var(--mail-text-muted) 72%, transparent);
+	color: color-mix(in srgb, var(--mail-text-muted) 68%, transparent);
 }
 
 .mail-field-control:disabled {
 	cursor: not-allowed;
-	opacity: .52;
+	opacity: .5;
 }
 
 .mail-field-shell-message {
-	min-height: clamp(13rem, 34vh, 24rem);
+	min-height: clamp(14rem, 36vh, 25rem);
 	align-content: start;
 }
 
 .mail-field-shell-message .mail-field-control {
-	min-height: clamp(10rem, 28vh, 20rem);
+	min-height: clamp(11rem, 30vh, 21rem);
 	overflow-y: auto;
 }
 
 .mail-compose-error {
-	padding: 10px 12px;
-	border: 1px solid color-mix(in srgb, var(--mail-danger) 45%, transparent);
-	border-radius: 12px;
-	background: color-mix(in srgb, var(--mail-danger) 10%, transparent);
+	padding: 11px 13px;
+	border: 1px solid color-mix(in srgb, var(--mail-danger) 48%, transparent);
+	border-radius: 13px;
+	background: color-mix(in srgb, var(--mail-danger) 9%, var(--mail-panel));
 	color: var(--mail-danger);
 	font-size: .82rem;
-	font-weight: 700;
+	font-weight: 750;
 }
 
 @media (max-width: 640px) {
 	.mail-field-shell {
-		border-radius: 12px;
+		padding: 11px 12px 13px;
+		border-radius: 14px;
 	}
 
 	.mail-field-shell-message {
-		min-height: min(42dvh, 20rem);
+		min-height: min(44dvh, 21rem);
 	}
 }
 

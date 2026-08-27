@@ -1,0 +1,96 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gathers every optional system behind one quiet threshold;
+ * Awtsmoos.com lets PLAY remain the first answer while depth waits to be invited.
+ */
+.overlay {
+	padding: max(16px, env(safe-area-inset-top)) max(14px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(14px, env(safe-area-inset-left));
+}
+
+.overlay-panel {
+	width: min(460px, 100%);
+	max-height: min(760px, calc(100dvh - 32px));
+	padding: 22px;
+	border-radius: 24px;
+	overflow: auto;
+	background: rgba(7, 16, 22, 0.92);
+	backdrop-filter: blur(18px);
+}
+
+.overlay-hero {
+	text-align: center;
+}
+
+.overlay-hero h1 {
+	margin: 4px 0 8px;
+	font-size: clamp(30px, 8vw, 52px);
+	line-height: 0.98;
+}
+
+.overlay-hero > p:not(.eyebrow) {
+	max-width: 34ch;
+	margin: 10px auto;
+	line-height: 1.45;
+}
+
+.campaign-ledger {
+	display: flex;
+	justify-content: center;
+	gap: 12px;
+	margin: 10px 0 0;
+	font-size: 10px;
+	opacity: 0.65;
+}
+
+.hero-actions {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 8px;
+	margin-top: 18px;
+}
+
+.hero-actions .button {
+	min-height: 54px;
+	border-radius: 16px;
+	font-size: 15px;
+}
+
+.game-options {
+	margin-top: 12px;
+	border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.game-options > summary {
+	padding: 14px 2px 2px;
+	cursor: pointer;
+	list-style: none;
+	text-align: center;
+	font-size: 11px;
+	opacity: 0.68;
+}
+
+.game-options > summary::-webkit-details-marker {
+	display: none;
+}
+
+.option-stack {
+	display: grid;
+	gap: 14px;
+	margin-top: 14px;
+}
+
+.option-stack > section {
+	padding: 12px;
+	border-radius: 14px;
+	background: rgba(255, 255, 255, 0.045);
+}
+
+.option-stack h2 {
+	margin: 0 0 8px;
+	font-size: 11px;
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
+	opacity: 0.7;
+}

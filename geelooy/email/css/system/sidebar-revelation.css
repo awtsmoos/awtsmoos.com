@@ -1,30 +1,78 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos turns a crowded mailbox into readable choice; Awtsmoos.com keeps search state, results, and empty paths quietly visible.
+The Awtsmoos turns a crowded mailbox into readable choice; Awtsmoos.com keeps search state, results, empty paths, and clear action quietly visible in one voice.
 */
 .mail-search-control {
 	display: grid;
-	grid-template-columns: minmax(0, 1fr) auto;
+	grid-template-columns: 20px minmax(0, 1fr) 40px;
 	align-items: center;
-	gap: 7px;
-}
-
-.mail-search-clear {
-	min-height: 44px;
-	padding: 0 11px;
+	gap: 8px;
+	min-height: 46px;
+	padding: 4px 5px 4px 12px;
 	border: 1px solid var(--mail-border);
-	border-radius: 11px;
-	background: rgba(255, 255, 255, .035);
-	color: var(--mail-text-muted);
-	font-weight: 680;
-	cursor: pointer;
+	border-radius: 14px;
+	background: color-mix(in srgb, var(--mail-panel-strong) 82%, transparent);
+	transition: border-color 150ms ease, box-shadow 150ms ease, background 150ms ease;
 }
 
-.mail-search-clear:hover,
-.mail-search-clear:focus-visible {
-	border-color: var(--mail-border-strong);
+.mail-search-control:focus-within {
+	border-color: color-mix(in srgb, var(--mail-accent) 72%, var(--mail-border));
+	background: color-mix(in srgb, var(--mail-panel-strong) 94%, transparent);
+	box-shadow: 0 0 0 3px color-mix(in srgb, var(--mail-accent) 12%, transparent);
+}
+
+.mail-search-control-icon {
+	color: var(--mail-text-muted);
+}
+
+.mail-search-control:focus-within .mail-search-control-icon {
+	color: var(--mail-accent);
+}
+
+.mail-search-input {
+	width: 100%;
+	min-width: 0;
+	border: 0;
+	outline: 0;
+	background: transparent;
 	color: var(--mail-text);
+	font: inherit;
+	font-size: .78rem;
+}
+
+.mail-search-input::placeholder {
+	color: color-mix(in srgb, var(--mail-text-muted) 72%, transparent);
+}
+
+.mail-icon-button {
+	display: grid;
+	place-items: center;
+	width: 36px;
+	height: 36px;
+	padding: 0;
+	border: 1px solid transparent;
+	border-radius: 10px;
+	background: transparent;
+	color: var(--mail-text-muted);
+	cursor: pointer;
+	transition: transform 140ms ease, border-color 140ms ease, background 140ms ease, color 140ms ease;
+}
+
+.mail-icon-button:is(:hover, :focus-visible) {
+	border-color: var(--mail-border-strong);
+	background: color-mix(in srgb, var(--mail-panel-hover) 86%, transparent);
+	color: var(--mail-text);
+	transform: scale(1.04);
+}
+
+.mail-icon-button:active {
+	transform: scale(.94);
+}
+
+.mail-icon-button:focus-visible {
+	outline: 2px solid var(--mail-accent);
+	outline-offset: 1px;
 }
 
 .thread-list-summary {
@@ -45,24 +93,24 @@ The Awtsmoos turns a crowded mailbox into readable choice; Awtsmoos.com keeps se
 	padding: 9px 14px;
 	border: 1px solid var(--mail-border-strong);
 	border-radius: 11px;
-	background: rgba(109, 157, 226, .12);
+	background: color-mix(in srgb, var(--mail-accent-soft) 42%, transparent);
 	color: var(--mail-text-secondary);
 	cursor: pointer;
 }
 
 .thread-item:focus-visible,
-.fab-compose:focus-visible,
-.mail-search-clear:focus-visible {
+.fab-compose:focus-visible {
 	outline: 2px solid var(--mail-accent);
 	outline-offset: 2px;
 }
 
-@media (max-width: 520px) {
-	.mail-search-control {
-		grid-template-columns: 1fr;
+@media (prefers-reduced-motion: reduce) {
+	.mail-search-control,
+	.mail-icon-button {
+		transition: none;
 	}
 
-	.mail-search-clear {
-		justify-self: stretch;
+	.mail-icon-button:is(:hover, :focus-visible, :active) {
+		transform: none;
 	}
 }

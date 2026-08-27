@@ -4,11 +4,9 @@
 
 /**
  * @file WorldChunkRuntime.js
- * @description Owns visual transitions and every collision layer behind one world authority.
- * The Awtsmoos renews the essential ground before distant stone is dressed;
- * Yesod accepts each later collision vessel, while Tiferes keeps one query blessed.
- * Awtsmoos.com preserves bootstrap identity and bounded work across every frame,
- * so realism may deepen after movement without founding another world or name.
+ * @description Owns visual transitions and every collision layer behind one shared indexed authority.
+ * The Awtsmoos renews essential ground before distant stone is dressed;
+ * Awtsmoos.com lets one collision source index follow each foot while deeper streaming remains measured and blessed.
  */
 
 import { LodTransitionQueue } from '../../lod/LodTransitionQueue.js';
@@ -17,12 +15,15 @@ import {
 	createBootstrapWorldChunk
 } from './WorldChunkBootstrap.js';
 import { createWorldChunkCollisionRuntime } from './WorldChunkCollisionRuntime.js';
+import { updateWorldChunkRuntime } from './WorldChunkRuntimeUpdate.js';
 import { WorldChunkRegistry } from './WorldChunkRegistry.js';
+import { WorldLocalCollisionStreamingRuntime } from './WorldLocalCollisionStreamingRuntime.js';
 
 export class WorldChunkRuntime {
 	constructor({
 		terrain,
 		mainOctree,
+		collisionSourceIndex,
 		transitionQueue,
 		collisionGenerate,
 		collisionMeasure
@@ -40,66 +41,67 @@ export class WorldChunkRuntime {
 			generate: collisionGenerate,
 			measure: collisionMeasure
 		});
+		this.localCollisionStreaming = new WorldLocalCollisionStreamingRuntime({
+			octree: mainOctree,
+			sourceIndex: collisionSourceIndex,
+			sourceTriangles: terrain.colliders,
+			terrainGridSteps: terrain.worldMetadata?.terrainGridSteps
+		});
 		this.collisionQuery = this.collisionRuntime.query;
 		this.lastProcess = null;
 	}
 
-	/** Advances visual work and at most one collision operation. */
-	update({
-		at,
-		maximumTransitions = 2,
-		maximumCost = 4,
-		maximumCollisionOperations = 1
-	} = {}) {
-		const visual = this.registry.process({
-			maximumTransitions,
-			maximumCost
-		});
-		const collision = this.collisionRuntime.update({
-			at,
-			maximumOperations: maximumCollisionOperations
-		});
-		this.lastProcess = Object.freeze({
-			...visual,
-			visual,
-			collision
-		});
+	update(options) {
+		this.lastProcess = updateWorldChunkRuntime(this, options);
 		return this.lastProcess;
 	}
 
-	/** Reveals one validated post-movement collision layer through the canonical runtime. */
+	ensureLocalCollision(position, radius) {
+		if (!this.isBootstrapCollisionActive()) {
+			throw new Error('Local collision bootstrap is no longer the active parent.');
+		}
+		return this.localCollisionStreaming.ensureLocalCollision(position, radius);
+	}
+
 	registerActiveCollisionChunk(definition) {
 		return this.collisionRuntime.registerActiveCollisionChunk(definition);
 	}
 
-	/** Accepts one manually triggered bootstrap collision subdivision. */
 	requestBootstrapSubdivision(options) {
 		return this.collisionRuntime.requestBootstrapSubdivision(options);
 	}
 
-	/** Requests safe pre-activation collision rollback. */
 	cancelCollisionStreaming(options) {
 		return this.collisionRuntime.cancelStreaming(options);
 	}
 
-	/** Authorizes parent retirement after retained observation. */
 	requestCollisionParentRetirement(options) {
 		return this.collisionRuntime.requestParentRetirement(options);
 	}
 
-	/** Returns visual registry, collision ownership, and query diagnostics. */
 	diagnostics() {
 		return Object.freeze({
 			bootstrapId: BOOTSTRAP_WORLD_CHUNK_ID,
 			bootstrapSeed: this.bootstrapRecord.deterministicSeed,
 			bootstrapBounds: this.bootstrapRecord.bounds,
+			localCollision: this.localCollisionStreaming.diagnostics(),
 			collision: this.collisionRuntime.diagnostics(),
 			...this.registry.diagnostics()
 		});
 	}
+
+	updateLocalCollision(options) {
+		if (!options.playerPosition || !this.isBootstrapCollisionActive()) {
+			return Object.freeze({ processed: 0, ...this.localCollisionStreaming.diagnostics() });
+		}
+		return this.localCollisionStreaming.update(options);
+	}
+
+	isBootstrapCollisionActive() {
+		return this.collisionRuntime.index.hasActive(this.bootstrapRecord.id);
+	}
 }
 
-/** Creates one runtime around the already built terrain and collision world. */
 export function createWorldChunkRuntime(options) {
 	return new WorldChunkRuntime(options);
 }

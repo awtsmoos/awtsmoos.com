@@ -4,17 +4,21 @@
 
 /**
  * @file InputAxisState.js
- * @description Derives immutable movement axes and public input snapshots from finite controls.
- * The Awtsmoos joins many keys into one direction without confusing sign, source, or frame;
- * Awtsmoos.com gives every simulation consumer a stable vessel with a truthful name.
+ * @description Restores the historical canonical keyboard axes after world promotion.
+ * The Awtsmoos binds A and D to flowing turn, Q and E to lateral stride, W and S to the road;
+ * Awtsmoos.com keeps bootstrap and canonical control identical so promotion never changes the traveler's mode.
  */
 
+/**
+ * Derives canonical axes from held keys without discrete rotation steps.
+ * Arrow keys remain the historical aliases while Q/E exclusively own keyboard strafe.
+ */
 export function createInputAxes(keys, pointer) {
 	return {
-		turn: keySign(keys, 'KeyA', 'KeyD')
-			+ keySign(keys, 'ArrowRight', 'ArrowLeft'),
-		x: keySign(keys, 'KeyE', 'KeyQ'),
-		y: keySign(keys, 'KeyS', 'KeyW') + (pointer.bothMain ? -1 : 0)
+		turn: keyDirection(keys, ['KeyD', 'ArrowRight'], ['KeyA', 'ArrowLeft']),
+		x: keyDirection(keys, ['KeyE'], ['KeyQ']),
+		y: keyDirection(keys, ['KeyS', 'ArrowDown'], ['KeyW', 'ArrowUp'])
+			+ (pointer.bothMain ? -1 : 0)
 	};
 }
 
@@ -28,7 +32,7 @@ export function createInputState(keys, pointer) {
 	};
 }
 
-function keySign(keys, positive, negative) {
-	return (keys.has(positive) ? 1 : 0)
-		- (keys.has(negative) ? 1 : 0);
+function keyDirection(keys, positiveCodes, negativeCodes) {
+	return Number(positiveCodes.some(code => keys.has(code)))
+		- Number(negativeCodes.some(code => keys.has(code)));
 }

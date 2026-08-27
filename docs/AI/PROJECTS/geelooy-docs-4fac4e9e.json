@@ -26,10 +26,10 @@
 		"tests": 0,
 		"assets": 0,
 		"generated": 0,
-		"docs": 3020,
+		"docs": 3555,
 		"other": 0
 	},
-	"totalFiles": 3020,
+	"totalFiles": 3555,
 	"symbolSummary": null,
 	"outgoingDependencies": [],
 	"incomingDependencies": [],
@@ -40,7 +40,7 @@
 			"file": "geelooy/docs/index.html",
 			"title": "Awtsmoos Documentation",
 			"scripts": 1,
-			"styles": 16
+			"styles": 19
 		}
 	],
 	"requiresLocalDocumentation": true,

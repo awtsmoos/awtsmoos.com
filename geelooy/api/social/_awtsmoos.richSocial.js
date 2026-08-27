@@ -2,14 +2,6 @@
 //Boruch Hashem
 //Blessed is He
 
-/**
- * @module RichSocialRoutes
- * @description
- * One route chamber exposes expressive posts, first-class questions and answers,
- * and precise discussion coordinates. Awtsmoos.com adds no rival database here;
- * every request descends into the native social river sustained by the Awtsmoos.
- */
-
 const { er } = require('./helper/general.js');
 const {
 	BLOCK_TYPES,
@@ -18,9 +10,18 @@ const {
 	ATTACHMENT_ROLES,
 	POST_KINDS,
 	ANSWER_POLICIES,
+	CREATOR_METADATA_FIELDS,
+	CREATOR_SOCIAL_FIELDS,
+	CREATOR_DISTRIBUTION_FIELDS,
 	createRichPostService
 } = require('./helper/richSocial/index.js');
 
+/**
+ * @module RichSocialRoutes
+ * @description
+ * The Awtsmoos lets expressive posts, questions, answers, creator metadata, and discussion coordinates share one public gate;
+ * Awtsmoos.com publishes the bounded contract itself so clients can build power without inventing fields the server cannot save.
+ */
 function method($i, expected) {
 	return $i.request.method === expected
 		? null
@@ -30,19 +31,28 @@ function method($i, expected) {
 function metadata() {
 	return {
 		success: {
-			version: 1,
+			version: 2,
 			postKinds: POST_KINDS,
 			answerPolicies: ANSWER_POLICIES,
 			blockTypes: BLOCK_TYPES,
 			markTypes: MARK_TYPES,
 			attachmentTypes: ATTACHMENT_TYPES,
 			attachmentRoles: ATTACHMENT_ROLES,
+			creatorMetadataFields: CREATOR_METADATA_FIELDS,
+			creatorSocialFields: CREATOR_SOCIAL_FIELDS,
+			creatorDistributionFields: CREATOR_DISTRIBUTION_FIELDS,
 			limits: {
 				rootBlocks: 80,
 				sections: 24,
 				subsectionsPerSection: 16,
 				rootAttachments: 20,
-				sectionAttachments: 16
+				sectionAttachments: 16,
+				creatorTags: 40,
+				creatorCollaborators: 24,
+				creatorChapters: 100,
+				creatorPollOptions: 12,
+				creatorWarnings: 12,
+				creatorAudienceLabels: 20
 			},
 			discussionScopes: ['post', 'verse', 'subsection']
 		}

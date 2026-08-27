@@ -22,38 +22,38 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-os-bd593d3b.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 453,
-		"tests": 28,
+		"source": 648,
+		"tests": 79,
 		"assets": 0,
 		"generated": 0,
 		"docs": 1,
 		"other": 1
 	},
-	"totalFiles": 483,
+	"totalFiles": 729,
 	"symbolSummary": {
-		"files": 406,
-		"classes": 29,
-		"functions": 1233,
-		"exports": 736,
+		"files": 595,
+		"classes": 60,
+		"functions": 1887,
+		"exports": 1112,
 		"samples": [
 			"for",
 			"AwtsmoosDB",
 			"AwtsmoosOS",
-			"joinVfsPath",
-			"extraOsStyles",
-			"hasParentWithProperty",
+			"programIcon",
 			"programsByExtension",
 			"initialDefaultPrograms",
-			"programIcon",
 			"programs",
+			"program",
 			"defaultPrograms",
-			"getDefaultProgram"
+			"getDefaultProgram",
+			"Object",
+			"CivilizationOSClient"
 		]
 	},
 	"outgoingDependencies": [
 		{
 			"project": "geelooy/shared",
-			"count": 25,
+			"count": 54,
 			"examples": "geelooy/os/programs/advanced-code-editor/compilerBridge.js; geelooy/os/programs/advanced-code-editor/embedConfiguration.js; geelooy/os/programs/advanced-code-editor/vfsBridge.js"
 		},
 		{
@@ -72,7 +72,13 @@
 			"examples": "geelooy/os/programs/awtsmoos-executable/android-web/apkWebDocument.js; geelooy/os/programs/awtsmoos-executable/browserRuntime.js"
 		}
 	],
-	"incomingDependencies": [],
+	"incomingDependencies": [
+		{
+			"project": "geelooy/drive",
+			"count": 4,
+			"examples": "geelooy/drive/transport/credentialedFs.js; geelooy/drive/transport/tunnelDiscovery.js; geelooy/drive/transport/tunnelPublishing.js"
+		}
+	],
 	"externalDependencies": [],
 	"publicEntries": [
 		{
@@ -80,7 +86,7 @@
 			"file": "geelooy/os/index.html",
 			"title": "Geelooy OS — Files, AwtsmoosDB, Runtime & Control",
 			"scripts": 1,
-			"styles": 16
+			"styles": 19
 		}
 	],
 	"requiresLocalDocumentation": true,

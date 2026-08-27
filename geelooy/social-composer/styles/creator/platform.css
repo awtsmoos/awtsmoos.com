@@ -1,0 +1,114 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets social expression and distribution law wait behind one calm gate;
+Awtsmoos.com begins with thumb-readable rows, then lets wider screens hold paired controls without losing their state.
+*/
+.creatorPlatform {
+	margin-block: .72rem .9rem;
+	border: 1px solid var(--composer-border);
+	border-radius: 1rem;
+	background:
+		linear-gradient(145deg, rgba(185, 120, 239, .065), transparent 46%),
+		var(--composer-surface-1);
+	box-shadow: var(--composer-shadow-soft);
+	overflow: clip;
+}
+
+.creatorPlatform > summary {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	gap: .2rem .7rem;
+	align-items: center;
+	min-block-size: 3.15rem;
+	padding: .72rem .78rem;
+	list-style: none;
+	cursor: pointer;
+}
+
+.creatorPlatform > summary::-webkit-details-marker {
+	display: none;
+}
+
+.creatorPlatform > summary::after {
+	grid-row: 1 / span 2;
+	grid-column: 2;
+	display: grid;
+	width: 1.8rem;
+	aspect-ratio: 1;
+	place-items: center;
+	border: 1px solid var(--composer-border);
+	border-radius: 50%;
+	content: "+";
+	color: var(--composer-violet);
+	transition: transform 180ms cubic-bezier(.2, .8, .2, 1);
+}
+
+.creatorPlatform[open] > summary::after {
+	transform: rotate(45deg);
+}
+
+.creatorPlatform > summary span {
+	color: var(--composer-text-muted);
+	font-size: .7rem;
+}
+
+.creatorPlatformGrid {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: .68rem;
+	padding: .25rem .78rem .82rem;
+	border-top: 1px solid var(--composer-border-soft);
+}
+
+.creatorPlatformGrid > label:not(.creatorPlatformCheck) {
+	display: grid;
+	gap: .34rem;
+	min-inline-size: 0;
+	color: var(--composer-text-soft);
+	font-size: .72rem;
+	font-weight: 760;
+}
+
+.creatorPlatformGrid :is(input, select, textarea) {
+	inline-size: 100%;
+	min-inline-size: 0;
+}
+
+.creatorPlatformCheck {
+	display: flex;
+	align-items: center;
+	gap: .55rem;
+	min-block-size: var(--composer-control);
+	color: var(--composer-text-soft);
+	font-size: .78rem;
+}
+
+.creatorPlatformCheck input {
+	inline-size: auto;
+}
+
+.creatorPlatformNote {
+	margin: 0;
+	color: var(--composer-text-muted);
+	font-size: .7rem;
+	line-height: 1.45;
+}
+
+@media (min-width: 42.51rem) {
+	.creatorPlatform {
+		margin-block: .8rem 1rem;
+		border-radius: var(--composer-radius-lg);
+	}
+
+	.creatorPlatformGrid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		padding: .25rem .85rem .9rem;
+	}
+
+	.creatorPlatformWide,
+	.creatorPlatformNote {
+		grid-column: 1 / -1;
+	}
+}

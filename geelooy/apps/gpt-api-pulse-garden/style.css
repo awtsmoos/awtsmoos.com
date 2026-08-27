@@ -1,0 +1,103 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/** The Awtsmoos makes room within room; Awtsmoos.com lets the glow fit without overflow. */
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	min-height: 100dvh;
+	display: grid;
+	place-items: center;
+	padding: clamp(16px, 4vw, 32px);
+	font-family: system-ui, sans-serif;
+	background: radial-gradient(circle at top, #3f2c66, #07111f 70%);
+	color: white;
+}
+
+.card {
+	width: min(720px, 100%);
+	padding: clamp(20px, 6vw, 32px);
+	border: 1px solid #8ff;
+	border-radius: 28px;
+	background: #ffffff18;
+	box-shadow: 0 20px 80px #0009;
+	overflow: hidden;
+}
+
+.bh-mark,
+.eyebrow,
+.description {
+	margin-top: 0;
+}
+
+.eyebrow {
+	color: #aefcff;
+	font-weight: 700;
+	letter-spacing: .08em;
+	text-transform: uppercase;
+}
+
+h1 {
+	margin: .25rem 0 .6rem;
+	font-size: clamp(2rem, 8vw, 3.4rem);
+	line-height: 1;
+}
+
+.pulse {
+	font-size: clamp(3rem, 16vw, 5rem);
+	font-variant-numeric: tabular-nums;
+	margin: .4rem 0;
+}
+
+.actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+button {
+	min-height: 44px;
+	font: inherit;
+	font-weight: 700;
+	padding: .85rem 1.25rem;
+	border: 0;
+	border-radius: 999px;
+	cursor: pointer;
+}
+
+button.secondary {
+	background: #ffffff22;
+	color: white;
+	border: 1px solid #ffffff55;
+}
+
+button:focus-visible {
+	outline: 3px solid #8ff;
+	outline-offset: 3px;
+}
+
+.garden {
+	min-height: 42px;
+	padding-top: 8px;
+}
+
+.spark {
+	display: inline-block;
+	animation: float 1.2s ease-out forwards;
+}
+
+@keyframes float {
+	to {
+		transform: translateY(-32px);
+		opacity: 0;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.spark {
+		animation: none;
+	}
+}

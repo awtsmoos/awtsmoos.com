@@ -1,0 +1,96 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos is beyond publisher and reader; Awtsmoos.com gives public words a
+ * clean responsive stage that resembles the editor's page without exposing editor chrome or authority.
+ */
+html,
+body {
+	margin: 0;
+	min-height: 100%;
+	background: var(--docs-app-background, #f5f7fb);
+	color: var(--docs-text);
+	font-family: var(--docs-font-ui);
+}
+
+.published-app {
+	min-height: 100vh;
+}
+
+.published-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 20px;
+	max-width: 980px;
+	margin: 0 auto;
+	padding: 20px 22px 8px;
+}
+
+.published-header h1,
+.published-header p {
+	margin: 0;
+}
+
+.published-header h1 {
+	font-size: clamp(18px, 3vw, 26px);
+}
+
+.published-kicker {
+	color: var(--docs-muted);
+	font-size: 10px;
+	font-weight: 800;
+	letter-spacing: .1em;
+	text-transform: uppercase;
+}
+
+.published-status {
+	flex: 0 0 auto;
+	padding: 6px 10px;
+	border: 1px solid var(--docs-border);
+	border-radius: 999px;
+	background: var(--docs-surface);
+	color: var(--docs-muted);
+	font-size: 12px;
+}
+
+.published-stage {
+	display: grid;
+	justify-items: center;
+	padding: 16px 16px 48px;
+}
+
+.published-canvas {
+	outline: 0;
+	cursor: default;
+}
+
+.published-app.is-unavailable .published-canvas {
+	display: none;
+}
+
+@media (max-width: 680px) {
+	.published-header {
+		align-items: flex-start;
+		padding: 14px 14px 6px;
+	}
+
+	.published-status {
+		font-size: 10px;
+	}
+
+	.published-stage {
+		padding: 8px 0 24px;
+	}
+
+	.published-canvas,
+	.published-app[data-page-mode="pageless"] .published-canvas {
+		width: 100%;
+		min-height: 0;
+		padding: 30px 20px 70px;
+		border: 0;
+		box-shadow: none;
+	}
+}

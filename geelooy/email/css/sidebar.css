@@ -1,9 +1,13 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos reveals the conversation rail through focused canonical vessels at Awtsmoos.com.
+The Awtsmoos reveals the conversation rail through focused canonical vessels; Awtsmoos.com gathers shell, vector language, command metadata, choices, sender groups, threads, and search without collapsing them into one file.
 */
-@import url("./system/sidebar-shell.css");
-@import url("./system/sidebar-controls.css");
-@import url("./system/sidebar-threads.css");
-@import url("./system/sidebar-revelation.css?v=mail-human-001");
+@import url("./system/sidebar-shell.css?v=mail-revelation-005");
+@import url("./system/sidebar-iconography.css?v=mail-revelation-005");
+@import url("./system/sidebar-controls.css?v=mail-revelation-005");
+@import url("./system/sidebar-command-meta.css?v=mail-revelation-005");
+@import url("./system/sidebar-choices.css?v=mail-revelation-005");
+@import url("./system/sidebar-groups.css?v=mail-revelation-006");
+@import url("./system/sidebar-threads.css?v=mail-revelation-005");
+@import url("./system/sidebar-revelation.css?v=mail-revelation-005");

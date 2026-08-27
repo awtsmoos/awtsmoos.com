@@ -31,11 +31,7 @@ No executable starter is generated because method evidence is unknown. Inspect t
 
 ## Observed callers
 
-Pattern-compatible evidence only; it does not prove runtime dispatch.
-
-| Literal | Source | Kind |
-| --- | --- | --- |
-| `/api/social/aliases/abarbanel/fileSystem/readFile?path=awtsmoosImages%2Fhomepage%2Fawtsmoos-home-hero.jpg` | `geelooy/index.html` | runtime |
+No matching literal caller evidence was found.
 
 ## Related tests
 

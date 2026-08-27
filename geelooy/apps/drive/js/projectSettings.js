@@ -3,6 +3,8 @@
 // Blessed is He
 
 import { deleteProject, saveProject } from './api.js';
+import { createProjectDnsSettings } from './projectDnsSettings.js';
+import { createProjectRuntimeLaunch } from './projectRuntimeLaunch.js';
 import {
 	createSettingsFields,
 	createSettingsLayout,
@@ -14,8 +16,8 @@ import { projectIdFrom, projectSettingsPayload, providerValue } from './projectS
 /**
  * @file Persistence controller for durable Drive Project Settings.
  * @description
- * The Awtsmoos lets portable runtime wishes, binding names, GitHub sync, and social intent enter atomic Drive state without carrying a provider secret;
- * Awtsmoos.com keeps save/delete behavior separate from DOM construction so intent, evidence, and presentation remain inspectable vessels.
+ * The Awtsmoos lets runtime wishes, provider intent, DNS preservation, and connected-compute doorway enter one project chamber;
+ * Awtsmoos.com saves portable configuration first, then refreshes evidence so neither a worksheet nor an unsaved browser field can impersonate live authority.
  */
 
 export function createProjectSettings(plan, state, onChange) {
@@ -23,7 +25,12 @@ export function createProjectSettings(plan, state, onChange) {
 	form.className = 'project-settings';
 	const registered = plan.configuration?.registered === true;
 	const fields = createSettingsFields(plan, projectIdFrom, providerValue);
-	form.append(...createSettingsLayout(fields, registered, remove));
+	const dnsSettings = createProjectDnsSettings(plan);
+	form.append(...createSettingsLayout(fields, registered, remove), dnsSettings.root);
+	const runtimeLaunch = createProjectRuntimeLaunch(plan);
+	if (runtimeLaunch) {
+		form.append(runtimeLaunch);
+	}
 	form.addEventListener('submit', event => {
 		event.preventDefault();
 		submit();
@@ -36,9 +43,14 @@ export function createProjectSettings(plan, state, onChange) {
 			setSettingsMessage(form, 'Project ID is required.', 'error');
 			return;
 		}
-		setSettingsMessage(form, 'Saving project intent…');
+		setSettingsMessage(form, 'Saving project intent and DNS worksheet…');
 		try {
-			await saveProject(projectId, projectSettingsPayload(readSettingsFields(fields), state.currentPath));
+			const payload = projectSettingsPayload(
+				readSettingsFields(fields),
+				state.currentPath,
+				dnsSettings.value()
+			);
+			await saveProject(projectId, payload);
 			setSettingsMessage(form, 'Project intent saved. Refreshing evidence…', 'success');
 			await onChange?.();
 		} catch (error) {
@@ -47,9 +59,13 @@ export function createProjectSettings(plan, state, onChange) {
 	}
 
 	async function remove() {
-		if (!registered) return;
+		if (!registered) {
+			return;
+		}
 		const projectId = plan.identity.projectId;
-		if (!confirm(`Delete project configuration “${projectId}”? Files remain untouched.`)) return;
+		if (!confirm(`Delete project configuration “${projectId}”? Files remain untouched.`)) {
+			return;
+		}
 		try {
 			await deleteProject(projectId);
 			await onChange?.();

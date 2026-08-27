@@ -1,0 +1,96 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews mission details before statistics or actions can crowd the player's hand;
+ * Awtsmoos.com keeps advanced content flat, readable, and fast so deeper control remains easy to understand.
+ */
+.sheet-section {
+	margin-top: 18px;
+	padding: 15px;
+	border: 1px solid rgba(255, 255, 255, 0.07);
+	border-radius: 18px;
+	background: rgba(255, 255, 255, 0.028);
+}
+
+.sheet-section h3 {
+	margin: 0 0 8px;
+	font-size: 0.62rem;
+	letter-spacing: 0.13em;
+	text-transform: uppercase;
+	color: #808bb7;
+}
+
+.sheet-stat-grid {
+	display: grid;
+	grid-template-columns: 0.65fr 1.35fr;
+	gap: 10px;
+}
+
+.sheet-stat-grid div {
+	min-width: 0;
+}
+
+.sheet-stat-grid span,
+.sheet-stat-grid strong {
+	display: block;
+}
+
+.sheet-stat-grid span {
+	font-size: 0.55rem;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: #7782ad;
+}
+
+.sheet-stat-grid strong {
+	margin-top: 4px;
+	font-size: 0.85rem;
+	color: #eef2ff;
+}
+
+.sheet-actions {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 10px;
+	margin-top: 18px;
+}
+
+.sheet-action {
+	display: flex;
+	min-height: 52px;
+	align-items: center;
+	justify-content: center;
+	gap: 9px;
+	border: 1px solid rgba(255, 255, 255, 0.09);
+	border-radius: 17px;
+	background: rgba(255, 255, 255, 0.045);
+	font-size: 0.72rem;
+	font-weight: 750;
+	cursor: pointer;
+}
+
+.controls-copy {
+	margin: 16px 4px 0;
+	font-size: 0.67rem;
+	line-height: 1.55;
+	color: #7e88b0;
+}
+
+@media (hover: hover) {
+	.sheet-action:hover,
+	.sheet-close:hover {
+		border-color: rgba(133, 255, 238, 0.24);
+		background: rgba(255, 255, 255, 0.075);
+	}
+}
+
+@media (forced-colors: active) {
+	.sheet-section,
+	.sheet-action {
+		border: 1px solid CanvasText;
+		background: Canvas;
+		color: CanvasText;
+	}
+}

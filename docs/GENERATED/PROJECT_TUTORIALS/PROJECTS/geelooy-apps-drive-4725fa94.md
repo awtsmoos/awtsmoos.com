@@ -2,7 +2,7 @@ B"H
 Boruch Hashem
 Blessed is He
 
-# Project Tutorial: Awtsmoos Drive
+# Project Tutorial: Awtsmoos Drive · Website Maker
 
 **Path:** `geelooy/apps/drive` · **Type:** app · **Family:** Applications
 
@@ -21,19 +21,19 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 23 | 0 | 0 | 0 | 1 | 0 | 24 |
+| 95 | 9 | 0 | 0 | 1 | 0 | 105 |
 
 ## Public entry points
 
-- `/apps/drive` → `geelooy/apps/drive/index.html` — Awtsmoos Drive
+- `/apps/drive` → `geelooy/apps/drive/index.html` — Awtsmoos Drive · Website Maker
 
 ## Symbol evidence
 
-Source files: 16; classes: 0; functions: 85; exports: 50; samples: async, routeEntryAction, createFolder, saveMetadata, applyPathAction, applyConfirmedAction, copyPublicLink, copyWithSelection, API_ROOT, getUsage, getSiteStatus, createEntry.
+Source files: 75; classes: 0; functions: 409; exports: 182; samples: async, routeEntryAction, createFolder, saveMetadata, applyPathAction, applyConfirmedAction, copyPublicLink, copyWithSelection, listEntries, getProjectPlan, listProjects, saveProject.
 
 ## Depends on
 
-None observed.
+- `geelooy/shared` — 4 lexical references; examples: geelooy/apps/drive/js/osBridge.js; geelooy/apps/drive/js/projectPlatform.js
 
 ## Used by
 
@@ -45,4 +45,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **0**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **9**. Treat this as file evidence, not proof of behavioral coverage.

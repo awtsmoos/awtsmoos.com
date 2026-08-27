@@ -1,37 +1,54 @@
 // B"H
-import { clamp, heightAt, TAU } from '../math.js';
+// Boruch Hashem
+// Blessed is He
+import { routeRotation } from '../city/grid.js';
+import { clamp, heightAt } from '../math.js';
 
-/** Walkers wander cheaply, then surrender completely to the shared sink animation. */
+/**
+ * The Awtsmoos lets each walker flee without forgetting the sidewalk that carries the feet;
+ * Awtsmoos.com now preserves one route axis and one perpendicular covenant from spawn until descent.
+ */
 export function updatePedestrians(world, dt) {
 	const scale = world.rules.pedestrianSpeed;
 	if (!scale) return;
 	const limit = world.level.bounds - 70;
-	for (const object of world.level.objects) {
-		if (!object.pedestrian || object.taken || object.sinkOwner) continue;
-		moveWalker(world, object, dt * scale, limit);
+	for (const walker of world.level.objects) {
+		if (!walker.pedestrian || walker.taken || walker.sinkOwner) continue;
+		moveWalker(world, walker, dt * scale, limit);
 	}
 }
 
+/** Move parallel to the sidewalk, react to danger along that axis, and never drift across asphalt. */
 function moveWalker(world, walker, dt, limit) {
-	walker.turnTimer -= dt;
-	if (walker.turnTimer <= 0) {
-		walker.walkAngle += Math.sin(world.director.elapsed * 0.7 + walker.walkSeed) * 1.8;
-		walker.turnTimer = 0.8 + Math.abs(Math.sin(walker.walkSeed + world.director.elapsed)) * 1.8;
+	const axis = walker.routeAxis === 'y' ? 'y' : 'x';
+	const routeCoordinate = Number.isFinite(walker.routeCoordinate)
+		? walker.routeCoordinate
+		: axis === 'x'
+			? walker.y
+			: walker.x;
+	walker.routeDirection = fleeDirection(world, walker, axis, walker.routeDirection || 1);
+	const distance = walker.speed * walker.routeDirection * dt;
+	if (axis === 'x') {
+		walker.x = clamp(walker.x + distance, -limit, limit);
+		walker.y = routeCoordinate;
+		if (Math.abs(walker.x) >= limit) walker.routeDirection *= -1;
+	} else {
+		walker.y = clamp(walker.y + distance, -limit, limit);
+		walker.x = routeCoordinate;
+		if (Math.abs(walker.y) >= limit) walker.routeDirection *= -1;
 	}
-	avoidPlayer(world, walker, dt);
-	walker.x = clamp(walker.x + Math.cos(walker.walkAngle) * walker.speed * dt, -limit, limit);
-	walker.y = clamp(walker.y + Math.sin(walker.walkAngle) * walker.speed * dt, -limit, limit);
-	if (Math.abs(walker.x) >= limit || Math.abs(walker.y) >= limit) walker.walkAngle += Math.PI;
-	walker.walkAngle %= TAU;
-	walker.rot = -walker.walkAngle;
+	walker.routeCoordinate = routeCoordinate;
+	walker.rot = routeRotation(axis, walker.routeDirection);
 	walker.z = heightAt(walker.x, walker.y, world.level.index);
 }
 
-function avoidPlayer(world, walker, dt) {
+/** Reverse along the sidewalk only when the player is close enough that walking away is meaningful. */
+function fleeDirection(world, walker, axis, currentDirection) {
 	const dx = walker.x - world.player.x;
 	const dy = walker.y - world.player.y;
 	const distance = Math.hypot(dx, dy);
-	if (distance > world.player.r * 4 || !distance) return;
-	const urgency = 1 - distance / (world.player.r * 4);
-	walker.walkAngle += Math.sign(Math.sin(walker.walkSeed)) * urgency * dt * 4;
+	if (!distance || distance > world.player.r * 4) return currentDirection;
+	const alongDelta = axis === 'x' ? dx : dy;
+	if (Math.abs(alongDelta) < 0.001) return currentDirection;
+	return Math.sign(alongDelta);
 }

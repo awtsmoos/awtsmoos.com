@@ -1,5 +1,0 @@
-{
-	"BH": "B\"H / Boruch Hashem / Blessed is He",
-	"schema": "awtsmoos-doc-content-v1",
-	"content": "B\"H\n\n# Phase Two — Improved Brainstorm\n\nThe better architecture is an evidence-first audit with isolated specialist lanes.\n\n## Lanes\n\n- Architecture and import graph.\n- Character identity and body diversity.\n- Face, viseme, gaze, blink, and head turn.\n- Body acting, gesture phases, contact locks, hands, shoes.\n- Garments, hair, secondary motion.\n- Camera, shots, text, titles, and timing.\n- Customizer, serialization, import, restoration.\n- Preview, browser, export, package, metadata.\n- Pixel courts and perceptual review.\n- Compliance, regression suite, and completion gate.\n\nEach lane returns exact files, tests, browser/export evidence, defects, remaining work, and next action. The master rereads all changed files and reruns the whole chain.\n"
-}

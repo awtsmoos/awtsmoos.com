@@ -1,106 +1,88 @@
 <!-- B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos reveals abundance through measure; Awtsmoos.com lets the richest Heichelos shine first while every quieter doorway remains one disclosure away.
+The Awtsmoos gathers hidden identities into ordered truth before a single card may glow;
+Awtsmoos.com shapes the data here while separate vessels manifest the names people know.
 -->
 <?<script>
-	var alias = $_GET['alias'] || '';
-	var query = ($_GET['q'] || '').toString().trim().toLowerCase();
-	var safeAlias = encodeURIComponent(alias || '');
+	var alias = String($_GET['alias'] || '').trim();
+	var queryText = String($_GET['q'] || '').trim();
+	var query = queryText.toLowerCase();
+	var safeAlias = encodeURIComponent(alias);
 	var invalidHeichelIds = ['undefined', 'null', '__missing__'];
-	var doesOwn = false;
 	var featuredLimit = 12;
+	var doesOwn = false;
 
 	if (alias) {
 		var ownership = await fetchAwtsmoos('/api/social/alias/' + safeAlias + '/ownership');
 		doesOwn = Boolean(ownership && ownership.yes);
 	}
 
-	function clean(value) {
+	/** Escapes one visible value before it crosses into a rendered template. */
+	function escapeHtml(value) {
 		return String(value || '').replace(/&/g, '&amp;').replace(/</g, '&lt;')
-			.replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/_/g, ' ');
+			.replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 	}
 
+	/** Returns a usable canonical identity or an empty value for dishonest sentinels. */
 	function normalizeHeichelId(value) {
 		var id = String(value || '').trim();
-		return !id || invalidHeichelIds.includes(id.toLowerCase()) ? '' : id;
+		if (!id) return '';
+		return invalidHeichelIds.includes(id.toLowerCase()) ? '' : id;
 	}
 
+	/** Resolves the canonical route identity from supported API response shapes. */
 	function rawHeichelId(heichel) {
 		return normalizeHeichelId(heichel && (heichel.id || heichel.heichelId || heichel.inputId));
 	}
 
+	/** Normalizes API collections, rejects broken identities, and applies local search. */
 	function normalizedList(result) {
 		var list = Array.isArray(result) ? result : Array.isArray(result && result.success) ? result.success :
 			Array.isArray(result && result.data) ? result.data : Array.isArray(result && result.items) ? result.items : [];
 		return list.filter(function(heichel) {
 			var id = rawHeichelId(heichel);
-			return id && (!query || [id, heichel.name, heichel.description, heichel.author, heichel.aliasId]
-				.join(' ').toLowerCase().includes(query));
+			if (!id) return false;
+			if (!query) return true;
+			var searchable = [id, heichel.name, heichel.title, heichel.description, heichel.author, heichel.aliasId]
+				.join(' ').toLowerCase();
+			return searchable.includes(query);
 		});
 	}
 
+	/** Fetches the correct public or alias-owned Heichel collection. */
 	async function getHeichelos() {
 		var route = alias ? '/api/social/heichelos/searchByAliasOwner/' + safeAlias : '/api/social/heichelos/discover?limit=100';
 		return normalizedList(await fetchAwtsmoos(route));
 	}
 
+	/** Ranks Torah first, then rewards only metadata that actually exists. */
 	function qualityScore(heichel) {
-		var id = rawHeichelId(heichel);
-		var name = String(heichel.name || '').trim();
+		var id = rawHeichelId(heichel).toLowerCase();
+		var name = String(heichel.name || heichel.title || '').trim();
 		var description = String(heichel.description || '').trim();
 		var author = String(heichel.author || heichel.aliasId || '').trim();
-		return (name && name !== id ? 4 : 0) + (description.length > 24 ? 5 : description ? 2 : 0) + (author ? 3 : 0);
-	}
-
-	function actions(rawId, compact) {
-		var safeId = encodeURIComponent(rawId);
-		var manage = doesOwn ? '<a class="p-button" href="/heichelos/' + safeId + '/?editingAlias=' + safeAlias + '">Manage</a>' : '';
-		var className = compact ? 'space-actions space-actions-compact' : 'space-actions';
-		return '<div class="' + className + '"><a class="p-button p-button-primary" href="/heichelos/' + safeId + '/">Open</a><a class="p-button" href="/heichelos/' + safeId + '/submit">Submit</a>' + manage + '</div>';
-	}
-
-	function card(heichel, index) {
-		var rawId = rawHeichelId(heichel);
-		var name = clean(heichel.name || rawId || 'Unnamed Heichel');
-		var description = clean(heichel.description || 'No description was provided.');
-		var rawAuthor = heichel.author || heichel.aliasId || alias || '';
-		var author = rawAuthor ? '@' + clean(rawAuthor) : 'Creator not provided';
-		var badge = alias ? (doesOwn ? 'Owner' : 'Alias') : 'Discover';
-		return '<article class="social-space-card" data-heichel-id="' + clean(rawId) + '" data-enter><div class="space-body"><div class="space-seal" aria-hidden="true">' + String(index + 1).padStart(2, '0') + '</div><div class="space-copy"><div class="space-title-row"><h2>' + name + '</h2><span class="p-badge">' + badge + '</span></div><p>' + description + '</p><div class="space-meta-line"><span>' + author + '</span><span>' + clean(rawId) + '</span></div></div></div>' + actions(rawId, false) + '</article>';
-	}
-
-	function compactRow(heichel) {
-		var rawId = rawHeichelId(heichel);
-		var name = clean(heichel.name || rawId || 'Unnamed Heichel');
-		var author = clean(heichel.author || heichel.aliasId || 'Creator not provided');
-		return '<article class="space-compact-row"><div><h3>' + name + '</h3><p>@' + author + ' · ' + clean(rawId) + '</p></div>' + actions(rawId, true) + '</article>';
-	}
-
-	function emptyState() {
-		var message = query ? 'No Heichelos matched “' + clean(query) + '”.' : alias ? 'No Heichelos found for @' + clean(alias) + '.' : 'No visible Heichelos were returned yet.';
-		var href = alias ? '/heichelos/manage-alias-heichelos?alias=' + safeAlias : '/profile';
-		return '<article class="social-empty-card spaces-state-row empty-state"><h2>No spaces found</h2><p>' + message + '</p><a class="p-button p-button-primary" href="' + href + '">Continue</a></article>';
-	}
-
-	function renderResults(heichelos) {
-		if (!heichelos.length) return emptyState();
-		if (query || alias || heichelos.length <= featuredLimit) return heichelos.map(card).join('');
-		var ranked = heichelos.slice().sort(function(a, b) { return qualityScore(b) - qualityScore(a); });
-		var featured = ranked.slice(0, featuredLimit).map(card).join('');
-		var remaining = ranked.slice(featuredLimit).map(compactRow).join('');
-		return featured + '<details class="spaces-more"><summary>More spaces <span>' + (ranked.length - featuredLimit) + ' additional</span></summary><div class="spaces-compact-list">' + remaining + '</div></details>';
+		return (id === 'ikar' ? 100 : 0) + (name ? 4 : 0) + (description ? 3 : 0) + (author ? 2 : 0);
 	}
 
 	var heichelos = await getHeichelos();
-	var pageTitle = alias ? '@' + clean(alias) + ' Heichelos' : 'Heichelos';
-	var primaryAction = doesOwn ? '<a class="p-button p-button-primary" href="/heichelos/manage-alias-heichelos?alias=' + safeAlias + '">Create Heichel</a>' : alias ? '<a class="p-button" href="/@' + safeAlias + '">View profile</a>' : '<a class="p-button" href="/profile">Choose alias</a>';
-	var countLabel = heichelos.length + (heichelos.length === 1 ? ' space' : ' spaces');
-
-	return $a('nav/page.html', { centered: false, tochen:
-		'<title>' + pageTitle + ' — Geelooy</title><link rel="stylesheet" href="/style/geelooy-app/index.css?v=unified-ui-001"><link rel="stylesheet" href="/style/social-system/index.css?v=unified-ui-001"><link rel="stylesheet" href="/style/heichelos/discovery.css?v=progressive-map-001"><script>document.body.classList.add("heichelos-discovery-page");</' + 'script>' +
-		'<main class="social-spaces-shell geelooy-content-region" data-heichelos-index><section class="spaces-hero" data-enter><div><p class="field-label">Living architecture</p><h1 id="spaces-title">' + pageTitle + '</h1><p>Discover communities, libraries, series, submissions, and post streams without losing their source.</p></div><div class="spaces-command-row">' + primaryAction + '</div></section>' +
-		'<form class="spaces-search" role="search" action="/heichelos" method="get"><label class="field-label" for="heichelos-search">Search the Heichel map</label><input id="heichelos-search" name="q" type="search" value="' + clean(query) + '" placeholder="Name, creator, or canonical ID"><button class="p-button p-button-primary" type="submit">Search</button></form>' +
-		'<div class="spaces-result-summary" aria-live="polite">' + countLabel + (query ? ' matched your search' : '') + '</div><section class="spaces-grid" aria-label="Heichelos list">' + renderResults(heichelos) + '</section></main><script type="module" src="/scripts/awtsmoos/social/shell/boot.js?v=unified-ui-001"></' + 'script>'
+	heichelos.sort(function(first, second) {
+		return qualityScore(second) - qualityScore(first);
 	});
+
+	var pageTitle = alias ? '@' + escapeHtml(alias) + ' Heichelos' : 'Heichelos';
+	var primaryAction = doesOwn ? '<a class="p-button p-button-primary" href="/heichelos/manage-alias-heichelos?alias=' + safeAlias + '">Create Heichel</a>' : '<a class="p-button p-button-primary" href="/heichelos/ikar/">Enter Torah Heichel</a><a class="p-button" href="/profile">My alias</a>';
+	var aliasField = alias ? '<input type="hidden" name="alias" value="' + escapeHtml(alias) + '">' : '';
+	var countLabel = heichelos.length + (heichelos.length === 1 ? ' Heichel' : ' Heichelos');
+	var resultsHtml = $a('heichelos/discovery-results.html', { heichelos, queryText, alias, doesOwn, featuredLimit });
+	var discoveryShell = $a('heichelos/discovery-shell.html', {
+		pageTitle,
+		primaryAction,
+		aliasField,
+		queryText: escapeHtml(queryText),
+		countLabel,
+		resultsHtml
+	});
+
+	return $a('nav/page.html', { centered: false, tochen: discoveryShell });
 </script>?>

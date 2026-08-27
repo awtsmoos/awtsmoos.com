@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 1055 | 40 | 1 | 0 | 2 | 1 | 1099 |
+| 1078 | 44 | 0 | 0 | 2 | 1 | 1125 |
 
 ## Public entry points
 
@@ -29,11 +29,11 @@ Blessed is He
 
 ## Symbol evidence
 
-Source files: 953; classes: 125; functions: 1012; exports: 1154; samples: htmlContentSecurityPolicy, serveVirtualAsset, parseVirtualPath, loadRecord, openDatabase, getElementPath, resolvePath, safeSerialize, announceExistence, isLocal, logNetwork, fetchFromParent.
+Source files: 976; classes: 133; functions: 1048; exports: 1195; samples: htmlContentSecurityPolicy, serveVirtualAsset, parseVirtualPath, loadRecord, openDatabase, getElementPath, resolvePath, safeSerialize, announceExistence, isLocal, logNetwork, fetchFromParent.
 
 ## Depends on
 
-- `geelooy/shared` — 16 lexical references; examples: geelooy/apps/code/js/actions/commands/compileProjectManifest.js; geelooy/apps/code/js/ai-studio/oracle.js; geelooy/apps/code/js/ai-studio/panel.js
+- `geelooy/shared` — 19 lexical references; examples: geelooy/apps/code/js/actions/commands/compileProjectManifest.js; geelooy/apps/code/js/ai-studio/oracle.js; geelooy/apps/code/js/ai-studio/panel.js
 - `geelooy/apps/android-emulator` — 4 lexical references; examples: geelooy/apps/code/js/actions/commands/build-android-apk.js; geelooy/apps/code/js/actions/commands/build-rebbe-apk.js
 - `geelooy/ai` — 3 lexical references; examples: geelooy/apps/code/js/code-chat/oracle.js; geelooy/apps/code/js/vibe/api/multimodal-adapter.js
 - `scripts` — 3 lexical references; examples: geelooy/apps/code/js/android/android-source-builder.js
@@ -49,4 +49,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **40**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **44**. Treat this as file evidence, not proof of behavioral coverage.

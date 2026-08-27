@@ -1,0 +1,115 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/**
+ * The Awtsmoos lets every small reaction breathe without turning attention into a scoreboard;
+ * Awtsmoos.com keeps emoji counts tactile, scrollable, accessible, and visually restored.
+ */
+
+.awtsmoosReactionRail {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	min-width: 0;
+	flex-wrap: wrap;
+}
+
+.awtsmoosReactionRail__counts {
+	display: flex;
+	gap: 6px;
+	overflow-x: auto;
+	scrollbar-width: none;
+}
+
+.awtsmoosReactionCount,
+.awtsmoosReactionPalette > summary,
+.awtsmoosReactionChoice,
+.awtsmoosReactionPalette__custom button {
+	min-height: 40px;
+	border: 1px solid rgba(148, 163, 184, .22);
+	border-radius: 999px;
+	background: rgba(15, 23, 42, .08);
+	color: inherit;
+	font: inherit;
+	font-weight: 760;
+	cursor: pointer;
+}
+
+.awtsmoosReactionCount {
+	padding: 7px 10px;
+	white-space: nowrap;
+}
+
+.awtsmoosReactionCount.is-mine {
+	border-color: rgba(129, 140, 248, .72);
+	background: rgba(99, 102, 241, .16);
+}
+
+.awtsmoosReactionRail__status {
+	font-size: .72rem;
+	opacity: .66;
+}
+
+.awtsmoosReactionPalette {
+	position: relative;
+}
+
+.awtsmoosReactionPalette > summary {
+	display: inline-flex;
+	align-items: center;
+	padding: 7px 11px;
+	list-style: none;
+}
+
+.awtsmoosReactionPalette__body {
+	position: absolute;
+	z-index: 20;
+	left: 0;
+	bottom: calc(100% + 8px);
+	display: grid;
+	gap: 9px;
+	min-width: 250px;
+	padding: 10px;
+	border: 1px solid rgba(148, 163, 184, .2);
+	border-radius: 16px;
+	background: var(--surface, #0f172a);
+	box-shadow: 0 18px 44px rgba(2, 6, 23, .28);
+}
+
+.awtsmoosReactionPalette__quick {
+	display: grid;
+	grid-template-columns: repeat(6, minmax(36px, 1fr));
+	gap: 5px;
+}
+
+.awtsmoosReactionChoice {
+	padding: 4px;
+	font-size: 1.18rem;
+}
+
+.awtsmoosReactionPalette__custom {
+	display: grid;
+	grid-template-columns: 1fr auto;
+	gap: 6px;
+}
+
+.awtsmoosReactionPalette__custom input {
+	min-width: 0;
+	min-height: 42px;
+}
+
+.awtsmoosReactionPalette__custom button {
+	padding: 7px 12px;
+}
+
+.awtsmoosReactionRail :focus-visible {
+	outline: 3px solid rgba(129, 140, 248, .72);
+	outline-offset: 2px;
+}
+
+@media (max-width: 480px) {
+	.awtsmoosReactionCount,
+	.awtsmoosReactionPalette > summary {
+		min-height: 44px;
+	}
+}

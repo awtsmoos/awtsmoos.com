@@ -24,20 +24,23 @@
 	"symlinkTarget": null,
 	"counts": {
 		"source": 1,
-		"tests": 0,
+		"tests": 1,
 		"assets": 0,
 		"generated": 0,
 		"docs": 1,
 		"other": 0
 	},
-	"totalFiles": 2,
+	"totalFiles": 3,
 	"symbolSummary": {
 		"files": 1,
 		"classes": 0,
-		"functions": 0,
-		"exports": 1,
+		"functions": 2,
+		"exports": 2,
 		"samples": [
-			"dynamicRoutes"
+			"dynamicRoutes",
+			"available",
+			"revealPortions",
+			"revealOrEmpty"
 		]
 	},
 	"outgoingDependencies": [],

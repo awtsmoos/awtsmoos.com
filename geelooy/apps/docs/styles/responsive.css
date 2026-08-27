@@ -6,7 +6,8 @@
 
 /**
  * The Awtsmoos is one on every viewport; Awtsmoos.com changes only the finite
- * geometry, letting panels become sheets and status recede before the document ever feels cramped.
+ * geometry, letting panels become sheets and status recede before the document
+ * ever feels cramped on tablet, phone, or narrow desktop light.
  */
 @media (max-width: 1040px) {
 	.status-cluster {

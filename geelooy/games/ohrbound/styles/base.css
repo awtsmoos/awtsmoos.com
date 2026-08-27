@@ -1,0 +1,111 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos renews every pixel and space; Awtsmoos.com gives calm form a finite place. */
+:root {
+	color-scheme: dark;
+	font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+	background: #07101f;
+	color: #f5f8ff;
+	--ink: #f5f8ff;
+	--muted: #9cabc2;
+	--panel: rgba(12, 24, 44, 0.82);
+	--line: rgba(164, 201, 255, 0.16);
+	--glow: #6ee7c8;
+	--gold: #ffd86a;
+	--danger: #ff6f7d;
+}
+* {
+	box-sizing: border-box;
+}
+html {
+	min-height: 100%;
+	scroll-behavior: smooth;
+}
+body {
+	margin: 0;
+	min-width: 320px;
+	min-height: 100dvh;
+	background: radial-gradient(circle at 70% 5%, #132a4c 0, #07101f 42%, #040914 100%);
+	color: var(--ink);
+}
+button, input, select {
+	font: inherit;
+}
+button, a {
+	-webkit-tap-highlight-color: transparent;
+}
+button {
+	color: inherit;
+}
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible {
+	outline: 2px solid var(--glow);
+	outline-offset: 3px;
+}
+[hidden] {
+	display: none !important;
+}
+.primary-button, .secondary-button, .quiet-button {
+	border: 1px solid var(--line);
+	border-radius: 999px;
+	cursor: pointer;
+	text-decoration: none;
+}
+.primary-button {
+	background: var(--glow);
+	color: #062019;
+	font-weight: 800;
+	padding: 0.8rem 1.25rem;
+}
+.secondary-button {
+	background: rgba(255, 255, 255, 0.045);
+	padding: 0.8rem 1.15rem;
+}
+.quiet-button {
+	background: transparent;
+	padding: 0.45rem 0.75rem;
+}
+.focus-dialog {
+	width: min(620px, calc(100vw - 2rem));
+	border: 1px solid var(--line);
+	border-radius: 24px;
+	background: #0b1729;
+	color: var(--ink);
+	box-shadow: 0 24px 80px #000a;
+}
+.focus-dialog::backdrop {
+	background: rgba(1, 5, 13, 0.78);
+	backdrop-filter: blur(8px);
+}
+.dialog-heading {
+	display: flex;
+	align-items: start;
+	justify-content: space-between;
+	gap: 1rem;
+}
+.dialog-heading h2 {
+	margin: 0.15rem 0 0;
+}
+.dialog-heading button {
+	border: 0;
+	background: transparent;
+	font-size: 1.7rem;
+	cursor: pointer;
+}
+.toast {
+	position: fixed;
+	z-index: 50;
+	left: 50%;
+	bottom: calc(1.25rem + env(safe-area-inset-bottom));
+	transform: translateX(-50%);
+	max-width: min(92vw, 560px);
+	padding: 0.8rem 1rem;
+	border: 1px solid var(--line);
+	border-radius: 999px;
+	background: #10213a;
+	box-shadow: 0 12px 40px #0008;
+}
+@media (prefers-reduced-motion: reduce) {
+	html { scroll-behavior: auto; }
+	*, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+}

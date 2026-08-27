@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-slides-agents-md-d6e5531731",
+	"title": "Awtsmoos Slides — AI and Agent Instructions",
+	"sourcePath": "geelooy/apps/slides/AGENTS.md",
+	"category": "Apps",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Awtsmoos Slides — AI and Agent Instructions",
+			"anchor": "awtsmoos-slides-ai-and-agent-instructions"
+		},
+		{
+			"level": 2,
+			"text": "Canonical file format",
+			"anchor": "canonical-file-format"
+		},
+		{
+			"level": 2,
+			"text": "Root document",
+			"anchor": "root-document"
+		},
+		{
+			"level": 2,
+			"text": "Supported elements",
+			"anchor": "supported-elements"
+		},
+		{
+			"level": 2,
+			"text": "Generation rules",
+			"anchor": "generation-rules"
+		},
+		{
+			"level": 2,
+			"text": "Minimal generated slide",
+			"anchor": "minimal-generated-slide"
+		},
+		{
+			"level": 2,
+			"text": "Direct opening in Geelooy OS",
+			"anchor": "direct-opening-in-geelooy-os"
+		},
+		{
+			"level": 2,
+			"text": "Export surfaces",
+			"anchor": "export-surfaces"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-slides-agents-md-d6e5531731-001.json"
+	]
+}

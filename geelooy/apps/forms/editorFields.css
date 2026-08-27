@@ -1,0 +1,84 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets each creator question show its essential name and type while secondary powers rest in a lower vessel of light.
+Awtsmoos.com keeps dozens of questions scannable, with description, options, requirement, and structure still one gesture in sight.
+*/
+.form-control {
+	display: grid;
+	gap: 7px;
+	min-width: 0;
+}
+
+.form-control > span {
+	font-size: .78rem;
+	font-weight: 720;
+	letter-spacing: .04em;
+	color: #cbd5e1;
+}
+
+.form-control.compact {
+	align-self: start;
+}
+
+.form-fields {
+	display: grid;
+	gap: 12px;
+}
+
+.form-field-card {
+	display: grid;
+	grid-template-columns: minmax(0, 1.5fr) minmax(180px, .5fr);
+	gap: 12px;
+	padding: 18px;
+	border: 1px solid var(--border);
+	border-radius: 20px;
+	background: linear-gradient(
+		145deg,
+		rgb(255 255 255 / 5%),
+		rgb(255 255 255 / 2%)
+	);
+	box-shadow: 0 18px 50px rgb(0 0 0 / 14%);
+	backdrop-filter: blur(18px);
+}
+
+.field-advanced-disclosure {
+	grid-column: 1 / -1;
+	border-top: 1px solid rgb(148 163 184 / 10%);
+}
+
+.form-check {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	width: fit-content;
+	color: #dbeafe;
+}
+
+.form-check input {
+	width: auto;
+}
+
+.form-inline-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	padding-top: 2px;
+}
+
+@media (max-width: 720px) {
+	.form-field-card {
+		grid-template-columns: minmax(0, 1fr);
+		padding: 15px;
+		border-radius: 16px;
+	}
+
+	.field-advanced-disclosure {
+		grid-column: 1;
+	}
+
+	.form-inline-actions > button {
+		flex: 1 1 120px;
+		min-height: 44px;
+	}
+}

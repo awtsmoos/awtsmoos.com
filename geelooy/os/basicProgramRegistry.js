@@ -6,13 +6,14 @@
  * @file Extension-to-program policy for Geelooy OS.
  * @description
  * The Awtsmoos creates file and fitting vessel together while Awtsmoos.com preserves deliberate defaults;
- * Drive joins the application crown without silently stealing existing file associations or workflows.
+ * Docs joins the application crown without stealing established Code, Preview, or Text Editor workflows.
  */
 
 export const programsByExtension = Object.freeze({
 	".folder": ["awtsmoosFileExplorer"],
-	".html": ["workspacePreview", "awtsmoosBrowser", "advancedCodeEditor"],
-	".htm": ["workspacePreview", "awtsmoosBrowser", "advancedCodeEditor"],
+	".awtdoc": ["awtsmoosDocs", "advancedCodeEditor"],
+	".html": ["workspacePreview", "awtsmoosBrowser", "awtsmoosDocs", "advancedCodeEditor"],
+	".htm": ["workspacePreview", "awtsmoosBrowser", "awtsmoosDocs", "advancedCodeEditor"],
 	".merkava": ["awtsmoosBrowser", "advancedCodeEditor"],
 	".c": ["advancedCodeEditor", "awtsmoosCompiler", "awtsmoosTextEdit"],
 	".cc": ["advancedCodeEditor", "awtsmoosCompiler"],
@@ -30,12 +31,14 @@ export const programsByExtension = Object.freeze({
 	".mjs": ["advancedCodeEditor", "awtsmoosTextEdit"],
 	".css": ["advancedCodeEditor", "awtsmoosTextEdit"],
 	".json": ["advancedCodeEditor", "awtsmoosTextEdit"],
-	".md": ["advancedCodeEditor", "awtsmoosTextEdit"],
-	".txt": ["awtsmoosTextEdit", "advancedCodeEditor"]
+	".md": ["advancedCodeEditor", "awtsmoosDocs", "awtsmoosTextEdit"],
+	".markdown": ["advancedCodeEditor", "awtsmoosDocs", "awtsmoosTextEdit"],
+	".txt": ["awtsmoosTextEdit", "awtsmoosDocs", "advancedCodeEditor"]
 });
 
 export const initialDefaultPrograms = Object.freeze({
 	".folder": "awtsmoosFileExplorer",
+	".awtdoc": "awtsmoosDocs",
 	".html": "workspacePreview",
 	".htm": "workspacePreview",
 	".merkava": "awtsmoosBrowser",
@@ -56,5 +59,6 @@ export const initialDefaultPrograms = Object.freeze({
 	".css": "advancedCodeEditor",
 	".json": "advancedCodeEditor",
 	".md": "advancedCodeEditor",
+	".markdown": "advancedCodeEditor",
 	".txt": "awtsmoosTextEdit"
 });

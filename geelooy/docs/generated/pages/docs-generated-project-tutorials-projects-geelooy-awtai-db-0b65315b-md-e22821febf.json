@@ -2,15 +2,15 @@
 	"BH": "B\"H / Boruch Hashem / Blessed is He",
 	"schema": "awtsmoos-doc-page-v2",
 	"id": "docs-generated-project-tutorials-projects-geelooy-awtai-db-0b65315b-md-e22821febf",
-	"title": "Project Tutorial: AWTAI-DB GGUF Converter",
+	"title": "Project Tutorial: AWTAI-DB Model Foundry",
 	"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-awtai-db-0b65315b.md",
 	"category": "Projects",
 	"provenance": "generated",
 	"headings": [
 		{
 			"level": 1,
-			"text": "Project Tutorial: AWTAI-DB GGUF Converter",
-			"anchor": "project-tutorial-awtai-db-gguf-converter"
+			"text": "Project Tutorial: AWTAI-DB Model Foundry",
+			"anchor": "project-tutorial-awtai-db-model-foundry"
 		},
 		{
 			"level": 2,

@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-websites-dns-migration-md-d882d34392",
+	"title": "Move DNS Without Breaking the Website or Email",
+	"sourcePath": "docs/WEBSITES/DNS_MIGRATION.md",
+	"category": "General",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Move DNS Without Breaking the Website or Email",
+			"anchor": "move-dns-without-breaking-the-website-or-email"
+		},
+		{
+			"level": 2,
+			"text": "Do not start by changing nameservers",
+			"anchor": "do-not-start-by-changing-nameservers"
+		},
+		{
+			"level": 2,
+			"text": "Recommended current Awtsmoos flow",
+			"anchor": "recommended-current-awtsmoos-flow"
+		},
+		{
+			"level": 2,
+			"text": "If Awtsmoos nameservers become available",
+			"anchor": "if-awtsmoos-nameservers-become-available"
+		}
+	],
+	"markdownParts": [
+		"content/docs-websites-dns-migration-md-d882d34392-001.json"
+	]
+}

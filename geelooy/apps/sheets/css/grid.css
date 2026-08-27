@@ -2,109 +2,76 @@
 Boruch Hashem
 Blessed is He
 
-Each visible square is a kli for one small revelation: the Awtsmoos renews value
-and selection together, while Awtsmoos.com lets many cursors meet without collision.
+The Awtsmoos gives every cell a boundary without imprisoning the light;
+Awtsmoos.com keeps the core grid quiet while resize chrome lives in its own vessel, clean and bright.
 */
+@import url("./gridResize.css");
+
 .grid-viewport {
-	flex: 1;
+	position: relative;
 	min-width: 0;
 	min-height: 0;
+	width: 100%;
+	height: 100%;
 	overflow: auto;
-	background: var(--surface);
-	user-select: none;
-	touch-action: pan-x pan-y;
+	background: #fff;
+	overscroll-behavior: contain;
 }
 
 .sheet-grid {
 	display: grid;
-	grid-template-columns: var(--row-head-width) repeat(26, var(--cell-width));
-	grid-auto-rows: var(--cell-height);
 	width: max-content;
 	min-width: 100%;
-	font-size: 12px;
+	align-content: start;
+	background: #fff;
 }
 
 .grid-corner,
 .column-header,
 .row-header,
-.grid-cell {
-	border-right: 1px solid var(--border);
-	border-bottom: 1px solid var(--border);
+.sheet-cell {
+	box-sizing: border-box;
+	border-right: 1px solid var(--grid-line);
+	border-bottom: 1px solid var(--grid-line);
 }
 
-.grid-corner,
-.column-header,
-.row-header {
-	position: sticky;
-	z-index: 4;
-	display: grid;
-	place-items: center;
-	background: var(--surface-soft);
-	color: var(--muted);
-	font-weight: 600;
-}
-
-.grid-corner {
-	left: 0;
-	top: 0;
-	z-index: 8;
-}
-
-.column-header {
-	top: 0;
-	z-index: 6;
-}
-
-.row-header {
-	left: 0;
-	z-index: 5;
-}
-
-.grid-cell {
+.sheet-cell {
 	position: relative;
 	min-width: 0;
-	padding: 6px 7px;
+	min-height: 0;
+	padding: 6px 8px;
 	overflow: hidden;
-	white-space: nowrap;
+	outline: none;
+	background: #fff;
+	color: var(--ink);
+	font-size: 13px;
+	line-height: 1.25;
 	text-overflow: ellipsis;
-	background: var(--cell-highlight, var(--surface));
-	outline: 0;
-	cursor: cell;
+	white-space: nowrap;
 }
 
-.grid-cell.selected {
-	background-image: linear-gradient(var(--selection), var(--selection));
+.sheet-cell:hover {
+	background-color: rgba(19, 124, 83, 0.025);
 }
 
-.grid-cell.active {
+.sheet-cell.is-selected {
+	box-shadow: inset 0 0 0 999px rgba(19, 124, 83, 0.035);
+}
+
+.sheet-cell.is-active {
 	z-index: 3;
-	box-shadow: inset 0 0 0 2px var(--accent);
+	box-shadow:
+		inset 0 0 0 2px var(--accent),
+		0 0 0 1px rgba(255, 255, 255, 0.7);
 }
 
-.grid-cell.remote-selected {
-	box-shadow: inset 0 0 0 2px rgba(76, 91, 255, 0.7);
-}
-
-.grid-cell.has-note::after {
+.sheet-cell.has-note::after {
 	content: "";
 	position: absolute;
 	top: 0;
 	right: 0;
 	width: 0;
 	height: 0;
-	border-top: 7px solid #ef6c4d;
+	border-top: 7px solid #d97706;
 	border-left: 7px solid transparent;
-}
-
-.cell-editor {
-	position: absolute;
-	inset: -1px;
-	z-index: 10;
-	width: calc(100% + 2px);
-	height: calc(100% + 2px);
-	border: 2px solid var(--accent);
-	padding: 5px 6px;
-	background: white;
-	color: var(--text);
-	outline: 0;
 }

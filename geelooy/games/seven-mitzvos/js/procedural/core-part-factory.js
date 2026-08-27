@@ -1,55 +1,53 @@
 //B"H
-//Boruch Hashem
-//Blessed is He
-
-import * as THREE from '../../../scripts/build/three.module.js';
-import { PhysicalMaterialLibrary } from '../materials/physical-material-library.js';
-import { advancedProfile } from './advanced-profile-factory.js';
-import { CorePartGeometryCache } from './core-part-geometry-cache.js';
-import { corePartMaterialOptions } from './core-part-material-policy.js';
-
+// Boruch Hashem
+// Blessed is He
 /**
- * @file core-part-factory.js
- * @description
- * The Awtsmoos renews geometry and physical matter as distinct vessels that meet only in manifestation;
- * Awtsmoos.com lets this Malchus-like factory reuse one procedural BufferGeometry across many realistic material surfaces while preserving every established semantic/group/accent API.
- * Photographic material roles default to white truth; untyped parts remain visibly degraded until their semantic matter is named explicitly.
+ * The Awtsmoos renews portable form before the temporary render boundary clothes it in a visible vessel;
+ * Awtsmoos.com keeps this factory narrow while geometry, color, transforms, and accents move toward native records one responsibility at a level.
  */
+
+import * as THREE from "../../../scripts/build/three.module.js";
+import {
+	createAwtsmoosThreeBufferGeometry
+} from "../../../../libs/awtsmoos-procedural-core/src/adapters/three/bufferGeometry.js";
+import { PhysicalMaterialLibrary } from "../materials/physical-material-library.js";
+import { advancedProfile } from "./advanced-profile-factory.js";
+import { corePartHexColor } from "./core-part-color.js";
+import { CorePartGeometryCache } from "./core-part-geometry-cache.js";
+import {
+	setCorePartGlow,
+	setCorePartTint
+} from "./core-part-material-effects.js";
+import { corePartMaterialOptions } from "./core-part-material-policy.js";
+import { applyCorePartTransform } from "./core-part-transform.js";
+
+/** Transitional core-part render boundary while callers migrate to native scene records. */
 export class CorePartFactory {
 	constructor() {
 		this.geometryCache = new CorePartGeometryCache();
 		this.materials = new PhysicalMaterialLibrary();
 	}
 
-	/** @param {object} options Procedural part description. @returns {THREE.Mesh} Real-material procedural mesh. */
+	/** Build one current render-boundary mesh from portable core geometry and physical material policy. */
 	part(options = {}) {
 		const profile = advancedProfile(options);
-		const fallbackTint = this.color(
+		const fallbackTint = corePartHexColor(
 			options.hue ?? 42,
 			options.lightness ?? 0.55
-		).getHex();
+		);
 		const materialPolicy = corePartMaterialOptions(options, fallbackTint);
 		const material = this.materials.material(
 			materialPolicy.role,
 			materialPolicy.options
 		);
-		const mesh = new THREE.Mesh(this.geometryCache.geometry(profile), material);
+		const renderData = this.geometryCache.renderData(profile);
+		const geometry = createAwtsmoosThreeBufferGeometry(THREE, renderData);
+		const mesh = new THREE.Mesh(geometry, material);
 		mesh.name = options.name || profile.primitive;
-		mesh.position.set(...(options.position || [0, 0, 0]));
-		mesh.rotation.set(...(options.rotation || [0, 0, 0]));
-		applyScale(mesh, options.scale);
+		applyCorePartTransform(mesh, options);
 		mesh.castShadow = options.castShadow !== false;
 		mesh.receiveShadow = options.receiveShadow !== false;
-		Object.assign(mesh.userData, {
-			advancedCoreProfile: options.profile || profile.primitive,
-			awtsmoosCorePart: true,
-			awtsmoosProcedural: true,
-			primitive: profile.primitive,
-			modifierCount: profile.modifiers.length,
-			materialRole: material.userData.materialRole || materialPolicy.role,
-			materialState: material.userData.materialState,
-			physicalSurfaceSize: materialPolicy.options.surfaceSize
-		});
+		Object.assign(mesh.userData, semanticPartData(options, profile, material, materialPolicy));
 		return mesh;
 	}
 
@@ -57,8 +55,7 @@ export class CorePartFactory {
 		const group = new THREE.Group();
 		group.name = name;
 		group.add(...parts);
-		this.mark(group, data);
-		return group;
+		return this.mark(group, data);
 	}
 
 	mark(root, data = {}) {
@@ -69,51 +66,29 @@ export class CorePartFactory {
 		return root;
 	}
 
-	/** Adds an emissive accent through an owned clone without changing shared photographic matter. */
 	setGlow(root, color, intensity = 0.8) {
-		root.traverse(child => {
-			if (!child.isMesh) {
-				return;
-			}
-			child.material = ownedClone(child.material);
-			child.material.emissive?.setHex(color);
-			child.material.emissiveIntensity = intensity;
-		});
-		return root;
+		return setCorePartGlow(root, color, intensity);
 	}
 
-	/** Compatibility accent tint; new physical identity should use materialRole instead. */
 	setHue(root, hue, lightness = 0.55) {
-		root.traverse(child => {
-			if (!child.isMesh) {
-				return;
-			}
-			child.material = ownedClone(child.material);
-			child.material.color.copy(this.color(hue, lightness));
-		});
-		return root;
+		return setCorePartTint(root, corePartHexColor(hue, lightness));
 	}
 
+	/** Preserve the existing current-renderer color compatibility method at the known boundary. */
 	color(hue, lightness = 0.55) {
-		const normalizedHue = (((hue % 360) + 360) % 360) / 360;
-		return new THREE.Color().setHSL(normalizedHue, 0.7, lightness);
+		return new THREE.Color(corePartHexColor(hue, lightness));
 	}
 }
 
-function applyScale(mesh, scale) {
-	if (Array.isArray(scale)) {
-		mesh.scale.set(...scale);
-		return;
-	}
-	if (Number.isFinite(Number(scale))) {
-		mesh.scale.setScalar(Number(scale));
-		return;
-	}
-	mesh.scale.set(1, 1, 1);
-}
-
-function ownedClone(material) {
-	const clone = material.clone();
-	clone.userData = { ...material.userData, sharedAsset: false };
-	return clone;
+function semanticPartData(options, profile, material, materialPolicy) {
+	return {
+		advancedCoreProfile: options.profile || profile.primitive,
+		awtsmoosCorePart: true,
+		awtsmoosProcedural: true,
+		primitive: profile.primitive,
+		modifierCount: profile.modifiers.length,
+		materialRole: material.userData.materialRole || materialPolicy.role,
+		materialState: material.userData.materialState,
+		physicalSurfaceSize: materialPolicy.options.surfaceSize
+	};
 }

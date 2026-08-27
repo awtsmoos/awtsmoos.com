@@ -1,0 +1,114 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets every Forms vessel remain whole when the window becomes narrow and near.
+Awtsmoos.com turns advanced density into vertical sequence, not overflow, so touch and meaning stay effortless and clear.
+*/
+@media (max-width: 720px) {
+	.forms-topbar {
+		padding: max(10px, env(safe-area-inset-top)) 12px 10px;
+	}
+
+	.forms-brand {
+		font-size: .92rem;
+	}
+
+	.brand-mark {
+		width: 30px;
+		height: 30px;
+		border-radius: 10px;
+	}
+
+	.connection-status {
+		max-width: 38vw;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	.forms-root {
+		width: min(100% - 20px, 960px);
+		padding: 22px 0 calc(60px + env(safe-area-inset-bottom));
+	}
+
+	.definition-panel,
+	.editor-toolbar {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.definition-panel > :first-child,
+	.editor-primary-actions {
+		grid-column: 1;
+	}
+
+	.section-heading {
+		align-items: stretch;
+		flex-direction: column;
+	}
+
+	.section-heading .primary-button,
+	.public-submit {
+		width: 100%;
+	}
+
+	.public-form-shell > header,
+	.form-success,
+	.form-empty-state {
+		border-radius: 22px;
+	}
+
+	.public-field-card,
+	.form-panel {
+		border-radius: 16px;
+	}
+
+	.choice-option {
+		min-height: 48px;
+	}
+
+	.advanced-summary,
+	.field-advanced-summary {
+		min-height: 44px;
+	}
+
+	.forms-toast {
+		right: 10px;
+		bottom: calc(10px + env(safe-area-inset-bottom));
+		left: 10px;
+		max-width: none;
+	}
+}
+
+@media (max-width: 420px) {
+	.forms-root {
+		width: min(100% - 14px, 960px);
+		padding-top: 14px;
+	}
+
+	.form-panel,
+	.public-field-card {
+		padding: 15px;
+	}
+
+	.email-notification-panel {
+		padding: 0;
+	}
+
+	.public-form-shell > header {
+		padding: 22px 18px;
+	}
+
+	.public-form-shell h1 {
+		font-size: clamp(1.85rem, 12vw, 2.8rem);
+	}
+
+	.primary-button,
+	.ghost-button,
+	.link-button {
+		min-height: 44px;
+	}
+
+	.form-inline-actions {
+		gap: 7px;
+	}
+}

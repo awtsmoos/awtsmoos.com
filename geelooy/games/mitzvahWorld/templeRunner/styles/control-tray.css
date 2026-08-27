@@ -1,0 +1,77 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos renews each thumb-bound action while the tray remains centered beneath the road;
+ * Awtsmoos.com keeps layout transform permanent and lets interaction motion happen without shifting the load.
+ */
+
+.controls {
+	position: absolute;
+	left: 50%;
+	bottom: var(--safe-bottom);
+	z-index: 11;
+	display: flex;
+	gap: 7px;
+	padding: 5px;
+	transform: translateX(-50%);
+	border: 1px solid var(--line);
+	border-radius: 21px;
+	background: rgba(16, 11, 8, 0.6);
+	backdrop-filter: var(--glass-blur);
+	box-shadow: var(--shadow-soft);
+	opacity: 1;
+	transition:
+		opacity var(--motion-medium) var(--ease-soft),
+		filter var(--motion-fast) var(--ease-soft);
+}
+
+.controls button,
+.game-over button {
+	border: 1px solid rgba(255, 226, 158, 0.16);
+	background: rgba(255, 255, 255, 0.035);
+	color: var(--ivory-300);
+	font-weight: 850;
+	cursor: pointer;
+	touch-action: manipulation;
+	transition:
+		transform var(--motion-fast) var(--ease-out),
+		background var(--motion-fast) var(--ease-soft),
+		border-color var(--motion-fast) var(--ease-soft),
+		color var(--motion-fast) var(--ease-soft);
+}
+
+.controls button {
+	display: grid;
+	place-items: center;
+	width: 62px;
+	height: 58px;
+	padding: 4px;
+	border-radius: 16px;
+}
+
+.controls button b {
+	font-size: 21px;
+	line-height: 1;
+}
+
+.controls button span {
+	font-size: 8px;
+	letter-spacing: 0.08em;
+	line-height: 1;
+	text-transform: uppercase;
+}
+
+.controls button:active,
+.game-over button:active {
+	transform: scale(0.93);
+	border-color: var(--line-strong);
+	background: rgba(255, 224, 138, 0.1);
+	color: var(--gold-300);
+}
+
+.game-shell[data-controls="hidden"] .controls {
+	opacity: 0;
+	filter: blur(2px);
+	pointer-events: none;
+}

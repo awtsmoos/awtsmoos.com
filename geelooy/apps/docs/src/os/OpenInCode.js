@@ -2,10 +2,10 @@
 // Boruch Hashem
 // Blessed is He
 
-import { publishFileIntent } from "/geelooy/shared/file-intent/schema.js";
-import { DocumentSerializer } from "../model/DocumentSerializer.js";
+import { publishFileIntent } from "/shared/file-intent/schema.js";
 import { HtmlDocumentCodec } from "../formats/HtmlDocumentCodec.js";
 import { MarkdownCodec } from "../formats/MarkdownCodec.js";
+import { DocumentSerializer } from "../model/DocumentSerializer.js";
 
 /**
  * @file Opens the current document through Awtsmoos Code without changing its source format.
@@ -17,6 +17,7 @@ export class OpenInCode {
 		this.embedBridge = embedBridge;
 	}
 
+	/** Publishes the current source through the OS bridge or the cross-app intent channel. */
 	open(snapshot = {}) {
 		const handoff = sourceHandoff(snapshot);
 		if (this.embedBridge?.enabled) {
@@ -34,6 +35,7 @@ export class OpenInCode {
 	}
 }
 
+/** Serializes the document using its current semantic source format whenever possible. */
 function sourceHandoff(snapshot) {
 	const source = snapshot.source || {};
 	const format = String(source.format || "awtdoc");
@@ -65,6 +67,7 @@ function sourceHandoff(snapshot) {
 	};
 }
 
+/** Chooses the filename extension that matches the current source-format identity. */
 function defaultFileName(snapshot, format) {
 	const extension = format === "markdown"
 		? ".md"
@@ -74,6 +77,7 @@ function defaultFileName(snapshot, format) {
 	return `${snapshot.title || "Untitled document"}${extension}`;
 }
 
+/** Ensures AWTDOC fallback serialization never retains a misleading prior extension. */
 function ensureAwtdoc(value) {
 	return /\.awtdoc$/i.test(value)
 		? value

@@ -1,53 +1,401 @@
 [
 	{
-		"id": "docs-generated-public-entry-points-public-entry-points-002-md-8f25830101",
-		"title": "Generated Public Entry Point Atlas 46–90",
-		"sourcePath": "docs/GENERATED/PUBLIC_ENTRY_POINTS/public-entry-points-002.md",
-		"category": "General",
+		"id": "docs-generated-project-tutorials-projects-geelooy-apps-rebbe-d2246f9f-md-d4bd63bbb8",
+		"title": "Project Tutorial: AWTSMOOS ARCHIVE // OMEGA",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-rebbe-d2246f9f.md",
+		"category": "Projects",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Generated Public Entry Point Atlas 46–90",
-				"anchor": "generated-public-entry-point-atlas-46-90"
+				"text": "Project Tutorial: AWTSMOOS ARCHIVE // OMEGA",
+				"anchor": "project-tutorial-awtsmoos-archive-omega"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Public Entry Point Atlas 46–90 Every discovered index.html beneath the Geelooy public root, with title and linked script/style evidence. URL Entry file Title Scripts Script sample Styles Style sample /ayin geelooy/ayin/index.html Real Awtsmoos Recorder 0 — 0 — /comment thread g",
-		"searchText": "b\"h boruch hashem blessed is he generated public entry point atlas 46–90 every discovered index.html beneath the geelooy public root, with title and linked script/style evidence. url entry file title scripts script sample styles style sample /ayin geelooy/ayin/index.html real awtsmoos recorder 0 — 0 — /comment thread geelooy/comment thread/index.html comment thread — geelooy 2 /scripts/awtsmoos/social/shell/boot.js?v=extreme 005; /comment thread/app.js?v=comments 004 2 /style/geelooy app/index.css?v=extreme 005; /style/social system/comments.css?v=comments 003 /contact geelooy/contact/index.html contact — awtsmoos 1 /contact/contact.js?v=1 1 /contact/contact.css?v=1 /control geelooy/control/index.html code control panel 1 app.js 1 styles.css /db geelooy/db/index.html — 0 — 0 — /db/console geelooy/db/console/index.html simple dosdb gui 0 — 0 — /db/explorer geelooy/db/explorer/index.html awtsmoos db interface hyperdrive edition 1 script.js 2 styles.css; https://fonts.googleapis.com/css2?family=orbitron:wght@400;700&family=press+start+2p&family=turret+road:wght@300;500;800&display=swap /docs geelooy/docs/index.html awtsmoos documentation 1 ./modules/app.mjs 12 ./styles/tokens.css; ./styles/shell.css; ./styles/rails.css; ./styles/components.css /donate geelooy/donate/index.html — 0 — 0 — /editor geelooy/editor/index.html — 2 /scripts/awtsmoos/awtsmoosgptify.js; /scripts/awtsmoostamper.js 0 — /email geelooy/email/index.html mail — geelooy 2 /scripts/awtsmoos/social/shell/boot.js?v=mail canonical 001; ./index.js?v=mail canonical 001 5 /style/geelooy app/index.css?v=mail canonical 001; ./css/core.css?v=mail canonical 001; ./css/sidebar.css?v=mail canonical 001; ./css/chat.css?v=mail canonical 001 /entity view geelooy/entity view/index.html entity universe 1 /entity view/app.js 2 /style/social system/entity/base.css; /style/social system/entity/cards.css /fetch geelooy/fetch/index.html — 0 — 0 — /game geelooy/game/index.html opening mitzvah world… 0 — 0 — /games geelooy/games/index.html awtsmoos games — 25 visual worlds, solo & multiplayer 3 /scripts/awtsmoos/social/shell/boot.js?v=games shell 001; ./scripts/games index.js?v=games storefront 003; /register.js 1 ./style.css?v=games storefront 003 /games/adventure geelooy/games/adventure/index.html adventure game 0 — 0 — /games/brick blast geelooy/games/brick blast/index.html brick blast 1 index.js 4 https://fonts.googleapis.com; https://fonts.gstatic.com; https://fonts.googleapis.com/css2?family=inter:wght@400;700;900&display=swap; /index.css /games/cards geelooy/games/cards/index.html the utterances — blackjack on awtsmoos 1 ./js/main.js 1 ./style.css?v=cards solid 002 /games/chess geelooy/games/chess/index.html ultimate chess ai 2 main.js; /register.js 1 style.css /games/chess/debug geelooy/games/chess/debug/index.html awtsmoos engine debugging harness 1 debug tool.js 0 — /games/city of light geelooy/games/city of light/index.html city of light · the complete pilgrimage 2 ./js/main.js; /register.js 1 ./style.css /games/connect4 geelooy/games/connect4/index.html connect 4 2 main.js; /register.js 1 style.css /games/dove geelooy/games/dove/index.html noah's dove's 🕊️ quest ❓ for shalom 1 ./game.js 1 style.css /games/emojis geelooy/games/emojis/index.html emoji war — neon caption arcade 1 ./js/main.js?v=emoji war solid 004 1 ./style.css?v=emoji war solid 004 /games/kabbalah shooter geelooy/games/kabbalah shooter/index.html kabbalah infinite — the breaking of vessels 1 ./main.js 2 ./style.css?v=kabbalah solid 002; /index.css /games/kavanah geelooy/games/kavanah/index.html kavanah 1 js/main.js 1 style.css /games/merkava geelooy/games/merkava/index.html merkava — war of the sparks 1 ./src/main.js?version=20260713 8 2 data:,; ./styles/game.css?version=20260713 8 /games/migdol geelooy/games/migdol/index.html migdol kabbalah tower defense 1 js/script.js 1 style.css /games/mitzvahworld geelooy/games/mitzvahworld/index.html b&quot;h mitzvah world — restored river valley 1 ./experiments/awtsmoos/src/mitzvah world.compact.js 2 data:image/svg+xml,%3csvg%20xmlns=%22http%3a%2f%2fwww.w3.org%2f2000%2fsvg%22%20viewbox=%220%200%2064%2064%22%3e%3ctitle%3emitzvah%20world%3c%2ftitle%3e%3crect%20width=%2264%22%20height=%2264%22%20rx=%2214%22%20fill=%22%2307140b%22%2f%3e%3ccircle%20cx=%2246%22%20cy=%2217%22%20r=%227%22%20fill=%22%23f4c95d%22%2f%3e%3cpath%20d=%22m6%2043l22%2027l34%2039l44%2029l58%2043v58h6z%22%20fill=%22%232f8a59%22%2f%3e%3cpath%20d=%22m30%2035c38%2040%2024%2045%2033%2050c39%2054%2032%2058%2028%2062%22%20fill=%22none%22%20stroke=%22%2367c5e8%22%20stroke width=%223%22%20stroke linecap=%22round%22%2f%3e%3c%2fsvg%3e; ./styles/generated/mitzvah world.production.css /games/nachash geelooy/games/nachash/index.html tikkun hanachash 2 main.js; /register.js 2 style.css; https://fonts.googleapis.com/css2?family=cormorant+garamond:wght@400;700&display=swap /games/neshama quest geelooy/games/neshama quest/index.html neshama quest 5 config.js; maze.js; entities.js; input.js 1 style.css /games/nitzotz io geelooy/games/nitzotz io/index.html nitzotz.io — shlichus adventure metropolis 1 ./js/main.js?v=20260714 shlichus 1 2 data:image/svg+xml,%3csvg xmlns=; ./style.css?v=20260714 shlichus 1 /games/ohr hagnuz geelooy/games/ohr hagnuz/index.html b&quot;h — ohr hagnuz: the concealed frontier 1 ./src/index.js 7 data:image/svg+xml,%3csvg xmlns=; ./src/design/revelation/tokens.css; ./src/design/revelation/shell.css; ./src/design/revelation/hud.css /games/party geelooy/games/party/index.html party challenge — awtsmoos games 1 ./js/main.js?v=party 001 1 ./style.css?v=party 001 /games/pong geelooy/games/pong/index.html pong game 5 js/particles.js; js/ball.js; js/paddle.js; js/ui.js 1 style.css /games/rambam/kiddushhachodesh/12 geelooy/games/rambam/kiddushhachodesh/12/index.html sun movement visualization 0 — 0 — /games/rebbe runner geelooy/games/rebbe runner/index.html the rebbe's runner 2 assets.js; game.js 1 style.css /games/scribe journey geelooy/games/scribe journey/index.html the scribe's journey: echoes of ein sof 1 js/main.js 2 data:,; style.css /games/sefira clash geelooy/games/sefira clash/index.html sefira clash · open world, expedition, co op, adventure &amp; vs 1 ./js/main.js 8 ./style.css; ./css/expedition.css; ./css/expedition components.css; ./css/expedition services.css /games/seven mitzvos geelooy/games/seven mitzvos/index.html seven mitzvos · living material worlds 1 ./js/main.js 8 ./favicon.svg; https://awtsmoos.com/sites/firebase drive migration/various/stone%20retaining%20wall%20masonry.png; https://awtsmoos.com/sites/firebase drive migration/various/rough%20weathered%20oak%20wood%20planks.png; https://awtsmoos.com/sites/firebase drive migration/various/slate%20roof%20shingles.png /games/shema strike geelooy/games/shema strike/index.html shema strike: gates of light 1 js/main.js 1 style.css /games/soul jump geelooy/games/soul jump/index.html ein sof ascent 1 main.js 0 — /games/sulam ha sod geelooy/games/sulam ha sod/index.html sulam hasod 1 ./js/main.js 1 ./css/game.css /games/tests/1 geelooy/games/tests/1/index.html — 1 ./ikar.js 0 — /games/tests/2 geelooy/games/tests/2/index.html three.js webgpu compute particles rain 0 — 0 —",
-		"page": "pages/docs-generated-public-entry-points-public-entry-points-002-md-8f25830101.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: AWTSMOOS ARCHIVE // OMEGA Path: geelooy/apps/rebbe · Type: app · Family: Applications Read the human Applications guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health ",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: awtsmoos archive // omega path: geelooy/apps/rebbe · type: app · family: applications read the human applications guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, main.js, documentation.md local documentation: geelooy/apps/rebbe/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 125 0 0 0 1 0 126 public entry points /apps/rebbe → geelooy/apps/rebbe/index.html — awtsmoos archive // omega symbol evidence source files: 117; classes: 8; functions: 588; exports: 261; samples: async, collectrebbeassets, collectdirectory, boundednumber, asseterror, buildrebberesponsaapk, generaterebberesponsaapk, rebbe android source, mainactivity, handleback, handlenext, handleprev. depends on geelooy/scripts — 1 lexical reference; examples: geelooy/apps/rebbe/android/build.js used by geelooy/api/compiler — 1 lexical reference; examples: geelooy/api/compiler/core/rebbeapkhandler.js external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-apps-rebbe-d2246f9f-md-d4bd63bbb8.json"
 	},
 	{
-		"id": "docs-generated-public-entry-points-public-entry-points-003-md-47f5d0e8a9",
-		"title": "Generated Public Entry Point Atlas 91–135",
-		"sourcePath": "docs/GENERATED/PUBLIC_ENTRY_POINTS/public-entry-points-003.md",
-		"category": "General",
+		"id": "docs-generated-project-tutorials-projects-geelooy-apps-scripts-e21af555--b470fc3f61",
+		"title": "Project Tutorial: geelooy/apps/scripts",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-scripts-e21af555.md",
+		"category": "Projects",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Generated Public Entry Point Atlas 91–135",
-				"anchor": "generated-public-entry-point-atlas-91-135"
+				"text": "Project Tutorial: geelooy/apps/scripts",
+				"anchor": "project-tutorial-geelooy-apps-scripts"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Public Entry Point Atlas 91–135 Every discovered index.html beneath the Geelooy public root, with title and linked script/style evidence. URL Entry file Title Scripts Script sample Styles Style sample /games/tests/3 geelooy/games/tests/3/index.html — 4 //cdn.jsdelivr.net/gh/mrd",
-		"searchText": "b\"h boruch hashem blessed is he generated public entry point atlas 91–135 every discovered index.html beneath the geelooy public root, with title and linked script/style evidence. url entry file title scripts script sample styles style sample /games/tests/3 geelooy/games/tests/3/index.html — 4 //cdn.jsdelivr.net/gh/mrdoob/three.js@r151/build/three.js; //cdn.jsdelivr.net/gh/mrdoob/three.js@r147/examples/js/controls/orbitcontrols.js; //cdn.jsdelivr.net/gh/mrdoob/three.js@r147/examples/js/loaders/gltfloader.js; //cdn.jsdelivr.net/gh/mrdoob/three.js@r147/examples/js/loaders/rgbeloader.js 1 https://fonts.googleapis.com/css2?family=baloo+tamma+2&display=swap /games/tests/tree geelooy/games/tests/tree/index.html three.js tree swaying 0 — 0 — /games/tetris geelooy/games/tetris/index.html tikkun haolam the final rectification 1 main.js 1 style.css /heichel editor geelooy/heichel editor/index.html heichel editor — geelooy 2 /scripts/awtsmoos/social/shell/boot.js?v=extreme 005; /heichel editor/app.js?v=editor 004 2 /style/geelooy app/index.css?v=extreme 005; /style/social system/editor.css?v=editor 003 /heichel review geelooy/heichel review/index.html heichel review and governance center 1 ./js/main.js?v=review dark 002 1 ./style.css?v=review dark 002 /heichelos/manage alias heichelos geelooy/heichelos/manage alias heichelos/index.html — 1 script.js 1 /style/social/heichelos/manage alias heichelos.css?v=social os 002 /heichelos/settings/community geelooy/heichelos/settings/community/index.html community settings 1 /heichelos/settings/community/app.js 1 /style/heichelos/community settings.css?v=clean 002 /heichelos/settings/community/moderation geelooy/heichelos/settings/community/moderation/index.html community moderation 1 /heichelos/settings/community/moderation/app.js 1 /style/heichelos/community settings.css?v=clean 002 /heichelos/social/demo geelooy/heichelos/social/demo/index.html awtsmoos social revamp demo 0 — 1 ../styles/index.css /legal/privacy geelooy/legal/privacy/index.html awtsmoos.com privacy policy 0 — 1 ../shared.css /legal/terms geelooy/legal/terms/index.html awtsmoos.com terms of use 0 — 1 ../shared.css /login geelooy/login/index.html login with awtsmoos 1 /scripts/awtsmoos/bh.js 2 /style/bh.css; /style/forms.css /logout geelooy/logout/index.html — 0 — 0 — /mawgawl geelooy/mawgawl/index.html — 1 ./script.js 1 ./styles.css /mawgawl/sefarim geelooy/mawgawl/sefarim/index.html search the living library — geelooy 2 /scripts/awtsmoos/social/shell/boot.js?v=living search shell 001; ./script.js?v=living search 007 17 /style/civilization/core tokens.css?v=living search 006; /style/civilization/core base.css?v=living search 006; /style/civilization/core components.css?v=living search 006; ./styles/shell.css?v=living search 006 /node os geelooy/node os/index.html awtsmoos node os 1 /node os/app.js 2 /style/social system/node os/base.css; /style/social system/node os/cards.css /notifications geelooy/notifications/index.html signals — geelooy 2 /scripts/awtsmoos/social/shell/boot.js?v=interface dark 007; ./app.js?v=app 001 2 /style/geelooy app/index.css?v=interface dark 007; /style/social system/index.css?v=social core 005 /ocr geelooy/ocr/index.html — 0 — 0 — /os geelooy/os/index.html geelooy os — files, awtsmoosdb, runtime & control 1 ./script.js?v=revelation 7 16 ./styles.css?v=revelation 7; ./civilization/styles.css?v=revelation 7; ./styles/native executable accessibility.css?v=revelation 7; ./styles/revelation/tokens.css?v=revelation 7 /parsers/whatsapp geelooy/parsers/whatsapp/index.html whatsapp message maker 0 — 0 — /post editor geelooy/post editor/index.html post editor — geelooy 2 /scripts/awtsmoos/social/shell/boot.js?v=extreme 005; /post editor/app.js?v=editor 004 2 /style/geelooy app/index.css?v=extreme 005; /style/social system/editor.css?v=editor 003 /profile geelooy/profile/index.html profile — geelooy 2 /scripts/awtsmoos/social/shell/boot.js?v=; ./script.js?v=app 001 6 /style/civilization/core tokens.css?v=; /style/civilization/core base.css?v=; /style/civilization/core components.css?v=; /style/civilization/profile identity.css?v= /profile/alias manage geelooy/profile/alias manage/index.html — 1 script.js 1 ./style.css /public/virtual os games/crystal 1780372754759 geelooy/public/virtual os games/crystal 1780372754759/index.html crystal critters 0 — 0 — /public/virtual os games/crystal 1780372758361 geelooy/public/virtual os games/crystal 1780372758361/index.html crystal critters 0 — 0 — /public/virtual os games/crystal 1780373501785 improved geelooy/public/virtual os games/crystal 1780373501785 improved/index.html crystal critters: awakened cave 0 — 0 — /public/virtual os games/crystal 1780373505136 improved geelooy/public/virtual os games/crystal 1780373505136 improved/index.html crystal critters: awakened cave 0 — 0 — /public/virtual os games/crystal 1780373765713 swarm v2 geelooy/public/virtual os games/crystal 1780373765713 swarm v2/index.html crystal critters: thumb safe swarm 0 — 0 — /public/virtual os games/crystal 1780373769185 swarm v2 geelooy/public/virtual os games/crystal 1780373769185 swarm v2/index.html crystal critters: thumb safe swarm 0 — 0 — /public/virtual os games/crystal 1780374109835 clean mobile geelooy/public/virtual os games/crystal 1780374109835 clean mobile/index.html crystal critters: clean mobile 0 — 0 — /public/virtual os games/crystal 1780374112967 clean mobile geelooy/public/virtual os games/crystal 1780374112967 clean mobile/index.html crystal critters: clean mobile 0 — 0 — /record geelooy/record/index.html camera preview — geelooy 1 script.js?v=media capture 001 1 style.css?v=media capture 001 /recorder geelooy/recorder/index.html local recorder — geelooy 1 recorder.js?v=media capture 001 1 style.css?v=media capture 001 /reeyuh geelooy/reeyuh/index.html shulchan aruch viewer 0 — 2 ../style/bh.css; ../style/toyr.css /register geelooy/register/index.html create awtsmoos account 1 /scripts/awtsmoos/bh.js 2 /style/bh.css; /style/forms.css /scripts/awtsmoos/compiling/pe geelooy/scripts/awtsmoos/compiling/pe/index.html awtsmoos exe compiler 1 script.js 1 style.css /scripts/awtsmoos/merkavaastparser geelooy/scripts/awtsmoos/merkavaastparser/index.html kabbalistic es6 ast parser 1 parser core.js 0 — /scripts/awtsmoos/merkavabeautifier geelooy/scripts/awtsmoos/merkavabeautifier/index.html merkava beautifier 1 main.js 1 style.css /scripts/awtsmoos/merkavaexecutor geelooy/scripts/awtsmoos/merkavaexecutor/index.html merkava executor — runtime id ast ect 7 /scripts/awtsmoos/merkavaexecutor/app/browser/state.js?v=51; /scripts/awtsmoos/merkavaexecutor/app/browser/examples.js?v=51; /scripts/awtsmoos/merkavaexecutor/app/browser/files.js?v=51; /scripts/awtsmoos/merkavaexecutor/app/browser/renderers.js?v=51 1 /scripts/awtsmoos/merkavaexecutor/app/styles.css?v=51 /scripts/awtsmoos/merkavaexecutor/.mode2 path app geelooy/scripts/awtsmoos/merkavaexecutor/.mode2 path app/index.html — 1 /js/main.js 1 /css/style.css /scripts/awtsmoos/tts geelooy/scripts/awtsmoos/tts/index.html kokoro forge b\"h 1 ./main.js 2 https://fonts.googleapis.com/css2?family=orbitron:wght@400;700;900&family=rajdhani:wght@300;500;700&family=jetbrains+mono:wght@400;700&display=swap; ./index.css /scripts/awtsmoos/zip geelooy/scripts/awtsmoos/zip/index.html awtsmoos native zip 1 main.js 1 style.css /scripts/tricks geelooy/scripts/tricks/index.html — 0 — 0 — /scripts/tricks/jem geelooy/scripts/tricks/jem/index.html awtsmoos jemizier 1 script.js 2 style.css; https://cdnjs.cloudflare.com/ajax/libs/font awesome/6.0.0/css/all.min.css /social geelooy/social/index.html awtsmoos social hub 1 /scripts/awtsmoos/social/hub/index.js?v=social hub 002 4 /style/social/hub/index.css?v=social hub 002; /style/social/live/presence.css?v=social hub 002; /scripts/awtsmoos/social/hub/render.js; /scripts/awtsmoos/social/hub/requestplan.js",
-		"page": "pages/docs-generated-public-entry-points-public-entry-points-003-md-47f5d0e8a9.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/apps/scripts Path: geelooy/apps/scripts · Type: app · Family: Applications Read the human Applications guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health gua",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/apps/scripts path: geelooy/apps/scripts · type: app · family: applications read the human applications guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: documentation.md local documentation: geelooy/apps/scripts/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 15 0 0 0 1 0 16 public entry points none observed. symbol evidence source files: 15; classes: 1; functions: 10; exports: 16; samples: categorymatches, announceresults, applyfilters, defineapp, creation apps, developer apps, game apps, awtsmoos, gameasapp, publicgamehref, public apps, media apps. depends on geelooy/games/scripts — 1 lexical reference; examples: geelooy/apps/scripts/catalog/games.mjs used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-apps-scripts-e21af555--b470fc3f61.json"
 	},
 	{
-		"id": "docs-generated-public-entry-points-public-entry-points-004-md-026ad01293",
-		"title": "Generated Public Entry Point Atlas 136–140",
-		"sourcePath": "docs/GENERATED/PUBLIC_ENTRY_POINTS/public-entry-points-004.md",
-		"category": "General",
+		"id": "docs-generated-project-tutorials-projects-geelooy-apps-sheets-95681150-m-83fc8093f0",
+		"title": "Project Tutorial: Awtsmoos Sheets",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-sheets-95681150.md",
+		"category": "Projects",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Generated Public Entry Point Atlas 136–140",
-				"anchor": "generated-public-entry-point-atlas-136-140"
+				"text": "Project Tutorial: Awtsmoos Sheets",
+				"anchor": "project-tutorial-awtsmoos-sheets"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Public Entry Point Atlas 136–140 Every discovered index.html beneath the Geelooy public root, with title and linked script/style evidence. URL Entry file Title Scripts Script sample Styles Style sample /social composer geelooy/social composer/index.html Create New Post — Geeloo",
-		"searchText": "b\"h boruch hashem blessed is he generated public entry point atlas 136–140 every discovered index.html beneath the geelooy public root, with title and linked script/style evidence. url entry file title scripts script sample styles style sample /social composer geelooy/social composer/index.html create new post — geelooy 2 ./js/main.js?v=civilization 003; ./js/civilizationenhancements.js?v=civilization 003 11 ./style.css?v=civilization 003; /style/civilization/core tokens.css?v=civilization 003; /style/civilization/core base.css?v=civilization 003; /style/civilization/core components.css?v=civilization 003 /social composer/reel studio geelooy/social composer/reel studio/index.html mitzvahworld movie studio 1 ./boot.js?v=social nle 004 1 ./style.css?v=social nle 004 /social hub geelooy/social hub/index.html social hub — geelooy 2 /scripts/awtsmoos/social/shell/boot.js?v=interface dark 011; ./js/main.js?v=hub nebula 004 3 /style/geelooy app/index.css?v=interface dark 011; ./style.css?v=hub nebula 004; /scripts/awtsmoos/social/shell/boot.js /sod geelooy/sod/index.html endpoint interaction 0 — 0 — /youtube geelooy/youtube/index.html awtsmoos youtube manager 1 youtube.js 1 youtube.css",
-		"page": "pages/docs-generated-public-entry-points-public-entry-points-004-md-026ad01293.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Awtsmoos Sheets Path: geelooy/apps/sheets · Type: app · Family: Applications Read the human Applications guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantee",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: awtsmoos sheets path: geelooy/apps/sheets · type: app · family: applications read the human applications guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, documentation.md local documentation: geelooy/apps/sheets/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 127 2 0 0 1 0 130 public entry points /apps/sheets → geelooy/apps/sheets/index.html — awtsmoos sheets symbol evidence source files: 112; classes: 42; functions: 303; exports: 214; samples: gevurahworkbookactions, applydocumentoperation, applysharestate, applyvaluepatches, applystylepatches, applyextensionsave, applyextensionremove, async, malchuschromestate, selectedtsv, parseclipboardmatrix, matrixpatches. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 2 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-apps-sheets-95681150-m-83fc8093f0.json"
+	},
+	{
+		"id": "docs-generated-project-tutorials-projects-geelooy-apps-slides-31197e15-m-707255350f",
+		"title": "Project Tutorial: Awtsmoos Slides",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-slides-31197e15.md",
+		"category": "Projects",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Project Tutorial: Awtsmoos Slides",
+				"anchor": "project-tutorial-awtsmoos-slides"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Awtsmoos Slides Path: geelooy/apps/slides · Type: app · Family: Applications Read the human Applications guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantee",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: awtsmoos slides path: geelooy/apps/slides · type: app · family: applications read the human applications guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, package.json, documentation.md local documentation: geelooy/apps/slides/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 70 10 0 0 1 1 82 public entry points /apps/slides → geelooy/apps/slides/index.html — awtsmoos slides symbol evidence source files: 54; classes: 31; functions: 89; exports: 88; samples: collab version, sync event, request event, createpublishmessage, parsecollaborationevent, createroomid, createclientid, presenceslidestransport, presentationcollaboration, placeroominurl, async, copysharelink. depends on geelooy/scripts — 1 lexical reference; examples: geelooy/apps/slides/src/collab/presenceslidestransport.js used by none observed. external packages none observed. verification clue observed test classified files: 10 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-apps-slides-31197e15-m-707255350f.json"
+	},
+	{
+		"id": "docs-generated-project-tutorials-projects-geelooy-apps-styles-c794a9eb-m-222012fc5b",
+		"title": "Project Tutorial: geelooy/apps/styles",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-styles-c794a9eb.md",
+		"category": "Projects",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Project Tutorial: geelooy/apps/styles",
+				"anchor": "project-tutorial-geelooy-apps-styles"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/apps/styles Path: geelooy/apps/styles · Type: app · Family: Applications Read the human Applications guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guara",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/apps/styles path: geelooy/apps/styles · type: app · family: applications read the human applications guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: — local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 6 0 0 0 0 0 6 public entry points none observed. symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-apps-styles-c794a9eb-m-222012fc5b.json"
+	},
+	{
+		"id": "docs-generated-project-tutorials-projects-geelooy-apps-tests-427fc317-md-5ececbcea6",
+		"title": "Project Tutorial: geelooy/apps/tests",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-tests-427fc317.md",
+		"category": "Testing",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Project Tutorial: geelooy/apps/tests",
+				"anchor": "project-tutorial-geelooy-apps-tests"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/apps/tests Path: geelooy/apps/tests · Type: app · Family: Applications Read the human Applications guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarant",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/apps/tests path: geelooy/apps/tests · type: app · family: applications read the human applications guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: — local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 0 1 0 0 0 0 1 public entry points none observed. symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 1 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-apps-tests-427fc317-md-5ececbcea6.json"
+	},
+	{
+		"id": "docs-generated-project-tutorials-projects-geelooy-apps-transcribe-82ebd4-59e8b1dcf3",
+		"title": "Project Tutorial: AssemblyAI Transcription",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-transcribe-82ebd494.md",
+		"category": "Projects",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Project Tutorial: AssemblyAI Transcription",
+				"anchor": "project-tutorial-assemblyai-transcription"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: AssemblyAI Transcription Path: geelooy/apps/transcribe · Type: app · Family: Applications Read the human Applications guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or hea",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: assemblyai transcription path: geelooy/apps/transcribe · type: app · family: applications read the human applications guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 2 0 0 0 0 0 2 public entry points /apps/transcribe → geelooy/apps/transcribe/index.html — assemblyai transcription symbol evidence source files: 1; classes: 0; functions: 4; exports: 0; samples: uploadaudio, requesttranscription, polltranscription, displaytranscription. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-apps-transcribe-82ebd4-59e8b1dcf3.json"
 	}
 ]

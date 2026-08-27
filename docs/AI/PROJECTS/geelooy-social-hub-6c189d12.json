@@ -25,19 +25,19 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-social-hub-6c189d12.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 61,
-		"tests": 16,
+		"source": 217,
+		"tests": 46,
 		"assets": 0,
 		"generated": 0,
 		"docs": 2,
 		"other": 0
 	},
-	"totalFiles": 79,
+	"totalFiles": 265,
 	"symbolSummary": {
-		"files": 34,
-		"classes": 22,
-		"functions": 37,
-		"exports": 44,
+		"files": 128,
+		"classes": 77,
+		"functions": 166,
+		"exports": 159,
 		"samples": [
 			"createSocialHub",
 			"HubApp",
@@ -53,7 +53,18 @@
 			"preferencesFromFields"
 		]
 	},
-	"outgoingDependencies": [],
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/shared",
+			"count": 5,
+			"examples": "geelooy/social-hub/js/interactions/CreatorLaunchModel.js; geelooy/social-hub/js/ui/feed/FeedPostModel.js; geelooy/social-hub/js/ui/feed/FeedUniversalActions.js"
+		},
+		{
+			"project": "geelooy/social-actions",
+			"count": 4,
+			"examples": "geelooy/social-hub/js/ui/feed/FeedReaction.js; geelooy/social-hub/js/ui/feed/SocialActionRail.js"
+		}
+	],
 	"incomingDependencies": [],
 	"externalDependencies": [],
 	"publicEntries": [

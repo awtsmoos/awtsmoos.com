@@ -2,55 +2,78 @@
 <!-- Boruch Hashem -->
 <!-- Blessed is He -->
 <!--
-	The Awtsmoos creates the measured day before interface can rank its moments;
-	Awtsmoos.com reveals place, next zman, and key times first while every deeper detail remains present.
+	The Awtsmoos creates the measured day before plain HTML, celestial WebGL2, API, iframe, folded methods, or four day-period gates can name a vessel;
+	Awtsmoos.com reveals one Zmanim truth through compact mobile choices, complete-day disclosures, opinion comparisons, native sky, and portable embeds without letting presentation become another calculation level.
 -->
 <!doctype html>
 <html lang="en">
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-	<meta name="theme-color" content="#12382f">
+	<meta name="theme-color" content="#06100d">
 	<title>Halachic Zmanim · Awtsmoos</title>
-	<meta name="description" content="Worldwide halachic zmanim with Alter Rebbe / Chabad as the primary method and additional opinions.">
+	<meta name="description" content="Worldwide halachic zmanim with plain and celestial views, selectable methods, server API, and configurable embeds.">
 	<link rel="icon" href="/zmanim/favicon.svg" type="image/svg+xml">
 	<link rel="stylesheet" href="/zmanim/styles/tokens.css">
-	<link rel="stylesheet" href="/zmanim/styles/hero.css">
+	<link rel="stylesheet" href="/zmanim/styles/presentation-theme-light.css?v=presentation-007">
+	<link rel="stylesheet" href="/zmanim/styles/presentation-theme-system.css?v=presentation-007">
+	<link rel="stylesheet" href="/zmanim/styles/presentation-modes.css?v=presentation-007">
+	<link rel="stylesheet" href="/zmanim/styles/hero.css?v=presentation-007">
+	<link rel="stylesheet" href="/zmanim/styles/view-mode.css?v=presentation-007">
 	<link rel="stylesheet" href="/zmanim/styles/layout.css">
 	<link rel="stylesheet" href="/zmanim/styles/components.css">
 	<link rel="stylesheet" href="/zmanim/styles/actions.css">
 	<link rel="stylesheet" href="/zmanim/styles/dashboard.css">
 	<link rel="stylesheet" href="/zmanim/styles/timeline.css">
-	<link rel="stylesheet" href="/zmanim/styles/cards.css">
+	<link rel="stylesheet" href="/zmanim/styles/cards.css?v=presentation-007">
 	<link rel="stylesheet" href="/zmanim/styles/compact-list.css">
+	<link rel="stylesheet" href="/zmanim/styles/zman-group-toolbar.css?v=presentation-007">
+	<link rel="stylesheet" href="/zmanim/styles/zman-group-disclosure.css?v=presentation-007">
 	<link rel="stylesheet" href="/zmanim/styles/methodology.css">
 	<link rel="stylesheet" href="/zmanim/styles/responsive.css">
+	<link rel="stylesheet" href="/zmanim/styles/contrast.css">
+	<link rel="stylesheet" href="/zmanim/styles/opinions.css?v=presentation-007">
+	<link rel="stylesheet" href="/zmanim/styles/opinion-choices.css?v=presentation-007">
+	<link rel="stylesheet" href="/zmanim/styles/opinion-primary.css?v=presentation-007">
+	<link rel="stylesheet" href="/zmanim/styles/opinion-disclosure.css?v=presentation-007">
+	<link rel="stylesheet" href="/zmanim/styles/opinion-disclosure-motion.css?v=presentation-007">
+	<link rel="stylesheet" href="/zmanim/styles/comparison.css">
+	<link rel="stylesheet" href="/zmanim/styles/zman-comparison-disclosure.css?v=presentation-007">
+	<link rel="stylesheet" href="/zmanim/styles/method-profiles.css">
+	<link rel="stylesheet" href="/zmanim/styles/celestial.css?v=presentation-007">
+	<link rel="stylesheet" href="/zmanim/styles/celestial-panel-layout.css?v=presentation-007">
+	<link rel="stylesheet" href="/zmanim/styles/celestial-bodies.css?v=presentation-007">
+	<link rel="stylesheet" href="/zmanim/styles/celestial-atmosphere.css?v=presentation-007">
+	<link rel="stylesheet" href="/zmanim/styles/celestial-markers.css?v=presentation-007">
+	<link rel="stylesheet" href="/zmanim/styles/celestial-marker-motion.css?v=presentation-007">
+	<link rel="stylesheet" href="/zmanim/styles/celestial-webgl.css?v=presentation-007">
+	<link rel="stylesheet" href="/zmanim/styles/embed.css?v=presentation-007">
+	<link rel="stylesheet" href="/zmanim/styles/embed-preset-actions.css?v=presentation-007">
+	<link rel="stylesheet" href="/zmanim/styles/embed-frame.css?v=presentation-007">
+	<link rel="stylesheet" href="/zmanim/styles/embed-options.css?v=presentation-007">
+	<link rel="stylesheet" href="/zmanim/styles/embed-option-actions.css?v=presentation-007">
+	<link rel="stylesheet" href="/zmanim/styles/zman-group-motion.css?v=presentation-007">
+	<link rel="stylesheet" href="/zmanim/styles/motion.css">
 </head>
 <body>
 	<main class="zmanim-shell">
 		<header class="app-header">
 			<div class="brand-mark" aria-hidden="true">ב״ה</div>
 			<div class="brand-copy"><strong>Zmanim</strong><span>Halachic times · worldwide</span></div>
-			<a class="header-link" href="#methodology">Method & sources</a>
+			<div class="app-header-actions">
+				<a class="header-link" href="#methodology">Methods & sources</a>
+				<awtsmoos-view-mode-control></awtsmoos-view-mode-control>
+			</div>
 		</header>
 
-		<section class="control-deck" aria-label="Location, date, and calculation method">
+		<section class="control-deck" aria-label="Location, date, and calculation methods">
 			<awtsmoos-location-search></awtsmoos-location-search>
-			<div class="date-control-block">
-				<span class="field-label">Date</span>
-				<awtsmoos-date-control></awtsmoos-date-control>
-			</div>
-			<div class="method-control">
-				<span class="field-label">Method</span>
-				<awtsmoos-opinion-selector></awtsmoos-opinion-selector>
-				<details class="native-method"><summary>Full method names</summary><select id="zmanim-opinion" aria-label="Calculation method"></select></details>
-			</div>
+			<div class="date-control-block"><span class="field-label">Date</span><awtsmoos-date-control></awtsmoos-date-control></div>
+			<div class="method-control"><span class="field-label">Calculation profiles</span><awtsmoos-opinion-selector></awtsmoos-opinion-selector></div>
 		</section>
 
 		<div class="sticky-context" aria-label="Current Zmanim context">
-			<strong id="sticky-place">Brooklyn</strong>
-			<span id="sticky-date"></span>
-			<span id="sticky-next">Loading next zman…</span>
+			<strong id="sticky-place">Brooklyn</strong><span id="sticky-date"></span><span id="sticky-next">Loading next zman…</span>
 		</div>
 
 		<section class="daily-dashboard" aria-label="Today at a glance">
@@ -63,22 +86,24 @@
 		</section>
 
 		<awtsmoos-trust-strip></awtsmoos-trust-strip>
+		<awtsmoos-celestial-panel></awtsmoos-celestial-panel>
 
 		<section class="all-zmanim-section" aria-labelledby="all-zmanim-title">
 			<div class="section-heading">
-				<div><p class="section-kicker">Complete day</p><h2 id="all-zmanim-title">All zmanim</h2><p id="method-label" class="section-meta"></p></div>
-				<div class="shaah-stat"><span>Shaah zmanis</span><strong id="seasonal-hour">—</strong></div>
+				<div><p class="section-kicker">Complete day · comparison ready</p><h2 id="all-zmanim-title">All zmanim</h2><p id="method-label" class="section-meta"></p></div>
+				<div class="shaah-stat"><span>Primary shaah zmanis</span><strong id="seasonal-hour">—</strong></div>
 			</div>
 			<awtsmoos-zmanim-grid></awtsmoos-zmanim-grid>
 		</section>
 
 		<awtsmoos-methodology-panel></awtsmoos-methodology-panel>
+		<awtsmoos-embed-actions></awtsmoos-embed-actions>
 
 		<footer class="page-footer">
 			<p>Local solar calculations · independent USNO rise/set cross-check when reachable.</p>
-			<nav aria-label="Zmanim resources"><a href="/api/zmanim/health">API</a><a href="/api/zmanim/opinions">Opinions</a><a href="/api/zmanim/methodology">Methodology JSON</a></nav>
+			<nav aria-label="Zmanim resources"><a href="/api/zmanim/day">JSON API</a><a href="/api/zmanim/options">Embed options</a><a href="/api/zmanim/methodology">Methodology</a></nav>
 		</footer>
 	</main>
-	<script type="module" src="/zmanim/js/app.js"></script>
+	<script type="module" src="/zmanim/js/app.js?v=presentation-007"></script>
 </body>
 </html>

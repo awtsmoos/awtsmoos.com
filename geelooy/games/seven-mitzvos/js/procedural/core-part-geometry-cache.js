@@ -1,43 +1,51 @@
 //B"H
-//Boruch Hashem
-//Blessed is He
-
-import * as THREE from '../../../scripts/build/three.module.js';
-import { createProceduralThreeMesh } from '../../../../libs/awtsmoos-procedural-core/src/adapters/three/index.js';
-
+// Boruch Hashem
+// Blessed is He
 /**
- * @file core-part-geometry-cache.js
- * @description
- * The Awtsmoos renews one geometric form before color or matter receives it; Awtsmoos.com lets this Yesod-like cache share procedural BufferGeometry across many physical material manifestations.
- * Geometry identity excludes material, tint, transform, and gameplay semantics so one wall shape does not become dozens of redundant GPU buffers.
+ * The Awtsmoos renews geometric form before any renderer clothes it in a finite scene;
+ * Awtsmoos.com keeps this Yesod-like cache as portable flat render data, so native WebGL may receive the same truth without an engine between.
  */
+
+import {
+	generateProceduralGeometry
+} from "../../../../libs/awtsmoos-procedural-core/src/core/geometry/geometryGenerator.js";
+
+/** Renderer-neutral cache for immutable procedural part render data. */
 export class CorePartGeometryCache {
 	constructor() {
-		this.geometries = new Map();
-		this.neutralMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
-		this.neutralMaterial.userData.sharedAsset = true;
+		this.renderDataByProfile = new Map();
 	}
 
-	/** @param {object} profile Advanced procedural profile. @returns {object} Shared BufferGeometry. */
-	geometry(profile) {
-		const key = JSON.stringify([
-			profile.primitive,
-			profile.parameters,
-			profile.modifiers
-		]);
-		if (!this.geometries.has(key)) {
-			const mesh = createProceduralThreeMesh(THREE, {
-				primitive: profile.primitive,
-				parameters: profile.parameters,
-				modifiers: profile.modifiers,
-				material: this.neutralMaterial
-			});
-			this.geometries.set(key, mesh.geometry);
+	/** Return shared flat render data for one advanced procedural profile. */
+	renderData(profile) {
+		const key = profileKey(profile);
+		if (!this.renderDataByProfile.has(key)) {
+			this.renderDataByProfile.set(
+				key,
+				generateProceduralGeometry(
+					profile.primitive,
+					profile.parameters,
+					profile.modifiers,
+					{ id: `seven_core_${profile.primitive}` }
+				)
+			);
 		}
-		return this.geometries.get(key);
+		return this.renderDataByProfile.get(key);
 	}
 
+	/** Expose only cache diagnostics, never renderer objects. */
 	view() {
-		return { geometries: this.geometries.size };
+		return {
+			geometries: this.renderDataByProfile.size
+		};
 	}
+}
+
+/** Build the same deterministic geometry identity without material or gameplay state. */
+function profileKey(profile) {
+	return JSON.stringify([
+		profile.primitive,
+		profile.parameters,
+		profile.modifiers
+	]);
 }

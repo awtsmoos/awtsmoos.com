@@ -2,7 +2,8 @@
 Boruch Hashem
 Blessed is He
 
-The Awtsmoos clothes dark space with quiet luminous depth; Awtsmoos.com receives that depth as readable glass, not visual noise.
+The Awtsmoos clothes dark space with quiet luminous depth;
+Awtsmoos.com gives blur only to great vessels, while repeating cards remain swift in every breath.
 */
 .social-hub-document {
 	isolation: isolate;
@@ -12,24 +13,26 @@ The Awtsmoos clothes dark space with quiet luminous depth; Awtsmoos.com receives
 .social-hub-document::after {
 	position: fixed;
 	z-index: -1;
-	width: 42rem;
+	width: min(46rem, 78vw);
 	aspect-ratio: 1;
 	border-radius: 50%;
-	filter: blur(80px);
+	filter: blur(86px);
 	content: "";
 	pointer-events: none;
 }
 
 .social-hub-document::before {
-	top: 8%;
-	left: -16rem;
-	background: radial-gradient(circle, rgb(48 184 255 / 14%), transparent 68%);
+	top: 6%;
+	left: -17rem;
+	background: radial-gradient(circle, rgb(48 184 255 / 14%), transparent 69%);
+	animation: chesed-nebula-drift 22s ease-in-out infinite alternate;
 }
 
 .social-hub-document::after {
 	right: -18rem;
-	bottom: 4%;
-	background: radial-gradient(circle, rgb(172 84 255 / 12%), transparent 70%);
+	bottom: 2%;
+	background: radial-gradient(circle, rgb(172 84 255 / 12%), transparent 71%);
+	animation: gevurah-nebula-drift 27s ease-in-out infinite alternate;
 }
 
 .hubHeader,
@@ -38,16 +41,27 @@ The Awtsmoos clothes dark space with quiet luminous depth; Awtsmoos.com receives
 .mobileDock,
 .panelIntro,
 .heroRift,
-.publicDiscovery,
+.publicDiscovery {
+	border-color: var(--yesod-edge);
+	background-color: var(--yesod-glass);
+	box-shadow: var(--malchus-shadow), var(--yesod-inset);
+	backdrop-filter: blur(18px) saturate(128%);
+}
+
 .riftCard,
 .publicFeedCard,
 .publicDiscoveryEmpty,
 .pulseGrid article,
 .quickActionGrid > * {
-	border-color: var(--future-edge);
-	background-color: var(--future-glass);
-	box-shadow: var(--future-glow), var(--future-inset);
-	backdrop-filter: blur(18px) saturate(125%);
+	border-color: var(--yesod-edge);
+	background-color: rgb(11 22 40 / 82%);
+	box-shadow: 0 12px 36px rgb(0 0 0 / 24%), var(--yesod-inset);
+}
+
+.riftCard,
+.publicFeedCard {
+	content-visibility: auto;
+	contain-intrinsic-size: auto 13rem;
 }
 
 .hubHeader,
@@ -55,15 +69,33 @@ The Awtsmoos clothes dark space with quiet luminous depth; Awtsmoos.com receives
 .panelIntro,
 .heroRift,
 .publicDiscovery {
-	background-image: linear-gradient(145deg, rgb(23 50 83 / 44%), transparent 46%, rgb(92 44 122 / 20%));
+	background-image:
+		linear-gradient(145deg, rgb(23 50 83 / 44%), transparent 46%, rgb(92 44 122 / 19%)),
+		radial-gradient(circle at 90% 8%, rgb(83 213 255 / 7%), transparent 34%);
 }
 
 .contextRibbon span,
 .contextRibbon strong {
-	box-shadow: inset 0 1px rgb(255 255 255 / 8%);
+	box-shadow: var(--yesod-inset);
+}
+
+.workspacePanel {
+	scroll-margin-top: 9rem;
 }
 
 .brandSigil,
 .pulseOrb {
-	box-shadow: 0 0 34px rgb(88 212 255 / 18%), var(--future-inset);
+	box-shadow: 0 0 34px rgb(88 212 255 / 18%), var(--yesod-inset);
+}
+
+@keyframes chesed-nebula-drift {
+	to {
+		transform: translate3d(7vw, 4vh, 0) scale(1.08);
+	}
+}
+
+@keyframes gevurah-nebula-drift {
+	to {
+		transform: translate3d(-6vw, -3vh, 0) scale(.94);
+	}
 }

@@ -1,0 +1,53 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos reveals the smallest screen as a complete vessel rather than a cropped desktop;
+ * Awtsmoos.com protects the thumb, the notch, and the world by removing every nonessential collision.
+ */
+@media (max-width: 720px), (pointer: coarse) {
+	.hud {
+		top: max(8px, env(safe-area-inset-top));
+		left: max(8px, env(safe-area-inset-left));
+		width: calc(100vw - 16px - env(safe-area-inset-left) - env(safe-area-inset-right));
+	}
+
+	.brand-row {
+		min-width: 160px;
+		padding: 6px 6px 6px 10px;
+	}
+
+	.brand span {
+		display: none;
+	}
+
+	.primary-stats {
+		width: 236px;
+	}
+
+	.mission {
+		width: min(300px, calc(100vw - 16px));
+	}
+
+	#message {
+		bottom: max(12px, env(safe-area-inset-bottom));
+		font-size: 10px;
+	}
+
+	.overlay-panel {
+		padding: 18px;
+		border-radius: 20px;
+	}
+}
+
+@media (max-height: 520px) and (orientation: landscape) {
+	.mission,
+	#message {
+		display: none;
+	}
+
+	.overlay-panel {
+		max-height: calc(100dvh - 16px);
+		padding: 14px 18px;
+	}
+}

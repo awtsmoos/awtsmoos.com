@@ -14,8 +14,23 @@
 		},
 		{
 			"level": 2,
-			"text": "Open the control surfaces",
-			"anchor": "open-the-control-surfaces"
+			"text": "Emergency recovery — use the shortest safe command first",
+			"anchor": "emergency-recovery-use-the-shortest-safe-command-first"
+		},
+		{
+			"level": 3,
+			"text": "macOS or Linux",
+			"anchor": "macos-or-linux"
+		},
+		{
+			"level": 3,
+			"text": "Windows",
+			"anchor": "windows"
+		},
+		{
+			"level": 2,
+			"text": "Know which layer is broken",
+			"anchor": "know-which-layer-is-broken"
 		},
 		{
 			"level": 2,
@@ -25,7 +40,7 @@
 		{
 			"level": 3,
 			"text": "macOS or Linux",
-			"anchor": "macos-or-linux"
+			"anchor": "macos-or-linux-2"
 		},
 		{
 			"level": 3,
@@ -34,43 +49,18 @@
 		},
 		{
 			"level": 2,
-			"text": "Force a complete restart",
-			"anchor": "force-a-complete-restart"
-		},
-		{
-			"level": 3,
-			"text": "macOS or Linux",
-			"anchor": "macos-or-linux-2"
-		},
-		{
-			"level": 3,
-			"text": "Windows PowerShell",
-			"anchor": "windows-powershell-2"
+			"text": "Recovery levels",
+			"anchor": "recovery-levels"
 		},
 		{
 			"level": 2,
-			"text": "Restart only the supervised child on macOS or Linux",
-			"anchor": "restart-only-the-supervised-child-on-macos-or-linux"
+			"text": "Deep recovery tools",
+			"anchor": "deep-recovery-tools"
 		},
 		{
 			"level": 2,
-			"text": "Check the installed feature set",
-			"anchor": "check-the-installed-feature-set"
-		},
-		{
-			"level": 2,
-			"text": "Inspect recovery-enabled health",
-			"anchor": "inspect-recovery-enabled-health"
-		},
-		{
-			"level": 2,
-			"text": "Concurrency and fallback levels",
-			"anchor": "concurrency-and-fallback-levels"
-		},
-		{
-			"level": 2,
-			"text": "Offline restoration",
-			"anchor": "offline-restoration"
+			"text": "Control surfaces",
+			"anchor": "control-surfaces"
 		},
 		{
 			"level": 2,

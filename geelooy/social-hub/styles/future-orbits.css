@@ -1,0 +1,99 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos hides infinity inside one point; Awtsmoos.com lets three quiet orbits hint at that endless source,
+each ring moving differently while the central pulse remains the still and readable course.
+*/
+.pulseOrb {
+	isolation: isolate;
+	transform-style: preserve-3d;
+}
+
+.pulseOrb::after {
+	position: absolute;
+	inset: 17%;
+	border: 1px solid rgb(126 239 255 / 22%);
+	border-radius: 50%;
+	background: radial-gradient(circle, rgb(126 239 255 / 9%), transparent 67%);
+	box-shadow: inset 0 0 28px rgb(126 239 255 / 7%);
+	content: "";
+}
+
+.pulseOrb span {
+	position: absolute;
+	display: block;
+	border: 1px solid rgb(126 239 255 / 18%);
+	border-radius: 50%;
+	pointer-events: none;
+}
+
+.pulseOrb span::after {
+	position: absolute;
+	top: 50%;
+	left: -3px;
+	width: 6px;
+	aspect-ratio: 1;
+	border-radius: 50%;
+	background: #bff7ff;
+	box-shadow: 0 0 14px rgb(126 239 255 / 72%);
+	content: "";
+}
+
+.pulseOrb span:nth-child(1) {
+	inset: 6%;
+	transform: rotateX(67deg) rotateZ(12deg);
+	animation: chochmah-orbit 13s linear infinite;
+}
+
+.pulseOrb span:nth-child(2) {
+	inset: 17%;
+	border-color: rgb(178 134 255 / 20%);
+	transform: rotateY(64deg) rotateZ(-24deg);
+	animation: binah-orbit 17s linear infinite reverse;
+}
+
+.pulseOrb span:nth-child(2)::after {
+	background: #d7c8ff;
+	box-shadow: 0 0 14px rgb(178 134 255 / 65%);
+}
+
+.pulseOrb span:nth-child(3) {
+	inset: 29%;
+	border-color: rgb(255 132 218 / 18%);
+	transform: rotateX(54deg) rotateY(38deg);
+	animation: daas-orbit 21s linear infinite;
+}
+
+.pulseOrb span:nth-child(3)::after {
+	background: #ffd0ef;
+	box-shadow: 0 0 14px rgb(255 132 218 / 58%);
+}
+
+.pulseOrb[data-active="true"] {
+	animation: keter-orb-breathe 5.2s ease-in-out infinite;
+}
+
+@keyframes chochmah-orbit {
+	to {
+		transform: rotateX(67deg) rotateZ(372deg);
+	}
+}
+
+@keyframes binah-orbit {
+	to {
+		transform: rotateY(64deg) rotateZ(336deg);
+	}
+}
+
+@keyframes daas-orbit {
+	to {
+		transform: rotateX(54deg) rotateY(398deg);
+	}
+}
+
+@keyframes keter-orb-breathe {
+	50% {
+		box-shadow: 0 0 52px rgb(88 212 255 / 24%), var(--yesod-inset);
+	}
+}

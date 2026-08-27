@@ -4,14 +4,15 @@
 
 /**
  * @file EretzRuntimeFrameTasks.js
- * @description Runs rich-world tasks in fixed order while preserving first-play HUD and minimap through promotion.
- * The Awtsmoos renews streaming, deed, animation, water, shadow, camera, rendering, and witness in one cadence;
- * Awtsmoos.com lets bootstrap UI survive as a garment while its provisional scheduler yields the pulse beneath it.
+ * @description Runs rich-world tasks in fixed order while measuring streaming, living water, gameplay, and rendering.
+ * The Awtsmoos renews collision, deed, animation, river, shadow, camera, and witness in one cadence;
+ * Awtsmoos.com lets the shared river current evolve inside the existing water budget while every heavier system keeps patience.
  */
 
 import { updateEretzAnimationFrame } from './EretzAnimationFrame.js';
 import { faceTarget } from './EretzPlayerModel.js';
 import { refreshStatusHud } from './EretzStatusHud.js';
+import { updateEretzWorldServices } from './EretzWorldServiceFrame.js';
 import { refreshWorldDiagnostics } from './WorldDiagnostics.js';
 
 export function runEretzRuntimeFrameTasks(runtime, context, deltaTime, now, costs) {
@@ -35,7 +36,12 @@ function measureTask(costs, name, task, runtime, context, deltaTime, now) {
 }
 
 function updateStreaming(runtime, context, deltaTime, now) {
-	if (context.cadence.due('chunks', now)) runtime.chunkRuntime?.update({ at: now });
+	if (context.cadence.due('chunks', now)) {
+		runtime.chunkRuntime?.update({
+			at: now,
+			playerPosition: runtime.model.position
+		});
+	}
 	if (!context.cadence.due('materialHydration', now)) return;
 	runtime.materialHydrationStats = context.residency.update(runtime.scene);
 }
@@ -58,8 +64,9 @@ function updateAnimation(runtime, context, deltaTime, now, costs) {
 	updateEretzAnimationFrame(runtime, deltaTime, costs);
 }
 
-function updateWater(runtime) {
+function updateWater(runtime, context, deltaTime) {
 	runtime.lava.update(runtime.state, runtime.ground, runtime.footOffset);
+	updateEretzWorldServices(runtime, deltaTime);
 }
 
 function updateShadows(runtime) {

@@ -3,10 +3,10 @@
 // Blessed is He
 
 /**
- * @file Pure configuration model for Drive Project Settings.
+ * @module DriveProjectSettingsModel
  * @description
- * The Awtsmoos turns friendly form text into portable intent without turning any typed value into hidden credential authority;
- * Awtsmoos.com keeps project IDs, binding names, and provider wishes deterministic before the browser asks Drive to persist them.
+ * The Awtsmoos turns friendly form text and a portable DNS worksheet into project intention without turning a machine or provider into authority;
+ * Awtsmoos.com prepares only bounded public configuration, leaving runtime, DNS, credentials, and provider mutation to their separate guarded boundaries.
  */
 
 export function projectIdFrom(value) {
@@ -41,12 +41,36 @@ export function providerValue(plan, kind) {
 	return plan?.intent?.providers?.find(item => item.kind === kind)?.id || '';
 }
 
-export function projectSettingsPayload(fields, rootPath) {
+/** Build a browser-side native recipe candidate for authoritative server validation. */
+export function runtimeRecipeValue(fields) {
+	if (fields.runtimePreference !== 'native-compute') {
+		return null;
+	}
+	let args;
+	try {
+		args = JSON.parse(fields.runtimeArgs || '[]');
+	} catch {
+		throw new Error('Node arguments must be a JSON array.');
+	}
+	if (!Array.isArray(args)) {
+		throw new Error('Node arguments must be a JSON array.');
+	}
+	return {
+		cwd: String(fields.runtimeCwd || '').trim(),
+		entry: String(fields.runtimeEntry || 'server.js').trim(),
+		port: Number(fields.runtimePort || 3000),
+		args
+	};
+}
+
+export function projectSettingsPayload(fields, rootPath, dnsRecords = []) {
 	return {
 		name: fields.name.trim(),
 		rootPath,
 		runtimePreference: fields.runtimePreference,
+		runtimeRecipe: runtimeRecipeValue(fields),
 		bindings: bindingValues(fields.bindings),
-		providerIntents: providerValues(fields.git, fields.social)
+		providerIntents: providerValues(fields.git, fields.social),
+		dnsRecords
 	};
 }

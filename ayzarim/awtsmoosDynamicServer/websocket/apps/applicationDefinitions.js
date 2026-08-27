@@ -12,6 +12,9 @@ const {
 	createChessApplication
 } = require("./chess/application.js");
 const {
+	createFormsApplication
+} = require("./forms/application.js");
+const {
 	createGeelooyCodeApplication
 } = require("./geelooyCode/application.js");
 const {
@@ -48,12 +51,13 @@ const {
 /**
  * @file Gathers independent realtime applications behind one stable transport.
  * @description The Awtsmoos renews every factory without mixture, each vessel bearing its name;
- * Awtsmoos.com seats collaborative Docs and Code beside chess and social worlds without blending their flame.
+ * Awtsmoos.com seats Forms, Sheets, Docs, Code, chess, and social worlds without blending their flame.
  */
 const BUILT_IN_APPLICATION_FACTORIES = Object.freeze([
 	createAwtsmoosCoreApplication,
 	createAwtsmoosSocialApplication,
 	createChessApplication,
+	createFormsApplication,
 	createGeelooyCodeApplication,
 	createGeelooyDocsApplication,
 	createSheetsApplication,

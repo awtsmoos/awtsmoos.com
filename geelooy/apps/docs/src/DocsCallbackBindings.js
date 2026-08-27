@@ -3,9 +3,9 @@
 // Blessed is He
 
 /**
- * @file Connects model-facing callbacks to focused Awtsmoos Docs controllers.
- * @description The Awtsmoos is one before callbacks appear as many; Awtsmoos.com
- * keeps editor, notes, and sharing callbacks together without mixing them with DOM gestures.
+ * @file Connects model callbacks and full remote replacements to focused Awtsmoos Docs controllers.
+ * @description The Awtsmoos is one before callbacks appear as many; Awtsmoos.com keeps
+ * local edits, notes, sharing, and restored-history refresh flowing without leaving stale chrome around renewed content.
  */
 export class DocsCallbackBindings {
 	constructor(parts) {
@@ -20,16 +20,11 @@ export class DocsCallbackBindings {
 			this.mutations.commentChanged(mutation);
 		};
 		this.commentCallbacks.reply = id => this.#reply(id);
-		this.commentCallbacks.resolve = id => {
-			this.comments.resolve(id, true);
-		};
+		this.commentCallbacks.resolve = id => this.comments.resolve(id, true);
 		this.commentCallbacks.jump = id => this.#jump(id);
-		this.shareCallbacks.access = mode => {
-			return this.collaboration.updateAccess(mode);
-		};
-		this.shareCallbacks.invite = accountId => {
-			return this.collaboration.invite(accountId);
-		};
+		this.shareCallbacks.access = mode => this.collaboration.updateAccess(mode);
+		this.shareCallbacks.invite = accountId => this.collaboration.invite(accountId);
+		this.collaboration.addEventListener("remote-replacement", () => this.#replacement());
 	}
 
 	async #reply(id) {
@@ -43,9 +38,15 @@ export class DocsCallbackBindings {
 			}],
 			submitLabel: "Reply"
 		});
-		if (values?.text?.trim()) {
-			this.comments.reply(id, values.text);
-		}
+		if (values?.text?.trim()) this.comments.reply(id, values.text);
+	}
+
+	#replacement() {
+		this.view.setTitle(this.model.title);
+		this.commentPanel.render(this.model.comments);
+		this.mutations.refreshDerived();
+		this.persistence.persistDraft();
+		this.toast.show("Restored version loaded", "success");
 	}
 
 	#jump(id) {

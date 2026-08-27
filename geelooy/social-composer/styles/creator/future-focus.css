@@ -1,0 +1,78 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets the open creative chamber carry more light while closed chambers remain near without shouting;
+Awtsmoos.com uses restrained edge, shadow, and summary hierarchy so the composer feels deep, fast, and calm throughout.
+*/
+.composerColumn > details.majorPanel {
+	border-color: rgb(150 178 207 / 12%);
+	background: rgb(9 14 21 / 96%);
+	box-shadow: none;
+	transition:
+		border-color 180ms ease,
+		background-color 180ms ease,
+		box-shadow 180ms ease;
+}
+.composerColumn > details.majorPanel > summary {
+	min-height: 54px;
+	padding-block: .78rem;
+}
+.composerColumn > details.majorPanel:not([open]) > summary {
+	color: var(--composer-text-muted);
+}
+.composerColumn > details.majorPanel[open] {
+	border-color: rgb(117 222 246 / 20%);
+	background: rgb(10 16 24 / 98%);
+	box-shadow: 0 .9rem 2.4rem rgb(0 0 0 / 12%);
+}
+.composerColumn > details.contentPanel[open] {
+	border-color: rgb(117 222 246 / 28%);
+	box-shadow: 0 1.2rem 3rem rgb(0 0 0 / 16%);
+}
+.composerColumn > details.majorPanel:focus-within {
+	border-color: rgb(117 222 246 / 34%);
+}
+.composerColumn > details.majorPanel .majorPanelBody {
+	padding-top: .18rem;
+}
+.composerColumn details details {
+	border-color: rgb(150 178 207 / 9%);
+	background: rgb(7 12 18 / 68%);
+}
+.composerColumn details details > summary {
+	min-height: 46px;
+	color: var(--composer-text-muted);
+}
+.creatorSurface {
+	background:
+		linear-gradient(145deg, rgb(89 189 210 / 5%), transparent 42%),
+		var(--composer-surface-1);
+	box-shadow: 0 .75rem 2rem rgb(0 0 0 / 12%);
+}
+@media (max-width: 42.5rem) {
+	.composerColumn {
+		gap: .62rem;
+	}
+	.composerColumn > details.majorPanel > summary {
+		min-height: 52px;
+		padding: .68rem .78rem;
+	}
+	.composerColumn > details.majorPanel[open] {
+		box-shadow: none;
+	}
+	.composerColumn > details.publicationPanel:not([open]) {
+		border-color: rgb(150 178 207 / 10%);
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	.composerColumn > details.majorPanel {
+		transition: none;
+	}
+}
+@media (forced-colors: active) {
+	.composerColumn > details.majorPanel,
+	.composerColumn details details {
+		border: 1px solid CanvasText;
+	}
+}

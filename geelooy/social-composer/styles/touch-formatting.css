@@ -1,0 +1,50 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/**
+ * The Awtsmoos gives letters power while safe marks give letters a garment;
+ * Awtsmoos.com keeps those garments large, scrollable, and reachable by touch without alarm.
+ */
+
+.touchFormattingBar {
+	display: flex;
+	gap: 7px;
+	margin: 8px 0;
+	padding: 4px 1px 7px;
+	overflow-x: auto;
+	overscroll-behavior-inline: contain;
+	scrollbar-width: thin;
+	-webkit-overflow-scrolling: touch;
+}
+
+.touchFormatButton {
+	flex: 0 0 auto;
+	min-width: 44px;
+	min-height: 44px;
+	padding: 8px 11px;
+	border: 1px solid rgba(148, 163, 184, .24);
+	border-radius: 13px;
+	background: rgba(15, 23, 42, .1);
+	color: inherit;
+	font: inherit;
+	font-weight: 800;
+	cursor: pointer;
+	touch-action: manipulation;
+	transition: transform 150ms ease, background 150ms ease, border-color 150ms ease;
+}
+
+.touchFormatButton:hover {
+	transform: translateY(-1px);
+	border-color: rgba(129, 140, 248, .58);
+	background: rgba(99, 102, 241, .12);
+}
+
+.touchFormatButton:focus-visible {
+	outline: 3px solid rgba(129, 140, 248, .72);
+	outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.touchFormatButton { transition: none; }
+	.touchFormatButton:hover { transform: none; }
+}

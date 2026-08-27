@@ -23,19 +23,19 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-post-editor-1686f567.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 10,
-		"tests": 1,
+		"source": 12,
+		"tests": 2,
 		"assets": 0,
 		"generated": 0,
 		"docs": 1,
 		"other": 0
 	},
-	"totalFiles": 12,
+	"totalFiles": 15,
 	"symbolSummary": {
-		"files": 9,
+		"files": 11,
 		"classes": 1,
-		"functions": 21,
-		"exports": 8,
+		"functions": 27,
+		"exports": 13,
 		"samples": [
 			"async",
 			"savePostDraft",
@@ -45,10 +45,10 @@
 			"readPostEditorConfig",
 			"clean",
 			"createElement",
-			"createField",
-			"renderPostEditor",
-			"hero",
-			"missingContext"
+			"saveEditorDraft",
+			"publishEditorPost",
+			"runEditorOperation",
+			"setStatus"
 		]
 	},
 	"outgoingDependencies": [

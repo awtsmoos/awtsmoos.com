@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-social-documentation-md-bec3bd9b5d",
+	"title": "Awtsmoos Social Observatory",
+	"sourcePath": "geelooy/social/DOCUMENTATION.md",
+	"category": "General",
+	"provenance": "breadcrumb",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Awtsmoos Social Observatory",
+			"anchor": "awtsmoos-social-observatory"
+		},
+		{
+			"level": 2,
+			"text": "Entry point",
+			"anchor": "entry-point"
+		},
+		{
+			"level": 2,
+			"text": "Mutation boundary",
+			"anchor": "mutation-boundary"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-social-documentation-md-bec3bd9b5d-001.json"
+	]
+}

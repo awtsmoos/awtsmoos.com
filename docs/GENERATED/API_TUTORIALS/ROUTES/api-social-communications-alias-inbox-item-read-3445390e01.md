@@ -43,7 +43,11 @@ const result = await response.json();
 
 ## Observed callers
 
-No matching literal caller evidence was found.
+Pattern-compatible evidence only; it does not prove runtime dispatch.
+
+| Literal | Source | Kind |
+| --- | --- | --- |
+| `/api/social/communications/yakov/inbox/item%20one/read` | `geelooy/social-hub/js/api/CommunicationsApi.test.mjs` | test |
 
 ## Related tests
 

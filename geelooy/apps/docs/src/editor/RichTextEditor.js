@@ -6,68 +6,56 @@ import {
 	applyDocumentBlockStyle,
 	readDocumentBlockStyle
 } from "../model/DocumentBlockStylePolicy.js";
-import { HtmlSanitizer } from "../model/HtmlSanitizer.js";
+import {
+	createEditorBlockElement,
+	ensureEditorBlockIds,
+	readEditorBlocks
+} from "./EditorBlockDom.js";
 import {
 	selectedDocumentBlocks,
 	selectionTouchesBlock
 } from "./EditorBlockSelection.js";
 
 /**
- * @file Renders and serializes independently synchronizable rich document blocks.
- * @description The Awtsmoos makes one page appear through many vessels; Awtsmoos.com
- * keeps each block named, styled, selectable, and safely reconcilable while the shared light remains one.
+ * @file Orchestrates synchronizable rich Awtsmoos document blocks in the browser.
+ * @description The Awtsmoos is beyond DOM, cursor, and remote message; Awtsmoos.com
+ * keeps render, selection-safe reconciliation, paragraph style, stable navigation
+ * targets, and mutation signaling explicit so collaboration never leaves stale paths.
  */
-const ALLOWED_TAGS = new Set([
-	"p",
-	"h1",
-	"h2",
-	"h3",
-	"h4",
-	"h5",
-	"h6",
-	"blockquote",
-	"pre",
-	"ul",
-	"ol",
-	"table",
-	"hr"
-]);
-
 export class RichTextEditor {
 	constructor(root, onChange = () => {}) {
 		this.root = root;
 		this.onChange = onChange;
 		this.editable = true;
 		this.root.addEventListener("input", event => this.#handleInput(event));
-		this.root.addEventListener("focusin", () => this.#ensureBlockIds());
+		this.root.addEventListener("focusin", () => ensureEditorBlockIds(this.root));
 	}
 
+	/** Renders canonical blocks then projects editor identity and semantic navigation. */
 	render(blocks = []) {
-		this.root.replaceChildren(...blocks.map(block => this.#createElement(block)));
-		this.#ensureBlockIds();
+		this.root.replaceChildren(...blocks.map(createEditorBlockElement));
+		ensureEditorBlockIds(this.root);
 	}
 
+	/** Reads the persistent semantic block representation from the living editor DOM. */
 	readBlocks() {
-		this.#ensureBlockIds();
-		return Array.from(this.root.children).map(element => ({
-			id: element.dataset.blockId,
-			tag: element.tagName.toLowerCase(),
-			html: HtmlSanitizer.sanitize(element.innerHTML),
-			style: readDocumentBlockStyle(element)
-		}));
+		return readEditorBlocks(this.root);
 	}
 
+	/** Reconciles remote blocks without replacing the block currently touched by selection. */
 	applyRemoteBlocks(changes = []) {
 		for (const block of changes) {
 			if (selectionTouchesBlock(this.root, block.id)) continue;
 			const selector = `[data-block-id="${CSS.escape(block.id)}"]`;
 			const current = this.root.querySelector(selector);
-			const replacement = this.#createElement(block);
+			const replacement = createEditorBlockElement(block);
 			if (current) current.replaceWith(replacement);
 			else this.root.append(replacement);
 		}
+		ensureEditorBlockIds(this.root);
 	}
 
+	/** Applies bounded paragraph-style metadata to all blocks touched by the selection. */
 	updateBlockStyle(patch = {}) {
 		const blocks = selectedDocumentBlocks(this.root);
 		for (const block of blocks) {
@@ -80,6 +68,7 @@ export class RichTextEditor {
 		return blocks.length;
 	}
 
+	/** Changes editor mutability without replacing document content or navigation state. */
 	setEditable(value) {
 		this.editable = Boolean(value);
 		this.root.contentEditable = this.editable ? "true" : "false";
@@ -94,36 +83,15 @@ export class RichTextEditor {
 		this.root.focus({ preventScroll: true });
 	}
 
+	/** Records a structural mutation after re-establishing block and fragment identity. */
 	notifyMutation() {
-		this.#ensureBlockIds();
+		ensureEditorBlockIds(this.root);
 		this.onChange(this.readBlocks(), null);
 	}
 
 	#handleInput(event) {
-		this.#ensureBlockIds();
+		ensureEditorBlockIds(this.root);
 		const element = event.target.closest?.("[data-block-id]");
 		this.onChange(this.readBlocks(), element?.dataset.blockId || null);
-	}
-
-	#ensureBlockIds() {
-		if (!this.root.children.length) {
-			this.root.append(this.#createElement({
-				id: crypto.randomUUID(),
-				tag: "p",
-				html: "<br>"
-			}));
-		}
-		for (const child of Array.from(this.root.children)) {
-			if (!child.dataset.blockId) child.dataset.blockId = crypto.randomUUID();
-		}
-	}
-
-	#createElement(block) {
-		const tag = ALLOWED_TAGS.has(block.tag) ? block.tag : "p";
-		const element = document.createElement(tag);
-		element.dataset.blockId = String(block.id || crypto.randomUUID());
-		element.innerHTML = HtmlSanitizer.sanitize(block.html || "");
-		applyDocumentBlockStyle(element, block.style);
-		return element;
 	}
 }

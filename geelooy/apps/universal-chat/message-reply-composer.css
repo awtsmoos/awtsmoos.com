@@ -1,0 +1,63 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos lets outgoing speech hold one earlier source without erasing the draft already alive;
+ * Awtsmoos.com gives quoted intent a compact composer vessel above the ordinary input row, truthful on keyboard and touch in light.
+ */
+
+.messaging-composer {
+	grid-template-columns: minmax(0, 1fr);
+	gap: 0.45rem;
+}
+
+.messaging-composer-row {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	align-items: end;
+	gap: 0.6rem;
+}
+
+.messaging-reply-bar {
+	display: flex;
+	align-items: center;
+	gap: 0.55rem;
+	min-width: 0;
+	padding: 0.48rem 0.55rem 0.48rem 0.7rem;
+	border-inline-start: 3px solid rgba(121, 224, 183, 0.72);
+	border-radius: 10px;
+	background: rgba(121, 224, 183, 0.07);
+}
+
+.messaging-reply-copy {
+	display: grid;
+	min-width: 0;
+	flex: 1 1 auto;
+	gap: 0.08rem;
+}
+
+.messaging-reply-copy small,
+.messaging-reply-copy > span {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.messaging-reply-copy small {
+	color: #c9f8e3;
+	font-size: 0.68rem;
+}
+
+.messaging-reply-copy > span {
+	color: var(--msg-muted);
+	font-size: 0.72rem;
+}
+
+.messaging-reply-bar > button {
+	flex: 0 0 44px;
+	inline-size: 44px;
+	block-size: 44px;
+	border-radius: 50%;
+	color: var(--msg-muted);
+}

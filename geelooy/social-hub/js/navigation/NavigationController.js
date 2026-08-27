@@ -1,45 +1,70 @@
 //B"H
 //Boruch Hashem
 //Blessed is He
-/**
- * @class NavigationController
- * @description
- * The Awtsmoos lets hash chambers, selected Spaces, and neighboring communication applications share one reachable current;
- * Awtsmoos.com keeps internal history exact while Mail, Signals, Composer, and canonical community coordinates remain honest vessels.
- */
-import { COMMUNICATION_LINKS, communicationLink } from './CommunicationLinks.js';
+
+import { NavigationActiveView } from './NavigationActiveView.js';
+import { NavigationRenderer } from './NavigationRenderer.js';
+import { NavigationTransition } from './NavigationTransition.js';
 import {
-	ROUTES,
 	profileAliasFromLocation,
 	routeById,
-	routeButton,
 	routeFromLocation,
 	routeUrl
 } from './RouteModel.js';
 import { focusRoutePanel } from './RouteFocus.js';
 import { spaceRouteFromLocation } from './SpaceRouteState.js';
 
+/**
+ * @class NavigationController
+ * @description
+ * RESPONSIBILITY: own canonical Social route activation, browser history, focus, location synchronization, and app callbacks.
+ * NON-RESPONSIBILITY: route DOM construction, More-sheet life, active-state rendering, and animation mechanics belong to focused vessels.
+ *
+ * The route is an ohr of intention and history its measured keli. The Awtsmoos, Atzmus beyond place and journey,
+ * renews hash, panel, caller, and instant from nothing; Awtsmoos.com lets Tiferes join deep links and human choice without hidden scrolling noise.
+ */
 export class NavigationController {
+	/**
+	 * Creates one canonical route authority around shared state and focused presentation collaborators.
+	 * @param {object} options Navigation dependencies.
+	 * @param {Document} options.root Social Hub document.
+	 * @param {object} options.state Observable application state store.
+	 * @param {Function} options.onNavigate Canonical route-change callback.
+	 * @param {Function} options.onLocation Route/profile/space location callback.
+	 */
 	constructor({ root, state, onNavigate, onLocation }) {
-		Object.assign(this, { root, state, onNavigate, onLocation });
-		this.containers = [
-			root.getElementById('desktopNavigation'),
-			root.getElementById('mobileNavigation')
-		].filter(Boolean);
+		Object.assign(this, {
+			root,
+			state,
+			onNavigate,
+			onLocation
+		});
+		this.renderer = new NavigationRenderer({
+			root,
+			onActivate: routeId => this.activate(routeId)
+		});
+		this.activeView = new NavigationActiveView({
+			root,
+			renderer: this.renderer
+		});
+		this.transition = new NavigationTransition(root);
 	}
 
+	/** Manifests navigation surfaces and begins canonical browser-location synchronization. */
 	initialize() {
-		for (const container of this.containers) {
-			this.renderContainer(container);
-		}
+		this.renderer.render();
 		window.addEventListener('hashchange', () => this.syncLocation());
 		window.addEventListener('popstate', () => this.syncLocation());
 		this.syncLocation();
 	}
 
+	/** Reads route/profile/space truth from the current browser location without rewriting history. */
 	syncLocation() {
 		const route = routeFromLocation();
-		this.activate(route.id, { writeHistory: false, notifyNavigate: false });
+		this.activate(route.id, {
+			writeHistory: false,
+			notifyNavigate: false
+		});
 		this.onLocation?.({
 			route,
 			profileAliasId: profileAliasFromLocation(),
@@ -47,68 +72,29 @@ export class NavigationController {
 		});
 	}
 
-	renderContainer(container) {
-		container.replaceChildren();
-		for (const route of ROUTES) {
-			const button = routeButton(this.root, route);
-			button.addEventListener('click', () => this.activate(route.id));
-			container.append(button);
-		}
-		for (const item of COMMUNICATION_LINKS) {
-			container.append(communicationLink(this.root, item));
-		}
-	}
-
+	/**
+	 * Activates one canonical route while preserving browser history and downstream route callbacks.
+	 * @param {string} routeId Canonical Social route id.
+	 * @param {object} [options] Optional history/callback controls.
+	 * @returns {object} Canonical route that became active.
+	 */
 	activate(routeId, options = {}) {
 		const route = routeById(routeId);
-		const previous = this.state.snapshot().activeTab;
+		const previousRouteId = this.state.snapshot().activeTab;
 		const writeHistory = options.writeHistory !== false;
 		const notifyNavigate = options.notifyNavigate !== false;
 		if (writeHistory && location.hash !== `#${route.id}`) {
 			history.pushState(null, '', routeUrl(route.id));
 		}
-		this.transition(() => {
+		this.transition.run(() => {
 			this.state.set('activeTab', route.id);
-			this.renderActive(route);
+			this.activeView.render(route);
 		});
 		document.title = `${route.title} · Awtsmoos Social Hub`;
 		focusRoutePanel(this.root, route.id);
-		if (notifyNavigate && route.id !== previous) {
-			this.onNavigate?.(route, previous);
+		if (notifyNavigate && route.id !== previousRouteId) {
+			this.onNavigate?.(route, previousRouteId);
 		}
 		return route;
-	}
-
-	renderActive(route) {
-		for (const button of this.root.querySelectorAll('[data-route]')) {
-			const active = button.dataset.route === route.id;
-			button.dataset.active = String(active);
-			button.setAttribute('aria-current', active ? 'page' : 'false');
-		}
-		for (const panel of this.root.querySelectorAll('[data-panel]')) {
-			const active = panel.dataset.panel === route.id;
-			panel.hidden = !active;
-			panel.dataset.active = String(active);
-		}
-		this.root.getElementById('workspaceTitle').textContent = route.title;
-	}
-
-	transition(change) {
-		if (document.startViewTransition) {
-			const transition = document.startViewTransition(change);
-			this.observeTransition(transition);
-			return;
-		}
-		document.documentElement.dataset.transitioning = 'true';
-		change();
-		requestAnimationFrame(() => {
-			delete document.documentElement.dataset.transitioning;
-		});
-	}
-
-	observeTransition(transition) {
-		for (const promise of [transition.ready, transition.updateCallbackDone, transition.finished]) {
-			promise?.catch(() => null);
-		}
 	}
 }

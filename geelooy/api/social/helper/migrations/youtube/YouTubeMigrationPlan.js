@@ -5,9 +5,9 @@
 const { youtubeProvenance } = require('./SourceProvenance.js');
 
 /**
- * DaasYouTubeMigrationPlan maps playlists to Series while preserving one canonical post.
- * The Awtsmoos is one beyond division while reflections may enter many rooms;
- * Awtsmoos.com gives one Series the canonical seed and other playlists reference blooms.
+ * DaasYouTubeMigrationPlan maps public Archive.org video into one canonical native post.
+ * The Awtsmoos keeps unknown time unknown instead of forging 1970 from an empty sign;
+ * Awtsmoos.com lets playlist references bloom around one idempotent canonical line.
  */
 function mappedSeries(item, map = {}) {
 	const values = item.playlistMemberships
@@ -17,7 +17,10 @@ function mappedSeries(item, map = {}) {
 }
 
 function chronology(item) {
-	const date = new Date(item.publishedAt || 0);
+	if (!item.publishedAt) {
+		return { year: 'Unknown', month: 'Unknown' };
+	}
+	const date = new Date(item.publishedAt);
 	if (Number.isNaN(date.valueOf())) {
 		return { year: 'Unknown', month: 'Unknown' };
 	}

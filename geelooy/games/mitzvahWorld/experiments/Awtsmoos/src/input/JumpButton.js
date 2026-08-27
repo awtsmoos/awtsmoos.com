@@ -4,14 +4,19 @@
 
 /**
  * @file JumpButton.js
- * @description Turns one deliberate press into one jump while reflecting press state to the real control.
- * The Awtsmoos lifts the traveler in one revealed beat, never stealing a space from dialogue speech;
- * Awtsmoos.com lets pointer, keyboard, focus, and release return to stillness with nothing hidden underneath.
+ * @description Turns touch or Space into one clean jump while keeping focus, press state, and teardown reliable.
+ * The Awtsmoos lifts the traveler without stealing a writer's space or leaving a ghostly key behind;
+ * Awtsmoos.com lets touch and keyboard share one simple vessel, then return every listener to quiet mind.
  */
 
 import { isEditableTarget } from './InputTargetPolicy.js';
-import { createJumpButtonElement, createJumpHostElement } from './JumpButtonElements.js';
+import {
+	createJumpButtonElement,
+	createJumpHostElement,
+	setJumpButtonPressed
+} from './JumpButtonElements.js';
 
+/** Owns jump intent while presentation state stays semantic and DOM-portable. */
 export class JumpButton {
 	constructor(host, environment = globalThis) {
 		this.environment = environment;
@@ -29,12 +34,14 @@ export class JumpButton {
 		this.bind();
 	}
 
+	/** Consumes exactly one queued jump edge. */
 	consume() {
 		const queued = this.queued;
 		this.queued = false;
 		return queued;
 	}
 
+	/** Binds pointer and global keyboard lifecycle listeners. */
 	bind() {
 		this.button.addEventListener('pointerdown', this.onPointerDown);
 		this.button.addEventListener('pointerup', this.onPointerRelease);
@@ -45,12 +52,14 @@ export class JumpButton {
 		this.environment.addEventListener?.('blur', this.onBlur);
 	}
 
+	/** Captures one deliberate touch and queues one leap. */
 	pointerDown(event) {
 		event.preventDefault();
 		this.button.setPointerCapture?.(event.pointerId);
 		this.queueFromPress();
 	}
 
+	/** Releases pointer capture and visual state without queuing another jump. */
 	pointerRelease(event) {
 		if (event?.pointerId !== undefined && this.button.hasPointerCapture?.(event.pointerId)) {
 			this.button.releasePointerCapture?.(event.pointerId);
@@ -58,6 +67,7 @@ export class JumpButton {
 		this.release();
 	}
 
+	/** Lets Space jump only when the player is not typing into editable UI. */
 	keyDown(event) {
 		if (event.code !== 'Space' || isEditableTarget(event.target)) {
 			return;
@@ -66,25 +76,29 @@ export class JumpButton {
 		this.queueFromPress();
 	}
 
+	/** Releases held Space while preserving any already queued jump edge. */
 	keyUp(event) {
 		if (event.code === 'Space') {
 			this.release();
 		}
 	}
 
+	/** Queues only the rising edge so a held button cannot spam jumps. */
 	queueFromPress() {
 		if (!this.held) {
 			this.queued = true;
 		}
 		this.held = true;
-		this.button.dataset.pressed = 'true';
+		setJumpButtonPressed(this.button, true);
 	}
 
+	/** Returns the button to an unheld semantic state. */
 	release() {
 		this.held = false;
-		this.button.dataset.pressed = 'false';
+		setJumpButtonPressed(this.button, false);
 	}
 
+	/** Removes every listener and any host created by this controller. */
 	destroy() {
 		this.button.removeEventListener('pointerdown', this.onPointerDown);
 		this.button.removeEventListener('pointerup', this.onPointerRelease);

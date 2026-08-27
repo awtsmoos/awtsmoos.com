@@ -4,9 +4,8 @@
 /**
  * @module MailSidebarChoices
  * @description
- * Paints folder and sender-category choices as truthful tabs. The Awtsmoos
- * keeps counts, selection, and touch geometry visible while Awtsmoos.com avoids
- * rebuilding the sidebar coordinator around every state change.
+ * The Awtsmoos gives every mailbox destination a recognizable sign without changing the truth it selects;
+ * Awtsmoos.com keeps count, icon, copy, and active state in separate vessels that the eye quickly connects.
  */
 import { state } from '../store.js';
 import {
@@ -15,6 +14,10 @@ import {
 	categoryCounts,
 	folderCounts
 } from './mailFolders.js';
+import {
+	categoryPresentation,
+	folderPresentation
+} from './sidebarPresentation.js';
 
 /** Paints folder tabs into the existing mount. */
 export function renderMailFolders(ui, onSelect) {
@@ -26,7 +29,7 @@ export function renderMailFolders(ui, onSelect) {
 	list.replaceChildren(...MAIL_FOLDERS.map(folder => {
 		return choiceButton({
 			id: folder.id,
-			label: folder.label,
+			presentation: folderPresentation(folder),
 			count: counts[folder.id] || 0,
 			active: state.view === folder.id,
 			kind: 'folder'
@@ -47,7 +50,7 @@ export function renderMailSenderCategories(ui, onSelect) {
 	grid.replaceChildren(...SENDER_CATEGORIES.map(category => {
 		return choiceButton({
 			id: category.id,
-			label: category.label,
+			presentation: categoryPresentation(category),
 			count: counts[category.id] || 0,
 			active: state.senderCategory === category.id,
 			kind: 'category'
@@ -58,19 +61,44 @@ export function renderMailSenderCategories(ui, onSelect) {
 	});
 }
 
-function choiceButton({ id, label, count, active, kind }) {
+/** Creates one truthful, icon-led folder or category choice. */
+function choiceButton({ id, presentation, count, active, kind }) {
 	const button = document.createElement('button');
 	button.type = 'button';
 	button.className = `${kind === 'folder' ? 'mail-folder-tab' : 'mail-sender-category'}${active ? ' active' : ''}`;
 	button.dataset[kind] = id;
 	button.setAttribute('role', 'tab');
 	button.setAttribute('aria-selected', String(active));
-	button.setAttribute('aria-label', `${label}, ${count} ${kind === 'folder' ? 'threads' : 'senders'}`);
-	const text = document.createElement('span');
-	text.textContent = label;
-	const countNode = document.createElement('span');
-	countNode.className = 'mail-folder-count';
-	countNode.textContent = String(count);
-	button.append(text, countNode);
+	button.setAttribute('aria-label', `${presentation.label}, ${count} ${kind === 'folder' ? 'threads' : 'senders'}`);
+	button.append(
+		choiceEmoji(presentation.emoji),
+		choiceLabel(presentation.label),
+		choiceCount(count)
+	);
 	return button;
+}
+
+/** Creates the separately-hidden decorative identity mark. */
+function choiceEmoji(emoji) {
+	const node = document.createElement('span');
+	node.className = 'mail-choice-emoji';
+	node.setAttribute('aria-hidden', 'true');
+	node.textContent = emoji;
+	return node;
+}
+
+/** Creates the visible canonical label. */
+function choiceLabel(label) {
+	const node = document.createElement('span');
+	node.className = 'mail-choice-label';
+	node.textContent = label;
+	return node;
+}
+
+/** Creates the truthful count badge. */
+function choiceCount(count) {
+	const node = document.createElement('span');
+	node.className = 'mail-folder-count';
+	node.textContent = String(count);
+	return node;
 }

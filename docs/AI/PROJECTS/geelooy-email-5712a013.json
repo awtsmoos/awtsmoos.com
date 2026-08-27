@@ -9,7 +9,7 @@
 		"id": "public",
 		"title": "Public and Other Boundaries"
 	},
-	"title": "Mail — Geelooy",
+	"title": "Awtsmoos Quantum Mail",
 	"entries": [
 		"index.html",
 		"index.js",
@@ -23,26 +23,26 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-email-5712a013.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 109,
-		"tests": 2,
-		"assets": 0,
+		"source": 151,
+		"tests": 4,
+		"assets": 10,
 		"generated": 0,
 		"docs": 1,
 		"other": 1
 	},
-	"totalFiles": 113,
+	"totalFiles": 167,
 	"symbolSummary": {
-		"files": 39,
-		"classes": 3,
-		"functions": 174,
-		"exports": 108,
+		"files": 54,
+		"classes": 5,
+		"functions": 228,
+		"exports": 131,
 		"samples": [
 			"smartParse",
 			"markdownToHtml",
 			"htmlToMarkdown",
 			"formatTime",
 			"bootMail",
-			"renderFailure",
+			"renderBootFailure",
 			"async",
 			"connectSocket",
 			"broadcastTyping",
@@ -51,16 +51,22 @@
 			"firstText"
 		]
 	},
-	"outgoingDependencies": [],
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/scripts",
+			"count": 1,
+			"examples": "geelooy/email/index.js"
+		}
+	],
 	"incomingDependencies": [],
 	"externalDependencies": [],
 	"publicEntries": [
 		{
 			"url": "/email",
 			"file": "geelooy/email/index.html",
-			"title": "Mail — Geelooy",
+			"title": "Awtsmoos Quantum Mail",
 			"scripts": 2,
-			"styles": 5
+			"styles": 6
 		}
 	],
 	"requiresLocalDocumentation": true,

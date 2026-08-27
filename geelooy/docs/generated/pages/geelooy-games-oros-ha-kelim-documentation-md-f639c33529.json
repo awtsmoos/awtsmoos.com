@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-oros-ha-kelim-documentation-md-f639c33529",
+	"title": "Oros HaKelim Architecture",
+	"sourcePath": "geelooy/games/oros-ha-kelim/DOCUMENTATION.md",
+	"category": "Games",
+	"provenance": "breadcrumb",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Oros HaKelim Architecture",
+			"anchor": "oros-hakelim-architecture"
+		},
+		{
+			"level": 2,
+			"text": "Architectural covenant",
+			"anchor": "architectural-covenant"
+		},
+		{
+			"level": 2,
+			"text": "Runtime graph",
+			"anchor": "runtime-graph"
+		},
+		{
+			"level": 2,
+			"text": "Native render boundary",
+			"anchor": "native-render-boundary"
+		},
+		{
+			"level": 2,
+			"text": "Fixed rules, fluid movement",
+			"anchor": "fixed-rules-fluid-movement"
+		},
+		{
+			"level": 2,
+			"text": "Territory and trails",
+			"anchor": "territory-and-trails"
+		},
+		{
+			"level": 2,
+			"text": "Performance boundaries",
+			"anchor": "performance-boundaries"
+		},
+		{
+			"level": 2,
+			"text": "Runtime API",
+			"anchor": "runtime-api"
+		},
+		{
+			"level": 2,
+			"text": "Next completion layers",
+			"anchor": "next-completion-layers"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-oros-ha-kelim-documentation-md-f639c33529-001.json"
+	]
+}

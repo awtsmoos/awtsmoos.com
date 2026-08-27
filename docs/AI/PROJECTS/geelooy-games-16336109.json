@@ -22,14 +22,14 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-16336109.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 6373,
-		"tests": 1370,
-		"assets": 1,
-		"generated": 57,
-		"docs": 32,
-		"other": 304
+		"source": 6819,
+		"tests": 1469,
+		"assets": 0,
+		"generated": 58,
+		"docs": 36,
+		"other": 137
 	},
-	"totalFiles": 8137,
+	"totalFiles": 8519,
 	"symbolSummary": null,
 	"outgoingDependencies": [],
 	"incomingDependencies": [],
@@ -39,8 +39,8 @@
 			"url": "/games",
 			"file": "geelooy/games/index.html",
 			"title": "Awtsmoos Games — 25 Playable Worlds",
-			"scripts": 2,
-			"styles": 1
+			"scripts": 3,
+			"styles": 2
 		}
 	],
 	"requiresLocalDocumentation": true,

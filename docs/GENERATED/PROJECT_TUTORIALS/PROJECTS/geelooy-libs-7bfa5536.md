@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 1905 | 132 | 0 | 0 | 11 | 9 | 2057 |
+| 2098 | 138 | 0 | 0 | 20 | 12 | 2268 |
 
 ## Public entry points
 
@@ -29,18 +29,20 @@ None observed.
 
 ## Symbol evidence
 
-Source files: 1900; classes: 398; functions: 2390; exports: 2481; samples: makeGoldenProbe, inspectMesh, hashSeed, createRng, range, rng, v3, sub, cross, length, normalize, isFiniteVec3.
+Source files: 2093; classes: 458; functions: 2951; exports: 2782; samples: makeGoldenProbe, inspectMesh, hashSeed, createRng, range, rng, v3, sub, cross, length, normalize, isFiniteVec3.
 
 ## Depends on
 
-None observed.
+- `geelooy/games/mitzvahWorld` — 5 lexical references; examples: geelooy/libs/awtsmoos-procedural-core/src/adapters/mitzvahWorld/modelAssets.js; geelooy/libs/awtsmoos-procedural-core/src/adapters/mitzvahWorld/nativeRuntime.js; geelooy/libs/awtsmoos-procedural-core/src/adapters/mitzvahWorld/renderer.js
 
 ## Used by
 
-- `geelooy/games/mitzvahWorld` — 17 lexical references; examples: geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowCreatureMesh.js; geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowProceduralCreature.js; geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieProceduralSeed.js
+- `geelooy/games/mitzvahWorld` — 47 lexical references; examples: geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowCreatureMesh.js; geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseAssembly.js; geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseDimensionPolicy.js
+- `geelooy/games/seven-mitzvos` — 12 lexical references; examples: geelooy/games/seven-mitzvos/js/materials/firebase-material-manifest.js; geelooy/games/seven-mitzvos/js/materials/seven-material-runtime.js; geelooy/games/seven-mitzvos/js/materials/stage-material-runtime.js
+- `geelooy/games/oros-ha-kelim` — 11 lexical references; examples: geelooy/games/oros-ha-kelim/src/render/core/CoreGeometryFactory.js; geelooy/games/oros-ha-kelim/src/render/core/CoreGpuVessel.js; geelooy/games/oros-ha-kelim/src/render/core/CoreMesh.js
 - `geelooy/games/Merkava` — 2 lexical references; examples: geelooy/games/Merkava/src/render/createCoreMeshes.js; geelooy/games/Merkava/src/render/createEnemyMeshes.js
 - `geelooy/games/nitzotz-io` — 2 lexical references; examples: geelooy/games/nitzotz-io/js/procedural/localMeshes.js; geelooy/games/nitzotz-io/js/webgl/meshUpload.js
-- `geelooy/games/seven-mitzvos` — 1 lexical reference; examples: geelooy/games/seven-mitzvos/js/procedural/core-part-factory.js
+- `geelooy/zmanim` — 2 lexical references; examples: geelooy/zmanim/js/components/celestial-webgl.js; geelooy/zmanim/js/domain/celestial-zmanim.js
 
 ## External packages
 
@@ -48,4 +50,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **132**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **138**. Treat this as file evidence, not proof of behavioral coverage.

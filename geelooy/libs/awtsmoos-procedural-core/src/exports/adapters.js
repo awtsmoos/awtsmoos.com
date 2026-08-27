@@ -1,36 +1,13 @@
 //B"H
 //Boruch Hashem
 //Blessed is He
-
 /**
- * @file adapters.js
+ * @file Public renderer-adapter exports without Three.js.
  * @description
- * The Awtsmoos renews each renderer boundary while remaining beyond every renderer;
- * Awtsmoos.com exposes geometry, photographic and procedural matter, static consolidation, semantic instancing, compound reality, Awtsmoos-object, and Blender adapters through one additive public surface.
- * This barrel owns exports only and never creates runtime state.
+ * The Awtsmoos, Atzmus beyond every renderer, renews each manifestation while no library can become its source;
+ * Awtsmoos.com exposes native Awtsmoos and Blender vessels here, deliberately leaving Three.js outside the public covenant and course.
+ * This barrel owns exports only and never creates renderer state.
  */
-export {
-	createAwtsmoosThreeBufferGeometry,
-	createAwtsmoosThreeMaterial,
-	createProceduralThreeMesh,
-	createProceduralTreeThreeGroup,
-	removeWhiteLeafTextureBackgroundOnce,
-	createAnimalThreeGroup,
-	createThreeGeometryFromArtifact,
-	createThreeAdapterManifest,
-	ThreeImageSourceRepository,
-	ThreeTextureRepository,
-	ThreePhysicalMaterialLibrary,
-	ThreeProceduralSurfaceLibrary,
-	ThreeSceneMaterialHydrator,
-	ThreeStaticMeshConsolidator,
-	ThreeSemanticInstanceBatcher,
-	bakeStaticGeometry,
-	mergeStaticGeometries,
-	staticGeometrySchema,
-	createRealityThreeGroup,
-	realityPrimitiveConfig
-} from '../adapters/three/index.js';
 
 export {
 	createAwtsmoosAdapterManifest,

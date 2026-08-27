@@ -4,10 +4,13 @@
 
 /**
  * @file CanonicalTerrainTerraces.js
- * @description Defines softened construction terraces for every canonical village district.
- * The Awtsmoos places each dwelling upon its measured vessel; Awtsmoos.com blends foundations
- * into slope instead of floating boxes above a single flat and disconnected procedural plane.
+ * @description Defines broad, softly blended district character without pretending to be structural foundations.
+ * The Awtsmoos lets a neighborhood whisper its elevation while exact house pads carry each dwelling's weight;
+ * Awtsmoos.com spreads that whisper across a wide shoulder so no green shelf appears from a sudden landscape state.
  */
+
+const TERRACE_BLEND_START = 0.18;
+const TERRACE_BLEND_END = 1.2;
 
 const TERRACES = Object.freeze([
 	terrace('ENTR01', 0, 82, 22, 17, 2.2),
@@ -28,7 +31,11 @@ export function canonicalTerraceSample(x, z) {
 		const dx = (x - terraceDefinition.x) / terraceDefinition.radiusX;
 		const dz = (z - terraceDefinition.z) / terraceDefinition.radiusZ;
 		const distance = Math.hypot(dx, dz);
-		const influence = 1 - smooth(0.42, 1, distance);
+		const influence = 1 - smooth(
+			TERRACE_BLEND_START,
+			TERRACE_BLEND_END,
+			distance
+		);
 		if (influence <= strongest.influence) continue;
 		strongest = Object.freeze({
 			id: terraceDefinition.id,
@@ -43,11 +50,21 @@ export function canonicalTerraceDefinitions() {
 	return TERRACES;
 }
 
+export function canonicalTerraceBlendPolicy() {
+	return Object.freeze({
+		end: TERRACE_BLEND_END,
+		start: TERRACE_BLEND_START
+	});
+}
+
 function terrace(id, x, z, radiusX, radiusZ, height) {
 	return Object.freeze({ height, id, radiusX, radiusZ, x, z });
 }
 
 function smooth(edge0, edge1, value) {
-	const amount = Math.max(0, Math.min(1, (value - edge0) / (edge1 - edge0 || 1)));
+	const amount = Math.max(
+		0,
+		Math.min(1, (value - edge0) / (edge1 - edge0 || 1))
+	);
 	return amount * amount * (3 - 2 * amount);
 }

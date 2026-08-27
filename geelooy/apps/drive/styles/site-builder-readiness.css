@@ -1,0 +1,88 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos lets readiness appear as measured testimony rather than one deceptive green light.
+ * Awtsmoos.com gives Source, Preview, Public, and Domain their own small vessels so the next action remains obvious and the optional remains optional.
+ */
+
+.builder-readiness {
+	display: grid;
+	gap: .8rem;
+	padding: 1rem;
+	border: 1px solid color-mix(in srgb, currentColor 12%, transparent);
+	border-radius: 1.2rem;
+	background: color-mix(in srgb, var(--panel, #fff) 97%, currentColor 3%);
+}
+
+.builder-readiness-heading {
+	font-weight: 850;
+	font-size: 1rem;
+}
+
+.builder-readiness-next {
+	margin: 0;
+	font-size: .92rem;
+	line-height: 1.5;
+	opacity: .8;
+}
+
+.builder-readiness-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(10.5rem, 1fr));
+	gap: .65rem;
+}
+
+.builder-readiness-card {
+	display: grid;
+	gap: .45rem;
+	min-width: 0;
+	min-height: 88px;
+	padding: .8rem;
+	border: 1px solid color-mix(in srgb, currentColor 13%, transparent);
+	border-radius: .95rem;
+	background: transparent;
+	color: inherit;
+	text-align: left;
+}
+
+.builder-readiness-card:hover,
+.builder-readiness-card:focus-visible {
+	background: color-mix(in srgb, currentColor 6%, transparent);
+}
+
+.builder-readiness-card__title {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: .5rem;
+}
+
+.builder-readiness-card__copy {
+	font-size: .78rem;
+	line-height: 1.4;
+	opacity: .7;
+}
+
+.builder-readiness-state {
+	padding: .18rem .45rem;
+	border: 1px solid currentColor;
+	border-radius: 999px;
+	font-size: .68rem;
+	font-weight: 800;
+	white-space: nowrap;
+	opacity: .68;
+}
+
+.builder-readiness-card[data-state='ready'] {
+	background: color-mix(in srgb, #22c55e 10%, transparent);
+}
+
+.builder-readiness-card[data-state='optional'] {
+	background: color-mix(in srgb, #3b82f6 8%, transparent);
+}
+
+.builder-readiness-card[data-state='locked'] {
+	opacity: .58;
+}

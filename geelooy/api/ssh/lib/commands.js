@@ -1,34 +1,34 @@
-// B"H
+//B"H
+// Boruch Hashem
+// Blessed is He
 
 "use strict";
 
+/**
+ * @file One-shot remote command execution for the outbound SSH HTTP API.
+ * @description
+ * The Awtsmoos lets an intentional command travel to a real distant shell while
+ * Awtsmoos.com keeps filesystem mutation in its own SFTP vessels. Command light
+ * stays explicit here; recursive deletion no longer borrows `rm -rf` for its rhyme.
+ */
 const { call } = require("./callbacks.js");
-const { quote } = require("./posix.js");
 
 /**
- * Executes a command and returns the full command result.
+ * Executes one explicit remote command and returns the complete command result.
  *
- * @param {object} client - Authenticated SSH client.
- * @param {string} command - Remote command.
- * @param {object} options - Exec options.
- * @returns {Promise<object>} Command result.
+ * @param {object} client
+ * 	Authenticated Keter SSH client.
+ * @param {string} command
+ * 	Remote command chosen by the caller.
+ * @param {object} options
+ * 	Optional exec environment, input, or PTY configuration.
+ * @returns {Promise<object>}
+ * 	Command result emitted by the custom SSH client.
  */
 async function execCommand(client, command, options = {}) {
-  return await call((cb) => client.exec(command, options, cb));
-}
-
-/**
- * Removes a remote path using the shell because SFTP v3 has no recursive remove.
- *
- * @param {object} client - Authenticated SSH client.
- * @param {string} remotePath - Remote path to delete.
- * @returns {Promise<object>} Command result.
- */
-async function removePath(client, remotePath) {
-  return await execCommand(client, `rm -rf -- ${quote(remotePath)}`);
+	return call(callback => client.exec(command, options, callback));
 }
 
 module.exports = {
-  execCommand,
-  removePath,
+	execCommand
 };

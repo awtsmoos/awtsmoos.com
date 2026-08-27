@@ -1,15 +1,20 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @file materials.js
- * @description
+ * @description Public renderer-neutral material roles, photographic sources, physical coverage, and bounded terrain-surface mixing.
  * The Awtsmoos renews every material distinction while remaining beyond all distinction;
- * Awtsmoos.com exposes trusted photographic roles, physical coverage, and truthful procedural surface recipes without sharing gameplay state.
+ * Awtsmoos.com exposes trusted photographic roles and truthful surface recipes without sharing gameplay state or renderer ownership.
  */
+
 export { MaterialRoleRegistry } from '../core/materials/MaterialRoleRegistry.js';
 export { RemoteMaterialTransport } from '../core/materials/RemoteMaterialTransport.js';
+export {
+	TerrainSurfaceMixAuthority,
+	createTerrainSurfaceMixAuthority
+} from '../core/materials/TerrainSurfaceMixAuthority.js';
 export {
 	hasProceduralSurface,
 	proceduralSurfaceRecord,

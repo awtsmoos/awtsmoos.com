@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-generated-api-tutorials-routes-api-social-drive-aliasid-browser-ses-f29e28f994",
+	"title": "API Tutorial: /api/social/drive/:aliasId/browser/sessions/:sessionId/targets/:targetId/history",
+	"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-drive-aliasid-browser-sessions-sessionid-targets-targ-d1c021cf27.md",
+	"category": "Routes",
+	"provenance": "generated",
+	"headings": [
+		{
+			"level": 1,
+			"text": "API Tutorial: /api/social/drive/:aliasId/browser/sessions/:sessionId/targets/:targetId/history",
+			"anchor": "api-tutorial-api-social-drive-aliasid-browser-sessions-sessionid-targets-targetid-history"
+		},
+		{
+			"level": 2,
+			"text": "Contract evidence",
+			"anchor": "contract-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Path parameters",
+			"anchor": "path-parameters"
+		},
+		{
+			"level": 2,
+			"text": "Starter call",
+			"anchor": "starter-call"
+		},
+		{
+			"level": 2,
+			"text": "Observed callers",
+			"anchor": "observed-callers"
+		},
+		{
+			"level": 2,
+			"text": "Related tests",
+			"anchor": "related-tests"
+		},
+		{
+			"level": 2,
+			"text": "Related routes",
+			"anchor": "related-routes"
+		}
+	],
+	"markdownParts": [
+		"content/docs-generated-api-tutorials-routes-api-social-drive-aliasid-browser-ses-f29e28f994-001.json"
+	]
+}

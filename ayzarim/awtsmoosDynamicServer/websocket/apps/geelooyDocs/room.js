@@ -8,12 +8,14 @@ const {
 	isVerified,
 	tokenDigest
 } = require("./identity.js");
+const { DOCS_ERROR, docsError } = require("./docsErrors.js");
 const { boundedText } = require("./protocol.js");
 
 /**
- * @file Holds private authorization shadows and public-safe live presence for one document.
+ * @file Holds private authorization shadows and public-safe presence for one document.
  * @description The Awtsmoos renews every participant beyond socket and name; Awtsmoos.com
- * therefore stores only hashed account/capability identity beside a presentation-safe face.
+ * keeps hashed authority beside presentation-safe identity and reports missing room
+ * membership as a recoverable API state rather than an internal programming failure.
  */
 class DocsRoom {
 	constructor(documentId) {
@@ -54,7 +56,12 @@ class DocsRoom {
 	updatePresence(client, activeBlockId, requestedMode, canEdit) {
 		const participant = this.participant(client);
 		if (!participant) {
-			throw new Error("Join the document before sending presence");
+			throw docsError(
+				DOCS_ERROR.JOIN_REQUIRED,
+				"Join the document before sending presence.",
+				{ documentId: this.documentId },
+				409
+			);
 		}
 		participant.activeBlockId = boundedText(
 			activeBlockId,
@@ -90,6 +97,4 @@ class DocsRoom {
 	}
 }
 
-module.exports = {
-	DocsRoom
-};
+module.exports = { DocsRoom };

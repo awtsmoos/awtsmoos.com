@@ -2,16 +2,14 @@
 //Boruch Hashem
 //Blessed is He
 
+import { createId } from '../model/Ids.js';
+
 /**
  * @class AttachmentStore
  * @description
- * Local files become previewable candidates before native upload turns them into
- * alias-owned manifests. Awtsmoos.com separates the fleeting local garment from
- * the durable social asset so a failed network never pretends to be publication.
+ * The Awtsmoos lets local media become previewable candidates before native upload;
+ * Awtsmoos.com also keeps cover and thumbnail roles unique inside each post, verse, or subsection vessel.
  */
-
-import { createId } from '../model/Ids.js';
-
 export class AttachmentStore {
 	constructor(state) {
 		this.state = state;
@@ -38,12 +36,33 @@ export class AttachmentStore {
 	}
 
 	update(scope, attachmentId, changes) {
-		const structural = Object.hasOwn(changes, 'status') || Object.hasOwn(changes, 'manifest');
-		this.state.mutate(structural ? 'attachments:status' : 'attachments:metadata', snapshot => {
-			const item = this.resolve(snapshot, scope)
-				.find(attachment => attachment.id === attachmentId);
-			if (item) Object.assign(item, changes);
-		});
+		const structural = Object.hasOwn(changes, 'status')
+			|| Object.hasOwn(changes, 'manifest');
+		this.state.mutate(
+			structural ? 'attachments:status' : 'attachments:metadata',
+			snapshot => {
+				const attachments = this.resolve(snapshot, scope);
+				const item = attachments.find(attachment =>
+					attachment.id === attachmentId
+				);
+				if (!item) return;
+				if (['cover', 'thumbnail'].includes(changes.role)) {
+					this.clearExclusiveRole(
+						attachments,
+						attachmentId,
+						changes.role
+					);
+				}
+				Object.assign(item, changes);
+			}
+		);
+	}
+
+	clearExclusiveRole(attachments, activeId, role) {
+		for (const item of attachments) {
+			if (item.id === activeId || item.role !== role) continue;
+			item.role = defaultRole(item.type);
+		}
 	}
 
 	remove(scope, attachmentId) {
@@ -61,8 +80,12 @@ export class AttachmentStore {
 		const section = snapshot.sections.find(item => item.id === scope.sectionId);
 		if (!section) throw new Error('Attachment section was not found.');
 		if (scope.kind === 'section') return section.attachments;
-		const subsection = section.subsections.find(item => item.id === scope.subsectionId);
-		if (!subsection) throw new Error('Attachment subsection was not found.');
+		const subsection = section.subsections.find(item =>
+			item.id === scope.subsectionId
+		);
+		if (!subsection) {
+			throw new Error('Attachment subsection was not found.');
+		}
 		subsection.attachments ||= [];
 		return subsection.attachments;
 	}
@@ -76,8 +99,19 @@ function typeFromMime(mime = '') {
 	return 'document';
 }
 
-function roleFromMime(mime = '') {
-	if (mime.startsWith('audio/')) return 'audio-note';
-	if (mime.startsWith('video/')) return 'video';
+function defaultRole(type) {
+	if (type === 'audio') return 'audio-note';
+	if (type === 'video') return 'video';
+	if (type === 'document') return 'download';
 	return 'inline';
 }
+
+function roleFromMime(mime = '') {
+	return defaultRole(typeFromMime(mime));
+}
+
+export {
+	typeFromMime,
+	defaultRole,
+	roleFromMime
+};

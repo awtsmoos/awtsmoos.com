@@ -33,8 +33,14 @@
 	"vessels": [],
 	"statuses": [],
 	"headers": [],
-	"callers": [],
-	"callerCount": 0,
+	"callers": [
+		{
+			"literal": "/api/social/unified-social/heichelos/beit/review/submission%201",
+			"source": "geelooy/social-hub/js/api/CommunityCapabilities.test.mjs",
+			"kind": "test"
+		}
+	],
+	"callerCount": 1,
 	"tests": [
 		{
 			"name": "test",

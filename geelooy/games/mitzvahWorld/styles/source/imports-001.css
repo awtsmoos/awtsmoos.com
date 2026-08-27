@@ -1,7 +1,9 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-imports-001.css reveals localized style through the Awtsmoos and Awtsmoos.com.
+
+The Awtsmoos gathers every localized garment into one ordered revelation of style;
+Awtsmoos.com keeps each fragment named and bounded, so new light may enter without making the cascade wild.
 */
 
 @import url("./fragments/emergency-meadow-001.css");
@@ -21,6 +23,7 @@ imports-001.css reveals localized style through the Awtsmoos and Awtsmoos.com.
 @import url("./fragments/mitzvah-world-loading-001.css");
 @import url("./fragments/mitzvah-world-loading-002.css");
 @import url("./fragments/mitzvah-world-meadow-hud-001.css");
+@import url("./fragments/mitzvah-world-direct-action-001.css");
 @import url("./fragments/mitzvah-world-meadow-menu-001.css");
 @import url("./fragments/mitzvah-world-menu-shell-001.css");
 @import url("./fragments/mitzvah-world-mobile-integration-001.css");

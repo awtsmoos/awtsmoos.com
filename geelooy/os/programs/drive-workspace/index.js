@@ -1,60 +1,91 @@
 //B"H
-//Boruch Hashem
-//Blessed is He
+// Boruch Hashem
+// Blessed is He
 
-import { ensureProgramStyles } from "../shared/programStyles.js";
-import { createDriveWorkspaceEmbedConfiguration } from "./embedConfiguration.js";
+import { launchApp } from '../../shell/appLauncher.js';
+import { ensureProgramStyles } from '../shared/programStyles.js';
+import { installDriveWorkspaceBridge } from './bridge.js';
+import { createDriveWorkspaceEmbedConfiguration } from './embedConfiguration.js';
 
 /**
  * @file Native Geelooy OS host for Apps Drive.
  * @description
- * The Awtsmoos makes folder, publication, and project cockpit one visible chamber;
- * Awtsmoos.com embeds the existing Drive app instead of cloning its state into another OS-only implementation.
+ * The Awtsmoos makes folder, publication, project cockpit, and connected compute one visible chamber;
+ * Awtsmoos.com owns the heavy OS launcher here while the child-message bridge remains a pure guarded vessel that can be verified alone.
  */
 
-/** Creates the bounded Drive & Sites workspace program. */
+/**
+ * Creates the bounded Drive & Sites workspace program.
+ * @param {object} options Geelooy OS and window metadata.
+ * @returns {object} Program window contract.
+ */
 export default function createDriveWorkspace(options = {}) {
 	ensureProgramStyles();
-	const root = createRoot(options.title || "Drive & Sites");
+	const root = createRoot(options.title || 'Drive & Sites');
 	const configuration = createDriveWorkspaceEmbedConfiguration();
 	if (!configuration.ok) {
 		root.append(createError(configuration.error));
-		return { div: root, onclose() {} };
+		return unavailableProgram(root);
 	}
-	const frame = document.createElement("iframe");
-	frame.className = "awtsmoos-program-frame";
-	frame.src = configuration.url;
-	frame.title = options.title || "Drive & Sites";
-	frame.sandbox.value = configuration.sandbox;
-	frame.allow = configuration.allow;
-	frame.referrerPolicy = "strict-origin";
+	const frame = createDriveFrame(configuration, options.title);
+	const removeBridge = installDriveWorkspaceBridge({
+		frame,
+		launch: launchApp,
+		os: options.os,
+		targetOrigin: configuration.targetOrigin
+	});
 	root.append(frame);
 	return {
 		div: root,
 		onclose() {
-			frame.src = "about:blank";
+			removeBridge();
+			frame.src = 'about:blank';
 		}
 	};
 }
 
+/** Creates the same-origin sandboxed Drive iframe. */
+function createDriveFrame(configuration, title) {
+	const frame = document.createElement('iframe');
+	frame.className = 'awtsmoos-program-frame';
+	frame.src = configuration.url;
+	frame.title = title || 'Drive & Sites';
+	frame.setAttribute('sandbox', configuration.sandbox);
+	frame.allow = configuration.allow;
+	frame.referrerPolicy = 'strict-origin';
+	return frame;
+}
+
+/** Creates the host frame and visible target testimony. */
 function createRoot(title) {
-	const root = document.createElement("section");
-	root.className = "awtsmoos-program-host awtsmoos-drive-workspace-host";
-	const toolbar = document.createElement("header");
-	toolbar.className = "awtsmoos-program-toolbar";
-	const heading = document.createElement("strong");
+	const root = document.createElement('section');
+	root.className = 'awtsmoos-program-host awtsmoos-drive-workspace-host';
+	const toolbar = document.createElement('header');
+	toolbar.className = 'awtsmoos-program-toolbar';
+	const heading = document.createElement('strong');
 	heading.textContent = title;
-	const truth = document.createElement("span");
-	truth.className = "awtsmoos-target-chip";
-	truth.textContent = "Files · named sites · project publication";
+	const truth = document.createElement('span');
+	truth.className = 'awtsmoos-target-chip';
+	truth.textContent = 'Files · named sites · project publication · connected compute';
 	toolbar.append(heading, truth);
 	root.append(toolbar);
 	return root;
 }
 
+/** Creates an explicit unavailable-state panel. */
 function createError(message) {
-	const panel = document.createElement("div");
-	panel.setAttribute("role", "alert");
-	panel.textContent = message || "Drive workspace unavailable";
+	const panel = document.createElement('div');
+	panel.setAttribute('role', 'alert');
+	panel.textContent = message || 'Drive workspace unavailable';
 	return panel;
+}
+
+/** Returns a no-op lifecycle without compressed anonymous functions. */
+function unavailableProgram(root) {
+	return {
+		div: root,
+		onclose() {
+			return undefined;
+		}
+	};
 }

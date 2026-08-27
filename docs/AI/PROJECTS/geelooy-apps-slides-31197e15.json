@@ -1,0 +1,76 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-apps-slides-31197e15",
+	"path": "geelooy/apps/slides",
+	"type": "app",
+	"family": {
+		"id": "apps",
+		"title": "Applications"
+	},
+	"title": "Awtsmoos Slides",
+	"entries": [
+		"index.html",
+		"package.json",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/apps/slides/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/APPS.md",
+		"docs/APPS/README.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-slides-31197e15.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 70,
+		"tests": 10,
+		"assets": 0,
+		"generated": 0,
+		"docs": 1,
+		"other": 1
+	},
+	"totalFiles": 82,
+	"symbolSummary": {
+		"files": 54,
+		"classes": 31,
+		"functions": 89,
+		"exports": 88,
+		"samples": [
+			"COLLAB_VERSION",
+			"SYNC_EVENT",
+			"REQUEST_EVENT",
+			"createPublishMessage",
+			"parseCollaborationEvent",
+			"createRoomId",
+			"createClientId",
+			"PresenceSlidesTransport",
+			"PresentationCollaboration",
+			"placeRoomInUrl",
+			"async",
+			"copyShareLink"
+		]
+	},
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/scripts",
+			"count": 1,
+			"examples": "geelooy/apps/slides/src/collab/PresenceSlidesTransport.js"
+		}
+	],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/apps/slides",
+			"file": "geelooy/apps/slides/index.html",
+			"title": "Awtsmoos Slides",
+			"scripts": 1,
+			"styles": 15
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

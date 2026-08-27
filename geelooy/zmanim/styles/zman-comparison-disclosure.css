@@ -1,0 +1,76 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos is One while several shitos may measure one zman through distinct finite lines;
+ * Awtsmoos.com keeps the primary time visible on mobile, then opens the full comparison only when requested so detail illuminates rather than confines.
+ */
+
+.zman-comparison-details {
+	width: min(100%, 17rem);
+}
+
+.zman-comparison-summary {
+	display: none;
+}
+
+.zman-comparison-body {
+	display: grid;
+	gap: .28rem;
+}
+
+@media (min-width: 521px) {
+	.zman-comparison-details > .zman-comparison-body {
+		display: grid !important;
+	}
+}
+
+@media (max-width: 520px) {
+	.zman-comparison-details {
+		width: min(100%, 11.5rem);
+	}
+
+	.zman-comparison-summary {
+		display: grid;
+		justify-items: end;
+		gap: .06rem;
+		min-height: 40px;
+		padding: .18rem .25rem;
+		list-style: none;
+		cursor: pointer;
+		-webkit-tap-highlight-color: transparent;
+	}
+
+	.zman-comparison-summary::-webkit-details-marker {
+		display: none;
+	}
+
+	.zman-comparison-summary strong {
+		color: var(--accent-strong);
+		font-size: .94rem;
+		font-variant-numeric: tabular-nums;
+		white-space: nowrap;
+	}
+
+	.zman-comparison-summary small {
+		color: var(--ink-muted);
+		font-size: .57rem;
+		font-weight: 740;
+		white-space: nowrap;
+	}
+
+	.zman-comparison-summary:focus-visible {
+		outline: 2px solid var(--accent);
+		outline-offset: 1px;
+		border-radius: 8px;
+	}
+
+	.zman-comparison-details:not([open]) > .zman-comparison-body {
+		display: none;
+	}
+
+	.zman-comparison-details[open] > .zman-comparison-body {
+		display: grid;
+		margin-top: .28rem;
+	}
+}

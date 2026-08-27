@@ -1,0 +1,116 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets optional creator truth rest behind one consistent gate until intention calls it into light.
+Awtsmoos.com gives form details, question options, and private email settings one calm grammar so advanced work stays bright.
+*/
+.email-notification-panel,
+.form-definition-disclosure,
+.field-advanced-disclosure {
+	min-width: 0;
+	overflow: clip;
+}
+
+.email-notification-panel {
+	padding: 0;
+}
+
+.form-definition-disclosure {
+	grid-column: 1 / -1;
+	border-top: 1px solid rgb(148 163 184 / 10%);
+}
+
+.advanced-summary,
+.field-advanced-summary {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	cursor: pointer;
+	list-style: none;
+	user-select: none;
+}
+
+.advanced-summary {
+	padding: 17px 20px;
+}
+
+.field-advanced-summary {
+	min-height: 40px;
+	padding: 10px 2px 2px;
+	color: #cbd5e1;
+	font-size: .82rem;
+	font-weight: 720;
+}
+
+.advanced-summary::-webkit-details-marker,
+.field-advanced-summary::-webkit-details-marker {
+	display: none;
+}
+
+.advanced-summary::after,
+.field-advanced-summary::after {
+	content: "⌄";
+	margin-left: auto;
+	color: var(--muted);
+	transition: transform var(--motion-base) var(--ease-direct);
+}
+
+.email-notification-panel[open] .advanced-summary::after,
+.form-definition-disclosure[open] .field-advanced-summary::after,
+.field-advanced-disclosure[open] .field-advanced-summary::after {
+	transform: rotate(180deg);
+}
+
+.advanced-summary-badge,
+.field-advanced-summary small {
+	color: var(--muted);
+	font-size: .72rem;
+	font-weight: 700;
+}
+
+.advanced-summary-badge {
+	padding: 4px 8px;
+	border: 1px solid var(--border);
+	border-radius: 999px;
+	background: var(--surface-soft);
+}
+
+.advanced-disclosure-body,
+.field-advanced-body {
+	display: grid;
+	gap: 14px;
+	animation: revealDisclosure var(--motion-panel) var(--ease-spring) both;
+}
+
+.advanced-disclosure-body {
+	padding: 0 20px 20px;
+	border-top: 1px solid rgb(148 163 184 / 10%);
+}
+
+.advanced-disclosure-body > p {
+	margin: 16px 0 0;
+}
+
+.field-advanced-body {
+	grid-template-columns: minmax(0, 1fr);
+	padding-top: 12px;
+}
+
+@keyframes revealDisclosure {
+	from {
+		opacity: 0;
+		transform: translateY(-4px);
+	}
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.advanced-disclosure-body,
+	.field-advanced-body {
+		animation: none;
+	}
+}

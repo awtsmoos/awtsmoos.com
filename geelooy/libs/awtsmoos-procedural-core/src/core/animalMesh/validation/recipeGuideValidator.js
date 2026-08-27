@@ -1,22 +1,26 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
- * The Awtsmoos renews every point and polygon from nothing at every instant.
- * This vessel belongs to Awtsmoos.com and reveals one bounded responsibility
- * so the greater procedural world can remain inspectable, safe, and alive.
+ * @file recipeGuideValidator.js
+ * @description Dispatches anatomical recipe guides to strict loft or membrane validators through one small public gate.
+ * RESPONSIBILITY: validate the guide-map container, classify each supported guide, and reject unknown geometry families explicitly.
+ * NON-RESPONSIBILITY: this coordinator does not duplicate point, section, segment, or membrane rules owned by specialist validators.
+ * The Awtsmoos reveals line and surface through different bounded vessels; Awtsmoos.com sends each guide to its rightful gate so strictness and richness may coexist in state.
  */
 
-import {
-	ANIMAL_MESH_LIMITS
-} from "../constants/animalMeshContract.js";
+import { anatomicalGuideKind } from './anatomicalGuidePoints.js';
+import { validateRecipeLoftGuide } from './recipeLoftGuideValidator.js';
+import { validateRecipeMembraneGuide } from './recipeMembraneGuideValidator.js';
 
+/** Validates every anatomical guide in one recipe. */
 export function validateRecipeGuides(guides, result) {
-	if (!guides || typeof guides !== "object" || Array.isArray(guides)) {
+	if (!guides || typeof guides !== 'object' || Array.isArray(guides)) {
 		result.addError(
-			"/anatomical_guides",
-			"guides",
-			"Anatomical guides must be an object."
+			'/anatomical_guides',
+			'guides',
+			'Anatomical guides must be an object.'
 		);
 		return;
 	}
@@ -27,90 +31,18 @@ export function validateRecipeGuides(guides, result) {
 
 function validateGuide(guideId, guide, result) {
 	const path = `/anatomical_guides/${guideId}`;
-	if (!Array.isArray(guide?.centerline) || guide.centerline.length < 2) {
-		result.addError(
-			`${path}/centerline`,
-			"centerline",
-			"Guide centerline requires at least two points."
-		);
-	}
-	for (const [index, point] of (guide?.centerline || []).entries()) {
-		if (!isVector3(point)) {
-			result.addError(
-				`${path}/centerline/${index}`,
-				"vector3",
-				"Centerline points must be finite three-number vectors."
-			);
-		}
-	}
-	if (!Array.isArray(guide?.sections) || guide.sections.length < 2) {
-		result.addError(
-			`${path}/sections`,
-			"sections",
-			"Guide requires at least two cross-sections."
-		);
+	const kind = anatomicalGuideKind(guide);
+	if (kind === 'loft') {
+		validateRecipeLoftGuide(guide, path, result);
 		return;
 	}
-	let previousT = -Infinity;
-	guide.sections.forEach((section, index) => {
-		const sectionPath = `${path}/sections/${index}`;
-		if (!Number.isFinite(section.t) || section.t < 0 || section.t > 1) {
-			result.addError(
-				`${sectionPath}/t`,
-				"section_t",
-				"Section t must be between zero and one."
-			);
-		}
-		if (section.t < previousT) {
-			result.addError(
-				`${sectionPath}/t`,
-				"section_order",
-				"Sections must be ordered by t."
-			);
-		}
-		previousT = section.t;
-		for (const key of [
-			"half_width",
-			"half_height"
-		]) {
-			if (!Number.isFinite(section[key]) || section[key] <= 0) {
-				result.addError(
-					`${sectionPath}/${key}`,
-					"section_dimension",
-					"Cross-section dimensions must be positive."
-				);
-			}
-		}
-	});
-	validateSegments(guide, path, result);
-}
-
-function validateSegments(guide, path, result) {
-	const radial = guide.radial_segments || 16;
-	const longitudinal = guide.longitudinal_segments || 12;
-	if (radial < 3 || radial > ANIMAL_MESH_LIMITS.maximumRadialSegments) {
-		result.addError(
-			`${path}/radial_segments`,
-			"segments",
-			"Radial segment count exceeds safe bounds."
-		);
+	if (kind === 'membrane') {
+		validateRecipeMembraneGuide(guide, path, result);
+		return;
 	}
-	if (
-		longitudinal < 1 ||
-		longitudinal > ANIMAL_MESH_LIMITS.maximumLongitudinalSegments
-	) {
-		result.addError(
-			`${path}/longitudinal_segments`,
-			"segments",
-			"Longitudinal segment count exceeds safe bounds."
-		);
-	}
-}
-
-function isVector3(value) {
-	return (
-		Array.isArray(value) &&
-		value.length === 3 &&
-		value.every(Number.isFinite)
+	result.addError(
+		`${path}/type`,
+		'guide_type',
+		'Guide type must be elliptical_loft or membrane.'
 	);
 }

@@ -3,58 +3,54 @@
 /* Blessed is He */
 
 /**
- * The Awtsmoos is beyond menu and choice; Awtsmoos.com gives secondary power a
- * temporary home so the page stays calm until the writer intentionally asks for more.
+ * The Awtsmoos is beyond menu and hierarchy; Awtsmoos.com lets deep command worlds
+ * unfold from small anchors with quiet glass, crisp focus, and spatially honest motion.
  */
 .menu-bar {
-	position: relative;
 	display: flex;
 	align-items: center;
 	gap: 2px;
-	padding: 4px 12px 2px;
+	min-width: 0;
+	padding: 0 2px;
+	overflow: visible;
 }
 
-.menu-bar > button,
-.more-format > button {
-	min-height: 31px;
+.menu-group {
+	position: relative;
+	flex: 0 0 auto;
+}
+
+.menu-trigger {
+	min-height: 30px;
 	padding: 5px 9px;
-	border: 0;
-	border-radius: 7px;
+	border: 1px solid transparent;
+	border-radius: 8px;
 	background: transparent;
-	color: var(--docs-ink);
-	font-size: 13px;
+	color: var(--docs-text);
+	font: 500 13px/1 var(--docs-font-ui);
+	letter-spacing: -0.01em;
 }
 
-.menu-bar > button:hover,
-.menu-bar > button[aria-expanded="true"],
-.more-format > button:hover,
-.more-format > button[aria-expanded="true"] {
-	background: var(--docs-surface-soft);
+.menu-trigger:hover,
+.menu-trigger[aria-expanded="true"] {
+	background: color-mix(in srgb, var(--docs-accent) 9%, var(--docs-surface));
+	border-color: color-mix(in srgb, var(--docs-accent) 18%, transparent);
 }
 
 .docs-menu {
-	position: absolute;
-	z-index: 70;
 	display: none;
-	min-width: 218px;
-	padding: 6px;
-	border: 1px solid var(--docs-border);
-	border-radius: 12px;
-	background: var(--docs-surface);
-	box-shadow: 0 18px 54px rgba(24, 34, 62, 0.18);
-}
-
-.menu-bar > .docs-menu {
-	top: calc(100% - 1px);
-	left: 12px;
-}
-
-.menu-bar > [data-menu="insert"] {
-	left: 58px;
-}
-
-.menu-bar > [data-menu="view"] {
-	left: 112px;
+	position: absolute;
+	top: calc(100% + 7px);
+	left: 0;
+	z-index: 80;
+	min-width: 270px;
+	max-width: min(340px, calc(100vw - 24px));
+	padding: 7px;
+	border: 1px solid color-mix(in srgb, var(--docs-border) 78%, transparent);
+	border-radius: 15px;
+	background: color-mix(in srgb, var(--docs-panel) 92%, transparent);
+	box-shadow: 0 20px 56px rgb(20 26 38 / 18%), 0 3px 12px rgb(20 26 38 / 9%);
+	backdrop-filter: blur(18px) saturate(1.18);
 }
 
 .docs-menu.is-open {
@@ -62,52 +58,91 @@
 	gap: 2px;
 }
 
-.docs-menu button,
-.docs-menu label {
+.menu-item,
+.menu-select-row {
+	display: grid;
+	grid-template-columns: 22px minmax(0, 1fr) auto;
+	align-items: center;
+	gap: 9px;
+	min-height: 35px;
 	width: 100%;
-	min-height: 34px;
-	padding: 7px 9px;
+	padding: 6px 8px;
 	border: 0;
-	border-radius: 7px;
+	border-radius: 9px;
 	background: transparent;
-	color: var(--docs-ink);
-	font-size: 13px;
+	color: var(--docs-text);
+	font: 500 13px/1.25 var(--docs-font-ui);
 	text-align: left;
 }
 
-.docs-menu button:hover,
-.docs-menu button:focus-visible,
-.docs-menu label:hover {
-	background: var(--docs-accent-soft);
+.menu-item:hover,
+.menu-item:focus-visible,
+.menu-select-row:focus-within {
+	background: color-mix(in srgb, var(--docs-accent) 10%, var(--docs-surface));
+	outline: none;
 }
 
-.docs-menu hr {
-	width: 100%;
-	margin: 4px 0;
-	border: 0;
-	border-top: 1px solid var(--docs-border);
+.menu-item:disabled,
+.menu-select-row:has(select:disabled) {
+	opacity: 0.43;
 }
 
-.docs-menu label {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	gap: 12px;
+.command-icon {
+	width: 17px;
+	height: 17px;
+	grid-column: 1;
+	pointer-events: none;
 }
 
-.docs-menu input[type="color"] {
-	width: 34px;
-	height: 25px;
-	padding: 0;
-	border: 0;
-	background: transparent;
+.menu-item-label {
+	grid-column: 2;
+	min-width: 0;
 }
 
-.more-format {
-	position: relative;
+.menu-shortcut {
+	grid-column: 3;
+	color: var(--docs-muted);
+	font-size: 11px;
+	white-space: nowrap;
 }
 
-.more-format .docs-menu {
-	right: 0;
-	top: calc(100% + 5px);
+.menu-select-row select {
+	grid-column: 3;
+	max-width: 148px;
+	min-height: 28px;
+	border: 1px solid var(--docs-border);
+	border-radius: 7px;
+	background: var(--docs-surface);
+	color: var(--docs-text);
+	font: inherit;
+}
+
+.menu-separator {
+	height: 1px;
+	margin: 5px 7px;
+	background: color-mix(in srgb, var(--docs-border) 72%, transparent);
+}
+
+@media (max-width: 720px) {
+	.menu-bar {
+		overflow-x: auto;
+		overflow-y: visible;
+		scrollbar-width: none;
+	}
+
+	.menu-trigger {
+		padding-inline: 8px;
+	}
+
+	.docs-menu {
+		position: fixed;
+		top: auto;
+		left: 10px;
+		right: 10px;
+		bottom: 10px;
+		max-width: none;
+		max-height: min(68vh, 560px);
+		overflow-y: auto;
+		border-radius: 18px;
+	}
 }

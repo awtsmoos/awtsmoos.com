@@ -7,13 +7,13 @@ const Authority = require("../projectRootAuthority.js");
 const Registry = require("../projectRootRegistry.js");
 
 /**
- * @file Resolves continuation work onto living project authority instead of historical address.
+ * @file Resolves continuation onto living project authority and exposes its proof witness.
  * @description
- * The Awtsmoos carries one mission through changing folders; Awtsmoos.com trusts a current
- * same-mission binding first, keeps a still-precise historical repository as fallback, and lets
- * broad or vanished roots yield to living cwd or unambiguous discovery without blind guessing.
+ * The Awtsmoos carries one mission through changing folders; Awtsmoos.com now preserves
+ * not only the chosen root but whether that root was precisely witnessed, so a fresh chat
+ * may receive today's absolute road without granting authority to yesterday's dead address.
  */
-function resolve(config = {}, mission = {}, lock = {}, binding = null) {
+function witness(config = {}, mission = {}, lock = {}, binding = null) {
 	const missionId = String(mission.id || mission.missionId || lock.missionId || "");
 	const active = Registry.read(config);
 	const current = [
@@ -26,7 +26,11 @@ function resolve(config = {}, mission = {}, lock = {}, binding = null) {
 		mission.projectRoot,
 		mission.room?.projectRoot
 	];
-	return Authority.resolve(config, current, historical).root;
+	return Authority.resolve(config, current, historical);
+}
+
+function resolve(config = {}, mission = {}, lock = {}, binding = null) {
+	return witness(config, mission, lock, binding).root;
 }
 
 function scope(config = {}, projectRoot = "") {
@@ -42,4 +46,9 @@ function sameMission(binding, missionId) {
 	return String(binding.missionId) === missionId ? binding : null;
 }
 
-module.exports = { resolve, sameMission, scope };
+module.exports = {
+	resolve,
+	sameMission,
+	scope,
+	witness
+};

@@ -1,0 +1,102 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets every automation surface glow with measured order rather than noisy decoration.
+Awtsmoos.com keeps capability, history, and action legible while motion stays subtle and clean.
+*/
+.extension-manager-dialog {
+	width: min(760px, calc(100vw - 24px));
+	max-height: min(82vh, 780px);
+	padding: 0;
+	border: 1px solid color-mix(in srgb, var(--accent, #7c8cff) 32%, transparent);
+	border-radius: 24px;
+	background: color-mix(in srgb, var(--surface, #0b1120) 92%, transparent);
+	box-shadow: 0 30px 90px rgb(0 0 0 / 36%);
+	backdrop-filter: blur(24px) saturate(140%);
+	overflow: hidden;
+}
+
+.extension-manager-dialog::backdrop {
+	background: rgb(2 6 23 / 58%);
+	backdrop-filter: blur(8px);
+}
+
+.extension-manager-shell {
+	display: grid;
+	gap: 18px;
+	padding: clamp(18px, 3vw, 30px);
+	overflow: auto;
+	max-height: inherit;
+}
+
+.extension-manager-shell > header {
+	display: grid;
+	gap: 6px;
+}
+
+.extension-manager-shell h2,
+.extension-manager-shell h3,
+.extension-manager-shell p {
+	margin: 0;
+}
+
+.extension-manager-shell > header p,
+.extension-card p,
+.extension-card small,
+.muted-text,
+.extension-ledger-row {
+	color: var(--muted, #94a3b8);
+}
+
+.extension-section {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr));
+	gap: 10px;
+}
+
+.extension-section > h3 {
+	grid-column: 1 / -1;
+	font-size: 0.84rem;
+	text-transform: uppercase;
+	letter-spacing: 0.12em;
+	color: var(--muted, #94a3b8);
+}
+
+.extension-card,
+.extension-ledger-row {
+	position: relative;
+	display: grid;
+	gap: 8px;
+	padding: 14px;
+	border: 1px solid rgb(148 163 184 / 18%);
+	border-radius: 16px;
+	background: linear-gradient(145deg, rgb(255 255 255 / 6%), rgb(255 255 255 / 2%));
+	transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+
+.extension-card:hover {
+	transform: translateY(-1px);
+	border-color: color-mix(in srgb, var(--accent, #7c8cff) 46%, transparent);
+	background: linear-gradient(145deg, rgb(124 140 255 / 10%), rgb(255 255 255 / 3%));
+}
+
+.extension-template-card::after {
+	content: "SAFE TEMPLATE";
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	font-size: 0.62rem;
+	letter-spacing: 0.08em;
+	color: var(--accent, #8b9cff);
+}
+
+.extension-actions {
+	justify-content: flex-start;
+	margin-top: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.extension-card {
+		transition: none;
+	}
+}

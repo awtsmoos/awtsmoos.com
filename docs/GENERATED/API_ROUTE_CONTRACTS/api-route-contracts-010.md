@@ -8,6 +8,54 @@ Every discovered path joined to its source-file contract evidence; unknown remai
 
 | URL pattern | Source | Methods | Vessels | Statuses | Headers |
 | --- | --- | --- | --- | --- | --- |
+| /api/social/unified-social/review/meta | geelooy/api/social/_awtsmoos.reviewCenter.js | GET | — | — | — |
+| /api/social/user/:user/aliases | geelooy/api/social/_awtsmoos.alias.js | GET, POST, PUT, DELETE | route-vars, identity | — | — |
+| /api/social/user/:user/aliases/:alias | geelooy/api/social/_awtsmoos.alias.js | GET, POST, PUT, DELETE | route-vars, identity | — | — |
+| /api/social/user/:user/aliases/:alias/details | geelooy/api/social/_awtsmoos.alias.js | GET, POST, PUT, DELETE | route-vars, identity | — | — |
+| /api/social/user/:user/aliases/details | geelooy/api/social/_awtsmoos.alias.js | GET, POST, PUT, DELETE | route-vars, identity | — | — |
+| /api/streaming | geelooy/api/streaming/routes/table.js | unknown | — | — | — |
+| /api/streaming/:connector | geelooy/api/streaming/_awtsmoos.derech.js | unknown | route-vars | — | Access-Control-Allow-Headers, Access-Control-Allow-Methods, Access-Control-Allow-Origin, Cache-Control |
+| /api/streaming/:connector/:action | geelooy/api/streaming/_awtsmoos.derech.js | unknown | route-vars | — | Access-Control-Allow-Headers, Access-Control-Allow-Methods, Access-Control-Allow-Origin, Cache-Control |
+| /api/streaming/connector | geelooy/api/streaming/routes/table.js | unknown | — | — | — |
+| /api/text/timestamp/:jobId | geelooy/api/text/_awtsmoos.derech.js | unknown | $_POST | — | — |
+| /api/text/timestamp/:jobId/result | geelooy/api/text/_awtsmoos.derech.js | unknown | $_POST | — | — |
+| /api/tunnel/control/admin-vault | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
+| /api/tunnel/control/admin/perutas | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
+| /api/tunnel/control/agent-economy | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
+| /api/tunnel/control/agent-manifest | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
+| /api/tunnel/control/api-keys | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
+| /api/tunnel/control/api-keys/create | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
+| /api/tunnel/control/api-keys/revoke | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
+| /api/tunnel/control/bank | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
+| /api/tunnel/control/blob/:blobId | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
+| /api/tunnel/control/blob/:blobId/manifest | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
+| /api/tunnel/control/blob/:blobId/view | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
+| /api/tunnel/control/bootstrap | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
+| /api/tunnel/control/budgets | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
+| /api/tunnel/control/compute | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
+| /api/tunnel/control/compute/capture | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
+| /api/tunnel/control/compute/history | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
+| /api/tunnel/control/compute/receipt | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
+| /api/tunnel/control/compute/subscription | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
+| /api/tunnel/control/conversations/get | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
+| /api/tunnel/control/conversations/list | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
+| /api/tunnel/control/conversations/register | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
+| /api/tunnel/control/device | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
+| /api/tunnel/control/devices | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
+| /api/tunnel/control/docs | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
+| /api/tunnel/control/docs.json | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
+| /api/tunnel/control/ephemeral/:resultId | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
+| /api/tunnel/control/ephemeral/:resultId/delete | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
+| /api/tunnel/control/ephemeral/:resultId/page | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
+| /api/tunnel/control/ephemeral/:resultId/search | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
+| /api/tunnel/control/ephemeral/list | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
+| /api/tunnel/control/flow | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
+| /api/tunnel/control/fs/:tunnelName | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
+| /api/tunnel/control/fs/awtsmoos-os | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
+| /api/tunnel/control/handoff/:tunnelName | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
+| /api/tunnel/control/live-calls | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
+| /api/tunnel/control/live-calls/stream | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
+| /api/tunnel/control/marketplace | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
 | /api/tunnel/control/me | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
 | /api/tunnel/control/mission-room/stream | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
 | /api/tunnel/control/my-device | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
@@ -15,51 +63,3 @@ Every discovered path joined to its source-file contract evidence; unknown remai
 | /api/tunnel/control/openapi-key | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
 | /api/tunnel/control/organization | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
 | /api/tunnel/control/pairing/approve | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/pairing/request | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/pairing/status | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/preview/:tunnelName | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/preview/access/revoke | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/preview/create | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/preview/grant | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/preview/list | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/preview/revoke | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/preview/settings | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/preview/settings/set | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/preview/update | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/provider | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/receipt/certificate | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/refund | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/reputation | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/resource-accounting | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/treasury | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/treasury-test | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/treasury/advisor | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/treasury/agents | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/treasury/budgets | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/treasury/forecast | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/treasury/graph | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/treasury/home | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/treasury/marketplace | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/treasury/providers | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/treasury/reputation | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/tunnels/access | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/tunnels/devices/revoke | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/tunnels/grants/create | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/tunnels/grants/revoke | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/usage | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/view/:previewId | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/view/:previewId/proxy | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/view/:previewId/raw | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/view/:previewId/ws | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/fs/:tunnelName | geelooy/api/tunnel/_awtsmoos.derech.js | unknown | route-vars, headers, identity | 401, 404 | Access-Control-Allow-Origin, Content-Type |
-| /api/tunnel/request/:tunnelName | geelooy/api/tunnel/_awtsmoos.derech.js | unknown | route-vars, headers, identity | 401, 404 | Access-Control-Allow-Origin, Content-Type |
-| /api/wallet/balance | geelooy/api/wallet/routes/table.js | unknown | — | — | — |
-| /api/wallet/buy/mock | geelooy/api/wallet/routes/table.js | unknown | — | — | — |
-| /api/wallet/commerce/catalog | geelooy/api/wallet/routes/table.js | unknown | — | — | — |
-| /api/wallet/commerce/entitlements | geelooy/api/wallet/routes/table.js | unknown | — | — | — |
-| /api/wallet/commerce/purchase | geelooy/api/wallet/routes/table.js | unknown | — | — | — |
-| /api/wallet/me | geelooy/api/wallet/routes/table.js | unknown | — | — | — |
-| /api/wallet/paypal/capture | geelooy/api/wallet/routes/table.js | unknown | — | — | — |
-| /api/wallet/paypal/create | geelooy/api/wallet/routes/table.js | unknown | — | — | — |
-| /api/wallet/transfer | geelooy/api/wallet/routes/table.js | unknown | — | — | — |
-| /api/what/:are/you/:doing | geelooy/api/_awtsmoos.derech.js | unknown | route-vars | — | Access-Control-Allow-Origin |

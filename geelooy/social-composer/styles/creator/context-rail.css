@@ -1,0 +1,105 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos reveals the useful tool for the present garment and hides the irrelevant weight;
+Awtsmoos.com lets each intent flow beneath the thumb as a fast snapping constellation of light.
+*/
+.creatorContextZone {
+	display: grid;
+	gap: .42rem;
+	min-inline-size: 0;
+	padding-block: .18rem .08rem;
+	border-block-start: 1px solid var(--composer-border-soft);
+}
+
+.creatorContextLabel {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: .75rem;
+	padding-inline: .08rem;
+}
+
+.creatorContextLabel span {
+	color: var(--composer-cyan);
+	font-size: .61rem;
+	font-weight: 850;
+	letter-spacing: .12em;
+	text-transform: uppercase;
+}
+
+.creatorContextLabel strong {
+	color: var(--composer-text-muted);
+	font-size: .7rem;
+}
+
+.creatorContextRail {
+	display: flex;
+	gap: .42rem;
+	max-inline-size: 100%;
+	padding: .08rem .05rem .3rem;
+	overflow-x: auto;
+	overscroll-behavior-inline: contain;
+	scroll-snap-type: x mandatory;
+	scrollbar-width: none;
+	-webkit-overflow-scrolling: touch;
+	mask-image: linear-gradient(90deg, #000 0 92%, transparent 100%);
+}
+
+.creatorContextRail::-webkit-scrollbar {
+	display: none;
+}
+
+.creatorContextAction {
+	display: inline-flex;
+	flex: 0 0 auto;
+	align-items: center;
+	gap: .42rem;
+	min-block-size: 2.85rem;
+	padding: .44rem .72rem;
+	border: 1px solid var(--composer-border);
+	border-radius: 999px;
+	background: color-mix(in srgb, var(--composer-surface-2) 90%, transparent);
+	color: var(--composer-text);
+	scroll-snap-align: start;
+	contain: layout paint;
+	animation: creator-context-arrive 240ms cubic-bezier(.2, .8, .2, 1) both;
+	transition: transform 160ms ease, border-color 160ms ease, background-color 160ms ease;
+}
+
+.creatorContextAction > span {
+	display: grid;
+	min-inline-size: 1.25rem;
+	place-items: center;
+	color: var(--composer-cyan);
+	font-size: .82rem;
+}
+
+.creatorContextAction strong {
+	font-size: .7rem;
+	white-space: nowrap;
+}
+
+.creatorContextAction:is(:hover, :focus-visible) {
+	border-color: color-mix(in srgb, var(--composer-cyan) 54%, var(--composer-border));
+	background: color-mix(in srgb, var(--composer-cyan) 8%, var(--composer-surface-2));
+	transform: translate3d(0, -1px, 0);
+}
+
+.creatorContextAction:active {
+	transform: scale(.97);
+}
+
+.creatorContextZone[data-intent="audio"] .creatorContextAction > span {
+	color: var(--composer-violet);
+}
+
+.creatorContextZone[data-intent="vegetal"] .creatorContextAction > span {
+	color: #8edb91;
+}
+
+@keyframes creator-context-arrive {
+	from { opacity: 0; transform: translate3d(6px, 0, 0); }
+	to { opacity: 1; transform: translate3d(0, 0, 0); }
+}

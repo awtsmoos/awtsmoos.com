@@ -1,33 +1,35 @@
-
-// B"H
+//B"H
+//Boruch Hashem
+//Blessed is He
 /**
- * @file systemInit.js
- * @brief The spark that ignites the managers of existence.
+ * The Awtsmoos awakens only systems that truly exist while optional embodiment waits for a real vessel to appear;
+ * Awtsmoos.com refuses phantom imports, so native rendering can boot cleanly and future capability injection stays sincere and clear.
  */
 
-import { ProgramManager } from '../managers/programManager.js';
-import { SystemManager } from '../managers/systemManager.js';
-import { DrawingManager } from '../managers/drawingManager.js';
-import { AnimationManager } from '../../../animation/animationManager.js';
-import { InputManager } from '../../../../input/inputManager.js';
-import { PlayerController } from '../../../../input/playerController.js';
+import { AnimationManager } from "../../../animation/animationManager.js";
+import { DrawingManager } from "../managers/drawingManager.js";
+import { ProgramManager } from "../managers/programManager.js";
+import { SystemManager } from "../managers/systemManager.js";
 
-/**
- * @brief Bootstraps all interconnected systems required for the WebGL engine.
- * @param {object} renderer - The parent renderer instance.
- */
+/** Initialize concrete renderer systems and optional injected embodiment capabilities. */
 export function initializeSystems(renderer) {
-    const gl = renderer.gl;
+	const gl = renderer.gl;
+	renderer.programManager = new ProgramManager(gl);
+	renderer.programManager.init();
+	renderer.systemManager = new SystemManager(renderer);
+	renderer.systemManager.init();
+	renderer.drawingManager = new DrawingManager(renderer);
+	renderer.animationManager = new AnimationManager();
+	initializeOptionalCapabilities(renderer);
+}
 
-    renderer.programManager = new ProgramManager(gl);
-    renderer.programManager.init();
-    
-    renderer.systemManager = new SystemManager(renderer);
-    renderer.systemManager.init();
-
-    renderer.drawingManager = new DrawingManager(renderer);
-    renderer.animationManager = new AnimationManager();
-    
-    renderer.inputManager = new InputManager();
-    renderer.playerController = new PlayerController(renderer, renderer.inputManager);
+function initializeOptionalCapabilities(renderer) {
+	const createInputManager = renderer.options.inputManagerFactory;
+	const createPlayerController = renderer.options.playerControllerFactory;
+	renderer.inputManager = typeof createInputManager === "function"
+		? createInputManager(renderer)
+		: null;
+	renderer.playerController = typeof createPlayerController === "function"
+		? createPlayerController(renderer, renderer.inputManager)
+		: null;
 }

@@ -1,401 +1,104 @@
 [
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-api-perutas-5ead9cce-m-5f3593aa39",
-		"title": "Project Tutorial: geelooy/api/perutas",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-perutas-5ead9cce.md",
-		"category": "Projects",
+		"id": "docs-generated-derech-mounts-md-1662eb2745",
+		"title": "Generated Derech Mounts",
+		"sourcePath": "docs/GENERATED/DERECH_MOUNTS.md",
+		"category": "General",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: geelooy/api/perutas",
-				"anchor": "project-tutorial-geelooy-api-perutas"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Generated Derech Mounts",
+				"anchor": "generated-derech-mounts"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/api/perutas Path: geelooy/api/perutas · Type: api · Family: API Projects Read the human API Projects guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guara",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/api/perutas path: geelooy/api/perutas · type: api · family: api projects read the human api projects guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.js, documentation.md local documentation: geelooy/api/perutas/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 32 0 0 0 1 0 33 public entry points none observed. symbol evidence source files: 32; classes: 0; functions: 194; exports: 138; samples: accountfor, addcredits, grantdaily, normalizeamounts, summary, fresh, zero, makemaster, grantone, sum, admingrant, adminoverview. depends on none observed. used by geelooy/api/tunnel — 16 lexical references; examples: geelooy/api/tunnel/control/core/usagestore.js; geelooy/api/tunnel/control/routes/adminperutas.js; geelooy/api/tunnel/control/routes/adminvault.js external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-api-perutas-5ead9cce-m-5f3593aa39.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Derech Mounts Mount Derech file /api geelooy/api/ awtsmoos.derech.js /api/admin geelooy/api/admin/ awtsmoos.derech.js /api/compiler geelooy/api/compiler/ awtsmoos.derech.js /api/contact geelooy/api/contact/ awtsmoos.derech.js /api/email geelooy/api/email/ awtsmoos.derech.js /ap",
+		"searchText": "b\"h boruch hashem blessed is he generated derech mounts mount derech file /api geelooy/api/ awtsmoos.derech.js /api/admin geelooy/api/admin/ awtsmoos.derech.js /api/compiler geelooy/api/compiler/ awtsmoos.derech.js /api/contact geelooy/api/contact/ awtsmoos.derech.js /api/email geelooy/api/email/ awtsmoos.derech.js /api/fetch geelooy/api/fetch/ awtsmoos.derech.js /api/gpt geelooy/api/gpt/ awtsmoos.derech.js /api/oauth geelooy/api/oauth/ awtsmoos.derech.js /api/ohr hagnuz geelooy/api/ohr hagnuz/ awtsmoos.derech.js /api/projecthosting geelooy/api/projecthosting/ awtsmoos.derech.js /api/public geelooy/api/public/ awtsmoos.derech.js /api/runtime geelooy/api/runtime/ awtsmoos.derech.js /api/sefarim geelooy/api/sefarim/ awtsmoos.derech.js /api/social geelooy/api/social/ awtsmoos.derech.js /api/ssh geelooy/api/ssh/ awtsmoos.derech.js /api/streaming geelooy/api/streaming/ awtsmoos.derech.js /api/text geelooy/api/text/ awtsmoos.derech.js /api/tunnel geelooy/api/tunnel/ awtsmoos.derech.js /api/tunnel/control geelooy/api/tunnel/control/ awtsmoos.derech.js /api/tunnel/install geelooy/api/tunnel/install/ awtsmoos.derech.js /api/wallet geelooy/api/wallet/ awtsmoos.derech.js /api/youtube geelooy/api/youtube/ awtsmoos.derech.js /api/zmanim geelooy/api/zmanim/ awtsmoos.derech.js /api/zmanimms geelooy/api/zmanimms/ awtsmoos.derech.js",
+		"page": "pages/docs-generated-derech-mounts-md-1662eb2745.json"
 	},
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-api-public-aeb4e1be-md-0c835f4438",
-		"title": "Project Tutorial: geelooy/api/public",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-public-aeb4e1be.md",
-		"category": "Projects",
+		"id": "docs-generated-documentation-coverage-md-e185f0c7c0",
+		"title": "Generated Documentation Coverage",
+		"sourcePath": "docs/GENERATED/DOCUMENTATION_COVERAGE.md",
+		"category": "General",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: geelooy/api/public",
-				"anchor": "project-tutorial-geelooy-api-public"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Generated Documentation Coverage",
+				"anchor": "generated-documentation-coverage"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/api/public Path: geelooy/api/public · Type: api · Family: API Projects Read the human API Projects guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarant",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/api/public path: geelooy/api/public · type: api · family: api projects read the human api projects guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: awtsmoos.derech.js, documentation.md local documentation: geelooy/api/public/documentation.md local doc requirement: no; covered: yes symlink target: — file shape source tests assets generated docs other total 1 0 0 0 1 0 2 public entry points none observed. symbol evidence source files: 1; classes: 0; functions: 2; exports: 1; samples: dynamicroutes, if, checkuser. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-api-public-aeb4e1be-md-0c835f4438.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Documentation Coverage Observed project boundaries and whether a local human breadcrumb is required and present. 179 rows. Chunk Rows Count documentation coverage 001.md 1–60 60 documentation coverage 002.md 61–120 60 documentation coverage 003.md 121–179 59",
+		"searchText": "b\"h boruch hashem blessed is he generated documentation coverage observed project boundaries and whether a local human breadcrumb is required and present. 179 rows. chunk rows count documentation coverage 001.md 1–60 60 documentation coverage 002.md 61–120 60 documentation coverage 003.md 121–179 59",
+		"page": "pages/docs-generated-documentation-coverage-md-e185f0c7c0.json"
 	},
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-api-runtime-5791d099-m-9fb9f63bda",
-		"title": "Project Tutorial: geelooy/api/runtime",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-runtime-5791d099.md",
-		"category": "Projects",
+		"id": "docs-generated-documentation-coverage-documentation-coverage-001-md-fdb5e60c5b",
+		"title": "Generated Documentation Coverage 1–60",
+		"sourcePath": "docs/GENERATED/DOCUMENTATION_COVERAGE/documentation-coverage-001.md",
+		"category": "General",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: geelooy/api/runtime",
-				"anchor": "project-tutorial-geelooy-api-runtime"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Generated Documentation Coverage 1–60",
+				"anchor": "generated-documentation-coverage-1-60"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/api/runtime Path: geelooy/api/runtime · Type: api · Family: API Projects Read the human API Projects guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guara",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/api/runtime path: geelooy/api/runtime · type: api · family: api projects read the human api projects guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: awtsmoos.derech.js, documentation.md local documentation: geelooy/api/runtime/documentation.md local doc requirement: no; covered: yes symlink target: — file shape source tests assets generated docs other total 5 0 0 0 1 0 6 public entry points none observed. symbol evidence source files: 5; classes: 0; functions: 14; exports: 8; samples: authorizeruntimerequest, isallowedorigin, normalizedhost, failure, request bytes, runtimerequestbody, bodyerror, runtimecapabilities, runtimelaunch, runtimestatus, runtimestop, authorizedbodycall. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-api-runtime-5791d099-m-9fb9f63bda.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Documentation Coverage 1–60 Observed project boundaries and whether a local human breadcrumb is required and present. Project Type Files Requires local docs Covered Local docs ai thoughts evidence 75 no no — ai thoughts alias 8663 no no — awtsmoos.com project 8 no yes awtsmoos.",
+		"searchText": "b\"h boruch hashem blessed is he generated documentation coverage 1–60 observed project boundaries and whether a local human breadcrumb is required and present. project type files requires local docs covered local docs ai thoughts evidence 75 no no — ai thoughts alias 8663 no no — awtsmoos.com project 8 no yes awtsmoos.com/documentation.md ayzarim runtime root 2105 yes yes ayzarim/documentation.md ayzarim/dosdb data 1008 yes yes ayzarim/dosdb/documentation.md ayzarim/awtsmoosdynamicserver runtime 1035 yes yes ayzarim/awtsmoosdynamicserver/documentation.md ayzarim/email infrastructure 5 no no — ayzarim/maintence infrastructure 1 no no — ayzarim/math infrastructure 1 no no — ayzarim/ssh infrastructure 48 yes yes ayzarim/ssh/documentation.md ayzarim/tools infrastructure 4 no no — geelooy public root 34697 yes yes geelooy/documentation.md geelooy/.awtsmoos project 6 no no — geelooy/.awtsmoos agent thoughts evidence 200 no no — geelooy/.awtsmoos agent transfer project 139 yes yes geelooy/.awtsmoos agent transfer/documentation.md geelooy/.awtsmoos smoke project 4 no no — geelooy/.awtsmoos transfer project 8 no no — geelooy/.data project 1 no no — geelooy/.well known project 1 no no — geelooy/@ project 3 no no — geelooy/about public 1 no no — geelooy/ai public 884 yes yes geelooy/ai/documentation.md geelooy/api project 2242 yes yes geelooy/api/documentation.md geelooy/api/admin api 2 no yes geelooy/api/admin/documentation.md geelooy/api/compiler api 10 yes yes geelooy/api/compiler/documentation.md geelooy/api/contact api 2 no yes geelooy/api/contact/documentation.md geelooy/api/email api 2 no yes geelooy/api/email/documentation.md geelooy/api/fetch api 2 no yes geelooy/api/fetch/documentation.md geelooy/api/gpt api 14 yes yes geelooy/api/gpt/documentation.md geelooy/api/nav api 1 no no — geelooy/api/oauth api 58 yes yes geelooy/api/oauth/documentation.md geelooy/api/ohr hagnuz api 8 no yes geelooy/api/ohr hagnuz/documentation.md geelooy/api/perutas api 33 yes yes geelooy/api/perutas/documentation.md geelooy/api/projecthosting api 8 no no — geelooy/api/public api 2 no yes geelooy/api/public/documentation.md geelooy/api/runtime api 6 no yes geelooy/api/runtime/documentation.md geelooy/api/sefarim api 3 no yes geelooy/api/sefarim/documentation.md geelooy/api/social api 1516 yes yes geelooy/api/social/documentation.md geelooy/api/ssh api 34 yes yes geelooy/api/ssh/documentation.md geelooy/api/streaming api 17 yes yes geelooy/api/streaming/documentation.md geelooy/api/text api 2 no yes geelooy/api/text/documentation.md geelooy/api/tunnel api 381 yes yes geelooy/api/tunnel/documentation.md geelooy/api/wallet api 85 yes yes geelooy/api/wallet/documentation.md geelooy/api/youtube api 22 yes yes geelooy/api/youtube/documentation.md geelooy/api/zmanim api 30 yes yes geelooy/api/zmanim/documentation.md geelooy/api/zmanimms api 1 no no — geelooy/apps public 10325 yes yes geelooy/apps/documentation.md geelooy/apps/android emulator app 1495 yes yes geelooy/apps/android emulator/documentation.md geelooy/apps/animator app 2488 yes yes geelooy/apps/animator/documentation.md geelooy/apps/archive uploader app 3 no no — geelooy/apps/audio editor app 4 no no — geelooy/apps/awtsmoos gguf app 88 yes yes geelooy/apps/awtsmoos gguf/documentation.md geelooy/apps/bookcovermaker app 1 no no — geelooy/apps/broadcaster app 3 no no — geelooy/apps/byteviewer app 4 no no — geelooy/apps/captions app 68 yes yes geelooy/apps/captions/documentation.md geelooy/apps/code app 1125 yes yes geelooy/apps/code/documentation.md geelooy/apps/compiler app 79 yes yes geelooy/apps/compiler/documentation.md geelooy/apps/csv app 5 no no — geelooy/apps/docs app 194 yes yes geelooy/apps/docs/documentation.md",
+		"page": "pages/docs-generated-documentation-coverage-documentation-coverage-001-md-fdb5e60c5b.json"
 	},
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-api-sefarim-ff35f559-m-0eacc067c1",
-		"title": "Project Tutorial: geelooy/api/sefarim",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-sefarim-ff35f559.md",
-		"category": "Projects",
+		"id": "docs-generated-documentation-coverage-documentation-coverage-002-md-6d614835ff",
+		"title": "Generated Documentation Coverage 61–120",
+		"sourcePath": "docs/GENERATED/DOCUMENTATION_COVERAGE/documentation-coverage-002.md",
+		"category": "General",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: geelooy/api/sefarim",
-				"anchor": "project-tutorial-geelooy-api-sefarim"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Generated Documentation Coverage 61–120",
+				"anchor": "generated-documentation-coverage-61-120"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/api/sefarim Path: geelooy/api/sefarim · Type: api · Family: API Projects Read the human API Projects guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guara",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/api/sefarim path: geelooy/api/sefarim · type: api · family: api projects read the human api projects guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: awtsmoos.derech.js, documentation.md local documentation: geelooy/api/sefarim/documentation.md local doc requirement: no; covered: yes symlink target: — file shape source tests assets generated docs other total 1 0 0 0 1 0 2 public entry points none observed. symbol evidence source files: 1; classes: 0; functions: 0; exports: 1; samples: dynamicroutes. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-api-sefarim-ff35f559-m-0eacc067c1.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Documentation Coverage 61–120 Observed project boundaries and whether a local human breadcrumb is required and present. Project Type Files Requires local docs Covered Local docs geelooy/apps/drive app 105 yes yes geelooy/apps/drive/DOCUMENTATION.md geelooy/apps/editor app 40 ye",
+		"searchText": "b\"h boruch hashem blessed is he generated documentation coverage 61–120 observed project boundaries and whether a local human breadcrumb is required and present. project type files requires local docs covered local docs geelooy/apps/drive app 105 yes yes geelooy/apps/drive/documentation.md geelooy/apps/editor app 40 yes yes geelooy/apps/editor/documentation.md geelooy/apps/exe emulator app 416 yes yes geelooy/apps/exe emulator/documentation.md geelooy/apps/forms app 0 no no — geelooy/apps/gpt api pulse garden app 1 no no — geelooy/apps/lyric sync app 4 no no — geelooy/apps/merkava native browser app 79 yes yes geelooy/apps/merkava native browser/documentation.md geelooy/apps/mitzvah pushkuh app 150 yes yes geelooy/apps/mitzvah pushkuh/documentation.md geelooy/apps/nesher studio app 542 yes yes geelooy/apps/nesher studio/documentation.md geelooy/apps/pdf to img app 1 no no — geelooy/apps/piano app 60 yes yes geelooy/apps/piano/documentation.md geelooy/apps/rebbe app 126 yes yes geelooy/apps/rebbe/documentation.md geelooy/apps/scripts app 16 yes yes geelooy/apps/scripts/documentation.md geelooy/apps/sheets app 130 yes yes geelooy/apps/sheets/documentation.md geelooy/apps/slides app 82 yes yes geelooy/apps/slides/documentation.md geelooy/apps/styles app 6 no no — geelooy/apps/tests app 1 no no — geelooy/apps/transcribe app 2 no no — geelooy/apps/tunnel app 2295 yes yes geelooy/apps/tunnel/documentation.md geelooy/apps/tunnel control app 490 yes yes geelooy/apps/tunnel control/documentation.md geelooy/apps/universal chat app 173 yes yes geelooy/apps/universal chat/documentation.md geelooy/apps/video editor app 2 no no — geelooy/apps/virtual os stress light counter app 1 no no — geelooy/apps/wallet app 40 yes yes geelooy/apps/wallet/documentation.md geelooy/apps/watermark remover app 1 no no — geelooy/awtai db public 9 no no — geelooy/ayin public 1 no no — geelooy/browser test project 2 no no — geelooy/comment thread public 23 yes yes geelooy/comment thread/documentation.md geelooy/contact public 3 no no — geelooy/control public 3 no no — geelooy/css project 1 no no — geelooy/db public 9 no yes geelooy/db/documentation.md geelooy/docs public 3555 yes yes geelooy/docs/documentation.md geelooy/donate public 1 no no — geelooy/drive public 213 yes yes geelooy/drive/documentation.md geelooy/editor public 1 no no — geelooy/email public 167 yes yes geelooy/email/documentation.md geelooy/entity view public 2 no no — geelooy/fetch public 1 no no — geelooy/game public 1 no no — geelooy/games public 8519 yes yes geelooy/games/documentation.md geelooy/games/kavanah game 16 yes yes geelooy/games/kavanah/documentation.md geelooy/games/merkava game 128 yes yes geelooy/games/merkava/documentation.md geelooy/games/nachash game 5 no no — geelooy/games/adventure game 1 no no — geelooy/games/brick blast game 80 yes yes geelooy/games/brick blast/documentation.md geelooy/games/cards game 11 yes yes geelooy/games/cards/documentation.md geelooy/games/chess game 97 yes yes geelooy/games/chess/documentation.md geelooy/games/city of light game 80 yes yes geelooy/games/city of light/documentation.md geelooy/games/connect4 game 6 no no — geelooy/games/dove game 8 no no — geelooy/games/emojis game 37 yes yes geelooy/games/emojis/documentation.md geelooy/games/kabbalah shooter game 39 yes yes geelooy/games/kabbalah shooter/documentation.md geelooy/games/migdol game 12 yes yes geelooy/games/migdol/documentation.md geelooy/games/mitzvahworld game 3920 yes yes geelooy/games/mitzvahworld/documentation.md geelooy/games/neshama quest game 7 no no — geelooy/games/nitzotz io game 250 yes yes geelooy/games/nitzotz io/documentation.md geelooy/games/ohr hagnuz game 793 yes yes geelooy/games/ohr hagnuz/documentation.md geelooy/games/oros ha kelim game 76 yes yes geelooy/games/oros ha kelim/documentation.md",
+		"page": "pages/docs-generated-documentation-coverage-documentation-coverage-002-md-6d614835ff.json"
 	},
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-api-social-0cd2dc86-md-536423786c",
-		"title": "Project Tutorial: geelooy/api/social",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-social-0cd2dc86.md",
-		"category": "Projects",
+		"id": "docs-generated-documentation-coverage-documentation-coverage-003-md-15e2c3f7bb",
+		"title": "Generated Documentation Coverage 121–179",
+		"sourcePath": "docs/GENERATED/DOCUMENTATION_COVERAGE/documentation-coverage-003.md",
+		"category": "General",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: geelooy/api/social",
-				"anchor": "project-tutorial-geelooy-api-social"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Generated Documentation Coverage 121–179",
+				"anchor": "generated-documentation-coverage-121-179"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/api/social Path: geelooy/api/social · Type: api · Family: API Projects Read the human API Projects guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarant",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/api/social path: geelooy/api/social · type: api · family: api projects read the human api projects guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: awtsmoos.derech.js, documentation.md local documentation: geelooy/api/social/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 1038 148 0 0 5 1 1192 public entry points none observed. symbol evidence source files: 532; classes: 11; functions: 2574; exports: 2151; samples: metadata, requirelogin, ownershipresponse, createaliassafely, deletealiassafely, aliasentityroute, needs, targetfrombody, method, input, json, query. depends on ayzarim/dosdb — 33 lexical references; examples: geelooy/api/social/helper/comments/aliasindex/packedindexstore.js; geelooy/api/social/helper/comments/canonicalcommentsource.js; geelooy/api/social/helper/comments/commentawtsmoosdbbridge.js used by geelooy/sites — 5 lexical references; examples: geelooy/sites/sitegateway.js; geelooy/sites/siteresolution.js geelooy/api/tunnel — 2 lexical references; examples: geelooy/api/tunnel/control/routes/osfs/listread.js; geelooy/api/tunnel/control/routes/osfs/writeops.js ayzarim/email — 1 lexical reference; examples: ayzarim/email/awtsmoosemailingress.js geelooy/api/email — 1 lexical reference; examples: geelooy/api/email/ awtsmoos.derech.js geelooy/api/wallet — 1 lexical reference; examples: geelooy/api/wallet/core/transferidentity.js external packages none observed. verification clue observed test classified files: 148 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-api-social-0cd2dc86-md-536423786c.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Documentation Coverage 121–179 Observed project boundaries and whether a local human breadcrumb is required and present. Project Type Files Requires local docs Covered Local docs geelooy/games/party game 16 yes yes geelooy/games/party/DOCUMENTATION.md geelooy/games/pong game 12",
+		"searchText": "b\"h boruch hashem blessed is he generated documentation coverage 121–179 observed project boundaries and whether a local human breadcrumb is required and present. project type files requires local docs covered local docs geelooy/games/party game 16 yes yes geelooy/games/party/documentation.md geelooy/games/pong game 12 yes yes geelooy/games/pong/documentation.md geelooy/games/rambam game 1 no no — geelooy/games/rebbe runner game 4 no no — geelooy/games/scribe journey game 476 yes yes geelooy/games/scribe journey/documentation.md geelooy/games/scripts game 81 yes yes geelooy/games/scripts/documentation.md geelooy/games/sefira clash game 1381 yes yes geelooy/games/sefira clash/documentation.md geelooy/games/seven mitzvos game 597 yes yes geelooy/games/seven mitzvos/documentation.md geelooy/games/shema strike game 173 yes yes geelooy/games/shema strike/documentation.md geelooy/games/soul jump game 2 no no — geelooy/games/styles game 14 yes yes geelooy/games/styles/documentation.md geelooy/games/sulam ha sod game 167 yes yes geelooy/games/sulam ha sod/documentation.md geelooy/games/tests game 17 yes yes geelooy/games/tests/documentation.md geelooy/games/tetris game 8 no no — geelooy/geelooy project 5 no no — geelooy/git project 1 no no — geelooy/heichel project 1 no no — geelooy/heichel editor public 19 yes yes geelooy/heichel editor/documentation.md geelooy/heichel review public 40 yes yes geelooy/heichel review/documentation.md geelooy/heichelos project 1051 yes yes geelooy/heichelos/documentation.md geelooy/legal project 6 no no — geelooy/libs library 2268 yes yes geelooy/libs/documentation.md geelooy/login public 1 no no — geelooy/logout public 1 no no — geelooy/mawgawl public 80 yes yes geelooy/mawgawl/documentation.md geelooy/node os public 2 no no — geelooy/notifications public 34 yes yes geelooy/notifications/documentation.md geelooy/ocr public 1 no no — geelooy/os public 729 yes yes geelooy/os/documentation.md geelooy/parsers project 1 no no — geelooy/platform project 110 yes yes geelooy/platform/documentation.md geelooy/post editor public 15 yes yes geelooy/post editor/documentation.md geelooy/profile public 39 yes yes geelooy/profile/documentation.md geelooy/public project 17 yes yes geelooy/public/documentation.md geelooy/record public 7 no no — geelooy/recorder public 13 yes yes geelooy/recorder/documentation.md geelooy/reeyuh public 1 no no — geelooy/register public 1 no no — geelooy/resources project 2 no no — geelooy/scripts library 1587 yes yes geelooy/scripts/documentation.md geelooy/shared library 154 yes yes geelooy/shared/documentation.md geelooy/sites project 35 yes yes geelooy/sites/documentation.md geelooy/social public 62 yes yes geelooy/social/documentation.md geelooy/social actions project 11 yes yes geelooy/social actions/documentation.md geelooy/social composer public 354 yes yes geelooy/social composer/documentation.md geelooy/social hub public 265 yes yes geelooy/social hub/documentation.md geelooy/sod public 1 no no — geelooy/style library 1184 yes yes geelooy/style/documentation.md geelooy/tests test 109 yes yes geelooy/tests/documentation.md geelooy/tmp project 9 no no — geelooy/view project 1 no no — geelooy/webscrapers project 5 no no — geelooy/youtube public 10 yes yes geelooy/youtube/documentation.md geelooy/zmanim public 128 yes yes geelooy/zmanim/documentation.md ops operations 5 no yes ops/documentation.md scripts tooling 398 yes yes scripts/documentation.md templates tooling 17 yes yes templates/documentation.md tests test 93 yes yes tests/documentation.md tools tooling 201 yes yes tools/documentation.md",
+		"page": "pages/docs-generated-documentation-coverage-documentation-coverage-003-md-15e2c3f7bb.json"
 	},
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-api-ssh-23e5c9da-md-595034fac9",
-		"title": "Project Tutorial: geelooy/api/ssh",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-ssh-23e5c9da.md",
-		"category": "Projects",
+		"id": "docs-generated-dynamic-parameter-inventory-md-ad588b1ba0",
+		"title": "Generated Dynamic Parameter Inventory",
+		"sourcePath": "docs/GENERATED/DYNAMIC_PARAMETER_INVENTORY.md",
+		"category": "General",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: geelooy/api/ssh",
-				"anchor": "project-tutorial-geelooy-api-ssh"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Generated Dynamic Parameter Inventory",
+				"anchor": "generated-dynamic-parameter-inventory"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/api/ssh Path: geelooy/api/ssh · Type: api · Family: API Projects Read the human API Projects guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. E",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/api/ssh path: geelooy/api/ssh · type: api · family: api projects read the human api projects guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: awtsmoos.derech.js, documentation.md local documentation: geelooy/api/ssh/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 9 0 0 0 1 0 10 public entry points none observed. symbol evidence source files: 9; classes: 0; functions: 19; exports: 17; samples: call, connect, withclient, opensftp, execcommand, removepath, quote, bodyof, connectionconfig, requiredbody, ok, fail. depends on ayzarim/ssh — 1 lexical reference; examples: geelooy/api/ssh/lib/client.js used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-api-ssh-23e5c9da-md-595034fac9.json"
-	},
-	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-api-streaming-de509724-b7b660fd88",
-		"title": "Project Tutorial: geelooy/api/streaming",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-streaming-de509724.md",
-		"category": "Projects",
-		"provenance": "generated",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Project Tutorial: geelooy/api/streaming",
-				"anchor": "project-tutorial-geelooy-api-streaming"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/api/streaming Path: geelooy/api/streaming · Type: api · Family: API Projects Read the human API Projects guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health g",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/api/streaming path: geelooy/api/streaming · type: api · family: api projects read the human api projects guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: awtsmoos.derech.js, documentation.md local documentation: geelooy/api/streaming/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 14 0 0 0 3 0 17 public entry points none observed. symbol evidence source files: 14; classes: 0; functions: 32; exports: 34; samples: dynamicroutes, post, action, clean, call, id, actions, create, status, connectormap, youtube, accesstoken. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-api-streaming-de509724-b7b660fd88.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Dynamic Parameter Inventory Complete index for 358 parameterized route rows. Chunk Rows Count dynamic parameters 001.md 1–85 85 dynamic parameters 002.md 86–170 85 dynamic parameters 003.md 171–255 85 dynamic parameters 004.md 256–340 85 dynamic parameters 005.md 341–358 18",
+		"searchText": "b\"h boruch hashem blessed is he generated dynamic parameter inventory complete index for 358 parameterized route rows. chunk rows count dynamic parameters 001.md 1–85 85 dynamic parameters 002.md 86–170 85 dynamic parameters 003.md 171–255 85 dynamic parameters 004.md 256–340 85 dynamic parameters 005.md 341–358 18",
+		"page": "pages/docs-generated-dynamic-parameter-inventory-md-ad588b1ba0.json"
 	}
 ]

@@ -5,9 +5,9 @@
 const { RealtimeError } = require("../../platform/RealtimeError.js");
 
 /**
- * @file Defines the bounded realtime vocabulary of Awtsmoos Sheets.
+ * @file Defines the bounded realtime vocabulary of Awtsmoos Sheets, structure, sharing, and extensions.
  * @description The Awtsmoos gives every collaborative act a measured name and shore;
- * Awtsmoos.com rejects shapeless payloads so shared editing may remain clear and secure.
+ * Awtsmoos.com rejects shapeless payloads so shared editing and automation remain clear and secure.
  */
 const APPLICATION_ID = "sheets";
 const VERSION = 1;
@@ -23,6 +23,14 @@ const TYPES = Object.freeze({
 	noteSet: "sheets.note.set",
 	sheetAdd: "sheets.sheet.add",
 	sheetRename: "sheets.sheet.rename",
+	rowInsert: "sheets.row.insert",
+	rowDelete: "sheets.row.delete",
+	rowResize: "sheets.row.resize",
+	columnInsert: "sheets.column.insert",
+	columnDelete: "sheets.column.delete",
+	columnResize: "sheets.column.resize",
+	extensionSave: "sheets.extension.save",
+	extensionRemove: "sheets.extension.remove",
 	presenceSelect: "sheets.presence.select",
 	shareUpdate: "sheets.share.update",
 	shareInvite: "sheets.share.invite",

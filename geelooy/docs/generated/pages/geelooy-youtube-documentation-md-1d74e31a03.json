@@ -2,15 +2,45 @@
 	"BH": "B\"H / Boruch Hashem / Blessed is He",
 	"schema": "awtsmoos-doc-page-v2",
 	"id": "geelooy-youtube-documentation-md-1d74e31a03",
-	"title": "YouTube Manager Documentation",
+	"title": "YouTube Migration",
 	"sourcePath": "geelooy/youtube/DOCUMENTATION.md",
 	"category": "General",
 	"provenance": "breadcrumb",
 	"headings": [
 		{
 			"level": 1,
-			"text": "YouTube Manager Documentation",
-			"anchor": "youtube-manager-documentation"
+			"text": "YouTube Migration",
+			"anchor": "youtube-migration"
+		},
+		{
+			"level": 2,
+			"text": "Choose the right path",
+			"anchor": "choose-the-right-path"
+		},
+		{
+			"level": 2,
+			"text": "Whole-channel archive",
+			"anchor": "whole-channel-archive"
+		},
+		{
+			"level": 2,
+			"text": "One owned video",
+			"anchor": "one-owned-video"
+		},
+		{
+			"level": 2,
+			"text": "Advanced creator migration",
+			"anchor": "advanced-creator-migration"
+		},
+		{
+			"level": 2,
+			"text": "Playlist, chronology, captions, and archives",
+			"anchor": "playlist-chronology-captions-and-archives"
+		},
+		{
+			"level": 2,
+			"text": "Dry planning and resumability",
+			"anchor": "dry-planning-and-resumability"
 		}
 	],
 	"markdownParts": [

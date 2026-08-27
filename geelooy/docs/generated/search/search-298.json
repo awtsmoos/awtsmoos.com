@@ -1,15 +1,20 @@
 [
 	{
-		"id": "geelooy-libs-awtsmoos-procedural-core-procedural-object-api-md-c2017ed50f",
-		"title": "B\"H — Awtsmoos Procedural Object API",
-		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/PROCEDURAL_OBJECT_API.md",
-		"category": "General",
+		"id": "geelooy-games-mitzvahworld-experiments-light-three-gltf-directory-guide--891e1c0d13",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/light-three-gltf/DIRECTORY_GUIDE.md",
+		"category": "Games",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H — Awtsmoos Procedural Object API",
-				"anchor": "b-h-awtsmoos-procedural-object-api"
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/light-three-gltf",
+				"anchor": "directory-guide-experiments-light-three-gltf"
 			},
 			{
 				"level": 2,
@@ -18,248 +23,52 @@
 			},
 			{
 				"level": 2,
-				"text": "Recipe Envelope",
-				"anchor": "recipe-envelope"
+				"text": "Find things here",
+				"anchor": "find-things-here"
 			},
 			{
 				"level": 2,
-				"text": "Universal Geometry Artifact",
-				"anchor": "universal-geometry-artifact"
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Core Operations",
-				"anchor": "core-operations"
+				"text": "Representative files",
+				"anchor": "representative-files"
 			},
 			{
 				"level": 2,
-				"text": "Trusted Adapter Operations",
-				"anchor": "trusted-adapter-operations"
+				"text": "Exported symbols worth searching",
+				"anchor": "exported-symbols-worth-searching"
 			},
 			{
 				"level": 2,
-				"text": "Domain Profiles",
-				"anchor": "domain-profiles"
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
 			},
 			{
 				"level": 2,
-				"text": "Incremental Editing",
-				"anchor": "incremental-editing"
+				"text": "Directory map",
+				"anchor": "directory-map"
 			},
 			{
 				"level": 2,
-				"text": "Adapters",
-				"anchor": "adapters"
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
 			}
 		],
-		"excerpt": "B\"H — Awtsmoos Procedural Object API Purpose The procedural object API is a renderer neutral, deterministic modeling language. It describes geometry, scene structure, materials, rigs, animation, simulation intent, and exports without executing model generated code. Recipe Envelope A recipe uses awtsmoos.procedural obje",
-		"searchText": "b\"h — awtsmoos procedural object api purpose the procedural object api is a renderer neutral, deterministic modeling language. it describes geometry, scene structure, materials, rigs, animation, simulation intent, and exports without executing model generated code. recipe envelope a recipe uses awtsmoos.procedural object recipe version 1.0.0 and contains: stable asset and recipe identity. coordinate system declarations. reusable definitions. materials and initial objects. dependency ordered whitelisted commands. output declarations, validation rules, metadata, and uncertainties. universal geometry artifact every geometry is the full portable equivalent of a buffer style geometry: arbitrary named attributes. explicit component type and item size. indexed or non indexed topology. triangles, strips, fans, lines, loops, and points. groups, draw ranges, and material slots. multiple morph targets. bounds and semantic metadata. skin indices, skin weights, colors, tangents, custom scientific fields, or any other bounded numeric attribute. the core stores json safe arrays. @awtsmoos/procedural core/awtsmoos can materialize them as typed arrays without importing a rendering engine. core operations the deterministic core creates primitives, raw indexed geometry, extrusions, revolutions, transforms, mirrors, merges, arbitrary attributes, indices, groups, morph targets, object hierarchies, instances, materials, cameras, lights, collections, sockets, constraints, custom properties, armatures, animations, drivers, lod metadata, and scene metadata. trusted adapter operations operations requiring a specialized engine are preserved as structured deferred commands. the catalog covers curves, nurbs, surfaces, text, volumes, booleans, mesh editing, modifiers, geometry nodes, uv work, shaders, baking, cloth, fluids, smoke, fire, rigid bodies, particles, hair, fur, oceans, rendering, compositing, and export. a blender worker may implement these commands through maintained bpy code. the recipe itself never contains python, javascript, shell commands, urls, filesystem paths, or arbitrary source. domain profiles animal anatomy is one profile over the universal language. built in profiles also cover generic objects, architecture, terrain, products, and effects. applications may register additional semantic profiles and trusted namespaced operations such as ext:studio/custom operation. incremental editing use proceduralobjectpatchbuilder and proceduralobjectsession to apply immutable json pointer patches. only directly affected commands and their dependants are regenerated. adapters ./awtsmoos: primary renderer neutral typed array runtime. ./blender: safe structured execution plans. ./three: optional legacy compatibility adapter. ./animal mesh: anatomical recipe specialization. ./procedural object: universal public api.",
-		"page": "pages/geelooy-libs-awtsmoos-procedural-core-procedural-object-api-md-c2017ed50f.json"
-	},
-	{
-		"id": "geelooy-libs-awtsmoos-procedural-core-procedural-object-verification-md-0a6c890e8e",
-		"title": "B\"H — Generic Procedural Object Verification",
-		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/PROCEDURAL_OBJECT_VERIFICATION.md",
-		"category": "General",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "B\"H — Generic Procedural Object Verification",
-				"anchor": "b-h-generic-procedural-object-verification"
-			},
-			{
-				"level": 2,
-				"text": "Implemented",
-				"anchor": "implemented"
-			},
-			{
-				"level": 2,
-				"text": "Local Evidence",
-				"anchor": "local-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Production Boundary",
-				"anchor": "production-boundary"
-			}
-		],
-		"excerpt": "B\"H — Generic Procedural Object Verification Implemented Renderer neutral procedural object recipe and artifact schemas. Full indexed and non indexed geometry artifacts with arbitrary named typed attributes, topology modes, groups, draw ranges, morph targets, material slots, bounds, instancing metadata, and custom meta",
-		"searchText": "b\"h — generic procedural object verification implemented renderer neutral procedural object recipe and artifact schemas. full indexed and non indexed geometry artifacts with arbitrary named typed attributes, topology modes, groups, draw ranges, morph targets, material slots, bounds, instancing metadata, and custom metadata. deterministic primitives, extrusion, revolution, transforms, mirrors, merges, arbitrary attributes, indices, groups, morph targets, and scene assembly. generic data blocks, node graphs, links, materials, collections, cameras, lights, sockets, constraints, drivers, armatures, animations, and lod data. trusted deferred operation families for advanced modeling, shading, baking, simulations, geometry nodes, rendering, compositing, and export. primary awtsmoos typed array runtime with no renderer dependency. optional three.js compatibility converter. safe structured blender worker plans with no generated source execution. automatic universal artifacts beside legacy animal artifacts. immutable json pointer patch sessions and dependency regeneration. local evidence npm run test:procedural object: passed. npm run test:animal mesh: passed. all modified javascript and mjs modules pass node check. all new and rewritten javascript modules are at most 120 lines. all source modules begin with b\"h, boruch hashem, and blessed is he. code indentation uses tabs; no renderer class leaks into core contracts. production boundary the core represents any safe procedural intent, but engine specific algorithms remain trusted adapter responsibilities. blender workers must implement bpy operations, geometry nodes, booleans, remeshing, baking, simulations, and exports from structured commands. recipes never contain executable python, javascript, shell commands, network addresses, or filesystem paths.",
-		"page": "pages/geelooy-libs-awtsmoos-procedural-core-procedural-object-verification-md-0a6c890e8e.json"
-	},
-	{
-		"id": "geelooy-libs-awtsmoos-procedural-core-readme-md-a88dd64efc",
-		"title": "B\"H — Awtsmoos Procedural Core",
-		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/README.md",
-		"category": "General",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "B\"H — Awtsmoos Procedural Core",
-				"anchor": "b-h-awtsmoos-procedural-core"
-			},
-			{
-				"level": 2,
-				"text": "Core usage",
-				"anchor": "core-usage"
-			},
-			{
-				"level": 2,
-				"text": "Three.js usage",
-				"anchor": "three-js-usage"
-			},
-			{
-				"level": 2,
-				"text": "Folder contract",
-				"anchor": "folder-contract"
-			}
-		],
-		"excerpt": "B\"H — Awtsmoos Procedural Core A production shared library extracted from geelooy/apps/Awtsmoos Procedural Worlds Creator/core. This package intentionally does not include the old creator app shell: no Vite UI, no scene picker, no startup script, no test scene registry, and no app specific renderer bootstrap. It keeps ",
-		"searchText": "b\"h — awtsmoos procedural core a production shared library extracted from geelooy/apps/awtsmoos procedural worlds creator/core. this package intentionally does not include the old creator app shell: no vite ui, no scene picker, no startup script, no test scene registry, and no app specific renderer bootstrap. it keeps the reusable engine systems together: procedural geometry primitives command/modifier pipeline face, edge, and vertex query systems csg and boolean helpers tree generation system human, hair, mouth, eye, ark, cloud, house, and component generators skeleton, joints, ik, animation, shape keys, and speech helpers physics, raycast, cloth, metaball, and spatial systems webgl shader/material modules three.js adapters for converting generated render data into three.buffergeometry and meshes core usage three.js usage custom shaders are supported by passing shader: folder contract src/core is copied as a complete engine core so its internal relative imports remain stable. apps should import through src/index.js or adapter entrypoints rather than reaching deep into random internals unless they need advanced systems.",
-		"page": "pages/geelooy-libs-awtsmoos-procedural-core-readme-md-a88dd64efc.json"
-	},
-	{
-		"id": "geelooy-libs-awtsmoos-procedural-readme-md-9abf7d1775",
-		"title": "B\"H — @awtsmoos/procedural",
-		"sourcePath": "geelooy/libs/awtsmoos-procedural/README.md",
-		"category": "General",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "B\"H — @awtsmoos/procedural",
-				"anchor": "b-h-awtsmoos-procedural"
-			},
-			{
-				"level": 2,
-				"text": "Debug ritual",
-				"anchor": "debug-ritual"
-			},
-			{
-				"level": 2,
-				"text": "Exports",
-				"anchor": "exports"
-			}
-		],
-		"excerpt": "B\"H — @awtsmoos/procedural Raw procedural geometry helpers for Awtsmoos games. This package emits plain mesh data only: { positions, indices, colors }. It does not import THREE, Babylon, Pixi, PlayCanvas, or any renderer. Current focus: stabilize world geometry for Nitzotz style raw WebGL pipelines. Debug ritual Use ma",
-		"searchText": "b\"h — @awtsmoos/procedural raw procedural geometry helpers for awtsmoos games. this package emits plain mesh data only: { positions, indices, colors }. it does not import three, babylon, pixi, playcanvas, or any renderer. current focus: stabilize world geometry for nitzotz style raw webgl pipelines. debug ritual use makegoldenprobe() to submit one known cube into a render list. if the cube renders, the shader/camera/buffers can breathe. if city meshes fail but the probe works, inspect generated meshes with inspectmesh(mesh) and clamp building heights/spans. exports deterministic rng helpers primitive cube mesh finite mesh compaction mesh validation and summaries clamped building meshes deterministic city chunk meshes golden probe cube",
-		"page": "pages/geelooy-libs-awtsmoos-procedural-readme-md-9abf7d1775.json"
-	},
-	{
-		"id": "geelooy-libs-documentation-md-d114b733bc",
-		"title": "Libraries Documentation",
-		"sourcePath": "geelooy/libs/DOCUMENTATION.md",
-		"category": "General",
-		"provenance": "breadcrumb",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Libraries Documentation",
-				"anchor": "libraries-documentation"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Libraries Documentation The Awtsmoos lets many projects drink from shared libraries, so a small edit can travel farther than its folder frame; Awtsmoos.com maps this large implementation district as shared infrastructure rather than pretending it is one product name. Read ../../docs/SYST",
-		"searchText": "b\"h boruch hashem blessed is he libraries documentation the awtsmoos lets many projects drink from shared libraries, so a small edit can travel farther than its folder frame; awtsmoos.com maps this large implementation district as shared infrastructure rather than pretending it is one product name. read ../../docs/systems/shared libraries.md and ../../docs/source to doc.md. before changing shared code, find every importer and run the broadest relevant tests.",
-		"page": "pages/geelooy-libs-documentation-md-d114b733bc.json"
-	},
-	{
-		"id": "geelooy-mawgawl-documentation-md-ebe3542b76",
-		"title": "Mawgawl Documentation",
-		"sourcePath": "geelooy/mawgawl/DOCUMENTATION.md",
-		"category": "General",
-		"provenance": "breadcrumb",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Mawgawl Documentation",
-				"anchor": "mawgawl-documentation"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Mawgawl Documentation The Awtsmoos lets text and reader experience take a dedicated form while source defines what the unfamiliar name means; Awtsmoos.com links this public project to Sefarim and caller evidence without inventing semantics beyond inspected frames. Read ../../docs/API/OTH",
-		"searchText": "b\"h boruch hashem blessed is he mawgawl documentation the awtsmoos lets text and reader experience take a dedicated form while source defines what the unfamiliar name means; awtsmoos.com links this public project to sefarim and caller evidence without inventing semantics beyond inspected frames. read ../../docs/api/other families.md, ../../docs/routes/public routes.md, and ../../docs/generated/api caller index.md.",
-		"page": "pages/geelooy-mawgawl-documentation-md-ebe3542b76.json"
-	},
-	{
-		"id": "geelooy-notifications-documentation-md-9006a3aef1",
-		"title": "Signals / Notifications",
-		"sourcePath": "geelooy/notifications/DOCUMENTATION.md",
-		"category": "General",
-		"provenance": "breadcrumb",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Signals / Notifications",
-				"anchor": "signals-notifications"
-			},
-			{
-				"level": 2,
-				"text": "Role",
-				"anchor": "role"
-			},
-			{
-				"level": 2,
-				"text": "Start here",
-				"anchor": "start-here"
-			},
-			{
-				"level": 2,
-				"text": "Change rule",
-				"anchor": "change-rule"
-			},
-			{
-				"level": 2,
-				"text": "Project-specific notes",
-				"anchor": "project-specific-notes"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Signals / Notifications The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Public notification/signals interface. Observed entry files include index.html and app.js; observed title: “Signals — Gee",
-		"searchText": "b\"h boruch hashem blessed is he signals / notifications the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role public notification/signals interface. observed entry files include index.html and app.js; observed title: “signals — geelooy”. start here read docs/projects/social platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes pair ui changes with social notification api behavior and notification tests.",
-		"page": "pages/geelooy-notifications-documentation-md-9006a3aef1.json"
-	},
-	{
-		"id": "geelooy-os-documentation-md-324db72b91",
-		"title": "Geelooy OS Documentation",
-		"sourcePath": "geelooy/os/DOCUMENTATION.md",
-		"category": "General",
-		"provenance": "breadcrumb",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Geelooy OS Documentation",
-				"anchor": "geelooy-os-documentation"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Geelooy OS Documentation The Awtsmoos lets a browser hold windows, files, apps, and runtime in a navigable sphere; Awtsmoos.com maps the OS beside Node OS, platform, virtual OS, Tunnel, and native runtime here. Read ../../docs/SYSTEMS/GEELOOY OS.md. Related: ../node os/, ../platform/, ..",
-		"searchText": "b\"h boruch hashem blessed is he geelooy os documentation the awtsmoos lets a browser hold windows, files, apps, and runtime in a navigable sphere; awtsmoos.com maps the os beside node os, platform, virtual os, tunnel, and native runtime here. read ../../docs/systems/geelooy os.md. related: ../node os/, ../platform/, ../shared/virtual os/, ../apps/code/, ../apps/tunnel control/, and /api/runtime/native/ .",
-		"page": "pages/geelooy-os-documentation-md-324db72b91.json"
-	},
-	{
-		"id": "geelooy-platform-creator-world-os-readme-md-0752b21c56",
-		"title": "Creator–World OS",
-		"sourcePath": "geelooy/platform/creator-world-os/README.md",
-		"category": "General",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Creator–World OS",
-				"anchor": "creator-world-os"
-			},
-			{
-				"level": 2,
-				"text": "Laws",
-				"anchor": "laws"
-			},
-			{
-				"level": 2,
-				"text": "Verification",
-				"anchor": "verification"
-			}
-		],
-		"excerpt": "B\"H Creator–World OS Sixty small contracts connect social objects, semantic discovery, published worlds, persistent characters, verified replays, cinematic timelines, software capability reports, tunnel evidence, and release safety without coupling their application runtimes. Laws Drafts are mutable; publications are i",
-		"searchText": "b\"h creator–world os sixty small contracts connect social objects, semantic discovery, published worlds, persistent characters, verified replays, cinematic timelines, software capability reports, tunnel evidence, and release safety without coupling their application runtimes. laws drafts are mutable; publications are immutable. provenance and exact internal coordinates remain visible. assets stay outside arbitrary markup payloads. discovery explains its reasons and preserves chronological alternatives. search pins corpus and vector generations. character identity may be shared; game progression remains namespaced. worlds and replays require deterministic validation. artifact reports distinguish inspected, emulated, simulated, rendered, and unsupported. tunnel replay requires immutable input and environment identity. release proof becomes stale when guarded hashes drift. verification run: the runner verifies all twelve trains and exactly sixty unique chapters.",
-		"page": "pages/geelooy-platform-creator-world-os-readme-md-0752b21c56.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/light three gltf Role: Rendering library Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 99 files, 1 structural child directories Purpose Custom lightweight Three like scene graph, math, WebGL helpers, and GLTF loading s",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/light three gltf role: rendering library snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 99 files, 1 structural child directories purpose custom lightweight three like scene graph, math, webgl helpers, and gltf loading stack. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: rendering library search terms: tiny, render, texture, state, fragment, material, animation, skin, signature, static, cache, gltf file mix: .js: 98 good first question: “does the behavior or asset i need belong to rendering library, or is this only a neighboring/test/reference layer?” semantic evidence b\"h remembers only properties truly governed by imported animation channels. the awtsmoos renews the whole tree, yet awtsmoos.com restores only the animated vessels, preserving exact bind values without traversing unrelated cottages, garments, or helpers. decodes gltf animation channels into stable scalar sampling vessels. the awtsmoos speaks every motion through measured times and values; awtsmoos.com preserves each source channel exactly while separating parsing from living playback. advances imported clips through exact first play, looping, and crossfade laws. the awtsmoos renews a living pose from the first instant; awtsmoos.com never blends the first idle from bind pose with zero weight, yet preserves gentle transitions after motion is alive. representative files tiny runtime.js — stable public gateway to the focused tiny scene graph runtime. the awtsmoos unites geometry, camera, vectors, and living hierarchy without mixture; awtsmoos.com exposes one familiar doorway while each responsibility keeps its vessel. exports: resettreetobase, bone, bufferattribute, buffergeometry, group. tiny gltf loader.js — loader: glb geometry, skins, animations, and gltf material color breath. exports: loadtinygltf, loadtinyglb. tiny gltf instance.js — clones transforms and skeletons while sharing immutable gltf resources. the awtsmoos renews every actor as a distinct motion vessel; awtsmoos.com shares geometry, accessors, textures, and palette materials without sharing mutable bones. exports: instantiatetinygltf. tiny camera math.js — camera projection and world point revelation for the mountain village. the awtsmoos creates the seer and the seen together; awtsmoos.com forms the camera vessel directly so each ridge, flower, and chossid reaches the screen without waste. exports: perspective, lookat, transformpoint. tiny matrix core.js — direct column major matrix operations for the mitzvah world. the awtsmoos renews every coordinate without waste; awtsmoos.com forms each matrix directly so no intermediate vessel stands between intention and visible revelation. exports: epsilon, identity, copymat4, mat4fromarray, multiply. tiny animation bindings.js — remembers only properties truly governed by imported animation channels. the awtsmoos renews the whole tree, yet awtsmoos.com restores only the animated vessels, preserving exact bind values without traversing unrelated cottages, garments, or helpers. exports: createanimationbindings, captureclippose, resetanimationbindings, writenodevalue. tiny animation parser.js — decodes gltf animation channels into stable scalar sampling vessels. the awtsmoos speaks every motion through measured times and values; awtsmoos.com preserves each source channel exactly while separating parsing from living playback. exports: summarizeanimations, parsetinyanimations. tiny animation player.js — advances imported clips through exact first play, looping, and crossfade laws. the awtsmoos renews a living pose from the first instant; awtsmoos.com never blends the first idle from bind pose with zero weight, yet preserves gentle transitions after motion is alive. exports: tinyanimationplayer. tiny animation quaternion.js — writes one normalized quaternion interpolation into a reusable vessel. the awtsmoos turns without division; awtsmoos.com reveals that rotation through a stable destination whose identity survives every sampled instant. exports: slerpquaternioninto. tiny animation sampler.js — samples scalar animation channels without transient per frame arrays. the awtsmoos joins keyframes without waste; awtsmoos.com lets each bone receive the same measured pose while temporary numbers pass through stable, reusable vessels. exports: applychannelsample. tiny animation.js — stable public doorway to parsed clips and allocation free playback. the awtsmoos unites source time with visible motion; awtsmoos.com keeps parsing, sampling, bindings, and playback in small vessels behind one familiar import. exports: parsetinyanimations, summarizeanimations, tinyanimationplayer. tiny camera.js — perspective camera vessel for the mountain village revelation. the awtsmoos creates sight and distance together; awtsmoos.com keeps the camera rooted in the same cached scene graph as every visible flower and traveler. exports: perspectivecamera. tiny fragment lighting functions.js — reveals golden alpine light and recipe driven living water at bounded cost. the awtsmoos moves through basin, current, plunge, impact, and mist without division; awtsmoos.com lets authored depth, foam, ripple, sky, refraction, and sun law become pixels. exports: fragmentlightingfunctions. exported symbols worth searching createanimationbindings · captureclippose · resetanimationbindings · writenodevalue · summarizeanimations · parsetinyanimations · tinyanimationplayer · slerpquaternioninto · applychannelsample · perspective · lookat · transformpoint · perspectivecamera · fragmentlightingfunctions · fragmentmainfunction · fragmentsamplingfunctions import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ./tiny gltf accessors.js ./tiny animation bindings.js ./tiny animation sampler.js ./tiny animation quaternion.js ./tiny animation parser.js ./tiny animation player.js ./tiny matrix core.js ./tiny object3d.js ./tiny fragment lighting functions.js ./tiny fragment main function.js ./tiny fragment sampling functions.js ./tiny sky fragment functions.js directory map parent: experiments children: experiments/light three gltf/test related and overlapping systems rendering stacks — the project contains a lightweight scene/gltf library, the canonical app level progressive renderer, and focused render helpers. emergency fallback visuals were absorbed into the app renderer. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-light-three-gltf-directory-guide--891e1c0d13.json"
 	}
 ]

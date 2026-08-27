@@ -1,316 +1,319 @@
 [
 	{
-		"id": "geelooy-api-sefarim-documentation-md-3579995508",
-		"title": "Sefarim API Documentation",
-		"sourcePath": "geelooy/api/sefarim/DOCUMENTATION.md",
-		"category": "API",
-		"provenance": "breadcrumb",
+		"id": "docs-glossary-md-a84b61a5eb",
+		"title": "Repository Glossary",
+		"sourcePath": "docs/GLOSSARY.md",
+		"category": "General",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Sefarim API Documentation",
-				"anchor": "sefarim-api-documentation"
+				"text": "Repository Glossary",
+				"anchor": "repository-glossary"
+			},
+			{
+				"level": 2,
+				"text": "Awtsmoos",
+				"anchor": "awtsmoos"
+			},
+			{
+				"level": 2,
+				"text": "Geelooy",
+				"anchor": "geelooy"
+			},
+			{
+				"level": 2,
+				"text": "Derech",
+				"anchor": "derech"
+			},
+			{
+				"level": 2,
+				"text": "$i",
+				"anchor": "i"
+			},
+			{
+				"level": 2,
+				"text": "$GET, $POST, $DELETE",
+				"anchor": "get-post-delete"
+			},
+			{
+				"level": 2,
+				"text": "Dynamic parameter",
+				"anchor": "dynamic-parameter"
+			},
+			{
+				"level": 2,
+				"text": "Heichel / Heichelos",
+				"anchor": "heichel-heichelos"
+			},
+			{
+				"level": 2,
+				"text": "Alias",
+				"anchor": "alias"
+			},
+			{
+				"level": 2,
+				"text": "DosDB",
+				"anchor": "dosdb"
+			},
+			{
+				"level": 2,
+				"text": "Perutah / Perutas",
+				"anchor": "perutah-perutas"
+			},
+			{
+				"level": 2,
+				"text": "Tunnel",
+				"anchor": "tunnel"
+			},
+			{
+				"level": 2,
+				"text": "Mission room",
+				"anchor": "mission-room"
+			},
+			{
+				"level": 2,
+				"text": "Generated docs",
+				"anchor": "generated-docs"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Sefarim API Documentation The Awtsmoos lets text descend through sefer, section, and subsection paths while each parameter remains visible; Awtsmoos.com maps these dynamic routes to readers without turning colon variables into invented dollar syntax. Read ../../../docs/API/OTHER FAMILIES",
-		"searchText": "b\"h boruch hashem blessed is he sefarim api documentation the awtsmoos lets text descend through sefer, section, and subsection paths while each parameter remains visible; awtsmoos.com maps these dynamic routes to readers without turning colon variables into invented dollar syntax. read ../../../docs/api/other families.md and ../../../docs/routes/dynamic paths.md.",
-		"page": "pages/geelooy-api-sefarim-documentation-md-3579995508.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Repository Glossary The Awtsmoos gives language to vessels so maintainers can share one map; Awtsmoos.com has its own names, and this glossary prevents a semantic trap. Awtsmoos The project name and recurring conceptual vocabulary throughout source comments, APIs, apps, and runtime syste",
+		"searchText": "b\"h boruch hashem blessed is he repository glossary the awtsmoos gives language to vessels so maintainers can share one map; awtsmoos.com has its own names, and this glossary prevents a semantic trap. awtsmoos the project name and recurring conceptual vocabulary throughout source comments, apis, apps, and runtime systems. this documentation uses the spelling present in the repository and user instructions. geelooy the default public filesystem root is geelooy/ because awtsmoosstaticserver.maindir defaults to config.public \"geelooy\". it contains pages, applications, games, shared browser code, and the filesystem located api tree. derech a dynamic route module convention represented by awtsmoos.derech.js. the dynamic server searches upward through the physical request path for such files, then evaluates their route definitions. the current api tree contains 21 derech mount files. $i a common server side request/context vessel passed to derech code. it can expose db access, request/user state, helper methods, url information, body/query vessels, route parameters, and response utilities depending on the runtime. it is not a url dollar path segment. $ get, $ post, $ delete php like names used by route code for parsed input vessels. they are data objects, not path grammar. dynamic parameter a url route segment declared as :name. example: /:sefer/section/:section. a terminal :name is a catch all. see routes/dynamic paths.md. heichel / heichelos a core social/content domain represented across browser surfaces and social api modules. the source includes heichel creation/editing, posts, series, editors, review/governance, comments, and discovery. treat it as a first class content container/domain, not merely a page name. alias a user/social identity concept heavily used by social routes. many write operations are authorized in terms of whether the current identity owns or may act for an alias. dosdb the persistence engine instantiated by the dynamic server. the database root is configurable by environment/local config/tracked config and exposed as process.awtsmoosdbpath. perutah / perutas value/economy vocabulary used in wallet and tunnel control commerce/treasury systems. read the route implementation before assuming units, accounting guarantees, or production payment semantics. tunnel the remote device/agent bridge spanning apps, apis, shared client code, installer artifacts, live calls, previews, mission rooms, filesystem actions, and provider/compute/economy systems. mission room a collaboration/agent orchestration concept with both http control routes and websocket server behavior. generated docs markdown under docs/generated/, fully regenerated by node scripts/docs/generate docs.js. never hand maintain them as authoritative narrative; change the generator or source instead.",
+		"page": "pages/docs-glossary-md-a84b61a5eb.json"
 	},
 	{
-		"id": "geelooy-api-social-documentation-md-02501ae227",
-		"title": "Social API Documentation",
-		"sourcePath": "geelooy/api/social/DOCUMENTATION.md",
-		"category": "API",
-		"provenance": "breadcrumb",
+		"id": "docs-health-md-5b9eeee252",
+		"title": "Source and API Health Evidence",
+		"sourcePath": "docs/HEALTH.md",
+		"category": "General",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Social API Documentation",
-				"anchor": "social-api-documentation"
+				"text": "Source and API Health Evidence",
+				"anchor": "source-and-api-health-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Derech syntax matrix",
+				"anchor": "derech-syntax-matrix"
+			},
+			{
+				"level": 2,
+				"text": "What OK proves",
+				"anchor": "what-ok-proves"
+			},
+			{
+				"level": 2,
+				"text": "What route discovery proves",
+				"anchor": "what-route-discovery-proves"
+			},
+			{
+				"level": 2,
+				"text": "Stronger evidence ladder",
+				"anchor": "stronger-evidence-ladder"
+			},
+			{
+				"level": 2,
+				"text": "Why the Text failure stays visible",
+				"anchor": "why-the-text-failure-stays-visible"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Social API Documentation The Awtsmoos gives aliases, posts, comments, Heichelos, follows, signals, drive, graph, and search one vast backend domain; Awtsmoos.com maps its routes, auth, callers, methods, and storage so a maintainer does not enter this forest without a plan. Read ../../../",
-		"searchText": "b\"h boruch hashem blessed is he social api documentation the awtsmoos gives aliases, posts, comments, heichelos, follows, signals, drive, graph, and search one vast backend domain; awtsmoos.com maps its routes, auth, callers, methods, and storage so a maintainer does not enter this forest without a plan. read ../../../docs/api/social.md, ../../../docs/systems/social and heichel.md, and ../../../docs/api/methods.md. callers: ../../../docs/generated/api caller index.md.",
-		"page": "pages/geelooy-api-social-documentation-md-02501ae227.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Source and API Health Evidence The Awtsmoos distinguishes existence from health, for a path in source may still fail before it can speak; Awtsmoos.com records syntax evidence separately so a generated route row is never mistaken for a runtime guarantee we did not seek. Derech syntax matr",
+		"searchText": "b\"h boruch hashem blessed is he source and api health evidence the awtsmoos distinguishes existence from health, for a path in source may still fail before it can speak; awtsmoos.com records syntax evidence separately so a generated route row is never mistaken for a runtime guarantee we did not seek. derech syntax matrix generated/derech health.md runs node check against every awtsmoos.derech.js mount in geelooy/api. at the continuation discovery point, 20 of 21 derech files parsed successfully. the one known failure remained geelooy/api/text/ awtsmoos.derech.js, with a javascript syntax error. what ok proves ok proves only that node can parse the derech file. it does not prove: imported modules exist in every deployment; credentials/configuration are present; every route handler succeeds; authentication permits the current caller; external providers are reachable; database state is valid; all http methods are accepted; websocket protocol versions match. what route discovery proves the route atlas proves source visible route registrations discovered by the generator's supported patterns and known route tables. it is stronger than a guessed list but weaker than a successful endpoint probe. stronger evidence ladder 1. source exists. 2. source parses. 3. route registration is discoverable. 4. dependencies/config load. 5. authentication/authorization works for a test identity. 6. handler executes in a controlled test. 7. expected side effects and response are verified. 8. relevant integration/browser/provider/realtime behavior is verified. why the text failure stays visible the documentation task does not silently repair unrelated application source. keeping the failure in generated health output prevents a future reader from interpreting textually extracted route evidence as a verified live endpoint.",
+		"page": "pages/docs-health-md-5b9eeee252.json"
 	},
 	{
-		"id": "geelooy-api-social-helper-profilehub-readme-md-36fde6a0ab",
-		"title": "B\"H",
-		"sourcePath": "geelooy/api/social/helper/profileHub/README.md",
-		"category": "API",
-		"provenance": "project",
+		"id": "docs-how-to-choose-a-project-md-d7737467cb",
+		"title": "How to Choose a Project Boundary",
+		"sourcePath": "docs/HOW_TO_CHOOSE_A_PROJECT.md",
+		"category": "Projects",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Boruch Hashem",
-				"anchor": "boruch-hashem"
-			},
-			{
-				"level": 1,
-				"text": "Blessed is He",
-				"anchor": "blessed-is-he"
-			},
-			{
-				"level": 1,
-				"text": "Unified Profile Hub",
-				"anchor": "unified-profile-hub"
+				"text": "How to Choose a Project Boundary",
+				"anchor": "how-to-choose-a-project-boundary"
 			},
 			{
 				"level": 2,
-				"text": "Response model",
-				"anchor": "response-model"
+				"text": "First question: what kind of surface is this?",
+				"anchor": "first-question-what-kind-of-surface-is-this"
 			},
 			{
 				"level": 2,
-				"text": "Privacy boundary",
-				"anchor": "privacy-boundary"
+				"text": "Use Project Explorer",
+				"anchor": "use-project-explorer"
 			},
 			{
 				"level": 2,
-				"text": "Canonical comments",
-				"anchor": "canonical-comments"
+				"text": "What each project packet can answer",
+				"anchor": "what-each-project-packet-can-answer"
 			},
 			{
 				"level": 2,
-				"text": "References",
-				"anchor": "references"
-			},
-			{
-				"level": 2,
-				"text": "Compatibility",
-				"anchor": "compatibility"
-			},
-			{
-				"level": 2,
-				"text": "Route",
-				"anchor": "route"
-			},
-			{
-				"level": 2,
-				"text": "Tests",
-				"anchor": "tests"
+				"text": "What it cannot prove",
+				"anchor": "what-it-cannot-prove"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Unified Profile Hub The Profile Hub combines existing public alias information with canonical social evidence without creating a second profile, comment, reference, or activity database. Response model A profile response may include: public alias fields; public profile fields; active pro",
-		"searchText": "b\"h boruch hashem blessed is he unified profile hub the profile hub combines existing public alias information with canonical social evidence without creating a second profile, comment, reference, or activity database. response model a profile response may include: public alias fields; public profile fields; active profile template; authored posts; canonical rich comments and replies; heichel relationships and roles; inbound and outbound graph references; visibility approved activity; owner view state. privacy boundary the older return history stream remains private and is omitted from non owner responses. activity is filtered at read time: private events remain owner only; selected alias events require a verified viewer alias included in the event scope; heichel scoped events require a verified alias with a real relationship to that heichel; public events may be read anonymously. a public viewer alias string is never treated as authorization. canonical comments the alias comment index stores compact pointers only. comment bodies remain in the native rich comment tree. the profile route hydrates each pointer through the canonical comment store and exposes: whole post targets; verse targets; subsection targets; parent comment ids; parent comment section ids; voice transcripts; image, audio, and video manifests; canonical reference descriptors; comment sections. references references are read from the native social graph around authored posts and rich comments. the response may include inbound and outbound: references; reposts; quotes; answers; cross links. the edge retains exact source and target identities rather than copying content into the profile. compatibility profile comment routes prefer the packed alias comment sidecar and transparently read the legacy $i.db heichel and series maps when packed evidence is absent. the legacy bulk rebuild route walks old comment trees and writes compact packed pointers while preserving its historical success response. route an optional verified aliasid query parameter enables owner, selected alias, and heichel member visibility decisions. tests the profile tests prove: route discovery; private return history redaction; activity privacy metadata; canonical rich comment behavior; reference graph metadata. existing comment indexing route tests also remain required. the awtsmoos knows the complete person, every word, every reference, and every path at once. awtsmoos.com reveals only the canonical and deliberately shared garments of that unity.",
-		"page": "pages/geelooy-api-social-helper-profilehub-readme-md-36fde6a0ab.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He How to Choose a Project Boundary Choose a boundary by the behavior you need to understand, not by which directory happens to be largest. First question: what kind of surface is this? End user browser experience → look for app / public boundaries and public entry evidence. Dynamic HTTP be",
+		"searchText": "b\"h boruch hashem blessed is he how to choose a project boundary choose a boundary by the behavior you need to understand, not by which directory happens to be largest. first question: what kind of surface is this? end user browser experience → look for app / public boundaries and public entry evidence. dynamic http behavior → start with an api project, then switch to route tutorials for url semantics. game/world → use game projects plus realtime evidence where applicable. server/database/runtime → use runtime, runtime root, infrastructure, data, or operations projects. shared implementation → use library or tooling boundaries and inspect incoming consumers. compatibility/navigation root → inspect alias or generic project evidence carefully. planning/discovery material → evidence is not automatically a product. use project explorer /docs/?view=projects exposes the generated boundary model directly. filter by exact type, whether a public entry exists, whether test files exist, documentation coverage, or a path/dependency/entry search term. what each project packet can answer where is it? exact project path. how does source enter? source entry files and symbol samples. how can a user enter? discovered public html entries when present. what does it reference? lexical outgoing project edges and external package evidence. what references it? lexical incoming project edges. how might i verify it? nearby test file evidence and human docs. what it cannot prove runtime call frequency or reachability; application health; complete dynamic imports/registrations; behavioral test coverage quality; authentication/authorization policy; production deployment status. for those questions, continue into current source, dedicated api/realtime/data/security docs, tests, and runtime checks.",
+		"page": "pages/docs-how-to-choose-a-project-md-d7737467cb.json"
 	},
 	{
-		"id": "geelooy-api-social-helper-unifiedactivity-readme-md-aaa893312d",
-		"title": "B\"H",
-		"sourcePath": "geelooy/api/social/helper/unifiedActivity/README.md",
-		"category": "API",
-		"provenance": "project",
+		"id": "docs-integrations-md-c37aff7eb3",
+		"title": "External Integrations",
+		"sourcePath": "docs/INTEGRATIONS.md",
+		"category": "General",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Boruch Hashem",
-				"anchor": "boruch-hashem"
-			},
-			{
-				"level": 1,
-				"text": "Blessed is He",
-				"anchor": "blessed-is-he"
-			},
-			{
-				"level": 1,
-				"text": "Unified Activity Ledger",
-				"anchor": "unified-activity-ledger"
+				"text": "External Integrations",
+				"anchor": "external-integrations"
 			},
 			{
 				"level": 2,
-				"text": "Privacy law",
-				"anchor": "privacy-law"
+				"text": "Awtsmoos OAuth",
+				"anchor": "awtsmoos-oauth"
 			},
 			{
 				"level": 2,
-				"text": "Controls",
-				"anchor": "controls"
+				"text": "YouTube / Google",
+				"anchor": "youtube-google"
 			},
 			{
 				"level": 2,
-				"text": "Storage",
-				"anchor": "storage"
+				"text": "PayPal / Wallet",
+				"anchor": "paypal-wallet"
 			},
 			{
 				"level": 2,
-				"text": "Adoption",
-				"anchor": "adoption"
+				"text": "SMTP / email",
+				"anchor": "smtp-email"
 			},
 			{
 				"level": 2,
-				"text": "Tests",
-				"anchor": "tests"
+				"text": "SSH",
+				"anchor": "ssh"
+			},
+			{
+				"level": 2,
+				"text": "AI/model providers",
+				"anchor": "ai-model-providers"
+			},
+			{
+				"level": 2,
+				"text": "Streaming connectors",
+				"anchor": "streaming-connectors"
+			},
+			{
+				"level": 2,
+				"text": "Fetch proxy",
+				"anchor": "fetch-proxy"
+			},
+			{
+				"level": 2,
+				"text": "Configuration and secrets",
+				"anchor": "configuration-and-secrets"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Unified Activity Ledger This domain provides user controlled page and social activity memory for verified public aliases. Privacy law Private by default. A public alias identifier is not authentication. Owner reads and mutations require native ownership verification. Selected alias and H",
-		"searchText": "b\"h boruch hashem blessed is he unified activity ledger this domain provides user controlled page and social activity memory for verified public aliases. privacy law private by default. a public alias identifier is not authentication. owner reads and mutations require native ownership verification. selected alias and heichel member views verify the viewer alias before disclosure. anonymous viewers receive only explicitly public events. cross origin paths are rejected. sensitive query keys are removed before storage. query, title, and duration capture preferences alter the stored event itself. controls pause or resume. capture categories independently. retention from one to 365 days. private, selected alias, heichel member, or public event scope. per event visibility updates. individual forgetting. complete clearing. json export. rapid same path navigation deduplication. storage event bodies and the bounded chronological index live under the alias owned social activity path. deletion removes the event from active indexes and leaves only a redacted tombstone. adoption the social hub has a full tracker with route and dwell time awareness. the social composer and heichel review center explicitly adopt the shared activitybeacon. the beacon is not secretly injected into every unrelated legacy page. additional applications can adopt it after presenting the same legal and privacy controls. tests the test folder proves sanitization, storage, deduplication, pause behavior, capture preferences, visibility acls, deletion, and clearing with an in memory database. the awtsmoos remembers every instant without a ledger. awtsmoos.com therefore treats its finite activity memory as a reversible user owned vessel rather than an invisible surveillance source.",
-		"page": "pages/geelooy-api-social-helper-unifiedactivity-readme-md-aaa893312d.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He External Integrations The Awtsmoos lets Awtsmoos.com meet external providers through explicit vessels while secret values and foreign failure remain outside the documentation itself. Awtsmoos OAuth Source: geelooy/api/oauth/. Human docs: docs/API/OAUTH.md. OAuth bearer evidence can becom",
+		"searchText": "b\"h boruch hashem blessed is he external integrations the awtsmoos lets awtsmoos.com meet external providers through explicit vessels while secret values and foreign failure remain outside the documentation itself. awtsmoos oauth source: geelooy/api/oauth/. human docs: docs/api/oauth.md. oauth bearer evidence can become a trusted identity source for tunnel control after server verification. client registration, redirect validation, scopes, tokens and current identity behavior remain source controlled contracts. youtube / google source: geelooy/api/youtube/ plus youtube/streaming clients. human docs: docs/api/youtube.md. configuration includes client, redirect, refresh token, encryption/session and secret root concepts; the generated environment inventory lists names without values. paypal / wallet source: geelooy/api/wallet/. human docs: docs/api/wallet.md. purchase, capture, entitlement and provider behavior must be read from current handlers/tests; mock purchase routes are not production settlement guarantees. smtp / email root server startup, geelooy/api/email/, contact, social mail and browser email interfaces are related but distinct. awtsmoos disable mail affects mail startup in inspected root behavior. ssh source: geelooy/api/ssh/ plus server side ssh infrastructure. remote command/filesystem operations are security sensitive; credentials and remote mutations must never be documented as reusable live examples. ai/model providers gpt api, browser ai, local gguf tooling, search/vector systems and developer ai integrations can use different providers/models/configuration. do not collapse them into one credential or schema. streaming connectors geelooy/api/streaming/ dispatches connector/action behavior. observed connector families include awtsmoos, facebook, twitch and youtube. each connector owns provider specific payload and credential semantics. fetch proxy /api/fetch is a server side outbound fetch surface with auth/origin/limit/binary behavior; it should not be described as an unrestricted generic proxy. configuration and secrets use docs/configuration.md, docs/security/secrets and config.md and docs/generated/environment variables.md. the generated layer intentionally records names and source ownership, never secret values.",
+		"page": "pages/docs-integrations-md-c37aff7eb3.json"
 	},
 	{
-		"id": "geelooy-api-social-helper-unifiedinteraction-readme-md-5bcdd3e991",
-		"title": "B\"H",
-		"sourcePath": "geelooy/api/social/helper/unifiedInteraction/README.md",
-		"category": "API",
-		"provenance": "project",
+		"id": "docs-interactive-documentation-md-5e3a4b2975",
+		"title": "Interactive Documentation Application",
+		"sourcePath": "docs/INTERACTIVE_DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Boruch Hashem",
-				"anchor": "boruch-hashem"
-			},
-			{
-				"level": 1,
-				"text": "Blessed is He",
-				"anchor": "blessed-is-he"
-			},
-			{
-				"level": 1,
-				"text": "Unified Interaction Domain",
-				"anchor": "unified-interaction-domain"
+				"text": "Interactive Documentation Application",
+				"anchor": "interactive-documentation-application"
 			},
 			{
 				"level": 2,
-				"text": "Exact targets",
-				"anchor": "exact-targets"
+				"text": "Primary modes",
+				"anchor": "primary-modes"
+			},
+			{
+				"level": 3,
+				"text": "Learn — /docs/?view=learn",
+				"anchor": "learn-docs-view-learn"
+			},
+			{
+				"level": 3,
+				"text": "API Explorer — /docs/?view=api",
+				"anchor": "api-explorer-docs-view-api"
+			},
+			{
+				"level": 3,
+				"text": "Project Explorer — /docs/?view=projects",
+				"anchor": "project-explorer-docs-view-projects"
+			},
+			{
+				"level": 3,
+				"text": "Systems Explorer — /docs/?view=systems",
+				"anchor": "systems-explorer-docs-view-systems"
+			},
+			{
+				"level": 3,
+				"text": "Documents",
+				"anchor": "documents"
 			},
 			{
 				"level": 2,
-				"text": "Media",
-				"anchor": "media"
+				"text": "Publication v6",
+				"anchor": "publication-v6"
 			},
 			{
 				"level": 2,
-				"text": "References",
-				"anchor": "references"
-			},
-			{
-				"level": 2,
-				"text": "Comment becomes post",
-				"anchor": "comment-becomes-post"
-			},
-			{
-				"level": 2,
-				"text": "Routes",
-				"anchor": "routes"
-			},
-			{
-				"level": 2,
-				"text": "Native delegation",
-				"anchor": "native-delegation"
+				"text": "Safety",
+				"anchor": "safety"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Unified Interaction Domain This domain orchestrates exact target comments, replies, media reports, canonical references, and comment to post transformations through existing native social helpers. Exact targets A comment may attach to: an entire post, question, or answer; a verse; a subs",
-		"searchText": "b\"h boruch hashem blessed is he unified interaction domain this domain orchestrates exact target comments, replies, media reports, canonical references, and comment to post transformations through existing native social helpers. exact targets a comment may attach to: an entire post, question, or answer; a verse; a subsection; another comment; a section inside another comment. the target carries heichel, series, entity type and id, verse, subsection, parent comment, and parent comment section coordinates. media comments may use native alias owned: images; voice notes; video reports. media manifests are verified before the rich comment is created. pending browser blobs never enter a published comment payload. references posts, questions, and answers may appear inside a comment as canonical references. the source body is not copied. the rich comment stores a bounded reference descriptor and the native social graph receives a provenance edge. comment becomes post an alias may promote only its own canonical comment. the transformation preserves: text; transcript; media manifests; comment sections; original target coordinates; source author; source comment id; an idempotency key; a graph edge from the new post back to the comment. the source comment remains unchanged. routes native delegation the orchestration reuses native: rich comment creation; comment ownership and moderation; alias owned asset manifests; posts and publication planning; social graph references. no second comment or media database is introduced. the awtsmoos gives every response its source and every source its wider possibility. awtsmoos.com preserves that unity as exact coordinates, canonical identities, and visible transformation receipts.",
-		"page": "pages/geelooy-api-social-helper-unifiedinteraction-readme-md-5bcdd3e991.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Interactive Documentation Application /docs/ converts intentional documentation and bounded generated evidence into a safe browser experience without making the publication itself authoritative over source. Primary modes Learn — /docs/?view=learn Five source backed tracks with local only",
+		"searchText": "b\"h boruch hashem blessed is he interactive documentation application /docs/ converts intentional documentation and bounded generated evidence into a safe browser experience without making the publication itself authoritative over source. primary modes learn — /docs/?view=learn five source backed tracks with local only completion state. api explorer — /docs/?view=api routes, method/source/caller/test evidence, family/health/shape/confidence filters, deep links and ask. project explorer — /docs/?view=projects project boundaries, entries, file shape, symbols, dependencies, tests, docs, public surfaces and ask. systems explorer — /docs/?view=systems curated data/security/realtime concepts with district/evidence/text filters, claims boundary, change risk, human/generated docs, project links, copyable source anchors, environment names only , registered realtime applications, lexical events, deep links and system aware ask. documents global search, safe markdown reading, provenance, favorites/recents, deep links and retrieval first ask. publication v6 geelooy/docs/generated/manifest.json declares transport bounded search, project, system, api tutorial, page, and content shards. the browser guesses no shard names. safety raw markdown html is not executed. authored modules do not assign innerhtml. system packets never publish environment values. event literals remain lexical clues. project/api/system evidence does not replace source verification.",
+		"page": "pages/docs-interactive-documentation-md-5e3a4b2975.json"
 	},
 	{
-		"id": "geelooy-api-social-helper-unifiedsocial-readme-md-8a45e56a01",
-		"title": "B\"H",
-		"sourcePath": "geelooy/api/social/helper/unifiedSocial/README.md",
-		"category": "API",
-		"provenance": "project",
+		"id": "docs-learn-add-an-api-route-md-7ac7b52b6e",
+		"title": "Add an API Route",
+		"sourcePath": "docs/LEARN/ADD_AN_API_ROUTE.md",
+		"category": "Routes",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Boruch Hashem",
-				"anchor": "boruch-hashem"
-			},
-			{
-				"level": 1,
-				"text": "Blessed is He",
-				"anchor": "blessed-is-he"
-			},
-			{
-				"level": 1,
-				"text": "Unified Social Backend",
-				"anchor": "unified-social-backend"
+				"text": "Add an API Route",
+				"anchor": "add-an-api-route"
 			},
 			{
 				"level": 2,
-				"text": "Identity",
-				"anchor": "identity"
+				"text": "Before coding",
+				"anchor": "before-coding"
 			},
 			{
 				"level": 2,
-				"text": "Acting-alias authorization",
-				"anchor": "acting-alias-authorization"
+				"text": "Decide ownership",
+				"anchor": "decide-ownership"
 			},
 			{
 				"level": 2,
-				"text": "Permissions",
-				"anchor": "permissions"
+				"text": "Implementation checklist",
+				"anchor": "implementation-checklist"
 			},
 			{
 				"level": 2,
-				"text": "Destinations",
-				"anchor": "destinations"
-			},
-			{
-				"level": 2,
-				"text": "Publishing",
-				"anchor": "publishing"
-			},
-			{
-				"level": 2,
-				"text": "Review",
-				"anchor": "review"
-			},
-			{
-				"level": 2,
-				"text": "Governance",
-				"anchor": "governance"
-			},
-			{
-				"level": 2,
-				"text": "Compatibility",
-				"anchor": "compatibility"
-			},
-			{
-				"level": 2,
-				"text": "Testing",
-				"anchor": "testing"
+				"text": "Documentation gate",
+				"anchor": "documentation-gate"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Unified Social Backend This domain coordinates native Geelooy identity, Heichel, series, content, graph, notification, draft, asset, and governance helpers. It does not introduce a second social database. Identity identity/ returns public alias context, creates aliases through native hel",
-		"searchText": "b\"h boruch hashem blessed is he unified social backend this domain coordinates native geelooy identity, heichel, series, content, graph, notification, draft, asset, and governance helpers. it does not introduce a second social database. identity identity/ returns public alias context, creates aliases through native helpers, and selects the protected default alias. no route returns or stores passwords, cookies, tokens, authorization headers, or private session material. acting alias authorization permissions/actorauthorization.js adapts the native verifyaliasownership helper and fails closed when its signature or result is ambiguous. every acting alias route requires: 1. a live authenticated user; 2. ownership of the claimed alias; 3. compiled capabilities; 4. destination policy; 5. legal workflow or hierarchy state. a public alias id alone never grants authority. permissions the compiler dual reads: heichel owner information; current member records; legacy editors; legacy moderators; legacy contributors; legacy followers. it emits one effective role, every evidence source, named capabilities, and direct, submit, or deny explanations. destinations destinations/ provides searchable heichel evidence, bounded nested series traversal, breadcrumbs, root series semantics, effective access, and inline heichel or series creation through native helpers. publishing publishing/ enforces one canonical origin and deterministic secondary placements. it supports references, reposts, quotes, excerpts, and syndication. idempotency prevents retry duplication. native content helpers create posts, questions, and answers; native graph helpers receive provenance edges. review review/ stores typed submissions, legal transitions, reviewer assignment, history, scheduling, publication, and notifications. approval does not bypass final capability and ownership checks. governance permissions/rolemutationservice.js and invitation services provide: hierarchy safe roles; protected ownership; dual writes to current and legacy role stores; governance audit records; native notifications; seven day invitations; explicit recipient consent; authority revalidation at acceptance; expiration evidence. compatibility old routes and records remain readable. new modules delegate to existing helpers and coexist through dual read or dual write evidence until migration parity is proven. testing the test folder uses an in memory database to prove schemas, access, destinations, planning, idempotency, publication, review, native ownership adaptation, governance hierarchy, invitation consent, and route discovery. existing rich social and route coverage tests are also required. the awtsmoos is one before all stores, routes, roles, and graphs. these modules reveal that unity without erasing the older vessels through which awtsmoos.com already lives.",
-		"page": "pages/geelooy-api-social-helper-unifiedsocial-readme-md-8a45e56a01.json"
-	},
-	{
-		"id": "geelooy-api-ssh-documentation-md-3d9d9b7323",
-		"title": "SSH API Documentation",
-		"sourcePath": "geelooy/api/ssh/DOCUMENTATION.md",
-		"category": "API",
-		"provenance": "breadcrumb",
-		"headings": [
-			{
-				"level": 1,
-				"text": "SSH API Documentation",
-				"anchor": "ssh-api-documentation"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He SSH API Documentation The Awtsmoos lets remote host, command, file, folder, stat, mode, and path enter a security sensitive gate; Awtsmoos.com maps this family so credentials, identity, method, and destructive actions are inspected before use, not after fate. Read ../../../docs/API/OTHER",
-		"searchText": "b\"h boruch hashem blessed is he ssh api documentation the awtsmoos lets remote host, command, file, folder, stat, mode, and path enter a security sensitive gate; awtsmoos.com maps this family so credentials, identity, method, and destructive actions are inspected before use, not after fate. read ../../../docs/api/other families.md, ../../../docs/api/authentication.md, and ../../../docs/api/calling cookbook.md.",
-		"page": "pages/geelooy-api-ssh-documentation-md-3d9d9b7323.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Add an API Route Before coding Read the owning local DOCUMENTATION.md, family tutorial, derech file, neighboring handlers, auth helpers, persistence paths, and tests. Decide ownership Prefer the existing family derech/route table when the behavior belongs to that subsystem. Do not create",
+		"searchText": "b\"h boruch hashem blessed is he add an api route before coding read the owning local documentation.md, family tutorial, derech file, neighboring handlers, auth helpers, persistence paths, and tests. decide ownership prefer the existing family derech/route table when the behavior belongs to that subsystem. do not create a new mount merely to avoid understanding the ancestor routing model. implementation checklist 1. define an explicit route/path shape. 2. choose method behavior in the exact handler. 3. parse only required query/body/path inputs. 4. establish trusted identity before privileged actions. 5. apply resource level authorization separately. 6. return explicit status/header/body semantics. 7. add focused tests and representative caller integration if appropriate. 8. update the human family tutorial when meaning/workflow changes. 9. regenerate docs so the route tutorial appears automatically. documentation gate the generated tutorial must never invent payload fields that the implementation does not prove.",
+		"page": "pages/docs-learn-add-an-api-route-md-7ac7b52b6e.json"
 	}
 ]

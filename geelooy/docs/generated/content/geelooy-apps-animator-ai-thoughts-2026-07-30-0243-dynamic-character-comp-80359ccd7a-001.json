@@ -1,5 +1,0 @@
-{
-	"BH": "B\"H / Boruch Hashem / Blessed is He",
-	"schema": "awtsmoos-doc-content-v1",
-	"content": "B\"H\n\n# PLANNED VS ACTUAL DELTA\n\n## Planned\n\nWire face, gaze, blink, speech, body acting, gesture phases, hands, garments, secondary motion, views, customization, serialization, preview, scale proofs, and export. Preserve complete-file rewrites, tabs, B\"H headers, poetic JSDoc, and JavaScript files below 120 lines.\n\n## Actual\n\nAll planned channels were connected through the production composition and rendering paths. Legacy gesture doubling was removed. Blink became single-sourced. Secondary motion became deterministic. Persisted characters now exclude runtime caches and resurrect during startup. Garments consume hem, sleeve, and sway channels. Four production browser courts were captured. The complete repository verification command exits zero.\n\n## Resolved Delta\n\nThe full verification chain exposed a delighted-expression contract below the required threshold. The canonical positive pose was restored to a 0.86 smile without changing neutral identity. The complete chain then passed.\n\n## Open Delta\n\nNone.\n"
-}

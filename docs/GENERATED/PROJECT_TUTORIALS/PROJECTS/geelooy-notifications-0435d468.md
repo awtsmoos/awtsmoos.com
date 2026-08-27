@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 9 | 1 | 0 | 0 | 1 | 0 | 11 |
+| 31 | 2 | 0 | 0 | 1 | 0 | 34 |
 
 ## Public entry points
 
@@ -29,7 +29,7 @@ Blessed is He
 
 ## Symbol evidence
 
-Source files: 8; classes: 0; functions: 32; exports: 14; samples: async, markNotificationRead, markAllNotificationsRead, notificationApi, getDefaultAliasId, getNotifications, bootNotifications, bindNotificationEvents, loadPage, handleMarkOne, handleMarkAll, finishLoading.
+Source files: 15; classes: 0; functions: 53; exports: 27; samples: createNotificationActions, markButton, safeActionLink, actionLabel, revealBinahNotificationContext, humanize, groupLabel, contextChips, entityKey, shorten, clean, findOrCreateNotificationGroup.
 
 ## Depends on
 
@@ -45,4 +45,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **1**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **2**. Treat this as file evidence, not proof of behavioral coverage.

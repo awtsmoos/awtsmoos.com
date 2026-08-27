@@ -1,0 +1,112 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos reveals and conceals without moving the world beneath; Awtsmoos.com gives Create, Inspect, and Timeline transform-only motion so tools arrive without shrinking the cinematic field.
+ */
+
+.nle-surface-backdrop {
+	position: fixed;
+	z-index: 40;
+	inset: 0;
+	background: rgba(1, 4, 8, .46);
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity 180ms ease;
+}
+
+.nle-surface-backdrop[data-open] {
+	opacity: 1;
+	pointer-events: auto;
+}
+
+.nle-studio-surface {
+	position: fixed;
+	z-index: 50;
+	border: 1px solid rgba(130, 175, 190, .18);
+	background: color-mix(in srgb, var(--nle-surface-1) 94%, transparent);
+	box-shadow: 0 1.4rem 4rem rgba(0, 0, 0, .48), inset 0 1px rgba(255, 255, 255, .025);
+	backdrop-filter: blur(24px) saturate(1.14);
+	opacity: 0;
+	pointer-events: none;
+	transition: transform 190ms cubic-bezier(.2, .75, .2, 1), opacity 160ms ease;
+}
+
+.nle-studio-surface[data-open] {
+	opacity: 1;
+	pointer-events: auto;
+	transform: none;
+}
+
+.nle-create-drawer,
+.nle-inspect-drawer {
+	inset-block: 4.45rem 2.4rem;
+	display: grid;
+	grid-template-rows: auto minmax(0, 1fr);
+	inline-size: min(29rem, calc(100vw - 1.2rem));
+	border-radius: 0 1rem 1rem 0;
+}
+
+.nle-create-drawer {
+	inset-inline-start: 0;
+	transform: translateX(-104%);
+}
+
+.nle-inspect-drawer {
+	inset-inline-end: 0;
+	transform: translateX(104%);
+	border-radius: 1rem 0 0 1rem;
+}
+
+.nle-studio-surface > header,
+.nle-sheet-heading {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: .8rem;
+	padding: .78rem .9rem;
+	border-block-end: 1px solid var(--nle-border-soft);
+}
+
+.nle-studio-surface > header > div,
+.nle-sheet-heading > div {
+	display: grid;
+	gap: .08rem;
+}
+
+.nle-studio-surface > header small,
+.nle-sheet-heading small {
+	color: var(--nle-cyan);
+	font-size: .56rem;
+	font-weight: 850;
+	letter-spacing: .1em;
+	text-transform: uppercase;
+}
+
+.nle-studio-surface > header strong,
+.nle-sheet-heading strong {
+	font-size: .82rem;
+}
+
+[data-nle-close-surface] {
+	inline-size: 2rem;
+	block-size: 2rem;
+	border: 1px solid var(--nle-border-soft);
+	border-radius: 50%;
+	background: rgba(255, 255, 255, .025);
+	color: var(--nle-text-muted);
+	font: inherit;
+	font-size: 1.1rem;
+	cursor: pointer;
+}
+
+.nle-timeline-panel {
+	inset-inline: .65rem;
+	inset-block-end: 2.15rem;
+	display: grid;
+	grid-template-rows: auto auto minmax(0, 1fr);
+	block-size: min(52vh, 34rem);
+	border-radius: 1rem 1rem 0 0;
+	transform: translateY(105%);
+	overflow: hidden;
+}

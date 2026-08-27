@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 26 | 2 | 0 | 0 | 2 | 0 | 30 |
+| 34 | 4 | 0 | 0 | 2 | 0 | 40 |
 
 ## Public entry points
 
@@ -29,7 +29,7 @@ Blessed is He
 
 ## Symbol evidence
 
-Source files: 13; classes: 8; functions: 14; exports: 12; samples: GovernanceApi, renderInvitations, invitationCard, renderMembers, memberCard, GovernanceMutations, GovernancePanel, ReviewApi, ReviewController, async, decideSubmission, ReviewDetail.
+Source files: 19; classes: 10; functions: 37; exports: 18; samples: GovernanceApi, renderInvitations, invitationCard, renderMembers, memberCard, GovernanceMutations, GovernancePanel, reviewActionPolicy, reviewActionNames, ReviewApi, ensureConsequenceSurface, setDecisionFieldVisibility.
 
 ## Depends on
 
@@ -45,4 +45,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **2**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **4**. Treat this as file evidence, not proof of behavioral coverage.

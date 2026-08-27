@@ -1,0 +1,93 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos is equally present in every width; Awtsmoos.com lets the editor contract with grace instead of crushing its treasure. */
+
+@media (max-width: 760px) {
+	.editor-shell,
+	.editor-shell.media-minimized,
+	.editor-shell.media-retracted {
+		grid-template-columns: minmax(0, 1fr);
+		grid-template-rows: minmax(0, 1fr) minmax(190px, 44%);
+	}
+
+	.preview-area {
+		grid-column: 1;
+		grid-row: 1;
+	}
+
+	.timeline-panel {
+		grid-column: 1;
+		grid-row: 2;
+	}
+
+	.media-panel {
+		position: fixed;
+		inset: 0 auto 0 0;
+		width: min(88vw, 320px);
+		max-width: 100%;
+		transform: translateX(-105%);
+		transition: transform 180ms ease;
+		z-index: var(--ohr-layer-drawer);
+	}
+
+	.media-panel.is-open {
+		transform: translateX(0);
+	}
+
+	.media-panel.is-retracted .media-body,
+	.media-panel.is-retracted .panel-title,
+	.media-panel.is-retracted .eyebrow,
+	.media-panel.is-minimized .media-items,
+	.media-panel.is-minimized .caption-file,
+	.media-panel.is-minimized .file-picker small {
+		display: revert;
+	}
+
+	.media-panel.is-retracted .panel-header {
+		justify-content: space-between;
+		padding-inline: 12px;
+	}
+
+	.media-panel.is-retracted #minimizeBin {
+		display: inline-grid;
+	}
+
+	.mobile-media-button {
+		display: inline-flex;
+	}
+
+	.media-backdrop:not([hidden]) {
+		display: block;
+		position: fixed;
+		inset: 0;
+		padding: 0;
+		border: 0;
+		background: rgba(0, 0, 0, 0.56);
+		z-index: var(--ohr-layer-backdrop);
+	}
+
+	.transport button {
+		flex: 1 1 88px;
+	}
+}
+
+@media (max-width: 420px) {
+	.timeline-header {
+		min-height: 48px;
+		padding: 6px 8px;
+	}
+
+	.transport {
+		gap: 6px;
+		padding-inline: 8px;
+	}
+
+	.transport button span {
+		display: none;
+	}
+
+	.caption-word {
+		font-size: 1rem;
+	}
+}

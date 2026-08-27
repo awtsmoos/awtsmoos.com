@@ -2,20 +2,15 @@
 //Boruch Hashem
 //Blessed is He
 
+import { buildPostPayload, payloadIssues } from '../model/PostPayload.js';
+import { buildPublicationPlan, publicationIssues } from '../publishing/PublicationPlan.js';
+
 /**
  * @class ComposerWorkflow
  * @description
- * Local memory, native drafts, rich validation, institutional planning, execution,
- * and safe return become one explicit procession. The Awtsmoos joins intention and
- * deed while Awtsmoos.com distinguishes saved, submitted, partial, and published.
+ * Local memory, bounded versions, native drafts, verified planning, execution, and safe return become one procession;
+ * the Awtsmoos joins intention and deed while Awtsmoos.com distinguishes saved, submitted, partial, reviewed, and published seed.
  */
-
-import { buildPostPayload, payloadIssues } from '../model/PostPayload.js';
-import {
-	buildPublicationPlan,
-	publicationIssues
-} from '../publishing/PublicationPlan.js';
-
 export class ComposerWorkflow {
 	constructor(options) {
 		Object.assign(this, options);
@@ -30,10 +25,12 @@ export class ComposerWorkflow {
 	}
 
 	saveLocal(announce = true) {
-		const saved = this.localDrafts.save(this.state.snapshot());
+		const snapshot = this.state.snapshot();
+		const saved = this.localDrafts.save(snapshot);
+		if (saved) this.draftHistory?.save(snapshot);
 		if (announce) {
 			this.status.show(
-				saved ? 'Draft saved in this browser.' : 'Local draft could not be saved.',
+				saved ? 'Draft and local version saved.' : 'Local draft could not be saved.',
 				saved ? 'success' : 'error'
 			);
 		}
@@ -68,9 +65,7 @@ export class ComposerWorkflow {
 	}
 
 	resultMessage(result) {
-		if (result.status === 'submitted') {
-			return 'Submitted to the Heichel review queue.';
-		}
+		if (result.status === 'submitted') return 'Submitted to the Heichel review queue.';
 		if (result.status === 'partial') {
 			return 'Canonical content published; one or more secondary destinations need attention.';
 		}
@@ -91,6 +86,7 @@ export class ComposerWorkflow {
 				buildPublicationPlan(snapshot)
 			);
 			this.localDrafts.clear(snapshot);
+			this.draftHistory?.clear(snapshot);
 			this.status.show(this.resultMessage(result), 'success');
 			this.onPublished?.(result);
 			if (this.returnPath) {

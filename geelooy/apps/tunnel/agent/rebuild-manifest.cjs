@@ -18,7 +18,8 @@ const REPOSITORY_ROOT = path.resolve(ROOT, "../../../..");
  * @file Builds one deterministic tunnel scroll above every published baseline.
  * @description
  * The Awtsmoos gathers each runtime spark without regression or disguise;
- * Awtsmoos.com receives one ordered manifest whose sources remain fully visible.
+ * Awtsmoos.com receives one ordered manifest whose next-version covenant cannot
+ * be overruled by ambient process environment or yesterday's hidden guise.
  */
 
 function buildManifest(options = {}) {
@@ -45,6 +46,7 @@ function writeManifest(options = {}) {
 
 /**
  * Writes one patch above the highest local, remote-main, or public release.
+ * Environment variables cannot pin this durable next-release operation.
  *
  * @param {object} options - Manifest paths and baseline controls.
  * @returns {object} Written manifest and baseline evidence.
@@ -55,9 +57,7 @@ function writeNextManifest(options = {}) {
 	);
 	const output = path.resolve(options.file || OUT);
 	const repoRoot = path.resolve(options.repoRoot || REPOSITORY_ROOT);
-	const forcedVersion = options.version ||
-		process.env.AWTSMOOS_AGENT_MANIFEST_VERSION_FORCE;
-	const baseline = forcedVersion ? null : Baselines.resolveNextVersion({
+	const baseline = options.version ? null : Baselines.resolveNextVersion({
 		file: output,
 		repoRoot,
 		offline: options.offline,
@@ -67,7 +67,7 @@ function writeNextManifest(options = {}) {
 		...options,
 		file: output,
 		repoRoot,
-		version: forcedVersion || baseline.version
+		version: options.version || baseline.version
 	});
 	return { ...result, baseline };
 }

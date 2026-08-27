@@ -1,8 +1,8 @@
 [
 	{
-		"id": "geelooy-games-mitzvahworld-references-directory-guide-md-5e8b7c2889",
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-sky-directory--63388621a6",
 		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/references/DIRECTORY_GUIDE.md",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/sky/DIRECTORY_GUIDE.md",
 		"category": "Games",
 		"provenance": "project",
 		"headings": [
@@ -13,8 +13,8 @@
 			},
 			{
 				"level": 1,
-				"text": "Directory Guide: references",
-				"anchor": "directory-guide-references"
+				"text": "Directory Guide: experiments/Awtsmoos/src/world/sky",
+				"anchor": "directory-guide-experiments-awtsmoos-src-world-sky"
 			},
 			{
 				"level": 2,
@@ -38,6 +38,16 @@
 			},
 			{
 				"level": 2,
+				"text": "Exported symbols worth searching",
+				"anchor": "exported-symbols-worth-searching"
+			},
+			{
+				"level": 2,
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
+			},
+			{
+				"level": 2,
 				"text": "Directory map",
 				"anchor": "directory-map"
 			},
@@ -57,51 +67,14 @@
 				"anchor": "navigation"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: references Role: References Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 1 files, 1 structural child directories Purpose Reference snapshots retained for comparison and reconstruction. The Awtsmoos renews every path and every art",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: references role: references snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 1 files, 1 structural child directories purpose reference snapshots retained for comparison and reconstruction. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: references search terms: guide, references file mix: .md: 1 good first question: “does the behavior or asset i need belong to references, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files no immediate files. this directory is an organizational parent; follow the child guides below. directory map parent: . children: references/canonical procedural village related and overlapping systems procedural world and village generation — village, road, house, primitive, text driven, and public api systems collaborate but are maintained in separate directories. boundaries and cautions reference files are evidence and comparison material; they are not automatically part of the live runtime. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-references-directory-guide-md-5e8b7c2889.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/world/sky Role: World systems Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 4 files, 0 structural child directories Purpose Sky, atmosphere, backdrop, and celestial presentation. The Awtsmoos renews every ",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/world/sky role: world systems snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 4 files, 0 structural child directories purpose sky, atmosphere, backdrop, and celestial presentation. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: world systems search terms: sky, create, mesh, procedural, texture, atmosphere, dome, remain, awtsmoos, boundary, builds, cached file mix: .js: 3 · .md: 1 good first question: “does the behavior or asset i need belong to world systems, or is this only a neighboring/test/reference layer?” semantic evidence b\"h builds one complete inward atmosphere sphere with no visible lower boundary. the awtsmoos surrounds every finite gaze without seam or painted wall; awtsmoos.com centers this shader vessel on the camera so horizon, zenith, clouds, and sun remain infinite. creates one sky mesh whose public url and real cached image remain inseparable. representative files proceduralatmospheretexture.js — exports: proceduralcloudtexture, proceduralhazetexture. skydome.js — builds one complete inward atmosphere sphere with no visible lower boundary. the awtsmoos surrounds every finite gaze without seam or painted wall; awtsmoos.com centers this shader vessel on the camera so horizon, zenith, clouds, and sun remain infinite. exports: createskydome. skymeshfactory.js — creates one sky mesh whose public url and real cached image remain inseparable. exports: createskymesh, createskyquad, createskydisc, createskyray. exported symbols worth searching proceduralcloudtexture · proceduralhazetexture · createskydome · createskymesh · createskyquad · createskydisc · createskyray import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ./skymeshfactory.js ../../../../light three gltf/tiny runtime.js ../../assets/publicmaterialcache.js ../../math/geometry3d.js directory map parent: experiments/awtsmoos/src/world children: none. related and overlapping systems see the system overlap map before creating a similarly named subsystem elsewhere. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-sky-directory--63388621a6.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-remaining-work-md-5cf1d82fed",
-		"title": "Mitzvah World — Closed Work Ledger",
-		"sourcePath": "geelooy/games/mitzvahWorld/REMAINING_WORK.md",
-		"category": "Games",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Mitzvah World — Closed Work Ledger",
-				"anchor": "mitzvah-world-closed-work-ledger"
-			},
-			{
-				"level": 2,
-				"text": "Requested Repair Scope",
-				"anchor": "requested-repair-scope"
-			},
-			{
-				"level": 2,
-				"text": "Verified Production State — 2026-08-02",
-				"anchor": "verified-production-state-2026-08-02"
-			},
-			{
-				"level": 2,
-				"text": "Durable Evidence",
-				"anchor": "durable-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Remaining Task-Scoped Work",
-				"anchor": "remaining-task-scoped-work"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Mitzvah World — Closed Work Ledger The Awtsmoos renews the evidence until every requested vessel answers true; Awtsmoos.com keeps the completed graph visible for whoever continues anew. Requested Repair Scope [x] Restore playable Mitzvah World boot. [x] Make the CompactJS generated runti",
-		"searchText": "b\"h boruch hashem blessed is he mitzvah world — closed work ledger the awtsmoos renews the evidence until every requested vessel answers true; awtsmoos.com keeps the completed graph visible for whoever continues anew. requested repair scope [x] restore playable mitzvah world boot. [x] make the compactjs generated runtime work from the public route. [x] resolve essential readiness without awaiting rich hydration. [x] preserve compact safe dynamic imports. [x] restore canonical chossid and reference world glbs. [x] verify all nineteen drive objects by byte count and sha 256. [x] verify inventory, equipment, combat, quests, recovery, and streaming. [x] verify real browser movement input. [x] deploy through the immutable production release system. [x] preserve unrelated local working tree changes. verified production state — 2026 08 02 public route reached awtsmoosruntimestate=\"playable\". essential feature stage reached ready. public compact bundle: 5,270,667 bytes. compact sha 256: 8b48043f1342856772d8c96b61d410aa2b86c47a77b17fc3736b939b1cd0b5f3. nineteen canonical glbs: 4,752,884 total bytes. chossid model: http 200 and 2,027,368 exact bytes. fatal console errors: none. relevant http errors: none. failed requests: none after the route icon hardening pass is deployed. real keyw movement: 1.89 world units. durable evidence .ai thoughts/2026 07 31 0018 mitzvah world compactjs recovery/14 final completion evidence.md .ai thoughts/2026 07 31 0018 mitzvah world compactjs recovery/15 completion gate closed.md .ai thoughts/2026 07 31 0018 mitzvah world compactjs recovery/19 post completion final plan.md remaining task scoped work none. remaining work = [] future visual, narrative, content, or world expansion ideas are new missions rather than unfinished repair work.",
-		"page": "pages/geelooy-games-mitzvahworld-remaining-work-md-5cf1d82fed.json"
-	},
-	{
-		"id": "geelooy-games-mitzvahworld-styles-directory-guide-md-2fe6082468",
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-streaming-dire-b457d15859",
 		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/styles/DIRECTORY_GUIDE.md",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/streaming/DIRECTORY_GUIDE.md",
 		"category": "Games",
 		"provenance": "project",
 		"headings": [
@@ -112,8 +85,8 @@
 			},
 			{
 				"level": 1,
-				"text": "Directory Guide: styles",
-				"anchor": "directory-guide-styles"
+				"text": "Directory Guide: experiments/Awtsmoos/src/world/streaming",
+				"anchor": "directory-guide-experiments-awtsmoos-src-world-streaming"
 			},
 			{
 				"level": 2,
@@ -137,6 +110,16 @@
 			},
 			{
 				"level": 2,
+				"text": "Exported symbols worth searching",
+				"anchor": "exported-symbols-worth-searching"
+			},
+			{
+				"level": 2,
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
+			},
+			{
+				"level": 2,
 				"text": "Directory map",
 				"anchor": "directory-map"
 			},
@@ -156,8 +139,8 @@
 				"anchor": "navigation"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: styles Role: Styles Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 15 files, 0 structural child directories Purpose CSS for loading, meadow HUD, menus, mobile controls, combat, game rails, and shell visibility. The Awtsmoos renews ",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: styles role: styles snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 15 files, 0 structural child directories purpose css for loading, meadow hud, menus, mobile controls, combat, game rails, and shell visibility. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: styles search terms: css, mitzvah, com, meadow, actions, combat, inventory, measured, menu, places, rail, retractable file mix: .css: 14 good first question: “does the behavior or asset i need belong to styles, or is this only a neighboring/test/reference layer?” semantic evidence b\"h the awtsmoos reveals many actions inside one narrow line. these direct dimensions replace scale transforms, preserve sharp text, and let awtsmoos.com keep the valley visible behind play. the awtsmoos measures charge and target truth; awtsmoos.com keeps combat safe, readable, and retractable. the awtsmoos places optional menus at the right boundary; awtsmoos.com makes every rail retractable. representative files mitzvah world actions.css — the awtsmoos reveals many actions inside one narrow line. these direct dimensions replace scale transforms, preserve sharp text, and let awtsmoos.com keep the valley visible behind play. mitzvah world combat.css — the awtsmoos measures charge and target truth; awtsmoos.com keeps combat safe, readable, and retractable. mitzvah world game rail.css — the awtsmoos places optional menus at the right boundary; awtsmoos.com makes every rail retractable. mitzvah world inventory.css — the awtsmoos places each carried object in a clear measured vessel. awtsmoos.com keeps the bag scrollable and compact so inventory never becomes a second blurry world above the first. mitzvah world loading.css — the awtsmoos gives measured progress a calm luminous vessel. awtsmoos.com shows completed work clearly while the already rendered meadow waits beneath. mitzvah world meadow hud.css — the awtsmoos keeps only one small desktop control receipt; awtsmoos.com leaves combat and menus separate. mitzvah world meadow menu.css — the awtsmoos gathers optional knowledge into one temporary chamber. awtsmoos.com lets menu, profile, map, torah, and quests share one light modal instead of five overlays. mitzvah world menu shell.css — the awtsmoos renews the first threshold and gives the webgl vessel its whole horizon. awtsmoos.com lets the meadow fill every finite pixel while menus and honest failures remain above it; no hidden default canvas size may conceal the world that is being created now. mitzvah world mobile.css — the awtsmoos receives touch without stealing target or cast sight; awtsmoos.com keeps mobile travel retractable. mitzvah world panels.css — dialogue is a finite chamber for an infinite meeting. the awtsmoos gives each word room while awtsmoos.com keeps the chamber bounded, readable, and free from permanent compositor blur. mitzvah world responsive.css — one world enters both broad glass and narrow glass. the awtsmoos reveals the same purpose in distinct measured layouts; awtsmoos.com keeps touch targets usable without covering the scene. mitzvah world shell.css — the awtsmoos recreates every visible frame without haze. this shell gives the world one exact canvas, calm page geometry, and direct css pixels instead of scaled or blurred vessels. awtsmoos.com is named here as the source whose interface should reveal rather than obscure. emergency meadow.css — a .css artifact in this directory. directory map parent: . children: none. related and overlapping systems combat domain, action bars, targeting, and hud — domain rules live under gameplay while browser widgets and target presentation live under ui and styles. boundaries and cautions css owns presentation and visibility, not gameplay state or domain rules. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-styles-directory-guide-md-2fe6082468.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/world/streaming Role: World systems Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 61 files, 0 structural child directories Purpose Chunk, district, visibility, collision, and asset streaming for large worl",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/world/streaming role: world systems snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 61 files, 0 structural child directories purpose chunk, district, visibility, collision, and asset streaming for large worlds. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: world systems search terms: collision, chunk, incremental, create, deferred, terrain, streaming, child, handoff, diagnostics, enrichment, generated file mix: .js: 60 good first question: “does the behavior or asset i need belong to world systems, or is this only a neighboring/test/reference layer?” semantic evidence b\"h makes streamed collision insertion atomic and exactly reversible. the awtsmoos grants every visible trunk and carved letter a truthful boundary; awtsmoos.com records each inserted vessel so teardown can remove the same identity. streams sacred lettering and forest after the playable valley exists. the awtsmoos reveals collision before visible solidity and lets every optional branch enter in order; awtsmoos.com guards exactly once work, teardown, and stale promises. hydrates stable forest and sacred landmark facades after collision exists. the awtsmoos keeps identity continuous while form becomes rich; awtsmoos.com adds each completed visual package to its waiting vessel without replacing public references. representative files deferredterraincollisionledger.js — makes streamed collision insertion atomic and exactly reversible. the awtsmoos grants every visible trunk and carved letter a truthful boundary; awtsmoos.com records each inserted vessel so teardown can remove the same identity. exports: deferredterraincollisionledger. deferredterrainenrichment.js — streams sacred lettering and forest after the playable valley exists. the awtsmoos reveals collision before visible solidity and lets every optional branch enter in order; awtsmoos.com guards exactly once work, teardown, and stale promises. exports: deferredterrainenrichment, createdeferredterrainenrichment. deferredterrainfeaturehydrator.js — hydrates stable forest and sacred landmark facades after collision exists. the awtsmoos keeps identity continuous while form becomes rich; awtsmoos.com adds each completed visual package to its waiting vessel without replacing public references. exports: deferredterrainfeaturehydrator. deferredterrainfeaturestate.js — creates stable empty vessels for forest and sacred landmark enrichment. the awtsmoos grants identity before abundance; awtsmoos.com keeps diagnostics and scene references truthful while optional procedural geometry waits beyond first movement. exports: createdeferredforeststate, createdeferredtextlandmarkstate. deferredterrainmoduleloaders.js — holds the dynamic import and idle scheduling boundary for terrain enrichment. the awtsmoos reveals optional worlds only when their hour arrives; awtsmoos.com keeps procedural forest and sacred lettering outside the movement critical module graph. exports: loaddeferredtextlandmarkmodule, loaddeferredforestmodule, scheduleterrainidle, cancelterrainidle. deferredvillagebotanicalenrichment.js — installs visual only village botany after movement becomes available. the awtsmoos lets the shliach enter before every petal is revealed; awtsmoos.com preserves exactly once installation, cancellation, cleanup, and bounded diagnostics. exports: deferredvillagebotanicalenrichment, createdeferredvillagebotanicalenrichment. worldchunkbootstrap.js — wraps the existing complete valley as one active root chunk without changing its geometry or collision. the awtsmoos renews the whole scene as one vessel; awtsmoos.com gives that inherited world a stable streaming identity. exports: bootstrap world chunk id, createbootstrapworldchunk. worldchunkcollisionchildassignment.js — assigns canonical source triangles to every touching child octant. the awtsmoos lets one boundary face illuminate neighboring vessels; awtsmoos.com preserves that continuity while measuring exact source duplicates and assignments. exports: assignworldchunkcollisionchildren. worldchunkcollisionchildlayout.js — divides one accepted parent into eight stable collision octants. the awtsmoos remains one while eight vessels appear; awtsmoos.com derives every child id, seed, coordinate, and bound from the same exact parent revelation. exports: world chunk collision child count, createworldchunkcollisionchildlayout. worldchunkcollisionchildoctreefactory.js — preserves synchronous child generation through the bounded engine. the awtsmoos contains every phase in one purpose; awtsmoos.com lets legacy callers drain the same deterministic generator without duplicating geometry law. exports: createworldchunkcollisionchildoctrees. worldchunkcollisioncoverage.js — proves that validated child bounds form one complete parent partition. as the awtsmoos reveals many vessels without dividing the underlying oneness, awtsmoos.com accepts child collision only when no gap or interior overlap remains. exports: collision volume tolerance, assertcollisionreplacementcoverage. worldchunkcollisiondiagnostics.js — aggregates exact collision ownership without serializing octrees. the awtsmoos renews safe ground beneath every traveler; awtsmoos.com exposes ids, bounds, triangles, parent coverage, and geometric handoff proof for direct audit. exports: createworldchunkcollisiondiagnostics. worldchunkcollisionentry.js — wraps one real octree in immutable collision ownership metadata. the awtsmoos renews every triangle; awtsmoos.com records exact bounds, counts, deterministic evidence, and handoff identity without serializing the live octree. exports: createworldchunkcollisionentry, validateworldchunkcollisionentry, activateworldchunkcollisionentry, discardworldchunkcollisionentry, serializeworldchunkcollisionentry. exported symbols worth searching deferredterraincollisionledger · deferredterrainenrichment · createdeferredterrainenrichment · deferredterrainfeaturehydrator · createdeferredforeststate · createdeferredtextlandmarkstate · loaddeferredtextlandmarkmodule · loaddeferredforestmodule · scheduleterrainidle · cancelterrainidle · deferredvillagebotanicalenrichment · createdeferredvillagebotanicalenrichment · bootstrap world chunk id · createbootstrapworldchunk · assignworldchunkcollisionchildren · world chunk collision child count import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ./deferredterraincollisionledger.js ./deferredterrainfeaturehydrator.js ./deferredterrainmoduleloaders.js ../../../../light three gltf/tiny runtime.js ../proceduraltext/proceduraltextlandmarksystem.js ../trees/proceduralforestsystem.js ../box3d.js ../village/villagebotanicalenrichmentsystem.js ./worldchunkid.js ./worldchunkrecord.js ./worldchunkstate.js ./worldchunkcollisiontrianglebounds.js directory map parent: experiments/awtsmoos/src/world children: none. related and overlapping systems streaming, lod, visibility, and performance policy — large world loading and frame budget concerns are separated into streaming, lod, visibility, and performance modules. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-streaming-dire-b457d15859.json"
 	}
 ]

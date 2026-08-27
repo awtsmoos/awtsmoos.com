@@ -2,7 +2,7 @@ B"H
 Boruch Hashem
 Blessed is He
 
-# Project Tutorial: AWTAI-DB GGUF Converter
+# Project Tutorial: AWTAI-DB Model Foundry
 
 **Path:** `geelooy/awtai-db` · **Type:** public · **Family:** Public and Other Boundaries
 
@@ -21,19 +21,19 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 3 | 0 | 0 | 0 | 0 | 0 | 3 |
+| 9 | 0 | 0 | 0 | 0 | 0 | 9 |
 
 ## Public entry points
 
-- `/awtai-db` → `geelooy/awtai-db/index.html` — AWTAI-DB GGUF Converter
+- `/awtai-db` → `geelooy/awtai-db/index.html` — AWTAI-DB Model Foundry
 
 ## Symbol evidence
 
-Source files: 1; classes: 0; functions: 1; exports: 0; samples: write.
+Source files: 2; classes: 0; functions: 10; exports: 5; samples: wireDropzone, selectFile, convertSelection, prepareDownload, revokeDownload, collectView, showSelectedFile, setStatus, showResult, formatBytes.
 
 ## Depends on
 
-None observed.
+- `geelooy/scripts` — 1 lexical reference; examples: geelooy/awtai-db/app.js
 
 ## Used by
 

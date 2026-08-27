@@ -1,338 +1,238 @@
 [
 	{
-		"id": "docs-tutorials-api-root-api-md-c082659fca",
-		"title": "Root API API Tutorial",
-		"sourcePath": "docs/TUTORIALS/API/ROOT_API.md",
-		"category": "API",
-		"provenance": "manual",
+		"id": "docs-generated-public-entry-points-public-entry-points-004-md-026ad01293",
+		"title": "Generated Public Entry Point Atlas 136–153",
+		"sourcePath": "docs/GENERATED/PUBLIC_ENTRY_POINTS/public-entry-points-004.md",
+		"category": "General",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Root API API Tutorial",
-				"anchor": "root-api-api-tutorial"
-			},
-			{
-				"level": 2,
-				"text": "What this family owns",
-				"anchor": "what-this-family-owns"
-			},
-			{
-				"level": 2,
-				"text": "How to explore it",
-				"anchor": "how-to-explore-it"
-			},
-			{
-				"level": 2,
-				"text": "Safety / interpretation",
-				"anchor": "safety-interpretation"
-			},
-			{
-				"level": 2,
-				"text": "Evidence rule",
-				"anchor": "evidence-rule"
-			},
-			{
-				"level": 2,
-				"text": "Next",
-				"anchor": "next"
+				"text": "Generated Public Entry Point Atlas 136–153",
+				"anchor": "generated-public-entry-point-atlas-136-153"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Root API API Tutorial What this family owns Mount: /api Derech: geelooy/api/ awtsmoos.derech.js The root derech currently exposes legacy/example style dynamic routes. Treat them as observed compatibility/demo paths, not templates for new design. How to explore it 1. Open API Family Tutor",
-		"searchText": "b\"h boruch hashem blessed is he root api api tutorial what this family owns mount: /api derech: geelooy/api/ awtsmoos.derech.js the root derech currently exposes legacy/example style dynamic routes. treat them as observed compatibility/demo paths, not templates for new design. how to explore it 1. open api family tutorials for current route counts/health. 2. filter api tutorial index to /api. 3. open the generated route tutorial for source level method/vessel/status/header evidence. 4. read geelooy/api/ awtsmoos.derech.js and the imported handler behind the route. 5. check identity/resource/provider/data side effects before making a write. 6. use caller/test evidence as navigation, not runtime proof. safety / interpretation use the generated family/tutorial index; prefer a named subsystem mount for new production behavior. evidence rule generated tutorials are conservative: unknown method remains unknown; executable starter calls appear only when source level method evidence exists. derech health is shown beside every generated route. next return to learn awtsmoos.com or open the exact generated route tutorial before coding.",
-		"page": "pages/docs-tutorials-api-root-api-md-c082659fca.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Public Entry Point Atlas 136–153 Every discovered index.html beneath the Geelooy public root, with title and linked script/style evidence. URL Entry file Title Scripts Script sample Styles Style sample /register geelooy/register/index.html Create Awtsmoos Account 1 /scripts/awt",
+		"searchText": "b\"h boruch hashem blessed is he generated public entry point atlas 136–153 every discovered index.html beneath the geelooy public root, with title and linked script/style evidence. url entry file title scripts script sample styles style sample /register geelooy/register/index.html create awtsmoos account 1 /scripts/awtsmoos/bh.js 2 /style/bh.css; /style/forms.css /scripts/awtsmoos/compiling/pe geelooy/scripts/awtsmoos/compiling/pe/index.html awtsmoos exe compiler 1 script.js 1 style.css /scripts/awtsmoos/merkavaastparser geelooy/scripts/awtsmoos/merkavaastparser/index.html kabbalistic es6 ast parser 1 parser core.js 0 — /scripts/awtsmoos/merkavabeautifier geelooy/scripts/awtsmoos/merkavabeautifier/index.html merkava beautifier 1 main.js 1 style.css /scripts/awtsmoos/merkavaexecutor geelooy/scripts/awtsmoos/merkavaexecutor/index.html merkava executor — runtime id ast ect 7 /scripts/awtsmoos/merkavaexecutor/app/browser/state.js?v=51; /scripts/awtsmoos/merkavaexecutor/app/browser/examples.js?v=51; /scripts/awtsmoos/merkavaexecutor/app/browser/files.js?v=51; /scripts/awtsmoos/merkavaexecutor/app/browser/renderers.js?v=51 1 /scripts/awtsmoos/merkavaexecutor/app/styles.css?v=51 /scripts/awtsmoos/merkavaexecutor/.mode2 path app geelooy/scripts/awtsmoos/merkavaexecutor/.mode2 path app/index.html — 1 /js/main.js 1 /css/style.css /scripts/awtsmoos/tts geelooy/scripts/awtsmoos/tts/index.html kokoro forge b\"h 1 ./main.js 2 https://fonts.googleapis.com/css2?family=orbitron:wght@400;700;900&family=rajdhani:wght@300;500;700&family=jetbrains+mono:wght@400;700&display=swap; ./index.css /scripts/awtsmoos/zip geelooy/scripts/awtsmoos/zip/index.html awtsmoos native zip 1 main.js 1 style.css /scripts/tricks geelooy/scripts/tricks/index.html — 0 — 0 — /scripts/tricks/jem geelooy/scripts/tricks/jem/index.html awtsmoos jemizier 1 script.js 2 style.css; https://cdnjs.cloudflare.com/ajax/libs/font awesome/6.0.0/css/all.min.css /social geelooy/social/index.html awtsmoos social observatory 1 /scripts/awtsmoos/social/hub/index.js?v=social hub 003 4 /style/social/hub/index.css?v=social hub 003; /style/social/live/presence.css?v=social hub 003; /scripts/awtsmoos/social/hub/render.js; /scripts/awtsmoos/social/hub/requestplan.js /social composer geelooy/social composer/index.html create new post — geelooy 2 ./js/main.js?v=civilization 005; ./js/civilizationenhancements.js?v=civilization 005 1 ./style.css?v=civilization 005 /social composer/reel studio geelooy/social composer/reel studio/index.html mitzvahworld movie studio 1 ./boot.js?v=social nle 004 1 ./style.css?v=social nle 004 /social hub geelooy/social hub/index.html social hub — geelooy 2 /scripts/awtsmoos/social/shell/boot.js?v=interface dark 011; ./js/main.js?v=hub nebula 004 3 /style/geelooy app/index.css?v=interface dark 011; ./style.css?v=hub nebula 004; /scripts/awtsmoos/social/shell/boot.js /social/migrate geelooy/social/migrate/index.html social migration studio · awtsmoos 1 ./js/main.js?v=social migrate 001 2 ../../style/future system/index.css?v=future 004; ./style.css?v=social migrate 001 /sod geelooy/sod/index.html endpoint interaction 0 — 0 — /youtube geelooy/youtube/index.html awtsmoos youtube manager 1 youtube.js 1 youtube.css /zmanim geelooy/zmanim/index.html halachic zmanim · awtsmoos 1 /zmanim/js/app.js?v=presentation 005 37 /zmanim/favicon.svg; /zmanim/styles/tokens.css; /zmanim/styles/presentation theme light.css?v=presentation 005; /zmanim/styles/presentation theme system.css?v=presentation 005",
+		"page": "pages/docs-generated-public-entry-points-public-entry-points-004-md-026ad01293.json"
 	},
 	{
-		"id": "docs-tutorials-api-runtime-md-7cc9821c81",
-		"title": "Native Runtime API Tutorial",
-		"sourcePath": "docs/TUTORIALS/API/RUNTIME.md",
-		"category": "API",
-		"provenance": "manual",
+		"id": "docs-generated-public-route-inventory-md-7a76f1c409",
+		"title": "Generated Public Directory Inventory",
+		"sourcePath": "docs/GENERATED/PUBLIC_ROUTE_INVENTORY.md",
+		"category": "Routes",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Native Runtime API Tutorial",
-				"anchor": "native-runtime-api-tutorial"
-			},
-			{
-				"level": 2,
-				"text": "What this family owns",
-				"anchor": "what-this-family-owns"
-			},
-			{
-				"level": 2,
-				"text": "How to explore it",
-				"anchor": "how-to-explore-it"
-			},
-			{
-				"level": 2,
-				"text": "Safety / interpretation",
-				"anchor": "safety-interpretation"
-			},
-			{
-				"level": 2,
-				"text": "Evidence rule",
-				"anchor": "evidence-rule"
-			},
-			{
-				"level": 2,
-				"text": "Next",
-				"anchor": "next"
+				"text": "Generated Public Directory Inventory",
+				"anchor": "generated-public-directory-inventory"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Native Runtime API Tutorial What this family owns Mount: /api/runtime Derech: geelooy/api/runtime/ awtsmoos.derech.js Capabilities, launch, status, and stop dispatch into native runtime handlers. How to explore it 1. Open API Family Tutorials for current route counts/health. 2. Filter AP",
-		"searchText": "b\"h boruch hashem blessed is he native runtime api tutorial what this family owns mount: /api/runtime derech: geelooy/api/runtime/ awtsmoos.derech.js capabilities, launch, status, and stop dispatch into native runtime handlers. how to explore it 1. open api family tutorials for current route counts/health. 2. filter api tutorial index to /api/runtime. 3. open the generated route tutorial for source level method/vessel/status/header evidence. 4. read geelooy/api/runtime/ awtsmoos.derech.js and the imported handler behind the route. 5. check identity/resource/provider/data side effects before making a write. 6. use caller/test evidence as navigation, not runtime proof. safety / interpretation treat native launch/stop as authenticated machine control operations; inspect process/path/permission boundaries. evidence rule generated tutorials are conservative: unknown method remains unknown; executable starter calls appear only when source level method evidence exists. derech health is shown beside every generated route. next return to learn awtsmoos.com or open the exact generated route tutorial before coding.",
-		"page": "pages/docs-tutorials-api-runtime-md-7cc9821c81.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Public Directory Inventory Directory Files HTML title Has index.html .awtsmoos 6 no .awtsmoos agent thoughts 200 no .awtsmoos agent transfer 139 no .awtsmoos smoke 4 no .awtsmoos transfer 8 no .data 1 no .well known 1 no @ 3 no about 1 About — Geelooy yes ai 884 Awtsmoos AI yes",
+		"searchText": "b\"h boruch hashem blessed is he generated public directory inventory directory files html title has index.html .awtsmoos 6 no .awtsmoos agent thoughts 200 no .awtsmoos agent transfer 139 no .awtsmoos smoke 4 no .awtsmoos transfer 8 no .data 1 no .well known 1 no @ 3 no about 1 about — geelooy yes ai 884 awtsmoos ai yes api 2242 no apps 10325 awtsmoos apps — every browser tool & game yes awtai db 9 awtai db model foundry yes ayin 1 real awtsmoos recorder yes browser test 2 no comment thread 23 comment thread — geelooy yes contact 3 contact — awtsmoos yes control 3 code control panel yes css 1 no db 9 yes docs 3555 awtsmoos documentation yes donate 1 yes drive 213 geelooy sites · awtsmoos yes editor 1 yes email 167 awtsmoos quantum mail yes entity view 2 entity universe yes fetch 1 yes game 1 opening mitzvah world… yes games 8520 awtsmoos games — 25 playable worlds yes geelooy 5 no git 1 no heichel 1 no heichel editor 19 heichel editor — geelooy yes heichel review 40 heichel review and governance center yes heichelos 1051 no legal 6 no libs 2268 no login 1 login with awtsmoos yes logout 1 yes mawgawl 80 yes node os 2 awtsmoos node os yes notifications 34 signals — geelooy yes ocr 1 ocr studio — awtsmoos yes os 729 geelooy os — files, awtsmoosdb, runtime & control yes parsers 1 no platform 110 no post editor 15 post editor — geelooy yes profile 39 profile — geelooy yes public 17 no record 7 camera preview — geelooy yes recorder 13 local recorder — geelooy yes reeyuh 1 shulchan aruch viewer yes register 1 create awtsmoos account yes resources 2 no scripts 1587 no shared 154 no sites 35 no social 62 awtsmoos social observatory yes social actions 11 no social composer 354 create new post — geelooy yes social hub 265 social hub — geelooy yes sod 1 endpoint interaction yes style 1184 no tests 109 no tmp 9 no view 1 no webscrapers 5 no youtube 10 awtsmoos youtube manager yes zmanim 128 halachic zmanim · awtsmoos yes",
+		"page": "pages/docs-generated-public-route-inventory-md-7a76f1c409.json"
 	},
 	{
-		"id": "docs-tutorials-api-sefarim-md-6450c0a03a",
-		"title": "Sefarim API Tutorial",
-		"sourcePath": "docs/TUTORIALS/API/SEFARIM.md",
-		"category": "API",
-		"provenance": "manual",
+		"id": "docs-generated-symlinks-md-b93b9284a6",
+		"title": "Generated Symlink / Alias Inventory",
+		"sourcePath": "docs/GENERATED/SYMLINKS.md",
+		"category": "General",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Sefarim API Tutorial",
-				"anchor": "sefarim-api-tutorial"
-			},
-			{
-				"level": 2,
-				"text": "What this family owns",
-				"anchor": "what-this-family-owns"
-			},
-			{
-				"level": 2,
-				"text": "How to explore it",
-				"anchor": "how-to-explore-it"
-			},
-			{
-				"level": 2,
-				"text": "Safety / interpretation",
-				"anchor": "safety-interpretation"
-			},
-			{
-				"level": 2,
-				"text": "Evidence rule",
-				"anchor": "evidence-rule"
-			},
-			{
-				"level": 2,
-				"text": "Next",
-				"anchor": "next"
+				"text": "Generated Symlink / Alias Inventory",
+				"anchor": "generated-symlink-alias-inventory"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Sefarim API Tutorial What this family owns Mount: /api/sefarim Derech: geelooy/api/sefarim/ awtsmoos.derech.js Root, sefer, section, and subsection paths read from shared DosDB backed sefarim data. How to explore it 1. Open API Family Tutorials for current route counts/health. 2. Filter ",
-		"searchText": "b\"h boruch hashem blessed is he sefarim api tutorial what this family owns mount: /api/sefarim derech: geelooy/api/sefarim/ awtsmoos.derech.js root, sefer, section, and subsection paths read from shared dosdb backed sefarim data. how to explore it 1. open api family tutorials for current route counts/health. 2. filter api tutorial index to /api/sefarim. 3. open the generated route tutorial for source level method/vessel/status/header evidence. 4. read geelooy/api/sefarim/ awtsmoos.derech.js and the imported handler behind the route. 5. check identity/resource/provider/data side effects before making a write. 6. use caller/test evidence as navigation, not runtime proof. safety / interpretation path ids are persisted data contracts; inspect missing node behavior rather than assuming filesystem semantics. evidence rule generated tutorials are conservative: unknown method remains unknown; executable starter calls appear only when source level method evidence exists. derech health is shown beside every generated route. next return to learn awtsmoos.com or open the exact generated route tutorial before coding.",
-		"page": "pages/docs-tutorials-api-sefarim-md-6450c0a03a.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Symlink / Alias Inventory Path Target Type ai thoughts /Users/awtsmoos/work/Awtsmoos.com artifacts/ai thoughts alias",
+		"searchText": "b\"h boruch hashem blessed is he generated symlink / alias inventory path target type ai thoughts /users/awtsmoos/work/awtsmoos.com artifacts/ai thoughts alias",
+		"page": "pages/docs-generated-symlinks-md-b93b9284a6.json"
 	},
 	{
-		"id": "docs-tutorials-api-social-md-0ede9f4b8d",
-		"title": "Social API Tutorial",
-		"sourcePath": "docs/TUTORIALS/API/SOCIAL.md",
-		"category": "API",
-		"provenance": "manual",
+		"id": "docs-generated-system-district-summary-md-cce5c863d7",
+		"title": "System District Summary",
+		"sourcePath": "docs/GENERATED/SYSTEM_DISTRICT_SUMMARY.md",
+		"category": "Systems",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Social API Tutorial",
-				"anchor": "social-api-tutorial"
-			},
-			{
-				"level": 2,
-				"text": "What this family owns",
-				"anchor": "what-this-family-owns"
-			},
-			{
-				"level": 2,
-				"text": "How to explore it",
-				"anchor": "how-to-explore-it"
-			},
-			{
-				"level": 2,
-				"text": "Safety / interpretation",
-				"anchor": "safety-interpretation"
-			},
-			{
-				"level": 2,
-				"text": "Evidence rule",
-				"anchor": "evidence-rule"
-			},
-			{
-				"level": 2,
-				"text": "Next",
-				"anchor": "next"
+				"text": "System District Summary",
+				"anchor": "system-district-summary"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Social API Tutorial What this family owns Mount: /api/social Derech: geelooy/api/social/ awtsmoos.derech.js Social currently owns 419 extracted route rows across identity, Heichel/content, series/comments, search/graph, drive, mail, notifications, governance, migrations, and more. How to",
-		"searchText": "b\"h boruch hashem blessed is he social api tutorial what this family owns mount: /api/social derech: geelooy/api/social/ awtsmoos.derech.js social currently owns 419 extracted route rows across identity, heichel/content, series/comments, search/graph, drive, mail, notifications, governance, migrations, and more. how to explore it 1. open api family tutorials for current route counts/health. 2. filter api tutorial index to /api/social. 3. open the generated route tutorial for source level method/vessel/status/header evidence. 4. read geelooy/api/social/ awtsmoos.derech.js and the imported handler behind the route. 5. check identity/resource/provider/data side effects before making a write. 6. use caller/test evidence as navigation, not runtime proof. safety / interpretation start with content platform 101 and the content tutorials; generated route pages provide exhaustive navigation while source factories define real method/resource authority. evidence rule generated tutorials are conservative: unknown method remains unknown; executable starter calls appear only when source level method evidence exists. derech health is shown beside every generated route. next return to learn awtsmoos.com or open the exact generated route tutorial before coding.",
-		"page": "pages/docs-tutorials-api-social-md-0ede9f4b8d.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He System District Summary District Systems Env names Apps Events Data and Persistence 7 38 0 0 Security and Trust 6 10 0 0 Realtime and WebSockets 5 43 28 54",
+		"searchText": "b\"h boruch hashem blessed is he system district summary district systems env names apps events data and persistence 7 38 0 0 security and trust 6 10 0 0 realtime and websockets 5 43 28 54",
+		"page": "pages/docs-generated-system-district-summary-md-cce5c863d7.json"
 	},
 	{
-		"id": "docs-tutorials-api-ssh-md-5182e6f7ee",
-		"title": "SSH API Tutorial",
-		"sourcePath": "docs/TUTORIALS/API/SSH.md",
-		"category": "API",
-		"provenance": "manual",
+		"id": "docs-generated-system-tutorial-index-md-e1ecb41557",
+		"title": "System Tutorial Index",
+		"sourcePath": "docs/GENERATED/SYSTEM_TUTORIAL_INDEX.md",
+		"category": "Systems",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "SSH API Tutorial",
-				"anchor": "ssh-api-tutorial"
-			},
-			{
-				"level": 2,
-				"text": "What this family owns",
-				"anchor": "what-this-family-owns"
-			},
-			{
-				"level": 2,
-				"text": "How to explore it",
-				"anchor": "how-to-explore-it"
-			},
-			{
-				"level": 2,
-				"text": "Safety / interpretation",
-				"anchor": "safety-interpretation"
-			},
-			{
-				"level": 2,
-				"text": "Evidence rule",
-				"anchor": "evidence-rule"
-			},
-			{
-				"level": 2,
-				"text": "Next",
-				"anchor": "next"
+				"text": "System Tutorial Index",
+				"anchor": "system-tutorial-index"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He SSH API Tutorial What this family owns Mount: /api/ssh Derech: geelooy/api/ssh/ awtsmoos.derech.js The current literal route extractor reports zero child route rows for this derech. Existing source/documentation may contain parameterized remote command/file behavior not represented by th",
-		"searchText": "b\"h boruch hashem blessed is he ssh api tutorial what this family owns mount: /api/ssh derech: geelooy/api/ssh/ awtsmoos.derech.js the current literal route extractor reports zero child route rows for this derech. existing source/documentation may contain parameterized remote command/file behavior not represented by this extraction. how to explore it 1. open api family tutorials for current route counts/health. 2. filter api tutorial index to /api/ssh. 3. open the generated route tutorial for source level method/vessel/status/header evidence. 4. read geelooy/api/ssh/ awtsmoos.derech.js and the imported handler behind the route. 5. check identity/resource/provider/data side effects before making a write. 6. use caller/test evidence as navigation, not runtime proof. safety / interpretation do not invent paths from old docs. inspect the live derech/handlers before making ssh calls. evidence rule generated tutorials are conservative: unknown method remains unknown; executable starter calls appear only when source level method evidence exists. derech health is shown beside every generated route. next return to learn awtsmoos.com or open the exact generated route tutorial before coding.",
-		"page": "pages/docs-tutorials-api-ssh-md-5182e6f7ee.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He System Tutorial Index Data, Security, and Realtime system teaching. Chunk Rows Count systems 001.md 1–18 18",
+		"searchText": "b\"h boruch hashem blessed is he system tutorial index data, security, and realtime system teaching. chunk rows count systems 001.md 1–18 18",
+		"page": "pages/docs-generated-system-tutorial-index-md-e1ecb41557.json"
 	},
 	{
-		"id": "docs-tutorials-api-streaming-md-f52af8aa37",
-		"title": "Streaming API Tutorial",
-		"sourcePath": "docs/TUTORIALS/API/STREAMING.md",
-		"category": "API",
-		"provenance": "manual",
+		"id": "docs-generated-system-tutorial-index-systems-001-md-5e621ff998",
+		"title": "System Tutorial Index 1–18",
+		"sourcePath": "docs/GENERATED/SYSTEM_TUTORIAL_INDEX/systems-001.md",
+		"category": "Systems",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Streaming API Tutorial",
-				"anchor": "streaming-api-tutorial"
-			},
-			{
-				"level": 2,
-				"text": "What this family owns",
-				"anchor": "what-this-family-owns"
-			},
-			{
-				"level": 2,
-				"text": "How to explore it",
-				"anchor": "how-to-explore-it"
-			},
-			{
-				"level": 2,
-				"text": "Safety / interpretation",
-				"anchor": "safety-interpretation"
-			},
-			{
-				"level": 2,
-				"text": "Evidence rule",
-				"anchor": "evidence-rule"
-			},
-			{
-				"level": 2,
-				"text": "Next",
-				"anchor": "next"
+				"text": "System Tutorial Index 1–18",
+				"anchor": "system-tutorial-index-1-18"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Streaming API Tutorial What this family owns Mount: /api/streaming Derech: geelooy/api/streaming/ awtsmoos.derech.js Root, connector, dynamic connector, and connector/action paths dispatch into provider plugins observed for Awtsmoos/Facebook/Twitch/YouTube. How to explore it 1. Open API ",
-		"searchText": "b\"h boruch hashem blessed is he streaming api tutorial what this family owns mount: /api/streaming derech: geelooy/api/streaming/ awtsmoos.derech.js root, connector, dynamic connector, and connector/action paths dispatch into provider plugins observed for awtsmoos/facebook/twitch/youtube. how to explore it 1. open api family tutorials for current route counts/health. 2. filter api tutorial index to /api/streaming. 3. open the generated route tutorial for source level method/vessel/status/header evidence. 4. read geelooy/api/streaming/ awtsmoos.derech.js and the imported handler behind the route. 5. check identity/resource/provider/data side effects before making a write. 6. use caller/test evidence as navigation, not runtime proof. safety / interpretation provider/action payload and credential rules live in connector implementations; public cors behavior is not anonymous provider authority. evidence rule generated tutorials are conservative: unknown method remains unknown; executable starter calls appear only when source level method evidence exists. derech health is shown beside every generated route. next return to learn awtsmoos.com or open the exact generated route tutorial before coding.",
-		"page": "pages/docs-tutorials-api-streaming-md-f52af8aa37.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He System Tutorial Index 1–18 Curated system meaning joined to bounded current source evidence. System District Projects Env names Apps Events Tutorial Database Root Resolution data 1 0 0 0 tutorial DosDB Filesystem Storage data 1 5 0 0 tutorial AwtsmoosBinaryJSON data 1 0 0 0 tutorial Awts",
+		"searchText": "b\"h boruch hashem blessed is he system tutorial index 1–18 curated system meaning joined to bounded current source evidence. system district projects env names apps events tutorial database root resolution data 1 0 0 0 tutorial dosdb filesystem storage data 1 5 0 0 tutorial awtsmoosbinaryjson data 1 0 0 0 tutorial awtsmoosdb and virtualfs data 1 4 0 0 tutorial social packed storage data 1 24 0 0 tutorial persistence path contracts data 2 0 0 0 tutorial parallel awtsmoosdb bridge data 1 5 0 0 tutorial session authentication security 1 0 0 0 tutorial oauth bearer identity security 2 3 0 0 tutorial tunnel control identity security 1 2 0 0 tutorial authorization and resource ownership security 2 2 0 0 tutorial secrets and runtime configuration security 3 0 0 0 tutorial realtime identity and admission security 2 3 0 0 tutorial websocket upgrade and session realtime 1 3 0 0 tutorial realtime application routing realtime 1 13 14 0 tutorial mission room admission realtime 2 1 0 0 tutorial tunnel relay realtime 2 13 0 18 tutorial realtime application and event evidence realtime 1 13 14 36 tutorial",
+		"page": "pages/docs-generated-system-tutorial-index-systems-001-md-5e621ff998.json"
 	},
 	{
-		"id": "docs-tutorials-api-text-md-2e84d2a564",
-		"title": "Text Jobs API Tutorial",
-		"sourcePath": "docs/TUTORIALS/API/TEXT.md",
-		"category": "API",
-		"provenance": "manual",
+		"id": "docs-generated-system-tutorials-systems-authorization-resource-ownership-1225944356",
+		"title": "System Tutorial: Authorization and Resource Ownership",
+		"sourcePath": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/authorization-resource-ownership.md",
+		"category": "Security",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Text Jobs API Tutorial",
-				"anchor": "text-jobs-api-tutorial"
+				"text": "System Tutorial: Authorization and Resource Ownership",
+				"anchor": "system-tutorial-authorization-and-resource-ownership"
 			},
 			{
 				"level": 2,
-				"text": "What this family owns",
-				"anchor": "what-this-family-owns"
+				"text": "Claims boundary",
+				"anchor": "claims-boundary"
 			},
 			{
 				"level": 2,
-				"text": "How to explore it",
-				"anchor": "how-to-explore-it"
+				"text": "Change risk",
+				"anchor": "change-risk"
 			},
 			{
 				"level": 2,
-				"text": "Safety / interpretation",
-				"anchor": "safety-interpretation"
+				"text": "Human manuals",
+				"anchor": "human-manuals"
 			},
 			{
 				"level": 2,
-				"text": "Evidence rule",
-				"anchor": "evidence-rule"
+				"text": "Related project boundaries",
+				"anchor": "related-project-boundaries"
 			},
 			{
 				"level": 2,
-				"text": "Next",
-				"anchor": "next"
+				"text": "Source anchors",
+				"anchor": "source-anchors"
+			},
+			{
+				"level": 2,
+				"text": "Generated evidence",
+				"anchor": "generated-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Environment-name evidence",
+				"anchor": "environment-name-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Realtime application registration evidence",
+				"anchor": "realtime-application-registration-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Lexical event/message evidence",
+				"anchor": "lexical-event-message-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Tags",
+				"anchor": "tags"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Text Jobs API Tutorial What this family owns Mount: /api/text Derech: geelooy/api/text/ awtsmoos.derech.js Two timestamp/job routes are extractable, but the derech currently fails node check with an unexpected comma. How to explore it 1. Open API Family Tutorials for current route counts",
-		"searchText": "b\"h boruch hashem blessed is he text jobs api tutorial what this family owns mount: /api/text derech: geelooy/api/text/ awtsmoos.derech.js two timestamp/job routes are extractable, but the derech currently fails node check with an unexpected comma. how to explore it 1. open api family tutorials for current route counts/health. 2. filter api tutorial index to /api/text. 3. open the generated route tutorial for source level method/vessel/status/header evidence. 4. read geelooy/api/text/ awtsmoos.derech.js and the imported handler behind the route. 5. check identity/resource/provider/data side effects before making a write. 6. use caller/test evidence as navigation, not runtime proof. safety / interpretation treat these tutorials as intended/source visible evidence only until application source is repaired and health turns green. evidence rule generated tutorials are conservative: unknown method remains unknown; executable starter calls appear only when source level method evidence exists. derech health is shown beside every generated route. next return to learn awtsmoos.com or open the exact generated route tutorial before coding.",
-		"page": "pages/docs-tutorials-api-text-md-2e84d2a564.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He System Tutorial: Authorization and Resource Ownership District: security · System ID: authorization resource ownership Account scoped ownership, explicit grants, permissions, and anti enumeration behavior above authentication. Generated evidence below is a navigation aid. Trust, migratio",
+		"searchText": "b\"h boruch hashem blessed is he system tutorial: authorization and resource ownership district: security · system id: authorization resource ownership account scoped ownership, explicit grants, permissions, and anti enumeration behavior above authentication. generated evidence below is a navigation aid. trust, migration, consistency, protocol, and authorization semantics remain grounded in the linked human manuals and current source. claims boundary this packet demonstrates one inspected authorization boundary; it is not a repository wide security audit. change risk ownership/grant resolution and information disclosure behavior are high impact security contracts. human manuals docs/security/readme.md docs/security/trust boundaries.md related project boundaries geelooy/api/tunnel (api) — geelooy/api/tunnel geelooy/api/social (api) — geelooy/api/social source anchors geelooy/api/tunnel/control/core/tunnelsecurity/authorization.js generated evidence none observed for this system packet. environment name evidence name class source refs example sources awtsmoos binding history per identity runtime config 1 geelooy/api/tunnel/control/core/tunnelsecurity/bindingretentionpolicy.js awtsmoos binding retention ms tuning 1 geelooy/api/tunnel/control/core/tunnelsecurity/bindingretentionpolicy.js realtime application registration evidence no versioned application registrations are attached to this packet. lexical event/message evidence none observed for this system packet. tags authorization · ownership · grants · permissions · security",
+		"page": "pages/docs-generated-system-tutorials-systems-authorization-resource-ownership-1225944356.json"
 	},
 	{
-		"id": "docs-tutorials-api-tunnel-control-md-54216e7b5f",
-		"title": "Tunnel Control API Tutorial",
-		"sourcePath": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
-		"category": "API",
-		"provenance": "manual",
+		"id": "docs-generated-system-tutorials-systems-awtsmoos-binary-json-md-86bee0fcc0",
+		"title": "System Tutorial: AwtsmoosBinaryJSON",
+		"sourcePath": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/awtsmoos-binary-json.md",
+		"category": "Systems",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Tunnel Control API Tutorial",
-				"anchor": "tunnel-control-api-tutorial"
+				"text": "System Tutorial: AwtsmoosBinaryJSON",
+				"anchor": "system-tutorial-awtsmoosbinaryjson"
 			},
 			{
 				"level": 2,
-				"text": "What this family owns",
-				"anchor": "what-this-family-owns"
+				"text": "Claims boundary",
+				"anchor": "claims-boundary"
 			},
 			{
 				"level": 2,
-				"text": "How to explore it",
-				"anchor": "how-to-explore-it"
+				"text": "Change risk",
+				"anchor": "change-risk"
 			},
 			{
 				"level": 2,
-				"text": "Safety / interpretation",
-				"anchor": "safety-interpretation"
+				"text": "Human manuals",
+				"anchor": "human-manuals"
 			},
 			{
 				"level": 2,
-				"text": "Evidence rule",
-				"anchor": "evidence-rule"
+				"text": "Related project boundaries",
+				"anchor": "related-project-boundaries"
 			},
 			{
 				"level": 2,
-				"text": "Next",
-				"anchor": "next"
+				"text": "Source anchors",
+				"anchor": "source-anchors"
+			},
+			{
+				"level": 2,
+				"text": "Generated evidence",
+				"anchor": "generated-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Environment-name evidence",
+				"anchor": "environment-name-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Realtime application registration evidence",
+				"anchor": "realtime-application-registration-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Lexical event/message evidence",
+				"anchor": "lexical-event-message-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Tags",
+				"anchor": "tags"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Tunnel Control API Tutorial What this family owns Mount: /api/tunnel/control Derech: geelooy/api/tunnel/control/ awtsmoos.derech.js Seventy nine extracted routes span bootstrap/identity, keys/pairing/grants, remote FS, previews/blobs/ephemeral results, missions/live calls, compute/accoun",
-		"searchText": "b\"h boruch hashem blessed is he tunnel control api tutorial what this family owns mount: /api/tunnel/control derech: geelooy/api/tunnel/control/ awtsmoos.derech.js seventy nine extracted routes span bootstrap/identity, keys/pairing/grants, remote fs, previews/blobs/ephemeral results, missions/live calls, compute/accounting, treasury/economy, and administration. how to explore it 1. open api family tutorials for current route counts/health. 2. filter api tutorial index to /api/tunnel/control. 3. open the generated route tutorial for source level method/vessel/status/header evidence. 4. read geelooy/api/tunnel/control/ awtsmoos.derech.js and the imported handler behind the route. 5. check identity/resource/provider/data side effects before making a write. 6. use caller/test evidence as navigation, not runtime proof. safety / interpretation use the generated route tutorials to drill down. core auth trusts oauth bearer, verified api key, or signed session—not browser owner fields. evidence rule generated tutorials are conservative: unknown method remains unknown; executable starter calls appear only when source level method evidence exists. derech health is shown beside every generated route. next return to learn awtsmoos.com or open the exact generated route tutorial before coding.",
-		"page": "pages/docs-tutorials-api-tunnel-control-md-54216e7b5f.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He System Tutorial: AwtsmoosBinaryJSON District: data · System ID: awtsmoos binary json Binary JSON serialization used inside the broader DosDB/Awtsmoos storage family. Generated evidence below is a navigation aid. Trust, migration, consistency, protocol, and authorization semantics remain ",
+		"searchText": "b\"h boruch hashem blessed is he system tutorial: awtsmoosbinaryjson district: data · system id: awtsmoos binary json binary json serialization used inside the broader dosdb/awtsmoos storage family. generated evidence below is a navigation aid. trust, migration, consistency, protocol, and authorization semantics remain grounded in the linked human manuals and current source. claims boundary the catalog identifies the serializer boundary; exact byte level semantics remain source and format contract questions. change risk serialization changes can make existing persisted bytes unreadable or semantically incompatible. human manuals docs/data/dosdb.md docs/data/awtsmoosdb and virtualfs.md related project boundaries ayzarim/dosdb (data) — ayzarim/dosdb source anchors ayzarim/dosdb/awtsmoosbinary/awtsmoosbinaryjson/index.js generated evidence none observed for this system packet. environment name evidence no environment name evidence matched this system's source/project scope. realtime application registration evidence no versioned application registrations are attached to this packet. lexical event/message evidence none observed for this system packet. tags persistence · serialization · compatibility · migration",
+		"page": "pages/docs-generated-system-tutorials-systems-awtsmoos-binary-json-md-86bee0fcc0.json"
 	}
 ]

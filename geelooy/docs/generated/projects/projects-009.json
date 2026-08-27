@@ -1,23 +1,26 @@
 [
 	{
-		"projectId": "geelooy-entity-view-ee684da8",
-		"path": "geelooy/entity-view",
-		"type": "public",
+		"projectId": "geelooy-apps-video-editor-0791e3fc",
+		"path": "geelooy/apps/video-editor",
+		"type": "app",
 		"family": {
-			"id": "public",
-			"title": "Public and Other Boundaries"
+			"id": "apps",
+			"title": "Applications"
 		},
-		"title": "Entity Universe",
+		"title": "Awtsmoos Video Editor - Chapter 7 Revised",
 		"entries": [
-			"index.html",
-			"app.js"
+			"index.html"
 		],
-		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-entity-view-ee684da8.md",
+		"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-video-editor-0791e3fc.md",
 		"documentation": [
 			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+				"sourcePath": "docs/TUTORIALS/PROJECTS/APPS.md",
+				"documentId": "docs-tutorials-projects-apps-md-cc69985cf2"
+			},
+			{
+				"sourcePath": "docs/APPS/README.md",
+				"documentId": "docs-apps-readme-md-0951719bae"
 			}
 		],
 		"symlinkTarget": null,
@@ -30,24 +33,132 @@
 			"other": 0
 		},
 		"totalFiles": 2,
+		"symbolSummary": null,
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/apps/video-editor",
+				"file": "geelooy/apps/video-editor/index.html",
+				"title": "Awtsmoos Video Editor - Chapter 7 Revised",
+				"scripts": 0,
+				"styles": 0
+			}
+		],
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-apps-virtual-os-stress-light-counter-1f69ac90",
+		"path": "geelooy/apps/virtual-os-stress-light-counter",
+		"type": "app",
+		"family": {
+			"id": "apps",
+			"title": "Applications"
+		},
+		"title": "Light Counter",
+		"entries": [
+			"index.html"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-virtual-os-stress-light-counter-1f69ac90.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/APPS.md",
+				"documentId": "docs-tutorials-projects-apps-md-cc69985cf2"
+			},
+			{
+				"sourcePath": "docs/APPS/README.md",
+				"documentId": "docs-apps-readme-md-0951719bae"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 1,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 0,
+			"other": 0
+		},
+		"totalFiles": 1,
+		"symbolSummary": null,
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/apps/virtual-os-stress-light-counter",
+				"file": "geelooy/apps/virtual-os-stress-light-counter/index.html",
+				"title": "Light Counter",
+				"scripts": 0,
+				"styles": 0
+			}
+		],
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-apps-wallet-fe2266bf",
+		"path": "geelooy/apps/wallet",
+		"type": "app",
+		"family": {
+			"id": "apps",
+			"title": "Applications"
+		},
+		"title": "Awtsmoos Wallet — Send, Buy & Own",
+		"entries": [
+			"index.html",
+			"main.js",
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-wallet-fe2266bf.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/apps/wallet/DOCUMENTATION.md",
+				"documentId": "geelooy-apps-wallet-documentation-md-b9615d5703"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/APPS.md",
+				"documentId": "docs-tutorials-projects-apps-md-cc69985cf2"
+			},
+			{
+				"sourcePath": "docs/APPS/README.md",
+				"documentId": "docs-apps-readme-md-0951719bae"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 38,
+			"tests": 1,
+			"assets": 0,
+			"generated": 0,
+			"docs": 1,
+			"other": 0
+		},
+		"totalFiles": 40,
 		"symbolSummary": {
-			"files": 1,
-			"classes": 0,
-			"functions": 12,
-			"exports": 0,
+			"files": 20,
+			"classes": 1,
+			"functions": 73,
+			"exports": 34,
 			"samples": [
-				"el",
-				"getJson",
-				"nodeView",
-				"entityCard",
-				"rowCard",
-				"listCard",
-				"dnaCard",
-				"hero",
-				"snapshot",
-				"fork",
-				"load",
-				"render"
+				"refreshWallet",
+				"beginCheckout",
+				"bootWallet",
+				"async",
+				"clearCheckoutQuery",
+				"processCheckoutReturn",
+				"startPayPalCheckout",
+				"decodeWalletResponse",
+				"getWalletJson",
+				"postWalletJson",
+				"networkFailure",
+				"createCoinStudySurface"
 			]
 		},
 		"outgoing": [],
@@ -55,9 +166,131 @@
 		"externalDependencies": [],
 		"publicEntries": [
 			{
-				"url": "/entity-view",
-				"file": "geelooy/entity-view/index.html",
-				"title": "Entity Universe",
+				"url": "/apps/wallet",
+				"file": "geelooy/apps/wallet/index.html",
+				"title": "Awtsmoos Wallet — Send, Buy & Own",
+				"scripts": 2,
+				"styles": 2
+			}
+		],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-apps-watermark-remover-f9935a2b",
+		"path": "geelooy/apps/watermark-remover",
+		"type": "app",
+		"family": {
+			"id": "apps",
+			"title": "Applications"
+		},
+		"title": "SVG Mask Alpha Brute-Force",
+		"entries": [
+			"index.html"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-watermark-remover-f9935a2b.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/APPS.md",
+				"documentId": "docs-tutorials-projects-apps-md-cc69985cf2"
+			},
+			{
+				"sourcePath": "docs/APPS/README.md",
+				"documentId": "docs-apps-readme-md-0951719bae"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 1,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 0,
+			"other": 0
+		},
+		"totalFiles": 1,
+		"symbolSummary": null,
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/apps/watermark-remover",
+				"file": "geelooy/apps/watermark-remover/index.html",
+				"title": "SVG Mask Alpha Brute-Force",
+				"scripts": 1,
+				"styles": 0
+			}
+		],
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-awtai-db-0b65315b",
+		"path": "geelooy/awtai-db",
+		"type": "public",
+		"family": {
+			"id": "public",
+			"title": "Public and Other Boundaries"
+		},
+		"title": "AWTAI-DB Model Foundry",
+		"entries": [
+			"index.html",
+			"app.js"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-awtai-db-0b65315b.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 9,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 0,
+			"other": 0
+		},
+		"totalFiles": 9,
+		"symbolSummary": {
+			"files": 2,
+			"classes": 0,
+			"functions": 10,
+			"exports": 5,
+			"samples": [
+				"wireDropzone",
+				"selectFile",
+				"convertSelection",
+				"prepareDownload",
+				"revokeDownload",
+				"collectView",
+				"showSelectedFile",
+				"setStatus",
+				"showResult",
+				"formatBytes"
+			]
+		},
+		"outgoing": [
+			{
+				"project": "geelooy/scripts",
+				"count": 1,
+				"examples": "geelooy/awtai-db/app.js"
+			}
+		],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/awtai-db",
+				"file": "geelooy/awtai-db/index.html",
+				"title": "AWTAI-DB Model Foundry",
 				"scripts": 1,
 				"styles": 2
 			}
@@ -67,19 +300,19 @@
 		"provenance": "generated-from-local-source"
 	},
 	{
-		"projectId": "geelooy-fetch-3a6afc54",
-		"path": "geelooy/fetch",
+		"projectId": "geelooy-ayin-5c356134",
+		"path": "geelooy/ayin",
 		"type": "public",
 		"family": {
 			"id": "public",
 			"title": "Public and Other Boundaries"
 		},
-		"title": "geelooy/fetch",
+		"title": "Real Awtsmoos Recorder",
 		"entries": [
 			"index.html"
 		],
 		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-fetch-3a6afc54.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-ayin-5c356134.md",
 		"documentation": [
 			{
 				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
@@ -102,83 +335,400 @@
 		"externalDependencies": [],
 		"publicEntries": [
 			{
-				"url": "/fetch",
-				"file": "geelooy/fetch/index.html",
+				"url": "/ayin",
+				"file": "geelooy/ayin/index.html",
+				"title": "Real Awtsmoos Recorder",
+				"scripts": 0,
+				"styles": 0
+			}
+		],
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-browser-test-1d0e410e",
+		"path": "geelooy/browser-test",
+		"type": "project",
+		"family": {
+			"id": "public",
+			"title": "Public and Other Boundaries"
+		},
+		"title": "geelooy/browser-test",
+		"entries": [],
+		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-browser-test-1d0e410e.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 1,
+			"tests": 1,
+			"assets": 0,
+			"generated": 0,
+			"docs": 0,
+			"other": 0
+		},
+		"totalFiles": 2,
+		"symbolSummary": {
+			"files": 1,
+			"classes": 0,
+			"functions": 0,
+			"exports": 3,
+			"samples": [
+				"mobileRoutes",
+				"mobileViewport",
+				"mobileAssertions"
+			]
+		},
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [],
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-comment-thread-6cb34586",
+		"path": "geelooy/comment-thread",
+		"type": "public",
+		"family": {
+			"id": "public",
+			"title": "Public and Other Boundaries"
+		},
+		"title": "Comment Thread — Geelooy",
+		"entries": [
+			"index.html",
+			"app.js",
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-comment-thread-6cb34586.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/comment-thread/DOCUMENTATION.md",
+				"documentId": "geelooy-comment-thread-documentation-md-246a3c0178"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 20,
+			"tests": 2,
+			"assets": 0,
+			"generated": 0,
+			"docs": 1,
+			"other": 0
+		},
+		"totalFiles": 23,
+		"symbolSummary": {
+			"files": 18,
+			"classes": 3,
+			"functions": 44,
+			"exports": 18,
+			"samples": [
+				"async",
+				"uploadMalchusCommentAsset",
+				"createCommentReactionRail",
+				"createYesodContextPanel",
+				"coordinateField",
+				"textAreaField",
+				"YesodManifestStore",
+				"ManifestStore",
+				"createChesedMediaPicker",
+				"createHodReferencePicker",
+				"referenceManifest",
+				"textField"
+			]
+		},
+		"outgoing": [
+			{
+				"project": "geelooy/social-actions",
+				"count": 1,
+				"examples": "geelooy/comment-thread/modules/CommentReaction.js"
+			}
+		],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/comment-thread",
+				"file": "geelooy/comment-thread/index.html",
+				"title": "Comment Thread — Geelooy",
+				"scripts": 2,
+				"styles": 2
+			}
+		],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-contact-fe32cc9f",
+		"path": "geelooy/contact",
+		"type": "public",
+		"family": {
+			"id": "public",
+			"title": "Public and Other Boundaries"
+		},
+		"title": "Contact — Awtsmoos",
+		"entries": [
+			"index.html"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-contact-fe32cc9f.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 3,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 0,
+			"other": 0
+		},
+		"totalFiles": 3,
+		"symbolSummary": {
+			"files": 1,
+			"classes": 0,
+			"functions": 1,
+			"exports": 0,
+			"samples": [
+				"submitContact"
+			]
+		},
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/contact",
+				"file": "geelooy/contact/index.html",
+				"title": "Contact — Awtsmoos",
+				"scripts": 1,
+				"styles": 1
+			}
+		],
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-control-4c72edda",
+		"path": "geelooy/control",
+		"type": "public",
+		"family": {
+			"id": "public",
+			"title": "Public and Other Boundaries"
+		},
+		"title": "Code Control Panel",
+		"entries": [
+			"index.html",
+			"app.js"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-control-4c72edda.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 3,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 0,
+			"other": 0
+		},
+		"totalFiles": 3,
+		"symbolSummary": {
+			"files": 1,
+			"classes": 0,
+			"functions": 7,
+			"exports": 0,
+			"samples": [
+				"loadScripts",
+				"displayScripts",
+				"openDB",
+				"saveScript",
+				"createNewScript",
+				"loadScript",
+				"sendCode"
+			]
+		},
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/control",
+				"file": "geelooy/control/index.html",
+				"title": "Code Control Panel",
+				"scripts": 1,
+				"styles": 1
+			}
+		],
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-css-453f029b",
+		"path": "geelooy/css",
+		"type": "project",
+		"family": {
+			"id": "public",
+			"title": "Public and Other Boundaries"
+		},
+		"title": "geelooy/css",
+		"entries": [],
+		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-css-453f029b.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 1,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 0,
+			"other": 0
+		},
+		"totalFiles": 1,
+		"symbolSummary": null,
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [],
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-db-eb46238b",
+		"path": "geelooy/db",
+		"type": "public",
+		"family": {
+			"id": "public",
+			"title": "Public and Other Boundaries"
+		},
+		"title": "geelooy/db",
+		"entries": [
+			"index.html",
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-db-eb46238b.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/db/DOCUMENTATION.md",
+				"documentId": "geelooy-db-documentation-md-94231c30f4"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 7,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 1,
+			"other": 1
+		},
+		"totalFiles": 9,
+		"symbolSummary": {
+			"files": 2,
+			"classes": 0,
+			"functions": 20,
+			"exports": 0,
+			"samples": [
+				"checkAuth",
+				"ext",
+				"handleListFolder",
+				"handleReadFile",
+				"handleWriteFile",
+				"handleCreateItem",
+				"handleDeleteItem",
+				"main",
+				"showLoading",
+				"hideLoading",
+				"showMessage",
+				"updateBreadcrumbs"
+			]
+		},
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/db",
+				"file": "geelooy/db/index.html",
 				"title": "",
 				"scripts": 0,
 				"styles": 0
-			}
-		],
-		"requiresLocalDoc": false,
-		"documentationCovered": false,
-		"provenance": "generated-from-local-source"
-	},
-	{
-		"projectId": "geelooy-game-52a2ee21",
-		"path": "geelooy/game",
-		"type": "public",
-		"family": {
-			"id": "public",
-			"title": "Public and Other Boundaries"
-		},
-		"title": "Opening Mitzvah World…",
-		"entries": [
-			"index.html"
-		],
-		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-game-52a2ee21.md",
-		"documentation": [
+			},
 			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
-			}
-		],
-		"symlinkTarget": null,
-		"counts": {
-			"source": 1,
-			"tests": 0,
-			"assets": 0,
-			"generated": 0,
-			"docs": 0,
-			"other": 0
-		},
-		"totalFiles": 1,
-		"symbolSummary": null,
-		"outgoing": [],
-		"incoming": [],
-		"externalDependencies": [],
-		"publicEntries": [
-			{
-				"url": "/game",
-				"file": "geelooy/game/index.html",
-				"title": "Opening Mitzvah World…",
+				"url": "/db/console",
+				"file": "geelooy/db/console/index.html",
+				"title": "Simple DosDB GUI",
 				"scripts": 0,
 				"styles": 0
+			},
+			{
+				"url": "/db/explorer",
+				"file": "geelooy/db/explorer/index.html",
+				"title": "AWTSMOOS DB INTERFACE - HYPERDRIVE EDITION",
+				"scripts": 1,
+				"styles": 2
 			}
 		],
 		"requiresLocalDoc": false,
-		"documentationCovered": false,
+		"documentationCovered": true,
 		"provenance": "generated-from-local-source"
 	},
 	{
-		"projectId": "geelooy-games-16336109",
-		"path": "geelooy/games",
+		"projectId": "geelooy-docs-4fac4e9e",
+		"path": "geelooy/docs",
 		"type": "public",
 		"family": {
 			"id": "public",
 			"title": "Public and Other Boundaries"
 		},
-		"title": "Awtsmoos Games — 25 Playable Worlds",
+		"title": "Awtsmoos Documentation",
 		"entries": [
 			"index.html",
 			"DOCUMENTATION.md"
 		],
 		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-16336109.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-docs-4fac4e9e.md",
 		"documentation": [
 			{
-				"sourcePath": "geelooy/games/DOCUMENTATION.md",
-				"documentId": "geelooy-games-documentation-md-91efed5ea4"
+				"sourcePath": "geelooy/docs/DOCUMENTATION.md",
+				"documentId": "geelooy-docs-documentation-md-c958ffbba2"
 			},
 			{
 				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
@@ -187,529 +737,29 @@
 		],
 		"symlinkTarget": null,
 		"counts": {
-			"source": 6373,
-			"tests": 1370,
-			"assets": 1,
-			"generated": 57,
-			"docs": 32,
-			"other": 304
+			"source": 0,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 3555,
+			"other": 0
 		},
-		"totalFiles": 8137,
+		"totalFiles": 3555,
 		"symbolSummary": null,
 		"outgoing": [],
 		"incoming": [],
 		"externalDependencies": [],
 		"publicEntries": [
 			{
-				"url": "/games",
-				"file": "geelooy/games/index.html",
-				"title": "Awtsmoos Games — 25 Playable Worlds",
-				"scripts": 2,
-				"styles": 1
-			}
-		],
-		"requiresLocalDoc": true,
-		"documentationCovered": true,
-		"provenance": "generated-from-local-source"
-	},
-	{
-		"projectId": "geelooy-games-adventure-8beccc29",
-		"path": "geelooy/games/adventure",
-		"type": "game",
-		"family": {
-			"id": "games",
-			"title": "Games and Worlds"
-		},
-		"title": "Adventure Game",
-		"entries": [
-			"index.html"
-		],
-		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-adventure-8beccc29.md",
-		"documentation": [
-			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
-				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
-			},
-			{
-				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
-				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
-			}
-		],
-		"symlinkTarget": null,
-		"counts": {
-			"source": 1,
-			"tests": 0,
-			"assets": 0,
-			"generated": 0,
-			"docs": 0,
-			"other": 0
-		},
-		"totalFiles": 1,
-		"symbolSummary": null,
-		"outgoing": [],
-		"incoming": [],
-		"externalDependencies": [],
-		"publicEntries": [
-			{
-				"url": "/games/adventure",
-				"file": "geelooy/games/adventure/index.html",
-				"title": "Adventure Game",
-				"scripts": 0,
-				"styles": 0
-			}
-		],
-		"requiresLocalDoc": false,
-		"documentationCovered": false,
-		"provenance": "generated-from-local-source"
-	},
-	{
-		"projectId": "geelooy-games-brick-blast-e1d8b393",
-		"path": "geelooy/games/brick-blast",
-		"type": "game",
-		"family": {
-			"id": "games",
-			"title": "Games and Worlds"
-		},
-		"title": "Brick Blast",
-		"entries": [
-			"index.html",
-			"index.js",
-			"DOCUMENTATION.md"
-		],
-		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-brick-blast-e1d8b393.md",
-		"documentation": [
-			{
-				"sourcePath": "geelooy/games/brick-blast/DOCUMENTATION.md",
-				"documentId": "geelooy-games-brick-blast-documentation-md-e8cf94ec9b"
-			},
-			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
-				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
-			},
-			{
-				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
-				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
-			}
-		],
-		"symlinkTarget": null,
-		"counts": {
-			"source": 79,
-			"tests": 0,
-			"assets": 0,
-			"generated": 0,
-			"docs": 1,
-			"other": 0
-		},
-		"totalFiles": 80,
-		"symbolSummary": {
-			"files": 75,
-			"classes": 17,
-			"functions": 93,
-			"exports": 86,
-			"samples": [
-				"PROVIDERS",
-				"async",
-				"fetchModels",
-				"generateLevel",
-				"handleFetchError",
-				"initAudio",
-				"playNote",
-				"playNextNote",
-				"playVictoryFanfare",
-				"playStarPing",
-				"getFrequency",
-				"playFrequency"
-			]
-		},
-		"outgoing": [],
-		"incoming": [],
-		"externalDependencies": [],
-		"publicEntries": [
-			{
-				"url": "/games/brick-blast",
-				"file": "geelooy/games/brick-blast/index.html",
-				"title": "Brick Blast",
+				"url": "/docs",
+				"file": "geelooy/docs/index.html",
+				"title": "Awtsmoos Documentation",
 				"scripts": 1,
-				"styles": 4
+				"styles": 19
 			}
 		],
 		"requiresLocalDoc": true,
 		"documentationCovered": true,
-		"provenance": "generated-from-local-source"
-	},
-	{
-		"projectId": "geelooy-games-cards-de32ecc3",
-		"path": "geelooy/games/cards",
-		"type": "game",
-		"family": {
-			"id": "games",
-			"title": "Games and Worlds"
-		},
-		"title": "The Utterances — Blackjack on Awtsmoos",
-		"entries": [
-			"index.html",
-			"DOCUMENTATION.md"
-		],
-		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-cards-de32ecc3.md",
-		"documentation": [
-			{
-				"sourcePath": "geelooy/games/cards/DOCUMENTATION.md",
-				"documentId": "geelooy-games-cards-documentation-md-1b0e742765"
-			},
-			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
-				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
-			},
-			{
-				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
-				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
-			}
-		],
-		"symlinkTarget": null,
-		"counts": {
-			"source": 10,
-			"tests": 0,
-			"assets": 0,
-			"generated": 0,
-			"docs": 1,
-			"other": 0
-		},
-		"totalFiles": 11,
-		"symbolSummary": {
-			"files": 5,
-			"classes": 4,
-			"functions": 4,
-			"exports": 5,
-			"samples": [
-				"BlackjackAI",
-				"createDeck",
-				"shuffleDeck",
-				"Renderer",
-				"BlackjackGame",
-				"orchestrates",
-				"initializeMenu",
-				"beginExperience"
-			]
-		},
-		"outgoing": [],
-		"incoming": [],
-		"externalDependencies": [],
-		"publicEntries": [
-			{
-				"url": "/games/cards",
-				"file": "geelooy/games/cards/index.html",
-				"title": "The Utterances — Blackjack on Awtsmoos",
-				"scripts": 1,
-				"styles": 1
-			}
-		],
-		"requiresLocalDoc": true,
-		"documentationCovered": true,
-		"provenance": "generated-from-local-source"
-	},
-	{
-		"projectId": "geelooy-games-chess-9ba46d03",
-		"path": "geelooy/games/chess",
-		"type": "game",
-		"family": {
-			"id": "games",
-			"title": "Games and Worlds"
-		},
-		"title": "Ultimate Chess AI",
-		"entries": [
-			"index.html",
-			"main.js",
-			"DOCUMENTATION.md"
-		],
-		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-chess-9ba46d03.md",
-		"documentation": [
-			{
-				"sourcePath": "geelooy/games/chess/DOCUMENTATION.md",
-				"documentId": "geelooy-games-chess-documentation-md-10b4da5210"
-			},
-			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
-				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
-			},
-			{
-				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
-				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
-			}
-		],
-		"symlinkTarget": null,
-		"counts": {
-			"source": 35,
-			"tests": 0,
-			"assets": 0,
-			"generated": 0,
-			"docs": 1,
-			"other": 0
-		},
-		"totalFiles": 36,
-		"symbolSummary": {
-			"files": 28,
-			"classes": 16,
-			"functions": 85,
-			"exports": 44,
-			"samples": [
-				"evaluate",
-				"orderMoves",
-				"quiesce",
-				"search",
-				"searchRoot",
-				"decodeMove",
-				"processRawBook",
-				"initializeEngine",
-				"forgeUniverseIndices",
-				"getLSBIndex",
-				"popBit",
-				"popcount"
-			]
-		},
-		"outgoing": [],
-		"incoming": [],
-		"externalDependencies": [],
-		"publicEntries": [
-			{
-				"url": "/games/chess",
-				"file": "geelooy/games/chess/index.html",
-				"title": "Ultimate Chess AI",
-				"scripts": 4,
-				"styles": 3
-			},
-			{
-				"url": "/games/chess/debug",
-				"file": "geelooy/games/chess/debug/index.html",
-				"title": "Awtsmoos Engine - Debugging Harness",
-				"scripts": 1,
-				"styles": 0
-			}
-		],
-		"requiresLocalDoc": true,
-		"documentationCovered": true,
-		"provenance": "generated-from-local-source"
-	},
-	{
-		"projectId": "geelooy-games-city-of-light-78d65cbc",
-		"path": "geelooy/games/city-of-light",
-		"type": "game",
-		"family": {
-			"id": "games",
-			"title": "Games and Worlds"
-		},
-		"title": "City of Light · The Complete Pilgrimage",
-		"entries": [
-			"index.html",
-			"package.json",
-			"DOCUMENTATION.md",
-			"README.md",
-			"readme.md"
-		],
-		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-city-of-light-78d65cbc.md",
-		"documentation": [
-			{
-				"sourcePath": "geelooy/games/city-of-light/DOCUMENTATION.md",
-				"documentId": "geelooy-games-city-of-light-documentation-md-9350b949bc"
-			},
-			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
-				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
-			},
-			{
-				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
-				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
-			}
-		],
-		"symlinkTarget": null,
-		"counts": {
-			"source": 67,
-			"tests": 11,
-			"assets": 0,
-			"generated": 0,
-			"docs": 2,
-			"other": 0
-		},
-		"totalFiles": 80,
-		"symbolSummary": {
-			"files": 54,
-			"classes": 28,
-			"functions": 76,
-			"exports": 96,
-			"samples": [
-				"ABILITIES",
-				"abilityById",
-				"abilityList",
-				"ability",
-				"CAMPAIGN_CHAPTERS",
-				"chapterByNumber",
-				"chapterById",
-				"chapterPresentation",
-				"chaptersUnlockedThrough",
-				"CampaignProgress",
-				"clampChapter",
-				"nonNegative"
-			]
-		},
-		"outgoing": [],
-		"incoming": [],
-		"externalDependencies": [],
-		"publicEntries": [
-			{
-				"url": "/games/city-of-light",
-				"file": "geelooy/games/city-of-light/index.html",
-				"title": "City of Light · The Complete Pilgrimage",
-				"scripts": 2,
-				"styles": 1
-			}
-		],
-		"requiresLocalDoc": true,
-		"documentationCovered": true,
-		"provenance": "generated-from-local-source"
-	},
-	{
-		"projectId": "geelooy-games-connect4-f617ea51",
-		"path": "geelooy/games/connect4",
-		"type": "game",
-		"family": {
-			"id": "games",
-			"title": "Games and Worlds"
-		},
-		"title": "Connect 4",
-		"entries": [
-			"index.html",
-			"main.js"
-		],
-		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-connect4-f617ea51.md",
-		"documentation": [
-			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
-				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
-			},
-			{
-				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
-				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
-			}
-		],
-		"symlinkTarget": null,
-		"counts": {
-			"source": 6,
-			"tests": 0,
-			"assets": 0,
-			"generated": 0,
-			"docs": 0,
-			"other": 0
-		},
-		"totalFiles": 6,
-		"symbolSummary": {
-			"files": 4,
-			"classes": 5,
-			"functions": 28,
-			"exports": 0,
-			"samples": [
-				"getGolemMove",
-				"minimax",
-				"scorePosition",
-				"evaluateWindow",
-				"getValidLocations",
-				"ai_isTerminalNode",
-				"getNextOpenRow",
-				"ai_dropPiece",
-				"ai_checkWin",
-				"resize",
-				"init",
-				"resetGame"
-			]
-		},
-		"outgoing": [],
-		"incoming": [],
-		"externalDependencies": [],
-		"publicEntries": [
-			{
-				"url": "/games/connect4",
-				"file": "geelooy/games/connect4/index.html",
-				"title": "Connect 4",
-				"scripts": 2,
-				"styles": 1
-			}
-		],
-		"requiresLocalDoc": false,
-		"documentationCovered": false,
-		"provenance": "generated-from-local-source"
-	},
-	{
-		"projectId": "geelooy-games-dove-c1bb7fb4",
-		"path": "geelooy/games/dove",
-		"type": "game",
-		"family": {
-			"id": "games",
-			"title": "Games and Worlds"
-		},
-		"title": "Noah's Dove's 🕊️ Quest ❓ for Shalom",
-		"entries": [
-			"index.html"
-		],
-		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-dove-c1bb7fb4.md",
-		"documentation": [
-			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
-				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
-			},
-			{
-				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
-				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
-			}
-		],
-		"symlinkTarget": null,
-		"counts": {
-			"source": 8,
-			"tests": 0,
-			"assets": 0,
-			"generated": 0,
-			"docs": 0,
-			"other": 0
-		},
-		"totalFiles": 8,
-		"symbolSummary": {
-			"files": 6,
-			"classes": 0,
-			"functions": 22,
-			"exports": 32,
-			"samples": [
-				"init",
-				"update",
-				"draw",
-				"drawWaveLine",
-				"CANVAS_WIDTH",
-				"CANVAS_HEIGHT",
-				"updateDimensions",
-				"DOVE_START_X",
-				"DOVE_START_Y",
-				"DOVE_WIDTH",
-				"DOVE_HEIGHT",
-				"DOVE_RADIUS"
-			]
-		},
-		"outgoing": [],
-		"incoming": [],
-		"externalDependencies": [],
-		"publicEntries": [
-			{
-				"url": "/games/dove",
-				"file": "geelooy/games/dove/index.html",
-				"title": "Noah's Dove's 🕊️ Quest ❓ for Shalom",
-				"scripts": 1,
-				"styles": 1
-			}
-		],
-		"requiresLocalDoc": false,
-		"documentationCovered": false,
 		"provenance": "generated-from-local-source"
 	}
 ]

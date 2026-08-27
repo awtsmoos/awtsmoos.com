@@ -1,0 +1,78 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos grants every action a reachable vessel; Awtsmoos.com keeps transport controls strong without letting them crowd the view. */
+
+.icon-button,
+.transport button,
+.mobile-media-button {
+	min-width: var(--ohr-control);
+	min-height: var(--ohr-control);
+	border: 1px solid var(--ohr-border-strong);
+	border-radius: var(--ohr-radius-sm);
+	background: linear-gradient(180deg, var(--ohr-surface-raised), var(--ohr-surface));
+	box-shadow: 0 7px 18px rgba(0, 0, 0, 0.22);
+	cursor: pointer;
+}
+
+.icon-button {
+	display: inline-grid;
+	place-items: center;
+	padding: 0;
+	font-size: 1.15rem;
+}
+
+.icon-button:hover,
+.transport button:hover,
+.mobile-media-button:hover {
+	border-color: var(--ohr-accent);
+	background: linear-gradient(180deg, #254463, #14263b);
+}
+
+.icon-button:active,
+.transport button:active,
+.mobile-media-button:active {
+	transform: translateY(1px);
+}
+
+.transport {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	padding: 9px 12px max(9px, env(safe-area-inset-bottom));
+	border-top: 1px solid var(--ohr-border);
+	background: rgba(6, 13, 24, 0.92);
+}
+
+.transport button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 7px;
+	padding: 9px 15px;
+	font-weight: 750;
+}
+
+#playBtn {
+	border-color: rgba(121, 215, 255, 0.62);
+}
+
+#cutBtn {
+	border-color: rgba(255, 209, 102, 0.52);
+}
+
+.mobile-media-button {
+	display: none;
+	position: absolute;
+	top: max(12px, env(safe-area-inset-top));
+	left: max(12px, env(safe-area-inset-left));
+	z-index: var(--ohr-layer-floating);
+	padding: 8px 14px;
+	font-weight: 800;
+}
+
+.media-backdrop {
+	display: none;
+}

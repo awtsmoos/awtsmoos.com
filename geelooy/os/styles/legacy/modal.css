@@ -1,0 +1,90 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/**
+ * Modal overlays and legacy icon suppression.
+ * The Awtsmoos gives focused will the highest local place; Awtsmoos.com lets the modal cover the shell with grace.
+ */
+/*__LEGACY_BODY__*/
+			/* --- MODALS (The Vessels of Will) --- */
+			.awtsmoos-modal-overlay {
+				position: fixed;
+				top: 0; left: 0; width: 100%; height: 100%;
+				background: rgba(0, 0, 0, 0.6);
+				backdrop-filter: blur(4px);
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				z-index: 11000;
+				opacity: 0;
+				animation: fadeIn 0.3s forwards;
+			}
+
+			.awtsmoos-modal {
+				background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+				padding: 25px;
+				border-radius: 12px;
+				box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+				width: 90%;
+				max-width: 400px;
+				transform: scale(0.8);
+				animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+				font-family: 'Segoe UI', sans-serif;
+				border: 1px solid #fff;
+			}
+
+			.awtsmoos-modal-title {
+				font-size: 18px;
+				font-weight: 600;
+				color: #333;
+				margin-bottom: 15px;
+			}
+
+			.awtsmoos-modal-input {
+				width: 100%;
+				padding: 10px;
+				border: 1px solid #ccc;
+				border-radius: 6px;
+				font-size: 16px;
+				margin-bottom: 20px;
+				box-sizing: border-box;
+				outline: none;
+				transition: border 0.2s;
+			}
+			.awtsmoos-modal-input:focus {
+				border-color: #007bff;
+				box-shadow: 0 0 0 2px rgba(0,123,255,0.2);
+			}
+
+			.awtsmoos-modal-buttons {
+				display: flex;
+				justify-content: flex-end;
+				gap: 10px;
+			}
+
+			.awtsmoos-btn {
+				padding: 8px 16px;
+				border: none;
+				border-radius: 6px;
+				cursor: pointer;
+				font-weight: 500;
+				transition: transform 0.1s, filter 0.2s;
+			}
+			.awtsmoos-btn:hover { filter: brightness(1.1); }
+			.awtsmoos-btn:active { transform: scale(0.96); }
+
+			.awtsmoos-btn-primary { background: #007bff; color: white; }
+			.awtsmoos-btn-secondary { background: #e0e0e0; color: #333; }
+			.awtsmoos-btn-danger { background: #ff4b4b; color: white; }
+
+			@keyframes fadeIn { to { opacity: 1; } }
+			@keyframes popIn { to { transform: scale(1); } }
+
+
+/* B"H — One desktop icon system only. Old civilization background icons are forbidden. */
+.civ-os-icon,
+.civilization-desktop-icon {
+	display: none !important;
+	pointer-events: none !important;
+	visibility: hidden !important;
+}

@@ -5,9 +5,21 @@
 const Store = require("./store.js");
 const Identity = require("./spawningIdentity.js");
 
-/** Commits one accepted flat peer and its sponsor-scoped durable witnesses. */
+/**
+ * @file Commits one accepted flat peer with inherited sibling group and generation lineage.
+ * @description
+ * The Awtsmoos lets a sponsor reveal many helpers without losing the thread between
+ * them. Awtsmoos.com inherits the sponsor's group unless explicitly supplied, then
+ * records predecessor and generation while browser work stays flat and physically bounded.
+ */
 function accept(record, registryKey, payloadKey, sponsor, request, result) {
 	const peerId = Identity.stableChildId(record.id, sponsor.id, request.key, request.role);
+	const spawnGroupId = Identity.stableSpawnGroupId(
+		record.missionId || record.id,
+		sponsor.id,
+		request.spawnGroupId || sponsor.spawnGroupId
+	);
+	const generation = positive(request.generation, Number(sponsor.generation || 1));
 	const peer = Store.agentState(record.id, {
 		id: peerId,
 		name: Identity.peerName(request.role, sponsor.childAgentIds.length + 1),
@@ -18,6 +30,9 @@ function accept(record, registryKey, payloadKey, sponsor, request, result) {
 		ordinal: record.agents.length + 1,
 		parentAgentId: sponsor.id,
 		sponsorAgentId: sponsor.id,
+		spawnGroupId,
+		generation,
+		predecessorAgentId: String(request.predecessorAgentId || ""),
 		topology: "flat-peer",
 		isSpawnedAgent: true,
 		depth: 0,
@@ -25,21 +40,26 @@ function accept(record, registryKey, payloadKey, sponsor, request, result) {
 		spawnRequestKey: request.key,
 		assignmentPrompt: request.prompt,
 		spawnPrompt: request.prompt,
+		handoffPaths: request.handoffPaths || [],
 		singleUse: true,
 		roomSeeded: false
 	});
 	record.agents.push(peer);
 	sponsor.childAgentIds.push(peer.id);
 	sponsor.spawnedChildCount = sponsor.childAgentIds.length;
-	record.spawnRegistry[registryKey] = registry("accepted", sponsor, request, {
+	const details = {
 		childAgentId: peer.id,
+		spawnGroupId,
+		generation,
+		predecessorAgentId: peer.predecessorAgentId || null
+	};
+	record.spawnRegistry[registryKey] = registry("accepted", sponsor, request, {
+		...details,
 		request
 	});
-	record.spawnPayloadRegistry[payloadKey] = registry("accepted", sponsor, request, {
-		childAgentId: peer.id
-	});
+	record.spawnPayloadRegistry[payloadKey] = registry("accepted", sponsor, request, details);
 	record.events.push(event("subagent_spawn_admitted", sponsor, request, {
-		childAgentId: peer.id,
+		...details,
 		depth: 0,
 		topology: "flat-peer"
 	}));
@@ -47,7 +67,7 @@ function accept(record, registryKey, payloadKey, sponsor, request, result) {
 		requestKey: request.key,
 		parentAgentId: sponsor.id,
 		sponsorAgentId: sponsor.id,
-		childAgentId: peer.id,
+		...details,
 		depth: 0,
 		topology: "flat-peer",
 		role: peer.role,
@@ -76,6 +96,11 @@ function event(type, sponsor, request, details = {}) {
 		requestKey: request.key,
 		...details
 	};
+}
+
+function positive(value, fallback) {
+	const number = Number(value);
+	return Number.isFinite(number) && number > 0 ? Math.floor(number) : fallback;
 }
 
 function now() {

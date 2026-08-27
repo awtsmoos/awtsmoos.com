@@ -1,0 +1,578 @@
+[
+	{
+		"projectId": "geelooy-tests-6cd96b39",
+		"path": "geelooy/tests",
+		"type": "test",
+		"family": {
+			"id": "libraries",
+			"title": "Libraries and Tooling"
+		},
+		"title": "geelooy/tests",
+		"entries": [
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/LIBRARIES_AND_TOOLING.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-tests-6cd96b39.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/tests/DOCUMENTATION.md",
+				"documentId": "geelooy-tests-documentation-md-4ae0affefc"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/LIBRARIES_AND_TOOLING.md",
+				"documentId": "docs-tutorials-projects-libraries-and-tooling-md-f171c0f31f"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 0,
+			"tests": 107,
+			"assets": 0,
+			"generated": 0,
+			"docs": 2,
+			"other": 0
+		},
+		"totalFiles": 109,
+		"symbolSummary": null,
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-tmp-39336fb9",
+		"path": "geelooy/tmp",
+		"type": "project",
+		"family": {
+			"id": "public",
+			"title": "Public and Other Boundaries"
+		},
+		"title": "geelooy/tmp",
+		"entries": [],
+		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-tmp-39336fb9.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 3,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 0,
+			"other": 6
+		},
+		"totalFiles": 9,
+		"symbolSummary": {
+			"files": 1,
+			"classes": 0,
+			"functions": 3,
+			"exports": 0,
+			"samples": [
+				"send",
+				"captureBrowserEvent",
+				"readPageState"
+			]
+		},
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [],
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-view-c3c15515",
+		"path": "geelooy/view",
+		"type": "project",
+		"family": {
+			"id": "public",
+			"title": "Public and Other Boundaries"
+		},
+		"title": "geelooy/view",
+		"entries": [
+			"_awtsmoos.derech.js"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-view-c3c15515.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 1,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 0,
+			"other": 0
+		},
+		"totalFiles": 1,
+		"symbolSummary": {
+			"files": 1,
+			"classes": 0,
+			"functions": 0,
+			"exports": 1,
+			"samples": [
+				"dynamicRoutes"
+			]
+		},
+		"outgoing": [
+			{
+				"project": "geelooy/api/tunnel",
+				"count": 1,
+				"examples": "geelooy/view/_awtsmoos.derech.js"
+			}
+		],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [],
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-webscrapers-1466bc35",
+		"path": "geelooy/webScrapers",
+		"type": "project",
+		"family": {
+			"id": "public",
+			"title": "Public and Other Boundaries"
+		},
+		"title": "geelooy/webScrapers",
+		"entries": [],
+		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-webscrapers-1466bc35.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 5,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 0,
+			"other": 0
+		},
+		"totalFiles": 5,
+		"symbolSummary": {
+			"files": 5,
+			"classes": 0,
+			"functions": 30,
+			"exports": 0,
+			"samples": [
+				"processGemaraJson",
+				"processChabadOneText",
+				"doAll",
+				"getFilesInDirectory",
+				"formatPage",
+				"getDafData",
+				"getPage",
+				"getEntireChabadLibraryBookSequential",
+				"processItemSequential",
+				"getEntireChabadLibraryBook",
+				"downloadJ",
+				"getData"
+			]
+		},
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [],
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-youtube-c14506c7",
+		"path": "geelooy/youtube",
+		"type": "public",
+		"family": {
+			"id": "public",
+			"title": "Public and Other Boundaries"
+		},
+		"title": "Awtsmoos YouTube Manager",
+		"entries": [
+			"index.html",
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-youtube-c14506c7.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/youtube/DOCUMENTATION.md",
+				"documentId": "geelooy-youtube-documentation-md-1d74e31a03"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 9,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 1,
+			"other": 0
+		},
+		"totalFiles": 10,
+		"symbolSummary": {
+			"files": 7,
+			"classes": 3,
+			"functions": 14,
+			"exports": 10,
+			"samples": [
+				"HodCommandQuoter",
+				"YesodLocalSecretVault",
+				"ChesedYtDlpCommandBuilder",
+				"boot",
+				"loadChannel",
+				"loadVideos",
+				"uploadMetadata",
+				"updateChanges",
+				"showUpdateError",
+				"youtubeApi",
+				"request",
+				"uploadToGoogle"
+			]
+		},
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/youtube",
+				"file": "geelooy/youtube/index.html",
+				"title": "Awtsmoos YouTube Manager",
+				"scripts": 1,
+				"styles": 1
+			}
+		],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-zmanim-3ad5830d",
+		"path": "geelooy/zmanim",
+		"type": "public",
+		"family": {
+			"id": "public",
+			"title": "Public and Other Boundaries"
+		},
+		"title": "Halachic Zmanim · Awtsmoos",
+		"entries": [
+			"index.html",
+			"package.json",
+			"DOCUMENTATION.md",
+			"README.md",
+			"readme.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-zmanim-3ad5830d.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/zmanim/DOCUMENTATION.md",
+				"documentId": "geelooy-zmanim-documentation-md-f3dd7909d8"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 109,
+			"tests": 16,
+			"assets": 1,
+			"generated": 0,
+			"docs": 2,
+			"other": 0
+		},
+		"totalFiles": 128,
+		"symbolSummary": {
+			"files": 65,
+			"classes": 35,
+			"functions": 108,
+			"exports": 115,
+			"samples": [
+				"ZmanimApp",
+				"AwtsmoosZmanimCalendar",
+				"MALCHUS_CALENDAR_DAY_STYLES",
+				"parseIsoDate",
+				"toIsoDate",
+				"shiftDays",
+				"shiftMonths",
+				"monthLabel",
+				"monthGrid",
+				"isCurrentMonth",
+				"BinahCalendarRenderer",
+				"malchusTodayIsoDate"
+			]
+		},
+		"outgoing": [
+			{
+				"project": "geelooy/libs",
+				"count": 2,
+				"examples": "geelooy/zmanim/js/components/celestial-webgl.js; geelooy/zmanim/js/domain/celestial-zmanim.js"
+			}
+		],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/zmanim",
+				"file": "geelooy/zmanim/index.html",
+				"title": "Halachic Zmanim · Awtsmoos",
+				"scripts": 1,
+				"styles": 37
+			}
+		],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "ops-a92c36e6",
+		"path": "ops",
+		"type": "operations",
+		"family": {
+			"id": "runtime",
+			"title": "Runtime and Infrastructure"
+		},
+		"title": "ops",
+		"entries": [
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/RUNTIME_AND_INFRASTRUCTURE.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ops-a92c36e6.md",
+		"documentation": [
+			{
+				"sourcePath": "ops/DOCUMENTATION.md",
+				"documentId": "ops-documentation-md-ffd7ef6004"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/RUNTIME_AND_INFRASTRUCTURE.md",
+				"documentId": "docs-tutorials-projects-runtime-and-infrastructure-md-1e31989624"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 0,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 1,
+			"other": 4
+		},
+		"totalFiles": 5,
+		"symbolSummary": null,
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [],
+		"requiresLocalDoc": false,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "scripts-8c5967fd",
+		"path": "scripts",
+		"type": "tooling",
+		"family": {
+			"id": "libraries",
+			"title": "Libraries and Tooling"
+		},
+		"title": "scripts",
+		"entries": [
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/LIBRARIES_AND_TOOLING.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/scripts-8c5967fd.md",
+		"documentation": [
+			{
+				"sourcePath": "scripts/DOCUMENTATION.md",
+				"documentId": "scripts-documentation-md-952eed8356"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/LIBRARIES_AND_TOOLING.md",
+				"documentId": "docs-tutorials-projects-libraries-and-tooling-md-f171c0f31f"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 290,
+			"tests": 30,
+			"assets": 0,
+			"generated": 0,
+			"docs": 63,
+			"other": 15
+		},
+		"totalFiles": 398,
+		"symbolSummary": null,
+		"outgoing": [],
+		"incoming": [
+			{
+				"project": "geelooy/apps/code",
+				"count": 3,
+				"examples": "geelooy/apps/code/js/android/android-source-builder.js"
+			},
+			{
+				"project": "geelooy/apps/tunnel",
+				"count": 1,
+				"examples": "geelooy/apps/tunnel/agent/rebuild-manifest.cjs"
+			}
+		],
+		"externalDependencies": [],
+		"publicEntries": [],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "templates-9c6641c1",
+		"path": "templates",
+		"type": "tooling",
+		"family": {
+			"id": "libraries",
+			"title": "Libraries and Tooling"
+		},
+		"title": "templates",
+		"entries": [
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/LIBRARIES_AND_TOOLING.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/templates-9c6641c1.md",
+		"documentation": [
+			{
+				"sourcePath": "templates/DOCUMENTATION.md",
+				"documentId": "templates-documentation-md-03f898b3fd"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/LIBRARIES_AND_TOOLING.md",
+				"documentId": "docs-tutorials-projects-libraries-and-tooling-md-f171c0f31f"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 15,
+			"tests": 1,
+			"assets": 0,
+			"generated": 0,
+			"docs": 1,
+			"other": 0
+		},
+		"totalFiles": 17,
+		"symbolSummary": null,
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "tests-59830ebc",
+		"path": "tests",
+		"type": "test",
+		"family": {
+			"id": "libraries",
+			"title": "Libraries and Tooling"
+		},
+		"title": "tests",
+		"entries": [
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/LIBRARIES_AND_TOOLING.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/tests-59830ebc.md",
+		"documentation": [
+			{
+				"sourcePath": "tests/DOCUMENTATION.md",
+				"documentId": "tests-documentation-md-f5b08ca36d"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/LIBRARIES_AND_TOOLING.md",
+				"documentId": "docs-tutorials-projects-libraries-and-tooling-md-f171c0f31f"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 0,
+			"tests": 92,
+			"assets": 0,
+			"generated": 0,
+			"docs": 1,
+			"other": 0
+		},
+		"totalFiles": 93,
+		"symbolSummary": null,
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "tools-f9d35d43",
+		"path": "tools",
+		"type": "tooling",
+		"family": {
+			"id": "libraries",
+			"title": "Libraries and Tooling"
+		},
+		"title": "tools",
+		"entries": [
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/LIBRARIES_AND_TOOLING.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/tools-f9d35d43.md",
+		"documentation": [
+			{
+				"sourcePath": "tools/DOCUMENTATION.md",
+				"documentId": "tools-documentation-md-df0412aa0e"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/LIBRARIES_AND_TOOLING.md",
+				"documentId": "docs-tutorials-projects-libraries-and-tooling-md-f171c0f31f"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 113,
+			"tests": 29,
+			"assets": 0,
+			"generated": 0,
+			"docs": 3,
+			"other": 56
+		},
+		"totalFiles": 201,
+		"symbolSummary": null,
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	}
+]

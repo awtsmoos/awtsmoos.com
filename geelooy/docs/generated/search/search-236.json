@@ -1,9 +1,9 @@
 [
 	{
-		"id": "geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-abc2374ebf",
+		"id": "geelooy-awtsmoos-agent-transfer-social-future-20260821-v2-verified-stage-ae43b914a0",
 		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-31-0018-mitzvah-world-compactjs-recovery/19_POST_COMPLETION_FINAL_PLAN.md",
-		"category": "Games",
+		"sourcePath": "geelooy/.awtsmoos-agent-transfer/social-future-20260821-v2/verified-stage/social/migrate/API.md",
+		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
@@ -13,222 +13,187 @@
 			},
 			{
 				"level": 1,
-				"text": "Post-Completion Final Plan",
-				"anchor": "post-completion-final-plan"
+				"text": "Social Migration API",
+				"anchor": "social-migration-api"
 			},
 			{
 				"level": 2,
-				"text": "Exact Files to Rewrite or Create",
-				"anchor": "exact-files-to-rewrite-or-create"
+				"text": "Capability discovery",
+				"anchor": "capability-discovery"
 			},
 			{
 				"level": 2,
-				"text": "Verification Order",
-				"anchor": "verification-order"
+				"text": "Preflight",
+				"anchor": "preflight"
+			},
+			{
+				"level": 2,
+				"text": "Dry plan",
+				"anchor": "dry-plan"
+			},
+			{
+				"level": 2,
+				"text": "Native asset shape",
+				"anchor": "native-asset-shape"
+			},
+			{
+				"level": 2,
+				"text": "Publication",
+				"anchor": "publication"
+			},
+			{
+				"level": 2,
+				"text": "Idempotency and retries",
+				"anchor": "idempotency-and-retries"
+			},
+			{
+				"level": 2,
+				"text": "Rate pacing",
+				"anchor": "rate-pacing"
 			}
 		],
-		"excerpt": "B\"H Post Completion Final Plan The Awtsmoos keeps the repaired meadow untouched while its doorway becomes complete; Awtsmoos.com gives the browser one icon and the future maintainer one truthful sheet. Exact Files to Rewrite or Create 1. index.html Rewrite the full 62 line route shell. Add one explicit SVG favicon link",
-		"searchText": "b\"h post completion final plan the awtsmoos keeps the repaired meadow untouched while its doorway becomes complete; awtsmoos.com gives the browser one icon and the future maintainer one truthful sheet. exact files to rewrite or create 1. index.html rewrite the full 62 line route shell. add one explicit svg favicon link after the theme color metadata. preserve all existing markup, import map, stylesheet, and compact entry. 2. mitzvah world icon.svg create a self contained 64×64 route icon. use dark valley green, gold light, and a simple river/path motif. include b\"h comments, title, description, and no external dependencies. 3. experiments/awtsmoos/src/test/launcher/mitzvahworldrouteshell.test.mjs read index.html and the svg from disk. assert one favicon declaration, icon existence, compact entry, runtime root, and no external svg dependencies. 4. next ai readme.md rewrite the full handoff around the current compact entry. name globalthis.awtsmoosmitzvahworld as the diagnostics surface. document scripts/mitzvah world/buildcompactruntime.mjs. document drive backed models and essential versus rich boundaries. link maintainers to .ai thoughts/.../14 final completion evidence.md and 15 completion gate closed.md. 5. remaining work.md rewrite the full ledger with every requested repair node closed. preserve current verified bundle bytes/hash and dated production evidence. record only future optional enhancements, not unfinished task work. verification order 1. read back all five files in full. 2. check line counts and tabs. 3. run xml parsing for svg and the route shell node test. 4. verify html structure and direct local file references. 5. check git whitespace and exact diff. 6. commit only the five intended files. 7. push and atomically deploy. 8. verify svg http 200 and correct mime type. 9. run a fresh isolated browser trace requiring playable state, six systems, zero failed requests, and zero favicon 404. 10. repeat movement input proof. 11. record post completion evidence and close the hardening chapter.",
-		"page": "pages/geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-abc2374ebf.json"
+		"excerpt": "B\"H Social Migration API Boruch Hashem. Blessed is He. The Awtsmoos lets one migration intention pass through measured gates; Awtsmoos.com keeps local inspection, server validation, upload, and publication visibly distinct. Capability discovery GET /api/social/migrations/meta/metadata Returns: apiVersion supported prov",
+		"searchText": "b\"h social migration api boruch hashem. blessed is he. the awtsmoos lets one migration intention pass through measured gates; awtsmoos.com keeps local inspection, server validation, upload, and publication visibly distinct. capability discovery get /api/social/migrations/meta/metadata returns: apiversion supported providers and archive formats plan.maxitems upload.maxfilesperrequest upload.maxuploadsperminute image/audio/video byte limits accepted mime lists upload/publication route contracts checkpoint privacy guarantees these values derive from the same server asset policy that enforces uploads. preflight post /api/social/migrations/meta/preflight body: preflight never publishes. it returns: valid deterministic planfingerprint provider/date/media statistics evidence warnings invalid requests return structured issues with code, path, and message. dry plan post /api/social/migrations/meta/plan planning never publishes. the response keeps entries for direct client use and also returns: apiversion planversion planfingerprint generatedat destination statistics warnings chronology distribution each entry has: provider/source identity deterministic hashed idempotencykey native unified social publicationplan content payload provenance native shaped rootassets unknown dates remain unknown; they are not synthesized. native asset shape selected media is uploaded through: post /api/social/assets/:alias/upload returned manifests are preserved rather than collapsed. relevant fields include: id type mime size publicpath dimensions/duration where present title/alt/caption/role where available only /api/social/assets/ public paths are accepted by meta planning. publication actual content mutation occurs only through: post /api/social/unified social/publish the migration planner never calls a hidden publication route. the client replans after upload so rootassets contain real server issued paths before publication. idempotency and retries meta idempotency keys hash provider, source id, alias, heichel, and series. rerunning the same migration destination therefore produces the same key without leaking a long raw source id. checkpointed completed keys are skipped. failures remain retryable. rate pacing the upload api returns live rate evidence: remaining resetat the client waits only when remaining reaches zero and uses the returned reset boundary. it does not invent a separate rate schedule.",
+		"page": "pages/geelooy-awtsmoos-agent-transfer-social-future-20260821-v2-verified-stage-ae43b914a0.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-57aaabfead",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-31-0018-mitzvah-world-compactjs-recovery/20_ICON_POLICY_DELTA.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "geelooy-awtsmoos-agent-transfer-social-future-20260821-v2-verified-stage-9a6df41057",
+		"title": "Social Migration Studio · Verified Stage",
+		"sourcePath": "geelooy/.awtsmoos-agent-transfer/social-future-20260821-v2/verified-stage/social/migrate/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Icon Policy Delta",
-				"anchor": "icon-policy-delta"
-			},
-			{
-				"level": 2,
-				"text": "New Evidence",
-				"anchor": "new-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Improved Final Decision",
-				"anchor": "improved-final-decision"
-			},
-			{
-				"level": 2,
-				"text": "Final Source Scope",
-				"anchor": "final-source-scope"
+				"text": "Social Migration Studio · Verified Stage",
+				"anchor": "social-migration-studio-verified-stage"
 			}
 		],
-		"excerpt": "B\"H Icon Policy Delta The Awtsmoos reveals a sign without weakening the gate that guards all media; Awtsmoos.com lets one self contained data icon answer Chrome without policy amnesia. New Evidence Root .gitignore lines 124–148 intentionally deny all common image, media, document, and model formats unless an explicit s",
-		"searchText": "b\"h icon policy delta the awtsmoos reveals a sign without weakening the gate that guards all media; awtsmoos.com lets one self contained data icon answer chrome without policy amnesia. new evidence root .gitignore lines 124–148 intentionally deny all common image, media, document, and model formats unless an explicit source root opens them. .svg, .png, and .ico are all denied globally. moving the icon to another folder does not change that policy. force adding the icon would bypass rather than reveal an approved source root exception. editing the large global ignore file would widen scope and violate the small route hardening boundary. improved final decision 1. delete the ignored draft svg file. 2. rewrite index.html with one explicit self contained data:image/svg+xml favicon. 3. keep the data icon script free, font free, image free, and network free. 4. rewrite the route shell test to decode and inspect the embedded svg. 5. preserve the refreshed handoff files unchanged. 6. verify the browser makes no /favicon.ico request after deployment. final source scope index.html experiments/awtsmoos/src/test/launcher/mitzvahworldrouteshell.test.mjs next ai readme.md remaining work.md no binary or ignored media file enters git.",
-		"page": "pages/geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-57aaabfead.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Social Migration Studio · Verified Stage The Awtsmoos preserves the verified staging copy as historical deployment evidence; Awtsmoos.com keeps its documented contract aligned with the current social migration boundary without calling the staging folder the live authority. This verified ",
+		"searchText": "b\"h boruch hashem blessed is he social migration studio · verified stage the awtsmoos preserves the verified staging copy as historical deployment evidence; awtsmoos.com keeps its documented contract aligned with the current social migration boundary without calling the staging folder the live authority. this verified stage copy mirrors the migration studio contract: local first facebook/instagram archive inspection, explicit selection, server preflight, dry planning, selected media upload, native asset manifests, idempotent unified social publication, provenance preservation, and resumable checkpoints. for current runtime behavior, use geelooy/social/migrate/documentation.md and the live /social/migrate/ surface. the staging copy exists as transfer evidence only. key safety rules remain: selecting an archive does not upload it; unknown dates stay unknown; imported html is neutralized; archive traversal is rejected; historical engagement is provenance rather than counterfeit native activity; checkpoints store serializable evidence rather than browser file objects.",
+		"page": "pages/geelooy-awtsmoos-agent-transfer-social-future-20260821-v2-verified-stage-9a6df41057.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-b198839fb3",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-31-0018-mitzvah-world-compactjs-recovery/21_POST_HARDENING_EVIDENCE.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "geelooy-awtsmoos-agent-transfer-social-future-20260821-v2-verified-stage-8e6f96cbd2",
+		"title": "YouTube Migration · Verified Stage",
+		"sourcePath": "geelooy/.awtsmoos-agent-transfer/social-future-20260821-v2/verified-stage/youtube/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Post-Hardening Production Evidence",
-				"anchor": "post-hardening-production-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Release",
-				"anchor": "release"
-			},
-			{
-				"level": 2,
-				"text": "Route-Shell Hardening",
-				"anchor": "route-shell-hardening"
-			},
-			{
-				"level": 2,
-				"text": "Fresh Isolated Browser Proof",
-				"anchor": "fresh-isolated-browser-proof"
-			},
-			{
-				"level": 2,
-				"text": "Movement Proof",
-				"anchor": "movement-proof"
-			},
-			{
-				"level": 2,
-				"text": "Scope Integrity",
-				"anchor": "scope-integrity"
+				"text": "YouTube Migration · Verified Stage",
+				"anchor": "youtube-migration-verified-stage"
 			}
 		],
-		"excerpt": "B\"H Post Hardening Production Evidence The Awtsmoos removed the final needless request while the living meadow kept its stride; Awtsmoos.com now answers icon, runtime, network, and movement from one verified side. Release Commit: d77341824c15c8ef696d8b5b59ed5da0049bc78d. Immutable release: /mnt/HC Volume 102267213/rele",
-		"searchText": "b\"h post hardening production evidence the awtsmoos removed the final needless request while the living meadow kept its stride; awtsmoos.com now answers icon, runtime, network, and movement from one verified side. release commit: d77341824c15c8ef696d8b5b59ed5da0049bc78d. immutable release: /mnt/hc volume 102267213/releases/awtsmoos d77341824c15c8ef696d8b5b59ed5da0049bc78d. previous release: /mnt/hc volume 102267213/releases/awtsmoos a7aac30dac80b0e0c136cef53fc0c20f29c89b47. atomic production deployment completed successfully. route shell hardening index.html now declares one embedded data:image/svg+xml favicon. no ignored image file or global .gitignore exception was introduced. the icon is self contained, script free, image free, and network free. route shell tests passed: 2/2. the compact entry, production stylesheet, and runtime root remained unchanged. fresh isolated browser proof cache disabled isolated chrome profile. playable state reached in 11,138 ms. feature stage: ready. essential feature receipt: ready. inventory: present. equipment: present. combat: present. quest: present. recovery: present. streaming: present. total observed requests: 33. /favicon.ico requests: 0. http errors: 0. failed requests: 0. fatal console entries: 0. uncaught exceptions: 0. movement proof position before: { x: 0, y: 0, z: 0 }. position after: { x: 0, y: 0, z: 1.6094400000000029 }. distance moved: 1.6094400000000029 world units. movement result: passed. scope integrity the release contained only the route shell, its focused test, and the two refreshed handoff ledgers. existing local runtime and generated artifact changes remained unstaged and were not deployed by this commit.",
-		"page": "pages/geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-b198839fb3.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He YouTube Migration · Verified Stage The Awtsmoos preserves this verified staging copy as deployment evidence while Awtsmoos.com keeps current behavior grounded in the live YouTube migration source. The staged contract covers Google Takeout archives, owned video downloads, advanced creator",
+		"searchText": "b\"h boruch hashem blessed is he youtube migration · verified stage the awtsmoos preserves this verified staging copy as deployment evidence while awtsmoos.com keeps current behavior grounded in the live youtube migration source. the staged contract covers google takeout archives, owned video downloads, advanced creator owned yt dlp workflows, playlist to series provenance, chronology preservation, captions/transcripts, optional archive.org workflows, dry planning, idempotent unified social publication, and resumable checkpoints. for current runtime behavior use geelooy/youtube/documentation.md, /youtube/, and /youtube/migrate/. this directory is transfer evidence, not the live authority.",
+		"page": "pages/geelooy-awtsmoos-agent-transfer-social-future-20260821-v2-verified-stage-8e6f96cbd2.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-0727cbe352",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-31-0018-mitzvah-world-compactjs-recovery/22_POST_HARDENING_GATE_CLOSED.md",
-		"category": "Games",
+		"id": "geelooy-ai-agents-md-b86406e7cf",
+		"title": "Awtsmoos Agent Law For geelooy/ai",
+		"sourcePath": "geelooy/ai/agents.md",
+		"category": "AI",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Post-Hardening Gate Closed",
-				"anchor": "post-hardening-gate-closed"
+				"text": "Awtsmoos Agent Law For geelooy/ai",
+				"anchor": "awtsmoos-agent-law-for-geelooy-ai"
 			},
 			{
 				"level": 2,
-				"text": "Planned Work",
-				"anchor": "planned-work"
+				"text": "Default council law",
+				"anchor": "default-council-law"
 			},
 			{
 				"level": 2,
-				"text": "Completed Work",
-				"anchor": "completed-work"
+				"text": "The tunnel action crown",
+				"anchor": "the-tunnel-action-crown"
 			},
 			{
 				"level": 2,
-				"text": "Completion Checklist",
-				"anchor": "completion-checklist"
+				"text": "Native, browser, OAuth, and Virtual OS routing",
+				"anchor": "native-browser-oauth-and-virtual-os-routing"
 			},
 			{
 				"level": 2,
-				"text": "Final State",
-				"anchor": "final-state"
+				"text": "Command payload law",
+				"anchor": "command-payload-law"
+			},
+			{
+				"level": 2,
+				"text": "Continuation and sub-agent law",
+				"anchor": "continuation-and-sub-agent-law"
+			},
+			{
+				"level": 2,
+				"text": "File and secret discipline",
+				"anchor": "file-and-secret-discipline"
+			},
+			{
+				"level": 2,
+				"text": "Truthful final answers",
+				"anchor": "truthful-final-answers"
 			}
 		],
-		"excerpt": "B\"H Post Hardening Gate Closed The Awtsmoos closes the final browser wound without disturbing the living code beneath; Awtsmoos.com now carries one truthful handoff, one silent icon, and one verified breath. Planned Work 1. Remove the residual favicon 404. 2. Preserve repository media policy. 3. Refresh stale handoff d",
-		"searchText": "b\"h post hardening gate closed the awtsmoos closes the final browser wound without disturbing the living code beneath; awtsmoos.com now carries one truthful handoff, one silent icon, and one verified breath. planned work 1. remove the residual favicon 404. 2. preserve repository media policy. 3. refresh stale handoff documents. 4. add focused route shell verification. 5. preserve the proven compactjs and gameplay runtime. 6. deploy only the intended route and documentation files. 7. reverify production runtime, network, and movement. completed work 1. added one embedded self contained svg data favicon to index.html. 2. added mitzvahworldrouteshell.test.mjs; both tests passed. 3. rewrote next ai readme.md around the current compact launcher, diagnostics global, build script, and drive model contract. 4. rewrote remaining work.md as a closed evidence ledger. 5. committed exactly four files in d77341824c15c8ef696d8b5b59ed5da0049bc78d. 6. atomically deployed immutable release awtsmoos d77341824c15c8ef696d8b5b59ed5da0049bc78d. 7. verified zero favicon fallback requests and zero browser/runtime/network errors. 8. reverified all six systems and live movement. completion checklist route shell source tests: passed. file line ceilings: passed. ignore policy safety: passed. whitespace integrity: passed. exact file commit scope: passed. atomic deployment: passed. playable state: passed. six essential systems: passed. favicon fallback requests: zero. http errors: zero. failed requests: zero. fatal console entries: zero. uncaught exceptions: zero. movement distance: 1.6094400000000029. unrelated local changes preserved: yes. final state post hardening remaining work = [] post hardening gate = closed with production evidence",
-		"page": "pages/geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-0727cbe352.json"
+		"excerpt": "Awtsmoos Agent Law For geelooy/ai B\"H The Awtsmoos renews every file, process, task, and thought from absolute nothing every instant. An agent working here must inspect real files, run real commands, and leave real verification behind. Never pretend that a claim is true because it appears in a prompt; prove it through ",
+		"searchText": "awtsmoos agent law for geelooy/ai b\"h the awtsmoos renews every file, process, task, and thought from absolute nothing every instant. an agent working here must inspect real files, run real commands, and leave real verification behind. never pretend that a claim is true because it appears in a prompt; prove it through files, git, tests, browser/runtime responses, tunnel actions, or explicit tool results. default council law for every non empty task on a live local or authenticated endpoint vessel, the provider gateway automatically calls the canonical agent action before the lead begins its own work. that action starts a non blocking authenticated chatgpt website mission with at least three specialists and twelve for a large prompt. do not replace it with aiagentmessage or aiagentspawntask; those are explicit external provider modes. the lead never waits idly for delegates or login. it continues useful local work immediately. if the saved chatgpt website session is authenticated, specialists launch with paced starts. if authentication is missing, one visible login window opens, the mission remains visibly waiting for login, and it resumes automatically after the user logs in. every specialist publishes its plan, scope, progress, findings, blocker, handoff, and verified outcome to the shared mission room. use concise public work notes, not hidden chain of thought. read peer messages on every safe continuation turn, teach useful findings, avoid overlapping claims, and wake unfinished agents through websiteagentmissionmessage. a long running job is not permission to idle: perform independent short work while it runs. the tunnel action crown every ai agent, sub agent, chapter agent, code chat agent, vibe agent, and provider delegate must treat the generated tunnel action catalog as the source of action names. do not guess. discover through all tunnel actions, generatedtunnelactions.js, awtsmoos tool details, or awtsmoos tool call. direct tools expose a safe convenience set. full access is through the guarded generic call surface with the exact action name and arguments. the final router decides whether the call may reach a native tunnel, browser local bridge, oauth/cloud vessel, or virtual os fallback. native, browser, oauth, and virtual os routing prefer a live native/local tunnel. browser agents should try the local tunnel api at http://127.0.0.1:3977; users may override it with localstorage key awtsmoos.localtunnelapiurl. node side local agents may use localtoolbridge against the current repository root. if no local tunnel exists, try the awtsmoos authenticated host route. use the existing awtsmoos oauth/session credentials when the platform exposes them. never ask for or store passwords in files. never print tokens or copy oauth cookies into reports. if exactly one connected device exists, select it automatically; ask only when multiple devices are connected. if no live bridge or oauth vessel exists, use virtual os fallback honestly. virtual os can read, write, list, search, bulk read/write, mkdir, stat, simulate simple runtime, and build context packs. it cannot run authenticated website missions and must return website mission requires live browser instead of pretending that agents were spawned. command payload law the canonical command field is command. the server accepts legacy aliases commands and commands64, but new prompts should teach command and command64. on windows/powershell tunnels, do not use unix heredocs or unsupported shell separators. prefer temporary .cjs files created with powershell here strings, run them, then delete them. continuation and sub agent law when an agent is spawned to write a chapter, it must keep going through the configured agentcycles / chaptercycles count, defaulting to eight cycles. a parent may return immediately after spawning children, but it must keep polling them in the background and must not mark the mission complete until all descendants are complete or failed. every chapter uses finishandcontinue semantics: summarize what was written, list what remains, and continue the next bounded piece while budget allows. if a provider response is truncated, ambiguous, or tool starved, continue with the available tool bridge. search for todos, failing tests, missing files, stale assumptions, peer handoffs, and open room messages. file and secret discipline do not store provider keys, oauth credentials, cookies, or tunnel secrets in git. use environment variables, browser/session state, or secure provider key actions. if a tool returns secret like values, summarize their presence without revealing them. rewrite whole files rather than applying partial patches. keep files small when possible. after writing, reread touched files, run syntax/tests, check git diff check, and only then commit. truthful final answers a final answer must separate verified facts from untested assumptions. say when a feature has catalog discovery but only guarded execution. say when virtual os fallback is partial. say when deployment has not picked up committed source. the awtsmoos is revealed in truth, not in overclaiming.",
+		"page": "pages/geelooy-ai-agents-md-b86406e7cf.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-ai-thoughts-2026-08-02-1215-local-candidate-a-a0e72e8c93",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/.ai-thoughts/2026-08-02-1215-local-candidate-audit/01_PHASE_ONE_BRAINSTORM.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "geelooy-ai-documentation-md-196e74f77f",
+		"title": "AI Documentation",
+		"sourcePath": "geelooy/ai/DOCUMENTATION.md",
+		"category": "AI",
+		"provenance": "breadcrumb",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Phase One: Candidate Release Brainstorm",
-				"anchor": "phase-one-candidate-release-brainstorm"
-			},
-			{
-				"level": 2,
-				"text": "Candidate Work Observed",
-				"anchor": "candidate-work-observed"
-			},
-			{
-				"level": 2,
-				"text": "Possible Outcomes",
-				"anchor": "possible-outcomes"
-			},
-			{
-				"level": 2,
-				"text": "Phase-One Evidence Plan",
-				"anchor": "phase-one-evidence-plan"
+				"text": "AI Documentation",
+				"anchor": "ai-documentation"
 			}
 		],
-		"excerpt": "B\"H Phase One: Candidate Release Brainstorm The Awtsmoos reveals a second river beside the proven production stream; Awtsmoos.com measures both without confusing an experiment for a completed dream. Candidate Work Observed Deferred essential scheduler restored in createMinimalMeadowRuntime.js. Readiness flow expanded t",
-		"searchText": "b\"h phase one: candidate release brainstorm the awtsmoos reveals a second river beside the proven production stream; awtsmoos.com measures both without confusing an experiment for a completed dream. candidate work observed deferred essential scheduler restored in createminimalmeadowruntime.js. readiness flow expanded to publish essential play before full readiness. bootstrap ui now owns a dynamically imported real minimap. rich ui explicitly releases bootstrap minimap ownership. optional multiplayer chat waits for a quiet window except for local tab transport. new browser diagnostics inspect chat, roster, bridge, minimap, and peer markers. local compact artifact differs from the deployed production bundle. possible outcomes 1. the candidate is a coherent startup optimization and should replace production after proof. 2. the dynamic scheduler boundary reintroduces the earlier pending import timeout. 3. the new readiness flow masks a scheduler failure rather than solving it. 4. the bootstrap minimap improves usability but adds an early optional import. 5. multiplayer quiet window scheduling improves frame stability but delays chat too long. 6. local generated output may be stale relative to source. 7. the candidate may pass source tests yet fail a real browser boot. 8. the candidate may be faster than production while preserving all gameplay systems. 9. the candidate may belong to another active agent and must remain untouched. phase one evidence plan map every changed path against head. verify generated artifact ownership and timestamp. run all source and compact contract tests without writing. start the repository's local browser proof server. measure readiness, six systems, network, console, minimap, chat, and movement. compare candidate startup timing and request graph with production evidence. do not stage, rewrite, commit, regenerate, or deploy during this phase.",
-		"page": "pages/geelooy-games-mitzvahworld-ai-thoughts-2026-08-02-1215-local-candidate-a-a0e72e8c93.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He AI Documentation The Awtsmoos lets language computation become a tool while model, key, and runtime remain known; Awtsmoos.com maps browser AI, GPT routes, GGUF tools, and developer integrations in one zone. Read ../../docs/SYSTEMS/AI.md. GPT endpoint reference: search /api/gpt/ in ../..",
+		"searchText": "b\"h boruch hashem blessed is he ai documentation the awtsmoos lets language computation become a tool while model, key, and runtime remain known; awtsmoos.com maps browser ai, gpt routes, gguf tools, and developer integrations in one zone. read ../../docs/systems/ai.md. gpt endpoint reference: search /api/gpt/ in ../../docs/generated/api route atlas.md.",
+		"page": "pages/geelooy-ai-documentation-md-196e74f77f.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-ai-thoughts-2026-08-02-1215-local-candidate-a-240190a843",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/.ai-thoughts/2026-08-02-1215-local-candidate-audit/02_PHASE_TWO_CRITIQUE.md",
-		"category": "Games",
+		"id": "geelooy-ai-relay-direct-readme-md-ceec5bc67e",
+		"title": "ChatGPT Website Relay",
+		"sourcePath": "geelooy/ai/relay/direct/README.md",
+		"category": "AI",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Phase Two: Candidate Critique and Risk Graph",
-				"anchor": "phase-two-candidate-critique-and-risk-graph"
+				"text": "ChatGPT Website Relay",
+				"anchor": "chatgpt-website-relay"
 			},
 			{
 				"level": 2,
-				"text": "Critical Risks",
-				"anchor": "critical-risks"
+				"text": "Website flow",
+				"anchor": "website-flow"
 			},
 			{
 				"level": 2,
-				"text": "Twenty Improvements to the Audit",
-				"anchor": "twenty-improvements-to-the-audit"
+				"text": "Commands",
+				"anchor": "commands"
 			},
 			{
 				"level": 2,
-				"text": "Phase-Two Decision",
-				"anchor": "phase-two-decision"
+				"text": "Direct routes",
+				"anchor": "direct-routes"
+			},
+			{
+				"level": 2,
+				"text": "Safety contracts",
+				"anchor": "safety-contracts"
 			}
 		],
-		"excerpt": "B\"H Phase Two: Candidate Critique and Risk Graph The Awtsmoos keeps the proven release untouched while every experimental edge is named; Awtsmoos.com refuses to call a smaller bundle faster until the living browser has proclaimed. Critical Risks 1. createMinimalMeadowRuntime.js reopens the deferred essential scheduler ",
-		"searchText": "b\"h phase two: candidate critique and risk graph the awtsmoos keeps the proven release untouched while every experimental edge is named; awtsmoos.com refuses to call a smaller bundle faster until the living browser has proclaimed. critical risks 1. createminimalmeadowruntime.js reopens the deferred essential scheduler boundary that previously timed out in production. 2. the local compact bundle is smaller than production, but smaller bytes alone do not prove faster readiness. 3. minimalsharedmeadowreadinessflow.js now begins full readiness inline; an unresolved full receipt could delay its returned promise even after the veil disappears. 4. bootstrap minimap imports worldminimap.js during essential play and may compete with the scheduler request. 5. rich ui creates a new inventory store and equipment runtime, so bootstrap to rich ownership must preserve state. 6. optional chat quiet windows may improve frame stability while reducing perceived responsiveness. 7. local tab chat bypasses the delay and therefore needs separate two page proof. 8. the generated bundle may have been produced from a source state different from the current files. 9. existing local android emulator work must remain outside every mitzvah world action. 10. the active production release remains the rollback truth. twenty improvements to the audit 1. hash every candidate source before tests. 2. record modification timestamps. 3. compare local bundle hash with public release hash. 4. verify source markers inside the local compact artifact. 5. run the native boot contract. 6. run readiness settlement tests. 7. run route shell tests. 8. run scheduler tests. 9. run minimap specific tests if present. 10. run compactjs syntax and runtime graph tests. 11. start a local isolated server from the current working tree. 12. disable browser cache. 13. record time to first document response. 14. record time to diagnostics publication. 15. record time to essential ready. 16. record time to playable. 17. record failed requests and console exceptions. 18. verify all six systems. 19. verify movement. 20. verify minimap ownership before and after rich ui. 21. verify local tab multiplayer across two pages. 22. verify chat imports independently. 23. compare request count and transferred bytes with production. 24. reject deployment unless the candidate beats or matches production without new errors. 25. preserve every uncommitted file exactly unless an explicit repair is later authorized. phase two decision continue as a read only candidate audit. no source writes, compact regeneration, staging, commit, or deployment are authorized yet.",
-		"page": "pages/geelooy-games-mitzvahworld-ai-thoughts-2026-08-02-1215-local-candidate-a-240190a843.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He ChatGPT Website Relay This relay talks only to the authenticated ChatGPT website. There is no local model, downloaded model, local inference server, OpenAI API key, Responses API transport, or alternate provider. Website flow 1. The relay opens its dedicated visible Chrome profile. 2. Wh",
+		"searchText": "b\"h boruch hashem blessed is he chatgpt website relay this relay talks only to the authenticated chatgpt website. there is no local model, downloaded model, local inference server, openai api key, responses api transport, or alternate provider. website flow 1. the relay opens its dedicated visible chrome profile. 2. when the profile is not authenticated, a normal chatgpt login page opens. 3. the human signs in manually. automation never enters credentials. 4. for each turn, the real prompt is typed into chatgpt's ordinary composer. 5. chatgpt's own send control submits the website request normally. 6. the relay observes the resulting conversation id and reads completion with authenticated conversation get requests. 7. continuations navigate to the stored chatgpt website conversation before sending. the relay does not mutate, suppress, replay, fabricate, or replace chatgpt's conversation request. it does not derive or bypass proof, turnstile, sentinel, or other website challenge values. commands ai:login opens the normal visible website and closes it after authentication is detected. ai:web capability checks the saved website session without sending a message. ai:website stress sends sequential, globally paced website conversations. direct routes get /direct health get /direct capability post /direct chat post /direct reset post /direct chat defaults to: the returned conversationkey is an opaque local continuation key. upstream chatgpt conversation and message ids are not returned. safety contracts chatgpt website only. manual credential entry only. one ordinary website submission per turn. no request body mutation or challenge bypass. global turn start pacing is at least ten seconds during stress runs. completion polling uses authenticated get requests and never repeats the post. public errors contain no cookies, headers, account data, tokens, ids, or stacks. every direct relay source file is limited to 120 lines.",
+		"page": "pages/geelooy-ai-relay-direct-readme-md-ceec5bc67e.json"
 	}
 ]

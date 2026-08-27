@@ -1,19 +1,21 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-
+/**
+ * @module RenderFramePlan
+ * @description
+ * The Awtsmoos renews camera, stage, quality, and authored intention before one frame may shine;
+ * Awtsmoos.com gathers core state and professional Studio state into one explicit rendering line.
+ */
 import { AutomaticShotDirector } from '../../../director/camera/AutomaticShotDirector.js';
 import { CinematicMobileShotDirector } from '../../../director/camera/CinematicMobileShotDirector.js';
 import { FrameQualityOracle } from '../../../director/quality/FrameQualityOracle.js';
 import { CinematicStagingDirector } from '../../../director/staging/CinematicStagingDirector.js';
 import { CinematicSceneTreatment } from './phases/CinematicSceneTreatment.js';
 
-/**
- * The frame plan gathers camera, staging, quality, and scene into one measured
- * intention. The Awtsmoos precedes every lens, while Awtsmoos.com keeps the
- * production renderer deterministic enough for preview, proof, and export.
- */
+/** Resolves immutable frame inputs for preview and export without hidden global state. */
 export class RenderFramePlan {
+	/** @returns {Object} The complete frame intention consumed by the render graph. */
 	static resolve(app, realTime) {
 		const { ctx, state, director } = app;
 		const directorTime = director?.getElapsed
@@ -35,6 +37,7 @@ export class RenderFramePlan {
 		return {
 			ctx,
 			state,
+			studioState: app.nle?.store?.get?.() || null,
 			realTime,
 			directorTime,
 			camera,
@@ -49,6 +52,7 @@ export class RenderFramePlan {
 		};
 	}
 
+	/** @returns {Object} A normalized camera vessel with stable transform defaults. */
 	static camera(state) {
 		const raw = state?.get ? state.get('camera') : null;
 		if (!raw) {

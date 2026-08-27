@@ -4,83 +4,69 @@
 
 /**
  * @file MitzvahWorldCreativeDock.js
- * @description Mounts reversible clean-view and gameplay-to-Movie-Studio controls.
- * The Awtsmoos renews play and authorship without forcing either one; Awtsmoos.com lets the
- * creator clear the visible frame, preserve one bounded moment, and cross only by explicit choice.
+ * @description Coordinates one retractable advanced-control capsule without owning action or markup internals.
+ * The Awtsmoos lets hidden powers gather beneath one star, then close when the player returns to road and sky;
+ * Awtsmoos.com keeps advanced tools one deliberate tap away, never a permanent wall before the eye.
  */
 
-import { createMitzvahWorldCreativeSnapshot } from './MitzvahWorldCreativeSnapshot.js';
-import { createMitzvahWorldMovieRoute } from './MitzvahWorldCreativeRoute.js';
-import { writeMitzvahWorldCreativeSnapshot } from './MitzvahWorldCreativeSnapshotStore.js';
+import { isEditableTarget } from '../input/InputTargetPolicy.js';
+import { MitzvahWorldCreativeDockActions } from './MitzvahWorldCreativeDockActions.js';
+import { MitzvahWorldCreativeDockView } from './MitzvahWorldCreativeDockView.js';
 
+/**
+ * Installs the closed-by-default direct-world command capsule.
+ * @param {Document} documentValue Active document.
+ * @param {object} environment Browser-like environment.
+ * @returns {object} Retractable advanced-control controller.
+ */
 export function installMitzvahWorldCreativeDock(
 	documentValue = globalThis.document,
 	environment = globalThis
 ) {
 	const existing = documentValue?.querySelector?.('[data-awtsmoos-creative-dock]');
-	if (existing) return existing.awtsmoosController;
-	const dock = documentValue.createElement('aside');
-	dock.className = 'Awtsmoos-creative-dock';
-	dock.dataset.awtsmoosCreativeDock = 'true';
-	dock.setAttribute('aria-label', 'Cinematic creation controls');
-	dock.innerHTML = dockMarkup();
-	documentValue.body.append(dock);
-	const cleanButton = dock.querySelector('[data-creative-clean]');
-	const studioButton = dock.querySelector('[data-creative-studio]');
-	const status = dock.querySelector('[data-creative-status]');
-	const controller = {
-		dock,
-		clean: () => toggleCleanView(documentValue, cleanButton, status),
-		openStudio: () => openStudio(documentValue, environment, status),
-		destroy: () => {
-			delete documentValue.documentElement.dataset.awtsmoosCinematic;
-			dock.remove();
+	if (existing?.awtsmoosController) {
+		return existing.awtsmoosController;
+	}
+	const view = new MitzvahWorldCreativeDockView(documentValue);
+	const actions = new MitzvahWorldCreativeDockActions(view, documentValue, environment);
+	const onToggle = () => view.toggle();
+	const onClose = () => view.close();
+	const onClean = () => actions.toggleCleanView();
+	const onStudio = () => actions.openStudio();
+	const onKeyDown = event => {
+		if (
+			event.key === 'Escape'
+			&& view.root.dataset.open === 'true'
+			&& !isEditableTarget(event.target)
+		) {
+			event.preventDefault();
+			view.close();
+			view.toggleButton.focus?.({ preventScroll: true });
 		}
 	};
-	cleanButton.addEventListener('click', controller.clean);
-	studioButton.addEventListener('click', controller.openStudio);
-	dock.awtsmoosController = controller;
-	return controller;
-}
-
-function toggleCleanView(documentValue, button, status) {
-	const root = documentValue.documentElement;
-	const active = root.dataset.awtsmoosCinematic !== 'true';
-	if (active) root.dataset.awtsmoosCinematic = 'true';
-	else delete root.dataset.awtsmoosCinematic;
-	button.setAttribute('aria-pressed', String(active));
-	button.textContent = active ? 'Restore HUD' : 'Clean view';
-	status.textContent = active ? 'Clean cinematic view enabled.' : 'Gameplay HUD restored.';
-	return active;
-}
-
-function openStudio(documentValue, environment, status) {
-	const snapshot = createMitzvahWorldCreativeSnapshot(
-		environment.AwtsmoosMitzvahWorld,
-		{
-			document: documentValue,
-			location: environment.location,
-			sessionMode: documentValue.documentElement.dataset.awtsmoosSession
+	view.toggleButton.addEventListener('click', onToggle);
+	view.closeButton.addEventListener('click', onClose);
+	view.cleanButton.addEventListener('click', onClean);
+	view.studioButton.addEventListener('click', onStudio);
+	environment.addEventListener?.('keydown', onKeyDown);
+	const controller = {
+		audioHost: view.audioHost,
+		clean: onClean,
+		close: () => view.close(),
+		dock: view.root,
+		open: () => view.open(),
+		openStudio: onStudio,
+		toggle: onToggle,
+		destroy() {
+			environment.removeEventListener?.('keydown', onKeyDown);
+			view.toggleButton.removeEventListener('click', onToggle);
+			view.closeButton.removeEventListener('click', onClose);
+			view.cleanButton.removeEventListener('click', onClean);
+			view.studioButton.removeEventListener('click', onStudio);
+			actions.destroy();
+			view.destroy();
 		}
-	);
-	const result = writeMitzvahWorldCreativeSnapshot(snapshot, environment.sessionStorage);
-	if (!result.ok) {
-		status.textContent = `Unable to prepare Movie Studio: ${result.code}.`;
-		return result;
-	}
-	status.textContent = 'Gameplay moment saved. Opening Movie Studio…';
-	const route = createMitzvahWorldMovieRoute(environment.location);
-	if (typeof environment.location?.assign === 'function') environment.location.assign(route);
-	else if (environment.location) environment.location.href = route;
-	return { ...result, route };
-}
-
-function dockMarkup() {
-	return `
-		<div class="Awtsmoos-creative-dock__controls">
-			<button type="button" data-creative-clean aria-pressed="false">Clean view</button>
-			<button type="button" data-creative-studio>Open in Studio</button>
-		</div>
-		<output class="Awtsmoos-creative-dock__status" data-creative-status aria-live="polite">Cinematic tools ready.</output>
-	`;
+	};
+	view.root.awtsmoosController = controller;
+	return controller;
 }

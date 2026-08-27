@@ -8,6 +8,14 @@ Each row links one discovered API route to generated teaching. Method/contract f
 
 | Route | Family | Method evidence | Health | Tutorial | Source |
 | --- | --- | --- | --- | --- | --- |
+| `/api/social/alias/:alias/heichelos` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-alias-alias-heichelos-34bfb8e313.md) | `geelooy/api/social/_awtsmoos.heichel.js` |
+| `/api/social/alias/:alias/heichelos/:heichel` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-alias-alias-heichelos-heichel-4c7f5ddd08.md) | `geelooy/api/social/_awtsmoos.heichel.js` |
+| `/api/social/alias/:alias/heichelos/:heichel/ownership` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-alias-alias-heichelos-heichel-ownership-c2e6e8e020.md) | `geelooy/api/social/_awtsmoos.heichel.js` |
+| `/api/social/alias/:alias/heichelos/details` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-alias-alias-heichelos-details-75a049464f.md) | `geelooy/api/social/_awtsmoos.heichel.js` |
+| `/api/social/alias/:alias/history` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-alias-alias-history-8037d82347.md) | `geelooy/api/social/_awtsmoos.profile.js` |
+| `/api/social/alias/:alias/ownership` | Social | GET, POST, PUT, DELETE | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-alias-alias-ownership-6fdd6abb36.md) | `geelooy/api/social/_awtsmoos.alias.js` |
+| `/api/social/alias/:alias/profile` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-alias-alias-profile-e5cf035cee.md) | `geelooy/api/social/_awtsmoos.profile.js` |
+| `/api/social/alias/:alias/profile/template` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-alias-alias-profile-template-3c18aad6f5.md) | `geelooy/api/social/_awtsmoos.profile.js` |
 | `/api/social/alias/default` | Social | GET, POST, PUT, DELETE | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-alias-default-ae31f7a332.md) | `geelooy/api/social/_awtsmoos.alias.js` |
 | `/api/social/aliases` | Social | GET, POST, PUT, DELETE | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-aliases-7d87f1bf35.md) | `geelooy/api/social/_awtsmoos.alias.js` |
 | `/api/social/aliases/:alias` | Social | GET, POST, PUT, DELETE | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-aliases-alias-6b5b3ba0ca.md) | `geelooy/api/social/_awtsmoos.alias.js` |
@@ -34,11 +42,6 @@ Each row links one discovered API route to generated teaching. Method/contract f
 | `/api/social/aliases/details` | Social | GET, POST, PUT, DELETE | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-aliases-details-8abad394db.md) | `geelooy/api/social/_awtsmoos.alias.js` |
 | `/api/social/analytics/metric` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-analytics-metric-01708f9a49.md) | `geelooy/api/social/_awtsmoos.platform.js` |
 | `/api/social/asdfg` | Social | GET, POST | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-asdfg-b590fed0d7.md) | `geelooy/api/social/old/_awtsmoos.posts.js` |
-| `/api/social/assets/:alias` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-assets-alias-a3ab7b8ed0.md) | `geelooy/api/social/_awtsmoos.assets.js` |
-| `/api/social/assets/:alias/:asset/bind` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-assets-alias-asset-bind-f843e00747.md) | `geelooy/api/social/_awtsmoos.assets.js` |
-| `/api/social/assets/:alias/:kind/:asset` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-assets-alias-kind-asset-bff8f66ea9.md) | `geelooy/api/social/_awtsmoos.assets.js` |
-| `/api/social/assets/:alias/manifest/:asset` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-assets-alias-manifest-asset-bac9c565ca.md) | `geelooy/api/social/_awtsmoos.assets.js` |
-| `/api/social/assets/:alias/upload` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-assets-alias-upload-aef354dfc2.md) | `geelooy/api/social/_awtsmoos.assets.js` |
 | `/api/social/bulk` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-bulk-457df22a50.md) | `geelooy/api/social/_awtsmoos.profile.js` |
 | `/api/social/cache/get` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-cache-get-695b8eafd3.md) | `geelooy/api/social/_awtsmoos.platform.js` |
 | `/api/social/cache/invalidate` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-cache-invalidate-ade4448b7f.md) | `geelooy/api/social/_awtsmoos.platform.js` |
@@ -50,6 +53,3 @@ Each row links one discovered API route to generated teaching. Method/contract f
 | `/api/social/civilization/subscriptions/:alias` | Social | GET, POST | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-civilization-subscriptions-alias-95df5f6295.md) | `geelooy/api/social/_awtsmoos.civilization.js` |
 | `/api/social/comments/thread/:post/ranked` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-comments-thread-post-ranked-47bd9e0abd.md) | `geelooy/api/social/_awtsmoos.platform.js` |
 | `/api/social/comments/thread/append` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-comments-thread-append-2fd2e02768.md) | `geelooy/api/social/_awtsmoos.platform.js` |
-| `/api/social/comments/url/:comment` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-comments-url-comment-ba6354e303.md) | `geelooy/api/social/helper/comments/routes/rich.js` |
-| `/api/social/communications/:alias/inbox` | Social | GET, POST | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-communications-alias-inbox-f2ddb3c889.md) | `geelooy/api/social/_awtsmoos.communications.js` |
-| `/api/social/communications/:alias/inbox/:item/read` | Social | GET, POST | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-communications-alias-inbox-item-read-3445390e01.md) | `geelooy/api/social/_awtsmoos.communications.js` |

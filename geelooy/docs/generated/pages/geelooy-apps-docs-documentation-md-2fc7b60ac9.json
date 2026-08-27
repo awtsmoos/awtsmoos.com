@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-docs-documentation-md-2fc7b60ac9",
+	"title": "Awtsmoos Docs App",
+	"sourcePath": "geelooy/apps/docs/DOCUMENTATION.md",
+	"category": "Apps",
+	"provenance": "breadcrumb",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Awtsmoos Docs App",
+			"anchor": "awtsmoos-docs-app"
+		},
+		{
+			"level": 2,
+			"text": "Entry point",
+			"anchor": "entry-point"
+		},
+		{
+			"level": 2,
+			"text": "Integration",
+			"anchor": "integration"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-docs-documentation-md-2fc7b60ac9-001.json"
+	]
+}

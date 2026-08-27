@@ -1,195 +1,254 @@
 [
 	{
-		"id": "geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--28b114010b",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/assets/materials/local/world/awtsmoos-nature/chai-forest/textures/bark/Bark002_1K-JPG/DIRECTORY_GUIDE.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "geelooy-api-youtube-documentation-md-7a7869cb77",
+		"title": "YouTube API Documentation",
+		"sourcePath": "geelooy/api/youtube/DOCUMENTATION.md",
+		"category": "API",
+		"provenance": "breadcrumb",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: assets/materials/local/world/awtsmoos-nature/chai-forest/textures/bark/Bark0021K-JPG",
-				"anchor": "directory-guide-assets-materials-local-world-awtsmoos-nature-chai-forest-textures-bark-bark0021k-jpg"
-			},
-			{
-				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
-			},
-			{
-				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
-			},
-			{
-				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "YouTube API Documentation",
+				"anchor": "youtube-api-documentation"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/Bark002 1K JPG Role: Assets Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 2 files, 0 structural child directories Purpose A single bark material set named Bark",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark002 1k jpg role: assets snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 2 files, 0 structural child directories purpose a single bark material set named bark002 1k jpg, kept as a leaf so its texture maps remain grouped. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: assets search terms: jpg, assets, awtsmoos nature, bark, bark002, bark002 1k jpg, chai forest, color, guide, local, materials, textures file mix: .jpg: 1 · .md: 1 good first question: “does the behavior or asset i need belong to assets, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files bark002 1k jpg color.jpg — a .jpg artifact in this directory. directory map parent: assets/materials/local/world/awtsmoos nature/chai forest/textures/bark children: none. related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. vegetation, trees, and forest systems — botany rules, tree generation, forest composition, grass, and source texture libraries overlap semantically but own different layers. boundaries and cautions this directory owns files consumed by runtime systems, not the runtime policy that selects or interprets them. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--28b114010b.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He YouTube API Documentation The Awtsmoos lets account, channel, video, upload, live, and provider OAuth move through explicit routes and guarded keys; Awtsmoos.com maps this family to YouTube Manager and configuration docs without ever copying secrets into these leaves. Read ../../../docs/",
+		"searchText": "b\"h boruch hashem blessed is he youtube api documentation the awtsmoos lets account, channel, video, upload, live, and provider oauth move through explicit routes and guarded keys; awtsmoos.com maps this family to youtube manager and configuration docs without ever copying secrets into these leaves. read ../../../docs/api/youtube.md, ../../../docs/apps/media tools.md, and ../../../docs/configuration.md.",
+		"page": "pages/geelooy-api-youtube-documentation-md-7a7869cb77.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--ba75bf2d58",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/assets/materials/local/world/awtsmoos-nature/chai-forest/textures/bark/Bark003_1K-JPG/DIRECTORY_GUIDE.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "geelooy-api-zmanim-documentation-md-ebe14d8d2c",
+		"title": "Zmanim Public API",
+		"sourcePath": "geelooy/api/zmanim/DOCUMENTATION.md",
+		"category": "API",
+		"provenance": "breadcrumb",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: assets/materials/local/world/awtsmoos-nature/chai-forest/textures/bark/Bark0031K-JPG",
-				"anchor": "directory-guide-assets-materials-local-world-awtsmoos-nature-chai-forest-textures-bark-bark0031k-jpg"
+				"text": "Zmanim Public API",
+				"anchor": "zmanim-public-api"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Entry point",
+				"anchor": "entry-point"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
-			},
-			{
-				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Contract",
+				"anchor": "contract"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/Bark003 1K JPG Role: Assets Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 2 files, 0 structural child directories Purpose A single bark material set named Bark",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark003 1k jpg role: assets snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 2 files, 0 structural child directories purpose a single bark material set named bark003 1k jpg, kept as a leaf so its texture maps remain grouped. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: assets search terms: jpg, assets, awtsmoos nature, bark, bark003, bark003 1k jpg, chai forest, color, guide, local, materials, textures file mix: .jpg: 1 · .md: 1 good first question: “does the behavior or asset i need belong to assets, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files bark003 1k jpg color.jpg — a .jpg artifact in this directory. directory map parent: assets/materials/local/world/awtsmoos nature/chai forest/textures/bark children: none. related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. vegetation, trees, and forest systems — botany rules, tree generation, forest composition, grass, and source texture libraries overlap semantically but own different layers. boundaries and cautions this directory owns files consumed by runtime systems, not the runtime policy that selects or interprets them. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--ba75bf2d58.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Zmanim Public API The Awtsmoos renews every measured instant while Awtsmoos.com exposes one shared read only calculation engine to JSON, comparison, range, search, methodology, and embed routes. Entry point awtsmoos.derech.js mounts the canonical /api/zmanim route family. README.md docum",
+		"searchText": "b\"h boruch hashem blessed is he zmanim public api the awtsmoos renews every measured instant while awtsmoos.com exposes one shared read only calculation engine to json, comparison, range, search, methodology, and embed routes. entry point awtsmoos.derech.js mounts the canonical /api/zmanim route family. readme.md documents request parameters and response shape; lib/ contains calculation, presentation, metadata, range, location, embed, and optional usno comparison services; test/ carries route/calculation witnesses. contract daily and comparison calculations are read only. latitude/longitude and requested date/timezone/opinion are explicit inputs. the compatibility alias /api/zmanimms reaches the same calculation model. browser, api, and embed clients should not invent parallel zmanim calculations.",
+		"page": "pages/geelooy-api-zmanim-documentation-md-ebe14d8d2c.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--354130df37",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/assets/materials/local/world/awtsmoos-nature/chai-forest/textures/bark/Bark004_1K-JPG/DIRECTORY_GUIDE.md",
-		"category": "Games",
+		"id": "geelooy-api-zmanim-embeds-md-60fb8acefc",
+		"title": "Zmanim Embed Integration",
+		"sourcePath": "geelooy/api/zmanim/EMBEDS.md",
+		"category": "API",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: assets/materials/local/world/awtsmoos-nature/chai-forest/textures/bark/Bark0041K-JPG",
-				"anchor": "directory-guide-assets-materials-local-world-awtsmoos-nature-chai-forest-textures-bark-bark0041k-jpg"
+				"text": "Zmanim Embed Integration",
+				"anchor": "zmanim-embed-integration"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Interactive iframe",
+				"anchor": "interactive-iframe"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "Server-rendered HTML iframe",
+				"anchor": "server-rendered-html-iframe"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "JSON integration",
+				"anchor": "json-integration"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
+				"text": "Discovering options",
+				"anchor": "discovering-options"
 			},
 			{
 				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Security boundary",
+				"anchor": "security-boundary"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/Bark004 1K JPG Role: Assets Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 2 files, 0 structural child directories Purpose A single bark material set named Bark",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark004 1k jpg role: assets snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 2 files, 0 structural child directories purpose a single bark material set named bark004 1k jpg, kept as a leaf so its texture maps remain grouped. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: assets search terms: jpg, assets, awtsmoos nature, bark, bark004, bark004 1k jpg, chai forest, color, guide, local, materials, textures file mix: .jpg: 1 · .md: 1 good first question: “does the behavior or asset i need belong to assets, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files bark004 1k jpg color.jpg — a .jpg artifact in this directory. directory map parent: assets/materials/local/world/awtsmoos nature/chai forest/textures/bark children: none. related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. vegetation, trees, and forest systems — botany rules, tree generation, forest composition, grass, and source texture libraries overlap semantically but own different layers. boundaries and cautions this directory owns files consumed by runtime systems, not the runtime policy that selects or interprets them. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--354130df37.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Zmanim Embed Integration The Awtsmoos is beyond iframe, server document, JSON, comparison, and native celestial light; Awtsmoos.com lets one calculated day enter foreign HTML through bounded vessels while every selected shita stays truthful and bright. Interactive iframe Use /zmanim/?emb",
+		"searchText": "b\"h boruch hashem blessed is he zmanim embed integration the awtsmoos is beyond iframe, server document, json, comparison, and native celestial light; awtsmoos.com lets one calculated day enter foreign html through bounded vessels while every selected shita stays truthful and bright. interactive iframe use /zmanim/?embed=custom for the full client experience. presentation options: view=plain enhanced sky=off css webgl theme=system dark light density=comfortable compact motion=auto reduced off sections=next,key,timeline,sky,all,methods the url preserves date, coordinates, timezone, primary opinion, and selected opinions. view=plain coerces sky=off, so no native webgl2 context is opened. named presets: embed=compact: plain, compact, motion off, next + key. embed=sky: enhanced native celestial view, next + key + sky. embed=full: complete enhanced day. embed=custom: caller selected finite options. server rendered html iframe use /api/zmanim/embed for a javascript free semantic document. it accepts the normal daily calculation parameters plus presentation options. add opinions=chabad,gra,magenavraham72 for selected comparison or opinions=all for every supported shared profile. with two or more calculations, key/all sections gain a horizontally scrollable semantic comparison table. static server html deliberately does not pretend to execute native webgl. when sky is requested it links to the interactive celestial vessel. json integration use /api/zmanim/day for one primary opinion or /api/zmanim/compare for selected/all opinions. the browser embed configurator automatically chooses /compare whenever explicit selected opinion state is present. discovering options get /api/zmanim/options returns every finite presentation choice, current preset definitions, and both json endpoints. external builders should prefer this metadata over hard coding ui choices. security boundary embed parameters never accept arbitrary css, html, script urls, or foreign destinations. user labels are escaped in server html. unknown opinion ids are rejected instead of silently discarded.",
+		"page": "pages/geelooy-api-zmanim-embeds-md-60fb8acefc.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--5db21a1ad5",
+		"id": "geelooy-api-zmanim-readme-md-8fc5245197",
+		"title": "Awtsmoos Zmanim Public API",
+		"sourcePath": "geelooy/api/zmanim/README.md",
+		"category": "API",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos Zmanim Public API",
+				"anchor": "awtsmoos-zmanim-public-api"
+			},
+			{
+				"level": 2,
+				"text": "Base paths",
+				"anchor": "base-paths"
+			},
+			{
+				"level": 2,
+				"text": "Daily zmanim",
+				"anchor": "daily-zmanim"
+			},
+			{
+				"level": 2,
+				"text": "Multi-opinion comparison",
+				"anchor": "multi-opinion-comparison"
+			},
+			{
+				"level": 2,
+				"text": "Range and location",
+				"anchor": "range-and-location"
+			},
+			{
+				"level": 2,
+				"text": "Presentation and embeds",
+				"anchor": "presentation-and-embeds"
+			},
+			{
+				"level": 2,
+				"text": "Calculation metadata",
+				"anchor": "calculation-metadata"
+			},
+			{
+				"level": 2,
+				"text": "Independent comparison and health",
+				"anchor": "independent-comparison-and-health"
+			},
+			{
+				"level": 2,
+				"text": "Errors and verification",
+				"anchor": "errors-and-verification"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos Zmanim Public API The Awtsmoos renews every measured instant while clients ask through JSON, comparison, and HTML gates; Awtsmoos.com exposes one shared calculation engine so browser, API, and embed never invent competing dates. Base paths Canonical: /api/zmanim Compatibility al",
+		"searchText": "b\"h boruch hashem blessed is he awtsmoos zmanim public api the awtsmoos renews every measured instant while clients ask through json, comparison, and html gates; awtsmoos.com exposes one shared calculation engine so browser, api, and embed never invent competing dates. base paths canonical: /api/zmanim compatibility alias: /api/zmanimms both paths execute the same read only route module with public cors. daily and comparison calculation itself requires no external network request. daily zmanim get /api/zmanim get /api/zmanim/day required: lat and lng. optional: date: gregorian yyyy mm dd; defaults to today in the requested timezone. timezone or tz: iana timezone; defaults to utc. opinion: one supported primary calculation profile; defaults to chabad. label: display label. the response contains location/timezone, one opinion, shaah zmanis, solar anchors, 18 canonical zmanim with iso/local displays, and warnings. multi opinion comparison get /api/zmanim/compare uses the same location/date/timezone parameters as /day and adds: opinions=all to calculate every shared supported profile. opinions=id1,id2,... to calculate an explicit ordered subset. opinion=id to request the primary profile inside that selected set. unknown selected opinion ids return http 400. with no opinions parameter, /compare returns the validated primary opinion as a one column comparison instead of silently changing it. the comparison response deduplicates shared date/location/solar anchors and returns calculations, one serialized zmanim set per selected opinion. range and location get /api/zmanim/range uses daily parameters plus start and days from 1 through 31. get /api/zmanim/location?q=11213&count=5 search accepts city names and postal/zip codes through the same geocoder adapter as the browser. presentation and embeds get /api/zmanim/options returns the exact browser supported view, sky, theme, density, motion, section choices, defaults, named embed presets, and json day/comparison endpoints. get /api/zmanim/embed returns standalone semantic text/html generated from the same calculation services. add opinions=all or a comma separated subset to render a horizontally scrollable comparison matrix. see embeds.md. calculation metadata get /api/zmanim/opinions get /api/zmanim/methodology these endpoints expose the canonical shared opinion universe, definitions, angles, and source provenance. independent comparison and health get /api/zmanim/usno get /api/zmanim/health usno comparison is optional and external; /day, /compare, and /range never depend on it. errors and verification invalid input returns http 400 with a bounded error. unexpected failures return a generic 500 without private stack traces. html embeds return escaped html error documents with equivalent status semantics. also verify /day, /compare, /options, /embed, cors/options, invalid selected opinions, and comparison html over real http.",
+		"page": "pages/geelooy-api-zmanim-readme-md-8fc5245197.json"
+	},
+	{
+		"id": "geelooy-apps-android-emulator-documentation-md-16656cb8e6",
+		"title": "Android Emulator Documentation",
+		"sourcePath": "geelooy/apps/android-emulator/DOCUMENTATION.md",
+		"category": "Apps",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Android Emulator Documentation",
+				"anchor": "android-emulator-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Android Emulator Documentation The Awtsmoos lets another machine world be simulated inside the browser through a large project vessel; Awtsmoos.com maps this app with games/simulation rather than treating its thousand file tree as a small utility level. Read ../../../docs/APPS/GAMES AND ",
+		"searchText": "b\"h boruch hashem blessed is he android emulator documentation the awtsmoos lets another machine world be simulated inside the browser through a large project vessel; awtsmoos.com maps this app with games/simulation rather than treating its thousand file tree as a small utility level. read ../../../docs/apps/games and simulation.md and ../../../docs/generated/app inventory.md.",
+		"page": "pages/geelooy-apps-android-emulator-documentation-md-16656cb8e6.json"
+	},
+	{
+		"id": "geelooy-apps-animator-agent-prior-ledger-md-ba9dc773b9",
+		"title": "Remaining Work",
+		"sourcePath": "geelooy/apps/animator/.agent-prior-ledger.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Remaining Work",
+				"anchor": "remaining-work"
+			}
+		],
+		"excerpt": "B\"H Remaining Work [ ] Save and inspect git status. [ ] Read prior continuation notes and live changed files. [ ] Render fresh production baseline and crops. [ ] Generate fresh landmarks and bounds. [ ] Resolve Dovid crossed arm and shirt family. [ ] Complete Miriam overshirt, pocket arm, hand, skirt, and flats. [ ] Co",
+		"searchText": "b\"h remaining work [ ] save and inspect git status. [ ] read prior continuation notes and live changed files. [ ] render fresh production baseline and crops. [ ] generate fresh landmarks and bounds. [ ] resolve dovid crossed arm and shirt family. [ ] complete miriam overshirt, pocket arm, hand, skirt, and flats. [ ] complete ari jacket, open palm, chest fist, trousers, and shoes. [ ] review headwear, face, eyes, beards, and mouths against final evidence. [ ] implement true line hierarchy. [ ] refine palette after geometry. [ ] verify neutral and phoneme expressions. [ ] run and read all required tests and exit codes. [ ] re read every touched file. [ ] compare planned versus actual work. [ ] inspect piano export architecture after character acceptance. [ ] close only when direct evidence meets every acceptance criterion.",
+		"page": "pages/geelooy-apps-animator-agent-prior-ledger-md-ba9dc773b9.json"
+	},
+	{
+		"id": "geelooy-apps-animator-documentation-md-743b26c48f",
+		"title": "Animator Documentation",
+		"sourcePath": "geelooy/apps/animator/DOCUMENTATION.md",
+		"category": "Apps",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Animator Documentation",
+				"anchor": "animator-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Animator Documentation The Awtsmoos lets motion and world building reveal a large engine rather than a tiny page; Awtsmoos.com places this Park Engine beside creative tools and game/simulation documentation for every stage. Read ../../../docs/APPS/CREATIVE TOOLS.md and ../../../docs/APPS",
+		"searchText": "b\"h boruch hashem blessed is he animator documentation the awtsmoos lets motion and world building reveal a large engine rather than a tiny page; awtsmoos.com places this park engine beside creative tools and game/simulation documentation for every stage. read ../../../docs/apps/creative tools.md and ../../../docs/apps/games and simulation.md.",
+		"page": "pages/geelooy-apps-animator-documentation-md-743b26c48f.json"
+	},
+	{
+		"id": "geelooy-apps-awtsmoos-gguf-documentation-md-394fa2c5c8",
+		"title": "Awtsmoos GGUF Documentation",
+		"sourcePath": "geelooy/apps/awtsmoos-gguf/DOCUMENTATION.md",
+		"category": "Apps",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos GGUF Documentation",
+				"anchor": "awtsmoos-gguf-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos GGUF Documentation The Awtsmoos lets local model artifacts become a conversational tool while metadata, model path, and runtime stay distinct; Awtsmoos.com maps this app beside the AI system without assuming it shares every /api/gpt contract. Read ../../../docs/SYSTEMS/AI.md, ..",
+		"searchText": "b\"h boruch hashem blessed is he awtsmoos gguf documentation the awtsmoos lets local model artifacts become a conversational tool while metadata, model path, and runtime stay distinct; awtsmoos.com maps this app beside the ai system without assuming it shares every /api/gpt contract. read ../../../docs/systems/ai.md, ../../../docs/apps/developer tools.md, and ../../../docs/configuration.md.",
+		"page": "pages/geelooy-apps-awtsmoos-gguf-documentation-md-394fa2c5c8.json"
+	},
+	{
+		"id": "geelooy-apps-captions-documentation-md-635b1fa0a8",
+		"title": "Captions App Documentation",
+		"sourcePath": "geelooy/apps/captions/DOCUMENTATION.md",
+		"category": "Apps",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Captions App Documentation",
+				"anchor": "captions-app-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Captions App Documentation The Awtsmoos lets timed language clothe moving media while editor and provider systems remain separately traced; Awtsmoos.com maps this substantial captions tool beside media APIs and related transcription/streaming space. Read ../../../docs/APPS/MEDIA TOOLS.md",
+		"searchText": "b\"h boruch hashem blessed is he captions app documentation the awtsmoos lets timed language clothe moving media while editor and provider systems remain separately traced; awtsmoos.com maps this substantial captions tool beside media apis and related transcription/streaming space. read ../../../docs/apps/media tools.md and ../../../docs/api/streaming.md.",
+		"page": "pages/geelooy-apps-captions-documentation-md-635b1fa0a8.json"
+	},
+	{
+		"id": "geelooy-apps-code-documentation-md-5950f1ac34",
+		"title": "Awtsmoos Code Documentation",
+		"sourcePath": "geelooy/apps/code/DOCUMENTATION.md",
+		"category": "Apps",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos Code Documentation",
+				"anchor": "awtsmoos-code-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos Code Documentation The Awtsmoos gives source an editor and lets local, native, AI, SSH, and Tunnel powers meet; Awtsmoos.com maps this major developer project without pretending every backend lives beneath one suite. Read ../../../docs/APPS/DEVELOPER TOOLS.md. Related backend fa",
+		"searchText": "b\"h boruch hashem blessed is he awtsmoos code documentation the awtsmoos gives source an editor and lets local, native, ai, ssh, and tunnel powers meet; awtsmoos.com maps this major developer project without pretending every backend lives beneath one suite. read ../../../docs/apps/developer tools.md. related backend families: compiler, runtime/native, ssh, gpt, and tunnel. search exact callers before changing contracts.",
+		"page": "pages/geelooy-apps-code-documentation-md-5950f1ac34.json"
+	},
+	{
+		"id": "geelooy-apps-code-js-ai-readme-agent-wiring-md-327fd031cf",
 		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/assets/materials/local/world/awtsmoos-nature/chai-forest/textures/bark/Bark006_1K-JPG/DIRECTORY_GUIDE.md",
-		"category": "Games",
+		"sourcePath": "geelooy/apps/code/js/ai/README-AGENT-WIRING.md",
+		"category": "Apps",
 		"provenance": "project",
 		"headings": [
 			{
@@ -199,52 +258,22 @@
 			},
 			{
 				"level": 1,
-				"text": "Directory Guide: assets/materials/local/world/awtsmoos-nature/chai-forest/textures/bark/Bark0061K-JPG",
-				"anchor": "directory-guide-assets-materials-local-world-awtsmoos-nature-chai-forest-textures-bark-bark0061k-jpg"
+				"text": "Autonomous Vibe Agent Wiring",
+				"anchor": "autonomous-vibe-agent-wiring"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Main fixes",
+				"anchor": "main-fixes"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
-			},
-			{
-				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Required stream integration",
+				"anchor": "required-stream-integration"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/Bark006 1K JPG Role: Assets Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 2 files, 0 structural child directories Purpose A single bark material set named Bark",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark006 1k jpg role: assets snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 2 files, 0 structural child directories purpose a single bark material set named bark006 1k jpg, kept as a leaf so its texture maps remain grouped. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: assets search terms: jpg, assets, awtsmoos nature, bark, bark006, bark006 1k jpg, chai forest, color, guide, local, materials, textures file mix: .jpg: 1 · .md: 1 good first question: “does the behavior or asset i need belong to assets, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files bark006 1k jpg color.jpg — a .jpg artifact in this directory. directory map parent: assets/materials/local/world/awtsmoos nature/chai forest/textures/bark children: none. related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. vegetation, trees, and forest systems — botany rules, tree generation, forest composition, grass, and source texture libraries overlap semantically but own different layers. boundaries and cautions this directory owns files consumed by runtime systems, not the runtime policy that selects or interprets them. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--5db21a1ad5.json"
+		"excerpt": "B\"H Autonomous Vibe Agent Wiring This folder adds the missing architecture for the AI coding UI. Main fixes 1. The filesystem provider now rejects missing provider identity early. 2. Git commit context is validated before remote upload. 3. GitHub commit happens once, after all files are uploaded. 4. Local .awtsmoos rep",
+		"searchText": "b\"h autonomous vibe agent wiring this folder adds the missing architecture for the ai coding ui. main fixes 1. the filesystem provider now rejects missing provider identity early. 2. git commit context is validated before remote upload. 3. github commit happens once, after all files are uploaded. 4. local .awtsmoos repo/ikar.js anchor writes inherit the correct provider type. 5. agent timeline phases replace frozen \"waiting first spark\" ui. 6. tool calls render collapsed by default. 7. file edits/creates/tests/commits can stream as readable phases. required stream integration wherever the ai api currently handles stream events, import: ```js import { agentstreamcontroller } from './agent/stream controller.js';",
+		"page": "pages/geelooy-apps-code-js-ai-readme-agent-wiring-md-327fd031cf.json"
 	}
 ]

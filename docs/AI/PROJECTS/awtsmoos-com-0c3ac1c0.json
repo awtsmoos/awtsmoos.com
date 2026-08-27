@@ -26,9 +26,9 @@
 		"assets": 0,
 		"generated": 0,
 		"docs": 1,
-		"other": 2
+		"other": 6
 	},
-	"totalFiles": 4,
+	"totalFiles": 8,
 	"symbolSummary": null,
 	"outgoingDependencies": [],
 	"incomingDependencies": [],

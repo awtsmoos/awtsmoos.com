@@ -1,0 +1,136 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos is beyond menu depth and remembered location; Awtsmoos.com lets
+ * every real command rise into one searchable glass surface where keyboard and touch find the same deed.
+ */
+.command-palette {
+	width: min(680px, calc(100vw - 24px));
+	max-height: min(72vh, 680px);
+	padding: 0;
+	border: 1px solid color-mix(in srgb, var(--docs-border) 78%, transparent);
+	border-radius: 20px;
+	background: color-mix(in srgb, var(--docs-panel) 94%, transparent);
+	box-shadow: 0 28px 90px rgb(16 24 40 / 28%), 0 8px 24px rgb(16 24 40 / 12%);
+	backdrop-filter: blur(22px) saturate(1.2);
+	overflow: hidden;
+}
+
+.command-palette::backdrop {
+	background: rgb(17 24 39 / 34%);
+	backdrop-filter: blur(4px);
+}
+
+.command-palette-shell {
+	display: grid;
+	grid-template-rows: auto minmax(0, 1fr);
+	max-height: inherit;
+}
+
+.command-palette-search-row {
+	display: grid;
+	grid-template-columns: 24px minmax(0, 1fr) auto;
+	align-items: center;
+	gap: 10px;
+	padding: 14px 16px;
+	border-bottom: 1px solid var(--docs-border);
+}
+
+.command-palette-search-row .command-icon {
+	width: 20px;
+	height: 20px;
+	color: var(--docs-muted);
+}
+
+.command-palette-search {
+	min-width: 0;
+	min-height: 42px;
+	border: 0;
+	outline: 0;
+	background: transparent;
+	color: var(--docs-text);
+	font: 600 16px/1.3 var(--docs-font-ui);
+}
+
+.command-palette-hint {
+	color: var(--docs-muted);
+	font: 500 11px/1 var(--docs-font-ui);
+	white-space: nowrap;
+}
+
+.command-palette-list {
+	display: grid;
+	gap: 3px;
+	padding: 8px;
+	overflow-y: auto;
+}
+
+.command-palette-item {
+	display: grid;
+	grid-template-columns: 22px minmax(0, 1fr) auto;
+	grid-template-areas:
+		"icon category shortcut"
+		"icon label shortcut";
+	align-items: center;
+	gap: 2px 10px;
+	min-height: 54px;
+	padding: 8px 10px;
+	border: 1px solid transparent;
+	border-radius: 12px;
+	background: transparent;
+	color: var(--docs-text);
+	text-align: left;
+}
+
+.command-palette-item .command-icon {
+	grid-area: icon;
+}
+
+.command-palette-category {
+	grid-area: category;
+	color: var(--docs-muted);
+	font: 600 10px/1.2 var(--docs-font-ui);
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+}
+
+.command-palette-label {
+	grid-area: label;
+	font: 600 13px/1.3 var(--docs-font-ui);
+}
+
+.command-palette-shortcut {
+	grid-area: shortcut;
+	color: var(--docs-muted);
+	font: 500 11px/1 var(--docs-font-ui);
+}
+
+.command-palette-item:hover,
+.command-palette-item.is-active,
+.command-palette-item:focus-visible {
+	border-color: color-mix(in srgb, var(--docs-accent) 18%, transparent);
+	background: color-mix(in srgb, var(--docs-accent) 10%, var(--docs-surface));
+	outline: none;
+}
+
+.command-palette-item:disabled {
+	opacity: 0.42;
+}
+
+@media (max-width: 680px) {
+	.command-palette {
+		width: calc(100vw - 16px);
+		max-height: min(78vh, 640px);
+		border-radius: 18px;
+	}
+
+	.command-palette-search {
+		min-height: 44px;
+	}
+
+	.command-palette-item {
+		min-height: 56px;
+	}
+}

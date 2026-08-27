@@ -1,73 +1,130 @@
 [
 	{
-		"projectId": "geelooy-games-emojis-a9a3155b",
-		"path": "geelooy/games/emojis",
-		"type": "game",
+		"projectId": "geelooy-donate-1d0f6b9f",
+		"path": "geelooy/donate",
+		"type": "public",
 		"family": {
-			"id": "games",
-			"title": "Games and Worlds"
+			"id": "public",
+			"title": "Public and Other Boundaries"
 		},
-		"title": "Emoji War — Neon Caption Arcade",
+		"title": "geelooy/donate",
 		"entries": [
-			"index.html",
-			"DOCUMENTATION.md"
+			"index.html"
 		],
-		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-emojis-a9a3155b.md",
+		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-donate-1d0f6b9f.md",
 		"documentation": [
 			{
-				"sourcePath": "geelooy/games/emojis/DOCUMENTATION.md",
-				"documentId": "geelooy-games-emojis-documentation-md-3ea2d9114e"
-			},
-			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
-				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
-			},
-			{
-				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
-				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
+				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
 			}
 		],
 		"symlinkTarget": null,
 		"counts": {
-			"source": 36,
+			"source": 1,
 			"tests": 0,
 			"assets": 0,
 			"generated": 0,
-			"docs": 1,
+			"docs": 0,
 			"other": 0
 		},
-		"totalFiles": 37,
-		"symbolSummary": {
-			"files": 30,
-			"classes": 16,
-			"functions": 103,
-			"exports": 88,
-			"samples": [
-				"setupAudio",
-				"playSound",
-				"configureSound",
-				"configureSweep",
-				"rebuildStars",
-				"drawBackground",
-				"drawWebcamBackground",
-				"loadCaptionDraft",
-				"prepareCaptionData",
-				"updateFileCount",
-				"revokeCaptionUrls",
-				"bindCaptionDragging"
-			]
-		},
+		"totalFiles": 1,
+		"symbolSummary": null,
 		"outgoing": [],
 		"incoming": [],
 		"externalDependencies": [],
 		"publicEntries": [
 			{
-				"url": "/games/emojis",
-				"file": "geelooy/games/emojis/index.html",
-				"title": "Emoji War — Neon Caption Arcade",
+				"url": "/donate",
+				"file": "geelooy/donate/index.html",
+				"title": "",
+				"scripts": 0,
+				"styles": 0
+			}
+		],
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-drive-e908c403",
+		"path": "geelooy/drive",
+		"type": "public",
+		"family": {
+			"id": "public",
+			"title": "Public and Other Boundaries"
+		},
+		"title": "Geelooy Sites · Awtsmoos",
+		"entries": [
+			"index.html",
+			"app.js",
+			"DOCUMENTATION.md",
+			"README.md",
+			"readme.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-drive-e908c403.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/drive/DOCUMENTATION.md",
+				"documentId": "geelooy-drive-documentation-md-27fd60aedc"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 159,
+			"tests": 52,
+			"assets": 0,
+			"generated": 0,
+			"docs": 2,
+			"other": 0
+		},
+		"totalFiles": 213,
+		"symbolSummary": {
+			"files": 132,
+			"classes": 30,
+			"functions": 448,
+			"exports": 222,
+			"samples": [
+				"initializeBuilder",
+				"installKeyboardCommands",
+				"installUnloadGuard",
+				"installTransportCleanup",
+				"builderAgentActions",
+				"builderAgentAction",
+				"action",
+				"capabilityStatusFor",
+				"reasonFor",
+				"GeelooyWebsiteBuilderApi",
+				"installWebsiteBuilderApi",
+				"unknownActionError"
+			]
+		},
+		"outgoing": [
+			{
+				"project": "geelooy/os",
+				"count": 4,
+				"examples": "geelooy/drive/transport/credentialedFs.js; geelooy/drive/transport/tunnelDiscovery.js; geelooy/drive/transport/tunnelPublishing.js"
+			},
+			{
+				"project": "geelooy/shared",
+				"count": 3,
+				"examples": "geelooy/drive/core/platformCapabilityBridge.js; geelooy/drive/transport/osWorkspace.js; geelooy/drive/ui/platformJourney.js"
+			}
+		],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/drive",
+				"file": "geelooy/drive/index.html",
+				"title": "Geelooy Sites · Awtsmoos",
 				"scripts": 1,
-				"styles": 1
+				"styles": 25
 			}
 		],
 		"requiresLocalDoc": true,
@@ -75,64 +132,179 @@
 		"provenance": "generated-from-local-source"
 	},
 	{
-		"projectId": "geelooy-games-kabbalah-shooter-5fd11ab3",
-		"path": "geelooy/games/kabbalah-shooter",
-		"type": "game",
+		"projectId": "geelooy-editor-91ac0b60",
+		"path": "geelooy/editor",
+		"type": "public",
 		"family": {
-			"id": "games",
-			"title": "Games and Worlds"
+			"id": "public",
+			"title": "Public and Other Boundaries"
 		},
-		"title": "Kabbalah Infinite — The Breaking of Vessels",
+		"title": "geelooy/editor",
 		"entries": [
-			"index.html",
-			"main.js",
-			"package.json",
-			"DOCUMENTATION.md"
+			"index.html"
 		],
-		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-kabbalah-shooter-5fd11ab3.md",
+		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-editor-91ac0b60.md",
 		"documentation": [
 			{
-				"sourcePath": "geelooy/games/kabbalah-shooter/DOCUMENTATION.md",
-				"documentId": "geelooy-games-kabbalah-shooter-documentation-md-5502ac94b7"
-			},
-			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
-				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
-			},
-			{
-				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
-				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
+				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
 			}
 		],
 		"symlinkTarget": null,
 		"counts": {
-			"source": 38,
+			"source": 1,
 			"tests": 0,
 			"assets": 0,
 			"generated": 0,
-			"docs": 1,
+			"docs": 0,
 			"other": 0
 		},
-		"totalFiles": 39,
+		"totalFiles": 1,
+		"symbolSummary": null,
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/editor",
+				"file": "geelooy/editor/index.html",
+				"title": "",
+				"scripts": 2,
+				"styles": 0
+			}
+		],
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-email-5712a013",
+		"path": "geelooy/email",
+		"type": "public",
+		"family": {
+			"id": "public",
+			"title": "Public and Other Boundaries"
+		},
+		"title": "Awtsmoos Quantum Mail",
+		"entries": [
+			"index.html",
+			"index.js",
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-email-5712a013.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/email/DOCUMENTATION.md",
+				"documentId": "geelooy-email-documentation-md-ba2042cc9d"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 151,
+			"tests": 4,
+			"assets": 10,
+			"generated": 0,
+			"docs": 1,
+			"other": 1
+		},
+		"totalFiles": 167,
 		"symbolSummary": {
-			"files": 35,
-			"classes": 32,
-			"functions": 16,
-			"exports": 61,
+			"files": 54,
+			"classes": 5,
+			"functions": 228,
+			"exports": 131,
 			"samples": [
-				"CONFIG",
-				"HEBREW_LETTERS",
-				"COLORS",
-				"SPRITES",
-				"AudioSynth",
-				"SETTINGS",
-				"WEAPONS",
-				"SOUNDS",
-				"SCALES",
-				"SEFIROT",
-				"TRAITS",
-				"SPELLS"
+				"smartParse",
+				"markdownToHtml",
+				"htmlToMarkdown",
+				"formatTime",
+				"bootMail",
+				"renderBootFailure",
+				"async",
+				"connectSocket",
+				"broadcastTyping",
+				"publishSocialMailEvent",
+				"threadKey",
+				"firstText"
+			]
+		},
+		"outgoing": [
+			{
+				"project": "geelooy/scripts",
+				"count": 1,
+				"examples": "geelooy/email/index.js"
+			}
+		],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/email",
+				"file": "geelooy/email/index.html",
+				"title": "Awtsmoos Quantum Mail",
+				"scripts": 2,
+				"styles": 6
+			}
+		],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-entity-view-ee684da8",
+		"path": "geelooy/entity-view",
+		"type": "public",
+		"family": {
+			"id": "public",
+			"title": "Public and Other Boundaries"
+		},
+		"title": "Entity Universe",
+		"entries": [
+			"index.html",
+			"app.js"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-entity-view-ee684da8.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 2,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 0,
+			"other": 0
+		},
+		"totalFiles": 2,
+		"symbolSummary": {
+			"files": 1,
+			"classes": 0,
+			"functions": 12,
+			"exports": 0,
+			"samples": [
+				"el",
+				"getJson",
+				"nodeView",
+				"entityCard",
+				"rowCard",
+				"listCard",
+				"dnaCard",
+				"hero",
+				"snapshot",
+				"fork",
+				"load",
+				"render"
 			]
 		},
 		"outgoing": [],
@@ -140,10 +312,156 @@
 		"externalDependencies": [],
 		"publicEntries": [
 			{
-				"url": "/games/kabbalah-shooter",
-				"file": "geelooy/games/kabbalah-shooter/index.html",
-				"title": "Kabbalah Infinite — The Breaking of Vessels",
+				"url": "/entity-view",
+				"file": "geelooy/entity-view/index.html",
+				"title": "Entity Universe",
 				"scripts": 1,
+				"styles": 2
+			}
+		],
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-fetch-3a6afc54",
+		"path": "geelooy/fetch",
+		"type": "public",
+		"family": {
+			"id": "public",
+			"title": "Public and Other Boundaries"
+		},
+		"title": "geelooy/fetch",
+		"entries": [
+			"index.html"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-fetch-3a6afc54.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 1,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 0,
+			"other": 0
+		},
+		"totalFiles": 1,
+		"symbolSummary": null,
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/fetch",
+				"file": "geelooy/fetch/index.html",
+				"title": "",
+				"scripts": 0,
+				"styles": 0
+			}
+		],
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-game-52a2ee21",
+		"path": "geelooy/game",
+		"type": "public",
+		"family": {
+			"id": "public",
+			"title": "Public and Other Boundaries"
+		},
+		"title": "Opening Mitzvah World…",
+		"entries": [
+			"index.html"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-game-52a2ee21.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 1,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 0,
+			"other": 0
+		},
+		"totalFiles": 1,
+		"symbolSummary": null,
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/game",
+				"file": "geelooy/game/index.html",
+				"title": "Opening Mitzvah World…",
+				"scripts": 0,
+				"styles": 0
+			}
+		],
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-games-16336109",
+		"path": "geelooy/games",
+		"type": "public",
+		"family": {
+			"id": "public",
+			"title": "Public and Other Boundaries"
+		},
+		"title": "Awtsmoos Games — 25 Playable Worlds",
+		"entries": [
+			"index.html",
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-16336109.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/games/DOCUMENTATION.md",
+				"documentId": "geelooy-games-documentation-md-91efed5ea4"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 6819,
+			"tests": 1469,
+			"assets": 0,
+			"generated": 58,
+			"docs": 36,
+			"other": 137
+		},
+		"totalFiles": 8519,
+		"symbolSummary": null,
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/games",
+				"file": "geelooy/games/index.html",
+				"title": "Awtsmoos Games — 25 Playable Worlds",
+				"scripts": 3,
 				"styles": 2
 			}
 		],
@@ -182,19 +500,19 @@
 		],
 		"symlinkTarget": null,
 		"counts": {
-			"source": 11,
+			"source": 15,
 			"tests": 0,
 			"assets": 0,
 			"generated": 0,
 			"docs": 1,
 			"other": 0
 		},
-		"totalFiles": 12,
+		"totalFiles": 16,
 		"symbolSummary": {
-			"files": 9,
-			"classes": 6,
-			"functions": 24,
-			"exports": 46,
+			"files": 13,
+			"classes": 8,
+			"functions": 47,
+			"exports": 51,
 			"samples": [
 				"Otiot",
 				"Tzomeach",
@@ -207,7 +525,7 @@
 				"ANIMAL_EMOJIS",
 				"getPointerState",
 				"setupControls",
-				"handlePointerDown"
+				"clearPointer"
 			]
 		},
 		"outgoing": [],
@@ -219,7 +537,7 @@
 				"file": "geelooy/games/KAVANAH/index.html",
 				"title": "KAVANAH",
 				"scripts": 1,
-				"styles": 1
+				"styles": 2
 			}
 		],
 		"requiresLocalDoc": true,
@@ -260,19 +578,19 @@
 		],
 		"symlinkTarget": null,
 		"counts": {
-			"source": 86,
-			"tests": 31,
+			"source": 93,
+			"tests": 32,
 			"assets": 0,
 			"generated": 0,
 			"docs": 2,
 			"other": 1
 		},
-		"totalFiles": 120,
+		"totalFiles": 128,
 		"symbolSummary": {
-			"files": 76,
-			"classes": 39,
-			"functions": 154,
-			"exports": 129,
+			"files": 82,
+			"classes": 41,
+			"functions": 177,
+			"exports": 140,
 			"samples": [
 				"appDiagnostics",
 				"createDiagnosticControls",
@@ -302,179 +620,6 @@
 				"url": "/games/Merkava",
 				"file": "geelooy/games/Merkava/index.html",
 				"title": "Merkava — War of the Sparks",
-				"scripts": 1,
-				"styles": 2
-			}
-		],
-		"requiresLocalDoc": true,
-		"documentationCovered": true,
-		"provenance": "generated-from-local-source"
-	},
-	{
-		"projectId": "geelooy-games-migdol-2c237fda",
-		"path": "geelooy/games/migdol",
-		"type": "game",
-		"family": {
-			"id": "games",
-			"title": "Games and Worlds"
-		},
-		"title": "Migdol - Kabbalah Tower Defense",
-		"entries": [
-			"index.html",
-			"DOCUMENTATION.md"
-		],
-		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-migdol-2c237fda.md",
-		"documentation": [
-			{
-				"sourcePath": "geelooy/games/migdol/DOCUMENTATION.md",
-				"documentId": "geelooy-games-migdol-documentation-md-3feffea982"
-			},
-			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
-				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
-			},
-			{
-				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
-				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
-			}
-		],
-		"symlinkTarget": null,
-		"counts": {
-			"source": 11,
-			"tests": 0,
-			"assets": 0,
-			"generated": 0,
-			"docs": 1,
-			"other": 0
-		},
-		"totalFiles": 12,
-		"symbolSummary": {
-			"files": 9,
-			"classes": 7,
-			"functions": 9,
-			"exports": 12,
-			"samples": [
-				"TILE_SIZE",
-				"MAPS",
-				"TOWER_TYPES",
-				"ENEMY_TYPES",
-				"GroundEffect",
-				"LetterParticle",
-				"Enemy",
-				"Projectile",
-				"Game",
-				"initializeMainMenu",
-				"startGame",
-				"returnToMainMenu"
-			]
-		},
-		"outgoing": [],
-		"incoming": [],
-		"externalDependencies": [],
-		"publicEntries": [
-			{
-				"url": "/games/migdol",
-				"file": "geelooy/games/migdol/index.html",
-				"title": "Migdol - Kabbalah Tower Defense",
-				"scripts": 1,
-				"styles": 1
-			}
-		],
-		"requiresLocalDoc": true,
-		"documentationCovered": true,
-		"provenance": "generated-from-local-source"
-	},
-	{
-		"projectId": "geelooy-games-mitzvahworld-e62d44db",
-		"path": "geelooy/games/mitzvahWorld",
-		"type": "game",
-		"family": {
-			"id": "games",
-			"title": "Games and Worlds"
-		},
-		"title": "B&quot;H Mitzvah World — Restored River Valley",
-		"entries": [
-			"index.html",
-			"DOCUMENTATION.md"
-		],
-		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-mitzvahworld-e62d44db.md",
-		"documentation": [
-			{
-				"sourcePath": "geelooy/games/mitzvahWorld/DOCUMENTATION.md",
-				"documentId": "geelooy-games-mitzvahworld-documentation-md-ca33cdf71a"
-			},
-			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
-				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
-			},
-			{
-				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
-				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
-			}
-		],
-		"symlinkTarget": null,
-		"counts": {
-			"source": 2536,
-			"tests": 956,
-			"assets": 0,
-			"generated": 53,
-			"docs": 9,
-			"other": 282
-		},
-		"totalFiles": 3836,
-		"symbolSummary": {
-			"files": 2448,
-			"classes": 489,
-			"functions": 7734,
-			"exports": 4785,
-			"samples": [
-				"send",
-				"evaluate",
-				"waitFor",
-				"waitForDevTools",
-				"findTarget",
-				"waitForReady",
-				"delay",
-				"publishState",
-				"publishVerificationFailure",
-				"createBootSnapshot",
-				"boundedBootCount",
-				"bootDebugEnabled"
-			]
-		},
-		"outgoing": [
-			{
-				"project": "geelooy/libs",
-				"count": 17,
-				"examples": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowCreatureMesh.js; geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowProceduralCreature.js; geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieProceduralSeed.js"
-			},
-			{
-				"project": "libs",
-				"count": 1,
-				"examples": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTreeCoreFacade.js"
-			}
-		],
-		"incoming": [
-			{
-				"project": "geelooy/social-composer",
-				"count": 4,
-				"examples": "geelooy/social-composer/reel-studio/nle/NleAiProjectCodec.js; geelooy/social-composer/reel-studio/nle/NleMovieActionExecutor.js; geelooy/social-composer/reel-studio/nle/NleMoviePackage.js"
-			}
-		],
-		"externalDependencies": [
-			{
-				"dependency": "ws",
-				"count": 1,
-				"examples": "geelooy/games/mitzvahWorld/proof/BrowserProofCdpSupport.mjs"
-			}
-		],
-		"publicEntries": [
-			{
-				"url": "/games/mitzvahWorld",
-				"file": "geelooy/games/mitzvahWorld/index.html",
-				"title": "B&quot;H Mitzvah World — Restored River Valley",
 				"scripts": 1,
 				"styles": 2
 			}
@@ -555,19 +700,19 @@
 		"provenance": "generated-from-local-source"
 	},
 	{
-		"projectId": "geelooy-games-neshama-quest-3f0cdf7b",
-		"path": "geelooy/games/neshama-quest",
+		"projectId": "geelooy-games-adventure-8beccc29",
+		"path": "geelooy/games/adventure",
 		"type": "game",
 		"family": {
 			"id": "games",
 			"title": "Games and Worlds"
 		},
-		"title": "Neshama Quest",
+		"title": "Adventure Game",
 		"entries": [
 			"index.html"
 		],
 		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-neshama-quest-3f0cdf7b.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-adventure-8beccc29.md",
 		"documentation": [
 			{
 				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
@@ -580,127 +725,29 @@
 		],
 		"symlinkTarget": null,
 		"counts": {
-			"source": 7,
+			"source": 1,
 			"tests": 0,
 			"assets": 0,
 			"generated": 0,
 			"docs": 0,
 			"other": 0
 		},
-		"totalFiles": 7,
-		"symbolSummary": {
-			"files": 5,
-			"classes": 5,
-			"functions": 4,
-			"exports": 0,
-			"samples": [
-				"Entity",
-				"Neshama",
-				"Klipah",
-				"Game",
-				"InputHandler",
-				"generateFullMaze",
-				"createPerfectMaze",
-				"addLoopsToMaze",
-				"addSideTunnels"
-			]
-		},
+		"totalFiles": 1,
+		"symbolSummary": null,
 		"outgoing": [],
 		"incoming": [],
 		"externalDependencies": [],
 		"publicEntries": [
 			{
-				"url": "/games/neshama-quest",
-				"file": "geelooy/games/neshama-quest/index.html",
-				"title": "Neshama Quest",
-				"scripts": 5,
-				"styles": 1
+				"url": "/games/adventure",
+				"file": "geelooy/games/adventure/index.html",
+				"title": "Adventure Game",
+				"scripts": 0,
+				"styles": 0
 			}
 		],
 		"requiresLocalDoc": false,
 		"documentationCovered": false,
-		"provenance": "generated-from-local-source"
-	},
-	{
-		"projectId": "geelooy-games-nitzotz-io-7c8b94b0",
-		"path": "geelooy/games/nitzotz-io",
-		"type": "game",
-		"family": {
-			"id": "games",
-			"title": "Games and Worlds"
-		},
-		"title": "Nitzotz.io — Shlichus Adventure Metropolis",
-		"entries": [
-			"index.html",
-			"package.json",
-			"DOCUMENTATION.md"
-		],
-		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-nitzotz-io-7c8b94b0.md",
-		"documentation": [
-			{
-				"sourcePath": "geelooy/games/nitzotz-io/DOCUMENTATION.md",
-				"documentId": "geelooy-games-nitzotz-io-documentation-md-cffefeee32"
-			},
-			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
-				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
-			},
-			{
-				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
-				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
-			}
-		],
-		"symlinkTarget": null,
-		"counts": {
-			"source": 220,
-			"tests": 29,
-			"assets": 0,
-			"generated": 0,
-			"docs": 1,
-			"other": 0
-		},
-		"totalFiles": 250,
-		"symbolSummary": {
-			"files": 187,
-			"classes": 0,
-			"functions": 574,
-			"exports": 372,
-			"samples": [
-				"selectShlichus",
-				"shlichusTemplates",
-				"resolveTemplate",
-				"descriptionFor",
-				"template",
-				"hash",
-				"mix",
-				"adventureMetric",
-				"adventureProgress",
-				"settleAdventureReward",
-				"emptySettlement",
-				"updateAdventure"
-			]
-		},
-		"outgoing": [
-			{
-				"project": "geelooy/libs",
-				"count": 2,
-				"examples": "geelooy/games/nitzotz-io/js/procedural/localMeshes.js; geelooy/games/nitzotz-io/js/webgl/meshUpload.js"
-			}
-		],
-		"incoming": [],
-		"externalDependencies": [],
-		"publicEntries": [
-			{
-				"url": "/games/nitzotz-io",
-				"file": "geelooy/games/nitzotz-io/index.html",
-				"title": "Nitzotz.io — Shlichus Adventure Metropolis",
-				"scripts": 1,
-				"styles": 2
-			}
-		],
-		"requiresLocalDoc": true,
-		"documentationCovered": true,
 		"provenance": "generated-from-local-source"
 	}
 ]

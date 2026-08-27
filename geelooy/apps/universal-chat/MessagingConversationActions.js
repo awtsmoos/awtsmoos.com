@@ -7,17 +7,16 @@ import {
 	HISTORY,
 	READ,
 	SEND
-} from "/scripts/awtsmoos/social/privateMessaging/protocol.js";
+} from "../../scripts/awtsmoos/social/privateMessaging/protocol.js";
 
 /**
- * @file Owns accepted-conversation reads, bounded history pages, private sends, and read watermarks.
- * @description The Awtsmoos contains all time without pagination, while Awtsmoos.com opens only the pages a person actually asks to see in light;
- * recent history replaces the current window, older history prepends through one store contract, and private speech never escapes its accepted sight.
+ * @file Owns accepted-conversation reads, bounded history, contextual text/voice sends, and read watermarks.
+ * @description The Awtsmoos contains every sequence without pagination, while Awtsmoos.com opens only the page and finite coordinates a person asks to reveal in light;
+ * legacy text remains unchanged, replies add verified coordinates, and voice contributes only an asset id whose truth the server rereads in sight.
  */
 
 const HISTORY_PAGE_SIZE = 50;
 
-/** Calls only the existing private protocol and lets the store declare whether a page replaces or extends history. */
 export class MessagingConversationActions {
 	constructor(bridge) {
 		this.socket = bridge.socket;
@@ -53,9 +52,20 @@ export class MessagingConversationActions {
 		return response.payload.messages || [];
 	}
 
-	async send(conversationId, text) {
+	/** Sends text plus optional reply coordinates and one server-verifiable asset id. */
+	async send(conversationId, text, reply = null, attachment = null) {
 		await this.ensureSession();
-		return this.socket.request(SEND, { conversationId, text });
+		const payload = { conversationId, text };
+		if (reply?.replyTo && reply?.replySequence) {
+			payload.replyTo = reply.replyTo;
+			payload.replySequence = reply.replySequence;
+		}
+		if (attachment?.assetId) {
+			payload.attachment = {
+				assetId: attachment.assetId
+			};
+		}
+		return this.socket.request(SEND, payload);
 	}
 
 	async markRead(conversationId, sequence) {
@@ -65,13 +75,9 @@ export class MessagingConversationActions {
 	}
 
 	async ensureSession() {
+		if (!this.session.opened) await this.session.start();
 		if (!this.session.opened) {
-			await this.session.start();
-		}
-		if (!this.session.opened) {
-			throw new Error(
-				"Sign in and choose an alias to use private messaging."
-			);
+			throw new Error("Sign in and choose an alias to use private messaging.");
 		}
 	}
 }

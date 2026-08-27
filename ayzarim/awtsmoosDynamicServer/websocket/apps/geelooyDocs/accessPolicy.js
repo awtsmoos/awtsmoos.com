@@ -3,14 +3,14 @@
 // Blessed is He
 
 const { accountDigest, isVerified, tokenDigest } = require("./identity.js");
+const { DOCS_ERROR, docsError } = require("./docsErrors.js");
 
 /**
- * @file Decides who may see or alter one shared document.
+ * @file Decides who may see, mutate, or administrate one Awtsmoos document.
  * @description Chesed may open a page and Gevurah may close it; the Awtsmoos is
- * beyond both, while Awtsmoos.com makes every realtime permission explicit and testable.
+ * beyond both, while Awtsmoos.com returns explicit authorization codes so clients
+ * can distinguish sign-in, edit, and owner requirements without parsing prose.
  */
-
-/** Resolves permissions from already-private account and capability digests. */
 function permissionsFromDigests(record, privateAccountDigest = "", capabilityDigest = "") {
 	const owner = Boolean(
 		privateAccountDigest &&
@@ -27,10 +27,7 @@ function permissionsFromDigests(record, privateAccountDigest = "", capabilityDig
 	);
 	const mode = record.document?.access?.mode || "private";
 	const publicView = mode === "public-view";
-	const linkView = bearer && (
-		mode === "link-view" ||
-		mode === "link-edit"
-	);
+	const linkView = bearer && ["link-view", "link-edit"].includes(mode);
 	const linkEdit = bearer && mode === "link-edit";
 	return {
 		isOwner: owner,
@@ -40,7 +37,7 @@ function permissionsFromDigests(record, privateAccountDigest = "", capabilityDig
 	};
 }
 
-/** Resolves permissions from trusted socket identity plus an optional bearer token. */
+/** Resolves permission from trusted socket identity and optional private bearer capability. */
 function permissions(record, identity, token = "", capabilityDigest = "") {
 	const privateAccountDigest = isVerified(identity)
 		? accountDigest(identity)
@@ -58,22 +55,41 @@ function permissions(record, identity, token = "", capabilityDigest = "") {
 /** Requires a platform-verified account for ownership-producing operations. */
 function requireVerified(identity) {
 	if (!isVerified(identity)) {
-		throw new Error("Verified sign-in is required to create a shared document");
+		throw docsError(
+			DOCS_ERROR.VERIFIED_ACCOUNT_REQUIRED,
+			"Verified sign-in is required.",
+			null,
+			401
+		);
 	}
 	return accountDigest(identity);
 }
 
-/** Requires the caller to have mutation rights under the latest persisted policy. */
+/** Requires current mutation rights under the latest persisted access policy. */
 function requireEdit(record, identity, capabilityDigest = "") {
 	const result = permissions(record, identity, "", capabilityDigest);
-	if (!result.canEdit) throw new Error("Document editing is not permitted");
+	if (!result.canEdit) {
+		throw docsError(
+			DOCS_ERROR.EDIT_DENIED,
+			"Document editing is not permitted.",
+			null,
+			403
+		);
+	}
 	return result;
 }
 
-/** Requires the caller to be the document owner. */
+/** Requires owner authority for sharing, invitations, history administration, and publishing. */
 function requireOwner(record, identity) {
 	const result = permissions(record, identity);
-	if (!result.isOwner) throw new Error("Only the document owner may change sharing");
+	if (!result.isOwner) {
+		throw docsError(
+			DOCS_ERROR.OWNER_REQUIRED,
+			"Document owner permission is required.",
+			null,
+			403
+		);
+	}
 	return result;
 }
 

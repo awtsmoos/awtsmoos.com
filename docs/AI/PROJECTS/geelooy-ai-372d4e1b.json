@@ -23,19 +23,19 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-ai-372d4e1b.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 649,
-		"tests": 152,
-		"assets": 2,
+		"source": 671,
+		"tests": 165,
+		"assets": 0,
 		"generated": 0,
 		"docs": 4,
-		"other": 304
+		"other": 44
 	},
-	"totalFiles": 1111,
+	"totalFiles": 884,
 	"symbolSummary": {
-		"files": 469,
-		"classes": 149,
-		"functions": 1703,
-		"exports": 840,
+		"files": 484,
+		"classes": 152,
+		"functions": 1769,
+		"exports": 883,
 		"samples": [
 			"AwtsmoosGPTify",
 			"IndexedDBHandler",
@@ -68,6 +68,11 @@
 			"project": "geelooy/apps/code",
 			"count": 3,
 			"examples": "geelooy/apps/code/js/code-chat/oracle.js; geelooy/apps/code/js/vibe/api/multimodal-adapter.js"
+		},
+		{
+			"project": "geelooy/api/social",
+			"count": 2,
+			"examples": "geelooy/api/social/helper/drive/browser/interactiveBrowserTargetCatalog.js; geelooy/api/social/helper/drive/browser/interactiveTargetController.js"
 		},
 		{
 			"project": "geelooy/shared",

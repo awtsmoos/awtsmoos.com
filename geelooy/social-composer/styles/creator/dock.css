@@ -1,0 +1,90 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets image, video, voice, file, verse, GIF, Live, and Reel gather where the thumb can reach;
+Awtsmoos.com gives the dock one shared glass vessel so motion stays smooth and every action remains immediately real.
+*/
+.creatorDock {
+	display: flex;
+	gap: .46rem;
+	max-inline-size: 100%;
+	padding: .56rem .16rem .18rem;
+	border-block-start: 1px solid var(--composer-border-soft);
+	overflow-x: auto;
+	overscroll-behavior-inline: contain;
+	scroll-snap-type: x mandatory;
+	scrollbar-width: none;
+	-webkit-overflow-scrolling: touch;
+}
+
+.creatorDock::-webkit-scrollbar {
+	display: none;
+}
+
+.creatorDockButton {
+	display: grid;
+	flex: 0 0 4.95rem;
+	grid-template-rows: 1.85rem auto;
+	place-items: center;
+	gap: .28rem;
+	min-block-size: 4.35rem;
+	padding: .48rem .34rem;
+	border-radius: .92rem;
+	scroll-snap-align: start;
+	contain: layout paint;
+	transition:
+		transform 180ms cubic-bezier(.2, .8, .2, 1),
+		border-color 180ms ease,
+		background-color 180ms ease;
+}
+
+.creatorDockIcon {
+	display: grid;
+	width: 1.84rem;
+	aspect-ratio: 1;
+	place-items: center;
+	border: 1px solid var(--composer-border);
+	border-radius: .6rem;
+	background: var(--composer-surface-1);
+	color: var(--composer-cyan);
+	font-size: 1rem;
+	transform: translate3d(0, 0, 0);
+	transition:
+		transform 180ms cubic-bezier(.2, .8, .2, 1),
+		border-color 180ms ease,
+		box-shadow 180ms ease;
+}
+
+.creatorDockButton strong {
+	font-size: .68rem;
+}
+
+.creatorDockButton:is(:hover, :focus-visible) .creatorDockIcon {
+	border-color: rgba(89, 189, 210, .54);
+	box-shadow: 0 0 1.15rem rgba(89, 189, 210, .13);
+	transform: translate3d(0, -2px, 0) scale(1.035);
+}
+
+.creatorDockButton:active {
+	transform: scale(.97);
+}
+
+.creatorDockButton[data-recording="true"] {
+	border-color: rgba(255, 146, 146, .54);
+	background: var(--composer-danger-soft);
+	color: #ffd0d0;
+}
+
+.creatorDockButton[data-recording="true"] .creatorDockIcon {
+	border-color: rgba(255, 146, 146, .64);
+	color: var(--composer-danger);
+	animation: creator-record-pulse 1.25s ease-in-out infinite;
+}
+
+@keyframes creator-record-pulse {
+	50% {
+		box-shadow: 0 0 1.4rem rgba(255, 92, 116, .28);
+		transform: scale(1.065);
+	}
+}

@@ -1,0 +1,116 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/**
+ * The Awtsmoos keeps the active controls near and the expert controls folded;
+ * Awtsmoos.com answers intention quickly without turning every power into clutter.
+ */
+.broadcast-controls {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+.action {
+	min-height: 46px;
+	padding: 10px 16px;
+	border: 1px solid rgba(154, 220, 255, .22);
+	border-radius: 14px;
+	background: rgba(14, 34, 54, .74);
+	color: inherit;
+	font: inherit;
+	font-weight: 800;
+	cursor: pointer;
+	transition: transform .16s ease, border-color .16s ease, background .16s ease;
+}
+
+.action:hover {
+	transform: translateY(-1px);
+	border-color: rgba(154, 220, 255, .5);
+	background: rgba(22, 52, 79, .88);
+}
+
+.action.primary {
+	background: linear-gradient(135deg, #087fc5, #6257d7);
+}
+
+.action.danger {
+	border-color: rgba(255, 117, 117, .34);
+	background: rgba(117, 29, 42, .74);
+}
+
+.action:focus-visible,
+.advanced-panel summary:focus-visible,
+.toggle-row input:focus-visible {
+	outline: 3px solid #82dcff;
+	outline-offset: 3px;
+}
+
+.status-row {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	min-height: 24px;
+	color: #a9bdcc;
+}
+
+.state-dot {
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: #607587;
+}
+
+.state-dot[data-state="running"] {
+	background: #46e398;
+	box-shadow: 0 0 16px rgba(70, 227, 152, .45);
+}
+
+.state-dot[data-state="error"] {
+	background: #ff7474;
+}
+
+.advanced-panel {
+	width: min(460px, 100%);
+	padding: 12px 14px;
+	border: 1px solid rgba(143, 193, 225, .14);
+	border-radius: 14px;
+	background: rgba(9, 21, 34, .5);
+}
+
+.advanced-panel summary {
+	cursor: pointer;
+	font-weight: 800;
+}
+
+.toggle-row {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	min-height: 44px;
+	padding-top: 10px;
+	color: #bed0dc;
+}
+
+kbd {
+	padding: 2px 6px;
+	border: 1px solid #3c5264;
+	border-radius: 6px;
+	background: #0a1622;
+}
+
+[hidden] {
+	display: none !important;
+}
+
+@media (max-width: 520px) {
+	.broadcast-controls .action {
+		flex: 1 1 calc(50% - 4px);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.action {
+		transition: none;
+	}
+}

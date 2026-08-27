@@ -1,0 +1,94 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos joins a later private word to its true earlier source without collapsing speaker, source, or chronology;
+ * Awtsmoos.com gives each message a stable reply doorway, restrained swipe echo, and bounded quote that can lead the reader back through light.
+ */
+
+.messaging-thread {
+	overflow-x: hidden;
+}
+
+.private-message {
+	position: relative;
+	touch-action: pan-y;
+	transform: translateX(var(--reply-swipe-x, 0));
+	transition: transform 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.private-message > p {
+	padding-inline-end: 2.3rem;
+}
+
+.private-message.is-reply-swiping {
+	border-color: rgba(121, 224, 183, 0.34);
+}
+
+.private-message.is-reply-ready {
+	box-shadow: 0 0 0 2px rgba(121, 224, 183, 0.14), 0 14px 34px rgba(0, 0, 0, 0.18);
+}
+
+.message-reply-preview {
+	display: grid;
+	gap: 0.12rem;
+	width: 100%;
+	margin: 0 0 0.52rem;
+	padding: 0.48rem 0.58rem;
+	border: 0;
+	border-inline-start: 3px solid rgba(121, 224, 183, 0.7);
+	border-radius: 9px;
+	background: rgba(121, 224, 183, 0.07);
+	color: inherit;
+	font: inherit;
+	text-align: start;
+	cursor: pointer;
+}
+
+.message-reply-preview strong {
+	color: #c9f8e3;
+	font-size: 0.67rem;
+	letter-spacing: 0.01em;
+}
+
+.message-reply-preview span {
+	display: -webkit-box;
+	overflow: hidden;
+	color: var(--msg-muted);
+	font-size: 0.72rem;
+	line-height: 1.35;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+}
+
+.message-reply-preview.is-unavailable {
+	cursor: default;
+	opacity: 0.72;
+}
+
+.message-reply-action {
+	position: absolute;
+	inset-inline-end: 0.18rem;
+	inset-block-end: 0.18rem;
+	inline-size: 44px;
+	block-size: 44px;
+	border: 0;
+	border-radius: 50%;
+	background: transparent;
+	color: var(--msg-muted);
+	font-size: 1rem;
+	opacity: 0.48;
+}
+
+.private-message:is(:hover, :focus-within) .message-reply-action,
+.message-reply-action:focus-visible {
+	background: rgba(121, 224, 183, 0.1);
+	color: #dff8ec;
+	opacity: 1;
+}
+
+.private-message.is-reply-target {
+	border-color: rgba(121, 224, 183, 0.68);
+	box-shadow: 0 0 0 3px rgba(121, 224, 183, 0.17), 0 18px 44px rgba(0, 0, 0, 0.2);
+}

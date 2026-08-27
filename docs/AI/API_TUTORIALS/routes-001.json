@@ -137,15 +137,6 @@
 			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-gpt-reset-cde51acb79.md"
 		},
 		{
-			"id": "api-oauth-fc9dd9335e",
-			"route": "/api/oauth",
-			"family": "/api/oauth",
-			"source": "geelooy/api/oauth/routes/table.js",
-			"manual": "docs/TUTORIALS/API/OAUTH.md",
-			"record": "ROUTES/api-oauth-fc9dd9335e.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-oauth-fc9dd9335e.md"
-		},
-		{
 			"id": "api-oauth-route-99d253c847",
 			"route": "/api/oauth/:route",
 			"family": "/api/oauth",
@@ -153,6 +144,15 @@
 			"manual": "docs/TUTORIALS/API/OAUTH.md",
 			"record": "ROUTES/api-oauth-route-99d253c847.json",
 			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-oauth-route-99d253c847.md"
+		},
+		{
+			"id": "api-oauth-agent-callback-b4e6bf1061",
+			"route": "/api/oauth/agent-callback",
+			"family": "/api/oauth",
+			"source": "geelooy/api/oauth/routes/table.js",
+			"manual": "docs/TUTORIALS/API/OAUTH.md",
+			"record": "ROUTES/api-oauth-agent-callback-b4e6bf1061.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-oauth-agent-callback-b4e6bf1061.md"
 		},
 		{
 			"id": "api-oauth-authorize-bdf605a5c6",
@@ -164,31 +164,31 @@
 			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-oauth-authorize-bdf605a5c6.md"
 		},
 		{
-			"id": "api-oauth-clients-16fe905ae5",
-			"route": "/api/oauth/clients",
+			"id": "api-oauth-device-ff7c9e5d87",
+			"route": "/api/oauth/device",
 			"family": "/api/oauth",
 			"source": "geelooy/api/oauth/routes/table.js",
 			"manual": "docs/TUTORIALS/API/OAUTH.md",
-			"record": "ROUTES/api-oauth-clients-16fe905ae5.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-oauth-clients-16fe905ae5.md"
+			"record": "ROUTES/api-oauth-device-ff7c9e5d87.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-oauth-device-ff7c9e5d87.md"
 		},
 		{
-			"id": "api-oauth-logout-fc5a0d5108",
-			"route": "/api/oauth/logout",
+			"id": "api-oauth-device-authorization-c8c90e0df0",
+			"route": "/api/oauth/device-authorization",
 			"family": "/api/oauth",
 			"source": "geelooy/api/oauth/routes/table.js",
 			"manual": "docs/TUTORIALS/API/OAUTH.md",
-			"record": "ROUTES/api-oauth-logout-fc5a0d5108.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-oauth-logout-fc5a0d5108.md"
+			"record": "ROUTES/api-oauth-device-authorization-c8c90e0df0.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-oauth-device-authorization-c8c90e0df0.md"
 		},
 		{
-			"id": "api-oauth-me-c9c68a0fb0",
-			"route": "/api/oauth/me",
+			"id": "api-oauth-metadata-323cb59001",
+			"route": "/api/oauth/metadata",
 			"family": "/api/oauth",
 			"source": "geelooy/api/oauth/routes/table.js",
 			"manual": "docs/TUTORIALS/API/OAUTH.md",
-			"record": "ROUTES/api-oauth-me-c9c68a0fb0.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-oauth-me-c9c68a0fb0.md"
+			"record": "ROUTES/api-oauth-metadata-323cb59001.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-oauth-metadata-323cb59001.md"
 		},
 		{
 			"id": "api-oauth-start-7c94ba48c1",
@@ -216,6 +216,78 @@
 			"manual": "docs/TUTORIALS/API/OHR_HAGNUZ.md",
 			"record": "ROUTES/api-ohr-hagnuz-realtime-ticket-b6af2537a2.json",
 			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-ohr-hagnuz-realtime-ticket-b6af2537a2.md"
+		},
+		{
+			"id": "api-projecthosting-827e82a6c0",
+			"route": "/api/projectHosting",
+			"family": "/api/projectHosting",
+			"source": "geelooy/api/projectHosting/_awtsmoos.derech.js",
+			"manual": "docs/API/README.md",
+			"record": "ROUTES/api-projecthosting-827e82a6c0.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-projecthosting-827e82a6c0.md"
+		},
+		{
+			"id": "api-projecthosting-activity-685d6a80bb",
+			"route": "/api/projectHosting/activity",
+			"family": "/api/projectHosting",
+			"source": "geelooy/api/projectHosting/runtimeRoutes.js",
+			"manual": "docs/API/README.md",
+			"record": "ROUTES/api-projecthosting-activity-685d6a80bb.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-projecthosting-activity-685d6a80bb.md"
+		},
+		{
+			"id": "api-projecthosting-cleanup-86c3f103e2",
+			"route": "/api/projectHosting/cleanup",
+			"family": "/api/projectHosting",
+			"source": "geelooy/api/projectHosting/runtimeRoutes.js",
+			"manual": "docs/API/README.md",
+			"record": "ROUTES/api-projecthosting-cleanup-86c3f103e2.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-projecthosting-cleanup-86c3f103e2.md"
+		},
+		{
+			"id": "api-projecthosting-materialize-04d0cae6e7",
+			"route": "/api/projectHosting/materialize",
+			"family": "/api/projectHosting",
+			"source": "geelooy/api/projectHosting/runtimeRoutes.js",
+			"manual": "docs/API/README.md",
+			"record": "ROUTES/api-projecthosting-materialize-04d0cae6e7.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-projecthosting-materialize-04d0cae6e7.md"
+		},
+		{
+			"id": "api-projecthosting-restart-3328768971",
+			"route": "/api/projectHosting/restart",
+			"family": "/api/projectHosting",
+			"source": "geelooy/api/projectHosting/runtimeRoutes.js",
+			"manual": "docs/API/README.md",
+			"record": "ROUTES/api-projecthosting-restart-3328768971.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-projecthosting-restart-3328768971.md"
+		},
+		{
+			"id": "api-projecthosting-start-15affd017d",
+			"route": "/api/projectHosting/start",
+			"family": "/api/projectHosting",
+			"source": "geelooy/api/projectHosting/runtimeRoutes.js",
+			"manual": "docs/API/README.md",
+			"record": "ROUTES/api-projecthosting-start-15affd017d.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-projecthosting-start-15affd017d.md"
+		},
+		{
+			"id": "api-projecthosting-status-e49bd88d04",
+			"route": "/api/projectHosting/status",
+			"family": "/api/projectHosting",
+			"source": "geelooy/api/projectHosting/runtimeRoutes.js",
+			"manual": "docs/API/README.md",
+			"record": "ROUTES/api-projecthosting-status-e49bd88d04.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-projecthosting-status-e49bd88d04.md"
+		},
+		{
+			"id": "api-projecthosting-stop-7e644b25e9",
+			"route": "/api/projectHosting/stop",
+			"family": "/api/projectHosting",
+			"source": "geelooy/api/projectHosting/runtimeRoutes.js",
+			"manual": "docs/API/README.md",
+			"record": "ROUTES/api-projecthosting-stop-7e644b25e9.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-projecthosting-stop-7e644b25e9.md"
 		},
 		{
 			"id": "api-public-97cc9d947c",
@@ -423,78 +495,6 @@
 			"manual": "docs/TUTORIALS/API/SOCIAL.md",
 			"record": "ROUTES/api-social-aliases-7d87f1bf35.json",
 			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-aliases-7d87f1bf35.md"
-		},
-		{
-			"id": "api-social-aliases-alias-6b5b3ba0ca",
-			"route": "/api/social/aliases/:alias",
-			"family": "/api/social",
-			"source": "geelooy/api/social/_awtsmoos.alias.js",
-			"manual": "docs/TUTORIALS/API/SOCIAL.md",
-			"record": "ROUTES/api-social-aliases-alias-6b5b3ba0ca.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-aliases-alias-6b5b3ba0ca.md"
-		},
-		{
-			"id": "api-social-aliases-alias-commentsmade-bff96a6bfa",
-			"route": "/api/social/aliases/:alias/commentsMade",
-			"family": "/api/social",
-			"source": "geelooy/api/social/helper/comments/routes/indexing.js",
-			"manual": "docs/TUTORIALS/API/SOCIAL.md",
-			"record": "ROUTES/api-social-aliases-alias-commentsmade-bff96a6bfa.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-aliases-alias-commentsmade-bff96a6bfa.md"
-		},
-		{
-			"id": "api-social-aliases-alias-commentsmade-heichel-heichel-1ed2696840",
-			"route": "/api/social/aliases/:alias/commentsMade/heichel/:heichel",
-			"family": "/api/social",
-			"source": "geelooy/api/social/helper/comments/routes/indexing.js",
-			"manual": "docs/TUTORIALS/API/SOCIAL.md",
-			"record": "ROUTES/api-social-aliases-alias-commentsmade-heichel-heichel-1ed2696840.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-aliases-alias-commentsmade-heichel-heichel-1ed2696840.md"
-		},
-		{
-			"id": "api-social-aliases-alias-commentsmade-heichel-heichel-series-be605a1bb5",
-			"route": "/api/social/aliases/:alias/commentsMade/heichel/:heichel/series",
-			"family": "/api/social",
-			"source": "geelooy/api/social/helper/comments/routes/indexing.js",
-			"manual": "docs/TUTORIALS/API/SOCIAL.md",
-			"record": "ROUTES/api-social-aliases-alias-commentsmade-heichel-heichel-series-be605a1bb5.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-aliases-alias-commentsmade-heichel-heichel-series-be605a1bb5.md"
-		},
-		{
-			"id": "api-social-aliases-alias-commentsmade-heichel-heichel-series-ser-41c4de8dfa",
-			"route": "/api/social/aliases/:alias/commentsMade/heichel/:heichel/series/:series",
-			"family": "/api/social",
-			"source": "geelooy/api/social/helper/comments/routes/indexing.js",
-			"manual": "docs/TUTORIALS/API/SOCIAL.md",
-			"record": "ROUTES/api-social-aliases-alias-commentsmade-heichel-heichel-series-ser-41c4de8dfa.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-aliases-alias-commentsmade-heichel-heichel-series-ser-41c4de8dfa.md"
-		},
-		{
-			"id": "api-social-aliases-alias-commentsmade-heichel-heichel-series-ser-17177c0def",
-			"route": "/api/social/aliases/:alias/commentsMade/heichel/:heichel/series/:series/post/:post",
-			"family": "/api/social",
-			"source": "geelooy/api/social/helper/comments/routes/indexing.js",
-			"manual": "docs/TUTORIALS/API/SOCIAL.md",
-			"record": "ROUTES/api-social-aliases-alias-commentsmade-heichel-heichel-series-ser-17177c0def.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-aliases-alias-commentsmade-heichel-heichel-series-ser-17177c0def.md"
-		},
-		{
-			"id": "api-social-aliases-alias-commentsmade-heichel-heichel-series-ser-705d22811c",
-			"route": "/api/social/aliases/:alias/commentsMade/heichel/:heichel/series/:series/posts",
-			"family": "/api/social",
-			"source": "geelooy/api/social/helper/comments/routes/indexing.js",
-			"manual": "docs/TUTORIALS/API/SOCIAL.md",
-			"record": "ROUTES/api-social-aliases-alias-commentsmade-heichel-heichel-series-ser-705d22811c.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-aliases-alias-commentsmade-heichel-heichel-series-ser-705d22811c.md"
-		},
-		{
-			"id": "api-social-aliases-alias-commentsmade-heichelos-a87ed61f23",
-			"route": "/api/social/aliases/:alias/commentsMade/heichelos",
-			"family": "/api/social",
-			"source": "geelooy/api/social/helper/comments/routes/indexing.js",
-			"manual": "docs/TUTORIALS/API/SOCIAL.md",
-			"record": "ROUTES/api-social-aliases-alias-commentsmade-heichelos-a87ed61f23.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-aliases-alias-commentsmade-heichelos-a87ed61f23.md"
 		}
 	]
 }

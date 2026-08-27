@@ -1,57 +1,86 @@
 //B"H
-//Boruch Hashem
-//Blessed is He
+// Boruch Hashem
+// Blessed is He
 
 /**
- * Builds the host chrome around a Merkava-rendered page. The Awtsmoos creates
- * toolbar, inspector, editor, and GPU stage anew; Awtsmoos.com keeps host controls
- * visibly separate from all guest pixels and guest-produced text.
+ * @module BrowserSurface
+ * @description
+ * The Awtsmoos joins trusted chrome, living viewport, and hidden instruments into one
+ * browser vessel. Awtsmoos.com keeps the guest world beneath host-owned navigation,
+ * while Tiferes harmonizes old Merkava tools with a new local-browser manifestation:
+ * the page receives the center, the controls receive their place, and neither trades truth.
+ */
+
+import { createBrowserAdvancedPanel } from "./browserAdvancedPanel.js";
+import { createBrowserChrome } from "./browserChrome.js";
+import { createBrowserViewport } from "./browserViewport.js";
+
+/**
+ * Composes the complete Awtsmoos Browser application surface.
+ *
+ * @param {Document} documentObject
+ * 	The trusted host document used to create all application chrome and containers.
+ * @returns {Object}
+ * 	Legacy runtime handles plus new browser chrome, viewport, and advanced-drawer handles.
  */
 export function createBrowserSurface(documentObject = document) {
-	const root = element(documentObject, "section", "awtsmoos-browser-host");
-	const toolbar = element(documentObject, "header", "awtsmoos-browser-toolbar");
-	const brand = element(documentObject, "strong", "awtsmoos-browser-brand", "Merkava Browser");
-	const address = element(documentObject, "input", "awtsmoos-browser-address");
-	address.type = "text";
-	address.value = "merkava://welcome";
-	address.setAttribute("aria-label", "Virtual address");
-	const renderButton = button(documentObject, "Render", "render");
-	const selfHostButton = button(documentObject, "Self-host", "self-host");
-	const depth = element(documentObject, "input", "awtsmoos-browser-depth");
-	depth.type = "number"; depth.min = "0"; depth.max = "6"; depth.value = "3";
-	depth.setAttribute("aria-label", "Self-host depth");
-	toolbar.append(brand, address, renderButton, selfHostButton, depth);
+	const root = createElement(documentObject, "section", "awtsmoos-browser-host");
+	const chrome = createBrowserChrome(documentObject);
+	const viewport = createBrowserViewport(documentObject);
+	const advanced = createBrowserAdvancedPanel(documentObject);
+	const body = createElement(documentObject, "div", "awtsmoos-browser-body");
+	const boundary = createBoundary(documentObject);
 
-	const body = element(documentObject, "div", "awtsmoos-browser-body");
-	const editorPanel = element(documentObject, "aside", "awtsmoos-browser-editor-panel");
-	const editorTitle = element(documentObject, "div", "awtsmoos-browser-panel-title", "Guest HTML + CSS");
-	const editor = element(documentObject, "textarea", "awtsmoos-browser-editor");
-	editor.spellcheck = false;
-	const boundary = element(documentObject, "p", "awtsmoos-browser-boundary", "Custom JavaScript is disabled until the Merkava bytecode VM is connected. No iframe or eval is used.");
-	editorPanel.append(editorTitle, editor, boundary);
+	advanced.advancedPanel.append(boundary);
+	body.append(viewport.viewport, advanced.advancedPanel);
+	root.append(chrome.toolbar, body);
 
-	const viewportPanel = element(documentObject, "main", "awtsmoos-browser-viewport-panel");
-	const stage = element(documentObject, "div", "awtsmoos-browser-stage");
-	const glCanvas = element(documentObject, "canvas", "awtsmoos-browser-gl");
-	const textCanvas = element(documentObject, "canvas", "awtsmoos-browser-text");
-	stage.append(glCanvas, textCanvas);
-	const metrics = element(documentObject, "pre", "awtsmoos-browser-metrics", "Loading Merkava runtime…");
-	viewportPanel.append(stage, metrics);
-	body.append(editorPanel, viewportPanel);
-	root.append(toolbar, body);
-	return { address, body, boundary, depth, editor, glCanvas, metrics, renderButton, root, selfHostButton, stage, textCanvas };
+	let advancedOpen = false;
+	chrome.advancedToggle.setAttribute("aria-expanded", "false");
+	chrome.advancedToggle.addEventListener("click", () => {
+		advancedOpen = advanced.setAdvancedOpen(!advancedOpen);
+		chrome.advancedToggle.setAttribute("aria-expanded", String(advancedOpen));
+	});
+
+	return {
+		...chrome,
+		...advanced,
+		...viewport,
+		body,
+		boundary,
+		root
+	};
 }
 
-function button(documentObject, label, action) {
-	const value = element(documentObject, "button", "awtsmoos-browser-button", label);
-	value.type = "button";
-	value.dataset.action = action;
-	return value;
+/**
+ * Creates truthful host-owned testimony about the browser execution boundary.
+ *
+ * @param {Document} documentObject Host document receiving the testimony.
+ * @returns {HTMLParagraphElement} The boundary explanation shown in advanced tools.
+ */
+function createBoundary(documentObject) {
+	return createElement(
+		documentObject,
+		"p",
+		"awtsmoos-browser-boundary",
+		"Pages run inside an opaque local-browser frame. Runtime requests cross the host proxy; provider-sensitive sign-in opens in the native browser when required."
+	);
 }
 
-function element(documentObject, tagName, className, text = "") {
-	const value = documentObject.createElement(tagName);
-	value.className = className;
-	if (text) value.textContent = text;
-	return value;
+/**
+ * Creates a host-owned DOM element with optional visible text.
+ *
+ * @param {Document} documentObject Host document that owns the element.
+ * @param {string} tagName DOM tag name.
+ * @param {string} className CSS class list.
+ * @param {string} [text=""] Optional visible text.
+ * @returns {HTMLElement} The created element.
+ */
+function createElement(documentObject, tagName, className, text = "") {
+	const element = documentObject.createElement(tagName);
+	element.className = className;
+	if (text) {
+		element.textContent = text;
+	}
+	return element;
 }

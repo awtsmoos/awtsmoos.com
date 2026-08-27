@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-zmanim-embeds-md-60fb8acefc",
+	"title": "Zmanim Embed Integration",
+	"sourcePath": "geelooy/api/zmanim/EMBEDS.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Zmanim Embed Integration",
+			"anchor": "zmanim-embed-integration"
+		},
+		{
+			"level": 2,
+			"text": "Interactive iframe",
+			"anchor": "interactive-iframe"
+		},
+		{
+			"level": 2,
+			"text": "Server-rendered HTML iframe",
+			"anchor": "server-rendered-html-iframe"
+		},
+		{
+			"level": 2,
+			"text": "JSON integration",
+			"anchor": "json-integration"
+		},
+		{
+			"level": 2,
+			"text": "Discovering options",
+			"anchor": "discovering-options"
+		},
+		{
+			"level": 2,
+			"text": "Security boundary",
+			"anchor": "security-boundary"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-zmanim-embeds-md-60fb8acefc-001.json"
+	]
+}

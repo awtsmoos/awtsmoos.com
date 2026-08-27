@@ -5,9 +5,8 @@
 /**
  * @file Canonical public discovery catalog for Awtsmoos Tunnel Control.
  * @description
- * The Awtsmoos gives human docs, machine manifests, OAuth routing, and action
- * contracts one source of truth. Awtsmoos.com preserves the flat action list
- * while richer contracts reveal parameters, authority, vessels, and replay law.
+ * The Awtsmoos gives human docs, machine manifests, OAuth routing, action contracts, and publication evidence one source of truth;
+ * Awtsmoos.com preserves flat compatibility while richer lifecycle testimony reveals what a returned action can and cannot prove.
  */
 
 const ActionPolicy = require('./actionPolicy.js');
@@ -15,6 +14,7 @@ const { actions: rawActions } = require('./actions.js');
 const { listingModes } = require('./listingModes.js');
 const { BASE_URL, oauth } = require('./oauthCatalog.js');
 const { actionCatalog, setup: publicationSetup } = require('./sitePublicationCatalog.js');
+const { publicationProtocol } = require('./sitePublicationProtocol.js');
 const { transport } = require('./transport.js');
 
 const OPENAPI_PATH = '/api/tunnel/control/openapi';
@@ -65,20 +65,9 @@ const apiCatalog = {
 	transport,
 	actions,
 	actionCatalog,
+	publicationProtocol: publicationProtocol(),
 	listingModes,
-	commandLifecycle: {
-		canonical: [
-			'command', 'commandStatus', 'commandJobOutputPage',
-			'commandWait', 'commandCancel'
-		],
-		aliases: {
-			commandWait: ['commandJobWait', 'waitForJob', 'jobWait'],
-			commandStatus: ['commandPoll', 'commandJobStatus'],
-			commandJobOutputPage: ['commandOutputPage']
-		},
-		jobIdCarriers: ['jobId', 'id', 'params.jobId', 'params.id'],
-		compatibility: 'Existing commandRun/commandStart behavior is preserved; lifecycle fields are promoted from params and top-level payloads.'
-	},
+	commandLifecycle: commandLifecycle(),
 	defaults: {
 		maxFiles: 3,
 		maxChars: 8000,
@@ -88,6 +77,19 @@ const apiCatalog = {
 	},
 	warning: 'Authenticate first. Prefer publishWebsite for owned Virtual OS folders, and report a website live only when publication.canonicalVerifiedLive is true.'
 };
+
+function commandLifecycle() {
+	return {
+		canonical: ['command', 'commandStatus', 'commandJobOutputPage', 'commandWait', 'commandCancel'],
+		aliases: {
+			commandWait: ['commandJobWait', 'waitForJob', 'jobWait'],
+			commandStatus: ['commandPoll', 'commandJobStatus'],
+			commandJobOutputPage: ['commandOutputPage']
+		},
+		jobIdCarriers: ['jobId', 'id', 'params.jobId', 'params.id'],
+		compatibility: 'Existing commandRun/commandStart behavior is preserved; lifecycle fields are promoted from params and top-level payloads.'
+	};
+}
 
 module.exports = {
 	BASE_URL,

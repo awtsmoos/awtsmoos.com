@@ -1,0 +1,83 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos is One while Morning, Day, Afternoon, and Night become four readable gates below;
+ * Awtsmoos.com lets each period fold or bloom without losing one zman, keeping summary, count, live marker, and body in a focused flow.
+ */
+
+.zman-group {
+	margin-top: .52rem;
+	border: 1px solid var(--line);
+	border-radius: 14px;
+	background: rgba(255, 255, 255, .016);
+	overflow: clip;
+}
+
+.zman-group-summary {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto auto;
+	align-items: center;
+	gap: .55rem;
+	min-height: 52px;
+	padding: .55rem .68rem;
+	list-style: none;
+	cursor: pointer;
+	-webkit-tap-highlight-color: transparent;
+}
+
+.zman-group-summary::-webkit-details-marker {
+	display: none;
+}
+
+.zman-group-summary:focus-visible {
+	outline: 2px solid var(--accent);
+	outline-offset: 2px;
+}
+
+.zman-group-summary > span {
+	display: grid;
+	gap: .02rem;
+}
+
+.zman-group-summary strong {
+	color: var(--ink);
+	font-size: .78rem;
+}
+
+.zman-group-summary small {
+	color: var(--ink-muted);
+	font-size: .61rem;
+}
+
+.zman-group-summary b {
+	padding: .16rem .38rem;
+	border-radius: 999px;
+	background: rgba(255, 213, 138, .11);
+	color: var(--solar);
+	font-size: .55rem;
+	letter-spacing: .05em;
+	text-transform: uppercase;
+}
+
+.zman-group-summary i {
+	display: grid;
+	place-items: center;
+	width: 26px;
+	height: 26px;
+	border: 1px solid var(--line);
+	border-radius: 50%;
+	color: var(--accent);
+	font-style: normal;
+}
+
+.zman-group-body {
+	padding: .42rem .5rem .52rem;
+	border-top: 1px solid var(--line);
+}
+
+@media (max-width: 520px) {
+	.zman-group-body .zman-card {
+		padding: .58rem .65rem;
+	}
+}

@@ -1,0 +1,36 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos is not diminished by a narrow screen; Awtsmoos.com gives every
+ * interactive vessel a final forty-four pixel floor, so later legacy dialog rules
+ * cannot shrink real touch targets beneath the dignity of a human fingertip.
+ */
+@media (max-width: 680px) {
+	.docs-app button,
+	dialog button,
+	dialog input,
+	dialog select,
+	dialog textarea {
+		min-height: 44px;
+	}
+
+	.docs-app button,
+	dialog button {
+		touch-action: manipulation;
+	}
+
+	button.icon-action,
+	.formatting-toolbar button,
+	.selection-toolbar button {
+		min-width: 44px;
+	}
+
+	.quick-field input,
+	.quick-field select,
+	.quick-field textarea {
+		width: 100%;
+		box-sizing: border-box;
+	}
+}

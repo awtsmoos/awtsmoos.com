@@ -1,0 +1,113 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos gives each advanced control a quiet edge and clear name while Awtsmoos.com keeps sound folded within the same chosen frame;
+buttons answer the hand, audio sheds its floating throne, and optional power remains precise rather than loud or vain.
+*/
+
+.Awtsmoos-creative-dock__close,
+.Awtsmoos-creative-dock__actions button {
+	min-height: 44px;
+	border: 1px solid rgba(180, 255, 211, .25);
+	border-radius: 13px;
+	background: linear-gradient(145deg, rgba(29, 65, 45, .78), rgba(12, 34, 23, .72));
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, .05);
+	color: rgba(246, 255, 249, .96);
+	font: inherit;
+	font-weight: 700;
+	cursor: pointer;
+	transition: transform 110ms ease, border-color 120ms ease, background 120ms ease, box-shadow 120ms ease;
+}
+
+.Awtsmoos-creative-dock__close {
+	width: 44px;
+	padding: 0;
+	font-size: 22px;
+	line-height: 1;
+}
+
+.Awtsmoos-creative-dock__actions {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 8px;
+}
+
+.Awtsmoos-creative-dock__actions button {
+	padding: 0 11px;
+}
+
+.Awtsmoos-creative-dock__actions button[aria-pressed="true"] {
+	border-color: rgba(250, 223, 155, .56);
+	background: linear-gradient(145deg, rgba(91, 72, 35, .9), rgba(51, 39, 20, .84));
+	color: rgba(255, 247, 220, .98);
+}
+
+.Awtsmoos-creative-dock :is(.Awtsmoos-creative-dock__trigger, .Awtsmoos-creative-dock__close, .Awtsmoos-creative-dock__actions button):hover {
+	border-color: rgba(194, 255, 218, .62);
+	box-shadow: 0 8px 20px rgba(0, 0, 0, .14), inset 0 1px 0 rgba(255, 255, 255, .08);
+}
+
+.Awtsmoos-creative-dock__audio {
+	min-width: 0;
+	border-top: 1px solid rgba(188, 255, 214, .1);
+	padding-top: 10px;
+}
+
+.Awtsmoos-creative-dock__audio .Awtsmoos-audio-panel {
+	position: static;
+	display: block;
+	width: 100%;
+	font: inherit;
+	color: rgba(244, 255, 249, .92);
+}
+
+.Awtsmoos-creative-dock__audio .Awtsmoos-audio-panel summary {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	height: 44px;
+	margin: 0;
+	padding: 0 12px;
+	border: 1px solid rgba(180, 255, 211, .2);
+	border-radius: 13px;
+	background: rgba(14, 34, 24, .58);
+	color: rgba(242, 255, 247, .94);
+}
+
+.Awtsmoos-creative-dock__audio .Awtsmoos-audio-panel summary::after {
+	content: "Audio";
+	margin-left: 8px;
+	font-size: 12px;
+	font-weight: 700;
+}
+
+.Awtsmoos-creative-dock__audio .Awtsmoos-audio-panel form {
+	width: 100%;
+	margin-top: 8px;
+	padding: 10px;
+	border-color: rgba(180, 255, 211, .16);
+	border-radius: 13px;
+	background: rgba(5, 15, 10, .42);
+	box-shadow: none;
+}
+
+.Awtsmoos-creative-dock__audio .Awtsmoos-audio-panel label {
+	grid-template-columns: minmax(70px, .55fr) 1fr;
+	font-size: 11px;
+	font-weight: 650;
+}
+
+.Awtsmoos-creative-dock__status {
+	display: block;
+	min-height: 13px;
+	line-height: 1.35;
+}
+
+html[data-awtsmoos-cinematic="true"] .Awtsmoos-creative-dock[data-open="true"] .Awtsmoos-creative-dock__sheet {
+	opacity: 0;
+	visibility: hidden;
+	pointer-events: none;
+	transform: translateY(-8px) scale(.965);
+}

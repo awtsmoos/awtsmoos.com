@@ -1,0 +1,79 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets the hand begin simply, then lets the wide desk reveal chambers without changing the underlying soul;
+Awtsmoos.com promotes the same identity, destination, canvas, publication, and preview into a three-zone creator studio whole.
+*/
+@media (min-width: 88rem) {
+	.composerLayout {
+		grid-template-columns: minmax(17rem, .52fr) minmax(34rem, 1.18fr) minmax(22rem, .62fr);
+		align-items: start;
+		gap: clamp(.85rem, 1.2vw, 1.35rem);
+		width: min(100%, 112rem);
+	}
+
+	.composerColumn {
+		display: contents;
+	}
+
+	.identityPanel {
+		grid-column: 1;
+		grid-row: 1;
+	}
+
+	.destinationPanel {
+		grid-column: 1;
+		grid-row: 2;
+	}
+
+	.publicationPanel {
+		grid-column: 1;
+		grid-row: 3;
+	}
+
+	.contentPanel {
+		grid-column: 2;
+		grid-row: 1 / span 4;
+		min-height: calc(100dvh - 8rem);
+	}
+
+	.statusMessage {
+		grid-column: 1 / 3;
+		grid-row: 4;
+	}
+
+	.actionBar {
+		grid-column: 1 / 3;
+		grid-row: 5;
+		position: sticky;
+		z-index: 45;
+		bottom: 1rem;
+		box-shadow: 0 1.1rem 3.8rem rgba(0, 0, 0, .3);
+	}
+
+	.previewColumn {
+		grid-column: 3;
+		grid-row: 1 / span 5;
+		min-width: 0;
+	}
+
+	.previewSticky {
+		top: 1rem;
+		max-height: calc(100dvh - 2rem);
+		overflow: auto;
+	}
+
+	.identityPanel,
+	.destinationPanel,
+	.publicationPanel {
+		content-visibility: auto;
+		contain-intrinsic-size: auto 19rem;
+	}
+}
+
+@media (min-width: 105rem) {
+	.composerLayout {
+		grid-template-columns: 20rem minmax(40rem, 1fr) 25rem;
+	}
+}

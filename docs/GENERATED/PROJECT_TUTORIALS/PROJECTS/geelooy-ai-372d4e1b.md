@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 649 | 152 | 2 | 0 | 4 | 304 | 1111 |
+| 671 | 165 | 0 | 0 | 4 | 44 | 884 |
 
 ## Public entry points
 
@@ -30,7 +30,7 @@ Blessed is He
 
 ## Symbol evidence
 
-Source files: 469; classes: 149; functions: 1703; exports: 840; samples: AwtsmoosGPTify, IndexedDBHandler, withTimeout, fallbackKey, fallbackObject, saveFallbackObject, fallbackWrite, fallbackRead, fallbackRows, fallbackDelete, fallbackClear, fallbackStoreNames.
+Source files: 484; classes: 152; functions: 1769; exports: 883; samples: AwtsmoosGPTify, IndexedDBHandler, withTimeout, fallbackKey, fallbackObject, saveFallbackObject, fallbackWrite, fallbackRead, fallbackRows, fallbackDelete, fallbackClear, fallbackStoreNames.
 
 ## Depends on
 
@@ -40,6 +40,7 @@ Source files: 469; classes: 149; functions: 1703; exports: 840; samples: Awtsmoo
 ## Used by
 
 - `geelooy/apps/code` — 3 lexical references; examples: geelooy/apps/code/js/code-chat/oracle.js; geelooy/apps/code/js/vibe/api/multimodal-adapter.js
+- `geelooy/api/social` — 2 lexical references; examples: geelooy/api/social/helper/drive/browser/interactiveBrowserTargetCatalog.js; geelooy/api/social/helper/drive/browser/interactiveTargetController.js
 - `geelooy/shared` — 2 lexical references; examples: geelooy/shared/awtsmoos-runtime/actions.js; geelooy/shared/awtsmoos-runtime/agent-core.js
 
 ## External packages
@@ -48,4 +49,4 @@ Source files: 469; classes: 149; functions: 1703; exports: 840; samples: Awtsmoo
 
 ## Verification clue
 
-Observed test-classified files: **152**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **165**. Treat this as file evidence, not proof of behavioral coverage.

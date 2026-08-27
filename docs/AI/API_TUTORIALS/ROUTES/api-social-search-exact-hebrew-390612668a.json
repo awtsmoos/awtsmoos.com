@@ -22,8 +22,24 @@
 	"vessels": [],
 	"statuses": [],
 	"headers": [],
-	"callers": [],
-	"callerCount": 0,
+	"callers": [
+		{
+			"literal": "/api/social/search/exact/hebrew",
+			"source": "geelooy/heichelos/post/functions/ui/context/relatedSearchApi.test.mjs",
+			"kind": "test"
+		},
+		{
+			"literal": "/api/social/search/exact/hebrew?${parameters}",
+			"source": "geelooy/mawgawl/sefarim/exactApi.js",
+			"kind": "runtime"
+		},
+		{
+			"literal": "/api/social/search/exact/hebrew?${values}",
+			"source": "geelooy/heichelos/post/functions/ui/context/relatedSearchApi.js",
+			"kind": "runtime"
+		}
+	],
+	"callerCount": 3,
 	"tests": [
 		{
 			"name": "test",

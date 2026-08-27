@@ -1,14 +1,13 @@
 //B"H
 //Boruch Hashem
 //Blessed is He
-
 /**
  * @module PublicationPlan
  * @description
- * Visible composer state becomes one canonical destination and many typed mirrors.
- * The Awtsmoos gives one origin before every appearance; Awtsmoos.com therefore
- * converts image presentation to content, preserves source birthplaces, and dedupes.
+ * The Awtsmoos gives one origin before many appearances; Awtsmoos.com turns draft state into one
+ * canonical destination, typed mirrors, public audience truth, scheduling, and idempotent publication law.
  */
+import { normalizeSocialVisibility } from './SocialPublicationPolicy.js';
 
 function contentKind(snapshot) {
 	if (snapshot.questionId) return 'answer';
@@ -27,25 +26,17 @@ function primaryDestination(snapshot) {
 }
 
 function destinationKey(destination) {
-	return [
-		destination.heichelId,
-		destination.seriesId || 'root',
-		destination.kind || 'reference'
-	].join(':');
+	return [destination.heichelId, destination.seriesId || 'root', destination.kind || 'reference'].join(':');
 }
 
 function secondaryDestinations(snapshot) {
 	const primary = primaryDestination(snapshot);
 	const values = [...snapshot.secondaryDestinations];
 	const selected = snapshot.identity;
-	if (
-		snapshot.canonicalSource
-		&& selected.heichelId
-		&& (
-			selected.heichelId !== primary.heichelId
-			|| selected.seriesId !== primary.seriesId
-		)
-	) {
+	if (snapshot.canonicalSource && selected.heichelId && (
+		selected.heichelId !== primary.heichelId
+		|| selected.seriesId !== primary.seriesId
+	)) {
 		values.unshift({
 			heichelId: selected.heichelId,
 			heichelName: selected.heichelName,
@@ -79,7 +70,7 @@ export function buildPublicationPlan(snapshot) {
 		secondary: secondaryDestinations(snapshot),
 		source: snapshot.canonicalSource || {},
 		parentQuestionId: snapshot.questionId || '',
-		visibility: snapshot.publication.visibility || 'public',
+		visibility: normalizeSocialVisibility(snapshot.publication?.visibility),
 		scheduledAt: Number(snapshot.publication.scheduledAt || 0)
 	};
 }
@@ -90,18 +81,9 @@ export function publicationIssues(snapshot) {
 	if (!plan.aliasId) issues.push('Choose a verified posting alias.');
 	if (!plan.primary.heichelId) issues.push('Choose the canonical Heichel.');
 	if (!plan.primary.seriesId) issues.push('Choose the canonical series.');
-	if (plan.contentKind === 'answer' && !plan.parentQuestionId) {
-		issues.push('Answers require a parent question.');
-	}
-	if (plan.source.id && !plan.source.heichelId) {
-		issues.push('Existing content requires its canonical Heichel.');
-	}
+	if (plan.contentKind === 'answer' && !plan.parentQuestionId) issues.push('Answers require a parent question.');
+	if (plan.source.id && !plan.source.heichelId) issues.push('Existing content requires its canonical Heichel.');
 	return issues;
 }
 
-export {
-	contentKind,
-	primaryDestination,
-	destinationKey,
-	secondaryDestinations
-};
+export { contentKind, destinationKey, primaryDestination, secondaryDestinations };

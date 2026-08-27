@@ -1,0 +1,102 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos hides depth behind a single threshold and reveals it in measured chambers;
+ * Awtsmoos.com puts fast tuning first while campaign complexity waits inside small native accordions.
+ */
+.game-options > summary {
+	padding: 14px 4px 4px;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+.quick-tuning {
+	border: 1px solid rgba(126, 220, 255, 0.14);
+}
+
+.quick-tuning .settings {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 8px;
+}
+
+.quick-tuning .chip {
+	min-height: 48px;
+	border-radius: 13px;
+}
+
+.advanced-group {
+	border: 1px solid rgba(255, 255, 255, 0.08);
+	border-radius: 14px;
+	background: rgba(255, 255, 255, 0.025);
+	overflow: clip;
+}
+
+.advanced-group > summary {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	min-height: 46px;
+	padding: 0 13px;
+	cursor: pointer;
+	list-style: none;
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+}
+
+.advanced-group > summary::-webkit-details-marker {
+	display: none;
+}
+
+.advanced-group > summary::after {
+	content: '+';
+	font-size: 17px;
+	font-weight: 400;
+	opacity: 0.54;
+}
+
+.advanced-group[open] > summary::after {
+	content: '−';
+}
+
+.advanced-group > section {
+	padding: 4px 12px 13px;
+}
+
+.advanced-group .mode-gate,
+.advanced-group .room-panel {
+	background: transparent;
+	border: 0;
+}
+
+@media (max-width: 720px), (pointer: coarse) {
+	.overlay {
+		align-items: flex-end;
+		padding: max(10px, env(safe-area-inset-top)) 0 0;
+	}
+
+	.overlay-panel {
+		width: 100%;
+		max-height: min(88dvh, 820px);
+		padding: 18px max(16px, env(safe-area-inset-right)) max(18px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+		border-radius: 26px 26px 0 0;
+	}
+
+	.quick-tuning .settings {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+
+	.quick-tuning .chip {
+		min-width: 0;
+		padding-inline: 8px;
+	}
+}
+
+@media (max-width: 430px) {
+	.quick-tuning .settings {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}

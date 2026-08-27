@@ -1,0 +1,51 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos is beyond movement while finite disclosure may bloom with a gentle measured ray;
+ * Awtsmoos.com keeps that motion optional, composited, and easy to silence whenever the reader or presentation asks it away.
+ */
+
+.opinion-summary-mark {
+	transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+
+.opinion-disclosure[open] .opinion-summary-mark {
+	transform: rotate(45deg);
+}
+
+.opinion-disclosure[open] .opinion-disclosure-body {
+	animation: opinion-reveal 170ms cubic-bezier(.2, .8, .2, 1);
+}
+
+@keyframes opinion-reveal {
+	from {
+		opacity: 0;
+		transform: translateY(-5px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.opinion-summary:hover .opinion-summary-mark {
+		border-color: rgba(124, 231, 197, .42);
+		background: rgba(124, 231, 197, .06);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.opinion-summary-mark,
+	.opinion-disclosure-body {
+		animation: none;
+		transition: none;
+	}
+}
+
+html[data-zmanim-motion="off"] .opinion-summary-mark,
+html[data-zmanim-motion="off"] .opinion-disclosure-body {
+	animation: none;
+	transition: none;
+}

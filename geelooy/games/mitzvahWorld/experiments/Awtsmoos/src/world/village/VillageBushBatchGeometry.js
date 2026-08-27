@@ -4,33 +4,46 @@
 
 /**
  * @file VillageBushBatchGeometry.js
- * @description Merges geographically authored shrub clusters into three static leaf draws.
- * The Awtsmoos replaces orbit with garden, hedgerow, meadow, and forest purpose; Awtsmoos.com
- * preserves the same finite geometry while every shrub belongs to a named place.
+ * @description Replaces octahedron shrubs with shared-core botanical organisms merged into three static draws.
+ * The Awtsmoos lets each authored hedgerow and woodland margin grow stems, leaves, and blooms in distinct form;
+ * Awtsmoos.com keeps every plant procedural and bitmap-free while green, bloom, and accent organs gather into three batches warm.
  */
 
-import { TEXTURE_URLS } from '../../assets/TextureCatalog.js';
+import { generateRealisticBotanicalPlant } from '../../../../../../../libs/awtsmoos-procedural-core/src/core/geometry/generators/botany/BotanicalRealism.js';
 import {
 	AUTHORED_BUSH_CLUSTERS,
 	AUTHORED_BUSH_COUNT,
 	createAuthoredBushPlacements
 } from './VillageBushPlacement.js';
+import {
+	appendBotanicalPayload,
+	createBotanicalRoleBatches
+} from './VillageBotanicalBatchMerge.js';
+import { villageBushSpecies } from './VillageBushSpecies.js';
 
-const BUSH_COLORS = Object.freeze(['#356b3b', '#417f49', '#5d8c4f']);
-const PLACEMENT_MODEL = 'canonical-biome-edge-clusters';
+const PLACEMENT_MODEL = 'canonical-biome-realistic-botany';
 
 export function createBushBatchDefinitions(groundSampler) {
 	const placements = createAuthoredBushPlacements(groundSampler);
-	const batches = BUSH_COLORS.map(emptyGeometry);
+	const batches = createBotanicalRoleBatches();
 	for (const [index, placement] of placements.entries()) {
-		appendBush(batches[index % batches.length], placement, placement.radius, index);
+		const species = villageBushSpecies(placement, index);
+		const groundY = placement.y - placement.radius * 0.68;
+		const payload = generateRealisticBotanicalPlant({
+			growth: 0.82 + (index % 5) * 0.035,
+			position: { x: placement.x, y: groundY, z: placement.z },
+			quality: 'medium',
+			scale: placement.radius / 1.05,
+			season: 'summer',
+			seed: `${placement.clusterId}:${index}`,
+			species,
+			wind: [0.08, 0, 0.03]
+		});
+		appendBotanicalPayload(batches, payload);
 	}
-	return batches.map((geometry, index) => batchDefinition(
-		geometry,
-		index,
-		BUSH_COLORS[index],
-		placements
-	));
+	return [...batches.values()]
+		.filter(batch => batch.faces.length)
+		.map(batch => batchDefinition(batch, placements));
 }
 
 export function bushBatchStats(definitions) {
@@ -42,68 +55,29 @@ export function bushBatchStats(definitions) {
 	}, { batches: 0, instances: 0, triangles: 0 });
 }
 
-function appendBush(geometry, center, radius, seed) {
-	appendOctahedron(geometry, center, radius);
-	appendOctahedron(geometry, {
-		x: center.x + radius * 0.42,
-		y: center.y + radius * 0.18,
-		z: center.z - radius * 0.18
-	}, radius * (0.68 + seed % 2 * 0.05));
-	appendOctahedron(geometry, {
-		x: center.x - radius * 0.34,
-		y: center.y + radius * 0.12,
-		z: center.z + radius * 0.28
-	}, radius * (0.62 + seed % 3 * 0.04));
-}
-
-function appendOctahedron(geometry, center, radius) {
-	const start = geometry.vertices.length;
-	geometry.vertices.push(
-		[center.x, center.y + radius, center.z],
-		[center.x + radius, center.y, center.z],
-		[center.x, center.y, center.z + radius],
-		[center.x - radius, center.y, center.z],
-		[center.x, center.y, center.z - radius],
-		[center.x, center.y - radius * 0.72, center.z]
-	);
-	for (const face of [
-		[0, 2, 1], [0, 3, 2], [0, 4, 3], [0, 1, 4],
-		[5, 1, 2], [5, 2, 3], [5, 3, 4], [5, 4, 1]
-	]) {
-		geometry.faces.push(face.map((value) => start + value));
-	}
-}
-
-function batchDefinition(geometry, index, color, placements) {
+function batchDefinition(batch, placements) {
 	return {
-		id: `Awtsmoos_living_bush_batch_${index}`,
-		shape: 'manual',
-		...geometry,
 		backfaceCull: true,
-		color,
-		doubleSided: false,
-		mapRepeat: [2, 2],
+		color: batch.color,
+		doubleSided: batch.role !== 'accent',
+		faces: batch.faces,
+		id: `Awtsmoos_living_botanical_bush_${batch.role}`,
 		noEdge: true,
+		shape: 'manual',
 		solid: false,
 		texturePolicy: {
-			publicFirebase: true,
-			realMaterialRequired: true,
-			role: 'leaf-bush',
-			shader: 'leaf-cluster-alpha-wind'
+			role: `botanical-${batch.role}`,
+			shader: 'procedural-botanical-wind'
 		},
-		textureUrl: TEXTURE_URLS.leaves.leaf1,
 		userData: {
 			AwtsmoosLod: { className: 'vegetation' },
-			biomeIds: [...new Set(placements.map((item) => item.intendedBiomeId))],
+			biomeIds: [...new Set(placements.map(item => item.intendedBiomeId))],
 			clusterCount: AUTHORED_BUSH_CLUSTERS.length,
-			family: 'village-bushes',
-			instances: AUTHORED_BUSH_COUNT / BUSH_COLORS.length,
+			family: 'village-botanical-bushes',
+			instances: batch.instances,
 			placementModel: PLACEMENT_MODEL,
 			staticBatch: true
-		}
+		},
+		vertices: batch.vertices
 	};
-}
-
-function emptyGeometry() {
-	return { vertices: [], faces: [] };
 }

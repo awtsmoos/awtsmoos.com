@@ -1,0 +1,92 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos lets surfaces breathe without demanding attention;
+ * Awtsmoos.com uses quick restrained motion so futurism feels responsive rather than decorative noise.
+ */
+.button,
+.mini-button,
+.advanced-group > summary,
+.game-options > summary {
+	transition: transform 130ms ease, background-color 160ms ease, border-color 160ms ease, opacity 160ms ease;
+}
+
+.button:active,
+.mini-button:active {
+	transform: scale(0.965);
+}
+
+.brand-row,
+.primary-stats,
+.mission {
+	position: relative;
+	overflow: clip;
+}
+
+.brand-row::after,
+.primary-stats::after,
+.mission::after {
+	position: absolute;
+	inset: 0;
+	content: '';
+	pointer-events: none;
+	background: linear-gradient(105deg, transparent 22%, rgba(126, 220, 255, 0.055) 48%, rgba(255, 223, 108, 0.035) 54%, transparent 76%);
+	transform: translateX(-130%);
+	animation: awtsmoosSheen 7.5s ease-in-out infinite;
+}
+
+.overlay:not(.hidden) .overlay-panel {
+	animation: awtsmoosPanelIn 220ms cubic-bezier(.2, .78, .22, 1) both;
+}
+
+.advanced-group[open] > section,
+.game-options[open] > .option-stack {
+	animation: awtsmoosReveal 180ms ease-out both;
+}
+
+#sparkMeter {
+	filter: drop-shadow(0 0 5px rgba(126, 220, 255, 0.18));
+}
+
+@keyframes awtsmoosPanelIn {
+	from {
+		opacity: 0;
+		transform: translateY(12px) scale(0.985);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+@keyframes awtsmoosReveal {
+	from {
+		opacity: 0;
+		transform: translateY(-5px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes awtsmoosSheen {
+	0%, 76% {
+		transform: translateX(-130%);
+	}
+	90%, 100% {
+		transform: translateX(130%);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.001ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.001ms !important;
+		scroll-behavior: auto !important;
+	}
+}

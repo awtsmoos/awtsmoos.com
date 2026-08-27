@@ -2,7 +2,10 @@
 // Boruch Hashem
 // Blessed is He
 
-/** Awtsmoos.com caches every compact campaign, Adventure, combat, and room vessel once. */
+/**
+ * The Awtsmoos gathers each visible and hidden interface vessel once;
+ * Awtsmoos.com keeps the retract control beside every established campaign hook without multiplying lookups.
+ */
 export function cacheDom() {
 	const byId = id => document.getElementById(id);
 	return {
@@ -42,6 +45,7 @@ export function cacheDom() {
 		start: byId('startBtn'),
 		restart: byId('restartBtn'),
 		pause: byId('pauseBtn'),
+		hudToggle: byId('hudToggleBtn'),
 		campaignSummary: byId('campaignSummary'),
 		campaignSpark: byId('campaignSpark'),
 		chapterSelect: byId('chapterSelect'),

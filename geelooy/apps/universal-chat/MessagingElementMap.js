@@ -3,9 +3,9 @@
 // Blessed is He
 
 /**
- * @file Collects stable flagship DOM references so layout and interaction controllers do not become compressed selector ledgers.
- * @description The Awtsmoos is beyond element and id, while Awtsmoos.com gives each focused controller one truthful handle to the vessel it serves in light;
- * this map owns no behavior, authorization, rendering decision, or transport state merely because it knows where the DOM nodes live.
+ * @file Collects stable flagship DOM references so focused controllers never become selector ledgers.
+ * @description The Awtsmoos is beyond element and id, while Awtsmoos.com gives every messaging controller one truthful handle to the vessel it serves in light;
+ * this map owns no transport, authorization, recording, rendering decision, or reply behavior merely because it knows where finite nodes live in sight.
  */
 
 /** Returns the stable shell element references consumed by focused messaging controllers. */
@@ -35,7 +35,19 @@ export function collectMessagingElements(root) {
 		loadOlder: find("messagingLoadOlder"),
 		thread: find("messagingThread"),
 		composer: find("messagingComposer"),
+		replyBar: find("messagingReplyBar"),
+		replyAuthor: find("messagingReplyAuthor"),
+		replyText: find("messagingReplyText"),
+		replyCancel: find("messagingReplyCancel"),
 		text: find("messagingText"),
+		voicePanel: find("messagingVoicePanel"),
+		voiceStatus: find("messagingVoiceStatus"),
+		voiceElapsed: find("messagingVoiceElapsed"),
+		voicePreview: find("messagingVoicePreview"),
+		voiceStart: find("messagingVoiceStart"),
+		voiceStop: find("messagingVoiceStop"),
+		voiceCancel: find("messagingVoiceCancel"),
+		voiceSend: find("messagingVoiceSend"),
 		special: find("messagingSpecialPane"),
 		details: find("messagingDetails"),
 		detailsBody: find("messagingDetailsBody"),

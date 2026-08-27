@@ -1,49 +1,86 @@
 //B"H
 //Boruch Hashem
 //Blessed is He
+
+import {
+	inboxActionLabel,
+	inboxKindLabel,
+	inboxReadLabel,
+	inboxSourceLabel,
+	inboxThreadLabel
+} from './InboxItemPresentation.js';
+
 /**
  * @module InboxItemCard
  * @description
- * The Awtsmoos lets one bridge record remain readable, actionable, and truthful about its read state;
- * Awtsmoos.com keeps item rendering separate so the larger Inbox can gather rivers without becoming another monolith.
+ * The Awtsmoos renews source, title, unread truth, and next action before one attention card can appear;
+ * Awtsmoos.com lets this Hod-like vessel show what is known without flattening sender, kind, and thread into one raw metadata string in light.
  */
 
-/** Builds one durable bridge Inbox record with canonical open and read actions. */
+/** Builds one semantic Inbox record with a large primary action and optional secondary read action. */
 export function inboxItemCard(document, item, onOpen, onRead) {
 	const card = document.createElement('article');
+	const unread = !item?.readAt;
 	card.className = 'communicationsInboxItem';
-	card.dataset.read = String(Boolean(item.readAt));
-	const button = document.createElement('button');
-	button.type = 'button';
-	button.className = 'communicationsInboxOpen';
-	button.addEventListener('click', () => onOpen(item));
-	button.append(
-		text(document, 'strong', item.title || item.kind || 'Message'),
-		text(document, 'span', item.body || 'Open thread'),
-		text(document, 'small', itemMeta(item))
+	card.dataset.read = String(!unread);
+	card.append(
+		primaryAction(document, item, onOpen),
+		unread ? markReadAction(document, item, onRead) : document.createDocumentFragment()
 	);
-	card.append(button);
-	if (!item.readAt) {
-		const read = document.createElement('button');
-		read.type = 'button';
-		read.className = 'communicationsMarkRead';
-		read.textContent = 'Mark read';
-		read.addEventListener('click', () => onRead(item));
-		card.append(read);
-	}
 	return card;
 }
 
-function itemMeta(item) {
-	return [
-		item.kind,
-		item.fromAliasId ? `@${item.fromAliasId}` : '',
-		item.threadId
+/** Creates the primary source/title/body/context action surface. */
+function primaryAction(document, item, onOpen) {
+	const button = document.createElement('button');
+	button.type = 'button';
+	button.className = 'communicationsInboxOpen';
+	button.setAttribute('aria-label', `${inboxActionLabel(item)}: ${item?.title || inboxKindLabel(item?.kind)}`);
+	button.addEventListener('click', () => onOpen(item));
+
+	const eyebrow = document.createElement('span');
+	eyebrow.className = 'communicationsInboxEyebrow';
+	eyebrow.append(
+		chip(document, inboxKindLabel(item?.kind), 'kind'),
+		chip(document, inboxReadLabel(item), item?.readAt ? 'read' : 'unread'),
+		chip(document, inboxSourceLabel(item), 'source')
+	);
+
+	const title = document.createElement('strong');
+	title.className = 'communicationsInboxTitle';
+	title.dir = 'auto';
+	title.textContent = item?.title || inboxKindLabel(item?.kind);
+
+	const body = document.createElement('span');
+	body.className = 'communicationsInboxPreview';
+	body.dir = 'auto';
+	body.textContent = item?.body || inboxActionLabel(item);
+
+	const footer = document.createElement('small');
+	footer.className = 'communicationsInboxContext';
+	footer.textContent = [
+		inboxThreadLabel(item),
+		inboxActionLabel(item)
 	].filter(Boolean).join(' · ');
+	button.append(eyebrow, title, body, footer);
+	return button;
 }
 
-function text(document, tag, value) {
-	const element = document.createElement(tag);
-	element.textContent = value;
-	return element;
+/** Creates a compact semantic chip without inventing status beyond canonical fields. */
+function chip(document, value, tone) {
+	const span = document.createElement('span');
+	span.className = 'communicationsInboxChip';
+	span.dataset.tone = tone;
+	span.textContent = value;
+	return span;
+}
+
+/** Creates the secondary explicit Mark read action for unread records. */
+function markReadAction(document, item, onRead) {
+	const button = document.createElement('button');
+	button.type = 'button';
+	button.className = 'communicationsMarkRead';
+	button.textContent = 'Mark read';
+	button.addEventListener('click', () => onRead(item));
+	return button;
 }

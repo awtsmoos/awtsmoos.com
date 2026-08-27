@@ -14,8 +14,8 @@ const Activation = require("./successorActivation.js");
  * @file Reserves successor custody before activation and safely resumes interrupted handoff.
  * @description
  * The Awtsmoos places memory before motion: Awtsmoos.com saves who should inherit before
- * any browser or room activation may arise, then returns terminal ledger evidence unchanged
- * on replay so an already-issued or suppressed handoff can never be accidentally reborn.
+ * any browser or room activation may arise, while planning uses the current tunnel-bound root
+ * so a durable successor never inherits an obsolete filesystem address from its predecessor.
  */
 async function reserve(config, payload, completionEvent) {
 	const mission = await Mission.load(config, payload.missionId);
@@ -38,6 +38,7 @@ async function reserve(config, payload, completionEvent) {
 		return suppress(config, mission, predecessorId, terminalKey, eligibility);
 	}
 	const activation = Activation.plan(
+		config,
 		mission,
 		predecessorId,
 		terminalKey,

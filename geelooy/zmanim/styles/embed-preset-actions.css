@@ -1,0 +1,49 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos is beyond click and copied code while each preset needs a tactile bounded gate;
+ * Awtsmoos.com gives interactive and server embed actions clear hover, focus, and pressure states without overloading the card they create.
+ */
+
+.embed-preset-actions {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: .35rem;
+}
+
+.embed-preset-actions button {
+	min-height: 40px;
+	padding: .4rem;
+	border: 1px solid var(--line-strong);
+	border-radius: 9px;
+	background: rgba(124,231,197,.045);
+	color: var(--ink-soft);
+	font-size: .62rem;
+	font-weight: 750;
+	cursor: pointer;
+	touch-action: manipulation;
+	transition: transform 120ms ease, border-color 160ms ease, background 160ms ease;
+}
+
+.embed-preset-actions button:focus-visible {
+	outline: 2px solid var(--accent);
+	outline-offset: 2px;
+}
+
+.embed-preset-actions button:active {
+	transform: scale(.97);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.embed-preset-actions button:hover {
+		border-color: rgba(124,231,197,.42);
+		background: rgba(124,231,197,.075);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.embed-preset-actions button {
+		transition: none;
+	}
+}

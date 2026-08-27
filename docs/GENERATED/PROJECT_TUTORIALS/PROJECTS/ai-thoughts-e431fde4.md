@@ -4,7 +4,7 @@ Blessed is He
 
 # Project Tutorial: ai_thoughts
 
-**Path:** `ai_thoughts` · **Type:** evidence · **Family:** Public and Other Boundaries
+**Path:** `ai_thoughts` · **Type:** alias · **Family:** Public and Other Boundaries
 
 [Read the human Public and Other Boundaries guide](../../../TUTORIALS/PROJECTS/PUBLIC_SURFACES.md)
 
@@ -15,13 +15,13 @@ Blessed is He
 - Entry files: —
 - Local documentation: No local `DOCUMENTATION.md` observed.
 - Local-doc requirement: no; covered: no
-- Symlink target: —
+- Symlink target: `/Users/awtsmoos/work/Awtsmoos.com-artifacts/ai_thoughts`
 
 ## File shape
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 503 | 79 | 0 | 0 | 0 | 1084 | 1666 |
+| 5733 | 100 | 0 | 0 | 60 | 2770 | 8663 |
 
 ## Public entry points
 
@@ -45,4 +45,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **79**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **100**. Treat this as file evidence, not proof of behavioral coverage.

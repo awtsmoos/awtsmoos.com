@@ -4,90 +4,97 @@
 
 /**
  * @file TerrainMaterialFactory.js
- * @description Creates six-source alpine terrain with real pixels and explicit quality-owned macro realism.
- * The Awtsmoos clothes mountain and meadow through one earth; Awtsmoos.com binds three real grasses,
- * soil, wet bank, stone, physical texture scale, and measured macro mixing instead of inheriting generic renderer defaults.
+ * @description Creates procedural alpine earth immediately, then exposes a tiny shared page of real ecological textures for bounded hydration.
+ * RESPONSIBILITY: assemble the tiny-runtime terrain material from the canonical layer recipe, realism profile, and main-village surface page.
+ * NON-RESPONSIBILITY: this file does not fetch images, schedule network requests, generate terrain, or implement the layer shader itself.
+ * ARCHITECTURAL POSITION: procedural earth is the immediate keli; shared photographic layers become later oros through the existing cache.
+ * The Awtsmoos, Atzmus beyond photograph and shader, renews grass, wet bank, soil, and stone beneath every visible garment;
+ * Awtsmoos.com keeps first play responsive while ecological detail appears through a few shared images instead of texture-per-object torment.
  */
 
 import { MeshStandardMaterial } from '../../../../light-three-gltf/tiny-runtime.js';
-import { cachedTextureImage } from '../../assets/PublicMaterialCache.js';
-import { REPEAT_HOOKS, terrainRepeat, textureSize } from '../../assets/TextureRepeat.js';
+import { mainRiverVillageSurfaceMix } from '../materials/MainRiverVillageSurfaceMix.js';
 import { materialStackDiagnostics } from '../materials/MaterialStackRecipe.js';
-import { scheduleLiveRealNatureBridge } from '../nature/LiveRealNatureScheduler.js';
-import { TERRAIN_TEXTURE_AUTHORITY } from './LocalTerrainTextureCatalog.js';
 import { terrainLayerRecipe } from './TerrainLayerRecipe.js';
 import { terrainRealismProfile } from './TerrainRealismProfile.js';
 
-const TERRAIN_SOURCE_TINT = Object.freeze([1, 1, 1, 1]);
+const TERRAIN_PROCEDURAL_TINT = Object.freeze([0.36, 0.47, 0.25, 1]);
 const TERRAIN_UV_UNITS_PER_WORLD = Object.freeze([0.035, 0.035]);
-export const TERRAIN_CINEMATIC_MIX_STRENGTH = 0.78;
+export const TERRAIN_CINEMATIC_MIX_STRENGTH = 0;
 export const TERRAIN_CINEMATIC_PATCH_SCALE = 0.024;
 
-export function createTerrainMaterial(options) {
-	scheduleBrowserNatureBridge();
-	const recipe = terrainLayerRecipe(options.quality);
-	const realism = terrainRealismProfile(options.quality);
-	const grassImage = options.grassImage || cachedTextureImage(recipe.baseUrl);
-	const dirtImage = options.dirtImage || cachedTextureImage(recipe.dirtUrl);
-	const textureUrl = grassImage?.src || recipe.baseUrl;
+/**
+ * Creates the canonical terrain material with immediate procedural shading and bounded shared photographic layers.
+ * @param {object} [options={}] Terrain creation options.
+ * @param {string} [options.quality='medium'] Runtime graphics quality controlling ecological layer budget.
+ * @returns {MeshStandardMaterial} Tiny-runtime terrain material ready for existing layered hydration.
+ */
+export function createTerrainMaterial(options = {}) {
+	const quality = options.quality || 'medium';
+	const recipe = terrainLayerRecipe(quality);
+	const realism = terrainRealismProfile(quality);
+	const surfaceMix = mainRiverVillageSurfaceMix(recipe.layers, quality);
 	const material = new MeshStandardMaterial({
-		color: TERRAIN_SOURCE_TINT,
+		color: TERRAIN_PROCEDURAL_TINT,
 		metalness: 0,
-		name: 'Awtsmoos_canonical_textured_alpine_valley',
-		roughness: 0.9
+		name: 'Awtsmoos_canonical_layered_alpine_valley',
+		roughness: 0.92
 	});
-	Object.assign(material, {
-		anisotropy: 8,
-		mapImage: grassImage,
-		mapRepeat: terrainRepeat(options.size, grassImage),
+	Object.assign(material, createTerrainMaterialPolicy(
+		recipe,
+		realism,
+		surfaceMix
+	));
+	return material;
+}
+
+function createTerrainMaterialPolicy(recipe, realism, surfaceMix) {
+	return {
+		anisotropy: false,
+		mapImage: null,
+		mapRepeat: [1, 1],
 		materialStack: recipe.stack,
-		mixImage: dirtImage,
+		mixImage: null,
 		mixPatchScale: TERRAIN_CINEMATIC_PATCH_SCALE,
 		mixPatchSharpness: 0.74,
-		mixRepeat: terrainRepeat(options.size, dirtImage),
+		mixRepeat: [1, 1],
 		mixStrength: TERRAIN_CINEMATIC_MIX_STRENGTH,
-		mixTextureUrl: recipe.dirtUrl,
+		mixTextureUrl: null,
 		opacity: 1,
 		terrainMixingA: realism.a,
 		terrainMixingB: realism.b,
 		terrainMixingC: realism.c,
-		textureLayers: recipe.layers.map(hydratableLayer),
-		texturePolicy: terrainTexturePolicy(recipe, realism, grassImage, dirtImage, textureUrl),
-		textureUrl,
+		textureLayers: [...surfaceMix.layers],
+		texturePolicy: terrainTexturePolicy(recipe, realism, surfaceMix),
+		textureUrl: null,
 		transparent: false,
 		visible: true
-	});
-	return material;
+	};
 }
 
-function hydratableLayer(layer) {
-	return { ...layer, image: cachedTextureImage(layer.url) };
-}
-
-function scheduleBrowserNatureBridge() {
-	if (typeof document !== 'undefined') scheduleLiveRealNatureBridge(globalThis);
-}
-
-function terrainTexturePolicy(recipe, realism, grassImage, dirtImage, textureUrl) {
+function terrainTexturePolicy(recipe, realism, surfaceMix) {
 	return {
-		baseSource: 'trusted-public-full-resolution-meadow',
+		baseSource: 'procedural-gpu-earth-with-bounded-real-layers',
 		fullResolutionEcologicalLayers: true,
-		hydration: grassImage && dirtImage ? 'ready-at-construction' : 'public-preload-required',
-		layerCount: recipe.layers.length,
+		hydration: 'shared-cache-bounded-ecological-page',
+		layerCount: surfaceMix.layers.length,
 		logicalLayerCount: recipe.logicalLayerCount,
-		macroMixing: { a: realism.a, b: realism.b, c: realism.c },
+		macroMixing: Object.freeze({
+			a: realism.a,
+			b: realism.b,
+			c: realism.c
+		}),
 		materialStackDiagnostics: materialStackDiagnostics(recipe.stack, 10),
-		mix: 'three-octave-zone-slope-height-wetness-normalized-ecology',
+		mix: 'zone-slope-height-wetness-plus-shared-real-layers',
 		nativeTexelDensity: true,
-		publicFirebase: TERRAIN_TEXTURE_AUTHORITY.publicRemote,
-		realBaseImage: Boolean(grassImage),
-		realMixImage: Boolean(dirtImage),
-		remoteAuthority: TERRAIN_TEXTURE_AUTHORITY,
-		repeatMode: 'fractional-mirror-original-pixel-density',
+		proceduralEarth: true,
+		realBaseImage: false,
+		realMixImage: false,
+		repeatMode: 'per-layer-ecological-repeat',
+		selectedRoles: surfaceMix.stats.selectedRoles,
 		shader: recipe.shader,
-		sourcePixels: textureSize(grassImage),
-		texelsPerWorld: REPEAT_HOOKS.terrainTexelsPerWorld,
-		textureUrl,
+		texelsPerWorld: 0,
+		textureUrl: null,
 		uvUnitsPerWorld: TERRAIN_UV_UNITS_PER_WORLD
 	};
 }

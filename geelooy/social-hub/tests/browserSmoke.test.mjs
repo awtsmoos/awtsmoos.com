@@ -11,7 +11,6 @@ import assert from 'node:assert/strict';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createBrowserHarness } from '../../games/city-of-light/tests/BrowserHarness.mjs';
-import { ROUTES } from '../js/navigation/RouteModel.js';
 import {
 	createRichReply,
 	governActivity,
@@ -80,30 +79,40 @@ try {
 	assert.equal(promotion.promotion.canonical.id, 'promoted-one');
 	assert.equal(promotion.posts, 2);
 	await harness.screenshot(path.join(evidence, 'social-hub-desktop.png'));
+
 	await setMobileViewport(harness.client);
 	await navigateReliably('/social-hub/?alias=teacher&heichel=study&series=lessons&post=teaching-one&verse=verse-one&subsection=word-one#home');
 	await waitForHub(harness.client);
 	const mobile = await inspectMobile(harness.client);
 	assert.equal(mobile.desktopRail, 'none');
 	assert.notEqual(mobile.mobileDock, 'none');
-	assert.equal(mobile.dockButtons, ROUTES.length);
+	assert.deepEqual(mobile.dockRoutes, ['home', 'inbox', 'messages', 'spaces']);
+	assert.equal(mobile.moreExists, true);
 	assert.equal(mobile.viewport.width, 390);
 	const mobileNavigation = await navigateMobile(harness.client);
 	assert.equal(mobileNavigation.active, 'interact');
 	assert.match(mobileNavigation.coordinate, /word-one/);
 	assert.equal(mobileNavigation.legalPrivacy, true);
+	assert.equal(mobileNavigation.moreExpanded, 'false');
+	assert.equal(mobileNavigation.dockScrollLeft, 0);
+	assert.equal(mobileNavigation.documentOverflow, 0);
 	await harness.screenshot(path.join(evidence, 'social-hub-mobile.png'));
+
 	await enableReducedMotion(harness.client);
 	const reduced = await inspectReducedMotion(harness.client, navigateReliably);
 	assert.equal(reduced.matches, true);
 	assert(reduced.pulseDuration === '0.001s' || reduced.pulseDuration === '0s');
-	assert.equal(reduced.functionalRoutes, ROUTES.length);
+	assert.equal(reduced.functionalRoutes, 4);
+	assert.equal(reduced.moreExists, true);
 	await harness.screenshot(path.join(evidence, 'social-hub-reduced-motion.png'));
 	assert.deepEqual(harness.errors, []);
 	console.log('social-hub browserSmoke.test passed');
 } finally {
 	if (fixtureIdentifier) {
-		await harness.client.send('Page.removeScriptToEvaluateOnNewDocument', { identifier: fixtureIdentifier }).catch(() => null);
+		await harness.client.send(
+			'Page.removeScriptToEvaluateOnNewDocument',
+			{ identifier: fixtureIdentifier }
+		).catch(() => null);
 	}
 	harness.close();
 }

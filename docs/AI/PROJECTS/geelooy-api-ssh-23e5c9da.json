@@ -23,39 +23,44 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-ssh-23e5c9da.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 9,
+		"source": 33,
 		"tests": 0,
 		"assets": 0,
 		"generated": 0,
 		"docs": 1,
 		"other": 0
 	},
-	"totalFiles": 10,
+	"totalFiles": 34,
 	"symbolSummary": {
-		"files": 9,
-		"classes": 0,
-		"functions": 19,
-		"exports": 17,
+		"files": 33,
+		"classes": 4,
+		"functions": 102,
+		"exports": 71,
 		"samples": [
 			"call",
 			"connect",
 			"withClient",
 			"openSftp",
+			"buildCommandRoutes",
 			"execCommand",
-			"removePath",
+			"readContent",
+			"writeContent",
+			"decodeBase64",
+			"buildFileRoutes",
 			"quote",
-			"bodyOf",
-			"connectionConfig",
-			"requiredBody",
-			"ok",
-			"fail"
+			"bodyOf"
 		]
 	},
 	"outgoingDependencies": [
 		{
 			"project": "ayzarim/ssh",
-			"count": 1,
-			"examples": "geelooy/api/ssh/lib/client.js"
+			"count": 2,
+			"examples": "geelooy/api/ssh/lib/client.js; geelooy/api/ssh/virtual/service.js"
+		},
+		{
+			"project": "geelooy/api/social",
+			"count": 2,
+			"examples": "geelooy/api/ssh/virtual/accessGuard.js"
 		}
 	],
 	"incomingDependencies": [],

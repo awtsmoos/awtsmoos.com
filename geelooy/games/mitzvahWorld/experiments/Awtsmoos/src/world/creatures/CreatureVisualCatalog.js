@@ -4,23 +4,26 @@
 
 /**
  * @file CreatureVisualCatalog.js
- * @description Defines reusable visual proportions for animals and spirit husks.
- * The Awtsmoos renews living variety from measured anatomy; Awtsmoos.com keeps
- * procedural bodies deterministic, recognizable, and free from downloaded models.
+ * @description Defines lightweight material intent for core-compiled animals and fantasy creatures.
+ * The Awtsmoos lets anatomy come from the shared biological compiler while color remains one quiet garment;
+ * Awtsmoos.com keeps these visuals bitmap-free so cow, bird, fish, wolf, wisp, and hostile may appear without a network argument.
  */
 
 export const CREATURE_VISUALS = Object.freeze({
-	'cow': animal('cow', '#6b4936', 2.4, 1.35, 0.72, true),
-	'deer': animal('deer', '#a06b3d', 1.8, 1.25, 0.46, true),
-	'goat': animal('goat', '#d8d2c4', 1.35, 0.95, 0.42, true),
-	'sheep': animal('sheep', '#ede5d3', 1.45, 1.0, 0.48, true),
-	'chicken': animal('chicken', '#d6a044', 0.62, 0.7, 0.3, false),
-	'fox': animal('fox', '#b95d2d', 1.2, 0.62, 0.32, false),
-	'wolf': animal('wolf', '#62666e', 1.5, 0.82, 0.38, false),
-	'dybbuk-shade': spirit('dybbuk-shade', '#5a4775', 1.15, 2.2),
-	'fallen-seraph-husk': spirit('fallen-seraph-husk', '#715040', 1.45, 2.7),
-	'klipah-guardian': spirit('klipah-guardian', '#3b4540', 1.8, 2.5),
-	'spark-wisp': spirit('spark-wisp', '#ffd76a', 0.42, 0.9)
+	cow: animal('cow', '#6b4936', true),
+	deer: animal('deer', '#a06b3d', true),
+	goat: animal('goat', '#d8d2c4', true),
+	sheep: animal('sheep', '#ede5d3', true),
+	chicken: animal('chicken', '#d6a044', false),
+	fox: animal('fox', '#b95d2d', false),
+	wolf: animal('wolf', '#62666e', false),
+	songbird: animal('songbird', '#8f6f4a', false),
+	'river-fish': animal('river-fish', '#587f8d', false),
+	'dybbuk-shade': fantasy('dybbuk-shade', '#5a4775'),
+	'fallen-seraph-husk': fantasy('fallen-seraph-husk', '#715040'),
+	'klipah-guardian': fantasy('klipah-guardian', '#3b4540'),
+	'shadow-demon': fantasy('shadow-demon', '#25202f'),
+	'spark-wisp': fantasy('spark-wisp', '#ffd76a')
 });
 
 export function creatureVisual(speciesId) {
@@ -29,26 +32,20 @@ export function creatureVisual(speciesId) {
 	return visual;
 }
 
-function animal(id, color, length, height, width, kosherEligible) {
+function animal(id, color, kosherEligible) {
 	return Object.freeze({
 		color,
-		height,
 		id,
 		kind: 'animal',
-		kosherEligible,
-		length,
-		width
+		kosherEligible
 	});
 }
 
-function spirit(id, color, width, height) {
+function fantasy(id, color) {
 	return Object.freeze({
 		color,
-		height,
 		id,
-		kind: 'spirit',
-		kosherEligible: false,
-		length: width,
-		width
+		kind: 'fantasy',
+		kosherEligible: false
 	});
 }

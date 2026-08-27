@@ -1,0 +1,89 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos is beyond every shita while each selected profile deserves enough light to explain its measured way;
+ * Awtsmoos.com gives methodology strong contrast and quiet structure so deeper study never fades into gray.
+ */
+
+.methodology-panel summary {
+	color: var(--ink);
+}
+
+.methodology-panel summary small {
+	display: block;
+	margin-top: 0.12rem;
+	color: var(--ink-soft);
+}
+
+.methodology-panel section {
+	margin-top: 1rem;
+}
+
+.methodology-panel h3 {
+	margin: 0 0 0.55rem;
+	font-size: 0.76rem;
+	letter-spacing: 0.09em;
+	text-transform: uppercase;
+	color: var(--accent);
+}
+
+.method-profile-list {
+	display: grid;
+	gap: 0.48rem;
+}
+
+.method-profile-list article {
+	display: grid;
+	gap: 0.18rem;
+	padding: 0.72rem 0.78rem;
+	border: 1px solid var(--line);
+	border-radius: 12px;
+	background: rgba(255, 255, 255, 0.018);
+}
+
+.method-profile-list article[data-primary="true"] {
+	border-color: rgba(255, 213, 138, 0.32);
+	background: rgba(255, 213, 138, 0.045);
+	box-shadow: inset 3px 0 0 var(--solar);
+}
+
+.method-profile-list strong {
+	color: var(--ink);
+	font-size: 0.82rem;
+}
+
+.method-profile-list span {
+	color: var(--accent-strong);
+	font-size: 0.68rem;
+	font-weight: 720;
+}
+
+.method-profile-list p {
+	margin: 0.15rem 0 0;
+	color: var(--ink-soft);
+	font-size: 0.72rem;
+	line-height: 1.45;
+}
+
+.methodology-panel ul {
+	margin: 0;
+	padding-left: 1.15rem;
+}
+
+.methodology-panel li {
+	margin-block: 0.28rem;
+	color: var(--ink-soft);
+	font-size: 0.72rem;
+}
+
+.method-disclaimer {
+	margin: 1rem 0 0;
+	padding: 0.72rem 0.78rem;
+	border: 1px solid rgba(255, 213, 138, 0.2);
+	border-radius: 12px;
+	background: rgba(255, 213, 138, 0.04);
+	color: #d8e5e0 !important;
+	font-size: 0.72rem;
+	line-height: 1.5;
+}

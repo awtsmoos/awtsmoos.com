@@ -2,8 +2,8 @@
 Boruch Hashem
 Blessed is He
 
-The Awtsmoos is no less present in a narrow screen than a wide one; Awtsmoos.com
-folds its controls with grace so thumb and pointer may enter the same shared page.
+The Awtsmoos is no less present on a narrow screen than a wide one; Awtsmoos.com folds abundance into a calm row of light,
+while Actions and interface density keep every advanced vessel one gesture near without making the phone feel tight.
 */
 @media (max-width: 760px) {
 	:root {
@@ -13,35 +13,40 @@ folds its controls with grace so thumb and pointer may enter the same shared pag
 	}
 
 	.app-bar {
-		padding: 8px;
+		gap: 4px;
 		min-height: 58px;
+		padding: max(7px, env(safe-area-inset-top)) 7px 7px;
 	}
 
 	.brand-mark {
 		width: 34px;
 		height: 34px;
+		flex: 0 0 34px;
 	}
 
-	.document-meta {
+	.document-identity {
+		min-width: 60px;
+	}
+
+	.document-meta,
+	#publicFilesButton,
+	.presence-strip {
 		display: none;
 	}
 
 	.document-title {
-		font-size: 14px;
+		width: 100%;
+		padding-inline: 4px;
+		font-size: 13.5px;
 	}
 
-	.presence-strip {
-		max-width: 76px;
-		overflow: hidden;
-	}
-
-	#publicFilesButton {
-		display: none;
+	#shareButton {
+		padding-inline: 10px;
 	}
 
 	.toolbar {
-		scrollbar-width: none;
 		padding-inline: 8px;
+		scrollbar-width: none;
 	}
 
 	.toolbar::-webkit-scrollbar {
@@ -72,13 +77,34 @@ folds its controls with grace so thumb and pointer may enter the same shared pag
 	}
 
 	.toast-region {
-		left: 12px;
-		right: 12px;
-		bottom: 54px;
+		left: 10px;
+		right: 10px;
+		bottom: calc(54px + env(safe-area-inset-bottom));
 	}
 
 	.toast {
 		max-width: none;
+	}
+}
+
+@media (max-width: 420px) {
+	.brand-mark {
+		width: 30px;
+		height: 30px;
+		flex-basis: 30px;
+	}
+
+	.app-bar {
+		gap: 3px;
+	}
+
+	.document-title {
+		font-size: 13px;
+	}
+
+	#shareButton {
+		min-width: 52px;
+		padding-inline: 8px;
 	}
 }
 

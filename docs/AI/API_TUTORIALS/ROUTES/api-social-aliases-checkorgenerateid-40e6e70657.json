@@ -38,7 +38,7 @@
 		},
 		{
 			"literal": "/api/social/aliases/checkOrGenerateId",
-			"source": "geelooy/profile/alias-manage/script.js",
+			"source": "geelooy/profile/alias-manage/modules/validation.js",
 			"kind": "runtime"
 		},
 		{

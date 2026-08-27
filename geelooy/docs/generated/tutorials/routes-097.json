@@ -1,8 +1,8 @@
 [
 	{
-		"id": "api-social-thoughts-thread-thoughtid-e923f31029",
-		"route": "/api/social/thoughts/thread/:thoughtId",
-		"source": "geelooy/api/social/_awtsmoos.thoughts.js",
+		"id": "api-social-profile-alias-comments-44cb67bbef",
+		"route": "/api/social/profile/:alias/comments",
+		"source": "geelooy/api/social/_awtsmoos.profile.js",
 		"discoveryKind": "static-literal",
 		"family": {
 			"mount": "/api/social",
@@ -18,19 +18,13 @@
 		"dynamic": true,
 		"pathParameters": [
 			{
-				"name": "thoughtId",
+				"name": "alias",
 				"catchAll": false
 			}
 		],
-		"methods": [
-			"GET",
-			"POST",
-			"PUT",
-			"DELETE"
-		],
-		"methodEvidence": "GET, POST, PUT, DELETE",
+		"methods": [],
+		"methodEvidence": "unknown",
 		"vessels": [
-			"$_GET",
 			"$_POST",
 			"route-vars"
 		],
@@ -72,121 +66,8 @@
 				"command": "node geelooy/heichelos/heichel/modules/test/socialLiveSmoke.test.mjs"
 			}
 		],
-		"examples": [
-			{
-				"method": "GET",
-				"warning": "Starter only: method evidence is lexical at the source-file level; inspect the handler before relying on payload or response shape.",
-				"curl": "curl -X GET 'https://awtsmoos.com/api/social/thoughts/thread/{thoughtId}'",
-				"fetch": "const response = await fetch(\"/api/social/thoughts/thread/{thoughtId}\", {\n\tmethod: \"GET\"\n});\nconst result = await response.json();"
-			}
-		],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-thoughts-thread-thoughtid-e923f31029.md",
-		"confidence": "source-lexical",
-		"related": [
-			{
-				"id": "api-social-9fa4891e88",
-				"route": "/api/social"
-			},
-			{
-				"id": "api-social-abuse-ratelimit-check-0a30b621f8",
-				"route": "/api/social/abuse/rateLimit/check"
-			},
-			{
-				"id": "api-social-alias-alias-2cc6a9ba6e",
-				"route": "/api/social/alias/:alias"
-			},
-			{
-				"id": "api-social-alias-alias-details-7e4136898b",
-				"route": "/api/social/alias/:alias/details"
-			},
-			{
-				"id": "api-social-alias-alias-heichelos-34bfb8e313",
-				"route": "/api/social/alias/:alias/heichelos"
-			},
-			{
-				"id": "api-social-alias-alias-heichelos-heichel-4c7f5ddd08",
-				"route": "/api/social/alias/:alias/heichelos/:heichel"
-			},
-			{
-				"id": "api-social-alias-alias-heichelos-heichel-ownership-c2e6e8e020",
-				"route": "/api/social/alias/:alias/heichelos/:heichel/ownership"
-			},
-			{
-				"id": "api-social-alias-alias-heichelos-details-75a049464f",
-				"route": "/api/social/alias/:alias/heichelos/details"
-			}
-		]
-	},
-	{
-		"id": "api-social-trending-03b39bec77",
-		"route": "/api/social/trending",
-		"source": "geelooy/api/social/_awtsmoos.profile.js",
-		"discoveryKind": "static-literal",
-		"family": {
-			"mount": "/api/social",
-			"title": "Social",
-			"manual": "docs/TUTORIALS/API/SOCIAL.md"
-		},
-		"derech": {
-			"source": "geelooy/api/social/_awtsmoos.derech.js",
-			"status": "OK",
-			"issue": "—",
-			"mount": "/api/social"
-		},
-		"dynamic": false,
-		"pathParameters": [],
-		"methods": [],
-		"methodEvidence": "unknown",
-		"vessels": [
-			"$_POST",
-			"route-vars"
-		],
-		"statuses": [],
-		"headers": [],
-		"callers": [
-			{
-				"literal": "/api/social/trending?limit=8",
-				"source": "geelooy/social-hub/tests/socialApiV2.test.mjs",
-				"kind": "test"
-			}
-		],
-		"callerCount": 1,
-		"tests": [
-			{
-				"name": "test",
-				"command": "npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported-style-ownership && npm run test:css-quality && npm run test:heichelos-quality && npm run test:profile-menu && npm run test:heichel-governance && npm run test:post-submissions && npm run test:comments && npm run test:api-keys && npm run test:graph && npm run test:social-content && npm run test:notifications && npm run test:social-packed && npm run test:packed-engine && npm run test:platform-ops && npm run test:platform-execution && npm run test:node-client && npm run test:dayuh-cutover"
-			},
-			{
-				"name": "test:api-keys",
-				"command": "node geelooy/api/social/helper/test/apiKeys.test.js"
-			},
-			{
-				"name": "test:comments",
-				"command": "node geelooy/api/social/helper/comments/test/runAllCommentsTests.js"
-			},
-			{
-				"name": "test:concurrency-failure",
-				"command": "node geelooy/api/social/test/concurrencyFailureStress.test.mjs"
-			},
-			{
-				"name": "test:dayuh-release",
-				"command": "npm run test:routes && npm run test:comments && npm run test:social-content && npm run test:social-packed && npm run test:packed-engine && node --test tools/dayuhChadashMaintenance/test/*.test.js && npm run test:dayuh-cutover"
-			},
-			{
-				"name": "test:graph",
-				"command": "node geelooy/api/social/helper/test/socialGraph.test.js"
-			},
-			{
-				"name": "test:heichel-governance",
-				"command": "node geelooy/heichelos/heichel/modules/test/editorManagement.test.mjs && node geelooy/api/social/helper/test/heichelRoles.test.js"
-			},
-			{
-				"name": "test:live-smoke",
-				"command": "node geelooy/heichelos/heichel/modules/test/socialLiveSmoke.test.mjs"
-			}
-		],
 		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-trending-03b39bec77.md",
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-profile-alias-comments-44cb67bbef.md",
 		"confidence": "unknown-method",
 		"related": [
 			{
@@ -224,9 +105,9 @@
 		]
 	},
 	{
-		"id": "api-social-unified-social-activity-alias-f74ec84442",
-		"route": "/api/social/unified-social/activity/:alias",
-		"source": "geelooy/api/social/_awtsmoos.activityLedger.js",
+		"id": "api-social-profile-alias-heichelos-a0ee3ceaf8",
+		"route": "/api/social/profile/:alias/heichelos",
+		"source": "geelooy/api/social/_awtsmoos.profile.js",
 		"discoveryKind": "static-literal",
 		"family": {
 			"mount": "/api/social",
@@ -246,12 +127,12 @@
 				"catchAll": false
 			}
 		],
-		"methods": [
-			"GET",
-			"POST"
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [
+			"$_POST",
+			"route-vars"
 		],
-		"methodEvidence": "GET, POST",
-		"vessels": [],
 		"statuses": [],
 		"headers": [],
 		"callers": [],
@@ -290,16 +171,9 @@
 				"command": "node geelooy/heichelos/heichel/modules/test/socialLiveSmoke.test.mjs"
 			}
 		],
-		"examples": [
-			{
-				"method": "GET",
-				"warning": "Starter only: method evidence is lexical at the source-file level; inspect the handler before relying on payload or response shape.",
-				"curl": "curl -X GET 'https://awtsmoos.com/api/social/unified-social/activity/{alias}'",
-				"fetch": "const response = await fetch(\"/api/social/unified-social/activity/{alias}\", {\n\tmethod: \"GET\"\n});\nconst result = await response.json();"
-			}
-		],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-unified-social-activity-alias-f74ec84442.md",
-		"confidence": "source-lexical",
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-profile-alias-heichelos-a0ee3ceaf8.md",
+		"confidence": "unknown-method",
 		"related": [
 			{
 				"id": "api-social-9fa4891e88",
@@ -336,9 +210,9 @@
 		]
 	},
 	{
-		"id": "api-social-unified-social-activity-alias-events-event-4b32471913",
-		"route": "/api/social/unified-social/activity/:alias/events/:event",
-		"source": "geelooy/api/social/_awtsmoos.activityLedger.js",
+		"id": "api-social-profile-alias-posts-764c43126d",
+		"route": "/api/social/profile/:alias/posts",
+		"source": "geelooy/api/social/_awtsmoos.profile.js",
 		"discoveryKind": "static-literal",
 		"family": {
 			"mount": "/api/social",
@@ -356,18 +230,14 @@
 			{
 				"name": "alias",
 				"catchAll": false
-			},
-			{
-				"name": "event",
-				"catchAll": false
 			}
 		],
-		"methods": [
-			"GET",
-			"POST"
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [
+			"$_POST",
+			"route-vars"
 		],
-		"methodEvidence": "GET, POST",
-		"vessels": [],
 		"statuses": [],
 		"headers": [],
 		"callers": [],
@@ -406,16 +276,219 @@
 				"command": "node geelooy/heichelos/heichel/modules/test/socialLiveSmoke.test.mjs"
 			}
 		],
-		"examples": [
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-profile-alias-posts-764c43126d.md",
+		"confidence": "unknown-method",
+		"related": [
 			{
-				"method": "GET",
-				"warning": "Starter only: method evidence is lexical at the source-file level; inspect the handler before relying on payload or response shape.",
-				"curl": "curl -X GET 'https://awtsmoos.com/api/social/unified-social/activity/{alias}/events/{event}'",
-				"fetch": "const response = await fetch(\"/api/social/unified-social/activity/{alias}/events/{event}\", {\n\tmethod: \"GET\"\n});\nconst result = await response.json();"
+				"id": "api-social-9fa4891e88",
+				"route": "/api/social"
+			},
+			{
+				"id": "api-social-abuse-ratelimit-check-0a30b621f8",
+				"route": "/api/social/abuse/rateLimit/check"
+			},
+			{
+				"id": "api-social-alias-alias-2cc6a9ba6e",
+				"route": "/api/social/alias/:alias"
+			},
+			{
+				"id": "api-social-alias-alias-details-7e4136898b",
+				"route": "/api/social/alias/:alias/details"
+			},
+			{
+				"id": "api-social-alias-alias-heichelos-34bfb8e313",
+				"route": "/api/social/alias/:alias/heichelos"
+			},
+			{
+				"id": "api-social-alias-alias-heichelos-heichel-4c7f5ddd08",
+				"route": "/api/social/alias/:alias/heichelos/:heichel"
+			},
+			{
+				"id": "api-social-alias-alias-heichelos-heichel-ownership-c2e6e8e020",
+				"route": "/api/social/alias/:alias/heichelos/:heichel/ownership"
+			},
+			{
+				"id": "api-social-alias-alias-heichelos-details-75a049464f",
+				"route": "/api/social/alias/:alias/heichelos/details"
+			}
+		]
+	},
+	{
+		"id": "api-social-profile-alias-series-tree-694be24b30",
+		"route": "/api/social/profile/:alias/series-tree",
+		"source": "geelooy/api/social/_awtsmoos.profile.js",
+		"discoveryKind": "static-literal",
+		"family": {
+			"mount": "/api/social",
+			"title": "Social",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md"
+		},
+		"derech": {
+			"source": "geelooy/api/social/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/social"
+		},
+		"dynamic": true,
+		"pathParameters": [
+			{
+				"name": "alias",
+				"catchAll": false
 			}
 		],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-unified-social-activity-alias-events-event-4b32471913.md",
-		"confidence": "source-lexical",
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [
+			"$_POST",
+			"route-vars"
+		],
+		"statuses": [],
+		"headers": [],
+		"callers": [],
+		"callerCount": 0,
+		"tests": [
+			{
+				"name": "test",
+				"command": "npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported-style-ownership && npm run test:css-quality && npm run test:heichelos-quality && npm run test:profile-menu && npm run test:heichel-governance && npm run test:post-submissions && npm run test:comments && npm run test:api-keys && npm run test:graph && npm run test:social-content && npm run test:notifications && npm run test:social-packed && npm run test:packed-engine && npm run test:platform-ops && npm run test:platform-execution && npm run test:node-client && npm run test:dayuh-cutover"
+			},
+			{
+				"name": "test:api-keys",
+				"command": "node geelooy/api/social/helper/test/apiKeys.test.js"
+			},
+			{
+				"name": "test:comments",
+				"command": "node geelooy/api/social/helper/comments/test/runAllCommentsTests.js"
+			},
+			{
+				"name": "test:concurrency-failure",
+				"command": "node geelooy/api/social/test/concurrencyFailureStress.test.mjs"
+			},
+			{
+				"name": "test:dayuh-release",
+				"command": "npm run test:routes && npm run test:comments && npm run test:social-content && npm run test:social-packed && npm run test:packed-engine && node --test tools/dayuhChadashMaintenance/test/*.test.js && npm run test:dayuh-cutover"
+			},
+			{
+				"name": "test:graph",
+				"command": "node geelooy/api/social/helper/test/socialGraph.test.js"
+			},
+			{
+				"name": "test:heichel-governance",
+				"command": "node geelooy/heichelos/heichel/modules/test/editorManagement.test.mjs && node geelooy/api/social/helper/test/heichelRoles.test.js"
+			},
+			{
+				"name": "test:live-smoke",
+				"command": "node geelooy/heichelos/heichel/modules/test/socialLiveSmoke.test.mjs"
+			}
+		],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-profile-alias-series-tree-694be24b30.md",
+		"confidence": "unknown-method",
+		"related": [
+			{
+				"id": "api-social-9fa4891e88",
+				"route": "/api/social"
+			},
+			{
+				"id": "api-social-abuse-ratelimit-check-0a30b621f8",
+				"route": "/api/social/abuse/rateLimit/check"
+			},
+			{
+				"id": "api-social-alias-alias-2cc6a9ba6e",
+				"route": "/api/social/alias/:alias"
+			},
+			{
+				"id": "api-social-alias-alias-details-7e4136898b",
+				"route": "/api/social/alias/:alias/details"
+			},
+			{
+				"id": "api-social-alias-alias-heichelos-34bfb8e313",
+				"route": "/api/social/alias/:alias/heichelos"
+			},
+			{
+				"id": "api-social-alias-alias-heichelos-heichel-4c7f5ddd08",
+				"route": "/api/social/alias/:alias/heichelos/:heichel"
+			},
+			{
+				"id": "api-social-alias-alias-heichelos-heichel-ownership-c2e6e8e020",
+				"route": "/api/social/alias/:alias/heichelos/:heichel/ownership"
+			},
+			{
+				"id": "api-social-alias-alias-heichelos-details-75a049464f",
+				"route": "/api/social/alias/:alias/heichelos/details"
+			}
+		]
+	},
+	{
+		"id": "api-social-profile-alias-tree-f5df73f447",
+		"route": "/api/social/profile/:alias/tree",
+		"source": "geelooy/api/social/_awtsmoos.profile.js",
+		"discoveryKind": "static-literal",
+		"family": {
+			"mount": "/api/social",
+			"title": "Social",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md"
+		},
+		"derech": {
+			"source": "geelooy/api/social/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/social"
+		},
+		"dynamic": true,
+		"pathParameters": [
+			{
+				"name": "alias",
+				"catchAll": false
+			}
+		],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [
+			"$_POST",
+			"route-vars"
+		],
+		"statuses": [],
+		"headers": [],
+		"callers": [],
+		"callerCount": 0,
+		"tests": [
+			{
+				"name": "test",
+				"command": "npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported-style-ownership && npm run test:css-quality && npm run test:heichelos-quality && npm run test:profile-menu && npm run test:heichel-governance && npm run test:post-submissions && npm run test:comments && npm run test:api-keys && npm run test:graph && npm run test:social-content && npm run test:notifications && npm run test:social-packed && npm run test:packed-engine && npm run test:platform-ops && npm run test:platform-execution && npm run test:node-client && npm run test:dayuh-cutover"
+			},
+			{
+				"name": "test:api-keys",
+				"command": "node geelooy/api/social/helper/test/apiKeys.test.js"
+			},
+			{
+				"name": "test:comments",
+				"command": "node geelooy/api/social/helper/comments/test/runAllCommentsTests.js"
+			},
+			{
+				"name": "test:concurrency-failure",
+				"command": "node geelooy/api/social/test/concurrencyFailureStress.test.mjs"
+			},
+			{
+				"name": "test:dayuh-release",
+				"command": "npm run test:routes && npm run test:comments && npm run test:social-content && npm run test:social-packed && npm run test:packed-engine && node --test tools/dayuhChadashMaintenance/test/*.test.js && npm run test:dayuh-cutover"
+			},
+			{
+				"name": "test:graph",
+				"command": "node geelooy/api/social/helper/test/socialGraph.test.js"
+			},
+			{
+				"name": "test:heichel-governance",
+				"command": "node geelooy/heichelos/heichel/modules/test/editorManagement.test.mjs && node geelooy/api/social/helper/test/heichelRoles.test.js"
+			},
+			{
+				"name": "test:live-smoke",
+				"command": "node geelooy/heichelos/heichel/modules/test/socialLiveSmoke.test.mjs"
+			}
+		],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-profile-alias-tree-f5df73f447.md",
+		"confidence": "unknown-method",
 		"related": [
 			{
 				"id": "api-social-9fa4891e88",

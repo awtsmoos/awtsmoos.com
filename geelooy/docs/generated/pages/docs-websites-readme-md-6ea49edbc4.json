@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-websites-readme-md-6ea49edbc4",
+	"title": "Websites on Awtsmoos",
+	"sourcePath": "docs/WEBSITES/README.md",
+	"category": "General",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Websites on Awtsmoos",
+			"anchor": "websites-on-awtsmoos"
+		},
+		{
+			"level": 2,
+			"text": "The shortest human path",
+			"anchor": "the-shortest-human-path"
+		},
+		{
+			"level": 2,
+			"text": "The shortest Tunnel path",
+			"anchor": "the-shortest-tunnel-path"
+		},
+		{
+			"level": 2,
+			"text": "Choose your tutorial",
+			"anchor": "choose-your-tutorial"
+		},
+		{
+			"level": 2,
+			"text": "DNS migration worksheet",
+			"anchor": "dns-migration-worksheet"
+		},
+		{
+			"level": 2,
+			"text": "Two automation planes",
+			"anchor": "two-automation-planes"
+		},
+		{
+			"level": 2,
+			"text": "Static versus connected Node",
+			"anchor": "static-versus-connected-node"
+		},
+		{
+			"level": 2,
+			"text": "Current DNS boundary",
+			"anchor": "current-dns-boundary"
+		}
+	],
+	"markdownParts": [
+		"content/docs-websites-readme-md-6ea49edbc4-001.json"
+	]
+}

@@ -5,12 +5,12 @@
 import { YesodParserCursor } from "./parserCursor.js";
 
 /**
- * @file Parses literal, reference, range, call, boolean, and grouped formula atoms.
+ * @file Parses literal, error, reference, range, call, boolean, and grouped formula atoms.
  * @description The Awtsmoos gives each smallest expression a vessel before larger operators unite;
- * Awtsmoos.com keeps atoms separate from precedence so every grammar layer stays clear and light.
+ * Awtsmoos.com keeps errors explicit and atoms separate so every grammar layer stays clear and light.
  */
 export class HodFormulaAtoms extends YesodParserCursor {
-	/** Parses literals, references/ranges, calls, booleans, and grouped expressions. */
+	/** Parses all supported primary formula atoms. */
 	primary() {
 		const token = this.current();
 		if (token.type === "number") {
@@ -20,6 +20,10 @@ export class HodFormulaAtoms extends YesodParserCursor {
 		if (token.type === "string") {
 			this.advance();
 			return { type: "string", value: token.value };
+		}
+		if (token.type === "error") {
+			this.advance();
+			return { type: "error", value: token.value };
 		}
 		if (token.type === "reference") {
 			return this.reference();

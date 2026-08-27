@@ -1,0 +1,79 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives review and preview one physical language across hand and desk;
+Awtsmoos.com keeps focus, safe areas, clear closing, and a calm bounded rest.
+*/
+dialog {
+	width: min(680px, calc(100% - 2rem));
+	max-height: min(82vh, 780px);
+	padding: 0;
+	border: 1px solid #3a5361;
+	border-radius: 22px;
+	color: var(--migrate-text);
+	background: var(--migrate-panel-strong);
+	box-shadow: 0 32px 90px rgb(0 0 0 / 48%);
+}
+dialog::backdrop {
+	background: rgb(0 4 8 / 70%);
+}
+.sheet {
+	display: grid;
+	gap: 1rem;
+	max-height: inherit;
+	padding: 1rem;
+	padding-bottom: max(1rem, env(safe-area-inset-bottom));
+	overflow: auto;
+	overscroll-behavior: contain;
+}
+.sheet header {
+	display: flex;
+	align-items: start;
+	justify-content: space-between;
+	gap: 1rem;
+}
+.closeButton {
+	width: 46px;
+	min-height: 46px;
+	padding: 0;
+	border-radius: 50%;
+	color: var(--migrate-text);
+	background: #22313a;
+}
+.grab {
+	display: none;
+	width: 64px;
+	min-height: 18px;
+	margin-inline: auto;
+	padding: 0;
+	border: 0;
+	background: transparent;
+}
+.grab::after {
+	width: 42px;
+	height: 5px;
+	border-radius: 999px;
+	background: #63747d;
+	content: "";
+}
+.tutorialSheet section {
+	padding-top: .7rem;
+	border-top: 1px solid var(--migrate-line);
+}
+.linkRail {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .65rem 1rem;
+}
+.mediaPreview {
+	display: grid;
+	place-items: center;
+	min-height: 220px;
+}
+.mediaPreview img,
+.mediaPreview video,
+.mediaPreview audio {
+	max-width: 100%;
+	max-height: 60vh;
+	border-radius: 14px;
+}

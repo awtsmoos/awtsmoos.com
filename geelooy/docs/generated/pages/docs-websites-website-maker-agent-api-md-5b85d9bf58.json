@@ -1,0 +1,64 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-websites-website-maker-agent-api-md-5b85d9bf58",
+	"title": "Website Maker Agent API",
+	"sourcePath": "docs/WEBSITES/WEBSITE_MAKER_AGENT_API.md",
+	"category": "General",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Website Maker Agent API",
+			"anchor": "website-maker-agent-api"
+		},
+		{
+			"level": 2,
+			"text": "Two automation planes",
+			"anchor": "two-automation-planes"
+		},
+		{
+			"level": 2,
+			"text": "Browser API v1.2",
+			"anchor": "browser-api-v1-2"
+		},
+		{
+			"level": 2,
+			"text": "Correlation is not idempotency",
+			"anchor": "correlation-is-not-idempotency"
+		},
+		{
+			"level": 2,
+			"text": "Lifecycle and replay law",
+			"anchor": "lifecycle-and-replay-law"
+		},
+		{
+			"level": 2,
+			"text": "Result-derived evidence",
+			"anchor": "result-derived-evidence"
+		},
+		{
+			"level": 2,
+			"text": "Source and editor actions",
+			"anchor": "source-and-editor-actions"
+		},
+		{
+			"level": 2,
+			"text": "Preview and publication",
+			"anchor": "preview-and-publication"
+		},
+		{
+			"level": 2,
+			"text": "Domain and DNS actions",
+			"anchor": "domain-and-dns-actions"
+		},
+		{
+			"level": 2,
+			"text": "Completion rule",
+			"anchor": "completion-rule"
+		}
+	],
+	"markdownParts": [
+		"content/docs-websites-website-maker-agent-api-md-5b85d9bf58-001.json"
+	]
+}

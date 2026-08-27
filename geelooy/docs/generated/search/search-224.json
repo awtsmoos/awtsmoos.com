@@ -1,203 +1,314 @@
 [
 	{
-		"id": "geelooy-apps-drive-documentation-md-8e9926ffcf",
-		"title": "Awtsmoos Drive",
-		"sourcePath": "geelooy/apps/drive/DOCUMENTATION.md",
-		"category": "Apps",
-		"provenance": "breadcrumb",
+		"id": "docs-systems-service-worker-md-467d5f36e2",
+		"title": "Service Worker",
+		"sourcePath": "docs/SYSTEMS/SERVICE_WORKER.md",
+		"category": "Systems",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Awtsmoos Drive",
-				"anchor": "awtsmoos-drive"
+				"text": "Service Worker",
+				"anchor": "service-worker"
 			},
 			{
 				"level": 2,
-				"text": "Role",
-				"anchor": "role"
+				"text": "Source",
+				"anchor": "source"
 			},
 			{
 				"level": 2,
-				"text": "Start here",
-				"anchor": "start-here"
+				"text": "Current behavior",
+				"anchor": "current-behavior"
 			},
 			{
 				"level": 2,
-				"text": "Change rule",
-				"anchor": "change-rule"
+				"text": "Consequence",
+				"anchor": "consequence"
 			},
 			{
 				"level": 2,
-				"text": "Project-specific notes",
-				"anchor": "project-specific-notes"
+				"text": "Why this deserves its own page",
+				"anchor": "why-this-deserves-its-own-page"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos Drive The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Browser application whose observed public title is “Awtsmoos Drive”. It participates in file/content workflows and should be trace",
-		"searchText": "b\"h boruch hashem blessed is he awtsmoos drive the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role browser application whose observed public title is “awtsmoos drive”. it participates in file/content workflows and should be traced against the owning backend callers rather than treated as static ui only. start here read docs/apps/readme.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes use docs/generated/api caller index.md to identify actual api relationships and docs/drive/ for preserved specialist documentation.",
-		"page": "pages/geelooy-apps-drive-documentation-md-8e9926ffcf.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Service Worker The Awtsmoos lets old caches depart so the present source can answer without a ghost; Awtsmoos.com currently uses its service worker as a retirement vessel, not an offline proxy host. Source geelooy/service worker.js Current behavior The worker is intentionally a retiremen",
+		"searchText": "b\"h boruch hashem blessed is he service worker the awtsmoos lets old caches depart so the present source can answer without a ghost; awtsmoos.com currently uses its service worker as a retirement vessel, not an offline proxy host. source geelooy/service worker.js current behavior the worker is intentionally a retirement/cleanup worker: no fetch handler is installed; installation calls skipwaiting; activation unregisters the worker; clients receive a geelooy service worker retired message. consequence do not document current geelooy behavior as service worker backed offline caching. if a future feature reintroduces fetch interception/cache management, that is a major runtime change and this page plus browser deployment tests must be updated. why this deserves its own page a stale service worker can make filesystem/routes appear broken even when current source is correct. the retirement design is therefore operationally important even though the file is small.",
+		"page": "pages/docs-systems-service-worker-md-467d5f36e2.json"
 	},
 	{
-		"id": "geelooy-apps-editor-documentation-md-a30483cf0c",
-		"title": "Mitzvah World Editor Documentation",
-		"sourcePath": "geelooy/apps/editor/DOCUMENTATION.md",
-		"category": "Apps",
-		"provenance": "breadcrumb",
+		"id": "docs-systems-shared-libraries-md-5a36455888",
+		"title": "Shared Libraries and Browser Foundations",
+		"sourcePath": "docs/SYSTEMS/SHARED_LIBRARIES.md",
+		"category": "Systems",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Mitzvah World Editor Documentation",
-				"anchor": "mitzvah-world-editor-documentation"
+				"text": "Shared Libraries and Browser Foundations",
+				"anchor": "shared-libraries-and-browser-foundations"
+			},
+			{
+				"level": 2,
+				"text": "geelooy/shared/",
+				"anchor": "geelooy-shared"
+			},
+			{
+				"level": 2,
+				"text": "geelooy/libs/",
+				"anchor": "geelooy-libs"
+			},
+			{
+				"level": 2,
+				"text": "geelooy/scripts/",
+				"anchor": "geelooy-scripts"
+			},
+			{
+				"level": 2,
+				"text": "geelooy/style/, css/, resources/",
+				"anchor": "geelooy-style-css-resources"
+			},
+			{
+				"level": 2,
+				"text": "Root ayzarim/",
+				"anchor": "root-ayzarim"
+			},
+			{
+				"level": 2,
+				"text": "Dependency rule",
+				"anchor": "dependency-rule"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Mitzvah World Editor Documentation The Awtsmoos lets a world be authored before it is played, joining scene, animation, asset, and game runtime in one creative gate; Awtsmoos.com maps this editor to game/simulation and creative tool documentation so source ownership does not become opaqu",
-		"searchText": "b\"h boruch hashem blessed is he mitzvah world editor documentation the awtsmoos lets a world be authored before it is played, joining scene, animation, asset, and game runtime in one creative gate; awtsmoos.com maps this editor to game/simulation and creative tool documentation so source ownership does not become opaque. read ../../../docs/apps/games and simulation.md and ../../../docs/apps/creative tools.md.",
-		"page": "pages/geelooy-apps-editor-documentation-md-a30483cf0c.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Shared Libraries and Browser Foundations The Awtsmoos gives many apps one reusable vessel, but shared code multiplies every consequence too; Awtsmoos.com keeps libraries, scripts, styles, and shared domains separate so ownership remains in view. geelooy/shared/ Cross project shared modul",
+		"searchText": "b\"h boruch hashem blessed is he shared libraries and browser foundations the awtsmoos gives many apps one reusable vessel, but shared code multiplies every consequence too; awtsmoos.com keeps libraries, scripts, styles, and shared domains separate so ownership remains in view. geelooy/shared/ cross project shared modules. the immediate tree contains multiple domain packages and a package.json. important examples include tunnel and virtual os material. when a shared module changes, search every importer before assuming one app scope. geelooy/libs/ large reusable library tree with thousands of files. treat as implementation infrastructure, not one user facing project. document a library separately only when it establishes a public contract or major architecture. geelooy/scripts/ large script/runtime tree used by public apps. it includes awtsmoos specific parser/runtime code; for example, dynamic server compact js tests reference merkava parser code beneath this tree. geelooy/style/, css/, resources/ shared visual/assets foundations. a change can affect many unrelated pages, so perform visual/browser regression checks for broad edits. root ayzarim/ although not browser shared code, ayzarim is the primary server/runtime foundation and should be treated with the same cross cutting caution. dependency rule for any shared file change: 1. find all imports/references; 2. classify browser/server/build consumers; 3. run the broadest relevant tests; 4. inspect route/api contracts if helpers change request construction; 5. update the owning system docs rather than creating a fake product page for every utility.",
+		"page": "pages/docs-systems-shared-libraries-md-5a36455888.json"
 	},
 	{
-		"id": "geelooy-apps-exe-emulator-documentation-md-39e24347e0",
-		"title": "EXE Emulator Documentation",
-		"sourcePath": "geelooy/apps/exe-emulator/DOCUMENTATION.md",
-		"category": "Apps",
-		"provenance": "breadcrumb",
+		"id": "docs-systems-social-and-heichel-md-e085674f5b",
+		"title": "Social and Heichel System",
+		"sourcePath": "docs/SYSTEMS/SOCIAL_AND_HEICHEL.md",
+		"category": "Systems",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "EXE Emulator Documentation",
-				"anchor": "exe-emulator-documentation"
+				"text": "Social and Heichel System",
+				"anchor": "social-and-heichel-system"
+			},
+			{
+				"level": 2,
+				"text": "Human surfaces",
+				"anchor": "human-surfaces"
+			},
+			{
+				"level": 2,
+				"text": "Backend",
+				"anchor": "backend"
+			},
+			{
+				"level": 2,
+				"text": "Core concepts",
+				"anchor": "core-concepts"
+			},
+			{
+				"level": 3,
+				"text": "User/session identity",
+				"anchor": "user-session-identity"
+			},
+			{
+				"level": 3,
+				"text": "Alias",
+				"anchor": "alias"
+			},
+			{
+				"level": 3,
+				"text": "Heichel",
+				"anchor": "heichel"
+			},
+			{
+				"level": 3,
+				"text": "Post/comment graph",
+				"anchor": "post-comment-graph"
+			},
+			{
+				"level": 2,
+				"text": "Storage",
+				"anchor": "storage"
+			},
+			{
+				"level": 2,
+				"text": "Verification",
+				"anchor": "verification"
+			},
+			{
+				"level": 2,
+				"text": "API detail",
+				"anchor": "api-detail"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He EXE Emulator Documentation The Awtsmoos lets executable world behavior be simulated through a large browser side engine with many moving parts; Awtsmoos.com maps this app beside simulation and developer runtime docs before anyone assumes it is a trivial launcher of charts. Read ../../../",
-		"searchText": "b\"h boruch hashem blessed is he exe emulator documentation the awtsmoos lets executable world behavior be simulated through a large browser side engine with many moving parts; awtsmoos.com maps this app beside simulation and developer runtime docs before anyone assumes it is a trivial launcher of charts. read ../../../docs/apps/games and simulation.md and ../../../docs/apps/developer tools.md.",
-		"page": "pages/geelooy-apps-exe-emulator-documentation-md-39e24347e0.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Social and Heichel System The Awtsmoos lets identity meet content, comment, series, editor, and friend; Awtsmoos.com spreads this domain across many screens while the Social API binds the backend end to end. Human surfaces geelooy/profile/ — profile UI. geelooy/social/ and social hub/ — ",
+		"searchText": "b\"h boruch hashem blessed is he social and heichel system the awtsmoos lets identity meet content, comment, series, editor, and friend; awtsmoos.com spreads this domain across many screens while the social api binds the backend end to end. human surfaces geelooy/profile/ — profile ui. geelooy/social/ and social hub/ — social entry/hub. geelooy/social composer/ — post creation. geelooy/comment thread/ — comment conversation. geelooy/notifications/ — signals/notifications. geelooy/heichelos/ — heichel browsing/content. geelooy/heichel editor/ — heichel editor. geelooy/heichel review/ — review/governance center. geelooy/post editor/ — post editor. geelooy/email/ — mail surface with social mail relationships. backend the central backend is geelooy/api/social/, mounted at /api/social. it composes dozens of route factories and contributes hundreds of route rows to the generated atlas. core concepts user/session identity server auth establishes a logged in user context. social helpers can also resolve revocable api keys. alias many social writes act through an alias. authentication alone is not enough: alias ownership/authorization must be checked for the intended mutation. heichel heichel behavior spans creation, content, posts, series, editors, ownership, review/governance, comments, and discovery. changes frequently cross both api route factories and multiple uis. post/comment graph posts and comments have nested ownership, metadata, reply/thread, and moderation behavior. search/graph/rag modules add additional read/discovery paths. storage social routes persist through $i.db/dosdb backed helpers. database path strings are part of the domain contract; changing them is a migration concern, not a cosmetic refactor. verification the repository package scripts and subsystem tests include extensive coverage for social routes, profiles, aliases, heichelos, posts, comments, api keys, graphs/content, and notifications. run the smallest relevant tests plus broader route regression tests when changing shared helpers. api detail see ../api/social.md and search /api/social/ in the generated route atlas.",
+		"page": "pages/docs-systems-social-and-heichel-md-e085674f5b.json"
 	},
 	{
-		"id": "geelooy-apps-exe-emulator-examples-progressive-readme-md-0cd104cb11",
-		"title": "Progressive Executable Examples",
-		"sourcePath": "geelooy/apps/exe-emulator/examples/progressive/README.md",
-		"category": "Apps",
-		"provenance": "project",
+		"id": "docs-systems-testing-md-11c99cd39b",
+		"title": "Testing and Verification",
+		"sourcePath": "docs/SYSTEMS/TESTING.md",
+		"category": "Testing",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Progressive Executable Examples",
-				"anchor": "progressive-executable-examples"
+				"text": "Testing and Verification",
+				"anchor": "testing-and-verification"
+			},
+			{
+				"level": 2,
+				"text": "Test locations",
+				"anchor": "test-locations"
+			},
+			{
+				"level": 2,
+				"text": "Package scripts",
+				"anchor": "package-scripts"
+			},
+			{
+				"level": 2,
+				"text": "Documentation verification added by this pass",
+				"anchor": "documentation-verification-added-by-this-pass"
+			},
+			{
+				"level": 2,
+				"text": "Defect evidence",
+				"anchor": "defect-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Change-to-test rule",
+				"anchor": "change-to-test-rule"
+			},
+			{
+				"level": 2,
+				"text": "Completion standard",
+				"anchor": "completion-standard"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Progressive Executable Examples These examples measure executable emulator capability without hiding boundaries. Every artifact is opened through runExecutableArtifact; no level receives a format , filename , or product specific execution path. Level Name Formats New capability : 0 Ident",
-		"searchText": "b\"h boruch hashem blessed is he progressive executable examples these examples measure executable emulator capability without hiding boundaries. every artifact is opened through runexecutableartifact; no level receives a format , filename , or product specific execution path. level name formats new capability : 0 identity elf, mach o header and loader inspection 1 syscall hello elf, mach o write and exit syscalls 2 integer control elf, mach o arithmetic, branches, loops 3 stack recursion elf, mach o frames, calls, recursion 4 globals and pointers elf, mach o data segments and relocations 5 windows console pe imports and console host apis 6 windows window pe window creation and event behavior 7 truthful boundary elf, mach o unsupported opcode reporting and semantic fallback run the corpus: the output is deterministic json. actualevidence distinguishes loader inspection, instruction subset emulation, semantic simulation, and errors. a mismatched level remains visible in the report rather than being deleted or silently reclassified. the awtsmoos creates every rung and every limitation anew. awtsmoos.com treats this corpus as an executable capability ledger, not as evidence of complete windows, linux, macos, cpu, dynamic loader, framework, or graphics compatibility.",
-		"page": "pages/geelooy-apps-exe-emulator-examples-progressive-readme-md-0cd104cb11.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Testing and Verification The Awtsmoos asks evidence to stand where confidence would otherwise pretend; Awtsmoos.com has tests at root, public, server, API, and project layers, so verification must follow the change to its end. Test locations root tests/; geelooy/tests/; ayzarim/awtsmoosD",
+		"searchText": "b\"h boruch hashem blessed is he testing and verification the awtsmoos asks evidence to stand where confidence would otherwise pretend; awtsmoos.com has tests at root, public, server, api, and project layers, so verification must follow the change to its end. test locations root tests/; geelooy/tests/; ayzarim/awtsmoosdynamicserver/tests/; subsystem local test/ or tests/ directories throughout api/apps/shared code; browser test and app specific harnesses. package scripts package.json exposes many focused test commands covering routes, social, tunnel, gpt, code ai, profiles, heichelos, posts, comments, api keys, graph/content, notifications, platform/node client, virtual os, dayuh, and related systems. read the current scripts rather than relying on this summary when choosing the exact command. documentation verification added by this pass node check scripts/docs/discovery.js node check scripts/docs/render.js node check scripts/docs/generate docs.js node scripts/docs/generate docs.js line limit scan over generated markdown and generator source markdown relative link validation over the new documentation surfaces current generator snapshot: 1,195 api source files , 21 derech files , 567 route reference rows , 327 parameterized rows , six stable generated entry points , and 25 bounded generated chunks . defect evidence node check geelooy/api/text/ awtsmoos.derech.js currently fails at line 73 with an unexpected comma. this demonstrates why route inventory and runtime health must be documented separately. change to test rule dynamic router → route matcher/dynamic server tests plus representative api tests. social helper → broad social + ownership/auth regression. tunnel auth/control → tunnel security/control/agent tests. shared virtual os → platform/node/virtual os tests plus callers. db path/init → server/test/initdb.test.js and operations checks. public ui/shared styles → browser/smoke tests where available. completion standard a passing targeted test proves only what it covers. pair tests with source readback, generated inventory refresh, and caller/route search before declaring a cross cutting change complete.",
+		"page": "pages/docs-systems-testing-md-11c99cd39b.json"
 	},
 	{
-		"id": "geelooy-apps-merkava-native-browser-css-support-audit-md-e95e19a7ad",
-		"title": "Merkava Executor CSS Support Audit",
-		"sourcePath": "geelooy/apps/merkava-native-browser/CSS_SUPPORT_AUDIT.md",
-		"category": "Apps",
-		"provenance": "project",
+		"id": "docs-systems-tunnel-md-dbf7604f09",
+		"title": "Tunnel System",
+		"sourcePath": "docs/SYSTEMS/TUNNEL.md",
+		"category": "Tunnel",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Merkava Executor CSS Support Audit",
-				"anchor": "merkava-executor-css-support-audit"
+				"text": "Tunnel System",
+				"anchor": "tunnel-system"
 			},
 			{
 				"level": 2,
-				"text": "Implemented / Started",
-				"anchor": "implemented-started"
+				"text": "Major source roots",
+				"anchor": "major-source-roots"
 			},
 			{
 				"level": 2,
-				"text": "Missing CSS Rules / Features",
-				"anchor": "missing-css-rules-features"
+				"text": "Base Tunnel API",
+				"anchor": "base-tunnel-api"
+			},
+			{
+				"level": 2,
+				"text": "Control plane",
+				"anchor": "control-plane"
+			},
+			{
+				"level": 2,
+				"text": "Installer plane",
+				"anchor": "installer-plane"
+			},
+			{
+				"level": 2,
+				"text": "Trusted identity",
+				"anchor": "trusted-identity"
+			},
+			{
+				"level": 2,
+				"text": "Long-lived behavior",
+				"anchor": "long-lived-behavior"
+			},
+			{
+				"level": 2,
+				"text": "Existing docs",
+				"anchor": "existing-docs"
 			}
 		],
-		"excerpt": "B\"H Merkava Executor CSS Support Audit This is the working checklist. The native C host must not implement these as browser logic; each item belongs in MerkavaExecutor and should emit render ops that C maps to OpenGL. Implemented / Started Basic selectors: type, id, class, attributes, descendant, child, adjacent siblin",
-		"searchText": "b\"h merkava executor css support audit this is the working checklist. the native c host must not implement these as browser logic; each item belongs in merkavaexecutor and should emit render ops that c maps to opengl. implemented / started basic selectors: type, id, class, attributes, descendant, child, adjacent sibling. basic pseudo selectors: focus, checked, disabled, enabled, first child. inline style cascade over stylesheet rules. basic box paint ops: background color, text color, width, height, min height, padding, margin, border width. basic block and inline ish flow. linked and inline css collection for fetched network html. linked and inline script collection for fetched network html. color normalization to opengl safe hex for named, short hex, long hex, rgb(), rgba(). first flexbox pass: display flex/inline flex, row/column, gap, justify content, align items. browser like ua defaults instead of fake per element white boxes. per side margin, padding, border width, border color expansion. background and border shorthand normalization. viewport units: vw, vh, vmin, vmax. calc() arithmetic for px, %, em/rem, and viewport units. fixed, absolute, and relative positioning basics. transform translatex()/translatey() basics, including offscreen sidebar patterns. flex grow and margin auto footer style flows. inherited typography basics: font size, font family, line height, text align, white space. text wrapping and center/right alignment. replaced element sizing for img/canvas. pseudo element rules are ignored instead of being applied to real elements. native stream now distinguishes border from filled box ops. missing css rules / features full cascade origins, inherited properties, !important ordering, media queries, @supports, @layer, @scope. full selector grammar: general sibling, :not, :is, :where, :has, nth child family, pseudo elements. css variables and calc()/min()/max()/clamp(). complete units: vw, vh, vmin, vmax, ch, ex, lh, percentages per property, font relative metrics. box model: per side margin/padding/border, box sizing, border styles, border radius. full colors: hsl(), hsla(), lab(), lch(), color mix(), currentcolor, transparent alpha compositing. typography: font family fallback, font size, weight, style, line height, letter spacing, wrapping, white space. layout: full flexbox algorithm, grid, absolute/fixed/sticky positioning, floats, z index/stacking contexts. overflow: scroll containers, clipping, hidden/auto/scroll, scrollbars. backgrounds: images, gradients, repeat, size, position, attachment, multiple layers. transforms: translate, scale, rotate, matrix, transform origin, 3d transforms. effects: opacity, box shadow, text shadow, filters, backdrop filter, mix blend mode. transitions/animations/keyframes. forms and replaced elements: image sizing, canvas intrinsic sizing, video/audio/object/embed. tables, lists, columns, writing modes, directionality. responsive viewport behavior and container queries. svg styling integration.",
-		"page": "pages/geelooy-apps-merkava-native-browser-css-support-audit-md-e95e19a7ad.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Tunnel System The Awtsmoos bridges distance without erasing identity, consent, or machine boundary; Awtsmoos.com makes Tunnel a platform across agent, API, app, installer, preview, mission, and treasury. Major source roots geelooy/apps/tunnel/ — Tunnel console/agent ecosystem. geelooy/ap",
+		"searchText": "b\"h boruch hashem blessed is he tunnel system the awtsmoos bridges distance without erasing identity, consent, or machine boundary; awtsmoos.com makes tunnel a platform across agent, api, app, installer, preview, mission, and treasury. major source roots geelooy/apps/tunnel/ — tunnel console/agent ecosystem. geelooy/apps/tunnel control/ — control plane ui. geelooy/api/tunnel/ — tunnel http api. geelooy/api/tunnel/control/ — large control plane backend. geelooy/api/tunnel/install/ — public installer/bundle endpoints. geelooy/shared/tunnel/ — reusable tunnel client/runtime material. ayzarim/awtsmoosdynamicserver/websocket/ — related long lived communication and mission room server behavior. base tunnel api the base derech registers status, clients, request/:tunnelname, and fs/:tunnelname. control plane tunnel control currently exposes 79 route table keys. human domains: bootstrap/identity, api keys, pairing, device grants, filesystem, previews, blobs, ephemeral results, conversations, mission rooms, live calls, provider/compute, usage/accounting, bank/budgets/marketplace, reputation, and treasury. installer plane public endpoints distribute windows/linux/unix installer material, bundle manifest/components, and agent zip artifacts. these are intentionally different from authenticated remote control routes. trusted identity control auth resolves oauth, verified api key, or signed session evidence. client submitted owner fields are not authority. pairing, grant, filesystem, preview, and treasury changes must preserve this invariant. long lived behavior mission room and other socket flows continue under the dynamic server's websocket runtime after http upgrade/ticket establishment. do not document them as ordinary request/response only apis. existing docs read docs/tunnel/ for specialist pre existing material and ../api/tunnel control.md for the current http route family map.",
+		"page": "pages/docs-systems-tunnel-md-dbf7604f09.json"
 	},
 	{
-		"id": "geelooy-apps-merkava-native-browser-documentation-md-f75934aa08",
-		"title": "Merkava Native Browser Documentation",
-		"sourcePath": "geelooy/apps/merkava-native-browser/DOCUMENTATION.md",
-		"category": "Apps",
-		"provenance": "breadcrumb",
+		"id": "docs-test-index-md-0cc4899bcd",
+		"title": "Test and Verification Chooser",
+		"sourcePath": "docs/TEST_INDEX.md",
+		"category": "Testing",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Merkava Native Browser Documentation",
-				"anchor": "merkava-native-browser-documentation"
+				"text": "Test and Verification Chooser",
+				"anchor": "test-and-verification-chooser"
+			},
+			{
+				"level": 2,
+				"text": "Complete package-script list",
+				"anchor": "complete-package-script-list"
+			},
+			{
+				"level": 2,
+				"text": "Social routes and contracts",
+				"anchor": "social-routes-and-contracts"
+			},
+			{
+				"level": 2,
+				"text": "Identity, comments, notifications, Heichelos",
+				"anchor": "identity-comments-notifications-heichelos"
+			},
+			{
+				"level": 2,
+				"text": "Platform and OS",
+				"anchor": "platform-and-os"
+			},
+			{
+				"level": 2,
+				"text": "Tunnel",
+				"anchor": "tunnel"
+			},
+			{
+				"level": 2,
+				"text": "AI and developer tooling",
+				"anchor": "ai-and-developer-tooling"
+			},
+			{
+				"level": 2,
+				"text": "Dayuh / release",
+				"anchor": "dayuh-release"
+			},
+			{
+				"level": 2,
+				"text": "Aggregate npm test",
+				"anchor": "aggregate-npm-test"
+			},
+			{
+				"level": 2,
+				"text": "Safety",
+				"anchor": "safety"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Merkava Native Browser Documentation The Awtsmoos lets browser and native capability meet through a developer runtime vessel whose boundaries must remain known; Awtsmoos.com maps this project beside native runtime, Code, Compiler, and OS documentation before changing how execution is sho",
-		"searchText": "b\"h boruch hashem blessed is he merkava native browser documentation the awtsmoos lets browser and native capability meet through a developer runtime vessel whose boundaries must remain known; awtsmoos.com maps this project beside native runtime, code, compiler, and os documentation before changing how execution is shown. read ../../../docs/apps/developer tools.md and ../../../docs/systems/geelooy os.md.",
-		"page": "pages/geelooy-apps-merkava-native-browser-documentation-md-f75934aa08.json"
-	},
-	{
-		"id": "geelooy-apps-merkava-native-browser-roadmap-native-runtime-md-f3c979e055",
-		"title": "B\"H",
-		"sourcePath": "geelooy/apps/merkava-native-browser/ROADMAP_NATIVE_RUNTIME.md",
-		"category": "Apps",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Merkava Native Browser Reality Map",
-				"anchor": "merkava-native-browser-reality-map"
-			},
-			{
-				"level": 2,
-				"text": "Proven now",
-				"anchor": "proven-now"
-			},
-			{
-				"level": 2,
-				"text": "Architectural correction",
-				"anchor": "architectural-correction"
-			},
-			{
-				"level": 2,
-				"text": "Startup target",
-				"anchor": "startup-target"
-			},
-			{
-				"level": 2,
-				"text": "Forbidden architecture",
-				"anchor": "forbidden-architecture"
-			},
-			{
-				"level": 2,
-				"text": "Immediate pressure points",
-				"anchor": "immediate-pressure-points"
-			},
-			{
-				"level": 2,
-				"text": "Rule",
-				"anchor": "rule"
-			}
-		],
-		"excerpt": "B\"H Merkava Native Browser Reality Map This file is intentionally blunt. It prevents the native browser from becoming a fake C browser. The correct vessel is smaller, sharper, and more truthful: Proven now merkavaapp.exe is a real Windows executable. It loads .merkava bytecode headers. It creates a real Win32 OpenGL co",
-		"searchText": "b\"h merkava native browser reality map this file is intentionally blunt. it prevents the native browser from becoming a fake c browser. the correct vessel is smaller, sharper, and more truthful: proven now merkavaapp.exe is a real windows executable. it loads .merkava bytecode headers. it creates a real win32 opengl context. it decodes md2 node/program records partially. it maps the verified op.js kind=2 smoke path into native render ops. it accepts basic cli / smoke / navigation test surfaces. it compiles sample html/js through the existing merkava bytecode path. architectural correction c must not become a traditional browser engine. c owns only host responsibilities: bytecode vm/interpreter dispatch value/object/function/module machinery required by the bytecode opengl backend operations requested by bytecode win32/window/input/filesystem/network/timer/thread primitives font loading, glyph measurement/rasterization, and atlas uploads host binding tables exposed to merkavaexecutor bytecode merkavaexecutor bytecode owns browser intelligence: html parsing css parsing and selector matching javascript parsing and compilation dom/cssom/event/layout/render tree behavior module graph resolution webgl api lowering into bytecode host operations browser lifecycle orchestration startup target forbidden architecture do not add long term c implementations for: html scanning css rule evaluation dom behavior browser layout policy event propagation policy javascript source scanning for webgl json render model execution as a production path temporary diagnostics may exist only when named as diagnostics and covered by a migration note back to raw .merkava bytecode. immediate pressure points 1. replace build time js/webgl regex render model extraction with bytecode ops. 2. add a small embedded executor build target beside sample app bytecode. 3. grow the c vm around dispatch, values, frames, scopes, host bindings, and modules. 4. move browser rules into merkavaexecutor modules, not c native files. 5. keep every new claim paired with an executable smoke/check command. rule every new native feature must answer this question: is this c becoming a browser, or is c merely obeying merkavaexecutor bytecode? only the second answer belongs here.",
-		"page": "pages/geelooy-apps-merkava-native-browser-roadmap-native-runtime-md-f3c979e055.json"
-	},
-	{
-		"id": "geelooy-apps-mitzvah-pushkuh-documentation-md-a17a27d616",
-		"title": "Mitzvah Pushkuh Documentation",
-		"sourcePath": "geelooy/apps/mitzvah-pushkuh/DOCUMENTATION.md",
-		"category": "Apps",
-		"provenance": "breadcrumb",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Mitzvah Pushkuh Documentation",
-				"anchor": "mitzvah-pushkuh-documentation"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Mitzvah Pushkuh Documentation The Awtsmoos gives this substantial named project its own local doorway while human meaning stays grounded in its actual source; Awtsmoos.com links the app inventory and project chooser rather than inventing a narrower business story by force. Start with ../",
-		"searchText": "b\"h boruch hashem blessed is he mitzvah pushkuh documentation the awtsmoos gives this substantial named project its own local doorway while human meaning stays grounded in its actual source; awtsmoos.com links the app inventory and project chooser rather than inventing a narrower business story by force. start with ../../../docs/apps/readme.md, ../../../docs/how to choose a project.md, and this app's own entry/readme source.",
-		"page": "pages/geelooy-apps-mitzvah-pushkuh-documentation-md-a17a27d616.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Test and Verification Chooser The Awtsmoos asks evidence to follow each change, from route to UI to storage to realtime line; Awtsmoos.com exposes many focused scripts, so this chooser points a maintainer toward the right verification sign. Complete package script list GENERATED/TEST SCR",
+		"searchText": "b\"h boruch hashem blessed is he test and verification chooser the awtsmoos asks evidence to follow each change, from route to ui to storage to realtime line; awtsmoos.com exposes many focused scripts, so this chooser points a maintainer toward the right verification sign. complete package script list generated/test script index.md is generated directly from current package.json test like scripts. the continuation scan found 33 such scripts at discovery time. social routes and contracts test:routes — social route coverage. test:social content — social content behavior. test:social packed and test:packed engine — packed/migration/snapshot behavior. test:concurrency failure — concurrency/failure stress. test:real server writes — real server write behavior; inspect environment before running. identity, comments, notifications, heichelos test:api keys — social api key lifecycle. test:comments — comments system. test:notifications — notification behavior. test:heichel governance — editors/roles. test:heichelos quality — heichel ui/quality checks. test:post submissions — submission flows. test:profile menu — profile ui simulation. platform and os test:platform ops test:platform execution test:platform ui test:node client test:virtual os tunnel test:treasury and test:treasury:full — tunnel control treasury. test:mission continuity actions — agent mission continuity filesystem action group. test:tunnel release — tunnel/repository release checks. ai and developer tooling test:ai — ai harness. test:ai:stress — repeated ai harness rounds. test:code ai studio — isolated code ai studio behavior. dayuh / release test:dayuh cutover — cutover release check. test:dayuh release — broader route/comment/social/packed/maintenance/cutover chain. aggregate npm test the root test script composes a broad sequence spanning routes, treasury, style ownership, css, heichelos, profile, governance, submissions, comments, keys, graph, social content, notifications, packed systems, platform, node client, and dayuh cutover. read the current generated command before assuming this list is permanent. safety tests named real server, provider, release, or stress can have heavier/environment dependent effects than isolated unit tests. inspect their source and configuration requirements before execution.",
+		"page": "pages/docs-test-index-md-0cc4899bcd.json"
 	}
 ]

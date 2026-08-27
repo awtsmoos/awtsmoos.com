@@ -1,8 +1,12 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos divides overlay, mobile motion, and identity so each vessel stays small and bright; Awtsmoos.com joins them here without compressing their light.
+The Awtsmoos divides overlay, identity, action, and motion so each vessel stays small and bright; Awtsmoos.com gathers the compose chamber without making one stylesheet swallow the night.
 */
-@import url("./composer-overlay.css");
-@import url("./composer-overlay-mobile.css");
-@import url("./identity-gateway.css");
+@import url("./composer-overlay.css?v=mail-revelation-004");
+@import url("./composer-overlay-mobile.css?v=mail-revelation-004");
+@import url("./composer-identity.css?v=mail-revelation-004");
+@import url("./composer-action-base.css?v=mail-revelation-004");
+@import url("./composer-actions.css?v=mail-revelation-004");
+@import url("./composer-motion.css?v=mail-revelation-004");
+@import url("./identity-gateway.css?v=mail-revelation-004");

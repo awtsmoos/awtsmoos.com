@@ -1,8 +1,8 @@
 [
 	{
-		"id": "api-social-heichelos-heichel-comments-4da59e0dfc",
-		"route": "/api/social/heichelos/:heichel/comments",
-		"source": "geelooy/api/social/old/_awtsmoos.comments-old.js",
+		"id": "api-social-entities-universe-type-id-range-reference-attach-d7fa4e6dc0",
+		"route": "/api/social/entities/universe/:type/:id/range-reference/attach",
+		"source": "geelooy/api/social/_awtsmoos.entities.js",
 		"discoveryKind": "static-literal",
 		"family": {
 			"mount": "/api/social",
@@ -18,22 +18,23 @@
 		"dynamic": true,
 		"pathParameters": [
 			{
-				"name": "heichel",
+				"name": "type",
+				"catchAll": false
+			},
+			{
+				"name": "id",
 				"catchAll": false
 			}
 		],
 		"methods": [
 			"GET",
-			"POST",
-			"PUT",
-			"DELETE"
+			"POST"
 		],
-		"methodEvidence": "GET, POST, PUT, DELETE",
+		"methodEvidence": "GET, POST",
 		"vessels": [
 			"$_GET",
 			"$_POST",
-			"route-vars",
-			"identity"
+			"route-vars"
 		],
 		"statuses": [],
 		"headers": [],
@@ -77,11 +78,11 @@
 			{
 				"method": "GET",
 				"warning": "Starter only: method evidence is lexical at the source-file level; inspect the handler before relying on payload or response shape.",
-				"curl": "curl -X GET 'https://awtsmoos.com/api/social/heichelos/{heichel}/comments'",
-				"fetch": "const response = await fetch(\"/api/social/heichelos/{heichel}/comments\", {\n\tmethod: \"GET\"\n});\nconst result = await response.json();"
+				"curl": "curl -X GET 'https://awtsmoos.com/api/social/entities/universe/{type}/{id}/range-reference/attach'",
+				"fetch": "const response = await fetch(\"/api/social/entities/universe/{type}/{id}/range-reference/attach\", {\n\tmethod: \"GET\"\n});\nconst result = await response.json();"
 			}
 		],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-comments-4da59e0dfc.md",
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-entities-universe-type-id-range-reference-attach-d7fa4e6dc0.md",
 		"confidence": "source-lexical",
 		"related": [
 			{
@@ -119,9 +120,9 @@
 		]
 	},
 	{
-		"id": "api-social-heichelos-heichel-comments-inseries-series-atpost-pos-96d7964ff9",
-		"route": "/api/social/heichelos/:heichel/comments/inSeries/:series/atPost/:post/atAlias/:alias",
-		"source": "geelooy/api/social/helper/comments/routes/post.js",
+		"id": "api-social-entities-universe-type-id-range-reference-preview-e4a0e0bf4c",
+		"route": "/api/social/entities/universe/:type/:id/range-reference/preview",
+		"source": "geelooy/api/social/_awtsmoos.entities.js",
 		"discoveryKind": "static-literal",
 		"family": {
 			"mount": "/api/social",
@@ -137,26 +138,22 @@
 		"dynamic": true,
 		"pathParameters": [
 			{
-				"name": "heichel",
+				"name": "type",
 				"catchAll": false
 			},
 			{
-				"name": "series",
-				"catchAll": false
-			},
-			{
-				"name": "post",
-				"catchAll": false
-			},
-			{
-				"name": "alias",
+				"name": "id",
 				"catchAll": false
 			}
 		],
-		"methods": [],
-		"methodEvidence": "unknown",
+		"methods": [
+			"GET",
+			"POST"
+		],
+		"methodEvidence": "GET, POST",
 		"vessels": [
 			"$_GET",
+			"$_POST",
 			"route-vars"
 		],
 		"statuses": [],
@@ -197,9 +194,16 @@
 				"command": "node geelooy/heichelos/heichel/modules/test/socialLiveSmoke.test.mjs"
 			}
 		],
-		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-comments-inseries-series-atpost-pos-96d7964ff9.md",
-		"confidence": "unknown-method",
+		"examples": [
+			{
+				"method": "GET",
+				"warning": "Starter only: method evidence is lexical at the source-file level; inspect the handler before relying on payload or response shape.",
+				"curl": "curl -X GET 'https://awtsmoos.com/api/social/entities/universe/{type}/{id}/range-reference/preview'",
+				"fetch": "const response = await fetch(\"/api/social/entities/universe/{type}/{id}/range-reference/preview\", {\n\tmethod: \"GET\"\n});\nconst result = await response.json();"
+			}
+		],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-entities-universe-type-id-range-reference-preview-e4a0e0bf4c.md",
+		"confidence": "source-lexical",
 		"related": [
 			{
 				"id": "api-social-9fa4891e88",
@@ -236,9 +240,9 @@
 		]
 	},
 	{
-		"id": "api-social-heichelos-heichel-comments-inseries-series-atpost-pos-ed0dc2968a",
-		"route": "/api/social/heichelos/:heichel/comments/inSeries/:series/atPost/:post/atComment/:comment/aliases",
-		"source": "geelooy/api/social/helper/comments/routes/comment.js",
+		"id": "api-social-entities-universe-type-id-snapshot-3ad129827f",
+		"route": "/api/social/entities/universe/:type/:id/snapshot",
+		"source": "geelooy/api/social/_awtsmoos.entities.js",
 		"discoveryKind": "static-literal",
 		"family": {
 			"mount": "/api/social",
@@ -254,31 +258,34 @@
 		"dynamic": true,
 		"pathParameters": [
 			{
-				"name": "heichel",
+				"name": "type",
 				"catchAll": false
 			},
 			{
-				"name": "series",
-				"catchAll": false
-			},
-			{
-				"name": "post",
-				"catchAll": false
-			},
-			{
-				"name": "comment",
+				"name": "id",
 				"catchAll": false
 			}
 		],
-		"methods": [],
-		"methodEvidence": "unknown",
+		"methods": [
+			"GET",
+			"POST"
+		],
+		"methodEvidence": "GET, POST",
 		"vessels": [
-			"$_GET"
+			"$_GET",
+			"$_POST",
+			"route-vars"
 		],
 		"statuses": [],
 		"headers": [],
-		"callers": [],
-		"callerCount": 0,
+		"callers": [
+			{
+				"literal": "/api/social/entities/universe/${state.type}/${state.id}/snapshot",
+				"source": "geelooy/entity-view/app.js",
+				"kind": "runtime"
+			}
+		],
+		"callerCount": 1,
 		"tests": [
 			{
 				"name": "test",
@@ -313,9 +320,16 @@
 				"command": "node geelooy/heichelos/heichel/modules/test/socialLiveSmoke.test.mjs"
 			}
 		],
-		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-comments-inseries-series-atpost-pos-ed0dc2968a.md",
-		"confidence": "unknown-method",
+		"examples": [
+			{
+				"method": "GET",
+				"warning": "Starter only: method evidence is lexical at the source-file level; inspect the handler before relying on payload or response shape.",
+				"curl": "curl -X GET 'https://awtsmoos.com/api/social/entities/universe/{type}/{id}/snapshot'",
+				"fetch": "const response = await fetch(\"/api/social/entities/universe/{type}/{id}/snapshot\", {\n\tmethod: \"GET\"\n});\nconst result = await response.json();"
+			}
+		],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-entities-universe-type-id-snapshot-3ad129827f.md",
+		"confidence": "source-lexical",
 		"related": [
 			{
 				"id": "api-social-9fa4891e88",
@@ -352,9 +366,9 @@
 		]
 	},
 	{
-		"id": "api-social-heichelos-heichel-comments-inseries-series-atpost-pos-93c900d755",
-		"route": "/api/social/heichelos/:heichel/comments/inSeries/:series/atPost/:post/atComment/:comment/atAlias/:alias/atVerseSection/:verseSection",
-		"source": "geelooy/api/social/helper/comments/routes/comment.js",
+		"id": "api-social-entity-801bb169c5",
+		"route": "/api/social/entity",
+		"source": "geelooy/api/social/_awtsmoos.socialKernel.js",
 		"discoveryKind": "static-literal",
 		"family": {
 			"mount": "/api/social",
@@ -367,42 +381,24 @@
 			"issue": "—",
 			"mount": "/api/social"
 		},
-		"dynamic": true,
-		"pathParameters": [
-			{
-				"name": "heichel",
-				"catchAll": false
-			},
-			{
-				"name": "series",
-				"catchAll": false
-			},
-			{
-				"name": "post",
-				"catchAll": false
-			},
-			{
-				"name": "comment",
-				"catchAll": false
-			},
-			{
-				"name": "alias",
-				"catchAll": false
-			},
-			{
-				"name": "verseSection",
-				"catchAll": false
-			}
-		],
+		"dynamic": false,
+		"pathParameters": [],
 		"methods": [],
 		"methodEvidence": "unknown",
 		"vessels": [
-			"$_GET"
+			"$_GET",
+			"$_POST"
 		],
 		"statuses": [],
 		"headers": [],
-		"callers": [],
-		"callerCount": 0,
+		"callers": [
+			{
+				"literal": "/api/social/entity",
+				"source": "geelooy/shared/social/api/SocialKernelApi.js",
+				"kind": "runtime"
+			}
+		],
+		"callerCount": 1,
 		"tests": [
 			{
 				"name": "test",
@@ -438,7 +434,7 @@
 			}
 		],
 		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-comments-inseries-series-atpost-pos-93c900d755.md",
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-entity-801bb169c5.md",
 		"confidence": "unknown-method",
 		"related": [
 			{

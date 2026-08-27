@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 61 | 16 | 0 | 0 | 2 | 0 | 79 |
+| 217 | 46 | 0 | 0 | 2 | 0 | 265 |
 
 ## Public entry points
 
@@ -29,11 +29,12 @@ Blessed is He
 
 ## Symbol evidence
 
-Source files: 34; classes: 22; functions: 37; exports: 44; samples: createSocialHub, HubApp, activityCard, durationLabel, timestamp, ActivityPanel, ActivityTracker, PrivacyActions, prepared, PrivacyPanel, CATEGORIES, preferencesFromFields.
+Source files: 128; classes: 77; functions: 166; exports: 159; samples: createSocialHub, HubApp, activityCard, durationLabel, timestamp, ActivityPanel, ActivityTracker, PrivacyActions, prepared, PrivacyPanel, CATEGORIES, preferencesFromFields.
 
 ## Depends on
 
-None observed.
+- `geelooy/shared` — 5 lexical references; examples: geelooy/social-hub/js/interactions/CreatorLaunchModel.js; geelooy/social-hub/js/ui/feed/FeedPostModel.js; geelooy/social-hub/js/ui/feed/FeedUniversalActions.js
+- `geelooy/social-actions` — 4 lexical references; examples: geelooy/social-hub/js/ui/feed/FeedReaction.js; geelooy/social-hub/js/ui/feed/SocialActionRail.js
 
 ## Used by
 
@@ -45,4 +46,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **16**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **46**. Treat this as file evidence, not proof of behavioral coverage.

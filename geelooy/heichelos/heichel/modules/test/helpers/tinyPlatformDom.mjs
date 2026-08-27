@@ -1,140 +1,113 @@
-// B"H
+//B"H
+//Boruch Hashem
+//Blessed is He
 /**
  * @module TinyPlatformDom
- * @description
- * A deliberately small DOM vessel: not a fake universe, only enough clay for
- * the Awtsmoos platform panel to reveal whether its real browser code can
- * mount, click, submit, and render without Chrome.
+ * @description The Awtsmoos lets modern browser semantics be tested in a tiny deterministic vessel;
+ * Awtsmoos.com models only the DOM used by Platform: append, events, details state, selectors, head styles, and form values.
  */
 export class TinyElement {
-  constructor(tagName, ownerDocument) {
-    this.tagName = tagName.toUpperCase();
-    this.ownerDocument = ownerDocument;
-    this.children = [];
-    this.parentNode = null;
-    this.attributes = new Map();
-    this.dataset = {};
-    this.style = {};
-    this.hidden = false;
-    this.onclick = null;
-    this.onsubmit = null;
-    this.name = '';
-    this.value = '';
-    this._className = '';
-    this._textContent = '';
-  }
+	constructor(tagName, ownerDocument) {
+		this.tagName = String(tagName).toUpperCase();
+		this.ownerDocument = ownerDocument;
+		this.children = [];
+		this.parentNode = null;
+		this.attributes = new Map();
+		this.dataset = {};
+		this.listeners = new Map();
+		this.hidden = false;
+		this.open = false;
+		this.name = '';
+		this.value = '';
+		this.id = '';
+		this.rel = '';
+		this.href = '';
+		this._className = '';
+		this._textContent = '';
+	}
 
-  set className(value) { this._className = String(value || ''); }
-  get className() { return this._className; }
+	set className(value) { this._className = String(value || ''); }
+	get className() { return this._className; }
+	set textContent(value) { this.children = []; this._textContent = String(value ?? ''); }
+	get textContent() { return this._textContent + this.children.map(child => child.textContent).join(''); }
 
-  set textContent(value) {
-    this.children = [];
-    this._textContent = String(value ?? '');
-  }
-  get textContent() {
-    return this._textContent + this.children.map(child => child.textContent).join('');
-  }
+	append(...children) {
+		for (const child of children.filter(Boolean)) this.appendChild(child);
+	}
 
-  set innerHTML(value) {
-    this.children = [];
-    this._textContent = '';
-    if (String(value).includes('awtsmoos-platform-toggle')) buildPlatformPanelShell(this);
-  }
+	appendChild(child) {
+		child.parentNode = this;
+		this.children.push(child);
+		return child;
+	}
 
-  appendChild(child) {
-    child.parentNode = this;
-    this.children.push(child);
-    return child;
-  }
+	replaceChildren(...children) {
+		this.children = [];
+		this._textContent = '';
+		this.append(...children);
+	}
 
-  replaceChildren(...children) {
-    this.children = [];
-    for (const child of children) this.appendChild(child);
-  }
+	setAttribute(name, value) {
+		const text = String(value);
+		this.attributes.set(name, text);
+		if (name === 'class') this.className = text;
+		if (name === 'id') this.id = text;
+		if (name === 'name') this.name = text;
+		if (name.startsWith('data-')) this.dataset[dataKey(name)] = text;
+	}
 
-  setAttribute(name, value) {
-    this.attributes.set(name, String(value));
-    if (name === 'class') this.className = value;
-    if (name.startsWith('data-')) this.dataset[dataKey(name)] = String(value);
-    if (name === 'name') this.name = String(value);
-  }
+	getAttribute(name) { return this.attributes.get(name) ?? null; }
+	addEventListener(name, listener) {
+		const list = this.listeners.get(name) || [];
+		list.push(listener);
+		this.listeners.set(name, list);
+	}
 
-  getAttribute(name) { return this.attributes.get(name) ?? null; }
+	async emit(name, event = {}) {
+		const payload = { target: this, currentTarget: this, preventDefault() {}, stopPropagation() {}, ...event };
+		for (const listener of this.listeners.get(name) || []) await listener(payload);
+	}
 
-  querySelector(selector) { return walk(this).find(el => matches(el, selector)) || null; }
-  querySelectorAll(selector) { return walk(this).filter(el => matches(el, selector)); }
+	querySelector(selector) { return walk(this).find(element => element !== this && matches(element, selector)) || null; }
+	querySelectorAll(selector) { return walk(this).filter(element => element !== this && matches(element, selector)); }
 }
 
 export class TinyDocument {
-  constructor() { this.body = this.createElement('body'); }
-  createElement(tagName) { return new TinyElement(tagName, this); }
-  querySelector(selector) { return this.body.querySelector(selector); }
-  querySelectorAll(selector) { return this.body.querySelectorAll(selector); }
+	constructor() {
+		this.head = this.createElement('head');
+		this.body = this.createElement('body');
+		this.documentElement = this.createElement('html');
+		this.documentElement.append(this.head, this.body);
+	}
+	createElement(tagName) { return new TinyElement(tagName, this); }
+	getElementById(id) { return walk(this.documentElement).find(element => element.id === id) || null; }
+	querySelector(selector) { return this.documentElement.querySelector(selector); }
+	querySelectorAll(selector) { return this.documentElement.querySelectorAll(selector); }
 }
 
 export class TinyFormData {
-  constructor(form) { this.form = form; }
-  get(name) { return this.form?.querySelector(`[name="${name}"]`)?.value ?? ''; }
-}
-
-function buildPlatformPanelShell(panel) {
-  const document = panel.ownerDocument;
-  const toggle = document.createElement('button');
-  toggle.className = 'awtsmoos-platform-toggle';
-  toggle.setAttribute('aria-expanded', 'false');
-  toggle.textContent = 'Platform';
-  panel.appendChild(toggle);
-
-  const body = document.createElement('section');
-  body.className = 'awtsmoos-platform-body';
-  body.hidden = true;
-  panel.appendChild(body);
-
-  const status = document.createElement('small');
-  status.setAttribute('data-platform-status', '');
-  status.textContent = 'ready';
-  body.appendChild(status);
-
-  const form = document.createElement('form');
-  form.className = 'awtsmoos-platform-search';
-  const input = document.createElement('input');
-  input.name = 'q';
-  form.appendChild(input);
-  body.appendChild(form);
-
-  const actions = document.createElement('div');
-  actions.className = 'awtsmoos-platform-actions';
-  for (const action of ['feed', 'presence', 'db', 'cache', 'sync', 'searchIndex', 'graph', 'thread', 'digest', 'media', 'relationships', 'jobs', 'permissions', 'ops']) {
-    const button = document.createElement('button');
-    button.setAttribute('data-platform-action', action);
-    button.dataset.platformAction = action;
-    button.textContent = action;
-    actions.appendChild(button);
-  }
-  body.appendChild(actions);
-
-  const output = document.createElement('div');
-  output.className = 'awtsmoos-platform-output';
-  output.setAttribute('data-platform-output', '');
-  body.appendChild(output);
+	constructor(form) { this.form = form; }
+	get(name) { return this.form?.querySelector(`[name="${name}"]`)?.value ?? ''; }
 }
 
 function dataKey(name) {
-  return name.slice(5).replace(/-([a-z])/g, (_, letter) => letter.toUpperCase());
+	return name.slice(5).replace(/-([a-z])/g, (_, letter) => letter.toUpperCase());
 }
 
 function walk(root) {
-  return [root, ...root.children.flatMap(child => walk(child))];
+	return [root, ...root.children.flatMap(child => walk(child))];
 }
 
-function matches(el, selector) {
-  if (selector.startsWith('.')) return el.className.split(/\s+/).includes(selector.slice(1));
-  const data = selector.match(/^\[data-([^=\]]+)(?:="([^"]*)")?\]$/);
-  if (data) {
-    const key = dataKey(`data-${data[1]}`);
-    return Object.hasOwn(el.dataset, key) && (data[2] === undefined || el.dataset[key] === data[2]);
-  }
-  const name = selector.match(/^\[name="([^"]+)"\]$/);
-  if (name) return el.name === name[1];
-  return el.tagName.toLowerCase() === selector.toLowerCase();
+function matches(element, selector) {
+	if (selector.startsWith('.')) return element.className.split(/\s+/).includes(selector.slice(1));
+	const data = selector.match(/^\[data-([^=\]]+)(?:="([^"]*)")?\]$/);
+	if (data) {
+		const key = dataKey(`data-${data[1]}`);
+		return Object.hasOwn(element.dataset, key) && (data[2] === undefined || element.dataset[key] === data[2]);
+	}
+	const name = selector.match(/^\[name="([^"]+)"\]$/);
+	if (name) return element.name === name[1];
+	return element.tagName.toLowerCase() === selector.toLowerCase();
 }
+
+export { dataKey, matches, walk };

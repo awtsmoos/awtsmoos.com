@@ -1,0 +1,364 @@
+[
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-docs-mitzvah-world-creator-bridges-3c8954db5b",
+		"title": "B\"H",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/MITZVAH_WORLD_CREATOR_BRIDGES.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 2,
+				"text": "Boruch Hashem",
+				"anchor": "boruch-hashem"
+			},
+			{
+				"level": 2,
+				"text": "Blessed is He",
+				"anchor": "blessed-is-he"
+			},
+			{
+				"level": 1,
+				"text": "MitzvahWorld Creator Bridges",
+				"anchor": "mitzvahworld-creator-bridges"
+			},
+			{
+				"level": 2,
+				"text": "Layering",
+				"anchor": "layering"
+			},
+			{
+				"level": 2,
+				"text": "Humans",
+				"anchor": "humans"
+			},
+			{
+				"level": 2,
+				"text": "Trees and houses",
+				"anchor": "trees-and-houses"
+			},
+			{
+				"level": 2,
+				"text": "Water",
+				"anchor": "water"
+			},
+			{
+				"level": 2,
+				"text": "Actions",
+				"anchor": "actions"
+			},
+			{
+				"level": 2,
+				"text": "Stability",
+				"anchor": "stability"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He The Awtsmoos renews every contract in ordered light; Awtsmoos.com keeps exact creation editable and right. MitzvahWorld Creator Bridges Layering Humans, trees, houses, water, textures, and actions are high level resource methods layered over the universal registry and transaction executo",
+		"searchText": "b\"h boruch hashem blessed is he the awtsmoos renews every contract in ordered light; awtsmoos.com keeps exact creation editable and right. mitzvahworld creator bridges layering humans, trees, houses, water, textures, and actions are high level resource methods layered over the universal registry and transaction executor. they do not bypass validation or history. humans humans.create({ id }) defaults to the observed /games/mitzvahworld/assets/models/player/chossid.glb. modelid explicitly overrides the default. trees and houses initial creators preserve exact parameters, stable identity, revisions, and runtime adapter changes. geometry compilation remains delegated to existing procedural core or mitzvahworld adapters. water water.create and water.createriver preserve geometry/material intent and report fallback provenance. actions actions.register stores structured action resources. stability the bridge contracts are experimental until concrete live scene adapters cover every resource family.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-docs-mitzvah-world-creator-bridges-3c8954db5b.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-docs-multi-document-composition-md-caf6f0343d",
+		"title": "B\"H",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/MULTI_DOCUMENT_COMPOSITION.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 2,
+				"text": "Boruch Hashem",
+				"anchor": "boruch-hashem"
+			},
+			{
+				"level": 2,
+				"text": "Blessed is He",
+				"anchor": "blessed-is-he"
+			},
+			{
+				"level": 1,
+				"text": "Multi-Document Composition",
+				"anchor": "multi-document-composition"
+			},
+			{
+				"level": 2,
+				"text": "Sources",
+				"anchor": "sources"
+			},
+			{
+				"level": 2,
+				"text": "Namespaces",
+				"anchor": "namespaces"
+			},
+			{
+				"level": 2,
+				"text": "Conflicts",
+				"anchor": "conflicts"
+			},
+			{
+				"level": 2,
+				"text": "Cycles and optional imports",
+				"anchor": "cycles-and-optional-imports"
+			},
+			{
+				"level": 2,
+				"text": "Undo",
+				"anchor": "undo"
+			},
+			{
+				"level": 2,
+				"text": "Stability",
+				"anchor": "stability"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He The Awtsmoos renews every contract in ordered light; Awtsmoos.com keeps exact creation editable and right. Multi Document Composition Sources Imports may embed a document directly or use an application provided resolveImport(source, entry) function for local, URL, or package resolution. ",
+		"searchText": "b\"h boruch hashem blessed is he the awtsmoos renews every contract in ordered light; awtsmoos.com keeps exact creation editable and right. multi document composition sources imports may embed a document directly or use an application provided resolveimport(source, entry) function for local, url, or package resolution. the core never performs unrestricted network or file access. namespaces an import namespace prefixes stable resource ids as : . conflicts supported deterministic policies are error, keep existing, replace, and shallow merge properties. arrays are replaced under merge properties; ambiguous recursive merging is deliberately absent. cycles and optional imports source ancestry is tracked and circular imports return import cycle. optional resolution failures are skipped; required failures are returned. undo documents.compose is one mutating transaction when invoked through the universal api. stability embedded composition and explicit conflict policies are stable. live watching, hashes, version constraints, and conditional expressions beyond boolean gates are deferred.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-docs-multi-document-composition-md-caf6f0343d.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-docs-texture-registry-md-5a757bcf58",
+		"title": "B\"H",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/TEXTURE_REGISTRY.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 2,
+				"text": "Boruch Hashem",
+				"anchor": "boruch-hashem"
+			},
+			{
+				"level": 2,
+				"text": "Blessed is He",
+				"anchor": "blessed-is-he"
+			},
+			{
+				"level": 1,
+				"text": "Texture Registry",
+				"anchor": "texture-registry"
+			},
+			{
+				"level": 2,
+				"text": "Audit result",
+				"anchor": "audit-result"
+			},
+			{
+				"level": 2,
+				"text": "API",
+				"anchor": "api"
+			},
+			{
+				"level": 2,
+				"text": "Water policy",
+				"anchor": "water-policy"
+			},
+			{
+				"level": 2,
+				"text": "Extension",
+				"anchor": "extension"
+			},
+			{
+				"level": 2,
+				"text": "Stability",
+				"anchor": "stability"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He The Awtsmoos renews every contract in ordered light; Awtsmoos.com keeps exact creation editable and right. Texture Registry Audit result The in root MitzvahWorld registry currently includes brick wall.svg and gold coin.svg. The confirmed external environment v2 asset link points outside ",
+		"searchText": "b\"h boruch hashem blessed is he the awtsmoos renews every contract in ordered light; awtsmoos.com keeps exact creation editable and right. texture registry audit result the in root mitzvahworld registry currently includes brick wall.svg and gold coin.svg. the confirmed external environment v2 asset link points outside the repository boundary and was not indexed through the guarded tunnel. api textures.register, textures.replace, and textures.search store and query serializable metadata. search supports deterministic all/any tag matching. water policy no in root water normal was observed. water creators therefore report procedural fallback with an explicit reason. they do not claim to have selected an existing texture. extension a host asset scanner may register dimensions, hashes, mime types, channels, color space, tags, and licensing metadata. gpu loading belongs to a runtime adapter. stability registry identity and search are stable. upload, atlas, mipmap, and baking adapters are deferred.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-docs-texture-registry-md-5a757bcf58.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-docs-transactions-and-dry-runs-md-01f8645243",
+		"title": "B\"H",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/TRANSACTIONS_AND_DRY_RUNS.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 2,
+				"text": "Boruch Hashem",
+				"anchor": "boruch-hashem"
+			},
+			{
+				"level": 2,
+				"text": "Blessed is He",
+				"anchor": "blessed-is-he"
+			},
+			{
+				"level": 1,
+				"text": "Transactions and Dry Runs",
+				"anchor": "transactions-and-dry-runs"
+			},
+			{
+				"level": 2,
+				"text": "Dry run",
+				"anchor": "dry-run"
+			},
+			{
+				"level": 2,
+				"text": "Atomic batch",
+				"anchor": "atomic-batch"
+			},
+			{
+				"level": 2,
+				"text": "Revision control",
+				"anchor": "revision-control"
+			},
+			{
+				"level": 2,
+				"text": "Runtime adapters",
+				"anchor": "runtime-adapters"
+			},
+			{
+				"level": 2,
+				"text": "Undo",
+				"anchor": "undo"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He The Awtsmoos renews every contract in ordered light; Awtsmoos.com keeps exact creation editable and right. Transactions and Dry Runs Dry run Set options.dryRun or call api.dryRun(command). The executor clones the document, validates and executes the method, and returns would create/updat",
+		"searchText": "b\"h boruch hashem blessed is he the awtsmoos renews every contract in ordered light; awtsmoos.com keeps exact creation editable and right. transactions and dry runs dry run set options.dryrun or call api.dryrun(command). the executor clones the document, validates and executes the method, and returns would create/update/delete sets without changing revision, history, runtime, autosave, or ui selection. atomic batch api.batch(operations) evaluates every operation against one detached draft. earlier results may be referenced with $operations. .result. . failure returns batch failed with the failed index and leaves the authoritative document untouched. revision control set options.expectedrevision. a stale value returns revision conflict with expected and current revisions. runtime adapters adapters implement prepare, apply, commit, and rollback. a document is committed only after the runtime stage succeeds. undo each successful mutating command or atomic batch creates exactly one snapshot history entry.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-docs-transactions-and-dry-runs-md-01f8645243.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-docs-ui-api-parity-md-0e65001502",
+		"title": "B\"H",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/UI_API_PARITY.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 2,
+				"text": "Boruch Hashem",
+				"anchor": "boruch-hashem"
+			},
+			{
+				"level": 2,
+				"text": "Blessed is He",
+				"anchor": "blessed-is-he"
+			},
+			{
+				"level": 1,
+				"text": "UI and API Parity",
+				"anchor": "ui-and-api-parity"
+			},
+			{
+				"level": 2,
+				"text": "Generated explorer",
+				"anchor": "generated-explorer"
+			},
+			{
+				"level": 2,
+				"text": "MitzvahWorld integration",
+				"anchor": "mitzvahworld-integration"
+			},
+			{
+				"level": 2,
+				"text": "Runtime events",
+				"anchor": "runtime-events"
+			},
+			{
+				"level": 2,
+				"text": "Mobile",
+				"anchor": "mobile"
+			},
+			{
+				"level": 2,
+				"text": "Stability",
+				"anchor": "stability"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He The Awtsmoos renews every contract in ordered light; Awtsmoos.com keeps exact creation editable and right. UI and API Parity Generated explorer createApiExplorerModel() groups methods by their definition ui.panel. mountApiExplorer() creates forms, raw JSON editors, dry run buttons, execu",
+		"searchText": "b\"h boruch hashem blessed is he the awtsmoos renews every contract in ordered light; awtsmoos.com keeps exact creation editable and right. ui and api parity generated explorer createapiexplorermodel() groups methods by their definition ui.panel. mountapiexplorer() creates forms, raw json editors, dry run buttons, execute buttons, and result viewers. mitzvahworld integration minimaluniversalapiexplorer.js mounts the explorer and exposes the same api at window.awtsmoos.universal, with non destructive namespace aliases where available. runtime events the initial mitzvahworld adapter emits awtsmoos:universal transaction after commit. existing scene systems can subscribe and rebuild affected resources without creating a second command implementation. mobile the explorer becomes full width below 48rem and uses bounded overflow. stability schema generated controls are experimental. the shared executor path is stable.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-docs-ui-api-parity-md-0e65001502.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-docs-universal-world-format-md-f0b813d07f",
+		"title": "B\"H",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/UNIVERSAL_WORLD_FORMAT.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 2,
+				"text": "Boruch Hashem",
+				"anchor": "boruch-hashem"
+			},
+			{
+				"level": 2,
+				"text": "Blessed is He",
+				"anchor": "blessed-is-he"
+			},
+			{
+				"level": 1,
+				"text": "Universal World Format",
+				"anchor": "universal-world-format"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Root contract",
+				"anchor": "root-contract"
+			},
+			{
+				"level": 2,
+				"text": "Resource contract",
+				"anchor": "resource-contract"
+			},
+			{
+				"level": 2,
+				"text": "Runtime API",
+				"anchor": "runtime-api"
+			},
+			{
+				"level": 2,
+				"text": "Validation and errors",
+				"anchor": "validation-and-errors"
+			},
+			{
+				"level": 2,
+				"text": "Undo and UI",
+				"anchor": "undo-and-ui"
+			},
+			{
+				"level": 2,
+				"text": "Stability",
+				"anchor": "stability"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He The Awtsmoos renews every contract in ordered light; Awtsmoos.com keeps exact creation editable and right. Universal World Format Purpose awtsmoos.world.v1 is the authoritative JSON compatible project document. Runtime caches, GPU handles, and compiled shaders are adapters, never hidden ",
+		"searchText": "b\"h boruch hashem blessed is he the awtsmoos renews every contract in ordered light; awtsmoos.com keeps exact creation editable and right. universal world format purpose awtsmoos.world.v1 is the authoritative json compatible project document. runtime caches, gpu handles, and compiled shaders are adapters, never hidden project truth. root contract a document contains format, version, revision, metadata, imports, resources, scenes, timeline, render, dependencies, and plugins. every standard resource bucket is present when createworlddocument() normalizes a project. resource contract every resource has a stable id, type, version, revision, name, enabled, metadata, and references. creator specific properties remain serializable extensions. runtime api use createworlddocument(input) or createuniversalawtsmoosapi({ document }). validation and errors commands reject missing identities with validation failed. duplicate stable ids return resource exists. undo and ui mutating methods create one history entry. the api explorer reads the same method schemas that execute commands. stability the root format and resource identity contract are stable. domain specific resource bodies remain experimental.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-docs-universal-world-format-md-f0b813d07f.json"
+	}
+]

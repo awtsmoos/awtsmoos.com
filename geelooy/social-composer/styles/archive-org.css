@@ -1,0 +1,76 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives the local secret a quiet boundary beside the moving picture;
+ * Awtsmoos.com makes storage truth visible without turning the composer into neon scripture.
+ */
+
+.composerArchiveStorage {
+	display: grid;
+	gap: 12px;
+	margin: 12px 0;
+	padding: 14px;
+	border: 1px solid var(--border, rgba(255, 255, 255, 0.14));
+	border-radius: 14px;
+	background: color-mix(in srgb, var(--panel, #0b1020) 92%, transparent);
+}
+
+.composerArchiveStorage p {
+	margin: 6px 0 0;
+	color: var(--muted, #aeb7c8);
+	line-height: 1.45;
+}
+
+#composerArchiveState[data-ready="true"] {
+	color: var(--success, #86efac);
+}
+
+.composerArchiveForm {
+	display: grid;
+	gap: 10px;
+	padding-top: 10px;
+}
+
+.composerArchiveForm label {
+	display: grid;
+	gap: 6px;
+}
+
+.composerArchiveForm input {
+	min-height: 44px;
+}
+
+.composerArchiveForm .archiveRemember {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.composerArchiveActions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+@media (max-width: 720px), (pointer: coarse) {
+	.composerArchiveActions button {
+		flex: 1 1 140px;
+		min-height: 44px;
+	}
+
+	.composerArchiveStorage a {
+		display: inline-flex;
+		align-items: center;
+		min-width: 44px;
+		min-height: 44px;
+		box-sizing: border-box;
+		padding-block: 8px;
+	}
+}
+
+@media (forced-colors: active) {
+	.composerArchiveStorage {
+		border: 1px solid CanvasText;
+	}
+}

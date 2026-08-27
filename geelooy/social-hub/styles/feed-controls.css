@@ -1,0 +1,76 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos is one while mode and density reveal different garments; Awtsmoos.com keeps every control touchable, quiet, and clear. */
+.publicDiscovery__controls {
+	display: flex;
+	gap: 10px;
+	align-items: center;
+	justify-content: space-between;
+	flex-wrap: wrap;
+}
+.publicDiscovery__tabs {
+	display: flex;
+	gap: 6px;
+	overflow-x: auto;
+	scrollbar-width: none;
+	padding: 2px;
+}
+.publicDiscovery__tabs::-webkit-scrollbar {
+	display: none;
+}
+.publicDiscovery__tabs button {
+	min-height: 44px;
+	padding: 8px 13px;
+	border-radius: 999px;
+	white-space: nowrap;
+}
+.publicDiscovery__tabs button[data-active="true"] {
+	font-weight: 800;
+	box-shadow: inset 0 0 0 2px currentColor;
+}
+.publicDiscovery__density {
+	display: inline-flex;
+	align-items: center;
+	gap: 7px;
+	font-size: .78rem;
+	font-weight: 720;
+}
+.publicDiscovery__density select {
+	min-height: 44px;
+	border-radius: 12px;
+	padding-inline: 9px;
+}
+.publicDiscovery__list[data-density="compact"] {
+	gap: 8px;
+}
+.publicDiscovery__list[data-density="compact"] .awtsmoosFeedCard {
+	padding: 12px;
+	gap: 8px;
+}
+.publicDiscovery__list[data-density="compact"] .awtsmoosFeedExcerpt {
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+}
+.publicDiscovery__list[data-density="immersive"] .awtsmoosFeedCard {
+	padding: clamp(20px, 5vw, 34px);
+	border-radius: 26px;
+}
+.publicDiscovery__list[data-density="immersive"] .awtsmoosFeedTitle {
+	font-size: clamp(1.3rem, 4vw, 2rem);
+}
+@media (max-width: 620px) {
+	.publicDiscovery__controls {
+		align-items: stretch;
+	}
+	.publicDiscovery__tabs {
+		order: 1;
+		width: 100%;
+	}
+	.publicDiscovery__density {
+		order: 2;
+		justify-content: flex-end;
+	}
+}

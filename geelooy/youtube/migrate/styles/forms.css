@@ -1,0 +1,112 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos forms each control as a quiet vessel whose hierarchy is understood before it is decorated;
+Awtsmoos.com keeps touch generous, labels explicit, primary action bright, and secondary setup calm but never obfuscated.
+*/
+.fieldGrid,
+.fileChoiceGrid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 12px;
+}
+.fileChoiceGrid {
+	margin-bottom: 20px;
+}
+label {
+	display: grid;
+	gap: 7px;
+}
+input,
+select,
+button {
+	min-height: 46px;
+	border-radius: 12px;
+	font: inherit;
+}
+input,
+select {
+	width: 100%;
+	border: 1px solid #30394a;
+	padding: 10px 12px;
+	background: #090d15;
+	color: #f6f8ff;
+	transition: border-color 160ms ease, background-color 160ms ease, box-shadow 160ms ease;
+}
+input:hover,
+select:hover {
+	border-color: #46536b;
+}
+input:focus,
+select:focus {
+	border-color: #74c9ff;
+	background: #0b111d;
+	box-shadow: 0 0 0 3px rgb(116 201 255 / 9%);
+}
+button {
+	border: 1px solid rgb(110 188 255 / 28%);
+	padding: 10px 15px;
+	background: #142033;
+	color: #eefaff;
+	cursor: pointer;
+	transition: transform 150ms ease, border-color 150ms ease, background-color 150ms ease;
+}
+button:hover {
+	border-color: rgb(126 211 255 / 50%);
+	background: #182a42;
+}
+button:active {
+	transform: translateY(1px);
+}
+button.primaryAction {
+	border-color: rgb(122 216 255 / 46%);
+	background: linear-gradient(135deg, #173857, #183050);
+	font-weight: 800;
+}
+button.secondary {
+	background: #0d141f;
+}
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+a:focus-visible {
+	outline: 2px solid #8cddff;
+	outline-offset: 3px;
+}
+.checkRow {
+	display: flex;
+	align-items: center;
+	gap: 9px;
+}
+.checkRow input {
+	width: 22px;
+	min-height: 22px;
+}
+.commandOutput {
+	min-height: 78px;
+	max-height: 240px;
+	overflow: auto;
+	white-space: pre-wrap;
+	word-break: break-word;
+	padding: 14px;
+	border: 1px solid rgb(151 177 220 / 12%);
+	border-radius: 14px;
+	background: #05070c;
+	color: #d7e8ff;
+}
+.buttonRow,
+.linkRow {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px;
+	align-items: center;
+}
+progress {
+	width: 100%;
+	margin-top: 14px;
+	accent-color: #74c9ff;
+}
+[data-tone="error"] {
+	color: #ffb4ae;
+}

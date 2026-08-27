@@ -13,6 +13,8 @@
 geelooy/scripts/awtsmoos/*
 !geelooy/scripts/awtsmoos/social/
 !geelooy/scripts/awtsmoos/social/**
+!geelooy/scripts/awtsmoos/realtime/
+!geelooy/scripts/awtsmoos/realtime/RealtimePendingMetadata.js
 !geelooy/games/mitzvahWorld/experiments/Awtsmoos/
 !geelooy/games/mitzvahWorld/experiments/Awtsmoos/**
 geelooy/ai/thoughts/

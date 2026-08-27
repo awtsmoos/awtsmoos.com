@@ -4,9 +4,9 @@
 
 /**
  * @file CanonicalHydrologyTerrain.js
- * @description Cuts the nearest river bed after raising every nearby containment bank.
- * The Awtsmoos lets water descend without vanishing beneath earth; Awtsmoos.com honors the
- * higher neighboring reach at tight bends while preserving one finite bed for the nearest flow.
+ * @description Applies one final contained river bed after road and foundation terrain are already resolved.
+ * The Awtsmoos joins bank and bed through a gentle shoreline instead of a narrow earthen knife;
+ * Awtsmoos.com keeps water below land while widening the fade enough for village paths and sight to remain alive.
  */
 
 import {
@@ -19,27 +19,17 @@ import {
 } from './CanonicalTerrainHydrology.js';
 
 const BED_DEPTH = 1.35;
+const BED_FADE_MARGIN = 2.5;
 
-/**
- * Applies canonical bank and bed constraints to an existing terrain height.
- *
- * @param {number} x World x coordinate.
- * @param {number} z World z coordinate.
- * @param {number} terrainHeight Incoming terrain height.
- * @returns {number} Hydrology-constrained terrain height.
- */
+/** Applies bank clearance and a widened bed transition to an existing terrain height. */
 export function canonicalHydrologyTerrainHeightAt(x, z, terrainHeight) {
-	const bankedHeight = canonicalHydrologyBankHeightAt(
-		x,
-		z,
-		terrainHeight
-	);
+	const bankedHeight = canonicalHydrologyBankHeightAt(x, z, terrainHeight);
 	const river = canonicalRiverTerrainSample(x, z);
 	const waterHeight = canonicalRiverElevation(river.t);
 	const bedTarget = waterHeight - BED_DEPTH;
 	const bedInfluence = 1 - smooth(
-		river.width * 0.44,
-		river.width * 0.88,
+		river.width * 0.42,
+		river.width + BED_FADE_MARGIN,
 		river.distance
 	);
 	return mix(bankedHeight, bedTarget, bedInfluence);
@@ -47,13 +37,12 @@ export function canonicalHydrologyTerrainHeightAt(x, z, terrainHeight) {
 
 export { canonicalMinimumBankClearance };
 
-/**
- * Returns the intended bed depth below canonical water.
- *
- * @returns {number} Bed depth in world units.
- */
 export function canonicalRiverBedDepth() {
 	return BED_DEPTH;
+}
+
+export function canonicalRiverBedFadeMargin() {
+	return BED_FADE_MARGIN;
 }
 
 function smooth(edge0, edge1, value) {

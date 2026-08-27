@@ -1,5 +1,0 @@
-{
-	"BH": "B\"H / Boruch Hashem / Blessed is He",
-	"schema": "awtsmoos-doc-content-v1",
-	"content": "B\"H\n\n# Phase Two — Execution Plan\n\n1. Refresh repository status and checkpoint evidence.\n2. Create a live feature matrix from real imports and tests.\n3. Spawn specialist agents sequentially through the tunnel mission system; no parallel Chrome tabs.\n4. Assign nonoverlapping audit scopes first.\n5. Convert every proven defect into `DEFECT_LEDGER.md` and `REMAINING_WORK.md`.\n6. Read complete target files, dependencies, consumers, and tests.\n7. Rewrite complete files only.\n8. Run focused verification for each defect.\n9. Run render/export and exact scale courts.\n10. Run full `npm run verify`.\n11. Run compliance, syntax, line-count, tab, header, and `git diff --check` gates.\n12. Re-read all changed files and close the delta.\n"
-}

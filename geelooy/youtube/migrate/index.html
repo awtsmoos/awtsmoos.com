@@ -1,0 +1,64 @@
+<!doctype html>
+<!-- B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets the creator begin with the video already in hand while acquisition and secret setup wait quietly behind native doors;
+Awtsmoos.com keeps local bytes direct, advanced power retractable, and explicit publication visible before anything leaves its proper shores.
+-->
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+	<meta name="color-scheme" content="dark">
+	<title>YouTube Migration Studio · Awtsmoos</title>
+	<link rel="stylesheet" href="../../style/future-system/index.css?v=future-005">
+	<link rel="stylesheet" href="./style.css?v=future-ui-005">
+</head>
+<body data-future-page="youtube" data-future-particles>
+	<header class="migrationHeader" data-future-ambient>
+		<div class="headerRail"><a href="../">← YouTube</a><span class="privacyPill">Local secrets · direct Archive.org video</span></div>
+		<p class="eyebrow">Creator-owned migration</p>
+		<h1>Move the video. Keep the control.</h1>
+		<p>Choose local videos, choose their Awtsmoos home, then archive or reuse public evidence before a dry plan is generated.</p>
+	</header>
+	<main class="migrationGrid">
+		<section class="migrationCard primaryMigrationCard" data-future-ambient>
+			<p class="stepLabel">1 · Local video</p>
+			<h2>Choose what you already have.</h2>
+			<div class="fileChoiceGrid"><label>Video files + optional .info.json<input id="videoFiles" type="file" accept="video/*,.json" multiple></label><label>Downloaded folder<input id="videoFolder" type="file" webkitdirectory multiple></label></div>
+			<h3>Native destination</h3>
+			<div class="fieldGrid"><label>Alias ID<input id="aliasId" required></label><label>Heichel ID<input id="heichelId" required></label><label>Series ID<input id="seriesId" value="root"></label></div>
+			<button id="archiveAndPlan" class="primaryAction" type="button">Archive or reuse + generate dry plan</button>
+			<progress id="migrationProgress" max="100" value="0" hidden></progress>
+			<p id="migrationStatus" class="statusLine" aria-live="polite">Nothing has been uploaded or published.</p>
+		</section>
+		<details class="migrationCard" data-future-disclosure data-mobile-closed data-disclosure-key="youtube.acquire">
+			<summary><span><small>Optional</small><strong>Need to download from YouTube?</strong></span><span class="summaryMeta">Takeout · Studio · yt-dlp</span></summary>
+			<div class="futureDisclosureBody">
+				<p>Use an official export or generate a resumable local yt-dlp command for creator-owned material.</p>
+				<p class="linkRow"><a href="https://takeout.google.com/" target="_blank" rel="noreferrer">Google Takeout</a><a href="https://studio.youtube.com/" target="_blank" rel="noreferrer">YouTube Studio</a></p>
+				<div class="fieldGrid"><label>Source kind<select id="sourceKind"><option value="videos">Videos</option><option value="shorts">Shorts</option><option value="playlist">Playlist</option></select></label><label>Channel URL<input id="channelUrl" placeholder="https://www.youtube.com/@channel"></label><label>Playlist URL<input id="playlistUrl" placeholder="https://www.youtube.com/playlist?list=…"></label><label>Local folder<input id="downloadFolder" value="awtsmoos-youtube"></label></div>
+				<label class="checkRow"><input id="includeComments" type="checkbox">Include creator-visible comments in local metadata</label>
+				<button id="generateCommand" type="button">Generate local yt-dlp command</button>
+				<pre id="commandOutput" class="commandOutput" tabindex="0"></pre>
+			</div>
+		</details>
+		<details id="credentialDisclosure" class="migrationCard" data-future-disclosure data-mobile-closed data-disclosure-key="youtube.credentials">
+			<summary><span><small>Only for a new upload</small><strong>Archive.org credentials</strong></span><span id="credentialState" class="summaryMeta" aria-live="polite">Not configured</span></summary>
+			<div class="futureDisclosureBody">
+				<p>Public receipt reuse happens before this is needed. IA-S3 keys stay in this browser and are never sent to Awtsmoos.</p>
+				<form id="credentialForm" class="fieldGrid" autocomplete="off"><label>Access key<input id="accessKey" autocomplete="off" required></label><label>Secret key<input id="secretKey" type="password" autocomplete="new-password" required></label><label class="checkRow"><input id="rememberKeys" type="checkbox">Remember on this device</label><button type="submit">Save locally</button></form>
+				<div class="buttonRow"><button id="forgetCredentials" type="button" class="secondary">Forget credentials</button><a href="https://archive.org/account/s3.php" target="_blank" rel="noreferrer">Get Archive.org S3 keys</a></div>
+			</div>
+		</details>
+		<section id="planPanel" class="migrationCard reviewCard" hidden>
+			<p class="stepLabel">2 · Explicit review</p>
+			<h2><strong id="planCount">0</strong> posts are ready.</h2>
+			<p>Archive upload does not publish. Review the dry plan, then invoke unified social publication explicitly.</p>
+			<button id="publishPlan" class="primaryAction" type="button">Publish planned posts</button>
+		</section>
+	</main>
+	<script type="module" src="./js/main.js?v=future-ui-005"></script>
+</body>
+</html>

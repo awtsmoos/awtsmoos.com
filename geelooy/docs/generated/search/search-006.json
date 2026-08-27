@@ -122,32 +122,22 @@
 			},
 			{
 				"level": 2,
-				"text": "Project records",
-				"anchor": "project-records"
+				"text": "System packets",
+				"anchor": "system-packets"
 			},
 			{
 				"level": 2,
-				"text": "API tutorial records",
-				"anchor": "api-tutorial-records"
-			},
-			{
-				"level": 2,
-				"text": "Public /docs/ discovery",
-				"anchor": "public-docs-discovery"
+				"text": "Browser discovery",
+				"anchor": "browser-discovery"
 			},
 			{
 				"level": 2,
 				"text": "Evidence rules",
 				"anchor": "evidence-rules"
-			},
-			{
-				"level": 2,
-				"text": "Commands",
-				"anchor": "commands"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He AI Discovery Guide The Awtsmoos lets an agent begin with human meaning, acquire exhaustive route/project evidence, and only then make source level claims. Navigation order 1. llms.txt for compact routing. 2. docs/README.md or /docs/ for the human map. 3. docs/LEARN/ when concepts/workflo",
-		"searchText": "b\"h boruch hashem blessed is he ai discovery guide the awtsmoos lets an agent begin with human meaning, acquire exhaustive route/project evidence, and only then make source level claims. navigation order 1. llms.txt for compact routing. 2. docs/readme.md or /docs/ for the human map. 3. docs/learn/ when concepts/workflow are unfamiliar. 4. nearest project/system/api family manual. 5. docs/ai/manifest.json for enriched project discovery. 6. docs/ai/api tutorials/manifest.json for api route discovery. 7. docs/generated/ for exhaustive evidence. 8. current source/callers/tests/runtime for final authority. project records docs/ai/projects/ contains one bounded project packet per current boundary. project records connect exact path/type/family to entries, human docs, generated project tutorial, file shape, symbol summary, incoming/outgoing lexical project dependencies, external package evidence, public html entries, and documentation coverage. use /docs/?view=projects for the same evidence interactively. project packets answer repository/system shape questions. they do not prove runtime reachability, deployment health, authorization, behavioral test coverage, or complete dynamic dependency graphs. api tutorial records every generated route has a bounded ai record under docs/ai/api tutorials/routes/. route packets answer url/source/method/vessel/caller/test questions and remain distinct from project ownership packets. public /docs/ discovery the public manifest declares bounded search, project, api tutorial, page and content shards. /docs/?view=learn exposes learning tracks; /docs/?view=api exposes route evidence; /docs/?view=projects exposes project evidence. evidence rules api unknown method is never get. route method/status/header evidence is lexical unless source proves more. project imports are lexical edges, not runtime call graphs. external package evidence excludes malformed dynamic strings and node built ins. public project entries mean html entry files were discovered, not that apps are healthy. test file counts are evidence, not quality scores. caller matches are discovery evidence, not dispatch proof. a syntax failed derech weakens runtime confidence even if strings were extracted. public publication excludes planning/thought, dependency/build/vendor and private user roots. environment docs expose names, not secret values. when docs conflict with current source/tests, source/tests win and docs should be updated/regenerated. commands",
+		"excerpt": "B\"H Boruch Hashem Blessed is He AI Discovery Guide Use human meaning first, bounded machine evidence second, then current source/tests/runtime. Navigation order 1. llms.txt. 2. docs/README.md or /docs/. 3. docs/LEARN/ for unfamiliar concepts. 4. nearest human API/project/system manual. 5. docs/AI/MANIFEST.json for proj",
+		"searchText": "b\"h boruch hashem blessed is he ai discovery guide use human meaning first, bounded machine evidence second, then current source/tests/runtime. navigation order 1. llms.txt. 2. docs/readme.md or /docs/. 3. docs/learn/ for unfamiliar concepts. 4. nearest human api/project/system manual. 5. docs/ai/manifest.json for project discovery. 6. docs/ai/systems/manifest.json for data/security/realtime system discovery. 7. docs/ai/api tutorials/manifest.json for routes. 8. generated evidence. 9. exact current source/tests/runtime. system packets docs/ai/systems/records/ contains one bounded packet per curated stable system. packets include human manuals, verified project/source anchors, generated evidence, claims boundary, change risk, environment name evidence, realtime application registrations, and lexical event evidence where relevant. environment packets contain names only . event strings are not protocol schemas. security packets are not audit findings. data packets do not invent durability/consistency guarantees. browser discovery learn: /docs/?view=learn api: /docs/?view=api projects: /docs/?view=projects systems: /docs/?view=systems evidence rules unknown api method remains unknown. project imports are lexical. environment values are never published. authentication does not imply authorization. public entry/source registration does not imply runtime health. current source/tests win when documentation conflicts.",
 		"page": "pages/docs-ai-readme-md-83518f2ef4.json"
 	},
 	{

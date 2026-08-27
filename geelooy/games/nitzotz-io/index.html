@@ -6,95 +6,109 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-	<meta name="theme-color" content="#050719">
-	<title>Nitzotz.io — Shlichus Adventure Metropolis</title>
-	<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='28' fill='%23050719' stroke='%23ffdf6c' stroke-width='4'/%3E%3Ccircle cx='32' cy='32' r='12' fill='%237edcff'/%3E%3C/svg%3E">
-	<link rel="stylesheet" href="./style.css?v=20260714_shlichus_1">
+	<meta name="theme-color" content="#07121a">
+	<title>Nitzotz.io — Gather. Grow. Reveal.</title>
+	<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='28' fill='%2307121a' stroke='%23ffdf6c' stroke-width='4'/%3E%3Ccircle cx='32' cy='32' r='12' fill='%237edcff'/%3E%3C/svg%3E">
+	<link rel="stylesheet" href="./style.css?v=20260821_gameplay_3">
 </head>
 <body>
-	<canvas id="game" aria-label="Nitzotz.io procedural city arena"></canvas>
+	<!-- The Awtsmoos renews the metropolis each instant; Awtsmoos.com reveals only the information the hand asks to hold. -->
+	<canvas id="game" aria-label="Nitzotz.io living city arena"></canvas>
 	<header class="hud" aria-live="polite">
 		<div class="brand-row">
 			<div class="brand"><b>Nitzotz.io</b><span id="levelText">District 1</span></div>
-			<button id="pauseBtn" class="mini-button" type="button">PAUSE</button>
+			<div class="hud-actions">
+				<button id="hudToggleBtn" class="mini-button hud-toggle" type="button" aria-label="Compact HUD">⌃</button>
+				<button id="pauseBtn" class="mini-button" type="button" aria-label="Pause and open menu">Ⅱ</button>
+			</div>
 		</div>
 		<div class="primary-stats">
+			<div class="stat mass-stat"><small>MASS</small><strong id="massText">25</strong></div>
+			<div class="stat rank-stat"><small>RANK</small><strong id="rankText">1/5</strong></div>
 			<div class="stat timer"><small>TIME</small><strong id="timeText">100</strong></div>
-			<div class="stat"><small>RANK</small><strong id="rankText">1/5</strong></div>
-			<div class="stat"><small>MASS</small><strong id="massText">25</strong></div>
 		</div>
 		<section class="mission">
-			<div class="mission-main"><small id="sefText">Malchus</small><strong id="objectiveText">Reach the target mass</strong></div>
+			<div class="mission-main"><small id="sefText">Malchus</small><strong id="objectiveText">Gather what fits. Grow.</strong></div>
 			<span id="progressText">25 / 390</span>
 			<meter id="sparkMeter" min="0" max="1" value="0"></meter>
 			<div class="bonus-line"><b id="bonusText">Clear the district</b><span id="bonusProgressText">0 / 16</span></div>
 		</section>
-		<div id="resourceRail" class="resource-rail">
-			<span><small>ARMOR</small><b id="armorText">1/1</b></span>
-			<span><small>PERUTOT</small><b id="perutahText">0</b></span>
-			<span class="shlichus-resource"><small>SHLICHUS</small><b id="shlichusText">ARENA PATH</b></span>
-			<span><small>HEVRUTA</small><b id="peerText">0 LIVE</b></span>
+		<p id="message">Touch anywhere and move.</p>
+		<div id="resourceRail" class="compat-telemetry" hidden>
+			<span id="armorText">1/1</span><span id="perutahText">0</span>
+			<span id="shlichusText">ARENA PATH</span><span id="peerText">0 LIVE</span>
 		</div>
-		<p id="message">B'H · enter the generated metropolis.</p>
-		<div class="telemetry-pool" hidden>
-			<span id="modeText"></span><span id="eventText"></span><span id="bossText"></span>
-			<span id="rivalText"></span><span id="achievementText"></span><span id="sparkHudText"></span>
-			<span id="comboText"></span><span id="bestText"></span><span id="powerText"></span><span id="districtText"></span>
+		<div class="compat-telemetry" hidden>
+			<span id="modeText"></span><span id="eventText"></span><span id="bossText"></span><span id="rivalText"></span>
+			<span id="achievementText"></span><span id="sparkHudText"></span><span id="comboText"></span><span id="bestText"></span>
+			<span id="powerText"></span><span id="districtText"></span>
 		</div>
 	</header>
-	<aside class="right-rail">
-		<section class="leaderboard-card"><h2>City Ranking</h2><div id="leaderboard"></div></section>
-		<canvas id="map" aria-label="complete arena minimap"></canvas>
+	<aside class="right-rail" aria-label="secondary arena information">
+		<section class="leaderboard-card"><h2>Ranking</h2><div id="leaderboard"></div></section>
+		<canvas id="map" aria-label="arena minimap"></canvas>
 	</aside>
 	<section id="overlay" class="overlay">
 		<div class="overlay-panel">
 			<div class="overlay-hero">
-				<p class="eyebrow">B'H · campaign · Shlichus · living local rooms</p>
+				<p class="eyebrow">B'H · GATHER · GROW · REVEAL</p>
 				<h1 id="overlayTitle">Malchus Courtyard</h1>
 				<div id="overlayStars" class="stars">☆☆☆</div>
-				<p id="overlayText">Consume generated plants, streets, traffic, buildings, and landmarks.</p>
-				<div class="campaign-ledger"><span id="campaignSummary">0 / 200 DISTRICTS</span><span id="campaignSpark">0 SPARKS · 0₽</span></div>
-			</div>
-			<section class="mode-gate" aria-label="arena mode">
-				<div class="mode-heading">
-					<div><small>ARENA MODE</small><strong id="modeDescription">Classic Revelation</strong></div>
-					<button id="modeCycleBtn" class="button ghost" type="button">CYCLE · M</button>
+				<p id="overlayText">Move through the city. Consume smaller things. Grow large enough for what comes next.</p>
+				<div class="campaign-ledger">
+					<span id="campaignSummary">0 / 200 DISTRICTS</span>
+					<span id="campaignSpark">0 SPARKS · 0₽</span>
 				</div>
-				<div id="modeSelect" class="mode-select"></div>
-			</section>
-			<div class="hero-actions">
-				<button id="startBtn" class="button primary" type="button">ENTER DISTRICT</button>
-				<button id="restartBtn" class="button ghost" type="button">REGENERATE</button>
 			</div>
-			<details class="compact-disclosure expansion-disclosure">
-				<summary>Shlichus and Sefirah Talents</summary>
-				<div class="compact-disclosure-content"><div id="adventureBrief" class="shlichus-grid"></div><div id="talentGrid" class="talent-grid"></div></div>
+			<div class="hero-actions">
+				<button id="startBtn" class="button primary" type="button">PLAY</button>
+				<button id="restartBtn" class="button ghost" type="button">RESTART</button>
+			</div>
+			<details class="game-options">
+				<summary>Advanced</summary>
+				<div class="option-stack">
+					<section class="quick-tuning">
+						<h2>Quick tuning</h2>
+						<div class="settings">
+							<button data-perf="low" class="button chip" type="button"><b>Smooth</b><span>faster</span></button>
+							<button data-perf="medium" class="button chip" type="button"><b>Balanced</b><span>default</span></button>
+							<button data-perf="high" class="button chip" type="button"><b>Extreme</b><span>denser</span></button>
+							<button id="hapticBtn" class="button chip" type="button"><b>Haptics</b><span>touch</span></button>
+							<button id="postfxBtn" class="button chip" type="button"><b>PostFX</b><span>cinematic</span></button>
+						</div>
+					</section>
+					<details class="advanced-group">
+						<summary>Play style</summary>
+						<section class="mode-gate" aria-label="arena mode">
+							<div class="mode-heading"><div><small>MODE</small><strong id="modeDescription">Classic Revelation</strong></div><button id="modeCycleBtn" class="button ghost" type="button">CYCLE</button></div>
+							<div id="modeSelect" class="mode-select"></div>
+						</section>
+					</details>
+					<details class="advanced-group">
+						<summary>Shlichus & talents</summary>
+						<section><div id="adventureBrief" class="shlichus-grid"></div><div id="talentGrid" class="talent-grid"></div></section>
+					</details>
+					<details class="advanced-group">
+						<summary>Districts</summary>
+						<section><div id="chapterSelect" class="chapter-select"></div><div id="levelSelect" class="level-select"></div></section>
+					</details>
+					<details class="advanced-group">
+						<summary>Upgrades & quests</summary>
+						<section><div id="shopGrid" class="shop-grid"></div><div id="questList" class="quest-list"></div></section>
+					</details>
+					<details class="advanced-group">
+						<summary>Local room</summary>
+						<section class="room-panel">
+							<p id="roomStatus">LOCAL ROOM READY</p>
+							<div class="room-controls"><input id="roomInput" maxlength="12" value="malchus" aria-label="local room name"><button id="roomBtn" class="button ghost" type="button">JOIN</button></div>
+						</section>
+					</details>
+				</div>
 			</details>
-			<details class="compact-disclosure expansion-disclosure">
-				<summary>Hevruta Same-Origin Room</summary>
-				<div class="compact-disclosure-content room-panel"><p id="roomStatus">LOCAL ROOM READY</p><div class="room-controls"><input id="roomInput" maxlength="12" value="malchus" aria-label="local room name"><button id="roomBtn" class="button ghost" type="button">JOIN LOCAL ROOM</button></div><small>Live synchronization works between tabs on this same origin. It is not an internet matchmaking server.</small></div>
-			</details>
-			<details class="compact-disclosure">
-				<summary>Campaign and districts</summary>
-				<div class="compact-disclosure-content"><section class="campaign-section"><div id="chapterSelect" class="chapter-select"></div></section><section class="campaign-section"><div id="levelSelect" class="level-select"></div></section></div>
-			</details>
-			<details class="compact-disclosure">
-				<summary>Permanent spark upgrades</summary>
-				<div class="compact-disclosure-content"><section class="campaign-section"><div id="shopGrid" class="shop-grid"></div></section></div>
-			</details>
-			<details class="compact-disclosure">
-				<summary>City quests</summary>
-				<div class="compact-disclosure-content"><section class="campaign-section"><div id="questList" class="quest-list"></div></section></div>
-			</details>
-			<details class="compact-disclosure">
-				<summary>Graphics and feedback</summary>
-				<div class="compact-disclosure-content settings" aria-label="quality"><button data-perf="low" class="button chip" type="button"><b>Smooth</b><span>fewer models</span></button><button data-perf="medium" class="button chip" type="button"><b>Balanced</b><span>dense city</span></button><button data-perf="high" class="button chip" type="button"><b>Extreme</b><span>full metropolis</span></button><button id="hapticBtn" class="button chip" type="button"><b>Haptics</b><span>impact</span></button><button id="postfxBtn" class="button chip" type="button"><b>PostFX</b><span>cinematic</span></button></div>
-			</details>
-			<p class="overlay-help"><b>WASD</b> move · <b>SPACE</b> Chochmah pulse · <b>M</b> mode · <b>P</b> pause</p>
 		</div>
 	</section>
-	<div id="stick"><span>MOVE</span><i></i></div>
-	<button id="pulse" type="button"><b>SURGE</b><span id="pulseState">READY</span></button>
-	<script type="module" src="./js/main.js?v=20260714_shlichus_1"></script>
+	<div id="stick" aria-hidden="true"><i></i></div>
+	<button id="pulse" type="button" aria-hidden="true" tabindex="-1"><b>SURGE</b><span id="pulseState">READY</span></button>
+	<script type="module" src="./js/main.js?v=20260821_gameplay_3"></script>
 </body>
 </html>

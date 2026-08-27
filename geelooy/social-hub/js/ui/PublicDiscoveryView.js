@@ -1,13 +1,12 @@
 //B"H
 //Boruch Hashem
 //Blessed is He
-
 /**
  * @class PublicDiscoveryView
- * @description
- * The Awtsmoos clothes public discovery in explicit DOM vessels: title, feed modes, profile doorway,
- * status, list, and honest quiet-state copy. Network and navigation remain outside this view.
+ * @description The Awtsmoos lets public discovery remain simple while Awtsmoos.com preserves every useful path;
+ * the composition root owns lookup, feed, empty state, and updates while its header lives in one focused retractable vessel.
  */
+import { createPublicDiscoveryHeader } from './PublicDiscoveryHeader.js';
 
 export class PublicDiscoveryView {
 	constructor(root, handlers = {}) {
@@ -15,43 +14,24 @@ export class PublicDiscoveryView {
 		this.handlers = handlers;
 	}
 
-	mount() {
+	mount(density = 'comfortable') {
 		const home = this.root.querySelector('[data-panel="home"]');
 		if (!home) return null;
 		this.section = this.root.createElement('section');
 		this.section.className = 'publicDiscovery';
 		this.section.setAttribute('aria-labelledby', 'publicDiscoveryTitle');
-		this.section.append(this.header(), this.lookup(), this.feed());
+		const header = createPublicDiscoveryHeader({
+			document: this.root,
+			density,
+			onMode: this.handlers.onMode,
+			onDensity: this.handlers.onDensity
+		});
+		this.tabs = header.tabs;
+		this.density = header.density;
+		this.preferences = header.preferences;
+		this.section.append(header.root, this.lookup(), this.feed());
 		home.prepend(this.section);
 		return this.section;
-	}
-
-	header() {
-		const header = this.root.createElement('header');
-		header.className = 'publicDiscovery__header';
-		const copy = this.root.createElement('div');
-		const eyebrow = this.root.createElement('p');
-		eyebrow.className = 'publicDiscovery__eyebrow';
-		eyebrow.textContent = 'Public social';
-		const title = this.root.createElement('h2');
-		title.id = 'publicDiscoveryTitle';
-		title.textContent = 'Discover living conversations';
-		const description = this.root.createElement('p');
-		description.textContent = 'Browse public posts or open any public alias profile. Log in only when you want to publish or manage your own identity.';
-		copy.append(eyebrow, title, description);
-		this.tabs = this.root.createElement('div');
-		this.tabs.className = 'publicDiscovery__tabs';
-		this.tabs.setAttribute('aria-label', 'Public feed mode');
-		for (const [mode, label] of [['latest', 'Latest'], ['trending', 'Trending']]) {
-			const button = this.root.createElement('button');
-			button.type = 'button';
-			button.textContent = label;
-			button.dataset.feedMode = mode;
-			button.addEventListener('click', () => this.handlers.onMode?.(mode));
-			this.tabs.append(button);
-		}
-		header.append(copy, this.tabs);
-		return header;
 	}
 
 	lookup() {
@@ -93,19 +73,26 @@ export class PublicDiscoveryView {
 		}
 	}
 
+	renderDensity(density) {
+		if (this.list) this.list.dataset.density = density;
+		if (this.density && this.density.value !== density) this.density.value = density;
+		if (this.preferences?.detail) this.preferences.detail.textContent = density;
+	}
+
 	renderEmpty(mode) {
 		this.list.replaceChildren();
 		const empty = this.root.createElement('div');
 		empty.className = 'publicDiscoveryEmpty';
 		const title = this.root.createElement('h3');
-		title.textContent = 'The public feed is quiet right now.';
+		title.textContent = mode === 'questions'
+			? 'No public questions yet.'
+			: mode === 'answers'
+				? 'No public answers yet.'
+				: 'The public feed is quiet right now.';
 		const copy = this.root.createElement('p');
-		copy.textContent = 'Nothing public is indexed in this view yet. Open a known alias above, or log in to publish from your own alias.';
-		const login = this.root.createElement('a');
-		login.href = '/login/?returnTo=/social-hub/';
-		login.textContent = 'Log in to publish →';
-		empty.append(title, copy, login);
+		copy.textContent = 'Switch modes, open a known alias, or publish from your own alias when ready.';
+		empty.append(title, copy);
 		this.list.append(empty);
-		this.status.textContent = mode === 'trending' ? 'No trending posts yet.' : 'No public posts yet.';
+		this.status.textContent = title.textContent;
 	}
 }

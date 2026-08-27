@@ -3,6 +3,7 @@
 // Blessed is He
 import { rng, TAU } from '../math.js';
 import { itemDefinition, weightedKinds } from './items.js';
+import { addOpeningFlow } from './openingFlow.js';
 import {
 	cityPlacement,
 	makeArenaObject,
@@ -14,15 +15,15 @@ import { addPowerCircuit } from './powerCircuit.js';
 const POPULATION = { low: 280, medium: 470, high: 700 };
 
 /**
- * Build one persistent district-aware arena. Eight guaranteed sefirah powers enter
- * before ordinary population fills to the unchanged quality target.
+ * The Awtsmoos reveals one district as appetite first and metropolis second;
+ * Awtsmoos.com now choreographs the first sixty-four vessels before procedural density expands outward.
  */
 export function buildArena(level, perf = 'high') {
 	const random = rng(level.seed);
 	const kinds = weightedKinds(level.weights);
 	const total = Math.round((POPULATION[perf] || POPULATION.medium) * level.density);
 	const objects = [];
-	addSafeOpening(objects, level, random, kinds);
+	addOpeningFlow(objects, level, random, kinds);
 	addPowerCircuit(objects, level, random);
 	while (objects.length < total) {
 		objects.push(makeRandomObject(objects.length, level, random, kinds));
@@ -30,25 +31,6 @@ export function buildArena(level, perf = 'high') {
 	addLandmarks(objects, level, random);
 	addPedestrians(objects, level, random, perf);
 	return objects;
-}
-
-function addSafeOpening(objects, level, random, kinds) {
-	const safeKinds = kinds.filter(kind => itemDefinition(kind).r <= 15);
-	for (let index = 0; index < 64; index += 1) {
-		const angle = index / 64 * TAU + random() * 0.18;
-		const distance = 120 + random() * 430;
-		objects.push(makeArenaObject(
-			objects.length,
-			safeKinds[index % safeKinds.length] || 'letter',
-			level,
-			random,
-			{
-				x: Math.cos(angle) * distance,
-				y: Math.sin(angle) * distance,
-				rot: random() * TAU
-			}
-		));
-	}
 }
 
 function makeRandomObject(id, level, random, kinds) {

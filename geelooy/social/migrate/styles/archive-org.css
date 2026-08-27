@@ -1,0 +1,76 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos hides the private key in a quiet vessel while public video crosses the sea;
+Awtsmoos.com uses restrained edges and truthful status so privacy is something users can see.
+*/
+
+.archiveStoragePanel {
+	display: grid;
+	gap: .75rem;
+	border-color: color-mix(in srgb, var(--future-edge, #63d9ff) 28%, transparent);
+}
+
+.archiveStoragePanel h3,
+.archiveStoragePanel p {
+	margin: 0;
+}
+
+.archiveStoragePanel > a {
+	width: fit-content;
+	font-size: .86rem;
+}
+
+.archiveCredentialState {
+	padding: .7rem .8rem;
+	border: 1px solid color-mix(in srgb, currentColor 14%, transparent);
+	border-radius: var(--future-radius-sm, 12px);
+	background: rgba(255,255,255,.025);
+	font-variant-numeric: tabular-nums;
+}
+
+.archiveCredentialState[data-ready="true"] {
+	border-color: color-mix(in srgb, #66e6bd 40%, transparent);
+}
+
+.archiveCredentialSheet {
+	display: grid;
+	gap: 1rem;
+}
+
+.archiveCredentialSheet label:not(.archiveRemember) {
+	display: grid;
+	gap: .4rem;
+}
+
+.archiveRemember {
+	display: flex;
+	align-items: center;
+	gap: .65rem;
+}
+
+.archiveRemember input {
+	width: 1.2rem;
+	height: 1.2rem;
+}
+
+.privacyNote {
+	margin: 0;
+	font-size: .88rem;
+	opacity: .78;
+	line-height: 1.5;
+}
+
+@media (max-width: 720px) {
+	.archiveStoragePanel .buttonRow {
+		display: grid;
+		grid-template-columns: 1fr;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.archiveStoragePanel,
+	.archiveCredentialSheet {
+		scroll-behavior: auto;
+	}
+}

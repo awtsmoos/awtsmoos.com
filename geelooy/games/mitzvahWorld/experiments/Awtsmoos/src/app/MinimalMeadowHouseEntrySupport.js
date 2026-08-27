@@ -4,71 +4,24 @@
 
 /**
  * @file MinimalMeadowHouseEntrySupport.js
- * @description Coordinates terrain planning, visible stair manifestation, and gameplay height support.
- * The Awtsmoos joins survey, stone, and walkable covenant without confusing their role;
- * Awtsmoos.com lets Tiferes bind three focused vessels into one doorway from hillside to home and soul.
+ * @description Keeps the game-facing entry coordinator while canonical Domem architecture owns planning, definitions, and support evidence.
+ * The Awtsmoos, Atzmus beyond many focused vessels, renews their union without multiplying the algorithm beneath the door;
+ * Awtsmoos.com lets this Tiferes-like compatibility name point to one reusable entry authority shared by every future shore.
  */
 
-import {
-	createMinimalMeadowHouseEntryHeightSupport
-} from './MinimalMeadowHouseEntryHeightSupport.js';
-import {
-	createMinimalMeadowHouseEntryTerrainPlan
-} from './MinimalMeadowHouseEntryTerrainPlan.js';
-import {
-	createMinimalMeadowHouseEntryTreads
-} from './MinimalMeadowHouseEntryTreads.js';
+import { createBuildingEntrySupport } from '../../../../../../libs/awtsmoos-procedural-core/src/core/domem/architecture/index.js';
 
-/**
- * Creates a complete terrain-adaptive house entry.
- * @param {object} profile House profile.
- * @param {object} material Foundation material.
- * @param {number} groundY Raised foundation datum.
- * @param {Function} heightAt Canonical terrain-height sampler.
- * @returns {object} Stair definitions, evidence, and gameplay support adapter.
- */
+/** Delegates the complete historical terrain-adaptive entry assembly to Domem architecture. */
 export function createMinimalMeadowHouseEntrySupport(
 	profile,
 	material,
 	groundY,
 	heightAt
 ) {
-	const threshold = groundY + profile.floorThickness;
-	const plan = createMinimalMeadowHouseEntryTerrainPlan(
+	return createBuildingEntrySupport(
 		profile,
-		heightAt,
-		threshold
+		material,
+		groundY,
+		heightAt
 	);
-	return {
-		definitions: createMinimalMeadowHouseEntryTreads(
-			profile,
-			material,
-			plan.treads,
-			plan.treadLength
-		),
-		evidence: entryEvidence(plan.treads, threshold, plan.resolved),
-		support: createMinimalMeadowHouseEntryHeightSupport(
-			profile,
-			threshold,
-			plan.treads,
-			plan.resolved,
-			plan.treadLength
-		)
-	};
-}
-
-function entryEvidence(treads, threshold, resolved) {
-	const tops = treads.map(record => record.top);
-	const rises = tops.map((top, index) => {
-		const previous = tops[index - 1] ?? resolved.outsideY;
-		return top - previous;
-	});
-	const clearances = treads.map(record => record.top - record.terrainY);
-	return Object.freeze({
-		maximumRise: Math.max(0, ...rises),
-		minimumTerrainClearance: Math.min(...clearances),
-		rise: Math.max(0, threshold - resolved.outsideY),
-		run: resolved.run,
-		steps: resolved.steps
-	});
 }

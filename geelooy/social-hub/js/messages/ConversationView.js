@@ -1,113 +1,104 @@
 //B"H
 //Boruch Hashem
 //Blessed is He
+
+import { ConversationComposer } from './ConversationComposer.js';
+import { canLoadOlder } from './ConversationHistory.js';
+import { conversationMessageCard } from './ConversationMessageCard.js';
+import { ConversationMessageNavigator } from './ConversationMessageNavigator.js';
+import { ConversationRoomShell } from './ConversationRoomShell.js';
+import { ConversationSwipeReply } from './ConversationSwipeReply.js';
+
 /**
  * @class ConversationView
  * @description
- * The Awtsmoos lets one accepted private room fill the mobile chamber while revealing only message fields the canonical store actually promises;
- * Awtsmoos.com keeps sequence, text, bounded older-history controls, and deliberate Back navigation visible without inventing sender, time, or media metadata.
+ * The Awtsmoos renews speaker, quote, audible breath, written word, and scroll position before one private room can appear;
+ * Awtsmoos.com lets this Tiferes-like view render canonical message truth while room-shell construction, transport, and reply state remain in focused neighboring vessels of light.
  */
-import { ConversationComposer } from './ConversationComposer.js';
-import { canLoadOlder, messageKey } from './ConversationHistory.js';
-
 export class ConversationView {
 	constructor(root) {
 		this.root = root;
 	}
 
+	/** Composes the room shell, rich composer, quote navigator, and swipe enhancement once. */
 	initialize(container, handlers) {
 		this.handlers = handlers;
-		this.surface = this.root.createElement('section');
-		this.surface.className = 'hubConversationSurface';
-		this.surface.hidden = true;
-		this.surface.append(this.header(), this.controls(), this.messageRegion());
-		this.composer = new ConversationComposer(this.root, handlers.onSend);
-		this.surface.append(this.composer.create());
-		container.append(this.surface);
+		this.shell = new ConversationRoomShell(this.root, handlers);
+		this.composer = new ConversationComposer(this.root, {
+			onSend: handlers.onSend,
+			onSendVoice: handlers.onSendVoice,
+			actorAlias: handlers.actorAlias
+		});
+		this.shell.surface.append(this.composer.create());
+		this.navigator = new ConversationMessageNavigator(this.shell.list);
+		this.swipe = new ConversationSwipeReply(message => {
+			this.composer.selectReply(message);
+		});
+		container.append(this.shell.surface);
 	}
 
+	/** Reveals human room identity and canonical messages without exposing internal room ids. */
 	show(conversation, messages) {
-		this.surface.hidden = false;
-		this.title.textContent = conversation?.title
-			|| conversation?.memberAliases?.join(', ')
-			|| 'Private conversation';
-		this.meta.textContent = [
-			conversation?.kind || 'private',
-			conversation?.memberAliases?.join(' · ') || ''
-		].filter(Boolean).join(' · ');
-		this.older.hidden = !canLoadOlder(messages);
+		this.shell.surface.hidden = false;
+		this.shell.identity(conversation);
+		this.shell.showOlder(canLoadOlder(messages));
 		this.renderMessages(messages);
 	}
 
+	/** Hides the room and releases room-scoped composer and gesture state. */
 	hide() {
-		this.surface.hidden = true;
+		this.composer?.reset();
+		this.swipe?.clear();
+		this.shell.surface.hidden = true;
 	}
 
+	/** Replaces the message region with one truthful status sentence. */
 	message(text) {
-		this.list.replaceChildren(this.text('p', text, 'hubConversationStatus'));
+		this.swipe?.clear();
+		const status = this.root.createElement('p');
+		status.className = 'hubConversationStatus';
+		status.textContent = text;
+		this.shell.list.replaceChildren(status);
 	}
 
+	/** Renders canonical cards while preserving reader position for prepended history. */
 	renderMessages(messages = []) {
 		if (!messages.length) {
 			this.message('No private messages are loaded in this room yet.');
 			return;
 		}
-		const nodes = messages.map((message, index) => this.messageCard(message, index));
-		this.list.replaceChildren(...nodes);
-		requestAnimationFrame(() => {
-			this.list.scrollTop = this.list.scrollHeight;
+		const beforeHeight = this.shell.list.scrollHeight;
+		const beforeTop = this.shell.list.scrollTop;
+		const bottomGap = beforeHeight - beforeTop - this.shell.list.clientHeight;
+		const stickToBottom = !this.shell.list.children.length || bottomGap < 72;
+		this.swipe.clear();
+		const actorAlias = this.handlers.actorAlias?.() || '';
+		const cards = messages.map((message, index) => {
+			const card = conversationMessageCard(
+				this.root,
+				message,
+				actorAlias,
+				index,
+				source => this.composer.selectReply(source)
+			);
+			this.swipe.install(card, message);
+			return card;
 		});
+		this.shell.list.replaceChildren(...cards);
+		requestAnimationFrame(() => this.restoreScroll({
+			beforeHeight,
+			beforeTop,
+			stickToBottom
+		}));
 	}
 
-	header() {
-		const header = this.root.createElement('header');
-		header.className = 'hubConversationHeader';
-		const back = this.root.createElement('button');
-		back.type = 'button';
-		back.className = 'hubConversationBack';
-		back.textContent = '← Messages';
-		back.addEventListener('click', () => this.handlers.onBack());
-		const identity = this.root.createElement('div');
-		this.title = this.text('h3', 'Private conversation');
-		this.meta = this.text('p', '', 'hubConversationMeta');
-		identity.append(this.title, this.meta);
-		header.append(back, identity);
-		return header;
-	}
-
-	controls() {
-		const controls = this.root.createElement('div');
-		controls.className = 'hubConversationControls';
-		this.older = this.root.createElement('button');
-		this.older.type = 'button';
-		this.older.textContent = 'Load older messages';
-		this.older.addEventListener('click', () => this.handlers.onOlder());
-		controls.append(this.older);
-		return controls;
-	}
-
-	messageRegion() {
-		this.list = this.root.createElement('div');
-		this.list.className = 'hubConversationMessages';
-		this.list.setAttribute('aria-live', 'polite');
-		return this.list;
-	}
-
-	messageCard(message, index) {
-		const card = this.root.createElement('article');
-		card.className = 'hubConversationMessage';
-		card.dataset.messageId = messageKey(message, index);
-		card.append(
-			this.text('p', String(message?.text || '')),
-			this.text('small', `Sequence ${Number(message?.sequence || 0)}`)
-		);
-		return card;
-	}
-
-	text(tag, value, className = '') {
-		const node = this.root.createElement(tag);
-		node.textContent = value;
-		if (className) node.className = className;
-		return node;
+	/** Restores either newest-message stickiness or the reader's pre-prepend viewport. */
+	restoreScroll({ beforeHeight, beforeTop, stickToBottom }) {
+		if (stickToBottom) {
+			this.shell.list.scrollTop = this.shell.list.scrollHeight;
+			return;
+		}
+		this.shell.list.scrollTop = beforeTop
+			+ (this.shell.list.scrollHeight - beforeHeight);
 	}
 }

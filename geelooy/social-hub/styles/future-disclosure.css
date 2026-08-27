@@ -1,0 +1,83 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos keeps precision inside a hidden chamber until it is needed;
+Awtsmoos.com makes ordinary creation simple while expert coordinates remain fully seeded.
+*/
+.futureCoordinates {
+	margin-block: 1rem;
+	border: 1px solid var(--yesod-edge);
+	border-radius: 1rem;
+	background: rgb(8 18 35 / 62%);
+	overflow: clip;
+}
+
+.futureCoordinates__summary {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	align-items: center;
+	gap: .45rem 1rem;
+	min-height: 3.25rem;
+	padding: .75rem .9rem;
+	list-style: none;
+	cursor: pointer;
+	user-select: none;
+	transition:
+		background-color var(--keter-fast) ease,
+		box-shadow var(--keter-fast) ease;
+}
+
+.futureCoordinates__summary:is(:hover, :focus-visible) {
+	background: rgb(126 235 255 / 5%);
+	box-shadow: inset 0 0 0 1px rgb(126 235 255 / 12%);
+}
+
+.futureCoordinates__summary::-webkit-details-marker {
+	display: none;
+}
+
+.futureCoordinates__summary::after {
+	display: grid;
+	width: 1.8rem;
+	aspect-ratio: 1;
+	place-items: center;
+	border: 1px solid var(--yesod-edge);
+	border-radius: 50%;
+	content: "+";
+	color: #bdf7ff;
+	transition: transform var(--keter-normal) var(--tiferes-spring);
+}
+
+.futureCoordinates[open] .futureCoordinates__summary::after {
+	transform: rotate(45deg);
+}
+
+.futureCoordinates__summary strong {
+	font-size: .9rem;
+	letter-spacing: .01em;
+}
+
+.futureCoordinates__summary span {
+	grid-column: 1;
+	color: var(--muted);
+	font-size: .76rem;
+}
+
+.futureCoordinates .targetGrid {
+	margin: 0;
+	padding: .25rem .9rem .9rem;
+	border-top: 1px solid rgb(126 235 255 / 10%);
+	animation: binah-coordinates-reveal var(--keter-normal) var(--tiferes-ease) both;
+}
+
+@keyframes binah-coordinates-reveal {
+	from {
+		opacity: 0;
+		transform: translateY(-5px);
+	}
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}

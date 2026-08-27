@@ -3,51 +3,102 @@
 // Blessed is He
 
 /**
- * @module NleCinematicSceneData
- * @description
- * Sky, ground, paths, houses, trees, lamps, and the moving character become one
- * ordered frame consumed identically by WebGL and fallback renderers.
+ * @file NleCinematicSceneData.js
+ * @description Coordinates camera, atmosphere, legacy village geometry, and generic simple-world primitives into one renderer-neutral frame.
+ * RESPONSIBILITY: resolve shared visual state, build background triangles, delegate legacy geometry, append generic objects, and expose projection evidence.
+ * NON-RESPONSIBILITY: this coordinator does not own village object algorithms, primitive topology, particle simulation, or project mutation.
+ * The Awtsmoos is beyond old village and new empty stage; Awtsmoos.com joins both through one small frame so simple creation may grow while inherited cinematic truth remains the same.
  */
 
+import { resolveCinematicCamera } from './NleCinematicCameraResolver.js';
+import { appendCinematicLegacyWorld } from './NleCinematicLegacyWorld.js';
+import { addCinematicPrimitiveGeometry } from './NleCinematicPrimitiveGeometry.js';
 import {
-	addCharacterGeometry,
-	addHouseGeometry,
-	addLampGeometry,
-	addPathGeometry,
-	addTreeGeometry
-} from './NleCinematicObjectGeometry.js';
-import {
-	characterAt,
 	createVillageProjection,
 	rectangle
 } from './NleCinematicProjection.js';
+import { resolveCinematicWorldAtmosphere } from './NleCinematicWorldAtmosphere.js';
 import {
 	colorValue,
 	expose,
 	resolveCinematicPalette
 } from './NleWebGlPalette.js';
 
-export function createCinematicSceneFrame(project, asset, time, duration, width, height) {
+/** Creates one complete triangle frame from legacy and generic world records. */
+export function createCinematicSceneFrame(
+	project,
+	asset,
+	time,
+	duration,
+	width,
+	height
+) {
 	const resolved = resolveCinematicPalette(project);
-	const palette = Object.fromEntries(Object.entries(resolved.materials).map(([id, color]) => [id, expose(colorValue(color), resolved.atmosphere.exposure)]));
-	const projectPoint = createVillageProjection(width, height, time, duration);
-	const triangles = [
-		...rectangle(0, 0, width, height * .62, colorValue(resolved.atmosphere.skyTop)),
-		...rectangle(0, height * .42, width, height * .3, colorValue(resolved.atmosphere.skyBottom)),
-		...rectangle(0, height * .61, width, height * .39, colorValue('#263528'))
+	const palette = exposedPalette(resolved);
+	const camera = resolveCinematicCamera(project, time, duration);
+	const projectPoint = createVillageProjection(
+		width,
+		height,
+		time,
+		duration,
+		camera
+	);
+	const worldColors = resolveCinematicWorldAtmosphere(asset, resolved);
+	const triangles = createBackground(width, height, worldColors);
+	appendCinematicLegacyWorld(
+		triangles,
+		asset.world || {},
+		projectPoint,
+		palette,
+		resolved,
+		time,
+		duration
+	);
+	appendGenericWorld(
+		triangles,
+		asset.world?.objects || [],
+		projectPoint
+	);
+	return {
+		atmosphere: resolved.atmosphere,
+		camera,
+		palette,
+		projectPoint,
+		triangles,
+		worldColors
+	};
+}
+
+function exposedPalette(resolved) {
+	return Object.fromEntries(
+		Object.entries(resolved.materials).map(([id, color]) => [
+			id,
+			expose(
+				colorValue(color),
+				resolved.atmosphere.exposure
+			)
+		])
+	);
+}
+
+function createBackground(width, height, colors) {
+	return [
+		...rectangle(0, 0, width, height * 0.62, colors.skyTop),
+		...rectangle(0, height * 0.42, width, height * 0.3, colors.skyBottom),
+		...rectangle(0, height * 0.61, width, height * 0.39, colors.ground)
 	];
-	for (const path of asset.world.paths || []) addPathGeometry(triangles, path, projectPoint, palette[path.material]);
-	const objects = [
-		...(asset.world.houses || []).map(value => ({ kind: 'house', value, z: value.z })),
-		...(asset.world.trees || []).map(value => ({ kind: 'tree', value, z: value.z })),
-		...(asset.world.lamps || []).map(value => ({ kind: 'lamp', value, z: value.z }))
-	].sort((first, second) => first.z - second.z);
-	for (const object of objects) {
-		if (object.kind === 'house') addHouseGeometry(triangles, object.value, projectPoint, palette);
-		if (object.kind === 'tree') addTreeGeometry(triangles, object.value, projectPoint, palette, resolved.atmosphere.wind, time);
-		if (object.kind === 'lamp') addLampGeometry(triangles, object.value, projectPoint, palette);
+}
+
+function appendGenericWorld(target, objects, projectPoint) {
+	const ordered = [...objects].sort((left, right) => {
+		return Number(left.position?.[2] || 0)
+			- Number(right.position?.[2] || 0);
+	});
+	for (const object of ordered) {
+		addCinematicPrimitiveGeometry(
+			target,
+			object,
+			projectPoint
+		);
 	}
-	const position = characterAt(asset.world.character?.path, time / Math.max(.001, duration));
-	addCharacterGeometry(triangles, position, projectPoint, palette);
-	return { atmosphere: resolved.atmosphere, palette, projectPoint, triangles };
 }

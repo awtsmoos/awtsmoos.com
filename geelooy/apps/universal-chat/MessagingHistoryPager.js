@@ -5,12 +5,13 @@
 import { HISTORY_PAGE_SIZE } from "./MessagingConversationActions.js";
 
 /**
- * @file Loads older accepted private history without duplicating cards or throwing the reader to another scroll position.
+ * @file Loads older accepted private history while preserving viewport anchors and supporting bounded reply-target travel.
  * @description The Awtsmoos holds past and present in one instant, while Awtsmoos.com reveals older private pages only by deliberate request in light;
- * this pager remembers the visible anchor before history expands, so chronology grows upward without making the current words flee from sight.
+ * chronology grows upward without throwing the current words away, and a quoted reply may seek its sequence through bounded ordinary pages rather than one unmeasured history flood in sight.
  */
 
-/** Owns only the older-history button, page boundary, and viewport anchor around the existing HISTORY protocol. */
+const REPLY_PAGE_LIMIT = 24;
+
 export class MessagingHistoryPager {
 	constructor(elements, store, actions) {
 		this.elements = elements;
@@ -36,16 +37,17 @@ export class MessagingHistoryPager {
 		this.elements.loadOlder.disabled = false;
 	}
 
+	/** Prepends one ordinary history page and returns the rows actually loaded. */
 	async load() {
-		const messages = this.store.messages.get(this.current) || [];
+		const messages = this.current
+			? this.store.messages.get(this.current) || []
+			: [];
 		const beforeSequence = earliestSequence(messages);
 		if (!this.current || beforeSequence <= 1) {
-			return this.updateAvailability(messages, true);
+			this.updateAvailability(messages, true);
+			return [];
 		}
-		this.anchor = {
-			height: this.elements.thread.scrollHeight,
-			top: this.elements.thread.scrollTop
-		};
+		this.rememberAnchor();
 		this.elements.loadOlder.disabled = true;
 		const older = await this.actions.loadOlderHistory(
 			this.current,
@@ -55,9 +57,26 @@ export class MessagingHistoryPager {
 			this.store.messages.get(this.current) || [],
 			older.length < HISTORY_PAGE_SIZE
 		);
+		return older;
 	}
 
-	/** Hands the pending pre-prepend viewport anchor to the renderer exactly once. */
+	/** Loads only enough normal pages for a quoted target sequence to enter the local store. */
+	async loadUntil(targetSequence, maxPages = REPLY_PAGE_LIMIT) {
+		const target = Number(targetSequence || 0);
+		if (!this.current || !Number.isSafeInteger(target) || target < 1) return false;
+		for (let page = 0; page < maxPages; page += 1) {
+			const messages = this.store.messages.get(this.current) || [];
+			if (containsSequence(messages, target)) return true;
+			if (earliestSequence(messages) <= target) return false;
+			const older = await this.load();
+			if (!older.length) break;
+		}
+		return containsSequence(
+			this.store.messages.get(this.current) || [],
+			target
+		);
+	}
+
 	takeAnchor() {
 		const anchor = this.anchor;
 		this.anchor = null;
@@ -67,6 +86,13 @@ export class MessagingHistoryPager {
 	recoverFromFailure() {
 		this.anchor = null;
 		this.elements.loadOlder.disabled = false;
+	}
+
+	rememberAnchor() {
+		this.anchor = {
+			height: this.elements.thread.scrollHeight,
+			top: this.elements.thread.scrollTop
+		};
 	}
 
 	updateAvailability(messages, exhausted = false) {
@@ -81,4 +107,8 @@ function earliestSequence(messages) {
 		.map((message) => Number(message?.sequence || 0))
 		.filter((sequence) => sequence > 0);
 	return sequences.length ? Math.min(...sequences) : 0;
+}
+
+function containsSequence(messages, target) {
+	return messages.some((message) => Number(message?.sequence || 0) === target);
 }

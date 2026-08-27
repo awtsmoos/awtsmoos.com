@@ -1,0 +1,71 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets every Forms surface arrive with measured motion, never noise, never strain.
+Awtsmoos.com keeps animation brief and reversible so clarity remains when motion fades again.
+*/
+:root {
+	--motion-fast: 120ms;
+	--motion-base: 170ms;
+	--motion-panel: 240ms;
+	--ease-direct: cubic-bezier(.2,.7,.2,1);
+	--ease-spring: cubic-bezier(.16,1,.3,1);
+}
+
+.motion-enter {
+	animation: revealSurface var(--motion-panel) var(--ease-spring) both;
+}
+
+.primary-button,
+.ghost-button,
+.link-button,
+.form-field-card,
+.public-field-card,
+.form-panel {
+	transition:
+		transform var(--motion-base) var(--ease-direct),
+		border-color var(--motion-base) var(--ease-direct),
+		background var(--motion-base) var(--ease-direct),
+		box-shadow var(--motion-base) var(--ease-direct);
+}
+
+.primary-button:active,
+.ghost-button:active,
+.link-button:active {
+	transform: translateY(1px) scale(.99);
+}
+
+.form-field-card:hover,
+.public-field-card:hover,
+.form-panel:hover {
+	border-color: rgb(139 156 255 / 30%);
+}
+
+@keyframes revealSurface {
+	from {
+		opacity: 0;
+		transform: translateY(8px) scale(.995);
+	}
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+@keyframes ambientDrift {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	:root {
+		--motion-fast: 1ms;
+		--motion-base: 1ms;
+		--motion-panel: 1ms;
+	}
+
+	.forms-ambient {
+		animation: none;
+	}
+}

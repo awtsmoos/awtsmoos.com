@@ -23,32 +23,32 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-notifications-0435d468.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 9,
-		"tests": 1,
+		"source": 31,
+		"tests": 2,
 		"assets": 0,
 		"generated": 0,
 		"docs": 1,
 		"other": 0
 	},
-	"totalFiles": 11,
+	"totalFiles": 34,
 	"symbolSummary": {
-		"files": 8,
+		"files": 15,
 		"classes": 0,
-		"functions": 32,
-		"exports": 14,
+		"functions": 53,
+		"exports": 27,
 		"samples": [
-			"async",
-			"markNotificationRead",
-			"markAllNotificationsRead",
-			"notificationApi",
-			"getDefaultAliasId",
-			"getNotifications",
-			"bootNotifications",
-			"bindNotificationEvents",
-			"loadPage",
-			"handleMarkOne",
-			"handleMarkAll",
-			"finishLoading"
+			"createNotificationActions",
+			"markButton",
+			"safeActionLink",
+			"actionLabel",
+			"revealBinahNotificationContext",
+			"humanize",
+			"groupLabel",
+			"contextChips",
+			"entityKey",
+			"shorten",
+			"clean",
+			"findOrCreateNotificationGroup"
 		]
 	},
 	"outgoingDependencies": [],
@@ -59,8 +59,8 @@
 			"url": "/notifications",
 			"file": "geelooy/notifications/index.html",
 			"title": "Signals — Geelooy",
-			"scripts": 2,
-			"styles": 2
+			"scripts": 3,
+			"styles": 3
 		}
 	],
 	"requiresLocalDocumentation": true,

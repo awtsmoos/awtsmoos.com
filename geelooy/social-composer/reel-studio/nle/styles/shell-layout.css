@@ -2,115 +2,62 @@
  * Boruch Hashem
  * Blessed is He
  *
- * The Awtsmoos gives canvas, tools, inspector, and timeline measured authority;
- * the topbar becomes a quiet threshold instead of the loudest surface.
+ * The Awtsmoos gives the moving image first place while Awtsmoos.com lets tools orbit as requested; this layout reserves no permanent columns or timeline tax.
  */
 
 .nle-studio {
+	position: fixed;
+	inset: 0;
 	display: grid;
-	grid-template-rows: auto minmax(17rem, 1fr) minmax(16rem, 38vh) auto;
-	inline-size: 100%;
-	block-size: 100dvh;
-	min-block-size: 38rem;
-	background: var(--nle-bg);
+	grid-template-rows: auto minmax(0, 1fr) auto;
+	min-inline-size: 0;
+	min-block-size: 0;
+	background: var(--nle-surface-0);
 	color: var(--nle-text);
 	overflow: hidden;
 }
 
-.nle-topbar {
-	display: grid;
-	grid-template-columns: minmax(12rem, auto) minmax(12rem, 1fr) auto;
-	align-items: center;
-	gap: var(--nle-space-3);
-	min-block-size: 4rem;
-	padding: .55rem .75rem;
-	border-block-end: 1px solid var(--nle-border);
-	background: linear-gradient(180deg, #111720, var(--nle-surface-1));
-	box-shadow: 0 .4rem 1.3rem rgba(0, 0, 0, .18);
-}
-
-.nle-brand {
-	display: flex;
-	align-items: center;
-	gap: .65rem;
-	min-inline-size: 0;
-}
-
-.nle-brand > span {
-	display: grid;
-	flex: 0 0 auto;
-	inline-size: 2.55rem;
-	block-size: 2.55rem;
-	place-items: center;
-	border: 1px solid rgba(229, 184, 255, .24);
-	border-radius: var(--nle-radius-md);
-	background: linear-gradient(145deg, #6f3998, var(--nle-violet));
-	box-shadow: 0 .45rem 1rem rgba(110, 55, 153, .28);
-	font-size: 1.05rem;
-}
-
-.nle-brand div,
-.nle-title-field {
-	display: grid;
-	min-inline-size: 0;
-	gap: .08rem;
-}
-
-.nle-brand small,
-.nle-title-field span,
-.nle-panel-heading small {
-	color: var(--nle-violet);
-	font-size: .61rem;
-	font-weight: 850;
-	letter-spacing: .09em;
-	text-transform: uppercase;
-}
-
-.nle-brand strong {
-	overflow: hidden;
-	font-size: .88rem;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-}
-
 .nle-workspace {
+	position: relative;
 	display: grid;
-	grid-template-columns: minmax(15rem, 18.5rem) minmax(22rem, 1fr) minmax(16rem, 19.5rem);
+	min-inline-size: 0;
 	min-block-size: 0;
 	overflow: hidden;
 }
 
-.nle-panel {
+.nle-preview-panel {
+	position: relative;
+	display: grid;
+	grid-template-rows: minmax(0, 1fr) auto;
 	min-inline-size: 0;
-	overflow-y: auto;
-	background: var(--nle-surface-1);
+	min-block-size: 0;
+	border: 0;
+	background: radial-gradient(circle at 50% 20%, rgba(89, 189, 210, .05), transparent 42%), var(--nle-surface-0);
+	overflow: hidden;
 }
 
-.nle-assets-panel {
-	border-inline-end: 1px solid var(--nle-border);
-	background: linear-gradient(90deg, var(--nle-surface-1), #10161f);
+.nle-timeline-reveal {
+	position: absolute;
+	z-index: 8;
+	inset-inline-end: .8rem;
+	inset-block-end: 4.4rem;
+	min-block-size: 2.15rem;
+	padding-inline: .8rem;
+	border: 1px solid var(--nle-border);
+	border-radius: 999px;
+	background: rgba(10, 15, 22, .82);
+	color: var(--nle-text-soft);
+	backdrop-filter: blur(14px);
+	box-shadow: 0 .55rem 1.6rem rgba(0, 0, 0, .28);
+	font: inherit;
+	font-size: .67rem;
+	font-weight: 800;
+	cursor: pointer;
 }
 
-.nle-inspector-panel {
-	border-inline-start: 1px solid var(--nle-border);
-	background: linear-gradient(270deg, var(--nle-surface-1), #10161f);
-}
-
-.nle-panel-heading {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	gap: var(--nle-space-2);
-	margin-block-end: .8rem;
-}
-
-.nle-panel-heading h2 {
-	margin: .08rem 0 0;
-	color: var(--nle-text);
-	font-size: 1rem;
-	letter-spacing: -.015em;
-}
-
-.nle-mobile-tabs {
-	display: none;
+.nle-timeline-reveal:hover,
+.nle-timeline-reveal[aria-expanded="true"] {
+	border-color: rgba(89, 189, 210, .45);
+	background: rgba(20, 39, 49, .92);
+	color: #dffaff;
 }

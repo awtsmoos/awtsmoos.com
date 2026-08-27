@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-social-migrate-documentation-md-893a3cc013",
+	"title": "Social Migration Studio",
+	"sourcePath": "geelooy/social/migrate/DOCUMENTATION.md",
+	"category": "General",
+	"provenance": "breadcrumb",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Social Migration Studio",
+			"anchor": "social-migration-studio"
+		},
+		{
+			"level": 2,
+			"text": "Purpose",
+			"anchor": "purpose"
+		},
+		{
+			"level": 2,
+			"text": "Facebook and Instagram exports",
+			"anchor": "facebook-and-instagram-exports"
+		},
+		{
+			"level": 2,
+			"text": "YouTube exports",
+			"anchor": "youtube-exports"
+		},
+		{
+			"level": 2,
+			"text": "Local-first archive safety",
+			"anchor": "local-first-archive-safety"
+		},
+		{
+			"level": 2,
+			"text": "Review and import flow",
+			"anchor": "review-and-import-flow"
+		},
+		{
+			"level": 2,
+			"text": "API and provenance truth",
+			"anchor": "api-and-provenance-truth"
+		},
+		{
+			"level": 2,
+			"text": "Recovery",
+			"anchor": "recovery"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-social-migrate-documentation-md-893a3cc013-001.json"
+	]
+}

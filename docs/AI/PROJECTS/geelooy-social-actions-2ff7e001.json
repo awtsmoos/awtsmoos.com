@@ -11,30 +11,34 @@
 	},
 	"title": "geelooy/social-actions",
 	"entries": [
+		"DOCUMENTATION.md",
 		"README.md",
 		"readme.md"
 	],
 	"humanDocumentation": [
+		"geelooy/social-actions/DOCUMENTATION.md",
 		"docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md"
 	],
 	"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-social-actions-2ff7e001.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 2,
+		"source": 8,
 		"tests": 1,
 		"assets": 0,
 		"generated": 0,
-		"docs": 1,
+		"docs": 2,
 		"other": 0
 	},
-	"totalFiles": 4,
+	"totalFiles": 11,
 	"symbolSummary": {
-		"files": 2,
-		"classes": 0,
-		"functions": 9,
-		"exports": 8,
+		"files": 7,
+		"classes": 1,
+		"functions": 15,
+		"exports": 13,
 		"samples": [
+			"buildOwnedCloneUrl",
+			"put",
 			"createPostReferenceButton",
 			"mountPostReferenceAction",
 			"contextFromDataset",
@@ -43,14 +47,36 @@
 			"validateReferenceContext",
 			"buildPostReferenceUrl",
 			"safeReturnPath",
-			"clean"
+			"clean",
+			"YesodReactionApi"
 		]
 	},
 	"outgoingDependencies": [],
-	"incomingDependencies": [],
+	"incomingDependencies": [
+		{
+			"project": "geelooy/social-hub",
+			"count": 4,
+			"examples": "geelooy/social-hub/js/ui/feed/FeedReaction.js; geelooy/social-hub/js/ui/feed/SocialActionRail.js"
+		},
+		{
+			"project": "geelooy/heichelos",
+			"count": 3,
+			"examples": "geelooy/heichelos/heichel/modules/ui/render/HeichelReactionAction.js; geelooy/heichelos/heichel/modules/ui/render/secondary-social-actions.js; geelooy/heichelos/heichel/modules/ui/render/social-action-urls.js"
+		},
+		{
+			"project": "geelooy/shared",
+			"count": 2,
+			"examples": "geelooy/shared/social/composer/ComposerLaunch.js"
+		},
+		{
+			"project": "geelooy/comment-thread",
+			"count": 1,
+			"examples": "geelooy/comment-thread/modules/CommentReaction.js"
+		}
+	],
 	"externalDependencies": [],
 	"publicEntries": [],
-	"requiresLocalDocumentation": false,
-	"documentationCovered": false,
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
 	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
 }

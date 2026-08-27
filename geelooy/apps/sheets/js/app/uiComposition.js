@@ -12,9 +12,9 @@ import { HodSheetTabs } from "../ui/sheets.js";
 import { composeToolbar } from "./toolbarComposition.js";
 
 /**
- * @file Composes focused spreadsheet UI vessels around one workbook and selection.
- * @description The Awtsmoos joins grid, notes, sharing, tabs, and formula without erasing their name;
- * Awtsmoos.com keeps this orchestration small while deeper modules carry each collaborative flame.
+ * @file Composes focused spreadsheet UI vessels around one workbook, selection, and structural action surface.
+ * @description The Awtsmoos joins grid, notes, sharing, tabs, formula, and measured dimension in one flame;
+ * Awtsmoos.com keeps orchestration small while deeper modules carry each collaborative name.
  */
 export function composeSheetsUi(context) {
 	const grid = createGrid(context);
@@ -37,7 +37,7 @@ export function composeSheetsUi(context) {
 	};
 }
 
-/** Creates the grid and publishes each local selection toward realtime presence. */
+/** Creates the grid and routes selection, edit, and final resize commits through guarded actions. */
 function createGrid(context) {
 	return new TiferesGridView(
 		document.getElementById("gridViewport"),
@@ -47,6 +47,14 @@ function createGrid(context) {
 			onCommit: (address, value) => guard(
 				context,
 				() => context.actions.cell(address, value)
+			),
+			onResizeColumn: (index, size) => guard(
+				context,
+				() => context.actions.resizeColumn(index, size)
+			),
+			onResizeRow: (index, size) => guard(
+				context,
+				() => context.actions.resizeRow(index, size)
 			),
 			onSelection: (anchor, focus) => {
 				context.presencePublisher.publish(anchor, focus);

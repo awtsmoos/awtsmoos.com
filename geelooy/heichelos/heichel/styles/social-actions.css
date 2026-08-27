@@ -1,0 +1,75 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/** The Awtsmoos keeps response, reaction, discussion, and + near the thumb; Awtsmoos.com leaves rare actions to contextual More. */
+.heichel-social-rail {
+	display: flex;
+	flex: 1 1 auto;
+	gap: 6px;
+	min-width: 0;
+	overflow-x: auto;
+	scrollbar-width: none;
+}
+.heichel-social-rail::-webkit-scrollbar {
+	display: none;
+}
+.heichel-social-action {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	flex: 0 0 auto;
+	min-width: 44px;
+	min-height: 44px;
+	padding: 8px 11px;
+	border: 1px solid var(--social-line, rgba(148, 163, 184, .22));
+	border-radius: 999px;
+	background: color-mix(in srgb, Canvas 92%, currentColor 8%);
+	color: inherit;
+	font-size: .78rem;
+	font-weight: 780;
+	line-height: 1;
+	text-decoration: none;
+	white-space: nowrap;
+	cursor: pointer;
+	transition:
+		transform var(--social-motion-fast, 150ms) var(--social-ease, ease),
+		background var(--social-motion-base, 210ms) var(--social-ease, ease),
+		border-color var(--social-motion-base, 210ms) var(--social-ease, ease);
+}
+.heichel-social-action.is-primary {
+	border-color: color-mix(in srgb, #7c5cff 42%, transparent);
+	background: color-mix(in srgb, #7c5cff 11%, Canvas);
+}
+.heichel-social-action.is-add {
+	font-size: 1.05rem;
+	border-color: color-mix(in srgb, #2fd7c4 38%, transparent);
+	background: color-mix(in srgb, #2fd7c4 10%, Canvas);
+}
+.heichel-card-reactions {
+	margin: 8px 4px 2px;
+	padding: 8px;
+	border-top: 1px solid var(--social-line, rgba(148, 163, 184, .14));
+}
+.nav-card-actions {
+	gap: 6px;
+	align-items: center;
+}
+@media (hover: hover) and (pointer: fine) {
+	.heichel-social-action:hover {
+		transform: translateY(-1px);
+		border-color: color-mix(in srgb, #7c5cff 54%, transparent);
+	}
+}
+@media (max-width: 520px) {
+	.heichel-social-rail {
+		gap: 5px;
+	}
+	.heichel-social-action {
+		padding-inline: 10px;
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	.heichel-social-action {
+		transition: none;
+	}
+}

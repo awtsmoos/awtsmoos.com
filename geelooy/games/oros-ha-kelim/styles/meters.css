@@ -1,0 +1,70 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * The Awtsmoos renews Tikkun and Ohr before finite bars can measure their changing trace;
+ * Awtsmoos.com keeps both meters thin, thumb-safe, and low in the visual space.
+ */
+#hud-meters {
+	position: fixed;
+	left: max(12px, env(safe-area-inset-left));
+	bottom: max(12px, env(safe-area-inset-bottom));
+	width: min(270px, calc(100vw - 24px));
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 8px;
+	z-index: 4;
+	pointer-events: none;
+}
+
+.hud-meter {
+	padding: 8px 10px;
+	border: 1px solid var(--line);
+	border-radius: 11px;
+	background: rgba(2, 9, 16, 0.58);
+	backdrop-filter: blur(10px);
+}
+
+.hud-meter span {
+	display: flex;
+	justify-content: space-between;
+	gap: 8px;
+	font-size: 9px;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--muted);
+}
+
+.hud-meter b {
+	color: #effcff;
+	font-variant-numeric: tabular-nums;
+}
+
+.hud-meter i {
+	display: block;
+	height: 3px;
+	margin-top: 6px;
+	overflow: hidden;
+	border-radius: 999px;
+	background: rgba(255, 255, 255, 0.08);
+}
+
+.hud-meter em {
+	display: block;
+	height: 100%;
+	width: 0;
+	border-radius: inherit;
+	background: linear-gradient(90deg, #6fe4ff, #b7f7ff);
+}
+
+.hud-meter.ohr em {
+	background: linear-gradient(90deg, #a997ff, #f4d5ff);
+}
+
+@media (pointer: coarse), (max-width: 760px) {
+	#hud-meters {
+		bottom: max(102px, calc(env(safe-area-inset-bottom) + 94px));
+		width: min(240px, calc(100vw - 100px));
+	}
+}

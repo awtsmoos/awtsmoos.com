@@ -22,19 +22,19 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-shared-cc435059.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 74,
-		"tests": 14,
+		"source": 124,
+		"tests": 28,
 		"assets": 0,
 		"generated": 0,
 		"docs": 1,
 		"other": 1
 	},
-	"totalFiles": 90,
+	"totalFiles": 154,
 	"symbolSummary": {
-		"files": 70,
-		"classes": 11,
-		"functions": 231,
-		"exports": 177,
+		"files": 117,
+		"classes": 23,
+		"functions": 377,
+		"exports": 280,
 		"samples": [
 			"ActivityBeacon",
 			"startActivityBeacon",
@@ -42,12 +42,12 @@
 			"queryAlias",
 			"verifiedAlias",
 			"eventPayload",
-			"SAFE_ACTIONS",
-			"ALL_RUNTIME_ACTIONS",
-			"VIRTUAL_ACTIONS",
-			"isWriteAction",
-			"normalizeActionName",
-			"actionCapability"
+			"recordSearchActivity",
+			"recordPostView",
+			"async",
+			"recordMeaningfulActivity",
+			"postKey",
+			"seenPost"
 		]
 	},
 	"outgoingDependencies": [
@@ -57,6 +57,11 @@
 			"examples": "geelooy/shared/awtsmoos-runtime/actions.js; geelooy/shared/awtsmoos-runtime/agent-core.js"
 		},
 		{
+			"project": "geelooy/social-actions",
+			"count": 2,
+			"examples": "geelooy/shared/social/composer/ComposerLaunch.js"
+		},
+		{
 			"project": "geelooy/apps/android-emulator",
 			"count": 1,
 			"examples": "geelooy/shared/compiling/native/apkIdentity.js"
@@ -64,18 +69,18 @@
 	],
 	"incomingDependencies": [
 		{
+			"project": "geelooy/os",
+			"count": 54,
+			"examples": "geelooy/os/programs/advanced-code-editor/compilerBridge.js; geelooy/os/programs/advanced-code-editor/embedConfiguration.js; geelooy/os/programs/advanced-code-editor/vfsBridge.js"
+		},
+		{
 			"project": "geelooy/scripts",
 			"count": 38,
 			"examples": "geelooy/scripts/awtsmoos/compiling/native/asmImage.js; geelooy/scripts/awtsmoos/compiling/native/asmObjectData.js; geelooy/scripts/awtsmoos/compiling/native/c/frame.js"
 		},
 		{
-			"project": "geelooy/os",
-			"count": 25,
-			"examples": "geelooy/os/programs/advanced-code-editor/compilerBridge.js; geelooy/os/programs/advanced-code-editor/embedConfiguration.js; geelooy/os/programs/advanced-code-editor/vfsBridge.js"
-		},
-		{
 			"project": "geelooy/apps/code",
-			"count": 16,
+			"count": 19,
 			"examples": "geelooy/apps/code/js/actions/commands/compileProjectManifest.js; geelooy/apps/code/js/ai-studio/oracle.js; geelooy/apps/code/js/ai-studio/panel.js"
 		},
 		{
@@ -90,8 +95,28 @@
 		},
 		{
 			"project": "geelooy/heichelos",
-			"count": 7,
-			"examples": "geelooy/heichelos/heichel/modules/legend/cardDepthObserver.js; geelooy/heichelos/heichel/modules/legend/heroScrollDepth.js; geelooy/heichelos/post/logic/legend/centerSectionObserver.js"
+			"count": 8,
+			"examples": "geelooy/heichelos/heichel/modules/legend/cardDepthObserver.js; geelooy/heichelos/heichel/modules/legend/heroScrollDepth.js; geelooy/heichelos/post/functions/ui/context/relatedSearchPanel.js"
+		},
+		{
+			"project": "geelooy/social-hub",
+			"count": 5,
+			"examples": "geelooy/social-hub/js/interactions/CreatorLaunchModel.js; geelooy/social-hub/js/ui/feed/FeedPostModel.js; geelooy/social-hub/js/ui/feed/FeedUniversalActions.js"
+		},
+		{
+			"project": "geelooy/apps/drive",
+			"count": 4,
+			"examples": "geelooy/apps/drive/js/osBridge.js; geelooy/apps/drive/js/projectPlatform.js"
+		},
+		{
+			"project": "geelooy/social-composer",
+			"count": 4,
+			"examples": "geelooy/social-composer/js/creator/CreatorCommandCatalog.js; geelooy/social-composer/js/creator/CreatorCommandPalette.js; geelooy/social-composer/js/creator/CreatorIntentModel.js"
+		},
+		{
+			"project": "geelooy/drive",
+			"count": 3,
+			"examples": "geelooy/drive/core/platformCapabilityBridge.js; geelooy/drive/transport/osWorkspace.js; geelooy/drive/ui/platformJourney.js"
 		},
 		{
 			"project": "geelooy/ai",
@@ -102,21 +127,6 @@
 			"project": "geelooy/apps/tunnel-control",
 			"count": 2,
 			"examples": "geelooy/apps/tunnel-control/js/runtime/mesh/runtimeAdapters.js; geelooy/apps/tunnel-control/js/runtime/mesh/virtualFilesystem.js"
-		},
-		{
-			"project": "geelooy/apps/tunnel",
-			"count": 1,
-			"examples": "geelooy/apps/tunnel/js/browserPageTunnel.js"
-		},
-		{
-			"project": "geelooy/heichel-review",
-			"count": 1,
-			"examples": "geelooy/heichel-review/js/main.js"
-		},
-		{
-			"project": "geelooy/social-composer",
-			"count": 1,
-			"examples": "geelooy/social-composer/js/main.js"
 		}
 	],
 	"externalDependencies": [],

@@ -23,19 +23,19 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-heichel-editor-7b657ffd.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 14,
-		"tests": 1,
+		"source": 16,
+		"tests": 2,
 		"assets": 0,
 		"generated": 0,
 		"docs": 1,
 		"other": 0
 	},
-	"totalFiles": 16,
+	"totalFiles": 19,
 	"symbolSummary": {
-		"files": 13,
+		"files": 15,
 		"classes": 0,
-		"functions": 17,
-		"exports": 12,
+		"functions": 24,
+		"exports": 14,
 		"samples": [
 			"async",
 			"postEditorRequest",
@@ -46,9 +46,9 @@
 			"formShell",
 			"submitForm",
 			"inviteForm",
+			"settingsFields",
 			"settingsForm",
-			"submissionForm",
-			"renderEditor"
+			"advancedSettings"
 		]
 	},
 	"outgoingDependencies": [

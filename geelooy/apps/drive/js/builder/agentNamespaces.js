@@ -5,8 +5,8 @@
 /**
  * @module AgentNamespaces
  * @description
- * The Awtsmoos lets a machine speak in clear project, file, code, preview, publish, domain, and nameserver namespaces.
- * Awtsmoos.com maps every convenience method back to one named bounded action, so language stays clean and authority stays singular.
+ * The Awtsmoos lets a machine speak in project, file, code, preview, publish, domain, and nameserver namespaces;
+ * Awtsmoos.com maps every convenience method back to one bounded action while correlation options travel beside, never inside, the project data vessel.
  */
 
 export function createAgentNamespaces(invoke) {
@@ -23,6 +23,10 @@ export function createAgentNamespaces(invoke) {
 
 function namespace(invoke, prefix, methods) {
 	const value = {};
-	for (const method of methods) value[method] = input => invoke(`${prefix}.${method}`, input);
+	for (const method of methods) {
+		value[method] = (input = {}, options = {}) => {
+			return invoke(`${prefix}.${method}`, input, options);
+		};
+	}
 	return Object.freeze(value);
 }

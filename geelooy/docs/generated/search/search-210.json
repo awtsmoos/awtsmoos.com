@@ -1,307 +1,203 @@
 [
 	{
-		"id": "docs-tutorials-content-moderation-and-governance-md-88cfd3f08e",
-		"title": "Moderation and Governance",
-		"sourcePath": "docs/TUTORIALS/CONTENT/MODERATION_AND_GOVERNANCE.md",
-		"category": "General",
-		"provenance": "manual",
+		"id": "docs-generated-system-tutorials-systems-parallel-awtsmoosdb-md-d9004139a6",
+		"title": "System Tutorial: Parallel AwtsmoosDB Bridge",
+		"sourcePath": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/parallel-awtsmoosdb.md",
+		"category": "Systems",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Moderation and Governance",
-				"anchor": "moderation-and-governance"
+				"text": "System Tutorial: Parallel AwtsmoosDB Bridge",
+				"anchor": "system-tutorial-parallel-awtsmoosdb-bridge"
 			},
 			{
 				"level": 2,
-				"text": "Observed systems",
-				"anchor": "observed-systems"
+				"text": "Claims boundary",
+				"anchor": "claims-boundary"
 			},
 			{
 				"level": 2,
-				"text": "Teaching rule",
-				"anchor": "teaching-rule"
+				"text": "Change risk",
+				"anchor": "change-risk"
 			},
 			{
 				"level": 2,
-				"text": "Authority",
-				"anchor": "authority"
+				"text": "Human manuals",
+				"anchor": "human-manuals"
+			},
+			{
+				"level": 2,
+				"text": "Related project boundaries",
+				"anchor": "related-project-boundaries"
+			},
+			{
+				"level": 2,
+				"text": "Source anchors",
+				"anchor": "source-anchors"
+			},
+			{
+				"level": 2,
+				"text": "Generated evidence",
+				"anchor": "generated-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Environment-name evidence",
+				"anchor": "environment-name-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Realtime application registration evidence",
+				"anchor": "realtime-application-registration-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Lexical event/message evidence",
+				"anchor": "lexical-event-message-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Tags",
+				"anchor": "tags"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Moderation and Governance Social write workflows can move through submission/review/moderation rather than immediate publication. Observed systems Heichel roles/editors/members, invites, submission settings, submitted posts/comments, review approval/rejection, moderation queues/actions/e",
-		"searchText": "b\"h boruch hashem blessed is he moderation and governance social write workflows can move through submission/review/moderation rather than immediate publication. observed systems heichel roles/editors/members, invites, submission settings, submitted posts/comments, review approval/rejection, moderation queues/actions/escalations/reports, and unified social governance/review routes. teaching rule do not treat post as synonymous with “published now.” follow the exact handler to see whether it creates canonical content, a pending submission, review record, moderation event, or another staged artifact. authority review/approval actions need stronger resource authority than ordinary authenticated reads.",
-		"page": "pages/docs-tutorials-content-moderation-and-governance-md-88cfd3f08e.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He System Tutorial: Parallel AwtsmoosDB Bridge District: data · System ID: parallel awtsmoosdb The DosDB side bridge that exposes a parallel AwtsmoosDB path for newer database capabilities. Generated evidence below is a navigation aid. Trust, migration, consistency, protocol, and authorizat",
+		"searchText": "b\"h boruch hashem blessed is he system tutorial: parallel awtsmoosdb bridge district: data · system id: parallel awtsmoosdb the dosdb side bridge that exposes a parallel awtsmoosdb path for newer database capabilities. generated evidence below is a navigation aid. trust, migration, consistency, protocol, and authorization semantics remain grounded in the linked human manuals and current source. claims boundary bridge presence does not mean all legacy dosdb callers use the newer engine. change risk bridge selection/fallback changes can alter which physical storage family receives writes. human manuals docs/data/readme.md docs/data/awtsmoosdb and virtualfs.md related project boundaries ayzarim/dosdb (data) — ayzarim/dosdb source anchors ayzarim/dosdb/awtsmoosdbbridge.js generated evidence none observed for this system packet. environment name evidence name class source refs example sources awtsmoos embed mode runtime config 1 ayzarim/dosdb/aisearch/textembedrunner.js awtsmoos embed model root test/tuning 1 ayzarim/dosdb/awtsmoosbinary/awtsmoosdb/test/ai search model root precedence test.js awtsmoosdb fast test test/tuning 3 ayzarim/dosdb/awtsmoosbinary/awtsmoosdb/core/idle/fastgate.js; ayzarim/dosdb/awtsmoosbinary/awtsmoosdb/test/lightning/env.js; ayzarim/dosdb/awtsmoosbinary/awtsmoosdb/test/semantic ai dosdb test.js awtsmoosdb test scale test/tuning 1 ayzarim/dosdb/awtsmoosbinary/awtsmoosdb/test/lightning/env.js node env runtime config 3 ayzarim/dosdb/awtsmoosbinary/awtsmoosdb/test/lightning/env.js; geelooy/api/wallet/core/paypalenvironment.js; geelooy/api/wallet/tests/paypalenvironment.test.js realtime application registration evidence no versioned application registrations are attached to this packet. lexical event/message evidence none observed for this system packet. tags persistence · awtsmoosdb · bridge",
+		"page": "pages/docs-generated-system-tutorials-systems-parallel-awtsmoosdb-md-d9004139a6.json"
 	},
 	{
-		"id": "docs-tutorials-content-posts-and-series-md-c57a796024",
-		"title": "Posts and Series",
-		"sourcePath": "docs/TUTORIALS/CONTENT/POSTS_AND_SERIES.md",
-		"category": "General",
-		"provenance": "manual",
+		"id": "docs-generated-system-tutorials-systems-persistence-path-contracts-md-2c07309dee",
+		"title": "System Tutorial: Persistence Path Contracts",
+		"sourcePath": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/persistence-path-contracts.md",
+		"category": "Systems",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Posts and Series",
-				"anchor": "posts-and-series"
+				"text": "System Tutorial: Persistence Path Contracts",
+				"anchor": "system-tutorial-persistence-path-contracts"
 			},
 			{
 				"level": 2,
-				"text": "Post flows",
-				"anchor": "post-flows"
+				"text": "Claims boundary",
+				"anchor": "claims-boundary"
 			},
 			{
 				"level": 2,
-				"text": "Series flows",
-				"anchor": "series-flows"
+				"text": "Change risk",
+				"anchor": "change-risk"
 			},
 			{
 				"level": 2,
-				"text": "Canonical evolution",
-				"anchor": "canonical-evolution"
+				"text": "Human manuals",
+				"anchor": "human-manuals"
 			},
 			{
 				"level": 2,
-				"text": "Safe mutation",
-				"anchor": "safe-mutation"
+				"text": "Related project boundaries",
+				"anchor": "related-project-boundaries"
+			},
+			{
+				"level": 2,
+				"text": "Source anchors",
+				"anchor": "source-anchors"
+			},
+			{
+				"level": 2,
+				"text": "Generated evidence",
+				"anchor": "generated-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Environment-name evidence",
+				"anchor": "environment-name-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Realtime application registration evidence",
+				"anchor": "realtime-application-registration-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Lexical event/message evidence",
+				"anchor": "lexical-event-message-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Tags",
+				"anchor": "tags"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Posts and Series Posts are content records; series provide organization and compatibility sensitive hierarchy around them. Post flows Heichel post routes support reading/creation, details, singular post behavior, submitted post queues, approval/denial, sections/subsections/verses, transl",
-		"searchText": "b\"h boruch hashem blessed is he posts and series posts are content records; series provide organization and compatibility sensitive hierarchy around them. post flows heichel post routes support reading/creation, details, singular post behavior, submitted post queues, approval/denial, sections/subsections/verses, translations, rich post views, and comment trees. series flows series support root/subseries trees, details/breadcrumbs, moving subseries, post membership/order changes, filters, translations, alternate groups, and compatibility aliases. canonical evolution new content apis exist beside older series/post paths. generated duplicates can be real compatibility entries, not extractor bugs. safe mutation inspect both parent and target series rules plus ownership/editor authority before moving/deleting content.",
-		"page": "pages/docs-tutorials-content-posts-and-series-md-c57a796024.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He System Tutorial: Persistence Path Contracts District: data · System ID: persistence path contracts Logical path shapes that behave like compatibility contracts across persisted Social and runtime data. Generated evidence below is a navigation aid. Trust, migration, consistency, protocol,",
+		"searchText": "b\"h boruch hashem blessed is he system tutorial: persistence path contracts district: data · system id: persistence path contracts logical path shapes that behave like compatibility contracts across persisted social and runtime data. generated evidence below is a navigation aid. trust, migration, consistency, protocol, and authorization semantics remain grounded in the linked human manuals and current source. claims boundary human path contract documentation supplies interpretation; source paths merely anchor where path rules are implemented. change risk renaming or re rooting persisted paths can silently strand existing data without migration. human manuals docs/data/path contracts.md docs/data/readme.md related project boundaries geelooy/api/social (api) — geelooy/api/social ayzarim/dosdb (data) — ayzarim/dosdb source anchors geelooy/api/social/helper/packed/shardpaths.js ayzarim/awtsmoosdynamicserver/server/initdb.js generated evidence none observed for this system packet. environment name evidence no environment name evidence matched this system's source/project scope. realtime application registration evidence no versioned application registrations are attached to this packet. lexical event/message evidence none observed for this system packet. tags persistence · path · compatibility · migration",
+		"page": "pages/docs-generated-system-tutorials-systems-persistence-path-contracts-md-2c07309dee.json"
 	},
 	{
-		"id": "docs-tutorials-content-search-graph-and-discovery-md-965733597c",
-		"title": "Search, Graph, and Discovery",
-		"sourcePath": "docs/TUTORIALS/CONTENT/SEARCH_GRAPH_AND_DISCOVERY.md",
-		"category": "General",
-		"provenance": "manual",
+		"id": "docs-generated-system-tutorials-systems-realtime-application-events-md-2e628a0391",
+		"title": "System Tutorial: Realtime Application and Event Evidence",
+		"sourcePath": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/realtime-application-events.md",
+		"category": "Realtime",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Search, Graph, and Discovery",
-				"anchor": "search-graph-and-discovery"
+				"text": "System Tutorial: Realtime Application and Event Evidence",
+				"anchor": "system-tutorial-realtime-application-and-event-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Search families",
-				"anchor": "search-families"
+				"text": "Claims boundary",
+				"anchor": "claims-boundary"
 			},
 			{
 				"level": 2,
-				"text": "Evidence discipline",
-				"anchor": "evidence-discipline"
+				"text": "Change risk",
+				"anchor": "change-risk"
 			},
 			{
 				"level": 2,
-				"text": "Graph/object layer",
-				"anchor": "graph-object-layer"
+				"text": "Human manuals",
+				"anchor": "human-manuals"
+			},
+			{
+				"level": 2,
+				"text": "Related project boundaries",
+				"anchor": "related-project-boundaries"
+			},
+			{
+				"level": 2,
+				"text": "Source anchors",
+				"anchor": "source-anchors"
+			},
+			{
+				"level": 2,
+				"text": "Generated evidence",
+				"anchor": "generated-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Environment-name evidence",
+				"anchor": "environment-name-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Realtime application registration evidence",
+				"anchor": "realtime-application-registration-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Lexical event/message evidence",
+				"anchor": "lexical-event-message-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Tags",
+				"anchor": "tags"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Search, Graph, and Discovery Social discovery spans more than one search endpoint. Search families General search/query/index/readiness, Hebrew exact/Tanach search, comment lexical/vector/stress/stats, RAG status/context routes, feeds/trending/recommendations, and object/graph/reference/",
-		"searchText": "b\"h boruch hashem blessed is he search, graph, and discovery social discovery spans more than one search endpoint. search families general search/query/index/readiness, hebrew exact/tanach search, comment lexical/vector/stress/stats, rag status/context routes, feeds/trending/recommendations, and object/graph/reference/repost relationships. evidence discipline generated routes reveal entry points, not ranking semantics, embedding models, index freshness, or relevance guarantees. follow owning search/rag source and configuration names. graph/object layer entity/object/universe/relationship routes expose identity, edges, timeline, children, dna/snapshot/fork/reference concepts. treat them as explicit models, not synonyms for raw database paths.",
-		"page": "pages/docs-tutorials-content-search-graph-and-discovery-md-965733597c.json"
-	},
-	{
-		"id": "docs-tutorials-content-social-content-model-md-cddb010acd",
-		"title": "Social Content Model",
-		"sourcePath": "docs/TUTORIALS/CONTENT/SOCIAL_CONTENT_MODEL.md",
-		"category": "General",
-		"provenance": "manual",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Social Content Model",
-				"anchor": "social-content-model"
-			},
-			{
-				"level": 2,
-				"text": "Core entities",
-				"anchor": "core-entities"
-			},
-			{
-				"level": 2,
-				"text": "Adjacent systems",
-				"anchor": "adjacent-systems"
-			},
-			{
-				"level": 2,
-				"text": "Canonical + compatibility",
-				"anchor": "canonical-compatibility"
-			},
-			{
-				"level": 2,
-				"text": "Trust",
-				"anchor": "trust"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Social Content Model The Social API is not a single CRUD table. It composes identity, governed spaces, structured content, relationships, discovery, communications, and storage. Core entities User → aliases → Heichel spaces → content (posts/questions/answers) → series organization → comm",
-		"searchText": "b\"h boruch hashem blessed is he social content model the social api is not a single crud table. it composes identity, governed spaces, structured content, relationships, discovery, communications, and storage. core entities user → aliases → heichel spaces → content (posts/questions/answers) → series organization → comments/replies/reactions. adjacent systems profiles, follows, feeds, graph/object apis, search/rag, drive, mail, notifications, media, moderation, jobs, migrations, unified social adapters, live/presence, and civilization/universe models all live under the social family. canonical + compatibility new /content/... routes coexist with extensive /heichelos/... compatibility paths. do not delete duplicate looking routes until the compatibility role is proven. trust session/api key identity is established first; each resource operation can impose ownership/editor/member/moderation checks. use social api tutorial plus the generated route tutorial index.",
-		"page": "pages/docs-tutorials-content-social-content-model-md-cddb010acd.json"
-	},
-	{
-		"id": "docs-tutorials-projects-apis-md-030810cad3",
-		"title": "API Projects",
-		"sourcePath": "docs/TUTORIALS/PROJECTS/APIS.md",
-		"category": "Projects",
-		"provenance": "manual",
-		"headings": [
-			{
-				"level": 1,
-				"text": "API Projects",
-				"anchor": "api-projects"
-			},
-			{
-				"level": 2,
-				"text": "Investigate an API project",
-				"anchor": "investigate-an-api-project"
-			},
-			{
-				"level": 2,
-				"text": "Why project and route evidence differ",
-				"anchor": "why-project-and-route-evidence-differ"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He API Projects API project boundaries generally live under geelooy/api/, but URL ownership is determined by derech discovery and route tables rather than directory names alone. Investigate an API project 1. Open the project tutorial for source/dependency shape. 2. Open the API family manua",
-		"searchText": "b\"h boruch hashem blessed is he api projects api project boundaries generally live under geelooy/api/, but url ownership is determined by derech discovery and route tables rather than directory names alone. investigate an api project 1. open the project tutorial for source/dependency shape. 2. open the api family manual and generated route tutorials for http behavior. 3. read the owning awtsmoos.derech.js and imported handlers. 4. separate trusted identity, resource authorization, persistence, provider calls, and response semantics. 5. verify through callers/tests/runtime where safe. why project and route evidence differ a project packet answers “what files/dependencies/entries surround this subsystem?” a route tutorial answers “what source evidence belongs to this url pattern?” one project can own many routes, and directory ownership does not prove request reachability. never infer get from unknown method evidence or anonymous access from an /api/ path.",
-		"page": "pages/docs-tutorials-projects-apis-md-030810cad3.json"
-	},
-	{
-		"id": "docs-tutorials-projects-apps-md-cc69985cf2",
-		"title": "Applications",
-		"sourcePath": "docs/TUTORIALS/PROJECTS/APPS.md",
-		"category": "Projects",
-		"provenance": "manual",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Applications",
-				"anchor": "applications"
-			},
-			{
-				"level": 2,
-				"text": "Investigate an app",
-				"anchor": "investigate-an-app"
-			},
-			{
-				"level": 2,
-				"text": "Common traps",
-				"anchor": "common-traps"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Applications Application boundaries usually live beneath geelooy/apps/ and combine a public entry surface with browser modules, styles, assets, and calls into APIs or shared libraries. Investigate an app 1. Open its generated project tutorial and local DOCUMENTATION.md when present. 2. S",
-		"searchText": "b\"h boruch hashem blessed is he applications application boundaries usually live beneath geelooy/apps/ and combine a public entry surface with browser modules, styles, assets, and calls into apis or shared libraries. investigate an app 1. open its generated project tutorial and local documentation.md when present. 2. start from observed public entries and source entry files. 3. trace imported shared libraries and api callers separately. 4. check whether state persists locally, through social/dosdb, or through a specialized api. 5. use test evidence as a verification clue, not a quality score. common traps a browser app is not automatically the server control plane with the same name. a public index.html does not prove authentication or backend availability. relative imports show lexical coupling, not which feature executes at runtime. build/generated files should not be mistaken for the authored source boundary. use /docs/?view=projects to filter project type app and inspect source/dependency/public entry evidence.",
-		"page": "pages/docs-tutorials-projects-apps-md-cc69985cf2.json"
-	},
-	{
-		"id": "docs-tutorials-projects-games-md-5a9ff5ac78",
-		"title": "Games and Worlds",
-		"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
-		"category": "Projects",
-		"provenance": "manual",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Games and Worlds",
-				"anchor": "games-and-worlds"
-			},
-			{
-				"level": 2,
-				"text": "Investigate a game",
-				"anchor": "investigate-a-game"
-			},
-			{
-				"level": 2,
-				"text": "Caveats",
-				"anchor": "caveats"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Games and Worlds Game boundaries under geelooy/games/ can contain standalone browser experiences, shared game infrastructure, realtime integrations, assets, simulations, and specialized reports. Investigate a game 1. Identify the game project boundary rather than shared games/scripts, st",
-		"searchText": "b\"h boruch hashem blessed is he games and worlds game boundaries under geelooy/games/ can contain standalone browser experiences, shared game infrastructure, realtime integrations, assets, simulations, and specialized reports. investigate a game 1. identify the game project boundary rather than shared games/scripts, styles, or tests roots. 2. open observed public entry urls and source entry files. 3. check imports into shared game/browser libraries. 4. check generated websocket application/event evidence when the game is realtime. 5. inspect direct root handlers when a game has specialized server reporting, such as mitzvah world. caveats an html entry does not prove server/realtime readiness. asset volume does not measure architectural importance. generated dependency edges are lexical. shared game infrastructure should not be documented as if it were one game product.",
-		"page": "pages/docs-tutorials-projects-games-md-5a9ff5ac78.json"
-	},
-	{
-		"id": "docs-tutorials-projects-libraries-and-tooling-md-f171c0f31f",
-		"title": "Libraries and Tooling",
-		"sourcePath": "docs/TUTORIALS/PROJECTS/LIBRARIES_AND_TOOLING.md",
-		"category": "Projects",
-		"provenance": "manual",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Libraries and Tooling",
-				"anchor": "libraries-and-tooling"
-			},
-			{
-				"level": 2,
-				"text": "Investigate these boundaries",
-				"anchor": "investigate-these-boundaries"
-			},
-			{
-				"level": 2,
-				"text": "Caveats",
-				"anchor": "caveats"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Libraries and Tooling Library/tooling/test boundaries exist to be consumed, executed during development, or support other systems rather than present one end user surface. Investigate these boundaries 1. Use incoming dependency evidence to find consumers. 2. Use outgoing/external depende",
-		"searchText": "b\"h boruch hashem blessed is he libraries and tooling library/tooling/test boundaries exist to be consumed, executed during development, or support other systems rather than present one end user surface. investigate these boundaries 1. use incoming dependency evidence to find consumers. 2. use outgoing/external dependencies to understand assumptions. 3. inspect exports and representative symbol samples. 4. distinguish production libraries from scripts/tools/tests by exact project type. 5. trace package scripts and test ownership before changing shared behavior. caveats a highly connected library can have no public html entry. export counts are lexical discovery evidence. tooling commands can mutate files/processes and should be reviewed for safety separately from ordinary library calls.",
-		"page": "pages/docs-tutorials-projects-libraries-and-tooling-md-f171c0f31f.json"
-	},
-	{
-		"id": "docs-tutorials-projects-public-surfaces-md-56c7282e61",
-		"title": "Public and Other Boundaries",
-		"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-		"category": "Projects",
-		"provenance": "manual",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Public and Other Boundaries",
-				"anchor": "public-and-other-boundaries"
-			},
-			{
-				"level": 2,
-				"text": "Read the exact type first",
-				"anchor": "read-the-exact-type-first"
-			},
-			{
-				"level": 2,
-				"text": "Investigation strategy",
-				"anchor": "investigation-strategy"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Public and Other Boundaries This family contains public/public root/project boundaries plus alias/evidence roots that do not fit the narrower app/API/game/runtime/library families. Read the exact type first public / public root can represent broad browser facing roots. project is a disco",
-		"searchText": "b\"h boruch hashem blessed is he public and other boundaries this family contains public/public root/project boundaries plus alias/evidence roots that do not fit the narrower app/api/game/runtime/library families. read the exact type first public / public root can represent broad browser facing roots. project is a discovered boundary without a more specific classification. alias can represent a symlinked compatibility/navigation boundary. evidence can represent planning/discovery material and is not a product surface. investigation strategy use the generated tutorial’s exact path/type, symlink target, public entries, local docs, file counts, and dependency evidence. do not convert an evidence root into a product simply because it is large. do not treat a symlink alias as an independent implementation without inspecting its target.",
-		"page": "pages/docs-tutorials-projects-public-surfaces-md-56c7282e61.json"
-	},
-	{
-		"id": "docs-tutorials-projects-readme-md-ef98756543",
-		"title": "Project and System Tutorials",
-		"sourcePath": "docs/TUTORIALS/PROJECTS/README.md",
-		"category": "Projects",
-		"provenance": "manual",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Project and System Tutorials",
-				"anchor": "project-and-system-tutorials"
-			},
-			{
-				"level": 2,
-				"text": "Human guides",
-				"anchor": "human-guides"
-			},
-			{
-				"level": 2,
-				"text": "Generated project teaching",
-				"anchor": "generated-project-teaching"
-			},
-			{
-				"level": 2,
-				"text": "Evidence rule",
-				"anchor": "evidence-rule"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project and System Tutorials A project boundary is a discovery vessel, not a guarantee of runtime isolation. Use these manuals to understand how to investigate each kind of boundary, then use generated project tutorials for current evidence. Human guides Applications API Projects Games a",
-		"searchText": "b\"h boruch hashem blessed is he project and system tutorials a project boundary is a discovery vessel, not a guarantee of runtime isolation. use these manuals to understand how to investigate each kind of boundary, then use generated project tutorials for current evidence. human guides applications api projects games and worlds runtime and infrastructure libraries and tooling public and other boundaries generated project teaching project tutorial index gives one generated tutorial for every current project boundary. each project tutorial joins file shape, entries, local docs, public urls, lexical symbol summaries, incoming/outgoing dependencies, external packages, and test file evidence. evidence rule imports are lexical dependency evidence, not runtime call graphs. index.html means a public entry file was found, not that the application is healthy. test file counts are not behavioral coverage scores. generated packets point you toward source and verification; they do not replace either.",
-		"page": "pages/docs-tutorials-projects-readme-md-ef98756543.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He System Tutorial: Realtime Application and Event Evidence District: realtime · System ID: realtime application events Registered built in application IDs/versions plus searchable lexical event/message strings from production WebSocket source. Generated evidence below is a navigation aid. ",
+		"searchText": "b\"h boruch hashem blessed is he system tutorial: realtime application and event evidence district: realtime · system id: realtime application events registered built in application ids/versions plus searchable lexical event/message strings from production websocket source. generated evidence below is a navigation aid. trust, migration, consistency, protocol, and authorization semantics remain grounded in the linked human manuals and current source. claims boundary event/message literals are search clues only and never constitute a formal payload or protocol schema. change risk changing application ids/versions or event semantics can break clients even when lexical strings still exist. human manuals docs/websockets/applications.md docs/websockets/readme.md related project boundaries ayzarim/awtsmoosdynamicserver (runtime) — ayzarim/awtsmoosdynamicserver source anchors ayzarim/awtsmoosdynamicserver/websocket/apps/applicationdefinitions.js ayzarim/awtsmoosdynamicserver/websocket/apps/messagerouter.js generated evidence docs/generated/websocket applications.md docs/generated/websocket event index.md environment name evidence name class source refs example sources awtsmoos registration stress count test/tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/test/registrationreplacementstress.test.cjs awtsmoos relay stress count test/tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay.concurrent correlation.test.cjs awtsmoos sefira profile path path/storage 1 ayzarim/awtsmoosdynamicserver/websocket/apps/sefiraclash/expeditionprofilerepository.js awtsmoos tunnel completed limit tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/constants.js awtsmoos tunnel consumer progress ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/requestconsumerwatchdog.js awtsmoos tunnel control store path/storage 9 ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms/missionroomsocketintegration.test.cjs; ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms/missionroomupgrade.test.cjs; ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms/upgradepolicy.test.cjs awtsmoos tunnel pending ttl ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/constants.js awtsmoos tunnel quarantine limit tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/constants.js awtsmoos tunnel relay max safe wait ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/constants.js awtsmoos tunnel relay safe wait ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/constants.js awtsmoos tunnel relay state root path/storage 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/durablepaths.js awtsmoos tunnel request acceptance ms tuning 1 ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/requestdispatchwatchdog.js mw load clients runtime config 1 ayzarim/awtsmoosdynamicserver/websocket/apps/mitzvahworld/sessionloadprobe.cjs realtime application registration evidence application versions factory awtsmoos core 1 createawtsmooscoreapplication awtsmoos social 1 createawtsmoossocialapplication chess 1 createchessapplication geelooy code 1 creategeelooycodeapplication geelooy docs 1 creategeelooydocsapplication sheets 1 createsheetsapplication universal chat 1 createuniversalchatapplication private messaging 1 createprivatemessagingapplication sefira clash 1 createsefiraclashapplication mitzvah world 1 createmitzvahworldapplication ohr hagnuz 1 createohrhagnuzapplication scribe journey 1, 2 createscribejourneyapplication tunnel activity 1 createtunnelactivityapplication shema strike 1 createshemastrikeapplication lexical event/message evidence ack — ayzarim/awtsmoosdynamicserver/websocket/apps/aliasrouting.js audio — ayzarim/awtsmoosdynamicserver/websocket/apps/privatemessaging/messageattachmentpolicy.js awtsmoosmydevice — ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/envelopeerrors.js bosstelegraph — ayzarim/awtsmoosdynamicserver/websocket/apps/sefiraclash/coopcombat.js bridge:lanterns — ayzarim/awtsmoosdynamicserver/websocket/apps/mitzvahworld/rivercrossingservice.js care — ayzarim/awtsmoosdynamicserver/websocket/apps/mitzvahworld/combatactionrequest.js chat — ayzarim/awtsmoosdynamicserver/websocket/apps/privatemessaging/integrationgateway.js chat accepted — ayzarim/awtsmoosdynamicserver/websocket/apps/privatemessaging/meaningfulactivity.js chess.chat.sent — ayzarim/awtsmoosdynamicserver/websocket/apps/chess/socialhandlers.js chess.click.accepted — ayzarim/awtsmoosdynamicserver/websocket/apps/chess/onlinegamehandlers.js chess.event.accepted — ayzarim/awtsmoosdynamicserver/websocket/apps/chess/broadcastgamehandlers.js chess.game.finished.accepted — ayzarim/awtsmoosdynamicserver/websocket/apps/chess/onlinegamehandlers.js chess.history.activity.accepted — ayzarim/awtsmoosdynamicserver/websocket/apps/chess/historyhandlers.js chess.history.listed — ayzarim/awtsmoosdynamicserver/websocket/apps/chess/historyhandlers.js chess.history.started — ayzarim/awtsmoosdynamicserver/websocket/apps/chess/historyhandlers.js chess.media.signal.accepted — ayzarim/awtsmoosdynamicserver/websocket/apps/chess/socialhandlers.js chess.media.state.accepted — ayzarim/awtsmoosdynamicserver/websocket/apps/chess/socialhandlers.js chess.room.created — ayzarim/awtsmoosdynamicserver/websocket/apps/chess/roomhandlers.js chess.room.joined — ayzarim/awtsmoosdynamicserver/websocket/apps/chess/roomhandlers.js chess.room.listed — ayzarim/awtsmoosdynamicserver/websocket/apps/chess/roomhandlers.js chess.room.watched — ayzarim/awtsmoosdynamicserver/websocket/apps/chess/roomhandlers.js code.access.invited — ayzarim/awtsmoosdynamicserver/websocket/apps/geelooycode/accesshandlers.js code.access.updated — ayzarim/awtsmoosdynamicserver/websocket/apps/geelooycode/accesshandlers.js code.file.patched — ayzarim/awtsmoosdynamicserver/websocket/apps/geelooycode/edithandlers.js code.file.synced — ayzarim/awtsmoosdynamicserver/websocket/apps/geelooycode/edithandlers.js code.presence.updated — ayzarim/awtsmoosdynamicserver/websocket/apps/geelooycode/presencehandlers.js code.project.created — ayzarim/awtsmoosdynamicserver/websocket/apps/geelooycode/lifecyclehandlers.js code.project.joined — ayzarim/awtsmoosdynamicserver/websocket/apps/geelooycode/lifecyclehandlers.js code.project.left — ayzarim/awtsmoosdynamicserver/websocket/apps/geelooycode/lifecyclehandlers.js code.project.structured — ayzarim/awtsmoosdynamicserver/websocket/apps/geelooycode/structureevents.js contact blocked — ayzarim/awtsmoosdynamicserver/websocket/apps/privatemessaging/meaningfulactivity.js data — ayzarim/awtsmoosdynamicserver/websocket/apps/scribejourney/rawwebsockettestclient.cjs defeat — ayzarim/awtsmoosdynamicserver/websocket/apps/mitzvahworld/combatdefeatrewards.js docs.access.invited — ayzarim/awtsmoosdynamicserver/websocket/apps/geelooydocs/accesshandlers.js docs.access.updated — ayzarim/awtsmoosdynamicserver/websocket/apps/geelooydocs/accesshandlers.js docs.capabilities — ayzarim/awtsmoosdynamicserver/websocket/apps/geelooydocs/capabilityhandlers.js tags websocket · application · event · evidence",
+		"page": "pages/docs-generated-system-tutorials-systems-realtime-application-events-md-2e628a0391.json"
 	}
 ]

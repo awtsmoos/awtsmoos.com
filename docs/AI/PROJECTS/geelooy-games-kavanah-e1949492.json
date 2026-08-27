@@ -23,19 +23,19 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-kavanah-e1949492.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 11,
+		"source": 15,
 		"tests": 0,
 		"assets": 0,
 		"generated": 0,
 		"docs": 1,
 		"other": 0
 	},
-	"totalFiles": 12,
+	"totalFiles": 16,
 	"symbolSummary": {
-		"files": 9,
-		"classes": 6,
-		"functions": 24,
-		"exports": 46,
+		"files": 13,
+		"classes": 8,
+		"functions": 47,
+		"exports": 51,
 		"samples": [
 			"Otiot",
 			"Tzomeach",
@@ -48,7 +48,7 @@
 			"ANIMAL_EMOJIS",
 			"getPointerState",
 			"setupControls",
-			"handlePointerDown"
+			"clearPointer"
 		]
 	},
 	"outgoingDependencies": [],
@@ -60,7 +60,7 @@
 			"file": "geelooy/games/KAVANAH/index.html",
 			"title": "KAVANAH",
 			"scripts": 1,
-			"styles": 1
+			"styles": 2
 		}
 	],
 	"requiresLocalDocumentation": true,

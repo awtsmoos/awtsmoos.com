@@ -14,7 +14,8 @@ const REQUIRED_STARTUP_FILES = require("./runtimeRequiredFiles.js");
 const EXTERNAL_DIRECTORIES = Object.freeze([
 	"ai/relay/direct",
 	"ai/relay/split-browser",
-	"ayzarim/DosDB/awtsmoosBinary/awtsmoosDB"
+	"ayzarim/DosDB/awtsmoosBinary/awtsmoosDB",
+	"ayzarim/ssh"
 ]);
 
 const FORBIDDEN_SEGMENTS = new Set([
