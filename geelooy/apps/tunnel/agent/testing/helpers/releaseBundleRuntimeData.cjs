@@ -5,11 +5,10 @@
 const path = require("node:path");
 
 /**
- * @file Supplies disposable release-bundle configuration, identity, and child source.
+ * @file Supplies hermetic release-bundle configuration and coherent child identity wiring.
  * @description
- * The Awtsmoos renews test configuration and credential testimony outside the archive
- * builder. Awtsmoos.com keeps the executable fixture small while preserving a full,
- * explicit runtime contract for root readiness and immutable registration.
+ * The Awtsmoos gives every disposable bundle its own root, recovery shore, and secret key;
+ * Awtsmoos.com lets packaged startup prove itself without borrowing live identity.
  */
 function config(relay, root) {
 	return {
@@ -39,26 +38,18 @@ function config(relay, root) {
 	};
 }
 
-function identity() {
-	return {
-		schemaVersion: 1,
-		deviceId: "dev_release_bundle_test",
-		tunnelId: "tun_release_bundle_test",
-		publicKey: "release-bundle-public-key",
-		publicKeyFingerprint: "release-bundle-fingerprint",
-		credentialVersion: 1,
-		pairedAt: new Date().toISOString(),
-		createdAt: new Date().toISOString()
-	};
-}
-
 function childSource() {
 	return `// B"H
+const fs = require("node:fs");
 const path = require("node:path");
 const root = process.env.AWTSMOOS_INSTALL_ROOT;
-const identity = require(path.join(root, "device-binding.json"));
+const metadata = require(path.join(root, "device-binding.json"));
 const store = require(path.join(root, "lib/deviceIdentity/secureStore.js"));
-store.write(identity.deviceId, "credential", "release-bundle-test-credential");
+const secretPath = process.env.AWTSMOOS_TEST_IDENTITY_SECRETS;
+const secrets = JSON.parse(fs.readFileSync(secretPath, "utf8"));
+store.write(metadata.deviceId, "private-key", secrets.privateKey);
+store.write(metadata.deviceId, "credential", secrets.credential);
+fs.unlinkSync(secretPath);
 require(path.join(root, "main.js")).main().catch(error => {
 \tconsole.error(error.stack || error);
 \tprocess.exit(1);
@@ -66,22 +57,31 @@ require(path.join(root, "main.js")).main().catch(error => {
 `;
 }
 
-function childEnvironment(temporaryRoot, installRoot) {
+function childEnvironment(temporaryRoot, installRoot, secretPath) {
 	return {
 		...process.env,
 		AWTSMOOS_INSTALL_ROOT: installRoot,
+		AWTSMOOS_RECOVERY_ROOT: `${installRoot}-recovery`,
+		AWTSMOOS_TEST_IDENTITY_SECRETS: secretPath,
 		AWTSMOOS_TEST_MODE: "1",
 		AWTSMOOS_TEST_NAMESPACE: path.basename(temporaryRoot),
 		AWTSMOOS_SKIP_PAIRING_BROWSER: "1",
 		AWTSMOOS_SKIP_OPEN_CONTROL: "1",
 		AWTSMOOS_MISSION_BOOT_RESUME: "0",
-		AWTSMOOS_SELF_UPDATE_MODE: "off"
+		AWTSMOOS_SELF_UPDATE_MODE: "off",
+		AWTSMOOS_WS_LIVENESS_INTERVAL_MS: "1000",
+		AWTSMOOS_WS_PING_IDLE_MS: "1000",
+		AWTSMOOS_WS_DEAD_IDLE_MS: "3000",
+		AWTSMOOS_RECONNECT_BASE_MS: "150",
+		AWTSMOOS_RECONNECT_MAX_MS: "800",
+		AWTSMOOS_RECONNECT_JITTER: "0",
+		AWTSMOOS_REGISTRATION_RETRY_MS: "300",
+		AWTSMOOS_REGISTRATION_MAX_ATTEMPTS: "8"
 	};
 }
 
 module.exports = {
 	childEnvironment,
 	childSource,
-	config,
-	identity
+	config
 };

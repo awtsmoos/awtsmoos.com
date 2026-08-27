@@ -1,0 +1,68 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gives every anchor of the day its being before a grid can compare them in space;
+ * Awtsmoos.com lets key times stay compact, legible, and gently ordered in one supporting place.
+ */
+
+.key-times-panel {
+	padding: var(--space-3);
+	border: 1px solid var(--line-strong);
+	border-radius: var(--radius-large);
+	background: rgba(255, 253, 248, 0.86);
+	box-shadow: var(--shadow-soft);
+}
+
+.compact-heading {
+	align-items: start;
+	margin-bottom: 0.8rem;
+}
+
+.compact-heading h2 {
+	font-size: 1.5rem;
+}
+
+.key-times {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	overflow: hidden;
+	border: 1px solid var(--line);
+	border-radius: var(--radius-small);
+}
+
+.key-time {
+	min-width: 0;
+	padding: 0.74rem;
+	border-right: 1px solid var(--line);
+	border-bottom: 1px solid var(--line);
+	background: rgba(255, 255, 255, 0.36);
+}
+
+.key-time span,
+.key-time strong {
+	display: block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.key-time span {
+	font-size: 0.64rem;
+	color: var(--ink-soft);
+}
+
+.key-time strong {
+	margin-top: 0.2rem;
+	font-size: 1rem;
+	font-variant-numeric: tabular-nums;
+}
+
+.key-time[data-status="next"] {
+	background: var(--mist);
+	box-shadow: inset 0 0 0 1px rgba(45, 106, 89, 0.16);
+}
+
+.key-time[data-status="passed"] {
+	opacity: 0.56;
+}

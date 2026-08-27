@@ -1,5 +1,5 @@
 B"H
-1.0.552
+1.0.554
 main.js
 ai/relay/direct/browser/AgentTabCatalog.mjs
 ai/relay/direct/browser/AgentTabProtector.mjs
@@ -1387,6 +1387,12 @@ tools/chrome/compact.js
 tools/chrome/extras.js
 tools/chrome/finder.js
 tools/chrome/index.js
+tools/chrome/launch-attempt.js
+tools/chrome/launch-dependencies.js
+tools/chrome/launch-readiness.js
+tools/chrome/launch-result.js
+tools/chrome/launch-values.js
+tools/chrome/launch.js
 tools/chrome/launchArgs.js
 tools/chrome/leaseActions.js
 tools/chrome/logs.js

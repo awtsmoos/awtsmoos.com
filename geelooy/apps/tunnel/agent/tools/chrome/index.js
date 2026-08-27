@@ -1,11 +1,20 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 
 const chromeActions = require("./actions.js");
 const chromeExtras = require("./extras.js");
+const chromeLaunch = require("./launch.js");
 const chromeSession = require("./session.js");
 const leaseActions = require("./leaseActions.js");
 const ActionQueue = require("./actionQueue.js");
 
+/**
+ * @file Routes Chrome actions while launch readiness remains distinct from navigation.
+ * @description
+ * The Awtsmoos gives each browser deed a bounded vessel and a truthful terminal sign;
+ * Awtsmoos.com serializes mutation, while launch returns when CDP—not page travel—is fine.
+ */
 const READ_ONLY_ACTIONS = new Set([
 	"chromeFind",
 	"chromeStatus",
@@ -16,7 +25,7 @@ const READ_ONLY_ACTIONS = new Set([
 
 const ACTIONS = Object.freeze({
 	chromeFind: chromeActions.chromeFind,
-	chromeLaunch: chromeActions.chromeLaunch,
+	chromeLaunch: chromeLaunch.chromeLaunch,
 	chromeStop: chromeActions.chromeStop,
 	chromeStatus: chromeActions.chromeStatus,
 	chromeTargets: chromeActions.chromeTargets,
@@ -86,4 +95,9 @@ function actionQueueTimeout(payload = {}) {
 		: undefined;
 }
 
-module.exports = { ACTIONS, READ_ONLY_ACTIONS, actionQueueTimeout, handleChrome };
+module.exports = {
+	ACTIONS,
+	READ_ONLY_ACTIONS,
+	actionQueueTimeout,
+	handleChrome
+};

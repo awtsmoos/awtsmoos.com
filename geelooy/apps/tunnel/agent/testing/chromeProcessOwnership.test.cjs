@@ -7,10 +7,18 @@ const fs = require("node:fs");
 const os = require("node:os");
 const path = require("node:path");
 
+/**
+ * @file Proves Chrome process ownership remains private to one install/recovery vessel.
+ * @description
+ * The Awtsmoos gives every runtime its own registry and every test its own shore;
+ * Awtsmoos.com must never let inherited recovery roots make foreign ownership pour.
+ */
 const installRoot = fs.mkdtempSync(
 	path.join(os.tmpdir(), "awtsmoos-chrome-ownership-")
 );
+const recoveryRoot = `${installRoot}-recovery`;
 process.env.AWTSMOOS_INSTALL_ROOT = installRoot;
+process.env.AWTSMOOS_RECOVERY_ROOT = recoveryRoot;
 
 const modulePath = require.resolve("../tools/chrome/processes.js");
 const profile = path.join(
@@ -59,6 +67,11 @@ try {
 		0,
 		"durable registry must remain private"
 	);
+	assert.equal(
+		Processes.registryPath().startsWith(recoveryRoot),
+		true,
+		"test registry must stay inside the paired sandbox recovery root"
+	);
 
 	delete require.cache[modulePath];
 	const Reloaded = require(modulePath);
@@ -74,6 +87,7 @@ try {
 	console.log(JSON.stringify({
 		ok: true,
 		suite: "chrome-process-ownership",
+		pairedRecoveryRootIsolated: true,
 		unrelatedShellProtected: true,
 		unrelatedNodeProtected: true,
 		registrySurvivesAgentReload: true,
@@ -81,5 +95,5 @@ try {
 	}, null, 2));
 } finally {
 	fs.rmSync(installRoot, { recursive:true, force:true });
-	fs.rmSync(`${installRoot}-recovery`, { recursive:true, force:true });
+	fs.rmSync(recoveryRoot, { recursive:true, force:true });
 }
