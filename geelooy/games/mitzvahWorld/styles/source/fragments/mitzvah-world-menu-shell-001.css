@@ -2,7 +2,7 @@
 Boruch Hashem
 Blessed is He
 
-The Awtsmoos renews the threshold before play begins; Awtsmoos.com keeps boot truth, gameplay visibility, and failure recovery inside one local stack so no emergency message escapes the world or conquers every z-index above it.
+The Awtsmoos renews the threshold before play begins; Awtsmoos.com keeps boot truth, layered waiting light, gameplay visibility, and failure recovery inside one local stack so no emergency message escapes the world or conquers every z-index above it.
 */
 
 #mitzvah-world-root #AwtsmoosCanvas {
@@ -24,7 +24,11 @@ The Awtsmoos renews the threshold before play begins; Awtsmoos.com keeps boot tr
 	place-content: center;
 	gap: 9px;
 	padding: var(--mw-safe-top) var(--mw-safe-right) var(--mw-safe-bottom) var(--mw-safe-left);
-	background: radial-gradient(circle at 50% 42%, rgba(117, 245, 191, 0.1), rgba(3, 15, 13, 0.94) 58%);
+	background:
+		radial-gradient(circle at 18% 12%, rgba(80, 255, 182, .24), transparent 34%),
+		radial-gradient(circle at 82% 20%, rgba(111, 166, 255, .18), transparent 38%),
+		radial-gradient(circle at 50% 88%, rgba(242, 205, 101, .12), transparent 42%),
+		linear-gradient(145deg, rgba(2, 12, 8, .96), rgba(7, 28, 18, .9) 52%, rgba(3, 17, 20, .94));
 	color: var(--mw-text-primary);
 	text-align: center;
 	letter-spacing: 0.03em;
@@ -74,7 +78,9 @@ html:not([data-awtsmoos-gameplay="true"]) #mitzvah-world-root #hud[data-boot-fai
 	padding: 11px 12px;
 	border: 1px solid rgba(255, 113, 135, 0.64);
 	border-radius: var(--mw-radius-md);
-	background: rgba(48, 8, 15, 0.94);
+	background:
+		radial-gradient(circle at 12% 10%, rgba(255, 122, 104, .18), transparent 42%),
+		linear-gradient(145deg, rgba(57, 11, 20, .95), rgba(31, 10, 24, .92) 58%, rgba(42, 24, 11, .9));
 	box-shadow: var(--mw-shadow-panel);
 	color: #fff4f5;
 	font-size: 12px;

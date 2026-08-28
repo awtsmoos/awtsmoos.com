@@ -1,0 +1,88 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos folds a whole road into one small map while never shrinking the hand that must act;
+Awtsmoos.com gives every map command a forty-eight-pixel vessel, layered with living light and guarded from accidental compact.
+*/
+
+/**
+ * The production minimap control contract owns the final authored geometry for map
+ * actions. It stays after ordinary action metadata in the cascade so touch size never
+ * depends on an unrelated historical system stylesheet or on a generated artifact.
+ */
+#mitzvah-world-root .Awtsmoos-minimap {
+	position: fixed;
+	right: var(--mw-safe-right);
+	bottom: var(--mw-safe-bottom);
+	z-index: var(--mw-z-status);
+	width: min(170px, calc(100vw - var(--mw-safe-left) - var(--mw-safe-right)));
+	max-height: min(46vh, 300px);
+	overflow: hidden;
+	border: 1px solid var(--mw-border-soft);
+	border-radius: var(--mw-radius-md);
+	background:
+		radial-gradient(circle at 18% 12%, rgba(50, 218, 181, .12), transparent 42%),
+		linear-gradient(145deg, rgba(8, 31, 25, .92), rgba(19, 21, 48, .9));
+	box-shadow: var(--mw-shadow-control);
+	opacity: 1;
+	transition: opacity var(--mw-motion-normal) ease, transform var(--mw-motion-normal) var(--mw-ease-out), border-color var(--mw-motion-fast) ease;
+}
+
+#mitzvah-world-root .Awtsmoos-minimap header {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	min-width: 0;
+	padding: 8px;
+	color: var(--mw-text-muted);
+	font-size: 10px;
+}
+
+#mitzvah-world-root .Awtsmoos-minimap header button {
+	min-width: 48px;
+	min-height: 48px;
+	margin-left: auto;
+	padding: 8px 10px;
+	border: 1px solid var(--mw-border-soft);
+	border-radius: 10px;
+	background: linear-gradient(145deg, rgba(27, 84, 72, .86), rgba(38, 36, 85, .8));
+	color: var(--mw-text-primary);
+	cursor: pointer;
+	touch-action: manipulation;
+	transition: transform var(--mw-motion-fast) var(--mw-ease-out), background var(--mw-motion-fast) ease, border-color var(--mw-motion-fast) ease, box-shadow var(--mw-motion-fast) ease;
+}
+
+@media (hover: hover) {
+	#mitzvah-world-root .Awtsmoos-minimap header button:hover:not(:disabled) {
+		border-color: var(--mw-border-strong);
+		background: linear-gradient(145deg, rgba(35, 106, 90, .94), rgba(54, 47, 115, .9));
+		transform: translateY(-1px);
+	}
+}
+
+#mitzvah-world-root .Awtsmoos-minimap header button:focus-visible {
+	outline: none;
+	border-color: var(--mw-accent-strong);
+	box-shadow: var(--mw-focus-ring);
+}
+
+#mitzvah-world-root .Awtsmoos-minimap header button:active:not(:disabled) {
+	transform: scale(0.95);
+}
+
+#mitzvah-world-root .Awtsmoos-minimap header button:disabled {
+	cursor: not-allowed;
+	opacity: 0.46;
+}
+
+#mitzvah-world-root .Awtsmoos-minimap[data-collapsed="true"] {
+	transform: translateX(calc(100% - 58px));
+	opacity: 0.76;
+}
+
+@media (max-width: 520px) {
+	#mitzvah-world-root .Awtsmoos-minimap {
+		width: min(190px, calc(100vw - 16px));
+	}
+}

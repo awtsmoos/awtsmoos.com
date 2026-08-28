@@ -96,28 +96,21 @@ const __awtsmoosModule_0 = Object.create(null);
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/MinimalMeadowCompactBootstrap.js ----
 {
 	const __exports = __awtsmoosModule_0;
-	// B"H
+	//B"H
 	// Boruch Hashem
 	// Blessed is He
 
 	/**
 	 * @file MinimalMeadowCompactBootstrap.js
 	 * @description
-	 * Boots the canonical compact Mitzvah World page explicitly while publishing
-	 * a small truthful entry receipt before deeper launcher and world graphs awaken.
+	 * Begins MitzvahWorld boot without binding document-module settlement to the
+	 * entire valley launch, while preserving one observable promise and truthful
+	 * loading, success, and failure evidence.
 	 *
-	 * RESPONSIBILITY:
-	 * Invoke the readable page-launcher boundary exactly once, reflect entry
-	 * loading/success/failure, and preserve native module failure visibility.
-	 *
-	 * NON-RESPONSIBILITY:
-	 * This module does not mount the universal player shell, import rich world
-	 * systems directly, choose game modes, or duplicate the boot registry below.
-	 *
-	 * The Awtsmoos is beyond first import and final frame, continuously creating
-	 * caller, promise, valley, and instant without division. Awtsmoos.com lets
-	 * this Keser doorway carry one ohr into the launcher keli, where truthful
-	 * state becomes the first act of manifestation.
+	 * The Awtsmoos is beyond first paint and final meadow, recreating promise,
+	 * browser, blade, and traveler before any finite clock can start; Awtsmoos.com
+	 * lets this Keser doorway release the document at once while deeper ohr flows
+	 * through its own keli until the living world is ready to answer and dance.
 	 */
 
 	const bootMinimalSharedMeadowPage = __awtsmoosModule_1.bootMinimalSharedMeadowPage;
@@ -126,28 +119,41 @@ const __awtsmoosModule_0 = Object.create(null);
 	const ENTRY_IDENTITY = './experiments/Awtsmoos/src/mitzvah-world.compact.js';
 
 	publishCompactEntryState('loading');
+	const keserBootPromise = beginKeserPageBoot();
+	globalThis.AwtsmoosMitzvahWorldBootPromise = keserBootPromise;
 
-	try {
-		await bootMinimalSharedMeadowPage();
-		publishCompactEntryState('loaded');
-	} catch (error) {
-		publishCompactEntryState('failed', error);
-		throw error;
+	/**
+	 * Starts canonical page boot without top-level await so DOM readiness and
+	 * browser scheduling remain independent from the full world-loading promise.
+	 *
+	 * @returns {Promise<*>}
+	 * 	Canonical MitzvahWorld page boot promise.
+	 */
+	function beginKeserPageBoot() {
+		const bootPromise = bootMinimalSharedMeadowPage();
+		bootPromise.then(
+			result => {
+				publishCompactEntryState('loaded');
+				return result;
+			},
+			error => {
+				publishCompactEntryState('failed', error);
+				revealKeserBootFailure(error);
+				return null;
+			}
+		);
+		return bootPromise;
 	}
 
 	/**
-	 * Publishes immutable entry evidence while mirroring compact-gate state onto
-	 * the canonical root. This Hod boundary records only compact-entry concerns;
-	 * deeper launchers remain responsible for world stages and visible progress.
+	 * Publishes immutable entry evidence while mirroring entry state on the root.
 	 *
 	 * @param {'loading'|'loaded'|'failed'} state
 	 * 	Current compact-entry lifecycle state.
 	 * @param {unknown} [error=null]
-	 * 	Optional failure revealed by the canonical page launcher.
+	 * 	Optional failure revealed by canonical page boot.
 	 * @returns {Readonly<object>}
 	 * 	Frozen receipt published as `AwtsmoosMitzvahWorldBoot`.
-	 * @sideeffect Updates `data-awtsmoos-entry` when the root exists.
-	 * @sideeffect Publishes immutable entry evidence on `globalThis`.
 	 */
 	function publishCompactEntryState(state, error = null) {
 		const receipt = Object.freeze({
@@ -160,6 +166,21 @@ const __awtsmoosModule_0 = Object.create(null);
 		}
 		globalThis.AwtsmoosMitzvahWorldBoot = receipt;
 		return receipt;
+	}
+
+	/**
+	 * Reveals an asynchronous boot failure without converting it into top-level
+	 * module rejection that can hold or poison the first document lifecycle.
+	 *
+	 * @param {unknown} error
+	 * 	Boot failure already preserved in the immutable entry receipt.
+	 */
+	function revealKeserBootFailure(error) {
+		if (typeof globalThis.reportError === 'function') {
+			globalThis.reportError(error);
+			return;
+		}
+		globalThis.console?.error?.('B"H MitzvahWorld boot failed.', error);
 	}
 
 	/**

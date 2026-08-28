@@ -1,25 +1,37 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
  * @module ProfileMenuSourceCases
  * @description
- * The Awtsmoos keeps modular identity, Profile, and Mail contracts visible;
- * Awtsmoos.com lets regression guards follow current vessels instead of retired names.
+ * The Awtsmoos keeps modular Profile contracts visible while each domain test rests in its proper place;
+ * Awtsmoos.com lets identity, styling, social, and mail regression vessels reveal one coordinated grace.
  */
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
+import { runProfileEmailSourceCases } from "./profileMenuEmailSourceCases.mjs";
 import { read, repoRoot } from "./profileMenuTestSupport.mjs";
 
+/**
+ * @description Runs the complete source-contract regression family for profile, dropdown, mail, and alias surfaces.
+ * @returns {void}
+ * @sideEffects Reads repository sources and throws assertion failures when contracts drift.
+ */
 export function runProfileSourceCases() {
 	testDropdownModules();
 	testProfileStyles();
-	testEmailSources();
+	runProfileEmailSourceCases();
 	testBroadSocialSources();
 	testAliasPage();
 }
 
+/**
+ * @description Verifies modular dropdown identity, template, menu, and alias-selection contracts.
+ * @returns {void}
+ * @sideEffects Reads repository source files and throws assertion failures on contract drift.
+ */
 function testDropdownModules() {
 	const entry = read("geelooy/scripts/awtsmoos/social/profileDropdown.js");
 	const identity = read("geelooy/scripts/awtsmoos/social/profileDropdown/identity.js");
@@ -38,6 +50,11 @@ function testDropdownModules() {
 	}
 }
 
+/**
+ * @description Verifies profile and alias responsive style contracts.
+ * @returns {void}
+ * @sideEffects Reads stylesheet sources and throws assertion failures on contract drift.
+ */
 function testProfileStyles() {
 	const css = read("geelooy/style/social/profileStyles.css");
 	const aliasCss = read("geelooy/style/social/alias.css");
@@ -48,47 +65,30 @@ function testProfileStyles() {
 	assert.match(aliasCss, /@media \(max-width: 640px\)/);
 }
 
-function testEmailSources() {
-	const store = read("geelooy/email/store.js");
-	const sidebar = read("geelooy/email/ui/sidebar.js");
-	const controls = read("geelooy/email/ui/sidebarControls.js");
-	const identitySummary = read("geelooy/email/ui/identitySummary.js");
-	const modals = read("geelooy/email/ui/modals.js");
-	const composeModal = read("geelooy/email/ui/composeModal.js");
-	const composeView = read("geelooy/email/ui/composeModalView.js");
-	const sidebarCss = read("geelooy/email/css/sidebar.css");
-	const composerCss = read("geelooy/email/css/composer.css");
-	assert.match(store, /params\.get\('to'\)/);
-	assert.match(store, /openComposeTo\(ui, toAlias\)/);
-	assert.match(store, /params\.get\('alias'\)/);
-	assert.doesNotMatch(store, /console\.log/);
-	assert.match(sidebar, /renderSidebarIdentity/);
-	assert.match(controls, /mountMailIdentitySummary/);
-	assert.match(identitySummary, /profileDropdown|identity/i);
-	assert.doesNotMatch(sidebar, /document\.createElement\('style'\)/);
-	assert.doesNotMatch(controls, /style\.textContent/);
-	assert.match(modals, /mail-auth-gateway/);
-	assert.match(modals, /identity-gateway-card/);
-	assert.match(modals, /renderComposeModal/);
-	assert.doesNotMatch(modals, /innerHTML =/);
-	assert.match(composeView, /compose-body-input/);
-	assert.match(composeView, /close-modal/);
-	assert.match(composeModal, /sendMessageApi/);
-	assert.match(composeModal, /classList: \['overlay', 'mail-compose-overlay', 'hidden'\]/);
-	assert.match(sidebarCss, /system\/sidebar-threads\.css/);
-	assert.match(composerCss, /system\/composer-editor\.css/);
-}
-
+/**
+ * @description Verifies broad social entry modules remain production-clean and URL-safe.
+ * @returns {void}
+ * @sideEffects Reads social source files and throws assertion failures on contract drift.
+ */
 function testBroadSocialSources() {
 	const socialDirectory = path.join(repoRoot, "geelooy/scripts/awtsmoos/social");
 	for (const name of fs.readdirSync(socialDirectory).filter(file => file.endsWith(".js"))) {
-		assert.doesNotMatch(read("geelooy/scripts/awtsmoos/social", name), /console\.log/, `${name} should not ship console.log`);
+		assert.doesNotMatch(
+			read("geelooy/scripts/awtsmoos/social", name),
+			/console\.log/,
+			`${name} should not ship console.log`
+		);
 	}
 	const aliasModule = read("geelooy/scripts/awtsmoos/social/AliasModule.js");
 	assert.match(aliasModule, /encodeURIComponent\(entity\.id\)/);
 	assert.match(aliasModule, /encodeURIComponent\(m\.id\)/);
 }
 
+/**
+ * @description Verifies alias-page social, comment, activity, and compose navigation contracts.
+ * @returns {void}
+ * @sideEffects Reads alias-page source and throws assertion failures on contract drift.
+ */
 function testAliasPage() {
 	const source = read("geelooy/scripts/awtsmoos/social/aliasPage.js");
 	assert.doesNotMatch(source, /console\.log/);

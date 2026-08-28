@@ -3,7 +3,7 @@ Boruch Hashem
 Blessed is He
 
 The Awtsmoos gives measured progress a luminous vessel while the boot shell itself remains owned by one separate threshold;
-Awtsmoos.com keeps loading content bounded, readable, local-first, and mobile-safe without competing for background, padding, or z-index authority.
+Awtsmoos.com layers living light through every loading surface, keeping progress readable, mobile-safe, and free of a flat frozen night.
 */
 
 #mitzvah-world-root .Awtsmoos-loading-card {
@@ -14,7 +14,12 @@ Awtsmoos.com keeps loading content bounded, readable, local-first, and mobile-sa
 	padding: clamp(18px, 5vw, 28px);
 	border: 1px solid rgba(130, 244, 185, 0.3);
 	border-radius: var(--mw-radius-lg);
-	background: rgba(5, 28, 16, 0.92);
+	background:
+		radial-gradient(circle at 10% 8%, rgba(73, 239, 164, .18), transparent 34%),
+		radial-gradient(circle at 88% 12%, rgba(118, 157, 255, .14), transparent 36%),
+		radial-gradient(circle at 16% 92%, rgba(245, 207, 114, .12), transparent 38%),
+		radial-gradient(circle at 90% 88%, rgba(132, 91, 255, .12), transparent 40%),
+		linear-gradient(155deg, rgba(5, 28, 16, .96), rgba(7, 22, 30, .94) 55%, rgba(18, 16, 39, .92));
 	box-shadow: var(--mw-shadow-panel), var(--mw-shadow-glow);
 	color: var(--mw-text-primary);
 	text-align: left;
@@ -68,12 +73,12 @@ Awtsmoos.com keeps loading content bounded, readable, local-first, and mobile-sa
 	overflow: hidden;
 	border: 0;
 	border-radius: 999px;
-	background: #10281a;
+	background: linear-gradient(90deg, rgba(8, 31, 21, .98), rgba(17, 39, 34, .96));
 	accent-color: var(--mw-accent);
 }
 
 #mitzvah-world-root .Awtsmoos-progress-group progress::-webkit-progress-bar {
-	background: #10281a;
+	background: linear-gradient(90deg, rgba(8, 31, 21, .98), rgba(17, 39, 34, .96));
 }
 
 #mitzvah-world-root .Awtsmoos-progress-group progress::-webkit-progress-value,

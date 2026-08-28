@@ -16,7 +16,7 @@
 		"styles/source/fragments/mitzvah-world-actions-001.css",
 		"styles/source/fragments/mitzvah-world-action-interactions-001.css",
 		"styles/source/fragments/mitzvah-world-actions-002.css",
-		"styles/source/fragments/mitzvah-world-minimap-001.css",
+		"styles/source/fragments/mitzvah-world-actions-003-minimap-controls.css",
 		"styles/source/fragments/mitzvah-world-game-rail-001.css",
 		"styles/source/fragments/mitzvah-world-glyphs-001.css",
 		"styles/source/fragments/mitzvah-world-houses-001.css",
@@ -62,8 +62,8 @@
 		"styles/mitzvah-world-creative-dock.css",
 		"styles/source/mitzvah-world.css"
 	],
-	"inputBytes": 100851,
-	"outputBytes": 77536,
+	"inputBytes": 104492,
+	"outputBytes": 80712,
 	"sourcePolicy": {
 		"errors": [],
 		"files": [
@@ -108,9 +108,9 @@
 				"path": "styles/source/fragments/mitzvah-world-actions-002.css"
 			},
 			{
-				"bytes": 2376,
-				"lines": 82,
-				"path": "styles/source/fragments/mitzvah-world-minimap-001.css"
+				"bytes": 2845,
+				"lines": 89,
+				"path": "styles/source/fragments/mitzvah-world-actions-003-minimap-controls.css"
 			},
 			{
 				"bytes": 2542,
@@ -138,13 +138,13 @@
 				"path": "styles/source/fragments/mitzvah-world-inventory-002.css"
 			},
 			{
-				"bytes": 2244,
-				"lines": 92,
+				"bytes": 2749,
+				"lines": 97,
 				"path": "styles/source/fragments/mitzvah-world-loading-001.css"
 			},
 			{
-				"bytes": 817,
-				"lines": 34,
+				"bytes": 3056,
+				"lines": 115,
 				"path": "styles/source/fragments/mitzvah-world-loading-002.css"
 			},
 			{
@@ -163,8 +163,8 @@
 				"path": "styles/source/fragments/mitzvah-world-meadow-menu-001.css"
 			},
 			{
-				"bytes": 2241,
-				"lines": 85,
+				"bytes": 2669,
+				"lines": 91,
 				"path": "styles/source/fragments/mitzvah-world-menu-shell-001.css"
 			},
 			{
@@ -238,7 +238,7 @@
 				"path": "styles/source/fragments/mitzvah-world-direct-layout-001.css"
 			},
 			{
-				"bytes": 2352,
+				"bytes": 2369,
 				"lines": 43,
 				"path": "styles/source/imports-001.css"
 			},
@@ -340,19 +340,19 @@
 	},
 	"representations": {
 		"brotli": {
-			"bytes": 10779,
+			"bytes": 11365,
 			"encoding": "br",
-			"sha256": "549c4f088c1521f429cc1ccedcf9e24d3f3c5211b0b30f10c669fca07d3f61bc"
+			"sha256": "3d3acb25fff51b7fa3d00c995953d127b467de8208292ca9fa9e6d9e19d3c543"
 		},
 		"gzip": {
-			"bytes": 12696,
+			"bytes": 13394,
 			"encoding": "gzip",
-			"sha256": "e4f5455aef1984fa4202ed1bd07e7d6eb8c8f15e62f709a229cdf3c4c6763a65"
+			"sha256": "90729894ef3b32ac01c40f3b772c0639a7dfbd5ae199bb3f25762bbf10a3b36c"
 		},
 		"identity": {
-			"bytes": 77537,
+			"bytes": 80713,
 			"encoding": "identity",
-			"sha256": "04fe0aba74ada9d3e8b5c4383c540e62cab05af5ca2c3851c1bb843a4bcbd3fa"
+			"sha256": "091a4a59b7431428983cddab80f88bf8d110dccb05e6bbe212991dce90707f4c"
 		}
 	}
 }

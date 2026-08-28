@@ -45,6 +45,7 @@ AwtsmoosNativeImportScripts(
 	"review-score.js",
 	"review-pv.js",
 	"review-pgn.js",
+	"review-book.js",
 	"review-position.js",
 	"review-plan.js",
 	"review-search.js",

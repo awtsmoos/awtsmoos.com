@@ -416,63 +416,65 @@ const __awtsmoosModule_195 = Object.create(null);
 
 const __awtsmoosModule_198 = Object.create(null);
 
-const __awtsmoosModule_199 = Object.create(null);
+const __awtsmoosModule_200 = Object.create(null);
 
-const __awtsmoosModule_197 = Object.create(null);
+const __awtsmoosModule_199 = Object.create(null);
 
 const __awtsmoosModule_202 = Object.create(null);
 
-const __awtsmoosModule_201 = Object.create(null);
-
-const __awtsmoosModule_200 = Object.create(null);
-
-const __awtsmoosModule_203 = Object.create(null);
-
-const __awtsmoosModule_208 = Object.create(null);
-
 const __awtsmoosModule_207 = Object.create(null);
-
-const __awtsmoosModule_209 = Object.create(null);
 
 const __awtsmoosModule_206 = Object.create(null);
 
+const __awtsmoosModule_209 = Object.create(null);
+
+const __awtsmoosModule_208 = Object.create(null);
+
+const __awtsmoosModule_205 = Object.create(null);
+
+const __awtsmoosModule_211 = Object.create(null);
+
+const __awtsmoosModule_210 = Object.create(null);
+
+const __awtsmoosModule_204 = Object.create(null);
+
 const __awtsmoosModule_214 = Object.create(null);
+
+const __awtsmoosModule_215 = Object.create(null);
 
 const __awtsmoosModule_216 = Object.create(null);
 
 const __awtsmoosModule_217 = Object.create(null);
 
-const __awtsmoosModule_218 = Object.create(null);
+const __awtsmoosModule_213 = Object.create(null);
 
-const __awtsmoosModule_219 = Object.create(null);
+const __awtsmoosModule_212 = Object.create(null);
+
+const __awtsmoosModule_203 = Object.create(null);
+
+const __awtsmoosModule_201 = Object.create(null);
+
+const __awtsmoosModule_197 = Object.create(null);
 
 const __awtsmoosModule_220 = Object.create(null);
 
-const __awtsmoosModule_215 = Object.create(null);
+const __awtsmoosModule_219 = Object.create(null);
 
-const __awtsmoosModule_223 = Object.create(null);
-
-const __awtsmoosModule_225 = Object.create(null);
-
-const __awtsmoosModule_224 = Object.create(null);
-
-const __awtsmoosModule_226 = Object.create(null);
-
-const __awtsmoosModule_227 = Object.create(null);
-
-const __awtsmoosModule_222 = Object.create(null);
+const __awtsmoosModule_218 = Object.create(null);
 
 const __awtsmoosModule_221 = Object.create(null);
 
-const __awtsmoosModule_228 = Object.create(null);
+const __awtsmoosModule_226 = Object.create(null);
 
-const __awtsmoosModule_230 = Object.create(null);
+const __awtsmoosModule_225 = Object.create(null);
 
-const __awtsmoosModule_229 = Object.create(null);
+const __awtsmoosModule_227 = Object.create(null);
 
-const __awtsmoosModule_231 = Object.create(null);
+const __awtsmoosModule_224 = Object.create(null);
 
 const __awtsmoosModule_232 = Object.create(null);
+
+const __awtsmoosModule_234 = Object.create(null);
 
 const __awtsmoosModule_235 = Object.create(null);
 
@@ -480,547 +482,557 @@ const __awtsmoosModule_236 = Object.create(null);
 
 const __awtsmoosModule_237 = Object.create(null);
 
-const __awtsmoosModule_234 = Object.create(null);
-
-const __awtsmoosModule_239 = Object.create(null);
-
 const __awtsmoosModule_238 = Object.create(null);
+
+const __awtsmoosModule_233 = Object.create(null);
 
 const __awtsmoosModule_241 = Object.create(null);
 
-const __awtsmoosModule_240 = Object.create(null);
+const __awtsmoosModule_243 = Object.create(null);
 
 const __awtsmoosModule_242 = Object.create(null);
-
-const __awtsmoosModule_243 = Object.create(null);
 
 const __awtsmoosModule_244 = Object.create(null);
 
 const __awtsmoosModule_245 = Object.create(null);
 
-const __awtsmoosModule_247 = Object.create(null);
+const __awtsmoosModule_240 = Object.create(null);
+
+const __awtsmoosModule_239 = Object.create(null);
 
 const __awtsmoosModule_246 = Object.create(null);
 
-const __awtsmoosModule_233 = Object.create(null);
-
 const __awtsmoosModule_248 = Object.create(null);
+
+const __awtsmoosModule_247 = Object.create(null);
 
 const __awtsmoosModule_249 = Object.create(null);
 
 const __awtsmoosModule_250 = Object.create(null);
 
-const __awtsmoosModule_213 = Object.create(null);
-
-const __awtsmoosModule_255 = Object.create(null);
+const __awtsmoosModule_253 = Object.create(null);
 
 const __awtsmoosModule_254 = Object.create(null);
 
+const __awtsmoosModule_255 = Object.create(null);
+
+const __awtsmoosModule_252 = Object.create(null);
+
 const __awtsmoosModule_257 = Object.create(null);
+
+const __awtsmoosModule_256 = Object.create(null);
+
+const __awtsmoosModule_259 = Object.create(null);
 
 const __awtsmoosModule_258 = Object.create(null);
 
 const __awtsmoosModule_260 = Object.create(null);
 
-const __awtsmoosModule_259 = Object.create(null);
-
-const __awtsmoosModule_256 = Object.create(null);
-
-const __awtsmoosModule_253 = Object.create(null);
-
-const __awtsmoosModule_252 = Object.create(null);
-
 const __awtsmoosModule_261 = Object.create(null);
-
-const __awtsmoosModule_263 = Object.create(null);
 
 const __awtsmoosModule_262 = Object.create(null);
 
-const __awtsmoosModule_251 = Object.create(null);
-
-const __awtsmoosModule_264 = Object.create(null);
-
-const __awtsmoosModule_212 = Object.create(null);
+const __awtsmoosModule_263 = Object.create(null);
 
 const __awtsmoosModule_265 = Object.create(null);
 
-const __awtsmoosModule_211 = Object.create(null);
+const __awtsmoosModule_264 = Object.create(null);
 
-const __awtsmoosModule_267 = Object.create(null);
+const __awtsmoosModule_251 = Object.create(null);
 
 const __awtsmoosModule_266 = Object.create(null);
 
+const __awtsmoosModule_267 = Object.create(null);
+
 const __awtsmoosModule_268 = Object.create(null);
 
-const __awtsmoosModule_269 = Object.create(null);
-
-const __awtsmoosModule_210 = Object.create(null);
-
-const __awtsmoosModule_270 = Object.create(null);
+const __awtsmoosModule_231 = Object.create(null);
 
 const __awtsmoosModule_273 = Object.create(null);
 
-const __awtsmoosModule_274 = Object.create(null);
+const __awtsmoosModule_272 = Object.create(null);
+
+const __awtsmoosModule_275 = Object.create(null);
+
+const __awtsmoosModule_276 = Object.create(null);
 
 const __awtsmoosModule_278 = Object.create(null);
 
 const __awtsmoosModule_277 = Object.create(null);
 
+const __awtsmoosModule_274 = Object.create(null);
+
+const __awtsmoosModule_271 = Object.create(null);
+
+const __awtsmoosModule_270 = Object.create(null);
+
+const __awtsmoosModule_279 = Object.create(null);
+
 const __awtsmoosModule_281 = Object.create(null);
-
-const __awtsmoosModule_283 = Object.create(null);
-
-const __awtsmoosModule_284 = Object.create(null);
-
-const __awtsmoosModule_282 = Object.create(null);
 
 const __awtsmoosModule_280 = Object.create(null);
 
+const __awtsmoosModule_269 = Object.create(null);
+
+const __awtsmoosModule_282 = Object.create(null);
+
+const __awtsmoosModule_230 = Object.create(null);
+
+const __awtsmoosModule_283 = Object.create(null);
+
+const __awtsmoosModule_229 = Object.create(null);
+
 const __awtsmoosModule_285 = Object.create(null);
 
-const __awtsmoosModule_279 = Object.create(null);
+const __awtsmoosModule_284 = Object.create(null);
 
 const __awtsmoosModule_286 = Object.create(null);
 
 const __awtsmoosModule_287 = Object.create(null);
 
-const __awtsmoosModule_276 = Object.create(null);
-
-const __awtsmoosModule_275 = Object.create(null);
-
-const __awtsmoosModule_292 = Object.create(null);
-
-const __awtsmoosModule_291 = Object.create(null);
-
-const __awtsmoosModule_294 = Object.create(null);
-
-const __awtsmoosModule_293 = Object.create(null);
-
-const __awtsmoosModule_290 = Object.create(null);
-
-const __awtsmoosModule_296 = Object.create(null);
-
-const __awtsmoosModule_295 = Object.create(null);
-
-const __awtsmoosModule_289 = Object.create(null);
-
-const __awtsmoosModule_297 = Object.create(null);
-
-const __awtsmoosModule_298 = Object.create(null);
+const __awtsmoosModule_228 = Object.create(null);
 
 const __awtsmoosModule_288 = Object.create(null);
 
-const __awtsmoosModule_301 = Object.create(null);
+const __awtsmoosModule_291 = Object.create(null);
 
-const __awtsmoosModule_302 = Object.create(null);
+const __awtsmoosModule_295 = Object.create(null);
 
-const __awtsmoosModule_303 = Object.create(null);
+const __awtsmoosModule_294 = Object.create(null);
 
-const __awtsmoosModule_306 = Object.create(null);
-
-const __awtsmoosModule_305 = Object.create(null);
-
-const __awtsmoosModule_304 = Object.create(null);
+const __awtsmoosModule_298 = Object.create(null);
 
 const __awtsmoosModule_300 = Object.create(null);
 
-const __awtsmoosModule_307 = Object.create(null);
+const __awtsmoosModule_301 = Object.create(null);
 
 const __awtsmoosModule_299 = Object.create(null);
 
-const __awtsmoosModule_308 = Object.create(null);
+const __awtsmoosModule_297 = Object.create(null);
 
-const __awtsmoosModule_272 = Object.create(null);
+const __awtsmoosModule_302 = Object.create(null);
 
-const __awtsmoosModule_312 = Object.create(null);
+const __awtsmoosModule_296 = Object.create(null);
+
+const __awtsmoosModule_303 = Object.create(null);
+
+const __awtsmoosModule_304 = Object.create(null);
+
+const __awtsmoosModule_293 = Object.create(null);
+
+const __awtsmoosModule_292 = Object.create(null);
+
+const __awtsmoosModule_306 = Object.create(null);
+
+const __awtsmoosModule_307 = Object.create(null);
+
+const __awtsmoosModule_305 = Object.create(null);
+
+const __awtsmoosModule_310 = Object.create(null);
+
+const __awtsmoosModule_309 = Object.create(null);
 
 const __awtsmoosModule_311 = Object.create(null);
 
-const __awtsmoosModule_316 = Object.create(null);
-
-const __awtsmoosModule_317 = Object.create(null);
-
-const __awtsmoosModule_315 = Object.create(null);
-
-const __awtsmoosModule_320 = Object.create(null);
-
-const __awtsmoosModule_321 = Object.create(null);
-
-const __awtsmoosModule_322 = Object.create(null);
-
-const __awtsmoosModule_324 = Object.create(null);
-
-const __awtsmoosModule_323 = Object.create(null);
-
-const __awtsmoosModule_319 = Object.create(null);
-
-const __awtsmoosModule_318 = Object.create(null);
-
-const __awtsmoosModule_327 = Object.create(null);
-
-const __awtsmoosModule_326 = Object.create(null);
-
-const __awtsmoosModule_329 = Object.create(null);
-
-const __awtsmoosModule_328 = Object.create(null);
-
-const __awtsmoosModule_325 = Object.create(null);
+const __awtsmoosModule_313 = Object.create(null);
 
 const __awtsmoosModule_314 = Object.create(null);
 
-const __awtsmoosModule_330 = Object.create(null);
+const __awtsmoosModule_317 = Object.create(null);
 
-const __awtsmoosModule_333 = Object.create(null);
+const __awtsmoosModule_316 = Object.create(null);
 
-const __awtsmoosModule_334 = Object.create(null);
+const __awtsmoosModule_315 = Object.create(null);
 
-const __awtsmoosModule_335 = Object.create(null);
+const __awtsmoosModule_312 = Object.create(null);
 
-const __awtsmoosModule_332 = Object.create(null);
+const __awtsmoosModule_318 = Object.create(null);
+
+const __awtsmoosModule_308 = Object.create(null);
+
+const __awtsmoosModule_319 = Object.create(null);
+
+const __awtsmoosModule_290 = Object.create(null);
+
+const __awtsmoosModule_323 = Object.create(null);
+
+const __awtsmoosModule_322 = Object.create(null);
+
+const __awtsmoosModule_327 = Object.create(null);
+
+const __awtsmoosModule_328 = Object.create(null);
+
+const __awtsmoosModule_326 = Object.create(null);
 
 const __awtsmoosModule_331 = Object.create(null);
 
-const __awtsmoosModule_339 = Object.create(null);
+const __awtsmoosModule_332 = Object.create(null);
+
+const __awtsmoosModule_333 = Object.create(null);
+
+const __awtsmoosModule_335 = Object.create(null);
+
+const __awtsmoosModule_334 = Object.create(null);
+
+const __awtsmoosModule_330 = Object.create(null);
+
+const __awtsmoosModule_329 = Object.create(null);
 
 const __awtsmoosModule_338 = Object.create(null);
 
 const __awtsmoosModule_337 = Object.create(null);
 
+const __awtsmoosModule_340 = Object.create(null);
+
+const __awtsmoosModule_339 = Object.create(null);
+
 const __awtsmoosModule_336 = Object.create(null);
 
-const __awtsmoosModule_342 = Object.create(null);
+const __awtsmoosModule_325 = Object.create(null);
 
-const __awtsmoosModule_346 = Object.create(null);
-
-const __awtsmoosModule_347 = Object.create(null);
-
-const __awtsmoosModule_345 = Object.create(null);
+const __awtsmoosModule_341 = Object.create(null);
 
 const __awtsmoosModule_344 = Object.create(null);
 
-const __awtsmoosModule_348 = Object.create(null);
+const __awtsmoosModule_345 = Object.create(null);
+
+const __awtsmoosModule_346 = Object.create(null);
 
 const __awtsmoosModule_343 = Object.create(null);
 
-const __awtsmoosModule_351 = Object.create(null);
+const __awtsmoosModule_342 = Object.create(null);
 
 const __awtsmoosModule_350 = Object.create(null);
 
 const __awtsmoosModule_349 = Object.create(null);
 
-const __awtsmoosModule_358 = Object.create(null);
+const __awtsmoosModule_348 = Object.create(null);
 
-const __awtsmoosModule_362 = Object.create(null);
+const __awtsmoosModule_347 = Object.create(null);
 
-const __awtsmoosModule_364 = Object.create(null);
-
-const __awtsmoosModule_365 = Object.create(null);
-
-const __awtsmoosModule_363 = Object.create(null);
-
-const __awtsmoosModule_366 = Object.create(null);
-
-const __awtsmoosModule_367 = Object.create(null);
-
-const __awtsmoosModule_370 = Object.create(null);
-
-const __awtsmoosModule_371 = Object.create(null);
-
-const __awtsmoosModule_369 = Object.create(null);
-
-const __awtsmoosModule_373 = Object.create(null);
-
-const __awtsmoosModule_374 = Object.create(null);
-
-const __awtsmoosModule_375 = Object.create(null);
-
-const __awtsmoosModule_372 = Object.create(null);
-
-const __awtsmoosModule_376 = Object.create(null);
-
-const __awtsmoosModule_377 = Object.create(null);
-
-const __awtsmoosModule_368 = Object.create(null);
-
-const __awtsmoosModule_379 = Object.create(null);
-
-const __awtsmoosModule_378 = Object.create(null);
-
-const __awtsmoosModule_380 = Object.create(null);
-
-const __awtsmoosModule_381 = Object.create(null);
-
-const __awtsmoosModule_382 = Object.create(null);
-
-const __awtsmoosModule_384 = Object.create(null);
-
-const __awtsmoosModule_383 = Object.create(null);
-
-const __awtsmoosModule_389 = Object.create(null);
-
-const __awtsmoosModule_390 = Object.create(null);
-
-const __awtsmoosModule_388 = Object.create(null);
-
-const __awtsmoosModule_387 = Object.create(null);
-
-const __awtsmoosModule_391 = Object.create(null);
-
-const __awtsmoosModule_386 = Object.create(null);
-
-const __awtsmoosModule_392 = Object.create(null);
-
-const __awtsmoosModule_385 = Object.create(null);
-
-const __awtsmoosModule_394 = Object.create(null);
-
-const __awtsmoosModule_393 = Object.create(null);
-
-const __awtsmoosModule_397 = Object.create(null);
-
-const __awtsmoosModule_396 = Object.create(null);
-
-const __awtsmoosModule_398 = Object.create(null);
-
-const __awtsmoosModule_399 = Object.create(null);
-
-const __awtsmoosModule_395 = Object.create(null);
-
-const __awtsmoosModule_400 = Object.create(null);
-
-const __awtsmoosModule_401 = Object.create(null);
-
-const __awtsmoosModule_405 = Object.create(null);
-
-const __awtsmoosModule_410 = Object.create(null);
-
-const __awtsmoosModule_409 = Object.create(null);
-
-const __awtsmoosModule_411 = Object.create(null);
-
-const __awtsmoosModule_412 = Object.create(null);
-
-const __awtsmoosModule_413 = Object.create(null);
-
-const __awtsmoosModule_408 = Object.create(null);
-
-const __awtsmoosModule_414 = Object.create(null);
-
-const __awtsmoosModule_407 = Object.create(null);
-
-const __awtsmoosModule_416 = Object.create(null);
-
-const __awtsmoosModule_417 = Object.create(null);
-
-const __awtsmoosModule_415 = Object.create(null);
-
-const __awtsmoosModule_406 = Object.create(null);
-
-const __awtsmoosModule_404 = Object.create(null);
-
-const __awtsmoosModule_418 = Object.create(null);
-
-const __awtsmoosModule_419 = Object.create(null);
-
-const __awtsmoosModule_421 = Object.create(null);
-
-const __awtsmoosModule_422 = Object.create(null);
-
-const __awtsmoosModule_424 = Object.create(null);
-
-const __awtsmoosModule_423 = Object.create(null);
-
-const __awtsmoosModule_427 = Object.create(null);
-
-const __awtsmoosModule_426 = Object.create(null);
-
-const __awtsmoosModule_425 = Object.create(null);
-
-const __awtsmoosModule_420 = Object.create(null);
-
-const __awtsmoosModule_403 = Object.create(null);
-
-const __awtsmoosModule_428 = Object.create(null);
-
-const __awtsmoosModule_429 = Object.create(null);
-
-const __awtsmoosModule_402 = Object.create(null);
-
-const __awtsmoosModule_430 = Object.create(null);
-
-const __awtsmoosModule_431 = Object.create(null);
-
-const __awtsmoosModule_432 = Object.create(null);
-
-const __awtsmoosModule_435 = Object.create(null);
-
-const __awtsmoosModule_436 = Object.create(null);
-
-const __awtsmoosModule_434 = Object.create(null);
-
-const __awtsmoosModule_437 = Object.create(null);
-
-const __awtsmoosModule_433 = Object.create(null);
-
-const __awtsmoosModule_439 = Object.create(null);
-
-const __awtsmoosModule_440 = Object.create(null);
-
-const __awtsmoosModule_438 = Object.create(null);
-
-const __awtsmoosModule_441 = Object.create(null);
-
-const __awtsmoosModule_361 = Object.create(null);
-
-const __awtsmoosModule_442 = Object.create(null);
-
-const __awtsmoosModule_360 = Object.create(null);
-
-const __awtsmoosModule_359 = Object.create(null);
+const __awtsmoosModule_353 = Object.create(null);
 
 const __awtsmoosModule_357 = Object.create(null);
+
+const __awtsmoosModule_358 = Object.create(null);
 
 const __awtsmoosModule_356 = Object.create(null);
 
 const __awtsmoosModule_355 = Object.create(null);
 
-const __awtsmoosModule_444 = Object.create(null);
-
-const __awtsmoosModule_445 = Object.create(null);
-
-const __awtsmoosModule_443 = Object.create(null);
+const __awtsmoosModule_359 = Object.create(null);
 
 const __awtsmoosModule_354 = Object.create(null);
 
-const __awtsmoosModule_446 = Object.create(null);
+const __awtsmoosModule_362 = Object.create(null);
 
-const __awtsmoosModule_448 = Object.create(null);
+const __awtsmoosModule_361 = Object.create(null);
+
+const __awtsmoosModule_360 = Object.create(null);
+
+const __awtsmoosModule_369 = Object.create(null);
+
+const __awtsmoosModule_373 = Object.create(null);
+
+const __awtsmoosModule_375 = Object.create(null);
+
+const __awtsmoosModule_376 = Object.create(null);
+
+const __awtsmoosModule_374 = Object.create(null);
+
+const __awtsmoosModule_377 = Object.create(null);
+
+const __awtsmoosModule_378 = Object.create(null);
+
+const __awtsmoosModule_381 = Object.create(null);
+
+const __awtsmoosModule_382 = Object.create(null);
+
+const __awtsmoosModule_380 = Object.create(null);
+
+const __awtsmoosModule_384 = Object.create(null);
+
+const __awtsmoosModule_385 = Object.create(null);
+
+const __awtsmoosModule_386 = Object.create(null);
+
+const __awtsmoosModule_383 = Object.create(null);
+
+const __awtsmoosModule_387 = Object.create(null);
+
+const __awtsmoosModule_388 = Object.create(null);
+
+const __awtsmoosModule_379 = Object.create(null);
+
+const __awtsmoosModule_390 = Object.create(null);
+
+const __awtsmoosModule_389 = Object.create(null);
+
+const __awtsmoosModule_391 = Object.create(null);
+
+const __awtsmoosModule_392 = Object.create(null);
+
+const __awtsmoosModule_393 = Object.create(null);
+
+const __awtsmoosModule_395 = Object.create(null);
+
+const __awtsmoosModule_394 = Object.create(null);
+
+const __awtsmoosModule_400 = Object.create(null);
+
+const __awtsmoosModule_401 = Object.create(null);
+
+const __awtsmoosModule_399 = Object.create(null);
+
+const __awtsmoosModule_398 = Object.create(null);
+
+const __awtsmoosModule_402 = Object.create(null);
+
+const __awtsmoosModule_397 = Object.create(null);
+
+const __awtsmoosModule_403 = Object.create(null);
+
+const __awtsmoosModule_396 = Object.create(null);
+
+const __awtsmoosModule_405 = Object.create(null);
+
+const __awtsmoosModule_404 = Object.create(null);
+
+const __awtsmoosModule_408 = Object.create(null);
+
+const __awtsmoosModule_407 = Object.create(null);
+
+const __awtsmoosModule_409 = Object.create(null);
+
+const __awtsmoosModule_410 = Object.create(null);
+
+const __awtsmoosModule_406 = Object.create(null);
+
+const __awtsmoosModule_411 = Object.create(null);
+
+const __awtsmoosModule_412 = Object.create(null);
+
+const __awtsmoosModule_416 = Object.create(null);
+
+const __awtsmoosModule_421 = Object.create(null);
+
+const __awtsmoosModule_420 = Object.create(null);
+
+const __awtsmoosModule_422 = Object.create(null);
+
+const __awtsmoosModule_423 = Object.create(null);
+
+const __awtsmoosModule_424 = Object.create(null);
+
+const __awtsmoosModule_419 = Object.create(null);
+
+const __awtsmoosModule_425 = Object.create(null);
+
+const __awtsmoosModule_418 = Object.create(null);
+
+const __awtsmoosModule_427 = Object.create(null);
+
+const __awtsmoosModule_428 = Object.create(null);
+
+const __awtsmoosModule_426 = Object.create(null);
+
+const __awtsmoosModule_417 = Object.create(null);
+
+const __awtsmoosModule_415 = Object.create(null);
+
+const __awtsmoosModule_429 = Object.create(null);
+
+const __awtsmoosModule_430 = Object.create(null);
+
+const __awtsmoosModule_432 = Object.create(null);
+
+const __awtsmoosModule_433 = Object.create(null);
+
+const __awtsmoosModule_435 = Object.create(null);
+
+const __awtsmoosModule_434 = Object.create(null);
+
+const __awtsmoosModule_438 = Object.create(null);
+
+const __awtsmoosModule_437 = Object.create(null);
+
+const __awtsmoosModule_436 = Object.create(null);
+
+const __awtsmoosModule_431 = Object.create(null);
+
+const __awtsmoosModule_414 = Object.create(null);
+
+const __awtsmoosModule_439 = Object.create(null);
+
+const __awtsmoosModule_440 = Object.create(null);
+
+const __awtsmoosModule_413 = Object.create(null);
+
+const __awtsmoosModule_441 = Object.create(null);
+
+const __awtsmoosModule_442 = Object.create(null);
+
+const __awtsmoosModule_443 = Object.create(null);
+
+const __awtsmoosModule_446 = Object.create(null);
 
 const __awtsmoosModule_447 = Object.create(null);
 
-const __awtsmoosModule_353 = Object.create(null);
+const __awtsmoosModule_445 = Object.create(null);
 
-const __awtsmoosModule_352 = Object.create(null);
+const __awtsmoosModule_448 = Object.create(null);
+
+const __awtsmoosModule_444 = Object.create(null);
+
+const __awtsmoosModule_450 = Object.create(null);
+
+const __awtsmoosModule_451 = Object.create(null);
 
 const __awtsmoosModule_449 = Object.create(null);
 
-const __awtsmoosModule_454 = Object.create(null);
+const __awtsmoosModule_452 = Object.create(null);
+
+const __awtsmoosModule_372 = Object.create(null);
+
+const __awtsmoosModule_453 = Object.create(null);
+
+const __awtsmoosModule_371 = Object.create(null);
+
+const __awtsmoosModule_370 = Object.create(null);
+
+const __awtsmoosModule_368 = Object.create(null);
+
+const __awtsmoosModule_367 = Object.create(null);
+
+const __awtsmoosModule_366 = Object.create(null);
 
 const __awtsmoosModule_455 = Object.create(null);
 
+const __awtsmoosModule_456 = Object.create(null);
+
+const __awtsmoosModule_454 = Object.create(null);
+
+const __awtsmoosModule_365 = Object.create(null);
+
 const __awtsmoosModule_457 = Object.create(null);
+
+const __awtsmoosModule_459 = Object.create(null);
 
 const __awtsmoosModule_458 = Object.create(null);
 
-const __awtsmoosModule_463 = Object.create(null);
+const __awtsmoosModule_364 = Object.create(null);
 
-const __awtsmoosModule_466 = Object.create(null);
+const __awtsmoosModule_363 = Object.create(null);
+
+const __awtsmoosModule_460 = Object.create(null);
 
 const __awtsmoosModule_465 = Object.create(null);
 
-const __awtsmoosModule_464 = Object.create(null);
-
-const __awtsmoosModule_462 = Object.create(null);
+const __awtsmoosModule_466 = Object.create(null);
 
 const __awtsmoosModule_468 = Object.create(null);
 
 const __awtsmoosModule_469 = Object.create(null);
 
-const __awtsmoosModule_467 = Object.create(null);
-
-const __awtsmoosModule_461 = Object.create(null);
-
-const __awtsmoosModule_460 = Object.create(null);
-
-const __awtsmoosModule_459 = Object.create(null);
-
-const __awtsmoosModule_470 = Object.create(null);
-
-const __awtsmoosModule_456 = Object.create(null);
-
-const __awtsmoosModule_453 = Object.create(null);
-
-const __awtsmoosModule_452 = Object.create(null);
-
-const __awtsmoosModule_471 = Object.create(null);
-
-const __awtsmoosModule_472 = Object.create(null);
-
-const __awtsmoosModule_473 = Object.create(null);
-
-const __awtsmoosModule_451 = Object.create(null);
-
-const __awtsmoosModule_450 = Object.create(null);
-
-const __awtsmoosModule_341 = Object.create(null);
-
 const __awtsmoosModule_474 = Object.create(null);
-
-const __awtsmoosModule_475 = Object.create(null);
-
-const __awtsmoosModule_340 = Object.create(null);
-
-const __awtsmoosModule_476 = Object.create(null);
-
-const __awtsmoosModule_313 = Object.create(null);
-
-const __awtsmoosModule_310 = Object.create(null);
 
 const __awtsmoosModule_477 = Object.create(null);
 
-const __awtsmoosModule_309 = Object.create(null);
+const __awtsmoosModule_476 = Object.create(null);
+
+const __awtsmoosModule_475 = Object.create(null);
+
+const __awtsmoosModule_473 = Object.create(null);
+
+const __awtsmoosModule_479 = Object.create(null);
 
 const __awtsmoosModule_480 = Object.create(null);
 
+const __awtsmoosModule_478 = Object.create(null);
+
+const __awtsmoosModule_472 = Object.create(null);
+
+const __awtsmoosModule_471 = Object.create(null);
+
+const __awtsmoosModule_470 = Object.create(null);
+
 const __awtsmoosModule_481 = Object.create(null);
+
+const __awtsmoosModule_467 = Object.create(null);
+
+const __awtsmoosModule_464 = Object.create(null);
+
+const __awtsmoosModule_463 = Object.create(null);
 
 const __awtsmoosModule_482 = Object.create(null);
 
 const __awtsmoosModule_483 = Object.create(null);
 
-const __awtsmoosModule_479 = Object.create(null);
+const __awtsmoosModule_484 = Object.create(null);
 
-const __awtsmoosModule_478 = Object.create(null);
+const __awtsmoosModule_462 = Object.create(null);
 
-const __awtsmoosModule_488 = Object.create(null);
+const __awtsmoosModule_461 = Object.create(null);
 
-const __awtsmoosModule_490 = Object.create(null);
-
-const __awtsmoosModule_491 = Object.create(null);
-
-const __awtsmoosModule_489 = Object.create(null);
-
-const __awtsmoosModule_487 = Object.create(null);
-
-const __awtsmoosModule_486 = Object.create(null);
-
-const __awtsmoosModule_492 = Object.create(null);
-
-const __awtsmoosModule_493 = Object.create(null);
-
-const __awtsmoosModule_494 = Object.create(null);
-
-const __awtsmoosModule_495 = Object.create(null);
+const __awtsmoosModule_352 = Object.create(null);
 
 const __awtsmoosModule_485 = Object.create(null);
 
-const __awtsmoosModule_484 = Object.create(null);
+const __awtsmoosModule_486 = Object.create(null);
 
-const __awtsmoosModule_271 = Object.create(null);
+const __awtsmoosModule_351 = Object.create(null);
+
+const __awtsmoosModule_487 = Object.create(null);
+
+const __awtsmoosModule_324 = Object.create(null);
+
+const __awtsmoosModule_321 = Object.create(null);
+
+const __awtsmoosModule_488 = Object.create(null);
+
+const __awtsmoosModule_320 = Object.create(null);
+
+const __awtsmoosModule_489 = Object.create(null);
+
+const __awtsmoosModule_494 = Object.create(null);
 
 const __awtsmoosModule_496 = Object.create(null);
 
 const __awtsmoosModule_497 = Object.create(null);
 
-const __awtsmoosModule_205 = Object.create(null);
+const __awtsmoosModule_495 = Object.create(null);
 
-const __awtsmoosModule_204 = Object.create(null);
+const __awtsmoosModule_493 = Object.create(null);
 
-const __awtsmoosModule_179 = Object.create(null);
+const __awtsmoosModule_492 = Object.create(null);
+
+const __awtsmoosModule_498 = Object.create(null);
 
 const __awtsmoosModule_499 = Object.create(null);
 
-const __awtsmoosModule_498 = Object.create(null);
+const __awtsmoosModule_500 = Object.create(null);
+
+const __awtsmoosModule_501 = Object.create(null);
+
+const __awtsmoosModule_491 = Object.create(null);
+
+const __awtsmoosModule_490 = Object.create(null);
+
+const __awtsmoosModule_289 = Object.create(null);
+
+const __awtsmoosModule_502 = Object.create(null);
+
+const __awtsmoosModule_503 = Object.create(null);
+
+const __awtsmoosModule_223 = Object.create(null);
+
+const __awtsmoosModule_222 = Object.create(null);
+
+const __awtsmoosModule_179 = Object.create(null);
+
+const __awtsmoosModule_505 = Object.create(null);
+
+const __awtsmoosModule_504 = Object.create(null);
 
 const __awtsmoosModule_49 = Object.create(null);
 
@@ -1046,25 +1058,25 @@ const __awtsmoosModule_0 = Object.create(null);
 		'release',
 		'cancel'
 	]);
+
+
 	__exports.PLAYER_ACTION_PHASES = PLAYER_ACTION_PHASES;
-
-
 	const PLAYER_ACTION_LAYERS = Object.freeze([
 		'upper-body',
 		'full-body',
 		'additive'
 	]);
+
+
 	__exports.PLAYER_ACTION_LAYERS = PLAYER_ACTION_LAYERS;
-
-
 	const PLAYER_ACTION_MESSAGES = Object.freeze({
 		dispatch: 'player.action.dispatch',
 		staffCast: 'player.action.staff.cast',
 		swordCast: 'player.action.sword.cast'
 	});
+
+
 	__exports.PLAYER_ACTION_MESSAGES = PLAYER_ACTION_MESSAGES;
-
-
 	const PLAYER_ACTION_BONE_ROLES = Object.freeze([
 		'hips',
 		'spine',
@@ -1087,8 +1099,8 @@ const __awtsmoosModule_0 = Object.create(null);
 		'rightLeg',
 		'rightFoot'
 	]);
-	__exports.PLAYER_ACTION_BONE_ROLES = PLAYER_ACTION_BONE_ROLES;
 
+	__exports.PLAYER_ACTION_BONE_ROLES = PLAYER_ACTION_BONE_ROLES;
 
 }
 
@@ -1106,8 +1118,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * to finite timing, known roles, one message, and data that the runtime can inspect.
 	 */
 
-	var PLAYER_ACTION_BONE_ROLES = __awtsmoosModule_6.PLAYER_ACTION_BONE_ROLES;
-	var PLAYER_ACTION_LAYERS = __awtsmoosModule_6.PLAYER_ACTION_LAYERS;
+	const PLAYER_ACTION_BONE_ROLES = __awtsmoosModule_6.PLAYER_ACTION_BONE_ROLES;
+	const PLAYER_ACTION_LAYERS = __awtsmoosModule_6.PLAYER_ACTION_LAYERS;
 
 	const ROLE_SET = new Set(PLAYER_ACTION_BONE_ROLES);
 	const LAYER_SET = new Set(PLAYER_ACTION_LAYERS);
@@ -1208,7 +1220,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * identities, message lookup, versions, and finite evidence for human and AI workers.
 	 */
 
-	var validatePlayerActionDefinition = __awtsmoosModule_5.validatePlayerActionDefinition;
+	const validatePlayerActionDefinition = __awtsmoosModule_5.validatePlayerActionDefinition;
 
 	class PlayerActionRegistry {
 		constructor(definitions = []) {
@@ -1273,7 +1285,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * message, equipment law, timing, and semantic-bone arc wholly separate from sword work.
 	 */
 
-	var PLAYER_ACTION_MESSAGES = __awtsmoosModule_6.PLAYER_ACTION_MESSAGES;
+	const PLAYER_ACTION_MESSAGES = __awtsmoosModule_6.PLAYER_ACTION_MESSAGES;
 
 	const STAFF_CAST_ACTION = Object.freeze({
 		autoRelease: false,
@@ -1331,9 +1343,9 @@ const __awtsmoosModule_0 = Object.create(null);
 		}),
 		version: 1
 	});
+
+
 	__exports.STAFF_CAST_ACTION = STAFF_CAST_ACTION;
-
-
 	function frame(at, pose) {
 		return Object.freeze({ at, pose: Object.freeze(pose) });
 	}
@@ -1354,7 +1366,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * its own message, equipment law, timing, and semantic-bone language apart from the staff.
 	 */
 
-	var PLAYER_ACTION_MESSAGES = __awtsmoosModule_6.PLAYER_ACTION_MESSAGES;
+	const PLAYER_ACTION_MESSAGES = __awtsmoosModule_6.PLAYER_ACTION_MESSAGES;
 
 	const SWORD_CAST_ACTION = Object.freeze({
 		autoRelease: false,
@@ -1412,9 +1424,9 @@ const __awtsmoosModule_0 = Object.create(null);
 		}),
 		version: 1
 	});
+
+
 	__exports.SWORD_CAST_ACTION = SWORD_CAST_ACTION;
-
-
 	function frame(at, pose) {
 		return Object.freeze({ at, pose: Object.freeze(pose) });
 	}
@@ -1435,9 +1447,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * registry doorway through which later validated AI-authored actions may also enter.
 	 */
 
-	var PlayerActionRegistry = __awtsmoosModule_4.PlayerActionRegistry;
-	var STAFF_CAST_ACTION = __awtsmoosModule_7.STAFF_CAST_ACTION;
-	var SWORD_CAST_ACTION = __awtsmoosModule_8.SWORD_CAST_ACTION;
+	const PlayerActionRegistry = __awtsmoosModule_4.PlayerActionRegistry;
+	const STAFF_CAST_ACTION = __awtsmoosModule_7.STAFF_CAST_ACTION;
+	const SWORD_CAST_ACTION = __awtsmoosModule_8.SWORD_CAST_ACTION;
 
 	function createBuiltInPlayerActionRegistry() {
 		return new PlayerActionRegistry([
@@ -1479,9 +1491,9 @@ const __awtsmoosModule_0 = Object.create(null);
 		spine1: 'mixamorigspine1',
 		spine2: 'mixamorigspine2'
 	});
+
+
 	__exports.MINIMAL_MEADOW_BONE_ROLES = MINIMAL_MEADOW_BONE_ROLES;
-
-
 	const MINIMAL_MEADOW_PLAYER_POSES = Object.freeze({
 		'cast-windup': Object.freeze([
 			['spine2', -0.08, 0.12, 0], ['leftShoulder', -0.26, 0, -0.34],
@@ -1525,8 +1537,8 @@ const __awtsmoosModule_0 = Object.create(null);
 			['head', 0.14, 0.1, 0.08]
 		])
 	});
-	__exports.MINIMAL_MEADOW_PLAYER_POSES = MINIMAL_MEADOW_PLAYER_POSES;
 
+	__exports.MINIMAL_MEADOW_PLAYER_POSES = MINIMAL_MEADOW_PLAYER_POSES;
 
 }
 
@@ -1544,7 +1556,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * keeps trigonometry, easing, and naming outside the cached binder's smaller responsibility.
 	 */
 
-	var ROLES = __awtsmoosModule_11.MINIMAL_MEADOW_BONE_ROLES;
+	const ROLES = __awtsmoosModule_11.MINIMAL_MEADOW_BONE_ROLES;
 
 	function minimalMeadowBoneRole(name) {
 		const normalized = String(name || '').toLowerCase().replace(/[^a-z0-9]/g, '');
@@ -1692,8 +1704,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * every unsampled arm from multiplying yesterday's offset into a visible T-pose.
 	 */
 
-	var applyMinimalMeadowEuler = __awtsmoosModule_10.applyMinimalMeadowEuler;
-	var resolvePlayerActionBones = __awtsmoosModule_12.resolvePlayerActionBones;
+	const applyMinimalMeadowEuler = __awtsmoosModule_10.applyMinimalMeadowEuler;
+	const resolvePlayerActionBones = __awtsmoosModule_12.resolvePlayerActionBones;
 
 	class PlayerActionActor {
 		constructor(options) {
@@ -1798,7 +1810,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * contracts while letting future AI messages enter the same validated action runtime.
 	 */
 
-	var PLAYER_ACTION_MESSAGES = __awtsmoosModule_6.PLAYER_ACTION_MESSAGES;
+	const PLAYER_ACTION_MESSAGES = __awtsmoosModule_6.PLAYER_ACTION_MESSAGES;
 
 	class PlayerActionMessageBridge {
 		constructor(options) {
@@ -2014,7 +2026,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * bookkeeping outside the quaternion vessel so each module reveals one responsibility.
 	 */
 
-	var playerActionStateSnapshot = __awtsmoosModule_16.playerActionStateSnapshot;
+	const playerActionStateSnapshot = __awtsmoosModule_16.playerActionStateSnapshot;
 
 	function emitPlayerActionRelease(runtime, message = {}) {
 		const action = runtime.active;
@@ -2154,18 +2166,18 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * spine and hands to cast while root, hips, and legs remain faithful to imported locomotion.
 	 */
 
-	var constrainedPlayerActionEuler = __awtsmoosModule_19.constrainedPlayerActionEuler;
-	var playerActionQuaternionDistanceSquared = __awtsmoosModule_19.playerActionQuaternionDistanceSquared;
-	var setPlayerActionQuaternionFromEuler = __awtsmoosModule_19.setPlayerActionQuaternionFromEuler;
+	const constrainedPlayerActionEuler = __awtsmoosModule_19.constrainedPlayerActionEuler;
+	const playerActionQuaternionDistanceSquared = __awtsmoosModule_19.playerActionQuaternionDistanceSquared;
+	const setPlayerActionQuaternionFromEuler = __awtsmoosModule_19.setPlayerActionQuaternionFromEuler;
 
 	const PLAYER_ACTION_UPPER_BODY_ROLES = Object.freeze([
 		'spine', 'spine1', 'spine2', 'neck', 'head',
 		'leftShoulder', 'leftArm', 'leftForeArm', 'leftHand',
 		'rightShoulder', 'rightArm', 'rightForeArm', 'rightHand'
 	]);
+
+
 	__exports.PLAYER_ACTION_UPPER_BODY_ROLES = PLAYER_ACTION_UPPER_BODY_ROLES;
-
-
 	const ROLE_SET = new Set(PLAYER_ACTION_UPPER_BODY_ROLES);
 	const WORK_EULER = [0, 0, 0];
 
@@ -2257,11 +2269,11 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * from the old gesture so recovery returns to moving truth instead of a frozen bind pose.
 	 */
 
-	var applyPlayerActionBodyMask = __awtsmoosModule_18.applyPlayerActionBodyMask;
-	var capturePlayerActionBasePose = __awtsmoosModule_18.capturePlayerActionBasePose;
-	var playerActionPoseMatches = __awtsmoosModule_18.playerActionPoseMatches;
-	var recordPlayerActionPose = __awtsmoosModule_18.recordPlayerActionPose;
-	var restorePlayerActionBasePose = __awtsmoosModule_18.restorePlayerActionBasePose;
+	const applyPlayerActionBodyMask = __awtsmoosModule_18.applyPlayerActionBodyMask;
+	const capturePlayerActionBasePose = __awtsmoosModule_18.capturePlayerActionBasePose;
+	const playerActionPoseMatches = __awtsmoosModule_18.playerActionPoseMatches;
+	const recordPlayerActionPose = __awtsmoosModule_18.recordPlayerActionPose;
+	const restorePlayerActionBasePose = __awtsmoosModule_18.restorePlayerActionBasePose;
 
 	class PlayerActionBodyMaskRuntime {
 		constructor(actor) {
@@ -2336,8 +2348,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * releases interrupted gestures, and lets the hydrated model receive a fresh upper-body vessel.
 	 */
 
-	var playerActionResultRecord = __awtsmoosModule_15.playerActionResultRecord;
-	var PlayerActionBodyMaskRuntime = __awtsmoosModule_17.PlayerActionBodyMaskRuntime;
+	const playerActionResultRecord = __awtsmoosModule_15.playerActionResultRecord;
+	const PlayerActionBodyMaskRuntime = __awtsmoosModule_17.PlayerActionBodyMaskRuntime;
 
 	/** Replaces the actor model without carrying old bone references or overlay state forward. */
 	function bindPlayerActionModel(runtime, model) {
@@ -2442,9 +2454,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * interpretation from bone application so future actions need no controller edits.
 	 */
 
-	var PLAYER_ACTION_PHASES = __awtsmoosModule_6.PLAYER_ACTION_PHASES;
-	var boundedPlayerActionProgress = __awtsmoosModule_16.boundedPlayerActionProgress;
-	var createPlayerActionState = __awtsmoosModule_16.createPlayerActionState;
+	const PLAYER_ACTION_PHASES = __awtsmoosModule_6.PLAYER_ACTION_PHASES;
+	const boundedPlayerActionProgress = __awtsmoosModule_16.boundedPlayerActionProgress;
+	const createPlayerActionState = __awtsmoosModule_16.createPlayerActionState;
 
 	function dispatchPlayerAction(runtime, message = {}) {
 		if (!PLAYER_ACTION_PHASES.includes(message.phase)) {
@@ -2507,14 +2519,14 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * untouched, release singular, cancellation smooth, and future registry actions inspectable.
 	 */
 
-	var PlayerActionBodyMaskRuntime = __awtsmoosModule_17.PlayerActionBodyMaskRuntime;
-	var emitPlayerActionRelease = __awtsmoosModule_15.emitPlayerActionRelease;
-	var playerActionResultRecord = __awtsmoosModule_15.playerActionResultRecord;
-	var playerActionRuntimeSnapshot = __awtsmoosModule_15.playerActionRuntimeSnapshot;
-	var PlayerActionPoseSampler = __awtsmoosModule_21.PlayerActionPoseSampler;
-	var dispatchPlayerAction = __awtsmoosModule_22.dispatchPlayerAction;
-	var advancePlayerActionState = __awtsmoosModule_16.advancePlayerActionState;
-	var beginPlayerActionRecovery = __awtsmoosModule_16.beginPlayerActionRecovery;
+	const PlayerActionBodyMaskRuntime = __awtsmoosModule_17.PlayerActionBodyMaskRuntime;
+	const emitPlayerActionRelease = __awtsmoosModule_15.emitPlayerActionRelease;
+	const playerActionResultRecord = __awtsmoosModule_15.playerActionResultRecord;
+	const playerActionRuntimeSnapshot = __awtsmoosModule_15.playerActionRuntimeSnapshot;
+	const PlayerActionPoseSampler = __awtsmoosModule_21.PlayerActionPoseSampler;
+	const dispatchPlayerAction = __awtsmoosModule_22.dispatchPlayerAction;
+	const advancePlayerActionState = __awtsmoosModule_16.advancePlayerActionState;
+	const beginPlayerActionRecovery = __awtsmoosModule_16.beginPlayerActionRecovery;
 
 	class PlayerActionRuntime {
 		constructor(options) {
@@ -2623,11 +2635,11 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * APIs for the player, fallback hydration, remote Chossids, and future independent actions.
 	 */
 
-	var createBuiltInPlayerActionRegistry = __awtsmoosModule_3.createBuiltInPlayerActionRegistry;
-	var PlayerActionActor = __awtsmoosModule_9.PlayerActionActor;
-	var PlayerActionMessageBridge = __awtsmoosModule_13.PlayerActionMessageBridge;
-	var bindPlayerActionModel = __awtsmoosModule_14.bindPlayerActionModel;
-	var PlayerActionRuntime = __awtsmoosModule_20.PlayerActionRuntime;
+	const createBuiltInPlayerActionRegistry = __awtsmoosModule_3.createBuiltInPlayerActionRegistry;
+	const PlayerActionActor = __awtsmoosModule_9.PlayerActionActor;
+	const PlayerActionMessageBridge = __awtsmoosModule_13.PlayerActionMessageBridge;
+	const bindPlayerActionModel = __awtsmoosModule_14.bindPlayerActionModel;
+	const PlayerActionRuntime = __awtsmoosModule_20.PlayerActionRuntime;
 
 	function createPlayerActionSystem(options) {
 		const registry = options.registry || createBuiltInPlayerActionRegistry();
@@ -2769,7 +2781,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * their truthful journey while the upper body reveals a finite deed without falling sideways.
 	 */
 
-	var minimalMeadowLocomotionState = __awtsmoosModule_24.minimalMeadowLocomotionState;
+	const minimalMeadowLocomotionState = __awtsmoosModule_24.minimalMeadowLocomotionState;
 
 	function minimalMeadowImportedAnimationState(runtime, animation, semanticState) {
 		if (semanticState === 'death') {
@@ -2993,7 +3005,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * complete local vessel in one pass so no temporary translation or scale matrix is born.
 	 */
 
-	var identity = __awtsmoosModule_32.identity;
+	const identity = __awtsmoosModule_32.identity;
 
 	function quatNormalize(quaternion) {
 		const x = quaternion?.[0] || 0;
@@ -3077,7 +3089,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * vessel directly so each ridge, flower, and Chossid reaches the screen without waste.
 	 */
 
-	var identity = __awtsmoosModule_32.identity;
+	const identity = __awtsmoosModule_32.identity;
 
 	function perspective(fovDegrees, aspect, near, far) {
 		const factor = 1 / Math.tan(fovDegrees * Math.PI / 360);
@@ -3162,7 +3174,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * visible traveler a measured path between samples without changing either endpoint.
 	 */
 
-	var quatNormalize = __awtsmoosModule_33.quatNormalize;
+	const quatNormalize = __awtsmoosModule_33.quatNormalize;
 
 	function quatSlerp(left, right, amount) {
 		const [ax, ay, az, aw] = left;
@@ -3252,15 +3264,15 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * vessels for moving hierarchy nodes while mesh matrix identity still invalidates batches.
 	 */
 
-	var identity = __awtsmoosModule_31.identity;
+	const identity = __awtsmoosModule_31.identity;
 
 	const MATRIX_SNAPSHOT = 1;
 	const TRS_SNAPSHOT = 2;
 
 	const ROOT_WORLD_MATRIX = identity();
+
+
 	__exports.ROOT_WORLD_MATRIX = ROOT_WORLD_MATRIX;
-
-
 	function cachedLocalMatrix(object) {
 		if (!localTransformChanged(object)) return object._localMatrixCache;
 		captureLocalTransform(object);
@@ -3534,14 +3546,14 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * changes so settled material and renderer systems stop rediscovering an unchanged village tree.
 	 */
 
-	var copyMat4 = __awtsmoosModule_31.copyMat4;
-	var identity = __awtsmoosModule_31.identity;
-	var cachedLocalMatrix = __awtsmoosModule_36.cachedLocalMatrix;
-	var invalidateTransformCache = __awtsmoosModule_36.invalidateTransformCache;
-	var ROOT_WORLD_MATRIX = __awtsmoosModule_36.ROOT_WORLD_MATRIX;
-	var updateCachedWorldMatrix = __awtsmoosModule_36.updateCachedWorldMatrix;
-	var Quaternion = __awtsmoosModule_37.Quaternion;
-	var Vector3 = __awtsmoosModule_37.Vector3;
+	const copyMat4 = __awtsmoosModule_31.copyMat4;
+	const identity = __awtsmoosModule_31.identity;
+	const cachedLocalMatrix = __awtsmoosModule_36.cachedLocalMatrix;
+	const invalidateTransformCache = __awtsmoosModule_36.invalidateTransformCache;
+	const ROOT_WORLD_MATRIX = __awtsmoosModule_36.ROOT_WORLD_MATRIX;
+	const updateCachedWorldMatrix = __awtsmoosModule_36.updateCachedWorldMatrix;
+	const Quaternion = __awtsmoosModule_37.Quaternion;
+	const Vector3 = __awtsmoosModule_37.Vector3;
 
 	class Object3D {
 		constructor() {
@@ -3676,7 +3688,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * contract focused so rigid stone and animated Chossid may share one clear doorway.
 	 */
 
-	var Object3D = __awtsmoosModule_30.Object3D;
+	const Object3D = __awtsmoosModule_30.Object3D;
 
 	class Mesh extends Object3D {
 		constructor(geometry = null, material = null) {
@@ -3777,7 +3789,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * rooted in the same cached scene graph as every visible flower and traveler.
 	 */
 
-	var Object3D = __awtsmoosModule_30.Object3D;
+	const Object3D = __awtsmoosModule_30.Object3D;
 
 	class PerspectiveCamera extends Object3D {
 		constructor(fov = 45, aspect = 1, near = 0.1, far = 1000) {
@@ -3807,17 +3819,17 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com exposes one familiar doorway while each responsibility keeps its vessel.
 	 */
 
-	var Bone = __awtsmoosModule_30.Bone;
-	var Group = __awtsmoosModule_30.Group;
-	var Object3D = __awtsmoosModule_30.Object3D;
-	var Scene = __awtsmoosModule_30.Scene;
-	var Mesh = __awtsmoosModule_38.Mesh;
-	var BufferAttribute = __awtsmoosModule_39.BufferAttribute;
-	var BufferGeometry = __awtsmoosModule_39.BufferGeometry;
-	var MeshStandardMaterial = __awtsmoosModule_39.MeshStandardMaterial;
-	var PerspectiveCamera = __awtsmoosModule_40.PerspectiveCamera;
-	var Quaternion = __awtsmoosModule_37.Quaternion;
-	var Vector3 = __awtsmoosModule_37.Vector3;
+	const Bone = __awtsmoosModule_30.Bone;
+	const Group = __awtsmoosModule_30.Group;
+	const Object3D = __awtsmoosModule_30.Object3D;
+	const Scene = __awtsmoosModule_30.Scene;
+	const Mesh = __awtsmoosModule_38.Mesh;
+	const BufferAttribute = __awtsmoosModule_39.BufferAttribute;
+	const BufferGeometry = __awtsmoosModule_39.BufferGeometry;
+	const MeshStandardMaterial = __awtsmoosModule_39.MeshStandardMaterial;
+	const PerspectiveCamera = __awtsmoosModule_40.PerspectiveCamera;
+	const Quaternion = __awtsmoosModule_37.Quaternion;
+	const Vector3 = __awtsmoosModule_37.Vector3;
 
 	__exports.Bone = Bone;
 	__exports.BufferAttribute = BufferAttribute;
@@ -3857,15 +3869,15 @@ const __awtsmoosModule_0 = Object.create(null);
 {
 	const __exports = __awtsmoosModule_28;
 	// B"H
-	var BufferAttribute = __awtsmoosModule_29.BufferAttribute;
+	const BufferAttribute = __awtsmoosModule_29.BufferAttribute;
 
 	/** Accessors: the hidden letters of GLTF made exact before the body moves. */
 	const COMPONENTS={5120:Int8Array,5121:Uint8Array,5122:Int16Array,5123:Uint16Array,5125:Uint32Array,5126:Float32Array};
+
 	__exports.COMPONENTS = COMPONENTS;
-
 	const TYPE_SIZES={SCALAR:1,VEC2:2,VEC3:3,VEC4:4,MAT2:4,MAT3:9,MAT4:16};
-	__exports.TYPE_SIZES = TYPE_SIZES;
 
+	__exports.TYPE_SIZES = TYPE_SIZES;
 	function componentName(t){return ({5120:'BYTE',5121:'UNSIGNED_BYTE',5122:'SHORT',5123:'UNSIGNED_SHORT',5125:'UNSIGNED_INT',5126:'FLOAT'})[t]||String(t);}
 
 	__exports.componentName = componentName;
@@ -3928,7 +3940,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * preserves each source channel exactly while separating parsing from living playback.
 	 */
 
-	var accessorFloatArray = __awtsmoosModule_28.accessorFloatArray;
+	const accessorFloatArray = __awtsmoosModule_28.accessorFloatArray;
 
 	const TARGET_SIZE = {
 		rotation: 4,
@@ -4196,7 +4208,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * same measured pose while temporary numbers pass through stable, reusable vessels.
 	 */
 
-	var slerpQuaternionInto = __awtsmoosModule_44.slerpQuaternionInto;
+	const slerpQuaternionInto = __awtsmoosModule_44.slerpQuaternionInto;
 
 	function applyChannelSample(channel, time, fadeFrom, fadeAmount = 1) {
 		const span = resolveSpan(channel, time);
@@ -4298,10 +4310,10 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * idle from bind pose with zero weight, yet preserves gentle transitions after motion is alive.
 	 */
 
-	var captureClipPose = __awtsmoosModule_42.captureClipPose;
-	var createAnimationBindings = __awtsmoosModule_42.createAnimationBindings;
-	var resetAnimationBindings = __awtsmoosModule_42.resetAnimationBindings;
-	var applyChannelSample = __awtsmoosModule_43.applyChannelSample;
+	const captureClipPose = __awtsmoosModule_42.captureClipPose;
+	const createAnimationBindings = __awtsmoosModule_42.createAnimationBindings;
+	const resetAnimationBindings = __awtsmoosModule_42.resetAnimationBindings;
+	const applyChannelSample = __awtsmoosModule_43.applyChannelSample;
 
 	class TinyAnimationPlayer {
 		constructor(root, clips = []) {
@@ -4447,7 +4459,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * and Movie Studio, constructing a replacement only when the active model truly differs from the canonical controller's root.
 	 */
 
-	var TinyAnimationPlayer = __awtsmoosModule_26.TinyAnimationPlayer;
+	const TinyAnimationPlayer = __awtsmoosModule_26.TinyAnimationPlayer;
 
 	function resolveMinimalMeadowAnimationPlayer(runtime) {
 		const canonical = runtime.canonicalAnimationPlayer;
@@ -4508,9 +4520,9 @@ const __awtsmoosModule_0 = Object.create(null);
 		'melee-windup': 70,
 		standing: 0
 	});
+
+
 	__exports.MINIMAL_ANIMATION_PRIORITY = MINIMAL_ANIMATION_PRIORITY;
-
-
 	function bindMinimalMeadowCombatAnimation(bus, controller) {
 		return [
 			bus.on('combat:cast-start', payload => controller.castStart(payload)),
@@ -4554,8 +4566,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com keeps transition arithmetic outside the controller's event-facing vessel.
 	 */
 
-	var duration = __awtsmoosModule_46.minimalAnimationDuration;
-	var progress = __awtsmoosModule_46.minimalAnimationProgress;
+	const duration = __awtsmoosModule_46.minimalAnimationDuration;
+	const progress = __awtsmoosModule_46.minimalAnimationProgress;
 
 	function advanceMinimalCombatAnimation(controller, deltaSeconds) {
 		controller.elapsed += Math.max(0, Number(deltaSeconds) || 0);
@@ -4621,12 +4633,12 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * selection, or hydration from dissolving a deed before its measured animation boundary.
 	 */
 
-	var minimalMeadowLocomotionState = __awtsmoosModule_24.minimalMeadowLocomotionState;
-	var bindMinimalMeadowCombatAnimation = __awtsmoosModule_46.bindMinimalMeadowCombatAnimation;
-	var PRIORITY = __awtsmoosModule_46.MINIMAL_ANIMATION_PRIORITY;
-	var duration = __awtsmoosModule_46.minimalAnimationDuration;
-	var progress = __awtsmoosModule_46.minimalAnimationProgress;
-	var advanceMinimalCombatAnimation = __awtsmoosModule_47.advanceMinimalCombatAnimation;
+	const minimalMeadowLocomotionState = __awtsmoosModule_24.minimalMeadowLocomotionState;
+	const bindMinimalMeadowCombatAnimation = __awtsmoosModule_46.bindMinimalMeadowCombatAnimation;
+	const PRIORITY = __awtsmoosModule_46.MINIMAL_ANIMATION_PRIORITY;
+	const duration = __awtsmoosModule_46.minimalAnimationDuration;
+	const progress = __awtsmoosModule_46.minimalAnimationProgress;
+	const advanceMinimalCombatAnimation = __awtsmoosModule_47.advanceMinimalCombatAnimation;
 
 	class MinimalMeadowCombatAnimationController {
 		constructor(runtime) {
@@ -4739,10 +4751,10 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com traverses once, allocates no frame geometry, and fades every deed back into travel.
 	 */
 
-	var POSES = __awtsmoosModule_11.MINIMAL_MEADOW_PLAYER_POSES;
-	var applyMinimalMeadowEuler = __awtsmoosModule_10.applyMinimalMeadowEuler;
-	var minimalMeadowBoneRole = __awtsmoosModule_10.minimalMeadowBoneRole;
-	var minimalMeadowPoseAmount = __awtsmoosModule_10.minimalMeadowPoseAmount;
+	const POSES = __awtsmoosModule_11.MINIMAL_MEADOW_PLAYER_POSES;
+	const applyMinimalMeadowEuler = __awtsmoosModule_10.applyMinimalMeadowEuler;
+	const minimalMeadowBoneRole = __awtsmoosModule_10.minimalMeadowBoneRole;
+	const minimalMeadowPoseAmount = __awtsmoosModule_10.minimalMeadowPoseAmount;
 
 	class MinimalMeadowPlayerBonePose {
 		constructor(model) {
@@ -4815,16 +4827,16 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * root is the active model, preserving stand, walk, run, jump, fall, punch, stab, dance, and pose truth through gameplay and Studio.
 	 */
 
-	var createPlayerActionSystem = __awtsmoosModule_2.createPlayerActionSystem;
-	var minimalMeadowImportedAnimationState = __awtsmoosModule_23.minimalMeadowImportedAnimationState;
-	var minimalMeadowRootUpDot = __awtsmoosModule_23.minimalMeadowRootUpDot;
-	var stabilizeMinimalMeadowLivingRoot = __awtsmoosModule_23.stabilizeMinimalMeadowLivingRoot;
-	var updateMinimalMeadowLegacyOverlay = __awtsmoosModule_23.updateMinimalMeadowLegacyOverlay;
-	var minimalMeadowClipForState = __awtsmoosModule_24.minimalMeadowClipForState;
-	var canonicalAnimationPlayerEvidence = __awtsmoosModule_25.canonicalAnimationPlayerEvidence;
-	var resolveMinimalMeadowAnimationPlayer = __awtsmoosModule_25.resolveMinimalMeadowAnimationPlayer;
-	var MinimalMeadowCombatAnimationController = __awtsmoosModule_45.MinimalMeadowCombatAnimationController;
-	var MinimalMeadowPlayerBonePose = __awtsmoosModule_48.MinimalMeadowPlayerBonePose;
+	const createPlayerActionSystem = __awtsmoosModule_2.createPlayerActionSystem;
+	const minimalMeadowImportedAnimationState = __awtsmoosModule_23.minimalMeadowImportedAnimationState;
+	const minimalMeadowRootUpDot = __awtsmoosModule_23.minimalMeadowRootUpDot;
+	const stabilizeMinimalMeadowLivingRoot = __awtsmoosModule_23.stabilizeMinimalMeadowLivingRoot;
+	const updateMinimalMeadowLegacyOverlay = __awtsmoosModule_23.updateMinimalMeadowLegacyOverlay;
+	const minimalMeadowClipForState = __awtsmoosModule_24.minimalMeadowClipForState;
+	const canonicalAnimationPlayerEvidence = __awtsmoosModule_25.canonicalAnimationPlayerEvidence;
+	const resolveMinimalMeadowAnimationPlayer = __awtsmoosModule_25.resolveMinimalMeadowAnimationPlayer;
+	const MinimalMeadowCombatAnimationController = __awtsmoosModule_45.MinimalMeadowCombatAnimationController;
+	const MinimalMeadowPlayerBonePose = __awtsmoosModule_48.MinimalMeadowPlayerBonePose;
 
 	function installMinimalMeadowAnimation(runtime) {
 		destroyInstalledAnimation(runtime);
@@ -5015,9 +5027,9 @@ const __awtsmoosModule_0 = Object.create(null);
 		'yesod',
 		'malchus'
 	]);
+
+
 	__exports.SPIRITUAL_STAT_KEYS = SPIRITUAL_STAT_KEYS;
-
-
 	function spiritualStats(values = {}) {
 		return Object.freeze(Object.fromEntries(
 			SPIRITUAL_STAT_KEYS.map(key => [key, finiteStat(values[key])])
@@ -5068,8 +5080,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com prevents one panel from inventing an effect another runtime cannot enforce.
 	 */
 
-	var inventoryRarity = __awtsmoosModule_57.inventoryRarity;
-	var spiritualStats = __awtsmoosModule_58.spiritualStats;
+	const inventoryRarity = __awtsmoosModule_57.inventoryRarity;
+	const spiritualStats = __awtsmoosModule_58.spiritualStats;
 
 	function inventoryItem(options) {
 		const spiritual = spiritualStats(options.spiritual);
@@ -5131,7 +5143,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com groups exporter fragments into meaningful wearable vessels with lawful stats.
 	 */
 
-	var inventoryItem = __awtsmoosModule_56.inventoryItem;
+	const inventoryItem = __awtsmoosModule_56.inventoryItem;
 
 	const COMMON = Object.freeze(['black', 'blue', 'brown', 'burgundy', 'gray', 'green']);
 	const CLOTH = Object.freeze(['plain', 'wool', 'linen', 'velvet', 'satin']);
@@ -5152,23 +5164,23 @@ const __awtsmoosModule_0 = Object.create(null);
 		garment('brown-kapote', 'Brown Market Kapote', '🧥', 'coat', 'jacket', 118, [0, 8, 1], { gevurah: 4, malchus: 3, netzach: 2 }, ['brown', 'black', 'green'], ['wool', 'linen']),
 		garment('linen-outer-shirt', 'Fine Linen Outer Shirt', '👔', 'outerShirt', 'outer-shirt', 68, [0, 2, 6], { chesed: 4, tiferes: 4, yesod: 2 }, ['white', 'cream', 'blue'], ['linen', 'satin'])
 	]));
+
+
 	__exports.GARMENT_CATALOG = GARMENT_CATALOG;
-
-
 	const GLB_GARMENT_COVERAGE = Object.freeze({
 		extras: Object.freeze(['glasses', 'head-teffilin-straps', 'teffilin-head-box', 'top-hat', 'yarmulka', 'teffiln-arm-box', 'jacket', 'jacket-teffilin', 'outer-shirt', 'teffilin-arm-straps']),
 		bodyMaterials: Object.freeze(['shirt', 'pants', 'shoes'])
 	});
+
+
 	__exports.GLB_GARMENT_COVERAGE = GLB_GARMENT_COVERAGE;
-
-
 	const REQUIRED_GARMENT_EQUIPMENT = Object.freeze({ feet: 'walking-boots', pants: 'black-trousers', shirt: 'base-shirt' });
+
 	__exports.REQUIRED_GARMENT_EQUIPMENT = REQUIRED_GARMENT_EQUIPMENT;
-
 	const GARMENT_ITEM_IDS = Object.freeze(Object.keys(GARMENT_CATALOG));
+
+
 	__exports.GARMENT_ITEM_IDS = GARMENT_ITEM_IDS;
-
-
 	function garment(id, name, icon, slot, visualId, price, legacy, spiritual, colors, fabrics, required = false) {
 		return [id, inventoryItem({ actions: ['equip', 'inspect', 'next-color', 'next-fabric'], appearance: { colors, defaultColor: colors[0], defaultFabric: fabrics[0], fabrics }, category: 'clothing', garment: { visualId }, icon, id, name, price, required, slot, spiritual, stats: { damage: legacy[0], defense: legacy[1], focus: legacy[2] } })];
 	}
@@ -5189,16 +5201,16 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * roots, parchment, and witnessed practice without presenting a game effect as real-world medicine.
 	 */
 
-	var inventoryItem = __awtsmoosModule_56.inventoryItem;
+	const inventoryItem = __awtsmoosModule_56.inventoryItem;
 
 	const HEALING_AMULET_IDS = Object.freeze([
 		'written-healing-kamea',
 		'root-herb-kamea',
 		'kamea-mumcheh'
 	]);
+
+
 	__exports.HEALING_AMULET_IDS = HEALING_AMULET_IDS;
-
-
 	const HEALING_AMULET_CATALOG = Object.freeze(Object.fromEntries([
 		amulet({
 			healing: 22,
@@ -5229,9 +5241,9 @@ const __awtsmoosModule_0 = Object.create(null);
 			tradition: 'expert-certified'
 		})
 	]));
+
+
 	__exports.HEALING_AMULET_CATALOG = HEALING_AMULET_CATALOG;
-
-
 	function healingAmuletDefinition(itemId) {
 		return HEALING_AMULET_CATALOG[itemId] || null;
 	}
@@ -5278,7 +5290,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * quantity, action, description, value, and finite stack law aligned with the gameplay runtime.
 	 */
 
-	var inventoryItem = __awtsmoosModule_56.inventoryItem;
+	const inventoryItem = __awtsmoosModule_56.inventoryItem;
 
 	const INVENTORY_CONSUMABLE_CATALOG = Object.freeze({
 		'healing-broth': inventoryItem({
@@ -5302,15 +5314,15 @@ const __awtsmoosModule_0 = Object.create(null);
 			stackLimit: 10
 		})
 	});
+
+
 	__exports.INVENTORY_CONSUMABLE_CATALOG = INVENTORY_CONSUMABLE_CATALOG;
-
-
 	const STARTER_CONSUMABLES = Object.freeze([
 		Object.freeze({ itemId: 'healing-broth', quantity: 2 }),
 		Object.freeze({ itemId: 'purifying-water', quantity: 1 })
 	]);
-	__exports.STARTER_CONSUMABLES = STARTER_CONSUMABLES;
 
+	__exports.STARTER_CONSUMABLES = STARTER_CONSUMABLES;
 
 }
 
@@ -5328,7 +5340,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * keeps slot, value, model, action, stack, and derived combat meaning visibly aligned.
 	 */
 
-	var inventoryItem = __awtsmoosModule_56.inventoryItem;
+	const inventoryItem = __awtsmoosModule_56.inventoryItem;
 
 	const INVENTORY_CORE_CATALOG = Object.freeze(Object.fromEntries([
 		entry('forest-axe', 'Forest Axe', '🪓', 'tool', 'tool', [5, 0, 2], 45, 'axe-small'),
@@ -5345,9 +5357,9 @@ const __awtsmoosModule_0 = Object.create(null);
 		entry('chest-key', 'Old Chest Key', '🗝️', 'quest', null, [0, 0, 0], null, null),
 		entry('perutas', 'Perutas', '🪙', 'currency', null, [0, 0, 0], null, null, ['inspect'], 9999)
 	]));
+
+
 	__exports.INVENTORY_CORE_CATALOG = INVENTORY_CORE_CATALOG;
-
-
 	function entry(
 		id,
 		name,
@@ -5398,7 +5410,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * so free creation stays generous without becoming detached from the lived economy unfolding across field and guild.
 	 */
 
-	var inventoryItem = __awtsmoosModule_56.inventoryItem;
+	const inventoryItem = __awtsmoosModule_56.inventoryItem;
 
 	const INVENTORY_MATERIAL_CATALOG = Object.freeze(Object.fromEntries([
 		material('wood-log', 'Fallen Wood', '🪵', 4, 48),
@@ -5411,9 +5423,9 @@ const __awtsmoosModule_0 = Object.create(null);
 		material('prepared-hide', 'Prepared Hide', '🟫', 6, 20),
 		material('shadow-remnant', 'Shadow Remnant', '🜏', null, 99, ['inspect'])
 	]));
+
+
 	__exports.INVENTORY_MATERIAL_CATALOG = INVENTORY_MATERIAL_CATALOG;
-
-
 	/** Produces one immutable inventory material definition entry. */
 	function material(id, name, icon, price, stackLimit, actions = ['inspect', 'drop']) {
 		return [id, inventoryItem({
@@ -5446,12 +5458,12 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * widens deliberate release while slowing preparation movement through visible lawful cost.
 	 */
 
-	var inventoryItem = __awtsmoosModule_56.inventoryItem;
+	const inventoryItem = __awtsmoosModule_56.inventoryItem;
 
 	const MEASURED_INTENT_REWARD_ID = 'vessel-of-measured-intent';
+
+
 	__exports.MEASURED_INTENT_REWARD_ID = MEASURED_INTENT_REWARD_ID;
-
-
 	const INVENTORY_REWARD_CATALOG = Object.freeze({
 		[MEASURED_INTENT_REWARD_ID]: inventoryItem({
 			actions: ['equip', 'inspect'],
@@ -5471,8 +5483,8 @@ const __awtsmoosModule_0 = Object.create(null);
 			}
 		})
 	});
-	__exports.INVENTORY_REWARD_CATALOG = INVENTORY_REWARD_CATALOG;
 
+	__exports.INVENTORY_REWARD_CATALOG = INVENTORY_REWARD_CATALOG;
 
 }
 
@@ -5490,14 +5502,14 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com keeps starter ownership, recovery quantities, and every later lookup stable and inspectable.
 	 */
 
-	var GARMENT_CATALOG = __awtsmoosModule_55.GARMENT_CATALOG;
-	var GARMENT_ITEM_IDS = __awtsmoosModule_55.GARMENT_ITEM_IDS;
-	var HEALING_AMULET_CATALOG = __awtsmoosModule_59.HEALING_AMULET_CATALOG;
-	var INVENTORY_CONSUMABLE_CATALOG = __awtsmoosModule_60.INVENTORY_CONSUMABLE_CATALOG;
-	var STARTER_CONSUMABLES = __awtsmoosModule_60.STARTER_CONSUMABLES;
-	var INVENTORY_CORE_CATALOG = __awtsmoosModule_61.INVENTORY_CORE_CATALOG;
-	var INVENTORY_MATERIAL_CATALOG = __awtsmoosModule_62.INVENTORY_MATERIAL_CATALOG;
-	var INVENTORY_REWARD_CATALOG = __awtsmoosModule_63.INVENTORY_REWARD_CATALOG;
+	const GARMENT_CATALOG = __awtsmoosModule_55.GARMENT_CATALOG;
+	const GARMENT_ITEM_IDS = __awtsmoosModule_55.GARMENT_ITEM_IDS;
+	const HEALING_AMULET_CATALOG = __awtsmoosModule_59.HEALING_AMULET_CATALOG;
+	const INVENTORY_CONSUMABLE_CATALOG = __awtsmoosModule_60.INVENTORY_CONSUMABLE_CATALOG;
+	const STARTER_CONSUMABLES = __awtsmoosModule_60.STARTER_CONSUMABLES;
+	const INVENTORY_CORE_CATALOG = __awtsmoosModule_61.INVENTORY_CORE_CATALOG;
+	const INVENTORY_MATERIAL_CATALOG = __awtsmoosModule_62.INVENTORY_MATERIAL_CATALOG;
+	const INVENTORY_REWARD_CATALOG = __awtsmoosModule_63.INVENTORY_REWARD_CATALOG;
 
 	const INVENTORY_CATALOG = Object.freeze({
 		...INVENTORY_CORE_CATALOG,
@@ -5507,18 +5519,18 @@ const __awtsmoosModule_0 = Object.create(null);
 		...INVENTORY_CONSUMABLE_CATALOG,
 		...GARMENT_CATALOG
 	});
+
+
 	__exports.INVENTORY_CATALOG = INVENTORY_CATALOG;
-
-
 	const STARTER_INVENTORY = Object.freeze([
 		stack('perutas', 120),
 		...starterToolsAndBooks().map(itemId => stack(itemId, 1)),
 		...STARTER_CONSUMABLES.map(entry => stack(entry.itemId, entry.quantity)),
 		...starterGarments().map(itemId => stack(itemId, 1))
 	]);
+
+
 	__exports.STARTER_INVENTORY = STARTER_INVENTORY;
-
-
 	function inventoryDefinition(itemId) {
 		return INVENTORY_CATALOG[itemId] || null;
 	}
@@ -5565,7 +5577,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * selection bounded by the garment definition and durable across save restoration.
 	 */
 
-	var inventoryDefinition = __awtsmoosModule_54.inventoryDefinition;
+	const inventoryDefinition = __awtsmoosModule_54.inventoryDefinition;
 
 	function inventoryAppearanceFor(appearance, itemId) {
 		const definition = inventoryDefinition(itemId);
@@ -5631,10 +5643,10 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * derives combat and ten spiritual measures from the garments actually equipped.
 	 */
 
-	var INVENTORY_CATALOG = __awtsmoosModule_54.INVENTORY_CATALOG;
-	var inventoryAppearanceFor = __awtsmoosModule_53.inventoryAppearanceFor;
-	var addSpiritualStats = __awtsmoosModule_58.addSpiritualStats;
-	var emptySpiritualStats = __awtsmoosModule_58.emptySpiritualStats;
+	const INVENTORY_CATALOG = __awtsmoosModule_54.INVENTORY_CATALOG;
+	const inventoryAppearanceFor = __awtsmoosModule_53.inventoryAppearanceFor;
+	const addSpiritualStats = __awtsmoosModule_58.addSpiritualStats;
+	const emptySpiritualStats = __awtsmoosModule_58.emptySpiritualStats;
 
 	function normalizeInventoryQuantity(quantity) {
 		const numeric = Number(quantity);
@@ -5744,15 +5756,15 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * so every Peruta gained by sale has a visible item, quantity, and deterministic price standing behind its tale.
 	 */
 
-	var inventoryDefinition = __awtsmoosModule_54.inventoryDefinition;
-	var addInventoryItem = __awtsmoosModule_65.addInventoryItem;
-	var normalizeInventoryQuantity = __awtsmoosModule_65.normalizeInventoryQuantity;
-	var removeInventoryItem = __awtsmoosModule_65.removeInventoryItem;
+	const inventoryDefinition = __awtsmoosModule_54.inventoryDefinition;
+	const addInventoryItem = __awtsmoosModule_65.addInventoryItem;
+	const normalizeInventoryQuantity = __awtsmoosModule_65.normalizeInventoryQuantity;
+	const removeInventoryItem = __awtsmoosModule_65.removeInventoryItem;
 
 	const INVENTORY_SELLBACK_RATIO = 0.6;
+
+
 	__exports.INVENTORY_SELLBACK_RATIO = INVENTORY_SELLBACK_RATIO;
-
-
 	/** Computes one deterministic unit sell price for a lawful inventory item. */
 	function inventorySaleUnitPrice(itemId) {
 		const definitionKli = inventoryDefinition(itemId);
@@ -5809,13 +5821,13 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com starts every visible canonical garment equipped because the Bag already owns it.
 	 */
 
-	var REQUIRED_GARMENT_EQUIPMENT = __awtsmoosModule_55.REQUIRED_GARMENT_EQUIPMENT;
-	var STARTER_INVENTORY = __awtsmoosModule_54.STARTER_INVENTORY;
-	var inventoryDefinition = __awtsmoosModule_54.inventoryDefinition;
-	var addInventoryItem = __awtsmoosModule_65.addInventoryItem;
-	var inventoryItemQuantity = __awtsmoosModule_65.inventoryItemQuantity;
-	var normalizeInventoryQuantity = __awtsmoosModule_65.normalizeInventoryQuantity;
-	var removeInventoryItem = __awtsmoosModule_65.removeInventoryItem;
+	const REQUIRED_GARMENT_EQUIPMENT = __awtsmoosModule_55.REQUIRED_GARMENT_EQUIPMENT;
+	const STARTER_INVENTORY = __awtsmoosModule_54.STARTER_INVENTORY;
+	const inventoryDefinition = __awtsmoosModule_54.inventoryDefinition;
+	const addInventoryItem = __awtsmoosModule_65.addInventoryItem;
+	const inventoryItemQuantity = __awtsmoosModule_65.inventoryItemQuantity;
+	const normalizeInventoryQuantity = __awtsmoosModule_65.normalizeInventoryQuantity;
+	const removeInventoryItem = __awtsmoosModule_65.removeInventoryItem;
 
 	const DEFAULT_EQUIPMENT = Object.freeze({
 		...REQUIRED_GARMENT_EQUIPMENT,
@@ -5829,9 +5841,9 @@ const __awtsmoosModule_0 = Object.create(null);
 		tefillinHead: 'tefillin-shel-rosh',
 		tool: 'chalaf'
 	});
+
+
 	__exports.DEFAULT_EQUIPMENT = DEFAULT_EQUIPMENT;
-
-
 	function initialInventoryState(options = {}) {
 		return {
 			appearance: options.appearance ?? {},
@@ -5923,14 +5935,14 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com lets every Peruta, garment, color, and slot pass through one lawful course.
 	 */
 
-	var cycleInventoryAppearance = __awtsmoosModule_53.cycleInventoryAppearance;
-	var setInventoryAppearance = __awtsmoosModule_53.setInventoryAppearance;
-	var inventorySaleDraft = __awtsmoosModule_64.inventorySaleDraft;
-	var removeInventoryItem = __awtsmoosModule_65.removeInventoryItem;
-	var inventoryAdditionDraft = __awtsmoosModule_66.inventoryAdditionDraft;
-	var inventoryPurchaseDraft = __awtsmoosModule_66.inventoryPurchaseDraft;
-	var reconciledInventoryEquipment = __awtsmoosModule_66.reconciledInventoryEquipment;
-	var requireInventoryItem = __awtsmoosModule_66.requireInventoryItem;
+	const cycleInventoryAppearance = __awtsmoosModule_53.cycleInventoryAppearance;
+	const setInventoryAppearance = __awtsmoosModule_53.setInventoryAppearance;
+	const inventorySaleDraft = __awtsmoosModule_64.inventorySaleDraft;
+	const removeInventoryItem = __awtsmoosModule_65.removeInventoryItem;
+	const inventoryAdditionDraft = __awtsmoosModule_66.inventoryAdditionDraft;
+	const inventoryPurchaseDraft = __awtsmoosModule_66.inventoryPurchaseDraft;
+	const reconciledInventoryEquipment = __awtsmoosModule_66.reconciledInventoryEquipment;
+	const requireInventoryItem = __awtsmoosModule_66.requireInventoryItem;
 
 	/** Adds validated entries atomically, reconciles equipment, and publishes the resulting snapshot. */
 	function addInventoryEntries(storeKli, entriesOros) {
@@ -6066,9 +6078,9 @@ const __awtsmoosModule_0 = Object.create(null);
 			passage('joy-breaks-barriers', 'Joy Breaks Barriers', 'Holy joy opens a blocked road.', 28, 10, 1250, 'joy')
 		])
 	]);
+
+
 	__exports.TORAH_BOOKS = TORAH_BOOKS;
-
-
 	function torahBook(bookId) {
 		return TORAH_BOOKS.find(item => item.id === bookId) || null;
 	}
@@ -6117,8 +6129,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com keeps every learning transition pure enough for direct testing.
 	 */
 
-	var torahPassage = __awtsmoosModule_69.torahPassage;
-	var togglePinnedValue = __awtsmoosModule_65.togglePinnedValue;
+	const torahPassage = __awtsmoosModule_69.torahPassage;
+	const togglePinnedValue = __awtsmoosModule_65.togglePinnedValue;
 
 	function learnInventoryPassage(store, passageId) {
 		if (!torahPassage(passageId)) throw new Error('UNKNOWN_TORAH_PASSAGE');
@@ -6173,12 +6185,12 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com validates every saved item, slot, palette choice, passage, and timestamp.
 	 */
 
-	var restoreInventoryAppearance = __awtsmoosModule_53.restoreInventoryAppearance;
-	var inventoryDefinition = __awtsmoosModule_54.inventoryDefinition;
-	var addInventoryItem = __awtsmoosModule_65.addInventoryItem;
-	var reconciledInventoryEquipment = __awtsmoosModule_66.reconciledInventoryEquipment;
-	var torahBook = __awtsmoosModule_69.torahBook;
-	var torahPassage = __awtsmoosModule_69.torahPassage;
+	const restoreInventoryAppearance = __awtsmoosModule_53.restoreInventoryAppearance;
+	const inventoryDefinition = __awtsmoosModule_54.inventoryDefinition;
+	const addInventoryItem = __awtsmoosModule_65.addInventoryItem;
+	const reconciledInventoryEquipment = __awtsmoosModule_66.reconciledInventoryEquipment;
+	const torahBook = __awtsmoosModule_69.torahBook;
+	const torahPassage = __awtsmoosModule_69.torahPassage;
 
 	function serializableInventoryState(store) {
 		return structuredClone({
@@ -6246,15 +6258,15 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com keeps every learned passage, pin, quantity, restore, and equipped slot explicit.
 	 */
 
-	var learnInventoryPassage = __awtsmoosModule_68.learnInventoryPassage;
-	var markInventoryPassageUsed = __awtsmoosModule_68.markInventoryPassageUsed;
-	var toggleInventoryBook = __awtsmoosModule_68.toggleInventoryBook;
-	var toggleInventoryPassage = __awtsmoosModule_68.toggleInventoryPassage;
-	var restoreInventoryState = __awtsmoosModule_70.restoreInventoryState;
-	var serializableInventoryState = __awtsmoosModule_70.serializableInventoryState;
-	var inventoryItemQuantity = __awtsmoosModule_65.inventoryItemQuantity;
-	var inventorySnapshot = __awtsmoosModule_65.inventorySnapshot;
-	var reconciledInventoryEquipment = __awtsmoosModule_66.reconciledInventoryEquipment;
+	const learnInventoryPassage = __awtsmoosModule_68.learnInventoryPassage;
+	const markInventoryPassageUsed = __awtsmoosModule_68.markInventoryPassageUsed;
+	const toggleInventoryBook = __awtsmoosModule_68.toggleInventoryBook;
+	const toggleInventoryPassage = __awtsmoosModule_68.toggleInventoryPassage;
+	const restoreInventoryState = __awtsmoosModule_70.restoreInventoryState;
+	const serializableInventoryState = __awtsmoosModule_70.serializableInventoryState;
+	const inventoryItemQuantity = __awtsmoosModule_65.inventoryItemQuantity;
+	const inventorySnapshot = __awtsmoosModule_65.inventorySnapshot;
+	const reconciledInventoryEquipment = __awtsmoosModule_66.reconciledInventoryEquipment;
 
 	function learnInventory(store, passageId) {
 		learnInventoryPassage(store, passageId);
@@ -6332,7 +6344,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * equipment, appearance, learning, quantity, and derived stats from drifting apart.
 	 */
 
-	var inventorySnapshot = __awtsmoosModule_65.inventorySnapshot;
+	const inventorySnapshot = __awtsmoosModule_65.inventorySnapshot;
 
 	function subscribeInventoryStore(store, listener) {
 		if (typeof listener !== 'function') {
@@ -6372,20 +6384,20 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * so inheritance adds capability without compressing human-readable code into a wall where future meaning disappears.
 	 */
 
-	var addInventoryEntries = __awtsmoosModule_52.addInventoryEntries;
-	var buyInventoryEntry = __awtsmoosModule_52.buyInventoryEntry;
-	var cycleInventoryItemAppearance = __awtsmoosModule_52.cycleInventoryItemAppearance;
-	var equipInventoryItem = __awtsmoosModule_52.equipInventoryItem;
-	var removeInventoryEntry = __awtsmoosModule_52.removeInventoryEntry;
-	var sellInventoryEntry = __awtsmoosModule_52.sellInventoryEntry;
-	var setInventoryItemAppearance = __awtsmoosModule_52.setInventoryItemAppearance;
-	var unequipInventorySlot = __awtsmoosModule_52.unequipInventorySlot;
-	var inventoryStoreOwns = __awtsmoosModule_67.inventoryStoreOwns;
-	var inventoryStoreQuantity = __awtsmoosModule_67.inventoryStoreQuantity;
-	var restoreInventoryStore = __awtsmoosModule_67.restoreInventoryStore;
-	var publishInventoryStore = __awtsmoosModule_71.publishInventoryStore;
-	var subscribeInventoryStore = __awtsmoosModule_71.subscribeInventoryStore;
-	var initialInventoryState = __awtsmoosModule_66.initialInventoryState;
+	const addInventoryEntries = __awtsmoosModule_52.addInventoryEntries;
+	const buyInventoryEntry = __awtsmoosModule_52.buyInventoryEntry;
+	const cycleInventoryItemAppearance = __awtsmoosModule_52.cycleInventoryItemAppearance;
+	const equipInventoryItem = __awtsmoosModule_52.equipInventoryItem;
+	const removeInventoryEntry = __awtsmoosModule_52.removeInventoryEntry;
+	const sellInventoryEntry = __awtsmoosModule_52.sellInventoryEntry;
+	const setInventoryItemAppearance = __awtsmoosModule_52.setInventoryItemAppearance;
+	const unequipInventorySlot = __awtsmoosModule_52.unequipInventorySlot;
+	const inventoryStoreOwns = __awtsmoosModule_67.inventoryStoreOwns;
+	const inventoryStoreQuantity = __awtsmoosModule_67.inventoryStoreQuantity;
+	const restoreInventoryStore = __awtsmoosModule_67.restoreInventoryStore;
+	const publishInventoryStore = __awtsmoosModule_71.publishInventoryStore;
+	const subscribeInventoryStore = __awtsmoosModule_71.subscribeInventoryStore;
+	const initialInventoryState = __awtsmoosModule_66.initialInventoryState;
 
 	/** Owns inventory transaction state and publication while subclasses add knowledge and persistence behavior. */
 	class InventoryTransactionStore {
@@ -6479,15 +6491,15 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com lets loot, trade, equipment, books, and learning agree beneath one readable ark.
 	 */
 
-	var InventoryTransactionStore = __awtsmoosModule_51.InventoryTransactionStore;
-	var learnInventory = __awtsmoosModule_67.learnInventory;
-	var markInventoryPassage = __awtsmoosModule_67.markInventoryPassage;
-	var reconcileInventoryStoreEquipment = __awtsmoosModule_67.reconcileInventoryStoreEquipment;
-	var restoreInventoryStore = __awtsmoosModule_67.restoreInventoryStore;
-	var serializableInventoryStore = __awtsmoosModule_67.serializableInventoryStore;
-	var snapshotInventoryStore = __awtsmoosModule_67.snapshotInventoryStore;
-	var toggleInventoryBookPin = __awtsmoosModule_67.toggleInventoryBookPin;
-	var toggleInventoryPassagePin = __awtsmoosModule_67.toggleInventoryPassagePin;
+	const InventoryTransactionStore = __awtsmoosModule_51.InventoryTransactionStore;
+	const learnInventory = __awtsmoosModule_67.learnInventory;
+	const markInventoryPassage = __awtsmoosModule_67.markInventoryPassage;
+	const reconcileInventoryStoreEquipment = __awtsmoosModule_67.reconcileInventoryStoreEquipment;
+	const restoreInventoryStore = __awtsmoosModule_67.restoreInventoryStore;
+	const serializableInventoryStore = __awtsmoosModule_67.serializableInventoryStore;
+	const snapshotInventoryStore = __awtsmoosModule_67.snapshotInventoryStore;
+	const toggleInventoryBookPin = __awtsmoosModule_67.toggleInventoryBookPin;
+	const toggleInventoryPassagePin = __awtsmoosModule_67.toggleInventoryPassagePin;
 
 	/** Adds knowledge and persistence capabilities to the authoritative transaction store. */
 	class InventoryStore extends InventoryTransactionStore {
@@ -6622,7 +6634,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com consumes no vessel at full health and never revives a defeated traveler by accident.
 	 */
 
-	var healingAmuletDefinition = __awtsmoosModule_59.healingAmuletDefinition;
+	const healingAmuletDefinition = __awtsmoosModule_59.healingAmuletDefinition;
 
 	function useHealingAmulet(runtime, itemId) {
 		const definition = healingAmuletDefinition(itemId);
@@ -6673,8 +6685,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * expert stock, wallet, and health so unrelated garments never vanish beneath a narrow server response.
 	 */
 
-	var HEALING_AMULET_IDS = __awtsmoosModule_59.HEALING_AMULET_IDS;
-	var useHealingAmulet = __awtsmoosModule_75.useHealingAmulet;
+	const HEALING_AMULET_IDS = __awtsmoosModule_59.HEALING_AMULET_IDS;
+	const useHealingAmulet = __awtsmoosModule_75.useHealingAmulet;
 
 	function healingAmuletCommerce(runtime) {
 		runtime.amuletCommerce ||= createHealingAmuletCommerce(runtime);
@@ -6992,9 +7004,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com keeps Yesod readable by sending focus to Tiferes and event judgment to Gevurah's role.
 	 */
 
-	var handleYesodModalKeyEvent = __awtsmoosModule_80.handleYesodModalKeyEvent;
-	var handleYesodModalOutsideEvent = __awtsmoosModule_80.handleYesodModalOutsideEvent;
-	var YesodModalFocusCycle = __awtsmoosModule_81.YesodModalFocusCycle;
+	const handleYesodModalKeyEvent = __awtsmoosModule_80.handleYesodModalKeyEvent;
+	const handleYesodModalOutsideEvent = __awtsmoosModule_80.handleYesodModalOutsideEvent;
+	const YesodModalFocusCycle = __awtsmoosModule_81.YesodModalFocusCycle;
 
 	const YESOD_CAPTURED_EVENTS = Object.freeze([
 		'pointerdown',
@@ -7117,7 +7129,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com lets the Bag inherit modal discipline while keeping its own semantic aims.
 	 */
 
-	var YesodModalInteractionGuard = __awtsmoosModule_79.YesodModalInteractionGuard;
+	const YesodModalInteractionGuard = __awtsmoosModule_79.YesodModalInteractionGuard;
 
 	class InventoryModalInteractionGuard extends YesodModalInteractionGuard {
 		/**
@@ -7255,9 +7267,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 */
 
 	const INVENTORY_MODAL_DATASET = 'inventoryModalOpen';
+
+
 	__exports.INVENTORY_MODAL_DATASET = INVENTORY_MODAL_DATASET;
-
-
 	function isInventoryModalOpen(documentValue = globalThis.document) {
 		return documentValue?.documentElement?.dataset?.[INVENTORY_MODAL_DATASET] === 'true';
 	}
@@ -7336,10 +7348,10 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com lets Yesod bind one scoped garment while the modal guard protects the outer course.
 	 */
 
-	var YesodStylesheetInstaller = __awtsmoosModule_86.YesodStylesheetInstaller;
+	const YesodStylesheetInstaller = __awtsmoosModule_86.YesodStylesheetInstaller;
 
 	const INVENTORY_STYLE_ID = 'Awtsmoos-inventory-modal-styles';
-	const INVENTORY_STYLE_URL = new URL('./styles/inventory/inventory.css', ( new URL( "/games/mitzvahWorld/experiments/Awtsmoos/src/ui/InventoryModalStyles.js", globalThis.location?.href || "https://awtsmoos.local/" ).href )).href;
+	const INVENTORY_STYLE_URL = new URL('./styles/inventory/inventory.css', (( globalThis.location?.origin && globalThis.location.origin !== "null" ? globalThis.location.origin : "https://awtsmoos.local" ) + "/games/mitzvahWorld/experiments/Awtsmoos/src/ui/InventoryModalStyles.js")).href;
 
 	/**
 	 * Specialized stylesheet vessel for the Bag surface family.
@@ -7384,11 +7396,11 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com restores focus, accessibility, scroll, and interaction without duplicated release.
 	 */
 
-	var InventoryModalInteractionGuard = __awtsmoosModule_78.InventoryModalInteractionGuard;
-	var captureModalEnvironment = __awtsmoosModule_82.captureModalEnvironment;
-	var restoreModalEnvironment = __awtsmoosModule_82.restoreModalEnvironment;
-	var INVENTORY_MODAL_DATASET = __awtsmoosModule_84.INVENTORY_MODAL_DATASET;
-	var installInventoryModalStyles = __awtsmoosModule_85.installInventoryModalStyles;
+	const InventoryModalInteractionGuard = __awtsmoosModule_78.InventoryModalInteractionGuard;
+	const captureModalEnvironment = __awtsmoosModule_82.captureModalEnvironment;
+	const restoreModalEnvironment = __awtsmoosModule_82.restoreModalEnvironment;
+	const INVENTORY_MODAL_DATASET = __awtsmoosModule_84.INVENTORY_MODAL_DATASET;
+	const installInventoryModalStyles = __awtsmoosModule_85.installInventoryModalStyles;
 
 	class InventoryModalController {
 		constructor(host, panel, documentValue) {
@@ -7616,7 +7628,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * the Awtsmoos recreates hand and control before either can borrow the wrong garment, and Awtsmoos.com lets mobile, CSS, audit, and accessibility drink from one precise spring.
 	 */
 
-	var createMitzvahUiComponentContract = __awtsmoosModule_92.createMitzvahUiComponentContract;
+	const createMitzvahUiComponentContract = __awtsmoosModule_92.createMitzvahUiComponentContract;
 
 	/**
 	 * @description Creates the complete immutable native-control contract set used by factories and legacy adoption without including container, modal, status, or layout surfaces.
@@ -7675,7 +7687,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * the Awtsmoos recreates surface and content before either can claim dominion, and Awtsmoos.com lets every feature keep local style while sharing one stable semantic foundation.
 	 */
 
-	var createMitzvahUiComponentContract = __awtsmoosModule_92.createMitzvahUiComponentContract;
+	const createMitzvahUiComponentContract = __awtsmoosModule_92.createMitzvahUiComponentContract;
 
 	/**
 	 * @description Creates the immutable built-in non-form component contract set used by modal, navigation, feedback, card, and status surfaces.
@@ -7755,8 +7767,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * and Awtsmoos.com lets many interface vessels share one public vocabulary while their proper laws remain cleanly defined.
 	 */
 
-	var mitzvahUiFormContracts = __awtsmoosModule_91.mitzvahUiFormContracts;
-	var mitzvahUiSurfaceContracts = __awtsmoosModule_93.mitzvahUiSurfaceContracts;
+	const mitzvahUiFormContracts = __awtsmoosModule_91.mitzvahUiFormContracts;
+	const mitzvahUiSurfaceContracts = __awtsmoosModule_93.mitzvahUiSurfaceContracts;
 
 	/**
 	 * @description Builds the complete immutable built-in component vocabulary by composing focused native-control and semantic-surface contract families.
@@ -7787,8 +7799,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * the Awtsmoos recreates registry and component each instant, and Awtsmoos.com keeps every UI meaning discoverable before style or DOM can claim command.
 	 */
 
-	var mitzvahUiBuiltinContracts = __awtsmoosModule_90.mitzvahUiBuiltinContracts;
-	var createMitzvahUiComponentContract = __awtsmoosModule_92.createMitzvahUiComponentContract;
+	const mitzvahUiBuiltinContracts = __awtsmoosModule_90.mitzvahUiBuiltinContracts;
+	const createMitzvahUiComponentContract = __awtsmoosModule_92.createMitzvahUiComponentContract;
 
 	class MitzvahUiContractRegistry {
 		/**
@@ -7901,9 +7913,9 @@ const __awtsmoosModule_0 = Object.create(null);
 		'modal',
 		'critical'
 	]);
+
+
 	__exports.MITZVAH_UI_LAYERS = MITZVAH_UI_LAYERS;
-
-
 	/**
 	 * @description Reveals whether a candidate semantic layer belongs to the sanctioned product elevation vocabulary without assigning any numeric CSS z-index.
 	 * @param {*} value Candidate layer identity from authored data-ui-layer metadata.
@@ -8065,9 +8077,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * the Awtsmoos recreates meaning and element before either can rule the other, and Awtsmoos.com lets contract application remain readable as old and new interfaces become one.
 	 */
 
-	var assignMitzvahUiLayer = __awtsmoosModule_96.assignMitzvahUiLayer;
-	var applyMitzvahUiAttributes = __awtsmoosModule_97.applyMitzvahUiAttributes;
-	var applyMitzvahUiNativeInteraction = __awtsmoosModule_97.applyMitzvahUiNativeInteraction;
+	const assignMitzvahUiLayer = __awtsmoosModule_96.assignMitzvahUiLayer;
+	const applyMitzvahUiAttributes = __awtsmoosModule_97.applyMitzvahUiAttributes;
+	const applyMitzvahUiNativeInteraction = __awtsmoosModule_97.applyMitzvahUiNativeInteraction;
 
 	/**
 	 * @description Applies supported semantic options without copying arbitrary keys into DOM properties or changing preserved native behavior during historical adoption.
@@ -8155,8 +8167,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * the Awtsmoos recreates element and meaning before either can stand alone, while Awtsmoos.com lets migration happen without tearing living UI apart at its layer.
 	 */
 
-	var MitzvahUiContractRegistry = __awtsmoosModule_89.MitzvahUiContractRegistry;
-	var applyMitzvahUiElementOptions = __awtsmoosModule_95.applyMitzvahUiElementOptions;
+	const MitzvahUiContractRegistry = __awtsmoosModule_89.MitzvahUiContractRegistry;
+	const applyMitzvahUiElementOptions = __awtsmoosModule_95.applyMitzvahUiElementOptions;
 
 	class MitzvahUiElementFactory {
 		/**
@@ -8319,12 +8331,12 @@ const __awtsmoosModule_0 = Object.create(null);
 	 */
 
 	const MITZVAH_UI_SCOPE_ATTRIBUTE = 'data-mitzvah-ui';
+
 	__exports.MITZVAH_UI_SCOPE_ATTRIBUTE = MITZVAH_UI_SCOPE_ATTRIBUTE;
-
 	const LEGACY_GAMEPLAY_SCOPE_CLASS = 'Awtsmoos-gameplay';
+
+
 	__exports.LEGACY_GAMEPLAY_SCOPE_CLASS = LEGACY_GAMEPLAY_SCOPE_CLASS;
-
-
 	/**
 	 * @description Marks one product-owned root with a stable semantic scope value while preserving all existing classes and feature-local styling hooks.
 	 * @param {HTMLElement} root DOM element that owns one MitzvahWorld UI subtree.
@@ -8400,10 +8412,10 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * the Awtsmoos recreates root and control before migration can divide, and Awtsmoos.com lets legacy surfaces gain scope, styling, auditing, and mobile law through one bounded pass alive.
 	 */
 
-	var MitzvahUiContractRegistry = __awtsmoosModule_89.MitzvahUiContractRegistry;
-	var MitzvahUiElementFactory = __awtsmoosModule_94.MitzvahUiElementFactory;
-	var mitzvahUiNativeContractFor = __awtsmoosModule_98.mitzvahUiNativeContractFor;
-	var attachMitzvahUiScope = __awtsmoosModule_99.attachMitzvahUiScope;
+	const MitzvahUiContractRegistry = __awtsmoosModule_89.MitzvahUiContractRegistry;
+	const MitzvahUiElementFactory = __awtsmoosModule_94.MitzvahUiElementFactory;
+	const mitzvahUiNativeContractFor = __awtsmoosModule_98.mitzvahUiNativeContractFor;
+	const attachMitzvahUiScope = __awtsmoosModule_99.attachMitzvahUiScope;
 
 	const NATIVE_CONTROL_SELECTOR = [
 		'button',
@@ -8554,15 +8566,15 @@ const __awtsmoosModule_0 = Object.create(null);
 		slot('tool', 'Tool'),
 		slot('accessory', 'Accessory')
 	]);
+
+
 	__exports.INVENTORY_EQUIPMENT_SLOTS = INVENTORY_EQUIPMENT_SLOTS;
-
-
 	const INVENTORY_EQUIPMENT_SLOT_IDS = Object.freeze(
 		INVENTORY_EQUIPMENT_SLOTS.map((record) => record.id)
 	);
+
+
 	__exports.INVENTORY_EQUIPMENT_SLOT_IDS = INVENTORY_EQUIPMENT_SLOT_IDS;
-
-
 	function inventoryEquipmentSlotLabel(slotId) {
 		return INVENTORY_EQUIPMENT_SLOTS.find((record) => record.id === slotId)?.label
 			|| String(slotId || 'Equipment');
@@ -8590,16 +8602,16 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com keeps the Bag complete, quantity-aware, touch-sized, and truthfully labeled.
 	 */
 
-	var INVENTORY_EQUIPMENT_SLOTS = __awtsmoosModule_103.INVENTORY_EQUIPMENT_SLOTS;
-	var inventoryEquipmentSlotLabel = __awtsmoosModule_103.inventoryEquipmentSlotLabel;
-	var combinedInventoryStack = __awtsmoosModule_100.combinedInventoryStack;
+	const INVENTORY_EQUIPMENT_SLOTS = __awtsmoosModule_103.INVENTORY_EQUIPMENT_SLOTS;
+	const inventoryEquipmentSlotLabel = __awtsmoosModule_103.inventoryEquipmentSlotLabel;
+	const combinedInventoryStack = __awtsmoosModule_100.combinedInventoryStack;
 
 	const EQUIPMENT_SLOTS = Object.freeze(
 		INVENTORY_EQUIPMENT_SLOTS.map((record) => record.id)
 	);
+
+
 	__exports.EQUIPMENT_SLOTS = EQUIPMENT_SLOTS;
-
-
 	function inventoryEquipmentButton(slot, state) {
 		const itemId = state.equipment[slot];
 		const item = combinedInventoryStack(state, itemId)?.definition;
@@ -8745,7 +8757,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com keeps structure pure so CSS and behavior can each illuminate their rightful sphere.
 	 */
 
-	var inventorySummaryText = __awtsmoosModule_100.inventorySummaryText;
+	const inventorySummaryText = __awtsmoosModule_100.inventorySummaryText;
 
 	/**
 	 * Reveals the complete semantic Bag panel shell.
@@ -8816,16 +8828,16 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com lets Malchus reveal data while CSS, commands, and focus each keep their sphere.
 	 */
 
-	var EQUIPMENT_SLOTS = __awtsmoosModule_102.EQUIPMENT_SLOTS;
-	var inventoryEquipmentButton = __awtsmoosModule_102.inventoryEquipmentButton;
-	var inventoryItemButton = __awtsmoosModule_102.inventoryItemButton;
-	var inventoryActionGuidance = __awtsmoosModule_104.inventoryActionGuidance;
-	var inventoryActionLabel = __awtsmoosModule_104.inventoryActionLabel;
-	var inventoryActionsFor = __awtsmoosModule_104.inventoryActionsFor;
-	var escapeInventoryHtml = __awtsmoosModule_105.escapeInventoryHtml;
-	var inventoryPanelMarkup = __awtsmoosModule_105.inventoryPanelMarkup;
-	var aggregateInventoryStacks = __awtsmoosModule_100.aggregateInventoryStacks;
-	var combinedInventoryStack = __awtsmoosModule_100.combinedInventoryStack;
+	const EQUIPMENT_SLOTS = __awtsmoosModule_102.EQUIPMENT_SLOTS;
+	const inventoryEquipmentButton = __awtsmoosModule_102.inventoryEquipmentButton;
+	const inventoryItemButton = __awtsmoosModule_102.inventoryItemButton;
+	const inventoryActionGuidance = __awtsmoosModule_104.inventoryActionGuidance;
+	const inventoryActionLabel = __awtsmoosModule_104.inventoryActionLabel;
+	const inventoryActionsFor = __awtsmoosModule_104.inventoryActionsFor;
+	const escapeInventoryHtml = __awtsmoosModule_105.escapeInventoryHtml;
+	const inventoryPanelMarkup = __awtsmoosModule_105.inventoryPanelMarkup;
+	const aggregateInventoryStacks = __awtsmoosModule_100.aggregateInventoryStacks;
+	const combinedInventoryStack = __awtsmoosModule_100.combinedInventoryStack;
 
 	__exports.combinedInventoryStack = __awtsmoosModule_100.combinedInventoryStack;
 
@@ -8935,14 +8947,14 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * the Awtsmoos recreates inventory and traveler before either can become a detached interface, and Awtsmoos.com lets every refreshed button remain styled, auditable, and mobile-ready in place.
 	 */
 
-	var adoptMitzvahUiLegacySurface = __awtsmoosModule_88.adoptMitzvahUiLegacySurface;
-	var inventorySummaryText = __awtsmoosModule_100.inventorySummaryText;
-	var combinedInventoryStack = __awtsmoosModule_101.combinedInventoryStack;
-	var inventoryPanelHtml = __awtsmoosModule_101.inventoryPanelHtml;
-	var renderEquipment = __awtsmoosModule_101.renderEquipment;
-	var renderInventoryCard = __awtsmoosModule_101.renderInventoryCard;
-	var renderInventoryItems = __awtsmoosModule_101.renderInventoryItems;
-	var renderInventoryMenu = __awtsmoosModule_101.renderInventoryMenu;
+	const adoptMitzvahUiLegacySurface = __awtsmoosModule_88.adoptMitzvahUiLegacySurface;
+	const inventorySummaryText = __awtsmoosModule_100.inventorySummaryText;
+	const combinedInventoryStack = __awtsmoosModule_101.combinedInventoryStack;
+	const inventoryPanelHtml = __awtsmoosModule_101.inventoryPanelHtml;
+	const renderEquipment = __awtsmoosModule_101.renderEquipment;
+	const renderInventoryCard = __awtsmoosModule_101.renderInventoryCard;
+	const renderInventoryItems = __awtsmoosModule_101.renderInventoryItems;
+	const renderInventoryMenu = __awtsmoosModule_101.renderInventoryMenu;
 
 	/**
 	 * @description Produces the current inventory modal HTML projection from immutable panel state without mounting or mutating the owning document.
@@ -9099,9 +9111,9 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	__exports.YesodInventoryCommandRegistry = YesodInventoryCommandRegistry;
 	const YESOD_INVENTORY_COMMAND_REGISTRY = new YesodInventoryCommandRegistry();
+
+
 	__exports.YESOD_INVENTORY_COMMAND_REGISTRY = YESOD_INVENTORY_COMMAND_REGISTRY;
-
-
 	/** @param {object} yesodPanel Inventory panel facade. @param {object} malchusItem Item definition. @returns {void} */
 	function revealOpenAction(yesodPanel, malchusItem) {
 		if (malchusItem.category === 'book') {
@@ -9136,10 +9148,10 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com keeps selection in Malchus, commands in Yesod, and the bounded action tray inside its own layer.
 	 */
 
-	var YESOD_INVENTORY_COMMAND_REGISTRY = __awtsmoosModule_107.YESOD_INVENTORY_COMMAND_REGISTRY;
-	var combinedInventoryStack = __awtsmoosModule_100.combinedInventoryStack;
-	var renderInventoryCard = __awtsmoosModule_101.renderInventoryCard;
-	var renderInventoryMenu = __awtsmoosModule_101.renderInventoryMenu;
+	const YESOD_INVENTORY_COMMAND_REGISTRY = __awtsmoosModule_107.YESOD_INVENTORY_COMMAND_REGISTRY;
+	const combinedInventoryStack = __awtsmoosModule_100.combinedInventoryStack;
+	const renderInventoryCard = __awtsmoosModule_101.renderInventoryCard;
+	const renderInventoryMenu = __awtsmoosModule_101.renderInventoryMenu;
 
 	/**
 	 * Selects one inventory item and reveals details plus contextual actions in the modal's own tray.
@@ -9230,14 +9242,14 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com lets the Bag await authority, silence the world, and restore prior HUD state once.
 	 */
 
-	var InventoryModalController = __awtsmoosModule_77.InventoryModalController;
-	var createInventoryModalHost = __awtsmoosModule_87.createInventoryModalHost;
-	var inventoryModalMarkup = __awtsmoosModule_87.inventoryModalMarkup;
-	var renderInventoryModalPanel = __awtsmoosModule_87.renderInventoryModalPanel;
-	var routeInventoryModalClick = __awtsmoosModule_87.routeInventoryModalClick;
-	var runInventoryPanelAction = __awtsmoosModule_106.runInventoryPanelAction;
-	var selectInventoryPanelItem = __awtsmoosModule_106.selectInventoryPanelItem;
-	var setInventoryPanelOpen = __awtsmoosModule_106.setInventoryPanelOpen;
+	const InventoryModalController = __awtsmoosModule_77.InventoryModalController;
+	const createInventoryModalHost = __awtsmoosModule_87.createInventoryModalHost;
+	const inventoryModalMarkup = __awtsmoosModule_87.inventoryModalMarkup;
+	const renderInventoryModalPanel = __awtsmoosModule_87.renderInventoryModalPanel;
+	const routeInventoryModalClick = __awtsmoosModule_87.routeInventoryModalClick;
+	const runInventoryPanelAction = __awtsmoosModule_106.runInventoryPanelAction;
+	const selectInventoryPanelItem = __awtsmoosModule_106.selectInventoryPanelItem;
+	const setInventoryPanelOpen = __awtsmoosModule_106.setInventoryPanelOpen;
 
 	class InventoryPanel {
 		constructor(host, bus, options = {}) {
@@ -9398,7 +9410,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com keeps timing, range, status, Kavanah, target, input, and presentation together.
 	 */
 
-	var action = __awtsmoosModule_111.combatActionRecord;
+	const action = __awtsmoosModule_111.combatActionRecord;
 
 	const MINIMAL_MEADOW_CAST_ACTIONS = Object.freeze({
 		'hebrew-fire': cast({
@@ -9479,9 +9491,9 @@ const __awtsmoosModule_0 = Object.create(null);
 			speed: 16
 		})
 	});
+
+
 	__exports.MINIMAL_MEADOW_CAST_ACTIONS = MINIMAL_MEADOW_CAST_ACTIONS;
-
-
 	function cast(values) {
 		return action({
 			activeEnd: values.castTime,
@@ -9505,7 +9517,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	// Blessed is He
 
 	/** @file StaffActionCatalog.js @description Visible staff strikes, guard, parry, and casting records. */
-	var action = __awtsmoosModule_111.combatActionRecord;
+	const action = __awtsmoosModule_111.combatActionRecord;
 
 	const shared = { icon: '🪄', letters: 'מטה', requiredSlot: 'hand', requiredWeaponClass: 'staff', serverIntent: 'player-melee' };
 
@@ -9517,9 +9529,9 @@ const __awtsmoosModule_0 = Object.create(null);
 		defense('staff-block', 'Staff Block', 'KeyC', 'C', 'block', 0.08, 9, 0.2, 0),
 		defense('staff-parry', 'Perfect Staff Block', 'KeyX', 'X', 'parry', 0, 0.18, 0.38, 8)
 	]));
+
+
 	__exports.STAFF_ACTIONS = STAFF_ACTIONS;
-
-
 	function staff(id, displayName, keyCode, keyLabel, windup, activeEnd, recovery, range, arcDegrees, multiplier, staminaCost, comboSuccessor, comboPredecessor = null, extra = {}) {
 		return [id, action({ ...shared, activeEnd, activeStart: windup, arcDegrees, baseDamageMultiplier: multiplier, comboPredecessor, comboSuccessor, displayName, id, keyCode, keyLabel, label: displayName, range, recovery, staminaCost, verticalTolerance: 2.1, windup, ...extra })];
 	}
@@ -9537,7 +9549,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	// Blessed is He
 
 	/** @file SwordActionCatalog.js @description Visible sword combo, heavy, guard, and parry records. */
-	var action = __awtsmoosModule_111.combatActionRecord;
+	const action = __awtsmoosModule_111.combatActionRecord;
 
 	const shared = { icon: '⚔️', letters: 'חרב', requiredSlot: 'hand', requiredWeaponClass: 'sword', serverIntent: 'player-melee' };
 
@@ -9549,9 +9561,9 @@ const __awtsmoosModule_0 = Object.create(null);
 		defense('sword-block', 'Sword Block', 'KeyC', 'C', 'block', 0.06, 9, 0.18, 0),
 		defense('sword-parry', 'Perfect Sword Block', 'KeyX', 'X', 'parry', 0, 0.16, 0.34, 7)
 	]));
+
+
 	__exports.SWORD_ACTIONS = SWORD_ACTIONS;
-
-
 	function slash(id, displayName, keyCode, keyLabel, windup, activeEnd, recovery, range, arcDegrees, multiplier, staminaCost, comboSuccessor, comboPredecessor = null, extra = {}) {
 		return [id, action({ ...shared, activeEnd, activeStart: windup, arcDegrees, baseDamageMultiplier: multiplier, comboPredecessor, comboSuccessor, displayName, id, keyCode, keyLabel, label: displayName, range, recovery, staminaCost, verticalTolerance: 1.8, windup, ...extra })];
 	}
@@ -9575,18 +9587,18 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com exposes one immutable action universe to UI, runtime, authority, and diagnostics.
 	 */
 
-	var MINIMAL_MEADOW_CAST_ACTIONS = __awtsmoosModule_110.MINIMAL_MEADOW_CAST_ACTIONS;
-	var STAFF_ACTIONS = __awtsmoosModule_112.STAFF_ACTIONS;
-	var SWORD_ACTIONS = __awtsmoosModule_113.SWORD_ACTIONS;
+	const MINIMAL_MEADOW_CAST_ACTIONS = __awtsmoosModule_110.MINIMAL_MEADOW_CAST_ACTIONS;
+	const STAFF_ACTIONS = __awtsmoosModule_112.STAFF_ACTIONS;
+	const SWORD_ACTIONS = __awtsmoosModule_113.SWORD_ACTIONS;
 
 	const MINIMAL_MEADOW_COMBAT_ACTIONS = Object.freeze({
 		...MINIMAL_MEADOW_CAST_ACTIONS,
 		...STAFF_ACTIONS,
 		...SWORD_ACTIONS
 	});
+
+
 	__exports.MINIMAL_MEADOW_COMBAT_ACTIONS = MINIMAL_MEADOW_COMBAT_ACTIONS;
-
-
 	function minimalMeadowCombatActionList() {
 		return Object.values(MINIMAL_MEADOW_COMBAT_ACTIONS);
 	}
@@ -9609,7 +9621,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com makes each deed instantly recognizable while Hebrew remains spoken and accessible.
 	 */
 
-	var minimalMeadowCombatActionList = __awtsmoosModule_109.minimalMeadowCombatActionList;
+	const minimalMeadowCombatActionList = __awtsmoosModule_109.minimalMeadowCombatActionList;
 
 	function createMinimalMeadowCombatBarView(host) {
 		const documentValue = host.ownerDocument;
@@ -9738,8 +9750,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * orchestration separate while this vessel makes every cast, rejection, fall, and return legible.
 	 */
 
-	var updateMinimalMeadowCastView = __awtsmoosModule_115.updateMinimalMeadowCastView;
-	var updateMinimalMeadowCooldownView = __awtsmoosModule_115.updateMinimalMeadowCooldownView;
+	const updateMinimalMeadowCastView = __awtsmoosModule_115.updateMinimalMeadowCastView;
+	const updateMinimalMeadowCooldownView = __awtsmoosModule_115.updateMinimalMeadowCooldownView;
 
 	const MINIMAL_MEADOW_REJECTION_LABELS = Object.freeze({
 		ALREADY_CASTING: 'Already casting',
@@ -9751,9 +9763,9 @@ const __awtsmoosModule_0 = Object.create(null);
 		TARGET_REQUIRED: 'Select a demon first',
 		UNKNOWN_ACTION: 'Unknown action'
 	});
+
+
 	__exports.MINIMAL_MEADOW_REJECTION_LABELS = MINIMAL_MEADOW_REJECTION_LABELS;
-
-
 	class MinimalMeadowPlayerDefeatCombatBarState {
 		constructor(bus, view) {
 			this.bus = bus;
@@ -9909,12 +9921,12 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com preserves the inherited defeat boundary and closes combat during Bag contemplation.
 	 */
 
-	var minimalMeadowCombatActionList = __awtsmoosModule_109.minimalMeadowCombatActionList;
-	var MinimalMeadowPlayerDefeatCombatBarState = __awtsmoosModule_114.MinimalMeadowPlayerDefeatCombatBarState;
-	var handleDefeatedCombatKey = __awtsmoosModule_116.handleDefeatedCombatKey;
-	var isCombatTextEntry = __awtsmoosModule_116.isCombatTextEntry;
-	var isInventoryModalOpen = __awtsmoosModule_84.isInventoryModalOpen;
-	var createMinimalMeadowCombatBarView = __awtsmoosModule_115.createMinimalMeadowCombatBarView;
+	const minimalMeadowCombatActionList = __awtsmoosModule_109.minimalMeadowCombatActionList;
+	const MinimalMeadowPlayerDefeatCombatBarState = __awtsmoosModule_114.MinimalMeadowPlayerDefeatCombatBarState;
+	const handleDefeatedCombatKey = __awtsmoosModule_116.handleDefeatedCombatKey;
+	const isCombatTextEntry = __awtsmoosModule_116.isCombatTextEntry;
+	const isInventoryModalOpen = __awtsmoosModule_84.isInventoryModalOpen;
+	const createMinimalMeadowCombatBarView = __awtsmoosModule_115.createMinimalMeadowCombatBarView;
 
 	class MinimalMeadowCombatBar {
 		constructor(host, bus, environment = globalThis) {
@@ -10193,8 +10205,8 @@ const __awtsmoosModule_0 = Object.create(null);
 		.Awtsmoos-region-banner { top: auto; bottom: calc(env(safe-area-inset-bottom) + 292px); width: min(300px, calc(100vw - 112px)); }
 	}
 	`;
-	__exports.REGION_BANNER_CSS = REGION_BANNER_CSS;
 
+	__exports.REGION_BANNER_CSS = REGION_BANNER_CSS;
 
 }
 
@@ -10212,7 +10224,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * pointer-transparent banner, one bounded timer, and one truthful subscription to world movement.
 	 */
 
-	var installMinimalMeadowRegionBannerStyles = __awtsmoosModule_121.installMinimalMeadowRegionBannerStyles;
+	const installMinimalMeadowRegionBannerStyles = __awtsmoosModule_121.installMinimalMeadowRegionBannerStyles;
 
 	const DISPLAY_MILLISECONDS = 2800;
 
@@ -10356,8 +10368,8 @@ const __awtsmoosModule_0 = Object.create(null);
 		.Awtsmoos-runtime-diagnostics { top: auto; bottom: max(8px, env(safe-area-inset-bottom)); max-height: 58dvh; }
 	}
 	`;
-	__exports.RUNTIME_DIAGNOSTICS_CSS = RUNTIME_DIAGNOSTICS_CSS;
 
+	__exports.RUNTIME_DIAGNOSTICS_CSS = RUNTIME_DIAGNOSTICS_CSS;
 
 }
 
@@ -10375,7 +10387,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * region, quality, actors, target, quest, renderer, water, and combat truth only while deliberately open.
 	 */
 
-	var installMinimalMeadowRuntimeDiagnosticsStyles = __awtsmoosModule_123.installMinimalMeadowRuntimeDiagnosticsStyles;
+	const installMinimalMeadowRuntimeDiagnosticsStyles = __awtsmoosModule_123.installMinimalMeadowRuntimeDiagnosticsStyles;
 
 	class MinimalMeadowRuntimeDiagnosticsPanel {
 		constructor(runtime, documentValue, environment = globalThis) {
@@ -10544,8 +10556,8 @@ const __awtsmoosModule_0 = Object.create(null);
 		.Awtsmoos-threat-indicator { bottom: calc(max(10px, env(safe-area-inset-bottom)) + 224px); }
 	}
 	`;
-	__exports.THREAT_INDICATOR_CSS = THREAT_INDICATOR_CSS;
 
+	__exports.THREAT_INDICATOR_CSS = THREAT_INDICATOR_CSS;
 
 }
 
@@ -10563,7 +10575,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * timer, one pointer-transparent node, and no duplicate combat authority behind visible threat text.
 	 */
 
-	var installMinimalMeadowThreatIndicatorStyles = __awtsmoosModule_125.installMinimalMeadowThreatIndicatorStyles;
+	const installMinimalMeadowThreatIndicatorStyles = __awtsmoosModule_125.installMinimalMeadowThreatIndicatorStyles;
 
 	const EVENTS = Object.freeze([
 		'enemy:alert',
@@ -10722,9 +10734,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 */
 
 	const WORLD_MINIMAP_RADIUS = 210;
+
+
 	__exports.WORLD_MINIMAP_RADIUS = WORLD_MINIMAP_RADIUS;
-
-
 	function projectWorldMinimap(runtime) {
 		const questSnapshot = runtime.adventures?.snapshot?.() || {};
 		return {
@@ -10862,9 +10874,9 @@ const __awtsmoosModule_0 = Object.create(null);
 		'expanded',
 		'fullscreen'
 	]);
+
+
 	__exports.WORLD_MINIMAP_MODES = WORLD_MINIMAP_MODES;
-
-
 	function readWorldMinimapMode(storage) {
 		try {
 			const mode = storage?.getItem(MODE_KEY);
@@ -10913,9 +10925,9 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	/**
 	 * @file WorldMinimapLayoutCss.js
-	 * @description Holds compact, expanded, and responsive map geometry as one readable safe-area covenant.
+	 * @description Preserves the compact, expanded, and responsive map geometry while giving every map action a true touch-size vessel.
 	 * The Awtsmoos gives every instrument a boundary so the road remains visible beneath the sky;
-	 * Awtsmoos.com keeps map geometry small by default, expanding only when the traveler asks the view to fly.
+	 * Awtsmoos.com keeps the map small by default while forty-eight-pixel actions let a living hand answer nearby.
 	 */
 
 	const WORLD_MINIMAP_LAYOUT_CSS = `
@@ -10945,9 +10957,11 @@ const __awtsmoosModule_0 = Object.create(null);
 		}
 
 		.Awtsmoos-minimap button {
-			min-height: 26px;
-			padding: 4px 6px;
+			min-width: 48px;
+			min-height: 48px;
+			padding: 8px 10px;
 			font-size: 9px;
+			touch-action: manipulation;
 		}
 
 		.Awtsmoos-minimap[data-mode="expanded"] {
@@ -10980,8 +10994,8 @@ const __awtsmoosModule_0 = Object.create(null);
 			}
 		}
 	`;
-	__exports.WORLD_MINIMAP_LAYOUT_CSS = WORLD_MINIMAP_LAYOUT_CSS;
 
+	__exports.WORLD_MINIMAP_LAYOUT_CSS = WORLD_MINIMAP_LAYOUT_CSS;
 
 }
 
@@ -11037,8 +11051,8 @@ const __awtsmoosModule_0 = Object.create(null);
 			box-shadow: 0 0 10px rgba(85, 223, 255, .8);
 		}
 	`;
-	__exports.WORLD_MINIMAP_SURFACE_CSS = WORLD_MINIMAP_SURFACE_CSS;
 
+	__exports.WORLD_MINIMAP_SURFACE_CSS = WORLD_MINIMAP_SURFACE_CSS;
 
 }
 
@@ -11056,8 +11070,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com composes small readable modules so future maps inherit clarity instead of overlapping frames.
 	 */
 
-	var WORLD_MINIMAP_LAYOUT_CSS = __awtsmoosModule_132.WORLD_MINIMAP_LAYOUT_CSS;
-	var WORLD_MINIMAP_SURFACE_CSS = __awtsmoosModule_133.WORLD_MINIMAP_SURFACE_CSS;
+	const WORLD_MINIMAP_LAYOUT_CSS = __awtsmoosModule_132.WORLD_MINIMAP_LAYOUT_CSS;
+	const WORLD_MINIMAP_SURFACE_CSS = __awtsmoosModule_133.WORLD_MINIMAP_SURFACE_CSS;
 
 	function installWorldMinimapStyle(documentValue = document) {
 		if (documentValue.getElementById('AwtsmoosWorldMinimapStyle')) {
@@ -11152,17 +11166,17 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * movement, unified quest change, peer change, or an explicit remembered viewpoint transition.
 	 */
 
-	var bindWorldMinimapControls = __awtsmoosModule_127.bindWorldMinimapControls;
-	var updateWorldMinimapControls = __awtsmoosModule_127.updateWorldMinimapControls;
-	var projectWorldMinimap = __awtsmoosModule_128.projectWorldMinimap;
-	var ensureWorldMinimapQuestSubscription = __awtsmoosModule_129.ensureWorldMinimapQuestSubscription;
-	var worldMinimapPeerSignature = __awtsmoosModule_129.worldMinimapPeerSignature;
-	var worldMinimapPlayerPosition = __awtsmoosModule_129.worldMinimapPlayerPosition;
-	var readWorldMinimapMode = __awtsmoosModule_130.readWorldMinimapMode;
-	var writeWorldMinimapMode = __awtsmoosModule_130.writeWorldMinimapMode;
-	var installWorldMinimapStyle = __awtsmoosModule_131.installWorldMinimapStyle;
-	var createWorldMinimapRoot = __awtsmoosModule_134.createWorldMinimapRoot;
-	var renderWorldMinimapMarkers = __awtsmoosModule_134.renderWorldMinimapMarkers;
+	const bindWorldMinimapControls = __awtsmoosModule_127.bindWorldMinimapControls;
+	const updateWorldMinimapControls = __awtsmoosModule_127.updateWorldMinimapControls;
+	const projectWorldMinimap = __awtsmoosModule_128.projectWorldMinimap;
+	const ensureWorldMinimapQuestSubscription = __awtsmoosModule_129.ensureWorldMinimapQuestSubscription;
+	const worldMinimapPeerSignature = __awtsmoosModule_129.worldMinimapPeerSignature;
+	const worldMinimapPlayerPosition = __awtsmoosModule_129.worldMinimapPlayerPosition;
+	const readWorldMinimapMode = __awtsmoosModule_130.readWorldMinimapMode;
+	const writeWorldMinimapMode = __awtsmoosModule_130.writeWorldMinimapMode;
+	const installWorldMinimapStyle = __awtsmoosModule_131.installWorldMinimapStyle;
+	const createWorldMinimapRoot = __awtsmoosModule_134.createWorldMinimapRoot;
+	const renderWorldMinimapMarkers = __awtsmoosModule_134.renderWorldMinimapMarkers;
 
 	const MOVEMENT_THRESHOLD = 1.5;
 
@@ -11264,11 +11278,11 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * keeps parity, map cadence, subscriptions, diagnostics, and destruction separate from combat HUD.
 	 */
 
-	var minimalMeadowGameplayCapabilities = __awtsmoosModule_119.minimalMeadowGameplayCapabilities;
-	var MinimalMeadowRegionBanner = __awtsmoosModule_120.MinimalMeadowRegionBanner;
-	var MinimalMeadowRuntimeDiagnosticsPanel = __awtsmoosModule_122.MinimalMeadowRuntimeDiagnosticsPanel;
-	var MinimalMeadowThreatIndicator = __awtsmoosModule_124.MinimalMeadowThreatIndicator;
-	var WorldMinimap = __awtsmoosModule_126.WorldMinimap;
+	const minimalMeadowGameplayCapabilities = __awtsmoosModule_119.minimalMeadowGameplayCapabilities;
+	const MinimalMeadowRegionBanner = __awtsmoosModule_120.MinimalMeadowRegionBanner;
+	const MinimalMeadowRuntimeDiagnosticsPanel = __awtsmoosModule_122.MinimalMeadowRuntimeDiagnosticsPanel;
+	const MinimalMeadowThreatIndicator = __awtsmoosModule_124.MinimalMeadowThreatIndicator;
+	const WorldMinimap = __awtsmoosModule_126.WorldMinimap;
 
 	class MinimalMeadowCoordinatedUi {
 		constructor(runtime, documentValue, environment = globalThis) {
@@ -11480,8 +11494,8 @@ const __awtsmoosModule_0 = Object.create(null);
 		100% { opacity: 0; transform: translate(-50%, -155%) scale(.9); }
 	}
 	`;
-	__exports.DAMAGE_FEEDBACK_CSS = DAMAGE_FEEDBACK_CSS;
 
+	__exports.DAMAGE_FEEDBACK_CSS = DAMAGE_FEEDBACK_CSS;
 
 }
 
@@ -11499,8 +11513,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * numeral clamped, brief, pointer-transparent, action-aware, defeat-aware, and removed after testimony.
 	 */
 
-	var minimalMeadowWorldToScreen = __awtsmoosModule_136.minimalMeadowWorldToScreen;
-	var installMinimalMeadowDamageFeedbackStyles = __awtsmoosModule_137.installMinimalMeadowDamageFeedbackStyles;
+	const minimalMeadowWorldToScreen = __awtsmoosModule_136.minimalMeadowWorldToScreen;
+	const installMinimalMeadowDamageFeedbackStyles = __awtsmoosModule_137.installMinimalMeadowDamageFeedbackStyles;
 
 	class MinimalMeadowDamageFeedback {
 		constructor(runtime, documentValue, environment = globalThis) {
@@ -11844,9 +11858,9 @@ const __awtsmoosModule_0 = Object.create(null);
 		{ eventName: 'hud:toggle', icon: '👁️', label: 'HUD' },
 		{ eventName: 'menu:toggle', icon: '☰', label: 'Menu' }
 	]);
+
+
 	__exports.SECONDARY_RAIL_ITEMS = SECONDARY_RAIL_ITEMS;
-
-
 	function railMarkup(collapsed) {
 		return `<nav class="Awtsmoos-game-rail" data-collapsed="${collapsed}" aria-label="Game menus">
 			<button type="button" data-mode-toggle data-rail-action="mode" data-active="false" aria-label="Movement mode: Walk" aria-pressed="false">
@@ -11881,10 +11895,10 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com lets Yesod join those shores once, while unrelated components remain conflict-free.
 	 */
 
-	var YesodStylesheetInstaller = __awtsmoosModule_86.YesodStylesheetInstaller;
+	const YesodStylesheetInstaller = __awtsmoosModule_86.YesodStylesheetInstaller;
 
 	const MOBILE_HUD_STYLE_ID = 'Awtsmoos-mobile-hud-composition-styles';
-	const MOBILE_HUD_STYLE_URL = new URL('./styles/mobile-hud/mobile-hud.css', ( new URL( "/games/mitzvahWorld/experiments/Awtsmoos/src/ui/MobileHudCompositionStyles.js", globalThis.location?.href || "https://awtsmoos.local/" ).href )).href;
+	const MOBILE_HUD_STYLE_URL = new URL('./styles/mobile-hud/mobile-hud.css', (( globalThis.location?.origin && globalThis.location.origin !== "null" ? globalThis.location.origin : "https://awtsmoos.local" ) + "/games/mitzvahWorld/experiments/Awtsmoos/src/ui/MobileHudCompositionStyles.js")).href;
 
 	/** Specialized stylesheet vessel for mobile HUD geometry and retractable controls. */
 	class YesodMobileHudStylesheet extends YesodStylesheetInstaller {
@@ -11925,13 +11939,13 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com keeps the coordinator small while Yesod, Malchus, and the view each carry one name.
 	 */
 
-	var MobileInputBoundary = __awtsmoosModule_139.MobileInputBoundary;
-	var YesodGameRailInteraction = __awtsmoosModule_140.YesodGameRailInteraction;
-	var movementModePresentation = __awtsmoosModule_141.movementModePresentation;
-	var shouldCollapseRail = __awtsmoosModule_141.shouldCollapseRail;
-	var railMarkup = __awtsmoosModule_142.railMarkup;
-	var SECONDARY_RAIL_ITEMS = __awtsmoosModule_142.SECONDARY_RAIL_ITEMS;
-	var installMobileHudCompositionStyles = __awtsmoosModule_143.installMobileHudCompositionStyles;
+	const MobileInputBoundary = __awtsmoosModule_139.MobileInputBoundary;
+	const YesodGameRailInteraction = __awtsmoosModule_140.YesodGameRailInteraction;
+	const movementModePresentation = __awtsmoosModule_141.movementModePresentation;
+	const shouldCollapseRail = __awtsmoosModule_141.shouldCollapseRail;
+	const railMarkup = __awtsmoosModule_142.railMarkup;
+	const SECONDARY_RAIL_ITEMS = __awtsmoosModule_142.SECONDARY_RAIL_ITEMS;
+	const installMobileHudCompositionStyles = __awtsmoosModule_143.installMobileHudCompositionStyles;
 
 	class MinimalMeadowGameRail {
 		/**
@@ -12266,9 +12280,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * defeat, recovery, return, optional beauty, and completed honor in one living book.
 	 */
 
-	var minimalMeadowCompletionHonorsMarkup = __awtsmoosModule_149.minimalMeadowCompletionHonorsMarkup;
-	var minimalMeadowOptionalObjectivesMarkup = __awtsmoosModule_149.minimalMeadowOptionalObjectivesMarkup;
-	var minimalMeadowDedicatedQuestRecord = __awtsmoosModule_150.minimalMeadowDedicatedQuestRecord;
+	const minimalMeadowCompletionHonorsMarkup = __awtsmoosModule_149.minimalMeadowCompletionHonorsMarkup;
+	const minimalMeadowOptionalObjectivesMarkup = __awtsmoosModule_149.minimalMeadowOptionalObjectivesMarkup;
+	const minimalMeadowDedicatedQuestRecord = __awtsmoosModule_150.minimalMeadowDedicatedQuestRecord;
 
 	function minimalMeadowShlichusMenuContent(runtime) {
 		const dedicated = minimalMeadowDedicatedQuestRecord(runtime.quest?.snapshot?.());
@@ -12385,12 +12399,12 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com lets Yesod attach the garment once, while every unrelated surface remains unbroken.
 	 */
 
-	var YesodStylesheetInstaller = __awtsmoosModule_86.YesodStylesheetInstaller;
+	const YesodStylesheetInstaller = __awtsmoosModule_86.YesodStylesheetInstaller;
 
 	const MEADOW_MENU_STYLE_ID = 'Awtsmoos-minimal-meadow-menu-styles';
 	const MEADOW_MENU_STYLE_URL = new URL(
 		'./styles/meadow-menu/meadow-menu.css',
-		( new URL( "/games/mitzvahWorld/experiments/Awtsmoos/src/ui/MinimalMeadowMenuStyles.js", globalThis.location?.href || "https://awtsmoos.local/" ).href )
+		(( globalThis.location?.origin && globalThis.location.origin !== "null" ? globalThis.location.origin : "https://awtsmoos.local" ) + "/games/mitzvahWorld/experiments/Awtsmoos/src/ui/MinimalMeadowMenuStyles.js")
 	).href;
 
 	/** Specialized stylesheet vessel for the compact meadow menu. */
@@ -12434,8 +12448,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com lets Yesod wire markup and events once, while Malchus keeps disclosure simple and bright.
 	 */
 
-	var subscribeMinimalMeadowShlichus = __awtsmoosModule_148.subscribeMinimalMeadowShlichus;
-	var installMinimalMeadowMenuStyles = __awtsmoosModule_151.installMinimalMeadowMenuStyles;
+	const subscribeMinimalMeadowShlichus = __awtsmoosModule_148.subscribeMinimalMeadowShlichus;
+	const installMinimalMeadowMenuStyles = __awtsmoosModule_151.installMinimalMeadowMenuStyles;
 
 	const MALCHUS_PANEL_EVENTS = Object.freeze({
 		'map:toggle': 'map',
@@ -12536,7 +12550,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com keeps the first glance simple while deeper controls unfold like a quiet star.
 	 */
 
-	var minimalMeadowShlichusMenuContent = __awtsmoosModule_148.minimalMeadowShlichusMenuContent;
+	const minimalMeadowShlichusMenuContent = __awtsmoosModule_148.minimalMeadowShlichusMenuContent;
 
 	const MALCHUS_CONTENT_FACTORIES = Object.freeze({
 		map: revealMapContent,
@@ -12717,9 +12731,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com lets Malchus reveal only the chosen layer while Yesod quietly carries every wire and deed nearby.
 	 */
 
-	var YesodMeadowMenuBinding = __awtsmoosModule_147.YesodMeadowMenuBinding;
-	var minimalMeadowMenuContent = __awtsmoosModule_152.minimalMeadowMenuContent;
-	var YesodMeadowMenuInteraction = __awtsmoosModule_153.YesodMeadowMenuInteraction;
+	const YesodMeadowMenuBinding = __awtsmoosModule_147.YesodMeadowMenuBinding;
+	const minimalMeadowMenuContent = __awtsmoosModule_152.minimalMeadowMenuContent;
+	const YesodMeadowMenuInteraction = __awtsmoosModule_153.YesodMeadowMenuInteraction;
 
 	class MinimalMeadowMenu {
 		/**
@@ -12892,9 +12906,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 */
 
 	const COMPACT_HUD_MEDIA_QUERY = '(max-width: 820px), (max-height: 520px)';
+
+
 	__exports.COMPACT_HUD_MEDIA_QUERY = COMPACT_HUD_MEDIA_QUERY;
-
-
 	const HUD_ZONE_DEFINITIONS = Object.freeze([
 		revealZone('player-status', '.Awtsmoos-status-dock'),
 		revealZone('player-ribbon', '.Awtsmoos-status-ribbon'),
@@ -13078,9 +13092,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com keeps the summary readable while armor and reward wait behind one deliberate fold.
 	 */
 
-	var escapeHudText = __awtsmoosModule_157.escapeHudText;
-	var finiteHudNumber = __awtsmoosModule_157.finiteHudNumber;
-	var targetHealth = __awtsmoosModule_157.targetHealth;
+	const escapeHudText = __awtsmoosModule_157.escapeHudText;
+	const finiteHudNumber = __awtsmoosModule_157.finiteHudNumber;
+	const targetHealth = __awtsmoosModule_157.targetHealth;
 
 	function renderMobileTargetFrame(host, state) {
 		const target = state.target;
@@ -13122,12 +13136,12 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com keeps enemy identity and health visible without covering quest or rail.
 	 */
 
-	var isCompactHudViewport = __awtsmoosModule_156.isCompactHudViewport;
-	var bindTargetFrameEvents = __awtsmoosModule_157.bindTargetFrameEvents;
-	var finiteHudNumber = __awtsmoosModule_157.finiteHudNumber;
-	var formatTargetReason = __awtsmoosModule_157.formatTargetReason;
-	var targetStatus = __awtsmoosModule_157.targetStatus;
-	var renderMobileTargetFrame = __awtsmoosModule_158.renderMobileTargetFrame;
+	const isCompactHudViewport = __awtsmoosModule_156.isCompactHudViewport;
+	const bindTargetFrameEvents = __awtsmoosModule_157.bindTargetFrameEvents;
+	const finiteHudNumber = __awtsmoosModule_157.finiteHudNumber;
+	const formatTargetReason = __awtsmoosModule_157.formatTargetReason;
+	const targetStatus = __awtsmoosModule_157.targetStatus;
+	const renderMobileTargetFrame = __awtsmoosModule_158.renderMobileTargetFrame;
 
 	class MinimalMeadowTargetFrame {
 		constructor(host, bus, environment = host.ownerDocument?.defaultView || globalThis) {
@@ -13318,9 +13332,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * HUD only when profile, target, damage, respawn, or dialogue events make new truth visible.
 	 */
 
-	var npcDialogueMarkup = __awtsmoosModule_160.npcDialogueMarkup;
-	var npcPlayerCard = __awtsmoosModule_160.npcPlayerCard;
-	var npcTargetCard = __awtsmoosModule_160.npcTargetCard;
+	const npcDialogueMarkup = __awtsmoosModule_160.npcDialogueMarkup;
+	const npcPlayerCard = __awtsmoosModule_160.npcPlayerCard;
+	const npcTargetCard = __awtsmoosModule_160.npcTargetCard;
 
 	const DEFAULT_QUEST = 'sparks-at-east-gate';
 
@@ -13578,12 +13592,12 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com composes motion, contrast, text, flash, shake, timing, persistence, and authority safely.
 	 */
 
-	var applyMinimalMeadowAccessibilityDocument = __awtsmoosModule_163.applyMinimalMeadowAccessibilityDocument;
-	var bindMinimalMeadowAccessibilityMedia = __awtsmoosModule_163.bindMinimalMeadowAccessibilityMedia;
-	var createMinimalMeadowAccessibilityMedia = __awtsmoosModule_163.createMinimalMeadowAccessibilityMedia;
-	var effectiveMinimalMeadowTimingMultiplier = __awtsmoosModule_164.effectiveMinimalMeadowTimingMultiplier;
-	var normalizeMinimalMeadowAccessibilitySettings = __awtsmoosModule_164.normalizeMinimalMeadowAccessibilitySettings;
-	var restoreMinimalMeadowAccessibilitySettings = __awtsmoosModule_164.restoreMinimalMeadowAccessibilitySettings;
+	const applyMinimalMeadowAccessibilityDocument = __awtsmoosModule_163.applyMinimalMeadowAccessibilityDocument;
+	const bindMinimalMeadowAccessibilityMedia = __awtsmoosModule_163.bindMinimalMeadowAccessibilityMedia;
+	const createMinimalMeadowAccessibilityMedia = __awtsmoosModule_163.createMinimalMeadowAccessibilityMedia;
+	const effectiveMinimalMeadowTimingMultiplier = __awtsmoosModule_164.effectiveMinimalMeadowTimingMultiplier;
+	const normalizeMinimalMeadowAccessibilitySettings = __awtsmoosModule_164.normalizeMinimalMeadowAccessibilitySettings;
+	const restoreMinimalMeadowAccessibilitySettings = __awtsmoosModule_164.restoreMinimalMeadowAccessibilitySettings;
 
 	const STORAGE_KEY = 'awtsmoos.mitzvah-world.accessibility.v1';
 
@@ -13740,8 +13754,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 */
 
 	const MINIMAL_MEADOW_RIVER_SEGMENTS = 80;
-	__exports.MINIMAL_MEADOW_RIVER_SEGMENTS = MINIMAL_MEADOW_RIVER_SEGMENTS;
 
+	__exports.MINIMAL_MEADOW_RIVER_SEGMENTS = MINIMAL_MEADOW_RIVER_SEGMENTS;
 	const MINIMAL_MEADOW_LAKE = Object.freeze({
 		centerX: 67,
 		centerZ: 54,
@@ -13749,9 +13763,9 @@ const __awtsmoosModule_0 = Object.create(null);
 		radiusZ: 15,
 		waterY: -0.72
 	});
+
+
 	__exports.MINIMAL_MEADOW_LAKE = MINIMAL_MEADOW_LAKE;
-
-
 	const MINIMAL_MEADOW_RIVER_POINTS = Object.freeze([
 		point(-84, 78, 3.3, 2.18),
 		point(-70, 70, 3.7, 1.88),
@@ -13765,9 +13779,9 @@ const __awtsmoosModule_0 = Object.create(null);
 		point(49, 54, 7.8, -0.48),
 		point(58, 54, 10.4, MINIMAL_MEADOW_LAKE.waterY)
 	]);
+
+
 	__exports.MINIMAL_MEADOW_RIVER_POINTS = MINIMAL_MEADOW_RIVER_POINTS;
-
-
 	function minimalMeadowRiverSample(tValue) {
 		const t = clamp(tValue);
 		const scaled = t * (MINIMAL_MEADOW_RIVER_POINTS.length - 1);
@@ -13866,7 +13880,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * no second river and fades deterministic water breath as the traveler changes place in time.
 	 */
 
-	var minimalMeadowRiverNearest = __awtsmoosModule_168.minimalMeadowRiverNearest;
+	const minimalMeadowRiverNearest = __awtsmoosModule_168.minimalMeadowRiverNearest;
 
 	const UPDATE_MILLISECONDS = 180;
 
@@ -13993,9 +14007,9 @@ const __awtsmoosModule_0 = Object.create(null);
 		master: 0.78,
 		muted: false
 	});
+
+
 	__exports.DEFAULT_MINIMAL_MEADOW_AUDIO_SETTINGS = DEFAULT_MINIMAL_MEADOW_AUDIO_SETTINGS;
-
-
 	function loadMinimalMeadowAudioSettings(environment = globalThis) {
 		try {
 			const stored = environment.localStorage?.getItem(STORAGE_KEY);
@@ -14194,15 +14208,15 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * accessibility truthful, river proximity gentle, settings durable, and every finite voice in time.
 	 */
 
-	var minimalMeadowAudioCue = __awtsmoosModule_166.minimalMeadowAudioCue;
-	var minimalMeadowAudioEvents = __awtsmoosModule_166.minimalMeadowAudioEvents;
-	var MinimalMeadowRiverAmbience = __awtsmoosModule_167.MinimalMeadowRiverAmbience;
-	var loadMinimalMeadowAudioSettings = __awtsmoosModule_169.loadMinimalMeadowAudioSettings;
-	var saveMinimalMeadowAudioSettings = __awtsmoosModule_169.saveMinimalMeadowAudioSettings;
-	var applyMinimalMeadowAudioSettings = __awtsmoosModule_170.applyMinimalMeadowAudioSettings;
-	var closeMinimalMeadowAudioPlayback = __awtsmoosModule_170.closeMinimalMeadowAudioPlayback;
-	var playMinimalMeadowAudioTone = __awtsmoosModule_170.playMinimalMeadowAudioTone;
-	var resumeMinimalMeadowAudioPlayback = __awtsmoosModule_170.resumeMinimalMeadowAudioPlayback;
+	const minimalMeadowAudioCue = __awtsmoosModule_166.minimalMeadowAudioCue;
+	const minimalMeadowAudioEvents = __awtsmoosModule_166.minimalMeadowAudioEvents;
+	const MinimalMeadowRiverAmbience = __awtsmoosModule_167.MinimalMeadowRiverAmbience;
+	const loadMinimalMeadowAudioSettings = __awtsmoosModule_169.loadMinimalMeadowAudioSettings;
+	const saveMinimalMeadowAudioSettings = __awtsmoosModule_169.saveMinimalMeadowAudioSettings;
+	const applyMinimalMeadowAudioSettings = __awtsmoosModule_170.applyMinimalMeadowAudioSettings;
+	const closeMinimalMeadowAudioPlayback = __awtsmoosModule_170.closeMinimalMeadowAudioPlayback;
+	const playMinimalMeadowAudioTone = __awtsmoosModule_170.playMinimalMeadowAudioTone;
+	const resumeMinimalMeadowAudioPlayback = __awtsmoosModule_170.resumeMinimalMeadowAudioPlayback;
 
 	const ACTIVE_LIMIT = 5;
 
@@ -14418,7 +14432,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * mute and three useful gains reachable by touch without making settings eclipse the world in time.
 	 */
 
-	var installMinimalMeadowAudioPanelStyles = __awtsmoosModule_172.installMinimalMeadowAudioPanelStyles;
+	const installMinimalMeadowAudioPanelStyles = __awtsmoosModule_172.installMinimalMeadowAudioPanelStyles;
 
 	class MinimalMeadowAudioPanel {
 		constructor(host, audio, documentValue) {
@@ -14876,8 +14890,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com keeps host ownership, semantic labels, updates, and teardown compact and clear.
 	 */
 
-	var createMinimalMeadowVerticalSliceHudCard = __awtsmoosModule_177.createMinimalMeadowVerticalSliceHudCard;
-	var renderMinimalMeadowVerticalSliceHud = __awtsmoosModule_178.renderMinimalMeadowVerticalSliceHud;
+	const createMinimalMeadowVerticalSliceHudCard = __awtsmoosModule_177.createMinimalMeadowVerticalSliceHudCard;
+	const renderMinimalMeadowVerticalSliceHud = __awtsmoosModule_178.renderMinimalMeadowVerticalSliceHud;
 
 	function createMinimalMeadowVerticalSliceHudView(
 		host,
@@ -14950,10 +14964,10 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com lets intention, posture, knowledge, boss, quest, sound alternatives, and feedback agree.
 	 */
 
-	var createMinimalMeadowVerticalSliceHudState = __awtsmoosModule_174.createMinimalMeadowVerticalSliceHudState;
-	var reduceMinimalMeadowVerticalSliceHud = __awtsmoosModule_174.reduceMinimalMeadowVerticalSliceHud;
-	var installMinimalMeadowVerticalSliceHudStyles = __awtsmoosModule_175.installMinimalMeadowVerticalSliceHudStyles;
-	var createMinimalMeadowVerticalSliceHudView = __awtsmoosModule_176.createMinimalMeadowVerticalSliceHudView;
+	const createMinimalMeadowVerticalSliceHudState = __awtsmoosModule_174.createMinimalMeadowVerticalSliceHudState;
+	const reduceMinimalMeadowVerticalSliceHud = __awtsmoosModule_174.reduceMinimalMeadowVerticalSliceHud;
+	const installMinimalMeadowVerticalSliceHudStyles = __awtsmoosModule_175.installMinimalMeadowVerticalSliceHudStyles;
+	const createMinimalMeadowVerticalSliceHudView = __awtsmoosModule_176.createMinimalMeadowVerticalSliceHudView;
 
 	const EVENTS = Object.freeze([
 		'audio:subtitle',
@@ -15038,10 +15052,10 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * shared ownership, sound, settings, live text, diagnostics, and teardown explicit across time.
 	 */
 
-	var MinimalMeadowAccessibilityRuntime = __awtsmoosModule_162.MinimalMeadowAccessibilityRuntime;
-	var MinimalMeadowAudioRuntime = __awtsmoosModule_165.MinimalMeadowAudioRuntime;
-	var MinimalMeadowAudioPanel = __awtsmoosModule_171.MinimalMeadowAudioPanel;
-	var MinimalMeadowVerticalSliceHud = __awtsmoosModule_173.MinimalMeadowVerticalSliceHud;
+	const MinimalMeadowAccessibilityRuntime = __awtsmoosModule_162.MinimalMeadowAccessibilityRuntime;
+	const MinimalMeadowAudioRuntime = __awtsmoosModule_165.MinimalMeadowAudioRuntime;
+	const MinimalMeadowAudioPanel = __awtsmoosModule_171.MinimalMeadowAudioPanel;
+	const MinimalMeadowVerticalSliceHud = __awtsmoosModule_173.MinimalMeadowVerticalSliceHud;
 
 	function installMinimalMeadowVerticalUi(
 		runtime,
@@ -15114,20 +15128,20 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com keeps host ownership, amulet authority, environment, bus, and destruction explicit.
 	 */
 
-	var healingAmuletCommerce = __awtsmoosModule_74.healingAmuletCommerce;
-	var InventoryPanel = __awtsmoosModule_76.InventoryPanel;
-	var MinimalMeadowCombatBar = __awtsmoosModule_108.MinimalMeadowCombatBar;
-	var MinimalMeadowCombatGlyphs = __awtsmoosModule_117.MinimalMeadowCombatGlyphs;
-	var MinimalMeadowCoordinatedUi = __awtsmoosModule_118.MinimalMeadowCoordinatedUi;
-	var MinimalMeadowDamageFeedback = __awtsmoosModule_135.MinimalMeadowDamageFeedback;
-	var MinimalMeadowGameRail = __awtsmoosModule_138.MinimalMeadowGameRail;
-	var gameRailOptions = __awtsmoosModule_144.gameRailOptions;
-	var MinimalMeadowHouseNotice = __awtsmoosModule_145.MinimalMeadowHouseNotice;
-	var MinimalMeadowMenu = __awtsmoosModule_146.MinimalMeadowMenu;
-	var MinimalMeadowRetractable = __awtsmoosModule_154.MinimalMeadowRetractable;
-	var MinimalMeadowTargetFrame = __awtsmoosModule_155.MinimalMeadowTargetFrame;
-	var NpcHud = __awtsmoosModule_159.NpcHud;
-	var installMinimalMeadowVerticalUi = __awtsmoosModule_161.installMinimalMeadowVerticalUi;
+	const healingAmuletCommerce = __awtsmoosModule_74.healingAmuletCommerce;
+	const InventoryPanel = __awtsmoosModule_76.InventoryPanel;
+	const MinimalMeadowCombatBar = __awtsmoosModule_108.MinimalMeadowCombatBar;
+	const MinimalMeadowCombatGlyphs = __awtsmoosModule_117.MinimalMeadowCombatGlyphs;
+	const MinimalMeadowCoordinatedUi = __awtsmoosModule_118.MinimalMeadowCoordinatedUi;
+	const MinimalMeadowDamageFeedback = __awtsmoosModule_135.MinimalMeadowDamageFeedback;
+	const MinimalMeadowGameRail = __awtsmoosModule_138.MinimalMeadowGameRail;
+	const gameRailOptions = __awtsmoosModule_144.gameRailOptions;
+	const MinimalMeadowHouseNotice = __awtsmoosModule_145.MinimalMeadowHouseNotice;
+	const MinimalMeadowMenu = __awtsmoosModule_146.MinimalMeadowMenu;
+	const MinimalMeadowRetractable = __awtsmoosModule_154.MinimalMeadowRetractable;
+	const MinimalMeadowTargetFrame = __awtsmoosModule_155.MinimalMeadowTargetFrame;
+	const NpcHud = __awtsmoosModule_159.NpcHud;
+	const installMinimalMeadowVerticalUi = __awtsmoosModule_161.installMinimalMeadowVerticalUi;
 
 	function createMinimalMeadowUiComponents(
 		runtime,
@@ -15328,9 +15342,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * old anchors cleanly while the explicit model-root fallback remains visible in diagnostics.
 	 */
 
-	var Group = __awtsmoosModule_29.Group;
-	var applyMinimalMeadowPose = __awtsmoosModule_184.applyMinimalMeadowPose;
-	var minimalMeadowAnchorPose = __awtsmoosModule_184.minimalMeadowAnchorPose;
+	const Group = __awtsmoosModule_29.Group;
+	const applyMinimalMeadowPose = __awtsmoosModule_184.applyMinimalMeadowPose;
+	const minimalMeadowAnchorPose = __awtsmoosModule_184.minimalMeadowAnchorPose;
 
 	const ANCHOR_NAME = 'Awtsmoos_equipped_weapon_hand_anchor';
 
@@ -15392,8 +15406,8 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	__exports.applyAnchorTransform = applyAnchorTransform;
 	const MINIMAL_MEADOW_WEAPON_ANCHOR_NAME = ANCHOR_NAME;
-	__exports.MINIMAL_MEADOW_WEAPON_ANCHOR_NAME = MINIMAL_MEADOW_WEAPON_ANCHOR_NAME;
 
+	__exports.MINIMAL_MEADOW_WEAPON_ANCHOR_NAME = MINIMAL_MEADOW_WEAPON_ANCHOR_NAME;
 
 }
 
@@ -15411,9 +15425,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * objects, preserves hydration generation, and keeps staff or sword visible without per-frame churn.
 	 */
 
-	var resolveMinimalMeadowWeaponAnchor = __awtsmoosModule_183.resolveMinimalMeadowWeaponAnchor;
-	var applyMinimalMeadowPose = __awtsmoosModule_184.applyMinimalMeadowPose;
-	var minimalMeadowWeaponPose = __awtsmoosModule_184.minimalMeadowWeaponPose;
+	const resolveMinimalMeadowWeaponAnchor = __awtsmoosModule_183.resolveMinimalMeadowWeaponAnchor;
+	const applyMinimalMeadowPose = __awtsmoosModule_184.applyMinimalMeadowPose;
+	const minimalMeadowWeaponPose = __awtsmoosModule_184.minimalMeadowWeaponPose;
 
 	const ACTIVE_WEAPON_BY_OWNER = new WeakMap();
 	const OWNER_BY_WEAPON = new WeakMap();
@@ -15496,12 +15510,12 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * obvious detached staff instantly while deep ancestry and generation proof remain cadence-bound.
 	 */
 
-	var countMinimalMeadowNamedNodes = __awtsmoosModule_181.countMinimalMeadowNamedNodes;
-	var minimalMeadowAttachmentIsDescendant = __awtsmoosModule_181.minimalMeadowAttachmentIsDescendant;
-	var attachMinimalWeapon = __awtsmoosModule_182.attachMinimalWeapon;
-	var detachMinimalWeapon = __awtsmoosModule_182.detachMinimalWeapon;
-	var MINIMAL_MEADOW_WEAPON_ANCHOR_NAME = __awtsmoosModule_183.MINIMAL_MEADOW_WEAPON_ANCHOR_NAME;
-	var resolveMinimalMeadowWeaponAnchor = __awtsmoosModule_183.resolveMinimalMeadowWeaponAnchor;
+	const countMinimalMeadowNamedNodes = __awtsmoosModule_181.countMinimalMeadowNamedNodes;
+	const minimalMeadowAttachmentIsDescendant = __awtsmoosModule_181.minimalMeadowAttachmentIsDescendant;
+	const attachMinimalWeapon = __awtsmoosModule_182.attachMinimalWeapon;
+	const detachMinimalWeapon = __awtsmoosModule_182.detachMinimalWeapon;
+	const MINIMAL_MEADOW_WEAPON_ANCHOR_NAME = __awtsmoosModule_183.MINIMAL_MEADOW_WEAPON_ANCHOR_NAME;
+	const resolveMinimalMeadowWeaponAnchor = __awtsmoosModule_183.resolveMinimalMeadowWeaponAnchor;
 
 	const VALIDATION_INTERVAL = 15;
 
@@ -15646,8 +15660,8 @@ const __awtsmoosModule_0 = Object.create(null);
 		"reputation",
 		"criticalChance"
 	]);
-	__exports.EQUIPMENT_STAT_KEYS = EQUIPMENT_STAT_KEYS;
 
+	__exports.EQUIPMENT_STAT_KEYS = EQUIPMENT_STAT_KEYS;
 
 }
 
@@ -15665,11 +15679,11 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * client and server from naming, omitting, or totaling the same stat in divergent ways.
 	 */
 
-	var EQUIPMENT_STAT_KEYS = __awtsmoosModule_188.EQUIPMENT_STAT_KEYS;
+	const EQUIPMENT_STAT_KEYS = __awtsmoosModule_188.EQUIPMENT_STAT_KEYS;
 
 	const DERIVED_STAT_KEYS = EQUIPMENT_STAT_KEYS;
-	__exports.DERIVED_STAT_KEYS = DERIVED_STAT_KEYS;
 
+	__exports.DERIVED_STAT_KEYS = DERIVED_STAT_KEYS;
 
 }
 
@@ -15687,7 +15701,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * equipped, learned, passive, and temporary vessel exactly once for truthful inspection.
 	 */
 
-	var DERIVED_STAT_KEYS = __awtsmoosModule_187.DERIVED_STAT_KEYS;
+	const DERIVED_STAT_KEYS = __awtsmoosModule_187.DERIVED_STAT_KEYS;
 
 	function projectDerivedStats(sources = []) {
 		const values = emptyTotals();
@@ -15835,9 +15849,9 @@ const __awtsmoosModule_0 = Object.create(null);
 			}
 		}
 	});
+
+
 	__exports.COMBAT_EQUIPMENT_STATS = COMBAT_EQUIPMENT_STATS;
-
-
 	function deepFreeze(value) {
 		if (!value || typeof value !== 'object' || Object.isFrozen(value)) return value;
 		Object.values(value).forEach(deepFreeze);
@@ -15937,9 +15951,9 @@ const __awtsmoosModule_0 = Object.create(null);
 			}
 		}
 	});
+
+
 	__exports.GARMENT_EQUIPMENT_STATS = GARMENT_EQUIPMENT_STATS;
-
-
 	function deepFreeze(value) {
 		if (!value || typeof value !== 'object' || Object.isFrozen(value)) return value;
 		Object.values(value).forEach(deepFreeze);
@@ -15961,17 +15975,17 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos renews one source through client and server; Awtsmoos.com keeps parity whole.
 	 */
 
-	var COMBAT_EQUIPMENT_STATS = __awtsmoosModule_192.COMBAT_EQUIPMENT_STATS;
-	var GARMENT_EQUIPMENT_STATS = __awtsmoosModule_193.GARMENT_EQUIPMENT_STATS;
+	const COMBAT_EQUIPMENT_STATS = __awtsmoosModule_192.COMBAT_EQUIPMENT_STATS;
+	const GARMENT_EQUIPMENT_STATS = __awtsmoosModule_193.GARMENT_EQUIPMENT_STATS;
 	__exports.EQUIPMENT_STAT_KEYS = __awtsmoosModule_188.EQUIPMENT_STAT_KEYS;
 
 	const EQUIPMENT_STAT_MODIFIERS = Object.freeze({
 		...COMBAT_EQUIPMENT_STATS,
 		...GARMENT_EQUIPMENT_STATS
 	});
+
+
 	__exports.EQUIPMENT_STAT_MODIFIERS = EQUIPMENT_STAT_MODIFIERS;
-
-
 	function equipmentStatRecord(itemId) {
 		return EQUIPMENT_STAT_MODIFIERS[itemId] || null;
 	}
@@ -15994,7 +16008,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * once, excludes merely owned inventory, and preserves the exact slot that grants its light.
 	 */
 
-	var equipmentStatRecord = __awtsmoosModule_191.equipmentStatRecord;
+	const equipmentStatRecord = __awtsmoosModule_191.equipmentStatRecord;
 
 	function equipmentDerivedStatSources(snapshot = {}) {
 		return Object.entries(snapshot.equipment || {}).flatMap(([slot, itemId]) => {
@@ -16029,7 +16043,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * preserves their identities so diagnostics can reveal exactly why every total exists.
 	 */
 
-	var equipmentDerivedStatSources = __awtsmoosModule_190.equipmentDerivedStatSources;
+	const equipmentDerivedStatSources = __awtsmoosModule_190.equipmentDerivedStatSources;
 
 	function runtimeDerivedStatSources(runtime, inventorySnapshot) {
 		return [
@@ -16114,9 +16128,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com reveals accepted sources, subtotals, rejected duplicates, actions, and values.
 	 */
 
-	var projectDerivedStats = __awtsmoosModule_186.projectDerivedStats;
-	var runtimeDerivedStatSources = __awtsmoosModule_189.runtimeDerivedStatSources;
-	var applyMinimalMeadowDerivedStats = __awtsmoosModule_194.applyMinimalMeadowDerivedStats;
+	const projectDerivedStats = __awtsmoosModule_186.projectDerivedStats;
+	const runtimeDerivedStatSources = __awtsmoosModule_189.runtimeDerivedStatSources;
+	const applyMinimalMeadowDerivedStats = __awtsmoosModule_194.applyMinimalMeadowDerivedStats;
 
 	class MinimalMeadowDerivedStatsRuntime {
 		constructor(runtime, inventory) {
@@ -16163,8 +16177,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * both full scene nodes and lightweight groups without corrupting body-facing authority.
 	 */
 
-	var Vector3 = __awtsmoosModule_29.Vector3;
-	var applyAnchorTransform = __awtsmoosModule_183.applyAnchorTransform;
+	const Vector3 = __awtsmoosModule_29.Vector3;
+	const applyAnchorTransform = __awtsmoosModule_183.applyAnchorTransform;
 
 	const HAND = new Vector3();
 	const TARGET = new Vector3();
@@ -16256,8 +16270,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * every charged frame and restores the exact neutral hand pose after launch or cancellation.
 	 */
 
-	var aimMinimalMeadowWeapon = __awtsmoosModule_196.aimMinimalMeadowWeapon;
-	var restoreMinimalMeadowWeaponAim = __awtsmoosModule_196.restoreMinimalMeadowWeaponAim;
+	const aimMinimalMeadowWeapon = __awtsmoosModule_196.aimMinimalMeadowWeapon;
+	const restoreMinimalMeadowWeaponAim = __awtsmoosModule_196.restoreMinimalMeadowWeaponAim;
 
 	class MinimalMeadowEquipmentCasting {
 		constructor(owner, releaseHoldMilliseconds = 240) {
@@ -16370,9 +16384,9 @@ const __awtsmoosModule_0 = Object.create(null);
 		green: color('Forest Green', [0.055, 0.22, 0.12, 1]),
 		white: color('White', [0.9, 0.9, 0.88, 1])
 	});
+
+
 	__exports.GARMENT_COLORS = GARMENT_COLORS;
-
-
 	const GARMENT_FABRICS = Object.freeze({
 		linen: fabric('Linen', 0.88, 'crosshatch'),
 		plain: fabric('Plain Cloth', 0.72, 'plain'),
@@ -16381,9 +16395,9 @@ const __awtsmoosModule_0 = Object.create(null);
 		wool: fabric('Wool Weave', 0.94, 'basket-weave'),
 		leather: fabric('Leather', 0.66, 'pebbled')
 	});
+
+
 	__exports.GARMENT_FABRICS = GARMENT_FABRICS;
-
-
 	function garmentColor(id) {
 		return GARMENT_COLORS[id] || GARMENT_COLORS.black;
 	}
@@ -16406,79 +16420,1488 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowGarmentFabricTexture.js ----
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/PublicMaterialRemoteProvenance.js ----
+{
+	const __exports = __awtsmoosModule_200;
+	//B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file PublicMaterialRemoteProvenance.js
+	 * @description Records which decoded runtime images were actually obtained through verified HTTP(S) material URLs.
+	 * The Awtsmoos is beyond path and provenance while Awtsmoos.com keeps finite evidence pure;
+	 * one WeakMap remembers distant origin without retaining dead images, so local pixels cannot masquerade as remote light secure.
+	 */
+
+	const remoteUrlsByImage = new WeakMap();
+	const REMOTE_URL = /^https?:\/\//i;
+
+	/** Records verified remote aliases for one decoded image without extending its lifetime. */
+	function rememberRemoteMaterialImageProvenance(image, urls = []) {
+		if (!image || typeof image !== 'object') {
+			return image;
+		}
+		const remoteUrls = urls.filter((url) => REMOTE_URL.test(String(url || '')));
+		if (!remoteUrls.length) {
+			return image;
+		}
+		const remembered = remoteUrlsByImage.get(image) || new Set();
+		for (const url of remoteUrls) {
+			remembered.add(url);
+		}
+		remoteUrlsByImage.set(image, remembered);
+		return image;
+	}
+
+
+	__exports.rememberRemoteMaterialImageProvenance = rememberRemoteMaterialImageProvenance;
+	/** Returns immutable remote URL evidence remembered for one decoded image. */
+	function remoteMaterialImageUrls(image) {
+		return Object.freeze([...(remoteUrlsByImage.get(image) || [])]);
+	}
+
+
+	__exports.remoteMaterialImageUrls = remoteMaterialImageUrls;
+	/** Returns true when cache evidence proves that one decoded image came from HTTP(S). */
+	function hasRemoteMaterialImageProvenance(image) {
+		return remoteMaterialImageUrls(image).length > 0;
+	}
+
+
+	__exports.hasRemoteMaterialImageProvenance = hasRemoteMaterialImageProvenance;
+	/** Tests one declared/source URL against the production remote-only scheme law. */
+	function isRemoteMaterialUrl(url) {
+		return REMOTE_URL.test(String(url || '').trim());
+	}
+
+	__exports.isRemoteMaterialUrl = isRemoteMaterialUrl;
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteMaterialImageValidity.js ----
 {
 	const __exports = __awtsmoosModule_199;
+	//B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file RemoteMaterialImageValidity.js
+	 * @description Enforces decoded, non-generated material imagery with genuine HTTP(S) provenance, including verified blob transport from the remote loader.
+	 * The Awtsmoos is beyond source and pixel while Awtsmoos.com keeps this Gevurah gate bright;
+	 * data, canvas, generated, and local images remain concealed, yet a temporary blob may pass only when distant origin is proven right.
+	 */
+
+	const hasRemoteMaterialImageProvenance = __awtsmoosModule_200.hasRemoteMaterialImageProvenance;
+	const isRemoteMaterialUrl = __awtsmoosModule_200.isRemoteMaterialUrl;
+
+	const REJECTED_CONSTRUCTORS = /canvas|offscreen|datatexture|canvastexture|procedural/i;
+	const HARD_REJECTED_SCHEMES = /^(procedural|generated|canvas|data):/i;
+
+	/** Returns true only for decoded image-like sources proven to originate from genuine HTTP(S) material transport. */
+	function isRealMaterialImage(image) {
+		return isDecodedMaterialImage(image) && hasRemoteOrigin(image);
+	}
+
+
+	__exports.isRealMaterialImage = isRealMaterialImage;
+	/** Returns true for a texture wrapper whose decoded image has genuine remote provenance. */
+	function isRealMaterialTexture(texture) {
+		if (!texture || typeof texture !== 'object') {
+			return false;
+		}
+		const constructorName = texture.constructor?.name || '';
+		if (REJECTED_CONSTRUCTORS.test(constructorName) || texture.isDataTexture) {
+			return false;
+		}
+		return isRealMaterialImage(texture.image || texture.source?.data || null);
+	}
+
+
+	__exports.isRealMaterialTexture = isRealMaterialTexture;
+	/** Returns true only when the visible base-color slot is backed by remote-proven image. */
+	function materialHasRealMap(material = {}) {
+		return isRealMaterialImage(material.mapImage)
+			|| isRealMaterialTexture(material.map);
+	}
+
+
+	__exports.materialHasRealMap = materialHasRealMap;
+	/** Classifies any present base map that fails the strict remote-only covenant. */
+	function materialHasRejectedGeneratedMap(material = {}) {
+		const image = material.mapImage || material.map?.image || material.map?.source?.data || null;
+		return Boolean(image) && !materialHasRealMap(material);
+	}
+
+
+	__exports.materialHasRejectedGeneratedMap = materialHasRejectedGeneratedMap;
+	/** Reports decoded image shape without granting remote-only readiness. */
+	function isDecodedMaterialImage(image) {
+		if (!image || typeof image !== 'object') {
+			return false;
+		}
+		const constructorName = image.constructor?.name || '';
+		if (REJECTED_CONSTRUCTORS.test(constructorName) || String(image.tagName || '').toUpperCase() === 'CANVAS') {
+			return false;
+		}
+		if (hasHardRejectedMarker(image)) {
+			return false;
+		}
+		const width = Number(image.naturalWidth || image.videoWidth || image.width || 0);
+		const height = Number(image.naturalHeight || image.videoHeight || image.height || 0);
+		return width > 0 && height > 0 && image.complete !== false;
+	}
+
+
+	__exports.isDecodedMaterialImage = isDecodedMaterialImage;
+	function hasRemoteOrigin(image) {
+		if (hasRemoteMaterialImageProvenance(image)) {
+			return true;
+		}
+		return imageUrls(image).some(isRemoteMaterialUrl);
+	}
+
+	function imageUrls(image) {
+		return [
+			image.dataset?.publicUrl,
+			image.dataset?.url,
+			image.currentSrc,
+			image.src
+		].filter(Boolean);
+	}
+
+	function hasHardRejectedMarker(image) {
+		return imageUrls(image).some((url) => HARD_REJECTED_SCHEMES.test(String(url)))
+			|| image.dataset?.proceduralMaterialTexture === 'true'
+			|| image.dataset?.generatedTexture === 'true';
+	}
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/PublicMaterialCacheState.js ----
+{
+	const __exports = __awtsmoosModule_202;
+	//B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file PublicMaterialCacheState.js
+	 * @description Owns shared decoded-image, URL-evidence, in-flight, semantic-role, and verified remote-provenance state.
+	 * The Awtsmoos is beyond stored image and passing promise, yet every finite cache is renewed in time;
+	 * Awtsmoos.com keeps one Yesod store beneath many surfaces so repeated remote pixels share one truthful line and rhyme.
+	 */
+
+	const rememberRemoteMaterialImageProvenance = __awtsmoosModule_200.rememberRemoteMaterialImageProvenance;
+
+	const imageCache = new Map();
+	const loadingByUrl = new Map();
+	const roleRecords = new Map();
+	const urlRecords = new Map();
+
+	/** Returns a complete cached image for one URL. */
+	function cachedTextureImage(url) {
+		const image = imageCache.get(url);
+		return isUsableMaterialImage(image) ? image : null;
+	}
+
+
+	__exports.cachedTextureImage = cachedTextureImage;
+	/** Reports whether one runtime image-like object has finite renderable dimensions. */
+	function isUsableMaterialImage(image) {
+		return Boolean(
+			image
+			&& (image.naturalWidth || image.videoWidth || image.width)
+			&& (image.naturalHeight || image.videoHeight || image.height)
+			&& image.complete !== false
+		);
+	}
+
+
+	__exports.isUsableMaterialImage = isUsableMaterialImage;
+	/** Returns serializable transport evidence for one URL. */
+	function publicMaterialUrlRecord(url) {
+		return urlRecords.get(url) || null;
+	}
+
+
+	__exports.publicMaterialUrlRecord = publicMaterialUrlRecord;
+	/** Returns the shared in-flight promise for one URL. */
+	function publicMaterialLoading(url) {
+		return loadingByUrl.get(url) || null;
+	}
+
+
+	__exports.publicMaterialLoading = publicMaterialLoading;
+	/** Registers one in-flight URL request. */
+	function rememberPublicMaterialLoading(url, promise) {
+		loadingByUrl.set(url, promise);
+		return promise;
+	}
+
+
+	__exports.rememberPublicMaterialLoading = rememberPublicMaterialLoading;
+	/** Removes one settled in-flight URL request. */
+	function forgetPublicMaterialLoading(url) {
+		loadingByUrl.delete(url);
+	}
+
+
+	__exports.forgetPublicMaterialLoading = forgetPublicMaterialLoading;
+	/** Records serializable URL evidence without changing decoded aliases. */
+	function rememberPublicMaterialUrlRecord(url, record) {
+		urlRecords.set(url, record);
+	}
+
+
+	__exports.rememberPublicMaterialUrlRecord = rememberPublicMaterialUrlRecord;
+	/** Binds one decoded image to URL aliases and records verified remote provenance. */
+	function rememberPublicMaterialImage(urls, image) {
+		rememberRemoteMaterialImageProvenance(image, urls);
+		for (const url of urls) {
+			imageCache.set(url, image);
+		}
+	}
+
+
+	__exports.rememberPublicMaterialImage = rememberPublicMaterialImage;
+	/** Records one semantic material-role result. */
+	function rememberPublicMaterialRole(role, record) {
+		roleRecords.set(role, record);
+	}
+
+
+	__exports.rememberPublicMaterialRole = rememberPublicMaterialRole;
+	/** Returns copied cache diagnostics without exposing mutable state Maps. */
+	function publicMaterialStateEvidence() {
+		return {
+			cachedAliases: imageCache.size,
+			failedUrls: [...urlRecords.values()].filter((record) => !record.ok),
+			loading: loadingByUrl.size,
+			roles: [...roleRecords.values()],
+			uniqueImages: new Set(imageCache.values()).size
+		};
+	}
+
+	__exports.publicMaterialStateEvidence = publicMaterialStateEvidence;
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteModelRecords.js ----
+{
+	const __exports = __awtsmoosModule_207;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
 
 	/**
-	 * @file MinimalMeadowGarmentFabricTexture.js
-	 * @description Generates one cached neutral weave image per controlled fabric preset.
-	 * The Awtsmoos contains every thread without repetition; Awtsmoos.com creates linen, wool,
-	 * velvet, satin, and leather once, then reuses them without any per-frame allocation.
+	 * @file RemoteModelRecords.js
+	 * @description Records byte counts and SHA-256 identities for every active canonical Mitzvah World GLB.
+	 * The Awtsmoos gives each finite imported form one immutable name; Awtsmoos.com keeps structural trees
+	 * outside this table because every live tree now grows exclusively through the deeper procedural core in `geelooy/libs`.
 	 */
 
-	const CACHE = new Map();
-
-	function garmentFabricTexture(fabricId, documentValue = globalThis.document) {
-		if (CACHE.has(fabricId)) return CACHE.get(fabricId);
-		if (!documentValue?.createElement) return null;
-		const canvas = documentValue.createElement('canvas');
-		canvas.width = 96;
-		canvas.height = 96;
-		canvas.dataset.fabricId = fabricId;
-		paint(canvas.getContext('2d'), fabricId, canvas.width);
-		CACHE.set(fabricId, canvas);
-		return canvas;
-	}
-
-
-	__exports.garmentFabricTexture = garmentFabricTexture;
-	function garmentFabricTextureDiagnostics() {
-		return { cached: CACHE.size, ids: [...CACHE.keys()] };
-	}
-
-
-	__exports.garmentFabricTextureDiagnostics = garmentFabricTextureDiagnostics;
-	function paint(context, fabricId, size) {
-		context.fillStyle = '#d8d8d4';
-		context.fillRect(0, 0, size, size);
-		const painter = PAINTERS[fabricId] || PAINTERS.plain;
-		painter(context, size);
-	}
-
-	const PAINTERS = Object.freeze({
-		leather(context, size) {
-			context.fillStyle = '#b6b5b0';
-			for (let y = 3; y < size; y += 8) for (let x = 3; x < size; x += 8) context.fillRect(x + (y % 16 ? 2 : 0), y, 2, 2);
-		},
-		linen(context, size) {
-			lines(context, size, 5, 0.18);
-		},
-		plain() {},
-		satin(context, size) {
-			context.strokeStyle = 'rgba(255,255,255,.34)';
-			for (let offset = -size; offset < size * 2; offset += 9) {
-				context.beginPath(); context.moveTo(offset, 0); context.lineTo(offset + size, size); context.stroke();
-			}
-		},
-		velvet(context, size) {
-			context.fillStyle = 'rgba(45,45,45,.12)';
-			for (let index = 0; index < 240; index += 1) context.fillRect((index * 37) % size, (index * 61) % size, 1, 1);
-		},
-		wool(context, size) {
-			lines(context, size, 7, 0.24);
-		}
+	const REMOTE_MODEL_RECORDS = Object.freeze({
+		'player/chossid.glb': record(2027368, 'd86fd3289c3d12ac566fe8aa7bed37244e352043ee821a0c43b47055ce8ebe48'),
+		'reference-world/Axe_Small.glb': record(48868, 'ea26a8cdf24937ba2cd24148b3c684c59abc5208bef6c96ddca8fb00ed30ddd6'),
+		'reference-world/Book.glb': record(11684, '3f6d8148030077aa95b035ca4d7f5ad589483806416fbd9b75546f49b5cce4c1'),
+		'reference-world/Bush_Large_Flowers.glb': record(26788, 'cdb6c9e558a3c9b3a42eafbc2f3580767cea8b79be625bfdd41369080b468bf6'),
+		'reference-world/Chest_Closed.glb': record(85120, '2ac5715af9015d885338e8c6d4b7fbea47131a253c24944e11f331b907b4d160'),
+		'reference-world/Cow.glb': record(370816, '1d513ef5e3cba976405b68621905aa1954b7c7b673f0566bb3ac0135c330af6f'),
+		'reference-world/Flower_4_Clump.glb': record(4868, 'ec4c5186b8b33b8095b5e8a4f733cfed1b21e876cf40f0ea9ea14537066592b9'),
+		'reference-world/Rat.glb': record(593268, '163afe5bfb722229a814af69dd61e8809e0679e5782c312ad840ac7a599a58a7'),
+		'reference-world/Rock_2.glb': record(11144, '10783ce0a1956b1c2c6879f7dba303b39fbe8f92256fe910b270f2f3b5d4e3ac'),
+		'reference-world/Scroll.glb': record(52704, '5e8581b1041eeae144e12b12b295eda498a8f9b52218065a7b76307cb1bd4ec9'),
+		'reference-world/Sheep.glb': record(293680, '5da91ccae57ada6213ec6818760c37d47f2ce071fad6a5bb7426283439c71319'),
+		'reference-world/Shield.glb': record(24056, '1f40b4233612d8a00f1ec4c49d45c3f339af1b000adc10eff5bf36fbd8563f67'),
+		'reference-world/Snake.glb': record(240884, 'edb074cc77ddac859245231cf17d5d76d5ec82e888af76a44a4e1b36d713b927'),
+		'reference-world/Snake_Angry.glb': record(249908, 'c8f3a3bf3f1510596fd41d2be61aec55b7bd95ec35c4988b6eaf546795aaa128'),
+		'reference-world/Spider.glb': record(505420, '541bd562b079790137b23c47304aa6904dbe1969a293cc271e056b25d4eb404a'),
+		'reference-world/Sword.glb': record(42640, '034c89782e21e22cfcb4de6e710026647df747e0e54c5a47c2c945f512eaecc2'),
+		'reference-world/WoodenStaff.glb': record(12652, '3bfba08a3426be1c873f49a85aef21c3fc670514218b606941d232ab5f2aad16')
 	});
 
-	function lines(context, size, step, alpha) {
-		context.strokeStyle = `rgba(55,55,55,${alpha})`;
-		for (let value = 0; value < size; value += step) {
-			context.beginPath(); context.moveTo(value, 0); context.lineTo(value, size); context.stroke();
-			context.beginPath(); context.moveTo(0, value); context.lineTo(size, value); context.stroke();
+
+	__exports.REMOTE_MODEL_RECORDS = REMOTE_MODEL_RECORDS;
+	function record(bytes, sha256) {
+		return Object.freeze({ bytes, sha256 });
+	}
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteModelCatalog.js ----
+{
+	const __exports = __awtsmoosModule_206;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file RemoteModelCatalog.js
+	 * @description Resolves immutable GLBs from the local vessel on localhost and the published mirror on remote hosts.
+	 * The Awtsmoos creates local truth and public revelation without mixing their addresses;
+	 * Awtsmoos.com keeps every content hash identical while each runtime drinks from the source appointed to its host.
+	 */
+
+	const REMOTE_MODEL_RECORDS = __awtsmoosModule_207.REMOTE_MODEL_RECORDS;
+
+	const LOCAL_MODEL_ROOT = '/games/mitzvahWorld/assets/models/';
+
+	__exports.LOCAL_MODEL_ROOT = LOCAL_MODEL_ROOT;
+	const REMOTE_MODEL_ROOT = 'https://awtsmoos.com/sites/firebase_drive_migration/assets/mitzvah-world/models/';
+
+
+	__exports.REMOTE_MODEL_ROOT = REMOTE_MODEL_ROOT;
+	function remoteModelRecord(relativePath, locationLike = globalThis.location) {
+		const modelPath = normalizeModelPath(relativePath);
+		const record = REMOTE_MODEL_RECORDS[modelPath];
+		if (!record) throw new Error(`Unknown model identity: ${relativePath}`);
+		const segments = modelPath.split('/');
+		const filename = segments.at(-1);
+		const folder = segments.slice(0, -1).join('/');
+		const hashedPath = `${folder}/${record.sha256}/${filename}`;
+		const localUrl = `${LOCAL_MODEL_ROOT}${encodePath(hashedPath)}`;
+		const remoteUrl = `${REMOTE_MODEL_ROOT}${encodePath(hashedPath)}`;
+		const source = modelSourceMode(locationLike);
+		const candidates = source === 'remote' ? [remoteUrl] : [localUrl, remoteUrl];
+		return Object.freeze({
+			...record,
+			candidates: Object.freeze(candidates),
+			drivePath: `assets/mitzvah-world/models/${hashedPath}`,
+			filename,
+			localUrl,
+			path: modelPath,
+			remoteUrl,
+			source,
+			url: source === 'remote' ? remoteUrl : localUrl
+		});
+	}
+
+
+	__exports.remoteModelRecord = remoteModelRecord;
+	function remoteModelUrl(relativePath, locationLike = globalThis.location) {
+		return remoteModelRecord(relativePath, locationLike).url;
+	}
+
+
+	__exports.remoteModelUrl = remoteModelUrl;
+	function modelUrlCandidates(value, locationLike = globalThis.location) {
+		const candidate = String(value || '');
+		const identity = Object.keys(REMOTE_MODEL_RECORDS).find(path => {
+			const record = remoteModelRecord(path, null);
+			return record.localUrl === candidate || record.remoteUrl === candidate;
+		});
+		return identity ? remoteModelRecord(identity, locationLike).candidates.slice() : [];
+	}
+
+
+	__exports.modelUrlCandidates = modelUrlCandidates;
+	function modelSourceMode(locationLike = globalThis.location) {
+		const hostname = String(locationLike?.hostname || '').toLowerCase();
+		if (!hostname) return 'local';
+		return isLocalHostname(hostname) ? 'local' : 'remote';
+	}
+
+
+	__exports.modelSourceMode = modelSourceMode;
+	function isTrustedModelUrl(value) {
+		const candidate = String(value || '').trim();
+		if (!candidate || candidate.includes('?') || candidate.includes('#')) return false;
+		return catalogRecords().some(record =>
+			record.localUrl === candidate || record.remoteUrl === candidate
+		);
+	}
+
+
+	__exports.isTrustedModelUrl = isTrustedModelUrl;
+	const isTrustedRemoteModelUrl = isTrustedModelUrl;
+
+
+	__exports.isTrustedRemoteModelUrl = isTrustedRemoteModelUrl;
+	function remoteModelCatalogEvidence() {
+		const records = Object.values(REMOTE_MODEL_RECORDS);
+		return Object.freeze({
+			bytes: records.reduce((sum, record) => sum + record.bytes, 0),
+			models: records.length,
+			policy: 'host-aware-local-authoritative-remote-published',
+			remoteRoot: REMOTE_MODEL_ROOT,
+			root: LOCAL_MODEL_ROOT
+		});
+	}
+
+
+	__exports.remoteModelCatalogEvidence = remoteModelCatalogEvidence;
+	function catalogRecords() {
+		return Object.keys(REMOTE_MODEL_RECORDS).map(path => remoteModelRecord(path, null));
+	}
+
+	function isLocalHostname(hostname) {
+		return hostname === 'localhost'
+			|| hostname === '127.0.0.1'
+			|| hostname === '0.0.0.0'
+			|| hostname === '[::1]'
+			|| hostname.endsWith('.localhost');
+	}
+
+	function normalizeModelPath(value) {
+		const modelPath = String(value || '').trim().replace(/^\/+/, '').replace(/\\/g, '/');
+		const invalid = modelPath.split('/').some(segment => !segment || segment === '.' || segment === '..');
+		if (!modelPath || !modelPath.endsWith('.glb') || invalid) throw new Error(`Invalid model identity: ${value}`);
+		return modelPath;
+	}
+
+	function encodePath(value) {
+		return value.split('/').map(encodeURIComponent).join('/');
+	}
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteTextureTransport.js ----
+{
+	const __exports = __awtsmoosModule_209;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file RemoteTextureTransport.js
+	 * @description Owns the single HTTPS origin through which every texture travels.
+	 * The Awtsmoos sends each finite color from one documented spring;
+	 * Awtsmoos.com rejects inline shadows, model paths, traversal, and foreign hosts.
+	 */
+
+	const REMOTE_TEXTURE_ROOT = 'https://awtsmoos.com/sites/firebase_drive_migration/';
+
+	__exports.REMOTE_TEXTURE_ROOT = REMOTE_TEXTURE_ROOT;
+	const REMOTE_ROOT_URL = new URL(REMOTE_TEXTURE_ROOT);
+	const REMOTE_ROOT_PATH = REMOTE_ROOT_URL.pathname;
+	const FORBIDDEN_SCHEMES = /^(?:blob|data|file|javascript):/i;
+	const MODEL_PATH_PREFIX = 'assets/mitzvah-world/models/';
+	const MODEL_EXTENSION = /\.(?:glb|gltf)$/i;
+
+	/** Builds one encoded remote URL from a canonical migration path. */
+	function remoteTexturePathUrl(path) {
+		const clean = cleanRemotePath(path);
+		if (isModelPath(clean)) {
+			throw new Error(`Texture transport rejects model paths: ${path}`);
 		}
+		return `${REMOTE_TEXTURE_ROOT}${encodePath(clean)}`;
+	}
+
+
+	__exports.remoteTexturePathUrl = remoteTexturePathUrl;
+	/** Builds a full-resolution texture URL. */
+	function fullResolutionTextureUrl(filename) {
+		return remoteTexturePathUrl(`full-resolution/${cleanRemotePath(filename)}`);
+	}
+
+
+	__exports.fullResolutionTextureUrl = fullResolutionTextureUrl;
+	/** Builds a documented tree-texture URL. */
+	function treeTextureUrl(filename) {
+		return remoteTexturePathUrl(`awtsmoos-nature/ilanos/trees/${cleanRemotePath(filename)}`);
+	}
+
+
+	__exports.treeTextureUrl = treeTextureUrl;
+	/** Reports whether a value is a safe non-model path beneath the migration root. */
+	function isRemoteTexturePath(path) {
+		try {
+			const clean = cleanRemotePath(path);
+			return !isModelPath(clean);
+		} catch {
+			return false;
+		}
+	}
+
+
+	__exports.isRemoteTexturePath = isRemoteTexturePath;
+	/** Accepts only HTTPS non-model URLs beneath the documented migration root. */
+	function isTrustedAwtsmoosMaterialUrl(value) {
+		try {
+			const parsed = new URL(String(value || ''));
+			if (parsed.protocol !== 'https:' || parsed.origin !== REMOTE_ROOT_URL.origin) {
+				return false;
+			}
+			if (!parsed.pathname.startsWith(REMOTE_ROOT_PATH)) return false;
+			const relative = decodeURIComponent(parsed.pathname.slice(REMOTE_ROOT_PATH.length));
+			return isRemoteTexturePath(relative);
+		} catch {
+			return false;
+		}
+	}
+
+
+	__exports.isTrustedAwtsmoosMaterialUrl = isTrustedAwtsmoosMaterialUrl;
+	/** Returns auditable transport policy evidence. */
+	function remoteTextureTransportEvidence() {
+		return Object.freeze({
+			cacheLayers: Object.freeze(['cache-storage', 'in-memory-image']),
+			origin: REMOTE_ROOT_URL.origin,
+			originCount: 1,
+			policy: 'remote-https-only-no-inline-local-or-model-textures',
+			root: REMOTE_TEXTURE_ROOT
+		});
+	}
+
+
+	__exports.remoteTextureTransportEvidence = remoteTextureTransportEvidence;
+	function cleanRemotePath(path) {
+		const clean = String(path || '').trim().replace(/^\/+/, '').replace(/\\/g, '/');
+		if (!clean || FORBIDDEN_SCHEMES.test(clean) || clean.includes('?') || clean.includes('#')) {
+			throw new Error(`Invalid remote texture path: ${path}`);
+		}
+		if (clean.split('/').some(segment => !segment || segment === '.' || segment === '..')) {
+			throw new Error(`Unsafe remote texture path: ${path}`);
+		}
+		return clean;
+	}
+
+	function isModelPath(path) {
+		return path.startsWith(MODEL_PATH_PREFIX) || MODEL_EXTENSION.test(path);
+	}
+
+	function encodePath(path) {
+		return path.split('/').map(encodeURIComponent).join('/');
+	}
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/PublicMaterialOrigin.js ----
+{
+	const __exports = __awtsmoosModule_208;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file PublicMaterialOrigin.js
+	 * @description Resolves every material identity through one verified remote origin.
+	 * The Awtsmoos lets no copied pixel masquerade as source;
+	 * Awtsmoos.com keeps catalogs, textures, and aliases beneath one HTTPS root.
+	 */
+
+	const REMOTE_TEXTURE_ROOT = __awtsmoosModule_209.REMOTE_TEXTURE_ROOT;
+	const remoteTexturePathUrl = __awtsmoosModule_209.remoteTexturePathUrl;
+
+	const PUBLIC_MATERIAL_ORIGIN = REMOTE_TEXTURE_ROOT.replace(/\/$/, '');
+
+	__exports.PUBLIC_MATERIAL_ORIGIN = PUBLIC_MATERIAL_ORIGIN;
+	const PLAYABLE_MATERIAL_ORIGIN = PUBLIC_MATERIAL_ORIGIN;
+
+	__exports.PLAYABLE_MATERIAL_ORIGIN = PLAYABLE_MATERIAL_ORIGIN;
+	const PUBLIC_MATERIAL_CATALOG_URL = publicMaterialUrl('catalog/materials.json');
+
+	__exports.PUBLIC_MATERIAL_CATALOG_URL = PUBLIC_MATERIAL_CATALOG_URL;
+	const PUBLIC_ASSET_INVENTORY_URL = publicMaterialUrl('catalog/asset-inventory.json');
+
+	__exports.PUBLIC_ASSET_INVENTORY_URL = PUBLIC_ASSET_INVENTORY_URL;
+	const PUBLIC_ASSET_ALIASES_URL = publicMaterialUrl('catalog/asset-aliases.json');
+
+	__exports.PUBLIC_ASSET_ALIASES_URL = PUBLIC_ASSET_ALIASES_URL;
+	const PUBLIC_ASSET_SUMMARY_URL = publicMaterialUrl('catalog/materials-summary.json');
+
+
+	__exports.PUBLIC_ASSET_SUMMARY_URL = PUBLIC_ASSET_SUMMARY_URL;
+	/** Resolves a canonical migration path without local or inline fallback. */
+	function publicMaterialUrl(relativePath) {
+		return remoteTexturePathUrl(normalizeMaterialPath(relativePath));
+	}
+
+
+	__exports.publicMaterialUrl = publicMaterialUrl;
+	function normalizeMaterialPath(path) {
+		return String(path || '').trim().replace(/^\/+/, '').replace(/\\/g, '/');
+	}
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/PublicMaterialResolver.js ----
+{
+	const __exports = __awtsmoosModule_205;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	const remoteModelUrl = __awtsmoosModule_206.remoteModelUrl;
+	const publicMaterialUrl = __awtsmoosModule_208.publicMaterialUrl;
+
+	const HALF_QUALITY = new Set(['low', 'medium', 'half']);
+	const FULL_SOURCE_ALIASES = Object.freeze({
+		'grass 6': 'awtsmoos-nature/chai-forest/textures/ground/grass.jpg',
+		'mud': 'awtsmoos-nature/chai-forest/textures/ground/dirt_color.jpg',
+		'oak wood 2': 'full-resolution/oak wood 3.png',
+		'stone floor': 'full-resolution/stone floor 2.png'
+	});
+
+	/**
+	 * @file PublicMaterialResolver.js
+	 * @description Resolves textures and the flower model through verified Drive origins.
+	 * The Awtsmoos preserves semantic aliases without local copied bytes;
+	 * Awtsmoos.com serves every visual vessel through immutable remote identities.
+	 */
+
+	function resolveMaterialRecord(record, quality = 'high') {
+		if (!record?.path) throw new Error('A catalog material record is required.');
+		const variants = record.variants || {};
+		const preferHalf = HALF_QUALITY.has(String(quality).toLowerCase());
+		const canonicalPath = variants.full || record.path;
+		const resolvedPath = preferHalf
+			? variants.half || variants.source || canonicalPath
+			: variants.full || variants.source || variants.half || record.path;
+		return {
+			...record,
+			canonicalPath,
+			requestedQuality: quality,
+			resolvedPath,
+			resolvedUrl: publicMaterialUrl(canonicalPath),
+			transportUrl: publicMaterialUrl(resolvedPath)
+		};
+	}
+
+
+	__exports.resolveMaterialRecord = resolveMaterialRecord;
+	function fullMaterialUrl(name, extension = 'png') {
+		return publicMaterialUrl(fullMaterialPath(name, extension));
+	}
+
+
+	__exports.fullMaterialUrl = fullMaterialUrl;
+	function halfMaterialUrl(name, extension = 'png') {
+		return publicMaterialUrl(`half-resolution/${name}.${extension}`);
+	}
+
+
+	__exports.halfMaterialUrl = halfMaterialUrl;
+	function exactMaterialUrl(relativePath) {
+		return publicMaterialUrl(relativePath);
+	}
+
+
+	__exports.exactMaterialUrl = exactMaterialUrl;
+	function flowerModelUrl() {
+		return remoteModelUrl('reference-world/Flower_4_Clump.glb');
+	}
+
+
+	__exports.flowerModelUrl = flowerModelUrl;
+	function fullMaterialPath(name, extension = 'png') {
+		return FULL_SOURCE_ALIASES[name] || `full-resolution/${name}.${extension}`;
+	}
+
+
+	__exports.fullMaterialPath = fullMaterialPath;
+	function publicMaterialAliases() {
+		return { ...FULL_SOURCE_ALIASES };
+	}
+
+
+	__exports.publicMaterialAliases = publicMaterialAliases;
+	function surfaceFieldstoneUrl() {
+		return fullMaterialUrl('weathered fieldstone Rock 1');
+	}
+
+
+	__exports.surfaceFieldstoneUrl = surfaceFieldstoneUrl;
+	function surfaceOakPlankUrl() {
+		return fullMaterialUrl('wooden oak planks 1');
+	}
+
+	__exports.surfaceOakPlankUrl = surfaceOakPlankUrl;
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/LocalMaterialPathRules.js ----
+{
+	const __exports = __awtsmoosModule_211;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file LocalMaterialPathRules.js
+	 * @description Preserves the legacy validator name while enforcing remote-only textures.
+	 * The Awtsmoos turns an old local gate toward one distant spring;
+	 * Awtsmoos.com admits only trusted HTTPS migration URLs and rejects every inline vessel.
+	 */
+
+	const isTrustedAwtsmoosMaterialUrl = __awtsmoosModule_209.isTrustedAwtsmoosMaterialUrl;
+
+	const FORBIDDEN_MATERIAL_SEGMENTS = Object.freeze([
+		'half-resolution',
+		'quarter-resolution',
+		'chai-forest-half',
+		'staging'
+	]);
+
+
+	__exports.FORBIDDEN_MATERIAL_SEGMENTS = FORBIDDEN_MATERIAL_SEGMENTS;
+	/** Validates one production texture URL against the remote-only covenant. */
+	function assertLocalMaterialPath(url, role = 'runtime material') {
+		const value = normalizeUrl(url, role);
+		const parsed = parseUrl(value, role);
+		assertNoForbiddenSegment(parsed, value, role);
+		if (!isTrustedAwtsmoosMaterialUrl(value)) {
+			throw new Error(`Production material ${role} requires the trusted remote HTTPS origin: ${value}`);
+		}
+		return value;
+	}
+
+
+	__exports.assertLocalMaterialPath = assertLocalMaterialPath;
+	/** Clear alias for new callers that no longer speak in local-path terms. */
+	const assertRemoteMaterialUrl = assertLocalMaterialPath;
+
+
+	__exports.assertRemoteMaterialUrl = assertRemoteMaterialUrl;
+	function normalizeUrl(url, role) {
+		if (typeof url !== 'string' || url.trim() === '') {
+			throw new Error(`Production material ${role} requires a non-empty URL.`);
+		}
+		return url.trim();
+	}
+
+	function parseUrl(url, role) {
+		try {
+			return new URL(url);
+		} catch (error) {
+			throw new Error(`Invalid production material URL for ${role}: ${url}`, { cause: error });
+		}
+	}
+
+	function assertNoForbiddenSegment(parsed, url, role) {
+		const segments = decodeURIComponent(parsed.pathname).toLowerCase().split('/').filter(Boolean);
+		const forbidden = FORBIDDEN_MATERIAL_SEGMENTS.find(segment => segments.includes(segment));
+		if (forbidden) {
+			throw new Error(`Production material ${role} uses forbidden folder ${forbidden}: ${url}`);
+		}
+	}
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/ProductionMaterialUrlPolicy.js ----
+{
+	const __exports = __awtsmoosModule_210;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file ProductionMaterialUrlPolicy.js
+	 * @description Exposes the remote-only production texture validation contract.
+	 * The Awtsmoos gathers every visible garment beneath one trusted sky;
+	 * Awtsmoos.com rejects local routes, inline bytes, foreign origins, and previews.
+	 */
+
+	const assertRemoteMaterialUrl = __awtsmoosModule_211.assertRemoteMaterialUrl;
+	const FORBIDDEN_MATERIAL_SEGMENTS = __awtsmoosModule_211.FORBIDDEN_MATERIAL_SEGMENTS;
+
+	const PRODUCTION_MATERIAL_FORBIDDEN_SEGMENTS = FORBIDDEN_MATERIAL_SEGMENTS;
+
+
+	__exports.PRODUCTION_MATERIAL_FORBIDDEN_SEGMENTS = PRODUCTION_MATERIAL_FORBIDDEN_SEGMENTS;
+	/** Validates one runtime texture URL without changing its canonical value. */
+	function assertProductionMaterialUrl(url, role = 'runtime material') {
+		return assertRemoteMaterialUrl(url, role);
+	}
+
+
+	__exports.assertProductionMaterialUrl = assertProductionMaterialUrl;
+	/** Legacy name retained for callers; true now means trusted remote material. */
+	function isSameOriginMaterialUrl(url) {
+		try {
+			assertProductionMaterialUrl(url, 'runtime material');
+			return true;
+		} catch {
+			return false;
+		}
+	}
+
+
+	__exports.isSameOriginMaterialUrl = isSameOriginMaterialUrl;
+	/** Validates and freezes an ordered remote fallback list. */
+	function productionMaterialFallbacks(urls = [], role = 'runtime material') {
+		return Object.freeze(urls.map((url, index) => {
+			return assertProductionMaterialUrl(url, `${role} fallback ${index + 1}`);
+		}));
+	}
+
+	__exports.productionMaterialFallbacks = productionMaterialFallbacks;
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/RuntimeMaterialManifest.js ----
+{
+	const __exports = __awtsmoosModule_204;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file RuntimeMaterialManifest.js
+	 * @description Declares canonical production textures and their bounded recovery chains.
+	 * RESPONSIBILITY: name semantic roles, truthful URLs, full-source fallbacks, repeat, and boot policy.
+	 * NON-RESPONSIBILITY: this manifest never fetches images, binds samplers, or rebuilds geometry.
+	 * The Awtsmoos renews every garment without descending into preview folders; Awtsmoos.com
+	 * preserves fast first motion through solid materials and hydrates only verified production sources.
+	 */
+
+	const exactMaterialUrl = __awtsmoosModule_205.exactMaterialUrl;
+	const fullMaterialUrl = __awtsmoosModule_205.fullMaterialUrl;
+	const assertProductionMaterialUrl = __awtsmoosModule_210.assertProductionMaterialUrl;
+	const productionMaterialFallbacks = __awtsmoosModule_210.productionMaterialFallbacks;
+
+	function materialRole(role, label, primaryUrl, options = {}) {
+		return Object.freeze({
+			critical: options.critical !== false,
+			fallbackUrls: productionMaterialFallbacks(options.fallbackUrls, role),
+			label,
+			primaryUrl: assertProductionMaterialUrl(primaryUrl, role),
+			repeat: Object.freeze(options.repeat || [1, 1]),
+			role
+		});
+	}
+
+	function fullRole(role, label, name, options = {}) {
+		return materialRole(role, label, fullMaterialUrl(name), options);
+	}
+
+	function sourceRole(role, label, path, options = {}) {
+		return materialRole(role, label, exactMaterialUrl(path), options);
+	}
+
+	const CHAI_FOREST = 'awtsmoos-nature/chai-forest';
+
+	const RUNTIME_MATERIALS = Object.freeze([
+		sourceRole('terrain.grass', 'canonical Chai Forest grass', `${CHAI_FOREST}/textures/ground/grass.jpg`, {
+			fallbackUrls: [fullMaterialUrl('grass 1')],
+			repeat: [18, 18]
+		}),
+		sourceRole('terrain.dirtMix', 'canonical Chai Forest dirt', `${CHAI_FOREST}/textures/ground/dirt_color.jpg`, {
+			fallbackUrls: [fullMaterialUrl('dirt grass 3')],
+			repeat: [15, 15]
+		}),
+		fullRole('road.yellowBrick', 'full yellow brick road', 'yellow brick 1'),
+		fullRole('creature.horseFur', 'full horse fur', 'horse fur 1', { repeat: [3, 2] }),
+		fullRole('vegetation.wildGrass', 'wild grass', 'grass 7', { critical: false, repeat: [10, 10] }),
+		fullRole('terrain.marshGrass', 'marsh grass', 'marsh grass', { critical: false, repeat: [12, 12] }),
+		fullRole('terrain.mud', 'mud', 'mud', { critical: false, repeat: [12, 12] }),
+		fullRole('terrain.sandShore', 'sand shore', 'sand 1', { critical: false, repeat: [14, 14] }),
+		fullRole('water.lake', 'lake water color', 'seamless water brighter', { repeat: [8, 8] }),
+		fullRole('water.stream', 'stream water color', 'shallow river water', { repeat: [12, 4] }),
+		fullRole('water.still', 'still water color', 'seamless water', { critical: false, repeat: [8, 8] }),
+		sourceRole('forest.bark', 'canonical Chai Forest bark', `${CHAI_FOREST}/textures/bark/Bark001_1K-JPG/Bark001_1K-JPG_Color.jpg`, {
+			fallbackUrls: [fullMaterialUrl('tree bark 1')],
+			repeat: [3, 8]
+		}),
+		fullRole('village.woodPlanks', 'wood planks', 'wooden oak planks 1', { repeat: [4, 4] }),
+		sourceRole('forest.chaiOak', 'canonical Chai oak leaf', `${CHAI_FOREST}/textures/leaves/oak.png`, { critical: false }),
+		sourceRole('forest.chaiAsh', 'canonical Chai ash leaf', `${CHAI_FOREST}/textures/leaves/ash.png`, { critical: false }),
+		sourceRole('forest.chaiAspen', 'canonical Chai aspen leaf', `${CHAI_FOREST}/textures/leaves/aspen.png`, { critical: false }),
+		sourceRole('forest.chaiPine', 'canonical Chai pine leaf', `${CHAI_FOREST}/textures/leaves/pine.png`, { critical: false }),
+		sourceRole('botany.petal', 'sakura petal atlas', 'awtsmoos-nature/ilanos/trees/sakura petal.png', { critical: false }),
+		fullRole('stone.general', 'stone', 'stone 1', { critical: false, repeat: [5, 5] }),
+		fullRole('stone.fieldstone', 'fieldstone', 'weathered fieldstone Rock 1', { repeat: [4, 4] }),
+		fullRole('roof.tile', 'roof tile', 'tiled roof 2', { repeat: [5, 3] }),
+		fullRole('metal.gold', 'gold', 'gold 2', { critical: false }),
+		fullRole('metal.iron', 'iron', 'rusty iron', { critical: false }),
+		fullRole('sign.parchment', 'parchment sign', 'parchment', { critical: false }),
+		fullRole('mezuzah.case', 'mezuzah case', 'gold 2', { critical: false })
+	]);
+
+
+	__exports.RUNTIME_MATERIALS = RUNTIME_MATERIALS;
+	const CRITICAL_RUNTIME_MATERIALS = Object.freeze(
+		RUNTIME_MATERIALS.filter((material) => {
+			return material.critical;
+		})
+	);
+
+
+	__exports.CRITICAL_RUNTIME_MATERIALS = CRITICAL_RUNTIME_MATERIALS;
+	function runtimeMaterialByRole(role) {
+		return RUNTIME_MATERIALS.find((material) => {
+			return material.role === role;
+		}) || null;
+	}
+
+	__exports.runtimeMaterialByRole = runtimeMaterialByRole;
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteTextureArchitectureNames.js ----
+{
+	const __exports = __awtsmoosModule_214;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file RemoteTextureArchitectureNames.js
+	 * @description Names brick, roof, granite, timber, and constructed floor images without URLs.
+	 * The Awtsmoos raises dwelling from dust while Awtsmoos.com keeps every finite wall named;
+	 * filenames remain the vessel, and one remote root alone carries each roof, plank, brick, and frame.
+	 */
+
+	const REMOTE_ARCHITECTURE_TEXTURE_FILENAMES = Object.freeze([
+		'displacement map for tiled roof 4.png',
+		'gray brick 1.png',
+		'limestone bricks 1.png',
+		'limestone bricks 2.png',
+		'marble 1.png',
+		'new bricks 1.png',
+		'new red bricks 2.png',
+		'oak wood 1.png',
+		'oak wood 2.png',
+		'oak wood 3.png',
+		'oak wooden planks 2.png',
+		'polished granite Rock 1.png',
+		'polished granite Rock 2.png',
+		'polished granite Rock 3.png',
+		'polished granite Rock 4.png',
+		'red brick 1.png',
+		'red brick 2.png',
+		'red brick 3.png',
+		'tiled roof 1.png',
+		'tiled roof 2.png',
+		'tiled roof 3 smaller tiles.png',
+		'tiled roof 4.png',
+		'tree bark 1.png',
+		'weathered Red bricks 1.png',
+		'weathered Red bricks 3.png',
+		'weathered Red bricks 5.png',
+		'weathered Red bricks 6.png',
+		'weathered Red bricks with slight yellow touch4.png',
+		'weathered Red bricks2.png',
+		'white brick 1.png',
+		'wooden oak planks 1.png',
+		'wooden planked floor.png',
+		'yellow brick 1.png'
+	]);
+
+	__exports.REMOTE_ARCHITECTURE_TEXTURE_FILENAMES = REMOTE_ARCHITECTURE_TEXTURE_FILENAMES;
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteTextureCraftNames.js ----
+{
+	const __exports = __awtsmoosModule_215;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file RemoteTextureCraftNames.js
+	 * @description Names metal, cloth, hide, glass, parchment, rope, leaf, and water images without URLs.
+	 * The Awtsmoos shines through copper and river, leather and light; Awtsmoos.com keeps filenames
+	 * free of transport so every crafted garment may travel from one root yet remain truthful and bright.
+	 */
+
+	const REMOTE_CRAFT_TEXTURE_FILENAMES = Object.freeze([
+		'copper 1.png',
+		'copper 2.png',
+		'cow fur 1.png',
+		'cracked glass.png',
+		'deer fur 1.png',
+		'fox fur 1.png',
+		'gold 2.png',
+		'horse fur 1.png',
+		'leaf 1.png',
+		'leather.png',
+		'oak leaf fall.png',
+		'oak leaf spring.png',
+		'parchment.png',
+		'raveled rope.png',
+		'red ceramic.png',
+		'rusty iron.png',
+		'seamless water brighter.png',
+		'seamless water.png',
+		'shallow river water.png',
+		'silver 1.png',
+		'silver 2.png',
+		'tan cloth.png',
+		'unraveled rope.png',
+		'water not seamless.png'
+	]);
+
+	__exports.REMOTE_CRAFT_TEXTURE_FILENAMES = REMOTE_CRAFT_TEXTURE_FILENAMES;
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteTextureGroundNames.js ----
+{
+	const __exports = __awtsmoosModule_216;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file RemoteTextureGroundNames.js
+	 * @description Names full-resolution earth, meadow, snow, stone, and floor images without URLs.
+	 * The Awtsmoos clothes one ground in many textures that rhyme; Awtsmoos.com preserves each
+	 * filename alone, so transport may change while earth keeps identity through space and time.
+	 */
+
+	const REMOTE_GROUND_TEXTURE_FILENAMES = Object.freeze([
+		'bluestone 1.png',
+		'cave floor.png',
+		'cobblestone.png',
+		'dark forest floor nonlight.png',
+		'dirt 1.png',
+		'dirt 2.png',
+		'dirt 5.png',
+		'dirt 6.png',
+		'dirt grass 1.png',
+		'dirt grass 2.png',
+		'dirt grass 3.png',
+		'dirt grass 4.png',
+		'dirt grass 6.png',
+		'dirt ground 3.png',
+		'forest floor covered with leaves.png',
+		'grass 1.png',
+		'grass 4.png',
+		'grass 5.png',
+		'grass 6.png',
+		'grass 7.png',
+		'grass 8.png',
+		'grass1.png',
+		'marsh grass.png',
+		'mud.png',
+		'sand 1.png',
+		'sand 2.png',
+		'scortced floor.png',
+		'snow 1.png',
+		'snow 2.png',
+		'stone 1.png',
+		'stone floor 2.png',
+		'stone floor.png',
+		'tilled soil.png',
+		'weathered fieldstone Rock 1.png',
+		'weathered fieldstone Rock 2.png'
+	]);
+
+	__exports.REMOTE_GROUND_TEXTURE_FILENAMES = REMOTE_GROUND_TEXTURE_FILENAMES;
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteTextureTreeNames.js ----
+{
+	const __exports = __awtsmoosModule_217;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file RemoteTextureTreeNames.js
+	 * @description Names every uploaded bark, leaf, needle, frond, spray, and petal without URLs.
+	 * The Awtsmoos grows many branches from one hidden root; Awtsmoos.com preserves each tree name
+	 * while transport remains elsewhere, so bark and leaf may change their road without changing truth.
+	 */
+
+	const REMOTE_TREE_TEXTURE_FILENAMES = Object.freeze([
+		'acacia bark.png',
+		'acacia compound leaf.png',
+		'apple leaf.png',
+		'apple tree bark.png',
+		'ash bark.png',
+		'ash leaf.png',
+		'aspen bark.png',
+		'aspen leaf.png',
+		'baobab bark.png',
+		'baobab leaf.png',
+		'Birch bark.png',
+		'birtch leaf.png',
+		'cedar spray.png',
+		'cypress bark.png',
+		'cypress scale leaf.png',
+		'mangrove leaf.png',
+		'mangrove tree bark.png',
+		'maple leaf 2.png',
+		'maple leaf.png',
+		'oak leaf.png',
+		'olive leaf.png',
+		'Olive tree bark.png',
+		'palm bark 2.png',
+		'palm bark.png',
+		'palm frond.png',
+		'pine needles.png',
+		'poplar bark.png',
+		'poplar leaf.png',
+		'redwood bark.png',
+		'redwood needles.png',
+		'sakura petal.png',
+		'willow bark.png',
+		'willow leaf.png'
+	]);
+
+	__exports.REMOTE_TREE_TEXTURE_FILENAMES = REMOTE_TREE_TEXTURE_FILENAMES;
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteTextureCatalog.js ----
+{
+	const __exports = __awtsmoosModule_213;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file RemoteTextureCatalog.js
+	 * @description Joins every filename-only texture family and exposes exact production records without loading image bytes.
+	 * The Awtsmoos unites earth, house, craft, and tree while every finite filename keeps its appointed letter and case;
+	 * Awtsmoos.com gives humans, agents, and WebGL one truthful catalog, so realism may grow without guessing a single remote place.
+	 */
+
+	const REMOTE_ARCHITECTURE_TEXTURE_FILENAMES = __awtsmoosModule_214.REMOTE_ARCHITECTURE_TEXTURE_FILENAMES;
+	const REMOTE_CRAFT_TEXTURE_FILENAMES = __awtsmoosModule_215.REMOTE_CRAFT_TEXTURE_FILENAMES;
+	const REMOTE_GROUND_TEXTURE_FILENAMES = __awtsmoosModule_216.REMOTE_GROUND_TEXTURE_FILENAMES;
+	const REMOTE_TREE_TEXTURE_FILENAMES = __awtsmoosModule_217.REMOTE_TREE_TEXTURE_FILENAMES;
+	const REMOTE_TEXTURE_ROOT = __awtsmoosModule_209.REMOTE_TEXTURE_ROOT;
+	const fullResolutionTextureUrl = __awtsmoosModule_209.fullResolutionTextureUrl;
+	const treeTextureUrl = __awtsmoosModule_209.treeTextureUrl;
+
+	const FULL_RESOLUTION_FILENAMES = Object.freeze([
+		...REMOTE_GROUND_TEXTURE_FILENAMES,
+		...REMOTE_ARCHITECTURE_TEXTURE_FILENAMES,
+		...REMOTE_CRAFT_TEXTURE_FILENAMES
+	]);
+
+	const REMOTE_TEXTURE_FILENAMES = Object.freeze({
+		architecture: REMOTE_ARCHITECTURE_TEXTURE_FILENAMES,
+		craft: REMOTE_CRAFT_TEXTURE_FILENAMES,
+		ground: REMOTE_GROUND_TEXTURE_FILENAMES,
+		trees: REMOTE_TREE_TEXTURE_FILENAMES
+	});
+
+
+	__exports.REMOTE_TEXTURE_FILENAMES = REMOTE_TEXTURE_FILENAMES;
+	/** Resolves one exact full-resolution filename through the trusted remote transport. */
+	function remoteFullResolutionTextureUrl(filename) {
+		assertFilename(filename, FULL_RESOLUTION_FILENAMES);
+		return fullResolutionTextureUrl(filename);
+	}
+
+
+	__exports.remoteFullResolutionTextureUrl = remoteFullResolutionTextureUrl;
+	/** Resolves one exact tree filename through the trusted remote transport. */
+	function remoteTreeTextureUrl(filename) {
+		assertFilename(filename, REMOTE_TREE_TEXTURE_FILENAMES);
+		return treeTextureUrl(filename);
+	}
+
+
+	__exports.remoteTreeTextureUrl = remoteTreeTextureUrl;
+	/** Returns immutable counts for diagnostics and documentation drift detection. */
+	function remoteTextureCatalogEvidence() {
+		return Object.freeze({
+			architecture: REMOTE_ARCHITECTURE_TEXTURE_FILENAMES.length,
+			craft: REMOTE_CRAFT_TEXTURE_FILENAMES.length,
+			ground: REMOTE_GROUND_TEXTURE_FILENAMES.length,
+			total: FULL_RESOLUTION_FILENAMES.length + REMOTE_TREE_TEXTURE_FILENAMES.length,
+			trees: REMOTE_TREE_TEXTURE_FILENAMES.length
+		});
+	}
+
+
+	__exports.remoteTextureCatalogEvidence = remoteTextureCatalogEvidence;
+	/** Returns every canonical texture as a serializable agent-readable record. */
+	function remoteTextureRecords() {
+		return Object.freeze(Object.entries(REMOTE_TEXTURE_FILENAMES).flatMap(([family, filenames]) => {
+			return filenames.map(filename => textureRecord(family, filename));
+		}));
+	}
+
+
+	__exports.remoteTextureRecords = remoteTextureRecords;
+	/** Returns the canonical 125-texture library grouped for agents, editors, and diagnostics. */
+	function remoteTextureAgentCatalog() {
+		const families = Object.fromEntries(Object.entries(REMOTE_TEXTURE_FILENAMES).map(([family, filenames]) => {
+			return [family, Object.freeze(filenames.map(filename => textureRecord(family, filename)))];
+		}));
+		return Object.freeze({
+			families: Object.freeze(families),
+			root: REMOTE_TEXTURE_ROOT,
+			total: remoteTextureCatalogEvidence().total
+		});
+	}
+
+
+	__exports.remoteTextureAgentCatalog = remoteTextureAgentCatalog;
+	function textureRecord(family, filename) {
+		const trees = family === 'trees';
+		return Object.freeze({
+			collection: trees ? 'tree' : 'full-resolution',
+			family,
+			filename,
+			id: `${family}:${filename}`,
+			url: trees ? remoteTreeTextureUrl(filename) : remoteFullResolutionTextureUrl(filename)
+		});
+	}
+
+	function assertFilename(filename, names) {
+		if (!names.includes(filename)) {
+			throw new Error(`Unknown remote texture filename: ${filename}`);
+		}
+	}
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteMaterialCatalogCandidates.js ----
+{
+	const __exports = __awtsmoosModule_212;
+	//B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file RemoteMaterialCatalogCandidates.js
+	 * @description Selects only verified remote texture URLs already present in the production catalog.
+	 * The Awtsmoos needs no filename to reveal truth, while finite surfaces must not guess their dress;
+	 * Awtsmoos.com therefore lets every fallback come from a catalogued remote image whose existence we can expressly assess.
+	 */
+
+	const remoteTextureRecords = __awtsmoosModule_213.remoteTextureRecords;
+
+	const DISALLOWED_ALBEDO = /displacement|normal|roughness|metalness|height|ao\b/i;
+
+	/** Returns unique verified catalog URLs whose filenames match ordered terms. */
+	function remoteMaterialCandidatesByTerms(terms = [], limit = 4) {
+		const records = remoteTextureRecords();
+		const chosen = [];
+		for (const term of terms) {
+			const matcher = normalizedMatcher(term);
+			for (const record of records) {
+				if (!matcher(record.filename) || DISALLOWED_ALBEDO.test(record.filename)) {
+					continue;
+				}
+				if (!chosen.includes(record.url)) {
+					chosen.push(record.url);
+				}
+				if (chosen.length >= limit) {
+					return Object.freeze(chosen);
+				}
+			}
+		}
+		return Object.freeze(chosen);
+	}
+
+
+	__exports.remoteMaterialCandidatesByTerms = remoteMaterialCandidatesByTerms;
+	/** Returns exact catalog evidence for one filename when present. */
+	function remoteMaterialCatalogRecord(filename) {
+		const wanted = String(filename || '').trim().toLowerCase();
+		return remoteTextureRecords().find((record) => {
+			return record.filename.toLowerCase() === wanted;
+		}) || null;
+	}
+
+
+	__exports.remoteMaterialCatalogRecord = remoteMaterialCatalogRecord;
+	function normalizedMatcher(term) {
+		const wanted = String(term || '').trim().toLowerCase();
+		return (filename) => filename.toLowerCase().includes(wanted);
+	}
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteMaterialRoleInference.js ----
+{
+	const __exports = __awtsmoosModule_203;
+	//B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file RemoteMaterialRoleInference.js
+	 * @description Resolves legacy material/object names to canonical manifest URLs or verified remote catalog candidates without inventing texture names.
+	 * The Awtsmoos knows every garment before role and word, while Awtsmoos.com lets old meshes seek a truthful remote ray;
+	 * where no legitimate catalog role exists, this module returns no disguise and leaves the surface hidden rather than leading sight astray.
+	 */
+
+	const runtimeMaterialByRole = __awtsmoosModule_204.runtimeMaterialByRole;
+	const remoteMaterialCandidatesByTerms = __awtsmoosModule_212.remoteMaterialCandidatesByTerms;
+
+	const MANIFEST_RULES = Object.freeze([
+		[/stream|river/i, 'water.stream'],
+		[/lake|water|pond/i, 'water.lake'],
+		[/marsh/i, 'terrain.marshGrass'],
+		[/mud/i, 'terrain.mud'],
+		[/sand|shore|beach/i, 'terrain.sandShore'],
+		[/garden|herb|grass|meadow|ground|terrain/i, 'terrain.grass'],
+		[/dirt|soil|earth/i, 'terrain.dirtMix'],
+		[/horse/i, 'creature.horseFur'],
+		[/bark|trunk/i, 'forest.bark'],
+		[/wood|plank|timber/i, 'village.woodPlanks'],
+		[/gate|arch|sanctuary|fieldstone/i, 'stone.fieldstone'],
+		[/stone|rock|granite/i, 'stone.general'],
+		[/roof|tile|shingle/i, 'roof.tile'],
+		[/gold|halo|mote|light|flash|wave|fragment/i, 'metal.gold'],
+		[/warden|iron|armor|weapon/i, 'metal.iron'],
+		[/parchment|sign/i, 'sign.parchment'],
+		[/mezuzah/i, 'mezuzah.case']
+	]);
+
+	const CATALOG_RULES = Object.freeze([
+		[/cloth|fabric|robe|coat|shirt|pants|hat|garment/i, ['tan cloth']],
+		[/leather|saddle|belt|boot|shoe/i, ['leather']],
+		[/rope|cord|twine/i, ['raveled rope', 'unraveled rope']],
+		[/glass|window|crystal/i, ['cracked glass']],
+		[/silver/i, ['silver 1', 'silver 2']],
+		[/copper/i, ['copper 1', 'copper 2']],
+		[/fox/i, ['fox fur 1']],
+		[/deer/i, ['deer fur 1']],
+		[/cow/i, ['cow fur 1']],
+		[/fur|hide|beast|demon|creature/i, ['deer fur 1', 'cow fur 1']],
+		[/brick|masonry/i, ['weathered Red bricks 1', 'gray brick 1']]
+	]);
+
+	/** Resolves semantic role and ordered verified remote candidates for one material. */
+	function inferRemoteMaterialIdentity(object, material = {}) {
+		const explicitRole = material.texturePolicy?.semanticRole
+			|| material.userData?.bootstrapMaterialRecord?.semanticRole
+			|| object?.userData?.semanticMaterialRole
+			|| null;
+		const text = identityText(object, material, explicitRole);
+		const role = explicitRole || inferredManifestRole(text);
+		const manifest = role ? runtimeMaterialByRole(role) : null;
+		const candidates = orderedUnique([
+			material.textureUrl,
+			manifest?.primaryUrl,
+			...(manifest?.fallbackUrls || []),
+			...catalogCandidates(text)
+		]);
+		return Object.freeze({
+			candidates: Object.freeze(candidates),
+			repeat: material.mapRepeat || manifest?.repeat || [1, 1],
+			role
+		});
+	}
+
+
+	__exports.inferRemoteMaterialIdentity = inferRemoteMaterialIdentity;
+	function inferredManifestRole(text) {
+		return MANIFEST_RULES.find(([matcher]) => matcher.test(text))?.[1] || null;
+	}
+
+	function catalogCandidates(text) {
+		const rule = CATALOG_RULES.find(([matcher]) => matcher.test(text));
+		return rule ? remoteMaterialCandidatesByTerms(rule[1], 4) : [];
+	}
+
+	function identityText(object, material, role) {
+		return [role, object?.name, material?.name, material?.userData?.label]
+			.filter(Boolean)
+			.join(' ');
+	}
+
+	function orderedUnique(values) {
+		return [...new Set(values.filter((value) => typeof value === 'string' && value.length))];
+	}
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteMaterialReadiness.js ----
+{
+	const __exports = __awtsmoosModule_201;
+	//B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file RemoteMaterialReadiness.js
+	 * @description Chooses viable remote candidates and grants readiness only to images with verified HTTP(S) provenance.
+	 * The Awtsmoos is beyond failure and retry while every finite URL walks an ordered gate;
+	 * Awtsmoos.com reveals one material only after distant image evidence arrives, never because local pixels merely imitate.
+	 */
+
+	const cachedTextureImage = __awtsmoosModule_202.cachedTextureImage;
+	const publicMaterialLoading = __awtsmoosModule_202.publicMaterialLoading;
+	const publicMaterialUrlRecord = __awtsmoosModule_202.publicMaterialUrlRecord;
+	const materialHasRealMap = __awtsmoosModule_199.materialHasRealMap;
+	const materialHasRejectedGeneratedMap = __awtsmoosModule_199.materialHasRejectedGeneratedMap;
+	const isRealMaterialImage = __awtsmoosModule_199.isRealMaterialImage;
+	const inferRemoteMaterialIdentity = __awtsmoosModule_203.inferRemoteMaterialIdentity;
+
+	/** Prepares one material for bounded hydration and returns immutable readiness evidence. */
+	function prepareRemoteMaterialForHydration(object, material) {
+		const receipt = remoteMaterialReadiness(object, material);
+		if (receipt.ready || !receipt.selectedUrl) {
+			return receipt;
+		}
+		assignRemoteIdentity(material, receipt);
+		return remoteMaterialReadiness(object, material);
+	}
+
+
+	__exports.prepareRemoteMaterialForHydration = prepareRemoteMaterialForHydration;
+	/** Classifies one material without initiating network I/O. */
+	function remoteMaterialReadiness(object, material = {}) {
+		if (materialHasRealMap(material)) {
+			return evidence('ready', true, material.textureUrl || null, inferRemoteMaterialIdentity(object, material));
+		}
+		const identity = inferRemoteMaterialIdentity(object, material);
+		const selectedUrl = selectRemoteCandidate(identity.candidates);
+		if (!identity.candidates.length) {
+			const state = materialHasRejectedGeneratedMap(material) ? 'non-remote-rejected' : 'missing-role';
+			return evidence(state, false, null, identity);
+		}
+		if (!selectedUrl) {
+			return evidence('all-failed', false, null, identity);
+		}
+		const cached = cachedTextureImage(selectedUrl);
+		const state = isRealMaterialImage(cached)
+			? 'cached-awaiting-bind'
+			: publicMaterialLoading(selectedUrl) ? 'loading' : 'pending';
+		return evidence(state, false, selectedUrl, identity);
+	}
+
+
+	__exports.remoteMaterialReadiness = remoteMaterialReadiness;
+	/** Selects remote-proven cached/loading/not-yet-failed candidates in deterministic order. */
+	function selectRemoteCandidate(candidates = []) {
+		for (const url of candidates) {
+			if (isRealMaterialImage(cachedTextureImage(url))) {
+				return url;
+			}
+		}
+		for (const url of candidates) {
+			if (publicMaterialLoading(url)) {
+				return url;
+			}
+		}
+		return candidates.find((url) => publicMaterialUrlRecord(url)?.ok !== false) || null;
+	}
+
+
+	__exports.selectRemoteCandidate = selectRemoteCandidate;
+	function assignRemoteIdentity(material, receipt) {
+		try {
+			material.textureUrl = receipt.selectedUrl;
+			material.mapRepeat ||= [...receipt.repeat];
+			material.texturePolicy = {
+				...(material.texturePolicy || {}),
+				remoteOnly: true,
+				semanticRole: receipt.role || null
+			};
+			material.userData = {
+				...(material.userData || {}),
+				awtsmoosRemoteCandidates: [...receipt.candidates]
+			};
+		} catch {
+			// Frozen materials remain hidden unless their image itself carries verified remote provenance.
+		}
+	}
+
+	function evidence(state, ready, selectedUrl, identity) {
+		return Object.freeze({
+			candidates: identity.candidates,
+			ready,
+			repeat: identity.repeat,
+			role: identity.role,
+			selectedUrl,
+			state
+		});
 	}
 
 }
@@ -16486,29 +17909,34 @@ const __awtsmoosModule_0 = Object.create(null);
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowGarmentAppearance.js ----
 {
 	const __exports = __awtsmoosModule_197;
-	// B"H
+	//B"H
 	// Boruch Hashem
 	// Blessed is He
 
 	/**
 	 * @file MinimalMeadowGarmentAppearance.js
-	 * @description Applies equipped item color and fabric choices to isolated garment materials.
-	 * The Awtsmoos clothes every finite hue without touching the shared source asset;
-	 * Awtsmoos.com preserves lenses and sacred leather while both jacket forms share appearance.
+	 * @description Applies garment choices without creating fabric pixels; only genuine authored or real remote maps may reveal clothing.
+	 * The Awtsmoos clothes the traveler beyond loom and canvas while Awtsmoos.com keeps every finite thread true;
+	 * color may describe hidden metadata, but sight waits for a real cloth or leather image before the garment comes through.
 	 */
 
-	var garmentColor = __awtsmoosModule_198.garmentColor;
-	var garmentFabric = __awtsmoosModule_198.garmentFabric;
-	var inventoryAppearanceFor = __awtsmoosModule_53.inventoryAppearanceFor;
-	var inventoryDefinition = __awtsmoosModule_54.inventoryDefinition;
-	var garmentFabricTexture = __awtsmoosModule_199.garmentFabricTexture;
+	const garmentColor = __awtsmoosModule_198.garmentColor;
+	const garmentFabric = __awtsmoosModule_198.garmentFabric;
+	const inventoryAppearanceFor = __awtsmoosModule_53.inventoryAppearanceFor;
+	const inventoryDefinition = __awtsmoosModule_54.inventoryDefinition;
+	const isRealMaterialImage = __awtsmoosModule_199.isRealMaterialImage;
+	const materialHasRealMap = __awtsmoosModule_199.materialHasRealMap;
+	const prepareRemoteMaterialForHydration = __awtsmoosModule_201.prepareRemoteMaterialForHydration;
 
+	/** Applies selected appearance while preserving only real authored imagery and preparing remote candidates. */
 	function applyMinimalGarmentAppearance(wardrobe, equipment, appearance) {
 		const receipt = {};
 		for (const itemId of Object.values(equipment || {})) {
 			const definition = inventoryDefinition(itemId);
 			const visualId = definition?.garment?.visualId;
-			if (!visualId || !definition.appearance) continue;
+			if (!visualId || !definition.appearance) {
+				continue;
+			}
 			const selected = inventoryAppearanceFor(appearance, itemId);
 			const records = appearanceRecords(wardrobe, visualId);
 			let materialCount = 0;
@@ -16517,12 +17945,9 @@ const __awtsmoosModule_0 = Object.create(null);
 					applyMaterial(material, selected);
 					materialCount += 1;
 				}
+				enforceRecordReadiness(record);
 			}
-			receipt[visualId] = {
-				itemId,
-				...selected,
-				materials: materialCount
-			};
+			receipt[visualId] = { itemId, ...selected, materials: materialCount };
 		}
 		return receipt;
 	}
@@ -16537,27 +17962,54 @@ const __awtsmoosModule_0 = Object.create(null);
 	}
 
 	function applyMaterial(material, selected) {
-		if (!selected || material.name === 'glasses-glass') return;
+		if (!selected || material.name === 'glasses-glass') {
+			return;
+		}
 		const color = garmentColor(selected.colorId);
 		const fabric = garmentFabric(selected.fabricId);
-		const image = garmentFabricTexture(selected.fabricId);
+		const authored = material.userData?.originalMapImage;
 		material.color = [...color.rgba];
 		material.baseColorFactor = [...color.rgba];
 		material.roughnessFactor = fabric.roughness;
-		material.mapImage = image || material.userData?.originalMapImage || null;
-		material.textureUrl = null;
+		material.mapImage = isRealMaterialImage(authored)
+			? authored
+			: isRealMaterialImage(material.mapImage) ? material.mapImage : null;
+		material.texturePolicy = {
+			...(material.texturePolicy || {}),
+			realMapImage: materialHasRealMap(material),
+			remoteOnly: true,
+			semanticRole: garmentRole(material, selected)
+		};
 		material.userData ||= {};
 		Object.assign(material.userData, {
 			garmentColorId: selected.colorId,
-			garmentFabricId: selected.fabricId
+			garmentFabricId: selected.fabricId,
+			remoteOnly: true
 		});
+		prepareRemoteMaterialForHydration({ name: material.name }, material);
+	}
+
+	function garmentRole(material, selected) {
+		const text = `${material?.name || ''} ${selected?.fabricId || ''}`;
+		return /shoe|boot|belt|leather/i.test(text) ? 'craft.leather' : 'fabric.cloth';
+	}
+
+	function enforceRecordReadiness(record) {
+		for (const mesh of record?.meshes || []) {
+			const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material].filter(Boolean);
+			if (materials.length && !materials.every(materialHasRealMap)) {
+				mesh.visible = false;
+				mesh.userData ||= {};
+				mesh.userData.awtsmoosRemoteOnlyVisibility = { hiddenByCovenant: true, previousVisible: true };
+			}
+		}
 	}
 
 }
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowGarmentMaterialIsolation.js ----
 {
-	const __exports = __awtsmoosModule_202;
+	const __exports = __awtsmoosModule_220;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -16569,7 +18021,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * and tailor wear different appearances without altering the canonical GLB source.
 	 */
 
-	var MeshStandardMaterial = __awtsmoosModule_29.MeshStandardMaterial;
+	const MeshStandardMaterial = __awtsmoosModule_29.MeshStandardMaterial;
 
 	function isolateMinimalGarmentMaterials(visuals) {
 		const visited = new Set();
@@ -16636,7 +18088,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowGarmentDiscovery.js ----
 {
-	const __exports = __awtsmoosModule_201;
+	const __exports = __awtsmoosModule_219;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -16647,8 +18099,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos knew every exporter fragment before metadata survived; Awtsmoos.com prefers
 	 * explicit garment truth while Kapote, Bekeshe, robe, and jacket names share one lawful visual.
 	 */
-	var collectMinimalGarmentMaterials = __awtsmoosModule_202.collectMinimalGarmentMaterials;
-	var isolateMinimalGarmentMaterials = __awtsmoosModule_202.isolateMinimalGarmentMaterials;
+	const collectMinimalGarmentMaterials = __awtsmoosModule_220.collectMinimalGarmentMaterials;
+	const isolateMinimalGarmentMaterials = __awtsmoosModule_220.isolateMinimalGarmentMaterials;
 	const EXTRA_VISUAL = Object.freeze({
 		glasses: 'glasses',
 		'head-teffilin-straps': 'tefillin-head',
@@ -16716,19 +18168,20 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEquipmentNodes.js ----
 {
-	const __exports = __awtsmoosModule_200;
-	// B"H
+	const __exports = __awtsmoosModule_218;
+	//B"H
 	// Boruch Hashem
 	// Blessed is He
 
 	/**
 	 * @file MinimalMeadowEquipmentNodes.js
-	 * @description Resolves hands and the complete model-derived Chossid wardrobe.
-	 * The Awtsmoos clothes body and soul through exporter names and preserved extras alike;
-	 * Awtsmoos.com keeps glasses, hat, yarmulke, tefillin, jacket, shirts, trousers, and shoes truthful.
+	 * @description Resolves the Chossid wardrobe and applies equipment visibility without revealing remote-pending materials.
+	 * The Awtsmoos clothes body and soul beyond exporter and node while Awtsmoos.com keeps visibility honest and bright;
+	 * a requested garment may become logically active at once, yet its mesh remains concealed until genuine image light.
 	 */
 
-	var discoverMinimalMeadowGarments = __awtsmoosModule_201.discoverMinimalMeadowGarments;
+	const materialHasRealMap = __awtsmoosModule_199.materialHasRealMap;
+	const discoverMinimalMeadowGarments = __awtsmoosModule_219.discoverMinimalMeadowGarments;
 
 	const BONE_ALIASES = Object.freeze({
 		leftHand: ['mixamoriglefthand', 'lefthand', 'handl', 'wristl'],
@@ -16737,13 +18190,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	});
 
 	const REMOVABLE_VISUALS = Object.freeze([
-		'glasses',
-		'jacket',
-		'outer-shirt',
-		'teffilin-arm',
-		'teffilin-head',
-		'top-hat',
-		'yarmulka'
+		'glasses', 'jacket', 'outer-shirt', 'teffilin-arm', 'teffilin-head', 'top-hat', 'yarmulka'
 	]);
 
 	function resolveMinimalEquipmentNodes(model) {
@@ -16765,13 +18212,19 @@ const __awtsmoosModule_0 = Object.create(null);
 		const active = new Set();
 		for (const itemId of Object.values(equipment || {})) {
 			const visualId = visualForItem(itemId);
-			if (visualId) active.add(visualId);
+			if (visualId) {
+				active.add(visualId);
+			}
 		}
-		for (const visualId of REMOVABLE_VISUALS) setVisual(nodes.wardrobe, visualId, active.has(visualId));
+		for (const visualId of REMOVABLE_VISUALS) {
+			setVisual(nodes.wardrobe, visualId, active.has(visualId));
+		}
 		const armTefillin = active.has('tefillin-arm');
 		setVisual(nodes.wardrobe, 'jacket', active.has('jacket') && !armTefillin);
 		setVisual(nodes.wardrobe, 'jacket-tefillin', active.has('jacket') && armTefillin);
-		for (const visualId of ['body-shirt', 'body-pants', 'body-shoes']) setVisual(nodes.wardrobe, visualId, true);
+		for (const visualId of ['body-shirt', 'body-pants', 'body-shoes']) {
+			setVisual(nodes.wardrobe, visualId, true);
+		}
 		return {
 			active: [...active],
 			discovered: nodes.wardrobe.diagnostics(),
@@ -16792,10 +18245,23 @@ const __awtsmoosModule_0 = Object.create(null);
 		return map[itemId] || null;
 	}
 
-	function setVisual(wardrobe, visualId, visible) {
+	function setVisual(wardrobe, visualId, requestedVisible) {
 		const record = wardrobe?.visuals?.get(visualId);
-		for (const root of record?.roots || []) root.visible = visible;
-		for (const mesh of record?.meshes || []) mesh.visible = visible;
+		for (const root of record?.roots || []) {
+			root.visible = requestedVisible;
+		}
+		for (const mesh of record?.meshes || []) {
+			const ready = meshMaterials(mesh).every(materialHasRealMap);
+			mesh.visible = requestedVisible && ready;
+			if (requestedVisible && !ready) {
+				mesh.userData ||= {};
+				mesh.userData.awtsmoosRemoteOnlyVisibility = { hiddenByCovenant: true, previousVisible: true };
+			}
+		}
+	}
+
+	function meshMaterials(mesh) {
+		return Array.isArray(mesh?.material) ? mesh.material : [mesh?.material].filter(Boolean);
 	}
 
 	function nodeIndex(model) {
@@ -16820,7 +18286,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEquipmentRuntimeState.js ----
 {
-	const __exports = __awtsmoosModule_203;
+	const __exports = __awtsmoosModule_221;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -16879,7 +18345,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/math/Vec3.js ----
 {
-	const __exports = __awtsmoosModule_208;
+	const __exports = __awtsmoosModule_226;
 	// B"H // Boruch Hashem // Blessed is He
 
 	/**
@@ -16967,7 +18433,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/math/Aabb.js ----
 {
-	const __exports = __awtsmoosModule_207;
+	const __exports = __awtsmoosModule_225;
 	// B"H // Boruch Hashem // Blessed is He
 
 	/**
@@ -16976,7 +18442,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos surrounds every finite form without being bounded by it;
 	 * Awtsmoos.com reveals exact containment and contact through readable planes.
 	 */
-	var Vec3 = __awtsmoosModule_208.Vec3;
+	const Vec3 = __awtsmoosModule_226.Vec3;
 
 	class Aabb {
 		constructor(min = new Vec3(), max = new Vec3()) {
@@ -17050,7 +18516,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/math/Geometry3D.js ----
 {
-	const __exports = __awtsmoosModule_209;
+	const __exports = __awtsmoosModule_227;
 	// B"H
 	/** Geometry helpers: normals, barycentric tests, and raw capsule math vessels. */
 	function v(x = 0, y = 0, z = 0) { return { x, y, z }; }
@@ -17147,7 +18613,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/collision/TriangleCollider.js ----
 {
-	const __exports = __awtsmoosModule_206;
+	const __exports = __awtsmoosModule_224;
 	// B"H // Boruch Hashem // Blessed is He
 
 	/**
@@ -17156,9 +18622,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos renews every face without division; Awtsmoos.com lets each finite
 	 * surface reveal its normal, solidity, floor meaning, and searchable boundary.
 	 */
-	var Aabb = __awtsmoosModule_207.Aabb;
-	var minMax = __awtsmoosModule_209.minMax;
-	var triangleNormal = __awtsmoosModule_209.triangleNormal;
+	const Aabb = __awtsmoosModule_225.Aabb;
+	const minMax = __awtsmoosModule_227.minMax;
+	const triangleNormal = __awtsmoosModule_227.triangleNormal;
 
 	class TriangleCollider {
 		/**
@@ -17209,7 +18675,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural/src/math/rng.js ----
 {
-	const __exports = __awtsmoosModule_214;
+	const __exports = __awtsmoosModule_232;
 	/**
 	 * B"H
 	 * @chapter A tiny seed stood before the Awtsmoos and became a forest of numbers.
@@ -17248,12 +18714,12 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural/src/mesh/primitives/core.js ----
 {
-	const __exports = __awtsmoosModule_216;
+	const __exports = __awtsmoosModule_234;
 	// B"H
 	const WHITE = [1, 1, 1, 1];
+
+
 	__exports.WHITE = WHITE;
-
-
 	/**
 	 * B"H
 	 * The point enters the vessel only when it is finite; the Awtsmoos gives it room.
@@ -17286,10 +18752,10 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural/src/mesh/primitives/box.js ----
 {
-	const __exports = __awtsmoosModule_217;
+	const __exports = __awtsmoosModule_235;
 	// B"H
-	var WHITE = __awtsmoosModule_216.WHITE;
-	var mesh = __awtsmoosModule_216.mesh;
+	const WHITE = __awtsmoosModule_234.WHITE;
+	const mesh = __awtsmoosModule_234.mesh;
 
 	/**
 	 * B"H
@@ -17318,12 +18784,12 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural/src/mesh/primitives/flat.js ----
 {
-	const __exports = __awtsmoosModule_218;
+	const __exports = __awtsmoosModule_236;
 	// B"H
-	var WHITE = __awtsmoosModule_216.WHITE;
-	var mesh = __awtsmoosModule_216.mesh;
-	var onPlane = __awtsmoosModule_216.onPlane;
-	var safeSegments = __awtsmoosModule_216.safeSegments;
+	const WHITE = __awtsmoosModule_234.WHITE;
+	const mesh = __awtsmoosModule_234.mesh;
+	const onPlane = __awtsmoosModule_234.onPlane;
+	const safeSegments = __awtsmoosModule_234.safeSegments;
 
 	/** B"H: Flat things are not dead; they are quiet stages for revelation. */
 	function planeMesh({ size = 2, y = 0, color = WHITE } = {}) {
@@ -17372,11 +18838,11 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural/src/mesh/primitives/round.js ----
 {
-	const __exports = __awtsmoosModule_219;
+	const __exports = __awtsmoosModule_237;
 	// B"H
-	var WHITE = __awtsmoosModule_216.WHITE;
-	var mesh = __awtsmoosModule_216.mesh;
-	var safeSegments = __awtsmoosModule_216.safeSegments;
+	const WHITE = __awtsmoosModule_234.WHITE;
+	const mesh = __awtsmoosModule_234.mesh;
+	const safeSegments = __awtsmoosModule_234.safeSegments;
 
 	/** B"H: Roundness remembers that the Infinite has no corner. */
 	function cylinderMesh({ radius = 1, height = 2, segments = 32, color = WHITE } = {}) {
@@ -17428,10 +18894,10 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural/src/mesh/primitives/star.js ----
 {
-	const __exports = __awtsmoosModule_220;
+	const __exports = __awtsmoosModule_238;
 	// B"H
-	var WHITE = __awtsmoosModule_216.WHITE;
-	var mesh = __awtsmoosModule_216.mesh;
+	const WHITE = __awtsmoosModule_234.WHITE;
+	const mesh = __awtsmoosModule_234.mesh;
 
 	/** B"H: A star is a small argument that darkness never owned the sky. */
 	function starMesh({ points = 5, outer = 1, inner = 0.45, height = 0.55, color = WHITE } = {}) {
@@ -17457,25 +18923,25 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural/src/mesh/primitives.js ----
 {
-	const __exports = __awtsmoosModule_215;
+	const __exports = __awtsmoosModule_233;
 	// B"H
-	__exports.WHITE = __awtsmoosModule_216.WHITE;
-	__exports.mesh = __awtsmoosModule_216.mesh;
-	__exports.onPlane = __awtsmoosModule_216.onPlane;
-	__exports.safeSegments = __awtsmoosModule_216.safeSegments;
-	__exports.cubeMesh = __awtsmoosModule_217.cubeMesh;
-	__exports.discMesh = __awtsmoosModule_218.discMesh;
-	__exports.planeMesh = __awtsmoosModule_218.planeMesh;
-	__exports.ringMesh = __awtsmoosModule_218.ringMesh;
-	__exports.cylinderMesh = __awtsmoosModule_219.cylinderMesh;
-	__exports.sphereMesh = __awtsmoosModule_219.sphereMesh;
-	__exports.starMesh = __awtsmoosModule_220.starMesh;
+	__exports.WHITE = __awtsmoosModule_234.WHITE;
+	__exports.mesh = __awtsmoosModule_234.mesh;
+	__exports.onPlane = __awtsmoosModule_234.onPlane;
+	__exports.safeSegments = __awtsmoosModule_234.safeSegments;
+	__exports.cubeMesh = __awtsmoosModule_235.cubeMesh;
+	__exports.discMesh = __awtsmoosModule_236.discMesh;
+	__exports.planeMesh = __awtsmoosModule_236.planeMesh;
+	__exports.ringMesh = __awtsmoosModule_236.ringMesh;
+	__exports.cylinderMesh = __awtsmoosModule_237.cylinderMesh;
+	__exports.sphereMesh = __awtsmoosModule_237.sphereMesh;
+	__exports.starMesh = __awtsmoosModule_238.starMesh;
 
 }
 
 // ---- libs/awtsmoos-procedural/src/mesh/transform.js ----
 {
-	const __exports = __awtsmoosModule_223;
+	const __exports = __awtsmoosModule_241;
 	// B"H
 
 	/**
@@ -17574,10 +19040,10 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural/src/mesh/catalog/helpers.js ----
 {
-	const __exports = __awtsmoosModule_225;
+	const __exports = __awtsmoosModule_243;
 	// B"H
-	var cubeMesh = __awtsmoosModule_215.cubeMesh;
-	var transformMesh = __awtsmoosModule_223.transformMesh;
+	const cubeMesh = __awtsmoosModule_233.cubeMesh;
+	const transformMesh = __awtsmoosModule_241.transformMesh;
 
 	/** B"H: A bar is a humble beam, waiting to become a gate or a letter. */
 	function bar(translate, scale, tilt = 0) {
@@ -17593,10 +19059,10 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural/src/mesh/catalog/glyphs.js ----
 {
-	const __exports = __awtsmoosModule_224;
+	const __exports = __awtsmoosModule_242;
 	// B"H
-	var mergeMeshes = __awtsmoosModule_223.mergeMeshes;
-	var bar = __awtsmoosModule_225.bar;
+	const mergeMeshes = __awtsmoosModule_241.mergeMeshes;
+	const bar = __awtsmoosModule_243.bar;
 
 	/** B"H: The glyph leans forward like a spark trying to become speech. */
 	function letterMesh() {
@@ -17614,12 +19080,12 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural/src/mesh/catalog/nature.js ----
 {
-	const __exports = __awtsmoosModule_226;
+	const __exports = __awtsmoosModule_244;
 	// B"H
-	var cylinderMesh = __awtsmoosModule_215.cylinderMesh;
-	var sphereMesh = __awtsmoosModule_215.sphereMesh;
-	var mergeMeshes = __awtsmoosModule_223.mergeMeshes;
-	var transformMesh = __awtsmoosModule_223.transformMesh;
+	const cylinderMesh = __awtsmoosModule_233.cylinderMesh;
+	const sphereMesh = __awtsmoosModule_233.sphereMesh;
+	const mergeMeshes = __awtsmoosModule_241.mergeMeshes;
+	const transformMesh = __awtsmoosModule_241.transformMesh;
 
 	/** B"H: The tree grows upward but remembers the traveler needs a horizon. */
 	function treeMesh() {
@@ -17652,12 +19118,12 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural/src/mesh/catalog/structures.js ----
 {
-	const __exports = __awtsmoosModule_227;
+	const __exports = __awtsmoosModule_245;
 	// B"H
-	var ringMesh = __awtsmoosModule_215.ringMesh;
-	var mergeMeshes = __awtsmoosModule_223.mergeMeshes;
-	var transformMesh = __awtsmoosModule_223.transformMesh;
-	var bar = __awtsmoosModule_225.bar;
+	const ringMesh = __awtsmoosModule_233.ringMesh;
+	const mergeMeshes = __awtsmoosModule_241.mergeMeshes;
+	const transformMesh = __awtsmoosModule_241.transformMesh;
+	const bar = __awtsmoosModule_243.bar;
 
 	/** B"H: An arch must frame the road, not devour the camera. */
 	function archMesh() {
@@ -17687,21 +19153,21 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural/src/mesh/catalog/registry.js ----
 {
-	const __exports = __awtsmoosModule_222;
+	const __exports = __awtsmoosModule_240;
 	// B"H
-	var cubeMesh = __awtsmoosModule_215.cubeMesh;
-	var cylinderMesh = __awtsmoosModule_215.cylinderMesh;
-	var discMesh = __awtsmoosModule_215.discMesh;
-	var planeMesh = __awtsmoosModule_215.planeMesh;
-	var ringMesh = __awtsmoosModule_215.ringMesh;
-	var sphereMesh = __awtsmoosModule_215.sphereMesh;
-	var starMesh = __awtsmoosModule_215.starMesh;
-	var transformMesh = __awtsmoosModule_223.transformMesh;
-	var letterMesh = __awtsmoosModule_224.letterMesh;
-	var cloudMesh = __awtsmoosModule_226.cloudMesh;
-	var treeMesh = __awtsmoosModule_226.treeMesh;
-	var archMesh = __awtsmoosModule_227.archMesh;
-	var gateMesh = __awtsmoosModule_227.gateMesh;
+	const cubeMesh = __awtsmoosModule_233.cubeMesh;
+	const cylinderMesh = __awtsmoosModule_233.cylinderMesh;
+	const discMesh = __awtsmoosModule_233.discMesh;
+	const planeMesh = __awtsmoosModule_233.planeMesh;
+	const ringMesh = __awtsmoosModule_233.ringMesh;
+	const sphereMesh = __awtsmoosModule_233.sphereMesh;
+	const starMesh = __awtsmoosModule_233.starMesh;
+	const transformMesh = __awtsmoosModule_241.transformMesh;
+	const letterMesh = __awtsmoosModule_242.letterMesh;
+	const cloudMesh = __awtsmoosModule_244.cloudMesh;
+	const treeMesh = __awtsmoosModule_244.treeMesh;
+	const archMesh = __awtsmoosModule_245.archMesh;
+	const gateMesh = __awtsmoosModule_245.gateMesh;
 
 	/** B"H: The registry names each vessel, then gets out of the way. */
 	const BUILDERS = {
@@ -17737,21 +19203,21 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural/src/mesh/catalog.js ----
 {
-	const __exports = __awtsmoosModule_221;
+	const __exports = __awtsmoosModule_239;
 	// B"H
-	__exports.catalogMesh = __awtsmoosModule_222.catalogMesh;
-	__exports.catalogNames = __awtsmoosModule_222.catalogNames;
-	__exports.letterMesh = __awtsmoosModule_224.letterMesh;
-	__exports.cloudMesh = __awtsmoosModule_226.cloudMesh;
-	__exports.treeMesh = __awtsmoosModule_226.treeMesh;
-	__exports.archMesh = __awtsmoosModule_227.archMesh;
-	__exports.gateMesh = __awtsmoosModule_227.gateMesh;
+	__exports.catalogMesh = __awtsmoosModule_240.catalogMesh;
+	__exports.catalogNames = __awtsmoosModule_240.catalogNames;
+	__exports.letterMesh = __awtsmoosModule_242.letterMesh;
+	__exports.cloudMesh = __awtsmoosModule_244.cloudMesh;
+	__exports.treeMesh = __awtsmoosModule_244.treeMesh;
+	__exports.archMesh = __awtsmoosModule_245.archMesh;
+	__exports.gateMesh = __awtsmoosModule_245.gateMesh;
 
 }
 
 // ---- libs/awtsmoos-procedural/src/mesh/repair.js ----
 {
-	const __exports = __awtsmoosModule_228;
+	const __exports = __awtsmoosModule_246;
 	/**
 	 * B"H
 	 * @chapter Degenerate sparks fell away so the visible vessel could stand.
@@ -17783,24 +19249,24 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural/src/math/vec3.js ----
 {
-	const __exports = __awtsmoosModule_230;
+	const __exports = __awtsmoosModule_248;
 	/**
 	 * B"H
 	 * @chapter Three coordinates sang, and the void admitted they were a point.
 	 */
 	const v3 = (x = 0, y = 0, z = 0) => [x, y, z];
+
 	__exports.v3 = v3;
-
 	const sub = (a, b) => [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
-	__exports.sub = sub;
 
+	__exports.sub = sub;
 	const cross = (a, b) => [
 	  a[1] * b[2] - a[2] * b[1],
 	  a[2] * b[0] - a[0] * b[2],
 	  a[0] * b[1] - a[1] * b[0]
 	];
-	__exports.cross = cross;
 
+	__exports.cross = cross;
 	function length(a) {
 	  return Math.hypot(a[0], a[1], a[2]);
 	}
@@ -17822,16 +19288,16 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural/src/mesh/triangles.js ----
 {
-	const __exports = __awtsmoosModule_229;
+	const __exports = __awtsmoosModule_247;
 	// B"H
-	var cross = __awtsmoosModule_230.cross;
-	var normalize = __awtsmoosModule_230.normalize;
-	var sub = __awtsmoosModule_230.sub;
+	const cross = __awtsmoosModule_248.cross;
+	const normalize = __awtsmoosModule_248.normalize;
+	const sub = __awtsmoosModule_248.sub;
 
 	const TRIANGLE_STRIDE = 10;
+
+
 	__exports.TRIANGLE_STRIDE = TRIANGLE_STRIDE;
-
-
 	/**
 	 * Chapter 3 — Indexed sparks become colored triangle breath for WebGL.
 	 * Each vertex is position, flat normal, and procedural RGBA material color.
@@ -17892,7 +19358,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural/src/mesh/summary.js ----
 {
-	const __exports = __awtsmoosModule_231;
+	const __exports = __awtsmoosModule_249;
 	/**
 	 * B"H
 	 * @chapter The mesh confessed its borders before the King who makes borders.
@@ -17936,7 +19402,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural/src/mesh/validate.js ----
 {
-	const __exports = __awtsmoosModule_232;
+	const __exports = __awtsmoosModule_250;
 	/**
 	 * B"H
 	 * @chapter The broken triangles were counted, not shamed, then lifted.
@@ -17969,16 +19435,16 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural/src/models/assembly.js ----
 {
-	const __exports = __awtsmoosModule_235;
+	const __exports = __awtsmoosModule_253;
 	// B"H
-	var cubeMesh = __awtsmoosModule_215.cubeMesh;
-	var cylinderMesh = __awtsmoosModule_215.cylinderMesh;
-	var ringMesh = __awtsmoosModule_215.ringMesh;
-	var sphereMesh = __awtsmoosModule_215.sphereMesh;
-	var starMesh = __awtsmoosModule_215.starMesh;
-	var mergeMeshes = __awtsmoosModule_223.mergeMeshes;
-	var recolorMesh = __awtsmoosModule_223.recolorMesh;
-	var transformMesh = __awtsmoosModule_223.transformMesh;
+	const cubeMesh = __awtsmoosModule_233.cubeMesh;
+	const cylinderMesh = __awtsmoosModule_233.cylinderMesh;
+	const ringMesh = __awtsmoosModule_233.ringMesh;
+	const sphereMesh = __awtsmoosModule_233.sphereMesh;
+	const starMesh = __awtsmoosModule_233.starMesh;
+	const mergeMeshes = __awtsmoosModule_241.mergeMeshes;
+	const recolorMesh = __awtsmoosModule_241.recolorMesh;
+	const transformMesh = __awtsmoosModule_241.transformMesh;
 
 	/**
 	 * Chapter 4 — Primitive sparks become designed objects through explicit assembly.
@@ -18066,9 +19532,9 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural/src/models/palettes.js ----
 {
-	const __exports = __awtsmoosModule_236;
+	const __exports = __awtsmoosModule_254;
 	// B"H
-	var createRng = __awtsmoosModule_214.createRng;
+	const createRng = __awtsmoosModule_232.createRng;
 
 	const BASES = [
 		[[0.68, 0.26, 0.18, 1], [0.96, 0.72, 0.28, 1]],
@@ -18115,12 +19581,12 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural/src/models/architecture/helpers.js ----
 {
-	const __exports = __awtsmoosModule_237;
+	const __exports = __awtsmoosModule_255;
 	// B"H
-	var assemble = __awtsmoosModule_235.assemble;
-	var box = __awtsmoosModule_235.box;
-	var column = __awtsmoosModule_235.column;
-	var gridPositions = __awtsmoosModule_235.gridPositions;
+	const assemble = __awtsmoosModule_253.assemble;
+	const box = __awtsmoosModule_253.box;
+	const column = __awtsmoosModule_253.column;
+	const gridPositions = __awtsmoosModule_253.gridPositions;
 
 	/** Build actual façade depth: windows, lintels, mullions, doors, and roof trim. */
 	function facadeMesh(options) {
@@ -18179,18 +19645,18 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural/src/models/architecture/civic.js ----
 {
-	const __exports = __awtsmoosModule_234;
+	const __exports = __awtsmoosModule_252;
 	// B"H
-	var assemble = __awtsmoosModule_235.assemble;
-	var box = __awtsmoosModule_235.box;
-	var column = __awtsmoosModule_235.column;
-	var cylinder = __awtsmoosModule_235.cylinder;
-	var placed = __awtsmoosModule_235.placed;
-	var sphere = __awtsmoosModule_235.sphere;
-	var star = __awtsmoosModule_235.star;
-	var modelPalette = __awtsmoosModule_236.modelPalette;
-	var facadeMesh = __awtsmoosModule_237.facadeMesh;
-	var steppedRoof = __awtsmoosModule_237.steppedRoof;
+	const assemble = __awtsmoosModule_253.assemble;
+	const box = __awtsmoosModule_253.box;
+	const column = __awtsmoosModule_253.column;
+	const cylinder = __awtsmoosModule_253.cylinder;
+	const placed = __awtsmoosModule_253.placed;
+	const sphere = __awtsmoosModule_253.sphere;
+	const star = __awtsmoosModule_253.star;
+	const modelPalette = __awtsmoosModule_254.modelPalette;
+	const facadeMesh = __awtsmoosModule_255.facadeMesh;
+	const steppedRoof = __awtsmoosModule_255.steppedRoof;
 
 	/** A tower is stacked massing, correctly elevated façades, crown, and beacon. */
 	function towerMesh(options = {}) {
@@ -18273,12 +19739,12 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural/src/models/signs.js ----
 {
-	const __exports = __awtsmoosModule_239;
+	const __exports = __awtsmoosModule_257;
 	// B"H
-	var createRng = __awtsmoosModule_214.createRng;
-	var assemble = __awtsmoosModule_235.assemble;
-	var box = __awtsmoosModule_235.box;
-	var modelPalette = __awtsmoosModule_236.modelPalette;
+	const createRng = __awtsmoosModule_232.createRng;
+	const assemble = __awtsmoosModule_253.assemble;
+	const box = __awtsmoosModule_253.box;
+	const modelPalette = __awtsmoosModule_254.modelPalette;
 
 	/**
 	 * Chapter 5 — A sign is modeled as frame, face, lamps, and generated glyph bars.
@@ -18345,16 +19811,16 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural/src/models/architecture/residential.js ----
 {
-	const __exports = __awtsmoosModule_238;
+	const __exports = __awtsmoosModule_256;
 	// B"H
-	var createRng = __awtsmoosModule_214.createRng;
-	var assemble = __awtsmoosModule_235.assemble;
-	var box = __awtsmoosModule_235.box;
-	var placed = __awtsmoosModule_235.placed;
-	var modelPalette = __awtsmoosModule_236.modelPalette;
-	var storefrontSignMesh = __awtsmoosModule_239.storefrontSignMesh;
-	var facadeMesh = __awtsmoosModule_237.facadeMesh;
-	var steppedRoof = __awtsmoosModule_237.steppedRoof;
+	const createRng = __awtsmoosModule_232.createRng;
+	const assemble = __awtsmoosModule_253.assemble;
+	const box = __awtsmoosModule_253.box;
+	const placed = __awtsmoosModule_253.placed;
+	const modelPalette = __awtsmoosModule_254.modelPalette;
+	const storefrontSignMesh = __awtsmoosModule_257.storefrontSignMesh;
+	const facadeMesh = __awtsmoosModule_255.facadeMesh;
+	const steppedRoof = __awtsmoosModule_255.steppedRoof;
 
 	/** A townhouse is walls, recessed windows, cornice, roof planes, and chimney. */
 	function townhouseMesh(options = {}) {
@@ -18427,13 +19893,13 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural/src/models/botany/components.js ----
 {
-	const __exports = __awtsmoosModule_241;
+	const __exports = __awtsmoosModule_259;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
-	var assemble = __awtsmoosModule_235.assemble;
-	var box = __awtsmoosModule_235.box;
-	var cylinder = __awtsmoosModule_235.cylinder;
+	const assemble = __awtsmoosModule_253.assemble;
+	const box = __awtsmoosModule_253.box;
+	const cylinder = __awtsmoosModule_253.cylinder;
 
 	/**
 	 * The Awtsmoos reveals leaves and petals through light faceted vessels. Thin boxes
@@ -18527,19 +19993,19 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural/src/models/botany/flowers.js ----
 {
-	const __exports = __awtsmoosModule_240;
+	const __exports = __awtsmoosModule_258;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
-	var createRng = __awtsmoosModule_214.createRng;
-	var assemble = __awtsmoosModule_235.assemble;
-	var sphere = __awtsmoosModule_235.sphere;
-	var modelPalette = __awtsmoosModule_236.modelPalette;
-	var blade = __awtsmoosModule_241.blade;
-	var broadLeaf = __awtsmoosModule_241.broadLeaf;
-	var petalRing = __awtsmoosModule_241.petalRing;
-	var roundedCluster = __awtsmoosModule_241.roundedCluster;
-	var stem = __awtsmoosModule_241.stem;
+	const createRng = __awtsmoosModule_232.createRng;
+	const assemble = __awtsmoosModule_253.assemble;
+	const sphere = __awtsmoosModule_253.sphere;
+	const modelPalette = __awtsmoosModule_254.modelPalette;
+	const blade = __awtsmoosModule_259.blade;
+	const broadLeaf = __awtsmoosModule_259.broadLeaf;
+	const petalRing = __awtsmoosModule_259.petalRing;
+	const roundedCluster = __awtsmoosModule_259.roundedCluster;
+	const stem = __awtsmoosModule_259.stem;
 
 	/** Composite flowers preserve a visible disk, ray petals, stems, and basal leaves. */
 	function compositeFlowerMesh(options = {}) {
@@ -18629,19 +20095,19 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural/src/models/botany/foliage.js ----
 {
-	const __exports = __awtsmoosModule_242;
+	const __exports = __awtsmoosModule_260;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
-	var createRng = __awtsmoosModule_214.createRng;
-	var assemble = __awtsmoosModule_235.assemble;
-	var sphere = __awtsmoosModule_235.sphere;
-	var modelPalette = __awtsmoosModule_236.modelPalette;
-	var blade = __awtsmoosModule_241.blade;
-	var broadLeaf = __awtsmoosModule_241.broadLeaf;
-	var branch = __awtsmoosModule_241.branch;
-	var roundedCluster = __awtsmoosModule_241.roundedCluster;
-	var stem = __awtsmoosModule_241.stem;
+	const createRng = __awtsmoosModule_232.createRng;
+	const assemble = __awtsmoosModule_253.assemble;
+	const sphere = __awtsmoosModule_253.sphere;
+	const modelPalette = __awtsmoosModule_254.modelPalette;
+	const blade = __awtsmoosModule_259.blade;
+	const broadLeaf = __awtsmoosModule_259.broadLeaf;
+	const branch = __awtsmoosModule_259.branch;
+	const roundedCluster = __awtsmoosModule_259.roundedCluster;
+	const stem = __awtsmoosModule_259.stem;
 
 	/** Rounded flowering shrubs carry woody volume, broad leaves, and visible panicles. */
 	function panicleShrubMesh(options = {}) {
@@ -18730,17 +20196,17 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural/src/models/botany/trees.js ----
 {
-	const __exports = __awtsmoosModule_243;
+	const __exports = __awtsmoosModule_261;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
-	var createRng = __awtsmoosModule_214.createRng;
-	var assemble = __awtsmoosModule_235.assemble;
-	var box = __awtsmoosModule_235.box;
-	var cylinder = __awtsmoosModule_235.cylinder;
-	var modelPalette = __awtsmoosModule_236.modelPalette;
-	var branch = __awtsmoosModule_241.branch;
-	var roundedCluster = __awtsmoosModule_241.roundedCluster;
+	const createRng = __awtsmoosModule_232.createRng;
+	const assemble = __awtsmoosModule_253.assemble;
+	const box = __awtsmoosModule_253.box;
+	const cylinder = __awtsmoosModule_253.cylinder;
+	const modelPalette = __awtsmoosModule_254.modelPalette;
+	const branch = __awtsmoosModule_259.branch;
+	const roundedCluster = __awtsmoosModule_259.roundedCluster;
 
 	/** Cypress crowns rise as narrow stacked columns rather than generic green balls. */
 	function cypressTreeMesh(options = {}) {
@@ -18857,15 +20323,15 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural/src/models/nature.js ----
 {
-	const __exports = __awtsmoosModule_244;
+	const __exports = __awtsmoosModule_262;
 	// B"H
-	var createRng = __awtsmoosModule_214.createRng;
-	var assemble = __awtsmoosModule_235.assemble;
-	var box = __awtsmoosModule_235.box;
-	var cylinder = __awtsmoosModule_235.cylinder;
-	var sphere = __awtsmoosModule_235.sphere;
-	var star = __awtsmoosModule_235.star;
-	var modelPalette = __awtsmoosModule_236.modelPalette;
+	const createRng = __awtsmoosModule_232.createRng;
+	const assemble = __awtsmoosModule_253.assemble;
+	const box = __awtsmoosModule_253.box;
+	const cylinder = __awtsmoosModule_253.cylinder;
+	const sphere = __awtsmoosModule_253.sphere;
+	const star = __awtsmoosModule_253.star;
+	const modelPalette = __awtsmoosModule_254.modelPalette;
 
 	/** A tree grows as trunk, branch joints, layered crown, and fruit sparks. */
 	function treeModelMesh(options = {}) {
@@ -18923,17 +20389,17 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural/src/models/street.js ----
 {
-	const __exports = __awtsmoosModule_245;
+	const __exports = __awtsmoosModule_263;
 	// B"H
-	var assemble = __awtsmoosModule_235.assemble;
-	var box = __awtsmoosModule_235.box;
-	var cylinder = __awtsmoosModule_235.cylinder;
-	var placed = __awtsmoosModule_235.placed;
-	var ring = __awtsmoosModule_235.ring;
-	var sphere = __awtsmoosModule_235.sphere;
-	var modelPalette = __awtsmoosModule_236.modelPalette;
-	var storefrontSignMesh = __awtsmoosModule_239.storefrontSignMesh;
-	var streetSignMesh = __awtsmoosModule_239.streetSignMesh;
+	const assemble = __awtsmoosModule_253.assemble;
+	const box = __awtsmoosModule_253.box;
+	const cylinder = __awtsmoosModule_253.cylinder;
+	const placed = __awtsmoosModule_253.placed;
+	const ring = __awtsmoosModule_253.ring;
+	const sphere = __awtsmoosModule_253.sphere;
+	const modelPalette = __awtsmoosModule_254.modelPalette;
+	const storefrontSignMesh = __awtsmoosModule_257.storefrontSignMesh;
+	const streetSignMesh = __awtsmoosModule_257.streetSignMesh;
 
 	function benchMesh(options = {}) {
 		const colors = options.palette || modelPalette(options.seed || 'bench');
@@ -19014,11 +20480,11 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural/src/models/vehicles/helpers.js ----
 {
-	const __exports = __awtsmoosModule_247;
+	const __exports = __awtsmoosModule_265;
 	// B"H
-	var assemble = __awtsmoosModule_235.assemble;
-	var box = __awtsmoosModule_235.box;
-	var wheel = __awtsmoosModule_235.wheel;
+	const assemble = __awtsmoosModule_253.assemble;
+	const box = __awtsmoosModule_253.box;
+	const wheel = __awtsmoosModule_253.wheel;
 
 	/** Assemble a complete road vehicle with body, cabin, glass, lights, and wheels. */
 	function vehicleBody(options) {
@@ -19080,16 +20546,16 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural/src/models/vehicles/road.js ----
 {
-	const __exports = __awtsmoosModule_246;
+	const __exports = __awtsmoosModule_264;
 	// B"H
-	var assemble = __awtsmoosModule_235.assemble;
-	var box = __awtsmoosModule_235.box;
-	var placed = __awtsmoosModule_235.placed;
-	var modelPalette = __awtsmoosModule_236.modelPalette;
-	var storefrontSignMesh = __awtsmoosModule_239.storefrontSignMesh;
-	var vehicleBody = __awtsmoosModule_247.vehicleBody;
-	var wheelSet = __awtsmoosModule_247.wheelSet;
-	var windowBand = __awtsmoosModule_247.windowBand;
+	const assemble = __awtsmoosModule_253.assemble;
+	const box = __awtsmoosModule_253.box;
+	const placed = __awtsmoosModule_253.placed;
+	const modelPalette = __awtsmoosModule_254.modelPalette;
+	const storefrontSignMesh = __awtsmoosModule_257.storefrontSignMesh;
+	const vehicleBody = __awtsmoosModule_265.vehicleBody;
+	const wheelSet = __awtsmoosModule_265.wheelSet;
+	const windowBand = __awtsmoosModule_265.windowBand;
 
 	function carMesh(options = {}) {
 		const colors = options.palette || modelPalette(options.seed || 'car');
@@ -19167,45 +20633,45 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural/src/models/catalog.js ----
 {
-	const __exports = __awtsmoosModule_233;
+	const __exports = __awtsmoosModule_251;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
-	var palaceMesh = __awtsmoosModule_234.palaceMesh;
-	var studyHallMesh = __awtsmoosModule_234.studyHallMesh;
-	var towerMesh = __awtsmoosModule_234.towerMesh;
-	var shopMesh = __awtsmoosModule_238.shopMesh;
-	var townhouseMesh = __awtsmoosModule_238.townhouseMesh;
-	var compositeFlowerMesh = __awtsmoosModule_240.compositeFlowerMesh;
-	var flowerSpikeMesh = __awtsmoosModule_240.flowerSpikeMesh;
-	var irisClumpMesh = __awtsmoosModule_240.irisClumpMesh;
-	var roseBushMesh = __awtsmoosModule_240.roseBushMesh;
-	var fernClumpMesh = __awtsmoosModule_242.fernClumpMesh;
-	var grassClumpMesh = __awtsmoosModule_242.grassClumpMesh;
-	var hostaClumpMesh = __awtsmoosModule_242.hostaClumpMesh;
-	var panicleShrubMesh = __awtsmoosModule_242.panicleShrubMesh;
-	var broadleafTreeMesh = __awtsmoosModule_243.broadleafTreeMesh;
-	var cypressTreeMesh = __awtsmoosModule_243.cypressTreeMesh;
-	var floweringTreeMesh = __awtsmoosModule_243.floweringTreeMesh;
-	var oliveTreeMesh = __awtsmoosModule_243.oliveTreeMesh;
-	var pineTreeMesh = __awtsmoosModule_243.pineTreeMesh;
-	var willowTreeMesh = __awtsmoosModule_243.willowTreeMesh;
-	var hedgeMesh = __awtsmoosModule_244.hedgeMesh;
-	var monumentMesh = __awtsmoosModule_244.monumentMesh;
-	var planterMesh = __awtsmoosModule_244.planterMesh;
-	var treeModelMesh = __awtsmoosModule_244.treeModelMesh;
-	var bollardMesh = __awtsmoosModule_245.bollardMesh;
-	var benchMesh = __awtsmoosModule_245.benchMesh;
-	var fountainMesh = __awtsmoosModule_245.fountainMesh;
-	var kioskMesh = __awtsmoosModule_245.kioskMesh;
-	var streetLampMesh = __awtsmoosModule_245.streetLampMesh;
-	var streetSignModel = __awtsmoosModule_245.streetSignModel;
-	var busMesh = __awtsmoosModule_246.busMesh;
-	var carMesh = __awtsmoosModule_246.carMesh;
-	var marketCartMesh = __awtsmoosModule_246.marketCartMesh;
-	var taxiMesh = __awtsmoosModule_246.taxiMesh;
-	var truckMesh = __awtsmoosModule_246.truckMesh;
-	var vanMesh = __awtsmoosModule_246.vanMesh;
+	const palaceMesh = __awtsmoosModule_252.palaceMesh;
+	const studyHallMesh = __awtsmoosModule_252.studyHallMesh;
+	const towerMesh = __awtsmoosModule_252.towerMesh;
+	const shopMesh = __awtsmoosModule_256.shopMesh;
+	const townhouseMesh = __awtsmoosModule_256.townhouseMesh;
+	const compositeFlowerMesh = __awtsmoosModule_258.compositeFlowerMesh;
+	const flowerSpikeMesh = __awtsmoosModule_258.flowerSpikeMesh;
+	const irisClumpMesh = __awtsmoosModule_258.irisClumpMesh;
+	const roseBushMesh = __awtsmoosModule_258.roseBushMesh;
+	const fernClumpMesh = __awtsmoosModule_260.fernClumpMesh;
+	const grassClumpMesh = __awtsmoosModule_260.grassClumpMesh;
+	const hostaClumpMesh = __awtsmoosModule_260.hostaClumpMesh;
+	const panicleShrubMesh = __awtsmoosModule_260.panicleShrubMesh;
+	const broadleafTreeMesh = __awtsmoosModule_261.broadleafTreeMesh;
+	const cypressTreeMesh = __awtsmoosModule_261.cypressTreeMesh;
+	const floweringTreeMesh = __awtsmoosModule_261.floweringTreeMesh;
+	const oliveTreeMesh = __awtsmoosModule_261.oliveTreeMesh;
+	const pineTreeMesh = __awtsmoosModule_261.pineTreeMesh;
+	const willowTreeMesh = __awtsmoosModule_261.willowTreeMesh;
+	const hedgeMesh = __awtsmoosModule_262.hedgeMesh;
+	const monumentMesh = __awtsmoosModule_262.monumentMesh;
+	const planterMesh = __awtsmoosModule_262.planterMesh;
+	const treeModelMesh = __awtsmoosModule_262.treeModelMesh;
+	const bollardMesh = __awtsmoosModule_263.bollardMesh;
+	const benchMesh = __awtsmoosModule_263.benchMesh;
+	const fountainMesh = __awtsmoosModule_263.fountainMesh;
+	const kioskMesh = __awtsmoosModule_263.kioskMesh;
+	const streetLampMesh = __awtsmoosModule_263.streetLampMesh;
+	const streetSignModel = __awtsmoosModule_263.streetSignModel;
+	const busMesh = __awtsmoosModule_264.busMesh;
+	const carMesh = __awtsmoosModule_264.carMesh;
+	const marketCartMesh = __awtsmoosModule_264.marketCartMesh;
+	const taxiMesh = __awtsmoosModule_264.taxiMesh;
+	const truckMesh = __awtsmoosModule_264.truckMesh;
+	const vanMesh = __awtsmoosModule_264.vanMesh;
 
 	const FACTORIES = Object.freeze({
 		townhouse: townhouseMesh,
@@ -19272,10 +20738,10 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural/src/world/building.js ----
 {
-	const __exports = __awtsmoosModule_248;
+	const __exports = __awtsmoosModule_266;
 	// B"H
-	var modelMesh = __awtsmoosModule_233.modelMesh;
-	var transformMesh = __awtsmoosModule_223.transformMesh;
+	const modelMesh = __awtsmoosModule_251.modelMesh;
+	const transformMesh = __awtsmoosModule_241.transformMesh;
 
 	/**
 	 * A building is now a generated architectural model, not one stretched cube.
@@ -19316,12 +20782,12 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural/src/world/chunk.js ----
 {
-	const __exports = __awtsmoosModule_249;
+	const __exports = __awtsmoosModule_267;
 	// B"H
-	var createRng = __awtsmoosModule_214.createRng;
-	var range = __awtsmoosModule_214.range;
-	var transformMesh = __awtsmoosModule_223.transformMesh;
-	var modelMesh = __awtsmoosModule_233.modelMesh;
+	const createRng = __awtsmoosModule_232.createRng;
+	const range = __awtsmoosModule_232.range;
+	const transformMesh = __awtsmoosModule_241.transformMesh;
+	const modelMesh = __awtsmoosModule_251.modelMesh;
 
 	const CITY_MODELS = ['townhouse', 'shop', 'studyHall', 'tower', 'kiosk', 'treeModel', 'streetLamp'];
 
@@ -19346,10 +20812,10 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural/src/debug/probe.js ----
 {
-	const __exports = __awtsmoosModule_250;
-	var cubeMesh = __awtsmoosModule_215.cubeMesh;
-	var validateMesh = __awtsmoosModule_232.validateMesh;
-	var summarizeMesh = __awtsmoosModule_231.summarizeMesh;
+	const __exports = __awtsmoosModule_268;
+	const cubeMesh = __awtsmoosModule_233.cubeMesh;
+	const validateMesh = __awtsmoosModule_250.validateMesh;
+	const summarizeMesh = __awtsmoosModule_249.summarizeMesh;
 
 	/**
 	 * B"H
@@ -19371,46 +20837,46 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural/src/index.js ----
 {
-	const __exports = __awtsmoosModule_213;
+	const __exports = __awtsmoosModule_231;
 	// B"H
-	__exports.createRng = __awtsmoosModule_214.createRng;
-	__exports.hashSeed = __awtsmoosModule_214.hashSeed;
-	__exports.range = __awtsmoosModule_214.range;
-	__exports.cubeMesh = __awtsmoosModule_215.cubeMesh;
-	__exports.cylinderMesh = __awtsmoosModule_215.cylinderMesh;
-	__exports.discMesh = __awtsmoosModule_215.discMesh;
-	__exports.mesh = __awtsmoosModule_215.mesh;
-	__exports.planeMesh = __awtsmoosModule_215.planeMesh;
-	__exports.ringMesh = __awtsmoosModule_215.ringMesh;
-	__exports.sphereMesh = __awtsmoosModule_215.sphereMesh;
-	__exports.starMesh = __awtsmoosModule_215.starMesh;
-	__exports.catalogMesh = __awtsmoosModule_221.catalogMesh;
-	__exports.catalogNames = __awtsmoosModule_221.catalogNames;
-	__exports.compactFiniteMesh = __awtsmoosModule_228.compactFiniteMesh;
-	__exports.cloneMesh = __awtsmoosModule_223.cloneMesh;
-	__exports.mergeMeshes = __awtsmoosModule_223.mergeMeshes;
-	__exports.recolorMesh = __awtsmoosModule_223.recolorMesh;
-	__exports.transformMesh = __awtsmoosModule_223.transformMesh;
-	__exports.meshToTriangles = __awtsmoosModule_229.meshToTriangles;
-	__exports.TRIANGLE_STRIDE = __awtsmoosModule_229.TRIANGLE_STRIDE;
-	__exports.triangleStats = __awtsmoosModule_229.triangleStats;
-	__exports.summarizeMesh = __awtsmoosModule_231.summarizeMesh;
-	__exports.validateMesh = __awtsmoosModule_232.validateMesh;
-	__exports.modelMesh = __awtsmoosModule_233.modelMesh;
-	__exports.modelNames = __awtsmoosModule_233.modelNames;
-	__exports.hasModel = __awtsmoosModule_233.hasModel;
-	__exports.modelPalette = __awtsmoosModule_236.modelPalette;
-	__exports.buildingMesh = __awtsmoosModule_248.buildingMesh;
-	__exports.clamp = __awtsmoosModule_248.clamp;
-	__exports.cityChunkMeshes = __awtsmoosModule_249.cityChunkMeshes;
-	__exports.makeGoldenProbe = __awtsmoosModule_250.makeGoldenProbe;
-	__exports.inspectMesh = __awtsmoosModule_250.inspectMesh;
+	__exports.createRng = __awtsmoosModule_232.createRng;
+	__exports.hashSeed = __awtsmoosModule_232.hashSeed;
+	__exports.range = __awtsmoosModule_232.range;
+	__exports.cubeMesh = __awtsmoosModule_233.cubeMesh;
+	__exports.cylinderMesh = __awtsmoosModule_233.cylinderMesh;
+	__exports.discMesh = __awtsmoosModule_233.discMesh;
+	__exports.mesh = __awtsmoosModule_233.mesh;
+	__exports.planeMesh = __awtsmoosModule_233.planeMesh;
+	__exports.ringMesh = __awtsmoosModule_233.ringMesh;
+	__exports.sphereMesh = __awtsmoosModule_233.sphereMesh;
+	__exports.starMesh = __awtsmoosModule_233.starMesh;
+	__exports.catalogMesh = __awtsmoosModule_239.catalogMesh;
+	__exports.catalogNames = __awtsmoosModule_239.catalogNames;
+	__exports.compactFiniteMesh = __awtsmoosModule_246.compactFiniteMesh;
+	__exports.cloneMesh = __awtsmoosModule_241.cloneMesh;
+	__exports.mergeMeshes = __awtsmoosModule_241.mergeMeshes;
+	__exports.recolorMesh = __awtsmoosModule_241.recolorMesh;
+	__exports.transformMesh = __awtsmoosModule_241.transformMesh;
+	__exports.meshToTriangles = __awtsmoosModule_247.meshToTriangles;
+	__exports.TRIANGLE_STRIDE = __awtsmoosModule_247.TRIANGLE_STRIDE;
+	__exports.triangleStats = __awtsmoosModule_247.triangleStats;
+	__exports.summarizeMesh = __awtsmoosModule_249.summarizeMesh;
+	__exports.validateMesh = __awtsmoosModule_250.validateMesh;
+	__exports.modelMesh = __awtsmoosModule_251.modelMesh;
+	__exports.modelNames = __awtsmoosModule_251.modelNames;
+	__exports.hasModel = __awtsmoosModule_251.hasModel;
+	__exports.modelPalette = __awtsmoosModule_254.modelPalette;
+	__exports.buildingMesh = __awtsmoosModule_266.buildingMesh;
+	__exports.clamp = __awtsmoosModule_266.clamp;
+	__exports.cityChunkMeshes = __awtsmoosModule_267.cityChunkMeshes;
+	__exports.makeGoldenProbe = __awtsmoosModule_268.makeGoldenProbe;
+	__exports.inspectMesh = __awtsmoosModule_268.inspectMesh;
 
 }
 
 // ---- libs/awtsmoos-procedural-core/src/core/geometry/csg/bsp/node.js ----
 {
-	const __exports = __awtsmoosModule_255;
+	const __exports = __awtsmoosModule_273;
 
 	// B"H
 	/**
@@ -19490,14 +20956,14 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/geometry/csg/bsp/tree.js ----
 {
-	const __exports = __awtsmoosModule_254;
+	const __exports = __awtsmoosModule_272;
 
 	// B"H
 	/**
 	 * @file tree.js
 	 * @brief The root of spatial knowledge. A BSP Tree implementation.
 	 */
-	var Node = __awtsmoosModule_255.Node;
+	const Node = __awtsmoosModule_273.Node;
 
 	class Tree {
 	    constructor(polygons) {
@@ -19532,7 +20998,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/geometry/csg/math/vector3.js ----
 {
-	const __exports = __awtsmoosModule_257;
+	const __exports = __awtsmoosModule_275;
 	// B"H
 	/**
 	 * @file vector3.js
@@ -19576,14 +21042,14 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/geometry/csg/core/vertex.js ----
 {
-	const __exports = __awtsmoosModule_258;
+	const __exports = __awtsmoosModule_276;
 
 	// B"H
 	/**
 	 * @file vertex.js
 	 * @brief A singular point in space.
 	 */
-	var Vector3D = __awtsmoosModule_257.Vector3D;
+	const Vector3D = __awtsmoosModule_275.Vector3D;
 
 	class Vertex {
 	    constructor(pos, col) {
@@ -19620,7 +21086,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/geometry/csg/core/plane.js ----
 {
-	const __exports = __awtsmoosModule_260;
+	const __exports = __awtsmoosModule_278;
 
 	// B"H
 	/**
@@ -19711,14 +21177,14 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/geometry/csg/core/polygon.js ----
 {
-	const __exports = __awtsmoosModule_259;
+	const __exports = __awtsmoosModule_277;
 
 	// B"H
 	/**
 	 * @file polygon.js
 	 * @brief A convex boundary of creation.
 	 */
-	var Plane = __awtsmoosModule_260.Plane;
+	const Plane = __awtsmoosModule_278.Plane;
 
 	class Polygon {
 	    constructor(vertices, shared, plane) {
@@ -19747,7 +21213,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/geometry/csg/utils/meshUtils.js ----
 {
-	const __exports = __awtsmoosModule_256;
+	const __exports = __awtsmoosModule_274;
 
 	// B"H
 	/**
@@ -19755,9 +21221,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * @brief Translates between CSG Polygons and Structured Mesh Faces.
 	 *        Infused with Aggressive Quantization and Forced Triangulation to heal the cracks of division.
 	 */
-	var Vector3D = __awtsmoosModule_257.Vector3D;
-	var Vertex = __awtsmoosModule_258.Vertex;
-	var Polygon = __awtsmoosModule_259.Polygon;
+	const Vector3D = __awtsmoosModule_275.Vector3D;
+	const Vertex = __awtsmoosModule_276.Vertex;
+	const Polygon = __awtsmoosModule_277.Polygon;
 
 	function meshToPolygons(mesh) {
 	    const polygons =[];
@@ -19857,7 +21323,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/geometry/csg/csg.js ----
 {
-	const __exports = __awtsmoosModule_253;
+	const __exports = __awtsmoosModule_271;
 
 	// B"H
 	/**
@@ -19875,9 +21341,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * @module CSG
 	 */
 
-	var Tree = __awtsmoosModule_254.Tree;
-	var meshToPolygons = __awtsmoosModule_256.meshToPolygons;
-	var polygonsToMesh = __awtsmoosModule_256.polygonsToMesh;
+	const Tree = __awtsmoosModule_272.Tree;
+	const meshToPolygons = __awtsmoosModule_274.meshToPolygons;
+	const polygonsToMesh = __awtsmoosModule_274.polygonsToMesh;
 
 	class CSG {
 	    constructor() { this.polygons =[]; }
@@ -19961,15 +21427,15 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/geometry/csg/index.js ----
 {
-	const __exports = __awtsmoosModule_252;
+	const __exports = __awtsmoosModule_270;
 	// B"H
-	__exports.CSG = __awtsmoosModule_253.CSG;
+	__exports.CSG = __awtsmoosModule_271.CSG;
 
 }
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/BooleanDoorwayGeometryCache.js ----
 {
-	const __exports = __awtsmoosModule_261;
+	const __exports = __awtsmoosModule_279;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -20077,7 +21543,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/BooleanDoorwayUvProjection.js ----
 {
-	const __exports = __awtsmoosModule_263;
+	const __exports = __awtsmoosModule_281;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -20129,7 +21595,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/BooleanDoorwayMeshData.js ----
 {
-	const __exports = __awtsmoosModule_262;
+	const __exports = __awtsmoosModule_280;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -20141,7 +21607,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com preserves one coherent wall from stone surface to carved threshold.
 	 */
 
-	var projectBooleanDoorwayUv = __awtsmoosModule_263.projectBooleanDoorwayUv;
+	const projectBooleanDoorwayUv = __awtsmoosModule_281.projectBooleanDoorwayUv;
 
 	/**
 	 * Creates a closed cuboid in the face-based mesh contract consumed by CSG.
@@ -20240,7 +21706,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/BooleanDoorwayGeometry.js ----
 {
-	const __exports = __awtsmoosModule_251;
+	const __exports = __awtsmoosModule_269;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -20252,10 +21718,10 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * then Awtsmoos.com places that immutable revelation wherever a home requires entrance.
 	 */
 
-	var CSG = __awtsmoosModule_252.CSG;
-	var resolveBooleanDoorwayGeometry = __awtsmoosModule_261.resolveBooleanDoorwayGeometry;
-	var createClosedCuboidMesh = __awtsmoosModule_262.createClosedCuboidMesh;
-	var flattenBooleanMesh = __awtsmoosModule_262.flattenBooleanMesh;
+	const CSG = __awtsmoosModule_270.CSG;
+	const resolveBooleanDoorwayGeometry = __awtsmoosModule_279.resolveBooleanDoorwayGeometry;
+	const createClosedCuboidMesh = __awtsmoosModule_280.createClosedCuboidMesh;
+	const flattenBooleanMesh = __awtsmoosModule_280.flattenBooleanMesh;
 
 	/**
 	 * Carves one doorway from one continuous wall with the shared Awtsmoos CSG core.
@@ -20312,7 +21778,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/ProceduralCylinderMesh.js ----
 {
-	const __exports = __awtsmoosModule_264;
+	const __exports = __awtsmoosModule_282;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -20373,7 +21839,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/ProceduralPrimitiveMeshes.js ----
 {
-	const __exports = __awtsmoosModule_212;
+	const __exports = __awtsmoosModule_230;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -20385,10 +21851,10 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com preserves authored light direction through every bounded procedural course.
 	 */
 
-	var cubeMesh = __awtsmoosModule_213.cubeMesh;
-	var sphereMesh = __awtsmoosModule_213.sphereMesh;
-	var createBooleanDoorwayMesh = __awtsmoosModule_251.createBooleanDoorwayMesh;
-	var createProceduralCylinderMesh = __awtsmoosModule_264.createProceduralCylinderMesh;
+	const cubeMesh = __awtsmoosModule_231.cubeMesh;
+	const sphereMesh = __awtsmoosModule_231.sphereMesh;
+	const createBooleanDoorwayMesh = __awtsmoosModule_269.createBooleanDoorwayMesh;
+	const createProceduralCylinderMesh = __awtsmoosModule_282.createProceduralCylinderMesh;
 
 	function createPrimitiveMesh(definition) {
 		if (definition.shape === 'manual') return manualMesh(definition);
@@ -20488,7 +21954,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/ProceduralTransformRules.js ----
 {
-	const __exports = __awtsmoosModule_265;
+	const __exports = __awtsmoosModule_283;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -20500,7 +21966,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com rotates light-bearing normals while translation serves position alone in space.
 	 */
 
-	var v = __awtsmoosModule_209.v;
+	const v = __awtsmoosModule_227.v;
 
 	function transformProceduralPositions(definition, positions) {
 		const vertices = [];
@@ -20567,7 +22033,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/ProceduralBridge.js ----
 {
-	const __exports = __awtsmoosModule_211;
+	const __exports = __awtsmoosModule_229;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -20579,17 +22045,17 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com keeps the public contract small while focused vessels serve it forever.
 	 */
 
-	var createPrimitiveMesh = __awtsmoosModule_212.createPrimitiveMesh;
-	var manualMesh = __awtsmoosModule_212.manualMesh;
-	var transformProceduralDirections = __awtsmoosModule_265.transformProceduralDirections;
-	var transformProceduralPositions = __awtsmoosModule_265.transformProceduralPositions;
+	const createPrimitiveMesh = __awtsmoosModule_230.createPrimitiveMesh;
+	const manualMesh = __awtsmoosModule_230.manualMesh;
+	const transformProceduralDirections = __awtsmoosModule_283.transformProceduralDirections;
+	const transformProceduralPositions = __awtsmoosModule_283.transformProceduralPositions;
 
 	__exports.manualMesh = manualMesh;
 
 	const PROCEDURAL_SOURCE = 'Awtsmoos procedural primitives + true CSG doorway difference';
+
+
 	__exports.PROCEDURAL_SOURCE = PROCEDURAL_SOURCE;
-
-
 	function proceduralData(definition) {
 		const rawMesh = createPrimitiveMesh(definition);
 		return {
@@ -20609,7 +22075,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/primitives/PrimitiveTransform.js ----
 {
-	const __exports = __awtsmoosModule_267;
+	const __exports = __awtsmoosModule_285;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -20621,7 +22087,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * collision, and texture-density measurements inside the same revealed coordinates.
 	 */
 
-	var v = __awtsmoosModule_209.v;
+	const v = __awtsmoosModule_227.v;
 
 	function transformPrimitivePoint(point, definition) {
 		const rotated = rotatePrimitivePoint(point, definitionRotation(definition));
@@ -20663,7 +22129,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/primitives/PrimitiveBoxGeometry.js ----
 {
-	const __exports = __awtsmoosModule_266;
+	const __exports = __awtsmoosModule_284;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -20675,8 +22141,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * each face its own normal and measured UV field so stone and timber never smear.
 	 */
 
-	var v = __awtsmoosModule_209.v;
-	var transformPrimitivePoint = __awtsmoosModule_267.transformPrimitivePoint;
+	const v = __awtsmoosModule_227.v;
+	const transformPrimitivePoint = __awtsmoosModule_285.transformPrimitivePoint;
 
 	function createPrimitiveBoxGeometry(definition) {
 		const size = definition.size;
@@ -20731,7 +22197,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/primitives/PrimitiveDiamondGeometry.js ----
 {
-	const __exports = __awtsmoosModule_268;
+	const __exports = __awtsmoosModule_286;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -20743,8 +22209,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * compatibility shape measurable while better village art replaces its old misuse.
 	 */
 
-	var v = __awtsmoosModule_209.v;
-	var transformPrimitivePoint = __awtsmoosModule_267.transformPrimitivePoint;
+	const v = __awtsmoosModule_227.v;
+	const transformPrimitivePoint = __awtsmoosModule_285.transformPrimitivePoint;
 
 	function createPrimitiveDiamondGeometry(definition) {
 		const size = definition.size;
@@ -20772,7 +22238,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/primitives/DoorwayFrameGeometry.js ----
 {
-	const __exports = __awtsmoosModule_269;
+	const __exports = __awtsmoosModule_287;
 	//B"H
 	//Boruch Hashem
 	//Blessed is He
@@ -20784,9 +22250,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * gives the finite renderer the same silhouette as box subtraction with no boolean cost.
 	 */
 
-	var v = __awtsmoosModule_209.v;
-	var createPrimitiveBoxGeometry = __awtsmoosModule_266.createPrimitiveBoxGeometry;
-	var transformPrimitivePoint = __awtsmoosModule_267.transformPrimitivePoint;
+	const v = __awtsmoosModule_227.v;
+	const createPrimitiveBoxGeometry = __awtsmoosModule_284.createPrimitiveBoxGeometry;
+	const transformPrimitivePoint = __awtsmoosModule_285.transformPrimitivePoint;
 
 	const MINIMUM_FRAME_WIDTH = 0.02;
 
@@ -20876,7 +22342,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/primitives/PrimitiveGeometryFactory.js ----
 {
-	const __exports = __awtsmoosModule_210;
+	const __exports = __awtsmoosModule_228;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -20888,10 +22354,10 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * procedural silhouettes, and layered mountain meaning through one verified geometry contract.
 	 */
 
-	var proceduralData = __awtsmoosModule_211.proceduralData;
-	var createPrimitiveBoxGeometry = __awtsmoosModule_266.createPrimitiveBoxGeometry;
-	var createPrimitiveDiamondGeometry = __awtsmoosModule_268.createPrimitiveDiamondGeometry;
-	var createDoorwayFrameGeometry = __awtsmoosModule_269.createDoorwayFrameGeometry;
+	const proceduralData = __awtsmoosModule_229.proceduralData;
+	const createPrimitiveBoxGeometry = __awtsmoosModule_284.createPrimitiveBoxGeometry;
+	const createPrimitiveDiamondGeometry = __awtsmoosModule_286.createPrimitiveDiamondGeometry;
+	const createDoorwayFrameGeometry = __awtsmoosModule_287.createDoorwayFrameGeometry;
 
 	const PROCEDURAL_SHAPES = Object.freeze([
 		'manual',
@@ -20942,7 +22408,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/primitives/PrimitiveGeometryBuffers.js ----
 {
-	const __exports = __awtsmoosModule_270;
+	const __exports = __awtsmoosModule_288;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -20954,8 +22420,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com honors truthful authored normals while every other form keeps its smooth fallback free.
 	 */
 
-	var triangleNormal = __awtsmoosModule_209.triangleNormal;
-	var v = __awtsmoosModule_209.v;
+	const triangleNormal = __awtsmoosModule_227.triangleNormal;
+	const v = __awtsmoosModule_227.v;
 
 	function flattenPrimitiveVertices(vertices) {
 		return vertices.flatMap(point => [point.x, point.y, point.z]);
@@ -21031,166 +22497,35 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/PublicMaterialCacheState.js ----
-{
-	const __exports = __awtsmoosModule_273;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
-
-	/**
-	 * @file PublicMaterialCacheState.js
-	 * @description Owns the shared decoded-image, URL-evidence, in-flight, and semantic-role state without mixing transport or scene mutation into the same vessel.
-	 * RESPONSIBILITY: preserve one cache identity across every material caller and expose explicit state transitions to collaborating modules.
-	 * NON-RESPONSIBILITY: this module does not fetch, decode, bind, traverse scenes, or choose fallback roles.
-	 * The Awtsmoos is beyond stored image and passing promise, yet every finite cache is renewed in time; Awtsmoos.com keeps one Yesod store beneath many surfaces so repeated pixels share one line and rhyme.
-	 */
-
-	const imageCache = new Map();
-	const loadingByUrl = new Map();
-	const roleRecords = new Map();
-	const urlRecords = new Map();
-
-	/**
-	 * Returns a complete cached image for one URL.
-	 * @param {string} url Public or same-origin material URL.
-	 * @returns {object|null} Usable decoded image, or null when unavailable.
-	 */
-	function cachedTextureImage(url) {
-		const image = imageCache.get(url);
-		return isUsableMaterialImage(image) ? image : null;
-	}
-
-
-	__exports.cachedTextureImage = cachedTextureImage;
-	/**
-	 * Determines whether an image-like runtime object has finite visible dimensions.
-	 * @param {object|null|undefined} image Candidate browser image or canvas-like object.
-	 * @returns {boolean} True when the renderer can consume the image now.
-	 */
-	function isUsableMaterialImage(image) {
-		return Boolean(
-			image
-			&& (image.naturalWidth || image.videoWidth || image.width)
-			&& (image.naturalHeight || image.videoHeight || image.height)
-			&& image.complete !== false
-		);
-	}
-
-
-	__exports.isUsableMaterialImage = isUsableMaterialImage;
-	/** Returns the recorded serializable evidence for one URL. */
-	function publicMaterialUrlRecord(url) {
-		return urlRecords.get(url) || null;
-	}
-
-
-	__exports.publicMaterialUrlRecord = publicMaterialUrlRecord;
-	/** Returns the shared in-flight promise for one URL. */
-	function publicMaterialLoading(url) {
-		return loadingByUrl.get(url) || null;
-	}
-
-
-	__exports.publicMaterialLoading = publicMaterialLoading;
-	/** Registers one in-flight URL request. */
-	function rememberPublicMaterialLoading(url, promise) {
-		loadingByUrl.set(url, promise);
-		return promise;
-	}
-
-
-	__exports.rememberPublicMaterialLoading = rememberPublicMaterialLoading;
-	/** Removes one settled in-flight URL request. */
-	function forgetPublicMaterialLoading(url) {
-		loadingByUrl.delete(url);
-	}
-
-
-	__exports.forgetPublicMaterialLoading = forgetPublicMaterialLoading;
-	/** Records serializable URL evidence without changing decoded aliases. */
-	function rememberPublicMaterialUrlRecord(url, record) {
-		urlRecords.set(url, record);
-	}
-
-
-	__exports.rememberPublicMaterialUrlRecord = rememberPublicMaterialUrlRecord;
-	/** Binds one decoded image to every declared URL alias. */
-	function rememberPublicMaterialImage(urls, image) {
-		for (const url of urls) {
-			imageCache.set(url, image);
-		}
-	}
-
-
-	__exports.rememberPublicMaterialImage = rememberPublicMaterialImage;
-	/** Records one semantic material-role result. */
-	function rememberPublicMaterialRole(role, record) {
-		roleRecords.set(role, record);
-	}
-
-
-	__exports.rememberPublicMaterialRole = rememberPublicMaterialRole;
-	/**
-	 * Returns cache evidence for diagnostics without exposing mutable Maps.
-	 * @returns {object} Counts and copied role/failure records.
-	 */
-	function publicMaterialStateEvidence() {
-		return {
-			cachedAliases: imageCache.size,
-			failedUrls: [...urlRecords.values()].filter((record) => {
-				return !record.ok;
-			}),
-			loading: loadingByUrl.size,
-			roles: [...roleRecords.values()],
-			uniqueImages: new Set(imageCache.values()).size
-		};
-	}
-
-	__exports.publicMaterialStateEvidence = publicMaterialStateEvidence;
-
-}
-
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/PublicMaterialMapBinding.js ----
 {
-	const __exports = __awtsmoosModule_274;
-	// B"H
+	const __exports = __awtsmoosModule_291;
+	//B"H
 	// Boruch Hashem
 	// Blessed is He
 
 	/**
 	 * @file PublicMaterialMapBinding.js
-	 * @description Governs procedural-map replacement, texture transforms, and mutable runtime evidence without weakening immutable material contracts.
-	 * RESPONSIBILITY: prepare public map images, recognize replaceable fallbacks, attach cached maps immutably, and mark runtime evidence only where writable.
-	 * NON-RESPONSIBILITY: this module does not load URLs, bind layered slots, or traverse scenes.
-	 * The Awtsmoos clothes one surface through changing garments while essence stays beyond the seam; Awtsmoos.com lets a real image replace a fallback only through a truthful mutable keli in the stream.
+	 * @description Binds only verified remote decoded images to base-color maps while preserving immutable material contracts.
+	 * The Awtsmoos is beyond garment and image while Awtsmoos.com keeps this Yesod gate clear:
+	 * a proven remote picture may clothe the mesh, but no local, embedded, generated, or data image may masquerade here.
 	 */
 
-	var cachedTextureImage = __awtsmoosModule_273.cachedTextureImage;
-	var isUsableMaterialImage = __awtsmoosModule_273.isUsableMaterialImage;
+	const cachedTextureImage = __awtsmoosModule_202.cachedTextureImage;
+	const isRealMaterialImage = __awtsmoosModule_199.isRealMaterialImage;
+	const materialHasRealMap = __awtsmoosModule_199.materialHasRealMap;
 
-	/**
-	 * Returns an immutable material copy with a cached real map when available.
-	 * @param {object} material Source material definition.
-	 * @param {string} url Requested texture URL.
-	 * @returns {object} Original material or an updated copy.
-	 */
+	/** Returns an immutable material copy with a cached remote map when one may lawfully bind. */
 	function attachCachedTexture(material, url) {
 		const image = cachedTextureImage(url);
-		if (!image) {
+		if (!isRealMaterialImage(image)) {
 			return material;
 		}
-		const current = material.mapImage;
-		const shouldBind = !isUsableMaterialImage(current)
-			|| replaceablePublicMapImage(material, current);
-		if (!shouldBind) {
-			return {
-				...material,
-				textureUrl: url
-			};
+		if (materialHasRealMap(material)) {
+			return { ...material, textureUrl: url };
 		}
 		const prepared = preparePublicMapImage(material, image);
-		if (!prepared) {
+		if (!isRealMaterialImage(prepared)) {
 			return material;
 		}
 		return {
@@ -21203,32 +22538,33 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.attachCachedTexture = attachCachedTexture;
-	/** Applies a material-owned hydration transform without leaking transform failures. */
+	/** Applies a legacy transform only when its result remains the same class of remote-proven image. */
 	function preparePublicMapImage(material, image) {
+		if (!isRealMaterialImage(image)) {
+			return null;
+		}
 		const transform = material?.texturePolicy?.hydrateMapImage;
 		if (typeof transform !== 'function') {
 			return image;
 		}
 		try {
 			const prepared = transform(image);
-			return isUsableMaterialImage(prepared) ? prepared : null;
+			return isRealMaterialImage(prepared) ? prepared : image;
 		} catch {
-			return null;
+			return image;
 		}
 	}
 
 
 	__exports.preparePublicMapImage = preparePublicMapImage;
-	/** Returns whether the current map is an explicit replaceable procedural fallback. */
-	function replaceablePublicMapImage(material, image) {
-		return material?.mapImageFallback === true
-			|| material?.texturePolicy?.proceduralFallbackActive === true
-			|| image?.dataset?.replaceableByPublicTexture === 'true';
+	/** Any base map lacking remote provenance remains replaceable by the real public image. */
+	function replaceablePublicMapImage(material) {
+		return !materialHasRealMap(material);
 	}
 
 
 	__exports.replaceablePublicMapImage = replaceablePublicMapImage;
-	/** Marks mutable map evidence after a real image is successfully bound. */
+	/** Marks writable evidence after a genuine remote decoded public image is bound. */
 	function markRealPublicMapImage(object, material) {
 		writeIfMutable(material, 'mapImageFallback', false);
 		writeEvidence(material?.texturePolicy);
@@ -21238,31 +22574,17 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.markRealPublicMapImage = markRealPublicMapImage;
-	/**
-	 * Marks one mutable evidence object as carrying a real runtime map.
-	 * @param {object|null|undefined} evidence Optional mutable evidence holder.
-	 * @returns {void}
-	 */
 	function writeEvidence(evidence) {
 		if (!evidence || Object.isFrozen(evidence)) {
 			return;
 		}
 		evidence.realMapImage = true;
-		if ('proceduralFallbackActive' in evidence) {
-			evidence.proceduralFallbackActive = false;
-		}
-		if ('proceduralFallback' in evidence) {
-			evidence.proceduralFallback = false;
-		}
+		evidence.remoteMapImage = true;
+		evidence.remoteOnly = true;
+		delete evidence.proceduralFallbackActive;
+		delete evidence.proceduralFallback;
 	}
 
-	/**
-	 * Writes one evidence property only when the target object remains mutable.
-	 * @param {object|null|undefined} holder Candidate evidence holder.
-	 * @param {string} key Property name.
-	 * @param {*} value Property value.
-	 * @returns {boolean} Whether the write completed.
-	 */
 	function writeIfMutable(holder, key, value) {
 		if (!holder || Object.isFrozen(holder)) {
 			return false;
@@ -21275,7 +22597,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/PublicImageBitmapDecode.js ----
 {
-	const __exports = __awtsmoosModule_278;
+	const __exports = __awtsmoosModule_295;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -21352,7 +22674,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/PublicImageDecode.js ----
 {
-	const __exports = __awtsmoosModule_277;
+	const __exports = __awtsmoosModule_294;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -21364,7 +22686,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * object-URL image fallback, then revokes every temporary doorway after finite sight arrives.
 	 */
 
-	var decodePublicImageBitmap = __awtsmoosModule_278.decodePublicImageBitmap;
+	const decodePublicImageBitmap = __awtsmoosModule_295.decodePublicImageBitmap;
 
 	async function decodePublicImageBlob(url, blob, timeoutMs = 30000, dependencies = {}) {
 		const bitmap = await decodePublicImageBitmap(
@@ -21476,7 +22798,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/PublicImageFetchDependencies.js ----
 {
-	const __exports = __awtsmoosModule_281;
+	const __exports = __awtsmoosModule_298;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -21534,7 +22856,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/PublicImageResponseClone.js ----
 {
-	const __exports = __awtsmoosModule_283;
+	const __exports = __awtsmoosModule_300;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -21557,7 +22879,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/PublicImageRetryPolicy.js ----
 {
-	const __exports = __awtsmoosModule_284;
+	const __exports = __awtsmoosModule_301;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -21643,7 +22965,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/PublicImageRateLimitCircuit.js ----
 {
-	const __exports = __awtsmoosModule_282;
+	const __exports = __awtsmoosModule_299;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -21655,8 +22977,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com avoids repeated knocks until the server reopens the light.
 	 */
 
-	var clonePublicImageResponse = __awtsmoosModule_283.clonePublicImageResponse;
-	var imageCircuitCooldownMs = __awtsmoosModule_284.imageCircuitCooldownMs;
+	const clonePublicImageResponse = __awtsmoosModule_300.clonePublicImageResponse;
+	const imageCircuitCooldownMs = __awtsmoosModule_301.imageCircuitCooldownMs;
 
 	const circuitByUrl = new Map();
 
@@ -21717,7 +23039,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/PublicImageResponseCache.js ----
 {
-	const __exports = __awtsmoosModule_280;
+	const __exports = __awtsmoosModule_297;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -21729,19 +23051,19 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com shares one request and gives each consumer an untouched reply.
 	 */
 
-	var publicImageCacheStorage = __awtsmoosModule_281.publicImageCacheStorage;
-	var publicImageNetworkRequestOptions = __awtsmoosModule_281.publicImageNetworkRequestOptions;
-	var activePublicImageCircuit = __awtsmoosModule_282.activePublicImageCircuit;
-	var clearPublicImageCircuit = __awtsmoosModule_282.clearPublicImageCircuit;
-	var publicImageCircuitStats = __awtsmoosModule_282.publicImageCircuitStats;
-	var rememberPublicImageCircuit = __awtsmoosModule_282.rememberPublicImageCircuit;
-	var clonePublicImageResponse = __awtsmoosModule_283.clonePublicImageResponse;
-	var isRetryableImageStatus = __awtsmoosModule_284.isRetryableImageStatus;
-	var retryAfterHeaderMs = __awtsmoosModule_284.retryAfterHeaderMs;
+	const publicImageCacheStorage = __awtsmoosModule_298.publicImageCacheStorage;
+	const publicImageNetworkRequestOptions = __awtsmoosModule_298.publicImageNetworkRequestOptions;
+	const activePublicImageCircuit = __awtsmoosModule_299.activePublicImageCircuit;
+	const clearPublicImageCircuit = __awtsmoosModule_299.clearPublicImageCircuit;
+	const publicImageCircuitStats = __awtsmoosModule_299.publicImageCircuitStats;
+	const rememberPublicImageCircuit = __awtsmoosModule_299.rememberPublicImageCircuit;
+	const clonePublicImageResponse = __awtsmoosModule_300.clonePublicImageResponse;
+	const isRetryableImageStatus = __awtsmoosModule_301.isRetryableImageStatus;
+	const retryAfterHeaderMs = __awtsmoosModule_301.retryAfterHeaderMs;
 
 	const PUBLIC_IMAGE_CACHE_NAME = 'awtsmoos-mitzvah-world-remote-images-v1';
-	__exports.PUBLIC_IMAGE_CACHE_NAME = PUBLIC_IMAGE_CACHE_NAME;
 
+	__exports.PUBLIC_IMAGE_CACHE_NAME = PUBLIC_IMAGE_CACHE_NAME;
 	const pendingByUrl = new Map();
 
 	async function cachedImageResponse(url, options = {}) {
@@ -21838,7 +23160,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/PublicImageFetchRecords.js ----
 {
-	const __exports = __awtsmoosModule_285;
+	const __exports = __awtsmoosModule_302;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -21935,7 +23257,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/PublicImageFetch.js ----
 {
-	const __exports = __awtsmoosModule_279;
+	const __exports = __awtsmoosModule_296;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -21947,18 +23269,18 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com retries with measure while cached or procedural light may stay.
 	 */
 
-	var cachedImageResponse = __awtsmoosModule_280.cachedImageResponse;
-	var isImageResponse = __awtsmoosModule_280.isImageResponse;
-	var createPublicImageAbortController = __awtsmoosModule_281.createPublicImageAbortController;
-	var publicImageCacheOptions = __awtsmoosModule_281.publicImageCacheOptions;
-	var publicImageAttemptEvidence = __awtsmoosModule_285.publicImageAttemptEvidence;
-	var publicImageFetchFailure = __awtsmoosModule_285.publicImageFetchFailure;
-	var publicImageFetchSuccess = __awtsmoosModule_285.publicImageFetchSuccess;
-	var publicImageNetworkFailure = __awtsmoosModule_285.publicImageNetworkFailure;
-	var publicImageTypedFailure = __awtsmoosModule_285.publicImageTypedFailure;
-	var imageRetryDelayMs = __awtsmoosModule_284.imageRetryDelayMs;
-	var isRetryableImageStatus = __awtsmoosModule_284.isRetryableImageStatus;
-	var waitForImageRetry = __awtsmoosModule_284.waitForImageRetry;
+	const cachedImageResponse = __awtsmoosModule_297.cachedImageResponse;
+	const isImageResponse = __awtsmoosModule_297.isImageResponse;
+	const createPublicImageAbortController = __awtsmoosModule_298.createPublicImageAbortController;
+	const publicImageCacheOptions = __awtsmoosModule_298.publicImageCacheOptions;
+	const publicImageAttemptEvidence = __awtsmoosModule_302.publicImageAttemptEvidence;
+	const publicImageFetchFailure = __awtsmoosModule_302.publicImageFetchFailure;
+	const publicImageFetchSuccess = __awtsmoosModule_302.publicImageFetchSuccess;
+	const publicImageNetworkFailure = __awtsmoosModule_302.publicImageNetworkFailure;
+	const publicImageTypedFailure = __awtsmoosModule_302.publicImageTypedFailure;
+	const imageRetryDelayMs = __awtsmoosModule_301.imageRetryDelayMs;
+	const isRetryableImageStatus = __awtsmoosModule_301.isRetryableImageStatus;
+	const waitForImageRetry = __awtsmoosModule_301.waitForImageRetry;
 
 	async function fetchPublicImageBlob(url, timeoutMs = 30000, dependencies = {}) {
 		const controller = createPublicImageAbortController(dependencies);
@@ -22046,7 +23368,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/PublicMaterialLoadBudget.js ----
 {
-	const __exports = __awtsmoosModule_286;
+	const __exports = __awtsmoosModule_303;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -22104,7 +23426,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/PublicMaterialImageRecords.js ----
 {
-	const __exports = __awtsmoosModule_287;
+	const __exports = __awtsmoosModule_304;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -22207,7 +23529,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/PublicMaterialImageLoader.js ----
 {
-	const __exports = __awtsmoosModule_276;
+	const __exports = __awtsmoosModule_293;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -22219,18 +23541,18 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com gives verified bytes first measure, then reserves a smaller direct-image recovery path before time is done.
 	 */
 
-	var decodePublicImageBlob = __awtsmoosModule_277.decodePublicImageBlob;
-	var decodePublicImageUrl = __awtsmoosModule_277.decodePublicImageUrl;
-	var fetchPublicImageBlob = __awtsmoosModule_279.fetchPublicImageBlob;
-	var publicImageCircuitIsOpen = __awtsmoosModule_282.publicImageCircuitIsOpen;
-	var publicMaterialNow = __awtsmoosModule_286.publicMaterialNow;
-	var publicMaterialPhaseBudget = __awtsmoosModule_286.publicMaterialPhaseBudget;
-	var publicMaterialRemainingBudget = __awtsmoosModule_286.publicMaterialRemainingBudget;
-	var racePublicMaterialDeadline = __awtsmoosModule_286.racePublicMaterialDeadline;
-	var materialImageAttempt = __awtsmoosModule_287.materialImageAttempt;
-	var materialImageFailure = __awtsmoosModule_287.materialImageFailure;
-	var materialImageSuccess = __awtsmoosModule_287.materialImageSuccess;
-	__exports.serializableImageRecord = __awtsmoosModule_287.serializableImageRecord;
+	const decodePublicImageBlob = __awtsmoosModule_294.decodePublicImageBlob;
+	const decodePublicImageUrl = __awtsmoosModule_294.decodePublicImageUrl;
+	const fetchPublicImageBlob = __awtsmoosModule_296.fetchPublicImageBlob;
+	const publicImageCircuitIsOpen = __awtsmoosModule_299.publicImageCircuitIsOpen;
+	const publicMaterialNow = __awtsmoosModule_303.publicMaterialNow;
+	const publicMaterialPhaseBudget = __awtsmoosModule_303.publicMaterialPhaseBudget;
+	const publicMaterialRemainingBudget = __awtsmoosModule_303.publicMaterialRemainingBudget;
+	const racePublicMaterialDeadline = __awtsmoosModule_303.racePublicMaterialDeadline;
+	const materialImageAttempt = __awtsmoosModule_304.materialImageAttempt;
+	const materialImageFailure = __awtsmoosModule_304.materialImageFailure;
+	const materialImageSuccess = __awtsmoosModule_304.materialImageSuccess;
+	__exports.serializableImageRecord = __awtsmoosModule_304.serializableImageRecord;
 
 	const FETCH_BUDGET_SHARE = 0.68;
 
@@ -22314,7 +23636,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/PublicMaterialUrlLoader.js ----
 {
-	const __exports = __awtsmoosModule_275;
+	const __exports = __awtsmoosModule_292;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -22327,15 +23649,15 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos sends one distant image through many callers without multiplying its journey; Awtsmoos.com lets a single Yesod promise carry decoded light to every waiting surface gently.
 	 */
 
-	var loadPublicMaterialImage = __awtsmoosModule_276.loadPublicMaterialImage;
-	var serializableImageRecord = __awtsmoosModule_276.serializableImageRecord;
-	var cachedTextureImage = __awtsmoosModule_273.cachedTextureImage;
-	var forgetPublicMaterialLoading = __awtsmoosModule_273.forgetPublicMaterialLoading;
-	var publicMaterialLoading = __awtsmoosModule_273.publicMaterialLoading;
-	var publicMaterialUrlRecord = __awtsmoosModule_273.publicMaterialUrlRecord;
-	var rememberPublicMaterialImage = __awtsmoosModule_273.rememberPublicMaterialImage;
-	var rememberPublicMaterialLoading = __awtsmoosModule_273.rememberPublicMaterialLoading;
-	var rememberPublicMaterialUrlRecord = __awtsmoosModule_273.rememberPublicMaterialUrlRecord;
+	const loadPublicMaterialImage = __awtsmoosModule_293.loadPublicMaterialImage;
+	const serializableImageRecord = __awtsmoosModule_293.serializableImageRecord;
+	const cachedTextureImage = __awtsmoosModule_202.cachedTextureImage;
+	const forgetPublicMaterialLoading = __awtsmoosModule_202.forgetPublicMaterialLoading;
+	const publicMaterialLoading = __awtsmoosModule_202.publicMaterialLoading;
+	const publicMaterialUrlRecord = __awtsmoosModule_202.publicMaterialUrlRecord;
+	const rememberPublicMaterialImage = __awtsmoosModule_202.rememberPublicMaterialImage;
+	const rememberPublicMaterialLoading = __awtsmoosModule_202.rememberPublicMaterialLoading;
+	const rememberPublicMaterialUrlRecord = __awtsmoosModule_202.rememberPublicMaterialUrlRecord;
 
 	/**
 	 * Loads one URL exactly once at a time.
@@ -22404,651 +23726,9 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteModelRecords.js ----
-{
-	const __exports = __awtsmoosModule_292;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
-
-	/**
-	 * @file RemoteModelRecords.js
-	 * @description Records byte counts and SHA-256 identities for every active canonical Mitzvah World GLB.
-	 * The Awtsmoos gives each finite imported form one immutable name; Awtsmoos.com keeps structural trees
-	 * outside this table because every live tree now grows exclusively through the deeper procedural core in `geelooy/libs`.
-	 */
-
-	const REMOTE_MODEL_RECORDS = Object.freeze({
-		'player/chossid.glb': record(2027368, 'd86fd3289c3d12ac566fe8aa7bed37244e352043ee821a0c43b47055ce8ebe48'),
-		'reference-world/Axe_Small.glb': record(48868, 'ea26a8cdf24937ba2cd24148b3c684c59abc5208bef6c96ddca8fb00ed30ddd6'),
-		'reference-world/Book.glb': record(11684, '3f6d8148030077aa95b035ca4d7f5ad589483806416fbd9b75546f49b5cce4c1'),
-		'reference-world/Bush_Large_Flowers.glb': record(26788, 'cdb6c9e558a3c9b3a42eafbc2f3580767cea8b79be625bfdd41369080b468bf6'),
-		'reference-world/Chest_Closed.glb': record(85120, '2ac5715af9015d885338e8c6d4b7fbea47131a253c24944e11f331b907b4d160'),
-		'reference-world/Cow.glb': record(370816, '1d513ef5e3cba976405b68621905aa1954b7c7b673f0566bb3ac0135c330af6f'),
-		'reference-world/Flower_4_Clump.glb': record(4868, 'ec4c5186b8b33b8095b5e8a4f733cfed1b21e876cf40f0ea9ea14537066592b9'),
-		'reference-world/Rat.glb': record(593268, '163afe5bfb722229a814af69dd61e8809e0679e5782c312ad840ac7a599a58a7'),
-		'reference-world/Rock_2.glb': record(11144, '10783ce0a1956b1c2c6879f7dba303b39fbe8f92256fe910b270f2f3b5d4e3ac'),
-		'reference-world/Scroll.glb': record(52704, '5e8581b1041eeae144e12b12b295eda498a8f9b52218065a7b76307cb1bd4ec9'),
-		'reference-world/Sheep.glb': record(293680, '5da91ccae57ada6213ec6818760c37d47f2ce071fad6a5bb7426283439c71319'),
-		'reference-world/Shield.glb': record(24056, '1f40b4233612d8a00f1ec4c49d45c3f339af1b000adc10eff5bf36fbd8563f67'),
-		'reference-world/Snake.glb': record(240884, 'edb074cc77ddac859245231cf17d5d76d5ec82e888af76a44a4e1b36d713b927'),
-		'reference-world/Snake_Angry.glb': record(249908, 'c8f3a3bf3f1510596fd41d2be61aec55b7bd95ec35c4988b6eaf546795aaa128'),
-		'reference-world/Spider.glb': record(505420, '541bd562b079790137b23c47304aa6904dbe1969a293cc271e056b25d4eb404a'),
-		'reference-world/Sword.glb': record(42640, '034c89782e21e22cfcb4de6e710026647df747e0e54c5a47c2c945f512eaecc2'),
-		'reference-world/WoodenStaff.glb': record(12652, '3bfba08a3426be1c873f49a85aef21c3fc670514218b606941d232ab5f2aad16')
-	});
-	__exports.REMOTE_MODEL_RECORDS = REMOTE_MODEL_RECORDS;
-
-
-	function record(bytes, sha256) {
-		return Object.freeze({ bytes, sha256 });
-	}
-
-}
-
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteModelCatalog.js ----
-{
-	const __exports = __awtsmoosModule_291;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
-
-	/**
-	 * @file RemoteModelCatalog.js
-	 * @description Resolves immutable GLBs from the local vessel on localhost and the published mirror on remote hosts.
-	 * The Awtsmoos creates local truth and public revelation without mixing their addresses;
-	 * Awtsmoos.com keeps every content hash identical while each runtime drinks from the source appointed to its host.
-	 */
-
-	var REMOTE_MODEL_RECORDS = __awtsmoosModule_292.REMOTE_MODEL_RECORDS;
-
-	const LOCAL_MODEL_ROOT = '/games/mitzvahWorld/assets/models/';
-	__exports.LOCAL_MODEL_ROOT = LOCAL_MODEL_ROOT;
-
-	const REMOTE_MODEL_ROOT = 'https://awtsmoos.com/sites/firebase_drive_migration/assets/mitzvah-world/models/';
-	__exports.REMOTE_MODEL_ROOT = REMOTE_MODEL_ROOT;
-
-
-	function remoteModelRecord(relativePath, locationLike = globalThis.location) {
-		const modelPath = normalizeModelPath(relativePath);
-		const record = REMOTE_MODEL_RECORDS[modelPath];
-		if (!record) throw new Error(`Unknown model identity: ${relativePath}`);
-		const segments = modelPath.split('/');
-		const filename = segments.at(-1);
-		const folder = segments.slice(0, -1).join('/');
-		const hashedPath = `${folder}/${record.sha256}/${filename}`;
-		const localUrl = `${LOCAL_MODEL_ROOT}${encodePath(hashedPath)}`;
-		const remoteUrl = `${REMOTE_MODEL_ROOT}${encodePath(hashedPath)}`;
-		const source = modelSourceMode(locationLike);
-		const candidates = source === 'remote' ? [remoteUrl] : [localUrl, remoteUrl];
-		return Object.freeze({
-			...record,
-			candidates: Object.freeze(candidates),
-			drivePath: `assets/mitzvah-world/models/${hashedPath}`,
-			filename,
-			localUrl,
-			path: modelPath,
-			remoteUrl,
-			source,
-			url: source === 'remote' ? remoteUrl : localUrl
-		});
-	}
-
-
-	__exports.remoteModelRecord = remoteModelRecord;
-	function remoteModelUrl(relativePath, locationLike = globalThis.location) {
-		return remoteModelRecord(relativePath, locationLike).url;
-	}
-
-
-	__exports.remoteModelUrl = remoteModelUrl;
-	function modelUrlCandidates(value, locationLike = globalThis.location) {
-		const candidate = String(value || '');
-		const identity = Object.keys(REMOTE_MODEL_RECORDS).find(path => {
-			const record = remoteModelRecord(path, null);
-			return record.localUrl === candidate || record.remoteUrl === candidate;
-		});
-		return identity ? remoteModelRecord(identity, locationLike).candidates.slice() : [];
-	}
-
-
-	__exports.modelUrlCandidates = modelUrlCandidates;
-	function modelSourceMode(locationLike = globalThis.location) {
-		const hostname = String(locationLike?.hostname || '').toLowerCase();
-		if (!hostname) return 'local';
-		return isLocalHostname(hostname) ? 'local' : 'remote';
-	}
-
-
-	__exports.modelSourceMode = modelSourceMode;
-	function isTrustedModelUrl(value) {
-		const candidate = String(value || '').trim();
-		if (!candidate || candidate.includes('?') || candidate.includes('#')) return false;
-		return catalogRecords().some(record =>
-			record.localUrl === candidate || record.remoteUrl === candidate
-		);
-	}
-
-
-	__exports.isTrustedModelUrl = isTrustedModelUrl;
-	const isTrustedRemoteModelUrl = isTrustedModelUrl;
-	__exports.isTrustedRemoteModelUrl = isTrustedRemoteModelUrl;
-
-
-	function remoteModelCatalogEvidence() {
-		const records = Object.values(REMOTE_MODEL_RECORDS);
-		return Object.freeze({
-			bytes: records.reduce((sum, record) => sum + record.bytes, 0),
-			models: records.length,
-			policy: 'host-aware-local-authoritative-remote-published',
-			remoteRoot: REMOTE_MODEL_ROOT,
-			root: LOCAL_MODEL_ROOT
-		});
-	}
-
-
-	__exports.remoteModelCatalogEvidence = remoteModelCatalogEvidence;
-	function catalogRecords() {
-		return Object.keys(REMOTE_MODEL_RECORDS).map(path => remoteModelRecord(path, null));
-	}
-
-	function isLocalHostname(hostname) {
-		return hostname === 'localhost'
-			|| hostname === '127.0.0.1'
-			|| hostname === '0.0.0.0'
-			|| hostname === '[::1]'
-			|| hostname.endsWith('.localhost');
-	}
-
-	function normalizeModelPath(value) {
-		const modelPath = String(value || '').trim().replace(/^\/+/, '').replace(/\\/g, '/');
-		const invalid = modelPath.split('/').some(segment => !segment || segment === '.' || segment === '..');
-		if (!modelPath || !modelPath.endsWith('.glb') || invalid) throw new Error(`Invalid model identity: ${value}`);
-		return modelPath;
-	}
-
-	function encodePath(value) {
-		return value.split('/').map(encodeURIComponent).join('/');
-	}
-
-}
-
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteTextureTransport.js ----
-{
-	const __exports = __awtsmoosModule_294;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
-
-	/**
-	 * @file RemoteTextureTransport.js
-	 * @description Owns the single HTTPS origin through which every texture travels.
-	 * The Awtsmoos sends each finite color from one documented spring;
-	 * Awtsmoos.com rejects inline shadows, model paths, traversal, and foreign hosts.
-	 */
-
-	const REMOTE_TEXTURE_ROOT = 'https://awtsmoos.com/sites/firebase_drive_migration/';
-	__exports.REMOTE_TEXTURE_ROOT = REMOTE_TEXTURE_ROOT;
-
-	const REMOTE_ROOT_URL = new URL(REMOTE_TEXTURE_ROOT);
-	const REMOTE_ROOT_PATH = REMOTE_ROOT_URL.pathname;
-	const FORBIDDEN_SCHEMES = /^(?:blob|data|file|javascript):/i;
-	const MODEL_PATH_PREFIX = 'assets/mitzvah-world/models/';
-	const MODEL_EXTENSION = /\.(?:glb|gltf)$/i;
-
-	/** Builds one encoded remote URL from a canonical migration path. */
-	function remoteTexturePathUrl(path) {
-		const clean = cleanRemotePath(path);
-		if (isModelPath(clean)) {
-			throw new Error(`Texture transport rejects model paths: ${path}`);
-		}
-		return `${REMOTE_TEXTURE_ROOT}${encodePath(clean)}`;
-	}
-
-
-	__exports.remoteTexturePathUrl = remoteTexturePathUrl;
-	/** Builds a full-resolution texture URL. */
-	function fullResolutionTextureUrl(filename) {
-		return remoteTexturePathUrl(`full-resolution/${cleanRemotePath(filename)}`);
-	}
-
-
-	__exports.fullResolutionTextureUrl = fullResolutionTextureUrl;
-	/** Builds a documented tree-texture URL. */
-	function treeTextureUrl(filename) {
-		return remoteTexturePathUrl(`awtsmoos-nature/ilanos/trees/${cleanRemotePath(filename)}`);
-	}
-
-
-	__exports.treeTextureUrl = treeTextureUrl;
-	/** Reports whether a value is a safe non-model path beneath the migration root. */
-	function isRemoteTexturePath(path) {
-		try {
-			const clean = cleanRemotePath(path);
-			return !isModelPath(clean);
-		} catch {
-			return false;
-		}
-	}
-
-
-	__exports.isRemoteTexturePath = isRemoteTexturePath;
-	/** Accepts only HTTPS non-model URLs beneath the documented migration root. */
-	function isTrustedAwtsmoosMaterialUrl(value) {
-		try {
-			const parsed = new URL(String(value || ''));
-			if (parsed.protocol !== 'https:' || parsed.origin !== REMOTE_ROOT_URL.origin) {
-				return false;
-			}
-			if (!parsed.pathname.startsWith(REMOTE_ROOT_PATH)) return false;
-			const relative = decodeURIComponent(parsed.pathname.slice(REMOTE_ROOT_PATH.length));
-			return isRemoteTexturePath(relative);
-		} catch {
-			return false;
-		}
-	}
-
-
-	__exports.isTrustedAwtsmoosMaterialUrl = isTrustedAwtsmoosMaterialUrl;
-	/** Returns auditable transport policy evidence. */
-	function remoteTextureTransportEvidence() {
-		return Object.freeze({
-			cacheLayers: Object.freeze(['cache-storage', 'in-memory-image']),
-			origin: REMOTE_ROOT_URL.origin,
-			originCount: 1,
-			policy: 'remote-https-only-no-inline-local-or-model-textures',
-			root: REMOTE_TEXTURE_ROOT
-		});
-	}
-
-
-	__exports.remoteTextureTransportEvidence = remoteTextureTransportEvidence;
-	function cleanRemotePath(path) {
-		const clean = String(path || '').trim().replace(/^\/+/, '').replace(/\\/g, '/');
-		if (!clean || FORBIDDEN_SCHEMES.test(clean) || clean.includes('?') || clean.includes('#')) {
-			throw new Error(`Invalid remote texture path: ${path}`);
-		}
-		if (clean.split('/').some(segment => !segment || segment === '.' || segment === '..')) {
-			throw new Error(`Unsafe remote texture path: ${path}`);
-		}
-		return clean;
-	}
-
-	function isModelPath(path) {
-		return path.startsWith(MODEL_PATH_PREFIX) || MODEL_EXTENSION.test(path);
-	}
-
-	function encodePath(path) {
-		return path.split('/').map(encodeURIComponent).join('/');
-	}
-
-}
-
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/PublicMaterialOrigin.js ----
-{
-	const __exports = __awtsmoosModule_293;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
-
-	/**
-	 * @file PublicMaterialOrigin.js
-	 * @description Resolves every material identity through one verified remote origin.
-	 * The Awtsmoos lets no copied pixel masquerade as source;
-	 * Awtsmoos.com keeps catalogs, textures, and aliases beneath one HTTPS root.
-	 */
-
-	var REMOTE_TEXTURE_ROOT = __awtsmoosModule_294.REMOTE_TEXTURE_ROOT;
-	var remoteTexturePathUrl = __awtsmoosModule_294.remoteTexturePathUrl;
-
-	const PUBLIC_MATERIAL_ORIGIN = REMOTE_TEXTURE_ROOT.replace(/\/$/, '');
-	__exports.PUBLIC_MATERIAL_ORIGIN = PUBLIC_MATERIAL_ORIGIN;
-
-	const PLAYABLE_MATERIAL_ORIGIN = PUBLIC_MATERIAL_ORIGIN;
-	__exports.PLAYABLE_MATERIAL_ORIGIN = PLAYABLE_MATERIAL_ORIGIN;
-
-	const PUBLIC_MATERIAL_CATALOG_URL = publicMaterialUrl('catalog/materials.json');
-	__exports.PUBLIC_MATERIAL_CATALOG_URL = PUBLIC_MATERIAL_CATALOG_URL;
-
-	const PUBLIC_ASSET_INVENTORY_URL = publicMaterialUrl('catalog/asset-inventory.json');
-	__exports.PUBLIC_ASSET_INVENTORY_URL = PUBLIC_ASSET_INVENTORY_URL;
-
-	const PUBLIC_ASSET_ALIASES_URL = publicMaterialUrl('catalog/asset-aliases.json');
-	__exports.PUBLIC_ASSET_ALIASES_URL = PUBLIC_ASSET_ALIASES_URL;
-
-	const PUBLIC_ASSET_SUMMARY_URL = publicMaterialUrl('catalog/materials-summary.json');
-	__exports.PUBLIC_ASSET_SUMMARY_URL = PUBLIC_ASSET_SUMMARY_URL;
-
-
-	/** Resolves a canonical migration path without local or inline fallback. */
-	function publicMaterialUrl(relativePath) {
-		return remoteTexturePathUrl(normalizeMaterialPath(relativePath));
-	}
-
-
-	__exports.publicMaterialUrl = publicMaterialUrl;
-	function normalizeMaterialPath(path) {
-		return String(path || '').trim().replace(/^\/+/, '').replace(/\\/g, '/');
-	}
-
-}
-
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/PublicMaterialResolver.js ----
-{
-	const __exports = __awtsmoosModule_290;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
-
-	var remoteModelUrl = __awtsmoosModule_291.remoteModelUrl;
-	var publicMaterialUrl = __awtsmoosModule_293.publicMaterialUrl;
-
-	const HALF_QUALITY = new Set(['low', 'medium', 'half']);
-	const FULL_SOURCE_ALIASES = Object.freeze({
-		'grass 6': 'awtsmoos-nature/chai-forest/textures/ground/grass.jpg',
-		'mud': 'awtsmoos-nature/chai-forest/textures/ground/dirt_color.jpg',
-		'oak wood 2': 'full-resolution/oak wood 3.png',
-		'stone floor': 'full-resolution/stone floor 2.png'
-	});
-
-	/**
-	 * @file PublicMaterialResolver.js
-	 * @description Resolves textures and the flower model through verified Drive origins.
-	 * The Awtsmoos preserves semantic aliases without local copied bytes;
-	 * Awtsmoos.com serves every visual vessel through immutable remote identities.
-	 */
-
-	function resolveMaterialRecord(record, quality = 'high') {
-		if (!record?.path) throw new Error('A catalog material record is required.');
-		const variants = record.variants || {};
-		const preferHalf = HALF_QUALITY.has(String(quality).toLowerCase());
-		const canonicalPath = variants.full || record.path;
-		const resolvedPath = preferHalf
-			? variants.half || variants.source || canonicalPath
-			: variants.full || variants.source || variants.half || record.path;
-		return {
-			...record,
-			canonicalPath,
-			requestedQuality: quality,
-			resolvedPath,
-			resolvedUrl: publicMaterialUrl(canonicalPath),
-			transportUrl: publicMaterialUrl(resolvedPath)
-		};
-	}
-
-
-	__exports.resolveMaterialRecord = resolveMaterialRecord;
-	function fullMaterialUrl(name, extension = 'png') {
-		return publicMaterialUrl(fullMaterialPath(name, extension));
-	}
-
-
-	__exports.fullMaterialUrl = fullMaterialUrl;
-	function halfMaterialUrl(name, extension = 'png') {
-		return publicMaterialUrl(`half-resolution/${name}.${extension}`);
-	}
-
-
-	__exports.halfMaterialUrl = halfMaterialUrl;
-	function exactMaterialUrl(relativePath) {
-		return publicMaterialUrl(relativePath);
-	}
-
-
-	__exports.exactMaterialUrl = exactMaterialUrl;
-	function flowerModelUrl() {
-		return remoteModelUrl('reference-world/Flower_4_Clump.glb');
-	}
-
-
-	__exports.flowerModelUrl = flowerModelUrl;
-	function fullMaterialPath(name, extension = 'png') {
-		return FULL_SOURCE_ALIASES[name] || `full-resolution/${name}.${extension}`;
-	}
-
-
-	__exports.fullMaterialPath = fullMaterialPath;
-	function publicMaterialAliases() {
-		return { ...FULL_SOURCE_ALIASES };
-	}
-
-
-	__exports.publicMaterialAliases = publicMaterialAliases;
-	function surfaceFieldstoneUrl() {
-		return fullMaterialUrl('weathered fieldstone Rock 1');
-	}
-
-
-	__exports.surfaceFieldstoneUrl = surfaceFieldstoneUrl;
-	function surfaceOakPlankUrl() {
-		return fullMaterialUrl('wooden oak planks 1');
-	}
-
-	__exports.surfaceOakPlankUrl = surfaceOakPlankUrl;
-
-}
-
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/LocalMaterialPathRules.js ----
-{
-	const __exports = __awtsmoosModule_296;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
-
-	/**
-	 * @file LocalMaterialPathRules.js
-	 * @description Preserves the legacy validator name while enforcing remote-only textures.
-	 * The Awtsmoos turns an old local gate toward one distant spring;
-	 * Awtsmoos.com admits only trusted HTTPS migration URLs and rejects every inline vessel.
-	 */
-
-	var isTrustedAwtsmoosMaterialUrl = __awtsmoosModule_294.isTrustedAwtsmoosMaterialUrl;
-
-	const FORBIDDEN_MATERIAL_SEGMENTS = Object.freeze([
-		'half-resolution',
-		'quarter-resolution',
-		'chai-forest-half',
-		'staging'
-	]);
-	__exports.FORBIDDEN_MATERIAL_SEGMENTS = FORBIDDEN_MATERIAL_SEGMENTS;
-
-
-	/** Validates one production texture URL against the remote-only covenant. */
-	function assertLocalMaterialPath(url, role = 'runtime material') {
-		const value = normalizeUrl(url, role);
-		const parsed = parseUrl(value, role);
-		assertNoForbiddenSegment(parsed, value, role);
-		if (!isTrustedAwtsmoosMaterialUrl(value)) {
-			throw new Error(`Production material ${role} requires the trusted remote HTTPS origin: ${value}`);
-		}
-		return value;
-	}
-
-
-	__exports.assertLocalMaterialPath = assertLocalMaterialPath;
-	/** Clear alias for new callers that no longer speak in local-path terms. */
-	const assertRemoteMaterialUrl = assertLocalMaterialPath;
-	__exports.assertRemoteMaterialUrl = assertRemoteMaterialUrl;
-
-
-	function normalizeUrl(url, role) {
-		if (typeof url !== 'string' || url.trim() === '') {
-			throw new Error(`Production material ${role} requires a non-empty URL.`);
-		}
-		return url.trim();
-	}
-
-	function parseUrl(url, role) {
-		try {
-			return new URL(url);
-		} catch (error) {
-			throw new Error(`Invalid production material URL for ${role}: ${url}`, { cause: error });
-		}
-	}
-
-	function assertNoForbiddenSegment(parsed, url, role) {
-		const segments = decodeURIComponent(parsed.pathname).toLowerCase().split('/').filter(Boolean);
-		const forbidden = FORBIDDEN_MATERIAL_SEGMENTS.find(segment => segments.includes(segment));
-		if (forbidden) {
-			throw new Error(`Production material ${role} uses forbidden folder ${forbidden}: ${url}`);
-		}
-	}
-
-}
-
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/ProductionMaterialUrlPolicy.js ----
-{
-	const __exports = __awtsmoosModule_295;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
-
-	/**
-	 * @file ProductionMaterialUrlPolicy.js
-	 * @description Exposes the remote-only production texture validation contract.
-	 * The Awtsmoos gathers every visible garment beneath one trusted sky;
-	 * Awtsmoos.com rejects local routes, inline bytes, foreign origins, and previews.
-	 */
-
-	var assertRemoteMaterialUrl = __awtsmoosModule_296.assertRemoteMaterialUrl;
-	var FORBIDDEN_MATERIAL_SEGMENTS = __awtsmoosModule_296.FORBIDDEN_MATERIAL_SEGMENTS;
-
-	const PRODUCTION_MATERIAL_FORBIDDEN_SEGMENTS = FORBIDDEN_MATERIAL_SEGMENTS;
-	__exports.PRODUCTION_MATERIAL_FORBIDDEN_SEGMENTS = PRODUCTION_MATERIAL_FORBIDDEN_SEGMENTS;
-
-
-	/** Validates one runtime texture URL without changing its canonical value. */
-	function assertProductionMaterialUrl(url, role = 'runtime material') {
-		return assertRemoteMaterialUrl(url, role);
-	}
-
-
-	__exports.assertProductionMaterialUrl = assertProductionMaterialUrl;
-	/** Legacy name retained for callers; true now means trusted remote material. */
-	function isSameOriginMaterialUrl(url) {
-		try {
-			assertProductionMaterialUrl(url, 'runtime material');
-			return true;
-		} catch {
-			return false;
-		}
-	}
-
-
-	__exports.isSameOriginMaterialUrl = isSameOriginMaterialUrl;
-	/** Validates and freezes an ordered remote fallback list. */
-	function productionMaterialFallbacks(urls = [], role = 'runtime material') {
-		return Object.freeze(urls.map((url, index) => {
-			return assertProductionMaterialUrl(url, `${role} fallback ${index + 1}`);
-		}));
-	}
-
-	__exports.productionMaterialFallbacks = productionMaterialFallbacks;
-
-}
-
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/RuntimeMaterialManifest.js ----
-{
-	const __exports = __awtsmoosModule_289;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
-
-	/**
-	 * @file RuntimeMaterialManifest.js
-	 * @description Declares canonical production textures and their bounded recovery chains.
-	 * RESPONSIBILITY: name semantic roles, truthful URLs, full-source fallbacks, repeat, and boot policy.
-	 * NON-RESPONSIBILITY: this manifest never fetches images, binds samplers, or rebuilds geometry.
-	 * The Awtsmoos renews every garment without descending into preview folders; Awtsmoos.com
-	 * preserves fast first motion through solid materials and hydrates only verified production sources.
-	 */
-
-	var exactMaterialUrl = __awtsmoosModule_290.exactMaterialUrl;
-	var fullMaterialUrl = __awtsmoosModule_290.fullMaterialUrl;
-	var assertProductionMaterialUrl = __awtsmoosModule_295.assertProductionMaterialUrl;
-	var productionMaterialFallbacks = __awtsmoosModule_295.productionMaterialFallbacks;
-
-	function materialRole(role, label, primaryUrl, options = {}) {
-		return Object.freeze({
-			critical: options.critical !== false,
-			fallbackUrls: productionMaterialFallbacks(options.fallbackUrls, role),
-			label,
-			primaryUrl: assertProductionMaterialUrl(primaryUrl, role),
-			repeat: Object.freeze(options.repeat || [1, 1]),
-			role
-		});
-	}
-
-	function fullRole(role, label, name, options = {}) {
-		return materialRole(role, label, fullMaterialUrl(name), options);
-	}
-
-	function sourceRole(role, label, path, options = {}) {
-		return materialRole(role, label, exactMaterialUrl(path), options);
-	}
-
-	const CHAI_FOREST = 'awtsmoos-nature/chai-forest';
-
-	const RUNTIME_MATERIALS = Object.freeze([
-		sourceRole('terrain.grass', 'canonical Chai Forest grass', `${CHAI_FOREST}/textures/ground/grass.jpg`, {
-			fallbackUrls: [fullMaterialUrl('grass 1')],
-			repeat: [18, 18]
-		}),
-		sourceRole('terrain.dirtMix', 'canonical Chai Forest dirt', `${CHAI_FOREST}/textures/ground/dirt_color.jpg`, {
-			fallbackUrls: [fullMaterialUrl('dirt grass 3')],
-			repeat: [15, 15]
-		}),
-		fullRole('road.yellowBrick', 'full yellow brick road', 'yellow brick 1'),
-		fullRole('creature.horseFur', 'full horse fur', 'horse fur 1', { repeat: [3, 2] }),
-		fullRole('vegetation.wildGrass', 'wild grass', 'grass 7', { critical: false, repeat: [10, 10] }),
-		fullRole('terrain.marshGrass', 'marsh grass', 'marsh grass', { critical: false, repeat: [12, 12] }),
-		fullRole('terrain.mud', 'mud', 'mud', { critical: false, repeat: [12, 12] }),
-		fullRole('terrain.sandShore', 'sand shore', 'sand 1', { critical: false, repeat: [14, 14] }),
-		fullRole('water.lake', 'lake water color', 'seamless water brighter', { repeat: [8, 8] }),
-		fullRole('water.stream', 'stream water color', 'shallow river water', { repeat: [12, 4] }),
-		fullRole('water.still', 'still water color', 'seamless water', { critical: false, repeat: [8, 8] }),
-		sourceRole('forest.bark', 'canonical Chai Forest bark', `${CHAI_FOREST}/textures/bark/Bark001_1K-JPG/Bark001_1K-JPG_Color.jpg`, {
-			fallbackUrls: [fullMaterialUrl('tree bark 1')],
-			repeat: [3, 8]
-		}),
-		fullRole('village.woodPlanks', 'wood planks', 'wooden oak planks 1', { repeat: [4, 4] }),
-		sourceRole('forest.chaiOak', 'canonical Chai oak leaf', `${CHAI_FOREST}/textures/leaves/oak.png`, { critical: false }),
-		sourceRole('forest.chaiAsh', 'canonical Chai ash leaf', `${CHAI_FOREST}/textures/leaves/ash.png`, { critical: false }),
-		sourceRole('forest.chaiAspen', 'canonical Chai aspen leaf', `${CHAI_FOREST}/textures/leaves/aspen.png`, { critical: false }),
-		sourceRole('forest.chaiPine', 'canonical Chai pine leaf', `${CHAI_FOREST}/textures/leaves/pine.png`, { critical: false }),
-		sourceRole('botany.petal', 'sakura petal atlas', 'awtsmoos-nature/ilanos/trees/sakura petal.png', { critical: false }),
-		fullRole('stone.general', 'stone', 'stone 1', { critical: false, repeat: [5, 5] }),
-		fullRole('stone.fieldstone', 'fieldstone', 'weathered fieldstone Rock 1', { repeat: [4, 4] }),
-		fullRole('roof.tile', 'roof tile', 'tiled roof 2', { repeat: [5, 3] }),
-		fullRole('metal.gold', 'gold', 'gold 2', { critical: false }),
-		fullRole('metal.iron', 'iron', 'rusty iron', { critical: false }),
-		fullRole('sign.parchment', 'parchment sign', 'parchment', { critical: false }),
-		fullRole('mezuzah.case', 'mezuzah case', 'gold 2', { critical: false })
-	]);
-	__exports.RUNTIME_MATERIALS = RUNTIME_MATERIALS;
-
-
-	const CRITICAL_RUNTIME_MATERIALS = Object.freeze(
-		RUNTIME_MATERIALS.filter((material) => {
-			return material.critical;
-		})
-	);
-	__exports.CRITICAL_RUNTIME_MATERIALS = CRITICAL_RUNTIME_MATERIALS;
-
-
-	function runtimeMaterialByRole(role) {
-		return RUNTIME_MATERIALS.find((material) => {
-			return material.role === role;
-		}) || null;
-	}
-
-	__exports.runtimeMaterialByRole = runtimeMaterialByRole;
-
-}
-
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/PublicMaterialRoleEvidence.js ----
 {
-	const __exports = __awtsmoosModule_297;
+	const __exports = __awtsmoosModule_306;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -23061,7 +23741,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos is beyond success and fallback while Hod gives each finite attempt a truthful name; Awtsmoos.com records the journey without confusing the witness with the flame.
 	 */
 
-	var cachedTextureImage = __awtsmoosModule_273.cachedTextureImage;
+	const cachedTextureImage = __awtsmoosModule_202.cachedTextureImage;
 
 	/**
 	 * Creates one stable semantic material-role record.
@@ -23129,7 +23809,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/PublicMaterialRoleResolver.js ----
 {
-	const __exports = __awtsmoosModule_298;
+	const __exports = __awtsmoosModule_307;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -23142,11 +23822,11 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos is beyond primary and fallback while every finite garment seeks a fitting ray; Awtsmoos.com lets one role walk its ordered gates until decoded light can stay.
 	 */
 
-	var serializableImageRecord = __awtsmoosModule_276.serializableImageRecord;
-	var rememberPublicMaterialImage = __awtsmoosModule_273.rememberPublicMaterialImage;
-	var rememberPublicMaterialRole = __awtsmoosModule_273.rememberPublicMaterialRole;
-	var createPublicMaterialRoleEvidence = __awtsmoosModule_297.createPublicMaterialRoleEvidence;
-	var loadPublicMaterialUrl = __awtsmoosModule_275.loadPublicMaterialUrl;
+	const serializableImageRecord = __awtsmoosModule_293.serializableImageRecord;
+	const rememberPublicMaterialImage = __awtsmoosModule_202.rememberPublicMaterialImage;
+	const rememberPublicMaterialRole = __awtsmoosModule_202.rememberPublicMaterialRole;
+	const createPublicMaterialRoleEvidence = __awtsmoosModule_306.createPublicMaterialRoleEvidence;
+	const loadPublicMaterialUrl = __awtsmoosModule_292.loadPublicMaterialUrl;
 
 	/**
 	 * Loads one semantic material role through its declared fallback URLs.
@@ -23200,7 +23880,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/PublicMaterialRoleLoader.js ----
 {
-	const __exports = __awtsmoosModule_288;
+	const __exports = __awtsmoosModule_305;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -23213,12 +23893,12 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos gives many garments one ordered procession; Awtsmoos.com lets Netzach advance the workers while each role resolver carries its own devotion.
 	 */
 
-	var CRITICAL_RUNTIME_MATERIALS = __awtsmoosModule_289.CRITICAL_RUNTIME_MATERIALS;
-	var RUNTIME_MATERIALS = __awtsmoosModule_289.RUNTIME_MATERIALS;
-	var summarizePublicMaterialRoles = __awtsmoosModule_297.summarizePublicMaterialRoles;
-	var loadRuntimeMaterial = __awtsmoosModule_298.loadRuntimeMaterial;
+	const CRITICAL_RUNTIME_MATERIALS = __awtsmoosModule_204.CRITICAL_RUNTIME_MATERIALS;
+	const RUNTIME_MATERIALS = __awtsmoosModule_204.RUNTIME_MATERIALS;
+	const summarizePublicMaterialRoles = __awtsmoosModule_306.summarizePublicMaterialRoles;
+	const loadRuntimeMaterial = __awtsmoosModule_307.loadRuntimeMaterial;
 
-	__exports.loadRuntimeMaterial = __awtsmoosModule_298.loadRuntimeMaterial;
+	__exports.loadRuntimeMaterial = __awtsmoosModule_307.loadRuntimeMaterial;
 
 	/**
 	 * Loads semantic roles with bounded concurrency and optional settled callbacks.
@@ -23306,84 +23986,9 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/SceneMaterialPriority.js ----
-{
-	const __exports = __awtsmoosModule_301;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
-
-	/**
-	 * @file SceneMaterialPriority.js
-	 * @description Ranks shared visible material URLs by human-visible village value.
-	 * The Awtsmoos clothes homes before polishing distant detail; Awtsmoos.com preserves
-	 * canonical same-origin keys while bounding hydration to trusted material-pack paths.
-	 */
-
-	const LOCAL_MATERIAL_URL = /^(?:\.\/|\/)(?:assets\/materials\/(?:local|generated)\/|geelooy\/games\/mitzvahworld\/assets\/materials\/(?:local|generated)\/)/i;
-	const NETWORK_MATERIAL_URL = /^https?:\/\//i;
-
-	function rankedSceneUrls(root) {
-		const records = new Map();
-		root?.traverse?.(object => collectObject(records, object));
-		return [...records.values()].sort((left, right) => (
-			right.score - left.score || left.url.localeCompare(right.url)
-		));
-	}
-
-
-	__exports.rankedSceneUrls = rankedSceneUrls;
-	/** Returns true for an existing network URL or a packaged same-origin material URL. */
-	function isSceneMaterialUrl(url) {
-		const value = String(url || '').trim();
-		return NETWORK_MATERIAL_URL.test(value) || LOCAL_MATERIAL_URL.test(value);
-	}
-
-
-	__exports.isSceneMaterialUrl = isSceneMaterialUrl;
-	function collectObject(records, object) {
-		const materials = Array.isArray(object.material)
-			? object.material
-			: object.material ? [object.material] : [];
-		for (const material of materials) collectMaterial(records, object, material);
-	}
-
-	function collectMaterial(records, object, material) {
-		const role = `${object.name || ''} ${object.userData?.family || ''} ${material.name || ''}`.toLowerCase();
-		const base = roleScore(role);
-		add(records, material.textureUrl, role, base + 40);
-		add(records, material.mixTextureUrl, role, base + 36);
-		for (const [index, layer] of (material.textureLayers || []).entries()) {
-			const layerRole = `${role} ${layer.role || ''}`;
-			add(records, layer.url, layerRole, base + 20 - index * 6);
-		}
-	}
-
-	function add(records, url, role, score) {
-		if (!isSceneMaterialUrl(url)) return;
-		const existing = records.get(url);
-		if (existing) {
-			existing.references += 1;
-			existing.score = Math.max(existing.score, score) + 2;
-			return;
-		}
-		records.set(url, { references: 1, role, score, url });
-	}
-
-	function roleScore(role) {
-		if (/cottage|house|roof|wall|stone|timber|wood/.test(role)) return 120;
-		if (/terrain|grass|ground/.test(role)) return 110;
-		if (/road|cobble|path|bridge/.test(role)) return 105;
-		if (/water|lake|stream|river/.test(role)) return 100;
-		if (/forest|tree|bark|leaf/.test(role)) return 55;
-		return 20;
-	}
-
-}
-
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/SceneMaterialHydrationState.js ----
 {
-	const __exports = __awtsmoosModule_302;
+	const __exports = __awtsmoosModule_310;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -23397,9 +24002,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 */
 
 	const SCENE_MATERIAL_HYDRATION_URL_LIMIT = 2;
+
+
 	__exports.SCENE_MATERIAL_HYDRATION_URL_LIMIT = SCENE_MATERIAL_HYDRATION_URL_LIMIT;
-
-
 	/** Creates the historic scene-hydration statistics shape. */
 	function createSceneMaterialHydrationStats(options = {}) {
 		const requestLimit = normalizedRequestLimit(options.requestLimit);
@@ -23473,9 +24078,232 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/SceneRemoteMaterialDiagnostics.js ----
+{
+	const __exports = __awtsmoosModule_309;
+	//B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file SceneRemoteMaterialDiagnostics.js
+	 * @description Audits live material provenance for remote-only violations without mutating the scene.
+	 * The Awtsmoos needs no witness while a finite renderer needs proof; Awtsmoos.com names every pending,
+	 * generated, missing-role, or failed garment so completion can rest on evidence rather than aesthetic belief.
+	 */
+
+	const remoteMaterialReadiness = __awtsmoosModule_201.remoteMaterialReadiness;
+	const sceneObjectMaterials = __awtsmoosModule_310.sceneObjectMaterials;
+
+	const MAX_VIOLATIONS = 48;
+
+	/** Returns bounded scene-wide remote material evidence. */
+	function sceneRemoteMaterialDiagnostics(root) {
+		const stats = {
+			allFailed: 0,
+			generatedRejected: 0,
+			materials: 0,
+			missingRole: 0,
+			pending: 0,
+			ready: 0,
+			violations: []
+		};
+		root?.traverse?.((object) => {
+			for (const material of sceneObjectMaterials(object)) {
+				stats.materials += 1;
+				const receipt = remoteMaterialReadiness(object, material);
+				account(stats, object, material, receipt);
+			}
+		});
+		return Object.freeze({
+			...stats,
+			violations: Object.freeze([...stats.violations])
+		});
+	}
+
+
+	__exports.sceneRemoteMaterialDiagnostics = sceneRemoteMaterialDiagnostics;
+	function account(stats, object, material, receipt) {
+		if (receipt.ready) {
+			stats.ready += 1;
+			return;
+		}
+		if (receipt.state === 'generated-rejected') {
+			stats.generatedRejected += 1;
+		} else if (receipt.state === 'missing-role') {
+			stats.missingRole += 1;
+		} else if (receipt.state === 'all-failed') {
+			stats.allFailed += 1;
+		} else {
+			stats.pending += 1;
+		}
+		if (stats.violations.length < MAX_VIOLATIONS) {
+			stats.violations.push(Object.freeze({
+				material: material?.name || '(unnamed material)',
+				object: object?.name || '(unnamed object)',
+				role: receipt.role,
+				state: receipt.state,
+				url: receipt.selectedUrl
+			}));
+		}
+	}
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/SceneRemoteMaterialReadiness.js ----
+{
+	const __exports = __awtsmoosModule_311;
+	//B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file SceneRemoteMaterialReadiness.js
+	 * @description Enforces remote-only visibility while preserving intentional game visibility state.
+	 * The Awtsmoos reveals and conceals without dependency on a mesh flag; Awtsmoos.com lets a surface appear
+	 * only after real image light is resident, while an intentionally hidden object never gets revealed by this repair.
+	 */
+
+	const remoteMaterialReadiness = __awtsmoosModule_201.remoteMaterialReadiness;
+	const sceneObjectMaterials = __awtsmoosModule_310.sceneObjectMaterials;
+
+	const VISIBILITY_KEY = 'awtsmoosRemoteOnlyVisibility';
+
+	/** Applies remote-only visibility to every material-bearing renderable and returns immutable counts. */
+	function enforceSceneRemoteMaterialReadiness(root) {
+		const stats = {
+			hiddenPending: 0,
+			ready: 0,
+			renderables: 0,
+			restored: 0
+		};
+		root?.traverse?.((object) => {
+			const materials = sceneObjectMaterials(object);
+			if (!materials.length || !isRenderable(object)) {
+				return;
+			}
+			stats.renderables += 1;
+			const ready = materials.every((material) => {
+				return remoteMaterialReadiness(object, material).ready;
+			});
+			ready ? restoreIfCovenantHidden(object, stats) : hidePendingObject(object, stats);
+		});
+		return Object.freeze({ ...stats });
+	}
+
+
+	__exports.enforceSceneRemoteMaterialReadiness = enforceSceneRemoteMaterialReadiness;
+	function hidePendingObject(object, stats) {
+		const state = object.userData?.[VISIBILITY_KEY];
+		if (!state && object.visible !== false) {
+			object.userData ||= {};
+			object.userData[VISIBILITY_KEY] = {
+				hiddenByCovenant: true,
+				previousVisible: true
+			};
+			object.visible = false;
+		}
+		if (object.userData?.[VISIBILITY_KEY]?.hiddenByCovenant) {
+			stats.hiddenPending += 1;
+		}
+	}
+
+	function restoreIfCovenantHidden(object, stats) {
+		const state = object.userData?.[VISIBILITY_KEY];
+		if (!state?.hiddenByCovenant) {
+			stats.ready += 1;
+			return;
+		}
+		object.visible = state.previousVisible === true;
+		delete object.userData[VISIBILITY_KEY];
+		stats.ready += 1;
+		stats.restored += 1;
+	}
+
+	function isRenderable(object) {
+		return Boolean(object?.isMesh || object?.isPoints || object?.isLine || object?.geometry);
+	}
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/SceneMaterialPriority.js ----
+{
+	const __exports = __awtsmoosModule_313;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file SceneMaterialPriority.js
+	 * @description Ranks shared visible material URLs by human-visible village value.
+	 * The Awtsmoos clothes homes before polishing distant detail; Awtsmoos.com preserves
+	 * canonical same-origin keys while bounding hydration to trusted material-pack paths.
+	 */
+
+	const LOCAL_MATERIAL_URL = /^(?:\.\/|\/)(?:assets\/materials\/(?:local|generated)\/|geelooy\/games\/mitzvahworld\/assets\/materials\/(?:local|generated)\/)/i;
+	const NETWORK_MATERIAL_URL = /^https?:\/\//i;
+
+	function rankedSceneUrls(root) {
+		const records = new Map();
+		root?.traverse?.(object => collectObject(records, object));
+		return [...records.values()].sort((left, right) => (
+			right.score - left.score || left.url.localeCompare(right.url)
+		));
+	}
+
+
+	__exports.rankedSceneUrls = rankedSceneUrls;
+	/** Returns true for an existing network URL or a packaged same-origin material URL. */
+	function isSceneMaterialUrl(url) {
+		const value = String(url || '').trim();
+		return NETWORK_MATERIAL_URL.test(value) || LOCAL_MATERIAL_URL.test(value);
+	}
+
+
+	__exports.isSceneMaterialUrl = isSceneMaterialUrl;
+	function collectObject(records, object) {
+		const materials = Array.isArray(object.material)
+			? object.material
+			: object.material ? [object.material] : [];
+		for (const material of materials) collectMaterial(records, object, material);
+	}
+
+	function collectMaterial(records, object, material) {
+		const role = `${object.name || ''} ${object.userData?.family || ''} ${material.name || ''}`.toLowerCase();
+		const base = roleScore(role);
+		add(records, material.textureUrl, role, base + 40);
+		add(records, material.mixTextureUrl, role, base + 36);
+		for (const [index, layer] of (material.textureLayers || []).entries()) {
+			const layerRole = `${role} ${layer.role || ''}`;
+			add(records, layer.url, layerRole, base + 20 - index * 6);
+		}
+	}
+
+	function add(records, url, role, score) {
+		if (!isSceneMaterialUrl(url)) return;
+		const existing = records.get(url);
+		if (existing) {
+			existing.references += 1;
+			existing.score = Math.max(existing.score, score) + 2;
+			return;
+		}
+		records.set(url, { references: 1, role, score, url });
+	}
+
+	function roleScore(role) {
+		if (/cottage|house|roof|wall|stone|timber|wood/.test(role)) return 120;
+		if (/terrain|grass|ground/.test(role)) return 110;
+		if (/road|cobble|path|bridge/.test(role)) return 105;
+		if (/water|lake|stream|river/.test(role)) return 100;
+		if (/forest|tree|bark|leaf/.test(role)) return 55;
+		return 20;
+	}
+
+}
+
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/SceneMaterialSlotDescriptor.js ----
 {
-	const __exports = __awtsmoosModule_303;
+	const __exports = __awtsmoosModule_314;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -23548,7 +24376,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/materials/hydration/MaterialWritableBoundary.js ----
 {
-	const __exports = __awtsmoosModule_306;
+	const __exports = __awtsmoosModule_317;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -23674,7 +24502,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/SceneMaterialWritableBoundary.js ----
 {
-	const __exports = __awtsmoosModule_305;
+	const __exports = __awtsmoosModule_316;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -23685,15 +24513,15 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos is beyond frozen recipe and mutable vessel while renewing both without strife;
 	 * Awtsmoos.com keeps every historic import stable as this shared boundary guards runtime material life.
 	 */
-	__exports.bindSceneMaterialField = __awtsmoosModule_306.bindSceneMaterialField;
-	__exports.bindSceneMaterialLayerImage = __awtsmoosModule_306.bindSceneMaterialLayerImage;
-	__exports.writableSceneMaterialProperty = __awtsmoosModule_306.writableSceneMaterialProperty;
+	__exports.bindSceneMaterialField = __awtsmoosModule_317.bindSceneMaterialField;
+	__exports.bindSceneMaterialLayerImage = __awtsmoosModule_317.bindSceneMaterialLayerImage;
+	__exports.writableSceneMaterialProperty = __awtsmoosModule_317.writableSceneMaterialProperty;
 
 }
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/SceneMaterialSlotBinding.js ----
 {
-	const __exports = __awtsmoosModule_304;
+	const __exports = __awtsmoosModule_315;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -23706,12 +24534,12 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos harmonizes light and vessel without breaking either form; Awtsmoos.com lets Tiferes join transformed image with protected runtime boundary so the living frame stays warm.
 	 */
 
-	var isUsableMaterialImage = __awtsmoosModule_273.isUsableMaterialImage;
-	var markRealPublicMapImage = __awtsmoosModule_274.markRealPublicMapImage;
-	var preparePublicMapImage = __awtsmoosModule_274.preparePublicMapImage;
-	var sceneMaterialSlotImage = __awtsmoosModule_303.sceneMaterialSlotImage;
-	var bindSceneMaterialField = __awtsmoosModule_305.bindSceneMaterialField;
-	var bindSceneMaterialLayerImage = __awtsmoosModule_305.bindSceneMaterialLayerImage;
+	const isUsableMaterialImage = __awtsmoosModule_202.isUsableMaterialImage;
+	const markRealPublicMapImage = __awtsmoosModule_291.markRealPublicMapImage;
+	const preparePublicMapImage = __awtsmoosModule_291.preparePublicMapImage;
+	const sceneMaterialSlotImage = __awtsmoosModule_314.sceneMaterialSlotImage;
+	const bindSceneMaterialField = __awtsmoosModule_316.bindSceneMaterialField;
+	const bindSceneMaterialLayerImage = __awtsmoosModule_316.bindSceneMaterialLayerImage;
 
 	/** Binds one decoded image without mutating frozen recipe objects. */
 	function bindSceneMaterialSlotImage(slot, image) {
@@ -23770,36 +24598,28 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/SceneMaterialHydrationBinding.js ----
 {
-	const __exports = __awtsmoosModule_300;
-	// B"H
+	const __exports = __awtsmoosModule_312;
+	//B"H
 	// Boruch Hashem
 	// Blessed is He
 
 	/**
 	 * @file SceneMaterialHydrationBinding.js
-	 * @description Classifies one runtime material's slots as bound, ready, immutable, transformed, or pending while the outer hydration coordinator owns only traversal and request cadence.
-	 * RESPONSIBILITY: evaluate scene-material URLs, bind arrived cache images, update public counters, and populate ready/pending evidence sets.
-	 * NON-RESPONSIBILITY: this module does not traverse the scene root, issue network requests, or own cache state.
-	 * The Awtsmoos joins image and surface without confusing source with destination; Awtsmoos.com lets Tiferes judge each slot so the outer frame can continue its creation.
+	 * @description Binds cached slots only when decoded images have verified HTTP(S) provenance and keeps every other source pending.
+	 * The Awtsmoos joins image and surface while remaining beyond both; Awtsmoos.com lets Tiferes admit only distant light,
+	 * so embedded, data, canvas, generated, or solid placeholders never cross the visible threshold as if remote truth were bright.
 	 */
 
-	var isSceneMaterialUrl = __awtsmoosModule_301.isSceneMaterialUrl;
-	var cachedTextureImage = __awtsmoosModule_273.cachedTextureImage;
-	var isUsableMaterialImage = __awtsmoosModule_273.isUsableMaterialImage;
-	var replaceablePublicMapImage = __awtsmoosModule_274.replaceablePublicMapImage;
-	var markSceneObjectMapEvidence = __awtsmoosModule_302.markSceneObjectMapEvidence;
-	var sceneMaterialSlotImage = __awtsmoosModule_303.sceneMaterialSlotImage;
-	var sceneMaterialSlots = __awtsmoosModule_303.sceneMaterialSlots;
-	var bindSceneMaterialSlotImage = __awtsmoosModule_304.bindSceneMaterialSlotImage;
+	const isSceneMaterialUrl = __awtsmoosModule_313.isSceneMaterialUrl;
+	const cachedTextureImage = __awtsmoosModule_202.cachedTextureImage;
+	const replaceablePublicMapImage = __awtsmoosModule_291.replaceablePublicMapImage;
+	const isRealMaterialImage = __awtsmoosModule_199.isRealMaterialImage;
+	const markSceneObjectMapEvidence = __awtsmoosModule_310.markSceneObjectMapEvidence;
+	const sceneMaterialSlotImage = __awtsmoosModule_314.sceneMaterialSlotImage;
+	const sceneMaterialSlots = __awtsmoosModule_314.sceneMaterialSlots;
+	const bindSceneMaterialSlotImage = __awtsmoosModule_315.bindSceneMaterialSlotImage;
 
-	/**
-	 * Hydrates every supported slot on one material using images already present in cache.
-	 * @param {object} object Scene object owning the material.
-	 * @param {object} material Runtime material.
-	 * @param {object} stats Mutable hydration counters.
-	 * @param {object} evidence URL evidence sets.
-	 * @returns {void}
-	 */
+	/** Hydrates every supported remote slot on one material using cache-resident images. */
 	function hydrateSceneMaterial(object, material, stats, evidence) {
 		for (const slot of sceneMaterialSlots(object, material)) {
 			hydrateSceneMaterialSlot(slot, stats, evidence);
@@ -23808,28 +24628,19 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.hydrateSceneMaterial = hydrateSceneMaterial;
-	/** Evaluates, binds, and classifies one map, mix-map, or layer slot. */
 	function hydrateSceneMaterialSlot(slot, stats, evidence) {
 		if (!isSceneMaterialUrl(slot.url)) {
 			return;
 		}
 		evidence.referenced.add(slot.url);
 		let current = sceneMaterialSlotImage(slot);
-		const replaceable = slot.kind === 'map'
-			&& replaceablePublicMapImage(slot.material, current);
+		const replaceable = slot.kind === 'map' && replaceablePublicMapImage(slot.material);
 		const cached = cachedTextureImage(slot.url);
-		if (cached && (!isUsableMaterialImage(current) || replaceable)) {
+		if (isRealMaterialImage(cached) && (!isRealMaterialImage(current) || replaceable)) {
 			const binding = bindSceneMaterialSlotImage(slot, cached);
-			current = accountForSceneMaterialBinding(
-				slot,
-				binding,
-				current,
-				stats
-			);
+			current = accountForSceneMaterialBinding(slot, binding, current, stats);
 		}
-		const stillReplaceable = slot.kind === 'map'
-			&& replaceablePublicMapImage(slot.material, current);
-		if (isUsableMaterialImage(current) && !stillReplaceable) {
+		if (isRealMaterialImage(current)) {
 			evidence.ready.add(slot.url);
 			markSceneObjectMapEvidence(slot);
 			return;
@@ -23838,9 +24649,8 @@ const __awtsmoosModule_0 = Object.create(null);
 		evidence.pending.add(slot.url);
 	}
 
-	/** Converts one slot-binding receipt into the historic hydration counters. */
 	function accountForSceneMaterialBinding(slot, binding, current, stats) {
-		if (binding.bound) {
+		if (binding.bound && isRealMaterialImage(binding.image)) {
 			stats[slot.boundField] += 1;
 			return binding.image;
 		}
@@ -23856,7 +24666,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/SceneMaterialHydrationRequests.js ----
 {
-	const __exports = __awtsmoosModule_307;
+	const __exports = __awtsmoosModule_318;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -23869,10 +24679,10 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos gives without exhaustion while finite browsers require measure and pace;
 	 * Awtsmoos.com lets Netzach use the production loader by default while tests may reveal the same covenant through a deterministic gate in place.
 	 */
-	var cachedTextureImage = __awtsmoosModule_273.cachedTextureImage;
-	var publicMaterialLoading = __awtsmoosModule_273.publicMaterialLoading;
-	var publicMaterialUrlRecord = __awtsmoosModule_273.publicMaterialUrlRecord;
-	var loadPublicMaterialUrl = __awtsmoosModule_275.loadPublicMaterialUrl;
+	const cachedTextureImage = __awtsmoosModule_202.cachedTextureImage;
+	const publicMaterialLoading = __awtsmoosModule_202.publicMaterialLoading;
+	const publicMaterialUrlRecord = __awtsmoosModule_202.publicMaterialUrlRecord;
+	const loadPublicMaterialUrl = __awtsmoosModule_292.loadPublicMaterialUrl;
 
 	/**
 	 * Starts unresolved scene URL requests within the normalized cadence budget.
@@ -23921,46 +24731,53 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/SceneMaterialHydration.js ----
 {
-	const __exports = __awtsmoosModule_299;
-	// B"H
+	const __exports = __awtsmoosModule_308;
+	//B"H
 	// Boruch Hashem
 	// Blessed is He
 
 	/**
 	 * @file SceneMaterialHydration.js
-	 * @description Traverses live renderer materials, delegates cached-image classification to a focused binder, and starts one bounded page of unresolved scene URLs.
-	 * RESPONSIBILITY: orchestrate one non-blocking scene hydration cadence while preserving the historic public statistics and progressive-summary contracts.
-	 * NON-RESPONSIBILITY: this module owns no cache Maps, slot mutation, raw image decoder, or request-budget implementation.
-	 * The Awtsmoos renews each visible frame while hidden images approach in measured flow; Awtsmoos.com keeps the outer Tiferes small so binding and requesting may each reveal their own glow.
+	 * @description Orchestrates bounded real-remote material hydration and enforces that pending surfaces remain hidden until genuine images are resident.
+	 * RESPONSIBILITY: prepare semantic remote candidates, bind cache-resident real images, request at most the historic bounded page, and publish readiness diagnostics.
+	 * NON-RESPONSIBILITY: this module owns no network transport, cache Map, generated texture painter, or raw decoder.
+	 * The Awtsmoos renews every frame while distant images approach through measured gates;
+	 * Awtsmoos.com keeps first control alive and lets only truthful remote garments reveal their forms and states.
 	 */
 
-	var hydrateSceneMaterial = __awtsmoosModule_300.hydrateSceneMaterial;
-	var requestPendingSceneMaterialUrls = __awtsmoosModule_307.requestPendingSceneMaterialUrls;
-	var createSceneMaterialEvidenceSets = __awtsmoosModule_302.createSceneMaterialEvidenceSets;
-	var createSceneMaterialHydrationStats = __awtsmoosModule_302.createSceneMaterialHydrationStats;
-	var sceneObjectMaterials = __awtsmoosModule_302.sceneObjectMaterials;
+	const prepareRemoteMaterialForHydration = __awtsmoosModule_201.prepareRemoteMaterialForHydration;
+	const sceneRemoteMaterialDiagnostics = __awtsmoosModule_309.sceneRemoteMaterialDiagnostics;
+	const enforceSceneRemoteMaterialReadiness = __awtsmoosModule_311.enforceSceneRemoteMaterialReadiness;
+	const hydrateSceneMaterial = __awtsmoosModule_312.hydrateSceneMaterial;
+	const requestPendingSceneMaterialUrls = __awtsmoosModule_318.requestPendingSceneMaterialUrls;
+	const createSceneMaterialEvidenceSets = __awtsmoosModule_310.createSceneMaterialEvidenceSets;
+	const createSceneMaterialHydrationStats = __awtsmoosModule_310.createSceneMaterialHydrationStats;
+	const sceneObjectMaterials = __awtsmoosModule_310.sceneObjectMaterials;
 
-	__exports.SCENE_MATERIAL_HYDRATION_URL_LIMIT = __awtsmoosModule_302.SCENE_MATERIAL_HYDRATION_URL_LIMIT;
+	__exports.SCENE_MATERIAL_HYDRATION_URL_LIMIT = __awtsmoosModule_310.SCENE_MATERIAL_HYDRATION_URL_LIMIT;
 
-	/** Binds cached images and requests one bounded page of scene-referenced URLs. */
+	/** Prepares candidates, binds real cache images, requests bounded URLs, and enforces visibility. */
 	function hydrateSceneMaterialImages(root, options = {}) {
 		const stats = createSceneMaterialHydrationStats(options);
 		const evidence = createSceneMaterialEvidenceSets();
 		root?.traverse?.((object) => {
 			for (const material of sceneObjectMaterials(object)) {
 				stats.materials += 1;
+				prepareRemoteMaterialForHydration(object, material);
 				hydrateSceneMaterial(object, material, stats, evidence);
 			}
 		});
 		stats.referencedUrls = evidence.referenced.size;
 		stats.readyUrls = evidence.ready.size;
 		requestPendingSceneMaterialUrls(evidence.pending, stats, options);
+		stats.remoteOnlyVisibility = enforceSceneRemoteMaterialReadiness(root);
+		stats.remoteOnlyDiagnostics = sceneRemoteMaterialDiagnostics(root);
 		return stats;
 	}
 
 
 	__exports.hydrateSceneMaterialImages = hydrateSceneMaterialImages;
-	/** Preserves the historic async hydration doorway without eager catalog loading. */
+	/** Preserves the historic async doorway while reporting the stricter remote-only hydration result. */
 	async function progressivelyHydratePublicMaterials(options = {}) {
 		const hydration = options.root
 			? hydrateSceneMaterialImages(options.root, options)
@@ -23973,7 +24790,7 @@ const __awtsmoosModule_0 = Object.create(null);
 			pending: hydration.pending,
 			records: [],
 			requested: hydration.requested,
-			strategy: 'scene-referenced-max-two-new-urls-per-cadence'
+			strategy: 'remote-only-scene-referenced-max-two-new-urls-per-cadence'
 		};
 	}
 
@@ -23983,7 +24800,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/PublicMaterialDiagnostics.js ----
 {
-	const __exports = __awtsmoosModule_308;
+	const __exports = __awtsmoosModule_319;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -23996,8 +24813,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos reveals what each vessel has received while remaining beyond the ledger itself; Awtsmoos.com lets Hod report cache truth without pulling diagnostics into the gameplay wealth.
 	 */
 
-	var publicMaterialStateEvidence = __awtsmoosModule_273.publicMaterialStateEvidence;
-	var SCENE_MATERIAL_HYDRATION_URL_LIMIT = __awtsmoosModule_302.SCENE_MATERIAL_HYDRATION_URL_LIMIT;
+	const publicMaterialStateEvidence = __awtsmoosModule_202.publicMaterialStateEvidence;
+	const SCENE_MATERIAL_HYDRATION_URL_LIMIT = __awtsmoosModule_310.SCENE_MATERIAL_HYDRATION_URL_LIMIT;
 
 	/**
 	 * Returns serializable cache and hydration-budget evidence.
@@ -24016,7 +24833,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/PublicMaterialCache.js ----
 {
-	const __exports = __awtsmoosModule_272;
+	const __exports = __awtsmoosModule_290;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -24029,23 +24846,23 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos is one beyond the many services revealed below; Awtsmoos.com keeps the old doorway steady while hidden responsibilities become smaller vessels through which clearer light may flow.
 	 */
 
-	__exports.cachedTextureImage = __awtsmoosModule_273.cachedTextureImage;
-	__exports.attachCachedTexture = __awtsmoosModule_274.attachCachedTexture;
-	__exports.loadPublicMaterialUrl = __awtsmoosModule_275.loadPublicMaterialUrl;
-	__exports.loadRuntimeMaterial = __awtsmoosModule_288.loadRuntimeMaterial;
-	__exports.loadRuntimeMaterialRoles = __awtsmoosModule_288.loadRuntimeMaterialRoles;
-	__exports.preloadPublicMaterialImages = __awtsmoosModule_288.preloadPublicMaterialImages;
-	__exports.runtimeMaterialUrls = __awtsmoosModule_288.runtimeMaterialUrls;
-	__exports.SCENE_MATERIAL_HYDRATION_URL_LIMIT = __awtsmoosModule_299.SCENE_MATERIAL_HYDRATION_URL_LIMIT;
-	__exports.hydrateSceneMaterialImages = __awtsmoosModule_299.hydrateSceneMaterialImages;
-	__exports.progressivelyHydratePublicMaterials = __awtsmoosModule_299.progressivelyHydratePublicMaterials;
-	__exports.publicMaterialCacheStats = __awtsmoosModule_308.publicMaterialCacheStats;
+	__exports.cachedTextureImage = __awtsmoosModule_202.cachedTextureImage;
+	__exports.attachCachedTexture = __awtsmoosModule_291.attachCachedTexture;
+	__exports.loadPublicMaterialUrl = __awtsmoosModule_292.loadPublicMaterialUrl;
+	__exports.loadRuntimeMaterial = __awtsmoosModule_305.loadRuntimeMaterial;
+	__exports.loadRuntimeMaterialRoles = __awtsmoosModule_305.loadRuntimeMaterialRoles;
+	__exports.preloadPublicMaterialImages = __awtsmoosModule_305.preloadPublicMaterialImages;
+	__exports.runtimeMaterialUrls = __awtsmoosModule_305.runtimeMaterialUrls;
+	__exports.SCENE_MATERIAL_HYDRATION_URL_LIMIT = __awtsmoosModule_308.SCENE_MATERIAL_HYDRATION_URL_LIMIT;
+	__exports.hydrateSceneMaterialImages = __awtsmoosModule_308.hydrateSceneMaterialImages;
+	__exports.progressivelyHydratePublicMaterials = __awtsmoosModule_308.progressivelyHydratePublicMaterials;
+	__exports.publicMaterialCacheStats = __awtsmoosModule_319.publicMaterialCacheStats;
 
 }
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/nature/LiveTerrainSampler.js ----
 {
-	const __exports = __awtsmoosModule_312;
+	const __exports = __awtsmoosModule_323;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -24098,7 +24915,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/nature/LiveRealNatureRuntime.js ----
 {
-	const __exports = __awtsmoosModule_311;
+	const __exports = __awtsmoosModule_322;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -24110,8 +24927,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com keeps pine, tree, flower, bush, and rock without letting clone cost consume the game.
 	 */
 
-	var Group = __awtsmoosModule_29.Group;
-	var createLiveTerrainSampler = __awtsmoosModule_312.createLiveTerrainSampler;
+	const Group = __awtsmoosModule_29.Group;
+	const createLiveTerrainSampler = __awtsmoosModule_323.createLiveTerrainSampler;
 
 	function currentLiveRuntime(environment = globalThis) {
 		return environment?.AwtsmoosDiagnostics?.runtime
@@ -24181,7 +24998,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/assets/ModelTemplateCache.js ----
 {
-	const __exports = __awtsmoosModule_316;
+	const __exports = __awtsmoosModule_327;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -24280,7 +25097,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/assets/ModelAssetService.js ----
 {
-	const __exports = __awtsmoosModule_317;
+	const __exports = __awtsmoosModule_328;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -24376,7 +25193,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/assets/index.js ----
 {
-	const __exports = __awtsmoosModule_315;
+	const __exports = __awtsmoosModule_326;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -24388,15 +25205,15 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com exposes shared-template and isolated-instance law without binding the procedural core to one parser or platform.
 	 */
 
-	__exports.ModelTemplateCache = __awtsmoosModule_316.ModelTemplateCache;
-	__exports.ModelAssetService = __awtsmoosModule_317.ModelAssetService;
-	__exports.createModelAssetService = __awtsmoosModule_317.createModelAssetService;
+	__exports.ModelTemplateCache = __awtsmoosModule_327.ModelTemplateCache;
+	__exports.ModelAssetService = __awtsmoosModule_328.ModelAssetService;
+	__exports.createModelAssetService = __awtsmoosModule_328.createModelAssetService;
 
 }
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-skin-cache.js ----
 {
-	const __exports = __awtsmoosModule_320;
+	const __exports = __awtsmoosModule_331;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -24474,7 +25291,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-skin-lines.js ----
 {
-	const __exports = __awtsmoosModule_321;
+	const __exports = __awtsmoosModule_332;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -24524,7 +25341,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-skin-matrix.js ----
 {
-	const __exports = __awtsmoosModule_322;
+	const __exports = __awtsmoosModule_333;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -24535,7 +25352,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * identity fallback. The Awtsmoos renews every matrix entry, while Awtsmoos.com
 	 * keeps absence visible instead of disguising missing data as remembered geometry.
 	 */
-	var identity = __awtsmoosModule_31.identity;
+	const identity = __awtsmoosModule_31.identity;
 
 	/** Returns one 4x4 matrix from a BufferAttribute-like accessor. */
 	function readSkinMatrix(accessor, index) {
@@ -24557,7 +25374,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-skin-binding.js ----
 {
-	const __exports = __awtsmoosModule_324;
+	const __exports = __awtsmoosModule_335;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -24625,7 +25442,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-skin-scene.js ----
 {
-	const __exports = __awtsmoosModule_323;
+	const __exports = __awtsmoosModule_334;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -24637,9 +25454,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * only changed transforms and keeps the map and metric vessels stable across frames.
 	 */
 
-	var bindSceneSkeletons = __awtsmoosModule_324.bindSceneSkeletons;
-	var ROOT_WORLD_MATRIX = __awtsmoosModule_36.ROOT_WORLD_MATRIX;
-	var updateCachedWorldMatrix = __awtsmoosModule_36.updateCachedWorldMatrix;
+	const bindSceneSkeletons = __awtsmoosModule_335.bindSceneSkeletons;
+	const ROOT_WORLD_MATRIX = __awtsmoosModule_36.ROOT_WORLD_MATRIX;
+	const updateCachedWorldMatrix = __awtsmoosModule_36.updateCachedWorldMatrix;
 
 	__exports.bindSceneSkeletons = bindSceneSkeletons;
 
@@ -24747,7 +25564,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-skin-system.js ----
 {
-	const __exports = __awtsmoosModule_319;
+	const __exports = __awtsmoosModule_330;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -24758,21 +25575,21 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * matrix is a finite keli renewed by the Awtsmoos, and Awtsmoos.com reuses it only
 	 * when frame identity and mesh transform agree exactly.
 	 */
-	var identity = __awtsmoosModule_31.identity;
-	var inverse = __awtsmoosModule_31.inverse;
-	var multiply = __awtsmoosModule_31.multiply;
-	var SkinPaletteCache = __awtsmoosModule_320.SkinPaletteCache;
-	var skeletonLinePositions = __awtsmoosModule_321.skeletonLinePositions;
-	var readSkinMatrix = __awtsmoosModule_322.readSkinMatrix;
-	var bindSceneSkeletons = __awtsmoosModule_323.bindSceneSkeletons;
-	var collectWorldMatrices = __awtsmoosModule_323.collectWorldMatrices;
-	var setMeshKindVisibility = __awtsmoosModule_323.setMeshKindVisibility;
-	var updateTinySkeletons = __awtsmoosModule_323.updateTinySkeletons;
+	const identity = __awtsmoosModule_31.identity;
+	const inverse = __awtsmoosModule_31.inverse;
+	const multiply = __awtsmoosModule_31.multiply;
+	const SkinPaletteCache = __awtsmoosModule_331.SkinPaletteCache;
+	const skeletonLinePositions = __awtsmoosModule_332.skeletonLinePositions;
+	const readSkinMatrix = __awtsmoosModule_333.readSkinMatrix;
+	const bindSceneSkeletons = __awtsmoosModule_334.bindSceneSkeletons;
+	const collectWorldMatrices = __awtsmoosModule_334.collectWorldMatrices;
+	const setMeshKindVisibility = __awtsmoosModule_334.setMeshKindVisibility;
+	const updateTinySkeletons = __awtsmoosModule_334.updateTinySkeletons;
 
 	const MAX_TINY_JOINTS = 96;
+
+
 	__exports.MAX_TINY_JOINTS = MAX_TINY_JOINTS;
-
-
 	__exports.collectWorldMatrices = collectWorldMatrices;
 	__exports.setMeshKindVisibility = setMeshKindVisibility;
 	__exports.skeletonLinePositions = skeletonLinePositions;
@@ -24864,7 +25681,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-gltf-instance.js ----
 {
-	const __exports = __awtsmoosModule_318;
+	const __exports = __awtsmoosModule_329;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -24875,12 +25692,12 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * geometry, accessors, textures, and palette materials without sharing mutable bones.
 	 */
 
-	var parseTinyAnimations = __awtsmoosModule_26.parseTinyAnimations;
-	var copyMat4 = __awtsmoosModule_31.copyMat4;
-	var Bone = __awtsmoosModule_29.Bone;
-	var Group = __awtsmoosModule_29.Group;
-	var Mesh = __awtsmoosModule_29.Mesh;
-	var bindTinySkeletons = __awtsmoosModule_319.bindTinySkeletons;
+	const parseTinyAnimations = __awtsmoosModule_26.parseTinyAnimations;
+	const copyMat4 = __awtsmoosModule_31.copyMat4;
+	const Bone = __awtsmoosModule_29.Bone;
+	const Group = __awtsmoosModule_29.Group;
+	const Mesh = __awtsmoosModule_29.Mesh;
+	const bindTinySkeletons = __awtsmoosModule_330.bindTinySkeletons;
 
 	function instantiateTinyGltf(template, options = {}) {
 		if (!template?.scene) throw new Error('A parsed GLTF template is required.');
@@ -24988,9 +25805,9 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-gltf-materials.js ----
 {
-	const __exports = __awtsmoosModule_327;
+	const __exports = __awtsmoosModule_338;
 	// B"H
-	var MeshStandardMaterial = __awtsmoosModule_29.MeshStandardMaterial;
+	const MeshStandardMaterial = __awtsmoosModule_29.MeshStandardMaterial;
 
 	/** GLTF material vessels: no more brown default; linear colors receive display breath. */
 	const DEFAULT_COLOR = [1, 1, 1, 1];
@@ -25058,21 +25875,21 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-gltf-loader.js ----
 {
-	const __exports = __awtsmoosModule_326;
+	const __exports = __awtsmoosModule_337;
 	// B"H
-	var Bone = __awtsmoosModule_29.Bone;
-	var BufferGeometry = __awtsmoosModule_29.BufferGeometry;
-	var Group = __awtsmoosModule_29.Group;
-	var Mesh = __awtsmoosModule_29.Mesh;
-	var mat4FromArray = __awtsmoosModule_31.mat4FromArray;
-	var accessorSummary = __awtsmoosModule_28.accessorSummary;
-	var normalizeWeightsAttribute = __awtsmoosModule_28.normalizeWeightsAttribute;
-	var readAccessor = __awtsmoosModule_28.readAccessor;
-	var parseTinyAnimations = __awtsmoosModule_26.parseTinyAnimations;
-	var summarizeAnimations = __awtsmoosModule_26.summarizeAnimations;
-	var bindTinySkeletons = __awtsmoosModule_319.bindTinySkeletons;
-	var createTinyMaterials = __awtsmoosModule_327.createTinyMaterials;
-	var defaultTinyMaterial = __awtsmoosModule_327.defaultTinyMaterial;
+	const Bone = __awtsmoosModule_29.Bone;
+	const BufferGeometry = __awtsmoosModule_29.BufferGeometry;
+	const Group = __awtsmoosModule_29.Group;
+	const Mesh = __awtsmoosModule_29.Mesh;
+	const mat4FromArray = __awtsmoosModule_31.mat4FromArray;
+	const accessorSummary = __awtsmoosModule_28.accessorSummary;
+	const normalizeWeightsAttribute = __awtsmoosModule_28.normalizeWeightsAttribute;
+	const readAccessor = __awtsmoosModule_28.readAccessor;
+	const parseTinyAnimations = __awtsmoosModule_26.parseTinyAnimations;
+	const summarizeAnimations = __awtsmoosModule_26.summarizeAnimations;
+	const bindTinySkeletons = __awtsmoosModule_330.bindTinySkeletons;
+	const createTinyMaterials = __awtsmoosModule_338.createTinyMaterials;
+	const defaultTinyMaterial = __awtsmoosModule_338.defaultTinyMaterial;
 
 	/** Loader: GLB geometry, skins, animations, and glTF material color breath. */
 	const GLB_MAGIC = 0x46546c67, JSON_CHUNK = 0x4e4f534a, BIN_CHUNK = 0x004e4942;
@@ -25094,23 +25911,23 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	__exports.loadTinyGltf = loadTinyGltf;
 	const loadTinyGlb = loadTinyGltf;
-	__exports.loadTinyGlb = loadTinyGlb;
 
+	__exports.loadTinyGlb = loadTinyGlb;
 	const __awtsmoosDefault_1ep8c8g = { loadTinyGltf, loadTinyGlb };
 	__exports.default = __awtsmoosDefault_1ep8c8g;
 }
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteModelResponseCache.js ----
 {
-	const __exports = __awtsmoosModule_329;
+	const __exports = __awtsmoosModule_340;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
 
 	const REMOTE_MODEL_CACHE_NAME = 'awtsmoos-mitzvah-world-remote-models-v1';
+
+
 	__exports.REMOTE_MODEL_CACHE_NAME = REMOTE_MODEL_CACHE_NAME;
-
-
 	/**
 	 * @file RemoteModelResponseCache.js
 	 * @description Persists verified GLBs and retries bounded transient storage throttling.
@@ -25217,7 +26034,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/ProgressiveAssetFetch.js ----
 {
-	const __exports = __awtsmoosModule_328;
+	const __exports = __awtsmoosModule_339;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -25229,9 +26046,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com remembers each vessel and reveals the mirror only when local service must wait.
 	 */
 
-	var isTrustedModelUrl = __awtsmoosModule_291.isTrustedModelUrl;
-	var modelUrlCandidates = __awtsmoosModule_291.modelUrlCandidates;
-	var cachedModelResponse = __awtsmoosModule_329.cachedModelResponse;
+	const isTrustedModelUrl = __awtsmoosModule_206.isTrustedModelUrl;
+	const modelUrlCandidates = __awtsmoosModule_206.modelUrlCandidates;
+	const cachedModelResponse = __awtsmoosModule_340.cachedModelResponse;
 
 	const GLB_MAGIC = 0x46546c67;
 	const GLB_HEADER_BYTES = 12;
@@ -25327,7 +26144,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/ModelAssetTemplateCache.js ----
 {
-	const __exports = __awtsmoosModule_325;
+	const __exports = __awtsmoosModule_336;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -25339,10 +26156,10 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com now lets Mitzvah World look back to procedural core for template identity instead of owning a parallel store today.
 	 */
 
-	var ModelTemplateCache = __awtsmoosModule_315.ModelTemplateCache;
-	var loadTinyGltf = __awtsmoosModule_326.loadTinyGltf;
-	var fetchAssetBuffer = __awtsmoosModule_328.fetchAssetBuffer;
-	var isTrustedModelUrl = __awtsmoosModule_291.isTrustedModelUrl;
+	const ModelTemplateCache = __awtsmoosModule_326.ModelTemplateCache;
+	const loadTinyGltf = __awtsmoosModule_337.loadTinyGltf;
+	const fetchAssetBuffer = __awtsmoosModule_339.fetchAssetBuffer;
+	const isTrustedModelUrl = __awtsmoosModule_206.isTrustedModelUrl;
 
 	const templateCache = new ModelTemplateCache({
 		loadTemplate: createTemplate,
@@ -25425,7 +26242,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/ModelAssetLoader.js ----
 {
-	const __exports = __awtsmoosModule_314;
+	const __exports = __awtsmoosModule_325;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -25437,12 +26254,12 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com lets this world keep its tiny renderer bridge while cache, instance lifecycle, fallback accounting, and reuse live in core realities.
 	 */
 
-	var ModelAssetService = __awtsmoosModule_315.ModelAssetService;
-	var instantiateTinyGltf = __awtsmoosModule_318.instantiateTinyGltf;
-	var clearModelTemplateCache = __awtsmoosModule_325.clearModelTemplateCache;
-	var loadCachedModelTemplate = __awtsmoosModule_325.loadCachedModelTemplate;
-	var modelTemplateCacheStats = __awtsmoosModule_325.modelTemplateCacheStats;
-	var trustedModelResourceUrl = __awtsmoosModule_325.trustedModelResourceUrl;
+	const ModelAssetService = __awtsmoosModule_326.ModelAssetService;
+	const instantiateTinyGltf = __awtsmoosModule_329.instantiateTinyGltf;
+	const clearModelTemplateCache = __awtsmoosModule_336.clearModelTemplateCache;
+	const loadCachedModelTemplate = __awtsmoosModule_336.loadCachedModelTemplate;
+	const modelTemplateCacheStats = __awtsmoosModule_336.modelTemplateCacheStats;
+	const trustedModelResourceUrl = __awtsmoosModule_336.trustedModelResourceUrl;
 
 	const modelService = new ModelAssetService({
 		decorateFallback,
@@ -25530,7 +26347,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/nature/NatureAnimationLoop.js ----
 {
-	const __exports = __awtsmoosModule_330;
+	const __exports = __awtsmoosModule_341;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -25579,7 +26396,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/environment/EnvironmentalWindField.js ----
 {
-	const __exports = __awtsmoosModule_333;
+	const __exports = __awtsmoosModule_344;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -25677,7 +26494,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/nature/NatureQualityBudget.js ----
 {
-	const __exports = __awtsmoosModule_334;
+	const __exports = __awtsmoosModule_345;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -25724,7 +26541,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/nature/SharedWindQuaternion.js ----
 {
-	const __exports = __awtsmoosModule_335;
+	const __exports = __awtsmoosModule_346;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -25761,7 +26578,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/nature/SharedWindField.js ----
 {
-	const __exports = __awtsmoosModule_332;
+	const __exports = __awtsmoosModule_343;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -25773,11 +26590,11 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * inherit coherent fronts, crosswind, flutter, and traveler wake while their own cadence and authored yaw remain intact.
 	 */
 
-	var sampleEnvironmentalWind = __awtsmoosModule_333.sampleEnvironmentalWind;
-	var natureQualityBudget = __awtsmoosModule_334.natureQualityBudget;
-	var setEulerQuaternion = __awtsmoosModule_335.setEulerQuaternion;
+	const sampleEnvironmentalWind = __awtsmoosModule_344.sampleEnvironmentalWind;
+	const natureQualityBudget = __awtsmoosModule_345.natureQualityBudget;
+	const setEulerQuaternion = __awtsmoosModule_346.setEulerQuaternion;
 
-	__exports.setEulerQuaternion = __awtsmoosModule_335.setEulerQuaternion;
+	__exports.setEulerQuaternion = __awtsmoosModule_346.setEulerQuaternion;
 
 	const SHARED_STRENGTH = 1;
 
@@ -25890,7 +26707,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/nature/NatureInstanceDecoration.js ----
 {
-	const __exports = __awtsmoosModule_331;
+	const __exports = __awtsmoosModule_342;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -25902,7 +26719,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com refuses false powers, so unsupported light is intent and solid fallback is framed.
 	 */
 
-	var setEulerQuaternion = __awtsmoosModule_332.setEulerQuaternion;
+	const setEulerQuaternion = __awtsmoosModule_343.setEulerQuaternion;
 
 	/** Decorates one isolated GLB scene with placement and quality evidence. */
 	function decorateNatureInstance(scene, placement, budget) {
@@ -25951,7 +26768,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/tzomayach/assets/VegetationInstanceLoader.js ----
 {
-	const __exports = __awtsmoosModule_339;
+	const __exports = __awtsmoosModule_350;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -26023,7 +26840,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/tzomayach/assets/VegetationAssetLibrary.js ----
 {
-	const __exports = __awtsmoosModule_338;
+	const __exports = __awtsmoosModule_349;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -26035,7 +26852,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com lets trees, flowers, bushes, grasses, and stones name model resources while games choose where those resources spring.
 	 */
 
-	var loadVegetationInstances = __awtsmoosModule_339.loadVegetationInstances;
+	const loadVegetationInstances = __awtsmoosModule_350.loadVegetationInstances;
 
 	/** Immutable vegetation model catalog backed by an injected model service. */
 	class VegetationAssetLibrary {
@@ -26112,7 +26929,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/tzomayach/assets/index.js ----
 {
-	const __exports = __awtsmoosModule_337;
+	const __exports = __awtsmoosModule_348;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -26124,15 +26941,15 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com lets GLTF and other model assets enter vegetation law without making a particular game their root or course.
 	 */
 
-	__exports.VegetationAssetLibrary = __awtsmoosModule_338.VegetationAssetLibrary;
-	__exports.createVegetationAssetRecord = __awtsmoosModule_338.createVegetationAssetRecord;
-	__exports.loadVegetationInstances = __awtsmoosModule_339.loadVegetationInstances;
+	__exports.VegetationAssetLibrary = __awtsmoosModule_349.VegetationAssetLibrary;
+	__exports.createVegetationAssetRecord = __awtsmoosModule_349.createVegetationAssetRecord;
+	__exports.loadVegetationInstances = __awtsmoosModule_350.loadVegetationInstances;
 
 }
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/nature/NatureInstanceLoader.js ----
 {
-	const __exports = __awtsmoosModule_336;
+	const __exports = __awtsmoosModule_347;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -26144,7 +26961,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com makes this game look back to procedural core instead of maintaining another hidden copy beneath every flower and birch.
 	 */
 
-	var loadVegetationInstances = __awtsmoosModule_337.loadVegetationInstances;
+	const loadVegetationInstances = __awtsmoosModule_348.loadVegetationInstances;
 
 	/**
 	 * Compatibility delegate preserving Mitzvah World's historical nature hydration signature and labels.
@@ -26165,7 +26982,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/village/CanonicalVillageBiomes.js ----
 {
-	const __exports = __awtsmoosModule_342;
+	const __exports = __awtsmoosModule_353;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -26189,9 +27006,9 @@ const __awtsmoosModule_0 = Object.create(null);
 		biome('farm-terraces', 'cultivated', 43, 42, 34, 28, 0.34),
 		biome('south-bank-clearings', 'open-woodland', 70, 78, 70, 62, 0.38)
 	]);
+
+
 	__exports.CANONICAL_VILLAGE_BIOMES = CANONICAL_VILLAGE_BIOMES;
-
-
 	function canonicalBiomeAt(x, z) {
 		let strongest = null;
 		let strongestWeight = 0;
@@ -26220,7 +27037,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/village/CanonicalHouseArchetypes.js ----
 {
-	const __exports = __awtsmoosModule_346;
+	const __exports = __awtsmoosModule_357;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -26290,7 +27107,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/village/VillageHouseEntryPolicy.js ----
 {
-	const __exports = __awtsmoosModule_347;
+	const __exports = __awtsmoosModule_358;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -26357,7 +27174,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/village/CanonicalVillageHouses.js ----
 {
-	const __exports = __awtsmoosModule_345;
+	const __exports = __awtsmoosModule_356;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -26369,8 +27186,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com preserves immutable architecture and entry truth before any renderer bears the load.
 	 */
 
-	var canonicalHouseArchitecture = __awtsmoosModule_346.canonicalHouseArchitecture;
-	var canonicalHouseEntry = __awtsmoosModule_347.canonicalHouseEntry;
+	const canonicalHouseArchitecture = __awtsmoosModule_357.canonicalHouseArchitecture;
+	const canonicalHouseEntry = __awtsmoosModule_358.canonicalHouseEntry;
 
 	const CANONICAL_VILLAGE_HOUSES = Object.freeze([
 		house('H10', 'arrival-meadow', 'small-stone-cottage', -50, 116, 1.3, 0),
@@ -26392,15 +27209,15 @@ const __awtsmoosModule_0 = Object.create(null);
 		house('H26', 'farm-terraces', 'workshop-barn', 112, 76, -2.44, 16),
 		house('H27', 'riverfront-gardens', 'guest-house', -16, 76, 1.18, 17)
 	]);
+
+
 	__exports.CANONICAL_VILLAGE_HOUSES = CANONICAL_VILLAGE_HOUSES;
-
-
 	const CANONICAL_HOUSES_BY_ID = Object.freeze(Object.fromEntries(
 		CANONICAL_VILLAGE_HOUSES.map(definition => [definition.id, definition])
 	));
+
+
 	__exports.CANONICAL_HOUSES_BY_ID = CANONICAL_HOUSES_BY_ID;
-
-
 	function minimumCanonicalHouseDistance() {
 		let minimum = Infinity;
 		for (let first = 0; first < CANONICAL_VILLAGE_HOUSES.length; first += 1) {
@@ -26434,7 +27251,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/village/CanonicalVillageFootprints.js ----
 {
-	const __exports = __awtsmoosModule_344;
+	const __exports = __awtsmoosModule_355;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -26446,7 +27263,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * roads, foundations, interiors, vegetation, and cameras agree about the same occupied ground.
 	 */
 
-	var CANONICAL_VILLAGE_HOUSES = __awtsmoosModule_345.CANONICAL_VILLAGE_HOUSES;
+	const CANONICAL_VILLAGE_HOUSES = __awtsmoosModule_356.CANONICAL_VILLAGE_HOUSES;
 
 	const LANDMARK_FOOTPRINTS = Object.freeze([
 		footprint('SHUL01', 'shul', -34, -24, 9, 7, 0.08, 8.8),
@@ -26485,15 +27302,15 @@ const __awtsmoosModule_0 = Object.create(null);
 			);
 		})
 	]);
+
+
 	__exports.CANONICAL_VILLAGE_FOOTPRINTS = CANONICAL_VILLAGE_FOOTPRINTS;
-
-
 	const CANONICAL_FOOTPRINTS_BY_ID = Object.freeze(Object.fromEntries(
 		CANONICAL_VILLAGE_FOOTPRINTS.map((definition) => [definition.id, definition])
 	));
+
+
 	__exports.CANONICAL_FOOTPRINTS_BY_ID = CANONICAL_FOOTPRINTS_BY_ID;
-
-
 	function footprint(id, archetype, x, z, width, depth, yaw, baseElevation) {
 		return Object.freeze({
 			archetype,
@@ -26511,7 +27328,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/spatial/WorldSpatialMath.js ----
 {
-	const __exports = __awtsmoosModule_348;
+	const __exports = __awtsmoosModule_359;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -26631,7 +27448,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/spatial/WorldArchitectureApproach.js ----
 {
-	const __exports = __awtsmoosModule_343;
+	const __exports = __awtsmoosModule_354;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -26643,8 +27460,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * projects the facade axis into world space so no tree, bush, flower, or rock may colonize the walk home.
 	 */
 
-	var CANONICAL_VILLAGE_FOOTPRINTS = __awtsmoosModule_344.CANONICAL_VILLAGE_FOOTPRINTS;
-	var signedOrientedRectangleClearanceXZ = __awtsmoosModule_348.signedOrientedRectangleClearanceXZ;
+	const CANONICAL_VILLAGE_FOOTPRINTS = __awtsmoosModule_355.CANONICAL_VILLAGE_FOOTPRINTS;
+	const signedOrientedRectangleClearanceXZ = __awtsmoosModule_359.signedOrientedRectangleClearanceXZ;
 
 	const HOUSE_PATTERN = /cottage|house|workshop|inn/i;
 	const APPROACH_DEPTH = 8.6;
@@ -26655,9 +27472,9 @@ const __awtsmoosModule_0 = Object.create(null);
 			.filter(footprint => HOUSE_PATTERN.test(footprint.archetype))
 			.map(createApproach)
 	);
+
+
 	__exports.CANONICAL_ARCHITECTURE_APPROACHES = CANONICAL_ARCHITECTURE_APPROACHES;
-
-
 	/** Returns nearest signed doorway-approach clearance at one point. */
 	function architectureApproachEvidenceAt(point, options = {}) {
 		const approaches = options.approaches || CANONICAL_ARCHITECTURE_APPROACHES;
@@ -26705,7 +27522,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/village/VillageArrivalSpatialContract.js ----
 {
-	const __exports = __awtsmoosModule_351;
+	const __exports = __awtsmoosModule_362;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -26722,9 +27539,9 @@ const __awtsmoosModule_0 = Object.create(null);
 		x: 0,
 		z: 104
 	});
+
+
 	__exports.VILLAGE_ARRIVAL_PLAYER = VILLAGE_ARRIVAL_PLAYER;
-
-
 	const VILLAGE_ARRIVAL_CAMERA = Object.freeze({
 		clearingRadius: 15,
 		clearingX: 0,
@@ -26736,24 +27553,24 @@ const __awtsmoosModule_0 = Object.create(null);
 		pitch: 0.26,
 		yaw: 2.86
 	});
+
+
 	__exports.VILLAGE_ARRIVAL_CAMERA = VILLAGE_ARRIVAL_CAMERA;
-
-
 	const VILLAGE_ARRIVAL_SIGN = Object.freeze({
 		x: -7,
 		yaw: 0.12,
 		z: 96
 	});
+
+
 	__exports.VILLAGE_ARRIVAL_SIGN = VILLAGE_ARRIVAL_SIGN;
-
-
 	const VILLAGE_ARRIVAL_ENTRANCE = Object.freeze({
 		x: 0,
 		z: 101
 	});
+
+
 	__exports.VILLAGE_ARRIVAL_ENTRANCE = VILLAGE_ARRIVAL_ENTRANCE;
-
-
 	const VILLAGE_ARRIVAL_CLEARINGS = Object.freeze([
 		Object.freeze({ id: 'arrival-spawn', radius: 16, x: 0, z: 104 }),
 		Object.freeze({
@@ -26763,9 +27580,9 @@ const __awtsmoosModule_0 = Object.create(null);
 			z: VILLAGE_ARRIVAL_CAMERA.clearingZ
 		})
 	]);
+
+
 	__exports.VILLAGE_ARRIVAL_CLEARINGS = VILLAGE_ARRIVAL_CLEARINGS;
-
-
 	function arrivalPlayerScreenFraction(playerHeight = 1.72) {
 		const angularHeight = 2 * Math.atan(
 			playerHeight / (2 * VILLAGE_ARRIVAL_CAMERA.distance)
@@ -26783,7 +27600,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/village/CanonicalVillageClearings.js ----
 {
-	const __exports = __awtsmoosModule_350;
+	const __exports = __awtsmoosModule_361;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -26795,7 +27612,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com keeps this finite catalog side-effect free so spatial queries remain cheap, deterministic, and shared everywhere.
 	 */
 
-	var VILLAGE_ARRIVAL_CLEARINGS = __awtsmoosModule_351.VILLAGE_ARRIVAL_CLEARINGS;
+	const VILLAGE_ARRIVAL_CLEARINGS = __awtsmoosModule_362.VILLAGE_ARRIVAL_CLEARINGS;
 
 	const CANONICAL_VILLAGE_CLEARINGS = Object.freeze([
 		...VILLAGE_ARRIVAL_CLEARINGS,
@@ -26807,9 +27624,9 @@ const __awtsmoosModule_0 = Object.create(null);
 		clearing('farm-crossing', 43, 39, 8),
 		clearing('riverfront-path', -5, 36, 8)
 	]);
+
+
 	__exports.CANONICAL_VILLAGE_CLEARINGS = CANONICAL_VILLAGE_CLEARINGS;
-
-
 	function clearing(id, x, z, radius) {
 		return Object.freeze({ id, radius, x, z });
 	}
@@ -26818,7 +27635,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/spatial/WorldPhysicalExclusions.js ----
 {
-	const __exports = __awtsmoosModule_349;
+	const __exports = __awtsmoosModule_360;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -26830,10 +27647,10 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * but allocates only the nearest evidence, keeping rich ecology and Studio diagnostics truthful without burdening world entry.
 	 */
 
-	var CANONICAL_VILLAGE_CLEARINGS = __awtsmoosModule_350.CANONICAL_VILLAGE_CLEARINGS;
-	var CANONICAL_VILLAGE_FOOTPRINTS = __awtsmoosModule_344.CANONICAL_VILLAGE_FOOTPRINTS;
-	var signedCircleClearanceXZ = __awtsmoosModule_348.signedCircleClearanceXZ;
-	var signedOrientedRectangleClearanceXZ = __awtsmoosModule_348.signedOrientedRectangleClearanceXZ;
+	const CANONICAL_VILLAGE_CLEARINGS = __awtsmoosModule_361.CANONICAL_VILLAGE_CLEARINGS;
+	const CANONICAL_VILLAGE_FOOTPRINTS = __awtsmoosModule_355.CANONICAL_VILLAGE_FOOTPRINTS;
+	const signedCircleClearanceXZ = __awtsmoosModule_359.signedCircleClearanceXZ;
+	const signedOrientedRectangleClearanceXZ = __awtsmoosModule_359.signedOrientedRectangleClearanceXZ;
 
 	const ROAD_PROXY_CLEARING_IDS = new Set(['bridge-approach', 'farm-crossing', 'riverfront-path']);
 	const TRUE_AREA_CLEARINGS = Object.freeze(
@@ -26941,7 +27758,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/village/CanonicalVillageHydrology.js ----
 {
-	const __exports = __awtsmoosModule_358;
+	const __exports = __awtsmoosModule_369;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -26967,21 +27784,21 @@ const __awtsmoosModule_0 = Object.create(null);
 		point(18, 82),
 		point(22, 108)
 	]);
+
+
 	__exports.CANONICAL_RIVER_CONTROL_POINTS = CANONICAL_RIVER_CONTROL_POINTS;
-
-
 	const CANONICAL_RIVER_LAKE_INDEX = 8;
+
+
 	__exports.CANONICAL_RIVER_LAKE_INDEX = CANONICAL_RIVER_LAKE_INDEX;
-
-
 	const CANONICAL_RIVER_CASCADES = Object.freeze([
 		Object.freeze({ drop: 1.7, t: 0.09 }),
 		Object.freeze({ drop: 1.35, t: 0.19 }),
 		Object.freeze({ drop: 0.9, t: 0.3 })
 	]);
+
+
 	__exports.CANONICAL_RIVER_CASCADES = CANONICAL_RIVER_CASCADES;
-
-
 	function point(x, z) {
 		return Object.freeze([x, z]);
 	}
@@ -26990,7 +27807,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/ecosystem/EcosystemRandom.js ----
 {
-	const __exports = __awtsmoosModule_362;
+	const __exports = __awtsmoosModule_373;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -27055,7 +27872,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/ecosystem/HabitatSampleCore.js ----
 {
-	const __exports = __awtsmoosModule_364;
+	const __exports = __awtsmoosModule_375;
 	//B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -27182,7 +27999,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/ecosystem/HabitatAffinity.js ----
 {
-	const __exports = __awtsmoosModule_365;
+	const __exports = __awtsmoosModule_376;
 	//B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -27196,7 +28013,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com lets each species incline toward moisture, light, flood, slope, or shelter through one transparent scoring exchange.
 	 */
 
-	var createHabitatSample = __awtsmoosModule_364.createHabitatSample;
+	const createHabitatSample = __awtsmoosModule_375.createHabitatSample;
 
 	/**
 	 * Scores one habitat sample against weighted species preferences.
@@ -27272,7 +28089,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/ecosystem/HabitatSample.js ----
 {
-	const __exports = __awtsmoosModule_363;
+	const __exports = __awtsmoosModule_374;
 	//B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -27286,15 +28103,15 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * old callers keep their path, new hydrology keeps its depth, and modular growth arrives without breaking the garden wall.
 	 */
 
-	__exports.createHabitatSample = __awtsmoosModule_364.createHabitatSample;
-	__exports.habitatChannels = __awtsmoosModule_364.habitatChannels;
-	__exports.habitatAffinity = __awtsmoosModule_365.habitatAffinity;
+	__exports.createHabitatSample = __awtsmoosModule_375.createHabitatSample;
+	__exports.habitatChannels = __awtsmoosModule_375.habitatChannels;
+	__exports.habitatAffinity = __awtsmoosModule_376.habitatAffinity;
 
 }
 
 // ---- libs/awtsmoos-procedural-core/src/core/ecosystem/SpatialCellIndex.js ----
 {
-	const __exports = __awtsmoosModule_366;
+	const __exports = __awtsmoosModule_377;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -27393,7 +28210,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/ecosystem/EcosystemSpeciesCatalog.js ----
 {
-	const __exports = __awtsmoosModule_367;
+	const __exports = __awtsmoosModule_378;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -27455,7 +28272,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/ecosystem/PopulationSelection.js ----
 {
-	const __exports = __awtsmoosModule_370;
+	const __exports = __awtsmoosModule_381;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -27467,7 +28284,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * so selection remains deterministic, bounded, and reusable without one planner stealing another's content.
 	 */
 
-	var habitatAffinity = __awtsmoosModule_363.habitatAffinity;
+	const habitatAffinity = __awtsmoosModule_374.habitatAffinity;
 
 	function choosePopulationSpecies(speciesList, habitat, random) {
 		const weighted = speciesList.map(species => ({
@@ -27523,7 +28340,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/ecosystem/VegetationSpeciesAssociation.js ----
 {
-	const __exports = __awtsmoosModule_371;
+	const __exports = __awtsmoosModule_382;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -27534,7 +28351,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos renews neighboring root and canopy before one species seems friend or rival; Awtsmoos.com lets Chesed model facilitation while Gevurah models avoidance,
 	 * so mixed communities can reveal clumps, nurse-plant relationships, and local exclusion through explicit data while callers with no association intent keep the exact old path.
 	 */
-	var habitatAffinity = __awtsmoosModule_363.habitatAffinity;
+	const habitatAffinity = __awtsmoosModule_374.habitatAffinity;
 
 	/** Returns whether species or planner options declare local association intent. */
 	function hasVegetationAssociationIntent(keterSpecies = [], chochmahOptions = {}) {
@@ -27619,7 +28436,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/ecosystem/VegetationCandidateSelection.js ----
 {
-	const __exports = __awtsmoosModule_369;
+	const __exports = __awtsmoosModule_380;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -27630,9 +28447,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos renews each possible species before habitat or neighbor can incline the choice; Awtsmoos.com lets Binah preserve the old path exactly,
 	 * while Chessed and Gevurah may reveal nurse-plant facilitation or local avoidance only when explicit association data asks for deeper community structure.
 	 */
-	var choosePopulationSpecies = __awtsmoosModule_370.choosePopulationSpecies;
-	var chooseAssociatedVegetationSpecies = __awtsmoosModule_371.chooseAssociatedVegetationSpecies;
-	var hasVegetationAssociationIntent = __awtsmoosModule_371.hasVegetationAssociationIntent;
+	const choosePopulationSpecies = __awtsmoosModule_381.choosePopulationSpecies;
+	const chooseAssociatedVegetationSpecies = __awtsmoosModule_382.chooseAssociatedVegetationSpecies;
+	const hasVegetationAssociationIntent = __awtsmoosModule_382.hasVegetationAssociationIntent;
 
 	/**
 	 * Creates immutable candidate-selection context once per population plan.
@@ -27689,7 +28506,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/ecosystem/VegetationPatchEcology.js ----
 {
-	const __exports = __awtsmoosModule_373;
+	const __exports = __awtsmoosModule_384;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -27791,7 +28608,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/ecosystem/VegetationPatchProfile.js ----
 {
-	const __exports = __awtsmoosModule_374;
+	const __exports = __awtsmoosModule_385;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -27803,8 +28620,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * old callers still receive the same unadorned path, while richer ecological intent may enter without teaching the field about UI-level realism names.
 	 */
 
-	var populationBounds = __awtsmoosModule_370.populationBounds;
-	var randomPoint = __awtsmoosModule_370.randomPoint;
+	const populationBounds = __awtsmoosModule_381.populationBounds;
+	const randomPoint = __awtsmoosModule_381.randomPoint;
 
 	/**
 	 * Builds one immutable patch profile from generic ecological controls.
@@ -27912,7 +28729,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/ecosystem/VegetationPatchShape.js ----
 {
-	const __exports = __awtsmoosModule_375;
+	const __exports = __awtsmoosModule_386;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -27998,7 +28815,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/ecosystem/VegetationPatchField.js ----
 {
-	const __exports = __awtsmoosModule_372;
+	const __exports = __awtsmoosModule_383;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -28009,12 +28826,12 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos renews clearing, clump, wind, and slope before distance receives a name; Awtsmoos.com lets the same random angle and radius enter a wiser vessel,
 	 * so advanced stands may stretch into corridors while callers with no directional intent keep the exact circular candidate path and random-stream behavior.
 	 */
-	var createVegetationPatchEcology = __awtsmoosModule_373.createVegetationPatchEcology;
-	var createVegetationPatchProfile = __awtsmoosModule_374.createVegetationPatchProfile;
-	var sampleVegetationPatchRadius = __awtsmoosModule_374.sampleVegetationPatchRadius;
-	var createVegetationPatchShape = __awtsmoosModule_375.createVegetationPatchShape;
-	var shapeVegetationPatchOffset = __awtsmoosModule_375.shapeVegetationPatchOffset;
-	var randomPoint = __awtsmoosModule_370.randomPoint;
+	const createVegetationPatchEcology = __awtsmoosModule_384.createVegetationPatchEcology;
+	const createVegetationPatchProfile = __awtsmoosModule_385.createVegetationPatchProfile;
+	const sampleVegetationPatchRadius = __awtsmoosModule_385.sampleVegetationPatchRadius;
+	const createVegetationPatchShape = __awtsmoosModule_386.createVegetationPatchShape;
+	const shapeVegetationPatchOffset = __awtsmoosModule_386.shapeVegetationPatchOffset;
+	const randomPoint = __awtsmoosModule_381.randomPoint;
 
 	/** Deterministic patch field used by vegetation planners without owning species acceptance. */
 	class VegetationPatchField {
@@ -28082,7 +28899,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/ecosystem/VegetationPopulationDiagnostics.js ----
 {
-	const __exports = __awtsmoosModule_376;
+	const __exports = __awtsmoosModule_387;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -28139,7 +28956,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/ecosystem/VegetationPlacementEcology.js ----
 {
-	const __exports = __awtsmoosModule_377;
+	const __exports = __awtsmoosModule_388;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -28151,8 +28968,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com lets this Malchus-like vessel receive ecological evidence while the population planner remains the choosing mind.
 	 */
 
-	var ecosystemSeed = __awtsmoosModule_362.ecosystemSeed;
-	var normalizeScale = __awtsmoosModule_370.normalizeScale;
+	const ecosystemSeed = __awtsmoosModule_373.ecosystemSeed;
+	const normalizeScale = __awtsmoosModule_381.normalizeScale;
 
 	/**
 	 * Computes lawful spacing for a candidate while preserving the legacy uniform path exactly.
@@ -28240,7 +29057,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/ecosystem/VegetationPopulationPlanner.js ----
 {
-	const __exports = __awtsmoosModule_368;
+	const __exports = __awtsmoosModule_379;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -28251,17 +29068,17 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos, Atzmus beyond root and clearing, lets Chesed fill the land while Gevurah preserves distance and habitat truth;
 	 * Awtsmoos.com keeps this planner as Tiferes between abundance and restraint, preserving the exact legacy selection path whenever deeper association intent is absent.
 	 */
-	var EcosystemRandom = __awtsmoosModule_362.EcosystemRandom;
-	var ecosystemSeed = __awtsmoosModule_362.ecosystemSeed;
-	var createHabitatSample = __awtsmoosModule_363.createHabitatSample;
-	var SpatialCellIndex = __awtsmoosModule_366.SpatialCellIndex;
-	var chooseVegetationCandidateSpecies = __awtsmoosModule_369.chooseVegetationCandidateSpecies;
-	var createVegetationSelectionContext = __awtsmoosModule_369.createVegetationSelectionContext;
-	var VegetationPatchField = __awtsmoosModule_372.VegetationPatchField;
-	var VegetationPopulationDiagnostics = __awtsmoosModule_376.VegetationPopulationDiagnostics;
-	var createVegetationPlacement = __awtsmoosModule_377.createVegetationPlacement;
-	var vegetationCandidateSpacing = __awtsmoosModule_377.vegetationCandidateSpacing;
-	var populationBounds = __awtsmoosModule_370.populationBounds;
+	const EcosystemRandom = __awtsmoosModule_373.EcosystemRandom;
+	const ecosystemSeed = __awtsmoosModule_373.ecosystemSeed;
+	const createHabitatSample = __awtsmoosModule_374.createHabitatSample;
+	const SpatialCellIndex = __awtsmoosModule_377.SpatialCellIndex;
+	const chooseVegetationCandidateSpecies = __awtsmoosModule_380.chooseVegetationCandidateSpecies;
+	const createVegetationSelectionContext = __awtsmoosModule_380.createVegetationSelectionContext;
+	const VegetationPatchField = __awtsmoosModule_383.VegetationPatchField;
+	const VegetationPopulationDiagnostics = __awtsmoosModule_387.VegetationPopulationDiagnostics;
+	const createVegetationPlacement = __awtsmoosModule_388.createVegetationPlacement;
+	const vegetationCandidateSpacing = __awtsmoosModule_388.vegetationCandidateSpacing;
+	const populationBounds = __awtsmoosModule_381.populationBounds;
 
 	/**
 	 * Plans a bounded mixed vegetation population from habitat, patch ecology, association, and spacing evidence.
@@ -28346,7 +29163,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/ecosystem/CreatureGroupPlanner.js ----
 {
-	const __exports = __awtsmoosModule_379;
+	const __exports = __awtsmoosModule_390;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -28422,7 +29239,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/ecosystem/CreaturePopulationPlanner.js ----
 {
-	const __exports = __awtsmoosModule_378;
+	const __exports = __awtsmoosModule_389;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -28434,15 +29251,15 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com keeps population intent renderer-neutral so many games may clothe the same ecology from one fount.
 	 */
 
-	var CreatureGroupPlanner = __awtsmoosModule_379.CreatureGroupPlanner;
-	var EcosystemRandom = __awtsmoosModule_362.EcosystemRandom;
-	var ecosystemSeed = __awtsmoosModule_362.ecosystemSeed;
-	var createHabitatSample = __awtsmoosModule_363.createHabitatSample;
-	var SpatialCellIndex = __awtsmoosModule_366.SpatialCellIndex;
-	var choosePopulationSpecies = __awtsmoosModule_370.choosePopulationSpecies;
-	var normalizeScale = __awtsmoosModule_370.normalizeScale;
-	var populationBounds = __awtsmoosModule_370.populationBounds;
-	var randomPoint = __awtsmoosModule_370.randomPoint;
+	const CreatureGroupPlanner = __awtsmoosModule_390.CreatureGroupPlanner;
+	const EcosystemRandom = __awtsmoosModule_373.EcosystemRandom;
+	const ecosystemSeed = __awtsmoosModule_373.ecosystemSeed;
+	const createHabitatSample = __awtsmoosModule_374.createHabitatSample;
+	const SpatialCellIndex = __awtsmoosModule_377.SpatialCellIndex;
+	const choosePopulationSpecies = __awtsmoosModule_381.choosePopulationSpecies;
+	const normalizeScale = __awtsmoosModule_381.normalizeScale;
+	const populationBounds = __awtsmoosModule_381.populationBounds;
+	const randomPoint = __awtsmoosModule_381.randomPoint;
 
 	const ACTIVITIES = Object.freeze(['forage', 'graze', 'rest', 'wander', 'drink', 'watch']);
 
@@ -28518,7 +29335,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/ecosystem/VegetationGuildRecord.js ----
 {
-	const __exports = __awtsmoosModule_380;
+	const __exports = __awtsmoosModule_391;
 	//B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -28564,7 +29381,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/ecosystem/VegetationGuildSpecies.js ----
 {
-	const __exports = __awtsmoosModule_381;
+	const __exports = __awtsmoosModule_392;
 	//B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -28655,7 +29472,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/ecosystem/VegetationGuildHabitats.js ----
 {
-	const __exports = __awtsmoosModule_382;
+	const __exports = __awtsmoosModule_393;
 	//B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -28669,7 +29486,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com lets many species reuse those measures, so ecological truth is shared as one clear pattern instead of copied again and again.
 	 */
 
-	var tiferesRange = __awtsmoosModule_381.guildHabitatRange;
+	const tiferesRange = __awtsmoosModule_392.guildHabitatRange;
 
 	/** Returns sunny, moderately moist habitat for ordinary meadow grasses and flowers. */
 	function meadowHabitat(overrides = {}) {
@@ -28747,7 +29564,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/ecosystem/VegetationGuildMembers.js ----
 {
-	const __exports = __awtsmoosModule_384;
+	const __exports = __awtsmoosModule_395;
 	//B"H
 	//Boruch Hashem
 	//Blessed is He
@@ -28758,7 +29575,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos renews each blossom without dissolving its neighbors into anonymous noise;
 	 * Awtsmoos.com lets association, habitat, scale, spacing, and role become explicit data so living communities gain a truer voice.
 	 */
-	var createGuildSpecies = __awtsmoosModule_381.createGuildSpecies;
+	const createGuildSpecies = __awtsmoosModule_392.createGuildSpecies;
 
 	/**
 	 * Creates a meadow guild where matrix flowers, pollinator anchors, and taller accents reinforce one another.
@@ -28847,7 +29664,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/ecosystem/VegetationGuildCatalog.js ----
 {
-	const __exports = __awtsmoosModule_383;
+	const __exports = __awtsmoosModule_394;
 	//B"H
 	//Boruch Hashem
 	//Blessed is He
@@ -28858,17 +29675,17 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos binds meadow, wetland, woodland, border, and stone-edge life without erasing any species boundary;
 	 * Awtsmoos.com lets one small guild name reveal habitat, association, spacing, and patch intent through a calm reusable API.
 	 */
-	var meadowHabitat = __awtsmoosModule_382.meadowHabitat;
-	var rockGardenHabitat = __awtsmoosModule_382.rockGardenHabitat;
-	var shrubBorderHabitat = __awtsmoosModule_382.shrubBorderHabitat;
-	var wetMeadowHabitat = __awtsmoosModule_382.wetMeadowHabitat;
-	var woodlandEdgeHabitat = __awtsmoosModule_382.woodlandEdgeHabitat;
-	var meadowGuildMembers = __awtsmoosModule_384.meadowGuildMembers;
-	var rockGardenGuildMembers = __awtsmoosModule_384.rockGardenGuildMembers;
-	var shrubBorderGuildMembers = __awtsmoosModule_384.shrubBorderGuildMembers;
-	var wetMeadowGuildMembers = __awtsmoosModule_384.wetMeadowGuildMembers;
-	var woodlandGuildMembers = __awtsmoosModule_384.woodlandGuildMembers;
-	var createVegetationGuild = __awtsmoosModule_380.createVegetationGuild;
+	const meadowHabitat = __awtsmoosModule_393.meadowHabitat;
+	const rockGardenHabitat = __awtsmoosModule_393.rockGardenHabitat;
+	const shrubBorderHabitat = __awtsmoosModule_393.shrubBorderHabitat;
+	const wetMeadowHabitat = __awtsmoosModule_393.wetMeadowHabitat;
+	const woodlandEdgeHabitat = __awtsmoosModule_393.woodlandEdgeHabitat;
+	const meadowGuildMembers = __awtsmoosModule_395.meadowGuildMembers;
+	const rockGardenGuildMembers = __awtsmoosModule_395.rockGardenGuildMembers;
+	const shrubBorderGuildMembers = __awtsmoosModule_395.shrubBorderGuildMembers;
+	const wetMeadowGuildMembers = __awtsmoosModule_395.wetMeadowGuildMembers;
+	const woodlandGuildMembers = __awtsmoosModule_395.woodlandGuildMembers;
+	const createVegetationGuild = __awtsmoosModule_391.createVegetationGuild;
 
 	const GUILDS = Object.freeze({
 		meadow: guild('meadow', 'Native Meadow', meadowGuildMembers(meadowHabitat()), {
@@ -28889,9 +29706,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	});
 
 	const VEGETATION_GUILD_IDS = Object.freeze(Object.keys(GUILDS));
+
+
 	__exports.VEGETATION_GUILD_IDS = VEGETATION_GUILD_IDS;
-
-
 	/**
 	 * Resolves one canonical guild by stable identifier.
 	 * @param {string} [idOhr='meadow'] Guild identifier.
@@ -28927,7 +29744,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/proceduralObject/simulation/shallowWaterVelocityDerivatives.js ----
 {
-	const __exports = __awtsmoosModule_389;
+	const __exports = __awtsmoosModule_400;
 	//B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -28992,7 +29809,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/ecosystem/ShallowWaterGridSampler.js ----
 {
-	const __exports = __awtsmoosModule_390;
+	const __exports = __awtsmoosModule_401;
 	//B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -29125,7 +29942,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/ecosystem/ShallowWaterDerivativeEvidence.js ----
 {
-	const __exports = __awtsmoosModule_388;
+	const __exports = __awtsmoosModule_399;
 	//B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -29138,11 +29955,11 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos renews turning current and rising shore before finite difference can measure either sign;
 	 * Awtsmoos.com lets Chochmah-like motion enter Binah-like derivative vessels, so later ecology may read the river's line.
 	 */
-	var shallowWaterVelocityDerivatives = __awtsmoosModule_389.shallowWaterVelocityDerivatives;
-	var clampShallowWaterValue = __awtsmoosModule_390.clampShallowWaterValue;
-	var finiteShallowWaterValue = __awtsmoosModule_390.finiteShallowWaterValue;
-	var mixShallowWaterValue = __awtsmoosModule_390.mixShallowWaterValue;
-	var sampleShallowWaterScalar = __awtsmoosModule_390.sampleShallowWaterScalar;
+	const shallowWaterVelocityDerivatives = __awtsmoosModule_400.shallowWaterVelocityDerivatives;
+	const clampShallowWaterValue = __awtsmoosModule_401.clampShallowWaterValue;
+	const finiteShallowWaterValue = __awtsmoosModule_401.finiteShallowWaterValue;
+	const mixShallowWaterValue = __awtsmoosModule_401.mixShallowWaterValue;
+	const sampleShallowWaterScalar = __awtsmoosModule_401.sampleShallowWaterScalar;
 
 	/**
 	 * Computes a centered world-space depth gradient around one floating lattice coordinate.
@@ -29293,7 +30110,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/ecosystem/ShallowWaterGridEvidence.js ----
 {
-	const __exports = __awtsmoosModule_387;
+	const __exports = __awtsmoosModule_398;
 	//B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -29306,13 +30123,13 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos renews depth and motion before many measurements can appear as one local truth;
 	 * Awtsmoos.com lets Tiferes gather those separate lights without swallowing the vessels that revealed their proof.
 	 */
-	var shallowWaterDepthGradient = __awtsmoosModule_388.shallowWaterDepthGradient;
-	var shallowWaterDerivativeEvidence = __awtsmoosModule_388.shallowWaterDerivativeEvidence;
-	var shallowWaterObstacleProximity = __awtsmoosModule_388.shallowWaterObstacleProximity;
-	var clampShallowWaterValue = __awtsmoosModule_390.clampShallowWaterValue;
-	var finiteShallowWaterValue = __awtsmoosModule_390.finiteShallowWaterValue;
-	var sampleShallowWaterScalar = __awtsmoosModule_390.sampleShallowWaterScalar;
-	var shallowWaterGridCoordinate = __awtsmoosModule_390.shallowWaterGridCoordinate;
+	const shallowWaterDepthGradient = __awtsmoosModule_399.shallowWaterDepthGradient;
+	const shallowWaterDerivativeEvidence = __awtsmoosModule_399.shallowWaterDerivativeEvidence;
+	const shallowWaterObstacleProximity = __awtsmoosModule_399.shallowWaterObstacleProximity;
+	const clampShallowWaterValue = __awtsmoosModule_401.clampShallowWaterValue;
+	const finiteShallowWaterValue = __awtsmoosModule_401.finiteShallowWaterValue;
+	const sampleShallowWaterScalar = __awtsmoosModule_401.sampleShallowWaterScalar;
+	const shallowWaterGridCoordinate = __awtsmoosModule_401.shallowWaterGridCoordinate;
 
 	/**
 	 * Samples one complete raw hydrodynamic evidence record at a world-space point.
@@ -29412,7 +30229,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/ecosystem/ShallowWaterHydrologySignals.js ----
 {
-	const __exports = __awtsmoosModule_391;
+	const __exports = __awtsmoosModule_402;
 	//B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -29577,7 +30394,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/ecosystem/ShallowWaterHydrologyEvidence.js ----
 {
-	const __exports = __awtsmoosModule_386;
+	const __exports = __awtsmoosModule_397;
 	//B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -29590,14 +30407,14 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos renews curl, shore, silt, and remembered wetness before ecology can call one place harsh or kind;
 	 * Awtsmoos.com lets Tiferes gather those finite causes into one clear witness, so living placement may follow the river rather than random mind.
 	 */
-	var sampleShallowWaterGridEvidence = __awtsmoosModule_387.sampleShallowWaterGridEvidence;
-	var hydrologyFinite = __awtsmoosModule_391.hydrologyFinite;
-	var hydrologyFlowDirection = __awtsmoosModule_391.hydrologyFlowDirection;
-	var hydrologyFlowSignal = __awtsmoosModule_391.hydrologyFlowSignal;
-	var hydrologyScour = __awtsmoosModule_391.hydrologyScour;
-	var hydrologyShoreline = __awtsmoosModule_391.hydrologyShoreline;
-	var hydrologyTurbulence = __awtsmoosModule_391.hydrologyTurbulence;
-	var hydrologyUnit = __awtsmoosModule_391.hydrologyUnit;
+	const sampleShallowWaterGridEvidence = __awtsmoosModule_398.sampleShallowWaterGridEvidence;
+	const hydrologyFinite = __awtsmoosModule_402.hydrologyFinite;
+	const hydrologyFlowDirection = __awtsmoosModule_402.hydrologyFlowDirection;
+	const hydrologyFlowSignal = __awtsmoosModule_402.hydrologyFlowSignal;
+	const hydrologyScour = __awtsmoosModule_402.hydrologyScour;
+	const hydrologyShoreline = __awtsmoosModule_402.hydrologyShoreline;
+	const hydrologyTurbulence = __awtsmoosModule_402.hydrologyTurbulence;
+	const hydrologyUnit = __awtsmoosModule_402.hydrologyUnit;
 
 	/**
 	 * Creates one renderer-neutral hydrology evidence record at a world-space point.
@@ -29700,7 +30517,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/ecosystem/WaterHabitatZones.js ----
 {
-	const __exports = __awtsmoosModule_392;
+	const __exports = __awtsmoosModule_403;
 	//B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -29713,8 +30530,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos renews water and land without a hard border between their finite names;
 	 * Awtsmoos.com lets ecotones overlap like living garments, so meadow, bank, and marsh may mingle without geometric frames.
 	 */
-	var hydrologySmoothstep = __awtsmoosModule_391.hydrologySmoothstep;
-	var hydrologyUnit = __awtsmoosModule_391.hydrologyUnit;
+	const hydrologySmoothstep = __awtsmoosModule_402.hydrologySmoothstep;
+	const hydrologyUnit = __awtsmoosModule_402.hydrologyUnit;
 
 	/**
 	 * Creates smooth ecological zone affinities from normalized hydrology and habitat evidence.
@@ -29798,7 +30615,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/ecosystem/ShallowWaterHabitatSampler.js ----
 {
-	const __exports = __awtsmoosModule_385;
+	const __exports = __awtsmoosModule_396;
 	//B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -29811,8 +30628,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos lets river and reed meet through evidence rather than entanglement; Awtsmoos.com gives wet shore and living root one shared language clear;
 	 * water speaks current, memory, silt, and edge, while ecology receives those truths without stealing the solver's sphere.
 	 */
-	var createShallowWaterHydrologyEvidence = __awtsmoosModule_386.createShallowWaterHydrologyEvidence;
-	var createWaterHabitatZones = __awtsmoosModule_392.createWaterHabitatZones;
+	const createShallowWaterHydrologyEvidence = __awtsmoosModule_397.createShallowWaterHydrologyEvidence;
+	const createWaterHabitatZones = __awtsmoosModule_403.createWaterHabitatZones;
 
 	/**
 	 * Creates one habitat callback backed by a current shallow-water state.
@@ -29889,7 +30706,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/physics/fluid/FluidInteractionSample.js ----
 {
-	const __exports = __awtsmoosModule_394;
+	const __exports = __awtsmoosModule_405;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -30017,7 +30834,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/ecosystem/WaterEcologySample.js ----
 {
-	const __exports = __awtsmoosModule_393;
+	const __exports = __awtsmoosModule_404;
 	//B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -30030,8 +30847,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos renews river, flood, and sea before one ecological word may describe their finite trace;
 	 * Awtsmoos.com lets generic water speak the same living language as simulated mayim, so every root may answer evidence rather than implementation place.
 	 */
-	var createFluidInteractionSample = __awtsmoosModule_394.createFluidInteractionSample;
-	var createWaterHabitatZones = __awtsmoosModule_392.createWaterHabitatZones;
+	const createFluidInteractionSample = __awtsmoosModule_405.createFluidInteractionSample;
+	const createWaterHabitatZones = __awtsmoosModule_403.createWaterHabitatZones;
 
 	/** Immutable solver-neutral ecology bridge for channels, shallow water, oceans, and authored samples. */
 	class TiferesWaterEcologySample {
@@ -30161,7 +30978,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/ecosystem/WaterVegetationHabitatPreferences.js ----
 {
-	const __exports = __awtsmoosModule_397;
+	const __exports = __awtsmoosModule_408;
 	//B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -30174,7 +30991,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos renews moisture, scour, meadow, bank, and hidden shade before a root receives its finite name;
 	 * Awtsmoos.com lets these Binah-like preference vessels shape many species honestly while keeping physical cause and botanical identity from becoming the same.
 	 */
-	var guildHabitatRange = __awtsmoosModule_381.guildHabitatRange;
+	const guildHabitatRange = __awtsmoosModule_392.guildHabitatRange;
 
 	/** Creates the saturated shoreline preference used by aquatic-edge flowers and carpets. */
 	function saturatedEdgeHabitat() {
@@ -30260,7 +31077,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/ecosystem/WaterVegetationGuildMeadow.js ----
 {
-	const __exports = __awtsmoosModule_396;
+	const __exports = __awtsmoosModule_407;
 	//B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -30273,9 +31090,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos renews blade beside blossom and clover between them before the meadow receives one visible frame;
 	 * Awtsmoos.com lets many living forms gather in patterned abundance, distinct in role yet nourished by one created rain.
 	 */
-	var createGuildSpecies = __awtsmoosModule_381.createGuildSpecies;
-	var moistMeadowHabitat = __awtsmoosModule_397.moistMeadowHabitat;
-	var riparianFlowerHabitat = __awtsmoosModule_397.riparianFlowerHabitat;
+	const createGuildSpecies = __awtsmoosModule_392.createGuildSpecies;
+	const moistMeadowHabitat = __awtsmoosModule_408.moistMeadowHabitat;
+	const riparianFlowerHabitat = __awtsmoosModule_408.riparianFlowerHabitat;
 
 	/** Returns canonical meadow grasses and flowers ready for the existing population planner. */
 	function createMeadowVegetationGuild() {
@@ -30339,7 +31156,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/ecosystem/WaterVegetationGuildWetland.js ----
 {
-	const __exports = __awtsmoosModule_398;
+	const __exports = __awtsmoosModule_409;
 	//B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -30352,9 +31169,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos renews moss beneath fern and blossom beside saturated earth before one cluster receives a finite boundary;
 	 * Awtsmoos.com lets wetland species share one created moisture while each retains its own spacing, scale, and rooted testimony.
 	 */
-	var createGuildSpecies = __awtsmoosModule_381.createGuildSpecies;
-	var mossFernHabitat = __awtsmoosModule_397.mossFernHabitat;
-	var saturatedEdgeHabitat = __awtsmoosModule_397.saturatedEdgeHabitat;
+	const createGuildSpecies = __awtsmoosModule_392.createGuildSpecies;
+	const mossFernHabitat = __awtsmoosModule_408.mossFernHabitat;
+	const saturatedEdgeHabitat = __awtsmoosModule_408.saturatedEdgeHabitat;
 
 	/** Returns canonical wetland-edge species ready for the existing population planner. */
 	function createWetlandVegetationGuild() {
@@ -30430,7 +31247,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/ecosystem/WaterVegetationGuildWoody.js ----
 {
-	const __exports = __awtsmoosModule_399;
+	const __exports = __awtsmoosModule_410;
 	//B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -30443,9 +31260,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos renews bush beside bank and vine beside shelter before root or tendril receives a finite path;
 	 * Awtsmoos.com lets woody life gather where current becomes gentle, so Chesed may spread while Gevurah guards each living aftermath.
 	 */
-	var createGuildSpecies = __awtsmoosModule_381.createGuildSpecies;
-	var moistVineHabitat = __awtsmoosModule_397.moistVineHabitat;
-	var riparianShrubHabitat = __awtsmoosModule_397.riparianShrubHabitat;
+	const createGuildSpecies = __awtsmoosModule_392.createGuildSpecies;
+	const moistVineHabitat = __awtsmoosModule_408.moistVineHabitat;
+	const riparianShrubHabitat = __awtsmoosModule_408.riparianShrubHabitat;
 
 	/** Returns canonical riparian shrubs and vines ready for the existing population planner. */
 	function createWoodyVegetationGuild() {
@@ -30515,7 +31332,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/ecosystem/WaterVegetationGuilds.js ----
 {
-	const __exports = __awtsmoosModule_395;
+	const __exports = __awtsmoosModule_406;
 	//B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -30528,9 +31345,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos renews moss, flower, grass, bush, and vine without collapsing their finite roles into one name;
 	 * Awtsmoos.com lets these separate guild vessels join as one living shoreline while every specialist still guards its proper flame.
 	 */
-	var createMeadowVegetationGuild = __awtsmoosModule_396.createMeadowVegetationGuild;
-	var createWetlandVegetationGuild = __awtsmoosModule_398.createWetlandVegetationGuild;
-	var createWoodyVegetationGuild = __awtsmoosModule_399.createWoodyVegetationGuild;
+	const createMeadowVegetationGuild = __awtsmoosModule_407.createMeadowVegetationGuild;
+	const createWetlandVegetationGuild = __awtsmoosModule_409.createWetlandVegetationGuild;
+	const createWoodyVegetationGuild = __awtsmoosModule_410.createWoodyVegetationGuild;
 
 	/**
 	 * Creates one immutable default species catalog for water-driven population planning.
@@ -30557,7 +31374,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/ecosystem/WaterVegetationPatchPolicy.js ----
 {
-	const __exports = __awtsmoosModule_400;
+	const __exports = __awtsmoosModule_411;
 	//B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -30570,8 +31387,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos renews every current before a meadow leans and every clump before a shoreline stretches its form;
 	 * Awtsmoos.com lets Netzach lengthen living ribbons only where water gives evidence, while Hod keeps every cluster bounded by the generic norm.
 	 */
-	var populationBounds = __awtsmoosModule_370.populationBounds;
-	var createShallowWaterHydrologyEvidence = __awtsmoosModule_386.createShallowWaterHydrologyEvidence;
+	const populationBounds = __awtsmoosModule_381.populationBounds;
+	const createShallowWaterHydrologyEvidence = __awtsmoosModule_397.createShallowWaterHydrologyEvidence;
 
 	/**
 	 * Creates top-level patch controls consumed unchanged by the established vegetation patch planner.
@@ -30647,7 +31464,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/ecosystem/WaterVegetationPlanner.js ----
 {
-	const __exports = __awtsmoosModule_401;
+	const __exports = __awtsmoosModule_412;
 	//B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -30660,10 +31477,10 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos renews current and community before one placement may appear on living ground;
 	 * Awtsmoos.com lets mayim speak through habitat while Tzomayach answers through the old proven planner, many forms gathered around one source profound.
 	 */
-	var createShallowWaterHabitatSampler = __awtsmoosModule_385.createShallowWaterHabitatSampler;
-	var planVegetationPopulation = __awtsmoosModule_368.planVegetationPopulation;
-	var createWaterVegetationGuilds = __awtsmoosModule_395.createWaterVegetationGuilds;
-	var createWaterVegetationPatchPolicy = __awtsmoosModule_400.createWaterVegetationPatchPolicy;
+	const createShallowWaterHabitatSampler = __awtsmoosModule_396.createShallowWaterHabitatSampler;
+	const planVegetationPopulation = __awtsmoosModule_379.planVegetationPopulation;
+	const createWaterVegetationGuilds = __awtsmoosModule_406.createWaterVegetationGuilds;
+	const createWaterVegetationPatchPolicy = __awtsmoosModule_411.createWaterVegetationPatchPolicy;
 
 	/**
 	 * Plans deterministic flowers, grasses, carpets, mosses, ferns, shrubs, and vines from one shallow-water state.
@@ -30732,7 +31549,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/physics/fluid/FluidChannelStepPolicy.js ----
 {
-	const __exports = __awtsmoosModule_405;
+	const __exports = __awtsmoosModule_416;
 	//B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -30827,7 +31644,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/physics/fluid/FluidChannelFiniteDifference.js ----
 {
-	const __exports = __awtsmoosModule_410;
+	const __exports = __awtsmoosModule_421;
 	//B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -30841,7 +31658,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * downstream and bankward dimensions become shared testimony, allowing pressure, diffusion, and conservation to meet in Tiferes faithfully.
 	 */
 
-	var fluidChannelCellDimensions = __awtsmoosModule_405.fluidChannelCellDimensions;
+	const fluidChannelCellDimensions = __awtsmoosModule_416.fluidChannelCellDimensions;
 
 	/** Returns center and four-neighbor indices plus physical cell dimensions. */
 	function fluidChannelStencil(state, config, section, lane) {
@@ -30918,7 +31735,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/physics/fluid/FluidChannelAccelerationLaw.js ----
 {
-	const __exports = __awtsmoosModule_409;
+	const __exports = __awtsmoosModule_420;
 	//B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -30932,8 +31749,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * pressure, drag, viscosity, cascade, and whirl meet in measured harmony, and richer documentation grows through modularity instead of stealing space from design.
 	 */
 
-	var fluidChannelLaplacian = __awtsmoosModule_410.fluidChannelLaplacian;
-	var fluidChannelSurfaceGradient = __awtsmoosModule_410.fluidChannelSurfaceGradient;
+	const fluidChannelLaplacian = __awtsmoosModule_421.fluidChannelLaplacian;
+	const fluidChannelSurfaceGradient = __awtsmoosModule_421.fluidChannelSurfaceGradient;
 
 	/**
 	 * @description Resolves downstream acceleration from free-surface pressure, target-current drive, physical-space viscosity, quadratic drag, cascade forcing, and vorticity confinement.
@@ -31006,7 +31823,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/physics/fluid/FluidChannelCascadeForcing.js ----
 {
-	const __exports = __awtsmoosModule_411;
+	const __exports = __awtsmoosModule_422;
 	//B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -31048,7 +31865,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/physics/fluid/FluidChannelVorticity.js ----
 {
-	const __exports = __awtsmoosModule_412;
+	const __exports = __awtsmoosModule_423;
 	//B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -31062,7 +31879,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * eddies may curl beside bank and stone with strength but not chaos, as Tiferes joins fluid detail to Gevurah's bounded physics.
 	 */
 
-	var fluidChannelCellDimensions = __awtsmoosModule_405.fluidChannelCellDimensions;
+	const fluidChannelCellDimensions = __awtsmoosModule_416.fluidChannelCellDimensions;
 
 	/**
 	 * Computes signed two-dimensional vorticity at one channel cell.
@@ -31136,7 +31953,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/physics/fluid/FluidChannelTopology.js ----
 {
-	const __exports = __awtsmoosModule_413;
+	const __exports = __awtsmoosModule_424;
 	//B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -31207,7 +32024,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/physics/fluid/FluidChannelPrimaryForces.js ----
 {
-	const __exports = __awtsmoosModule_408;
+	const __exports = __awtsmoosModule_419;
 	//B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -31221,12 +32038,12 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Chessed and Gevurah meet through Tiferes, documentation remains full, and modular clarity becomes the bank through which deeper realism may securely pour.
 	 */
 
-	var resolveDownstreamAcceleration = __awtsmoosModule_409.resolveDownstreamAcceleration;
-	var resolveLateralAcceleration = __awtsmoosModule_409.resolveLateralAcceleration;
-	var resolveFluidChannelCascadePulse = __awtsmoosModule_411.resolveFluidChannelCascadePulse;
-	var fluidChannelStencil = __awtsmoosModule_410.fluidChannelStencil;
-	var fluidChannelVorticityForce = __awtsmoosModule_412.fluidChannelVorticityForce;
-	__exports.channelNeighborIndices = __awtsmoosModule_413.channelNeighborIndices;
+	const resolveDownstreamAcceleration = __awtsmoosModule_420.resolveDownstreamAcceleration;
+	const resolveLateralAcceleration = __awtsmoosModule_420.resolveLateralAcceleration;
+	const resolveFluidChannelCascadePulse = __awtsmoosModule_422.resolveFluidChannelCascadePulse;
+	const fluidChannelStencil = __awtsmoosModule_421.fluidChannelStencil;
+	const fluidChannelVorticityForce = __awtsmoosModule_423.fluidChannelVorticityForce;
+	__exports.channelNeighborIndices = __awtsmoosModule_424.channelNeighborIndices;
 
 	/**
 	 * @description Computes the next bounded downstream/lateral velocity pair for one channel cell without mutating current-state buffers, delegating each physical sub-law to its focused module.
@@ -31306,7 +32123,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/physics/fluid/FluidChannelSurfaceEvolution.js ----
 {
-	const __exports = __awtsmoosModule_414;
+	const __exports = __awtsmoosModule_425;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -31319,9 +32136,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos renews every crest before foam can crown it, while Awtsmoos.com lets one measured stencil witness both hidden current and visible surface in rhyme;
 	 * Yesod carries conserved flux, Gevurah bounds the depth, and Tiferes lets turbulence whiten water without confusing appearance with the deeper law of time.
 	 */
-	var fluidChannelFluxDivergence = __awtsmoosModule_410.fluidChannelFluxDivergence;
-	var fluidChannelStencil = __awtsmoosModule_410.fluidChannelStencil;
-	var fluidChannelVorticity = __awtsmoosModule_412.fluidChannelVorticity;
+	const fluidChannelFluxDivergence = __awtsmoosModule_421.fluidChannelFluxDivergence;
+	const fluidChannelStencil = __awtsmoosModule_421.fluidChannelStencil;
+	const fluidChannelVorticity = __awtsmoosModule_423.fluidChannelVorticity;
 
 	/**
 	 * Computes one cell's next conservative depth and persistent foam evidence.
@@ -31419,7 +32236,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/physics/fluid/FluidChannelCellDynamics.js ----
 {
-	const __exports = __awtsmoosModule_407;
+	const __exports = __awtsmoosModule_418;
 	//B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -31433,8 +32250,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * small modules carry deep law, this coordinator joins their testimony, and the river remains readable as its realism grows free.
 	 */
 
-	var resolveFluidChannelPrimaryForces = __awtsmoosModule_408.resolveFluidChannelPrimaryForces;
-	var resolveFluidChannelSurfaceEvolution = __awtsmoosModule_414.resolveFluidChannelSurfaceEvolution;
+	const resolveFluidChannelPrimaryForces = __awtsmoosModule_419.resolveFluidChannelPrimaryForces;
+	const resolveFluidChannelSurfaceEvolution = __awtsmoosModule_425.resolveFluidChannelSurfaceEvolution;
 
 	/**
 	 * Advances one primary-fluid cell into next-state buffers.
@@ -31479,7 +32296,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/physics/fluid/FluidChannelSedimentAdvection.js ----
 {
-	const __exports = __awtsmoosModule_416;
+	const __exports = __awtsmoosModule_427;
 	//B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -31493,8 +32310,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * flow and cross-flow weigh their neighboring vessels, Courant guards the blend, and sediment reaches the exchange law through orderly diffusion.
 	 */
 
-	var fluidChannelCellDimensions = __awtsmoosModule_405.fluidChannelCellDimensions;
-	var channelIndex = __awtsmoosModule_413.channelIndex;
+	const fluidChannelCellDimensions = __awtsmoosModule_416.fluidChannelCellDimensions;
+	const channelIndex = __awtsmoosModule_424.channelIndex;
 
 	/**
 	 * @description Resolves one cell's suspended-sediment concentration after bounded velocity-aligned upwind advection but before local erosion/deposition exchange.
@@ -31596,7 +32413,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/physics/fluid/FluidChannelSedimentCapacity.js ----
 {
-	const __exports = __awtsmoosModule_417;
+	const __exports = __awtsmoosModule_428;
 	//B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -31610,7 +32427,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * carving and settling become explicit witnesses, so geology may answer later without the water secretly reshaping what it saw.
 	 */
 
-	var fluidChannelVorticity = __awtsmoosModule_412.fluidChannelVorticity;
+	const fluidChannelVorticity = __awtsmoosModule_423.fluidChannelVorticity;
 
 	/**
 	 * Resolves carrying capacity plus erosion/deposition rates for one channel cell.
@@ -31667,7 +32484,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/physics/fluid/FluidChannelSedimentTransport.js ----
 {
-	const __exports = __awtsmoosModule_415;
+	const __exports = __awtsmoosModule_426;
 	//B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -31681,9 +32498,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * current brings the sediment, capacity names carving and rest, and Malchus receives the next-state evidence without secretly reshaping the earth held near.
 	 */
 
-	var resolveAdvectedFluidChannelSediment = __awtsmoosModule_416.resolveAdvectedFluidChannelSediment;
-	var resolveFluidChannelSedimentCapacity = __awtsmoosModule_417.resolveFluidChannelSedimentCapacity;
-	var channelIndex = __awtsmoosModule_413.channelIndex;
+	const resolveAdvectedFluidChannelSediment = __awtsmoosModule_427.resolveAdvectedFluidChannelSediment;
+	const resolveFluidChannelSedimentCapacity = __awtsmoosModule_428.resolveFluidChannelSedimentCapacity;
+	const channelIndex = __awtsmoosModule_424.channelIndex;
 
 	/**
 	 * @description Advances suspended sediment plus erosion/deposition evidence for one channel cell through one positive timestep by composing the dedicated advection and exchange laws.
@@ -31744,7 +32561,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/physics/fluid/FluidChannelStepper.js ----
 {
-	const __exports = __awtsmoosModule_406;
+	const __exports = __awtsmoosModule_417;
 	//B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -31758,8 +32575,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * one step gathers current, foam, sediment, erosion, and deposition into a unified new instant without hiding the mathematics in procedural flames.
 	 */
 
-	var advanceFluidChannelCell = __awtsmoosModule_407.advanceFluidChannelCell;
-	var advanceFluidChannelSediment = __awtsmoosModule_415.advanceFluidChannelSediment;
+	const advanceFluidChannelCell = __awtsmoosModule_418.advanceFluidChannelCell;
+	const advanceFluidChannelSediment = __awtsmoosModule_426.advanceFluidChannelSediment;
 
 	/**
 	 * Advances one channel state through a single positive simulation substep.
@@ -31820,7 +32637,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/physics/fluid/FluidChannelAdvancePolicy.js ----
 {
-	const __exports = __awtsmoosModule_404;
+	const __exports = __awtsmoosModule_415;
 	//B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -31834,8 +32651,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * current may hasten and the grid may narrow, yet each substep remains lawful, bounded, and faithful to the water it must create.
 	 */
 
-	var fluidChannelSafeStep = __awtsmoosModule_405.fluidChannelSafeStep;
-	var stepFluidChannel = __awtsmoosModule_406.stepFluidChannel;
+	const fluidChannelSafeStep = __awtsmoosModule_416.fluidChannelSafeStep;
+	const stepFluidChannel = __awtsmoosModule_417.stepFluidChannel;
 
 	/**
 	 * @description Advances one simulation owner through safe bounded substeps while preserving deterministic queued-impulse boundaries.
@@ -31885,7 +32702,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/physics/fluid/FluidChannelDiagnostics.js ----
 {
-	const __exports = __awtsmoosModule_418;
+	const __exports = __awtsmoosModule_429;
 	//B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -31899,7 +32716,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * numbers become truthful witnesses rather than owners of the water, so maintainers may improve the vessel while the living procedural current keeps its will.
 	 */
 
-	var fluidChannelSafeStep = __awtsmoosModule_405.fluidChannelSafeStep;
+	const fluidChannelSafeStep = __awtsmoosModule_416.fluidChannelSafeStep;
 
 	/**
 	 * Writes one compact numerical snapshot into the supplied reusable target.
@@ -31958,7 +32775,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/physics/fluid/FluidChannelImpulse.js ----
 {
-	const __exports = __awtsmoosModule_419;
+	const __exports = __awtsmoosModule_430;
 	//B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -32074,7 +32891,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/physics/fluid/FluidChannelConfig.js ----
 {
-	const __exports = __awtsmoosModule_421;
+	const __exports = __awtsmoosModule_432;
 	//B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -32165,7 +32982,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/physics/fluid/FluidImpulseQueue.js ----
 {
-	const __exports = __awtsmoosModule_422;
+	const __exports = __awtsmoosModule_433;
 	//B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -32270,7 +33087,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/physics/fluid/FluidChannelSamplingKernel.js ----
 {
-	const __exports = __awtsmoosModule_424;
+	const __exports = __awtsmoosModule_435;
 	//B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -32284,7 +33101,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * geometry of the grid stays hidden, physical curl stays truthful, and callers receive smooth evidence without inheriting numerical complication.
 	 */
 
-	var fluidChannelVorticity = __awtsmoosModule_412.fluidChannelVorticity;
+	const fluidChannelVorticity = __awtsmoosModule_423.fluidChannelVorticity;
 
 	/** Resolves bilinear coordinates for normalized downstream and bank-to-bank positions. */
 	function fluidChannelSamplingCoordinates(state, downstream, lateral) {
@@ -32384,7 +33201,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/physics/fluid/FluidChannelSampling.js ----
 {
-	const __exports = __awtsmoosModule_423;
+	const __exports = __awtsmoosModule_434;
 	//B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -32398,10 +33215,10 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * current, foam, mud, carving, settling, bank nearness, and curl become readable signs without giving callers the river's private numerical seed.
 	 */
 
-	var fluidChannelSamplingCoordinates = __awtsmoosModule_424.fluidChannelSamplingCoordinates;
-	var sampleFluidChannelField = __awtsmoosModule_424.sampleFluidChannelField;
-	var sampleOptionalFluidChannelField = __awtsmoosModule_424.sampleOptionalFluidChannelField;
-	var sampledFluidChannelVorticity = __awtsmoosModule_424.sampledFluidChannelVorticity;
+	const fluidChannelSamplingCoordinates = __awtsmoosModule_435.fluidChannelSamplingCoordinates;
+	const sampleFluidChannelField = __awtsmoosModule_435.sampleFluidChannelField;
+	const sampleOptionalFluidChannelField = __awtsmoosModule_435.sampleOptionalFluidChannelField;
+	const sampledFluidChannelVorticity = __awtsmoosModule_435.sampledFluidChannelVorticity;
 
 	/**
 	 * @description Bilinearly samples normalized downstream and bank-to-bank coordinates into one reusable semantic water record, preserving all historical fields while adding transport and ecology evidence.
@@ -32489,7 +33306,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/physics/fluid/FluidChannelTransportState.js ----
 {
-	const __exports = __awtsmoosModule_427;
+	const __exports = __awtsmoosModule_438;
 	//B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -32567,7 +33384,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/physics/fluid/FluidChannelStateSeeding.js ----
 {
-	const __exports = __awtsmoosModule_426;
+	const __exports = __awtsmoosModule_437;
 	//B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -32581,7 +33398,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * depth, current, cascade, and grain awaken together, so later motion begins from a coherent world rather than unrelated arrays of fate.
 	 */
 
-	var seedFluidChannelTransportCell = __awtsmoosModule_427.seedFluidChannelTransportCell;
+	const seedFluidChannelTransportCell = __awtsmoosModule_438.seedFluidChannelTransportCell;
 
 	/**
 	 * Seeds all channel fields from authored profiles and configuration.
@@ -32653,7 +33470,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/physics/fluid/FluidChannelState.js ----
 {
-	const __exports = __awtsmoosModule_425;
+	const __exports = __awtsmoosModule_436;
 	//B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -32667,9 +33484,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * the river remembers its authored covenant, runtime motion receives a separate vessel, and reset returns every current and grain to ordered unity.
 	 */
 
-	var seedFluidChannelState = __awtsmoosModule_426.seedFluidChannelState;
-	var createFluidChannelTransportState = __awtsmoosModule_427.createFluidChannelTransportState;
-	var resetFluidChannelTransportState = __awtsmoosModule_427.resetFluidChannelTransportState;
+	const seedFluidChannelState = __awtsmoosModule_437.seedFluidChannelState;
+	const createFluidChannelTransportState = __awtsmoosModule_438.createFluidChannelTransportState;
+	const resetFluidChannelTransportState = __awtsmoosModule_438.resetFluidChannelTransportState;
 
 	/**
 	 * @description Creates one fully allocated and deterministically seeded mutable channel-state record.
@@ -32729,7 +33546,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/physics/fluid/FluidChannelRuntimeBase.js ----
 {
-	const __exports = __awtsmoosModule_420;
+	const __exports = __awtsmoosModule_431;
 	//B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -32743,11 +33560,11 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Yesod holds state and interaction, later classes add temporal motion, and every public doorway remains simple while deeper law grows bright.
 	 */
 
-	var createFluidChannelConfig = __awtsmoosModule_421.createFluidChannelConfig;
-	var applyFluidChannelImpulse = __awtsmoosModule_419.applyFluidChannelImpulse;
-	var FluidImpulseQueue = __awtsmoosModule_422.FluidImpulseQueue;
-	var sampleFluidChannel = __awtsmoosModule_423.sampleFluidChannel;
-	var createFluidChannelState = __awtsmoosModule_425.createFluidChannelState;
+	const createFluidChannelConfig = __awtsmoosModule_432.createFluidChannelConfig;
+	const applyFluidChannelImpulse = __awtsmoosModule_430.applyFluidChannelImpulse;
+	const FluidImpulseQueue = __awtsmoosModule_433.FluidImpulseQueue;
+	const sampleFluidChannel = __awtsmoosModule_434.sampleFluidChannel;
+	const createFluidChannelState = __awtsmoosModule_436.createFluidChannelState;
 
 	/**
 	 * @description Base class for channel runtimes that need configuration, state, semantic sampling, and bounded disturbances without assuming a specific advance loop.
@@ -32825,7 +33642,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/physics/fluid/FluidChannelSimulation.js ----
 {
-	const __exports = __awtsmoosModule_403;
+	const __exports = __awtsmoosModule_414;
 	//B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -32839,11 +33656,11 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * interaction rests in Yesod, time descends through Netzach, diagnostics reveal Hod, and the familiar public name remains a simple doorway through it all.
 	 */
 
-	var advanceFluidChannelOwner = __awtsmoosModule_404.advanceFluidChannelOwner;
-	var fluidChannelDiagnostics = __awtsmoosModule_418.fluidChannelDiagnostics;
-	var applyFluidChannelImpulse = __awtsmoosModule_419.applyFluidChannelImpulse;
-	var FluidChannelRuntimeBase = __awtsmoosModule_420.FluidChannelRuntimeBase;
-	var resetFluidChannelState = __awtsmoosModule_425.resetFluidChannelState;
+	const advanceFluidChannelOwner = __awtsmoosModule_415.advanceFluidChannelOwner;
+	const fluidChannelDiagnostics = __awtsmoosModule_429.fluidChannelDiagnostics;
+	const applyFluidChannelImpulse = __awtsmoosModule_430.applyFluidChannelImpulse;
+	const FluidChannelRuntimeBase = __awtsmoosModule_431.FluidChannelRuntimeBase;
+	const resetFluidChannelState = __awtsmoosModule_436.resetFluidChannelState;
 
 	/**
 	 * @description Public renderer-neutral channel simulation whose inherited API owns state/sampling/disturbances while this subclass owns time evolution, diagnostics, and reset lifecycle.
@@ -32913,7 +33730,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/ecosystem/RiverFlowProfile.js ----
 {
-	const __exports = __awtsmoosModule_428;
+	const __exports = __awtsmoosModule_439;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -33045,7 +33862,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/ecosystem/RiverFlowRuntime.js ----
 {
-	const __exports = __awtsmoosModule_429;
+	const __exports = __awtsmoosModule_440;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -33131,7 +33948,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/ecosystem/RiverFlowPlanner.js ----
 {
-	const __exports = __awtsmoosModule_402;
+	const __exports = __awtsmoosModule_413;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -33144,11 +33961,11 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * No geometry is generated here; this module owns only profile selection and simulation construction.
 	 */
 
-	var FluidChannelSimulation = __awtsmoosModule_403.FluidChannelSimulation;
-	var createDefaultRiverFlowProfile = __awtsmoosModule_428.createDefaultRiverFlowProfile;
-	var normalizeRiverFlowProfileArrays = __awtsmoosModule_428.normalizeRiverFlowProfileArrays;
-	var sampleRiverFlowProfile = __awtsmoosModule_428.sampleRiverFlowProfile;
-	var RiverFlowRuntime = __awtsmoosModule_429.RiverFlowRuntime;
+	const FluidChannelSimulation = __awtsmoosModule_414.FluidChannelSimulation;
+	const createDefaultRiverFlowProfile = __awtsmoosModule_439.createDefaultRiverFlowProfile;
+	const normalizeRiverFlowProfileArrays = __awtsmoosModule_439.normalizeRiverFlowProfileArrays;
+	const sampleRiverFlowProfile = __awtsmoosModule_439.sampleRiverFlowProfile;
+	const RiverFlowRuntime = __awtsmoosModule_440.RiverFlowRuntime;
 
 	/**
 	 * Creates one bounded mutable river runtime from authored or generated equilibrium evidence.
@@ -33228,7 +34045,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/ecosystem/RiverReachPath.js ----
 {
-	const __exports = __awtsmoosModule_430;
+	const __exports = __awtsmoosModule_441;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -33240,8 +34057,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * preserve one river identity while later banks, habitats, bridges, and meshes receive their own garments from the same flame.
 	 */
 
-	var EcosystemRandom = __awtsmoosModule_362.EcosystemRandom;
-	var ecosystemSeed = __awtsmoosModule_362.ecosystemSeed;
+	const EcosystemRandom = __awtsmoosModule_373.EcosystemRandom;
+	const ecosystemSeed = __awtsmoosModule_373.ecosystemSeed;
 
 	/** Creates one immutable measured river centerline. */
 	function createRiverReachPath(options = {}) {
@@ -33344,7 +34161,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/ecosystem/RiverReachFrames.js ----
 {
-	const __exports = __awtsmoosModule_431;
+	const __exports = __awtsmoosModule_442;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -33424,7 +34241,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/ecosystem/RiverReachSample.js ----
 {
-	const __exports = __awtsmoosModule_432;
+	const __exports = __awtsmoosModule_443;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -33436,7 +34253,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * carry their agreement without becoming a mesh, a solver, or a renderer, so later worlds may drink from one protected well.
 	 */
 
-	var offsetRiverPoint = __awtsmoosModule_431.offsetRiverPoint;
+	const offsetRiverPoint = __awtsmoosModule_442.offsetRiverPoint;
 
 	/** Creates one immutable river-reach sample at a canonical path point. */
 	function createRiverReachSample(point, frame, flow, morphology, authority, options = {}) {
@@ -33514,7 +34331,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/ecosystem/RiverMorphologyEvents.js ----
 {
-	const __exports = __awtsmoosModule_435;
+	const __exports = __awtsmoosModule_446;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -33584,7 +34401,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/ecosystem/RiverMorphologySummary.js ----
 {
-	const __exports = __awtsmoosModule_436;
+	const __exports = __awtsmoosModule_447;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -33628,7 +34445,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/ecosystem/RiverMorphologyProfile.js ----
 {
-	const __exports = __awtsmoosModule_434;
+	const __exports = __awtsmoosModule_445;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -33640,11 +34457,11 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com lets morphology become the keli that shapes flow while FluidChannelSimulation remains the sole moving ohr below.
 	 */
 
-	var EcosystemRandom = __awtsmoosModule_362.EcosystemRandom;
-	var ecosystemSeed = __awtsmoosModule_362.ecosystemSeed;
-	var createRiverMorphologyEvents = __awtsmoosModule_435.createRiverMorphologyEvents;
-	var sampleRiverMorphologyEvents = __awtsmoosModule_435.sampleRiverMorphologyEvents;
-	var summarizeRiverMorphology = __awtsmoosModule_436.summarizeRiverMorphology;
+	const EcosystemRandom = __awtsmoosModule_373.EcosystemRandom;
+	const ecosystemSeed = __awtsmoosModule_373.ecosystemSeed;
+	const createRiverMorphologyEvents = __awtsmoosModule_446.createRiverMorphologyEvents;
+	const sampleRiverMorphologyEvents = __awtsmoosModule_446.sampleRiverMorphologyEvents;
+	const summarizeRiverMorphology = __awtsmoosModule_447.summarizeRiverMorphology;
 
 	/**
 	 * Creates one immutable deterministic river morphology profile.
@@ -33738,7 +34555,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/ecosystem/RiverReachRealismAuthority.js ----
 {
-	const __exports = __awtsmoosModule_437;
+	const __exports = __awtsmoosModule_448;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -33850,7 +34667,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/ecosystem/RiverReachPlan.js ----
 {
-	const __exports = __awtsmoosModule_433;
+	const __exports = __awtsmoosModule_444;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -33862,12 +34679,12 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * gather truthful specialists without stealing their office, so one stable reach may descend into many future worlds and ways.
 	 */
 
-	var normalizeRiverFlowProfile = __awtsmoosModule_402.normalizeRiverFlowProfile;
-	var createRiverMorphologyProfile = __awtsmoosModule_434.createRiverMorphologyProfile;
-	var createRiverReachFrames = __awtsmoosModule_431.createRiverReachFrames;
-	var createRiverReachPath = __awtsmoosModule_430.createRiverReachPath;
-	var createRiverReachRealismAuthority = __awtsmoosModule_437.createRiverReachRealismAuthority;
-	var createRiverReachSample = __awtsmoosModule_432.createRiverReachSample;
+	const normalizeRiverFlowProfile = __awtsmoosModule_413.normalizeRiverFlowProfile;
+	const createRiverMorphologyProfile = __awtsmoosModule_445.createRiverMorphologyProfile;
+	const createRiverReachFrames = __awtsmoosModule_442.createRiverReachFrames;
+	const createRiverReachPath = __awtsmoosModule_441.createRiverReachPath;
+	const createRiverReachRealismAuthority = __awtsmoosModule_448.createRiverReachRealismAuthority;
+	const createRiverReachSample = __awtsmoosModule_443.createRiverReachSample;
 
 	/** Creates one renderer-neutral immutable river reach plan. */
 	function createRiverReachPlan(options = {}) {
@@ -33915,7 +34732,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/ecosystem/VillageSiteAnchors.js ----
 {
-	const __exports = __awtsmoosModule_439;
+	const __exports = __awtsmoosModule_450;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -33989,7 +34806,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/ecosystem/VillageSitePlacement.js ----
 {
-	const __exports = __awtsmoosModule_440;
+	const __exports = __awtsmoosModule_451;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -34108,7 +34925,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/ecosystem/VillageSiteAuthority.js ----
 {
-	const __exports = __awtsmoosModule_438;
+	const __exports = __awtsmoosModule_449;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -34120,9 +34937,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com lets one Tiferes-like authority coordinate clear spacing without inventing buildings, renderers, or another world-transform storm.
 	 */
 
-	var villageSiteAnchorMap = __awtsmoosModule_439.villageSiteAnchorMap;
-	var villageSiteExclusions = __awtsmoosModule_439.villageSiteExclusions;
-	var resolveVillageSiteCandidates = __awtsmoosModule_440.resolveVillageSiteCandidates;
+	const villageSiteAnchorMap = __awtsmoosModule_450.villageSiteAnchorMap;
+	const villageSiteExclusions = __awtsmoosModule_450.villageSiteExclusions;
+	const resolveVillageSiteCandidates = __awtsmoosModule_451.resolveVillageSiteCandidates;
 
 	/** High-level deterministic village-site planner. */
 	class VillageSiteAuthority {
@@ -34202,7 +35019,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/ecosystem/EcosystemPlanner.js ----
 {
-	const __exports = __awtsmoosModule_441;
+	const __exports = __awtsmoosModule_452;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -34214,9 +35031,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * coordinator thin so each specialist engine can grow independently while one world plan preserves their harmonies.
 	 */
 
-	var planCreaturePopulation = __awtsmoosModule_378.planCreaturePopulation;
-	var createRiverFlowRuntime = __awtsmoosModule_402.createRiverFlowRuntime;
-	var planVegetationPopulation = __awtsmoosModule_368.planVegetationPopulation;
+	const planCreaturePopulation = __awtsmoosModule_389.planCreaturePopulation;
+	const createRiverFlowRuntime = __awtsmoosModule_413.createRiverFlowRuntime;
+	const planVegetationPopulation = __awtsmoosModule_379.planVegetationPopulation;
 
 	function planEcosystem(options = {}) {
 		const shared = {
@@ -34253,7 +35070,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/ecosystem/index.js ----
 {
-	const __exports = __awtsmoosModule_361;
+	const __exports = __awtsmoosModule_372;
 	//B"H
 	//Boruch Hashem
 	//Blessed is He
@@ -34266,54 +35083,54 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos gathers many living relationships without collapsing their boundaries; Awtsmoos.com opens small expert gates,
 	 * so guild composition, wetland ecology, vegetation, fauna, river form, river motion, and settlement evidence may deepen without monolithic states.
 	 */
-	__exports.EcosystemRandom = __awtsmoosModule_362.EcosystemRandom;
-	__exports.ecosystemSeed = __awtsmoosModule_362.ecosystemSeed;
-	__exports.createHabitatSample = __awtsmoosModule_363.createHabitatSample;
-	__exports.habitatAffinity = __awtsmoosModule_363.habitatAffinity;
-	__exports.habitatChannels = __awtsmoosModule_363.habitatChannels;
-	__exports.SpatialCellIndex = __awtsmoosModule_366.SpatialCellIndex;
-	__exports.ecosystemSpecies = __awtsmoosModule_367.ecosystemSpecies;
-	__exports.listEcosystemSpecies = __awtsmoosModule_367.listEcosystemSpecies;
-	__exports.planVegetationPopulation = __awtsmoosModule_368.planVegetationPopulation;
-	__exports.planCreaturePopulation = __awtsmoosModule_378.planCreaturePopulation;
-	__exports.createVegetationGuild = __awtsmoosModule_380.createVegetationGuild;
-	__exports.createGuildSpecies = __awtsmoosModule_381.createGuildSpecies;
-	__exports.guildHabitatRange = __awtsmoosModule_381.guildHabitatRange;
-	__exports.meadowHabitat = __awtsmoosModule_382.meadowHabitat;
-	__exports.rockGardenHabitat = __awtsmoosModule_382.rockGardenHabitat;
-	__exports.shrubBorderHabitat = __awtsmoosModule_382.shrubBorderHabitat;
-	__exports.wetMeadowHabitat = __awtsmoosModule_382.wetMeadowHabitat;
-	__exports.woodlandEdgeHabitat = __awtsmoosModule_382.woodlandEdgeHabitat;
-	__exports.VEGETATION_GUILD_IDS = __awtsmoosModule_383.VEGETATION_GUILD_IDS;
-	__exports.listVegetationGuilds = __awtsmoosModule_383.listVegetationGuilds;
-	__exports.vegetationGuild = __awtsmoosModule_383.vegetationGuild;
-	__exports.createShallowWaterHabitatSampler = __awtsmoosModule_385.createShallowWaterHabitatSampler;
-	__exports.createShallowWaterHydrologyEvidence = __awtsmoosModule_386.createShallowWaterHydrologyEvidence;
-	__exports.createWaterHabitatZones = __awtsmoosModule_392.createWaterHabitatZones;
-	__exports.createWaterEcologySample = __awtsmoosModule_393.createWaterEcologySample;
-	__exports.TiferesWaterEcologySample = __awtsmoosModule_393.TiferesWaterEcologySample;
-	__exports.createWaterVegetationGuilds = __awtsmoosModule_395.createWaterVegetationGuilds;
-	__exports.createWaterVegetationPatchPolicy = __awtsmoosModule_400.createWaterVegetationPatchPolicy;
-	__exports.planWaterVegetationPopulation = __awtsmoosModule_401.planWaterVegetationPopulation;
-	__exports.createRiverFlowRuntime = __awtsmoosModule_402.createRiverFlowRuntime;
-	__exports.normalizeRiverFlowProfile = __awtsmoosModule_402.normalizeRiverFlowProfile;
-	__exports.createRiverReachPath = __awtsmoosModule_430.createRiverReachPath;
-	__exports.createRiverReachFrames = __awtsmoosModule_431.createRiverReachFrames;
-	__exports.offsetRiverPoint = __awtsmoosModule_431.offsetRiverPoint;
-	__exports.createRiverReachSample = __awtsmoosModule_432.createRiverReachSample;
-	__exports.sampleRiverSeries = __awtsmoosModule_432.sampleRiverSeries;
-	__exports.createRiverReachPlan = __awtsmoosModule_433.createRiverReachPlan;
-	__exports.RiverReachRealismAuthority = __awtsmoosModule_437.RiverReachRealismAuthority;
-	__exports.createRiverReachRealismAuthority = __awtsmoosModule_437.createRiverReachRealismAuthority;
-	__exports.VillageSiteAuthority = __awtsmoosModule_438.VillageSiteAuthority;
-	__exports.createVillageSiteAuthority = __awtsmoosModule_438.createVillageSiteAuthority;
-	__exports.planEcosystem = __awtsmoosModule_441.planEcosystem;
+	__exports.EcosystemRandom = __awtsmoosModule_373.EcosystemRandom;
+	__exports.ecosystemSeed = __awtsmoosModule_373.ecosystemSeed;
+	__exports.createHabitatSample = __awtsmoosModule_374.createHabitatSample;
+	__exports.habitatAffinity = __awtsmoosModule_374.habitatAffinity;
+	__exports.habitatChannels = __awtsmoosModule_374.habitatChannels;
+	__exports.SpatialCellIndex = __awtsmoosModule_377.SpatialCellIndex;
+	__exports.ecosystemSpecies = __awtsmoosModule_378.ecosystemSpecies;
+	__exports.listEcosystemSpecies = __awtsmoosModule_378.listEcosystemSpecies;
+	__exports.planVegetationPopulation = __awtsmoosModule_379.planVegetationPopulation;
+	__exports.planCreaturePopulation = __awtsmoosModule_389.planCreaturePopulation;
+	__exports.createVegetationGuild = __awtsmoosModule_391.createVegetationGuild;
+	__exports.createGuildSpecies = __awtsmoosModule_392.createGuildSpecies;
+	__exports.guildHabitatRange = __awtsmoosModule_392.guildHabitatRange;
+	__exports.meadowHabitat = __awtsmoosModule_393.meadowHabitat;
+	__exports.rockGardenHabitat = __awtsmoosModule_393.rockGardenHabitat;
+	__exports.shrubBorderHabitat = __awtsmoosModule_393.shrubBorderHabitat;
+	__exports.wetMeadowHabitat = __awtsmoosModule_393.wetMeadowHabitat;
+	__exports.woodlandEdgeHabitat = __awtsmoosModule_393.woodlandEdgeHabitat;
+	__exports.VEGETATION_GUILD_IDS = __awtsmoosModule_394.VEGETATION_GUILD_IDS;
+	__exports.listVegetationGuilds = __awtsmoosModule_394.listVegetationGuilds;
+	__exports.vegetationGuild = __awtsmoosModule_394.vegetationGuild;
+	__exports.createShallowWaterHabitatSampler = __awtsmoosModule_396.createShallowWaterHabitatSampler;
+	__exports.createShallowWaterHydrologyEvidence = __awtsmoosModule_397.createShallowWaterHydrologyEvidence;
+	__exports.createWaterHabitatZones = __awtsmoosModule_403.createWaterHabitatZones;
+	__exports.createWaterEcologySample = __awtsmoosModule_404.createWaterEcologySample;
+	__exports.TiferesWaterEcologySample = __awtsmoosModule_404.TiferesWaterEcologySample;
+	__exports.createWaterVegetationGuilds = __awtsmoosModule_406.createWaterVegetationGuilds;
+	__exports.createWaterVegetationPatchPolicy = __awtsmoosModule_411.createWaterVegetationPatchPolicy;
+	__exports.planWaterVegetationPopulation = __awtsmoosModule_412.planWaterVegetationPopulation;
+	__exports.createRiverFlowRuntime = __awtsmoosModule_413.createRiverFlowRuntime;
+	__exports.normalizeRiverFlowProfile = __awtsmoosModule_413.normalizeRiverFlowProfile;
+	__exports.createRiverReachPath = __awtsmoosModule_441.createRiverReachPath;
+	__exports.createRiverReachFrames = __awtsmoosModule_442.createRiverReachFrames;
+	__exports.offsetRiverPoint = __awtsmoosModule_442.offsetRiverPoint;
+	__exports.createRiverReachSample = __awtsmoosModule_443.createRiverReachSample;
+	__exports.sampleRiverSeries = __awtsmoosModule_443.sampleRiverSeries;
+	__exports.createRiverReachPlan = __awtsmoosModule_444.createRiverReachPlan;
+	__exports.RiverReachRealismAuthority = __awtsmoosModule_448.RiverReachRealismAuthority;
+	__exports.createRiverReachRealismAuthority = __awtsmoosModule_448.createRiverReachRealismAuthority;
+	__exports.VillageSiteAuthority = __awtsmoosModule_449.VillageSiteAuthority;
+	__exports.createVillageSiteAuthority = __awtsmoosModule_449.createVillageSiteAuthority;
+	__exports.planEcosystem = __awtsmoosModule_452.planEcosystem;
 
 }
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/village/CanonicalVillageWaterReachSpecs.js ----
 {
-	const __exports = __awtsmoosModule_442;
+	const __exports = __awtsmoosModule_453;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -34393,9 +35210,9 @@ const __awtsmoosModule_0 = Object.create(null);
 			'open-bank'
 		)
 	]);
+
+
 	__exports.CANONICAL_VILLAGE_WATER_REACH_SPECS = CANONICAL_VILLAGE_WATER_REACH_SPECS;
-
-
 	function reach(id, label, startT, endT, kind, flowCharacter, bankCharacter) {
 		return Object.freeze({
 			bankCharacter,
@@ -34414,7 +35231,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/village/MainRiverVillageRiverPolicy.js ----
 {
-	const __exports = __awtsmoosModule_360;
+	const __exports = __awtsmoosModule_371;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -34429,8 +35246,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com lets reach identity tune equilibrium evidence without circular imports, duplicate hydrology, or another fluid law once more.
 	 */
 
-	var createRiverReachRealismAuthority = __awtsmoosModule_361.createRiverReachRealismAuthority;
-	var CANONICAL_VILLAGE_WATER_REACH_SPECS = __awtsmoosModule_442.CANONICAL_VILLAGE_WATER_REACH_SPECS;
+	const createRiverReachRealismAuthority = __awtsmoosModule_372.createRiverReachRealismAuthority;
+	const CANONICAL_VILLAGE_WATER_REACH_SPECS = __awtsmoosModule_453.CANONICAL_VILLAGE_WATER_REACH_SPECS;
 
 	const POLICY_BY_ID = Object.freeze({
 		'bridge-reach': policy(1.34, 1.05, 1.02, 0.18, 0.2, ['reeds', 'wet-stone']),
@@ -34499,7 +35316,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/village/VillageRiverPath.js ----
 {
-	const __exports = __awtsmoosModule_359;
+	const __exports = __awtsmoosModule_370;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -34511,15 +35328,15 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com lets authored control points remain the river's identity while reusable reach policy gives each part a truthful breadth in time.
 	 */
 
-	var CANONICAL_RIVER_CONTROL_POINTS = __awtsmoosModule_358.CANONICAL_RIVER_CONTROL_POINTS;
-	var CANONICAL_RIVER_LAKE_INDEX = __awtsmoosModule_358.CANONICAL_RIVER_LAKE_INDEX;
-	var mainRiverVillageRiverSample = __awtsmoosModule_360.mainRiverVillageRiverSample;
+	const CANONICAL_RIVER_CONTROL_POINTS = __awtsmoosModule_369.CANONICAL_RIVER_CONTROL_POINTS;
+	const CANONICAL_RIVER_LAKE_INDEX = __awtsmoosModule_369.CANONICAL_RIVER_LAKE_INDEX;
+	const mainRiverVillageRiverSample = __awtsmoosModule_371.mainRiverVillageRiverSample;
 
 	const RIVER_LAKE_T = CANONICAL_RIVER_LAKE_INDEX
 		/ (CANONICAL_RIVER_CONTROL_POINTS.length - 1);
+
+
 	__exports.RIVER_LAKE_T = RIVER_LAKE_T;
-
-
 	/** Returns the canonical Catmull-Rom center point at normalized downstream progress. */
 	function riverCenterAt(t) {
 		const clamped = clamp01(t);
@@ -34598,7 +35415,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/CanonicalTerrainHydrology.js ----
 {
-	const __exports = __awtsmoosModule_357;
+	const __exports = __awtsmoosModule_368;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -34610,9 +35427,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com measures endpoint distance in two dimensions so land beyond the river remains land from afar.
 	 */
 
-	var CANONICAL_RIVER_CONTROL_POINTS = __awtsmoosModule_358.CANONICAL_RIVER_CONTROL_POINTS;
-	var riverCenterAt = __awtsmoosModule_359.riverCenterAt;
-	var riverWidthAt = __awtsmoosModule_359.riverWidthAt;
+	const CANONICAL_RIVER_CONTROL_POINTS = __awtsmoosModule_369.CANONICAL_RIVER_CONTROL_POINTS;
+	const riverCenterAt = __awtsmoosModule_370.riverCenterAt;
+	const riverWidthAt = __awtsmoosModule_370.riverWidthAt;
 
 	const SOURCE = CANONICAL_RIVER_CONTROL_POINTS[0];
 	const OUTLET = CANONICAL_RIVER_CONTROL_POINTS[CANONICAL_RIVER_CONTROL_POINTS.length - 1];
@@ -34672,7 +35489,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/CanonicalHydrologyBankField.js ----
 {
-	const __exports = __awtsmoosModule_356;
+	const __exports = __awtsmoosModule_367;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -34684,9 +35501,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * village hydrology source directly so terrain boot, banks, water, and bridge never drift apart.
 	 */
 
-	var canonicalRiverElevation = __awtsmoosModule_357.canonicalRiverElevation;
-	var canonicalRiverTerrainSample = __awtsmoosModule_357.canonicalRiverTerrainSample;
-	var CANONICAL_RIVER_CONTROL_POINTS = __awtsmoosModule_358.CANONICAL_RIVER_CONTROL_POINTS;
+	const canonicalRiverElevation = __awtsmoosModule_368.canonicalRiverElevation;
+	const canonicalRiverTerrainSample = __awtsmoosModule_368.canonicalRiverTerrainSample;
+	const CANONICAL_RIVER_CONTROL_POINTS = __awtsmoosModule_369.CANONICAL_RIVER_CONTROL_POINTS;
 
 	const BANK_CLEARANCE = 0.65;
 	const BANK_FULL_MARGIN = 2;
@@ -34774,7 +35591,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/CanonicalHydrologyTerrain.js ----
 {
-	const __exports = __awtsmoosModule_355;
+	const __exports = __awtsmoosModule_366;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -34786,10 +35603,10 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com keeps water below land while widening the fade enough for village paths and sight to remain alive.
 	 */
 
-	var canonicalHydrologyBankHeightAt = __awtsmoosModule_356.canonicalHydrologyBankHeightAt;
-	var canonicalMinimumBankClearance = __awtsmoosModule_356.canonicalMinimumBankClearance;
-	var canonicalRiverElevation = __awtsmoosModule_357.canonicalRiverElevation;
-	var canonicalRiverTerrainSample = __awtsmoosModule_357.canonicalRiverTerrainSample;
+	const canonicalHydrologyBankHeightAt = __awtsmoosModule_367.canonicalHydrologyBankHeightAt;
+	const canonicalMinimumBankClearance = __awtsmoosModule_367.canonicalMinimumBankClearance;
+	const canonicalRiverElevation = __awtsmoosModule_368.canonicalRiverElevation;
+	const canonicalRiverTerrainSample = __awtsmoosModule_368.canonicalRiverTerrainSample;
 
 	const BED_DEPTH = 1.35;
 	const BED_FADE_MARGIN = 2.5;
@@ -34841,7 +35658,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/CanonicalRiverValleyField.js ----
 {
-	const __exports = __awtsmoosModule_444;
+	const __exports = __awtsmoosModule_455;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -34853,7 +35670,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com lets the bank breathe across many meters, while distant ridges keep their natural call.
 	 */
 
-	var canonicalRiverElevation = __awtsmoosModule_357.canonicalRiverElevation;
+	const canonicalRiverElevation = __awtsmoosModule_368.canonicalRiverElevation;
 
 	const INNER_BANK_RISE = 1;
 	const SHOULDER_MARGIN = 2;
@@ -34889,7 +35706,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/CanonicalTerrainTerraces.js ----
 {
-	const __exports = __awtsmoosModule_445;
+	const __exports = __awtsmoosModule_456;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -34971,7 +35788,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/CanonicalTerrainBase.js ----
 {
-	const __exports = __awtsmoosModule_443;
+	const __exports = __awtsmoosModule_454;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -34983,9 +35800,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com gives roads and exact foundations the structural work, preserving living terrain around each self.
 	 */
 
-	var canonicalRiverValleyHeightAt = __awtsmoosModule_444.canonicalRiverValleyHeightAt;
-	var canonicalRiverTerrainSample = __awtsmoosModule_357.canonicalRiverTerrainSample;
-	var canonicalTerraceSample = __awtsmoosModule_445.canonicalTerraceSample;
+	const canonicalRiverValleyHeightAt = __awtsmoosModule_455.canonicalRiverValleyHeightAt;
+	const canonicalRiverTerrainSample = __awtsmoosModule_368.canonicalRiverTerrainSample;
+	const canonicalTerraceSample = __awtsmoosModule_456.canonicalTerraceSample;
 
 	const TERRACE_CHARACTER_STRENGTH = 0.2;
 
@@ -35051,7 +35868,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/CanonicalRoadSurfaceSampling.js ----
 {
-	const __exports = __awtsmoosModule_354;
+	const __exports = __awtsmoosModule_365;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -35063,16 +35880,16 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * cobble sample one shared key while honoring authored walkable surfaces such as BRIDGE01.
 	 */
 
-	var canonicalHydrologyTerrainHeightAt = __awtsmoosModule_355.canonicalHydrologyTerrainHeightAt;
-	var canonicalTerrainBaseHeightAt = __awtsmoosModule_443.canonicalTerrainBaseHeightAt;
+	const canonicalHydrologyTerrainHeightAt = __awtsmoosModule_366.canonicalHydrologyTerrainHeightAt;
+	const canonicalTerrainBaseHeightAt = __awtsmoosModule_454.canonicalTerrainBaseHeightAt;
 
 	const ROAD_SURFACE_CLEARANCE = 0.18;
+
 	__exports.ROAD_SURFACE_CLEARANCE = ROAD_SURFACE_CLEARANCE;
-
 	const ROAD_SURFACE_SAMPLE_SPACING = 1;
+
+
 	__exports.ROAD_SURFACE_SAMPLE_SPACING = ROAD_SURFACE_SAMPLE_SPACING;
-
-
 	/**
 	 * Densifies a route without losing elevation constraints on authored terminals.
 	 *
@@ -35153,7 +35970,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/CanonicalRoadSurfaceSolver.js ----
 {
-	const __exports = __awtsmoosModule_446;
+	const __exports = __awtsmoosModule_457;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -35166,9 +35983,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 */
 
 	const ROAD_SURFACE_MAXIMUM_GRADE = 0.16;
+
+
 	__exports.ROAD_SURFACE_MAXIMUM_GRADE = ROAD_SURFACE_MAXIMUM_GRADE;
-
-
 	const RELAXATION_PASSES = 4096;
 
 	function createRoadSurfaceEdges(routeKeys, nodes) {
@@ -35224,7 +36041,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/village/VillageStoneBridgeContract.js ----
 {
-	const __exports = __awtsmoosModule_448;
+	const __exports = __awtsmoosModule_459;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -35236,8 +36053,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * prevents a visible stone crossing from becoming a collision-separated island.
 	 */
 
-	var canonicalHydrologyTerrainHeightAt = __awtsmoosModule_355.canonicalHydrologyTerrainHeightAt;
-	var canonicalTerrainBaseHeightAt = __awtsmoosModule_443.canonicalTerrainBaseHeightAt;
+	const canonicalHydrologyTerrainHeightAt = __awtsmoosModule_366.canonicalHydrologyTerrainHeightAt;
+	const canonicalTerrainBaseHeightAt = __awtsmoosModule_454.canonicalTerrainBaseHeightAt;
 
 	const STONE_BRIDGE_DIMENSIONS = Object.freeze({
 		deckRise: 3.25,
@@ -35245,9 +36062,9 @@ const __awtsmoosModule_0 = Object.create(null);
 		halfSpan: 7.6,
 		width: 5.2
 	});
+
+
 	__exports.STONE_BRIDGE_DIMENSIONS = STONE_BRIDGE_DIMENSIONS;
-
-
 	/**
 	 * Resolves the deck mesh center from the terrain beneath the bridge center.
 	 *
@@ -35291,7 +36108,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/village/CanonicalVillageRoads.js ----
 {
-	const __exports = __awtsmoosModule_447;
+	const __exports = __awtsmoosModule_458;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -35303,7 +36120,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * every cobbled lane its true width and joins both banks to BRIDGE01's walkable deck.
 	 */
 
-	var canonicalStoneBridgeDeckTopY = __awtsmoosModule_448.canonicalStoneBridgeDeckTopY;
+	const canonicalStoneBridgeDeckTopY = __awtsmoosModule_459.canonicalStoneBridgeDeckTopY;
 
 	const BRIDGE_CENTER = Object.freeze({ x: 18, z: 7 });
 	const BRIDGE_WALKABLE_Y = canonicalStoneBridgeDeckTopY(BRIDGE_CENTER);
@@ -35329,9 +36146,9 @@ const __awtsmoosModule_0 = Object.create(null);
 		residential: 3.6,
 		service: 2.4
 	});
+
+
 	__exports.CANONICAL_ROAD_WIDTHS = CANONICAL_ROAD_WIDTHS;
-
-
 	const ROUTE_WIDTH_CLASSES = Object.freeze({
 		arrivalMain: 'main',
 		arrivalWestHomes: 'residential',
@@ -35409,7 +36226,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/CanonicalRoadSurfaceNetwork.js ----
 {
-	const __exports = __awtsmoosModule_353;
+	const __exports = __awtsmoosModule_364;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -35421,14 +36238,14 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com raises only the road vessel while cliffs, banks, riverbeds, and terraces remain real.
 	 */
 
-	var denseRoadPoints = __awtsmoosModule_354.denseRoadPoints;
-	var registerRoadSurfaceNode = __awtsmoosModule_354.registerRoadSurfaceNode;
-	var ROAD_SURFACE_CLEARANCE = __awtsmoosModule_354.ROAD_SURFACE_CLEARANCE;
-	var ROAD_SURFACE_SAMPLE_SPACING = __awtsmoosModule_354.ROAD_SURFACE_SAMPLE_SPACING;
-	var createRoadSurfaceEdges = __awtsmoosModule_446.createRoadSurfaceEdges;
-	var ROAD_SURFACE_MAXIMUM_GRADE = __awtsmoosModule_446.ROAD_SURFACE_MAXIMUM_GRADE;
-	var solveRoadSurfaceElevations = __awtsmoosModule_446.solveRoadSurfaceElevations;
-	var canonicalVillageRoadRoutes = __awtsmoosModule_447.canonicalVillageRoadRoutes;
+	const denseRoadPoints = __awtsmoosModule_365.denseRoadPoints;
+	const registerRoadSurfaceNode = __awtsmoosModule_365.registerRoadSurfaceNode;
+	const ROAD_SURFACE_CLEARANCE = __awtsmoosModule_365.ROAD_SURFACE_CLEARANCE;
+	const ROAD_SURFACE_SAMPLE_SPACING = __awtsmoosModule_365.ROAD_SURFACE_SAMPLE_SPACING;
+	const createRoadSurfaceEdges = __awtsmoosModule_457.createRoadSurfaceEdges;
+	const ROAD_SURFACE_MAXIMUM_GRADE = __awtsmoosModule_457.ROAD_SURFACE_MAXIMUM_GRADE;
+	const solveRoadSurfaceElevations = __awtsmoosModule_457.solveRoadSurfaceElevations;
+	const canonicalVillageRoadRoutes = __awtsmoosModule_458.canonicalVillageRoadRoutes;
 
 	let cachedNetwork = null;
 
@@ -35494,7 +36311,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/spatial/WorldRoadCorridor.js ----
 {
-	const __exports = __awtsmoosModule_352;
+	const __exports = __awtsmoosModule_363;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -35506,14 +36323,14 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * while canonical route solving happens once per deferred world load instead of once for every reed, stone, camera, or staging query.
 	 */
 
-	var canonicalRoadSurfaceRoutes = __awtsmoosModule_353.canonicalRoadSurfaceRoutes;
-	var freezePoint = __awtsmoosModule_348.freezePoint;
-	var nearestPointOnPolylineXZ = __awtsmoosModule_348.nearestPointOnPolylineXZ;
+	const canonicalRoadSurfaceRoutes = __awtsmoosModule_364.canonicalRoadSurfaceRoutes;
+	const freezePoint = __awtsmoosModule_359.freezePoint;
+	const nearestPointOnPolylineXZ = __awtsmoosModule_359.nearestPointOnPolylineXZ;
 
 	const DEFAULT_ROAD_WIDTH = 5.8;
+
+
 	__exports.DEFAULT_ROAD_WIDTH = DEFAULT_ROAD_WIDTH;
-
-
 	const CANONICAL_ROAD_ROUTES = Object.freeze(canonicalRoadSurfaceRoutes());
 
 	function resolveRoadRouteWidth(route, fallbackWidth = DEFAULT_ROAD_WIDTH) {
@@ -35602,7 +36419,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/spatial/WorldTriangleExclusion.js ----
 {
-	const __exports = __awtsmoosModule_449;
+	const __exports = __awtsmoosModule_460;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -35614,7 +36431,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * and other manifested collision visible to ecology without confusing an entire collider kind for one occupied rectangle.
 	 */
 
-	var nearestPointOnSegmentXZ = __awtsmoosModule_348.nearestPointOnSegmentXZ;
+	const nearestPointOnSegmentXZ = __awtsmoosModule_359.nearestPointOnSegmentXZ;
 
 	function triangleExclusionEvidenceAt(point, triangles = [], options = {}) {
 		if (!triangles.length) return null;
@@ -35665,7 +36482,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/village/CanonicalVillageCameras.js ----
 {
-	const __exports = __awtsmoosModule_454;
+	const __exports = __awtsmoosModule_465;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -35695,15 +36512,15 @@ const __awtsmoosModule_0 = Object.create(null);
 		camera('cottage-exterior', [-33, 8, 65], [-24, 6, 57], 52),
 		camera('cottage-interior', [-23, 4.5, 57], [-20, 4, 52], 62)
 	]);
+
+
 	__exports.CANONICAL_VILLAGE_CAMERAS = CANONICAL_VILLAGE_CAMERAS;
-
-
 	const CANONICAL_CAMERAS_BY_ID = Object.freeze(Object.fromEntries(
 		CANONICAL_VILLAGE_CAMERAS.map((definition) => [definition.id, definition])
 	));
+
+
 	__exports.CANONICAL_CAMERAS_BY_ID = CANONICAL_CAMERAS_BY_ID;
-
-
 	function camera(id, position, target, fov) {
 		return Object.freeze({
 			fov,
@@ -35721,7 +36538,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/village/CanonicalVillageIdentifiers.js ----
 {
-	const __exports = __awtsmoosModule_455;
+	const __exports = __awtsmoosModule_466;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -35739,34 +36556,34 @@ const __awtsmoosModule_0 = Object.create(null);
 		'MARKET01',
 		...Array.from({ length: 18 }, (_, index) => `H${index + 10}`)
 	]);
+
+
 	__exports.CANONICAL_BUILDING_IDS = CANONICAL_BUILDING_IDS;
-
-
 	const CANONICAL_INFRASTRUCTURE_IDS = Object.freeze([
 		'BRIDGE01',
 		'PORTAL01',
 		'ENTR01'
 	]);
+
+
 	__exports.CANONICAL_INFRASTRUCTURE_IDS = CANONICAL_INFRASTRUCTURE_IDS;
-
-
 	const CANONICAL_FARM_IDS = Object.freeze([
 		'F01',
 		'F02',
 		'F03',
 		'F04'
 	]);
+
+
 	__exports.CANONICAL_FARM_IDS = CANONICAL_FARM_IDS;
-
-
 	const CANONICAL_VILLAGE_IDS = Object.freeze([
 		...CANONICAL_BUILDING_IDS,
 		...CANONICAL_INFRASTRUCTURE_IDS,
 		...CANONICAL_FARM_IDS
 	]);
+
+
 	__exports.CANONICAL_VILLAGE_IDS = CANONICAL_VILLAGE_IDS;
-
-
 	function isCanonicalVillageId(value) {
 		return CANONICAL_VILLAGE_IDS.includes(String(value));
 	}
@@ -35777,7 +36594,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/village/CanonicalVillageLocationAliases.js ----
 {
-	const __exports = __awtsmoosModule_457;
+	const __exports = __awtsmoosModule_468;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -35796,9 +36613,9 @@ const __awtsmoosModule_0 = Object.create(null);
 		'shabbos-village': 'shul-terrace',
 		'world-renewed': 'market-square'
 	});
+
+
 	__exports.CANONICAL_VILLAGE_LOCATION_ALIASES = CANONICAL_VILLAGE_LOCATION_ALIASES;
-
-
 	/**
 	 * Resolves a requested location token into one stable geographic identifier.
 	 *
@@ -35828,7 +36645,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/village/CanonicalVillageLocationFacets.js ----
 {
-	const __exports = __awtsmoosModule_458;
+	const __exports = __awtsmoosModule_469;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -35906,7 +36723,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/CanonicalFoundationPads.js ----
 {
-	const __exports = __awtsmoosModule_463;
+	const __exports = __awtsmoosModule_474;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -35918,7 +36735,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * supported while broad transition bands reveal retaining earth rather than floating geometry.
 	 */
 
-	var CANONICAL_VILLAGE_FOOTPRINTS = __awtsmoosModule_344.CANONICAL_VILLAGE_FOOTPRINTS;
+	const CANONICAL_VILLAGE_FOOTPRINTS = __awtsmoosModule_355.CANONICAL_VILLAGE_FOOTPRINTS;
 
 	const BLEND_DISTANCE = 6;
 	const SPECIALIZED_SURFACES = new Set(['BRIDGE01', 'ENTR01']);
@@ -36021,7 +36838,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/CanonicalRoadGraph.js ----
 {
-	const __exports = __awtsmoosModule_466;
+	const __exports = __awtsmoosModule_477;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -36033,7 +36850,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * elevation while neighboring control points relax until no authored segment exceeds safe grade.
 	 */
 
-	var canonicalVillageRoadRoutes = __awtsmoosModule_447.canonicalVillageRoadRoutes;
+	const canonicalVillageRoadRoutes = __awtsmoosModule_458.canonicalVillageRoadRoutes;
 
 	const MAXIMUM_GRAPH_GRADE = 0.16;
 	const RELAXATION_PASSES = 512;
@@ -36141,7 +36958,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/CanonicalRoadProfiles.js ----
 {
-	const __exports = __awtsmoosModule_465;
+	const __exports = __awtsmoosModule_476;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -36153,7 +36970,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * measured radii and graph-solved target heights without allowing adjacent profiles to disagree.
 	 */
 
-	var canonicalRoadGraph = __awtsmoosModule_466.canonicalRoadGraph;
+	const canonicalRoadGraph = __awtsmoosModule_477.canonicalRoadGraph;
 
 	let cachedProfiles = null;
 
@@ -36184,7 +37001,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/CanonicalRoadCorridor.js ----
 {
-	const __exports = __awtsmoosModule_464;
+	const __exports = __awtsmoosModule_475;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -36196,7 +37013,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com gives every cut and fill enough horizontal breath for the surrounding hillside to fade.
 	 */
 
-	var canonicalRoadProfiles = __awtsmoosModule_465.canonicalRoadProfiles;
+	const canonicalRoadProfiles = __awtsmoosModule_476.canonicalRoadProfiles;
 
 	const MAXIMUM_CROSS_SLOPE = 0.32;
 
@@ -36312,7 +37129,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/CanonicalTerrainHeight.js ----
 {
-	const __exports = __awtsmoosModule_462;
+	const __exports = __awtsmoosModule_473;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -36324,12 +37141,12 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com reconnects every canonical footprint to the land before the final current carves its finite trace.
 	 */
 
-	var canonicalFoundationPadHeightAt = __awtsmoosModule_463.canonicalFoundationPadHeightAt;
-	var canonicalHydrologyTerrainHeightAt = __awtsmoosModule_355.canonicalHydrologyTerrainHeightAt;
-	var canonicalRoadCorridorSampleAt = __awtsmoosModule_464.canonicalRoadCorridorSampleAt;
-	var canonicalTerrainBaseHeightAt = __awtsmoosModule_443.canonicalTerrainBaseHeightAt;
-	var canonicalRiverTerrainSample = __awtsmoosModule_357.canonicalRiverTerrainSample;
-	var canonicalTerraceSample = __awtsmoosModule_445.canonicalTerraceSample;
+	const canonicalFoundationPadHeightAt = __awtsmoosModule_474.canonicalFoundationPadHeightAt;
+	const canonicalHydrologyTerrainHeightAt = __awtsmoosModule_366.canonicalHydrologyTerrainHeightAt;
+	const canonicalRoadCorridorSampleAt = __awtsmoosModule_475.canonicalRoadCorridorSampleAt;
+	const canonicalTerrainBaseHeightAt = __awtsmoosModule_454.canonicalTerrainBaseHeightAt;
+	const canonicalRiverTerrainSample = __awtsmoosModule_368.canonicalRiverTerrainSample;
+	const canonicalTerraceSample = __awtsmoosModule_456.canonicalTerraceSample;
 
 	/** Returns the complete canonical terrain height. */
 	function canonicalTerrainHeightAt(x, z) {
@@ -36378,7 +37195,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/TerrainGeometryIndices.js ----
 {
-	const __exports = __awtsmoosModule_468;
+	const __exports = __awtsmoosModule_479;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -36390,7 +37207,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * canonical valley never silences the world-entry interface while collision is prepared.
 	 */
 
-	var TriangleCollider = __awtsmoosModule_206.TriangleCollider;
+	const TriangleCollider = __awtsmoosModule_224.TriangleCollider;
 
 	function buildTerrainIndices(steps) {
 		const indices = [];
@@ -36455,7 +37272,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/TerrainGeometryNormals.js ----
 {
-	const __exports = __awtsmoosModule_469;
+	const __exports = __awtsmoosModule_480;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -36467,8 +37284,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * so visual fidelity remains exact without imprisoning the browser's main thread.
 	 */
 
-	var triangleNormal = __awtsmoosModule_209.triangleNormal;
-	var v = __awtsmoosModule_209.v;
+	const triangleNormal = __awtsmoosModule_227.triangleNormal;
+	const v = __awtsmoosModule_227.v;
 
 	function buildTerrainNormals(vertices, indices) {
 		const normals = emptyNormals(vertices.length);
@@ -36519,7 +37336,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/TerrainGeometryFinalization.js ----
 {
-	const __exports = __awtsmoosModule_467;
+	const __exports = __awtsmoosModule_478;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -36531,13 +37348,13 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * responsive path for gameplay and the immediate path for deterministic tooling.
 	 */
 
-	var canonicalTerraceDefinitions = __awtsmoosModule_445.canonicalTerraceDefinitions;
-	var buildTerrainColliders = __awtsmoosModule_468.buildTerrainColliders;
-	var buildTerrainCollidersAsync = __awtsmoosModule_468.buildTerrainCollidersAsync;
-	var buildTerrainIndices = __awtsmoosModule_468.buildTerrainIndices;
-	var buildTerrainIndicesAsync = __awtsmoosModule_468.buildTerrainIndicesAsync;
-	var buildTerrainNormals = __awtsmoosModule_469.buildTerrainNormals;
-	var buildTerrainNormalsAsync = __awtsmoosModule_469.buildTerrainNormalsAsync;
+	const canonicalTerraceDefinitions = __awtsmoosModule_456.canonicalTerraceDefinitions;
+	const buildTerrainColliders = __awtsmoosModule_479.buildTerrainColliders;
+	const buildTerrainCollidersAsync = __awtsmoosModule_479.buildTerrainCollidersAsync;
+	const buildTerrainIndices = __awtsmoosModule_479.buildTerrainIndices;
+	const buildTerrainIndicesAsync = __awtsmoosModule_479.buildTerrainIndicesAsync;
+	const buildTerrainNormals = __awtsmoosModule_480.buildTerrainNormals;
+	const buildTerrainNormalsAsync = __awtsmoosModule_480.buildTerrainNormalsAsync;
 
 	function finishTerrainGeometry(state, preparation, coordinateAt) {
 		const indices = buildTerrainIndices(state.steps);
@@ -36618,7 +37435,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/TerrainGeometry.js ----
 {
-	const __exports = __awtsmoosModule_461;
+	const __exports = __awtsmoosModule_472;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -36630,25 +37447,25 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com preserves exact terrain APIs and counts every browser-yield receipt truthfully.
 	 */
 
-	var v = __awtsmoosModule_209.v;
-	var canonicalTerrainHeightAt = __awtsmoosModule_462.canonicalTerrainHeightAt;
-	var canonicalTerrainZoneAt = __awtsmoosModule_462.canonicalTerrainZoneAt;
-	var finishTerrainGeometry = __awtsmoosModule_467.finishTerrainGeometry;
-	var finishTerrainGeometryAsync = __awtsmoosModule_467.finishTerrainGeometryAsync;
+	const v = __awtsmoosModule_227.v;
+	const canonicalTerrainHeightAt = __awtsmoosModule_473.canonicalTerrainHeightAt;
+	const canonicalTerrainZoneAt = __awtsmoosModule_473.canonicalTerrainZoneAt;
+	const finishTerrainGeometry = __awtsmoosModule_478.finishTerrainGeometry;
+	const finishTerrainGeometryAsync = __awtsmoosModule_478.finishTerrainGeometryAsync;
 
 	const DEFAULT_TERRAIN_SIZE = 540;
+
 	__exports.DEFAULT_TERRAIN_SIZE = DEFAULT_TERRAIN_SIZE;
-
 	const DEFAULT_TERRAIN_STEPS = 128;
+
 	__exports.DEFAULT_TERRAIN_STEPS = DEFAULT_TERRAIN_STEPS;
-
 	const terrainHeightAt = canonicalTerrainHeightAt;
+
 	__exports.terrainHeightAt = terrainHeightAt;
-
 	const terrainZoneAt = canonicalTerrainZoneAt;
+
+
 	__exports.terrainZoneAt = terrainZoneAt;
-
-
 	function createTerrainGeometry(size = DEFAULT_TERRAIN_SIZE, steps = DEFAULT_TERRAIN_STEPS) {
 		const startedAt = now();
 		const state = createSamplingState(size, steps);
@@ -36751,7 +37568,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/village/VillageCameraGrounding.js ----
 {
-	const __exports = __awtsmoosModule_460;
+	const __exports = __awtsmoosModule_471;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -36763,7 +37580,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * so generated films cannot aim the lens into earth merely because the valley elevation changes beneath an otherwise valid X/Z lane.
 	 */
 
-	var terrainHeightAt = __awtsmoosModule_461.terrainHeightAt;
+	const terrainHeightAt = __awtsmoosModule_472.terrainHeightAt;
 
 	function terrainRelativeCameraPoint(x, z, clearance) {
 		return Object.freeze({
@@ -36800,7 +37617,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/village/CanonicalVillageLocationShots.js ----
 {
-	const __exports = __awtsmoosModule_459;
+	const __exports = __awtsmoosModule_470;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -36812,8 +37629,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com therefore stores X/Z choreography plus explicit clearance, never brittle absolute Y values that can bury a camera in earth.
 	 */
 
-	var terrainRelativeCameraPoint = __awtsmoosModule_460.terrainRelativeCameraPoint;
-	var terrainRelativeCameraTarget = __awtsmoosModule_460.terrainRelativeCameraTarget;
+	const terrainRelativeCameraPoint = __awtsmoosModule_471.terrainRelativeCameraPoint;
+	const terrainRelativeCameraTarget = __awtsmoosModule_471.terrainRelativeCameraTarget;
 
 	const LOWER_RIVER_TARGET = terrainRelativeCameraTarget(7.5, 42.3, 2.6);
 	const FINAL_RIVER_TARGET = terrainRelativeCameraTarget(10, 44, 2.6);
@@ -36851,7 +37668,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/village/CanonicalVillageLocationStaging.js ----
 {
-	const __exports = __awtsmoosModule_470;
+	const __exports = __awtsmoosModule_481;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -36919,7 +37736,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/village/CanonicalVillageLocations.js ----
 {
-	const __exports = __awtsmoosModule_456;
+	const __exports = __awtsmoosModule_467;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -36931,11 +37748,11 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * while cinema stands downstream where broad living water, garden bank, and Chossid can share one honest frame.
 	 */
 
-	var CANONICAL_CAMERAS_BY_ID = __awtsmoosModule_454.CANONICAL_CAMERAS_BY_ID;
-	var resolveCanonicalVillageLocationId = __awtsmoosModule_457.resolveCanonicalVillageLocationId;
-	var canonicalVillageLocationFacets = __awtsmoosModule_458.canonicalVillageLocationFacets;
-	var canonicalVillageLocationShots = __awtsmoosModule_459.canonicalVillageLocationShots;
-	var canonicalVillageLocationStaging = __awtsmoosModule_470.canonicalVillageLocationStaging;
+	const CANONICAL_CAMERAS_BY_ID = __awtsmoosModule_465.CANONICAL_CAMERAS_BY_ID;
+	const resolveCanonicalVillageLocationId = __awtsmoosModule_468.resolveCanonicalVillageLocationId;
+	const canonicalVillageLocationFacets = __awtsmoosModule_469.canonicalVillageLocationFacets;
+	const canonicalVillageLocationShots = __awtsmoosModule_470.canonicalVillageLocationShots;
+	const canonicalVillageLocationStaging = __awtsmoosModule_481.canonicalVillageLocationStaging;
 
 	const RIVER_SAFE_BOUNDS = bounds(-24, 4, 34, -7, 24, 60);
 
@@ -36959,15 +37776,15 @@ const __awtsmoosModule_0 = Object.create(null);
 			'market plaza, authored homes, road, props and living valley', 'market-eye', null,
 			['architecture', 'community', 'road'])
 	]);
+
+
 	__exports.CANONICAL_VILLAGE_LOCATIONS = CANONICAL_VILLAGE_LOCATIONS;
-
-
 	const CANONICAL_VILLAGE_LOCATIONS_BY_ID = Object.freeze(Object.fromEntries(
 		CANONICAL_VILLAGE_LOCATIONS.map(profile => [profile.id, profile])
 	));
+
+
 	__exports.CANONICAL_VILLAGE_LOCATIONS_BY_ID = CANONICAL_VILLAGE_LOCATIONS_BY_ID;
-
-
 	function canonicalVillageLocation(id) {
 		return CANONICAL_VILLAGE_LOCATIONS_BY_ID[resolveCanonicalVillageLocationId(id)] || null;
 	}
@@ -37035,7 +37852,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/village/CanonicalVillagePlan.js ----
 {
-	const __exports = __awtsmoosModule_453;
+	const __exports = __awtsmoosModule_464;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -37047,21 +37864,21 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com keeps the canonical plan spatially pure so gameplay, cutscenes, cinema, and diagnostics share one valley cheaply.
 	 */
 
-	var CANONICAL_VILLAGE_BIOMES = __awtsmoosModule_342.CANONICAL_VILLAGE_BIOMES;
-	var CANONICAL_VILLAGE_CAMERAS = __awtsmoosModule_454.CANONICAL_VILLAGE_CAMERAS;
-	var CANONICAL_VILLAGE_CLEARINGS = __awtsmoosModule_350.CANONICAL_VILLAGE_CLEARINGS;
-	var CANONICAL_VILLAGE_FOOTPRINTS = __awtsmoosModule_344.CANONICAL_VILLAGE_FOOTPRINTS;
-	var CANONICAL_VILLAGE_HOUSES = __awtsmoosModule_345.CANONICAL_VILLAGE_HOUSES;
-	var CANONICAL_VILLAGE_IDS = __awtsmoosModule_455.CANONICAL_VILLAGE_IDS;
-	var CANONICAL_VILLAGE_LOCATIONS = __awtsmoosModule_456.CANONICAL_VILLAGE_LOCATIONS;
-	var CANONICAL_RIVER_CASCADES = __awtsmoosModule_358.CANONICAL_RIVER_CASCADES;
-	var CANONICAL_RIVER_CONTROL_POINTS = __awtsmoosModule_358.CANONICAL_RIVER_CONTROL_POINTS;
-	var CANONICAL_RIVER_LAKE_INDEX = __awtsmoosModule_358.CANONICAL_RIVER_LAKE_INDEX;
-	var canonicalRoadNetworkEvidence = __awtsmoosModule_447.canonicalRoadNetworkEvidence;
-	var canonicalVillageRoadRoutes = __awtsmoosModule_447.canonicalVillageRoadRoutes;
-	var VILLAGE_ARRIVAL_ENTRANCE = __awtsmoosModule_351.VILLAGE_ARRIVAL_ENTRANCE;
+	const CANONICAL_VILLAGE_BIOMES = __awtsmoosModule_353.CANONICAL_VILLAGE_BIOMES;
+	const CANONICAL_VILLAGE_CAMERAS = __awtsmoosModule_465.CANONICAL_VILLAGE_CAMERAS;
+	const CANONICAL_VILLAGE_CLEARINGS = __awtsmoosModule_361.CANONICAL_VILLAGE_CLEARINGS;
+	const CANONICAL_VILLAGE_FOOTPRINTS = __awtsmoosModule_355.CANONICAL_VILLAGE_FOOTPRINTS;
+	const CANONICAL_VILLAGE_HOUSES = __awtsmoosModule_356.CANONICAL_VILLAGE_HOUSES;
+	const CANONICAL_VILLAGE_IDS = __awtsmoosModule_466.CANONICAL_VILLAGE_IDS;
+	const CANONICAL_VILLAGE_LOCATIONS = __awtsmoosModule_467.CANONICAL_VILLAGE_LOCATIONS;
+	const CANONICAL_RIVER_CASCADES = __awtsmoosModule_369.CANONICAL_RIVER_CASCADES;
+	const CANONICAL_RIVER_CONTROL_POINTS = __awtsmoosModule_369.CANONICAL_RIVER_CONTROL_POINTS;
+	const CANONICAL_RIVER_LAKE_INDEX = __awtsmoosModule_369.CANONICAL_RIVER_LAKE_INDEX;
+	const canonicalRoadNetworkEvidence = __awtsmoosModule_458.canonicalRoadNetworkEvidence;
+	const canonicalVillageRoadRoutes = __awtsmoosModule_458.canonicalVillageRoadRoutes;
+	const VILLAGE_ARRIVAL_ENTRANCE = __awtsmoosModule_362.VILLAGE_ARRIVAL_ENTRANCE;
 
-	__exports.CANONICAL_VILLAGE_CLEARINGS = __awtsmoosModule_350.CANONICAL_VILLAGE_CLEARINGS;
+	__exports.CANONICAL_VILLAGE_CLEARINGS = __awtsmoosModule_361.CANONICAL_VILLAGE_CLEARINGS;
 
 	const CANONICAL_VILLAGE_LANDMARKS = Object.freeze({
 		beisChabad: marker(-35, 45, 'BEIS01'),
@@ -37077,9 +37894,9 @@ const __awtsmoosModule_0 = Object.create(null);
 		waterfall: marker(49, -42, 'WATERFALL01'),
 		well: marker(-8, 20, 'WELL01')
 	});
+
+
 	__exports.CANONICAL_VILLAGE_LANDMARKS = CANONICAL_VILLAGE_LANDMARKS;
-
-
 	const CANONICAL_VILLAGE_DISTRICTS = Object.freeze([
 		district('arrival-meadow', 'meadow', [0, 72], [24, 20], 'near', 0.2, ['H10', 'H11']),
 		district('beis-chabad-terrace', 'herb', [-35, 45], [18, 14], 'near', 0.72, ['H12', 'H13'], 'BEIS01'),
@@ -37092,9 +37909,9 @@ const __awtsmoosModule_0 = Object.create(null);
 		district('farm-terraces', 'meadow', [43, 39], [21, 17], 'far', 3.88, ['H26']),
 		district('riverfront-gardens', 'water-edge', [-5, 36], [18, 15], 'medium', 4.28, ['H27'])
 	]);
+
+
 	__exports.CANONICAL_VILLAGE_DISTRICTS = CANONICAL_VILLAGE_DISTRICTS;
-
-
 	const CANONICAL_VILLAGE_PLAN = Object.freeze({
 		biomes: CANONICAL_VILLAGE_BIOMES,
 		cameras: CANONICAL_VILLAGE_CAMERAS,
@@ -37116,9 +37933,9 @@ const __awtsmoosModule_0 = Object.create(null);
 		}),
 		version: '2026.08-canonical-alpine-village-locations'
 	});
+
+
 	__exports.CANONICAL_VILLAGE_PLAN = CANONICAL_VILLAGE_PLAN;
-
-
 	function district(id, habitat, center, radius, detail, phase, houseIds, landmarkId = null) {
 		return Object.freeze({
 			center: Object.freeze(center),
@@ -37140,7 +37957,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/village/VillageCurves.js ----
 {
-	const __exports = __awtsmoosModule_452;
+	const __exports = __awtsmoosModule_463;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -37152,10 +37969,10 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * stable as every sign, bridge, lake, plaza, and path agrees with the master plan.
 	 */
 
-	var CANONICAL_VILLAGE_LANDMARKS = __awtsmoosModule_453.CANONICAL_VILLAGE_LANDMARKS;
-	var riverCenterAt = __awtsmoosModule_359.riverCenterAt;
-	var riverWidthAt = __awtsmoosModule_359.riverWidthAt;
-	var sampleRiverPath = __awtsmoosModule_359.sampleRiverPath;
+	const CANONICAL_VILLAGE_LANDMARKS = __awtsmoosModule_464.CANONICAL_VILLAGE_LANDMARKS;
+	const riverCenterAt = __awtsmoosModule_370.riverCenterAt;
+	const riverWidthAt = __awtsmoosModule_370.riverWidthAt;
+	const sampleRiverPath = __awtsmoosModule_370.sampleRiverPath;
 
 	function streamCenterAt(t) {
 		return riverCenterAt(t);
@@ -37194,7 +38011,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/village/VillageRiverChannelProfile.js ----
 {
-	const __exports = __awtsmoosModule_471;
+	const __exports = __awtsmoosModule_482;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -37206,8 +38023,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com preserves the authored hydraulic baseline while reach policy gives each place more legible water, moisture, habitat, and depth.
 	 */
 
-	var mainRiverVillageRiverSample = __awtsmoosModule_360.mainRiverVillageRiverSample;
-	var RIVER_LAKE_T = __awtsmoosModule_359.RIVER_LAKE_T;
+	const mainRiverVillageRiverSample = __awtsmoosModule_371.mainRiverVillageRiverSample;
+	const RIVER_LAKE_T = __awtsmoosModule_370.RIVER_LAKE_T;
 
 	const MINIMUM_DEPTH = 0.48;
 	const MAXIMUM_BASE_DEPTH = 2.35;
@@ -37303,7 +38120,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/village/VillageRiverHydrologySampling.js ----
 {
-	const __exports = __awtsmoosModule_472;
+	const __exports = __awtsmoosModule_483;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -37354,7 +38171,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/village/VillageGroundSampling.js ----
 {
-	const __exports = __awtsmoosModule_473;
+	const __exports = __awtsmoosModule_484;
 	// B"H
 
 	/**
@@ -37376,7 +38193,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/village/VillageRiverHydrology.js ----
 {
-	const __exports = __awtsmoosModule_451;
+	const __exports = __awtsmoosModule_462;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -37388,19 +38205,19 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * narrows, bridge reach, lower pool, and outlet while interpolation lives in its own focused river vessel.
 	 */
 
-	var CANONICAL_RIVER_CASCADES = __awtsmoosModule_358.CANONICAL_RIVER_CASCADES;
-	var normalBetween = __awtsmoosModule_452.normalBetween;
-	var villageLandmarks = __awtsmoosModule_452.villageLandmarks;
-	var riverChannelProfileAt = __awtsmoosModule_471.riverChannelProfileAt;
-	var sampleHydrologyPoint = __awtsmoosModule_472.sampleHydrologyPoint;
-	var RIVER_LAKE_T = __awtsmoosModule_359.RIVER_LAKE_T;
-	var sampleRiverPath = __awtsmoosModule_359.sampleRiverPath;
-	var villageGroundHeight = __awtsmoosModule_473.villageGroundHeight;
+	const CANONICAL_RIVER_CASCADES = __awtsmoosModule_369.CANONICAL_RIVER_CASCADES;
+	const normalBetween = __awtsmoosModule_463.normalBetween;
+	const villageLandmarks = __awtsmoosModule_463.villageLandmarks;
+	const riverChannelProfileAt = __awtsmoosModule_482.riverChannelProfileAt;
+	const sampleHydrologyPoint = __awtsmoosModule_483.sampleHydrologyPoint;
+	const RIVER_LAKE_T = __awtsmoosModule_370.RIVER_LAKE_T;
+	const sampleRiverPath = __awtsmoosModule_370.sampleRiverPath;
+	const villageGroundHeight = __awtsmoosModule_484.villageGroundHeight;
 
 	const RIVER_CASCADES = CANONICAL_RIVER_CASCADES;
+
+
 	__exports.RIVER_CASCADES = RIVER_CASCADES;
-
-
 	function createRiverHydrology(groundSampler, samples = 64) {
 		const points = sampleRiverPath(samples).map(point => ({ ...point }));
 		const lake = villageLandmarks().lake;
@@ -37481,7 +38298,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/spatial/WorldWaterCorridor.js ----
 {
-	const __exports = __awtsmoosModule_450;
+	const __exports = __awtsmoosModule_461;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -37493,10 +38310,10 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * width, waterline, and signed edge clearance so ecology, staging, gameplay, and cinema cannot invent different water boundaries.
 	 */
 
-	var sampleHydrologyAt = __awtsmoosModule_451.sampleHydrologyAt;
-	var sampleRiverPath = __awtsmoosModule_359.sampleRiverPath;
-	var freezePoint = __awtsmoosModule_348.freezePoint;
-	var nearestPointOnPolylineXZ = __awtsmoosModule_348.nearestPointOnPolylineXZ;
+	const sampleHydrologyAt = __awtsmoosModule_462.sampleHydrologyAt;
+	const sampleRiverPath = __awtsmoosModule_370.sampleRiverPath;
+	const freezePoint = __awtsmoosModule_359.freezePoint;
+	const nearestPointOnPolylineXZ = __awtsmoosModule_359.nearestPointOnPolylineXZ;
 
 	const WATER_SAMPLES = Object.freeze(
 		sampleRiverPath(220).map(sample => Object.freeze({ ...sample }))
@@ -37562,7 +38379,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/spatial/WorldEcologyClearance.js ----
 {
-	const __exports = __awtsmoosModule_341;
+	const __exports = __awtsmoosModule_352;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -37574,13 +38391,13 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * every tree and botanical caller the same signed boundaries so richer ecology cannot overwrite the village beneath it.
 	 */
 
-	var canonicalBiomeAt = __awtsmoosModule_342.canonicalBiomeAt;
-	var architectureApproachEvidenceAt = __awtsmoosModule_343.architectureApproachEvidenceAt;
-	var clearingExclusionEvidenceAt = __awtsmoosModule_349.clearingExclusionEvidenceAt;
-	var footprintExclusionEvidenceAt = __awtsmoosModule_349.footprintExclusionEvidenceAt;
-	var roadCorridorEvidenceAt = __awtsmoosModule_352.roadCorridorEvidenceAt;
-	var triangleExclusionEvidenceAt = __awtsmoosModule_449.triangleExclusionEvidenceAt;
-	var waterCorridorEvidenceAt = __awtsmoosModule_450.waterCorridorEvidenceAt;
+	const canonicalBiomeAt = __awtsmoosModule_353.canonicalBiomeAt;
+	const architectureApproachEvidenceAt = __awtsmoosModule_354.architectureApproachEvidenceAt;
+	const clearingExclusionEvidenceAt = __awtsmoosModule_360.clearingExclusionEvidenceAt;
+	const footprintExclusionEvidenceAt = __awtsmoosModule_360.footprintExclusionEvidenceAt;
+	const roadCorridorEvidenceAt = __awtsmoosModule_363.roadCorridorEvidenceAt;
+	const triangleExclusionEvidenceAt = __awtsmoosModule_460.triangleExclusionEvidenceAt;
+	const waterCorridorEvidenceAt = __awtsmoosModule_461.waterCorridorEvidenceAt;
 
 	function ecologySiteEvidenceAt(point, options = {}) {
 		const radius = Math.max(0.1, Number(options.siteRadius) || 0.4);
@@ -37643,7 +38460,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/spatial/WorldEcologySpacing.js ----
 {
-	const __exports = __awtsmoosModule_474;
+	const __exports = __awtsmoosModule_485;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -37679,7 +38496,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/nature/RealNatureAssetCatalog.js ----
 {
-	const __exports = __awtsmoosModule_475;
+	const __exports = __awtsmoosModule_486;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -37691,7 +38508,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com leaves pine and broadleaf growth to `geelooy/libs/awtsmoos-procedural-core`, one botanical root alone.
 	 */
 
-	var remoteModelUrl = __awtsmoosModule_291.remoteModelUrl;
+	const remoteModelUrl = __awtsmoosModule_206.remoteModelUrl;
 
 	const RECORDS = Object.freeze([
 		asset('flower', 'flower', 'reference-world/Flower_4_Clump.glb', 0.85, false, 0.052),
@@ -37728,7 +38545,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/nature/NaturePlacementField.js ----
 {
-	const __exports = __awtsmoosModule_340;
+	const __exports = __awtsmoosModule_351;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -37740,9 +38557,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com keeps all trees in the deep core while these finite accents search bounded sites around canonical terrain.
 	 */
 
-	var ecologySiteEvidenceAt = __awtsmoosModule_341.ecologySiteEvidenceAt;
-	var ecologySpacingClearance = __awtsmoosModule_474.ecologySpacingClearance;
-	var realNatureAssetCatalog = __awtsmoosModule_475.realNatureAssetCatalog;
+	const ecologySiteEvidenceAt = __awtsmoosModule_352.ecologySiteEvidenceAt;
+	const ecologySpacingClearance = __awtsmoosModule_485.ecologySpacingClearance;
+	const realNatureAssetCatalog = __awtsmoosModule_486.realNatureAssetCatalog;
 
 	const GOLDEN_ANGLE = Math.PI * (3 - Math.sqrt(5));
 	const RADII = Object.freeze({
@@ -37824,7 +38641,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/nature/NatureVisibilityField.js ----
 {
-	const __exports = __awtsmoosModule_476;
+	const __exports = __awtsmoosModule_487;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -37882,7 +38699,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/nature/RealNatureSystem.js ----
 {
-	const __exports = __awtsmoosModule_313;
+	const __exports = __awtsmoosModule_324;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -37894,14 +38711,14 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com sends the same traveling weather through meadow and model while structural trees and collision remain core-owned.
 	 */
 
-	var loadIsolatedGltf = __awtsmoosModule_314.loadIsolatedGltf;
-	var startNatureAnimation = __awtsmoosModule_330.startNatureAnimation;
-	var decorateNatureInstance = __awtsmoosModule_331.decorateNatureInstance;
-	var loadNatureInstances = __awtsmoosModule_336.loadNatureInstances;
-	var createNaturePlacements = __awtsmoosModule_340.createNaturePlacements;
-	var natureQualityBudget = __awtsmoosModule_334.natureQualityBudget;
-	var NatureVisibilityField = __awtsmoosModule_476.NatureVisibilityField;
-	var SharedWindField = __awtsmoosModule_332.SharedWindField;
+	const loadIsolatedGltf = __awtsmoosModule_325.loadIsolatedGltf;
+	const startNatureAnimation = __awtsmoosModule_341.startNatureAnimation;
+	const decorateNatureInstance = __awtsmoosModule_342.decorateNatureInstance;
+	const loadNatureInstances = __awtsmoosModule_347.loadNatureInstances;
+	const createNaturePlacements = __awtsmoosModule_351.createNaturePlacements;
+	const natureQualityBudget = __awtsmoosModule_345.natureQualityBudget;
+	const NatureVisibilityField = __awtsmoosModule_487.NatureVisibilityField;
+	const SharedWindField = __awtsmoosModule_343.SharedWindField;
 
 	async function createRealNatureSystem(options = {}) {
 		const budget = natureQualityBudget(options.quality);
@@ -37987,7 +38804,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/nature/LiveRealNatureBridge.js ----
 {
-	const __exports = __awtsmoosModule_310;
+	const __exports = __awtsmoosModule_321;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -37999,15 +38816,15 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com preserves honest failure and cleanup while every living form keeps its name.
 	 */
 
-	var attachLiveNatureRuntime = __awtsmoosModule_311.attachLiveNatureRuntime;
-	var createLiveNatureContext = __awtsmoosModule_311.createLiveNatureContext;
-	var currentLiveRuntime = __awtsmoosModule_311.currentLiveRuntime;
-	var detachLiveNatureRuntime = __awtsmoosModule_311.detachLiveNatureRuntime;
-	var liveRuntimeReady = __awtsmoosModule_311.liveRuntimeReady;
+	const attachLiveNatureRuntime = __awtsmoosModule_322.attachLiveNatureRuntime;
+	const createLiveNatureContext = __awtsmoosModule_322.createLiveNatureContext;
+	const currentLiveRuntime = __awtsmoosModule_322.currentLiveRuntime;
+	const detachLiveNatureRuntime = __awtsmoosModule_322.detachLiveNatureRuntime;
+	const liveRuntimeReady = __awtsmoosModule_322.liveRuntimeReady;
 
 	function createLiveRealNatureBridge(options = {}) {
 		const environment = options.environment || globalThis;
-		const loadModule = options.loadModule || (() => Promise.resolve(__awtsmoosModule_313));
+		const loadModule = options.loadModule || (() => Promise.resolve(__awtsmoosModule_324));
 		const schedule = options.schedule || ((callback, delay) => environment.setTimeout(callback, delay));
 		const cancel = options.cancel || (handle => environment.clearTimeout(handle));
 		let attempts = 0;
@@ -38094,7 +38911,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/nature/LiveRealNatureReceipt.js ----
 {
-	const __exports = __awtsmoosModule_477;
+	const __exports = __awtsmoosModule_488;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -38126,7 +38943,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/nature/LiveRealNatureScheduler.js ----
 {
-	const __exports = __awtsmoosModule_309;
+	const __exports = __awtsmoosModule_320;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -38138,9 +38955,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com lets first play remain one coherent world, while explicit experiments may still plant the seed.
 	 */
 
-	var createLiveRealNatureBridge = __awtsmoosModule_310.createLiveRealNatureBridge;
-	var exposeLiveNatureReceipt = __awtsmoosModule_477.exposeLiveNatureReceipt;
-	var currentLiveRuntime = __awtsmoosModule_311.currentLiveRuntime;
+	const createLiveRealNatureBridge = __awtsmoosModule_321.createLiveRealNatureBridge;
+	const exposeLiveNatureReceipt = __awtsmoosModule_488.exposeLiveNatureReceipt;
+	const currentLiveRuntime = __awtsmoosModule_322.currentLiveRuntime;
 
 	let singleton = null;
 	const disabledController = createDisabledController();
@@ -38195,326 +39012,9 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteTextureArchitectureNames.js ----
-{
-	const __exports = __awtsmoosModule_480;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
-
-	/**
-	 * @file RemoteTextureArchitectureNames.js
-	 * @description Names brick, roof, granite, timber, and constructed floor images without URLs.
-	 * The Awtsmoos raises dwelling from dust while Awtsmoos.com keeps every finite wall named;
-	 * filenames remain the vessel, and one remote root alone carries each roof, plank, brick, and frame.
-	 */
-
-	const REMOTE_ARCHITECTURE_TEXTURE_FILENAMES = Object.freeze([
-		'displacement map for tiled roof 4.png',
-		'gray brick 1.png',
-		'limestone bricks 1.png',
-		'limestone bricks 2.png',
-		'marble 1.png',
-		'new bricks 1.png',
-		'new red bricks 2.png',
-		'oak wood 1.png',
-		'oak wood 2.png',
-		'oak wood 3.png',
-		'oak wooden planks 2.png',
-		'polished granite Rock 1.png',
-		'polished granite Rock 2.png',
-		'polished granite Rock 3.png',
-		'polished granite Rock 4.png',
-		'red brick 1.png',
-		'red brick 2.png',
-		'red brick 3.png',
-		'tiled roof 1.png',
-		'tiled roof 2.png',
-		'tiled roof 3 smaller tiles.png',
-		'tiled roof 4.png',
-		'tree bark 1.png',
-		'weathered Red bricks 1.png',
-		'weathered Red bricks 3.png',
-		'weathered Red bricks 5.png',
-		'weathered Red bricks 6.png',
-		'weathered Red bricks with slight yellow touch4.png',
-		'weathered Red bricks2.png',
-		'white brick 1.png',
-		'wooden oak planks 1.png',
-		'wooden planked floor.png',
-		'yellow brick 1.png'
-	]);
-	__exports.REMOTE_ARCHITECTURE_TEXTURE_FILENAMES = REMOTE_ARCHITECTURE_TEXTURE_FILENAMES;
-
-
-}
-
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteTextureCraftNames.js ----
-{
-	const __exports = __awtsmoosModule_481;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
-
-	/**
-	 * @file RemoteTextureCraftNames.js
-	 * @description Names metal, cloth, hide, glass, parchment, rope, leaf, and water images without URLs.
-	 * The Awtsmoos shines through copper and river, leather and light; Awtsmoos.com keeps filenames
-	 * free of transport so every crafted garment may travel from one root yet remain truthful and bright.
-	 */
-
-	const REMOTE_CRAFT_TEXTURE_FILENAMES = Object.freeze([
-		'copper 1.png',
-		'copper 2.png',
-		'cow fur 1.png',
-		'cracked glass.png',
-		'deer fur 1.png',
-		'fox fur 1.png',
-		'gold 2.png',
-		'horse fur 1.png',
-		'leaf 1.png',
-		'leather.png',
-		'oak leaf fall.png',
-		'oak leaf spring.png',
-		'parchment.png',
-		'raveled rope.png',
-		'red ceramic.png',
-		'rusty iron.png',
-		'seamless water brighter.png',
-		'seamless water.png',
-		'shallow river water.png',
-		'silver 1.png',
-		'silver 2.png',
-		'tan cloth.png',
-		'unraveled rope.png',
-		'water not seamless.png'
-	]);
-	__exports.REMOTE_CRAFT_TEXTURE_FILENAMES = REMOTE_CRAFT_TEXTURE_FILENAMES;
-
-
-}
-
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteTextureGroundNames.js ----
-{
-	const __exports = __awtsmoosModule_482;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
-
-	/**
-	 * @file RemoteTextureGroundNames.js
-	 * @description Names full-resolution earth, meadow, snow, stone, and floor images without URLs.
-	 * The Awtsmoos clothes one ground in many textures that rhyme; Awtsmoos.com preserves each
-	 * filename alone, so transport may change while earth keeps identity through space and time.
-	 */
-
-	const REMOTE_GROUND_TEXTURE_FILENAMES = Object.freeze([
-		'bluestone 1.png',
-		'cave floor.png',
-		'cobblestone.png',
-		'dark forest floor nonlight.png',
-		'dirt 1.png',
-		'dirt 2.png',
-		'dirt 5.png',
-		'dirt 6.png',
-		'dirt grass 1.png',
-		'dirt grass 2.png',
-		'dirt grass 3.png',
-		'dirt grass 4.png',
-		'dirt grass 6.png',
-		'dirt ground 3.png',
-		'forest floor covered with leaves.png',
-		'grass 1.png',
-		'grass 4.png',
-		'grass 5.png',
-		'grass 6.png',
-		'grass 7.png',
-		'grass 8.png',
-		'grass1.png',
-		'marsh grass.png',
-		'mud.png',
-		'sand 1.png',
-		'sand 2.png',
-		'scortced floor.png',
-		'snow 1.png',
-		'snow 2.png',
-		'stone 1.png',
-		'stone floor 2.png',
-		'stone floor.png',
-		'tilled soil.png',
-		'weathered fieldstone Rock 1.png',
-		'weathered fieldstone Rock 2.png'
-	]);
-	__exports.REMOTE_GROUND_TEXTURE_FILENAMES = REMOTE_GROUND_TEXTURE_FILENAMES;
-
-
-}
-
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteTextureTreeNames.js ----
-{
-	const __exports = __awtsmoosModule_483;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
-
-	/**
-	 * @file RemoteTextureTreeNames.js
-	 * @description Names every uploaded bark, leaf, needle, frond, spray, and petal without URLs.
-	 * The Awtsmoos grows many branches from one hidden root; Awtsmoos.com preserves each tree name
-	 * while transport remains elsewhere, so bark and leaf may change their road without changing truth.
-	 */
-
-	const REMOTE_TREE_TEXTURE_FILENAMES = Object.freeze([
-		'acacia bark.png',
-		'acacia compound leaf.png',
-		'apple leaf.png',
-		'apple tree bark.png',
-		'ash bark.png',
-		'ash leaf.png',
-		'aspen bark.png',
-		'aspen leaf.png',
-		'baobab bark.png',
-		'baobab leaf.png',
-		'Birch bark.png',
-		'birtch leaf.png',
-		'cedar spray.png',
-		'cypress bark.png',
-		'cypress scale leaf.png',
-		'mangrove leaf.png',
-		'mangrove tree bark.png',
-		'maple leaf 2.png',
-		'maple leaf.png',
-		'oak leaf.png',
-		'olive leaf.png',
-		'Olive tree bark.png',
-		'palm bark 2.png',
-		'palm bark.png',
-		'palm frond.png',
-		'pine needles.png',
-		'poplar bark.png',
-		'poplar leaf.png',
-		'redwood bark.png',
-		'redwood needles.png',
-		'sakura petal.png',
-		'willow bark.png',
-		'willow leaf.png'
-	]);
-	__exports.REMOTE_TREE_TEXTURE_FILENAMES = REMOTE_TREE_TEXTURE_FILENAMES;
-
-
-}
-
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteTextureCatalog.js ----
-{
-	const __exports = __awtsmoosModule_479;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
-
-	/**
-	 * @file RemoteTextureCatalog.js
-	 * @description Joins every filename-only texture family and exposes exact production records without loading image bytes.
-	 * The Awtsmoos unites earth, house, craft, and tree while every finite filename keeps its appointed letter and case;
-	 * Awtsmoos.com gives humans, agents, and WebGL one truthful catalog, so realism may grow without guessing a single remote place.
-	 */
-
-	var REMOTE_ARCHITECTURE_TEXTURE_FILENAMES = __awtsmoosModule_480.REMOTE_ARCHITECTURE_TEXTURE_FILENAMES;
-	var REMOTE_CRAFT_TEXTURE_FILENAMES = __awtsmoosModule_481.REMOTE_CRAFT_TEXTURE_FILENAMES;
-	var REMOTE_GROUND_TEXTURE_FILENAMES = __awtsmoosModule_482.REMOTE_GROUND_TEXTURE_FILENAMES;
-	var REMOTE_TREE_TEXTURE_FILENAMES = __awtsmoosModule_483.REMOTE_TREE_TEXTURE_FILENAMES;
-	var REMOTE_TEXTURE_ROOT = __awtsmoosModule_294.REMOTE_TEXTURE_ROOT;
-	var fullResolutionTextureUrl = __awtsmoosModule_294.fullResolutionTextureUrl;
-	var treeTextureUrl = __awtsmoosModule_294.treeTextureUrl;
-
-	const FULL_RESOLUTION_FILENAMES = Object.freeze([
-		...REMOTE_GROUND_TEXTURE_FILENAMES,
-		...REMOTE_ARCHITECTURE_TEXTURE_FILENAMES,
-		...REMOTE_CRAFT_TEXTURE_FILENAMES
-	]);
-
-	const REMOTE_TEXTURE_FILENAMES = Object.freeze({
-		architecture: REMOTE_ARCHITECTURE_TEXTURE_FILENAMES,
-		craft: REMOTE_CRAFT_TEXTURE_FILENAMES,
-		ground: REMOTE_GROUND_TEXTURE_FILENAMES,
-		trees: REMOTE_TREE_TEXTURE_FILENAMES
-	});
-	__exports.REMOTE_TEXTURE_FILENAMES = REMOTE_TEXTURE_FILENAMES;
-
-
-	/** Resolves one exact full-resolution filename through the trusted remote transport. */
-	function remoteFullResolutionTextureUrl(filename) {
-		assertFilename(filename, FULL_RESOLUTION_FILENAMES);
-		return fullResolutionTextureUrl(filename);
-	}
-
-
-	__exports.remoteFullResolutionTextureUrl = remoteFullResolutionTextureUrl;
-	/** Resolves one exact tree filename through the trusted remote transport. */
-	function remoteTreeTextureUrl(filename) {
-		assertFilename(filename, REMOTE_TREE_TEXTURE_FILENAMES);
-		return treeTextureUrl(filename);
-	}
-
-
-	__exports.remoteTreeTextureUrl = remoteTreeTextureUrl;
-	/** Returns immutable counts for diagnostics and documentation drift detection. */
-	function remoteTextureCatalogEvidence() {
-		return Object.freeze({
-			architecture: REMOTE_ARCHITECTURE_TEXTURE_FILENAMES.length,
-			craft: REMOTE_CRAFT_TEXTURE_FILENAMES.length,
-			ground: REMOTE_GROUND_TEXTURE_FILENAMES.length,
-			total: FULL_RESOLUTION_FILENAMES.length + REMOTE_TREE_TEXTURE_FILENAMES.length,
-			trees: REMOTE_TREE_TEXTURE_FILENAMES.length
-		});
-	}
-
-
-	__exports.remoteTextureCatalogEvidence = remoteTextureCatalogEvidence;
-	/** Returns every canonical texture as a serializable agent-readable record. */
-	function remoteTextureRecords() {
-		return Object.freeze(Object.entries(REMOTE_TEXTURE_FILENAMES).flatMap(([family, filenames]) => {
-			return filenames.map(filename => textureRecord(family, filename));
-		}));
-	}
-
-
-	__exports.remoteTextureRecords = remoteTextureRecords;
-	/** Returns the canonical 125-texture library grouped for agents, editors, and diagnostics. */
-	function remoteTextureAgentCatalog() {
-		const families = Object.fromEntries(Object.entries(REMOTE_TEXTURE_FILENAMES).map(([family, filenames]) => {
-			return [family, Object.freeze(filenames.map(filename => textureRecord(family, filename)))];
-		}));
-		return Object.freeze({
-			families: Object.freeze(families),
-			root: REMOTE_TEXTURE_ROOT,
-			total: remoteTextureCatalogEvidence().total
-		});
-	}
-
-
-	__exports.remoteTextureAgentCatalog = remoteTextureAgentCatalog;
-	function textureRecord(family, filename) {
-		const trees = family === 'trees';
-		return Object.freeze({
-			collection: trees ? 'tree' : 'full-resolution',
-			family,
-			filename,
-			id: `${family}:${filename}`,
-			url: trees ? remoteTreeTextureUrl(filename) : remoteFullResolutionTextureUrl(filename)
-		});
-	}
-
-	function assertFilename(filename, names) {
-		if (!names.includes(filename)) {
-			throw new Error(`Unknown remote texture filename: ${filename}`);
-		}
-	}
-
-}
-
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/primitives/PrimitiveFallbackSurfaceRecipe.js ----
 {
-	const __exports = __awtsmoosModule_478;
+	const __exports = __awtsmoosModule_489;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -38526,7 +39026,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com enriches only identities whose material meaning is explicit, while unknown geometry keeps procedural color rather than receiving a false photographic sight.
 	 */
 
-	var remoteFullResolutionTextureUrl = __awtsmoosModule_479.remoteFullResolutionTextureUrl;
+	const remoteFullResolutionTextureUrl = __awtsmoosModule_213.remoteFullResolutionTextureUrl;
 
 	const full = remoteFullResolutionTextureUrl;
 	const EMPTY_RECIPE = Object.freeze({});
@@ -38643,7 +39143,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/materials/texture/TextureDensityMath.js ----
 {
-	const __exports = __awtsmoosModule_488;
+	const __exports = __awtsmoosModule_494;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -38719,7 +39219,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/materials/texture/TextureImageMetrics.js ----
 {
-	const __exports = __awtsmoosModule_490;
+	const __exports = __awtsmoosModule_496;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -38752,7 +39252,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/materials/texture/TextureRepeatPolicy.js ----
 {
-	const __exports = __awtsmoosModule_491;
+	const __exports = __awtsmoosModule_497;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -38770,14 +39270,14 @@ const __awtsmoosModule_0 = Object.create(null);
 		surfaceTexelsPerWorld: 96,
 		terrainTexelsPerWorld: 56
 	});
-	__exports.REPEAT_HOOKS = REPEAT_HOOKS;
 
+	__exports.REPEAT_HOOKS = REPEAT_HOOKS;
 
 }
 
 // ---- libs/awtsmoos-procedural-core/src/core/materials/texture/TextureDensityPlan.js ----
 {
-	const __exports = __awtsmoosModule_489;
+	const __exports = __awtsmoosModule_495;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -38788,11 +39288,11 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos measures source and world while the renderer receives a guarded finite count;
 	 * Awtsmoos.com keeps this generic policy reusable wherever physical texture density must amount.
 	 */
-	var boundedTextureAxisPlan = __awtsmoosModule_488.boundedTextureAxisPlan;
-	var positiveTextureNumber = __awtsmoosModule_488.positiveTextureNumber;
-	var textureQualityScale = __awtsmoosModule_488.textureQualityScale;
-	var textureSize = __awtsmoosModule_490.textureSize;
-	var REPEAT_HOOKS = __awtsmoosModule_491.REPEAT_HOOKS;
+	const boundedTextureAxisPlan = __awtsmoosModule_494.boundedTextureAxisPlan;
+	const positiveTextureNumber = __awtsmoosModule_494.positiveTextureNumber;
+	const textureQualityScale = __awtsmoosModule_494.textureQualityScale;
+	const textureSize = __awtsmoosModule_496.textureSize;
+	const REPEAT_HOOKS = __awtsmoosModule_497.REPEAT_HOOKS;
 
 	function textureDensityPlan(options = {}) {
 		const source = textureSize(options.image);
@@ -38837,7 +39337,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/materials/texture/TextureExactRepeat.js ----
 {
-	const __exports = __awtsmoosModule_487;
+	const __exports = __awtsmoosModule_493;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -38848,10 +39348,10 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos is beyond tile and scale while each finite surface receives proportionate light;
 	 * Awtsmoos.com lets exact and bounded density share one truthful calculation across every world in sight.
 	 */
-	var exactPixelRepeat = __awtsmoosModule_488.exactPixelRepeat;
-	var positiveTextureNumber = __awtsmoosModule_488.positiveTextureNumber;
-	var textureDensityPlan = __awtsmoosModule_489.textureDensityPlan;
-	var textureSize = __awtsmoosModule_490.textureSize;
+	const exactPixelRepeat = __awtsmoosModule_494.exactPixelRepeat;
+	const positiveTextureNumber = __awtsmoosModule_494.positiveTextureNumber;
+	const textureDensityPlan = __awtsmoosModule_495.textureDensityPlan;
+	const textureSize = __awtsmoosModule_496.textureSize;
 
 	function exactRepeat(width, depth, tileWorld = 1) {
 		const tile = positiveTextureNumber(tileWorld, 1);
@@ -38893,7 +39393,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/TextureExactRepeat.js ----
 {
-	const __exports = __awtsmoosModule_486;
+	const __exports = __awtsmoosModule_492;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -38904,14 +39404,14 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos renews every tiled garment while remaining beyond tile and floor;
 	 * Awtsmoos.com lets old callers speak the same names as many worlds share one measured core.
 	 */
-	__exports.exactRepeat = __awtsmoosModule_487.exactRepeat;
-	__exports.repeatFromPixels = __awtsmoosModule_487.repeatFromPixels;
+	__exports.exactRepeat = __awtsmoosModule_493.exactRepeat;
+	__exports.repeatFromPixels = __awtsmoosModule_493.repeatFromPixels;
 
 }
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/TextureImageMetrics.js ----
 {
-	const __exports = __awtsmoosModule_492;
+	const __exports = __awtsmoosModule_498;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -38922,14 +39422,14 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos is beyond width and URL while renewing every finite image in light;
 	 * Awtsmoos.com lets old imports remain steady as shared metrics become one reusable sight.
 	 */
-	__exports.publicUrl = __awtsmoosModule_490.publicUrl;
-	__exports.textureSize = __awtsmoosModule_490.textureSize;
+	__exports.publicUrl = __awtsmoosModule_496.publicUrl;
+	__exports.textureSize = __awtsmoosModule_496.textureSize;
 
 }
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/TextureMaterialFields.js ----
 {
-	const __exports = __awtsmoosModule_493;
+	const __exports = __awtsmoosModule_499;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -38941,9 +39441,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com keeps material assembly apart from density mathematics so each vessel stays ardent.
 	 */
 
-	var repeatFromPixels = __awtsmoosModule_486.repeatFromPixels;
-	var publicUrl = __awtsmoosModule_492.publicUrl;
-	var textureSize = __awtsmoosModule_492.textureSize;
+	const repeatFromPixels = __awtsmoosModule_492.repeatFromPixels;
+	const publicUrl = __awtsmoosModule_498.publicUrl;
+	const textureSize = __awtsmoosModule_498.textureSize;
 
 	function materialTexture(
 		color,
@@ -38981,15 +39481,15 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	__exports.wallRepeat = wallRepeat;
 	const floorRepeat = wallRepeat;
+
 	__exports.floorRepeat = floorRepeat;
-
 	const roofRepeat = wallRepeat;
+
 	__exports.roofRepeat = roofRepeat;
-
 	const roadRepeat = wallRepeat;
+
+
 	__exports.roadRepeat = roadRepeat;
-
-
 	function terrainRepeat(size, image, options) {
 		return repeatFromPixels(size, size, image, 56, [1, 1], options);
 	}
@@ -38997,14 +39497,14 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	__exports.terrainRepeat = terrainRepeat;
 	const mixRepeat = terrainRepeat;
-	__exports.mixRepeat = mixRepeat;
 
+	__exports.mixRepeat = mixRepeat;
 
 }
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/TextureDensityPlan.js ----
 {
-	const __exports = __awtsmoosModule_494;
+	const __exports = __awtsmoosModule_500;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -39015,13 +39515,13 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos joins source pixels to world measure beyond every game's finite name;
 	 * Awtsmoos.com lets Mitzvah keep this historic doorway while other worlds receive the same stable flame.
 	 */
-	__exports.textureDensityPlan = __awtsmoosModule_489.textureDensityPlan;
+	__exports.textureDensityPlan = __awtsmoosModule_495.textureDensityPlan;
 
 }
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/TextureRepeatPolicy.js ----
 {
-	const __exports = __awtsmoosModule_495;
+	const __exports = __awtsmoosModule_501;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -39032,13 +39532,13 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos renews old doorway and deeper spring in one unbroken ray;
 	 * Awtsmoos.com lets every existing Mitzvah caller keep its path while generic texture policy lives where many games may stay.
 	 */
-	__exports.REPEAT_HOOKS = __awtsmoosModule_491.REPEAT_HOOKS;
+	__exports.REPEAT_HOOKS = __awtsmoosModule_497.REPEAT_HOOKS;
 
 }
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/TextureRepeat.js ----
 {
-	const __exports = __awtsmoosModule_485;
+	const __exports = __awtsmoosModule_491;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -39050,25 +39550,25 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com keeps every old import stable as exact coverage and GPU planning answer their call.
 	 */
 
-	__exports.exactRepeat = __awtsmoosModule_486.exactRepeat;
-	__exports.repeatFromPixels = __awtsmoosModule_486.repeatFromPixels;
-	__exports.publicUrl = __awtsmoosModule_492.publicUrl;
-	__exports.textureSize = __awtsmoosModule_492.textureSize;
-	__exports.floorRepeat = __awtsmoosModule_493.floorRepeat;
-	__exports.materialTexture = __awtsmoosModule_493.materialTexture;
-	__exports.mixRepeat = __awtsmoosModule_493.mixRepeat;
-	__exports.roadRepeat = __awtsmoosModule_493.roadRepeat;
-	__exports.roofRepeat = __awtsmoosModule_493.roofRepeat;
-	__exports.terrainRepeat = __awtsmoosModule_493.terrainRepeat;
-	__exports.wallRepeat = __awtsmoosModule_493.wallRepeat;
-	__exports.textureDensityPlan = __awtsmoosModule_494.textureDensityPlan;
-	__exports.REPEAT_HOOKS = __awtsmoosModule_495.REPEAT_HOOKS;
+	__exports.exactRepeat = __awtsmoosModule_492.exactRepeat;
+	__exports.repeatFromPixels = __awtsmoosModule_492.repeatFromPixels;
+	__exports.publicUrl = __awtsmoosModule_498.publicUrl;
+	__exports.textureSize = __awtsmoosModule_498.textureSize;
+	__exports.floorRepeat = __awtsmoosModule_499.floorRepeat;
+	__exports.materialTexture = __awtsmoosModule_499.materialTexture;
+	__exports.mixRepeat = __awtsmoosModule_499.mixRepeat;
+	__exports.roadRepeat = __awtsmoosModule_499.roadRepeat;
+	__exports.roofRepeat = __awtsmoosModule_499.roofRepeat;
+	__exports.terrainRepeat = __awtsmoosModule_499.terrainRepeat;
+	__exports.wallRepeat = __awtsmoosModule_499.wallRepeat;
+	__exports.textureDensityPlan = __awtsmoosModule_500.textureDensityPlan;
+	__exports.REPEAT_HOOKS = __awtsmoosModule_501.REPEAT_HOOKS;
 
 }
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/primitives/PrimitiveTexturePolicy.js ----
 {
-	const __exports = __awtsmoosModule_484;
+	const __exports = __awtsmoosModule_490;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -39080,7 +39580,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * surfaces at one world basis while leaving signs, atlases, leaves, and portraits whole.
 	 */
 
-	var REPEAT_HOOKS = __awtsmoosModule_485.REPEAT_HOOKS;
+	const REPEAT_HOOKS = __awtsmoosModule_491.REPEAT_HOOKS;
 
 	const WHOLE_IMAGE_PATTERN = /(?:sign|scroll|mezuza|label|decal|atlas|leaf|blossom|window-card|interior-card|portrait|icon|sky|cloud)/i;
 
@@ -39124,39 +39624,35 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/primitives/PrimitiveMaterialFactory.js ----
 {
-	const __exports = __awtsmoosModule_271;
-	// B"H
+	const __exports = __awtsmoosModule_289;
+	//B"H
 	// Boruch Hashem
 	// Blessed is He
 
 	/**
 	 * @file PrimitiveMaterialFactory.js
-	 * @description Binds canonical remote images, authored texture layers, and world-space mix law to generated primitives.
-	 * The Awtsmoos clothes each finite surface through one truthful vessel while Awtsmoos.com lets stone weather into stone and timber reveal grain;
-	 * authored strata remain sovereign, fallback recipes fill only silence, and every hydrated image still travels through the shared non-blocking chain.
+	 * @description Binds only genuine decoded remote/authored images to generated primitives while preserving layered material metadata.
+	 * The Awtsmoos gives every finite primitive form without permitting a painted illusion to stand in for truth;
+	 * Awtsmoos.com keeps URL, layer, and physical law intact while only real image garments may become visible proof.
 	 */
 
-	var MeshStandardMaterial = __awtsmoosModule_29.MeshStandardMaterial;
-	var cachedTextureImage = __awtsmoosModule_272.cachedTextureImage;
-	var isSameOriginMaterialUrl = __awtsmoosModule_295.isSameOriginMaterialUrl;
-	var scheduleLiveRealNatureBridge = __awtsmoosModule_309.scheduleLiveRealNatureBridge;
-	var colorArray = __awtsmoosModule_210.colorArray;
-	var withPrimitiveFallbackSurfaceRecipe = __awtsmoosModule_478.withPrimitiveFallbackSurfaceRecipe;
-	var createPrimitiveTexturePolicy = __awtsmoosModule_484.createPrimitiveTexturePolicy;
+	const MeshStandardMaterial = __awtsmoosModule_29.MeshStandardMaterial;
+	const cachedTextureImage = __awtsmoosModule_290.cachedTextureImage;
+	const isSameOriginMaterialUrl = __awtsmoosModule_210.isSameOriginMaterialUrl;
+	const isRealMaterialImage = __awtsmoosModule_199.isRealMaterialImage;
+	const scheduleLiveRealNatureBridge = __awtsmoosModule_320.scheduleLiveRealNatureBridge;
+	const colorArray = __awtsmoosModule_228.colorArray;
+	const withPrimitiveFallbackSurfaceRecipe = __awtsmoosModule_489.withPrimitiveFallbackSurfaceRecipe;
+	const createPrimitiveTexturePolicy = __awtsmoosModule_490.createPrimitiveTexturePolicy;
 
 	scheduleImportedNatureBridge();
 
-	/**
-	 * Creates one standard material whose texture fields are ready for the tiny renderer's real GPU mix path.
-	 * @param {object} definition Procedural primitive definition.
-	 * @param {number} uvUnitsPerWorld Physical UV density supplied by geometry.
-	 * @returns {MeshStandardMaterial} Hydratable runtime material.
-	 */
+	/** Creates one hydratable remote-only primitive material. */
 	function createPrimitiveMaterial(definition, uvUnitsPerWorld) {
 		const resolved = withPrimitiveFallbackSurfaceRecipe(definition);
 		const textureUrl = textureUrlFor(resolved);
-		const mapImage = resolved.mapImage || cachedTextureImage(textureUrl) || null;
-		const mixImage = resolved.mixImage || cachedTextureImage(resolved.mixTextureUrl) || null;
+		const mapImage = realImage(resolved.mapImage) || realImage(cachedTextureImage(textureUrl));
+		const mixImage = realImage(resolved.mixImage) || realImage(cachedTextureImage(resolved.mixTextureUrl));
 		const material = new MeshStandardMaterial({
 			alphaCutoff: resolved.alphaCutoff ?? 0.5,
 			alphaMode: resolved.alphaMode || (resolved.transparent ? 'BLEND' : 'OPAQUE'),
@@ -39175,8 +39671,6 @@ const __awtsmoosModule_0 = Object.create(null);
 	__exports.createPrimitiveMaterial = createPrimitiveMaterial;
 	function materialFields(definition, textureUrl, mapImage, mixImage, uvUnitsPerWorld) {
 		return {
-			alphaCutoff: definition.alphaCutoff ?? 0.5,
-			alphaMode: definition.alphaMode || (definition.transparent ? 'BLEND' : 'OPAQUE'),
 			anisotropy: definition.anisotropy ?? 3,
 			backfaceCull: definition.backfaceCull,
 			emissiveStrength: definition.emissiveStrength ?? 1.8,
@@ -39187,12 +39681,10 @@ const __awtsmoosModule_0 = Object.create(null);
 			mixPatchSharpness: definition.mixPatchSharpness ?? 0.58,
 			mixRepeat: definition.mixRepeat || definition.mapRepeat || [1, 1],
 			mixStrength: definition.mixStrength ?? 0,
-			mixTextureUrl: definition.mixTextureUrl || mixImage?.dataset?.publicUrl || null,
+			mixTextureUrl: definition.mixTextureUrl || null,
 			normalTextureUrl: definition.normalTextureUrl || null,
-			opacity: definition.opacity ?? 1,
 			texturePolicy: materialPolicy(definition, textureUrl, mapImage, uvUnitsPerWorld),
-			textureUrl,
-			transparent: Boolean(definition.transparent)
+			textureUrl
 		};
 	}
 
@@ -39204,7 +39696,7 @@ const __awtsmoosModule_0 = Object.create(null);
 			materialStack: definition.materialStack || null,
 			textureLayers: definition.textureLayers.map(layer => ({
 				...layer,
-				image: layer.image || cachedTextureImage(layer.url) || null
+				image: realImage(layer.image) || realImage(cachedTextureImage(layer.url))
 			}))
 		};
 	}
@@ -39213,9 +39705,9 @@ const __awtsmoosModule_0 = Object.create(null);
 		return {
 			...createPrimitiveTexturePolicy(definition, uvUnitsPerWorld),
 			...(definition.texturePolicy || {}),
-			fallbackApplied: Boolean(definition.texturePolicy?.fallbackSurfaceRecipe),
 			publicFirebase: definition.texturePolicy?.publicFirebase ?? false,
 			realMapImage: Boolean(mapImage),
+			remoteOnly: true,
 			sameOrigin: isSameOriginMaterialUrl(textureUrl)
 		};
 	}
@@ -39223,9 +39715,12 @@ const __awtsmoosModule_0 = Object.create(null);
 	function textureUrlFor(definition) {
 		return definition.textureUrl
 			|| definition.mapImage?.dataset?.publicUrl
-			|| definition.mapImage?.dataset?.url
 			|| definition.mapImage?.src
 			|| null;
+	}
+
+	function realImage(image) {
+		return isRealMaterialImage(image) ? image : null;
 	}
 
 	function scheduleImportedNatureBridge() {
@@ -39238,7 +39733,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/primitives/PrimitiveZoneWeights.js ----
 {
-	const __exports = __awtsmoosModule_496;
+	const __exports = __awtsmoosModule_502;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -39279,7 +39774,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/primitives/PrimitiveUvProjection.js ----
 {
-	const __exports = __awtsmoosModule_497;
+	const __exports = __awtsmoosModule_503;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -39392,7 +39887,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/Box3D.js ----
 {
-	const __exports = __awtsmoosModule_205;
+	const __exports = __awtsmoosModule_223;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -39404,22 +39899,22 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * and authored botanical hues while measured surfaces carry only the meaning they need.
 	 */
 
-	var BufferAttribute = __awtsmoosModule_29.BufferAttribute;
-	var BufferGeometry = __awtsmoosModule_29.BufferGeometry;
-	var Mesh = __awtsmoosModule_29.Mesh;
-	var trianglesFromIndexed = __awtsmoosModule_206.trianglesFromIndexed;
-	var createPrimitiveGeometryData = __awtsmoosModule_210.createPrimitiveGeometryData;
-	var isProceduralShape = __awtsmoosModule_210.isProceduralShape;
-	var createPrimitiveVertexNormals = __awtsmoosModule_270.createPrimitiveVertexNormals;
-	var flattenPrimitiveVertices = __awtsmoosModule_270.flattenPrimitiveVertices;
-	var primitiveColorArray = __awtsmoosModule_270.primitiveColorArray;
-	var primitiveIndexArray = __awtsmoosModule_270.primitiveIndexArray;
-	var createPrimitiveMaterial = __awtsmoosModule_271.createPrimitiveMaterial;
-	var primitiveUsesNativeDensity = __awtsmoosModule_484.primitiveUsesNativeDensity;
-	var primitiveZoneWeights = __awtsmoosModule_496.primitiveZoneWeights;
-	var measureUvUnitsPerWorld = __awtsmoosModule_497.measureUvUnitsPerWorld;
-	var normalizePrimitiveUvsToWorld = __awtsmoosModule_497.normalizePrimitiveUvsToWorld;
-	var projectPrimitiveUvs = __awtsmoosModule_497.projectPrimitiveUvs;
+	const BufferAttribute = __awtsmoosModule_29.BufferAttribute;
+	const BufferGeometry = __awtsmoosModule_29.BufferGeometry;
+	const Mesh = __awtsmoosModule_29.Mesh;
+	const trianglesFromIndexed = __awtsmoosModule_224.trianglesFromIndexed;
+	const createPrimitiveGeometryData = __awtsmoosModule_228.createPrimitiveGeometryData;
+	const isProceduralShape = __awtsmoosModule_228.isProceduralShape;
+	const createPrimitiveVertexNormals = __awtsmoosModule_288.createPrimitiveVertexNormals;
+	const flattenPrimitiveVertices = __awtsmoosModule_288.flattenPrimitiveVertices;
+	const primitiveColorArray = __awtsmoosModule_288.primitiveColorArray;
+	const primitiveIndexArray = __awtsmoosModule_288.primitiveIndexArray;
+	const createPrimitiveMaterial = __awtsmoosModule_289.createPrimitiveMaterial;
+	const primitiveUsesNativeDensity = __awtsmoosModule_490.primitiveUsesNativeDensity;
+	const primitiveZoneWeights = __awtsmoosModule_502.primitiveZoneWeights;
+	const measureUvUnitsPerWorld = __awtsmoosModule_503.measureUvUnitsPerWorld;
+	const normalizePrimitiveUvsToWorld = __awtsmoosModule_503.normalizePrimitiveUvsToWorld;
+	const projectPrimitiveUvs = __awtsmoosModule_503.projectPrimitiveUvs;
 
 	const WORLD_UV_BASIS = Object.freeze([1, 1]);
 
@@ -39493,7 +39988,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWeaponFactory.js ----
 {
-	const __exports = __awtsmoosModule_204;
+	const __exports = __awtsmoosModule_222;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -39505,8 +40000,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * shaft, gem, blade, guard, grip, and pommel as a finite renderable vessel.
 	 */
 
-	var Group = __awtsmoosModule_29.Group;
-	var createPrimitiveMesh = __awtsmoosModule_205.createPrimitiveMesh;
+	const Group = __awtsmoosModule_29.Group;
+	const createPrimitiveMesh = __awtsmoosModule_223.createPrimitiveMesh;
 
 	function createMinimalMeadowWeapon(itemId) {
 		return itemId === 'spark-blade'
@@ -39577,16 +40072,16 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos distinguishes a player vessel from an actor-only garment vessel;
 	 * Awtsmoos.com projects combat stats only where real player state already exists.
 	 */
-	var MinimalMeadowAttachmentRegistry = __awtsmoosModule_180.MinimalMeadowAttachmentRegistry;
-	var MinimalMeadowDerivedStatsRuntime = __awtsmoosModule_185.MinimalMeadowDerivedStatsRuntime;
-	var MinimalMeadowEquipmentCasting = __awtsmoosModule_195.MinimalMeadowEquipmentCasting;
-	var applyMinimalGarmentAppearance = __awtsmoosModule_197.applyMinimalGarmentAppearance;
-	var applyMinimalGarmentVisibility = __awtsmoosModule_200.applyMinimalGarmentVisibility;
-	var resolveMinimalEquipmentNodes = __awtsmoosModule_200.resolveMinimalEquipmentNodes;
-	var installMinimalMeadowEquipmentListeners = __awtsmoosModule_203.installMinimalMeadowEquipmentListeners;
-	var minimalMeadowEquipmentDiagnostics = __awtsmoosModule_203.minimalMeadowEquipmentDiagnostics;
-	var minimalMeadowEquippedWeaponItemId = __awtsmoosModule_203.minimalMeadowEquippedWeaponItemId;
-	var createMinimalMeadowWeapon = __awtsmoosModule_204.createMinimalMeadowWeapon;
+	const MinimalMeadowAttachmentRegistry = __awtsmoosModule_180.MinimalMeadowAttachmentRegistry;
+	const MinimalMeadowDerivedStatsRuntime = __awtsmoosModule_185.MinimalMeadowDerivedStatsRuntime;
+	const MinimalMeadowEquipmentCasting = __awtsmoosModule_195.MinimalMeadowEquipmentCasting;
+	const applyMinimalGarmentAppearance = __awtsmoosModule_197.applyMinimalGarmentAppearance;
+	const applyMinimalGarmentVisibility = __awtsmoosModule_218.applyMinimalGarmentVisibility;
+	const resolveMinimalEquipmentNodes = __awtsmoosModule_218.resolveMinimalEquipmentNodes;
+	const installMinimalMeadowEquipmentListeners = __awtsmoosModule_221.installMinimalMeadowEquipmentListeners;
+	const minimalMeadowEquipmentDiagnostics = __awtsmoosModule_221.minimalMeadowEquipmentDiagnostics;
+	const minimalMeadowEquippedWeaponItemId = __awtsmoosModule_221.minimalMeadowEquippedWeaponItemId;
+	const createMinimalMeadowWeapon = __awtsmoosModule_222.createMinimalMeadowWeapon;
 
 	class MinimalMeadowEquipmentRuntime {
 		constructor(runtime) {
@@ -39684,7 +40179,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/ui/MinimalMeadowGameRailUiRuntime.js ----
 {
-	const __exports = __awtsmoosModule_499;
+	const __exports = __awtsmoosModule_505;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -39696,7 +40191,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * keeps the rail mode, retractors, refresh events, profile, and diagnostics explicit and small.
 	 */
 
-	var installGameRailModeRuntime = __awtsmoosModule_144.installGameRailModeRuntime;
+	const installGameRailModeRuntime = __awtsmoosModule_144.installGameRailModeRuntime;
 
 	function installGameRailUiEvents(runtime, bus, mobileRetract, playerRetract) {
 		const refreshEvents = [
@@ -39753,7 +40248,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowUiLifecycle.js ----
 {
-	const __exports = __awtsmoosModule_498;
+	const __exports = __awtsmoosModule_504;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -39765,9 +40260,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com keeps profile publication, menu refresh, diagnostics, and destruction measurable.
 	 */
 
-	var installGameRailUiEvents = __awtsmoosModule_499.installGameRailUiEvents;
-	var minimalMeadowPlayerProfile = __awtsmoosModule_499.minimalMeadowPlayerProfile;
-	var minimalMeadowUiDiagnostics = __awtsmoosModule_499.minimalMeadowUiDiagnostics;
+	const installGameRailUiEvents = __awtsmoosModule_505.installGameRailUiEvents;
+	const minimalMeadowPlayerProfile = __awtsmoosModule_505.minimalMeadowPlayerProfile;
+	const minimalMeadowUiDiagnostics = __awtsmoosModule_505.minimalMeadowUiDiagnostics;
 
 	function createMinimalMeadowUiLifecycle(
 		runtime,
@@ -39853,11 +40348,11 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com hands one map from compact light to full interface before mounting the later owner.
 	 */
 
-	var InventoryStore = __awtsmoosModule_50.InventoryStore;
-	var AwtsmoosEventBus = __awtsmoosModule_72.AwtsmoosEventBus;
-	var createMinimalMeadowUiComponents = __awtsmoosModule_73.createMinimalMeadowUiComponents;
-	var MinimalMeadowEquipmentRuntime = __awtsmoosModule_179.MinimalMeadowEquipmentRuntime;
-	var createMinimalMeadowUiLifecycle = __awtsmoosModule_498.createMinimalMeadowUiLifecycle;
+	const InventoryStore = __awtsmoosModule_50.InventoryStore;
+	const AwtsmoosEventBus = __awtsmoosModule_72.AwtsmoosEventBus;
+	const createMinimalMeadowUiComponents = __awtsmoosModule_73.createMinimalMeadowUiComponents;
+	const MinimalMeadowEquipmentRuntime = __awtsmoosModule_179.MinimalMeadowEquipmentRuntime;
+	const createMinimalMeadowUiLifecycle = __awtsmoosModule_504.createMinimalMeadowUiLifecycle;
 
 	function installMinimalMeadowUi(
 		runtime,
@@ -39908,8 +40403,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com preserves all presentation systems while eliminating the native module waterfall.
 	 */
 
-	var installMinimalMeadowAnimation = __awtsmoosModule_1.installMinimalMeadowAnimation;
-	var installMinimalMeadowUi = __awtsmoosModule_49.installMinimalMeadowUi;
+	const installMinimalMeadowAnimation = __awtsmoosModule_1.installMinimalMeadowAnimation;
+	const installMinimalMeadowUi = __awtsmoosModule_49.installMinimalMeadowUi;
 
 	function installMinimalMeadowPresentationBundle(
 		runtime,

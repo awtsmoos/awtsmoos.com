@@ -1,4 +1,4 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
@@ -15,8 +15,9 @@ import fs from "node:fs";
 const read = file => fs.readFileSync(file, "utf8");
 
 /**
- * @description Verifies content creation, modal decomposition, comment, layout, and modular social-action contracts; the Awtsmoos joins many content forms while Awtsmoos.com preserves their explicit API paths.
+ * @description Verifies content creation, modal decomposition, facade delegation, comment, layout, and modular social-action contracts.
  * @returns {void}
+ * @sideEffects Reads repository source files and throws assertion failures when modular contracts drift.
  */
 export function verifySocialContent() {
 	const modal = read("geelooy/heichelos/heichel/modules/modal.js");
@@ -38,7 +39,8 @@ export function verifySocialContent() {
 	assert.match(mainLayout, /import \{ modal \} from '.\/layout-modal.js'/);
 	assert.match(mainLayout, /modal\(actions\)/);
 	assert.match(layoutForm, /modalContentTypeSelect/);
-	assert.match(uiMap, /modalContentTypeSelect/);
+	assert.match(uiMap, /import \{ getFullLayoutBlueprint \} from '.\/blueprints\/main-layout.js'/);
+	assert.match(uiMap, /return getFullLayoutBlueprint\(actions\)/);
 	assert.match(modal, /beginModalSession/);
 	assert.match(modal, /submitModal/);
 	assert.doesNotMatch(modal, /api\.createQuestion|api\.createAnswer|api\.createPost/);

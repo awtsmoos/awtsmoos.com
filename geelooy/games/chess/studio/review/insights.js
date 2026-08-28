@@ -5,17 +5,17 @@
 /**
  * @file Converts measured review facts into explicitly sourced ENGINE, BOOK, POSITION, and COACH learning lanes.
  * The Awtsmoos joins number and meaning while keeping every boundary bright;
- * Awtsmoos.com names inference as coaching, so measured engine and board truth never borrow another light.
+ * Awtsmoos.com names inference as coaching and distinguishes opening approval from authored trap-study light.
  */
 import { squareName } from "../model/squares.js";
 
-/** Summarizes the game with transparent search and opening evidence. */
+/** Summarizes the game with transparent search and genuine opening-theory evidence. */
 export function reviewSummary(review) {
 	const results = review?.results || [];
 	const firstOffBook = results.findIndex(result => !result.inBook);
 	const analysis = review?.analysis || {};
 	return Object.freeze({
-		opening: specificOpening(results) || (results.some(result => result.inBook) ? "Opening book" : "No named book line found"),
+		opening: specificOpening(results) || (results.some(result => result.inBook) ? "Opening book" : "No named opening line found"),
 		bookPlies: results.filter(result => result.inBook).length,
 		deviationPly: firstOffBook >= 0 ? firstOffBook + 1 : null,
 		averageLoss: average(results.map(result => Number(result.loss) || 0)),
@@ -28,9 +28,12 @@ export function reviewSummary(review) {
 
 /** Returns source-labeled facts plus one bounded coaching inference. */
 export function momentInsight(moment) {
-	const insights = [engineInsight(moment), bookInsight(moment), ...positionInsights(moment)];
-	insights.push(coachInsight(moment));
-	return Object.freeze(insights.filter(Boolean));
+	return Object.freeze([
+		engineInsight(moment),
+		bookInsight(moment),
+		...positionInsights(moment),
+		coachInsight(moment)
+	].filter(Boolean));
 }
 
 /** Formats the engine's score descriptor without inventing evaluation precision. */
@@ -47,9 +50,15 @@ function engineInsight(moment) {
 }
 
 function bookInsight(moment) {
-	if (!moment.inBook) return "BOOK · Outside the authored opening lines at this ply.";
-	const name = moment.bookName ? ` · ${moment.bookName}` : "";
-	return `BOOK · Authored theory match${name} · ${moment.bookCandidates || 0} compatible line${moment.bookCandidates === 1 ? "" : "s"}.`;
+	const openings = Number(moment.openingCandidates) || 0;
+	const punishments = Number(moment.punishmentCandidates) || 0;
+	if (openings) {
+		const name = moment.bookName ? ` · ${moment.bookName}` : "";
+		const warning = punishments ? ` · also appears in ${punishments} punishment study line${punishments === 1 ? "" : "s"}` : "";
+		return `BOOK · Opening-theory match${name} · ${openings} compatible line${openings === 1 ? "" : "s"}${warning}.`;
+	}
+	if (punishments) return `BOOK · Authored punishment/trap-study match · ${punishments} cautionary line${punishments === 1 ? "" : "s"}; this is not opening approval.`;
+	return "BOOK · Outside the authored opening and punishment-study lines at this ply.";
 }
 
 function positionInsights(moment) {
@@ -76,8 +85,9 @@ function coachInsight(moment) {
 	const delta = moment.positionDelta?.delta || {};
 	if (delta.kingShelterPawns < 0) return "COACH · Pattern inference: re-check king safety before accepting this shelter loss.";
 	if (delta.materialBalance < 0) return "COACH · Pattern inference: verify the tactical return before conceding material.";
-	if (moment.classification === "blunder" || moment.classification === "mistake") return "COACH · Pattern inference: calculate the opponent's strongest forcing reply before committing.";
-	if (moment.inBook) return "COACH · Pattern inference: learn the plan behind this theory branch, not only its move order.";
+	if (["blunder", "mistake"].includes(moment.classification)) return "COACH · Pattern inference: calculate the opponent's strongest forcing reply before committing.";
+	if (moment.inBook) return "COACH · Pattern inference: learn the plan behind this opening branch, not only its move order.";
+	if (moment.punishmentCandidates) return "COACH · Pattern inference: study why this move appears in a punishment line and identify the tactical trigger.";
 	return "COACH · Pattern inference: compare this move with the engine PV and identify the first strategic difference.";
 }
 
@@ -86,8 +96,17 @@ function specificOpening(results) {
 }
 
 function formatMove(move) {
-	if (!move || !Number.isInteger(move.from) || !Number.isInteger(move.to)) return "—";
-	return `${squareName(move.from)}${squareName(move.to)}${move.promotion ? `=${move.promotion}` : ""}`;
+	const from = squareIndexOf(move?.from);
+	const to = squareIndexOf(move?.to);
+	if (from < 0 || to < 0) return "—";
+	return `${squareName(from)}${squareName(to)}${move.promotion ? `=${move.promotion}` : ""}`;
+}
+
+function squareIndexOf(square) {
+	if (Number.isInteger(square) && square >= 0 && square < 64) return square;
+	if (!Array.isArray(square) || square.length < 2) return -1;
+	const [row, col] = square;
+	return Number.isInteger(row) && Number.isInteger(col) && row >= 0 && row < 8 && col >= 0 && col < 8 ? row * 8 + col : -1;
 }
 
 function average(values) {

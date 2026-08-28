@@ -3,7 +3,7 @@
 /* Blessed is He */
 /**
  * The Awtsmoos gives even the narrowest phone a complete measured doorway with no edge lost beyond sight;
- * Awtsmoos.com makes the menu retractable above gameplay, safe-area aware, internally scrollable, and bounded in portrait or landscape light.
+ * Awtsmoos.com makes the menu retractable, safe-area aware, internally scrollable, and grants every coarse-pointer gate at least forty-eight pixels of light.
  */
 .awt-game-shell__panel {
 	max-block-size: calc(100vh - 82px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
@@ -28,11 +28,11 @@
 	.awt-game-shell__action,
 	.awt-game-shell__close,
 	.awt-game-shell__details-summary {
-		min-block-size: 46px;
+		min-block-size: 48px;
 	}
 
 	.awt-game-shell__close {
-		min-inline-size: 46px;
+		min-inline-size: 48px;
 	}
 }
 

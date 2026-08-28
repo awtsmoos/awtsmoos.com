@@ -4,17 +4,31 @@
 
 /**
  * @file main.js
- * @description Boots Mitzvah Studio without importing the game runtime.
- * The Awtsmoos renews one world while author and player may enter through different gates;
- * Awtsmoos.com keeps this entry tiny so composition remains clear and free of hidden weight.
+ * @description Opens Mitzvah Studio through independent native and cinematic branches.
+ * The Awtsmoos gives each vessel its path, so no heavy world may silence another gate;
+ * Awtsmoos.com lets spatial craft and AI direction awaken separately, then harmonize their state.
  */
 
-import { bootMitzvahStudio } from './modules/app/bootMitzvahStudio.js';
+setTimeout(() => void bootNativeStudio(), 0);
+setTimeout(() => void installMovieAi(), 0);
 
-bootMitzvahStudio(document.querySelector('#mitzvah-studio'));
-void installMovieAi();
+/**
+ * Loads the native spatial editor without making its full module graph a page-level gate.
+ * @returns {Promise<void>} Resolves after native studio startup or reports a recoverable failure.
+ */
+async function bootNativeStudio() {
+	try {
+		const { bootMitzvahStudio } = await import('./modules/app/bootMitzvahStudio.js');
+		bootMitzvahStudio(document.querySelector('#mitzvah-studio'));
+	} catch (error) {
+		console.error('Mitzvah Studio native editor could not awaken.', error);
+	}
+}
 
-/** Reveals shared AI movie authoring after the native spatial studio is available. */
+/**
+ * Mounts the shared AI movie director independently of the native editor graph.
+ * @returns {Promise<void>} Resolves after the canonical director installer evaluates.
+ */
 async function installMovieAi() {
 	try {
 		await import('./modules/movie/installMovieAi.js');

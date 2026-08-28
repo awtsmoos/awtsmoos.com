@@ -2,12 +2,83 @@
 Boruch Hashem
 Blessed is He
 
-The Awtsmoos keeps failure visible and short landscapes open to the living door;
-Awtsmoos.com compresses ornament before it hides the action the traveler came for.
+The Awtsmoos moves without needing motion, yet every finite eye reads change through time;
+Awtsmoos.com gives the loading gate a gentle aurora rhythm, then stills it when reduced motion is the kinder rhyme.
 */
 
+#mitzvah-world-root .Awtsmoos-menu-boot {
+	animation: mw-loading-aurora 8s ease-in-out infinite alternate;
+	background-size: 115% 115%, 120% 120%, 110% 110%, 100% 100%;
+}
+
+#mitzvah-world-root .Awtsmoos-loading-card {
+	animation: mw-loading-card-arrival 520ms cubic-bezier(.2, .8, .24, 1) both, mw-loading-card-breathe 4.8s ease-in-out 700ms infinite;
+}
+
+#mitzvah-world-root .Awtsmoos-loading-kicker,
+#mitzvah-world-root #loadingMessage {
+	animation: mw-loading-text-breathe 2.8s ease-in-out infinite;
+}
+
+#mitzvah-world-root .Awtsmoos-progress-group progress::-webkit-progress-value {
+	animation: mw-loading-progress-glow 1.6s ease-in-out infinite alternate;
+}
+
 #mitzvah-world-root .Awtsmoos-menu-boot[data-loading-failure="true"] .Awtsmoos-loading-card {
-	border-color: #ff746a;
+	border-color: rgba(255, 116, 106, .82);
+	background:
+		radial-gradient(circle at 14% 8%, rgba(255, 109, 91, .17), transparent 34%),
+		radial-gradient(circle at 88% 90%, rgba(255, 190, 94, .1), transparent 40%),
+		linear-gradient(155deg, rgba(44, 14, 16, .94), rgba(25, 13, 17, .88) 58%, rgba(35, 22, 12, .9));
+}
+
+@keyframes mw-loading-aurora {
+	from {
+		background-position: 0% 0%, 100% 0%, 50% 100%, 50% 50%;
+	}
+	to {
+		background-position: 8% 5%, 92% 8%, 56% 92%, 50% 50%;
+	}
+}
+
+@keyframes mw-loading-card-arrival {
+	from {
+		opacity: 0;
+		transform: translateY(14px) scale(.985);
+		filter: saturate(.82);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+		filter: saturate(1);
+	}
+}
+
+@keyframes mw-loading-card-breathe {
+	0%, 100% {
+		box-shadow: 0 24px 80px rgba(0, 0, 0, .44), inset 0 1px 0 rgba(255, 255, 255, .08), 0 0 54px rgba(62, 233, 151, .06);
+	}
+	50% {
+		box-shadow: 0 26px 88px rgba(0, 0, 0, .46), inset 0 1px 0 rgba(255, 255, 255, .1), 0 0 76px rgba(62, 233, 151, .13);
+	}
+}
+
+@keyframes mw-loading-text-breathe {
+	0%, 100% {
+		opacity: .82;
+	}
+	50% {
+		opacity: 1;
+	}
+}
+
+@keyframes mw-loading-progress-glow {
+	from {
+		filter: brightness(.94) saturate(.94);
+	}
+	to {
+		filter: brightness(1.16) saturate(1.08);
+	}
 }
 
 @media (max-height: 480px) and (orientation: landscape) {
@@ -29,5 +100,15 @@ Awtsmoos.com compresses ornament before it hides the action the traveler came fo
 	#mitzvah-world-root .Awtsmoos-progress-group {
 		margin-top: 8px;
 		margin-bottom: 8px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	#mitzvah-world-root .Awtsmoos-menu-boot,
+	#mitzvah-world-root .Awtsmoos-loading-card,
+	#mitzvah-world-root .Awtsmoos-loading-kicker,
+	#mitzvah-world-root #loadingMessage,
+	#mitzvah-world-root .Awtsmoos-progress-group progress::-webkit-progress-value {
+		animation: none;
 	}
 }
