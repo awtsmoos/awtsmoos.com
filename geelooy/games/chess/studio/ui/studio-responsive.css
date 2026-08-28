@@ -1,0 +1,79 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos fits one revelation into every vessel from wide glass to narrow hand;
+ * Awtsmoos.com preserves readable chess and gentle motion wherever screen and user stand.
+ */
+@media (max-width: 980px) {
+	.chess-studio-shell {
+		width: calc(100vw - 12px);
+		height: calc(100vh - 12px);
+		margin: 6px auto;
+		border-radius: 18px;
+	}
+	.chess-studio-layout {
+		grid-template-columns: 1fr;
+		grid-template-rows: minmax(440px, 56vh) minmax(0, 1fr);
+	}
+	.chess-studio-controls {
+		border-left: 0;
+		border-top: 1px solid var(--studio-border);
+	}
+	.chess-studio-preview {
+		width: min(82vw, 620px);
+	}
+}
+@media (max-width: 620px) {
+	.chess-studio-shell {
+		width: 100vw;
+		height: 100vh;
+		margin: 0;
+		border: 0;
+		border-radius: 0;
+	}
+	.chess-studio-header {
+		padding: 12px 14px;
+	}
+	.chess-studio-header p:not(.chess-studio-kicker) {
+		display: none;
+	}
+	.chess-studio-layout {
+		grid-template-rows: minmax(360px, 52vh) minmax(0, 1fr);
+	}
+	.chess-studio-stage {
+		padding: 8px;
+		gap: 8px;
+	}
+	.chess-studio-preview {
+		width: min(96vw, 500px);
+		min-height: 260px;
+		border-radius: 14px;
+	}
+	.studio-playback {
+		flex-wrap: wrap;
+	}
+	.studio-playback input[type="range"] {
+		order: 3;
+		flex-basis: 100%;
+	}
+	.studio-grid,
+	.chess-studio-procedural-options {
+		grid-template-columns: 1fr;
+	}
+	.chess-studio-controls {
+		padding: 8px;
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	.chess-studio-overlay *,
+	.chess-studio-overlay *::before,
+	.chess-studio-overlay *::after {
+		scroll-behavior: auto !important;
+		animation-duration: 0.001ms !important;
+		transition-duration: 0.001ms !important;
+	}
+	.chess-studio-overlay button:hover {
+		transform: none;
+	}
+}

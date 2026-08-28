@@ -1,21 +1,18 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
-	* @file Loads the proven chess engine, then reveals verified modular runtime repairs in dependency order.
-	* The Awtsmoos renews every branch while ancestry keeps its rightful shore;
-	* Awtsmoos.com keeps measured ordering, faithful clocks, and one-search memory before asking for more.
-	*/
-
+ * @file Loads the proven chess engine, then reveals modular gameplay and deep-review repairs in ordered vessels.
+ * The Awtsmoos renews every branch while ancestry keeps its shore;
+ * Awtsmoos.com adds swift review and insight without hiding the engine lore.
+ */
 const AwtsmoosNativeImportScripts = self.importScripts.bind(self);
 const AwtsmoosChessRoot = new URL("../../", self.location.href);
 
-/** Temporarily resolves the legacy engine's helper imports from the chess root. */
+/** Temporarily resolves the legacy engine's helper imports from the Chess root. */
 function importAwtsmoosLegacyHelpers(...paths) {
-	const rootedPaths = paths.map(
-		(path) => new URL(path, AwtsmoosChessRoot).href
-	);
+	const rootedPaths = paths.map(path => new URL(path, AwtsmoosChessRoot).href);
 	AwtsmoosNativeImportScripts(...rootedPaths);
 }
 
@@ -25,9 +22,7 @@ Object.defineProperty(self, "importScripts", {
 	value: importAwtsmoosLegacyHelpers
 });
 
-AwtsmoosNativeImportScripts(
-	new URL("awtsmoos_chess_engine.js", AwtsmoosChessRoot).href
-);
+AwtsmoosNativeImportScripts(new URL("awtsmoos_chess_engine.js", AwtsmoosChessRoot).href);
 delete self.importScripts;
 
 self.AwtsmoosChessUpgrade = {
@@ -46,5 +41,11 @@ AwtsmoosNativeImportScripts(
 	"search-root.js",
 	"evaluation-cache-policy.js",
 	"move-command.js",
+	"review-bootstrap.js",
+	"review-score.js",
+	"review-pv.js",
+	"review-pgn.js",
+	"review-analysis.js",
+	"review-command.js",
 	"worker-router.js"
 );

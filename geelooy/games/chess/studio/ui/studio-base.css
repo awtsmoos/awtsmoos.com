@@ -1,0 +1,111 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos opens a glassy chamber where board and insight meet in light;
+ * Awtsmoos.com keeps this garment lazy so ordinary Chess remains swift and bright.
+ */
+body.chess-studio-open {
+	overflow: hidden;
+}
+.chess-studio-overlay[hidden] {
+	display: none !important;
+}
+.chess-studio-overlay {
+	--studio-bg: #070a12;
+	--studio-surface: rgba(17, 24, 39, 0.88);
+	--studio-panel: rgba(30, 41, 59, 0.72);
+	--studio-border: rgba(148, 163, 184, 0.22);
+	--studio-text: #f8fafc;
+	--studio-muted: #a7b3c8;
+	--studio-accent: #73dcff;
+	--studio-accent-2: #a78bfa;
+	position: fixed;
+	inset: 0;
+	z-index: 1000000;
+	background: radial-gradient(circle at 20% 0%, rgba(115, 220, 255, 0.16), transparent 34%), radial-gradient(circle at 90% 20%, rgba(167, 139, 250, 0.16), transparent 30%), rgba(2, 6, 23, 0.93);
+	backdrop-filter: blur(16px);
+	color: var(--studio-text);
+	font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.chess-studio-shell {
+	box-sizing: border-box;
+	width: min(1600px, calc(100vw - 28px));
+	height: min(950px, calc(100vh - 28px));
+	margin: 14px auto;
+	border: 1px solid var(--studio-border);
+	border-radius: 24px;
+	background: linear-gradient(145deg, rgba(15, 23, 42, 0.98), rgba(3, 7, 18, 0.98));
+	box-shadow: 0 28px 100px rgba(0, 0, 0, 0.62);
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+}
+.chess-studio-header {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 20px;
+	padding: 20px 24px 16px;
+	border-bottom: 1px solid var(--studio-border);
+	background: linear-gradient(90deg, rgba(115, 220, 255, 0.08), transparent 45%, rgba(167, 139, 250, 0.08));
+}
+.chess-studio-header h2 {
+	margin: 2px 0 4px;
+	font-size: clamp(24px, 3vw, 38px);
+	letter-spacing: -0.03em;
+}
+.chess-studio-header p {
+	margin: 0;
+	color: var(--studio-muted);
+	max-width: 780px;
+}
+.chess-studio-kicker {
+	color: var(--studio-accent) !important;
+	font-size: 12px;
+	font-weight: 800;
+	letter-spacing: 0.16em;
+	text-transform: uppercase;
+}
+.studio-icon-button {
+	width: 42px;
+	height: 42px;
+	border-radius: 14px;
+	font-size: 28px;
+	line-height: 1;
+}
+.chess-studio-layout {
+	min-height: 0;
+	flex: 1;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(340px, 430px);
+	gap: 0;
+}
+.chess-studio-stage {
+	min-width: 0;
+	min-height: 0;
+	padding: 18px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 14px;
+	background: radial-gradient(circle at 50% 45%, rgba(51, 65, 85, 0.32), transparent 62%);
+}
+.chess-studio-preview {
+	width: min(100%, 760px);
+	aspect-ratio: 1;
+	min-height: 280px;
+	display: grid;
+	place-items: center;
+	border-radius: 22px;
+	background: #050811;
+	border: 1px solid rgba(148, 163, 184, 0.18);
+	box-shadow: inset 0 0 80px rgba(0, 0, 0, 0.35), 0 22px 70px rgba(0, 0, 0, 0.32);
+	overflow: hidden;
+}
+.chess-studio-canvas {
+	display: block;
+	max-width: 100%;
+	max-height: 100%;
+}

@@ -3,26 +3,20 @@
 // Blessed is He
 
 /**
-	* @file Routes fast UI readiness, background book warming, and repaired gameplay search.
-	* The Awtsmoos lets the visible vessel awaken before hidden scrolls complete their lore;
-	* Awtsmoos.com keeps wisdom warming off the UI thread while the player reaches the board's shore.
+ * @file Routes readiness, live search, fast PGN parsing, deep review, and legacy commands through one proven worker.
+ * The Awtsmoos lets each request find its vessel while Awtsmoos.com keeps gameplay and study in tune.
  */
-
-(function revealWorkerRouter(AwtsmoosChessUpgrade) {
+(function revealWorkerRouter(A) {
 	let warmingScheduled = false;
 
-	/** Announces readiness immediately, then preserves the full legacy book warm-up off the UI thread. */
+/** Announces readiness immediately, then warms the real opening book away from first paint. */
 	function revealReadyEngine() {
 		if (EngineSoul.isInitialized) {
 			postMessage({ type: "initialization_complete" });
 			return;
 		}
-
 		postMessage({ type: "initialization_complete" });
-		if (warmingScheduled) {
-			return;
-		}
-
+		if (warmingScheduled) return;
 		warmingScheduled = true;
 		setTimeout(() => {
 			try {
@@ -33,28 +27,34 @@
 		}, 0);
 	}
 
-	/** Routes commands while retaining the original analysis protocol as a fallback. */
+	/** Emits command-specific failure without corrupting another protocol. */
+	function revealCommandError(command, error) {
+		const message = error?.message || String(error);
+		if (command === "review_pgn") {
+			postMessage({ type: "review_error", message });
+			return;
+		}
+		if (command === "studio_parse_pgn") {
+			postMessage({ type: "studio_pgn_error", message });
+			return;
+		}
+		postMessage({ type: "move_result", bestMove: null, error: message });
+	}
+	/** Routes upgraded commands and preserves legacy commands as a compatibility fallback. */
 	self.onmessage = function onAwtsmoosChessMessage(event) {
 		const command = event.data?.command;
 		if (command === "initialize") {
 			revealReadyEngine();
 			return;
 		}
-
-		if (command !== "calculate_move") {
-			AwtsmoosChessUpgrade.legacyHandler(event);
-			return;
-		}
-
 		try {
-			AwtsmoosChessUpgrade.handleCalculateMove(event.data);
+			if (command === "calculate_move") return A.handleCalculateMove(event.data);
+			if (command === "studio_parse_pgn") return A.handleParseStudioPgn(event.data);
+			if (command === "review_pgn") return A.handleReviewPgn(event.data);
+			A.legacyHandler(event);
 		} catch (error) {
-			Scribe.error("UPGRADED GAMEPLAY SEARCH FAILED", error);
-			postMessage({
-				type: "move_result",
-				bestMove: null,
-				error: error?.message || String(error)
-			});
+			Scribe.error(`UPGRADED ${command || "UNKNOWN"} COMMAND FAILED`, error);
+			revealCommandError(command, error);
 		}
 	};
 })(self.AwtsmoosChessUpgrade);

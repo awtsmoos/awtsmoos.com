@@ -1,12 +1,24 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @file moduleUrlTransform.js
- * @description Preserves absolute import.meta.url identity when CompactJS carries readable modules into a generated browser garment.
- * The Awtsmoos is beyond path and place while every finite module still needs one truthful face;
- * Awtsmoos.com joins a canonical public path to a stable runtime origin so bootstrap light can enter the world with grace.
+ * @description
+ * Preserves absolute `import.meta.url` meaning when CompactJS carries source
+ * modules into a browser-facing generated garment.
+ *
+ * RESPONSIBILITY:
+ * Derive canonical public resource paths and lower module URL identity into
+ * an absolute runtime URL expression.
+ *
+ * NON-RESPONSIBILITY:
+ * This module does not parse AST nodes, rewrite imports or exports, traverse
+ * module graphs, or choose compact representation URLs.
+ *
+ * The Awtsmoos is beyond pathname and origin while each finite module still
+ * needs an honest place in the world. Awtsmoos.com joins public path to the
+ * living browser location so compact light stays valid, bright, and unfurled.
  */
 
 const path = require("path");
@@ -14,14 +26,17 @@ const path = require("path");
 const FALLBACK_RUNTIME_ORIGIN = "https://awtsmoos.local/";
 
 /**
- * @description Rewrites every import.meta.url into a stable absolute runtime URL expression.
- * @param {string} source Transformed module body source.
- * @param {string} browserUrl Canonical root-relative public resource pathname.
- * @returns {string} Source whose module URL references remain absolute at runtime.
+ * Rewrites every `import.meta.url` into an absolute runtime URL expression.
+ *
+ * @param {string} source
+ * 	Transformed module body source.
+ * @param {string} browserUrl
+ * 	Canonical root-relative public resource pathname.
+ * @returns {string}
+ * 	Source whose module URL references remain valid absolute URLs at runtime.
  */
 function rewriteImportMetaUrl(source, browserUrl) {
 	const runtimeExpression = runtimeBrowserUrlExpression(browserUrl);
-
 	return String(source || "").replace(
 		/\bimport\.meta\.url\b/g,
 		runtimeExpression
@@ -29,48 +44,39 @@ function rewriteImportMetaUrl(source, browserUrl) {
 }
 
 /**
- * @description Creates generated JavaScript that resolves one public path from a stable browser origin.
- * @param {string} browserUrl Canonical root-relative public resource pathname.
- * @returns {string} Parenthesized expression yielding an absolute URL string.
+ * Creates generated JavaScript that resolves one public path at runtime.
+ *
+ * @param {string} browserUrl
+ * 	Canonical root-relative public resource pathname.
+ * @returns {string}
+ * 	Parenthesized expression yielding an absolute URL string.
  */
 function runtimeBrowserUrlExpression(browserUrl) {
 	const publicPath = JSON.stringify(browserUrl);
 	const fallback = JSON.stringify(FALLBACK_RUNTIME_ORIGIN);
-	const runtimeOrigin = runtimeOriginExpression(fallback);
-
 	return `(
 		new URL(
 			${publicPath},
-			${runtimeOrigin}
+			globalThis.location?.href || ${fallback}
 		).href
 	)`.replace(/\n\s*/g, " ");
 }
 
 /**
- * @description Creates generated JavaScript that rejects opaque origins and falls back to a real absolute base.
- * @param {string} fallbackJson JSON-encoded fallback origin.
- * @returns {string} Parenthesized runtime-origin expression.
- */
-function runtimeOriginExpression(fallbackJson) {
-	return `(
-		globalThis.location?.origin && globalThis.location.origin !== "null"
-			? globalThis.location.origin + "/"
-			: ${fallbackJson}
-	)`.replace(/\n\s*/g, " ");
-}
-
-/**
- * @description Returns the canonical public pathname for one real source module record.
- * @param {object} state Compact compiler graph state containing rootDir.
- * @param {object} record Parsed module record containing filePath.
- * @returns {string} Root-relative browser pathname using forward slashes.
+ * Returns the canonical public pathname for one real source module record.
+ *
+ * @param {object} state
+ * 	Compact compiler graph state containing `rootDir`.
+ * @param {object} record
+ * 	Parsed module record containing `filePath`.
+ * @returns {string}
+ * 	Root-relative browser pathname using forward slashes.
  */
 function browserUrlForRecord(state, record) {
 	const relative = path.relative(
 		state.rootDir,
 		record.filePath
 	);
-
 	return `/${relative.split(path.sep).join("/")}`;
 }
 

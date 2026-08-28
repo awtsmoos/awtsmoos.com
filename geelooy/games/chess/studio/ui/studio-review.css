@@ -1,0 +1,65 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gathers deep engine search into a few teachable moments of light;
+ * Awtsmoos.com gives loss, book, PV, and patterns distinct colors so measured truth stays bright.
+ */
+.review-summary-card,
+.review-moment {
+	margin-top: 10px;
+	padding: 12px;
+	border: 1px solid var(--studio-border);
+	border-left: 4px solid #64748b;
+	border-radius: 12px;
+	background: rgba(2, 6, 23, 0.48);
+}
+.review-summary-card h3,
+.review-moment h4 {
+	margin: 0 0 6px;
+}
+.review-summary-card p,
+.review-moment p,
+.review-moment ul {
+	margin: 6px 0;
+	font-size: 12px;
+	line-height: 1.5;
+}
+.review-moment ul {
+	padding-left: 18px;
+}
+.review-moment li + li {
+	margin-top: 5px;
+}
+.review-score {
+	color: var(--studio-muted);
+	font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+.review-mistake {
+	border-left-color: #f59e0b;
+}
+.review-blunder {
+	border-left-color: #ef4444;
+}
+.review-inaccuracy {
+	border-left-color: #eab308;
+}
+.review-book {
+	border-left-color: #38bdf8;
+}
+.review-best,
+.review-excellent {
+	border-left-color: #34d399;
+}
+.review-badges {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+}
+.review-badges span {
+	padding: 3px 7px;
+	border-radius: 999px;
+	background: rgba(148, 163, 184, 0.12);
+	font-size: 10px;
+	text-transform: uppercase;
+}

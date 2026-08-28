@@ -1,0 +1,65 @@
+<!--B"H-->
+<!-- Boruch Hashem -->
+<!-- Blessed is He -->
+<!--
+	The Awtsmoos lets the real engine answer visibly inside a bare browser vessel;
+	Awtsmoos.com proves fast parse, real book, search, and review before Studio makes them useful.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>Awtsmoos Chess Review Harness</title>
+</head>
+<body>
+	<h1>Chess Review Harness</h1>
+	<pre id="status">Starting production worker…</pre>
+	<pre id="result"></pre>
+	<script>
+		const pgn = `[Event "Studio Test"]
+[White "A"]
+[Black "B"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bb5 a6`;
+		const startedAt = performance.now();
+		const status = document.getElementById("status");
+		const output = document.getElementById("result");
+		const worker = new Worker("/games/chess/engine/runtime/upgrade-worker.js?review-harness=3");
+		let parsed = null;
+		let parseMs = 0;
+		worker.onmessage = event => {
+			const message = event.data || {};
+			if (message.type === "studio_pgn_result") {
+				parsed = message;
+				parseMs = Math.round(performance.now() - startedAt);
+				status.textContent = `PARSE PASS — ${message.moves?.length || 0} plies in ${parseMs}ms. Reviewing…`;
+				worker.postMessage({ command: "review_pgn", pgnText: pgn, maxTime: 100 });
+				return;
+			}
+			if (message.type === "review_progress") {
+				status.textContent = `Review ${message.index + 1}/${message.total}: ${message.result?.classification || "?"}`;
+				return;
+			}
+			if (message.type === "review_result") {
+				output.textContent = JSON.stringify({
+					parseMs,
+					totalMs: Math.round(performance.now() - startedAt),
+					moves: parsed?.moves?.length,
+					book: parsed?.frames?.map(frame => frame.bookName).filter(Boolean),
+					classes: message.results?.map(result => result.classification),
+					losses: message.results?.map(result => result.loss),
+					pv: message.results?.map(result => result.principalVariation?.length || 0),
+					nodes: message.results?.map(result => result.nodes)
+				}, null, 2);
+				status.textContent = "PASS — production engine + real source-book review complete";
+				worker.terminate();
+				return;
+			}
+			if (message.type?.endsWith("_error")) status.textContent = `FAIL — ${message.message}`;
+		};
+		worker.onerror = event => status.textContent = `FAIL — ${event.message}`;
+		worker.postMessage({ command: "studio_parse_pgn", pgnText: pgn });
+	</script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gives every form control a clear vessel and every choice a measured voice;
+ * Awtsmoos.com keeps camera, cinema, and appearance readable so procedural depth remains a choice.
+ */
+.chess-studio-controls {
+	min-height: 0;
+	overflow: auto;
+	padding: 14px;
+	border-left: 1px solid var(--studio-border);
+	background: rgba(2, 6, 23, 0.4);
+}
+.chess-studio-controls details {
+	margin-bottom: 12px;
+	border: 1px solid var(--studio-border);
+	border-radius: 16px;
+	background: var(--studio-panel);
+	overflow: hidden;
+}
+.chess-studio-controls summary {
+	cursor: pointer;
+	padding: 14px 16px;
+	font-weight: 800;
+	background: rgba(255, 255, 255, 0.025);
+}
+.studio-panel-body {
+	display: grid;
+	gap: 12px;
+	padding: 14px;
+}
+.studio-panel-body label,
+.chess-studio-procedural-options label {
+	display: grid;
+	gap: 6px;
+	color: var(--studio-muted);
+	font-size: 12px;
+	font-weight: 700;
+}
+.studio-panel-body input,
+.studio-panel-body select,
+.studio-panel-body textarea,
+.chess-studio-procedural-options input,
+.chess-studio-procedural-options select {
+	box-sizing: border-box;
+	width: 100%;
+	min-height: 40px;
+	border: 1px solid rgba(148, 163, 184, 0.28);
+	border-radius: 11px;
+	background: rgba(2, 6, 23, 0.7);
+	color: var(--studio-text);
+	padding: 9px 10px;
+	font: inherit;
+}
+.studio-panel-body textarea {
+	resize: vertical;
+	font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+	line-height: 1.45;
+}
+.studio-grid,
+.chess-studio-procedural-options {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 10px;
+}
+.chess-studio-procedural-options {
+	padding-top: 12px;
+	border-top: 1px solid var(--studio-border);
+}
+.studio-checks {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	flex-wrap: wrap;
+}
+.studio-checks label {
+	display: flex;
+	align-items: center;
+	gap: 7px;
+}
+.studio-checks input {
+	width: auto;
+	min-height: auto;
+}
+.chess-studio-overlay button:focus-visible,
+.chess-studio-overlay input:focus-visible,
+.chess-studio-overlay select:focus-visible,
+.chess-studio-overlay textarea:focus-visible {
+	outline: 3px solid rgba(115, 220, 255, 0.42);
+	outline-offset: 2px;
+}
