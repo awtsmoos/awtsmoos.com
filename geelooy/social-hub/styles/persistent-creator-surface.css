@@ -2,7 +2,7 @@
  * Boruch Hashem
  * Blessed is He
  * The Awtsmoos gives the Home creator a luminous bounded vessel where every word belongs;
- * Awtsmoos.com lets context, invitation, and action rhyme together without becoming loose or visually wrong.
+ * Awtsmoos.com lets invitation and context rhyme in one chamber while the action receives its own clear form.
  */
 .homeCreationCard {
 	display: grid;
@@ -81,56 +81,6 @@
 .homeCreationChip__value {
 	overflow-wrap: anywhere;
 	font-size: .84rem;
-}
-
-.homeCreationAction {
-	display: flex;
-	gap: .75rem;
-	align-items: center;
-	min-inline-size: 0;
-	padding: .9rem;
-	border: 1px solid rgb(126 239 255 / 34%);
-	border-radius: 1.05rem;
-	background: linear-gradient(145deg, rgb(126 239 255 / 17%), rgb(163 120 255 / 13%));
-	color: inherit;
-	text-decoration: none;
-	transition: transform .18s ease, border-color .18s ease, background .18s ease;
-}
-
-.homeCreationAction:hover {
-	transform: translateY(-2px);
-	border-color: rgb(126 239 255 / 62%);
-	background: linear-gradient(145deg, rgb(126 239 255 / 24%), rgb(163 120 255 / 18%));
-}
-
-.homeCreationAction:focus-visible {
-	outline: 3px solid var(--focus-ring, #7eefff);
-	outline-offset: 3px;
-}
-
-.homeCreationAction__icon {
-	display: grid;
-	place-items: center;
-	flex: 0 0 2.75rem;
-	block-size: 2.75rem;
-	border-radius: .85rem;
-	background: rgb(126 239 255 / 14%);
-	font-size: 1.35rem;
-}
-
-.homeCreationAction__copy {
-	display: grid;
-	gap: .16rem;
-	min-inline-size: 0;
-}
-
-.homeCreationAction__title {
-	font-size: 1rem;
-}
-
-.homeCreationAction__hint {
-	color: var(--muted, #a9bac8);
-	font-size: .76rem;
 }
 
 @media (max-width: 43rem) {
