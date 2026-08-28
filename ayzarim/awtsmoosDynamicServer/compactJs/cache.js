@@ -1,6 +1,6 @@
 //B"H
-//Boruch Hashem
-//Blessed is He
+// Boruch Hashem
+// Blessed is He
 
 const path = require("path");
 const { compileCompactModule } = require("./compiler.js");
@@ -11,30 +11,47 @@ const {
 } = require("./cacheManifest.js");
 
 /**
- * @file Caches compiled CompactJS universes while exact dependency seals preserve freshness.
- * @description The Awtsmoos renews source before memory can be trusted; Awtsmoos.com keeps one warm compiled river per entry,
- * deduplicates simultaneous revelation, and lets any changed deep dependency dissolve the old vessel before new light arrives.
+ * @file cache.js
+ * @description Caches CompactJS universes while exact dependency seals preserve freshness.
+ * The Awtsmoos renews source before memory may call itself true;
+ * Awtsmoos.com keeps one warm river, yet any changed dependency makes the light flow new.
  */
 class CompactModuleCache {
+	/**
+	 * @description Creates empty source and in-flight maps for one process-local CompactJS cache.
+	 * @returns {void}
+	 */
 	constructor() {
 		this.entries = new Map();
 		this.inflight = new Map();
 	}
 
-	/** Returns fresh cached source or performs one shared compile for this canonical entry. */
+	/**
+	 * @description Returns fresh cached source or performs one shared compilation for the canonical entry.
+	 * @param {object} options CompactJS compiler options.
+	 * @param {object} options.fs Promise-based filesystem authority.
+	 * @param {string} options.entryFile Absolute JavaScript entry path.
+	 * @param {string} options.rootDir Absolute public document root.
+	 * @returns {Promise<string>} Cached or freshly compacted JavaScript source.
+	 */
 	async compile(options) {
 		const key = cacheKey(options);
 		if (this.inflight.has(key)) {
 			return this.inflight.get(key);
 		}
 		const cached = this.entries.get(key);
-		if (cached && await isDependencyManifestFresh(options.fs, cached.manifest)) {
+		if (cached && await isDependencyManifestFresh(cached.manifest, options.fs)) {
 			return cached.source;
 		}
 		return this.compileFresh(key, options);
 	}
 
-	/** Starts one compile Promise and removes only that exact in-flight vessel when it settles. */
+	/**
+	 * @description Starts one compile promise and removes only that exact in-flight vessel when it settles.
+	 * @param {string} key Canonical cache key.
+	 * @param {object} options CompactJS compiler options.
+	 * @returns {Promise<string>} Newly generated compact source.
+	 */
 	async compileFresh(key, options) {
 		const promise = this.buildEntry(options);
 		this.inflight.set(key, promise);
@@ -47,7 +64,11 @@ class CompactModuleCache {
 		}
 	}
 
-	/** Compiles through a recording filesystem, then seals the result with dependency signatures. */
+	/**
+	 * @description Compiles through a recording filesystem and seals every observed dependency afterward.
+	 * @param {object} options CompactJS compiler options.
+	 * @returns {Promise<string>} Newly compacted source stored with a transitive dependency manifest.
+	 */
 	async buildEntry(options) {
 		const dependencies = new Set();
 		const recordingFs = createRecordingFs(options.fs, dependencies);
@@ -56,33 +77,39 @@ class CompactModuleCache {
 			fs: recordingFs,
 			rootDir: options.rootDir
 		});
-		const manifest = await captureDependencyManifest(options.fs, dependencies);
-		this.entries.set(cacheKey(options), {
-			manifest,
-			source
-		});
+		const manifest = await captureDependencyManifest(dependencies, options.fs);
+		this.entries.set(cacheKey(options), { manifest, source });
 		return source;
 	}
 
-	/** Clears all remembered compiled universes, primarily for explicit lifecycle and focused tests. */
+	/**
+	 * @description Clears all remembered compiled universes and shared in-flight bookkeeping.
+	 * @returns {void}
+	 */
 	clear() {
 		this.entries.clear();
 		this.inflight.clear();
 	}
 }
 
+/**
+ * @description Builds a canonical cache key from resolved root and entry paths.
+ * @param {object} options CompactJS compiler options.
+ * @returns {string} Stable process-local cache key.
+ */
 function cacheKey(options) {
 	return `${path.resolve(options.rootDir)}\u0000${path.resolve(options.entryFile)}`;
 }
 
 const compactModuleCache = new CompactModuleCache();
 
+/**
+ * @description Compiles through the shared CompactJS cache used by generated HTTP responses.
+ * @param {object} options CompactJS compiler options.
+ * @returns {Promise<string>} Cached or freshly compacted JavaScript source.
+ */
 async function compileCachedCompactModule(options) {
 	return compactModuleCache.compile(options);
 }
 
-module.exports = {
-	CompactModuleCache,
-	compileCachedCompactModule,
-	compactModuleCache
-};
+module.exports = { CompactModuleCache, compileCachedCompactModule, compactModuleCache };

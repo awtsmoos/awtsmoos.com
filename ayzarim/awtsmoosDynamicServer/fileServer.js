@@ -1,17 +1,16 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file fileServer.js
- * @description Orchestrates templates, static representations, cached CompactJS, compact CSS, and explicit bundles.
+ * @description Orchestrates static representations, cached CompactJS, cached CompactCSS, status probes, and explicit bundles.
  * The Awtsmoos lets one path reveal HTML, bytes, Brotli, gzip, or a folded dependency river without confusion;
- * Awtsmoos.com preserves status checks, MIME truth, validators, templates, and warm compact memory while each changed source renews the whole union.
+ * Awtsmoos.com keeps the outer server small while generated JavaScript and imported CSS each receive a fresh, measured, reusable kli.
  */
 
 const { errorMessage } = require('./utils.js');
-const { compileCachedCompactModule } = require('./compactJs/cache.js');
-const { compileCompactStylesheet } = require('./compactCss/compiler.js');
+const { compileCachedCompactStylesheet } = require('./compactCss/cache.js');
 const { maybeSendBundle } = require('./zipBundles/bundleRoute.js');
 const {
 	prepareIdentityContent,
@@ -24,8 +23,18 @@ const {
 	shouldCompileCompactCss,
 	shouldCompileCompactJs
 } = require('./static/FileResponseModes.js');
+const {
+	sendCompactJs
+} = require('./static/GeneratedCompactResponse.js');
 const { readStaticAsset } = require('./static/StaticAssetRepresentation.js');
 
+const HANDLED_RESPONSE = Symbol('handled-response');
+
+/**
+ * @description Serves one file request while generated JS and CSS delegate compilation to dependency-aware cache vessels.
+ * @param {object} context Dynamic-server file context.
+ * @returns {Promise<void>} Resolves when the response has been written or delegated.
+ */
 async function doFileResponse(context) {
 	const { request, response } = context.dependencies;
 	try {
@@ -34,6 +43,9 @@ async function doFileResponse(context) {
 		}
 		if (request.method === 'GET' && request.isAwtsmoosFileStatusRequest) {
 			return sendFileStatus(context);
+		}
+		if (shouldCompileCompactJs(context)) {
+			return sendCompactJs(context);
 		}
 		const content = await resolveResponseContent(context);
 		if (content === HANDLED_RESPONSE) {
@@ -52,19 +64,15 @@ async function doFileResponse(context) {
 	}
 }
 
-const HANDLED_RESPONSE = Symbol('handled-response');
-
+/**
+ * @description Resolves cached CompactCSS or ordinary static content while preserving static representation behavior.
+ * @param {object} context Dynamic-server file context.
+ * @returns {Promise<Buffer|string|symbol>} Resolved content or handled-response sentinel.
+ */
 async function resolveResponseContent(context) {
 	const dependencies = context.dependencies;
-	if (shouldCompileCompactJs(context)) {
-		return compileCachedCompactModule({
-			entryFile: context.filePath,
-			fs: dependencies.fs,
-			rootDir: dependencies.parentPath
-		});
-	}
 	if (shouldCompileCompactCss(context)) {
-		return compileCompactStylesheet({
+		return compileCachedCompactStylesheet({
 			entryFile: context.filePath,
 			fs: dependencies.fs,
 			rootDir: dependencies.parentPath
@@ -82,6 +90,11 @@ async function resolveResponseContent(context) {
 	return prepareIdentityContent(context, asset.content);
 }
 
+/**
+ * @description Returns filesystem modification time for explicit static-resource status probes.
+ * @param {object} context Dynamic-server file context.
+ * @returns {Promise<void>} Resolves after status response or error response is written.
+ */
 async function sendFileStatus(context) {
 	const { fs, response } = context.dependencies;
 	try {
