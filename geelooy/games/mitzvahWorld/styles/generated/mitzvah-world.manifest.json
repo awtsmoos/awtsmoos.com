@@ -46,7 +46,22 @@
 				"previous": "2px solid rgba(188, 255, 211, .94)"
 			}
 		],
-		"zIndexConflicts": []
+		"zIndexConflicts": [
+			{
+				"owners": [
+					"#mitzvah-world-root .Mitzvah-combat-host",
+					"#mitzvah-world-root .Awtsmoos-minimap",
+					"#mitzvah-world-root .Awtsmoos-player-hud-shell",
+					"#mitzvah-world-root .Awtsmoos-quest-tracker",
+					"#mitzvah-world-root .Awtsmoos-status-dock",
+					"#mitzvah-world-root .Awtsmoos-status-ribbon",
+					"#mitzvah-world-root .Awtsmoos-realtime-status",
+					"#mitzvah-world-root .Awtsmoos-camera-mode-toggle",
+					"#mitzvah-world-root .Awtsmoos-control-receipt"
+				],
+				"value": "var(--mw-z-status)"
+			}
+		]
 	},
 	"files": [
 		"styles/source/fragments/mitzvah-world-foundation-002.css",
@@ -98,27 +113,27 @@
 		"styles/mitzvah-world-creative-dock.css",
 		"styles/source/mitzvah-world.css"
 	],
-	"inputBytes": 95269,
-	"outputBytes": 74180,
+	"inputBytes": 95549,
+	"outputBytes": 74416,
 	"stateCoverage": {
 		"missing": [],
 		"ready": true
 	},
 	"representations": {
 		"brotli": {
-			"bytes": 10953,
+			"bytes": 10811,
 			"encoding": "br",
-			"sha256": "e7d82c1d274c66d1a87acaec04373b8df3d483bc0163361911ba6b6d8cbc1865"
+			"sha256": "a27686169ca70d089afdfaa44e596b85aeecc70e4454cef10e1d5d02a988ff52"
 		},
 		"gzip": {
-			"bytes": 12786,
+			"bytes": 12601,
 			"encoding": "gzip",
-			"sha256": "3fac03619b43311a6327e381f1f66efc1c66cdf64002c39aeaeec0c1aefc25dd"
+			"sha256": "03ef6b168cbb2f8d9d37df29d67380c0dd10697434a7e1f47b4b1bd1a135321d"
 		},
 		"identity": {
-			"bytes": 74181,
+			"bytes": 74417,
 			"encoding": "identity",
-			"sha256": "3f43c9126d19c6d3c9112ad9263229f98054bc6097f4dd4365062d8776f75872"
+			"sha256": "f57a67d5f835204abadb5cf59dfa91a1b0220409ed8b8f3f5c11e84f613c645e"
 		}
 	}
 }

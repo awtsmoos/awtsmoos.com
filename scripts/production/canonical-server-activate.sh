@@ -3,7 +3,7 @@
 # Boruch Hashem
 # Blessed is He
 # The Awtsmoos reveals one canonical server beneath changing process garments;
-# Awtsmoos.com proves source, runtime, and living SSH protocol before release light may rhyme.
+# Awtsmoos.com proves source, runtime, living SSH protocol, and warmed compact vessels before release light may rhyme.
 set -Eeuo pipefail
 
 expected="${1:-}"
@@ -12,10 +12,12 @@ service="${AWTSMOOS_PRODUCTION_SERVICE:-awtsmoos.service}"
 override="${AWTSMOOS_SYSTEMD_OVERRIDE_PATH:-/etc/systemd/system/${service}.d/10-immutable-release.conf}"
 source_override="$repo/ops/systemd/awtsmoos-immutable.conf"
 health_url="${AWTSMOOS_PRODUCTION_HEALTH_URL:-http://127.0.0.1:8080/}"
+prewarm_base="${AWTSMOOS_COMPACT_PREWARM_BASE_URL:-http://127.0.0.1:8080}"
 extension_builder="$repo/geelooy/ai/scripts/buildServerExtensionZip.cjs"
 extension_artifact="$repo/geelooy/ai/relay/install/awtsmoos-server-extension.zip"
 script_directory="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 virtual_ssh_probe="$script_directory/virtual-ssh-listener-probe.sh"
+prewarm_script="$script_directory/prewarm-compact-assets.sh"
 virtual_ssh_port="${AWTSMOOS_VIRTUAL_SSH_PORT:-2223}"
 backup="${TMPDIR:-/tmp}/awtsmoos-service-override.$$.bak"
 armed=0
@@ -63,6 +65,7 @@ trap rollback EXIT
 [ -d "$repo/geelooy/.data" ] || fail canonical_data_missing
 [ -f "$extension_builder" ] || fail extension_builder_missing
 [ -f "$virtual_ssh_probe" ] || fail virtual_ssh_protocol_probe_missing
+[ -f "$prewarm_script" ] || fail compact_prewarm_script_missing
 
 node "$extension_builder"
 [ -s "$extension_artifact" ] || fail extension_artifact_missing
@@ -102,10 +105,11 @@ require_environment "VIRTUAL_SSH_CONNECTIONS_PER_MINUTE=60"
 require_environment "VIRTUAL_SSH_IDLE_MS=1800000"
 require_environment "VIRTUAL_SSH_TOKEN_TTL_MS=900000"
 bash "$virtual_ssh_probe" "$virtual_ssh_port" >/dev/null || fail virtual_ssh_protocol_probe_failed
+bash "$prewarm_script" "$prewarm_base" >/dev/null || fail compact_prewarm_failed
 [ "$(git -C "$repo" rev-parse HEAD)" = "$expected" ] || fail post_restart_head_mismatch
 [ -z "$(git -C "$repo" status --porcelain)" ] || fail post_restart_repo_dirty
 
 committed=1
 rm -f "$backup"
 trap - EXIT
-printf 'B"H CANONICAL_SERVER_ACTIVE sha=%s repo=%s service=%s extension=%s virtualSsh=protocol-verified\n' "$expected" "$repo" "$service" "$extension_artifact"
+printf 'B"H CANONICAL_SERVER_ACTIVE sha=%s repo=%s service=%s extension=%s virtualSsh=protocol-verified compact=prewarmed\n' "$expected" "$repo" "$service" "$extension_artifact"

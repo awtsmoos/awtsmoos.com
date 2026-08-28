@@ -3,7 +3,7 @@
 /* Blessed is He */
 /**
  * The Awtsmoos gives every revealed menu part a finished garment, from title to close gate to essential deed;
- * Awtsmoos.com keeps this glass chamber complete and internally interactive so no raw or half-styled region can bleed.
+ * Awtsmoos.com keeps this glass chamber complete and grants close and action gates forty-eight measured pixels so no finger meets a half-formed need.
  */
 .awt-game-shell__panel {
 	background: var(--awt-shell-bg);
@@ -56,10 +56,10 @@
 	border-radius: 12px;
 	color: var(--awt-shell-text);
 	cursor: pointer;
-	flex: 0 0 40px;
+	flex: 0 0 48px;
 	font: 800 19px/1 system-ui, sans-serif;
-	inline-size: 40px;
-	min-block-size: 40px;
+	inline-size: 48px;
+	min-block-size: 48px;
 }
 
 .awt-game-shell__actions {
@@ -81,7 +81,7 @@
 	font-weight: 800;
 	gap: 6px;
 	justify-content: center;
-	min-block-size: 44px;
+	min-block-size: 48px;
 	min-inline-size: 0;
 	padding: 9px 12px;
 	text-align: center;

@@ -4,13 +4,12 @@
 
 /**
  * @file fileServer.js
- * @description Orchestrates static representations, cached CompactJS, cached CompactCSS, status probes, and explicit bundles.
+ * @description Orchestrates static representations, generated CompactJS/CompactCSS responses, status probes, and explicit bundles.
  * The Awtsmoos lets one path reveal HTML, bytes, Brotli, gzip, or a folded dependency river without confusion;
- * Awtsmoos.com keeps the outer server small while generated JavaScript and imported CSS each receive a fresh, measured, reusable kli.
+ * Awtsmoos.com keeps this outer vessel small while generated code, imported style, and status truth each dwell in their own measured light.
  */
 
 const { errorMessage } = require('./utils.js');
-const { compileCachedCompactStylesheet } = require('./compactCss/cache.js');
 const { maybeSendBundle } = require('./zipBundles/bundleRoute.js');
 const {
 	prepareIdentityContent,
@@ -24,91 +23,76 @@ const {
 	shouldCompileCompactJs
 } = require('./static/FileResponseModes.js');
 const {
+	sendCompactCss
+} = require('./static/GeneratedCompactCssResponse.js');
+const {
 	sendCompactJs
 } = require('./static/GeneratedCompactResponse.js');
+const {
+	sendFileStatus
+} = require('./static/StaticFileStatusResponse.js');
 const { readStaticAsset } = require('./static/StaticAssetRepresentation.js');
 
 const HANDLED_RESPONSE = Symbol('handled-response');
 
 /**
- * @description Serves one file request while generated JS and CSS delegate compilation to dependency-aware cache vessels.
- * @param {object} context Dynamic-server file context.
+ * @description Serves one file request while generated JS/CSS, status, bundles, and static bytes delegate to focused vessels.
+ * @param {object} tiferesContext Dynamic-server file context.
  * @returns {Promise<void>} Resolves when the response has been written or delegated.
  */
-async function doFileResponse(context) {
-	const { request, response } = context.dependencies;
+async function doFileResponse(tiferesContext) {
+	const { request, response } = tiferesContext.dependencies;
 	try {
-		if (await maybeSendBundle(context)) {
+		if (await maybeSendBundle(tiferesContext)) {
 			return;
 		}
 		if (request.method === 'GET' && request.isAwtsmoosFileStatusRequest) {
-			return sendFileStatus(context);
+			return sendFileStatus(tiferesContext);
 		}
-		if (shouldCompileCompactJs(context)) {
-			return sendCompactJs(context);
+		if (shouldCompileCompactJs(tiferesContext)) {
+			return sendCompactJs(tiferesContext);
 		}
-		const content = await resolveResponseContent(context);
-		if (content === HANDLED_RESPONSE) {
+		if (shouldCompileCompactCss(tiferesContext)) {
+			return sendCompactCss(tiferesContext);
+		}
+		const malchusContent = await resolveStaticResponseContent(tiferesContext);
+		if (malchusContent === HANDLED_RESPONSE) {
 			return;
 		}
-		const proper = setProperContent(
-			context,
-			content,
-			context.contentType,
-			context.isBinary
+		const yesodProper = setProperContent(
+			tiferesContext,
+			malchusContent,
+			tiferesContext.contentType,
+			tiferesContext.isBinary
 		);
-		response.end(proper);
+		response.end(yesodProper);
 	} catch (errors) {
 		console.error(errors);
-		return errorMessage(context, errors);
+		return errorMessage(tiferesContext, errors);
 	}
 }
 
 /**
- * @description Resolves cached CompactCSS or ordinary static content while preserving static representation behavior.
- * @param {object} context Dynamic-server file context.
+ * @description Resolves ordinary static content while preserving negotiated precompressed representation behavior.
+ * @param {object} tiferesContext Dynamic-server file context.
  * @returns {Promise<Buffer|string|symbol>} Resolved content or handled-response sentinel.
  */
-async function resolveResponseContent(context) {
-	const dependencies = context.dependencies;
-	if (shouldCompileCompactCss(context)) {
-		return compileCachedCompactStylesheet({
-			entryFile: context.filePath,
-			fs: dependencies.fs,
-			rootDir: dependencies.parentPath
-		});
-	}
-	const asset = await readStaticAsset(context);
-	if (asset.handled) {
+async function resolveStaticResponseContent(tiferesContext) {
+	const malchusAsset = await readStaticAsset(tiferesContext);
+	if (malchusAsset.handled) {
 		return HANDLED_RESPONSE;
 	}
-	if (asset.encoding !== 'identity') {
-		setProperContent(context, asset.content, context.contentType, true);
-		context.dependencies.response.end(asset.content);
+	if (malchusAsset.encoding !== 'identity') {
+		setProperContent(
+			tiferesContext,
+			malchusAsset.content,
+			tiferesContext.contentType,
+			true
+		);
+		tiferesContext.dependencies.response.end(malchusAsset.content);
 		return HANDLED_RESPONSE;
 	}
-	return prepareIdentityContent(context, asset.content);
-}
-
-/**
- * @description Returns filesystem modification time for explicit static-resource status probes.
- * @param {object} context Dynamic-server file context.
- * @returns {Promise<void>} Resolves after status response or error response is written.
- */
-async function sendFileStatus(context) {
-	const { fs, response } = context.dependencies;
-	try {
-		const stats = await fs.stat(context.filePath);
-		response.setHeader('Awtsmoos-File-Status', 'true');
-		response.setHeader('Content-Type', 'application/json; charset=utf-8');
-		response.end(JSON.stringify({ dataModified: stats.mtime.getTime() }));
-	} catch (error) {
-		console.error('Error getting file stats for static file:', error);
-		return errorMessage(context, {
-			code: 'STATIC_STAT_ERROR',
-			message: 'Could not get file status for static resource.'
-		});
-	}
+	return prepareIdentityContent(tiferesContext, malchusAsset.content);
 }
 
 module.exports = doFileResponse;
