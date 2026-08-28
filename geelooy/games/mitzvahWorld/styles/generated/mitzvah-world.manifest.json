@@ -21,11 +21,6 @@
 				"previous": "max(12px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left))"
 			},
 			{
-				"key": "root|#mitzvah-world-root .Awtsmoos-menu-boot|background",
-				"next": "radial-gradient(circle at 50% 42%, rgba(117, 245, 191, 0.1), rgba(3, 15, 13, 0.94) 58%)",
-				"previous": "radial-gradient(circle at 50% 20%, rgba(64, 142, 103, .26), transparent 42%), rgba(4, 15, 9, .88)"
-			},
-			{
 				"key": "root|#mitzvah-world-root .Awtsmoos-context-action|max-width",
 				"next": "min(240px, calc(100vw - var(--mw-safe-left) - var(--mw-safe-right) - 24px))",
 				"previous": "min(190px, calc(100vw - 32px))"
@@ -71,6 +66,7 @@
 		"styles/source/fragments/mitzvah-world-actions-001.css",
 		"styles/source/fragments/mitzvah-world-action-interactions-001.css",
 		"styles/source/fragments/mitzvah-world-actions-002.css",
+		"styles/source/fragments/mitzvah-world-actions-003-minimap-controls.css",
 		"styles/source/fragments/mitzvah-world-game-rail-001.css",
 		"styles/source/fragments/mitzvah-world-glyphs-001.css",
 		"styles/source/fragments/mitzvah-world-houses-001.css",
@@ -113,27 +109,27 @@
 		"styles/mitzvah-world-creative-dock.css",
 		"styles/source/mitzvah-world.css"
 	],
-	"inputBytes": 95549,
-	"outputBytes": 74416,
+	"inputBytes": 99923,
+	"outputBytes": 77993,
 	"stateCoverage": {
 		"missing": [],
 		"ready": true
 	},
 	"representations": {
 		"brotli": {
-			"bytes": 10811,
+			"bytes": 11365,
 			"encoding": "br",
-			"sha256": "a27686169ca70d089afdfaa44e596b85aeecc70e4454cef10e1d5d02a988ff52"
+			"sha256": "1160b7273f17ae8f0d96454cbdaea3e80b239965c0c962384542023a707a08af"
 		},
 		"gzip": {
-			"bytes": 12601,
+			"bytes": 13354,
 			"encoding": "gzip",
-			"sha256": "03ef6b168cbb2f8d9d37df29d67380c0dd10697434a7e1f47b4b1bd1a135321d"
+			"sha256": "b5ba679fa6e57ba86b71c789615b7cb0e5d87b81d3e835aad4d975b96d7aba81"
 		},
 		"identity": {
-			"bytes": 74417,
+			"bytes": 77994,
 			"encoding": "identity",
-			"sha256": "f57a67d5f835204abadb5cf59dfa91a1b0220409ed8b8f3f5c11e84f613c645e"
+			"sha256": "4ca47aaaf036ba659ad2e58199fa987d678be52949d9d414a34f90a2210e6815"
 		}
 	}
 }

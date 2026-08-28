@@ -2,14 +2,14 @@
 Boruch Hashem
 Blessed is He
 
-The Awtsmoos gives measured progress a luminous vessel without burying the door;
-Awtsmoos.com keeps first entry reachable as the viewport changes form once more.
+The Awtsmoos makes waiting itself a living threshold, never a dead painted wall;
+Awtsmoos.com layers transparent light upon light so real progress remains readable through it all.
 */
 
 /**
- * The loading and selection vessel respects the dynamic viewport and safe area.
- * Genuine progress remains visible while the card itself can scroll on unusually
- * short screens instead of sending its primary action beyond the glass.
+ * The loading vessel preserves real progress while giving every surface depth through
+ * translucent gradients instead of flat color blocks. The card remains scroll-safe on
+ * short viewports and never hides the primary path behind decorative motion.
  */
 #mitzvah-world-root .Awtsmoos-menu-boot {
 	position: fixed;
@@ -18,19 +18,31 @@ Awtsmoos.com keeps first entry reachable as the viewport changes form once more.
 	display: grid;
 	place-items: center;
 	padding: max(12px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
-	background: radial-gradient(circle at 50% 20%, rgba(64, 142, 103, .26), transparent 42%), rgba(4, 15, 9, .88);
-	backdrop-filter: blur(12px);
+	background:
+		radial-gradient(circle at 18% 12%, rgba(80, 255, 182, .24), transparent 34%),
+		radial-gradient(circle at 82% 20%, rgba(111, 166, 255, .18), transparent 38%),
+		radial-gradient(circle at 50% 88%, rgba(242, 205, 101, .12), transparent 42%),
+		linear-gradient(145deg, rgba(2, 12, 8, .96), rgba(7, 28, 18, .9) 52%, rgba(3, 17, 20, .94));
+	backdrop-filter: blur(14px) saturate(1.08);
 	overflow: auto;
 }
 
 #mitzvah-world-root .Awtsmoos-loading-card {
+	position: relative;
+	isolation: isolate;
 	width: min(520px, calc(100vw - 40px));
 	max-height: calc(100dvh - 24px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
 	padding: 28px;
-	border: 1px solid rgba(130, 244, 185, .3);
+	border: 1px solid rgba(152, 255, 202, .34);
 	border-radius: 22px;
-	background: rgba(5, 28, 16, .92);
-	box-shadow: 0 24px 80px rgba(0, 0, 0, .44);
+	background:
+		radial-gradient(circle at 16% 8%, rgba(121, 255, 193, .13), transparent 36%),
+		radial-gradient(circle at 88% 92%, rgba(105, 158, 255, .1), transparent 40%),
+		linear-gradient(155deg, rgba(7, 35, 21, .92), rgba(4, 22, 16, .84) 56%, rgba(8, 24, 31, .88));
+	box-shadow:
+		0 24px 80px rgba(0, 0, 0, .44),
+		inset 0 1px 0 rgba(255, 255, 255, .08),
+		0 0 60px rgba(62, 233, 151, .08);
 	text-align: left;
 	overflow: auto;
 	overscroll-behavior: contain;
@@ -49,6 +61,7 @@ Awtsmoos.com keeps first entry reachable as the viewport changes form once more.
 	margin: 0;
 	color: #fff7d0;
 	font-size: clamp(24px, 5vw, 36px);
+	text-shadow: 0 0 24px rgba(255, 232, 150, .12);
 }
 
 #mitzvah-world-root #loadingMessage {
@@ -83,16 +96,17 @@ Awtsmoos.com keeps first entry reachable as the viewport changes form once more.
 	border: 0;
 	border-radius: 999px;
 	overflow: hidden;
-	background: #10281a;
+	background: linear-gradient(90deg, rgba(14, 52, 31, .78), rgba(11, 39, 43, .72), rgba(36, 29, 18, .72));
+	box-shadow: inset 0 1px 4px rgba(0, 0, 0, .42), 0 0 18px rgba(54, 219, 138, .06);
 }
 
 #mitzvah-world-root .Awtsmoos-progress-group progress::-webkit-progress-bar {
-	background: #10281a;
+	background: linear-gradient(90deg, rgba(14, 52, 31, .78), rgba(11, 39, 43, .72), rgba(36, 29, 18, .72));
 }
 
 #mitzvah-world-root .Awtsmoos-progress-group progress::-webkit-progress-value,
 #mitzvah-world-root .Awtsmoos-progress-group progress::-moz-progress-bar {
-	background: linear-gradient(90deg, #45d888, #f5cf72);
+	background: linear-gradient(90deg, #45d888, #6ee5c1 42%, #f5cf72 76%, #fff1ad);
 }
 
 #mitzvah-world-root #modelProgressDetail {

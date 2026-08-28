@@ -3347,7 +3347,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.resetTreeToBase = resetTreeToBase;
-	const __awtsmoosDefault_265389 = {
+	const __awtsmoosDefault_oy2mek = {
 		Bone,
 		BufferAttribute,
 		BufferGeometry,
@@ -3360,7 +3360,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		Scene,
 		Vector3
 	};
-	__exports.default = __awtsmoosDefault_265389;
+	__exports.default = __awtsmoosDefault_oy2mek;
 }
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzFallbackBoxMesh.js ----
@@ -20010,8 +20010,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	const loadTinyGlb = loadTinyGltf;
 	__exports.loadTinyGlb = loadTinyGlb;
 
-	const __awtsmoosDefault_285hzc = { loadTinyGltf, loadTinyGlb };
-	__exports.default = __awtsmoosDefault_285hzc;
+	const __awtsmoosDefault_17y5fdn = { loadTinyGltf, loadTinyGlb };
+	__exports.default = __awtsmoosDefault_17y5fdn;
 }
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteModelResponseCache.js ----

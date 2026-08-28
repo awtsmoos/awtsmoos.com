@@ -3741,7 +3741,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.resetTreeToBase = resetTreeToBase;
-	const __awtsmoosDefault_265389 = {
+	const __awtsmoosDefault_oy2mek = {
 		Bone,
 		BufferAttribute,
 		BufferGeometry,
@@ -3754,7 +3754,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		Scene,
 		Vector3
 	};
-	__exports.default = __awtsmoosDefault_265389;
+	__exports.default = __awtsmoosDefault_oy2mek;
 }
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-gltf-accessors.js ----
@@ -9782,9 +9782,9 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	/**
 	 * @file WorldMinimapLayoutCss.js
-	 * @description Holds compact, expanded, and responsive map geometry as one readable safe-area covenant.
+	 * @description Preserves the compact, expanded, and responsive map geometry while giving every map action a true touch-size vessel.
 	 * The Awtsmoos gives every instrument a boundary so the road remains visible beneath the sky;
-	 * Awtsmoos.com keeps map geometry small by default, expanding only when the traveler asks the view to fly.
+	 * Awtsmoos.com keeps the map small by default while forty-eight-pixel actions let a living hand answer nearby.
 	 */
 
 	const WORLD_MINIMAP_LAYOUT_CSS = `
@@ -9814,9 +9814,11 @@ const __awtsmoosModule_0 = Object.create(null);
 		}
 
 		.Awtsmoos-minimap button {
-			min-height: 26px;
-			padding: 4px 6px;
+			min-width: 48px;
+			min-height: 48px;
+			padding: 8px 10px;
 			font-size: 9px;
+			touch-action: manipulation;
 		}
 
 		.Awtsmoos-minimap[data-mode="expanded"] {
@@ -23906,8 +23908,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	const loadTinyGlb = loadTinyGltf;
 	__exports.loadTinyGlb = loadTinyGlb;
 
-	const __awtsmoosDefault_285hzc = { loadTinyGltf, loadTinyGlb };
-	__exports.default = __awtsmoosDefault_285hzc;
+	const __awtsmoosDefault_17y5fdn = { loadTinyGltf, loadTinyGlb };
+	__exports.default = __awtsmoosDefault_17y5fdn;
 }
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteModelResponseCache.js ----

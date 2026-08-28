@@ -2,7 +2,7 @@
 Boruch Hashem
 Blessed is He
 
-The Awtsmoos hides depth until it is needed; Awtsmoos.com keeps keys, focus, minimap, and metadata quiet at rest, precise in use, and fully bounded inside the living world.
+The Awtsmoos hides action depth until it is needed; Awtsmoos.com keeps keys, focus, and metadata quiet at rest and exact in deed.
 */
 
 #mitzvah-world-root .Mitzvah-slot-key {
@@ -46,77 +46,4 @@ The Awtsmoos hides depth until it is needed; Awtsmoos.com keeps keys, focus, min
 	color: var(--mw-text-muted);
 	font-size: 9px;
 	transition: border-color var(--mw-motion-fast) ease, background var(--mw-motion-fast) ease, color var(--mw-motion-fast) ease;
-}
-
-#mitzvah-world-root .Awtsmoos-minimap {
-	position: fixed;
-	right: var(--mw-safe-right);
-	bottom: var(--mw-safe-bottom);
-	z-index: var(--mw-z-status);
-	width: min(146px, calc(100vw - var(--mw-safe-left) - var(--mw-safe-right)));
-	max-height: min(42vh, 260px);
-	overflow: hidden;
-	border: 1px solid var(--mw-border-soft);
-	border-radius: var(--mw-radius-md);
-	background: var(--mw-surface-deep);
-	box-shadow: var(--mw-shadow-control);
-	opacity: 1;
-	transition: opacity var(--mw-motion-normal) ease, transform var(--mw-motion-normal) var(--mw-ease-out), border-color var(--mw-motion-fast) ease;
-}
-
-#mitzvah-world-root .Awtsmoos-minimap header {
-	display: flex;
-	align-items: center;
-	gap: 6px;
-	min-width: 0;
-	padding: 6px 7px;
-	color: var(--mw-text-muted);
-	font-size: 10px;
-}
-
-#mitzvah-world-root .Awtsmoos-minimap header button {
-	min-width: 32px;
-	min-height: 32px;
-	margin-left: auto;
-	padding: 4px 7px;
-	border: 1px solid var(--mw-border-soft);
-	border-radius: 8px;
-	background: var(--mw-surface-control);
-	color: var(--mw-text-primary);
-	cursor: pointer;
-	transition: transform var(--mw-motion-fast) var(--mw-ease-out), background var(--mw-motion-fast) ease, border-color var(--mw-motion-fast) ease, box-shadow var(--mw-motion-fast) ease;
-}
-
-@media (hover: hover) {
-	#mitzvah-world-root .Awtsmoos-minimap header button:hover:not(:disabled) {
-		border-color: var(--mw-border-strong);
-		background: var(--mw-surface-control-hover);
-		transform: translateY(-1px);
-	}
-}
-
-#mitzvah-world-root .Awtsmoos-minimap header button:focus-visible {
-	outline: none;
-	border-color: var(--mw-accent-strong);
-	box-shadow: var(--mw-focus-ring);
-}
-
-#mitzvah-world-root .Awtsmoos-minimap header button:active:not(:disabled) {
-	transform: scale(0.95);
-}
-
-#mitzvah-world-root .Awtsmoos-minimap header button:disabled {
-	cursor: not-allowed;
-	opacity: 0.46;
-}
-
-#mitzvah-world-root .Awtsmoos-minimap[data-collapsed="true"] {
-	transform: translateX(calc(100% - 42px));
-	opacity: 0.76;
-}
-
-@media (max-width: 520px) {
-	#mitzvah-world-root .Awtsmoos-minimap {
-		width: min(124px, 34vw);
-	}
 }
