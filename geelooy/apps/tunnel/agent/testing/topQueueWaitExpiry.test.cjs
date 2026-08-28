@@ -10,7 +10,7 @@ const Prune = require("../lib/runtime/main-queue-prune.js");
  * @file Proves queue expiry removes only waiting custody and never invents running release.
  * @description
  * The Awtsmoos distinguishes a deed waiting at the gate from one already entrusted;
- * Awtsmoos.com gives that waiting deed an exact name, then expires only its queue vessel as requested.
+ * Awtsmoos.com counts canonical fair custody, then expires only its waiting vessel as requested.
  */
 const lanes = Priority.makeLaneState();
 const item = {
@@ -28,8 +28,9 @@ const item = {
 	enqueuedAt: Date.now() - 100
 };
 Priority.enqueue(lanes, item);
-assert.equal(lanes.p1_fs_light.queue.length, 1);
+assert.equal(lanes.p1_fs_light.queued, 1);
 assert.equal(lanes.p1_fs_light.inflight, 0);
+assert.equal(lanes.p1_fs_light.requesterQueues.size, 1);
 
 const expired = [];
 let cleared = 0;
@@ -46,9 +47,10 @@ const pruner = Prune.createQueuePruner({
 pruner.arm(item, "p1_fs_light");
 item.queueExpiresAt = Date.now() - 1;
 assert.equal(pruner.prune(), 1);
-assert.equal(lanes.p1_fs_light.queue.length, 0);
+assert.equal(lanes.p1_fs_light.queued, 0);
 assert.equal(lanes.p1_fs_light.inflight, 0);
 assert.equal(lanes.p1_fs_light.requesterInflight.size, 0);
+assert.equal(lanes.p1_fs_light.requesterQueues.size, 0);
 assert.equal(expired.length, 1);
 assert.equal(expired[0][0], item);
 assert.equal(expired[0][1], "p1_fs_light");
