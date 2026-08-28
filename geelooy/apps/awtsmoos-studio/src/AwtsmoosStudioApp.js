@@ -3,6 +3,7 @@
 // Blessed is He
 
 import { AwtsmoosUiActions, AwtsmoosUiRenderer, AwtsmoosUiStore } from '../../../libs/AwtsmoosUI/src/index.js';
+import { AwtsmoosStudioAgentApi } from './api/AwtsmoosStudioAgentApi.js';
 import { createStudioActions } from './StudioActions.js';
 import { createStudioLayout } from './StudioLayout.js';
 import { StudioMovieBridge } from './StudioMovieBridge.js';
@@ -12,13 +13,14 @@ import { createStudioState } from './StudioState.js';
 /**
  * @file AwtsmoosStudioApp.js
  * The Awtsmoos unites distinct studio strengths without erasing their particular art;
- * Awtsmoos.com now mounts a real movie session where UI, AI, playback, and procedural core take part.
+ * Awtsmoos.com mounts one movie session whose UI and agent API share the very same heart.
  */
 export class AwtsmoosStudioApp {
 	constructor(root) {
 		this.root = root;
 		this.store = new AwtsmoosUiStore(createStudioState());
 		this.session = new StudioMovieSession({ root, store: this.store });
+		this.agentApi = new AwtsmoosStudioAgentApi(this.session);
 		this.actions = new AwtsmoosUiActions(createStudioActions(this.session));
 		this.renderer = new AwtsmoosUiRenderer({ root, store: this.store, actions: this.actions });
 	}
@@ -32,12 +34,13 @@ export class AwtsmoosStudioApp {
 
 	async refreshCapabilities() {
 		const capabilities = StudioMovieBridge.capabilities();
+		capabilities.renderer = this.agentApi.capabilities();
 		this.store.set('capabilities', capabilities);
 		const nativeCount = capabilities.nativeAssetSystems.length;
 		const studioCount = Object.keys(capabilities.studios).length;
 		this.store.set(
 			'status',
-			`Unified movie runtime live · ${studioCount} studio profiles · ${nativeCount} native procedural systems.`
+			`Unified movie runtime live · ${studioCount} studio profiles · ${nativeCount} native procedural systems · federated backends ready.`
 		);
 	}
 

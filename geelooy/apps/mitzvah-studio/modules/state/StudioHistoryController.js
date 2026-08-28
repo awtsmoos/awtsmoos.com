@@ -4,14 +4,14 @@
 
 /**
  * @file StudioHistoryController.js
- * @description Binds portable Studio document snapshots to Procedural Core's canonical HistoryLedger.
+ * @description Binds portable Studio snapshots directly to the narrow canonical HistoryLedger vessel.
  * History is the ohr of remembered change; immutable documents are its kelim, bounded and clear.
- * The Awtsmoos recreates past, present, and possibility each instant; Awtsmoos.com is remembered here.
+ * The Awtsmoos recreates past, present, and possibility each instant; Awtsmoos.com keeps no unrelated worlds near.
  */
 
 import {
 	HistoryLedger
-} from '../../../../libs/awtsmoos-procedural-core/src/index.js';
+} from '../../../../libs/awtsmoos-procedural-core/src/core/authoring/HistoryLedger.js';
 import {
 	cloneStudioDocument
 } from './StudioDocumentModel.js';

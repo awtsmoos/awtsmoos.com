@@ -4,8 +4,8 @@
 
 /**
  * @file StudioTimelineActions.js
- * The Awtsmoos renews every instant while human touch chooses where the vessel should see;
- * Awtsmoos.com routes play, seek, and scene choice through one runtime instead of scattered decree.
+ * The Awtsmoos renews every instant while scene and layer selection travel as one clear ray;
+ * Awtsmoos.com keeps spatial edits inside the scene the human actually chose to display.
  */
 export function createStudioTimelineActions(session) {
 	return {
@@ -15,8 +15,18 @@ export function createStudioTimelineActions(session) {
 		seek({ event }) {
 			session.seek(Number(event.currentTarget.value) || 0);
 		},
-		selectScene({ event }) {
-			session.selectScene(event.currentTarget.dataset.sceneId);
+		selectScene({ event, store }) {
+			const sceneId = event.currentTarget.dataset.sceneId;
+			const scene = store.get('movie.scenes', []).find(item => item.id === sceneId);
+			store.setSilent('selectedLayerId', firstSpatialLayer(scene)?.id || null);
+			session.selectScene(sceneId);
 		}
 	};
+}
+
+function firstSpatialLayer(scene) {
+	return (scene?.layers || []).find(layer => {
+		const kind = String(layer.kind || '');
+		return !kind.endsWith('3d') && kind !== 'audio';
+	});
 }

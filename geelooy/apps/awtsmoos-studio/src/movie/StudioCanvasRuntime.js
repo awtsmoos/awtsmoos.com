@@ -2,12 +2,12 @@
 // Boruch Hashem
 // Blessed is He
 
-import { CanvasMovieRenderer } from '../../../shared/movie/runtime/CanvasMovieRenderer.js';
+import { StudioMovieRenderer } from './StudioMovieRenderer.js';
 
 /**
  * @file StudioCanvasRuntime.js
- * The Awtsmoos renews the present frame while the canvas receives only its measured ray;
- * Awtsmoos.com keeps playback light by painting time directly instead of rebuilding DOM all day.
+ * The Awtsmoos renews the present frame while screen and world share one truthful ray;
+ * Awtsmoos.com binds playback to the federated Studio renderer without rebuilding the DOM all day.
  */
 export class StudioCanvasRuntime {
 	constructor(root, store) {
@@ -23,7 +23,7 @@ export class StudioCanvasRuntime {
 		if (!canvas) return false;
 		if (canvas !== this.canvas) {
 			this.canvas = canvas;
-			this.renderer = new CanvasMovieRenderer(canvas);
+			this.renderer = new StudioMovieRenderer(canvas);
 		}
 		return true;
 	}

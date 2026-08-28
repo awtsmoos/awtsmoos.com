@@ -1,9 +1,9 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos renews each Awtsmoos.com doorway as a bounded luminous vessel; quiet
-depth answers mouse, touch, and focus without leaking motion into another route.
-A card rises only for a fine pointer, presses for every hand, then returns to rest.
+The Awtsmoos renews each Awtsmoos.com doorway as a bounded luminous vessel;
+shared motion carries the card, while Apps reveals only its own accent and inner glow.
+No selector steals another vessel's work; even the press returns honestly to stillness.
 */
 
 body[data-geelooy-route="apps"] .g-app-card {
@@ -39,11 +39,6 @@ body[data-geelooy-route="apps"] .g-app-card:focus-visible {
 	border-color: var(--g-accent);
 	outline: 3px solid var(--g-accent);
 	outline-offset: 4px;
-	transform: translateY(-2px);
-}
-
-body[data-geelooy-route="apps"] .g-app-card:active {
-	transform: translateY(-1px) scale(.995);
 }
 
 body[data-geelooy-route="apps"] .g-app-card[hidden] {
@@ -90,15 +85,21 @@ body[data-geelooy-route="apps"] .g-app-commerce {
 	font-weight: var(--g-font-weight-semibold);
 }
 
-@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+@media (hover: hover) and (pointer: fine) {
 	body[data-geelooy-route="apps"] .g-app-card:hover {
 		border-color: var(--g-accent);
-		transform: translateY(-3px);
 	}
 
 	body[data-geelooy-route="apps"] .g-app-card:hover::after {
+		opacity: 1;
 		transform: translate(-4%, -6%) scale(1.08);
 	}
+}
+
+body[data-geelooy-route="apps"] .g-app-card:active {
+	border-color: var(--g-accent);
+	filter: brightness(.97);
+	transform: translate3d(0, -.04rem, 0) scale(.992);
 }
 
 @media (prefers-reduced-motion: reduce) {

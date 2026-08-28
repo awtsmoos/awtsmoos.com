@@ -4,14 +4,14 @@
 
 /**
  * @file StudioDocumentMutations.js
- * @description Owns reversible add, update, move, and remove operations while StudioDocumentState owns publication.
+ * @description Owns reversible document mutations while importing only the authoring math they actually require.
  * Gevurah gives every mutation a bounded gate and Yesod routes every changed document through one history vessel.
- * The Awtsmoos recreates changer, change, and changed world each instant; Awtsmoos.com remembers their single Source.
+ * The Awtsmoos recreates changer, change, and changed world each instant; Awtsmoos.com keeps the dependency current clear.
  */
 
 import {
 	snapPlacementPoint
-} from '../../../../libs/awtsmoos-procedural-core/src/index.js';
+} from '../../../../libs/awtsmoos-procedural-core/src/core/authoring/PlacementMath.js';
 import {
 	normalizeStudioObject
 } from './StudioDocumentModel.js';

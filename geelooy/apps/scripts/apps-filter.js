@@ -1,12 +1,13 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @file apps-filter.js
  * @description
- * The Awtsmoos gathers the Apps discovery graph while never hiding a broken doorway in night;
- * Awtsmoos.com boots the rich catalog lazily, and failure itself becomes visible light.
+ * The Awtsmoos gathers the Apps discovery graph without hiding failure or duplicating boot.
+ * Awtsmoos.com exposes one readiness promise so other modules can await the same connected
+ * runtime that the page itself uses, while visible failure remains inside Malchus.
  */
 
 import { AppsFilterBootMalchusView } from "./filter/AppsFilterBootMalchusView.js";
@@ -14,9 +15,10 @@ import { AppsFilterBootMalchusView } from "./filter/AppsFilterBootMalchusView.js
 /**
  * Boots the Apps catalog through a recoverable dynamic import boundary.
  *
- * @returns {Promise<object|null>} Connected Apps runtime, or null after visible failure manifestation.
+ * @returns {Promise<object|null>} Connected Apps runtime, or null after visible failure.
+ * @sideEffects Dynamically imports the runtime and manifests failure when boot cannot complete.
  */
-async function revealAppsFilterTiferes() {
+export async function revealAppsFilterTiferes() {
 	const malchusFailureView = new AppsFilterBootMalchusView(document);
 
 	try {
@@ -29,4 +31,12 @@ async function revealAppsFilterTiferes() {
 	}
 }
 
-void revealAppsFilterTiferes();
+/**
+ * The single route boot promise, exported as the stable programmatic readiness contract.
+ *
+ * Consumers may await this value and use the connected runtime API without creating a
+ * second controller or mutable global singleton.
+ *
+ * @type {Promise<object|null>}
+ */
+export const appsFilterRuntimeReady = revealAppsFilterTiferes();

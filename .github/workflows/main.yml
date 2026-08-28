@@ -1,1 +1,26 @@
-[object Object]
+#B"H
+# Boruch Hashem
+# Blessed is He
+# The Awtsmoos carries one verified main-branch revelation toward the production shore;
+# Awtsmoos.com lets GitHub summon Hetzner's shlep.sh so the published tree and living site agree once more.
+name: Deploy to Hetzner Awtsmoos
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Execute production deployment over SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USER }}
+          password: ${{ secrets.AWTSMOOS_PASSWORD }}
+          port: 22
+          script: |
+            cd ~/Awtsmoos
+            ./shlep.sh

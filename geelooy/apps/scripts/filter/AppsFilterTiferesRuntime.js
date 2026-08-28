@@ -1,37 +1,40 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+
+import { PUBLIC_APPS } from "../catalog/index.mjs";
+import { AppsFilterMalchusView } from "./AppsFilterMalchusView.js";
+import { ChochmahAppsFilterStateRuntime } from "./ChochmahAppsFilterStateRuntime.js";
+import { HodAppFilterPolicy } from "./HodAppFilterPolicy.js";
+import { NetzachAppsFilterBindings } from "./NetzachAppsFilterBindings.js";
+
 /**
  * @file AppsFilterTiferesRuntime.js
  * @description
- * The Awtsmoos harmonizes input, pure policy, and visible catalog without making one
- * layer impersonate another. Awtsmoos.com keeps lifecycle in Tiferes: the view owns
- * Malchus manifestation, Hod owns normalization, and this runtime joins them cleanly.
+ * Tiferes joins catalog, policy, view, and event endurance without absorbing their work.
+ * The Awtsmoos recreates every intention and manifestation anew; Awtsmoos.com lets
+ * Chochmah remember state while Malchus writes DOM, Hod normalizes, and Netzach listens.
  */
-import { PUBLIC_APPS } from "../catalog/index.mjs";
-import { AppsFilterMalchusView } from "./AppsFilterMalchusView.js";
-import { HodAppFilterPolicy } from "./HodAppFilterPolicy.js";
-
-/** Coordinates Apps filtering with an honest, abortable listener lifecycle. */
-export class AppsFilterTiferesRuntime {
+export class AppsFilterTiferesRuntime extends ChochmahAppsFilterStateRuntime {
 	/**
-	 * Creates a dormant Apps filter runtime.
+	 * Creates one dormant coordinator over explicit collaborating vessels.
 	 *
 	 * @param {ParentNode} malchusRoot Apps route root, normally document.
 	 */
 	constructor(malchusRoot) {
-		this.malchusView = new AppsFilterMalchusView(malchusRoot);
-		this.netzachAbortController = null;
-		this.hodPolicy = new HodAppFilterPolicy();
-		this.visibleCount = 0;
-		this.isConnected = false;
+		const malchusView = new AppsFilterMalchusView(malchusRoot);
+		super(malchusView);
+		this.netzachBindings = new NetzachAppsFilterBindings(
+			this.malchusView,
+			this.apply.bind(this)
+		);
 	}
 
 	/**
-	 * Renders the catalog, binds route-owned listeners, and applies initial state once.
+	 * Mounts the catalog, connects event lifetime, and manifests initial state once.
 	 *
 	 * @returns {AppsFilterTiferesRuntime} This connected runtime.
-	 * @sideEffects Replaces catalog cards and binds submit/input/change listeners.
+	 * @sideEffects Renders catalog cards and connects route-owned listeners.
 	 */
 	connect() {
 		if (this.isConnected) {
@@ -39,18 +42,17 @@ export class AppsFilterTiferesRuntime {
 		}
 
 		this.malchusView.mountCatalog(PUBLIC_APPS);
-		this.netzachAbortController = new AbortController();
-		this.bindListeners(this.netzachAbortController.signal);
+		this.netzachBindings.connect();
 		this.isConnected = true;
 		this.apply();
 		return this;
 	}
 
 	/**
-	 * Re-derives pure filter policy from controls and manifests it across current cards.
+	 * Re-derives policy from current controls and manifests it across current cards.
 	 *
-	 * @returns {number} Number of visible apps after the filter is applied.
-	 * @sideEffects Updates card hidden states, empty-state visibility, and result text.
+	 * @returns {number} Number of visible apps after filtering.
+	 * @sideEffects Updates card visibility, empty-state visibility, and result text.
 	 */
 	apply() {
 		this.hodPolicy = new HodAppFilterPolicy(this.malchusView.readState());
@@ -59,54 +61,13 @@ export class AppsFilterTiferesRuntime {
 	}
 
 	/**
-	 * Removes every event listener this runtime owns without destroying rendered cards.
+	 * Releases listener lifetime while preserving rendered catalog content and state.
 	 *
 	 * @returns {AppsFilterTiferesRuntime} This disconnected runtime.
-	 * @sideEffects Aborts route-owned DOM event listeners.
 	 */
 	destroy() {
-		this.netzachAbortController?.abort();
-		this.netzachAbortController = null;
+		this.netzachBindings.destroy();
 		this.isConnected = false;
 		return this;
-	}
-
-	/**
-	 * Exposes stable filter state without returning DOM elements or mutable policy objects.
-	 *
-	 * @returns {Readonly<{connected:boolean,query:string,category:string,visibleCount:number}>} Runtime snapshot.
-	 */
-	snapshot() {
-		const hodState = this.hodPolicy.snapshot();
-		return Object.freeze({
-			connected: this.isConnected,
-			query: hodState.query,
-			category: hodState.category,
-			visibleCount: this.visibleCount
-		});
-	}
-
-	/**
-	 * Binds all route-owned listeners through one AbortSignal for truthful cleanup.
-	 *
-	 * @param {AbortSignal} netzachSignal Signal controlling this listener lifetime.
-	 * @returns {void}
-	 * @sideEffects Registers submit, input, and change listeners on filter controls.
-	 */
-	bindListeners(netzachSignal) {
-		this.malchusView.filterForm.addEventListener("submit", this.handleSubmit.bind(this), { signal: netzachSignal });
-		this.malchusView.searchInput.addEventListener("input", this.apply.bind(this), { signal: netzachSignal });
-		this.malchusView.categorySelect.addEventListener("change", this.apply.bind(this), { signal: netzachSignal });
-	}
-
-	/**
-	 * Prevents form navigation and reapplies local catalog filters.
-	 *
-	 * @param {SubmitEvent} malchusEvent Native form submission event.
-	 * @returns {void}
-	 */
-	handleSubmit(malchusEvent) {
-		malchusEvent.preventDefault();
-		this.apply();
 	}
 }

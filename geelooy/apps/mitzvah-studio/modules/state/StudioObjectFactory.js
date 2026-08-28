@@ -4,14 +4,14 @@
 
 /**
  * @file StudioObjectFactory.js
- * @description Creates deterministic placed objects while Procedural Core owns snapping law.
+ * @description Creates deterministic placed objects through the narrow authoring-math vessel.
  * Chochmah offers raw possibility; Binah gives it measured form; Malchus receives a place in the world.
- * The Awtsmoos renews form and position from nothing each instant; Awtsmoos.com remembers that unity here.
+ * The Awtsmoos renews form and position from nothing each instant; Awtsmoos.com keeps only the needed path unfurled.
  */
 
 import {
 	snapPlacementPoint
-} from '../../../../libs/awtsmoos-procedural-core/src/index.js';
+} from '../../../../libs/awtsmoos-procedural-core/src/core/authoring/PlacementMath.js';
 import {
 	normalizeStudioObject
 } from './StudioDocumentModel.js';

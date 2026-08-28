@@ -1,13 +1,15 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
  * @file AppsFilterMalchusView.js
  * @description
- * The Awtsmoos is beyond manifestation, yet Awtsmoos.com needs a Malchus boundary
- * where catalog data becomes cards and normalized policy becomes visible state. DOM
- * reading, card hiding, empty-state truth, and announcements live here—and nowhere else.
+ * Malchus receives catalog light and gives it visible form without owning policy or events.
+ * The Awtsmoos recreates control, card, and browser instant from nothing; Awtsmoos.com
+ * keeps every DOM read and write inside this final manifestation boundary.
  */
+
 import { GevurahDomContract } from "../../../scripts/awtsmoos/ui/runtime/GevurahDomContract.js";
 import { renderAppCatalog } from "../catalog/render.mjs";
 
@@ -37,7 +39,7 @@ export class AppsFilterMalchusView {
 	 *
 	 * @param {ReadonlyArray<object>} orosCatalog Canonical Apps catalog records.
 	 * @returns {ReadonlyArray<HTMLElement>} Frozen rendered card list.
-	 * @sideEffects Replaces the grid children through the existing catalog renderer.
+	 * @sideEffects Replaces grid children through the existing catalog renderer.
 	 */
 	mountCatalog(orosCatalog) {
 		renderAppCatalog(this.grid, orosCatalog);
@@ -58,13 +60,28 @@ export class AppsFilterMalchusView {
 	}
 
 	/**
+	 * Writes normalized programmatic state through the single DOM mutation boundary.
+	 *
+	 * @param {Readonly<{query:string,category:string}>} malchusState State to manifest.
+	 * @returns {Readonly<{query:string,category:string}>} Actual values after native control coercion.
+	 * @sideEffects Mutates only the search input and category select values.
+	 */
+	writeState(malchusState) {
+		this.searchInput.value = malchusState.query;
+		this.categorySelect.value = malchusState.category;
+		return this.readState();
+	}
+
+	/**
 	 * Applies one pure filter policy to rendered cards without changing catalog order.
 	 *
 	 * @param {{matches(search:string,categories:string):boolean}} hodPolicy Filter policy.
 	 * @returns {number} Number of visible cards after manifestation.
+	 * @sideEffects Updates card hidden states, empty-state visibility, and result text.
 	 */
 	apply(hodPolicy) {
 		let visibleCount = 0;
+
 		for (const malchusCard of this.cards) {
 			const isVisible = hodPolicy.matches(
 				malchusCard.dataset.search,
@@ -77,6 +94,7 @@ export class AppsFilterMalchusView {
 		if (this.emptyState) {
 			this.emptyState.hidden = visibleCount > 0;
 		}
+
 		if (this.resultStatus) {
 			this.resultStatus.textContent = `${visibleCount} of ${this.cards.length} apps shown`;
 		}

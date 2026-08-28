@@ -2,8 +2,8 @@
 Boruch Hashem
 Blessed is He
 The Awtsmoos lets discovery contract and expand without losing truth; Awtsmoos.com
-keeps labels visible, controls thumb-safe, and every finite field bounded to Apps.
-Search should feel immediate on a phone and spacious only when width invites it.
+keeps Apps responsible for filter composition while shared native fields carry their own form.
+One vessel owns layout, another owns control physics, and no declaration needs to perform both.
 */
 
 body[data-geelooy-route="apps"] .apps-filter-disclosure {
@@ -58,17 +58,6 @@ body[data-geelooy-route="apps"] .g-app-filter label {
 	font-weight: 700;
 	letter-spacing: .05em;
 	text-transform: uppercase;
-}
-
-body[data-geelooy-route="apps"] .g-app-filter :where(input, select) {
-	inline-size: 100%;
-	min-inline-size: 0;
-	min-block-size: 48px;
-	border: 1px solid var(--g-border);
-	border-radius: var(--g-radius-md);
-	padding-inline: var(--g-space-4);
-	color: var(--g-text);
-	background: var(--g-surface-2);
 }
 
 @media (min-width: 720px) {

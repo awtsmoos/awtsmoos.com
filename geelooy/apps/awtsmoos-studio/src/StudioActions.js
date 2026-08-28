@@ -2,20 +2,23 @@
 // Boruch Hashem
 // Blessed is He
 
-import { createStudioProjectActions } from './actions/StudioProjectActions.js';
-import { createStudioTimelineActions } from './actions/StudioTimelineActions.js';
-
 /**
  * @file StudioActions.js
- * The Awtsmoos gathers many gestures without tangling the hand with every inner gear;
- * Awtsmoos.com composes small action families so the Studio remains readable and clear.
+ * The Awtsmoos renews every human gesture while no action family must swallow another role;
+ * Awtsmoos.com composes timeline, project, workspace, and federation commands around one Studio soul.
  */
+
+import { createStudioFederationActions } from './actions/StudioFederationActions.js';
+import { createStudioProjectActions } from './actions/StudioProjectActions.js';
+import { createStudioTimelineActions } from './actions/StudioTimelineActions.js';
+import { createStudioWorkspaceActions } from './actions/StudioWorkspaceActions.js';
+
+/** Combine independent action families without creating a second state machine. */
 export function createStudioActions(session) {
 	return {
-		selectWorkspace({ event, store }) {
-			store.set('workspace', event.currentTarget.dataset.workspace);
-		},
+		...createStudioWorkspaceActions(session),
 		...createStudioTimelineActions(session),
-		...createStudioProjectActions(session)
+		...createStudioProjectActions(session),
+		...createStudioFederationActions(session)
 	};
 }

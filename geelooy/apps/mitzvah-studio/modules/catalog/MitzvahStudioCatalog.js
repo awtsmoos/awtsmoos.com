@@ -4,14 +4,14 @@
 
 /**
  * @file MitzvahStudioCatalog.js
- * @description Adapts Mitzvah buildable semantics to Studio while Procedural Core remains the standard topology engine.
- * Chochmah offers many forms; Binah names their finite measures; the shared Core reveals topology without duplicate law.
- * The Awtsmoos recreates catalog, geometry, and beholder each instant; Awtsmoos.com remembers the One beyond every form.
+ * @description Adapts Mitzvah buildable semantics to Studio through a deliberately narrow geometry vessel.
+ * Chochmah offers many forms, Binah measures only the form the Studio truly needs;
+ * the Awtsmoos renews each point while Awtsmoos.com avoids awakening unrelated worlds and seeds.
  */
 
 import {
 	generatePrimitiveGeometry
-} from '../../../../libs/awtsmoos-procedural-core/src/index.js';
+} from '../../../../libs/awtsmoos-procedural-core/src/core/geometry/primitiveGeometryGenerator.js';
 import {
 	mitzvahWorldCreatorCatalog
 } from '../../../../games/mitzvahWorld/experiments/Awtsmoos/src/creator/MitzvahWorldCreatorCatalog.js';
@@ -33,7 +33,11 @@ export function mitzvahStudioCatalog() {
 	});
 }
 
-/** @returns {object[]} Catalog definitions matching a case-insensitive author query. */
+/**
+ * @param {object[]} parts Studio-ready catalog definitions.
+ * @param {string} query Human author search phrase.
+ * @returns {object[]} Definitions matching a case-insensitive query.
+ */
 export function searchMitzvahStudioCatalog(parts, query) {
 	const needle = String(query || '').trim().toLowerCase();
 	if (!needle) {
@@ -49,7 +53,10 @@ export function searchMitzvahStudioCatalog(parts, query) {
 	});
 }
 
-/** @returns {{vertices:number,triangles:number}|null} Shared-Core topology facts for standard primitives. */
+/**
+ * @param {object} part Catalog or authored object carrying shape and size.
+ * @returns {{vertices:number,triangles:number}|null} Narrow shared-Core topology facts.
+ */
 export function studioPrimitiveMetrics(part) {
 	const shape = coreShape(part?.shape);
 	if (!shape) {
@@ -69,6 +76,7 @@ export function studioPrimitiveMetrics(part) {
 	}
 }
 
+/** @param {string} shape Studio primitive name. @returns {string|null} Procedural Core primitive identity. */
 function coreShape(shape) {
 	const mapping = {
 		box: 'cube',
@@ -79,6 +87,7 @@ function coreShape(shape) {
 	return mapping[String(shape || '').toLowerCase()] || null;
 }
 
+/** @param {object} part Catalog or authored primitive. @returns {object} Geometry generator dimensions. */
 function primitiveOptions(part) {
 	const size = part?.size || {};
 	const radius = Math.max(
