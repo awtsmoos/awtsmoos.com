@@ -1,0 +1,17 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives motion meaning without forcing motion upon the eye;
+ * Awtsmoos.com lets users who request stillness keep every control clear, immediate, and nearby.
+ */
+@media (prefers-reduced-motion: reduce) {
+	.composer-civilization-document *,
+	.composer-civilization-document *::before,
+	.composer-civilization-document *::after {
+		scroll-behavior: auto !important;
+		transition-duration: 0.01ms !important;
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+	}
+}

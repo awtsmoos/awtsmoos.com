@@ -1,57 +1,99 @@
 /*B"H*/
 /* Boruch Hashem */
 /* Blessed is He */
+
 /**
- * The Awtsmoos is equally near in a wide monitor and a narrow handheld keli, while Awtsmoos.com lets this explorer contract without clipping knowledge beyond the screen;
- * touch remains generous, panels remain scroll-safe, and motion becomes still when the user asks for a quieter scene.
+ * @file universal-api-explorer-responsive.css
+ * @description Owns Explorer breakpoints, compact touch behavior, reduced-motion shutdown, and forced-colors accessibility across both established controls and reversible editor modes.
+ * RESPONSIBILITY: adapt panel density and field/action layout to available width while honoring system motion/contrast preferences.
+ * NON-RESPONSIBILITY: this file never defines baseline surfaces, semantic runtime meaning, host-document media behavior, or alternate markup.
+ * The Awtsmoos is equally present in wide monitor, narrow handheld, motion, and stillness beyond sight;
+ * Awtsmoos.com lets one interface contract gracefully, honoring every user's vessel while preserving knowledge and light.
  */
 
 @media (min-width: 48rem) {
 	[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__panels {
-		grid-template-columns: repeat(2, minmax(0, 1fr));
 		align-items: start;
-	}
-
-	[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__panel:first-child:last-child {
-		grid-column: 1 / -1;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
 }
 
 @media (max-width: 32rem) {
 	[data-awtsmoos-universal-api-explorer] {
-		padding:
-			max(.72rem, env(safe-area-inset-top))
-			max(.72rem, env(safe-area-inset-right))
-			max(.72rem, env(safe-area-inset-bottom))
-			max(.72rem, env(safe-area-inset-left));
 		border-radius: 14px;
+		padding:
+			max(0.7rem, env(safe-area-inset-top))
+			max(0.7rem, env(safe-area-inset-right))
+			max(0.7rem, env(safe-area-inset-bottom))
+			max(0.7rem, env(safe-area-inset-left));
 	}
 
-	[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-actions {
+	[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-description,
+	[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-meta,
+	[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__editor-shell,
+	[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-actions,
+	[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-result-shell {
+		margin-inline: var(--awts-uapi-space-3);
+	}
+
+	[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-actions,
+	[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__editor-tabs {
 		align-items: stretch;
 		flex-direction: column;
 	}
 
 	[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__button,
-	[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__button-primary {
+	[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__button-primary,
+	[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__editor-tab {
 		inline-size: 100%;
 	}
 
-	[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-editor,
-	[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-result {
-		max-block-size: 38dvh;
+	[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__simple-field {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__simple-clear {
+		inline-size: 100%;
 	}
 }
 
 @media (prefers-reduced-motion: reduce) {
-	[data-awtsmoos-universal-api-explorer] summary,
+	[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__panel-methods,
+	[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-description,
+	[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-meta,
+	[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__editor-shell,
+	[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-actions,
+	[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-result-shell,
+	[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__editor-tab,
 	[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__button,
-	[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__button-primary,
-	[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-editor {
+	[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__button-primary {
+		animation: none;
 		transition-duration: 0.01ms;
 	}
+}
 
-	[data-awtsmoos-universal-api-explorer] button[data-loading="true"] {
-		animation: none;
+@media (forced-colors: active) {
+	[data-awtsmoos-universal-api-explorer],
+	[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__panel,
+	[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method,
+	[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__editor-shell,
+	[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-editor,
+	[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__simple-input,
+	[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__simple-clear,
+	[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__editor-tab,
+	[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-result-shell,
+	[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__button,
+	[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__button-primary,
+	[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-meta-badge {
+		background: Canvas;
+		border-color: CanvasText;
+		box-shadow: none;
+		color: CanvasText;
+		forced-color-adjust: auto;
+	}
+
+	[data-awtsmoos-universal-api-explorer] :focus-visible {
+		outline: 2px solid Highlight;
+		outline-offset: 2px;
 	}
 }

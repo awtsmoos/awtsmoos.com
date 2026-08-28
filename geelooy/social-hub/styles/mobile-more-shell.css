@@ -2,14 +2,18 @@
  * Boruch Hashem
  * Blessed is He
  *
- * The Awtsmoos gathers quieter roads into one bounded mobile chamber; Awtsmoos.com lets the sheet
- * rise like measured light, deep yet never spilling beyond its route-owned surface or layer covenant.
+ * The Awtsmoos gathers quieter roads into one bounded mobile chamber, measured and sure;
+ * Awtsmoos.com keeps notch, viewport, scroll, and closing controls inside one clean shore.
  */
 .social-hub-document .mobileMoreSheet {
 	box-sizing: border-box;
-	inline-size: min(calc(100vw - 1rem), 36rem);
-	max-inline-size: calc(100vw - 1rem);
-	max-block-size: calc(100dvh - max(1rem, env(safe-area-inset-top)) - max(1rem, env(safe-area-inset-bottom)));
+	inline-size: min(calc(100dvw - 1rem), 36rem);
+	max-inline-size: calc(100dvw - 1rem);
+	max-block-size: calc(
+		100dvh
+		- max(1rem, env(safe-area-inset-top))
+		- max(1rem, env(safe-area-inset-bottom))
+	);
 	margin: auto auto max(.5rem, env(safe-area-inset-bottom));
 	padding: 0;
 	overflow: visible;
@@ -84,7 +88,10 @@
 	border-radius: 999px;
 	background: rgb(126 239 255 / 6%);
 	color: inherit;
-	transition: transform 140ms ease, background-color 170ms ease, box-shadow 170ms ease;
+	transition:
+		transform 140ms ease,
+		background-color 170ms ease,
+		box-shadow 170ms ease;
 }
 
 .social-hub-document .mobileMoreSheet__close:focus-visible {
@@ -101,13 +108,5 @@
 		background: rgb(126 239 255 / 12%);
 		box-shadow: 0 6px 18px rgb(126 239 255 / 9%);
 		transform: translateY(-1px);
-	}
-}
-
-@media (max-width: 25rem) {
-	.social-hub-document .mobileMoreSheet {
-		inline-size: auto;
-		max-inline-size: none;
-		margin-inline: max(.4rem, env(safe-area-inset-left)) max(.4rem, env(safe-area-inset-right));
 	}
 }

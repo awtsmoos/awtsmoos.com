@@ -1,0 +1,102 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos lets every action answer touch, focus, hover, and press; Awtsmoos.com keeps motion refined, accessible, and never excessive.
+ */
+.awtsmoos-transcribe button,
+.awtsmoos-transcribe input,
+.awtsmoos-transcribe summary,
+.awtsmoos-transcribe a,
+.awtsmoos-transcribe input[type="file"]::file-selector-button {
+	transition: transform 160ms ease, border-color 160ms ease, background-color 160ms ease, color 160ms ease, box-shadow 160ms ease, opacity 160ms ease;
+}
+
+.awtsmoos-transcribe button {
+	min-height: 46px;
+	padding: 11px 15px;
+	border: 1px solid var(--tr-border);
+	border-radius: 13px;
+	font: inherit;
+	font-weight: 800;
+	cursor: pointer;
+}
+
+.awtsmoos-transcribe .transcribe-primary {
+	color: #03141c;
+	border-color: transparent;
+	background: linear-gradient(135deg, var(--tr-accent-strong), #68baff);
+	box-shadow: 0 12px 30px rgba(79, 193, 255, .18);
+}
+
+.awtsmoos-transcribe .transcribe-secondary {
+	color: var(--tr-text);
+	background: var(--tr-panel-soft);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.awtsmoos-transcribe button:not(:disabled):hover,
+	.awtsmoos-transcribe summary:hover,
+	.awtsmoos-transcribe input[type="file"]::file-selector-button:hover {
+		transform: translateY(-1px);
+		border-color: rgba(126, 232, 255, .5);
+		box-shadow: 0 10px 26px rgba(50, 177, 255, .14);
+	}
+
+	.awtsmoos-transcribe .transcribe-field input:not([type="file"]):hover {
+		border-color: rgba(126, 232, 255, .42);
+	}
+
+	.awtsmoos-transcribe a:hover {
+		color: var(--tr-accent-strong);
+	}
+}
+
+.awtsmoos-transcribe button:not(:disabled):active,
+.awtsmoos-transcribe summary:active,
+.awtsmoos-transcribe input[type="file"]::file-selector-button:active {
+	transform: translateY(1px) scale(.98);
+}
+
+.awtsmoos-transcribe .transcribe-field input:not([type="file"]):active,
+.awtsmoos-transcribe a:active {
+	color: var(--tr-accent-strong);
+	border-color: rgba(126, 232, 255, .62);
+}
+
+.awtsmoos-transcribe button:focus-visible,
+.awtsmoos-transcribe input:focus-visible,
+.awtsmoos-transcribe summary:focus-visible,
+.awtsmoos-transcribe a:focus-visible,
+.awtsmoos-transcribe input[type="file"]::file-selector-button:focus-visible {
+	outline: 3px solid var(--tr-accent);
+	outline-offset: 3px;
+}
+
+.awtsmoos-transcribe button:disabled,
+.awtsmoos-transcribe input:disabled {
+	cursor: not-allowed;
+	opacity: .48;
+}
+
+@media (pointer: coarse) {
+	.awtsmoos-transcribe button,
+	.awtsmoos-transcribe summary,
+	.awtsmoos-transcribe .transcribe-field input,
+	.awtsmoos-transcribe input[type="file"]::file-selector-button {
+		min-height: 48px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.awtsmoos-transcribe button,
+	.awtsmoos-transcribe input,
+	.awtsmoos-transcribe summary,
+	.awtsmoos-transcribe a,
+	.awtsmoos-transcribe input[type="file"]::file-selector-button {
+		transition: none;
+	}
+
+	.awtsmoos-transcribe .transcribe-status-dot {
+		animation: none;
+	}
+}

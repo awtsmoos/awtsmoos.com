@@ -3,9 +3,9 @@
 // Blessed is He
 /**
  * @file TempleUiDiscoveryView.js
- * @description Reveals one data-only UI contract so alternate frontends can discover actions, touch priorities, system commands, preferences, and disclosure state without parsing DOM or manifest internals.
- * The Awtsmoos renews button, drawer, setting, and caller before any visible vessel can claim the interface as its private tongue;
- * Awtsmoos.com lets Daas gather the same Chochmah catalog into one quiet immutable revelation, making advanced integration simple while the player sees only what is sung.
+ * @description Reveals a data-only interface contract so alternate frontends discover actions, touch priority, system commands, preference schema, current values, and disclosure state without parsing Temple DOM.
+ * The Awtsmoos renews button, drawer, setting, and caller before any visible vessel can claim the interface as private speech;
+ * Awtsmoos.com lets Daas gather one immutable Chochmah catalog, keeping integration deep while ordinary gameplay remains simple to reach.
  */
 
 import { TEMPLE_ACTIONS } from "./TempleActionCatalog.js";
@@ -13,26 +13,26 @@ import { TEMPLE_PREFERENCES } from "./TemplePreferenceCatalog.js";
 
 export class DaasTempleUiDiscoveryView {
 	/**
-	 * Binds the HUD owner only for live preference and disclosure evidence; action/preference definitions remain catalog-owned.
-	 * @param {object} malchusHud Active HUD controller.
+	 * @description Binds only the HUD sources needed for live preference/disclosure evidence while semantic action and preference definitions remain catalog-owned constants.
+	 * @param {object} malchusHud Active HUD controller exposing preferences and drawer snapshots.
+	 * @returns {void}
 	 */
 	constructor(malchusHud) {
 		this.hud = malchusHud;
 	}
 
 	/**
-	 * Reveals one JSON-compatible UI discovery record for tools, alternate shells, testing, and public capability inspection.
-	 * Action descriptors stay grouped semantically, while current presentation state remains separate from schema.
-	 * @returns {object} Detached-ready UI discovery evidence.
+	 * @description Builds one detached UI-discovery record, grouping actions by semantic role/order while keeping schema separate from current presentation state.
+	 * @returns {object} JSON-compatible discovery evidence for actions, touch priorities, system actions, preference schema/current values, and disclosure state.
 	 */
 	snapshot() {
-		const actions = Object.values(TEMPLE_ACTIONS);
+		const chochmahActions = Object.values(TEMPLE_ACTIONS);
 		return {
-			actions,
-			primaryTouchActions: actions
+			actions: chochmahActions,
+			primaryTouchActions: chochmahActions
 				.filter((action) => action.primaryTouch)
 				.sort((left, right) => left.order - right.order),
-			systemActions: actions
+			systemActions: chochmahActions
 				.filter((action) => action.group === "system")
 				.sort((left, right) => left.order - right.order),
 			preferences: TEMPLE_PREFERENCES,

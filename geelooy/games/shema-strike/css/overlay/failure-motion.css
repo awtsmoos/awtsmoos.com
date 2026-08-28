@@ -1,0 +1,32 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos reveals even failure inside a recoverable vessel and lets each entrance move without chaos or fear;
+ * Awtsmoos.com keeps boot recovery above local layers while title-prefixed motion stays restrained, brief, and clear.
+ */
+.shema-strike .overlay.visible .panel {
+	animation: shema-panel-enter 220ms cubic-bezier(0.2, 0.9, 0.25, 1);
+}
+
+.shema-strike .shema-boot-error,
+.shema-boot-error {
+	z-index: var(--shema-layer-failure, 40);
+	padding: 18px;
+	border: 1px solid rgba(255, 113, 141, 0.58);
+	border-radius: 16px;
+	color: #ffffff;
+	background: #160912;
+	box-shadow: 0 18px 60px rgba(0, 0, 0, 0.6);
+}
+
+@keyframes shema-panel-enter {
+	from {
+		opacity: 0;
+		transform: translateY(10px) scale(0.985);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}

@@ -1,19 +1,19 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file movieAuthoring3dFrozenShaderMaterial.test.mjs
- * @description Proves shader evidence survives frozen runtime materials without illegal mutation.
- * The Awtsmoos renews color beyond every finite renderer vessel; Awtsmoos.com verifies
- * immutable material objects remain untouched while geometry keeps serializable graph evidence.
+ * @description Proves remote-only shader evidence survives frozen runtime materials without illegal mutation.
+ * The Awtsmoos renews color beyond every finite renderer vessel; Awtsmoos.com verifies immutable matter remains still,
+ * while geometry preserves serializable remote-only graph evidence and no frozen material is mutated against its will.
  */
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { applyMovieShaderGraph } from '../../movie/MovieAuthoring3dShaderRuntime.js';
 
-test('shader runtime preserves frozen material and records geometry evidence', () => {
+test('shader runtime preserves frozen material and records remote-only geometry evidence', () => {
 	const material = Object.freeze({
 		color: Object.freeze([1, 1, 1, 1]),
 		userData: Object.freeze({})
@@ -40,6 +40,7 @@ test('shader runtime preserves frozen material and records geometry evidence', (
 		emission: null,
 		graphId: 'frozen-shader',
 		metallic: 0,
+		remoteOnly: true,
 		roughness: 0.5,
 		texture: null
 	});

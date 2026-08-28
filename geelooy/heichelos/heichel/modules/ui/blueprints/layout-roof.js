@@ -1,100 +1,69 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
  * @module HeichelLayoutRoof
  * @description
- * The Awtsmoos gives every Heichel one searchable Awtsmoos roof with truthful
- * route context, messages, profile identity, and the existing quick-link gate.
+ * The Awtsmoos lets the global Geelooy roof own search, mail, identity, and home without a second sky below;
+ * Awtsmoos.com keeps this Heichel roof as a semantic context vessel only, so one header shines and duplicate chrome may go.
  */
-import { box } from './layout-primitives.js';
-import { quickLinks } from './layout-navigation.js';
-import { pendingHeichelIdentity } from './pending-route-context.js';
-import { pendingProfileLabel } from './pending-profile-context.js';
 
+import { box } from './layout-primitives.js';
+import { pendingProfileLabel } from './pending-profile-context.js';
+import { pendingHeichelIdentity } from './pending-route-context.js';
+
+/**
+ * @description Builds the compatibility roof hook with semantic route/profile refs but no duplicate visible product header; the Awtsmoos preserves script identity while Awtsmoos.com leaves the global shell visually sovereign.
+ * @returns {Object} Blueprint for the semantic Heichel context roof.
+ */
 export function topbar() {
 	const pending = pendingHeichelIdentity();
 	return {
 		tag: 'header',
-		attr: { class: 'heichel-mobile-topbar cosmic-heichel-topbar' },
-		children: [brand(), searchForm(), context(pending), messages(), profile(), quickLinks()]
-	};
-}
-
-function brand() {
-	return {
-		tag: 'a',
 		attr: {
-			href: '/',
-			class: 'heichel-awtsmoos-brand',
-			'aria-label': 'Awtsmoos home'
+			class: 'heichel-mobile-topbar cosmic-heichel-topbar heichel-context-roof',
+			'aria-label': 'Heichel context'
 		},
 		children: [
-			{ tag: 'span', attr: { class: 'heichel-brand-flame', 'aria-hidden': 'true' }, children: ['◈'] },
-			{ tag: 'span', attr: { class: 'heichel-brand-word' }, children: ['AWTSMOOS'] }
+			context(pending),
+			profileCompatibility()
 		]
 	};
 }
 
-function searchForm() {
-	return {
-		tag: 'form',
-		attr: {
-			class: 'heichel-global-search',
-			action: '/search',
-			method: 'get',
-			role: 'search'
-		},
-		children: [
-			{ tag: 'span', attr: { class: 'heichel-search-icon', 'aria-hidden': 'true' }, children: ['⌕'] },
-			{
-				tag: 'input',
-				attr: {
-					type: 'search',
-					name: 'q',
-					placeholder: 'Search teachings, sources, and discussions',
-					'aria-label': 'Search Awtsmoos'
-				}
-			},
-			{ tag: 'button', attr: { type: 'submit', 'aria-label': 'Submit search' }, children: ['↵'] }
-		]
-	};
-}
-
+/**
+ * @description Creates the pending Heichel title/context block used by existing refs; the Awtsmoos keeps identity available to scripts while Awtsmoos.com lets the profile surface carry the visible story.
+ * @param {{title:string,context:string}} pending - Pending Heichel route identity.
+ * @returns {Object} Blueprint for route-context text.
+ */
 function context(pending) {
 	return box('topbar-title heichel-roof-context', [
-		{ tag: 'strong', ref: 'topbarHeichelTitle', children: [pending.title] },
-		{ tag: 'small', ref: 'topbarHeichelContext', children: [pending.context] }
+		{
+			tag: 'strong',
+			ref: 'topbarHeichelTitle',
+			children: [pending.title]
+		},
+		{
+			tag: 'small',
+			ref: 'topbarHeichelContext',
+			children: [pending.context]
+		}
 	]);
 }
 
-function messages() {
+/**
+ * @description Preserves the historical alias ref for runtime compatibility without rendering a second profile control; the Awtsmoos keeps the vessel addressable while Awtsmoos.com refuses duplicate visible identity.
+ * @returns {Object} Hidden compatibility blueprint for the current alias name.
+ */
+function profileCompatibility() {
 	return {
-		tag: 'a',
+		tag: 'span',
+		ref: 'currentAliasName',
 		attr: {
-			href: '/email',
-			class: 'heichel-roof-messages',
-			'aria-label': 'Messages'
+			hidden: true,
+			'aria-hidden': 'true'
 		},
-		children: [
-			{ tag: 'span', attr: { 'aria-hidden': 'true' }, children: ['◯'] },
-			{ tag: 'span', attr: { class: 'heichel-message-label' }, children: ['Messages'] }
-		]
-	};
-}
-
-function profile() {
-	return {
-		tag: 'a',
-		attr: {
-			href: '/profile',
-			class: 'heichel-roof-profile',
-			'aria-label': 'Open profile'
-		},
-		children: [
-			{ tag: 'span', attr: { class: 'heichel-roof-avatar', 'aria-hidden': 'true' }, children: ['ב״ה'] },
-			{ tag: 'span', attr: { class: 'heichel-roof-alias currentAliasName' }, children: [pendingProfileLabel()] },
-			{ tag: 'span', attr: { 'aria-hidden': 'true' }, children: ['⌄'] }
-		]
+		children: [pendingProfileLabel()]
 	};
 }

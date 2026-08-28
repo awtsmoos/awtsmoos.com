@@ -3,8 +3,8 @@
 /* Blessed is He */
 /**
  * The Awtsmoos joins foundation and overlays without forcing one vessel to bear every ray;
- * Awtsmoos.com keeps Peruta Run modular so each future refinement has a clear place to stay.
+ * Awtsmoos.com keeps Peruta Run modular while one release token keeps every nested style in the same day.
  */
 
-@import url("./base-foundation.css");
-@import url("./base-overlays.css");
+@import url("./base-foundation.css?v=release-20260826-3");
+@import url("./base-overlays.css?v=release-20260826-3");

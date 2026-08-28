@@ -1,86 +1,52 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file minimalMeadowTreeMaterials.test.mjs
- * @description Proves public texture latency cannot erase the real procedural-core forest.
- * The Awtsmoos reveals a leaf before a network reply; Awtsmoos.com verifies that the same
- * material remains replaceable by public richness without inventing cards, cubes, or fake state.
+ * @description Proves tree surfaces remain remote-pending without images and preserve genuine HTTP bark/leaf imagery without canvas conversion.
+ * The Awtsmoos grows tree and leaf beyond painter and fallback while Awtsmoos.com keeps every botanical garment true;
+ * absent pixels remain concealed, and distant authored alpha passes unchanged into the material view.
  */
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
-
 import { resolveMinimalMeadowTreeMaterials } from '../../app/MinimalMeadowTreeMaterialSources.js';
 
-function createDocumentVessel() {
-	const canvases = [];
-	const context = {
-		beginPath() {},
-		bezierCurveTo() {},
-		clearRect() {},
-		createLinearGradient: gradient,
-		createRadialGradient: gradient,
-		ellipse() {},
-		fill() {},
-		fillRect() {},
-		moveTo() {},
-		stroke() {}
-	};
-	return {
-		canvases,
-		createElement(name) {
-			assert.equal(name, 'canvas');
-			const canvas = {
-				dataset: {},
-				getContext: () => context,
-				height: 0,
-				width: 0
-			};
-			canvases.push(canvas);
-			return canvas;
-		}
-	};
-}
-
-function gradient() {
-	return { addColorStop() {} };
-}
-
-test('procedural canvases keep both tree layers visible when public records fail', () => {
-	const documentValue = createDocumentVessel();
+test('missing public images create no procedural fallback pixels', () => {
 	const materials = resolveMinimalMeadowTreeMaterials({
 		barkImage: null,
-		documentValue,
 		leafImage: null,
 		records: [{ ok: false }, { ok: false }]
 	});
-
-	assert.equal(materials.bark.mapImageFallback, true);
-	assert.equal(materials.leaf.mapImageFallback, true);
-	assert.deepEqual([materials.bark.mapImage.width, materials.bark.mapImage.height], [128, 128]);
-	assert.deepEqual([materials.leaf.mapImage.width, materials.leaf.mapImage.height], [128, 128]);
+	assert.equal(materials.bark.mapImage, null);
+	assert.equal(materials.leaf.mapImage, null);
+	assert.equal(materials.bark.mapImageFallback, false);
+	assert.equal(materials.leaf.mapImageFallback, false);
+	assert.equal(materials.diagnostics.barkSource, 'remote-pending');
+	assert.equal(materials.diagnostics.leafSource, 'remote-pending');
 	assert.equal(materials.diagnostics.failedPublicRequests, 2);
-	assert.equal(materials.diagnostics.worldFatalOnPublicFailure, false);
-	assert.match(materials.cacheKey, /procedural\|procedural$/);
+	assert.equal(materials.diagnostics.remoteOnly, true);
+	assert.match(materials.cacheKey, /pending-bark\|pending-leaf$/);
 });
 
-test('public bark binds immediately while a pending leaf conversion retains botanical alpha', () => {
-	const documentValue = createDocumentVessel();
-	const publicBark = { complete: true, height: 512, width: 512 };
-	const publicLeaf = { complete: true, height: 512, width: 512 };
+test('remote bark and authored-alpha leaf bind unchanged', () => {
+	const bark = remoteImage('https://materials.test/bark.jpg');
+	const leaf = remoteImage('https://materials.test/leaf.png');
 	const materials = resolveMinimalMeadowTreeMaterials({
-		barkImage: publicBark,
-		documentValue,
-		leafImage: publicLeaf,
+		barkImage: bark,
+		leafImage: leaf,
 		records: [{ ok: true }, { ok: true }]
 	});
-
-	assert.equal(materials.bark.mapImage, publicBark);
+	assert.equal(materials.bark.mapImage, bark);
+	assert.equal(materials.leaf.mapImage, leaf);
 	assert.equal(materials.bark.mapImageFallback, false);
-	assert.equal(materials.leaf.mapImageFallback, true);
-	assert.equal(typeof materials.leaf.texturePolicy.hydrateMapImage, 'function');
+	assert.equal(materials.leaf.mapImageFallback, false);
 	assert.equal(materials.diagnostics.barkSource, 'public-image');
-	assert.equal(materials.diagnostics.leafSource, 'procedural-botanical-alpha');
+	assert.equal(materials.diagnostics.leafSource, 'public-authored-alpha');
+	assert.equal(leaf.dataset.awtsmoosTransform, 'authored-alpha-preserved');
 });
+
+function remoteImage(src) {
+	return { complete: true, dataset: {}, naturalHeight: 512, naturalWidth: 512, src };
+}

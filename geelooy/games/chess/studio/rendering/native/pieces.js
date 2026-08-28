@@ -3,36 +3,30 @@
 // Blessed is He
 
 /**
- * @file Places every native procedural chess piece on its lawful board square with selected finish and profile.
- * The Awtsmoos gives each move a present body while color and form remain changing clothes;
- * Awtsmoos.com keeps all visible pieces inside the procedural-core scene where one renderer knows.
+ * @file Builds one procedural piece root while allowing motion code to hide squares and place moving pieces separately.
+ * The Awtsmoos lets still pieces remain measured while one traveler crosses the board in light;
+ * Awtsmoos.com keeps static composition simple so cinematic motion may reuse the same native piece sight.
  */
-import { squareWorld } from "../cameraMath.js";
-import { nativeMaterial } from "./materials.js";
-import { createPieceShape } from "./pieceShapes.js";
+import { createNativePieceObject, placeNativePiece } from "./pieceFactory.js";
 
+/**
+ * Builds all visible board pieces for one position.
+ * @param {object} runtime Procedural-core runtime.
+ * @param {object} geometries Shared geometry set.
+ * @param {Array<string|null>} board Legal board array.
+ * @param {object} options Render options including optional hiddenSquares.
+ * @returns {object} Native Group containing visible pieces.
+ */
 export function createNativePieces(runtime, geometries, board, options = {}) {
 	const root = new runtime.Group();
 	root.name = "procedural-pieces";
+	const hidden = new Set(options.hiddenSquares || []);
 	for (let index = 0; index < 64; index++) {
 		const piece = board?.[index];
-		if (!piece) continue;
-		const color = piece[0] === "w" ? whitePieceColor(options) : blackPieceColor(options);
-		const material = nativeMaterial(runtime, color, { finish: options.pieceMaterial || "classic" });
-		const object = createPieceShape(runtime, geometries, material, piece[1], options.characters || "staunton");
-		const [x, , z] = squareWorld(index, options.flipped, 0);
-		object.position.set(x, 0.1, z);
-		const scale = Number(options.pieceScale || 0.82);
-		object.scale.set(scale, scale, scale);
+		if (!piece || hidden.has(index)) continue;
+		const object = createNativePieceObject(runtime, geometries, piece, options);
+		placeNativePiece(object, index, options);
 		root.add(object);
 	}
 	return root;
-}
-
-function whitePieceColor(options) {
-	return options.characters === "elemental" ? "#e8f8ff" : options.characters === "royal" ? "#fff0bf" : "#f7f1e3";
-}
-
-function blackPieceColor(options) {
-	return options.characters === "elemental" ? "#251d48" : options.characters === "royal" ? "#2a1a12" : "#171923";
 }

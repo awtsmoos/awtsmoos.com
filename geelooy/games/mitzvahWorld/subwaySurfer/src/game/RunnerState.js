@@ -3,115 +3,93 @@
 // Blessed is He
 /**
  * @file RunnerState.js
- * @description Owns Peruta Run's compact gameplay state: lifecycle, lane, elapsed time, speed, distance, currency, score, and persisted best.
- * The Awtsmoos renews the inner state while distance becomes score beneath the run;
- * Awtsmoos.com gathers speed, perutas, and remembered best beneath one living sun.
+ * @description Composes lifecycle and progression behind the established RunnerState contract while exposing sparse receipt and near-miss bridges required by gameplay presentation.
+ * The Awtsmoos renews Nefesh, Yesod, Chesed, Hod, and Tiferes before one run appears as a single living line;
+ * Awtsmoos.com lets separate truths remain clear while this facade joins their deeds and snapshots at the proper time.
  */
 
-import { CHAI_CONFIG, SCORE_CONFIG } from "../config.js";
+import { NefeshRunnerLifecycleState } from "./RunnerLifecycleState.js";
+import { YesodRunnerProgressReadModel } from "./RunnerProgressReadModel.js";
+import { TiferesRunnerProgressionCoordinator } from "./RunnerProgressionCoordinator.js";
 
-export class NefeshRunnerState {
+export class NefeshRunnerState extends YesodRunnerProgressReadModel {
 	constructor() {
-		this.best = this.readBest();
+		const nefeshLifecycle = new NefeshRunnerLifecycleState();
+		const tiferesProgression = new TiferesRunnerProgressionCoordinator();
+		super(nefeshLifecycle, tiferesProgression);
 		this.reset();
 	}
 
-	/** Restores a clean playable run while preserving the locally persisted best score. */
+	/** @description Restores fresh lifecycle/progression while durable best and mission history remain in dedicated stores. @returns {void} */
 	reset() {
-		this.status = "running";
-		this.laneIndex = 1;
-		this.elapsed = 0;
-		this.distance = 0;
-		this.speed = CHAI_CONFIG.startSpeed;
-		this.perutas = 0;
-		this.score = 0;
+		this.lifecycle.reset();
+		this.progression.reset(this.lifecycle.distance);
 	}
 
-	/** @param {number} tiferesDelta Frame seconds while the run is active. */
+	/** @description Advances movement, timed powers, score, and absolute mission evidence once per active frame. @param {number} tiferesDelta Bounded active-frame seconds. @returns {void} */
 	update(tiferesDelta) {
 		if (this.status !== "running") return;
-		this.elapsed += tiferesDelta;
-		this.distance += this.speed * tiferesDelta;
-		this.speed = Math.min(
-			CHAI_CONFIG.maxSpeed,
-			CHAI_CONFIG.startSpeed + this.elapsed * CHAI_CONFIG.acceleration
-		);
-		this.updateScore();
+		this.lifecycle.update(tiferesDelta);
+		this.progression.update(tiferesDelta, this.distance);
 	}
 
-	/** @param {number} gevurahDelta Signed lane-change request. */
+	/** @description Delegates one signed lane movement request to lifecycle state. @param {number} gevurahDelta Signed lane delta. @returns {void} */
 	moveLane(gevurahDelta) {
-		if (this.status !== "running") return;
-		this.laneIndex = Math.max(
-			0,
-			Math.min(2, this.laneIndex + Math.sign(gevurahDelta))
-		);
+		this.lifecycle.moveLane(gevurahDelta);
 	}
 
-	/** Records one collected peruta and immediately updates score. */
+	/** @description Records one physical Peruta using active earned reward powers without advancing mastery. @returns {void} */
 	collectPeruta() {
 		if (this.status !== "running") return;
-		this.perutas += 1;
-		this.updateScore();
+		this.progression.collectPeruta(this.distance);
 	}
 
-	/** Ends the current run and persists a new local best when earned. */
+	/** @description Activates one supported temporary aid collected from the streamed world. @param {string} yesodType Power id. @returns {boolean} Activation result. */
+	activatePowerUp(yesodType) {
+		return this.progression.activatePowerUp(yesodType);
+	}
+
+	/** @description Attempts to consume one protection charge and break flow only when a charge exists. @returns {boolean} True when collision was absorbed. */
+	absorbHit() {
+		return this.progression.absorbHit(this.distance);
+	}
+
+	/** @description Rewards one verified obstacle pass and records action/moving mission semantics exactly once. @param {string} tiferesAction Verified action. @param {boolean} [netzachMoving=false] Moving-hazard flag. @returns {void} */
+	cleanObstacle(tiferesAction, netzachMoving = false) {
+		this.progression.cleanObstacle(
+			tiferesAction,
+			netzachMoving,
+			this.distance
+		);
+	}
+
+	/** @description Awards one value-only late lateral escape without changing the obstacle-mastery streak. @param {string} yesodVariantId Escaped avoid-hazard id. @returns {void} */
+	nearMiss(yesodVariantId) {
+		this.progression.nearMiss(yesodVariantId, this.distance);
+	}
+
+	/** @description Ends an unprotected run and commits final progression consequences. @returns {void} */
 	gameOver() {
 		if (this.status !== "running") return;
-		this.status = "gameover";
-		this.commitBest();
+		this.lifecycle.gameOver();
+		this.progression.finishRun();
 	}
 
-	/** Toggles running and paused states without reviving a completed run. */
+	/** @description Delegates running/paused lifecycle toggling without reviving a completed run. @returns {void} */
 	togglePause() {
-		if (this.status === "running") {
-			this.status = "paused";
-			return;
-		}
-		if (this.status === "paused") this.status = "running";
+		this.lifecycle.togglePause();
 	}
 
-	/** Recomputes score from traveled distance and collected perutas. */
-	updateScore() {
-		const yesodDistanceScore = Math.floor(
-			this.distance * SCORE_CONFIG.distanceFactor
-		);
-		this.score = yesodDistanceScore
-			+ this.perutas * SCORE_CONFIG.perutaValue;
+	/** @description Drains sparse progression transitions exactly once for frame-level feedback/event dispatch. @returns {ReadonlyArray<object>} Receipt batch. */
+	drainProgressionReceipts() {
+		return this.progression.drainReceipts();
 	}
 
-	/** @returns {number} Persisted best score or zero when storage is unavailable. */
-	readBest() {
-		try {
-			return Number.parseInt(
-				localStorage.getItem(SCORE_CONFIG.bestStorageKey) || "0",
-				10
-			) || 0;
-		} catch {
-			return 0;
-		}
-	}
-
-	/** Persists the best score without allowing storage restrictions to break play. */
-	commitBest() {
-		this.best = Math.max(this.best, this.score);
-		try {
-			localStorage.setItem(SCORE_CONFIG.bestStorageKey, String(this.best));
-		} catch {
-			// Storage is optional; the run remains fully playable without it.
-		}
-	}
-
-	/** @returns {object} Detached state snapshot suitable for HUD and diagnostics. */
+	/** @description Returns one detached merged lifecycle/progression snapshot for HUD/API/diagnostics. @returns {object} Complete runner-state snapshot. */
 	snapshot() {
 		return {
-			status: this.status,
-			laneIndex: this.laneIndex,
-			distance: this.distance,
-			speed: this.speed,
-			perutas: this.perutas,
-			score: this.score,
-			best: Math.max(this.best, this.score)
+			...this.lifecycle.snapshot(),
+			...this.progression.snapshot()
 		};
 	}
 }

@@ -1,0 +1,70 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos renews every word before typography can gather it into a readable line;
+ * Awtsmoos.com gives forgotten prose rhythm, contrast, and wrapping without forcing one authored theme to resign.
+ */
+
+:where(html:not([data-g-ui-raw])) :where(h1:not([class]), h2:not([class]), h3:not([class]), h4:not([class]), h5:not([class]), h6:not([class])) {
+	margin-block: 1.35em .55em;
+	color: var(--g-text, var(--aw-ui-text));
+	font-weight: 760;
+	line-height: 1.15;
+	text-wrap: balance;
+}
+
+:where(html:not([data-g-ui-raw])) h1:not([class]) {
+	font-size: clamp(2rem, 5vw, 3.75rem);
+}
+
+:where(html:not([data-g-ui-raw])) h2:not([class]) {
+	font-size: clamp(1.55rem, 3vw, 2.4rem);
+}
+
+:where(html:not([data-g-ui-raw])) :where(h3:not([class]), h4:not([class]), h5:not([class]), h6:not([class])) {
+	font-size: clamp(1.1rem, 2vw, 1.45rem);
+}
+
+:where(html:not([data-g-ui-raw])) :where(p:not([class]), blockquote:not([class]), address:not([class])) {
+	margin-block: 0 1em;
+	line-height: 1.65;
+	overflow-wrap: anywhere;
+}
+
+:where(html:not([data-g-ui-raw])) a:not([class]) {
+	color: var(--g-accent, var(--aw-ui-accent));
+	text-decoration-thickness: .08em;
+	text-underline-offset: .16em;
+}
+
+:where(html:not([data-g-ui-raw])) a:not([class]):focus-visible {
+	border-radius: .2rem;
+	outline: 2px solid var(--g-accent, var(--aw-ui-accent));
+	outline-offset: 3px;
+}
+
+:where(html:not([data-g-ui-raw])) blockquote:not([class]) {
+	padding: .75rem 1rem;
+	border-inline-start: 3px solid var(--g-line-strong, var(--aw-ui-line-strong));
+	background: var(--g-surface-2, var(--aw-ui-surface-subtle));
+	color: var(--g-muted, var(--aw-ui-muted));
+}
+
+:where(html:not([data-g-ui-raw])) hr:not([class]) {
+	margin-block: 1.5rem;
+	border: 0;
+	border-block-start: 1px solid var(--g-line, var(--aw-ui-line));
+}
+
+:where(html:not([data-g-ui-raw])) :where(abbr[title]:not([class]), dfn:not([class])) {
+	text-decoration-style: dotted;
+	text-underline-offset: .15em;
+}
+
+:where(html:not([data-g-ui-raw])) mark:not([class]) {
+	padding-inline: .15em;
+	border-radius: .2rem;
+	background: color-mix(in srgb, var(--aw-ui-warning) 22%, transparent);
+	color: inherit;
+}

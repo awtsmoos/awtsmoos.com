@@ -3,16 +3,17 @@
 // Blessed is He
 /**
  * @file KesserCommandGate.js
- * @description Routes canonical Temple Runner commands into runtime input or retractable detail behavior after status guards are proven.
- * The Awtsmoos renews intent in Keser before movement or disclosure can descend;
- * Awtsmoos.com keeps one guarded command gate so aliases never create another road at the end.
+ * @description Routes canonical Temple commands through explicit family/status guards so public aliases, touch, keyboard, and future shells all reach one runtime intention path without hidden branches.
+ * The Awtsmoos renews intention in Kesser before movement or disclosure can descend into finite form;
+ * Awtsmoos.com lets one guarded crown translate public speech into action while every forbidden status remains quiet before the storm.
  */
 
-/** Canonical Temple command bridge from protocol definitions to runtime and HUD vessels. */
 export class KesserCommandGate {
 	/**
-	 * @param {object} tiferesRuntime Active Temple runtime.
-	 * @param {object} malchusHud HUD controller owning the advanced drawer.
+	 * @description Binds the authoritative runtime input owner and HUD disclosure owner without copying command state or creating a parallel action registry.
+	 * @param {object} tiferesRuntime Active Temple runtime exposing canonical input and loop snapshots.
+	 * @param {object} malchusHud Active HUD controller exposing the retractable drawer controller.
+	 * @returns {void}
 	 */
 	constructor(tiferesRuntime, malchusHud) {
 		this.runtime = tiferesRuntime;
@@ -20,16 +21,15 @@ export class KesserCommandGate {
 	}
 
 	/**
-	 * Dispatches one manifest-validated canonical command.
-	 * @param {string} chochmahName Canonical command id for diagnostics and errors.
-	 * @param {unknown} binahPayload Optional command payload.
-	 * @param {object} tiferesDefinition Frozen command definition.
-	 * @returns {unknown} Runtime or drawer result.
+	 * @description Dispatches one manifest-validated command after proving any required runtime status, then delegates by explicit command family rather than alias name.
+	 * @param {string} chochmahName Canonical command id retained for precise unsupported-family errors.
+	 * @param {unknown} binahPayload Optional public payload used by payload-style input commands.
+	 * @param {Readonly<object>} tiferesDefinition Frozen manifest command definition containing family, intent, action, and optional status guard.
+	 * @returns {unknown} Runtime input result, drawer action result, or `false` when the current status rejects the command.
+	 * @throws {RangeError} When the manifest declares an unsupported command family.
 	 */
 	dispatch(chochmahName, binahPayload, tiferesDefinition) {
-		if (!this.statusAllows(tiferesDefinition.requiredStatus)) {
-			return false;
-		}
+		if (!this.statusAllows(tiferesDefinition.requiredStatus)) return false;
 		if (tiferesDefinition.family === "input") {
 			return this.runtime.input.request(tiferesDefinition.intent);
 		}
@@ -43,9 +43,9 @@ export class KesserCommandGate {
 	}
 
 	/**
-	 * Checks an optional required run status without mutating state.
-	 * @param {string|undefined} chochmahRequiredStatus Required status from manifest.
-	 * @returns {boolean} Whether command execution may continue.
+	 * @description Evaluates one optional run-status guard against a detached loop snapshot without mutating runtime state.
+	 * @param {string|undefined} chochmahRequiredStatus Required run status declared by the manifest, or undefined when the command is status-agnostic.
+	 * @returns {boolean} Whether command execution may proceed in the current run status.
 	 */
 	statusAllows(chochmahRequiredStatus) {
 		if (!chochmahRequiredStatus) return true;
@@ -53,9 +53,9 @@ export class KesserCommandGate {
 	}
 
 	/**
-	 * Extracts the raw input intent accepted by the compatibility `request(intent)` alias.
-	 * @param {unknown} binahPayload Public payload.
-	 * @returns {string} Runtime input intent.
+	 * @description Normalizes the compatibility `request(intent)` payload into the raw runtime intention string accepted by the canonical input owner.
+	 * @param {unknown} binahPayload Public string payload or object containing an `intent` property.
+	 * @returns {string} Normalized runtime input intention, empty when no usable payload is present.
 	 */
 	resolvePayloadIntent(binahPayload) {
 		if (typeof binahPayload === "string") return binahPayload;
@@ -63,9 +63,10 @@ export class KesserCommandGate {
 	}
 
 	/**
-	 * Invokes the declared retractable detail action without exposing the drawer object publicly.
-	 * @param {string} yesodAction Drawer action id.
-	 * @returns {unknown} Drawer controller result.
+	 * @description Invokes one manifest-declared drawer method through the HUD owner while preventing public callers from receiving the drawer reference itself.
+	 * @param {string} yesodAction Canonical drawer action name such as `open` or `close`.
+	 * @returns {unknown} Drawer controller action result.
+	 * @throws {RangeError} When the declared detail action does not exist as a callable drawer method.
 	 */
 	dispatchDetails(yesodAction) {
 		const malchusAction = this.hud.drawer?.[yesodAction];

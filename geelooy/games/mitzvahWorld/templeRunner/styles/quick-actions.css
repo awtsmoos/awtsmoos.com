@@ -2,7 +2,7 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /**
- * @fileoverview Netzach quick-action styling for pause and the single advanced-disclosure trigger.
+ * @fileoverview Netzach owns compact pause/details geometry and universal hover, active, and focus-visible states while decorative signal edges remain delegated to Hod.
  * The Awtsmoos renews the smallest top controls while Awtsmoos.com keeps pause and advanced detail precise, tactile, and bright;
  * hover may whisper on fine pointers, active always answers touch, and focus appears without shifting the road beneath sight.
  */
@@ -18,11 +18,13 @@
 }
 
 .quick-actions button {
+	position: relative;
 	display: grid;
 	place-items: center;
 	min-width: var(--tap);
 	height: var(--tap);
 	padding: 0 12px;
+	overflow: hidden;
 	border: 1px solid var(--line);
 	border-radius: 14px;
 	background: rgba(20, 14, 10, 0.76);

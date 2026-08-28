@@ -4,51 +4,74 @@
 /**
  * @file AnimatorExtensionInstaller.js
  * @description
- * The Awtsmoos joins many chambers around one living core without forcing their concerns into the entrance hall;
- * Awtsmoos.com installs each professional extension through one guarded gate, so one failure cannot silence them all.
+ * The Awtsmoos joins many chambers without forcing them through one narrow gate;
+ * Awtsmoos.com imports each professional extension only when its moment becomes relevant.
  */
 
-import { CharacterCustomizerPanel } from '../../character/customizer/CharacterCustomizerPanel.js';
-import { AnimatorAgentInstaller } from '../../ai/agent/AnimatorAgentInstaller.js';
-import { CartoonStudioPanel } from '../../studio/CartoonStudioPanel.js';
-import { StudioWorkspaceController } from '../../studio/StudioWorkspaceController.js';
-
-/** Installs optional professional Animator capabilities independently over the already-running core. */
+/** Installs professional Animator capabilities through explicit asynchronous boundaries. */
 export class AnimatorExtensionInstaller {
 	/**
-	 * Installs all extension surfaces while recording a stable per-extension health ledger.
+	 * Installs the primary professional Studio after the shared NLE store is available.
 	 * @param {object} olamApp Fully initialized Animator application.
+	 * @returns {Promise<void>}
 	 */
-	static installAll(olamApp) {
-		this.safeInstall('characterLab', () => CharacterCustomizerPanel.install(olamApp));
-		this.safeInstall('cartoonStudio', () => CartoonStudioPanel.install(olamApp));
-		this.safeInstall('professionalStudio', () => this.installProfessionalStudio(olamApp));
-		this.safeInstall('agentApi', () => AnimatorAgentInstaller.install(olamApp));
-		console.log(
-			'B"H - [main] Professional Animator extension pass complete.',
-			window.__AWTSMOOS_EXTENSION_STATUS__
-		);
+	static async installPrimary(olamApp) {
+		await this.safeInstall('professionalStudio', async () => {
+			if (!olamApp.nle?.store) {
+				throw new Error('The shared NLE store is unavailable.');
+			}
+			const { StudioWorkspaceController } = await import(
+				'../../studio/StudioWorkspaceController.js'
+			);
+			new StudioWorkspaceController(olamApp, olamApp.nle).install();
+		});
 	}
 
 	/**
-	 * Mounts the professional workspace only when the shared NLE store is ready.
-	 * @param {object} olamApp Running Animator application.
+	 * Installs secondary authoring and AI surfaces after the primary workstation exists.
+	 * @param {object} olamApp Fully initialized Animator application.
+	 * @returns {Promise<void>}
 	 */
-	static installProfessionalStudio(olamApp) {
-		if (!olamApp.nle?.store) {
-			throw new Error('The shared NLE store is unavailable.');
-		}
-		new StudioWorkspaceController(olamApp, olamApp.nle).install();
+	static async installSecondary(olamApp) {
+		await Promise.all([
+			this.safeInstall('characterLab', async () => {
+				const { CharacterCustomizerPanel } = await import(
+					'../../character/customizer/CharacterCustomizerPanel.js'
+				);
+				CharacterCustomizerPanel.install(olamApp);
+			}),
+			this.safeInstall('cartoonStudio', async () => {
+				const { CartoonStudioPanel } = await import('../../studio/CartoonStudioPanel.js');
+				CartoonStudioPanel.install(olamApp);
+			}),
+			this.safeInstall('agentApi', async () => {
+				const { AnimatorAgentInstaller } = await import(
+					'../../ai/agent/AnimatorAgentInstaller.js'
+				);
+				AnimatorAgentInstaller.install(olamApp);
+			})
+		]);
 	}
 
 	/**
-	 * Isolates extension failures and records them without preventing sibling capabilities from loading.
+	 * Compatibility gateway for callers that still expect one complete extension pass.
+	 * @param {object} olamApp Fully initialized Animator application.
+	 * @returns {Promise<void>}
+	 */
+	static async installAll(olamApp) {
+		await this.installPrimary(olamApp);
+		await this.installSecondary(olamApp);
+	}
+
+	/**
+	 * Isolates one asynchronous extension failure and records a stable health receipt.
 	 * @param {string} shemExtension Stable extension identifier.
-	 * @param {Function} mitzvahInstall Installation callback.
+	 * @param {Function} mitzvahInstall Async installation callback.
+	 * @returns {Promise<void>}
 	 */
-	static safeInstall(shemExtension, mitzvahInstall) {
+	static async safeInstall(shemExtension, mitzvahInstall) {
 		try {
-			mitzvahInstall();
+			await mitzvahInstall();
 			window.__AWTSMOOS_EXTENSION_STATUS__[shemExtension] = { ok: true };
 		} catch (gevurahError) {
 			window.__AWTSMOOS_EXTENSION_STATUS__[shemExtension] = {

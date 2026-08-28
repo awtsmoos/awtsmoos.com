@@ -1,0 +1,86 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos renews every viewport before thumb, notch, keyboard, or narrow screen can impose a finite boundary;
+Awtsmoos.com lets the same owned surface contract bend with dignity, keeping content reachable, touchable, and calm on every device it may carry.
+*/
+[data-awtsmoos-surface] {
+	padding-inline: max(0px, var(--aw-surface-safe-left)) max(0px, var(--aw-surface-safe-right));
+}
+
+[data-awtsmoos-surface] :where(input, textarea, select) {
+	font-size: max(1rem, 16px);
+}
+
+[data-awtsmoos-surface] [data-awtsmoos-mobile-stack] {
+	display: flex;
+	gap: var(--aw-surface-gap-sm);
+	min-inline-size: 0;
+}
+
+[data-awtsmoos-surface] [data-awtsmoos-mobile-scroll] {
+	max-inline-size: 100%;
+	overflow-x: auto;
+	overflow-y: hidden;
+	overscroll-behavior-inline: contain;
+	scrollbar-width: thin;
+	-webkit-overflow-scrolling: touch;
+}
+
+[data-awtsmoos-surface] [data-awtsmoos-safe-bottom] {
+	padding-block-end: max(
+		var(--aw-surface-gap-md),
+		var(--aw-surface-safe-bottom)
+	);
+}
+
+@media (pointer: coarse) {
+	[data-awtsmoos-surface] :where(
+		button,
+		[role="button"],
+		a[href],
+		input,
+		textarea,
+		select,
+		summary,
+		[tabindex]:not([tabindex="-1"])
+	) {
+		min-block-size: max(var(--aw-surface-touch), 2.9rem);
+	}
+}
+
+@media (max-width: 48rem) {
+	[data-awtsmoos-surface] [data-awtsmoos-mobile-stack] {
+		flex-direction: column;
+	}
+
+	[data-awtsmoos-surface] [data-awtsmoos-layer="drawer"] {
+		inset-inline: 0;
+		inset-block-end: 0;
+		inline-size: 100%;
+		max-inline-size: 100%;
+		max-block-size: min(88dvh, 48rem);
+		border-radius: var(--aw-surface-radius-lg) var(--aw-surface-radius-lg) 0 0;
+		padding-block-end: max(
+			var(--aw-surface-gap-md),
+			var(--aw-surface-safe-bottom)
+		);
+	}
+
+	[data-awtsmoos-surface] [data-awtsmoos-layer="modal"] {
+		inset-inline: max(.5rem, var(--aw-surface-safe-left)) max(.5rem, var(--aw-surface-safe-right));
+		inline-size: auto;
+	}
+}
+
+@media (max-width: 30rem) {
+	[data-awtsmoos-surface] {
+		--aw-surface-gap-lg: 1.1rem;
+		--aw-surface-radius-lg: 1.2rem;
+	}
+
+	[data-awtsmoos-surface] [data-awtsmoos-collapse-small="true"] {
+		display: none;
+	}
+}

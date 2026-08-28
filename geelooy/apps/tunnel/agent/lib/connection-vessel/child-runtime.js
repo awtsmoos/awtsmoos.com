@@ -1,4 +1,4 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
@@ -12,11 +12,10 @@ const { createFoundation } = require("./child-foundation.js");
 const { createDelivery } = require("./child-delivery.js");
 const Protocol = require("./protocol.js");
 const Send = require("../runtime/safe-send.js");
-
 /**
  * @file Composes transport, durable custody, parent health, and relay testimony.
  * @description
- * The Awtsmoos renews each request with one identity across socket and process vessels.
+ * The Awtsmoos renews each request and generation across socket and process vessels.
  * Awtsmoos.com keeps composition here while smaller custody and cycle vessels guard the
  * exact deed, so runtime life remains readable and expandable without a monolithic veil.
  */
@@ -27,7 +26,8 @@ function createRuntime() {
 	const ipc = Ipc.create();
 	const healthPublisher = HealthPublisher.create();
 	const parent = ParentState.create({
-		parentPid: process.env.AWTSMOOS_CONNECTION_OWNER_PID
+		parentPid: process.env.AWTSMOOS_CONNECTION_OWNER_PID,
+		getGeneration: () => foundation?.state?.generation || 0
 	});
 	let cycle;
 	let custody;

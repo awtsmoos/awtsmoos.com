@@ -3,9 +3,9 @@
 // Blessed is He
 /**
  * @file ObstacleFactory.js
- * @description Registers themed obstacle descriptors once, then gives every pooled slot stable semantic identity without rebuilding geometry during chunk recycle.
- * The Awtsmoos renews every finite challenge while one registry joins market, eruv, transport, maintenance, and community light;
- * Awtsmoos.com lets Gevurah reveal the chosen vessel by name so collision stays simple, truthful, and right.
+ * @description Composes themed obstacle families once, indexes universal definitions, and reuses pooled visual clones while runtime metadata projects from canonical collision, gameplay, and motion truth.
+ * The Awtsmoos renews market, eruv, transport, maintenance, community, stillness, and approach before the street calls them many;
+ * Awtsmoos.com lets one Gevurah factory reveal pooled garments while Yesod keeps every semantic identity steady.
  */
 
 import { GevurahCommunityObstacleParts } from "./obstacles/CommunityObstacleParts.js";
@@ -13,81 +13,83 @@ import { GevurahEruvObstacleParts } from "./obstacles/EruvObstacleParts.js";
 import { GevurahMaintenanceObstacleParts } from "./obstacles/MaintenanceObstacleParts.js";
 import { GevurahMarketObstacleParts } from "./obstacles/MarketObstacleParts.js";
 import { GevurahTransportObstacleParts } from "./obstacles/TransportObstacleParts.js";
+import { YesodPerutaObstacleDescriptorIndex } from "./obstacles/semantic/PerutaObstacleDescriptorIndex.js";
+import { projectPerutaObstacleRuntimeMetadata } from "./obstacles/semantic/PerutaObstacleRuntimeMetadata.js";
+import {
+	createPerutaObstacleSlotVisuals,
+	revealPerutaObstacleVisual
+} from "./obstacles/semantic/PerutaObstacleSlotVisuals.js";
 
 export class GevurahObstacleFactory {
 	/**
-	 * Builds every visual descriptor exactly once so later slot clones share geometry and materials.
-	 * @param {object} THREE Three namespace.
-	 * @param {object} meshFactory Shared procedural-core-backed mesh factory.
+	 * @description Builds every thematic descriptor once, freezes catalog order, and creates the semantic id index used by pooling, patterns, and challenge planning.
+	 * @param {object} tiferesThree Canonical Three namespace.
+	 * @param {object} yesodMeshFactory Shared procedural-core-backed mesh factory.
 	 */
-	constructor(THREE, meshFactory) {
-		this.THREE = THREE;
-		this.descriptors = Object.freeze(this.createDescriptors(THREE, meshFactory));
-		this.byId = createDescriptorIndex(this.descriptors);
-	}
-
-	/** @private @returns {Array<object>} All themed descriptors in stable discovery order. */
-	createDescriptors(THREE, meshFactory) {
-		const binahFamilies = [
-			new GevurahTransportObstacleParts(THREE, meshFactory),
-			new GevurahMarketObstacleParts(THREE, meshFactory),
-			new GevurahMaintenanceObstacleParts(THREE, meshFactory),
-			new GevurahEruvObstacleParts(THREE, meshFactory),
-			new GevurahCommunityObstacleParts(THREE, meshFactory)
-		];
-		return binahFamilies.flatMap((family) => family.createVariants());
+	constructor(tiferesThree, yesodMeshFactory) {
+		this.THREE = tiferesThree;
+		this.descriptors = Object.freeze(
+			this.createDescriptors(tiferesThree, yesodMeshFactory)
+		);
+		this.index = new YesodPerutaObstacleDescriptorIndex(this.descriptors);
 	}
 
 	/**
-	 * Creates one bounded pooled slot containing hidden clones whose geometry/material references remain shared.
-	 * @returns {object} Reusable slot root.
+	 * @description Instantiates each themed family and collects descriptors in stable discovery order without creating any per-chunk geometry.
+	 * @param {object} tiferesThree Canonical Three namespace.
+	 * @param {object} yesodMeshFactory Shared procedural mesh factory.
+	 * @returns {Array<object>} Semantic obstacle descriptors with reusable visual templates.
+	 */
+	createDescriptors(tiferesThree, yesodMeshFactory) {
+		const binahFamilies = [
+			new GevurahTransportObstacleParts(tiferesThree, yesodMeshFactory),
+			new GevurahMarketObstacleParts(tiferesThree, yesodMeshFactory),
+			new GevurahMaintenanceObstacleParts(tiferesThree, yesodMeshFactory),
+			new GevurahEruvObstacleParts(tiferesThree, yesodMeshFactory),
+			new GevurahCommunityObstacleParts(tiferesThree, yesodMeshFactory)
+		];
+		return binahFamilies.flatMap((tiferesFamily) => tiferesFamily.createVariants());
+	}
+
+	/**
+	 * @description Creates one bounded pooled root containing a hidden shared-resource clone for every registered obstacle identity.
+	 * @returns {object} Reusable Three obstacle-slot visual root.
 	 */
 	createSlot() {
-		const malchusRoot = new this.THREE.Group();
-		malchusRoot.name = "PooledJewishCityObstacle";
-		malchusRoot.userData.variantNodes = Object.create(null);
-		for (const tiferesDescriptor of this.descriptors) {
-			const malchusNode = tiferesDescriptor.instantiate();
-			malchusRoot.userData.variantNodes[tiferesDescriptor.id] = malchusNode;
-			malchusRoot.add(malchusNode);
-		}
-		return malchusRoot;
+		return createPerutaObstacleSlotVisuals(this.THREE, this.descriptors);
 	}
 
 	/**
-	 * Reveals one stable semantic variant and returns its exact collision covenant.
-	 * @param {object} malchusRoot Pooled obstacle root.
-	 * @param {object} chochmahPlacement Pattern placement containing variantId.
-	 * @returns {Readonly<object>} Variant-specific normalized collision metadata.
+	 * @description Reveals one semantic visual and projects collision, pacing, and movement truth into one frozen runtime record copied onto the reusable slot.
+	 * @param {object} malchusRoot Pooled obstacle visual root.
+	 * @param {object} chochmahPlacement Pattern placement containing stable `variantId`.
+	 * @returns {Readonly<object>} Combined semantic runtime metadata.
 	 */
 	configure(malchusRoot, chochmahPlacement) {
-		const tiferesDescriptor = this.byId.get(chochmahPlacement.variantId);
-		if (!tiferesDescriptor) {
-			throw new RangeError(`Unknown Peruta obstacle variant: ${chochmahPlacement.variantId}`);
-		}
-		for (const netzachNode of Object.values(malchusRoot.userData.variantNodes)) {
-			netzachNode.visible = false;
-		}
-		malchusRoot.userData.variantNodes[tiferesDescriptor.id].visible = true;
-		const yesodMetadata = tiferesDescriptor.collisionMetadata();
+		const tiferesDescriptor = this.index.require(chochmahPlacement.variantId);
+		revealPerutaObstacleVisual(malchusRoot, tiferesDescriptor.id);
+		const yesodMetadata = projectPerutaObstacleRuntimeMetadata(tiferesDescriptor);
 		Object.assign(malchusRoot.userData, yesodMetadata);
 		return yesodMetadata;
 	}
 
-	/** @returns {Array<object>} Detached immutable discovery records without Three templates. */
-	descriptorView() {
-		return this.descriptors.map((descriptor) => descriptor.collisionMetadata());
+	/** @description Returns immutable gameplay pacing metadata for deterministic challenge selection. @param {string} yesodVariantId Stable obstacle id. @returns {Readonly<object>} Gameplay projection. */
+	gameplayFor(yesodVariantId) {
+		return this.index.gameplayFor(yesodVariantId);
 	}
-}
 
-/** @private */
-function createDescriptorIndex(descriptors) {
-	const yesodIndex = new Map();
-	for (const tiferesDescriptor of descriptors) {
-		if (yesodIndex.has(tiferesDescriptor.id)) {
-			throw new Error(`Duplicate Peruta obstacle variant id: ${tiferesDescriptor.id}`);
-		}
-		yesodIndex.set(tiferesDescriptor.id, tiferesDescriptor);
+	/** @description Returns canonical universal definition truth for one registered obstacle. @param {string} yesodVariantId Stable obstacle id. @returns {Readonly<object>} Canonical definition. */
+	definitionFor(yesodVariantId) {
+		return this.index.definitionFor(yesodVariantId);
 	}
-	return yesodIndex;
+
+	/** @description Preserves collision-oriented catalog discovery. @returns {Array<Readonly<object>>} Collision projections in stable order. */
+	descriptorView() {
+		return this.descriptors.map((tiferesDescriptor) => tiferesDescriptor.collisionMetadata());
+	}
+
+	/** @description Exposes bounded semantic definition views without renderer templates. @returns {Array<Readonly<object>>} Universal obstacle discovery records. */
+	semanticView() {
+		return this.descriptors.map((tiferesDescriptor) => tiferesDescriptor.semanticView());
+	}
 }

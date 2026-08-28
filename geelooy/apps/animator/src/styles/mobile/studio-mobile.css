@@ -1,18 +1,24 @@
-/* B"H
- * Boruch Hashem
- * Blessed is He
- * The Awtsmoos renews the narrow screen before tool, stage, sheet, HUD, or safe area can claim room;
- * Awtsmoos.com gives mobile artists one major vessel at a time while every visible control remains reachable, styled, and generous to touch.
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews Studio inside the narrow screen before toolbar, panel, or safe area can demand room;
+ * Awtsmoos.com holds the professional vessel to the living viewport while deliberate scroll reveals every command in bloom.
  */
 @media (max-width: 780px) {
 	.aw-professional-studio .app-shell {
-		grid-template-columns: 1fr;
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+		grid-template-columns: minmax(0, 1fr);
 		grid-template-rows: minmax(0, 1fr);
 	}
 
 	.aw-professional-studio .app-sidebar-left,
 	.aw-professional-studio .app-sidebar-right,
 	.aw-professional-studio .app-timeline {
+		max-width: calc(100% - 16px);
 		z-index: var(--aw-z-mobile-panel);
 		border: 1px solid var(--aw-line-strong);
 		border-radius: var(--aw-radius-lg);
@@ -29,13 +35,21 @@
 
 	#aw-studio-toolbar-mount {
 		top: max(6px, env(safe-area-inset-top, 0px));
-		width: calc(100% - 12px);
+		left: max(6px, env(safe-area-inset-left, 0px));
+		right: max(6px, env(safe-area-inset-right, 0px));
+		width: auto;
+		max-width: none;
+		transform: none;
 	}
 
 	.aw-studio-toolbar {
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
 		grid-template-columns: minmax(0, 1fr) auto;
 		gap: 5px 8px;
 		padding: 5px 6px;
+		overflow: hidden;
 		border-radius: var(--aw-radius-md);
 	}
 
@@ -50,13 +64,20 @@
 	.aw-studio-toolbar-actions {
 		grid-column: 1 / -1;
 		justify-content: flex-start;
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
 		overflow-x: auto;
-		padding-bottom: 2px;
-		scrollbar-width: none;
+		overflow-y: hidden;
+		overscroll-behavior-inline: contain;
+		scroll-snap-type: x proximity;
+		scrollbar-width: thin;
+		-webkit-overflow-scrolling: touch;
+		padding: 0 14px 4px 0;
 	}
 
-	.aw-studio-toolbar-actions::-webkit-scrollbar {
-		display: none;
+	.aw-studio-toolbar-actions > * {
+		scroll-snap-align: start;
 	}
 
 	.aw-studio-toolbar button,
@@ -82,18 +103,16 @@
 		background: var(--aw-panel-glass-strong);
 	}
 
-	.aw-studio-tab {
-		min-height: var(--aw-touch-height);
-	}
-
-	.aw-studio-scroll {
-		padding: 8px;
-	}
-
+	.aw-studio-tab,
 	.aw-studio-create-button,
 	.aw-studio-layer-action-grid button,
 	.aw-studio-pen-actions button {
 		min-height: var(--aw-touch-height);
+	}
+
+	.aw-studio-scroll {
+		min-width: 0;
+		padding: 8px;
 	}
 
 	.aw-studio-inspector-section {

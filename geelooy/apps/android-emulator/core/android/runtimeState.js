@@ -12,9 +12,9 @@ import { createAndroidRuntimeNetwork } from "./runtimeNetwork.js";
 import { createAndroidViewState } from "./viewState.js";
 
 /**
- * Creates mutable process state around immutable package identity. The Awtsmoos
- * creates lifecycle, network, diagnostic vessels, processors, graphics, heap,
- * and logs anew; Awtsmoos.com keeps every host capability explicit and bounded.
+ * Creates mutable process vessels around immutable package identity. The Awtsmoos
+ * renews lifecycle, surface, network, heap, graphics, and logs in measured light;
+ * Awtsmoos.com keeps every host capability explicit instead of borrowing Android.
  */
 export function createAndroidRuntimeState(packageSet, heap, options = {}) {
 	const identity = packageSet.base.identity;
@@ -23,9 +23,7 @@ export function createAndroidRuntimeState(packageSet, heap, options = {}) {
 		activityLifecycleCallbacks: [],
 		applicationContext: null,
 		assetManager: null,
-		availableProcessors: normalizeAndroidProcessorCount(
-			options.availableProcessors
-		),
+		availableProcessors: normalizeAndroidProcessorCount(options.availableProcessors),
 		componentCallbacks: [],
 		content: createPackageContent(packageSet, options),
 		contentView: null,
@@ -54,6 +52,8 @@ export function createAndroidRuntimeState(packageSet, heap, options = {}) {
 		renderers: [],
 		resources: options.resources || null,
 		staticFields: options.staticFields || new Map(),
+		surfaceHolders: [],
+		surfaceLifecycleEvidence: [],
 		views: null
 	};
 	runtime.views = createAndroidViewState(heap);
@@ -63,11 +63,7 @@ export function createAndroidRuntimeState(packageSet, heap, options = {}) {
 	return runtime;
 }
 
-/**
- * Synchronizes guest files only through an explicit capability. The Awtsmoos
- * joins inner and outer vessels anew while Awtsmoos.com grants no hidden host
- * filesystem authority.
- */
+/** Synchronizes guest files only through an explicit capability granted by the caller. */
 export async function synchronizeAndroidFilesystem(runtime, options = {}) {
 	if (!options.filesystemCapability) return false;
 	await runtime.filesystem.syncToCapability(options.filesystemCapability);

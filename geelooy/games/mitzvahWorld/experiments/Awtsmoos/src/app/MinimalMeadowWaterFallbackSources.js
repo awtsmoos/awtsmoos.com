@@ -1,50 +1,37 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file MinimalMeadowWaterFallbackSources.js
- * @description Generates bounded flow-normal vessels in memory while preserving real visible water imagery.
- * The Awtsmoos moves the current without hiding a local binary inside the source tree;
- * Awtsmoos.com keeps procedural normals explicit while real water color and shore remain the visible decree.
+ * @description Preserves the historic water-source shape without generating any local image when remote water assets are still pending.
+ * The Awtsmoos moves river and shore beyond every canvas made by hand; Awtsmoos.com keeps the vessel empty
+ * until genuine distant water, stone, and earth images arrive, so no generated current may counterfeit the land.
  */
 
-import { createMinimalMeadowProceduralRiverBed } from './MinimalMeadowProceduralRiverBed.js';
-import { createMinimalMeadowProceduralWaterNormals } from './MinimalMeadowProceduralWaterNormals.js';
-
-/**
- * Creates runtime-only water fallback images and explicit provenance.
- * @param {object} environment Browser-like environment or document.
- * @param {object} urls Canonical hosted-source URL registry.
- * @returns {object} Fallback source set used before hosted images finish loading.
- */
+/** Returns a remote-pending source set with no generated images. */
 export function createMinimalMeadowWaterFallbackSources(
-	environment = globalThis,
+	_environment = globalThis,
 	urls = Object.freeze({})
 ) {
-	const documentValue = environment.document || environment;
-	const normals = createMinimalMeadowProceduralWaterNormals(documentValue);
-	const bed = createMinimalMeadowProceduralRiverBed(documentValue);
 	return {
-		activeNormalSources: 2,
-		bank: bed,
-		bankMode: 'procedural-earth-fallback',
-		bed,
-		bedMode: 'procedural-stone-silt',
-		color: normals[0],
-		colorMode: 'procedural-visible-current',
-		detail: normals[1],
+		activeNormalSources: 0,
+		bank: null,
+		bankMode: 'remote-pending',
+		bed: null,
+		bedMode: 'remote-pending',
+		color: null,
+		colorMode: 'remote-pending',
+		detail: null,
 		hostedColorReady: 0,
 		hostedSurfaceReady: 0,
 		localNormalsReady: 0,
-		normalA: normals[0],
-		normalB: normals[1],
-		normalMode: 'procedural-dual-flow-normal',
-		provenance: [
-			'procedural://awtsmoos-water-normal/613',
-			'procedural://awtsmoos-water-normal/991'
-		],
+		normalA: null,
+		normalB: null,
+		normalMode: 'remote-only-none-available',
+		provenance: [],
 		records: [],
+		remoteOnly: true,
 		urls
 	};
 }

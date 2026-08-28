@@ -1,12 +1,11 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file MinimalMeadowWorldSystems.js
- * @description Mounts immediate world truth while delegating expansion, diagnostics, and rich scheduling to focused vessels.
- * The Awtsmoos gives combat, quest, atmosphere, and safe return before distant abundance enters the field;
- * Awtsmoos.com keeps this coordinator narrow, so each system may reveal its own light without making one bootstrap file refuse to yield.
+ * @description Mounts immediate world truth while reusing the adaptive-quality authority already owned by the core frame and delegating expansion, diagnostics, and rich scheduling to focused vessels.
+ * The Awtsmoos gives combat, quest, atmosphere, and safe return while Awtsmoos.com refuses to reset a quality covenant already measuring the living frame; richer systems join the stream without erasing what smoothness learned before their name.
  */
 
 import { ExpansionLandmarkPopulation } from './ExpansionLandmarkPopulation.js';
@@ -28,14 +27,9 @@ import {
 	updateMinimalMeadowWorldSystems
 } from './MinimalMeadowWorldSystemLifecycle.js';
 
-/**
- * Installs immediately playable world systems, then schedules rich detail behind the quiet window.
- * @param {object} runtime Mitzvah World runtime.
- * @param {object} environment Browser-like environment.
- * @returns {Promise<object>} Immediate world diagnostic receipt.
- */
+/** Installs playable world systems and schedules rich detail behind the quiet window. */
 export async function installMinimalMeadowWorldSystems(runtime, environment = globalThis) {
-	runtime.adaptiveQuality = new MinimalMeadowAdaptiveQuality(runtime);
+	ensureAdaptiveQuality(runtime);
 	runtime.regions = new MinimalMeadowRegionRuntime(runtime);
 	runtime.regionPackages = new RegionPackageRuntime(runtime);
 	runtime.sky = installMinimalMeadowSky(runtime.scene, runtime.camera, 'high');
@@ -56,7 +50,15 @@ export async function installMinimalMeadowWorldSystems(runtime, environment = gl
 	return receipt;
 }
 
-/** Binds existing update/destroy lifecycle functions without starting a second animation loop. */
+/** Preserves adaptive history from the core loop, creating a controller only for legacy callers. */
+function ensureAdaptiveQuality(runtime) {
+	if (!runtime.adaptiveQuality) {
+		runtime.adaptiveQuality = new MinimalMeadowAdaptiveQuality(runtime);
+	}
+	return runtime.adaptiveQuality;
+}
+
+/** Binds existing lifecycle functions without starting a second animation loop. */
 function bindWorldLifecycle(runtime) {
 	runtime.updateWorldSystems = deltaSeconds => {
 		return updateMinimalMeadowWorldSystems(runtime, deltaSeconds);

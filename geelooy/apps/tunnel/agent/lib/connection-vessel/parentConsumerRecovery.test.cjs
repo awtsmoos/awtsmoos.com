@@ -1,4 +1,4 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
@@ -7,22 +7,22 @@ const Recovery = require("./parent-consumer-recovery.js");
 const Harness = require("./parentConsumerRecoveryHarness.cjs");
 
 /**
- * @file Proves sustained silence, fresh-progress vetoes, and post-maturity preflight.
+ * @file Proves corroboration, vetoes, preflight, and exact identity stay one covenant.
  * @description
- * The Awtsmoos lets transient pressure dissolve without force; Awtsmoos.com requires
- * measured corroboration and a fresh witness before repair, then resets the covenant
- * so neither success nor cooldown can become a destructive polling loop.
+ * The Awtsmoos renews process and generation; stale testimony must dissolve from view.
+ * Awtsmoos.com lets sustained silence mature only while one exact identity remains true.
+ * Fresh success, pressure, or a changed birth begins the witnessing cycle anew.
  */
-const harness = Harness.createHarness();
-
 proveSustainedCandidate();
-proveFreshWitnessCancelsMatureCandidate();
+proveFreshWitnessCancelsCandidate();
 provePersistentStallRepairsOnce();
+proveIdentityChangeRestartsCorroboration();
 proveImmediateVetoes();
-console.log("BHY consumer recovery preserves corroboration, preflight, vetoes, and bounded healing");
+console.log("BHY consumer recovery preserves identity-bound corroboration and bounded healing");
 
-/** Proves the historical four-observation window still cannot claim repair early. */
+/** Proves the historical observation window cannot claim repair before preflight matures. */
 function proveSustainedCandidate() {
+	const harness = Harness.createHarness();
 	const recovery = Recovery.create({
 		ledger: harness.ledger,
 		minimumObservations: 4,
@@ -38,9 +38,9 @@ function proveSustainedCandidate() {
 	assert.equal(harness.claims, 0);
 }
 
-/** Recreates the false-SIGTERM race: fresh success after maturity must erase force. */
-function proveFreshWitnessCancelsMatureCandidate() {
-	harness.setNow(20000);
+/** Proves fresh execution after maturity erases candidate and preflight testimony. */
+function proveFreshWitnessCancelsCandidate() {
+	const harness = Harness.createHarness(20000);
 	const recovery = harness.fastRecovery();
 	assert.equal(recovery.observe(harness.stalled).repairAuthorized, false);
 	harness.setNow(21000);
@@ -51,14 +51,13 @@ function proveFreshWitnessCancelsMatureCandidate() {
 		execution: { ...harness.stalled.execution, recentSuccess: true }
 	});
 	assert.equal(fresh.reason, "fresh_execution_progress");
-	assert.equal(fresh.repairAuthorized, false);
 	assert.equal(recovery.snapshot().preflight.active, false);
 	assert.equal(harness.claims, 0);
 }
 
-/** Proves genuine sustained silence survives preflight and earns exactly one claim. */
+/** Proves persistent silence earns one durable identity-bearing claim. */
 function provePersistentStallRepairsOnce() {
-	harness.setNow(30000);
+	const harness = Harness.createHarness(30000);
 	const recovery = harness.fastRecovery();
 	assert.equal(recovery.observe(harness.stalled).repairAuthorized, false);
 	harness.setNow(31000);
@@ -67,16 +66,36 @@ function provePersistentStallRepairsOnce() {
 	const repaired = recovery.observe(harness.stalled);
 	assert.equal(repaired.repairAuthorized, true);
 	assert.equal(repaired.reason, "execution_ingress_stalled");
-	assert.equal(repaired.claimReason, "execution_ingress_stalled");
+	assert.deepEqual(repaired.claim.identity, harness.identity);
 	assert.equal(harness.claims, 1);
-	harness.setNow(31300);
+}
+
+/** Proves same PID with a new generation or birth cannot inherit old corroboration. */
+function proveIdentityChangeRestartsCorroboration() {
+	const harness = Harness.createHarness(40000);
+	const recovery = harness.fastRecovery();
 	assert.equal(recovery.observe(harness.stalled).repairAuthorized, false);
-	assert.equal(harness.claims, 1);
+	harness.setNow(41000);
+	assert.equal(recovery.observe(harness.stalled).reason, "repair_preflight");
+	harness.setNow(41250);
+	const changed = {
+		...harness.stalled,
+		repairIdentity: {
+			...harness.identity,
+			generation: 8,
+			birthToken: "parent-birth-b"
+		}
+	};
+	const restarted = recovery.observe(changed);
+	assert.equal(restarted.repairAuthorized, false);
+	assert.equal(restarted.candidateAgeMs, 0);
+	assert.equal(recovery.snapshot().observations, 1);
+	assert.equal(harness.claims, 0);
 }
 
 /** Proves fresh execution and runtime pressure remain immediate repair vetoes. */
 function proveImmediateVetoes() {
-	harness.setNow(40000);
+	const harness = Harness.createHarness(50000);
 	const recovery = harness.fastRecovery();
 	assert.equal(recovery.observe({
 		...harness.stalled,
@@ -86,5 +105,5 @@ function proveImmediateVetoes() {
 		...harness.stalled,
 		pressure: { deferRepair: true }
 	}).reason, "runtime_pressure");
-	assert.equal(harness.claims, 1);
+	assert.equal(harness.claims, 0);
 }

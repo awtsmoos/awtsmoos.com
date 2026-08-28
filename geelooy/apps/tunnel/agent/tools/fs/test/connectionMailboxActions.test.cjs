@@ -6,15 +6,16 @@ const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const os = require("node:os");
 const path = require("node:path");
+const Emergency = require("../../../lib/connection-vessel/mailbox-emergency-registry.js");
 const Mailbox = require("../../../lib/connection-vessel/mailbox.js");
-const Paths = require("../../../lib/connection-vessel/mailbox-paths.js");
 const { buildConnectionMailboxActions } = require("../actionGroups/connectionMailboxActions.js");
 
 /**
- * @file Proves connected mailbox recovery stays observable, redacted, and deliberately non-destructive.
+ * @file Proves public P0 mailbox recovery reaches one registered live mailbox and fails closed.
  * @description
- * The Awtsmoos preserves each receipt as testimony while Awtsmoos.com opens only the requested pane;
- * invalid parchment may be quarantined with consent, but a valid stalled witness remains in its lane.
+ * The Awtsmoos preserves each valid deed while Awtsmoos.com reveals status, evidence, and repair;
+ * confirmation opens semantic inspection, never permission to erase unresolved testimony from there.
+ * Exact receipt recovery reaches the same guarded vessel, where durable proof alone may make it bare.
  */
 const sandbox = fs.mkdtempSync(path.join(os.tmpdir(), "awts-mailbox-actions-"));
 const config = {
@@ -36,9 +37,12 @@ async function main() {
 	try {
 		fs.mkdirSync(config.root, { recursive: true });
 		const mailbox = Mailbox.createMailbox(config);
+		Emergency.register(mailbox, { intervalMs: 60000 });
 		mailbox.putInbox({ id: "valid-stalled", action: "read", secret: "hidden" });
+
 		const status = await invoke("connectionMailboxStatus");
 		assert.equal(status.ok, true);
+		assert.equal(status.registered, true);
 		assert.equal(status.mailbox.inbox.count, 1);
 
 		const redacted = await invoke("connectionMailboxExport", { includePayloads: true });
@@ -51,24 +55,33 @@ async function main() {
 		);
 		assert.equal(revealed.evidence.inbox[0].value.secret, "hidden");
 
-		const corrupt = path.join(Paths.lane(config, "outbox"), "broken.json");
-		fs.mkdirSync(path.dirname(corrupt), { recursive: true });
-		fs.writeFileSync(corrupt, "not-json");
 		const guarded = await invoke("connectionMailboxQuarantine");
 		assert.equal(guarded.error, "confirmation_required");
-		assert.equal(fs.existsSync(corrupt), true);
-		const quarantined = await invoke("connectionMailboxQuarantine", { confirm: true });
-		assert.equal(quarantined.ok, true);
-		assert.equal(quarantined.quarantined.outbox.length, 1);
-		assert.equal(fs.existsSync(corrupt), false);
+		const reconciled = await invoke("connectionMailboxQuarantine", { confirm: true });
+		assert.equal(reconciled.ok, true);
+		assert.equal(reconciled.expired, 0);
+		assert.equal(reconciled.replacementRequired, false);
+		assert.equal(reconciled.safeToRedispatch, false);
+
+		const exact = await invoke("connectionMailboxQuarantine", {
+			confirm: true,
+			id: "valid-stalled"
+		});
+		assert.equal(exact.ok, true);
+		assert.equal(exact.quarantined.moved, false);
+		assert.equal(exact.quarantined.preserved, true);
+		assert.equal(exact.quarantined.reason, "durable_retirement_proof_required");
 		assert.equal(Mailbox.createMailbox(config).inbox()[0].id, "valid-stalled");
 
 		console.log(JSON.stringify({
 			ok: true,
 			suite: "connection-mailbox-actions",
-			liveReceiptsPreserved: true
+			registeredLiveMailbox: true,
+			semanticRecoveryPreserved: true,
+			exactRecoveryPreserved: true
 		}, null, 2));
 	} finally {
+		Emergency.register(null);
 		fs.rmSync(sandbox, { recursive: true, force: true });
 	}
 }

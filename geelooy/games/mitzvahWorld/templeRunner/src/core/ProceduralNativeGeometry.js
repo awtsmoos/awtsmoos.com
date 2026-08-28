@@ -3,9 +3,9 @@
 // Blessed is He
 /**
  * @file ProceduralNativeGeometry.js
- * @description Converts renderer-neutral procedural render data into reusable native geometry and optionally reveals semantic ecology-zone data through the Core's canonical `zone` attribute.
- * The Awtsmoos renews abstract point before position, normal, color, UV, and ecological identity can appear as separate form;
- * Awtsmoos.com lets Malchus gather typed arrays honestly while untagged geometry inherits the native Core's default meadow norm.
+ * @description Converts renderer-neutral Procedural Core render data into native geometry while optionally revealing semantic ecology-zone identity through the Core's canonical four-component `zone` attribute.
+ * The Awtsmoos renews abstract point before position, normal, color, UV, index, and ecological identity can appear as separate form;
+ * Awtsmoos.com lets Malchus gather typed arrays honestly, while untagged geometry inherits the native Core's truthful generic meadow norm.
  */
 
 import {
@@ -16,33 +16,42 @@ import { revealProceduralZoneValues } from "./ProceduralZoneAttribute.js";
 
 export class MalchusProceduralNativeGeometry {
 	/**
-	 * Converts typed procedural render data into native geometry with optional semantic ecology-zone data.
-	 * @param {object} data Typed procedural-core render data.
-	 * @param {{zone?:ArrayLike<number>}} [options] Optional semantic geometry metadata.
-	 * @returns {BufferGeometry} Native geometry.
+	 * @description Materializes positions plus every available optional render attribute, expands explicit ecology-zone identity per vertex, and records lightweight procedural provenance on the resulting native geometry.
+	 * @param {object} malchusData Typed renderer-neutral primitive data containing positions and optional normals, colors, UVs, and indices.
+	 * @param {{zone?:ArrayLike<number>}} [yesodOptions={}] Optional semantic geometry metadata whose `zone` becomes a native four-component vertex attribute.
+	 * @returns {BufferGeometry} Native geometry ready for Procedural Core mesh materialization.
 	 */
-	create(data, options = {}) {
-		const geometry = new BufferGeometry();
-		geometry.setAttribute("position", new BufferAttribute(data.positions, 3));
-		this.setOptionalAttribute(geometry, "normal", data.normals, 3);
-		this.setOptionalAttribute(geometry, "color", data.colors, 4);
-		this.setOptionalAttribute(geometry, "uv", data.uvs, 2);
-		if (options.zone) {
-			const vertexCount = Math.floor(data.positions.length / 3);
-			geometry.setAttribute(
+	create(malchusData, yesodOptions = {}) {
+		const malchusGeometry = new BufferGeometry();
+		malchusGeometry.setAttribute("position", new BufferAttribute(malchusData.positions, 3));
+		this.setOptionalAttribute(malchusGeometry, "normal", malchusData.normals, 3);
+		this.setOptionalAttribute(malchusGeometry, "color", malchusData.colors, 4);
+		this.setOptionalAttribute(malchusGeometry, "uv", malchusData.uvs, 2);
+		if (yesodOptions.zone) {
+			const malchusVertexCount = Math.floor(malchusData.positions.length / 3);
+			malchusGeometry.setAttribute(
 				"zone",
-				new BufferAttribute(revealProceduralZoneValues(vertexCount, options.zone), 4)
+				new BufferAttribute(revealProceduralZoneValues(malchusVertexCount, yesodOptions.zone), 4)
 			);
 		}
-		if (data.indices?.length) geometry.setIndex(new BufferAttribute(data.indices, 1));
-		geometry.userData.awtsmoosProcedural = true;
-		geometry.userData.awtsmoosUvReady = Boolean(data.uvs?.length);
-		geometry.userData.awtsmoosZoneReady = Boolean(options.zone);
-		return geometry;
+		if (malchusData.indices?.length) malchusGeometry.setIndex(new BufferAttribute(malchusData.indices, 1));
+		malchusGeometry.userData.awtsmoosProcedural = true;
+		malchusGeometry.userData.awtsmoosUvReady = Boolean(malchusData.uvs?.length);
+		malchusGeometry.userData.awtsmoosZoneReady = Boolean(yesodOptions.zone);
+		return malchusGeometry;
 	}
 
-	/** @param {BufferGeometry} geometry Native geometry. @param {string} name Attribute key. @param {ArrayLike<number>} values Values. @param {number} size Item size. @returns {void} */
-	setOptionalAttribute(geometry, name, values, size) {
-		if (values?.length) geometry.setAttribute(name, new BufferAttribute(values, size));
+	/**
+	 * @description Installs one optional native vertex attribute only when authored values exist, keeping absent normals/colors/UVs truly absent instead of allocating meaningless buffers.
+	 * @param {BufferGeometry} malchusGeometry Native geometry receiving the optional attribute.
+	 * @param {string} yesodName Canonical native attribute name.
+	 * @param {ArrayLike<number>|undefined} chochmahValues Typed or array-like attribute values, or undefined when the procedural source omitted the channel.
+	 * @param {number} gevurahItemSize Number of scalar values belonging to each vertex item.
+	 * @returns {void}
+	 */
+	setOptionalAttribute(malchusGeometry, yesodName, chochmahValues, gevurahItemSize) {
+		if (chochmahValues?.length) {
+			malchusGeometry.setAttribute(yesodName, new BufferAttribute(chochmahValues, gevurahItemSize));
+		}
 	}
 }

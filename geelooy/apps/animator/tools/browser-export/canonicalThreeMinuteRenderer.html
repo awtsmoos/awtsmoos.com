@@ -1,0 +1,103 @@
+<!-- B"H -->
+<!-- Boruch Hashem -->
+<!-- Blessed is He -->
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Awtsmoos AI Canonical Movie Export</title>
+	<style>
+		html,
+		body {
+			margin: 0;
+			min-height: 100%;
+			background: #07101f;
+			color: #f7f1df;
+			font: 16px/1.5 system-ui, sans-serif;
+		}
+		main {
+			max-width: 760px;
+			margin: 36px auto;
+			padding: 28px;
+			border: 1px solid #6d7f9d;
+			border-radius: 24px;
+			background: #111d31;
+			box-shadow: 0 24px 80px #0008;
+		}
+		.grid {
+			display: grid;
+			grid-template-columns: repeat(4, minmax(0, 1fr));
+			gap: 10px;
+		}
+		.card {
+			padding: 12px;
+			border: 1px solid #405577;
+			border-radius: 12px;
+			background: #0b1629;
+		}
+		.card b {
+			display: block;
+			font-size: 22px;
+			color: #8de4ff;
+		}
+		progress {
+			width: 100%;
+			height: 24px;
+		}
+		.status {
+			min-height: 54px;
+			padding: 12px;
+			border-left: 4px solid #8de4ff;
+			background: #0a1526;
+			white-space: pre-wrap;
+		}
+		.ok {
+			border-color: #71e7a8;
+		}
+		.error {
+			border-color: #ff7b72;
+		}
+		button {
+			min-height: 48px;
+			padding: 0 18px;
+			border: 0;
+			border-radius: 12px;
+			background: #8de4ff;
+			color: #07101f;
+			font: inherit;
+			font-weight: 800;
+		}
+		button:focus-visible {
+			outline: 3px solid #f6c454;
+			outline-offset: 3px;
+		}
+		@media (max-width: 620px) {
+			main {
+				margin: 8px;
+				padding: 18px;
+			}
+			.grid {
+				grid-template-columns: repeat(2, minmax(0, 1fr));
+			}
+		}
+	</style>
+</head>
+<body>
+	<main>
+		<p>B"H · The Awtsmoos renews one AI-authored canonical movie as encoded time.</p>
+		<h1>The Movie Keeps Becoming</h1>
+		<p>Awtsmoos.com · shared semantic movie · deterministic Canvas frames · H.264/AAC MP4</p>
+		<div class="grid" aria-label="Canonical export facts">
+			<div class="card"><b>180s</b>full movie</div>
+			<div class="card"><b>12</b>AI scenes</div>
+			<div class="card"><b>640×360</b>proof</div>
+			<div class="card"><b>12fps</b>offline</div>
+		</div>
+		<p id="status" class="status" role="status" aria-live="polite">Preparing canonical movie export…</p>
+		<progress id="progress" max="100" value="0" aria-label="Render progress"></progress>
+		<p><button id="start" disabled>Render Canonical MP4</button></p>
+	</main>
+	<script type="module" src="./CanonicalThreeMinuteExportPage.js"></script>
+</body>
+</html>

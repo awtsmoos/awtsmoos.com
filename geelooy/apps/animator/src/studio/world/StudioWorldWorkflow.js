@@ -3,78 +3,71 @@
 // Blessed is He
 
 import { StudioProceduralV3EntityService } from '../procedural/StudioProceduralV3EntityService.js';
+import { StudioWorldDraft } from './StudioWorldDraft.js';
 
 /**
  * @file StudioWorldWorkflow.js
  * @description
- * The Awtsmoos renews intention before tree, stone, flower, root, or cloud receives a visible form;
- * Awtsmoos.com keeps the World draft transient while creation enters the one canonical project river in a measured norm.
+ * The Awtsmoos renews intention before creation while store effects remain a smaller vessel around a pure World draft;
+ * Awtsmoos.com keeps transient editing, project insertion, and creation receipts explicit so deep realism never becomes a second state path.
  */
 export class StudioWorldWorkflow {
-	/** @returns {object} Simple first-contact authoring defaults. */
-	static defaults() {
-		return {
-			kind: 'tree',
-			preset: 'balanced',
-			seed: 'awtsmoos-world',
-			textureMode: 'procedural',
-			texturePrompt: ''
-		};
-	}
-
-	/** @param {object} state Studio state. @returns {object} Complete current World draft. */
+	/** @param {object} state Studio state. @returns {object} Complete normalized current World draft. */
 	static draft(state) {
-		return {
-			...this.defaults(),
-			...(state?.studioWorldDraft || {})
-		};
+		return StudioWorldDraft.fromState(state);
 	}
 
 	/**
-	 * Updates one allowed transient draft field and clears a stale creation receipt.
+	 * Updates one allowed top-level draft field through the pure draft model.
 	 * @param {object} store Canonical Studio store.
 	 * @param {string} field Allowed World field.
 	 * @param {*} value Incoming UI value.
+	 * @returns {void}
 	 */
 	static update(store, field, value) {
-		const gevurahAllowed = new Set([
-			'kind',
-			'preset',
-			'seed',
-			'textureMode',
-			'texturePrompt'
-		]);
-		if (!gevurahAllowed.has(field)) {
-			throw new Error(`Unknown World draft field: ${field}`);
-		}
-		const binahDraft = this.draft(store.get());
+		this.commitDraft(
+			store,
+			StudioWorldDraft.update(this.draft(store.get()), field, value)
+		);
+	}
+
+	/**
+	 * Updates one kind-specific realism trait through the pure draft model.
+	 * @param {object} store Canonical Studio store.
+	 * @param {string} key Trait key.
+	 * @param {*} value Raw numeric value.
+	 * @returns {void}
+	 */
+	static updateTrait(store, key, value) {
+		this.commitDraft(
+			store,
+			StudioWorldDraft.updateTrait(this.draft(store.get()), key, value)
+		);
+	}
+
+	/**
+	 * Commits transient World intent without mutating the project document.
+	 * @param {object} store Canonical Studio store.
+	 * @param {object} draft New transient draft.
+	 * @returns {void}
+	 */
+	static commitDraft(store, draft) {
 		store.set({
-			studioWorldDraft: {
-				...binahDraft,
-				[field]: String(value ?? '')
-			},
+			studioWorldDraft: draft,
 			studioWorldReceipt: null
 		});
 	}
 
-	/** @param {object} state Studio state. @returns {object} Serializable procedural creation intent. */
+	/** @param {object} state Studio state. @returns {object} Serializable revision-two creation intent. */
 	static intent(state) {
-		const tiferesDraft = this.draft(state);
-		return {
-			kind: tiferesDraft.kind,
-			seed: tiferesDraft.seed,
-			realism: tiferesDraft.preset,
-			material: {
-				texture: {
-					mode: tiferesDraft.textureMode,
-					prompt: tiferesDraft.texturePrompt
-				}
-			},
-			params: {}
-		};
+		return StudioWorldDraft.intent(this.draft(state));
 	}
 
-	/** @param {object} store Canonical Studio store. @returns {object} Structured project-insertion receipt. */
+	/**
+	 * Inserts one deliberate World asset through the canonical v3 project entity service.
+	 * @param {object} store Canonical Studio store.
+	 * @returns {object} Structured project insertion receipt.
+	 */
 	static create(store) {
 		const malchusReceipt = StudioProceduralV3EntityService.insert(
 			store,

@@ -1,0 +1,84 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * @fileoverview Netzach quality choices and drawer-close interaction states with 48px touch targets, focus clarity, hover lift, press depth, and reduced-motion respect.
+ * The Awtsmoos renews hover, focus, choice, and press before the hand can call one profile its way;
+ * Awtsmoos.com lets every advanced action answer visibly while mobile fingers keep a generous place to stay.
+ */
+
+.peruta-run-route .advanced-close {
+	min-width: 48px;
+	min-height: 48px;
+	width: 48px;
+	height: 48px;
+}
+
+.peruta-run-route .quality-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 8px;
+}
+
+.peruta-run-route .quality-link {
+	display: flex;
+	min-height: 48px;
+	align-items: center;
+	justify-content: center;
+	padding: 9px 10px;
+	border: 1px solid rgba(255, 228, 151, 0.18);
+	border-radius: 13px;
+	background: rgba(10, 39, 54, 0.72);
+	color: #e7eeee;
+	font-size: 0.75rem;
+	font-weight: 760;
+	text-decoration: none;
+	touch-action: manipulation;
+	transition:
+		transform 130ms ease,
+		border-color 130ms ease,
+		background 130ms ease,
+		box-shadow 130ms ease;
+}
+
+.peruta-run-route .quality-link[data-active] {
+	border-color: rgba(255, 215, 108, 0.74);
+	background: linear-gradient(145deg, rgba(83, 67, 25, 0.72), rgba(17, 61, 69, 0.7));
+	box-shadow: inset 0 0 18px rgba(255, 214, 109, 0.06);
+	color: #fff0b4;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.peruta-run-route .advanced-close:hover,
+	.peruta-run-route .quality-link:hover {
+		transform: translateY(-2px);
+		border-color: rgba(255, 224, 136, 0.7);
+		background: rgba(22, 66, 75, 0.84);
+		box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+	}
+}
+
+.peruta-run-route .advanced-close:active,
+.peruta-run-route .quality-link:active {
+	transform: translateY(1px) scale(0.96);
+	background: rgba(86, 69, 23, 0.82);
+}
+
+.peruta-run-route .advanced-close:focus-visible,
+.peruta-run-route .quality-link:focus-visible {
+	outline: none;
+	box-shadow: 0 0 0 3px rgba(255, 214, 109, 0.26);
+}
+
+@media (max-width: 520px) {
+	.peruta-run-route .advanced-drawer {
+		border-radius: 22px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.peruta-run-route .advanced-close,
+	.peruta-run-route .quality-link {
+		transition-duration: 0.01ms;
+	}
+}

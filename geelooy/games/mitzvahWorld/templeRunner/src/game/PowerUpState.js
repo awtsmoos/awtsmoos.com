@@ -1,74 +1,93 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
  * @file PowerUpState.js
- * @description Holds the bounded Tzedakah Pouch magnet, Shmira charge, and Double Peruta timers.
- * The Awtsmoos renews every moment of help before its measured light may fade;
- * Awtsmoos.com keeps temporary gifts explicit, finite, and simple while the runner is aided.
+ * @description Composes collected road-power state with the skill-earned Ruach timer while preserving one stable gameplay-facing power API.
+ * The Awtsmoos renews road gift and mastered wind before either can claim the power seen by play;
+ * Awtsmoos.com lets Chesed unite both vessels at one doorway, so reward and collision systems need no duplicated way.
  */
 
-import { POWERUP_CONFIG } from "../config.js";
+import { GevurahRoadPowerState } from "./RoadPowerState.js";
+import { ChochmahRuachRushState } from "./RuachRushState.js";
 
 export class ChesedPowerUpState {
+	/**
+	 * @description Creates focused road and mastery substates, then reveals one neutral composite power vessel.
+	 * @returns {void}
+	 */
 	constructor() {
-		this.reset();
+		this.road = new GevurahRoadPowerState();
+		this.ruachRush = new ChochmahRuachRushState();
 	}
 
-	/** Clears all temporary power-up effects for a fresh run. */
+	/**
+	 * @description Clears collected road gifts and earned Rush together for one fresh run.
+	 * @returns {void}
+	 */
 	reset() {
-		this.magnetTime = 0;
-		this.doubleTime = 0;
-		this.shieldCharges = 0;
-		this.lastCollected = "";
+		this.road.reset();
+		this.ruachRush.reset();
 	}
 
-	/** @param {number} delta Active-frame seconds. */
+	/**
+	 * @description Advances both focused substates through the same active-frame clock.
+	 * @param {number} delta Active-frame seconds.
+	 * @returns {void}
+	 */
 	update(delta) {
-		this.magnetTime = Math.max(0, this.magnetTime - delta);
-		this.doubleTime = Math.max(0, this.doubleTime - delta);
-		if (!this.magnetTime && this.lastCollected === "magnet") this.lastCollected = "";
-		if (!this.doubleTime && this.lastCollected === "double") this.lastCollected = "";
+		this.road.update(delta);
+		this.ruachRush.update(delta);
 	}
 
-	/** @param {string} type Canonical magnet, shield, or double power-up. */
+	/**
+	 * @description Delegates one collected road pickup without conflating it with earned mastery.
+	 * @param {string} type Canonical road power type.
+	 * @returns {void}
+	 */
 	activate(type) {
-		if (type === "magnet") this.magnetTime = POWERUP_CONFIG.magnetSeconds;
-		if (type === "double") this.doubleTime = POWERUP_CONFIG.doubleSeconds;
-		if (type === "shield") this.shieldCharges = POWERUP_CONFIG.shieldCharges;
-		this.lastCollected = type;
+		this.road.activate(type);
 	}
 
-	/** @returns {boolean} Whether the Tzedakah Pouch magnet is active. */
+	/** @description Starts or refreshes the finite skill-earned mastery burst. @returns {void} */
+	activateRush() {
+		this.ruachRush.activate();
+	}
+
+	/** @description Reveals whether earned Ruach Rush currently breathes through gameplay. @returns {boolean} Active Rush state. */
+	get rushActive() {
+		return this.ruachRush.active;
+	}
+
+	/** @description Reveals whether road magnet or earned Rush should attract perutas. @returns {boolean} Effective magnet state. */
 	get magnetActive() {
-		return this.magnetTime > 0;
+		return this.road.magnetActive || this.rushActive;
 	}
 
-	/** @returns {boolean} Whether Double Peruta reward is active. */
+	/** @description Reveals whether road double time or earned Rush should double peruta value. @returns {boolean} Effective doubled-reward state. */
 	get doubleActive() {
-		return this.doubleTime > 0;
+		return this.road.doubleActive || this.rushActive;
 	}
 
-	/** @returns {boolean} Whether a protective charge can absorb one contact. */
+	/** @description Reveals whether one collected protective charge can absorb contact. @returns {boolean} Active shield state. */
 	get shieldActive() {
-		return this.shieldCharges > 0;
+		return this.road.shieldActive;
 	}
 
-	/** Consumes one shield charge if available. @returns {boolean} Whether a charge was consumed. */
+	/** @description Delegates consumption of one collected shield charge. @returns {boolean} Whether a shield charge was consumed. */
 	consumeShield() {
-		if (!this.shieldCharges) return false;
-		this.shieldCharges -= 1;
-		if (!this.shieldCharges && this.lastCollected === "shield") this.lastCollected = "";
-		return true;
+		return this.road.consumeShield();
 	}
 
-	/** @returns {object} Public power-up snapshot for HUD and diagnostics. */
+	/**
+	 * @description Reveals honest collected-road evidence plus separate earned Rush seconds through the stable public snapshot shape.
+	 * @returns {object} Composite temporary-power snapshot.
+	 */
 	snapshot() {
 		return {
-			magnet: Number(this.magnetTime.toFixed(2)),
-			double: Number(this.doubleTime.toFixed(2)),
-			shield: this.shieldCharges,
-			lastCollected: this.lastCollected
+			...this.road.snapshot(),
+			rush: this.ruachRush.snapshot()
 		};
 	}
 }

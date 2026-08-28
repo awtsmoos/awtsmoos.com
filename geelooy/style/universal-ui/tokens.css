@@ -2,36 +2,56 @@
  * Boruch Hashem
  * Blessed is He
  *
- * The Awtsmoos gives the raw control a quiet palette before any route names its own light;
- * Awtsmoos.com lets these fallback tokens bend toward existing design variables by day and by night.
+ * The Awtsmoos renews each visible surface without demanding spectacle from the eye;
+ * Awtsmoos.com keeps these fallback tokens calm, tactile, readable, and quiet beneath every specialist sky.
  */
+
 :root {
 	--aw-ui-surface: #ffffff;
-	--aw-ui-surface-2: #f5f7fb;
-	--aw-ui-text: #111827;
-	--aw-ui-muted: #64748b;
-	--aw-ui-line: rgba(15, 23, 42, .18);
-	--aw-ui-line-strong: rgba(15, 23, 42, .34);
-	--aw-ui-accent: #087e8b;
-	--aw-ui-accent-soft: rgba(8, 126, 139, .11);
-	--aw-ui-danger: #b4233f;
-	--aw-ui-radius: 12px;
-	--aw-ui-shadow: 0 8px 24px rgba(15, 23, 42, .09);
-	--aw-ui-focus: 0 0 0 3px rgba(8, 126, 139, .18);
+	--aw-ui-surface-subtle: #f7f7f5;
+	--aw-ui-surface-muted: #efefec;
+	--aw-ui-text: #1f2328;
+	--aw-ui-muted: #66707a;
+	--aw-ui-line: rgba(31, 35, 40, .18);
+	--aw-ui-line-strong: rgba(31, 35, 40, .34);
+	--aw-ui-accent: #315f72;
+	--aw-ui-accent-soft: rgba(49, 95, 114, .1);
+	--aw-ui-danger: #a63d48;
+	--aw-ui-success: #35714b;
+	--aw-ui-warning: #8a6116;
+	--aw-ui-radius-sm: 7px;
+	--aw-ui-radius: 10px;
+	--aw-ui-radius-lg: 14px;
+	--aw-ui-shadow: 0 4px 14px rgba(31, 35, 40, .08);
+	--aw-ui-shadow-raised: 0 12px 32px rgba(31, 35, 40, .14);
+	--aw-ui-focus: 0 0 0 3px rgba(49, 95, 114, .2);
+	--aw-ui-target: 44px;
+	--aw-ui-reading: 72ch;
+	--aw-ui-content: 76rem;
+	--aw-ui-space-1: .25rem;
+	--aw-ui-space-2: .5rem;
+	--aw-ui-space-3: .75rem;
+	--aw-ui-space-4: 1rem;
+	--aw-ui-space-5: 1.5rem;
+	--aw-ui-space-6: 2rem;
 }
 
 @media (prefers-color-scheme: dark) {
 	:root {
-		--aw-ui-surface: #0d1724;
-		--aw-ui-surface-2: #132235;
-		--aw-ui-text: #f4f7fb;
-		--aw-ui-muted: #9aacbf;
+		--aw-ui-surface: #181a1d;
+		--aw-ui-surface-subtle: #202327;
+		--aw-ui-surface-muted: #292d31;
+		--aw-ui-text: #f1f2f3;
+		--aw-ui-muted: #a6adb4;
 		--aw-ui-line: rgba(255, 255, 255, .15);
 		--aw-ui-line-strong: rgba(255, 255, 255, .28);
-		--aw-ui-accent: #61cbd9;
-		--aw-ui-accent-soft: rgba(97, 203, 217, .1);
-		--aw-ui-danger: #ff8ca4;
-		--aw-ui-shadow: 0 12px 30px rgba(0, 0, 0, .24);
-		--aw-ui-focus: 0 0 0 3px rgba(97, 203, 217, .16);
+		--aw-ui-accent: #85afbd;
+		--aw-ui-accent-soft: rgba(133, 175, 189, .12);
+		--aw-ui-danger: #ef8c95;
+		--aw-ui-success: #85be96;
+		--aw-ui-warning: #d4b06a;
+		--aw-ui-shadow: 0 4px 14px rgba(0, 0, 0, .22);
+		--aw-ui-shadow-raised: 0 12px 32px rgba(0, 0, 0, .32);
+		--aw-ui-focus: 0 0 0 3px rgba(133, 175, 189, .22);
 	}
 }

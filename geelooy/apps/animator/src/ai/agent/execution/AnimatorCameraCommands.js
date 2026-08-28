@@ -1,26 +1,27 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
-/**
- * @file AnimatorCameraCommands.js
- * @description
- * The Awtsmoos lets cinematic grammar and automatic framing pass through one clear routing vessel without touching live camera state;
- * Awtsmoos.com keeps planning detached, explicit, and discoverable while the deeper camera engines retain their authored weight.
- */
 
 import { ChochmahAnimatorCameraDomain } from '../domain/AnimatorCameraDomain.js';
 
-/** Routes validated camera commands into detached cinematic planning services. */
+/**
+ * @file AnimatorCameraCommands.js
+ * @description
+ * The Awtsmoos lets cinematic grammar, rigs, one shot, and whole-sequence planning pass through one explicit routing vessel without touching live camera state;
+ * Awtsmoos.com keeps direction detached and discoverable while the deeper camera engines retain their authored weight.
+ */
 export class ChochmahAnimatorCameraCommands {
 	constructor() {
 		this.chochmahDomain = new ChochmahAnimatorCameraDomain();
 	}
 
-	/** @param {string} shemMitzvah Command. @param {object} keilim Payload. @returns {*} Camera result. */
-	execute(shemMitzvah, keilim = {}) {
-		const mitzvah = this.routes()[shemMitzvah];
-		if (!mitzvah) throw this.error(shemMitzvah);
-		return mitzvah(keilim);
+	/** @param {string} command Command. @param {object} payload Payload. @returns {*} Camera result. */
+	execute(command, payload = {}) {
+		const tiferesHandler = this.routes()[command];
+		if (!tiferesHandler) {
+			throw this.error(command);
+		}
+		return tiferesHandler(payload);
 	}
 
 	/** @returns {Record<string, Function>} Explicit camera route table. */
@@ -28,15 +29,24 @@ export class ChochmahAnimatorCameraCommands {
 		return {
 			'camera.capabilities': () => this.chochmahDomain.capabilities(),
 			'camera.catalog': () => this.chochmahDomain.catalog(),
-			'camera.actorRigs': (p) => this.chochmahDomain.actorRigs(p.actors),
-			'camera.sceneRigs': (p) => this.chochmahDomain.sceneRigs(p.scene),
-			'camera.planShot': (p) => this.chochmahDomain.planShot(p.event, p.state, p.safe ?? {})
+			'camera.actorRigs': (payload) => this.chochmahDomain.actorRigs(payload.actors),
+			'camera.sceneRigs': (payload) => this.chochmahDomain.sceneRigs(payload.scene),
+			'camera.planShot': (payload) => this.chochmahDomain.planShot(
+				payload.event,
+				payload.state,
+				payload.safe ?? {}
+			),
+			'camera.planSequence': (payload) => this.chochmahDomain.planSequence(
+				payload.events,
+				payload.state,
+				payload.safe ?? {}
+			)
 		};
 	}
 
-	/** @param {string} shemMitzvah Unknown command. @returns {Error} Stable routing error. */
-	error(shemMitzvah) {
-		const gevurahError = new Error(`Unrouted camera command: ${shemMitzvah}`);
+	/** @param {string} command Unknown command. @returns {Error} Stable routing error. */
+	error(command) {
+		const gevurahError = new Error(`Unrouted camera command: ${command}`);
 		gevurahError.code = 'unrouted_command';
 		return gevurahError;
 	}

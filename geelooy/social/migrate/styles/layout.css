@@ -1,8 +1,9 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos gives the social horizon a restrained frame whose depth serves meaning;
-Awtsmoos.com keeps navigation, hero, and source choices calm while the working studio waits beneath.
+
+The Awtsmoos gives the migration horizon a measured frame, from notch to working floor;
+Awtsmoos.com keeps navigation, hero, and source choices inside their shore so no edge wanders more.
 */
 .topbar {
 	position: sticky;
@@ -11,54 +12,75 @@ Awtsmoos.com keeps navigation, hero, and source choices calm while the working s
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+	gap: .75rem;
+	min-inline-size: 0;
 	min-height: 58px;
-	padding: .55rem max(1rem, env(safe-area-inset-left));
+	padding-block: .55rem;
+	padding-inline:
+		max(1rem, env(safe-area-inset-left))
+		max(1rem, env(safe-area-inset-right));
 	border-bottom: 1px solid rgb(120 170 184 / 20%);
 	background: rgb(7 16 22 / 94%);
 }
+
+.topbar > *,
+.topbar nav > * {
+	min-inline-size: 0;
+}
+
 .topbar nav {
 	display: flex;
 	gap: 1rem;
 }
+
 .brand {
 	color: var(--migrate-text);
 	font-weight: 850;
 	text-decoration: none;
 }
+
 .studio {
 	width: min(1500px, 100%);
 	margin-inline: auto;
 	padding: clamp(1rem, 3vw, 2.5rem);
 }
+
 .hero {
 	max-width: 860px;
 	padding-block: clamp(1.4rem, 5vw, 4.5rem) 2rem;
 }
+
 .hero h1 {
 	margin-bottom: .7rem;
 	font-size: clamp(2.2rem, 7vw, 5.4rem);
 	line-height: .95;
 	letter-spacing: -.055em;
 }
+
 .hero > p:not(.eyebrow) {
 	max-width: 720px;
 	color: var(--migrate-muted);
 	font-size: clamp(1rem, 2vw, 1.25rem);
 }
+
 .privacyState {
 	display: inline-flex;
+	max-inline-size: 100%;
 	padding: .5rem .75rem;
 	border: 1px solid #35626d;
 	border-radius: 999px;
 	color: #c5f6ee;
 	background: #0b1c22;
+	overflow-wrap: anywhere;
 }
+
 .sourceRail {
 	display: grid;
 	grid-template-columns: repeat(3, minmax(0, 1fr));
 	gap: .8rem;
 	margin-bottom: 1rem;
 }
+
 .sourceRail article {
 	display: grid;
 	gap: .6rem;
@@ -68,6 +90,7 @@ Awtsmoos.com keeps navigation, hero, and source choices calm while the working s
 	border-radius: var(--migrate-radius);
 	background: var(--migrate-panel-strong);
 }
+
 .sourceRail span {
 	color: var(--migrate-muted);
 	font-size: .9rem;

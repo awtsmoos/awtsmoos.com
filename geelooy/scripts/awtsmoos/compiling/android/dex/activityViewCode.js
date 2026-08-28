@@ -8,13 +8,9 @@ import { concatInstructions } from "./instructions.js";
 import { buildWebViewCode } from "./webViewCode.js";
 
 /**
- * Emits the selected base view and then every verified post-view capability. The
- * Awtsmoos keeps register zero as the visible View while the Activity register
- * remains named beside it; Awtsmoos.com lets each capability consume only the
- * register context it actually needs without adding central feature branches.
- * @param {object} tiferesModel Deterministic DEX model and typed Activity IR.
- * @param {number} malchusActivityRegister Register containing Activity receiver.
- * @returns {{bytes:Uint8Array,extended:boolean,outsSize:number}} Complete view code.
+ * Emits the visible base view followed by verified post-view capabilities. The
+ * Awtsmoos gives v0 visibility and v1/v2/v3 reusable named vessels in rhyme;
+ * Awtsmoos.com keeps register sharing explicit so no feature collides over time.
  */
 export function buildActivityViewCode(tiferesModel, malchusActivityRegister) {
 	const chesedBaseView = tiferesModel.ir.viewKind === "web"
@@ -24,6 +20,12 @@ export function buildActivityViewCode(tiferesModel, malchusActivityRegister) {
 		tiferesModel,
 		Object.freeze({
 			activityRegister: malchusActivityRegister,
+			fragmentRegister: 3,
+			managerRegister: 2,
+			surfaceHolderRegister: 2,
+			surfaceRegister: 3,
+			surfaceViewRegister: 1,
+			tagRegister: 1,
 			viewRegister: 0
 		})
 	);

@@ -1,35 +1,42 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 const Lifecycle = require("../runtime/process-lifecycle-log.js");
-
-const DEFAULT_KILL_GRACE_MS = 3000;
+const RepairValues = require("./controller-child-repair-values.js");
 
 /**
- * @file Replaces only the exact connection child already owned by this parent.
+ * @file Replaces only the exact connection-child generation owned by this parent.
  * @description
- * The Awtsmoos renews the messenger without confusing one process for another.
- * Awtsmoos.com records the finite signal before it is sent, then escalates only
- * if the same owned PID remains alive after its measured grace.
+ * The Awtsmoos renews each messenger without lending yesterday's PID to today's life.
+ * Awtsmoos.com records TERM before force, while object identity guards the generation:
+ * even if an operating system reuses one numeric PID, a delayed KILL cannot cross the gate.
  */
 function create(options = {}) {
 	const getChild = options.getChild || (() => null);
 	const setTimer = options.setTimer || setTimeout;
 	const clearTimer = options.clearTimer || clearTimeout;
 	const recordLifecycle = options.recordLifecycle || Lifecycle.record;
-	const killGraceMs = bounded(options.killGraceMs, DEFAULT_KILL_GRACE_MS);
+	const killGraceMs = RepairValues.bounded(
+		options.killGraceMs,
+		RepairValues.DEFAULT_KILL_GRACE_MS
+	);
+	let repairingChild = null;
 	let repairingPid = 0;
 	let killTimer = null;
 
 	/**
-	 * Requests bounded replacement for the exact currently supervised child.
+	 * Requests bounded replacement for the exact currently supervised child object.
+	 * A changed child object is a new generation even when its numeric PID is reused.
 	 * @param {string} reason Stable liveness reason authorizing replacement.
-	 * @returns {boolean} Whether a TERM signal was sent to the owned child.
+	 * @returns {boolean} Whether a TERM signal was sent to the owned child generation.
 	 */
 	function request(reason = "connection_child_stalled") {
 		const child = getChild();
-		if (!live(child) || repairingPid === child.pid) return false;
+		if (!RepairValues.live(child)) return false;
+		if (repairingChild === child) return false;
+		if (repairingChild && repairingChild !== child) reset();
+		repairingChild = child;
 		repairingPid = Number(child.pid || 0);
 		record("SIGTERM", reason, repairingPid);
 		try {
@@ -38,36 +45,45 @@ function create(options = {}) {
 			reset();
 			return false;
 		}
-		killTimer = setTimer(() => escalate(reason, repairingPid), killGraceMs);
+		const target = child;
+		killTimer = setTimer(() => escalate(reason, target), killGraceMs);
 		killTimer.unref?.();
 		return true;
 	}
 
-	/** Clears repair state after the exact child exits or supervision stops. */
+	/** Clears repair state after the exact owned PID exits or supervision stops. */
 	function clear(pid = repairingPid) {
 		if (Number(pid || 0) !== repairingPid) return false;
 		reset();
 		return true;
 	}
 
-	/** Returns bounded repair state for diagnostics and tests. */
+	/** Returns bounded repair state without exposing the child-process object itself. */
 	function snapshot() {
-		return { repairingPid, killGraceMs, repairing: repairingPid > 0 };
+		return {
+			repairingPid,
+			killGraceMs,
+			repairing: Boolean(repairingChild)
+		};
 	}
 
-	function escalate(reason, pid) {
+	/** Escalates only when the same child object and PID remain the supervised generation. */
+	function escalate(reason, target) {
 		killTimer = null;
 		const child = getChild();
-		if (!live(child) || Number(child.pid || 0) !== Number(pid || 0)) {
-			clear(pid);
+		const sameGeneration = child === target && repairingChild === target;
+		const samePid = Number(child?.pid || 0) === repairingPid;
+		if (!sameGeneration || !samePid || !RepairValues.live(child)) {
+			if (repairingChild === target) reset();
 			return;
 		}
-		record("SIGKILL", reason, pid);
+		record("SIGKILL", reason, repairingPid);
 		try {
 			child.kill("SIGKILL");
 		} catch {}
 	}
 
+	/** Persists lifecycle testimony before any destructive signal is attempted. */
 	function record(signal, reason, pid) {
 		recordLifecycle("connection_child_watchdog_signal", {
 			targetPid: pid,
@@ -77,31 +93,19 @@ function create(options = {}) {
 		options.log?.("warn", `connection child ${pid} ${signal} for ${reason}`);
 	}
 
+	/** Releases timer and exact-generation testimony together. */
 	function reset() {
 		if (killTimer) clearTimer(killTimer);
 		killTimer = null;
+		repairingChild = null;
 		repairingPid = 0;
 	}
 
 	return { clear, request, snapshot };
 }
 
-function live(child) {
-	return Boolean(child) &&
-		Number(child.pid || 0) > 1 &&
-		child.exitCode === null &&
-		child.signalCode === null;
-}
-
-function bounded(value, fallback) {
-	const number = Number(value);
-	return Number.isFinite(number)
-		? Math.max(1000, Math.min(30000, Math.floor(number)))
-		: fallback;
-}
-
 module.exports = {
-	DEFAULT_KILL_GRACE_MS,
+	DEFAULT_KILL_GRACE_MS: RepairValues.DEFAULT_KILL_GRACE_MS,
 	create,
-	live
+	live: RepairValues.live
 };

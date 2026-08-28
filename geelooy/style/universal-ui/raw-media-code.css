@@ -1,0 +1,66 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos renews every image, frame, byte, and line before a finite surface can contain its light;
+ * Awtsmoos.com keeps media responsive and code scroll-safe so neither tears the mobile page from right to right.
+ */
+
+:where(html:not([data-g-ui-raw])) :where(img:not([class]), video:not([class]), canvas:not([class]), svg:not([class]), iframe:not([class])) {
+	max-width: 100%;
+}
+
+:where(html:not([data-g-ui-raw])) :where(img:not([class]), video:not([class]), canvas:not([class]), svg:not([class])) {
+	height: auto;
+}
+
+:where(html:not([data-g-ui-raw])) img:not([class]) {
+	display: block;
+	border-radius: var(--aw-ui-radius-sm);
+	background: var(--g-surface-2, var(--aw-ui-surface-subtle));
+}
+
+:where(html:not([data-g-ui-raw])) video:not([class]) {
+	display: block;
+	border-radius: var(--aw-ui-radius);
+	background: #111;
+}
+
+:where(html:not([data-g-ui-raw])) iframe:not([class]) {
+	width: 100%;
+	min-height: 18rem;
+	border: 1px solid var(--g-line, var(--aw-ui-line));
+	border-radius: var(--aw-ui-radius);
+	background: var(--g-surface, var(--aw-ui-surface));
+}
+
+:where(html:not([data-g-ui-raw])) pre:not([class]) {
+	max-width: 100%;
+	margin-block: 0 1rem;
+	padding: .9rem 1rem;
+	border: 1px solid var(--g-line, var(--aw-ui-line));
+	border-radius: var(--aw-ui-radius);
+	background: var(--g-surface-2, var(--aw-ui-surface-subtle));
+	color: var(--g-text, var(--aw-ui-text));
+	font: 500 .9rem/1.55 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+	overflow: auto;
+	overscroll-behavior-inline: contain;
+	tab-size: 4;
+}
+
+:where(html:not([data-g-ui-raw])) :where(code:not([class]), samp:not([class]), kbd:not([class])) {
+	font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+	overflow-wrap: anywhere;
+}
+
+:where(html:not([data-g-ui-raw])) :where(:not(pre) > code:not([class]), kbd:not([class])) {
+	padding: .12em .35em;
+	border: 1px solid var(--g-line, var(--aw-ui-line));
+	border-radius: .3rem;
+	background: var(--g-surface-2, var(--aw-ui-surface-subtle));
+	font-size: .88em;
+}
+
+:where(html:not([data-g-ui-raw])) audio:not([class]) {
+	width: min(100%, 32rem);
+}

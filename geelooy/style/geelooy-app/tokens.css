@@ -2,54 +2,53 @@
  * Boruch Hashem
  * Blessed is He
  *
- * @fileoverview The canonical visual covenant for the Awtsmoos.com shared shell,
- * now owned only by a revealed Geelooy route instead of the global document root.
- * The Awtsmoos is beyond every color and measure; Awtsmoos.com receives these
- * finite tokens only when its shell crown is present, so unrelated vessels remain free.
+ * @fileoverview The canonical visual covenant for the Awtsmoos.com shared shell.
+ * The Awtsmoos is beyond every color and measure; this finite vessel therefore
+ * keeps ordinary chrome quiet, reserves light for meaning, and lets content lead.
  */
 html.geelooy-route-ready {
 	color-scheme: dark;
-	--g-bg: #02050d;
-	--g-bg-deep: #010209;
-	--g-bg-soft: #050b16;
-	--g-bg-elevated: #071222;
-	--g-surface: rgba(7, 17, 34, .9);
-	--g-surface-strong: rgba(4, 10, 24, .97);
-	--g-surface-soft: rgba(128, 178, 255, .08);
-	--g-surface-hover: rgba(28, 52, 88, .72);
-	--g-surface-selected: rgba(28, 69, 105, .82);
-	--g-line: rgba(91, 211, 255, .2);
-	--g-line-strong: rgba(103, 218, 255, .48);
+	--g-bg: #0a0e14;
+	--g-bg-deep: #070a0f;
+	--g-bg-soft: #0e141c;
+	--g-bg-elevated: #121a24;
+	--g-surface: rgba(18, 26, 36, .94);
+	--g-surface-strong: rgba(11, 16, 23, .98);
+	--g-surface-soft: rgba(146, 166, 188, .08);
+	--g-surface-hover: rgba(36, 49, 64, .84);
+	--g-surface-selected: rgba(39, 66, 75, .86);
+	--g-line: rgba(196, 211, 226, .14);
+	--g-line-strong: rgba(125, 211, 199, .42);
 	--g-border: var(--g-line);
 	--g-border-strong: var(--g-line-strong);
-	--g-text: #fbfdff;
-	--g-text-soft: #dce8f8;
-	--g-muted: #a8b9d2;
-	--g-dim: #7487a4;
-	--g-cyan: #4de9ff;
-	--g-blue: #4c8dff;
-	--g-violet: #9664ff;
-	--g-magenta: #ff55d1;
-	--g-orange: #ff8b5c;
-	--g-green: #55e5ae;
-	--g-danger: #ff668e;
-	--g-warning: #ffd36a;
-	--g-gradient: linear-gradient(125deg, var(--g-cyan), var(--g-blue) 34%, var(--g-violet) 68%, var(--g-magenta));
-	--g-gradient-hot: linear-gradient(115deg, #54f3ff, #558dff 34%, #a464ff 66%, #ff55d1);
-	--g-gradient-soft: linear-gradient(135deg, rgba(77, 233, 255, .16), rgba(150, 100, 255, .16), rgba(255, 85, 209, .1));
-	--g-panel-gradient: linear-gradient(145deg, rgba(13, 30, 57, .96), rgba(3, 8, 20, .97) 66%);
-	--g-control-field: linear-gradient(145deg, rgba(16, 33, 61, .98), rgba(4, 10, 24, .99));
-	--g-control-energy: linear-gradient(115deg, rgba(77, 233, 255, .2), rgba(76, 141, 255, .14), rgba(255, 85, 209, .18));
-	--g-shadow-xs: 0 .35rem 1rem rgba(0, 0, 0, .24);
-	--g-shadow-sm: 0 1rem 2.6rem rgba(0, 0, 0, .34);
-	--g-shadow-lg: 0 2.2rem 7rem rgba(0, 0, 0, .58);
+	--g-text: #f5f7f9;
+	--g-text-soft: #d9e1e8;
+	--g-muted: #9cabb9;
+	--g-dim: #748391;
+	--g-cyan: #70d5c8;
+	--g-blue: #78a8d8;
+	--g-violet: #9b96b8;
+	--g-magenta: #b98aa8;
+	--g-orange: #d5a37c;
+	--g-green: #73cfa8;
+	--g-danger: #e58693;
+	--g-warning: #d9bb72;
+	--g-gradient: linear-gradient(125deg, var(--g-cyan), var(--g-blue));
+	--g-gradient-hot: linear-gradient(115deg, #83ded3, #83add4 60%, #a8a0bd);
+	--g-gradient-soft: linear-gradient(135deg, rgba(112, 213, 200, .11), rgba(120, 168, 216, .08));
+	--g-panel-gradient: linear-gradient(145deg, rgba(21, 30, 41, .97), rgba(10, 15, 22, .98) 68%);
+	--g-control-field: linear-gradient(145deg, rgba(27, 37, 49, .98), rgba(13, 19, 27, .99));
+	--g-control-energy: linear-gradient(115deg, rgba(112, 213, 200, .12), rgba(120, 168, 216, .08));
+	--g-shadow-xs: 0 .25rem .8rem rgba(0, 0, 0, .18);
+	--g-shadow-sm: 0 .8rem 2rem rgba(0, 0, 0, .24);
+	--g-shadow-lg: 0 1.8rem 5rem rgba(0, 0, 0, .4);
 	--g-shadow-card: var(--g-shadow-sm);
-	--g-glow: 0 0 1.25rem rgba(77, 233, 255, .2), 0 0 3.5rem rgba(150, 100, 255, .13);
-	--g-glow-hot: 0 0 1.75rem rgba(255, 85, 209, .24), 0 0 4.5rem rgba(76, 141, 255, .16);
-	--g-control-shadow: 0 .8rem 2rem rgba(0, 0, 0, .3), inset 0 1px rgba(255, 255, 255, .1);
-	--g-control-hover: 0 1rem 2.7rem rgba(0, 0, 0, .4), 0 0 1.8rem rgba(77, 233, 255, .2);
-	--g-control-active: 0 .3rem .9rem rgba(0, 0, 0, .5), inset 0 0 1.25rem rgba(77, 233, 255, .14);
-	--g-focus-ring: 0 0 0 3px var(--g-bg-deep), 0 0 0 6px var(--g-cyan), 0 0 1.8rem rgba(77, 233, 255, .44);
+	--g-glow: 0 0 1.25rem rgba(112, 213, 200, .1);
+	--g-glow-hot: 0 0 1.5rem rgba(120, 168, 216, .12);
+	--g-control-shadow: 0 .55rem 1.4rem rgba(0, 0, 0, .22), inset 0 1px rgba(255, 255, 255, .055);
+	--g-control-hover: 0 .7rem 1.8rem rgba(0, 0, 0, .28), 0 0 1.25rem rgba(112, 213, 200, .1);
+	--g-control-active: 0 .22rem .7rem rgba(0, 0, 0, .34), inset 0 0 .9rem rgba(112, 213, 200, .08);
+	--g-focus-ring: 0 0 0 3px var(--g-bg-deep), 0 0 0 6px var(--g-cyan), 0 0 1.1rem rgba(112, 213, 200, .2);
 	--g-radius-xs: .5rem;
 	--g-radius-sm: .75rem;
 	--g-radius-md: 1.1rem;

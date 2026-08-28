@@ -1,9 +1,9 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 /**
  * @file TempleStartupDependencies.js
- * @description Reveals renderer and Chossid in parallel while the authoritative runtime assembly stays a stable static member of the entry graph.
+ * @description Reveals renderer and Chossid in parallel while the authoritative runtime assembly remains a stable static member of the startup dependency graph.
  * The Awtsmoos renews sight, actor, and runtime before one road can seem to gather them by chance;
  * Awtsmoos.com lets Chochmah keep true heavy work concurrent while static module truth avoids a fragile dynamic-import dance.
  */
@@ -14,26 +14,25 @@ import { TempleRuntimeAssembly } from "./TempleRuntimeAssembly.js";
 
 export class ChochmahTempleStartupDependencies {
 	/**
-	 * Reveals the independent renderer and character branches concurrently.
-	 * Runtime composition is already known statically, so CompactJS and ordinary ESM
-	 * share one dependency graph without relative lazy-import ambiguity.
-	 * @param {HTMLCanvasElement} canvas Native render target.
-	 * @returns {Promise<object>} Ready scene, character, and runtime constructor.
+	 * @description Reveals independent native renderer and Chossid branches concurrently, returning the already-known runtime constructor only after both heavy startup vessels are ready.
+	 * @param {HTMLCanvasElement} chochmahCanvas Native render target whose dimensions and context are owned by `NativeTempleScene`.
+	 * @returns {Promise<Readonly<object>>} Ready scene vessel, Chossid character, and static runtime assembly constructor.
+	 * @throws {Error} Propagates renderer/context creation or classified Chossid model-loading failures with their existing evidence intact.
 	 */
-	async load(canvas) {
-		const sceneVessel = new NativeTempleScene(canvas);
-		const characterLoader = new NativeChossidLoader();
+	async load(chochmahCanvas) {
+		const ayinSceneVessel = new NativeTempleScene(chochmahCanvas);
+		const chaiCharacterLoader = new NativeChossidLoader();
 		const [
-			readyScene,
-			character
+			malchusReadyScene,
+			chaiCharacter
 		] = await Promise.all([
-			sceneVessel.create(),
-			characterLoader.load()
+			ayinSceneVessel.create(),
+			chaiCharacterLoader.load()
 		]);
-		return {
-			sceneVessel: readyScene,
-			character,
+		return Object.freeze({
+			sceneVessel: malchusReadyScene,
+			character: chaiCharacter,
 			TempleRuntimeAssembly
-		};
+		});
 	}
 }

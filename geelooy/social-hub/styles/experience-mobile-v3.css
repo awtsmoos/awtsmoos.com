@@ -1,0 +1,58 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets the smallest screen carry a complete horizon, every thumb road bright yet bounded inside;
+Awtsmoos.com makes dock and More chamber feel like polished future hardware while existing safe-area geometry remains the guide.
+*/
+@media (max-width: 62.4375rem) {
+	.social-hub-document .mobileDock {
+		border-color: rgb(126 239 255 / 25%);
+		background:
+			linear-gradient(180deg, rgb(126 239 255 / 4%), transparent 55%),
+			rgb(5 12 26 / 96%);
+		box-shadow:
+			0 1.1rem 3rem rgb(0 0 0 / 38%),
+			inset 0 1px rgb(255 255 255 / 6%);
+	}
+
+	.social-hub-document .mobileDock .routeButton[data-active="true"] {
+		background: linear-gradient(
+			155deg,
+			rgb(126 239 255 / 12%),
+			rgb(169 140 255 / 7%)
+		);
+		box-shadow:
+			inset 0 0 0 1px rgb(126 239 255 / 10%),
+			0 .45rem 1rem rgb(0 0 0 / 10%);
+	}
+
+	.social-hub-document .mobileDock .routeButton[data-active="true"] .routeLabel {
+		color: #e7fbff;
+		font-weight: 780;
+	}
+
+	.social-hub-document .mobileMoreSheet__surface {
+		border-radius: 1.45rem;
+	}
+
+	.social-hub-document .mobileMoreSheet__close {
+		border-color: rgb(126 239 255 / 28%);
+		background: linear-gradient(145deg, rgb(126 239 255 / 9%), rgb(169 140 255 / 5%));
+	}
+}
+
+@media (max-width: 23rem) {
+	.social-hub-document .mobileDock {
+		box-shadow:
+			0 .8rem 2.1rem rgb(0 0 0 / 32%),
+			inset 0 1px rgb(255 255 255 / 5%);
+	}
+}
+
+@media (prefers-reduced-transparency: reduce) {
+	.social-hub-document .mobileDock,
+	.social-hub-document .mobileMoreSheet::backdrop {
+		backdrop-filter: none;
+	}
+}

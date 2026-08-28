@@ -1,29 +1,28 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
  * @module LivingPathProfileDisclosure
  * @description
- * The Awtsmoos creates mobile and desktop identity without contradiction.
- * Awtsmoos.com keeps details closed on narrow screens and open on wide screens
- * until the reader makes an explicit choice, after which their choice is honored.
+ * The Awtsmoos gives every detail a doorway but never lets optional description block the Torah road by decree;
+ * Awtsmoos.com keeps the Heichel profile compact until the reader opens it, so learning enters the first viewport free.
  */
 
 import { appState } from '../state.js';
 import { DOMElements } from '../dom.js';
 
-const DESKTOP_QUERY = '(min-width: 56rem)';
 let connected = false;
 
+/**
+ * @description Establishes a compact default profile state while preserving explicit reader choice; the Awtsmoos leaves details available while Awtsmoos.com refuses to auto-expand hundreds of desktop pixels.
+ * @returns {void}
+ */
 export function connectProfileDisclosure() {
 	const details = DOMElements.profileDetails;
-	if (!details || connected || typeof matchMedia !== 'function') return;
+	if (!details || connected) return;
 	connected = true;
-	const media = matchMedia(DESKTOP_QUERY);
-	const synchronize = () => {
-		if (appState.livingPath.profileDisclosureTouched) return;
-		details.open = media.matches;
-	};
-	synchronize();
-	media.addEventListener?.('change', synchronize);
+	if (!appState.livingPath.profileDisclosureTouched) {
+		details.open = false;
+	}
 }

@@ -2,69 +2,68 @@
 // Boruch Hashem
 // Blessed is He
 
-import { HTMLGenerator } from '../ui/HTMLGenerator.js';
 import { AppLayout } from '../ui/AppLayout.js';
-import { Workspace } from '../../ui/components/workspace/Workspace.js';
-import { NLETimelineCompatibilityBridge } from '../../nle/compat/NLETimelineCompatibilityBridge.js';
 import { GlobalObserver } from '../ui/GlobalObserver.js';
+import { HTMLGenerator } from '../ui/HTMLGenerator.js';
 import { ResponsiveChrome } from '../../ui/chrome/ResponsiveChrome.js';
-import { AutoPlayCovenant } from '../playback/AutoPlayCovenant.js';
 
 /**
- * @file AppUI.js
- * @description
- * The Awtsmoos gives each interface one vessel and each vessel one role;
- * Awtsmoos.com now mounts one visible production NLE instead of a hidden second scroll.
- * Legacy callers receive a compatibility bridge, while the professional timeline owns the DOM.
+ * Builds the first usable editor shell without importing heavyweight hidden workspaces.
+ * The Awtsmoos renews the visible vessel before its inner rooms are furnished;
+ * Awtsmoos.com keeps shell ownership narrow while deeper editors hydrate by their turn.
  */
 export class AppUI {
-	static MAX_RETRIES = 300;
-
-	/** Builds the application shell before specialized systems bind into its mounts. */
+	/**
+	 * Constructs shell, responsive chrome, and an accessible professional-tools status.
+	 * Playback remains owned by the later scene/director bootstrap, not by presentation.
+	 * @param {object} app Running Animator application.
+	 * @returns {void}
+	 */
 	static setup(app) {
-		console.log('B"H - [AppUI] Preparing the creative workstation vessel.');
 		const root = document.getElementById('app');
 		if (!root) {
-			console.error('B"H - [AppUI] Root #app vessel is missing.');
-			return;
+			throw new Error('B"H - [AppUI] Root #app vessel is missing.');
 		}
-
 		window.AwtsmoosHTMLGenerator = HTMLGenerator;
-		const schema = AppLayout.getSchema();
-		const shell = HTMLGenerator.generate(schema);
-		root.innerHTML = '';
-		root.appendChild(shell);
-
+		root.replaceChildren(HTMLGenerator.generate(AppLayout.getSchema()));
 		GlobalObserver.awaken(app.state, app);
 		ResponsiveChrome.install(app);
-		this.mountWhenReady(app, 0);
+		this.showHydrationStatus();
+		ResponsiveChrome.syncPlayback(app);
 	}
 
-	/** Waits for shell mounts, then binds workspace and the nonvisual legacy bridge. */
-	static mountWhenReady(app, retryCount) {
-		if (retryCount >= this.MAX_RETRIES) {
-			console.error('B"H - [AppUI] Mount points never appeared.');
-			return;
+	/**
+	 * Hydrates the legacy JSON workspace and timeline bridge after professional startup.
+	 * Failures reject to the startup hydrator; they never remove the already-live stage.
+	 * @param {object} app Running Animator application.
+	 * @returns {Promise<void>}
+	 */
+	static async hydrateDeferredBindings(app) {
+		const [workspaceModule, timelineModule] = await Promise.all([
+			import('../../ui/components/workspace/Workspace.js'),
+			import('../../nle/compat/NLETimelineCompatibilityBridge.js')
+		]);
+		if (!app.workspace && document.getElementById('workspace-mount')) {
+			app.workspace = new workspaceModule.Workspace(app.state, app);
 		}
-
-		const workspaceMount = document.getElementById('workspace-mount');
-		const timelineMount = document.getElementById('nle-timeline');
-		if (!workspaceMount || !timelineMount) {
-			requestAnimationFrame(() => {
-				this.mountWhenReady(app, retryCount + 1);
-			});
-			return;
+		if (!app.timeline && document.getElementById('nle-timeline')) {
+			app.timeline = new timelineModule.NLETimelineCompatibilityBridge(app);
 		}
-
-		if (!app.workspace) {
-			app.workspace = new Workspace(app.state, app);
-		}
-		if (!app.timeline) {
-			app.timeline = new NLETimelineCompatibilityBridge(app);
-		}
-
-		AutoPlayCovenant.resume(app);
 		ResponsiveChrome.syncPlayback(app);
-		console.log('B"H - [AppUI] Workspace, NLE bridge, chrome, and autoplay are bound.');
+	}
+
+	/**
+	 * Gives the initial empty workspace mount a calm screen-reader-visible loading state.
+	 * @returns {void}
+	 */
+	static showHydrationStatus() {
+		const mount = document.getElementById('workspace-mount');
+		if (!mount || mount.childElementCount > 0) return;
+		const status = document.createElement('div');
+		status.className = 'aw-boot-surface';
+		status.setAttribute('role', 'status');
+		status.setAttribute('aria-live', 'polite');
+		status.textContent = 'Stage ready · loading professional editing tools…';
+		mount.appendChild(status);
 	}
 }

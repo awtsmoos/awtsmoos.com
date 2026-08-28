@@ -1,61 +1,68 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file MinimalMeadowHebrewGlyphTexture.js
- * @description Preserves the glyph-material contract while intentionally creating no textures.
- * The Awtsmoos needs no painted surface to illuminate a letter; Awtsmoos.com clothes solid
- * Hebrew stroke geometry in one cached emissive material, with every color normalized first.
+ * @description Preserves Hebrew projectile material APIs while replacing generated/solid glyph surfaces with real remote gold material readiness.
+ * The Awtsmoos speaks every Hebrew letter before shape and pigment; Awtsmoos.com lets the phrase remain concealed
+ * until genuine remote metal imagery arrives, so sacred geometry never borrows a generated canvas or naked color revealed.
  */
 
 import { MeshStandardMaterial } from '../../../light-three-gltf/tiny-runtime.js';
-import { normalizeMinimalMeadowVisualColor } from './MinimalMeadowActionVisualColor.js';
+import { cachedTextureImage } from '../assets/PublicMaterialCache.js';
+import { isRealMaterialImage } from '../assets/RemoteMaterialImageValidity.js';
+import { runtimeMaterialByRole } from '../assets/RuntimeMaterialManifest.js';
 
 const materialCache = new Map();
 
+/** Creates or reuses one real-remote gold material for Hebrew stroke geometry. */
 export function createHebrewGlyphMaterial(letters, color) {
-	const phrase = normalizeHebrewPhrase(letters);
-	const visualColor = normalizeMinimalMeadowVisualColor(color);
-	const key = hebrewGlyphVisualKey(phrase, visualColor);
+	const key = hebrewGlyphVisualKey(letters, color);
 	if (materialCache.has(key)) {
 		return materialCache.get(key);
 	}
+	const identity = runtimeMaterialByRole('metal.gold');
+	const cached = identity ? cachedTextureImage(identity.primaryUrl) : null;
+	const mapImage = isRealMaterialImage(cached) ? cached : null;
 	const material = new MeshStandardMaterial({
-		alphaMode: 'OPAQUE',
-		color: visualColor,
-		doubleSided: true,
-		name: `Awtsmoos_hebrew_stroke_material_${phrase}`,
-		opacity: 1,
-		transparent: false
+		color,
+		name: `Awtsmoos_hebrew_remote_gold_${key}`
 	});
 	Object.assign(material, {
-		emissiveStrength: 5.4,
-		metallicFactor: 0.04,
-		roughnessFactor: 0.3
+		mapImage,
+		mapRepeat: identity?.repeat || [1, 1],
+		metallicFactor: 0.35,
+		metalness: 0.35,
+		roughness: 0.44,
+		roughnessFactor: 0.44,
+		texturePolicy: {
+			realMapImage: Boolean(mapImage),
+			remoteOnly: true,
+			semanticRole: 'metal.gold'
+		},
+		textureUrl: identity?.primaryUrl || null,
+		vertexColors: false
 	});
 	materialCache.set(key, material);
 	return material;
 }
 
+/** Stable pool/cache key for phrase plus requested tint. */
 export function hebrewGlyphVisualKey(letters, color) {
-	const visualColor = normalizeMinimalMeadowVisualColor(color);
-	return `${normalizeHebrewPhrase(letters)}:${visualColor.map(channelKey).join('-')}`;
+	return `${normalizeHebrewPhrase(letters)}|${Array.from(color || []).join(',')}`;
 }
 
-export function normalizeHebrewPhrase(letters) {
-	const phrase = String(letters || 'א').replace(/\s+/g, '').slice(0, 6);
-	return phrase || 'א';
+/** Normalizes the projectile phrase while preserving Hebrew content. */
+export function normalizeHebrewPhrase(value) {
+	return String(value || 'אור').trim() || 'אור';
 }
 
-export function hebrewGlyphTextureDiagnostics() {
+/** Returns bounded material-cache evidence for diagnostics. */
+export function hebrewGlyphMaterialDiagnostics() {
 	return {
-		canvases: 0,
-		materials: materialCache.size,
-		renderMode: 'solid-stroke-geometry'
+		cachedMaterials: materialCache.size,
+		remoteOnly: true,
+		semanticRole: 'metal.gold'
 	};
-}
-
-function channelKey(value) {
-	return Math.round(Math.max(0, Math.min(1, Number(value) || 0)) * 255);
 }

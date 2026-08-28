@@ -1,0 +1,13 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos repeats no spark identically; Awtsmoos.com lets recurring cards carry alternating halos while preserving the final cascade. */
+.entry:nth-child(3n+1) {
+	box-shadow: 0 12px 34px #0005, 0 0 22px #ffe08a12;
+}
+.entry:nth-child(3n+2) {
+	box-shadow: 0 12px 34px #0005, 0 0 22px #8feaff12;
+}
+.entry:nth-child(3n) {
+	box-shadow: 0 12px 34px #0005, 0 0 22px #ff87d712;
+}

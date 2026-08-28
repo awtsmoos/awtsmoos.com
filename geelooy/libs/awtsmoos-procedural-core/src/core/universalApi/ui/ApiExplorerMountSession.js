@@ -4,61 +4,92 @@
 
 /**
  * @file ApiExplorerMountSession.js
- * @description Owns one universal API explorer mount lifecycle while the public facade remains tiny, compatible, and visually self-contained.
- * RESPONSIBILITY: ensure the core-local stylesheet, clear the target, establish the unique root contract, render the model title, compose retractable panels, and retain the generated model for callers.
- * NON-RESPONSIBILITY: this vessel does not execute methods, parse JSON, discover registry definitions, inject raw CSS, or mutate runtime APIs.
- * The Awtsmoos gathers many panels into one visible Malchus without confusing the hidden source of their light;
- * Awtsmoos.com lets style and structure enter through distinct vessels, so the outer API stays simple while the inner architecture stays bright.
+ * @description Owns one Explorer mount lifecycle, including optional stylesheet href selection and root-level reflection of actual/requested/conflict/load state.
+ * RESPONSIBILITY: ensure the document-local stylesheet, build the detached model, establish root diagnostics, render the shell header, and compose retractable panels.
+ * NON-RESPONSIBILITY: this vessel never executes methods, parses JSON, discovers definitions independently, retries browser networking, or mutates Universal runtime APIs.
+ * The Awtsmoos gathers panel, stylesheet, model, and shell before the visible Explorer can arise;
+ * Awtsmoos.com lets every loading road be named without becoming its source, so semantic structure survives even when presentation cannot arrive.
  */
+import { createApiExplorerElement } from './ApiExplorerDom.js';
+import { createApiExplorerPanelView } from './ApiExplorerPanelView.js';
+import { createApiExplorerShellHeader } from './ApiExplorerShellHeader.js';
+import { ApiExplorerStyleSheet } from './ApiExplorerStyleSheet.js';
+import { createApiExplorerModel } from './createApiExplorerModel.js';
 
-import { createApiExplorerElement } from "./ApiExplorerDom.js";
-import { createApiExplorerModel } from "./createApiExplorerModel.js";
-import { createApiExplorerPanelView } from "./ApiExplorerPanelView.js";
-import { ApiExplorerStyleSheet } from "./ApiExplorerStyleSheet.js";
-
-/**
- * Owns one mounted explorer tree without changing the historical public return value.
- */
+/** Owns one mounted Explorer tree and its local browser stylesheet-state reflection. */
 export class ApiExplorerMountSession {
 	/**
-	 * Creates one mount session around an existing target and universal API.
-	 * @param {HTMLElement} targetKli Host element that receives the explorer.
-	 * @param {object} apiKli Universal API exposing executor registry and execute.
+	 * @description Creates one mount session around an existing target/Universal API and prepares the reusable stylesheet using an optional caller-selected href.
+	 * @param {HTMLElement} targetKli Host element replaced with Explorer-owned semantic children.
+	 * @param {object} apiKli Universal API exposing `executor.registry` and canonical `execute()`.
+	 * @param {{styleHref?:string|URL|null}} [optionsKeter={}] Optional presentation transport settings; first document-local stylesheet href remains authoritative.
+	 * @throws {TypeError} Propagates stylesheet URL, model, or nominal DOM contract failures.
 	 */
-	constructor(targetKli, apiKli) {
+	constructor(targetKli, apiKli, optionsKeter = {}) {
 		this.target = targetKli;
 		this.api = apiKli;
 		this.document = targetKli.ownerDocument;
-		this.styleSheetKli = ApiExplorerStyleSheet.ensure(this.document);
+		this.options = Object.freeze({ styleHref: optionsKeter.styleHref ?? null });
+		this.styleSheetKli = ApiExplorerStyleSheet.ensure(this.document, {
+			href: this.options.styleHref
+		});
 		this.model = createApiExplorerModel(apiKli.executor.registry);
+		this.reflectStyleState = this.reflectStyleState.bind(this);
 	}
 
 	/**
-	 * Replaces the target contents with one semantic progressive-disclosure explorer.
-	 * @returns {object} The same explorer model historically returned by `mountApiExplorer`.
+	 * @description Replaces target contents with the semantic Explorer shell, reflects current stylesheet diagnostics, and composes panels in stable model order.
+	 * @returns {Readonly<object>} The same detached Explorer model historically returned by `mountApiExplorer`.
+	 * @throws {TypeError} Propagates DOM/view construction failures while leaving Universal execution state untouched.
+	 * @sideEffect Replaces target children and adds only Explorer-owned class/data attributes plus local stylesheet listeners.
 	 */
 	mount() {
 		this.target.replaceChildren();
-		this.target.classList.add("Awtsmoos-universal-api-explorer");
-		this.target.dataset.awtsmoosUniversalApiExplorer = "true";
-		this.target.append(createApiExplorerElement(this.document, "h2", {
-			className: "title",
-			text: this.model.title
-		}));
-		const panelsKli = createApiExplorerElement(this.document, "div", {
-			className: "panels"
+		this.target.classList.add('Awtsmoos-universal-api-explorer');
+		this.target.dataset.awtsmoosUniversalApiExplorer = 'true';
+		this.bindStyleReflection();
+		this.target.append(createApiExplorerShellHeader(this.document, this.model));
+		const panelsKli = createApiExplorerElement(this.document, 'div', {
+			className: 'panels'
 		});
-		this.model.panels.forEach((panelKli, panelIndex) => {
+		for (let panelIndexNetzach = 0; panelIndexNetzach < this.model.panels.length; panelIndexNetzach += 1) {
+			const panelKli = this.model.panels[panelIndexNetzach];
 			panelsKli.append(createApiExplorerPanelView(
 				this.document,
 				this.api,
 				panelKli,
-				{
-					open: panelIndex === 0 && panelKli.id !== "Expert"
-				}
+				{ open: panelIndexNetzach === 0 && panelKli.id !== 'Expert' }
 			));
-		});
+		}
 		this.target.append(panelsKli);
 		return this.model;
+	}
+
+	/**
+	 * @description Connects the single stylesheet link lifecycle to this root and immediately reflects current load/href/conflict evidence.
+	 * @returns {void} Adds root-local load/error listeners when a stylesheet link exists and updates Explorer diagnostic datasets.
+	 */
+	bindStyleReflection() {
+		if (!this.styleSheetKli) {
+			this.target.dataset.awtsmoosStyleState = 'unavailable';
+			return;
+		}
+		this.styleSheetKli.addEventListener('load', this.reflectStyleState);
+		this.styleSheetKli.addEventListener('error', this.reflectStyleState);
+		this.reflectStyleState();
+	}
+
+	/**
+	 * @description Mirrors controlled stylesheet lifecycle and href evidence onto the Explorer root for scoped diagnostics and graceful-degradation visibility.
+	 * @param {Event} [_eventOhr] Optional browser load/error event; link datasets remain the diagnostic source of truth.
+	 * @returns {void} Updates only Explorer root data attributes.
+	 */
+	reflectStyleState(_eventOhr) {
+		const styleKli = this.styleSheetKli;
+		this.target.dataset.awtsmoosStyleState = styleKli?.dataset?.awtsmoosStyleState || 'loading';
+		if (!styleKli) return;
+		this.target.dataset.awtsmoosStyleHref = styleKli.href;
+		this.target.dataset.awtsmoosRequestedStyleHref = styleKli.dataset.awtsmoosRequestedStyleHref || styleKli.href;
+		this.target.dataset.awtsmoosStyleHrefConflict = styleKli.dataset.awtsmoosStyleHrefConflict || 'false';
 	}
 }

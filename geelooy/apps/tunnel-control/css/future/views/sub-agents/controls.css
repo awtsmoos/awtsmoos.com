@@ -1,0 +1,103 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos gives will a vessel through action; Awtsmoos.com gives each field and button explicit focus, hover, busy, and disabled states without leaking into another pane. */
+
+.awt-subagents__launch { display: grid; align-content: start; gap: 12px; }
+.awt-subagents__label { font-size: .83rem; font-weight: 750; letter-spacing: .01em; }
+.awt-subagents__label--compact { margin: 0; }
+
+.awt-subagents__textarea,
+.awt-subagents__number {
+	width: 100%;
+	box-sizing: border-box;
+	border: 1px solid color-mix(in srgb, currentColor 18%, transparent);
+	border-radius: 15px;
+	background: color-mix(in srgb, #020617 68%, transparent);
+	color: inherit;
+	font: inherit;
+	outline: none;
+	transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
+}
+
+.awt-subagents__textarea {
+	min-height: 132px;
+	padding: 14px 15px;
+	line-height: 1.55;
+	resize: vertical;
+}
+
+.awt-subagents__number {
+	max-width: 110px;
+	padding: 11px 13px;
+	font-variant-numeric: tabular-nums;
+}
+
+.awt-subagents__textarea:focus,
+.awt-subagents__number:focus {
+	border-color: color-mix(in srgb, var(--subagent-cyan) 66%, transparent);
+	box-shadow: 0 0 0 4px color-mix(in srgb, var(--subagent-cyan) 10%, transparent);
+	background: color-mix(in srgb, #020617 82%, transparent);
+}
+
+.awt-subagents__field-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 14px;
+	padding: 10px 12px;
+	border-radius: 15px;
+	background: color-mix(in srgb, #fff 3%, transparent);
+}
+
+.awt-subagents__hint {
+	margin: 0;
+	font-size: .79rem;
+	line-height: 1.55;
+	opacity: .62;
+}
+
+.awt-subagents__button-row {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 9px;
+}
+
+.awt-subagents__button {
+	appearance: none;
+	border: 1px solid color-mix(in srgb, currentColor 18%, transparent);
+	border-radius: 13px;
+	padding: 10px 14px;
+	background: color-mix(in srgb, #fff 6%, transparent);
+	color: inherit;
+	font: inherit;
+	font-weight: 720;
+	line-height: 1.15;
+	cursor: pointer;
+	box-shadow: inset 0 1px 0 color-mix(in srgb, #fff 7%, transparent);
+	transition: transform 150ms ease, border-color 150ms ease, background 150ms ease, box-shadow 150ms ease, opacity 150ms ease;
+}
+
+.awt-subagents__button:hover:not(:disabled) {
+	transform: translateY(-2px);
+	border-color: color-mix(in srgb, var(--subagent-cyan) 48%, transparent);
+	background: color-mix(in srgb, var(--subagent-cyan) 10%, #111827);
+	box-shadow: 0 10px 24px color-mix(in srgb, #000 22%, transparent);
+}
+
+.awt-subagents__button:active:not(:disabled) { transform: translateY(0) scale(.985); }
+.awt-subagents__button:focus-visible { outline: 3px solid color-mix(in srgb, var(--subagent-cyan) 72%, transparent); outline-offset: 3px; }
+.awt-subagents__button:disabled { cursor: progress; opacity: .42; filter: saturate(.55); }
+
+.awt-subagents__button--primary {
+	background: linear-gradient(135deg, color-mix(in srgb, var(--subagent-cyan) 28%, #152033), color-mix(in srgb, var(--subagent-violet) 24%, #17142d));
+	border-color: color-mix(in srgb, var(--subagent-cyan) 38%, transparent);
+}
+
+.awt-subagents__button--launch {
+	margin-top: 2px;
+	padding-block: 13px;
+	background: linear-gradient(135deg, color-mix(in srgb, var(--subagent-violet) 34%, #17152c), color-mix(in srgb, #6ee7b7 18%, #0d1b20));
+	border-color: color-mix(in srgb, var(--subagent-violet) 42%, transparent);
+}

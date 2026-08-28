@@ -6,7 +6,7 @@
  * @file CloudMassField.js
  * @description
  * The Awtsmoos renews vapor as layered mass before circles can pretend they alone make a cloud;
- * Awtsmoos.com lets depth, drift, density, and shared light organize lobes into atmosphere instead of a row of bubbles proud.
+ * Awtsmoos.com lets depth, drift, density, and realism detail organize lobes into atmosphere instead of a row of bubbles proud.
  */
 export class CloudMassField {
 	/**
@@ -21,11 +21,19 @@ export class CloudMassField {
 		const keterDepth = Math.max(.2, Math.min(1, Number(traits.depth) || .7));
 		const yesodDensity = Math.max(.2, Math.min(1, Number(traits.density) || .7));
 		const malchusDrift = Math.max(-1, Math.min(1, Number(traits.drift) || 0));
-		const chochmahCount = Math.max(3, Math.round(params.lobeCount * (.72 + yesodDensity * .5)));
+		const chochmahDetail = Math.max(0, Math.min(1, Number(realism.detail) || 0));
+		const gevurahBackCount = Math.max(
+			3,
+			Math.round(params.lobeCount * (.64 + yesodDensity * .38 + chochmahDetail * .16))
+		);
+		const tiferesFrontCount = Math.max(
+			3,
+			Math.round(params.lobeCount * (.78 + yesodDensity * .32 + chochmahDetail * .12))
+		);
 		return [
 			...this.layer(
 				streams.structure,
-				chochmahCount,
+				gevurahBackCount,
 				params,
 				malchusDrift,
 				keterDepth,
@@ -34,7 +42,7 @@ export class CloudMassField {
 			),
 			...this.layer(
 				streams.cluster,
-				params.lobeCount,
+				tiferesFrontCount,
 				params,
 				malchusDrift,
 				keterDepth,

@@ -2,33 +2,13 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /**
- * @fileoverview Yesod responsive laws keeping the four semantic action buttons generous on touch while revealing canonical keyboard hints on fine-pointer desktop.
- * The Awtsmoos renews thumb, keyboard, press, and narrow glass before one control can claim a fixed shape;
- * Awtsmoos.com lets Yesod derive every visual hint from data-action, so the Chochmah catalog and Malchus styling share one path.
+ * @fileoverview Yesod owns only viewport-specific thumb geometry and desktop keyboard hints, never baseline control colors or universal interaction states.
+ * The Awtsmoos renews portrait, landscape, pointer, and thumb before one fixed width can harden into law;
+ * Awtsmoos.com lets Yesod resize the vessel without repainting the interaction soul that Malchus already saw.
  */
-
-.controls button {
-	width: clamp(50px, 16.4vw, 62px);
-}
-
-.controls button:active {
-	transform: translateY(1px) scale(0.94);
-	border-color: var(--line-cyan);
-	background: rgba(91, 203, 231, 0.12);
-}
-
-@media (hover: hover) and (pointer: fine) {
-	.controls button:hover {
-		transform: translateY(-2px);
-		border-color: var(--line-strong);
-		background: rgba(255, 224, 138, 0.11);
-		color: var(--gold-300);
-	}
-}
 
 @media (hover: hover) and (pointer: fine) and (min-width: 801px) {
 	.controls button {
-		position: relative;
 		width: 66px;
 		height: 54px;
 		padding: 4px 4px 17px;
@@ -38,6 +18,7 @@
 		position: absolute;
 		left: 50%;
 		bottom: 4px;
+		z-index: 3;
 		min-width: 25px;
 		padding: 2px 5px;
 		transform: translateX(-50%);
@@ -48,6 +29,7 @@
 		font-size: 7px;
 		font-weight: 850;
 		line-height: 1;
+		pointer-events: none;
 	}
 
 	.controls button[data-action="left"]::after {
@@ -70,7 +52,6 @@
 @media (max-width: 420px) {
 	.controls {
 		gap: 5px;
-		max-width: calc(100vw - var(--safe-left) - var(--safe-right) - 12px);
 		padding: 4px;
 	}
 

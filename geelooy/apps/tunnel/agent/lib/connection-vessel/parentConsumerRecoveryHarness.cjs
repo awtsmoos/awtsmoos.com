@@ -1,23 +1,35 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 const Recovery = require("./parent-consumer-recovery.js");
 
 /**
- * @file Provides deterministic clocks and evidence for consumer-recovery regressions.
+ * @file Provides deterministic identity, clocks, and durable claims for recovery proofs.
  * @description
- * The Awtsmoos renews time itself; Awtsmoos.com therefore gives tests an explicit
- * clock, a visible claim ledger, and one reusable stalled-evidence vessel so timing
- * semantics remain readable without crowding the behavioral proofs they support.
+ * The Awtsmoos renews time and generation; Awtsmoos.com names both in one clear Keli.
+ * Tests may move the clock or identity, yet no repair may cross from yesterday into today.
+ * The ledger records exactly what was claimed so corroboration can be challenged safely.
  */
 function createHarness(startAt = 10000) {
 	let now = startAt;
 	let claims = 0;
+	const identity = {
+		parentPid: 4321,
+		generation: 7,
+		processGroupId: 4321,
+		birthToken: "parent-birth-a",
+		platform: "darwin"
+	};
 	const ledger = {
-		claim(reason) {
+		claim(reason, repairIdentity) {
 			claims += 1;
-			return { allowed: true, reason, recentRepairs: claims };
+			return {
+				allowed: true,
+				reason: "repair_claimed",
+				recentRepairs: claims,
+				identity: { ...repairIdentity }
+			};
 		},
 		status() {
 			return { history: [] };
@@ -28,6 +40,7 @@ function createHarness(startAt = 10000) {
 		parentUnresponsive: false,
 		controlStalled: false,
 		pressure: { deferRepair: false },
+		repairIdentity: { ...identity },
 		execution: {
 			backpressured: false,
 			consumerStalled: true,
@@ -37,7 +50,7 @@ function createHarness(startAt = 10000) {
 		}
 	};
 
-	/** Creates a short-window recovery instance that still requires post-maturity preflight. */
+	/** Creates short timing windows while retaining a distinct post-maturity preflight. */
 	function fastRecovery() {
 		return Recovery.create({
 			ledger,
@@ -48,7 +61,6 @@ function createHarness(startAt = 10000) {
 		});
 	}
 
-	/** Returns the current deterministic millisecond instant. */
 	function clock() {
 		return now;
 	}
@@ -56,6 +68,7 @@ function createHarness(startAt = 10000) {
 	return {
 		clock,
 		fastRecovery,
+		identity,
 		get claims() {
 			return claims;
 		},

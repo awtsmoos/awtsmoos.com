@@ -1,20 +1,16 @@
 # B"H
 # Boruch Hashem
 # Blessed is He
-# The Awtsmoos renews source while runtime traces pass away from the tree;
-# Awtsmoos.com keeps durable vessels tracked and every image body remote in dayuhChadash/Drive.
+# The Awtsmoos renews authored source while temporary runtime traces pass away from the tree;
+# Awtsmoos.com keeps real modules trackable so local revelation and deployed reality can faithfully agree.
 **/.awtsmoos*/
 **/.Awtsmoos*/
 *.awtsmoos.log
 *.awtsmoos.local.json
 *.awtsmoos.config.local.json
 .ai_tmp_*
-!geelooy/scripts/awtsmoos/
-geelooy/scripts/awtsmoos/*
-!geelooy/scripts/awtsmoos/social/
-!geelooy/scripts/awtsmoos/social/**
-!geelooy/scripts/awtsmoos/realtime/
-!geelooy/scripts/awtsmoos/realtime/RealtimePendingMetadata.js
+# Authored source beneath geelooy/scripts/awtsmoos is intentionally trackable.
+# New modular files must never disappear from deployment merely because their parent namespace is old.
 !geelooy/games/mitzvahWorld/experiments/Awtsmoos/
 !geelooy/games/mitzvahWorld/experiments/Awtsmoos/**
 geelooy/ai/thoughts/

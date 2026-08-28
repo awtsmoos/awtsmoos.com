@@ -1,0 +1,49 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos recreates color, spacing, depth, and rhythm before any feature may call them its own;
+Awtsmoos.com keeps one warm token covenant so local interfaces may differ without becoming visually unknown.
+*/
+
+:where([data-mitzvah-ui], .Awtsmoos-gameplay) {
+	--mitzvah-ui-bg: #151813;
+	--mitzvah-ui-surface: rgba(31, 35, 28, .96);
+	--mitzvah-ui-surface-raised: rgba(42, 47, 38, .98);
+	--mitzvah-ui-surface-muted: rgba(26, 30, 24, .92);
+	--mitzvah-ui-border: rgba(222, 211, 180, .22);
+	--mitzvah-ui-border-strong: rgba(232, 219, 184, .42);
+	--mitzvah-ui-text: #f3efe2;
+	--mitzvah-ui-text-muted: #c9c2ae;
+	--mitzvah-ui-primary: #88a27b;
+	--mitzvah-ui-primary-strong: #a8be98;
+	--mitzvah-ui-success: #8ab78d;
+	--mitzvah-ui-warning: #d5ad68;
+	--mitzvah-ui-danger: #c77f74;
+	--mitzvah-ui-focus: #d7c58e;
+	--mitzvah-ui-shadow: 0 14px 42px rgba(0, 0, 0, .32);
+	--mitzvah-ui-radius-sm: 8px;
+	--mitzvah-ui-radius-md: 12px;
+	--mitzvah-ui-radius-lg: 18px;
+	--mitzvah-ui-space-1: 4px;
+	--mitzvah-ui-space-2: 8px;
+	--mitzvah-ui-space-3: 12px;
+	--mitzvah-ui-space-4: 16px;
+	--mitzvah-ui-space-5: 24px;
+	--mitzvah-ui-space-6: 32px;
+	--mitzvah-ui-control-height: 44px;
+	--mitzvah-ui-touch-height: 48px;
+	--mitzvah-ui-duration-fast: 110ms;
+	--mitzvah-ui-duration-normal: 180ms;
+	--mitzvah-ui-ease: cubic-bezier(.2, .7, .2, 1);
+	--mitzvah-ui-z-world: 0;
+	--mitzvah-ui-z-hud: 20;
+	--mitzvah-ui-z-popover: 40;
+	--mitzvah-ui-z-panel: 60;
+	--mitzvah-ui-z-modal: 80;
+	--mitzvah-ui-z-critical: 100;
+	--mitzvah-ui-safe-top: env(safe-area-inset-top, 0px);
+	--mitzvah-ui-safe-right: env(safe-area-inset-right, 0px);
+	--mitzvah-ui-safe-bottom: env(safe-area-inset-bottom, 0px);
+	--mitzvah-ui-safe-left: env(safe-area-inset-left, 0px);
+}

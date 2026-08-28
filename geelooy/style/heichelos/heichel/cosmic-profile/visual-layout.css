@@ -1,0 +1,55 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives the Heichel one measured geometry after every responsive layer has spoken;
+ * Awtsmoos.com clears the true global roof, retires duplicate chrome, and lets desktop teachings form a balanced constellation.
+ */
+
+:root {
+	--heichel-global-roof-clearance: 104px;
+}
+
+body.geelooy-app-shell .heichel-mobile-navigation .cosmic-heichel-topbar {
+	display: none;
+	position: static;
+	inset: auto;
+	z-index: auto;
+	block-size: 0;
+	min-block-size: 0;
+	padding: 0;
+	border: 0;
+}
+
+.heichel-os-document .geelooy-main-stage {
+	padding-block-start: var(--heichel-global-roof-clearance);
+}
+
+@media (min-width: 70rem) {
+	.heichel-os-document .living-path-browser .dynamic-grid {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 1rem;
+	}
+
+	.heichel-os-document .living-path-browser .living-tree-node,
+	.heichel-os-document .living-path-browser .living-tree {
+		min-inline-size: 0;
+		max-inline-size: 100%;
+	}
+
+	.heichel-os-document .living-path-browser .nav-card {
+		inline-size: auto;
+		min-inline-size: 0;
+	}
+}
+
+@media (max-width: 55rem) {
+	:root {
+		--heichel-global-roof-clearance: 82px;
+	}
+
+	.heichel-os-document .geelooy-main-stage {
+		padding-block-start: var(--heichel-global-roof-clearance);
+	}
+}

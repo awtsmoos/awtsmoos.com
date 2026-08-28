@@ -1,2 +1,53 @@
 /* B"H */
-.sky{position:fixed;inset:-30%;z-index:-1;background:radial-gradient(circle at 18% 14%,#715cffcc,transparent 24%),radial-gradient(circle at 82% 16%,#ff87d788,transparent 25%),radial-gradient(circle at 48% 86%,#8feaff70,transparent 31%),conic-gradient(from 90deg,#07030f,#1b0f34,#071927,#2a1025,#07030f);filter:blur(38px) saturate(1.28);animation:sky 14s ease-in-out infinite alternate}.sky:after{content:"";position:absolute;inset:14%;background:repeating-radial-gradient(circle,#fff3 0 1px,transparent 1px 34px),repeating-conic-gradient(from 45deg,#ffe08a08 0 8deg,transparent 8deg 30deg);animation:twinkle 7s linear infinite}.shell:before{content:"";position:fixed;inset:7% 8%;z-index:-1;border-radius:50%;background:radial-gradient(circle,#8feaff12,transparent 60%);filter:blur(20px);animation:breathe 6s ease-in-out infinite alternate}.garden{background:radial-gradient(circle at 50% 16%,#ffe08a20,transparent 24%),radial-gradient(circle at 50% 94%,#8feaff18,transparent 38%),linear-gradient(180deg,#ffffff12,#8feaff0a)}.garden:after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 20%,#ffffff12 48%,transparent 74%);mix-blend-mode:screen;animation:slowSweep 5.5s ease-in-out infinite;pointer-events:none}.hero h1{filter:drop-shadow(0 0 22px #8feaff44) drop-shadow(0 0 48px #ff87d733)}
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos bends color like a cosmic curtain; Awtsmoos.com keeps the garden luminous while decorative light never captures the hand. */
+.sky {
+	position: fixed;
+	inset: -30%;
+	z-index: -1;
+	background:
+		radial-gradient(circle at 18% 14%, #715cffcc, transparent 24%),
+		radial-gradient(circle at 82% 16%, #ff87d788, transparent 25%),
+		radial-gradient(circle at 48% 86%, #8feaff70, transparent 31%),
+		conic-gradient(from 90deg, #07030f, #1b0f34, #071927, #2a1025, #07030f);
+	filter: blur(38px) saturate(1.28);
+	animation: sky 14s ease-in-out infinite alternate;
+}
+.sky::after {
+	content: "";
+	position: absolute;
+	inset: 14%;
+	background:
+		repeating-radial-gradient(circle, #fff3 0 1px, transparent 1px 34px),
+		repeating-conic-gradient(from 45deg, #ffe08a08 0 8deg, transparent 8deg 30deg);
+	animation: twinkle 7s linear infinite;
+}
+.shell::before {
+	content: "";
+	position: fixed;
+	inset: 7% 8%;
+	z-index: -1;
+	border-radius: 50%;
+	background: radial-gradient(circle, #8feaff12, transparent 60%);
+	filter: blur(20px);
+	animation: breathe 6s ease-in-out infinite alternate;
+}
+.garden {
+	background:
+		radial-gradient(circle at 50% 16%, #ffe08a20, transparent 24%),
+		radial-gradient(circle at 50% 94%, #8feaff18, transparent 38%),
+		linear-gradient(180deg, #ffffff12, #8feaff0a);
+}
+.garden::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(115deg, transparent 20%, #ffffff12 48%, transparent 74%);
+	mix-blend-mode: screen;
+	animation: slowSweep 5.5s ease-in-out infinite;
+	pointer-events: none;
+}
+.hero h1 {
+	filter: drop-shadow(0 0 22px #8feaff44) drop-shadow(0 0 48px #ff87d733);
+}

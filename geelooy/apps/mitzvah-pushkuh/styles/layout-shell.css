@@ -1,0 +1,75 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos gives every panel a boundary without dividing the garden's soul; Awtsmoos.com keeps the outer shell balanced before the canvas is revealed. */
+.shell {
+	width: min(1500px, 94vw);
+	margin: auto;
+	padding: 28px 0 74px;
+}
+.panel {
+	position: relative;
+	border: 1px solid var(--line);
+	border-radius: 34px;
+	background:
+		linear-gradient(145deg, #ffffff26, #ffffff0a 52%, #8feaff12),
+		radial-gradient(circle at 20% 0%, #ffe08a18, transparent 38%);
+	box-shadow: 0 34px 110px var(--shadow), 0 0 0 1px #ffffff08 inset, 0 1px 0 #fff4 inset;
+	backdrop-filter: blur(24px) saturate(1.25);
+	overflow: hidden;
+	transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease;
+}
+.panel::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(118deg, transparent 18%, #ffffff18 48%, transparent 72%);
+	transform: translateX(-130%);
+	pointer-events: none;
+}
+.panel::after {
+	content: "";
+	position: absolute;
+	inset: 1px;
+	border-radius: 33px;
+	border: 1px solid #ffffff0e;
+	pointer-events: none;
+}
+.panel:hover {
+	transform: translateY(-2px);
+	border-color: #ffe08a75;
+	box-shadow: 0 38px 120px #000d, 0 0 46px #8feaff24, 0 0 62px #ffe08a18 inset;
+}
+.panel:hover::before {
+	animation: sheen 1.25s ease;
+}
+.hero {
+	text-align: center;
+	padding: clamp(24px, 4vw, 44px);
+}
+.hero h1 {
+	font-size: clamp(2.9rem, 8vw, 7.5rem);
+	line-height: .82;
+	margin: 8px 0 12px;
+	background: linear-gradient(90deg, #fff, #ffe08a, #8feaff, #ff87d7, #fff);
+	background-size: 260% 100%;
+	-webkit-background-clip: text;
+	color: transparent;
+	text-shadow: 0 0 48px #bba0ff44;
+	animation: titleGlow 6s linear infinite;
+}
+.hero p {
+	color: #f0e8ff;
+}
+.world-grid {
+	display: grid;
+	grid-template-columns: 340px minmax(0, 1fr) 370px;
+	gap: 18px;
+	margin-top: 18px;
+	align-items: start;
+}
+.forge,
+.archive,
+.social {
+	padding: 22px;
+}

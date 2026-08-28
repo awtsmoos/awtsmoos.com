@@ -1,0 +1,36 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos is equally present in every measure; Awtsmoos.com lets the Sub-agents constellation fold from wide command center to narrow handheld vessel. */
+
+@media (max-width: 980px) {
+	.awt-subagents__metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+	.awt-subagents__primary-grid { grid-template-columns: 1fr; }
+	.awt-subagents__hero h2 { max-width: none; }
+}
+
+@media (max-width: 640px) {
+	.awt-subagents { padding: 12px; gap: 14px; }
+	.awt-subagents__hero,
+	.awt-subagents__panel { border-radius: 19px; padding: 18px; }
+	.awt-subagents__metrics { grid-template-columns: 1fr 1fr; gap: 8px; }
+	.awt-subagents__metric { padding: 12px; border-radius: 14px; }
+	.awt-subagents__metric-value { font-size: 1rem; }
+	.awt-subagents__section-head,
+	.awt-subagents__footer,
+	.awt-subagents__detail-head { align-items: stretch; flex-direction: column; }
+	.awt-subagents__button-row { display: grid; grid-template-columns: 1fr; width: 100%; }
+	.awt-subagents__button { width: 100%; min-height: 44px; }
+	.awt-subagents__field-row { align-items: stretch; flex-direction: column; }
+	.awt-subagents__number { max-width: none; }
+	.awt-subagents__mission-list { grid-template-columns: 1fr; }
+	.awt-subagents__detail-head code { max-width: 100%; }
+	.awt-subagents__agent-row { grid-template-columns: 34px minmax(0, 1fr); }
+	.awt-subagents__agent-status { grid-column: 2; text-align: left; }
+}
+
+@media (max-width: 390px) {
+	.awt-subagents__metrics { grid-template-columns: 1fr; }
+	.awt-subagents__hero h2 { font-size: 2.25rem; }
+	.awt-subagents__auth-orbit { width: 92px; height: 92px; }
+}

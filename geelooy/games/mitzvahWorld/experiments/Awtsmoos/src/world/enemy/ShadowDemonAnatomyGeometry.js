@@ -1,12 +1,12 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file ShadowDemonAnatomyGeometry.js
- * @description Compiles every hostile silhouette through shared creature anatomy into one GPU mesh.
- * The Awtsmoos joins bone, limb, wing, torso, tail, and uncanny proportion without cuboid disguise;
- * Awtsmoos.com preserves one draw call per enemy while existing combat identity remains game-owned and precise.
+ * @description Compiles hostile anatomy into one GPU mesh whose hide remains concealed until a real remote fur image is resident.
+ * The Awtsmoos joins limb, wing, torso, and tail beyond every painted disguise; Awtsmoos.com preserves one draw call,
+ * while remote hide truth alone may reveal the creature and no flat hostile tint may stand as its final visual.
  */
 
 import { createCreature } from '../../../../../../../libs/awtsmoos-procedural-core/src/core/animalMesh/creature/CreatureCreator.js';
@@ -17,8 +17,11 @@ import {
 	Mesh,
 	MeshStandardMaterial
 } from '../../../../light-three-gltf/tiny-runtime.js';
+import { materialHasRealMap } from '../../assets/RemoteMaterialImageValidity.js';
+import { prepareRemoteMaterialForHydration } from '../../assets/RemoteMaterialReadiness.js';
 import { shadowDemonCoreSpecies } from './ShadowDemonCoreSpecies.js';
 
+/** Creates one hidden-until-remote hostile anatomy mesh. */
 export function createShadowDemonAnatomyMesh(profile) {
 	const mapping = shadowDemonCoreSpecies(profile);
 	const created = createCreature(mapping.speciesId, {
@@ -31,12 +34,26 @@ export function createShadowDemonAnatomyMesh(profile) {
 		name: `${profile.id}-core-anatomy-material`,
 		roughness: 0.82
 	});
+	Object.assign(material, {
+		mapImage: null,
+		mapRepeat: [3, 3],
+		texturePolicy: { realMapImage: false, remoteOnly: true, semanticRole: 'creature.fur' },
+		textureUrl: null
+	});
 	const mesh = new Mesh(geometry, material);
 	mesh.name = `${profile.id}-core-creature-anatomy`;
-	mesh.userData.anatomyParts = created.artifact.parts.length;
-	mesh.userData.coreSpeciesId = mapping.speciesId;
-	mesh.userData.family = 'shared-core-shadow-demon-anatomy';
-	mesh.userData.phenotypeId = created.diagnostics.phenotypeId;
+	Object.assign(mesh.userData, {
+		anatomyParts: created.artifact.parts.length,
+		coreSpeciesId: mapping.speciesId,
+		family: 'shared-core-shadow-demon-anatomy',
+		phenotypeId: created.diagnostics.phenotypeId,
+		semanticMaterialRole: 'creature.fur'
+	});
+	prepareRemoteMaterialForHydration(mesh, material);
+	mesh.visible = materialHasRealMap(material);
+	if (!mesh.visible) {
+		mesh.userData.awtsmoosRemoteOnlyVisibility = { hiddenByCovenant: true, previousVisible: true };
+	}
 	return mesh;
 }
 
@@ -50,7 +67,9 @@ function mergedCreatureGeometry(artifact) {
 		positions.push(...part.positions);
 		normals.push(...part.normals);
 		uvs.push(...part.uvs);
-		for (const index of part.indices || []) indices.push(vertexOffset + index);
+		for (const index of part.indices || []) {
+			indices.push(vertexOffset + index);
+		}
 		vertexOffset += part.positions.length / 3;
 	}
 	if (!positions.length || !indices.length) {

@@ -1,0 +1,51 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos renews response in every cinematic gesture while no animation may overpower clarity or reduced-motion need;
+ * Awtsmoos.com keeps Film hover, focus, active, disabled, and disclosure motion local, subtle, tactile, and freed.
+ */
+.aw-professional-studio .aw-studio-film button,
+.aw-professional-studio .aw-studio-film-details,
+.aw-professional-studio .aw-studio-film-shot {
+	transition:
+		transform var(--aw-normal) ease,
+		border-color var(--aw-normal) ease,
+		box-shadow var(--aw-normal) ease,
+		background var(--aw-normal) ease;
+}
+
+.aw-professional-studio .aw-studio-film button:hover,
+.aw-professional-studio .aw-studio-film-details:hover,
+.aw-professional-studio .aw-studio-film-shot:hover {
+	border-color: var(--aw-line-strong);
+}
+
+.aw-professional-studio .aw-studio-film button:focus-visible,
+.aw-professional-studio .aw-studio-film-details:focus-within {
+	outline: 2px solid var(--aw-line-focus);
+	outline-offset: 2px;
+}
+
+.aw-professional-studio .aw-studio-film button:active {
+	transform: translateY(1px) scale(.985);
+}
+
+.aw-professional-studio .aw-studio-film-plan:hover,
+.aw-professional-studio .aw-studio-film-render:hover {
+	transform: translateY(-1px);
+	box-shadow: var(--aw-shadow-soft);
+}
+
+.aw-professional-studio .aw-studio-film button:disabled {
+	cursor: not-allowed;
+	opacity: .5;
+	transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.aw-professional-studio .aw-studio-film button,
+	.aw-professional-studio .aw-studio-film-details,
+	.aw-professional-studio .aw-studio-film-shot {
+		transition-duration: .01ms;
+	}
+}

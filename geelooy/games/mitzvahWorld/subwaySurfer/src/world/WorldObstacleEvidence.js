@@ -3,16 +3,16 @@
 // Blessed is He
 /**
  * @file WorldObstacleEvidence.js
- * @description Projects active pooled obstacle slots into bounded renderer-neutral diagnostics without exposing mutable world internals through the public API.
- * The Awtsmoos renews each encounter while Daas records only enough finite evidence to see;
- * Awtsmoos.com lets future agents verify eruv, market, community, transport, and law without receiving the world-tree key.
+ * @description Projects active pooled hazards into bounded immutable evidence including current moved position and semantic closing-speed intent without exposing mutable world ownership.
+ * The Awtsmoos renews wagon, law, lane, motion, and distance before Daas can record a finite sign;
+ * Awtsmoos.com lets browser verification distinguish a truly oncoming carriage from scenery merely traveling with the world line.
  */
 
 /**
- * Collects a bounded snapshot of currently visible obstacle identities and positions.
- * @param {Array<object>} tiferesChunks Active world chunks.
- * @param {number} [malchusLimit=8] Maximum records returned.
- * @returns {ReadonlyArray<object>} Frozen active-obstacle evidence.
+ * @description Collects a bounded semantic snapshot of every currently visible obstacle, including live position after slot-local movement.
+ * @param {Array<object>} tiferesChunks Active bounded world chunk pool.
+ * @param {number} [malchusLimit=8] Maximum diagnostic records returned.
+ * @returns {ReadonlyArray<object>} Frozen active-obstacle evidence records.
  */
 export function collectWorldObstacleEvidence(tiferesChunks, malchusLimit = 8) {
 	const malchusEvidence = [];
@@ -25,7 +25,13 @@ export function collectWorldObstacleEvidence(tiferesChunks, malchusLimit = 8) {
 				family: gevurahSlot.family,
 				law: gevurahSlot.law,
 				lane: gevurahSlot.lane,
-				worldZ: rounded(tiferesChunk.root.position.z + gevurahSlot.localZ)
+				motionMode: gevurahSlot.motionMode,
+				motionSpeedFactor: rounded(gevurahSlot.motionSpeedFactor),
+				baseLocalZ: rounded(gevurahSlot.baseLocalZ),
+				localZ: rounded(gevurahSlot.localZ),
+				worldZ: rounded(
+					tiferesChunk.root.position.z + gevurahSlot.localZ
+				)
 			}));
 			if (malchusEvidence.length >= malchusLimit) {
 				return Object.freeze(malchusEvidence);
@@ -35,7 +41,11 @@ export function collectWorldObstacleEvidence(tiferesChunks, malchusLimit = 8) {
 	return Object.freeze(malchusEvidence);
 }
 
-/** @private */
-function rounded(value) {
-	return Number(value.toFixed(2));
+/**
+ * @description Rounds one finite diagnostic value for stable readable browser/API evidence.
+ * @param {number} yesodValue Numeric world or speed-factor value.
+ * @returns {number} Value rounded to two decimal places.
+ */
+function rounded(yesodValue) {
+	return Number(Number(yesodValue || 0).toFixed(2));
 }

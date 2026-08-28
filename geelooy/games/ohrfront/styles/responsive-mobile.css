@@ -1,0 +1,59 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos renews narrow vessels without shrinking meaning below the threshold of sight.
+Awtsmoos.com lets mobile space become disciplined subtraction: fewer secondary words, readable primary truth, and no collision in light.
+*/
+@media (max-width: 720px) {
+	.ohrfront-app {
+		--ohr-edge: 14px;
+	}
+
+	.ohrfront-app .ohr-mission {
+		width: calc(100% - var(--ohr-safe-left) - var(--ohr-safe-right));
+	}
+
+	.ohrfront-app .ohr-mission__location,
+	.ohrfront-app .ohr-weapon__copy span {
+		display: none;
+	}
+
+	.ohrfront-app .ohr-vitals {
+		width: min(11rem, calc(56% - var(--ohr-safe-left)));
+	}
+
+	.ohrfront-app .ohr-weapon {
+		right: var(--ohr-safe-right);
+		bottom: calc(var(--ohr-safe-bottom) + 72px);
+		max-width: min(11rem, calc(50% - var(--ohr-safe-right)));
+		grid-template-columns: auto minmax(5.75rem, 1fr);
+		gap: 3px 8px;
+	}
+
+	.ohrfront-app .ohr-weapon__heat {
+		grid-template-columns: 30px minmax(48px, 66px);
+		gap: 5px;
+	}
+
+	.ohrfront-app .ohr-dialog-layer {
+		background: rgba(4, 8, 10, 0.92);
+	}
+
+	.ohrfront-app .ohr-dialog--launch {
+		justify-self: center;
+	}
+}
+
+@media (max-width: 430px) {
+	.ohrfront-app .ohr-mission__meta {
+		font-size: 9px;
+	}
+
+	.ohrfront-app .ohr-title {
+		font-size: clamp(40px, 16vw, 60px);
+	}
+
+	.ohrfront-app .ohr-arsenal i {
+		padding-inline: 3px;
+	}
+}

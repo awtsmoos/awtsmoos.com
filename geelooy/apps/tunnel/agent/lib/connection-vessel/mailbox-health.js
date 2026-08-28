@@ -2,14 +2,15 @@
 // Boruch Hashem
 // Blessed is He
 
+const Debt = require("./mailbox-acknowledgement-debt.js");
 const Policy = require("./mailbox-health-policy.js");
 
 /**
- * @file Projects mailbox records into capacity and settlement-age health.
+ * @file Projects mailbox records into capacity, age, and acknowledgement-debt health.
  * @description
  * The Awtsmoos preserves each accepted deed while revealing whether it still flows.
- * Awtsmoos.com measures age beside capacity, so one ancient receipt can no longer
- * hide beneath an almost-empty mailbox and falsely announce that all is healthy.
+ * Awtsmoos.com keeps raw age testimony visible, yet refuses to call living execution
+ * dead merely because one completed result still awaits the relay's exact ACK.
  */
 function lane(entries = [], limits = {}, name = "unknown", at = Date.now(), thresholds = {}) {
 	const count = entries.length;
@@ -20,14 +21,14 @@ function lane(entries = [], limits = {}, name = "unknown", at = Date.now(), thre
 	const countRatio = Policy.ratio(count, limits.maxCount);
 	const byteRatio = Policy.ratio(bytes, limits.maxBytes);
 	const utilization = Math.max(countRatio, byteRatio);
-	const state = Policy.strongestState([
-		Policy.capacityState(utilization),
-		Policy.ageState(count, oldestAgeMs, thresholds)
-	]);
-
+	const capacityState = Policy.capacityState(utilization);
+	const ageState = Policy.ageState(count, oldestAgeMs, thresholds);
+	const state = Policy.strongestState([capacityState, ageState]);
 	return {
 		lane: name,
 		state,
+		capacityState,
+		ageState,
 		healthy: state === "healthy",
 		count,
 		bytes,
@@ -44,22 +45,42 @@ function lane(entries = [], limits = {}, name = "unknown", at = Date.now(), thre
 	};
 }
 
-function overall(inbox, outbox) {
-	const state = Policy.strongestState([inbox?.state, outbox?.state]);
+/**
+ * Combines lane truth while demoting pure preserved terminal ACK debt to degradation.
+ * @param {object} inbox Inbox lane health plus parent-custody projection.
+ * @param {object} outbox Outbox lane health containing terminal response testimony.
+ * @returns {object} Effective and raw mailbox health with explicit debt testimony.
+ */
+function overall(inbox = {}, outbox = {}) {
+	const rawState = Policy.strongestState([inbox.state, outbox.state]);
+	const acknowledgementDebt = Debt.describe(outbox);
+	const debtOnly = Debt.mayDemote(inbox, outbox);
+	const state = debtOnly ? "degraded" : rawState;
 	return {
 		state,
+		rawState,
+		reason: debtOnly ? Debt.DEBT_STATE : "",
 		healthy: state === "healthy",
-		backpressure: state === "full",
-		nextActions: state === "healthy" ? [] : [
-			"connectionMailboxStatus",
-			"connectionMailboxExport",
-			"connectionMailboxQuarantine"
-		]
+		backpressure: rawState === "full",
+		acknowledgementDebt,
+		nextActions: nextActions(state, acknowledgementDebt)
 	};
+}
+
+/** Returns recovery actions without suggesting unsafe outbox deletion. */
+function nextActions(state, acknowledgementDebt) {
+	if (state === "healthy") return [];
+	if (acknowledgementDebt?.active) return acknowledgementDebt.nextActions;
+	return [
+		"connectionMailboxStatus",
+		"connectionMailboxExport",
+		"connectionMailboxQuarantine"
+	];
 }
 
 module.exports = {
 	...Policy,
 	lane,
+	nextActions,
 	overall
 };

@@ -1,0 +1,55 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gives the unseen keyboard path a visible ring of light;
+ * Awtsmoos.com lets touch, focus, motion, and recovery remain clear by day and night.
+ */
+
+#timeline-canvas {
+	touch-action: none;
+}
+
+.btn,
+.icon-btn,
+#zoom-slider {
+	touch-action: manipulation;
+}
+
+.btn:focus-visible,
+.icon-btn:focus-visible,
+#zoom-slider:focus-visible,
+.no-script-message a:focus-visible {
+	outline: 3px solid currentColor;
+	outline-offset: 3px;
+}
+
+.material-icons[aria-hidden="true"] {
+	pointer-events: none;
+}
+
+.no-script-message {
+	margin: 1rem;
+	padding: 1rem;
+	border: 1px solid currentColor;
+	border-radius: 8px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		scroll-behavior: auto !important;
+		transition-duration: 0.01ms !important;
+	}
+}
+
+@media (forced-colors: active) {
+	.btn:focus-visible,
+	.icon-btn:focus-visible,
+	#zoom-slider:focus-visible {
+		outline: 3px solid CanvasText;
+	}
+}

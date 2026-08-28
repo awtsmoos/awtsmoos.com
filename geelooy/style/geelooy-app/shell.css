@@ -1,10 +1,13 @@
 /* B"H
- * Boruch Hashem
- * Blessed is He
- * The Awtsmoos gathers content, route continuity, ribbon, and dock into one shell of measured light;
- * Awtsmoos.com keeps the living header search as the one command doorway, so no dormant modal shadow competes in sight.
- */
-@import "./shell/content.css";
-@import "./shell/context-ribbon.css";
-@import "./shell/dock.css";
-@import "./shell/hybrid-navigation.css";
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos gathers content, route continuity, ribbon, dock, and quiet ambient nature into one shell of measured light;
+Awtsmoos.com keeps every specialist imported through this shell-owned gate, so no decorative layer escapes into an unrelated site.
+*/
+@import url("./shell/content.css?v=interface-dark-014");
+@import url("./shell/context-ribbon.css?v=interface-dark-014");
+@import url("./shell/dock.css?v=interface-dark-014");
+@import url("./shell/hybrid-navigation.css?v=interface-dark-014");
+@import url("./shell/ambient-nature.css?v=ambient-nature-001");
+@import url("./shell/ambient-particles.css?v=ambient-nature-001");

@@ -1,32 +1,47 @@
-/* B"H */
-/* Boruch Hashem */
-/* Blessed is He */
-/* The Awtsmoos compresses desktop browsing so real teachings enter the first viewport. */
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos lets desktop Torah browsing move as one river instead of two control columns fighting the page;
+ * Awtsmoos.com keeps breadcrumbs, search, tabs, and teachings on a single readable axis where hierarchy can engage.
+ */
 
 @media (min-width: 70rem) {
 	.heichel-os-document .heichel-nav-panel {
-		grid-template-columns: minmax(16rem, .65fr) minmax(22rem, 1fr);
-		gap: .4rem;
-		margin-top: .5rem;
-		padding: .5rem;
+		display: grid;
+		grid-template-columns: minmax(0, 1fr);
+		gap: 0.9rem;
+		margin-block-start: 0.9rem;
+		padding: 0.9rem;
 	}
 
 	.heichel-os-document .breadcrumb-river,
-	.heichel-os-document .series-heading {
-		display: none !important;
-	}
-
-	.heichel-os-document .series-search-row {
-		grid-column: 1;
-	}
-
-	.heichel-os-document .tab-gates {
-		grid-column: 2;
-	}
-
+	.heichel-os-document .series-heading,
+	.heichel-os-document .series-search-row,
+	.heichel-os-document .tab-gates,
 	.heichel-os-document .grid-realms,
 	.heichel-os-document .viewport,
 	.heichel-os-document .dynamic-grid {
-		grid-column: 1 / -1;
+		grid-column: 1;
+	}
+
+	.heichel-os-document .breadcrumb-river {
+		display: flex;
+	}
+
+	.heichel-os-document .series-heading {
+		display: block;
+	}
+
+	.heichel-os-document .dynamic-grid {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 1rem;
+		align-items: stretch;
+	}
+
+	.heichel-os-document .dynamic-grid > * {
+		min-inline-size: 0;
+		inline-size: auto;
 	}
 }

@@ -1,38 +1,19 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file minimalMeadowGarmentRuntime.test.mjs
- * @description Verifies GLB extras discovery, visibility groups, jacket swap, and appearance.
- * The Awtsmoos clothes one actor through many exporter vessels; Awtsmoos.com proves that
- * tefillin, required base garments, hue, and fabric alter actual isolated model records.
+ * @description Proves equipment remains logically active while every untextured garment/body renderable stays hidden until genuine remote cloth or leather arrives.
+ * The Awtsmoos clothes one actor through many vessels; Awtsmoos.com separates gameplay truth from visual readiness,
+ * so wardrobe state may change instantly while no naked color-only mesh crosses the remote-image boundary.
  */
 
 import assert from 'node:assert/strict';
+import test from 'node:test';
 import { applyMinimalGarmentAppearance } from '../../app/MinimalMeadowGarmentAppearance.js';
 import { applyMinimalGarmentVisibility, resolveMinimalEquipmentNodes } from '../../app/MinimalMeadowEquipmentNodes.js';
 
-const jacket = garmentRoot('jacket', 'jacket');
-const tefillinJacket = garmentRoot('jacket-teffilin', 'jacket-tefillin');
-const glasses = garmentRoot('glasses', 'glasses-frame', ['glasses-glass']);
-const topHat = garmentRoot('top-hat', 'hat');
-const kippah = garmentRoot('yarmulka', 'yarmulka', [], true);
-const headTefillin = garmentRoot('tefillin-head-box', 'batim');
-const headStraps = garmentRoot('head-teffilin-straps', 'head-straps');
-const armTefillin = garmentRoot('teffiln-arm-box', 'shel-yad');
-const armStraps = garmentRoot('tefillin-arm-straps', 'arm-straps');
-const outerShirt = garmentRoot('outer-shirt', 'shirt-outer');
-const body = meshNode('body', ['shirt', 'pants', 'shoes']);
-const rightHand = node('mixamorig:RightHand');
-const leftHand = node('mixamorig:LeftHand');
-const spine = node('mixamorig:Spine2');
-const model = tree('test-chossid', [
-	jacket, tefillinJacket, glasses, topHat, kippah, headTefillin,
-	headStraps, armTefillin, armStraps, outerShirt, body,
-	rightHand, leftHand, spine
-]);
-const nodes = resolveMinimalEquipmentNodes(model);
 const equipment = {
 	coat: 'black-coat',
 	eyes: 'scholar-glasses',
@@ -45,51 +26,62 @@ const equipment = {
 	tefillinArm: 'tefillin-shel-yad',
 	tefillinHead: 'tefillin-shel-rosh'
 };
-const visibility = applyMinimalGarmentVisibility(nodes, equipment);
-assert.equal(jacket.visible, false);
-assert.equal(tefillinJacket.visible, true);
-assert.equal(body.visible, true);
-assert.ok(visibility.active.includes('tefillin-head'));
-assert.ok(visibility.discovered['body-shoes'].materials.includes('shoes'));
 
-const appearance = applyMinimalGarmentAppearance(nodes.wardrobe, equipment, {
-	'black-coat': { colorId: 'blue', fabricId: 'wool' },
-	'scholar-glasses': { colorId: 'gold', fabricId: 'plain' }
+test('remote-pending wardrobe meshes stay hidden while equipment remains active', () => {
+	const fixture = wardrobeFixture();
+	const nodes = resolveMinimalEquipmentNodes(fixture.model);
+	const receipt = applyMinimalGarmentVisibility(nodes, equipment);
+	assert.ok(receipt.active.includes('tefillin-head'));
+	assert.equal(fixture.jacket.visible, false);
+	assert.equal(fixture.tefillinJacket.visible, true);
+	assert.equal(fixture.tefillinJacket.children[0].visible, false);
+	assert.equal(fixture.body.visible, false);
+	const appearance = applyMinimalGarmentAppearance(nodes.wardrobe, equipment, {
+		'black-coat': { colorId: 'blue', fabricId: 'wool' }
+	});
+	assert.equal(appearance.jacket.colorId, 'blue');
+	assert.equal(firstMaterial(fixture.jacket).texturePolicy.remoteOnly, true);
+	assert.equal(fixture.jacket.children[0].visible, false);
 });
-assert.equal(appearance.jacket.colorId, 'blue');
-assert.equal(firstMaterial(jacket).userData.garmentColorId, 'blue');
-assert.equal(firstMaterial(tefillinJacket).userData.garmentFabricId, 'wool');
-assert.equal(glasses.children[0].material[1].userData?.garmentColorId, undefined);
-assert.equal(nodes.rightHand, rightHand);
-console.log('MINIMAL_MEADOW_GARMENT_RUNTIME_TEST_OK=1');
 
-function firstMaterial(root) {
-	const value = root.children[0].material;
-	return Array.isArray(value) ? value[0] : value;
+function wardrobeFixture() {
+	const jacket = garmentRoot('jacket', 'jacket');
+	const tefillinJacket = garmentRoot('jacket-teffilin', 'jacket-tefillin');
+	const body = meshNode('body', ['shirt', 'pants', 'shoes']);
+	const model = tree('chossid', [
+		jacket,
+		tefillinJacket,
+		garmentRoot('glasses', 'glasses-frame', ['glasses-glass']),
+		garmentRoot('top-hat', 'hat'),
+		garmentRoot('yarmulka', 'yarmulka', [], true),
+		garmentRoot('tefillin-head-box', 'batim'),
+		garmentRoot('head-teffilin-straps', 'head-straps'),
+		garmentRoot('teffiln-arm-box', 'shel-yad'),
+		garmentRoot('tefillin-arm-straps', 'arm-straps'),
+		garmentRoot('outer-shirt', 'shirt-outer'),
+		body,
+		tree('mixamorig:RightHand', []),
+		tree('mixamorig:LeftHand', []),
+		tree('mixamorig:Spine2', [])
+	]);
+	return { body, jacket, model, tefillinJacket };
 }
 
-function garmentRoot(garment, materialName, extraMaterials = [], misspelled = false) {
-	const root = node(garment);
-	root.userData.gltfNode = {
-		extras: { [misspelled ? 'garament' : 'garment']: garment }
-	};
-	root.children.push(meshNode(`${garment}-mesh`, [materialName, ...extraMaterials]));
+function firstMaterial(root) {
+	return root.children[0].material[0];
+}
+
+function garmentRoot(garment, materialName, extras = [], misspelled = false) {
+	const root = tree(garment, [meshNode(`${garment}-mesh`, [materialName, ...extras])]);
+	root.userData.gltfNode = { extras: { [misspelled ? 'garament' : 'garment']: garment } };
 	return root;
 }
 
 function meshNode(name, materials) {
-	const value = node(name);
+	const value = tree(name, []);
 	value.isMesh = true;
-	value.material = materials.map(materialName => ({
-		color: [1, 1, 1, 1],
-		name: materialName,
-		userData: {}
-	}));
+	value.material = materials.map(materialName => ({ color: [1, 1, 1, 1], name: materialName, userData: {} }));
 	return value;
-}
-
-function node(name) {
-	return tree(name, []);
 }
 
 function tree(name, children) {

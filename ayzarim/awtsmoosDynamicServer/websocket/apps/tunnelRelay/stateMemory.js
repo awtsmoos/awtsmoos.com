@@ -2,12 +2,8 @@
 // Boruch Hashem
 // Blessed is He
 
+const Maintenance = require("./stateMemoryMaintenance.js");
 const Result = require("./durableRecordResult.js");
-const {
-	COMPLETED_LIMIT,
-	PENDING_TTL_MS,
-	QUARANTINE_LIMIT
-} = require("./constants.js");
 
 /**
  * @file Mirrors durable relay truth without letting an old timeout hide a later proven deed.
@@ -27,30 +23,14 @@ function ensureStores(context) {
 	return context;
 }
 
-/** Removes old bounded mirrors while disk remains authoritative. */
+/** Delegates bounded mirror maintenance after ensuring every store exists. */
 function cleanup(context, now = Date.now()) {
 	ensureStores(context);
-	cleanupMap(context.completedTunnelRequests, COMPLETED_LIMIT, now);
-	cleanupMap(context.expiredTunnelRequests, COMPLETED_LIMIT, now);
-	if (context.tunnelResponseQuarantine.length > QUARANTINE_LIMIT) {
-		context.tunnelResponseQuarantine.splice(
-			0,
-			context.tunnelResponseQuarantine.length - QUARANTINE_LIMIT
-		);
-	}
-}
-
-/** Removes aged records and then bounds one in-memory mirror by insertion order. */
-function cleanupMap(store, limit, now) {
-	for (const [key, record] of store.entries()) {
-		if (now - Number(record.at || 0) > PENDING_TTL_MS) store.delete(key);
-	}
-	while (store.size > limit) store.delete(store.keys().next().value);
+	Maintenance.cleanup(context, now);
 }
 
 /**
  * Mirrors one durable record while preserving both historical and effective terminal views.
- *
  * @param {object} context Relay state container.
  * @param {string} key Durable request key.
  * @param {object} record Disk-authoritative record.
@@ -104,19 +84,13 @@ function expired(context, key) {
 /** Records a bounded suspicious response without altering canonical request truth. */
 function quarantine(context, details = {}) {
 	ensureStores(context);
-	context.tunnelResponseQuarantine.push({ at: new Date().toISOString(), ...details });
-	cleanup(context);
+	Maintenance.quarantine(context, details);
 }
 
 /** Returns compact relay-memory counts for diagnostics. */
 function snapshot(context) {
 	ensureStores(context);
-	return {
-		pending: context.pendingTunnelRequests.size,
-		completed: context.completedTunnelRequests.size,
-		expired: context.expiredTunnelRequests.size,
-		quarantined: context.tunnelResponseQuarantine.length
-	};
+	return Maintenance.snapshot(context);
 }
 
 module.exports = {

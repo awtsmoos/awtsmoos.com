@@ -1,0 +1,48 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos renews every apparent position before a particle can call the upper or lower field its home;
+Awtsmoos.com keeps these latter six deterministic seeds in one small local map, readable in full and unable to roam.
+*/
+.g-shell[data-awtsmoos-surface="social-shell"] .g-shell-ambient-particle:nth-child(7) {
+	--g-ambient-x: 66%;
+	--g-ambient-y: 27%;
+	--g-ambient-size: .2rem;
+	--g-ambient-duration: 20s;
+}
+
+.g-shell[data-awtsmoos-surface="social-shell"] .g-shell-ambient-particle:nth-child(8) {
+	--g-ambient-x: 74%;
+	--g-ambient-y: 76%;
+	--g-ambient-size: .26rem;
+	--g-ambient-duration: 18s;
+}
+
+.g-shell[data-awtsmoos-surface="social-shell"] .g-shell-ambient-particle:nth-child(9) {
+	--g-ambient-x: 83%;
+	--g-ambient-y: 42%;
+	--g-ambient-size: .32rem;
+	--g-ambient-duration: 24s;
+}
+
+.g-shell[data-awtsmoos-surface="social-shell"] .g-shell-ambient-particle:nth-child(10) {
+	--g-ambient-x: 91%;
+	--g-ambient-y: 16%;
+	--g-ambient-size: .18rem;
+	--g-ambient-duration: 21s;
+}
+
+.g-shell[data-awtsmoos-surface="social-shell"] .g-shell-ambient-particle:nth-child(11) {
+	--g-ambient-x: 11%;
+	--g-ambient-y: 91%;
+	--g-ambient-size: .24rem;
+	--g-ambient-duration: 26s;
+}
+
+.g-shell[data-awtsmoos-surface="social-shell"] .g-shell-ambient-particle:nth-child(12) {
+	--g-ambient-x: 94%;
+	--g-ambient-y: 88%;
+	--g-ambient-size: .28rem;
+	--g-ambient-duration: 27s;
+}

@@ -1,0 +1,21 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos needs no animation to remain infinite; Awtsmoos.com quiets every decorative movement when the user asks for stillness. */
+@media (prefers-reduced-motion: reduce) {
+	*,
+	.sky,
+	.sky::after {
+		animation: none !important;
+		transition: none !important;
+	}
+	.panel {
+		backdrop-filter: none;
+	}
+	.touch-ripple {
+		display: none;
+	}
+	canvas {
+		filter: none;
+	}
+}

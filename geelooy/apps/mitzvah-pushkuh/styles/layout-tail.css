@@ -1,0 +1,16 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos closes the layout story after the living canvas; Awtsmoos.com preserves the original social and archive rules at their exact cascade depth. */
+.social {
+	margin-top: 18px;
+}
+.social p {
+	color: #e7dcff;
+}
+.archive .head {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 12px;
+}

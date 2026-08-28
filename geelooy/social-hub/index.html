@@ -1,8 +1,8 @@
 <!-- B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos reveals one social horizon without borrowing another route's global garment;
-Awtsmoos.com lets this page mount a small local vessel whose deeper panels awaken only through its own modular shell.
+The Awtsmoos reveals one social horizon before the network can name its many streams;
+Awtsmoos.com keeps a useful first-paint vessel alive while the full community awakens into deeper dreams.
 -->
 <!doctype html>
 <html lang="en">
@@ -62,12 +62,18 @@ Awtsmoos.com lets this page mount a small local vessel whose deeper panels awake
 </head>
 <body class="social-hub-document geelooy-social-surface" data-geelooy-route="social-hub">
 	<div id="socialHubMount" class="socialHubMount" data-shell-ready="false">
-		<noscript>
-			<section class="workspacePanel">
-				<h1>Social Hub</h1>
-				<p>JavaScript is required to reveal this social workspace.</p>
-			</section>
-		</noscript>
+		<section class="workspacePanel" data-active="true" aria-labelledby="social-fallback-title">
+			<p class="panelIntro">Geelooy community</p>
+			<h1 id="social-fallback-title">Social Hub</h1>
+			<p>Discover public spaces, conversations, people, and teachings while the live community workspace awakens.</p>
+			<nav class="actionRow" aria-label="Social Hub quick paths">
+				<a href="/heichelos/">Explore Heichelos</a>
+				<a href="/profile/">Open your profile</a>
+				<a href="/">Return home</a>
+			</nav>
+			<p role="status" aria-live="polite">Loading live conversations and community tools…</p>
+			<noscript><p>Live updates require JavaScript, but the links above remain available.</p></noscript>
+		</section>
 	</div>
 	<script type="module" src="./js/main.js?v=hub-social-009"></script>
 </body>

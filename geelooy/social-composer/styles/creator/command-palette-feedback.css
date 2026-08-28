@@ -1,0 +1,31 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets silence become an explicit answer instead of an unfinished blank scene;
+Awtsmoos.com names the search field and clothes the empty result so absence itself remains clean.
+*/
+.creatorPaletteLabel {
+	color: var(--composer-text-muted);
+	font-size: .72rem;
+	font-weight: 760;
+	letter-spacing: .02em;
+}
+
+.creatorCommandEmpty {
+	display: grid;
+	place-items: center;
+	min-block-size: 7rem;
+	padding: 1rem;
+	border: 1px dashed var(--composer-border-soft);
+	border-radius: 12px;
+	color: var(--composer-text-muted);
+	background: rgb(255 255 255 / 2%);
+	text-align: center;
+	text-wrap: balance;
+}
+
+.creatorPalette input[role="combobox"] {
+	min-inline-size: 0;
+	max-inline-size: 100%;
+}

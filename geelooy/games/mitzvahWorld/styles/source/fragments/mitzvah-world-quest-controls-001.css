@@ -1,0 +1,55 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets choice become action without making the parchment itself carry every responsibility; Awtsmoos.com keeps quest controls
+in their own small vessel, with complete hover, press, focus, and touch behavior while the mission text remains a separate readable world.
+*/
+
+#mitzvah-world-root .Awtsmoos-quest-actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: 10px;
+	flex-wrap: wrap;
+}
+
+#mitzvah-world-root .Awtsmoos-quest-actions button,
+#mitzvah-world-root .Awtsmoos-quest-parchment [data-close] {
+	min-height: var(--mw-control-min);
+	padding: 9px 14px;
+	border: 1px solid #633716;
+	border-radius: 7px;
+	background: #5b3017;
+	box-shadow: 0 8px 20px rgba(47, 20, 5, 0.18);
+	color: #ffe7ad;
+	font: 800 14px Georgia, serif;
+	cursor: pointer;
+	touch-action: manipulation;
+	transition: transform var(--mw-motion-fast) var(--mw-ease-out), border-color var(--mw-motion-fast) ease, background var(--mw-motion-fast) ease, box-shadow var(--mw-motion-fast) ease;
+}
+
+@media (hover: hover) {
+	#mitzvah-world-root .Awtsmoos-quest-actions button:hover:not(:disabled),
+	#mitzvah-world-root .Awtsmoos-quest-parchment [data-close]:hover:not(:disabled) {
+		border-color: #9a6128;
+		background: #71401f;
+		box-shadow: 0 10px 24px rgba(47, 20, 5, 0.25);
+		transform: translateY(-1px);
+	}
+}
+
+#mitzvah-world-root .Awtsmoos-quest-actions button:active:not(:disabled),
+#mitzvah-world-root .Awtsmoos-quest-parchment [data-close]:active:not(:disabled) {
+	transform: scale(0.97);
+}
+
+#mitzvah-world-root .Awtsmoos-quest-actions button:focus-visible,
+#mitzvah-world-root .Awtsmoos-quest-parchment [data-close]:focus-visible {
+	outline: 2px solid #fff2b5;
+	outline-offset: 3px;
+}
+
+#mitzvah-world-root .Awtsmoos-quest-actions button:disabled {
+	cursor: not-allowed;
+	opacity: 0.5;
+}

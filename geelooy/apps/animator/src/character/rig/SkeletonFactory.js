@@ -3,40 +3,43 @@
 // Blessed is He
 
 import { BodyProportions } from './BodyProportions.js';
+import { PelvisCenterResolver } from './PelvisCenterResolver.js';
+import { SkeletonMotionProfile } from './SkeletonMotionProfile.js';
 
 /**
  * Connected joints reveal one editable body beneath many visible garments.
  * The Awtsmoos is beyond every center, while Awtsmoos.com keeps independently
- * authored chest, shoulder, and pelvis anchors deterministic and rig-bound.
+ * authored chest, shoulder, and pelvis anchors deterministic, balanced, and rig-bound.
  */
 export class SkeletonFactory {
 	/**
-	 * Creates the connected production skeleton.
-	 *
-	 * @param {Object} data Character data.
-	 * @param {Object} metrics Stable character metrics.
-	 * @param {Object} view View profile.
-	 * @param {Object} pose Whole-body pose.
-	 * @returns {Object} Connected skeleton.
+	 * Creates the connected production skeleton from body proportions and pose intent.
+	 * @param {Object} data - Character data and authored body geometry.
+	 * @param {Object} metrics - Stable character measurements.
+	 * @param {Object} view - Current view profile.
+	 * @param {Object} pose - Layered whole-body pose.
+	 * @returns {Object} Connected skeleton consumed by stable body parts.
 	 */
 	static create(data, metrics, view, pose) {
 		const profile = BodyProportions.get(
 			data.bodyProfile
 				|| (data.archetype === 'sage' ? 'sage' : 'friendlyAverage')
 		);
+		const motion = SkeletonMotionProfile.resolve(data);
 		const direction = view.dir || 1;
 		const hipShift = Number(pose.body?.hipX || 0);
 		const shoulderShift = Number(pose.body?.shoulderX || 0);
 		const torsoLean = Number(pose.body?.torsoLean || 0);
-		const authoredHipCenter = this.authoredHipCenter(data);
+		const authoredHipCenter = PelvisCenterResolver.authored(data);
 		const authoredShoulders = data.bodyGeometry?.shoulders || {};
 		const root = { x: 0, y: 0 };
 		const hips = {
-			x: authoredHipCenter + hipShift * 0.35,
+			x: authoredHipCenter + hipShift * motion.pelvisX,
 			y: metrics.hipY
 		};
 		const chest = {
-			x: shoulderShift * 0.4 + torsoLean * 0.3,
+			x: shoulderShift * motion.shoulderX
+				+ torsoLean * motion.torsoLeanX,
 			y: metrics.chestY
 		};
 		const neck = {
@@ -62,16 +65,8 @@ export class SkeletonFactory {
 			chest,
 			neck,
 			head,
-			leftShoulder: {
-				x: shoulderCenter - shoulderHalf + view.torso.farShoulderPull,
-				y: metrics.shoulderY
-					+ this.number(authoredShoulders.leftYOffset, 0)
-			},
-			rightShoulder: {
-				x: shoulderCenter + shoulderHalf + view.torso.nearShoulderPush,
-				y: metrics.shoulderY
-					+ this.number(authoredShoulders.rightYOffset, 0)
-			},
+			leftShoulder: this.shoulder(shoulderCenter, shoulderHalf, metrics, authoredShoulders, view, -1),
+			rightShoulder: this.shoulder(shoulderCenter, shoulderHalf, metrics, authoredShoulders, view, 1),
 			leftHip: { x: hips.x - hipHalf, y: metrics.hipY },
 			rightHip: { x: hips.x + hipHalf, y: metrics.hipY },
 			dir: direction,
@@ -81,21 +76,27 @@ export class SkeletonFactory {
 		};
 	}
 
+	/** @returns {{x:number,y:number}} One authored/view-adjusted shoulder joint. */
+	static shoulder(center, half, metrics, authored, view, side) {
+		const near = side > 0;
+		return {
+			x: center + side * half + (near ? view.torso.nearShoulderPush : view.torso.farShoulderPull),
+			y: metrics.shoulderY + this.number(near ? authored.rightYOffset : authored.leftYOffset, 0)
+		};
+	}
+
+	/** Compatibility accessor for callers that previously queried this class directly. */
 	static authoredHipCenter(data = {}) {
-		const pelvisCenter = data.bodyGeometry?.pelvis?.centerX;
-		const skirtCenter = data.bodyGeometry?.skirt?.centerX;
-		if (Number.isFinite(pelvisCenter)) {
-			return pelvisCenter;
-		}
-		return Number.isFinite(skirtCenter) ? skirtCenter : 0;
+		return PelvisCenterResolver.authored(data);
 	}
 
+	/** @param {*} value @param {number} fallback @returns {number} Finite number. */
 	static number(value, fallback) {
-		return Number.isFinite(value) ? value : fallback;
+		return Number.isFinite(Number(value)) ? Number(value) : fallback;
 	}
 
+	/** @returns {Object} Named left/right skeleton joint. */
 	static side(skeleton, name, side) {
-		const key = `${side < 0 ? 'left' : 'right'}${name}`;
-		return skeleton[key];
+		return skeleton[`${side < 0 ? 'left' : 'right'}${name}`];
 	}
 }

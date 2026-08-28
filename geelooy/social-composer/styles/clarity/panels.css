@@ -1,0 +1,84 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos separates responsibilities without imprisoning each thought in another glowing box;
+ * Awtsmoos.com uses space and one honest boundary so the active editorial chamber can breathe.
+ */
+.composer-civilization-document .majorPanel {
+	margin: 0 0 var(--clarity-space-3);
+	background: transparent;
+	border: 1px solid transparent;
+	border-bottom-color: var(--clarity-border);
+	border-radius: 0;
+	box-shadow: none;
+	overflow: clip;
+}
+
+.composer-civilization-document .majorPanel[open] {
+	background: var(--clarity-surface);
+	border-color: var(--clarity-border);
+	border-radius: var(--clarity-radius);
+	box-shadow: none;
+}
+
+.composer-civilization-document .majorPanel > summary {
+	min-height: 52px;
+	padding: var(--clarity-space-3) var(--clarity-space-4);
+	color: var(--clarity-text);
+	font-size: 0.98rem;
+	font-weight: 680;
+	letter-spacing: 0;
+	cursor: pointer;
+	list-style: none;
+	text-transform: none;
+}
+
+.composer-civilization-document .majorPanel > summary::-webkit-details-marker {
+	display: none;
+}
+
+.composer-civilization-document .majorPanel > summary::after {
+	content: "+";
+	float: right;
+	color: var(--clarity-muted);
+	font-size: 1.15rem;
+	font-weight: 500;
+}
+
+.composer-civilization-document .majorPanel[open] > summary::after {
+	content: "−";
+}
+
+.composer-civilization-document .majorPanel[open] > summary {
+	border-bottom: 1px solid var(--clarity-border);
+}
+
+.composer-civilization-document .majorPanelBody {
+	padding: var(--clarity-space-4);
+}
+
+.composer-civilization-document .majorPanelBody > details:not(.composer-tool-menu),
+.composer-civilization-document .majorPanelBody .surfaceCard {
+	margin-block: var(--clarity-space-3);
+	background: var(--clarity-surface-soft);
+	border: 1px solid var(--clarity-border);
+	border-radius: var(--clarity-radius-small);
+	box-shadow: none;
+}
+
+.composer-civilization-document .majorPanelBody > details > summary {
+	padding: var(--clarity-space-3);
+	color: var(--clarity-text);
+	font-weight: 620;
+	letter-spacing: 0;
+	text-transform: none;
+}
+
+.composer-civilization-document .panelEyebrow,
+.composer-civilization-document .sectionEyebrow {
+	color: var(--clarity-muted);
+	font-size: 0.72rem;
+	letter-spacing: 0.04em;
+	text-transform: none;
+}

@@ -1,0 +1,71 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos renews frame, boundary, status, and buffered horizon; Awtsmoos.com gives the player a finite shell,
+ * where every overlay belongs to its parent and every timeline stays inside the card rather than wandering beyond its well.
+ */
+.social-hub-document .commentVideoPlayer {
+	--video-played: 0%;
+	--video-buffered: 0%;
+	position: relative;
+	display: grid;
+	min-inline-size: 0;
+	max-inline-size: 100%;
+	overflow: clip;
+	border: 1px solid rgb(85 225 255 / 28%);
+	border-radius: 1rem;
+	background: rgb(2 6 16 / 98%);
+	box-shadow: 0 14px 38px rgb(1 8 22 / 26%);
+}
+
+.social-hub-document .commentVideoPlayer__media {
+	display: block;
+	inline-size: 100%;
+	max-inline-size: 100%;
+	max-block-size: min(52dvh, 28rem);
+	aspect-ratio: 16 / 9;
+	background: rgb(1 4 12);
+	object-fit: contain;
+	cursor: pointer;
+}
+
+.social-hub-document .commentVideoPlayer__status {
+	position: absolute;
+	z-index: 2;
+	inset-block-start: .65rem;
+	inset-inline-start: .65rem;
+	max-inline-size: calc(100% - 1.3rem);
+	padding: .34rem .5rem;
+	border: 1px solid rgb(255 255 255 / 12%);
+	border-radius: .55rem;
+	background: rgb(2 8 18 / 88%);
+	color: rgb(235 247 255 / 88%);
+	font-size: .7rem;
+	pointer-events: none;
+}
+
+.social-hub-document .commentVideoPlayer__status[hidden] {
+	display: none;
+}
+
+.social-hub-document .commentVideoPlayer__timeline {
+	position: relative;
+	block-size: 1.25rem;
+	background:
+		linear-gradient(90deg, rgb(57 225 255 / 88%) var(--video-played), transparent 0),
+		linear-gradient(90deg, rgb(229 244 255 / 24%) var(--video-buffered), rgb(229 244 255 / 8%) 0);
+	background-size: 100% 5px;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+.social-hub-document .commentVideoPlayer__seek {
+	position: absolute;
+	inset: 0;
+	inline-size: 100%;
+	block-size: 100%;
+	margin: 0;
+	appearance: none;
+	background: transparent;
+	cursor: pointer;
+}

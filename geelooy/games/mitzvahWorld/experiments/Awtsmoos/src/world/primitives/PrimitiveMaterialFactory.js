@@ -1,17 +1,18 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file PrimitiveMaterialFactory.js
- * @description Binds canonical remote images, authored texture layers, and world-space mix law to generated primitives.
- * The Awtsmoos clothes each finite surface through one truthful vessel while Awtsmoos.com lets stone weather into stone and timber reveal grain;
- * authored strata remain sovereign, fallback recipes fill only silence, and every hydrated image still travels through the shared non-blocking chain.
+ * @description Binds only genuine decoded remote/authored images to generated primitives while preserving layered material metadata.
+ * The Awtsmoos gives every finite primitive form without permitting a painted illusion to stand in for truth;
+ * Awtsmoos.com keeps URL, layer, and physical law intact while only real image garments may become visible proof.
  */
 
 import { MeshStandardMaterial } from '../../../../light-three-gltf/tiny-runtime.js';
 import { cachedTextureImage } from '../../assets/PublicMaterialCache.js';
 import { isSameOriginMaterialUrl } from '../../assets/ProductionMaterialUrlPolicy.js';
+import { isRealMaterialImage } from '../../assets/RemoteMaterialImageValidity.js';
 import { scheduleLiveRealNatureBridge } from '../nature/LiveRealNatureScheduler.js';
 import { colorArray } from './PrimitiveGeometryFactory.js';
 import { withPrimitiveFallbackSurfaceRecipe } from './PrimitiveFallbackSurfaceRecipe.js';
@@ -19,17 +20,12 @@ import { createPrimitiveTexturePolicy } from './PrimitiveTexturePolicy.js';
 
 scheduleImportedNatureBridge();
 
-/**
- * Creates one standard material whose texture fields are ready for the tiny renderer's real GPU mix path.
- * @param {object} definition Procedural primitive definition.
- * @param {number} uvUnitsPerWorld Physical UV density supplied by geometry.
- * @returns {MeshStandardMaterial} Hydratable runtime material.
- */
+/** Creates one hydratable remote-only primitive material. */
 export function createPrimitiveMaterial(definition, uvUnitsPerWorld) {
 	const resolved = withPrimitiveFallbackSurfaceRecipe(definition);
 	const textureUrl = textureUrlFor(resolved);
-	const mapImage = resolved.mapImage || cachedTextureImage(textureUrl) || null;
-	const mixImage = resolved.mixImage || cachedTextureImage(resolved.mixTextureUrl) || null;
+	const mapImage = realImage(resolved.mapImage) || realImage(cachedTextureImage(textureUrl));
+	const mixImage = realImage(resolved.mixImage) || realImage(cachedTextureImage(resolved.mixTextureUrl));
 	const material = new MeshStandardMaterial({
 		alphaCutoff: resolved.alphaCutoff ?? 0.5,
 		alphaMode: resolved.alphaMode || (resolved.transparent ? 'BLEND' : 'OPAQUE'),
@@ -46,8 +42,6 @@ export function createPrimitiveMaterial(definition, uvUnitsPerWorld) {
 
 function materialFields(definition, textureUrl, mapImage, mixImage, uvUnitsPerWorld) {
 	return {
-		alphaCutoff: definition.alphaCutoff ?? 0.5,
-		alphaMode: definition.alphaMode || (definition.transparent ? 'BLEND' : 'OPAQUE'),
 		anisotropy: definition.anisotropy ?? 3,
 		backfaceCull: definition.backfaceCull,
 		emissiveStrength: definition.emissiveStrength ?? 1.8,
@@ -58,12 +52,10 @@ function materialFields(definition, textureUrl, mapImage, mixImage, uvUnitsPerWo
 		mixPatchSharpness: definition.mixPatchSharpness ?? 0.58,
 		mixRepeat: definition.mixRepeat || definition.mapRepeat || [1, 1],
 		mixStrength: definition.mixStrength ?? 0,
-		mixTextureUrl: definition.mixTextureUrl || mixImage?.dataset?.publicUrl || null,
+		mixTextureUrl: definition.mixTextureUrl || null,
 		normalTextureUrl: definition.normalTextureUrl || null,
-		opacity: definition.opacity ?? 1,
 		texturePolicy: materialPolicy(definition, textureUrl, mapImage, uvUnitsPerWorld),
-		textureUrl,
-		transparent: Boolean(definition.transparent)
+		textureUrl
 	};
 }
 
@@ -75,7 +67,7 @@ function layeredFields(definition) {
 		materialStack: definition.materialStack || null,
 		textureLayers: definition.textureLayers.map(layer => ({
 			...layer,
-			image: layer.image || cachedTextureImage(layer.url) || null
+			image: realImage(layer.image) || realImage(cachedTextureImage(layer.url))
 		}))
 	};
 }
@@ -84,9 +76,9 @@ function materialPolicy(definition, textureUrl, mapImage, uvUnitsPerWorld) {
 	return {
 		...createPrimitiveTexturePolicy(definition, uvUnitsPerWorld),
 		...(definition.texturePolicy || {}),
-		fallbackApplied: Boolean(definition.texturePolicy?.fallbackSurfaceRecipe),
 		publicFirebase: definition.texturePolicy?.publicFirebase ?? false,
 		realMapImage: Boolean(mapImage),
+		remoteOnly: true,
 		sameOrigin: isSameOriginMaterialUrl(textureUrl)
 	};
 }
@@ -94,9 +86,12 @@ function materialPolicy(definition, textureUrl, mapImage, uvUnitsPerWorld) {
 function textureUrlFor(definition) {
 	return definition.textureUrl
 		|| definition.mapImage?.dataset?.publicUrl
-		|| definition.mapImage?.dataset?.url
 		|| definition.mapImage?.src
 		|| null;
+}
+
+function realImage(image) {
+	return isRealMaterialImage(image) ? image : null;
 }
 
 function scheduleImportedNatureBridge() {

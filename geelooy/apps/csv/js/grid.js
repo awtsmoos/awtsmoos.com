@@ -1,117 +1,94 @@
 //B"H
+// Boruch Hashem
+// Blessed is He
 /**
- * Handles DOM manipulation for the Grid.
- * Direct DOM updates for performance.
+ * @module GridUI
+ * @description
+ * The Awtsmoos holds mutable CSV data in one focused vessel while Awtsmoos.com delegates
+ * semantic DOM revelation to a smaller factory, keeping rendering and mutation responsibilities clear.
  */
 
+import { MalchusGridCellFactory, revealColumnLabel } from './GridCellFactory.js';
+
+/**
+ * @class GridUI
+ * @description Coordinates CSV state mutation and whole-table rendering without owning cell-construction details.
+ */
 export class GridUI {
-    constructor(container, initialData, onDataChange) {
-        this.container = container;
-        this.data = initialData;
-        this.onDataChange = onDataChange;
-        this.render();
-    }
+	/**
+	 * @description Creates a grid coordinator and reveals the initial semantic table immediately.
+	 * @param {HTMLElement} container Grid mount whose children are replaced on render.
+	 * @param {string[][]} initialData Initial rectangular CSV data.
+	 * @param {(data:string[][])=>void} onDataChange Callback notified after mutations.
+	 * @returns {GridUI} Initialized grid controller that immediately renders its current data.
+	 */
+	constructor(container, initialData, onDataChange) {
+		this.container = container;
+		this.data = initialData;
+		this.onDataChange = onDataChange;
+		this.cellFactory = new MalchusGridCellFactory((rowIndex, columnIndex, value) => {
+			this.updateCell(rowIndex, columnIndex, value);
+		});
+		this.render();
+	}
 
-    setData(newData) {
-        this.data = newData;
-        this.render();
-    }
+	/**
+	 * @description Replaces the current dataset and reveals the new table immediately.
+	 * @param {string[][]} newData Replacement CSV data.
+	 * @returns {void} Re-renders synchronously and does not emit a change callback by itself.
+	 */
+	setData(newData) {
+		this.data = newData;
+		this.render();
+	}
 
-    updateCell(r, c, value) {
-        this.data[r][c] = value;
-        this.onDataChange(this.data);
-    }
+	/**
+	 * @description Mutates one cell and reports the same live dataset to the persistence owner.
+	 * @param {number} rowIndex Zero-based row index.
+	 * @param {number} columnIndex Zero-based column index.
+	 * @param {string} value New cell value.
+	 * @returns {void} Notifies the configured mutation callback after updating state.
+	 */
+	updateCell(rowIndex, columnIndex, value) {
+		this.data[rowIndex][columnIndex] = value;
+		this.onDataChange(this.data);
+	}
 
-    addRow() {
-        const cols = this.data[0] ? this.data[0].length : 0;
-        this.data.push(new Array(cols).fill(''));
-        this.render(); // Full re-render is acceptable for this scale
-        this.onDataChange(this.data);
-    }
+	/**
+	 * @description Adds one row matching the current column width, then rerenders and reports mutation.
+	 * @returns {void} Appends a row and notifies the configured mutation callback.
+	 */
+	addRow() {
+		const columnCount = this.data[0]?.length ?? 0;
+		this.data.push(new Array(columnCount).fill(''));
+		this.render();
+		this.onDataChange(this.data);
+	}
 
-    addCol() {
-        this.data.forEach(row => row.push(''));
-        this.render();
-        this.onDataChange(this.data);
-    }
+	/**
+	 * @description Adds one empty column to every row, then rerenders and reports mutation.
+	 * @returns {void} Appends a cell to every row and notifies the configured mutation callback.
+	 */
+	addCol() {
+		this.data.forEach(row => row.push(''));
+		this.render();
+		this.onDataChange(this.data);
+	}
 
-    render() {
-        this.container.innerHTML = '';
-        const table = document.createElement('table');
-        
-        // --- Header Row ---
-        const thead = document.createElement('thead');
-        const headerRow = document.createElement('tr');
-        
-        // Corner cell
-        const corner = document.createElement('th');
-        corner.className = 'corner';
-        headerRow.appendChild(corner);
+	/**
+	 * @description Replaces the grid mount with one fresh semantic table built from current state.
+	 * @returns {void} Replaces all existing grid DOM children in one synchronous operation.
+	 */
+	render() {
+		this.container.replaceChildren(this.cellFactory.createTable(this.data));
+	}
 
-        // Column headers (A, B, C...)
-        const colCount = this.data[0] ? this.data[0].length : 0;
-        for (let i = 0; i < colCount; i++) {
-            const th = document.createElement('th');
-            th.textContent = this.getColumnLabel(i);
-            headerRow.appendChild(th);
-        }
-        thead.appendChild(headerRow);
-        table.appendChild(thead);
-
-        // --- Body ---
-        const tbody = document.createElement('tbody');
-        
-        // Use document fragment for batch insertion
-        const fragment = document.createDocumentFragment();
-
-        this.data.forEach((row, rIndex) => {
-            const tr = document.createElement('tr');
-            
-            // Row Header (1, 2, 3...)
-            const th = document.createElement('td');
-            th.className = 'row-header';
-            th.textContent = rIndex + 1;
-            tr.appendChild(th);
-
-            // Data Cells
-            row.forEach((cellData, cIndex) => {
-                const td = document.createElement('td');
-                td.className = 'cell';
-                
-                const input = document.createElement('input');
-                input.type = 'text';
-                input.value = cellData;
-                input.dataset.r = rIndex;
-                input.dataset.c = cIndex;
-                
-                // Event Listeners for Input
-                // Changed from 'change' to 'input' to capture real-time updates
-                // This fixes the issue where Ctrl+S while typing didn't save the current cell
-                input.addEventListener('input', (e) => {
-                    this.updateCell(rIndex, cIndex, e.target.value);
-                });
-
-                // Navigation keys could be added here
-                
-                td.appendChild(input);
-                tr.appendChild(td);
-            });
-
-            fragment.appendChild(tr);
-        });
-
-        tbody.appendChild(fragment);
-        table.appendChild(tbody);
-        this.container.appendChild(table);
-    }
-
-    getColumnLabel(index) {
-        let label = '';
-        let i = index;
-        while (i >= 0) {
-            label = String.fromCharCode(65 + (i % 26)) + label;
-            i = Math.floor(i / 26) - 1;
-        }
-        return label;
-    }
+	/**
+	 * @description Preserves the historical public column-label helper while delegating the algorithm.
+	 * @param {number} index Zero-based column index.
+	 * @returns {string} Spreadsheet-style column label.
+	 */
+	getColumnLabel(index) {
+		return revealColumnLabel(index);
+	}
 }

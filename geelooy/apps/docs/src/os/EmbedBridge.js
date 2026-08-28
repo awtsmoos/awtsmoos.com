@@ -1,12 +1,12 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 import {
 	EMBED_KINDS,
 	createEmbedEnvelope,
 	validateEmbedEnvelope
-} from "/shared/embed/protocol.js";
+} from "/geelooy/shared/embed/protocol.js";
 
 /**
  * @file Carries exact-origin, exact-channel events between Awtsmoos Docs and Geelooy OS.
@@ -25,7 +25,9 @@ export class EmbedBridge extends EventTarget {
 
 	/** Starts the guarded parent listener and announces readiness exactly once. */
 	start() {
-		if (!this.enabled) return;
+		if (!this.enabled) {
+			return;
+		}
 		window.addEventListener("message", this.listener);
 		this.send("docs-ready", {});
 	}
@@ -47,7 +49,9 @@ export class EmbedBridge extends EventTarget {
 
 	/** Sends one versioned embed event only when this page is a configured OS child. */
 	send(type, payload) {
-		if (!this.enabled || window.parent === window) return;
+		if (!this.enabled || window.parent === window) {
+			return;
+		}
 		window.parent.postMessage(createEmbedEnvelope({
 			channelId: this.channelId,
 			kind: EMBED_KINDS.EVENT,
@@ -60,13 +64,17 @@ export class EmbedBridge extends EventTarget {
 
 	/** Rejects wrong windows/origins/envelopes before exposing a parent event to Docs. */
 	#receive(event) {
-		if (event.source !== window.parent || event.origin !== this.parentOrigin) return;
+		if (event.source !== window.parent || event.origin !== this.parentOrigin) {
+			return;
+		}
 		const validated = validateEmbedEnvelope(event.data, {
 			channelId: this.channelId,
 			source: "geelooy-os",
 			target: "geelooy-docs"
 		});
-		if (!validated.ok) return;
+		if (!validated.ok) {
+			return;
+		}
 		const envelope = validated.envelope;
 		this.dispatchEvent(new CustomEvent(envelope.type, {
 			detail: envelope.payload || {}

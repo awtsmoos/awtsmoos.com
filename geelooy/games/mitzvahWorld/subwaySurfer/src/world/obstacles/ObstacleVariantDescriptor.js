@@ -3,35 +3,43 @@
 // Blessed is He
 /**
  * @file ObstacleVariantDescriptor.js
- * @description Validates one themed visual template together with its renderer-neutral collision covenant.
- * The Awtsmoos renews form and boundary before Gevurah may call one encounter safe or denied;
- * Awtsmoos.com lets each visible identity carry truthful dimensions so collision never guesses from the outside.
+ * @description Binds one reusable Three visual template to one canonical universal `peruta.obstacle` definition and caches collision, gameplay, motion, and discovery projections.
+ * The Awtsmoos renews form, danger, approach, and meaning before a finite descriptor may join them in sight;
+ * Awtsmoos.com lets visual Malchus remain renderer-bound while immutable semantic light becomes the one source of law and might.
  */
 
+import { createPerutaObstacleDefinition } from "./semantic/createPerutaObstacleDefinition.js";
+import { assertPerutaObstacleDescriptor } from "./semantic/PerutaObstacleDescriptorValidator.js";
+import { projectPerutaMotion } from "./semantic/PerutaObstacleMotionProjection.js";
 import {
-	PERUTA_OBSTACLE_FAMILIES,
-	PERUTA_OBSTACLE_LAWS
-} from "../../game/ObstacleVocabulary.js";
+	projectPerutaCollision,
+	projectPerutaDefinitionView,
+	projectPerutaGameplay
+} from "./semantic/PerutaObstacleTraitProjection.js";
 
 export class BinahObstacleVariantDescriptor {
 	/**
-	 * Creates one immutable obstacle identity around a reusable Three template.
-	 * @param {object} chochmahConfig Variant id, family, law, template, and collision dimensions.
-	 * @throws {TypeError|RangeError} When the visual/collision covenant is incomplete or invalid.
+	 * @description Validates one visual contract, creates canonical renderer-free semantics, and caches tiny immutable runtime projections used by pooled world slots.
+	 * @param {object} chochmahConfig Variant identity, cloneable template, law-specific collision dimensions, and optional semantic presentation roles.
+	 * @throws {TypeError|RangeError} When identity, template, law, or law-specific dimensions are invalid.
 	 */
 	constructor(chochmahConfig) {
-		validateIdentity(chochmahConfig);
-		this.id = chochmahConfig.id;
-		this.family = chochmahConfig.family;
-		this.law = chochmahConfig.law;
+		assertPerutaObstacleDescriptor(chochmahConfig);
 		this.template = chochmahConfig.template;
-		this.metadata = createCollisionMetadata(chochmahConfig);
+		this.definition = createPerutaObstacleDefinition(chochmahConfig);
+		this.collision = projectPerutaCollision(this.definition);
+		this.gameplay = projectPerutaGameplay(this.definition);
+		this.motion = projectPerutaMotion(this.definition);
+		this.view = projectPerutaDefinitionView(this.definition);
+		this.id = this.collision.variantId;
+		this.family = this.collision.family;
+		this.law = this.collision.law;
 		Object.freeze(this);
 	}
 
 	/**
-	 * Creates one scene-node instance while sharing template geometry and materials.
-	 * @returns {object} Deep scene-node clone whose Mesh geometry/material references remain shared by Three.
+	 * @description Clones only scene-node hierarchy for one pool slot while Three keeps geometry and material resources shared with the descriptor template.
+	 * @returns {object} Hidden-ready Three scene-node clone named by semantic variant id.
 	 */
 	instantiate() {
 		const malchusNode = this.template.clone(true);
@@ -40,52 +48,23 @@ export class BinahObstacleVariantDescriptor {
 		return malchusNode;
 	}
 
-	/**
-	 * Returns immutable collision metadata consumed by WorldChunk and CollisionSystem.
-	 * @returns {Readonly<object>} Variant id, family, law, and dimensions.
-	 */
+	/** @description Returns collision truth projected from canonical semantic traits. @returns {Readonly<object>} Variant/family/law and normalized dimensions. */
 	collisionMetadata() {
-		return this.metadata;
+		return this.collision;
 	}
-}
 
-/** @private */
-function validateIdentity(config) {
-	if (!config || typeof config !== "object") {
-		throw new TypeError("Obstacle descriptor config must be an object");
+	/** @description Returns safe gameplay pacing data used by challenge planning. @returns {Readonly<object>} Difficulty, weight, tutorial, reward, and speed metadata. */
+	gameplayMetadata() {
+		return this.gameplay;
 	}
-	if (!String(config.id || "")) {
-		throw new TypeError("Obstacle descriptor id is required");
-	}
-	if (!PERUTA_OBSTACLE_FAMILIES.includes(config.family)) {
-		throw new RangeError(`Unknown obstacle family: ${config.family}`);
-	}
-	if (!PERUTA_OBSTACLE_LAWS.includes(config.law)) {
-		throw new RangeError(`Unknown obstacle law: ${config.law}`);
-	}
-	if (!config.template?.clone) {
-		throw new TypeError(`Obstacle ${config.id} requires a cloneable visual template`);
-	}
-	assertPositive(config.collisionDepth, `${config.id} collisionDepth`);
-	if (config.law === "jump") assertPositive(config.collisionHeight, `${config.id} collisionHeight`);
-	if (config.law === "duck") assertPositive(config.clearanceY, `${config.id} clearanceY`);
-}
 
-/** @private */
-function createCollisionMetadata(config) {
-	return Object.freeze({
-		variantId: config.id,
-		family: config.family,
-		law: config.law,
-		collisionDepth: config.collisionDepth,
-		collisionHeight: config.law === "jump" ? config.collisionHeight : Number.POSITIVE_INFINITY,
-		clearanceY: config.law === "duck" ? config.clearanceY : 0
-	});
-}
+	/** @description Returns semantic movement data consumed by pooled slot motion. @returns {Readonly<object>} Motion mode, speed factor, and visual bob amplitude. */
+	motionMetadata() {
+		return this.motion;
+	}
 
-/** @private */
-function assertPositive(value, label) {
-	if (!Number.isFinite(value) || value <= 0) {
-		throw new RangeError(`${label} must be a positive finite number`);
+	/** @description Returns bounded universal-definition evidence without exposing the Three template. @returns {Readonly<object>} Semantic developer-discovery view. */
+	semanticView() {
+		return this.view;
 	}
 }

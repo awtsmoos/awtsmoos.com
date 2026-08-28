@@ -4,69 +4,71 @@
 
 /**
  * @file ApiExplorerMethodSession.js
- * @description Owns the stateful execution boundary for one universal API explorer method without owning DOM or visual styling.
- * RESPONSIBILITY: parse JSON parameter objects, construct canonical executor commands, preserve dry-run semantics, and normalize thrown failures into serializable receipts.
- * NON-RESPONSIBILITY: this vessel does not build controls, create panels, mutate registry definitions, or invent a second execution pathway.
- * The Awtsmoos turns intention into deed through ordered vessels, while Awtsmoos.com keeps command construction honest and singular;
- * one method session carries params to the same executor gate, so preview and execution differ only by declared option, never by hidden wiring.
+ * @description Owns the stateful command boundary for one Universal API Explorer method while preserving the canonical Universal executor as the only execution pathway.
+ * RESPONSIBILITY: parse editor JSON objects, construct command envelopes, preserve dry-run semantics, sequence local request ids, and normalize thrown executor failures into serializable receipts.
+ * NON-RESPONSIBILITY: this vessel never builds DOM, styles controls, groups panels, mutates registry definitions, or creates an alternate transport/execution engine.
+ * The Awtsmoos renews intention before text can become command and command can descend toward deed;
+ * Awtsmoos.com lets one session carry parameters through the established executor, so preview and action share one lawful seed.
  */
 
-/**
- * Represents one method's mutable editor/execution session while sharing the canonical API executor.
- */
+/** Represents one method's editor/execution session while sharing the canonical Universal executor. */
 export class ApiExplorerMethodSession {
 	/**
-	 * Creates one execution session around an existing method definition.
-	 * @param {object} apiKli Universal API exposing `executor` and `execute`.
-	 * @param {object} methodKli Explorer method descriptor.
+	 * @description Creates one method-local session around an existing Universal API and detached Explorer method descriptor.
+	 * @param {object} apiKli Universal API exposing `executor.apiId` and asynchronous `execute(command)`.
+	 * @param {object} methodKli Detached Explorer method model whose stable `id` becomes the command method name.
+	 * @throws {TypeError} Throws when the API or method does not expose the minimal command-construction contract.
 	 */
 	constructor(apiKli, methodKli) {
+		if (!apiKli?.executor?.apiId || typeof apiKli.execute !== "function") {
+			throw new TypeError('B"H | API Explorer method session requires a Universal API executor.');
+		}
+		if (!methodKli?.id) {
+			throw new TypeError('B"H | API Explorer method session requires a method id.');
+		}
 		this.api = apiKli;
 		this.method = methodKli;
 		this.sequence = 0;
 	}
 
 	/**
-	 * Parses an editor source as the method's JSON parameter object.
-	 * @param {string} sourceOhr Raw editor text.
-	 * @returns {{ok: true, value: object}|{ok: false, message: string}} Validation result.
+	 * @description Parses raw editor text as one JSON parameter object, rejecting arrays/scalars before Universal schema validation begins.
+	 * @param {string} sourceOhr Raw textarea source supplied by the user.
+	 * @returns {{ok: true, value: object}|{ok: false, message: string}} Local parse result containing either a parameter object or concise validation message.
 	 */
 	parse(sourceOhr) {
 		try {
 			const valueOhr = JSON.parse(String(sourceOhr || "{}"));
 			if (valueOhr && typeof valueOhr === "object" && !Array.isArray(valueOhr)) {
-				return {
-					ok: true,
-					value: valueOhr
-				};
+				return { ok: true, value: valueOhr };
 			}
 			return {
 				message: "Parameters must be a JSON object.",
 				ok: false
 			};
-		} catch (errorOhr) {
+		} catch (errorGevurah) {
 			return {
-				message: `Invalid JSON: ${errorOhr.message}`,
+				message: `Invalid JSON: ${errorGevurah.message}`,
 				ok: false
 			};
 		}
 	}
 
 	/**
-	 * Executes one parsed parameter object through the existing canonical executor.
-	 * @param {object} paramsOhr Validated method parameter object.
-	 * @param {boolean} [dryRunOhr=false] Whether execution should remain side-effect free.
-	 * @returns {Promise<object>} Canonical receipt or normalized thrown-failure receipt.
+	 * @description Sends one validated parameter object through the existing Universal executor and converts only thrown transport/executor exceptions into portable Explorer receipts.
+	 * @param {object} paramsKli Locally parsed parameter object; canonical schema validation still belongs to Universal execution.
+	 * @param {boolean} [dryRunOhr=false] Whether Universal should validate/preview according to its existing dry-run contract.
+	 * @returns {Promise<object>} Canonical Universal receipt or a serializable failure receipt when `api.execute()` throws instead of returning one.
 	 */
-	async execute(paramsOhr, dryRunOhr = false) {
-		const commandMalchus = this.createCommand(paramsOhr, dryRunOhr);
+	async execute(paramsKli, dryRunOhr = false) {
+		const commandMalchus = this.createCommand(paramsKli, dryRunOhr);
 		try {
 			return await this.api.execute(commandMalchus);
-		} catch (errorOhr) {
+		} catch (errorGevurah) {
 			return {
 				error: {
 					code: "API_EXPLORER_EXECUTE_THROW",
-					message: errorOhr?.message || String(errorOhr || "Execution failed.")
+					message: errorGevurah?.message || String(errorGevurah || "Execution failed.")
 				},
 				ok: false,
 				request: commandMalchus
@@ -75,12 +77,13 @@ export class ApiExplorerMethodSession {
 	}
 
 	/**
-	 * Builds the same command envelope consumed by the runtime executor.
-	 * @param {object} paramsOhr Validated parameters.
-	 * @param {boolean} dryRunOhr Dry-run option.
-	 * @returns {object} Canonical command document.
+	 * @description Builds the exact command envelope consumed by the Universal executor while providing a method-local unique request id for repeated Explorer actions.
+	 * @param {object} paramsKli Locally parsed parameter object passed unchanged to Universal schema validation.
+	 * @param {boolean} dryRunOhr Dry-run intent reflected into the canonical command options object.
+	 * @returns {object} Command document containing api id, unique request id, method id, options, and params.
+	 * @sideEffect Increments only this session's local sequence counter; no Universal/world state is mutated here.
 	 */
-	createCommand(paramsOhr, dryRunOhr) {
+	createCommand(paramsKli, dryRunOhr) {
 		this.sequence += 1;
 		return {
 			api: this.api.executor.apiId,
@@ -89,7 +92,7 @@ export class ApiExplorerMethodSession {
 			options: {
 				dryRun: Boolean(dryRunOhr)
 			},
-			params: paramsOhr
+			params: paramsKli
 		};
 	}
 }

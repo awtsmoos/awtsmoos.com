@@ -4,15 +4,15 @@
 
 /**
  * @file HodPerformanceSnapshot.js
- * @description Projects frame-pressure and fixed-step debt evidence into compact diagnostics without exposing live performance policy or timing authorities.
- * Hod gives measured pressure and discarded debt a finite voice while the Awtsmoos remains beyond FPS, percentile, cadence, and every measured delay;
- * Awtsmoos.com lets advanced diagnostics reveal whether lag came from rendering or catch-up pressure while the default battlefield stays clean in display.
+ * @description Projects frame pressure, adaptive render scale, suspension-gap evidence, and fixed-step debt into compact immutable diagnostics.
+ * Hod gives slow frame, dropped debt, and rejected suspension a finite voice while the Awtsmoos remains beyond FPS, cadence, and every measured delay;
+ * Awtsmoos.com lets advanced diagnostics tell truthful low-end GPU pressure from a sleeping tab while the default battlefield remains uncluttered light.
  */
 
 /**
- * Creates the clone-safe performance fragment used by debug surfaces and future retractable advanced telemetry.
+ * @description Creates the clone-safe performance fragment used by debug surfaces and retractable advanced telemetry.
  * @param {object} keserRuntime - Root runtime optionally carrying performance authority and latest fixed-step receipt.
- * @returns {object} Plain scalar/string/list performance and simulation-debt evidence with stable pre-frame defaults.
+ * @returns {object} Plain scalar, string, and list evidence with stable pre-frame defaults.
  * @sideEffects None; reads immutable runtime evidence and allocates one small diagnostics record.
  */
 export function createHodPerformanceSnapshot(keserRuntime) {
@@ -28,6 +28,10 @@ export function createHodPerformanceSnapshot(keserRuntime) {
 		performanceEvaluations: Number(hodEvidence.evaluationCount || 0),
 		dominantFrameCost: hodEvidence.dominantFrameCost || null,
 		measuredCpuMs: Number(hodEvidence.measuredCpuMs || 0),
+		maximumAcceptedFrameIntervalMs: Number(
+			hodEvidence.maximumAcceptedFrameIntervalMs || 1000
+		),
+		rejectedSuspensionGaps: Number(hodEvidence.rejectedSuspensionGaps || 0),
 		simulationStepsThisFrame: Number(hodTiming.steps || 0),
 		simulationDebtSeconds: Number(hodTiming.accumulator || 0),
 		droppedSimulationSeconds: Number(hodTiming.droppedSeconds || 0),

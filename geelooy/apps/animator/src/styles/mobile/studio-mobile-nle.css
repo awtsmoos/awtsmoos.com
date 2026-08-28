@@ -1,9 +1,69 @@
-/* B"H
- * Boruch Hashem
- * Blessed is He
- * The Awtsmoos renews timeline touch before finger, playhead, track, and zoom can meet;
- * Awtsmoos.com keeps NLE geometry generous without overriding the command deck or widening the mobile page.
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews timeline touch before finger, command rail, track, and playhead can meet;
+ * Awtsmoos.com keeps NLE chrome bounded and scrollable while time itself remains wide enough to reveal each beat.
  */
+@media (max-width: 860px) {
+	#aw-nle-mount {
+		left: 8px;
+		right: 8px;
+		width: auto;
+		max-width: calc(100% - 16px);
+	}
+
+	.aw-nle-shell,
+	.aw-nle-body,
+	.aw-nle-editor-body,
+	.aw-nle-timeline-grid {
+		max-width: 100%;
+		min-width: 0;
+	}
+
+	.aw-nle-shell {
+		overflow: hidden;
+	}
+
+	.aw-nle-body {
+		grid-template-columns: 92px minmax(0, 1fr);
+	}
+
+	.aw-nle-toolbar {
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+		overflow-x: auto;
+		overflow-y: hidden;
+		overscroll-behavior-inline: contain;
+		scroll-snap-type: x proximity;
+		scrollbar-width: thin;
+		-webkit-overflow-scrolling: touch;
+		padding-inline-end: 18px;
+	}
+
+	.aw-nle-toolbar > * {
+		flex: 0 0 auto;
+		scroll-snap-align: start;
+	}
+
+	.aw-nle-inspector {
+		display: none;
+	}
+
+	.aw-nle-btn {
+		padding: 6px 9px;
+		font-size: 12px;
+		touch-action: manipulation;
+	}
+
+	.aw-nle-time,
+	.aw-nle-package-status {
+		flex: 0 0 auto;
+	}
+}
+
 @media (max-width: 780px) {
 	.aw-professional-studio .aw-nle-btn {
 		flex: 0 0 auto;
@@ -25,7 +85,7 @@
 	}
 
 	.aw-professional-studio .aw-nle-editor-body {
-		grid-template-columns: 1fr;
+		grid-template-columns: minmax(0, 1fr);
 	}
 
 	.aw-professional-studio .aw-nle-timeline-grid {

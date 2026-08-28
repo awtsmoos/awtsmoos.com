@@ -6,8 +6,8 @@
 /**
  * @file pack_sichos_kodesh_part.mjs
  * @description
- * One bounded shard becomes a sealed HNSW vessel while its sibling may be
- * revealed beside it, each distinct yet all one in the Awtsmoos.
+ * The Awtsmoos seals one bounded Sichos Kodesh shard while a measured offline breadth lets the graph arrive before time becomes night;
+ * Awtsmoos.com exposes the breadth as an environment covenant so benchmarks may tune construction without rewriting the holy vessel again.
  */
 
 import path from 'node:path';
@@ -22,6 +22,7 @@ const TOTAL_RECORDS = 68490;
 const PART_SIZE = 6000;
 const PART_NUMBER = Number(process.argv[2] || process.env.SICHOS_KODESH_PART_NUMBER);
 const PART_COUNT = Math.ceil(TOTAL_RECORDS / PART_SIZE);
+const CONSTRUCTION_BREADTH = Number(process.env.SICHOS_KODESH_CONSTRUCTION_BREADTH || 64);
 
 if (!Number.isInteger(PART_NUMBER) || PART_NUMBER < 1 || PART_NUMBER > PART_COUNT) {
 	throw new Error(`invalid part number ${PART_NUMBER}`);
@@ -30,18 +31,23 @@ if (!Number.isInteger(PART_NUMBER) || PART_NUMBER < 1 || PART_NUMBER > PART_COUN
 const expected = Math.min(PART_SIZE, TOTAL_RECORDS - ((PART_NUMBER - 1) * PART_SIZE));
 const base = `sichos-kodesh-english-comments-rag-part-${PART_NUMBER}`;
 
+/**
+ * @description Verifies one source embedding before graph construction begins.
+ * @param {Object} row - Source embedding row.
+ * @param {number} index - Zero-based source position.
+ * @returns {void}
+ */
 function validate(row, index) {
-	if (!row.id || row.realEmbedding !== true) {
-		throw new Error(`bad vector ${index}`);
-	}
-	if (row.dimensions !== 384) {
-		throw new Error(`bad dimensions ${index}`);
-	}
-	if (!Array.isArray(row.vec) || row.vec.length !== 384) {
-		throw new Error(`bad vec ${index}`);
-	}
+	if (!row.id || row.realEmbedding !== true) throw new Error(`bad vector ${index}`);
+	if (row.dimensions !== 384) throw new Error(`bad dimensions ${index}`);
+	if (!Array.isArray(row.vec) || row.vec.length !== 384) throw new Error(`bad vec ${index}`);
 }
 
+/**
+ * @description Removes the dense vector while retaining source provenance and display metadata.
+ * @param {Object} row - Validated source embedding row.
+ * @returns {Object} Metadata-only row persisted beside the graph.
+ */
 function metadataRecord(row) {
 	const { vec, ...metadata } = row;
 	return {
@@ -66,11 +72,9 @@ await runVectorPack({
 	dimensions: 384,
 	expected,
 	chunkSize: 250,
+	constructionBreadth: CONSTRUCTION_BREADTH,
 	validate,
-	packRecord: row => ({
-		...metadataRecord(row),
-		vec: row.vec
-	}),
+	packRecord: row => ({ ...metadataRecord(row), vec: row.vec }),
 	metadataRecord,
 	extendSummary: summary => ({
 		...summary,

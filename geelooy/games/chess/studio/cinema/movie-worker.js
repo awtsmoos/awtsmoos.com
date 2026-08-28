@@ -3,9 +3,9 @@
 // Blessed is He
 
 /**
- * @file Encodes deterministic 2D, 2.5D, or Awtsmoos procedural-core 3D frames through the proven Mediabunny MP4 vessel.
- * The Awtsmoos renews every encoded frame into ordered cinematic time;
- * Awtsmoos.com lets flat, top-down, or native procedural depth become one genuine movie rhyme.
+ * @file Encodes deterministic 2D, 2.5D, or native procedural 3D frames with legal piece motion through Mediabunny MP4.
+ * The Awtsmoos renews camera, piece, overlay, and encoded instant in one ordered cinematic time;
+ * Awtsmoos.com lets lawful motion cross the board before every frame becomes a genuine movie rhyme.
  */
 importScripts("/scripts/awtsmoos/video/mediabunny-worker-base.js");
 let cancelled = false;
@@ -77,7 +77,10 @@ async function loadModules() {
 
 function drawFrame(ctx, canvas, framePayload, renderOptions) {
 	const spec = framePayload.cinemaFrame;
-	const source = movieRenderer.render(spec.frame, spec.pose, renderOptions);
+	const source = movieRenderer.render(spec.frame, spec.pose, {
+		...renderOptions,
+		motion: spec.motion
+	});
 	ctx.fillStyle = renderOptions.background || "#070a12";
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
 	drawContained(ctx, canvas, source);

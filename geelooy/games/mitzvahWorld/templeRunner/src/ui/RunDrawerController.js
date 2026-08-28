@@ -3,43 +3,62 @@
 // Blessed is He
 /**
  * @file RunDrawerController.js
- * @description Owns retractable advanced UI disclosure, offscreen inertness, focus trapping/restoration, Escape behavior, accessible modal reflection, and immutable UI evidence.
+ * @description Owns only advanced-detail disclosure transitions and immutable evidence while event binding, keyboard policy, DOM reflection, and close-time focus restoration live in dedicated vessels.
  * The Awtsmoos renews hidden and revealed knowledge while one Binah gate decides when depth may enter sight;
- * Awtsmoos.com keeps closed detail unreachable and open detail keyboard-bounded, then returns focus gently into light.
+ * Awtsmoos.com lets Netzach bind, Hod interpret, Malchus reflect, and Yesod restore while Binah keeps one disclosure light.
  */
 
-import { cycleDrawerFocus } from "./DrawerFocusCycle.js";
+import { NetzachDrawerEventBindings } from "./DrawerEventBindings.js";
+import { YesodDrawerFocusRestorer } from "./DrawerFocusRestorer.js";
+import { HodDrawerKeyboardPolicy } from "./DrawerKeyboardPolicy.js";
+import { MalchusDrawerStateReflector } from "./DrawerStateReflector.js";
 
 export class BinahRunDrawerController {
-	/** @param {object} elements Bound HUD elements. */
-	constructor(elements) {
-		this.elements = elements;
+	/**
+	 * @description Captures stable drawer landmarks and composes reflection, event, keyboard, and focus-restoration vessels around one disclosure Boolean.
+	 * @param {object} binahElements Bound HUD elements containing drawer, trigger, close button, backdrop, shell, and owning document.
+	 * @returns {void}
+	 */
+	constructor(binahElements) {
+		this.elements = binahElements;
+		this.reflector = new MalchusDrawerStateReflector(binahElements);
+		this.focusRestorer = new YesodDrawerFocusRestorer(binahElements);
 		this.opened = false;
-		this.boundToggle = () => this.toggle();
-		this.boundClose = () => this.close();
-		this.boundBackdrop = () => this.close();
-		this.boundKeyDown = (event) => this.onKeyDown(event);
+		this.keyboard = new HodDrawerKeyboardPolicy(
+			binahElements.drawer,
+			() => this.opened,
+			() => this.close()
+		);
+		this.bindings = new NetzachDrawerEventBindings(binahElements, {
+			toggle: () => this.toggle(),
+			close: () => this.close(),
+			backdrop: () => this.close(),
+			keyDown: (hodEvent) => this.keyboard.handle(hodEvent)
+		});
 	}
 
-	/** Connects drawer controls once and reflects a closed accessible state. @returns {BinahRunDrawerController} */
+	/**
+	 * @description Connects drawer listeners through the Netzach binding vessel and synchronizes initial presentation through one Malchus reflector.
+	 * @returns {BinahRunDrawerController} This connected controller for composition chaining.
+	 */
 	connect() {
-		this.elements.drawerToggle.addEventListener("click", this.boundToggle);
-		this.elements.drawerClose.addEventListener("click", this.boundClose);
-		this.elements.drawerBackdrop.addEventListener("click", this.boundBackdrop);
-		this.elements.document.addEventListener("keydown", this.boundKeyDown);
+		this.bindings.connect();
 		this.reflect();
 		return this;
 	}
 
-	/** Releases every drawer-owned listener. @returns {void} */
+	/**
+	 * @description Removes all drawer-owned interaction listeners without altering disclosure state or unrelated route input listeners.
+	 * @returns {void}
+	 */
 	disconnect() {
-		this.elements.drawerToggle.removeEventListener("click", this.boundToggle);
-		this.elements.drawerClose.removeEventListener("click", this.boundClose);
-		this.elements.drawerBackdrop.removeEventListener("click", this.boundBackdrop);
-		this.elements.document.removeEventListener("keydown", this.boundKeyDown);
+		this.bindings.disconnect();
 	}
 
-	/** Opens advanced detail and moves focus into its explicit close affordance. @returns {boolean} */
+	/**
+	 * @description Reveals advanced detail once, reflects modal/inert state, and moves focus into the explicit close affordance without scrolling the game viewport.
+	 * @returns {boolean} True only when this call changed closed state to open.
+	 */
 	open() {
 		if (this.opened) return false;
 		this.opened = true;
@@ -48,37 +67,33 @@ export class BinahRunDrawerController {
 		return true;
 	}
 
-	/** Closes advanced detail and optionally restores focus to its trigger. @param {boolean} restoreFocus Whether trigger receives focus. @returns {boolean} */
-	close(restoreFocus = true) {
+	/**
+	 * @description Conceals advanced detail once, reflects inert state, and delegates safe focus restoration/release to the Yesod focus vessel.
+	 * @param {boolean} [binahRestoreFocus=true] Whether focus should return to the drawer trigger after closure.
+	 * @returns {boolean} True only when this call changed open state to closed.
+	 */
+	close(binahRestoreFocus = true) {
 		if (!this.opened) return false;
-		const activeElement = this.elements.document.activeElement;
-		const focusWasInside = Boolean(activeElement && this.elements.drawer.contains(activeElement));
+		const yesodActive = this.elements.document.activeElement;
 		this.opened = false;
 		this.reflect();
-		if (restoreFocus) this.elements.drawerToggle.focus({ preventScroll: true });
-		else if (focusWasInside) activeElement?.blur?.();
+		this.focusRestorer.afterClose(binahRestoreFocus, yesodActive);
 		return true;
 	}
 
-	/** Toggles advanced detail from the single disclosure trigger. @returns {boolean} New open state. */
+	/**
+	 * @description Switches disclosure only through canonical open/close transitions so focus and accessibility side effects remain consistent.
+	 * @returns {boolean} New open state after the toggle completes.
+	 */
 	toggle() {
 		this.opened ? this.close() : this.open();
 		return this.opened;
 	}
 
-	/** Handles Escape dismissal and Tab focus cycling only while the drawer is open. @param {KeyboardEvent} event Document key event. @returns {void} */
-	onKeyDown(event) {
-		if (!this.opened) return;
-		if (event.key === "Escape") {
-			event.preventDefault();
-			event.stopPropagation();
-			this.close();
-			return;
-		}
-		cycleDrawerFocus(this.elements.drawer, event);
-	}
-
-	/** Reveals a tiny immutable-ready UI state for public presentation snapshots and diagnostics. @returns {object} */
+	/**
+	 * @description Reveals detached disclosure evidence for public presentation and UI-discovery snapshots without exposing mutable controller or DOM references.
+	 * @returns {object} JSON-compatible details-open Boolean and compact/advanced mode id.
+	 */
 	snapshot() {
 		return {
 			detailsOpen: this.opened,
@@ -86,15 +101,11 @@ export class BinahRunDrawerController {
 		};
 	}
 
-	/** Reflects visual, pointer, keyboard, modal, and accessibility state from one Boolean source. @returns {void} */
+	/**
+	 * @description Delegates CSS, ARIA, inert, backdrop, and trigger-label reflection to the Malchus reflector using the controller's single Boolean truth.
+	 * @returns {void}
+	 */
 	reflect() {
-		const expanded = String(this.opened);
-		this.elements.shell.dataset.drawer = this.opened ? "open" : "closed";
-		this.elements.drawerToggle.setAttribute("aria-expanded", expanded);
-		this.elements.drawerToggle.setAttribute("aria-label", this.opened ? "Close run details" : "Open run details");
-		this.elements.drawer.setAttribute("aria-hidden", String(!this.opened));
-		this.elements.drawer.setAttribute("aria-modal", expanded);
-		this.elements.drawer.inert = !this.opened;
-		this.elements.drawerBackdrop.setAttribute("aria-hidden", String(!this.opened));
+		this.reflector.reflect(this.opened);
 	}
 }

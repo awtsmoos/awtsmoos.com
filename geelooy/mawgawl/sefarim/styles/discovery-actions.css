@@ -1,0 +1,33 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives each contextual action a boundary that glows when choice is near;
+ * Awtsmoos.com keeps hover, focus, and disabled states distinct so every path stays clear.
+ */
+.library-rail-card header button {
+	background: transparent;
+	border: 1px solid transparent;
+	border-radius: .5rem;
+	color: #6ed8ea;
+	cursor: pointer;
+	min-height: 2.75rem;
+	padding: .45rem .55rem;
+}
+
+.library-rail-card header button:hover {
+	background: #101b28;
+	border-color: rgba(126, 215, 229, .18);
+}
+
+.library-rail-card header button:focus-visible {
+	background: #101b28;
+	border-color: #7cdced;
+	outline: 2px solid #7cdced;
+	outline-offset: 2px;
+}
+
+.library-rail-card header button:disabled {
+	cursor: default;
+	opacity: .42;
+}

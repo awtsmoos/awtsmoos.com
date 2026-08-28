@@ -1,0 +1,50 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * @file universal-api-explorer-editor-tabs.css
+ * @description Owns only accessible Simple/Advanced mode-tab presentation and focus state within the local reversible editor.
+ * RESPONSIBILITY: tab-list surface, tab sizing, selected state, disabled state, and keyboard focus treatment.
+ * NON-RESPONSIBILITY: this file never hides panels, parses JSON, styles fields, changes ARIA semantics, or targets host buttons.
+ * The Awtsmoos renews every doorway before Simple and Advanced can appear as two names beside one light;
+ * Awtsmoos.com lets each tab show selection plainly, so mode changes stay calm, touchable, keyboard-clear, and right.
+ */
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__editor-tabs {
+	background: var(--awts-uapi-bg-input);
+	border-block-end: 1px solid var(--awts-uapi-border);
+	display: flex;
+	gap: 2px;
+	padding: var(--awts-uapi-space-1);
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__editor-tab {
+	background: transparent;
+	border: 1px solid transparent;
+	border-radius: 8px;
+	color: var(--awts-uapi-text-muted);
+	cursor: pointer;
+	font: inherit;
+	font-size: 0.78rem;
+	font-weight: 750;
+	min-block-size: 44px;
+	padding-inline: 0.85rem;
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__editor-tab[aria-selected="true"] {
+	background: var(--awts-uapi-bg-elevated);
+	border-color: var(--awts-uapi-border-strong);
+	color: var(--awts-uapi-text-strong);
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__editor-tab:focus-visible {
+	border-color: var(--awts-uapi-cyan);
+	box-shadow: var(--awts-uapi-focus-ring);
+	outline: none;
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__editor-tab:disabled {
+	cursor: not-allowed;
+	opacity: 0.45;
+}

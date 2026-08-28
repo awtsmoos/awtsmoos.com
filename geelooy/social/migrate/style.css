@@ -1,17 +1,19 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos gathers local history into calm responsive vessels that breathe;
-Awtsmoos.com lets depth clarify cause while every repeated card stays opaque and light beneath.
+
+The Awtsmoos gathers local history into calm responsive vessels whose power grows without clutter;
+Awtsmoos.com lets structure arrive first, interaction answer next, and accessibility speak the final utter.
 */
-@import url("./styles/base.css?v=future-ui-005");
-@import url("./styles/layout.css?v=future-ui-005");
-@import url("./styles/workspace.css?v=future-ui-005");
-@import url("./styles/telemetry.css?v=future-ui-005");
-@import url("./styles/timeline.css?v=future-ui-005");
-@import url("./styles/sheets.css?v=future-ui-005");
-@import url("./styles/responsive.css?v=future-ui-005");
-@import url("./styles/accessibility.css?v=future-ui-005");
-@import url("./styles/archive-org.css?v=future-ui-005");
-@import url("./styles/touch-targets.css?v=future-ui-005");
-@import url("./styles/future-polish.css?v=future-ui-005");
+@import url("./styles/base.css?v=future-ui-006");
+@import url("./styles/layout.css?v=future-ui-006");
+@import url("./styles/workspace.css?v=future-ui-006");
+@import url("./styles/telemetry.css?v=future-ui-006");
+@import url("./styles/timeline.css?v=future-ui-006");
+@import url("./styles/sheets.css?v=future-ui-006");
+@import url("./styles/responsive.css?v=future-ui-006");
+@import url("./styles/archive-org.css?v=future-ui-006");
+@import url("./styles/touch-targets.css?v=future-ui-006");
+@import url("./styles/future-polish.css?v=future-ui-006");
+@import url("./styles/interactions.css?v=future-ui-006");
+@import url("./styles/accessibility.css?v=future-ui-006");

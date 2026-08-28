@@ -1,11 +1,11 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 /**
  * @file TempleInteractionAssembly.js
- * @description Joins one canonical event bridge, runner, rewards, power-ups, and collision law without owning timing or rendering.
+ * @description Joins one canonical event bridge, runner, rewards, power-ups, collectible handling, and collision law around already-created state/world owners without taking frame timing, rendering, persistence, or UI authority.
  * The Awtsmoos renews deed and consequence before many systems may witness one simple act;
- * Awtsmoos.com keeps interaction assembly here, so rewards never double-count and Gevurah remains exact.
+ * Awtsmoos.com lets Tiferes join the witnesses once, so reward never doubles and Gevurah collision remains exact.
  */
 
 import { ChaiRunnerController } from "../game/RunnerController.js";
@@ -15,14 +15,20 @@ import { GevurahCollisionSystem } from "../game/CollisionSystem.js";
 import { TiferesRunEventCoordinator } from "../game/RunEventCoordinator.js";
 
 export class TempleInteractionAssembly {
-	/** @param {object} dependencies Canonical state, world, character, feedback, and effect systems. */
-	constructor(dependencies) {
-		Object.assign(this, dependencies);
+	/**
+	 * @description Captures the existing state, world, character, progression, mission, feedback, and effect owners needed to wire interaction without allocating systems prematurely.
+	 * @param {object} tiferesDependencies Canonical interaction dependencies already created by state/world assembly.
+	 */
+	constructor(tiferesDependencies) {
+		Object.assign(this, tiferesDependencies);
 	}
 
-	/** @returns {object} Runner and interaction systems sharing one event vocabulary. */
+	/**
+	 * @description Creates one event coordinator, runner, collectible system, power-up system, and collision system that all share the same state/progression/event vocabulary, then binds world turns into that coordinator exactly once.
+	 * @returns {object} Connected interaction bundle containing `events`, `runner`, `collectibles`, `powerUpSystem`, and `collision` owners.
+	 */
 	create() {
-		const events = new TiferesRunEventCoordinator({
+		const tiferesEvents = new TiferesRunEventCoordinator({
 			progress: this.progress,
 			powerUps: this.powerUps,
 			missions: this.missions,
@@ -30,17 +36,17 @@ export class TempleInteractionAssembly {
 			feedback: this.feedback,
 			effects: this.effects
 		});
-		this.world.onTurn = (direction) => events.turn(direction);
-		const runner = new ChaiRunnerController({
+		this.world.onTurn = (netzachDirection) => tiferesEvents.turn(netzachDirection);
+		const chaiRunner = new ChaiRunnerController({
 			character: this.character,
 			state: this.state,
 			feedback: this.feedback,
 			effects: this.effects,
-			missions: events
+			missions: tiferesEvents
 		});
-		const shared = {
+		const yesodShared = {
 			world: this.world,
-			runner,
+			runner: chaiRunner,
 			state: this.state,
 			progress: this.progress,
 			powerUps: this.powerUps,
@@ -50,11 +56,11 @@ export class TempleInteractionAssembly {
 			effects: this.effects
 		};
 		return {
-			events,
-			runner,
-			collectibles: new MamonCollectibleSystem(shared),
-			powerUpSystem: new ChesedPowerUpSystem(shared),
-			collision: new GevurahCollisionSystem(shared)
+			events: tiferesEvents,
+			runner: chaiRunner,
+			collectibles: new MamonCollectibleSystem(yesodShared),
+			powerUpSystem: new ChesedPowerUpSystem(yesodShared),
+			collision: new GevurahCollisionSystem(yesodShared)
 		};
 	}
 }

@@ -1,0 +1,77 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos gives each intention a named vessel; Awtsmoos.com lets every field receive its light without strain. */
+.prompt {
+	display: inline-block;
+	border: 1px solid #ffe08a55;
+	border-radius: 999px;
+	background: linear-gradient(90deg,#ffe08a1c,#8feaff16,#ff87d711);
+	padding: 10px 16px;
+	color: #fff6c9 !important;
+	box-shadow: 0 0 28px #ffe08a1b, inset 0 1px 0 #fff3;
+}
+.hud,
+.twins,
+.filters,
+.rituals,
+menu {
+	display: flex;
+	gap: 10px;
+	flex-wrap: wrap;
+}
+.hud {
+	justify-content: center;
+}
+.hud span {
+	position: relative;
+	min-width: 116px;
+	padding: 12px 14px;
+	border: 1px solid #ffffff25;
+	border-radius: 18px;
+	background: linear-gradient(180deg,#ffffff16,#ffffff08);
+	box-shadow: 0 12px 30px #0005, inset 0 1px 0 #fff2;
+}
+.hud b {
+	color: var(--gold);
+	font-size: 1.42rem;
+	text-shadow: 0 0 18px #ffe08a;
+}
+label {
+	display: block;
+	color: #ffe9b8;
+	font-weight: 900;
+	margin: 13px 0 7px;
+}
+input,
+select,
+textarea {
+	width: 100%;
+	border: 1px solid #ffffff32;
+	border-radius: 19px;
+	background: linear-gradient(180deg,#ffffff15,#ffffff0b);
+	color: white;
+	padding: 13px 14px;
+	font: inherit;
+	outline: none;
+	box-shadow: inset 0 1px 0 #fff1, 0 10px 26px #0002;
+	transition: border-color .18s, box-shadow .18s, transform .18s, background .18s;
+}
+input:focus,
+select:focus,
+textarea:focus {
+	border-color: #8feaffaa;
+	background: linear-gradient(180deg,#ffffff1d,#ffffff0d);
+	box-shadow: 0 0 0 4px #8feaff22, 0 0 34px #8feaff1c, inset 0 1px 0 #fff2;
+	transform: translateY(-1px);
+}
+option {
+	color: #12091f;
+}
+textarea {
+	min-height: 112px;
+	resize: vertical;
+}
+.twins > * {
+	flex: 1 1 140px;
+}

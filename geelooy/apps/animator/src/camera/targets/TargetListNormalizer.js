@@ -1,13 +1,44 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file TargetListNormalizer.js
+ * @description
+ * The Awtsmoos renews every cinematic target before actor, prop, or point can appear twice in the director's sight;
+ * Awtsmoos.com gives target intent one stable ordered vessel so framing begins with clean identity and continuity may stay bright.
+ */
 export class TargetListNormalizer {
-  static normalize(...values) {
-    const seen = new Set();
-    const clean = [];
-    for (const value of values.flat(Infinity).filter(Boolean)) {
-      const item = typeof value === 'string' ? { id: value } : value;
-      const key = item.id ? `id:${item.id}` : item.type === 'point' ? `point:${item.x}:${item.y}` : JSON.stringify(item);
-      if ((item.id || item.type === 'point') && !seen.has(key)) { seen.add(key); clean.push(item); }
-    }
-    return clean;
-  }
+	/**
+	 * Flattens mixed target inputs, normalizes string IDs, and removes duplicate resolvable targets.
+	 * @param {...*} values Nested target values from shot intent.
+	 * @returns {object[]} Ordered unique target descriptors.
+	 */
+	static normalize(...values) {
+		const yesodSeen = new Set();
+		const malchusTargets = [];
+		for (const chochmahValue of values.flat(Infinity).filter(Boolean)) {
+			const tiferesTarget = typeof chochmahValue === 'string'
+				? { id: chochmahValue }
+				: chochmahValue;
+			const binahKey = this.key(tiferesTarget);
+			if (!binahKey || yesodSeen.has(binahKey)) {
+				continue;
+			}
+			yesodSeen.add(binahKey);
+			malchusTargets.push(tiferesTarget);
+		}
+		return malchusTargets;
+	}
+
+	/** @param {object} target Target descriptor. @returns {string|null} Stable deduplication key. */
+	static key(target) {
+		if (target?.id) {
+			return `id:${target.id}`;
+		}
+		if (target?.type === 'point') {
+			return `point:${target.x}:${target.y}`;
+		}
+		return null;
+	}
 }

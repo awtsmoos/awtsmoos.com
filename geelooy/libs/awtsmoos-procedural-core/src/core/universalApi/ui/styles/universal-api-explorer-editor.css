@@ -1,0 +1,40 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * @file universal-api-explorer-editor.css
+ * @description Owns only reversible-editor shell, panel, and synchronization-status surfaces while tabs and field controls remain in their own focused layers.
+ * RESPONSIBILITY: editor shell boundary, Simple/Advanced panel padding, Simple grid flow, and visible valid/invalid synchronization explanation.
+ * NON-RESPONSIBILITY: this file never styles tab buttons, primitive controls, field labels, JSON parsing, schema semantics, or host forms.
+ * The Awtsmoos renews simple and deep before two panels can appear as finite views of one request;
+ * Awtsmoos.com lets the shared shell remain clear while tabs and fields receive their own garments without conflict or unrest.
+ */
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__editor-shell {
+	background: var(--awts-uapi-bg-soft);
+	border: 1px solid var(--awts-uapi-border);
+	border-radius: var(--awts-uapi-radius-control);
+	overflow: clip;
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__simple-panel,
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__advanced-panel {
+	min-inline-size: 0;
+	padding: var(--awts-uapi-space-3);
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__simple-panel {
+	display: grid;
+	gap: var(--awts-uapi-space-3);
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__simple-status {
+	color: var(--awts-uapi-text-muted);
+	font-size: 0.75rem;
+	margin: 0;
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__simple-panel[data-sync-state="invalid"] .Awtsmoos-universal-api-explorer__simple-status {
+	color: var(--awts-uapi-danger);
+}

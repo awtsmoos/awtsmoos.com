@@ -1,0 +1,65 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos turns choice into movement; Awtsmoos.com preserves the garden's historical action order without compressing its life. */
+.chip,
+.filters button,
+.head button,
+menu button,
+#plantButton {
+	position: relative;
+	overflow: hidden;
+	border: 1px solid var(--line);
+	background: linear-gradient(145deg,#ffffff18,#ffffff0a);
+	color: white;
+	border-radius: 999px;
+	padding: 10px 13px;
+	box-shadow: inset 0 1px 0 #fff2, 0 8px 25px #0004;
+	transition: transform .16s cubic-bezier(.2,1.4,.3,1), box-shadow .18s, border-color .18s, background .18s;
+}
+.chip,
+.filters button,
+.head button,
+menu button,
+#plantButton,
+.entry,
+.primary {
+	cursor: pointer;
+	touch-action: manipulation;
+	user-select: none;
+}
+.chip:hover,
+.filters button:hover,
+.head button:hover,
+menu button:hover,
+#plantButton:hover {
+	transform: translateY(-2px) scale(1.025);
+	border-color: #ffe08a8a;
+	box-shadow: 0 14px 38px #0007, 0 0 24px #ffe08a24;
+}
+.chip.active,
+.filters .active {
+	background: linear-gradient(135deg,#fff7bf,var(--gold),#ffbc6d);
+	color: var(--ink);
+	border-color: transparent;
+	box-shadow: 0 0 32px #ffe08a40, inset 0 1px 0 #fff8;
+}
+.rituals {
+	max-height: 228px;
+	overflow: auto;
+	padding: 2px 4px 2px 0;
+	scrollbar-color: #ffe08a55 transparent;
+}
+.primary {
+	width: 100%;
+	margin-top: 15px;
+	border: 0;
+	border-radius: 24px;
+	padding: 17px 18px;
+	font-weight: 1000;
+	color: var(--ink);
+	background: linear-gradient(135deg,#fff7bf,var(--gold),#ffad58,#ff87d7,#8feaff);
+	background-size: 260% 100%;
+	box-shadow: 0 20px 56px #ffe08a4a, 0 0 0 1px #fff6 inset;
+	animation: buttonLava 5s linear infinite;
+}

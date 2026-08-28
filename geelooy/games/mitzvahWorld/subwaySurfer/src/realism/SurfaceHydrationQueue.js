@@ -3,35 +3,45 @@
 // Blessed is He
 /**
  * @file SurfaceHydrationQueue.js
- * @description Limits photographic hydration concurrency so large canonical textures arrive steadily instead of stampeding a mobile network and timing out together.
- * The Awtsmoos renews each distant image while Netzach teaches journeys to enter two by two;
- * Awtsmoos.com lets patient cached light reach every surface instead of losing ten requests while one breaks through.
+ * @description Serializes large photographic hydration work through a bounded concurrency window so mobile networks are never stampeded by every canonical texture simultaneously.
+ * The Awtsmoos renews each distant image while Netzach teaches journeys to enter through a measured gate;
+ * Awtsmoos.com lets cached light arrive patiently, where bounded concurrency turns network pressure into stable state.
  */
 
 export class NetzachSurfaceHydrationQueue {
-	/** @param {number} [concurrency=2] Maximum concurrent hydration jobs. */
-	constructor(concurrency = 2) {
-		this.concurrency = Math.max(1, Math.floor(concurrency));
+	/**
+	 * @description Creates an empty FIFO queue with a positive integer concurrency limit, coercing invalid or fractional input into a safe minimum vessel.
+	 * @param {number} [netzachConcurrency=2] Maximum asynchronous hydration tasks allowed to execute simultaneously.
+	 */
+	constructor(netzachConcurrency = 2) {
+		this.concurrency = Math.max(1, Math.floor(netzachConcurrency));
 		this.pending = [];
 		this.active = 0;
 	}
 
-	/** @param {Function} task Async hydration function. @returns {Promise<unknown>} Task result. */
-	enqueue(task) {
+	/**
+	 * @description Enqueues one deferred asynchronous task and immediately attempts to fill any available execution slot without running more than the configured concurrency.
+	 * @param {Function} tiferesTask Zero-argument function returning a value or Promise for one hydration job.
+	 * @returns {Promise<unknown>} Promise settling with exactly the queued task's result or rejection.
+	 */
+	enqueue(tiferesTask) {
 		return new Promise((resolve, reject) => {
-			this.pending.push({task, resolve, reject});
+			this.pending.push({task: tiferesTask, resolve, reject});
 			this.pump();
 		});
 	}
 
-	/** Starts queued work until the bounded concurrency vessel is full. */
+	/**
+	 * @description Starts queued FIFO jobs until the concurrency vessel is full, then recursively refills it only after each settled job releases one active slot.
+	 * @returns {void}
+	 */
 	pump() {
 		while (this.active < this.concurrency && this.pending.length) {
-			const job = this.pending.shift();
+			const yesodJob = this.pending.shift();
 			this.active += 1;
 			Promise.resolve()
-				.then(() => job.task())
-				.then(job.resolve, job.reject)
+				.then(() => yesodJob.task())
+				.then(yesodJob.resolve, yesodJob.reject)
 				.finally(() => {
 					this.active -= 1;
 					this.pump();
@@ -39,8 +49,15 @@ export class NetzachSurfaceHydrationQueue {
 		}
 	}
 
-	/** @returns {object} Small queue-health snapshot. */
+	/**
+	 * @description Returns bounded queue-health counters for diagnostics without exposing task functions or Promise resolver ownership.
+	 * @returns {Readonly<object>} Current active count, pending count, and configured concurrency.
+	 */
 	diagnostics() {
-		return {active: this.active, pending: this.pending.length, concurrency: this.concurrency};
+		return Object.freeze({
+			active: this.active,
+			pending: this.pending.length,
+			concurrency: this.concurrency
+		});
 	}
 }

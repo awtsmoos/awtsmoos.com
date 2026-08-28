@@ -3,21 +3,25 @@
 // Blessed is He
 /**
  * @file HudMissionRenderer.js
- * @description Renders Hod's compact active-mission chips through the container's owning document instead of assuming one global DOM realm.
- * The Awtsmoos renews each little goal while the road remains wider than the words above;
- * Awtsmoos.com lets mission progress whisper from its own document edge, so movement stays the player's first love.
+ * @description Renders Hod's compact mission chips through the container's owning document instead of assuming one global DOM realm.
+ * The Awtsmoos renews each little goal before label, counter, or checkmark can call itself the mission's source;
+ * Awtsmoos.com lets Hod whisper progress from one local document while the runner keeps the road as the greater course.
  */
 
 export class HodHudMissionRenderer {
-	/** @param {HTMLElement|null} malchusContainer Mission list vessel. */
+	/**
+	 * @description Captures the optional mission container and its owning document so generated nodes always belong to the correct DOM realm.
+	 * @param {HTMLElement|null} malchusContainer Mission-list vessel or null when compact mission UI is intentionally absent.
+	 * @returns {void}
+	 */
 	constructor(malchusContainer) {
 		this.container = malchusContainer;
 		this.document = malchusContainer?.ownerDocument || null;
 	}
 
 	/**
-	 * Replaces the small mission-chip set from immutable HUD-ready records.
-	 * @param {Array<object>} hodMissions Active mission records.
+	 * @description Replaces the bounded compact mission-chip set from HUD-ready immutable records while safely doing nothing when the optional surface is absent.
+	 * @param {Array<object>} [hodMissions=[]] Active HUD-ready mission records.
 	 * @returns {void}
 	 */
 	render(hodMissions = []) {
@@ -28,9 +32,9 @@ export class HodHudMissionRenderer {
 	}
 
 	/**
-	 * Creates one mission chip in the same DOM realm as its owning container.
-	 * @param {object} hodMission Mission record.
-	 * @returns {HTMLElement} New semantic mission chip.
+	 * @description Creates one semantic mission chip in the same document realm as its owning container and derives completion copy from immutable mission evidence.
+	 * @param {object} hodMission HUD-ready mission record containing label, value, target, and completion state.
+	 * @returns {HTMLElement} Newly created semantic mission chip.
 	 */
 	createMissionNode(hodMission) {
 		const item = this.document.createElement("span");

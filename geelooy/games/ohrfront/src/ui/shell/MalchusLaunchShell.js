@@ -4,15 +4,15 @@
 
 /**
  * @file MalchusLaunchShell.js
- * @description Renders the accessible launch dialog, difficulty selection, concise arsenal, and input guidance without mixing runtime startup mechanics into markup.
- * The Awtsmoos renews invitation and entry while Awtsmoos.com lets one restrained futuristic doorway prepare the player without cluttering the coming field;
- * cognition, arsenal, and controls are named clearly, then the dialog yields entirely to battle light.
+ * @description Renders the accessible launch dialog, difficulty selection, concise arsenal, and truthful keyboard-complete controls including pointer-lock-independent F fire.
+ * The Awtsmoos renews invitation and entry while Awtsmoos.com lets one restrained doorway prepare the player without hiding movement or fire behind a cursor gate;
+ * travel, turning, strafing, jumping, switching, and F-fire are named clearly, then optional mouse capture may join without becoming the condition of battle light.
  */
 
 /**
- * Renders the modal launch surface with the historical selection and start-control IDs.
+ * @description Renders the modal launch surface with historical IDs and the current keyboard-complete control covenant.
  * @returns {string} Trusted static launch-dialog markup.
- * @sideEffects None; LaunchOverlay owns focus, pointer lock, and battle-start callbacks after manifestation.
+ * @sideEffects None; LaunchOverlay owns focus, optional pointer lock, and battle-start callbacks after manifestation.
  */
 export function renderMalchusLaunchShell() {
 	return `
@@ -40,7 +40,7 @@ export function renderMalchusLaunchShell() {
 					ENTER HAR HAOHR
 				</button>
 				<p class="ohr-controls-note">
-					WASD move · Shift sprint · C slide · Space jump · 1/2/3 switch · I intel · Mouse fire
+					W/S or ↑/↓ move · A/D or ←/→ turn · Q/E strafe · Shift sprint · C slide · Space jump · F fire · 1/2/3 switch · Mouse optional look/fire
 				</p>
 			</div>
 		</section>

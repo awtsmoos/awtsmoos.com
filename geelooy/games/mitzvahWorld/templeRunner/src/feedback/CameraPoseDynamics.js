@@ -2,9 +2,9 @@
 // Boruch Hashem
 // Blessed is He
 /**
- * @fileoverview Chochmah camera-target dynamics combining actual runner pose, speed, turn state, and aspect-aware framing policy.
+ * @fileoverview Chochmah camera targets combining actual runner pose, speed, turn state, aspect framing, and accessibility motion scales.
  * The Awtsmoos renews lane, jump, speed, and corner before perspective can lean into the scene;
- * Awtsmoos.com lets Chochmah reveal a richer target while collision truth stays untouched and clean.
+ * Awtsmoos.com lets Chochmah quiet nonessential motion while collision truth and route orientation stay untouched and clean.
  */
 
 import {
@@ -12,6 +12,7 @@ import {
 	RUNNER_CONFIG
 } from "../config.js";
 import { BinahCameraFraming } from "./CameraFraming.js";
+import { BinahCameraMotionPolicy } from "./CameraMotionPolicy.js";
 
 export class ChochmahCameraPoseDynamics {
 	/** @param {object} runner Runner controller. @param {object} state Runner state. @param {object} world Temple world. */
@@ -20,36 +21,42 @@ export class ChochmahCameraPoseDynamics {
 		this.state = state;
 		this.world = world;
 		this.framing = new BinahCameraFraming(CAMERA_CONFIG);
+		this.motion = new BinahCameraMotionPolicy();
 	}
 
-	/**
-	 * Computes a stable mobile/desktop composition target from live runner pose.
-	 * @param {number} landingOffset Decaying presentation-only landing impulse.
-	 * @param {number} aspect Current native camera aspect.
-	 * @returns {Readonly<object>} Position, FOV, and normalized speed target facts.
-	 */
+	/** @description Applies normalized presentation preferences without mutating gameplay state. @param {Readonly<object>} preferences Presentation snapshot. @returns {Readonly<object>} Applied motion scales. */
+	setPreferences(preferences) {
+		return this.motion.setPreferences(preferences);
+	}
+
+	/** @description Computes a stable composition target from live pose plus accessibility-scaled presentation motion. @param {number} landingOffset Decaying landing cue. @param {number} aspect Current camera aspect. @returns {Readonly<object>} Position, FOV, and speed facts. */
 	positionTarget(landingOffset, aspect) {
 		const speedRatio = this.speedRatio();
+		const scales = this.motion.snapshot();
+		const dynamicSpeed = speedRatio * scales.speed;
 		const wrapperX = this.runner.character.wrapper.position.x;
-		const slideDip = this.runner.ducking ? CAMERA_CONFIG.slideDip : 0;
+		const slideDip = this.runner.ducking
+			? CAMERA_CONFIG.slideDip * scales.slide
+			: 0;
 		return Object.freeze({
-			x: this.framing.lateralOffset(wrapperX, aspect),
+			x: this.framing.lateralOffset(wrapperX, aspect) * scales.lateral,
 			y: CAMERA_CONFIG.baseY
-				+ this.framing.jumpOffset(this.runner.verticalY)
-				+ speedRatio * CAMERA_CONFIG.speedLift
+				+ this.framing.jumpOffset(this.runner.verticalY) * scales.jump
+				+ speedRatio * CAMERA_CONFIG.speedLift * scales.speed
 				- slideDip
 				- landingOffset,
-			z: this.framing.zTarget(speedRatio, aspect),
-			fov: this.framing.fovTarget(speedRatio, aspect),
+			z: this.framing.zTarget(dynamicSpeed, aspect),
+			fov: this.framing.fovTarget(dynamicSpeed, aspect),
 			speedRatio
 		});
 	}
 
-	/** @returns {Readonly<object>} Euler XYZ presentation rotation. */
+	/** @description Computes route orientation while accessibility scales only nonessential roll. @returns {Readonly<object>} Euler XYZ presentation rotation. */
 	rotationTarget() {
+		const scales = this.motion.snapshot();
 		const wrapperX = this.runner.character.wrapper.position.x;
 		const laneRoll = clamp(
-			-wrapperX * CAMERA_CONFIG.laneRollStrength,
+			-wrapperX * CAMERA_CONFIG.laneRollStrength * scales.roll,
 			-CAMERA_CONFIG.maxRoll,
 			CAMERA_CONFIG.maxRoll
 		);
@@ -58,12 +65,22 @@ export class ChochmahCameraPoseDynamics {
 			pitch: CAMERA_CONFIG.pitch,
 			yaw: turnStrength * CAMERA_CONFIG.turnYaw,
 			roll: clamp(
-				laneRoll - turnStrength * CAMERA_CONFIG.turnRoll,
+				laneRoll - turnStrength * CAMERA_CONFIG.turnRoll * scales.roll,
 				-CAMERA_CONFIG.maxRoll,
 				CAMERA_CONFIG.maxRoll
 			),
 			turnStrength
 		});
+	}
+
+	/** @description Returns a reduced/full landing cue amplitude without changing runner landing physics. @returns {number} Presentation-only landing impulse. */
+	landingImpulse() {
+		return CAMERA_CONFIG.landingImpulse * this.motion.snapshot().landing;
+	}
+
+	/** @returns {boolean} Whether reduced-motion camera policy is active. */
+	reducedMotion() {
+		return this.motion.isReduced();
 	}
 
 	/** @returns {number} Zero-to-one normalized speed intensity. */

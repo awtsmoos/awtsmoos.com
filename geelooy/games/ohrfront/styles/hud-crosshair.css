@@ -1,0 +1,74 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos renews sightline, center, and finite aim while no reticle can contain the path that opens beyond it.
+Awtsmoos.com lets the crosshair remain sparse and local: a clearer optical guide whose weapon identity changes without swallowing the rendered world.
+*/
+
+.ohrfront-app .ohr-crosshair__glyph[data-ohr-weapon="aleph"] {
+	color: var(--ohr-weapon-aleph);
+}
+
+.ohrfront-app .ohr-crosshair__glyph[data-ohr-weapon="shin"] {
+	color: var(--ohr-weapon-shin);
+}
+
+.ohrfront-app .ohr-crosshair__glyph[data-ohr-weapon="lamed"] {
+	color: var(--ohr-weapon-lamed);
+}
+
+.ohrfront-app .ohr-crosshair {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	width: 42px;
+	height: 42px;
+	transform: translate3d(-50%, -50%, 0);
+}
+
+.ohrfront-app .ohr-crosshair__glyph {
+	position: absolute;
+	inset: 0;
+	display: grid;
+	place-items: center;
+	font: 600 15px/1 Georgia, serif;
+	color: var(--ohr-energy);
+	text-shadow: 0 0 6px rgba(0, 0, 0, 0.72);
+	transition: color var(--ohr-fast) linear;
+}
+
+.ohrfront-app .ohr-crosshair__line {
+	position: absolute;
+	background: rgba(237, 244, 240, 0.84);
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.58);
+}
+
+.ohrfront-app .ohr-crosshair__line--north,
+.ohrfront-app .ohr-crosshair__line--south {
+	left: 20px;
+	width: 1px;
+	height: 8px;
+}
+
+.ohrfront-app .ohr-crosshair__line--north {
+	top: 0;
+}
+
+.ohrfront-app .ohr-crosshair__line--south {
+	bottom: 0;
+}
+
+.ohrfront-app .ohr-crosshair__line--east,
+.ohrfront-app .ohr-crosshair__line--west {
+	top: 20px;
+	width: 8px;
+	height: 1px;
+}
+
+.ohrfront-app .ohr-crosshair__line--east {
+	right: 0;
+}
+
+.ohrfront-app .ohr-crosshair__line--west {
+	left: 0;
+}

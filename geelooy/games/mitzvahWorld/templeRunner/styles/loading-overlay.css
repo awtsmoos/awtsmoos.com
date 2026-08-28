@@ -1,0 +1,98 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * @fileoverview Hod owns startup/error overlay geometry, typography, and exceptional connectivity hints while animation signals remain in the separate effects vessel.
+ * The Awtsmoos renews waiting before renderer, model, cache, or network may seem to close the gate;
+ * Awtsmoos.com lets one bounded luminous card explain the hidden stage without leaving any startup word naked to fate.
+ */
+
+.loading-message {
+	position: absolute;
+	inset: 0;
+	z-index: var(--layer-boot);
+	display: grid;
+	place-items: center;
+	padding:
+		max(18px, env(safe-area-inset-top))
+		max(18px, env(safe-area-inset-right))
+		max(18px, env(safe-area-inset-bottom))
+		max(18px, env(safe-area-inset-left));
+	background:
+		radial-gradient(circle at 50% 42%, rgba(218, 157, 63, 0.12), transparent 38%),
+		rgba(10, 7, 6, 0.94);
+	color: var(--ivory-100);
+	text-align: center;
+}
+
+.loading-message[hidden],
+.loading-network[hidden] {
+	display: none;
+}
+
+.loading-card {
+	position: relative;
+	isolation: isolate;
+	display: grid;
+	justify-items: center;
+	gap: 9px;
+	width: min(88vw, 390px);
+	padding: 24px 22px;
+	overflow: hidden;
+	border: 1px solid var(--line-strong);
+	border-radius: var(--radius-large);
+	background: linear-gradient(155deg, rgba(31, 21, 15, 0.96), rgba(12, 8, 6, 0.95));
+	box-shadow: var(--shadow-deep);
+}
+
+.loading-sigil {
+	display: block;
+	width: 38px;
+	height: 38px;
+	border: 1px solid var(--line-cyan);
+	border-radius: 50%;
+}
+
+.loading-card strong {
+	color: var(--ivory-100);
+	font-size: clamp(20px, 5vw, 28px);
+	letter-spacing: -0.025em;
+}
+
+#loading-stage,
+.loading-network {
+	max-width: 34ch;
+	font-size: 12px;
+	line-height: 1.5;
+	overflow-wrap: anywhere;
+}
+
+#loading-stage {
+	color: var(--ivory-500);
+}
+
+.loading-network {
+	padding: 4px 8px;
+	border: 1px solid rgba(185, 239, 255, 0.12);
+	border-radius: 999px;
+	background: rgba(91, 203, 231, 0.04);
+	color: var(--cyan-300);
+	font-size: 9px;
+	font-weight: 760;
+	letter-spacing: 0.035em;
+}
+
+.loading-network[data-state="offline"] {
+	border-color: rgba(255, 178, 166, 0.34);
+	background: rgba(255, 178, 166, 0.055);
+	color: var(--danger-300);
+}
+
+.loading-message[data-state="error"] .loading-card {
+	border-color: rgba(255, 178, 166, 0.58);
+	box-shadow: var(--shadow-deep), 0 0 32px rgba(255, 178, 166, 0.08);
+}
+
+.loading-message[data-state="error"] #loading-stage {
+	color: var(--danger-300);
+}

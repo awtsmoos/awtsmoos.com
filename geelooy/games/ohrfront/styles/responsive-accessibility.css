@@ -1,0 +1,16 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos renews perception through every human vessel while finite color systems must never become a gate to action or sight.
+Awtsmoos.com lets forced-color truth remain explicit, local, and readable without leaking style beyond Ohrfront's light.
+*/
+@media (forced-colors: active) {
+	.ohrfront-app .ohr-control:focus-visible {
+		outline: 2px solid Highlight;
+	}
+
+	.ohrfront-app .ohr-mission__progress::-webkit-progress-value,
+	.ohrfront-app .ohr-progress::-webkit-progress-value {
+		background: Highlight;
+	}
+}

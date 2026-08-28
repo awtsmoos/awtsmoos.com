@@ -1,14 +1,23 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-
 /**
  * @file TiferesRealismRegistry.js
  * @description
- * The Awtsmoos joins order with organic irregularity in a harmony beyond either alone;
- * Awtsmoos.com expands simple realism names into explicit Tiferes measures every generator can own.
+ * The Awtsmoos joins graphic order with organic irregularity while one registry remains the source of every named realism measure;
+ * Awtsmoos.com preserves the historic PRESETS discovery surface as a read-only reflection of presets(), so schema and capability consumers never drift.
  */
+
+/** Publishes named realism profiles and normalizes explicit realism intent. */
 export class TiferesRealismRegistry {
+	/**
+	 * Compatibility discovery surface used by schema/capability consumers.
+	 * @returns {object} Immutable named realism presets.
+	 */
+	static get PRESETS() {
+		return this.presets();
+	}
+
 	/** @returns {object} Immutable named realism presets. */
 	static presets() {
 		return Object.freeze({
@@ -24,9 +33,13 @@ export class TiferesRealismRegistry {
 	 * @returns {object} Explicit bounded realism profile.
 	 */
 	static normalize(value = 'balanced') {
+		const malchusPresets = this.presets();
 		const malchusBase = typeof value === 'string'
-			? this.presets()[value] || this.presets().balanced
-			: { ...this.presets().balanced, ...(value || {}) };
+			? malchusPresets[value] || malchusPresets.balanced
+			: {
+				...malchusPresets.balanced,
+				...(value || {})
+			};
 		return this.profile(
 			malchusBase.organicVariation,
 			malchusBase.asymmetry,
@@ -35,7 +48,13 @@ export class TiferesRealismRegistry {
 		);
 	}
 
-	/** @returns {object} One bounded explicit realism profile. */
+	/**
+	 * @param {*} organicVariation Organic irregularity channel.
+	 * @param {*} asymmetry Bilateral variation channel.
+	 * @param {*} grounding Contact/weight channel.
+	 * @param {*} detail Surface-detail channel.
+	 * @returns {object} One bounded explicit realism profile.
+	 */
 	static profile(organicVariation, asymmetry, grounding, detail) {
 		return Object.freeze({
 			organicVariation: this.unit(organicVariation),

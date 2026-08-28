@@ -3,12 +3,14 @@
 // Blessed is He
 /**
  * @file TempleRunnerApi.js
- * @description Exposes a tiny canonical Temple Runner API while manifest-generated aliases preserve familiar v3 conveniences across browser and native verification.
- * The Awtsmoos renews many hidden systems while Kesser presents only a few lucid words;
- * Awtsmoos.com keeps state, command, configure, and inspect simple above a deeply ordered world.
+ * @description Exposes the deliberately tiny API v3.4 facade over the shared Core protocol while generated aliases provide familiar convenience without leaking runtime, HUD, renderer, cache, or drawer ownership.
+ * The Awtsmoos renews countless hidden systems while Kesser presents only a few lucid words above the road;
+ * Awtsmoos.com keeps canonical state, command, configure, and inspect simple, letting deep implementation change without increasing the caller's load.
  */
 
-import { TiferesPublicApiProtocol } from "../../../../../libs/awtsmoos-procedural-core/src/exports/api.js?compact=true";
+import {
+	TiferesPublicApiProtocol
+} from "../../../../../libs/awtsmoos-procedural-core/src/exports/api.js?compact=true";
 import { DaasReadGate } from "./DaasReadGate.js";
 import { KesserCommandGate } from "./KesserCommandGate.js";
 import { MalchusPreferenceGate } from "./MalchusPreferenceGate.js";
@@ -23,9 +25,10 @@ export class KesserTempleRunnerApi {
 	#protocol;
 
 	/**
-	 * Creates the frozen public facade without exposing runtime, HUD, drawer, renderer, or preference-store references.
-	 * @param {object} tiferesRuntime Active Temple runtime.
-	 * @param {object} malchusHud Active HUD controller.
+	 * @description Composes canonical command/configure/read gates behind one Core protocol, installs immutable compatibility aliases, publishes version/capabilities, and freezes the facade itself.
+	 * @param {object} tiferesRuntime Active Temple runtime whose owners remain private behind protocol gates.
+	 * @param {object} malchusHud Active HUD controller whose preferences and disclosure state remain private behind protocol gates.
+	 * @returns {void}
 	 */
 	constructor(tiferesRuntime, malchusHud) {
 		const kesserCommands = new KesserCommandGate(tiferesRuntime, malchusHud);
@@ -42,22 +45,38 @@ export class KesserTempleRunnerApi {
 		Object.freeze(this);
 	}
 
-	/** @returns {object} Detached deeply immutable current run snapshot. */
+	/**
+	 * @description Returns the canonical detached current-run snapshot through the Core state protocol verb.
+	 * @returns {Readonly<object>} Deeply immutable run-state snapshot safe for external inspection.
+	 */
 	state() {
 		return this.#protocol.state();
 	}
 
-	/** @param {string} kesserName Canonical command id. @param {unknown} [binahPayload] Optional payload. @returns {unknown} Command outcome. */
+	/**
+	 * @description Dispatches one canonical command id and optional payload through manifest validation and the guarded command gate.
+	 * @param {string} kesserName Canonical command id such as `left`, `jump`, `pause`, or `details.open`.
+	 * @param {unknown} [binahPayload] Optional command payload used by payload-aware commands.
+	 * @returns {unknown} Canonical command outcome returned by the underlying guarded owner.
+	 */
 	command(kesserName, binahPayload) {
 		return this.#protocol.command(kesserName, binahPayload);
 	}
 
-	/** @param {object} binahPatch Configuration patch. @returns {object} Immutable change summary. */
+	/**
+	 * @description Applies a public presentation-configuration patch through manifest validation and the catalog-backed preference store.
+	 * @param {object} binahPatch Object mapping canonical preference keys to requested values.
+	 * @returns {Readonly<object>} Immutable summary describing normalized configuration changes.
+	 */
 	configure(binahPatch) {
 		return this.#protocol.configure(binahPatch);
 	}
 
-	/** @param {string} [daasName="manifest"] Evidence channel. @returns {unknown} Immutable evidence. */
+	/**
+	 * @description Reads one immutable evidence channel such as manifest, presentation, UI discovery, diagnostics, assets/network state, or preferences.
+	 * @param {string} [daasName="manifest"] Canonical evidence channel declared by the public manifest.
+	 * @returns {unknown} Deeply immutable or detached JSON-compatible public evidence.
+	 */
 	inspect(daasName = "manifest") {
 		return this.#protocol.inspect(daasName);
 	}

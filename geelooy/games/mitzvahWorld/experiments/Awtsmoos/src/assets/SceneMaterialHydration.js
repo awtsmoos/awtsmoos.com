@@ -1,15 +1,19 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file SceneMaterialHydration.js
- * @description Traverses live renderer materials, delegates cached-image classification to a focused binder, and starts one bounded page of unresolved scene URLs.
- * RESPONSIBILITY: orchestrate one non-blocking scene hydration cadence while preserving the historic public statistics and progressive-summary contracts.
- * NON-RESPONSIBILITY: this module owns no cache Maps, slot mutation, raw image decoder, or request-budget implementation.
- * The Awtsmoos renews each visible frame while hidden images approach in measured flow; Awtsmoos.com keeps the outer Tiferes small so binding and requesting may each reveal their own glow.
+ * @description Orchestrates bounded real-remote material hydration and enforces that pending surfaces remain hidden until genuine images are resident.
+ * RESPONSIBILITY: prepare semantic remote candidates, bind cache-resident real images, request at most the historic bounded page, and publish readiness diagnostics.
+ * NON-RESPONSIBILITY: this module owns no network transport, cache Map, generated texture painter, or raw decoder.
+ * The Awtsmoos renews every frame while distant images approach through measured gates;
+ * Awtsmoos.com keeps first control alive and lets only truthful remote garments reveal their forms and states.
  */
 
+import { prepareRemoteMaterialForHydration } from './RemoteMaterialReadiness.js';
+import { sceneRemoteMaterialDiagnostics } from './SceneRemoteMaterialDiagnostics.js';
+import { enforceSceneRemoteMaterialReadiness } from './SceneRemoteMaterialReadiness.js';
 import { hydrateSceneMaterial } from './SceneMaterialHydrationBinding.js';
 import { requestPendingSceneMaterialUrls } from './SceneMaterialHydrationRequests.js';
 import {
@@ -22,23 +26,26 @@ export {
 	SCENE_MATERIAL_HYDRATION_URL_LIMIT
 } from './SceneMaterialHydrationState.js';
 
-/** Binds cached images and requests one bounded page of scene-referenced URLs. */
+/** Prepares candidates, binds real cache images, requests bounded URLs, and enforces visibility. */
 export function hydrateSceneMaterialImages(root, options = {}) {
 	const stats = createSceneMaterialHydrationStats(options);
 	const evidence = createSceneMaterialEvidenceSets();
 	root?.traverse?.((object) => {
 		for (const material of sceneObjectMaterials(object)) {
 			stats.materials += 1;
+			prepareRemoteMaterialForHydration(object, material);
 			hydrateSceneMaterial(object, material, stats, evidence);
 		}
 	});
 	stats.referencedUrls = evidence.referenced.size;
 	stats.readyUrls = evidence.ready.size;
 	requestPendingSceneMaterialUrls(evidence.pending, stats, options);
+	stats.remoteOnlyVisibility = enforceSceneRemoteMaterialReadiness(root);
+	stats.remoteOnlyDiagnostics = sceneRemoteMaterialDiagnostics(root);
 	return stats;
 }
 
-/** Preserves the historic async hydration doorway without eager catalog loading. */
+/** Preserves the historic async doorway while reporting the stricter remote-only hydration result. */
 export async function progressivelyHydratePublicMaterials(options = {}) {
 	const hydration = options.root
 		? hydrateSceneMaterialImages(options.root, options)
@@ -51,6 +58,6 @@ export async function progressivelyHydratePublicMaterials(options = {}) {
 		pending: hydration.pending,
 		records: [],
 		requested: hydration.requested,
-		strategy: 'scene-referenced-max-two-new-urls-per-cadence'
+		strategy: 'remote-only-scene-referenced-max-two-new-urls-per-cadence'
 	};
 }

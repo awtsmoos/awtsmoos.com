@@ -1,0 +1,61 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos makes each control a clear vessel; Awtsmoos.com keeps touch, focus, and motion gentle on every level. */
+.aw-ui-chip,
+.aw-ui-button {
+	min-height: var(--aw-ui-touch);
+	border: 1px solid var(--aw-ui-line);
+	border-radius: 999px;
+	padding: 0 14px;
+	background: var(--aw-ui-surface-2);
+	color: var(--aw-ui-text);
+	font: inherit;
+	cursor: pointer;
+	white-space: nowrap;
+}
+
+.aw-ui-chip[aria-pressed="true"],
+.aw-ui-button--accent {
+	color: #04110d;
+	background: var(--aw-ui-accent);
+	border-color: transparent;
+	font-weight: 750;
+}
+
+.aw-ui-field {
+	width: 100%;
+	box-sizing: border-box;
+	border: 1px solid var(--aw-ui-line);
+	border-radius: var(--aw-ui-radius-small);
+	background: #07111b;
+	color: var(--aw-ui-text);
+	padding: 10px 12px;
+	font: inherit;
+}
+
+.aw-ui-field:focus-visible,
+.aw-ui-button:focus-visible,
+.aw-ui-chip:focus-visible {
+	outline: 3px solid color-mix(in srgb, var(--aw-ui-accent-2) 65%, transparent);
+	outline-offset: 2px;
+}
+
+.aw-ui-badge {
+	border: 1px solid var(--aw-ui-line);
+	border-radius: 999px;
+	padding: 3px 8px;
+	color: var(--aw-ui-muted);
+	font-size: 12px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		scroll-behavior: auto !important;
+		transition-duration: .01ms !important;
+		animation-duration: .01ms !important;
+		animation-iteration-count: 1 !important;
+	}
+}

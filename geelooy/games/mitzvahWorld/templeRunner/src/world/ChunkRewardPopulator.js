@@ -1,11 +1,11 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 /**
  * @file ChunkRewardPopulator.js
- * @description Places pooled peruta trails and occasional power-ups without owning obstacle-law decisions.
+ * @description Places pooled peruta trails and occasional power-ups while preserving authored action, value, and rarity truth on runtime records.
  * The Awtsmoos renews each small reward while Chesed reuses finite vessels along the road;
- * Awtsmoos.com keeps reward placement separate from Gevurah, so gifts and challenges never share a tangled load.
+ * Awtsmoos.com keeps rarity and guidance intact across pooling, so gifts never lose their authored load.
  */
 
 import {
@@ -20,10 +20,7 @@ const POWERUP_TYPES = Object.freeze([
 ]);
 
 export class ChesedChunkRewardPopulator {
-	/**
-	 * @param {object} collectibleFactory Reusable peruta factory.
-	 * @param {object} powerUpFactory Reusable power-up factory.
-	 */
+	/** @param {object} collectibleFactory Reusable peruta factory. @param {object} powerUpFactory Reusable power-up factory. */
 	constructor(collectibleFactory, powerUpFactory) {
 		this.collectibleFactory = collectibleFactory;
 		this.powerUpFactory = powerUpFactory;
@@ -35,12 +32,9 @@ export class ChesedChunkRewardPopulator {
 		this.addPowerUp(chunk, trail, seed);
 	}
 
-	/** Places perutas into already-allocated collectible records. */
+	/** @description Places authored perutas into already-allocated collectible records without losing semantic metadata. @param {object} chunk Recyclable chunk. @param {Array<object>} placements Trail placements. @param {number} seed Generation seed. @returns {void} */
 	addPerutas(chunk, placements, seed) {
-		const count = Math.min(
-			placements.length,
-			chunk.collectibles.length
-		);
+		const count = Math.min(placements.length, chunk.collectibles.length);
 		for (let index = 0; index < count; index += 1) {
 			const placement = placements[index];
 			const record = chunk.collectibles[index];
@@ -57,6 +51,7 @@ export class ChesedChunkRewardPopulator {
 				baseY: placement.y || 1.15,
 				phase: seed * 0.37 + index * 0.61,
 				value: placement.value || 1,
+				rare: Boolean(placement.rare),
 				requiredAction: placement.action || "normal",
 				collected: false,
 				missed: false
@@ -64,19 +59,12 @@ export class ChesedChunkRewardPopulator {
 		}
 	}
 
-	/** Places one occasional pooled power-up on a readable trail lane. */
+	/** @description Places one occasional pooled power-up on a readable trail lane. @param {object} chunk Recyclable chunk. @param {object} trail Trail definition. @param {number} seed Generation seed. @returns {void} */
 	addPowerUp(chunk, trail, seed) {
-		if (
-			seed <= 0
-			|| seed % POWERUP_CONFIG.spawnEveryChunks !== 3
-		) {
-			return;
-		}
+		if (seed <= 0 || seed % POWERUP_CONFIG.spawnEveryChunks !== 3) return;
 		const record = chunk.powerUps[0];
 		if (!record) return;
-		const typeIndex = Math.floor(
-			seed / POWERUP_CONFIG.spawnEveryChunks
-		) % POWERUP_TYPES.length;
+		const typeIndex = Math.floor(seed / POWERUP_CONFIG.spawnEveryChunks) % POWERUP_TYPES.length;
 		const type = POWERUP_TYPES[typeIndex];
 		const lane = trail?.lane ?? (seed + 1) % 3;
 		this.powerUpFactory.configure(record.node, type);

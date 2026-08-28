@@ -1,0 +1,61 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos renews every spark before drift, breath, or glow receives a finite rhythm;
+Awtsmoos.com keeps particle behavior separate from particle placement, so animation remains readable and the local shell alone contains the living prism.
+*/
+@import url("./ambient-particle-layout-a.css?v=ambient-nature-001");
+@import url("./ambient-particle-layout-b.css?v=ambient-nature-001");
+
+.g-shell[data-awtsmoos-surface="social-shell"] .g-shell-ambient-particle {
+	position: absolute;
+	inline-size: var(--g-ambient-size, .28rem);
+	block-size: var(--g-ambient-size, .28rem);
+	inset-inline-start: var(--g-ambient-x, 50%);
+	inset-block-start: var(--g-ambient-y, 50%);
+	border-radius: 50%;
+	background: rgba(168, 235, 255, .58);
+	box-shadow:
+		0 0 .75rem rgba(77, 233, 255, .24),
+		0 0 1.8rem rgba(85, 229, 174, .1);
+	opacity: var(--g-ambient-opacity, .34);
+	transform: translate3d(0, 0, 0);
+	will-change: transform, opacity;
+	animation:
+		g-ambient-particle-drift var(--g-ambient-duration, 16s) ease-in-out var(--g-ambient-phase, 0s) infinite alternate,
+		g-ambient-particle-breathe 5.8s ease-in-out var(--g-ambient-phase, 0s) infinite;
+}
+
+.g-shell[data-awtsmoos-surface="social-shell"][data-g-ambient-paused="true"] .g-shell-ambient-particle {
+	animation-play-state: paused;
+}
+
+.g-shell[data-awtsmoos-surface="social-shell"][data-g-performance="lean"] .g-shell-ambient-particle {
+	display: none;
+}
+
+@keyframes g-ambient-particle-drift {
+	from {
+		transform: translate3d(-.4rem, -.8rem, 0) scale(.86);
+	}
+	to {
+		transform: translate3d(1.1rem, -3.4rem, 0) scale(1.12);
+	}
+}
+
+@keyframes g-ambient-particle-breathe {
+	0%,
+	100% {
+		opacity: calc(var(--g-ambient-opacity, .34) * .6);
+	}
+	50% {
+		opacity: var(--g-ambient-opacity, .34);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.g-shell[data-awtsmoos-surface="social-shell"] .g-shell-ambient-particle {
+		display: none;
+	}
+}

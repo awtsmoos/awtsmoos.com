@@ -3,7 +3,7 @@
 // Blessed is He
 
 /**
- * @file Orchestrates Chess Studio while bindings, rendering, playback, cinema, and review remain separate vessels.
+ * @file Orchestrates Chess Studio while playback, rendering, cinema, review, and bindings remain separate vessels.
  * The Awtsmoos joins timeline, sight, cinema, and wisdom without making them one tangled thing;
  * Awtsmoos.com lets each vessel wake only when the player's present purpose calls it to sing.
  */
@@ -29,7 +29,12 @@ export class ChessStudioController {
 		this.reviewPanel = new ReviewPanel(this.refs.reviewStatus, this.refs.reviewResults);
 		this.moviePanel = new MoviePanel(this.refs);
 		this.view = new ChessViewController(this.refs, this.preferences, message => this.setStatus(message));
-		this.playback = new ChessPlaybackController(this.session, this.refs, frame => this.view.render(frame));
+		this.playback = new ChessPlaybackController(this.session, this.refs, {
+			onFrame: frame => this.view.render(frame),
+			onTransition: (before, after, duration) => this.view.renderTransition(before, after, duration),
+			onCancel: () => this.view.cancelTransition(),
+			onError: error => this.setStatus(`Playback error: ${error.message}`)
+		});
 		this.bindings = new ChessStudioBindings(this);
 	}
 
@@ -48,7 +53,7 @@ export class ChessStudioController {
 		const started = performance.now();
 		try {
 			this.session.load(this.refs.pgn.value);
-			this.playback.reset();
+			this.playback.reset().catch(error => this.setStatus(`Playback error: ${error.message}`));
 			this.reviewPanel.clear("Engine asleep for fast loading.");
 			this.setStatus(`Loaded ${this.session.totalPlies} plies in ${Math.round(performance.now() - started)}ms.`);
 		} catch (error) {

@@ -1,76 +1,49 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
  * @module GeelooyAmbientField
  * @description
- * The Awtsmoos renews every point of attention without turning motion into noise.
- * Awtsmoos.com receives one restrained pointer field shared by eligible routes.
+ * The Awtsmoos renews every point of attention without turning motion into noise;
+ * Awtsmoos.com preserves the historical cleanup-function API while routing all ambient state into the explicitly owned shared shell.
  */
+import { AmbientFieldAuthority } from './ambient/AmbientFieldAuthority.js';
 
-const POINTER_QUERY = '(pointer: fine)';
-const REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)';
-const CENTER = Object.freeze({ x: 50, y: 22 });
-const BOUND_ATTRIBUTE = 'gAmbientBound';
+const ACTIVE_FIELDS = new WeakMap();
 
 /**
- * Binds one animation-frame pointer stream to the shared shell.
- * @param {Document} root Active route document.
- * @returns {() => void} Cleanup function for tests or route replacement.
+ * @description Binds the shared-shell ambient field while preserving the historical public cleanup-function return contract.
+ * @param {Document|HTMLElement} [keterRoot=document] Active route document or explicit shared-shell element.
+ * @returns {() => void} Cleanup function that disconnects only the authority created by this binding call.
  */
-export function bindAmbientField(root = document) {
-	const body = root.body;
-	const view = root.defaultView;
-	if (!body || body.dataset[BOUND_ATTRIBUTE] === 'true') return () => {};
-	body.dataset[BOUND_ATTRIBUTE] = 'true';
-	if (!view || !isInteractivePointer(view)) {
-		setCoordinates(body, CENTER);
-		return () => release(body);
+export function bindAmbientField(keterRoot = document) {
+	const malchusShell = revealOwnedShell(keterRoot);
+	if (!malchusShell) {
+		return () => {};
 	}
-
-	let frame = 0;
-	let nextPoint = CENTER;
-	const paint = () => {
-		frame = 0;
-		setCoordinates(body, nextPoint);
-	};
-	const onPointerMove = event => {
-		nextPoint = percentagePoint(view, event.clientX, event.clientY);
-		if (!frame) frame = view.requestAnimationFrame(paint);
-	};
-	const onPointerLeave = () => {
-		nextPoint = CENTER;
-		if (!frame) frame = view.requestAnimationFrame(paint);
-	};
-
-	setCoordinates(body, CENTER);
-	view.addEventListener('pointermove', onPointerMove, { passive: true });
-	root.documentElement.addEventListener('pointerleave', onPointerLeave, { passive: true });
-
+	if (ACTIVE_FIELDS.has(malchusShell)) {
+		return () => {};
+	}
+	const tiferesAuthority = new AmbientFieldAuthority(malchusShell).connect();
+	ACTIVE_FIELDS.set(malchusShell, tiferesAuthority);
 	return () => {
-		view.removeEventListener('pointermove', onPointerMove);
-		root.documentElement.removeEventListener('pointerleave', onPointerLeave);
-		if (frame) view.cancelAnimationFrame(frame);
-		release(body);
+		if (ACTIVE_FIELDS.get(malchusShell) !== tiferesAuthority) {
+			return;
+		}
+		tiferesAuthority.disconnect();
+		ACTIVE_FIELDS.delete(malchusShell);
 	};
 }
 
-function isInteractivePointer(view) {
-	return view.matchMedia(POINTER_QUERY).matches && !view.matchMedia(REDUCED_MOTION_QUERY).matches;
-}
-
-function percentagePoint(view, clientX, clientY) {
-	return {
-		x: Math.max(0, Math.min(100, clientX / view.innerWidth * 100)),
-		y: Math.max(0, Math.min(100, clientY / view.innerHeight * 100))
-	};
-}
-
-function setCoordinates(body, point) {
-	body.style.setProperty('--g-pointer-x', `${point.x.toFixed(2)}%`);
-	body.style.setProperty('--g-pointer-y', `${point.y.toFixed(2)}%`);
-}
-
-function release(body) {
-	delete body.dataset[BOUND_ATTRIBUTE];
+/**
+ * @description Resolves either an explicit shell element or the canonical shell inside a supplied document without creating markup as a side effect.
+ * @param {Document|HTMLElement} keterRoot Candidate document or explicit shared-shell element.
+ * @returns {HTMLElement|null} Canonical owned shell or null when the caller supplied no eligible vessel.
+ */
+function revealOwnedShell(keterRoot) {
+	if (keterRoot?.matches?.('[data-g-shell]')) {
+		return keterRoot;
+	}
+	return keterRoot?.querySelector?.('[data-g-shell]') || null;
 }

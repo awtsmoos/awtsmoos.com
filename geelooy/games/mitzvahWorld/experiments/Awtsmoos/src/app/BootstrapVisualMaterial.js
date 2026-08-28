@@ -1,20 +1,22 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file BootstrapVisualMaterial.js
- * @description Creates immediate colored materials that already name their tagged real texture role.
- * The Awtsmoos keeps a hue visible before the distant image enters sight;
- * Awtsmoos.com binds cached truth when present and leaves an auditable doorway for later light.
+ * @description Creates remote-only bootstrap materials while preserving tagged semantic roles and demon readability metadata.
+ * The Awtsmoos shines beyond tint and image while Awtsmoos.com refuses a painted placeholder in sight;
+ * only a genuine cached remote picture may fill the map, and every missing garment remains a doorway awaiting light.
  */
 
 import { MeshStandardMaterial } from '../../../light-three-gltf/tiny-runtime.js';
 import { cachedTextureImage } from '../assets/PublicMaterialCache.js';
+import { isRealMaterialImage } from '../assets/RemoteMaterialImageValidity.js';
 import { bootstrapMaterialEvidence } from './BootstrapMaterialTags.js';
 import { normalizeMinimalDemonTint } from './MinimalMeadowDemonMaterial.js';
 import { relativeLuminance } from './MinimalMeadowDemonReadabilityMetrics.js';
 
+/** Creates one semantic material whose base map is either a real decoded image or pending null. */
 export function createBootstrapVisualMaterial(name, color, options = {}) {
 	const demon = Boolean(options.demon || isDemonName(name));
 	const resolvedColor = demon
@@ -23,7 +25,8 @@ export function createBootstrapVisualMaterial(name, color, options = {}) {
 	const evidence = options.materialRole
 		? bootstrapMaterialEvidence(options.materialRole)
 		: null;
-	const mapImage = evidence ? cachedTextureImage(evidence.primaryUrl) : null;
+	const cached = evidence ? cachedTextureImage(evidence.primaryUrl) : null;
+	const mapImage = isRealMaterialImage(cached) ? cached : null;
 	const material = new MeshStandardMaterial({
 		alphaMode: 'OPAQUE',
 		color: Object.freeze(resolvedColor),
@@ -34,18 +37,19 @@ export function createBootstrapVisualMaterial(name, color, options = {}) {
 	});
 	material.baseColorFactor = [...resolvedColor];
 	material.mapImage = mapImage;
-	material.mapImageFallback = !mapImage;
+	material.mapImageFallback = false;
 	material.mapRepeat = evidence?.repeat || [1, 1];
 	material.textureUrl = evidence?.primaryUrl || null;
-	material.texturePolicy = texturePolicy(evidence, mapImage);
+	material.texturePolicy = remoteTexturePolicy(evidence, mapImage);
 	material.vertexColors = demon;
 	material.userData = {
 		bootstrapMaterialRecord: {
 			baseColorLuminance: relativeLuminance(resolvedColor),
 			demonReadabilityApplied: demon,
-			formula: 'uColor * vColor',
+			formula: 'remote-map * optional-vertex-modulation',
 			globalBrightening: false,
 			label: evidence?.label || null,
+			remoteOnly: true,
 			semanticRole: evidence?.role || null,
 			tags: evidence?.tags || [],
 			textureUrl: evidence?.primaryUrl || null,
@@ -56,10 +60,10 @@ export function createBootstrapVisualMaterial(name, color, options = {}) {
 	return material;
 }
 
-function texturePolicy(evidence, mapImage) {
+function remoteTexturePolicy(evidence, mapImage) {
 	return {
-		proceduralFallbackActive: Boolean(evidence && !mapImage),
 		realMapImage: Boolean(mapImage),
+		remoteOnly: true,
 		semanticRole: evidence?.role || null,
 		tags: evidence?.tags || []
 	};

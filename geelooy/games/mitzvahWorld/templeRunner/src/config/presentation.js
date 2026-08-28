@@ -69,6 +69,7 @@ export const FEEDBACK_CONFIG = Object.freeze({
 		peruta: 12,
 		action: 18,
 		turn: 28,
+		streak: 34,
 		shield: 45,
 		stumble: 55,
 		crash: 90

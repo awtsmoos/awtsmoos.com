@@ -1,0 +1,58 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * @file universal-api-explorer-tokens.css
+ * @description Defines only root-local Explorer design tokens for a calm professional dark interface with restrained accent color, readable contrast, and predictable spacing.
+ * RESPONSIBILITY: provide local color, border, shadow, spacing, radius, typography, timing, focus, and maximum-width values beneath the Explorer root.
+ * NON-RESPONSIBILITY: this file never lays out components, styles controls, reflects runtime state, animates decoration, or leaks variables into the host page.
+ * The Awtsmoos renews every hue before dark, blue, green, amber, or danger can appear within a finite view;
+ * Awtsmoos.com keeps every token inside one rooted vessel, so clarity may deepen without spilling style beyond what is due.
+ */
+
+[data-awtsmoos-universal-api-explorer] {
+	--awts-uapi-bg-abyss: #090d16;
+	--awts-uapi-bg-deep: #0d1320;
+	--awts-uapi-bg-panel: #111a2a;
+	--awts-uapi-bg-method: #0e1726;
+	--awts-uapi-bg-input: #09111d;
+	--awts-uapi-bg-elevated: #172235;
+	--awts-uapi-bg-soft: #131d2d;
+	--awts-uapi-text-strong: #f5f8fc;
+	--awts-uapi-text: #d7e0eb;
+	--awts-uapi-text-muted: #9aaabd;
+	--awts-uapi-cyan: #7dd3fc;
+	--awts-uapi-cyan-soft: rgb(125 211 252 / 12%);
+	--awts-uapi-violet: #a5b4fc;
+	--awts-uapi-violet-soft: rgb(165 180 252 / 12%);
+	--awts-uapi-emerald: #6ee7b7;
+	--awts-uapi-emerald-soft: rgb(110 231 183 / 12%);
+	--awts-uapi-amber: #fcd34d;
+	--awts-uapi-amber-soft: rgb(252 211 77 / 12%);
+	--awts-uapi-danger: #fda4af;
+	--awts-uapi-danger-soft: rgb(253 164 175 / 13%);
+	--awts-uapi-border: #29384d;
+	--awts-uapi-border-strong: #49627e;
+	--awts-uapi-shadow-panel: 0 18px 46px rgb(0 0 0 / 28%);
+	--awts-uapi-shadow-soft: 0 8px 22px rgb(0 0 0 / 20%);
+	--awts-uapi-glow-cyan: 0 0 0 1px rgb(125 211 252 / 14%);
+	--awts-uapi-glow-violet: 0 0 0 1px rgb(165 180 252 / 14%);
+	--awts-uapi-radius-shell: 22px;
+	--awts-uapi-radius-panel: 16px;
+	--awts-uapi-radius-method: 13px;
+	--awts-uapi-radius-control: 10px;
+	--awts-uapi-space-1: 0.375rem;
+	--awts-uapi-space-2: 0.625rem;
+	--awts-uapi-space-3: 0.875rem;
+	--awts-uapi-space-4: 1.125rem;
+	--awts-uapi-space-5: 1.5rem;
+	--awts-uapi-space-6: 2rem;
+	--awts-uapi-font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+	--awts-uapi-font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+	--awts-uapi-duration-fast: 120ms;
+	--awts-uapi-duration-normal: 200ms;
+	--awts-uapi-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+	--awts-uapi-focus-ring: 0 0 0 3px rgb(125 211 252 / 24%);
+	--awts-uapi-max-width: 1480px;
+}

@@ -1,12 +1,12 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file TerrainMesh.js
- * @description Carries strong ecological and Bézier-road weights through one terrain mesh.
- * The Awtsmoos reveals one earth through many garments; Awtsmoos.com encodes meadow,
- * road, moisture, soil, dryness, village wear, lake mud, and rock in a proven four-value vessel.
+ * @description Carries ecological road weights through one terrain mesh and enforces immediate remote-only visibility.
+ * The Awtsmoos reveals one earth through many garments; Awtsmoos.com carries meadow, road, moisture, soil, and rock in one vessel,
+ * while geometry may exist before its remote garment yet cannot flash a naked color into the world as if the texture were settled.
  */
 
 import {
@@ -14,29 +14,17 @@ import {
 	BufferGeometry,
 	Mesh
 } from '../../../light-three-gltf/tiny-runtime.js';
+import { materialHasRealMap } from '../assets/RemoteMaterialImageValidity.js';
 import { createTerrainMaterial } from './terrain/TerrainMaterialFactory.js';
 
-export function createTerrainMesh(
-	data,
-	grassImage,
-	pathImage,
-	fallbackUrl,
-	quality = 'high'
-) {
+/** Creates one terrain mesh and hides it until its base material owns a real remote map. */
+export function createTerrainMesh(data, grassImage, pathImage, fallbackUrl, quality = 'high') {
 	const geometry = new BufferGeometry();
-	geometry.setAttribute(
-		'position',
-		attribute(data.vertices.flatMap(point => [point.x, point.y, point.z]), 3)
-	);
+	geometry.setAttribute('position', attribute(data.vertices.flatMap(point => [point.x, point.y, point.z]), 3));
 	geometry.setAttribute('normal', attribute(data.normals, 3));
 	geometry.setAttribute('uv', attribute(data.uvs, 2));
 	geometry.setAttribute('zone', attribute(
-		data.zones.flatMap((zone, index) => {
-			return minimalMeadowZoneWeight(
-				zone,
-				data.roadMasks?.[index] || 0
-			);
-		}),
+		data.zones.flatMap((zone, index) => minimalMeadowZoneWeight(zone, data.roadMasks?.[index] || 0)),
 		4
 	));
 	geometry.setIndex(new BufferAttribute(indexArray(data.indices), 1));
@@ -50,6 +38,7 @@ export function createTerrainMesh(
 	const mesh = new Mesh(geometry, material);
 	mesh.name = 'Awtsmoos_high_detail_bezier_road_terrain';
 	mesh.frustumCulled = false;
+	mesh.visible = materialHasRealMap(material);
 	mesh.userData.AwtsmoosTerrainValley = {
 		...data.AwtsmoosTerrainValley,
 		ecologicalWeightPolicy: 'strong-six-source-mobile-blend',
@@ -57,13 +46,21 @@ export function createTerrainMesh(
 		layerCount: material.textureLayers.length,
 		roadMaskMaximum: Math.max(0, ...(data.roadMasks || [])),
 		roadMaskTransport: 'ecological-zone-y',
+		remoteOnly: true,
 		shader: material.texturePolicy.shader,
 		vertexCount: data.vertices.length
 	};
+	if (!mesh.visible) {
+		mesh.userData.awtsmoosRemoteOnlyVisibility = {
+			hiddenByCovenant: true,
+			previousVisible: true
+		};
+	}
 	mesh.setBaseTransform();
 	return mesh;
 }
 
+/** Returns one normalized ecological weight quartet for a terrain zone and road mask. */
 export function minimalMeadowZoneWeight(zone, rawRoad = 0) {
 	const road = clamp(rawRoad);
 	if (road > 0) {

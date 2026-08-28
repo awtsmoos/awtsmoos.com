@@ -1,70 +1,104 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- * The Awtsmoos renews focus, press, hover, and progress before a gesture can become old; Awtsmoos.com lets the comment video answer every interaction with precise bounded light instead of native browser chrome.
+ * The Awtsmoos renews hover, focus, press, buffered motion, and disabled truth before gesture can become old;
+ * Awtsmoos.com lets every control answer precisely while reduced motion and coarse pointers keep the same professional fold.
  */
-.social-hub-document .commentVideoPlayer__seek::-webkit-slider-runnable-track {
-	block-size: 5px;
-	border-radius: 999px;
-	background: linear-gradient(90deg, rgba(55, 231, 255, .84), rgba(220, 70, 255, .62));
+.social-hub-document .commentVideoPlayer :where(button, select, input) {
+	transition:
+		transform .14s cubic-bezier(.2, .8, .2, 1),
+		border-color .16s ease,
+		background-color .16s ease,
+		box-shadow .16s ease,
+		opacity .16s ease;
 }
 
-.social-hub-document .commentVideoPlayer__seek::-webkit-slider-thumb {
-	inline-size: 18px;
-	block-size: 18px;
-	margin-block-start: -6.5px;
-	border: 2px solid rgba(235, 253, 255, .95);
-	border-radius: 50%;
-	appearance: none;
-	background: rgb(42, 211, 240);
-	box-shadow: 0 0 0 4px rgba(42, 211, 240, .14);
+.social-hub-document .commentVideoPlayer :where(button, select, input):focus-visible,
+.social-hub-document .commentVideoPlayer:focus-visible {
+	outline: 3px solid rgb(107 239 255 / 34%);
+	outline-offset: 2px;
 }
 
-.social-hub-document .commentVideoPlayer__seek::-moz-range-track {
-	block-size: 5px;
-	border: 0;
-	border-radius: 999px;
-	background: linear-gradient(90deg, rgba(55, 231, 255, .84), rgba(220, 70, 255, .62));
-}
-
-.social-hub-document .commentVideoPlayer__seek::-moz-range-thumb {
-	inline-size: 16px;
-	block-size: 16px;
-	border: 2px solid rgba(235, 253, 255, .95);
-	border-radius: 50%;
-	background: rgb(42, 211, 240);
-}
-
-.social-hub-document .commentVideoPlayer :where(button, input):focus-visible {
-	outline: 2px solid rgba(107, 239, 255, .94);
-	outline-offset: 3px;
-}
-
-@media (hover: hover) and (pointer: fine) {
-	.social-hub-document .commentVideoPlayer__play:hover,
-	.social-hub-document .commentVideoPlayer__mute:hover {
-		border-color: rgba(103, 240, 255, .66);
-		background: linear-gradient(145deg, rgba(43, 214, 244, .3), rgba(173, 67, 198, .22));
-		box-shadow: 0 8px 20px rgba(35, 215, 241, .09);
-		transform: translateY(-1px);
-	}
-}
-
-.social-hub-document .commentVideoPlayer__play:active,
-.social-hub-document .commentVideoPlayer__mute:active {
+.social-hub-document .commentVideoPlayer :where(button, select):active {
 	transform: translateY(1px) scale(.96);
 }
 
-.social-hub-document .commentVideoPlayer__play:disabled,
-.social-hub-document .commentVideoPlayer__mute:disabled,
-.social-hub-document .commentVideoPlayer__seek:disabled {
+.social-hub-document .commentVideoPlayer :where(button, select, input):disabled {
 	cursor: not-allowed;
-	opacity: .46;
+	opacity: .42;
+	transform: none;
+}
+
+.social-hub-document .commentVideoPlayer__seek::-webkit-slider-runnable-track,
+.social-hub-document .commentVideoPlayer__volume::-webkit-slider-runnable-track {
+	block-size: 5px;
+	border-radius: 999px;
+	background: rgb(226 246 255 / 18%);
+}
+
+.social-hub-document .commentVideoPlayer__seek::-webkit-slider-thumb,
+.social-hub-document .commentVideoPlayer__volume::-webkit-slider-thumb {
+	inline-size: 17px;
+	block-size: 17px;
+	margin-block-start: -6px;
+	border: 2px solid rgb(235 253 255 / 96%);
+	border-radius: 50%;
+	appearance: none;
+	background: rgb(42 211 240);
+	box-shadow: 0 0 0 4px rgb(42 211 240 / 12%);
+}
+
+.social-hub-document .commentVideoPlayer__seek::-moz-range-track,
+.social-hub-document .commentVideoPlayer__volume::-moz-range-track {
+	block-size: 5px;
+	border: 0;
+	border-radius: 999px;
+	background: rgb(226 246 255 / 18%);
+}
+
+.social-hub-document .commentVideoPlayer__seek::-moz-range-thumb,
+.social-hub-document .commentVideoPlayer__volume::-moz-range-thumb {
+	inline-size: 15px;
+	block-size: 15px;
+	border: 2px solid rgb(235 253 255 / 96%);
+	border-radius: 50%;
+	background: rgb(42 211 240);
+}
+
+.social-hub-document .commentVideoPlayer[data-state="loading"] {
+	border-color: rgb(85 225 255 / 44%);
+}
+
+.social-hub-document .commentVideoPlayer[data-state="ended"] {
+	border-color: rgb(185 138 255 / 42%);
+}
+
+.social-hub-document .commentVideoPlayer[data-state="error"] {
+	border-color: rgb(255 91 128 / 62%);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.social-hub-document .commentVideoPlayer :where(button, select):not(:disabled):hover {
+		border-color: rgb(103 240 255 / 62%);
+		background: rgb(68 218 244 / 12%);
+		box-shadow: 0 8px 20px rgb(35 215 241 / 9%);
+		transform: translateY(-1px);
+	}
+
+	.social-hub-document .commentVideoPlayer__media:hover {
+		filter: brightness(1.025);
+	}
+}
+
+@media (pointer: coarse) {
+	.social-hub-document .commentVideoPlayer__volume {
+		min-block-size: 44px;
+	}
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.social-hub-document .commentVideoPlayer__play,
-	.social-hub-document .commentVideoPlayer__mute {
-		transition-duration: .01ms;
+	.social-hub-document .commentVideoPlayer :where(button, select, input) {
+		transition: none;
+		transform: none !important;
 	}
 }

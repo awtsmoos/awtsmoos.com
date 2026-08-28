@@ -3,9 +3,9 @@
 // Blessed is He
 /**
  * @file TempleControls.js
- * @description Orchestrates layout-safe keyboard, swipe, and explicit buttons behind one detachable canonical intent stream.
+ * @description Orchestrates keyboard, swipe, and explicit action buttons behind one detachable canonical intent stream while each device adapter keeps independent ownership.
  * The Awtsmoos renews key, fingertip, and button while Yesod joins them into one simple deed;
- * Awtsmoos.com keeps each browser vessel separate, so controls stay fast, optional, and easy to read.
+ * Awtsmoos.com keeps every browser vessel separate, so control remains fast and unified without one monolith swallowing the player's need.
  */
 
 import { MalchusControlButtonBinder } from "./ControlButtonBinder.js";
@@ -14,10 +14,12 @@ import { YesodPointerSwipeControls } from "./PointerSwipeControls.js";
 
 export class TempleControls {
 	/**
-	 * @param {Document} documentRef Game document.
-	 * @param {HTMLCanvasElement} canvas Native canvas.
-	 * @param {object} input Shared intent queue.
-	 * @param {object} feedback Tiferes feedback controller.
+	 * @description Composes keyboard, pointer-swipe, and visible-button adapters around one shared intent queue and feedback awakener without connecting listeners until requested.
+	 * @param {Document} documentRef Current game document used to discover explicit action buttons.
+	 * @param {HTMLCanvasElement} canvas Native game canvas receiving pointer swipes.
+	 * @param {object} input Shared frame-scoped intent queue exposing `request()`.
+	 * @param {object} feedback Tiferes feedback controller exposing `awaken()`.
+	 * @returns {void}
 	 */
 	constructor(documentRef, canvas, input, feedback) {
 		this.input = input;
@@ -25,15 +27,14 @@ export class TempleControls {
 		this.keyboard = new DaasDesktopKeyIntentResolver();
 		this.boundKeyDown = (event) => this.onKeyDown(event);
 		this.send = (intent) => this.sendIntent(intent);
-		this.pointer = new YesodPointerSwipeControls(
-			canvas,
-			this.send,
-			() => this.feedback.awaken()
-		);
+		this.pointer = new YesodPointerSwipeControls(canvas, this.send, () => this.feedback.awaken());
 		this.buttons = new MalchusControlButtonBinder(documentRef, this.send);
 	}
 
-	/** Connects every input vessel. @returns {TempleControls} */
+	/**
+	 * @description Connects global keyboard plus route-local pointer/button adapters exactly once through their stable callback identities.
+	 * @returns {TempleControls} This connected control composition for fluent runtime assembly.
+	 */
 	connect() {
 		window.addEventListener("keydown", this.boundKeyDown, { passive: false });
 		this.pointer.connect();
@@ -41,20 +42,31 @@ export class TempleControls {
 		return this;
 	}
 
-	/** Releases every listener owned by this control composition. */
+	/**
+	 * @description Removes every listener owned by the control composition while leaving unrelated runtime/document handlers untouched.
+	 * @returns {void}
+	 */
 	disconnect() {
 		window.removeEventListener("keydown", this.boundKeyDown);
 		this.pointer.disconnect();
 		this.buttons.disconnect();
 	}
 
-	/** @param {string} intent Canonical action. */
+	/**
+	 * @description Awakens feedback and forwards one canonical runtime intent into the shared frame queue from any device adapter.
+	 * @param {string} intent Canonical runtime intention resolved from keyboard, swipe, or action catalog.
+	 * @returns {void}
+	 */
 	sendIntent(intent) {
 		this.feedback.awaken();
 		this.input.request(intent);
 	}
 
-	/** @param {KeyboardEvent} event Keyboard input. */
+	/**
+	 * @description Resolves one browser key event through editable-safe desktop policy, preventing default behavior only when a gameplay intent is actually consumed.
+	 * @param {KeyboardEvent} event Browser keydown event.
+	 * @returns {void}
+	 */
 	onKeyDown(event) {
 		const intent = this.keyboard.resolve(event);
 		if (!intent) return;

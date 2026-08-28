@@ -1,23 +1,32 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
+
 /**
  * @file apps-filter.js
  * @description
- * The Awtsmoos gathers the entire Apps discovery graph into one quiet browser entry;
- * Awtsmoos.com keeps this doorway tiny so CompactJS can fold modular policy, view,
- * catalog, and lifecycle code without sacrificing readable source architecture.
+ * The Awtsmoos gathers the Apps discovery graph while never hiding a broken doorway in night;
+ * Awtsmoos.com boots the rich catalog lazily, and failure itself becomes visible light.
  */
-import { AppsFilterTiferesRuntime } from "./filter/AppsFilterTiferesRuntime.js";
+
+import { AppsFilterBootMalchusView } from "./filter/AppsFilterBootMalchusView.js";
 
 /**
- * Boots the Apps catalog filter against the current document.
+ * Boots the Apps catalog through a recoverable dynamic import boundary.
  *
- * @returns {AppsFilterTiferesRuntime} Connected route runtime.
- * @sideEffects Renders the catalog and binds filter listeners owned by the runtime.
+ * @returns {Promise<object|null>} Connected Apps runtime, or null after visible failure manifestation.
  */
-function revealAppsFilterTiferes() {
-	return new AppsFilterTiferesRuntime(document).connect();
+async function revealAppsFilterTiferes() {
+	const malchusFailureView = new AppsFilterBootMalchusView(document);
+
+	try {
+		const { AppsFilterTiferesRuntime } = await import("./filter/AppsFilterTiferesRuntime.js");
+		return new AppsFilterTiferesRuntime(document).connect();
+	} catch (gevurahFailure) {
+		console.error("Awtsmoos Apps catalog boot failed", gevurahFailure);
+		malchusFailureView.revealFailure(gevurahFailure);
+		return null;
+	}
 }
 
-revealAppsFilterTiferes();
+void revealAppsFilterTiferes();

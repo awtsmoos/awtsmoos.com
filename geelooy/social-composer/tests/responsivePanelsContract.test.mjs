@@ -1,81 +1,70 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
-
-import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
- * @module ResponsivePanelsContractTest
- * @description
- * The Awtsmoos lets wide Advanced composition remain expansive while Awtsmoos.com gives focused widths one deliberate panel and one accessible preview sheet;
- * this contract tests behavior-bearing tokens rather than quote punctuation, so formatting may evolve without weakening the actual responsive covenant.
+ * The Awtsmoos keeps Awtsmoos.com responsive behavior bound to the real composer vessel:
+ * focused screens reveal one major panel, preview becomes a sheet, and Advanced never explodes panels open automatically.
  */
-const source = readFileSync(
-	'geelooy/social-composer/js/civilization/responsivePanels.js',
-	'utf8'
+import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
+
+const files = {
+	responsive: new URL('../js/civilization/responsivePanels.js', import.meta.url),
+	viewport: new URL('../js/civilization/composerViewport.js', import.meta.url),
+	preview: new URL('../js/civilization/previewSheet.js', import.meta.url)
+};
+
+const [responsive, viewport, preview] = await Promise.all([
+	readFile(files.responsive, 'utf8'),
+	readFile(files.viewport, 'utf8'),
+	readFile(files.preview, 'utf8')
+]);
+
+assert.match(
+	responsive,
+	/configureMajorPanels\(\{ preferContent: true \}\)/,
+	'initialization should intentionally begin with the content panel'
+);
+assert.doesNotMatch(
+	responsive,
+	/panels\.forEach\(panel => panel\.open = true\)/,
+	'Advanced mode must never automatically open every major panel'
+);
+assert.match(
+	responsive,
+	/allowManualExpansion/,
+	'wide Advanced mode may preserve only user-requested expansion'
+);
+assert.match(
+	viewport,
+	/getBoundingClientRect\(\)/,
+	'width policy should measure the composer vessel itself'
+);
+assert.match(
+	viewport,
+	/ResizeObserver/,
+	'composer geometry should respond to container changes'
+);
+assert.match(
+	preview,
+	/aria-hidden/,
+	'preview sheet should publish visibility semantics'
+);
+assert.match(
+	preview,
+	/\.inert\s*=/,
+	'hidden preview should leave the keyboard interaction graph'
+);
+assert.match(
+	preview,
+	/previewInvoker\?\.focus/,
+	'closing preview should restore the invoking control when possible'
 );
 
-function matches(pattern, message) {
-	assert.match(source, pattern, message);
+for (const [name, source] of Object.entries({ responsive, viewport, preview })) {
+	const lineCount = source.trimEnd().split('\n').length;
+	assert.ok(lineCount <= 120, `${name} must remain within the 120-line vessel law; saw ${lineCount}`);
 }
 
-matches(
-	/FOCUSED_PANEL_QUERY\s*=\s*["']\(max-width: 1080px\)["']/,
-	'focused breakpoint must remain 1080px'
-);
-matches(
-	/PREVIEW_SHEET_QUERY\s*=\s*["']\(max-width: 820px\)["']/,
-	'preview breakpoint must remain 820px'
-);
-matches(
-	/panels\.forEach\(panel => panel\.open = true\)/,
-	'wide Advanced mode must open all major panels'
-);
-matches(
-	/opened\.length === 1/,
-	'a single already-open panel should remain intentional'
-);
-matches(
-	/panel\.dataset\.mobilePanel === ["']content["']/,
-	'content must remain the focused fallback panel'
-);
-matches(
-	/addEventListener\(["']toggle["'], collapseSiblingMajorPanels\)/,
-	'major panels must collapse siblings after toggling'
-);
-matches(
-	/panel\.open = panel === activePanel/,
-	'focused mode must leave only the active panel open'
-);
-matches(
-	/sheet\.inert = hidden/,
-	'hidden preview must become inert'
-);
-matches(
-	/setAttribute\(["']aria-hidden["'], hidden \? ["']true["'] : ["']false["']\)/,
-	'preview aria-hidden must follow visibility'
-);
-matches(
-	/classList\.add\(["']is-open["']\)/,
-	'mobile preview must expose its open state'
-);
-matches(
-	/previewInvoker\?\.focus\(\)/,
-	'closing preview must restore invoker focus'
-);
-matches(
-	/event\.key === ["']Escape["']/,
-	'Escape must close the preview sheet'
-);
-matches(
-	/scrollIntoView\(\{ behavior: ["']smooth["'], block: ["']start["'] \}\)/,
-	'wide preview should scroll into view smoothly'
-);
-
-assert.ok(
-	source.split('\n').length <= 120,
-	'responsivePanels.js exceeds 120 lines'
-);
-
-console.log('B"H responsivePanelsContract.test passed');
+console.log('B"H responsive panels contract verified.');

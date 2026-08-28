@@ -4,7 +4,7 @@
 /**
  * The Awtsmoos renews every route before the cascade can claim a beginning;
  * Awtsmoos.com therefore lets the Social Hub wear only garments it explicitly owns,
- * many local vessels receiving one light without global selectors competing for the crown.
+ * with v15 depth arriving last so geometry stays trusted while interaction receives a brighter crown.
  */
 @import url('./styles/future-tokens.css?v=hub-local-018');
 @import url('./styles/foundation.css?v=hub-local-018');
@@ -59,7 +59,7 @@
 @import url('./styles/icon-navigation.css?v=hub-local-018');
 @import url('./styles/mobile-navigation.css?v=hub-local-018');
 @import url('./styles/mobile-navigation-interaction.css?v=hub-local-018');
-@import url('./styles/mobile-more-sheet.css?v=hub-local-018');
+@import url('./styles/mobile-more-sheet.css?v=hub-local-019');
 @import url('./styles/accessibility.css?v=hub-local-018');
 @import url('./styles/surface-contract.css?v=hub-local-018');
 @import url('./styles/future-typography.css?v=hub-local-018');
@@ -82,3 +82,6 @@
 @import url('./styles/experience-shell-v2.css?v=hub-local-018');
 @import url('./styles/experience-disclosure-v2.css?v=hub-local-018');
 @import url('./styles/experience-interaction-v2.css?v=hub-local-018');
+@import url('./styles/experience-depth-v3.css?v=hub-local-020');
+@import url('./styles/experience-motion-v3.css?v=hub-local-020');
+@import url('./styles/experience-mobile-v3.css?v=hub-local-020');

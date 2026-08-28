@@ -1,14 +1,15 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file MinimalMeadowEquipmentNodes.js
- * @description Resolves hands and the complete model-derived Chossid wardrobe.
- * The Awtsmoos clothes body and soul through exporter names and preserved extras alike;
- * Awtsmoos.com keeps glasses, hat, yarmulke, tefillin, jacket, shirts, trousers, and shoes truthful.
+ * @description Resolves the Chossid wardrobe and applies equipment visibility without revealing remote-pending materials.
+ * The Awtsmoos clothes body and soul beyond exporter and node while Awtsmoos.com keeps visibility honest and bright;
+ * a requested garment may become logically active at once, yet its mesh remains concealed until genuine image light.
  */
 
+import { materialHasRealMap } from '../assets/RemoteMaterialImageValidity.js';
 import { discoverMinimalMeadowGarments } from './MinimalMeadowGarmentDiscovery.js';
 
 const BONE_ALIASES = Object.freeze({
@@ -18,13 +19,7 @@ const BONE_ALIASES = Object.freeze({
 });
 
 const REMOVABLE_VISUALS = Object.freeze([
-	'glasses',
-	'jacket',
-	'outer-shirt',
-	'teffilin-arm',
-	'teffilin-head',
-	'top-hat',
-	'yarmulka'
+	'glasses', 'jacket', 'outer-shirt', 'teffilin-arm', 'teffilin-head', 'top-hat', 'yarmulka'
 ]);
 
 export function resolveMinimalEquipmentNodes(model) {
@@ -44,13 +39,19 @@ export function applyMinimalGarmentVisibility(nodes, equipment) {
 	const active = new Set();
 	for (const itemId of Object.values(equipment || {})) {
 		const visualId = visualForItem(itemId);
-		if (visualId) active.add(visualId);
+		if (visualId) {
+			active.add(visualId);
+		}
 	}
-	for (const visualId of REMOVABLE_VISUALS) setVisual(nodes.wardrobe, visualId, active.has(visualId));
+	for (const visualId of REMOVABLE_VISUALS) {
+		setVisual(nodes.wardrobe, visualId, active.has(visualId));
+	}
 	const armTefillin = active.has('tefillin-arm');
 	setVisual(nodes.wardrobe, 'jacket', active.has('jacket') && !armTefillin);
 	setVisual(nodes.wardrobe, 'jacket-tefillin', active.has('jacket') && armTefillin);
-	for (const visualId of ['body-shirt', 'body-pants', 'body-shoes']) setVisual(nodes.wardrobe, visualId, true);
+	for (const visualId of ['body-shirt', 'body-pants', 'body-shoes']) {
+		setVisual(nodes.wardrobe, visualId, true);
+	}
 	return {
 		active: [...active],
 		discovered: nodes.wardrobe.diagnostics(),
@@ -69,10 +70,23 @@ function visualForItem(itemId) {
 	return map[itemId] || null;
 }
 
-function setVisual(wardrobe, visualId, visible) {
+function setVisual(wardrobe, visualId, requestedVisible) {
 	const record = wardrobe?.visuals?.get(visualId);
-	for (const root of record?.roots || []) root.visible = visible;
-	for (const mesh of record?.meshes || []) mesh.visible = visible;
+	for (const root of record?.roots || []) {
+		root.visible = requestedVisible;
+	}
+	for (const mesh of record?.meshes || []) {
+		const ready = meshMaterials(mesh).every(materialHasRealMap);
+		mesh.visible = requestedVisible && ready;
+		if (requestedVisible && !ready) {
+			mesh.userData ||= {};
+			mesh.userData.awtsmoosRemoteOnlyVisibility = { hiddenByCovenant: true, previousVisible: true };
+		}
+	}
+}
+
+function meshMaterials(mesh) {
+	return Array.isArray(mesh?.material) ? mesh.material : [mesh?.material].filter(Boolean);
 }
 
 function nodeIndex(model) {

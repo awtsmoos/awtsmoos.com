@@ -4,8 +4,8 @@
 /**
  * @file searchFoldContract.test.mjs
  * @description
- * The Awtsmoos raises truthful results toward the first viewport while Awtsmoos.com
- * keeps mobile context in a separate compact vessel beside the primary search path.
+ * The Awtsmoos keeps truthful answers close while Awtsmoos.com lets secondary context rest below;
+ * this contract protects the calm responsive vessels without reviving the sideways carousel of old.
  */
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -26,30 +26,35 @@ test('a real query marks the workspace active before results render', () => {
 	assert.match(controller, /document\.body\.dataset\.searchActive\s*=\s*['"]true['"]/);
 });
 
-test('active search collapses landing-only hero content', () => {
+test('active search compacts only current hero content', () => {
 	assert.match(activeCss, /body\[data-search-active="true"\] \.library-hero\s*\{/);
-	assert.match(activeCss, /min-height:\s*7\.25rem/);
-	assert.match(activeCss, /\.library-truth-row,[\s\S]*\.library-hero-mark[\s\S]*display:\s*none/);
+	assert.match(activeCss, /\.library-hero-description,[\s\S]*\.library-trust-line[\s\S]*display:\s*none/);
+	assert.doesNotMatch(activeCss, /library-truth-row|library-hero-mark|library-hero-copy/);
 });
 
-test('wide search form fits query, mode, lane-or-book, and button on one row', () => {
+test('wide search form keeps core controls on one row', () => {
 	assert.match(
 		formCss,
 		/grid-template-columns:\s*minmax\(16rem,\s*1\.35fr\)\s*minmax\(12rem,\s*\.55fr\)\s*minmax\(12rem,\s*\.55fr\)\s*auto/
 	);
 });
 
-test('mobile stylesheet delegates secondary context to a focused module', () => {
-	assert.match(mobileCss, /@import url\("\.\/mobile-context\.css"\);/);
-	assert.match(mobileContextCss, /\.library-discovery-rail\s*\{[\s\S]*grid-auto-flow:\s*column;/);
-	assert.match(mobileContextCss, /\.library-discovery-rail\s*\{[\s\S]*overflow-x:\s*auto;/);
-	assert.match(mobileContextCss, /scroll-snap-type:\s*x proximity;/);
-	assert.match(mobileContextCss, /\.library-rail-card\s*\{[\s\S]*scroll-snap-align:\s*start;/);
+test('mobile context remains vertical and cache-versioned', () => {
+	assert.match(
+		mobileCss,
+		/@import url\("\.\/mobile-context\.css\?v=living-search-context-002"\);/
+	);
+	assert.match(mobileContextCss, /grid-auto-flow:\s*row/);
+	assert.match(mobileContextCss, /grid-template-columns:\s*minmax\(0,\s*1fr\)/);
+	assert.match(mobileContextCss, /overflow:\s*visible/);
+	assert.doesNotMatch(mobileContextCss, /grid-auto-flow:\s*column|overflow-x:\s*auto|scroll-snap-type:\s*x/);
 });
 
-test('page cache versions load the current compact search vessels', () => {
+test('page loads the current search vessels', () => {
 	assert.match(page, /form\.css\?v=living-search-008/);
-	assert.match(page, /active-search\.css\?v=living-search-008/);
+	assert.match(page, /active-search\.css\?v=living-search-009/);
+	assert.match(page, /mobile\.css\?v=living-search-011/);
+	assert.match(page, /discovery-actions\.css\?v=living-search-actions-001/);
 	assert.match(page, /script\.js\?v=living-search-009/);
 });
 

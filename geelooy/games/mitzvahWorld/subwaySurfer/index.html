@@ -2,8 +2,9 @@
 <!-- Boruch Hashem -->
 <!-- Blessed is He -->
 <!--
-	The Awtsmoos renews runner, old-city road, eruv context, market canopy, wagon, key, and fingertip in their measured place;
-	Awtsmoos.com keeps city release one fresh, touch simple, ducking real, and permanent chrome away from the race.
+	The Awtsmoos renews runner, old-city road, eruv context, photographic surface,
+	hidden diagnostics, key, and fingertip in their measured place;
+	Awtsmoos.com keeps release one clean while advanced truth retracts behind one gate.
 -->
 <!doctype html>
 <html lang="en">
@@ -12,15 +13,16 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 	<meta name="theme-color" content="#091b2b">
 	<meta name="color-scheme" content="dark">
-	<meta name="description" content="Run through Mitzvah World: collect perutas, pass eruv maintenance, dodge neighborhood transports, jump street cargo, and duck beneath market canopies.">
+	<meta name="description" content="Run through Mitzvah World: collect perutas, pass eruv maintenance, dodge neighborhood transports, jump cargo, and duck beneath market canopies.">
 	<title>Peruta Run — Mitzvah World</title>
-	<link rel="stylesheet" href="./styles/base.css?city=20260826-1">
-	<link rel="stylesheet" href="./styles/hud.css?city=20260826-1">
-	<link rel="stylesheet" href="./styles/controls.css?city=20260826-1">
-	<link rel="stylesheet" href="./styles/mobile.css?city=20260826-1">
-	<link rel="stylesheet" href="./styles/motion.css?city=20260826-1">
+	<link rel="stylesheet" href="./styles/base.css?release=20260826-3">
+	<link rel="stylesheet" href="./styles/hud.css?release=20260826-3">
+	<link rel="stylesheet" href="./styles/controls.css?release=20260826-3">
+	<link rel="stylesheet" href="./styles/mobile.css?release=20260826-3">
+	<link rel="stylesheet" href="./styles/motion.css?release=20260826-3">
+	<link rel="stylesheet" href="./styles/advanced.css?release=20260826-3">
 </head>
-<body class="peruta-run-route">
+<body class="peruta-run-route" data-advanced-open="false">
 	<main id="game-shell" aria-label="Peruta Run endless runner">
 		<canvas id="game-canvas" aria-label="Jewish endless runner game world"></canvas>
 		<section id="loading-panel" class="center-panel" aria-live="polite" aria-atomic="true">
@@ -29,7 +31,10 @@
 			<p id="loading-message">Revealing the road…</p>
 		</section>
 		<header id="hud" class="hud" aria-label="Game status">
-			<div class="hud-brand"><span class="hud-bh">ב״ה</span><strong>PERUTA RUN</strong></div>
+			<div class="hud-brand">
+				<span class="hud-bh">ב״ה</span>
+				<strong>PERUTA RUN</strong>
+			</div>
 			<div class="metric"><span>Score</span><strong id="score-value">0</strong></div>
 			<div class="metric peruta-metric"><span>Perutas</span><strong id="peruta-value">0</strong></div>
 			<div class="metric"><span>Speed</span><strong id="speed-value">0</strong></div>
@@ -38,8 +43,11 @@
 		<nav id="top-controls" class="top-controls" aria-label="Quick actions">
 			<button type="button" data-intent="pause" aria-label="Pause or resume">Ⅱ</button>
 			<button type="button" data-intent="restart" aria-label="Restart run">↻</button>
+			<button id="advanced-toggle" type="button" aria-controls="advanced-drawer" aria-expanded="false" aria-label="Open advanced controls">⋯</button>
 		</nav>
-		<div id="status-pill" class="status-pill" aria-live="polite" aria-atomic="true">Loading Chossid…</div>
+		<div id="status-pill" class="status-pill" aria-live="polite" aria-atomic="true">
+			Loading Chossid…
+		</div>
 		<section id="mobile-controls" class="mobile-controls" aria-label="Touch controls">
 			<div id="joystick" class="joystick" role="group" aria-label="Lane joystick: drag left or right">
 				<div id="joystick-knob" class="joystick-knob"></div>
@@ -56,6 +64,43 @@
 			<span class="desktop-guide-action"><kbd>P</kbd><b>Pause</b></span>
 			<span class="desktop-guide-action"><kbd>R</kbd><b>Restart</b></span>
 		</section>
+		<div id="advanced-backdrop" class="advanced-backdrop" hidden></div>
+		<aside id="advanced-drawer" class="advanced-drawer" role="dialog" aria-modal="true" aria-labelledby="advanced-title" hidden inert>
+			<header class="advanced-drawer-header">
+				<div class="advanced-drawer-title">
+					<strong id="advanced-title">Advanced</strong>
+					<span>Live runtime evidence · quality restarts safely</span>
+				</div>
+				<button id="advanced-close" class="advanced-close" type="button" aria-label="Close advanced controls">×</button>
+			</header>
+			<div class="advanced-drawer-body">
+				<section class="advanced-section">
+					<h2>Live evidence</h2>
+					<div class="advanced-metrics">
+						<div class="advanced-metric"><span>Profile</span><strong id="advanced-profile">—</strong></div>
+						<div class="advanced-metric"><span>Frame rate</span><strong id="advanced-fps">—</strong></div>
+						<div class="advanced-metric"><span>Draw calls</span><strong id="advanced-calls">—</strong></div>
+						<div class="advanced-metric"><span>Triangles</span><strong id="advanced-triangles">—</strong></div>
+						<div class="advanced-metric"><span>Textures</span><strong id="advanced-textures">—</strong></div>
+						<div class="advanced-metric"><span>Road law</span><strong id="advanced-obstacle">—</strong></div>
+						<div class="advanced-metric"><span>API</span><strong id="advanced-api-version">—</strong></div>
+					</div>
+				</section>
+				<section class="advanced-section">
+					<h2>Quality</h2>
+					<div class="quality-grid">
+						<a class="quality-link" data-quality-profile="auto" href="?quality=auto">Auto</a>
+						<a class="quality-link" data-quality-profile="mobile" href="?quality=mobile">Mobile</a>
+						<a class="quality-link" data-quality-profile="balanced" href="?quality=balanced">Balanced</a>
+						<a class="quality-link" data-quality-profile="cinematic" href="?quality=cinematic">Cinematic</a>
+					</div>
+				</section>
+				<section class="advanced-section">
+					<h2>Controls</h2>
+					<p class="advanced-help">Swipe or use A/D to change lanes. W/Space jumps. S/↓ ducks. P pauses. Quality changes reload into one deterministic renderer profile.</p>
+				</section>
+			</div>
+		</aside>
 		<section id="game-over-panel" class="center-panel game-over-panel" hidden aria-live="polite" aria-atomic="true">
 			<div class="brand-mark">✦</div>
 			<h2>Run Complete</h2>
@@ -63,6 +108,6 @@
 			<button id="game-over-restart" type="button">Run Again</button>
 		</section>
 	</main>
-	<script type="module" src="./src/main.js?v=city-20260826-1"></script>
+	<script type="module" src="./src/main.js?v=release-20260826-3"></script>
 </body>
 </html>

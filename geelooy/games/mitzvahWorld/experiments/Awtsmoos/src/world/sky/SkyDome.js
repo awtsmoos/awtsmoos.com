@@ -1,30 +1,32 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file SkyDome.js
- * @description Builds one complete inward atmosphere sphere with no visible lower boundary.
- * The Awtsmoos surrounds every finite gaze without seam or painted wall; Awtsmoos.com
- * centers this shader vessel on the camera so horizon, zenith, clouds, and sun remain infinite.
+ * @description Builds inward atmosphere geometry but leaves it hidden because no legitimate remote sky image currently exists.
+ * The Awtsmoos surrounds every gaze without needing a painted sphere; Awtsmoos.com keeps this geometry prepared yet unseen,
+ * awaiting a truthful remote sky garment rather than revealing procedural color where no authentic image has been given.
  */
 
 import { createSkyMesh } from './SkyMeshFactory.js';
 
+/** Creates one remote-pending atmosphere sphere. */
 export function createSkyDome(radius = 360, rings = 28, segments = 64) {
 	const geometry = sphereGeometry(radius, rings, segments);
-	const mesh = createSkyMesh('Awtsmoos_procedural_atmosphere_sphere', geometry, {
+	const mesh = createSkyMesh('Awtsmoos_remote_pending_atmosphere_sphere', geometry, {
 		color: [1, 1, 1, 1],
 		doubleSided: true,
 		texturePolicy: {
 			cameraCentered: true,
-			proceduralSky: true,
-			shader: 'atmospheric-scattering-cloud-sun'
+			remoteOnly: true,
+			semanticRole: null
 		},
 		textureUrl: null
 	});
 	mesh.frustumCulled = false;
 	mesh.userData.family = 'world-sky-atmosphere';
+	mesh.userData.missingRemoteSkySource = true;
 	mesh.userData.renderDistance = Infinity;
 	return mesh;
 }
@@ -32,7 +34,6 @@ export function createSkyDome(radius = 360, rings = 28, segments = 64) {
 function sphereGeometry(radius, rings, segments) {
 	const positions = [];
 	const normals = [];
-	const colors = [];
 	const uvs = [];
 	const indices = [];
 	for (let ring = 0; ring <= rings; ring += 1) {
@@ -47,7 +48,6 @@ function sphereGeometry(radius, rings, segments) {
 			const z = Math.sin(angle) * horizontalRadius;
 			positions.push(x, y, z);
 			normals.push(-x / radius, -y / radius, -z / radius);
-			colors.push(1, 1, 1, 1);
 			uvs.push(horizontal, 1 - vertical);
 		}
 	}
@@ -58,5 +58,5 @@ function sphereGeometry(radius, rings, segments) {
 			indices.push(first, first + 1, next, first + 1, next + 1, next);
 		}
 	}
-	return { colors, indices, normals, positions, uvs };
+	return { indices, normals, positions, uvs };
 }

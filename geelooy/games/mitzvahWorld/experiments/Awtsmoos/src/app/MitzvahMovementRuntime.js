@@ -1,15 +1,15 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file MitzvahMovementRuntime.js
- * @description Bridges shared movement law to Mitzvah terrain, collision, checkpoints, camera, and recovery.
+ * @description Bridges shared movement law to Mitzvah terrain, collision, checkpoints, camera, and recovery through focused kinematic authority.
  * The Awtsmoos recreates every floor beneath the traveler while shared law and world policy remain distinct;
- * Awtsmoos.com keeps this adapter small so collision truth may stay local without making universal physics game-specific.
+ * Awtsmoos.com keeps this adapter small so collision truth stays local and first play awakens only the motion law it has picked.
  */
 
-import { landVerticalMotion } from '../../../../../../libs/awtsmoos-procedural-core/src/index.js';
+import { landVerticalMotion } from '../../../../../../libs/awtsmoos-procedural-core/src/core/movement/VerticalKinematics.js';
 import { minimalMeadowGroundHeight } from './MinimalMeadowGroundSupport.js';
 import { finishMitzvahVertical, prepareMitzvahVertical } from './MitzvahJumpPolicy.js';
 

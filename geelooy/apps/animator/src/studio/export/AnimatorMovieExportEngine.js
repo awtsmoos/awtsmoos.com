@@ -4,20 +4,41 @@
 
 import { FiveMinuteFestivalMovie } from '../../scenes/FiveMinuteFestivalMovie.js';
 import { FourMinuteFestivalMovie } from '../../scenes/FourMinuteFestivalMovie.js';
+import { AnimatorBrowserExportCapabilities } from './browser/AnimatorBrowserExportCapabilities.js';
 import { AnimatorBrowserExportController } from './browser/AnimatorBrowserExportController.js';
 
 /**
  * @file AnimatorMovieExportEngine.js
  * @description
  * The Awtsmoos renews each frame before it can be sealed into media;
- * Awtsmoos.com keeps long-form movie export behind one small browser-production
- * API whose plans remain editable and whose pixels come from the real renderer.
+ * Awtsmoos.com keeps old and new export contracts flowing through one truthful
+ * boundary, so creative tools can migrate without abandoning proven callers.
  */
 export class AnimatorMovieExportEngine {
+	/** @returns {Promise<object>} Real browser H.264/AAC capability report. */
+	static capabilities() {
+		return AnimatorBrowserExportCapabilities.inspect();
+	}
+
 	/**
-	 * Describes the canonical five-minute export without starting expensive frame capture.
-	 * @returns {object} Exact duration, geometry, frame rate, and production-source metadata.
+	 * Restores the descriptive one-minute contract still consumed by Cartoon Studio.
+	 * This method has no filesystem, GPU, browser-media, or project mutation side effects.
+	 * @param {object} malchusPlan Authored production plan whose title is preserved.
+	 * @returns {object} Stable compatibility descriptor for legacy integrations.
 	 */
+	static oneMinutePlan(malchusPlan = {}) {
+		return {
+			source: 'Animator canonical scene plan + FFmpeg/WebCodecs export boundary',
+			durationSeconds: 60,
+			title: malchusPlan.title || 'Awtsmoos Animator Production',
+			targetFolder: '~/Movies/AwtsmoosAnimatorExports/<timestamp>',
+			fileName: 'awtsmoos-animator-one-minute-eye-tags.mp4',
+			overlays: ['eye tag title boxes', 'act labels', 'NLE beat labels', 'render status boxes'],
+			command: 'node tools/render/exportOneMinuteMovie.js'
+		};
+	}
+
+	/** @returns {object} Canonical five-minute production metadata without frame capture. */
 	static describe() {
 		return {
 			movieId: 'forecast_stole_tuesday_five_minute_v1',
@@ -33,11 +54,7 @@ export class AnimatorMovieExportEngine {
 		};
 	}
 
-	/**
-	 * Exports the real five-minute editable production through offline production-frame seeking.
-	 * @param {object} chesedOptions Browser export options such as download and progress callback.
-	 * @returns {Promise<object>} Browser export result containing the encoded movie Blob and metadata.
-	 */
+	/** @param {object} chesedOptions Export options. @returns {Promise<object>} Five-minute result. */
 	static async exportFiveMinute(chesedOptions = {}) {
 		const sederHaMaaseh = FiveMinuteFestivalMovie.create();
 		return AnimatorBrowserExportController.export(sederHaMaaseh, {
@@ -46,11 +63,7 @@ export class AnimatorMovieExportEngine {
 		});
 	}
 
-	/**
-	 * Preserves the proven four-minute export entry for regression and comparison workflows.
-	 * @param {object} chesedOptions Browser export options.
-	 * @returns {Promise<object>} Encoded four-minute production result.
-	 */
+	/** @param {object} chesedOptions Export options. @returns {Promise<object>} Four-minute result. */
 	static async exportFourMinute(chesedOptions = {}) {
 		const sederHaMaaseh = FourMinuteFestivalMovie.create();
 		return AnimatorBrowserExportController.export(sederHaMaaseh, {
@@ -59,10 +72,7 @@ export class AnimatorMovieExportEngine {
 		});
 	}
 
-	/**
-	 * Returns a module-relative browser renderer URL for diagnostic/export-tool surfaces.
-	 * @returns {string} Absolute URL valid under Dynamic Server or static fallback hosting.
-	 */
+	/** @returns {string} Browser renderer URL used by export-tool surfaces. */
 	static rendererPage() {
 		return new URL('../../../tools/browser-export/realMovieRenderer.html', import.meta.url).href;
 	}

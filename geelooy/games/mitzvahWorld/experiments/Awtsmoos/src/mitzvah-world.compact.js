@@ -45,7 +45,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 */
 
 	const BUILD_VERSION = '20260814-direct-audio-02';
-	const SOURCE_URL = new URL(( new URL( "/games/mitzvahWorld/experiments/Awtsmoos/src/launcher/MinimalSharedMeadowPage.js", globalThis.location?.href || "https://awtsmoos.local/" ).href ));
+	const SOURCE_URL = new URL((( globalThis.location?.origin && globalThis.location.origin !== "null" ? globalThis.location.origin : "https://awtsmoos.local" ) + "/games/mitzvahWorld/experiments/Awtsmoos/src/launcher/MinimalSharedMeadowPage.js"));
 	const LAUNCHER_BASE = SOURCE_URL.pathname.includes('/launcher/')
 		? new URL('./', SOURCE_URL)
 		: new URL('./launcher/', SOURCE_URL);
@@ -120,7 +120,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * state becomes the first act of manifestation.
 	 */
 
-	var bootMinimalSharedMeadowPage = __awtsmoosModule_1.bootMinimalSharedMeadowPage;
+	const bootMinimalSharedMeadowPage = __awtsmoosModule_1.bootMinimalSharedMeadowPage;
 
 	const ROOT = globalThis.document?.querySelector?.('#mitzvah-world-root') || null;
 	const ENTRY_IDENTITY = './experiments/Awtsmoos/src/mitzvah-world.compact.js';

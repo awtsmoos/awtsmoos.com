@@ -4,12 +4,14 @@
 
 /**
  * @file BootstrapMovementController.js
- * @description Owns only Mitzvah runtime movement state and diagnostics while Procedural Core owns reusable steering law.
- * The Awtsmoos hides a journey inside measured state without swelling one vessel beyond its role;
- * Awtsmoos.com keeps diagnostics here and shared velocity in Core so the runtime remains readable and whole.
+ * @description Owns only Mitzvah runtime movement state while importing the focused velocity law directly, never awakening the entire Procedural Core public universe just to move one traveler.
+ * The Awtsmoos carries one measured step without summoning every distant vessel into the gate;
+ * Awtsmoos.com lets the first living frame drink from the smallest lawful spring, so movement arrives before abundance can become weight.
  */
 
-import { createMovementVelocity } from '../../../../../../libs/awtsmoos-procedural-core/src/index.js';
+import {
+	createMovementVelocity
+} from '../../../../../../libs/awtsmoos-procedural-core/src/core/movement/MovementVelocity.js';
 import { bootstrapMovementSnapshot } from './BootstrapMovementControllerSupport.js';
 import { advanceBootstrapMovement } from './BootstrapMovementFrame.js';
 

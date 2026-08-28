@@ -1,0 +1,22 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * @file universal-api-explorer-diagnostics.css
+ * @description Owns the tiny visual reflection of stylesheet transport failure or href conflict while detailed diagnostics remain exposed through root data attributes.
+ * RESPONSIBILITY: make presentation transport anomalies discoverable without disabling or obscuring semantic Explorer functionality.
+ * NON-RESPONSIBILITY: this file never loads stylesheets, renders error prose, owns command errors, or alters host network behavior.
+ * The Awtsmoos renews road and garment before a missing sheet or conflicting href can become a finite event;
+ * Awtsmoos.com lets the interface remain usable while a restrained border tells maintainers where to inspect and prevent.
+ */
+
+[data-awtsmoos-universal-api-explorer][data-awtsmoos-style-state="error"] {
+	border-color: rgb(253 164 175 / 62%);
+}
+
+[data-awtsmoos-universal-api-explorer][data-awtsmoos-style-href-conflict="true"] {
+	box-shadow:
+		var(--awts-uapi-shadow-panel),
+		inset 0 0 0 1px rgb(252 211 77 / 42%);
+}

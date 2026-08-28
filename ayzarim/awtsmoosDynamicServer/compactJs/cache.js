@@ -2,41 +2,32 @@
 //Boruch Hashem
 //Blessed is He
 
-const path = require("path");
 const { compileCompactModule } = require("./compiler.js");
-const {
-	captureDependencyManifest,
-	createRecordingFs,
-	isDependencyManifestFresh
-} = require("./cacheManifest.js");
+const compactModuleCacheKey = require("./cacheKey.js");
+const { isDependencyManifestFresh } = require("./cacheManifest.js");
+const { buildStableCompactArtifact } = require("./cacheBuildConsistency.js");
+const PersistentCompactStore = require("../compactCache/PersistentCompactStore.js");
 
 /**
- * @file Caches compiled CompactJS universes while exact dependency seals preserve freshness.
- * @description The Awtsmoos renews source before memory can be trusted; Awtsmoos.com keeps one warm compiled river per entry,
- * deduplicates simultaneous revelation, and lets any changed deep dependency dissolve the old vessel before new light arrives.
+ * @file Caches CompactJS universes only after their source remains stable throughout compilation.
+ * @description The Awtsmoos renews source before memory or disk may call itself true;
+ * Awtsmoos.com lets simultaneous seekers share one gate while changing dependencies force fresh light through.
  */
 class CompactModuleCache {
-	constructor() {
+	/** Creates deterministic memory state with optional durable backing reserved for production singleton use. */
+	constructor({ persistentStore = null } = {}) {
 		this.entries = new Map();
 		this.inflight = new Map();
+		this.persistentStore = persistentStore;
 	}
 
-	/** Returns fresh cached source or performs one shared compile for this canonical entry. */
+	/** Shares one promise across validation, disk rehydration, and a stable fresh compilation. */
 	async compile(options) {
-		const key = cacheKey(options);
+		const key = compactModuleCacheKey(options);
 		if (this.inflight.has(key)) {
 			return this.inflight.get(key);
 		}
-		const cached = this.entries.get(key);
-		if (cached && await isDependencyManifestFresh(options.fs, cached.manifest)) {
-			return cached.source;
-		}
-		return this.compileFresh(key, options);
-	}
-
-	/** Starts one compile Promise and removes only that exact in-flight vessel when it settles. */
-	async compileFresh(key, options) {
-		const promise = this.buildEntry(options);
+		const promise = this.resolveEntry(key, options);
 		this.inflight.set(key, promise);
 		try {
 			return await promise;
@@ -47,37 +38,58 @@ class CompactModuleCache {
 		}
 	}
 
-	/** Compiles through a recording filesystem, then seals the result with dependency signatures. */
-	async buildEntry(options) {
-		const dependencies = new Set();
-		const recordingFs = createRecordingFs(options.fs, dependencies);
-		const source = await compileCompactModule({
-			entryFile: options.entryFile,
-			fs: recordingFs,
-			rootDir: options.rootDir
-		});
-		const manifest = await captureDependencyManifest(options.fs, dependencies);
-		this.entries.set(cacheKey(options), {
-			manifest,
-			source
-		});
-		return source;
+	/** Resolves fresh memory, fresh persistence, then a verified stable build. */
+	async resolveEntry(key, options) {
+		const memory = this.entries.get(key);
+		if (memory && await isDependencyManifestFresh(memory.manifest, options.fs)) {
+			return memory.source;
+		}
+		const durable = await this.readPersistent(key, options);
+		if (durable) {
+			return durable.source;
+		}
+		return this.buildEntry(key, options);
 	}
 
-	/** Clears all remembered compiled universes, primarily for explicit lifecycle and focused tests. */
+	/** Rehydrates one durable entry after its complete dependency manifest remains exact. */
+	async readPersistent(key, options) {
+		if (!this.persistentStore) {
+			return null;
+		}
+		const entry = await this.persistentStore.read(key, options.fs);
+		if (entry) {
+			this.entries.set(key, entry);
+		}
+		return entry;
+	}
+
+	/** Compiles repeatedly when necessary and commits only an artifact stable across its own build interval. */
+	async buildEntry(key, options) {
+		const entry = await buildStableCompactArtifact({
+			fs: options.fs,
+			label: "CompactJS",
+			compile: recordingFs => compileCompactModule({ ...options, fs: recordingFs })
+		});
+		this.entries.set(key, entry);
+		if (this.persistentStore) {
+			await this.persistentStore.write(key, entry);
+		}
+		return entry.source;
+	}
+
+	/** Clears process-local cache state for tests and lifecycle reset. */
 	clear() {
 		this.entries.clear();
 		this.inflight.clear();
 	}
 }
 
-function cacheKey(options) {
-	return `${path.resolve(options.rootDir)}\u0000${path.resolve(options.entryFile)}`;
-}
+const compactModuleCache = new CompactModuleCache({
+	persistentStore: new PersistentCompactStore({ kind: "js", implementationDirectory: __dirname })
+});
 
-const compactModuleCache = new CompactModuleCache();
-
-async function compileCachedCompactModule(options) {
+/** Compiles through the production shared CompactJS cache. */
+function compileCachedCompactModule(options) {
 	return compactModuleCache.compile(options);
 }
 

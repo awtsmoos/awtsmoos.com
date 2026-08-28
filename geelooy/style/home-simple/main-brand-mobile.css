@@ -1,0 +1,70 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives the smallest screen enough space to breathe without hiding any living door;
+Awtsmoos.com reveals one stable mobile brand, four clear choices, and content that fits the shore.
+*/
+@media (max-width: 680px) {
+	body[data-geelooy-route="home"] {
+		padding-bottom: calc(6.7rem + env(safe-area-inset-bottom));
+		overflow-x: clip;
+	}
+
+	body[data-geelooy-route="home"] .home,
+	body[data-geelooy-route="home"] .hero,
+	body[data-geelooy-route="home"] .action-panel,
+	body[data-geelooy-route="home"] .featured-worlds {
+		min-width: 0;
+	}
+
+	body[data-geelooy-route="home"] .banner-copy h1 {
+		max-width: 9ch;
+		font-size: clamp(2.35rem, 12vw, 3.35rem);
+		line-height: .94;
+	}
+
+	body[data-geelooy-route="home"] .hero-summary {
+		max-width: 31rem;
+		font-size: .98rem;
+		line-height: 1.5;
+	}
+
+	body[data-geelooy-route="home"] .portal-shortcuts {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		grid-auto-flow: row;
+		grid-auto-columns: auto;
+		overflow: visible;
+		gap: .55rem;
+		padding: 0;
+	}
+
+	body[data-geelooy-route="home"] .portal-shortcuts a {
+		min-width: 0;
+		min-height: 4.75rem;
+		scroll-snap-align: none;
+	}
+
+	body[data-geelooy-route="home"] .portal-shortcuts small {
+		display: none;
+	}
+
+	body[data-geelooy-route="home"] .featured-heading h2 {
+		font-size: clamp(1.8rem, 8.5vw, 2.55rem);
+		line-height: 1.02;
+	}
+
+	body[data-geelooy-route="home"] .mobile-dock {
+		bottom: max(.55rem, env(safe-area-inset-bottom));
+	}
+}
+
+@media (max-width: 390px) {
+	body[data-geelooy-route="home"] .hero-actions {
+		grid-template-columns: 1fr 1fr;
+	}
+
+	body[data-geelooy-route="home"] .hero-actions a:last-child {
+		grid-column: 1 / -1;
+	}
+}

@@ -2,9 +2,10 @@
  * Boruch Hashem
  * Blessed is He
  *
- * The Awtsmoos turns forgotten browser fields into deliberate vessels of speech;
- * Awtsmoos.com gives every raw word a boundary, a focus, and a calm place to reach.
+ * The Awtsmoos renews every forgotten field before the next word can enter its line;
+ * Awtsmoos.com gives raw input a calm solid vessel, readable focus, and mobile-safe size by design.
  */
+
 :where(html:not([data-g-ui-raw])) :where(
 	input:not([type="hidden"]):not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="color"]):not([class]),
 	textarea:not([class]),
@@ -12,45 +13,39 @@
 ) {
 	box-sizing: border-box;
 	width: 100%;
-	min-height: 44px;
-	padding: 10px 12px;
+	min-height: var(--aw-ui-target);
+	padding: .65rem .75rem;
 	border: 1px solid var(--g-line, var(--aw-ui-line));
 	border-radius: var(--g-radius-md, var(--aw-ui-radius));
-	outline: 0;
+	outline: none;
 	background: var(--g-surface-2, var(--aw-ui-surface));
 	color: var(--g-text, var(--aw-ui-text));
 	font: inherit;
+	font-size: max(1rem, 16px);
 	line-height: 1.4;
-	box-shadow: inset 0 1px 0 rgba(255, 255, 255, .04);
-	transition: border-color 150ms ease, box-shadow 150ms ease, background 150ms ease, transform 150ms ease;
+	box-shadow: 0 1px 2px rgba(31, 35, 40, .04);
+	transition: border-color 140ms ease, box-shadow 140ms ease, background-color 140ms ease;
 }
 
-:where(html:not([data-g-ui-raw])) :where(textarea:not([class])) {
-	min-height: 7.5rem;
+:where(html:not([data-g-ui-raw])) textarea:not([class]) {
+	min-height: 8rem;
 	resize: vertical;
 }
 
-:where(html:not([data-g-ui-raw])) :where(select:not([class])) {
-	padding-inline-end: 42px;
-	appearance: none;
-	background-image: linear-gradient(45deg, transparent 50%, currentColor 50%), linear-gradient(135deg, currentColor 50%, transparent 50%);
-	background-position: calc(100% - 17px) 52%, calc(100% - 12px) 52%;
-	background-repeat: no-repeat;
-	background-size: 5px 5px, 5px 5px;
+:where(html:not([data-g-ui-raw])) select:not([class]) {
 	cursor: pointer;
 }
 
 :where(html:not([data-g-ui-raw])) :where(
-	input:not([type="hidden"]):not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="color"]):not([class]),
+	input:not([type="hidden"]):not([type="checkbox"]):not([type="radio"]):not([class]),
 	textarea:not([class]),
 	select:not([class])
 ):hover:not(:disabled) {
 	border-color: var(--g-line-strong, var(--aw-ui-line-strong));
-	background-color: color-mix(in srgb, var(--g-accent, var(--aw-ui-accent)) 4%, var(--g-surface-2, var(--aw-ui-surface)));
 }
 
 :where(html:not([data-g-ui-raw])) :where(
-	input:not([type="hidden"]):not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="color"]):not([class]),
+	input:not([type="hidden"]):not([type="checkbox"]):not([type="radio"]):not([class]),
 	textarea:not([class]),
 	select:not([class])
 ):focus-visible {
@@ -58,34 +53,23 @@
 	box-shadow: var(--g-focus-ring, var(--aw-ui-focus));
 }
 
-:where(html:not([data-g-ui-raw])) :where(
-	input:not([type="hidden"]):not([type="checkbox"]):not([type="radio"]):not([class]),
-	textarea:not([class])
-)::placeholder {
+:where(html:not([data-g-ui-raw])) :where(input:not([class]), textarea:not([class]))::placeholder {
 	color: var(--g-muted, var(--aw-ui-muted));
-	opacity: .72;
+	opacity: .78;
 }
 
-:where(html:not([data-g-ui-raw])) :where(
-	input:not([class]),
-	textarea:not([class]),
-	select:not([class])
-):disabled {
+:where(html:not([data-g-ui-raw])) :where(input:not([class]), textarea:not([class]), select:not([class])):disabled {
 	cursor: not-allowed;
-	opacity: .56;
+	opacity: .55;
+	background: var(--aw-ui-surface-muted);
 }
 
 :where(html:not([data-g-ui-raw])) :where(input:not([class]), textarea:not([class])):read-only {
-	background: color-mix(in srgb, var(--g-muted, var(--aw-ui-muted)) 6%, var(--g-surface-2, var(--aw-ui-surface)));
+	background: var(--aw-ui-surface-subtle);
+	color: var(--g-muted, var(--aw-ui-muted));
 }
 
-:where(html:not([data-g-ui-raw])) :where(input:not([class])):-webkit-autofill {
+:where(html:not([data-g-ui-raw])) input:not([class]):-webkit-autofill {
 	-webkit-text-fill-color: var(--g-text, var(--aw-ui-text));
 	box-shadow: 0 0 0 1000px var(--g-surface-2, var(--aw-ui-surface)) inset;
-}
-
-@media (prefers-reduced-motion: reduce) {
-	:where(html:not([data-g-ui-raw])) :where(input:not([class]), textarea:not([class]), select:not([class])) {
-		transition: none;
-	}
 }

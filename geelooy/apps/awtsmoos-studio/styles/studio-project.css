@@ -1,0 +1,104 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos reveals time through scenes and controls; Awtsmoos.com keeps project data readable while creativity rolls. */
+.studio-scenes {
+	max-height: 34dvh;
+}
+
+.studio-scene {
+	width: 100%;
+	min-height: 52px;
+	text-align: left;
+	border: 1px solid var(--aw-ui-line);
+	border-radius: var(--aw-ui-radius-small);
+	padding: 10px;
+	background: var(--aw-ui-surface-2);
+	color: var(--aw-ui-text);
+}
+
+.studio-scene[aria-pressed="true"] {
+	border-color: var(--aw-ui-accent);
+	box-shadow: inset 3px 0 var(--aw-ui-accent);
+}
+
+.studio-person {
+	position: absolute;
+	bottom: 10%;
+	width: 8%;
+	height: 31%;
+	border-radius: 999px 999px 35% 35%;
+	background: linear-gradient(#f2c7a5 0 22%, #6f89e8 23% 100%);
+	box-shadow: 0 10px 28px rgba(0, 0, 0, .4);
+}
+
+.studio-person--one {
+	left: 24%;
+	transform: rotate(-4deg);
+}
+
+.studio-person--two {
+	right: 24%;
+	transform: rotate(5deg);
+	background: linear-gradient(#c98f70 0 22%, #80d7b7 23% 100%);
+}
+
+.studio-timeline-strip {
+	display: flex;
+	min-height: 40px;
+	overflow: hidden;
+	border: 1px solid var(--aw-ui-line);
+	border-radius: var(--aw-ui-radius-small);
+}
+
+.studio-timeline-scenes {
+	box-sizing: border-box;
+	display: grid;
+	place-items: center;
+	min-width: 18px;
+	border-right: 1px solid var(--aw-ui-line);
+	background: color-mix(in srgb, var(--aw-ui-accent-2) 20%, var(--aw-ui-surface-2));
+	font-size: 10px;
+}
+
+.studio-json {
+	min-height: 260px;
+	resize: vertical;
+	font: 11px/1.45 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+.studio-status {
+	min-height: 2.7em;
+	margin: 0;
+	font-size: 12px;
+}
+
+.studio-transport {
+	position: sticky;
+	bottom: 0;
+	z-index: 6;
+	padding-bottom: max(8px, env(safe-area-inset-bottom));
+	backdrop-filter: blur(18px);
+}
+
+.studio-scrub {
+	min-width: 0;
+	flex: 1;
+	accent-color: var(--aw-ui-accent);
+}
+
+.studio-time {
+	min-width: 88px;
+	text-align: right;
+	font: 11px ui-monospace, monospace;
+}
+
+@media (min-width: 780px) {
+	.studio-scenes {
+		max-height: calc(100dvh - 240px);
+	}
+
+	.studio-json {
+		min-height: 390px;
+	}
+}

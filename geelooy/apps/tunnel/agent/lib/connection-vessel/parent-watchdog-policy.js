@@ -1,37 +1,28 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
- * @file Keeps destructive repair reserved for corroborated parent/control failure.
+ * @file Applies runtime-pressure veto after durable automatic repair authorization.
  * @description
- * The Awtsmoos grants warning a voice but not a sword. Awtsmoos.com may defer future
- * noncritical repair under load, while a truly silent parent or frozen control path
- * remains eligible for bounded rotation only after independent evidence agrees.
+ * The Awtsmoos lets urgency remain testimony without outrunning present created truth;
+ * Awtsmoos.com treats pressure as a veto for every automatic repair, parent and youth.
+ * If the world is still moving under load, Gevurah waits for a calmer verified proof.
  */
 
 /**
- * Determines whether a corroborated repair may wait for runtime pressure to subside.
+ * Determines whether an already-authorized automatic repair must still yield to pressure.
  *
- * @param {object} inspection Watchdog evidence and destructive repair reason.
+ * @param {object} inspection Watchdog evidence carrying durable repair authority.
  * @param {object} pressure Current runtime-pressure evidence.
- * @returns {boolean} True only for future noncritical repair classes under pressure.
+ * @returns {boolean} True when automatic repair must be deferred.
  */
 function shouldDeferRepair(inspection = {}, pressure = {}) {
-	if (!inspection.repairReason) return false;
-	if (inspection.parentUnresponsive === true || inspection.controlStalled === true) {
-		return false;
-	}
+	if (inspection.repairRequired !== true) return false;
 	return pressure.deferRepair === true;
 }
 
-/**
- * Names a pressure deferral without changing the underlying health evidence.
- *
- * @param {object} inspection Watchdog evidence.
- * @param {object} pressure Runtime-pressure evidence.
- * @returns {string} Stable deferral reason or an empty string.
- */
+/** Names a pressure deferral without rewriting the underlying candidate testimony. */
 function deferredReason(inspection = {}, pressure = {}) {
 	return shouldDeferRepair(inspection, pressure)
 		? "runtime_pressure"

@@ -4,78 +4,73 @@
 
 /**
  * @file StudioInspectorMarkup.js
- * @description Builds safe inspector field markup while the Inspector class owns behavior and state mutation.
- * Binah separates label, number, and vector forms so the visible kelim remain explicit instead of compressed.
- * The Awtsmoos recreates value, label, and reader each instant; Awtsmoos.com remembers the One within their form.
+ * @description Builds safe Inspector field markup while formatting, escaping, mutation, and state ownership remain separate specialist vessels.
+ * The Awtsmoos recreates value, label, and reader each instant while remaining beyond their finite form;
+ * Awtsmoos.com lets Binah separate text, number, and vector fields so every editing keli stays explicit through the storm.
  */
 
-/** @returns {string} Escaped text input field markup. */
+import { finiteInspectorNumber, studioInspectorSizeSummary } from './StudioInspectorFormatting.js';
+import { escapeStudioAttribute, escapeStudioHtml } from './StudioMarkupEscaping.js';
+
+/**
+ * @description Creates one escaped text input field bound to an Inspector mutation field name.
+ * @param {string} label Human-readable field label.
+ * @param {string} field Canonical mutation field name stored in data-field.
+ * @param {*} value Current field value.
+ * @returns {string} Safe text-input markup.
+ */
 export function inspectorTextField(label, field, value) {
-	return `
-		<label>
-			<span>${escapeHtml(label)}</span>
-			<input data-field="${escapeAttribute(field)}" type="text" value="${escapeAttribute(value)}">
-		</label>
-	`;
+	return `<label><span>${escapeStudioHtml(label)}</span>
+		<input data-field="${escapeStudioAttribute(field)}" type="text" value="${escapeStudioAttribute(value)}"></label>`;
 }
 
-/** @returns {string} Finite numeric input field markup. */
-export function inspectorNumberField(
-	label,
-	field,
-	value,
-	step,
-	minimum = ''
-) {
-	return `
-		<label>
-			<span>${escapeHtml(label)}</span>
-			<input data-field="${escapeAttribute(field)}" type="number" step="${step}" min="${minimum}" value="${finiteNumber(value)}">
-		</label>
-	`;
+/**
+ * @description Creates one finite numeric input with explicit step and optional minimum policy.
+ * @param {string} label Human-readable field label.
+ * @param {string} field Canonical mutation field name.
+ * @param {*} value Current numeric value.
+ * @param {string|number} step Browser numeric step constraint.
+ * @param {string|number} [minimum=''] Optional browser minimum constraint.
+ * @returns {string} Safe numeric-input markup.
+ */
+export function inspectorNumberField(label, field, value, step, minimum = '') {
+	return `<label><span>${escapeStudioHtml(label)}</span>
+		<input data-field="${escapeStudioAttribute(field)}" type="number" step="${escapeStudioAttribute(step)}" min="${escapeStudioAttribute(minimum)}" value="${finiteInspectorNumber(value)}"></label>`;
 }
 
-/** @returns {string} Three-axis vector fieldset markup. */
-export function inspectorVectorFields(
-	label,
-	field,
-	vector,
-	step,
-	minimum = ''
-) {
-	const axes = ['x', 'y', 'z'];
-	const inputs = axes.map(axis => {
-		return `
-			<label>
-				<span>${axis.toUpperCase()}</span>
-				<input data-field="${field}" data-axis="${axis}" type="number" step="${step}" min="${minimum}" value="${finiteNumber(vector?.[axis])}">
-			</label>
-		`;
-	}).join('');
-	return `<fieldset><legend>${escapeHtml(label)}</legend>${inputs}</fieldset>`;
+/**
+ * @description Creates a three-axis numeric fieldset whose axis metadata feeds the Inspector mutation boundary.
+ * @param {string} label Human-readable vector label.
+ * @param {string} field Canonical vector field name.
+ * @param {{x?:number,y?:number,z?:number}} vector Current vector value.
+ * @param {string|number} step Browser numeric step constraint.
+ * @param {string|number} [minimum=''] Optional browser minimum constraint.
+ * @returns {string} Safe X/Y/Z fieldset markup.
+ */
+export function inspectorVectorFields(label, field, vector, step, minimum = '') {
+	const inputs = ['x', 'y', 'z']
+		.map(axis => inspectorAxisField(field, axis, vector, step, minimum))
+		.join('');
+	return `<fieldset><legend>${escapeStudioHtml(label)}</legend>${inputs}</fieldset>`;
 }
 
-/** @returns {string} Read-only real object size summary. */
-export function inspectorSizeSummary(size = {}) {
-	return [size.x, size.y, size.z]
-		.map(value => finiteNumber(value).toFixed(2).replace(/\.00$/, ''))
-		.join(' × ');
+/**
+ * @description Creates one safe axis input used only inside the Inspector vector-field assembly.
+ * @param {string} field Canonical vector mutation field name.
+ * @param {'x'|'y'|'z'} axis Vector axis represented by this input.
+ * @param {{x?:number,y?:number,z?:number}} vector Current vector value.
+ * @param {string|number} step Browser numeric step constraint.
+ * @param {string|number} minimum Optional browser minimum constraint.
+ * @returns {string} Safe numeric input markup for one axis.
+ */
+function inspectorAxisField(field, axis, vector, step, minimum) {
+	return `<label><span>${axis.toUpperCase()}</span>
+		<input data-field="${escapeStudioAttribute(field)}" data-axis="${axis}" type="number" step="${escapeStudioAttribute(step)}" min="${escapeStudioAttribute(minimum)}" value="${finiteInspectorNumber(vector?.[axis])}"></label>`;
 }
 
-/** @returns {number} Finite numeric value or zero. */
-export function finiteNumber(value) {
-	return Number.isFinite(Number(value)) ? Number(value) : 0;
-}
-
-/** @returns {string} Escaped HTML attribute text. */
-export function escapeAttribute(value) {
-	return escapeHtml(value).replace(/"/g, '&quot;');
-}
-
-/** @returns {string} Escaped HTML text. */
-export function escapeHtml(value) {
-	return String(value ?? '')
-		.replace(/&/g, '&amp;')
-		.replace(/</g, '&lt;')
-		.replace(/>/g, '&gt;');
-}
+/** @description Compatibility export for existing mutation code. */
+export { finiteInspectorNumber as finiteNumber } from './StudioInspectorFormatting.js';
+/** @description Compatibility export for existing Inspector callers. */
+export { studioInspectorSizeSummary as inspectorSizeSummary } from './StudioInspectorFormatting.js';
+/** @description Compatibility export for existing markup callers. */
+export { escapeStudioAttribute as escapeAttribute, escapeStudioHtml as escapeHtml } from './StudioMarkupEscaping.js';

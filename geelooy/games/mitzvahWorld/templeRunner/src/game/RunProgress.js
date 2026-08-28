@@ -1,38 +1,45 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
  * @file RunProgress.js
- * @description Owns perutas, streak, multiplier, score, and best score for one run.
- * The Awtsmoos renews each gathered peruta before streak and score may grow;
- * Awtsmoos.com keeps reward arithmetic in one vessel so skill has one honest glow.
+ * @description Owns perutas, mastery style, streak, multiplier, and score for one run while durable storage lives in its own vessel.
+ * The Awtsmoos renews each gathered coin and each brave close passage before score may glow;
+ * Awtsmoos.com keeps mastery arithmetic in one vessel, so risk, precision, and recovery all have one honest flow.
  */
 
 import { REWARD_CONFIG } from "../config.js";
+import {
+	commitBestScore,
+	readBestScore
+} from "./RunBestScoreStorage.js";
 
 export class YesodRunProgress {
+	/** @description Creates one run ledger while reading the durable high score through the storage vessel. */
 	constructor() {
-		this.best = this.readBest();
+		this.best = readBestScore(REWARD_CONFIG.bestStorageKey);
 		this.reset();
 	}
 
-	/** Resets per-run progression while preserving the stored best. */
+	/** @description Resets per-run progression while preserving the stored best. @returns {void} */
 	reset() {
 		this.perutas = 0;
 		this.perutaValue = 0;
+		this.styleScore = 0;
 		this.streak = 0;
 		this.multiplier = 1;
 		this.score = 0;
 	}
 
-	/** @param {number} distance Current runner distance. */
+	/** @description Recomputes visible score from distance, reward value, and mastery style. @param {number} distance Current distance. @returns {void} */
 	updateDistance(distance) {
 		const distanceScore = Math.floor(distance * REWARD_CONFIG.distanceFactor);
 		const rewardScore = this.perutaValue * REWARD_CONFIG.perutaPoints;
-		this.score = distanceScore + rewardScore;
+		this.score = distanceScore + rewardScore + this.styleScore;
 	}
 
-	/** @param {number} value Physical peruta value, usually one or rare five. @param {boolean} doubled Double reward power-up state. */
+	/** @description Collects one peruta through current multiplier and optional double reward. @param {number} value Peruta value. @param {boolean} doubled Double-reward state. @returns {void} */
 	collectPeruta(value = 1, doubled = false) {
 		this.perutas += 1;
 		const rewardScale = doubled ? 2 : 1;
@@ -40,44 +47,48 @@ export class YesodRunProgress {
 		this.advanceStreak();
 	}
 
-	/** Rewards one clean obstacle action or successful turn. */
+	/** @description Rewards one clean obstacle action or successful turn. @returns {void} */
 	cleanAction() {
 		this.advanceStreak();
 	}
 
-	/** Breaks the active skill streak after a mistake without ending the run. */
-	breakStreak() {
-		this.streak = 0;
-		this.multiplier = 1;
+	/** @description Rewards a close untouched pass as mastery without double-advancing streak. @returns {number} Style points awarded. */
+	nearMiss() {
+		const awarded = REWARD_CONFIG.nearMissPoints * this.multiplier;
+		this.styleScore += awarded;
+		return awarded;
 	}
 
-	/** Advances streak and derives a capped multiplier. */
+	/** @description Softens the streak for one missed reward instead of erasing all mastery. @returns {void} */
+	missPeruta() {
+		this.streak = Math.max(0, this.streak - REWARD_CONFIG.missStreakPenalty);
+		this.refreshMultiplier();
+	}
+
+	/** @description Fully breaks mastery after genuine obstacle contact or shield impact. @returns {void} */
+	breakStreak() {
+		this.streak = 0;
+		this.refreshMultiplier();
+	}
+
+	/** @description Advances streak by one clean mastery event and refreshes multiplier tier. @returns {void} */
 	advanceStreak() {
 		this.streak += 1;
+		this.refreshMultiplier();
+	}
+
+	/** @description Derives the capped multiplier from current streak. @returns {void} */
+	refreshMultiplier() {
 		const tier = 1 + Math.floor(this.streak / REWARD_CONFIG.streakEvery);
 		this.multiplier = Math.min(REWARD_CONFIG.maxMultiplier, tier);
 	}
 
-	/** Persists the best score after a completed run. */
+	/** @description Commits the best score through optional browser persistence. @returns {void} */
 	commitBest() {
-		this.best = Math.max(this.best, this.score);
-		try {
-			localStorage.setItem(REWARD_CONFIG.bestStorageKey, String(this.best));
-		} catch {
-			// Storage is optional; the runner remains playable without persistence.
-		}
+		this.best = commitBestScore(REWARD_CONFIG.bestStorageKey, this.best, this.score);
 	}
 
-	/** @returns {number} Previously stored high score. */
-	readBest() {
-		try {
-			return Number.parseInt(localStorage.getItem(REWARD_CONFIG.bestStorageKey) || "0", 10) || 0;
-		} catch {
-			return 0;
-		}
-	}
-
-	/** @returns {object} Current progression snapshot. */
+	/** @description Returns public progression state without exposing internal style accounting. @returns {object} Snapshot data. */
 	snapshot() {
 		return {
 			perutas: this.perutas,

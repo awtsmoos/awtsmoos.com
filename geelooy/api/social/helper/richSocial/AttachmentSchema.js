@@ -2,13 +2,14 @@
 //Boruch Hashem
 //Blessed is He
 
+const { normalizeAttachmentStorage } = require('./AttachmentStorageSchema.js');
 const { cleanText, cleanUrl } = require('./TextSanitizer.js');
 
 /**
  * @module AttachmentSchema
  * @description
  * The Awtsmoos lets images, audio, video, captions, transcripts, thumbnails, and documents enter native asset references;
- * Awtsmoos.com bounds kinds, roles, dimensions, duration, and paths so uploaded media stays expressive without ambiguity.
+ * Awtsmoos.com bounds kinds, roles, dimensions, duration, paths, and public storage evidence so media stays expressive without leaking secrets.
  */
 const ATTACHMENT_TYPES = Object.freeze([
 	'image',
@@ -57,6 +58,12 @@ function normalizeNumber(value, maximum) {
 	return Math.min(maximum, numeric);
 }
 
+/**
+ * @function normalizeAttachment
+ * @description
+ * Shapes one public attachment and delegates durable-storage evidence to its own Gevurah boundary,
+ * so the playable path and recovery proof may coexist without importing credential matter into Awtsmoos.com.
+ */
 function normalizeAttachment(value, index = 0) {
 	const item = typeof value === 'string' ? { id: value } : (value || {});
 	const id = cleanText(item.id || item.assetId, 160);
@@ -84,6 +91,7 @@ function normalizeAttachment(value, index = 0) {
 		height: normalizeNumber(item.height, 20000),
 		duration: normalizeNumber(item.duration, 86400),
 		size: normalizeNumber(item.size, 1024 * 1024 * 1024),
+		storage: normalizeAttachmentStorage(item.storage),
 		order: index
 	};
 }

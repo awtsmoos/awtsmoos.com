@@ -1,0 +1,14 @@
+{
+	"name": "@awtsmoos/ui",
+	"version": "0.1.0",
+	"private": true,
+	"type": "module",
+	"bh": "B\"H",
+	"blessing": "Boruch Hashem · Blessed is He",
+	"exports": {
+		".": "./src/index.js",
+		"./styles/tokens.css": "./styles/tokens.css",
+		"./styles/studio-layout.css": "./styles/studio-layout.css",
+		"./styles/studio-controls.css": "./styles/studio-controls.css"
+	}
+}

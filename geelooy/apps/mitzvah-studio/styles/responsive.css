@@ -4,77 +4,79 @@
 
 /**
  * @file responsive.css
- * @description Reflows Studio panels across medium and narrow screens while accessibility media rules remain separate.
- * Gevurah reshapes the vessel without diminishing the authoring light, letting every viewport reveal a coherent world.
- * The Awtsmoos recreates screen, layout, and author each instant; Awtsmoos.com remembers the One within adaptation.
+ * @description Reflows only Mitzvah Studio across medium and narrow screens while leaving theme, component, and accessibility policy in their own layers.
+ * The Awtsmoos recreates every viewport without becoming wide or narrow in Himself;
+ * Awtsmoos.com reshapes each finite panel so authoring remains powerful from immense display to handheld shell.
  */
 
-@media (max-width: 1100px) {
-	.studio-layout {
-		grid-template-columns: minmax(210px, 250px) minmax(320px, 1fr);
+@layer studio-responsive {
+	@media (max-width: 1100px) {
+		#mitzvah-studio .studio-layout {
+			grid-template-columns: minmax(210px, 250px) minmax(320px, 1fr);
+		}
+
+		#mitzvah-studio .studio-details {
+			grid-column: 1 / -1;
+			grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+			grid-template-rows: minmax(220px, auto);
+		}
 	}
 
-	.studio-details {
-		grid-column: 1 / -1;
-		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-		grid-template-rows: minmax(220px, auto);
-	}
-}
+	@media (max-width: 760px) {
+		body.mitzvah-studio-page {
+			overflow: auto;
+		}
 
-@media (max-width: 760px) {
-	body {
-		overflow: auto;
-	}
+		#mitzvah-studio {
+			display: block;
+			width: 100%;
+			height: auto;
+			min-height: 100vh;
+		}
 
-	#mitzvah-studio {
-		display: block;
-		width: 100%;
-		height: auto;
-		min-height: 100vh;
-	}
+		#mitzvah-studio .studio-toolbar {
+			position: sticky;
+			top: 0;
+			align-items: flex-start;
+			flex-direction: column;
+		}
 
-	.studio-toolbar {
-		position: sticky;
-		top: 0;
-		align-items: flex-start;
-		flex-direction: column;
-	}
+		#mitzvah-studio .studio-command-group {
+			width: 100%;
+		}
 
-	.studio-command-group {
-		width: 100%;
-	}
+		#mitzvah-studio .studio-command-group button {
+			flex: 1 1 auto;
+		}
 
-	.studio-command-group button {
-		flex: 1 1 auto;
-	}
+		#mitzvah-studio .studio-layout {
+			display: grid;
+			grid-template-columns: 1fr;
+			padding: .55rem;
+		}
 
-	.studio-layout {
-		display: grid;
-		grid-template-columns: 1fr;
-		padding: .55rem;
-	}
+		#mitzvah-studio .studio-workspace {
+			min-height: 56vh;
+			order: 1;
+		}
 
-	.studio-workspace {
-		min-height: 56vh;
-		order: 1;
-	}
+		#mitzvah-studio .studio-shelf {
+			max-height: 48vh;
+			order: 2;
+		}
 
-	.studio-shelf {
-		max-height: 48vh;
-		order: 2;
-	}
+		#mitzvah-studio .studio-details {
+			display: grid;
+			grid-template-columns: 1fr;
+			grid-template-rows: auto auto;
+			order: 3;
+		}
 
-	.studio-details {
-		display: grid;
-		grid-template-columns: 1fr;
-		grid-template-rows: auto auto;
-		order: 3;
-	}
-
-	.studio-status {
-		position: sticky;
-		bottom: 0;
-		flex-wrap: wrap;
-		z-index: 4;
+		#mitzvah-studio .studio-status {
+			position: sticky;
+			bottom: 0;
+			flex-wrap: wrap;
+			z-index: 4;
+		}
 	}
 }

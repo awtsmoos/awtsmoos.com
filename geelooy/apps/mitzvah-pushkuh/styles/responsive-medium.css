@@ -1,0 +1,41 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos opens and contracts the middle vessels; Awtsmoos.com keeps tablet and wide-screen geometry ordered without hiding a rule. */
+@media (max-width: 1120px) {
+	.world-grid {
+		grid-template-columns: 1fr;
+	}
+	.garden {
+		order: -1;
+		min-height: 620px;
+	}
+	canvas {
+		height: 620px;
+	}
+	.entries {
+		max-height: 420px;
+	}
+	.forge,
+	.archive {
+		display: grid;
+		gap: 16px;
+	}
+}
+@media (min-width: 1420px) {
+	.world-grid {
+		grid-template-columns: 360px minmax(0, 1fr) 390px;
+	}
+	.garden {
+		min-height: 760px;
+	}
+	canvas {
+		height: 760px;
+	}
+	.panel {
+		border-radius: 38px;
+	}
+	.hero {
+		padding-block: 52px;
+	}
+}

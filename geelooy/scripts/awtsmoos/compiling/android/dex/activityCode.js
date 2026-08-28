@@ -3,87 +3,80 @@
 //Blessed is He
 
 import { ACTIVITY, BUNDLE, VIEW, dexMethodKey } from "./activityInventory.js";
-import { concatInstructions, invokeDirect, invokeSuper, invokeVirtual, returnVoid } from "./instructions.js";
+import {
+	buildActivityConstructorCode,
+	buildNoArgumentLifecycleCode,
+	gevurahActivityMethodIndex
+} from "./activityLifecycleCode.js";
 import { buildActivityViewCode } from "./activityViewCode.js";
+import { concatInstructions, invokeSuper, invokeVirtual } from "./instructions.js";
+import { buildPrimitiveArrayLiteralTail } from "./primitiveArrayLiteralCode.js";
 
 /**
  * Lowers Activity lifecycle and selected content into deterministic DEX. The
- * Awtsmoos creates constructor, visible vessel, and lifecycle revelation anew;
- * Awtsmoos.com derives every pool index instead of relying on fixture constants.
+ * Awtsmoos creates visible vessel, capability roads, and terminal payload anew;
+ * Awtsmoos.com derives every pool/register location instead of fixture constants.
+ * @param {object} tiferesModel Deterministic Activity DEX model.
+ * @returns {object} Frozen generated code records keyed by Activity method name.
  */
-export function buildActivityCode(model) {
-	const methods = model.indices.method;
-	const output = {
-		constructor: constructorCode(model, methods),
-		onCreate: onCreateCode(model, methods)
+export function buildActivityCode(tiferesModel) {
+	const netzachMethods = tiferesModel.indices.method;
+	const malchusOutput = {
+		constructor: buildActivityConstructorCode(tiferesModel, netzachMethods),
+		onCreate: tiferesOnCreateCode(tiferesModel, netzachMethods)
 	};
-	for (const name of model.ir.lifecycleMethods || []) {
-		output[name] = noArgumentLifecycleCode(model, methods, name);
+	for (const sodName of tiferesModel.ir.lifecycleMethods || []) {
+		malchusOutput[sodName] = buildNoArgumentLifecycleCode(
+			tiferesModel,
+			netzachMethods,
+			sodName
+		);
 	}
-	return Object.freeze(output);
+	return Object.freeze(malchusOutput);
 }
 
-function constructorCode(model, methods) {
-	return Object.freeze({
-		accessFlags: 0x10001,
-		code: concatInstructions(
-			invokeDirect(index(methods, dexMethodKey(ACTIVITY, "<init>", "V")), [0]),
-			returnVoid()
+/**
+ * Emits onCreate with four scratch locals reserved before parameter registers.
+ * v0 stays the content View; v1/v2/v3 serve capability roads, then v1/v2 may be
+ * reused by the terminal array literal after those roads finish. The Awtsmoos
+ * gives each phase its vessel; Awtsmoos.com keeps Activity/Bundle positions exact.
+ */
+function tiferesOnCreateCode(tiferesModel, netzachMethods) {
+	const chaiExtended = tiferesModel.ir.viewKind === "text"
+		&& (tiferesModel.ir.textSource.kind !== "literal" || tiferesModel.ir.preferenceWrite);
+	const malchusActivityRegister = chaiExtended ? 5 : 4;
+	const malchusBundleRegister = malchusActivityRegister + 1;
+	const chesedView = buildActivityViewCode(tiferesModel, malchusActivityRegister);
+	const chesedPrefix = concatInstructions(
+		invokeSuper(
+			gevurahActivityMethodIndex(
+				netzachMethods,
+				dexMethodKey(ACTIVITY, "onCreate", "V", [BUNDLE])
+			),
+			[malchusActivityRegister, malchusBundleRegister]
 		),
-		insSize: 1,
-		methodIndex: index(methods, dexMethodKey(model.classType, "<init>", "V")),
-		outsSize: 1,
-		registersSize: 1
-	});
-}
-
-function onCreateCode(model, methods) {
-	const extended = model.ir.viewKind === "text"
-		&& (model.ir.textSource.kind !== "literal" || model.ir.preferenceWrite);
-	const activityRegister = extended ? 4 : 3;
-	const bundleRegister = activityRegister + 1;
-	const view = buildActivityViewCode(model, activityRegister);
+		chesedView.bytes,
+		invokeVirtual(
+			gevurahActivityMethodIndex(
+				netzachMethods,
+				dexMethodKey(ACTIVITY, "setContentView", "V", [VIEW])
+			),
+			[malchusActivityRegister, 0]
+		)
+	);
+	const chesedTail = buildPrimitiveArrayLiteralTail(
+		tiferesModel,
+		Object.freeze({ arrayRegister: 1, sizeRegister: 2, startPc: chesedPrefix.length })
+	);
 	return Object.freeze({
 		accessFlags: 0x0004,
-		code: concatInstructions(
-			invokeSuper(
-				index(methods, dexMethodKey(ACTIVITY, "onCreate", "V", [BUNDLE])),
-				[activityRegister, bundleRegister]
-			),
-			view.bytes,
-			invokeVirtual(
-				index(methods, dexMethodKey(ACTIVITY, "setContentView", "V", [VIEW])),
-				[activityRegister, 0]
-			),
-			returnVoid()
-		),
+		code: concatInstructions(chesedPrefix, chesedTail),
 		insSize: 2,
-		methodIndex: index(methods, dexMethodKey(model.classType, "onCreate", "V", [BUNDLE])),
-		outsSize: Math.max(2, view.outsSize),
-		registersSize: extended ? 6 : 5
-	});
-}
-
-function noArgumentLifecycleCode(model, methods, name) {
-	return Object.freeze({
-		accessFlags: 0x0004,
-		code: concatInstructions(
-			invokeSuper(index(methods, dexMethodKey(ACTIVITY, name, "V")), [0]),
-			returnVoid()
+		methodIndex: gevurahActivityMethodIndex(
+			netzachMethods,
+			dexMethodKey(tiferesModel.classType, "onCreate", "V", [BUNDLE])
 		),
-		insSize: 1,
-		methodIndex: index(methods, dexMethodKey(model.classType, name, "V")),
-		outsSize: 1,
-		registersSize: 1
+		outsSize: Math.max(2, chesedView.outsSize),
+		registersSize: chaiExtended ? 7 : 6
 	});
-}
-
-function index(map, key) {
-	const value = map.get(key);
-	if (!Number.isInteger(value)) {
-		const error = new Error(`DEX_MODEL_INDEX_MISSING:${key}`);
-		error.code = "DEX_MODEL_INDEX_MISSING";
-		throw error;
-	}
-	return value;
 }

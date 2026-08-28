@@ -1,6 +1,7 @@
-/* B"H: mobile and desktop vessels receive one responsive fire without jank. */
-@media(max-width:1120px){.world-grid{grid-template-columns:1fr}.garden{order:-1;min-height:620px}canvas{height:620px}.entries{max-height:420px}.forge,.archive{display:grid;gap:16px}}
-@media(min-width:1420px){.world-grid{grid-template-columns:360px minmax(0,1fr) 390px}.garden{min-height:760px}canvas{height:760px}.panel{border-radius:38px}.hero{padding-block:52px}}
-@media(max-width:760px){body{overflow-x:hidden}.shell{width:100%;padding:10px 10px 80px}.hero,.forge,.archive,.social{padding:16px;border-radius:24px}.hero h1{font-size:clamp(2.75rem,17vw,4.9rem);line-height:.86}.hero p{font-size:.98rem}.world-grid{gap:12px}.garden{min-height:72vh;border-radius:24px;box-shadow:0 22px 70px #000d,0 0 54px #8feaff22 inset}canvas{height:72vh;min-height:520px}.garden-copy{align-items:stretch;flex-direction:column;left:12px;right:12px;bottom:12px}.garden-copy p{font-size:.95rem;text-align:center}.hud{gap:7px}.hud span{flex:1 1 42%;justify-content:center;padding:9px 10px}.twins{grid-template-columns:1fr}.rituals{max-height:176px;grid-template-columns:1fr}.chip,.filters button,.head button,menu button,#plantButton,.primary{min-height:48px;padding:13px 15px}.entry{padding:15px}.archive .head{align-items:stretch;flex-direction:column}.filters{display:grid;grid-template-columns:repeat(2,1fr)}dialog{padding:8px}.detail{width:min(96vw,620px);max-height:88vh;overflow:auto}}
-@media(max-width:420px){.hero h1{font-size:3rem}.garden{min-height:68vh}canvas{height:68vh;min-height:480px}.hud span{flex-basis:100%}.filters{grid-template-columns:1fr}.garden-copy p{display:none}}
-@media(prefers-reduced-motion:reduce){*,.sky,.sky:after{animation:none!important;transition:none!important}.panel{backdrop-filter:none}.touch-ripple{display:none}canvas{filter:none}}
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos pours one garden through changing vessels; Awtsmoos.com preserves media-query order while each responsive chamber remains readable. */
+@import url("./responsive-medium.css");
+@import url("./responsive-mobile.css");
+@import url("./responsive-motion.css");

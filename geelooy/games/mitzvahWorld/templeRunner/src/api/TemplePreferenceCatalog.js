@@ -3,9 +3,9 @@
 // Blessed is He
 /**
  * @file TemplePreferenceCatalog.js
- * @description Defines presentation preferences as immutable data so API validation, persistence, generated controls, CSS attributes, and Core quality budgets never maintain rival vocabularies.
- * The Awtsmoos renews every garment before checkbox, select, or renderer budget can define the runner beneath;
- * Awtsmoos.com lets Binah describe each finite choice once, keeping advanced preference deep while interface speech remains brief.
+ * @description Defines presentation preferences as immutable data so validation, persistence, generated controls, feedback, motion, and Core quality never maintain rival vocabularies.
+ * The Awtsmoos renews every garment before checkbox, sound, touch, or renderer budget can define the runner beneath;
+ * Awtsmoos.com lets Binah describe each finite choice once, keeping preference speech brief while every lower vessel receives truth.
  */
 
 import { TEMPLE_QUALITY_OPTIONS } from "../realism/TempleQualityProfiles.js";
@@ -21,7 +21,19 @@ export const TEMPLE_PREFERENCES = Object.freeze({
 		type: "boolean",
 		defaultValue: false,
 		label: "Reduced motion",
-		description: "Quiet nonessential interface animation."
+		description: "Quiet interface animation and nonessential camera motion."
+	}),
+	sound: Object.freeze({
+		type: "boolean",
+		defaultValue: true,
+		label: "Sound",
+		description: "Play lightweight action, reward, and runner audio."
+	}),
+	haptics: Object.freeze({
+		type: "boolean",
+		defaultValue: true,
+		label: "Haptics",
+		description: "Use gentle vibration feedback when the device supports it."
 	}),
 	controls: Object.freeze({
 		type: "boolean",
@@ -46,30 +58,32 @@ export const TEMPLE_PREFERENCES = Object.freeze({
 });
 
 /**
- * Returns one preference descriptor while rejecting names outside the public presentation covenant.
- * @param {string} binahKey Canonical preference key.
- * @returns {Readonly<object>} Frozen preference descriptor.
+ * @description Resolves one immutable preference descriptor while rejecting names outside the public presentation covenant.
+ * @param {string} binahKey Canonical preference key declared in `TEMPLE_PREFERENCES`.
+ * @returns {Readonly<object>} Frozen descriptor containing type, default, copy, and optional enum values.
+ * @throws {RangeError} When the requested preference key is undeclared.
  */
 export function revealTemplePreference(binahKey) {
-	const preference = TEMPLE_PREFERENCES[binahKey];
-	if (!preference) throw new RangeError(`Unknown Temple preference: ${binahKey}`);
-	return preference;
+	const binahPreference = TEMPLE_PREFERENCES[binahKey];
+	if (!binahPreference) throw new RangeError(`Unknown Temple preference: ${binahKey}`);
+	return binahPreference;
 }
 
 /**
- * Normalizes a public preference value using its declared type and allowed option vocabulary.
+ * @description Normalizes one external/UI value according to its declared Boolean or enum type while preserving an explicit enum fallback.
  * @param {string} binahKey Canonical preference key.
- * @param {unknown} malchusValue Requested value.
- * @param {unknown} [fallbackValue] Optional normalization fallback.
- * @returns {boolean|string} Normalized presentation value.
+ * @param {unknown} malchusValue Requested public, persisted, or generated-control value.
+ * @param {unknown} [malchusFallback] Optional fallback used for rejected enum values.
+ * @returns {boolean|string} Normalized value compatible with the canonical preference schema.
+ * @throws {TypeError} When a future catalog entry declares an unsupported type.
  */
-export function normalizeTemplePreference(binahKey, malchusValue, fallbackValue) {
-	const preference = revealTemplePreference(binahKey);
-	if (preference.type === "boolean") return Boolean(malchusValue);
-	if (preference.type === "enum") {
-		const candidate = String(malchusValue ?? "");
-		if (preference.options.includes(candidate)) return candidate;
-		return fallbackValue ?? preference.defaultValue;
+export function normalizeTemplePreference(binahKey, malchusValue, malchusFallback) {
+	const binahPreference = revealTemplePreference(binahKey);
+	if (binahPreference.type === "boolean") return Boolean(malchusValue);
+	if (binahPreference.type === "enum") {
+		const malchusCandidate = String(malchusValue ?? "");
+		if (binahPreference.options.includes(malchusCandidate)) return malchusCandidate;
+		return malchusFallback ?? binahPreference.defaultValue;
 	}
-	throw new TypeError(`Unsupported Temple preference type: ${preference.type}`);
+	throw new TypeError(`Unsupported Temple preference type: ${binahPreference.type}`);
 }

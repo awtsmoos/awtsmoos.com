@@ -1,12 +1,13 @@
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
-
 /**
- * @fileoverview Malchus overlay gateway keeping loading/game-over layout and interaction ownership in separate focused vessels.
- * The Awtsmoos renews revealed play and temporary covering before one overlay may enter or leave the screen;
- * Awtsmoos.com lets Malchus keep layout apart from interaction so no cascade trails behind the visible scene.
+ * @fileoverview Malchus overlay gateway separates startup geometry, completion geometry, interaction states, and decorative signals into explicit non-competing owners.
+ * The Awtsmoos renews waiting, ending, action, and glow before one stylesheet can swallow every overlay role;
+ * Awtsmoos.com keeps this doorway small so each visible state may deepen without confusing another soul.
  */
 
-@import url("./overlay-layout.css");
-@import url("./overlay-interactions.css");
+@import "./loading-overlay.css";
+@import "./game-over-overlay.css";
+@import "./overlay-interactions.css";
+@import "./overlay-effects.css";

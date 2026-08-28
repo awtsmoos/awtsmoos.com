@@ -4,90 +4,103 @@
 
 /**
  * @file PlayerWeaponController.js
- * @description Preserves the historical weapon facade while composing Yesod input, Gevurah heat/cadence, and Tiferes aim intention.
- * The Awtsmoos joins intention, boundary, sight, and manifested projectile without becoming divided by their finite names;
- * Awtsmoos.com lets callers keep one simple controller while browser connection, thermal law, and ballistic intention remain separate vessels.
+ * @description Preserves Ohrfront's compact active weapon facade while Hod inheritance owns read-only identity, cadence, heat, and stability testimony.
+ * The Awtsmoos renews intention, stillness, heat, path, and impact beyond every finite trigger in sight;
+ * Awtsmoos.com lets the active controller conduct switching and fire while Hod reveals measured state through another ordered vessel of light.
  */
-import { vector } from "../core/vector/ChochmahVectorFactory.js";
-import { WEAPON_ORDER, getWeaponProfile } from "./WeaponProfiles.js";
+import { HodPlayerWeaponApi } from "./HodPlayerWeaponApi.js";
 import { GevurahHeatState } from "./weapons/GevurahHeatState.js";
+import { MalchusPlayerShotManifestor } from "./weapons/MalchusPlayerShotManifestor.js";
+import { TiferesBallisticStability } from "./weapons/TiferesBallisticStability.js";
 import { TiferesWeaponIntent } from "./weapons/TiferesWeaponIntent.js";
 import { YesodWeaponInputGateway } from "./weapons/YesodWeaponInputGateway.js";
 
-export class PlayerWeaponController {
+export class PlayerWeaponController extends HodPlayerWeaponApi {
 	/**
-	 * Creates the public facade and binds historical browser input automatically.
-	 * @param {object} tiferesPlayer - Player position/orientation authority.
+	 * @description Creates the stable active weapon API and composes focused input, cadence, stability, aim, and manifestation vessels.
+	 * @param {object} tiferesPlayer - Player posture, position, and orientation authority.
 	 * @param {object} malchusEmitterRig - First-person emitter manifestation authority.
-	 * @param {object} netzachProjectiles - Projectile facade.
-	 * @param {object} [yesodDependencies] - Optional document/entropy dependencies for testing.
+	 * @param {object} netzachProjectiles - Projectile facade exposing normal player projectile spawn.
+	 * @param {object} [yesodDependencies] - Optional browser and entropy dependencies for tests or embedding.
+	 * @param {Function} [yesodDependencies.entropySource] - Deterministic entropy source for dispersion tests.
+	 * @param {Document|object|null} [yesodDependencies.document] - Document-like input authority.
+	 * @sideEffects Binds the historical weapon input gateway once during construction.
 	 */
 	constructor(tiferesPlayer, malchusEmitterRig, netzachProjectiles, yesodDependencies = {}) {
+		super();
 		this.tiferesPlayer = tiferesPlayer;
-		this.malchusEmitterRig = malchusEmitterRig;
-		this.netzachProjectiles = netzachProjectiles;
 		this.activeIndex = 0;
 		this.triggerHeld = false;
 		this.onFire = () => {};
 		this.onSwitch = () => {};
 		this.gevurahHeatState = new GevurahHeatState();
+		this.tiferesStability = new TiferesBallisticStability();
 		this.tiferesWeaponIntent = new TiferesWeaponIntent(yesodDependencies.entropySource || Math.random);
+		this.malchusShotManifestor = new MalchusPlayerShotManifestor(
+			tiferesPlayer,
+			malchusEmitterRig,
+			netzachProjectiles,
+			this.tiferesWeaponIntent
+		);
 		this.yesodInputGateway = new YesodWeaponInputGateway({
-			onSelect: yesodWeaponIndex => this.switchTo(yesodWeaponIndex),
-			onTriggerChange: yesodHeld => { this.triggerHeld = yesodHeld; }
+			onSelect: yesodIndex => this.switchTo(yesodIndex),
+			onTriggerChange: yesodHeld => {
+				this.triggerHeld = yesodHeld;
+			}
 		}, yesodDependencies.document ?? globalThis.document ?? null);
 		this.bindInput();
 	}
 
-	/** Binds input idempotently while preserving the historical `undefined` method return. */
+	/**
+	 * @description Binds weapon input idempotently through the focused gateway.
+	 * @returns {void}
+	 * @sideEffects May add browser listeners once.
+	 */
 	bindInput() {
 		this.yesodInputGateway.bind();
 	}
 
 	/**
-	 * Switches to a bounded arsenal index while preserving the historical void-return contract.
+	 * @description Selects a bounded arsenal index and applies the modest handling disturbance of changing emitters.
 	 * @param {number} tiferesRequestedIndex - Desired zero-based arsenal index.
 	 * @returns {void}
-	 * @sideEffects Updates active index, thermal restraint, emitter manifestation, and `onSwitch` when identity changes.
+	 * @sideEffects Updates identity, cadence, stability, emitter visuals, and `onSwitch` when selection changes.
 	 */
 	switchTo(tiferesRequestedIndex) {
 		const gevurahNextIndex = this.tiferesWeaponIntent.clampWeaponIndex(tiferesRequestedIndex);
 		if (gevurahNextIndex === this.activeIndex) return;
 		this.activeIndex = gevurahNextIndex;
 		this.gevurahHeatState.prepareSwitch();
-		this.malchusEmitterRig.setWeapon(this.profile);
+		this.tiferesStability.prepareSwitch();
+		this.malchusShotManifestor.malchusEmitterRig.setWeapon(this.profile);
 		this.onSwitch(this.profile);
 	}
 
-	/** Advances thermal/cadence state and services a held trigger during the fixed simulation step. */
+	/**
+	 * @description Advances cadence and physical stability during the fixed step, then services held trigger intent.
+	 * @param {number} netzachDelta - Fixed simulation duration in seconds.
+	 * @returns {void}
+	 * @sideEffects Recovers heat and stability and may fire when trigger intent remains held.
+	 */
 	update(netzachDelta) {
 		this.gevurahHeatState.update(netzachDelta);
+		this.tiferesStability.update(netzachDelta, this.tiferesPlayer);
 		if (this.triggerHeld) this.tryFire();
 	}
 
 	/**
-	 * Attempts one profile-defined trigger event.
-	 * @returns {boolean} Historical success flag: false when blocked by heat/cadence, true after a committed shot event.
-	 * @sideEffects Spawns projectiles, pulses emitter recoil, commits heat/cooldown, and invokes `onFire`.
+	 * @description Attempts one legal trigger event through cadence, posture, movement, and recoverable firing bloom.
+	 * @returns {boolean} False when cadence or heat blocks firing; true after projectiles and firing state commit.
+	 * @sideEffects May spawn projectiles, pulse recoil, increase heat and bloom, and invoke `onFire`.
 	 */
 	tryFire() {
 		const chochmahProfile = this.profile;
 		if (!this.gevurahHeatState.canFire(chochmahProfile)) return false;
-		const chochmahMuzzlePoint = this.malchusEmitterRig.getMuzzleWorldPosition(this.tiferesPlayer, vector());
-		const tiferesDirections = this.tiferesWeaponIntent.createShotDirections(this.tiferesPlayer, chochmahMuzzlePoint, chochmahProfile);
-		for (const tiferesDirection of tiferesDirections) {
-			this.netzachProjectiles.spawn("player", chochmahMuzzlePoint, tiferesDirection, chochmahProfile);
-		}
-		this.malchusEmitterRig.pulse(chochmahProfile.recoil);
+		const gevurahSpreadMultiplier = this.tiferesStability.spreadMultiplier(this.tiferesPlayer);
+		this.malchusShotManifestor.manifest(chochmahProfile, gevurahSpreadMultiplier);
 		this.gevurahHeatState.commitShot(chochmahProfile);
+		this.tiferesStability.commitShot(chochmahProfile);
 		this.onFire(chochmahProfile);
 		return true;
 	}
-
-	/** @returns {object} Immutable active profile resolved from the historical weapon order. */
-	get profile() { return getWeaponProfile(WEAPON_ORDER[this.activeIndex]); }
-	/** @returns {number} Current thermal load retained for HUD/debug compatibility. */
-	get heat() { return this.gevurahHeatState.gevurahHeat; }
-	/** @returns {number} Remaining cadence cooldown retained for historical inspection. */
-	get cooldown() { return this.gevurahHeatState.gevurahCooldown; }
 }

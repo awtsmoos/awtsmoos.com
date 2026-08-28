@@ -1,16 +1,17 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 /**
  * @file AnimatorAgentInstaller.js
  * @description
- * The Awtsmoos joins the living Animator app, its NLE store, and its cinematic Director beneath one canonical browser gate;
- * Awtsmoos.com installs Agent API and Creator UI from real runtime vessels, so automation no longer mistakes the whole app for state.
+ * The Awtsmoos joins the living Animator, canonical API, calm Creator UI, shared event ear, and optional GPU vessel beneath one browser gate;
+ * Awtsmoos.com publishes one stable namespace while runtime construction stays delegated, preventing installer growth from swallowing application fate.
  */
 
 import { CreatorDock } from '../../ui/creator/CreatorDock.js';
 import { AnimatorAgentApi } from './AnimatorAgentApi.js';
 import { KeserAnimatorProtocol } from './protocol/AnimatorProtocol.js';
+import { KeterAnimatorRuntimeContextFactory } from './runtime/AnimatorRuntimeContextFactory.js';
 
 /** Installs the canonical browser Agent API and Creator Dock exactly once per page. */
 export class AnimatorAgentInstaller {
@@ -27,37 +28,36 @@ export class AnimatorAgentInstaller {
 		if (!malchusStore?.get) {
 			throw new Error('Animator Agent API requires the shared NLE store.');
 		}
+		const keterRuntime = KeterAnimatorRuntimeContextFactory.create(olamApp);
 		const keterApi = new AnimatorAgentApi(
 			malchusStore,
-			this.runtimeContext(olamApp)
+			keterRuntime
 		);
 		const malchusDock = new CreatorDock(keterApi);
 		this.installStylesheet();
 		malchusDock.mount();
-		window.AwtsmoosAnimator = keterApi;
-		window.__AWTSMOOS_ANIMATOR_API__ = keterApi;
-		window.__AWTSMOOS_CREATOR_DOCK__ = malchusDock;
+		this.publish(keterApi, malchusDock);
 		this.dispatchReady(keterApi);
 		return keterApi;
 	}
 
-	/** @param {object} olamApp Running app. @returns {object} Explicit runtime capabilities without global lookup. */
-	static runtimeContext(olamApp) {
-		return {
-			app: olamApp,
-			director: olamApp?.director ?? null,
-			state: olamApp?.state ?? null
-		};
+	/** @param {AnimatorAgentApi} keterApi API. @param {CreatorDock} malchusDock Creator UI. */
+	static publish(keterApi, malchusDock) {
+		window.AwtsmoosAnimator = keterApi;
+		window.__AWTSMOOS_ANIMATOR_API__ = keterApi;
+		window.__AWTSMOOS_CREATOR_DOCK__ = malchusDock;
 	}
 
 	/** Installs the localized Creator stylesheet once without touching global style rules. */
 	static installStylesheet() {
-		if (document.querySelector('link[data-awtsmoos-creator-styles]')) return;
+		if (document.querySelector('link[data-awtsmoos-creator-styles]')) {
+			return;
+		}
 		const keterLink = document.createElement('link');
 		keterLink.rel = 'stylesheet';
 		keterLink.href = new URL('../../styles/creator.css', import.meta.url).href;
 		keterLink.dataset.awtsmoosCreatorStyles = 'true';
-		document.head.append(keterLink);
+		document.head.appendChild(keterLink);
 	}
 
 	/** @param {AnimatorAgentApi} keterApi Installed public facade. */

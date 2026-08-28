@@ -1,116 +1,90 @@
 /* B"H
- * The Awtsmoos gives the search threshold depth without inventing data; Awtsmoos.com keeps the promise visible and restrained.
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives the seeker a quiet threshold before the living source is heard;
+ * Awtsmoos.com keeps identity bright without making ornament louder than the word.
  */
 .library-hero {
-	align-items: center;
-	background: linear-gradient(135deg, #0a1420, #07101a 58%, #090d17);
-	border: 1px solid rgba(126, 215, 229, .18);
-	border-radius: 1.1rem;
+	background: linear-gradient(135deg, rgba(12, 25, 38, .92), rgba(7, 13, 22, .94));
+	border: 1px solid rgba(126, 215, 229, .14);
+	border-radius: 1rem;
 	display: grid;
-	gap: clamp(1rem, 4vw, 3rem);
-	grid-template-columns: minmax(0, 1fr) minmax(15rem, .42fr);
-	min-height: 19rem;
-	overflow: hidden;
-	padding: clamp(1.25rem, 4vw, 3rem);
-	position: relative;
+	gap: .42rem;
+	padding: clamp(1rem, 2.4vw, 1.65rem);
 }
-.library-hero::after {
-	background: linear-gradient(90deg, rgba(5, 8, 17, .95), transparent);
-	content: "";
-	inset: 0;
-	pointer-events: none;
-	position: absolute;
-}
-.library-hero-copy { position: relative; z-index: 2; }
+
 .library-kicker,
 .library-section-heading p,
 .library-rail-card header p,
 .library-tip-card > p {
 	color: #64d5e9;
-	font-size: .73rem;
+	font-size: .72rem;
 	font-weight: 850;
-	letter-spacing: .11em;
+	letter-spacing: .1em;
 	margin: 0;
 	text-transform: uppercase;
 }
+
 .library-hero h1 {
-	font-size: clamp(2.45rem, 6vw, 5rem);
-	letter-spacing: -.055em;
-	line-height: .98;
-	margin: .45rem 0 0;
-	max-width: 11ch;
+	font-size: clamp(2rem, 4.6vw, 3.25rem);
+	letter-spacing: -.045em;
+	line-height: 1;
+	margin: .08rem 0 0;
+	max-width: 17ch;
 }
-.library-hero-copy > p:not(.library-kicker) {
+
+.library-hero-description {
 	color: #aebdce;
-	font-size: clamp(1rem, 1.5vw, 1.12rem);
-	line-height: 1.7;
-	margin: 1rem 0 0;
-	max-width: 47rem;
+	font-size: clamp(.96rem, 1.45vw, 1.08rem);
+	line-height: 1.6;
+	margin: .25rem 0 0;
+	max-width: 54rem;
 }
-.library-truth-row {
-	display: flex;
-	flex-wrap: wrap;
-	gap: .55rem;
-	margin-top: 1.25rem;
-}
-.library-truth-row span {
-	background: rgba(126, 215, 229, .06);
-	border: 1px solid rgba(126, 215, 229, .17);
-	border-radius: 999px;
-	color: #bfd0df;
+
+.library-trust-line {
+	color: #788da3;
 	font-size: .78rem;
-	padding: .42rem .65rem;
+	font-weight: 700;
+	letter-spacing: .025em;
+	margin: .18rem 0 0;
 }
-.library-hero-mark {
-	align-items: center;
-	aspect-ratio: 1;
-	display: flex;
-	justify-content: center;
-	position: relative;
-	z-index: 1;
-}
-.library-hero-mark span {
-	align-items: center;
-	background: #07111d;
-	border: 1px solid rgba(126, 215, 229, .5);
-	border-radius: 50%;
-	box-shadow: 0 0 0 1rem rgba(62, 180, 219, .035);
-	color: #f3e9ce;
-	display: flex;
-	font-family: Georgia, serif;
-	font-size: clamp(2.4rem, 6vw, 4rem);
-	height: 42%;
-	justify-content: center;
-	width: 42%;
-}
-.library-hero-mark i {
-	border: 1px solid rgba(78, 190, 222, .16);
-	border-radius: 50%;
-	inset: 8%;
-	position: absolute;
-}
-.library-hero-mark i:nth-of-type(2) { inset: 20%; transform: rotate(35deg); }
-.library-hero-mark i:nth-of-type(3) { inset: 32%; transform: rotate(70deg); }
+
 .library-scope-nav {
-	background: #090f19;
-	border: 1px solid rgba(151, 178, 205, .14);
-	border-radius: .9rem;
+	background: rgba(9, 15, 25, .78);
+	border: 1px solid rgba(151, 178, 205, .1);
+	border-radius: .8rem;
 	display: grid;
 	grid-template-columns: repeat(5, minmax(0, 1fr));
 	overflow: hidden;
 }
+
 .library-scope-nav a {
 	align-items: center;
 	border-bottom: 2px solid transparent;
-	color: #9dacbd;
+	color: #8ea0b3;
 	display: flex;
+	font-size: .9rem;
 	justify-content: center;
-	min-height: 3.15rem;
+	min-height: 2.85rem;
+	padding-inline: .6rem;
 	text-decoration: none;
 }
-.library-scope-nav a:is(:hover, :focus-visible),
+
+.library-scope-nav a:hover {
+	background: rgba(16, 28, 41, .72);
+	color: #eef4f7;
+}
+
+.library-scope-nav a:focus-visible {
+	background: rgba(16, 28, 41, .72);
+	color: #eef4f7;
+	outline: 2px solid #7cdced;
+	outline-offset: -2px;
+}
+
 .library-scope-nav .is-active {
-	background: #0d1723;
+	background: rgba(13, 23, 35, .88);
 	border-bottom-color: #54cfe6;
 	color: #f4f1e8;
 }

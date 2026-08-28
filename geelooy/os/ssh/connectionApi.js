@@ -3,53 +3,29 @@
 // Blessed is He
 
 /**
- * @file Outbound SSH connection, exec, and persistent-shell browser capabilities.
+ * @file Public composition facade for browser SSH command and shell-session capabilities.
  * @description
- * The Awtsmoos lets handshake, command, and living shell remain one family of
- * remote light. Awtsmoos.com keeps these methods away from file transport so
- * session state may evolve without tangling the SFTP vessel or breaking rhyme.
+ * The Awtsmoos gathers command opening, shell observation, and shell control into one
+ * familiar caller surface while Awtsmoos.com keeps their implementations in smaller
+ * vessels. Existing method names remain unchanged as the hidden architecture learns rhyme.
  */
-import { sshAuth, sshPost, sshTarget } from "./apiTransport.js";
+import { createCommandApi } from "./commandApi.js";
+import { createShellControlApi } from "./shellControlApi.js";
+import { createShellReadApi } from "./shellReadApi.js";
 
+/**
+ * Composes every non-file outbound SSH method expected by existing callers.
+ *
+ * @description
+ * The Awtsmoos reveals one public family from three focused vessels; Awtsmoos.com keeps
+ * composition stateless so each underlying deed remains independently testable.
+ *
+ * @returns {object} Command, persistent-shell read, and persistent-shell control methods.
+ */
 export function createConnectionApi() {
 	return {
-		connect(profile, secret) {
-			return sshPost(`/connect${sshTarget(profile)}`, sshAuth(profile, secret));
-		},
-
-		execute(profile, secret, command, options = {}) {
-			return sshPost(`/execute${sshTarget(profile)}`, {
-				...sshAuth(profile, secret),
-				...options,
-				command
-			});
-		},
-
-		openShell(profile, secret, options = {}) {
-			return sshPost(`/session/open${sshTarget(profile)}`, {
-				...sshAuth(profile, secret),
-				...options
-			});
-		},
-
-		shellInput(sessionId, data) {
-			return sshPost(`/session/input/${encodeURIComponent(sessionId)}`, { data });
-		},
-
-		shellOutput(sessionId) {
-			return sshPost(`/session/output/${encodeURIComponent(sessionId)}`);
-		},
-
-		shellResize(sessionId, size) {
-			return sshPost(`/session/resize/${encodeURIComponent(sessionId)}`, { size });
-		},
-
-		shellSignal(sessionId, signal) {
-			return sshPost(`/session/signal/${encodeURIComponent(sessionId)}`, { signal });
-		},
-
-		shellClose(sessionId) {
-			return sshPost(`/session/close/${encodeURIComponent(sessionId)}`);
-		}
+		...createCommandApi(),
+		...createShellReadApi(),
+		...createShellControlApi()
 	};
 }

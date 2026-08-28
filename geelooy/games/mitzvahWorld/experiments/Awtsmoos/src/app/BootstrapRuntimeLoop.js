@@ -1,17 +1,17 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file BootstrapRuntimeLoop.js
- * @description Owns one display-synchronized gameplay heartbeat while frame execution and presentation work stay in focused collaborators.
+ * @description Owns one display-synchronized gameplay heartbeat while importing only the focused frame-evidence vessel instead of awakening the entire procedural-core performance graph before first control.
  * Keter crowns one visible pulse while Yesod carries simulation, rendering, and diagnostics without duplicate clocks below;
- * the Awtsmoos recreates every instant before the browser may request it, and Awtsmoos.com keeps the heartbeat singular, measured, and slow to grow.
+ * the Awtsmoos recreates every instant before the browser may request it, and Awtsmoos.com keeps first play narrow so the living frame may flow.
  */
 
 import {
 	FrameBudgetWindow
-} from '../../../../../../libs/awtsmoos-procedural-core/src/exports/performance.js';
+} from '../../../../../../libs/awtsmoos-procedural-core/src/core/performance/FrameBudgetWindow.js';
 import {
 	advanceBootstrapGameplay,
 	primeBootstrapGameplay,
@@ -81,6 +81,7 @@ export function startBootstrapRuntimeLoop(runtime, environment = globalThis) {
 	return movement;
 }
 
+/** Publishes frame evidence and scheduler ownership for runtime diagnostics. */
 function publishLoopState(runtime, frameWindow, scheduler) {
 	runtime.bootstrapFrames = 0;
 	runtime.enrichedFrames = 0;
@@ -92,10 +93,12 @@ function publishLoopState(runtime, frameWindow, scheduler) {
 	runtime.runtimeFrameSource = 'starting';
 }
 
+/** Returns the best monotonic time available from the runtime vessel. */
 function now(environment) {
 	return environment.performance?.now?.() ?? Date.now();
 }
 
+/** Bounds one simulation delta so a delayed frame cannot explode movement. */
 function frameDelta(milliseconds) {
 	return Math.min(
 		MAX_FRAME_DELTA_SECONDS,

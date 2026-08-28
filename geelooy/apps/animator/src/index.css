@@ -1,8 +1,8 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- * Every stylesheet is a vessel; the Awtsmoos renews their order before one creative workspace can appear;
- * Awtsmoos.com keeps shell, feature ownership, interaction, and mobile revelation explicit so no hidden cascade becomes a rival power.
+ * The Awtsmoos renews the visible workstation before optional garments enter its light;
+ * Awtsmoos.com keeps first-paint CSS critical, while deeper creative tools arrive after sight.
  */
 @import './styles/base/tokens.css';
 @import './styles/base/reset.css';
@@ -13,36 +13,6 @@
 @import './styles/components/chrome.css';
 @import './styles/components/buttons.css';
 @import './styles/components/editor-controls.css';
-@import './styles/components/export-panel.css';
-@import './styles/components/nle.css';
-@import './styles/components/cartoon-studio.css';
-@import './styles/components/cartoon-studio-content.css';
-@import './styles/components/cartoon-studio-interactions.css';
 @import './styles/components/inspector.css';
-@import './styles/components/perf.css';
-@import './styles/components/revelation-modal.css';
-@import './styles/components/workspace.css';
-@import './styles/components/studio-workspace.css';
-@import './styles/components/studio-toolbar.css';
-@import './styles/components/studio-toolbar-status.css';
-@import './styles/components/studio-command-bar.css';
-@import './styles/components/studio-panels.css';
-@import './styles/components/studio-asset-tabs.css';
-@import './styles/components/studio-assets.css';
-@import './styles/components/studio-inspector.css';
-@import './styles/components/studio-path-inspector.css';
-@import './styles/components/studio-disclosure.css';
-@import './styles/components/studio-disclosure-motion.css';
-@import './styles/components/studio-authoring.css';
-@import './styles/components/studio-interactions.css';
-@import './styles/components/studio-performance.css';
-@import './styles/components/studio-performance-motion.css';
-@import './styles/components/studio-world.css';
-@import './styles/components/studio-world-motion.css';
-@import './styles/components/studio-nle.css';
-@import './styles/components/studio-nle-clips.css';
+@import './styles/components/boot-status.css';
 @import './styles/mobile/responsive.css';
-@import './styles/mobile/studio-mobile.css';
-@import './styles/mobile/studio-mobile-compact.css';
-@import './styles/mobile/studio-authoring-mobile.css';
-@import './styles/mobile/studio-mobile-nle.css';

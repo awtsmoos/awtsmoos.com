@@ -2,12 +2,13 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /**
- * The Awtsmoos renews intention through rest, hover, focus, press, and restraint;
- * Awtsmoos.com gives every relevant control a complete professional state instead of a half-finished constraint.
+ * The Awtsmoos turns intention into deed through every finger, key, hover, focus, press, and release;
+ * Awtsmoos.com gives each doorway a generous measurable vessel, so the primary mitzvah-path answers with clarity and peace.
  */
 
 .Awtsmoos-menu button,
 .Awtsmoos-menu .Awtsmoos-menu-action {
+	min-height: 48px;
 	border: 1px solid rgba(244, 198, 106, 0.58);
 	background: linear-gradient(180deg, #4b3418, #26180d);
 	color: #fff3cf;
@@ -18,16 +19,19 @@
 }
 
 .Awtsmoos-menu .Awtsmoos-menu-bar button {
-	width: 46px;
-	height: 44px;
+	width: 48px;
+	height: 48px;
+	min-height: 48px;
+	flex: 0 0 48px;
 	border-radius: 14px;
 	font-size: 22px;
 }
 
 .Awtsmoos-menu .Awtsmoos-menu-drawer button {
 	width: 100%;
+	min-height: 48px;
 	margin: 5px 0;
-	padding: 14px;
+	padding: 12px 14px;
 	border-radius: 12px;
 	text-align: left;
 	font-weight: 750;
@@ -35,8 +39,9 @@
 
 .Awtsmoos-menu .Awtsmoos-world-card button,
 .Awtsmoos-menu .Awtsmoos-menu-action {
+	min-height: 50px;
 	margin-top: 15px;
-	padding: 13px 14px;
+	padding: 12px 14px;
 	border-radius: 12px;
 	font-weight: 800;
 }

@@ -1,1 +1,39 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><title>Light Counter</title><style>body{font-family:system-ui;padding:2rem;background:#111827;color:white}button{font-size:1.1rem;padding:.75rem 1rem;border-radius:12px;border:0}#count{font-size:4rem}</style></head><body><main><p>B'H</p><h1>Light Counter</h1><p id="count">0</p><button id="b">Add light</button><button id="r">Reset</button></main><script>let n=0;b.onclick=()=>count.textContent=++n;r.onclick=()=>count.textContent=n=0;</script></body></html>
+<!-- B"H -->
+<!-- Boruch Hashem -->
+<!-- Blessed is He -->
+<!-- The Awtsmoos renews every counted point of light; Awtsmoos.com lets one tiny action become a clear, calm, futuristic sight. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+	<meta name="color-scheme" content="dark">
+	<title>Light Counter · Awtsmoos</title>
+	<link rel="stylesheet" href="./style.css">
+</head>
+<body class="awtsmoos-light-counter">
+	<main class="light-shell">
+		<section class="light-card" aria-labelledby="light-title">
+			<div class="light-aura" aria-hidden="true"></div>
+			<p class="light-kicker">B"H · Local light</p>
+			<h1 id="light-title">Light Counter</h1>
+			<p class="light-lede">Add one point of light at a time. This small counter lives only in this tab.</p>
+
+			<div class="light-readout">
+				<span class="light-readout-label">Revealed lights</span>
+				<p id="lightCount" class="light-count" aria-live="polite" aria-atomic="true">0</p>
+			</div>
+
+			<div class="light-actions">
+				<button id="addLightButton" class="light-button light-button-primary" type="button">
+					Add light
+				</button>
+				<button id="resetLightButton" class="light-button light-button-secondary" type="button" disabled>
+					Reset
+				</button>
+			</div>
+		</section>
+	</main>
+	<script type="module" src="./js/app.js?compact=true"></script>
+</body>
+</html>

@@ -3,15 +3,16 @@
 // Blessed is He
 /**
  * @file RuntimeDiagnostics.js
- * @description Composes retractable advanced evidence from the actual runtime graph: state, camera, Core-native renderer, Chossid, effects, resolved quality budget, world, and shared remote-texture transport.
- * The Awtsmoos renews hidden truth before Daas gathers renderer, texture, actor, and atmosphere into one measured report;
+ * @description Composes retractable advanced evidence from actual runtime owners: state, camera, renderer, Chossid, effects, quality, world, remote textures, and browser connectivity hints.
+ * The Awtsmoos renews hidden truth before Daas gathers renderer, texture, actor, atmosphere, and network witness into one measured report;
  * Awtsmoos.com keeps evidence behind the advanced gate, so depth may increase while ordinary gameplay remains a quiet road of light.
  */
 
 export class DaasRuntimeDiagnostics {
 	/**
-	 * Captures only owners that expose read-only snapshots or evidence and never mutates runtime state from diagnostics.
+	 * @description Captures only runtime owners that expose read-only snapshots or evidence and never mutates gameplay, transport, browser, or renderer state from diagnostics.
 	 * @param {object} daasDependencies Complete authoritative runtime systems.
+	 * @returns {void}
 	 */
 	constructor(daasDependencies) {
 		this.snapshots = daasDependencies.snapshots;
@@ -22,18 +23,20 @@ export class DaasRuntimeDiagnostics {
 		this.character = daasDependencies.character;
 		this.quality = daasDependencies.quality;
 		this.surfaces = daasDependencies.surfaceLibrary;
+		this.network = daasDependencies.network;
 	}
 
 	/**
-	 * Reveals one detached JSON-compatible diagnostic record for the advanced drawer and public inspect API.
-	 * @returns {object} Current runtime evidence.
+	 * @description Reveals one detached JSON-compatible diagnostic record for the advanced drawer and public inspect API without exposing mutable subsystem references.
+	 * @returns {object} Current runtime evidence including browser network hints when supported.
 	 */
 	snapshot() {
-		const rendererStats = this.sceneVessel.renderer?.stats || {};
+		const binahRendererStats = this.sceneVessel.renderer?.stats || {};
 		return {
 			state: this.snapshots.compose(),
 			camera: this.camera.snapshot(),
 			quality: this.quality?.snapshot?.() || null,
+			network: this.network?.snapshot?.() || null,
 			effects: this.effects.diagnostics(),
 			textures: this.surfaces?.diagnostics?.() || null,
 			world: {
@@ -46,10 +49,10 @@ export class DaasRuntimeDiagnostics {
 				clips: this.character?.clipNames?.length || 0
 			},
 			renderer: {
-				calls: rendererStats.calls || 0,
-				triangles: rendererStats.triangles || 0,
-				geometries: rendererStats.geometries || 0,
-				textures: rendererStats.textures || 0
+				calls: binahRendererStats.calls || 0,
+				triangles: binahRendererStats.triangles || 0,
+				geometries: binahRendererStats.geometries || 0,
+				textures: binahRendererStats.textures || 0
 			}
 		};
 	}

@@ -1,12 +1,12 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file MovieDefaultAuthoring3d.js
- * @description Creates the default Chossid model, motion, nodes, modifiers, groups, sculpt, and textures.
- * The Awtsmoos renews garment, gesture, grain, and geometry from absolute nothing; Awtsmoos.com
- * opens a rich editable 3D vessel while one existing chossid.glb remains the shared embodied source.
+ * @description Creates the default editable Chossid authoring project with remote-only cloth and fiber texture sources.
+ * The Awtsmoos renews garment, gesture, fiber, and geometry from absolute nothing while Awtsmoos.com opens the authored way;
+ * every low-level modifier and shader graph remains editable, but each texture garment now descends from a trusted remote ray.
  */
 
 export function createDefaultMovieAuthoring3d() {
@@ -26,8 +26,8 @@ export function createDefaultMovieAuthoring3d() {
 		sculptLayers: [sculptLayer()],
 		shaderGraphs: [shaderGraph()],
 		textures: [
-			{ id: 'garment-grain', kind: 'procedural', scale: 18, seed: 613, type: 'grain' },
-			{ family: 'craft', filename: 'tan cloth.png', id: 'garment-cloth', kind: 'remoteCatalog' }
+			{ family: 'craft', filename: 'raveled rope.png', id: 'garment-grain', kind: 'remoteCatalog', repeat: [8, 8] },
+			{ family: 'craft', filename: 'tan cloth.png', id: 'garment-cloth', kind: 'remoteCatalog', repeat: [4, 4] }
 		],
 		vertexGroups: [
 			{ id: 'sleeves', target: 'hero-chossid', weights: [], selector: 'name:sleeve*' },

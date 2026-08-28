@@ -1,0 +1,91 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos gives every editor a responsive vessel; Awtsmoos.com lets mobile and desktop share one measured level. */
+.aw-ui-shell {
+	min-height: 100dvh;
+	background: var(--aw-ui-bg);
+	color: var(--aw-ui-text);
+	display: grid;
+	grid-template-rows: auto auto 1fr auto;
+}
+
+.aw-ui-bar {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	min-height: var(--aw-ui-touch);
+	padding: 8px 12px;
+	border-bottom: 1px solid var(--aw-ui-line);
+	background: color-mix(in srgb, var(--aw-ui-surface) 92%, transparent);
+}
+
+.aw-ui-bar--scroll {
+	overflow-x: auto;
+	scrollbar-width: none;
+}
+
+.aw-ui-bar--scroll::-webkit-scrollbar {
+	display: none;
+}
+
+.aw-ui-grid {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: var(--aw-ui-gap);
+	padding: var(--aw-ui-gap);
+	min-height: 0;
+}
+
+.aw-ui-panel {
+	min-width: 0;
+	border: 1px solid var(--aw-ui-line);
+	border-radius: var(--aw-ui-radius);
+	background: var(--aw-ui-surface);
+	overflow: clip;
+	box-shadow: var(--aw-ui-shadow);
+}
+
+.aw-ui-panel__head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+	padding: 10px 12px;
+	border-bottom: 1px solid var(--aw-ui-line);
+}
+
+.aw-ui-panel__body {
+	padding: 12px;
+}
+
+.aw-ui-stack {
+	display: grid;
+	gap: 10px;
+}
+
+.aw-ui-row {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	flex-wrap: wrap;
+}
+
+.aw-ui-scroll {
+	overflow: auto;
+	overscroll-behavior: contain;
+}
+
+.aw-ui-spacer {
+	flex: 1;
+}
+
+.aw-ui-muted {
+	color: var(--aw-ui-muted);
+}
+
+@media (min-width: 780px) {
+	.aw-ui-grid {
+		grid-template-columns: minmax(210px, .7fr) minmax(360px, 2fr) minmax(240px, .85fr);
+	}
+}

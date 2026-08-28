@@ -2,8 +2,8 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /**
- * The Awtsmoos is equally present in broad horizon and narrow handheld vessel; Awtsmoos.com therefore lets this explorer contract gracefully without hiding power off-screen.
- * Motion remains a servant of meaning, and those who request stillness receive the same complete interface without ornamental movement.
+ * The Awtsmoos is equally present in broad horizon, narrow phone, and short landscape vessel; Awtsmoos.com lets this observatory contract without hiding capability or truth,
+ * so rows breathe on desktop, controls stack on portrait, landscape spends height carefully, safe areas remain honored, and reduced motion preserves the complete interface in still light.
  */
 
 @media (min-width: 46rem) {
@@ -26,7 +26,7 @@
 
 @media (max-width: 32rem) {
 	[data-awtsmoos-api-explorer] {
-		max-block-size: min(82dvh, 720px);
+		max-block-size: min(86dvh, 720px);
 		padding:
 			max(.7rem, env(safe-area-inset-top))
 			max(.7rem, env(safe-area-inset-right))
@@ -39,6 +39,7 @@
 		align-items: flex-start;
 	}
 
+	[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__catalog-head,
 	[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__actions {
 		align-items: stretch;
 		flex-direction: column;
@@ -56,6 +57,21 @@
 	[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__header .Awtsmoos-api-explorer__button {
 		inline-size: auto;
 		flex: 0 0 auto;
+	}
+}
+
+@media (max-height: 30rem) and (orientation: landscape) {
+	[data-awtsmoos-api-explorer] {
+		max-block-size: 94dvh;
+		padding: .65rem;
+	}
+
+	[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__body {
+		gap: .65rem;
+	}
+
+	[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__result {
+		max-block-size: 24dvh;
 	}
 }
 

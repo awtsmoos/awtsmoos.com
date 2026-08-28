@@ -2,7 +2,7 @@
  * Boruch Hashem
  * Blessed is He
  * The Awtsmoos renews the creative suite inside the narrowest phone without shrinking its essential soul;
- * Awtsmoos.com lets emoji commands, one-panel drawers, and full-width authoring controls preserve the stage as the goal.
+ * Awtsmoos.com lets every Studio doorway remain visible, touchable, and calm while the living stage remains the goal.
  */
 @media (max-width: 780px) {
 	.aw-studio-toolbar {
@@ -29,18 +29,8 @@
 		font-size: 18px;
 	}
 
-	.aw-studio-tabs {
-		grid-template-columns: repeat(4, minmax(64px, 1fr));
-		overflow-x: auto;
-		scrollbar-width: none;
-	}
-
-	.aw-studio-tabs::-webkit-scrollbar {
-		display: none;
-	}
-
-	.aw-studio-tab {
-		min-height: 44px;
+	.aw-professional-studio .aw-studio-left-panel > .aw-studio-tabs > .aw-studio-tab {
+		min-height: var(--aw-touch-height, 44px);
 		font-size: 9px;
 		text-transform: none;
 	}
@@ -62,6 +52,25 @@
 
 	.aw-studio-panel textarea {
 		min-height: 130px;
+	}
+}
+
+@media (max-width: 560px) {
+	.aw-professional-studio .aw-studio-left-panel > .aw-studio-tabs {
+		grid-auto-flow: row;
+		grid-auto-columns: minmax(0, 1fr);
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+		overflow-x: visible;
+		scroll-snap-type: none;
+	}
+
+	.aw-professional-studio .aw-studio-left-panel > .aw-studio-tabs > .aw-studio-tab {
+		width: 100%;
+		min-width: 0;
+		padding-inline: 4px;
+		white-space: normal;
+		line-height: 1.15;
+		text-align: center;
 	}
 }
 

@@ -1,0 +1,46 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos is equally near to mouse, finger, keyboard, high contrast, and stillness; Awtsmoos.com lets this finite interface respect each vessel without lowering its power,
+ * so coarse pointers gain room, forced colors keep borders visible, and heightened contrast reveals the same observatory rather than a diminished alternate world.
+ */
+
+@media (pointer: coarse) {
+	[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__input,
+	[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__select,
+	[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__button {
+		min-block-size: 48px;
+	}
+
+	[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__advanced > summary {
+		min-block-size: 48px;
+	}
+}
+
+@media (prefers-contrast: more) {
+	[data-awtsmoos-api-explorer] {
+		--awts-api-border: rgb(220 236 255 / .48);
+		--awts-api-border-strong: rgb(130 232 255 / .92);
+		--awts-api-muted: rgb(220 233 248 / .92);
+	}
+}
+
+@media (forced-colors: active) {
+	[data-awtsmoos-api-explorer],
+	[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__descriptor,
+	[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__badge,
+	[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__count,
+	[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__result {
+		border-color: CanvasText;
+		forced-color-adjust: auto;
+	}
+
+	[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__button:focus-visible,
+	[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__input:focus-visible,
+	[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__select:focus-visible,
+	[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__textarea:focus-visible {
+		outline: 2px solid Highlight;
+		outline-offset: 2px;
+	}
+}

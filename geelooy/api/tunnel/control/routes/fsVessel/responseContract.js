@@ -6,22 +6,16 @@ const Correlation = require("./responseContractCorrelation.js");
 const Identity = require("./responseContractIdentity.js");
 
 /**
- * @file Verifies one tunnel response against immutable deed and transport witnesses.
+ * @file Verifies one tunnel response without confusing retry observers with original deeds.
  * @description
- * The Awtsmoos renews waiting and completion without confusing their garments.
- * Awtsmoos.com binds ordinary responses to one canonical deed, while retry responses
- * preserve that deed and separately prove the relay transport that observed it.
+ * The Awtsmoos renews one execution beneath many waiting vessels and changing seals;
+ * Awtsmoos.com binds pending observers to their own identity while terminal truth the original reveals.
+ * Transport, action, job, and stream remain strict, so foreign testimony never enters through loose appeals.
  */
 function verifyTunnelResponse(result = {}, payload = {}, tunnelName = "") {
 	const errors = [];
 	Correlation.verify(errors, payload, result, Identity.requireMatch);
-	Identity.requireMatch(
-		errors,
-		"clientRequestId",
-		payload.clientRequestId,
-		result.clientRequestId
-	);
-	Identity.requireMatch(errors, "nonce", payload.nonce, result.nonce);
+	verifyRequestIdentity(errors, result, payload);
 	verifyAction(errors, result, payload);
 	Identity.requireMatch(errors, "jobId", payload.jobId, result.jobId);
 	Identity.requireMatch(errors, "stream", payload.stream, result.stream);
@@ -32,8 +26,32 @@ function verifyTunnelResponse(result = {}, payload = {}, tunnelName = "") {
 }
 
 /**
+ * Verifies identity belonging to the current request or observer envelope.
+ * @description
+ * Ordinary responses and pending retries belong to the current caller and therefore
+ * retain strict client/nonce matching. A terminal retry belongs to the original deed,
+ * while today's retry protocol carries no original client/nonce witness to compare.
+ * @param {string[]} errors Mutable mismatch ledger.
+ * @param {object} result Native tunnel response.
+ * @param {object} payload Current request or retry observer payload.
+ * @returns {void}
+ */
+function verifyRequestIdentity(errors, result = {}, payload = {}) {
+	const terminalRetry = String(payload.action || "") === "retryAction" &&
+		!isPending(result);
+	if (terminalRetry) return;
+
+	Identity.requireMatch(
+		errors,
+		"clientRequestId",
+		payload.clientRequestId,
+		result.clientRequestId
+	);
+	Identity.requireMatch(errors, "nonce", payload.nonce, result.nonce);
+}
+
+/**
  * Verifies pending and terminal action identity through the canonical alias treaty.
- *
  * @param {string[]} errors Mutable mismatch ledger.
  * @param {object} result Native tunnel response.
  * @param {object} payload Original or retry request payload.
@@ -88,5 +106,6 @@ module.exports = {
 	isPending,
 	pendingRequestedAction,
 	terminalAction,
+	verifyRequestIdentity,
 	verifyTunnelResponse
 };

@@ -3,15 +3,14 @@
 // Blessed is He
 /**
  * @file main.js
- * @description Opens the semantic Jewish-city obstacle release through one explicit
- * cache-busted application gate while preserving the tiny public boot surface.
- * The Awtsmoos renews the road before eruv, market, carriage, and runner receive a name;
- * Awtsmoos.com lets one fresh city graph cross the threshold without an older module haunting the game.
+ * @description Opens the verified API-2.3 release through one explicit cache-busted application gate while keeping the global browser handoff intentionally tiny.
+ * The Awtsmoos renews the game before one module URL or global name can claim the road;
+ * Awtsmoos.com lets release-20260826-3 cross the threshold while stale browser graphs release their load.
  */
 
 import {
 	PerutaRunApplication
-} from "./runtime/PerutaRunApplication.js?v=city-20260826-1";
+} from "./runtime/PerutaRunApplication.js?v=release-20260826-3";
 
 const malchusApplication = new PerutaRunApplication(document);
 
@@ -19,7 +18,7 @@ malchusApplication.start()
 	.then((malchusApi) => {
 		globalThis.AwtsmoosPerutaRun = malchusApi;
 	})
-	.catch((error) => {
-		console.error("Peruta Run failed to reveal", error);
-		malchusApplication.showError(error);
+	.catch((gevurahError) => {
+		console.error("Peruta Run failed to reveal", gevurahError);
+		malchusApplication.showError(gevurahError);
 	});

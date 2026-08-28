@@ -1,38 +1,61 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
  * @file RunEventCoordinator.js
- * @description Preserves the older event-coordinator doorway while delegating to canonical progression vessels.
+ * @description Preserves the event-coordinator doorway while delegating canonical progression, detecting mastery ascents, and awarding one finite Ruach Rush at true ×4 entry.
  * The Awtsmoos renews one deed beneath many callers without duplicating its count;
- * Awtsmoos.com lets legacy integrations pass through a thin bridge while present systems remain the source and fount.
+ * Awtsmoos.com lets missions observe every tier while a true mastery ascent opens one earned wind from the feedback fount.
  */
 
 export class TiferesRunEventCoordinator {
-	/** @param {object} dependencies Current progression, mission, lifetime, feedback, effect, and power vessels. */
+	/**
+	 * @description Captures canonical progression collaborators and initializes multiplier memory at the neutral ×1 tier.
+	 * @param {object} dependencies Current progression, mission, lifetime, feedback, effect, and power vessels.
+	 * @returns {void}
+	 */
 	constructor(dependencies) {
 		Object.assign(this, dependencies);
+		this.previousMultiplier = 1;
 	}
 
-	/** @param {string} type Mission counter type. @param {number} amount Positive increment. */
+	/** @description Records one canonical mission counter increment. @param {string} type Mission counter type. @param {number} amount Positive increment. @returns {Array<string>} Newly completed mission ids. */
 	record(type, amount = 1) {
 		return this.missions.record(type, amount);
 	}
 
-	/** @param {number} distance Current run distance. */
+	/** @description Reports current run distance to the canonical mission vessel. @param {number} distance Current run distance. @returns {Array<string>} Newly completed distance-mission ids. */
 	setDistance(distance) {
 		return this.missions.setDistance(distance);
 	}
 
-	/** @param {number} multiplier Current clean multiplier. */
+	/**
+	 * @description Reports multiplier progress, celebrates genuine upward tiers once, and awards Ruach Rush only when mastery is newly entered.
+	 * @param {number} multiplier Current clean multiplier.
+	 * @returns {Array<string>} Newly completed multiplier-mission ids.
+	 */
 	setMultiplier(multiplier) {
-		return this.missions.setMultiplier(multiplier);
+		const normalized = Math.max(
+			1,
+			Math.min(4, Math.floor(Number(multiplier) || 1))
+		);
+		const completed = this.missions.setMultiplier(normalized);
+		if (normalized > this.previousMultiplier && normalized > 1) {
+			this.feedback.streak(normalized);
+			if (normalized === 4) {
+				this.powerUps?.activateRush?.();
+			}
+		}
+		this.previousMultiplier = normalized;
+		return completed;
 	}
 
 	/**
-	 * Preserves the former centralized peruta hook without owning the canonical runtime path.
+	 * @description Preserves the former centralized peruta hook without owning the canonical runtime path.
 	 * @param {object} record Peruta record.
 	 * @param {object} worldPosition Pickup world position.
+	 * @returns {void}
 	 */
 	collectPeruta(record, worldPosition) {
 		this.progress.collectPeruta(
@@ -49,7 +72,7 @@ export class TiferesRunEventCoordinator {
 		this.feedback.peruta();
 	}
 
-	/** @param {string} direction Successful turn direction. */
+	/** @description Records one successful route turn through progression, lifetime, missions, and feedback. @param {string} direction Successful turn direction. @returns {void} */
 	turn(direction) {
 		void direction;
 		this.progress.cleanAction();
@@ -58,18 +81,22 @@ export class TiferesRunEventCoordinator {
 		this.feedback.turn();
 	}
 
-	/** @param {string} type Canonical temporary power-up type. */
+	/** @description Activates one canonical road power and its existing feedback. @param {string} type Canonical temporary power-up type. @returns {void} */
 	powerUp(type) {
 		this.powerUps.activate(type);
 		this.feedback.powerUp(type);
 	}
 
-	/** Marks one consumed protective charge. */
+	/** @description Reports one consumed protective charge through existing feedback. @returns {void} */
 	shield() {
 		this.feedback.shield();
 	}
 
-	/** @param {object} state Physical runner state at the end of a run. */
+	/**
+	 * @description Commits final distance, best score, lifetime run evidence, and crash feedback through canonical owners.
+	 * @param {object} state Physical runner state at the end of a run.
+	 * @returns {void}
+	 */
 	finishRun(state) {
 		this.progress.updateDistance(state.distance || 0);
 		this.progress.commitBest();

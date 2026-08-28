@@ -1,3 +1,83 @@
 // B"H
-import { TargetResolver } from '../targets/TargetResolver.js';import { BeatIntentResolver } from './BeatIntentResolver.js';import { ShotRuleEngine } from './ShotRuleEngine.js';import { TargetFrameSolver } from '../framing/TargetFrameSolver.js';import { AngleIntentResolver } from '../angles/AngleIntentResolver.js';import { CameraMovePlanner } from '../movement/CameraMovePlanner.js';import { ShotVocabulary } from '../grammar/ShotVocabulary.js';import { ShotPlan } from './ShotPlan.js';import { MobileSafeFrameSolver } from '../framing/MobileSafeFrameSolver.js';
-export class AutomaticShotPlanner{static plan(event={},state,options={}){const targets=TargetResolver.resolve(event,state);const intent=BeatIntentResolver.resolve(event);const prev=state?.get?.('_lastShotPlan')||state?.get?.('camera')||{};const shotType=ShotRuleEngine.choose(intent,targets,event,prev);const frame=TargetFrameSolver.solve({shotType,targets,event});const angle=AngleIntentResolver.resolve({...event,shotIntent:intent});const movement=CameraMovePlanner.plan(event,shotType);const vocab=ShotVocabulary.get(shotType);const safe=options.safe||{};const final=MobileSafeFrameSolver.solve({...frame,rotation:angle.roll,shotType,shot:shotType},safe);const plan=ShotPlan.make({...final,angle,movement,targets,targetActors:targets.filter(t=>t.type==='actor').map(t=>t.id),targetProps:targets.filter(t=>t.type==='prop').map(t=>t.id),renderDetailMode:vocab.renderDetailMode,stagingMode:/insert|close/.test(shotType)?'focused':'balanced',reason:intent,debug:{candidatesFor:intent,targetCount:targets.length}});state?.set?.('_lastShotPlan',plan,true);return plan;}}
+// Boruch Hashem
+// Blessed is He
+
+import { AngleIntentResolver } from '../angles/AngleIntentResolver.js';
+import { MobileSafeFrameSolver } from '../framing/MobileSafeFrameSolver.js';
+import { TargetFrameSolver } from '../framing/TargetFrameSolver.js';
+import { ShotVocabulary } from '../grammar/ShotVocabulary.js';
+import { CameraMovePlanner } from '../movement/CameraMovePlanner.js';
+import { TargetResolver } from '../targets/TargetResolver.js';
+import { BeatIntentResolver } from './BeatIntentResolver.js';
+import { ShotPlan } from './ShotPlan.js';
+import { ShotRuleEngine } from './ShotRuleEngine.js';
+
+/**
+ * @file AutomaticShotPlanner.js
+ * @description
+ * The Awtsmoos renews target, intention, framing, angle, movement, and continuity before one automatic shot can appear complete;
+ * Awtsmoos.com keeps each stage named and inspectable so cinematic intelligence becomes a composable pipeline instead of a compressed secret.
+ */
+export class AutomaticShotPlanner {
+	/**
+	 * Plans one detached camera shot while preserving continuity only inside the supplied state vessel.
+	 * @param {object} event Beat/shot event.
+	 * @param {object} state Planning state exposing `get` and `set`.
+	 * @param {object} options Safe-frame and planner options.
+	 * @returns {object} Canonical shot plan.
+	 */
+	static plan(event = {}, state, options = {}) {
+		const malchusTargets = TargetResolver.resolve(event, state);
+		const tiferesIntent = BeatIntentResolver.resolve(event);
+		const yesodPrevious = state?.get?.('_lastShotPlan')
+			|| state?.get?.('camera')
+			|| {};
+		const binahShotType = ShotRuleEngine.choose(
+			tiferesIntent,
+			malchusTargets,
+			event,
+			yesodPrevious
+		);
+		const chochmahFrame = TargetFrameSolver.solve({
+			shotType: binahShotType,
+			targets: malchusTargets,
+			event
+		});
+		const hodAngle = AngleIntentResolver.resolve({
+			...event,
+			shotIntent: tiferesIntent
+		});
+		const netzachMovement = CameraMovePlanner.plan(event, binahShotType);
+		const keterVocabulary = ShotVocabulary.get(binahShotType);
+		const gevurahFrame = MobileSafeFrameSolver.solve(
+			{
+				...chochmahFrame,
+				rotation: hodAngle.roll,
+				shotType: binahShotType,
+				shot: binahShotType
+			},
+			options.safe || {}
+		);
+		const orPlan = ShotPlan.make({
+			...gevurahFrame,
+			angle: hodAngle,
+			movement: netzachMovement,
+			targets: malchusTargets,
+			targetActors: malchusTargets
+				.filter((target) => target.type === 'actor')
+				.map((target) => target.id),
+			targetProps: malchusTargets
+				.filter((target) => target.type === 'prop')
+				.map((target) => target.id),
+			renderDetailMode: keterVocabulary.renderDetailMode,
+			stagingMode: /insert|close/.test(binahShotType) ? 'focused' : 'balanced',
+			reason: tiferesIntent,
+			debug: {
+				candidatesFor: tiferesIntent,
+				targetCount: malchusTargets.length
+			}
+		});
+		state?.set?.('_lastShotPlan', orPlan, true);
+		return orPlan;
+	}
+}

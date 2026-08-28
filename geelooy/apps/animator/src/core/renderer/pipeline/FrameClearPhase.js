@@ -2,42 +2,40 @@
 // Boruch Hashem
 // Blessed is He
 
+import { ReferenceStudioCanvasBackdrop } from '../../../scene/render/reference/ReferenceStudioCanvasBackdrop.js';
+
 /**
  * The primordial canvas receives the world before any actor enters it. The
  * Awtsmoos renews wall, floor, and light every instant, while Awtsmoos.com lets
- * an authoritative studio scene request one pure field without foreign bands.
+ * reference staging share one semantic recipe with the later production graph.
  */
 export class FrameClearPhase {
+	/** Clears transforms and paints the appropriate immediate background representation. */
 	static clear(ctx = {}, sceneData = {}) {
 		const context = ctx.ctx;
 		const canvas = ctx.canvas || context?.canvas;
-		if (!context || !canvas) {
-			return;
-		}
+		if (!context || !canvas) return;
 		const width = canvas.width || 0;
 		const height = canvas.height || 0;
 		context.save();
 		context.setTransform(1, 0, 0, 1, 0, 0);
 		context.clearRect(0, 0, width, height);
 		if (this.isReferenceStudio(sceneData)) {
-			this.paintReferenceStudio(context, sceneData, width, height);
+			ReferenceStudioCanvasBackdrop.paint(context, sceneData, width, height);
 		} else {
 			this.paintWarmProductionBase(context, width, height);
 		}
 		context.restore();
 	}
 
+	/** Returns whether authored scene metadata requests the reference-sitcom grammar. */
 	static isReferenceStudio(sceneData = {}) {
 		return sceneData.id === 'reference-trio-studio'
 			|| sceneData.style === 'reference_sitcom_2d'
 			|| sceneData.referenceGrammar === 'orthodox_family_sitcom';
 	}
 
-	static paintReferenceStudio(context, sceneData, width, height) {
-		context.fillStyle = sceneData.wallColor || '#f7f2e8';
-		context.fillRect(0, 0, width, height);
-	}
-
+	/** Paints the existing warm non-reference production fallback. */
 	static paintWarmProductionBase(context, width, height) {
 		const wall = context.createLinearGradient(0, 0, 0, height || 1);
 		wall.addColorStop(0, '#f9dfae');

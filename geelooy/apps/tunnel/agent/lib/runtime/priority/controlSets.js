@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file Reserves observation, recovery, and instruction retrieval outside ordinary pressure.
+ * @file Keeps recovery and bounded interactive work outside bulk-pressure shadows.
  * @description
- * The Awtsmoos leaves a doorway even when ordinary vessels overflow. Awtsmoos.com
- * keeps diagnosis, cancellation, generation repair, and pre-write doctrine on P0 so
- * the medicine and the law never wait behind the workload they govern.
+ * The Awtsmoos leaves a narrow doorway even when broad vessels overflow. Awtsmoos.com
+ * therefore reserves recovery on P0 and routes small filesystem discovery or metadata
+ * deeds through the interactive lane, while true bulk creation remains bounded apart.
  */
 const CONTROL_ACTIONS = new Set([
 	"heartbeat", "tunnelHeartbeat", "agentHeartbeat", "ping", "pong",
@@ -39,7 +39,9 @@ const DIAGNOSTIC_ACTIONS = new Set([
 
 const FS_LIGHT_ACTIONS = new Set([
 	"stat", "read", "read64", "readBytes", "readLines", "readManyLines",
-	"md", "list", "configGet", "fileHashes", "recentFiles", "connectedFiles"
+	"md", "list", "configGet", "fileHashes", "recentFiles", "connectedFiles",
+	"grep", "findFiles", "selectString", "textStats",
+	"mkdirp", "ensureFile", "touch"
 ]);
 
 const CHROME_LIGHT_ACTIONS = new Set([

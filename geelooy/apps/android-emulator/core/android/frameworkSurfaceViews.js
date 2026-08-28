@@ -1,25 +1,32 @@
-//B"H //Boruch Hashem //Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
-import { isDalvikReference } from "../dalvik/objectHeap.js";
-
-export const ANDROID_SURFACE_HOLDER = "Landroid/view/SurfaceHolder;";
-export const ANDROID_SURFACE_VIEW = "Landroid/view/SurfaceView;";
-const CALLBACK_FIELD = "android:surface:callbacks";
-const FORMAT_FIELD = "android:surface:format";
-const HOLDER_FIELD = "android:surface:holder";
-const OWNER_FIELD = "android:surface:owner";
+import {
+	ANDROID_SURFACE_HOLDER,
+	ANDROID_SURFACE_VIEW,
+	CALLBACK_FIELD,
+	FORMAT_FIELD,
+	HOLDER_FIELD,
+	OWNER_FIELD,
+	registerSurfaceHolder,
+	requireSurfaceHolder,
+	requireSurfaceReference,
+	stableSurfaceForHolder
+} from "./surfaceHolderState.js";
 
 /**
- * Models SurfaceView and SurfaceHolder identity and configuration in guest heap
- * state. The Awtsmoos renews holder, owner, format, and callback testimony;
- * Awtsmoos.com invents no host surface and fires no unmeasured lifecycle event.
+ * Models SurfaceView and SurfaceHolder identity without stealing lifecycle from
+ * Android. The Awtsmoos renews holder, callback, format, and surface as one song;
+ * Awtsmoos.com records registration now and lets attachment arrive where it belongs.
  */
 export function createFrameworkSurfaceViewMethods(runtime) {
 	const handlers = new Map([
 		[`${ANDROID_SURFACE_VIEW}->getHolder()${ANDROID_SURFACE_HOLDER}`, getHolder],
 		[`${ANDROID_SURFACE_VIEW}->setZOrderOnTop(Z)V`, setZOrderOnTop],
 		[`${ANDROID_SURFACE_HOLDER}->setFormat(I)V`, setFormat],
-		[`${ANDROID_SURFACE_HOLDER}->addCallback(Landroid/view/SurfaceHolder$Callback;)V`, addCallback]
+		[`${ANDROID_SURFACE_HOLDER}->addCallback(Landroid/view/SurfaceHolder$Callback;)V`, addCallback],
+		[`${ANDROID_SURFACE_HOLDER}->getSurface()Landroid/view/Surface;`, getSurface]
 	]);
 	return Object.freeze({
 		canHandle(record) {
@@ -32,62 +39,39 @@ export function createFrameworkSurfaceViewMethods(runtime) {
 }
 
 function getHolder(runtime, args) {
-	const view = requireReference(runtime, args[0], "ANDROID_SURFACE_VIEW_REQUIRED");
-	const existing = runtime.heap.getField(view, HOLDER_FIELD);
-	if (isDalvikReference(existing)) return existing;
+	const view = requireSurfaceReference(runtime, args[0], "ANDROID_SURFACE_VIEW_REQUIRED");
+	const existing = runtime.heap.getField(args[0], HOLDER_FIELD);
+	if (existing) return existing;
 	const holder = runtime.heap.allocate(ANDROID_SURFACE_HOLDER);
-	runtime.heap.setField(holder, OWNER_FIELD, view);
+	runtime.heap.setField(holder, OWNER_FIELD, args[0]);
 	runtime.heap.setField(holder, CALLBACK_FIELD, Object.freeze([]));
-	runtime.heap.setField(view, HOLDER_FIELD, holder);
+	runtime.heap.setField(args[0], HOLDER_FIELD, holder);
+	registerSurfaceHolder(runtime, holder);
 	return holder;
 }
 
 function setZOrderOnTop(runtime, args) {
-	const view = requireReference(runtime, args[0], "ANDROID_SURFACE_VIEW_REQUIRED");
-	runtime.views.set(view, "zOrderOnTop", args[1] ? 1 : 0);
+	requireSurfaceReference(runtime, args[0], "ANDROID_SURFACE_VIEW_REQUIRED");
+	runtime.views.set(args[0], "zOrderOnTop", args[1] ? 1 : 0);
 	return 0;
 }
 
 function setFormat(runtime, args) {
-	const holder = requireHolder(runtime, args[0]);
+	const holder = requireSurfaceHolder(runtime, args[0]);
 	runtime.heap.setField(holder, FORMAT_FIELD, Number(args[1] || 0));
 	return 0;
 }
 
 function addCallback(runtime, args) {
-	const holder = requireHolder(runtime, args[0]);
-	const callback = requireReference(
-		runtime,
-		args[1],
-		"ANDROID_SURFACE_CALLBACK_REQUIRED"
-	);
+	const holder = requireSurfaceHolder(runtime, args[0]);
+	requireSurfaceReference(runtime, args[1], "ANDROID_SURFACE_CALLBACK_REQUIRED");
 	const callbacks = runtime.heap.getField(holder, CALLBACK_FIELD) || [];
-	if (!callbacks.includes(callback)) {
-		runtime.heap.setField(
-			holder,
-			CALLBACK_FIELD,
-			Object.freeze([...callbacks, callback])
-		);
+	if (!callbacks.includes(args[1])) {
+		runtime.heap.setField(holder, CALLBACK_FIELD, Object.freeze([...callbacks, args[1]]));
 	}
 	return 0;
 }
 
-function requireHolder(runtime, reference) {
-	const holder = requireReference(runtime, reference, "ANDROID_SURFACE_HOLDER_REQUIRED");
-	if (runtime.heap.get(holder).type !== ANDROID_SURFACE_HOLDER) {
-		throw surfaceError("ANDROID_SURFACE_HOLDER_REQUIRED", runtime.heap.get(holder).type);
-	}
-	return holder;
-}
-
-function requireReference(runtime, reference, code) {
-	if (!isDalvikReference(reference)) throw surfaceError(code, String(reference));
-	runtime.heap.get(reference);
-	return reference;
-}
-
-function surfaceError(code, detail) {
-	const error = new Error(`${code}:${detail}`);
-	error.code = code;
-	return error;
+function getSurface(runtime, args) {
+	return stableSurfaceForHolder(runtime, requireSurfaceHolder(runtime, args[0]));
 }

@@ -1,4 +1,10 @@
-/* B"H: stylesheet bridge; the sanctuary is split into smaller chambers. */
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos joins many visual chambers into one garden without confusing their light;
+ * Awtsmoos.com keeps cascade order explicit so every focused vessel can remain small and right.
+ */
 @import url("./styles/base.css");
 @import url("./styles/cosmic.css");
 @import url("./styles/layout.css");
@@ -6,3 +12,4 @@
 @import url("./styles/cards.css");
 @import url("./styles/motion.css");
 @import url("./styles/responsive.css");
+@import url("./styles/accessibility.css");

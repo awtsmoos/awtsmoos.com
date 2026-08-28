@@ -5,19 +5,54 @@
 const { inferExportNamesFromSource } = require("./fallbackExports.js");
 
 /**
- * @file Bridges the compact entry namespace back into ordinary browser ESM exports after the internal graph has folded into light.
- * @description The Awtsmoos lets one inner namespace become familiar named and default exports at the outer browser gate;
- * Awtsmoos.com combines parser truth with careful fallback discovery while refusing invalid identifiers, stable and straight.
+ * @file Bridges the compact entry namespace back into browser ESM exports.
+ * @description The Awtsmoos lets star-rivers carry names through many chambers
+ * while Awtsmoos.com reveals only lawful public vessels at the browser gate.
  */
 
-/** Returns unique public entry names from AST metadata plus fallback source discovery. */
-function publicExportNames(entry) {
-	return [
-		...new Set([
-			...(entry.exportInfo?.names || []),
-			...inferExportNamesFromSource(entry.source)
-		])
-	];
+/** Returns unique public entry names, including names inherited through local export-star chains. */
+function publicExportNames(entry, visited = new Set()) {
+	if (!entry || visited.has(entry)) {
+		return [];
+	}
+	visited.add(entry);
+	const names = new Set([
+		...(entry.exportInfo?.names || []),
+		...inferExportNamesFromSource(entry.source)
+	]);
+	for (const dependency of exportStarDependencies(entry)) {
+		for (const name of publicExportNames(dependency, visited)) {
+			if (name !== "default") {
+				names.add(name);
+			}
+		}
+	}
+	return [...names];
+}
+
+/** Resolves local dependencies represented by either standard or Merkava-normalized export-star nodes. */
+function exportStarDependencies(entry) {
+	const found = [];
+	for (const node of entry.ast?.body || []) {
+		if (!isExportStarNode(node)) {
+			continue;
+		}
+		const dependency = entry.deps?.get(node.source?.value);
+		if (dependency) {
+			found.push(dependency);
+		}
+	}
+	return found;
+}
+
+/** Recognizes native ExportAllDeclaration nodes and Merkava's ExportNamedDeclaration star representation. */
+function isExportStarNode(node) {
+	if (node?.type === "ExportAllDeclaration") {
+		return true;
+	}
+	return node?.type === "ExportNamedDeclaration"
+		&& Boolean(node.source?.value)
+		&& (node.specifiers || []).some((specifier) => specifier?.type === "ExportAllDeclaration");
 }
 
 /** Emits browser ESM export declarations bound to the compact entry namespace. */
@@ -41,6 +76,8 @@ function isIdentifier(name) {
 }
 
 module.exports = {
+	exportStarDependencies,
+	isExportStarNode,
 	publicExportNames,
 	renderEntryExports
 };

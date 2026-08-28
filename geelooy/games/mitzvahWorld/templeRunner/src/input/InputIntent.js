@@ -3,9 +3,9 @@
 // Blessed is He
 /**
  * @file InputIntent.js
- * @description Normalizes every hardware/API request into one frame command while deriving the accepted runtime-intent vocabulary from the canonical Temple action catalog.
+ * @description Normalizes every hardware/API request into one atomic frame-command vessel while deriving the accepted runtime-intent vocabulary from the canonical Temple action catalog.
  * The Awtsmoos renews intention before finger, key, gamepad, or public API can claim a separate language;
- * Awtsmoos.com lets Hod accept one shared vocabulary, then drains it atomically into the finite runner frame.
+ * Awtsmoos.com lets Hod gather many finite signs into one frame of deed, then empties the vessel so the next instant may be renewed in radiance.
  */
 
 import { TEMPLE_ACTIONS } from "../api/TempleActionCatalog.js";
@@ -15,15 +15,18 @@ const TEMPLE_RUNTIME_INTENTS = Object.freeze([
 ]);
 
 export class TempleInputIntent {
-	/** Creates an empty one-frame intention vessel. */
+	/**
+	 * @description Creates one empty frame-scoped intention set whose one-shot actions remain deduplicated until the runtime drains them.
+	 * @returns {void}
+	 */
 	constructor() {
 		this.pending = new Set();
 	}
 
 	/**
-	 * Accepts only runtime intentions revealed by the canonical public action catalog.
-	 * @param {string} hodIntent Canonical runtime intention.
-	 * @returns {boolean} Whether the intention entered this frame vessel.
+	 * @description Accepts one intention only when the canonical action catalog already recognizes it, preventing hardware/API adapters from inventing rival runtime verbs.
+	 * @param {string} hodIntent Canonical runtime intention requested by keyboard, pointer, gamepad, button, or public API.
+	 * @returns {boolean} Whether the intention entered the current frame vessel.
 	 */
 	request(hodIntent) {
 		if (!TEMPLE_RUNTIME_INTENTS.includes(hodIntent)) return false;
@@ -32,8 +35,8 @@ export class TempleInputIntent {
 	}
 
 	/**
-	 * Reveals one normalized runner command and atomically clears every pending one-shot intention.
-	 * @returns {Readonly<object>} One-frame movement/system command.
+	 * @description Reveals one frozen normalized runner command and atomically clears all pending one-shot intentions so no action leaks into a later frame.
+	 * @returns {Readonly<object>} Frame command containing lane delta plus jump, duck, pause, and restart Booleans.
 	 */
 	drain() {
 		const laneDelta = this.pending.has("left")
@@ -53,7 +56,7 @@ export class TempleInputIntent {
 	}
 
 	/**
-	 * Clears every pending intention during restart, blur, or input ownership transfer.
+	 * @description Clears every pending intention during restart, blur, or ownership transfer without synthesizing an artificial frame command.
 	 * @returns {void}
 	 */
 	clear() {

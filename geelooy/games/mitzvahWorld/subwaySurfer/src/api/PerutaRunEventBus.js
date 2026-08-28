@@ -3,34 +3,32 @@
 // Blessed is He
 /**
  * @file PerutaRunEventBus.js
- * @description Publishes a finite semantic event vocabulary using detached deeply immutable payloads and guarded listener execution.
- * The Awtsmoos renews every event before one listener can hear its sound;
- * Awtsmoos.com keeps semantic messages detached, immutable, ordered, and bound.
+ * @description Publishes the finite semantic vocabulary through detached immutable payloads, replayable readiness evidence, and listener-failure isolation.
+ * The Awtsmoos renews event, listener, payload, and silence before any finite message may travel round;
+ * Awtsmoos.com lets Yesod carry gameplay truth without letting one subscriber exception break the running ground.
  */
 
 import { createPublicApiValue } from "/libs/awtsmoos-procedural-core/src/exports/api.js";
+import { PERUTA_RUN_EVENTS } from "./PerutaRunEventVocabulary.js";
 
-const EVENT_NAMES = Object.freeze([
-	"ready",
-	"peruta",
-	"crash",
-	"pause",
-	"resume",
-	"restart"
-]);
-
-/** Guarded semantic event bus whose payloads can never mutate authoritative runtime objects. */
 export class YesodPerutaRunEventBus {
+	/**
+	 * @description Creates one listener Set per declared event and an empty readiness cache for late-subscriber replay.
+	 */
 	constructor() {
-		this.listeners = new Map(EVENT_NAMES.map((yesodName) => [yesodName, new Set()]));
+		this.listeners = new Map(
+			PERUTA_RUN_EVENTS.map((yesodName) => [yesodName, new Set()])
+		);
 		this.readyPayload = null;
 	}
 
 	/**
-	 * Subscribes to one supported semantic game event and replays ready evidence to late listeners.
-	 * @param {string} chochmahEventName Supported event name.
-	 * @param {Function} tiferesListener Callback receiving deeply immutable payload data.
-	 * @returns {Function} Idempotent unsubscribe function.
+	 * @description Subscribes one callback and asynchronously replays immutable `ready` evidence when boot already completed.
+	 * @param {string} chochmahEventName Supported semantic event id advertised by capabilities.
+	 * @param {Function} tiferesListener Callback receiving detached deeply immutable evidence.
+	 * @returns {Function} Idempotent unsubscribe function for exactly this event/listener pair.
+	 * @throws {RangeError} When the event is outside the declared vocabulary.
+	 * @throws {TypeError} When the listener is not callable.
 	 */
 	on(chochmahEventName, tiferesListener) {
 		this.assertEvent(chochmahEventName);
@@ -46,10 +44,11 @@ export class YesodPerutaRunEventBus {
 	}
 
 	/**
-	 * Publishes one semantic event through a detached deeply immutable public payload.
-	 * @param {string} chochmahEventName Supported event id.
-	 * @param {object} [malchusPayload={}] JSON-compatible event payload.
+	 * @description Detaches/deep-freezes one payload, remembers readiness evidence when appropriate, then invokes current subscribers synchronously in registration order.
+	 * @param {string} chochmahEventName Supported semantic event id.
+	 * @param {object} [malchusPayload={}] JSON-compatible gameplay/runtime evidence.
 	 * @returns {void}
+	 * @throws {RangeError} When callers attempt to publish an undeclared event.
 	 */
 	emit(chochmahEventName, malchusPayload = {}) {
 		this.assertEvent(chochmahEventName);
@@ -62,7 +61,12 @@ export class YesodPerutaRunEventBus {
 		}
 	}
 
-	/** @param {string} chochmahEventName Candidate event id. @returns {void} */
+	/**
+	 * @description Guards vocabulary membership before subscription or publication touches listener storage.
+	 * @param {string} chochmahEventName Candidate semantic event id.
+	 * @returns {void}
+	 * @throws {RangeError} When the event id is unsupported.
+	 */
 	assertEvent(chochmahEventName) {
 		if (!this.listeners.has(chochmahEventName)) {
 			throw new RangeError(`Unsupported Peruta Run event: ${chochmahEventName}`);
@@ -70,9 +74,9 @@ export class YesodPerutaRunEventBus {
 	}
 
 	/**
-	 * Protects gameplay from subscriber exceptions while surfacing developer evidence.
-	 * @param {Function} tiferesListener Listener callback.
-	 * @param {object} malchusPayload Deeply immutable event payload.
+	 * @description Executes one subscriber inside an error boundary so extension failures remain visible without crashing gameplay dispatch.
+	 * @param {Function} tiferesListener Subscriber callback.
+	 * @param {object} malchusPayload Detached deeply immutable public event payload.
 	 * @returns {void}
 	 */
 	invoke(tiferesListener, malchusPayload) {
@@ -84,4 +88,4 @@ export class YesodPerutaRunEventBus {
 	}
 }
 
-export const PERUTA_RUN_EVENTS = EVENT_NAMES;
+export { PERUTA_RUN_EVENTS };

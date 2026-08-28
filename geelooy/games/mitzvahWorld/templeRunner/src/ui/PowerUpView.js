@@ -4,19 +4,23 @@
 /**
  * @file PowerUpView.js
  * @description Renders one compact status line for active magnet, shield, and double-peruta blessings without turning temporary help into permanent HUD clutter.
- * The Awtsmoos renews each passing gift before a timer can count its glow;
- * Awtsmoos.com keeps temporary help visible but quiet, so the player watches the road and still can know.
+ * The Awtsmoos renews every passing gift before timer, icon, or status line can claim the blessing's flame;
+ * Awtsmoos.com lets Chesed make temporary help legible yet quiet, so the player watches the road while still knowing each name.
  */
 
 export class ChesedPowerUpView {
-	/** @param {HTMLElement|null} malchusElement Power-up status container. */
+	/**
+	 * @description Captures the optional compact power-up status surface while allowing routes that intentionally omit it to remain safe.
+	 * @param {HTMLElement|null} malchusElement Power-up status container or null when that compact surface is absent.
+	 * @returns {void}
+	 */
 	constructor(malchusElement) {
 		this.element = malchusElement;
 	}
 
 	/**
-	 * Projects active power timers into one readable line and toggles only the semantic active class.
-	 * @param {object} chesedPowers Power-up snapshot.
+	 * @description Projects active power timers into one readable line and toggles only the semantic active class, leaving layout and animation to localized CSS.
+	 * @param {object} [chesedPowers={}] Power-up snapshot containing magnet, double, and shield quantities.
 	 * @returns {void}
 	 */
 	render(chesedPowers = {}) {

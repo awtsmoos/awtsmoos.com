@@ -1,0 +1,9 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gathers editor controls and governance panels through two scoped style vessels;
+ * Awtsmoos.com keeps this manifest tiny so visual authority can evolve without another CSS monolith in the mirrors.
+ */
+@import "./admin-editing-controls.css";
+@import "./admin-editing-panels.css";

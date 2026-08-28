@@ -1,0 +1,97 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos conceals secondary possibility until it is sought;
+ * Awtsmoos.com keeps Sections, Tools, and draft machinery discoverable without leaving every door open at once.
+ */
+.composer-civilization-document .composer-mode-deck,
+.composer-civilization-document .composer-social-tools {
+	display: flex;
+	align-items: center;
+	gap: var(--clarity-space-2);
+	margin: 0 0 var(--clarity-space-3);
+	padding: 0;
+	background: transparent;
+	border: 0;
+	box-shadow: none;
+}
+
+.composer-civilization-document .composer-mode-toggle {
+	display: inline-flex;
+	gap: 4px;
+	padding: 3px;
+	background: var(--clarity-surface);
+	border: 1px solid var(--clarity-border);
+	border-radius: var(--clarity-radius-small);
+}
+
+.composer-civilization-document .composer-mode-button {
+	min-height: 36px;
+	padding: 0.45rem 0.7rem;
+	background: transparent;
+	border-color: transparent;
+}
+
+.composer-civilization-document .composer-workflow-disclosure,
+.composer-civilization-document .composer-tool-menu,
+.composer-civilization-document .composer-action-menu {
+	position: relative;
+	margin-left: auto;
+}
+
+.composer-civilization-document .composer-workflow-disclosure > summary,
+.composer-civilization-document .composer-tool-menu > summary,
+.composer-civilization-document .composer-action-menu > summary {
+	min-height: 38px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0.45rem 0.75rem;
+	background: transparent;
+	border: 1px solid var(--clarity-border);
+	border-radius: var(--clarity-radius-small);
+	color: var(--clarity-muted);
+	font-size: 0.86rem;
+	font-weight: 650;
+	cursor: pointer;
+	list-style: none;
+}
+
+.composer-civilization-document .composer-workflow-disclosure > summary::-webkit-details-marker,
+.composer-civilization-document .composer-tool-menu > summary::-webkit-details-marker,
+.composer-civilization-document .composer-action-menu > summary::-webkit-details-marker {
+	display: none;
+}
+
+.composer-civilization-document .composer-workflow-rail,
+.composer-civilization-document .composer-tool-menu-grid,
+.composer-civilization-document .composer-action-menu-panel {
+	position: absolute;
+	top: calc(100% + 8px);
+	right: 0;
+	z-index: var(--clarity-layer-popover);
+	min-width: 220px;
+	padding: var(--clarity-space-2);
+	background: var(--clarity-surface-raised);
+	border: 1px solid var(--clarity-border-strong);
+	border-radius: var(--clarity-radius);
+	box-shadow: var(--clarity-shadow);
+}
+
+.composer-civilization-document .composer-workflow-rail,
+.composer-civilization-document .composer-tool-menu-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: var(--clarity-space-1);
+}
+
+.composer-civilization-document .composer-action-menu-panel {
+	display: grid;
+	gap: var(--clarity-space-1);
+}
+
+.composer-civilization-document .composer-action-menu-panel button {
+	width: 100%;
+	justify-content: flex-start;
+}

@@ -1,15 +1,15 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file EretzPlayerStateFactory.js
- * @description Creates bootstrap and canonical gameplay identity from one measured covenant.
- * The Awtsmoos renews body, place, sight, and purpose together in every frame of the road;
- * Awtsmoos.com gives first light and fuller valley the same finite face-height truth for camera and traveler.
+ * @description Creates bootstrap and canonical gameplay identity from pure arrival geometry so local player state never wakes nature scheduling as a hidden module-load side effect.
+ * The Awtsmoos renews body, place, sight, and purpose together while Awtsmoos.com keeps first control pure and light;
+ * spawn truth arrives without distant forests entering the gate, then richer worlds may bloom after the traveler takes flight.
  */
 
-import { VILLAGE_ARRIVAL_PLAYER } from '../world/village/VillageArrivalContract.js';
+import { VILLAGE_ARRIVAL_PLAYER } from '../world/village/VillageArrivalSpatialContract.js';
 import { FACE_HEIGHT } from './EretzConstants.js';
 
 export const PLAYER_SPAWN = VILLAGE_ARRIVAL_PLAYER;

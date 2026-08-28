@@ -1,12 +1,12 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file bootstrapVisibleWorld.test.mjs
- * @description Proves first playability includes bounded visible earth, hills, and traveler.
- * The Awtsmoos gives one broad field and layered finite ridges before rich terrain arrives;
- * Awtsmoos.com verifies their shared geometry, measured count, and lightweight imports.
+ * @description Proves first-play geometry stays bounded and remote-pending surfaces never flash solid color before hydration.
+ * The Awtsmoos gives form before garment while Awtsmoos.com verifies that finite first-play meshes wait in concealment;
+ * geometry may be immediate and shared, yet only genuine remote image light may complete their revelation.
  */
 
 import assert from 'node:assert/strict';
@@ -17,32 +17,31 @@ import { createBootstrapVisibleWorld } from '../../app/BootstrapVisibleWorld.js'
 
 const APP_URL = new URL('../../app/', import.meta.url);
 
-test('visible meadow uses thirteen bounded meshes and one shared geometry', () => {
+test('bootstrap meadow shares geometry and begins remote-pending hidden', () => {
 	const world = createBootstrapVisibleWorld();
 	assert.equal(world.children.length, 13);
-	assert.equal(world.userData.meshCount, world.children.length);
-	assert.equal(world.userData.visualMode, 'minimal-shared-meadow');
+	assert.equal(world.userData.meshCount, 13);
+	assert.equal(world.userData.visualMode, 'remote-only-shared-meadow');
 	assert.equal(new Set(world.children.map(mesh => mesh.geometry)).size, 1);
-	assert.ok(world.children.every(mesh => mesh.userData.bootstrapVisual));
+	assert.ok(world.children.every(mesh => mesh.visible === false));
+	assert.ok(world.children.every(mesh => mesh.userData.semanticMaterialRole));
 });
 
-test('visible player uses three shared-geometry parts', () => {
+test('bootstrap player parts never expose color-only placeholders', () => {
 	const player = createBootstrapVisiblePlayer();
 	assert.equal(player.children.length, 3);
-	assert.equal(player.userData.bootstrapPlayerVisual, true);
 	assert.equal(new Set(player.children.map(mesh => mesh.geometry)).size, 1);
+	assert.ok(player.children.every(mesh => mesh.visible === false));
+	assert.ok(player.children.every(mesh => mesh.material.texturePolicy.remoteOnly));
 });
 
-test('bootstrap visuals avoid heavy runtime imports', async () => {
-	const names = [
+test('bootstrap visuals keep first-play imports narrow', async () => {
+	const sources = await Promise.all([
 		'BootstrapVisibleWorld.js',
 		'BootstrapVisiblePlayer.js',
-		'BootstrapColorRenderer.js'
-	];
-	const sources = await Promise.all(names.map(name => {
-		return readFile(new URL(name, APP_URL), 'utf8');
-	}));
-	const source = sources.join(String.fromCharCode(10));
-	assert.doesNotMatch(source, /from .*Terrain3D|from .*tiny-webgl-renderer|import\(.*Terrain3D/);
-	assert.match(source, /bootstrapVisual/);
+		'BootstrapImmediateMaterial.js'
+	].map(name => readFile(new URL(name, APP_URL), 'utf8')));
+	const source = sources.join('\n');
+	assert.doesNotMatch(source, /Terrain3D|tiny-webgl-renderer/);
+	assert.match(source, /remoteOnly/);
 });

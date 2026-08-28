@@ -1,0 +1,14 @@
+{
+	"name": "@awtsmoos/ui",
+	"version": "0.1.0",
+	"type": "module",
+	"private": true,
+	"description": "B\"H - Declarative, safe, mobile-first Awtsmoos UI vessels for Awtsmoos.com creative applications.",
+	"scripts": {
+		"test": "node --test test/*.test.mjs"
+	},
+	"exports": {
+		".": "./src/index.js"
+	},
+	"sideEffects": false
+}

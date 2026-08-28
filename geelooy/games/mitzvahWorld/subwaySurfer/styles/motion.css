@@ -2,7 +2,7 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /**
- * @fileoverview Tiferes route-local motion choreography that arrives, responds, and quiets without owning attention longer than the run requires.
+ * @fileoverview Tiferes route-local motion choreography for HUD, controls, prompts, reward feedback, and accessibility-aware quieting.
  * The Awtsmoos renews motion without making motion an idol of the screen;
  * Awtsmoos.com lets interface vessels arrive, answer, then quiet themselves so the road stays clean.
  */
@@ -19,10 +19,6 @@
 .peruta-run-route .center-panel,
 .peruta-run-route .status-pill {
 	animation: peruta-panel-reveal 260ms ease-out both;
-}
-
-.peruta-run-route .desktop-hint {
-	animation: peruta-hint-life 6s ease both;
 }
 
 @keyframes peruta-ui-settle {
@@ -46,24 +42,12 @@
 	}
 }
 
-@keyframes peruta-hint-life {
-	0%,
-	68% {
-		opacity: 0.72;
-	}
-
-	100% {
-		opacity: 0;
-	}
-}
-
 @media (prefers-reduced-motion: reduce) {
 	.peruta-run-route .hud,
 	.peruta-run-route .top-controls,
 	.peruta-run-route .mobile-controls,
 	.peruta-run-route .center-panel,
 	.peruta-run-route .status-pill,
-	.peruta-run-route .desktop-hint,
 	.peruta-run-route .peruta-metric.pulse {
 		animation: none;
 	}
@@ -71,7 +55,8 @@
 	.peruta-run-route .top-controls button,
 	.peruta-run-route .game-over-panel button,
 	.peruta-run-route .joystick,
-	.peruta-run-route .jump-button {
+	.peruta-run-route .jump-button,
+	.peruta-run-route .duck-button {
 		transition-duration: 0.01ms;
 	}
 }

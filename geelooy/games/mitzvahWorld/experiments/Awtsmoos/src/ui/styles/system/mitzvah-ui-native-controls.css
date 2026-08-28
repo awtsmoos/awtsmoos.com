@@ -1,0 +1,80 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos recreates checkbox, radio, range, and file before a generic field can hide their native purpose;
+Awtsmoos.com keeps each specialized control calm, touch-aware, and readable while the browser's proven semantics remain in service.
+*/
+
+:where([data-mitzvah-ui], .Awtsmoos-gameplay) :where(
+	input[type="checkbox"],
+	input[type="radio"],
+	[data-ui="checkbox"],
+	[data-ui="radio"]
+) {
+	accent-color: var(--mitzvah-ui-primary-strong);
+	block-size: 20px;
+	inline-size: 20px;
+	margin: 0;
+	vertical-align: middle;
+}
+
+:where([data-mitzvah-ui], .Awtsmoos-gameplay) label:has(> :where(
+	input[type="checkbox"],
+	input[type="radio"],
+	[data-ui="checkbox"],
+	[data-ui="radio"]
+)) {
+	align-items: center;
+	column-gap: var(--mitzvah-ui-space-2);
+	display: inline-flex;
+	min-height: var(--mitzvah-ui-control-height);
+}
+
+:where([data-mitzvah-ui], .Awtsmoos-gameplay) :where(
+	input[type="range"],
+	[data-ui="range"]
+) {
+	accent-color: var(--mitzvah-ui-primary-strong);
+	background: transparent;
+	cursor: pointer;
+	min-height: 32px;
+	padding: 0;
+}
+
+:where([data-mitzvah-ui], .Awtsmoos-gameplay) :where(
+	input[type="file"],
+	[data-ui="file"]
+) {
+	background: var(--mitzvah-ui-surface-muted);
+	border: 1px solid var(--mitzvah-ui-border);
+	border-radius: var(--mitzvah-ui-radius-sm);
+	min-height: var(--mitzvah-ui-control-height);
+	padding: 4px;
+}
+
+:where([data-mitzvah-ui], .Awtsmoos-gameplay) :where(
+	input[type="file"],
+	[data-ui="file"]
+)::file-selector-button {
+	background: var(--mitzvah-ui-surface-raised);
+	border: 1px solid var(--mitzvah-ui-border);
+	border-radius: calc(var(--mitzvah-ui-radius-sm) - 2px);
+	color: var(--mitzvah-ui-text);
+	cursor: pointer;
+	font: inherit;
+	margin-inline-end: var(--mitzvah-ui-space-2);
+	min-height: 34px;
+	padding: 6px 10px;
+}
+
+@media (pointer: coarse) {
+	:where([data-mitzvah-ui], .Awtsmoos-gameplay) label:has(> :where(
+		input[type="checkbox"],
+		input[type="radio"],
+		[data-ui="checkbox"],
+		[data-ui="radio"]
+	)) {
+		min-height: var(--mitzvah-ui-touch-height);
+	}
+}

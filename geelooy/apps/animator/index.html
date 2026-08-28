@@ -3,9 +3,8 @@ B"H
 Boruch Hashem
 Blessed is He
 
-The Awtsmoos renews every module before the creative workstation can awaken;
-Awtsmoos.com lets one compact application root gather the living Studio graph,
-while the independent viewport rectifier remains a small guardian at the edge.
+The Awtsmoos reveals a useful vessel before its deepest engines cross the sea;
+Awtsmoos.com lets the Animator appear at once, then fills that vessel deliberately.
 -->
 <!doctype html>
 <html lang="en">
@@ -18,14 +17,50 @@ while the independent viewport rectifier remains a small guardian at the edge.
 		<meta name="mobile-web-app-capable" content="yes" />
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-		<meta name="theme-color" content="#05060b" />
+		<meta name="theme-color" content="#101218" />
 		<link rel="icon" href="data:;base64,iVBORw0KGgo=" />
-		<title>Awtsmoos Park Engine — B"H</title>
-		<link rel="stylesheet" href="./src/index.css" />
+		<title>Awtsmoos Animator — B"H</title>
+		<link rel="stylesheet" href="./src/startup.css" />
+		<link rel="stylesheet" href="./src/startup-mobile.css" media="(max-width: 760px)" />
 	</head>
 	<body>
-		<div id="app"></div>
+		<div id="app">
+			<div class="aw-startup-shell" data-awtsmoos-startup-shell aria-busy="true">
+				<header class="aw-startup-header">
+					<div class="aw-startup-brand">
+						<span>B"H · ANIMATOR</span>
+						<strong>Awtsmoos Animator</strong>
+					</div>
+					<div class="aw-startup-status" role="status" aria-live="polite">
+						<span class="aw-startup-pulse" aria-hidden="true"></span>
+						<span id="aw-startup-status">Preparing scene engine…</span>
+					</div>
+				</header>
+				<aside class="aw-startup-rail" aria-label="Editor sections loading">
+					<div class="aw-startup-skeleton aw-startup-skeleton-short"></div>
+					<div class="aw-startup-skeleton"></div>
+					<div class="aw-startup-skeleton"></div>
+					<div class="aw-startup-skeleton aw-startup-skeleton-short"></div>
+				</aside>
+				<main class="aw-startup-stage" aria-label="Stage loading">
+					<div class="aw-startup-stage-card">
+						<strong>Preparing the living stage</strong>
+						<span>Loading project, scene, camera, and renderer.</span>
+						<div class="aw-startup-progress" aria-hidden="true"><i></i></div>
+					</div>
+				</main>
+				<aside class="aw-startup-inspector" aria-label="Inspector loading">
+					<strong>Inspector</strong>
+					<div class="aw-startup-skeleton"></div>
+					<div class="aw-startup-skeleton"></div>
+					<div class="aw-startup-skeleton aw-startup-skeleton-tall"></div>
+				</aside>
+				<section class="aw-startup-timeline" aria-label="Timeline loading">
+					<div class="aw-startup-timeline-label">Timeline</div>
+					<div class="aw-startup-track"><i></i><i></i><i></i></div>
+				</section>
+			</div>
+		</div>
 		<script type="module" src="./src/main.js?compact=true"></script>
-		<script type="module" src="./src/rectification/BootRectifier.js"></script>
 	</body>
 </html>

@@ -1,55 +1,57 @@
-<!--!B"H-->
-<!DOCTYPE html>
+<!-- B"H -->
+<!-- Boruch Hashem -->
+<!-- Blessed is He -->
+<!-- The Awtsmoos gives every sound a vessel before the waveform takes form; Awtsmoos.com keeps every control named, reachable, and calm through every storm. -->
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Pro Audio Editor</title>
-    <link rel="stylesheet" href="style.css">
-    <!-- Material Icons for UI -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+	<meta name="description" content="Edit, arrange, split, preview, zoom, and export audio in the Awtsmoos Pro Audio Editor.">
+	<meta name="theme-color" content="#121212">
+	<title>Awtsmoos Pro Audio Editor</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons&display=swap">
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="accessibility.css">
 </head>
-<body> 
-    <div class="app-container">
-        <header>
-            <h1>B"H Pro Audio Editor</h1>
-            <div class="header-controls">
-                <button id="add-track-btn" class="btn primary"><span class="material-icons">add</span> Add Audio</button>
-                <input type="file" id="file-input" accept="audio/*" multiple hidden>
-                <button id="export-btn" class="btn success" disabled><span class="material-icons">save_alt</span> Export</button>
-            </div>
-        </header>
-
-        <div class="editor-workspace">
-            <div id="timeline-container">
-                <canvas id="timeline-canvas" touch-action="none"></canvas>
-            </div>
-        </div>
-
-        <div class="toolbar">
-            <div class="transport-controls">
-                <button id="to-start-btn" class="icon-btn"><span class="material-icons">skip_previous</span></button>
-                <button id="play-pause-btn" class="icon-btn large"><span class="material-icons" id="play-icon">play_arrow</span></button>
-                <button id="stop-btn" class="icon-btn"><span class="material-icons">stop</span></button>
-            </div>
-            
-            <div class="tool-controls">
-                <button id="split-btn" class="icon-btn" title="Split Clip (Razor)"><span class="material-icons">content_cut</span></button>
-                <button id="delete-btn" class="icon-btn" title="Delete Selected"><span class="material-icons">delete</span></button>
-            </div>
-
-            <div class="zoom-controls">
-                <span class="material-icons small">zoom_out</span>
-                <input type="range" id="zoom-slider" min="10" max="1000" value="100">
-                <span class="material-icons small">zoom_in</span>
-            </div>
-        </div>
-        
-        <div id="status-bar">Ready</div>
-        <div id="loading-overlay" class="hidden"><div class="spinner"></div><span>Processing...</span></div>
-    </div>
-
-    <script src="main.js"></script>
-    <script src="/register.js"></script>
+<body>
+	<div class="app-container">
+		<header>
+			<h1>B"H Pro Audio Editor</h1>
+			<div class="header-controls" aria-label="Project actions">
+				<button id="add-track-btn" class="btn primary"><span class="material-icons" aria-hidden="true">add</span> Add Audio</button>
+				<input type="file" id="file-input" accept="audio/*" multiple hidden>
+				<button id="export-btn" class="btn success" disabled><span class="material-icons" aria-hidden="true">save_alt</span> Export</button>
+			</div>
+		</header>
+		<main class="editor-workspace" aria-label="Audio timeline">
+			<div id="timeline-container">
+				<canvas id="timeline-canvas" aria-label="Interactive audio timeline"></canvas>
+			</div>
+		</main>
+		<div class="toolbar" role="toolbar" aria-label="Audio editing controls">
+			<div class="transport-controls" aria-label="Playback controls">
+				<button id="to-start-btn" class="icon-btn" aria-label="Go to start"><span class="material-icons" aria-hidden="true">skip_previous</span></button>
+				<button id="play-pause-btn" class="icon-btn large" aria-label="Play or pause audio"><span class="material-icons" id="play-icon" aria-hidden="true">play_arrow</span></button>
+				<button id="stop-btn" class="icon-btn" aria-label="Stop playback"><span class="material-icons" aria-hidden="true">stop</span></button>
+			</div>
+			<div class="tool-controls" aria-label="Clip tools">
+				<button id="split-btn" class="icon-btn" title="Split Clip (Razor)" aria-label="Split selected clip"><span class="material-icons" aria-hidden="true">content_cut</span></button>
+				<button id="delete-btn" class="icon-btn" title="Delete Selected" aria-label="Delete selected clip"><span class="material-icons" aria-hidden="true">delete</span></button>
+			</div>
+			<div class="zoom-controls">
+				<span class="material-icons small" aria-hidden="true">zoom_out</span>
+				<input type="range" id="zoom-slider" min="10" max="1000" value="100" aria-label="Timeline zoom">
+				<span class="material-icons small" aria-hidden="true">zoom_in</span>
+			</div>
+		</div>
+		<div id="status-bar" role="status" aria-live="polite" aria-atomic="true">Ready</div>
+		<div id="loading-overlay" class="hidden" role="status" aria-live="polite" aria-atomic="true"><div class="spinner" aria-hidden="true"></div><span>Processing…</span></div>
+		<noscript><p class="no-script-message">The live audio engine requires JavaScript. <a href="/apps/">Return to Awtsmoos Apps</a>.</p></noscript>
+	</div>
+	<script src="main.js"></script>
+	<script src="/register.js"></script>
 </body>
 </html>

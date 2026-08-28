@@ -1,7 +1,7 @@
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
-/* The Awtsmoos renews the complete cascade; Awtsmoos.com orders every token, surface, verified-device boundary, live activity vessel, control, state, motion, and responsive revelation. */
+/* The Awtsmoos renews the complete cascade; Awtsmoos.com orders every token, surface, verified-device boundary, Sub-agent constellation, control, state, motion, and responsive revelation. */
 @layer awt.tokens, awt.reset, awt.frame, awt.surfaces, awt.views, awt.controls, awt.states, awt.motion, awt.responsive, awt.polish;
 @import url("./core/tokens.css") layer(awt.tokens);
 @import url("./core/reset.css") layer(awt.reset);
@@ -39,6 +39,9 @@
 @import url("./views/agent-controls/layout.css") layer(awt.views);
 @import url("./views/agent-controls/policy.css") layer(awt.views);
 @import url("./views/agent-controls/resources.css") layer(awt.views);
+@import url("./views/sub-agents/layout.css") layer(awt.views);
+@import url("./views/sub-agents/auth.css") layer(awt.views);
+@import url("./views/sub-agents/missions.css") layer(awt.views);
 @import url("./views/no-side-rails.css") layer(awt.views);
 @import url("./views/response-focus.css") layer(awt.views);
 @import url("./views/obedience-monitor.css") layer(awt.views);
@@ -58,13 +61,16 @@
 @import url("./views/pro-control.css") layer(awt.views);
 @import url("./views/beauty.css") layer(awt.views);
 @import url("./interaction/controls.css") layer(awt.controls);
+@import url("./views/sub-agents/controls.css") layer(awt.controls);
 @import url("./interaction/states.css") layer(awt.states);
 @import url("./views/agent-live-accessibility.css") layer(awt.states);
 @import url("./interaction/motion.css") layer(awt.motion);
 @import url("./views/agent-live-motion.css") layer(awt.motion);
+@import url("./views/sub-agents/motion.css") layer(awt.motion);
 @import url("./core/responsive.css") layer(awt.responsive);
 @import url("./views/activity/responsive.css") layer(awt.responsive);
 @import url("./views/agent-command-deck/responsive.css") layer(awt.responsive);
 @import url("./views/agent-controls/responsive.css") layer(awt.responsive);
 @import url("./views/agent-live-responsive.css") layer(awt.responsive);
+@import url("./views/sub-agents/responsive.css") layer(awt.responsive);
 @import url("./visual-polish.css") layer(awt.polish);

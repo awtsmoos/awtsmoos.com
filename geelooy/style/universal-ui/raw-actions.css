@@ -2,27 +2,27 @@
  * Boruch Hashem
  * Blessed is He
  *
- * The Awtsmoos gives an unclaimed action weight, focus, and return;
- * Awtsmoos.com lets raw buttons answer the hand without stealing a crafted world's turn.
+ * The Awtsmoos gives each unclaimed action a boundary, weight, and honest reply;
+ * Awtsmoos.com keeps raw controls calm and tactile, never neon glass pretending to fly.
  */
+
 :where(html:not([data-g-ui-raw])) :where(
 	button:not([class]),
 	input[type="button"]:not([class]),
 	input[type="submit"]:not([class]),
 	input[type="reset"]:not([class])
 ) {
-	min-height: 44px;
-	padding: 9px 14px;
+	min-height: var(--aw-ui-target);
+	padding: .62rem .9rem;
 	border: 1px solid var(--g-line-strong, var(--aw-ui-line-strong));
 	border-radius: var(--g-radius-md, var(--aw-ui-radius));
-	background: linear-gradient(145deg, color-mix(in srgb, var(--g-accent, var(--aw-ui-accent)) 14%, var(--g-surface-2, var(--aw-ui-surface-2))), var(--g-surface-2, var(--aw-ui-surface-2)));
+	background: var(--g-surface-2, var(--aw-ui-surface-subtle));
 	color: var(--g-text, var(--aw-ui-text));
 	font: inherit;
-	font-weight: 780;
-	letter-spacing: .01em;
-	box-shadow: var(--aw-ui-shadow);
+	font-weight: 700;
+	box-shadow: 0 1px 2px rgba(31, 35, 40, .08);
 	cursor: pointer;
-	transition: transform 140ms ease, border-color 140ms ease, background 140ms ease, box-shadow 140ms ease;
+	transition: border-color 140ms ease, background-color 140ms ease, box-shadow 140ms ease;
 }
 
 :where(html:not([data-g-ui-raw])) :where(
@@ -32,8 +32,8 @@
 	input[type="reset"]:not([class])
 ):is(:hover, :focus-visible):not(:disabled) {
 	border-color: var(--g-accent, var(--aw-ui-accent));
-	background: color-mix(in srgb, var(--g-accent, var(--aw-ui-accent)) 16%, var(--g-surface-2, var(--aw-ui-surface-2)));
-	box-shadow: var(--g-focus-ring, var(--aw-ui-focus)), var(--aw-ui-shadow);
+	background: var(--g-accent-soft, var(--aw-ui-accent-soft));
+	box-shadow: var(--g-focus-ring, var(--aw-ui-focus));
 }
 
 :where(html:not([data-g-ui-raw])) :where(
@@ -42,56 +42,46 @@
 	input[type="submit"]:not([class]),
 	input[type="reset"]:not([class])
 ):active:not(:disabled) {
-	transform: translateY(1px) scale(.97);
+	box-shadow: inset 0 1px 2px rgba(31, 35, 40, .12);
 }
 
-:where(html:not([data-g-ui-raw])) :where(
-	button:not([class]),
-	input[type="button"]:not([class]),
-	input[type="submit"]:not([class]),
-	input[type="reset"]:not([class])
-):disabled {
+:where(html:not([data-g-ui-raw])) :where(button:not([class]), input[type="button"]:not([class]), input[type="submit"]:not([class]), input[type="reset"]:not([class])):disabled {
 	cursor: not-allowed;
-	opacity: .5;
+	opacity: .52;
 	box-shadow: none;
 }
 
-:where(html:not([data-g-ui-raw])) :where(details:not([class])) {
+:where(html:not([data-g-ui-raw])) details:not([class]) {
 	border: 1px solid var(--g-line, var(--aw-ui-line));
 	border-radius: var(--g-radius-md, var(--aw-ui-radius));
-	background: var(--g-surface-2, var(--aw-ui-surface));
+	background: var(--g-surface, var(--aw-ui-surface));
 	overflow: clip;
 }
 
-:where(html:not([data-g-ui-raw])) :where(details:not([class]) > summary) {
-	min-height: 44px;
-	padding: 10px 13px;
-	font-weight: 760;
+:where(html:not([data-g-ui-raw])) details:not([class]) > summary {
+	min-height: var(--aw-ui-target);
+	padding: .7rem .85rem;
+	font-weight: 700;
 	cursor: pointer;
-	transition: background 140ms ease;
 }
 
-:where(html:not([data-g-ui-raw])) :where(details:not([class]) > summary):is(:hover, :focus-visible) {
+:where(html:not([data-g-ui-raw])) details:not([class]) > summary:is(:hover, :focus-visible) {
 	background: var(--g-accent-soft, var(--aw-ui-accent-soft));
-	outline: 0;
+	outline: none;
 }
 
-:where(html:not([data-g-ui-raw])) :where(dialog:not([class])) {
-	max-width: min(92vw, 34rem);
+:where(html:not([data-g-ui-raw])) dialog:not([class]) {
+	width: min(92vw, 36rem);
+	max-height: min(84dvh, 46rem);
+	padding: 1.25rem;
 	border: 1px solid var(--g-line, var(--aw-ui-line));
-	border-radius: 16px;
+	border-radius: var(--aw-ui-radius-lg);
 	background: var(--g-surface, var(--aw-ui-surface));
 	color: var(--g-text, var(--aw-ui-text));
-	box-shadow: 0 24px 70px rgba(0, 0, 0, .36);
+	box-shadow: var(--aw-ui-shadow-raised);
+	overflow: auto;
 }
 
-:where(html:not([data-g-ui-raw])) :where(dialog:not([class]))::backdrop {
-	background: rgba(2, 8, 18, .7);
-	backdrop-filter: blur(6px);
-}
-
-@media (prefers-reduced-motion: reduce) {
-	:where(html:not([data-g-ui-raw])) :where(button:not([class]), details:not([class]) > summary) {
-		transition: none;
-	}
+:where(html:not([data-g-ui-raw])) dialog:not([class])::backdrop {
+	background: rgba(20, 22, 25, .58);
 }

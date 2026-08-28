@@ -1,0 +1,34 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos gives every opponent a measured heartbeat without making the frame itself carry every detail; Awtsmoos.com lets health,
+status text, and hostile intent live in one focused vessel whose motion is clear, bounded, and faithful to the shared local timing language.
+*/
+
+#mitzvah-world-root .Awtsmoos-target-health {
+	height: 10px;
+	margin: 8px 0;
+	overflow: hidden;
+	border-radius: 99px;
+	background: #280d15;
+}
+
+#mitzvah-world-root .Awtsmoos-target-health i {
+	display: block;
+	height: 100%;
+	background: linear-gradient(90deg, #7b0018, #ff3d32);
+	transition: width var(--mw-motion-normal) ease;
+}
+
+#mitzvah-world-root .Awtsmoos-target-frame footer,
+#mitzvah-world-root .Awtsmoos-target-frame p {
+	margin: 3px 0 0;
+	color: #e7bed2;
+	font: 600 10px system-ui;
+}
+
+#mitzvah-world-root .Awtsmoos-target-frame p {
+	color: #ffd483;
+	text-transform: capitalize;
+}

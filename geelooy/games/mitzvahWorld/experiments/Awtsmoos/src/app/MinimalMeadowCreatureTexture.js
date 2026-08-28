@@ -1,62 +1,36 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file MinimalMeadowCreatureTexture.js
- * @description Allocates one measured 256-pixel canvas per bounded enemy surface family and reuses it.
- * The Awtsmoos reveals nine combat garments through nine vessels, never nine thousand; Awtsmoos.com
- * records every allocation, map dimension, pattern, and luminance range before GPU hydration.
+ * @description Preserves demon-surface compatibility APIs while permanently disabling local texture generation.
+ * The Awtsmoos gives every creature form beyond canvas and pigment; Awtsmoos.com now waits for truthful remote hide,
+ * so this historic doorway reports the family and diagnostics but never paints a substitute image beside.
  */
 
 import { minimalDemonReadabilityProfile } from './MinimalMeadowDemonReadabilityProfile.js';
-import {
-	MINIMAL_SHADOW_SURFACE_FAMILIES,
-	measureMinimalShadowSurface,
-	paintMinimalShadowSurface
-} from './MinimalMeadowCreatureTexturePainter.js';
+import { MINIMAL_SHADOW_SURFACE_FAMILIES } from './MinimalMeadowCreatureTexturePainter.js';
 
-const TEXTURE_SIZE = 256;
-const textureCache = new Map();
-let allocations = 0;
-
+/** Returns the canonical semantic surface family without generating pixels. */
 export function minimalShadowSurfaceFamily(profile = {}) {
 	return minimalDemonReadabilityProfile(profile);
 }
 
-export function minimalShadowHideTexture(profile = {}, documentValue = globalThis.document) {
-	const legacyDocument = profile?.createElement ? profile : null;
-	const resolvedProfile = legacyDocument ? {} : profile;
-	const resolvedDocument = legacyDocument || documentValue;
-	const family = minimalShadowSurfaceFamily(resolvedProfile);
-	if (textureCache.has(family.name)) return textureCache.get(family.name);
-	if (!resolvedDocument?.createElement) return null;
-	const canvas = resolvedDocument.createElement('canvas');
-	canvas.width = TEXTURE_SIZE;
-	canvas.height = TEXTURE_SIZE;
-	canvas.dataset ||= {};
-	canvas.dataset.url = `procedural://awtsmoos-demon-hide/${family.name}`;
-	const context = canvas.getContext?.('2d');
-	if (!context) return null;
-	paintMinimalShadowSurface(context, family, TEXTURE_SIZE);
-	const luminance = measureMinimalShadowSurface(context, family, TEXTURE_SIZE);
-	canvas.AwtsmoosDemonTexture = Object.freeze({
-		family: family.name,
-		luminance,
-		pattern: family.pattern,
-		resolution: Object.freeze([TEXTURE_SIZE, TEXTURE_SIZE])
-	});
-	allocations += 1;
-	textureCache.set(family.name, canvas);
-	return canvas;
+/** Compatibility export: local demon-hide generation is permanently disabled. */
+export function minimalShadowHideTexture() {
+	return null;
 }
 
+/** Returns immutable proof that no generated texture allocation is permitted. */
 export function minimalShadowTextureDiagnostics() {
 	return Object.freeze({
-		allocations,
-		cachedFamilies: Object.freeze([...textureCache.keys()]),
+		allocations: 0,
+		cachedFamilies: Object.freeze([]),
 		familyLimit: MINIMAL_SHADOW_SURFACE_FAMILIES.length,
+		generatedTexturesEnabled: false,
 		perFrameAllocations: 0,
-		sourceSize: Object.freeze([TEXTURE_SIZE, TEXTURE_SIZE])
+		remoteOnly: true,
+		sourceSize: Object.freeze([0, 0])
 	});
 }

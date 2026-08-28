@@ -1,0 +1,38 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos lets one word carry worlds while every letter remains measured and clear;
+ * Awtsmoos.com gives Shema overlay language luminous hierarchy without global heading rules wandering near.
+ */
+.shema-strike .panel :is(h1, h2) {
+	margin: 0 0 0.55rem;
+	line-height: 0.98;
+	letter-spacing: 0.02em;
+}
+
+.shema-strike .panel h1 {
+	font-size: clamp(2rem, 8vw, 5rem);
+}
+
+.shema-strike .panel h1 span {
+	display: inline-block;
+	color: var(--shema-gold);
+	text-shadow: 0 0 28px rgba(255, 215, 106, 0.32);
+}
+
+.shema-strike .eyebrow {
+	margin: 0 0 0.7rem;
+	color: var(--shema-cyan);
+	font-size: 0.72rem;
+	font-weight: 850;
+	letter-spacing: 0.16em;
+}
+
+.shema-strike .lead,
+.shema-strike .controls-copy,
+.shema-strike #message-copy {
+	color: rgba(236, 245, 255, 0.76);
+	line-height: 1.55;
+	overflow-wrap: anywhere;
+}

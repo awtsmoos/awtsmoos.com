@@ -5,8 +5,8 @@
 /**
  * @class CreatorCommandPaletteView
  * @description
- * The Awtsmoos gives searchable creator commands a semantic listbox vessel;
- * Awtsmoos.com builds every option as a real button and never pours imported or dynamic labels through HTML.
+ * The Awtsmoos gives searchable creator roads a semantic vessel where every visible state has a name;
+ * Awtsmoos.com keeps labels, options, emptiness, and selection explicit so keyboard and thumb receive the same flame.
  */
 export class CreatorCommandPaletteView {
 	constructor({ root, commands, onSelect }) {
@@ -14,34 +14,42 @@ export class CreatorCommandPaletteView {
 		this.build();
 	}
 
+	/** @returns {void} Builds the dialog, launcher, search covenant, and listbox. */
 	build() {
-		this.dialog = document.createElement('dialog');
+		this.dialog = this.root.createElement('dialog');
 		this.dialog.className = 'creatorPalette';
 		this.dialog.setAttribute('aria-label', 'Creator commands');
-		const shell = document.createElement('div');
+		const shell = this.root.createElement('div');
 		shell.className = 'creatorPaletteShell';
 		shell.append(this.handle(), this.header());
-		this.input = document.createElement('input');
+		const label = this.root.createElement('label');
+		label.className = 'creatorPaletteLabel';
+		label.htmlFor = 'creatorPaletteSearch';
+		label.textContent = 'Search creator tools';
+		this.input = this.root.createElement('input');
+		this.input.id = 'creatorPaletteSearch';
 		this.input.type = 'search';
-		this.input.placeholder = 'Create, attach, recover, migrate…';
+		this.input.setAttribute('role', 'combobox');
+		this.input.setAttribute('aria-autocomplete', 'list');
 		this.input.setAttribute('aria-controls', 'creatorCommandList');
-		this.input.setAttribute('aria-label', 'Search creator commands');
-		this.list = document.createElement('div');
+		this.input.setAttribute('aria-expanded', 'true');
+		this.list = this.root.createElement('div');
 		this.list.id = 'creatorCommandList';
 		this.list.className = 'creatorCommandList';
 		this.list.setAttribute('role', 'listbox');
-		shell.append(this.input, this.list);
+		shell.append(label, this.input, this.list);
 		this.dialog.append(shell);
 		this.root.body.append(this.dialog);
-		this.launcher = document.createElement('button');
+		this.launcher = this.root.createElement('button');
 		this.launcher.type = 'button';
 		this.launcher.className = 'creatorCommandLauncher';
 		this.launcher.textContent = 'Commands  ⌘K';
 		this.root.body.append(this.launcher);
 	}
 
+	/** @returns {HTMLButtonElement} Creates the mobile drag handle without owning gesture law. */
 	handle() {
-		const button = document.createElement('button');
+		const button = this.root.createElement('button');
 		button.type = 'button';
 		button.className = 'creatorPaletteGrab';
 		button.dataset.sheetHandle = '';
@@ -49,11 +57,12 @@ export class CreatorCommandPaletteView {
 		return button;
 	}
 
+	/** @returns {HTMLElement} Creates the visible title and explicit close control. */
 	header() {
-		const header = document.createElement('header');
-		const title = document.createElement('strong');
+		const header = this.root.createElement('header');
+		const title = this.root.createElement('strong');
 		title.textContent = 'Creator commands';
-		const close = document.createElement('button');
+		const close = this.root.createElement('button');
 		close.type = 'button';
 		close.dataset.sheetClose = '';
 		close.className = 'creatorPaletteClose';
@@ -63,25 +72,41 @@ export class CreatorCommandPaletteView {
 		return header;
 	}
 
+	/** @returns {Array<object>} Returns commands matching the current local search text. */
 	filtered() {
 		const query = this.input.value.trim().toLowerCase();
 		return this.commands.filter(command => {
-			return !query || `${command.label} ${command.keywords}`.toLowerCase().includes(query);
+			const haystack = `${command.label} ${command.keywords}`.toLowerCase();
+			return !query || haystack.includes(query);
 		});
 	}
 
+	/** @param {number} active Active option index. @returns {Array<object>} Visible command records. */
 	render(active) {
 		const commands = this.filtered();
-		this.list.replaceChildren(...commands.map((command, index) => {
-			return this.option(command, index, active);
-		}));
+		const nodes = commands.length
+			? commands.map((command, index) => this.option(command, index, active))
+			: [this.emptyState()];
+		this.list.replaceChildren(...nodes);
+		const activeId = commands[active] ? `creatorCommandOption${active}` : '';
+		this.input.setAttribute('aria-activedescendant', activeId);
 		return commands;
 	}
 
+	/** @returns {HTMLElement} Makes an intentional no-results state instead of an empty hole. */
+	emptyState() {
+		const empty = this.root.createElement('p');
+		empty.className = 'creatorCommandEmpty';
+		empty.textContent = 'No creator tools match this search.';
+		return empty;
+	}
+
+	/** @param {object} command Command record. @param {number} index Visible index. @param {number} active Active index. @returns {HTMLButtonElement} Accessible command option. */
 	option(command, index, active) {
-		const button = document.createElement('button');
+		const button = this.root.createElement('button');
 		button.type = 'button';
-		button.role = 'option';
+		button.id = `creatorCommandOption${index}`;
+		button.setAttribute('role', 'option');
 		button.className = 'creatorCommand';
 		button.dataset.active = String(index === active);
 		button.setAttribute('aria-selected', String(index === active));

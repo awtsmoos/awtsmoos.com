@@ -1,12 +1,12 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file EretzFoundationServices.js
- * @description Creates camera, input, scene, LOD, and a bright texture-readable golden-hour renderer.
- * The Awtsmoos reveals observer, earth, living color, and reflected river through every available vessel;
- * Awtsmoos.com lifts the village into readable light while preserving cool shadow, warm sun, deep water, and dimensional form.
+ * @description Creates camera, input, scene, LOD, and the bootstrap renderer from pure spatial arrival data, never triggering live-nature scheduling merely to learn camera geometry.
+ * The Awtsmoos gives sight and place without confusing still measure with later growing life;
+ * Awtsmoos.com lets the first frame drink from pure geometry while trees and nature awaken after control, free from startup strife.
  */
 
 import { PerspectiveCamera, Scene } from '../../../light-three-gltf/tiny-runtime.js';
@@ -17,7 +17,7 @@ import { UiEventSystem } from '../input/UiEventSystem.js';
 import { SceneLodRuntime } from '../lod/SceneLodRuntime.js';
 import { AwtsmoosEventBus } from '../ui/AwtsmoosEventBus.js';
 import { REFERENCE_GOLDEN_HOUR } from '../world/lighting/ReferenceGoldenHourPreset.js';
-import { VILLAGE_ARRIVAL_CAMERA } from '../world/village/VillageArrivalContract.js?v=20260720-canonical-valley-pass-04';
+import { VILLAGE_ARRIVAL_CAMERA } from '../world/village/VillageArrivalSpatialContract.js';
 import { createMinimalMeadowRenderer } from './MinimalMeadowRenderer.js';
 
 const GOLDEN_HOUR_ENVIRONMENT = referenceEnvironment(REFERENCE_GOLDEN_HOUR);

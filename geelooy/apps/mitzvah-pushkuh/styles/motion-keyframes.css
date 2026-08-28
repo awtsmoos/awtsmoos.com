@@ -1,0 +1,93 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos measures every visual pulse; Awtsmoos.com names each animation so reduced motion can silence the whole choir cleanly. */
+@keyframes sky {
+	to {
+		transform: scale(1.1) rotate(7deg);
+	}
+}
+@keyframes twinkle {
+	to {
+		transform: translate3d(40px, -35px, 0);
+	}
+}
+@keyframes sheen {
+	to {
+		transform: translateX(130%);
+	}
+}
+@keyframes titleGlow {
+	to {
+		background-position: 260% 0;
+	}
+}
+@keyframes buttonLava {
+	to {
+		background-position: 260% 0;
+	}
+}
+@keyframes meterPulse {
+	50% {
+		filter: brightness(1.38);
+		transform: scaleX(1.018);
+	}
+}
+@keyframes pressShock {
+	0% {
+		transform: scale(1);
+	}
+	45% {
+		transform: scale(.9) rotate(-.6deg);
+	}
+	100% {
+		transform: scale(1.04);
+	}
+}
+@keyframes releaseSpark {
+	0% {
+		filter: brightness(1.9);
+	}
+	100% {
+		filter: brightness(1);
+	}
+}
+@keyframes megaPop {
+	0% {
+		transform: scale(.9);
+	}
+	55% {
+		transform: scale(1.08);
+		filter: brightness(1.48);
+	}
+	100% {
+		transform: scale(1);
+	}
+}
+@keyframes touchRipple {
+	0% {
+		transform: scale(.2);
+		opacity: .95;
+	}
+	100% {
+		transform: scale(12);
+		opacity: 0;
+	}
+}
+@keyframes slowSweep {
+	0%,
+	100% {
+		transform: translateX(-70%);
+		opacity: .16;
+	}
+	50% {
+		transform: translateX(70%);
+		opacity: .34;
+	}
+}
+@keyframes breathe {
+	to {
+		transform: scale(1.08);
+		opacity: .75;
+	}
+}

@@ -1,0 +1,86 @@
+[
+  {
+    "id": "feature-beat-01",
+    "kind": "shapes",
+    "start": 0,
+    "duration": 15000,
+    "seedPath": "three-minute/shapes/0"
+  },
+  {
+    "id": "feature-beat-02",
+    "kind": "particles",
+    "start": 15000,
+    "duration": 15000,
+    "seedPath": "three-minute/particles/1"
+  },
+  {
+    "id": "feature-beat-03",
+    "kind": "infographic",
+    "start": 30000,
+    "duration": 15000,
+    "seedPath": "three-minute/infographic/2"
+  },
+  {
+    "id": "feature-beat-04",
+    "kind": "mesh",
+    "start": 45000,
+    "duration": 15000,
+    "seedPath": "three-minute/mesh/3"
+  },
+  {
+    "id": "feature-beat-05",
+    "kind": "tutorial",
+    "start": 60000,
+    "duration": 15000,
+    "seedPath": "three-minute/tutorial/4"
+  },
+  {
+    "id": "feature-beat-06",
+    "kind": "patch",
+    "start": 75000,
+    "duration": 15000,
+    "seedPath": "three-minute/patch/5"
+  },
+  {
+    "id": "feature-beat-07",
+    "kind": "particles",
+    "start": 90000,
+    "duration": 15000,
+    "seedPath": "three-minute/particles/6"
+  },
+  {
+    "id": "feature-beat-08",
+    "kind": "infographic",
+    "start": 105000,
+    "duration": 15000,
+    "seedPath": "three-minute/infographic/7"
+  },
+  {
+    "id": "feature-beat-09",
+    "kind": "mesh",
+    "start": 120000,
+    "duration": 15000,
+    "seedPath": "three-minute/mesh/8"
+  },
+  {
+    "id": "feature-beat-10",
+    "kind": "shapes",
+    "start": 135000,
+    "duration": 15000,
+    "seedPath": "three-minute/shapes/9"
+  },
+  {
+    "id": "feature-beat-11",
+    "kind": "tutorial",
+    "start": 150000,
+    "duration": 15000,
+    "seedPath": "three-minute/tutorial/10"
+  },
+  {
+    "id": "feature-beat-12",
+    "kind": "particles",
+    "start": 165000,
+    "duration": 15000,
+    "seedPath": "three-minute/particles/11"
+  }
+]

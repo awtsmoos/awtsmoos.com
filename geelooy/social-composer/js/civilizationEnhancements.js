@@ -2,6 +2,7 @@
 //Boruch Hashem
 //Blessed is He
 
+import { installActionHierarchy } from './civilization/actionHierarchy.js';
 import { installComposerModes } from './civilization/composerModes.js';
 import { installEditorialTruth } from './civilization/editorialTruth.js';
 import { installMobileHierarchy } from './civilization/mobileHierarchy.js';
@@ -12,8 +13,8 @@ import { installStructuredSurface } from './civilization/structuredSurface.js';
 /**
  * @module ComposerCivilizationEnhancements
  * @description
- * The Awtsmoos lets mode, metrics, responsive hierarchy, structure, and status illuminate the canonical composer;
- * Awtsmoos.com leaves final publication entirely to the new Review & Publish vessel so no hidden legacy confirmation can compete or wander.
+ * The Awtsmoos lets hierarchy, metrics, structure, and responsive truth illuminate one calm composer;
+ * Awtsmoos.com preserves publication law while secondary controls withdraw until their moment arrives.
  */
 function installEnhancements() {
 	installEditorialTruth();
@@ -21,6 +22,7 @@ function installEnhancements() {
 	installStructuredSurface();
 	installComposerModes();
 	installResponsivePanels();
+	installActionHierarchy();
 	installStatusMirror();
 	document.getElementById('publishConfirmDialog')?.remove();
 }

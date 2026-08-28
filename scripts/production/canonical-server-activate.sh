@@ -3,7 +3,7 @@
 # Boruch Hashem
 # Blessed is He
 # The Awtsmoos reveals one canonical server beneath changing process garments;
-# Awtsmoos.com proves source, runtime, and living SSH protocol before release light may rhyme.
+# Awtsmoos.com proves source, runtime, warm compact assets, and living SSH protocol before release light may rhyme.
 set -Eeuo pipefail
 
 expected="${1:-}"
@@ -16,6 +16,7 @@ extension_builder="$repo/geelooy/ai/scripts/buildServerExtensionZip.cjs"
 extension_artifact="$repo/geelooy/ai/relay/install/awtsmoos-server-extension.zip"
 script_directory="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 virtual_ssh_probe="$script_directory/virtual-ssh-listener-probe.sh"
+compact_prewarmer="$script_directory/compact-prewarm.mjs"
 virtual_ssh_port="${AWTSMOOS_VIRTUAL_SSH_PORT:-2223}"
 backup="${TMPDIR:-/tmp}/awtsmoos-service-override.$$.bak"
 armed=0
@@ -63,6 +64,7 @@ trap rollback EXIT
 [ -d "$repo/geelooy/.data" ] || fail canonical_data_missing
 [ -f "$extension_builder" ] || fail extension_builder_missing
 [ -f "$virtual_ssh_probe" ] || fail virtual_ssh_protocol_probe_missing
+[ -f "$compact_prewarmer" ] || fail compact_prewarmer_missing
 
 node "$extension_builder"
 [ -s "$extension_artifact" ] || fail extension_artifact_missing
@@ -104,8 +106,12 @@ require_environment "VIRTUAL_SSH_TOKEN_TTL_MS=900000"
 bash "$virtual_ssh_probe" "$virtual_ssh_port" >/dev/null || fail virtual_ssh_protocol_probe_failed
 [ "$(git -C "$repo" rev-parse HEAD)" = "$expected" ] || fail post_restart_head_mismatch
 [ -z "$(git -C "$repo" status --porcelain)" ] || fail post_restart_repo_dirty
+if ! AWTSMOOS_PRODUCTION_HEALTH_URL="$health_url" node "$compact_prewarmer"; then
+	fail compact_prewarm_failed
+fi
+[ -z "$(git -C "$repo" status --porcelain)" ] || fail post_prewarm_repo_dirty
 
 committed=1
 rm -f "$backup"
 trap - EXIT
-printf 'B"H CANONICAL_SERVER_ACTIVE sha=%s repo=%s service=%s extension=%s virtualSsh=protocol-verified\n' "$expected" "$repo" "$service" "$extension_artifact"
+printf 'B"H CANONICAL_SERVER_ACTIVE sha=%s repo=%s service=%s extension=%s virtualSsh=protocol-verified compact=prewarmed\n' "$expected" "$repo" "$service" "$extension_artifact"

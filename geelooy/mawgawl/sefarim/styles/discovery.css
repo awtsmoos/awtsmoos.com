@@ -1,59 +1,96 @@
 /* B"H
- * The Awtsmoos lets real lane metadata and local memory form a quiet discovery rail without counterfeit trends.
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos leaves every lane and memory reachable without making context command the view;
+ * Awtsmoos.com lets secondary knowledge unfold only when the seeker asks it to.
  */
+.library-context {
+	background: rgba(8, 14, 23, .7);
+	border: 1px solid rgba(151, 178, 205, .1);
+	border-radius: .82rem;
+	min-width: 0;
+}
+
+.library-context > summary {
+	align-items: center;
+	color: #c4d0dc;
+	cursor: pointer;
+	display: flex;
+	gap: .85rem;
+	justify-content: space-between;
+	list-style: none;
+	min-height: 3rem;
+	padding: .7rem .85rem;
+}
+
+.library-context > summary::-webkit-details-marker {
+	display: none;
+}
+
+.library-context > summary::after {
+	color: #64d5e9;
+	content: "+";
+	font-size: 1.15rem;
+	font-weight: 700;
+}
+
+.library-context[open] > summary::after {
+	content: "−";
+}
+
+.library-context > summary:hover {
+	background: rgba(16, 28, 41, .6);
+}
+
+.library-context > summary:focus-visible {
+	background: rgba(16, 28, 41, .6);
+	outline: 2px solid #7cdced;
+	outline-offset: 2px;
+}
+
+.library-context > summary span {
+	font-weight: 800;
+}
+
+.library-context > summary small {
+	color: #71859a;
+	font-size: .76rem;
+	font-weight: 600;
+	margin-left: auto;
+}
+
 .library-discovery-rail {
 	display: grid;
-	align-content: start;
 	gap: .65rem;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	padding: 0 .7rem .7rem;
 }
 
 .library-rail-card {
+	align-content: start;
+	background: rgba(10, 17, 28, .62);
+	border-top: 1px solid rgba(151, 178, 205, .1);
 	display: grid;
-	gap: .65rem;
-	padding: .8rem;
-	border: 1px solid rgba(151, 178, 205, .12);
-	border-radius: .82rem;
-	background: #0a111c;
+	gap: .6rem;
+	min-width: 0;
+	padding: .8rem .2rem .2rem;
 }
 
 .library-rail-card header {
-	display: flex;
 	align-items: end;
-	justify-content: space-between;
+	display: flex;
 	gap: .7rem;
+	justify-content: space-between;
 }
 
 .library-rail-card h2 {
-	margin: .16rem 0 0;
 	font-size: 1rem;
+	margin: .14rem 0 0;
 }
 
 .library-rail-card header > span {
-	padding: .28rem .46rem;
-	border: 1px solid rgba(67, 197, 225, .15);
-	border-radius: 999px;
-	background: rgba(67, 197, 225, .07);
 	color: #86deed;
 	font-size: .68rem;
-}
-
-.library-rail-card header button {
-	min-height: 2.35rem;
-	padding: .45rem .55rem;
-	border: 1px solid transparent;
-	border-radius: .5rem;
-	background: transparent;
-	color: #6ed8ea;
-	cursor: pointer;
-}
-
-.library-rail-card header button:is(:hover, :focus-visible) {
-	border-color: rgba(126, 215, 229, .18);
-	background: #101b28;
-	outline: 0;
-}
-
-.library-rail-card header button:disabled {
-	cursor: default;
-	opacity: .42;
+	font-weight: 700;
 }

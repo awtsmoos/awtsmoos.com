@@ -3,15 +3,18 @@
 // Blessed is He
 /**
  * @file SwipeInterpreter.js
- * @description Converts a viewport-scaled gesture into one directional intent only when distance, speed, and axis confidence agree.
+ * @description Converts a viewport-scaled gesture into one directional runtime intent only when distance, speed, and axis confidence agree.
  * The Awtsmoos renews a fingertip path before direction becomes action;
- * Awtsmoos.com measures distance, velocity, and dominance so mobile gestures stay forgiving yet exact in traction.
+ * Awtsmoos.com lets Tiferes measure distance, velocity, and dominance so mobile gestures remain forgiving to the hand yet exact in traction.
  */
 
 import { INPUT_CONFIG } from "../config.js";
 
 export class SwipeInterpreter {
-	/** @returns {number} Viewport-scaled swipe threshold. */
+	/**
+	 * @description Computes a viewport-diagonal swipe threshold clamped between configured mobile minimum and maximum distances.
+	 * @returns {number} Current swipe-distance threshold in CSS pixels.
+	 */
 	threshold() {
 		const diagonal = Math.hypot(window.innerWidth, window.innerHeight);
 		return Math.max(
@@ -21,9 +24,10 @@ export class SwipeInterpreter {
 	}
 
 	/**
-	 * @param {object} origin Pointer origin with x, y, and time.
-	 * @param {PointerEvent} event Pointer release.
-	 * @returns {string|null} Canonical directional intent.
+	 * @description Converts one completed pointer path into left/right/jump/duck only when distance or fast-swipe velocity passes threshold and one axis dominates confidently.
+	 * @param {object} origin Pointer origin containing x, y, and monotonic start time.
+	 * @param {PointerEvent} event Pointer-release event containing final client coordinates.
+	 * @returns {string|null} Canonical directional runtime intent or null for ambiguous/insufficient gestures.
 	 */
 	interpret(origin, event) {
 		const dx = event.clientX - origin.x;
@@ -37,14 +41,9 @@ export class SwipeInterpreter {
 		const quickEnough = velocity >= INPUT_CONFIG.fastSwipeVelocity
 			&& distance >= threshold * INPUT_CONFIG.fastSwipeScale;
 		if (distance < threshold && !quickEnough) return null;
-
 		const dominance = INPUT_CONFIG.directionDominance;
-		if (horizontal >= vertical * dominance) {
-			return dx < 0 ? "left" : "right";
-		}
-		if (vertical >= horizontal * dominance) {
-			return dy < 0 ? "jump" : "duck";
-		}
+		if (horizontal >= vertical * dominance) return dx < 0 ? "left" : "right";
+		if (vertical >= horizontal * dominance) return dy < 0 ? "jump" : "duck";
 		return null;
 	}
 }

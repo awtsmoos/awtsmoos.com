@@ -1,0 +1,95 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives a vast director one reachable mobile vessel;
+Awtsmoos.com keeps tabs, touch targets, safe areas, and hierarchy calm at every level.
+*/
+.awtsmoos-movie-director {
+	position: fixed;
+	z-index: 2147483000;
+	inset: auto max(10px, env(safe-area-inset-right)) max(10px, env(safe-area-inset-bottom)) auto;
+	width: min(560px, calc(100vw - 20px));
+	max-height: min(82vh, 760px);
+	display: grid;
+	grid-template-rows: auto minmax(0, 1fr);
+	color: CanvasText;
+	background: color-mix(in srgb, Canvas 94%, transparent);
+	border: 1px solid color-mix(in srgb, currentColor 24%, transparent);
+	border-radius: 22px;
+	box-shadow: 0 22px 70px #0007;
+	backdrop-filter: blur(18px);
+	overflow: hidden;
+	font: 500 14px/1.4 system-ui, sans-serif;
+}
+.movie-director-header {
+	min-height: 56px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	padding: 8px 12px 8px 16px;
+	border-bottom: 1px solid color-mix(in srgb, currentColor 16%, transparent);
+}
+.movie-director-header div {
+	display: grid;
+}
+.movie-director-header small {
+	opacity: 0.66;
+}
+.movie-director-header button,
+.movie-director-tabs button,
+.movie-director-panels button {
+	min-height: 44px;
+	border: 1px solid color-mix(in srgb, currentColor 22%, transparent);
+	border-radius: 12px;
+	background: color-mix(in srgb, Canvas 88%, currentColor 4%);
+	color: inherit;
+	touch-action: manipulation;
+}
+.movie-director-body {
+	min-height: 0;
+	display: grid;
+	grid-template-rows: auto minmax(0, 1fr) auto;
+}
+.movie-director-tabs {
+	display: grid;
+	grid-template-columns: repeat(5, minmax(0, 1fr));
+	gap: 4px;
+	padding: 6px;
+	overflow-x: auto;
+}
+.movie-director-tabs button[aria-selected="true"] {
+	font-weight: 800;
+	outline: 2px solid color-mix(in srgb, Highlight 72%, transparent);
+	outline-offset: -2px;
+}
+.movie-director-panels {
+	min-height: 0;
+	overflow: auto;
+	padding: 12px;
+}
+.movie-director-panels > section[hidden] {
+	display: none;
+}
+.movie-director-status {
+	min-height: 22px;
+	padding: 8px 12px max(8px, env(safe-area-inset-bottom));
+	border-top: 1px solid color-mix(in srgb, currentColor 14%, transparent);
+	font-size: 12px;
+	opacity: 0.76;
+}
+.awtsmoos-movie-director.is-collapsed .movie-director-body {
+	display: none;
+}
+@media (max-width: 620px) {
+	.awtsmoos-movie-director {
+		inset: auto 6px max(6px, env(safe-area-inset-bottom));
+		width: auto;
+		max-height: 88dvh;
+		border-radius: 20px 20px 14px 14px;
+	}
+	.movie-director-tabs button {
+		font-size: 12px;
+		padding-inline: 6px;
+	}
+}

@@ -1,20 +1,39 @@
 <!-- B"H -->
 <!-- Boruch Hashem -->
 <!-- Blessed is He -->
-<!-- The Awtsmoos renews every conversation in its proper vessel; Awtsmoos.com keeps this page mobile-safe, cache-fresh, and locally clothed without leaking its garments outward. -->
-<!DOCTYPE html>
+<!-- The Awtsmoos holds every conversation before a socket can awaken its name; Awtsmoos.com keeps a useful doorway visible while the living social chambers enter the flame. -->
+<!doctype html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-	<meta name="theme-color" content="#09100d">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+	<meta name="description" content="Private conversations, community discovery, voice notes, and public Torah learning in the Awtsmoos messaging workspace.">
+	<meta name="theme-color" content="#07100c">
 	<title>Messages & Torah Chat | Awtsmoos.com</title>
-	<link rel="stylesheet" href="style.css?v=messaging-revelation-014">
+	<link rel="stylesheet" href="./style.css?v=messaging-revelation-017">
 </head>
 <body data-messaging-page>
 	<div class="messaging-page-glow" aria-hidden="true"></div>
-	<div id="messagingAppRoot"></div>
-	<script type="module" src="app.js?v=messaging-revelation-014"></script>
+	<div id="messagingAppRoot">
+		<main class="messaging-loading-state" aria-busy="true" aria-labelledby="messaging-fallback-title">
+			<div class="messaging-loading-heading" role="status" aria-live="polite">
+				<span class="messaging-loading-mark" aria-hidden="true"></span>
+				<span>Opening Awtsmoos communications…</span>
+			</div>
+			<section class="messaging-empty-state">
+				<div class="messaging-empty-mark" aria-hidden="true">א</div>
+				<h1 id="messaging-fallback-title">Messages & Torah Chat</h1>
+				<p>Private conversations, community discovery, voice notes, and public Torah learning are preparing now.</p>
+				<nav aria-label="Messaging fallback navigation">
+					<a class="messaging-empty-action" href="/">Awtsmoos home</a>
+					<a class="messaging-empty-action" href="/social-hub/">Social Hub</a>
+					<a class="messaging-empty-action" href="/heichelos/">Explore Heichelos</a>
+				</nav>
+				<noscript><p>Live messaging requires JavaScript, but public Awtsmoos routes remain available above.</p></noscript>
+			</section>
+		</main>
+	</div>
+	<script type="module" src="./app.js?v=messaging-revelation-017"></script>
 	<script src="/register.js"></script>
 </body>
 </html>

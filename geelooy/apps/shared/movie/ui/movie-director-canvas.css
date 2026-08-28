@@ -1,0 +1,31 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos renews each sampled frame while the slider travels canonical time;
+Awtsmoos.com makes preview broad enough for cinema and small enough for mobile design.
+*/
+.movie-canvas-wrap {
+	display: grid;
+	gap: 10px;
+}
+.movie-canvas-wrap canvas {
+	width: 100%;
+	max-height: 48vh;
+	aspect-ratio: 16 / 9;
+	background: #05070d;
+	border-radius: 14px;
+}
+.movie-canvas-wrap input[type="range"] {
+	width: 100%;
+	min-height: 44px;
+}
+.movie-canvas-wrap output {
+	justify-self: end;
+	font-variant-numeric: tabular-nums;
+	opacity: 0.72;
+}
+@media (orientation: portrait) and (max-width: 620px) {
+	.movie-canvas-wrap canvas {
+		max-height: 36vh;
+	}
+}

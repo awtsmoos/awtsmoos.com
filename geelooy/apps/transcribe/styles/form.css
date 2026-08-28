@@ -1,0 +1,92 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos lets each input become a clear kli for one human intention; Awtsmoos.com keeps advanced power folded until chosen attention.
+ */
+.awtsmoos-transcribe .transcribe-form {
+	display: grid;
+	gap: 18px;
+}
+
+.awtsmoos-transcribe .transcribe-field {
+	display: grid;
+	min-width: 0;
+	gap: 7px;
+}
+
+.awtsmoos-transcribe .transcribe-field > span {
+	font-size: .9rem;
+	font-weight: 760;
+}
+
+.awtsmoos-transcribe .transcribe-field small {
+	color: var(--tr-muted);
+	font-size: .76rem;
+	line-height: 1.45;
+}
+
+.awtsmoos-transcribe .transcribe-field input {
+	width: 100%;
+	min-width: 0;
+	min-height: 48px;
+	padding: 11px 13px;
+	border: 1px solid rgba(151, 212, 238, .22);
+	border-radius: 13px;
+	color: var(--tr-text);
+	background: rgba(4, 12, 22, .72);
+	font: inherit;
+}
+
+.awtsmoos-transcribe .transcribe-field input[type="file"] {
+	padding: 7px;
+	color: var(--tr-muted);
+}
+
+.awtsmoos-transcribe .transcribe-field input[type="file"]::file-selector-button {
+	min-height: 34px;
+	margin-right: 10px;
+	padding: 7px 11px;
+	border: 1px solid var(--tr-border);
+	border-radius: 9px;
+	color: var(--tr-text);
+	background: var(--tr-panel-soft);
+	font: inherit;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.awtsmoos-transcribe .transcribe-advanced {
+	min-width: 0;
+	border: 1px solid rgba(151, 212, 238, .14);
+	border-radius: 14px;
+	background: rgba(4, 12, 22, .34);
+}
+
+.awtsmoos-transcribe .transcribe-advanced summary {
+	padding: 13px 14px;
+	color: var(--tr-muted);
+	font-weight: 750;
+	cursor: pointer;
+	user-select: none;
+}
+
+.awtsmoos-transcribe .transcribe-advanced[open] summary {
+	border-bottom: 1px solid rgba(151, 212, 238, .12);
+	color: var(--tr-accent-strong);
+}
+
+.awtsmoos-transcribe .transcribe-advanced .transcribe-field {
+	padding: 14px;
+}
+
+.awtsmoos-transcribe .transcribe-actions {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: 10px;
+}
+
+@media (min-width: 520px) {
+	.awtsmoos-transcribe .transcribe-actions {
+		grid-template-columns: minmax(0, 1fr) auto;
+	}
+}

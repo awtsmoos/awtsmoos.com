@@ -1,26 +1,27 @@
 /* B"H
- * The Awtsmoos lets discovery expand before a question and contract once the question is alive;
- * Awtsmoos.com keeps its promise visible while exact results rise into the first human viewport.
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gathers a living question so its answer can rise without ornamental delay;
+ * Awtsmoos.com keeps the active search compact and clear while every true source keeps its way.
  */
 body[data-search-active="true"] .library-page {
 	gap: .65rem;
 }
 
 body[data-search-active="true"] .library-hero {
-	grid-template-columns: minmax(0, 1fr);
-	min-height: 7.25rem;
-	padding: 1rem 1.15rem;
+	min-height: 0;
+	padding: .8rem 1rem;
 }
 
 body[data-search-active="true"] .library-hero h1 {
-	font-size: clamp(1.8rem, 3.2vw, 2.6rem);
-	margin-top: .18rem;
+	font-size: clamp(1.7rem, 3vw, 2.35rem);
+	margin-top: .1rem;
 	max-width: none;
 }
 
-body[data-search-active="true"] .library-hero-copy > p:not(.library-kicker),
-body[data-search-active="true"] .library-truth-row,
-body[data-search-active="true"] .library-hero-mark {
+body[data-search-active="true"] .library-hero-description,
+body[data-search-active="true"] .library-trust-line {
 	display: none;
 }
 
@@ -46,10 +47,6 @@ body[data-search-active="true"] .library-status {
 }
 
 @media (max-width: 56rem) {
-	body[data-search-active="true"] .library-hero {
-		min-height: 6.5rem;
-	}
-
 	body[data-search-active="true"] .library-search-form {
 		top: auto;
 	}
@@ -57,10 +54,10 @@ body[data-search-active="true"] .library-status {
 
 @media (max-width: 36rem) {
 	body[data-search-active="true"] .library-hero {
-		padding: .8rem .9rem;
+		padding: .7rem .8rem;
 	}
 
 	body[data-search-active="true"] .library-hero h1 {
-		font-size: 1.65rem;
+		font-size: 1.6rem;
 	}
 }

@@ -4,6 +4,7 @@
 
 import { VirtualGraph as G } from '../../../engine/graph/VirtualGraph.js';
 import { SkeletonFactory } from '../../rig/SkeletonFactory.js';
+import { StableBodyAxisMotion } from './StableBodyAxisMotion.js';
 import { StableCharacterLayers } from './StableCharacterLayers.js';
 import { StableCharacterTransform } from './StableCharacterTransform.js';
 import { StablePalette } from './StablePalette.js';
@@ -16,11 +17,12 @@ import { StableViewProfile } from './StableViewProfile.js';
 import { StableWholeBodyPose } from './StableWholeBodyPose.js';
 
 /**
- * Morphology now shapes the skeleton before garments and limbs consume its bones.
- * The Awtsmoos joins identity and motion; Awtsmoos.com keeps one editable graph
- * authoritative across timeline, persistence, preview, and production export.
+ * Morphology shapes the skeleton before garments and limbs consume its connected bones.
+ * The Awtsmoos joins identity, weight, and motion; Awtsmoos.com keeps one editable graph
+ * authoritative while world-travel grounding remains separate from in-place body sway.
  */
 export class StableCharacterAssembler {
+	/** @param {Object} data - Character data. @returns {Object|null} Stable graph node. */
 	static assemble(data) {
 		if (!data || data.visible === false) {
 			return null;
@@ -46,26 +48,26 @@ export class StableCharacterAssembler {
 		}, colors, metrics, sage);
 	}
 
+	/** @returns {Object} Fully connected stable character graph. */
 	static characterGraph(data, colors, metrics, sage) {
 		const prefix = sage ? 'sage' : 'human';
-		const poseBody = data._stablePose.body || {};
-		const breath = S.clamp(poseBody.torsoBreathScale || 1, 0.96, 1.05);
+		const bodyAxis = StableBodyAxisMotion.resolve(data, data._stablePose.body || {});
 		return G.group(
 			`stable_character_${data.id || 'soul'}`,
 			StableCharacterTransform.position(data, sage),
 			[
 				this.shadow(prefix, metrics),
-				S.group(`${prefix}_connected_body_axis`, {
-					x: (poseBody.hipX || 0) * 0.08,
-					y: S.clamp(poseBody.bob || 0, -13, 8),
-					scaleY: breath,
-					rotation: (poseBody.torsoLean || 0) * 0.006
-				}, StableCharacterLayers.build(data, colors, metrics, sage, prefix))
+				S.group(
+					`${prefix}_connected_body_axis`,
+					bodyAxis,
+					StableCharacterLayers.build(data, colors, metrics, sage, prefix)
+				)
 			],
 			{ opacity: StableCharacterTransform.opacity(data) }
 		);
 	}
 
+	/** @returns {Object} Ground shadow node beneath the connected body. */
 	static shadow(prefix, metrics) {
 		return G.ellipse(
 			`${prefix}_shadow`,

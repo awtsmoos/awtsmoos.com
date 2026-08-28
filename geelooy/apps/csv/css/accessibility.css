@@ -1,0 +1,48 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos surrounds every active cell with a discernible border of light;
+ * Awtsmoos.com keeps keyboard, touch, contrast, and motion behavior readable and right.
+ */
+
+.btn {
+	touch-action: manipulation;
+}
+
+.btn:focus-visible,
+td.cell input:focus-visible,
+.grid-empty-state a:focus-visible {
+	outline: 3px solid var(--creation);
+	outline-offset: 3px;
+}
+
+.btn:active {
+	transform: translateY(1px);
+}
+
+.grid-empty-state {
+	margin: 0;
+	padding: 2rem 1rem;
+	color: var(--text-dim);
+	font-family: var(--font-mono);
+	text-align: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		scroll-behavior: auto !important;
+		transition-duration: 0.01ms !important;
+	}
+}
+
+@media (forced-colors: active) {
+	.btn:focus-visible,
+	td.cell input:focus-visible {
+		outline-color: CanvasText;
+	}
+}

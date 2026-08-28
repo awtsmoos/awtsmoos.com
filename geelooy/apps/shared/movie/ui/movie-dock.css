@@ -1,0 +1,17 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives old style doorways a path into the new director bright;
+Awtsmoos.com imports modular mobile vessels so every app receives the same light.
+*/
+@import url("./movie-director-shell.css");
+@import url("./movie-director-panels.css");
+@media (prefers-reduced-motion: reduce) {
+	.awtsmoos-movie-director *,
+	.awtsmoos-movie-director *::before,
+	.awtsmoos-movie-director *::after {
+		scroll-behavior: auto !important;
+		transition-duration: 0.001ms !important;
+		animation-duration: 0.001ms !important;
+	}
+}

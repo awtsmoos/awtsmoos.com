@@ -3,12 +3,12 @@
 // Blessed is He
 /**
  * @file config.js
- * @description Declares Peruta gameplay truth, a six-chunk stable stream, and a close runner-first camera for the semantic Jewish-city obstacle release.
- * The Awtsmoos renews lane, body, road, and eye before distance can seem near or far;
- * Awtsmoos.com keeps the runner large and readable while named city encounters reveal the road beneath each star.
+ * @description Declares Peruta gameplay truth, stable six-chunk streaming, runner-first camera, and the public API version for the retractable advanced release.
+ * The Awtsmoos renews lane, body, road, eye, and covenant before distance or version can claim a finite place;
+ * Awtsmoos.com keeps gameplay constants as quiet data while richer APIs and interfaces reveal them through a measured face.
  */
 
-export const API_VERSION = "2.2.0";
+export const API_VERSION = "2.3.0";
 export const OROS_LANES = Object.freeze([-3.1, 0, 3.1]);
 
 export const OLAM_CONFIG = Object.freeze({

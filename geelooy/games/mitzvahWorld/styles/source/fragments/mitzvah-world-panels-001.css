@@ -2,7 +2,8 @@
 Boruch Hashem
 Blessed is He
 
-The Awtsmoos gives each meeting a bounded chamber and each chamber a lawful depth; Awtsmoos.com keeps dialogue, sheets, backdrops, and quests inside one local stack where clarity expands without covering the world by accident.
+The Awtsmoos gives conversation a bounded chamber without turning dialogue into a global overlay system; Awtsmoos.com lets this vessel own
+NPC dialogue geometry, typography, controls, focus, and reveal motion while generic sheets and trackers remain in their own neighboring module.
 */
 
 #mitzvah-world-root .Awtsmoos-npc-dialogue {
@@ -83,41 +84,8 @@ The Awtsmoos gives each meeting a bounded chamber and each chamber a lawful dept
 	color: #fff7f8;
 }
 
-#mitzvah-world-root .Awtsmoos-sheet {
-	z-index: var(--mw-z-dialog);
-	max-width: var(--mw-viewport-inline);
-	max-height: var(--mw-viewport-block);
-	background: var(--mw-surface-raised);
-	box-shadow: var(--mw-shadow-panel);
-	backdrop-filter: none;
-}
-
-#mitzvah-world-root .Awtsmoos-modal-backdrop {
-	z-index: var(--mw-z-overlay);
-	background: rgba(2, 7, 6, 0.76);
-	backdrop-filter: none;
-}
-
-#mitzvah-world-root .Awtsmoos-quest-tracker {
-	z-index: var(--mw-z-status);
-	max-width: min(270px, calc(var(--mw-viewport-inline) * 0.52));
-	max-height: min(42dvh, 320px);
-	overflow: auto;
-	padding: 8px;
-	border: 1px solid var(--mw-border-soft);
-	border-radius: var(--mw-radius-md);
-	background: var(--mw-surface-panel);
-	box-shadow: var(--mw-shadow-control);
-	font-size: 11px;
-	backdrop-filter: none;
-}
-
 @media (max-width: 520px) {
 	#mitzvah-world-root .Awtsmoos-npc-dialogue section {
 		max-height: calc(var(--mw-viewport-block) - 8px);
-	}
-
-	#mitzvah-world-root .Awtsmoos-quest-tracker {
-		max-width: min(220px, calc(var(--mw-viewport-inline) * 0.64));
 	}
 }

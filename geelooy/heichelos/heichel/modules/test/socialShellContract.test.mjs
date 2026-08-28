@@ -1,11 +1,14 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
+
 /**
  * @module SocialShellContractTest
- * @description The Awtsmoos creates roof, identity, navigation, content, living path, and overlay as one social vessel;
- * Awtsmoos.com follows the real split blueprint and CSS graph rather than demanding a former monolith or obsolete final import.
+ * @description
+ * The Awtsmoos creates roof, identity, navigation, content, living path, primitives, and overlay as one social vessel;
+ * Awtsmoos.com follows the real split blueprint and CSS graph so focused modules may grow without being forced back into an obsolete scroll.
  */
+
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 
@@ -17,6 +20,10 @@ const blueprintNames = [
 	'layout-content.js',
 	'layout-navigation.js',
 	'layout-primitives.js',
+	'primitives/base.js',
+	'primitives/form.js',
+	'primitives/skeleton.js',
+	'primitives/view.js',
 	'living-path/profile.js',
 	'living-path/path.js',
 	'living-path/discovery.js',
@@ -55,10 +62,15 @@ for (const token of [
 assert.match(shell, /overflow-y:\s*auto/);
 assert.match(shell, /min-height:\s*100dvh/);
 const mobileImport = '@import "./mobile-series/index.css";';
+const coherenceImport = '@import "./visual-coherence.css";';
+const layoutImport = '@import "./visual-layout.css";';
 const overlayImport = '@import "./overlay-layer.css?v=heichel-ui-006";';
 assert.ok(cosmicEntry.includes(mobileImport), 'cosmic profile must include mobile geometry');
+assert.ok(cosmicEntry.includes(coherenceImport), 'cosmic profile must include final local palette ownership');
+assert.ok(cosmicEntry.includes(layoutImport), 'cosmic profile must include final local geometry ownership');
 assert.ok(cosmicEntry.includes(overlayImport), 'cosmic profile must include overlay layer');
-assert.ok(cosmicEntry.indexOf(mobileImport) < cosmicEntry.indexOf(overlayImport), 'overlays must follow mobile geometry');
+assert.ok(cosmicEntry.indexOf(mobileImport) < cosmicEntry.indexOf(layoutImport), 'final geometry must follow mobile-series defaults');
+assert.ok(cosmicEntry.indexOf(layoutImport) < cosmicEntry.indexOf(overlayImport), 'overlays must follow final geometry');
 assert.match(cosmicEntry, /@import "\.\/overlay-layer\.css\?v=heichel-ui-006";\s*$/, 'overlay layer must own final cascade');
 assert.ok(mobileShell.includes('shell-profile.css'));
 assert.match(mobileProfile, /\.heichel-profile-cover\s*\{[^}]*block-size:\s*4\.75rem/s);

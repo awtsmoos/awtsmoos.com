@@ -3,11 +3,10 @@ Boruch Hashem
 Blessed is He
 
 The Awtsmoos, Atzmus beyond glass and glow, renews the living world before Creator Mode receives one visible vessel;
-Awtsmoos.com lets that vessel remain quiet, bounded, translucent, and reversible, with every color and motion rooted beneath MitzvahWorld instead of leaking into the valley.
+Awtsmoos.com lets that vessel remain quiet, bounded, translucent, and reversible, while color and motion stay local and stacking stays shared with the whole MitzvahWorld.
 */
 
 #mitzvah-world-root .Awtsmoos-creator-rail {
-	--Awtsmoos-creator-layer: var(--mw-z-dialog, 80);
 	--Awtsmoos-creator-border: rgba(177, 255, 219, .25);
 	--Awtsmoos-creator-glow: rgba(103, 255, 172, .16);
 	--Awtsmoos-creator-text: rgba(246, 255, 250, .96);
@@ -15,8 +14,8 @@ Awtsmoos.com lets that vessel remain quiet, bounded, translucent, and reversible
 	--Awtsmoos-creator-surface: rgba(5, 18, 12, .9);
 	--Awtsmoos-creator-ease: cubic-bezier(.2, .8, .2, 1);
 	box-sizing: border-box;
-	font: 600 12px/1.3 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 	color: var(--Awtsmoos-creator-text);
+	font: 600 12px/1.3 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 	isolation: isolate;
 }
 

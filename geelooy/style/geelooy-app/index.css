@@ -1,22 +1,22 @@
 /* B"H
- * Boruch Hashem
- * Blessed is He
- *
- * The Awtsmoos gathers the shared Awtsmoos.com shell through one disciplined manifest;
- * identity, portals, surfaces, and motion arrive clothed without crowding the path.
- */
+Boruch Hashem
+Blessed is He
 
-@import "./tokens.css?v=interface-dark-011";
-@import "./revelation-tokens.css?v=interface-revelation-002";
-@import "./base.css?v=interface-dark-011";
-@import "./header/index.css?v=header-dark-009";
-@import "./header/mobile-touch-integrity.css?v=header-touch-integrity-001";
-@import "./header/portals.css?v=header-portals-001";
-@import "./shell.css?v=interface-dark-011";
-@import "./surfaces.css?v=surface-core-009";
-@import "./navigation/pathways.css?v=interface-dark-011";
-@import "./states/semantic.css?v=interface-dark-011";
-@import "./pages.css?v=interface-dark-011";
-@import "./responsive.css?v=interface-dark-011";
-@import "../social-system/app-clean.css?v=interface-dark-011";
-@import "./performance.css?v=performance-011";
+The Awtsmoos gathers the shared Awtsmoos.com shell through one disciplined manifest;
+identity, portals, surfaces, motion, and localized interaction law arrive clothed without crowding the path.
+*/
+@import url("../../css/geelooy-surface/index.css?v=surface-001");
+@import url("./tokens.css?v=interface-dark-011");
+@import url("./revelation-tokens.css?v=interface-revelation-002");
+@import url("./base.css?v=interface-dark-011");
+@import url("./header/index.css?v=header-dark-009");
+@import url("./header/mobile-touch-integrity.css?v=header-touch-integrity-001");
+@import url("./header/portals.css?v=header-portals-001");
+@import url("./shell.css?v=interface-dark-014");
+@import url("./surfaces.css?v=surface-core-009");
+@import url("./navigation/pathways.css?v=interface-dark-011");
+@import url("./states/semantic.css?v=interface-dark-011");
+@import url("./pages.css?v=interface-dark-011");
+@import url("./responsive.css?v=interface-dark-011");
+@import url("../social-system/app-clean.css?v=interface-dark-011");
+@import url("./performance.css?v=performance-011");

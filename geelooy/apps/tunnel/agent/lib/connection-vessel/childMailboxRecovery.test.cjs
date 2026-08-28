@@ -1,4 +1,4 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
@@ -6,60 +6,62 @@ const assert = require("node:assert/strict");
 const Recovery = require("./child-mailbox-recovery.js");
 
 /**
- * @file Proves child-local semantic healing removes only safe expired pre-result custody.
+ * @file Proves stale accepted custody remains guarded until exact execution truth is known.
  * @description
- * The Awtsmoos lets stale custody leave the hot path without erasing fulfilled testimony.
- * Awtsmoos.com quarantines an expired accepted deed once, never redispatches it, and
- * preserves result-bearing evidence until acknowledgement or generation replacement.
+ * Awtsmoos.com may observe an old lease, but it may not turn age into a false verdict.
+ * The Awtsmoos renews every instant; this test keeps one accepted deed one deed by proving
+ * automatic recovery preserves ambiguity and forbids redispatch instead of clearing custody.
+ *
+ * > Old clocks may fade while one deed remains,
+ * > No guessed execution may loosen its chains;
+ * > The Awtsmoos renews through packets and lanes,
+ * > So proof—not age—must govern our gains.
  */
 const now = Date.now();
-let preResultRecords = [record("accepted-1", "accepted_waiting_for_consumer")];
-let quarantines = [];
-const preResultMailbox = mailbox(
-	() => preResultRecords,
-	id => {
-		quarantines.push(id);
-		preResultRecords = preResultRecords.filter(item => item.id !== id);
-		return { ok: true, id };
-	}
-);
 
-const first = Recovery.reconcileIfStale(preResultMailbox, {
+const acceptedRecords = [record("accepted-1", "accepted_waiting_for_consumer")];
+let acceptedQuarantines = 0;
+const acceptedMailbox = mailbox(acceptedRecords, () => {
+	acceptedQuarantines += 1;
+	return { ok: true };
+});
+
+const first = Recovery.reconcileIfStale(acceptedMailbox, {
 	reason: "test_child_stale_custody"
 });
 assert.equal(first.attempted, true);
-assert.equal(first.ok, true);
+assert.equal(first.ok, false);
+assert.equal(first.replacementRequired, true);
 assert.equal(first.safeToRedispatch, false);
-assert.equal(first.expired, 1);
-assert.equal(first.actions[0].operation, "quarantined");
-assert.deepEqual(quarantines, ["accepted-1"]);
+assert.equal(first.actions[0].operation, "preserved");
+assert.equal(first.actions[0].reason, "accepted_execution_ambiguity");
+assert.equal(acceptedQuarantines, 0);
+assert.equal(acceptedRecords.length, 1);
 
-const second = Recovery.reconcileIfStale(preResultMailbox);
-assert.equal(second.attempted, false);
-assert.equal(second.reason, "child_mailbox_fresh");
-assert.deepEqual(quarantines, ["accepted-1"]);
+const second = Recovery.reconcileIfStale(acceptedMailbox);
+assert.equal(second.attempted, true);
+assert.equal(second.actions[0].operation, "preserved");
+assert.equal(acceptedQuarantines, 0);
+assert.equal(acceptedRecords.length, 1);
 
-let resultRecords = [record("result-1", "result_waiting_for_ack")];
+const resultRecords = [record("result-1", "result_waiting_for_ack")];
 let resultQuarantines = 0;
-const resultMailbox = mailbox(
-	() => resultRecords,
-	() => {
-		resultQuarantines += 1;
-		return { ok: true };
-	}
-);
-const preserved = Recovery.reconcileIfStale(resultMailbox);
-assert.equal(preserved.attempted, true);
-assert.equal(preserved.ok, false);
-assert.equal(preserved.replacementRequired, true);
-assert.equal(preserved.actions[0].operation, "preserved");
-assert.equal(preserved.actions[0].reason, "result_waiting_for_ack");
+const resultMailbox = mailbox(resultRecords, () => {
+	resultQuarantines += 1;
+	return { ok: true };
+});
+const result = Recovery.reconcileIfStale(resultMailbox);
+assert.equal(result.attempted, true);
+assert.equal(result.ok, false);
+assert.equal(result.replacementRequired, true);
+assert.equal(result.actions[0].operation, "preserved");
+assert.equal(result.actions[0].reason, "result_waiting_for_ack");
 assert.equal(resultQuarantines, 0);
 assert.equal(resultRecords.length, 1);
 
-console.log("BHY child mailbox quarantines stale pre-result custody and preserves results");
+console.log("BHY child mailbox preserves stale accepted and result custody without redispatch");
 
-/** Creates one deliberately expired exact-custody record. */
+/** Creates one deliberately expired exact-custody witness. */
 function record(id, phase) {
 	return {
 		id,
@@ -70,19 +72,18 @@ function record(id, phase) {
 	};
 }
 
-/** Creates the minimum real semantic-recovery mailbox contract for one test universe. */
+/** Creates the minimum semantic-recovery mailbox contract while retaining live custody. */
 function mailbox(records, quarantineExact) {
 	return {
 		evidence() {
-			return { custody: records() };
+			return { custody: records };
 		},
 		quarantineExact,
 		snapshot() {
-			const current = records();
 			return {
 				inbox: {
-					parentCustodyStaleCount: current.length,
-					parentCustodyCount: current.length
+					parentCustodyStaleCount: records.length,
+					parentCustodyCount: records.length
 				}
 			};
 		}

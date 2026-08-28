@@ -1,12 +1,12 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file minimalMeadowDemonMaterialContract.test.mjs
- * @description Proves finite patterned colors and bootstrap transport for textured demons.
- * The Awtsmoos creates darkness without erasing distinction; Awtsmoos.com verifies each channel,
- * shared texture vessel, shader doorway, and fallback before browser light is trusted.
+ * @description Proves demon geometry keeps anatomical vertex modulation while the rich material exposes no generated hide before remote fur arrives.
+ * The Awtsmoos creates darkness without erasing distinction; Awtsmoos.com keeps finite vertex variation beneath remote texture law,
+ * so anatomy remains expressive while no canvas or solid tint may become the final creature skin we draw.
  */
 
 import assert from 'node:assert/strict';
@@ -16,35 +16,27 @@ import { BOOTSTRAP_FRAGMENT_SHADER, BOOTSTRAP_VERTEX_SHADER } from '../../app/Bo
 import { createMinimalDemonGeometry } from '../../app/MinimalMeadowDemonGeometry.js';
 import { createMinimalDemonMaterial } from '../../app/MinimalMeadowDemonMaterial.js';
 
-const documentValue = createFakeDocument();
-
-test('procedural colors are finite, varied, and anatomically readable', () => {
+test('anatomical vertex colors remain finite and varied', () => {
 	const values = createMinimalDemonGeometry().attributes.color.array;
 	assert.ok(values.length > 1000);
 	assert.ok([...values].every(Number.isFinite));
-	const unique = uniqueColors(values);
-	assert.ok(unique.size > 100);
-	assert.ok([...unique].some(color => color.startsWith('1.000,0.160,0.045')));
+	assert.ok(uniqueColors(values).size > 100);
 });
 
-test('rich material preserves texture, vertex color, and readable tint', () => {
-	const material = createMinimalDemonMaterial({
-		id: 'contract-violet',
-		surfaceFamily: 'violet-ash',
-		tint: [0.72, 0.45, 0.95, 1]
-	}, documentValue);
+test('rich material waits for remote fur while retaining vertex modulation', () => {
+	const material = createMinimalDemonMaterial({ id: 'contract-violet', tint: [0.72, 0.45, 0.95, 1] });
 	assert.equal(material.vertexColors, true);
-	assert.equal(material.mapImage.width, 256);
-	assert.equal(material.texturePolicy.closedSurface, true);
-	assert.ok(material.color.slice(0, 3).every(channel => channel >= 0.14 && channel < 0.67));
+	assert.equal(material.mapImage, null);
+	assert.equal(material.texturePolicy.remoteOnly, true);
+	assert.equal(material.texturePolicy.semanticRole, 'creature.fur');
+	assert.equal(material.texturePolicy.vertexColorModulation, true);
+	assert.equal(material.texturePolicy.realMapImage, false);
 });
 
-test('shared geometry uploads procedural color once for bootstrap', () => {
+test('bootstrap geometry uploads vertex modulation once', () => {
 	const { calls, gl } = fakeGl();
 	const cache = new BootstrapMeshBufferCache(gl);
-	const geometry = createMinimalDemonGeometry();
-	const first = cache.resolve(geometry);
-	assert.equal(first, cache.resolve(geometry));
+	const first = cache.resolve(createMinimalDemonGeometry());
 	assert.ok(first.colorBuffer);
 	assert.equal(first.colorItemSize, 4);
 	assert.equal(calls.createdBuffers, 2);
@@ -52,9 +44,8 @@ test('shared geometry uploads procedural color once for bootstrap', () => {
 	assert.equal(calls.colorPointers, 1);
 });
 
-test('bootstrap shader multiplies profile tint by vertex color', () => {
+test('bootstrap shader multiplies remote-ready tint by vertex color', () => {
 	assert.match(BOOTSTRAP_VERTEX_SHADER, /attribute vec4 aColor/);
-	assert.match(BOOTSTRAP_VERTEX_SHADER, /vColor = aColor/);
 	assert.match(BOOTSTRAP_FRAGMENT_SHADER, /uColor \* vColor/);
 });
 
@@ -72,46 +63,13 @@ function fakeGl() {
 	return {
 		calls,
 		gl: {
-			ARRAY_BUFFER: 1,
-			BYTE: 2,
-			ELEMENT_ARRAY_BUFFER: 3,
-			FLOAT: 4,
-			SHORT: 5,
-			STATIC_DRAW: 6,
-			UNSIGNED_BYTE: 7,
-			UNSIGNED_INT: 8,
-			UNSIGNED_SHORT: 9,
-			bindBuffer: empty,
-			bufferData: empty,
+			ARRAY_BUFFER: 1, BYTE: 2, ELEMENT_ARRAY_BUFFER: 3, FLOAT: 4, SHORT: 5,
+			STATIC_DRAW: 6, UNSIGNED_BYTE: 7, UNSIGNED_INT: 8, UNSIGNED_SHORT: 9,
+			bindBuffer: empty, bufferData: empty,
 			createBuffer: () => ({ id: ++calls.createdBuffers }),
-			disableVertexAttribArray: empty,
-			enableVertexAttribArray: empty,
-			getExtension: () => ({}),
-			vertexAttrib4f: empty,
+			disableVertexAttribArray: empty, enableVertexAttribArray: empty,
+			getExtension: () => ({}), vertexAttrib4f: empty,
 			vertexAttribPointer: () => { calls.colorPointers += 1; }
 		}
-	};
-}
-
-function createFakeDocument() {
-	return {
-		createElement: () => ({
-			dataset: {},
-			height: 0,
-			width: 0,
-			getContext: () => createFakeContext()
-		})
-	};
-}
-
-function createFakeContext() {
-	return {
-		globalAlpha: 1,
-		beginPath() {},
-		bezierCurveTo() {},
-		createRadialGradient: () => ({ addColorStop() {} }),
-		fillRect() {},
-		moveTo() {},
-		stroke() {}
 	};
 }

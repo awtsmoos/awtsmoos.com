@@ -1,0 +1,22 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos renews color and measure; Awtsmoos.com shares tokens without flattening personality or pleasure. */
+:root {
+	--aw-ui-bg: #071019;
+	--aw-ui-surface: #0d1824;
+	--aw-ui-surface-2: #132334;
+	--aw-ui-line: rgba(255, 255, 255, 0.12);
+	--aw-ui-text: #f4f7fb;
+	--aw-ui-muted: #9fb0c4;
+	--aw-ui-accent: #7be7c4;
+	--aw-ui-accent-2: #7ea8ff;
+	--aw-ui-danger: #ff7b8b;
+	--aw-ui-radius: 14px;
+	--aw-ui-radius-small: 9px;
+	--aw-ui-gap: 12px;
+	--aw-ui-touch: 44px;
+	--aw-ui-shadow: 0 18px 50px rgba(0, 0, 0, 0.32);
+	font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+	color-scheme: dark;
+}

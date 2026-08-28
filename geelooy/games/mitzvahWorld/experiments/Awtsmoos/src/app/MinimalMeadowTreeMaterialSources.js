@@ -1,82 +1,67 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file MinimalMeadowTreeMaterialSources.js
- * @description Resolves public tree images without making optional network enrichment a world-fatal gate.
- * The Awtsmoos clothes bark and leaf in the present instant; Awtsmoos.com keeps a real procedural
- * garment visible while public texture preparation continues and later replaces the same shared vessel.
+ * @description Resolves bark and leaf sources strictly from genuine decoded public images already resident in the shared cache.
+ * The Awtsmoos clothes trunk and branch beyond painter and screen; Awtsmoos.com waits for authored bark and leaf,
+ * never drawing a substitute, so every visible tree remembers the real remote image from which its garment is seen.
  */
 
 import { cachedTextureImage } from '../assets/PublicMaterialCache.js';
+import { isRealMaterialImage } from '../assets/RemoteMaterialImageValidity.js';
 import { TEXTURE_PURPOSES } from '../assets/TextureCatalog.js';
 import { createForestLeafPublicTexture } from '../world/trees/ForestLeafTexture.js';
-import {
-	createMinimalTreeBarkTexture,
-	createMinimalTreeLeafTexture
-} from './MinimalMeadowTreeTexturePainter.js';
 
-export function createMinimalMeadowTreeMaterials(records = [], documentValue = globalThis.document) {
+/** Resolves cache-resident tree materials without generating fallback pixels. */
+export function createMinimalMeadowTreeMaterials(records = [], _documentValue = globalThis.document) {
 	return resolveMinimalMeadowTreeMaterials({
 		barkImage: cachedTextureImage(TEXTURE_PURPOSES.forestBark),
-		documentValue,
 		leafImage: cachedTextureImage(TEXTURE_PURPOSES.forestLeaf),
 		records
 	});
 }
 
+/** Creates remote-only bark and leaf source records from real images or null. */
 export function resolveMinimalMeadowTreeMaterials(options = {}) {
-	const publicLeaf = createForestLeafPublicTexture(options.leafImage);
-	const barkFallback = !options.barkImage;
-	const leafFallback = !publicLeaf;
-	const barkImage = options.barkImage
-		|| createMinimalTreeBarkTexture(options.documentValue);
-	const leafImage = publicLeaf
-		|| createMinimalTreeLeafTexture(options.documentValue);
-	if (!barkImage || !leafImage) {
-		throw new Error('B"H | tree material canvases require a two-dimensional document context.');
-	}
+	const barkImage = realImage(options.barkImage);
+	const leafImage = createForestLeafPublicTexture(options.leafImage);
 	return {
-		bark: materialSource({
-			fallback: barkFallback,
-			image: barkImage,
-			kind: 'bark',
-			url: TEXTURE_PURPOSES.forestBark
-		}),
-		cacheKey: `minimal-tree-v2|${barkFallback ? 'procedural' : 'public'}|${leafFallback ? 'procedural' : 'public'}`,
-		diagnostics: diagnostics(options.records, barkFallback, leafFallback),
-		leaf: materialSource({
-			fallback: leafFallback,
-			hydrateMapImage: createForestLeafPublicTexture,
-			image: leafImage,
-			kind: 'leaf',
-			url: TEXTURE_PURPOSES.forestLeaf
-		})
+		bark: materialSource(barkImage, 'bark', TEXTURE_PURPOSES.forestBark),
+		cacheKey: `minimal-tree-v3|${barkImage ? 'remote-bark' : 'pending-bark'}|${leafImage ? 'remote-leaf' : 'pending-leaf'}`,
+		diagnostics: diagnostics(options.records, barkImage, leafImage),
+		leaf: materialSource(leafImage, 'leaf', TEXTURE_PURPOSES.forestLeaf, createForestLeafPublicTexture)
 	};
 }
 
-function materialSource(options) {
+function materialSource(image, kind, url, hydrateMapImage = undefined) {
 	return {
-		mapImage: options.image,
-		mapImageFallback: options.fallback,
+		mapImage: image,
+		mapImageFallback: false,
 		texturePolicy: {
-			hydrateMapImage: options.hydrateMapImage,
-			proceduralFallbackActive: options.fallback,
-			realMapImage: !options.fallback,
-			treeLayer: options.kind
+			hydrateMapImage,
+			realMapImage: Boolean(image),
+			remoteOnly: true,
+			semanticRole: kind === 'bark' ? 'forest.bark' : null,
+			treeLayer: kind
 		},
-		textureUrl: options.url
+		textureUrl: url
 	};
 }
 
-function diagnostics(records, barkFallback, leafFallback) {
+function diagnostics(records, barkImage, leafImage) {
 	const normalized = Array.isArray(records) ? records : [];
 	return {
-		barkSource: barkFallback ? 'procedural-bark-grain' : 'public-image',
+		barkSource: barkImage ? 'public-image' : 'remote-pending',
 		failedPublicRequests: normalized.filter(record => record?.ok === false).length,
-		leafSource: leafFallback ? 'procedural-botanical-alpha' : 'public-alpha-prepared',
+		leafSource: leafImage ? 'public-authored-alpha' : 'remote-pending',
 		publicRecords: normalized.length,
+		remoteOnly: true,
 		worldFatalOnPublicFailure: false
 	};
+}
+
+function realImage(image) {
+	return isRealMaterialImage(image) ? image : null;
 }

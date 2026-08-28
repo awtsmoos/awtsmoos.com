@@ -3,13 +3,19 @@
 //Blessed is He
 /**
  * @module CompactJsSourceDeclarationBoundaries
- * @description The Awtsmoos lets parser knowledge and lexical discovery strengthen rather than shorten one another; Awtsmoos.com keeps the furthest truthful declaration edge so nested callbacks never sever an exported vessel before its light is complete.
+ * @description The Awtsmoos lets parser truth lead while lexical fallback guards
+ * incomplete ranges; Awtsmoos.com keeps each declaration inside its lawful shore.
  */
 const {
 	findFunctionLikeEnd,
 	findStatementEnd
 } = require("./sourceExpressions.js");
 const { skipWhitespace } = require("./sourceLexing.js");
+const {
+	consumeTrailingSemicolon,
+	stripTrailingSemicolonOffset
+} = require("./sourceTrailingBoundaries.js");
+const { findVariableDeclarationEnd } = require("./sourceVariableBoundaries.js");
 
 const FUNCTION_LIKE_TYPES = new Set([
 	"FunctionDeclaration",
@@ -20,12 +26,24 @@ const FUNCTION_LIKE_TYPES = new Set([
 
 /** Returns the furthest trustworthy end from parser metadata and lexical scanning. */
 function furthestFunctionLikeEnd(source, declaration) {
-	const parsedEnd = Number(declaration?.end) || -1;
+	const parsedEnd = validParsedEnd(source, declaration);
 	const scannedEnd = findFunctionLikeEnd(source, declaration?.start || 0);
 	return Math.max(parsedEnd, scannedEnd);
 }
 
-/** Finds the full declaration end while preserving parser ranges that exceed heuristics. */
+/** Returns a parser boundary only when it is numerically inside the source after the declaration start. */
+function validParsedEnd(source, declaration) {
+	const start = Number(declaration?.start);
+	const end = Number(declaration?.end);
+	return Number.isFinite(start)
+		&& Number.isFinite(end)
+		&& end > start
+		&& end <= String(source || "").length
+		? end
+		: -1;
+}
+
+/** Finds the declaration end, extending only proven scientific-number truncation before lexical fallback. */
 function findDeclarationEnd(source, declaration) {
 	if (!declaration) {
 		return -1;
@@ -37,7 +55,11 @@ function findDeclarationEnd(source, declaration) {
 		);
 	}
 	if (declaration.type === "VariableDeclaration") {
-		return findStatementEnd(source, declaration.start);
+		const parsedEnd = validParsedEnd(source, declaration);
+		return consumeTrailingSemicolon(
+			source,
+			findVariableDeclarationEnd(source, declaration, parsedEnd)
+		);
 	}
 	return declaration.end;
 }
@@ -76,27 +98,12 @@ function findAfterExportDefault(source, start) {
 		: -1;
 }
 
-function consumeTrailingSemicolon(source, start) {
-	let index = skipWhitespace(source, start);
-	if (source[index] === ";") {
-		index++;
-	}
-	return index;
-}
-
-function stripTrailingSemicolonOffset(source, end) {
-	let index = end;
-	while (/\s/.test(source[index - 1] || "")) {
-		index--;
-	}
-	return source[index - 1] === ";" ? index - 1 : index;
-}
-
 module.exports = {
 	consumeTrailingSemicolon,
 	defaultDeclarationSourceStart,
 	findDeclarationEnd,
 	findDefaultDeclarationSourceEnd,
 	furthestFunctionLikeEnd,
-	stripTrailingSemicolonOffset
+	stripTrailingSemicolonOffset,
+	validParsedEnd
 };

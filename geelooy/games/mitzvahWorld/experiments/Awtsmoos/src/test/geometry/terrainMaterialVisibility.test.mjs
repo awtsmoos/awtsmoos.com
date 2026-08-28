@@ -1,46 +1,43 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file terrainMaterialVisibility.test.mjs
- * @description Guards neutral source color and immutable public texture authority before and after hydration.
- * The Awtsmoos reveals earth without storing its heavy garment in Git;
- * Awtsmoos.com keeps immediate color visible while trusted Drive pixels arrive beyond the first breath.
+ * @description Proves terrain immediately accepts only genuine remote constructor images and otherwise remains hidden until remote hydration.
+ * The Awtsmoos reveals earth through distant pixels without tinting their truth; Awtsmoos.com keeps neutral material color and waiting geometry apart,
+ * so an unhydrated valley never flashes a solid stand-in while low-level ecological metadata remains in the heart.
  */
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { createTerrainMesh } from '../../world/TerrainMesh.js';
 
-const SOURCE_PIXEL_TINT = [1, 1, 1, 1];
-const PUBLIC_DRIVE_PATTERN = /^https:\/\/awtsmoos\.com\/sites\/firebase_drive_migration\//;
+const NEUTRAL = [1, 1, 1, 1];
 
-test('textured terrain preserves source color and soil mixing', () => {
-	const grass = completeImage('grass.jpg', 1024, 1024);
-	const dirt = completeImage('dirt.jpg', 2048, 1024);
+test('remote constructor images are immediately bound and visible', () => {
+	const grass = remoteImage('https://materials.test/grass.jpg', 1024, 1024);
+	const dirt = remoteImage('https://materials.test/dirt.jpg', 2048, 1024);
 	const mesh = createTerrainMesh(terrainData(), grass, dirt, grass.src, 'high');
-	assert.deepEqual(mesh.material.color, SOURCE_PIXEL_TINT);
+	assert.deepEqual(mesh.material.color, NEUTRAL);
 	assert.equal(mesh.material.mapImage, grass);
 	assert.equal(mesh.material.mixImage, dirt);
 	assert.equal(mesh.material.texturePolicy.hydration, 'ready-at-construction');
-	assert.equal(mesh.material.texturePolicy.fullResolutionEcologicalLayers, true);
 	assert.equal(mesh.material.texturePolicy.realBaseImage, true);
-	assert.equal(mesh.material.texturePolicy.realMixImage, true);
+	assert.equal(mesh.visible, true);
 });
 
-test('unhydrated construction stays visible and points at public Drive authority', () => {
-	const mesh = createTerrainMesh(terrainData(), null, null, 'grass.jpg', 'low');
-	assert.deepEqual(mesh.material.color, SOURCE_PIXEL_TINT);
-	assert.equal(mesh.material.texturePolicy.baseSource, 'trusted-public-full-resolution-meadow');
-	assert.equal(mesh.material.texturePolicy.hydration, 'public-preload-required');
-	assert.equal(mesh.material.texturePolicy.remoteAuthority.publicRemote, true);
-	assert.match(mesh.material.textureUrl, PUBLIC_DRIVE_PATTERN);
-	assert.equal(mesh.material.transparent, false);
-	assert.equal(mesh.material.visible, true);
+test('missing or local terrain imagery stays hidden and remote-pending', () => {
+	const local = { complete: true, naturalHeight: 64, naturalWidth: 64, src: '/local.png' };
+	const mesh = createTerrainMesh(terrainData(), local, null, '/local.png', 'low');
+	assert.deepEqual(mesh.material.color, NEUTRAL);
+	assert.equal(mesh.material.mapImage, null);
+	assert.equal(mesh.material.texturePolicy.remoteOnly, true);
+	assert.equal(mesh.visible, false);
+	assert.equal(mesh.userData.awtsmoosRemoteOnlyVisibility.hiddenByCovenant, true);
 });
 
-function completeImage(src, width, height) {
+function remoteImage(src, width, height) {
 	return { complete: true, naturalHeight: height, naturalWidth: width, src };
 }
 

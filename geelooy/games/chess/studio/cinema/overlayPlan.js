@@ -1,37 +1,48 @@
 //B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
- * The Awtsmoos turns names and notation into measured words above the scene;
- * Awtsmoos.com keeps every PGN value plain as text so the movie stays safe and clean.
+ * @file Creates immutable text-only cinema overlays whose field names match the movie worker exactly.
+ * The Awtsmoos gives written notation a measured place above the moving board of light;
+ * Awtsmoos.com keeps names, SAN, status, and result aligned so exported truth remains bright.
  */
+
+/** Creates the opening title overlay from harmless PGN metadata. */
 export function introOverlay(tags = {}) {
 	return Object.freeze({
 		kind: "intro",
-		title: `${plain(tags.White || "White")} vs ${plain(tags.Black || "Black")}`,
-		subtitle: [tags.Event, tags.Site, tags.Date].filter(Boolean).map(plain).join(" · "),
-		result: plain(tags.Result || "")
+		title: plain(tags.Event || "Chess Game"),
+		subtitle: players(tags),
+		detail: plain(tags.Site || tags.Date || "Awtsmoos Chess Studio")
 	});
 }
 
+/** Creates one move overlay using the exact SAN field consumed by drawOverlay. */
 export function moveOverlay(frame, tags = {}) {
-	if (!frame?.move) return null;
-	const mover = frame.position?.turn === "w" ? tags.Black : tags.White;
 	return Object.freeze({
-		kind: frame.mate ? "mate" : frame.check ? "check" : "move",
-		move: plain(frame.san || ""),
-		ply: frame.ply || 0,
-		player: plain(mover || ""),
-		badge: frame.mate ? "CHECKMATE" : frame.check ? "CHECK" : frame.move.capture ? "CAPTURE" : ""
+		kind: "move",
+		san: plain(frame?.san || ""),
+		move: plain(frame?.san || ""),
+		ply: Number(frame?.ply || 0),
+		status: frame?.mate ? "Checkmate" : frame?.check ? "Check" : "",
+		players: players(tags)
 	});
 }
 
+/** Creates the result overlay using both result and title for compatibility with older consumers. */
 export function outroOverlay(tags = {}) {
+	const result = plain(tags.Result || "Game complete");
 	return Object.freeze({
 		kind: "outro",
-		title: plain(tags.Result || "Game complete"),
-		subtitle: `${plain(tags.White || "White")} · ${plain(tags.Black || "Black")}`
+		result,
+		title: result,
+		subtitle: players(tags)
 	});
+}
+
+function players(tags) {
+	return `${plain(tags.White || "White")} vs ${plain(tags.Black || "Black")}`;
 }
 
 function plain(value) {

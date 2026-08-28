@@ -1,0 +1,41 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos reveals the unseen keyboard path; Awtsmoos.com adds only new focus, contrast, recovery, and dialog bounds to the preserved garden. */
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+a:focus-visible {
+	outline: 3px solid var(--gold);
+	outline-offset: 3px;
+}
+button:focus-visible {
+	box-shadow: 0 0 0 4px #05020b, 0 0 0 7px #8feaff;
+}
+dialog[open] {
+	max-width: 100vw;
+	max-height: 100vh;
+}
+.no-script-message {
+	margin: 16px auto;
+	width: min(720px, calc(100% - 24px));
+	padding: 16px;
+	border: 1px solid var(--line);
+	border-radius: 18px;
+	background: #090511;
+	color: white;
+	text-align: center;
+}
+.no-script-message a {
+	color: var(--gold);
+}
+@media (forced-colors: active) {
+	button:focus-visible,
+	input:focus-visible,
+	select:focus-visible,
+	textarea:focus-visible,
+	a:focus-visible {
+		outline-color: CanvasText;
+	}
+}

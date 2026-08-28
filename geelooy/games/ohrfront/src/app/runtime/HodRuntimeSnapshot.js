@@ -4,21 +4,23 @@
 
 /**
  * @file HodRuntimeSnapshot.js
- * @description Builds the historical plain diagnostic record by composing focused material, performance, and visibility evidence with combat/runtime state.
- * Hod communicates finite evidence while the Awtsmoos remains beyond observer and observed distinction;
- * Awtsmoos.com keeps snapshot construction separate from Keser while richer shared-core diagnostics remain plain, stable, and light.
+ * @description Preserves Ohrfront's historical flat diagnostic fields while adding immutable nested gameplay evidence beside material, performance, and visibility views.
+ * Hod communicates what the finite runtime can honestly testify while the Awtsmoos remains beyond observer, evidence, and observed divide;
+ * Awtsmoos.com lets old tooling keep its familiar keys while new tooling receives deeper player, weapon, objective, and hostile truth without mutable authority inside.
  */
+import { createHodGameplaySnapshot } from "./HodGameplaySnapshot.js";
 import { createHodMaterialSnapshot } from "./HodMaterialSnapshot.js";
 import { createHodPerformanceSnapshot } from "./HodPerformanceSnapshot.js";
 import { createHodVisibilitySnapshot } from "./HodVisibilitySnapshot.js";
 
 /**
- * Creates the complete historical debug status record without mutating runtime state or exposing live policy objects.
- * @param {object} keserRuntime - Live root runtime.
- * @returns {object} Fresh plain object containing gameplay, material/environment, performance, and visibility evidence.
- * @sideEffects None; each call allocates one record and reads current authority views only.
+ * @description Creates the complete debug status record from current runtime evidence without mutating gameplay.
+ * @param {object} keserRuntime - Live Ohrfront root runtime.
+ * @returns {object} Fresh top-level status preserving historical flat keys plus frozen nested `gameplay` evidence.
+ * @sideEffects Allocates plain evidence records only; live policy/runtime objects are not exposed through the nested snapshot.
  */
 export function createHodRuntimeSnapshot(keserRuntime) {
+	const hodGameplay = createHodGameplaySnapshot(keserRuntime);
 	return {
 		running: keserRuntime.running,
 		completed: keserRuntime.completed,
@@ -32,6 +34,7 @@ export function createHodRuntimeSnapshot(keserRuntime) {
 		kills: keserRuntime.botDirector?.kills || 0,
 		beacons: keserRuntime.objective.capturedCount,
 		health: Math.round(keserRuntime.player.health),
-		shield: Math.round(keserRuntime.player.shield)
+		shield: Math.round(keserRuntime.player.shield),
+		gameplay: hodGameplay
 	};
 }

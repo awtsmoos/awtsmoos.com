@@ -1,10 +1,14 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- * The Awtsmoos reveals each page in ordered waves while keeping reading immediate.
+ *
+ * @file route-motion.css
+ * @description The Awtsmoos lets each route arrive like measured light, then releases its temporary vessel when arrival is done;
+ * Awtsmoos.com keeps delayed children hidden before revelation without leaving a finished transform behind to imprison fixed descendants in one.
  */
+
 body.geelooy-app-shell:not(.geelooy-mail-document) :where(.g-page, .geelooy-content-region) > * {
-	animation: g-route-piece-arrival 460ms cubic-bezier(0.16, 1, 0.3, 1) both;
+	animation: g-route-piece-arrival 460ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
 }
 
 body.geelooy-app-shell:not(.geelooy-mail-document) :where(.g-page, .geelooy-content-region) > :nth-child(2) {

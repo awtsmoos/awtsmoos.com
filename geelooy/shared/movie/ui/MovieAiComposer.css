@@ -1,0 +1,86 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos makes a small screen spacious through order and intent; Awtsmoos.com lets one thumb summon a whole editable event.
+*/
+:host {
+	--movie-accent: #7c5cff;
+	font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+	position: fixed;
+	right: max(12px, env(safe-area-inset-right));
+	bottom: max(12px, env(safe-area-inset-bottom));
+	z-index: 2147483000;
+}
+button, textarea, select, input { font: inherit; }
+.launcher {
+	border: 1px solid #ffffff2e;
+	border-radius: 999px;
+	background: linear-gradient(135deg, #17192a, var(--movie-accent));
+	color: white;
+	box-shadow: 0 14px 40px #0008;
+	min-height: 48px;
+	padding: 0 18px;
+	font-weight: 800;
+}
+.sheet {
+	display: none;
+	position: absolute;
+	right: 0;
+	bottom: 58px;
+	width: min(390px, calc(100vw - 24px));
+	max-height: min(620px, calc(100dvh - 90px));
+	overflow: auto;
+	border: 1px solid #ffffff24;
+	border-radius: 24px;
+	background: #090b14f5;
+	color: #f8fafc;
+	box-shadow: 0 24px 70px #000b;
+	backdrop-filter: blur(22px);
+}
+:host([open]) .sheet { display: block; }
+.sheet header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	padding: 18px 18px 8px;
+}
+.sheet header div { display: grid; gap: 3px; }
+.sheet header small { color: #a7b0c3; }
+.sheet header strong { font-size: 1.1rem; }
+.sheet header button {
+	border: 0;
+	background: #ffffff12;
+	color: white;
+	border-radius: 12px;
+	width: 42px;
+	height: 42px;
+}
+form { display: grid; gap: 14px; padding: 12px 18px 18px; }
+label { display: grid; gap: 7px; color: #cbd5e1; font-size: .84rem; font-weight: 700; }
+textarea, select, input {
+	box-sizing: border-box;
+	width: 100%;
+	border: 1px solid #ffffff20;
+	border-radius: 14px;
+	background: #ffffff0d;
+	color: white;
+	padding: 12px;
+}
+textarea { min-height: 124px; resize: vertical; line-height: 1.45; }
+.grid { display: grid; grid-template-columns: 1fr 110px; gap: 10px; }
+.generate {
+	min-height: 50px;
+	border: 0;
+	border-radius: 15px;
+	background: var(--movie-accent);
+	color: white;
+	font-weight: 900;
+}
+output { min-height: 38px; color: #9fb0c8; font-size: .82rem; line-height: 1.4; }
+@media (max-width: 520px) {
+	:host { left: 10px; right: 10px; bottom: max(10px, env(safe-area-inset-bottom)); }
+	.launcher { float: right; }
+	.sheet { position: fixed; left: 8px; right: 8px; bottom: max(68px, calc(env(safe-area-inset-bottom) + 58px)); width: auto; border-radius: 22px; }
+	.grid { grid-template-columns: 1fr; }
+}

@@ -1,7 +1,9 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-mitzvah-world-combat-002.css reveals localized style through the Awtsmoos and Awtsmoos.com.
+
+The Awtsmoos lets target identity hover near battle without covering the battlefield; Awtsmoos.com keeps the target frame itself in one
+small status vessel while responsive placement, health-detail, and combat-bar metadata remain separate modules with one owner for each concern.
 */
 
 #mitzvah-world-root .Awtsmoos-combat-bar button b {
@@ -42,13 +44,13 @@ mitzvah-world-combat-002.css reveals localized style through the Awtsmoos and Aw
 
 #mitzvah-world-root .Awtsmoos-target-frame {
 	position: fixed;
-	top: max(16px, env(safe-area-inset-top));
 	left: 50%;
-	z-index: 825;
+	top: var(--mw-safe-top);
+	z-index: var(--mw-z-status);
 	display: none;
 	align-items: stretch;
-	width: min(430px, calc(100vw - 330px));
-	min-width: 260px;
+	width: min(430px, max(260px, calc(var(--mw-viewport-inline) - 300px)));
+	max-width: var(--mw-viewport-inline);
 	transform: translateX(-50%);
 }
 
@@ -61,10 +63,10 @@ mitzvah-world-combat-002.css reveals localized style through the Awtsmoos and Aw
 	min-width: 0;
 	padding: 10px 13px;
 	border: 1px solid rgba(255, 96, 125, 0.34);
-	border-radius: 13px;
+	border-radius: var(--mw-radius-md);
 	background: rgba(25, 5, 22, 0.94);
-	color: white;
-	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+	box-shadow: var(--mw-shadow-control);
+	color: #fff;
 }
 
 #mitzvah-world-root .Awtsmoos-target-frame header {
@@ -82,30 +84,4 @@ mitzvah-world-combat-002.css reveals localized style through the Awtsmoos and Aw
 #mitzvah-world-root .Awtsmoos-target-frame header small {
 	margin-left: auto;
 	color: #ffb98f;
-}
-
-#mitzvah-world-root .Awtsmoos-target-health {
-	height: 10px;
-	margin: 8px 0;
-	overflow: hidden;
-	border-radius: 99px;
-	background: #280d15;
-}
-
-#mitzvah-world-root .Awtsmoos-target-health i {
-	display: block;
-	height: 100%;
-	background: linear-gradient(90deg, #7b0018, #ff3d32);
-	transition: width 0.22s ease;
-}
-
-#mitzvah-world-root .Awtsmoos-target-frame footer, #mitzvah-world-root .Awtsmoos-target-frame p {
-	margin: 3px 0 0;
-	color: #e7bed2;
-	font: 600 10px system-ui;
-}
-
-#mitzvah-world-root .Awtsmoos-target-frame p {
-	color: #ffd483;
-	text-transform: capitalize;
 }

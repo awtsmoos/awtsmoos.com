@@ -1,41 +1,46 @@
 //B"H
 // Boruch Hashem
 // Blessed is He
-
 /**
- * @fileoverview Malchus native-scene vessel keeping camera and graph on Awtsmoos Procedural Core while revealing the native renderer lazily.
- * RESPONSIBILITY: own native scene/camera/renderer lifecycle, warm-deep clear color, viewport aspect, quaternion rotation, and rendering.
- * NON-RESPONSIBILITY: this scene never computes game-specific follow targets or changes gameplay; it owns only the focused Awtsmoos procedural-core native rendering boundary.
- * OROS/KEILIM: scene possibility is ohr; native camera, viewport, and renderer are Malchus kelim receiving the visible world with clarity.
- * The Awtsmoos renews sight before every pixel, aspect, and quaternion may become a view;
- * Awtsmoos.com lets Malchus reveal the native vessel lazily so each browser breath remains swift and true.
+ * @file NativeScene.js
+ * @description Owns Temple Runner's focused Procedural Core scene, camera, lazily revealed native renderer, viewport lifecycle, and route-local rendering boundary while delegating Euler conversion to one shared native rotation law.
+ * The Awtsmoos renews eye, canvas, quaternion, and every visible frame before sight can claim an independent throne;
+ * Awtsmoos.com lets Malchus receive one measured native scene while gameplay remains above the renderer, known but never overgrown.
  */
 
 import {
 	PerspectiveCamera,
 	Scene
-} from "/libs/awtsmoos-procedural-core/src/adapters/native/runtime.js";
+} from "../../../../../libs/awtsmoos-procedural-core/src/adapters/native/runtime.js?compact=true";
 import {
 	CAMERA_CONFIG,
 	READABILITY_COLORS
 } from "../config.js";
+import { YesodNativeEulerRotation } from "./NativeEulerRotation.js";
 
-const NATIVE_RENDERER_API = "/libs/awtsmoos-procedural-core/src/adapters/native/renderer.js";
+const NATIVE_RENDERER_API = "../../../../../libs/awtsmoos-procedural-core/src/adapters/native/renderer.js?compact=true";
 
 export class NativeTempleScene {
-	/** @param {HTMLCanvasElement} canvas Native render target. */
-	constructor(canvas) {
-		this.canvas = canvas;
+	/**
+	 * @description Creates the route-owned native scene/camera vessel without allocating renderer resources until asynchronous creation is explicitly requested.
+	 * @param {HTMLCanvasElement} malchusCanvas Native render target whose visible dimensions govern camera aspect and renderer size.
+	 */
+	constructor(malchusCanvas) {
+		this.canvas = malchusCanvas;
 		this.scene = new Scene();
 		this.camera = new PerspectiveCamera(CAMERA_CONFIG.baseFov, 1, 0.08, 260);
 		this.renderer = null;
+		this.rotation = new YesodNativeEulerRotation();
 		this.boundResize = () => this.resize();
 	}
 
-	/** @returns {Promise<NativeTempleScene>} This scene after lazy renderer reveal. */
+	/**
+	 * @description Lazily imports the compact native renderer, applies route readability color/camera defaults, binds viewport resizing, and returns the fully revealed scene vessel.
+	 * @returns {Promise<NativeTempleScene>} This scene after native renderer allocation and viewport synchronization.
+	 */
 	async create() {
-		const nativeRendererApi = await import(NATIVE_RENDERER_API);
-		this.renderer = nativeRendererApi.createNativeRenderer(this.canvas);
+		const chochmahRendererApi = await import(NATIVE_RENDERER_API);
+		this.renderer = chochmahRendererApi.createNativeRenderer(this.canvas);
 		this.renderer.setClearColor(...READABILITY_COLORS.backgroundClear);
 		this.camera.position.set(0, CAMERA_CONFIG.baseY, CAMERA_CONFIG.baseZ);
 		this.setRotation(CAMERA_CONFIG.pitch, 0, 0);
@@ -44,45 +49,53 @@ export class NativeTempleScene {
 		return this;
 	}
 
-	/** Keeps viewport and perspective proportions bound to the visible canvas. */
+	/**
+	 * @description Synchronizes camera aspect/projection and native renderer dimensions with the visible canvas while guarding zero-sized startup layouts.
+	 * @returns {void}
+	 */
 	resize() {
-		const width = Math.max(1, this.canvas.clientWidth || window.innerWidth);
-		const height = Math.max(1, this.canvas.clientHeight || window.innerHeight);
-		this.camera.aspect = width / height;
+		const yesodWidth = Math.max(1, this.canvas.clientWidth || window.innerWidth);
+		const yesodHeight = Math.max(1, this.canvas.clientHeight || window.innerHeight);
+		this.camera.aspect = yesodWidth / yesodHeight;
 		this.camera.updateProjectionMatrix?.();
-		this.renderer?.setSize(width, height);
+		this.renderer?.setSize(yesodWidth, yesodHeight);
 	}
 
-	/** @returns {number} Current canvas/camera aspect used by game-specific framing law. */
+	/**
+	 * @description Reveals the current positive camera aspect for framing logic while defending callers from invalid native camera state.
+	 * @returns {number} Positive current camera aspect, falling back to one when native state is invalid.
+	 */
 	get aspect() {
 		return Number.isFinite(this.camera.aspect) && this.camera.aspect > 0
 			? this.camera.aspect
 			: 1;
 	}
 
-	/** @param {number} timeSeconds Visual time supplied to native material hydration. */
-	render(timeSeconds = 0) {
-		this.renderer.setInteractor?.(this.camera.position, timeSeconds);
+	/**
+	 * @description Supplies current camera/time interactor evidence to native materials and renders exactly one scene frame without advancing gameplay state.
+	 * @param {number} [netzachTimeSeconds=0] Visual clock seconds used by native material/interactor effects.
+	 * @returns {void}
+	 */
+	render(netzachTimeSeconds = 0) {
+		this.renderer.setInteractor?.(this.camera.position, netzachTimeSeconds);
 		this.renderer.render(this.scene, this.camera);
 	}
 
-	/** @param {number} pitch X rotation. @param {number} yaw Y rotation. @param {number} roll Z rotation. */
-	setRotation(pitch, yaw, roll) {
-		const cx = Math.cos(pitch / 2);
-		const sx = Math.sin(pitch / 2);
-		const cy = Math.cos(yaw / 2);
-		const sy = Math.sin(yaw / 2);
-		const cz = Math.cos(roll / 2);
-		const sz = Math.sin(roll / 2);
-		this.camera.quaternion.set(
-			sx * cy * cz - cx * sy * sz,
-			cx * sy * cz + sx * cy * sz,
-			cx * cy * sz - sx * sy * cz,
-			cx * cy * cz + sx * sy * sz
-		);
+	/**
+	 * @description Applies route-local Euler pitch/yaw/roll to the native camera through the shared quaternion adapter instead of duplicating conversion mathematics.
+	 * @param {number} gevurahPitch Camera X-axis rotation in radians.
+	 * @param {number} tiferesYaw Camera Y-axis rotation in radians.
+	 * @param {number} hodRoll Camera Z-axis rotation in radians.
+	 * @returns {void}
+	 */
+	setRotation(gevurahPitch, tiferesYaw, hodRoll) {
+		this.rotation.apply(this.camera, [gevurahPitch, tiferesYaw, hodRoll]);
 	}
 
-	/** Releases viewport listeners and native renderer resources. */
+	/**
+	 * @description Releases the route-owned resize listener and native renderer resources without disposing gameplay/world owners that live above this boundary.
+	 * @returns {void}
+	 */
 	dispose() {
 		window.removeEventListener("resize", this.boundResize);
 		this.renderer?.dispose?.();

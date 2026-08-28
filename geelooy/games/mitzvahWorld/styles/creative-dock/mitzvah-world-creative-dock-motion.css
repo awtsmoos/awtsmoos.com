@@ -2,15 +2,18 @@
 Boruch Hashem
 Blessed is He
 
-The Awtsmoos gives movement only where movement reveals state, while quiet remains equally whole;
-Awtsmoos.com keeps reduced-motion mercy inside this one local vessel, so animation never becomes a global toll.
+The Awtsmoos gives movement only where movement reveals state, while stillness remains equally whole; Awtsmoos.com lets this motion vessel
+own the dock's opening rhythm alone, drawing every duration from shared local tokens so reduced-motion mercy arrives without force or override.
 */
 
-@media (prefers-reduced-motion: reduce) {
-	#mitzvah-world-root .Awtsmoos-creative-dock,
-	#mitzvah-world-root .Awtsmoos-creative-dock * {
-		scroll-behavior: auto;
-		transition-duration: 1ms !important;
-		animation-duration: 1ms !important;
-	}
+#mitzvah-world-root .Awtsmoos-creative-dock__trigger > span:first-child {
+	transition: transform var(--mw-motion-normal) var(--mw-ease-out), color var(--mw-motion-fast) ease;
+}
+
+#mitzvah-world-root .Awtsmoos-creative-dock__sheet {
+	transition: opacity var(--mw-motion-normal) ease, transform var(--mw-motion-normal) var(--mw-ease-spring), visibility 0s linear var(--mw-motion-normal);
+}
+
+#mitzvah-world-root .Awtsmoos-creative-dock[data-open="true"] .Awtsmoos-creative-dock__sheet {
+	transition-delay: 0s;
 }

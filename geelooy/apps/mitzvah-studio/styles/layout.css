@@ -4,89 +4,92 @@
 
 /**
  * @file layout.css
- * @description Defines the Studio's spatial hierarchy while component appearance remains in separate vessels.
- * The Awtsmoos gives every panel a measured place without becoming contained by any grid;
- * Awtsmoos.com remembers the One while shelf, world, details, and status are beautifully arrayed.
+ * @description Defines the Studio's responsive spatial hierarchy and glass-panel geometry while component appearance remains separately owned.
+ * The Awtsmoos gives every panel a place without becoming contained by grid or pane;
+ * Awtsmoos.com lets toolbar, world, shelf, inspector, outliner, and status align like constellations around one authoring flame.
  */
 
-#mitzvah-studio {
-	display: grid;
-	grid-template-rows: auto minmax(0, 1fr) auto;
-	width: 100vw;
-	height: 100vh;
-	min-height: 0;
-	background:
-		radial-gradient(circle at 50% 0%, rgba(231, 200, 109, .08), transparent 38%),
-		var(--bg);
-}
+@layer studio-layout {
+	#mitzvah-studio {
+		display: grid;
+		grid-template-rows: auto minmax(0, 1fr) auto;
+		width: 100vw;
+		height: 100vh;
+		min-height: 0;
+		isolation: isolate;
+		background:
+			radial-gradient(circle at 18% -10%, rgba(102, 226, 255, .14), transparent 34%),
+			radial-gradient(circle at 82% 0%, rgba(173, 140, 255, .11), transparent 30%),
+			linear-gradient(180deg, #07101c 0%, var(--studio-bg) 38%, #04070d 100%);
+	}
 
-.studio-toolbar {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	gap: 1rem;
-	padding: .8rem max(1rem, env(safe-area-inset-right)) .8rem max(1rem, env(safe-area-inset-left));
-	border-bottom: 1px solid var(--line);
-	background: rgba(11, 14, 18, .92);
-	backdrop-filter: blur(18px);
-	z-index: 4;
-}
+	#mitzvah-studio .studio-toolbar {
+		position: relative;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem;
+		padding: .8rem max(1rem, env(safe-area-inset-right)) .8rem max(1rem, env(safe-area-inset-left));
+		border-bottom: 1px solid var(--studio-line);
+		background: rgba(5, 10, 18, .82);
+		backdrop-filter: blur(24px) saturate(1.25);
+		z-index: 4;
+	}
 
-.studio-layout {
-	display: grid;
-	grid-template-columns: minmax(230px, 290px) minmax(360px, 1fr) minmax(260px, 320px);
-	gap: .75rem;
-	min-width: 0;
-	min-height: 0;
-	padding: .75rem;
-}
+	#mitzvah-studio .studio-layout {
+		display: grid;
+		grid-template-columns: minmax(230px, 290px) minmax(360px, 1fr) minmax(260px, 320px);
+		gap: .8rem;
+		min-width: 0;
+		min-height: 0;
+		padding: .8rem;
+	}
 
-.studio-details {
-	display: grid;
-	grid-template-rows: minmax(0, 1.15fr) minmax(180px, .85fr);
-	gap: .75rem;
-	min-height: 0;
-}
+	#mitzvah-studio .studio-details {
+		display: grid;
+		grid-template-rows: minmax(0, 1.15fr) minmax(180px, .85fr);
+		gap: .8rem;
+		min-height: 0;
+	}
 
-.panel {
-	min-width: 0;
-	min-height: 0;
-	border: 1px solid var(--line);
-	border-radius: var(--radius);
-	background: linear-gradient(180deg, rgba(25, 33, 43, .96), rgba(16, 21, 28, .96));
-	box-shadow: var(--shadow);
-	overflow: hidden;
-}
+	#mitzvah-studio .panel {
+		position: relative;
+		min-width: 0;
+		min-height: 0;
+		border: 1px solid var(--studio-line);
+		border-radius: var(--studio-radius-lg);
+		background: linear-gradient(180deg, rgba(17, 29, 46, .92), rgba(7, 13, 23, .94));
+		box-shadow: var(--studio-shadow), var(--studio-glow-cyan);
+		overflow: hidden;
+	}
 
-.studio-shelf,
-.studio-inspector,
-.studio-outliner {
-	display: flex;
-	flex-direction: column;
-}
+	#mitzvah-studio :is(.studio-shelf, .studio-inspector, .studio-outliner) {
+		display: flex;
+		flex-direction: column;
+	}
 
-.studio-workspace {
-	position: relative;
-	display: grid;
-	min-height: 0;
-	background: #0b0f14;
-}
+	#mitzvah-studio .studio-workspace {
+		position: relative;
+		display: grid;
+		min-height: 0;
+		background: radial-gradient(circle at 50% 42%, rgba(102, 226, 255, .055), transparent 42%), #050b13;
+	}
 
-.studio-canvas-wrap {
-	position: relative;
-	min-width: 0;
-	min-height: 0;
-	overflow: hidden;
-}
+	#mitzvah-studio .studio-canvas-wrap {
+		position: relative;
+		min-width: 0;
+		min-height: 0;
+		overflow: hidden;
+	}
 
-.studio-status {
-	display: flex;
-	align-items: center;
-	gap: 1rem;
-	min-height: 34px;
-	padding: .45rem max(.9rem, env(safe-area-inset-right)) calc(.45rem + env(safe-area-inset-bottom)) max(.9rem, env(safe-area-inset-left));
-	border-top: 1px solid var(--line);
-	background: #0d1117;
-	color: var(--muted);
-	font-size: .78rem;
+	#mitzvah-studio .studio-status {
+		display: flex;
+		align-items: center;
+		gap: .55rem;
+		min-height: 38px;
+		padding: .45rem max(.9rem, env(safe-area-inset-right)) calc(.45rem + env(safe-area-inset-bottom)) max(.9rem, env(safe-area-inset-left));
+		border-top: 1px solid var(--studio-line);
+		background: rgba(4, 8, 15, .92);
+		backdrop-filter: blur(18px);
+	}
 }

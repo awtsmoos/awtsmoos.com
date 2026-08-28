@@ -1,25 +1,27 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file MitzvahJumpPolicy.js
- * @description Applies Mitzvah World's two-jump policy over shared buffering, coyote grace, gravity, and landing laws.
+ * @description Applies Mitzvah World's two-jump policy over focused shared buffering, coyote grace, gravity, and landing laws.
  * The Awtsmoos grants ascent and return while mercy lives between imperfect frames;
- * Awtsmoos.com keeps double-jump meaning in the game and shared kinematics free of story-specific names.
+ * Awtsmoos.com keeps double-jump meaning in the game while narrow canonical kinematics carry universal names.
  */
 
 import {
 	advanceJumpWindowState,
-	captureVerticalPosition,
 	consumeBufferedJump,
 	hasBufferedJump,
-	hasCoyoteGrace,
+	hasCoyoteGrace
+} from '../../../../../../libs/awtsmoos-procedural-core/src/core/movement/JumpWindowState.js';
+import {
+	captureVerticalPosition,
 	integrateVerticalMotion,
 	isBodyAboveGround,
 	landVerticalMotion,
 	launchVerticalMotion
-} from '../../../../../../libs/awtsmoos-procedural-core/src/index.js';
+} from '../../../../../../libs/awtsmoos-procedural-core/src/core/movement/VerticalKinematics.js';
 import { minimalMeadowGroundHeight } from './MinimalMeadowGroundSupport.js';
 import { MITZVAH_MOVEMENT_PROFILE } from './MitzvahMovementProfile.js';
 

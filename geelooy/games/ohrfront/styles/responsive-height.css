@@ -1,0 +1,75 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos renews short horizons where vertical breath is scarce but the primary action must remain revealed.
+Awtsmoos.com lets landscape compress ornament before meaning, preserving readable launch flow and safe-area measure in light.
+*/
+@media (max-height: 560px) {
+	.ohrfront-app .ohr-dialog {
+		padding: 18px;
+	}
+
+	.ohrfront-app .ohr-dialog__copy {
+		margin-block: 14px;
+	}
+
+	.ohrfront-app .ohr-arsenal {
+		margin-bottom: 16px;
+	}
+
+	.ohrfront-app .ohr-controls-note {
+		display: none;
+	}
+}
+
+@media (max-height: 430px) and (min-width: 640px) {
+	.ohrfront-app {
+		--ohr-edge: 10px;
+	}
+
+	.ohrfront-app .ohr-dialog-layer {
+		place-items: center;
+		padding:
+			max(8px, env(safe-area-inset-top))
+			max(10px, env(safe-area-inset-right))
+			max(8px, env(safe-area-inset-bottom))
+			max(10px, env(safe-area-inset-left));
+	}
+
+	.ohrfront-app .ohr-dialog--launch {
+		width: min(46rem, 100%);
+		padding: 12px 16px;
+		overflow-y: auto;
+	}
+
+	.ohrfront-app .ohr-eyebrow {
+		margin-bottom: 5px;
+		font-size: 9px;
+	}
+
+	.ohrfront-app .ohr-title {
+		font-size: clamp(34px, 10vh, 46px);
+		line-height: 0.9;
+	}
+
+	.ohrfront-app .ohr-subtitle {
+		margin-top: 4px;
+		font-size: 11px;
+	}
+
+	.ohrfront-app .ohr-dialog__copy {
+		margin-block: 7px;
+		max-width: 42rem;
+		font-size: 12px;
+		line-height: 1.35;
+	}
+
+	.ohrfront-app .ohr-arsenal {
+		margin-bottom: 7px;
+		line-height: 1.35;
+	}
+
+	.ohrfront-app .ohr-field__label {
+		margin-bottom: 3px;
+	}
+}

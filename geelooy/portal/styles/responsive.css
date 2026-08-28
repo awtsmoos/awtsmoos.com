@@ -1,0 +1,87 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos renews the same resource across phone, tablet, desktop, and cinema without shrinking dignity with width;
+ * Awtsmoos.com lets grids collapse, controls stretch, facts stack, and safe areas breathe so mobility becomes composition rather than a squeezed myth.
+ */
+
+@media (max-width: 720px) {
+	.portal-shell {
+		padding-inline: max(.75rem, env(safe-area-inset-left));
+		padding-inline-end: max(.75rem, env(safe-area-inset-right));
+		padding-block-end: max(1.25rem, env(safe-area-inset-bottom));
+	}
+
+	.portal-masthead {
+		padding-block-start: .75rem;
+	}
+
+	.portal-navigation {
+		position: static;
+		display: grid;
+		grid-template-columns: 1fr;
+		padding: .35rem;
+	}
+
+	.portal-navigation a {
+		width: 100%;
+		justify-content: flex-start;
+	}
+
+	.portal-view-toolbar {
+		justify-content: stretch;
+	}
+
+	.portal-view-toolbar button {
+		flex: 1 1 0;
+	}
+
+	.portal-resource {
+		padding: 1rem;
+	}
+
+	.portal-card-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.portal-value-object,
+	.portal-facts {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: .25rem;
+	}
+
+	.portal-value-object dd,
+	.portal-facts dd {
+		margin-block-end: .75rem;
+	}
+
+	.portal-link-row {
+		display: grid;
+		grid-template-columns: 1fr;
+	}
+
+	.portal-link,
+	.portal-primary-link,
+	.portal-card-action {
+		width: 100%;
+		justify-content: center;
+	}
+}
+
+@media (min-width: 1200px) {
+	.portal-shell {
+		padding-block-start: 2.5rem;
+	}
+
+	.portal-masthead {
+		grid-template-columns: minmax(18rem, .9fr) minmax(24rem, 1.1fr);
+		align-items: end;
+		gap: 2rem;
+	}
+
+	.portal-masthead p {
+		padding-block-end: .45rem;
+	}
+}

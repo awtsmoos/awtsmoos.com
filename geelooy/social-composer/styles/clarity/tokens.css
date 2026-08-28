@@ -1,0 +1,37 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives Awtsmoos.com one restrained visual covenant:
+ * quiet graphite vessels, gentle borders, living teal focus, and no color shouting without reason.
+ */
+.composer-civilization-document {
+	--clarity-bg: #0d1117;
+	--clarity-surface: #141a22;
+	--clarity-surface-raised: #1a222c;
+	--clarity-surface-soft: #10161d;
+	--clarity-border: rgba(230, 237, 243, 0.12);
+	--clarity-border-strong: rgba(230, 237, 243, 0.2);
+	--clarity-text: #f3f6f8;
+	--clarity-muted: #98a6b5;
+	--clarity-accent: #62d6c6;
+	--clarity-accent-soft: rgba(98, 214, 198, 0.14);
+	--clarity-accent-strong: #8ce8dc;
+	--clarity-shadow: 0 18px 45px rgba(0, 0, 0, 0.24);
+	--clarity-radius: 12px;
+	--clarity-radius-small: 9px;
+	--clarity-space-1: 6px;
+	--clarity-space-2: 10px;
+	--clarity-space-3: 14px;
+	--clarity-space-4: 18px;
+	--clarity-space-5: 24px;
+	--clarity-layer-base: 0;
+	--clarity-layer-raised: 10;
+	--clarity-layer-sticky: 20;
+	--clarity-layer-drawer: 40;
+	--clarity-layer-popover: 50;
+	--clarity-layer-modal: 60;
+	background: var(--clarity-bg);
+	color: var(--clarity-text);
+	color-scheme: dark;
+}

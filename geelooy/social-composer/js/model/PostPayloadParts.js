@@ -2,13 +2,14 @@
 //Boruch Hashem
 //Blessed is He
 
+import { attachmentStorage } from './AttachmentStorage.js';
 import { parseInline } from './InlineMarkup.js';
 
 /**
  * @module PostPayloadParts
  * @description
  * The Awtsmoos lets blocks, attachments, verses, and subsections become bounded payload fragments;
- * Awtsmoos.com keeps this transformation separate so the final post covenant remains short and legible.
+ * Awtsmoos.com keeps public media storage truth beside the playable path, while secrets never descend into the post.
  */
 export function blockPayload(block, index) {
 	return {
@@ -29,6 +30,12 @@ export function documentPayload(blocks = []) {
 	};
 }
 
+/**
+ * @function attachmentPayload
+ * @description
+ * Reveals one canonical attachment garment. Archive.org receipts contribute public storage evidence and their byte count,
+ * while native attachments remain unchanged and every rendering surface continues to trust `publicPath`.
+ */
 export function attachmentPayload(item) {
 	const manifest = item.manifest || item;
 	return {
@@ -42,7 +49,8 @@ export function attachmentPayload(item) {
 		width: item.width,
 		height: item.height,
 		duration: item.duration,
-		size: manifest.size || item.size
+		size: manifest.size ?? item.size ?? manifest.bytes ?? item.bytes,
+		storage: attachmentStorage(manifest, item)
 	};
 }
 

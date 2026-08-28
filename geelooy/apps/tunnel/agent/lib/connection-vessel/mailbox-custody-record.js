@@ -5,11 +5,11 @@
 const PhasePolicy = require("./request-phase-policy.js");
 
 /**
- * @file Builds and summarizes exact mailbox custody records.
+ * @file Builds and advances exact mailbox custody records without erasing identity.
  * @description
- * The Awtsmoos renews every request through one identity-bearing vessel. Awtsmoos.com
- * keeps record construction separate from custody mutation so phase leases, generation,
- * worker ownership, and result state remain easy to audit under failure pressure.
+ * The Awtsmoos renews each deed while its name remains one continuous witness;
+ * Awtsmoos.com lets phase and worker progress change without dissolving exact fitness.
+ * Generation, session, and request identity survive sparse updates in bounded stillness.
  */
 function make(id, phase, metadata = {}, observedAt = Date.now()) {
 	return {
@@ -25,11 +25,18 @@ function make(id, phase, metadata = {}, observedAt = Date.now()) {
 	};
 }
 
+/**
+ * Advances one custody witness while preserving identity omitted by sparse progress metadata.
+ * @param {object} record Existing exact custody witness.
+ * @param {object} metadata New phase, worker, result, or explicit identity evidence.
+ * @param {number} observedAt Time of the proven progress event.
+ * @returns {object} Updated exact witness.
+ */
 function progress(record, metadata = {}, observedAt = Date.now()) {
 	const phase = clean(metadata.phase) || record.phase;
 	return {
 		...record,
-		...identity(metadata),
+		...progressIdentity(record, metadata),
 		phase,
 		workerId: clean(metadata.workerId) || record.workerId,
 		lastProgressAt: observedAt,
@@ -39,13 +46,26 @@ function progress(record, metadata = {}, observedAt = Date.now()) {
 	};
 }
 
+/** Builds identity for the first durable parent-custody witness. */
 function identity(metadata = {}) {
 	return {
 		requestId: clean(metadata.requestId),
 		requestKey: clean(metadata.requestKey),
 		logicalAgentId: clean(metadata.logicalAgentId),
 		agentSessionId: clean(metadata.agentSessionId),
-		generation: Number(metadata.generation || 0)
+		generation: finiteGeneration(metadata.generation)
+	};
+}
+
+/** Preserves existing identity unless progress carries a meaningful replacement witness. */
+function progressIdentity(record = {}, metadata = {}) {
+	const generation = finiteGeneration(metadata.generation);
+	return {
+		requestId: clean(metadata.requestId) || clean(record.requestId),
+		requestKey: clean(metadata.requestKey) || clean(record.requestKey),
+		logicalAgentId: clean(metadata.logicalAgentId) || clean(record.logicalAgentId),
+		agentSessionId: clean(metadata.agentSessionId) || clean(record.agentSessionId),
+		generation: generation > 0 ? generation : finiteGeneration(record.generation)
 	};
 }
 
@@ -77,8 +97,20 @@ function age(value, observedAt) {
 	return value ? Math.max(0, Number(observedAt) - Number(value)) : 0;
 }
 
+function finiteGeneration(value) {
+	const generation = Number(value || 0);
+	return Number.isFinite(generation) && generation >= 0 ? generation : 0;
+}
+
 function clean(value) {
 	return String(value || "").trim();
 }
 
-module.exports = { clean, identity, make, progress, snapshot };
+module.exports = {
+	clean,
+	identity,
+	make,
+	progress,
+	progressIdentity,
+	snapshot
+};

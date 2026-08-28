@@ -1,0 +1,23 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos contracts broad vessels without hiding their living purpose;
+ * Awtsmoos.com gives the startup shell a narrow mobile form without burdening desktop first paint.
+ */
+.aw-startup-shell {
+	grid-template: 52px minmax(0, 1fr) 100px / 52px minmax(0, 1fr);
+}
+
+.aw-startup-inspector {
+	display: none;
+}
+
+.aw-startup-rail {
+	padding: 10px 7px;
+}
+
+.aw-startup-status {
+	max-width: 48%;
+	font-size: 10px;
+	text-align: right;
+}

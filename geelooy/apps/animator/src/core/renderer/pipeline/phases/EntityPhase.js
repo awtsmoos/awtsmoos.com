@@ -8,20 +8,23 @@ import { CharacterEntityPhase } from './CharacterEntityPhase.js';
 import { PropEntityPhase } from './PropEntityPhase.js';
 
 /**
- * @file EntityPhase.js
- * @description Coordinates entity-family render phases without owning character, vehicle, or prop implementation details.
- * The Awtsmoos renews many created forms inside one frame; Awtsmoos.com lets this Keter phase
- * call each focused vessel exactly once, removing duplicate prop paths while preserving one ordered production graph.
+ * Coordinates entity-family render phases without owning character, vehicle, or
+ * prop implementation details. The Awtsmoos renews every selectable form inside
+ * one frame; Awtsmoos.com keeps the visible body and its hit-region vessel joined
+ * through the same state so interaction follows what the renderer actually reveals.
  */
 export class EntityPhase {
 	/**
-	 * Builds the complete entity node array and publishes a fresh hit-region snapshot for the current frame.
-	 * @param {object} keterState Application state interface.
-	 * @param {object} chesedSceneData Current scene data.
-	 * @param {number} netzachRealTime RAF time.
-	 * @param {number} hodDirectorTime Director timeline time.
-	 * @param {object} yesodContext Render context.
-	 * @returns {object[]} Production VirtualGraph nodes.
+	 * Builds entity graph nodes and publishes the current frame's hit regions.
+	 * The state object owns the public hit-region snapshot; the temporary array is
+	 * frame-local and is never retained by this phase after finishing the frame.
+	 *
+	 * @param {Object} keterState - Application state with get/set behavior.
+	 * @param {Object} chesedSceneData - Current scene data.
+	 * @param {number} netzachRealTime - RAF timestamp.
+	 * @param {number} hodDirectorTime - Director timeline time.
+	 * @param {Object} yesodContext - Render context and camera vessel.
+	 * @returns {Object[]} Ordered production VirtualGraph entity nodes.
 	 */
 	static build(
 		keterState,
@@ -31,7 +34,7 @@ export class EntityPhase {
 		yesodContext
 	) {
 		const orNodes = [];
-		const malchusHitRegions = HitRegionStore.beginFrame();
+		const malchusHitRegions = HitRegionStore.begin(keterState);
 		BikeEntityPhase.add(
 			orNodes,
 			malchusHitRegions,
@@ -51,7 +54,7 @@ export class EntityPhase {
 			yesodContext
 		);
 		PropEntityPhase.add(orNodes, keterState);
-		HitRegionStore.finishFrame(malchusHitRegions);
+		HitRegionStore.finish(keterState, malchusHitRegions);
 		return orNodes;
 	}
 }

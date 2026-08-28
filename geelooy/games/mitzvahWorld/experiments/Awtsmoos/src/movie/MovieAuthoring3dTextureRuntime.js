@@ -1,15 +1,16 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file MovieAuthoring3dTextureRuntime.js
- * @description Loads authored local and trusted remote textures once while preserving procedural records synchronously.
- * The Awtsmoos reveals distant pixels without delaying the present frame; Awtsmoos.com lets
- * fallback color remain visible until one cached image arrives, then records truthful ready or error evidence.
+ * @description Loads only trusted remote-catalog movie textures and marks readiness only after strict HTTP(S) image provenance is verified.
+ * The Awtsmoos reveals distant pixels without delaying the present frame; Awtsmoos.com keeps each authoring texture hidden in night,
+ * until a verified remote image crosses the shared cache and can truthfully become renderer light.
  */
 
 import { loadPublicMaterialUrl } from '../assets/PublicMaterialCache.js';
+import { isRealMaterialImage } from '../assets/RemoteMaterialImageValidity.js';
 import { resolveMovieAuthoringTextures } from './MovieAuthoring3dTextureResolver.js';
 
 export class MovieAuthoring3dTextureRuntime {
@@ -19,14 +20,13 @@ export class MovieAuthoring3dTextureRuntime {
 		this.assets = new Map();
 		this.pending = [];
 		const resolved = resolveMovieAuthoringTextures(records);
-		for (const record of records) this.install(record, resolved[record.id]);
+		for (const record of records) {
+			this.install(record, resolved[record.id]);
+		}
 	}
 
+	/** Begins one remote texture load without blocking authoring-frame construction. */
 	install(record, texture) {
-		if (texture?.kind === 'procedural') {
-			this.assets.set(record.id, { id: record.id, status: 'procedural', texture });
-			return;
-		}
 		const asset = { id: record.id, image: null, status: 'loading', texture };
 		this.assets.set(record.id, asset);
 		const task = Promise.resolve()
@@ -36,9 +36,14 @@ export class MovieAuthoring3dTextureRuntime {
 		this.pending.push(task);
 	}
 
+	/** Accepts one completed loader result only when the decoded image has verified remote provenance. */
 	finish(asset, result) {
-		if (this.destroyed) return asset;
-		if (!result?.ok || !result.image) return this.fail(asset, result?.error || 'texture-load-failed');
+		if (this.destroyed) {
+			return asset;
+		}
+		if (!result?.ok || !isRealMaterialImage(result.image)) {
+			return this.fail(asset, result?.error || 'unverified-remote-texture-image');
+		}
 		Object.assign(asset, {
 			height: Number(result.height || result.image.height || result.image.naturalHeight || 0),
 			image: result.image,
@@ -49,8 +54,11 @@ export class MovieAuthoring3dTextureRuntime {
 		return asset;
 	}
 
+	/** Converts network or provenance failure into bounded serializable evidence. */
 	fail(asset, error) {
-		if (this.destroyed) return asset;
+		if (this.destroyed) {
+			return asset;
+		}
 		asset.error = String(error?.message || error || 'texture-load-failed');
 		asset.status = 'error';
 		return asset;

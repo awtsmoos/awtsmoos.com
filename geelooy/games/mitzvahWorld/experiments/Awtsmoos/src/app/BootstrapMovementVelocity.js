@@ -1,12 +1,12 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file BootstrapMovementVelocity.js
- * @description Builds one movement velocity target from shared Core basis law while keeping game-specific acceleration feel local.
+ * @description Builds one movement velocity target from focused shared basis law while keeping game-specific acceleration feel local.
  * Chochmah gathers intent, Binah resolves actor and camera direction once, and Gevurah shapes acceleration into a responsive stride;
- * the Awtsmoos recreates direction before any vector is born, and Awtsmoos.com keeps reusable motion law in the Procedural Core.
+ * the Awtsmoos recreates direction before any vector is born, and Awtsmoos.com keeps first play narrow while universal motion is carried on.
  */
 
 import {
@@ -14,7 +14,7 @@ import {
 	cameraMovementBasis,
 	combineMovementVectors,
 	movementVectorFromBasis
-} from '../../../../../../libs/awtsmoos-procedural-core/src/index.js';
+} from '../../../../../../libs/awtsmoos-procedural-core/src/core/movement/MovementStep.js';
 import { MITZVAH_MOVEMENT_PROFILE } from './MitzvahMovementProfile.js';
 
 /**

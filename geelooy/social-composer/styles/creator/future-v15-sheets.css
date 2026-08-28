@@ -1,0 +1,91 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos gathers command, recovery, and final consent into luminous chambers that rise without fleeing the shore;
+Awtsmoos.com lets each major sheet feel like future hardware while safe-area geometry and readable contrast remain forevermore.
+*/
+.composer-civilization-document :is(
+	.creatorPalette,
+	.publicationReviewDialog,
+	.draftRecoveryDialog
+) {
+	border-color: color-mix(in srgb, var(--composer-cyan) 28%, var(--composer-border));
+	background:
+		radial-gradient(circle at 12% 0%, rgb(89 189 210 / 8%), transparent 24rem),
+		linear-gradient(155deg, rgb(185 120 239 / 4%), transparent 42%),
+		rgb(7 13 21 / 98%);
+	box-shadow:
+		0 2rem 6rem rgb(0 0 0 / 48%),
+		inset 0 1px rgb(255 255 255 / 6%);
+}
+
+.composer-civilization-document :is(
+	.creatorPalette,
+	.publicationReviewDialog,
+	.draftRecoveryDialog
+)::backdrop {
+	background:
+		radial-gradient(circle at 50% 100%, rgb(89 189 210 / 8%), transparent 28rem),
+		rgb(0 4 10 / 68%);
+	backdrop-filter: blur(7px) saturate(108%);
+}
+
+.composer-civilization-document :is(
+	.draftRecoveryHandle,
+	.publicationReviewHandle
+) {
+	background: linear-gradient(90deg, var(--composer-violet), var(--composer-cyan));
+	box-shadow: 0 0 1rem rgb(89 189 210 / 24%);
+	opacity: .72;
+}
+
+.composer-civilization-document .creatorPaletteClose,
+.composer-civilization-document :is(
+	.publicationReviewHeader,
+	.draftRecoveryDialog > header
+) button {
+	border-color: color-mix(in srgb, var(--composer-cyan) 24%, var(--composer-border));
+	background: color-mix(in srgb, var(--composer-cyan) 5%, var(--composer-surface-2));
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.composer-civilization-document .creatorPaletteClose:hover,
+	.composer-civilization-document :is(
+		.publicationReviewHeader,
+		.draftRecoveryDialog > header
+	) button:hover {
+		box-shadow: 0 .7rem 1.8rem rgb(0 0 0 / 18%);
+		transform: translateY(-1px);
+	}
+}
+
+@media (max-width: 42.5rem) {
+	.composer-civilization-document :is(
+		.publicationReviewDialog,
+		.draftRecoveryDialog
+	) {
+		box-shadow:
+			0 -1.4rem 4rem rgb(0 0 0 / 42%),
+			inset 0 1px rgb(255 255 255 / 5%);
+	}
+}
+
+@media (prefers-reduced-transparency: reduce) {
+	.composer-civilization-document :is(
+		.creatorPalette,
+		.publicationReviewDialog,
+		.draftRecoveryDialog
+	)::backdrop {
+		backdrop-filter: none;
+	}
+}
+
+@media (forced-colors: active) {
+	.composer-civilization-document :is(
+		.draftRecoveryHandle,
+		.publicationReviewHandle
+	) {
+		box-shadow: none;
+	}
+}

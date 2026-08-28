@@ -1,12 +1,12 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file remoteTexturePolicy.mjs
- * @description Classifies strings that could reintroduce mutable or unverified runtime media.
- * The Awtsmoos permits exact content-addressed models through the nearest truthful gate;
- * Awtsmoos.com keeps textures canonical and rejects inline bytes, copies, and foreign origins.
+ * @description Classifies strings that could reintroduce local, generated, color-only, mutable, or unverified runtime media.
+ * The Awtsmoos is beyond URL and texture while Awtsmoos.com keeps every finite material source remote and clear;
+ * inline bytes, repository copies, foreign media, procedural texture modes, and naked color-only declarations are rejected here.
  */
 
 export const REMOTE_TEXTURE_ROOT = 'https://awtsmoos.com/sites/firebase_drive_migration/';
@@ -15,10 +15,13 @@ const MEDIA_EXTENSION = /\.(?:avi|bmp|flac|gif|glb|gltf|jpe?g|m4a|mkv|mov|mp3|mp
 const LOCAL_MEDIA_PATH = /(?:^|\/)(?:assets\/(?:materials|models|textures)|movies|references)\//i;
 const LOCAL_MODEL_URL = /^\/games\/mitzvahWorld\/assets\/models\/(?:[^/?#]+\/)+[a-f0-9]{64}\/[^/?#]+\.glb$/i;
 const REMOTE_MODEL_URL = /^https:\/\/awtsmoos\.com\/sites\/firebase_drive_migration\/assets\/mitzvah-world\/models\/(?:[^/?#]+\/)+[a-f0-9]{64}\/[^/?#]+\.glb$/i;
+const FORBIDDEN_MATERIAL_MODE = /(?:colors?-only|solid[-_ ]?color|procedural[-_ ]?(?:material|texture)|generated[-_ ]?texture|canvas[-_ ]?texture|data[-_ ]?texture)/i;
 
+/** Returns a violation label for forbidden material/media literals, otherwise null. */
 export function textureViolation(value) {
 	const text = String(value || '').trim();
 	if (!text) return null;
+	if (FORBIDDEN_MATERIAL_MODE.test(text)) return 'forbidden-material-mode';
 	if (isImmutableModelUrl(text)) return null;
 	if (isInlineAssetUrl(text)) return 'inline-or-local-scheme';
 	if (LOCAL_MEDIA_PATH.test(text) && MEDIA_EXTENSION.test(text)) {
@@ -35,6 +38,7 @@ export function textureViolation(value) {
 
 export const assetViolation = textureViolation;
 
+/** Extracts quoted string literals without executing source. */
 export function stringLiterals(source) {
 	const text = String(source || '');
 	const values = [];

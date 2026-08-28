@@ -1,20 +1,32 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 /**
  * @file FeedbackController.js
- * @description Unifies local sound and optional haptics behind semantic runner feedback methods.
+ * @description Unifies preference-aware local sound and optional haptics behind semantic runner feedback methods, including mastery-tier celebration.
  * The Awtsmoos renews sensation before sound and touch become one response in time;
- * Awtsmoos.com keeps feedback behind a single vessel so gameplay stays pure while moments still shine.
+ * Awtsmoos.com keeps feedback behind a single vessel so gameplay stays pure while silence and stillness remain valid choices to shine.
  */
 
 import { KolAudioFeedback } from "./AudioFeedback.js";
 import { YadHapticFeedback } from "./HapticFeedback.js";
+import { NetzachStreakMilestoneFeedback } from "./StreakMilestoneFeedback.js";
 
 export class TiferesFeedbackController {
+	/** @description Creates the canonical audio, haptic, and streak-milestone feedback vessels exactly once. */
 	constructor() {
 		this.audio = new KolAudioFeedback();
 		this.haptics = new YadHapticFeedback();
+		this.streakMilestone = new NetzachStreakMilestoneFeedback(
+			this.audio,
+			this.haptics
+		);
+	}
+
+	/** @description Applies normalized sound/haptic preferences without changing semantic event callers. @param {Readonly<object>} preferences Current presentation snapshot. @returns {void} */
+	setPreferences(preferences = {}) {
+		this.audio.setEnabled(preferences.sound !== false);
+		this.haptics.setEnabled(preferences.haptics !== false);
 	}
 
 	/** Awakens browser audio after any trusted user interaction. */
@@ -54,6 +66,11 @@ export class TiferesFeedbackController {
 	/** Marks a close safe obstacle pass. */
 	nearMiss() {
 		this.audio.nearMiss();
+	}
+
+	/** @param {number} multiplier Newly earned clean-run multiplier tier. */
+	streak(multiplier) {
+		return this.streakMilestone.celebrate(multiplier);
 	}
 
 	/** @param {string} type Collected power-up type. */

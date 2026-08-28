@@ -1,4 +1,4 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
@@ -7,7 +7,8 @@ const ConsumerHealth = require("./parent-execution-health.js");
 const ConsumerRecovery = require("./parent-consumer-recovery.js");
 const ConsumerDecision = require("./parent-watchdog-consumer-decision.js");
 const Control = require("./parent-watchdog-control.js");
-const Repair = require("./parent-watchdog-repair.js");
+const RepairContext = require("./parent-watchdog-repair-context.js");
+const Snapshot = require("./parent-watchdog-snapshot.js");
 const Values = require("./parent-watchdog-values.js");
 
 const DEFAULT_PARENT_STALE_MS = 30000;
@@ -16,17 +17,17 @@ const DEFAULT_CONTROL_STALL_MS = ConsumerHealth.DEFAULT_CONSUMER_STALE_MS;
 const DEFAULT_KILL_GRACE_MS = 5000;
 
 /**
- * @file Orchestrates independent parent testimony and exact generation repair.
+ * @file Orchestrates factual testimony, durable authorization, and exact parent repair.
  * @description
- * The Awtsmoos keeps seeing, deciding, and signalling in distinct vessels.
- * Awtsmoos.com lets factual assessment remain pure, consumer recovery earn its own
- * durable claim, and only the final orchestration layer touch the exact parent PID.
+ * The Awtsmoos keeps seeing, deciding, claiming, and signalling in distinct vessels;
+ * Awtsmoos.com carries one exact identity from measured silence to Gevurah's final levels.
+ * No manual sword escapes the covenant; every automatic force begins with durable revels.
  */
 function create(options = {}) {
 	const now = options.now || Date.now;
-	const parentStaleMs = Repair.bounded(options.parentStaleMs, DEFAULT_PARENT_STALE_MS);
-	const backlogStaleMs = Repair.bounded(options.backlogStaleMs, DEFAULT_BACKLOG_STALE_MS);
-	const consumerStaleMs = Repair.bounded(
+	const parentStaleMs = RepairContext.bounded(options.parentStaleMs, DEFAULT_PARENT_STALE_MS);
+	const backlogStaleMs = RepairContext.bounded(options.backlogStaleMs, DEFAULT_BACKLOG_STALE_MS);
+	const consumerStaleMs = RepairContext.bounded(
 		options.consumerStaleMs ?? options.controlStallMs,
 		DEFAULT_CONTROL_STALL_MS
 	);
@@ -36,13 +37,12 @@ function create(options = {}) {
 		now,
 		...(options.consumerRecoveryOptions || {})
 	});
-	const repair = Repair.create({
-		parentPid: options.parentPid,
-		signalParent: options.signalParent || options.signal,
-		setTimer: options.setTimer,
-		recordLifecycle: options.recordLifecycle,
+	const repairContext = RepairContext.create({
+		...options,
 		killGraceMs: options.killGraceMs ?? DEFAULT_KILL_GRACE_MS
 	});
+	const identity = repairContext.identity;
+	const repair = repairContext.repair;
 	let lastPulseAt = startedAt;
 	let latestStats = {};
 	let inspection = Values.healthyInspection();
@@ -56,7 +56,7 @@ function create(options = {}) {
 		return snapshot();
 	}
 
-	/** Assesses custody/progress, applies bounded recovery policy, and invokes one exact repair. */
+	/** Assesses evidence and invokes repair only from durable exact-identity authority. */
 	function inspect(connection = {}, mailbox = {}) {
 		const observedAt = now();
 		const registered = connection.registered === true;
@@ -78,36 +78,34 @@ function create(options = {}) {
 			execution: assessed.execution,
 			pressure,
 			registered,
-			consumerRecovery
+			consumerRecovery,
+			repairIdentity: identity.current()
 		});
-		if (inspection.repairRequired) repair.request(inspection.repairReason);
-		else repair.clear();
+		if (inspection.repairRequired) {
+			repair.request(inspection.repairReason, inspection.repairClaim);
+		} else {
+			repair.clear();
+		}
 		return snapshot();
 	}
 
-	/** Returns compact watchdog testimony for child publication and diagnostics. */
+	/** Returns compact watchdog testimony without mixing formatting into repair policy. */
 	function snapshot() {
-		const controlHealth = control.inspect(now());
-		return {
-			...repair.snapshot(),
-			...inspection,
-			shouldRepair: inspection.repairRequired,
+		return Snapshot.build({
+			now,
+			control,
+			repair,
+			inspection,
 			pressure,
-			consumerRecovery: inspection.consumerRecovery || consumerRecovery.snapshot(),
-			backlogAgeMs: inspection.execution?.acceptedAgeMs || 0,
+			consumerRecovery,
 			lastPulseAt,
 			parentStaleMs,
 			backlogStaleMs,
-			consumerStaleMs,
-			controlStallMs: consumerStaleMs,
-			controlInflight: controlHealth.inflight,
-			controlQueued: controlHealth.queued,
-			controlBacklog: controlHealth.backlog,
-			lastControlProgressAt: controlHealth.lastProgressAt
-		};
+			consumerStaleMs
+		});
 	}
 
-	return { inspect, pulse, repair: () => repair.request("manual_repair"), snapshot };
+	return { inspect, pulse, snapshot };
 }
 
 module.exports = {

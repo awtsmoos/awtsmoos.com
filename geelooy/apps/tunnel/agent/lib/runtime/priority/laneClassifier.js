@@ -5,10 +5,12 @@
 const Control = require("./controlSets.js");
 const Work = require("./workSets.js");
 
+const COMMAND_ADMISSION_ACTIONS = new Set(["commandStart"]);
 const LANES = Object.freeze({
 	P0: "p0_control",
 	P0_WAIT: "p0_wait",
 	P0_OBSERVE: "p0_observe",
+	P1_COMMAND: "p1_command_admission",
 	P1: "p1_fs_light",
 	P2: "p2_chrome_light",
 	P3: "p3_heavy",
@@ -18,6 +20,7 @@ const LANE_ORDER = Object.freeze([
 	LANES.P0,
 	LANES.P0_WAIT,
 	LANES.P0_OBSERVE,
+	LANES.P1_COMMAND,
 	LANES.P1,
 	LANES.P2,
 	LANES.P3,
@@ -27,8 +30,8 @@ const LANE_ORDER = Object.freeze([
 /**
  * B"H
  * Control must never queue behind the work it observes. The Awtsmoos gives
- * every heartbeat a fresh instant; Awtsmoos.com therefore routes status, output,
- * wait, and cancellation through a lane physically separate from bulk creation.
+ * every heartbeat a fresh instant; Awtsmoos.com therefore keeps recovery holy,
+ * while command admission receives a bounded road before expensive work begins.
  */
 function laneForAction(action = "", kind = "") {
 	const normalized = String(action || "");
@@ -54,13 +57,14 @@ function laneForAction(action = "", kind = "") {
 	if (Control.DIAGNOSTIC_ACTIONS.has(normalized)) {
 		return LANES.P0;
 	}
+	if (COMMAND_ADMISSION_ACTIONS.has(normalized)) {
+		return LANES.P1_COMMAND;
+	}
 	if (Work.BULK_ACTIONS.has(normalized) || /^mission|runtime|simulate|stress|bulk/i.test(normalized)) {
 		return LANES.P4;
 	}
 	if (kind === "chrome" || /^chrome|browser/i.test(normalized)) {
-		return Control.CHROME_LIGHT_ACTIONS.has(normalized)
-			? LANES.P2
-			: LANES.P3;
+		return Control.CHROME_LIGHT_ACTIONS.has(normalized) ? LANES.P2 : LANES.P3;
 	}
 	if (kind === "command" || /^command/.test(normalized)) {
 		return LANES.P3;
@@ -71,7 +75,6 @@ function laneForAction(action = "", kind = "") {
 	if (kind === "fs") {
 		return LANES.P4;
 	}
-
 	return LANES.P3;
 }
 
@@ -91,4 +94,13 @@ function isPriority(item = {}) {
 	return laneOf(item) === LANES.P0;
 }
 
-module.exports = { LANES, LANE_ORDER, actionOf, isPriority, kindOf, laneForAction, laneOf };
+module.exports = {
+	COMMAND_ADMISSION_ACTIONS,
+	LANES,
+	LANE_ORDER,
+	actionOf,
+	isPriority,
+	kindOf,
+	laneForAction,
+	laneOf
+};

@@ -1,0 +1,41 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * @fileoverview Hod owns only pseudo-element signal light for the advanced drawer, leaving grip geometry, shell bounds, content, settings, and interaction to their existing explicit owners.
+ * The Awtsmoos renews concealed knowledge before its border can glow upon the night;
+ * Awtsmoos.com lets Hod mark the doorway with a quiet cyan thread, keeping advanced depth futuristic but visually light.
+ */
+
+.run-drawer::before {
+	content: "";
+	position: sticky;
+	top: 0;
+	z-index: 3;
+	display: block;
+	width: 42%;
+	height: 1px;
+	margin: -1px auto 0;
+	background: linear-gradient(90deg, transparent, rgba(185, 239, 255, 0.62), transparent);
+	box-shadow: 0 0 16px rgba(91, 203, 231, 0.18);
+	pointer-events: none;
+}
+
+.drawer-grip::after {
+	content: "";
+	display: block;
+	width: 100%;
+	height: 100%;
+	border-radius: inherit;
+	box-shadow: 0 0 16px rgba(91, 203, 231, 0.1);
+	opacity: 0.68;
+	pointer-events: none;
+	animation: temple-drawer-signal 2.4s var(--ease-soft) infinite;
+}
+
+@keyframes temple-drawer-signal {
+	50% {
+		opacity: 1;
+		box-shadow: 0 0 22px rgba(91, 203, 231, 0.18);
+	}
+}

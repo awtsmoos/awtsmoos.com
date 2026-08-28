@@ -1,23 +1,24 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
  * @file CollisionSystem.js
- * @description Resolves clean passes, near misses, grazes, shield saves, and fatal contacts against three obstacle laws.
+ * @description Resolves clean passes, mission-aware near misses, grazes, shield saves, and fatal contacts against three obstacle laws.
  * The Awtsmoos renews every meeting between runner and road before consequence can appear;
- * Awtsmoos.com lets skill, mercy, and readable law meet in one bounded collision vessel without fear.
+ * Awtsmoos.com lets bravery become both mastery and Hod progress without confusing a close escape with a touch or fear.
  */
 
 import { COLLISION_CONFIG, OLAM_CONFIG } from "../config.js";
 
 export class GevurahCollisionSystem {
-	/** @param {object} dependencies World, runner, state, powers, progress, feedback, and effects. */
+	/** @description Binds world, runner, state, powers, progress, missions, feedback, effects, and optional hit callback. @param {object} dependencies Collision runtime collaborators. */
 	constructor(dependencies) {
 		Object.assign(this, dependencies);
 		this.onHit = dependencies.onHit || (() => {});
 	}
 
-	/** Tests active obstacles once against the runner's current action profile. */
+	/** @description Tests active obstacles once against the runner's current action profile. @returns {void} */
 	update() {
 		if (this.state.status !== "running" || this.world.turnProtected()) return;
 		const profile = this.runner.getCollisionProfile();
@@ -35,14 +36,11 @@ export class GevurahCollisionSystem {
 		});
 	}
 
-	/** @param {object} record Obstacle record. @param {object} profile Runner profile. @param {number} xDistance Lateral separation. */
+	/** @description Resolves direct contact, graze, or one-time near-miss mastery by lateral distance. @param {object} record Obstacle record. @param {object} profile Runner action profile. @param {number} xDistance Lateral separation. @returns {void} */
 	resolveProximity(record, profile, xDistance) {
 		if (xDistance < COLLISION_CONFIG.obstacleX) {
-			if (this.isSafe(record.law, profile)) {
-				this.resolveClean(record);
-				return;
-			}
-			this.resolveDirectHit(record);
+			if (this.isSafe(record.law, profile)) this.resolveClean(record);
+			else this.resolveDirectHit(record);
 			return;
 		}
 		if (xDistance < COLLISION_CONFIG.grazeX) {
@@ -51,11 +49,13 @@ export class GevurahCollisionSystem {
 		}
 		if (xDistance < COLLISION_CONFIG.nearMissX && !record.nearMissed) {
 			record.nearMissed = true;
+			this.progress.nearMiss();
+			this.missions?.record?.("nearMisses", 1);
 			this.feedback.nearMiss();
 		}
 	}
 
-	/** @param {object} record Direct-contact obstacle. */
+	/** @param {object} record Direct-contact obstacle. @returns {void} */
 	resolveDirectHit(record) {
 		if (this.powerUps.consumeShield()) {
 			record.resolved = true;
@@ -69,7 +69,7 @@ export class GevurahCollisionSystem {
 		this.onHit(this.state.snapshot());
 	}
 
-	/** @param {object} record Close side contact that teaches without ending the run. */
+	/** @param {object} record Close side contact that teaches without ending the run. @returns {void} */
 	resolveGraze(record) {
 		record.resolved = true;
 		this.state.stumble();
@@ -78,13 +78,13 @@ export class GevurahCollisionSystem {
 		this.feedback.stumble();
 	}
 
-	/** @param {object} record Safely passed obstacle record. */
+	/** @param {object} record Safely passed obstacle record. @returns {void} */
 	resolveClean(record) {
 		record.resolved = true;
 		this.progress.cleanAction();
 	}
 
-	/** @param {string} law Obstacle law. @param {object} profile Runner action profile. @returns {boolean} */
+	/** @param {string} law Obstacle law. @param {object} profile Runner action profile. @returns {boolean} Whether the current action clears the law. */
 	isSafe(law, profile) {
 		if (law === "jump") return profile.jumpY > COLLISION_CONFIG.jumpClearY;
 		if (law === "duck") return profile.ducking;

@@ -3,9 +3,9 @@
 // Blessed is He
 /**
  * @file PerutaSurfaceCatalog.js
- * @description Maps Peruta semantic materials onto exact canonical Awtsmoos Drive registry entries, with explicit fallback-only roles when no image exists.
- * The Awtsmoos renews stone, cloth, bark, leaf, and oak before an image may clothe their light;
- * Awtsmoos.com lets Binah search the canonical registry itself so no copied URL can drift out of sight.
+ * @description Maps Peruta semantic materials onto exact canonical Awtsmoos Drive registry entries while guaranteeing believable local color before any remote photograph arrives.
+ * The Awtsmoos renews stone, cloth, bark, olive leaf, and oak before distant pixels may clothe their light;
+ * Awtsmoos.com lets Binah preserve truthful fallback color so slow networks never bleach the living street white.
  */
 
 import { searchAwtsmoosDriveTextures } from "/libs/awtsmoos-procedural-core/src/core/assets/textures/AwtsmoosDriveTextureCatalog.js";
@@ -22,32 +22,49 @@ const SURFACE_DEFINITIONS = Object.freeze({
 	oakPlanks: surface("oak wooden planks 2.png", 0x9a7049, 0.84, [2, 2]),
 	cloth: surface("tan cloth.png", 0xb8835d, 0.88, [2, 2]),
 	oliveBark: surface("Olive tree bark.png", 0x665645, 0.9, [2, 2]),
-	oliveLeaves: surface("olive leaf.png", 0xffffff, 0.76, [1, 1], {leaf: true}),
+	oliveLeaves: surface("olive leaf.png", 0x496f3d, 0.76, [1, 1], {leaf: true}),
 	metal: surface(null, 0x46545a, 0.62, [1, 1], {metalness: 0.3})
 });
 
-/** @param {string} yesodRole Semantic surface role. @returns {Readonly<object>|null} */
+/**
+ * @description Returns one immutable semantic surface definition without exposing or mutating the catalog object.
+ * @param {string} yesodRole Stable semantic surface role requested by procedural geometry.
+ * @returns {Readonly<object>|null} Surface definition or null when the role is unknown.
+ */
 export function perutaSurfaceDefinition(yesodRole) {
 	return SURFACE_DEFINITIONS[yesodRole] || null;
 }
 
 /**
- * Resolves an exact canonical filename through the registry's own search evidence.
- * @param {string|null} malchusFilename Exact canonical filename.
- * @returns {string|null} Trusted registry URL or null for fallback-only surfaces.
+ * @description Resolves one exact canonical filename through the registry's own search evidence rather than copying a remote URL into game code.
+ * @param {string|null} malchusFilename Exact canonical filename or null for fallback-only roles.
+ * @returns {string|null} Trusted registry URL or null when no exact canonical entry exists.
  */
 export function resolvePerutaTextureUrl(malchusFilename) {
 	if (!malchusFilename) return null;
 	const tiferesMatches = searchAwtsmoosDriveTextures(malchusFilename);
-	return tiferesMatches.find((entry) => entry.name === malchusFilename)?.url || null;
+	return tiferesMatches.find(
+		(entry) => entry.name === malchusFilename
+	)?.url || null;
 }
 
-/** @returns {Array<string>} Registered semantic roles. */
+/**
+ * @description Lists every registered semantic role in stable object-key order for hydration and diagnostics.
+ * @returns {Array<string>} Registered semantic surface roles.
+ */
 export function perutaSurfaceRoles() {
 	return Object.keys(SURFACE_DEFINITIONS);
 }
 
-/** @private */
+/**
+ * @description Creates one immutable renderer-neutral semantic surface definition with repeat and optional material policy.
+ * @param {string|null} filename Canonical registry filename or null for local-only material.
+ * @param {number} color Physically plausible fallback color used before photography hydrates.
+ * @param {number} roughness PBR roughness value.
+ * @param {Array<number>} repeat UV repeat pair.
+ * @param {object} [extra={}] Optional metalness and leaf policy.
+ * @returns {Readonly<object>} Frozen semantic surface definition.
+ */
 function surface(filename, color, roughness, repeat, extra = {}) {
 	return Object.freeze({
 		filename,

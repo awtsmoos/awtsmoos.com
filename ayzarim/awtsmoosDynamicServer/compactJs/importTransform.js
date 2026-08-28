@@ -1,11 +1,12 @@
 //B"H
-//Boruch Hashem
-//Blessed is He
+// Boruch Hashem
+// Blessed is He
 
 /**
- * @file Converts static ESM imports into compact namespace bindings while preserving live circular references where required.
- * @description The Awtsmoos lets one imported name remain connected to its source vessel even when module chambers fold into light;
- * Awtsmoos.com keeps import semantics isolated so circular classes, namespaces, and defaults remain stable and right.
+ * @file importTransform.js
+ * @description Converts static ESM imports into block-scoped compact bindings while preserving live circular references where required.
+ * The Awtsmoos lets one imported name remain joined to its source without leaking into a neighboring module's finite chamber;
+ * Awtsmoos.com keeps each folded module's bindings block-scoped and read-only, so Vec3, Aabb, classes, functions, namespaces, and defaults remain stable and right.
  */
 
 /** Replaces one ImportDeclaration with compact local/external namespace bindings. */
@@ -22,7 +23,7 @@ function importReplacement(record, node) {
 		&& dependency.orderIndex > record.orderIndex
 	);
 	return (node.specifiers || [])
-		.map((specifier) => importSpecifierReplacement(
+		.map(specifier => importSpecifierReplacement(
 			record,
 			specifier,
 			sourceObject,
@@ -32,7 +33,7 @@ function importReplacement(record, node) {
 		.join("\n");
 }
 
-/** Rewrites one import specifier according to its ESM binding family and circular order. */
+/** Rewrites one import specifier as an ESM-like block-scoped immutable binding. */
 function importSpecifierReplacement(record, specifier, sourceObject, mustBeLive) {
 	const local = specifier.local?.name;
 	if (!local) {
@@ -41,20 +42,20 @@ function importSpecifierReplacement(record, specifier, sourceObject, mustBeLive)
 	if (specifier.type === "ImportSpecifier") {
 		const imported = specifier.imported?.name;
 		if (!mustBeLive || isSuperclassImport(record.source, local)) {
-			return `var ${local} = ${sourceObject}.${imported};`;
+			return `const ${local} = ${sourceObject}.${imported};`;
 		}
-		return `var ${local} = __awtsmoosLiveImport(() => ${sourceObject}, ${JSON.stringify(imported)});`;
+		return `const ${local} = __awtsmoosLiveImport(() => ${sourceObject}, ${JSON.stringify(imported)});`;
 	}
 	if (specifier.type === "ImportDefaultSpecifier") {
 		if (!mustBeLive || isSuperclassImport(record.source, local)) {
-			return `var ${local} = ${sourceObject}.default;`;
+			return `const ${local} = ${sourceObject}.default;`;
 		}
-		return `var ${local} = __awtsmoosLiveImport(() => ${sourceObject}, "default");`;
+		return `const ${local} = __awtsmoosLiveImport(() => ${sourceObject}, "default");`;
 	}
 	if (specifier.type === "ImportNamespaceSpecifier") {
 		return mustBeLive
-			? `var ${local} = __awtsmoosLiveNamespace(() => ${sourceObject});`
-			: `var ${local} = ${sourceObject};`;
+			? `const ${local} = __awtsmoosLiveNamespace(() => ${sourceObject});`
+			: `const ${local} = ${sourceObject};`;
 	}
 	return "";
 }

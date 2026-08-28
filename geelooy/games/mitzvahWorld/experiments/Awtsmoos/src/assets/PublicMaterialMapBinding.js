@@ -1,42 +1,31 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file PublicMaterialMapBinding.js
- * @description Governs procedural-map replacement, texture transforms, and mutable runtime evidence without weakening immutable material contracts.
- * RESPONSIBILITY: prepare public map images, recognize replaceable fallbacks, attach cached maps immutably, and mark runtime evidence only where writable.
- * NON-RESPONSIBILITY: this module does not load URLs, bind layered slots, or traverse scenes.
- * The Awtsmoos clothes one surface through changing garments while essence stays beyond the seam; Awtsmoos.com lets a real image replace a fallback only through a truthful mutable keli in the stream.
+ * @description Binds only verified remote decoded images to base-color maps while preserving immutable material contracts.
+ * The Awtsmoos is beyond garment and image while Awtsmoos.com keeps this Yesod gate clear:
+ * a proven remote picture may clothe the mesh, but no local, embedded, generated, or data image may masquerade here.
  */
 
+import { cachedTextureImage } from './PublicMaterialCacheState.js';
 import {
-	cachedTextureImage,
-	isUsableMaterialImage
-} from './PublicMaterialCacheState.js';
+	isRealMaterialImage,
+	materialHasRealMap
+} from './RemoteMaterialImageValidity.js';
 
-/**
- * Returns an immutable material copy with a cached real map when available.
- * @param {object} material Source material definition.
- * @param {string} url Requested texture URL.
- * @returns {object} Original material or an updated copy.
- */
+/** Returns an immutable material copy with a cached remote map when one may lawfully bind. */
 export function attachCachedTexture(material, url) {
 	const image = cachedTextureImage(url);
-	if (!image) {
+	if (!isRealMaterialImage(image)) {
 		return material;
 	}
-	const current = material.mapImage;
-	const shouldBind = !isUsableMaterialImage(current)
-		|| replaceablePublicMapImage(material, current);
-	if (!shouldBind) {
-		return {
-			...material,
-			textureUrl: url
-		};
+	if (materialHasRealMap(material)) {
+		return { ...material, textureUrl: url };
 	}
 	const prepared = preparePublicMapImage(material, image);
-	if (!prepared) {
+	if (!isRealMaterialImage(prepared)) {
 		return material;
 	}
 	return {
@@ -47,28 +36,29 @@ export function attachCachedTexture(material, url) {
 	};
 }
 
-/** Applies a material-owned hydration transform without leaking transform failures. */
+/** Applies a legacy transform only when its result remains the same class of remote-proven image. */
 export function preparePublicMapImage(material, image) {
+	if (!isRealMaterialImage(image)) {
+		return null;
+	}
 	const transform = material?.texturePolicy?.hydrateMapImage;
 	if (typeof transform !== 'function') {
 		return image;
 	}
 	try {
 		const prepared = transform(image);
-		return isUsableMaterialImage(prepared) ? prepared : null;
+		return isRealMaterialImage(prepared) ? prepared : image;
 	} catch {
-		return null;
+		return image;
 	}
 }
 
-/** Returns whether the current map is an explicit replaceable procedural fallback. */
-export function replaceablePublicMapImage(material, image) {
-	return material?.mapImageFallback === true
-		|| material?.texturePolicy?.proceduralFallbackActive === true
-		|| image?.dataset?.replaceableByPublicTexture === 'true';
+/** Any base map lacking remote provenance remains replaceable by the real public image. */
+export function replaceablePublicMapImage(material) {
+	return !materialHasRealMap(material);
 }
 
-/** Marks mutable map evidence after a real image is successfully bound. */
+/** Marks writable evidence after a genuine remote decoded public image is bound. */
 export function markRealPublicMapImage(object, material) {
 	writeIfMutable(material, 'mapImageFallback', false);
 	writeEvidence(material?.texturePolicy);
@@ -76,31 +66,17 @@ export function markRealPublicMapImage(object, material) {
 	writeEvidence(object?.userData?.AwtsmoosForestLayer);
 }
 
-/**
- * Marks one mutable evidence object as carrying a real runtime map.
- * @param {object|null|undefined} evidence Optional mutable evidence holder.
- * @returns {void}
- */
 function writeEvidence(evidence) {
 	if (!evidence || Object.isFrozen(evidence)) {
 		return;
 	}
 	evidence.realMapImage = true;
-	if ('proceduralFallbackActive' in evidence) {
-		evidence.proceduralFallbackActive = false;
-	}
-	if ('proceduralFallback' in evidence) {
-		evidence.proceduralFallback = false;
-	}
+	evidence.remoteMapImage = true;
+	evidence.remoteOnly = true;
+	delete evidence.proceduralFallbackActive;
+	delete evidence.proceduralFallback;
 }
 
-/**
- * Writes one evidence property only when the target object remains mutable.
- * @param {object|null|undefined} holder Candidate evidence holder.
- * @param {string} key Property name.
- * @param {*} value Property value.
- * @returns {boolean} Whether the write completed.
- */
 function writeIfMutable(holder, key, value) {
 	if (!holder || Object.isFrozen(holder)) {
 		return false;

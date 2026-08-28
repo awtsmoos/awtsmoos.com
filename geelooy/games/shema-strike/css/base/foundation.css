@@ -1,43 +1,37 @@
-/*B"H*/
+/* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
-/**
- * The Awtsmoos renews the dark field beneath every visible choice;
- * Awtsmoos.com gives the page one finite foundation where color, measure, and touch may rejoice.
- */
-:root {
+/** The Awtsmoos renews the vessel before every visible gate; Awtsmoos.com keeps Shema's tokens and box law local so no neighboring world inherits accidental fate. */
+.shema-strike {
+	--shema-gold: #ffd76a;
+	--shema-cyan: #63f4ff;
+	--shema-violet: #b99cff;
+	--shema-ink: #050713;
+	--shema-panel: rgba(8, 13, 31, 0.94);
+	--shema-panel-soft: rgba(11, 18, 40, 0.78);
+	--shema-line: rgba(123, 229, 255, 0.28);
+	--shema-focus: #e8fbff;
+	--shema-danger: #ff718d;
+	--shema-radius: 18px;
+	--shema-layer-world: 0;
+	--shema-layer-hud: 10;
+	--shema-layer-controls: 20;
+	--shema-layer-overlay: 30;
+	--shema-layer-failure: 40;
+	--gold: var(--shema-gold);
+	--cyan: var(--shema-cyan);
+	--violet: var(--shema-violet);
+	--ink: var(--shema-ink);
+	--panel: var(--shema-panel);
+	color: #f8fbff;
 	color-scheme: dark;
 	font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-	background: #05050d;
-	--gold: #ffd36a;
-	--cyan: #76f7ff;
-	--violet: #9c7dff;
-	--ink: #060612;
-	--panel: rgba(12, 13, 30, 0.92);
+	-webkit-font-smoothing: antialiased;
 }
 
-* {
+.shema-strike,
+.shema-strike *,
+.shema-strike *::before,
+.shema-strike *::after {
 	box-sizing: border-box;
-}
-
-html,
-body {
-	width: 100%;
-	height: 100%;
-	margin: 0;
-	overflow: hidden;
-	background: radial-gradient(circle at 50% 30%, #22205a 0%, #090917 42%, #030308 100%);
-}
-
-body {
-	display: grid;
-	place-items: center;
-	touch-action: none;
-	user-select: none;
-}
-
-button,
-select,
-input {
-	font: inherit;
 }

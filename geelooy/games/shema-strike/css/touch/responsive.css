@@ -1,39 +1,40 @@
-/*B"H*/
+/* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
-/**
- * The Awtsmoos retracts gameplay controls beneath every menu and reshapes them for each finite screen;
- * Awtsmoos.com keeps portrait, narrow phone, and short landscape inside safe-area walls without overlap between.
- */
-@media (hover: none), (pointer: coarse) {
-	.touch-controls {
-		display: grid;
+/** The Awtsmoos changes no truth when the viewport turns; Awtsmoos.com lets the same controls fit portrait, coarse touch, and short landscape without collision or burn. */
+@media (pointer: coarse), (max-width: 820px) {
+	.shema-strike .touch-controls {
+		display: flex;
+	}
+
+	.shema-strike .overlay.visible ~ .touch-controls {
+		display: none;
 	}
 }
 
-.overlay.visible ~ .touch-controls {
-	display: none !important;
-}
-
-@media (max-width: 340px) {
-	.touch-controls {
-		--touch-unit: clamp(48px, 15vw, 54px);
+@media (max-width: 620px) {
+	.shema-strike .touch-controls {
+		gap: 8px;
+	}
+	.shema-strike .touch-cluster {
+		grid-template-columns: repeat(2, minmax(48px, 58px));
 		gap: 7px;
-		padding-inline: max(8px, env(safe-area-inset-left));
 	}
-
-	.touch-cluster {
-		gap: 6px;
+	.shema-strike .touch-controls button {
+		min-width: 48px;
+		min-height: 52px;
 	}
 }
 
 @media (max-height: 500px) and (orientation: landscape) {
-	.touch-controls {
-		--touch-unit: clamp(44px, 8vw, 56px);
-		padding-block: 6px max(6px, env(safe-area-inset-bottom));
+	.shema-strike .touch-controls {
+		inset-block-end: max(6px, env(safe-area-inset-bottom));
 	}
-
-	.action-cluster {
-		grid-template-columns: repeat(4, var(--touch-unit));
+	.shema-strike .touch-controls button {
+		min-height: 46px;
+	}
+	.shema-strike .panel {
+		max-height: 92dvh;
+		padding: 14px;
 	}
 }

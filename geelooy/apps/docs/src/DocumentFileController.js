@@ -1,8 +1,8 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
-import { consumeFileIntent } from "/shared/file-intent/schema.js";
+import { consumeFileIntent } from "/geelooy/shared/file-intent/schema.js";
 import {
 	attachEmbeddedSource,
 	createEmbeddedFileRequest
@@ -46,7 +46,9 @@ export class DocumentFileController {
 	/** Consumes one explicit Code-to-Docs file intent and restores its source identity. */
 	consumeCrossAppIntent() {
 		const intent = consumeFileIntent();
-		if (!intent) return false;
+		if (!intent) {
+			return false;
+		}
 		const snapshot = this.importer.parseNamedContent(
 			fileNameForIntent(intent),
 			intent.content
@@ -76,6 +78,7 @@ export class DocumentFileController {
 		);
 	}
 
+	/** Applies one normalized snapshot and announces the imported vessel to observers. */
 	#apply(snapshot) {
 		const applied = this.snapshot.apply(snapshot);
 		this.onImported?.(applied);
@@ -85,7 +88,9 @@ export class DocumentFileController {
 
 /** Resolves a synthetic filename when a cross-application intent names only a format. */
 function fileNameForIntent(intent) {
-	if (intent.fileName?.includes(".")) return intent.fileName;
+	if (intent.fileName?.includes(".")) {
+		return intent.fileName;
+	}
 	const extension = {
 		markdown: ".md",
 		html: ".html",

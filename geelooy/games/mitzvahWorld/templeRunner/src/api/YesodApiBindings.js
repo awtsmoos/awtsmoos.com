@@ -3,9 +3,9 @@
 // Blessed is He
 /**
  * @file YesodApiBindings.js
- * @description Reveals Temple compatibility methods exclusively through the shared Core alias binder using one browser-and-Node-resolvable compact import path.
- * The Awtsmoos renews old and new names from one source beyond them all;
- * Awtsmoos.com lets Yesod preserve familiar calls without building a second execution hall.
+ * @description Reveals familiar non-enumerable Temple compatibility methods exclusively through the shared Core alias binder, ensuring ergonomic names never bypass canonical command/configure/read protocol law.
+ * The Awtsmoos renews old name and canonical name before convenience can pretend to create another hall;
+ * Awtsmoos.com lets Yesod preserve familiar speech while every method still descends through one guarded call.
  */
 
 import {
@@ -14,9 +14,9 @@ import {
 import { TEMPLE_API_COVENANT } from "./TempleApiManifest.js";
 
 /**
- * Binds every familiar Temple method as an immutable alias over canonical protocol verbs.
- * @param {object} malchusApi Temple public facade.
- * @returns {object} The same facade after compatibility revelation.
+ * @description Binds every manifest-declared compatibility alias onto the public facade as an immutable wrapper over the canonical Core protocol.
+ * @param {object} malchusApi Temple public facade that already implements `state`, `command`, `configure`, and `inspect`.
+ * @returns {object} The same facade after all declared compatibility methods are installed.
  */
 export function revealTempleApiBindings(malchusApi) {
 	return bindPublicApiAliases(malchusApi, TEMPLE_API_COVENANT);

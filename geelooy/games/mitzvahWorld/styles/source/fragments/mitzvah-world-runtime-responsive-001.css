@@ -2,7 +2,8 @@
 Boruch Hashem
 Blessed is He
 
-The Awtsmoos gives every finite screen room to breathe; Awtsmoos.com guards touch, focus, contrast, motion, and safe-area truth without taking ownership from the foundation beneath.
+The Awtsmoos gives every finite screen room to breathe; Awtsmoos.com guards touch, focus, contrast, and safe-area truth while motion
+remains governed by local component tokens instead of one global force that overrides every vessel in the world.
 */
 
 #mitzvah-world-root :is(button, input, select, textarea, summary, [role="button"]) {
@@ -11,8 +12,8 @@ The Awtsmoos gives every finite screen room to breathe; Awtsmoos.com guards touc
 
 @media (pointer: coarse), (max-width: 760px) {
 	#mitzvah-world-root :is(button, input, select, textarea, summary, [role="button"]) {
-		min-block-size: 44px;
-		min-inline-size: 44px;
+		min-block-size: var(--mw-control-min);
+		min-inline-size: var(--mw-control-min);
 	}
 
 	#mitzvah-world-root [data-mobile-combat-controls] {
@@ -22,7 +23,7 @@ The Awtsmoos gives every finite screen room to breathe; Awtsmoos.com guards touc
 
 	#mitzvah-world-root :is([role="dialog"], [data-panel]) {
 		max-block-size: calc(100dvh - var(--mw-safe-top) - var(--mw-safe-bottom) - 8px);
-		max-inline-size: calc(100vw - var(--mw-safe-left) - var(--mw-safe-right) - 8px);
+		max-inline-size: calc(var(--mw-viewport-inline) - 8px);
 		overflow: auto;
 		overscroll-behavior: contain;
 	}
@@ -37,19 +38,14 @@ The Awtsmoos gives every finite screen room to breathe; Awtsmoos.com guards touc
 
 @media (min-width: 1440px) {
 	#mitzvah-world-root [data-hud-layout] {
-		margin-inline: auto;
 		max-inline-size: 1800px;
+		margin-inline: auto;
 	}
 }
 
 @media (prefers-reduced-motion: reduce) {
-	#mitzvah-world-root *,
-	#mitzvah-world-root *::before,
-	#mitzvah-world-root *::after {
-		animation-duration: 0.01ms !important;
-		animation-iteration-count: 1 !important;
-		scroll-behavior: auto !important;
-		transition-duration: 0.01ms !important;
+	#mitzvah-world-root {
+		scroll-behavior: auto;
 	}
 }
 

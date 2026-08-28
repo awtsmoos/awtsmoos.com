@@ -7,17 +7,23 @@ const { commandJobOutputPage } = require("./output.js");
 const { commandStatus } = require("./status.js");
 
 /**
- * @file Waits on durable command truth even after the caller crosses project roots.
+ * @file Waits on durable command truth without inheriting unbounded output settlement.
  * @description
- * The Awtsmoos lets status reveal the exact state vessel, then Awtsmoos.com reads
- * terminal stdout and stderr from that same room rather than recomputing another root.
+ * The Awtsmoos lets terminal status return through one measured observing gate;
+ * Awtsmoos.com reveals bytes still settling instead of chaining a watcher to their fate.
+ * Each output page keeps bounded snapshot truth, so waiting remains honest, useful, and finite in state.
  */
 async function commandWait(config = {}, payload = {}) {
 	const jobId = Context.Policy.cleanId(payload.jobId || payload.id || "");
 	if (!jobId) return missing(payload);
 	const startedAt = Date.now();
-	const timeoutMs = Context.Policy.boundedWaitMs(payload.waitTimeoutMs || payload.timeoutMs);
-	const intervalMs = Math.max(25, Math.min(Number(payload.pollIntervalMs || 1000), 30000));
+	const timeoutMs = Context.Policy.boundedWaitMs(
+		payload.waitTimeoutMs || payload.timeoutMs
+	);
+	const intervalMs = Math.max(
+		25,
+		Math.min(Number(payload.pollIntervalMs || 1000), 30000)
+	);
 	let status = null;
 	while (Date.now() - startedAt <= timeoutMs) {
 		status = await commandStatus(config, statusPayload(payload, jobId));
@@ -29,6 +35,7 @@ async function commandWait(config = {}, payload = {}) {
 	return waitStillRunning(payload, jobId, status, startedAt, intervalMs);
 }
 
+/** Returns terminal status plus bounded stdout/stderr snapshots when requested. */
 async function waitDone(config, payload, jobId, status, startedAt) {
 	if (!status?.ok) {
 		return Context.named(payload, "commandWait", {
@@ -37,14 +44,19 @@ async function waitDone(config, payload, jobId, status, startedAt) {
 			waitedMs: Date.now() - startedAt
 		});
 	}
-	await Context.IO.waitForWrites(jobId, Context.activeJobs);
-	const maxChars = Context.Policy.boundedPageChars(payload.maxChars || Context.Policy.DEFAULT_PAGE_CHARS);
+	const maxChars = Context.Policy.boundedPageChars(
+		payload.maxChars || Context.Policy.DEFAULT_PAGE_CHARS
+	);
 	const inlineOutput = payload.inlineOutput !== false;
 	const locatedConfig = status.resolvedStateRoot
 		? { ...config, commandStateRoot: status.resolvedStateRoot }
 		: config;
-	const stdout = inlineOutput ? await output(locatedConfig, jobId, "stdout", maxChars) : null;
-	const stderr = inlineOutput ? await output(locatedConfig, jobId, "stderr", maxChars) : null;
+	const stdout = inlineOutput
+		? await output(locatedConfig, payload, jobId, "stdout", maxChars)
+		: null;
+	const stderr = inlineOutput
+		? await output(locatedConfig, payload, jobId, "stderr", maxChars)
+		: null;
 	return Context.named(payload, "commandWait", {
 		...status,
 		done: true,
@@ -54,8 +66,14 @@ async function waitDone(config, payload, jobId, status, startedAt) {
 	});
 }
 
-function output(config, jobId, stream, maxChars) {
-	return commandJobOutputPage(config, { jobId, stream, maxChars });
+/** Delegates terminal bytes to the bounded output snapshot contract. */
+function output(config, payload, jobId, stream, maxChars) {
+	return commandJobOutputPage(config, {
+		jobId,
+		stream,
+		maxChars,
+		settleBudgetMs: payload.settleBudgetMs
+	});
 }
 
 function statusPayload(payload, jobId) {
@@ -95,4 +113,8 @@ function missing(payload) {
 	});
 }
 
-module.exports = { commandWait, waitDone, waitStillRunning };
+module.exports = {
+	commandWait,
+	waitDone,
+	waitStillRunning
+};

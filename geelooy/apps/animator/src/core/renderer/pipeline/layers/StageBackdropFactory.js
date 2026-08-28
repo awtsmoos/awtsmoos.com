@@ -4,23 +4,18 @@
 /**
  * @module StageBackdropFactory
  * @description
- * The Awtsmoos renews sky, sun, grass, path, cloud, and reference wall before a stage receives its atmosphere;
- * Awtsmoos.com keeps backdrop construction apart from layer ordering so new creative layers can grow without composer clutter.
+ * The Awtsmoos renews sky, terrain, and reference studio before a stage receives atmosphere;
+ * Awtsmoos.com keeps backdrop construction apart from layer ordering so creative worlds can grow without composer clutter.
  */
 import { VirtualGraph as G } from '../../../../engine/graph/VirtualGraph.js';
+import { ReferenceStudioGraphBackdrop } from '../../../../scene/render/reference/ReferenceStudioGraphBackdrop.js';
 
 /** Builds screen-space production backdrops from safe-frame and scene data. */
 export class StageBackdropFactory {
-	/** @returns {Object} Reference-scene guard or default vivid outdoor backdrop. */
+	/** @returns {Object} Dimensional reference guard or default vivid outdoor backdrop. */
 	static build(safe = {}, sceneData = {}, plan = {}) {
 		if (sceneData.style === 'reference_sitcom_2d') {
-			return G.rect('reference_screen_guard', {
-				x: -8,
-				y: -8,
-				width: safe.width + 16,
-				height: safe.height + 16,
-				fill: sceneData.wallColor || '#f7f2e8'
-			});
+			return ReferenceStudioGraphBackdrop.screen(safe, sceneData);
 		}
 		return this.vivid(safe, plan);
 	}
@@ -41,31 +36,31 @@ export class StageBackdropFactory {
 				x: 0,
 				y: 0,
 				width,
-				height: height * .48,
+				height: height * 0.48,
 				fill: 'rgba(255,231,155,.72)'
 			}),
 			...this.clouds(width, height),
 			G.rect('screen_far_green', {
 				x: -5000,
-				y: height * .38,
+				y: height * 0.38,
 				width: 10000,
-				height: height * .25,
+				height: height * 0.25,
 				fill: '#6fc45c'
 			}),
 			G.rect('screen_grass_guard', {
 				x: -5000,
-				y: height * .57,
+				y: height * 0.57,
 				width: 10000,
 				height: 5000,
 				fill: '#55ad47'
 			}),
-			G.ellipse('screen_path_guard', width * .5, height * .78, width * .86, height * .16, 0, {
+			G.ellipse('screen_path_guard', width * 0.5, height * 0.78, width * 0.86, height * 0.16, 0, {
 				fill: '#e6bd75'
 			}),
-			G.ellipse('screen_action_shadow', width * .5, height * .66, width * .36, height * .045, 0, {
+			G.ellipse('screen_action_shadow', width * 0.5, height * 0.66, width * 0.36, height * 0.045, 0, {
 				fill: 'rgba(55,35,16,.22)'
 			}),
-			G.text('screen_world_hint', plan.enabled ? '' : ' ', width * .04, height * .08, {
+			G.text('screen_world_hint', plan.enabled ? '' : ' ', width * 0.04, height * 0.08, {
 				fill: 'rgba(255,255,255,.01)',
 				font: '12px sans-serif'
 			})
@@ -75,8 +70,8 @@ export class StageBackdropFactory {
 	/** @returns {Array<Object>} Two quiet cloud groups kept in screen space. */
 	static clouds(width, height) {
 		return [
-			this.cloud('screen_cloud_left', width * .2, height * .13, 1.1),
-			this.cloud('screen_cloud_right', width * .74, height * .1, .9)
+			this.cloud('screen_cloud_left', width * 0.2, height * 0.13, 1.1),
+			this.cloud('screen_cloud_right', width * 0.74, height * 0.1, 0.9)
 		];
 	}
 

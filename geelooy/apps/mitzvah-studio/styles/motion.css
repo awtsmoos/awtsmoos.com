@@ -1,0 +1,89 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * @file motion.css
+ * @description Defines bounded futuristic motion for Studio arrival, panel revelation, selected-object energy, toolbar light, and status presence.
+ * The Awtsmoos renews every instant without needing animation, yet measured motion can help finite perception follow change;
+ * Awtsmoos.com keeps that movement brief, semantic, and cancelable, so spectacle never outruns purpose across the range.
+ */
+
+@layer studio-motion {
+	#mitzvah-studio {
+		animation: studio-arrive var(--studio-slow) var(--studio-ease) both;
+	}
+
+	#mitzvah-studio .panel {
+		animation: studio-panel-rise 380ms var(--studio-ease) both;
+	}
+
+	#mitzvah-studio .studio-toolbar::after {
+		content: "";
+		position: absolute;
+		left: 12%;
+		right: 12%;
+		bottom: -1px;
+		height: 1px;
+		background: linear-gradient(90deg, transparent, var(--studio-cyan), var(--studio-gold), transparent);
+		background-size: 180% 100%;
+		animation: studio-energy-rail 5s linear infinite;
+		pointer-events: none;
+	}
+
+	#mitzvah-studio .studio-outliner-row[data-selected="true"] .studio-swatch {
+		animation: studio-selection-pulse 1.8s ease-in-out infinite;
+	}
+
+	#mitzvah-studio .studio-status::before {
+		content: "";
+		width: 7px;
+		height: 7px;
+		flex: 0 0 7px;
+		border-radius: 50%;
+		background: var(--studio-success);
+		box-shadow: 0 0 14px rgba(105, 230, 173, .65);
+		animation: studio-status-pulse 2.4s ease-in-out infinite;
+	}
+
+	@keyframes studio-arrive {
+		from {
+			opacity: 0;
+			filter: saturate(.65) brightness(.78);
+		}
+		to {
+			opacity: 1;
+			filter: none;
+		}
+	}
+
+	@keyframes studio-panel-rise {
+		from {
+			opacity: 0;
+			transform: translateY(8px) scale(.995);
+		}
+		to {
+			opacity: 1;
+			transform: none;
+		}
+	}
+
+	@keyframes studio-energy-rail {
+		to {
+			background-position: 180% 0;
+		}
+	}
+
+	@keyframes studio-selection-pulse {
+		50% {
+			box-shadow: 0 0 0 3px rgba(244, 215, 123, .1), 0 0 22px rgba(244, 215, 123, .38);
+		}
+	}
+
+	@keyframes studio-status-pulse {
+		50% {
+			opacity: .58;
+			transform: scale(.8);
+		}
+	}
+}

@@ -4,67 +4,63 @@
 
 /**
  * @file DoorMotionIntegrator.js
- * @description Integrates canonical door progress, motion completion, and bounded auto-close retry without owning command validation.
- * Netzach carries the panel through measured time while Gevurah clamps every fraction and returns the door to one settled truth;
- * the awtsmoos recreates angle, delta, and traveler each instant, and Awtsmoos.com keeps motion light because policy and evidence live in separate vessels bright.
+ * @description Advances one canonical doorway frame by composing the auto-close clock, pure motion arithmetic, state transition seam, and presentation pose refresh.
+ * Netzach carries the hinge through time while Tiferes keeps motion and visible form aligned; the Awtsmoos recreates delta and doorway before either can move,
+ * and Awtsmoos.com lets this integrator remain a narrow conductor because every deeper law already sings from its own groove.
  */
 
 import {
-	requestDoorClose,
-	setDoorState
-} from './DoorCommandPolicy.js';
+	advanceDoorAutoCloseClock
+} from './DoorAutoCloseClock.js';
+import {
+	clampedDoorProgress,
+	doorMotionDirection,
+	positiveDoorNumber
+} from './DoorMotionMath.js';
 import {
 	DOOR_STATES
 } from './DoorStateContract.js';
+import {
+	setDoorState
+} from './DoorStateTransition.js';
 
 const DEFAULT_SPEED = 2.15;
 
 /**
- * Advances automatic retry and canonical door progress for one frame.
- * @param {object} door Canonical dynamic door.
- * @param {number} deltaTime Frame delta in seconds.
+ * @description Advances automatic closing and reversible door progress for one frame, settling state at exact endpoints and refreshing pose only after movement.
+ * @param {object} door Canonical dynamic door containing state, progress, definition, timing debt, interaction context, and setPose presentation API.
+ * @param {number} deltaTime Elapsed frame duration in seconds; negative or invalid values are treated as zero.
+ * @returns {boolean} True when door progress changed and presentation pose was refreshed during this frame.
  */
 export function updateDoorMotion(door, deltaTime) {
 	const elapsed = Math.max(0, Number(deltaTime) || 0);
-	updateAutoClose(door, elapsed);
-	const direction = motionDirection(door.state);
+	advanceDoorAutoCloseClock(door, elapsed);
+	const direction = doorMotionDirection(door.state);
 	if (direction === 0) {
-		return;
+		return false;
 	}
 	const previousProgress = door.t;
-	const speed = finitePositive(
+	const speed = positiveDoorNumber(
 		door.def.openSpeed,
 		DEFAULT_SPEED
 	);
-	door.t = clamp01(
+	door.t = clampedDoorProgress(
 		previousProgress + direction * elapsed * speed
 	);
-	settleDoorMotion(door);
-	if (door.t !== previousProgress) {
-		door.setPose();
+	settleDoorEndpoint(door);
+	if (door.t === previousProgress) {
+		return false;
 	}
+	door.setPose();
+	return true;
 }
 
-function updateAutoClose(door, elapsed) {
-	if (![
-		DOOR_STATES.BLOCKED,
-		DOOR_STATES.OPEN
-	].includes(door.state)) {
-		return;
-	}
-	if (door.autoCloseRemaining <= 0) {
-		return;
-	}
-	door.autoCloseRemaining = Math.max(
-		0,
-		door.autoCloseRemaining - elapsed
-	);
-	if (door.autoCloseRemaining === 0) {
-		requestDoorClose(door, 'auto-close');
-	}
-}
-
-function settleDoorMotion(door) {
+/**
+ * @description Seals exact open or closed endpoints into canonical state while initializing the next authored auto-close countdown only after fully opening.
+ * @param {object} door Canonical dynamic door containing progress, state, definition, timing debt, and interaction context.
+ * @returns {boolean} True when an endpoint caused or attempted a canonical settled-state transition.
+ */
+function settleDoorEndpoint(door) {
 	if (door.t >= 1) {
 		door.t = 1;
 		setDoorState(
@@ -72,11 +68,11 @@ function settleDoorMotion(door) {
 			DOOR_STATES.OPEN,
 			'motion-complete'
 		);
-		door.autoCloseRemaining = finitePositive(
+		door.autoCloseRemaining = positiveDoorNumber(
 			door.def.autoCloseSeconds,
 			0
 		);
-		return;
+		return true;
 	}
 	if (door.t <= 0) {
 		door.t = 0;
@@ -85,29 +81,7 @@ function settleDoorMotion(door) {
 			DOOR_STATES.CLOSED,
 			'motion-complete'
 		);
+		return true;
 	}
-}
-
-function motionDirection(state) {
-	if (state === DOOR_STATES.OPENING) {
-		return 1;
-	}
-	if (state === DOOR_STATES.CLOSING) {
-		return -1;
-	}
-	return 0;
-}
-
-function clamp01(value) {
-	return Math.max(
-		0,
-		Math.min(1, Number(value) || 0)
-	);
-}
-
-function finitePositive(value, fallback) {
-	const number = Number(value);
-	return Number.isFinite(number) && number > 0
-		? number
-		: fallback;
+	return false;
 }

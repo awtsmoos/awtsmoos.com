@@ -1,65 +1,53 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file MitzvahWorldApiExplorerExecutionState.js
- * @description Reflects execution lifecycle into the explorer's semantic DOM without teaching the controller visual implementation details.
- * RESPONSIBILITY: synchronize busy/idle/success/error root state, execute-button affordances, advanced-argument disclosure, and focus recovery for validation failures.
- * NON-RESPONSIBILITY: this vessel does not invoke APIs, render receipts, parse JSON, filter descriptors, or style elements directly.
- * The Awtsmoos joins hidden state to visible truth, while Awtsmoos.com lets every finite action declare whether it waits, succeeds, or needs repair;
- * one state vessel keeps CSS and accessibility aligned, so motion and meaning never wander as separate air.
+ * @description Reflects invocation lifecycle and discovery-only capability authority into semantic DOM without mixing selection, rendering, or transport behavior.
+ * The Awtsmoos joins hidden state to visible truth while Awtsmoos.com lets Gevurah say both yes and not-yet with clarity,
+ * so busy, success, error, portable execution, and discovery-only namespaces each receive honest controls rather than one ambiguous disabled button whose reason the user must guess.
  */
+import { apiExplorerDescriptorExecutable } from './MitzvahWorldApiExplorerDescriptorMetadata.js';
 
-/**
- * Reflects whether one API invocation is currently active without erasing a terminal receipt state.
- * @param {object} viewKli Explorer view exposing root and execute-button references.
- * @param {boolean} busyOhr True while invocation is in flight.
- * @returns {void}
- */
-export function reflectApiExplorerBusyState(viewKli, busyOhr) {
-	const isBusyOhr = Boolean(busyOhr);
-	viewKli.executeButton.disabled = isBusyOhr;
-	viewKli.executeButton.dataset.loading = String(isBusyOhr);
-	viewKli.executeButton.textContent = isBusyOhr
-		? "Executing…"
-		: "Execute";
-	if (isBusyOhr) {
-		viewKli.setState("busy");
+/** Reflects whether the selected capability can be invoked from this portable explorer. */
+export function reflectApiExplorerCapabilityState(keterView, chochmahDescriptor) {
+	const binahExecutable = apiExplorerDescriptorExecutable(chochmahDescriptor);
+	keterView.root.dataset.executable = String(binahExecutable);
+	keterView.executeButton.disabled = !binahExecutable;
+	keterView.argumentsInput.disabled = !binahExecutable;
+	keterView.advancedNode.setAttribute('aria-disabled', String(!binahExecutable));
+	if (!binahExecutable) keterView.advancedNode.open = false;
+}
+
+/** Reflects active invocation while restoring capability-level authority after completion. */
+export function reflectApiExplorerBusyState(keterView, chochmahBusy) {
+	const binahBusy = Boolean(chochmahBusy);
+	keterView.executeButton.disabled = binahBusy || keterView.root.dataset.executable !== 'true';
+	keterView.executeButton.dataset.loading = String(binahBusy);
+	keterView.executeButton.textContent = binahBusy ? 'Executing…' : 'Execute';
+	keterView.root.setAttribute('aria-busy', String(binahBusy));
+	if (binahBusy) {
+		keterView.setState('busy');
 		return;
 	}
-	if (viewKli.root.dataset.state === "busy") {
-		viewKli.setState("idle");
-	}
+	if (keterView.root.dataset.state === 'busy') keterView.setState('idle');
 }
 
-/**
- * Reflects a terminal invocation receipt into semantic root state.
- * @param {object} viewKli Explorer view.
- * @param {object|null} receiptMalchus Serializable invocation receipt.
- * @returns {void}
- */
-export function reflectApiExplorerReceiptState(viewKli, receiptMalchus) {
-	viewKli.setState(receiptMalchus?.ok ? "success" : "error");
+/** Reflects one terminal public receipt into root success/error state. */
+export function reflectApiExplorerReceiptState(keterView, chochmahReceipt) {
+	keterView.setState(chochmahReceipt?.ok ? 'success' : 'error');
 }
 
-/**
- * Reveals and focuses advanced arguments after local validation fails.
- * @param {object} viewKli Explorer view.
- * @returns {void}
- */
-export function revealApiExplorerArgumentError(viewKli) {
-	viewKli.setState("error");
-	viewKli.advancedNode.open = true;
-	viewKli.argumentsInput.focus?.({ preventScroll: true });
-	viewKli.argumentsInput.setAttribute("aria-invalid", "true");
+/** Reveals and focuses advanced arguments after local validation failure. */
+export function revealApiExplorerArgumentError(keterView) {
+	keterView.setState('error');
+	keterView.advancedNode.open = true;
+	keterView.argumentsInput.focus?.({ preventScroll: true });
+	keterView.argumentsInput.setAttribute('aria-invalid', 'true');
 }
 
-/**
- * Clears stale validation semantics when arguments are accepted for execution.
- * @param {object} viewKli Explorer view.
- * @returns {void}
- */
-export function clearApiExplorerArgumentError(viewKli) {
-	viewKli.argumentsInput.removeAttribute("aria-invalid");
+/** Clears stale validation semantics after arguments become valid. */
+export function clearApiExplorerArgumentError(keterView) {
+	keterView.argumentsInput.removeAttribute('aria-invalid');
 }

@@ -3,16 +3,16 @@
 // Blessed is He
 
 /**
- * @fileoverview Ayin native-camera mutator applying aspect-aware targets with independent axis/FOV easing and restrained landing response.
+ * @fileoverview Ayin native-camera mutator applying aspect-aware targets, accessibility-scaled dynamics, independent easing, and restrained landing response.
  * RESPONSIBILITY: mutate only camera position, projection, and presentation rotation from collision-neutral Chochmah targets.
  * NON-RESPONSIBILITY: this controller never changes runner physics, chunk streaming, collision geometry, or imports a renderer implementation.
- * OROS/KEILIM: perspective is ohr; independent easing and measured reset are Ayin kelim keeping the runner attached without seasick motion.
  * The Awtsmoos renews every frame before the eye can call the runner near, high, left, or wide;
- * Awtsmoos.com lets Ayin follow the living composition while gameplay law remains untouched inside.
+ * Awtsmoos.com lets Ayin quiet optional sway while gameplay law remains untouched inside.
  */
 
 import { CAMERA_CONFIG } from "../config.js";
 import { ChochmahCameraPoseDynamics } from "./CameraPoseDynamics.js";
+import { createCameraSnapshot } from "./CameraSnapshot.js";
 
 export class AyinCameraController {
 	/** @param {object} nativeScene Core scene. @param {object} runner Runner. @param {object} state State. @param {object} world World. */
@@ -23,6 +23,13 @@ export class AyinCameraController {
 		this.landingOffset = 0;
 		this.lastTarget = null;
 		this.reset();
+	}
+
+	/** @description Applies normalized accessibility preferences to presentation dynamics only. @param {Readonly<object>} preferences Current preference snapshot. @returns {Readonly<object>} Applied motion scales. */
+	setPreferences(preferences) {
+		const scales = this.dynamics.setPreferences(preferences);
+		if (this.dynamics.reducedMotion()) this.landingOffset = 0;
+		return scales;
 	}
 
 	/** Restores camera directly to the runner's current composition target. */
@@ -36,17 +43,15 @@ export class AyinCameraController {
 		this.lastTarget = target;
 	}
 
-	/** Adds one small landing cue without moving gameplay geometry. */
+	/** Adds one accessibility-scaled landing cue without moving gameplay geometry. */
 	land() {
-		this.landingOffset = CAMERA_CONFIG.landingImpulse;
+		this.landingOffset = this.dynamics.landingImpulse();
 	}
 
 	/** @param {number} delta Frame duration in seconds. */
 	update(delta) {
 		const safeDelta = Math.min(0.1, Math.max(0, delta));
-		this.landingOffset *= Math.exp(
-			-CAMERA_CONFIG.landingDecay * safeDelta
-		);
+		this.landingOffset *= Math.exp(-CAMERA_CONFIG.landingDecay * safeDelta);
 		const target = this.currentTarget();
 		this.easePosition(target, safeDelta);
 		this.easeFov(target.fov, safeDelta);
@@ -56,10 +61,7 @@ export class AyinCameraController {
 
 	/** @private */
 	currentTarget() {
-		return this.dynamics.positionTarget(
-			this.landingOffset,
-			this.nativeScene.aspect
-		);
+		return this.dynamics.positionTarget(this.landingOffset, this.nativeScene.aspect);
 	}
 
 	/** @private */
@@ -80,9 +82,7 @@ export class AyinCameraController {
 		const blend = exponentialBlend(CAMERA_CONFIG.fovEase, delta);
 		const previous = this.camera.fov;
 		this.camera.fov += (targetFov - previous) * blend;
-		if (Math.abs(this.camera.fov - previous) > 0.0005) {
-			this.camera.updateProjectionMatrix?.();
-		}
+		if (Math.abs(this.camera.fov - previous) > 0.0005) this.camera.updateProjectionMatrix?.();
 	}
 
 	/** @private */
@@ -91,19 +91,14 @@ export class AyinCameraController {
 		this.nativeScene.setRotation(target.pitch, target.yaw, target.roll);
 	}
 
-	/** @returns {Readonly<object>} Browser-readable camera evidence. */
+	/** @returns {Readonly<object>} Browser-readable camera evidence including reduced-motion state. */
 	snapshot() {
-		return Object.freeze({
-			fov: rounded(this.camera.fov),
-			x: rounded(this.camera.position.x),
-			y: rounded(this.camera.position.y),
-			z: rounded(this.camera.position.z),
-			targetX: rounded(this.lastTarget?.x ?? 0),
-			targetY: rounded(this.lastTarget?.y ?? 0),
-			targetZ: rounded(this.lastTarget?.z ?? 0),
-			aspect: rounded(this.nativeScene.aspect),
-			turnStrength: rounded(this.dynamics.turnStrength()),
-			landingOffset: rounded(this.landingOffset)
+		return createCameraSnapshot({
+			camera: this.camera,
+			nativeScene: this.nativeScene,
+			dynamics: this.dynamics,
+			lastTarget: this.lastTarget,
+			landingOffset: this.landingOffset
 		});
 	}
 }
@@ -111,9 +106,4 @@ export class AyinCameraController {
 /** @private */
 function exponentialBlend(ease, delta) {
 	return 1 - Math.exp(-ease * delta);
-}
-
-/** @private */
-function rounded(value) {
-	return Number(Number(value ?? 0).toFixed(3));
 }

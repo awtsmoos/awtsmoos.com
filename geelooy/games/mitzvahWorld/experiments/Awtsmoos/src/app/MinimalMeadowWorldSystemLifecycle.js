@@ -1,28 +1,21 @@
 //B"H
-//Boruch Hashem
-//Blessed is He
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @file MinimalMeadowWorldSystemLifecycle.js
- * @description Advances gameplay-critical world systems immediately while visual-only atmosphere follows a shared lower-cost cadence.
- * Netzach keeps combat, enemies, quests, regions, and traveler truth immediate while Hod lets water and motes breathe on a gentler frame;
- * the Awtsmoos sustains every world-system vessel each instant, and Awtsmoos.com spends finite frame labor according to gameplay need and name.
+ * @description Advances gameplay-critical world systems while visual-only atmosphere follows lower-cost cadence; adaptive quality remains owned once by the core frame instead of being double-counted here.
+ * Netzach keeps combat and traveler truth immediate while Hod lets water and motes breathe gently; the Awtsmoos sustains every vessel each instant, and Awtsmoos.com spends each finite update exactly once for a smoother living stream.
  */
 
 import {
 	MinimalMeadowPresentationCadence
 } from './MinimalMeadowPresentationCadence.js';
 
-/**
- * Advances the enriched world while hit-stop scales only combat cadence.
- * @param {object} runtime MitzvahWorld runtime.
- * @param {number} deltaSeconds Display-frame duration in seconds.
- */
+/** Advances enriched world systems while hit-stop scales only combat cadence. */
 export function updateMinimalMeadowWorldSystems(runtime, deltaSeconds) {
 	const combatDelta = runtime.combatImpact?.scaleCombatDelta?.(deltaSeconds)
 		?? deltaSeconds;
-
-	runtime.adaptiveQuality?.update?.(deltaSeconds);
 	presentationCadence(runtime).update(runtime, deltaSeconds);
 	runtime.expansion?.update?.();
 	runtime.expansionLandmarks?.update?.();
@@ -36,10 +29,7 @@ export function updateMinimalMeadowWorldSystems(runtime, deltaSeconds) {
 	runtime.verticalSlice?.update?.(deltaSeconds);
 }
 
-/**
- * Destroys every owned world-system vessel and clears retained public handles.
- * @param {object} runtime MitzvahWorld runtime.
- */
+/** Destroys every owned world-system vessel and clears retained public handles. */
 export function destroyMinimalMeadowWorldSystems(runtime) {
 	runtime.coreMechanics?.destroy?.();
 	runtime.verticalSlice?.destroy?.();
@@ -50,11 +40,9 @@ export function destroyMinimalMeadowWorldSystems(runtime) {
 	runtime.questHud?.destroy?.();
 	runtime.questStore?.destroy?.();
 	runtime.enemies?.clearAll?.();
-
 	for (const system of enrichmentSystems(runtime)) {
 		system?.destroy?.();
 	}
-
 	runtime.friendlyNpcs?.destroy?.();
 	runtime.questUi?.destroy?.();
 	runtime.quest?.destroy?.();
@@ -66,6 +54,7 @@ export function destroyMinimalMeadowWorldSystems(runtime) {
 	clearWorldHandles(runtime);
 }
 
+/** Lazily creates the presentation cadence shared by visual-only systems. */
 function presentationCadence(runtime) {
 	if (!runtime.presentationCadence) {
 		runtime.presentationCadence = new MinimalMeadowPresentationCadence();
@@ -73,6 +62,7 @@ function presentationCadence(runtime) {
 	return runtime.presentationCadence;
 }
 
+/** Returns world enrichment systems whose lifecycle belongs to this coordinator. */
 function enrichmentSystems(runtime) {
 	return [
 		runtime.ambientMotes,
@@ -83,6 +73,7 @@ function enrichmentSystems(runtime) {
 	];
 }
 
+/** Clears retained handles after subsystem destruction. */
 function clearWorldHandles(runtime) {
 	runtime.ambientMotes = null;
 	runtime.localCombatMastery = null;

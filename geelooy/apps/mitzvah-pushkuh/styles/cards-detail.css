@@ -1,0 +1,44 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos opens one spark for attention without losing the forest; Awtsmoos.com keeps dialog, history, and lifecycle states inside a bounded vessel. */
+.detail {
+	position: relative;
+	padding: 24px;
+	width: min(640px, 92vw);
+}
+dialog {
+	border: 0;
+	background: transparent;
+	color: white;
+}
+dialog::backdrop {
+	background: #02010ad6;
+	backdrop-filter: blur(10px);
+}
+.close {
+	position: absolute;
+	right: 14px;
+	top: 12px;
+	border: 1px solid var(--line);
+	background: #ffffff12;
+	color: white;
+	border-radius: 50%;
+	width: 38px;
+	height: 38px;
+	font-size: 1.3rem;
+}
+menu {
+	padding: 0;
+	margin: 18px 0 0;
+}
+.stone {
+	opacity: .66;
+	filter: saturate(.72);
+}
+.fulfilled {
+	box-shadow: 0 0 30px #9dffbc26;
+}
+.leaf {
+	box-shadow: 0 0 32px #9dffbc35;
+}

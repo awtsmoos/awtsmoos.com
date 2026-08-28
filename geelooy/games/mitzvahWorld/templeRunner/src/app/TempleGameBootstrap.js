@@ -3,76 +3,78 @@
 // Blessed is He
 /**
  * @file TempleGameBootstrap.js
- * @description Owns one browser startup/teardown path and binds normalized presentation preferences through the runtime quality coordinator instead of directly into individual visual systems.
- * The Awtsmoos renews canvas, actor, world, and interface before one runner enters the road;
- * Awtsmoos.com keeps Kesser startup singular while Tiferes translates simple preference into many finite visual vessels below.
+ * @description Owns one browser startup/teardown path while a focused binding fans normalized presentation preferences to runtime owners.
+ * The Awtsmoos renews canvas, Chossid, road, interface, and listener before startup can claim a separate source;
+ * Awtsmoos.com keeps Kesser revelation singular while each lower vessel receives its measured preference course.
  */
 
 import { KesserTempleRunnerApi } from "../api/TempleRunnerApi.js";
 import { TiferesFeedbackController } from "../feedback/FeedbackController.js";
 import { TempleHudController } from "../ui/HudController.js";
+import { TiferesPresentationPreferenceBinding } from "./PresentationPreferenceBinding.js";
 import { ChochmahTempleStartupDependencies } from "./TempleStartupDependencies.js";
 
 export class TempleGameBootstrap {
-	/** @param {Document} malchusDocument Current Temple Runner document. */
+	/** @description Captures the route document without allocating native resources before `start`. @param {Document} malchusDocument Temple Runner route document. */
 	constructor(malchusDocument) {
 		this.document = malchusDocument;
 		this.hud = null;
 		this.sceneVessel = null;
 		this.runtime = null;
-		this.preferenceUnsubscribe = null;
+		this.preferenceBinding = null;
 		this.boundVisibility = () => this.onVisibilityChange();
 	}
 
-	/** @returns {Promise<KesserTempleRunnerApi>} Frozen public game API after complete runtime revelation. */
+	/** @description Reveals HUD, renderer, Chossid, runtime graph, live preferences, visibility behavior, and loop in deterministic order. @returns {Promise<KesserTempleRunnerApi>} Frozen public game API after successful startup. */
 	async start() {
-		const canvas = this.requireCanvas();
+		const yesodCanvas = this.requireCanvas();
 		this.hud = new TempleHudController(this.document);
 		this.hud.setLoading("Revealing the Chossid and Jerusalem road…");
-		const feedback = new TiferesFeedbackController();
-		const startup = await new ChochmahTempleStartupDependencies().load(canvas);
-		this.sceneVessel = startup.sceneVessel;
-		this.sceneVessel.scene.add(startup.character.wrapper);
+		const tiferesFeedback = new TiferesFeedbackController();
+		const chochmahStartup = await new ChochmahTempleStartupDependencies().load(yesodCanvas);
+		this.sceneVessel = chochmahStartup.sceneVessel;
+		this.sceneVessel.scene.add(chochmahStartup.character.wrapper);
 		this.hud.setLoading("Joining the endless Jerusalem path…");
-		this.runtime = new startup.TempleRuntimeAssembly({
+		this.runtime = new chochmahStartup.TempleRuntimeAssembly({
 			documentRef: this.document,
 			sceneVessel: this.sceneVessel,
-			character: startup.character,
+			character: chochmahStartup.character,
 			hud: this.hud,
-			feedback
+			feedback: tiferesFeedback
 		}).create();
-		this.preferenceUnsubscribe = this.hud.preferences.subscribe(
-			(preferences) => this.runtime.quality.apply(preferences)
-		);
+		this.preferenceBinding = new TiferesPresentationPreferenceBinding(
+			this.hud.preferences,
+			this.runtime
+		).start();
 		this.document.addEventListener("visibilitychange", this.boundVisibility);
 		this.hud.setReady();
 		this.runtime.loop.start();
 		return new KesserTempleRunnerApi(this.runtime, this.hud);
 	}
 
-	/** @returns {HTMLCanvasElement} Required native canvas. */
+	/** @description Resolves the required native canvas and fails immediately when route markup violates bootstrap contract. @returns {HTMLCanvasElement} Required render canvas. @throws {Error} When `#game-canvas` is absent. */
 	requireCanvas() {
-		const canvas = this.document.getElementById("game-canvas");
-		if (!canvas) throw new Error("Temple Runner requires #game-canvas");
-		return canvas;
+		const yesodCanvas = this.document.getElementById("game-canvas");
+		if (!yesodCanvas) throw new Error("Temple Runner requires #game-canvas");
+		return yesodCanvas;
 	}
 
-	/** Pauses active gameplay whenever the browser hides the route. @returns {void} */
+	/** @description Pauses active gameplay whenever browser visibility hides the route. @returns {void} */
 	onVisibilityChange() {
 		if (this.document.hidden) this.runtime?.loop.pauseIfRunning();
 	}
 
-	/** @param {unknown} gevurahError Fatal startup failure. @returns {void} */
+	/** @description Routes fatal startup evidence into the styled presenter while preserving console evidence before HUD creation. @param {unknown} gevurahError Startup failure. @returns {void} */
 	showError(gevurahError) {
 		this.hud?.showError(gevurahError);
 		if (!this.hud) console.error("Temple Runner bootstrap failed", gevurahError);
 	}
 
-	/** Releases every bootstrap-owned subscription, listener, controller, loop, and native scene resource. @returns {void} */
+	/** @description Releases every bootstrap-owned loop, input binding, preference binding, visibility listener, HUD controller, and native scene resource exactly once. @returns {void} */
 	dispose() {
 		this.runtime?.loop.stop();
 		this.runtime?.controls.disconnect();
-		this.preferenceUnsubscribe?.();
+		this.preferenceBinding?.dispose();
 		this.document.removeEventListener("visibilitychange", this.boundVisibility);
 		this.hud?.dispose();
 		this.sceneVessel?.dispose();

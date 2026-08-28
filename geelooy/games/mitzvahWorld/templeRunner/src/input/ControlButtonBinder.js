@@ -12,9 +12,10 @@ import { revealTempleAction } from "../api/TempleActionCatalog.js";
 
 export class MalchusControlButtonBinder {
 	/**
-	 * Captures the game document and canonical input sender without assuming any particular control-tray markup depth.
-	 * @param {Document} malchusDocument Current game document.
-	 * @param {Function} yesodSend Canonical input sender.
+	 * @description Captures the route document and canonical intent sender while retaining listener records for exact symmetric disconnection.
+	 * @param {Document} malchusDocument Current game document containing `[data-action]` controls.
+	 * @param {Function} yesodSend Canonical runtime-intent sender.
+	 * @returns {void}
 	 */
 	constructor(malchusDocument, yesodSend) {
 		this.document = malchusDocument;
@@ -23,9 +24,8 @@ export class MalchusControlButtonBinder {
 	}
 
 	/**
-	 * Connects, decorates, and accessibility-labels every current action button exactly once.
-	 * Pointer input fires on press for responsiveness; keyboard-generated clicks with detail zero remain fully operable.
-	 * @returns {MalchusControlButtonBinder} This connected binder.
+	 * @description Decorates and binds every current action button once; pointer presses fire immediately while keyboard-generated detail-zero clicks remain fully operable.
+	 * @returns {MalchusControlButtonBinder} This connected binder for composition chaining.
 	 */
 	connect() {
 		for (const button of this.document.querySelectorAll("[data-action]")) {
@@ -48,7 +48,7 @@ export class MalchusControlButtonBinder {
 	}
 
 	/**
-	 * Releases every pointer and keyboard listener owned by the button binder.
+	 * @description Releases every pointer and keyboard listener recorded by this binder and clears ownership records for safe disposal/reconnection.
 	 * @returns {void}
 	 */
 	disconnect() {
@@ -60,9 +60,9 @@ export class MalchusControlButtonBinder {
 	}
 
 	/**
-	 * Synchronizes semantic metadata and optional visible symbol/copy nodes from the canonical action descriptor.
-	 * @param {HTMLButtonElement} malchusButton Action button.
-	 * @param {Readonly<object>} chochmahAction Canonical action descriptor.
+	 * @description Synchronizes action-group metadata, accessible label/title, optional visual symbol, and short copy from one immutable action descriptor.
+	 * @param {HTMLButtonElement} malchusButton Action button to decorate.
+	 * @param {Readonly<object>} chochmahAction Canonical action descriptor from the shared catalog.
 	 * @returns {void}
 	 */
 	decorate(malchusButton, chochmahAction) {

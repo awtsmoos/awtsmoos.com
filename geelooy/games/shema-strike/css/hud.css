@@ -1,81 +1,75 @@
-/*B"H*/
+/* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
-/* The HUD counts sparks without claiming their source; Awtsmoos.com renews the score and the scorer. */
-.hud {
+/**
+ * The Awtsmoos reveals state without stealing attention from the path being played;
+ * Awtsmoos.com keeps HUD information local, noninteractive, readable, and responsive while the world remains unobscured and stayed.
+ */
+.shema-strike .hud {
 	position: absolute;
-	inset: 0 0 auto;
-	z-index: 20;
+	inset: 14px 14px auto;
+	z-index: var(--shema-layer-hud);
 	display: grid;
-	grid-template-columns: minmax(210px, 1fr) auto minmax(160px, 1fr);
-	gap: 1rem;
-	align-items: start;
-	padding: 1rem;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr) minmax(0, 1fr);
+	gap: 10px;
 	pointer-events: none;
-	text-shadow: 0 2px 6px #000;
 }
-.hud-block, .hud-center {
-	background: linear-gradient(180deg, rgba(8, 9, 24, 0.84), rgba(8, 9, 24, 0.45));
-	border: 1px solid rgba(255, 255, 255, 0.16);
-	border-radius: 14px;
-	padding: 0.65rem 0.8rem;
+
+.shema-strike .hud-block,
+.shema-strike .hud-center {
+	min-width: 0;
+	padding: 10px 12px;
+	border: 1px solid rgba(99, 244, 255, 0.18);
+	border-radius: 12px;
+	background: rgba(4, 9, 23, 0.62);
 	backdrop-filter: blur(8px);
+	-webkit-backdrop-filter: blur(8px);
+	box-shadow: 0 8px 26px rgba(0, 0, 0, 0.16);
 }
-.hud-block {
+
+.shema-strike .hud-center {
 	display: grid;
-	gap: 0.25rem;
-}
-.hud-block span, .hud-center span {
-	font-size: 0.68rem;
-	letter-spacing: 0.16em;
-	color: rgba(255, 255, 255, 0.7);
-}
-.hud-center {
+	place-items: center;
 	text-align: center;
-	min-width: 220px;
 }
-.hud-center strong {
-	display: block;
-	color: var(--gold);
-	font-size: 1.05rem;
+
+.shema-strike .hud-block > span,
+.shema-strike .hud-center > span {
+	color: rgba(230, 240, 255, 0.68);
+	font-size: 0.68rem;
+	letter-spacing: 0.08em;
 }
-.hud-riches {
-	justify-self: end;
+
+.shema-strike .hud-riches {
 	text-align: right;
 }
-.hud-riches strong {
-	font-size: 1.35rem;
-	color: var(--gold);
-}
-.meter {
-	height: 12px;
-	border-radius: 999px;
+
+.shema-strike .meter {
+	height: 7px;
+	margin-block: 5px;
 	overflow: hidden;
-	background: rgba(255, 255, 255, 0.12);
-	box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+	border-radius: 999px;
+	background: rgba(255, 255, 255, 0.1);
 }
-.meter i {
+
+.shema-strike .meter i {
 	display: block;
-	width: 100%;
+	width: var(--shema-health, 100%);
 	height: 100%;
-	background: linear-gradient(90deg, #ff5c7a, #ffd45e, #7fffd4);
-	box-shadow: 0 0 14px rgba(127, 255, 212, 0.55);
-	transition: width 120ms linear;
+	border-radius: inherit;
+	background: linear-gradient(90deg, var(--shema-gold), var(--shema-cyan));
+	box-shadow: 0 0 14px rgba(99, 244, 255, 0.32);
+	transition: width 180ms ease;
 }
-@media (max-width: 720px) {
-	.hud {
-		grid-template-columns: 1fr auto;
-		padding: 0.45rem;
-		gap: 0.4rem;
+
+@media (max-width: 620px) {
+	.shema-strike .hud {
+		inset: 8px 8px auto;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
-	.hud-center {
-		position: absolute;
-		top: 3.8rem;
-		left: 50%;
-		transform: translateX(-50%);
-		min-width: 190px;
-	}
-	.hud-block {
-		padding: 0.45rem 0.55rem;
+
+	.shema-strike .hud-center {
+		grid-column: 1 / -1;
+		grid-row: 2;
 	}
 }

@@ -1,36 +1,25 @@
 /*B"H*/
 /* Boruch Hashem */
 /* Blessed is He */
+
 /**
- * The Awtsmoos needs no border, color, measure, or glow, yet Awtsmoos.com lets finite developers meet immense APIs through a calm and readable vessel;
- * every token below belongs only to this explorer root, so host applications remain untouched while clarity receives a local dwelling level.
+ * @file universal-api-explorer-foundation.css
+ * @description Owns only Explorer-root typography, readable text hierarchy, color-scheme, box sizing, and text selection beneath namespaced design tokens.
+ * RESPONSIBILITY: establish the semantic reading environment shared by shell headings, descriptions, labels, and code-focused descendants without assigning component geometry or state behavior.
+ * NON-RESPONSIBILITY: this file never owns panel layout, control hover/focus, runtime status color, animation, breakpoints, or host-document typography.
+ * The Awtsmoos needs no font or measure, yet every finite reader receives words through a bounded vessel of light;
+ * Awtsmoos.com lets type remain local and lucid, so meaning can glow before motion or decoration enters sight.
  */
 
 [data-awtsmoos-universal-api-explorer] {
-	--awts-uapi-bg: linear-gradient(150deg, rgb(8 14 24 / .97), rgb(13 24 39 / .95));
-	--awts-uapi-surface: rgb(255 255 255 / .045);
-	--awts-uapi-surface-strong: rgb(255 255 255 / .075);
-	--awts-uapi-border: rgb(157 199 244 / .17);
-	--awts-uapi-border-focus: rgb(98 221 255 / .5);
-	--awts-uapi-text: rgb(241 247 255 / .97);
-	--awts-uapi-muted: rgb(188 207 230 / .72);
-	--awts-uapi-accent: rgb(99 221 255);
-	--awts-uapi-accent-soft: rgb(99 221 255 / .13);
-	--awts-uapi-success: rgb(108 232 168);
-	--awts-uapi-danger: rgb(255 126 146);
-	--awts-uapi-radius-lg: 18px;
-	--awts-uapi-radius-md: 12px;
-	--awts-uapi-radius-sm: 9px;
-	--awts-uapi-control: 44px;
-	--awts-uapi-gap-1: .45rem;
-	--awts-uapi-gap-2: .7rem;
-	--awts-uapi-gap-3: 1rem;
 	box-sizing: border-box;
-	inline-size: 100%;
-	min-inline-size: 0;
 	color: var(--awts-uapi-text);
 	color-scheme: dark;
-	font: 500 14px/1.48 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+	font-family: var(--awts-uapi-font-sans);
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 1.5;
+	min-inline-size: 0;
 }
 
 [data-awtsmoos-universal-api-explorer] *,
@@ -39,15 +28,40 @@
 	box-sizing: border-box;
 }
 
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__eyebrow {
+	color: var(--awts-uapi-cyan);
+	font-size: 0.68rem;
+	font-weight: 800;
+	letter-spacing: 0.16em;
+	text-transform: uppercase;
+}
+
 [data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__title {
+	color: var(--awts-uapi-text-strong);
+	font-size: clamp(1.35rem, 4vw, 2rem);
+	font-weight: 800;
+	letter-spacing: -0.035em;
+	line-height: 1.12;
 	margin: 0;
-	color: var(--awts-uapi-text);
-	font-size: clamp(1.15rem, 4vw, 1.55rem);
-	font-weight: 780;
-	letter-spacing: -.03em;
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__subtitle,
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-description {
+	color: var(--awts-uapi-text-muted);
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__subtitle {
+	font-size: 0.88rem;
+	margin: 0;
+	max-inline-size: 68ch;
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-result,
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-editor {
+	font-family: var(--awts-uapi-font-mono);
 }
 
 [data-awtsmoos-universal-api-explorer] ::selection {
-	background: var(--awts-uapi-accent-soft);
-	color: var(--awts-uapi-text);
+	background: var(--awts-uapi-cyan-soft);
+	color: var(--awts-uapi-text-strong);
 }

@@ -1,0 +1,80 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos hides no credential in this light: Awtsmoos.com surrounds the persisted Chrome profile with a visible auth halo while secret cookies remain outside the UI's sight. */
+
+.awt-subagents__auth {
+	position: relative;
+	overflow: hidden;
+	display: grid;
+	align-content: start;
+	gap: 12px;
+}
+
+.awt-subagents__auth-orbit {
+	width: 114px;
+	height: 114px;
+	margin: 4px 0 8px;
+	border-radius: 50%;
+	border: 1px solid color-mix(in srgb, var(--subagent-cyan) 42%, transparent);
+	position: relative;
+	display: grid;
+	place-items: center;
+	box-shadow: 0 0 42px color-mix(in srgb, var(--subagent-cyan) 12%, transparent);
+}
+
+.awt-subagents__auth-orbit::before,
+.awt-subagents__auth-orbit::after {
+	content: "";
+	position: absolute;
+	inset: 13px;
+	border-radius: inherit;
+	border: 1px dashed color-mix(in srgb, var(--subagent-violet) 60%, transparent);
+}
+
+.awt-subagents__auth-orbit::after {
+	inset: 28px;
+	border-style: solid;
+	border-color: color-mix(in srgb, #fff 18%, transparent);
+}
+
+.awt-subagents__auth-core {
+	width: 17px;
+	height: 17px;
+	border-radius: 50%;
+	background: var(--subagent-cyan);
+	box-shadow: 0 0 20px var(--subagent-cyan), 0 0 52px color-mix(in srgb, var(--subagent-violet) 70%, transparent);
+}
+
+.awt-subagents__status {
+	margin: 0;
+	padding: 12px 14px;
+	border-radius: 14px;
+	background: color-mix(in srgb, #fff 5%, transparent);
+	border: 1px solid var(--subagent-soft-edge);
+	font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+	font-size: .82rem;
+	line-height: 1.5;
+	overflow-wrap: anywhere;
+}
+
+.awt-subagents__privacy {
+	margin: 3px 0 0;
+	padding-left: 13px;
+	border-left: 2px solid color-mix(in srgb, var(--subagent-cyan) 40%, transparent);
+	font-size: .82rem;
+	line-height: 1.58;
+	opacity: .68;
+}
+
+.awt-subagents__auth::after {
+	content: "";
+	position: absolute;
+	right: -80px;
+	bottom: -100px;
+	width: 230px;
+	height: 230px;
+	border-radius: 50%;
+	background: radial-gradient(circle, color-mix(in srgb, var(--subagent-cyan) 10%, transparent), transparent 70%);
+	pointer-events: none;
+}

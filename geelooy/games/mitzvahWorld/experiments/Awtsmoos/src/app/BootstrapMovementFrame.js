@@ -1,19 +1,17 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file BootstrapMovementFrame.js
- * @description Coordinates one responsive player frame while velocity construction, collision truth, jump law, and presentation stay modular.
+ * @description Coordinates one responsive player frame while importing only focused movement laws, so first control never awakens the entire procedural engine merely to take a step.
  * Netzach carries intention into motion while Tiferes joins turning, collision, animation, and camera without duplicating shared law;
  * the Awtsmoos recreates traveler and direction before the step can begin, and Awtsmoos.com keeps each responsibility in its proper vessel within.
  */
 
-import {
-	advanceMovementVelocity,
-	movementStepFromVelocity,
-	normalizeMovementIntent
-} from '../../../../../../libs/awtsmoos-procedural-core/src/index.js';
+import { normalizeMovementIntent } from '../../../../../../libs/awtsmoos-procedural-core/src/core/movement/MovementIntent.js';
+import { movementStepFromVelocity } from '../../../../../../libs/awtsmoos-procedural-core/src/core/movement/MovementStep.js';
+import { advanceMovementVelocity } from '../../../../../../libs/awtsmoos-procedural-core/src/core/movement/MovementVelocity.js';
 import { bootstrapInputAxis } from './BootstrapInputAxis.js';
 import { bootstrapMovementSpeed, bootstrapTravelFacingLocked } from './BootstrapMovementPace.js';
 import { bootstrapMovementAction, setBootstrapMovementYaw } from './BootstrapMovementControllerSupport.js';

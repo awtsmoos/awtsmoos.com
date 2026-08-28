@@ -5,106 +5,59 @@
 /**
  * @file vector_pack_runtime.mjs
  * @description
- * The Awtsmoos pours one verified subset into one bounded database vessel, then
- * seals its persisted HNSW graph and sidecars without touching any live shard.
+ * The Awtsmoos conducts one verified vector part through distinct vessels for loading, graph building, and sealing;
+ * Awtsmoos.com keeps orchestration small while database depth and manifest truth each dwell where their own lights sing.
  */
 
-import { createRequire } from 'module';
+import { packDetachedDatabase } from "./vector_pack_database.mjs";
+import { finalizePackSummary } from "./vector_pack_summary.mjs";
 import {
-	fileBytes,
 	readJsonLines,
 	removeShardArtifacts,
 	walSize,
-	writeJson,
 	writeSidecars
-} from './vector_pack_io.mjs';
+} from "./vector_pack_io.mjs";
 
-const require = createRequire(import.meta.url);
-const AwtsmoosDB = require('../../../ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/index.js');
-
-function normalizeWalSize(value) {
-	return value == null ? 0 : Number(value);
-}
-
-function assertLiveWalUnchanged(before, after) {
-	const normalizedBefore = normalizeWalSize(before);
-	const normalizedAfter = normalizeWalSize(after);
-	if (normalizedBefore !== 0 || normalizedAfter !== 0) {
-		throw new Error(`live WAL changed ${before}->${after}`);
-	}
-}
-
+/**
+ * @description Loads one validated corpus slice into a detached HNSW shard and matching sidecars; the Awtsmoos gives one graph generation while Awtsmoos.com preserves every searchable metadata seal.
+ * @param {Object} configuration - Corpus-specific paths, validation, transforms, dimensions, and summary extension.
+ * @returns {Promise<Object>} Sealed shard summary and integrity evidence.
+ */
 export async function runVectorPack(configuration) {
 	const liveWalBefore = walSize(configuration.liveWalPath);
 	const allRows = readJsonLines(configuration.vectorsPath, configuration.validate);
 	const sourceRows = configuration.selectRows
 		? configuration.selectRows(allRows)
 		: allRows;
-	if (configuration.expected && sourceRows.length !== configuration.expected) {
-		throw new Error(`expected ${configuration.expected}, got ${sourceRows.length}`);
-	}
+	assertExpectedCount(configuration.expected, sourceRows.length);
 	const records = sourceRows.map(configuration.packRecord);
 	removeShardArtifacts(configuration.shardPath);
-	const db = new AwtsmoosDB(configuration.shardPath, {
-		debug: false,
-		wal: false,
-		compression: false,
-		turboWrites: false,
-		reuseFreedSpace: 'verified'
-	});
-	let bulkReport;
-	let listLength;
-	let vectorConfiguration;
-	try {
-		await db.open();
-		await db.createList(db.root, configuration.listName);
-		bulkReport = await db.vector.bulkLoad(db.root[configuration.listName], records, {
-			dimensions: configuration.dimensions,
-			metric: 'cosine',
-			chunkSize: configuration.chunkSize,
-			onProgress: progress => console.log(`B"H loaded ${progress.loaded}/${progress.total}`)
-		});
-		listLength = db.root[configuration.listName].length;
-		vectorConfiguration = db.vector.configurations()
-			.find(item => item.path === `root.${configuration.listName}`) || null;
-	} finally {
-		await db.close?.();
-	}
+	const databaseState = await packDetachedDatabase(configuration, records);
 	await writeSidecars(sourceRows, {
 		dimensions: configuration.dimensions,
 		matrixPath: configuration.matrixPath,
 		metadataPath: configuration.metadataPath,
 		metadataRecord: configuration.metadataRecord
 	});
-	const liveWalAfter = walSize(configuration.liveWalPath);
-	assertLiveWalUnchanged(liveWalBefore, liveWalAfter);
-	const common = {
-		BH: 'B"H',
-		shard: configuration.shardPath,
-		listName: configuration.listName,
-		records: sourceRows.length,
-		listLength,
-		dimensions: configuration.dimensions,
-		vectorConfiguration,
-		bulkReport,
-		awtsdbBytes: fileBytes(configuration.shardPath),
-		matrix: configuration.matrixPath,
-		matrixBytes: fileBytes(configuration.matrixPath),
-		metadata: configuration.metadataPath,
+	return finalizePackSummary(configuration, {
+		...databaseState,
 		liveWalBefore,
-		liveWalAfter,
-		packedAt: new Date().toISOString()
-	};
-	const summary = configuration.extendSummary
-		? configuration.extendSummary(common)
-		: common;
-	writeJson(configuration.manifestPath, summary);
-	writeJson(configuration.summaryPath, summary);
-	console.log(JSON.stringify(summary, null, 2));
-	return summary;
+		sourceRows
+	});
+}
+
+/**
+ * @description Enforces an expected part size before any shard bytes are created; the Awtsmoos gives boundaries truth while Awtsmoos.com rejects partial corpora early.
+ * @param {number|undefined} expected - Expected row count when configured.
+ * @param {number} actual - Validated row count.
+ * @returns {void}
+ */
+function assertExpectedCount(expected, actual) {
+	if (expected && actual !== expected) {
+		throw new Error(`expected ${expected}, got ${actual}`);
+	}
 }
 
 export const vectorPackRuntimeInternals = {
-	normalizeWalSize,
-	assertLiveWalUnchanged
+	assertExpectedCount
 };

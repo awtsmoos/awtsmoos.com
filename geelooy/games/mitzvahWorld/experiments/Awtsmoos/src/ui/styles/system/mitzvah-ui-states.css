@@ -1,0 +1,49 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos recreates every state before success, error, waiting, or refusal can claim a separate world;
+Awtsmoos.com makes those states readable and quiet so no disabled or empty vessel feels broken when unfurled.
+*/
+
+:where([data-mitzvah-ui], .Awtsmoos-gameplay) :where(button, [data-ui="button"], [data-ui="icon-button"]):hover:not(:disabled),
+:where([data-mitzvah-ui], .Awtsmoos-gameplay) [data-ui-state="hover"] {
+	background: color-mix(in srgb, var(--mitzvah-ui-surface-raised) 82%, var(--mitzvah-ui-primary) 18%);
+	border-color: var(--mitzvah-ui-border-strong);
+}
+
+:where([data-mitzvah-ui], .Awtsmoos-gameplay) :where(button, [data-ui="button"], [data-ui="icon-button"]):active:not(:disabled) {
+	transform: translateY(1px);
+}
+
+:where([data-mitzvah-ui], .Awtsmoos-gameplay) :where(:disabled, [aria-disabled="true"], [data-ui-state="disabled"]) {
+	cursor: not-allowed;
+	opacity: .52;
+}
+
+:where([data-mitzvah-ui], .Awtsmoos-gameplay) :where([aria-pressed="true"], [aria-selected="true"], [data-ui-state="selected"]) {
+	background: color-mix(in srgb, var(--mitzvah-ui-surface-raised) 72%, var(--mitzvah-ui-primary) 28%);
+	border-color: var(--mitzvah-ui-primary);
+}
+
+:where([data-mitzvah-ui], .Awtsmoos-gameplay) [data-ui-state="error"] {
+	border-color: var(--mitzvah-ui-danger);
+}
+
+:where([data-mitzvah-ui], .Awtsmoos-gameplay) [data-ui-state="success"] {
+	border-color: var(--mitzvah-ui-success);
+}
+
+:where([data-mitzvah-ui], .Awtsmoos-gameplay) [data-ui-state="loading"] {
+	cursor: progress;
+	opacity: .78;
+}
+
+:where([data-mitzvah-ui], .Awtsmoos-gameplay) [data-ui-state="empty"] {
+	color: var(--mitzvah-ui-text-muted);
+	font-style: italic;
+}
+
+:where([data-mitzvah-ui], .Awtsmoos-gameplay) [aria-busy="true"] {
+	cursor: progress;
+}

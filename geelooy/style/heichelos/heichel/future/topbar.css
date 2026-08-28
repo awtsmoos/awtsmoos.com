@@ -1,15 +1,63 @@
-/* B"H — the Heichel roof now names the place, with id/path beneath. */
-.heichel-mobile-navigation .heichel-mobile-topbar { position: fixed; inset: 0 0 auto 0; z-index: 1000; display: grid; grid-template-columns: auto minmax(0,1fr) auto; gap: .62rem; align-items: center; min-height: var(--heichel-topbar-height,4.15rem); padding: max(.52rem,env(safe-area-inset-top)) clamp(.75rem,2vw,1.2rem) .52rem; background: linear-gradient(180deg,#07101d,#040914); border-bottom: 1px solid rgba(91,216,232,.24); box-shadow: 0 .75rem 2rem rgba(0,0,0,.32); transform: translateZ(0); }
-.heichel-mobile-navigation .topbar-icon { align-items: center; background: linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,.028)); border: 1px solid rgba(255,255,255,.14); border-radius: 1rem; color: var(--heichel-ink); cursor: pointer; display: grid; font-size: 1.28rem; font-weight: 950; height: 2.8rem; place-items: center; text-decoration: none; width: 2.8rem; transition: transform 150ms ease,border-color 150ms ease,background 150ms ease; }
-.heichel-mobile-navigation .topbar-icon:hover,.heichel-mobile-navigation .topbar-icon:focus-visible { background: rgba(102,231,255,.14); border-color: rgba(91,216,232,.42); outline: none; transform: translate3d(0,-1px,0); }
-.heichel-mobile-navigation .topbar-title { display: grid; gap: .13rem; line-height: 1.05; min-width: 0; }
-.heichel-mobile-navigation .topbar-title strong { color: #fff; font-size: clamp(1.02rem,3.4vw,1.32rem); font-weight: 1000; letter-spacing: -.035em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.heichel-mobile-navigation .topbar-title small { color: #9fd9e6; font-size: clamp(.62rem,2.15vw,.76rem); font-weight: 900; letter-spacing: .06em; overflow: hidden; text-overflow: ellipsis; text-transform: none; white-space: nowrap; }
-.heichel-mobile-navigation .topbar-title small::before { content: "🔖 "; }
-.heichel-mobile-navigation .topbar-notification-menu { position: relative; z-index: 1010; }
-.heichel-mobile-navigation .topbar-notification-menu summary { cursor: pointer; list-style: none; }
-.heichel-mobile-navigation .topbar-notification-menu summary::-webkit-details-marker { display: none; }
-.heichel-mobile-navigation .topbar-menu-panel { background: #050a15 !important; border: 1px solid rgba(91,216,232,.34); border-radius: 1.05rem; box-shadow: 0 24px 58px rgba(0,0,0,.64), inset 0 1px 0 rgba(255,255,255,.06); display: grid; gap: .42rem; min-width: 13.5rem; padding: .58rem; position: absolute; right: 0; top: calc(100% + .55rem); z-index: 1040; }
-.heichel-mobile-navigation .topbar-menu-panel a { background: #111827; border: 1px solid rgba(255,255,255,.08); border-radius: .88rem; color: var(--heichel-ink); display: block; font-weight: 950; min-height: 2.75rem; padding: .74rem .82rem; text-decoration: none; }
-.heichel-mobile-navigation .topbar-menu-panel a:hover { background: rgba(102,231,255,.14); border-color: rgba(91,216,232,.36); }
-@media (max-width:520px){.heichel-mobile-navigation .heichel-mobile-topbar{gap:.5rem}.heichel-mobile-navigation .topbar-icon{height:2.55rem;width:2.55rem}.heichel-mobile-navigation .topbar-title strong{font-size:1.02rem}}
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives every page one roof whose purpose is clear and never doubled in the same sky;
+ * Awtsmoos.com keeps this legacy Heichel roof only for standalone shells, while the global Geelooy header owns the app nearby.
+ */
+
+body.geelooy-app-shell .heichel-mobile-navigation .heichel-mobile-topbar {
+	display: none;
+	position: static;
+	inset: auto;
+	z-index: auto;
+}
+
+body:not(.geelooy-app-shell) .heichel-mobile-navigation .heichel-mobile-topbar {
+	display: grid;
+	position: sticky;
+	inset: 0 0 auto;
+	z-index: 100;
+	grid-template-columns: minmax(0, 1fr) auto;
+	gap: 0.62rem;
+	align-items: center;
+	min-block-size: var(--heichel-topbar-height, 4.15rem);
+	padding: max(0.52rem, env(safe-area-inset-top)) clamp(0.75rem, 2vw, 1.2rem) 0.52rem;
+	border-block-end: 1px solid rgb(91 216 232 / 24%);
+	background: linear-gradient(180deg, rgb(7 16 29 / 97%), rgb(4 9 20 / 97%));
+	box-shadow: 0 0.75rem 2rem rgb(0 0 0 / 32%);
+}
+
+.heichel-mobile-navigation .topbar-title {
+	display: grid;
+	gap: 0.13rem;
+	min-inline-size: 0;
+	line-height: 1.05;
+}
+
+.heichel-mobile-navigation .topbar-title strong,
+.heichel-mobile-navigation .topbar-title small {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.heichel-mobile-navigation .topbar-title strong {
+	color: rgb(255 255 255);
+	font-size: clamp(1.02rem, 3.4vw, 1.32rem);
+	font-weight: 950;
+	letter-spacing: -0.035em;
+}
+
+.heichel-mobile-navigation .topbar-title small {
+	color: rgb(159 217 230);
+	font-size: clamp(0.62rem, 2.15vw, 0.76rem);
+	font-weight: 800;
+	letter-spacing: 0.03em;
+}
+
+@media (max-width: 520px) {
+	body:not(.geelooy-app-shell) .heichel-mobile-navigation .heichel-mobile-topbar {
+		gap: 0.5rem;
+	}
+}

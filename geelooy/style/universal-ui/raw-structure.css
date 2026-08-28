@@ -1,0 +1,72 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos renews every semantic vessel before layout can make its boundary seen;
+ * Awtsmoos.com keeps fieldsets, figures, addresses, and selection intentional without painting every page with one theme.
+ */
+
+:where(html:not([data-g-ui-raw])) fieldset:not([class]) {
+	min-width: 0;
+	margin: 0 0 1rem;
+	padding: 1rem;
+	border: 1px solid var(--g-line, var(--aw-ui-line));
+	border-radius: var(--aw-ui-radius-lg);
+	background: var(--g-surface, var(--aw-ui-surface));
+}
+
+:where(html:not([data-g-ui-raw])) legend:not([class]) {
+	max-width: 100%;
+	padding-inline: .35rem;
+	color: var(--g-text, var(--aw-ui-text));
+	font-weight: 760;
+	overflow-wrap: anywhere;
+}
+
+:where(html:not([data-g-ui-raw])) figure:not([class]) {
+	max-width: 100%;
+	margin: 0 0 1.25rem;
+}
+
+:where(html:not([data-g-ui-raw])) figcaption:not([class]) {
+	margin-block-start: .55rem;
+	color: var(--g-muted, var(--aw-ui-muted));
+	font-size: .9rem;
+	line-height: 1.5;
+}
+
+:where(html:not([data-g-ui-raw])) address:not([class]) {
+	font-style: normal;
+	color: var(--g-muted, var(--aw-ui-muted));
+}
+
+:where(html:not([data-g-ui-raw])) :where(main, article, section, aside, header, footer, nav) {
+	min-width: 0;
+}
+
+:where(html:not([data-g-ui-raw])) :where([hidden]) {
+	display: none !important;
+}
+
+:where(html:not([data-g-ui-raw])) ::selection {
+	background: color-mix(in srgb, var(--g-accent, var(--aw-ui-accent)) 28%, transparent);
+	color: inherit;
+}
+
+:where(html:not([data-g-ui-raw])) :where([aria-disabled="true"]) {
+	cursor: not-allowed;
+}
+
+:where([data-portal-root]) {
+	box-sizing: border-box;
+	max-width: 100%;
+	color: var(--g-text, var(--aw-ui-text));
+	font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+	line-height: 1.5;
+}
+
+:where([data-portal-root]) *,
+:where([data-portal-root]) *::before,
+:where([data-portal-root]) *::after {
+	box-sizing: inherit;
+}

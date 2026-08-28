@@ -1,39 +1,65 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
  * @module ComposerMobileHierarchy
  * @description
- * The Awtsmoos places identity and common creative acts beside the writing canvas while Awtsmoos.com
- * routes each action into an existing truthful vessel; the publication door says Public because that is its real law.
+ * The Awtsmoos keeps the writing surface quiet: one common media deed stays near the hand,
+ * while Awtsmoos.com gathers rarer creative branches behind a truthful Tools disclosure.
  */
 import { installMobileIdentity } from './mobileIdentity.js';
 
 export const MOBILE_TOOLS = Object.freeze([
-	['reel', '▶', 'Reel'],
 	['media', '▧', 'Media'],
+	['reel', '▶', 'Reel'],
 	['section', '§', 'Section'],
 	['destination', '◇', 'Destination'],
-	['audience', '◎', 'Public'],
-	['preview', '◫', 'Preview']
+	['audience', '◎', 'Audience']
 ]);
 
-/** Installs writing-first tools without changing publication contracts. */
+/** Installs a writing-first tool surface without changing publication contracts. */
 export function installMobileHierarchy() {
 	const contentBody = document.querySelector('.contentPanel .majorPanelBody');
-	if (!contentBody || contentBody.querySelector('.composer-social-tools')) return;
+	if (!contentBody || contentBody.querySelector('.composer-social-tools')) {
+		return;
+	}
 	const title = document.getElementById('title');
-	if (title) title.placeholder = "What's on your mind?";
+	if (title) {
+		title.placeholder = "What's on your mind?";
+	}
 	const identity = installMobileIdentity(contentBody);
 	const navigation = document.createElement('nav');
 	navigation.className = 'composer-social-tools';
 	navigation.setAttribute('aria-label', 'Post creation tools');
-	navigation.innerHTML = MOBILE_TOOLS.map(toolMarkup).join('');
+	navigation.append(createToolButton(MOBILE_TOOLS[0]), createToolMenu(MOBILE_TOOLS.slice(1)));
 	navigation.addEventListener('click', handleToolClick);
 	identity.insertAdjacentElement('afterend', navigation);
 }
 
-function toolMarkup([name, icon, label]) {
+/** @param {readonly [string, string, string]} tool Tool descriptor. */
+function createToolButton(tool) {
+	const wrapper = document.createElement('div');
+	wrapper.innerHTML = toolMarkup(tool).trim();
+	return wrapper.firstElementChild;
+}
+
+/** @param {readonly (readonly [string, string, string])[]} tools Less-common tools. */
+function createToolMenu(tools) {
+	const details = document.createElement('details');
+	details.className = 'composer-tool-menu';
+	const summary = document.createElement('summary');
+	summary.textContent = 'Tools';
+	const panel = document.createElement('div');
+	panel.className = 'composer-tool-menu-grid';
+	for (const tool of tools) {
+		panel.append(createToolButton(tool));
+	}
+	details.append(summary, panel);
+	return details;
+}
+
+export function toolMarkup([name, icon, label]) {
 	return /*html*/`
 		<button type="button" data-composer-tool="${name}" aria-label="${label}">
 			<span aria-hidden="true">${icon}</span>
@@ -42,18 +68,20 @@ function toolMarkup([name, icon, label]) {
 	`;
 }
 
-function handleToolClick(event) {
+export function handleToolClick(event) {
 	const tool = event.target.closest('[data-composer-tool]')?.dataset.composerTool;
-	if (!tool) return;
+	if (!tool) {
+		return;
+	}
 	const actions = {
-		reel: () => document.querySelector('[data-reel-open]')?.click(),
 		media: openMedia,
+		reel: () => document.querySelector('[data-reel-open]')?.click(),
 		section: addSection,
 		destination: () => openPanel('.destinationPanel'),
-		audience: () => openPanel('.publicationPanel'),
-		preview: () => document.getElementById('mobilePreviewButton')?.click()
+		audience: () => openPanel('.publicationPanel')
 	};
 	actions[tool]?.();
+	event.target.closest('.composer-tool-menu')?.removeAttribute('open');
 }
 
 function openMedia() {
@@ -75,5 +103,3 @@ function openPanel(selector) {
 	panel.open = true;
 	panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
-
-export { handleToolClick, toolMarkup };

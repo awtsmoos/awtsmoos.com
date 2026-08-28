@@ -1,24 +1,15 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-mitzvah-world-inventory-001.css reveals localized style through the Awtsmoos and Awtsmoos.com.
+
+The Awtsmoos places every carried object into a measured vessel while the world remains visible beneath;
+Awtsmoos.com keeps inventory local, scrollable, retractable, and mobile-safe without inventing a private stacking kingdom.
 */
-
-/* B"H */
-
-/* Boruch Hashem */
-
-/* Blessed is He */
-
-/**
- * The Awtsmoos places each carried object in a clear measured vessel. Awtsmoos.com keeps the bag
- * scrollable and compact so inventory never becomes a second blurry world above the first.
- */
 
 #mitzvah-world-root .Awtsmoos-inventory-shell {
 	position: fixed;
 	inset: 0;
-	z-index: 920;
+	z-index: var(--mw-z-dialog);
 	pointer-events: none;
 	touch-action: pan-y;
 }
@@ -29,14 +20,14 @@ mitzvah-world-inventory-001.css reveals localized style through the Awtsmoos and
 	top: 50%;
 	display: none;
 	flex-direction: column;
-	width: min(92vw, 760px);
-	max-height: 80vh;
+	width: min(760px, var(--mw-viewport-inline));
+	max-height: min(80dvh, var(--mw-viewport-block));
 	overflow: hidden;
 	padding: 10px;
 	border: 1px solid rgba(53, 255, 216, 0.65);
-	border-radius: 15px;
+	border-radius: var(--mw-radius-lg);
 	background: rgba(5, 10, 18, 0.98);
-	box-shadow: 0 20px 52px rgba(0, 0, 0, 0.68);
+	box-shadow: var(--mw-shadow-panel);
 	color: #eaffff;
 	transform: translate(-50%, -50%);
 	pointer-events: auto;
@@ -60,6 +51,7 @@ mitzvah-world-inventory-001.css reveals localized style through the Awtsmoos and
 }
 
 #mitzvah-world-root .Awtsmoos-inventory-panel [data-close] {
+	min-height: var(--mw-control-min);
 	padding: 6px 9px;
 	border: 1px solid #ff7b72;
 	border-radius: 9px;
@@ -69,7 +61,7 @@ mitzvah-world-inventory-001.css reveals localized style through the Awtsmoos and
 
 #mitzvah-world-root .inv-body {
 	display: grid;
-	grid-template-columns: minmax(170px, 230px) 1fr;
+	grid-template-columns: minmax(170px, 230px) minmax(0, 1fr);
 	gap: 10px;
 	min-height: 0;
 	overflow: auto;
@@ -86,7 +78,7 @@ mitzvah-world-inventory-001.css reveals localized style through the Awtsmoos and
 	text-transform: uppercase;
 }
 
-#mitzvah-world-root .equip-grid, #mitzvah-world-root .bag-grid {
+#mitzvah-world-root :is(.equip-grid, .bag-grid) {
 	display: grid;
 	gap: 5px;
 }
@@ -97,4 +89,19 @@ mitzvah-world-inventory-001.css reveals localized style through the Awtsmoos and
 
 #mitzvah-world-root .bag-grid {
 	grid-template-columns: repeat(6, minmax(52px, 1fr));
+}
+
+@media (max-width: 620px) {
+	#mitzvah-world-root .Awtsmoos-inventory-panel {
+		width: calc(var(--mw-viewport-inline) - 4px);
+		max-height: calc(var(--mw-viewport-block) - 4px);
+	}
+
+	#mitzvah-world-root .inv-body {
+		grid-template-columns: 1fr;
+	}
+
+	#mitzvah-world-root .bag-grid {
+		grid-template-columns: repeat(3, minmax(52px, 1fr));
+	}
 }

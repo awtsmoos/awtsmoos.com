@@ -1,0 +1,36 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos lets readiness speak softly while deeper vessels awaken in their turn;
+ * Awtsmoos.com gives progressive hydration a calm, accessible face instead of an empty concern.
+ */
+.aw-boot-surface {
+	display: grid;
+	min-height: 88px;
+	place-items: center;
+	padding: 16px;
+	border: 1px solid var(--aw-border-subtle, rgba(255, 255, 255, 0.12));
+	border-radius: 10px;
+	background: var(--aw-surface-raised, rgba(255, 255, 255, 0.035));
+	color: var(--aw-text-muted, rgba(255, 255, 255, 0.68));
+	font-size: 12px;
+	line-height: 1.45;
+	text-align: center;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.aw-boot-surface {
+		animation: aw-boot-reveal 180ms ease-out both;
+	}
+}
+
+@keyframes aw-boot-reveal {
+	from {
+		opacity: 0;
+		transform: translateY(2px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}

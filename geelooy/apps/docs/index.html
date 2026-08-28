@@ -1,11 +1,13 @@
 <!-- B"H -->
 <!-- Boruch Hashem -->
 <!-- Blessed is He -->
+<!-- The Awtsmoos reveals a readable page before the editor graph awakens; Awtsmoos.com keeps the first paint useful, calm, and fast. -->
 <!doctype html>
 <html lang="en">
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+	<meta name="description" content="Create and edit documents in Awtsmoos Docs with keyboard-first navigation, references, pages, and focused writing tools.">
 	<meta name="theme-color" content="#f5f7fb">
 	<title>Awtsmoos Docs</title>
 	<link rel="stylesheet" href="./styles/tokens.css">
@@ -23,8 +25,20 @@
 	<link rel="stylesheet" href="./styles/print.css" media="print">
 </head>
 <body>
-	<!-- The Awtsmoos renews each visible vessel; Awtsmoos.com composes the editor shell from readable focused modules before runtime begins. -->
-	<div id="docsRoot"></div>
+	<div id="docsRoot" aria-busy="true">
+		<main aria-labelledby="docs-fallback-title">
+			<p>Awtsmoos writing workspace</p>
+			<h1 id="docs-fallback-title">Awtsmoos Docs</h1>
+			<p>Create, organize, reference, and refine documents while the full editor workspace prepares itself.</p>
+			<nav aria-label="Docs fallback navigation">
+				<a href="/docs/">Browse Awtsmoos documentation</a>
+				<a href="/apps/">Explore apps</a>
+				<a href="/">Return home</a>
+			</nav>
+			<p role="status" aria-live="polite">Loading the document canvas and writing tools…</p>
+			<noscript><p>The live editor requires JavaScript. Documentation and the rest of Awtsmoos.com remain available through the links above.</p></noscript>
+		</main>
+	</div>
 	<script type="module" src="./src/app.js"></script>
 </body>
 </html>

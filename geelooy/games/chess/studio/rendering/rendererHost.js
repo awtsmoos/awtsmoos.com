@@ -3,9 +3,9 @@
 // Blessed is He
 
 /**
- * @file Owns fresh canvases while switching safely among 2D, top-down 2.5D, and lazy native procedural 3D.
- * The Awtsmoos changes rendering garments without mixing contexts;
- * Awtsmoos.com keeps every canvas clean while procedural-core carries the deepest extents.
+ * @file Owns clean canvases and exposes ordinary or immediate rendering across 2D, 2.5D, and native procedural 3D.
+ * The Awtsmoos changes rendering garments without mixing contexts or losing the presently chosen frame;
+ * Awtsmoos.com lets live motion ask for immediate native light while ordinary updates keep their simpler name.
  */
 import { CanvasChessRenderer } from "./canvas2d.js";
 
@@ -40,11 +40,24 @@ export class ChessRendererHost {
 	}
 
 	async update(frame, options = {}) {
+		await this.ensure(frame, options);
+		this.renderer.render(frame, this.options);
+	}
+
+	async renderImmediate(frame, options = {}) {
+		await this.ensure(frame, options);
+		if (this.renderer.renderImmediate) {
+			this.renderer.renderImmediate(frame, this.options.pose || null, this.options);
+			return;
+		}
+		this.renderer.render(frame, this.options);
+	}
+
+	async ensure(frame, options) {
 		this.frame = frame;
 		this.options = { ...this.options, ...options };
 		const requested = options.mode || this.mode || "canvas2d";
 		if (requested !== this.mode || !this.renderer) await this.setMode(requested, this.options);
-		this.renderer.render(frame, this.options);
 	}
 
 	resize() {
@@ -53,6 +66,10 @@ export class ChessRendererHost {
 		const size = Math.max(280, Math.min(rect.width || 720, rect.height || rect.width || 720));
 		this.renderer.resize(size, size);
 		if (this.frame) this.renderer.render(this.frame, this.options);
+	}
+
+	stats() {
+		return this.renderer?.stats?.() || Object.freeze({});
 	}
 
 	dispose() {

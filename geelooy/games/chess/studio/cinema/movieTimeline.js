@@ -1,29 +1,33 @@
 //B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
- * The Awtsmoos renews every movie frame from an exact point in measured time;
- * Awtsmoos.com counts the very frames it will emit so progress and export stay in rhyme.
+ * @file Converts semantic shot plans into deterministic frame-perfect movie time and legal piece-motion progress.
+ * The Awtsmoos renews every encoded frame from one exact instant while camera and moving piece share one measured curve;
+ * Awtsmoos.com counts all frames before encoding so progress, motion, and cinematic meaning never swerve.
  */
 import { interpolatePose } from "../rendering/cameraMath.js";
-import { buildShotPlan } from "./shotPlan.js";
+import { withMoveMotionProgress } from "../rendering/motion/moveMotion.js";
 import { getOutputPreset } from "./moviePresets.js";
+import { buildShotPlan } from "./shotPlan.js";
 
+/** Creates frame counts and exact duration for a semantic shot plan. */
 export function createMovieTimeline(replay, options = {}) {
 	const output = getOutputPreset(options.output);
 	const shots = buildShotPlan(replay, options);
 	const shotFrameCounts = shots.map(shot => framesForShot(shot, output.fps));
 	const frameCount = shotFrameCounts.reduce((sum, count) => sum + count, 0);
-	const duration = frameCount / output.fps;
 	return Object.freeze({
 		output,
 		shots,
 		shotFrameCounts: Object.freeze(shotFrameCounts),
-		duration,
+		duration: frameCount / output.fps,
 		frameCount
 	});
 }
 
+/** Iterates deterministic movie frames in exact encoder order. */
 export function *iterateMovieFrames(timeline, reducedMotion = false) {
 	const frameDuration = 1 / timeline.output.fps;
 	let frameIndex = 0;
@@ -34,7 +38,7 @@ export function *iterateMovieFrames(timeline, reducedMotion = false) {
 			const progress = count === 1 ? 1 : local / (count - 1);
 			const pose = reducedMotion
 				? shot.toPose
-				: interpolatePose(shot.fromPose, shot.toPose, progress, shot.kind === "move" ? "smooth" : "impact");
+				: interpolatePose(shot.fromPose, shot.toPose, progress, easingForShot(shot.kind));
 			yield Object.freeze({
 				index: frameIndex,
 				time: frameIndex * frameDuration,
@@ -43,12 +47,24 @@ export function *iterateMovieFrames(timeline, reducedMotion = false) {
 				shot,
 				frame: shot.frame,
 				pose,
+				motion: motionForFrame(shot, progress, reducedMotion),
 				overlay: shot.overlay,
 				progress
 			});
 			frameIndex++;
 		}
 	}
+}
+
+/** Chooses a semantic motion curve for each beat. */
+function easingForShot(kind) {
+	return kind === "action" || kind === "outro" ? "impact" : "smooth";
+}
+
+/** Preserves final legal state when reduced motion is requested. */
+function motionForFrame(shot, progress, reducedMotion) {
+	if (!shot.motion) return null;
+	return withMoveMotionProgress(shot.motion, reducedMotion ? 1 : progress);
 }
 
 function framesForShot(shot, fps) {

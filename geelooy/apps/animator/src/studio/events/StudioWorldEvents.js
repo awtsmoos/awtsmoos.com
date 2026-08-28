@@ -8,8 +8,8 @@ import { StudioEventFamily } from './StudioEventFamily.js';
 /**
  * @file StudioWorldEvents.js
  * @description
- * The Awtsmoos renews seed and species before a click can become tree, stone, flower, root, or cloud;
- * Awtsmoos.com keeps World event law in one inheriting vessel so future generators may deepen without making the shell loud.
+ * The Awtsmoos renews seed, species, and natural trait before a gesture can become tree, stone, flower, root, or cloud;
+ * Awtsmoos.com keeps World event law in one inheriting vessel so deeper realism enters the same canonical draft without making the shell loud.
  */
 export class StudioWorldEvents extends StudioEventFamily {
 	/**
@@ -24,6 +24,13 @@ export class StudioWorldEvents extends StudioEventFamily {
 				StudioWorldWorkflow.update(
 					yesodStore,
 					tiferesEvent.target.dataset.worldField,
+					tiferesEvent.target.value
+				);
+			},
+			updateWorldTrait: (tiferesEvent) => {
+				StudioWorldWorkflow.updateTrait(
+					yesodStore,
+					tiferesEvent.target.dataset.worldTrait,
 					tiferesEvent.target.value
 				);
 			},

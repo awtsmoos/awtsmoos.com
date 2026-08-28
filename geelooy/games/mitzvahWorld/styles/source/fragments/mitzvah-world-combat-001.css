@@ -1,41 +1,30 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-mitzvah-world-combat-001.css reveals localized style through the Awtsmoos and Awtsmoos.com.
+
+The Awtsmoos gives every charged deed a measured pulse before it becomes impact; Awtsmoos.com keeps combat visible, tactile,
+and mobile-safe inside one lawful HUD layer where hover, focus, press, cooldown, and reduced motion remain clear without collision.
 */
-
-/* B"H */
-
-/* Boruch Hashem */
-
-/* Blessed is He */
-
-/**
- * @file mitzvah-world-combat.css
- * @description Styles the real charged-cast meter, cooldown-aware hotbar, and selected target frame.
- * The Awtsmoos measures every visible phase without confusion;
- * Awtsmoos.com lets key, icon, cooldown, charge, health, and impact remain legible on every screen.
- */
 
 #mitzvah-world-root .Awtsmoos-combat-host {
 	position: fixed;
 	left: 50%;
-	bottom: max(12px, env(safe-area-inset-bottom));
-	z-index: 840;
+	bottom: var(--mw-safe-bottom);
+	z-index: var(--mw-z-status);
 	width: max-content;
-	max-width: calc(100vw - 20px);
+	max-width: calc(var(--mw-viewport-inline) - 8px);
 	transform: translateX(-50%);
 }
 
 #mitzvah-world-root .Awtsmoos-cast-meter {
 	display: none;
-	width: min(430px, calc(100vw - 32px));
+	width: min(430px, calc(var(--mw-viewport-inline) - 20px));
 	margin: 0 auto 7px;
 	padding: 8px 11px;
 	border: 1px solid rgba(255, 205, 91, 0.58);
-	border-radius: 12px;
+	border-radius: var(--mw-radius-md);
 	background: rgba(20, 9, 5, 0.94);
-	box-shadow: 0 0 24px rgba(255, 105, 23, 0.22), 0 12px 30px rgba(0, 0, 0, 0.45);
+	box-shadow: 0 0 24px rgba(255, 105, 23, 0.22), var(--mw-shadow-control);
 	color: #fff3c4;
 }
 
@@ -64,7 +53,7 @@ mitzvah-world-combat-001.css reveals localized style through the Awtsmoos and Aw
 	height: 100%;
 	background: linear-gradient(90deg, #ff4d0a, #ffd75e, #fff8ca);
 	box-shadow: 0 0 14px #ff7a18;
-	transition: width 60ms linear;
+	transition: width var(--mw-motion-fast) linear;
 }
 
 #mitzvah-world-root .Awtsmoos-cast-meter small {
@@ -76,11 +65,12 @@ mitzvah-world-combat-001.css reveals localized style through the Awtsmoos and Aw
 	display: flex;
 	align-items: center;
 	gap: 5px;
+	max-width: var(--mw-viewport-inline);
 	padding: 6px;
 	border: 1px solid rgba(255, 179, 78, 0.45);
-	border-radius: 15px;
+	border-radius: var(--mw-radius-md);
 	background: rgba(4, 14, 11, 0.94);
-	box-shadow: 0 12px 38px rgba(0, 0, 0, 0.52);
+	box-shadow: var(--mw-shadow-panel);
 }
 
 #mitzvah-world-root .Awtsmoos-combat-bar button {
@@ -94,11 +84,25 @@ mitzvah-world-combat-001.css reveals localized style through the Awtsmoos and Aw
 	color: #fff2c2;
 	cursor: pointer;
 	touch-action: manipulation;
+	transition: transform var(--mw-motion-fast) var(--mw-ease-out), border-color var(--mw-motion-fast) ease, box-shadow var(--mw-motion-fast) ease, filter var(--mw-motion-fast) ease;
+}
+
+@media (hover: hover) {
+	#mitzvah-world-root .Awtsmoos-combat-bar button:hover:not(:disabled) {
+		border-color: rgba(255, 211, 132, 0.62);
+		box-shadow: 0 0 18px rgba(255, 129, 32, 0.18);
+		transform: translateY(-1px);
+	}
 }
 
 #mitzvah-world-root .Awtsmoos-combat-bar button:active:not(:disabled) {
 	transform: scale(0.94);
 	box-shadow: 0 0 18px rgba(255, 129, 32, 0.5);
+}
+
+#mitzvah-world-root .Awtsmoos-combat-bar button:focus-visible {
+	outline: 2px solid #ffe4a2;
+	outline-offset: 3px;
 }
 
 #mitzvah-world-root .Awtsmoos-combat-bar button:disabled {

@@ -1,0 +1,77 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos renews foreground and background before one finite layer may imagine that height belongs to itself;
+Awtsmoos.com gives each owned surface a measured ladder, so drawers, modals, and toasts rise only as far as their local mission requires.
+*/
+[data-awtsmoos-surface] [data-awtsmoos-layer="base"] {
+	position: relative;
+	z-index: var(--aw-surface-layer-base);
+}
+
+[data-awtsmoos-surface] [data-awtsmoos-layer="sticky"] {
+	position: sticky;
+	z-index: var(--aw-surface-layer-sticky);
+}
+
+[data-awtsmoos-surface] [data-awtsmoos-layer="popover"] {
+	position: absolute;
+	z-index: var(--aw-surface-layer-popover);
+	max-inline-size: min(32rem, calc(100% - 1rem));
+	border: 1px solid var(--aw-surface-border);
+	border-radius: var(--aw-surface-radius-md);
+	background: var(--aw-surface-panel-strong);
+	box-shadow: var(--aw-surface-shadow-soft);
+	overscroll-behavior: contain;
+}
+
+[data-awtsmoos-surface] [data-awtsmoos-layer="drawer"] {
+	position: fixed;
+	z-index: var(--aw-surface-layer-drawer);
+	max-inline-size: min(32rem, 100%);
+	max-block-size: 100dvh;
+	background: var(--aw-surface-panel-strong);
+	box-shadow: var(--aw-surface-shadow);
+	overscroll-behavior: contain;
+}
+
+[data-awtsmoos-surface] [data-awtsmoos-layer="modal"] {
+	position: fixed;
+	z-index: var(--aw-surface-layer-modal);
+	inset: max(.75rem, var(--aw-surface-safe-top)) max(.75rem, var(--aw-surface-safe-right)) max(.75rem, var(--aw-surface-safe-bottom)) max(.75rem, var(--aw-surface-safe-left));
+	max-inline-size: min(44rem, calc(100% - 1.5rem));
+	max-block-size: calc(100dvh - 1.5rem);
+	margin: auto;
+	border: 1px solid var(--aw-surface-border);
+	border-radius: var(--aw-surface-radius-lg);
+	background: var(--aw-surface-panel-strong);
+	box-shadow: var(--aw-surface-shadow);
+	overflow: auto;
+	overscroll-behavior: contain;
+}
+
+[data-awtsmoos-surface] [data-awtsmoos-layer="toast"] {
+	position: fixed;
+	z-index: var(--aw-surface-layer-toast);
+	inset-inline: max(.75rem, var(--aw-surface-safe-left)) max(.75rem, var(--aw-surface-safe-right));
+	inset-block-end: max(.75rem, var(--aw-surface-safe-bottom));
+	max-inline-size: min(32rem, calc(100% - 1.5rem));
+	margin-inline: auto;
+}
+
+[data-awtsmoos-surface] [data-awtsmoos-backdrop] {
+	position: fixed;
+	z-index: calc(var(--aw-surface-layer-drawer) - 1);
+	inset: 0;
+	border: 0;
+	background: rgb(0 0 0 / 48%);
+	backdrop-filter: blur(10px);
+}
+
+@media (prefers-reduced-transparency: reduce) {
+	[data-awtsmoos-surface] [data-awtsmoos-backdrop] {
+		background: rgb(0 0 0 / 78%);
+		backdrop-filter: none;
+	}
+}

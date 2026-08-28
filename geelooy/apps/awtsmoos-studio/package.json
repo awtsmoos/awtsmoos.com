@@ -1,0 +1,9 @@
+{
+	"name": "@awtsmoos/studio",
+	"version": "0.1.0",
+	"private": true,
+	"type": "module",
+	"bh": "B\"H",
+	"blessing": "Boruch Hashem · Blessed is He",
+	"description": "Mobile-first Awtsmoos Studio composition shell for shared movie, procedural, and UI vessels."
+}

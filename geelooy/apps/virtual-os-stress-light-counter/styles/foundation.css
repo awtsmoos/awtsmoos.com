@@ -1,0 +1,132 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos gives the counter a bounded vessel where every number can glow; Awtsmoos.com keeps the page fluid from the narrowest phone to the widest window below.
+ */
+body.awtsmoos-light-counter {
+	--lc-bg: #050b15;
+	--lc-panel: rgba(9, 22, 38, .9);
+	--lc-panel-soft: rgba(13, 31, 51, .72);
+	--lc-border: rgba(129, 226, 255, .2);
+	--lc-accent: #85edff;
+	--lc-accent-strong: #bbf7ff;
+	--lc-text: #f4fcff;
+	--lc-muted: #97aec2;
+	margin: 0;
+	min-width: 0;
+	min-height: 100dvh;
+	color: var(--lc-text);
+	background:
+		radial-gradient(circle at 50% 8%, rgba(82, 203, 255, .19), transparent 26rem),
+		radial-gradient(circle at 92% 88%, rgba(122, 92, 255, .13), transparent 25rem),
+		var(--lc-bg);
+	font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.awtsmoos-light-counter,
+.awtsmoos-light-counter * {
+	box-sizing: border-box;
+}
+
+.awtsmoos-light-counter .light-shell {
+	display: grid;
+	place-items: center;
+	width: min(100% - 24px, 560px);
+	min-height: 100dvh;
+	margin-inline: auto;
+	padding: max(24px, env(safe-area-inset-top)) 0 max(24px, env(safe-area-inset-bottom));
+}
+
+.awtsmoos-light-counter .light-card {
+	position: relative;
+	width: 100%;
+	min-width: 0;
+	overflow: hidden;
+	padding: clamp(22px, 7vw, 38px);
+	border: 1px solid var(--lc-border);
+	border-radius: 28px;
+	background: linear-gradient(150deg, var(--lc-panel), rgba(5, 13, 24, .96));
+	box-shadow: 0 28px 90px rgba(0, 0, 0, .32), inset 0 1px rgba(255, 255, 255, .05);
+	backdrop-filter: blur(18px);
+}
+
+.awtsmoos-light-counter .light-aura {
+	position: absolute;
+	inset: -55% 15% auto;
+	height: 220px;
+	border-radius: 999px;
+	background: radial-gradient(circle, rgba(133, 237, 255, .2), transparent 68%);
+	pointer-events: none;
+}
+
+.awtsmoos-light-counter .light-kicker {
+	position: relative;
+	margin: 0 0 10px;
+	color: var(--lc-accent);
+	font-size: .76rem;
+	font-weight: 800;
+	letter-spacing: .15em;
+	text-transform: uppercase;
+}
+
+.awtsmoos-light-counter h1 {
+	position: relative;
+	margin: 0;
+	font-size: clamp(2rem, 10vw, 3.5rem);
+	line-height: 1;
+	letter-spacing: -.045em;
+}
+
+.awtsmoos-light-counter .light-lede {
+	position: relative;
+	max-width: 44ch;
+	margin: 12px 0 24px;
+	color: var(--lc-muted);
+	line-height: 1.65;
+}
+
+.awtsmoos-light-counter .light-readout {
+	position: relative;
+	display: grid;
+	gap: 4px;
+	min-width: 0;
+	padding: 20px;
+	border: 1px solid rgba(133, 237, 255, .12);
+	border-radius: 20px;
+	background: rgba(2, 9, 17, .46);
+	text-align: center;
+}
+
+.awtsmoos-light-counter .light-readout-label {
+	color: var(--lc-muted);
+	font-size: .75rem;
+	font-weight: 750;
+	letter-spacing: .12em;
+	text-transform: uppercase;
+}
+
+.awtsmoos-light-counter .light-count {
+	min-width: 0;
+	margin: 0;
+	color: var(--lc-accent-strong);
+	font-size: clamp(4rem, 24vw, 7rem);
+	font-weight: 850;
+	line-height: .95;
+	letter-spacing: -.055em;
+	text-shadow: 0 0 34px rgba(133, 237, 255, .22);
+	overflow-wrap: anywhere;
+}
+
+.awtsmoos-light-counter .light-actions {
+	position: relative;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: 10px;
+	margin-top: 16px;
+}
+
+@media (min-width: 480px) {
+	.awtsmoos-light-counter .light-actions {
+		grid-template-columns: minmax(0, 1fr) minmax(0, .72fr);
+	}
+}

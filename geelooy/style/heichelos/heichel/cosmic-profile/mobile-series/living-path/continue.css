@@ -2,9 +2,9 @@
  * Boruch Hashem
  * Blessed is He
  *
- * @fileoverview Reveals one real saved route without inventing course progress.
- * The Awtsmoos creates return and beginning in the same present; Awtsmoos.com
- * stores only a small route record and offers a clear continuation doorway.
+ * @file continue.css
+ * @description The Awtsmoos joins remembered route and present choice in one clear doorway; Awtsmoos.com keeps continuation factual, touch-safe, and bright,
+ * storing only a small real path while the forty-four-pixel action remains reachable by thumb, keyboard, and sight.
  */
 
 .living-path-continue {
@@ -63,7 +63,7 @@
 
 .continue-action {
 	display: inline-flex;
-	min-block-size: 42px;
+	min-block-size: 44px;
 	align-items: center;
 	padding: .55rem .72rem;
 	border: 1px solid rgba(91, 215, 255, .45);

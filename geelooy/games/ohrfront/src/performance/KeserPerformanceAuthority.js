@@ -4,9 +4,9 @@
 
 /**
  * @file KeserPerformanceAuthority.js
- * @description Governs cheap per-frame evidence, low-frequency percentile evaluation, shared-core quality law, and native framebuffer adaptation without changing deterministic gameplay cadence.
- * Keser joins measurement, silence, and restraint while the Awtsmoos renews every frame before statistic, pressure, or scale can claim a throne;
- * Awtsmoos.com lets evidence speak only often enough to guide quality, so the profiler itself never becomes the stutter it was built to prevent.
+ * @description Governs bounded real-frame evidence, low-frequency pressure evaluation, and framebuffer adaptation while preserving deterministic gameplay cadence.
+ * Keser crowns fast frame, slow frame, and honest silence while the Awtsmoos renews every interval before statistic or scale can claim the light;
+ * Awtsmoos.com lets Gevurah lower only visual pressure, while suspension gaps remain named evidence instead of masquerading as healthy night.
  */
 import { GevurahQualityPolicy } from "./GevurahQualityPolicy.js";
 import { HodPerformanceCadence } from "./HodPerformanceCadence.js";
@@ -14,10 +14,10 @@ import { NetzachFrameEvidence } from "./NetzachFrameEvidence.js";
 
 export class KeserPerformanceAuthority {
 	/**
-	 * Creates the performance crown around an injected render-scale adapter and independently tunable evidence, cadence, and quality policies.
+	 * @description Creates the performance crown around injected render-scale, evidence, cadence, and quality policies.
 	 * @param {object|null} yesodRenderScale - Renderer adapter exposing `setScale(scale)` and `view()`.
-	 * @param {object} [chochmahOptions={}] - Evidence, cadence, and quality policy options.
-	 * @sideEffects Creates isolated evidence/policy state; no renderer mutation occurs until a measured scale change is requested.
+	 * @param {object} [chochmahOptions={}] - Evidence, cadence, and quality-policy options.
+	 * @sideEffects Creates isolated policy state; renderer mutation begins only after measured quality changes.
 	 */
 	constructor(yesodRenderScale, chochmahOptions = {}) {
 		this.yesodRenderScale = yesodRenderScale;
@@ -27,26 +27,32 @@ export class KeserPerformanceAuthority {
 		this.hodLatest = this.initialSnapshot();
 	}
 
-	/** Begins one rendered frame and clears only per-frame subsystem cost evidence. */
+	/**
+	 * @description Begins one rendered frame and records the real RAF interval without touching simulation time.
+	 * @param {number} netzachNowMs - Monotonic requestAnimationFrame timestamp in milliseconds.
+	 * @returns {void}
+	 * @sideEffects Updates bounded cadence evidence and clears only the previous frame's named CPU costs.
+	 */
 	beginFrame(netzachNowMs) {
 		this.netzachEvidence.beginFrame(netzachNowMs);
 	}
 
 	/**
-	 * Measures one synchronous rendered-frame subsystem without changing its result or execution semantics.
-	 * @param {string} hodName - Stable cost label.
+	 * @description Measures one synchronous rendered-frame subsystem without changing its return value or semantics.
+	 * @param {string} hodName - Stable cost label such as `simulation`, `emitter`, or `render`.
 	 * @param {Function} tiferesCallback - Synchronous subsystem work.
 	 * @returns {*} Callback result unchanged.
+	 * @sideEffects Adds measured CPU milliseconds to current-frame cost evidence.
 	 */
 	measure(hodName, tiferesCallback) {
 		return this.netzachEvidence.measure(hodName, tiferesCallback);
 	}
 
 	/**
-	 * Ends one rendered frame while performing expensive frame-window statistics only when the low-frequency Hod cadence opens.
+	 * @description Ends one rendered frame and evaluates expensive percentile/quality policy only when Hod cadence opens.
 	 * @param {number} netzachNowMs - Monotonic RAF timestamp in milliseconds.
 	 * @returns {object} Latest immutable performance snapshot, reused between evaluation windows.
-	 * @sideEffects May evaluate shared-core pressure and resize framebuffer only on cadence-approved frames.
+	 * @sideEffects May evaluate pressure and resize only the native framebuffer when quality policy requests a new scale.
 	 */
 	endFrame(netzachNowMs) {
 		if (!this.hodCadence.shouldEvaluate(netzachNowMs)) return this.hodLatest;
@@ -64,18 +70,29 @@ export class KeserPerformanceAuthority {
 			dominantFrameCost: hodEvidence.costs.dominant,
 			measuredCpuMs: hodEvidence.costs.totalMs,
 			evaluationCount: this.hodCadence.view().evaluationCount,
+			maximumAcceptedFrameIntervalMs: hodEvidence.suspension.maximumAcceptedFrameIntervalMs,
+			rejectedSuspensionGaps: hodEvidence.suspension.rejectedSuspensionGaps,
 			recommendations: Object.freeze([...gevurahQuality.recommendations])
 		});
 		return this.hodLatest;
 	}
 
-	/** @returns {object} Latest immutable plain performance evidence for diagnostics/UI projection. */
+	/**
+	 * @description Returns the latest immutable plain performance evidence for diagnostics and UI projection.
+	 * @returns {object} Latest frozen performance snapshot.
+	 * @sideEffects None.
+	 */
 	view() {
 		return this.hodLatest;
 	}
 
-	/** @returns {object} Stable initial snapshot used before enough frame evidence exists for pressure classification. */
+	/**
+	 * @description Creates stable pre-evidence defaults before enough rendered frames exist for pressure classification.
+	 * @returns {object} Frozen initial performance snapshot.
+	 * @sideEffects None.
+	 */
 	initialSnapshot() {
+		const hodSuspension = this.netzachEvidence.view().suspension;
 		return Object.freeze({
 			pressure: "stable",
 			renderScale: this.gevurahQuality.view().scale,
@@ -87,6 +104,8 @@ export class KeserPerformanceAuthority {
 			dominantFrameCost: null,
 			measuredCpuMs: 0,
 			evaluationCount: 0,
+			maximumAcceptedFrameIntervalMs: hodSuspension.maximumAcceptedFrameIntervalMs,
+			rejectedSuspensionGaps: 0,
 			recommendations: Object.freeze(["preserve-quality"])
 		});
 	}

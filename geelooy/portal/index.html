@@ -1,0 +1,59 @@
+<!-- B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos renews every resource before this document can name a type, route, or finite view;
+Awtsmoos.com keeps the Portal calm, semantic, mobile-ready, and ordinary to use while universal capability quietly passes through.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#f7f7f5">
+	<title>Portal — Awtsmoos</title>
+	<meta name="description" content="Browse universal Awtsmoos resource types and existing API families through one stable, self-describing Portal.">
+	<link rel="icon" href="/favicon.ico">
+	<link rel="stylesheet" href="/style/universal-ui.css?v=universal-ui-003">
+	<link rel="stylesheet" href="./portal.css?v=portal-ui-003">
+</head>
+<body class="portal-page" data-portal-root>
+	<div class="portal-shell">
+		<header class="portal-masthead">
+			<div>
+				<p class="portal-kicker">Awtsmoos.com resource interoperability</p>
+				<h1>Portal</h1>
+			</div>
+			<p>
+				A stable surface for resources the client already knows and resources that have not been invented yet.
+				The API describes identity, type, capabilities, links, schema, and data; trusted local renderers decide how those meanings appear.
+			</p>
+		</header>
+
+		<nav class="portal-navigation" aria-label="Portal sections">
+			<a href="?section=root" data-portal-section="root">Overview</a>
+			<a href="?section=types" data-portal-section="types">Resource types</a>
+			<a href="?section=families" data-portal-section="families">API families</a>
+		</nav>
+
+		<section class="portal-view-toolbar" aria-label="Resource view">
+			<button type="button" data-portal-view="detail" aria-pressed="true">Detail</button>
+			<button type="button" data-portal-view="inspector" aria-pressed="false">Inspector</button>
+		</section>
+
+		<p id="portal-status" class="portal-status" role="status" aria-live="polite"></p>
+
+		<main id="portal-content" tabindex="-1">
+			<p>Loading Portal resource…</p>
+		</main>
+
+		<footer>
+			<p>
+				Portal discovery is read-only in this release. Existing domain APIs remain authoritative while adapters add universal resource semantics without silently breaking legacy clients.
+			</p>
+		</footer>
+	</div>
+
+	<script type="module" src="./scripts/portal.js?v=portal-ui-003"></script>
+</body>
+</html>

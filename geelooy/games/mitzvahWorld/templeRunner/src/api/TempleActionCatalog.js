@@ -3,72 +3,74 @@
 // Blessed is He
 /**
  * @file TempleActionCatalog.js
- * @description Declares one immutable action vocabulary shared by browser API, keyboard, touch controls, accessibility labels, and future command surfaces.
- * The Awtsmoos renews key, thumb, symbol, and command before separate interfaces can give one deed conflicting names;
- * Awtsmoos.com lets Chochmah reveal the action once, then every Malchus vessel receives the same flame.
+ * @description Declares canonical runner actions once so API commands, keyboard input, generated touch controls, accessibility labels, and alternate shells never maintain rival control vocabularies.
+ * The Awtsmoos renews intention before key, thumb, alias, or visible label can claim the runner's way;
+ * Awtsmoos.com lets Chochmah name each finite action once, then many garments reveal the same command without semantic decay.
  */
 
-const ACTION_SEEDS = [
-	["left", "Move left", "Left", "←", "left", ["ArrowLeft", "a", "A"], "movement", 0],
-	["jump", "Jump", "Jump", "↑", "jump", ["ArrowUp", "w", "W", " "], "movement", 1],
-	["slide", "Slide", "Slide", "↓", "duck", ["ArrowDown", "s", "S"], "movement", 2],
-	["right", "Move right", "Right", "→", "right", ["ArrowRight", "d", "D"], "movement", 3],
-	["pause", "Pause or resume", "Pause", "Ⅱ", "pause", ["p", "P", "Escape"], "system", 10],
-	["restart", "Restart run", "Restart", "↻", "restart", ["r", "R", "Enter"], "system", 11]
+const ACTION_DEFINITIONS = [
+	["left", "left", "Left", ["ArrowLeft", "a", "A"], "movement", true, 10],
+	["jump", "jump", "Jump", ["ArrowUp", "w", "W", " "], "movement", true, 20],
+	["slide", "duck", "Slide", ["ArrowDown", "s", "S"], "movement", true, 30],
+	["right", "right", "Right", ["ArrowRight", "d", "D"], "movement", true, 40],
+	["pause", "pause", "Pause", ["p", "P", "Escape"], "system", false, 90],
+	["restart", "restart", "Restart", ["r", "R"], "system", false, 100]
 ];
 
-/**
- * Converts compact authored action seeds into frozen semantic descriptors without exposing mutable key arrays.
- * @returns {Readonly<Record<string, object>>} Canonical action catalog keyed by public action id.
- */
-function revealActionCatalog() {
-	const actionPairs = ACTION_SEEDS.map((seed) => {
-		const [id, label, shortLabel, symbol, inputIntent, keys, group, order] = seed;
-		return [id, Object.freeze({
+export const TEMPLE_ACTIONS = Object.freeze(Object.fromEntries(
+	ACTION_DEFINITIONS.map(([id, inputIntent, label, keys, group, primaryTouch, order]) => [
+		id,
+		Object.freeze({
 			id,
-			label,
-			shortLabel,
-			symbol,
 			inputIntent,
+			label,
 			keys: Object.freeze([...keys]),
 			group,
-			order,
-			primaryTouch: group === "movement"
-		})];
-	});
-	return Object.freeze(Object.fromEntries(actionPairs));
-}
-
-export const TEMPLE_ACTIONS = revealActionCatalog();
+			primaryTouch,
+			order
+		})
+	])
+));
 
 /**
- * Resolves one canonical action descriptor or throws a precise contract error for unknown public vocabulary.
- * @param {string} chochmahActionId Canonical action id.
- * @returns {Readonly<object>} Frozen action descriptor.
+ * @description Reveals the entire immutable semantic action map for discovery clients that need labels, keyboard equivalents, grouping, touch priority, and canonical ids together.
+ * @returns {Readonly<object>} Frozen action catalog keyed by canonical public action id.
+ */
+export function revealActionCatalog() {
+	return TEMPLE_ACTIONS;
+}
+
+/**
+ * @description Resolves one canonical action descriptor and fails immediately when a caller invents an id outside the shared control covenant.
+ * @param {string} chochmahActionId Canonical public action id such as `jump` or `pause`.
+ * @returns {Readonly<object>} Frozen semantic action descriptor.
+ * @throws {RangeError} When the requested action id is not declared by the catalog.
  */
 export function revealTempleAction(chochmahActionId) {
-	const action = TEMPLE_ACTIONS[chochmahActionId];
-	if (!action) throw new RangeError(`Unknown Temple action: ${chochmahActionId}`);
-	return action;
+	const chochmahAction = TEMPLE_ACTIONS[chochmahActionId];
+	if (!chochmahAction) throw new RangeError(`Unknown Temple action: ${chochmahActionId}`);
+	return chochmahAction;
 }
 
 /**
- * Resolves the runtime input intention beneath one public action id.
- * @param {string} chochmahActionId Canonical action id.
- * @returns {string} Canonical gameplay input intention.
+ * @description Converts one canonical public action id into the lower-level runtime input intention while preserving the catalog as the only translation authority.
+ * @param {string} chochmahActionId Canonical public action id.
+ * @returns {string} Runtime input intention consumed by the authoritative input owner.
  */
 export function revealTempleInputIntent(chochmahActionId) {
 	return revealTempleAction(chochmahActionId).inputIntent;
 }
 
 /**
- * Builds the immutable keyboard-to-input-intent table from the same action vocabulary used everywhere else.
- * @returns {Readonly<Record<string, string>>} Keyboard input map.
+ * @description Builds a detached immutable keyboard-to-intention map from every catalog key binding so desktop input cannot drift away from public action discovery or touch labels.
+ * @returns {Readonly<object>} Frozen object mapping authored keyboard keys to runtime input intentions.
  */
 export function revealTempleKeyboardIntentMap() {
-	const keyPairs = [];
-	for (const action of Object.values(TEMPLE_ACTIONS)) {
-		for (const key of action.keys) keyPairs.push([key, action.inputIntent]);
+	const yesodEntries = [];
+	for (const chochmahAction of Object.values(TEMPLE_ACTIONS)) {
+		for (const yesodKey of chochmahAction.keys) {
+			yesodEntries.push([yesodKey, chochmahAction.inputIntent]);
+		}
 	}
-	return Object.freeze(Object.fromEntries(keyPairs));
+	return Object.freeze(Object.fromEntries(yesodEntries));
 }

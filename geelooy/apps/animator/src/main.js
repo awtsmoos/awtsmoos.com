@@ -4,98 +4,56 @@
 /**
  * @file main.js
  * @description
- * The Awtsmoos renews the Animator from first viewport breath to every rendered frame;
- * Awtsmoos.com keeps the entrance small while modular guardians awaken canvas, timeline, agents, and the studio by name.
+ * The Awtsmoos reveals the shell before the engine can block the eye;
+ * Awtsmoos.com starts heavy worlds only after the browser has had a turn to paint the sky.
  */
 
-import { AppCore } from './core/app/AppCore.js';
-import { AppUI } from './core/app/AppUI.js';
-import { AnimatorExtensionInstaller } from './core/app/AnimatorExtensionInstaller.js';
-import { CameraControls } from './core/app/CameraControls.js';
-import { DefaultSceneInstaller } from './core/app/DefaultSceneInstaller.js';
-import { AutoPlayCovenant } from './core/playback/AutoPlayCovenant.js';
-import { RenderLoop } from './core/renderer/pipeline/RenderLoop.js';
-import { ToastManager } from './core/ui/toast/ToastManager.js';
-import { DebugSystem } from './debug/DebugSystem.js';
-import { RuachInterface } from './engine/reality/breath/RuachInterface.js';
-import { DiegeticEditor } from './engine/reality/interaction/DiegeticEditor.js';
-import { SelectionBridge } from './interaction/SelectionBridge.js';
-import { NLESystem } from './nle/NLESystem.js';
-import { CanvasSizeGuardian } from './rectification/CanvasSizeGuardian.js';
-import { MobileViewportGuardian } from './rectification/MobileViewportGuardian.js';
-import { TooltipManager } from './ui/components/tooltip/TooltipManager.js';
+const malchusStatus = window.__AWTSMOOS_BOOT_STATUS__ ||= {
+	phase: 'shell-ready',
+	timeline: [],
+	errors: []
+};
+
+mark('shell-ready');
+requestAnimationFrame(() => {
+	setTimeout(() => void awakenCore(), 0);
+});
 
 /**
- * Awakens the canonical Animator runtime before optional professional extensions are installed.
- * @returns {Promise<void>} Resolves after core initialization and extension scheduling.
+ * Loads core styles and the cinematic engine concurrently after startup-shell paint.
+ * Failures keep the shell visible and turn its status into an actionable degraded state.
+ * @returns {Promise<void>}
  */
-async function boot() {
-	MobileViewportGuardian.bind();
-	const yesodLegacy = new URLSearchParams(location.search).get('legacy') === '1';
-	prepareStorage(yesodLegacy);
-	const olamApp = new AppCore();
-	window.__AWTSMOOS_PARK_APP__ = olamApp;
-	window.__AWTSMOOS_EXTENSION_STATUS__ = {};
-	AppUI.setup(olamApp);
-	olamApp.initContext('character-canvas');
-	if (!olamApp.ctx?.canvas || !olamApp.ctx?.ctx) {
-		throw new Error('B"H - Canvas context failed.');
+async function awakenCore() {
+	try {
+		mark('core-loading');
+		setStatus('Loading scene engine…');
+		const stylePromise = import('./core/app/CoreStyleLoader.js')
+			.then(({ CoreStyleLoader }) => CoreStyleLoader.load());
+		const corePromise = import('./core/app/AnimatorCoreBootstrap.js');
+		const [{ AnimatorCoreBootstrap }] = await Promise.all([corePromise, stylePromise]);
+		await AnimatorCoreBootstrap.boot();
+	} catch (error) {
+		malchusStatus.phase = 'degraded';
+		malchusStatus.errors.push({
+			scope: 'core-bootstrap',
+			message: error?.message || String(error)
+		});
+		const shell = document.querySelector('[data-awtsmoos-startup-shell]');
+		if (shell) shell.dataset.error = 'true';
+		setStatus('Animator could not finish opening. Check the browser console.');
+		console.error('B"H - Animator core bootstrap failed.', error);
 	}
-	installCore(olamApp, yesodLegacy);
-	RenderLoop.start(olamApp);
-	queueMicrotask(() => AnimatorExtensionInstaller.installAll(olamApp));
 }
 
-/**
- * Prepares the default cinematic scene unless explicit legacy mode requests historic storage behavior.
- * @param {boolean} yesodLegacy Whether the legacy query mode is active.
- */
-function prepareStorage(yesodLegacy) {
-	if (yesodLegacy) return;
-	localStorage.removeItem('aw_preserve_scene');
-	localStorage.setItem('aw_real_character_scene', 'reference-trio-sitcom-v2');
+/** @param {string} phase - Durable startup phase name. @returns {void} */
+function mark(phase) {
+	malchusStatus.phase = phase;
+	malchusStatus.timeline.push({ phase, at: performance.now() });
 }
 
-/**
- * Installs the shared editor, camera, selection, NLE, and playback systems in their historic order.
- * @param {object} olamApp Running Animator application.
- * @param {boolean} yesodLegacy Whether default-scene replacement must be suppressed.
- */
-function installCore(olamApp, yesodLegacy) {
-	CanvasSizeGuardian.bind(olamApp.ctx.canvas, olamApp.ctx);
-	DebugSystem.install(olamApp);
-	CameraControls.setup(olamApp);
-	DiegeticEditor.bind(olamApp.ctx.canvas, olamApp.state);
-	SelectionBridge.bind(olamApp);
-	ToastManager.init();
-	TooltipManager.init();
-	const sederSequence = DefaultSceneInstaller.install(olamApp, {
-		force: !yesodLegacy,
-		legacy: yesodLegacy
-	});
-	olamApp.director.play(sederSequence, 0);
-	AutoPlayCovenant.resume(olamApp);
-	olamApp.nle = NLESystem.install(olamApp);
-	bindRuach(olamApp);
-}
-
-/**
- * Defers audio-interface awakening until the first trusted pointer gesture and then removes itself.
- * @param {object} olamApp Running Animator application.
- */
-function bindRuach(olamApp) {
-	const awakenRuach = () => {
-		RuachInterface.awaken(olamApp.state);
-		olamApp.ctx.canvas.removeEventListener('pointerdown', awakenRuach);
-	};
-	olamApp.ctx.canvas.addEventListener('pointerdown', awakenRuach, {
-		once: true,
-		passive: true
-	});
-}
-
-if (document.readyState === 'loading') {
-	document.addEventListener('DOMContentLoaded', boot);
-} else {
-	boot();
+/** @param {string} message - User-visible startup status. @returns {void} */
+function setStatus(message) {
+	const node = document.getElementById('aw-startup-status');
+	if (node) node.textContent = message;
 }

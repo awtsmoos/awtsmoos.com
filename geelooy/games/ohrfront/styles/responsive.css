@@ -1,61 +1,9 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos renews one battlefield through wide, narrow, tall, and short vessels without losing the light.
-Awtsmoos.com lets layout yield before content collides, preserving action, focus, safe-area breath, and readable sight.
+The Awtsmoos renews one battlefield through every finite viewport while no single responsive file may become a crowded vessel in sight.
+Awtsmoos.com lets width, height, and accessibility each reveal their own measured response through small local modules of light.
 */
-@media (max-width: 720px) {
-	.ohrfront-app { --ohr-edge: 14px; }
-	.ohrfront-app .ohr-mission { width: calc(100% - var(--ohr-safe-left) - var(--ohr-safe-right)); }
-	.ohrfront-app .ohr-mission__location,
-	.ohrfront-app .ohr-weapon__copy span { display: none; }
-	.ohrfront-app .ohr-vitals { width: min(10rem, calc(56% - var(--ohr-safe-left))); }
-	.ohrfront-app .ohr-weapon {
-		right: var(--ohr-safe-right);
-		bottom: calc(var(--ohr-safe-bottom) + 68px);
-		max-width: min(10.5rem, calc(50% - var(--ohr-safe-right)));
-		grid-template-columns: auto minmax(5.5rem, 1fr);
-		gap: 2px 8px;
-	}
-	.ohrfront-app .ohr-weapon__heat { grid-template-columns: 26px minmax(44px, 62px); gap: 5px; }
-	.ohrfront-app .ohr-dialog-layer { background: rgba(4, 8, 10, 0.92); }
-	.ohrfront-app .ohr-dialog--launch { justify-self: center; }
-}
-
-@media (max-width: 430px) {
-	.ohrfront-app .ohr-mission__meta { font-size: 8px; }
-	.ohrfront-app .ohr-title { font-size: clamp(40px, 16vw, 60px); }
-	.ohrfront-app .ohr-arsenal i { padding-inline: 3px; }
-}
-
-@media (max-height: 560px) {
-	.ohrfront-app .ohr-dialog { padding: 18px; }
-	.ohrfront-app .ohr-dialog__copy { margin-block: 14px; }
-	.ohrfront-app .ohr-arsenal { margin-bottom: 16px; }
-	.ohrfront-app .ohr-controls-note { display: none; }
-}
-
-@media (max-height: 430px) and (min-width: 640px) {
-	.ohrfront-app { --ohr-edge: 10px; }
-	.ohrfront-app .ohr-dialog-layer {
-		place-items: center;
-		padding: max(8px, env(safe-area-inset-top)) max(10px, env(safe-area-inset-right)) max(8px, env(safe-area-inset-bottom)) max(10px, env(safe-area-inset-left));
-	}
-	.ohrfront-app .ohr-dialog--launch {
-		width: min(46rem, 100%);
-		padding: 12px 16px;
-		overflow-y: auto;
-	}
-	.ohrfront-app .ohr-eyebrow { margin-bottom: 5px; font-size: 8px; }
-	.ohrfront-app .ohr-title { font-size: clamp(34px, 10vh, 46px); line-height: 0.9; }
-	.ohrfront-app .ohr-subtitle { margin-top: 4px; font-size: 11px; }
-	.ohrfront-app .ohr-dialog__copy { margin-block: 7px; max-width: 42rem; font-size: 12px; line-height: 1.35; }
-	.ohrfront-app .ohr-arsenal { margin-bottom: 7px; line-height: 1.35; }
-	.ohrfront-app .ohr-field__label { margin-bottom: 3px; }
-}
-
-@media (forced-colors: active) {
-	.ohrfront-app .ohr-control:focus-visible { outline: 2px solid Highlight; }
-	.ohrfront-app .ohr-mission__progress::-webkit-progress-value,
-	.ohrfront-app .ohr-progress::-webkit-progress-value { background: Highlight; }
-}
+@import url("./responsive-mobile.css");
+@import url("./responsive-height.css");
+@import url("./responsive-accessibility.css");

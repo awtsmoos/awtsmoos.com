@@ -1,117 +1,20 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
  * @module HeichelGovernanceRegressionTest
- * @description The Awtsmoos joins modular governance, creation, roles, approvals, notifications, and platform panels into one verified Heichel.
+ * @description
+ * The Awtsmoos gathers separate governance test vessels without forcing their many responsibilities back into one scroll;
+ * Awtsmoos.com keeps editor authority, social creation, and platform surfaces independently testable while one entrypoint proves the whole.
  */
-import assert from "node:assert/strict";
-import fs from "node:fs";
 
-const read = file => fs.readFileSync(file, "utf8");
-const buttons = read("geelooy/heichelos/heichel/modules/editing/buttons.js");
-const management = read("geelooy/heichelos/heichel/modules/api/management.js");
-const base = read("geelooy/heichelos/heichel/modules/api/base.js");
-const css = read("geelooy/style/heichelos/revamped-partials/content.css");
-const modal = read("geelooy/heichelos/heichel/modules/modal.js");
-const apiAggregate = read("geelooy/heichelos/heichel/modules/api.js");
-const socialContentApi = read("geelooy/heichelos/heichel/modules/api/socialContent.js");
-const commentsApi = read("geelooy/heichelos/heichel/modules/api/comments.js");
-const gridRenderer = read("geelooy/heichelos/heichel/modules/ui/render/grids.js");
-const socialActions = read("geelooy/heichelos/heichel/modules/ui/render/social-actions.js");
-const socialActionMenu = read("geelooy/heichelos/heichel/modules/ui/render/living-path/card-menu.js");
-const mainLayout = read("geelooy/heichelos/heichel/modules/ui/blueprints/main-layout.js");
-const layoutForm = read("geelooy/heichelos/heichel/modules/ui/blueprints/layout-form.js");
-const uiMap = read("geelooy/heichelos/heichel/modules/ui/map.js");
-const rolesApi = read("geelooy/heichelos/heichel/modules/api/roles.js");
-const rolePanel = read("geelooy/heichelos/heichel/modules/editing/roleSettingsPanel.js");
-const postApprovalsApi = read("geelooy/heichelos/heichel/modules/api/postApprovals.js");
-const postApprovalPanel = read("geelooy/heichelos/heichel/modules/editing/postApprovalPanel.js");
+import { verifyEditorGovernance } from "./contracts/editorGovernance.contract.mjs";
+import { verifySocialContent } from "./contracts/socialContent.contract.mjs";
+import { verifyPlatformSurfaces } from "./contracts/platformSurfaces.contract.mjs";
 
-assert.match(buttons, /import \{ addEditor, removeEditor \}/);
-assert.match(buttons, /function setupEditorManagement\(\)/);
-assert.match(buttons, /mountRoleSettingsPanel/);
-assert.match(buttons, /setupRoleSettingsPanel/);
-assert.match(buttons, /mountPostApprovalPanel/);
-assert.match(buttons, /setupPostApprovalPanel/);
-assert.match(buttons, /renderEditorList/);
-assert.match(buttons, /encodeURIComponent\(editorAliasId\)/);
-assert.doesNotMatch(buttons, /alert\("Added " \+ p\)/);
-assert.doesNotMatch(buttons, /\/\/@\$\{ed\}/);
-assert.match(management, /export async function addEditor/);
-assert.match(management, /export async function removeEditor/);
-assert.match(management, /AwtsmoosRequest\.delete/);
-assert.match(base, /static async delete/);
-assert.match(base, /static async send/);
-assert.match(css, /\.heichel-editor-panel/);
-assert.match(css, /\.heichel-editor-row/);
-assert.match(css, /@media \(max-width: 640px\)/);
-assert.match(css, /heichel-role-settings-panel/);
-assert.match(css, /heichel-role-grid/);
-assert.match(css, /@media \(max-width: 760px\)/);
-assert.match(rolesApi, /HEICHEL_ROLES/);
-assert.match(rolesApi, /getSubmissionSettings/);
-assert.match(rolesApi, /saveSubmissionSettings/);
-assert.match(rolePanel, /Moderators/);
-assert.match(rolePanel, /Contributors/);
-assert.match(rolePanel, /Followers/);
-assert.match(rolePanel, /allowPostSubmissions/);
-assert.match(rolePanel, /requireCommentApproval/);
-assert.match(postApprovalsApi, /getSubmittedPosts/);
-assert.match(postApprovalsApi, /approveSubmittedPost/);
-assert.match(postApprovalsApi, /denySubmittedPost/);
-assert.match(postApprovalPanel, /Submitted Posts/);
-assert.match(postApprovalPanel, /heichel-post-approval-panel/);
-assert.match(css, /heichel-post-approval-panel/);
-assert.match(rolePanel, /heichel-role-member-chat/);
-assert.match(rolePanel, /\/email\/\?to=\$\{encodeURIComponent\(memberAliasId\)\}/);
-assert.match(css, /heichel-role-member-chat/);
-assert.match(postApprovalPanel, /heichel-post-approval-message/);
-assert.ok(postApprovalPanel.includes('/email/?to=${encodeURIComponent(author)}'));
-assert.ok(postApprovalPanel.includes('/@${encodeURIComponent(author)}'));
-assert.match(css, /heichel-post-approval-message/);
-assert.match(mainLayout, /import \{ modal \} from '.\/layout-modal.js'/);
-assert.match(mainLayout, /modal\(actions\)/);
-assert.match(layoutForm, /modalContentTypeSelect/);
-assert.match(uiMap, /modalContentTypeSelect/);
-assert.match(modal, /contentType/);
-assert.ok(modal.includes("api.createQuestion"));
-assert.ok(modal.includes("api.createAnswer"));
-assert.ok(apiAggregate.includes("socialContent.js"));
-assert.match(socialContentApi, /createQuestion/);
-assert.match(socialContentApi, /repostEntity/);
-assert.match(socialContentApi, /referenceEntity/);
-assert.match(commentsApi, /createComment/);
-assert.match(commentsApi, /replyToComment/);
-assert.match(gridRenderer, /renderTimeline/);
-assert.match(socialActionMenu, /socialActionBlueprints/);
-assert.match(socialActions, /card-social-actions/);
-assert.match(socialActions, /api\.createComment/);
-assert.match(css, /card-social-action/);
-assert.match(css, /heichel-content-type-select/);
-const postsApi = read("geelooy/heichelos/heichel/modules/api/posts.js");
-assert.ok(modal.includes("api.createPost"));
-assert.match(postsApi, /export async function createPost/);
-const notificationsApi = read("geelooy/heichelos/heichel/modules/api/notifications.js");
-const notificationsPanel = read("geelooy/heichelos/heichel/modules/ui/notificationsPanel.js");
-const eventsSource = read("geelooy/heichelos/heichel/modules/events.js");
-assert.match(notificationsApi, /listNotifications/);
-assert.match(notificationsApi, /markNotificationRead/);
-assert.match(notificationsPanel, /awtsmoos-notifications-panel/);
-assert.match(eventsSource, /mountNotificationsPanel/);
-assert.match(css, /awtsmoos-notifications-panel/);
-const platformApi = read("geelooy/heichelos/heichel/modules/api/platform.js");
-const platformPanel = read("geelooy/heichelos/heichel/modules/ui/platformPanel.js");
-const platformCss = read("geelooy/style/heichelos/revamped-partials/platform-panels.css");
-const platformMobileCss = read("geelooy/style/heichelos/revamped-partials/platform-mobile.css");
-const revampedCss = read("geelooy/style/heichelos/heichel.revamped.css");
-assert.match(platformApi, /getPackedSnapshot/);
-assert.match(platformApi, /materializeFeed/);
-assert.match(platformPanel, /mountPlatformPanel/);
-assert.match(platformPanel, /awtsmoos-platform-panel/);
-assert.match(eventsSource, /mountPlatformPanel/);
-assert.match(platformCss, /awtsmoos-platform-panel/);
-assert.match(platformMobileCss, /max-width: 760px/);
-assert.ok(revampedCss.includes("platform-panels.css"));
-assert.ok(revampedCss.includes("platform-mobile.css"));
+verifyEditorGovernance();
+verifySocialContent();
+verifyPlatformSurfaces();
+
 console.log('B"H editorManagement.test passed');

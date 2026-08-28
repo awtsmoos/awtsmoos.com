@@ -1,11 +1,12 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
  * @file CollectibleSystem.js
- * @description Animates action-aware perutas and feeds reward, missions, lifetime memory, glints, and sound directly.
+ * @description Animates action-aware perutas and feeds reward, ordinary/rare missions, lifetime memory, glints, sound, and forgiving streak recovery.
  * The Awtsmoos renews each humble peruta as both reward and golden teaching sign;
- * Awtsmoos.com keeps one visual clock in one vessel, so no undefined instant can turn a shining path into NaN.
+ * Awtsmoos.com lets rare light remain named through collection while one missed coin cannot erase the mastered line.
  */
 
 import { COLLISION_CONFIG } from "../config.js";
@@ -16,10 +17,7 @@ export class MamonCollectibleSystem {
 		Object.assign(this, dependencies);
 	}
 
-	/**
-	 * Advances peruta animation and collection from the one active visual clock.
-	 * @param {number} visualTime Accumulated active visual seconds.
-	 */
+	/** @description Advances peruta animation and collection from the active visual clock, softly penalizing missed rewards. @param {number} visualTime Accumulated active visual seconds. @returns {void} */
 	update(visualTime) {
 		const profile = this.runner.getCollisionProfile();
 		this.world.forEachCollectible((record, chunk) => {
@@ -32,31 +30,20 @@ export class MamonCollectibleSystem {
 			}
 			if (!record.missed && worldZ > profile.z + 1.35) {
 				record.missed = true;
-				this.progress.breakStreak();
+				this.progress.missPeruta();
 			}
 		});
 	}
 
-	/** @param {object} record Peruta record. @param {number} visualTime Visual clock. */
+	/** @param {object} record Peruta record. @param {number} visualTime Visual clock. @returns {void} */
 	animate(record, visualTime) {
 		const yaw = visualTime * 3.4 + record.phase;
-		record.node.quaternion.set(
-			0,
-			Math.sin(yaw / 2),
-			0,
-			Math.cos(yaw / 2)
-		);
+		record.node.quaternion.set(0, Math.sin(yaw / 2), 0, Math.cos(yaw / 2));
 		record.node.position.y = record.baseY
 			+ Math.sin(visualTime * 4.1 + record.phase) * 0.08;
 	}
 
-	/**
-	 * Tests ordinary or magnet collection while preserving gesture-teaching perutas.
-	 * @param {object} record Peruta record.
-	 * @param {number} worldZ Peruta world Z.
-	 * @param {object} profile Runner collision profile.
-	 * @returns {boolean} Whether the peruta is collected this frame.
-	 */
+	/** @description Tests ordinary or magnet collection while preserving gesture-teaching perutas. @param {object} record Peruta record. @param {number} worldZ Peruta world Z. @param {object} profile Runner collision profile. @returns {boolean} Whether the peruta is collected this frame. */
 	isCollected(record, worldZ, profile) {
 		if (!this.actionSatisfied(record.requiredAction, profile)) return false;
 		const distanceZ = Math.abs(worldZ - profile.z);
@@ -72,31 +59,23 @@ export class MamonCollectibleSystem {
 			&& verticalClose;
 	}
 
-	/** @param {string} action Required trail action. @param {object} profile Runner profile. @returns {boolean} */
+	/** @param {string} action Required trail action. @param {object} profile Runner profile. @returns {boolean} Whether the required gesture is active. */
 	actionSatisfied(action, profile) {
-		if (action === "jump") {
-			return profile.jumpY > COLLISION_CONFIG.jumpClearY * 0.55;
-		}
+		if (action === "jump") return profile.jumpY > COLLISION_CONFIG.jumpClearY * 0.55;
 		if (action === "duck") return profile.ducking;
 		return true;
 	}
 
-	/** @param {object} record Peruta record. @param {number} worldZ Pickup world Z. */
+	/** @description Collects one peruta and records both physical collection and authored rarity without inferring rarity from score value. @param {object} record Peruta record. @param {number} worldZ Pickup world Z. @returns {void} */
 	collect(record, worldZ) {
 		record.collected = true;
 		record.active = false;
-		this.effects.glint(
-			record.node.position.x,
-			record.node.position.y,
-			worldZ
-		);
+		this.effects.glint(record.node.position.x, record.node.position.y, worldZ);
 		record.node.visible = false;
-		this.progress.collectPeruta(
-			record.value || 1,
-			this.powerUps.doubleActive
-		);
+		this.progress.collectPeruta(record.value || 1, this.powerUps.doubleActive);
 		this.lifetime.addPerutas(1);
 		this.missions.record("perutas", 1);
+		if (record.rare) this.missions.record("rarePerutas", 1);
 		this.feedback.peruta();
 	}
 }

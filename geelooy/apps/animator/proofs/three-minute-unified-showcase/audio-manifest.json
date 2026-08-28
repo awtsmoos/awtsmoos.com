@@ -1,0 +1,233 @@
+[
+  {
+    "id": "realistic-arrival-cup_d1",
+    "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/three-minute-unified-showcase/audio/01-realistic-arrival-cup_d1.aiff",
+    "voice": "Alex",
+    "start": 3000,
+    "duration": 3300
+  },
+  {
+    "id": "realistic-arrival-cup_d2",
+    "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/three-minute-unified-showcase/audio/02-realistic-arrival-cup_d2.aiff",
+    "voice": "Fred",
+    "start": 6800,
+    "duration": 3000
+  },
+  {
+    "id": "realistic-arrival-cup_d3",
+    "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/three-minute-unified-showcase/audio/03-realistic-arrival-cup_d3.aiff",
+    "voice": "Samantha",
+    "start": 10300,
+    "duration": 3000
+  },
+  {
+    "id": "realistic-arrival-cup_d4",
+    "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/three-minute-unified-showcase/audio/04-realistic-arrival-cup_d4.aiff",
+    "voice": "Alex",
+    "start": 15000,
+    "duration": 3100
+  },
+  {
+    "id": "realistic-arrival-cup_d5",
+    "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/three-minute-unified-showcase/audio/05-realistic-arrival-cup_d5.aiff",
+    "voice": "Fred",
+    "start": 18500,
+    "duration": 2800
+  },
+  {
+    "id": "realistic-arrival-cup_d6",
+    "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/three-minute-unified-showcase/audio/06-realistic-arrival-cup_d6.aiff",
+    "voice": "Samantha",
+    "start": 21800,
+    "duration": 3200
+  },
+  {
+    "id": "realistic-arrival-cup_d7",
+    "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/three-minute-unified-showcase/audio/07-realistic-arrival-cup_d7.aiff",
+    "voice": "Alex",
+    "start": 29000,
+    "duration": 3000
+  },
+  {
+    "id": "realistic-arrival-cup_d8",
+    "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/three-minute-unified-showcase/audio/08-realistic-arrival-cup_d8.aiff",
+    "voice": "Fred",
+    "start": 32500,
+    "duration": 3100
+  },
+  {
+    "id": "realistic-arrival-cup_d9",
+    "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/three-minute-unified-showcase/audio/09-realistic-arrival-cup_d9.aiff",
+    "voice": "Samantha",
+    "start": 36500,
+    "duration": 3200
+  },
+  {
+    "id": "realistic-arrival-cup_d10",
+    "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/three-minute-unified-showcase/audio/10-realistic-arrival-cup_d10.aiff",
+    "voice": "Alex",
+    "start": 42000,
+    "duration": 3100
+  },
+  {
+    "id": "realistic-arrival-cup_d11",
+    "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/three-minute-unified-showcase/audio/11-realistic-arrival-cup_d11.aiff",
+    "voice": "Fred",
+    "start": 48000,
+    "duration": 3000
+  },
+  {
+    "id": "realistic-arrival-cup_d12",
+    "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/three-minute-unified-showcase/audio/12-realistic-arrival-cup_d12.aiff",
+    "voice": "Samantha",
+    "start": 53500,
+    "duration": 3700
+  },
+  {
+    "id": "sitcom-explainer-spoon_d1",
+    "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/three-minute-unified-showcase/audio/13-sitcom-explainer-spoon_d1.aiff",
+    "voice": "Alex",
+    "start": 63000,
+    "duration": 4200
+  },
+  {
+    "id": "sitcom-explainer-spoon_d2",
+    "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/three-minute-unified-showcase/audio/14-sitcom-explainer-spoon_d2.aiff",
+    "voice": "Fred",
+    "start": 68200,
+    "duration": 3900
+  },
+  {
+    "id": "sitcom-explainer-spoon_d3",
+    "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/three-minute-unified-showcase/audio/15-sitcom-explainer-spoon_d3.aiff",
+    "voice": "Samantha",
+    "start": 73800,
+    "duration": 3600
+  },
+  {
+    "id": "sitcom-explainer-spoon_d4",
+    "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/three-minute-unified-showcase/audio/16-sitcom-explainer-spoon_d4.aiff",
+    "voice": "Alex",
+    "start": 80500,
+    "duration": 4300
+  },
+  {
+    "id": "sitcom-explainer-spoon_d5",
+    "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/three-minute-unified-showcase/audio/17-sitcom-explainer-spoon_d5.aiff",
+    "voice": "Fred",
+    "start": 86700,
+    "duration": 3800
+  },
+  {
+    "id": "sitcom-explainer-spoon_d6",
+    "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/three-minute-unified-showcase/audio/18-sitcom-explainer-spoon_d6.aiff",
+    "voice": "Samantha",
+    "start": 93200,
+    "duration": 3500
+  },
+  {
+    "id": "sitcom-explainer-spoon_d7",
+    "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/three-minute-unified-showcase/audio/19-sitcom-explainer-spoon_d7.aiff",
+    "voice": "Alex",
+    "start": 101500,
+    "duration": 3900
+  },
+  {
+    "id": "sitcom-explainer-spoon_d8",
+    "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/three-minute-unified-showcase/audio/20-sitcom-explainer-spoon_d8.aiff",
+    "voice": "Fred",
+    "start": 107800,
+    "duration": 3600
+  },
+  {
+    "id": "sitcom-explainer-spoon_d9",
+    "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/three-minute-unified-showcase/audio/21-sitcom-explainer-spoon_d9.aiff",
+    "voice": "Samantha",
+    "start": 113500,
+    "duration": 3400
+  },
+  {
+    "id": "procedural-finale-cup_d1",
+    "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/three-minute-unified-showcase/audio/22-procedural-finale-cup_d1.aiff",
+    "voice": "Alex",
+    "start": 123000,
+    "duration": 3300
+  },
+  {
+    "id": "procedural-finale-cup_d2",
+    "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/three-minute-unified-showcase/audio/23-procedural-finale-cup_d2.aiff",
+    "voice": "Fred",
+    "start": 126800,
+    "duration": 3000
+  },
+  {
+    "id": "procedural-finale-cup_d3",
+    "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/three-minute-unified-showcase/audio/24-procedural-finale-cup_d3.aiff",
+    "voice": "Samantha",
+    "start": 130300,
+    "duration": 3000
+  },
+  {
+    "id": "procedural-finale-cup_d4",
+    "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/three-minute-unified-showcase/audio/25-procedural-finale-cup_d4.aiff",
+    "voice": "Alex",
+    "start": 135000,
+    "duration": 3100
+  },
+  {
+    "id": "procedural-finale-cup_d5",
+    "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/three-minute-unified-showcase/audio/26-procedural-finale-cup_d5.aiff",
+    "voice": "Fred",
+    "start": 138500,
+    "duration": 2800
+  },
+  {
+    "id": "procedural-finale-cup_d6",
+    "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/three-minute-unified-showcase/audio/27-procedural-finale-cup_d6.aiff",
+    "voice": "Samantha",
+    "start": 141800,
+    "duration": 3200
+  },
+  {
+    "id": "procedural-finale-cup_d7",
+    "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/three-minute-unified-showcase/audio/28-procedural-finale-cup_d7.aiff",
+    "voice": "Alex",
+    "start": 149000,
+    "duration": 3000
+  },
+  {
+    "id": "procedural-finale-cup_d8",
+    "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/three-minute-unified-showcase/audio/29-procedural-finale-cup_d8.aiff",
+    "voice": "Fred",
+    "start": 152500,
+    "duration": 3100
+  },
+  {
+    "id": "procedural-finale-cup_d9",
+    "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/three-minute-unified-showcase/audio/30-procedural-finale-cup_d9.aiff",
+    "voice": "Samantha",
+    "start": 156500,
+    "duration": 3200
+  },
+  {
+    "id": "procedural-finale-cup_d10",
+    "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/three-minute-unified-showcase/audio/31-procedural-finale-cup_d10.aiff",
+    "voice": "Alex",
+    "start": 162000,
+    "duration": 3100
+  },
+  {
+    "id": "procedural-finale-cup_d11",
+    "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/three-minute-unified-showcase/audio/32-procedural-finale-cup_d11.aiff",
+    "voice": "Fred",
+    "start": 168000,
+    "duration": 3000
+  },
+  {
+    "id": "procedural-finale-cup_d12",
+    "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/three-minute-unified-showcase/audio/33-procedural-finale-cup_d12.aiff",
+    "voice": "Samantha",
+    "start": 173500,
+    "duration": 3700
+  }
+]

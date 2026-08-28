@@ -3,9 +3,9 @@
  * Blessed is He
  *
  * The Awtsmoos lets handheld Torah search breathe beneath one living source flow;
- * Awtsmoos.com keeps the primary mobile search path compact while context lives beside it.
+ * Awtsmoos.com keeps the primary mobile search path compact while context descends below.
  */
-@import url("./mobile-context.css");
+@import url("./mobile-context.css?v=living-search-context-002");
 
 @media (max-width: 42rem) {
 	.library-page {
@@ -14,31 +14,17 @@
 	}
 
 	.library-hero {
-		grid-template-columns: 1fr;
 		min-height: 0;
 		padding: 1rem;
-	}
-
-	.library-hero-mark {
-		display: none;
 	}
 
 	.library-hero h1 {
 		font-size: clamp(2rem, 11vw, 3.35rem);
 	}
 
-	.library-truth-row {
-		gap: .35rem;
-		margin-top: .8rem;
-	}
-
-	.library-truth-row span {
-		font-size: .68rem;
-	}
-
 	.library-search-form {
-		grid-template-columns: 1fr;
 		gap: .6rem;
+		grid-template-columns: 1fr;
 		padding: .65rem;
 	}
 
@@ -67,9 +53,9 @@
 	}
 
 	.library-section-heading a {
-		display: flex;
 		align-items: center;
-		min-height: 2rem;
+		display: flex;
+		min-height: 2.75rem;
 		padding-inline: 0;
 	}
 
@@ -82,8 +68,8 @@
 	}
 
 	.rank {
-		width: 2.35rem;
 		height: 2.35rem;
+		width: 2.35rem;
 	}
 
 	.score {
@@ -101,15 +87,5 @@
 
 	.commentCoord {
 		grid-column: 1 / -1;
-	}
-}
-
-@media (max-width: 22rem) {
-	.library-hero-copy > p:not(.library-kicker) {
-		font-size: .92rem;
-	}
-
-	.library-truth-row span {
-		width: 100%;
 	}
 }

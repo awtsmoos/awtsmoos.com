@@ -1,23 +1,33 @@
 //B"H
-//Boruch Hashem
-//Blessed is He
+// Boruch Hashem
+// Blessed is He
 
 const {
 	defaultLocalName,
 	namesFromDeclaration
-} = require("./declarationNames.js");
+} = require('./declarationNames.js');
 const {
 	sourceForDefaultDeclaration,
 	sourceForNamedDeclaration
-} = require("./sourceDeclarations.js");
+} = require('./sourceDeclarations.js');
+const {
+	sourceReexportReplacement,
+	specifierExportAssignments
+} = require('./exportAssignments.js');
 
 /**
- * @file Converts AST-recognized ESM exports into each compact module's frozen namespace vessel.
- * @description The Awtsmoos lets declarations, aliases, defaults, and re-exported rays remain public after source chambers fold into light;
- * Awtsmoos.com keeps export meaning independent from CRN resolution so identity grows stronger without changing what modules reveal right.
+ * @file exportTransform.js
+ * @description Converts AST-recognized ESM exports into each compact module's frozen namespace vessel.
+ * The Awtsmoos lets declarations and defaults remain public after source chambers fold into light;
+ * Awtsmoos.com separates assignment from declaration, so each export keeps its meaning clear and right.
  */
 
-/** Rewrites one named export declaration, local list, or source re-export. */
+/**
+ * @description Rewrites one named export declaration, local list, or source re-export.
+ * @param {object} record CompactJS module record containing dependency and source information.
+ * @param {object} node ESTree ExportNamedDeclaration node.
+ * @returns {string} Replacement JavaScript that preserves the authored export meaning.
+ */
 function namedExportReplacement(record, node) {
 	const source = node.source?.value;
 	if (source && (record.deps.has(source) || record.externalDeps.has(source))) {
@@ -26,76 +36,47 @@ function namedExportReplacement(record, node) {
 	if (node.declaration) {
 		return declarationExportReplacement(record, node.declaration);
 	}
-	return specifierExportAssignments(node.specifiers, "");
+	return specifierExportAssignments(node.specifiers, '');
 }
 
-/** Rewrites a source re-export using the already-resolved dependency namespace. */
-function sourceReexportReplacement(record, node) {
-	const source = node.source?.value;
-	const dependency = record.deps.get(source)
-		|| record.externalDeps.get(source);
-	if (!dependency) {
-		return "";
-	}
-	const specifiers = node.specifiers || [];
-	if (!specifiers.length || specifiers.some((item) => item.type === "ExportAllDeclaration")) {
-		return `Object.assign(__exports, ${dependency.id});`;
-	}
-	return specifiers
-		.map((specifier) => {
-			const local = specifier.local?.name;
-			const exported = specifier.exported?.name;
-			return local && exported
-				? `__exports.${exported} = ${dependency.id}.${local};`
-				: "";
-		})
-		.filter(Boolean)
-		.join("\n");
-}
-
-/** Rewrites one export-star declaration into namespace assignment. */
+/**
+ * @description Rewrites one export-star declaration into a dependency namespace assignment.
+ * @param {object} record CompactJS module record with resolved dependencies.
+ * @param {object} node ESTree ExportAllDeclaration node.
+ * @returns {string} Object assignment source, or an empty string when resolution failed.
+ */
 function exportAllReplacement(record, node) {
 	const source = node.source?.value;
 	const dependency = record.deps.get(source)
 		|| record.externalDeps.get(source);
 	return dependency
 		? `Object.assign(__exports, ${dependency.id});`
-		: "";
+		: '';
 }
 
-/** Preserves the authored declaration, then publishes every declared binding. */
+/**
+ * @description Preserves an exported declaration and then publishes every declared binding.
+ * @param {object} record CompactJS module record supplying the original source text.
+ * @param {object} declaration ESTree declaration carried by the export.
+ * @returns {string} Declaration source followed by namespace assignments.
+ */
 function declarationExportReplacement(record, declaration) {
 	let text = sourceForNamedDeclaration(record, declaration);
-	if (
-		declaration.async
-		&& declaration.type === "FunctionDeclaration"
-		&& !/^async\b/.test(text.trim())
-	) {
+	if (declaration.async && declaration.type === 'FunctionDeclaration' && !/^async\b/.test(text.trim())) {
 		text = `async ${text}`;
 	}
 	const assignments = namesFromDeclaration(declaration)
 		.map((name) => `__exports.${name} = ${name};`)
-		.join("\n");
-	return assignments
-		? `${text}\n${assignments}\n`
-		: text;
+		.join('\n');
+	return assignments ? `${text}\n${assignments}\n` : text;
 }
 
-/** Rewrites a local export list into namespace assignments. */
-function specifierExportAssignments(specifiers, prefix) {
-	return (specifiers || [])
-		.map((specifier) => {
-			const local = specifier.local?.name;
-			const exported = specifier.exported?.name;
-			return local && exported
-				? `__exports.${exported} = ${prefix}${local};`
-				: "";
-		})
-		.filter(Boolean)
-		.join("\n");
-}
-
-/** Rewrites one default export while preserving named declarations and creating stable names for anonymous values. */
+/**
+ * @description Rewrites a default export while creating stable local names for anonymous values.
+ * @param {object} record CompactJS module record supplying authored source.
+ * @param {object} node ESTree ExportDefaultDeclaration node.
+ * @returns {string} JavaScript that evaluates the default value once and publishes it.
+ */
 function defaultExportReplacement(record, node) {
 	const declaration = node.declaration;
 	const local = defaultLocalName(record, declaration);
@@ -103,18 +84,10 @@ function defaultExportReplacement(record, node) {
 	if (declaration.async && /^function\b/.test(source.trim())) {
 		source = `async ${source}`;
 	}
-	if (declaration.id?.name) {
-		return `${source}\n__exports.default = ${local};`;
-	}
-	if (declaration.type === "Identifier") {
-		return `__exports.default = ${local};`;
-	}
-	if (declaration.type === "FunctionExpression") {
-		return `function ${local}${source.slice("function".length)}\n__exports.default = ${local};`;
-	}
-	if (declaration.type === "ClassExpression") {
-		return `class ${local}${source.slice("class".length)}\n__exports.default = ${local};`;
-	}
+	if (declaration.id?.name) return `${source}\n__exports.default = ${local};`;
+	if (declaration.type === 'Identifier') return `__exports.default = ${local};`;
+	if (declaration.type === 'FunctionExpression') return `function ${local}${source.slice('function'.length)}\n__exports.default = ${local};`;
+	if (declaration.type === 'ClassExpression') return `class ${local}${source.slice('class'.length)}\n__exports.default = ${local};`;
 	return `const ${local} = ${source};\n__exports.default = ${local};`;
 }
 

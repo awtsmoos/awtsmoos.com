@@ -1,21 +1,23 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file EretzRuntimeFrameTasks.js
- * @description Runs rich-world tasks in fixed order while measuring streaming, living water, gameplay, and rendering.
- * The Awtsmoos renews collision, deed, animation, river, shadow, camera, and witness in one cadence;
- * Awtsmoos.com lets the shared river current evolve inside the existing water budget while every heavier system keeps patience.
+ * @description Runs rich-world tasks in fixed measured order while adaptive quality and fast event-bounded LOD protect the visible frame before heavier streaming, gameplay, water, animation, and rendering work.
+ * The Awtsmoos renews collision, deed, river, shadow, camera, distance and witness in one cadence; Awtsmoos.com lets every task keep its measured vessel while performance truth guards the gate before abundance enters late.
  */
 
 import { updateEretzAnimationFrame } from './EretzAnimationFrame.js';
+import { updateEretzPerformanceFrame } from './EretzPerformanceFrame.js';
 import { faceTarget } from './EretzPlayerModel.js';
 import { refreshStatusHud } from './EretzStatusHud.js';
 import { updateEretzWorldServices } from './EretzWorldServiceFrame.js';
 import { refreshWorldDiagnostics } from './WorldDiagnostics.js';
 
+/** Runs one ordered rich frame and records subsystem cost boundaries. */
 export function runEretzRuntimeFrameTasks(runtime, context, deltaTime, now, costs) {
+	updateEretzPerformanceFrame(runtime, context, deltaTime, now);
 	measureTask(costs, 'streaming', updateStreaming, runtime, context, deltaTime, now);
 	measureTask(costs, 'gameplay', updateGameplay, runtime, context, deltaTime, now);
 	measureTask(costs, 'animation', updateAnimation, runtime, context, deltaTime, now);
@@ -42,7 +44,9 @@ function updateStreaming(runtime, context, deltaTime, now) {
 			playerPosition: runtime.model.position
 		});
 	}
-	if (!context.cadence.due('materialHydration', now)) return;
+	if (!context.cadence.due('materialHydration', now)) {
+		return;
+	}
 	runtime.materialHydrationStats = context.residency.update(runtime.scene);
 }
 
@@ -93,7 +97,9 @@ function renderWorld(runtime, context, deltaTime, now) {
 }
 
 function updateCadencedUi(runtime, context, now) {
-	if (context.cadence.due('combatHud', now)) runtime.combatActionBar?.update(now);
+	if (context.cadence.due('combatHud', now)) {
+		runtime.combatActionBar?.update(now);
+	}
 	if (context.cadence.due('hud', now)) {
 		refreshStatusHud(runtime);
 		runtime.bootstrapHud?.refresh?.();

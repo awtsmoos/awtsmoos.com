@@ -1,0 +1,105 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos renews every hidden current of light before a gradient may resemble sky, mist, or living field;
+Awtsmoos.com lets this ambient nature remain entirely inside the social shell, behind content and beyond pointer capture, quiet enough that navigation stays revealed.
+*/
+.g-shell[data-awtsmoos-surface="social-shell"] .g-shell-ambient {
+	position: fixed;
+	z-index: -1;
+	inset: 0;
+	pointer-events: none;
+	overflow: clip;
+	contain: strict;
+	opacity: .82;
+	background:
+		radial-gradient(
+			circle at var(--g-pointer-x, 50%) var(--g-pointer-y, 22%),
+			rgba(77, 233, 255, .11),
+			transparent 24rem
+		),
+		radial-gradient(
+			ellipse at 18% 78%,
+			rgba(85, 229, 174, .07),
+			transparent 30rem
+		),
+		radial-gradient(
+			ellipse at 84% 18%,
+			rgba(150, 100, 255, .08),
+			transparent 34rem
+		);
+	transition: opacity var(--g-motion-slow) var(--g-ease);
+}
+
+.g-shell[data-awtsmoos-surface="social-shell"] .g-shell-ambient::before,
+.g-shell[data-awtsmoos-surface="social-shell"] .g-shell-ambient::after {
+	content: "";
+	position: absolute;
+	inset: -18%;
+	border-radius: 50%;
+	filter: blur(3rem);
+	transform: translate3d(0, 0, 0);
+	will-change: transform;
+	pointer-events: none;
+}
+
+.g-shell[data-awtsmoos-surface="social-shell"] .g-shell-ambient::before {
+	background:
+		conic-gradient(
+			from 210deg,
+			transparent,
+			rgba(77, 233, 255, .055),
+			transparent 34%,
+			rgba(85, 229, 174, .04),
+			transparent 68%,
+			rgba(150, 100, 255, .05),
+			transparent
+		);
+	animation: g-ambient-orbit 28s linear infinite;
+}
+
+.g-shell[data-awtsmoos-surface="social-shell"] .g-shell-ambient::after {
+	inset: 12% -20% -28%;
+	background:
+		radial-gradient(ellipse, rgba(76, 141, 255, .055), transparent 62%),
+		radial-gradient(ellipse at 70% 58%, rgba(255, 85, 209, .035), transparent 48%);
+	animation: g-ambient-drift 20s var(--g-ease) infinite alternate;
+}
+
+.g-shell[data-awtsmoos-surface="social-shell"][data-g-ambient-paused="true"] .g-shell-ambient,
+.g-shell[data-awtsmoos-surface="social-shell"][data-g-ambient-paused="true"] .g-shell-ambient::before,
+.g-shell[data-awtsmoos-surface="social-shell"][data-g-ambient-paused="true"] .g-shell-ambient::after {
+	animation-play-state: paused;
+}
+
+.g-shell[data-awtsmoos-surface="social-shell"][data-g-performance="lean"] .g-shell-ambient {
+	opacity: .38;
+}
+
+.g-shell[data-awtsmoos-surface="social-shell"][data-g-performance="lean"] .g-shell-ambient::before,
+.g-shell[data-awtsmoos-surface="social-shell"][data-g-performance="lean"] .g-shell-ambient::after {
+	display: none;
+}
+
+@keyframes g-ambient-orbit {
+	to {
+		transform: rotate(1turn) scale(1.04);
+	}
+}
+
+@keyframes g-ambient-drift {
+	from {
+		transform: translate3d(-2%, 1%, 0) scale(.98);
+	}
+	to {
+		transform: translate3d(3%, -2%, 0) scale(1.04);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.g-shell[data-awtsmoos-surface="social-shell"] .g-shell-ambient::before,
+	.g-shell[data-awtsmoos-surface="social-shell"] .g-shell-ambient::after {
+		animation: none;
+	}
+}

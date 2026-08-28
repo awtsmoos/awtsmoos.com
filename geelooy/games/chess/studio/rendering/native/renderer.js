@@ -3,21 +3,19 @@
 // Blessed is He
 
 /**
- * @file Renders live and cinematic Chess entirely through Awtsmoos procedural-core native WebGL.
- * The Awtsmoos gathers scene, camera, geometry, atmosphere, and motion into one revealed frame;
- * Awtsmoos.com keeps every 3D ray native while preview and movie share the same procedural name.
+ * @file Renders Chess through Awtsmoos procedural-core while retaining stable scene vessels between frames.
+ * The Awtsmoos renews the visible game without needless destruction of the board beneath its light;
+ * Awtsmoos.com keeps scene, geometry, camera, atmosphere, and measured resolution in separated vessels of sight.
  */
 import { ChessAmbientOrbit } from "../ambientOrbit.js";
-import { directCameraMotion } from "../cameraDirector.js";
-import { getCameraPreset } from "../cameraPresets.js";
-import { moveTarget, withTarget } from "../cameraMath.js";
 import { ChessCameraTween } from "../cameraTween.js";
-import { safePixelRatio } from "../qualityPresets.js";
-import { applyNativeCameraPose, createNativeCamera, manualNativePose } from "./camera.js";
+import { applyNativeCameraPose, createNativeCamera } from "./camera.js";
 import { applyNativeEnvironment } from "./environment.js";
 import { createNativeGeometrySet } from "./geometrySet.js";
+import { resolveNativePose } from "./poseResolver.js";
+import { resizeNativeRenderer } from "./rendererSizing.js";
 import { loadNativeChessRuntime } from "./runtime.js";
-import { createNativeChessScene } from "./scene.js";
+import { NativeSceneState } from "./sceneState.js";
 
 export class NativeProceduralRenderer {
 	constructor(canvas, options = {}) {
@@ -30,8 +28,14 @@ export class NativeProceduralRenderer {
 
 	async initialize() {
 		this.runtime = await loadNativeChessRuntime();
-		this.renderer = new this.runtime.TinyWebGLRenderer({ canvas: this.canvas, alpha: true, antialias: true, cacheGlState: true });
+		this.renderer = new this.runtime.TinyWebGLRenderer({
+			canvas: this.canvas,
+			alpha: true,
+			antialias: true,
+			cacheGlState: true
+		});
 		this.camera = createNativeCamera(this.runtime);
+		this.sceneState = new NativeSceneState(this.runtime);
 		this.tween = new ChessCameraTween(pose => this.drawPose(pose));
 		this.orbit = new ChessAmbientOrbit(pose => this.drawPose(pose));
 		this.ensureGeometries();
@@ -42,36 +46,31 @@ export class NativeProceduralRenderer {
 		this.frame = frame;
 		this.options = { ...this.options, ...options };
 		this.ensureGeometries();
-		this.scene = createNativeChessScene(this.runtime, this.geometries, frame, this.options);
+		this.scene = this.sceneState.update(this.geometries, frame, this.options);
 		applyNativeEnvironment(this.renderer, this.options);
-		this.applyMotion(resolvePose(frame, this.options));
+		this.applyCameraMotion(resolveNativePose(frame, this.options));
 	}
 
 	renderImmediate(frame, pose, options = {}) {
 		this.frame = frame;
 		this.options = { ...this.options, ...options };
 		this.ensureGeometries();
-		this.scene = createNativeChessScene(this.runtime, this.geometries, frame, this.options);
+		this.scene = this.sceneState.update(this.geometries, frame, this.options);
 		applyNativeEnvironment(this.renderer, this.options);
-		this.tween?.cancel();
-		this.orbit?.stop();
-		this.drawPose(pose || resolvePose(frame, this.options));
+		this.tween.cancel();
+		this.orbit.stop();
+		this.drawPose(pose || resolveNativePose(frame, this.options));
 	}
 
 	resize(width, height) {
 		this.width = Math.max(1, Math.floor(width || 1));
 		this.height = Math.max(1, Math.floor(height || 1));
 		if (!this.renderer) return;
-		const ratio = safePixelRatio(this.options.quality);
-		this.renderer.setSize(Math.round(this.width * ratio), Math.round(this.height * ratio));
-		if (this.canvas.style) {
-			this.canvas.style.width = `${this.width}px`;
-			this.canvas.style.height = `${this.height}px`;
-		}
+		resizeNativeRenderer(this.renderer, this.canvas, this.width, this.height, this.options.quality);
 		if (this.tween?.current && this.scene) this.drawPose(this.tween.current);
 	}
 
-	applyMotion(pose) {
+	applyCameraMotion(pose) {
 		this.orbit.stop();
 		if (this.options.cameraMotion === "orbit") {
 			this.tween.cancel();
@@ -95,24 +94,24 @@ export class NativeProceduralRenderer {
 		this.quality = quality;
 	}
 
+	stats() {
+		return this.sceneState?.stats() || Object.freeze({});
+	}
+
 	dispose() {
 		this.tween?.cancel();
 		this.orbit?.stop();
+		this.sceneState?.dispose();
 		this.renderer?.dispose();
 		this.scene = null;
 	}
 }
 
-function resolvePose(frame, options) {
-	if (options.pose) return options.pose;
-	if (options.camera === "manual") return manualNativePose(options.manualCamera);
-	if (options.cameraMotion && options.cameraMotion !== "director") return directCameraMotion(frame, { ...options, intensity: options.cameraIntensity });
-	if (!options.camera || options.camera === "auto") return directCameraMotion(frame, { ...options, intensity: options.cameraIntensity || "balanced" });
-	const preset = getCameraPreset(options.camera);
-	if (options.followMove === false || !frame?.move) return preset;
-	return withTarget(preset, moveTarget(frame.move, options.flipped, frame.move.capture ? 0.58 : 0.42));
-}
-
 function poseSignature(pose) {
-	return JSON.stringify([pose.id, pose.projection, pose.position.map(value => Number(value.toFixed(2))), pose.target.map(value => Number(value.toFixed(2)))]);
+	return JSON.stringify([
+		pose.id,
+		pose.projection,
+		pose.position.map(value => Number(value.toFixed(2))),
+		pose.target.map(value => Number(value.toFixed(2)))
+	]);
 }

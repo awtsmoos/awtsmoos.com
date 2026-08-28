@@ -1,6 +1,12 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
+/**
+ * @module MessagingAppShell
+ * @description
+ * The Awtsmoos is one beyond rail and pane, while Awtsmoos.com lets every chamber carry a clear
+ * purpose in light; first paint yields atomically to the live shell so no duplicate palace survives night.
+ */
 
 import { collectMessagingElements } from "./MessagingElementMap.js";
 import {
@@ -15,24 +21,30 @@ import {
 import { messagingShellTemplate } from "./MessagingShellTemplate.js";
 
 /**
- * @file Builds the flagship social workspace while desktop and phone navigation share one truthful section catalog.
- * @description The Awtsmoos is one beyond rail and pane, yet Awtsmoos.com lets every chamber carry a measured icon, label, purpose, and rightful canvas in light;
- * mobile prominence changes only which doors remain constantly visible, while section identity, policy, and specialized rendering remain untouched.
+ * @class MessagingAppShell
+ * @description Owns the stable messaging workspace shell while section controllers own live data and actions.
  */
-
 export class MessagingAppShell {
+	/**
+	 * @description Creates the live messaging shell and atomically replaces any static first-paint fallback.
+	 * @param {HTMLElement} root Existing application mount whose fallback children may be replaced safely.
+	 * @returns {MessagingAppShell} Ready shell with cached elements and rendered navigation rail.
+	 */
 	constructor(root = document.body) {
 		this.root = document.createElement("main");
 		this.root.className = "messaging-app";
 		this.root.dataset.mobileView = "list";
 		this.root.innerHTML = messagingShellTemplate();
-		root.appendChild(this.root);
+		root.replaceChildren(this.root);
 		this.elements = collectMessagingElements(this.root);
 		this.renderRail();
 		this.elements = collectMessagingElements(this.root);
 	}
 
-	/** Builds all desktop sections plus one phone-only More doorway from the shared immutable catalog. */
+	/**
+	 * @description Rebuilds desktop and mobile section doors from the shared immutable section catalog.
+	 * @returns {void} Replaces only rail-button children and preserves the rest of the live shell.
+	 */
 	renderRail() {
 		this.elements.rail.replaceChildren();
 		let previousGroup = null;
@@ -46,7 +58,11 @@ export class MessagingAppShell {
 		this.elements.rail.appendChild(createMobileMoreButton());
 	}
 
-	/** Marks one known section current, updates copy, and broadcasts presentation selection without routing a second time. */
+	/**
+	 * @description Marks a known section current and broadcasts its presentation identity without rerouting twice.
+	 * @param {string} id Section identifier from the shared messaging catalog.
+	 * @returns {void} Updates navigation, copy, layout state, and emits one selection event.
+	 */
 	selectSection(id) {
 		const section = messagingSection(id);
 		for (const button of this.elements.rail.querySelectorAll("[data-section]")) {

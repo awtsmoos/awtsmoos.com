@@ -1,60 +1,56 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file MitzvahWorldModeLoaders.js
- * @description Opens playable worlds first, keeps Movie Studio lightweight, and loads heavier presentation only for advanced creative routes.
+ * @description Opens playable worlds first while keeping each heavy runtime behind a literal deferred module door.
  * The Awtsmoos reveals movement before ornament while every doorway keeps its appointed weight;
- * Awtsmoos.com lets cinema stay light, worlds become playable first, and deeper creative vessels arrive only when their users open the gate.
+ * Awtsmoos.com lets the route shell stay light, and only the chosen world receives the deeper runtime beyond its gate.
  */
 
 import {
+	openMitzvahWorldMovieCreative,
+	openPresentedMitzvahWorldCreative
+} from './MitzvahWorldCreativeRouteLoader.js';
+import {
 	createDirectWorldRuntimeOptions,
-	directWorldErrorReceipt,
 	reportDirectWorldProgress
 } from './MitzvahWorldDirectRuntimeOptions.js';
+import {
+	launchMitzvahWorldPostPlayExperience
+} from './MitzvahWorldPostPlayLoader.js';
 
-const CAPSULE_VERSION = '20260821-retractable-command-capsule-01';
-const CREATIVE_URL = './MitzvahWorldCreativeModeLoaders.js?compact=true&v=20260802-game-studio-bridge-02';
-const DIRECT_EXPERIENCE_URL = `./MitzvahWorldDirectExperience.js?compact=true&v=${CAPSULE_VERSION}`;
-const POST_PLAY_EXPERIENCE_URL = `./MitzvahWorldPostPlayExperience.js?compact=true&v=${CAPSULE_VERSION}`;
-const SINGLE_PLAYER_RUNTIME_URL = '../app/createEretzRuntime.js?compact=true&v=20260804-map-01';
+export {
+	hasMovieRequest
+} from './MitzvahWorldRouteQuery.js';
 
-/** Returns the public route-loader covenant without exposing implementation details. */
+/**
+ * @description Returns the public route-loader covenant without exposing implementation details.
+ * @param {object} environment Browser-like runtime environment.
+ * @returns {object} Frozen mode-loader contract.
+ */
 export function createMitzvahWorldModeLoaders(environment = globalThis) {
 	return Object.freeze({
-		materials: hosts => openPresentedCreative('openMaterialsMode', hosts, '', environment),
-		movie: (hosts, options) => openMovieCreative(hosts, options),
+		materials: hosts => openPresentedMitzvahWorldCreative('openMaterialsMode', hosts, '', environment),
+		movie: (hosts, options) => openMitzvahWorldMovieCreative(hosts, options),
 		multiplayer: (hosts, options) => openMultiplayer(hosts, options, environment),
-		platform: hosts => openPresentedCreative('openPlatformMode', hosts, '', environment),
+		platform: hosts => openPresentedMitzvahWorldCreative('openPlatformMode', hosts, '', environment),
 		singlePlayer: (hosts, options) => openSinglePlayer(hosts, options, environment)
 	});
 }
 
-/** Detects explicit Movie Studio requests while preserving historic query forms. */
-export function hasMovieRequest(search = '') {
-	const parameters = search instanceof URLSearchParams
-		? search
-		: new URLSearchParams(search);
-	return parameters.get('mode') === 'movie'
-		|| parameters.has('movie')
-		|| parameters.has('movieJson')
-		|| parameters.has('movieUrl')
-		|| parameters.has('project');
-}
-
-/** Opens Movie Studio without hydrating full gameplay presentation. */
-async function openMovieCreative(hosts, options = {}) {
-	const moduleKli = await import(CREATIVE_URL);
-	return moduleKli.openMovieMode(hosts, options.search || '');
-}
-
-/** Opens one local single-player runtime before optional post-play presentation. */
+/**
+ * @description Opens one local single-player runtime through a literal dynamic import before optional post-play presentation.
+ * @param {object} hosts Canonical game host elements.
+ * @param {object} options Runtime launch options.
+ * @param {object} environment Browser-like runtime environment.
+ * @returns {Promise<object>} Single-player diagnostics.
+ */
 async function openSinglePlayer(hosts, options = {}, environment = globalThis) {
 	reportDirectWorldProgress(options, 'Preparing visible WebGL control and map…');
 	const [runtimeModule, badgeModule] = await Promise.all([
-		import(SINGLE_PLAYER_RUNTIME_URL),
+		import('../app/createEretzRuntime.js?compact=true&v=20260804-map-01'),
 		import('../network/MultiplayerStatusBadge.js?compact=true')
 	]);
 	const diagnostics = await runtimeModule.createEretzRuntime(
@@ -69,11 +65,17 @@ async function openSinglePlayer(hosts, options = {}, environment = globalThis) {
 		state: 'singleplayer',
 		transport: 'none'
 	});
-	launchPostPlayExperience(diagnostics, environment);
+	launchMitzvahWorldPostPlayExperience(diagnostics, environment);
 	return diagnostics;
 }
 
-/** Opens the shared runtime and defers optional post-play presentation. */
+/**
+ * @description Opens the shared runtime through its literal deferred module door and then adds optional post-play presentation.
+ * @param {object} hosts Canonical game host elements.
+ * @param {object} options Shared-world launch options.
+ * @param {object} environment Browser-like runtime environment.
+ * @returns {Promise<object>} Multiplayer diagnostics.
+ */
 async function openMultiplayer(hosts, options = {}, environment = globalThis) {
 	reportDirectWorldProgress(options, 'Preparing visible WebGL shared control and map…');
 	const { createMultiplayerEretzRuntime } = await import(
@@ -87,27 +89,6 @@ async function openMultiplayer(hosts, options = {}, environment = globalThis) {
 		url: options.realtimeUrl,
 		worldId: options.worldId
 	});
-	launchPostPlayExperience(diagnostics, environment);
+	launchMitzvahWorldPostPlayExperience(diagnostics, environment);
 	return diagnostics;
-}
-
-/** Opens an advanced creative mode after explicitly loading its richer presentation. */
-async function openPresentedCreative(method, hosts, search, environment) {
-	const experienceKli = await import(DIRECT_EXPERIENCE_URL);
-	await experienceKli.startMitzvahWorldFullPresentation(hosts, environment);
-	const creativeKli = await import(CREATIVE_URL);
-	return creativeKli[method](hosts, search);
-}
-
-/** Starts post-play helpers without letting optional presentation failures stop play. */
-function launchPostPlayExperience(diagnostics, environment) {
-	const promise = import(POST_PLAY_EXPERIENCE_URL)
-		.then(moduleKli => moduleKli.startMitzvahWorldPostPlayExperience(diagnostics, environment))
-		.catch(errorOhr => {
-			diagnostics.directExperienceBootstrapError = directWorldErrorReceipt(errorOhr);
-			console.warn('[MitzvahWorld] post-play helper degraded.', errorOhr);
-			return null;
-		});
-	diagnostics.directExperienceBootstrapPromise = promise;
-	return promise;
 }

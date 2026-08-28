@@ -1,21 +1,18 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file MinimalMeadowFrameScheduler.js
- * @description Owns resilient paint and timer-backed simulation cadence so one subsystem exception cannot permanently stop a playable world.
- * RESPONSIBILITY: preserve one pending animation frame, sustain fallback ticks, calculate delta time, and always re-arm cadence while running.
- * NON-RESPONSIBILITY: diagnostics state, gameplay, rendering, and input semantics belong to focused neighboring vessels.
- * The Awtsmoos renews time beyond every broken finite callback; Awtsmoos.com lets the next pulse still arrive,
- * so one failed texture, actor, or frame may be witnessed and repaired without extinguishing the living drive.
+ * @description Owns one resilient display cadence: requestAnimationFrame exclusively when available, with timer simulation only as a true environment fallback rather than a competing second driver.
+ * The Awtsmoos renews time beyond every finite clock while Awtsmoos.com lets paint command visible motion; no rescue timer steals work between frames, so one valley breath reaches the eye before another begins to climb.
  */
 
 import { MinimalMeadowFrameSchedulerState } from './MinimalMeadowFrameSchedulerState.js';
 
-const FALLBACK_FRAME_MILLISECONDS = 50;
+const TIMER_FRAME_MILLISECONDS = 16;
 
-/** Creates one resilient frame scheduler with animation-frame paint and timer simulation rescue. */
+/** Creates one resilient scheduler whose visible-browser authority is a single RAF stream. */
 export function createMinimalMeadowFrameScheduler(environment, advance) {
 	const clock = () => environment.performance?.now?.() || Date.now();
 	const requestFrame = environment.requestAnimationFrame?.bind(environment);
@@ -27,33 +24,27 @@ export function createMinimalMeadowFrameScheduler(environment, advance) {
 	let lastTime = clock();
 	let timerId = null;
 
-	/** Starts one new paint cycle while keeping exactly one fallback timer beside it. */
+	/** Schedules exactly one next callback from the best available clock source. */
 	function scheduleCycle() {
 		if (!state.running) {
 			return;
 		}
 		const token = state.beginCycle();
-		frameId = requestFrame?.(time => runFrame(time, token)) ?? null;
-		scheduleFallback(token);
-	}
-
-	/** Arms the timer rescue for the current paint-cycle token. */
-	function scheduleFallback(token) {
-		if (!state.accepts(token)) {
+		if (requestFrame) {
+			frameId = requestFrame(time => runFrame(time, token));
 			return;
 		}
 		timerId = setTimer?.(
-			() => runFallback(token),
-			FALLBACK_FRAME_MILLISECONDS
+			() => runTimer(token),
+			TIMER_FRAME_MILLISECONDS
 		) ?? null;
 	}
 
-	/** Advances one paint frame and creates the next cycle even after delegated failure. */
+	/** Advances one painted frame and schedules its sole successor. */
 	function runFrame(timeValue, token) {
 		if (!state.accepts(token)) {
 			return;
 		}
-		clearFallback();
 		frameId = null;
 		runAdvance(timeValue, 'animation-frame');
 		if (state.accepts(token)) {
@@ -61,17 +52,19 @@ export function createMinimalMeadowFrameScheduler(environment, advance) {
 		}
 	}
 
-	/** Advances simulation between paints while preserving the pending animation frame. */
-	function runFallback(token) {
+	/** Advances only when RAF does not exist in the host environment. */
+	function runTimer(token) {
 		if (!state.accepts(token)) {
 			return;
 		}
 		timerId = null;
 		runAdvance(clock(), 'timer-fallback');
-		scheduleFallback(token);
+		if (state.accepts(token)) {
+			scheduleCycle();
+		}
 	}
 
-	/** Contains escaped delegated errors so scheduling ownership always survives. */
+	/** Contains delegated frame failures so scheduling ownership survives one subsystem fault. */
 	function runAdvance(timeValue, source) {
 		state.beginAdvance(timeValue, source);
 		try {
@@ -82,32 +75,33 @@ export function createMinimalMeadowFrameScheduler(environment, advance) {
 		}
 	}
 
-	/** Clears the timer rescue without disturbing a pending paint request. */
-	function clearFallback() {
-		if (timerId !== null) {
-			clearTimer?.(timerId);
-		}
-		timerId = null;
-	}
-
-	/** Cancels both clock sources during an explicit stop. */
+	/** Cancels the one active clock source during explicit stop. */
 	function stopScheduled() {
 		if (frameId !== null) {
 			cancelFrame?.(frameId);
 		}
-		clearFallback();
+		if (timerId !== null) {
+			clearTimer?.(timerId);
+		}
 		frameId = null;
+		timerId = null;
 	}
 
 	return {
 		consumeDelta(timeValue) {
 			const now = Number(timeValue) || clock();
-			const delta = Math.min(0.05, Math.max(0, (now - lastTime) / 1000));
+			const delta = Math.min(
+				0.05,
+				Math.max(0, (now - lastTime) / 1000)
+			);
 			lastTime = now;
 			return delta;
 		},
 		diagnostics() {
-			return state.diagnostics(frameId !== null, timerId !== null);
+			return state.diagnostics(
+				frameId !== null,
+				timerId !== null
+			);
 		},
 		start() {
 			if (state.running) {

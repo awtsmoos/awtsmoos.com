@@ -1,12 +1,12 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file MinimalMeadowHebrewGlyphGeometry.js
- * @description Merges Hebrew stroke rectangles into one cached geometry and three crossed meshes.
- * The Awtsmoos is beyond every finite line; Awtsmoos.com joins readable letter-strokes into a
- * solid world-space phrase with three views, three draws, and no texture, canvas, or alpha vessel.
+ * @description Merges Hebrew stroke rectangles into cached geometry while each view remains hidden until its real remote map is resident.
+ * The Awtsmoos is beyond every finite line; Awtsmoos.com joins readable letter-strokes into one world-space phrase,
+ * yet sight waits for truthful remote texture light so no solid or generated Hebrew card may falsely blaze.
  */
 
 import {
@@ -15,10 +15,12 @@ import {
 	Group,
 	Mesh
 } from '../../../light-three-gltf/tiny-runtime.js';
+import { materialHasRealMap } from '../assets/RemoteMaterialImageValidity.js';
 import { hebrewStrokePattern } from './MinimalMeadowHebrewStrokeAlphabet.js';
 
 const geometryCache = new Map();
 
+/** Creates three crossed remote-only stroke views. */
 export function createHebrewGlyphCards(material, letters) {
 	const geometry = hebrewGlyphStrokeGeometry(letters);
 	const group = new Group();
@@ -26,12 +28,17 @@ export function createHebrewGlyphCards(material, letters) {
 	group.userData = {
 		cardCount: 3,
 		hebrewLetters: letters,
-		renderMode: 'solid-stroke-geometry',
+		remoteOnly: true,
+		renderMode: 'remote-textured-stroke-geometry',
 		renderedGlyph: true
 	};
 	for (let index = 0; index < 3; index += 1) {
 		const view = new Mesh(geometry, material);
 		view.name = `Awtsmoos_hebrew_stroke_view_${index}_${letters}`;
+		view.visible = materialHasRealMap(material);
+		if (!view.visible) {
+			view.userData.awtsmoosRemoteOnlyVisibility = { hiddenByCovenant: true, previousVisible: true };
+		}
 		setYAxisRotation(view, index * Math.PI / 3);
 		view.setBaseTransform();
 		group.add(view);
@@ -47,7 +54,7 @@ export function hebrewGlyphStrokeGeometry(letters) {
 }
 
 export function hebrewGlyphGeometryDiagnostics() {
-	return { cachedPhrases: geometryCache.size, renderMode: 'solid-stroke-geometry' };
+	return { cachedPhrases: geometryCache.size, renderMode: 'remote-textured-stroke-geometry' };
 }
 
 export function setYAxisRotation(object, angle) {
@@ -62,13 +69,7 @@ function buildPhraseGeometry(letters) {
 	const phrase = [...letters];
 	phrase.forEach((letter, index) => {
 		const offset = ((phrase.length - 1) / 2 - index) * 0.92;
-		hebrewStrokePattern(letter).forEach(segment => appendStroke(
-			positions,
-			normals,
-			indices,
-			segment,
-			offset
-		));
+		hebrewStrokePattern(letter).forEach(segment => appendStroke(positions, normals, indices, segment, offset));
 	});
 	const geometry = new BufferGeometry();
 	geometry.setAttribute('position', new BufferAttribute(new Float32Array(positions), 3));
@@ -76,7 +77,8 @@ function buildPhraseGeometry(letters) {
 	geometry.setIndex(new BufferAttribute(new Uint16Array(indices), 1));
 	geometry.userData = {
 		hebrewLetters: letters,
-		renderMode: 'solid-stroke-geometry',
+		remoteOnly: true,
+		renderMode: 'remote-textured-stroke-geometry',
 		strokeCount: indices.length / 6
 	};
 	return geometry;

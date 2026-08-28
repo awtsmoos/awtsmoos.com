@@ -1,4 +1,4 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
@@ -8,11 +8,16 @@ const MessageRouter = require("./controller-message-router.js");
 const Protocol = require("./protocol.js");
 
 /**
- * @file Proves child-owned mailbox ambiguity becomes bounded exact-repair testimony.
+ * @file Proves preserved mailbox ambiguity becomes bounded exact-child recovery testimony.
  * @description
- * The Awtsmoos lets local healing speak before force acts. Awtsmoos.com mirrors the
- * child's state first, ignores healthy/quarantined custody, and delegates only explicit
- * preserved ambiguity through one stable exact-child recovery reason.
+ * The Awtsmoos lets evidence cross process boundaries without turning age into permission.
+ * Awtsmoos.com mirrors the child's preserved custody first, then asks the supervisor to repair
+ * only the exact child generation while the accepted deed remains protected from redispatch.
+ *
+ * > Preserve what is known, repair what is bound,
+ * > Let no stale lease erase what was found;
+ * > The Awtsmoos renews every process around,
+ * > While exact-child testimony keeps truth on the ground.
  */
 const events = [];
 const router = MessageRouter.createMessageRouter({
@@ -33,48 +38,54 @@ const router = MessageRouter.createMessageRouter({
 	publishStats() {}
 });
 
-const quarantined = RecoveryView.present({
-	actions: [{ operation: "quarantined", reason: "expired_pre_result" }],
+const ambiguous = RecoveryView.present({
+	actions: [{ operation: "preserved", reason: "accepted_execution_ambiguity" }],
 	expired: 1,
 	observedAt: 1000,
-	ok: true,
-	replacementRequired: false
+	ok: false,
+	replacementRequired: true
 });
-assert.equal(quarantined.reason, "expired_pre_result_quarantined");
-assert.equal(quarantined.quarantined, 1);
-assert.equal(quarantined.replacementRequired, false);
+assert.equal(ambiguous.reason, "semantic_recovery_ambiguous");
+assert.equal(ambiguous.preserved, 1);
+assert.equal(ambiguous.quarantined, 0);
+assert.equal(ambiguous.replacementRequired, true);
 
 router.handle(Protocol.message(Protocol.TYPES.STATE, {
-	state: { mailboxRecovery: quarantined, registered: true }
+	state: { mailboxRecovery: ambiguous, registered: true }
 }));
-assert.deepEqual(events, [["mirror", "expired_pre_result_quarantined"]]);
+assert.deepEqual(events, [
+	["mirror", "semantic_recovery_ambiguous"],
+	["repair", "child_mailbox_semantic_recovery_ambiguous"]
+]);
 
-const preserved = RecoveryView.present({
+const result = RecoveryView.present({
 	actions: [{ operation: "preserved", reason: "result_waiting_for_ack" }],
 	expired: 1,
 	observedAt: 2000,
 	ok: false,
 	replacementRequired: true
 });
-assert.equal(preserved.preserved, 1);
-assert.equal(preserved.reason, "result_waiting_for_ack");
+assert.equal(result.reason, "result_waiting_for_ack");
+assert.equal(result.preserved, 1);
 
 router.handle(Protocol.message(Protocol.TYPES.STATE, {
-	state: { mailboxRecovery: preserved, registered: true }
+	state: { mailboxRecovery: result, registered: true }
 }));
 assert.deepEqual(events.slice(-2), [
 	["mirror", "result_waiting_for_ack"],
 	["repair", "child_mailbox_result_waiting_for_ack"]
 ]);
 
-const failed = RecoveryView.present({
-	actions: [{ operation: "quarantine_failed", error: "never exported" }],
-	expired: 1,
+const healthy = RecoveryView.present({
+	actions: [],
+	expired: 0,
 	observedAt: 3000,
-	ok: false,
-	replacementRequired: true
+	ok: true,
+	replacementRequired: false
 });
-assert.equal(failed.reason, "quarantine_failed");
-assert.equal(failed.failed, 1);
+router.handle(Protocol.message(Protocol.TYPES.STATE, {
+	state: { mailboxRecovery: healthy, registered: true }
+}));
+assert.deepEqual(events.slice(-1), [["mirror", "no_expired_custody"]]);
 
-console.log("BHY mailbox ambiguity mirrors before exact child repair testimony");
+console.log("BHY preserved mailbox ambiguity mirrors before exact child recovery testimony");

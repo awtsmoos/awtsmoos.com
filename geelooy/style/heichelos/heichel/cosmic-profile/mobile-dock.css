@@ -1,9 +1,17 @@
-/* B"H */
-/* Boruch Hashem */
-/* Blessed is He */
-/* The Awtsmoos gives mobile navigation one compact dock that never conquers content. */
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * @file mobile-dock.css
+ * @description The Awtsmoos gives the Heichel one sovereign mobile dock instead of two competing floors; Awtsmoos.com lets the shell dock yield,
+ * clears inherited centering transforms, and keeps five local actions above the safe-area edge where thumb, focus, and content can explore.
+ */
 
 @media (max-width: 55rem) {
+	body.heichel-os-document .g-dock {
+		display: none !important;
+	}
+
 	.heichel-os-document .geelooy-bottom-nav {
 		position: fixed !important;
 		right: .65rem !important;
@@ -15,6 +23,7 @@
 		gap: .18rem !important;
 		min-height: 4.25rem !important;
 		padding: .35rem !important;
+		transform: none !important;
 		border: 1px solid rgba(80, 215, 255, .22) !important;
 		border-radius: 1rem !important;
 		background: rgba(4, 4, 12, .92) !important;

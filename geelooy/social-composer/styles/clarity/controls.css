@@ -1,0 +1,99 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives each Awtsmoos.com control a measured rank:
+ * neutral by default, luminous when chosen, decisive only when publication is truly the next deed.
+ */
+.composer-civilization-document .actionBar button,
+.composer-civilization-document .civilization-button,
+.composer-civilization-document .composer-mode-button,
+.composer-civilization-document .composer-social-tools button,
+.composer-civilization-document .composer-workflow-step,
+.composer-civilization-document #mobilePreviewButton,
+.composer-civilization-document #closeMobilePreviewButton {
+	min-height: 42px;
+	padding: 0.65rem 0.9rem;
+	background: var(--clarity-surface-raised);
+	border: 1px solid var(--clarity-border);
+	border-radius: var(--clarity-radius-small);
+	box-shadow: none;
+	color: var(--clarity-text);
+	font: inherit;
+	font-size: 0.9rem;
+	font-weight: 620;
+	letter-spacing: 0;
+	text-transform: none;
+	transition: background-color 140ms ease, border-color 140ms ease, transform 140ms ease;
+}
+
+.composer-civilization-document .actionBar button:hover,
+.composer-civilization-document .composer-mode-button:hover,
+.composer-civilization-document .composer-social-tools button:hover,
+.composer-civilization-document .composer-workflow-step:hover {
+	background: color-mix(in srgb, var(--clarity-surface-raised) 82%, var(--clarity-accent));
+	border-color: var(--clarity-border-strong);
+}
+
+.composer-civilization-document button:active {
+	transform: translateY(1px);
+}
+
+.composer-civilization-document button:focus-visible,
+.composer-civilization-document input:focus-visible,
+.composer-civilization-document textarea:focus-visible,
+.composer-civilization-document select:focus-visible,
+.composer-civilization-document summary:focus-visible {
+	outline: 2px solid var(--clarity-accent);
+	outline-offset: 2px;
+}
+
+.composer-civilization-document button:disabled,
+.composer-civilization-document input:disabled,
+.composer-civilization-document textarea:disabled,
+.composer-civilization-document select:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+.composer-civilization-document [aria-pressed="true"],
+.composer-civilization-document [aria-selected="true"] {
+	background: var(--clarity-accent-soft);
+	border-color: color-mix(in srgb, var(--clarity-accent) 56%, transparent);
+	color: var(--clarity-accent-strong);
+}
+
+.composer-civilization-document .publishButton,
+.composer-civilization-document #publishButton {
+	background: var(--clarity-accent);
+	border-color: var(--clarity-accent);
+	color: #08221e;
+	font-weight: 760;
+}
+
+.composer-civilization-document #clearDraftButton[data-action-tone="quiet-danger"] {
+	background: transparent;
+	border-color: transparent;
+	color: var(--clarity-muted);
+}
+
+.composer-civilization-document input,
+.composer-civilization-document textarea,
+.composer-civilization-document select {
+	background: var(--clarity-surface-soft);
+	border: 1px solid var(--clarity-border);
+	border-radius: var(--clarity-radius-small);
+	box-shadow: none;
+	color: var(--clarity-text);
+}
+
+.composer-civilization-document input::placeholder,
+.composer-civilization-document textarea::placeholder {
+	color: color-mix(in srgb, var(--clarity-muted) 78%, transparent);
+}
+
+.composer-civilization-document .actionBar {
+	background: color-mix(in srgb, var(--clarity-bg) 92%, transparent);
+	border: 1px solid var(--clarity-border);
+	box-shadow: none;
+}

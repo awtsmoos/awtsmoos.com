@@ -1,4 +1,14 @@
-// B"H
+//B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file SkyMeshFactory.js
+ * @description Manifests sky geometry only when its material owns a genuine decoded remote image; geometry helpers live separately.
+ * The Awtsmoos surrounds every horizon beyond texture and sphere; Awtsmoos.com lets geometry wait in concealment,
+ * revealing no sky card, disc, or ray until truthful remote image light can inhabit the material vessel in fulfillment.
+ */
+
 import {
 	BufferAttribute,
 	BufferGeometry,
@@ -6,126 +16,84 @@ import {
 	MeshStandardMaterial
 } from '../../../../light-three-gltf/tiny-runtime.js';
 import { cachedTextureImage } from '../../assets/PublicMaterialCache.js';
-import { normalize, v } from '../../math/Geometry3D.js';
-/** Creates one sky mesh whose public URL and real cached Image remain inseparable. */
-export function createSkyMesh(name, geometryData, materialData) {
-	const geometry = new BufferGeometry();
-	geometry.setAttribute('position', attribute(geometryData.positions, 3));
-	geometry.setAttribute('normal', attribute(geometryData.normals, 3));
-	geometry.setAttribute('color', attribute(geometryData.colors, 4));
-	if (geometryData.uvs?.length) geometry.setAttribute('uv', attribute(geometryData.uvs, 2));
-	geometry.setIndex(new BufferAttribute(indexArray(geometryData.indices), 1));
-	const alpha = materialData.color[3] ?? 1;
-	const material = new MeshStandardMaterial({ name, color: materialData.color });
-	Object.assign(material, {
-		textureUrl: materialData.textureUrl,
-		mapImage: materialData.mapImage || cachedTextureImage(materialData.textureUrl),
-		mapRepeat: materialData.mapRepeat || [1, 1],
-		transparent: alpha < 1,
-		opacity: alpha,
-		alphaMode: alpha < 1 ? 'BLEND' : 'OPAQUE',
+import { isRealMaterialImage, materialHasRealMap } from '../../assets/RemoteMaterialImageValidity.js';
+import { prepareRemoteMaterialForHydration } from '../../assets/RemoteMaterialReadiness.js';
+import {
+	skyDiscGeometry,
+	skyQuadGeometry,
+	skyRayGeometry
+} from './SkyGeometryFactory.js';
+
+/** Creates one remote-only sky mesh and hides it until a real image is bound. */
+export function createSkyMesh(name, geometryData, materialData = {}) {
+	const geometry = createGeometry(geometryData);
+	const textureUrl = materialData.textureUrl || null;
+	const cached = textureUrl ? cachedTextureImage(textureUrl) : null;
+	const mapImage = realImage(materialData.mapImage) || realImage(cached);
+	const material = new MeshStandardMaterial({
+		alphaMode: materialData.alphaMode || (materialData.transparent ? 'BLEND' : 'OPAQUE'),
+		color: materialData.color || [1, 1, 1, 1],
 		doubleSided: materialData.doubleSided !== false,
-		texturePolicy: materialData.texturePolicy || null
+		name: `${name}_material`,
+		opacity: materialData.opacity ?? 1,
+		transparent: Boolean(materialData.transparent)
+	});
+	Object.assign(material, {
+		mapImage,
+		mapRepeat: materialData.mapRepeat || [1, 1],
+		texturePolicy: {
+			...(materialData.texturePolicy || {}),
+			realMapImage: Boolean(mapImage),
+			remoteOnly: true,
+			semanticRole: materialData.semanticRole || materialData.texturePolicy?.semanticRole || null
+		},
+		textureUrl
 	});
 	const mesh = new Mesh(geometry, material);
 	mesh.name = name;
-	mesh.setBaseTransform();
+	prepareRemoteMaterialForHydration(mesh, material);
+	mesh.visible = materialHasRealMap(material);
+	if (!mesh.visible) {
+		mesh.userData.awtsmoosRemoteOnlyVisibility = { hiddenByCovenant: true, previousVisible: true };
+	}
 	return mesh;
 }
-/** Creates a camera-facing atmospheric rectangle with explicit UV coordinates. */
+
+/** Creates one remote-only sky quad. */
 export function createSkyQuad(name, center, size, color, textureUrl = null, mapImage = null) {
-	const [x, y, z] = center;
-	const [width, height] = size;
-	const halfWidth = width / 2;
-	const halfHeight = height / 2;
-	return createSkyMesh(name, {
-		positions: [
-			x - halfWidth, y - halfHeight, z,
-			x + halfWidth, y - halfHeight, z,
-			x + halfWidth, y + halfHeight, z,
-			x - halfWidth, y + halfHeight, z
-		],
-		normals: repeatVector([0, 0, 1], 4),
-		colors: repeatVector([1, 1, 1, 1], 4),
-		uvs: [0, 0, 1, 0, 1, 1, 0, 1],
-		indices: [0, 1, 2, 0, 2, 3]
-	}, {
+	return createSkyMesh(name, skyQuadGeometry(center, size), {
 		color,
 		mapImage,
-		texturePolicy: { atmosphericLayer: true, proceduralSky: true },
-		textureUrl
+		textureUrl,
+		transparent: true
 	});
 }
-/** Creates one sun disc whose radial UVs preserve the luminous source texture. */
-export function createSkyDisc(name, center, radius, color, textureUrl = null, mapImage = null) {
-	const middle = v(...center);
-	const normal = normalize(v(-center[0], -center[1], -center[2]));
-	const right = normalize(v(normal.z, 0, -normal.x));
-	const up = normalize(v(
-		normal.y * right.z,
-		normal.z * right.x - normal.x * right.z,
-		-normal.y * right.x
-	));
-	const data = discGeometry(middle, normal, right, up, radius, [1, 1, 1, 1]);
-	return createSkyMesh(name, data, {
+
+/** Creates one remote-only sky disc. */
+export function createSkyDisc(name, center, radius, color, options = {}) {
+	return createSkyMesh(name, skyDiscGeometry(center, radius, options.segments || 32), {
+		...options,
+		color
+	});
+}
+
+/** Creates one remote-only sky ray. */
+export function createSkyRay(name, center, angle, length, width, color) {
+	return createSkyMesh(name, skyRayGeometry(center, angle, length, width), {
 		color,
-		mapImage,
-		texturePolicy: { atmosphericLayer: true, proceduralSky: true },
-		textureUrl
+		transparent: true
 	});
 }
-/** Creates one tapered golden ray with a cache-bound public material. */
-export function createSkyRay(name, center, angle, length, width, color, textureUrl = null) {
-	const [x, y, z] = center;
-	const rayX = Math.cos(angle);
-	const rayY = Math.sin(angle);
-	const upX = -Math.sin(angle);
-	const upY = Math.cos(angle);
-	return createSkyMesh(name, {
-		positions: [
-			x - upX * width, y - upY * width, z,
-			x + upX * width, y + upY * width, z,
-			x + rayX * length + upX * width * 0.18, y + rayY * length + upY * width * 0.18, z,
-			x + rayX * length - upX * width * 0.18, y + rayY * length - upY * width * 0.18, z
-		],
-		normals: repeatVector([0, 0, 1], 4),
-		colors: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0],
-		uvs: [0, 0, 1, 0, 1, 1, 0, 1],
-		indices: [0, 1, 2, 0, 2, 3]
-	}, {
-		color,
-		texturePolicy: { atmosphericLayer: true, proceduralSky: true },
-		textureUrl
-	});
+
+function createGeometry(data) {
+	const geometry = new BufferGeometry();
+	geometry.setAttribute('position', new BufferAttribute(new Float32Array(data.positions), 3));
+	geometry.setAttribute('normal', new BufferAttribute(new Float32Array(data.normals), 3));
+	geometry.setAttribute('uv', new BufferAttribute(new Float32Array(data.uvs), 2));
+	geometry.setIndex(new BufferAttribute(new Uint16Array(data.indices), 1));
+	return geometry;
 }
-function discGeometry(middle, normal, right, up, radius, color) {
-	const positions = [middle.x, middle.y, middle.z];
-	const normals = [normal.x, normal.y, normal.z];
-	const colors = [...color];
-	const uvs = [0.5, 0.5];
-	const indices = [];
-	for (let index = 0; index <= 64; index += 1) {
-		const angle = index / 64 * Math.PI * 2;
-		const cosine = Math.cos(angle);
-		const sine = Math.sin(angle);
-		positions.push(
-			middle.x + (right.x * cosine + up.x * sine) * radius,
-			middle.y + (right.y * cosine + up.y * sine) * radius,
-			middle.z + (right.z * cosine + up.z * sine) * radius
-		);
-		normals.push(normal.x, normal.y, normal.z);
-		colors.push(...color);
-		uvs.push(0.5 + cosine * 0.5, 0.5 + sine * 0.5);
-		if (index > 0) indices.push(0, index, index + 1);
-	}
-	return { positions, normals, colors, uvs, indices };
-}
-function attribute(values, itemSize) {
-	return new BufferAttribute(new Float32Array(values), itemSize);
-}
-function repeatVector(vector, count) {
-	return Array.from({ length: count }, () => vector).flat();
-}
-function indexArray(indices) {
-	return Math.max(...indices) > 65535 ? new Uint32Array(indices) : new Uint16Array(indices);
+
+function realImage(image) {
+	return isRealMaterialImage(image) ? image : null;
 }

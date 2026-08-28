@@ -11,7 +11,8 @@ const DAY = 24 * HOUR;
  * @file Keeps queue-start patience separate from true execution lifetime.
  * @description
  * The Awtsmoos grants long work room to live, yet Awtsmoos.com refuses to let
- * a deed that never reached a consumer occupy a lane until an hourly clock dies.
+ * a receipt that never reached admission wait behind an hourly mountain of deed;
+ * command birth gets a short bounded clock while the spawned process keeps its need.
  */
 function boundedNumber(value, fallback, min, max) {
 	const number = Number(value ?? fallback);
@@ -24,6 +25,7 @@ const LANE_TIMEOUT_MS = Object.freeze({
 	p0_control: boundedNumber(process.env.AWTSMOOS_P0_TIMEOUT_MS, 5 * MINUTE, 5 * SECOND, DAY),
 	p0_wait: boundedNumber(process.env.AWTSMOOS_P0_WAIT_TIMEOUT_MS, 2 * MINUTE, 5 * SECOND, DAY),
 	p0_observe: boundedNumber(process.env.AWTSMOOS_P0_OBSERVE_TIMEOUT_MS, 2 * MINUTE, 5 * SECOND, DAY),
+	p1_command_admission: boundedNumber(process.env.AWTSMOOS_P1_COMMAND_TIMEOUT_MS, 2 * MINUTE, 5 * SECOND, DAY),
 	p1_fs_light: boundedNumber(process.env.AWTSMOOS_P1_TIMEOUT_MS, 30 * MINUTE, 5 * SECOND, DAY),
 	p2_chrome_light: boundedNumber(process.env.AWTSMOOS_P2_TIMEOUT_MS, 30 * MINUTE, 5 * SECOND, DAY),
 	p3_heavy: boundedNumber(process.env.AWTSMOOS_P3_TIMEOUT_MS, 4 * HOUR, 5 * SECOND, 7 * DAY),
@@ -34,6 +36,7 @@ const QUEUE_WAIT_TIMEOUT_MS = Object.freeze({
 	p0_control: queueWait("AWTSMOOS_P0_QUEUE_WAIT_MS", 5 * SECOND),
 	p0_wait: queueWait("AWTSMOOS_P0_WAIT_QUEUE_WAIT_MS", 10 * SECOND),
 	p0_observe: queueWait("AWTSMOOS_P0_OBSERVE_QUEUE_WAIT_MS", 10 * SECOND),
+	p1_command_admission: queueWait("AWTSMOOS_P1_COMMAND_QUEUE_WAIT_MS", 5 * SECOND),
 	p1_fs_light: queueWait("AWTSMOOS_P1_QUEUE_WAIT_MS", 10 * SECOND),
 	p2_chrome_light: queueWait("AWTSMOOS_P2_QUEUE_WAIT_MS", 15 * SECOND),
 	p3_heavy: queueWait("AWTSMOOS_P3_QUEUE_WAIT_MS", 20 * SECOND),

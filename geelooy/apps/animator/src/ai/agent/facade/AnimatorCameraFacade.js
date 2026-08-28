@@ -1,14 +1,13 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
  * @file AnimatorCameraFacade.js
  * @description
- * The Awtsmoos lets agents think like directors through compact methods while deep shot grammar remains canonical beneath;
- * Awtsmoos.com keeps catalog, rigs, and planning ergonomic without bypassing schemas or mutating the live camera wreath.
+ * The Awtsmoos lets agents think like directors through compact one-shot and whole-sequence methods while deep shot grammar remains canonical beneath;
+ * Awtsmoos.com keeps catalog, rigs, continuity, and planning ergonomic without bypassing schemas or mutating the live camera wreath.
  */
-
-/** Ergonomic detached camera grammar and shot-planning namespace. */
 export class ChochmahAnimatorCameraFacade {
 	/** @param {object} keterApi Canonical AnimatorAgentApi. */
 	constructor(keterApi) {
@@ -25,30 +24,39 @@ export class ChochmahAnimatorCameraFacade {
 		return this.execute('camera.catalog');
 	}
 
-	/** @param {object} olamActors Actor map. @returns {Promise<object>} Actor-rig envelope. */
-	actorRigs(olamActors) {
-		return this.execute('camera.actorRigs', { actors: olamActors });
+	/** @param {object} actors Actor map. @returns {Promise<object>} Actor-rig envelope. */
+	actorRigs(actors) {
+		return this.execute('camera.actorRigs', { actors });
 	}
 
-	/** @param {object} keliScene Scene specification. @returns {Promise<object>} Scene-rig envelope. */
-	sceneRigs(keliScene) {
-		return this.execute('camera.sceneRigs', { scene: keliScene });
+	/** @param {object} scene Scene specification. @returns {Promise<object>} Scene-rig envelope. */
+	sceneRigs(scene) {
+		return this.execute('camera.sceneRigs', { scene });
 	}
 
-	/** @param {object} keliEvent Beat/shot event. @param {object} olamState Detached planning state. @param {object} keliSafe Safe-frame options. @returns {Promise<object>} Shot-plan envelope. */
-	planShot(keliEvent, olamState, keliSafe = {}) {
+	/** @returns {Promise<object>} One continuity-aware shot-plan envelope. */
+	planShot(event, state, safe = {}) {
 		return this.execute('camera.planShot', {
-			event: keliEvent,
-			state: olamState,
-			safe: keliSafe
+			event,
+			state,
+			safe
 		});
 	}
 
-	/** @param {string} shemMitzvah Command. @param {object} keilimPayload Payload. @returns {Promise<object>} Canonical envelope. */
-	execute(shemMitzvah, keilimPayload = {}) {
+	/** @returns {Promise<object>} Ordered sequence plan with coverage diversity and final isolated planning state. */
+	planSequence(events, state, safe = {}) {
+		return this.execute('camera.planSequence', {
+			events,
+			state,
+			safe
+		});
+	}
+
+	/** @param {string} command Command. @param {object} payload Payload. @returns {Promise<object>} Canonical envelope. */
+	execute(command, payload = {}) {
 		return this.keterApi.execute({
-			command: shemMitzvah,
-			payload: keilimPayload
+			command,
+			payload
 		});
 	}
 }

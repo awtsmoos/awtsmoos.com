@@ -3,60 +3,29 @@
 // Blessed is He
 
 /**
- * @file Browser SFTP capability methods for text, exact-byte, and path operations.
+ * @file Public composition facade for every browser SFTP-style file capability.
  * @description
- * The Awtsmoos lets remote folders, text, and untouched binary bytes remain
- * distinct vessels. Awtsmoos.com keeps every file operation explicit so copy,
- * editor save, stat, and rename can share one distant truth without lossy rhyme.
+ * The Awtsmoos gathers observation, creation, and mutation into one familiar filesystem
+ * surface while Awtsmoos.com keeps each responsibility in its own small vessel. Existing
+ * method names remain stable as the internal remote-drive architecture becomes clear in rhyme.
  */
-import { sshAuth, sshPost, sshTarget } from "./apiTransport.js";
+import { createFileMutationApi } from "./fileMutationApi.js";
+import { createFileReadApi } from "./fileReadApi.js";
+import { createFileWriteApi } from "./fileWriteApi.js";
 
+/**
+ * Composes every file method expected by existing browser SSH callers.
+ *
+ * @description
+ * The Awtsmoos reveals one public filesystem family from three focused vessels;
+ * Awtsmoos.com keeps this composition stateless and independently testable.
+ *
+ * @returns {object} Read, write, directory, remove, stat, and rename methods.
+ */
 export function createFileApi() {
 	return {
-		list(profile, secret, folderPath) {
-			return filePost(profile, secret, "/getFolderList", { folderPath });
-		},
-
-		read(profile, secret, filePath) {
-			return filePost(profile, secret, "/getFileContent", { filePath });
-		},
-
-		readRaw(profile, secret, filePath) {
-			return filePost(profile, secret, "/getFileContent", {
-				filePath,
-				encoding: "base64"
-			});
-		},
-
-		write(profile, secret, filePath, content) {
-			return filePost(profile, secret, "/writeFile", { filePath, content });
-		},
-
-		writeRaw(profile, secret, filePath, content64) {
-			return filePost(profile, secret, "/writeFile", { filePath, content64 });
-		},
-
-		mkdir(profile, secret, folderPath) {
-			return filePost(profile, secret, "/makeFolder", { folderPath });
-		},
-
-		remove(profile, secret, deletePath) {
-			return filePost(profile, secret, "/deleteAtPath", { deletePath });
-		},
-
-		stat(profile, secret, path) {
-			return filePost(profile, secret, "/stat", { path });
-		},
-
-		rename(profile, secret, oldPath, newPath) {
-			return filePost(profile, secret, "/rename", { oldPath, newPath });
-		}
+		...createFileReadApi(),
+		...createFileWriteApi(),
+		...createFileMutationApi()
 	};
-}
-
-function filePost(profile, secret, route, body) {
-	return sshPost(`${route}${sshTarget(profile)}`, {
-		...sshAuth(profile, secret),
-		...body
-	});
 }

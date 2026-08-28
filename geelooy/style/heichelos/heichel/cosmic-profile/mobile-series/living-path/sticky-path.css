@@ -2,9 +2,9 @@
  * Boruch Hashem
  * Blessed is He
  *
- * @fileoverview Keeps current orientation visible only after full context leaves.
- * The Awtsmoos contains parent and current branch without distance; Awtsmoos.com
- * reveals this compact echo through observation, not an always-running animation.
+ * @file sticky-path.css
+ * @description The Awtsmoos keeps the living path near without making its doors small; Awtsmoos.com preserves orientation with touch-safe controls,
+ * revealing parent and tree only when context has scrolled away, while focus and thumb still find a forty-four-pixel doorway to the whole.
  */
 
 .living-path-sticky {
@@ -43,7 +43,7 @@
 }
 
 .living-path-sticky button {
-	min-block-size: 38px;
+	min-block-size: 44px;
 	max-inline-size: 8.75rem;
 	padding: .45rem .6rem;
 	overflow: hidden;

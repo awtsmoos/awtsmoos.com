@@ -3,13 +3,12 @@
 // Blessed is He
 
 /**
- * B"H
- *
- * Priority grants more turns without granting eternal ownership. The Awtsmoos
- * renews each lane in a weighted ring; Awtsmoos.com keeps control lightning-fast
- * while guaranteeing lower roads bounded opportunities under continuous load.
+ * @file Weighted revelation order for the native tunnel lanes.
+ * @description
+ * The Awtsmoos is equally present in every instant, yet vessels receive in order.
+ * Awtsmoos.com lets recovery lead, command receipts breathe, and heavy work follow,
+ * so fairness has a rhythm without making protected control capacity hollow.
  */
-
 const SERVICE_RING = Object.freeze([
 	"p0_control",
 	"p0_control",
@@ -26,6 +25,10 @@ const SERVICE_RING = Object.freeze([
 	"p0_observe",
 	"p0_observe",
 	"p0_observe",
+	"p1_command_admission",
+	"p1_command_admission",
+	"p1_command_admission",
+	"p1_command_admission",
 	"p1_fs_light",
 	"p1_fs_light",
 	"p1_fs_light",
@@ -38,41 +41,24 @@ const SERVICE_RING = Object.freeze([
 ]);
 
 function createSchedulerState() {
-	return {
-		cursor: 0,
-		selections: 0
-	};
+	return { cursor: 0 };
 }
 
-function peekLane(scheduler, eligible) {
-	return selection(scheduler, eligible)?.lane || "";
-}
-
-function takeLane(scheduler, eligible) {
-	const selected = selection(scheduler, eligible);
-	if (!selected) {
-		return "";
-	}
-	scheduler.cursor = (selected.index + 1) % SERVICE_RING.length;
-	scheduler.selections += 1;
-	return selected.lane;
-}
-
-function selection(scheduler, eligible) {
-	for (let offset = 0; offset < SERVICE_RING.length; offset += 1) {
-		const index = (scheduler.cursor + offset) % SERVICE_RING.length;
+function nextLane(state, lanes, canStartLane) {
+	const length = SERVICE_RING.length;
+	for (let offset = 0; offset < length; offset += 1) {
+		const index = (state.cursor + offset) % length;
 		const lane = SERVICE_RING[index];
-		if (eligible(lane)) {
-			return { lane, index };
+		if (lanes[lane]?.queue?.length && canStartLane(lane)) {
+			state.cursor = (index + 1) % length;
+			return lane;
 		}
 	}
-	return null;
+	return "";
 }
 
 module.exports = {
 	SERVICE_RING,
 	createSchedulerState,
-	peekLane,
-	selection,
-	takeLane
+	nextLane
 };

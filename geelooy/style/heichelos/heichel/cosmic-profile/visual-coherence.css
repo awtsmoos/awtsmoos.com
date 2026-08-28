@@ -1,0 +1,98 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gathers the Heichel's final visible palette into one local vessel after shared civilization styles have passed;
+ * Awtsmoos.com keeps dark surfaces readable, controls measured, and cards luminous without mixing geometry into the color glass.
+ */
+
+.heichel-os-document .all,
+.heichel-os-document .main,
+.heichel-os-document .heichel-mobile-navigation,
+.heichel-os-document .geelooy-main-stage,
+.heichel-os-document .heichel-nav-panel,
+.heichel-os-document .living-path-browser {
+	color: rgb(235 243 255);
+}
+
+.heichel-os-document :is(
+	.heichel-nav-panel,
+	.living-path-browser,
+	.series-search-row,
+	.tab-gates,
+	.series-heading,
+	.breadcrumb-river
+) {
+	color: rgb(235 243 255);
+}
+
+.heichel-os-document :is(
+	.series-search-row input,
+	.series-search-row select,
+	.living-path-browser input,
+	.living-path-browser select
+) {
+	border-color: rgb(141 189 255 / 18%);
+	background: rgb(9 18 33 / 92%);
+	color: rgb(245 249 255);
+	box-shadow: inset 0 1px rgb(255 255 255 / 5%);
+}
+
+.heichel-os-document :is(
+	.series-search-row input,
+	.series-search-row select,
+	.living-path-browser input,
+	.living-path-browser select
+)::placeholder {
+	color: rgb(161 179 205);
+}
+
+.heichel-os-document .heichel-profile-details {
+	inline-size: 100%;
+	max-inline-size: none;
+	margin: 0;
+}
+
+.heichel-os-document .heichel-profile-details > summary {
+	inline-size: max-content;
+	max-inline-size: 100%;
+	padding: 0.55rem 0.8rem;
+	border: 1px solid rgb(147 195 255 / 14%);
+	border-radius: 999px;
+	background: rgb(84 151 232 / 8%);
+	color: rgb(197 215 239);
+	cursor: pointer;
+}
+
+.heichel-os-document .heichel-profile-details[open] > summary {
+	margin-block-end: 0.7rem;
+	color: rgb(241 247 255);
+}
+
+.heichel-os-document .dynamic-grid > :is(.nav-card, .series-card, .heichel-card),
+.heichel-os-document .living-tree-node > :is(.nav-card, .series-card, .heichel-card) {
+	min-inline-size: 0;
+	max-inline-size: 100%;
+	border-color: rgb(139 191 255 / 13%);
+	background: linear-gradient(145deg, rgb(14 27 49 / 96%), rgb(8 17 31 / 96%));
+	color: rgb(239 246 255);
+	box-shadow: 0 0.8rem 2rem rgb(0 0 0 / 15%);
+}
+
+.heichel-os-document .dynamic-grid > :is(.nav-card, .series-card, .heichel-card):is(:hover, :focus-within),
+.heichel-os-document .living-tree-node > :is(.nav-card, .series-card, .heichel-card):is(:hover, :focus-within) {
+	border-color: rgb(126 198 255 / 32%);
+	box-shadow: 0 1rem 2.6rem rgb(0 0 0 / 20%), 0 0 0 1px rgb(98 186 255 / 8%);
+}
+
+.heichel-os-document :is(.breadcrumb-river, .series-heading, .tab-gates) {
+	max-inline-size: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.heichel-os-document *,
+	.heichel-os-document *::before,
+	.heichel-os-document *::after {
+		scroll-behavior: auto;
+	}
+}
