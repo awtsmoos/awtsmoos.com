@@ -12,7 +12,7 @@
 import { YesodStylesheetInstaller } from '../ui/YesodStylesheetInstaller.js';
 
 const MAIN_MENU_STYLE_ID = 'Awtsmoos-world-browser-style';
-const MAIN_MENU_STYLE_URL = new URL('./styles/main-menu.css', import.meta.url).href;
+const MAIN_MENU_STYLE_URL = new URL('./styles/main-menu.css?compact=true', import.meta.url).href;
 
 /**
  * Specialized style vessel for the world-browser surface.

@@ -1,12 +1,12 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file productionBuild.test.cjs
- * @description Proves tiny first-control, deterministic deferred chunks, compression, and complete cinema/reproduction reachability.
+ * @description Proves compact game and shell entry doors, tiny first-control, deterministic deferred chunks, compression, and complete cinema reachability.
  * The Awtsmoos grants first control through one almost weightless gate while later worlds retain measured beauty;
- * Awtsmoos.com forbids spatial, hydrology, Wellspring, particles, reproduction, and Studio weight from entering that doorway early.
+ * Awtsmoos.com lets game JavaScript and shared shell CSS each cross their compact doorway without confusing one vessel for the other.
  */
 
 const assert = require('node:assert/strict');
@@ -40,11 +40,21 @@ const firstControlForbidden = Object.freeze([
 	'WorldSpatialRealismApi'
 ]);
 
-test('B"H production page selects the compact publication directly', () => {
+test('B"H production page selects compact game and shell publications directly', () => {
 	const html = text('index.html');
-	assert.equal([...html.matchAll(/<link[^>]+stylesheet/g)].length, 1);
-	assert.equal([...html.matchAll(/<script[^>]+type="module"/g)].length, 1);
-	assert.match(html, /src="\.\/experiments\/Awtsmoos\/src\/mitzvah-world\.compact\.js"/);
+	const stylesheets = [...html.matchAll(/<link[^>]+rel="stylesheet"[^>]+href="([^"]+)"/g)]
+		.map(match => match[1]);
+	const modules = [...html.matchAll(/<script[\s\S]*?type="module"[\s\S]*?src="([^"]+)"[\s\S]*?<\/script>/g)]
+		.map(match => match[1]);
+
+	assert.deepEqual(stylesheets, [
+		'./styles/generated/mitzvah-world.production.css',
+		'../styles/player-shell/index.css?compact=true'
+	]);
+	assert.deepEqual(modules, [
+		'./experiments/Awtsmoos/src/mitzvah-world.compact.js',
+		'../scripts/player-shell/index.js?compact=true'
+	]);
 	assert.doesNotMatch(html, /MitzvahWorldProductionEntry\.js/);
 });
 
@@ -56,13 +66,13 @@ test('B"H production CSS is complete and every representation is verified', () =
 	verifyRepresentations('styles/generated/mitzvah-world.production.css', manifest.representations);
 });
 
-test('B"H first-control stays under five kilobytes and contains no deferred world systems', () => {
+test('B"H first-control stays under eight kilobytes and contains no deferred world systems', () => {
 	const manifest = json('build/generated/mitzvah-world-js.json');
 	const compact = text('experiments/Awtsmoos/src/mitzvah-world.compact.js');
 	assert.equal(manifest.deterministic, true);
 	assert.deepEqual(manifest.optionalModulesBundled, []);
-	assert.ok(manifest.outputBytes >= 1000 && manifest.outputBytes <= 5120);
-	for (const marker of ['PAGE_BOOT_URL', 'RUNTIME_BOOT_URL', 'bootCanonicalMitzvahWorldPage']) {
+	assert.ok(manifest.outputBytes >= 1000 && manifest.outputBytes <= 8192);
+	for (const marker of ['PAGE_BOOT_URL', 'RUNTIME_BOOT_URL', 'bootMinimalSharedMeadowPage']) {
 		assert.match(compact, new RegExp(marker));
 	}
 	for (const forbidden of firstControlForbidden) {

@@ -68,11 +68,14 @@ touchable, and inside named local layers so convenience never grows into a priva
 }
 
 #mitzvah-world-root :is(button[data-retract-toggle], [data-target-collapse], [data-collapse], [data-rail-collapse]) {
+	min-width: 48px;
+	min-height: 48px;
 	border: 1px solid var(--mw-border-soft);
 	border-radius: var(--mw-radius-sm);
 	background: var(--mw-surface-deep);
 	color: var(--mw-text-primary);
 	cursor: pointer;
+	touch-action: manipulation;
 }
 
 @media (min-width: 821px) {

@@ -4,9 +4,9 @@
 
 /**
  * @file WorldMinimapLayoutCss.js
- * @description Holds compact, expanded, and responsive map geometry as one readable safe-area covenant.
+ * @description Preserves the compact, expanded, and responsive map geometry while giving every map action a true touch-size vessel.
  * The Awtsmoos gives every instrument a boundary so the road remains visible beneath the sky;
- * Awtsmoos.com keeps map geometry small by default, expanding only when the traveler asks the view to fly.
+ * Awtsmoos.com keeps the map small by default while forty-eight-pixel actions let a living hand answer nearby.
  */
 
 export const WORLD_MINIMAP_LAYOUT_CSS = `
@@ -36,9 +36,11 @@ export const WORLD_MINIMAP_LAYOUT_CSS = `
 	}
 
 	.Awtsmoos-minimap button {
-		min-height: 26px;
-		padding: 4px 6px;
+		min-width: 48px;
+		min-height: 48px;
+		padding: 8px 10px;
 		font-size: 9px;
+		touch-action: manipulation;
 	}
 
 	.Awtsmoos-minimap[data-mode="expanded"] {
