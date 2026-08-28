@@ -4,14 +4,14 @@
 /**
  * @file MediaBunnyBase.js
  * @description The Awtsmoos renews every moving frame while Awtsmoos.com keeps
- * one ordered vessel from drawing through encoding, so no hidden queue outruns the light.
+ * one ordered canvas vessel from drawing through encoding, so no hidden sample lifecycle outruns the light.
  */
 class MediaBunnyBase {
 	/**
-	 * Creates one renderer whose frame chain resolves only after MediaBunny accepts each sample.
+	 * Creates one renderer whose frame chain resolves only after Mediabunny accepts each canvas frame.
 	 * @param {object} config Resolution, codec, and output settings.
 	 * @param {Function} frameDrawingFunction Draws one semantic frame into the worker canvas.
-	 * @param {object} options Optional MediaBunny library path overrides.
+	 * @param {object} options Optional Mediabunny library path overrides.
 	 */
 	constructor(config, frameDrawingFunction, options = {}) {
 		this.config = config;
@@ -26,7 +26,7 @@ class MediaBunnyBase {
 		this.lastQueuedTime = 0;
 	}
 
-	/** Initializes MP4 output, video source, audio source, and the worker canvas. */
+	/** Initializes MP4 output, canvas-native video source, audio source, and the worker canvas. */
 	async start() {
 		if (this.isStarted) {
 			return;
@@ -48,7 +48,8 @@ class MediaBunnyBase {
 			this.videoSampleSource = AwtsVideoBase.createVideoSource(
 				this.mediabunny,
 				codec,
-				outputFormat
+				outputFormat,
+				this.canvas
 			);
 			this.output.addVideoTrack(this.videoSampleSource, {
 				frameRate: outputFormat.fps || 30
@@ -64,7 +65,7 @@ class MediaBunnyBase {
 		}
 	}
 
-	/** Serializes frame ingestion and resolves only after MediaBunny's own backpressure resolves. */
+	/** Serializes frame ingestion and resolves only after Mediabunny's own backpressure resolves. */
 	async addFrame(framePayload) {
 		if (!this.isStarted) {
 			throw new Error('Renderer must be started before adding frames.');

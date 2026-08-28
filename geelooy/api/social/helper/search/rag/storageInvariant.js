@@ -4,16 +4,21 @@
 
 /**
  * @module RagStorageInvariant
- * @description The Awtsmoos measures each approved immutable database before and after search;
- * Awtsmoos.com admits the configured Tanach exact index only inside the canonical root.
+ * @description
+ * The Awtsmoos guards the living search root as one sealed constellation: three ancient stars remain required, while twelve Sichos stars may appear only together;
+ * Awtsmoos.com rejects unknown databases, partial revelation, write sidecars, and any mutation that tries to change the firmament during a request.
  */
 
 const fs = require('fs');
 const path = require('path');
-const { CANONICAL_SHARD_FILES } = require('./canonicalShards.js');
+const {
+	CANONICAL_SHARD_FILES,
+	PUBLISHED_SICHOS_KODESH_FILES
+} = require('./canonicalShards.js');
 const { ragRoot } = require('./paths.js');
 
 const CANONICAL_NAMES = [...CANONICAL_SHARD_FILES].sort();
+const SICHOS_NAMES = [...PUBLISHED_SICHOS_KODESH_FILES].sort();
 const WRITE_SIDECAR_PATTERN = /\.awtsdb\.(?:journal|lock|tmp|wal)$/i;
 
 function fileIdentity(file) {
@@ -37,9 +42,7 @@ function storageEntries(root) {
 	try {
 		return fs.readdirSync(root, { withFileTypes: true });
 	} catch (error) {
-		if (error?.code === 'ENOENT') {
-			throw storageError('RAG_ROOT_MISSING', { root });
-		}
+		if (error?.code === 'ENOENT') throw storageError('RAG_ROOT_MISSING', { root });
 		throw error;
 	}
 }
@@ -49,51 +52,39 @@ function configuredExactName(root) {
 	if (!configured) return null;
 	const resolved = path.resolve(configured);
 	if (path.dirname(resolved) !== path.resolve(root)) {
-		throw storageError('TANACH_INDEX_OUTSIDE_RAG_ROOT', {
-			configured: resolved,
-			root
-		});
+		throw storageError('TANACH_INDEX_OUTSIDE_RAG_ROOT', { configured: resolved, root });
 	}
 	const name = path.basename(resolved);
-	if (!name.endsWith('.awtsdb')) {
-		throw storageError('TANACH_INDEX_INVALID_NAME', { configured: resolved });
-	}
+	if (!name.endsWith('.awtsdb')) throw storageError('TANACH_INDEX_INVALID_NAME', { configured: resolved });
 	return name;
 }
 
-function expectedDatabaseNames(root) {
+function hasAnySichos(databases) {
+	return SICHOS_NAMES.some(name => databases.includes(name));
+}
+
+function expectedDatabaseNames(root, databases = []) {
 	const exactName = configuredExactName(root);
 	return [...new Set([
 		...CANONICAL_NAMES,
+		...(hasAnySichos(databases) ? SICHOS_NAMES : []),
 		...(exactName ? [exactName] : [])
 	])].sort();
 }
 
 function captureCanonicalStorage($i) {
 	const root = ragRoot($i);
-	const files = storageEntries(root)
-		.filter(entry => entry.isFile())
-		.map(entry => entry.name)
-		.sort();
+	const files = storageEntries(root).filter(entry => entry.isFile()).map(entry => entry.name).sort();
 	const databases = files.filter(name => name.endsWith('.awtsdb'));
 	const forbidden = files.filter(name => WRITE_SIDECAR_PATTERN.test(name));
-	const expected = expectedDatabaseNames(root);
+	const expected = expectedDatabaseNames(root, databases);
 	if (JSON.stringify(databases) !== JSON.stringify(expected)) {
-		throw storageError('RAG_DATABASE_SET_CHANGED', {
-			actual: databases,
-			expected,
-			root
-		});
+		throw storageError('RAG_DATABASE_SET_CHANGED', { actual: databases, expected, root });
 	}
-	if (forbidden.length) {
-		throw storageError('RAG_WRITE_SIDECAR_PRESENT', { forbidden, root });
-	}
+	if (forbidden.length) throw storageError('RAG_WRITE_SIDECAR_PRESENT', { forbidden, root });
 	return {
 		root,
-		databases: databases.map(name => ({
-			name,
-			...fileIdentity(path.join(root, name))
-		}))
+		databases: databases.map(name => ({ name, ...fileIdentity(path.join(root, name)) }))
 	};
 }
 
@@ -107,12 +98,7 @@ function assertStorageUnchanged(before, after) {
 }
 
 module.exports = {
-	CANONICAL_NAMES,
-	WRITE_SIDECAR_PATTERN,
-	assertStorageUnchanged,
-	captureCanonicalStorage,
-	configuredExactName,
-	expectedDatabaseNames,
-	fileIdentity,
-	storageFingerprint
+	CANONICAL_NAMES, SICHOS_NAMES, WRITE_SIDECAR_PATTERN, assertStorageUnchanged,
+	captureCanonicalStorage, configuredExactName, expectedDatabaseNames, fileIdentity,
+	hasAnySichos, storageFingerprint
 };

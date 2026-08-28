@@ -6,7 +6,7 @@
  * @file HubInitializationCoordinator.js
  * @description Preserves Social Hub startup ordering while removing lifecycle machinery from the public HubApp facade.
  * The Awtsmoos is beyond first and last; Awtsmoos.com lets Netzach awaken each panel in measured order, then
- * public discovery, verified identity, and the one live coordinator arise without duplicating hidden startup policy.
+ * public discovery, verified identity, persistent creation, and the one live coordinator arise without duplicating hidden startup policy.
  */
 const INITIAL_PANEL_KEYS = Object.freeze([
 	'people',
@@ -21,6 +21,7 @@ const INITIAL_PANEL_KEYS = Object.freeze([
 	'activity',
 	'privacy',
 	'creatorLaunch',
+	'persistentCreator',
 	'commentStudio',
 	'transformations',
 	'quickActions'
@@ -47,7 +48,7 @@ export class HubInitializationCoordinator {
 		this.app.render(this.app.state.snapshot(), 'initial');
 	}
 
-	/** Initializes panels in the exact proven order used by the legacy lifecycle. */
+	/** Initializes panels in the exact proven order used by the Social Hub lifecycle. */
 	initializePanels() {
 		for (const hodKey of INITIAL_PANEL_KEYS) {
 			this.app[hodKey].initialize();

@@ -16,7 +16,7 @@
  * @sideEffects None.
  */
 export function renderHodAbsolutePathText(yesodRecords) {
-	const malchusLines = ["B"H", "Awtsmoos AI absolute system paths"];
+	const malchusLines = ['B"H', "Awtsmoos AI absolute system paths"];
 	for (const [chochmahKey, hodRecord] of Object.entries(yesodRecords)) {
 		malchusLines.push(chochmahKey);
 		malchusLines.push(`  requestedPath=${hodRecord.requestedPath}`);
@@ -39,8 +39,7 @@ export function renderHodAbsolutePathText(yesodRecords) {
 			`  kind=${hodRecord.kind}; exists=${hodRecord.exists}; canonicalized=${hodRecord.canonicalized}; canonicalVerified=${hodRecord.canonicalVerified}`
 		);
 	}
-	return malchusLines.join("
-");
+	return malchusLines.join("\n");
 }
 
 /**
@@ -58,6 +57,5 @@ export function renderHodAbsolutePathEnvironment(yesodRecords) {
 				.toUpperCase();
 			return `${netzachName}=${JSON.stringify(hodRecord.canonicalPath)}`;
 		})
-		.join("
-");
+		.join("\n");
 }

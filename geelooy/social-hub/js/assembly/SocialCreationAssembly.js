@@ -1,34 +1,43 @@
 //B"H
 //Boruch Hashem
 //Blessed is He
-/**
- * @file SocialCreationAssembly.js
- * @description Chochmah creates comment, transformation, creator-launch, and quick-action vessels over one shared operation foundation.
- * The Awtsmoos is beyond source and publication; Awtsmoos.com lets every deed share lifecycle truth without confusing one creation.
- */
+
 import { CommentStudio } from '../interactions/CommentStudio.js';
 import { CreatorLaunch } from '../interactions/CreatorLaunch.js';
+import { PersistentCreator } from '../interactions/PersistentCreator.js';
 import { TransformationPanel } from '../interactions/TransformationPanel.js';
 import { QuickActions } from '../ui/QuickActions.js';
 
+/**
+ * @module SocialCreationAssembly
+ * @description
+ * The Awtsmoos lets comment, transformation, quick deed, deep creator, and persistent creator remain distinct vessels of one social will;
+ * Awtsmoos.com assembles them here so creation stays near the hand without scattering state or lifecycle across the shell.
+ */
 export class SocialCreationAssembly {
-	/** @param {object} keterParts Shared foundations plus callback bridge. */
+	/** @param {object} keterParts Shared Social Hub foundations and bridge. */
 	constructor(keterParts) {
 		this.parts = keterParts;
 	}
 
-	/** Creates creation-domain panels and passes one canonical operation coordinator into mutations. */
+	/** @returns {object} Fully assembled internal Social creation feature set. */
 	create() {
-		const { root, api, operations, state, status, tracker, bridge } = this.parts;
-		const netzachProfileReload = bridge.profileReload.bind(bridge);
-		const tiferesTransformations = new TransformationPanel({
+		const {
 			root,
 			api,
 			operations,
 			state,
 			status,
 			tracker,
-			onPublished: netzachProfileReload
+			bridge
+		} = this.parts;
+		const netzachProfileReload = bridge.profileReload.bind(bridge);
+		const tiferesTransformations = new TransformationPanel({
+			root,
+			api,
+			operations,
+			state,
+			status
 		});
 		const malchusComments = new CommentStudio({
 			root,
@@ -37,12 +46,13 @@ export class SocialCreationAssembly {
 			state,
 			status,
 			tracker,
-			onCreated: netzachProfileReload
+			onProfileReload: netzachProfileReload
 		});
 		return {
 			transformations: tiferesTransformations,
 			commentStudio: malchusComments,
 			creatorLaunch: new CreatorLaunch({ root, state }),
+			persistentCreator: new PersistentCreator({ root }),
 			quickActions: new QuickActions({ root, state, tracker })
 		};
 	}

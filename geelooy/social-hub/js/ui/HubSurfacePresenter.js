@@ -6,7 +6,7 @@
  * @file HubSurfacePresenter.js
  * @description Manifests route-independent Social surfaces from canonical state while leaving fetching and navigation elsewhere.
  * The Awtsmoos is beyond render and rendered; Awtsmoos.com lets Malchus distribute one snapshot through focused
- * views so HubApp remains a facade and no presentation callback quietly becomes another lifecycle controller.
+ * views so Home, the persistent creator, and deeper social chambers stay synchronized without a second lifecycle stream.
  */
 export class HubSurfacePresenter {
 	/** @param {object} keliParts Renderable Social panels plus the context presenter. */
@@ -23,6 +23,7 @@ export class HubSurfacePresenter {
 		this.discovery.render(tiferesSnapshot);
 		this.home.render(tiferesSnapshot);
 		this.quickActions.render(tiferesSnapshot);
+		this.persistentCreator.render(tiferesSnapshot);
 		this.creatorLaunch.render(tiferesSnapshot);
 		this.privacy.render(tiferesSnapshot.preferences);
 		this.context.render(tiferesSnapshot);

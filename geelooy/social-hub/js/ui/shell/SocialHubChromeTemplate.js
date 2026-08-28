@@ -5,8 +5,8 @@
 /**
  * @file SocialHubChromeTemplate.js
  * @description Owns the stable Social Hub chrome while every feature panel remains a separate vessel.
- * The Awtsmoos gathers identity, destination, navigation, and status around one quiet center;
- * Awtsmoos.com lets the outer crown stay calm so deeper social worlds can open without visual thunder.
+ * The Awtsmoos gathers identity, destination, navigation, creation, and status around one quiet center;
+ * Awtsmoos.com lets the outer crown stay calm while a simple post doorway remains near the mobile hand.
  */
 
 /**
@@ -42,6 +42,7 @@ export function revealKeterChrome() {
 
 /**
  * Reveals desktop and mobile navigation vessels around the caller-supplied panel markup.
+ * The mobile creator is deliberately outside route navigation because creation is a deed, not a destination.
  * @param {string} malchusPanels Fully composed workspace panels.
  * @returns {string} Bounded Social Hub workspace markup.
  */
@@ -53,6 +54,15 @@ export function revealMalchusWorkspace(malchusPanels) {
 				<div class="railFooter"><a href="/legal/terms/">Terms</a><a href="/legal/privacy/">Privacy</a></div>
 			</aside>
 			<main class="workspace">${malchusPanels}</main>
+		</div>
+		<div id="mobileCreatorPortal" class="mobileCreatorPortal" aria-label="Create in Geelooy">
+			<a id="mobileQuickPost" class="mobileCreatorAction" href="/social-composer/">
+				<span class="mobileCreatorAction__icon" aria-hidden="true">✦</span>
+				<span class="mobileCreatorAction__copy">
+					<strong class="mobileCreatorAction__label">Create post</strong>
+					<span class="mobileCreatorAction__hint">Share something</span>
+				</span>
+			</a>
 		</div>
 		<nav id="mobileNavigation" class="mobileDock routeNavigation" aria-label="Mobile Social Hub navigation"></nav>
 		<p id="hubStatus" class="hubStatus" hidden aria-live="polite"></p>`;

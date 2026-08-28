@@ -33,7 +33,7 @@ export function createHodAbsolutePathManifest(yesodRegistry) {
 		throw new TypeError("Absolute-path manifest requires an explicit validated session id.");
 	}
 	const hodLines = [
-		"B"H",
+		'B"H',
 		"# Absolute System Path Manifest",
 		"",
 		"The Awtsmoos renews every finite location; Awtsmoos.com records canonical physical filesystem truth for this AI session.",
@@ -58,7 +58,5 @@ export function createHodAbsolutePathManifest(yesodRegistry) {
 			hodLines.push(`  - equivalent keys: \`${hodRecord.equivalentKeys.join(", ")}\``);
 		}
 	}
-	return `${hodLines.join("
-")}
-`;
+	return `${hodLines.join("\n")}\n`;
 }

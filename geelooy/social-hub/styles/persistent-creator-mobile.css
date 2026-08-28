@@ -1,0 +1,108 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos gives the mobile hand one clear creative doorway above the navigation vessel;
+ * Awtsmoos.com lets safe area, focus, motion, and narrow screens remain measured so no action covers another action.
+ */
+.mobileCreatorPortal {
+	display: none;
+}
+
+@media (max-width: 62.4375rem) {
+	.social-hub-document {
+		padding-bottom: calc(9.8rem + var(--safe-bottom));
+	}
+
+	.social-hub-document .mobileCreatorPortal {
+		position: fixed;
+		z-index: 35;
+		display: block;
+		inset-inline-end: max(.75rem, env(safe-area-inset-right));
+		inset-block-end: calc(var(--hub-mobile-dock-clearance) + .55rem);
+		max-inline-size: calc(100vw - 1.5rem);
+	}
+
+	.social-hub-document .mobileCreatorAction {
+		display: flex;
+		gap: .68rem;
+		align-items: center;
+		min-block-size: 3.55rem;
+		min-inline-size: 10.5rem;
+		max-inline-size: min(15rem, calc(100vw - 1.5rem));
+		padding: .56rem .75rem;
+		border: 1px solid rgb(126 239 255 / 44%);
+		border-radius: 1.15rem;
+		background: linear-gradient(145deg, rgb(18 57 70 / 97%), rgb(36 27 68 / 96%));
+		box-shadow: 0 .9rem 2.2rem rgb(0 0 0 / 36%);
+		backdrop-filter: blur(16px);
+		color: inherit;
+		text-decoration: none;
+		transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+	}
+
+	.social-hub-document .mobileCreatorAction:hover {
+		transform: translateY(-2px);
+		border-color: rgb(126 239 255 / 72%);
+		box-shadow: 0 1rem 2.4rem rgb(0 0 0 / 42%);
+	}
+
+	.social-hub-document .mobileCreatorAction:focus-visible {
+		outline: 3px solid var(--focus-ring, #7eefff);
+		outline-offset: 3px;
+	}
+
+	.social-hub-document .mobileCreatorAction__icon {
+		display: grid;
+		place-items: center;
+		flex: 0 0 2.35rem;
+		block-size: 2.35rem;
+		border-radius: .78rem;
+		background: rgb(126 239 255 / 14%);
+		font-size: 1.15rem;
+	}
+
+	.social-hub-document .mobileCreatorAction__copy {
+		display: grid;
+		gap: .04rem;
+		min-inline-size: 0;
+	}
+
+	.social-hub-document .mobileCreatorAction__label {
+		overflow-wrap: anywhere;
+		font-size: .9rem;
+		line-height: 1.15;
+	}
+
+	.social-hub-document .mobileCreatorAction__hint {
+		color: var(--muted, #a9bac8);
+		font-size: .69rem;
+		line-height: 1.2;
+	}
+}
+
+@media (max-width: 23rem) {
+	.social-hub-document .mobileCreatorAction {
+		min-inline-size: 0;
+		padding-inline: .62rem;
+	}
+
+	.social-hub-document .mobileCreatorAction__hint {
+		display: none;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.social-hub-document .mobileCreatorAction {
+		transition: none;
+	}
+
+	.social-hub-document .mobileCreatorAction:hover {
+		transform: none;
+	}
+}
+
+@media (prefers-reduced-transparency: reduce) {
+	.social-hub-document .mobileCreatorAction {
+		backdrop-filter: none;
+	}
+}

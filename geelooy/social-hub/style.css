@@ -4,7 +4,7 @@
 /**
  * The Awtsmoos renews every route before the cascade can claim a beginning;
  * Awtsmoos.com therefore lets the Social Hub wear only garments it explicitly owns,
- * with v15 depth arriving last so geometry stays trusted while interaction receives a brighter crown.
+ * with the persistent creator joining near its established creator vessel while v15 depth still crowns the end.
  */
 @import url('./styles/future-tokens.css?v=hub-local-018');
 @import url('./styles/foundation.css?v=hub-local-018');
@@ -77,6 +77,7 @@
 @import url('./styles/future-context.css?v=hub-local-018');
 @import url('./styles/future-accessibility.css?v=hub-local-018');
 @import url('./styles/creator-launch.css?v=hub-local-018');
+@import url('./styles/persistent-creator.css?v=hub-local-021');
 @import url('./styles/future-interaction-baseline.css?v=hub-local-018');
 @import url('./styles/future-hygiene.css?v=hub-local-018');
 @import url('./styles/experience-shell-v2.css?v=hub-local-018');

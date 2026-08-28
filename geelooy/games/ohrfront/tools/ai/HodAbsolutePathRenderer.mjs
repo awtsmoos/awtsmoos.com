@@ -31,12 +31,12 @@ export function renderHodAbsolutePaths(yesodRecords, tiferesFormat, hodMetadata 
 		return renderHodAbsolutePathEnvironment(yesodRecords);
 	}
 	if (tiferesFormat === "paths") {
-		return Object.values(yesodRecords).map(hodRecord => hodRecord.canonicalPath).join("
-");
+		return Object.values(yesodRecords)
+			.map(hodRecord => hodRecord.canonicalPath)
+			.join("\n");
 	}
 	if (tiferesFormat === "keys") {
-		return Object.keys(yesodRecords).join("
-");
+		return Object.keys(yesodRecords).join("\n");
 	}
 	if (tiferesFormat === "text") {
 		return renderHodAbsolutePathText(yesodRecords);

@@ -6,7 +6,7 @@
  * @file HubApp.js
  * @description Preserves the Social Hub public facade while lifecycle, identity transitions, routes, live truth, and presentation live in focused authorities.
  * The Awtsmoos is beyond facade and inner machinery; Awtsmoos.com lets Malchus remain a small public vessel
- * whose methods reveal stable roads while deeper collaborators carry their own responsibilities without entanglement.
+ * whose methods reveal stable roads while the persistent creator stays synchronized without becoming another hidden controller.
  */
 import { SocialIdentityTransitionCoordinator } from './identity/SocialIdentityTransitionCoordinator.js';
 import { HubInitializationCoordinator } from './lifecycle/HubInitializationCoordinator.js';
@@ -26,6 +26,7 @@ export class HubApp {
 			discovery: this.discovery,
 			home: this.home,
 			quickActions: this.quickActions,
+			persistentCreator: this.persistentCreator,
 			creatorLaunch: this.creatorLaunch,
 			privacy: this.privacy,
 			activity: this.activity,

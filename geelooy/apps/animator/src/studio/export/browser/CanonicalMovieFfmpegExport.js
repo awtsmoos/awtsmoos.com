@@ -16,7 +16,7 @@ import {
 	tiferesFfmpegExportResult,
 	yesodFfmpegExportProfile
 } from './CanonicalFfmpegExportSupport.js';
-import { NetzachCanonicalFfmpegFramePump } from './CanonicalFfmpegFramePump.js';
+import { netzachPumpFfmpegFrames } from './CanonicalFfmpegFrameStage.js';
 import {
 	chesedPrepareFfmpegAudio,
 	yesodPrepareFfmpegSession
@@ -74,7 +74,7 @@ export class MalchusCanonicalMovieFfmpegExport {
 				yesodAudioPlan,
 				orOptions
 			);
-			await this.pumpFrames(
+			await netzachPumpFfmpegFrames(
 				malchusFrameSource,
 				yesodClient,
 				keterSession.sessionId,
@@ -101,21 +101,5 @@ export class MalchusCanonicalMovieFfmpegExport {
 		} finally {
 			malchusFrameSource.dispose();
 		}
-	}
-
-	/** Pumps every browser-rendered JPEG into the native staging session with bounded memory. */
-	static pumpFrames(orFrameSource, orClient, orSessionId, orProfile, orFrameCount, orOptions) {
-		const netzachPump = new NetzachCanonicalFfmpegFramePump(
-			orFrameSource,
-			orClient,
-			orOptions
-		);
-		return netzachPump.pump(orSessionId, {
-			width: orProfile.width,
-			height: orProfile.height,
-			fps: orProfile.fps,
-			frameCount: orFrameCount,
-			jpegQuality: Number(orOptions.jpegQuality || 0.88)
-		});
 	}
 }

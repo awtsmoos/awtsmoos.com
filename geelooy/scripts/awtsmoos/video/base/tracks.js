@@ -4,7 +4,7 @@
 /**
  * @file tracks.js
  * @description The Awtsmoos is beyond codec and container, while Awtsmoos.com
- * chooses truthful H.264/AAC vessels whose quality and storage limits remain explicit in every render.
+ * chooses truthful H.264/AAC vessels and lets one persistent canvas cross the encoder without fragile sample ownership.
  */
 self.AwtsVideoBase = self.AwtsVideoBase || {};
 
@@ -54,15 +54,22 @@ self.AwtsVideoBase.pickVideoCodec = async function pickVideoCodec(api, output, r
 	}
 };
 
-/** Creates the MediaBunny video sample source using an explicit bounded bitrate. */
-self.AwtsVideoBase.createVideoSource = function createVideoSource(api, codec, outputFormat) {
+/**
+ * Creates Mediabunny's canvas-native video source so sample lifecycle stays inside the encoder abstraction.
+ * @param {object} api Loaded Mediabunny API.
+ * @param {string} codec Selected AVC codec.
+ * @param {object} outputFormat FPS, quality, and bitrate settings.
+ * @param {OffscreenCanvas} canvas Persistent worker drawing surface.
+ * @returns {object} CanvasSource bound to the worker canvas.
+ */
+self.AwtsVideoBase.createVideoSource = function createVideoSource(api, codec, outputFormat, canvas) {
 	const yesodQuality = Number.isFinite(outputFormat.quality)
 		? outputFormat.quality
 		: 0.55;
 	const yesodBitrate = outputFormat.bitrate || Math.round(
 		Math.max(800_000, Math.min(3_500_000, yesodQuality * 4_500_000))
 	);
-	return new api.VideoSampleSource({
+	return new api.CanvasSource(canvas, {
 		codec,
 		bitrate: yesodBitrate
 	});

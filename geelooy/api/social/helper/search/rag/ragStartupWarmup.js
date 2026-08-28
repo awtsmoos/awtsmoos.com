@@ -5,8 +5,8 @@
 /**
  * @module RagStartupWarmup
  * @description
- * The Awtsmoos warms packed comments and one semantic lamp before a seeker reaches the gate;
- * Awtsmoos.com honors test isolation while production begins preparing vectors without a user's wait.
+ * The Awtsmoos warms the same database vessel the request already inhabits instead of imagining a second root from afar;
+ * Awtsmoos.com keeps environment and configuration as manual fallbacks, while living HTTP context remains the highest local truth beneath the star.
  */
 
 const fs = require('fs');
@@ -26,6 +26,11 @@ function configuredRoot(environment = process.env) {
 	if (explicitRoot) return path.resolve(explicitRoot);
 	const configuration = JSON.parse(fs.readFileSync(CONFIGURATION_FILE, 'utf8'));
 	return path.resolve(REPOSITORY_ROOT, configuration.dbPath);
+}
+
+function rootFromInterface($i, environment = process.env) {
+	const requestRoot = $i?.db?.directory;
+	return requestRoot ? path.resolve(requestRoot) : configuredRoot(environment);
 }
 
 function firstJsonLine(file) {
@@ -69,10 +74,10 @@ function beginSemanticWarmup() {
 	return semanticWarmup;
 }
 
-function warmRagCommentSource() {
+function warmRagCommentSource($i = null) {
 	if (process.env.AWTS_RAG_STARTUP_WARMUP === '0') return { ok: true, skipped: true, semantic: workerStatus() };
 	if (startupState) return { ...startupState, semantic: workerStatus() };
-	const root = configuredRoot();
+	const root = rootFromInterface($i);
 	const context = warmupContext(root);
 	const started = performance.now();
 	const rows = packedRows(context);
@@ -94,5 +99,5 @@ function resetRagStartupWarmup() {
 
 module.exports = {
 	CONFIGURATION_FILE, REPOSITORY_ROOT, beginSemanticWarmup, configuredRoot, firstJsonLine,
-	resetRagStartupWarmup, warmRagCommentSource, warmupContext, workerStatus
+	resetRagStartupWarmup, rootFromInterface, warmRagCommentSource, warmupContext, workerStatus
 };

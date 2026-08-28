@@ -5,25 +5,19 @@
 /**
  * @module SocialSearchRoutes
  * @description
- * The Awtsmoos keeps search doors light at birth and warms each vessel only when a seeker arrives;
- * Awtsmoos.com preserves a steady host while readiness tells the truth about every semantic life.
+ * The Awtsmoos keeps search doors light at birth and warms the exact living request vessel only when an operator asks;
+ * Awtsmoos.com preserves lazy route imports while readiness names real storage and semantic life instead of a second imagined root in the night.
  */
 
-const {
-	applySearchStatus,
-	revealReadiness
-} = require('./helper/search/routes/responseStatus.js');
-const {
-	ROUTE_GROUPS
-} = require('./helper/search/routes/routeGroups.js');
+const { applySearchStatus, revealReadiness } = require('./helper/search/routes/responseStatus.js');
+const { ROUTE_GROUPS } = require('./helper/search/routes/routeGroups.js');
 
 let searchReadiness = {
-	ok: true,
-	mode: 'lazy',
-	message: 'Search resources warm on demand.'
+	ok: false,
+	code: 'SEARCH_NOT_WARMED',
+	message: 'Search warm-up has not been requested.'
 };
 
-/** Builds one lazy route handler without loading its search engine at server birth. */
 function lazyHandler(group, route, context) {
 	return async (...argumentsList) => {
 		const factory = require(group.modulePath)[group.factoryName];
@@ -32,46 +26,31 @@ function lazyHandler(group, route, context) {
 	};
 }
 
-/** Reveals every configured route while keeping each implementation lazy. */
 function lazySearchRoutes(context) {
 	const routes = {};
 	for (const group of ROUTE_GROUPS) {
-		for (const route of group.routes) {
-			routes[route] = lazyHandler(group, route, context);
-		}
+		for (const route of group.routes) routes[route] = lazyHandler(group, route, context);
 	}
 	return routes;
 }
 
-/** Performs explicit operator warmup and proves canonical storage stayed unchanged. */
-function warmSearchRoutes() {
-	const {
-		configuredRoot,
-		warmRagCommentSource
-	} = require('./helper/search/rag/ragStartupWarmup.js');
-	const {
-		assertStorageUnchanged,
-		captureCanonicalStorage
-	} = require('./helper/search/rag/storageInvariant.js');
-	const $i = {
-		db: {
-			directory: configuredRoot()
-		}
-	};
-	const storageBefore = captureCanonicalStorage($i);
-	const warmup = warmRagCommentSource();
-	assertStorageUnchanged(storageBefore, captureCanonicalStorage($i));
-	return {
-		ok: true,
-		warmup,
-		storage: storageBefore
-	};
+function requestInterface(context = {}) {
+	return context.$i || context;
 }
 
-/** Runs manual warmup without turning its failure into a server-start failure. */
-function warmSearchRoutesSafely() {
+function warmSearchRoutes(context = {}) {
+	const { warmRagCommentSource } = require('./helper/search/rag/ragStartupWarmup.js');
+	const { assertStorageUnchanged, captureCanonicalStorage } = require('./helper/search/rag/storageInvariant.js');
+	const $i = requestInterface(context);
+	const storageBefore = captureCanonicalStorage($i);
+	const warmup = warmRagCommentSource($i);
+	assertStorageUnchanged(storageBefore, captureCanonicalStorage($i));
+	return { ok: true, warmup, storage: storageBefore };
+}
+
+function warmSearchRoutesSafely(context = {}) {
 	try {
-		searchReadiness = warmSearchRoutes();
+		searchReadiness = warmSearchRoutes(context);
 	} catch (error) {
 		searchReadiness = {
 			ok: false,
@@ -82,16 +61,10 @@ function warmSearchRoutesSafely() {
 	return searchReadiness;
 }
 
-/** Returns readiness plus the current on-demand semantic worker state. */
 function currentSearchReadiness() {
 	try {
-		const {
-			workerStatus
-		} = require('./helper/search/rag/ragStartupWarmup.js');
-		return {
-			...searchReadiness,
-			semantic: workerStatus()
-		};
+		const { workerStatus } = require('./helper/search/rag/ragStartupWarmup.js');
+		return { ...searchReadiness, semantic: workerStatus() };
 	} catch {
 		return searchReadiness;
 	}
@@ -100,10 +73,11 @@ function currentSearchReadiness() {
 module.exports = (context = {}) => ({
 	...lazySearchRoutes(context),
 	'/search/readiness': async () => revealReadiness(currentSearchReadiness()),
-	'/search/readiness/refresh': async () => revealReadiness(warmSearchRoutesSafely())
+	'/search/readiness/refresh': async () => revealReadiness(warmSearchRoutesSafely(context))
 });
 
 module.exports.currentSearchReadiness = currentSearchReadiness;
 module.exports.lazySearchRoutes = lazySearchRoutes;
+module.exports.requestInterface = requestInterface;
 module.exports.warmSearchRoutes = warmSearchRoutes;
 module.exports.warmSearchRoutesSafely = warmSearchRoutesSafely;
