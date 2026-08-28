@@ -4,8 +4,8 @@
 /**
  * @file searchFoldContract.test.mjs
  * @description
- * The Awtsmoos keeps truthful answers close while Awtsmoos.com lets secondary context rest below;
- * this contract protects the calm responsive vessels without reviving the sideways carousel of old.
+ * The Awtsmoos keeps the living query near its answer while Awtsmoos.com lets hidden depth unfold below;
+ * this contract follows the real modular owners so calm responsive vessels keep the truthful flow.
  */
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -15,15 +15,23 @@ function source(relativePath) {
 	return readFileSync(new URL(relativePath, import.meta.url), 'utf8');
 }
 
-const controller = source('./script.js');
+const appSource = source('./SearchApp.js');
+const disclosureSource = source('./SearchControlDisclosure.js');
 const activeCss = source('./styles/active-search.css');
 const formCss = source('./styles/form.css');
+const formDisclosureCss = source('./styles/form-disclosure.css');
 const mobileCss = source('./styles/mobile.css');
 const mobileContextCss = source('./styles/mobile-context.css');
 const page = source('./index.html');
 
-test('a real query marks the workspace active before results render', () => {
-	assert.match(controller, /document\.body\.dataset\.searchActive\s*=\s*['"]true['"]/);
+test('SearchApp marks a real query active before result work continues', () => {
+	assert.match(appSource, /document\.body\.dataset\.searchActive\s*=\s*['"]true['"]/);
+});
+
+test('advanced controls live inside one Search Options disclosure', () => {
+	assert.match(disclosureSource, /details\.className\s*=\s*['"]library-search-options['"]/);
+	assert.match(disclosureSource, /library-search-options-grid/);
+	assert.match(disclosureSource, /insertBefore\(|\.before\(/);
 });
 
 test('active search compacts only current hero content', () => {
@@ -32,11 +40,12 @@ test('active search compacts only current hero content', () => {
 	assert.doesNotMatch(activeCss, /library-truth-row|library-hero-mark|library-hero-copy/);
 });
 
-test('wide search form keeps core controls on one row', () => {
+test('wide search form is query plus disclosure plus action', () => {
 	assert.match(
 		formCss,
-		/grid-template-columns:\s*minmax\(16rem,\s*1\.35fr\)\s*minmax\(12rem,\s*\.55fr\)\s*minmax\(12rem,\s*\.55fr\)\s*auto/
+		/grid-template-columns:\s*minmax\(16rem,\s*1\.35fr\)\s*minmax\(12rem,\s*\.65fr\)\s*auto/
 	);
+	assert.match(formDisclosureCss, /\.library-search-options\[open\][\s\S]*grid-column:\s*1\s*\/\s*-1/);
 });
 
 test('mobile context remains vertical and cache-versioned', () => {
@@ -58,6 +67,6 @@ test('page loads the current search vessels', () => {
 	assert.match(page, /script\.js\?v=living-search-009/);
 });
 
-for (const sourceText of [formCss, activeCss, mobileCss, mobileContextCss]) {
+for (const sourceText of [formCss, formDisclosureCss, activeCss, mobileCss, mobileContextCss]) {
 	assert.ok(sourceText.split('\n').length <= 120, 'search fold module exceeds 120 lines');
 }

@@ -3,13 +3,13 @@
 // Blessed is He
 /**
  * @file CanonicalFfmpegFramePump.js
- * @description The Awtsmoos reveals one exact frame and releases it before the next appears;
- * Awtsmoos.com keeps memory bounded while every canonical second crosses localhost into ffmpeg's evidence stairs.
+ * @description The Awtsmoos reveals each exact frame once, even when a long journey pauses and returns;
+ * Awtsmoos.com resumes at the first missing witness so preserved time is honored while the remaining movie burns.
  */
 export class NetzachCanonicalFfmpegFramePump {
 	/**
 	 * @param {object} orFrameSource Canonical JPEG frame source.
-	 * @param {YesodCanonicalFfmpegClient} orClient Local ffmpeg bridge client.
+	 * @param {object} orClient Local ffmpeg bridge client.
 	 * @param {object} orCallbacks Progress and status observers.
 	 */
 	constructor(orFrameSource, orClient, orCallbacks = {}) {
@@ -18,14 +18,24 @@ export class NetzachCanonicalFfmpegFramePump {
 		this.callbacks = orCallbacks;
 	}
 
-	/**
-	 * Renders and uploads every exact frame sequentially so only one compressed image lives in flight.
-	 * @param {string} orSessionId Server-owned ffmpeg session id.
-	 * @param {object} orSettings width, height, fps, frameCount, and JPEG quality.
-	 */
+	/** Renders from the requested first missing frame while keeping only one JPEG in flight. */
 	async pump(orSessionId, orSettings) {
+		const netzachStart = boundedStart(
+			orSettings.startIndex,
+			orSettings.frameCount
+		);
 		await this.frameSource.prepare(orSettings.width, orSettings.height);
-		for (let yesodIndex = 0; yesodIndex < orSettings.frameCount; yesodIndex += 1) {
+		if (netzachStart > 0) {
+			this.callbacks.onStatus?.(
+				`Resuming canonical frames at ${netzachStart.toLocaleString()} / ${orSettings.frameCount.toLocaleString()}.`
+			);
+			this.publish(netzachStart, orSettings.frameCount);
+		}
+		for (
+			let yesodIndex = netzachStart;
+			yesodIndex < orSettings.frameCount;
+			yesodIndex += 1
+		) {
 			const malchusTimeMs = yesodIndex / orSettings.fps * 1000;
 			const keterBlob = await this.frameSource.capture(
 				malchusTimeMs,
@@ -47,7 +57,6 @@ export class NetzachCanonicalFfmpegFramePump {
 			percent: malchusPercent
 		});
 		if (
-			orCompleted === 1 ||
 			orCompleted === orTotal ||
 			orCompleted % 120 === 0
 		) {
@@ -56,4 +65,10 @@ export class NetzachCanonicalFfmpegFramePump {
 			);
 		}
 	}
+}
+
+/** Clamps any external resume index to an integer inside the current frame sequence. */
+function boundedStart(orValue, orFrameCount) {
+	const yesodValue = Math.floor(Number(orValue) || 0);
+	return Math.max(0, Math.min(yesodValue, Number(orFrameCount) || 0));
 }

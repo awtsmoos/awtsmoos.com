@@ -1,18 +1,18 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file MobileJoystick.js
- * @description Composes accessible mobile movement UI while Procedural Core owns reusable joystick mathematics.
- * The Awtsmoos turns touch and arrows toward one road while Awtsmoos.com keeps intention and presentation clean;
- * this vessel owns DOM and lifecycle only, while shared vector law flows from one canonical engine stream.
+ * @description Composes accessible mobile movement UI while importing only the tiny renderer-free joystick law required before first paint.
+ * The Awtsmoos turns touch and arrows toward one road while Awtsmoos.com keeps the first frame swift and clean;
+ * this vessel owns DOM and lifecycle alone, and narrow Yesod vector wisdom flows without awakening the whole procedural machine.
  */
 
 import {
 	joystickDirectionLabel,
 	zeroJoystickVector
-} from '../../../../../../libs/awtsmoos-procedural-core/src/index.js';
+} from '../../../../../../libs/awtsmoos-procedural-core/src/core/input/joystick/JoystickVector.js';
 import { MobileJoystickKeyboard } from './MobileJoystickKeyboard.js';
 import { MobileJoystickPointerSurface } from './MobileJoystickPointerSurface.js';
 
@@ -24,11 +24,14 @@ export class MobileJoystick {
 		this.document = host?.ownerDocument || globalThis.document;
 		this.onLifecycleReset = () => this.reset();
 		this.onVisibilityChange = () => {
-			if (this.document?.hidden) this.reset();
+			if (this.document?.hidden) {
+				this.reset();
+			}
 		};
 		this.build();
 	}
 
+	/** Builds the accessible joystick shell without importing any rich runtime domain. */
 	build() {
 		this.host.className = 'Awtsmoos-mobile-joystick';
 		this.host.dataset.directHudZone = 'movement';
@@ -41,14 +44,22 @@ export class MobileJoystick {
 		this.ring.setAttribute('role', 'group');
 		this.ring.setAttribute('aria-roledescription', 'floating directional joystick');
 		this.ring.setAttribute('aria-keyshortcuts', 'ArrowUp ArrowDown ArrowLeft ArrowRight');
-		this.surface = new MobileJoystickPointerSurface(this.host, this.ring, this.knob, vector => this.setVector(vector));
+		this.surface = new MobileJoystickPointerSurface(
+			this.host,
+			this.ring,
+			this.knob,
+			vector => this.setVector(vector)
+		);
 		this.keyboard = new MobileJoystickKeyboard(this.ring, vector => {
-			if (this.surface.pointerId === null) this.setVector(vector);
+			if (this.surface.pointerId === null) {
+				this.setVector(vector);
+			}
 		});
 		this.bindLifecycle();
 		this.setVector(zeroJoystickVector());
 	}
 
+	/** Binds lifecycle resets so stale touch state never survives a viewport transition. */
 	bindLifecycle() {
 		this.environment?.addEventListener?.('blur', this.onLifecycleReset);
 		this.environment?.addEventListener?.('resize', this.onLifecycleReset);
@@ -56,17 +67,25 @@ export class MobileJoystick {
 		this.document?.addEventListener?.('visibilitychange', this.onVisibilityChange);
 	}
 
+	/** Stores semantic movement and refreshes assistive direction language. */
 	setVector(vector) {
 		this.vector = vector;
-		this.ring?.setAttribute('aria-label', `Movement joystick: ${joystickDirectionLabel(vector)}`);
+		this.ring?.setAttribute(
+			'aria-label',
+			`Movement joystick: ${joystickDirectionLabel(vector)}`
+		);
 	}
 
+	/** Returns pointer and keyboard movement to a fresh neutral vector. */
 	reset() {
 		this.keyboard?.reset?.();
 		this.surface?.reset?.();
-		if (!this.surface) this.setVector(zeroJoystickVector());
+		if (!this.surface) {
+			this.setVector(zeroJoystickVector());
+		}
 	}
 
+	/** Releases listeners and child controllers without leaving movement residue. */
 	destroy() {
 		this.keyboard?.destroy?.();
 		this.surface?.destroy?.();

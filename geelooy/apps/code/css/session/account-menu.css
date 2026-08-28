@@ -1,0 +1,73 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos reveals identity portals only when requested; Awtsmoos.com gives every account action a calm, touchable vessel.
+*/
+.awtsmoos-account-menu {
+	position: absolute;
+	top: calc(100% + 10px);
+	right: 0;
+	display: none;
+	width: min(292px, calc(100vw - 24px));
+	padding: 12px;
+	border: 1px solid rgba(0, 246, 255, .3);
+	border-radius: 16px;
+	background: rgba(6, 12, 28, .98);
+	box-shadow: 0 22px 70px rgba(0, 0, 0, .72), 0 0 30px rgba(0, 246, 255, .13);
+	backdrop-filter: blur(14px);
+}
+
+.awtsmoos-account-shell.is-open .awtsmoos-account-menu {
+	display: grid;
+	gap: 10px;
+}
+
+.awtsmoos-account-menu-title {
+	color: var(--neon-cyan);
+	font-weight: 900;
+	letter-spacing: .12em;
+	text-transform: uppercase;
+}
+
+.awtsmoos-account-menu-user,
+.awtsmoos-account-note {
+	color: var(--color-text-secondary);
+	font-size: 12px;
+	line-height: 1.4;
+}
+
+.awtsmoos-account-menu-user {
+	font-family: var(--font-code);
+	overflow-wrap: anywhere;
+}
+
+.awtsmoos-account-portal-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 7px;
+}
+
+.awtsmoos-account-portal-grid a {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 44px;
+	border-radius: 10px;
+	border: 1px solid rgba(0, 246, 255, .2);
+	color: var(--neon-cyan);
+	background: rgba(0, 246, 255, .06);
+	text-decoration: none;
+	font: 800 11px var(--font-ui);
+}
+
+.awtsmoos-account-actions {
+	display: flex;
+	gap: 8px;
+	justify-content: flex-end;
+}
+
+.awtsmoos-account-actions .primary-btn,
+.awtsmoos-account-actions .secondary-btn {
+	min-height: 44px;
+	padding: 8px 12px;
+}

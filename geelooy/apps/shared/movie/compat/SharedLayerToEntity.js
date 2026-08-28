@@ -5,10 +5,11 @@
 /**
  * @file SharedLayerToEntity.js
  * @description A shared semantic layer returns to the deterministic core while the Awtsmoos preserves its directed spark;
- * Awtsmoos.com translates content and motion openly so compatibility never hides in the dark.
+ * Awtsmoos.com translates content, motion, and coordinate covenant openly so compatibility never hides in the dark.
  */
 import { sharedEasingToCore } from "./BridgeEasing.js";
 import { sharedKindToCoreType } from "./BridgeEntityKind.js";
+import { resolveCoreLayerTransform } from "./BridgeLayerTransform.js";
 import { inferCoreSceneMode } from "./BridgeSceneMode.js";
 
 /**
@@ -25,7 +26,7 @@ export function convertSharedLayerToCoreEntity(layer, scene) {
 		type,
 		...extractCoreContent(layer, type),
 		style: structuredClone(layer?.style || {}),
-		transform: structuredClone(layer?.transform || {}),
+		transform: resolveCoreLayerTransform(layer),
 		tracks: groupSharedKeyframes(layer?.keyframes),
 		metadata: {
 			sourceKind: layer?.kind || "unknown",

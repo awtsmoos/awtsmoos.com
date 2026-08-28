@@ -51,3 +51,13 @@ new MalchusPlaybackController({
 
 window.addEventListener("resize", () => scale.syncWidth());
 requestAnimationFrame(() => scale.syncWidth());
+void installMovieAi();
+
+/** Mounts canonical AI movie authoring without coupling playback to the director. */
+async function installMovieAi() {
+	try {
+		await import("./movie/installMovieAi.js");
+	} catch (error) {
+		console.warn('Awtsmoos Video Editor movie AI director could not mount.', error);
+	}
+}

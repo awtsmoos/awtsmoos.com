@@ -2,8 +2,8 @@
 # Boruch Hashem
 # Blessed is He
 """
-The Awtsmoos lets browser evidence cross one narrow localhost gate;
-Awtsmoos.com routes sessions, frames, sound, and finalization while transport mechanics live in a separate vessel.
+The Awtsmoos lets browser evidence cross a narrow localhost gate and return after interruption;
+Awtsmoos.com routes resumable status, frames, sound, and finalization without confusing transport with production.
 """
 from http.server import BaseHTTPRequestHandler
 import json
@@ -17,7 +17,7 @@ _MAX_AUDIO = 64 * 1024 * 1024
 
 
 class GevurahCanonicalFfmpegHandler(BaseHTTPRequestHandler):
-	"""Owns only localhost ffmpeg route semantics and delegates generic HTTP mechanics."""
+	"""Owns localhost ffmpeg route semantics while focused helpers own filesystem and HTTP mechanics."""
 
 	def do_OPTIONS(self):
 		"""Allows the neighboring no-cache proof origin to use this localhost service."""
@@ -26,22 +26,13 @@ class GevurahCanonicalFfmpegHandler(BaseHTTPRequestHandler):
 		self.end_headers()
 
 	def do_GET(self):
-		"""Reports staged frame/audio status for one validated session."""
+		"""Reports immutable configuration plus resumable frame/audio progress for one session."""
 		try:
 			parts = HodCanonicalFfmpegHttpSupport.parts(self)
 			if len(parts) != 3 or parts[0] != "session" or parts[2] != "status":
 				raise ValueError("Unknown status route.")
 			session = YesodCanonicalFfmpegSession.open(parts[1])
-			HodCanonicalFfmpegHttpSupport.json_response(
-				self,
-				200,
-				{
-					"sessionId": session.session_id,
-					"receivedFrames": session.received_frame_count(),
-					"expectedFrames": session.config["frameCount"],
-					"audioBytes": session.audio.stat().st_size if session.audio.exists() else 0
-				}
-			)
+			HodCanonicalFfmpegHttpSupport.json_response(self, 200, session.status_payload())
 		except Exception as error:
 			HodCanonicalFfmpegHttpSupport.error_response(self, error)
 
@@ -74,31 +65,23 @@ class GevurahCanonicalFfmpegHandler(BaseHTTPRequestHandler):
 	def _create(self):
 		"""Creates a server-owned session from bounded JSON render metadata."""
 		body = HodCanonicalFfmpegHttpSupport.body(self, _MAX_JSON)
-		config = json.loads(body.decode("utf-8"))
-		session = YesodCanonicalFfmpegSession.create(config)
+		session = YesodCanonicalFfmpegSession.create(json.loads(body.decode("utf-8")))
 		HodCanonicalFfmpegHttpSupport.json_response(
 			self,
 			201,
-			{
-				"sessionId": session.session_id,
-				"config": session.config
-			}
+			{"sessionId": session.session_id, "config": session.config}
 		)
 
 	def _frame(self, session, index):
-		"""Stores one indexed JPEG frame beneath the current session only."""
+		"""Stores one indexed JPEG witness beneath the current session only."""
 		body = HodCanonicalFfmpegHttpSupport.body(self, _MAX_FRAME)
 		if not body.startswith(b"\xff\xd8"):
 			raise ValueError("Frame payload must be JPEG.")
-		target = session.frame_path(index)
-		target.write_bytes(body)
+		session.frame_path(index).write_bytes(body)
 		HodCanonicalFfmpegHttpSupport.json_response(
 			self,
 			201,
-			{
-				"frame": index,
-				"bytes": len(body)
-			}
+			{"frame": index, "bytes": len(body)}
 		)
 
 	def _audio(self, session):

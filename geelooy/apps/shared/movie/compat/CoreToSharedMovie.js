@@ -4,8 +4,8 @@
 
 /**
  * @file CoreToSharedMovie.js
- * @description The deterministic core enters the mature studio covenant while the Awtsmoos preserves each measured scene;
- * Awtsmoos.com makes format, layers, camera, and transition explicit so compatibility stays visible and clean.
+ * @description The deterministic core enters the mature studio covenant while the Awtsmoos preserves each measured scene and shared outer flame;
+ * Awtsmoos.com keeps this converter focused on scene translation while format, feature, and handoff defaults shine from their own named frame.
  */
 import { normalizeMovie } from "../MovieNormalizer.js";
 import { createMovieDocument } from "../MovieProtocol.js";
@@ -13,6 +13,15 @@ import {
 	coreCameraToShared,
 	coreTransitionToShared
 } from "./BridgeCameraTransition.js";
+import {
+	resolveSharedFeatures,
+	resolveSharedFormat,
+	resolveSharedHandoff
+} from "./BridgeCoreSharedDefaults.js";
+import {
+	createSharedMetadataFromCore,
+	readSharedEnvelope
+} from "./BridgeSharedEnvelope.js";
 import { convertCoreEntityToSharedLayer } from "./CoreEntityToLayer.js";
 
 /**
@@ -23,24 +32,17 @@ import { convertCoreEntityToSharedLayer } from "./CoreEntityToLayer.js";
  */
 export function convertCoreMovieToShared(coreMovie) {
 	const movie = coreMovie || {};
+	const envelope = readSharedEnvelope(movie);
 	return normalizeMovie(createMovieDocument({
 		id: movie.id,
-		metadata: {
-			title: movie.title || "Untitled Awtsmoos Movie",
-			personality: movie.personality || "animator",
-			sourceSchema: "awtsmoos-movie-core-v1"
-		},
-		format: resolveFormat(movie),
+		metadata: createSharedMetadataFromCore(movie),
+		format: resolveSharedFormat(movie),
 		duration: Number(movie.duration) || 0,
+		cast: envelope.cast,
 		assets: structuredClone(movie.assets || []),
-		features: {
-			source: "awtsmoos-movie-core",
-			modeSet: resolveModeSet(movie.scenes)
-		},
+		features: resolveSharedFeatures(movie, envelope.features),
 		scenes: (movie.scenes || []).map(convertCoreScene),
-		handoff: {
-			preferredApps: ["animator", "nesher", "videoEditor", "mitzvah"]
-		}
+		handoff: resolveSharedHandoff(envelope.handoff)
 	}));
 }
 
@@ -62,41 +64,4 @@ function convertCoreScene(scene) {
 			return convertCoreEntityToSharedLayer(entity, scene);
 		})
 	};
-}
-
-/**
- * @description Resolves deterministic-core aspect ratio and FPS into a shared pixel format.
- * @param {object} movie - Deterministic-core movie document.
- * @returns {object} Shared format record.
- * @sideEffects None.
- */
-function resolveFormat(movie) {
-	const ratio = movie?.aspectRatio || "16:9";
-	const sizes = {
-		"9:16": [540, 960],
-		"1:1": [720, 720],
-		"4:3": [960, 720],
-		"16:9": [1280, 720]
-	};
-	const [width, height] = sizes[ratio] || sizes["16:9"];
-	return {
-		width,
-		height,
-		fps: Number(movie?.fps) || 30,
-		orientation: height > width ? "portrait" : "landscape",
-		safeArea: 0.08
-	};
-}
-
-/**
- * @description Collects distinct deterministic-core scene modes for shared feature metadata.
- * @param {unknown} scenes - Candidate deterministic-core scene collection.
- * @returns {string[]} Distinct scene modes in source order.
- * @sideEffects None.
- */
-function resolveModeSet(scenes) {
-	const modes = (Array.isArray(scenes) ? scenes : []).map(function readMode(scene) {
-		return scene?.mode || "2d";
-	});
-	return Array.from(new Set(modes));
 }

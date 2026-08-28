@@ -3,76 +3,96 @@
 // Blessed is He
 
 import * as defaultApi from "./api.js";
-import { normalizeSubAgentAuth } from "./authShape.js";
-import { normalizeSubAgentMissions } from "./missionShape.js";
-import { renderSubAgentDeck } from "./render.js";
+import { bindSubAgentHandlers } from "./handlers.js";
 import { createSubAgentPoller } from "./poller.js";
+import { createSubAgentRefresh } from "./refresh.js";
+import { renderSubAgentDeck } from "./render.js";
 import { KeserSubAgentState } from "./state.js";
 
 /**
- * @file Stable controller for authentication, launch, refresh, and navigation.
- * @description The Awtsmoos unifies many agents in one will; Awtsmoos.com serializes every button and rejects stale refreshes so no two UI realities collide.
+ * @file Small lifecycle coordinator for the Sub-agents command deck.
+ * @description
+ * The Awtsmoos unifies many vessels without forcing one vessel to contain them all;
+ * Awtsmoos.com separates handlers, refresh, render, and polling so each failure stays small.
  */
 
+/**
+ * @description Activates a registered pane through the canonical navigation control.
+ * @param {string} paneKey - Registered shell pane key.
+ * @returns {boolean} Whether navigation was invoked.
+ * @sideEffects May activate another Tunnel Control pane.
+ */
 function navigateToPane(paneKey) {
-	const target = document.querySelector(`[data-pane-target="${paneKey}"]`) || document.querySelector(`[data-pane="${paneKey}"]`);
-	if (target?.click) target.click();
+	const target = document.querySelector(`[data-pane-target="${paneKey}"]`);
+	if (!target?.click) {
+		return false;
+	}
+	target.click();
+	return true;
 }
 
 /**
- * @description Creates an idempotent Sub-agents controller around one owned root.
+ * @description Creates an idempotent lifecycle around one owned Sub-agents root.
  * @param {HTMLElement} root - Unique Sub-agents root.
- * @param {Function} getTunnelName - Returns the active tunnel name.
+ * @param {Function} getTunnelName - Returns active tunnel route.
  * @param {object} api - Injectable API implementation for tests.
  * @returns {{root:HTMLElement,mount:Function,destroy:Function,refresh:Function}} Controller facade.
- * @sideEffects No listeners are installed until mount is called.
+ * @sideEffects No listeners or polling are installed until mount is called.
  */
 export function createSubAgentController(root, getTunnelName, api = defaultApi) {
 	const state = new KeserSubAgentState();
-	const abortController = new AbortController();
-	const render = () => renderSubAgentDeck(root, state.snapshot());
-	const refresh = async () => {
-		if (!state.begin("refresh")) return;
-		const generation = state.beginRefreshGeneration();
-		render();
-		try {
-			const tunnel = getTunnelName();
-			const [authRaw, missionRaw] = await Promise.all([api.readSubAgentChatGptStatus(tunnel), api.listSubAgentMissions(tunnel)]);
-			state.acceptRefresh(generation, { auth: normalizeSubAgentAuth(authRaw), missions: normalizeSubAgentMissions(missionRaw) });
-			state.setNotice("Constellation refreshed from live tunnel evidence.");
-		} catch (error) {
-			state.setNotice(api.describeSubAgentApiError(error));
-		} finally {
-			state.end("refresh");
-			render();
-		}
-	};
-	const runLocked = async (name, work, success) => {
-		if (!state.begin(name)) return;
-		render();
-		try { await work(); state.setNotice(success); }
-		catch (error) { state.setNotice(api.describeSubAgentApiError(error)); }
-		finally { state.end(name); render(); }
-	};
+	const lifecycle = new AbortController();
+	let mounted = false;
+
+	/**
+	 * @description Renders a detached state snapshot into the owned root.
+	 * @returns {void}
+	 * @sideEffects Mutates descendants of the Sub-agents root only.
+	 */
+	function render() {
+		renderSubAgentDeck(root, state.snapshot());
+	}
+
+	const refresh = createSubAgentRefresh({ state, api, getTunnelName, render });
 	const poller = createSubAgentPoller(root, refresh);
-	const mount = () => {
+
+	/**
+	 * @description Installs named handlers and one visibility-aware poller exactly once.
+	 * @returns {void}
+	 * @sideEffects Installs DOM listeners and one interval.
+	 */
+	function mount() {
+		if (mounted) {
+			return;
+		}
+		mounted = true;
 		render();
-		root.querySelector("#subAgentOpenAuthChromeBtn")?.addEventListener("click", () => runLocked("auth", async () => {
-			const raw = await api.openSubAgentChatGptLogin(getTunnelName()); state.auth = normalizeSubAgentAuth(raw);
-		}, "Debug Chrome opened with the persistent ChatGPT profile. Sign in there, then verify login."), { signal: abortController.signal });
-		root.querySelector("#subAgentVerifyLoginBtn")?.addEventListener("click", () => runLocked("auth", async () => { state.auth = normalizeSubAgentAuth(await api.readSubAgentChatGptStatus(getTunnelName())); }, "ChatGPT login status verified."), { signal: abortController.signal });
-		root.querySelector("#subAgentLaunchBtn")?.addEventListener("click", () => runLocked("launch", async () => {
-			const goal = root.querySelector("#subAgentGoal")?.value?.trim() || "";
-			if (!goal) throw new Error("Describe a mission goal before launching the team.");
-			const count = root.querySelector("#subAgentAgentCount")?.value || 4;
-			await api.startSubAgentMission(getTunnelName(), goal, count);
-			await refresh();
-		}, "Sub-agent team launch accepted by the tunnel."), { signal: abortController.signal });
-		root.querySelector("#subAgentRefreshBtn")?.addEventListener("click", refresh, { signal: abortController.signal });
-		root.querySelector("#subAgentMissionControlBtn")?.addEventListener("click", () => navigateToPane("missionRooms"), { signal: abortController.signal });
-		root.querySelector("#subAgentAdvancedAgentsBtn")?.addEventListener("click", () => navigateToPane("aiAgents"), { signal: abortController.signal });
-		root.addEventListener("click", (event) => { const card = event.target?.closest?.("[data-subagent-mission-id]"); if (card) { state.selectMission(card.getAttribute("data-subagent-mission-id")); render(); } }, { signal: abortController.signal });
+		bindSubAgentHandlers({
+			root,
+			state,
+			api,
+			getTunnelName,
+			refresh,
+			render,
+			signal: lifecycle.signal,
+			navigate: navigateToPane
+		});
 		poller.mount();
-	};
-	return { root, mount, refresh, destroy() { poller.destroy(); abortController.abort(); } };
+	}
+
+	/**
+	 * @description Tears down the complete controller lifecycle.
+	 * @returns {void}
+	 * @sideEffects Removes listeners and polling.
+	 */
+	function destroy() {
+		if (!mounted) {
+			return;
+		}
+		mounted = false;
+		poller.destroy();
+		lifecycle.abort();
+	}
+
+	return { root, mount, refresh, destroy };
 }

@@ -1,69 +1,105 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
- * @file Reviews played moves with production search and returns score, PV, loss, nodes, and book facts.
- * The Awtsmoos searches depth after depth while Awtsmoos.com turns measurable difference into teachable light.
+ * @file Orchestrates fast whole-game scanning followed by full-budget re-search of only measured critical positions.
+ * The Awtsmoos lets every ply receive light while the deepest ray gathers where loss and structure call;
+ * Awtsmoos.com spends time where it matters and reports both the first scan and deeper work instead of hiding either wall.
  */
 (function revealReviewAnalysis(A) {
-	const DEFAULT_BUDGET = 650;
-
-	/** Searches a position and captures score, legal PV, nodes, and elapsed time. */
-	function reviewSearch(state, budget) {
-		const startedAt = performance.now();
-		const result = A.searchRoot(state, 99, budget, []);
-		const principalVariation = A.reviewPrincipalVariation(state, 5);
-		return {
-			result,
-			principalVariation,
-			nodes: EngineSoul.nodeCount,
-			elapsedMs: Math.round(performance.now() - startedAt)
-		};
-	}
-	/** Reviews one already-validated played move from its exact before-position. */
-	function analyzeReviewMove(move, options = {}) {
-		const state = createGameState(move.beforeFen);
-		const movingTurn = state.turn;
-		const budget = Math.max(100, Math.min(2500, Number(options.maxTime) || DEFAULT_BUDGET));
-		const bestSearch = reviewSearch(state, budget);
-		const bestEncoded = bestSearch.result.bestMove;
-		const sameAsBest = bestEncoded === move.encoded;
-		let playedScore = bestSearch.result.score;
-		let playedNodes = 0;
-		let playedElapsedMs = 0;
-		if (!sameAsBest) {
-			makeMove(state, move.encoded);
-			const playedSearch = reviewSearch(state, Math.max(100, Math.round(budget * 0.7)));
-			playedScore = -playedSearch.result.score;
-			playedNodes = playedSearch.nodes;
-			playedElapsedMs = playedSearch.elapsedMs;
-			unmakeMove(state);
-		}
-		const loss = A.normalizedLoss(bestSearch.result.score, playedScore);
-		return Object.freeze({
-			classification: A.classifyReview({ inBook: move.inBook, sameAsBest, loss }),
-			bestMove: bestEncoded ? decodeMove(bestEncoded, movingTurn) : null,
-			playedMove: move.decoded,
-			principalVariation: bestSearch.principalVariation,
-			bookName: move.bookName,
-			inBook: move.inBook,
-			loss,
-			bestScore: A.describeScore(bestSearch.result.score),
-			playedScore: A.describeScore(playedScore),
-			nodes: bestSearch.nodes + playedNodes,
-			elapsedMs: bestSearch.elapsedMs + playedElapsedMs
-		});
-	}
-	/** Reviews every move sequentially while streaming deterministic progress. */
-	function analyzeReviewGame(parsed, options = {}) {
+	/** Runs the responsive first pass over every legal move and streams backward-compatible progress. */
+	function scanReviewGame(parsed, budget) {
 		const results = [];
 		for (let index = 0; index < parsed.moves.length; index++) {
-			const result = analyzeReviewMove(parsed.moves[index], options);
+			const result = A.analyzeReviewMove(parsed.moves[index], {
+				maxTime: budget,
+				searchPass: "scan"
+			});
 			results.push(result);
-			postMessage({ type: "review_progress", index, total: parsed.moves.length, result });
+			postMessage({
+				type: "review_progress",
+				phase: "scan",
+				index,
+				total: parsed.moves.length,
+				passIndex: index + 1,
+				passTotal: parsed.moves.length,
+				result
+			});
 		}
 		return results;
 	}
-	Object.assign(A, { analyzeReviewMove, analyzeReviewGame });
+
+	/** Re-searches ranked critical plies at full requested strength and preserves their scan evidence. */
+	function deepenReviewGame(parsed, scanResults, candidates, budget) {
+		const results = [...scanResults];
+		for (let passIndex = 0; passIndex < candidates.length; passIndex++) {
+			const index = candidates[passIndex];
+			const scan = scanResults[index];
+			const deep = A.analyzeReviewMove(parsed.moves[index], {
+				maxTime: budget,
+				searchPass: "deep"
+			});
+			const result = Object.freeze({
+				...deep,
+				scanLoss: scan.loss,
+				scanNodes: scan.nodes,
+				scanElapsedMs: scan.elapsedMs
+			});
+			results[index] = result;
+			postMessage({
+				type: "review_progress",
+				phase: "deep",
+				index,
+				total: parsed.moves.length,
+				passIndex: passIndex + 1,
+				passTotal: candidates.length,
+				result
+			});
+		}
+		return results;
+	}
+
+	/** Adds final critical scores after the deep replacements are known. */
+	function scoreReviewResults(results) {
+		return results.map((result, index) => Object.freeze({
+			...result,
+			criticalScore: A.reviewCriticalScore(result, index, results)
+		}));
+	}
+
+	/** Executes both passes and returns results plus transparent search-budget metadata. */
+	function analyzeReviewGame(parsed, options = {}) {
+		const scanBudgetMs = A.reviewScanBudget(options.maxTime);
+		const deepBudgetMs = A.reviewDeepBudget(options.maxTime);
+		const scanned = scanReviewGame(parsed, scanBudgetMs);
+		const candidates = A.reviewDeepCandidates(scanned);
+		const deepened = deepenReviewGame(parsed, scanned, candidates, deepBudgetMs);
+		const results = scoreReviewResults(deepened);
+		const totalNodes = sumSearchWork(results, "nodes", "scanNodes");
+		const totalElapsedMs = sumSearchWork(results, "elapsedMs", "scanElapsedMs");
+		return Object.freeze({
+			results: Object.freeze(results),
+			analysis: Object.freeze({
+				scanBudgetMs,
+				deepBudgetMs,
+				deepenedPlies: Object.freeze(candidates.map(index => index + 1)),
+				totalNodes,
+				totalElapsedMs
+			})
+		});
+	}
+
+	function sumSearchWork(results, finalKey, scanKey) {
+		return results.reduce((sum, result) => {
+			return sum + (Number(result[finalKey]) || 0) + (Number(result[scanKey]) || 0);
+		}, 0);
+	}
+
+	Object.assign(A, {
+		scanReviewGame,
+		deepenReviewGame,
+		scoreReviewResults,
+		analyzeReviewGame
+	});
 })(self.AwtsmoosChessUpgrade);

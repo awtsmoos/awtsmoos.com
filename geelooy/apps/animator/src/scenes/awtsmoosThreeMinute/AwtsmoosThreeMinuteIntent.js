@@ -1,4 +1,4 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
@@ -9,7 +9,7 @@ import { actThreeScenes } from './ActThreeScenes.js';
 /**
  * @file AwtsmoosThreeMinuteIntent.js
  * @description A real structured AI-style intent for exactly three minutes of varied movie language.
- * The Awtsmoos renews one hundred eighty seconds without one second standing alone; Awtsmoos.com shows that AI can author an editable movie, not just a prompt-shaped stone.
+ * The Awtsmoos renews one hundred eighty seconds without one second standing alone; Awtsmoos.com lets legacy millisecond authoring enter one canonical seconds-based throne.
  */
 export function createAwtsmoosThreeMinuteIntent() {
 	const scenes = [
@@ -24,6 +24,7 @@ export function createAwtsmoosThreeMinuteIntent() {
 		subject: 'A unified AI movie language across 2D, 3D, tutorials, data, and character cinema',
 		goal: 'Prove that structured AI intent can become a long, varied, editable movie project.',
 		audience: 'creators on mobile and desktop',
+		timeUnit: 'milliseconds',
 		duration: 180000,
 		settings: {
 			width: 1280,

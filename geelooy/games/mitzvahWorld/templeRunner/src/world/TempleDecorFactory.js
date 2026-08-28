@@ -1,16 +1,17 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 /**
  * @file TempleDecorFactory.js
- * @description Builds six bounded district variants once, then toggles them when a chunk is recycled.
- * The Awtsmoos renews market, courtyard, olive road, alley, bridge, and evening glow;
- * Awtsmoos.com lets one finite chunk wear many procedural garments without making memory grow.
+ * @description Owns lazy district lifecycle for each recyclable Jerusalem chunk.
+ * The Awtsmoos holds every district ready before stone enters sight;
+ * Awtsmoos.com reveals each street once, then keeps its vessel for every later flight.
  */
 
 import {
 	Group
-} from "/libs/awtsmoos-procedural-core/src/adapters/native/index.js";
+} from "../../../../../libs/awtsmoos-procedural-core/src/adapters/native/index.js?compact=true";
+import { TempleDistrictSideBuilder } from "./TempleDistrictSideBuilder.js";
 import { TempleFurnitureFactory } from "./TempleFurnitureFactory.js";
 import { TempleLandscapeFactory } from "./TempleLandscapeFactory.js";
 
@@ -24,36 +25,73 @@ const DISTRICT_IDS = Object.freeze([
 ]);
 
 export class TempleDecorFactory {
-	/** @param {object} meshFactory Procedural native mesh materializer. */
+	/**
+	 * Creates the district lifecycle owner from one shared procedural mesh factory.
+	 * @param {object} meshFactory Shared native procedural mesh materializer.
+	 */
 	constructor(meshFactory) {
 		this.furniture = new TempleFurnitureFactory(meshFactory);
 		this.landscape = new TempleLandscapeFactory(meshFactory);
+		this.sideBuilder = new TempleDistrictSideBuilder({
+			furniture: this.furniture,
+			landscape: this.landscape
+		});
 	}
 
-	/** @param {number} index Stable chunk identity. @returns {object} District-variant root. */
+	/**
+	 * Creates one stable decor root and materializes only its initial market district.
+	 * @param {number} index Stable chunk identity and procedural seed.
+	 * @returns {object} Memoizing district root.
+	 */
 	create(index) {
 		const root = new Group();
 		root.name = `TempleDecor-${index}`;
 		root.userData.variants = {};
-		for (const districtId of DISTRICT_IDS) {
-			const variant = this.createDistrict(districtId, index);
-			variant.visible = false;
-			root.userData.variants[districtId] = variant;
-			root.add(variant);
-		}
+		root.userData.seed = index;
 		this.configure(root, "market");
 		return root;
 	}
 
-	/** @param {object} root District root. @param {string} districtId Active district id. */
+	/**
+	 * Reveals one requested district while hiding every cached sibling.
+	 * Unknown ids preserve the historic behavior of hiding all known variants.
+	 * @param {object} root Stable chunk district root.
+	 * @param {string} districtId Requested district id.
+	 * @returns {void}
+	 */
 	configure(root, districtId) {
+		if (DISTRICT_IDS.includes(districtId)) {
+			this.revealDistrict(root, districtId);
+		}
 		for (const [id, variant] of Object.entries(root.userData.variants)) {
 			variant.visible = id === districtId;
 		}
 		root.userData.district = districtId;
 	}
 
-	/** @param {string} districtId District id. @param {number} seed Stable chunk seed. @returns {object} */
+	/**
+	 * Materializes one district at most once for one recyclable chunk.
+	 * @param {object} root Stable chunk district root.
+	 * @param {string} districtId Known district id.
+	 * @returns {object} Cached or newly created district group.
+	 */
+	revealDistrict(root, districtId) {
+		if (root.userData.variants[districtId]) {
+			return root.userData.variants[districtId];
+		}
+		const variant = this.createDistrict(districtId, root.userData.seed);
+		variant.visible = false;
+		root.userData.variants[districtId] = variant;
+		root.add(variant);
+		return variant;
+	}
+
+	/**
+	 * Builds both streetsides for one district variant.
+	 * @param {string} districtId Known district id.
+	 * @param {number} seed Stable chunk seed.
+	 * @returns {object} District variant root.
+	 */
 	createDistrict(districtId, seed) {
 		const root = new Group();
 		for (const side of [-1, 1]) {
@@ -62,38 +100,15 @@ export class TempleDecorFactory {
 		return root;
 	}
 
-	/** @param {object} root District group. @param {string} id District id. @param {number} side Signed side. @param {number} seed Seed. */
-	addSide(root, id, side, seed) {
-		const x = side * 6.5;
-		if (id === "market") {
-			root.add(this.landscape.createWall(side));
-			root.add(this.furniture.createCart(x + side * 0.65, -3.8));
-			root.add(this.furniture.createVessels(x + side * 0.72, 4.2));
-			return;
-		}
-		if (id === "courtyard") {
-			root.add(this.landscape.createColumn(x, -5.2));
-			root.add(this.landscape.createColumn(x, 5.2));
-			root.add(this.furniture.createBench(x + side * 0.7, 0));
-			return;
-		}
-		if (id === "olive") {
-			root.add(this.landscape.createTree(x + side * 0.7, -4, seed));
-			root.add(this.landscape.createTree(x + side, 4, seed + 3));
-			return;
-		}
-		if (id === "alley") {
-			root.add(this.landscape.createWall(side, [0.4, 0.32, 0.27, 1]));
-			root.add(this.landscape.createLamp(x, seed % 2 ? -3 : 3));
-			return;
-		}
-		if (id === "bridge") {
-			root.add(this.landscape.createRail(side));
-			root.add(this.landscape.createColumn(x + side * 0.4, seed % 2 ? -6 : 6));
-			return;
-		}
-		root.add(this.landscape.createWall(side, [0.31, 0.23, 0.2, 1]));
-		root.add(this.landscape.createLamp(x, -4, true));
-		root.add(this.landscape.createLamp(x, 4, true));
+	/**
+	 * Preserves the historic side-building entry point while delegating recipe ownership.
+	 * @param {object} root District group receiving scenery.
+	 * @param {string} districtId District id.
+	 * @param {number} side Signed street side.
+	 * @param {number} seed Stable chunk seed.
+	 * @returns {void}
+	 */
+	addSide(root, districtId, side, seed) {
+		this.sideBuilder.add(root, districtId, side, seed);
 	}
 }

@@ -1,93 +1,99 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
- * @file Separates canonical deed identity from relay transport identity.
+ * @file Separates retry transport receipts from the original deed identity.
  * @description
- * The Awtsmoos keeps one deed recognizable through changing messengers. Awtsmoos.com
- * therefore validates an ordinary response by its deed identity, while a retry binds
- * the current relay receipt separately from the original durable deed.
+ * A retry is an observer wrapped around an older request, not a second deed.
+ * Awtsmoos.com therefore binds the observer to transport testimony while the
+ * original control request keeps its own identity. The Awtsmoos renews every
+ * instant without confusing vessel and light, so this contract never compares
+ * a wrapper receipt as though it were the deed that the wrapper observes.
+ *
+ * > One watcher may follow what another began,
+ * > Yet one deed stays one through the durable span;
+ * > The Awtsmoos renews every vessel and plan,
+ * > So transport and deed keep the names that they can.
  */
 
 /**
- * Verifies control identity without weakening fail-closed response correlation.
- *
- * @param {string[]} errors Mutable mismatch ledger.
- * @param {object} payload Original or retry request payload.
- * @param {object} result Native tunnel response.
- * @param {Function} requireMatch Exact-match helper.
+ * Verifies correlation for ordinary and retry responses.
+ * @param {string[]} errors Mutable mismatch testimony.
+ * @param {object} payload Original control payload.
+ * @param {object} result Returned tunnel response.
+ * @param {Function} requireMatch Strict field matcher.
  * @returns {void}
  */
 function verify(errors, payload = {}, result = {}, requireMatch) {
-	if (String(payload.action || "") !== "retryAction") {
-		requireMatch(
-			errors,
-			"controlRequestId",
-			payload.controlRequestId,
-			result.controlRequestId
-		);
+	if (String(payload.action || "") === "retryAction") {
+		verifyRetry(errors, payload, result, requireMatch);
 		return;
 	}
-	verifyRetry(errors, payload, result, requireMatch);
+	verifyOrdinary(errors, payload, result, requireMatch);
 }
 
 /**
- * Validates retry transport receipt and optional original deed independently.
- *
- * @param {string[]} errors Mutable mismatch ledger.
- * @param {object} payload Retry envelope.
- * @param {object} result Response for the durable original deed.
- * @param {Function} requireMatch Exact-match helper.
+ * Verifies a retry without inferring deed identity from its observer receipt.
+ * @param {string[]} errors Mutable mismatch testimony.
+ * @param {object} payload Retry payload carrying the observer transport receipt.
+ * @param {object} result Pending or terminal response for the observed deed.
+ * @param {Function} requireMatch Strict field matcher.
  * @returns {void}
  */
 function verifyRetry(errors, payload, result, requireMatch) {
-	const transportReceiptId = String(result.transportReceiptId || "").trim();
-	const originalControlRequestId = originalControlId(payload);
+	const pending = result.pending === true || result.action === "tunnelRequestPending";
+	const transportReceipt = retryTransportReceipt(result);
 
-	if (transportReceiptId) {
-		requireMatch(
-			errors,
-			"transportReceiptId",
-			payload.controlRequestId,
-			transportReceiptId
-		);
+	if (transportReceipt) {
+		requireMatch(errors, "transportReceiptId", payload.controlRequestId, transportReceipt);
+	} else if (pending) {
+		requireMatch(errors, "controlRequestId", payload.controlRequestId, result.controlRequestId);
 	} else {
-		requireMatch(
-			errors,
-			"controlRequestId",
-			originalControlRequestId || payload.controlRequestId,
-			result.controlRequestId
-		);
+		requireMatch(errors, "transportReceiptId", payload.controlRequestId, "");
 	}
 
-	if (originalControlRequestId) {
+	if (payload.originalControlRequestId) {
 		requireMatch(
 			errors,
 			"originalControlRequestId",
-			originalControlRequestId,
+			payload.originalControlRequestId,
 			result.controlRequestId
 		);
 	}
 }
 
 /**
- * Returns an explicitly carried canonical deed ID, never an inferred relay ID.
- *
- * @param {object} payload Retry envelope.
- * @returns {string} Original control request ID or an empty string.
+ * Resolves only fields that can testify to the retry wrapper transport receipt.
+ * @param {object} result Tunnel response.
+ * @returns {string} Canonical observer transport receipt when present.
  */
-function originalControlId(payload = {}) {
+function retryTransportReceipt(result = {}) {
 	return String(
-		payload.originalControlRequestId ||
-		payload.params?.originalControlRequestId ||
-		payload.retryPayload?.originalControlRequestId ||
+		result.transportReceiptId ||
+		result.requestSemantics?.controlRequestId ||
+		result.id ||
 		""
-	).trim();
+	);
+}
+
+/**
+ * Preserves strict correlation for non-retry requests.
+ * @param {string[]} errors Mutable mismatch testimony.
+ * @param {object} payload Original control payload.
+ * @param {object} result Returned tunnel response.
+ * @param {Function} requireMatch Strict field matcher.
+ * @returns {void}
+ */
+function verifyOrdinary(errors, payload, result, requireMatch) {
+	requireMatch(errors, "controlRequestId", payload.controlRequestId, result.controlRequestId);
+	requireMatch(errors, "agentSessionId", payload.agentSessionId, result.agentSessionId);
+	requireMatch(errors, "logicalAgentId", payload.logicalAgentId, result.logicalAgentId);
 }
 
 module.exports = {
-	originalControlId,
+	retryTransportReceipt,
 	verify,
+	verifyOrdinary,
 	verifyRetry
 };

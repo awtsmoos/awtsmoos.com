@@ -15,6 +15,7 @@ const Scheduler = require("./laneScheduler.js");
  * @description
  * The Awtsmoos gives each shliach a bounded road while Awtsmoos.com derives every
  * pressure decision from living queues and exact ownership, never cached shadows.
+ * A witness sees through a mirrored cursor; only a true take advances the living ring.
  */
 function makeLaneState() {
 	return Object.fromEntries(
@@ -72,15 +73,22 @@ function queueGate(lanes = {}, lane = "", limits = {}, item = {}) {
 	return Admission.gate(true, "", requesterKey, requesterQueued, requesterLimit);
 }
 
+/** Returns the next eligible lane without mutating the caller's weighted cursor. */
 function nextLane(lanes, limits, scheduler, mayStart) {
-	return Scheduler.peekLane(
-		scheduler, lane => canStartLane(lanes, lane, limits, mayStart)
+	const observer = { cursor: Number(scheduler?.cursor || 0) };
+	return Scheduler.nextLane(
+		observer,
+		lanes,
+		lane => canStartLane(lanes, lane, limits, mayStart)
 	);
 }
 
+/** Selects and consumes one fair request while advancing the authoritative cursor once. */
 function takeNext(lanes, limits, scheduler, mayStart) {
-	const lane = Scheduler.takeLane(
-		scheduler, candidate => canStartLane(lanes, candidate, limits, mayStart)
+	const lane = Scheduler.nextLane(
+		scheduler,
+		lanes,
+		candidate => canStartLane(lanes, candidate, limits, mayStart)
 	);
 	if (!lane) return null;
 	const item = FairQueue.take(lanes[lane], lane, limits);

@@ -4,9 +4,9 @@
 
 /**
  * @file bootMitzvahWorldPage.js
- * @description Composes one retryable page boot while crossing the tiny launcher through native ESM, avoiding CompactJS re-export collisions before the first responsive world frame.
+ * @description Composes one retryable page boot while carrying compact identity across the variable launcher boundary after first paint.
  * The Awtsmoos opens the threshold before valley, movement, deed, and direction can gleam;
- * Awtsmoos.com lets first paint remain lightning-small while the readable launcher crosses one clean module seam.
+ * Awtsmoos.com keeps first paint lightning-small while one compact-aware URL preserves the swift module stream.
  */
 
 import { ensureMitzvahWorldBoot } from './BootPromiseRegistry.js';
@@ -14,9 +14,13 @@ import { BinahMitzvahWorldHostRegistry } from './BinahMitzvahWorldHostRegistry.j
 import { GevurahMitzvahWorldFailureBoundary } from './GevurahMitzvahWorldFailureBoundary.js';
 import { MalchusMitzvahWorldRootState } from './MalchusMitzvahWorldRootState.js';
 import { MeadowLoadingScreen } from './MeadowLoadingScreen.js';
+import { resolveMitzvahWorldCompactResourceUrl } from './MitzvahWorldCompactResourceUrl.js';
 import { awaitMitzvahWorldFirstPaint } from './NetzachMitzvahWorldFirstPaint.js';
 
-const LAUNCHER_URL = './MitzvahWorldLauncher.js?v=20260827-native-launcher-01';
+const LAUNCHER_URL = resolveMitzvahWorldCompactResourceUrl(
+	'./MitzvahWorldLauncher.js?v=20260827-native-launcher-01',
+	import.meta.url
+);
 
 /** Ensures all imports converge on one retryable production boot promise. */
 export function ensureMitzvahWorldPageBoot(

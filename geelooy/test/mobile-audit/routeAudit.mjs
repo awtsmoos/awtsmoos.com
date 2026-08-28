@@ -6,7 +6,7 @@
  * @module RouteAuditCli
  * @description
  * The Awtsmoos gathers route, viewport, owned browser target, and finite deadline into one command of light;
- * Awtsmoos.com writes every checked chamber as JSONL so future repair can reproduce the exact edge that appeared in sight.
+ * Awtsmoos.com can now name exact paths, so no shifting catalog can make a neighboring chamber impersonate the test in sight.
  */
 import { appendFileSync, mkdirSync, rmSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
@@ -15,18 +15,14 @@ import { connectAuditChrome } from './RouteAuditCdp.mjs';
 import { auditRouteMatrix } from './RouteAuditRunner.mjs';
 
 const configuration = auditConfiguration(process.env);
-const allRoutes = configuration.mode === 'canonical'
-	? canonicalAuditRoutes()
-	: standaloneAuditRoutes(process.cwd());
-const selectedRoutes = allRoutes.slice(configuration.start, configuration.start + configuration.limit);
+const allRoutes = configuration.mode === 'canonical' ? canonicalAuditRoutes() : standaloneAuditRoutes(process.cwd());
+const pathRoutes = selectPaths(allRoutes, configuration.paths);
+const selectedRoutes = pathRoutes.slice(configuration.start, configuration.start + configuration.limit);
 const outputPath = resolve(configuration.output);
 mkdirSync(dirname(outputPath), { recursive: true });
 if (!configuration.append) rmSync(outputPath, { force: true });
-const client = await connectAuditChrome(
-	configuration.chromePort,
-	configuration.targetId,
-	configuration.cdpTimeoutMs
-);
+if (!selectedRoutes.length) throw new Error('No routes matched the requested audit selection.');
+const client = await connectAuditChrome(configuration.chromePort, configuration.targetId, configuration.cdpTimeoutMs);
 try {
 	const results = await auditRouteMatrix({
 		client,
@@ -41,6 +37,12 @@ try {
 	client.close();
 }
 
+/**
+ * Reveals the audit configuration from environment vessels.
+ *
+ * @param {NodeJS.ProcessEnv} environment - Process environment values.
+ * @returns {object} Normalized route audit configuration.
+ */
 function auditConfiguration(environment) {
 	return {
 		mode: environment.AUDIT_MODE === 'canonical' ? 'canonical' : 'standalone',
@@ -53,8 +55,32 @@ function auditConfiguration(environment) {
 		waitMs: nonNegativeInteger(environment.AUDIT_WAIT_MS, 500),
 		output: environment.AUDIT_OUTPUT || '/tmp/geelooy-route-audit.jsonl',
 		append: environment.AUDIT_APPEND === '1',
+		paths: parsePaths(environment.AUDIT_PATH || ''),
 		viewports: parseViewports(environment.AUDIT_VIEWPORTS || '320x844,390x844')
 	};
+}
+
+/**
+ * Filters the route catalog by exact requested public paths.
+ *
+ * @param {Array<object>} routes - Discovered audit routes.
+ * @param {string[]} paths - Exact public paths requested by the caller.
+ * @returns {Array<object>} Matching routes in requested-path order.
+ */
+function selectPaths(routes, paths) {
+	if (!paths.length) return routes;
+	const routeByPath = new Map(routes.map(route => [route.path, route]));
+	return paths.map(path => routeByPath.get(path)).filter(Boolean);
+}
+
+/**
+ * Parses comma-separated exact route paths.
+ *
+ * @param {string} value - Environment route-path list.
+ * @returns {string[]} Trimmed unique route paths.
+ */
+function parsePaths(value) {
+	return [...new Set(String(value).split(',').map(path => path.trim()).filter(Boolean))];
 }
 
 function parseViewports(value) {
@@ -62,27 +88,18 @@ function parseViewports(value) {
 		const [widthText, heightText] = token.trim().split('x');
 		const width = positiveInteger(widthText, 320);
 		const height = positiveInteger(heightText, 844);
-		return {
-			name: `${width}x${height}`,
-			width,
-			height,
-			mobile: width <= 768
-		};
+		return { name: `${width}x${height}`, width, height, mobile: width <= 768 };
 	});
 }
 
 function recordResult(outputPath, result) {
 	appendFileSync(outputPath, `${JSON.stringify(result)}\n`);
-	const path = result.route?.path || result.url;
-	console.log(`${result.severity || 'broken'}\t${result.viewport?.name}\t${path}`);
+	console.log(`${result.severity || 'broken'}\t${result.viewport?.name}\t${result.route?.path || result.url}`);
 }
 
 function printSummary(configuration, allRoutes, selectedRoutes, results, outputPath) {
 	const counts = {};
-	for (const result of results) {
-		const severity = result.severity || 'broken';
-		counts[severity] = (counts[severity] || 0) + 1;
-	}
+	for (const result of results) counts[result.severity || 'broken'] = (counts[result.severity || 'broken'] || 0) + 1;
 	console.log(`B"H mode=${configuration.mode}`);
 	console.log(`catalogRoutes=${allRoutes.length}`);
 	console.log(`selectedRoutes=${selectedRoutes.length}`);

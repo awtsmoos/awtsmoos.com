@@ -60,6 +60,16 @@ async function bootstrapEinSof() {
 		document.documentElement.dataset.einSofReady = "true";
 		document.dispatchEvent(new CustomEvent("einsofready"));
 	}
+	void installMovieAi();
+}
+
+/** Mounts the shared AI director while preserving Captions' focused 2D renderer. */
+async function installMovieAi() {
+	try {
+		await import("./movie/installMovieAi.js");
+	} catch (error) {
+		console.warn("Captions movie AI director could not mount.", error);
+	}
 }
 
 /** Connects each range input to its visible numeric output. */

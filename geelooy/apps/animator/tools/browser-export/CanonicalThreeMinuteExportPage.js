@@ -9,7 +9,7 @@ import { YesodCanonicalExportPageState } from './CanonicalExportPageState.js';
 /**
  * @file CanonicalThreeMinuteExportPage.js
  * @description The Awtsmoos renews the actual AI-authored three-minute movie as encoded production frames;
- * Awtsmoos.com binds canonical intent directly to Animator export so the acceptance proof measures the same movie the studios can edit.
+ * Awtsmoos.com binds one canonical movie to an explicit 640×360 at 12fps proof profile whose claims and pixels rhyme.
  */
 export class MalchusCanonicalThreeMinuteExportPage {
 	constructor(orDocument = document, orWindow = window) {
@@ -30,7 +30,7 @@ export class MalchusCanonicalThreeMinuteExportPage {
 		this.start.addEventListener('click', () => this.render());
 		this.start.disabled = false;
 		this.state.statusMessage(
-			`Ready: ${this.movie.scenes.length} AI-authored canonical scenes · ${this.durationMs / 1000}s export window.`
+			`Ready: ${this.movie.scenes.length} AI-authored scenes · ${this.durationMs / 1000}s · 640×360 · 12fps.`
 		);
 		if (this.query.get('autostart') === '1') {
 			this.render();
@@ -38,13 +38,17 @@ export class MalchusCanonicalThreeMinuteExportPage {
 		return this;
 	}
 
-	/** Runs the existing production MP4 worker against shared canonical-renderer frames. */
+	/** Runs the production MP4 worker against shared canonical-runtime frames. */
 	async render() {
 		this.start.disabled = true;
 		this.state.progressValue({ percent: 0, completedFrames: 0, totalFrames: 0 });
 		try {
 			const keterResult = await MalchusCanonicalMovieBrowserExport.export(this.movie, {
 				durationMs: this.durationMs,
+				width: 640,
+				height: 360,
+				fps: 12,
+				quality: 0.72,
 				fileName: fileNameFor(this.durationMs),
 				download: this.query.get('download') !== '0',
 				onStatus: orMessage => this.state.statusMessage(orMessage),

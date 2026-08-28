@@ -4,9 +4,9 @@
 
 /**
  * @file catalogAndSidecar.test.js
- * @description Proves five independent complete corpora without opening text-only marker databases.
- * The Awtsmoos names every lane truthfully, and Awtsmoos.com measures each reviewed publication;
- * multipart English roads and the Tanach matrix remain distinct within one searchable revelation.
+ * @description
+ * The Awtsmoos names five complete corpora by their actual persisted capability, while Awtsmoos.com keeps text-only Likkutei distinct from vector-ready Sichos;
+ * every lane carries its own truthful vessel, and no family-name assumption may extinguish a verified HNSW light.
  */
 
 const test = require('node:test');
@@ -52,9 +52,12 @@ test('publishes five complete independent RAG lanes', {
 	const kodesh = await resolveShard({ $i, lane: 'sichos-kodesh' });
 	const tanach = await resolveShard({ $i, lane: 'tanach-hebrew-verses' });
 	assert.equal(likkutei.parts.length, 28);
-	assert.equal(kodesh.parts.length, 12);
 	assert.equal(likkutei.textOnly, true);
-	assert.equal(kodesh.textOnly, true);
+	assert.equal(likkutei.vectorEnabled, false);
+	assert.equal(kodesh.parts.length, 12);
+	assert.equal(kodesh.textOnly, false);
+	assert.equal(kodesh.vectorEnabled, true);
+	assert.equal(kodesh.dimensions, 384);
 	assert.equal(tanach.vectorEnabled, true);
 	const searchStart = performance.now();
 	const result = await textSearchShard(likkutei, 'Torah', 5);
@@ -75,11 +78,13 @@ test('strips vector payloads from sidecar rows', () => {
 	);
 });
 
+/** Finds the actual installed DB root without confusing tracked config with the runtime deployment root. */
 function configuredRoot() {
 	const configFile = path.resolve('ayzarim/awtsmoos.config.json');
 	const config = JSON.parse(fs.readFileSync(configFile, 'utf8'));
 	const candidates = [
 		process.env.AWTS_DB_ROOT,
+		path.join(os.homedir(), 'Documents', 'dayuhChadash-runtime'),
 		path.join(os.homedir(), 'Documents', 'awtsmoos', 'dayuhChadash'),
 		path.resolve(config.dbPath)
 	].filter(Boolean);

@@ -24,28 +24,27 @@ ohrfrontBootstrap   /Users/awtsmoos/work/awtsmoos.com/geelooy/games/ohrfront/src
 ohrfrontStylesEntry /Users/awtsmoos/work/awtsmoos.com/geelooy/games/ohrfront/styles/ohrfront.css
 ```
 
-## Shared procedural core
+## Shared core and dynamic server
 
 ```text
 proceduralCoreRoot /Users/awtsmoos/work/awtsmoos.com/geelooy/libs/awtsmoos-procedural-core
+dynamicServerRoot  /Users/awtsmoos/work/awtsmoos.com/ayzarim/awtsmoosDynamicServer
+compactJsRoot      /Users/awtsmoos/work/awtsmoos.com/ayzarim/awtsmoosDynamicServer/compactJs
+compactCssRoot     /Users/awtsmoos/work/awtsmoos.com/ayzarim/awtsmoosDynamicServer/compactCss
 ```
 
-## Awtsmoos dynamic server / compact pipeline
+## Absolute-path authority
 
 ```text
-dynamicServerRoot /Users/awtsmoos/work/awtsmoos.com/ayzarim/awtsmoosDynamicServer
-compactJsRoot     /Users/awtsmoos/work/awtsmoos.com/ayzarim/awtsmoosDynamicServer/compactJs
-compactCssRoot    /Users/awtsmoos/work/awtsmoos.com/ayzarim/awtsmoosDynamicServer/compactCss
+canonical registry /Users/awtsmoos/work/awtsmoos.com/geelooy/games/ohrfront/tools/ai/YesodAbsolutePathRegistry.mjs
+printer            /Users/awtsmoos/work/awtsmoos.com/geelooy/games/ohrfront/tools/ai/MalchusPrintAbsolutePaths.mjs
+writer CLI         /Users/awtsmoos/work/awtsmoos.com/geelooy/games/ohrfront/tools/ai/MalchusWriteAbsolutePathEvidence.mjs
+provenance         /Users/awtsmoos/work/awtsmoos.com/geelooy/games/ohrfront/tools/ai/TiferesAbsolutePathProvenance.mjs
+role authority     /Users/awtsmoos/work/awtsmoos.com/geelooy/games/ohrfront/tools/ai/ChochmahAbsolutePathRole.mjs
+legacy facade      /Users/awtsmoos/work/awtsmoos.com/geelooy/games/ohrfront/scripts/ai/ChochmahAbsolutePathAuthority.mjs
 ```
 
-## Absolute-path tooling
-
-```text
-printer       /Users/awtsmoos/work/awtsmoos.com/geelooy/games/ohrfront/tools/ai/MalchusPrintAbsolutePaths.mjs
-writer CLI    /Users/awtsmoos/work/awtsmoos.com/geelooy/games/ohrfront/tools/ai/MalchusWriteAbsolutePathEvidence.mjs
-writer module /Users/awtsmoos/work/awtsmoos.com/geelooy/games/ohrfront/tools/ai/NetzachAbsolutePathEvidenceWriter.mjs
-manifest      /Users/awtsmoos/work/awtsmoos.com/geelooy/games/ohrfront/tools/ai/HodAbsolutePathManifest.mjs
-```
+The `scripts/ai` surface is compatibility-only. It projects historical root names from the canonical `tools/ai` registry instead of maintaining a second filesystem truth model.
 
 ## AI planning storage
 
@@ -55,29 +54,33 @@ human alias                /Users/awtsmoos/work/ai-thoughts
 repository planning root   /Users/awtsmoos/work/awtsmoos.com/ai-thoughts
 ```
 
-Current live session:
+Current absolute-path mission:
 
 ```text
-session id        session-20260826-1702-universal-portal-ui-revelation
-canonical session /Users/awtsmoos/work/.ai-thoughts/session-20260826-1702-universal-portal-ui-revelation
-evidence          /Users/awtsmoos/work/.ai-thoughts/session-20260826-1702-universal-portal-ui-revelation/evidence
-remaining work    /Users/awtsmoos/work/.ai-thoughts/session-20260826-1702-universal-portal-ui-revelation/REMAINING_WORK.md
-release evidence  /Users/awtsmoos/work/.ai-thoughts/session-20260826-1702-universal-portal-ui-revelation/RELEASE_EVIDENCE.md
-path manifest     /Users/awtsmoos/work/.ai-thoughts/session-20260826-1702-universal-portal-ui-revelation/ABSOLUTE_PATH_MANIFEST.md
-human path data   /Users/awtsmoos/work/.ai-thoughts/session-20260826-1702-universal-portal-ui-revelation/evidence/absolute-paths-human.out
-JSON path data    /Users/awtsmoos/work/.ai-thoughts/session-20260826-1702-universal-portal-ui-revelation/evidence/absolute-paths.json
+session id         2026-08-28-0312-absolute-path-truth
+canonical session  /Users/awtsmoos/work/.ai-thoughts/2026-08-28-0312-absolute-path-truth
+evidence root      /Users/awtsmoos/work/.ai-thoughts/2026-08-28-0312-absolute-path-truth/evidence
+remaining work     /Users/awtsmoos/work/.ai-thoughts/2026-08-28-0312-absolute-path-truth/REMAINING_WORK.md
+release evidence   /Users/awtsmoos/work/.ai-thoughts/2026-08-28-0312-absolute-path-truth/RELEASE_EVIDENCE.md
+path manifest      /Users/awtsmoos/work/.ai-thoughts/2026-08-28-0312-absolute-path-truth/ABSOLUTE_PATH_MANIFEST.md
+human path data    /Users/awtsmoos/work/.ai-thoughts/2026-08-28-0312-absolute-path-truth/evidence/absolute-paths-human.out
+JSON path data     /Users/awtsmoos/work/.ai-thoughts/2026-08-28-0312-absolute-path-truth/evidence/absolute-paths.json
 ```
 
-## Materialize release/handoff path evidence
+## Rich provenance expectations
 
-This command may be run from any working directory:
+Release/handoff JSON remains schema `awtsmoos.ai.absolute-system-paths.v2`. Every enriched record should expose canonical physical identity plus `role`, `scopes`, `primaryScope`, `fileUri`, repository/session-relative annotations when applicable, and `equivalentKeys` for aliases or duplicate declarations.
+
+Canonical absolute paths are authority. Relative projections are explanatory annotations only.
+
+## Materialize current evidence
+
+This command may run from any working directory:
 
 ```bash
-node /Users/awtsmoos/work/awtsmoos.com/geelooy/games/ohrfront/tools/ai/MalchusWriteAbsolutePathEvidence.mjs --session=session-20260826-1702-universal-portal-ui-revelation
+node /Users/awtsmoos/work/awtsmoos.com/geelooy/games/ohrfront/tools/ai/MalchusWriteAbsolutePathEvidence.mjs --session=2026-08-28-0312-absolute-path-truth
 ```
 
-Its normal stdout is the three canonical physical artifact paths above. Use `--format=json` when a release agent needs the immutable writer receipt.
+Use `--format=json` when an agent needs the immutable writer receipt instead of the three canonical artifact paths.
 
-The read-only printer remains the discovery source; the writer is an explicit session-bound publication action. Neither browser runtime nor network APIs expose host filesystem paths.
-
-Never copy this documentation as executable configuration. The registry derives these paths from physical module location and canonicalizes them at runtime; these values document the currently verified machine and live session.
+Never copy this document as executable configuration. These are currently verified machine paths; the registry derives and canonicalizes them from physical module location at runtime. Browser runtime and network APIs do not expose them.

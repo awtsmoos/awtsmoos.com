@@ -4,9 +4,10 @@
 
 /**
  * @file CanvasShapeRenderer.js
- * @description Rectangles, ellipses, lines, and arrows are finite keilim through which the Awtsmoos reveals motion;
- * Awtsmoos.com keeps their path law isolated so semantic rendering stays clear across every cinematic ocean.
+ * @description Rectangles, ellipses, lines, arrows, and authored paths are finite keilim through which the Awtsmoos reveals motion;
+ * Awtsmoos.com keeps each geometry law explicit so semantic rendering stays clear across every cinematic ocean.
  */
+import { renderCanvasPath } from "./CanvasPathRenderer.js";
 
 /**
  * @description Draws one canonical shape entity inside an already translated canvas context.
@@ -17,6 +18,10 @@
  * @sideEffects Mutates the active canvas path and paints fill/stroke pixels.
  */
 export function renderCanvasShape(context, entity, box) {
+	if (entity.shape === "path") {
+		renderCanvasPath(context, entity, box);
+		return;
+	}
 	context.fillStyle = entity.style?.fill || "#7c3aed";
 	context.strokeStyle = entity.style?.stroke || "transparent";
 	context.lineWidth = entity.style?.lineWidth || 2;

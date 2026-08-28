@@ -7,13 +7,11 @@ const Priority = require("../lib/runtime/priority.js");
 const Scheduler = require("../lib/runtime/priority/laneScheduler.js");
 
 /**
- * B"H
- *
- * One slow shliach may work deeply without owning every slot or every future
- * turn. The Awtsmoos renews each requester; Awtsmoos.com proves reserved lane
- * capacity, round-robin selection, and bounded service for every lane.
+ * @file Proves one busy logical agent cannot monopolize a lane or weighted service ring.
+ * @description
+ * The Awtsmoos renews each requester while Awtsmoos.com keeps exact deeds beneath one fair name;
+ * public dequeue and exact release prove requester limits without reaching through a private frame.
  */
-
 const limits = {
 	MAX_INFLIGHT: Number.POSITIVE_INFINITY,
 	MAX_QUEUE: Number.POSITIVE_INFINITY,
@@ -35,37 +33,49 @@ const limits = {
 };
 
 const lanes = Priority.makeLaneState();
+const scheduler = Priority.createSchedulerState();
 for (let index = 0; index < 4; index += 1) {
 	Priority.enqueue(lanes, request("agent-a", `a-${index}`));
 }
 Priority.enqueue(lanes, request("agent-b", "b-0"));
 
-const selected = [];
-for (let index = 0; index < 4; index += 1) {
-	selected.push(Priority.takeNext(
-		lanes,
-		limits,
-		Priority.createSchedulerState()
-	));
-}
+const selected = Array.from({ length: 4 }, () => Priority.takeNext(
+	lanes,
+	limits,
+	scheduler
+));
 assert.equal(selected.filter(item => item.requesterKey.includes("agent-a")).length, 3);
 assert.equal(selected.filter(item => item.requesterKey.includes("agent-b")).length, 1);
 assert.equal(selected[1].requesterKey.includes("agent-b"), true);
-assert.equal(Priority.canStartLane(lanes, "p3_heavy", limits), false);
+assert.equal(Priority.takeNext(lanes, limits, scheduler), null);
+assert.equal(Priority.release(
+	lanes,
+	"p3_heavy",
+	selected[0].requesterKey,
+	selected[0].requestKey
+), true);
+const resumed = Priority.takeNext(lanes, limits, scheduler);
+assert.equal(resumed.requesterKey.includes("agent-a"), true);
+assert.equal(Priority.release(
+	lanes,
+	resumed.lane,
+	resumed.requesterKey,
+	resumed.requestKey
+), true);
 
-Priority.release(lanes, "p3_heavy", selected[0].requesterKey);
-assert.equal(Priority.canStartLane(lanes, "p3_heavy", limits), true);
-
-const scheduler = Scheduler.createSchedulerState();
+const ringScheduler = Scheduler.createSchedulerState();
 const sequence = Array.from(
 	{ length: Scheduler.SERVICE_RING.length },
-	() => Scheduler.takeLane(scheduler, () => true)
+	() => Scheduler.nextLane(ringScheduler, {}, () => true)
 );
 assert.equal(sequence.filter(lane => lane === "p0_control").length, 8);
+assert.equal(sequence.filter(lane => lane === "p0_wait").length, 4);
+assert.equal(sequence.filter(lane => lane === "p0_observe").length, 3);
+assert.equal(sequence.filter(lane => lane === "p1_command_admission").length, 4);
 assert.equal(sequence.filter(lane => lane === "p1_fs_light").length, 4);
-assert.equal(sequence.includes("p2_chrome_light"), true);
-assert.equal(sequence.includes("p3_heavy"), true);
-assert.equal(sequence.includes("p4_bulk"), true);
+assert.equal(sequence.filter(lane => lane === "p2_chrome_light").length, 2);
+assert.equal(sequence.filter(lane => lane === "p3_heavy").length, 2);
+assert.equal(sequence.filter(lane => lane === "p4_bulk").length, 1);
 assert.equal(sequence.at(-1), "p4_bulk");
 
 console.log(JSON.stringify({
@@ -74,14 +84,18 @@ console.log(JSON.stringify({
 	sequence
 }, null, 2));
 
-function request(agentSessionId, id) {
+/** Builds one production-shaped request whose fairness owner is the logical agent. */
+function request(logicalAgentId, requestId) {
 	return {
 		data: {
-			id,
+			id: requestId,
 			payload: {
 				action: "commandRun",
 				kind: "command",
-				agentSessionId
+				logicalAgentId,
+				agentSessionId: "multi-agent-fairness-suite",
+				generation: 1,
+				requestId
 			}
 		}
 	};

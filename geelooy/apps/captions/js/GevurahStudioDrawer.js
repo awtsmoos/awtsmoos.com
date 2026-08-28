@@ -1,30 +1,50 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
- * The Awtsmoos gives advanced controls a boundary that can open and withdraw;
- * Awtsmoos.com keeps desktop power retractable and mobile power off-canvas, never crowding the vision.
+ * @file GevurahStudioDrawer.js
+ * @description
+ * The Awtsmoos gives concealment a truthful boundary instead of an off-screen illusion;
+ * Awtsmoos.com guides gesture and viewport while a dedicated vessel guards semantic inclusion.
  */
+import { GevurahStudioAccessibility } from "./GevurahStudioAccessibility.js";
+
 export class GevurahStudioDrawer {
+	/**
+	 * Creates the responsive studio boundary.
+	 *
+	 * @param {Record<string, HTMLElement>} dom - Collected Ein Sof interface vessels.
+	 */
 	constructor(dom) {
 		this.dom = dom;
 		this.mobileQuery = window.matchMedia("(max-width: 760px)");
+		this.accessibility = new GevurahStudioAccessibility(dom);
 	}
 
+	/**
+	 * Connects drawer gestures and synchronizes the initial viewport state.
+	 *
+	 * @returns {GevurahStudioDrawer} Connected drawer runtime.
+	 */
 	connect() {
 		this.dom.studioToggle.addEventListener("click", () => this.toggle());
-		this.dom.studioClose.addEventListener("click", () => this.closeMobile());
-		this.dom.studioBackdrop.addEventListener("click", () => this.closeMobile());
+		this.dom.studioClose.addEventListener("click", () => this.closeMobile(true));
+		this.dom.studioBackdrop.addEventListener("click", () => this.closeMobile(true));
 		this.mobileQuery.addEventListener("change", () => this.syncViewport());
+		document.addEventListener("keydown", event => this.handleKeydown(event));
 		this.syncViewport();
 		return this;
 	}
 
+	/**
+	 * Toggles the correct desktop or mobile studio manifestation.
+	 *
+	 * @returns {void}
+	 */
 	toggle() {
 		if (this.mobileQuery.matches) {
-			const isOpen = this.dom.studioPanel.classList.contains("is-open");
-			if (isOpen) this.closeMobile();
-			else this.openMobile();
+			this.isMobileOpen() ? this.closeMobile(false) : this.openMobile();
 			return;
 		}
 
@@ -33,28 +53,62 @@ export class GevurahStudioDrawer {
 		this.dom.studioToggle.textContent = retracted ? "Open" : "Controls";
 	}
 
+	/**
+	 * Reveals the mobile studio before moving keyboard focus into it.
+	 *
+	 * @returns {void}
+	 */
 	openMobile() {
-		this.dom.studioPanel.classList.add("is-open");
-		this.dom.studioBackdrop.hidden = false;
-		this.dom.studioToggle.setAttribute("aria-expanded", "true");
+		this.accessibility.setMobileState(true);
 		this.dom.studioClose.focus();
 	}
 
-	closeMobile() {
-		this.dom.studioPanel.classList.remove("is-open");
-		this.dom.studioBackdrop.hidden = true;
-		this.dom.studioToggle.setAttribute("aria-expanded", "false");
+	/**
+	 * Conceals the mobile studio and optionally returns focus to its trigger.
+	 *
+	 * @param {boolean} restoreFocus - Whether focus should return to the studio toggle.
+	 * @returns {void}
+	 */
+	closeMobile(restoreFocus = false) {
+		this.accessibility.setMobileState(false);
+		if (restoreFocus) {
+			this.dom.studioToggle.focus();
+		}
 	}
 
+	/**
+	 * Reconciles semantic state when the viewport crosses the mobile boundary.
+	 *
+	 * @returns {void}
+	 */
 	syncViewport() {
 		this.dom.einSofShell.classList.remove("studio-retracted");
 		this.dom.studioToggle.textContent = "Controls";
 		if (this.mobileQuery.matches) {
-			this.closeMobile();
-		} else {
-			this.dom.studioPanel.classList.remove("is-open");
-			this.dom.studioBackdrop.hidden = true;
-			this.dom.studioToggle.setAttribute("aria-expanded", "true");
+			this.closeMobile(false);
+			return;
 		}
+		this.accessibility.setDesktopState();
+	}
+
+	/**
+	 * Closes an open mobile studio when Escape is pressed.
+	 *
+	 * @param {KeyboardEvent} event - Document keyboard event.
+	 * @returns {void}
+	 */
+	handleKeydown(event) {
+		if (event.key === "Escape" && this.mobileQuery.matches && this.isMobileOpen()) {
+			this.closeMobile(true);
+		}
+	}
+
+	/**
+	 * Reports whether the mobile drawer is currently revealed.
+	 *
+	 * @returns {boolean} True when the open class is present.
+	 */
+	isMobileOpen() {
+		return this.dom.studioPanel.classList.contains("is-open");
 	}
 }

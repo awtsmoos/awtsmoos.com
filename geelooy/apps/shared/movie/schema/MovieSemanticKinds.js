@@ -4,7 +4,7 @@
 /**
  * @file MovieSemanticKinds.js
  * @description The Awtsmoos is beyond every category, yet Awtsmoos.com names
- * visual, spatial, sonic, textual, and data vessels so AI can direct all flames.
+ * visual, spatial, sonic, textual, data, framing, and transition vessels so AI intent can keep its cinematic flame.
  */
 export const MovieLayerKind = Object.freeze({
 	SHAPE_2D: "shape2d",
@@ -44,6 +44,7 @@ export const MovieLayerKind = Object.freeze({
 export const MovieCameraKind = Object.freeze({
 	WIDE: "wide",
 	MEDIUM: "medium",
+	TWO_SHOT: "two-shot",
 	CLOSEUP: "closeup",
 	EXTREME_CLOSEUP: "extreme-closeup",
 	OVERHEAD: "overhead",
@@ -59,6 +60,8 @@ export const MovieTransitionKind = Object.freeze({
 	CUT: "cut",
 	CROSSFADE: "crossfade",
 	WIPE: "wipe",
+	LIGHT_WIPE: "light-wipe",
+	PARTICLE_DISSOLVE: "particle-dissolve",
 	PUSH: "push",
 	ZOOM: "zoom",
 	IRIS: "iris",
@@ -69,15 +72,32 @@ export const MovieLayerKinds = Object.freeze(Object.values(MovieLayerKind));
 export const MovieCameraKinds = Object.freeze(Object.values(MovieCameraKind));
 export const MovieTransitionKinds = Object.freeze(Object.values(MovieTransitionKind));
 
-/** Return the broad semantic family used for adapter capability negotiation. */
+/** Returns the broad semantic family used for adapter capability negotiation. */
 export function binahLayerFamily(orKind) {
-	if ([MovieLayerKind.AUDIO, MovieLayerKind.DIALOGUE, MovieLayerKind.NARRATION, MovieLayerKind.MUSIC, MovieLayerKind.AMBIENCE, MovieLayerKind.SFX].includes(orKind)) {
+	if (
+		[
+			MovieLayerKind.AUDIO,
+			MovieLayerKind.DIALOGUE,
+			MovieLayerKind.NARRATION,
+			MovieLayerKind.MUSIC,
+			MovieLayerKind.AMBIENCE,
+			MovieLayerKind.SFX
+		].includes(orKind)
+	) {
 		return "audio";
 	}
 	if (String(orKind || "").endsWith("3d")) {
 		return "3d";
 	}
-	if ([MovieLayerKind.DATA, MovieLayerKind.CHART, MovieLayerKind.DIAGRAM, MovieLayerKind.FORMULA, MovieLayerKind.CODE].includes(orKind)) {
+	if (
+		[
+			MovieLayerKind.DATA,
+			MovieLayerKind.CHART,
+			MovieLayerKind.DIAGRAM,
+			MovieLayerKind.FORMULA,
+			MovieLayerKind.CODE
+		].includes(orKind)
+	) {
 		return "data";
 	}
 	return "2d";

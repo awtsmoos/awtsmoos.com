@@ -2,8 +2,8 @@
 # Boruch Hashem
 # Blessed is He
 """
-The Awtsmoos gives each export a bounded chamber where frames may gather in order;
-Awtsmoos.com keeps names, paths, counts, and evidence inside one verified border.
+The Awtsmoos gives interrupted evidence a chamber whose truth survives the night;
+Awtsmoos.com counts contiguous frames, preserves immutable law, and lets resumed rendering continue in light.
 """
 from pathlib import Path
 import json
@@ -16,7 +16,7 @@ _SESSION_ROOT = _MEDIA_ROOT / "ffmpeg-sessions"
 
 
 class YesodCanonicalFfmpegSession:
-	"""Owns one safe frame/audio staging directory and immutable render configuration."""
+	"""Owns one bounded frame/audio staging directory and resumable immutable render configuration."""
 
 	def __init__(self, session_id, config):
 		self.session_id = session_id
@@ -34,14 +34,14 @@ class YesodCanonicalFfmpegSession:
 
 	@classmethod
 	def open(cls, session_id):
-		"""Reopens an existing validated session from its server-controlled metadata."""
+		"""Reopens one existing validated session without rewriting its preserved metadata."""
 		if not re.fullmatch(r"[a-f0-9]{32}", session_id or ""):
 			raise ValueError("Invalid ffmpeg session id.")
 		root = _SESSION_ROOT / session_id
 		config = json.loads((root / "config.json").read_text())
 		instance = cls.__new__(cls)
 		instance.session_id = session_id
-		instance.config = config
+		instance.config = cls._validated_config(config)
 		instance.root = root
 		instance.frames = root / "frames"
 		instance.audio = root / "audio.wav"
@@ -59,8 +59,26 @@ class YesodCanonicalFfmpegSession:
 		return _MEDIA_ROOT / self.config["fileName"]
 
 	def received_frame_count(self):
-		"""Counts only deterministic JPEG frame files in this session."""
+		"""Counts deterministic JPEG witnesses, including any later frames after a gap."""
 		return len(list(self.frames.glob("frame_*.jpg")))
+
+	def next_frame_index(self):
+		"""Returns the first missing frame so resumptions never skip a hole in the sequence."""
+		for index in range(self.config["frameCount"]):
+			if not self.frame_path(index).exists():
+				return index
+		return self.config["frameCount"]
+
+	def status_payload(self):
+		"""Returns immutable render law plus exact staged progress for safe browser resumption."""
+		return {
+			"sessionId": self.session_id,
+			"receivedFrames": self.received_frame_count(),
+			"expectedFrames": self.config["frameCount"],
+			"nextFrameIndex": self.next_frame_index(),
+			"audioBytes": self.audio.stat().st_size if self.audio.exists() else 0,
+			"config": self.config
+		}
 
 	def public_path(self):
 		"""Returns the no-cache proof server path for the final artifact."""
@@ -69,7 +87,7 @@ class YesodCanonicalFfmpegSession:
 
 	@staticmethod
 	def _validated_config(config):
-		"""Bounds all browser-controlled numeric and filename values before disk or ffmpeg use."""
+		"""Bounds all browser-controlled timing, geometry, count, and filename values."""
 		width = int(config.get("width", 0))
 		height = int(config.get("height", 0))
 		fps = float(config.get("fps", 0))

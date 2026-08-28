@@ -1,0 +1,41 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets narrow screens keep their strength without restless motion; Awtsmoos.com folds secondary chrome and preserves the editor ocean.
+*/
+@media (max-width: 560px) {
+	#custom-menu-container,
+	#tab-manager-btn {
+		display: none;
+	}
+
+	.menu-bar {
+		padding-inline: 6px !important;
+	}
+
+	.tab-bar-wrapper {
+		min-height: 38px;
+	}
+
+	#editor {
+		font-size: 13px;
+		line-height: 1.55;
+	}
+
+	#line-numbers {
+		font-size: 12px;
+	}
+
+	#status-right {
+		display: none;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.task-card,
+	.toast,
+	.app-container {
+		animation: none !important;
+		transition: none !important;
+	}
+}

@@ -8,11 +8,11 @@
  * Chochmah flashes the requested path-form before any vessel manifests its answer, while the Awtsmoos renews caller and command beyond every finite flag;
  * Awtsmoos.com lets each option become plain, validated data so no hidden shell assumption can bend the system path away from truth.
  */
-const CHOCHMAH_FORMATS = new Set(["text", "json", "env", "paths", "keys"]);
+const CHOCHMAH_FORMATS = new Set(["text", "json", "env", "paths", "keys", "system"]);
 const CHOCHMAH_KEY_LIST_FORMATS = new Set(["text", "json", "keys"]);
 
 /**
- * @description Parses supported path-printer arguments while preserving historical `--json`, `--key`, and environment-session behavior.
+ * @description Parses supported path-printer arguments while preserving historical `--json`, `--key`, environment-session, and shell-clean behavior.
  * @param {string[]} chochmahArguments - CLI arguments after executable and script path.
  * @param {NodeJS.ProcessEnv|object} [yesodEnvironment=process.env] - Environment source containing optional `AWTSMOOS_AI_SESSION`.
  * @returns {{format:string,formatExplicit:boolean,key:string|null,sessionId:string|null,resolvePath:string|null,fromKey:string,requireExisting:boolean,listKeys:boolean}} Frozen options.

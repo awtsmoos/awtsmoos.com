@@ -3,61 +3,86 @@
 // Blessed is He
 /**
  * @file CanonicalFfmpegPreparation.js
- * @description The Awtsmoos prepares time and sound before frames descend into their encoding vessel;
- * Awtsmoos.com keeps native session creation and browser soundtrack preparation separate from final export orchestration.
+ * @description The Awtsmoos prepares new evidence or re-enters preserved evidence without waste;
+ * Awtsmoos.com validates immutable session law, reuses finished sound, and lets interrupted render light regain its place.
  */
 import { AnimatorBrowserExportAudio } from './AnimatorBrowserExportAudio.js';
 import { MalchusCanonicalAudioWav } from './CanonicalAudioWav.js';
+import {
+	gevurahAssertCanonicalFfmpegResume,
+	yesodCanonicalFfmpegSessionConfig
+} from './CanonicalFfmpegResumeValidator.js';
 
-/**
- * Creates one bounded native ffmpeg session before audio or frame staging begins.
- * @param {object} orClient Local ffmpeg bridge client.
- * @param {object} orMovie Canonical movie identity.
- * @param {object} orProfile Resolved render geometry and fps.
- * @param {number} orDurationSeconds Exact bounded duration in seconds.
- * @param {number} orFrameCount Expected discrete frame count.
- * @param {object} orOptions Export callbacks and filename overrides.
- * @returns {Promise<object>} Server-owned session descriptor.
- */
-export function yesodPrepareFfmpegSession(
+/** Creates a fresh native session or safely reopens one explicitly requested by the caller. */
+export async function yesodPrepareFfmpegSession(
 	orClient,
 	orMovie,
 	orProfile,
 	orDurationSeconds,
 	orFrameCount,
-	orOptions
+	orOptions = {}
 ) {
-	orOptions.onStatus?.('Creating native ffmpeg render session...');
-	return orClient.createSession({
-		width: orProfile.width,
-		height: orProfile.height,
-		fps: orProfile.fps,
-		durationSeconds: orDurationSeconds,
-		frameCount: orFrameCount,
-		fileName: orOptions.fileName || `${orMovie.id}.mp4`
-	});
-}
-
-/**
- * Renders Animator's existing production soundtrack, converts it to PCM WAV, and uploads it once.
- * @param {object} orClient Local ffmpeg bridge client.
- * @param {string} orSessionId Server-owned render session id.
- * @param {object} orPlan Bounded millisecond export plan for audio semantics.
- * @param {object} orOptions Export callbacks and audio overrides.
- * @returns {Promise<object>} Existing Animator audio result containing shim and voice metadata.
- */
-export async function chesedPrepareFfmpegAudio(
-	orClient,
-	orSessionId,
-	orPlan,
-	orOptions
-) {
-	orOptions.onStatus?.('Rendering production soundtrack for ffmpeg...');
-	const chesedAudio = await AnimatorBrowserExportAudio.render(
-		orPlan,
+	const keterConfig = yesodCanonicalFfmpegSessionConfig(
+		orMovie,
+		orProfile,
+		orDurationSeconds,
+		orFrameCount,
 		orOptions
 	);
+	if (orOptions.resumeSessionId) {
+		orOptions.onStatus?.(`Reopening native ffmpeg session ${orOptions.resumeSessionId}...`);
+		const malchusStatus = gevurahAssertCanonicalFfmpegResume(
+			await orClient.status(orOptions.resumeSessionId),
+			keterConfig
+		);
+		return {
+			sessionId: malchusStatus.sessionId,
+			config: malchusStatus.config,
+			status: malchusStatus,
+			resumed: true
+		};
+	}
+	orOptions.onStatus?.('Creating native ffmpeg render session...');
+	const yesodSession = await orClient.createSession(keterConfig);
+	return {
+		...yesodSession,
+		status: {
+			sessionId: yesodSession.sessionId,
+			config: yesodSession.config,
+			receivedFrames: 0,
+			expectedFrames: orFrameCount,
+			nextFrameIndex: 0,
+			audioBytes: 0
+		},
+		resumed: false
+	};
+}
+
+/** Renders and uploads production audio unless a resumed session already preserves a valid WAV. */
+export async function chesedPrepareFfmpegAudio(
+	orClient,
+	orSession,
+	orPlan,
+	orOptions = {}
+) {
+	const yesodAudioBytes = Number(orSession.status?.audioBytes || 0);
+	if (yesodAudioBytes >= 44) {
+		orOptions.onStatus?.(
+			`Reusing ${(yesodAudioBytes / 1024 / 1024).toFixed(1)} MB preserved production soundtrack.`
+		);
+		return {
+			voices: [],
+			resumed: true,
+			audioBytes: yesodAudioBytes
+		};
+	}
+	orOptions.onStatus?.('Rendering production soundtrack for ffmpeg...');
+	const chesedAudio = await AnimatorBrowserExportAudio.render(orPlan, orOptions);
 	const malchusWav = MalchusCanonicalAudioWav.encode(chesedAudio.shim);
-	await orClient.uploadAudio(orSessionId, malchusWav);
-	return chesedAudio;
+	await orClient.uploadAudio(orSession.sessionId, malchusWav);
+	return {
+		...chesedAudio,
+		resumed: false,
+		audioBytes: malchusWav.size
+	};
 }

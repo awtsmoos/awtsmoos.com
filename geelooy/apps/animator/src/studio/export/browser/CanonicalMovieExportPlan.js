@@ -4,56 +4,69 @@
 
 /**
  * @file CanonicalMovieExportPlan.js
- * @description Preserves the canonical millisecond clock from AI intent through Animator's browser exporter without hidden conversion.
- * The Awtsmoos renews every instant in one measured stream; Awtsmoos.com keeps project, projection, and encoder on the same temporal scheme.
+ * @description The Awtsmoos renews canonical seconds before Animator crosses into millisecond export time;
+ * Awtsmoos.com performs that conversion exactly once so scene meaning and encoder clocks rhyme in one measured line.
  */
 export class YesodCanonicalMovieExportPlan {
 	/**
-	 * @param {object} orMovie Canonical movie measured in milliseconds.
-	 * @param {object} orAnimatorPlan Animator semantic projection preserving canonical milliseconds.
+	 * Converts the canonical seconds-based movie and Animator projection into one browser-export millisecond plan.
+	 * @param {object} orMovie Canonical movie measured in seconds.
+	 * @param {object} orAnimatorPlan Animator semantic projection still measured in canonical seconds.
 	 * @returns {object} Browser-export plan measured consistently in milliseconds.
 	 */
 	static create(orMovie, orAnimatorPlan) {
 		const yesodSettings = orMovie.settings || {};
+		const malchusFormat = orMovie.format || {};
 		return {
 			id: orMovie.id,
 			title: orMovie.metadata?.title || orAnimatorPlan.title || orMovie.id,
-			duration: finiteMilliseconds(orMovie.duration, 'movie.duration'),
+			duration: secondsToMilliseconds(orMovie.duration, 'movie.duration'),
 			style: orAnimatorPlan.style || 'universal-cinematic',
 			strategy: 'canonical-shared-canvas',
 			characters: structuredClone(orAnimatorPlan.characters || []),
-			sequences: preserveTimed(orAnimatorPlan.sequences),
-			shots: preserveTimed(orAnimatorPlan.shots),
-			dialogue: preserveTimed(orAnimatorPlan.dialogue),
-			performances: preserveTimed(orAnimatorPlan.performances),
+			sequences: convertTimed(orAnimatorPlan.sequences),
+			shots: convertTimed(orAnimatorPlan.shots),
+			dialogue: convertTimed(orAnimatorPlan.dialogue),
+			performances: convertTimed(orAnimatorPlan.performances),
 			settings: {
-				width: positive(yesodSettings.width, 640),
-				height: positive(yesodSettings.height, 360),
-				fps: positive(yesodSettings.fps, 12),
-				orientation: yesodSettings.orientation || 'landscape',
+				width: positive(yesodSettings.width ?? malchusFormat.width, 640),
+				height: positive(yesodSettings.height ?? malchusFormat.height, 360),
+				fps: positive(yesodSettings.fps ?? malchusFormat.fps, 12),
+				orientation: yesodSettings.orientation || malchusFormat.orientation || 'landscape',
 				safeArea: Math.max(0, Number(yesodSettings.safeArea) || 0)
 			}
 		};
 	}
 }
 
-function preserveTimed(orItems = []) {
-	return (orItems || []).map(orItem => ({
+/** Converts each timed projection entry from canonical seconds to integer milliseconds without mutating it. */
+function convertTimed(orItems = []) {
+	return (orItems || []).map((orItem) => ({
 		...structuredClone(orItem),
-		start: finiteMilliseconds(orItem.start || 0, `${orItem.id || 'item'}.start`),
-		duration: finiteMilliseconds(orItem.duration || 0, `${orItem.id || 'item'}.duration`)
+		start: secondsToMilliseconds(
+			orItem.start ?? 0,
+			`${orItem.id || 'item'}.start`
+		),
+		duration: secondsToMilliseconds(
+			orItem.duration ?? 0,
+			`${orItem.id || 'item'}.duration`
+		)
 	}));
 }
 
-function finiteMilliseconds(orValue, orPath) {
-	const yesodValue = Number(orValue);
-	if (!Number.isFinite(yesodValue) || yesodValue < 0) {
-		throw new Error(`${orPath} must be a finite non-negative millisecond value.`);
+/** Validates one canonical second value and performs the sole seconds-to-milliseconds conversion. */
+function secondsToMilliseconds(orValue, orPath) {
+	const yesodSeconds = Number(orValue);
+	if (!Number.isFinite(yesodSeconds) || yesodSeconds < 0) {
+		throw new Error(`${orPath} must be a finite non-negative second value.`);
 	}
-	return Math.round(yesodValue);
+	return Math.round(yesodSeconds * 1000);
 }
 
+/** Chooses a positive numeric setting while retaining one explicit fallback. */
 function positive(orValue, orFallback) {
 	const yesodValue = Number(orValue);
-	return Number.isFinite(yesodValue) && yesodValue > 0 ? yesodValue : orFallback;
+	return Number.isFinite(yesodValue) && yesodValue > 0
+		? yesodValue
+		: orFallback;
 }

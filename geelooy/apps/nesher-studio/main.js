@@ -10,6 +10,16 @@ async function startNesherStudio() {
 
 	const applicationModule = await import('./modules/app/bootNesherStudio.js');
 	applicationModule.bootNesherStudio();
+	void installMovieAi();
+}
+
+/** Mounts the shared AI director after Nesher's own NLE is already alive. */
+async function installMovieAi() {
+	try {
+		await import('./modules/movie/installMovieAi.js');
+	} catch (error) {
+		console.warn('Nesher Studio movie AI director could not mount.', error);
+	}
 }
 
 startNesherStudio().catch((error) => {

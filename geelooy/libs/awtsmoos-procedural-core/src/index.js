@@ -41,6 +41,7 @@ export * from './core/chai/index.js';
 export * from './core/medaber/index.js';
 export * from './core/olamos/index.js';
 export * from './core/celestial/index.js';
+export * from './core/movieAssets/index.js';
 export { NativeCelestialRenderer } from './core/webgl/celestial/index.js';
 export {
 	createParticleRenderArtifact

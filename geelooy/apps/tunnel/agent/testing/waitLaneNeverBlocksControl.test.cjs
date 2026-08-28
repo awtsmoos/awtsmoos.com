@@ -1,8 +1,16 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 
 const assert = require("node:assert/strict");
 const Priority = require("../lib/runtime/priority.js");
 
+/**
+ * @file Proves waits and observers cannot occupy the recovery doorway.
+ * @description
+ * The Awtsmoos names every queued deed while Awtsmoos.com keeps control free under a crowded sky;
+ * exact request keys return each inflight vessel, so the proof cannot pass by releasing the wrong shliach nearby.
+ */
 const lanes = Priority.makeLaneState();
 const scheduler = Priority.createSchedulerState();
 const limits = {
@@ -34,38 +42,22 @@ const limits = {
 for (let index = 0; index < 64; index += 1) {
 	Priority.enqueue(lanes, item("commandWait", `agent-${index}`));
 }
-const activeWaits = [];
-for (let index = 0; index < 64; index += 1) {
-	const selected = Priority.takeNext(lanes, limits, scheduler);
-	assert.equal(selected.lane, Priority.LANES.P0_WAIT);
-	activeWaits.push(selected);
-}
+const activeWaits = takeMany(64, Priority.LANES.P0_WAIT);
 for (let index = 0; index < 16; index += 1) {
 	Priority.enqueue(lanes, item("commandJobOutputPage", `observer-${index}`));
 	Priority.enqueue(lanes, item("actionHistorySearch", `history-${index}`));
 }
-const activeObservations = [];
-for (let index = 0; index < 32; index += 1) {
-	const selected = Priority.takeNext(lanes, limits, scheduler);
-	assert.equal(selected.lane, Priority.LANES.P0_OBSERVE);
-	activeObservations.push(selected);
+const activeObservations = takeMany(32, Priority.LANES.P0_OBSERVE);
+for (const action of ["commandStatus", "commandJobCancel", "tunnelDoctor"]) {
+	Priority.enqueue(lanes, item(action, "control-observer"));
 }
-Priority.enqueue(lanes, item("commandStatus", "observer"));
-Priority.enqueue(lanes, item("commandJobCancel", "observer"));
-Priority.enqueue(lanes, item("tunnelDoctor", "observer"));
-
 for (const expected of ["commandStatus", "commandJobCancel", "tunnelDoctor"]) {
 	const selected = Priority.takeNext(lanes, limits, scheduler);
 	assert.equal(selected.lane, Priority.LANES.P0);
 	assert.equal(Priority.actionOf(selected), expected);
-	Priority.release(lanes, selected.lane, selected.requesterKey);
+	releaseExact(selected);
 }
-for (const selected of activeWaits) {
-	Priority.release(lanes, selected.lane, selected.requesterKey);
-}
-for (const selected of activeObservations) {
-	Priority.release(lanes, selected.lane, selected.requesterKey);
-}
+for (const selected of [...activeWaits, ...activeObservations]) releaseExact(selected);
 
 console.log(JSON.stringify({
 	ok: true,
@@ -75,6 +67,35 @@ console.log(JSON.stringify({
 	statusCancelDoctorEscaped: true
 }));
 
-function item(action, requesterKey) {
-	return { data: { payload: { action, kind: "command", requesterKey } } };
+/** Takes an exact number from one expected lane while preserving scheduler custody. */
+function takeMany(count, expectedLane) {
+	return Array.from({ length: count }, () => {
+		const selected = Priority.takeNext(lanes, limits, scheduler);
+		assert.equal(selected.lane, expectedLane);
+		return selected;
+	});
+}
+
+/** Releases the exact inflight request rather than decrementing requester state approximately. */
+function releaseExact(selected) {
+	assert.equal(
+		Priority.release(lanes, selected.lane, selected.requesterKey, selected.requestKey),
+		true
+	);
+}
+
+/** Builds one production-shaped durable scheduler identity for the synthetic request. */
+function item(action, logicalAgentId) {
+	return {
+		data: {
+			payload: {
+				action,
+				kind: "command",
+				logicalAgentId,
+				agentSessionId: "wait-lane-control-suite",
+				generation: 1,
+				requestId: `${action}-${logicalAgentId}`
+			}
+		}
+	};
 }

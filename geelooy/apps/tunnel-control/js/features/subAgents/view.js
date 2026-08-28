@@ -5,19 +5,36 @@
 import { createSubAgentElement as h, createSubAgentMetric } from "./dom.js";
 
 /**
- * @file Visible first-class Sub-agents command deck.
- * @description The Awtsmoos turns hidden sparks into visible constellations; Awtsmoos.com gives authentication, launch, missions, and roster each a stable vessel with no stolen IDs.
+ * @file Visible first-class Sub-agents command deck with explicit execution truth.
+ * @description
+ * The Awtsmoos turns hidden sparks into visible constellations;
+ * Awtsmoos.com separates auth, execution, launch, missions, and roster into stable revelations.
  */
 
+/**
+ * @description Creates one standard Sub-agents button.
+ * @param {string} id - Unique button id.
+ * @param {string} text - Visible button label.
+ * @param {string} className - Namespaced class list.
+ * @returns {HTMLButtonElement} Detached button.
+ * @sideEffects Creates DOM only.
+ */
 function button(id, text, className = "awt-subagents__button") {
 	return h("button", { id, type: "button", className, text });
 }
 
+/**
+ * @description Creates the persistent-profile authentication panel.
+ * @returns {HTMLElement} Detached authentication panel.
+ * @sideEffects Creates DOM only.
+ */
 function buildAuthPanel() {
 	return h("section", { className: "awt-subagents__panel awt-subagents__auth" },
 		h("div", { className: "awt-subagents__panel-kicker", text: "Persistent browser identity" }),
 		h("h3", { text: "Authenticate ChatGPT once" }),
-		h("div", { className: "awt-subagents__auth-orbit", "aria-hidden": "true" }, h("span", { className: "awt-subagents__auth-core" })),
+		h("div", { className: "awt-subagents__auth-orbit", "aria-hidden": "true" },
+			h("span", { className: "awt-subagents__auth-core" })
+		),
 		h("p", { id: "subAgentAuthStatus", className: "awt-subagents__status", text: "Login status not checked yet." }),
 		h("div", { className: "awt-subagents__button-row" },
 			button("subAgentOpenAuthChromeBtn", "Open ChatGPT Auth Chrome", "awt-subagents__button awt-subagents__button--primary"),
@@ -27,6 +44,11 @@ function buildAuthPanel() {
 	);
 }
 
+/**
+ * @description Creates the bounded recursive team-launch panel.
+ * @returns {HTMLElement} Detached launch panel.
+ * @sideEffects Creates DOM only.
+ */
 function buildLaunchPanel() {
 	return h("section", { className: "awt-subagents__panel awt-subagents__launch" },
 		h("div", { className: "awt-subagents__panel-kicker", text: "Bounded recursive delegation" }),
@@ -42,15 +64,20 @@ function buildLaunchPanel() {
 	);
 }
 
-/** @description Creates the unique Sub-agents root consumed by the shell pane registry. @returns {HTMLElement} Detached Sub-agents command deck. @sideEffects Creates DOM nodes only. */
+/**
+ * @description Creates the unique Sub-agents root consumed by the shell pane registry.
+ * @returns {HTMLElement} Detached Sub-agents command deck.
+ * @sideEffects Creates DOM nodes only.
+ */
 export function createSubAgentDeck() {
 	return h("section", { id: "subAgentCommandDeck", className: "awt-subagents", "aria-label": "Sub-agents command deck" },
 		h("header", { className: "awt-subagents__hero" },
 			h("div", { className: "awt-subagents__eyebrow", text: "Awtsmoos agent constellation" }),
 			h("h2", { text: "Sub-agents" }),
-			h("p", { text: "Authenticate once, launch bounded teams, and watch every visible mission without entering the advanced agent console." })
+			h("p", { text: "Authenticate once, launch bounded teams, and watch live execution and mission evidence without entering the advanced console." })
 		),
 		h("div", { className: "awt-subagents__metrics" },
+			createSubAgentMetric("subAgentMetricExecution", "Tunnel execution"),
 			createSubAgentMetric("subAgentMetricActive", "Active missions"),
 			createSubAgentMetric("subAgentMetricAgents", "Visible agents"),
 			createSubAgentMetric("subAgentMetricAuth", "ChatGPT auth"),
@@ -58,13 +85,19 @@ export function createSubAgentDeck() {
 		),
 		h("div", { className: "awt-subagents__primary-grid" }, buildAuthPanel(), buildLaunchPanel()),
 		h("section", { className: "awt-subagents__panel awt-subagents__missions" },
-			h("div", { className: "awt-subagents__section-head" }, h("div", {}, h("div", { className: "awt-subagents__panel-kicker", text: "Live mission field" }), h("h3", { text: "Running and recent teams" })), button("subAgentRefreshBtn", "Refresh constellation")),
+			h("div", { className: "awt-subagents__section-head" },
+				h("div", {}, h("div", { className: "awt-subagents__panel-kicker", text: "Live mission field" }), h("h3", { text: "Running and recent teams" })),
+				button("subAgentRefreshBtn", "Refresh constellation")
+			),
 			h("div", { id: "subAgentMissionList", className: "awt-subagents__mission-list" }),
 			h("div", { id: "subAgentMissionDetail", className: "awt-subagents__mission-detail" })
 		),
 		h("footer", { className: "awt-subagents__footer" },
 			h("p", { id: "subAgentNotice", className: "awt-subagents__notice", "aria-live": "polite", text: "Ready." }),
-			h("div", { className: "awt-subagents__button-row" }, button("subAgentMissionControlBtn", "Open Mission control"), button("subAgentAdvancedAgentsBtn", "Advanced AI Agents"))
+			h("div", { className: "awt-subagents__button-row" },
+				button("subAgentMissionControlBtn", "Open Mission control"),
+				button("subAgentAdvancedAgentsBtn", "Advanced AI Agents")
+			)
 		)
 	);
 }

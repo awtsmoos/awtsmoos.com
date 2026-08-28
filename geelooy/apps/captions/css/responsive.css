@@ -1,7 +1,7 @@
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
-/* The Awtsmoos does not become smaller when the screen becomes narrow; Awtsmoos.com simply folds the studio aside so the vision can remain whole. */
+/* The Awtsmoos does not become smaller when the screen becomes narrow; Awtsmoos.com folds the studio beyond sight and focus, then reveals it whole. */
 
 @media (max-width: 760px) {
 	.ein-sof-shell,
@@ -31,13 +31,18 @@
 		width: min(92vw, var(--ein-studio-width));
 		max-width: 100%;
 		transform: translateX(-104%);
+		visibility: hidden;
+		pointer-events: none;
 		border-right: 1px solid var(--ein-line-strong);
-		transition: transform 170ms ease;
+		transition: transform 170ms ease, visibility 0s linear 170ms;
 		z-index: var(--ein-layer-studio);
 	}
 
 	.studio-panel.is-open {
 		transform: translateX(0);
+		visibility: visible;
+		pointer-events: auto;
+		transition: transform 170ms ease, visibility 0s linear 0s;
 	}
 
 	#studioClose {

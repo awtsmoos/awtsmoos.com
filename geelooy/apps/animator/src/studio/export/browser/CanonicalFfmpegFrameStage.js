@@ -3,28 +3,20 @@
 // Blessed is He
 /**
  * @file CanonicalFfmpegFrameStage.js
- * @description The Awtsmoos reveals each canonical image and lets it pass before the next descends;
- * Awtsmoos.com keeps frame-stage construction apart from export orchestration so memory, timing, and progress remain clear friends.
+ * @description The Awtsmoos lets a preserved sequence continue from its first missing image without disguise;
+ * Awtsmoos.com keeps frame-stage construction apart from orchestration so resumed time remains explicit to our eyes.
  */
 import { NetzachCanonicalFfmpegFramePump } from './CanonicalFfmpegFramePump.js';
 
-/**
- * Pumps every browser-rendered JPEG into one native staging session with bounded memory.
- * @param {object} orFrameSource Canonical JPEG frame source.
- * @param {object} orClient Local ffmpeg bridge client.
- * @param {string} orSessionId Server-owned session id.
- * @param {object} orProfile Render geometry and fps.
- * @param {number} orFrameCount Exact expected frame count.
- * @param {object} orOptions Progress callbacks and JPEG quality override.
- * @returns {Promise<void>} Resolves after all frame acknowledgements return.
- */
+/** Pumps canonical JPEG witnesses into one native session from an optional resume index. */
 export function netzachPumpFfmpegFrames(
 	orFrameSource,
 	orClient,
 	orSessionId,
 	orProfile,
 	orFrameCount,
-	orOptions
+	orOptions = {},
+	orStartIndex = 0
 ) {
 	const netzachPump = new NetzachCanonicalFfmpegFramePump(
 		orFrameSource,
@@ -36,6 +28,7 @@ export function netzachPumpFfmpegFrames(
 		height: orProfile.height,
 		fps: orProfile.fps,
 		frameCount: orFrameCount,
+		startIndex: orStartIndex,
 		jpegQuality: Number(orOptions.jpegQuality || 0.88)
 	});
 }

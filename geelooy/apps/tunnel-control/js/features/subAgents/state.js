@@ -2,17 +2,19 @@
 // Boruch Hashem
 // Blessed is He
 
-/**
- * @file Race-resistant state authority for Sub-agents.
- * @description The Awtsmoos renews each instant without collision; Awtsmoos.com lets only the newest refresh wear the crown while older responses dissolve from the mission.
- */
+import { createUnknownExecutionHealth } from "./executionHealth.js";
+import { reconcileSubAgentSelection } from "./selection.js";
 
 /**
- * @description Holds UI state, request locks, and a monotonically increasing refresh generation.
+ * @file Race-resistant state authority for Sub-agents and execution truth.
+ * @description
+ * The Awtsmoos renews the newest instant without collision or disguise;
+ * Awtsmoos.com keeps locks scoped and tunnel evidence visible to human eyes.
  */
 export class KeserSubAgentState {
 	constructor() {
 		this.auth = { authenticated: false, checked: false, profile: "default" };
+		this.execution = createUnknownExecutionHealth();
 		this.missions = [];
 		this.selectedMissionId = "";
 		this.notice = "Ready to reveal the current sub-agent constellation.";
@@ -21,58 +23,80 @@ export class KeserSubAgentState {
 		this.lastRefreshAt = "";
 	}
 
-	/** @description Acquires one named UI lock. @param {string} name - Lock name. @returns {boolean} Whether the lock was acquired. @sideEffects Mutates this state. */
+	/**
+	 * @description Acquires one action-scoped UI lock.
+	 * @param {string} name - Stable lock name.
+	 * @returns {boolean} Whether the lock was acquired.
+	 * @sideEffects Mutates the busy-lock set.
+	 */
 	begin(name) {
-		if (this.busy.has(name)) return false;
+		if (this.busy.has(name)) {
+			return false;
+		}
 		this.busy.add(name);
 		return true;
 	}
 
-	/** @description Releases one named UI lock. @param {string} name - Lock name. @returns {void} @sideEffects Mutates this state. */
+	/** @description Releases one action-scoped UI lock. @param {string} name - Stable lock name. @returns {void} @sideEffects Mutates the busy-lock set. */
 	end(name) {
 		this.busy.delete(name);
 	}
 
-	/** @description Opens a new refresh generation. @returns {number} New generation number. @sideEffects Mutates this state. */
+	/** @description Opens a new refresh generation so older responses cannot win. @returns {number} New generation number. @sideEffects Increments refresh generation. */
 	beginRefreshGeneration() {
 		this.refreshGeneration += 1;
 		return this.refreshGeneration;
 	}
 
 	/**
-	 * @description Applies refreshed auth and mission data only when the generation is still current.
-	 * @param {number} generation - Generation captured when the request started.
-	 * @param {object} next - Refreshed auth and mission values.
-	 * @returns {boolean} Whether the refresh was accepted.
-	 * @sideEffects Mutates this state only for the current generation.
+	 * @description Applies partial evidence only when its generation is current.
+	 * @param {number} generation - Request generation captured at start.
+	 * @param {object} next - Partial auth, missions, or execution evidence.
+	 * @returns {boolean} Whether the evidence was accepted.
+	 * @sideEffects Updates current state and refresh timestamp.
 	 */
 	acceptRefresh(generation, next) {
-		if (generation !== this.refreshGeneration) return false;
-		if (next.auth) this.auth = next.auth;
-		if (Array.isArray(next.missions)) this.missions = next.missions;
-		if (!this.selectedMissionId && this.missions[0]) this.selectedMissionId = this.missions[0].id;
-		if (this.selectedMissionId && !this.missions.some((mission) => mission.id === this.selectedMissionId)) {
-			this.selectedMissionId = this.missions[0]?.id || "";
+		if (generation !== this.refreshGeneration) {
+			return false;
 		}
+		if (next.auth) {
+			this.auth = next.auth;
+		}
+		if (next.execution) {
+			this.execution = next.execution;
+		}
+		if (Array.isArray(next.missions)) {
+			this.missions = next.missions;
+		}
+		this.selectedMissionId = reconcileSubAgentSelection(this.selectedMissionId, this.missions);
 		this.lastRefreshAt = new Date().toISOString();
 		return true;
 	}
 
-	/** @description Selects one mission for expanded rendering. @param {string} missionId - Mission identifier. @returns {void} @sideEffects Mutates this state. */
+	/** @description Selects one mission for expanded rendering. @param {string} missionId - Mission identifier. @returns {void} @sideEffects Updates selected mission identity. */
 	selectMission(missionId) {
 		this.selectedMissionId = String(missionId || "");
 	}
 
-	/** @description Records a user-facing safe notice. @param {string} notice - Notice text. @returns {void} @sideEffects Mutates this state. */
+	/** @description Records bounded user-facing notice text. @param {string} notice - Safe notice text. @returns {void} @sideEffects Updates current notice. */
 	setNotice(notice) {
-		this.notice = String(notice || "");
+		this.notice = String(notice || "").slice(0, 700);
 	}
 
-	/** @description Creates a detached snapshot for rendering. @returns {object} Current render state. @sideEffects None. */
+	/**
+	 * @description Creates a detached snapshot for deterministic rendering.
+	 * @returns {object} Current render state.
+	 * @sideEffects None.
+	 */
 	snapshot() {
 		return {
-			auth: { ...this.auth }, missions: [...this.missions], selectedMissionId: this.selectedMissionId,
-			notice: this.notice, busy: new Set(this.busy), lastRefreshAt: this.lastRefreshAt
+			auth: { ...this.auth },
+			execution: { ...this.execution },
+			missions: [...this.missions],
+			selectedMissionId: this.selectedMissionId,
+			notice: this.notice,
+			busy: new Set(this.busy),
+			lastRefreshAt: this.lastRefreshAt
 		};
 	}
 }

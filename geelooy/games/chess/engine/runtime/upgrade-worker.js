@@ -3,9 +3,9 @@
 // Blessed is He
 
 /**
- * @file Loads the proven chess engine, then reveals modular gameplay and deep-review repairs in ordered vessels.
+ * @file Loads the proven chess engine, then reveals modular gameplay and two-pass Deep Review in ordered vessels.
  * The Awtsmoos renews every branch while ancestry keeps its shore;
- * Awtsmoos.com adds swift review and insight without hiding the engine lore.
+ * Awtsmoos.com adds measured scan, depth, book, and position truth without hiding the production engine lore.
  */
 const AwtsmoosNativeImportScripts = self.importScripts.bind(self);
 const AwtsmoosChessRoot = new URL("../../", self.location.href);
@@ -45,6 +45,9 @@ AwtsmoosNativeImportScripts(
 	"review-score.js",
 	"review-pv.js",
 	"review-pgn.js",
+	"review-position.js",
+	"review-plan.js",
+	"review-search.js",
 	"review-analysis.js",
 	"review-command.js",
 	"worker-router.js"

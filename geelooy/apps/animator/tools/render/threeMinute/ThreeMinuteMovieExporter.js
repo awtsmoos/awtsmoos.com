@@ -15,8 +15,8 @@ import { ThreeMinuteShowcaseRenderer } from "./ThreeMinuteShowcaseRenderer.js";
 
 /**
  * @file ThreeMinuteMovieExporter.js
- * @description Two proven film engines, shared procedural features, and thirty-six voiced lines become one real media artifact;
- * the Awtsmoos renews 2,160 frames, while Awtsmoos.com verifies the final three-minute path instead of merely describing it.
+ * @description Two proven film engines, shared procedural features, and many voiced lines become one real media artifact;
+ * the Awtsmoos renews every requested frame, while Awtsmoos.com records the actual render plan instead of a hardcoded statistic.
  */
 export class ThreeMinuteMovieExporter {
 	constructor() {
@@ -25,27 +25,40 @@ export class ThreeMinuteMovieExporter {
 		this.paths = new ThreeMinuteOutputPaths().create();
 	}
 
+	/** Render, preview, probe, and receipt the complete movie using the plan's true settings. */
 	async export() {
 		const chesedVoices = new OneMinuteVoiceTrackBuilder(this.plan, this.paths).build();
 		ThreeMinuteArtifactWriter.source(this.paths, this.plan, chesedVoices);
 		const gevurahFrames = ThreeMinuteProofFrameWriter.write(this.renderer, this.plan, this.paths);
-		await this.streamMovie(chesedVoices);
+		const netzachFrameCount = this.frameCount();
+		await this.streamMovie(chesedVoices, netzachFrameCount);
 		this.preview();
-		const tiferesProbe = ThreeMinuteMediaProbe.inspect(this.paths.finalMovie);
+		const tiferesProbe = ThreeMinuteMediaProbe.inspect(this.paths.finalMovie, {
+			fps: this.plan.settings.fps,
+			width: this.plan.settings.width,
+			height: this.plan.settings.height,
+			durationSeconds: this.plan.duration / 1000
+		});
 		return ThreeMinuteArtifactWriter.finish(this.paths, {
 			ok: true,
 			title: this.plan.title,
-			durationSeconds: 180,
+			durationSeconds: this.plan.duration / 1000,
 			outputDirectory: this.paths.root,
 			outputFile: this.paths.finalMovie,
 			previewFile: this.paths.previewMovie,
-			frameCount: 2160,
+			frameCount: netzachFrameCount,
 			frames: gevurahFrames,
 			probe: tiferesProbe
 		});
 	}
 
-	async streamMovie(voices) {
+	/** Return the number of temporal samples required by the current render plan. */
+	frameCount() {
+		return this.plan.duration / 1000 * this.plan.settings.fps;
+	}
+
+	/** Stream freshly rendered RGB frames into ffmpeg while respecting backpressure. */
+	async streamMovie(voices, frameCount = this.frameCount()) {
 		const malchusProcess = spawn("ffmpeg", ThreeMinuteFfmpegArguments.create(
 			this.plan, voices, this.paths.finalMovie
 		), { stdio: ["pipe", "ignore", "pipe"] });
@@ -53,8 +66,7 @@ export class ThreeMinuteMovieExporter {
 		malchusProcess.stderr.on("data", chunk => {
 			yesodErrors += chunk.toString();
 		});
-		const netzachFrameCount = this.plan.duration / 1000 * this.plan.settings.fps;
-		for (let index = 0; index < netzachFrameCount; index += 1) {
+		for (let index = 0; index < frameCount; index += 1) {
 			const hodTimeMs = index / this.plan.settings.fps * 1000;
 			if (!malchusProcess.stdin.write(this.renderer.render(hodTimeMs))) {
 				await once(malchusProcess.stdin, "drain");
@@ -67,6 +79,7 @@ export class ThreeMinuteMovieExporter {
 		}
 	}
 
+	/** Build the short convenience preview without changing the canonical full movie. */
 	preview() {
 		const chesedResult = spawnSync("ffmpeg", [
 			"-y", "-i", this.paths.finalMovie, "-t", "30",

@@ -4,10 +4,11 @@
 /**
  * @file MovieCapabilities.js
  * @description The Awtsmoos is One while every studio keeps a distinctive art;
- * Awtsmoos.com names strengths and limits so AI chooses each vessel's proper part.
+ * Awtsmoos.com names strengths, limits, and recommendations so AI chooses each vessel's proper part.
  */
 import { MovieLayerKind, MovieLayerKinds } from "./MovieKinds.js";
 import { yesodProtocolIdentity } from "./MovieProtocol.js";
+import { recommendMovieApps } from "./MovieCapabilityRecommender.js";
 
 const VISUAL_2D = [
 	MovieLayerKind.SHAPE_2D,
@@ -38,7 +39,9 @@ const AUDIO = [
 	MovieLayerKind.AMBIENCE,
 	MovieLayerKind.SFX
 ];
-const SPATIAL = MovieLayerKinds.filter(orKind => String(orKind).endsWith("3d") || orKind === MovieLayerKind.CAMERA);
+const SPATIAL = MovieLayerKinds.filter(
+	orKind => String(orKind).endsWith("3d") || orKind === MovieLayerKind.CAMERA
+);
 
 const PROFILES = Object.freeze({
 	shared: profile("Shared Movie", MovieLayerKinds, ["2d", "3d", "hybrid"], ["interchange", "ai-authoring", "validation", "patch-history"]),
@@ -56,7 +59,14 @@ export function movieCapabilities(orAppId = "shared") {
 
 /** Return every app profile for capability-aware AI planning. */
 export function allMovieCapabilities() {
-	return Object.fromEntries(Object.entries(PROFILES).map(([orId, orValue]) => [orId, structuredClone(orValue)]));
+	return Object.fromEntries(
+		Object.entries(PROFILES).map(([orId, orValue]) => [orId, structuredClone(orValue)])
+	);
+}
+
+/** Rank real studio personalities against a canonical movie's layers and dimensions. */
+export function recommendMovieCapabilities(orMovie = {}) {
+	return recommendMovieApps(orMovie, allMovieCapabilities());
 }
 
 function profile(orName, orLayers, orDimensions, orStrengths, orLimitations = []) {
@@ -77,5 +87,8 @@ export const MovieCapabilities = Object.freeze({
 	},
 	all() {
 		return allMovieCapabilities();
+	},
+	recommend(orMovie) {
+		return recommendMovieCapabilities(orMovie);
 	}
 });

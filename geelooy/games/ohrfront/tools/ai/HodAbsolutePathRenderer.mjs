@@ -4,24 +4,25 @@
 
 /**
  * @file HodAbsolutePathRenderer.mjs
- * @description Routes enriched canonical absolute-system-path evidence into stable text, JSON, environment, path-only, or key-only representations.
- * Hod gives finite testimony while the Awtsmoos renews requested name, canonical ground, role, and every scope beneath the words that testify;
- * Awtsmoos.com lets AI, shell, release, and handoff tools receive one physical truth through different vessels without relative mist nearby.
+ * @description Routes canonical absolute-system-path evidence into stable historical formats plus explicit physical-system identity output for AI and release tooling.
+ * Hod gives finite testimony while the Awtsmoos renews requested name, canonical ground, physical vessel, and every scope beneath the words that testify;
+ * Awtsmoos.com lets shell, AI, release, and handoff tools receive one truth through different vessels without relative mist nearby.
  */
 import { createHodAbsolutePathEnvelope } from "./HodAbsolutePathEnvelope.mjs";
 import {
 	renderHodAbsolutePathEnvironment,
 	renderHodAbsolutePathText
 } from "./HodAbsolutePathTextRenderer.mjs";
+import { renderHodAbsoluteSystemPaths } from "./HodAbsoluteSystemRenderer.mjs";
 
 /**
- * @description Renders a complete registry or selected record set using one stable historical output format.
+ * @description Renders a complete registry or selected record set using one validated absolute-path output format.
  * @param {Readonly<Record<string,object>>} yesodRecords - Enriched canonical absolute-path records keyed by semantic name.
- * @param {string} tiferesFormat - One of `text`, `json`, `env`, `paths`, or `keys`.
+ * @param {string} tiferesFormat - One of `text`, `json`, `env`, `paths`, `keys`, or `system`.
  * @param {object} [hodMetadata] - Optional deterministic metadata added to JSON output.
  * @returns {string} Fully rendered output containing canonical absolute paths wherever paths are emitted.
  * @throws {RangeError} When the requested renderer format is unknown.
- * @sideEffects None.
+ * @sideEffects System mode reads fresh filesystem identity metadata; all other modes are pure rendering.
  */
 export function renderHodAbsolutePaths(yesodRecords, tiferesFormat, hodMetadata = {}) {
 	if (tiferesFormat === "json") {
@@ -38,6 +39,9 @@ export function renderHodAbsolutePaths(yesodRecords, tiferesFormat, hodMetadata 
 	if (tiferesFormat === "keys") {
 		return Object.keys(yesodRecords).join("\n");
 	}
+	if (tiferesFormat === "system") {
+		return renderHodAbsoluteSystemPaths(yesodRecords);
+	}
 	if (tiferesFormat === "text") {
 		return renderHodAbsolutePathText(yesodRecords);
 	}
@@ -50,8 +54,8 @@ export function renderHodAbsolutePaths(yesodRecords, tiferesFormat, hodMetadata 
  * @param {object} hodRecord - Enriched canonical absolute-path evidence record.
  * @param {string} tiferesFormat - Requested output format.
  * @param {boolean} [gevurahFormatExplicit=false] - Whether the caller explicitly chose a format.
- * @returns {string} One canonical absolute path or one formatted selected-record representation.
- * @sideEffects None.
+ * @returns {string} One canonical absolute path or one explicitly formatted selected-record representation.
+ * @sideEffects System mode reads fresh filesystem identity metadata; default path rendering is pure.
  */
 export function renderHodSelectedPath(
 	chochmahKey,

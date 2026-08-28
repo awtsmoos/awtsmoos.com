@@ -10,13 +10,20 @@ const Prune = require("../lib/runtime/main-queue-prune.js");
  * @file Proves queue expiry removes only waiting custody and never invents running release.
  * @description
  * The Awtsmoos distinguishes a deed waiting at the gate from one already entrusted;
- * Awtsmoos.com expires only the array entry while inflight/requester testimony remains untouched.
+ * Awtsmoos.com gives that waiting deed an exact name, then expires only its queue vessel as requested.
  */
 const lanes = Priority.makeLaneState();
 const item = {
 	data: {
 		id: "queue-expiry-1",
-		payload: { action: "read", agentSessionId: "queue-agent", kind: "fs" }
+		payload: {
+			action: "read",
+			kind: "fs",
+			logicalAgentId: "queue-agent",
+			agentSessionId: "top-queue-expiry-suite",
+			generation: 1,
+			requestId: "queue-expiry-1"
+		}
 	},
 	enqueuedAt: Date.now() - 100
 };
@@ -50,4 +57,7 @@ assert.equal(item.queueExpiryTimer, null);
 assert.equal(wakeCount, 0);
 assert.equal(Prune.isExpired(item, Date.now()), true);
 
-console.log(JSON.stringify({ ok: true, suite: "top-queue-wait-expiry" }, null, 2));
+console.log(JSON.stringify({
+	ok: true,
+	suite: "top-queue-wait-expiry"
+}, null, 2));

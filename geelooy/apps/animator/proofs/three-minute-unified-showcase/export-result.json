@@ -1,0 +1,158 @@
+{
+  "ok": true,
+  "title": "Awtsmoos Unified Studio — Three Minute Revelation",
+  "durationSeconds": 180,
+  "outputDirectory": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/three-minute-unified-showcase",
+  "outputFile": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/three-minute-unified-showcase/awtsmoos-unified-three-minute-showcase.mp4",
+  "previewFile": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/three-minute-unified-showcase/awtsmoos-unified-three-minute-preview.mp4",
+  "frameCount": 2160,
+  "frames": [
+    {
+      "timeMs": 5000,
+      "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/three-minute-unified-showcase/frames/frame-005000ms.png",
+      "width": 640,
+      "height": 360,
+      "uniqueColors": 131,
+      "bytes": 22310,
+      "sha256": "33b1dbdf6edfa616a96831671ccf473f4d3579f75ef6921eb3b6b6a52627e5df",
+      "rawSha256": "5acca892231ac7fc3cae312494baa79ff3295ecc8bb6efd80de24ab62cb0b699"
+    },
+    {
+      "timeMs": 20000,
+      "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/three-minute-unified-showcase/frames/frame-020000ms.png",
+      "width": 640,
+      "height": 360,
+      "uniqueColors": 108,
+      "bytes": 16849,
+      "sha256": "dfd5667341cd2b889a8c33fed209ee0fb5a21f1e15530729a0871a8d7a403b14",
+      "rawSha256": "4a08906bbd0f9aea8bdb54559a254e57ce19f47a017e1ad16a524dde617625f3"
+    },
+    {
+      "timeMs": 35000,
+      "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/three-minute-unified-showcase/frames/frame-035000ms.png",
+      "width": 640,
+      "height": 360,
+      "uniqueColors": 122,
+      "bytes": 17102,
+      "sha256": "b4b1ec93566a5e54a75a05ba7ab1c25c1e5ac04ab33602b754b3658d7f299a49",
+      "rawSha256": "0a5263b83680041a65f759e524c135600330439c43d6bc82f24a13c874491470"
+    },
+    {
+      "timeMs": 50000,
+      "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/three-minute-unified-showcase/frames/frame-050000ms.png",
+      "width": 640,
+      "height": 360,
+      "uniqueColors": 106,
+      "bytes": 14447,
+      "sha256": "199e8b0aff91bd7ff846967132872d17707cd2d775caea3dca5bdc1e96549781",
+      "rawSha256": "d3aeefbfb7cad2b4da87a3fb418d0fcee0f6f8b6b0218a812a86160416ede969"
+    },
+    {
+      "timeMs": 65000,
+      "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/three-minute-unified-showcase/frames/frame-065000ms.png",
+      "width": 640,
+      "height": 360,
+      "uniqueColors": 42,
+      "bytes": 9003,
+      "sha256": "c153652e0e468d4784eb1e563332f47b730c6408a58cd348cf39cf89a6a802d3",
+      "rawSha256": "c23d87f500f0cd027d43c3aaaa354db53c832df8351d5084ba0c8d101fac7001"
+    },
+    {
+      "timeMs": 80000,
+      "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/three-minute-unified-showcase/frames/frame-080000ms.png",
+      "width": 640,
+      "height": 360,
+      "uniqueColors": 60,
+      "bytes": 10736,
+      "sha256": "3eb4e8f8396d524b10cc20beeddba6d4d023baccf7ff78f91e1497e361189a58",
+      "rawSha256": "12a32d2a1fdffacb5b7f5aa6fd4e2bd717fa28a34b65114fe5a2e025e30ab0aa"
+    },
+    {
+      "timeMs": 95000,
+      "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/three-minute-unified-showcase/frames/frame-095000ms.png",
+      "width": 640,
+      "height": 360,
+      "uniqueColors": 37,
+      "bytes": 9655,
+      "sha256": "6d26bbdcd784b6ba2a37d042e362f84d9f6a0b991acd7e26246731717a06e1b0",
+      "rawSha256": "46dec728f6a6f6293c0026e18d9bec5aa61711bb3a34f4be366928bd5ec9465b"
+    },
+    {
+      "timeMs": 110000,
+      "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/three-minute-unified-showcase/frames/frame-110000ms.png",
+      "width": 640,
+      "height": 360,
+      "uniqueColors": 49,
+      "bytes": 8831,
+      "sha256": "55962f4054c3fb5d69b019e31dac1bc485de56e7ed441e05976c5448f5d0b4ce",
+      "rawSha256": "67860b82d3813390b93028dccd348cb8e5fa1de4d8d3040cea6499f599f9b2bb"
+    },
+    {
+      "timeMs": 125000,
+      "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/three-minute-unified-showcase/frames/frame-125000ms.png",
+      "width": 640,
+      "height": 360,
+      "uniqueColors": 129,
+      "bytes": 22126,
+      "sha256": "e9ca4d1665b9bc7095c1e97ccf9425fbccc5e7545fbdb52fb466ad38a1ab0b9b",
+      "rawSha256": "3049d5db844ed1df251bf5fe2daad0267e6d8a154ec05743fc06392b96144335"
+    },
+    {
+      "timeMs": 140000,
+      "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/three-minute-unified-showcase/frames/frame-140000ms.png",
+      "width": 640,
+      "height": 360,
+      "uniqueColors": 110,
+      "bytes": 15501,
+      "sha256": "4edfa2bd1855171542d116c58038806c28e188aff39061bc0409c5fbeab57990",
+      "rawSha256": "3ed5cca65f034c0d215d1dc4a7c3e23df7346518004a6dd6951f42e774cff2fe"
+    },
+    {
+      "timeMs": 155000,
+      "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/three-minute-unified-showcase/frames/frame-155000ms.png",
+      "width": 640,
+      "height": 360,
+      "uniqueColors": 123,
+      "bytes": 17254,
+      "sha256": "775bdc060a2e797f94972ccedc505a90412c73f391334a2a9ef54b21376d5555",
+      "rawSha256": "2e059cf4942135175f7d7d56b05c84a5233dca1b1280b6b4f366c8a9e678420a"
+    },
+    {
+      "timeMs": 175000,
+      "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/three-minute-unified-showcase/frames/frame-175000ms.png",
+      "width": 640,
+      "height": 360,
+      "uniqueColors": 113,
+      "bytes": 19222,
+      "sha256": "6e18b772c72652a2dc22b1610da78db1e92ca1cc3853bb27f2f7e56382323089",
+      "rawSha256": "325ae67ff60979aef41b91003d39048fabc1cfb1ad6220fae9fcb29d6a312c38"
+    }
+  ],
+  "probe": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "codec_type": "video",
+        "width": 640,
+        "height": 360,
+        "r_frame_rate": "12/1"
+      },
+      {
+        "codec_name": "aac",
+        "codec_type": "audio",
+        "r_frame_rate": "0/0"
+      }
+    ],
+    "format": {
+      "duration": "180.000000",
+      "size": "9887593"
+    }
+  },
+  "hashes": {
+    "finalMovie": "e07f908fa96f9e49db2c724334e3de74f0dd5c4075a437f8b236ef227f02b90b",
+    "previewMovie": "c910964bc3dcce66ef299877659cde407f2be81794e1c58b3677520985842d72",
+    "productionPlan": "75fe6d0b07aa69d35331cd306ed4ddb036a6358d81649ce434c07750d8bd3a2f"
+  }
+}

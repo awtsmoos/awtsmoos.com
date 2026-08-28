@@ -12,3 +12,13 @@
 import { bootMitzvahStudio } from './modules/app/bootMitzvahStudio.js';
 
 bootMitzvahStudio(document.querySelector('#mitzvah-studio'));
+void installMovieAi();
+
+/** Reveals shared AI movie authoring after the native spatial studio is available. */
+async function installMovieAi() {
+	try {
+		await import('./modules/movie/installMovieAi.js');
+	} catch (error) {
+		console.warn('Mitzvah Studio movie AI director could not mount.', error);
+	}
+}

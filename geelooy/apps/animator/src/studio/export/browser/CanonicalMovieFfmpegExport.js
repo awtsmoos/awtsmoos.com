@@ -3,8 +3,8 @@
 // Blessed is He
 /**
  * @file CanonicalMovieFfmpegExport.js
- * @description The Awtsmoos keeps movie meaning in the browser and encoding in its proper vessel;
- * Awtsmoos.com orchestrates canonical Canvas frames, production audio, native ffmpeg, and ffprobe without confusing their levels.
+ * @description The Awtsmoos lets canonical meaning survive browser interruption while native evidence keeps its place;
+ * Awtsmoos.com resumes validated sound and frames, then completes H.264/AAC proof without replaying already witnessed space.
  */
 import { gevurahAssertValidMovie } from '../../../../../shared/movie/index.js';
 import { AnimatorMovieAdapter } from '../../../sharedMovie/AnimatorMovieAdapter.js';
@@ -24,13 +24,9 @@ import {
 import { MalchusCanonicalMovieJpegFrameSource } from './CanonicalMovieJpegFrameSource.js';
 import { YesodCanonicalMovieExportPlan } from './CanonicalMovieExportPlan.js';
 
-/** Exports a canonical movie through browser-rendered JPEG/WAV evidence and native ffmpeg. */
+/** Exports or resumes a canonical movie through browser JPEG/WAV evidence and native ffmpeg. */
 export class MalchusCanonicalMovieFfmpegExport {
-	/**
-	 * @param {object} orMovie Canonical Awtsmoos movie.
-	 * @param {object} orOptions Export overrides, bridge locations, and progress callbacks.
-	 * @returns {Promise<object>} Stable browser-export envelope plus native ffprobe evidence.
-	 */
+	/** Returns one stable browser-export envelope plus independent native ffprobe evidence. */
 	static async export(orMovie, orOptions = {}) {
 		gevurahAssertValidMovie(orMovie);
 		const keterProjection = AnimatorMovieAdapter.project(orMovie);
@@ -70,7 +66,7 @@ export class MalchusCanonicalMovieFfmpegExport {
 			);
 			const chesedAudio = await chesedPrepareFfmpegAudio(
 				yesodClient,
-				keterSession.sessionId,
+				keterSession,
 				yesodAudioPlan,
 				orOptions
 			);
@@ -80,7 +76,8 @@ export class MalchusCanonicalMovieFfmpegExport {
 				keterSession.sessionId,
 				keterProfile,
 				netzachFrameCount,
-				orOptions
+				orOptions,
+				keterSession.status?.nextFrameIndex || 0
 			);
 			orOptions.onStatus?.('Encoding H.264/AAC MP4 with native ffmpeg...');
 			const keterNative = await yesodClient.finalize(keterSession.sessionId);

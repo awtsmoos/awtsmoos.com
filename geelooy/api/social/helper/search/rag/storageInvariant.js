@@ -5,22 +5,24 @@
 /**
  * @module RagStorageInvariant
  * @description
- * The Awtsmoos guards the living search root as one sealed constellation: three ancient stars remain required, while twelve Sichos stars may appear only together;
- * Awtsmoos.com rejects unknown databases, partial revelation, write sidecars, and any mutation that tries to change the firmament during a request.
+ * The Awtsmoos measures each approved database before and after a search, while Awtsmoos.com refuses a universe that changes beneath the seeker's feet;
+ * policy names the permitted stars, this vessel fingerprints their matter, and mutation or write-sidecar shadow is rejected before false certainty can repeat.
  */
 
 const fs = require('fs');
 const path = require('path');
-const {
-	CANONICAL_SHARD_FILES,
-	PUBLISHED_SICHOS_KODESH_FILES
-} = require('./canonicalShards.js');
 const { ragRoot } = require('./paths.js');
+const {
+	CANONICAL_NAMES,
+	SICHOS_NAMES,
+	WRITE_SIDECAR_PATTERN,
+	configuredExactName,
+	expectedDatabaseNames,
+	hasAnySichos,
+	storageError
+} = require('./storagePolicy.js');
 
-const CANONICAL_NAMES = [...CANONICAL_SHARD_FILES].sort();
-const SICHOS_NAMES = [...PUBLISHED_SICHOS_KODESH_FILES].sort();
-const WRITE_SIDECAR_PATTERN = /\.awtsdb\.(?:journal|lock|tmp|wal)$/i;
-
+/** Captures stable filesystem identity for one immutable database vessel. */
 function fileIdentity(file) {
 	const status = fs.statSync(file);
 	return {
@@ -31,74 +33,69 @@ function fileIdentity(file) {
 	};
 }
 
-function storageError(code, detail) {
-	const error = new Error(`B"H production RAG storage invariant failed: ${code}`);
-	error.code = code;
-	error.storage = detail;
-	return error;
-}
-
+/** Reads one canonical root and gives a specific invariant failure when the root does not exist. */
 function storageEntries(root) {
 	try {
 		return fs.readdirSync(root, { withFileTypes: true });
 	} catch (error) {
-		if (error?.code === 'ENOENT') throw storageError('RAG_ROOT_MISSING', { root });
+		if (error?.code === 'ENOENT') {
+			throw storageError('RAG_ROOT_MISSING', { root });
+		}
 		throw error;
 	}
 }
 
-function configuredExactName(root) {
-	const configured = process.env.AWTSMOOS_TANACH_INDEX;
-	if (!configured) return null;
-	const resolved = path.resolve(configured);
-	if (path.dirname(resolved) !== path.resolve(root)) {
-		throw storageError('TANACH_INDEX_OUTSIDE_RAG_ROOT', { configured: resolved, root });
-	}
-	const name = path.basename(resolved);
-	if (!name.endsWith('.awtsdb')) throw storageError('TANACH_INDEX_INVALID_NAME', { configured: resolved });
-	return name;
-}
-
-function hasAnySichos(databases) {
-	return SICHOS_NAMES.some(name => databases.includes(name));
-}
-
-function expectedDatabaseNames(root, databases = []) {
-	const exactName = configuredExactName(root);
-	return [...new Set([
-		...CANONICAL_NAMES,
-		...(hasAnySichos(databases) ? SICHOS_NAMES : []),
-		...(exactName ? [exactName] : [])
-	])].sort();
-}
-
+/** Captures the entire approved database constellation for one request boundary. */
 function captureCanonicalStorage($i) {
 	const root = ragRoot($i);
-	const files = storageEntries(root).filter(entry => entry.isFile()).map(entry => entry.name).sort();
+	const files = storageEntries(root)
+		.filter(entry => entry.isFile())
+		.map(entry => entry.name)
+		.sort();
 	const databases = files.filter(name => name.endsWith('.awtsdb'));
 	const forbidden = files.filter(name => WRITE_SIDECAR_PATTERN.test(name));
 	const expected = expectedDatabaseNames(root, databases);
 	if (JSON.stringify(databases) !== JSON.stringify(expected)) {
-		throw storageError('RAG_DATABASE_SET_CHANGED', { actual: databases, expected, root });
+		throw storageError('RAG_DATABASE_SET_CHANGED', {
+			actual: databases,
+			expected,
+			root
+		});
 	}
-	if (forbidden.length) throw storageError('RAG_WRITE_SIDECAR_PRESENT', { forbidden, root });
+	if (forbidden.length) {
+		throw storageError('RAG_WRITE_SIDECAR_PRESENT', { forbidden, root });
+	}
 	return {
 		root,
-		databases: databases.map(name => ({ name, ...fileIdentity(path.join(root, name)) }))
+		databases: databases.map(name => ({
+			name,
+			...fileIdentity(path.join(root, name))
+		}))
 	};
 }
 
+/** Serializes only immutable database identities for before/after comparison. */
 function storageFingerprint(snapshot) {
 	return JSON.stringify(snapshot?.databases || []);
 }
 
+/** Proves a request did not observe storage mutation between its two boundaries. */
 function assertStorageUnchanged(before, after) {
-	if (storageFingerprint(before) === storageFingerprint(after)) return true;
+	if (storageFingerprint(before) === storageFingerprint(after)) {
+		return true;
+	}
 	throw storageError('RAG_STORAGE_MUTATED_DURING_SEARCH', { before, after });
 }
 
 module.exports = {
-	CANONICAL_NAMES, SICHOS_NAMES, WRITE_SIDECAR_PATTERN, assertStorageUnchanged,
-	captureCanonicalStorage, configuredExactName, expectedDatabaseNames, fileIdentity,
-	hasAnySichos, storageFingerprint
+	CANONICAL_NAMES,
+	SICHOS_NAMES,
+	WRITE_SIDECAR_PATTERN,
+	assertStorageUnchanged,
+	captureCanonicalStorage,
+	configuredExactName,
+	expectedDatabaseNames,
+	fileIdentity,
+	hasAnySichos,
+	storageFingerprint
 };

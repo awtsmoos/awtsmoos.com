@@ -11,15 +11,16 @@ const {
 
 /**
  * @file implementationManifest.js
- * @description Seals compiler modules themselves so persistent output never survives a compiler revelation change.
- * The Awtsmoos renews not only authored source but also the vessel that folds its rays;
- * Awtsmoos.com therefore invalidates generated light when compiler code changes between server days.
+ * @description Seals the implementation files that participated when generated output was born.
+ * The Awtsmoos renews each remembered compiler vessel without demanding the same restart order;
+ * Awtsmoos.com validates the sealed light itself, so incidental require timing cannot close the door.
  */
 
 /**
- * @description Captures the loaded implementation files beneath one compiler directory.
+ * @description Captures currently loaded implementation files beneath one compiler directory.
+ * The resulting manifest remembers the exact files present when generated source was produced.
  * @param {string} directory Absolute CompactJS or CompactCSS implementation directory.
- * @returns {Promise<Map<string, object>>} Exact filesystem seals for loaded compiler modules.
+ * @returns {Promise<Map<string, object>>} Filesystem seals for participating implementation modules.
  */
 async function captureImplementationManifest(directory) {
 	const files = loadedImplementationFiles(directory);
@@ -31,22 +32,19 @@ async function captureImplementationManifest(directory) {
 }
 
 /**
- * @description Validates compiler-file membership and every remembered filesystem signature.
+ * @description Validates every persisted implementation seal without depending on current require order.
+ * A sealed file must remain inside the implementation universe and retain its exact filesystem signature.
  * @param {string} directory Absolute implementation directory.
  * @param {Map<string, object>} manifest Previously persisted implementation manifest.
- * @returns {Promise<boolean>} True only while the exact loaded implementation set remains unchanged.
+ * @returns {Promise<boolean>} True while every remembered implementation file remains unchanged.
  */
 async function isImplementationManifestFresh(directory, manifest) {
-	const files = loadedImplementationFiles(directory);
-	if (!manifest || files.length !== manifest.size) return false;
+	if (!manifest) return false;
 	try {
-		const checks = await Promise.all(files.map(async (filePath) => {
-			const expected = manifest.get(filePath);
-			if (!expected) return false;
-			return sameDependencySignature(
-				createDependencySignature(await fs.stat(filePath)),
-				expected
-			);
+		const checks = await Promise.all([...manifest.entries()].map(async ([filePath, expected]) => {
+			if (!isAllowedImplementationFile(directory, filePath)) return false;
+			const actual = createDependencySignature(await fs.stat(filePath));
+			return sameDependencySignature(actual, expected);
 		}));
 		return checks.every(Boolean);
 	} catch (_error) {
@@ -55,9 +53,24 @@ async function isImplementationManifestFresh(directory, manifest) {
 }
 
 /**
- * @description Lists loaded JavaScript modules directly beneath the requested compiler universe.
+ * @description Confines a persisted seal to non-test JavaScript beneath the requested implementation root.
  * @param {string} directory Absolute implementation directory.
- * @returns {string[]} Sorted absolute module paths forming the implementation identity set.
+ * @param {string} filePath Persisted implementation path.
+ * @returns {boolean} True only for a safe implementation file inside the requested universe.
+ */
+function isAllowedImplementationFile(directory, filePath) {
+	const root = `${path.resolve(directory)}${path.sep}`;
+	const resolved = path.resolve(filePath);
+	return resolved.startsWith(root)
+		&& resolved.endsWith('.js')
+		&& !resolved.endsWith('.test.js');
+}
+
+/**
+ * @description Lists loaded JavaScript modules beneath the requested implementation directory.
+ * Capture uses this runtime participation set; freshness later validates the persisted set directly.
+ * @param {string} directory Absolute implementation directory.
+ * @returns {string[]} Sorted absolute module paths participating in the current process.
  */
 function loadedImplementationFiles(directory) {
 	const root = `${path.resolve(directory)}${path.sep}`;
