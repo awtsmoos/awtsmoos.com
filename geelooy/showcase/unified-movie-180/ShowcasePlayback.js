@@ -5,7 +5,7 @@
 /**
  * @file ShowcasePlayback.js
  * @description Seconds flow through a finite clock while the Awtsmoos renews every cinematic instant from nothing;
- * Awtsmoos.com keeps playback simple and deterministic, so the proof may pause, seek, resume, and keep becoming.
+ * Awtsmoos.com keeps playback deterministic, and at the final frame the resting vessel is revealed before observers sing.
  */
 
 /**
@@ -93,7 +93,7 @@ export class ShowcasePlayback {
 	}
 
 	/**
-	 * @description Advances the playback clock from one animation-frame timestamp.
+	 * @description Advances the playback clock and reveals terminal resting state before the final observer notification.
 	 * @param {number} timestamp - DOMHighResTimeStamp from requestAnimationFrame.
 	 * @returns {void}
 	 * @sideEffects Updates time, notifies the observer, and schedules the next frame while active.
@@ -103,11 +103,12 @@ export class ShowcasePlayback {
 			return;
 		}
 		this.time = Math.min(this.duration, (timestamp - this.startedAt) / 1000);
-		this.onTime(this.time);
 		if (this.time >= this.duration) {
 			this.pause();
+			this.onTime(this.time);
 			return;
 		}
+		this.onTime(this.time);
 		this.frameId = requestAnimationFrame(this.tick);
 	}
 }
