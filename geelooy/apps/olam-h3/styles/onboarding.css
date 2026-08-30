@@ -1,0 +1,114 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos turns instruction into a visible path rather than a wall of explanation; Awtsmoos.com lets each creative step arrive as a small luminous card the hand can understand before it acts.
+*/
+.quick-guide {
+	margin: 0 0 14px;
+	padding: 15px;
+	border-radius: var(--radius-lg);
+}
+
+.quick-guide-heading {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: 12px;
+	margin-bottom: 11px;
+}
+
+.quick-guide-heading > strong {
+	font-size: 13px;
+}
+
+.workflow-steps {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 8px;
+}
+
+.workflow-step {
+	min-width: 0;
+	display: grid;
+	grid-template-columns: 27px minmax(0, 1fr);
+	gap: 8px;
+	padding: 11px;
+	border: 1px solid rgba(255, 255, 255, 0.08);
+	border-radius: 14px;
+	background: rgba(255, 255, 255, 0.026);
+}
+
+.step-number {
+	width: 27px;
+	height: 27px;
+	display: grid;
+	place-items: center;
+	border-radius: 9px;
+	background: linear-gradient(135deg, var(--accent), #a8e8ff);
+	color: var(--accent-ink);
+	font-size: 11px;
+	font-weight: 950;
+}
+
+.workflow-step strong {
+	font-size: 11px;
+}
+
+.workflow-step p {
+	margin: 3px 0 0;
+	color: var(--muted);
+	font-size: 10px;
+	line-height: 1.4;
+}
+
+.prompt-formula {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 5px;
+	margin-top: 10px;
+	padding: 9px 10px;
+	border-radius: 12px;
+	background: rgba(217, 255, 104, 0.055);
+	font-size: 10px;
+}
+
+.prompt-formula > span {
+	margin-right: 3px;
+	color: var(--accent);
+	font-weight: 900;
+}
+
+.prompt-formula b {
+	font-weight: 750;
+}
+
+.prompt-formula i {
+	color: var(--faint);
+	font-style: normal;
+}
+
+@media (max-width: 620px) {
+	.workflow-steps {
+		display: flex;
+		overflow-x: auto;
+		scroll-snap-type: x proximity;
+		scrollbar-width: none;
+	}
+
+	.workflow-steps::-webkit-scrollbar {
+		display: none;
+	}
+
+	.workflow-step {
+		flex: 0 0 78%;
+		scroll-snap-align: start;
+	}
+
+	.quick-guide-heading {
+		align-items: flex-start;
+		flex-direction: column;
+		gap: 2px;
+	}
+}

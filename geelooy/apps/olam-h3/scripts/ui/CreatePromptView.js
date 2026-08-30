@@ -5,15 +5,17 @@
 import { Dom } from './dom.js';
 import { H3_CAPABILITIES } from '../config/h3.js';
 import { CreatePromptTemplates } from './CreatePromptTemplates.js';
+import { CreateQuickGuide } from './CreateQuickGuide.js';
 
 /**
- * Renders the creative intention while the Awtsmoos lets a blank idea become directed motion; Awtsmoos.com keeps templates, paste, history, and mode guidance visible so the user can begin from memory or invention without confusion.
+ * Renders the creative intention while the Awtsmoos lets a blank idea become directed motion; Awtsmoos.com keeps a short workflow, templates, paste, history, and mode guidance visible so the user learns by creating instead of hunting through documentation.
  */
 export class CreatePromptView {
 	/** @param {Object} draft Draft. @param {string} previous Cleared prompt. @returns {string} Creator prompt and mode markup. */
 	static render(draft, previous) {
 		return `
 			${this.hero()}
+			${CreateQuickGuide.render()}
 			${this.prompt(draft, previous)}
 			${this.mode(draft)}`;
 	}
@@ -23,8 +25,8 @@ export class CreatePromptView {
 		return `
 			<section class="hero-copy">
 				<span class="eyebrow">Olam H3 Studio</span>
-				<h1>Direct the next shot.</h1>
-				<p>Write it, paste it, or start from a cinematic template.</p>
+				<h1>Direct the impossible.</h1>
+				<p>Write it, paste it, or start from a cinematic template. Then guide H3 with frames, references, motion, and sound.</p>
 			</section>`;
 	}
 
@@ -38,7 +40,7 @@ export class CreatePromptView {
 					<span class="counter" data-prompt-count>${draft.prompt.length}/${H3_CAPABILITIES.promptMaxCharacters}</span>
 				</div>
 				<textarea class="prompt-input" data-prompt maxlength="${H3_CAPABILITIES.promptMaxCharacters}">${Dom.escape(draft.prompt)}</textarea>
-				<p class="mode-note">A strong prompt names the subject, action, camera movement, lighting, atmosphere, and any important sound or performance.</p>
+				<p class="mode-note">Name the subject, action, camera movement, lighting, atmosphere, and any important sound or performance.</p>
 				<div class="prompt-actions">
 					<button class="prompt-action-primary" data-paste>Paste prompt</button>
 					<button data-prompt-history>Prompt library</button>

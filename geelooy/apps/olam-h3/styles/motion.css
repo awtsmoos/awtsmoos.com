@@ -1,0 +1,100 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos gives movement only where it reveals relationship and readiness; Awtsmoos.com lets light drift, cards arrive, and actions answer the hand without making motion louder than the creative work.
+*/
+@keyframes ambient-drift-one {
+	from { transform: translate3d(-4%, -2%, 0) scale(0.92); }
+	to { transform: translate3d(20%, 13%, 0) scale(1.12); }
+}
+
+@keyframes ambient-drift-two {
+	from { transform: translate3d(5%, 8%, 0) scale(0.96); }
+	to { transform: translate3d(-20%, -12%, 0) scale(1.14); }
+}
+
+@keyframes orb-breathe {
+	0%, 100% { transform: scale(1); filter: saturate(1); }
+	50% { transform: scale(1.07); filter: saturate(1.25); }
+}
+
+@keyframes light-sweep {
+	0% { transform: translateX(-145%) skewX(-18deg); }
+	55%, 100% { transform: translateX(190%) skewX(-18deg); }
+}
+
+@keyframes status-pulse {
+	0%, 100% { box-shadow: 0 0 0 0 rgba(217, 255, 104, 0.0); }
+	50% { box-shadow: 0 0 0 7px rgba(217, 255, 104, 0.08); }
+}
+
+@keyframes card-reveal {
+	from { opacity: 0; transform: translateY(12px) scale(0.99); }
+	to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.brand-orb {
+	animation: orb-breathe 5s ease-in-out infinite;
+}
+
+.page-enter > * {
+	animation: card-reveal 420ms cubic-bezier(.2, .8, .2, 1) both;
+}
+
+.page-enter > *:nth-child(2) { animation-delay: 45ms; }
+.page-enter > *:nth-child(3) { animation-delay: 85ms; }
+.page-enter > *:nth-child(4) { animation-delay: 120ms; }
+.page-enter > *:nth-child(5) { animation-delay: 150ms; }
+.page-enter > *:nth-child(6) { animation-delay: 180ms; }
+
+.generate-button {
+	position: relative;
+	overflow: hidden;
+}
+
+.generate-button:not(:disabled)::before {
+	content: "";
+	position: absolute;
+	inset: -30% auto -30% -35%;
+	width: 34%;
+	background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.62), transparent);
+	pointer-events: none;
+	animation: light-sweep 3.8s ease-in-out infinite;
+}
+
+.provider-status-dot,
+.connection-dot.is-online {
+	animation: status-pulse 2.4s ease-in-out infinite;
+}
+
+.prompt-template,
+.workflow-step,
+.official-link,
+.asset-add,
+.provider-status-actions button,
+.segmented button {
+	transition: transform 150ms ease, border-color 180ms ease, background 180ms ease, box-shadow 180ms ease;
+}
+
+@media (hover: hover) {
+	.prompt-template:hover,
+	.workflow-step:hover,
+	.official-link:hover,
+	.asset-add:hover {
+		transform: translateY(-2px);
+		border-color: rgba(217, 255, 104, 0.28);
+		box-shadow: 0 12px 30px rgba(0, 0, 0, 0.20), 0 0 24px rgba(217, 255, 104, 0.05);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
+}
