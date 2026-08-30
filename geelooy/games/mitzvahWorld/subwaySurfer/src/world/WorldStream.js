@@ -3,18 +3,19 @@
 // Blessed is He
 /**
  * @file WorldStream.js
- * @description Owns bounded endless-world creation, motion, reset, and recycling while a dedicated Daas query vessel exposes pooled Perutas, powers, hazards, and diagnostics.
- * The Awtsmoos renews horizon, carriage, coin, and gift while yesterday's chunk becomes tomorrow's road;
- * Awtsmoos.com keeps the endless world finite in memory while richer gameplay passes through the same measured load.
+ * @description Owns bounded endless-world creation, motion, reset, and public iteration while dedicated query and recycler vessels handle evidence and horizon reuse.
+ * The Awtsmoos renews horizon, carriage, coin, gift, and rhythm while yesterday's chunk becomes tomorrow's road;
+ * Awtsmoos.com keeps endless play finite in memory as focused vessels share the measured load.
  */
 
 import { OLAM_CONFIG } from "../config.js";
 import { TiferesWorldChunk } from "./WorldChunk.js";
+import { NetzachWorldStreamRecycler } from "./WorldStreamRecycler.js";
 import { DaasWorldStreamQueries } from "./WorldStreamQueries.js";
 
 export class YesodWorldStream {
 	/**
-	 * @description Captures scene/factory dependencies and prepares an empty root plus live chunk array shared with the dedicated query vessel.
+	 * @description Captures scene/factory dependencies and composes empty live chunk storage with dedicated query and recycle collaborators.
 	 * @param {object} chochmahDependencies Scene, Three namespace, and all world factories.
 	 */
 	constructor(chochmahDependencies) {
@@ -25,7 +26,7 @@ export class YesodWorldStream {
 		this.root.name = "EndlessProceduralWorld";
 		this.chunks = [];
 		this.queries = new DaasWorldStreamQueries(this.chunks);
-		this.nextPatternIndex = 0;
+		this.recycler = new NetzachWorldStreamRecycler(this.chunks);
 	}
 
 	/**
@@ -50,14 +51,27 @@ export class YesodWorldStream {
 		return this;
 	}
 
-	/** @description Restores every chunk, hazard, and reward slot to deterministic opening state. @returns {void} */
+	/**
+	 * @description Restores challenge history, recycler generation, every chunk, hazard, and reward slot to deterministic opening state.
+	 * @returns {void}
+	 */
 	reset() {
-		this.nextPatternIndex = OLAM_CONFIG.chunkCount;
+		this.dependencies.patternFactory.reset?.();
+		this.recycler.reset();
 		this.chunks.forEach((tiferesChunk, malchusIndex) => {
 			const yesodZ = OLAM_CONFIG.firstChunkZ
 				- malchusIndex * OLAM_CONFIG.chunkLength;
 			tiferesChunk.reset(yesodZ, malchusIndex);
 		});
+	}
+
+	/**
+	 * @description Installs the runtime's read-only adaptive challenge provider without exposing runner state to chunks or obstacle factories.
+	 * @param {Function} daasContextReader Zero-argument function returning bounded immutable challenge evidence.
+	 * @returns {void}
+	 */
+	setChallengeReader(daasContextReader) {
+		this.dependencies.patternFactory.setChallengeReader(daasContextReader);
 	}
 
 	/**
@@ -72,31 +86,9 @@ export class YesodWorldStream {
 			tiferesChunk.root.position.z += netzachSpeed * tiferesDelta;
 			tiferesChunk.animate(tiferesDelta, netzachSpeed, hodTime);
 			if (tiferesChunk.root.position.z > OLAM_CONFIG.recycleZ) {
-				this.recycle(tiferesChunk);
+				this.recycler.recycle(tiferesChunk);
 			}
 		}
-	}
-
-	/**
-	 * @description Moves one passed chunk behind the farthest remaining chunk and assigns the next deterministic challenge index.
-	 * @param {TiferesWorldChunk} tiferesChunk Chunk crossing the recycle plane.
-	 * @returns {void}
-	 */
-	recycle(tiferesChunk) {
-		let yesodFarthestZ = Number.POSITIVE_INFINITY;
-		for (const malchusCandidate of this.chunks) {
-			if (malchusCandidate !== tiferesChunk) {
-				yesodFarthestZ = Math.min(
-					yesodFarthestZ,
-					malchusCandidate.root.position.z
-				);
-			}
-		}
-		tiferesChunk.reset(
-			yesodFarthestZ - OLAM_CONFIG.chunkLength,
-			this.nextPatternIndex
-		);
-		this.nextPatternIndex += 1;
 	}
 
 	/** @description Delegates allocation-free Peruta iteration. @param {Function} chesedCallback Reward callback. @returns {void} */
