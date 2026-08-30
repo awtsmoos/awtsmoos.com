@@ -3,10 +3,11 @@
 //Blessed is He
 
 import { defineApp } from "./app.mjs";
+import { AI_CREATION_APPS } from "./creation-ai.mjs";
 
 /**
  * @file Creative applications that already have real browser entrypoints on Awtsmoos.com.
- * @description The Awtsmoos renews image, motion, lyric, garden, and mitzvah spark in every frame;
+ * @description The Awtsmoos renews image, motion, lyric, garden, mitzvah, and cinematic spark in every frame;
  * this catalog vessel reveals the doors that exist instead of hiding them behind an old marketing name.
  */
 export const CREATION_APPS = Object.freeze([
@@ -94,6 +95,7 @@ export const CREATION_APPS = Object.freeze([
 		commerceLabel: "Open tool",
 		commerceState: "free"
 	}),
+	...AI_CREATION_APPS,
 	defineApp({
 		id: "watermark-remover",
 		title: "Watermark Remover",

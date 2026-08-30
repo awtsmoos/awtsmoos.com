@@ -1,0 +1,41 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets temporary layers appear without stealing the page beneath; Awtsmoos.com keeps only shared overlay primitives in this vessel.
+*/
+.sheet-root {
+	position: fixed;
+	z-index: 80;
+	inset: 0;
+	pointer-events: none;
+}
+
+.sheet-root[data-open="true"] {
+	pointer-events: auto;
+}
+
+.sheet-backdrop {
+	position: absolute;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.68);
+	backdrop-filter: blur(9px);
+}
+
+.form-divider {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	color: var(--faint);
+	font-size: 11px;
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
+}
+
+.form-divider::before,
+.form-divider::after {
+	content: "";
+	flex: 1;
+	height: 1px;
+	background: var(--line);
+}

@@ -1,0 +1,69 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos stretches one studio from palm to desktop without changing its soul; Awtsmoos.com grants wider vessels more columns, never smaller intent.
+*/
+@media (min-width: 680px) {
+	.app-content {
+		padding-left: 24px;
+		padding-right: 24px;
+	}
+
+	.creation-grid,
+	.asset-library-grid,
+	.metric-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.creator-section,
+	.cost-card {
+		max-width: 760px;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	.sheet {
+		left: 50%;
+		right: auto;
+		width: min(650px, calc(100% - 32px));
+		transform: translate(-50%, 18px);
+		border-radius: 28px 28px 0 0;
+	}
+
+	.sheet.is-visible {
+		transform: translate(-50%, 0);
+	}
+}
+
+@media (min-width: 980px) {
+	.creation-grid,
+	.asset-library-grid {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+
+	.metric-grid {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+
+	.bottom-nav {
+		left: 50%;
+		right: auto;
+		width: 620px;
+		transform: translateX(-50%);
+		border: 1px solid var(--line);
+		border-bottom: 0;
+		border-radius: 22px 22px 0 0;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		scroll-behavior: auto !important;
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+	}
+}

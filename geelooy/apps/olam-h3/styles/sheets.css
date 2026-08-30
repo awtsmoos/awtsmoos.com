@@ -1,0 +1,106 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets focused depth rise above the page without severing what lives beneath; Awtsmoos.com keeps sheets calm, safe-area aware, and keyboard-friendly in relief.
+*/
+.sheet {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	max-height: min(88dvh, 780px);
+	padding: 8px max(16px, var(--safe-right)) max(18px, var(--safe-bottom)) max(16px, var(--safe-left));
+	border: 1px solid var(--line-strong);
+	border-radius: 28px 28px 0 0;
+	background: rgba(21,21,26,0.985);
+	box-shadow: var(--shadow);
+	overflow: auto;
+	overscroll-behavior: contain;
+	transform: translateY(18px);
+	opacity: 0;
+	transition: transform 200ms ease, opacity 200ms ease;
+}
+
+.sheet.is-visible {
+	transform: translateY(0);
+	opacity: 1;
+}
+
+.sheet-handle {
+	width: 44px;
+	height: 4px;
+	margin: 3px auto 10px;
+	border-radius: 99px;
+	background: var(--line-strong);
+}
+
+.sheet-header {
+	position: sticky;
+	top: -8px;
+	z-index: 2;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 14px;
+	padding: 8px 0 10px;
+	background: rgba(21,21,26,0.985);
+}
+
+.sheet-header h2 {
+	margin: 0;
+	font-size: 18px;
+	letter-spacing: -0.02em;
+}
+
+.sheet-list {
+	display: grid;
+	gap: 9px;
+}
+
+.sheet-list article {
+	padding: 12px;
+	border: 1px solid var(--line);
+	border-radius: 16px;
+	background: var(--surface-soft);
+}
+
+.sheet-list article p {
+	margin: 0 0 10px;
+}
+
+.sheet-list article div,
+.price-sheet > div,
+.detail-stack dl > div {
+	display: flex;
+	justify-content: space-between;
+	gap: 10px;
+}
+
+.detail-video {
+	width: 100%;
+	max-height: 54dvh;
+	border-radius: 18px;
+	background: #08080a;
+}
+
+.empty-video {
+	min-height: 190px;
+	display: grid;
+	place-items: center;
+	color: var(--muted);
+}
+
+.detail-stack dl {
+	margin: 0;
+}
+
+.detail-stack dt {
+	color: var(--muted);
+}
+
+.detail-stack dd {
+	margin: 0;
+	text-align: right;
+	word-break: break-word;
+}

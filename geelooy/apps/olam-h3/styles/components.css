@@ -1,0 +1,120 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos gives every persistent studio surface one quiet tongue; Awtsmoos.com keeps brand, sections, and state readable in every room.
+*/
+.brand {
+	display: inline-flex;
+	align-items: center;
+	gap: 9px;
+	color: var(--text);
+	text-decoration: none;
+	font-weight: 900;
+	letter-spacing: -0.02em;
+}
+
+.brand-orb,
+.boot-orb,
+.empty-orb {
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	background: radial-gradient(circle at 35% 30%, #fff, var(--accent) 26%, #718d1e 68%, #202708);
+	box-shadow: 0 0 28px rgba(217, 255, 104, 0.24);
+	display: grid;
+	place-items: center;
+	color: #0d1005;
+	font-weight: 900;
+}
+
+.header-actions {
+	display: flex;
+	align-items: center;
+	gap: 7px;
+	min-width: 0;
+}
+
+.hero-copy,
+.page-header {
+	margin: 8px 0 22px;
+}
+
+.hero-copy h1,
+.page-header h1 {
+	margin: 4px 0 0;
+	font-size: clamp(30px, 8vw, 54px);
+	line-height: 0.98;
+	letter-spacing: -0.045em;
+}
+
+.hero-copy p {
+	margin: 10px 0 0;
+	color: var(--muted);
+	max-width: 56ch;
+}
+
+.page-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+}
+
+.eyebrow {
+	color: var(--accent);
+	font-size: 11px;
+	font-weight: 900;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+}
+
+.creator-section,
+.settings-card,
+.breakdown-card {
+	margin: 0 0 14px;
+	padding: 16px;
+	border: 1px solid var(--line);
+	border-radius: var(--radius-lg);
+	background: linear-gradient(180deg, rgba(30,30,36,0.96), rgba(21,21,26,0.94));
+	box-shadow: inset 0 1px rgba(255, 255, 255, 0.04);
+}
+
+.section-heading {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 12px;
+	margin-bottom: 12px;
+}
+
+.section-heading h2,
+.settings-card h2,
+.breakdown-card h2 {
+	margin: 2px 0 0;
+	font-size: 17px;
+	letter-spacing: -0.025em;
+}
+
+.counter,
+.mode-note,
+.settings-card p,
+.breakdown-card p,
+.accounting-note,
+.media-source {
+	color: var(--muted);
+	font-size: 12px;
+}
+
+.mode-note {
+	margin: 10px 2px 0;
+}
+
+.generation-limit-note {
+	margin-top: 10px;
+	padding: 10px 12px;
+	border-radius: 12px;
+	background: rgba(217,255,104,0.065);
+	color: var(--muted);
+	font-size: 12px;
+}

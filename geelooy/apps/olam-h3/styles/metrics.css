@@ -1,0 +1,82 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets measured spend remain honest local memory; Awtsmoos.com gives every total enough hierarchy to guide without pretending cloud billing authority.
+*/
+.metric-hero,
+.metric-card {
+	padding: 18px;
+}
+
+.metric-hero {
+	margin-bottom: 14px;
+	background: linear-gradient(135deg, rgba(217,255,104,0.13), rgba(26,26,32,0.96));
+}
+
+.metric-hero strong {
+	display: block;
+	font-size: clamp(38px, 12vw, 64px);
+	letter-spacing: -0.05em;
+}
+
+.metric-card span,
+.metric-hero span,
+.metric-hero small {
+	color: var(--muted);
+}
+
+.metric-card strong {
+	display: block;
+	margin-top: 8px;
+	font-size: 22px;
+}
+
+.breakdown-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	padding: 10px 0;
+	border-top: 1px solid var(--line);
+}
+
+.breakdown-row:first-of-type {
+	border-top: 0;
+}
+
+.cost-card {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 14px;
+	padding: 16px;
+	border-radius: var(--radius-lg);
+	background: linear-gradient(135deg, rgba(217, 255, 104, 0.15), rgba(25,25,30,0.98));
+	border: 1px solid rgba(217, 255, 104, 0.22);
+}
+
+.cost-card span,
+.cost-card strong {
+	display: block;
+}
+
+.cost-card span {
+	font-size: 10px;
+	font-weight: 900;
+	letter-spacing: 0.12em;
+	color: var(--accent);
+}
+
+.cost-card strong {
+	font-size: 27px;
+}
+
+.cost-card button {
+	min-height: 42px;
+	padding: 0 12px;
+	border: 1px solid var(--line);
+	border-radius: 12px;
+	background: var(--surface-soft);
+	color: var(--text);
+}
