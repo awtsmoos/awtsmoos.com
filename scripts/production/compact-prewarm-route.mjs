@@ -4,11 +4,12 @@
 
 /**
  * @file compact-prewarm-route.mjs
- * @description Warms one release-critical HTML route and every same-origin CompactJS/CSS asset that its served markup declares.
- * The Awtsmoos renews one public doorway before stylesheet, module, and compression can gather into a warmed release sign;
- * Awtsmoos.com lets Chesed carry one route from HTML through final byte while the higher runner keeps only sequencing design.
+ * @description Warms one release-critical HTML route, its served compact assets, and explicit deferred first-play doors before activation commits.
+ * The Awtsmoos renews visible garments and hidden roads before the first traveler becomes a compiler by surprise;
+ * Awtsmoos.com lets Chesed carry each measured byte through one warmed gate while the higher runner keeps only sequencing design.
  */
 
+import { resolveRouteCompactAssets } from "./compact-prewarm-assets.mjs";
 import { extractCompactAssetUrls } from "./compact-prewarm-html.mjs";
 import {
 	fetchBytesBounded,
@@ -16,7 +17,7 @@ import {
 } from "./compact-prewarm-http.mjs";
 
 /**
- * @description Fetches one critical HTML page, discovers compact assets, and consumes each asset through Brotli negotiation.
+ * Fetches one critical HTML page and fully consumes every discovered or declared compact asset.
  * @param {object} context Route-specific prewarm dependencies.
  * @param {URL} context.base Local restarted-service origin.
  * @param {Readonly<object>} context.route Critical route descriptor.
@@ -27,7 +28,11 @@ import {
 export async function prewarmCriticalRoute(context) {
 	const pageUrl = new URL(context.route.path, context.base);
 	const html = await revealHtml(context, pageUrl);
-	const assets = extractCompactAssetUrls(html, pageUrl);
+	const assets = resolveRouteCompactAssets({
+		discovered: extractCompactAssetUrls(html, pageUrl),
+		explicit: context.route.assets,
+		pageUrl
+	});
 	if (!assets.length) {
 		throw new Error(`compact_prewarm_assets_missing ${pageUrl.href}`);
 	}
@@ -46,12 +51,7 @@ export async function prewarmCriticalRoute(context) {
 	});
 }
 
-/**
- * @description Fetches and fully consumes the route HTML before compact discovery begins.
- * @param {object} context Route-specific prewarm dependencies.
- * @param {URL} pageUrl Absolute HTML URL.
- * @returns {Promise<string>} Non-empty served HTML.
- */
+/** Fetches and fully consumes the route HTML before compact discovery begins. */
 async function revealHtml(context, pageUrl) {
 	const result = await fetchTextBounded(
 		context.fetchImpl,
@@ -66,13 +66,7 @@ async function revealHtml(context, pageUrl) {
 	return result.body;
 }
 
-/**
- * @description Fully consumes one compact asset so compilation and Brotli generated-response caches are both primed before activation commits.
- * @param {Function} fetchImpl Fetch-compatible HTTP function.
- * @param {string} assetUrl Absolute compact asset URL.
- * @param {number} timeoutMs Timeout covering headers and complete body.
- * @returns {Promise<Readonly<object>>} Immutable asset evidence.
- */
+/** Fully consumes one compact asset so compilation and Brotli caches are ready before public traffic. */
 async function prewarmCompactAsset(fetchImpl, assetUrl, timeoutMs) {
 	const result = await fetchBytesBounded(
 		fetchImpl,
@@ -96,14 +90,7 @@ async function prewarmCompactAsset(fetchImpl, assetUrl, timeoutMs) {
 	});
 }
 
-/**
- * @description Rejects non-success responses with stable release-readable failure evidence.
- * @param {Response} response HTTP response.
- * @param {string} reason Stable failure reason.
- * @param {URL} url Requested URL.
- * @returns {void}
- * @throws {Error} For non-2xx responses.
- */
+/** Rejects non-success responses with stable release-readable failure evidence. */
 function assertHealthy(response, reason, url) {
 	if (response.ok) return;
 	throw new Error(`${reason} status=${response.status} url=${url.href}`);
