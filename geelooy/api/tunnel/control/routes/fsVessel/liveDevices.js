@@ -4,13 +4,13 @@
 
 const ControlActions = require("./controlRouteActions.js");
 const Identity = require("./liveDeviceIdentity.js");
+const Warnings = require("./liveDeviceWarning.js");
 
 /**
- * @file Routes ordinary work by execution authority while keeping repair outside the wound.
+ * @file Routes ordinary work by acceptance and execution authority while repair stays outside the wound.
  * @description
- * The Awtsmoos keeps one deed recognizable beneath a retry garment. Awtsmoos.com
- * therefore routes doctors, reconciliation, cancellation, and bounded repair through
- * a living authenticated transport even when ordinary execution testimony is degraded.
+ * The Awtsmoos keeps one deed recognizable beneath every retry garment;
+ * Awtsmoos.com lets doctors and reconciliation use the breathing road even when ordinary readiness is dormant.
  */
 function effectiveRouteAction(payload = {}) {
 	const action = String(payload.action || "");
@@ -56,39 +56,9 @@ function connectedNames(devices = []) {
 	)];
 }
 
-/** Builds one bounded warning that never equates stale telemetry with transport death. */
+/** Returns one bounded warning with acceptance, execution, and transport kept distinct. */
 function warningFor(device = {}) {
-	const transportLive = Identity.isTransportLive(device);
-	const executionBlocked = transportLive && !Identity.hasExecutionAuthority(device);
-	const recovering = Identity.isRecoveringNative(device);
-	return {
-		code: executionBlocked
-			? "execution_consumer_unhealthy"
-			: recovering
-				? "degraded_or_recovering"
-				: "stale_tunnel_not_routable",
-		tunnelName: device.tunnelName || "",
-		kind: device.kind || device.vesselType || "unknown",
-		isAlive: device.isAlive === false ? false : device.isAlive,
-		executionHealthy: device.executionHealthy ?? null,
-		executionHealthState: device.executionHealthState || null,
-		executionHealthAgeMs: device.executionHealthAgeMs ?? null,
-		lastSeenAt: device.lastSeenAt || null,
-		heartbeatAt: device.heartbeatAt || null,
-		missedHeartbeats: device.missedHeartbeats || 0,
-		guidance: guidance(executionBlocked, recovering)
-	};
-}
-
-/** Returns recovery guidance matching the exact route state rather than recommending reinstall reflexively. */
-function guidance(executionBlocked, recovering) {
-	if (executionBlocked) {
-		return "Transport is live but execution is freshly unhealthy. Keep control/recovery actions routable and repair the owned generation before ordinary work.";
-	}
-	if (recovering) {
-		return "Recent native evidence exists but transport is not presently proven live. Preserve identity and use bounded recovery.";
-	}
-	return "No live transport is proven. Inspect history and independent recovery before considering reinstall.";
+	return Warnings.warningFor(device, Identity.isRecoveringNative(device));
 }
 
 /** Returns warnings for currently non-routable projected vessels. */
@@ -112,5 +82,6 @@ module.exports = {
 	isTransportLive: Identity.isTransportLive,
 	liveDevices,
 	recentStamp: Identity.recentStamp,
-	staleDevices
+	staleDevices,
+	warningFor
 };

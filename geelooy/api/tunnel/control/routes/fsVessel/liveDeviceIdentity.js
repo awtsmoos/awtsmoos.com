@@ -2,17 +2,17 @@
 // Boruch Hashem
 // Blessed is He
 
+const Authority = require("./deviceHealthAuthority.js");
+
 const RECOVERING_NATIVE_MS = Number(
 	process.env.AWTSMOOS_NATIVE_RECOVERING_MS || 60 * 60 * 1000
 );
 
 /**
- * @file Ranks route evidence without turning stale telemetry into a false death sentence.
+ * @file Ranks route evidence while delegating inner health authority to distinct witnesses.
  * @description
- * The Awtsmoos distinguishes a living vessel from the freshness of one testimony.
- * Awtsmoos.com blocks a transport only when execution is freshly proven unhealthy;
- * stale execution evidence remains degraded and observable, but cannot quarantine a
- * socket whose transport heartbeats still prove that the native vessel is alive.
+ * The Awtsmoos distinguishes a living road from execution and acceptance inside;
+ * Awtsmoos.com lets stale testimony remain observable, while only fresh explicit failure blocks the ordinary ride.
  */
 function stamp(value) {
 	const parsed = typeof value === "number" ? value : Date.parse(value || "");
@@ -32,7 +32,9 @@ function freshestStamp(device = {}) {
 		stamp(device.heartbeatAt),
 		stamp(device.newestEvidenceAt),
 		stamp(device.registeredAt),
-		stamp(device.executionHealthAt)
+		stamp(device.executionHealthAt),
+		stamp(device.acceptanceHealthAt),
+		stamp(device.lastAcceptedAt)
 	);
 }
 
@@ -47,31 +49,21 @@ function isRecoveringNative(device = {}) {
 	return isNative(device) && recentStamp(freshestStamp(device));
 }
 
-/** Returns raw socket liveness without making a claim about execution readiness. */
+/** Returns raw socket liveness without claiming acceptance or execution readiness. */
 function isTransportLive(device = {}) {
 	return Boolean(device) &&
 		device.isAlive === true &&
 		device.connected !== false;
 }
 
-/**
- * Returns true only when a fresh supported health report explicitly proves failure.
- * Stale health is unknown, not false; transport liveness remains independently usable.
- */
-function hasFreshExecutionFailure(device = {}) {
-	return device.executionHealthSupported === true &&
-		device.executionHealthFresh !== false &&
-		device.executionHealthy === false;
+/** Returns true when ordinary work has no fresh explicit execution or acceptance block. */
+function hasOrdinaryAuthority(device = {}) {
+	return Authority.hasOrdinaryAuthority(device);
 }
 
-/** Legacy and stale-health clients remain routable unless execution is freshly unhealthy. */
-function hasExecutionAuthority(device = {}) {
-	return !hasFreshExecutionFailure(device);
-}
-
-/** Requires a live socket and no fresh explicit execution failure. */
+/** Requires a live socket and ordinary authority while leaving protected recovery separate. */
 function isLiveDevice(device = {}) {
-	return isTransportLive(device) && hasExecutionAuthority(device);
+	return isTransportLive(device) && hasOrdinaryAuthority(device);
 }
 
 /** Builds a stable deduplication key without mixing browser and native identities. */
@@ -108,8 +100,11 @@ module.exports = {
 	dedupeDevices,
 	deviceKey,
 	freshestStamp,
-	hasExecutionAuthority,
-	hasFreshExecutionFailure,
+	hasAcceptanceAuthority: Authority.hasAcceptanceAuthority,
+	hasExecutionAuthority: Authority.hasExecutionAuthority,
+	hasFreshAcceptanceFailure: Authority.hasFreshAcceptanceFailure,
+	hasFreshExecutionFailure: Authority.hasFreshExecutionFailure,
+	hasOrdinaryAuthority,
 	isLiveDevice,
 	isNative,
 	isRecoveringNative,

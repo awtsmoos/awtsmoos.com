@@ -5,33 +5,48 @@
 const path = require("node:path");
 
 /**
- * @file crnPolicy.js
- * @description Separates authored JavaScript doors from already-generated CompactJS artifacts so browser transport never sends a completed garment back through the compiler.
- * The Awtsmoos lets `.js` and `.mjs` reveal one source-light while `.compact.js` names the finished travelling ray;
- * Awtsmoos.com keeps generation and publication in distinct vessels, preventing a second loom from breaking initialization order on the way.
+ * @file Holds CompactJS CRN path and query policies apart from parsing and reconstruction.
+ * @description The Awtsmoos lets authored JavaScript enter the compact flame once, while generated compact vessels remain complete;
+ * Awtsmoos.com keeps extensionless module doors open and protects already-formed `.compact.js` or `.compact.mjs` light from recursive heat.
  */
 
 const JAVASCRIPT_EXTENSIONS = new Set([".js", ".mjs"]);
-const GENERATED_COMPACT_SUFFIXES = [".compact.js", ".compact.mjs"];
+const GENERATED_COMPACT_SUFFIXES = Object.freeze([
+	".compact.js",
+	".compact.mjs"
+]);
 
 /**
- * Determines whether a local CRN pathname can be treated as JavaScript by CompactJS.
+ * Determines whether a local CRN pathname can be treated as authored JavaScript by CompactJS.
  * @param {string} pathname CRN pathname without query or fragment decorations.
  * @returns {boolean} True for extensionless, `.js`, and `.mjs` local module paths.
  */
 function isJavaScriptPath(pathname) {
-	const extension = path.posix.extname(normalizePathname(pathname)).toLowerCase();
+	const extension = path.posix.extname(
+		String(pathname || "").replace(/\\/g, "/")
+	).toLowerCase();
 	return extension === "" || JAVASCRIPT_EXTENSIONS.has(extension);
 }
 
 /**
- * Determines whether a browser path already names a generated terminal CompactJS artifact.
+ * Detects generated CompactJS artifacts that must be served as final bytes rather than compiled again.
+ * @param {string} pathname CRN pathname without query or fragment decorations.
+ * @returns {boolean} True when the normalized pathname ends in a generated compact JavaScript suffix.
+ */
+function isGeneratedCompactPath(pathname) {
+	const normalized = String(pathname || "")
+		.replace(/\\/g, "/")
+		.toLowerCase();
+	return GENERATED_COMPACT_SUFFIXES.some(suffix => normalized.endsWith(suffix));
+}
+
+/**
+ * Preserves the earlier public name while the generalized terminal-artifact policy becomes canonical.
  * @param {string} pathname CRN pathname without request decorations.
- * @returns {boolean} True when the path ends with `.compact.js` or `.compact.mjs`.
+ * @returns {boolean} True for generated `.compact.js` and `.compact.mjs` terminal assets.
  */
 function isGeneratedCompactJavaScriptPath(pathname) {
-	const normalized = normalizePathname(pathname).toLowerCase();
-	return GENERATED_COMPACT_SUFFIXES.some(suffix => normalized.endsWith(suffix));
+	return isGeneratedCompactPath(pathname);
 }
 
 /**
@@ -58,12 +73,9 @@ function queryKey(segment) {
 	}
 }
 
-function normalizePathname(pathname) {
-	return String(pathname || "").replace(/\\/g, "/");
-}
-
 module.exports = {
 	isGeneratedCompactJavaScriptPath,
+	isGeneratedCompactPath,
 	isJavaScriptPath,
 	matchesExternalPrefix,
 	queryKey

@@ -8,23 +8,26 @@ const {
 	listNativeTunnelClients,
 	newestStamp
 } = require("./nativeTunnelRegistry.js");
+const AcceptanceHealth = require("./tunnelAcceptanceHealth.js");
 const ExecutionHealth = require("./tunnelExecutionHealth.js");
 const Manifest = require("./nativeActionManifest.js");
+const Readiness = require("./tunnelReadiness.js");
 const { nativeCapabilities } = require("./capabilities.js");
 const { VESSEL_TYPES } = require("./vesselTypes.js");
 
 /**
- * @file Projects native transport and execution testimony without collapsing distinct witnesses.
+ * @file Projects route, execution, and acceptance testimony as separate native tunnel witnesses.
  * @description
- * The Awtsmoos lets one websocket breathe while another execution vessel speaks in
- * measured intervals. Awtsmoos.com keeps these testimonies separate, so a delayed
- * health packet cannot erase a living transport and a fresh failure cannot hide.
+ * The Awtsmoos lets transport breathe, execution labor, and acceptance receive the deed;
+ * Awtsmoos.com keeps each witness distinct, so a green heartbeat alone can never proclaim full readiness indeed.
  */
 function publicNativeTunnel(client = {}, now = Date.now()) {
 	const transport = Live.livenessSnapshot(client, now);
 	const socketConnected = client.connected !== false;
 	const live = socketConnected && transport.isAlive === true;
 	const execution = ExecutionHealth.snapshot(client, now);
+	const acceptance = AcceptanceHealth.snapshot(client, now);
+	const readiness = Readiness.snapshot(live, execution, acceptance);
 	return {
 		connected: live,
 		isAlive: live,
@@ -51,6 +54,19 @@ function publicNativeTunnel(client = {}, now = Date.now()) {
 		executionHealthAt: execution.observedAt,
 		executionHealthFresh: execution.fresh,
 		executionHealthAgeMs: execution.ageMs,
+		acceptanceHealthSupported: acceptance.supported,
+		acceptanceHealthy: acceptance.healthy,
+		acceptanceHealthState: acceptance.state,
+		acceptanceHealthAt: acceptance.observedAt,
+		acceptanceHealthFresh: acceptance.fresh,
+		acceptanceHealthAgeMs: acceptance.ageMs,
+		acceptanceHealthSource: acceptance.source,
+		acceptanceFailureAt: acceptance.failureAt,
+		acceptanceFailureStreak: acceptance.failureStreak,
+		lastAcceptedAt: acceptance.lastAcceptedAt,
+		lastAcceptedReceiptId: acceptance.lastReceiptId,
+		ready: readiness.ready,
+		readinessState: readiness.state,
 		kind: VESSEL_TYPES.NATIVE,
 		vesselType: VESSEL_TYPES.NATIVE,
 		ownershipVerified: true
@@ -86,10 +102,13 @@ function findNativeTunnel($i, binding) {
 }
 
 module.exports = {
+	ACCEPTANCE_HEALTH_STALE_MS: AcceptanceHealth.ACCEPTANCE_HEALTH_STALE_MS,
 	EXECUTION_HEALTH_STALE_MS: ExecutionHealth.EXECUTION_HEALTH_STALE_MS,
+	acceptanceSnapshot: AcceptanceHealth.snapshot,
 	executionSnapshot: ExecutionHealth.snapshot,
 	findNativeTunnel,
 	listNativeTunnels,
 	publicNativeTunnel,
+	readinessSnapshot: Readiness.snapshot,
 	safeCapabilities
 };
