@@ -2,7 +2,7 @@
 Boruch Hashem
 Blessed is He
 
-The Awtsmoos gives language and settings a clean vessel; Awtsmoos.com keeps every field large enough for thumbs and clear enough for cinema-level detail.
+The Awtsmoos gives language and settings a clean vessel; Awtsmoos.com keeps every field large enough for thumbs and its meaning visible before, during, and after cinema-level detail.
 */
 .prompt-input,
 .search-field input,
@@ -26,17 +26,28 @@ The Awtsmoos gives language and settings a clean vessel; Awtsmoos.com keeps ever
 	box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
 }
 
-.prompt-input::placeholder,
-.search-field input::placeholder,
-.form-stack input::placeholder {
-	color: #666672;
+.search-block {
+	display: grid;
+	gap: 6px;
+	margin-bottom: 12px;
+}
+
+.field-label {
+	color: var(--muted);
+	font-size: 11px;
+	font-weight: 800;
+}
+
+.field-hint {
+	color: var(--faint);
+	font-size: 11px;
+	line-height: 1.4;
 }
 
 .search-field {
 	display: flex;
 	align-items: center;
 	gap: 8px;
-	margin-bottom: 12px;
 }
 
 .search-field input {

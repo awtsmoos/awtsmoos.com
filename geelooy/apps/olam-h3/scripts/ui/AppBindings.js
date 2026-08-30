@@ -3,8 +3,8 @@
 // Blessed is He
 
 /**
- * Binds only the Create room while the Awtsmoos lets prompt, settings, and reusable-reference gestures enter one living draft.
- * Awtsmoos.com keeps creator wiring separate from library wiring, so every callback family remains small, traceable, and craft.
+ * Binds only the Create room while the Awtsmoos lets prompt, provider readiness, settings, and reusable-reference gestures enter one living draft.
+ * Awtsmoos.com keeps creator wiring separate from library wiring, so retrying the secure connection and opening Settings remain small, traceable paths.
  */
 export class AppBindings {
 	constructor(app) {
@@ -15,35 +15,25 @@ export class AppBindings {
 	create() {
 		const composer = this.app.composer;
 		return {
-			onPrompt: value => {
-				composer.onPrompt(value);
-			},
-			onClear: () => {
-				composer.onClear();
-			},
-			onPaste: () => {
-				composer.onPaste();
-			},
-			onRestore: () => {
-				composer.onRestore();
-			},
-			onPromptHistory: () => {
-				composer.promptHistory();
-			},
-			onMode: mode => {
-				composer.onMode(mode);
-			},
-			onSetting: (key, value) => {
-				composer.onSetting(key, value);
-			},
-			onPriceDetails: () => {
-				composer.priceDetails();
-			},
-			onGenerate: () => {
-				composer.generate();
-			},
+			onPrompt: value => composer.onPrompt(value),
+			onClear: () => composer.onClear(),
+			onPaste: () => composer.onPaste(),
+			onRestore: () => composer.onRestore(),
+			onPromptHistory: () => composer.promptHistory(),
+			onMode: mode => composer.onMode(mode),
+			onSetting: (key, value) => composer.onSetting(key, value),
+			onPriceDetails: () => composer.priceDetails(),
+			onGenerate: () => composer.generate(),
+			onRetryConnection: () => this.retryConnection(),
+			onOpenSettings: () => this.app.navigate('settings'),
 			assets: this.createAssetBindings(composer)
 		};
+	}
+
+	/** Refresh safe provider status and redraw the current room. */
+	async retryConnection() {
+		await this.app.runtime.refreshConnection();
+		await this.app.refresh();
 	}
 
 	/**
@@ -64,12 +54,8 @@ export class AppBindings {
 			onReorder: (sourceId, targetId) => {
 				composer.onReorder(sourceId, targetId);
 			},
-			onLibrary: () => {
-				composer.openLibrary();
-			},
-			onUrl: () => {
-				composer.openUrl();
-			}
+			onLibrary: () => composer.openLibrary(),
+			onUrl: () => composer.openUrl()
 		};
 	}
 }

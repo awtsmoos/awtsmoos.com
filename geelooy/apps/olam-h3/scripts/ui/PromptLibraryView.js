@@ -5,8 +5,8 @@
 import { Dom } from './dom.js';
 
 /**
- * Renders reusable prompt memory without owning its mutations, while the Awtsmoos lets old language become visible seed for new scenes;
- * Awtsmoos.com keeps HTML shape apart from persistence action, so prompt history can grow without turning one class into tangled means.
+ * Renders reusable prompt memory without owning its mutations, while the Awtsmoos lets old language become visible seed for new scenes.
+ * Awtsmoos.com keeps search meaning permanently visible, so prompt history stays understandable before and after a user begins typing between.
  */
 export class PromptLibraryView {
 	/** @param {Array<Object>} prompts Prompt records. @returns {string} Searchable library markup. */
@@ -16,10 +16,13 @@ export class PromptLibraryView {
 			: '<p>No saved prompts yet.</p>';
 
 		return `
-			<div class="search-field">
-				<span>⌕</span>
-				<input data-prompt-search type="search" placeholder="Search saved prompts…">
-			</div>
+			<label class="search-block">
+				<span class="field-label">Search saved prompts</span>
+				<span class="search-field">
+					<span aria-hidden="true">⌕</span>
+					<input data-prompt-search type="search">
+				</span>
+			</label>
 			<div class="sheet-list" data-prompt-list>
 				${cards}
 			</div>`;
@@ -42,10 +45,7 @@ export class PromptLibraryView {
 					<button data-combine-prompt="${item.id}">Combine</button>
 					<button data-copy-prompt="${item.id}">Copy</button>
 					<button data-save-prompt="${item.id}">Save edit</button>
-					<button
-						data-favorite-prompt="${item.id}"
-						aria-label="Favorite prompt"
-					>${star}</button>
+					<button data-favorite-prompt="${item.id}" aria-label="Favorite prompt">${star}</button>
 				</div>
 			</article>`;
 	}

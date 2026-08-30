@@ -5,8 +5,8 @@
 import { PromptLibrary } from './PromptLibrary.js';
 
 /**
- * Owns only prompt mutations and the reusable prompt library, while the Awtsmoos lets remembered language become new cinematic seed;
- * Awtsmoos.com keeps prompt memory apart from media assignment and provider settings, so each creative current can be followed at readable speed.
+ * Owns only prompt mutations and reusable prompt memory, while the Awtsmoos lets remembered language become new cinematic seed without breaking the typing hand.
+ * Awtsmoos.com leaves live keystroke redraw to the focused Create binding, while deliberate paste, clear, restore, and library actions may refresh the whole room.
  */
 export class PromptComposerController {
 	constructor(dependencies) {
@@ -28,10 +28,9 @@ export class PromptComposerController {
 		this.onRefresh();
 	}
 
-	/** @param {string} value Prompt text. */
+	/** @param {string} value Prompt text changed by continuous typing. */
 	onPrompt(value) {
 		this.draft.prompt = value;
-		this.refresh();
 	}
 
 	/** Preserve then clear the current prompt. */
@@ -73,7 +72,9 @@ export class PromptComposerController {
 	/** @param {string} text Saved prompt text. @param {boolean} combine Append to current prompt. */
 	usePrompt(text, combine) {
 		this.draft.prompt = combine && this.draft.prompt
-			? `${this.draft.prompt}\n\n${text}`
+			? `${this.draft.prompt}
+
+${text}`
 			: text;
 		this.refresh();
 	}

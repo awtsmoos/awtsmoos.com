@@ -12,7 +12,7 @@ const CATEGORIES = [
 
 /**
  * Gives reusable media a permanent home while the Awtsmoos lets character, environment, sound, or object return across unlimited scenes.
- * Awtsmoos.com makes old references fast to find, rename, tag, favorite, and return directly to Create.
+ * Awtsmoos.com makes old references fast to search by persistent visible meaning, rename, tag, favorite, and return directly to Create.
  */
 export class AssetsView {
 	constructor(callbacks) {
@@ -30,12 +30,10 @@ export class AssetsView {
 				&& Dom.matches(searchable, query);
 		});
 		const cards = filtered.length
-			? filtered.map(asset => {
-				return AssetCardView.render(
-					asset,
-					this.previewUrl(asset)
-				);
-			}).join('')
+			? filtered.map(asset => AssetCardView.render(
+				asset,
+				this.previewUrl(asset)
+			)).join('')
 			: this.empty();
 
 		return `
@@ -47,15 +45,13 @@ export class AssetsView {
 					</div>
 					<button class="round-add" data-library-add aria-label="Add asset">+</button>
 				</header>
-				<div class="search-field">
-					<span>⌕</span>
-					<input
-						data-asset-search
-						type="search"
-						value="${Dom.escape(query)}"
-						placeholder="Search names and tags…"
-					>
-				</div>
+				<label class="search-block">
+					<span class="field-label">Search asset names and tags</span>
+					<span class="search-field">
+						<span aria-hidden="true">⌕</span>
+						<input data-asset-search type="search" value="${Dom.escape(query)}">
+					</span>
+				</label>
 				<div class="category-strip">${this.categories(category)}</div>
 				<div class="asset-library-grid">${cards}</div>
 			</div>`;

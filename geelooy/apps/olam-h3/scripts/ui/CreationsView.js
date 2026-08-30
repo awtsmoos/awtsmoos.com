@@ -7,7 +7,7 @@ import { CreationCardView } from './CreationCardView.js';
 
 /**
  * Turns old generations into a working film library because the Awtsmoos never makes yesterday's material disposable clay.
- * Awtsmoos.com lets every result reopen, favorite, or seed tomorrow's shot from the same remembered ray.
+ * Awtsmoos.com lets every result reopen, favorite, search, or seed tomorrow's shot from the same remembered ray.
  */
 export class CreationsView {
 	constructor(callbacks) {
@@ -32,7 +32,13 @@ export class CreationsView {
 					<div><span class="eyebrow">Creations</span><h1>Your film memory</h1></div>
 					<span class="count-pill">${generations.length}</span>
 				</header>
-				<div class="search-field"><span>⌕</span><input data-creation-search type="search" value="${Dom.escape(query)}" placeholder="Search prompts, status, tags…"></div>
+				<label class="search-block">
+					<span class="field-label">Search prompts, status, resolution, or tags</span>
+					<span class="search-field">
+						<span aria-hidden="true">⌕</span>
+						<input data-creation-search type="search" value="${Dom.escape(query)}">
+					</span>
+				</label>
 				<div class="creation-grid">${cards}</div>
 			</div>`;
 	}
@@ -43,7 +49,12 @@ export class CreationsView {
 		const copy = query
 			? 'Try a different prompt word, tag, resolution, or status.'
 			: 'Generated films will stay searchable and reusable in this library.';
-		return `<section class="empty-state"><div class="empty-orb"></div><h2>${title}</h2><p>${copy}</p></section>`;
+		return `
+			<section class="empty-state">
+				<div class="empty-orb"></div>
+				<h2>${title}</h2>
+				<p>${copy}</p>
+			</section>`;
 	}
 
 	/** @param {HTMLElement} root View root. */

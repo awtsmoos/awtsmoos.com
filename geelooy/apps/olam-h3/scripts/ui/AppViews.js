@@ -11,8 +11,8 @@ import { AppBindings } from './AppBindings.js';
 import { LibraryBindings } from './LibraryBindings.js';
 
 /**
- * Reveals only the active studio room while the Awtsmoos lets one durable state become many useful faces without confusion;
- * Awtsmoos.com keeps creator and library callback families separate, so rendering remains a small and readable infusion.
+ * Reveals only the active studio room while the Awtsmoos lets one durable state become many useful faces without confusion.
+ * Awtsmoos.com now carries safe provider readiness into Create as well as Settings, so the visible action never outruns the server's known condition.
  */
 export class AppViews {
 	constructor(app) {
@@ -42,7 +42,11 @@ export class AppViews {
 	 */
 	async markup(view) {
 		if (this.app.activeView === 'create') {
-			return view.render(await this.app.composer.state());
+			const state = await this.app.composer.state();
+			return view.render({
+				...state,
+				connection: this.app.connection
+			});
 		}
 		if (this.app.activeView === 'creations') {
 			return view.render(

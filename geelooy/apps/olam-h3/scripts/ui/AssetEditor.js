@@ -5,8 +5,8 @@
 import { Dom } from './dom.js';
 
 /**
- * Reveals rename, category, and tag edits in one focused sheet while the Awtsmoos lets reusable material gain clearer human memory over time;
- * Awtsmoos.com keeps editing separate from deletion and reuse, so the permanent asset library remains modular in purpose and rhyme.
+ * Reveals rename, category, and tag edits in one focused sheet while the Awtsmoos lets reusable material gain clearer human memory over time.
+ * Awtsmoos.com keeps examples visible beside fields instead of hiding meaning in placeholders that disappear as soon as editing begins to rhyme.
  */
 export class AssetEditor {
 	constructor(repositories, sheets, onRefresh) {
@@ -23,17 +23,12 @@ export class AssetEditor {
 		}
 		const body = `
 			<div class="form-stack">
-				<label>
-					Name
-					<input data-edit-name value="${Dom.escape(asset.name)}">
-				</label>
-				<label>
-					Category
-					<input data-edit-category value="${Dom.escape(asset.category || '')}">
-				</label>
+				<label>Name<input data-edit-name value="${Dom.escape(asset.name)}"></label>
+				<label>Category<input data-edit-category value="${Dom.escape(asset.category || '')}"></label>
 				<label>
 					Tags
-					<input data-edit-tags value="${Dom.escape((asset.tags || []).join(', '))}" placeholder="character, hero, night">
+					<input data-edit-tags value="${Dom.escape((asset.tags || []).join(', '))}">
+					<small class="field-hint">Comma-separated, for example: character, hero, night</small>
 				</label>
 				<button class="primary-button" data-save-asset>Save</button>
 			</div>`;

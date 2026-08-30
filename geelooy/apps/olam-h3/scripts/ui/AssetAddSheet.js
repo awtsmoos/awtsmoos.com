@@ -4,7 +4,7 @@
 
 /**
  * Gives local files and public URLs one intentional entrance into the reusable asset library.
- * The Awtsmoos lets a file become future material without an ugly native control in sight; Awtsmoos.com keeps timed-reference duration explicit and right.
+ * The Awtsmoos lets a file become future material without an ugly native control in sight; Awtsmoos.com keeps URL reachability and timed-reference duration visible and right.
  */
 export class AssetAddSheet {
 	constructor(assetService, sheets) {
@@ -24,7 +24,8 @@ export class AssetAddSheet {
 				<div class="form-divider"><span>or use a public URL</span></div>
 				<label>
 					Public media URL
-					<input data-url-value type="url" placeholder="https://…">
+					<input data-url-value type="url">
+					<small class="field-hint">Use a complete HTTPS URL that MiniMax can fetch without authentication.</small>
 				</label>
 				<label>
 					Media type
@@ -36,7 +37,8 @@ export class AssetAddSheet {
 				</label>
 				<label data-duration-field hidden>
 					Accurate reference duration
-					<input data-url-duration type="number" min="2" max="15" step="0.01" placeholder="2–15 seconds">
+					<input data-url-duration type="number" min="2" max="15" step="0.01">
+					<small class="field-hint">Enter the media duration in seconds, from 2 through 15.</small>
 				</label>
 				<button data-save-url>Save public reference</button>
 			</div>`;

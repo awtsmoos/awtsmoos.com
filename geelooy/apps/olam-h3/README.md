@@ -3,7 +3,7 @@ Boruch Hashem
 Blessed is He
 
 The Awtsmoos lets a future maintainer enter Olam H3 without guessing which secret, endpoint, database, test, or release path keeps the studio alive;
-Awtsmoos.com records the architecture in a compact doorway, while deeper verification rests in its own vessel so every file stays small and clear in the hive.
+Awtsmoos.com records the architecture in a compact doorway, while deeper verification rests in smaller vessels so every file stays clear in the hive.
 -->
 
 # Olam H3 Studio
@@ -14,7 +14,9 @@ Olam H3 Studio is the mobile-first MiniMax H3 AI video workspace at `/apps/olam-
 
 The browser never receives a MiniMax API key. The same Awtsmoos.com server exposes the narrow proxy under `/api/olam-h3/` and reads `MINIMAX_API_KEY` from the server process environment.
 
-Settings exposes only `configured: true|false`; it never returns the secret. The local implementation environment reported `configured: false`, so no fake paid MiniMax success was substituted for a missing credential.
+Settings exposes only `configured: true|false`; it never returns the secret. Create also consumes that safe status: missing credential, offline state, or status-check failure disables Generate before submission and explains the condition without exposing secret material.
+
+The local and production implementation environments used during verification reported `configured: false`, so no fake paid MiniMax success was substituted for a missing credential.
 
 ## MiniMax H3 V2 endpoints
 
@@ -38,7 +40,7 @@ Successful H3 V2 queries expose the result through `task.content.url`. Olam pers
 - up to 9 reference images, 3 reference videos, and 3 reference audio files
 - timed reference clips constrained to 2–15 seconds
 
-Frame control and reference mode are intentionally separated. The UI disables generation until the selected mode has the material it requires.
+Frame control and reference mode are intentionally separated. The UI disables generation until both the selected creative mode and secure provider state are ready.
 
 ## Pricing configuration
 
@@ -83,7 +85,7 @@ Metadata JSON export includes generations, prompts, preferences, pricing metadat
 
 ## Verification and operations
 
-Detailed local release evidence lives in [`docs/release-verification.md`](./docs/release-verification.md).
+First-release evidence lives in [`docs/release-verification.md`](./docs/release-verification.md). Provider-readiness, no-rerender prompt typing, and deterministic browser evidence live in [`docs/provider-readiness-verification.md`](./docs/provider-readiness-verification.md).
 
 Use the repository's normal Awtsmoos.com server process. No second backend exists for Olam H3 Studio. A typical local route is `http://127.0.0.1:8080/apps/olam-h3/`; the development port may differ.
 

@@ -5,8 +5,8 @@
 import { CachePromptController } from './CachePromptController.js';
 
 /**
- * Owns browser lifecycle, connection truth, storage truth, and queue-change reactions outside the visual shell.
- * The Awtsmoos lets online state and completed media move through time; Awtsmoos.com keeps those currents separate from room rendering rhyme.
+ * Owns browser lifecycle, safe provider truth, storage truth, and queue-change reactions outside the visual shell.
+ * The Awtsmoos lets network state change without erasing local memory; Awtsmoos.com refreshes provider readiness exactly when it can become useful again.
  */
 export class AppRuntime {
 	constructor(app) {
@@ -24,31 +24,53 @@ export class AppRuntime {
 
 	/** Bind browser history and connectivity feedback exactly once. */
 	bindWindowEvents() {
-		window.addEventListener('hashchange', () => {
+		window.addEventListener('hashchange', async () => {
 			this.app.activeView = location.hash.slice(1) || 'create';
-			this.app.refresh();
+			if (this.app.activeView === 'create') {
+				await this.refreshConnection();
+			}
+			await this.app.refresh();
 		});
-		window.addEventListener('online', () => {
+		window.addEventListener('online', async () => {
 			this.app.sheets.toast(
-				'Back online. Active generations will keep checking.',
+				'Back online. Checking MiniMax readiness again.',
 				'success'
 			);
+			await this.refreshConnection();
+			await this.app.refresh();
 		});
-		window.addEventListener('offline', () => {
+		window.addEventListener('offline', async () => {
+			this.app.connection = {
+				...this.app.connection,
+				offline: true
+			};
 			this.app.sheets.toast(
 				'You are offline. Saved drafts and history remain available.',
 				'error'
 			);
+			await this.app.refresh();
 		});
 	}
 
 	/** Refresh safe same-origin proxy configuration state. */
 	async refreshConnection() {
+		if (!navigator.onLine) {
+			this.app.connection = {
+				...this.app.connection,
+				offline: true
+			};
+			return;
+		}
+
 		try {
-			this.app.connection = await this.app.proxy.status();
+			this.app.connection = {
+				...await this.app.proxy.status(),
+				offline: false
+			};
 		} catch (error) {
 			this.app.connection = {
 				configured: false,
+				offline: false,
 				error: error.message
 			};
 		}
@@ -63,10 +85,7 @@ export class AppRuntime {
 		}
 	}
 
-	/**
-	 * @param {Object} generation Generation record changed by queue activity.
-	 * @returns {Promise<void>} Resolves after cache policy and redraw handling.
-	 */
+	/** @param {Object} generation Queue record changed by activity. */
 	async onQueueChange(generation) {
 		if (generation?.status === 'succeeded') {
 			await this.refreshStorage();

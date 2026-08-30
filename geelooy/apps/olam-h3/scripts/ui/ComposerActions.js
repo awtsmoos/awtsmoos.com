@@ -4,12 +4,12 @@
 
 import { ComposerReferenceActions } from './ComposerReferenceActions.js';
 import { PricingService } from '../domain/PricingService.js';
-import { DraftReadiness } from '../domain/DraftReadiness.js';
+import { GenerationReadiness } from '../domain/GenerationReadiness.js';
 import { Dom } from './dom.js';
 
 /**
- * Owns the final creator actions after prompt, settings, and reference behavior have each received their own smaller vessel.
- * The Awtsmoos lets one draft become a paid request only after readiness and cost are revealed; Awtsmoos.com keeps submission guarded and healed.
+ * Owns the final creator actions after prompt, settings, reference behavior, and provider readiness each receive their own smaller vessel.
+ * The Awtsmoos lets one draft become a paid request only after creative and server truth agree; Awtsmoos.com blocks doomed queue records before they can be born.
  */
 export class ComposerActions extends ComposerReferenceActions {
 	/** Open centralized pricing calculation detail. */
@@ -33,16 +33,25 @@ export class ComposerActions extends ComposerReferenceActions {
 		this.sheets.open('Estimated generation cost', body);
 	}
 
-	/** Submit the living draft to the durable generation queue only when structurally ready. */
+	/** Submit only when both the creative draft and secure MiniMax connection are ready. */
 	async generate() {
 		const state = await this.state();
-		const readiness = DraftReadiness.evaluate(
+		const readiness = GenerationReadiness.evaluate(
 			this.draft,
-			state.assets
+			state.assets,
+			this.connectionState?.() || {}
 		);
-		if (!readiness.ready) {
+
+		if (!readiness.draft.ready) {
 			this.sheets.toast(
-				readiness.message,
+				readiness.draft.message,
+				'error'
+			);
+			return;
+		}
+		if (!readiness.provider.ready) {
+			this.sheets.toast(
+				readiness.provider.message,
 				'error'
 			);
 			return;

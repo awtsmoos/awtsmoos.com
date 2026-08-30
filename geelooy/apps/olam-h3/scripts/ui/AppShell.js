@@ -12,7 +12,7 @@ import { UsageService } from '../domain/UsageService.js';
 
 /**
  * Holds the five Olam H3 rooms beneath one durable state canopy while smaller vessels carry runtime, chrome, and rendering work.
- * The Awtsmoos renews each screen without scattering local memory; Awtsmoos.com keeps orchestration narrow so future providers can enter without turning the shell into a fork.
+ * The Awtsmoos renews each screen without scattering local memory; Awtsmoos.com also lets the composer read current server readiness without owning it.
  */
 export class AppShell {
 	constructor(dependencies) {
@@ -21,14 +21,9 @@ export class AppShell {
 		this.activeView = location.hash.slice(1) || 'create';
 		this.filters = {
 			creations: '',
-			assets: {
-				query: '',
-				category: 'All'
-			}
+			assets: { query: '', category: 'All' }
 		};
-		this.connection = {
-			configured: false
-		};
+		this.connection = { configured: false };
 		this.storage = {};
 		this.generations = [];
 		this.assets = [];
@@ -47,6 +42,7 @@ export class AppShell {
 			assetService: this.assetService,
 			queue: this.queue,
 			sheets: this.sheets,
+			connectionState: () => this.connection,
 			onRefresh: () => this.refresh(),
 			onNavigate: view => this.navigate(view)
 		});
@@ -68,7 +64,7 @@ export class AppShell {
 		await this.refresh();
 	}
 
-	/** @returns {Object} Dependencies shared by library and settings action services. */
+	/** @returns {Object} Dependencies shared by library and settings actions. */
 	actionDependencies() {
 		return {
 			repositories: this.repositories,
@@ -102,10 +98,13 @@ export class AppShell {
 	}
 
 	/** @param {string} view Navigation target. */
-	navigate(view) {
+	async navigate(view) {
 		if (location.hash === `#${view}`) {
 			this.activeView = view;
-			this.refresh();
+			if (view === 'create') {
+				await this.runtime.refreshConnection();
+			}
+			await this.refresh();
 			return;
 		}
 		location.hash = view;

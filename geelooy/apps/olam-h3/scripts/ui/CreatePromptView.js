@@ -7,7 +7,7 @@ import { H3_CAPABILITIES } from '../config/h3.js';
 
 /**
  * Renders the creative intention and H3 source mode while the Awtsmoos lets language choose the first direction of motion.
- * Awtsmoos.com keeps prompt hierarchy and capability guidance in one focused vessel, leaving the parent view free to compose the whole studio ocean.
+ * Awtsmoos.com keeps prompt hierarchy and capability guidance visible outside the field, so meaning never depends on disappearing placeholder text.
  */
 export class CreatePromptView {
 	/** @param {Object} draft Draft. @param {string} previous Cleared prompt. @returns {string} Intro, prompt, and mode markup. */
@@ -38,14 +38,10 @@ export class CreatePromptView {
 						<span class="eyebrow">Prompt</span>
 						<h2>What should happen?</h2>
 					</div>
-					<span class="counter">${draft.prompt.length}/${H3_CAPABILITIES.promptMaxCharacters}</span>
+					<span class="counter" data-prompt-count>${draft.prompt.length}/${H3_CAPABILITIES.promptMaxCharacters}</span>
 				</div>
-				<textarea
-					class="prompt-input"
-					data-prompt
-					maxlength="${H3_CAPABILITIES.promptMaxCharacters}"
-					placeholder="Describe motion, camera, lighting, sound, performance, atmosphere…"
-				>${Dom.escape(draft.prompt)}</textarea>
+				<textarea class="prompt-input" data-prompt maxlength="${H3_CAPABILITIES.promptMaxCharacters}">${Dom.escape(draft.prompt)}</textarea>
+				<p class="mode-note">Describe motion, camera, lighting, sound, performance, and atmosphere. H3 requires non-empty prompt text in every mode.</p>
 				<div class="prompt-actions">
 					<button data-paste>Paste</button>
 					<button data-clear-prompt>Clear</button>
