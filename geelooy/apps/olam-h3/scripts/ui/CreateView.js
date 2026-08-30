@@ -2,18 +2,18 @@
 // Boruch Hashem
 // Blessed is He
 
-import { Dom } from './dom.js';
 import { H3_CAPABILITIES } from '../config/h3.js';
 import { GenerationReadiness } from '../domain/GenerationReadiness.js';
 import { CreateAssets } from './CreateAssets.js';
 import { CreateSettingsView } from './CreateSettingsView.js';
 import { CreatePromptView } from './CreatePromptView.js';
+import { CreatePromptTemplates } from './CreatePromptTemplates.js';
 import { CreateConnectionView } from './CreateConnectionView.js';
 import { CreateLiveReadiness } from './CreateLiveReadiness.js';
+import { CreateSubmissionView } from './CreateSubmissionView.js';
 
 /**
- * Makes creation the visual center while the Awtsmoos joins intention, reusable matter, provider truth, controls, readiness, and price into one mobile flow.
- * Awtsmoos.com reveals blocked infrastructure before submission and preserves uninterrupted prompt focus while every local creative vessel remains usable.
+ * Makes creation one readable mobile river while the Awtsmoos joins intention, references, controls, cost, and final action without overlapping layers; Awtsmoos.com keeps templates and provider truth close while every section remains independently reusable.
  */
 export class CreateView {
 	constructor(callbacks) {
@@ -22,13 +22,9 @@ export class CreateView {
 		this.live = new CreateLiveReadiness(callbacks);
 	}
 
-	/** @param {Object} state Current creator state. @returns {string} View markup. */
+	/** @param {Object} state Current creator state. @returns {string} Create room markup. */
 	render(state) {
-		const readiness = GenerationReadiness.evaluate(
-			state.draft,
-			state.assets,
-			state.connection
-		);
+		const readiness = GenerationReadiness.evaluate(state.draft, state.assets, state.connection);
 		state.promptLimit = H3_CAPABILITIES.promptMaxCharacters;
 		this.state = state;
 
@@ -38,52 +34,42 @@ export class CreateView {
 				${CreateConnectionView.render(readiness.provider)}
 				${this.assets.render(state.draft, state.assets)}
 				${CreateSettingsView.render(state.draft)}
-				${this.cost(state.estimate, readiness.draft)}
-				<div class="generate-spacer"></div>
-				${this.generate(state.estimate, readiness.ready)}
+				${CreateSubmissionView.render(state.estimate, readiness)}
 			</div>`;
 	}
 
-	/** @param {Object} estimate Price estimate. @param {Object} draftState Draft readiness. @returns {string} */
-	cost(estimate, draftState) {
-		return `
-			<section class="cost-card">
-				<div>
-					<span>ESTIMATED COST</span>
-					<strong>${Dom.money(estimate.total)}</strong>
-					<small data-readiness-message>${Dom.escape(draftState.message)}</small>
-				</div>
-				<button data-price-details>Details</button>
-			</section>`;
-	}
-
-	/** @param {Object} estimate Price estimate. @param {boolean} ready Combined readiness. @returns {string} */
-	generate(estimate, ready) {
-		return `
-			<div class="sticky-generate">
-				<button class="generate-button" data-generate ${ready ? '' : 'disabled'}>
-					<span>Generate H3 video</span>
-					<strong>${Dom.money(estimate.total)}</strong>
-				</button>
-			</div>`;
-	}
-
-	/** @param {HTMLElement} root Render root. */
+	/** @param {HTMLElement} root Create root. */
 	bind(root) {
 		this.assets.bind(root);
 		this.live.bind(root, this.state);
 		this.bindButtons(root);
+		this.bindTemplates(root);
 		root.querySelectorAll('[data-mode]').forEach(button => {
 			button.addEventListener('click', () => this.callbacks.onMode(button.dataset.mode));
 		});
 		root.querySelectorAll('[data-setting]').forEach(select => {
-			select.addEventListener('change', () => {
-				this.callbacks.onSetting(select.dataset.setting, select.value);
+			select.addEventListener('change', () => this.callbacks.onSetting(select.dataset.setting, select.value));
+		});
+	}
+
+	/** @param {HTMLElement} root Create root. */
+	bindTemplates(root) {
+		root.querySelectorAll('[data-prompt-template]').forEach(button => {
+			button.addEventListener('click', () => {
+				const prompt = CreatePromptTemplates.prompt(button.dataset.promptTemplate);
+				const textarea = root.querySelector('[data-prompt]');
+				if (!prompt || !textarea) return;
+				textarea.value = prompt;
+				this.state.draft.prompt = prompt;
+				this.callbacks.onPrompt(prompt);
+				this.live.sync(root, this.state);
+				textarea.focus();
+				textarea.setSelectionRange(prompt.length, prompt.length);
 			});
 		});
 	}
 
-	/** @param {HTMLElement} root Render root. */
+	/** @param {HTMLElement} root Create root. */
 	bindButtons(root) {
 		root.querySelector('[data-clear-prompt]')?.addEventListener('click', () => this.callbacks.onClear());
 		root.querySelector('[data-paste]')?.addEventListener('click', () => this.callbacks.onPaste());

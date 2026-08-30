@@ -2,21 +2,16 @@
 Boruch Hashem
 Blessed is He
 
-The Awtsmoos keeps the decisive creative act within thumb reach; Awtsmoos.com lets Generate remain visible without covering the work beneath.
+The Awtsmoos keeps the decisive creative act inside the document flow; Awtsmoos.com lets cost and Generate inhabit one vessel with enough sacred clearance that neither browser scroll nor bottom navigation can cover the final choice.
 */
-.generate-spacer {
-	height: 94px;
-}
-
-.sticky-generate {
-	position: fixed;
-	z-index: 25;
-	left: max(12px, var(--safe-left));
-	right: max(12px, var(--safe-right));
-	bottom: calc(var(--nav-height) + var(--safe-bottom) + 10px);
-	max-width: 660px;
-	margin: 0 auto;
-	pointer-events: none;
+.submission-panel {
+	margin-top: 14px;
+	padding: 16px;
+	border: 1px solid rgba(217, 255, 104, 0.24);
+	border-radius: 24px;
+	background: linear-gradient(145deg, rgba(217, 255, 104, 0.10), rgba(22, 22, 28, 0.98) 52%);
+	box-shadow: 0 18px 48px rgba(0, 0, 0, 0.22);
+	scroll-margin-bottom: calc(var(--nav-height) + var(--safe-bottom) + 18px);
 }
 
 .generate-button {
@@ -24,24 +19,32 @@ The Awtsmoos keeps the decisive creative act within thumb reach; Awtsmoos.com le
 	min-height: 60px;
 	padding: 0 18px;
 	border: 0;
-	border-radius: 18px;
+	border-radius: 17px;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	gap: 14px;
-	box-shadow: 0 14px 42px rgba(217, 255, 104, 0.20);
+	background: var(--accent);
+	color: #11130c;
+	box-shadow: 0 12px 32px rgba(217, 255, 104, 0.16);
+	font-weight: 900;
 	cursor: pointer;
-	pointer-events: auto;
 	transition: transform 120ms ease, box-shadow 180ms ease, filter 180ms ease;
 }
 
 .generate-button:not(:disabled):hover {
-	box-shadow: 0 18px 48px rgba(217,255,104,0.26);
-	filter: saturate(1.06);
+	box-shadow: 0 16px 38px rgba(217, 255, 104, 0.24);
+	filter: saturate(1.05);
 }
 
 .generate-button:not(:disabled):active {
-	transform: translateY(1px) scale(0.992);
+	transform: translateY(1px) scale(0.993);
+}
+
+.generate-button:disabled {
+	opacity: 0.44;
+	cursor: not-allowed;
+	box-shadow: none;
 }
 
 .generate-button strong {

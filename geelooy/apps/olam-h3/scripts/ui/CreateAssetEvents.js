@@ -3,8 +3,8 @@
 // Blessed is He
 
 /**
- * Wires creator-media gestures while the Awtsmoos lets tap, replace, reorder, and drag all converge on the same durable draft truth.
- * Awtsmoos.com keeps event mechanics apart from card rendering, so phone controls stay dependable while desktop drag remains a graceful bonus.
+ * Wires only the media gestures that the active mode actually reveals, while the Awtsmoos lets a compact text vessel remain empty of dead controls.
+ * Awtsmoos.com keeps file, library, URL, replace, reorder, and drag paths independent so changing modes can remove markup without breaking the living studio.
  */
 export class CreateAssetEvents {
 	constructor(callbacks) {
@@ -16,9 +16,13 @@ export class CreateAssetEvents {
 	/** @param {HTMLElement} root Create view root. */
 	bind(root) {
 		const input = root.querySelector('[data-asset-file]');
-		this.bindAddButtons(root, input);
-		this.bindFileInput(input);
-		this.bindCardActions(root, input);
+
+		if (input) {
+			this.bindAddButtons(root, input);
+			this.bindFileInput(input);
+			this.bindCardActions(root, input);
+		}
+
 		this.bindDragOrdering(root);
 		root.querySelector('[data-pick-library]')?.addEventListener(
 			'click',

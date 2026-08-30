@@ -2,7 +2,7 @@
 Boruch Hashem
 Blessed is He
 
-The Awtsmoos lets measured spend remain honest local memory; Awtsmoos.com gives every total enough hierarchy to guide without pretending cloud billing authority.
+The Awtsmoos lets measured spend remain honest local memory; Awtsmoos.com gives every total enough hierarchy to guide without pretending cloud billing authority or colliding with the final creative action.
 */
 .metric-hero,
 .metric-card {
@@ -47,17 +47,15 @@ The Awtsmoos lets measured spend remain honest local memory; Awtsmoos.com gives 
 
 .cost-card {
 	display: flex;
-	align-items: center;
+	align-items: flex-start;
 	justify-content: space-between;
 	gap: 14px;
-	padding: 16px;
-	border-radius: var(--radius-lg);
-	background: linear-gradient(135deg, rgba(217, 255, 104, 0.15), rgba(25,25,30,0.98));
-	border: 1px solid rgba(217, 255, 104, 0.22);
+	padding: 0 0 14px;
 }
 
 .cost-card span,
-.cost-card strong {
+.cost-card strong,
+.cost-card small {
 	display: block;
 }
 
@@ -69,14 +67,23 @@ The Awtsmoos lets measured spend remain honest local memory; Awtsmoos.com gives 
 }
 
 .cost-card strong {
-	font-size: 27px;
+	margin-top: 3px;
+	font-size: 30px;
+	letter-spacing: -0.03em;
+}
+
+.cost-card small {
+	margin-top: 4px;
+	color: var(--muted);
+	line-height: 1.35;
 }
 
 .cost-card button {
-	min-height: 42px;
-	padding: 0 12px;
+	flex: 0 0 auto;
+	min-height: 40px;
+	padding: 0 11px;
 	border: 1px solid var(--line);
-	border-radius: 12px;
-	background: var(--surface-soft);
+	border-radius: 11px;
+	background: rgba(255, 255, 255, 0.045);
 	color: var(--text);
 }

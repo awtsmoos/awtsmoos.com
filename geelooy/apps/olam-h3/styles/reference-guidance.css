@@ -1,0 +1,62 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets image, movement, and sound become intelligible vessels instead of mysterious controls; Awtsmoos.com places reference wisdom beside the upload gesture so each chosen medium can reveal the right creative role.
+*/
+.reference-guide {
+	display: grid;
+	gap: 10px;
+	margin: 2px 0 12px;
+	padding: 12px;
+	border: 1px solid rgba(255, 255, 255, 0.07);
+	border-radius: 15px;
+	background: rgba(255, 255, 255, 0.025);
+}
+
+.compact-guide {
+	gap: 5px;
+	margin-bottom: 0;
+}
+
+.reference-guide > strong {
+	font-size: 12px;
+}
+
+.reference-guide p {
+	margin: 0;
+	color: var(--muted);
+	font-size: 11px;
+	line-height: 1.45;
+}
+
+.guide-list {
+	display: grid;
+	gap: 8px;
+}
+
+.guide-row {
+	display: grid;
+	grid-template-columns: 72px minmax(0, 1fr);
+	gap: 9px;
+	align-items: start;
+}
+
+.guide-row strong {
+	font-size: 10px;
+	color: var(--accent);
+}
+
+.references-guide-only {
+	padding-bottom: 14px;
+}
+
+.compact-empty {
+	min-height: 92px;
+}
+
+@media (max-width: 420px) {
+	.guide-row {
+		grid-template-columns: 64px minmax(0, 1fr);
+	}
+}
