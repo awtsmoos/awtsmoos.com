@@ -1,0 +1,75 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets a blocked external channel become visible without darkening the creative room; Awtsmoos.com turns provider absence into calm guidance before money can bloom.
+*/
+.provider-banner {
+	margin: 0 0 14px;
+	padding: 13px 14px;
+	border: 1px solid var(--line);
+	border-radius: var(--radius-lg);
+	background: var(--surface-soft);
+}
+
+.provider-banner.is-warning {
+	border-color: rgba(255, 207, 102, 0.34);
+	background: linear-gradient(135deg, rgba(255, 207, 102, 0.09), rgba(25, 25, 30, 0.96));
+}
+
+.provider-banner.is-error,
+.provider-banner.is-offline {
+	border-color: rgba(255, 118, 108, 0.34);
+	background: linear-gradient(135deg, rgba(255, 118, 108, 0.08), rgba(25, 25, 30, 0.96));
+}
+
+.provider-status-copy {
+	display: grid;
+	grid-template-columns: 10px minmax(0, 1fr);
+	align-items: start;
+	gap: 10px;
+}
+
+.provider-status-dot {
+	width: 9px;
+	height: 9px;
+	margin-top: 5px;
+	border-radius: 50%;
+	background: var(--warning);
+	box-shadow: 0 0 14px rgba(255, 207, 102, 0.28);
+}
+
+.is-error .provider-status-dot,
+.is-offline .provider-status-dot {
+	background: var(--danger);
+	box-shadow: 0 0 14px rgba(255, 118, 108, 0.24);
+}
+
+.provider-status-copy strong {
+	display: block;
+	font-size: 13px;
+}
+
+.provider-status-copy p {
+	margin: 3px 0 0;
+	color: var(--muted);
+	font-size: 12px;
+	line-height: 1.45;
+}
+
+.provider-status-actions {
+	display: flex;
+	gap: 7px;
+	margin-top: 10px;
+	padding-left: 20px;
+}
+
+.provider-status-actions button {
+	min-height: 38px;
+	padding: 0 11px;
+	border: 1px solid var(--line);
+	border-radius: 11px;
+	background: rgba(255, 255, 255, 0.04);
+	color: var(--text);
+	cursor: pointer;
+}

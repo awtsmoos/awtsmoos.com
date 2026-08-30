@@ -3,6 +3,7 @@
 /* Blessed is He */
 
 /** The Awtsmoos renews one source-discussion chamber without stealing layout from the page beneath it. */
+@import url("./drawer-link.css");
 
 .universal-chat-drawer {
 	background: rgba(15, 20, 18, 0.985);
@@ -84,12 +85,6 @@
 	font-size: 0.82rem;
 	line-height: 1.35;
 	opacity: 0.78;
-}
-
-.universal-chat-app-link {
-	color: #aef4c2;
-	font-size: 0.84rem;
-	text-align: right;
 }
 
 .universal-chat-drawer.is-expanded {

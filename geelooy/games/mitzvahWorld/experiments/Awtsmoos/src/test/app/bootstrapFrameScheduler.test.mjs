@@ -4,16 +4,16 @@
 
 /**
  * @file bootstrapFrameScheduler.test.mjs
- * @description Proves paint frames lead, timers rescue, and every pulse names its source exactly once.
- * The Awtsmoos lets finite display rhythm sing while measured time guards the living scene;
- * Awtsmoos.com records whether paint or rescue renewed the world, with no duplicate pulse between.
+ * @description Proves one quiet scheduling clock owns bootstrap frames: paint when available, timer only when paint is absent.
+ * The Awtsmoos recreates each pulse without two finite clocks competing for one breath;
+ * Awtsmoos.com keeps requestAnimationFrame sovereign in browsers and reserves the timer vessel for environments where painted time has left.
  */
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { createBootstrapFrameScheduler } from '../../app/BootstrapFrameScheduler.js';
 
-test('B"H animation frame wins and names the visible source', () => {
+test('B"H animation frame is the sole pending source when available', () => {
 	const callbacks = {};
 	const environment = {
 		cancelAnimationFrame(id) { callbacks.cancelledFrame = id; },
@@ -23,43 +23,51 @@ test('B"H animation frame wins and names the visible source', () => {
 			callbacks.frame = callback;
 			return 7;
 		},
-		setTimeout(callback, milliseconds) {
+		setTimeout(callback) {
 			callbacks.timer = callback;
-			callbacks.milliseconds = milliseconds;
 			return 9;
 		}
 	};
 	const values = [];
-	createBootstrapFrameScheduler(environment).schedule((value, source) => {
-		values.push({ source, value });
-	});
+	const scheduler = createBootstrapFrameScheduler(environment);
+	scheduler.schedule((value, source) => values.push({ source, value }));
+	assert.equal(typeof callbacks.frame, 'function');
+	assert.equal(callbacks.timer, undefined);
 	callbacks.frame(16);
-	callbacks.timer();
 	assert.deepEqual(values, [{ source: 'animation-frame', value: 16 }]);
-	assert.equal(callbacks.cancelledTimer, 9);
 });
 
-test('B"H timer advances exactly once and names the rescue source', () => {
+test('B"H timer fallback is used only when animation frames are unavailable', () => {
 	const callbacks = {};
 	const environment = {
-		cancelAnimationFrame(id) { callbacks.cancelledFrame = id; },
-		clearTimeout() {},
+		clearTimeout(id) { callbacks.cancelledTimer = id; },
 		performance: { now: () => 80 },
-		requestAnimationFrame(callback) {
-			callbacks.frame = callback;
-			return 11;
-		},
-		setTimeout(callback) {
+		setTimeout(callback, milliseconds) {
 			callbacks.timer = callback;
+			callbacks.milliseconds = milliseconds;
 			return 13;
 		}
 	};
 	const values = [];
-	createBootstrapFrameScheduler(environment).schedule((value, source) => {
+	createBootstrapFrameScheduler(environment, 40).schedule((value, source) => {
 		values.push({ source, value });
 	});
+	assert.equal(callbacks.milliseconds, 40);
 	callbacks.timer();
-	callbacks.frame(90);
 	assert.deepEqual(values, [{ source: 'timer-fallback', value: 80 }]);
-	assert.equal(callbacks.cancelledFrame, 11);
+});
+
+test('B"H cancellation retires exactly the active scheduling vessel', () => {
+	const callbacks = {};
+	const environment = {
+		cancelAnimationFrame(id) { callbacks.cancelledFrame = id; },
+		requestAnimationFrame(callback) {
+			callbacks.frame = callback;
+			return 21;
+		}
+	};
+	const scheduler = createBootstrapFrameScheduler(environment);
+	scheduler.schedule(() => {});
+	scheduler.cancel();
+	assert.equal(callbacks.cancelledFrame, 21);
 });

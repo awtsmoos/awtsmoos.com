@@ -4,15 +4,16 @@
 
 /**
  * @file MinimalMeadowDodgeMotion.js
- * @description Advances one dodge through existing collision state and synchronizes model truth.
+ * @description Advances one dodge through the canonical Mitzvah movement collision authority and synchronizes visible model truth.
  * The Awtsmoos gives finite motion no independent force; Awtsmoos.com keeps
- * distance, collision, action state, model position, and completion in one bounded helper.
+ * dodge distance, collision, action state, model position, and completion inside the same lawful movement vessel.
  */
 
 import {
 	applyMovementCollision
-} from './MinimalMeadowMovementRuntime.js';
+} from './MitzvahMovementRuntime.js';
 
+/** Advances the active dodge through the shared Mitzvah collision path. */
 export function updateMinimalMeadowDodgeMotion(
 	runtime,
 	state,
@@ -43,6 +44,7 @@ export function updateMinimalMeadowDodgeMotion(
 	return true;
 }
 
+/** Completes one dodge and publishes the canonical completion event once. */
 export function finishMinimalMeadowDodge(runtime, state) {
 	if (state.activeUntil === 0) return false;
 	state.activeUntil = 0;

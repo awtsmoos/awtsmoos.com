@@ -4,78 +4,43 @@
 
 /**
  * @file buildCompactRuntime.mjs
- * @description Rebuilds the canonical first-control MitzvahWorld CompactJS entry and its precompressed browser representations.
- * The Awtsmoos is beyond source and garment while every finite executable beginning must be renewed as one;
- * Awtsmoos.com carries identical light through identity, Brotli, and gzip so no browser receives an older sun.
+ * @description Preserves the historic MitzvahWorld build command while delegating every production CompactJS artifact to the complete deterministic builder.
+ * The Awtsmoos is one beyond first gate and distant chamber, while Awtsmoos.com refuses a build that renews only half the ray;
+ * first-control, presentation, world, optional, Brotli, gzip, and manifests therefore descend through one builder and can never drift apart another day.
  */
 
-import { createRequire } from 'node:module';
-import {
-	rename,
-	writeFile
-} from 'node:fs/promises';
+import { spawn } from 'node:child_process';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import {
-	publishCompactRuntimeRepresentations
-} from './CompactRuntimeRepresentations.mjs';
 
-const require = createRequire(import.meta.url);
-const {
-	compileCompactModule
-} = require('../../ayzarim/awtsmoosDynamicServer/compactJs/compiler.js');
 const repositoryRoot = fileURLToPath(new URL('../../', import.meta.url));
-const rootDir = path.join(repositoryRoot, 'geelooy');
-const entryFile = path.join(
-	rootDir,
-	'games/mitzvahWorld/experiments/Awtsmoos/src/MinimalMeadowCompactBootstrap.js'
-);
-const targetFile = path.join(
-	rootDir,
-	'games/mitzvahWorld/experiments/Awtsmoos/src/mitzvah-world.compact.js'
+const builderPath = path.join(
+	repositoryRoot,
+	'geelooy/games/mitzvahWorld/build/build-js.cjs'
 );
 
 /**
- * @description Compiles the executable bootstrap, atomically publishes identity, then regenerates compressed siblings from the same bytes.
- * @returns {Promise<void>} Resolves after identity, Brotli, and gzip outputs are current.
+ * @description Executes the complete production JavaScript builder with inherited output so CI and humans receive its exact proof stream.
+ * @returns {Promise<void>} Resolves only when all compact artifacts and compressed representations were published successfully.
  */
-async function buildCompactRuntime() {
-	const source = await compileCompactModule({
-		entryFile,
-		fs: await import('node:fs/promises'),
-		rootDir
+async function buildCompleteCompactRuntime() {
+	await new Promise((resolve, reject) => {
+		const child = spawn(process.execPath, [builderPath], {
+			cwd: repositoryRoot,
+			stdio: 'inherit'
+		});
+		child.once('error', reject);
+		child.once('exit', code => {
+			if (code === 0) {
+				resolve();
+				return;
+			}
+			reject(new Error(`MITZVAHWORLD_COMPACT_BUILD_FAILED:${code}`));
+		});
 	});
-	const normalizedSource = source
-		.replace(/[\t ]+$/gm, '')
-		.replace(/\n*$/, '\n');
-	await publishIdentity(normalizedSource);
-	const representations = await publishCompactRuntimeRepresentations(
-		targetFile,
-		normalizedSource
-	);
-
-	console.log(JSON.stringify({
-		BH: 'B"H',
-		brotliBytes: representations.brotliBytes,
-		bytes: Buffer.byteLength(normalizedSource),
-		entryFile,
-		gzipBytes: representations.gzipBytes,
-		targetFile
-	}));
 }
 
-/**
- * @description Atomically replaces the browser-facing identity CompactJS file.
- * @param {string} normalizedSource Exact generated JavaScript source.
- * @returns {Promise<void>} Resolves after identity replacement completes.
- */
-async function publishIdentity(normalizedSource) {
-	const temporaryFile = `${targetFile}.awtsmoos-new`;
-	await writeFile(temporaryFile, normalizedSource);
-	await rename(temporaryFile, targetFile);
-}
-
-buildCompactRuntime().catch((error) => {
+buildCompleteCompactRuntime().catch(error => {
 	console.error(error);
 	process.exit(1);
 });

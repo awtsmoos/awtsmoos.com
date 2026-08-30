@@ -8,12 +8,12 @@ const { compactHtmlModuleScripts } = require('../static/HtmlCompactModules.js');
 const { revealHtmlUiFoundation } = require('../static/HtmlUiFoundation.js');
 
 /**
- * @file Proves served HTML routes local module entries and universal UI assets through compact transport.
- * @description The Awtsmoos keeps external and classic scripts in their own shore;
- * Awtsmoos.com preserves query and fragment identity while local module light becomes one packed door.
+ * @file htmlUiFoundationCompact.test.js
+ * @description Proves served HTML compacts authored local module entries once while terminal generated CompactJS and external/classic families retain their completed identity.
+ * The Awtsmoos keeps source and finished garment on distinct shores; Awtsmoos.com preserves query and fragment light,
+ * so authored modules enter CompactJS while `.compact.js` publication crosses the HTML gate already whole and right.
  */
 
-/** Proves complete HTML receives one version-matched compact CSS/JS pair exactly once. */
 function verifyCompactFoundationInjection() {
 	const input = '<!doctype html><html><head><title>B"H</title></head><body></body></html>';
 	const first = revealHtmlUiFoundation(input);
@@ -23,26 +23,26 @@ function verifyCompactFoundationInjection() {
 	assert.equal(first, second);
 }
 
-/** Proves local module entry URLs become explicit CompactJS requests with decorations preserved. */
 function verifyModuleEntryCompaction() {
 	const input = [
 		'<script type="module" src="./js/app.js"></script>',
 		"<script src='main.js?v=7#light' type='module'></script>",
-		'<script type=module src=/scripts/start.js?mode=1></script>',
+		'<script type=module src=/scripts/start.mjs?mode=1></script>',
+		'<script type="module" src="./mitzvah-world.compact.js"></script>',
 		'<script type="module" src="https://cdn.example/app.js"></script>',
-		'<script src="legacy.js"></script>',
-		'<script type="module">console.log("inline")</script>'
+		'<script src="legacy.js"></script>'
 	].join('\n');
 	const output = compactHtmlModuleScripts(input);
 	assert.match(output, /\.\/js\/app\.js\?compact=true/);
 	assert.match(output, /main\.js\?v=7&compact=true#light/);
-	assert.match(output, /\/scripts\/start\.js\?mode=1&compact=true/);
+	assert.match(output, /\/scripts\/start\.mjs\?mode=1&compact=true/);
+	assert.match(output, /src="\.\/mitzvah-world\.compact\.js"/);
+	assert.doesNotMatch(output, /mitzvah-world\.compact\.js\?compact=true/);
 	assert.match(output, /https:\/\/cdn\.example\/app\.js/);
 	assert.match(output, /src="legacy\.js"/);
 	assert.equal(compactHtmlModuleScripts(output), output);
 }
 
-/** Proves explicit raw documents and fragments remain outside both foundation and module rewriting. */
 function verifyFoundationOptOuts() {
 	const raw = '<!doctype html><html data-g-ui-raw><head></head><body><script type="module" src="app.js"></script></body></html>';
 	const fragment = '<section><script type="module" src="app.js"></script></section>';
@@ -51,5 +51,5 @@ function verifyFoundationOptOuts() {
 }
 
 test('complete HTML injects compact foundation CSS and JavaScript exactly once', verifyCompactFoundationInjection);
-test('local module script URLs become compact requests without changing other script families', verifyModuleEntryCompaction);
+test('authored local modules compact once while generated compact artifacts remain terminal', verifyModuleEntryCompaction);
 test('raw documents and fragments remain untouched', verifyFoundationOptOuts);

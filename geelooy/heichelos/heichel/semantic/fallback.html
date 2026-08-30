@@ -1,15 +1,17 @@
 <!-- B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos reveals the chamber before JavaScript arrives; Awtsmoos.com leaves a real heading, context, description, and no-script doorway glowing for every visitor alive.
+The Awtsmoos reveals the chamber before JavaScript arrives; Awtsmoos.com reads one named semantic vessel, so heading and context sing while no undefined phantom interrupts the living page.
 -->
 <?<script>
-	var semantic = ($$sd && $$sd.semantic) || {};
-	var heading = semantic.heading || "Geelooy Heichel";
-	var context = semantic.context || "Living Heichel";
-	var description = semantic.description || "Preparing teachings, series, people, graph paths, and contribution gates.";
-	var author = semantic.author ? "<p class=\"heichel-semantic-author\">By " + semantic.author + "</p>" : "";
-	var path = semantic.canonicalPath || "/heichelos";
+	var semanticModel = typeof semantic === "object" && semantic ? semantic : {};
+	var heading = semanticModel.heading || "Geelooy Heichel";
+	var context = semanticModel.context || "Living Heichel";
+	var description = semanticModel.description || "Preparing teachings, series, people, graph paths, and contribution gates.";
+	var author = semanticModel.author
+		? "<p class=\"heichel-semantic-author\">By " + semanticModel.author + "</p>"
+		: "";
+	var path = semanticModel.canonicalPath || "/heichelos";
 	return "<section class=\"heichel-shell-boot heichel-semantic-fallback\" data-heichel-boot-state data-heichel-semantic-fallback aria-labelledby=\"heichel-boot-title\">"
 		+ "<p class=\"civilization-kicker\">" + context + "</p>"
 		+ "<h1 id=\"heichel-boot-title\">" + heading + "</h1>"

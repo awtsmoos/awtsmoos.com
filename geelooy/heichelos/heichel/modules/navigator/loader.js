@@ -4,17 +4,18 @@
 /**
  * @module ContentUnveiler
  * @description
- * The Awtsmoos creates breadcrumb, branch record, teachings, children, and
- * groupings together. Awtsmoos.com loads them with stale-response protection,
- * then manifests one selected view through the Living Path coordinator.
+ * The Awtsmoos creates stored branches and date-born Chitas branches in one road;
+ * Awtsmoos.com protects stale loads while each vessel receives only its rightful mode.
  */
 
 import { appState } from '../state.js';
 import * as api from '../api.js';
 import * as ui from '../ui.js';
 import * as DND from '../dragdrop.js';
-import { normalizeCollection } from './content-normalizer.js';
+import { isChitasSeries } from '../chitas/constants.js';
+import { injectChitasGrouping, loadChitasVirtualSeries } from '../chitas/virtual-series.js';
 import { annotateTranslationState } from '../living-path/translation-context.js';
+import { normalizeCollection } from './content-normalizer.js';
 
 let loadToken = 0;
 
@@ -24,16 +25,14 @@ export async function loadContent(navigator, seriesId) {
 	if (appState.isSelectionMode) ui.toggleSelectionMode(false, navigator);
 	appState.currentSeries = seriesId;
 	try {
-		const [breadcrumb, seriesData] = await loadIdentity(seriesId);
+		const source = await loadSource(seriesId);
 		if (token !== loadToken) return;
-		appState.breadcrumb = seriesId === 'root' ? [] : (breadcrumb || []);
-		appState.currentSeriesData = seriesData;
-		const content = await loadCollections(seriesId);
-		if (token !== loadToken) return;
-		appState.currentContent = content;
-		const view = chooseView(content);
+		appState.breadcrumb = seriesId === 'root' ? [] : (source.breadcrumb || []);
+		appState.currentSeriesData = source.seriesData;
+		appState.currentContent = source.content;
+		const view = chooseView(source.content, source.seriesData);
 		navigator.switchView(view, true, false);
-		await renderAll(navigator, content, seriesData);
+		await renderAll(navigator, source.content, source.seriesData);
 	} catch (error) {
 		if (token === loadToken) {
 			console.error('B"H — Living Path load rupture:', error);
@@ -45,6 +44,16 @@ export async function loadContent(navigator, seriesId) {
 			navigator.updateURL();
 		}
 	}
+}
+
+async function loadSource(seriesId) {
+	if (isChitasSeries(seriesId)) return loadChitasVirtualSeries();
+	const [breadcrumb, seriesData] = await loadIdentity(seriesId);
+	return {
+		breadcrumb,
+		seriesData,
+		content: await loadCollections(seriesId)
+	};
 }
 
 async function loadIdentity(seriesId) {
@@ -65,17 +74,22 @@ function optionalTranslations(seriesId) {
 }
 
 async function loadCollections(seriesId) {
-	const [postsRaw, subSeries, groupings, translations] = await Promise.all([
+	const [postsRaw, subSeries, groupingsRaw, translations] = await Promise.all([
 		api.getPostDetails(appState.heichelId, seriesId),
 		api.getSubSeriesDetails(appState.heichelId, seriesId),
 		api.getAlternateGroupDetails(appState.heichelId, seriesId),
 		optionalTranslations(seriesId)
 	]);
 	const posts = annotateTranslationState(normalizeCollection(postsRaw), translations);
+	const groupings = injectChitasGrouping(
+		normalizeCollection(groupingsRaw),
+		appState.heichelId,
+		seriesId
+	);
 	return {
 		posts,
 		subSeries: normalizeCollection(subSeries),
-		groupings: normalizeCollection(groupings),
+		groupings,
 		translationMeta: translations?.meta || null
 	};
 }
@@ -83,7 +97,7 @@ async function loadCollections(seriesId) {
 async function renderAll(navigator, content, seriesData) {
 	ui.renderBreadcrumb(appState.breadcrumb, navigator);
 	await ui.renderSeriesInfo(seriesData, appState.heichelData, appState.currentSeries);
-	ui.renderOwnerControls(appState.breadcrumb, navigator);
+	ui.renderOwnerControls(appState.breadcrumb, navigator, appState);
 	await navigator.afterContentLoaded(content);
 	ui.renderHeichelWorldState({
 		heichel: appState.heichelData,
@@ -91,10 +105,11 @@ async function renderAll(navigator, content, seriesData) {
 		ownsIt: appState.ownsIt,
 		currentSeries: appState.currentSeries
 	});
-	if (appState.ownsIt) DND.initialize();
+	if (appState.ownsIt && !seriesData?.virtual) DND.initialize();
 }
 
-function chooseView(content) {
+function chooseView(content, seriesData) {
+	if (seriesData?.virtual) return 'posts';
 	const explicit = new URLSearchParams(location.search).get('view');
 	if (['posts', 'series', 'groupings'].includes(explicit)) return explicit;
 	if (content.posts.length) return 'posts';

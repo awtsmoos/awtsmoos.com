@@ -1,12 +1,12 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file MitzvahWorldCreatorSessionState.js
- * @description Composes Mitzvah-specific creator services while Procedural Core supplies generic history custody.
- * The Awtsmoos gives many powers one quiet Yesod; Awtsmoos.com keeps game meaning here and reusable editor law in Core,
- * so runtime, inventory, document, preview, controls, and history remain clear without repeating foundations anymore.
+ * @description Composes semantic creator truth with persistence, controls, history, and a nearby-cell streaming projection into the live open world.
+ * The Awtsmoos renews world and memory through distinct vessels that never compete for one throne;
+ * Awtsmoos.com keeps every authored ID in written truth while only nearby meshes and colliders awaken around the traveler's known home.
  */
 
 import { HistoryLedger } from '../../../../../../libs/awtsmoos-procedural-core/src/index.js';
@@ -14,20 +14,27 @@ import { mitzvahWorldCreatorCatalog, mitzvahWorldCreatorPart } from './MitzvahWo
 import { MitzvahWorldCreatorControlState } from './MitzvahWorldCreatorControlState.js';
 import { MitzvahWorldCreatorDocument } from './MitzvahWorldCreatorDocument.js';
 import { createMitzvahWorldPlacement } from './MitzvahWorldCreatorPlacementPolicy.js';
+import { MitzvahWorldCreatorPersistence } from './MitzvahWorldCreatorPersistence.js';
 import { MitzvahWorldCreatorPreviewAdapter } from './MitzvahWorldCreatorPreviewAdapter.js';
-import { MitzvahWorldCreatorRuntimeAdapter } from './MitzvahWorldCreatorRuntimeAdapter.js';
+import { MitzvahWorldCreatorStreamingAdapter } from './MitzvahWorldCreatorStreamingAdapter.js';
 
 export class MitzvahWorldCreatorSessionState {
 	constructor(runtimeMalchus, optionsChesed = {}) {
 		this.runtime = runtimeMalchus;
+		this.environment = optionsChesed.environment || globalThis;
 		this.inventory = optionsChesed.inventory || runtimeMalchus?.inventory;
-		this.documentStore = optionsChesed.documentStore || new MitzvahWorldCreatorDocument(optionsChesed.documentOptions);
-		this.runtimeAdapter = optionsChesed.runtimeAdapter || new MitzvahWorldCreatorRuntimeAdapter(runtimeMalchus);
+		this.documentStore = optionsChesed.documentStore || new MitzvahWorldCreatorDocument({
+			...(optionsChesed.documentOptions || {}),
+			environment: this.environment
+		});
+		this.persistence = optionsChesed.persistence || new MitzvahWorldCreatorPersistence(this.environment);
+		this.runtimeAdapter = optionsChesed.runtimeAdapter || new MitzvahWorldCreatorStreamingAdapter(runtimeMalchus);
 		this.previewAdapter = optionsChesed.previewAdapter || new MitzvahWorldCreatorPreviewAdapter(runtimeMalchus);
 		this.history = optionsChesed.history || new HistoryLedger();
 		this.controlState = optionsChesed.controlState || new MitzvahWorldCreatorControlState(optionsChesed.controls);
 		this.listeners = new Set();
 		this.sequence = 0;
+		this.runtime.creatorWorldStreaming = this.runtimeAdapter;
 		this.refreshPreview();
 	}
 
@@ -57,13 +64,16 @@ export class MitzvahWorldCreatorSessionState {
 	snapshot() {
 		const controlBinah = this.controlState.snapshot();
 		const catalogBinah = this.controlState.selectedPart();
+		const streamingBinah = this.runtimeAdapter.diagnostics();
 		return Object.freeze({
 			catalog: mitzvahWorldCreatorCatalog(),
 			controls: controlBinah.controls,
 			history: this.history.snapshot(),
+			indexed: streamingBinah.indexed ?? streamingBinah.mounted,
 			materialQuantity: this.inventory?.quantity?.(catalogBinah.itemId) || 0,
-			mounted: this.runtimeAdapter.diagnostics().mounted,
-			selectedId: controlBinah.selectedId
+			mounted: streamingBinah.mounted,
+			selectedId: controlBinah.selectedId,
+			worldId: this.documentStore.document?.metadata?.mitzvahWorldCreator?.worldId || null
 		});
 	}
 
@@ -81,6 +91,9 @@ export class MitzvahWorldCreatorSessionState {
 	destroy() {
 		this.previewAdapter.clear();
 		this.runtimeAdapter.clear();
+		if (this.runtime.creatorWorldStreaming === this.runtimeAdapter) {
+			delete this.runtime.creatorWorldStreaming;
+		}
 		this.listeners.clear();
 	}
 }

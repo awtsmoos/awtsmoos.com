@@ -5,24 +5,27 @@
 /**
  * @module RagStartupWarmup
  * @description
- * The Awtsmoos warms the same immutable RAG publication that strict semantic search will traverse, while Awtsmoos.com leaves legacy post hydration in its own chamber;
- * one published vector seed proves storage readiness, then the multilingual worker may kindle without making unrelated historical comments the gatekeeper.
+ * The Awtsmoos warms packed truth and one semantic lamp only after the correct root has been revealed, while Awtsmoos.com keeps startup lazy and interruption safe;
+ * root discovery lives in its own vessel, so worker life, packed-row proof, and readiness state can each remain small enough to inspect without hiding the path they make.
  */
 
 const { performance } = require('perf_hooks');
 const { startWorker, workerStatus } = require('./multilingualWorkerClient.js');
-const { probePublishedRag } = require('./warmupPublication.js');
+const { packedRows } = require('./packedCommentRows.js');
+const { ragRoot } = require('./paths.js');
 const {
 	CONFIGURATION_FILE,
 	REPOSITORY_ROOT,
 	configuredRoot,
-	rootFromInterface
+	firstJsonLine,
+	rootFromInterface,
+	warmupContext
 } = require('./warmupRoot.js');
 
 let startupState = null;
 let semanticWarmup = null;
 
-/** Starts the reusable multilingual worker once without turning worker warmup failure into server failure. */
+/** Starts the reusable multilingual worker once without turning warmup failure into server failure. */
 function beginSemanticWarmup() {
 	if (process.env.AWTS_RAG_SEMANTIC_WARMUP === '0') {
 		return null;
@@ -43,8 +46,8 @@ function beginSemanticWarmup() {
 	return semanticWarmup;
 }
 
-/** Proves one published vector lane from the real request root and begins semantic warmup. */
-function warmRagCorpus($i = null) {
+/** Proves packed search rows from the real root and begins semantic warmup in parallel. */
+function warmRagCommentSource($i = null) {
 	if (process.env.AWTS_RAG_STARTUP_WARMUP === '0') {
 		return { ok: true, skipped: true, semantic: workerStatus() };
 	}
@@ -52,25 +55,24 @@ function warmRagCorpus($i = null) {
 		return { ...startupState, semantic: workerStatus() };
 	}
 	const root = rootFromInterface($i);
-	const interfaceRoot = { db: { directory: root } };
+	const context = warmupContext(root);
 	const started = performance.now();
-	const publication = probePublishedRag(interfaceRoot);
+	const rows = packedRows(context);
+	if (!rows.length) {
+		throw new Error('B"H RAG packed-comment startup warmup returned no rows');
+	}
 	startupState = {
 		ok: true,
 		root,
-		ragRoot: publication.ragRoot,
-		seedId: publication.id,
-		records: publication.records,
-		dimensions: publication.dimensions,
-		elapsedMs: Number((performance.now() - started).toFixed(3))
+		ragRoot: ragRoot(context.$i),
+		rows: rows.length,
+		elapsedMs: Number((performance.now() - started).toFixed(3)),
+		seriesId: context.seriesId,
+		postId: context.postId,
+		aliasId: context.aliasId
 	};
 	beginSemanticWarmup();
 	return { ...startupState, semantic: workerStatus() };
-}
-
-/** Preserves the historical exported name while routing it to publication readiness. */
-function warmRagCommentSource($i = null) {
-	return warmRagCorpus($i);
 }
 
 /** Clears only warmup-local state so tests and explicit operator refreshes can start from truth. */
@@ -84,9 +86,10 @@ module.exports = {
 	REPOSITORY_ROOT,
 	beginSemanticWarmup,
 	configuredRoot,
+	firstJsonLine,
 	resetRagStartupWarmup,
 	rootFromInterface,
 	warmRagCommentSource,
-	warmRagCorpus,
+	warmupContext,
 	workerStatus
 };

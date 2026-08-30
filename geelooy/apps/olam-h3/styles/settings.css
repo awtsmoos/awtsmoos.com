@@ -1,0 +1,96 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos gives connection, storage, pricing, and backup their measured place; Awtsmoos.com makes settings explanatory without turning the studio into an admin maze.
+*/
+.category-strip {
+	display: flex;
+	gap: 7px;
+	overflow-x: auto;
+	padding: 0 0 12px;
+	scrollbar-width: none;
+	scroll-snap-type: x proximity;
+}
+
+.category-strip::-webkit-scrollbar {
+	display: none;
+}
+
+.category-strip button {
+	flex: 0 0 auto;
+	min-height: 40px;
+	padding: 0 12px;
+	border: 1px solid var(--line);
+	border-radius: 999px;
+	background: var(--surface-soft);
+	color: var(--muted);
+	cursor: pointer;
+	scroll-snap-align: start;
+}
+
+.category-strip button.is-active {
+	background: var(--text);
+	color: var(--bg);
+}
+
+.setting-control,
+.storage-summary {
+	padding: 10px 0;
+	border-top: 1px solid var(--line);
+}
+
+.setting-control:first-of-type {
+	border-top: 0;
+}
+
+.storage-summary,
+.setting-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+}
+
+.storage-summary {
+	align-items: flex-start;
+	flex-direction: column;
+}
+
+.connection-dot {
+	width: 10px;
+	height: 10px;
+	flex: 0 0 auto;
+	border-radius: 50%;
+	background: var(--danger);
+}
+
+.connection-dot.is-online {
+	background: var(--success);
+	box-shadow: 0 0 14px rgba(156, 246, 187, 0.42);
+}
+
+.boot-state,
+.fatal-state {
+	min-height: 50dvh;
+	display: grid;
+	place-items: center;
+	align-content: center;
+	gap: 12px;
+	text-align: center;
+	color: var(--muted);
+}
+
+.boot-orb,
+.empty-orb {
+	width: 48px;
+	height: 48px;
+}
+
+.accounting-note {
+	margin-bottom: 14px;
+	padding: 11px 13px;
+	border: 1px solid var(--line);
+	border-radius: 14px;
+	background: var(--surface-soft);
+}

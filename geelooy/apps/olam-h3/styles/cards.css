@@ -1,0 +1,59 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos gives all content cards one structural vessel; Awtsmoos.com lets specialized asset, creation, and metric skins inherit a steady level.
+*/
+.asset-card,
+.creation-card,
+.library-asset-card,
+.metric-card,
+.metric-hero {
+	border: 1px solid var(--line);
+	background: linear-gradient(180deg, rgba(29,29,35,0.97), rgba(19,19,24,0.97));
+	border-radius: var(--radius-lg);
+	overflow: hidden;
+	box-shadow: 0 14px 40px rgba(0,0,0,0.16);
+}
+
+.empty-card {
+	min-height: 84px;
+	display: grid;
+	place-items: center;
+	padding: 16px;
+	border: 1px dashed var(--line-strong);
+	border-radius: 16px;
+	color: var(--muted);
+	text-align: center;
+}
+
+.empty-state {
+	min-height: 45dvh;
+	display: grid;
+	place-items: center;
+	align-content: center;
+	gap: 10px;
+	text-align: center;
+	color: var(--muted);
+}
+
+.empty-state.compact {
+	min-height: 220px;
+}
+
+.empty-state h2,
+.empty-state p {
+	margin: 0;
+}
+
+.empty-state p {
+	max-width: 42ch;
+}
+
+.creation-grid,
+.asset-library-grid,
+.metric-grid {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 14px;
+}

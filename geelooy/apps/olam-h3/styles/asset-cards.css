@@ -1,0 +1,118 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets one image, sound, or motion return across many scenes; Awtsmoos.com makes that memory dense, visible, and thumb-friendly between.
+*/
+.asset-tray {
+	display: grid;
+	gap: 9px;
+}
+
+.asset-card {
+	display: grid;
+	grid-template-columns: 68px minmax(0, 1fr);
+	gap: 11px;
+	padding: 10px;
+}
+
+.asset-preview {
+	width: 68px;
+	height: 68px;
+	border-radius: 13px;
+	object-fit: cover;
+	background: #111116;
+}
+
+.asset-audio,
+.asset-kind-mark {
+	display: grid;
+	place-items: center;
+	color: var(--accent);
+	font-size: 10px;
+	font-weight: 900;
+	letter-spacing: 0.12em;
+}
+
+.asset-card-copy {
+	min-width: 0;
+	display: grid;
+	align-content: center;
+	gap: 3px;
+}
+
+.asset-card-copy strong,
+.library-asset-copy strong {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.asset-card-copy span,
+.library-asset-copy span {
+	color: var(--muted);
+	font-size: 11px;
+}
+
+.asset-card-actions {
+	grid-column: 1 / -1;
+	display: flex;
+	gap: 6px;
+	flex-wrap: wrap;
+}
+
+.asset-card-actions button,
+.favorite-button {
+	min-height: 34px;
+	border: 1px solid var(--line);
+	border-radius: 11px;
+	background: var(--surface-soft);
+	cursor: pointer;
+}
+
+.library-asset-card > img,
+.library-asset-card > video,
+.asset-kind-mark {
+	width: 100%;
+	aspect-ratio: 16 / 10;
+	object-fit: cover;
+	background: #111116;
+}
+
+.library-asset-copy,
+.asset-library-actions,
+.tag-row {
+	padding-left: 14px;
+	padding-right: 14px;
+}
+
+.library-asset-copy {
+	padding-top: 12px;
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	gap: 12px;
+}
+
+.library-asset-copy > div {
+	min-width: 0;
+	display: grid;
+}
+
+.tag-row {
+	display: flex;
+	gap: 5px;
+	flex-wrap: wrap;
+	padding-top: 8px;
+}
+
+.tag-row span {
+	padding: 4px 7px;
+	border-radius: 999px;
+	background: var(--surface-soft);
+	font-size: 10px;
+}
+
+.asset-library-actions {
+	padding-bottom: 13px;
+}

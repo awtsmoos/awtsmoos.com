@@ -1,20 +1,14 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file MitzvahWorldCreatorRailActionMap.js
- * @description Maps semantic creator button names to pure control calls or asynchronous world mutations.
- * The Awtsmoos lets many buttons speak one concise language; Awtsmoos.com keeps DOM labels outside session logic,
- * so future keyboards, gamepads, voice tools, or collaborators can invoke the same actions without copying controller code.
+ * @description Maps semantic creator button names to controls, world mutations, persistence, sharing, and guarded restoration.
+ * The Awtsmoos lets many buttons speak one concise language while Awtsmoos.com keeps DOM labels outside session truth;
+ * keyboards, touch, gamepads, voice, and future collaborators may therefore invoke the same world deeds without duplicated routes in youth.
  */
 
-/**
- * Creates the complete semantic action map for one creator session/controller pair.
- * @param {object} sessionTiferes Creator session API.
- * @param {object} controllerMalchus Rail controller providing share and status-aware helpers.
- * @returns {Readonly<object>} Frozen action-name to callback registry.
- */
 export function createCreatorRailActionMap(sessionTiferes, controllerMalchus) {
 	return Object.freeze({
 		back: () => sessionTiferes.nudge('forward', -1),
@@ -26,9 +20,12 @@ export function createCreatorRailActionMap(sessionTiferes, controllerMalchus) {
 		near: () => sessionTiferes.adjustDistance(-1),
 		place: () => controllerMalchus.place(),
 		redo: () => controllerMalchus.redo(),
+		remix: () => controllerMalchus.remixWorld(),
+		restore: () => controllerMalchus.restoreWorld(),
 		right: () => sessionTiferes.nudge('right', 1),
 		'rotate-left': () => sessionTiferes.rotate(-1),
 		'rotate-right': () => sessionTiferes.rotate(1),
+		save: () => controllerMalchus.saveWorld(),
 		share: () => controllerMalchus.share(),
 		undo: () => controllerMalchus.undo(),
 		up: () => sessionTiferes.adjustElevation(1)

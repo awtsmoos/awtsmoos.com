@@ -1,13 +1,15 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file EretzWorldFoundation.js
- * @description Opens foundation services, first WebGL paint, local control, and the bootstrap valley through incremental readable module graphs so the browser can yield instead of parsing one giant CompactJS foundation task.
- * The Awtsmoos reveals canvas, traveler, and valley through many breaths that are truly One; Awtsmoos.com lets each finite module arrive without stealing responsiveness from the visible world or the user's waiting sun.
+ * @description Opens foundation services, first WebGL paint, local control, and the bootstrap valley through incremental readable module graphs.
+ * The Awtsmoos reveals canvas, traveler, and valley through many breaths that are truly One;
+ * Awtsmoos.com marks the renderer only after a yielded frame, while distant richness waits beyond the playable sun.
  */
 
+import { markMitzvahWorldStartupMilestone } from './MitzvahWorldStartupMilestones.js';
 import { resolveResponsiveRuntimeModuleUrl } from './ResponsiveRuntimeModuleUrl.js';
 import {
 	nextLaunchFrame,
@@ -41,6 +43,7 @@ export async function createEretzWorldFoundation(hosts, options = {}) {
 		environment
 	);
 	await nextLaunchFrame(environment);
+	markMitzvahWorldStartupMilestone(environment, 'rendererReady');
 	throwIfLaunchAborted(options.signal);
 	options.boot?.begin('essential-assets');
 	reportLaunchProgress(options, 'Creating local control…', 0.42);

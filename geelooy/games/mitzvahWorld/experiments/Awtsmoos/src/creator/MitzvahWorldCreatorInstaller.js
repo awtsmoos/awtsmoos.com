@@ -1,12 +1,12 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file MitzvahWorldCreatorInstaller.js
- * @description Composes one styled creator session, rail, controller, bindings, and sharing service against the published live runtime.
- * The Awtsmoos reveals many creation powers through one installation gate; Awtsmoos.com lets Yesod install the scoped levush
- * before Malchus mounts the rail, while scene, octree, inventory, sharing, and teardown remain separate vessels in their rightful state.
+ * @description Composes one live creator façade with sandbox/adventure inventory policy plus portable save, reopen, remix, and sharing hooks.
+ * The Awtsmoos reveals many creation powers through one installation gate; Awtsmoos.com lets scene, collision,
+ * memory, identity, sharing, rail, and teardown remain separate vessels while one world stays simple at the root.
  */
 
 import { MitzvahWorldCreatorSession } from './MitzvahWorldCreatorSession.js';
@@ -16,11 +16,6 @@ import { MitzvahWorldCreatorRailController } from './ui/MitzvahWorldCreatorRailC
 import { installMitzvahWorldCreatorRailStyles } from './ui/MitzvahWorldCreatorRailStyles.js';
 import { MitzvahWorldCreatorRailView } from './ui/MitzvahWorldCreatorRailView.js';
 
-/**
- * Installs or reopens one creator rail against the live published game runtime.
- * @param {object} [optionsChesed={}] Environment, document, runtime, and session dependency overrides.
- * @returns {Readonly<object>} Stable public creator controller facade.
- */
 export function installMitzvahWorldCreator(optionsChesed = {}) {
 	const environmentKli = optionsChesed.environment || globalThis;
 	const documentKli = optionsChesed.document || environmentKli.document;
@@ -30,9 +25,14 @@ export function installMitzvahWorldCreator(optionsChesed = {}) {
 		existingMalchus.open();
 		return existingMalchus;
 	}
-	const runtimeMalchus = optionsChesed.runtime || environmentKli.AwtsmoosMitzvahWorld?.runtime;
-	assertCreatorRuntime(runtimeMalchus);
-	const sessionTiferes = new MitzvahWorldCreatorSession(runtimeMalchus, optionsChesed.sessionOptions);
+	const runtimeMalchus = optionsChesed.runtime
+		|| environmentKli.AwtsmoosMitzvahWorld?.runtime;
+	const sessionOptions = {
+		...(optionsChesed.sessionOptions || {}),
+		environment: environmentKli
+	};
+	assertCreatorRuntime(runtimeMalchus, sessionOptions.inventory || runtimeMalchus?.inventory);
+	const sessionTiferes = new MitzvahWorldCreatorSession(runtimeMalchus, sessionOptions);
 	const viewMalchus = new MitzvahWorldCreatorRailView(documentKli);
 	const sharingYesod = new MitzvahWorldCreatorSharing(environmentKli, documentKli);
 	const controllerTiferes = new MitzvahWorldCreatorRailController(sessionTiferes, viewMalchus, sharingYesod);
@@ -43,28 +43,32 @@ export function installMitzvahWorldCreator(optionsChesed = {}) {
 	return facadeMalchus;
 }
 
-/** Refuses installation before scene, mutable octree, and authoritative inventory have hydrated. */
-function assertCreatorRuntime(runtimeMalchus) {
-	if (!runtimeMalchus?.scene?.add || !runtimeMalchus?.mainOctree?.insert || !runtimeMalchus?.inventory?.quantity) {
+function assertCreatorRuntime(runtimeMalchus, inventoryYesod) {
+	if (!runtimeMalchus?.scene?.add || !runtimeMalchus?.mainOctree?.insert) {
 		throw new Error('CREATOR_RUNTIME_NOT_READY');
+	}
+	if (!inventoryYesod?.quantity || !inventoryYesod?.remove || !inventoryYesod?.add) {
+		throw new Error('CREATOR_INVENTORY_NOT_READY');
 	}
 }
 
-/** Creates the narrow reusable public API and exact dependency-safe destroy order. */
-function createCreatorFacade(controllerTiferes, bindingsHod, sessionTiferes, viewMalchus, environmentKli) {
+function createCreatorFacade(controller, bindings, session, view, environment) {
 	return Object.freeze({
-		close: () => controllerTiferes.close(),
-		document: () => sessionTiferes.documentStore.document,
-		exportWorld: () => sessionTiferes.exportWorld(),
-		open: () => controllerTiferes.open(),
-		session: sessionTiferes,
-		toggleCollapsed: () => controllerTiferes.toggleCollapsed(),
+		close: () => controller.close(),
+		document: () => session.documentStore.document,
+		exportWorld: () => session.exportWorld(),
+		open: () => controller.open(),
+		remixWorld: sourceOhr => session.remixWorld(sourceOhr),
+		reopenWorld: sourceOhr => session.reopenWorld(sourceOhr),
+		saveWorld: () => session.saveWorld(),
+		session,
+		toggleCollapsed: () => controller.toggleCollapsed(),
 		destroy: () => {
-			bindingsHod.destroy();
-			controllerTiferes.destroy();
-			sessionTiferes.destroy();
-			viewMalchus.destroy();
-			delete environmentKli.AwtsmoosCreatorRail;
+			bindings.destroy();
+			controller.destroy();
+			session.destroy();
+			view.destroy();
+			delete environment.AwtsmoosCreatorRail;
 		}
 	});
 }

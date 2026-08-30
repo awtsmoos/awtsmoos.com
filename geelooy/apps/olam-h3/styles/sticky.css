@@ -1,0 +1,52 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos keeps the decisive creative act inside the document flow; Awtsmoos.com lets cost and Generate inhabit one vessel with enough sacred clearance that neither browser scroll nor bottom navigation can cover the final choice.
+*/
+.submission-panel {
+	margin-top: 14px;
+	padding: 16px;
+	border: 1px solid rgba(217, 255, 104, 0.24);
+	border-radius: 24px;
+	background: linear-gradient(145deg, rgba(217, 255, 104, 0.10), rgba(22, 22, 28, 0.98) 52%);
+	box-shadow: 0 18px 48px rgba(0, 0, 0, 0.22);
+	scroll-margin-bottom: calc(var(--nav-height) + var(--safe-bottom) + 18px);
+}
+
+.generate-button {
+	width: 100%;
+	min-height: 60px;
+	padding: 0 18px;
+	border: 0;
+	border-radius: 17px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 14px;
+	background: var(--accent);
+	color: #11130c;
+	box-shadow: 0 12px 32px rgba(217, 255, 104, 0.16);
+	font-weight: 900;
+	cursor: pointer;
+	transition: transform 120ms ease, box-shadow 180ms ease, filter 180ms ease;
+}
+
+.generate-button:not(:disabled):hover {
+	box-shadow: 0 16px 38px rgba(217, 255, 104, 0.24);
+	filter: saturate(1.05);
+}
+
+.generate-button:not(:disabled):active {
+	transform: translateY(1px) scale(0.993);
+}
+
+.generate-button:disabled {
+	opacity: 0.44;
+	cursor: not-allowed;
+	box-shadow: none;
+}
+
+.generate-button strong {
+	font-variant-numeric: tabular-nums;
+}

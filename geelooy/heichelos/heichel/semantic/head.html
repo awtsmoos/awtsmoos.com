@@ -1,12 +1,12 @@
 <!-- B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos lets the document name itself before scripts awaken; Awtsmoos.com gives every deep teaching a truthful title and description in plain sight.
+The Awtsmoos lets the document name itself before scripts awaken; Awtsmoos.com receives the semantic vessel directly, where title and description rhyme with truth and never chase an absent shadow.
 -->
 <?<script>
-	var semantic = ($$sd && $$sd.semantic) || {};
-	var title = semantic.pageTitle || "Geelooy Heichel | Awtsmoos";
-	var description = semantic.description || "Explore a living Heichel on Awtsmoos.com.";
+	var semanticModel = typeof semantic === "object" && semantic ? semantic : {};
+	var title = semanticModel.pageTitle || "Geelooy Heichel | Awtsmoos";
+	var description = semanticModel.description || "Explore a living Heichel on Awtsmoos.com.";
 	return "<title>" + title + "</title>"
 		+ "<meta name=\"description\" content=\"" + description + "\">"
 		+ "<meta property=\"og:title\" content=\"" + title + "\">"

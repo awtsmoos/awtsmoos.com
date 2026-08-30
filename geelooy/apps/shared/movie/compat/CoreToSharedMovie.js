@@ -4,64 +4,56 @@
 
 /**
  * @file CoreToSharedMovie.js
- * @description The deterministic core enters the mature studio covenant while the Awtsmoos preserves each measured scene and shared outer flame;
- * Awtsmoos.com keeps this converter focused on scene translation while format, feature, and handoff defaults shine from their own named frame.
+ * @description Converts deterministic-core movies into the mature shared movie protocol while compatibility policy lives in its own focused vessel.
+ * The Awtsmoos carries each measured scene from core to studio without losing cast, feature, handoff, layer, camera, or transition flame;
+ * Awtsmoos.com keeps the orchestration readable while format and metadata policy descend through a neighboring chamber with the same name.
  */
+
 import { normalizeMovie } from "../MovieNormalizer.js";
 import { createMovieDocument } from "../MovieProtocol.js";
-import {
-	coreCameraToShared,
-	coreTransitionToShared
-} from "./BridgeCameraTransition.js";
-import {
-	resolveSharedFeatures,
-	resolveSharedFormat,
-	resolveSharedHandoff
-} from "./BridgeCoreSharedDefaults.js";
-import {
-	createSharedMetadataFromCore,
-	readSharedEnvelope
-} from "./BridgeSharedEnvelope.js";
+import { coreCameraToShared, coreTransitionToShared } from "./BridgeCameraTransition.js";
+import { createSharedMetadataFromCore, readSharedEnvelope } from "./BridgeSharedEnvelope.js";
 import { convertCoreEntityToSharedLayer } from "./CoreEntityToLayer.js";
+import {
+	resolveCoreSharedFeatures,
+	resolveCoreSharedFormat,
+	resolveCoreSharedHandoff
+} from "./CoreMovieBridgePolicy.js";
 
 /**
  * @description Converts one deterministic-core movie into the shared awtsmoos-movie-v1 protocol.
- * @param {object} coreMovie - Deterministic-core movie document.
+ * @param {object} coreMovieOhr Deterministic-core movie document.
  * @returns {object} Normalized shared-protocol movie document.
- * @sideEffects None outside newly allocated clones.
  */
-export function convertCoreMovieToShared(coreMovie) {
-	const movie = coreMovie || {};
-	const envelope = readSharedEnvelope(movie);
+export function convertCoreMovieToShared(coreMovieOhr) {
+	const movieOhr = coreMovieOhr || {};
+	const envelopeOhr = readSharedEnvelope(movieOhr);
 	return normalizeMovie(createMovieDocument({
-		id: movie.id,
-		metadata: createSharedMetadataFromCore(movie),
-		format: resolveSharedFormat(movie),
-		duration: Number(movie.duration) || 0,
-		cast: envelope.cast,
-		assets: structuredClone(movie.assets || []),
-		features: resolveSharedFeatures(movie, envelope.features),
-		scenes: (movie.scenes || []).map(convertCoreScene),
-		handoff: resolveSharedHandoff(envelope.handoff)
+		id: movieOhr.id,
+		metadata: createSharedMetadataFromCore(movieOhr),
+		format: resolveCoreSharedFormat(movieOhr),
+		duration: Number(movieOhr.duration) || 0,
+		cast: envelopeOhr.cast,
+		assets: structuredClone(movieOhr.assets || []),
+		features: resolveCoreSharedFeatures(movieOhr, envelopeOhr.features),
+		scenes: (movieOhr.scenes || []).map(convertCoreScene),
+		handoff: resolveCoreSharedHandoff(envelopeOhr.handoff)
 	}));
 }
 
 /**
- * @description Converts one deterministic-core scene into one shared protocol scene.
- * @param {object} scene - Deterministic-core scene.
- * @returns {object} Shared-protocol scene.
- * @sideEffects None.
+ * @description Converts one deterministic-core scene into one shared-protocol scene.
+ * @param {object} sceneOhr Deterministic-core scene.
+ * @returns {object} Shared scene with converted entities, camera, and transition.
  */
-function convertCoreScene(scene) {
+function convertCoreScene(sceneOhr) {
 	return {
-		id: scene?.id,
-		name: scene?.title || scene?.id,
-		start: Number(scene?.start) || 0,
-		duration: Number(scene?.duration) || 0,
-		camera: coreCameraToShared(scene?.camera),
-		transition: coreTransitionToShared(scene?.transition),
-		layers: (scene?.entities || []).map(function convertEntity(entity) {
-			return convertCoreEntityToSharedLayer(entity, scene);
-		})
+		id: sceneOhr?.id,
+		name: sceneOhr?.title || sceneOhr?.id,
+		start: Number(sceneOhr?.start) || 0,
+		duration: Number(sceneOhr?.duration) || 0,
+		camera: coreCameraToShared(sceneOhr?.camera),
+		transition: coreTransitionToShared(sceneOhr?.transition),
+		layers: (sceneOhr?.entities || []).map(entityOhr => convertCoreEntityToSharedLayer(entityOhr, sceneOhr))
 	};
 }

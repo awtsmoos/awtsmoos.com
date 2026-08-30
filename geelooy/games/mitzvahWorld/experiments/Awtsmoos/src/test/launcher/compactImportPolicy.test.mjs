@@ -4,9 +4,9 @@
 
 /**
  * @file compactImportPolicy.test.mjs
- * @description Guards compact Dynamic Server entry doors while preserving generated-chunk and public-vendor boundaries.
- * The Awtsmoos lets many local modules become one browser river while Awtsmoos.com keeps first play narrow and advanced depth deferred from sight;
- * source evidence here prevents future agents from losing `compact=true`, mangling version queries, or compacting external vessels that must keep their own light.
+ * @description Guards compact Dynamic Server entry doors across route, creative, presentation, and rich-world boundaries.
+ * The Awtsmoos lets many local modules become one browser river while Awtsmoos.com keeps first play narrow and chosen depth deferred from sight;
+ * source evidence follows every intentional doorway so future refactors preserve compact processing without flattening the architecture's light.
  */
 
 import assert from 'node:assert/strict';
@@ -17,6 +17,7 @@ import { fileURLToPath } from 'node:url';
 const SOURCE_ROOT = fileURLToPath(new URL('../../', import.meta.url));
 const TARGETS = Object.freeze({
 	mode: 'launcher/MitzvahWorldModeLoaders.js',
+	creativeRoute: 'launcher/MitzvahWorldCreativeRouteLoader.js',
 	direct: 'launcher/MitzvahWorldDirectExperience.js',
 	presentation: 'launcher/MitzvahWorldGameplayPresentation.js',
 	postPlay: 'launcher/MitzvahWorldPostPlayExperience.js',
@@ -25,12 +26,13 @@ const TARGETS = Object.freeze({
 
 const REQUIRED_DOORS = Object.freeze({
 	mode: [
-		'MitzvahWorldCreativeModeLoaders.js?compact=true&v=',
-		'MitzvahWorldDirectExperience.js?compact=true&v=',
-		'MitzvahWorldPostPlayExperience.js?compact=true&v=',
 		'createEretzRuntime.js?compact=true&v=',
 		'MultiplayerStatusBadge.js?compact=true',
 		'MultiplayerEretzRuntime.js?compact=true&v='
+	],
+	creativeRoute: [
+		'MitzvahWorldCreativeModeLoaders.js?compact=true&v=',
+		'MitzvahWorldDirectExperience.js?compact=true&v='
 	],
 	direct: [
 		'MitzvahWorldGameplayPresentation.js?compact=true&v=',
@@ -51,6 +53,14 @@ test('every independently requested raw MitzvahWorld entry uses compact server p
 			assert.equal(source.includes(doorway), true, `${relativePath} missing ${doorway}`);
 		}
 	}
+});
+
+test('creative capability stays behind the dedicated creative route loader', async () => {
+	const modeSource = await readSource(TARGETS.mode);
+	const creativeSource = await readSource(TARGETS.creativeRoute);
+	assert.match(modeSource, /MitzvahWorldCreativeRouteLoader\.js/);
+	assert.doesNotMatch(modeSource, /MitzvahWorldCreativeModeLoaders\.js\?compact=true/);
+	assert.match(creativeSource, /MitzvahWorldCreativeModeLoaders\.js\?compact=true&v=/);
 });
 
 test('versioned raw local entries use compact before the cache version key', async () => {

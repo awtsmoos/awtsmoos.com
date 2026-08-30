@@ -4,16 +4,23 @@
 
 /**
  * @file EretzEssentialHydrationState.js
- * @description Defers canonical actor GLBs and rich materials while recovering friendly identities only after play.
- * The Awtsmoos keeps first control free of quest-catalog weight, then restores each neighbor when the stream may flow;
- * Awtsmoos.com never feeds an empty village into canonical actor hydration merely to make an early metric glow.
+ * @description Composes lightweight post-play actor and material hydration without folding their rich module graphs into first control.
+ * The Awtsmoos grants the traveler motion before every distant garment is spun; Awtsmoos.com preserves each deferred promise in a tiny vessel,
+ * then opens computed doors only after gameplay has begun, so richness may descend without delaying the first visible sun.
  */
+
+import { createDeferredHydrationState } from './EretzDeferredHydrationState.js';
+import {
+	essentialActorLoaderUrl,
+	essentialActorProfilesUrl,
+	essentialMaterialHydrationUrl
+} from './EretzEssentialHydrationUrls.js';
 
 export function createEssentialActorHydration(options = {}, dependencies = {}) {
 	const enabled = options.streamCanonicalActors === true;
 	const loadProfiles = dependencies.loadProfiles || loadFriendlyNpcProfiles;
 	const loadActors = dependencies.loadActors || loadRemoteActors;
-	return createDeferredState(
+	return createDeferredHydrationState(
 		enabled ? 'waiting-for-playable' : 'fallback-stable',
 		enabled,
 		async () => {
@@ -24,82 +31,51 @@ export function createEssentialActorHydration(options = {}, dependencies = {}) {
 }
 
 export function createEssentialMaterialHydration(assets, options = {}, boot = null) {
-	return createDeferredState(
+	return createDeferredHydrationState(
 		'waiting-for-gameplay',
 		true,
-		async () => {
-			const module = await import(
-				'./EretzAssetLoader.js?v=20260722-rich-assets-01'
-			);
-			const rich = await module.loadEretzAssets(options);
-			copyRichAssetValues(assets, rich.assets);
-			await rich.assets.publicMaterialStreaming?.start?.();
-			boot?.progress?.(
-				'rich-materials',
-				1,
-				1,
-				'Authored materials streamed after playability.',
-				'ready'
-			);
-			return rich.assets;
-		}
+		async () => hydrateRichMaterials(assets, options, boot)
 	);
 }
 
-async function loadFriendlyNpcProfiles(options) {
-	const module = await import(
-		'../world/npc/FriendlyNpcProfiles.js?v=20260820-deferred-profiles-01'
+/** Loads authored materials only when post-play hydration explicitly begins. */
+async function hydrateRichMaterials(assets, options, boot) {
+	const moduleUrl = essentialMaterialHydrationUrl();
+	const module = await import(moduleUrl);
+	const rich = await module.loadEretzAssets(options);
+	copyRichAssetValues(assets, rich.assets);
+	await rich.assets.publicMaterialStreaming?.start?.();
+	boot?.progress?.(
+		'rich-materials',
+		1,
+		1,
+		'Authored materials streamed after playability.',
+		'ready'
 	);
+	return rich.assets;
+}
+
+/** Loads friendly profile identity only after canonical actor streaming is requested. */
+async function loadFriendlyNpcProfiles(options) {
+	const moduleUrl = essentialActorProfilesUrl();
+	const module = await import(moduleUrl);
 	const quality = options.quality || options.qualityProfile?.quality || 'medium';
 	return module.friendlyNpcProfiles(quality);
 }
 
+/** Loads canonical actor assets through a computed post-control module door. */
 async function loadRemoteActors(options, profiles) {
-	const module = await import(
-		'./EretzActorAssetLoader.js?v=20260820-profile-preserve-01'
-	);
+	const moduleUrl = essentialActorLoaderUrl();
+	const module = await import(moduleUrl);
 	return module.loadRemoteEretzActorAssets(options, profiles);
 }
 
-function createDeferredState(initialStatus, enabled, task) {
-	let promise = null;
-	const state = {
-		enabled,
-		error: null,
-		get promise() { return promise; },
-		startedAt: null,
-		status: initialStatus,
-		value: null,
-		start() {
-			if (!enabled) return Promise.resolve(null);
-			if (promise) return promise;
-			state.startedAt = globalThis.performance?.now?.() ?? Date.now();
-			state.status = 'loading';
-			promise = Promise.resolve()
-				.then(task)
-				.then(value => completeState(state, value))
-				.catch(error => degradeState(state, error));
-			return promise;
-		}
-	};
-	return state;
-}
-
-function completeState(state, value) {
-	state.value = value;
-	state.status = 'ready';
-	return value;
-}
-
-function degradeState(state, error) {
-	state.error = error?.message || String(error);
-	state.status = 'degraded';
-	return null;
-}
-
+/** Copies rich asset values without replacing the deferred streaming handles themselves. */
 function copyRichAssetValues(target, source = {}) {
 	for (const [key, value] of Object.entries(source)) {
-		if (key === 'publicMaterialStreaming' || key === 'publicMaterialHydration') continue;
+		if (key === 'publicMaterialStreaming' || key === 'publicMaterialHydration') {
+			continue;
+		}
 		target[key] = value;
 	}
 }

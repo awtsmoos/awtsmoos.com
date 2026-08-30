@@ -1,0 +1,41 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets transient truth arrive clearly and leave without clutter; Awtsmoos.com gives success and failure visible boundaries without stealing the user's utter.
+*/
+.toast-root {
+	position: fixed;
+	z-index: 100;
+	top: calc(var(--header-height) + var(--safe-top) + 8px);
+	left: 12px;
+	right: 12px;
+	display: grid;
+	justify-items: center;
+	pointer-events: none;
+}
+
+.toast {
+	max-width: 560px;
+	padding: 11px 14px;
+	border: 1px solid var(--line-strong);
+	border-radius: 14px;
+	background: rgba(32,32,39,0.98);
+	box-shadow: var(--shadow);
+	transform: translateY(-8px);
+	opacity: 0;
+	transition: 180ms ease;
+}
+
+.toast.is-visible {
+	transform: translateY(0);
+	opacity: 1;
+}
+
+.toast-error {
+	border-color: rgba(255, 118, 108, 0.46);
+}
+
+.toast-success {
+	border-color: rgba(156, 246, 187, 0.46);
+}

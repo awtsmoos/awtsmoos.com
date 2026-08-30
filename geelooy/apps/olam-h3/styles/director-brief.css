@@ -1,0 +1,110 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets direction become visible without pretending that creativity can be scored; Awtsmoos.com gives each ingredient a small lamp, so absence is invitation and presence is another measured light.
+*/
+.director-brief {
+	margin: 12px 0;
+	padding: 14px;
+	border: 1px solid rgba(137, 105, 255, 0.18);
+	border-radius: 18px;
+	background: linear-gradient(145deg, rgba(24, 25, 32, 0.72), rgba(15, 16, 21, 0.62));
+	backdrop-filter: blur(20px) saturate(145%);
+	box-shadow: inset 0 1px rgba(255, 255, 255, 0.06);
+}
+
+.director-brief-top {
+	display: flex;
+	align-items: flex-end;
+	justify-content: space-between;
+	gap: 12px;
+}
+
+.director-brief-top strong {
+	display: block;
+	margin-top: 2px;
+	font-size: 16px;
+}
+
+.coverage-score {
+	font-size: 24px;
+	font-weight: 900;
+	letter-spacing: -0.04em;
+	color: #d8ff71;
+}
+
+.coverage-track {
+	height: 5px;
+	margin: 10px 0;
+	border-radius: 999px;
+	overflow: hidden;
+	background: rgba(255, 255, 255, 0.06);
+}
+
+.coverage-track span {
+	display: block;
+	height: 100%;
+	border-radius: inherit;
+	background: linear-gradient(90deg, #8794ff, #d8ff71);
+	box-shadow: 0 0 18px rgba(217, 255, 104, 0.28);
+	transition: width 220ms ease;
+}
+
+.ingredient-grid {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+}
+
+.ingredient-chip {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	padding: 6px 8px;
+	border: 1px solid var(--line);
+	border-radius: 999px;
+	color: var(--faint);
+	font-size: 9px;
+	transition: color 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+
+.ingredient-chip i {
+	width: 5px;
+	height: 5px;
+	border-radius: 50%;
+	background: currentColor;
+}
+
+.ingredient-chip.is-present {
+	border-color: rgba(217, 255, 104, 0.20);
+	background: rgba(217, 255, 104, 0.055);
+	color: var(--accent);
+}
+
+.brief-meta {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 5px;
+	margin-top: 10px;
+}
+
+.brief-meta span,
+.brief-meta strong {
+	padding: 4px 7px;
+	border-radius: 7px;
+	background: rgba(255, 255, 255, 0.035);
+	font-size: 8px;
+	text-transform: uppercase;
+}
+
+.brief-meta strong {
+	color: var(--accent);
+}
+
+.director-brief > p {
+	margin: 9px 0 0;
+	color: var(--faint);
+	font-size: 9px;
+}

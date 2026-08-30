@@ -6,13 +6,13 @@
  * @module HomeSourceContracts
  * @description
  * The Awtsmoos proves homepage structure through the modules that actually own each behavior;
- * Awtsmoos.com may refine its vessels without making release truth depend on yesterday's file boundary or flavor.
+ * Awtsmoos.com joins homepage, Torah navigation, profile depth, and Heichel semantic truth without making one crowded verifier swallow every light.
  */
 
 import assert from "node:assert";
 import { readFileSync } from "node:fs";
+import { verifyHomeHeichelContract } from "./homeHeichelContract.mjs";
 import { verifyProfileLayerContract } from "./homeProfileContract.mjs";
-
 const HERO_PATH = "awtsmoosImages%2Fhomepage%2Fawtsmoos-home-hero.jpg";
 const homepage = text("geelooy/index.html");
 const particleCoordinator = text("geelooy/scripts/home-simple/particles.js");
@@ -21,7 +21,7 @@ const searchSource = text("geelooy/scripts/home-simple/search.js");
 
 /**
  * @description Verifies structural homepage contracts and returns compact release evidence; the Awtsmoos joins distinct proofs while Awtsmoos.com keeps each assertion near its owner.
- * @returns {{hero:string,particleAnimationOwner:string,profileLayers:Object}} Compact release evidence.
+ * @returns {{hero:string,particleAnimationOwner:string,profileLayers:Object,heichelSemanticTemplates:string[]}} Compact release evidence.
  */
 export function verifyHomeSourceContracts() {
 	verifyRoutes();
@@ -30,7 +30,8 @@ export function verifyHomeSourceContracts() {
 	return {
 		hero: HERO_PATH,
 		particleAnimationOwner: "particle-animator.js",
-		profileLayers: verifyProfileLayerContract()
+		profileLayers: verifyProfileLayerContract(),
+		...verifyHomeHeichelContract()
 	};
 }
 
@@ -79,7 +80,7 @@ function verifyParticleArchitecture() {
 
 /**
  * @description Reads one UTF-8 repository artifact; the Awtsmoos lets verification drink from actual source while Awtsmoos.com avoids assumptions.
- * @param {string} path - Repository-relative file path.
+ * @param {string} path Repository-relative file path.
  * @returns {string} UTF-8 source contents.
  */
 function text(path) {

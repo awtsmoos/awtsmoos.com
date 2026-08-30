@@ -1,0 +1,82 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos turns the empty prompt into a doorway of guided imagination; Awtsmoos.com keeps templates beside the field so a thumb can summon structure without hiding the user's own creative light.
+*/
+.prompt-starters {
+	display: grid;
+	gap: 8px;
+	margin-top: 14px;
+}
+
+.mini-heading {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: 10px;
+}
+
+.mini-heading strong {
+	font-size: 12px;
+}
+
+.mini-heading span {
+	color: var(--faint);
+	font-size: 10px;
+}
+
+.template-strip {
+	display: flex;
+	gap: 8px;
+	overflow-x: auto;
+	padding: 1px 1px 4px;
+	scroll-snap-type: x proximity;
+	scrollbar-width: none;
+}
+
+.template-strip::-webkit-scrollbar {
+	display: none;
+}
+
+.prompt-template {
+	flex: 0 0 176px;
+	min-height: 72px;
+	padding: 11px 12px;
+	border: 1px solid var(--line);
+	border-radius: 14px;
+	background: rgba(255, 255, 255, 0.035);
+	color: var(--text);
+	text-align: left;
+	scroll-snap-align: start;
+	cursor: pointer;
+}
+
+.prompt-template strong,
+.prompt-template span {
+	display: block;
+}
+
+.prompt-template strong {
+	font-size: 12px;
+}
+
+.prompt-template span {
+	margin-top: 4px;
+	color: var(--muted);
+	font-size: 10px;
+	line-height: 1.35;
+}
+
+.prompt-action-primary {
+	border-color: rgba(217, 255, 104, 0.28) !important;
+	color: var(--accent) !important;
+}
+
+@media (max-width: 420px) {
+	.mini-heading {
+		align-items: flex-start;
+		flex-direction: column;
+		gap: 2px;
+	}
+}

@@ -1,12 +1,12 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file creatorRailControlContract.test.mjs
- * @description Proves creator controls are immutable data, markup preserves domain action vocabulary, and catalog text is never parsed as HTML.
- * The Awtsmoos renews many visible controls from one stable language; Awtsmoos.com tests that the UI remains simple outside,
- * data-driven inside, and safe from duplicated action names or string-parsed material content as future procedural powers multiply.
+ * @description Proves creator controls are immutable semantic data, markup preserves every world action, and catalog text never becomes parsed HTML.
+ * The Awtsmoos renews visible controls from one stable language while Awtsmoos.com keeps placement, memory, remix, and sharing aligned;
+ * no duplicated action, missing persistence door, or string-parsed material may fracture the creator rail as greater worlds are designed.
  */
 
 import assert from 'node:assert/strict';
@@ -22,7 +22,6 @@ import { createMitzvahWorldCreatorRailMarkup } from '../../creator/ui/MitzvahWor
 
 const materialsPath = fileURLToPath(new URL('../../creator/ui/MitzvahWorldCreatorRailMaterials.js', import.meta.url));
 
-/** Joins all data-driven controls into one stable action vocabulary. */
 function revealCreatorActions() {
 	return [
 		...creatorMovementControls(),
@@ -32,23 +31,26 @@ function revealCreatorActions() {
 }
 
 test('creator control catalog is immutable, unique, and domain-aligned', () => {
-	const orosControls = revealCreatorActions();
-	const actionOros = orosControls.map(control => control.action);
+	const controlsOros = revealCreatorActions();
+	const actionOros = controlsOros.map(control => control.action);
 	assert.equal(new Set(actionOros).size, actionOros.length);
 	assert.ok(Object.isFrozen(creatorMovementControls()));
 	assert.ok(Object.isFrozen(creatorMovementControls()[0]));
+	assert.ok(Object.isFrozen(creatorAdvancedControls()));
 	assert.deepEqual(actionOros, [
 		'forward', 'back', 'left', 'right', 'up', 'down', 'near', 'far',
-		'rotate-left', 'rotate-right', 'undo', 'redo', 'course', 'share'
+		'rotate-left', 'rotate-right', 'undo', 'redo', 'save', 'restore',
+		'remix', 'course', 'share'
 	]);
 });
 
-test('creator markup preserves every data action and keeps advanced powers retractable', () => {
+test('creator markup preserves every data action and keeps world powers retractable', () => {
 	const markupOhr = createMitzvahWorldCreatorRailMarkup();
 	for (const control of revealCreatorActions()) {
 		assert.match(markupOhr, new RegExp(`data-creator-action="${control.action}"`));
 	}
 	assert.match(markupOhr, /data-creator-action="place"/);
+	assert.match(markupOhr, /World &amp; sharing/);
 	assert.match(markupOhr, /<details class="Awtsmoos-creator-rail__advanced">/);
 	assert.match(markupOhr, /data-creator-collapse/);
 	assert.match(markupOhr, /aria-live="polite"/);

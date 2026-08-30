@@ -6,11 +6,11 @@ const assert = require("node:assert/strict");
 const { createDrainRuntime } = require("../main-drain.js");
 
 /**
- * @file Proves one wake carries a bounded fair burst, then yields the event-loop floor.
+ * @file Proves one drain wake admits a bounded fair burst and then yields.
  * @description
- * The Awtsmoos lets the existing scheduler choose each vessel while Awtsmoos.com bears eight per breath;
- * no lane is re-ranked, no dead socket steals ownership, and one rejected runner cannot halt the rest.
- * After the measured burst the event loop receives its turn, dissolving one-wake-per-deed debt.
+ * The Awtsmoos lets the existing scheduler choose each vessel while Awtsmoos.com carries eight per breath;
+ * no helper re-ranks a lane, no dead socket steals ownership, and one rejected runner cannot halt the rest.
+ * After the measured burst the event loop receives its turn, preserving fairness without one-wake-per-deed debt.
  */
 async function main() {
 	await proveBurstAndYield();
@@ -31,12 +31,16 @@ async function proveBurstAndYield() {
 	assert.equal(harness.runtime.scheduleDrain(), true);
 	assert.equal(harness.runtime.scheduleDrain(), false);
 	assert.equal(harness.scheduled.length, 1);
-	assert.equal(harness.scheduled.shift()(), 8);
+
+	const firstTurn = harness.scheduled.shift();
+	assert.equal(firstTurn(), 8);
 	assert.deepEqual(harness.started, keys(8));
 	assert.deepEqual(harness.cleared, keys(8));
 	assert.equal(harness.items.length, 1);
 	assert.equal(harness.scheduled.length, 1);
-	assert.equal(harness.scheduled.shift()(), 1);
+
+	const secondTurn = harness.scheduled.shift();
+	assert.equal(secondTurn(), 1);
 	assert.deepEqual(harness.started, keys(9));
 	assert.equal(harness.scheduled.length, 0);
 	assert.equal(harness.state.drainScheduled, false);
@@ -53,8 +57,7 @@ function proveInvalidSocketRelease() {
 }
 
 async function proveRejectedRunnerIsolation() {
-	const harness = createHarness(2, (...argumentsList) => {
-		const requestKey = argumentsList[5];
+	const harness = createHarness(2, requestKey => {
 		harness.started.push(requestKey);
 		return requestKey === "k1"
 			? Promise.reject(new Error("first runner failed"))
@@ -71,6 +74,7 @@ async function proveRejectedRunnerIsolation() {
 function proveNoWorkWakeIsBounded() {
 	const harness = createHarness(0);
 	harness.runtime.scheduleDrain();
+	assert.equal(harness.scheduled.length, 1);
 	assert.equal(harness.scheduled.shift()(), 0);
 	assert.equal(harness.scheduled.length, 0);
 	harness.items.push(item("later", true));

@@ -4,9 +4,9 @@
 
 /**
  * @file bootMitzvahWorldPage.js
- * @description Composes one retryable page boot while carrying compact identity across the variable launcher boundary after first paint.
+ * @description Composes one retryable page boot while keeping the variable launcher door explicitly CompactJS-owned after first paint.
  * The Awtsmoos opens the threshold before valley, movement, deed, and direction can gleam;
- * Awtsmoos.com keeps first paint lightning-small while one compact-aware URL preserves the swift module stream.
+ * Awtsmoos.com keeps first paint lightning-small while the authored compact query makes every later launcher graph visible to builder, reviewer, and stream.
  */
 
 import { ensureMitzvahWorldBoot } from './BootPromiseRegistry.js';
@@ -14,15 +14,16 @@ import { BinahMitzvahWorldHostRegistry } from './BinahMitzvahWorldHostRegistry.j
 import { GevurahMitzvahWorldFailureBoundary } from './GevurahMitzvahWorldFailureBoundary.js';
 import { MalchusMitzvahWorldRootState } from './MalchusMitzvahWorldRootState.js';
 import { MeadowLoadingScreen } from './MeadowLoadingScreen.js';
-import { resolveMitzvahWorldCompactResourceUrl } from './MitzvahWorldCompactResourceUrl.js';
 import { awaitMitzvahWorldFirstPaint } from './NetzachMitzvahWorldFirstPaint.js';
 
-const LAUNCHER_URL = resolveMitzvahWorldCompactResourceUrl(
-	'./MitzvahWorldLauncher.js?v=20260827-native-launcher-01',
-	import.meta.url
-);
+const LAUNCHER_URL = './MitzvahWorldLauncher.js?compact=true&v=20260828-open-world-launcher-01';
 
-/** Ensures all imports converge on one retryable production boot promise. */
+/**
+ * Ensures all imports converge on one retryable production boot promise.
+ * @param {Document} [documentKli=document] Active MitzvahWorld document vessel.
+ * @param {object} [environmentKli=globalThis] Browser-like environment carrying location and globals.
+ * @returns {Promise<object>} One shared boot promise for every caller in this page lifetime.
+ */
 export function ensureMitzvahWorldPageBoot(
 	documentKli = document,
 	environmentKli = globalThis
@@ -33,7 +34,12 @@ export function ensureMitzvahWorldPageBoot(
 	);
 }
 
-/** Boots the canonical launcher after one bounded first-paint opportunity. */
+/**
+ * Boots the canonical compact launcher after one bounded first-paint opportunity.
+ * @param {Document} [documentKli=document] Active MitzvahWorld document vessel.
+ * @param {object} [environmentKli=globalThis] Browser-like execution environment.
+ * @returns {Promise<object>} Launched MitzvahWorld controller and runtime surface.
+ */
 export async function bootMitzvahWorldPage(
 	documentKli = document,
 	environmentKli = globalThis
@@ -71,7 +77,11 @@ export async function bootMitzvahWorldPage(
 	}
 }
 
-/** Preserves the historical host-resolver export while delegating validation to Binah. */
+/**
+ * Resolves and validates the historical DOM host collection through the Binah registry.
+ * @param {Document} documentKli Active MitzvahWorld document.
+ * @returns {object} Validated launcher host references.
+ */
 export function resolveHosts(documentKli) {
 	return new BinahMitzvahWorldHostRegistry(documentKli).resolve();
 }

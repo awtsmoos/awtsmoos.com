@@ -4,8 +4,9 @@
 
 /**
  * @file essentialAssetBoundary.test.mjs
- * @description Proves boot loads one real local player while rich catalogs remain deferred.
- * The Awtsmoos grants the traveler a true garment before ornament; Awtsmoos.com keeps later worlds lazy.
+ * @description Proves first control receives a local Chossid with zero blocking model requests while canonical actors and rich materials remain explicitly post-play.
+ * The Awtsmoos gives the traveler form before ornament and motion before the distant garment arrives;
+ * Awtsmoos.com preserves the later loader behind a computed door, so first play stays light while richer identity remains alive.
  */
 
 import assert from 'node:assert/strict';
@@ -17,22 +18,27 @@ import { loadEretzEssentialAssets } from '../../app/EretzEssentialAssetLoader.js
 const APP_URL = new URL('../../app/', import.meta.url);
 const source = file => readFile(new URL(file, APP_URL), 'utf8');
 
-test('essential loader requests one verified Chossid and preserves null-safe contracts', async () => {
+test('essential loader opens control with a local Chossid and preserves canonical hydration dependency', async () => {
 	const progress = [];
-	const scene = new Group();
-	scene.userData.isolatedModelLoad = { resolvedUrl: '/games/mitzvahWorld/assets/models/player/test/chossid.glb' };
+	const canonicalScene = new Group();
+	const playerLoader = async () => ({
+		animations: [],
+		scene: canonicalScene,
+		userData: { fallback: false }
+	});
 	const loaded = await loadEretzEssentialAssets({
 		boot: {
 			begin: phase => progress.push(['begin', phase]),
 			progress: (...detail) => progress.push(['progress', ...detail])
 		},
-		playerLoader: async () => ({ animations: [], scene, userData: { fallback: false } })
+		playerLoader
 	});
-	assert.equal(loaded.playerGltf.scene, scene);
-	assert.equal(loaded.actorAssetStats.playerBlockingRequests, 1);
-	assert.equal(loaded.importedModelMaterials.player.fallback, false);
+	assert.notEqual(loaded.playerGltf.scene, canonicalScene);
+	assert.equal(loaded.actorAssetStats.playerBlockingRequests, 0);
+	assert.equal(loaded.importedModelMaterials.player.fallback, true);
 	assert.equal(loaded.assets.terrainMixImage, null);
 	assert.equal(loaded.assets.publicMaterialStreaming.status, 'waiting-for-gameplay');
+	assert.equal(loaded.playerHydrationDependencies.loadGltf, playerLoader);
 	assert.ok(progress.some(item => item.includes('essential-local-player')));
 });
 
@@ -42,15 +48,23 @@ test('essential first-wave source contains no rich catalog imports', async () =>
 		source('EretzEssentialAssetRecord.js'),
 		source('EretzWorldFoundation.js')
 	]);
-	const firstWave = [loader, record].join(String.fromCharCode(10));
+	const firstWave = [loader, record].join('\n');
 	assert.doesNotMatch(firstWave, /HouseAssets|FriendlyNpcProfiles|AdventureCatalog|TextureCatalog|RuntimeMaterialManifest/);
 	assert.match(foundation, /EretzEssentialAssetLoader\.js/);
 	assert.doesNotMatch(foundation, /EretzAssetLoader\.js/);
 });
 
-test('rich catalogs remain behind explicit hydration start methods', async () => {
-	const hydration = await source('EretzEssentialHydrationState.js');
-	assert.match(hydration, /start\(\)/);
-	assert.match(hydration, /import\(\s*'\.\/EretzAssetLoader\.js/);
-	assert.match(hydration, /import\(\s*'\.\/EretzActorAssetLoader\.js/);
+test('rich catalogs remain behind explicit computed hydration start methods', async () => {
+	const [hydration, urls] = await Promise.all([
+		source('EretzEssentialHydrationState.js'),
+		source('EretzEssentialHydrationUrls.js')
+	]);
+	assert.match(hydration, /createDeferredHydrationState/);
+	assert.match(hydration, /import\(moduleUrl\)/);
+	assert.doesNotMatch(hydration, /import\(['"]\.\/EretzAssetLoader\.js/);
+	assert.doesNotMatch(hydration, /import\(['"]\.\/EretzActorAssetLoader\.js/);
+	assert.match(urls, /EretzAssetLoader\.js/);
+	assert.match(urls, /EretzActorAssetLoader\.js/);
+	assert.match(urls, /FriendlyNpcProfiles\.js/);
+	assert.match(urls, /resolveDeferredAppModuleUrl/);
 });

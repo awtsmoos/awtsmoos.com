@@ -4,7 +4,9 @@
 
 /**
  * @file bootstrapCoreRuntime.test.mjs
- * @description Proves visible player creation, W movement, reversed A/D, and immediate frames.
+ * @description Proves visible player creation, frame-capped W movement, directional yaw, immediate rendering, and compact staged boot boundaries.
+ * The Awtsmoos recreates each footstep rather than granting one impossible half-second leap;
+ * Awtsmoos.com tests the same bounded frame rhythm the browser uses, while generated foundation and core garments keep first play cheap.
  */
 
 import assert from 'node:assert/strict';
@@ -58,21 +60,22 @@ test('player runtime attaches a visible marker to the local model', () => {
 	assert.equal(model.parent, scene);
 });
 
-test('W moves forward and visible yaw follows A/D state', () => {
+test('W advances across real capped frames and visible yaw follows A/D state', () => {
 	const forward = createRuntime({ turn: 0, x: 0, y: -1 });
-	new BootstrapMovementController(forward).update(0.5);
-	assert.ok(forward.state.z > 2);
+	const forwardMovement = new BootstrapMovementController(forward);
+	for (let frame = 0; frame < 10; frame += 1) forwardMovement.update(0.05);
+	assert.ok(forward.state.z > 1.8);
 	const left = createRuntime({ turn: 1, x: 0, y: 0 });
-	new BootstrapMovementController(left).update(0.25);
+	new BootstrapMovementController(left).update(0.05);
 	assert.ok(left.state.facing > 0);
 	assert.ok(left.model.quaternion.y > 0);
 	const right = createRuntime({ turn: -1, x: 0, y: 0 });
-	new BootstrapMovementController(right).update(0.25);
+	new BootstrapMovementController(right).update(0.05);
 	assert.ok(right.state.facing < 0);
 	assert.ok(right.model.quaternion.y < 0);
 });
 
-test('bootstrap loop establishes camera and renders immediately', () => {
+test('bootstrap loop establishes camera, renders immediately, and records one frame sample', () => {
 	const runtime = createRuntime();
 	const frames = [];
 	const environment = {
@@ -88,15 +91,17 @@ test('bootstrap loop establishes camera and renders immediately', () => {
 	frames.shift()(116);
 	assert.equal(runtime.renderer.renderCalls, 2);
 	assert.equal(runtime.bootstrapFrames, 1);
-	assert.equal(runtime.frameCadence.snapshot().count, 1);
+	assert.equal(runtime.frameCadence.snapshot().samples, 1);
 	movement.stop();
 });
 
-test('staged runtime imports bootstrap core and no legacy core assembly', async () => {
+test('staged runtime crosses generated first-play chunks and defers post-play richness', async () => {
 	const staged = await source('EretzStagedRuntime.js');
 	const runtime = await source('createEretzRuntime.js');
-	assert.match(staged, /BootstrapCoreRuntimeAssembly\.js/);
+	assert.match(staged, /mitzvah-world-foundation\.compact\.js/);
+	assert.match(staged, /mitzvah-world-core\.compact\.js/);
 	assert.doesNotMatch(staged, /EretzCoreRuntimeAssembly\.js/);
-	assert.doesNotMatch(runtime, /scheduleRendererHydration|EretzDeferredRuntimeEnrichment/);
-	assert.match(runtime, /deferredSystems/);
+	assert.match(runtime, /rendererHydrationPromise/);
+	assert.match(runtime, /startPostPlayableStreams/);
+	assert.match(runtime, /postPlayablePriorityPromise/);
 });

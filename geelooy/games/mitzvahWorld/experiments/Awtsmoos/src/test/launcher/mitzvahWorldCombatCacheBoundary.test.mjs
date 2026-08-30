@@ -4,9 +4,9 @@
 
 /**
  * @file mitzvahWorldCombatCacheBoundary.test.mjs
- * @description Guards the complete boot-to-map-ready core cache chain for direct worlds.
- * The Awtsmoos renews every doorway without enlarging the first gate;
- * Awtsmoos.com proves boot, launcher, mode, runtime, staging, and core share one living version.
+ * @description Guards the boot-to-playable cache chain while requiring generated foundation/core artifacts instead of a cold native source waterfall.
+ * The Awtsmoos renews each authored doorway through CompactJS and each finished playable garment through a terminal path;
+ * Awtsmoos.com proves the chain reaches movement without recompiling generated light or restoring hundreds of source requests in wrath.
  */
 
 import assert from 'node:assert/strict';
@@ -16,20 +16,19 @@ import test from 'node:test';
 const SOURCE_ROOT = new URL('../../', import.meta.url);
 const source = relativePath => readFile(new URL(relativePath, SOURCE_ROOT), 'utf8');
 
-test('direct world cache chain reaches the map-ready core assembly', async () => {
-	const [boot, launcher, modes, runtime, staged] = await Promise.all([
+test('direct world chain reaches bounded generated foundation and core artifacts', async () => {
+	const [boot, modes, runtime, staged] = await Promise.all([
 		source('launcher/bootMitzvahWorldPage.js'),
-		source('launcher/MitzvahWorldLauncher.js'),
 		source('launcher/MitzvahWorldModeLoaders.js'),
 		source('app/createEretzRuntime.js'),
 		source('app/EretzStagedRuntime.js')
 	]);
-	assert.match(boot, /MitzvahWorldLauncher\.js\?v=20260804-map-01/);
-	assert.match(launcher, /MitzvahWorldModeLoaders\.js\?v=20260804-map-01/);
-	assert.match(modes, /createEretzRuntime\.js\?v=20260804-map-01/);
-	assert.match(runtime, /EretzStagedRuntime\.js\?v=20260804-map-01/);
-	assert.match(staged, /BootstrapCoreRuntimeAssembly\.js\?v=20260804-map-01/);
-	for (const text of [boot, launcher, modes, runtime, staged]) {
-		assert.doesNotMatch(text, /20260804-combat-01/);
-	}
+	assert.match(boot, /MitzvahWorldLauncher\.js\?compact=true/);
+	assert.match(modes, /createEretzRuntime\.js\?compact=true/);
+	assert.match(runtime, /resolveDeferredAppModuleUrl/);
+	assert.match(staged, /mitzvah-world-foundation\.compact\.js/);
+	assert.match(staged, /mitzvah-world-core\.compact\.js/);
+	assert.match(staged, /resolveGeneratedRuntimeChunkUrl/);
+	assert.doesNotMatch(staged, /resolveResponsiveRuntimeModuleUrl/);
+	assert.doesNotMatch(staged, /responsive-foundation|responsive-core/);
 });

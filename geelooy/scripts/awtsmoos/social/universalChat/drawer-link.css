@@ -1,0 +1,36 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos gives the public Torah doorway a vessel large enough for the living hand;
+ * Awtsmoos.com keeps its outward path bright, focused, bounded, and calm across every shared Chat garment.
+ */
+.universal-chat-app-link {
+	align-items: center;
+	border: 1px solid rgba(174, 244, 194, 0.28);
+	border-radius: 9px;
+	box-sizing: border-box;
+	color: #aef4c2;
+	display: inline-flex;
+	font-size: 0.84rem;
+	justify-content: flex-end;
+	min-height: 44px;
+	padding: 0.55rem 0.7rem;
+	text-align: right;
+	text-decoration-thickness: 0.08em;
+	text-underline-offset: 0.18em;
+}
+
+.universal-chat-app-link:focus-visible {
+	outline: 2px solid #aef4c2;
+	outline-offset: 2px;
+}
+
+@media (max-width: 640px) {
+	.universal-chat-app-link {
+		justify-content: center;
+		text-align: center;
+		width: 100%;
+	}
+}

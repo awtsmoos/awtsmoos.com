@@ -1,11 +1,13 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 /**
  * @module LivingPathCards
- * @description The Awtsmoos creates each teaching beyond the card that reveals it while Awtsmoos.com
- * joins progress, navigation, visible social action, and secondary commands without turning one vessel into clutter.
+ * @description
+ * The Awtsmoos creates each teaching beyond the card that reveals its light;
+ * Awtsmoos.com joins progress and navigation while Chitas opens only a trusted study site.
  */
+
 import { getItemKey } from '../../../state.js';
 import { createStorageGateway } from '../../../living-path/storage-gateway.js';
 import { writeProgress } from '../../../living-path/progress-store.js';
@@ -14,6 +16,8 @@ import { cardMenuBlueprint } from './card-menu.js';
 import { bodyBlueprint, mediaBlueprint } from './card-content.js';
 
 const storage = createStorageGateway();
+const CHABAD_STUDY_HOST = 'www.chabad.org';
+const CHABAD_STUDY_PATH = '/dailystudy/';
 
 export function cardBlueprint(item, data, navigator, appState, options = {}) {
 	const key = getItemKey({ id: data.id, type: data.type });
@@ -42,18 +46,39 @@ export function cardBlueprint(item, data, navigator, appState, options = {}) {
 }
 
 export function cardHref(item, data, appState) {
-	if (['series', 'grouping'].includes(data.type)) return `${location.pathname}?view=series&series=${encodeURIComponent(data.id)}`;
+	const externalHref = trustedExternalHref(data);
+	if (externalHref) return externalHref;
+	if (['series', 'grouping'].includes(data.type)) {
+		return `${location.pathname}?view=series&series=${encodeURIComponent(data.id)}`;
+	}
 	const postKey = item.indexInSeries !== undefined ? item.indexInSeries : data.id;
 	return `/heichelos/${appState.heichelId}/series/${appState.currentSeries}/${postKey}`;
 }
 
+function trustedExternalHref(data) {
+	const candidate = data.raw?.externalHref;
+	if (!data.raw?.virtualStudy || typeof candidate !== 'string') return '';
+	try {
+		const url = new URL(candidate);
+		if (url.protocol !== 'https:') return '';
+		if (url.hostname !== CHABAD_STUDY_HOST) return '';
+		if (!url.pathname.startsWith(CHABAD_STUDY_PATH)) return '';
+		return url.href;
+	} catch {
+		return '';
+	}
+}
+
 function actionBlueprint(data, item, navigator, appState, options) {
+	if (data.raw?.virtualStudy) return options.expandControl || null;
 	return {
 		tag: 'div',
 		attr: { class: 'nav-card-actions' },
 		children: [
 			options.expandControl || null,
-			data.type === 'post' ? primarySocialActionRail({ ...item, id: data.id, title: data.title, contentType: data.kind }, appState) : null,
+			data.type === 'post'
+				? primarySocialActionRail({ ...item, id: data.id, title: data.title, contentType: data.kind }, appState)
+				: null,
 			cardMenuBlueprint(data, item, navigator, appState)
 		].filter(Boolean)
 	};
@@ -74,6 +99,7 @@ function openCard(event, item, data, href, navigator, appState) {
 		parentLabel: appState.currentSeriesData?.name || appState.currentSeries,
 		openedAt: Date.now()
 	});
-	if (['series', 'grouping'].includes(data.type)) navigator.navigateTo(data.id);
+	if (trustedExternalHref(data)) location.href = href;
+	else if (['series', 'grouping'].includes(data.type)) navigator.navigateTo(data.id);
 	else location.href = href;
 }

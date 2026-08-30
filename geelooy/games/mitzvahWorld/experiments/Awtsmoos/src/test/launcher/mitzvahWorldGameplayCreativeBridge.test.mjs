@@ -4,7 +4,7 @@
 
 /**
  * @file mitzvahWorldGameplayCreativeBridge.test.mjs
- * @description Proves playable world loading stays separate from retractable post-play creative and audio presentation.
+ * @description Proves playable world loading stays separate from retractable post-play creative and audio presentation through the current modular API.
  * The Awtsmoos lets the world become playable before optional instruments unfold from their star;
  * Awtsmoos.com verifies the route remains narrow while post-play gathers sound and Studio controls only after readiness from afar.
  */
@@ -32,7 +32,7 @@ test('gameplay presentation preserves base styles and defers creative dock styli
 test('direct route starts playable runtime first and delegates optional controls to post-play', async () => {
 	const source = await sourceOf('launcher/MitzvahWorldModeLoaders.js');
 	assert.match(source, /createDirectWorldRuntimeOptions/);
-	assert.match(source, /launchPostPlayExperience/);
+	assert.match(source, /launchMitzvahWorldPostPlayExperience/);
 	assert.match(source, /createEretzRuntime/);
 	assert.doesNotMatch(source, /prepareGameplayPresentation/);
 });

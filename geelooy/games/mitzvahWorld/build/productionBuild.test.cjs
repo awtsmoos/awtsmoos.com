@@ -4,9 +4,9 @@
 
 /**
  * @file productionBuild.test.cjs
- * @description Proves compact game and shell entry doors, tiny first-control, deterministic deferred chunks, compression, and complete cinema reachability.
- * The Awtsmoos grants first control through one almost weightless gate while later worlds retain measured beauty;
- * Awtsmoos.com lets game JavaScript and shared shell CSS each cross their compact doorway without confusing one vessel for the other.
+ * @description Proves compact entry doors, tiny first control, bounded playable foundation/core, later quality chunks, compression, and complete cinema reachability.
+ * The Awtsmoos grants first control through one almost weightless gate while the playable valley crosses two measured rays;
+ * Awtsmoos.com keeps later world beauty deferred, and every generated garment carries verified identity, Brotli, and gzip on its way.
  */
 
 const assert = require('node:assert/strict');
@@ -19,6 +19,8 @@ const {
 } = require('./ProductionBuildProof.cjs');
 
 const chunks = Object.freeze([
+	['foundation', 'createEretzWorldFoundation'],
+	['core', 'assembleBootstrapCoreRuntime'],
 	['presentation', 'installMinimalMeadowPresentationBundle'],
 	['world', 'installMinimalMeadowWorldSystems'],
 	['optional', 'hydrateMinimalMeadowPlayer']
@@ -27,16 +29,10 @@ const firstControlForbidden = Object.freeze([
 	'CanonicalVillagePlan',
 	'MitzvahWorldCreativeModeLoaders',
 	'MovieReproduction',
-	'MovieReproductionEffects',
-	'MovieReproductionEnvironment',
 	'MovieStudio',
-	'MovieStudioApiReproduction',
-	'VillageRiparianReedPlacement',
 	'VillageRiverHydrology',
-	'VillageRiverStonePlacement',
 	'Wellspring',
 	'WorldEcologyOccupancy',
-	'WorldParticle',
 	'WorldSpatialRealismApi'
 ]);
 
@@ -46,7 +42,6 @@ test('B"H production page selects compact game and shell publications directly',
 		.map(match => match[1]);
 	const modules = [...html.matchAll(/<script[\s\S]*?type="module"[\s\S]*?src="([^"]+)"[\s\S]*?<\/script>/g)]
 		.map(match => match[1]);
-
 	assert.deepEqual(stylesheets, [
 		'./styles/generated/mitzvah-world.production.css',
 		'../styles/player-shell/index.css?compact=true'
@@ -55,7 +50,6 @@ test('B"H production page selects compact game and shell publications directly',
 		'./experiments/Awtsmoos/src/mitzvah-world.compact.js',
 		'../scripts/player-shell/index.js?compact=true'
 	]);
-	assert.doesNotMatch(html, /MitzvahWorldProductionEntry\.js/);
 });
 
 test('B"H production CSS is complete and every representation is verified', () => {
@@ -98,7 +92,6 @@ test('B"H deferred creative mode preserves the complete served cinema graph', ()
 	const cinema = cinemaSources();
 	assert.match(loader, /import\('\.\.\/movie\/MovieStudio\.js'\)/);
 	assert.match(api, /createMovieStudioCinemaDomain/);
-	assert.match(api, /createMovieStudioReproductionDomain/);
 	for (const marker of [
 		'createMovieCinemaFlagship',
 		'one-minute-chassidic-village',

@@ -1,0 +1,95 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos keeps every generated shot a living ancestor; Awtsmoos.com makes status, prompt, cost, and reuse visible before the user opens the frame.
+*/
+.creation-media {
+	width: 100%;
+	aspect-ratio: 16 / 10;
+	object-fit: cover;
+	background: #111116;
+}
+
+.creation-placeholder {
+	display: grid;
+	place-items: center;
+	color: var(--accent);
+	font-size: 10px;
+	font-weight: 900;
+	letter-spacing: 0.12em;
+}
+
+.creation-card-body {
+	padding: 14px;
+}
+
+.card-status-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+}
+
+.creation-card h2 {
+	margin: 10px 0 9px;
+	font-size: 16px;
+	line-height: 1.32;
+	display: -webkit-box;
+	-webkit-line-clamp: 3;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+}
+
+.card-meta {
+	display: flex;
+	gap: 8px;
+	flex-wrap: wrap;
+	color: var(--muted);
+	font-size: 11px;
+}
+
+.card-cost {
+	margin-top: 10px;
+	font-weight: 900;
+}
+
+.card-cost small {
+	color: var(--muted);
+	font-weight: 600;
+}
+
+.status-chip,
+.count-pill {
+	padding: 5px 9px;
+}
+
+.status-succeeded {
+	color: var(--success);
+}
+
+.status-failed,
+.inline-error {
+	color: var(--danger);
+}
+
+.status-running,
+.status-queued,
+.status-submitting {
+	color: var(--warning);
+}
+
+.favorite-button {
+	width: 36px;
+	padding: 0;
+	color: var(--faint);
+}
+
+.favorite-button.is-active {
+	color: var(--warning);
+}
+
+.inline-error {
+	margin: 10px 0 0;
+	font-size: 12px;
+}

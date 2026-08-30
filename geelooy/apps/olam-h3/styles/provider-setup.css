@@ -1,0 +1,84 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos keeps the secret hidden while making configuration unmistakable; Awtsmoos.com gives status and numbered setup steps one calm provider vessel without mixing them with external-link decoration.
+*/
+.setup-status-row {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 12px;
+}
+
+.setup-status-row h2 {
+	margin-top: 3px;
+}
+
+.setup-status {
+	flex: 0 0 auto;
+	padding: 7px 9px;
+	border-radius: 999px;
+	font-size: 9px;
+	font-weight: 900;
+}
+
+.setup-status.is-ready {
+	background: rgba(156, 246, 187, 0.10);
+	color: var(--success);
+}
+
+.setup-status.is-blocked {
+	background: rgba(255, 212, 121, 0.10);
+	color: var(--warning);
+}
+
+.setup-intro {
+	margin: 8px 0 12px;
+	color: var(--muted);
+	font-size: 12px;
+}
+
+.setup-steps {
+	display: grid;
+	gap: 8px;
+	margin-top: 13px;
+}
+
+.setup-step {
+	display: grid;
+	grid-template-columns: 28px minmax(0, 1fr);
+	gap: 9px;
+	padding: 10px 0;
+	border-top: 1px solid var(--line);
+}
+
+.setup-step > span {
+	width: 28px;
+	height: 28px;
+	display: grid;
+	place-items: center;
+	border-radius: 9px;
+	background: rgba(137, 105, 255, 0.12);
+	color: #c9bbff;
+	font-size: 10px;
+	font-weight: 900;
+}
+
+.setup-step strong {
+	font-size: 11px;
+}
+
+.setup-step p {
+	margin: 3px 0 0;
+	color: var(--muted);
+	font-size: 10px;
+	line-height: 1.45;
+}
+
+@media (max-width: 460px) {
+	.setup-status-row {
+		align-items: flex-start;
+		flex-direction: column;
+	}
+}
