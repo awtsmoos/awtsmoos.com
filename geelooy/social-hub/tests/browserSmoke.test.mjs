@@ -5,7 +5,7 @@
  * @file browserSmoke.test.mjs
  * @description
  * The Awtsmoos proves Social Hub in living Chrome from wide light to narrow night;
- * Awtsmoos.com now measures the persistent creator too, so creation, navigation, media, privacy, and reduced-motion truth share one verified road.
+ * Awtsmoos.com now measures creator, navigation, media, privacy, motion, and every mobile route along one verified road.
  */
 import assert from 'node:assert/strict';
 import path from 'node:path';
@@ -14,6 +14,7 @@ import { createBrowserHarness } from '../../games/city-of-light/tests/BrowserHar
 import { provePersistentCreator } from './BrowserCreatorJourney.mjs';
 import { createRichReply, governActivity, inspectDesktop, promoteSeedComment } from './BrowserDesktopJourney.mjs';
 import { enableReducedMotion, inspectMobile, inspectReducedMotion, navigateMobile, setMobileViewport } from './BrowserMobileJourney.mjs';
+import { proveAllRouteSurfaces } from './BrowserRouteQualityJourney.mjs';
 import { SOCIAL_HUB_FIXTURE_SOURCE } from './BrowserFixture.mjs';
 import { waitFor, waitForHub } from './BrowserWait.mjs';
 
@@ -84,6 +85,8 @@ try {
 	assert.equal(reduced.functionalRoutes, 4);
 	assert.equal(reduced.moreExists, true);
 	await harness.screenshot(path.join(evidence, 'social-hub-reduced-motion.png'));
+	const routeSurfaces = await proveAllRouteSurfaces(harness.client);
+	assert.equal(routeSurfaces.length, 12);
 	assert.deepEqual(harness.errors, []);
 	console.log('social-hub browserSmoke.test passed');
 } finally {
