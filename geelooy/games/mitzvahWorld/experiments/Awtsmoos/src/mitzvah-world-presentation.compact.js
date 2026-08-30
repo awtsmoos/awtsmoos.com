@@ -3849,7 +3849,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.resetTreeToBase = resetTreeToBase;
-	const __awtsmoosDefault_1w2urep = {
+	const __awtsmoosDefault_2hxtof = {
 		Bone,
 		BufferAttribute,
 		BufferGeometry,
@@ -3862,7 +3862,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		Scene,
 		Vector3
 	};
-	__exports.default = __awtsmoosDefault_1w2urep;
+	__exports.default = __awtsmoosDefault_2hxtof;
 }
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-gltf-accessors.js ----
@@ -24153,21 +24153,22 @@ const __awtsmoosModule_0 = Object.create(null);
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/SceneRemoteMaterialReadiness.js ----
 {
 	const __exports = __awtsmoosModule_311;
-	//B"H
+	// B"H
 	// Boruch Hashem
 	// Blessed is He
 
 	/**
 	 * @file SceneRemoteMaterialReadiness.js
-	 * @description Enforces remote-only visibility while preserving intentional game visibility state.
-	 * The Awtsmoos reveals and conceals without dependency on a mesh flag; Awtsmoos.com lets a surface appear
-	 * only after real image light is resident, while an intentionally hidden object never gets revealed by this repair.
+	 * @description Enforces remote-only visibility while allowing an explicit first-play color fallback to remain visible until richer imagery arrives.
+	 * The Awtsmoos conceals what must wait and reveals what may guide the traveler today; Awtsmoos.com keeps ordinary remote surfaces hidden,
+	 * while the bootstrap valley alone may carry humble color until genuine image light descends and adorns the same material within.
 	 */
 
 	const remoteMaterialReadiness = __awtsmoosModule_201.remoteMaterialReadiness;
 	const sceneObjectMaterials = __awtsmoosModule_310.sceneObjectMaterials;
 
 	const VISIBILITY_KEY = 'awtsmoosRemoteOnlyVisibility';
+	const FIRST_PLAY_FALLBACK_KEY = 'awtsmoosFirstPlayFallbackVisible';
 
 	/** Applies remote-only visibility to every material-bearing renderable and returns immutable counts. */
 	function enforceSceneRemoteMaterialReadiness(root) {
@@ -24186,13 +24187,26 @@ const __awtsmoosModule_0 = Object.create(null);
 			const ready = materials.every((material) => {
 				return remoteMaterialReadiness(object, material).ready;
 			});
-			ready ? restoreIfCovenantHidden(object, stats) : hidePendingObject(object, stats);
+			if (ready) {
+				restoreIfCovenantHidden(object, stats);
+				return;
+			}
+			if (keepsFirstPlayFallbackVisible(object)) {
+				stats.ready += object.visible === false ? 0 : 1;
+				return;
+			}
+			hidePendingObject(object, stats);
 		});
 		return Object.freeze({ ...stats });
 	}
 
 
 	__exports.enforceSceneRemoteMaterialReadiness = enforceSceneRemoteMaterialReadiness;
+	/** Keeps only explicitly marked bootstrap color fallbacks outside the remote-only hiding covenant. */
+	function keepsFirstPlayFallbackVisible(object) {
+		return object?.userData?.[FIRST_PLAY_FALLBACK_KEY] === true;
+	}
+
 	function hidePendingObject(object, stats) {
 		const state = object.userData?.[VISIBILITY_KEY];
 		if (!state && object.visible !== false) {
@@ -25913,8 +25927,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	const loadTinyGlb = loadTinyGltf;
 
 	__exports.loadTinyGlb = loadTinyGlb;
-	const __awtsmoosDefault_1ep8c8g = { loadTinyGltf, loadTinyGlb };
-	__exports.default = __awtsmoosDefault_1ep8c8g;
+	const __awtsmoosDefault_2nrcj2 = { loadTinyGltf, loadTinyGlb };
+	__exports.default = __awtsmoosDefault_2nrcj2;
 }
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteModelResponseCache.js ----
@@ -38386,9 +38400,9 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	/**
 	 * @file WorldEcologyClearance.js
-	 * @description Unifies structure, doorway, road, water, dynamic-collider, slope, and biome evidence for living placement.
-	 * The Awtsmoos creates forest, garden, road, river, and dwelling without collision of purpose; Awtsmoos.com gives
-	 * every tree and botanical caller the same signed boundaries so richer ecology cannot overwrite the village beneath it.
+	 * @description Unifies structure, doorway, road, water, obstacle, slope, biome, and ground evidence for living placement.
+	 * The Awtsmoos creates forest, garden, road, river, and dwelling without collision of purpose or divided ground lore;
+	 * Awtsmoos.com lets numeric and structured samplers enter one vessel, while every signed boundary guards the same world door.
 	 */
 
 	const canonicalBiomeAt = __awtsmoosModule_353.canonicalBiomeAt;
@@ -38399,9 +38413,15 @@ const __awtsmoosModule_0 = Object.create(null);
 	const triangleExclusionEvidenceAt = __awtsmoosModule_460.triangleExclusionEvidenceAt;
 	const waterCorridorEvidenceAt = __awtsmoosModule_461.waterCorridorEvidenceAt;
 
+	/**
+	 * Measures one ecological site against every shared physical exclusion.
+	 * @param {{x:number,z:number}} point Candidate world position.
+	 * @param {object} [options={}] Clearance policy and ground-sampler inputs.
+	 * @returns {Readonly<object>} Signed evidence plus normalized ground sample and validity.
+	 */
 	function ecologySiteEvidenceAt(point, options = {}) {
 		const radius = Math.max(0.1, Number(options.siteRadius) || 0.4);
-		const sample = options.groundSampler?.heightAt?.(point.x, point.z) || null;
+		const sample = sampleGround(options.groundSampler, point.x, point.z);
 		const evidence = {
 			approach: clearance(architectureApproachEvidenceAt(point, {
 				margin: radius + number(options.approachMargin, 0.8)
@@ -38438,6 +38458,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.ecologySiteEvidenceAt = ecologySiteEvidenceAt;
+	/** Returns the first failing ecology channel, or null when all measured gates pass. */
 	function ecologyRejectionReason(evidence) {
 		if (!evidence?.sample || !Number.isFinite(evidence.sample.y)) return 'ground';
 		for (const key of ['approach', 'clearing', 'footprint', 'obstacle', 'river', 'road', 'slope']) {
@@ -38448,6 +38469,21 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.ecologyRejectionReason = ecologyRejectionReason;
+	/** Normalizes supported numeric-function and structured heightAt samplers into one sample shape. */
+	function sampleGround(groundSampler, x, z) {
+		const raw = typeof groundSampler === 'function'
+			? groundSampler(x, z)
+			: groundSampler?.heightAt?.(x, z);
+		if (Number.isFinite(raw)) {
+			return Object.freeze({
+				normal: Object.freeze({ x: 0, y: 1, z: 0 }),
+				y: raw
+			});
+		}
+		if (raw && Number.isFinite(raw.y)) return raw;
+		return null;
+	}
+
 	function clearance(evidence) {
 		return evidence?.clearance ?? Number.POSITIVE_INFINITY;
 	}

@@ -4,12 +4,24 @@
 
 /**
  * @file BootstrapCanonicalPlayerHydration.js
- * @description Keeps launch scheduling stable while the deferred canonical-player module crosses one compact local ESM door after control is ready.
- * The Awtsmoos gives the outer gate one faithful receipt while the inner garment keeps its separate thread;
- * Awtsmoos.com gathers that local hydration graph before the browser receives it, so the real Chossid arrives with fewer waterfalls instead.
+ * @description Keeps canonical-player hydration deferred while preserving its original app-relative URL after CompactJS relocation.
+ * The Awtsmoos carries one living path through readable source and gathered bundle alike;
+ * Awtsmoos.com restores the app doorway before the canonical Chossid descends, so a changed vessel never makes the browser seek light in the wrong site.
  */
 
-const HYDRATOR_URL = './MinimalMeadowPlayerHydration.js?compact=true&v=20260820-promise-cycle-01';
+import { resolveDeferredAppModuleUrl } from './DeferredAppModuleUrl.js';
+
+const HYDRATOR_SPECIFIER = 'MinimalMeadowPlayerHydration.js?v=20260820-promise-cycle-01';
+const SOURCE_FILE_NAME = 'BootstrapCanonicalPlayerHydration.js';
+
+/** Resolves the canonical-player hydrator from readable source or the relocated compact core bundle. */
+export function canonicalPlayerHydratorUrl(executingModuleUrl = import.meta.url) {
+	return resolveDeferredAppModuleUrl(
+		HYDRATOR_SPECIFIER,
+		executingModuleUrl,
+		SOURCE_FILE_NAME
+	);
+}
 
 export function scheduleBootstrapCanonicalPlayerHydration(
 	runtime,
@@ -25,7 +37,10 @@ export function scheduleBootstrapCanonicalPlayerHydration(
 	}
 	const waitForReady = dependencies.waitForReady || waitForControlReady;
 	const nextFrame = dependencies.nextFrame || waitForPlayableFrame;
-	const importHydrator = dependencies.importHydrator || (() => import(HYDRATOR_URL));
+	const hydratorUrl = dependencies.hydratorUrl
+		|| canonicalPlayerHydratorUrl();
+	const importHydrator = dependencies.importHydrator
+		|| (() => import(hydratorUrl));
 	runtime.canonicalPlayerHydrationStage = 'waiting-for-control';
 	const launchPromise = Promise.resolve(waitForReady(environment))
 		.then(() => {

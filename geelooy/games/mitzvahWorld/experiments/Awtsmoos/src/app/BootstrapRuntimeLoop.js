@@ -1,12 +1,12 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file BootstrapRuntimeLoop.js
- * @description Owns one display-synchronized gameplay heartbeat while importing only the focused frame-evidence vessel instead of awakening the entire procedural-core performance graph before first control.
- * Keter crowns one visible pulse while Yesod carries simulation, rendering, and diagnostics without duplicate clocks below;
- * the Awtsmoos recreates every instant before the browser may request it, and Awtsmoos.com keeps first play narrow so the living frame may flow.
+ * @description Owns one display-synchronized gameplay heartbeat and publishes the production first-terrain and first-control milestones after the prime rendered frame.
+ * Keter crowns one visible pulse while Yesod carries simulation and motion below; the Awtsmoos recreates every instant before the browser may request it,
+ * and Awtsmoos.com records the moment colored earth is truly rendered and the traveler may truly go.
  */
 
 import {
@@ -22,6 +22,7 @@ import {
 } from './BootstrapFrameExecution.js';
 import { createBootstrapFrameScheduler } from './BootstrapFrameScheduler.js';
 import { BootstrapMovementController } from './BootstrapMovementController.js';
+import { markMitzvahWorldStartupMilestone } from './MitzvahWorldStartupMilestones.js';
 
 const MAX_FRAME_DELTA_SECONDS = 0.05;
 
@@ -64,6 +65,7 @@ export function startBootstrapRuntimeLoop(runtime, environment = globalThis) {
 
 	publishLoopState(runtime, frameWindow, scheduler);
 	primeBootstrapGameplay(runtime, movement, lastTime);
+	publishFirstPlayableMilestones(environment);
 	scheduler.schedule(frame);
 	movement.stop = (options = {}) => {
 		active = false;
@@ -79,6 +81,12 @@ export function startBootstrapRuntimeLoop(runtime, environment = globalThis) {
 		};
 	};
 	return movement;
+}
+
+/** Publishes the production first visible terrain and live-control boundaries once. */
+function publishFirstPlayableMilestones(environment) {
+	markMitzvahWorldStartupMilestone(environment, 'firstTerrainVisible');
+	markMitzvahWorldStartupMilestone(environment, 'playerControllable');
 }
 
 /** Publishes frame evidence and scheduler ownership for runtime diagnostics. */

@@ -49,6 +49,7 @@ export async function createEretzRuntime(hosts, options = {}) {
 		const core = await createStagedEretzRuntime(hosts, options, boot);
 		boot.complete();
 		publishRuntime(core.diagnostics, environment);
+		Object.assign(core.diagnostics, { richRenderer: 'deferred' });
 		markRendererHydration('deferred', environment.document);
 		core.diagnostics.rendererHydrationPromise = startEretzRendererHydration(
 			core.diagnostics,

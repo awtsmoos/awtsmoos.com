@@ -4,9 +4,9 @@
 
 /**
  * @file compactDeferredImportPolicy.test.mjs
- * @description Guards variable/computed local ESM doors that compactJs cannot reliably discover from literal import syntax alone.
- * The Awtsmoos lets later world systems remain separate in source while Awtsmoos.com gathers each independently requested graph before browser delivery;
- * this evidence keeps compact truth on player, NPC, district, renderer, streaming, priority, and page doors without turning deferred abundance into first-play scenery.
+ * @description Guards computed local ESM doors while allowing source-aware URL helpers to restore original app paths after compact relocation.
+ * The Awtsmoos lets deferred abundance remain separate without forgetting where each light began;
+ * Awtsmoos.com tests literal compact doors and resolver-governed doors by their real covenant, so gathered code can move while truthful module paths remain.
  */
 
 import assert from 'node:assert/strict';
@@ -16,7 +16,6 @@ import { fileURLToPath } from 'node:url';
 
 const SOURCE_ROOT = fileURLToPath(new URL('../../', import.meta.url));
 const EXPECTED = Object.freeze({
-	'app/BootstrapCanonicalPlayerHydration.js': ['MinimalMeadowPlayerHydration.js?compact=true&v='],
 	'app/EretzCanonicalNpcSeed.js': [
 		'FriendlyNpcProfiles.js?compact=true&v=',
 		'EretzFallbackActorTemplate.js?compact=true&v='
@@ -35,13 +34,21 @@ const EXPECTED = Object.freeze({
 	'launcher/bootMitzvahWorldPage.js': ['MitzvahWorldLauncher.js?compact=true&v=']
 });
 
-test('variable local module doors explicitly request compact server graphs', async () => {
+test('literal variable module doors explicitly request compact server graphs', async () => {
 	for (const [relativePath, markers] of Object.entries(EXPECTED)) {
 		const source = await readSource(relativePath);
 		for (const marker of markers) {
 			assert.equal(source.includes(marker), true, `${relativePath} missing ${marker}`);
 		}
 	}
+});
+
+test('canonical player hydration delegates compact identity to the source-aware app resolver', async () => {
+	const source = await readSource('app/BootstrapCanonicalPlayerHydration.js');
+	assert.match(source, /resolveDeferredAppModuleUrl/);
+	assert.match(source, /MinimalMeadowPlayerHydration\.js\?v=/);
+	assert.match(source, /canonicalPlayerHydratorUrl/);
+	assert.doesNotMatch(source, /import\(['"]\.\/MinimalMeadowPlayerHydration\.js/);
 });
 
 test('deferred app URL helper prepends compact while preserving authored query entries', async () => {

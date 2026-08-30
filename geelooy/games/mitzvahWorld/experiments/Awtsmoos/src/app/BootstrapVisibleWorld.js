@@ -1,12 +1,12 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file BootstrapVisibleWorld.js
- * @description Builds the first-play meadow geometry already hidden behind real-remote material readiness.
- * The Awtsmoos stretches earth beneath the traveler while Awtsmoos.com refuses a flat painted substitute;
- * each hill waits unseen until grass or stone arrives as a genuine remote image through the later hydration route.
+ * @description Builds the first-play meadow as a visible color fallback that later upgrades in place to genuine remote imagery.
+ * The Awtsmoos spreads earth beneath the traveler before distant beauty arrives; Awtsmoos.com lets simple color reveal the way,
+ * while semantic material roles remain bound to the same vessel so richer grass and stone may descend without replacing the day.
  */
 
 import {
@@ -31,7 +31,7 @@ const HILLS = Object.freeze([
 	[24, 5.5, 132, 38, 11, 32]
 ]);
 
-/** Creates the seven-mesh first-play valley without showing any color-only surface. */
+/** Creates the seven-mesh first-play valley with immediate colored terrain. */
 export function createBootstrapVisibleWorld() {
 	const group = new Group();
 	group.name = 'Awtsmoos_minimal_shared_meadow';
@@ -42,12 +42,12 @@ export function createBootstrapVisibleWorld() {
 	group.userData = {
 		bootstrapTerrain: true,
 		meshCount: group.children.length,
-		visualMode: 'remote-only-shared-meadow'
+		visualMode: 'colored-bootstrap-remote-upgrade'
 	};
 	return group;
 }
 
-/** Adds one two-tier hill whose role points only at verified remote material families. */
+/** Adds one two-tier hill whose semantic role later receives genuine remote texture light. */
 function addHill(group, index, [x, y, z, width, height, depth]) {
 	const color = index > 3 ? COLORS.farHill : COLORS.hill;
 	const role = index > 3 ? 'stone.general' : 'terrain.grass';
@@ -55,7 +55,7 @@ function addHill(group, index, [x, y, z, width, height, depth]) {
 	addBox(group, `hill-${index}-crest`, [x, y, z], [width * 0.64, height * 0.55, depth * 0.68], color, role);
 }
 
-/** Adds one hidden box that the remote-only scene covenant may later reveal. */
+/** Adds one visible first-play box while preserving its later material-hydration identity. */
 function addBox(group, name, position, scale, color, semanticRole) {
 	const mesh = new Mesh(
 		bootstrapCubeGeometry(),
@@ -67,16 +67,9 @@ function addBox(group, name, position, scale, color, semanticRole) {
 	mesh.name = `Awtsmoos_${name}`;
 	mesh.position.set(...position);
 	mesh.scale.set(...scale);
-	mesh.visible = false;
+	mesh.visible = true;
 	mesh.userData.bootstrapVisual = true;
 	mesh.userData.semanticMaterialRole = semanticRole;
-	mesh.userData.awtsmoosRemoteOnlyVisibility = covenantHiddenState();
+	mesh.userData.awtsmoosFirstPlayFallbackVisible = true;
 	group.add(mesh);
-}
-
-function covenantHiddenState() {
-	return {
-		hiddenByCovenant: true,
-		previousVisible: true
-	};
 }

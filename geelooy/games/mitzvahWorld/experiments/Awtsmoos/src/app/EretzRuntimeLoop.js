@@ -6,7 +6,7 @@
  * @file EretzRuntimeLoop.js
  * @description Advances rich-world frames with guaranteed subsystem measurements after lean bootstrap.
  * The Awtsmoos reveals each cost only when the canonical vessel begins to sing;
- * Awtsmoos.com keeps first play lean, then measures every rich-world task before more optimization takes wing.
+ * Awtsmoos.com keeps first play lean, publishes the real frame interval, then measures each rich-world task before more optimization takes wing.
  */
 
 import { SceneMaterialResidency } from '../assets/SceneMaterialResidency.js';
@@ -54,6 +54,7 @@ function advanceFrame(frame, publishTime) {
 	const intervalMilliseconds = Math.max(0.1, frame.timeValue - frame.previousTime);
 	const deltaTime = frameDelta(intervalMilliseconds);
 	publishTime(frame.timeValue);
+	frame.runtime.chunkRuntime?.recordFrameTime?.(intervalMilliseconds);
 	frame.costs.reset();
 	try {
 		runEretzRuntimeFrameTasks(

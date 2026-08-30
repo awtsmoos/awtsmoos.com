@@ -4,35 +4,51 @@
 
 /**
  * @file VillageDistrictPlacement.js
- * @description Resolves only the sparse main-river hero cottages for immediate district manifestation.
- * The Awtsmoos, Atzmus beyond house count and catalog, renews the full authored village while a quieter foreground receives its measured homes;
- * Awtsmoos.com keeps H10-H27 available to life schedules and maps even when this renderer-facing placement gate manifests only the chosen forms.
+ * @description Resolves every authored numbered home declared by a canonical village district.
+ * The Awtsmoos renews each dwelling by one truth, not by a renderer's temporary gaze;
+ * Awtsmoos.com lets quality change detail while H10-H27 remain faithful through all days.
  */
 
-import { mainRiverVillageDistrictHouses } from './MainRiverVillageHouseSelection.js';
+import { CANONICAL_HOUSES_BY_ID } from './CanonicalVillageHouses.js';
 
 /**
- * Resolves manifested hero houses assigned to one district.
- * @param {object} district Canonical district contract.
- * @param {number} requestedCount Maximum cottages requested by detail policy.
- * @returns {ReadonlyArray<object>} Frozen canonical hero placements.
+ * Resolves canonical authored houses assigned to one district.
+ * @param {object} district Canonical district contract carrying immutable house ids.
+ * @param {number} requestedCount Number of authored cottages requested by policy.
+ * @returns {ReadonlyArray<object>} Frozen canonical authored placements.
  */
 export function villageDistrictPlacements(district, requestedCount) {
-	const placements = canonicalHeroDistrictHouses(district);
+	const placements = authoredDistrictHouses(district);
 	const safeCount = Math.max(0, Math.floor(Number(requestedCount) || 0));
 	if (safeCount > placements.length) {
 		throw new Error(
-			`District ${district.id} requested ${safeCount} hero cottages, but only `
-			+ `${placements.length} selected sites exist.`
+			`District ${district.id} requested ${safeCount} cottages, but only `
+			+ `${placements.length} authored sites exist.`
 		);
 	}
 	return Object.freeze(placements.slice(0, safeCount));
 }
 
-function canonicalHeroDistrictHouses(district) {
-	return mainRiverVillageDistrictHouses(district).map(house => Object.freeze({
-		...house,
-		houseId: house.id,
-		placementKind: 'canonical-main-river-hero-house'
+/**
+ * Maps a district's declared house ids back to the singular canonical house catalog.
+ * @param {object} district Canonical district definition.
+ * @returns {ReadonlyArray<object>} Authored placement records in district-declared order.
+ */
+function authoredDistrictHouses(district) {
+	return Object.freeze((district?.houseIds || []).map(houseId => {
+		const house = CANONICAL_HOUSES_BY_ID[houseId];
+		if (!house) {
+			throw new Error(`B"H | District ${district?.id} references missing house ${houseId}.`);
+		}
+		if (house.districtId !== district.id) {
+			throw new Error(
+				`B"H | House ${houseId} belongs to ${house.districtId}, not ${district.id}.`
+			);
+		}
+		return Object.freeze({
+			...house,
+			houseId: house.id,
+			placementKind: 'canonical-authored-house'
+		});
 	}));
 }

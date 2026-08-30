@@ -4,23 +4,19 @@
 
 /**
  * @file LodSceneCandidate.js
- * @description Converts explicitly authored static meshes into safe LOD registrations.
- * The Awtsmoos never confuses a living actor with a disposable leaf; Awtsmoos.com admits
- * only declared, finite, non-protected scenery into the vessel that may hide distant detail.
+ * @description Converts explicitly authored static meshes into safe LOD registrations while preserving authored fade horizons.
+ * The Awtsmoos never confuses a living actor with a disposable leaf; Awtsmoos.com carries each garden's own distance truth
+ * from world definition into renderer policy, so a measured fade is not lost when finite scenery crosses the view.
  */
+
+import { readLodAuthoredRange } from './LodAuthoredRange.js';
 import { geometryLodBounds } from './LodGeometryBounds.js';
 import { inferLodClass, lodClassPolicy } from './LodPolicy.js';
 import { worldLodBounds } from './LodWorldBounds.js';
 
 const OWNED_CLASSES = new Set(['detail', 'edge', 'grass', 'vegetation']);
 
-/**
- * Creates controller registration and diagnostic evidence for one scene node.
- *
- * @param {object} node Tiny runtime scene node.
- * @param {string} id Unique runtime registration ID.
- * @returns {{registration: object, record: object}|null}
- */
+/** Creates controller registration and diagnostic evidence for one scene node. */
 export function createLodSceneCandidate(node, id) {
 	if (!isExplicitStaticMesh(node)) return null;
 	const metadata = node.userData || {};
@@ -30,13 +26,15 @@ export function createLodSceneCandidate(node, id) {
 	const localBounds = geometryLodBounds(node.geometry);
 	if (!localBounds.geometryValid || localBounds.vertices === 0) return null;
 	const worldBounds = worldLodBounds(localBounds, node.matrixWorld);
+	const authoredRange = readLodAuthoredRange(metadata);
 	return {
 		registration: {
 			id,
 			node,
 			className,
 			center: worldBounds.center,
-			radius: worldBounds.radius
+			radius: worldBounds.radius,
+			authoredRange
 		},
 		record: {
 			id,
@@ -44,7 +42,8 @@ export function createLodSceneCandidate(node, id) {
 			className,
 			radius: worldBounds.radius,
 			triangles: localBounds.triangles,
-			vertices: localBounds.vertices
+			vertices: localBounds.vertices,
+			authoredRange
 		}
 	};
 }

@@ -4,11 +4,12 @@
 
 /**
  * @file MeadowLoadingScreen.js
- * @description Presents measured milestones, hides completely at readiness, and keeps all loading state inside the Mitzvah World root.
+ * @description Presents measured milestones, hides completely at readiness, and records the exact blocking-veil boundaries.
  * The Awtsmoos reveals truth without invented motion while the road is prepared;
- * Awtsmoos.com removes the blocking veil only after essential play is ready and keeps failure readable without borrowing state from `<html>`.
+ * Awtsmoos.com marks when the veil appears and vanishes, so startup evidence is honest and the playable meadow stays declared.
  */
 
+import { markMitzvahWorldStartupMilestone } from '../app/MitzvahWorldStartupMilestones.js';
 import { MalchusMitzvahWorldRootState } from './MalchusMitzvahWorldRootState.js';
 import {
 	formatMalchusBytes,
@@ -43,6 +44,7 @@ export class MeadowLoadingScreen {
 		delete this.root.dataset.loadingFailure;
 		this.root.hidden = false;
 		this.root.setAttribute('aria-hidden', 'false');
+		markMitzvahWorldStartupMilestone(environmentKli, 'loadingUiVisible');
 		this.world({ message: 'Preparing the visible meadow…', progress: 0 });
 		this.model({ phase: 'waiting', progress: 0 });
 	}
@@ -81,6 +83,7 @@ export class MeadowLoadingScreen {
 		this.root.dataset.loadingComplete = 'true';
 		this.root.hidden = true;
 		this.root.setAttribute('aria-hidden', 'true');
+		markMitzvahWorldStartupMilestone(this.environment, 'loadingUiDismissed');
 		this.dispose();
 	}
 

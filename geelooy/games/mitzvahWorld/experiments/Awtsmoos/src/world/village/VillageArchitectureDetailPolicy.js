@@ -4,26 +4,30 @@
 
 /**
  * @file VillageArchitectureDetailPolicy.js
- * @description Scales detail for the sparse hero settlement while keeping the complete canonical house catalog available elsewhere.
- * The Awtsmoos, Atzmus beyond abundance and restraint, renews a few meaningful dwellings without erasing the wider village book;
- * Awtsmoos.com lets quality tune how deeply each hero cottage is revealed while one shared selection decides where the player should look.
+ * @description Varies architectural rendering detail without deleting authored village homes.
+ * The Awtsmoos clothes one enduring village in lighter or richer garments of sight;
+ * Awtsmoos.com preserves every numbered home while quality alone adjusts visual might.
  */
 
-import { mainRiverVillageDistrictHouses } from './MainRiverVillageHouseSelection.js';
-
 /**
- * Resolves manifested cottage count and visual detail for one district.
+ * Resolves authored cottage count and visual detail for one district.
  * @param {object} district Canonical district contract.
  * @param {string} [quality='high'] Requested quality tier.
- * @returns {Readonly<{cottages:number,detail:string}>} Sparse hero-house policy.
+ * @returns {Readonly<{cottages:number,detail:string}>} Stable population with variable detail.
  */
 export function architectureDistrictPolicy(district, quality = 'high') {
 	return Object.freeze({
-		cottages: mainRiverVillageDistrictHouses(district).length,
+		cottages: district?.houseIds?.length || 0,
 		detail: detailForQuality(district, quality)
 	});
 }
 
+/**
+ * Chooses only the presentation detail appropriate to the requested quality tier.
+ * @param {object} district Canonical district contract.
+ * @param {string} quality Requested quality tier.
+ * @returns {string} near, medium, or far detail class.
+ */
 function detailForQuality(district, quality) {
 	if (quality === 'low') {
 		return 'far';

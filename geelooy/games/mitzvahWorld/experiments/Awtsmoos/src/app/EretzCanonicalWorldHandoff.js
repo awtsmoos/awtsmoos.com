@@ -1,19 +1,21 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file EretzCanonicalWorldHandoff.js
- * @description Promotes one complete canonical valley, its collision, and its matched friendly-village seed.
- * The Awtsmoos does not leave provisional streets or nameless silence beneath today's mountain;
- * Awtsmoos.com renews terrain, ground, people, mover, and scene together from one canonical fountain.
+ * @description Promotes one canonical terrain authority, then awakens seamless region streaming without changing player coordinates.
+ * The Awtsmoos does not divide valley from summit when finite packages appear or retire from sight;
+ * Awtsmoos.com keeps one ground, one collision truth, one traveler, and one world while nearby regional vessels gather light.
  */
 
 import { canonicalizeSceneMaterials } from '../assets/SceneMaterialCanonicalizer.js';
 import { createEretzJumpPhysics, createEretzMover } from './EretzPlayerRuntimeFactories.js';
+import { OpenWorldRegionStreamingRuntime } from './OpenWorldRegionStreamingRuntime.js';
 
 export function applyCanonicalWorldPromotion(context, promotion) {
 	const { foundation, runtime } = context;
+	const diagnostics = context.diagnostics || null;
 	const scene = runtime.scene || foundation.scene;
 	const bootstrapGroup = runtime.terrain?.group;
 	if (!scene || !promotion?.terrain?.group) {
@@ -28,16 +30,28 @@ export function applyCanonicalWorldPromotion(context, promotion) {
 	foundation.sceneLod?.refresh?.();
 	promotion.materialCanonicalization = canonicalizeSceneMaterials(scene);
 	runtime.bootstrapRetirement = retirement;
-	runtime.canonicalWorldPromotion = Object.freeze({
+	runtime.openWorldStreaming?.destroy?.();
+	runtime.openWorldStreaming = new OpenWorldRegionStreamingRuntime(runtime);
+	runtime.openWorldStreaming.update(runtime.model?.position || runtime.state);
+	foundation.openWorldStreaming = runtime.openWorldStreaming;
+	if (diagnostics) {
+		diagnostics.openWorldStreaming = runtime.openWorldStreaming.diagnostics();
+	}
+	runtime.canonicalWorldPromotion = promotionReceipt(promotion, retirement, runtime);
+	return runtime.canonicalWorldPromotion;
+}
+
+function promotionReceipt(promotion, retirement, runtime) {
+	return Object.freeze({
 		bootstrapDistrictsReleased: retirement.districtsReleased,
 		bootstrapTrianglesRemoved: retirement.trianglesRemoved,
 		colliders: promotion.terrain.colliders.length,
 		friendlyProfiles: promotion.npcProfiles?.length || 0,
+		openWorldId: runtime.openWorldStreaming.worldId,
 		quality: promotion.terrain.stats.quality,
 		status: 'ready',
 		villageDefinitions: promotion.terrain.village?.definitions?.length || 0
 	});
-	return runtime.canonicalWorldPromotion;
 }
 
 function retireBootstrapWorld(runtime, scene, bootstrapGroup) {

@@ -6,15 +6,13 @@
  * @file WorldChunkRuntime.js
  * @description Owns visual transitions and every collision layer behind one shared indexed authority.
  * The Awtsmoos renews essential ground before distant stone is dressed;
- * Awtsmoos.com lets one collision source index follow each foot while deeper streaming remains measured and blessed.
+ * Awtsmoos.com carries the latest measured frame into optional streaming while one collision source follows each foot, measured and blessed.
  */
 
 import { LodTransitionQueue } from '../../lod/LodTransitionQueue.js';
-import {
-	BOOTSTRAP_WORLD_CHUNK_ID,
-	createBootstrapWorldChunk
-} from './WorldChunkBootstrap.js';
+import { createBootstrapWorldChunk } from './WorldChunkBootstrap.js';
 import { createWorldChunkCollisionRuntime } from './WorldChunkCollisionRuntime.js';
+import { createWorldChunkRuntimeDiagnostics } from './WorldChunkRuntimeDiagnostics.js';
 import { updateWorldChunkRuntime } from './WorldChunkRuntimeUpdate.js';
 import { WorldChunkRegistry } from './WorldChunkRegistry.js';
 import { WorldLocalCollisionStreamingRuntime } from './WorldLocalCollisionStreamingRuntime.js';
@@ -48,11 +46,26 @@ export class WorldChunkRuntime {
 			terrainGridSteps: terrain.worldMetadata?.terrainGridSteps
 		});
 		this.collisionQuery = this.collisionRuntime.query;
+		this.frameTimeMilliseconds = null;
 		this.lastProcess = null;
 	}
 
-	update(options) {
-		this.lastProcess = updateWorldChunkRuntime(this, options);
+	/** Publishes the latest real animation-frame interval for optional-streaming suspension. */
+	recordFrameTime(frameTimeMilliseconds) {
+		const measured = Number(frameTimeMilliseconds);
+		this.frameTimeMilliseconds = Number.isFinite(measured)
+			? Math.max(0, measured)
+			: null;
+		return this.frameTimeMilliseconds;
+	}
+
+	update(options = {}) {
+		const frameTimeMilliseconds = options.frameTimeMilliseconds
+			?? this.frameTimeMilliseconds;
+		this.lastProcess = updateWorldChunkRuntime(this, {
+			...options,
+			frameTimeMilliseconds
+		});
 		return this.lastProcess;
 	}
 
@@ -80,14 +93,7 @@ export class WorldChunkRuntime {
 	}
 
 	diagnostics() {
-		return Object.freeze({
-			bootstrapId: BOOTSTRAP_WORLD_CHUNK_ID,
-			bootstrapSeed: this.bootstrapRecord.deterministicSeed,
-			bootstrapBounds: this.bootstrapRecord.bounds,
-			localCollision: this.localCollisionStreaming.diagnostics(),
-			collision: this.collisionRuntime.diagnostics(),
-			...this.registry.diagnostics()
-		});
+		return createWorldChunkRuntimeDiagnostics(this);
 	}
 
 	updateLocalCollision(options) {

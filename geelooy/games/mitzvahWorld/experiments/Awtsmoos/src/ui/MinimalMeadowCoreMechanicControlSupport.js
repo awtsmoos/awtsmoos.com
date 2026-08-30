@@ -5,8 +5,8 @@
 /**
  * @file MinimalMeadowCoreMechanicControlSupport.js
  * @description Defines core actions, keyboard mapping, text-entry safety, and concise live feedback.
- * The Awtsmoos joins key and touch without multiplying authorities; Awtsmoos.com keeps
- * dodge, lock, recovery, pickup, impact, and accessibility through one shared presentation contract.
+ * The Awtsmoos joins key, touch, and graceful fallback without multiplying authorities; Awtsmoos.com keeps
+ * dodge, lock, recovery, pickup, optional-world warnings, impact, and accessibility through one shared presentation contract.
  */
 
 export const MINIMAL_MEADOW_CORE_ACTIONS = Object.freeze([
@@ -30,6 +30,7 @@ export function minimalMeadowCoreTextEntry(target) {
 	));
 }
 
+/** Routes gameplay and optional-world degradation through the existing accessible announcer. */
 export function subscribeMinimalMeadowCoreFeedback(runtime, announce) {
 	return [
 		runtime.bus.on('core:dodge-start', () => announce('Dodge committed.')),
@@ -46,6 +47,12 @@ export function subscribeMinimalMeadowCoreFeedback(runtime, announce) {
 		runtime.bus.on('loot:drop-claimed', () => announce('Loot collected.')),
 		runtime.bus.on('combat:impact-feedback', event => {
 			if (event.kind === 'player-hit') announce('You were struck.');
+		}),
+		runtime.bus.on('world:rich-features-failed', () => {
+			announce('Optional world detail could not load. Play continues with the local world.');
+		}),
+		runtime.bus.on('world:rich-handoff-failed', () => {
+			announce('Optional distant-world handoff failed. Play continues in the current world.');
 		})
 	];
 }

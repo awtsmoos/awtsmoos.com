@@ -1,41 +1,47 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
- * Applies a bounded number of LOD changes per frame. Higher priority wins, then
- * older work, so a cell crossing cannot become one giant frame-long rupture.
+ * @file LodTransitionQueue.js
+ * @description Owns stable transition identity, replacement, and failure accounting while a dedicated processor owns frame budgeting.
+ * The Awtsmoos binds one identity through every finite change; Awtsmoos.com replaces obsolete garments before they enter the measured gate,
+ * keeping the queue small, the ownership clear, and each applied transition honest about its fate.
  */
+
+import { createLodFrameClock } from './LodFrameBudget.js';
+import { processLodTransitions } from './LodTransitionProcessor.js';
+
 export class LodTransitionQueue {
-	constructor() {
+	constructor({ clock = createLodFrameClock() } = {}) {
+		this.clock = clock;
 		this.entries = new Map();
 		this.sequence = 0;
 		this.stats = {
 			enqueued: 0,
 			replaced: 0,
 			applied: 0,
-			failed: 0
+			failed: 0,
+			suspended: 0,
+			deadlineStops: 0,
+			longTasks: 0
 		};
 	}
 
-	enqueue({
-		id,
-		priority = 0,
-		cost = 1,
-		apply,
-		metadata = null
-	}) {
+	/** Queues or replaces one stable transition identity. */
+	enqueue({ id, priority = 0, cost = 1, apply, metadata = null }) {
 		if (!id || typeof apply !== 'function') return false;
 		const existing = this.entries.get(id);
-		const entry = {
+		this.entries.set(id, {
 			id,
 			priority: finiteNumber(priority, 0),
 			cost: Math.max(0, finiteNumber(cost, 1)),
 			apply,
 			metadata,
 			sequence: existing?.sequence ?? this.sequence++
-		};
+		});
 		if (existing) this.stats.replaced += 1;
 		else this.stats.enqueued += 1;
-		this.entries.set(id, entry);
 		return true;
 	}
 
@@ -47,39 +53,25 @@ export class LodTransitionQueue {
 		this.entries.clear();
 	}
 
-	process({ maximumTransitions = 4, maximumCost = Infinity } = {}) {
-		const ordered = [...this.entries.values()].sort(compareEntries);
-		const results = [];
-		let usedCost = 0;
-		for (const entry of ordered) {
-			if (results.length >= maximumTransitions) break;
-			if (usedCost + entry.cost > maximumCost) continue;
-			this.entries.delete(entry.id);
-			try {
-				const value = entry.apply(entry.metadata);
-				usedCost += entry.cost;
-				this.stats.applied += 1;
-				results.push({
-					id: entry.id,
-					ok: true,
-					value,
-					cost: entry.cost
-				});
-			} catch (error) {
-				this.stats.failed += 1;
-				results.push({
-					id: entry.id,
-					ok: false,
-					error,
-					cost: entry.cost
-				});
-			}
+	/** Delegates execution while retaining queue identity and diagnostic ownership. */
+	process(options = {}) {
+		return processLodTransitions({
+			entries: this.entries,
+			clock: this.clock,
+			stats: this.stats,
+			applyEntry: entry => this.applyEntry(entry)
+		}, options);
+	}
+
+	applyEntry(entry) {
+		try {
+			const value = entry.apply(entry.metadata);
+			this.stats.applied += 1;
+			return { id: entry.id, ok: true, value, cost: entry.cost };
+		} catch (error) {
+			this.stats.failed += 1;
+			return { id: entry.id, ok: false, error, cost: entry.cost };
 		}
-		return {
-			results,
-			usedCost,
-			remaining: this.entries.size
-		};
 	}
 
 	get size() {
@@ -87,11 +79,6 @@ export class LodTransitionQueue {
 	}
 }
 
-function compareEntries(left, right) {
-	if (left.priority !== right.priority) return right.priority - left.priority;
-	return left.sequence - right.sequence;
-}
-
 function finiteNumber(value, fallback) {
-	return Number.isFinite(value) ? value : fallback;
+	return Number.isFinite(Number(value)) ? Number(value) : fallback;
 }

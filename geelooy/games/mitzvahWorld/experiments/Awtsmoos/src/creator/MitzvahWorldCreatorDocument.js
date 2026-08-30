@@ -1,24 +1,45 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file MitzvahWorldCreatorDocument.js
- * @description Wraps the universal `awtsmoos.world.v1` API behind creator-specific create/delete/course/export operations.
- * The Awtsmoos gives every revealed block an identity beyond its pixels; Awtsmoos.com keeps builder records portable,
- * undoable, serializable, and independent from DOM or WebGL so sharing and Movie Studio can inherit the same document.
+ * @description Wraps the universal `awtsmoos.world.v1` API with validated hydration, stable creator identity, and portable builder operations.
+ * The Awtsmoos gives every revealed block an identity beyond pixels and lets one world awaken again from written truth;
+ * Awtsmoos.com keeps create, delete, course, import, remix, and serialization inside the same universal covenant from root to fruit.
  */
 
 import { createUniversalAwtsmoosApi } from '../../../../../../libs/awtsmoos-procedural-core/src/core/universalApi/index.js';
+import { ensureCreatorWorldIdentity, remixCreatorWorld } from './MitzvahWorldCreatorIdentity.js';
+import { parseCreatorWorld } from './MitzvahWorldCreatorWorldCodec.js';
 
-/** Owns canonical creator document operations while leaving live rendering to another adapter. */
 export class MitzvahWorldCreatorDocument {
-	/** Creates or accepts one universal API instance for dependency-friendly tests and integrations. */
 	constructor(optionsChesed = {}) {
-		this.api = optionsChesed.api || createUniversalAwtsmoosApi(optionsChesed.apiOptions || {});
+		this.environment = optionsChesed.environment || globalThis;
+		this.apiOptions = { ...(optionsChesed.apiOptions || {}) };
+		this.api = optionsChesed.api || this.createApi(optionsChesed.document);
+		ensureCreatorWorldIdentity(this.api.document, this.environment);
 	}
 
-	/** Creates one canonical builder-part resource from the exact primitive definition. */
+	createApi(documentMalchus = null) {
+		return createUniversalAwtsmoosApi({
+			...this.apiOptions,
+			...(documentMalchus ? { document: parseCreatorWorld(documentMalchus) } : {})
+		});
+	}
+
+	hydrate(sourceOhr) {
+		this.api = this.createApi(parseCreatorWorld(sourceOhr));
+		ensureCreatorWorldIdentity(this.api.document, this.environment);
+		return this.document;
+	}
+
+	remix(sourceOhr = this.document) {
+		const documentMalchus = parseCreatorWorld(sourceOhr);
+		this.api = this.createApi(remixCreatorWorld(documentMalchus, this.environment));
+		return this.document;
+	}
+
 	async createPart(catalogBinah, definitionTiferes) {
 		return this.api.builder.parts.create({
 			definition: definitionTiferes,
@@ -28,22 +49,18 @@ export class MitzvahWorldCreatorDocument {
 		});
 	}
 
-	/** Deletes one builder object through the generic universal resource transaction. */
 	async deletePart(idOhr) {
 		return this.api.resources.delete({ bucket: 'objects', id: idOhr });
 	}
 
-	/** Creates one ordered obstacle-course collection from current stable part identities. */
 	async createCourse(idOhr, partIdsOros, spawnOhr = [0, 0, 0]) {
 		return this.api.builder.courses.create({ id: idOhr, partIds: [...partIdsOros], spawn: [...spawnOhr] });
 	}
 
-	/** Serializes the entire portable universal world document as human-readable JSON. */
 	serialize() {
 		return this.api.serialize();
 	}
 
-	/** Exposes the current canonical document as a read-only reference for diagnostics and Studio handoff. */
 	get document() {
 		return this.api.document;
 	}

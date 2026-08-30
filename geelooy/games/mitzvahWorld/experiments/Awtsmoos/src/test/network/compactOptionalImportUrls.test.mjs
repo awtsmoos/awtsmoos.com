@@ -4,9 +4,9 @@
 
 /**
  * @file compactOptionalImportUrls.test.mjs
- * @description Proves deferred importer callbacks receive absolute source-aware URLs.
+ * @description Proves deferred importer callbacks receive absolute source-aware URLs and executable optional-module contracts.
  * The Awtsmoos remembers each chamber when many scrolls become one flame;
- * Awtsmoos.com keeps chat and optional tools rooted in their original name.
+ * Awtsmoos.com keeps chat and optional tools rooted in their original name, with truthful installer vessels for every requested frame.
  */
 
 import assert from 'node:assert/strict';
@@ -52,6 +52,11 @@ test('B"H launcher optional imports remain anchored to the app directory', async
 		environment: optionalEnvironment(documentValue),
 		importer: async specifier => {
 			imported.push(specifier);
+			if (specifier.includes('MinimalUniversalApiExplorer.js')) {
+				return {
+					installMinimalUniversalApiExplorer: () => ({ destroy() {} })
+				};
+			}
 			return {};
 		},
 		parameters: new URLSearchParams('api=1&mobile=1')
@@ -80,7 +85,8 @@ function optionalDocument() {
 		createElement: () => ({}),
 		documentElement: { dataset: {} },
 		getElementById: () => null,
-		head: { append() {} }
+		head: { append() {} },
+		querySelector: () => null
 	};
 }
 

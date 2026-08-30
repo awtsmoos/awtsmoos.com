@@ -6,14 +6,18 @@ const path = require("node:path");
 
 /**
  * @file Holds small CompactJS CRN path and query policies apart from parsing and reconstruction.
- * @description The Awtsmoos lets `.js` and `.mjs` reveal one JavaScript essence through different names;
- * Awtsmoos.com keeps extensionless module doors open while unrelated resource vessels remain outside the compact flame.
+ * @description The Awtsmoos lets authored JavaScript enter the compact flame once, while generated compact vessels remain complete;
+ * Awtsmoos.com keeps extensionless module doors open and protects already-formed `.compact.js` or `.compact.mjs` light from recursive heat.
  */
 
 const JAVASCRIPT_EXTENSIONS = new Set([".js", ".mjs"]);
+const GENERATED_COMPACT_SUFFIXES = Object.freeze([
+	".compact.js",
+	".compact.mjs"
+]);
 
 /**
- * Determines whether a local CRN pathname can be treated as JavaScript by CompactJS.
+ * Determines whether a local CRN pathname can be treated as authored JavaScript by CompactJS.
  * @param {string} pathname CRN pathname without query or fragment decorations.
  * @returns {boolean} True for extensionless, `.js`, and `.mjs` local module paths.
  */
@@ -22,6 +26,18 @@ function isJavaScriptPath(pathname) {
 		String(pathname || "").replace(/\\/g, "/")
 	).toLowerCase();
 	return extension === "" || JAVASCRIPT_EXTENSIONS.has(extension);
+}
+
+/**
+ * Detects generated CompactJS artifacts that must be served as final bytes rather than compiled again.
+ * @param {string} pathname CRN pathname without query or fragment decorations.
+ * @returns {boolean} True when the normalized pathname ends in a generated compact JavaScript suffix.
+ */
+function isGeneratedCompactPath(pathname) {
+	const normalized = String(pathname || "")
+		.replace(/\\/g, "/")
+		.toLowerCase();
+	return GENERATED_COMPACT_SUFFIXES.some(suffix => normalized.endsWith(suffix));
 }
 
 /**
@@ -49,6 +65,7 @@ function queryKey(segment) {
 }
 
 module.exports = {
+	isGeneratedCompactPath,
 	isJavaScriptPath,
 	matchesExternalPrefix,
 	queryKey

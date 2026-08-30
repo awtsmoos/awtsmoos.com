@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalMeadowRuntimeCore.js
- * @description Creates one visible meadow, one loop, and one viewport owner before deferred world authority.
+ * @description Creates one visible meadow, one loop, and one viewport owner while recording the exact terrain/control startup boundaries.
  * The Awtsmoos grants ground, traveler, camera, and collision before weighing the completed world;
- * Awtsmoos.com keeps startup responsive while later handoff installs exact steady-state instrumentation.
+ * Awtsmoos.com marks first terrain only after render and marks control only when movement truly unfurls.
  */
 
 import { resolveWorldQuality } from '../performance/WorldQualityProfile.js';
@@ -15,6 +15,7 @@ import { createEretzWorldFoundation } from './EretzWorldFoundation.js';
 import { MinimalMeadowCameraRig } from './MinimalMeadowCameraRig.js';
 import { startMinimalMeadowLoop } from './MinimalMeadowLoop.js';
 import { initializeMinimalMeadowRuntime } from './MinimalMeadowRuntimeState.js';
+import { markMitzvahWorldStartupMilestone } from './MitzvahWorldStartupMilestones.js';
 import {
 	createMinimalBootReceipt,
 	createMinimalDiagnostics,
@@ -22,6 +23,7 @@ import {
 	renderMinimalFirstFrame
 } from './MinimalMeadowRuntimeSupport.js';
 
+/** Creates the playable bootstrap runtime without waiting for distant world richness. */
 export async function createMinimalMeadowRuntimeCore(hosts, options = {}) {
 	const environment = options.environment || globalThis;
 	const qualityProfile = resolveWorldQuality(options, environment);
@@ -42,10 +44,14 @@ export async function createMinimalMeadowRuntimeCore(hosts, options = {}) {
 	initializeMinimalMeadowRuntime(runtime, hosts, environment.document);
 	runtime.resizeViewport?.();
 	renderMinimalFirstFrame(runtime);
+	markMitzvahWorldStartupMilestone(environment, 'firstTerrainVisible');
 	boot.begin('movement-loop');
 	runtime.movement = options.startLoop === false
 		? null
 		: startMinimalMeadowLoop(runtime, environment);
+	if (runtime.movement) {
+		markMitzvahWorldStartupMilestone(environment, 'playerControllable');
+	}
 	runtime.destroy = () => destroy(runtime);
 	boot.complete();
 	const diagnostics = createMinimalDiagnostics(runtime, qualityProfile, boot);
@@ -53,6 +59,7 @@ export async function createMinimalMeadowRuntimeCore(hosts, options = {}) {
 	return diagnostics;
 }
 
+/** Bridges bootstrap input into the unified player-control contract. */
 function bridgeBootstrapInput(runtime) {
 	const input = runtime.input;
 	input.consumeJump = () => runtime.jumpButton?.consume?.() || false;
@@ -62,6 +69,7 @@ function bridgeBootstrapInput(runtime) {
 	input.dispose ||= () => runtime.joystick?.destroy?.();
 }
 
+/** Retires bootstrap ownership without leaking later world systems. */
 function destroy(runtime) {
 	if (runtime.destroyed) return false;
 	runtime.destroyed = true;
