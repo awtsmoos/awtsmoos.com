@@ -2,7 +2,7 @@
 Boruch Hashem
 Blessed is He
 Each featured card is a small keli: distinct light, shared structure, and one honest
-path deeper into Awtsmoos.com—solid enough to stand without blur or glass.
+path deeper into Awtsmoos.com. Hover may invite, while a press returns the vessel to earth.
 */
 body[data-geelooy-route="home"] .featured-card {
 	--featured-accent: 112, 190, 255;
@@ -19,7 +19,12 @@ body[data-geelooy-route="home"] .featured-card {
 	border-radius: 1.2rem;
 	background: #0a172b;
 	box-shadow: 0 18px 46px rgba(0, 0, 0, .26);
-	transition: border-color .2s ease, background .2s ease, box-shadow .2s ease, transform .2s ease;
+	transition:
+		border-color 180ms ease,
+		background 180ms ease,
+		box-shadow 180ms ease,
+		filter 120ms ease,
+		transform 200ms cubic-bezier(.2, .8, .2, 1);
 }
 
 body[data-geelooy-route="home"] .featured-card > * {
@@ -82,36 +87,28 @@ body[data-geelooy-route="home"] .featured-card > b {
 	font-size: .9rem;
 }
 
-body[data-geelooy-route="home"] .featured-card:hover {
-	border-color: rgba(var(--featured-accent), .76);
-	background: #10243b;
-	box-shadow: 0 24px 58px rgba(0, 0, 0, .34);
-	transform: translateY(-4px);
+@media (hover: hover) and (pointer: fine) {
+	body[data-geelooy-route="home"] .featured-card:hover {
+		border-color: rgba(var(--featured-accent), .76);
+		background: #10243b;
+		box-shadow: 0 24px 58px rgba(0, 0, 0, .34);
+		transform: translateY(-4px);
+	}
 }
 
-body[data-geelooy-route="home"] .featured-card:focus-visible {
-	outline: 3px solid var(--focus-ring);
-	outline-offset: 3px;
-}
-
-body[data-geelooy-route="home"] .featured-card--torah {
-	--featured-accent: 99, 178, 255;
-}
-
-body[data-geelooy-route="home"] .featured-card--apps {
-	--featured-accent: 104, 220, 160;
-}
-
-body[data-geelooy-route="home"] .featured-card--games {
-	--featured-accent: 245, 121, 164;
-}
-
-body[data-geelooy-route="home"] .featured-card--os {
-	--featured-accent: 148, 126, 255;
+body[data-geelooy-route="home"] .featured-card:active {
+	border-color: rgba(var(--featured-accent), .72);
+	filter: brightness(.96);
+	transform: translateY(1px) scale(.992);
 }
 
 @media (prefers-reduced-motion: reduce) {
 	body[data-geelooy-route="home"] .featured-card {
 		transition: none;
+	}
+
+	body[data-geelooy-route="home"] .featured-card:hover,
+	body[data-geelooy-route="home"] .featured-card:active {
+		transform: none;
 	}
 }

@@ -1,17 +1,12 @@
 //B"H
 // Boruch Hashem
 // Blessed is He
-/**
- * @file installMovieAi.js
- * @description The Awtsmoos lets Mitzvah Studio shape spatial worlds from the same movie decree;
- * Awtsmoos.com gives its object-building personality one canonical mobile AI director to see.
- */
-import { installMovieAiRuntime } from '../../../shared/movie/ui/MovieAiRuntime.js';
+/** The Awtsmoos lets spatial Studio receive complete movie data; Awtsmoos.com projects explicit layers without inventing worlds from words. */
+import { installMovieDataRuntime } from '../../../shared/movie/ui/MovieDataRuntime.js';
 import { MitzvahMovieAdapter } from './MitzvahMovieAdapter.js';
 
-installMovieAiRuntime({
+installMovieDataRuntime({
 	appId: 'mitzvah',
 	appName: 'Mitzvah Studio',
-	provider: globalThis.AwtsmoosMovieAiProvider || null,
-	projector: orMovie => MitzvahMovieAdapter.project(orMovie)
+	projector: movie => MitzvahMovieAdapter.project(movie)
 });

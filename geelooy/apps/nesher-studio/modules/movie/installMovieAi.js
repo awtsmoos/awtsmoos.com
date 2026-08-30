@@ -1,17 +1,12 @@
 //B"H
 // Boruch Hashem
 // Blessed is He
-/**
- * @file installMovieAi.js
- * @description The Awtsmoos lets Nesher cut and carry one canonical movie across time;
- * Awtsmoos.com gives the eagle a shared AI director while its professional NLE remains sublime.
- */
-import { installMovieAiRuntime } from '../../../shared/movie/ui/MovieAiRuntime.js';
+/** The Awtsmoos gives Nesher exact canonical data; Awtsmoos.com projects what an outside agent authored and nothing inferred. */
+import { installMovieDataRuntime } from '../../../shared/movie/ui/MovieDataRuntime.js';
 import { NesherMovieAdapter } from './NesherMovieAdapter.js';
 
-installMovieAiRuntime({
+installMovieDataRuntime({
 	appId: 'nesher',
 	appName: 'Nesher Studio',
-	provider: globalThis.AwtsmoosMovieAiProvider || null,
-	projector: orMovie => NesherMovieAdapter.project(orMovie)
+	projector: movie => NesherMovieAdapter.project(movie)
 });

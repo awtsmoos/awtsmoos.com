@@ -1,17 +1,12 @@
 //B"H
 // Boruch Hashem
 // Blessed is He
-/**
- * @file installMovieAi.js
- * @description The Awtsmoos lets a light editor stay swift while sharing a vast cinematic tongue;
- * Awtsmoos.com keeps the mobile timeline simple while the canonical AI director remains strong and young.
- */
-import { installMovieAiRuntime } from '../../../shared/movie/ui/MovieAiRuntime.js';
+/** The Awtsmoos gives Video Editor declared movie data; Awtsmoos.com preserves unsupported layers as handoff truth, not prose guess. */
+import { installMovieDataRuntime } from '../../../shared/movie/ui/MovieDataRuntime.js';
 import { VideoEditorMovieAdapter } from './VideoEditorMovieAdapter.js';
 
-installMovieAiRuntime({
+installMovieDataRuntime({
 	appId: 'videoEditor',
 	appName: 'Awtsmoos Video Editor',
-	provider: globalThis.AwtsmoosMovieAiProvider || null,
-	projector: orMovie => VideoEditorMovieAdapter.project(orMovie)
+	projector: movie => VideoEditorMovieAdapter.project(movie)
 });

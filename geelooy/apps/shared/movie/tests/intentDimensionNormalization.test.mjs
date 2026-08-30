@@ -3,65 +3,44 @@
 // Blessed is He
 /**
  * @file intentDimensionNormalization.test.mjs
- * @description The Awtsmoos keeps every dimension faithful from AI intent to rendered vessel;
- * Awtsmoos.com proves hybrid, flat, and spatial scenes do not lose their meaning in the middle.
+ * @description Historic filename, semantic-neutral normalization: the Awtsmoos preserves declared dimensions exactly;
+ * Awtsmoos.com proves omitted fields stay omitted and no synthetic world, light, character, particle, or shape appears unexpectedly.
  */
-import test from "node:test";
-import assert from "node:assert/strict";
-import { normalizeMovieIntentInput } from "../ai/MovieIntentNormalizer.js";
+import assert from 'node:assert/strict';
+import test from 'node:test';
+import { normalizeMovieIntentInput } from '../ai/MovieIntentNormalizer.js';
 
-function normalizeDimensionScene(dimension) {
+function structuredInput(dimension) {
 	const scene = {
-		name: `${dimension || "default"}-scene`,
+		id: 'dimension-scene',
+		name: '3D orbit particles tutorial character words are only a name',
+		start: 0,
 		duration: 8,
-		entities: [
-			{ id: "person", kind: "character", name: "miriam" },
-			{ id: "spark", kind: "particle", name: "sparks" },
-			{ id: "shape", kind: "shape", name: "orb" }
-		]
+		layers: [{ id: 'literal', kind: 'text', text: 'world light particles' }]
 	};
-	if (dimension) {
-		scene.dimension = dimension;
-	}
-	return normalizeMovieIntentInput({
-		duration: 8,
-		scenes: [scene]
-	}).scenes[0];
+	if (dimension !== undefined) scene.dimension = dimension;
+	return { duration: 8, scenes: [scene] };
 }
 
-function kindsOf(scene) {
-	return new Set(scene.layers.map(layer => layer.kind));
-}
-
-test("omitted dimension resolves to hybrid and preserves spatial entity semantics", () => {
-	const scene = normalizeDimensionScene();
-	const kinds = kindsOf(scene);
-	assert.equal(scene.dimension, "hybrid");
-	assert.ok(kinds.has("world3d"));
-	assert.ok(kinds.has("light3d"));
-	assert.ok(kinds.has("character3d"));
-	assert.ok(kinds.has("particles3d"));
-	assert.ok(kinds.has("model3d"));
+test('omitted dimension remains omitted with no synthesized layers', () => {
+	const input = structuredInput(undefined);
+	const output = normalizeMovieIntentInput(input);
+	assert.deepEqual(output, input);
+	assert.equal('dimension' in output.scenes[0], false);
+	assert.deepEqual(output.scenes[0].layers.map(layer => layer.kind), ['text']);
 });
 
-test("explicit 2d remains flat without synthetic spatial vessels", () => {
-	const scene = normalizeDimensionScene("2d");
-	const kinds = kindsOf(scene);
-	assert.equal(scene.dimension, "2d");
-	assert.ok(kinds.has("character2d"));
-	assert.ok(kinds.has("particles2d"));
-	assert.ok(kinds.has("shape2d"));
-	assert.equal(kinds.has("world3d"), false);
-	assert.equal(kinds.has("light3d"), false);
+test('explicit 2d remains exactly 2d without synthetic spatial vessels', () => {
+	const input = structuredInput('2d');
+	const output = normalizeMovieIntentInput(input);
+	assert.deepEqual(output, input);
+	assert.equal(output.scenes[0].dimension, '2d');
 });
 
-test("explicit 3d remains spatial and receives world plus light defaults", () => {
-	const scene = normalizeDimensionScene("3d");
-	const kinds = kindsOf(scene);
-	assert.equal(scene.dimension, "3d");
-	assert.ok(kinds.has("world3d"));
-	assert.ok(kinds.has("light3d"));
-	assert.ok(kinds.has("character3d"));
-	assert.ok(kinds.has("particles3d"));
-	assert.ok(kinds.has("model3d"));
+test('explicit 3d remains exactly 3d without synthesized world or light', () => {
+	const input = structuredInput('3d');
+	const output = normalizeMovieIntentInput(input);
+	assert.deepEqual(output, input);
+	assert.equal(output.scenes[0].dimension, '3d');
+	assert.deepEqual(output.scenes[0].layers.map(layer => layer.kind), ['text']);
 });

@@ -1,8 +1,8 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos gives the thumb five stable daily doors; Awtsmoos.com keeps Home, Spaces,
-Social, Search, and Profile constant so the mobile traveler never relearns navigation.
+The Awtsmoos gives the thumb five stable daily doors; Awtsmoos.com keeps the current
+world steady, lets fine pointers invite, and lets every press answer without confusion.
 */
 body[data-geelooy-route="home"] .mobile-dock {
 	display: none;
@@ -14,8 +14,8 @@ body[data-geelooy-route="home"] .mobile-dock {
 	}
 
 	body[data-geelooy-route="home"] .search input,
-body[data-geelooy-route="home"] .hero-actions a,
-body[data-geelooy-route="home"] .featured-card {
+	body[data-geelooy-route="home"] .hero-actions a,
+	body[data-geelooy-route="home"] .featured-card {
 		scroll-margin-bottom: calc(5.25rem + env(safe-area-inset-bottom));
 	}
 
@@ -45,26 +45,34 @@ body[data-geelooy-route="home"] .featured-card {
 		border: 1px solid transparent;
 		border-radius: .78rem;
 		color: #9aacbf;
-		transition: background .16s ease, border-color .16s ease, color .16s ease, transform .16s ease;
+		transition:
+			background 150ms ease,
+			border-color 150ms ease,
+			color 150ms ease,
+			filter 110ms ease,
+			transform 160ms cubic-bezier(.2, .8, .2, 1);
 	}
 
-	body[data-geelooy-route="home"] .mobile-dock a:hover,
-body[data-geelooy-route="home"] .mobile-dock a[aria-current="page"] {
+	body[data-geelooy-route="home"] .mobile-dock a[aria-current="page"] {
 		border-color: #355f7f;
 		background: #10253e;
 		color: #fff;
-		transform: translateY(-1px);
+	}
+
+	@media (hover: hover) and (pointer: fine) {
+		body[data-geelooy-route="home"] .mobile-dock a:hover {
+			border-color: #355f7f;
+			background: #10253e;
+			color: #fff;
+			transform: translateY(-1px);
+		}
 	}
 
 	body[data-geelooy-route="home"] .mobile-dock a:active {
 		border-color: #4f83a8;
 		background: #0d1d30;
+		filter: brightness(.96);
 		transform: translateY(1px) scale(.97);
-	}
-
-	body[data-geelooy-route="home"] .mobile-dock a:focus-visible {
-		outline: 3px solid var(--focus-ring);
-		outline-offset: 2px;
 	}
 
 	body[data-geelooy-route="home"] .mobile-dock span {
@@ -95,7 +103,12 @@ body[data-geelooy-route="home"][data-awtsmoos-profile-open="true"] .mobile-dock 
 
 @media (prefers-reduced-motion: reduce) {
 	body[data-geelooy-route="home"] .mobile-dock,
-body[data-geelooy-route="home"] .mobile-dock a {
+	body[data-geelooy-route="home"] .mobile-dock a {
 		transition: none;
+	}
+
+	body[data-geelooy-route="home"] .mobile-dock a:hover,
+	body[data-geelooy-route="home"] .mobile-dock a:active {
+		transform: none;
 	}
 }

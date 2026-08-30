@@ -1,71 +1,64 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos turns a directing thought into a form the thumb can command;
-Awtsmoos.com keeps prompts, revisions, and export choices spacious in the hand.
+The Awtsmoos gives exact data room to breathe; Awtsmoos.com keeps every field touchable while no prose becomes a cinematic seed.
 */
-.movie-director-form,
-.movie-revision,
+.movie-data-form,
+.movie-patch-form,
 .movie-export-grid {
 	display: grid;
 	gap: 12px;
 }
-.movie-director-form label,
-.movie-revision label,
+
+.movie-data-form label,
+.movie-patch-form label,
 .movie-export-grid label {
 	display: grid;
 	gap: 6px;
+	font-size: 12px;
 	font-weight: 700;
 }
-.movie-director-form input,
-.movie-director-form textarea,
-.movie-director-form select,
-.movie-revision input,
+
+.movie-data-form textarea,
+.movie-patch-form textarea,
 .movie-export-grid select {
 	box-sizing: border-box;
 	width: 100%;
 	min-height: 44px;
-	padding: 10px 12px;
-	border: 1px solid color-mix(in srgb, currentColor 25%, transparent);
-	border-radius: 12px;
-	background: Canvas;
-	color: CanvasText;
+	border: 1px solid var(--movie-border);
+	border-radius: 10px;
+	background: var(--movie-input-bg);
+	color: inherit;
 	font: inherit;
 }
-.movie-director-form textarea {
-	min-height: 112px;
+
+.movie-data-form textarea,
+.movie-patch-form textarea {
+	min-height: 180px;
+	padding: 10px;
 	resize: vertical;
+	font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+	font-size: 12px;
+	line-height: 1.45;
 }
-.movie-director-grid {
-	display: grid;
-	grid-template-columns: repeat(3, minmax(0, 1fr));
+
+.movie-export-grid select {
+	padding: 0 10px;
+}
+
+.movie-form-actions {
+	display: flex;
+	flex-wrap: wrap;
 	gap: 8px;
 }
+
+.movie-form-actions button,
 .movie-primary-action {
-	font-weight: 800;
-	background: color-mix(in srgb, Highlight 78%, Canvas) !important;
-	color: HighlightText !important;
+	min-height: 44px;
+	padding: 0 14px;
 }
-.movie-revision {
-	margin-top: 14px;
-	padding-top: 14px;
-	border-top: 1px solid color-mix(in srgb, currentColor 14%, transparent);
-}
-.movie-revision-actions {
-	display: grid;
-	grid-template-columns: 2fr 1fr 1fr;
-	gap: 8px;
-}
-.movie-export-grid {
-	grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-.movie-export-grid button {
-	grid-column: 1 / -1;
-}
-@media (max-width: 520px) {
-	.movie-director-grid,
-	.movie-export-grid,
-	.movie-revision-actions {
-		grid-template-columns: 1fr;
-	}
+
+.movie-data-form small {
+	line-height: 1.4;
+	opacity: 0.75;
 }

@@ -1,14 +1,13 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos gives the hero three immediate doors: play, create, and treasury.
-Awtsmoos.com keeps Wallet visible even on the narrowest screen so value never hides.
+The Awtsmoos turns intention into action without confusing invitation with response;
+Awtsmoos.com lets a fine pointer lift, a thumb press, and one shared focus law reveal the way.
 */
 body[data-geelooy-route="home"] .hero-actions {
 	display: flex;
 	flex-wrap: wrap;
-	align-items: center;
-	gap: .6rem;
+	gap: .7rem;
 	margin-top: 1rem;
 }
 
@@ -16,68 +15,81 @@ body[data-geelooy-route="home"] .hero-actions a {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	gap: .8rem;
+	gap: .55rem;
 	min-height: 44px;
-	padding: .62rem .9rem;
-	border: 1px solid #294766;
-	border-radius: .72rem;
-	background: #0b1729;
-	color: #dce8f8;
-	font-size: .76rem;
-	font-weight: 820;
-	transition: background .18s ease, border-color .18s ease, color .18s ease, transform .18s ease;
+	padding: .75rem 1rem;
+	border: 1px solid #345b77;
+	border-radius: .88rem;
+	background: #0e2035;
+	color: #f4f8ff;
+	font-size: .82rem;
+	font-weight: 850;
+	text-align: center;
+	transition:
+		background 160ms ease,
+		border-color 160ms ease,
+		color 160ms ease,
+		filter 120ms ease,
+		transform 180ms cubic-bezier(.2, .8, .2, 1);
 }
 
 body[data-geelooy-route="home"] .hero-actions a:first-child {
-	border-color: #d8ecff;
-	background: linear-gradient(180deg, #f9fcff, #d9e8f8);
-	color: #07111e;
-	box-shadow: 0 10px 22px rgba(24, 63, 96, .28);
+	border-color: #d4eaff;
+	background: #eef7ff;
+	color: #07101d;
 }
 
 body[data-geelooy-route="home"] .hero-actions a[data-world-id="wallet"] {
-	border-color: #8c6d2b;
-	background: #2b210d;
-	color: #ffe6a1;
+	border-color: #7a5d24;
+	background: #2d230c;
+	color: #ffe2a1;
 }
 
-body[data-geelooy-route="home"] .hero-actions a:hover {
-	border-color: #6dcfff;
-	background: #10223b;
-	color: #fff;
-	transform: translateY(-1px);
+@media (hover: hover) and (pointer: fine) {
+	body[data-geelooy-route="home"] .hero-actions a:hover {
+		border-color: #64c5ef;
+		background: #17334f;
+		color: #fff;
+		transform: translateY(-2px);
+	}
+
+	body[data-geelooy-route="home"] .hero-actions a:first-child:hover {
+		border-color: #fff;
+		background: #fff;
+		color: #040b14;
+	}
+
+	body[data-geelooy-route="home"] .hero-actions a[data-world-id="wallet"]:hover {
+		border-color: #d5a73d;
+		background: #3b2c0c;
+		color: #fff0c9;
+	}
 }
 
-body[data-geelooy-route="home"] .hero-actions a:first-child:hover {
-	background: #fff;
-	color: #07111e;
-}
-
-body[data-geelooy-route="home"] .hero-actions a[data-world-id="wallet"]:hover {
-	border-color: #f2ce6f;
-	background: #3b2d10;
-	color: #fff3c6;
-}
-
-body[data-geelooy-route="home"] .hero-actions a:focus-visible {
-	outline: 3px solid var(--focus-ring);
-	outline-offset: 3px;
+body[data-geelooy-route="home"] .hero-actions a:active {
+	filter: brightness(.96);
+	transform: translateY(1px) scale(.985);
 }
 
 @media (max-width: 680px) {
 	body[data-geelooy-route="home"] .hero-actions {
 		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		margin-top: .75rem;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
 	}
 
 	body[data-geelooy-route="home"] .hero-actions a {
-		min-height: 46px;
-		padding: .52rem .7rem;
-		text-align: center;
+		min-width: 0;
+		padding-inline: .6rem;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	body[data-geelooy-route="home"] .hero-actions a {
+		transition: none;
 	}
 
-	body[data-geelooy-route="home"] .hero-actions a[data-world-id="wallet"] {
-		grid-column: 1 / -1;
+	body[data-geelooy-route="home"] .hero-actions a:hover,
+	body[data-geelooy-route="home"] .hero-actions a:active {
+		transform: none;
 	}
 }

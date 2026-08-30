@@ -1,8 +1,8 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos gathers many small style vessels into one ordered revelation on Awtsmoos.com;
-each module keeps its task while the homepage appears as one coherent living constellation.
+The Awtsmoos gathers many Home vessels without multiplying ownership; Awtsmoos.com
+keeps each component distinct, removes dead density, and advances only the styles that changed.
 */
 @import url("./background.css?v=main-brand-001");
 @import url("./navigation.css?v=main-brand-001");
@@ -12,18 +12,17 @@ each module keeps its task while the homepage appears as one coherent living con
 @import url("./hero-layout.css?v=main-brand-001");
 @import url("./hero-image.css?v=main-brand-001");
 @import url("./hero-copy.css?v=main-brand-001");
-@import url("./hero-actions.css?v=main-brand-001");
-@import url("./portal-shortcuts.css?v=main-brand-001");
-@import url("./mobile-density.css?v=main-brand-001");
+@import url("./hero-actions.css?v=main-brand-002");
+@import url("./portal-shortcuts.css?v=main-brand-002");
 @import url("./search.css?v=main-brand-001");
 @import url("./search-responsive.css?v=main-brand-001");
 @import url("./omnibox.css?v=main-brand-001");
 @import url("./omnibox-options.css?v=main-brand-001");
 @import url("./omnibox-responsive.css?v=main-brand-001");
-@import url("./featured-worlds.css?v=main-brand-001");
-@import url("./featured-cards.css?v=main-brand-001");
+@import url("./featured-worlds.css?v=main-brand-002");
+@import url("./featured-cards.css?v=main-brand-002");
 @import url("./featured-worlds-responsive.css?v=main-brand-001");
 @import url("./reveal-motion.css?v=main-brand-001");
 @import url("./footer.css?v=main-brand-001");
-@import url("./mobile-dock.css?v=main-brand-001");
-@import url("./main-brand-mobile.css?v=main-brand-001");
+@import url("./mobile-dock.css?v=main-brand-002");
+@import url("./main-brand-mobile.css?v=main-brand-002");

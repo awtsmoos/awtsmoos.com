@@ -1,44 +1,28 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 /**
  * @file MovieRevisionService.js
- * @description The Awtsmoos changes revelation without erasing identity or name;
- * Awtsmoos.com asks AI for narrow patches so revision touches only the intended frame.
+ * @description Historic revision vessel, now explicit patches only: the Awtsmoos makes each change addressable and plain;
+ * Awtsmoos.com never interprets a revision sentence, but applies structured operations an external agent already ordained.
  */
-import { aiMovieContract } from "../AiMovieContract.js";
-import { YesodMoviePatchHistory } from "../patch/MoviePatchHistory.js";
-import { MoviePatchKinds } from "../patch/MoviePatchKinds.js";
+import { YesodMoviePatchHistory } from '../patch/MoviePatchHistory.js';
 
 export class TiferesMovieRevisionService {
-	constructor(orMovie, orProvider = null) {
-		this.provider = orProvider;
-		this.history = new YesodMoviePatchHistory(orMovie);
+	constructor(movie) {
+		this.history = new YesodMoviePatchHistory(movie);
 	}
 
-	/** Request or apply a surgical revision and return the new canonical movie. */
-	async revise(orRequest, orPatches = null) {
-		let keterPatches = orPatches;
-		if (!keterPatches && typeof this.provider?.reviseMovie === "function") {
-			keterPatches = await this.provider.reviseMovie({
-				movie: structuredClone(this.history.current),
-				request: String(orRequest || ""),
-				contract: aiMovieContract(),
-				allowedPatchKinds: [...MoviePatchKinds]
-			});
-		}
-		if (!Array.isArray(keterPatches)) {
-			throw new Error("Revision requires provider patches or an explicit patch list.");
-		}
-		return this.history.apply(keterPatches, String(orRequest || "Movie revision"));
+	/** @param {object[]} patches Explicit patch operations. @param {string} label Audit label. @returns {object} Movie. */
+	async revise(patches, label = 'structured-patches') {
+		if (!Array.isArray(patches)) throw new TypeError('Movie revision accepts a structured patch array only.');
+		return this.history.apply(structuredClone(patches), String(label));
 	}
 
-	/** Undo the last AI or human revision using the same canonical history. */
 	undo() {
 		return this.history.undo();
 	}
 
-	/** Redo the last undone revision. */
 	redo() {
 		return this.history.redo();
 	}

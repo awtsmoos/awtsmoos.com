@@ -1,21 +1,18 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
-
-import { MovieCapabilities, MovieIntentCompiler } from '../../../shared/movie/index.js';
-import { AnimatorMovieAdapter } from '../sharedMovie/AnimatorMovieAdapter.js';
-import { createAwtsmoosThreeMinuteIntent } from './awtsmoosThreeMinute/AwtsmoosThreeMinuteIntent.js';
-
 /**
  * @file AwtsmoosThreeMinuteMovie.js
- * @description Creates the canonical three-minute proof and its high-fidelity Animator projection.
- * The Awtsmoos turns intent into duration, scene into scene, and angle into view; Awtsmoos.com keeps the canonical movie available so every other studio may read it too.
+ * @description The Awtsmoos reveals a fully authored three-minute data world before any renderer begins its projection;
+ * Awtsmoos.com keeps cinematic intelligence in the declared data while Animator receives deterministic validation and connection.
  */
+import { MovieCapabilities } from '../../../shared/movie/index.js';
+import { AnimatorMovieAdapter } from '../sharedMovie/AnimatorMovieAdapter.js';
+import { createAwtsmoosThreeMinuteData } from './awtsmoosThreeMinute/AwtsmoosThreeMinuteData.js';
+
 export class AwtsmoosThreeMinuteMovie {
 	static createProject() {
-		return MovieIntentCompiler.compile(
-			createAwtsmoosThreeMinuteIntent()
-		);
+		return createAwtsmoosThreeMinuteData();
 	}
 
 	static createAnimatorProduction() {

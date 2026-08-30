@@ -1,71 +1,51 @@
 //B"H
 // Boruch Hashem
 // Blessed is He
-
-import assert from "node:assert/strict";
-import test from "node:test";
-import { compileMovieIntent } from "../ai/MovieIntentCompiler.js";
-import { createMoviePromptIntent } from "../ai/MoviePromptIntent.js";
-
 /**
  * @file aiIntentRichness.test.mjs
- * The Awtsmoos gives intelligence the power to choose what not to create as well as what to reveal;
- * Awtsmoos.com tests real semantic layers, so requested richness and requested restraint both become real.
+ * @description Historic test name, opposite invariant: the Awtsmoos lets literal words remain content and nothing more;
+ * Awtsmoos.com proves camera, layers, duration, and mode obey explicit data even when text names every cinematic lore.
  */
-function movieFrom(prompt) {
-	return compileMovieIntent(createMoviePromptIntent(prompt));
+import assert from 'node:assert/strict';
+import test from 'node:test';
+import { normalizeMovieIntentInput } from '../ai/MovieIntentNormalizer.js';
+
+function explicitScene(text) {
+	return {
+		id: 'opaque-scene',
+		name: text,
+		dimension: '2d',
+		camera: { kind: 'static', zoom: 1 },
+		start: 0,
+		duration: 17,
+		layers: [
+			{ id: 'words', kind: 'text', text },
+			{ id: 'box', kind: 'shape2d', shape: 'rect' }
+		]
+	};
 }
 
-function kinds(movie) {
-	return new Set(movie.scenes.flatMap(scene => scene.layers.map(layer => layer.kind)));
-}
-
-function expectAbsent(actualKinds, forbidden) {
-	for (const kind of forbidden) assert.equal(actualKinds.has(kind), false, `unexpected ${kind}`);
-}
-
-function expectPresent(actualKinds, required) {
-	for (const kind of required) assert.equal(actualKinds.has(kind), true, `missing ${kind}`);
-}
-
-test("2D-only motion graphics stay restrained and do not misread graphic as graph", () => {
-	const movie = movieFrom("Create a 30 second 2D flat motion graphic with shapes and text only.");
-	const actualKinds = kinds(movie);
-	expectPresent(actualKinds, ["shape2d", "path2d", "text"]);
-	expectAbsent(actualKinds, ["world3d", "light3d", "model3d", "chart", "particles2d", "particles3d", "character2d", "character3d"]);
-	assert.equal(movie.duration, 30);
-	assert.ok(movie.scenes.every(scene => scene.dimension === "2d"));
+test('cinematic English inside literal text is behaviorally opaque', () => {
+	const words = 'orbit dolly crane 3D particles infographic tutorial make this 90 seconds';
+	const input = {
+		duration: 17,
+		scenes: [explicitScene(words)]
+	};
+	const output = normalizeMovieIntentInput(input);
+	assert.deepEqual(output, input);
+	assert.equal(output.duration, 17);
+	assert.equal(output.scenes[0].camera.kind, 'static');
+	assert.equal(output.scenes[0].dimension, '2d');
+	assert.deepEqual(output.scenes[0].layers.map(layer => layer.kind), ['text', 'shape2d']);
 });
 
-test("infographics create actual charts and labels without forced spatial noise", () => {
-	const movie = movieFrom("Create a 40 second infographic with charts, data, labels, and animated diagrams.");
-	const actualKinds = kinds(movie);
-	expectPresent(actualKinds, ["shape2d", "path2d", "chart", "text", "overlay"]);
-	expectAbsent(actualKinds, ["world3d", "light3d", "model3d", "particles2d", "particles3d", "character2d", "character3d"]);
-	assert.ok(movie.scenes.every(scene => scene.dimension === "2d"));
-});
-
-test("tutorials use presenter, steps, and readable flat guidance", () => {
-	const movie = movieFrom("Create a 40 second tutorial with a presenter, clear steps, callouts, and text.");
-	const actualKinds = kinds(movie);
-	expectPresent(actualKinds, ["shape2d", "path2d", "character2d", "text", "overlay"]);
-	expectAbsent(actualKinds, ["world3d", "light3d", "model3d", "chart", "particles3d"]);
-	assert.deepEqual(movie.scenes.map(scene => scene.purpose), ["hook", "step", "demonstrate", "recap"]);
-});
-
-test("3D product demos honor spatial and particle intent plus explicit orbit camera", () => {
-	const movie = movieFrom("Create a 40 second 3D cinematic product demo with a camera orbit, world, model, and particles.");
-	const actualKinds = kinds(movie);
-	expectPresent(actualKinds, ["world3d", "light3d", "model3d", "particles3d", "text"]);
-	expectAbsent(actualKinds, ["shape2d", "path2d", "chart", "character2d", "character3d"]);
-	assert.ok(movie.scenes.every(scene => scene.camera.kind === "orbit"));
-	assert.ok(movie.scenes.every(scene => scene.dimension === "3d"));
-});
-
-test("hybrid character stories combine requested dimensions instead of flattening them", () => {
-	const movie = movieFrom("Create a 40 second hybrid character story with people, 2D overlays, 3D world, particles, and charts.");
-	const actualKinds = kinds(movie);
-	expectPresent(actualKinds, ["world3d", "light3d", "model3d", "shape2d", "path2d", "chart", "particles2d", "particles3d", "character2d", "character3d", "text", "overlay"]);
-	assert.ok(movie.scenes.every(scene => scene.dimension === "hybrid"));
-	assert.ok(new Set(movie.scenes.map(scene => scene.camera.kind)).size >= 3);
+test('omitted cinematic fields remain omitted rather than inferred from names', () => {
+	const words = 'hybrid world orbit character particles chart';
+	const scene = explicitScene(words);
+	delete scene.dimension;
+	delete scene.camera;
+	const output = normalizeMovieIntentInput({ duration: 17, scenes: [scene] });
+	assert.equal('dimension' in output.scenes[0], false);
+	assert.equal('camera' in output.scenes[0], false);
+	assert.deepEqual(output.scenes[0].layers, scene.layers);
 });

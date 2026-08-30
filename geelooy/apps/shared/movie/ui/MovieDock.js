@@ -1,26 +1,20 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 /**
  * @file MovieDock.js
- * @description The Awtsmoos keeps an old mobile doorway alive while the richer director takes its place;
- * Awtsmoos.com turns legacy dock calls into canonical prompt, boards, timeline, canvas, and export grace.
+ * @description The Awtsmoos keeps the historic mobile doorway while exact movie data becomes its only authored source;
+ * Awtsmoos.com delegates old dock calls to Movie Data Studio without adding inference, prompts, or semantic force.
  */
-import { mountMovieDirectorDock } from "./MovieDirectorDock.js";
+import { mountMovieDataDock } from './MovieDataDock.js';
 
-/** Preserve the historical mountMovieDock API by delegating to the canonical director. */
-export function mountMovieDock(orOptions = {}) {
-	const { appName = "Movie", appId = "shared", onMovie = null } = orOptions;
-	const keterProjector = typeof orOptions.projector === "function"
-		? orOptions.projector
-		: orMovie => {
-			if (typeof onMovie === "function") onMovie(structuredClone(orMovie));
-			return structuredClone(orMovie);
+export function mountMovieDock(options = {}) {
+	const { appName = 'Movie', appId = 'shared', onMovie = null } = options;
+	const projector = typeof options.projector === 'function'
+		? options.projector
+		: movie => {
+			if (typeof onMovie === 'function') onMovie(structuredClone(movie));
+			return structuredClone(movie);
 		};
-	return mountMovieDirectorDock({
-		...orOptions,
-		appId,
-		appName,
-		projector: keterProjector
-	});
+	return mountMovieDataDock({ ...options, appId, appName, projector });
 }

@@ -1,58 +1,21 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 /**
  * @file MovieDirector.js
- * @description The Awtsmoos gives intention its path from thought into scene;
- * Awtsmoos.com lets real AI lead when present and honest deterministic fallback intervene.
+ * @description Historic director name, strict data gate: the Awtsmoos leaves authorship with the external agent;
+ * Awtsmoos.com validates a complete declared movie and never turns prose or sparse intent into a cinematic arrangement.
  */
-import { aiMovieContract } from "../AiMovieContract.js";
-import { createMoviePromptIntent } from "./MoviePromptIntent.js";
-import { compileMovieIntent } from "./MovieIntentCompiler.js";
-import { binahCreateDirectorOutline } from "./MovieDirectorOutline.js";
-import { binahMigrateMovie } from "../protocol/MovieMigration.js";
-import { gevurahAssertValidMovie } from "../schema/MovieValidator.js";
+import { compileMovieIntent } from './MovieIntentCompiler.js';
 
 export class TiferesMovieDirector {
-	constructor(orProvider = null) {
-		this.provider = orProvider;
+	/** @param {object} movieData Complete structured movie. @returns {Promise<object>} Validated movie. */
+	async direct(movieData) {
+		return compileMovieIntent(movieData);
 	}
 
-	/** Direct a complete movie from text or structured intent. */
-	async direct(orBrief = {}) {
-		const keterIntent = normalizeBrief(orBrief);
-		const keterOutline = binahCreateDirectorOutline(keterIntent);
-		if (typeof this.provider?.planMovie === "function") {
-			const ohrMovie = await this.provider.planMovie({
-				intent: structuredClone(keterIntent),
-				outline: structuredClone(keterOutline),
-				contract: aiMovieContract()
-			});
-			return finalize(ohrMovie, keterOutline, "ai-provider");
-		}
-		return finalize(compileMovieIntent(keterIntent), keterOutline, "deterministic-fallback");
+	/** @param {object} movieData Complete structured movie. @returns {Promise<object>} Compatibility alias. */
+	async generate(movieData) {
+		return this.direct(movieData);
 	}
-}
-
-function normalizeBrief(orBrief) {
-	if (typeof orBrief === "string") {
-		return createMoviePromptIntent(orBrief);
-	}
-	if (orBrief?.prompt && !orBrief.duration) {
-		return {
-			...createMoviePromptIntent(orBrief.prompt),
-			...orBrief
-		};
-	}
-	return structuredClone(orBrief || {});
-}
-
-function finalize(orMovie, orOutline, orSource) {
-	const keliMovie = binahMigrateMovie(orMovie);
-	keliMovie.metadata = {
-		...(keliMovie.metadata || {}),
-		directorSource: orSource,
-		outline: structuredClone(orOutline)
-	};
-	return gevurahAssertValidMovie(keliMovie);
 }

@@ -1,39 +1,26 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 /**
  * @file MovieAiProvider.js
- * @description The Awtsmoos is beyond every model and machine-made word;
- * Awtsmoos.com gives providers one truthful interface so real intelligence can be heard.
+ * @description Historic provider name, intentionally inert: the Awtsmoos keeps intelligence outside the movie machine;
+ * Awtsmoos.com refuses provider planning inside rendering, so external agents deliver finished data through a separate lane.
  */
 export class ChochmahMovieAiProvider {
-	/** Plan a complete canonical movie from a structured directing brief. */
 	async planMovie() {
-		throw new Error("This AI provider does not implement planMovie().");
+		throw providerBoundaryError();
 	}
 
-	/** Return reversible canonical patches for a focused revision request. */
 	async reviseMovie() {
-		throw new Error("This AI provider does not implement reviseMovie().");
-	}
-
-	/** Review a canonical movie and return structured findings without mutation. */
-	async reviewMovie() {
-		return [];
-	}
-
-	/** Return optional asset-generation briefs while keeping assets separate from movie truth. */
-	async generateAssetBrief() {
-		return [];
+		throw providerBoundaryError();
 	}
 }
 
-/** Wrap plain callbacks as a provider without forcing inheritance on integrations. */
-export function chochmahProviderFromCallbacks(orCallbacks = {}) {
-	return {
-		planMovie: orCallbacks.planMovie,
-		reviseMovie: orCallbacks.reviseMovie,
-		reviewMovie: orCallbacks.reviewMovie,
-		generateAssetBrief: orCallbacks.generateAssetBrief
-	};
+/** @returns {ChochmahMovieAiProvider} Inert compatibility provider. */
+export function chochmahProviderFromCallbacks() {
+	return new ChochmahMovieAiProvider();
+}
+
+function providerBoundaryError() {
+	return new Error('Movie runtime does not invoke AI providers. External agents must submit structured movie data or patches.');
 }

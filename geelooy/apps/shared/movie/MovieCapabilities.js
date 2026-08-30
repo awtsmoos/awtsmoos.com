@@ -1,14 +1,14 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 /**
  * @file MovieCapabilities.js
- * @description The Awtsmoos is One while every studio keeps a distinctive art;
- * Awtsmoos.com names strengths, limits, and recommendations so AI chooses each vessel's proper part.
+ * @description The Awtsmoos is One while every renderer keeps a distinctive art;
+ * Awtsmoos.com publishes machine capabilities so external agents choose the right vessel before data starts.
  */
-import { MovieLayerKind, MovieLayerKinds } from "./MovieKinds.js";
-import { yesodProtocolIdentity } from "./MovieProtocol.js";
-import { recommendMovieApps } from "./MovieCapabilityRecommender.js";
+import { MovieLayerKind, MovieLayerKinds } from './MovieKinds.js';
+import { yesodProtocolIdentity } from './MovieProtocol.js';
+import { recommendMovieApps } from './MovieCapabilityRecommender.js';
 
 const VISUAL_2D = [
 	MovieLayerKind.SHAPE_2D,
@@ -31,64 +31,43 @@ const VISUAL_2D = [
 	MovieLayerKind.FORMULA,
 	MovieLayerKind.DEVICE
 ];
-const AUDIO = [
-	MovieLayerKind.AUDIO,
-	MovieLayerKind.DIALOGUE,
-	MovieLayerKind.NARRATION,
-	MovieLayerKind.MUSIC,
-	MovieLayerKind.AMBIENCE,
-	MovieLayerKind.SFX
-];
-const SPATIAL = MovieLayerKinds.filter(
-	orKind => String(orKind).endsWith("3d") || orKind === MovieLayerKind.CAMERA
-);
-
+const AUDIO = [MovieLayerKind.AUDIO, MovieLayerKind.DIALOGUE, MovieLayerKind.NARRATION, MovieLayerKind.MUSIC, MovieLayerKind.AMBIENCE, MovieLayerKind.SFX];
+const SPATIAL = MovieLayerKinds.filter(kind => String(kind).endsWith('3d') || kind === MovieLayerKind.CAMERA);
 const PROFILES = Object.freeze({
-	shared: profile("Shared Movie", MovieLayerKinds, ["2d", "3d", "hybrid"], ["interchange", "ai-authoring", "validation", "patch-history"]),
-	animator: profile("Awtsmoos Animator", MovieLayerKinds, ["2d", "3d", "hybrid"], ["procedural-generation", "cinematic-cameras", "characters", "particles", "rendering", "export"]),
-	nesher: profile("Nesher Studio", MovieLayerKinds, ["2d", "3d", "hybrid"], ["nle", "timeline", "audio", "media-editing", "compositing", "export"], ["spatial semantics can be represented as editable handoff clips"]),
-	videoEditor: profile("Video Editor", [...VISUAL_2D, ...AUDIO], ["2d", "hybrid"], ["fast-timeline", "captions", "media-clips", "audio", "mobile-editing"], ["3d layers remain canonical handoff metadata"]),
-	mitzvah: profile("Mitzvah Studio", [...VISUAL_2D, ...SPATIAL], ["2d", "3d", "hybrid"], ["shape-authoring", "text", "spatial-objects", "world-building"], ["audio mixing and advanced NLE semantics are deferred"]),
-	captions: profile("Captions", [MovieLayerKind.TEXT, MovieLayerKind.CAPTION, MovieLayerKind.SHAPE_2D, MovieLayerKind.PATH_2D, MovieLayerKind.CHART, MovieLayerKind.OVERLAY, ...AUDIO], ["2d"], ["captions", "kinetic-type", "motion-graphics", "dialogue-timing"], ["spatial layers remain handoff metadata"])
+	shared: profile('Shared Movie', MovieLayerKinds, ['2d', '3d', 'hybrid'], ['interchange', 'agent-authored-data', 'validation', 'patch-history']),
+	animator: profile('Awtsmoos Animator', MovieLayerKinds, ['2d', '3d', 'hybrid'], ['procedural-rendering', 'cinematic-cameras', 'characters', 'particles', 'export']),
+	nesher: profile('Nesher Studio', MovieLayerKinds, ['2d', '3d', 'hybrid'], ['nle', 'timeline', 'audio', 'media-editing', 'compositing', 'export'], ['spatial semantics can be represented as editable handoff clips']),
+	videoEditor: profile('Video Editor', [...VISUAL_2D, ...AUDIO], ['2d', 'hybrid'], ['fast-timeline', 'captions', 'media-clips', 'audio', 'mobile-editing'], ['3d layers remain canonical handoff metadata']),
+	mitzvah: profile('Mitzvah Studio', [...VISUAL_2D, ...SPATIAL], ['2d', '3d', 'hybrid'], ['shape-authoring', 'text', 'spatial-objects', 'world-building'], ['audio mixing and advanced NLE semantics are deferred']),
+	captions: profile('Captions', [MovieLayerKind.TEXT, MovieLayerKind.CAPTION, MovieLayerKind.SHAPE_2D, MovieLayerKind.PATH_2D, MovieLayerKind.CHART, MovieLayerKind.OVERLAY, ...AUDIO], ['2d'], ['captions', 'kinetic-type', 'motion-graphics', 'dialogue-timing'], ['spatial layers remain handoff metadata'])
 });
 
-/** Return one cloned capability profile safe for AI inspection. */
-export function movieCapabilities(orAppId = "shared") {
-	return structuredClone(PROFILES[orAppId] || PROFILES.shared);
+export function movieCapabilities(appId = 'shared') {
+	return structuredClone(PROFILES[appId] || PROFILES.shared);
 }
 
-/** Return every app profile for capability-aware AI planning. */
 export function allMovieCapabilities() {
-	return Object.fromEntries(
-		Object.entries(PROFILES).map(([orId, orValue]) => [orId, structuredClone(orValue)])
-	);
+	return Object.fromEntries(Object.entries(PROFILES).map(([id, value]) => [id, structuredClone(value)]));
 }
 
-/** Rank real studio personalities against a canonical movie's layers and dimensions. */
-export function recommendMovieCapabilities(orMovie = {}) {
-	return recommendMovieApps(orMovie, allMovieCapabilities());
+export function recommendMovieCapabilities(movie = {}) {
+	return recommendMovieApps(movie, allMovieCapabilities());
 }
 
-function profile(orName, orLayers, orDimensions, orStrengths, orLimitations = []) {
+function profile(name, layers, dimensions, strengths, limitations = []) {
 	return Object.freeze({
 		...yesodProtocolIdentity(),
-		name: orName,
-		layers: Object.freeze([...orLayers]),
-		dimensions: Object.freeze([...orDimensions]),
-		strengths: Object.freeze([...orStrengths]),
-		limitations: Object.freeze([...orLimitations]),
-		features: Object.freeze(["arbitrary-duration", "structured-ai", "mobile-first", "cross-app-handoff", "reversible-patches"])
+		name,
+		layers: Object.freeze([...layers]),
+		dimensions: Object.freeze([...dimensions]),
+		strengths: Object.freeze([...strengths]),
+		limitations: Object.freeze([...limitations]),
+		features: Object.freeze(['arbitrary-duration', 'structured-data', 'mobile-first', 'cross-app-handoff', 'reversible-patches'])
 	});
 }
 
 export const MovieCapabilities = Object.freeze({
-	for(orAppId) {
-		return movieCapabilities(orAppId);
-	},
-	all() {
-		return allMovieCapabilities();
-	},
-	recommend(orMovie) {
-		return recommendMovieCapabilities(orMovie);
-	}
+	for: movieCapabilities,
+	all: allMovieCapabilities,
+	recommend: recommendMovieCapabilities
 });

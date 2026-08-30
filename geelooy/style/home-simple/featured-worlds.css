@@ -1,7 +1,8 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos gathers four paths beneath the hero, giving Awtsmoos.com a second horizon without crowding the first.
+The Awtsmoos gathers four paths beneath the hero, giving Awtsmoos.com a second horizon;
+this section owns their colors and heading rhythm while each card keeps its own mechanics clear.
 */
 body[data-geelooy-route="home"] .featured-worlds {
 	width: min(1240px, 100%);
@@ -43,18 +44,57 @@ body[data-geelooy-route="home"] .featured-heading > a {
 	color: #8fa2bd;
 	font-size: .68rem;
 	font-weight: 780;
-	transition: background .18s ease, color .18s ease;
+	transition:
+		background 160ms ease,
+		color 160ms ease,
+		filter 110ms ease,
+		transform 170ms cubic-bezier(.2, .8, .2, 1);
 }
 
-body[data-geelooy-route="home"] .featured-heading > a:hover,
-body[data-geelooy-route="home"] .featured-heading > a:focus-visible {
-	background: rgba(108, 185, 239, .09);
+@media (hover: hover) and (pointer: fine) {
+	body[data-geelooy-route="home"] .featured-heading > a:hover {
+		background: rgba(108, 185, 239, .09);
+		color: #fff;
+		transform: translateY(-1px);
+	}
+}
+
+body[data-geelooy-route="home"] .featured-heading > a:active {
+	background: rgba(108, 185, 239, .12);
 	color: #fff;
-	outline: none;
+	filter: brightness(.96);
+	transform: translateY(1px) scale(.985);
 }
 
 body[data-geelooy-route="home"] .featured-grid {
 	display: grid;
 	grid-template-columns: repeat(4, minmax(0, 1fr));
 	gap: .7rem;
+}
+
+body[data-geelooy-route="home"] .featured-card--torah {
+	--featured-accent: 99, 178, 255;
+}
+
+body[data-geelooy-route="home"] .featured-card--apps {
+	--featured-accent: 104, 220, 160;
+}
+
+body[data-geelooy-route="home"] .featured-card--games {
+	--featured-accent: 245, 121, 164;
+}
+
+body[data-geelooy-route="home"] .featured-card--os {
+	--featured-accent: 148, 126, 255;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	body[data-geelooy-route="home"] .featured-heading > a {
+		transition: none;
+	}
+
+	body[data-geelooy-route="home"] .featured-heading > a:hover,
+	body[data-geelooy-route="home"] .featured-heading > a:active {
+		transform: none;
+	}
 }
