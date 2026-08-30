@@ -6,7 +6,7 @@
   "settings": {
     "width": 640,
     "height": 360,
-    "fps": 12,
+    "fps": 2,
     "bubbleSafeMargin": 18,
     "backgroundMix": "procedural-only",
     "backgroundColor": "#d8d7d1",

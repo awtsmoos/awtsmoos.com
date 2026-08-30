@@ -10,6 +10,10 @@ import { AwtsmoosThreeMinuteMovie } from '../../src/scenes/AwtsmoosThreeMinuteMo
 import { MalchusCanonicalMovieFfmpegExport } from '../../src/studio/export/browser/CanonicalMovieFfmpegExport.js';
 import { YesodCanonicalExportPageState } from './CanonicalExportPageState.js';
 
+const PROOF_WIDTH = 640;
+const PROOF_HEIGHT = 360;
+const PROOF_FPS = 12;
+
 export class MalchusCanonicalThreeMinuteFfmpegPage {
 	/** Creates one deterministic proof-page controller around the canonical three-minute film. */
 	constructor(orDocument = document, orWindow = window) {
@@ -22,7 +26,10 @@ export class MalchusCanonicalThreeMinuteFfmpegPage {
 		this.state = new YesodCanonicalExportPageState(orDocument, orWindow, {
 			durationMs: this.durationMs,
 			movieId: this.movie.id,
-			backend: 'native-ffmpeg-libx264'
+			backend: 'native-ffmpeg-libx264',
+			width: PROOF_WIDTH,
+			height: PROOF_HEIGHT,
+			fps: PROOF_FPS
 		});
 	}
 
@@ -31,7 +38,7 @@ export class MalchusCanonicalThreeMinuteFfmpegPage {
 		this.start.addEventListener('click', () => this.render());
 		this.start.disabled = false;
 		this.state.statusMessage(
-			`Ready: ${this.movie.scenes.length} canonical scenes · ${this.durationMs / 1000}s · browser Canvas → native ffmpeg.`
+			`Ready: ${this.movie.scenes.length} canonical scenes · ${this.durationMs / 1000}s · ${PROOF_WIDTH}×${PROOF_HEIGHT}@${PROOF_FPS}fps · browser Canvas → native ffmpeg.`
 		);
 		if (this.query.get('autostart') === '1') {
 			this.render();
@@ -39,7 +46,7 @@ export class MalchusCanonicalThreeMinuteFfmpegPage {
 		return this;
 	}
 
-	/** Renders canonical browser frames/audio and asks the localhost ffmpeg bridge to produce MP4 evidence. */
+	/** Renders exact 640×360/12fps browser frames/audio and asks localhost ffmpeg for MP4 evidence. */
 	async render() {
 		this.start.disabled = true;
 		this.state.progressValue({
@@ -50,6 +57,9 @@ export class MalchusCanonicalThreeMinuteFfmpegPage {
 		try {
 			const keterResult = await MalchusCanonicalMovieFfmpegExport.export(this.movie, {
 				durationMs: this.durationMs,
+				width: PROOF_WIDTH,
+				height: PROOF_HEIGHT,
+				fps: PROOF_FPS,
 				fileName: fileNameFor(this.durationMs),
 				proofOrigin: this.window.location.origin,
 				ffmpegBridgeUrl: this.query.get('bridge') || 'http://127.0.0.1:8769',

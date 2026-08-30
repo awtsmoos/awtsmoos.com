@@ -1,12 +1,12 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file MitzvahWorldCreatorRailMarkup.js
- * @description Renders the creator rail as a simple-first, advanced-on-demand semantic control surface from immutable action data.
- * The Awtsmoos renews hidden possibility beneath a quiet visible face; Awtsmoos.com lets a builder meet only the controls
- * needed now, while deeper course and sharing powers remain folded in a native disclosure with every stable action hook in place.
+ * @description Renders a simple-first creator rail whose advanced disclosure includes persistence, remix, course, and sharing without cluttering ordinary placement.
+ * The Awtsmoos renews hidden possibility beneath a quiet visible face; Awtsmoos.com lets a builder meet only the controls needed now,
+ * while deeper world memory and sharing remain folded in one native disclosure where every stable semantic action retains its place.
  */
 
 import {
@@ -15,10 +15,6 @@ import {
 	creatorMovementControls
 } from './MitzvahWorldCreatorRailControlCatalog.js';
 
-/**
- * Returns the complete creator rail interior while preserving every controller-facing data hook.
- * @returns {string} Semantic localized rail markup with basic placement controls and retractable advanced actions.
- */
 export function createMitzvahWorldCreatorRailMarkup() {
 	return `
 		<header class="Awtsmoos-creator-rail__header">
@@ -36,15 +32,11 @@ export function createMitzvahWorldCreatorRailMarkup() {
 		</header>
 		<div class="Awtsmoos-creator-rail__body" id="Awtsmoos-creator-rail-body" data-creator-body>
 			<section class="Awtsmoos-creator-rail__section" aria-labelledby="Awtsmoos-creator-material-title">
-				<div class="Awtsmoos-creator-rail__section-heading">
-					<span class="Awtsmoos-creator-rail__section-title" id="Awtsmoos-creator-material-title">Material</span>
-				</div>
+				<div class="Awtsmoos-creator-rail__section-heading"><span class="Awtsmoos-creator-rail__section-title" id="Awtsmoos-creator-material-title">Material</span></div>
 				<div class="Awtsmoos-creator-rail__palette" data-creator-palette></div>
 			</section>
 			<section class="Awtsmoos-creator-rail__section" aria-labelledby="Awtsmoos-creator-position-title">
-				<div class="Awtsmoos-creator-rail__section-heading">
-					<span class="Awtsmoos-creator-rail__section-title" id="Awtsmoos-creator-position-title">Position</span>
-				</div>
+				<div class="Awtsmoos-creator-rail__section-heading"><span class="Awtsmoos-creator-rail__section-title" id="Awtsmoos-creator-position-title">Position</span></div>
 				<div class="Awtsmoos-creator-rail__motion-grid">${renderCreatorControls(creatorMovementControls())}</div>
 			</section>
 			<section class="Awtsmoos-creator-rail__section" aria-label="Placement and history">
@@ -54,7 +46,7 @@ export function createMitzvahWorldCreatorRailMarkup() {
 				</div>
 			</section>
 			<details class="Awtsmoos-creator-rail__advanced">
-				<summary class="Awtsmoos-creator-rail__advanced-summary">Course &amp; share</summary>
+				<summary class="Awtsmoos-creator-rail__advanced-summary">World &amp; sharing</summary>
 				<div class="Awtsmoos-creator-rail__advanced-body">${renderCreatorControls(creatorAdvancedControls())}</div>
 			</details>
 			<footer class="Awtsmoos-creator-rail__status">
@@ -65,12 +57,10 @@ export function createMitzvahWorldCreatorRailMarkup() {
 	`;
 }
 
-/** Renders a stable sequence of semantic creator action buttons. */
 function renderCreatorControls(orosControls) {
 	return orosControls.map(control => renderCreatorButton(control)).join('');
 }
 
-/** Renders one creator action without embedding domain execution logic in the DOM. */
 function renderCreatorButton(control, isPrimary = false) {
 	const primaryClass = isPrimary ? ' Awtsmoos-creator-rail__button--primary' : '';
 	return `<button class="Awtsmoos-creator-rail__button${primaryClass}" type="button" data-creator-action="${control.action}" aria-label="${control.accessibleLabel}">${control.label}</button>`;

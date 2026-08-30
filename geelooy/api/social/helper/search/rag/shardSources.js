@@ -24,15 +24,19 @@ const {
 
 /** Returns existing named database files beneath one publication root. */
 function filesAt(root, names) {
-	if (!root) return [];
+	if (!root) {
+		return [];
+	}
 	return names
 		.map(name => path.join(root, name))
 		.filter(file => fs.existsSync(file));
 }
 
-/** Proves every database and its manifest are visible before a multipart root is published. */
+/** Proves every database and matching manifest are visible before multipart publication becomes discoverable. */
 function completePublicationAt(root, names) {
-	if (!root || !names.length) return false;
+	if (!root || !names.length) {
+		return false;
+	}
 	return names.every(name => {
 		const database = path.join(root, name);
 		const manifest = database.replace(/\.awtsdb$/, '.fast-manifest.json');
@@ -40,28 +44,31 @@ function completePublicationAt(root, names) {
 	});
 }
 
-/** Chooses live publication only after its complete manifest boundary has appeared. */
+/** Selects live publication only after its complete manifest boundary appears. */
 function publishedMultipartFiles(liveRoot, stagingRoot, names) {
-	const chosenRoot = completePublicationAt(liveRoot, names)
-		? liveRoot
-		: stagingRoot;
+	let chosenRoot = stagingRoot;
+	if (completePublicationAt(liveRoot, names)) {
+		chosenRoot = liveRoot;
+	}
 	return filesAt(chosenRoot, names);
 }
 
-/** Reveals the immutable files approved for public search in their publication order. */
+/** Reveals every immutable file approved for public search in publication order. */
 function publishedShardFiles($i) {
 	const liveRoot = ragRoot($i);
+	const sichosFiles = publishedMultipartFiles(
+		liveRoot,
+		sichosKodeshStagingRoot($i),
+		PUBLISHED_SICHOS_KODESH_FILES
+	);
+	const likkuteiFiles = filesAt(
+		likkuteiSichosStagingRoot($i),
+		PUBLISHED_LIKKUTEI_SICHOS_FILES
+	);
 	return [
 		...filesAt(liveRoot, CANONICAL_SHARD_FILES),
-		...publishedMultipartFiles(
-			liveRoot,
-			sichosKodeshStagingRoot($i),
-			PUBLISHED_SICHOS_KODESH_FILES
-		),
-		...filesAt(
-			likkuteiSichosStagingRoot($i),
-			PUBLISHED_LIKKUTEI_SICHOS_FILES
-		)
+		...sichosFiles,
+		...likkuteiFiles
 	];
 }
 

@@ -4,9 +4,9 @@
 
 /**
  * @file build-js.cjs
- * @description Builds deterministic first-control and bounded later runtime artifacts while preserving chosen dynamic seams.
- * The Awtsmoos gathers every phase without forcing distant abundance into the first vessel;
- * Awtsmoos.com lets immediate play stay whole while rich worlds remain deferred, deterministic, hashed, and compressed well.
+ * @description Builds deterministic first-control, bounded playable foundation/core, and later quality runtime artifacts while preserving chosen deferred seams.
+ * The Awtsmoos gathers each needed phase into a vessel no larger than its present deed;
+ * Awtsmoos.com lets first control stay tiny, playable ground cross two swift compressed gates, and distant beauty remain deferred at speed.
  */
 
 const fs = require('node:fs');
@@ -37,7 +37,7 @@ main().catch(error => {
 	process.exitCode = 1;
 });
 
-/** Builds the first-control artifact followed by deterministic runtime chunks. */
+/** Builds the first-control artifact followed by deterministic playable and later runtime chunks. */
 async function main() {
 	const entryFile = path.join(sourceRoot, 'MinimalMeadowCompactBootstrap.js');
 	const outputFile = path.join(sourceRoot, 'mitzvah-world.compact.js');
@@ -87,16 +87,18 @@ function compileSource(entryFile, preserveDynamicImports, sourceMaps) {
 	});
 }
 
-/** Defines bounded artifacts; the world keeps rich-world imports deferred beyond immediate play. */
+/** Defines bounded artifacts from playable foundation through later quality systems. */
 function chunkConfigurations() {
 	return [
+		chunk('foundation', 'EretzWorldFoundation.js'),
+		chunk('core', 'BootstrapCoreRuntimeAssembly.js'),
 		chunk('presentation', 'MinimalMeadowPresentationBundle.js'),
 		chunk('world', 'MinimalMeadowWorldBundle.js', { preserveDynamicImports: true }),
 		chunk('optional', 'MinimalMeadowOptionalBundle.js')
 	];
 }
 
-/** Creates one immutable-ish build descriptor consumed by RuntimeChunkBuild. */
+/** Creates one deterministic build descriptor consumed by RuntimeChunkBuild. */
 function chunk(name, entryName, options = {}) {
 	return {
 		entryFile: path.join(sourceRoot, 'app', entryName),

@@ -5,11 +5,14 @@
 /**
  * @module SocialSearchRoutes
  * @description
- * The Awtsmoos keeps search doors light at birth and warms the exact living request vessel only when an operator asks;
- * Awtsmoos.com preserves lazy route imports while readiness names real storage and semantic life instead of a second imagined root in the night.
+ * The Awtsmoos keeps every search door light until a seeker enters, then warms the exact database vessel already living inside that request;
+ * Awtsmoos.com refuses a second imaginary root, preserves lazy route imports, and lets readiness report the same storage truth that semantic queries inspect.
  */
 
-const { applySearchStatus, revealReadiness } = require('./helper/search/routes/responseStatus.js');
+const {
+	applySearchStatus,
+	revealReadiness
+} = require('./helper/search/routes/responseStatus.js');
 const { ROUTE_GROUPS } = require('./helper/search/routes/routeGroups.js');
 
 let searchReadiness = {
@@ -18,6 +21,7 @@ let searchReadiness = {
 	message: 'Search warm-up has not been requested.'
 };
 
+/** Builds one lazy route handler without warming or importing its engine at route-table creation time. */
 function lazyHandler(group, route, context) {
 	return async (...argumentsList) => {
 		const factory = require(group.modulePath)[group.factoryName];
@@ -26,28 +30,41 @@ function lazyHandler(group, route, context) {
 	};
 }
 
+/** Reveals all configured search paths while retaining per-route lazy imports. */
 function lazySearchRoutes(context) {
 	const routes = {};
 	for (const group of ROUTE_GROUPS) {
-		for (const route of group.routes) routes[route] = lazyHandler(group, route, context);
+		for (const route of group.routes) {
+			routes[route] = lazyHandler(group, route, context);
+		}
 	}
 	return routes;
 }
 
+/** Extracts the real request interface from the social API vessel. */
 function requestInterface(context = {}) {
 	return context.$i || context;
 }
 
+/** Warms search against the request's database root and proves storage remains unchanged. */
 function warmSearchRoutes(context = {}) {
 	const { warmRagCommentSource } = require('./helper/search/rag/ragStartupWarmup.js');
-	const { assertStorageUnchanged, captureCanonicalStorage } = require('./helper/search/rag/storageInvariant.js');
+	const {
+		assertStorageUnchanged,
+		captureCanonicalStorage
+	} = require('./helper/search/rag/storageInvariant.js');
 	const $i = requestInterface(context);
 	const storageBefore = captureCanonicalStorage($i);
 	const warmup = warmRagCommentSource($i);
 	assertStorageUnchanged(storageBefore, captureCanonicalStorage($i));
-	return { ok: true, warmup, storage: storageBefore };
+	return {
+		ok: true,
+		warmup,
+		storage: storageBefore
+	};
 }
 
+/** Records warmup failure as readiness state without taking unrelated social routes down. */
 function warmSearchRoutesSafely(context = {}) {
 	try {
 		searchReadiness = warmSearchRoutes(context);
@@ -61,6 +78,7 @@ function warmSearchRoutesSafely(context = {}) {
 	return searchReadiness;
 }
 
+/** Adds current semantic-worker state to the last explicit readiness result. */
 function currentSearchReadiness() {
 	try {
 		const { workerStatus } = require('./helper/search/rag/ragStartupWarmup.js');

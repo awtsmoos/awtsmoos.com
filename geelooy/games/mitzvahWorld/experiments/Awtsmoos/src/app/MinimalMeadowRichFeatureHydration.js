@@ -1,23 +1,26 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file MinimalMeadowRichFeatureHydration.js
- * @description Declares orchestration ready, completes atomic handoff, then starts steady-state measurement.
- * The Awtsmoos lets the fuller garment become whole before weighing its living pulse;
- * Awtsmoos.com preserves bootstrap safety, readable module truth, exact handoff, and responsive construction.
+ * @description Declares orchestration ready, hydrates rich features through a compact-aware variable module, then measures steady-state pulse.
+ * The Awtsmoos lets the fuller garment become whole before weighing its living light;
+ * Awtsmoos.com preserves bootstrap safety, exact handoff, and one compact road into every richer sight.
  */
 
+import { resolveDeferredAppModuleUrl } from './DeferredAppModuleUrl.js';
 import {
 	scheduleMinimalMeadowPerformanceMonitor
 } from './MinimalMeadowPerformanceHydration.js';
 
-export const RICH_FEATURE_BUNDLE_URL = new URL(
-	'./MinimalMeadowFeatureBundle.js',
-	import.meta.url
-).href;
+export const RICH_FEATURE_BUNDLE_URL = resolveDeferredAppModuleUrl(
+	'MinimalMeadowFeatureBundle.js',
+	import.meta.url,
+	'MinimalMeadowRichFeatureHydration.js'
+);
 
+/** Hydrates richer features without blocking bootstrap preservation on failure. */
 export async function hydrateMinimalMeadowRichFeatures(
 	runtime,
 	environment,
@@ -61,6 +64,7 @@ export async function hydrateMinimalMeadowRichFeatures(
 	}
 }
 
+/** Converts one feature failure into stable serializable evidence. */
 export function richFeatureErrorReceipt(error) {
 	return Object.freeze({
 		message: error?.message || String(error),

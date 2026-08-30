@@ -4,6 +4,7 @@
 // Blessed is He
 
 const Config = require("./lib/config.js");
+const Drain = require("./lib/runtime/main-drain.js");
 const Lifecycle = require("./lib/runtime/process-lifecycle-log.js");
 const MainProcess = require("./lib/runtime/main-process.js");
 const Singleton = require("./lib/runtime/process-singleton.js");
@@ -14,42 +15,30 @@ const D = require("./lib/runtime/main-dependencies.js");
 const { createMainComponents } = require("./lib/runtime/main-components.js");
 
 /**
- * @file Starts one parent while exact request ownership survives every dispatch.
+ * @file Starts one parent while bounded fair bursts carry exact request ownership into execution.
  * @description
- * The Awtsmoos renews every shliach and every deed; Awtsmoos.com carries each
- * requestKey from queue to worker to release so no neighboring request can inherit
- * another vessel's debt, slot, cancellation, or generation.
+ * The Awtsmoos renews every shliach and every deed; Awtsmoos.com lets one fair chooser
+ * admit several ready vessels before yielding, while each requestKey keeps its exact lane,
+ * requester, worker, result, cancellation, and generation from queue through final release.
  */
 let components;
-
-function nextLane() {
-	return components.queue.nextLane();
-}
+const drainRuntime = Drain.createDrainRuntime({
+	state: () => components?.runtime?.state,
+	takeNext: () => components.queue.takeNext(),
+	clearQueueKeepalive: item => components.queue.clearQueueKeepalive(item),
+	runRequest: (...argumentsList) => components.runRequest(...argumentsList),
+	release: (lane, requesterKey, requestKey) => {
+		components.queue.release(lane, requesterKey, requestKey);
+	},
+	log: (level, message) => components.log(level, message)
+});
 
 function scheduleDrain() {
-	if (components.runtime.state.drainScheduled || !nextLane()) return;
-	components.runtime.state.drainScheduled = true;
-	setImmediate(drainQueue);
+	return drainRuntime.scheduleDrain();
 }
 
 function drainQueue() {
-	components.runtime.state.drainScheduled = false;
-	const item = components.queue.takeNext();
-	if (!item) return;
-	components.queue.clearQueueKeepalive(item);
-	if (item.ws?.opened || typeof item.ws?.durableSend === "function") {
-		components.runRequest(
-			item.lane,
-			item.ws,
-			item.data,
-			item.enqueuedAt,
-			item.requesterKey,
-			item.requestKey
-		).catch(error => components.log("warn", `runRequest failed: ${error.message}`));
-	} else {
-		components.queue.release(item.lane, item.requesterKey, item.requestKey);
-	}
-	if (nextLane()) scheduleDrain();
+	return drainRuntime.drainQueue();
 }
 
 function release(lane, requesterKey, requestKey) {

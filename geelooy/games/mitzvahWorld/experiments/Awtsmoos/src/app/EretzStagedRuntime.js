@@ -4,20 +4,23 @@
 
 /**
  * @file EretzStagedRuntime.js
- * @description Keeps tiny orchestration compact while heavyweight foundation and core graphs load as incremental browser modules, preventing first-play parse cliffs without restoring a giant source waterfall at the menu gate.
- * The Awtsmoos joins swift doorway and patient depth in one living stream; Awtsmoos.com lets the browser breathe between heavy revelations, so visible control arrives without a six-megabyte script freezing the dream.
+ * @description Keeps orchestration tiny while the immediately playable foundation and core cross two bounded generated CompactJS artifacts instead of a cold source-module waterfall.
+ * The Awtsmoos joins swift doorway and measured depth in one living stream; Awtsmoos.com lets a tiny valley gate and one modest core garment arrive,
+ * while presentation, distant worlds, Creator abundance, and optional beauty remain deferred beyond the player's first moving dream.
  */
 
 import { resolveDeferredAppModuleUrl } from './DeferredAppModuleUrl.js';
-import { resolveResponsiveRuntimeModuleUrl } from './ResponsiveRuntimeModuleUrl.js';
+import { resolveGeneratedRuntimeChunkUrl } from './GeneratedRuntimeChunkUrl.js';
 import {
 	reportLaunchProgress,
 	throwIfLaunchAborted
 } from './RuntimeLaunchProgress.js';
 
 const READABLE_SOURCE = 'EretzStagedRuntime.js';
+const FOUNDATION_CHUNK_URL = generated('mitzvah-world-foundation.compact.js');
+const CORE_CHUNK_URL = generated('mitzvah-world-core.compact.js');
 
-/** Creates the playable runtime through small compact orchestration and responsive heavy boundaries. */
+/** Creates the playable runtime through small compact orchestration and two bounded generated artifacts. */
 export async function createStagedEretzRuntime(hosts, options = {}, boot) {
 	boot.begin('quality-profile');
 	const qualityModule = await import(compact('../performance/WorldQualityProfile.js'));
@@ -27,10 +30,8 @@ export async function createStagedEretzRuntime(hosts, options = {}, boot) {
 	);
 	throwIfLaunchAborted(options.signal);
 	boot.begin('webgl-world-foundation');
-	reportLaunchProgress(options, 'Opening responsive WebGL valley services…', 0.08);
-	const foundationModule = await import(responsive(
-		'./EretzWorldFoundation.js?v=20260827-responsive-foundation-01'
-	));
+	reportLaunchProgress(options, 'Opening the compressed WebGL valley gate…', 0.08);
+	const foundationModule = await import(FOUNDATION_CHUNK_URL);
 	const foundation = await foundationModule.createEretzWorldFoundation(hosts, {
 		...options,
 		boot,
@@ -40,12 +41,10 @@ export async function createStagedEretzRuntime(hosts, options = {}, boot) {
 	boot.begin('core-runtime');
 	reportLaunchProgress(
 		options,
-		'Awakening responsive movement and the first living frame…',
+		'Awakening compressed movement and the first living frame…',
 		0.96
 	);
-	const coreModule = await import(responsive(
-		'./BootstrapCoreRuntimeAssembly.js?v=20260827-responsive-core-01'
-	));
+	const coreModule = await import(CORE_CHUNK_URL);
 	const core = coreModule.assembleBootstrapCoreRuntime(
 		foundation,
 		options,
@@ -59,7 +58,7 @@ export async function createStagedEretzRuntime(hosts, options = {}, boot) {
 	};
 }
 
-/** Resolves a small dependency through cached CompactJS. */
+/** Resolves a small authored dependency through cached CompactJS. */
 function compact(specifier) {
 	return resolveDeferredAppModuleUrl(
 		specifier,
@@ -68,7 +67,11 @@ function compact(specifier) {
 	);
 }
 
-/** Resolves a heavyweight first-play graph as incremental native modules. */
-function responsive(specifier) {
-	return resolveResponsiveRuntimeModuleUrl(specifier, import.meta.url);
+/** Resolves one already-generated playable runtime artifact as a terminal browser URL. */
+function generated(fileName) {
+	return resolveGeneratedRuntimeChunkUrl(
+		fileName,
+		import.meta.url,
+		READABLE_SOURCE
+	);
 }

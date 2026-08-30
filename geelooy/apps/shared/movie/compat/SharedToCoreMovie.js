@@ -4,21 +4,22 @@
 
 /**
  * @file SharedToCoreMovie.js
- * @description The studio covenant returns to the deterministic core while the Awtsmoos preserves duration, scene, and light;
- * Awtsmoos.com infers compact modes and entity vessels so mature authored movies can enter deterministic sight.
+ * @description The studio covenant returns to the deterministic core while the Awtsmoos preserves duration, scene, cast, and light;
+ * Awtsmoos.com carries shared-only protocol vessels through a namespaced envelope so mature authored movies can return without loss in sight.
  */
 import { createMovieDocument } from "../../../../libs/awtsmoos-movie-core/index.js";
 import {
 	sharedCameraToCore,
 	sharedTransitionToCore
 } from "./BridgeCameraTransition.js";
+import { createCoreMetadataFromShared } from "./BridgeSharedEnvelope.js";
 import { inferCoreSceneMode } from "./BridgeSceneMode.js";
 import { convertSharedLayerToCoreEntity } from "./SharedLayerToEntity.js";
 
 /**
  * @description Converts one shared awtsmoos-movie-v1 document into deterministic-core form.
  * @param {object} sharedMovie - Canonical shared-protocol movie document.
- * @returns {object} Deterministic-core movie document.
+ * @returns {object} Deterministic-core movie document carrying shared-only envelope metadata.
  * @sideEffects None outside newly allocated clones.
  */
 export function convertSharedMovieToCore(sharedMovie) {
@@ -32,10 +33,7 @@ export function convertSharedMovieToCore(sharedMovie) {
 		personality: movie.metadata?.personality || "animator",
 		assets: structuredClone(movie.assets || []),
 		scenes: (movie.scenes || []).map(convertSharedScene),
-		metadata: {
-			...structuredClone(movie.metadata || {}),
-			sourceProtocol: movie.protocol || "awtsmoos-movie-v1"
-		}
+		metadata: createCoreMetadataFromShared(movie)
 	});
 }
 

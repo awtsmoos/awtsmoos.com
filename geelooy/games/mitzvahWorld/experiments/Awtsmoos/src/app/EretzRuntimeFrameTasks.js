@@ -1,23 +1,21 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file EretzRuntimeFrameTasks.js
- * @description Runs rich-world tasks in fixed measured order while adaptive quality and fast event-bounded LOD protect the visible frame before heavier streaming, gameplay, water, animation, and rendering work.
- * The Awtsmoos renews collision, deed, river, shadow, camera, distance and witness in one cadence; Awtsmoos.com lets every task keep its measured vessel while performance truth guards the gate before abundance enters late.
+ * @description Runs rich-world tasks in fixed budgets while native chunks, built-in regions, and creator cells share one streaming cadence.
+ * The Awtsmoos renews collision, deed, river, camera, distant lands, and authored worlds without multiplying clocks in the frame;
+ * Awtsmoos.com lets one traveler awaken only nearby vessels while movement and rendering keep their measured name.
  */
 
 import { updateEretzAnimationFrame } from './EretzAnimationFrame.js';
-import { updateEretzPerformanceFrame } from './EretzPerformanceFrame.js';
 import { faceTarget } from './EretzPlayerModel.js';
 import { refreshStatusHud } from './EretzStatusHud.js';
 import { updateEretzWorldServices } from './EretzWorldServiceFrame.js';
 import { refreshWorldDiagnostics } from './WorldDiagnostics.js';
 
-/** Runs one ordered rich frame and records subsystem cost boundaries. */
 export function runEretzRuntimeFrameTasks(runtime, context, deltaTime, now, costs) {
-	updateEretzPerformanceFrame(runtime, context, deltaTime, now);
 	measureTask(costs, 'streaming', updateStreaming, runtime, context, deltaTime, now);
 	measureTask(costs, 'gameplay', updateGameplay, runtime, context, deltaTime, now);
 	measureTask(costs, 'animation', updateAnimation, runtime, context, deltaTime, now);
@@ -39,14 +37,15 @@ function measureTask(costs, name, task, runtime, context, deltaTime, now) {
 
 function updateStreaming(runtime, context, deltaTime, now) {
 	if (context.cadence.due('chunks', now)) {
+		const playerPosition = runtime.model.position;
 		runtime.chunkRuntime?.update({
 			at: now,
-			playerPosition: runtime.model.position
+			playerPosition
 		});
+		runtime.openWorldStreaming?.update?.(playerPosition);
+		runtime.creatorWorldStreaming?.update?.(playerPosition);
 	}
-	if (!context.cadence.due('materialHydration', now)) {
-		return;
-	}
+	if (!context.cadence.due('materialHydration', now)) return;
 	runtime.materialHydrationStats = context.residency.update(runtime.scene);
 }
 
@@ -97,15 +96,15 @@ function renderWorld(runtime, context, deltaTime, now) {
 }
 
 function updateCadencedUi(runtime, context, now) {
-	if (context.cadence.due('combatHud', now)) {
-		runtime.combatActionBar?.update(now);
-	}
+	if (context.cadence.due('combatHud', now)) runtime.combatActionBar?.update(now);
 	if (context.cadence.due('hud', now)) {
 		refreshStatusHud(runtime);
 		runtime.bootstrapHud?.refresh?.();
 	}
 	if (context.cadence.due('diagnostics', now)) {
 		refreshWorldDiagnostics(context.diagnostics, runtime);
+		context.diagnostics.openWorldStreaming = runtime.openWorldStreaming?.diagnostics?.() || null;
+		context.diagnostics.creatorWorldStreaming = runtime.creatorWorldStreaming?.diagnostics?.() || null;
 	}
 	if (context.cadence.due('villageLifeLogs', now)) {
 		context.villageLifeLogger.update(runtime, now);

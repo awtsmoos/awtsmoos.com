@@ -1,0 +1,27 @@
+{
+	"deterministic": true,
+	"entry": "experiments/Awtsmoos/src/app/EretzWorldFoundation.js",
+	"moduleCount": 1,
+	"modules": [],
+	"name": "foundation",
+	"outputBytes": 8939,
+	"outputHash": "badf0c51774fd3c58e85898d1ec11c6ec457bc68fefa94c769ae53279c97f97a",
+	"preserveDynamicImports": false,
+	"representations": {
+		"brotli": {
+			"bytes": 2362,
+			"encoding": "br",
+			"sha256": "397bb991f8d2f6f1d4f265bff388c0cca1166d4f4bd0609ae42945eb3a848cf9"
+		},
+		"gzip": {
+			"bytes": 2755,
+			"encoding": "gzip",
+			"sha256": "6a633a295e4de3e150945a0d2e5e5e5026b0152711afca35a4bb7c0a0c32c606"
+		},
+		"identity": {
+			"bytes": 8939,
+			"encoding": "identity",
+			"sha256": "badf0c51774fd3c58e85898d1ec11c6ec457bc68fefa94c769ae53279c97f97a"
+		}
+	}
+}

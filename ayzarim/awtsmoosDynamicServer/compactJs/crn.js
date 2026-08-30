@@ -3,6 +3,7 @@
 // Blessed is He
 
 const {
+	isGeneratedCompactJavaScriptPath,
 	isJavaScriptPath,
 	matchesExternalPrefix,
 	queryKey
@@ -10,19 +11,13 @@ const {
 
 /**
  * @file crn.js
- * @description Defines the Canonical Resource Name vocabulary shared by CompactJS resolution and browser request emission.
- * The Awtsmoos lets path, query, fragment, and resource kind emerge as separate rays from one authored name of light;
- * Awtsmoos.com keeps identity distinct from decoration, so one module stays one vessel right.
+ * @description Defines Canonical Resource Names and adds CompactJS transport only to authored local JavaScript, never to already-generated terminal compact artifacts.
+ * The Awtsmoos lets path, query, fragment, and generation state emerge as separate rays from one authored name of light;
+ * Awtsmoos.com keeps source identity distinct from completed publication, so one module stays one vessel right.
  */
 const DATA_LIKE_SCHEMES = new Set(['blob', 'data', 'javascript']);
 
-/**
- * @description Parses one authored specifier without decoding or destroying query and fragment spelling.
- * @param {string} source Authored module specifier.
- * @param {object} options CRN policy options.
- * @param {string[]} [options.publicExternalPrefixes] Public-root prefixes that remain browser-owned.
- * @returns {Readonly<object>} Frozen CRN classification and decoration record.
- */
+/** Parses one authored specifier without decoding or destroying query and fragment spelling. */
 function parseCrn(source, options = {}) {
 	const raw = String(source || '').trim();
 	const parts = splitDecorations(raw);
@@ -32,11 +27,7 @@ function parseCrn(source, options = {}) {
 	return Object.freeze({ external: !local, hash: parts.hash, kind, local, pathname: parts.pathname, query: parts.query, raw });
 }
 
-/**
- * @description Splits one authored specifier into pathname, query, and fragment without decoding them.
- * @param {string} source Authored module specifier.
- * @returns {{hash:string,pathname:string,query:string}} Raw decoration parts in browser order.
- */
+/** Splits one authored specifier into pathname, query, and fragment without decoding them. */
 function splitDecorations(source) {
 	const hashIndex = source.indexOf('#');
 	const beforeHash = hashIndex >= 0 ? source.slice(0, hashIndex) : source;
@@ -49,11 +40,7 @@ function splitDecorations(source) {
 	};
 }
 
-/**
- * @description Classifies browser module reference families before filesystem resolution occurs.
- * @param {string} pathname Specifier pathname with decorations already removed.
- * @returns {string} Stable CRN kind such as relative, public-root, external-url, data-like, or bare.
- */
+/** Classifies browser module reference families before filesystem resolution occurs. */
 function classifyPathname(pathname) {
 	if (pathname.startsWith('//')) return 'protocol-relative';
 	if (pathname.startsWith('./') || pathname.startsWith('../')) return 'relative';
@@ -63,25 +50,18 @@ function classifyPathname(pathname) {
 	return 'bare';
 }
 
-/**
- * @description Reconstructs one CRN without changing unrelated query or fragment spelling.
- * @param {object} crn Parsed or CRN-shaped object.
- * @returns {string} Browser-ready specifier string.
- */
+/** Reconstructs one CRN without changing unrelated query or fragment spelling. */
 function crnSpecifier(crn) {
 	return `${crn.pathname}${crn.query ? `?${crn.query}` : ''}${crn.hash ? `#${crn.hash}` : ''}`;
 }
 
-/**
- * @description Adds exactly one `compact=true` query entry to local JavaScript CRNs while preserving other decorations.
- * @param {string|object} source Authored specifier or parsed CRN.
- * @param {object} options CRN parsing policy when source is a string.
- * @returns {string} Decorated specifier, unchanged for nonlocal or non-JavaScript resources.
- */
+/** Adds one compact flag only to authored local JavaScript, preserving terminal generated artifacts exactly. */
 function withCompactFlag(source, options = {}) {
 	const crn = typeof source === 'string' ? parseCrn(source, options) : source;
-	if (!crn || !crn.local || !isJavaScriptPath(crn.pathname)) return crn ? crnSpecifier(crn) : String(source || '');
-	const kept = String(crn.query || '').split('&').filter(Boolean).filter((segment) => queryKey(segment) !== 'compact');
+	if (!crn || !crn.local || !isJavaScriptPath(crn.pathname) || isGeneratedCompactJavaScriptPath(crn.pathname)) {
+		return crn ? crnSpecifier(crn) : String(source || '');
+	}
+	const kept = String(crn.query || '').split('&').filter(Boolean).filter(segment => queryKey(segment) !== 'compact');
 	kept.push('compact=true');
 	return crnSpecifier({ ...crn, query: kept.join('&') });
 }
@@ -89,6 +69,7 @@ function withCompactFlag(source, options = {}) {
 module.exports = {
 	classifyPathname,
 	crnSpecifier,
+	isGeneratedCompactJavaScriptPath,
 	isJavaScriptPath,
 	parseCrn,
 	splitDecorations,

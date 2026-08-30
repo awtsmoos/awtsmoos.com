@@ -2,31 +2,15 @@
 Boruch Hashem
 Blessed is He
 
-The Awtsmoos makes waiting itself a living threshold, never a dead painted wall;
-Awtsmoos.com layers transparent light upon light so real progress remains readable through it all.
+The Awtsmoos makes waiting itself a living threshold, while one shell alone guards the gate;
+Awtsmoos.com lets this fragment clothe the card and truthful progress, never competing for overlay geometry or z-index fate.
 */
 
 /**
- * The loading vessel preserves real progress while giving every surface depth through
- * translucent gradients instead of flat color blocks. The card remains scroll-safe on
- * short viewports and never hides the primary path behind decorative motion.
+ * Loading content is intentionally separate from the boot-overlay shell. The menu shell
+ * owns viewport geometry, safe areas, background, and stacking; this vessel owns only
+ * the readable card, actual progress, and the small details that tell the player truth.
  */
-#mitzvah-world-root .Awtsmoos-menu-boot {
-	position: fixed;
-	inset: 0;
-	z-index: 1000;
-	display: grid;
-	place-items: center;
-	padding: max(12px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
-	background:
-		radial-gradient(circle at 18% 12%, rgba(80, 255, 182, .24), transparent 34%),
-		radial-gradient(circle at 82% 20%, rgba(111, 166, 255, .18), transparent 38%),
-		radial-gradient(circle at 50% 88%, rgba(242, 205, 101, .12), transparent 42%),
-		linear-gradient(145deg, rgba(2, 12, 8, .96), rgba(7, 28, 18, .9) 52%, rgba(3, 17, 20, .94));
-	backdrop-filter: blur(14px) saturate(1.08);
-	overflow: auto;
-}
-
 #mitzvah-world-root .Awtsmoos-loading-card {
 	position: relative;
 	isolation: isolate;

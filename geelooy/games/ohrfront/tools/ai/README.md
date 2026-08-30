@@ -26,16 +26,7 @@ The canonical physical path is authoritative. Alias spelling remains visible as 
 
 ## Rich provenance records
 
-Every registry record preserves the original canonical fields and now also exposes:
-
-- `key`: stable semantic registry name.
-- `role`: `root`, `entry`, `style`, `planning`, `release`, `evidence`, `tool`, or another bounded role.
-- `scopes`: every containing realm, such as `ai-session`, `ohrfront`, `repository`, or `work`.
-- `primaryScope`: the narrowest meaningful containing realm.
-- `fileUri`: portable `file://` identity for the canonical physical path.
-- `relativeToRepository`: readability annotation only; never path authority.
-- `relativeToSession`: session-local readability annotation when applicable.
-- `equivalentKeys`: registry names resolving to the same physical canonical path.
+Every registry record preserves the original canonical fields and also exposes semantic provenance: `key`, `role`, `scopes`, `primaryScope`, `fileUri`, repository/session-relative readability annotations, and `equivalentKeys`.
 
 The historical fields remain authoritative: `requestedPath`, `path`, `canonicalPath`, `parentPath`, `basename`, `extension`, `exists`, `kind`, `canonicalized`, and `canonicalVerified`.
 
@@ -45,13 +36,33 @@ The historical fields remain authoritative: `requestedPath`, `path`, `canonicalP
 node /Users/awtsmoos/work/awtsmoos.com/geelooy/games/ohrfront/tools/ai/MalchusPrintAbsolutePaths.mjs --key=ohrfrontRoot
 ```
 
-Default single-key text output remains one canonical absolute path so command substitution stays compatible.
+Default single-key text output remains exactly one canonical absolute path. Keep this form for shell command substitution and scripts expecting a bare pathname.
+
+## Print physical system identity for AI
+
+Use explicit `system` format when an AI, release agent, or handoff needs to distinguish an absolute-looking alias from the physical filesystem object:
+
+```bash
+node /Users/awtsmoos/work/awtsmoos.com/geelooy/games/ohrfront/tools/ai/MalchusPrintAbsolutePaths.mjs --key=aiThoughtsAliasRoot --format=system
+```
+
+System output places `canonicalPath` first and also reports `requestedPath`, `physicalRealpath`, `exists`, `kind`, `requestedExists`, `requestedIsSymlink`, `canonicalized`, `canonicalVerified`, device/inode identity, byte size, permission mode, and modification time. Missing future targets remain canonical absolute paths with explicit `exists=false` and null physical metadata.
+
+For the AI alias above, current filesystem truth is:
+
+```text
+requestedPath=/Users/awtsmoos/work/ai-thoughts
+canonicalPath=/Users/awtsmoos/work/.ai-thoughts
+physicalRealpath=/Users/awtsmoos/work/.ai-thoughts
+requestedIsSymlink=true
+canonicalVerified=true
+```
 
 ## Rich discovery
 
 ```bash
 node /Users/awtsmoos/work/awtsmoos.com/geelooy/games/ohrfront/tools/ai/MalchusPrintAbsolutePaths.mjs --key=ohrfrontEntry --format=text
-node /Users/awtsmoos/work/awtsmoos.com/geelooy/games/ohrfront/tools/ai/MalchusPrintAbsolutePaths.mjs --session=2026-08-28-0312-absolute-path-truth --format=json
+node /Users/awtsmoos/work/awtsmoos.com/geelooy/games/ohrfront/tools/ai/MalchusPrintAbsolutePaths.mjs --session=2026-08-28-0444-absolute-system-path-evidence --format=json
 node /Users/awtsmoos/work/awtsmoos.com/geelooy/games/ohrfront/tools/ai/MalchusPrintAbsolutePaths.mjs --keys
 ```
 
@@ -60,44 +71,36 @@ JSON keeps schema `awtsmoos.ai.absolute-system-paths.v2`, declares CWD independe
 ## Resolve from an explicit semantic root
 
 ```bash
-node /Users/awtsmoos/work/awtsmoos.com/geelooy/games/ohrfront/tools/ai/MalchusPrintAbsolutePaths.mjs --resolve=src/OhrfrontEntry.js --from=ohrfrontRoot
+node /Users/awtsmoos/work/awtsmoos.com/geelooy/games/ohrfront/tools/ai/MalchusPrintAbsolutePaths.mjs --resolve=src/OhrfrontEntry.js --from=ohrfrontRoot --format=system
 ```
 
-Relative targets never use caller CWD. The explicit default base remains `repositoryRoot`.
+Relative targets never use caller CWD. The explicit default base remains `repositoryRoot`. System format is equally valid for arbitrary resolved targets.
 
 ## Materialize this session's evidence
 
 This command may be run from `/tmp` or any unrelated directory:
 
 ```bash
-node /Users/awtsmoos/work/awtsmoos.com/geelooy/games/ohrfront/tools/ai/MalchusWriteAbsolutePathEvidence.mjs --session=2026-08-28-0312-absolute-path-truth
+node /Users/awtsmoos/work/awtsmoos.com/geelooy/games/ohrfront/tools/ai/MalchusWriteAbsolutePathEvidence.mjs --session=2026-08-28-0444-absolute-system-path-evidence
 ```
 
-Canonical publication destinations:
+Canonical publication destinations live beneath:
 
 ```text
-/Users/awtsmoos/work/.ai-thoughts/2026-08-28-0312-absolute-path-truth/ABSOLUTE_PATH_MANIFEST.md
-/Users/awtsmoos/work/.ai-thoughts/2026-08-28-0312-absolute-path-truth/evidence/absolute-paths-human.out
-/Users/awtsmoos/work/.ai-thoughts/2026-08-28-0312-absolute-path-truth/evidence/absolute-paths.json
+/Users/awtsmoos/work/.ai-thoughts/2026-08-28-0444-absolute-system-path-evidence
 ```
 
 The writer stages complete sibling temporary files and atomically renames them. It never writes through `/Users/awtsmoos/work/ai-thoughts` merely because that alias is convenient.
 
-## One authority, two compatibility surfaces
+## One authority and compatibility surfaces
 
-The canonical authority lives under:
-
-```text
-/Users/awtsmoos/work/awtsmoos.com/geelooy/games/ohrfront/tools/ai
-```
-
-The historical `scripts/ai` API remains compatible, but its root strings now come from the canonical `YesodAbsolutePathRegistry`. Old callers may continue using `game`, `source`, `tests`, `aiThoughts`, and related names without creating a second filesystem truth model.
+Canonical authority lives at `/Users/awtsmoos/work/awtsmoos.com/geelooy/games/ohrfront/tools/ai`. Historical `scripts/ai` callers still project from the same `YesodAbsolutePathRegistry`; they do not create a second filesystem truth model.
 
 ## Safety and release use
 
 Session ids permit only letters, numbers, `.`, `_`, and `-`; separators and traversal fail before path composition. Use `--require-existing` for source/release inputs that must already exist. Future evidence outputs should not be required to exist before the writer creates them.
 
-Stable printer formats remain `text`, `json`, `env`, `paths`, and `keys`. Browser game code never imports this tooling, and host filesystem paths are not exposed through Ohrfront runtime or network APIs.
+Stable printer formats are `text`, `json`, `env`, `paths`, `keys`, and `system`. Browser game code never imports this tooling, and host filesystem paths are not exposed through Ohrfront runtime or network APIs.
 
 Release-critical machine evidence is cataloged at:
 

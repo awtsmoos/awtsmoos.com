@@ -14,15 +14,11 @@ import { YesodCanonicalMovieExportPlan } from './CanonicalMovieExportPlan.js';
 
 /**
  * @file CanonicalMovieBrowserExport.js
- * @description Joins one millisecond-native editable movie with Animator's real encoded MP4 vessel.
- * The Awtsmoos renews canonical truth into transferable frames; Awtsmoos.com preserves project, projection, render profile, and manifest without changing their names.
+ * @description Joins one seconds-based canonical movie with Animator's real encoded MP4 vessel.
+ * The Awtsmoos renews semantic truth into transferable frames; Awtsmoos.com keeps validation, profile, manifest, and export on one shared-name claim.
  */
 export class MalchusCanonicalMovieBrowserExport {
-	/**
-	 * @param {object} orMovie Canonical Awtsmoos movie measured in milliseconds.
-	 * @param {object} orOptions Browser encoder overrides and callbacks.
-	 * @returns {Promise<object>} Encoded MP4 result plus canonical evidence metadata.
-	 */
+	/** Export one canonical movie through the production browser encoder and return reproducibility evidence. */
 	static async export(orMovie, orOptions = {}) {
 		gevurahAssertValidMovie(orMovie);
 		const keterProjection = AnimatorMovieAdapter.project(orMovie);
@@ -58,14 +54,14 @@ export class MalchusCanonicalMovieBrowserExport {
 		}
 	}
 
-	/** Resolves export quality from canonical settings unless explicit overrides are supplied. */
+	/** Resolve export quality from canonical movie.format unless explicit overrides are supplied. */
 	static profile(orMovie, orOptions = {}) {
-		const yesodSettings = orMovie.settings || {};
+		const yesodFormat = orMovie.format || {};
 		return malchusRenderProfile(orOptions.profileId || 'preview', {
-			width: Number(orOptions.width || yesodSettings.width || 640),
-			height: Number(orOptions.height || yesodSettings.height || 360),
-			fps: Number(orOptions.fps || yesodSettings.fps || 12),
-			quality: Number(orOptions.quality || 0.72)
+			width: positive(orOptions.width ?? yesodFormat.width, 640),
+			height: positive(orOptions.height ?? yesodFormat.height, 360),
+			fps: positive(orOptions.fps ?? yesodFormat.fps, 12),
+			quality: positive(orOptions.quality, 0.72)
 		});
 	}
 }
@@ -76,4 +72,9 @@ function finiteDuration(orRequested, orFallback) {
 		throw new Error('Browser export duration must be a positive finite millisecond value.');
 	}
 	return Math.min(Math.round(yesodDuration), Math.round(Number(orFallback)));
+}
+
+function positive(orValue, orFallback) {
+	const yesodValue = Number(orValue);
+	return Number.isFinite(yesodValue) && yesodValue > 0 ? yesodValue : orFallback;
 }

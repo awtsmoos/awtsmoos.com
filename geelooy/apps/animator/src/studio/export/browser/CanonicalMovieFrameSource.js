@@ -6,12 +6,12 @@ import { CanvasMovieRenderer } from '../../../../../shared/movie/runtime/CanvasM
 
 /**
  * @file CanonicalMovieFrameSource.js
- * @description The Awtsmoos renews one semantic movie at each exact millisecond and reveals transferable pixels;
- * Awtsmoos.com preserves the canonical schema while Animator requests export geometry through its existing frame contract.
+ * @description The Awtsmoos renews canonical seconds into exact Animator millisecond capture requests;
+ * Awtsmoos.com keeps geometry inside movie.format so the same shared runtime paints preview and encoded effects.
  */
 export class MalchusCanonicalMovieFrameSource {
 	/**
-	 * @param {object} orMovie Canonical Awtsmoos movie whose timeline is measured in milliseconds.
+	 * @param {object} orMovie Canonical Awtsmoos movie measured in seconds.
 	 * @param {Window} orWindow Browser vessel providing Canvas and createImageBitmap.
 	 */
 	constructor(orMovie, orWindow = globalThis.window) {
@@ -31,13 +31,14 @@ export class MalchusCanonicalMovieFrameSource {
 		this.lastFrame = null;
 	}
 
-	/** Sets requested export geometry in settings while preserving the canonical `format` string. */
+	/** Apply export geometry through the canonical format object without mutating the source project. */
 	async prepare(orWidth, orHeight) {
-		this.width = positiveInteger(orWidth, this.sourceMovie.settings?.width || 640);
-		this.height = positiveInteger(orHeight, this.sourceMovie.settings?.height || 360);
+		const keterFormat = this.sourceMovie.format || {};
+		this.width = positiveInteger(orWidth, keterFormat.width || 640);
+		this.height = positiveInteger(orHeight, keterFormat.height || 360);
 		this.movie = structuredClone(this.sourceMovie);
-		this.movie.settings = {
-			...(this.movie.settings || {}),
+		this.movie.format = {
+			...keterFormat,
 			width: this.width,
 			height: this.height
 		};
@@ -45,10 +46,10 @@ export class MalchusCanonicalMovieFrameSource {
 		this.canvas.height = this.height;
 	}
 
-	/** Renders one exact Animator millisecond request and returns a transferable ImageBitmap. */
+	/** Render one Animator millisecond capture request through the canonical seconds-based runtime. */
 	async capture(orTimeMs, orWidth, orHeight) {
-		const yesodWidth = positiveInteger(orWidth, this.width || 640);
-		const yesodHeight = positiveInteger(orHeight, this.height || 360);
+		const yesodWidth = positiveInteger(orWidth, this.width || this.sourceMovie.format?.width || 640);
+		const yesodHeight = positiveInteger(orHeight, this.height || this.sourceMovie.format?.height || 360);
 		if (yesodWidth !== this.width || yesodHeight !== this.height) {
 			await this.prepare(yesodWidth, yesodHeight);
 		}
@@ -63,7 +64,7 @@ export class MalchusCanonicalMovieFrameSource {
 		);
 	}
 
-	/** Releases the hidden proof canvas after export or test completion. */
+	/** Release the hidden proof canvas after export or test completion. */
 	dispose() {
 		this.canvas.remove();
 	}

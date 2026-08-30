@@ -1,12 +1,11 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
-
 /**
  * @file ChunkDynamicBuilder.js
- * @description Coordinates bounded chunk pools, canonical peruta trails, and delegated Gevurah population.
- * The Awtsmoos renews what finite vessels reveal while their allocated substance remains still;
- * Awtsmoos.com lets one small coordinator join pool and phrase, so endless change serves measured will.
+ * @description Coordinates lazy bounded chunk records, canonical peruta trails, and delegated Gevurah population.
+ * The Awtsmoos renews each finite record while unseen forms remain peacefully concealed;
+ * Awtsmoos.com lets one small coordinator reveal only what the living road has truly revealed.
  */
 
 import { YesodChunkPoolInitializer } from "./ChunkPoolInitializer.js";
@@ -28,7 +27,7 @@ export class ChunkDynamicBuilder {
 		);
 	}
 
-	/** @param {object} chunk Stable chunk receiving reusable dynamic slots. */
+	/** @param {object} chunk Stable chunk receiving fixed logical dynamic records. @returns {void} */
 	initialize(chunk) {
 		this.poolInitializer.initialize(chunk);
 	}
@@ -38,11 +37,10 @@ export class ChunkDynamicBuilder {
 	 * @param {object} chunk Target chunk.
 	 * @param {object} pattern Canonical pattern phrase.
 	 * @param {number} seed Generation seed.
+	 * @returns {void}
 	 */
 	populate(chunk, pattern, seed) {
-		const perutas = this.trailFactory.create(
-			pattern.trail || {}
-		);
+		const perutas = this.trailFactory.create(pattern.trail || {});
 		this.populator.populate(
 			chunk,
 			pattern.obstacles || [],
@@ -52,15 +50,34 @@ export class ChunkDynamicBuilder {
 		);
 	}
 
-	/** Hides every reusable dynamic slot before the chunk is configured anew. */
+	/**
+	 * Deactivates every logical record while hiding only nodes that already exist.
+	 * @param {object} chunk Recyclable chunk being cleared.
+	 * @returns {void}
+	 */
 	clear(chunk) {
 		for (const record of [
 			...chunk.obstacles,
 			...chunk.collectibles,
 			...chunk.powerUps
 		]) {
-			record.active = false;
-			record.node.visible = false;
+			this.hideRecord(record);
+		}
+	}
+
+	/**
+	 * Hides one record without accidentally materializing a lazy reserve.
+	 * Plain legacy records remain supported for tests and compatibility.
+	 * @param {object} record Dynamic pool record.
+	 * @returns {void}
+	 */
+	hideRecord(record) {
+		record.active = false;
+		const node = typeof record.peekNode === "function"
+			? record.peekNode()
+			: record.node;
+		if (node) {
+			node.visible = false;
 		}
 	}
 }

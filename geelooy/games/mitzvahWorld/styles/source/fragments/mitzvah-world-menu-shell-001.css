@@ -2,7 +2,8 @@
 Boruch Hashem
 Blessed is He
 
-The Awtsmoos renews the threshold before play begins; Awtsmoos.com keeps boot truth, layered waiting light, gameplay visibility, and failure recovery inside one local stack so no emergency message escapes the world or conquers every z-index above it.
+The Awtsmoos renews the threshold before play begins; Awtsmoos.com keeps boot truth, layered waiting light,
+gameplay visibility, and failure recovery inside one local stack so no emergency message escapes the world or conquers the heavens above it.
 */
 
 #mitzvah-world-root #AwtsmoosCanvas {
@@ -21,7 +22,7 @@ The Awtsmoos renews the threshold before play begins; Awtsmoos.com keeps boot tr
 	inset: 0;
 	z-index: var(--mw-z-overlay);
 	display: grid;
-	place-content: center;
+	place-items: center;
 	gap: 9px;
 	padding: var(--mw-safe-top) var(--mw-safe-right) var(--mw-safe-bottom) var(--mw-safe-left);
 	background:
@@ -29,16 +30,18 @@ The Awtsmoos renews the threshold before play begins; Awtsmoos.com keeps boot tr
 		radial-gradient(circle at 82% 20%, rgba(111, 166, 255, .18), transparent 38%),
 		radial-gradient(circle at 50% 88%, rgba(242, 205, 101, .12), transparent 42%),
 		linear-gradient(145deg, rgba(2, 12, 8, .96), rgba(7, 28, 18, .9) 52%, rgba(3, 17, 20, .94));
+	backdrop-filter: blur(14px) saturate(1.08);
 	color: var(--mw-text-primary);
 	text-align: center;
-	letter-spacing: 0.03em;
+	letter-spacing: .03em;
+	overflow: auto;
 	transition: opacity var(--mw-motion-normal) ease, visibility var(--mw-motion-normal) step-end;
 }
 
 #mitzvah-world-root .Awtsmoos-menu-boot strong {
 	color: var(--mw-accent-strong);
 	font-size: clamp(17px, 4vw, 20px);
-	text-shadow: 0 0 22px rgba(117, 245, 191, 0.2);
+	text-shadow: 0 0 22px rgba(117, 245, 191, .2);
 }
 
 #mitzvah-world-root .Awtsmoos-menu-boot span {
@@ -76,7 +79,7 @@ html:not([data-awtsmoos-gameplay="true"]) #mitzvah-world-root #hud[data-boot-fai
 	max-height: min(40dvh, 320px);
 	overflow: auto;
 	padding: 11px 12px;
-	border: 1px solid rgba(255, 113, 135, 0.64);
+	border: 1px solid rgba(255, 113, 135, .64);
 	border-radius: var(--mw-radius-md);
 	background:
 		radial-gradient(circle at 12% 10%, rgba(255, 122, 104, .18), transparent 42%),

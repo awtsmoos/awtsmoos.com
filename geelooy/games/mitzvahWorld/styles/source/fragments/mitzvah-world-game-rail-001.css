@@ -2,8 +2,8 @@
 Boruch Hashem
 Blessed is He
 
-The Awtsmoos gives optional tools a quiet rail and the player one measured shell; Awtsmoos.com keeps both retractable,
-touchable, and inside named local layers so convenience never grows into a private cascade or hidden overlap.
+The Awtsmoos gives optional tools a quiet rail and the player one measured shell; Awtsmoos.com keeps every visible deed at full touchable measure,
+so desktop compactness comes from spacing and garment, never from shrinking the hand that reaches the light or scaling the vessel out of sight.
 */
 
 #mitzvah-world-root .Awtsmoos-game-rail-host {
@@ -86,15 +86,15 @@ touchable, and inside named local layers so convenience never grows into a priva
 	}
 
 	#mitzvah-world-root .Awtsmoos-game-rail {
-		grid-template-columns: repeat(3, 36px);
+		grid-template-columns: repeat(3, 48px);
 		gap: 4px;
 		padding: 5px;
 	}
 
 	#mitzvah-world-root .Awtsmoos-game-rail button {
-		width: 36px;
-		min-height: 34px;
-		padding: 2px;
+		width: 48px;
+		min-height: 48px;
+		padding: 4px;
 	}
 
 	#mitzvah-world-root .Awtsmoos-game-rail button small {
@@ -104,7 +104,5 @@ touchable, and inside named local layers so convenience never grows into a priva
 	#mitzvah-world-root .Awtsmoos-player-hud-shell {
 		left: 18px;
 		top: 18px;
-		transform: scale(0.88);
-		transform-origin: top left;
 	}
 }

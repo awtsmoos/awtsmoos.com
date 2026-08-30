@@ -4,61 +4,79 @@
 
 /**
  * @file MovieInterpolator.js
- * @description The Awtsmoos joins point to point without losing either side;
- * Awtsmoos.com lets numbers, vectors, colors-as-data, and nested values travel the same tide.
+ * @description The Awtsmoos gives every keyframe its measured place while nested values flow through a focused companion;
+ * Awtsmoos.com keeps time and value interpolation distinct, so each vessel remains small, testable, and radiant.
  */
 import { evaluateEasing } from "./MovieEasing.js";
+import { interpolateValue } from "./MovieValueInterpolator.js";
+
+export { interpolateValue };
 
 /**
- * Interpolates serializable movie values recursively.
- *
- * @param {*} from Starting value.
- * @param {*} to Ending value.
- * @param {number} progress Eased unit progress.
- * @returns {*} Interpolated value.
- */
-export function interpolateValue(from, to, progress) {
-	if (typeof from === "number" && typeof to === "number") {
-		return from + ((to - from) * progress);
-	}
-	if (Array.isArray(from) && Array.isArray(to)) {
-		return from.map((value, index) => interpolateValue(value, to[index] ?? value, progress));
-	}
-	if (isRecord(from) && isRecord(to)) {
-		const keys = new Set([...Object.keys(from), ...Object.keys(to)]);
-		const result = {};
-		for (const key of keys) {
-			result[key] = interpolateValue(from[key], to[key], progress);
-		}
-		return result;
-	}
-	return progress < 1 ? cloneValue(from) : cloneValue(to);
-}
-
-/**
- * Evaluates a canonical keyframe list at local scene time.
- *
- * @param {Array<object>} keyframes Ordered keyframes.
- * @param {number} time Local time in seconds.
- * @returns {*} Evaluated value.
+ * @description Evaluates a canonical keyframe list at local scene time.
+ * @param {Array<object>} keyframes - Canonical keyframes.
+ * @param {number} time - Local scene time in seconds.
+ * @returns {*} Evaluated value or undefined for an empty collection.
+ * @sideEffects None.
  */
 export function evaluateKeyframes(keyframes, time) {
-	if (!Array.isArray(keyframes) || !keyframes.length) return undefined;
-	const frames = [...keyframes].sort((left, right) => left.time - right.time);
-	if (time <= frames[0].time) return cloneValue(frames[0].value);
-	if (time >= frames.at(-1).time) return cloneValue(frames.at(-1).value);
-	const rightIndex = frames.findIndex(frame => frame.time >= time);
+	if (!Array.isArray(keyframes) || keyframes.length === 0) {
+		return undefined;
+	}
+	const frames = [...keyframes].sort(compareFrameTime);
+	if (time <= frames[0].time) {
+		return cloneValue(frames[0].value);
+	}
+	const lastFrame = frames.at(-1);
+	if (time >= lastFrame.time) {
+		return cloneValue(lastFrame.value);
+	}
+	const rightIndex = findRightFrameIndex(frames, time);
 	const left = frames[rightIndex - 1];
 	const right = frames[rightIndex];
 	const span = Math.max(0.000001, right.time - left.time);
-	const eased = evaluateEasing(right.easing || left.easing || "linear", (time - left.time) / span);
+	const progress = (time - left.time) / span;
+	const easingName = right.easing || left.easing || "linear";
+	const eased = evaluateEasing(easingName, progress);
 	return interpolateValue(left.value, right.value, eased);
 }
 
-function isRecord(value) {
-	return Boolean(value) && typeof value === "object" && !Array.isArray(value);
+/**
+ * @description Finds the first keyframe whose time is at or after the requested local time.
+ * @param {Array<object>} frames - Time-sorted keyframes.
+ * @param {number} time - Requested local scene time.
+ * @returns {number} Index of the right interpolation keyframe.
+ * @sideEffects None.
+ */
+function findRightFrameIndex(frames, time) {
+	for (let index = 1; index < frames.length; index += 1) {
+		if (frames[index].time >= time) {
+			return index;
+		}
+	}
+	return frames.length - 1;
 }
 
+/**
+ * @description Orders canonical keyframes by ascending time.
+ * @param {object} left - Left keyframe.
+ * @param {object} right - Right keyframe.
+ * @returns {number} Array sort comparison result.
+ * @sideEffects None.
+ */
+function compareFrameTime(left, right) {
+	return left.time - right.time;
+}
+
+/**
+ * @description Clones object-like values while preserving primitives directly.
+ * @param {*} value - Candidate serializable value.
+ * @returns {*} Detached clone or original primitive.
+ * @sideEffects Allocates a clone for object-like values.
+ */
 function cloneValue(value) {
-	return value && typeof value === "object" ? structuredClone(value) : value;
+	if (value && typeof value === "object") {
+		return structuredClone(value);
+	}
+	return value;
 }

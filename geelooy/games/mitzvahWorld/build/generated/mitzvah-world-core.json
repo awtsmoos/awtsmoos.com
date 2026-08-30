@@ -1,0 +1,27 @@
+{
+	"deterministic": true,
+	"entry": "experiments/Awtsmoos/src/app/BootstrapCoreRuntimeAssembly.js",
+	"moduleCount": 1,
+	"modules": [],
+	"name": "core",
+	"outputBytes": 226294,
+	"outputHash": "eded2425547f662ee91dd089718add4769bcee161657c8057fafc2ad76192261",
+	"preserveDynamicImports": false,
+	"representations": {
+		"brotli": {
+			"bytes": 47213,
+			"encoding": "br",
+			"sha256": "6c628aa5856c330800eb62f7686fd350a7b065a371b2b3e988fc7d14180c0efb"
+		},
+		"gzip": {
+			"bytes": 56591,
+			"encoding": "gzip",
+			"sha256": "14760d90f8489ef1a5791b6e62a2b0716b8ae1efe4440bbdc0e258b393d54e29"
+		},
+		"identity": {
+			"bytes": 226294,
+			"encoding": "identity",
+			"sha256": "eded2425547f662ee91dd089718add4769bcee161657c8057fafc2ad76192261"
+		}
+	}
+}

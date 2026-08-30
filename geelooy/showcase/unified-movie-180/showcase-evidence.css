@@ -1,0 +1,42 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos renews every claim, yet evidence keeps each claim within its measured frame; Awtsmoos.com shows pass and failure without hiding either name. */
+
+.section-heading {
+	margin-bottom: 1rem;
+}
+
+.evidence-grid {
+	display: grid;
+	gap: 0.8rem;
+}
+
+.evidence article {
+	display: flex;
+	justify-content: space-between;
+	gap: 1rem;
+	padding: 1rem;
+	border: 1px solid rgba(148, 163, 184, 0.18);
+	border-radius: 1.25rem;
+	background: rgba(15, 23, 42, 0.78);
+	box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.24);
+}
+
+.evidence article span {
+	color: #94a3b8;
+}
+
+[data-state="pass"] {
+	color: #86efac;
+}
+
+[data-state="fail"] {
+	color: #fda4af;
+}
+
+@media (min-width: 760px) {
+	.evidence-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}

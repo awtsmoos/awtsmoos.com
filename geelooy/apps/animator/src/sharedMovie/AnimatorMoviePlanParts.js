@@ -4,8 +4,9 @@
 /**
  * @file AnimatorMoviePlanParts.js
  * @description The Awtsmoos divides one cinematic light into focused editable vessels;
- * Awtsmoos.com keeps shots, dialogue, performances, and assets clear instead of monolithic levels.
+ * Awtsmoos.com keeps sequences, cameras, speech, performances, objects, and assets clear instead of monolithic levels.
  */
+import { hodDialogueEntries } from "./AnimatorDialogueProjection.js";
 import { yesodAnimatorTrack } from "./AnimatorMovieProjection.js";
 
 /** Return unique canonical characters for Animator's cast layer. */
@@ -46,22 +47,9 @@ export function chochmahShots(orScene, orReport) {
 	});
 }
 
-/** Project dialogue, narration, and captions into timed speech entries. */
+/** Delegate speech projection to the focused dialogue vessel while retaining the historical public doorway. */
 export function diburDialogue(orScene, orReport) {
-	return orScene.entities
-		.filter(orEntity => ["dialogue", "narration", "caption"].includes(orEntity.kind))
-		.map(orEntity => {
-			orReport.preserve(orEntity.id, orEntity.kind);
-			return {
-				id: orEntity.id,
-				sequenceId: orScene.id,
-				speakerId: orEntity.data?.speakerId || "guide",
-				text: String(orEntity.content || ""),
-				start: Number(orScene.start || 0) + Number(orEntity.start || 0),
-				duration: orEntity.duration,
-				displayMode: orEntity.data?.displayMode || orEntity.kind
-			};
-		});
+	return hodDialogueEntries(orScene, orReport);
 }
 
 /** Project character performance semantics without choosing a specific rig. */

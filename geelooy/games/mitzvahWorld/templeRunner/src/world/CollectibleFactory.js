@@ -1,47 +1,58 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 /**
  * @file CollectibleFactory.js
- * @description Creates richer reusable perutas from generic procedural-core cylinders, rings, and glints.
- * The Awtsmoos renews copper and gold before a humble peruta can shine along the way;
- * Awtsmoos.com lets each reward spin through procedural vessels, brighter yet still simple in play.
+ * @description Creates one lightweight reusable golden peruta for every authored reward placement.
+ * The Awtsmoos gives one humble coin enough light to mark the runner's worthy deed;
+ * Awtsmoos.com keeps the full mitzvah trail bright while freeing the first frame from needless seed.
  */
 
 import {
 	Group
-} from "/libs/awtsmoos-procedural-core/src/adapters/native/runtime.js";
+} from "../../../../../libs/awtsmoos-procedural-core/src/adapters/native/index.js?compact=true";
 import { WORLD_COLORS } from "../config.js";
 
+const PERUTA_RADIUS = 0.31;
+const PERUTA_HEIGHT = 0.075;
+const PERUTA_SEGMENTS = 12;
+
 export class MamonCollectibleFactory {
-	/** @param {object} meshFactory Procedural native mesh materializer. */
+	/**
+	 * Stores the shared procedural mesh materializer used by every lazy collectible record.
+	 * @param {object} meshFactory Procedural native mesh materializer.
+	 */
 	constructor(meshFactory) {
 		this.meshFactory = meshFactory;
 	}
 
-	/** @returns {object} Reusable peruta group with value/action metadata. */
+	/**
+	 * Creates one reusable peruta root with exactly one procedural coin mesh.
+	 * @returns {object} Hidden reusable peruta group with value and action metadata.
+	 */
 	create() {
 		const root = new Group();
 		root.name = "ProceduralPeruta";
 		root.userData.kind = "peruta";
 		root.userData.value = 1;
 		root.userData.requiredAction = "normal";
-		root.add(this.createDisc());
-		root.add(this.createRim());
-		root.add(this.createGlint());
+		root.add(this.createCoin());
 		root.visible = false;
 		return root;
 	}
 
-	/** @returns {object} Main bronze-gold peruta body. */
-	createDisc() {
+	/**
+	 * Creates the measured low-segment golden coin that preserves reward readability with one mesh.
+	 * @returns {object} Procedural peruta coin mesh.
+	 */
+	createCoin() {
 		return this.meshFactory.cylinder({
-			name: "PerutaDisc",
+			name: "PerutaCoin",
 			parameters: {
-				radiusTop: 0.28,
-				radiusBottom: 0.28,
-				height: 0.08,
-				radialSegments: 20,
+				radiusTop: PERUTA_RADIUS,
+				radiusBottom: PERUTA_RADIUS,
+				height: PERUTA_HEIGHT,
+				radialSegments: PERUTA_SEGMENTS,
 				smooth: true
 			},
 			rotation: [Math.PI / 2, 0, 0],
@@ -49,40 +60,11 @@ export class MamonCollectibleFactory {
 		});
 	}
 
-	/** @returns {object} Bright procedural outer rim. */
-	createRim() {
-		return this.meshFactory.torus({
-			name: "PerutaRim",
-			parameters: {
-				radius: 0.34,
-				tube: 0.045,
-				radialSegments: 8,
-				tubularSegments: 20,
-				smooth: true
-			},
-			rotation: [Math.PI / 2, 0, 0],
-			color: WORLD_COLORS.goldLight
-		});
-	}
-
-	/** @returns {object} Small procedural highlight. */
-	createGlint() {
-		return this.meshFactory.icosphere({
-			name: "PerutaGlint",
-			parameters: {
-				radius: 0.05,
-				subdivisions: 1,
-				smooth: true
-			},
-			position: [0.18, 0.15, 0.08],
-			color: [1, 0.94, 0.58, 1]
-		});
-	}
-
 	/**
-	 * Configures one reusable peruta for a trail position.
+	 * Configures one reusable peruta for its authored trail placement.
 	 * @param {object} node Reusable peruta root.
-	 * @param {object} placement Trail placement.
+	 * @param {object} placement Trail placement carrying value, action, height, and rarity.
+	 * @returns {void}
 	 */
 	configure(node, placement) {
 		node.userData.value = placement.value || 1;
@@ -96,10 +78,11 @@ export class MamonCollectibleFactory {
 	}
 
 	/**
-	 * Spins and gently floats one active peruta.
+	 * Spins and gently floats one active peruta without allocating new visual geometry.
 	 * @param {object} node Peruta group.
 	 * @param {number} time Visual seconds.
-	 * @param {number} phase Pool phase.
+	 * @param {number} phase Stable pool animation phase.
+	 * @returns {void}
 	 */
 	animate(node, time, phase) {
 		const yaw = time * 3.4 + phase;
