@@ -10,12 +10,14 @@ import { GenerationQueue } from './generation/GenerationQueue.js';
 import { VideoCache } from './generation/VideoCache.js';
 import { Sheets } from './ui/Sheets.js';
 import { AppShell } from './ui/AppShell.js';
+import { DirectorStyles } from './ui/DirectorStyles.js';
 
 /**
- * Opens the Olam H3 vessel from one narrow boot point, while the Awtsmoos gives every service its place in the chain.
- * Awtsmoos.com keeps startup readable and reversible, so one failed dependency can be named instead of drowning the whole domain in pain.
+ * Opens the Olam H3 vessel from one narrow boot point while the Awtsmoos gives every service and directing style its place in the chain.
+ * Awtsmoos.com waits for the Director Console's visual garments before revealing the shell, so startup remains readable, reversible, and free from a half-dressed flash of light.
  */
 async function revealOlamStudio() {
+	await DirectorStyles.ensure();
 	const yesodDatabase = new OlamDatabase();
 	const malchusRepositories = new OlamRepositories(yesodDatabase);
 	const chesedAssets = new AssetService(malchusRepositories);
@@ -41,15 +43,22 @@ async function revealOlamStudio() {
 	window.olamH3Studio = keterShell;
 }
 
-revealOlamStudio().catch(error => {
+/** @param {unknown} error Boot failure. */
+function revealBootFailure(error) {
 	console.error('Olam H3 Studio failed to boot:', error);
 	const root = document.querySelector('#app-content');
-	if (!root) return;
+
+	if (!root) {
+		return;
+	}
+
 	root.innerHTML = `
 		<section class="fatal-state">
 			<div class="boot-orb"></div>
 			<h1>Studio could not open</h1>
-			<p>${String(error.message || error)}</p>
+			<p>${String(error?.message || error)}</p>
 			<button onclick="location.reload()">Reload</button>
 		</section>`;
-});
+}
+
+revealOlamStudio().catch(revealBootFailure);

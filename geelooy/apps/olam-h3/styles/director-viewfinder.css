@@ -1,0 +1,91 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets the unseen shot appear first as a moving frame of possibility; Awtsmoos.com gives the Director Console a viewfinder whose corners, focus ring, and passing beam hint at cinema without pretending to render the future light.
+*/
+.hero-viewfinder {
+	position: relative;
+	min-height: 142px;
+	border: 1px solid rgba(255, 255, 255, 0.08);
+	border-radius: 20px;
+	overflow: hidden;
+	background:
+		radial-gradient(circle at 65% 35%, rgba(217, 255, 104, 0.22), transparent 24%),
+		radial-gradient(circle at 30% 75%, rgba(124, 95, 255, 0.35), transparent 34%),
+		linear-gradient(155deg, #10131b, #0b0c11);
+}
+
+.viewfinder-corner {
+	position: absolute;
+	width: 24px;
+	height: 24px;
+	border-color: rgba(238, 255, 193, 0.68);
+}
+
+.corner-a {
+	top: 13px;
+	left: 13px;
+	border-top: 1px solid;
+	border-left: 1px solid;
+}
+
+.corner-b {
+	top: 13px;
+	right: 13px;
+	border-top: 1px solid;
+	border-right: 1px solid;
+}
+
+.corner-c {
+	bottom: 13px;
+	left: 13px;
+	border-bottom: 1px solid;
+	border-left: 1px solid;
+}
+
+.corner-d {
+	bottom: 13px;
+	right: 13px;
+	border-bottom: 1px solid;
+	border-right: 1px solid;
+}
+
+.viewfinder-focus {
+	position: absolute;
+	inset: 50% auto auto 50%;
+	width: 46px;
+	height: 46px;
+	border: 1px solid rgba(255, 255, 255, 0.18);
+	border-radius: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.viewfinder-beam {
+	position: absolute;
+	inset: -20% auto -20% -35%;
+	width: 26%;
+	background: linear-gradient(90deg, transparent, rgba(216, 255, 109, 0.20), transparent);
+	transform: skewX(-16deg);
+	animation: viewfinder-scan 5.6s ease-in-out infinite;
+}
+
+@keyframes viewfinder-scan {
+	0%, 18% {
+		transform: translateX(0) skewX(-16deg);
+		opacity: 0;
+	}
+	45% {
+		opacity: 1;
+	}
+	72%, 100% {
+		transform: translateX(590%) skewX(-16deg);
+		opacity: 0;
+	}
+}
+
+@media (max-width: 620px) {
+	.hero-viewfinder {
+		min-height: 104px;
+	}
+}

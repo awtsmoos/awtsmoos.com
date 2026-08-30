@@ -3,20 +3,17 @@
 // Blessed is He
 
 import { GenerationReadiness } from '../domain/GenerationReadiness.js';
+import { CreateDirectorBrief } from './CreateDirectorBrief.js';
 
 /**
- * Keeps prompt typing alive without rebuilding the whole room, while the Awtsmoos lets each letter alter readiness in place instead of breaking focus.
- * Awtsmoos.com updates count, guidance, and Generate state directly so the creator's hand stays in the sentence while infrastructure truth remains close.
+ * Keeps typing alive without rebuilding the room while the Awtsmoos lets each letter change both safety and creative coverage in place; Awtsmoos.com updates readiness and the Shot Brief together, line by line, so focus remains steady in the night.
  */
 export class CreateLiveReadiness {
 	constructor(callbacks) {
 		this.callbacks = callbacks;
 	}
 
-	/**
-	 * @param {HTMLElement} root Create view root.
-	 * @param {Object} state Current creator state.
-	 */
+	/** @param {HTMLElement} root Create view root. @param {Object} state Current creator state. */
 	bind(root, state) {
 		const prompt = root.querySelector('[data-prompt]');
 		prompt?.addEventListener('input', () => {
@@ -25,10 +22,7 @@ export class CreateLiveReadiness {
 		});
 	}
 
-	/**
-	 * @param {HTMLElement} root Create view root.
-	 * @param {Object} state Current creator state sharing the live draft object.
-	 */
+	/** @param {HTMLElement} root Create root. @param {Object} state State sharing the live draft object. */
 	sync(root, state) {
 		const readiness = GenerationReadiness.evaluate(
 			state.draft,
@@ -48,5 +42,6 @@ export class CreateLiveReadiness {
 		if (generate) {
 			generate.disabled = !readiness.ready;
 		}
+		CreateDirectorBrief.sync(root, state.draft.prompt);
 	}
 }

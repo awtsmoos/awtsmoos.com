@@ -4,9 +4,10 @@
 
 import { CreateAssignedAssetView } from './CreateAssignedAssetView.js';
 import { CreateReferenceGuide } from './CreateReferenceGuide.js';
+import { CreateReferenceRecipes } from './CreateReferenceRecipes.js';
 
 /**
- * Renders assigned media beside its purpose while the Awtsmoos lets a reference become instruction rather than mystery; Awtsmoos.com keeps text mode compact and opens richer controls only when frames or references are actually chosen.
+ * Renders media beside purpose and recipes while the Awtsmoos lets a reference become directed language rather than mystery; Awtsmoos.com keeps text mode compact and opens richer controls only when the chosen light needs a deeper vessel at night.
  */
 export class CreateAssetTrayView {
 	constructor() {
@@ -18,15 +19,16 @@ export class CreateAssetTrayView {
 		if (draft.mode === 'text') {
 			return `
 				<section class="creator-section references-guide-only">
-					<div class="section-heading"><div><span class="eyebrow">References</span><h2>Add more control when needed</h2></div></div>
+					<div class="section-heading"><div><span class="eyebrow">References</span><h2>Need tighter control?</h2></div></div>
 					${CreateReferenceGuide.render('text')}
+					${CreateReferenceRecipes.render('text')}
 				</section>`;
 		}
 
 		const cards = this.assignments(draft, assets)
-			.map(item => this.assetView.render(item))
+			.map(assignment => this.assetView.render(assignment))
 			.join('');
-		const empty = '<div class="empty-card compact-empty">Nothing attached yet — use the buttons below or choose from Library.</div>';
+		const empty = '<div class="empty-card compact-empty">Nothing attached yet — choose a recipe, add media below, or open Library.</div>';
 
 		return `
 			<section class="creator-section references-section">
@@ -35,6 +37,7 @@ export class CreateAssetTrayView {
 					<button class="text-button" data-pick-library>Library</button>
 				</div>
 				${CreateReferenceGuide.render(draft.mode)}
+				${CreateReferenceRecipes.render(draft.mode)}
 				<div class="asset-tray">${cards || empty}</div>
 				<div class="asset-add-row">${this.controls(draft.mode)}</div>
 				<input class="visually-hidden" data-asset-file type="file" tabindex="-1">
@@ -59,7 +62,10 @@ export class CreateAssetTrayView {
 	/** @param {Object} draft Draft. @param {Array<Object>} assets Available assigned assets. @returns {Array<Object>} Role-aware assignments. */
 	assignments(draft, assets) {
 		const byId = new Map(assets.map(asset => [asset.id, asset]));
-		const result = draft.referenceAssetIds.map(id => byId.get(id)).filter(Boolean).map(asset => ({ asset, role: `reference_${asset.kind}` }));
+		const result = draft.referenceAssetIds
+			.map(id => byId.get(id))
+			.filter(Boolean)
+			.map(asset => ({ asset, role: `reference_${asset.kind}` }));
 		this.addFrame(result, byId, draft.firstFrameAssetId, 'first_frame');
 		this.addFrame(result, byId, draft.lastFrameAssetId, 'last_frame');
 		return result;
