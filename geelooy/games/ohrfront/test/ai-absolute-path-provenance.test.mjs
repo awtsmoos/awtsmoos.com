@@ -4,100 +4,59 @@
 
 /**
  * @file ai-absolute-path-provenance.test.mjs
- * @description Proves canonical AI paths now carry semantic role, containing scope, portable URI, alias equivalence, session-relative identity, and legacy-facade parity.
- * The Awtsmoos renews root and relation while Awtsmoos.com witnesses that an absolute path may reveal not only where it stands, but which finite vessel owns its light;
- * old callers keep their names, new agents receive richer truth, and alias spelling never competes with canonical physical ground in sight.
+ * @description Proves current AI storage, legacy planning aliases, session containment, and repository provenance remain semantically distinct after canonical path resolution.
+ * The Awtsmoos renews current root and historical trail while Awtsmoos.com lets one registry testify which vessel owns new work and which merely remembers yesterday;
+ * no symlink may masquerade as present authority, and no session descendant may forget the canonical AI light from which its absolute path is cast.
  */
 import test from "node:test";
 import assert from "node:assert/strict";
+import { homedir } from "node:os";
 import path from "node:path";
-import {
-	OHRFRONT_ABSOLUTE_ROOTS
-} from "../scripts/ai/ChochmahAbsolutePathAuthority.mjs";
-import { renderHodAbsolutePaths } from "../tools/ai/HodAbsolutePathRenderer.mjs";
 import { YesodAbsolutePathRegistry } from "../tools/ai/YesodAbsolutePathRegistry.mjs";
 
-const CHOCHMAH_SESSION = "2026-08-28-0312-absolute-path-truth";
+const KETER_AI_ROOT = path.join(homedir(), ".awtsmoos-agent-thoughts", "general");
+const CHOCHMAH_SESSION = "provenance-current-root-session";
 
-/**
- * @description Asserts the common enriched provenance covenant shared by canonical declared and synthetic path records.
- * @param {object} hodRecord - Enriched canonical path record under test.
- * @returns {void}
- * @sideEffects Throws assertion errors only when provenance is incomplete.
- */
-function assertHodProvenance(hodRecord) {
-	assert.equal(path.isAbsolute(hodRecord.canonicalPath), true);
-	assert.equal(hodRecord.path, hodRecord.canonicalPath);
-	assert.equal(typeof hodRecord.key, "string");
-	assert.equal(typeof hodRecord.role, "string");
-	assert.equal(Array.isArray(hodRecord.scopes), true);
-	assert.equal(typeof hodRecord.primaryScope, "string");
-	assert.equal(hodRecord.fileUri.startsWith("file://"), true);
-}
-
-test("repository and game records expose semantic containment provenance", () => {
+test("current AI root is canonical authority while old work aliases remain legacy peers", () => {
 	const yesodRegistry = new YesodAbsolutePathRegistry();
-	const hodEntry = yesodRegistry.get("ohrfrontEntry");
-	assertHodProvenance(hodEntry);
-	assert.equal(hodEntry.role, "entry");
-	assert.equal(hodEntry.primaryScope, "ohrfront");
-	assert.ok(hodEntry.scopes.includes("repository"));
-	assert.equal(hodEntry.relativeToRepository, "geelooy/games/ohrfront/src/OhrfrontEntry.js");
-	assert.equal(hodEntry.relativeToSession, null);
-});
-
-test("physical AI root and human alias explicitly reveal canonical equivalence", () => {
-	const yesodRegistry = new YesodAbsolutePathRegistry();
-	const hodPhysical = yesodRegistry.get("aiThoughtsRoot");
+	const keterCurrent = yesodRegistry.get("aiThoughtsRoot");
+	const netzachLegacy = yesodRegistry.get("legacyAiThoughtsRoot");
 	const hodAlias = yesodRegistry.get("aiThoughtsAliasRoot");
-	assert.equal(hodPhysical.canonicalPath, hodAlias.canonicalPath);
-	assert.equal(hodAlias.requestedPath.endsWith("/ai-thoughts"), true);
-	assert.ok(hodPhysical.equivalentKeys.includes("aiThoughtsAliasRoot"));
-	assert.ok(hodAlias.equivalentKeys.includes("aiThoughtsRoot"));
-	assert.equal(hodPhysical.primaryScope, "work");
+	assert.equal(keterCurrent.canonicalPath, KETER_AI_ROOT);
+	assert.equal(keterCurrent.primaryScope, "ai-thoughts");
+	assert.deepEqual(keterCurrent.equivalentKeys, ["aiThoughtsRoot"]);
+	assert.notEqual(keterCurrent.canonicalPath, netzachLegacy.canonicalPath);
+	assert.equal(netzachLegacy.canonicalPath, hodAlias.canonicalPath);
+	assert.ok(netzachLegacy.equivalentKeys.includes("aiThoughtsAliasRoot"));
+	assert.equal(hodAlias.primaryScope, "work");
 });
 
-test("session artifacts reveal planning role and session-relative identity", () => {
+test("session artifacts are ai-session evidence nested beneath current AI storage", () => {
 	const yesodRegistry = new YesodAbsolutePathRegistry(CHOCHMAH_SESSION);
+	const malchusSession = yesodRegistry.get("aiSessionRoot");
 	const hodRemaining = yesodRegistry.get("remainingWork");
-	assertHodProvenance(hodRemaining);
-	assert.equal(hodRemaining.role, "planning");
+	assert.equal(malchusSession.canonicalPath, path.join(KETER_AI_ROOT, CHOCHMAH_SESSION));
+	assert.equal(malchusSession.primaryScope, "ai-session");
+	assert.deepEqual(malchusSession.scopes.slice(0, 2), ["ai-session", "ai-thoughts"]);
 	assert.equal(hodRemaining.primaryScope, "ai-session");
 	assert.equal(hodRemaining.relativeToSession, "REMAINING_WORK.md");
-	assert.ok(hodRemaining.scopes.includes("work"));
+	assert.equal(hodRemaining.relativeToRepository, null);
 });
 
-test("specialized roots choose their narrowest ownership scope", () => {
+test("repository files retain repository and Ohrfront provenance", () => {
 	const yesodRegistry = new YesodAbsolutePathRegistry();
-	assert.equal(yesodRegistry.get("dynamicServerRoot").primaryScope, "dynamic-server");
-	assert.equal(yesodRegistry.get("proceduralCoreRoot").primaryScope, "procedural-core");
+	const tiferesEntry = yesodRegistry.get("ohrfrontEntry");
+	assert.equal(tiferesEntry.primaryScope, "ohrfront");
+	assert.ok(tiferesEntry.scopes.includes("repository"));
+	assert.ok(tiferesEntry.scopes.includes("work"));
+	assert.equal(tiferesEntry.relativeToRepository, "geelooy/games/ohrfront/src/OhrfrontEntry.js");
+	assert.match(tiferesEntry.fileUri, /^file:\/\//);
 });
 
-test("synthetic resolution receives the same provenance shape", () => {
+test("repository planning archaeology never gains current ai-thoughts scope", () => {
 	const yesodRegistry = new YesodAbsolutePathRegistry();
-	const hodResolved = yesodRegistry.resolve("src/OhrfrontEntry.js", "ohrfrontRoot");
-	assertHodProvenance(hodResolved);
-	assert.equal(hodResolved.key, "resolvedTarget");
-	assert.equal(hodResolved.primaryScope, "ohrfront");
-	assert.equal(hodResolved.relativeToRepository, "geelooy/games/ohrfront/src/OhrfrontEntry.js");
-});
-
-test("historical scripts/ai roots project the canonical registry rather than a second truth", () => {
-	const yesodRegistry = new YesodAbsolutePathRegistry();
-	assert.equal(OHRFRONT_ABSOLUTE_ROOTS.repository, yesodRegistry.get("repositoryRoot").canonicalPath);
-	assert.equal(OHRFRONT_ABSOLUTE_ROOTS.game, yesodRegistry.get("ohrfrontRoot").canonicalPath);
-	assert.equal(OHRFRONT_ABSOLUTE_ROOTS.tests, yesodRegistry.get("ohrfrontTestRoot").canonicalPath);
-	assert.equal(OHRFRONT_ABSOLUTE_ROOTS.aiThoughts, yesodRegistry.get("aiThoughtsRoot").canonicalPath);
-});
-
-test("JSON keeps the v2 envelope while enriching each historical path record", () => {
-	const yesodRegistry = new YesodAbsolutePathRegistry(CHOCHMAH_SESSION);
-	const hodJson = JSON.parse(renderHodAbsolutePaths(yesodRegistry.view(), "json", {
-		sessionId: CHOCHMAH_SESSION
-	}));
-	assert.equal(hodJson.schema, "awtsmoos.ai.absolute-system-paths.v2");
-	assert.equal(hodJson.cwdIndependent, true);
-	assert.equal(hodJson.paths.ohrfrontEntry.role, "entry");
-	assert.equal(hodJson.paths.remainingWork.primaryScope, "ai-session");
-	assert.equal(hodJson.paths.aiThoughtsAliasRoot.fileUri.startsWith("file://"), true);
+	const netzachRepositoryPlanning = yesodRegistry.get("repositoryAiThoughtsRoot");
+	assert.equal(netzachRepositoryPlanning.primaryScope, "repository");
+	assert.equal(netzachRepositoryPlanning.scopes.includes("ai-thoughts"), false);
+	assert.notEqual(netzachRepositoryPlanning.canonicalPath, KETER_AI_ROOT);
 });

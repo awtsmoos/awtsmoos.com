@@ -4,9 +4,9 @@
 
 /**
  * @file HodAiAbsoluteHandoffRenderer.mjs
- * @description Builds an immutable AI handoff where current canonical storage, legacy planning roots, executables, URLs, and copy-pastable continuation commands remain visibly distinct.
- * Hod gives finite testimony while the Awtsmoos renews root, legacy trail, command, and inheriting mind beyond every printed line;
- * Awtsmoos.com lets the next agent know where to write now, where old evidence may sleep, and which absolute executable awakens continuation in time.
+ * @description Builds immutable AI handoff evidence where canonical/legacy filesystem records, absolute executables, URLs, and continuation commands all descend from the same validated system truth.
+ * Hod gives finite testimony while the Awtsmoos renews root, command, executable, and inheriting mind beyond every printed line;
+ * Awtsmoos.com lets filesystem and command evidence share one frozen source, so no argument-order shadow can turn an absolute handoff back into relative night.
  */
 import { createNetzachAbsoluteHandoffCommands } from "./NetzachAbsoluteHandoffCommands.mjs";
 
@@ -32,10 +32,10 @@ const HOD_HANDOFF_FILESYSTEM_KEYS = Object.freeze([
 ]);
 
 /**
- * @description Creates one complete immutable handoff from a validated session registry and absolute executable identity.
+ * @description Creates one complete immutable handoff from a validated session registry and verified absolute executable paths.
  * @param {object} yesodRegistry - Session-bound absolute-path registry.
  * @param {string} malchusNodeExecutable - Absolute Node executable used by continuation commands.
- * @param {string} malchusHandoffExecutable - Absolute handoff CLI path.
+ * @param {string} malchusHandoffExecutable - Absolute handoff CLI path used by continuation commands.
  * @returns {object} Frozen structured handoff containing filesystem, system, URL, and command branches.
  * @sideEffects None.
  */
@@ -47,28 +47,31 @@ export function createHodAiAbsoluteHandoff(
 	if (!yesodRegistry?.chochmahSessionId) {
 		throw new TypeError("AI absolute handoff requires a validated session registry.");
 	}
-	const hodFilesystem = Object.fromEntries(
-		HOD_HANDOFF_FILESYSTEM_KEYS.map(chochmahKey => [
-			chochmahKey,
-			yesodRegistry.get(chochmahKey)
-		])
+	const hodFilesystem = Object.freeze(
+		Object.fromEntries(
+			HOD_HANDOFF_FILESYSTEM_KEYS.map(chochmahKey => [
+				chochmahKey,
+				yesodRegistry.get(chochmahKey)
+			])
+		)
 	);
+	const hodSystem = Object.freeze({
+		nodeExecutable: malchusNodeExecutable,
+		handoffExecutable: malchusHandoffExecutable
+	});
 	return Object.freeze({
 		schema: "awtsmoos.ai.absolute-handoff.v1",
 		sessionId: yesodRegistry.chochmahSessionId,
 		cwdIndependent: true,
-		filesystem: Object.freeze(hodFilesystem),
-		system: Object.freeze({
-			nodeExecutable: malchusNodeExecutable,
-			handoffExecutable: malchusHandoffExecutable
-		}),
+		filesystem: hodFilesystem,
+		system: hodSystem,
 		urls: Object.freeze({
 			localOhrfront: "http://127.0.0.1:8080/games/ohrfront/"
 		}),
 		commands: createNetzachAbsoluteHandoffCommands(
-			yesodRegistry,
-			malchusNodeExecutable,
-			malchusHandoffExecutable
+			hodFilesystem,
+			hodSystem,
+			yesodRegistry.chochmahSessionId
 		)
 	});
 }

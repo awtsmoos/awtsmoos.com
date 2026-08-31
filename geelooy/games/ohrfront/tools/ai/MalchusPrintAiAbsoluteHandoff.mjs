@@ -4,9 +4,9 @@
 
 /**
  * @file MalchusPrintAiAbsoluteHandoff.mjs
- * @description Provides one dedicated AI continuation executable that assembles canonical handoff evidence and delegates presentation without changing the historical path-printer contract.
- * Malchus receives repository, mission, evidence, URL, and command into one finite handoff while the Awtsmoos renews giver and inheritor beyond every boundary;
- * Awtsmoos.com lets a future agent begin from exact absolute-system truth instead of rebuilding project topology from a relative directory story.
+ * @description Provides one dedicated AI continuation executable that manifests canonical filesystem evidence, verified Node identity, and its own absolute CLI path in the correct typed order.
+ * Malchus receives repository, mission, executable, and command into one finite handoff while the Awtsmoos renews giver and inheritor beyond every boundary;
+ * Awtsmoos.com lets a future agent begin from exact absolute-system truth instead of rebuilding topology from relative mist or argument-order memory.
  */
 import { fileURLToPath, pathToFileURL } from "node:url";
 import {
@@ -40,8 +40,8 @@ export function manifestMalchusAiAbsoluteHandoff(
 	const yesodRegistry = new YesodAbsolutePathRegistry(chochmahOptions.sessionId);
 	const hodHandoff = createHodAiAbsoluteHandoff(
 		yesodRegistry,
-		chochmahOptions.sessionId,
-		process.execPath
+		process.execPath,
+		malchusExecutablePath
 	);
 	return renderHodAiAbsoluteHandoffText(
 		hodHandoff,
