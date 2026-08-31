@@ -13,7 +13,9 @@
 		"test:surface": "node tests/surfaceContract.test.mjs",
 		"test:creator": "node tests/persistentCreator.test.mjs",
 		"test": "npm run test:state && npm run test:comments && npm run test:legal && npm run test:surface && npm run test:creator",
-		"test:browser": "node tests/browserSmoke.test.mjs",
+		"test:browser:smoke": "node tests/browserSmoke.test.mjs",
+		"test:browser:routes": "node tests/browserSurfaceQuality.test.mjs",
+		"test:browser": "npm run test:browser:smoke && npm run test:browser:routes",
 		"test:all": "npm test && npm run test:browser"
 	}
 }

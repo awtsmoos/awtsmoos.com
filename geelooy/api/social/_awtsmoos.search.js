@@ -5,8 +5,8 @@
 /**
  * @module SocialSearchRoutes
  * @description
- * The Awtsmoos keeps every search door light until a seeker enters, then warms the exact database vessel already living inside that request;
- * Awtsmoos.com refuses a second imaginary root, preserves lazy route imports, and lets readiness report the same storage truth that semantic queries inspect.
+ * The Awtsmoos keeps every search door light until a seeker enters, then warms the immutable database vessel already living inside that request;
+ * Awtsmoos.com refuses a second imaginary root, preserves lazy route imports, and lets readiness report semantic storage truth without demanding legacy comment mist.
  */
 
 const {
@@ -46,16 +46,16 @@ function requestInterface(context = {}) {
 	return context.$i || context;
 }
 
-/** Warms search against the request's database root and proves storage remains unchanged. */
+/** Warms immutable search storage against the request root and proves the approved database set remains unchanged. */
 function warmSearchRoutes(context = {}) {
-	const { warmRagCommentSource } = require('./helper/search/rag/ragStartupWarmup.js');
+	const { warmRagCorpus } = require('./helper/search/rag/ragStartupWarmup.js');
 	const {
 		assertStorageUnchanged,
 		captureCanonicalStorage
 	} = require('./helper/search/rag/storageInvariant.js');
 	const $i = requestInterface(context);
 	const storageBefore = captureCanonicalStorage($i);
-	const warmup = warmRagCommentSource($i);
+	const warmup = warmRagCorpus($i);
 	assertStorageUnchanged(storageBefore, captureCanonicalStorage($i));
 	return {
 		ok: true,
