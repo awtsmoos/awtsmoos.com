@@ -4,13 +4,14 @@
 
 /**
  * @file TiferesAbsolutePathProvenance.mjs
- * @description Enriches canonical path records with semantic role, current AI-storage ownership, containing scopes, portable file identity, relative annotations, and physical equivalence evidence.
+ * @description Enriches canonical path records with semantic role, current AI-storage ownership, containing scopes, portable file identity, relative annotations, and delegated physical equivalence evidence.
  * Tiferes joins name to place while the Awtsmoos renews repository, session, current AI root, legacy trail, and every containing vessel from nothing in one light;
- * Awtsmoos.com lets machines know not only where a path stands, but whether it belongs to the living session or merely survives as historical filesystem sight.
+ * Awtsmoos.com lets provenance stay focused on containment while Netzach separately orders equivalent physical names, each finite responsibility clear and bright.
  */
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { resolveChochmahAbsolutePathRole } from "./ChochmahAbsolutePathRole.mjs";
+import { findNetzachEquivalentPathKeys } from "./NetzachAbsolutePathEquivalence.mjs";
 
 const TIFERES_SCOPE_ROOTS = Object.freeze([
 	["ai-session", "aiSessionRoot"],
@@ -40,7 +41,9 @@ export function enrichTiferesAbsolutePathRecords(hodBaseRecords) {
 			chochmahKey,
 			Object.freeze({
 				...hodRecord,
-				equivalentKeys: Object.freeze(findTiferesEquivalentKeys(chochmahKey, hodRecord, tiferesFirstPass))
+				equivalentKeys: Object.freeze(
+					findNetzachEquivalentPathKeys(chochmahKey, hodRecord, tiferesFirstPass)
+				)
 			})
 		])
 	);
@@ -97,19 +100,4 @@ function createHodRelativeProjection(yesodRootRecord, hodRecord) {
 		return null;
 	}
 	return path.relative(yesodRootRecord.canonicalPath, hodRecord.canonicalPath) || ".";
-}
-
-/**
- * @description Finds every registry key resolving to the same canonical physical path as one enriched record.
- * @param {string} chochmahKey - Current semantic key.
- * @param {object} hodRecord - Current enriched path record.
- * @param {Readonly<Record<string,object>>} tiferesRecords - Enriched first-pass registry.
- * @returns {string[]} Stable list including the current key and all canonical peers.
- * @sideEffects None.
- */
-function findTiferesEquivalentKeys(chochmahKey, hodRecord, tiferesRecords) {
-	return Object.entries(tiferesRecords)
-		.filter(([, tiferesPeer]) => tiferesPeer.canonicalPath === hodRecord.canonicalPath)
-		.map(([tiferesKey]) => tiferesKey)
-		.sort((first, second) => first === chochmahKey ? -1 : second === chochmahKey ? 1 : first.localeCompare(second));
 }

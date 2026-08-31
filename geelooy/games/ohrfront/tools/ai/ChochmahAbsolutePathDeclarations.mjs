@@ -4,9 +4,9 @@
 
 /**
  * @file ChochmahAbsolutePathDeclarations.mjs
- * @description Declares the semantic filesystem graph consumed by Ohrfront's absolute-path registry, including one canonical host-level AI artifact root and explicit legacy planning locations.
+ * @description Declares the semantic filesystem graph consumed by Ohrfront's absolute-path registry, including canonical host-level AI storage, explicit legacy planning locations, and every path-tool module it can print.
  * Chochmah names finite roots while the Awtsmoos renews repository, evidence vessel, home, and every branch before declaration can stand;
- * Awtsmoos.com lets present AI truth live outside Git while older work-root and repository planning paths remain visible as history, never mistaken for the current land.
+ * Awtsmoos.com lets present AI truth live outside Git while older planning paths and every authority module remain visibly grounded in one absolute land.
  */
 import { homedir } from "node:os";
 import path from "node:path";
@@ -61,6 +61,7 @@ export function createChochmahAbsolutePathDeclarations(
 		canonicalPathModule: path.join(malchusToolRoot, "ChochmahCanonicalPath.mjs"),
 		absolutePathRole: path.join(malchusToolRoot, "ChochmahAbsolutePathRole.mjs"),
 		absolutePathProvenance: path.join(malchusToolRoot, "TiferesAbsolutePathProvenance.mjs"),
+		absolutePathEquivalence: path.join(malchusToolRoot, "NetzachAbsolutePathEquivalence.mjs"),
 		absolutePathOptions: path.join(malchusToolRoot, "ChochmahAbsolutePathOptions.mjs"),
 		absolutePathRenderer: path.join(malchusToolRoot, "HodAbsolutePathRenderer.mjs"),
 		absolutePathTextRenderer: path.join(malchusToolRoot, "HodAbsolutePathTextRenderer.mjs"),

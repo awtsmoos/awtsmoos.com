@@ -4,7 +4,7 @@ B"H
 
 Boruch Hashem. Blessed is He.
 
-The Awtsmoos renews every machine, directory, process, and pathname from nothing each instant. Awtsmoos.com therefore treats AI filesystem location as evidence, not memory: current publication paths are canonical absolute system paths, while older planning locations remain explicitly labeled history.
+The Awtsmoos renews every machine, directory, executable, process, and pathname from nothing each instant. Awtsmoos.com therefore treats AI filesystem location as measured evidence, not remembered convention: current publication paths are canonical absolute system paths, while older planning locations remain explicitly labeled history.
 
 ## Canonical AI artifact root
 
@@ -20,7 +20,7 @@ The runtime derives this root from `os.homedir()` as:
 <home>/.awtsmoos-agent-thoughts/general
 ```
 
-Do not publish new AI evidence into the repository or work-root aliases merely because those older locations exist.
+Do not publish new AI evidence into repository or work-root aliases merely because those historical locations still exist.
 
 ## Legacy planning locations
 
@@ -51,28 +51,36 @@ They are **not** alternate spellings of `aiThoughtsRoot`. A future agent may ins
 - repository/session-relative annotations
 - `equivalentKeys`
 
-The `aiThoughtsRoot` record has primary scope `ai-thoughts`. Session descendants have primary scope `ai-session`.
+The `aiThoughtsRoot` record has primary scope `ai-thoughts`. Session descendants have primary scope `ai-session`. Legacy planning records remain in work/repository scopes.
+
+## Verified Node executable
+
+On this machine, the current executable reported by `process.execPath` is:
+
+```text
+/Users/awtsmoos/.nvm/versions/node/v24.17.0/bin/node
+```
+
+Handoff commands derive the executable dynamically; this literal documents the current machine witness only.
 
 ## Print one absolute path
 
-This command can run from any directory:
+Run from any directory:
 
 ```bash
-/usr/local/bin/node /Users/awtsmoos/work/awtsmoos.com/geelooy/games/ohrfront/tools/ai/MalchusPrintAbsolutePaths.mjs --key=aiThoughtsRoot
+/Users/awtsmoos/.nvm/versions/node/v24.17.0/bin/node /Users/awtsmoos/work/awtsmoos.com/geelooy/games/ohrfront/tools/ai/MalchusPrintAbsolutePaths.mjs --key=aiThoughtsRoot
 ```
 
-The default single-key output is one bare canonical absolute path, suitable for shell capture.
-
-Available formats include `text`, `json`, `env`, `paths`, `keys`, and `system`. `system` additionally reports physical realpath/device/inode evidence when a target exists.
+The default single-key output is one bare canonical absolute path, suitable for shell capture. Formats include `text`, `json`, `env`, `paths`, `keys`, and `system`. `system` additionally reports physical realpath/device/inode evidence when a target exists.
 
 ## Session paths
 
 For a validated session id such as `ohrfront-release-2026-08-31`:
 
 ```text
-aiSessionRoot  /Users/awtsmoos/.awtsmoos-agent-thoughts/general/ohrfront-release-2026-08-31
-evidenceRoot   /Users/awtsmoos/.awtsmoos-agent-thoughts/general/ohrfront-release-2026-08-31/evidence
-remainingWork  /Users/awtsmoos/.awtsmoos-agent-thoughts/general/ohrfront-release-2026-08-31/REMAINING_WORK.md
+aiSessionRoot /Users/awtsmoos/.awtsmoos-agent-thoughts/general/ohrfront-release-2026-08-31
+evidenceRoot  /Users/awtsmoos/.awtsmoos-agent-thoughts/general/ohrfront-release-2026-08-31/evidence
+remainingWork /Users/awtsmoos/.awtsmoos-agent-thoughts/general/ohrfront-release-2026-08-31/REMAINING_WORK.md
 ```
 
 Unsafe traversal session ids are rejected before publication.
@@ -80,25 +88,18 @@ Unsafe traversal session ids are rejected before publication.
 ## Dedicated AI handoff
 
 ```bash
-/usr/local/bin/node /Users/awtsmoos/work/awtsmoos.com/geelooy/games/ohrfront/tools/ai/MalchusPrintAiAbsoluteHandoff.mjs --session=ohrfront-release-2026-08-31
+/Users/awtsmoos/.nvm/versions/node/v24.17.0/bin/node /Users/awtsmoos/work/awtsmoos.com/geelooy/games/ohrfront/tools/ai/MalchusPrintAiAbsoluteHandoff.mjs --session=ohrfront-release-2026-08-31
 ```
 
-The handoff separates:
-
-- canonical and legacy filesystem records
-- absolute system executables
-- URLs
-- copy-pastable continuation commands containing absolute executables and absolute target paths
-
-Use `--json` for machine ingestion.
+The handoff separates canonical/legacy filesystem records, absolute system executables, URLs, and copy-pastable continuation commands containing absolute executables and targets. Use `--json` for machine ingestion.
 
 ## Materialize evidence
 
 ```bash
-/usr/local/bin/node /Users/awtsmoos/work/awtsmoos.com/geelooy/games/ohrfront/tools/ai/MalchusWriteAbsolutePathEvidence.mjs --session=ohrfront-release-2026-08-31
+/Users/awtsmoos/.nvm/versions/node/v24.17.0/bin/node /Users/awtsmoos/work/awtsmoos.com/geelooy/games/ohrfront/tools/ai/MalchusWriteAbsolutePathEvidence.mjs --session=ohrfront-release-2026-08-31
 ```
 
-The writer creates the session/evidence directories under the canonical AI root and prints canonical absolute artifact paths. Tests use unique throwaway sessions and delete only their exact generated session directory.
+The writer creates the session/evidence directories under the canonical AI root and prints canonical absolute artifact paths. Tests use unique throwaway sessions and remove only their exact generated session directory.
 
 ## Safety boundary
 
