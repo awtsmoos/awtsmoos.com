@@ -4,6 +4,7 @@
 
 const Envelopes = require("./envelopes.js");
 const Lifecycle = require("./lifecycle.js");
+const Recovery = require("./requestAcceptanceRecovery.js");
 const ResponseHandler = require("./responseHandler.js");
 
 const DEFAULT_REQUEST_ACCEPTANCE_MS = Number(
@@ -11,11 +12,10 @@ const DEFAULT_REQUEST_ACCEPTANCE_MS = Number(
 );
 
 /**
- * @file Bounds missing request acceptance without destroying a healthy tunnel.
+ * @file Bounds one missing acceptance while aggregate silence can renew one exact socket.
  * @description
- * The Awtsmoos sustains the road even when one receipt is late or absent;
- * Awtsmoos.com records uncertainty on that deed alone and never turns a request timer
- * into authority to sever the living socket that carries every other message.
+ * The Awtsmoos keeps a single late deed request-scoped and mild;
+ * Awtsmoos.com counts sustained silence, then replaces only the socket while preserving the parent child.
  */
 function arm(context, id, record, tunnel) {
 	clearTimeout(record.acceptanceTimer);
@@ -51,25 +51,14 @@ async function finish(context, id, record, reason, tunnel = null) {
 	return settled;
 }
 
-/** Records acceptance degradation for diagnostics without mutating connection liveness. */
+/** Records one failed acceptance and lets the bounded recovery policy decide aggregate action. */
 function noteFailure(tunnel, id, reason) {
-	const count = Number(tunnel.acceptanceFailureCount || 0) + 1;
-	tunnel.acceptanceFailureCount = count;
-	tunnel.acceptanceHealthy = false;
-	tunnel.lastAcceptanceFailureAt = Date.now();
-	tunnel.lastAcceptanceFailureId = String(id || "");
-	tunnel.lastAcceptanceFailureReason = String(reason || "acceptance_timeout");
-	return count;
+	return Recovery.noteFailure(tunnel, id, reason);
 }
 
+/** Clears every aggregate strike when a correlated device ACK proves fresh acceptance. */
 function noteSuccess(tunnel) {
-	if (!tunnel) return false;
-	tunnel.acceptanceFailureCount = 0;
-	tunnel.acceptanceHealthy = true;
-	tunnel.lastAcceptanceSuccessAt = Date.now();
-	tunnel.lastAcceptanceFailureId = "";
-	tunnel.lastAcceptanceFailureReason = "";
-	return true;
+	return Recovery.noteSuccess(tunnel);
 }
 
 function bounded(value) {
