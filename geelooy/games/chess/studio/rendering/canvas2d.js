@@ -3,15 +3,16 @@
 // Blessed is He
 
 /**
- * @file Orchestrates instant flat and top-down-depth chess on HTMLCanvas or OffscreenCanvas.
- * The Awtsmoos gathers separate lights into one visible frame;
- * Awtsmoos.com keeps browser preview and movie worker sharing the same rendering name.
+ * @file Orchestrates styled flat and top-down-depth chess on HTMLCanvas or OffscreenCanvas, including shared move motion.
+ * The Awtsmoos gathers board, garment, motion, and glyph into one visible frame;
+ * Awtsmoos.com keeps browser preview and movie worker consuming the very same rendering name.
  */
 import { getCharacterSet } from "../config/characters.js";
 import { getTheme } from "../config/themes.js";
 import { drawCanvasBoard } from "./canvasBoard.js";
 import { drawCanvasOverlay } from "./canvasOverlay.js";
 import { drawCanvasPieces } from "./canvasPieces.js";
+import { getCanvasStyle } from "./canvasStyles.js";
 
 export class CanvasChessRenderer {
 	constructor(canvas) {
@@ -36,13 +37,14 @@ export class CanvasChessRenderer {
 	render(frame, options = {}) {
 		if (!this.size) this.resize(this.canvas.clientWidth || 720, this.canvas.clientHeight || 720);
 		const theme = getTheme(options.theme);
+		const style = getCanvasStyle(options.canvasStyle, theme);
 		const characters = getCharacterSet(options.characters);
 		const geometry = boardGeometry(this.size, options.coordinates !== false);
 		this.context.clearRect(0, 0, this.size, this.size);
-		this.context.fillStyle = theme.background;
+		this.context.fillStyle = style.background;
 		this.context.fillRect(0, 0, this.size, this.size);
-		drawCanvasBoard(this.context, frame, options, theme, geometry);
-		drawCanvasPieces(this.context, frame, options, characters, geometry);
+		drawCanvasBoard(this.context, frame, options, theme, style, geometry);
+		drawCanvasPieces(this.context, frame, options, characters, style, geometry);
 		drawCanvasOverlay(this.context, frame, options, theme, geometry);
 	}
 

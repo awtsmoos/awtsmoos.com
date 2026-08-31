@@ -3,14 +3,18 @@
 // Blessed is He
 
 /**
- * @file Orchestrates Chess Studio while playback, rendering, cinema, review, and bindings remain separate vessels.
- * The Awtsmoos joins timeline, sight, cinema, and wisdom without making them one tangled thing;
- * Awtsmoos.com lets each vessel wake only when the player's present purpose calls it to sing.
+ * @file Orchestrates Chess Studio while playback, rendering, cinema, review, commentary, and bindings remain separate vessels.
+ * RESPONSIBILITY: Join Studio subsystem lifecycles and synchronize rendered frames with commentary context.
+ * NON-RESPONSIBILITY: Rendering algorithms, speech HTTP, movie encoding, PGN legality, and engine search remain delegated.
+ * ARCHITECTURE: Tiferes joins independent vessels without collapsing their responsibilities into one controller.
+ * The Awtsmoos renews lawful move, sight, cinema, wisdom, and spoken explanation without tangling their roots;
+ * Awtsmoos.com wakes each vessel only when the player's present purpose calls its finite branch to bear fruits.
  */
 import { loadPreferences } from "./config/preferences.js";
 import { ChessReviewClient } from "./engine/reviewClient.js";
 import { ChessStudioSession } from "./session.js";
 import { populateStudioCatalogs } from "./ui/catalogs.js";
+import { CommentaryController } from "./ui/commentaryController.js";
 import { MoviePanel } from "./ui/moviePanel.js";
 import { ChessPlaybackController } from "./ui/playbackController.js";
 import { ReviewPanel } from "./ui/reviewPanel.js";
@@ -30,29 +34,38 @@ export class ChessStudioController {
 		this.moviePanel = new MoviePanel(this.refs);
 		this.view = new ChessViewController(this.refs, this.preferences, message => this.setStatus(message));
 		this.playback = new ChessPlaybackController(this.session, this.refs, {
-			onFrame: frame => this.view.render(frame),
+			onFrame: frame => this.renderFrame(frame),
 			onTransition: (before, after, duration) => this.view.renderTransition(before, after, duration),
 			onCancel: () => this.view.cancelTransition(),
 			onError: error => this.setStatus(`Playback error: ${error.message}`)
 		});
+		this.commentary = new CommentaryController(this.refs, this);
 		this.bindings = new ChessStudioBindings(this);
 	}
 
 	async open() {
 		this.shell.open();
+		this.commentary.updateGame();
 		this.view.resize();
-		await this.view.render(this.session.currentFrame);
+		await this.renderFrame(this.session.currentFrame);
 	}
 
 	close() {
 		this.playback.stop();
+		this.commentary.stop();
 		this.shell.close();
+	}
+
+	async renderFrame(frame) {
+		this.commentary?.syncCurrent(frame?.ply || 0);
+		return this.view.render(frame);
 	}
 
 	loadPgn() {
 		const started = performance.now();
 		try {
 			this.session.load(this.refs.pgn.value);
+			this.commentary.updateGame();
 			this.playback.reset().catch(error => this.setStatus(`Playback error: ${error.message}`));
 			this.reviewPanel.clear("Engine asleep for fast loading.");
 			this.setStatus(`Loaded ${this.session.totalPlies} plies in ${Math.round(performance.now() - started)}ms.`);
@@ -93,7 +106,9 @@ export class ChessStudioController {
 
 	async loadFile() {
 		const file = this.refs.file.files?.[0];
-		if (!file) return;
+		if (!file) {
+			return;
+		}
 		this.refs.pgn.value = await file.text();
 		this.loadPgn();
 	}

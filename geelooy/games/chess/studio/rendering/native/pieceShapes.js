@@ -3,43 +3,45 @@
 // Blessed is He
 
 /**
- * @file Composes recognizable native procedural chess silhouettes from shared frustum and box geometry.
- * The Awtsmoos lets pawn, king, and knight differ through proportion rather than foreign code;
- * Awtsmoos.com reveals each type through native geometry on one procedural road.
+ * @file Composes one readable native chess silhouette from dedicated body and head vessels.
+ * RESPONSIBILITY: Join type-specific procedural body and head geometry into one piece group.
+ * NON-RESPONSIBILITY: This module does not choose color, material, board position, lighting, or camera.
+ * ARCHITECTURE: Malchus receives body and head keilim here, while their measured forms remain delegated below.
+ * The Awtsmoos, Atzmus beyond every form, renews king and pawn from nothing while no mesh stands alone;
+ * Awtsmoos.com remembers that many silhouettes can reveal one lawful game, each crown a finite throne.
  */
-import { group, mesh, rotatedMesh } from "./primitives.js";
+import { group } from "./primitives.js";
+import { appendPieceBody } from "./pieceParts/pieceBodies.js";
+import { appendPieceHead } from "./pieceParts/pieceHeads.js";
 
-export function createPieceShape(runtime, geometries, material, type, profile = "staunton") {
-	const root = group(runtime, `piece-${type}`);
-	const minimal = profile === "minimal";
-	root.add(mesh(runtime, geometries.body, material, [0, 0.25, 0], minimal ? [0.34, 0.5, 0.34] : [0.38, 0.5, 0.38]));
-	root.add(mesh(runtime, geometries.body, material, [0, 0.68, 0], minimal ? [0.24, 0.45, 0.24] : [0.28, 0.56, 0.28]));
-	appendHead(root, runtime, geometries, material, type, profile);
+/**
+ * Builds one native procedural piece whose body proportions and head silhouette remain distinguishable on small screens.
+ * The function composes existing geometry only; callers still own color, material, scale, and board placement.
+ *
+ * @param {object} runtime Native Awtsmoos procedural runtime namespace containing Group and Mesh classes.
+ * @param {object} geometries Shared immutable geometry set used by every piece in one scene.
+ * @param {object} material Material already selected for the piece side and finish.
+ * @param {string} type Chess type letter such as `P`, `N`, `B`, `R`, `Q`, or `K`.
+ * @returns {object} A native group containing the complete piece silhouette.
+ */
+export function createPieceShape(runtime, geometries, material, type) {
+	const normalizedType = normalizePieceType(type);
+	const root = group(runtime, `piece-${normalizedType}`);
+	appendPieceBody(root, runtime, geometries, material, normalizedType);
+	appendPieceHead(root, runtime, geometries, material, normalizedType);
 	return root;
 }
 
-function appendHead(root, runtime, geometries, material, type, profile) {
-	if (type === "P") return void root.add(mesh(runtime, geometries.crown, material, [0, 1.03, 0], [0.22, 0.28, 0.22]));
-	if (type === "R") return void root.add(mesh(runtime, geometries.box, material, [0, 1.05, 0], [0.52, 0.28, 0.52]));
-	if (type === "N") {
-		root.add(rotatedMesh(runtime, geometries.cone, material, [0, 1.08, -0.05], [0.32, 0.62, 0.32], [1, 0, 0], -0.45));
-		return;
-	}
-	root.add(mesh(runtime, geometries.cone, material, [0, 1.08, 0], [type === "B" ? 0.3 : 0.35, 0.52, type === "B" ? 0.3 : 0.35]));
-	if (type === "B") return void root.add(mesh(runtime, geometries.crown, material, [0, 1.39, 0], [0.11, 0.15, 0.11]));
-	if (type === "Q") return void appendQueenCrown(root, runtime, geometries, material, profile);
-	appendKingCross(root, runtime, geometries, material);
-}
-
-function appendQueenCrown(root, runtime, geometries, material, profile) {
-	const radius = profile === "royal" ? 0.24 : 0.2;
-	for (let index = 0; index < 4; index++) {
-		const angle = index * Math.PI / 2;
-		root.add(mesh(runtime, geometries.crown, material, [Math.cos(angle) * radius, 1.42, Math.sin(angle) * radius], [0.09, 0.18, 0.09]));
-	}
-}
-
-function appendKingCross(root, runtime, geometries, material) {
-	root.add(mesh(runtime, geometries.box, material, [0, 1.48, 0], [0.11, 0.42, 0.11]));
-	root.add(mesh(runtime, geometries.box, material, [0, 1.52, 0], [0.36, 0.11, 0.11]));
+/**
+ * Constrains unknown external type letters to a safe pawn silhouette.
+ * This Gevurah boundary prevents malformed PGN-derived values from requesting a missing piece builder.
+ *
+ * @param {string} type Candidate chess type letter supplied by the scene factory.
+ * @returns {string} A supported uppercase type letter.
+ */
+function normalizePieceType(type) {
+	const normalized = String(type || "P").toUpperCase();
+	return new Set(["P", "N", "B", "R", "Q", "K"]).has(normalized)
+		? normalized
+		: "P";
 }

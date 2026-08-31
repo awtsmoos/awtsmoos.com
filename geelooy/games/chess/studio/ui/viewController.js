@@ -3,9 +3,9 @@
 // Blessed is He
 
 /**
- * @file Orchestrates appearance, ordinary rendering, native live transition service, and graceful renderer fallback.
- * The Awtsmoos joins changing garments with lawful frames while each helper carries only its fitting part;
- * Awtsmoos.com keeps the view controller spacious and clear as motion, controls, and procedural depth reveal one heart.
+ * @file Orchestrates base appearance, shared motion, native depth, quick presets, and graceful fallback.
+ * The Awtsmoos joins changing garments to one lawful frame while every helper keeps its measured part;
+ * Awtsmoos.com resynchronizes quick sight with advanced 3D so the visible board and stored choice share one heart.
  */
 import { savePreferences } from "../config/preferences.js";
 import { normalizedProceduralOptions } from "../rendering/proceduralOptions.js";
@@ -24,12 +24,7 @@ export class ChessViewController {
 		this.proceduralOptions = normalizedProceduralOptions(preferences);
 		this.proceduralPanel = new ProceduralOptionsPanel(refs.proceduralOptions, options => this.updateProcedural(options));
 		this.controls = new ChessViewControls(refs, preferences, () => this.updateBase());
-		this.transition = new ChessViewTransition(
-			this.host,
-			preferences,
-			() => this.renderOptions(),
-			(error, frame) => this.handleRenderFailure(error, frame)
-		);
+		this.transition = new ChessViewTransition(this.host, preferences, () => this.renderOptions(), (error, frame) => this.handleRenderFailure(error, frame));
 		this.proceduralPanel.render(this.proceduralOptions);
 	}
 
@@ -47,8 +42,7 @@ export class ChessViewController {
 	async renderTransition(beforeFrame, afterFrame, durationMs) {
 		this.frame = afterFrame;
 		const animated = await this.transition.render(beforeFrame, afterFrame, durationMs);
-		if (!animated && this.preferences.renderer !== "procedural3d") return this.render(afterFrame);
-		if (!animated && this.preferences.renderer === "procedural3d") return this.render(afterFrame);
+		if (!animated) return this.render(afterFrame);
 		return true;
 	}
 
@@ -60,6 +54,7 @@ export class ChessViewController {
 		return {
 			...this.proceduralOptions,
 			mode: this.preferences.renderer,
+			canvasStyle: this.preferences.canvasStyle,
 			theme: this.preferences.theme,
 			characters: this.preferences.characters,
 			flipped: this.preferences.flipped,
@@ -72,21 +67,18 @@ export class ChessViewController {
 		this.host.resize();
 	}
 
-	stats() {
-		return this.host.stats();
-	}
-
 	async handleRenderFailure(error, frame) {
 		if (this.preferences.renderer !== "procedural3d") throw error;
 		this.preferences.renderer = "canvas25d";
-		this.refs.mode.value = "canvas25d";
+		this.controls.sync();
 		savePreferences(this.preferences);
-		this.refs.proceduralOptions.hidden = true;
 		this.onStatus(`3D fallback: ${error.message}`);
 		await this.host.update(frame, this.renderOptions());
 	}
 
 	updateBase() {
+		this.proceduralOptions = normalizedProceduralOptions(this.preferences);
+		this.proceduralPanel.render(this.proceduralOptions);
 		savePreferences(this.preferences);
 		this.render().catch(error => this.onStatus(error.message));
 	}

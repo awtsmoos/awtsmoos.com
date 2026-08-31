@@ -3,30 +3,37 @@
 // Blessed is He
 
 /**
- * @file Maps Chess themes and lighting moods into the procedural-core native environment uniforms.
- * The Awtsmoos gives color a horizon and direction a sunlit part;
- * Awtsmoos.com turns selectable atmosphere into native WebGL light without a foreign heart.
+ * @file Applies readable procedural-core atmosphere without coupling the world background to the board theme.
+ * The Awtsmoos gives dark and light their meeting place while neither side disappears from sight;
+ * Awtsmoos.com lets cinematic fog remain optional and makes the ordinary studio generous with fill light.
  */
-import { getTheme } from "../../config/themes.js";
 import { getLightingPreset } from "../lightingPresets.js";
+import { getNativeEnvironment } from "./environmentPresets.js";
 import { colorArray } from "./materials.js";
 
 export function applyNativeEnvironment(renderer, options = {}) {
-	const theme = getTheme(options.theme);
 	const lighting = getLightingPreset(options.lighting);
-	const background = colorArray(lighting.fog || theme.background);
-	const ambient = scaledColor(lighting.fillColor, Math.max(0.18, lighting.fill));
-	const sun = scaledColor(lighting.keyColor, Math.max(0.35, lighting.key));
+	const environment = getNativeEnvironment(options.environment);
+	const background = colorArray(environment.background);
+	const ambient = scaledColor(lighting.fillColor, Math.max(0.42, lighting.fill * environment.fill));
+	const sun = scaledColor(lighting.keyColor, Math.max(0.55, lighting.key * environment.key));
+	const fogEnabled = options.fog === true || (options.fog !== false && environment.fog);
 	renderer.setClearColor(background[0], background[1], background[2], 1);
 	renderer.setEnvironment({
 		ambient,
 		sunDirection: [-0.46, -0.82, -0.34],
 		sunColor: sun,
 		fogColor: background.slice(0, 3),
-		fogNear: options.fog === false ? 1000 : 12,
-		fogFar: options.fog === false ? 1200 : 34,
-		exposure: lighting.id === "contrast" ? 1.18 : lighting.id === "neon" ? 1.08 : 1
+		fogNear: fogEnabled ? 17 : 1000,
+		fogFar: fogEnabled ? 42 : 1200,
+		exposure: environment.exposure * lightingExposure(lighting.id)
 	});
+}
+
+function lightingExposure(id) {
+	if (id === "contrast") return 1.08;
+	if (id === "neon") return 1.03;
+	return 1;
 }
 
 function scaledColor(color, amount) {

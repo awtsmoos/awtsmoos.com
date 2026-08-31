@@ -3,11 +3,12 @@
 // Blessed is He
 
 /**
- * @file Connects Studio to deterministic 2D, 2.5D, or Awtsmoos procedural-core MP4 generation with camera choreography and cleanup.
- * The Awtsmoos turns one legal timeline into measured frames of light;
- * Awtsmoos.com lets the chosen vessel become a real downloadable movie, ordered and bright.
+ * @file Maps plain-English movie presentations onto deterministic canvas or native-procedural MP4 generation.
+ * The Awtsmoos lets a player choose the visible story while one legal timeline keeps every frame true;
+ * Awtsmoos.com preserves advanced pacing beneath the presentation without making renderer jargon the first view.
  */
 import { ChessMovieGenerator } from "../cinema/movieController.js";
+import { getMoviePresentation } from "../cinema/moviePresentations.js";
 
 export class MoviePanel {
 	constructor(refs) {
@@ -18,21 +19,26 @@ export class MoviePanel {
 	async generate(session, renderOptions) {
 		this.refs.movieProgress.value = 0;
 		this.refs.movieStatus.textContent = "Preparing encoder…";
-		const renderMode = this.refs.movieMode.value === "same"
-			? renderOptions.mode
-			: this.refs.movieMode.value;
+		const presentation = getMoviePresentation(this.refs.movieMode.value);
+		const renderMode = presentation.renderMode;
 		const movie = { output: this.refs.movieOutput.value, style: this.refs.movieStyle.value };
+		const cameraMotion = presentation.id === "cinematic3d" ? this.refs.movieMotion.value : presentation.cameraMotion;
+		const camera = presentation.id === "cinematic3d" ? this.refs.movieCamera.value : presentation.camera;
 		const result = await this.generator.generate({
 			frames: session.replay.frames,
 			tags: session.replay.tags,
 			movie,
 			renderMode,
-			renderOptions: { ...renderOptions, mode: renderMode },
-			cameraOptions: {
-				cameraMotion: this.refs.movieMotion.value,
-				camera: this.refs.movieCamera.value,
-				flipped: renderOptions.flipped
-			}
+			renderOptions: {
+				...renderOptions,
+				mode: renderMode,
+				reducedMotion: presentation.reducedMotion,
+				cameraMotion,
+				camera,
+				cameraIntensity: presentation.intensity,
+				...(presentation.id === "topdown3d" ? { environment: "clarity", fog: false } : {})
+			},
+			cameraOptions: { cameraMotion, camera, intensity: presentation.intensity, flipped: renderOptions.flipped }
 		}, progress => this.progress(progress));
 		this.refs.movieProgress.value = 100;
 		this.refs.movieStatus.textContent = `MP4 ready · ${result.duration.toFixed(1)} seconds`;
@@ -56,7 +62,6 @@ function movieName(session) {
 	const black = safeName(session.replay.tags.Black || "Black");
 	return `Awtsmoos-Chess-${white}-vs-${black}.mp4`;
 }
-
 function safeName(value) {
 	return String(value).replace(/[^A-Za-z0-9_-]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 40) || "Player";
 }

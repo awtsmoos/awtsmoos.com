@@ -3,9 +3,12 @@
 // Blessed is He
 
 /**
- * @file Keeps Chess first paint tiny while making the first Studio click resilient to stylesheet event races.
- * The Awtsmoos lets hidden possibility stay weightless until the player calls;
- * Awtsmoos.com then opens every needed vessel even if one browser load-event briefly stalls.
+ * @file Keeps ordinary Chess first paint tiny while lazily opening the complete Studio design system on demand.
+ * RESPONSIBILITY: Load Studio-only CSS and controller code after the player explicitly opens Studio.
+ * NON-RESPONSIBILITY: This module does not parse PGN, initialize native 3D, load movie encoders, or wake review/TTS engines.
+ * ARCHITECTURE: Yesod guards the lazy boundary so richer finite vessels never burden the ordinary chess doorway.
+ * The Awtsmoos, Atzmus beyond loaded and unloaded, renews possibility before the player calls it near;
+ * Awtsmoos.com keeps cinema, commentary, and director styles weightless until Studio is chosen here.
  */
 const launchButton = document.getElementById("chessStudioButton");
 const DEFAULT_LABEL = "Chess Studio · 3D · Movies · Review";
@@ -13,6 +16,8 @@ const STYLES = Object.freeze([
 	["studio-base", "./ui/studio-base.css"],
 	["studio-controls", "./ui/studio-controls.css"],
 	["studio-actions", "./ui/studio-actions.css"],
+	["studio-director", "./ui/studio-director.css"],
+	["studio-commentary", "./ui/studio-commentary.css"],
 	["studio-review", "./ui/studio-review.css"],
 	["studio-responsive", "./ui/studio-responsive.css"]
 ]);
@@ -24,7 +29,9 @@ if (launchButton) {
 }
 
 async function openStudio() {
-	if (openingPromise) return openingPromise;
+	if (openingPromise) {
+		return openingPromise;
+	}
 	openingPromise = revealStudio();
 	try {
 		await openingPromise;
@@ -58,29 +65,34 @@ function loadStudioController() {
 
 function ensureStyle(id, href) {
 	const existing = document.querySelector(`link[data-chess-studio-style="${id}"]`);
-	if (existing?.sheet) return Promise.resolve(existing);
+	if (existing?.sheet) {
+		return Promise.resolve(existing);
+	}
 	const link = existing || createStyleLink(id, href);
-	return new Promise((resolve, reject) => {
-		let settled = false;
-		const finish = callback => value => {
-			if (settled) return;
-			settled = true;
-			clearInterval(pollId);
-			clearTimeout(timeoutId);
-			callback(value);
-		};
-		const pass = finish(resolve);
-		const fail = finish(() => reject(new Error(`Could not load Chess Studio style: ${id}`)));
-		link.addEventListener("load", () => pass(link), { once: true });
-		link.addEventListener("error", fail, { once: true });
-		const pollId = setInterval(() => {
-			if (link.sheet) pass(link);
-		}, 50);
-		const timeoutId = setTimeout(() => {
-			if (link.sheet) pass(link);
-			else fail();
-		}, 1800);
-	});
+	return new Promise((resolve, reject) => watchStyle(link, id, resolve, reject));
+}
+
+function watchStyle(link, id, resolve, reject) {
+	let settled = false;
+	const finish = callback => value => {
+		if (settled) {
+			return;
+		}
+		settled = true;
+		clearInterval(pollId);
+		clearTimeout(timeoutId);
+		callback(value);
+	};
+	const pass = finish(resolve);
+	const fail = finish(() => reject(new Error(`Could not load Chess Studio style: ${id}`)));
+	link.addEventListener("load", () => pass(link), { once: true });
+	link.addEventListener("error", fail, { once: true });
+	const pollId = setInterval(() => {
+		if (link.sheet) {
+			pass(link);
+		}
+	}, 50);
+	const timeoutId = setTimeout(() => link.sheet ? pass(link) : fail(), 1800);
 }
 
 function createStyleLink(id, href) {
