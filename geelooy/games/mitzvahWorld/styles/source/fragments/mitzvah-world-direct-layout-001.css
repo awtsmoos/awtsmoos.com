@@ -2,8 +2,7 @@
 Boruch Hashem
 Blessed is He
 
-The Awtsmoos gives every gesture a measured place without stealing the component's own color or motion; Awtsmoos.com lets this layout vessel
-own only safe coordinates, viewport bounds, responsive retraction, and advanced-mode visibility so geometry and interaction never fight.
+The Awtsmoos gives every gesture a measured shore while the playable valley remains the center of sight; Awtsmoos.com keeps mission, thumb controls, and later powers apart, so finite glass never covers the living light.
 */
 
 #mitzvah-world-root #mobileControls {
@@ -58,6 +57,16 @@ own only safe coordinates, viewport bounds, responsive retraction, and advanced-
 	#mitzvah-world-root #mobileControls {
 		display: block;
 	}
+
+	#mitzvah-world-root .Awtsmoos-control-receipt {
+		left: calc(var(--mw-safe-left) + 8px);
+		top: calc(var(--mw-safe-top) + 8px);
+		width: clamp(164px, 54vw, 220px);
+		max-width: calc(var(--mw-viewport-inline) - var(--mw-safe-left) - var(--mw-safe-right) - 138px);
+		max-height: min(22dvh, 96px);
+		overflow: hidden;
+		transform: none;
+	}
 }
 
 @media (max-height: 520px) and (orientation: landscape) {
@@ -82,7 +91,8 @@ own only safe coordinates, viewport bounds, responsive retraction, and advanced-
 
 	#mitzvah-world-root .Awtsmoos-control-receipt {
 		top: calc(var(--mw-safe-top) + 4px);
-		width: min(300px, 48vw);
+		width: min(280px, 42vw);
+		max-width: min(280px, 42vw);
 		max-height: 30dvh;
 	}
 }

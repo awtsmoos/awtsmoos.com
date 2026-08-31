@@ -4,9 +4,9 @@
 
 /**
  * @file BootstrapCubeGeometry.js
- * @description Shares one indexed cube across every first-playable landmark and traveler part.
- * The Awtsmoos reveals many forms from one measured vessel; Awtsmoos.com reuses eight vertices
- * so ground, path, ridge, body, hat, and signposts appear without a geometry-allocation storm.
+ * @description Shares one face-aware cube with positions, normals, and UVs across first-play terrain, landmarks, and traveler parts.
+ * The Awtsmoos gives each face a direction and each texture a measured place; Awtsmoos.com reuses one complete vessel,
+ * so grass may repeat across the earth and simple forms may catch light without an allocation race.
  */
 
 import {
@@ -14,33 +14,59 @@ import {
 	BufferGeometry
 } from '../../../light-three-gltf/tiny-runtime.js';
 
+const FACE_UVS = [
+	0, 0,
+	1, 0,
+	1, 1,
+	0, 1
+];
+
+const POSITIONS = [
+	-0.5, -0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5,
+	0.5, -0.5, -0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5,
+	-0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5,
+	0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5,
+	-0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5,
+	-0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5
+];
+
+const NORMALS = [
+	0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1,
+	0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1,
+	-1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0,
+	1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0,
+	0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0,
+	0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0
+];
+
+const INDICES = [
+	0, 1, 2, 0, 2, 3,
+	4, 5, 6, 4, 6, 7,
+	8, 9, 10, 8, 10, 11,
+	12, 13, 14, 12, 14, 15,
+	16, 17, 18, 16, 18, 19,
+	20, 21, 22, 20, 22, 23
+];
+
 let sharedGeometry = null;
 
+/**
+ * Returns the one cached bootstrap cube used by every lightweight visible object.
+ * @returns {BufferGeometry} Shared geometry with 24 positions, normals, UVs, and 36 indices.
+ */
 export function bootstrapCubeGeometry() {
 	sharedGeometry ||= createCubeGeometry();
 	return sharedGeometry;
 }
 
+/** Creates the face-separated cube so each face owns truthful lighting and texture coordinates. */
 function createCubeGeometry() {
 	const geometry = new BufferGeometry();
-	geometry.setAttribute('position', new BufferAttribute(new Float32Array([
-		-0.5, -0.5, -0.5,
-		0.5, -0.5, -0.5,
-		0.5, 0.5, -0.5,
-		-0.5, 0.5, -0.5,
-		-0.5, -0.5, 0.5,
-		0.5, -0.5, 0.5,
-		0.5, 0.5, 0.5,
-		-0.5, 0.5, 0.5
-	]), 3));
-	geometry.setIndex(new BufferAttribute(new Uint16Array([
-		0, 1, 2, 0, 2, 3,
-		5, 4, 7, 5, 7, 6,
-		4, 0, 3, 4, 3, 7,
-		1, 5, 6, 1, 6, 2,
-		3, 2, 6, 3, 6, 7,
-		4, 5, 1, 4, 1, 0
-	]), 1));
-	geometry.userData.bootstrapPrimitive = 'shared-cube';
+	const uvs = Array.from({ length: 6 }, () => FACE_UVS).flat();
+	geometry.setAttribute('position', new BufferAttribute(new Float32Array(POSITIONS), 3));
+	geometry.setAttribute('normal', new BufferAttribute(new Float32Array(NORMALS), 3));
+	geometry.setAttribute('uv', new BufferAttribute(new Float32Array(uvs), 2));
+	geometry.setIndex(new BufferAttribute(new Uint16Array(INDICES), 1));
+	geometry.userData.bootstrapPrimitive = 'shared-cube-face-aware';
 	return geometry;
 }
