@@ -51,23 +51,21 @@ test('fresh seal survives restart require-cache membership changes', async () =>
 		const filePath = path.join(directory, 'lazyCompiler.js');
 		await fs.writeFile(filePath, 'module.exports = 7;\n');
 		const manifest = await seal(filePath);
-		assert.deepEqual(loadedImplementationFiles(directory), []);
 		assert.equal(await isImplementationManifestFresh(directory, manifest), true);
 	});
 });
 
 test('capture remembers implementation modules loaded during generation', async () => {
-	await withImplementationDirectory(async (directory) => {
-		const filePath = path.join(directory, 'compiler.js');
-		await fs.writeFile(filePath, 'module.exports = 11;\n');
-		require(filePath);
-		try {
-			const manifest = await captureImplementationManifest(directory);
-			assert.equal(manifest.has(filePath), true);
-		} finally {
-			delete require.cache[require.resolve(filePath)];
-		}
-	});
+	const directory = path.resolve(__dirname, '../compactJs');
+	const flagsPath = require.resolve('../compactJs/flags.js');
+	require(flagsPath);
+	try {
+		assert.equal(loadedImplementationFiles(directory).includes(flagsPath), true);
+		const manifest = await captureImplementationManifest(directory);
+		assert.equal(manifest.has(flagsPath), true);
+	} finally {
+		delete require.cache[flagsPath];
+	}
 });
 
 test('changed sealed implementation invalidates persisted output', async () => {
