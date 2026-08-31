@@ -26,6 +26,7 @@
 		"./awtsmoos": "./src/adapters/awtsmoos/index.js",
 		"./animal-mesh": "./src/core/animalMesh/index.js",
 		"./procedural-object": "./src/core/proceduralObject/index.js",
+		"./procedural-language": "./src/exports/proceduralLanguage.js",
 		"./effects": "./src/exports/effects.js",
 		"./water": "./src/core/water/index.js",
 		"./webgpu": "./src/core/proceduralObject/webgpu3d/index.js",
