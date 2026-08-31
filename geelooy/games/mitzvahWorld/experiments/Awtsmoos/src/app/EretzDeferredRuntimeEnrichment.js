@@ -1,12 +1,12 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file EretzDeferredRuntimeEnrichment.js
- * @description Promotes the canonical valley, reveals friendly life, then lets heavier garments and systems follow independently.
- * The Awtsmoos brings earth, neighbor, and authored form in an ordered ray instead of one crowded blaze;
- * Awtsmoos.com keeps optional wilderness and secondary actors from blocking the village while canonical NPC garments join the friendly phase.
+ * @description Promotes only richer selected experiences into the canonical valley after the shared post-play terrain bridge has already begun.
+ * The Awtsmoos lets first earth receive its garment before the deeper valley gathers form;
+ * Awtsmoos.com keeps canonical promotion focused on worlds that asked for its mountain, actor, tree, and home.
  */
 
 import { startEretzActorHydration } from './EretzActorHydration.js?v=20260820-friendly-first-01';
@@ -14,6 +14,7 @@ import { startEretzCanonicalWorldPromotion } from './EretzCanonicalWorldPromotio
 import { startEretzPostMovementStreaming } from './EretzPostMovementStreaming.js';
 import { startEretzWorldActorHydration } from './EretzWorldActorHydration.js?v=20260820-friendly-first-01';
 
+/** Starts canonical promotion and all enrichment that logically follows a successful richer-world choice. */
 export async function startEretzDeferredRuntimeEnrichment(context) {
 	const { boot, diagnostics, foundation, options, runtime } = context;
 	const promotion = startEretzCanonicalWorldPromotion(context);

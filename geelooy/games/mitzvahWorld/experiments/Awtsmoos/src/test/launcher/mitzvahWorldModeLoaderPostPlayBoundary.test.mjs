@@ -1,39 +1,38 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file mitzvahWorldModeLoaderPostPlayBoundary.test.mjs
- * @description Proves the current post-play API remains fire-and-forget after runtime readiness rather than becoming part of the critical playable await chain.
- * The Awtsmoos lets movement reveal first while optional ornament follows in a separate ray;
- * Awtsmoos.com guards the exact modular symbol so future refactors cannot make creative presentation delay the player's day.
+ * @description Proves optional post-play presentation remains fire-and-forget while single-player gains profile policy and multiplayer preserves its richer direct path.
+ * The Awtsmoos lets movement reveal before ornament while each world keeps the measure of its chosen ray;
+ * Awtsmoos.com lets Simple Meadow decline later garments without making shared-world presentation delay the player's day.
  */
 
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
-import { fileURLToPath } from 'node:url';
 
-const sourcePath = fileURLToPath(
-	new URL('../../launcher/MitzvahWorldModeLoaders.js', import.meta.url)
-);
+const SOURCE_URL = new URL('../../launcher/MitzvahWorldModeLoaders.js', import.meta.url);
+const LOCAL_CALL = 'launchMitzvahWorldPostPlayByPolicy(diagnostics, environment, runtimeOptions);';
+const MULTIPLAYER_CALL = 'launchMitzvahWorldPostPlayExperience(diagnostics, environment);';
 
-const POST_PLAY_CALL = 'launchMitzvahWorldPostPlayExperience(diagnostics, environment);';
-
-test('post-play helper is invoked after runtime diagnostics exist and is never awaited', async () => {
-	const source = await readFile(sourcePath, 'utf8');
-	assert.match(source, /launchMitzvahWorldPostPlayExperience/);
-	assert.doesNotMatch(source, /await\s+launchMitzvahWorldPostPlayExperience\s*\(/);
-	const runtimeIndex = source.indexOf('const diagnostics = await');
-	const postPlayIndex = source.indexOf(POST_PLAY_CALL);
-	assert.ok(runtimeIndex >= 0);
-	assert.ok(postPlayIndex > runtimeIndex);
+test('both post-play paths begin only after runtime diagnostics exist and remain non-blocking', async () => {
+	const source = await readFile(SOURCE_URL, 'utf8');
+	assert.doesNotMatch(source, /await\s+launchMitzvahWorldPostPlay(?:ByPolicy|Experience)\s*\(/);
+	const firstRuntime = source.indexOf('const diagnostics = await');
+	const localIndex = source.indexOf(LOCAL_CALL);
+	const multiplayerIndex = source.indexOf(MULTIPLAYER_CALL);
+	assert.ok(firstRuntime >= 0);
+	assert.ok(localIndex > firstRuntime);
+	assert.ok(multiplayerIndex > firstRuntime);
 });
 
-test('single-player and multiplayer both cross the same non-blocking post-play boundary', async () => {
-	const source = await readFile(sourcePath, 'utf8');
-	const callCount = source.split(POST_PLAY_CALL).length - 1;
-	assert.equal(callCount, 2);
-	assert.match(source, /sessionMode = 'singleplayer'/);
+test('single-player is profile-aware while multiplayer keeps the direct presentation boundary', async () => {
+	const source = await readFile(SOURCE_URL, 'utf8');
+	assert.equal(source.split(LOCAL_CALL).length - 1, 1);
+	assert.equal(source.split(MULTIPLAYER_CALL).length - 1, 1);
+	assert.match(source, /createSinglePlayerWorldRuntimeOptions/);
 	assert.match(source, /createMultiplayerEretzRuntime/);
+	assert.match(source, /sessionMode = 'singleplayer'/);
 });

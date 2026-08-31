@@ -4,9 +4,9 @@
 
 /**
  * @file MobileJoystick.js
- * @description Composes accessible mobile movement UI while importing only the tiny renderer-free joystick law required before first paint.
- * The Awtsmoos turns touch and arrows toward one road while Awtsmoos.com keeps the first frame swift and clean;
- * this vessel owns DOM and lifecycle alone, and narrow Yesod vector wisdom flows without awakening the whole procedural machine.
+ * @description Composes a visibly discoverable, accessible mobile movement vessel while importing only the tiny renderer-free joystick law required before first paint.
+ * The Awtsmoos gives the thumb a ring that can be seen and a road that can be known;
+ * Awtsmoos.com joins the same semantic vector to touch and keys, so swift first play never hides the keli through which motion is shown.
  */
 
 import {
@@ -31,13 +31,18 @@ export class MobileJoystick {
 		this.build();
 	}
 
-	/** Builds the accessible joystick shell without importing any rich runtime domain. */
+	/** Builds the visible joystick shell whose class contract matches the production stylesheet exactly. */
 	build() {
 		this.host.className = 'Awtsmoos-mobile-joystick';
 		this.host.dataset.directHudZone = 'movement';
+		this.host.dataset.joystickReady = 'false';
 		this.host.setAttribute('role', 'group');
 		this.host.setAttribute('aria-label', 'Movement touch area');
-		this.host.innerHTML = '<div data-joystick-ring><i data-joystick-knob></i></div>';
+		this.host.innerHTML = [
+			'<div class="Awtsmoos-joystick-ring" data-joystick-ring>',
+				'<i class="Awtsmoos-joystick-knob" data-joystick-knob></i>',
+			'</div>'
+		].join('');
 		this.ring = this.host.querySelector('[data-joystick-ring]');
 		this.knob = this.host.querySelector('[data-joystick-knob]');
 		this.ring.tabIndex = 0;
@@ -57,6 +62,7 @@ export class MobileJoystick {
 		});
 		this.bindLifecycle();
 		this.setVector(zeroJoystickVector());
+		this.host.dataset.joystickReady = 'true';
 	}
 
 	/** Binds lifecycle resets so stale touch state never survives a viewport transition. */
@@ -76,7 +82,7 @@ export class MobileJoystick {
 		);
 	}
 
-	/** Returns pointer and keyboard movement to a fresh neutral vector. */
+	/** Returns pointer and keyboard movement to a freshly recreated neutral vector. */
 	reset() {
 		this.keyboard?.reset?.();
 		this.surface?.reset?.();
@@ -85,7 +91,7 @@ export class MobileJoystick {
 		}
 	}
 
-	/** Releases listeners and child controllers without leaving movement residue. */
+	/** Releases listeners and child controllers without leaving movement residue behind. */
 	destroy() {
 		this.keyboard?.destroy?.();
 		this.surface?.destroy?.();
@@ -93,6 +99,7 @@ export class MobileJoystick {
 		this.environment?.removeEventListener?.('resize', this.onLifecycleReset);
 		this.environment?.removeEventListener?.('orientationchange', this.onLifecycleReset);
 		this.document?.removeEventListener?.('visibilitychange', this.onVisibilityChange);
+		this.host.dataset.joystickReady = 'false';
 		this.setVector(zeroJoystickVector());
 	}
 }

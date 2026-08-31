@@ -1,28 +1,27 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file WorldBrowserView.js
- * @description Renders local and authoritative multiplayer world cards safely.
- * The Awtsmoos renews every selectable valley beneath one honest status line; Awtsmoos.com
- * escapes public labels and presents the complete 123-species procedural garden truthfully.
+ * @description Renders inviting local experiences and authoritative multiplayer cards while keeping each promise honest and selectable.
+ * The Awtsmoos opens more than one road beneath the same sky; Awtsmoos.com lets the player choose simple speed or richer depth without asking why.
  */
 
 import { populationLabel } from './WorldBrowserModel.js';
 
+/** Renders the world browser and forwards the exact selected world identity. */
 export function renderWorldBrowser(container, model, onChoose) {
 	container.innerHTML = `
 		<section class="Awtsmoos-menu-hero">
-			<h2>Enter the Mountain Village</h2>
-			<p>Study a deterministic world alone or join an authoritative shared valley with quests,
-				combat, private messages, channels, creatures, cinema, and all 123 plant species.</p>
+			<h2>Choose your Mitzvah World</h2>
+			<p>Begin with a fast simple meadow, explore a richer mountain village, or join an authoritative shared world.</p>
 			<label class="Awtsmoos-player-name">Player name
 				<input data-player-name maxlength="48" value="Mountain Shliach" autocomplete="nickname">
 			</label>
 			<div class="Awtsmoos-menu-status" data-population>${escapeHtml(populationLabel(model))}</div>
 		</section>
-		<h3>Single-player study worlds</h3>
+		<h3>Local worlds</h3>
 		<div class="Awtsmoos-world-grid">${model.localWorlds.map(worldCard).join('')}</div>
 		<h3>Multiplayer worlds</h3>
 		<div class="Awtsmoos-world-grid">${model.multiplayerWorlds.length
@@ -41,10 +40,13 @@ export function renderWorldBrowser(container, model, onChoose) {
 	});
 }
 
+/** Creates one local or multiplayer card using only escaped model data. */
 function worldCard(world) {
 	const connected = world.mode === 'multiplayer'
 		? `${world.connected}/${world.capacity} connected`
-		: 'Offline and deterministic';
+		: world.performance || 'Offline and deterministic';
+	const actionLabel = world.actionLabel
+		|| (world.mode === 'multiplayer' ? 'Join shared world' : 'Enter world');
 	return `
 		<article class="Awtsmoos-world-card" data-mode="${escapeHtml(world.mode)}">
 			<h3>${escapeHtml(world.title)}</h3>
@@ -54,12 +56,13 @@ function worldCard(world) {
 			)).join('')}</div>
 			<div class="Awtsmoos-world-meta"><span>${escapeHtml(connected)}</span><span>${escapeHtml(world.region || 'local')}</span></div>
 			<button data-world-id="${escapeHtml(world.id)}" data-mode="${escapeHtml(world.mode)}" ${world.available ? '' : 'disabled'}>
-				${world.mode === 'multiplayer' ? 'Join shared world' : 'Study this world'}
+				${escapeHtml(actionLabel)}
 			</button>
 		</article>
 	`;
 }
 
+/** Renders a disabled truthful card when authoritative realtime discovery is unavailable. */
 function unavailableCard(reason) {
 	return `
 		<article class="Awtsmoos-world-card">
@@ -70,6 +73,7 @@ function unavailableCard(reason) {
 	`;
 }
 
+/** Escapes public text before it enters launcher markup. */
 function escapeHtml(value) {
 	return String(value ?? '')
 		.replaceAll('&', '&amp;')

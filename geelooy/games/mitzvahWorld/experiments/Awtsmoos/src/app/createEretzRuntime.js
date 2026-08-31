@@ -4,15 +4,14 @@
 
 /**
  * @file createEretzRuntime.js
- * @description Publishes movement first, then dynamically joins every post-play richness path.
+ * @description Publishes movement first, applies selected-world renderer policy, then dynamically joins only the post-play richness that world requested.
  * The Awtsmoos reveals control before distant valley garments contend for the same breath;
- * Awtsmoos.com keeps first play light, then orders Chossid, districts, actors, and richness without theft.
+ * Awtsmoos.com lets Simple Meadow remain light while Mountain Village orders later richness without theft.
  */
 
 import { resolveDeferredAppModuleUrl } from './DeferredAppModuleUrl.js';
-import { startEretzRendererHydration } from './EretzRendererHydrationLaunch.js';
+import { startEretzRendererByWorldPolicy } from './EretzRendererWorldPolicy.js';
 import {
-	markRendererHydration,
 	markRuntimeFailed,
 	markRuntimePlayable,
 	markRuntimeStarting
@@ -36,7 +35,7 @@ const POST_PLAYABLE_URL = resolveDeferredAppModuleUrl(
 	'createEretzRuntime.js'
 );
 
-/** Creates first-play Eretz, publishes it, then starts non-blocking post-play systems. */
+/** Creates first-play Eretz, publishes it, then starts profile-aware non-blocking post-play systems. */
 export async function createEretzRuntime(hosts, options = {}) {
 	const environment = options.environment || globalThis;
 	markRuntimeStarting(environment.document);
@@ -49,13 +48,11 @@ export async function createEretzRuntime(hosts, options = {}) {
 		const core = await createStagedEretzRuntime(hosts, options, boot);
 		boot.complete();
 		publishRuntime(core.diagnostics, environment);
-		Object.assign(core.diagnostics, { richRenderer: 'deferred' });
-		markRendererHydration('deferred', environment.document);
-		core.diagnostics.rendererHydrationPromise = startEretzRendererHydration(
+		startEretzRendererByWorldPolicy(
 			core.diagnostics,
 			environment,
 			boot,
-			{ signal: options.signal || null }
+			options
 		);
 		startPostPlayableStreams(core, options, boot, environment);
 		return core.diagnostics;

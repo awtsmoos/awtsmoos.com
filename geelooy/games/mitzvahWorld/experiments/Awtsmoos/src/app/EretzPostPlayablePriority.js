@@ -1,110 +1,90 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file EretzPostPlayablePriority.js
- * @description Gives the canonical Chossid one bounded clear lane before compact district and enrichment launchers begin.
- * The Awtsmoos reveals the traveler, then the valley, without making either wait forever in disguise;
- * Awtsmoos.com gathers each deferred launcher graph before browser delivery so smoothness and realism rise without widening first sight.
+ * @description Textures visible ground first, completes Simple Meadow immediately, and opens richer launchers only after the Mountain Village player-priority window.
+ * The Awtsmoos clothes the earth before abundance can contend and lets a simple world rest at its honest shore;
+ * Awtsmoos.com asks richer mountains to wait for the traveler, while Simple Meadow carries no needless delay through the door.
  */
 
-const DISTRICT_URL = './EretzDistrictStreamingLaunch.js?compact=true&v=20260820-player-priority-02';
-const ENRICHMENT_URL = './EretzDeferredEnrichmentLaunch.js?compact=true&v=20260820-player-priority-02';
-const DEFAULT_PLAYER_PRIORITY_MILLISECONDS = 1500;
+import { startEretzBootstrapTerrainBridge } from './EretzBootstrapTerrainBridge.js';
+import {
+	destroyedEretzPostPlayableReceipt,
+	eretzDeferredSystemReceipt,
+	loadEretzPostPlayableLaunchers
+} from './EretzPostPlayableLaunchers.js';
+import {
+	eretzPostPlayablePriorityPolicy,
+	waitForCanonicalPlayerWindow
+} from './EretzPostPlayablePriorityClock.js';
+import {
+	resolveEretzPostPlayableWorldPolicy,
+	simpleWorldPostPlayableReceipt
+} from './EretzPostPlayableWorldPolicy.js';
 
+export {
+	eretzPostPlayablePriorityPolicy,
+	waitForCanonicalPlayerWindow
+};
+
+/** Starts the selected world's post-play lane without waiting or importing rich launchers for Simple Meadow. */
 export async function startEretzPostPlayablePriority(context, dependencies = {}) {
-	const { boot, core, environment, options } = context;
+	const { core, environment, options } = context;
 	const runtime = core.runtime;
 	const diagnostics = core.diagnostics;
-	const waitForPlayer = dependencies.waitForPlayer || waitForCanonicalPlayerWindow;
-	const loadLaunchers = dependencies.loadLaunchers || loadPostPlayableLaunchers;
-	diagnostics.deferredSystems = deferredSystemReceipt();
+	const policy = resolveEretzPostPlayableWorldPolicy(options);
+	diagnostics.worldExperience = policy;
+	diagnostics.deferredSystems = eretzDeferredSystemReceipt(policy);
+	const terrainHydration = startEretzBootstrapTerrainBridge(
+		core.foundation,
+		diagnostics
+	);
+	if (runtime.destroyed) {
+		return destroyedEretzPostPlayableReceipt(immediatePriority('runtime-destroyed'));
+	}
+	if (!policy.canonicalPromotion) {
+		diagnostics.postPlayablePriorityStage = 'simple-world-ready';
+		return simpleWorldPostPlayableReceipt(
+			policy,
+			immediatePriority('world-profile-simple'),
+			terrainHydration
+		);
+	}
 	diagnostics.postPlayablePriorityStage = 'waiting-for-canonical-player';
+	const waitForPlayer = dependencies.waitForPlayer
+		|| waitForCanonicalPlayerWindow;
 	const priority = await waitForPlayer(runtime, environment, options);
-	if (runtime.destroyed) return destroyedReceipt(priority);
+	if (runtime.destroyed) {
+		return destroyedEretzPostPlayableReceipt(priority);
+	}
 	diagnostics.postPlayablePriorityStage = 'loading-world-launchers';
+	const loadLaunchers = dependencies.loadLaunchers
+		|| loadEretzPostPlayableLaunchers;
 	const launchers = await loadLaunchers();
 	diagnostics.postPlayablePriorityStage = 'launching-world-streams';
-	const districts = Promise.resolve(launchers.startDistrict(runtime, environment));
-	const enrichment = Promise.resolve(launchers.startDeferred(core, options, boot));
+	const districts = policy.districtStreaming
+		? Promise.resolve(launchers.startDistrict(runtime, environment))
+		: Promise.resolve(Object.freeze({ status: 'disabled-by-world-profile' }));
+	const enrichment = Promise.resolve(
+		launchers.startDeferred(core, options, context.boot)
+	);
 	diagnostics.postPlayablePriorityStage = 'launched';
 	return Object.freeze({
 		districts,
 		enrichment,
+		policy,
 		priority,
-		status: 'launched'
+		status: 'launched',
+		terrainHydration
 	});
 }
 
-export async function waitForCanonicalPlayerWindow(runtime, environment = globalThis, options = {}) {
-	const canonicalPromise = runtime?.canonicalPlayerLaunchPromise
-		|| runtime?.canonicalPlayerPromise;
-	if (!canonicalPromise) {
-		return Object.freeze({ reason: 'no-canonical-promise', waitedMs: 0 });
-	}
-	const policy = eretzPostPlayablePriorityPolicy(options);
-	const started = now(environment);
-	const reason = await Promise.race([
-		Promise.resolve(canonicalPromise).then(
-			() => 'canonical-settled',
-			() => 'canonical-settled'
-		),
-		waitMilliseconds(environment, policy.playerPriorityMilliseconds)
-			.then(() => 'priority-timeout')
-	]);
+/** Builds a zero-wait priority receipt for paths that intentionally require no canonical-player window. */
+function immediatePriority(reason) {
 	return Object.freeze({
 		reason,
-		waitedMs: Math.max(0, now(environment) - started)
-	});
-}
-
-export function eretzPostPlayablePriorityPolicy(options = {}) {
-	return Object.freeze({
-		playerPriorityMilliseconds: Math.max(
-			0,
-			Number(options.playerPriorityMilliseconds ?? DEFAULT_PLAYER_PRIORITY_MILLISECONDS)
-		)
-	});
-}
-
-async function loadPostPlayableLaunchers() {
-	const [districtModule, enrichmentModule] = await Promise.all([
-		import(DISTRICT_URL),
-		import(ENRICHMENT_URL)
-	]);
-	return {
-		startDeferred: enrichmentModule.startProductionEretzDeferredEnrichment,
-		startDistrict: districtModule.startEretzDistrictStreaming
-	};
-}
-
-function waitMilliseconds(environment, milliseconds) {
-	return new Promise(resolve => {
-		const timer = environment?.setTimeout || setTimeout;
-		timer(resolve, milliseconds);
-	});
-}
-
-function now(environment) {
-	return environment?.performance?.now?.() ?? Date.now();
-}
-
-function deferredSystemReceipt() {
-	return Object.freeze({
-		authoredTerrain: 'post-player-priority-streaming',
-		inventoryAndRpg: 'deferred',
-		richActors: 'post-player-priority-streaming',
-		richRenderer: 'deferred',
-		worldDiagnostics: 'bootstrap-and-deferred-stream-receipts'
-	});
-}
-
-function destroyedReceipt(priority) {
-	return Object.freeze({
-		districts: Promise.resolve(null),
-		enrichment: Promise.resolve(null),
-		priority,
-		status: 'destroyed'
+		waitedMs: 0
 	});
 }
