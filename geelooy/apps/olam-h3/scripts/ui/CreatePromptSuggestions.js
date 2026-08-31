@@ -16,13 +16,7 @@ export class CreatePromptSuggestions {
 		audio: 'Natural ambient sound and subtle environmental detail accompany the shot.'
 	});
 
-	/**
-	 * Appends one directing ingredient without duplicating it.
-	 * @param {string} prompt Current prompt.
-	 * @param {string} ingredient Ingredient identifier.
-	 * @param {number} limit Maximum prompt length.
-	 * @returns {string} Prompt containing the editable suggestion.
-	 */
+	/** @param {string} prompt Prompt. @param {string} ingredient Ingredient. @param {number} limit Limit. @returns {string} Enhanced prompt. */
 	static apply(prompt, ingredient, limit) {
 		const suggestion = this.suggestions[ingredient];
 		if (!suggestion) {
