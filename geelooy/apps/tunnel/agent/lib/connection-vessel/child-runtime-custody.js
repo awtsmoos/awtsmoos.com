@@ -3,13 +3,14 @@
 // Blessed is He
 
 const CustodyMetadata = require("./mailbox-custody-metadata.js");
+const Reconnect = require("../runtime/main-reconnect-policy.js");
 
 /**
  * @file Transfers one parent ACK into generation-aware child and parent custody witnesses.
  * @description
  * The Awtsmoos lets one accepted deed remain one deed while crossing process borders.
- * Awtsmoos.com stamps the live connection generation beside request and shliach identity,
- * then renews the parent pulse without burdening the runtime composition root.
+ * Awtsmoos.com stamps the live generation and resets reconnect pressure only when real custody arrives,
+ * so a merely registered but action-dead socket cannot masquerade as a healed connection.
  */
 function createCustody(options = {}) {
 	/**
@@ -24,6 +25,7 @@ function createCustody(options = {}) {
 			options.state.generation
 		);
 		options.mailbox.noteParentCustody(receiptId, metadata);
+		Reconnect.markAccepted(options.state);
 		return options.parent.noteCustody(receiptId);
 	}
 

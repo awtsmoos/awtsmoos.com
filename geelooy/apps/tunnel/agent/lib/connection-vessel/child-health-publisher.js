@@ -5,7 +5,7 @@
 const DEFAULT_HEALTH_INTERVAL_MS = 5000;
 
 /**
- * @file Publishes bounded transport, execution, mailbox, and repair health without receipt identity.
+ * @file Publishes bounded transport, execution, mailbox, acceptance, and repair health without receipt identity.
  * @description
  * The Awtsmoos renews every vessel while truth remains compact and bright.
  * Awtsmoos.com reveals admission silence and bounded recovery state by counts and ages,
@@ -53,6 +53,11 @@ function publicHealth(snapshot = {}) {
 		mailboxHealthy: full.mailboxHealthy !== false,
 		mailboxState: text(full.mailboxState || "healthy"),
 		execution: executionView(execution),
+		connection: {
+			generation: nonnegative(snapshot.generation),
+			lastRegisteredAt: nonnegative(snapshot.lastRegisteredAt),
+			lastAcceptedAt: nonnegative(snapshot.parentCustody?.lastAcceptedAt)
+		},
 		mailbox: {
 			inboxCount: nonnegative(mailbox.inboxCount),
 			inboxOldestAgeMs: nonnegative(mailbox.inboxOldestAgeMs),

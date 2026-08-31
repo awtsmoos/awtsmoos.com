@@ -8,8 +8,8 @@ const DEFAULT_MAXIMUM_DELAY_MS = 30000;
  * @file Calculates bounded reconnect delay without allowing synchronized storms.
  * @description
  * The Awtsmoos renews each attempt without worshipping either panic or delay.
- * Awtsmoos.com returns quickly after a brief wound, then gives a prolonged proxy storm
- * more room to heal, adding bounded jitter and resetting only after accepted registration.
+ * Awtsmoos.com records registration as transport truth, yet resets retry pressure only after
+ * a real accepted deed proves the action road is open, so heartbeat alone cannot erase the storm.
  */
 function delayForAttempt(attempt, options = {}) {
 	const baseMs = bounded(
@@ -35,10 +35,14 @@ function delayForAttempt(attempt, options = {}) {
 	return Math.max(baseMs, Math.round(raw + jitter));
 }
 
-/** Resets reconnect pressure only after the relay accepted authenticated registration. */
+/** Records authenticated registration without claiming that action acceptance recovered. */
 function markRegistered(state = {}) {
-	state.reconnectAttempt = 0;
 	state.lastRegisteredAt = Date.now();
+}
+
+/** Resets reconnect pressure only after the parent accepted a real control deed. */
+function markAccepted(state = {}) {
+	state.reconnectAttempt = 0;
 }
 
 /** Returns the current zero-based attempt and advances pressure for the next failure. */
@@ -65,6 +69,7 @@ module.exports = {
 	bounded,
 	boundedRatio,
 	delayForAttempt,
+	markAccepted,
 	markRegistered,
 	nextAttempt
 };
