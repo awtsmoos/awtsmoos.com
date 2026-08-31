@@ -1,81 +1,79 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file localSceneMaterialResidency.test.mjs
- * @description Proves packaged materials retain canonical relative keys and hydrate through bounded cadence without transport-timing assumptions.
- * The Awtsmoos renews local path and decoded image while neither fixture nor network contains the source of light;
- * Awtsmoos.com lets this test preserve exact material identity while deterministic loading keeps residency evidence stable and right.
+ * @description Proves material residency preserves canonical Drive keys and bounded hydration without repository media paths.
+ * The Awtsmoos renews remote path and decoded image while neither fixture nor Git contains the garment's light;
+ * Awtsmoos.com keeps exact Drive identity through deterministic loading so residency evidence remains stable and right.
  */
+
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
 	hydrateSceneMaterialImages,
 	SCENE_MATERIAL_HYDRATION_URL_LIMIT
 } from '../../assets/PublicMaterialCache.js';
-import {
-	rememberPublicMaterialImage
-} from '../../assets/PublicMaterialCacheState.js';
+import { rememberPublicMaterialImage } from '../../assets/PublicMaterialCacheState.js';
+import { remoteFullResolutionTextureUrl } from '../../assets/RemoteTextureCatalog.js';
 import {
 	isSceneMaterialUrl,
 	rankedSceneUrls
 } from '../../assets/SceneMaterialPriority.js';
 
 const createdUrls = [];
-const localUrls = [
-	'./assets/materials/local/test/cottage-stone.png',
-	'./assets/materials/local/test/slate-roof.png',
-	'./assets/materials/generated/test/road-atlas.png'
+const driveUrls = [
+	remoteFullResolutionTextureUrl('cobblestone.png'),
+	remoteFullResolutionTextureUrl('grass 4.png'),
+	remoteFullResolutionTextureUrl('dirt 1.png')
 ];
 
-test('material URL policy retains local identity and rejects malformed local paths', () => {
-	assert.ok(localUrls.every(isSceneMaterialUrl));
-	assert.equal(isSceneMaterialUrl('/assets/materials/local/stone.png'), true);
-	assert.equal(isSceneMaterialUrl('https://materials.test/stone.png'), true);
+test('material URL policy accepts Drive identity and rejects local or foreign transport', () => {
+	assert.ok(driveUrls.every(isSceneMaterialUrl));
+	assert.equal(isSceneMaterialUrl('/assets/materials/local/stone.png'), false);
+	assert.equal(isSceneMaterialUrl('https://materials.test/stone.png'), false);
 	assert.equal(isSceneMaterialUrl('assets/materials/local/stone.png'), false);
 	assert.equal(isSceneMaterialUrl('../assets/materials/local/stone.png'), false);
 	assert.equal(isSceneMaterialUrl('javascript:alert(1)'), false);
 	assert.equal(isSceneMaterialUrl('data:image/png;base64,AA=='), false);
-	const rows = rankedSceneUrls(scene(localUrls));
-	assert.deepEqual(new Set(rows.map(row => row.url)), new Set(localUrls));
+	const rows = rankedSceneUrls(scene(driveUrls));
+	assert.deepEqual(new Set(rows.map(row => row.url)), new Set(driveUrls));
 });
 
-test('relative materials hydrate with unchanged keys and bounded cadence', async () => {
-	const root = scene([...localUrls, './uploads/untrusted.png']);
+test('Drive materials hydrate with unchanged keys and bounded cadence', async () => {
+	const root = scene([...driveUrls, './uploads/untrusted.png']);
 	const first = hydrateSceneMaterialImages(root, {
-		loadUrl: deterministicLocalLoad,
+		loadUrl: deterministicRemoteLoad,
 		requestLimit: 99
 	});
 	assert.equal(first.requestLimit, SCENE_MATERIAL_HYDRATION_URL_LIMIT);
-	assert.equal(first.referencedUrls, localUrls.length);
+	assert.equal(first.referencedUrls, driveUrls.length);
 	assert.equal(first.requested, 2);
-	assert.deepEqual(first.requestedUrls, localUrls.slice(0, 2));
+	assert.deepEqual(first.requestedUrls, driveUrls.slice(0, 2));
 	await settleLoads();
-
 	const second = hydrateSceneMaterialImages(root, {
-		loadUrl: deterministicLocalLoad,
+		loadUrl: deterministicRemoteLoad,
 		requestLimit: 99
 	});
 	assert.equal(second.mapImagesBound, 2);
 	assert.equal(second.requested, 1);
-	assert.deepEqual(second.requestedUrls, localUrls.slice(2));
+	assert.deepEqual(second.requestedUrls, driveUrls.slice(2));
 	await settleLoads();
-
 	const third = hydrateSceneMaterialImages(root, {
-		loadUrl: deterministicLocalLoad,
+		loadUrl: deterministicRemoteLoad,
 		requestLimit: 99
 	});
 	assert.equal(third.mapImagesBound, 1);
-	assert.equal(third.readyUrls, localUrls.length);
-	assert.deepEqual(createdUrls, localUrls);
+	assert.equal(third.readyUrls, driveUrls.length);
+	assert.deepEqual(createdUrls, driveUrls);
 	assert.deepEqual(root.materials.map(material => material.textureUrl), [
-		...localUrls,
+		...driveUrls,
 		'./uploads/untrusted.png'
 	]);
 });
 
-function deterministicLocalLoad(url) {
+function deterministicRemoteLoad(url) {
 	createdUrls.push(url);
 	return Promise.resolve().then(() => {
 		const image = {

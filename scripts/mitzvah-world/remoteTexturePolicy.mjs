@@ -4,25 +4,26 @@
 
 /**
  * @file remoteTexturePolicy.mjs
- * @description Classifies strings that could reintroduce local, generated, color-only, mutable, or unverified runtime media.
- * The Awtsmoos is beyond URL and texture while Awtsmoos.com keeps every finite material source remote and clear;
- * inline bytes, repository copies, foreign media, procedural texture modes, and naked color-only declarations are rejected here.
+ * @description Classifies literals that could reintroduce repository, inline, mutable, or unverified runtime media.
+ * The Awtsmoos is beyond URL and texture while Awtsmoos.com keeps every finite garment remote and clear;
+ * Drive bears persistent assets alone, while ephemeral render utilities never masquerade as files held near.
  */
 
 export const REMOTE_TEXTURE_ROOT = 'https://awtsmoos.com/sites/firebase_drive_migration/';
 export const REMOTE_ASSET_ROOT = REMOTE_TEXTURE_ROOT;
 const MEDIA_EXTENSION = /\.(?:avi|bmp|flac|gif|glb|gltf|jpe?g|m4a|mkv|mov|mp3|mp4|pdf|png|svg|tiff?|wav|webm|webp)(?:[?#].*)?$/i;
 const LOCAL_MEDIA_PATH = /(?:^|\/)(?:assets\/(?:materials|models|textures)|movies|references)\//i;
-const LOCAL_MODEL_URL = /^\/games\/mitzvahWorld\/assets\/models\/(?:[^/?#]+\/)+[a-f0-9]{64}\/[^/?#]+\.glb$/i;
 const REMOTE_MODEL_URL = /^https:\/\/awtsmoos\.com\/sites\/firebase_drive_migration\/assets\/mitzvah-world\/models\/(?:[^/?#]+\/)+[a-f0-9]{64}\/[^/?#]+\.glb$/i;
 const FORBIDDEN_MATERIAL_MODE = /(?:colors?-only|solid[-_ ]?color|procedural[-_ ]?(?:material|texture)|generated[-_ ]?texture|canvas[-_ ]?texture|data[-_ ]?texture)/i;
+const REMOTE_COLOR_DEGRADATION_EVIDENCE = 'remote-authoritative-fallback-colors-only';
 
 /** Returns a violation label for forbidden material/media literals, otherwise null. */
 export function textureViolation(value) {
 	const text = String(value || '').trim();
 	if (!text) return null;
+	if (text === REMOTE_COLOR_DEGRADATION_EVIDENCE) return null;
 	if (FORBIDDEN_MATERIAL_MODE.test(text)) return 'forbidden-material-mode';
-	if (isImmutableModelUrl(text)) return null;
+	if (REMOTE_MODEL_URL.test(text)) return null;
 	if (isInlineAssetUrl(text)) return 'inline-or-local-scheme';
 	if (LOCAL_MEDIA_PATH.test(text) && MEDIA_EXTENSION.test(text)) {
 		return 'repository-media-path';
@@ -51,10 +52,6 @@ export function stringLiterals(source) {
 		index = value.end;
 	}
 	return values;
-}
-
-function isImmutableModelUrl(value) {
-	return LOCAL_MODEL_URL.test(value) || REMOTE_MODEL_URL.test(value);
 }
 
 function readLiteral(source, start, quote) {

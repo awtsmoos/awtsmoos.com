@@ -5,11 +5,11 @@
 const DEFAULT_HEALTH_STALE_MS = 20000;
 
 /**
- * @file Accepts bounded execution-health testimony from an authenticated tunnel.
+ * @file Accepts bounded execution and acceptance-health testimony from an authenticated tunnel.
  * @description
- * The Awtsmoos lets a socket remain transport-alive while its executor speaks a
- * different truth. Awtsmoos.com stores only bounded health facts on the registered
- * client, leaving identity, credentials, roots, and private worker details unseen.
+ * The Awtsmoos lets a socket remain transport-alive while execution and acceptance speak distinct truth.
+ * Awtsmoos.com stores only bounded timestamps and generation facts, never request identity or private payload,
+ * so a recovered deed can illuminate readiness while a mere heartbeat cannot falsely proclaim the route whole.
  */
 function handleTunnelHealth(_context, client, data = {}) {
 	if (!client?.registrationKey || !client?.tunnelId) return false;
@@ -20,16 +20,28 @@ function handleTunnelHealth(_context, client, data = {}) {
 	client.executionHealthState = health.executionState;
 	client.executionHealthAt = observedAt;
 	client.executionHealth = health;
+	client.nativeConnectionGeneration = health.connection.generation;
+	client.nativeLastRegisteredAt = health.connection.lastRegisteredAt;
+	if (health.connection.lastAcceptedAt > 0) {
+		markAcceptanceHealthy(client, health.connection.lastAcceptedAt);
+	}
 	return true;
 }
 
-/**
- * Bounds the self-reported shape before it can influence public route state.
- * @param {object} value Health payload from the native connection child.
- * @returns {object} Safe execution-health facts.
- */
+/** Stores a positive acceptance witness without inventing failure from silence. */
+function markAcceptanceHealthy(client, acceptedAt) {
+	client.acceptanceHealthSupported = true;
+	client.acceptanceHealthy = true;
+	client.acceptanceHealthState = "healthy";
+	client.acceptanceHealthAt = acceptedAt;
+	client.acceptanceSuccessAt = acceptedAt;
+	client.lastAcceptedAt = acceptedAt;
+}
+
+/** Bounds self-reported testimony before it can influence public route state. */
 function normalize(value = {}) {
 	const execution = value.execution || {};
+	const connection = value.connection || {};
 	return {
 		healthy: value.healthy === true,
 		state: text(value.state),
@@ -41,7 +53,12 @@ function normalize(value = {}) {
 		repairing: execution.repairing === true,
 		parentAgeMs: nonnegative(execution.parentAgeMs),
 		acceptedAgeMs: nonnegative(execution.acceptedAgeMs),
-		unresolved: nonnegative(execution.unresolved)
+		unresolved: nonnegative(execution.unresolved),
+		connection: {
+			generation: nonnegative(connection.generation),
+			lastRegisteredAt: nonnegative(connection.lastRegisteredAt),
+			lastAcceptedAt: nonnegative(connection.lastAcceptedAt)
+		}
 	};
 }
 
@@ -64,5 +81,6 @@ module.exports = {
 	DEFAULT_HEALTH_STALE_MS,
 	handleTunnelHealth,
 	isFresh,
+	markAcceptanceHealthy,
 	normalize
 };

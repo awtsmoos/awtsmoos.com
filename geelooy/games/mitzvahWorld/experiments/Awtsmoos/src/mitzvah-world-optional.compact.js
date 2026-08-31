@@ -3387,84 +3387,82 @@ const __awtsmoosModule_0 = Object.create(null);
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteModelCatalog.js ----
 {
 	const __exports = __awtsmoosModule_36;
-	// B"H
+	//B"H
 	// Boruch Hashem
 	// Blessed is He
 
 	/**
 	 * @file RemoteModelCatalog.js
-	 * @description Resolves immutable GLBs from the local vessel on localhost and the published mirror on remote hosts.
-	 * The Awtsmoos creates local truth and public revelation without mixing their addresses;
-	 * Awtsmoos.com keeps every content hash identical while each runtime drinks from the source appointed to its host.
+	 * @description Resolves immutable model identities exclusively to content-addressed Awtsmoos Drive URLs.
+	 * The Awtsmoos gives each heavy garment one measured remote vessel, never a hidden repository disguise;
+	 * Awtsmoos.com keeps localhost and production beneath one Drive covenant, so tests and living browsers see with equal eyes.
 	 */
 
 	const REMOTE_MODEL_RECORDS = __awtsmoosModule_37.REMOTE_MODEL_RECORDS;
 
-	const LOCAL_MODEL_ROOT = '/games/mitzvahWorld/assets/models/';
-
-	__exports.LOCAL_MODEL_ROOT = LOCAL_MODEL_ROOT;
 	const REMOTE_MODEL_ROOT = 'https://awtsmoos.com/sites/firebase_drive_migration/assets/mitzvah-world/models/';
 
 
 	__exports.REMOTE_MODEL_ROOT = REMOTE_MODEL_ROOT;
-	function remoteModelRecord(relativePath, locationLike = globalThis.location) {
+	/**
+	 * @description Resolves one semantic model identity into its immutable remote Drive record.
+	 * @param {string} relativePath Semantic identity such as `player/chossid.glb`.
+	 * @param {object|null} [_locationLike=globalThis.location] Ignored compatibility argument; model authority is always remote.
+	 * @returns {Readonly<object>} Content-addressed model record whose only candidate is the Drive URL.
+	 */
+	function remoteModelRecord(relativePath, _locationLike = globalThis.location) {
 		const modelPath = normalizeModelPath(relativePath);
 		const record = REMOTE_MODEL_RECORDS[modelPath];
 		if (!record) throw new Error(`Unknown model identity: ${relativePath}`);
 		const segments = modelPath.split('/');
 		const filename = segments.at(-1);
 		const folder = segments.slice(0, -1).join('/');
-		const hashedPath = `${folder}/${record.sha256}/${filename}`;
-		const localUrl = `${LOCAL_MODEL_ROOT}${encodePath(hashedPath)}`;
+		const hashedPath = [folder, record.sha256, filename].filter(Boolean).join('/');
 		const remoteUrl = `${REMOTE_MODEL_ROOT}${encodePath(hashedPath)}`;
-		const source = modelSourceMode(locationLike);
-		const candidates = source === 'remote' ? [remoteUrl] : [localUrl, remoteUrl];
 		return Object.freeze({
 			...record,
-			candidates: Object.freeze(candidates),
+			candidates: Object.freeze([remoteUrl]),
 			drivePath: `assets/mitzvah-world/models/${hashedPath}`,
 			filename,
-			localUrl,
 			path: modelPath,
 			remoteUrl,
-			source,
-			url: source === 'remote' ? remoteUrl : localUrl
+			source: 'remote',
+			url: remoteUrl
 		});
 	}
 
 
 	__exports.remoteModelRecord = remoteModelRecord;
-	function remoteModelUrl(relativePath, locationLike = globalThis.location) {
-		return remoteModelRecord(relativePath, locationLike).url;
+	/** @returns {string} Immutable Drive URL for one semantic model identity. */
+	function remoteModelUrl(relativePath, _locationLike = globalThis.location) {
+		return remoteModelRecord(relativePath, _locationLike).remoteUrl;
 	}
 
 
 	__exports.remoteModelUrl = remoteModelUrl;
-	function modelUrlCandidates(value, locationLike = globalThis.location) {
-		const candidate = String(value || '');
-		const identity = Object.keys(REMOTE_MODEL_RECORDS).find(path => {
-			const record = remoteModelRecord(path, null);
-			return record.localUrl === candidate || record.remoteUrl === candidate;
-		});
-		return identity ? remoteModelRecord(identity, locationLike).candidates.slice() : [];
+	/** @returns {string[]} The sole trusted remote candidate for a known identity or URL. */
+	function modelUrlCandidates(value, _locationLike = globalThis.location) {
+		const candidate = String(value || '').trim();
+		const identity = REMOTE_MODEL_RECORDS[candidate]
+			? candidate
+			: Object.keys(REMOTE_MODEL_RECORDS).find(path => remoteModelRecord(path).remoteUrl === candidate);
+		return identity ? [remoteModelRecord(identity).remoteUrl] : [];
 	}
 
 
 	__exports.modelUrlCandidates = modelUrlCandidates;
-	function modelSourceMode(locationLike = globalThis.location) {
-		const hostname = String(locationLike?.hostname || '').toLowerCase();
-		if (!hostname) return 'local';
-		return isLocalHostname(hostname) ? 'local' : 'remote';
+	/** @returns {'remote'} Model authority is Drive on every host, including localhost. */
+	function modelSourceMode() {
+		return 'remote';
 	}
 
 
 	__exports.modelSourceMode = modelSourceMode;
+	/** @returns {boolean} True only for an exact immutable URL recorded in the Drive catalog. */
 	function isTrustedModelUrl(value) {
 		const candidate = String(value || '').trim();
 		if (!candidate || candidate.includes('?') || candidate.includes('#')) return false;
-		return catalogRecords().some(record =>
-			record.localUrl === candidate || record.remoteUrl === candidate
-		);
+		return catalogRecords().some(record => record.remoteUrl === candidate);
 	}
 
 
@@ -3473,40 +3471,30 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.isTrustedRemoteModelUrl = isTrustedRemoteModelUrl;
+	/** @returns {Readonly<object>} Auditable catalog totals and remote-only policy evidence. */
 	function remoteModelCatalogEvidence() {
 		const records = Object.values(REMOTE_MODEL_RECORDS);
 		return Object.freeze({
 			bytes: records.reduce((sum, record) => sum + record.bytes, 0),
 			models: records.length,
-			policy: 'host-aware-local-authoritative-remote-published',
+			policy: 'drive-authoritative-remote-only',
 			remoteRoot: REMOTE_MODEL_ROOT,
-			root: LOCAL_MODEL_ROOT
+			root: REMOTE_MODEL_ROOT
 		});
 	}
 
 
 	__exports.remoteModelCatalogEvidence = remoteModelCatalogEvidence;
 	function catalogRecords() {
-		return Object.keys(REMOTE_MODEL_RECORDS).map(path => remoteModelRecord(path, null));
-	}
-
-	function isLocalHostname(hostname) {
-		return hostname === 'localhost'
-			|| hostname === '127.0.0.1'
-			|| hostname === '0.0.0.0'
-			|| hostname === '[::1]'
-			|| hostname.endsWith('.localhost');
+		return Object.keys(REMOTE_MODEL_RECORDS).map(path => remoteModelRecord(path));
 	}
 
 	function normalizeModelPath(value) {
-		const modelPath = String(value || '').trim().replace(/^\/+/, '').replace(/\\/g, '/');
-		const invalid = modelPath.split('/').some(segment => !segment || segment === '.' || segment === '..');
-		if (!modelPath || !modelPath.endsWith('.glb') || invalid) throw new Error(`Invalid model identity: ${value}`);
-		return modelPath;
+		return String(value || '').replace(/^\/+/, '').replace(/\\/g, '/');
 	}
 
 	function encodePath(value) {
-		return value.split('/').map(encodeURIComponent).join('/');
+		return value.split('/').map(segment => encodeURIComponent(segment)).join('/');
 	}
 
 }
@@ -17445,19 +17433,18 @@ const __awtsmoosModule_0 = Object.create(null);
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/SceneMaterialPriority.js ----
 {
 	const __exports = __awtsmoosModule_234;
-	// B"H
+	//B"H
 	// Boruch Hashem
 	// Blessed is He
 
 	/**
 	 * @file SceneMaterialPriority.js
-	 * @description Ranks shared visible material URLs by human-visible village value.
-	 * The Awtsmoos clothes homes before polishing distant detail; Awtsmoos.com preserves
-	 * canonical same-origin keys while bounding hydration to trusted material-pack paths.
+	 * @description Ranks shared visible material URLs while accepting only canonical Awtsmoos Drive texture transport.
+	 * The Awtsmoos clothes homes before polishing distant detail, yet no repository garment may pretend to be the spring;
+	 * Awtsmoos.com lets one trusted Drive boundary feed every ranked material the hydration cadence may bring.
 	 */
 
-	const LOCAL_MATERIAL_URL = /^(?:\.\/|\/)(?:assets\/materials\/(?:local|generated)\/|geelooy\/games\/mitzvahworld\/assets\/materials\/(?:local|generated)\/)/i;
-	const NETWORK_MATERIAL_URL = /^https?:\/\//i;
+	const isTrustedAwtsmoosMaterialUrl = __awtsmoosModule_133.isTrustedAwtsmoosMaterialUrl;
 
 	function rankedSceneUrls(root) {
 		const records = new Map();
@@ -17469,10 +17456,9 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.rankedSceneUrls = rankedSceneUrls;
-	/** Returns true for an existing network URL or a packaged same-origin material URL. */
+	/** Returns true only for a canonical remote Awtsmoos Drive material URL. */
 	function isSceneMaterialUrl(url) {
-		const value = String(url || '').trim();
-		return NETWORK_MATERIAL_URL.test(value) || LOCAL_MATERIAL_URL.test(value);
+		return isTrustedAwtsmoosMaterialUrl(url);
 	}
 
 

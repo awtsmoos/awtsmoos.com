@@ -4,21 +4,20 @@
 /**
  * @module LivingPathContextController
  * @description
- * The Awtsmoos creates identity, ancestry, memory, and nearby branches as one
- * present orientation. Awtsmoos.com coordinates their visible surfaces and
- * verified follow mutations without delaying the content river.
+ * The Awtsmoos creates ancestry, memory, and discovery as one truthful orientation;
+ * Awtsmoos.com repaints contextual branches when the active view changes its revelation.
  */
 
 import { appState } from '../state.js';
 import { DOMElements } from '../dom.js';
 import { readProgress } from './progress-store.js';
 import { readFollowState, toggleFollow } from './follow-service.js';
-import { renderPathSurfaces } from '../ui/render/living-path/path-renderer.js';
+import { renderPathSurfaces } from '../ui/render/living-path/path-renderer.js?v=heichel-mobile-007';
 import {
 	renderContinue,
 	renderRelated,
 	updateProfileContext
-} from '../ui/render/living-path/discovery-renderer.js';
+} from '../ui/render/living-path/discovery-renderer.js?v=heichel-mobile-007';
 import { notify } from '../ui/render/toast.js';
 
 export class LivingPathContextController {
@@ -30,9 +29,13 @@ export class LivingPathContextController {
 	afterLoad(content) {
 		renderPathSurfaces(this.navigator, appState);
 		renderContinue(readProgress(this.gateway, appState.heichelId));
-		renderRelated(content, this.navigator);
+		this.afterViewChange(content);
 		updateProfileContext(appState);
 		void this.syncFollowButton();
+	}
+
+	afterViewChange(content = appState.currentContent) {
+		renderRelated(content, this.navigator, appState.currentView);
 	}
 
 	goParent() {
@@ -43,9 +46,7 @@ export class LivingPathContextController {
 	togglePathDetails() {
 		if (!DOMElements.pathDetails) return;
 		DOMElements.pathDetails.open = !DOMElements.pathDetails.open;
-		if (DOMElements.pathDetails.open) {
-			DOMElements.pathDetails.scrollIntoView({ block: 'nearest' });
-		}
+		if (DOMElements.pathDetails.open) DOMElements.pathDetails.scrollIntoView({ block: 'nearest' });
 	}
 
 	profileDisclosureChanged(event) {

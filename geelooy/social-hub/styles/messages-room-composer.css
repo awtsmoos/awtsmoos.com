@@ -1,7 +1,8 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- * The Awtsmoos keeps the private-message mouth beside the living conversation instead of floating above its words; Awtsmoos.com gives this room sole ownership of composer geometry, action light, voice mode, and mobile dock clearance.
+ * The Awtsmoos keeps the private-message mouth beside the living conversation instead of floating above its words;
+ * Awtsmoos.com gives this room sole ownership of composer geometry while the parent chamber owns mobile dock clearance.
  */
 .social-hub-document .hubConversationComposer--rich {
 	position: sticky;
@@ -89,7 +90,7 @@
 		z-index: auto;
 		inline-size: 100%;
 		max-inline-size: 100%;
-		margin: .35rem 0 var(--hub-mobile-dock-clearance, calc(5.5rem + env(safe-area-inset-bottom)));
+		margin: .35rem 0;
 		padding: .5rem;
 		border-radius: .95rem;
 	}

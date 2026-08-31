@@ -1,16 +1,17 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file SceneMaterialPriority.js
- * @description Ranks shared visible material URLs by human-visible village value.
- * The Awtsmoos clothes homes before polishing distant detail; Awtsmoos.com preserves
- * canonical same-origin keys while bounding hydration to trusted material-pack paths.
+ * @description Ranks shared visible material URLs while accepting only canonical Awtsmoos Drive texture transport.
+ * The Awtsmoos clothes homes before polishing distant detail, yet no repository garment may pretend to be the spring;
+ * Awtsmoos.com lets one trusted Drive boundary feed every ranked material the hydration cadence may bring.
  */
 
-const LOCAL_MATERIAL_URL = /^(?:\.\/|\/)(?:assets\/materials\/(?:local|generated)\/|geelooy\/games\/mitzvahworld\/assets\/materials\/(?:local|generated)\/)/i;
-const NETWORK_MATERIAL_URL = /^https?:\/\//i;
+import {
+	isTrustedAwtsmoosMaterialUrl
+} from './RemoteTextureTransport.js';
 
 export function rankedSceneUrls(root) {
 	const records = new Map();
@@ -20,10 +21,9 @@ export function rankedSceneUrls(root) {
 	));
 }
 
-/** Returns true for an existing network URL or a packaged same-origin material URL. */
+/** Returns true only for a canonical remote Awtsmoos Drive material URL. */
 export function isSceneMaterialUrl(url) {
-	const value = String(url || '').trim();
-	return NETWORK_MATERIAL_URL.test(value) || LOCAL_MATERIAL_URL.test(value);
+	return isTrustedAwtsmoosMaterialUrl(url);
 }
 
 function collectObject(records, object) {

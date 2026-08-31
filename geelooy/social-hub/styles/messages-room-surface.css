@@ -2,33 +2,45 @@
  * Boruch Hashem
  * Blessed is He
  *
- * The Awtsmoos gives one private room a bounded surface before message, reply, or voice can enter it;
- * Awtsmoos.com keeps room geometry local and renderer-neutral to the neighboring Social panels.
+ * The Awtsmoos gives one private room a measured vessel where header, history, and reply can meet;
+ * Awtsmoos.com subtracts the mobile dock from the chamber itself, so the composer never hides beneath the user's feet.
  */
 .social-hub-document .hubMessagesRoomMount {
-	min-width: 0;
-	min-height: min(72dvh, 54rem);
+	min-inline-size: 0;
+	min-block-size: min(72dvh, 54rem);
 }
 
 .social-hub-document .hubConversationSurface {
 	display: grid;
 	grid-template-rows: auto auto auto minmax(12rem, 1fr) auto;
 	gap: .65rem;
-	min-width: 0;
-	min-height: min(72dvh, 54rem);
+	min-inline-size: 0;
+	min-block-size: min(72dvh, 54rem);
 }
 
 .social-hub-document .hubConversationControls {
 	display: flex;
 	justify-content: center;
-	min-height: 44px;
+	min-block-size: 44px;
 }
 
 @media (max-width: 42rem) {
-	.social-hub-document :is(
-		.hubMessagesRoomMount,
-		.hubConversationSurface
-	) {
-		min-height: calc(100dvh - 10.6rem - env(safe-area-inset-bottom));
+	.social-hub-document .hubMessagesRoomMount {
+		min-block-size: 0;
+	}
+
+	.social-hub-document .hubConversationSurface {
+		grid-template-rows: auto auto auto minmax(8rem, 1fr) auto;
+		block-size: calc(
+			100dvh
+			- 10.6rem
+			- var(--hub-mobile-dock-clearance, calc(5.5rem + env(safe-area-inset-bottom)))
+		);
+		min-block-size: 0;
+		max-block-size: calc(
+			100dvh
+			- 10.6rem
+			- var(--hub-mobile-dock-clearance, calc(5.5rem + env(safe-area-inset-bottom)))
+		);
 	}
 }

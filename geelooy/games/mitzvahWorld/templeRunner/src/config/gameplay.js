@@ -1,11 +1,12 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
  * @file gameplay.js
- * @description Canonical geometry, speed, forgiving child-readable motion, collision, and turn laws for Temple Runner.
- * The Awtsmoos renews each measured lane and leap before the runner can choose a way;
- * Awtsmoos.com lets Gevurah keep challenge clear while Chesed widens the honest window in which a child's swipe becomes play.
+ * @description Holds only Temple Runner movement, collision, lane, world, and turning measures.
+ * The Awtsmoos renews every measured step while heavy garments dwell beyond Git's finite shore;
+ * Awtsmoos.com keeps gameplay numbers pure, so Drive alone may carry model bytes evermore.
  */
 
 export const OROS_LANES = Object.freeze([-3.1, 0, 3.1]);
@@ -64,8 +65,4 @@ export const TURN_CONFIG = Object.freeze({
 	branchWidth: 10.8,
 	sweepSeconds: 0.52,
 	promptDistance: 42
-});
-
-export const ASSET_PATHS = Object.freeze({
-	chossid: "../assets/models/player/d86fd3289c3d12ac566fe8aa7bed37244e352043ee821a0c43b47055ce8ebe48/chossid.glb"
 });

@@ -4,17 +4,17 @@
 /**
  * @module BrowserHarness
  * @description
- * The Awtsmoos gives every browser test its own page-vessel so parallel journeys never steal one another's road;
- * Awtsmoos.com disables stale cache inside that vessel, letting current source be the only garment tests may load.
+ * The Awtsmoos gives every browser test its own context-world so origin memory cannot trespass across the road;
+ * Awtsmoos.com disables stale cache and disposes the whole temporary world before the next witness bears its load.
  */
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
 import { writeFile } from 'node:fs/promises';
 import { CdpClient } from './CdpClient.mjs';
+import { closeHarnessResources } from './BrowserHarnessCleanup.mjs';
 
 const CHROME_DEBUG_ORIGIN = 'http://127.0.0.1:9222';
 
-/** @param {string} origin Local Geelooy origin. @returns {Promise<void>} */
 async function waitForServer(origin) {
 	for (let attempt = 0; attempt < 50; attempt += 1) {
 		try {
@@ -28,29 +28,44 @@ async function waitForServer(origin) {
 	throw new Error('Local Geelooy server did not start.');
 }
 
-/** @returns {Promise<Object>} A fresh Chrome page target owned by this harness. */
-async function createChromeTarget() {
-	const response = await fetch(`${CHROME_DEBUG_ORIGIN}/json/new?about:blank`, { method: 'PUT' });
-	assert.ok(response.ok, `Chrome target creation failed with ${response.status}`);
-	const target = await response.json();
-	assert.ok(target?.webSocketDebuggerUrl, 'Fresh Chrome debugging target must exist');
-	return target;
+async function browserConnection() {
+	const response = await fetch(`${CHROME_DEBUG_ORIGIN}/json/version`);
+	assert.ok(response.ok, `Chrome version probe failed with ${response.status}`);
+	const version = await response.json();
+	assert.ok(version.webSocketDebuggerUrl, 'Chrome browser WebSocket must exist');
+	return version.webSocketDebuggerUrl;
 }
 
-/** @returns {Promise<{client:CdpClient,targetId:string}>} Isolated, cache-fresh CDP vessel. */
-async function openChromeClient() {
-	const target = await createChromeTarget();
+async function waitForTarget(targetId) {
+	for (let attempt = 0; attempt < 40; attempt += 1) {
+		const targets = await (await fetch(`${CHROME_DEBUG_ORIGIN}/json`)).json();
+		const target = targets.find(candidate => candidate.id === targetId);
+		if (target?.webSocketDebuggerUrl) return target;
+		await new Promise(resolve => setTimeout(resolve, 25));
+	}
+	throw new Error(`Chrome target ${targetId} did not expose a debugger socket.`);
+}
+
+async function openIsolatedChromeClient() {
+	const browserWebSocketUrl = await browserConnection();
+	const browser = new CdpClient(browserWebSocketUrl);
+	await browser.connect();
+	const { browserContextId } = await browser.send('Target.createBrowserContext');
+	const { targetId } = await browser.send('Target.createTarget', {
+		url: 'about:blank',
+		browserContextId
+	});
+	browser.close();
+	const target = await waitForTarget(targetId);
 	const client = new CdpClient(target.webSocketDebuggerUrl);
 	await client.connect();
-	await client.send('Page.enable');
-	await client.send('Runtime.enable');
-	await client.send('Log.enable');
-	await client.send('Network.enable');
+	for (const method of ['Page.enable', 'Runtime.enable', 'Log.enable', 'Network.enable']) {
+		await client.send(method);
+	}
 	await client.send('Network.setCacheDisabled', { cacheDisabled: true });
-	return { client, targetId: target.id };
+	return { client, browserContextId, browserWebSocketUrl };
 }
 
-/** @param {Object} event Runtime exception event. @returns {Object} Normalized failure. */
 function describeException(event) {
 	const details = event.exceptionDetails || {};
 	return {
@@ -62,7 +77,6 @@ function describeException(event) {
 	};
 }
 
-/** @param {Object} event Browser log event. @returns {Object} Normalized failure. */
 function describeLog(event) {
 	const entry = event.entry || {};
 	return {
@@ -73,38 +87,33 @@ function describeLog(event) {
 	};
 }
 
-/**
- * Creates a real-browser harness with isolated target ownership, error collection, and deterministic server cleanup.
- * @param {{directory:string,port:number}} options Geelooy directory and local port.
- * @returns {Promise<Object>} Browser test utilities.
- */
 export async function createBrowserHarness(options) {
 	const origin = `http://127.0.0.1:${options.port}`;
-	const server = spawn('python3', ['-m', 'http.server', String(options.port), '--bind', '127.0.0.1', '--directory', options.directory], { stdio: 'ignore' });
+	const server = spawn('python3', [
+		'-m', 'http.server', String(options.port), '--bind', '127.0.0.1', '--directory', options.directory
+	], { stdio: 'ignore' });
 	await waitForServer(origin);
-	const { client, targetId } = await openChromeClient();
+	const chrome = await openIsolatedChromeClient();
 	const errors = [];
-	client.on('Runtime.exceptionThrown', event => errors.push(describeException(event)));
-	client.on('Log.entryAdded', event => {
+	chrome.client.on('Runtime.exceptionThrown', event => errors.push(describeException(event)));
+	chrome.client.on('Log.entryAdded', event => {
 		if (event.entry?.level === 'error') errors.push(describeLog(event));
 	});
 	return {
-		client,
+		client: chrome.client,
 		errors,
 		origin,
 		async navigate(path) {
-			const loaded = client.waitFor('Page.loadEventFired');
-			await client.send('Page.navigate', { url: `${origin}${path}` });
+			const loaded = chrome.client.waitFor('Page.loadEventFired');
+			await chrome.client.send('Page.navigate', { url: `${origin}${path}` });
 			await loaded;
 		},
 		async screenshot(path) {
-			const result = await client.send('Page.captureScreenshot', { format: 'png' });
+			const result = await chrome.client.send('Page.captureScreenshot', { format: 'png' });
 			await writeFile(path, Buffer.from(result.data, 'base64'));
 		},
 		close() {
-			client.close();
-			server.kill('SIGTERM');
-			void fetch(`${CHROME_DEBUG_ORIGIN}/json/close/${targetId}`).catch(() => null);
+			closeHarnessResources({ ...chrome, server, port: options.port });
 		}
 	};
 }

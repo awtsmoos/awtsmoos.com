@@ -2,14 +2,14 @@
  * Boruch Hashem
  * Blessed is He
  *
- * @fileoverview Gives scope, query, filter count, and result status one rhythm.
- * The Awtsmoos knows every record without searching; Awtsmoos.com states exactly
- * which loaded vessel is searched and how many visible results remain.
+ * @fileoverview Gives scope, query, filter count, and result status one mobile-first rhythm.
+ * The Awtsmoos knows every record without searching; Awtsmoos.com gives the seeking hand
+ * a clear forty-eight-pixel vessel, where scope and result can meet without crowding the land.
  */
 
 .living-path-search-stack {
 	display: grid;
-	gap: .45rem;
+	gap: .5rem;
 }
 
 .living-path-search-stack > .living-path-field {
@@ -21,20 +21,30 @@
 }
 
 .living-path-field label {
-	color: #8fa1b8;
-	font-size: .68rem;
+	color: #9fb1c7;
+	font-size: .72rem;
 	font-weight: 800;
+	line-height: 1.2;
 }
 
 .living-path-field select {
+	box-sizing: border-box;
 	min-inline-size: 0;
-	min-block-size: 40px;
-	padding: .45rem 2rem .45rem .65rem;
-	border: 1px solid rgba(91, 215, 255, .2);
-	border-radius: .62rem;
-	background: rgba(5, 14, 31, .92);
+	min-block-size: 48px;
+	padding: .55rem 2rem .55rem .72rem;
+	border: 1px solid rgba(91, 215, 255, .24);
+	border-radius: .72rem;
+	background: rgba(5, 14, 31, .94);
 	color: #e8f7ff;
-	font-size: .76rem;
+	font-size: .8rem;
+	font-weight: 700;
+	touch-action: manipulation;
+}
+
+.living-path-field select:focus-visible {
+	border-color: rgba(91, 215, 255, .72);
+	outline: 2px solid rgba(91, 215, 255, .35);
+	outline-offset: 2px;
 }
 
 .living-path-result-status {
@@ -45,7 +55,7 @@
 	gap: .75rem;
 	padding-inline: .25rem;
 	color: #91a3ba;
-	font-size: .68rem;
+	font-size: .7rem;
 	font-weight: 720;
 }
 
@@ -57,4 +67,21 @@
 	border-color: rgba(91, 215, 255, .7);
 	background: rgba(20, 54, 86, .96);
 	color: #fff;
+}
+
+@media (max-width: 34rem) {
+	.living-path-search-stack > .living-path-field {
+		grid-template-columns: minmax(0, 1fr);
+		justify-content: stretch;
+		gap: .32rem;
+	}
+
+	.living-path-field select {
+		inline-size: 100%;
+	}
+
+	.living-path-result-status {
+		flex-wrap: wrap;
+		row-gap: .2rem;
+	}
 }

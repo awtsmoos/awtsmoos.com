@@ -1,0 +1,81 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gives every touch a boundary and every boundary a gleam;
+ * Awtsmoos.com lets glass answer intention quickly, then return to stillness like a quiet stream.
+ */
+.social-hub-document :where(
+	.homeCreationAction,
+	.mobileCreatorAction,
+	.homeDisclosureSummary,
+	.hubContextDisclosure__summary,
+	.futureCapabilityCenter__summary,
+	.publicDiscovery__lookupDisclosure > summary
+) {
+	transition:
+		transform var(--keter-fast) var(--tiferes-ease),
+		border-color var(--keter-fast) ease,
+		background-color var(--keter-fast) ease,
+		box-shadow var(--keter-fast) ease;
+}
+
+.social-hub-document :where(.homeCreationAction, .mobileCreatorAction):is(:hover, :focus-visible) {
+	border-color: var(--yesod-edge-hot);
+	box-shadow:
+		0 .65rem 1.8rem rgb(0 0 0 / 20%),
+		inset 0 1px rgb(255 255 255 / 11%);
+}
+
+.social-hub-document :where(.homeCreationAction, .mobileCreatorAction):active {
+	transform: scale(.985);
+}
+
+.social-hub-document :where(
+	.homePulseDisclosure,
+	.homeActionsDisclosure,
+	.futureCapabilityCenter,
+	.hubContextDisclosure
+)[open] > summary {
+	background-color: rgb(126 239 255 / 5%);
+	box-shadow: inset 0 -1px rgb(126 239 255 / 11%);
+}
+
+.social-hub-document :where(
+	.homeCreationAction,
+	.mobileCreatorAction,
+	.homePulseDisclosure,
+	.homeActionsDisclosure,
+	.futureCapabilityCenter
+):is(:hover, :focus-within)::after,
+.social-hub-document :where(
+	.homePulseDisclosure,
+	.homeActionsDisclosure,
+	.futureCapabilityCenter
+)[open]::after {
+	animation: yesod-glass-sweep 560ms var(--tiferes-ease) both;
+}
+
+.social-hub-document .routeNavigation .routeButton[data-active="true"] .routeIcon {
+	box-shadow:
+		0 0 0 1px rgb(196 245 255 / 12%),
+		0 .45rem 1.1rem rgb(0 0 0 / 18%),
+		0 0 1rem rgb(113 224 255 / 10%);
+	transform: translateY(-1px) scale(1.025);
+}
+
+@keyframes yesod-glass-sweep {
+	from {
+		opacity: 0;
+		transform: translate3d(-30%, 0, 0) rotate(10deg);
+	}
+
+	45% {
+		opacity: .26;
+	}
+
+	to {
+		opacity: 0;
+		transform: translate3d(560%, 0, 0) rotate(10deg);
+	}
+}

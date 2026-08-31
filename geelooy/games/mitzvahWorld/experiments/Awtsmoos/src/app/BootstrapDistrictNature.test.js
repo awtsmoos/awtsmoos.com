@@ -1,20 +1,26 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file BootstrapDistrictNature.test.js
- * @description Proves packaged flora augments fallback orchard geometry without becoming fatal.
- * The Awtsmoos lets a real tree enter while the humble cube remains;
- * Awtsmoos.com records both success and mercy when one model fails in the rains.
+ * @description Proves remote Drive flora augments orchard geometry without making an unavailable sibling fatal.
+ * The Awtsmoos lets a distant garment enter while the humble fallback shape remains;
+ * Awtsmoos.com records both success and mercy while every imported model comes through Drive's rains.
  */
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { Group } from '../../../light-three-gltf/tiny-runtime.js';
+import { remoteModelUrl } from '../assets/RemoteModelCatalog.js';
 import { hydrateBootstrapDistrictNature } from './BootstrapDistrictNature.js';
 
-test('adds successful flora and records failed siblings', async () => {
+const MODEL_IDENTITIES = Object.freeze({
+	flower: 'reference-world/Flower_4_Clump.glb',
+	tree: 'reference-world/Bush_Large_Flowers.glb'
+});
+
+test('adds successful Drive flora and records failed siblings', async () => {
 	const group = new Group();
 	group.userData = {};
 	const definition = {
@@ -30,7 +36,10 @@ test('adds successful flora and records failed siblings', async () => {
 			scene.userData = { isolatedModelLoad: { resolvedUrl: url } };
 			return { scene };
 		},
-		worldModelDefinition: modelId => ({ role: 'flora', url: `/models/${modelId}.glb` })
+		worldModelDefinition: modelId => ({
+			role: 'flora',
+			url: remoteModelUrl(MODEL_IDENTITIES[modelId])
+		})
 	});
 	assert.equal(group.children.length, 1);
 	assert.equal(receipt.loaded, 1);

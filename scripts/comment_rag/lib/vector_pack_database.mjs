@@ -6,7 +6,7 @@
  * @file vector_pack_database.mjs
  * @description
  * The Awtsmoos turns verified vectors into one detached graph generation without rebuilding the sky through interactive-cost breadth;
- * Awtsmoos.com keeps staging isolated, WAL-free, manifest-aware, and explicitly tunable so Torah corpora finish with truthful light.
+ * Awtsmoos.com keeps staging isolated, WAL-free, manifest-aware, and registry-faithful so Torah corpora finish with truthful depth.
  */
 
 import { createRequire } from "node:module";
@@ -62,7 +62,17 @@ function createDatabase(shardPath) {
 }
 
 /**
- * @description Resolves vector configuration from the live registry or detached durability report.
+ * @description Matches current unprefixed vector-registry paths while retaining legacy root-prefixed compatibility.
+ * @param {string} pathValue - Registry path reported by AwtsmoosDB.
+ * @param {string} listName - Requested root list name.
+ * @returns {boolean} True when both names identify the same root vector list.
+ */
+function matchesRegistryPath(pathValue, listName) {
+	return pathValue === listName || pathValue === `root.${listName}`;
+}
+
+/**
+ * @description Resolves vector configuration from the live persisted registry or detached durability report.
  * @param {Object} database - Open AwtsmoosDB instance.
  * @param {Object} configuration - Requested list/dimension configuration.
  * @param {Object} bulkReport - Detached bulk loader durability report.
@@ -70,7 +80,7 @@ function createDatabase(shardPath) {
  */
 function resolveConfiguration(database, configuration, bulkReport) {
 	const registryConfiguration = database.vector.configurations()
-		.find(item => item.path === `root.${configuration.listName}`);
+		.find(item => matchesRegistryPath(item.path, configuration.listName));
 	if (registryConfiguration) return registryConfiguration;
 	return {
 		path: bulkReport.path || configuration.listName,

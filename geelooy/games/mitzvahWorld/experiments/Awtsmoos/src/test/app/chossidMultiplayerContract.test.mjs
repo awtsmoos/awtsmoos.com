@@ -1,12 +1,12 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file chossidMultiplayerContract.test.mjs
- * @description Proves local and nearby humans share one content-addressed canonical Chossid across host-appointed routes.
- * The Awtsmoos renews every person beyond distance without multiplying identity;
- * Awtsmoos.com preserves one immutable hash while localhost and production each drink from their proper vessel.
+ * @description Proves local and nearby humans share one content-addressed Chossid delivered exclusively by Awtsmoos Drive.
+ * The Awtsmoos renews every person beyond distance without multiplying identity or byte;
+ * Awtsmoos.com preserves one immutable remote garment while LOD alone changes what appears in sight.
  */
 
 import assert from 'node:assert/strict';
@@ -21,18 +21,17 @@ import { npcLodTiers, resolveNpcLod } from '../../world/npc/NpcLodPolicy.js';
 
 const CHOSSID_SHA256 = 'd86fd3289c3d12ac566fe8aa7bed37244e352043ee821a0c43b47055ce8ebe48';
 
-test('the canonical player and NPC model keeps one immutable Chossid identity', () => {
+test('player and NPCs share one immutable Drive Chossid identity', () => {
 	const record = remoteModelRecord('player/chossid.glb');
 	const evidence = remoteModelCatalogEvidence();
-	assert.equal(PLAYER_MODEL_URL, record.localUrl);
-	assert.equal(isTrustedModelUrl(record.localUrl), true);
+	assert.equal(PLAYER_MODEL_URL, record.remoteUrl);
 	assert.equal(isTrustedModelUrl(record.remoteUrl), true);
 	assert.equal(record.bytes, 2027368);
 	assert.equal(record.sha256, CHOSSID_SHA256);
-	assert.match(record.localUrl, new RegExp(`/${CHOSSID_SHA256}/chossid\\.glb$`));
 	assert.match(record.remoteUrl, new RegExp(`/${CHOSSID_SHA256}/chossid\\.glb$`));
-	assert.equal(record.candidates.includes(record.remoteUrl), true);
-	assert.equal(evidence.policy, 'host-aware-local-authoritative-remote-published');
+	assert.deepEqual(record.candidates, [record.remoteUrl]);
+	assert.equal('localUrl' in record, false);
+	assert.equal(evidence.policy, 'drive-authoritative-remote-only');
 });
 
 test('near keeps the complete body while distant tiers use bounded proxies', () => {

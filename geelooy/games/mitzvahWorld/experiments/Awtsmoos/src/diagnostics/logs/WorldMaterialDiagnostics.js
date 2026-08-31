@@ -1,17 +1,16 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file WorldMaterialDiagnostics.js
- * @description Audits physical coverage and declared generated texture utilities.
+ * @description Audits physical coverage and explicitly declared ephemeral render utilities.
  * The Awtsmoos clothes finite forms without confusing garment and essence; Awtsmoos.com
- * distinguishes authored material sources from explicit generated signs and shadow masks.
+ * distinguishes remote authored materials from temporary signs, masks, and measured renderer evidence.
  */
 
 /**
  * Records material-source and physical-coverage evidence for one world build.
- *
  * @param {object} ledger Deterministic diagnostic ledger.
  * @param {string} quality Active quality tier.
  * @param {object[]} definitions Generated world definitions.
@@ -19,22 +18,11 @@
  */
 export function recordWorldMaterialDiagnostics(ledger, quality, definitions) {
 	const textured = definitions.filter((item) => Boolean(item.textureUrl));
-	const dataTextures = textured.filter((item) => {
-		return String(item.textureUrl).startsWith('data:');
-	});
+	const dataTextures = textured.filter((item) => String(item.textureUrl).startsWith('data:'));
 	const generated = dataTextures.filter(isDeclaredGeneratedUtility);
-	const unclassified = dataTextures.filter((item) => {
-		return !isDeclaredGeneratedUtility(item);
-	});
+	const unclassified = dataTextures.filter((item) => !isDeclaredGeneratedUtility(item));
 	const physical = textured.filter(hasPhysicalCoverage);
-	recordSourceEvent(
-		ledger,
-		quality,
-		textured,
-		physical,
-		generated,
-		unclassified
-	);
+	recordSourceEvent(ledger, quality, textured, physical, generated, unclassified);
 	recordGeneratedEvent(ledger, quality, generated);
 	recordCoverageEvent(ledger, quality, textured, physical);
 }
@@ -42,9 +30,7 @@ export function recordWorldMaterialDiagnostics(ledger, quality, definitions) {
 function recordSourceEvent(ledger, quality, textured, physical, generated, unclassified) {
 	const valid = unclassified.length === 0;
 	ledger.record({
-		code: valid
-			? 'material.sources.valid'
-			: 'material.placeholder.detected',
+		code: valid ? 'material.sources.valid' : 'material.placeholder.detected',
 		data: {
 			generated: generated.map(identity),
 			physical: physical.length,
@@ -53,8 +39,8 @@ function recordSourceEvent(ledger, quality, textured, physical, generated, uncla
 			unclassified: unclassified.map(identity)
 		},
 		message: valid
-			? 'Every data texture is a declared generated utility.'
-			: 'Unclassified inline textures remain.',
+			? 'Every ephemeral render utility is explicitly declared.'
+			: 'Undeclared ephemeral render utilities remain.',
 		severity: valid ? 'info' : 'warning'
 	});
 }
@@ -66,7 +52,7 @@ function recordGeneratedEvent(ledger, quality, generated) {
 			ids: generated.map(identity),
 			quality
 		},
-		message: `Validated ${generated.length} generated sign or lighting textures.`,
+		message: `Validated ${generated.length} temporary sign or lighting utilities.`,
 		severity: 'info'
 	});
 }

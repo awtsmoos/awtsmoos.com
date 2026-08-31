@@ -12,8 +12,8 @@ import { appState } from '../state.js';
 import * as api from '../api.js';
 import * as ui from '../ui.js';
 import * as DND from '../dragdrop.js';
-import { isChitasSeries } from '../chitas/constants.js';
-import { injectChitasGrouping, loadChitasVirtualSeries } from '../chitas/virtual-series.js';
+import { isChitasSeries } from '../chitas/constants.js?v=heichel-mobile-007';
+import { injectChitasGrouping, loadChitasVirtualSeries } from '../chitas/virtual-series.js?v=heichel-mobile-007';
 import { annotateTranslationState } from '../living-path/translation-context.js';
 import { normalizeCollection } from './content-normalizer.js';
 

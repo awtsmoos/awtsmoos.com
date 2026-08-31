@@ -1,0 +1,89 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos is equally present in shimmer and in stillness;
+ * Awtsmoos.com lets every motion and translucent garment yield completely when the user asks for quiet clarity.
+ */
+@media (prefers-reduced-motion: reduce) {
+	.social-hub-document :where(
+		.hubHeader,
+		.publicDiscovery,
+		.homePulseDisclosure,
+		.homeActionsDisclosure,
+		.futureCapabilityCenter,
+		.homeCreationAction,
+		.mobileCreatorAction,
+		.mobileDock
+	)::after {
+		animation: none !important;
+		opacity: 0 !important;
+		transform: none !important;
+		will-change: auto;
+	}
+
+	.social-hub-document :where(
+		.hubContextDisclosure,
+		.homePulseDisclosure,
+		.homeActionsDisclosure,
+		.publicDiscovery__lookupDisclosure,
+		.futureCapabilityCenter
+	)[open] > :not(summary),
+	.social-hub-document .workspacePanel:not([hidden]) > :where(
+		.publicDiscovery,
+		.homeCreationCard,
+		.homePulseDisclosure,
+		.homeActionsDisclosure
+	) {
+		animation: none !important;
+		transform: none !important;
+	}
+
+	.social-hub-document .routeNavigation .routeButton[data-active="true"] .routeIcon {
+		transform: none;
+	}
+}
+
+@media (prefers-reduced-transparency: reduce) {
+	.social-hub-document :where(
+		.hubHeader,
+		.publicDiscovery,
+		.homePulseDisclosure,
+		.homeActionsDisclosure,
+		.futureCapabilityCenter,
+		.homeCreationAction,
+		.mobileCreatorAction,
+		.mobileDock
+	) {
+		background-color: rgb(6 13 28 / 98%);
+		background-image: none;
+		-webkit-backdrop-filter: none;
+		backdrop-filter: none;
+	}
+
+	.social-hub-document :where(.hubHeader, .publicDiscovery, .homePulseDisclosure, .homeActionsDisclosure, .futureCapabilityCenter, .homeCreationAction, .mobileCreatorAction, .mobileDock)::after {
+		display: none;
+	}
+}
+
+@media (forced-colors: active) {
+	.social-hub-document :where(.hubHeader, .publicDiscovery, .homePulseDisclosure, .homeActionsDisclosure, .futureCapabilityCenter, .homeCreationAction, .mobileCreatorAction, .mobileDock) {
+		background-image: none;
+		-webkit-backdrop-filter: none;
+		backdrop-filter: none;
+	}
+
+	.social-hub-document :where(.hubHeader, .publicDiscovery, .homePulseDisclosure, .homeActionsDisclosure, .futureCapabilityCenter, .homeCreationAction, .mobileCreatorAction, .mobileDock)::after {
+		display: none;
+	}
+
+	.social-hub-document .routeNavigation .routeButton[data-active="true"] .routeIcon {
+		box-shadow: none;
+	}
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+	.social-hub-document :where(.hubHeader, .publicDiscovery, .homePulseDisclosure, .homeActionsDisclosure, .futureCapabilityCenter, .homeCreationAction, .mobileCreatorAction, .mobileDock) {
+		background-color: rgb(6 13 28 / 96%);
+	}
+}
