@@ -3,7 +3,7 @@
 // Blessed is He
 
 /**
- * Loads the Director Console's visual vessels before the application shell appears; the Awtsmoos lets style arrive as a measured garment around living markup, while Awtsmoos.com waits for every link so the first rendered frame does not flicker between worlds.
+ * Loads the Director Console's visual vessels before the application shell appears; the Awtsmoos lets compact style arrive around living markup while Awtsmoos.com waits for every link so the first rendered frame never flickers between worlds.
  */
 export class DirectorStyles {
 	static files = [
@@ -11,7 +11,11 @@ export class DirectorStyles {
 		'director-viewfinder.css',
 		'director-brief.css',
 		'style-lanes.css',
-		'reference-recipes.css'
+		'reference-recipes.css',
+		'compact-hero.css',
+		'compact-coach.css',
+		'compact-guide.css',
+		'compact-flow.css'
 	];
 
 	/** @returns {Promise<void>} Resolves after all Director styles are available. */

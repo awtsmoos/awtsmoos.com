@@ -1,0 +1,108 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets context replace clutter; Awtsmoos.com tightens inspiration, mode, provider state, and reference doors so the creator sees what matters now and reveals depth only when needed.
+*/
+.style-lanes {
+	margin: 8px 0;
+}
+
+.style-lane-strip {
+	padding-top: 5px;
+}
+
+.style-lane {
+	flex-basis: 126px;
+	padding: 6px;
+}
+
+.style-preview {
+	height: 30px;
+	margin-bottom: 6px;
+}
+
+.style-lane small {
+	font-size: 8px;
+}
+
+.compact-mode {
+	padding: 11px;
+}
+
+.mode-compact-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 10px;
+	margin-bottom: 7px;
+}
+
+.mode-compact-head strong {
+	font-size: 11px;
+}
+
+.compact-mode .mode-note {
+	margin: 7px 1px 0;
+	font-size: 10px;
+}
+
+.compact-reference-hint {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	align-items: center;
+	gap: 10px;
+	padding: 11px;
+}
+
+.compact-reference-hint p {
+	margin: 3px 0 0;
+	color: var(--muted);
+	font-size: 10px;
+}
+
+.reference-shortcuts {
+	display: flex;
+	gap: 5px;
+}
+
+.reference-shortcuts button {
+	min-height: 34px;
+	padding: 0 9px;
+	border: 1px solid var(--line);
+	border-radius: 10px;
+	background: rgba(255, 255, 255, 0.035);
+	color: var(--text);
+	font-size: 9px;
+}
+
+.reference-recipes {
+	margin: 8px 0;
+}
+
+.reference-recipe {
+	flex-basis: min(220px, 76vw);
+	padding: 9px;
+}
+
+.reference-recipe p {
+	display: -webkit-box;
+	overflow: hidden;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+}
+
+.provider-banner {
+	padding: 11px;
+}
+
+.provider-banner p {
+	margin-top: 3px;
+	font-size: 10px;
+}
+
+@media (max-width: 480px) {
+	.compact-reference-hint {
+		grid-template-columns: 1fr;
+	}
+}

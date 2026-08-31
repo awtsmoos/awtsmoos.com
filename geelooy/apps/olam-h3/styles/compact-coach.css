@@ -1,0 +1,89 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos turns analysis into invitation; Awtsmoos.com gives the Director Coach one short luminous line of state and lets each missing ingredient become a useful action instead of a passive report.
+*/
+.director-brief {
+	margin: 9px 0;
+	padding: 11px;
+	border-radius: 15px;
+}
+
+.director-brief-top {
+	align-items: center;
+}
+
+.director-brief-top strong {
+	margin-top: 1px;
+	font-size: 13px;
+}
+
+.coverage-score {
+	font-size: 18px;
+}
+
+.coverage-track {
+	height: 4px;
+	margin: 6px 0 8px;
+}
+
+.ingredient-grid {
+	display: flex;
+	flex-wrap: nowrap;
+	gap: 5px;
+	overflow-x: auto;
+	padding-bottom: 2px;
+	scrollbar-width: none;
+}
+
+.ingredient-grid::-webkit-scrollbar {
+	display: none;
+}
+
+.ingredient-chip {
+	appearance: none;
+	flex: 0 0 auto;
+	min-height: 30px;
+	padding: 5px 7px;
+	background: rgba(255, 255, 255, 0.025);
+	font: inherit;
+	cursor: pointer;
+}
+
+.ingredient-chip small {
+	color: var(--accent);
+	font-size: 8px;
+	font-weight: 850;
+}
+
+.ingredient-chip.is-present {
+	background: rgba(217, 255, 104, 0.055);
+}
+
+.ingredient-chip:disabled {
+	opacity: 1;
+	cursor: default;
+}
+
+.brief-details {
+	margin-top: 6px;
+	border-top: 1px solid rgba(255, 255, 255, 0.055);
+}
+
+.brief-details summary {
+	padding-top: 6px;
+	color: var(--faint);
+	font-size: 9px;
+	cursor: pointer;
+}
+
+.brief-details .brief-meta {
+	margin-top: 7px;
+}
+
+.brief-details p {
+	margin: 6px 0 0;
+	color: var(--faint);
+	font-size: 9px;
+}
