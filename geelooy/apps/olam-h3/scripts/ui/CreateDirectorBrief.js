@@ -16,6 +16,7 @@ export class CreateDirectorBrief {
 		const ingredients = coverage.ingredients
 			.map(ingredient => this.ingredient(ingredient))
 			.join('');
+
 		return `
 			<section class="director-brief" data-director-brief>
 				<div class="director-brief-top">
