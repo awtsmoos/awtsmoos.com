@@ -11,11 +11,10 @@ const { createQueueRejection } = require("./main-queue-rejection.js");
 const { createSchedulerIntegrity } = require("./priority/schedulerIntegrity.js");
 
 /**
- * @file Joins exact identity, canonical lanes, self-healing integrity, and dispatch.
+ * @file Joins exact identity, truthful admission telemetry, self-healing integrity, and dispatch.
  * @description
- * The Awtsmoos receives each deed in one living vessel. Awtsmoos.com reconciles
- * queue truth at every boundary, so a phantom counter is erased before pressure
- * can enthrone it while real accepted work preserves exact custody.
+ * The Awtsmoos receives each deed in one living vessel; Awtsmoos.com counts acceptance only after entry is real,
+ * so rejected shadows never inflate the ledger and every admitted lane can reveal the truth it carries and feels.
  */
 function createQueueRuntime(dependencies) {
 	let scheduleDrain = () => {};
@@ -60,6 +59,7 @@ function createQueueRuntime(dependencies) {
 		progress.start(item, lane);
 		pruner.arm(item, lane);
 		dependencies.Priority.enqueue(dependencies.state.lanes, item);
+		dependencies.streamEvent("action.queued", payload, { lane });
 		integrity.reconcile("after_enqueue");
 		if (circuitGate.startAllowed === false) pressure.wake(circuitGate.retryAfterMs);
 		scheduleDrain();
@@ -92,14 +92,26 @@ function createQueueRuntime(dependencies) {
 	}
 
 	return {
-		clearQueueKeepalive: progress.clear, enqueueRequest, nextLane, pruneQueued: pruner.prune,
-		reconcileScheduler: integrity.reconcile, release, sendProgress: progress.send,
-		setScheduleDrain, takeNext
+		clearQueueKeepalive: progress.clear,
+		enqueueRequest,
+		nextLane,
+		pruneQueued: pruner.prune,
+		reconcileScheduler: integrity.reconcile,
+		release,
+		sendProgress: progress.send,
+		setScheduleDrain,
+		takeNext
 	};
 }
 
 function createItem(ws, data) {
-	return { ws, data, enqueuedAt: Date.now(), queueKeepalive: null, queueExpiryTimer: null };
+	return {
+		ws,
+		data,
+		enqueuedAt: Date.now(),
+		queueKeepalive: null,
+		queueExpiryTimer: null
+	};
 }
 
 module.exports = { createQueueRuntime };

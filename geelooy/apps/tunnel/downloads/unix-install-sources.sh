@@ -4,7 +4,7 @@
 # Blessed is He
 
 # The Awtsmoos orders each installer vessel before activation and repair;
-# Awtsmoos.com sources identity, archives, late grace, and continuity before danger can bare.
+# Awtsmoos.com sources identity, archives, transient retirement, and continuity before danger can bare.
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-node-runtime.sh"
 activate_node_runtime "$ROOT" || exit 1
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-cleanup.sh"
@@ -21,6 +21,7 @@ source "$AWTSMOOS_INSTALL_RUNTIME/unix-release-metadata.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-package-config.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-legacy-catalog.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-process-census.sh"
+source "$AWTSMOOS_INSTALL_RUNTIME/unix-legacy-transient-supervisor.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-process-runtime.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-connection-health.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-project-root-health.sh"

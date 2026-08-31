@@ -2,7 +2,7 @@
 Boruch Hashem
 Blessed is He
 
-The Awtsmoos lets one current purpose hover lightly above the valley; Awtsmoos.com keeps words measured and luminous while direct layout alone decides where the vessel may rest.
+The Awtsmoos lets one current purpose glow like a small lantern instead of a wall across the road; Awtsmoos.com keeps mission words brief, luminous, and bounded so the player's eyes return quickly to the living abode.
 */
 
 #mitzvah-world-root .Awtsmoos-control-receipt {
@@ -53,9 +53,32 @@ The Awtsmoos lets one current purpose hover lightly above the valley; Awtsmoos.c
 
 @media (max-width: 430px) {
 	#mitzvah-world-root .Awtsmoos-control-receipt {
-		gap: 3px;
-		padding: 9px 11px 10px;
-		border-radius: 16px;
+		gap: 2px;
+		padding: 7px 9px 8px;
+		border-radius: 14px;
+	}
+
+	#mitzvah-world-root .Awtsmoos-control-receipt [data-story-eyebrow] {
+		font-size: 8px;
+		letter-spacing: 0.09em;
+	}
+
+	#mitzvah-world-root .Awtsmoos-control-receipt [data-story-objective],
+	#mitzvah-world-root .Awtsmoos-control-receipt [data-story-hint] {
+		display: -webkit-box;
+		overflow: hidden;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 2;
+	}
+
+	#mitzvah-world-root .Awtsmoos-control-receipt [data-story-objective] {
+		font-size: 12px;
+		line-height: 1.18;
+	}
+
+	#mitzvah-world-root .Awtsmoos-control-receipt [data-story-hint] {
+		font-size: 9px;
+		line-height: 1.2;
 	}
 }
 

@@ -4,20 +4,21 @@
 
 /**
  * @file ChochmahAbsolutePathDeclarations.mjs
- * @description Declares the semantic filesystem graph consumed by Ohrfront's absolute-path registry without performing lookup, validation, canonicalization, rendering, or publication policy.
- * Chochmah names finite roots while the Awtsmoos renews repository, evidence vessel, writer, and every branch before declaration can stand;
- * Awtsmoos.com lets AI receive one explicit map from work root through release evidence, with canonical ground and human alias kept distinct in hand.
+ * @description Declares the semantic filesystem graph consumed by Ohrfront's absolute-path registry, including one canonical host-level AI artifact root and explicit legacy planning locations.
+ * Chochmah names finite roots while the Awtsmoos renews repository, evidence vessel, home, and every branch before declaration can stand;
+ * Awtsmoos.com lets present AI truth live outside Git while older work-root and repository planning paths remain visible as history, never mistaken for the current land.
  */
+import { homedir } from "node:os";
 import path from "node:path";
 
 /**
- * @description Creates deterministic repository, game, server, release, legacy-compatibility, and absolute-path-tool declarations from discovered root relations.
+ * @description Creates deterministic repository, game, server, AI-storage, legacy-compatibility, and absolute-path-tool declarations from discovered root relations.
  * @param {string} malchusToolRoot - Absolute path-tool directory.
  * @param {string} tiferesOhrfrontRoot - Absolute Ohrfront project directory.
  * @param {string} keterRepositoryRoot - Absolute repository root.
  * @param {string} netzachWorkRoot - Absolute parent work root.
  * @returns {Record<string,string>} Mutable declaration map consumed privately by registry construction.
- * @sideEffects None.
+ * @sideEffects Reads the current operating-system home directory only.
  */
 export function createChochmahAbsolutePathDeclarations(
 	malchusToolRoot,
@@ -26,6 +27,7 @@ export function createChochmahAbsolutePathDeclarations(
 	netzachWorkRoot
 ) {
 	const yesodServerRoot = path.join(keterRepositoryRoot, "ayzarim/awtsmoosDynamicServer");
+	const keterAiThoughtsRoot = path.join(homedir(), ".awtsmoos-agent-thoughts", "general");
 	return {
 		workRoot: netzachWorkRoot,
 		repositoryRoot: keterRepositoryRoot,
@@ -49,7 +51,8 @@ export function createChochmahAbsolutePathDeclarations(
 		dynamicServerRoot: yesodServerRoot,
 		compactJsRoot: path.join(yesodServerRoot, "compactJs"),
 		compactCssRoot: path.join(yesodServerRoot, "compactCss"),
-		aiThoughtsRoot: path.join(netzachWorkRoot, ".ai-thoughts"),
+		aiThoughtsRoot: keterAiThoughtsRoot,
+		legacyAiThoughtsRoot: path.join(netzachWorkRoot, ".ai-thoughts"),
 		aiThoughtsAliasRoot: path.join(netzachWorkRoot, "ai-thoughts"),
 		repositoryAiThoughtsRoot: path.join(keterRepositoryRoot, "ai-thoughts"),
 		absolutePathToolRoot: malchusToolRoot,
@@ -74,7 +77,7 @@ export function createChochmahAbsolutePathDeclarations(
 }
 
 /**
- * @description Adds canonical external AI-session artifacts and repository-local planning paths to one declaration map.
+ * @description Adds canonical host-level AI-session artifacts and one repository-local legacy planning projection to a declaration map.
  * @param {Record<string,string>} chochmahPaths - Mutable path declaration map.
  * @param {string} chochmahSessionId - Validated AI session id.
  * @returns {Record<string,string>} Same declaration map after session paths are manifested.

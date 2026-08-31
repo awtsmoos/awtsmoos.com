@@ -4,13 +4,13 @@
 
 /**
  * @file HodAiAbsoluteHandoffRenderer.mjs
- * @description Assembles immutable absolute-system handoff evidence while text presentation and continuation-command construction remain separate focused vessels.
- * Hod gives testimony of repository, mission, evidence, executable, and URL while the Awtsmoos renews each finite place before its record can stand;
- * Awtsmoos.com lets one structured handoff become durable project memory without confusing physical path, symlink spelling, system binary, or network address in the land.
+ * @description Builds an immutable AI handoff where current canonical storage, legacy planning roots, executables, URLs, and copy-pastable continuation commands remain visibly distinct.
+ * Hod gives finite testimony while the Awtsmoos renews root, legacy trail, command, and inheriting mind beyond every printed line;
+ * Awtsmoos.com lets the next agent know where to write now, where old evidence may sleep, and which absolute executable awakens continuation in time.
  */
 import { createNetzachAbsoluteHandoffCommands } from "./NetzachAbsoluteHandoffCommands.mjs";
 
-const HOD_HANDOFF_KEYS = Object.freeze([
+const HOD_HANDOFF_FILESYSTEM_KEYS = Object.freeze([
 	"repositoryRoot",
 	"ohrfrontRoot",
 	"ohrfrontSourceRoot",
@@ -19,7 +19,9 @@ const HOD_HANDOFF_KEYS = Object.freeze([
 	"proceduralCoreRoot",
 	"dynamicServerRoot",
 	"aiThoughtsRoot",
+	"legacyAiThoughtsRoot",
 	"aiThoughtsAliasRoot",
+	"repositoryAiThoughtsRoot",
 	"aiSessionRoot",
 	"evidenceRoot",
 	"remainingWork",
@@ -30,79 +32,43 @@ const HOD_HANDOFF_KEYS = Object.freeze([
 ]);
 
 /**
- * @description Creates the complete immutable AI-handoff evidence record from one session-aware canonical path registry.
- * @param {object} yesodRegistry - Canonical registry exposing `get(key)` and `resolve(path, baseKey)`.
- * @param {string} chochmahSessionId - Validated AI session identity.
- * @param {string} malchusNodeExecutable - Absolute Node executable path supplied from `process.execPath`.
- * @returns {object} Frozen handoff record with filesystem, system, URL, and continuation-command branches.
- * @sideEffects Reads current registry evidence only; performs no writes.
+ * @description Creates one complete immutable handoff from a validated session registry and absolute executable identity.
+ * @param {object} yesodRegistry - Session-bound absolute-path registry.
+ * @param {string} malchusNodeExecutable - Absolute Node executable used by continuation commands.
+ * @param {string} malchusHandoffExecutable - Absolute handoff CLI path.
+ * @returns {object} Frozen structured handoff containing filesystem, system, URL, and command branches.
+ * @sideEffects None.
  */
 export function createHodAiAbsoluteHandoff(
 	yesodRegistry,
-	chochmahSessionId,
-	malchusNodeExecutable
+	malchusNodeExecutable,
+	malchusHandoffExecutable
 ) {
-	const hodFilesystem = createHodFilesystemMap(yesodRegistry);
-	const hodSystem = Object.freeze({
-		nodeExecutable: malchusNodeExecutable,
-		handoffExecutable: resolveHodHandoffExecutable(yesodRegistry)
-	});
-	const hodUrls = Object.freeze({
-		localOhrfront: "http://127.0.0.1:8080/games/ohrfront/"
-	});
+	if (!yesodRegistry?.chochmahSessionId) {
+		throw new TypeError("AI absolute handoff requires a validated session registry.");
+	}
+	const hodFilesystem = Object.fromEntries(
+		HOD_HANDOFF_FILESYSTEM_KEYS.map(chochmahKey => [
+			chochmahKey,
+			yesodRegistry.get(chochmahKey)
+		])
+	);
 	return Object.freeze({
 		schema: "awtsmoos.ai.absolute-handoff.v1",
-		sessionId: chochmahSessionId,
+		sessionId: yesodRegistry.chochmahSessionId,
 		cwdIndependent: true,
-		filesystem: hodFilesystem,
-		system: hodSystem,
-		urls: hodUrls,
+		filesystem: Object.freeze(hodFilesystem),
+		system: Object.freeze({
+			nodeExecutable: malchusNodeExecutable,
+			handoffExecutable: malchusHandoffExecutable
+		}),
+		urls: Object.freeze({
+			localOhrfront: "http://127.0.0.1:8080/games/ohrfront/"
+		}),
 		commands: createNetzachAbsoluteHandoffCommands(
-			hodFilesystem,
-			hodSystem,
-			chochmahSessionId
+			yesodRegistry,
+			malchusNodeExecutable,
+			malchusHandoffExecutable
 		)
 	});
-}
-
-/**
- * @description Projects all handoff-critical registry keys into one frozen semantic filesystem map.
- * @param {object} yesodRegistry - Session-aware canonical path registry.
- * @returns {object} Frozen path map keyed by stable semantic identity.
- * @sideEffects Reads registry records only.
- */
-function createHodFilesystemMap(yesodRegistry) {
-	const hodEntries = HOD_HANDOFF_KEYS.map(chochmahKey => [
-		chochmahKey,
-		projectHodPath(yesodRegistry.get(chochmahKey))
-	]);
-	return Object.freeze(Object.fromEntries(hodEntries));
-}
-
-/**
- * @description Projects only handoff-critical identity fields from one richer canonical registry record.
- * @param {object} hodRecord - Canonical path evidence record.
- * @returns {object} Frozen canonical/requested/existence/kind summary.
- * @sideEffects None.
- */
-function projectHodPath(hodRecord) {
-	return Object.freeze({
-		canonicalPath: hodRecord.canonicalPath,
-		requestedPath: hodRecord.requestedPath,
-		exists: hodRecord.exists,
-		kind: hodRecord.kind
-	});
-}
-
-/**
- * @description Resolves this dedicated handoff executable through the canonical Ohrfront root instead of process cwd.
- * @param {object} yesodRegistry - Canonical path registry exposing CWD-independent `resolve`.
- * @returns {string} Canonical absolute handoff executable path.
- * @sideEffects None beyond registry resolution.
- */
-function resolveHodHandoffExecutable(yesodRegistry) {
-	return yesodRegistry.resolve(
-		"tools/ai/MalchusPrintAiAbsoluteHandoff.mjs",
-		"ohrfrontRoot"
-	).canonicalPath;
 }

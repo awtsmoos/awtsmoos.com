@@ -4,9 +4,9 @@
 
 /**
  * @file bootstrapCanonicalPlayerHydration.test.mjs
- * @description Proves both first-frame and deferred canonical Chossid paths own real bound animation and validated materials.
- * The Awtsmoos carries one garment through immediate presence and later revelation;
- * Awtsmoos.com tests that neither path may leave imported bones behind a names-only animation shell.
+ * @description Proves immediate fallback humanity remains playable while the stable launch promise later installs the real animated Chossid.
+ * The Awtsmoos lets one visible traveler answer before the authored garment crosses the frame;
+ * Awtsmoos.com keeps launch and model promises separate, then joins them without a cycle when canonical humanity receives its name.
  */
 
 import assert from 'node:assert/strict';
@@ -39,7 +39,7 @@ test('first-frame canonical player installs real animation and material contract
 	assert.ok(receipt.materials.materialsVisited > 0);
 });
 
-test('fallback runtime replaces primitive visual with grounded animated canonical player', async () => {
+test('fallback runtime stays visible until launch promise replaces it with canonical player', async () => {
 	const worldScene = new Group();
 	const fallbackRoot = new Group();
 	const canonicalScene = createBootstrapVisiblePlayer();
@@ -60,7 +60,8 @@ test('fallback runtime replaces primitive visual with grounded animated canonica
 	const runtime = createBootstrapPlayerRuntime(foundation);
 	const primitiveVisual = runtime.visiblePlayer;
 	assert.equal(primitiveVisual.userData.bootstrapPlayerVisual, true);
-	const receipt = await runtime.canonicalPlayerPromise;
+	assert.ok(primitiveVisual.children.every(mesh => mesh.visible === true));
+	const receipt = await runtime.canonicalPlayerLaunchPromise;
 	assert.deepEqual(calls, [PLAYER_MODEL_URL]);
 	assert.equal(receipt.status, 'ready');
 	assert.equal(runtime.model.name, 'Awtsmoos_grounded_canonical_chossid');

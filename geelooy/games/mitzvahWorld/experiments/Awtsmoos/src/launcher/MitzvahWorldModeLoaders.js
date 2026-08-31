@@ -1,12 +1,12 @@
 //B"H
-//Boruch Hashem
-//Blessed is He
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @file MitzvahWorldModeLoaders.js
- * @description Opens playable worlds first while keeping each heavy runtime behind a literal deferred module door.
- * The Awtsmoos reveals movement before ornament while every doorway keeps its appointed weight;
- * Awtsmoos.com lets the route shell stay light, and only the chosen world receives the deeper runtime beyond its gate.
+ * @description Opens playable worlds first, resolves local experience policy only for single-player, and keeps each heavy runtime behind its appointed deferred door.
+ * The Awtsmoos reveals movement before ornament while every doorway keeps its proper weight;
+ * Awtsmoos.com lets Simple Meadow stay simple, Mountain Village grow rich, and multiplayer never inherit the wrong local fate.
  */
 
 import {
@@ -17,19 +17,13 @@ import {
 	createDirectWorldRuntimeOptions,
 	reportDirectWorldProgress
 } from './MitzvahWorldDirectRuntimeOptions.js';
-import {
-	launchMitzvahWorldPostPlayExperience
-} from './MitzvahWorldPostPlayLoader.js';
+import { launchMitzvahWorldPostPlayByPolicy } from './MitzvahWorldPostPlayPolicy.js';
+import { launchMitzvahWorldPostPlayExperience } from './MitzvahWorldPostPlayLoader.js';
+import { createSinglePlayerWorldRuntimeOptions } from './MitzvahWorldSinglePlayerRuntimeOptions.js';
 
-export {
-	hasMovieRequest
-} from './MitzvahWorldRouteQuery.js';
+export { hasMovieRequest } from './MitzvahWorldRouteQuery.js';
 
-/**
- * @description Returns the public route-loader covenant without exposing implementation details.
- * @param {object} environment Browser-like runtime environment.
- * @returns {object} Frozen mode-loader contract.
- */
+/** Returns the public route-loader covenant without exposing implementation details. */
 export function createMitzvahWorldModeLoaders(environment = globalThis) {
 	return Object.freeze({
 		materials: hosts => openPresentedMitzvahWorldCreative('openMaterialsMode', hosts, '', environment),
@@ -40,23 +34,15 @@ export function createMitzvahWorldModeLoaders(environment = globalThis) {
 	});
 }
 
-/**
- * @description Opens one local single-player runtime through a literal dynamic import before optional post-play presentation.
- * @param {object} hosts Canonical game host elements.
- * @param {object} options Runtime launch options.
- * @param {object} environment Browser-like runtime environment.
- * @returns {Promise<object>} Single-player diagnostics.
- */
+/** Opens one local world with a single-player-only experience profile and profile-aware optional presentation. */
 async function openSinglePlayer(hosts, options = {}, environment = globalThis) {
 	reportDirectWorldProgress(options, 'Preparing visible WebGL control and map…');
 	const [runtimeModule, badgeModule] = await Promise.all([
 		import('../app/createEretzRuntime.js?compact=true&v=20260804-map-01'),
 		import('../network/MultiplayerStatusBadge.js?compact=true')
 	]);
-	const diagnostics = await runtimeModule.createEretzRuntime(
-		hosts,
-		createDirectWorldRuntimeOptions(options, environment)
-	);
+	const runtimeOptions = createSinglePlayerWorldRuntimeOptions(options, environment);
+	const diagnostics = await runtimeModule.createEretzRuntime(hosts, runtimeOptions);
 	diagnostics.connectionBadge = badgeModule.installSinglePlayerStatusBadge();
 	diagnostics.sessionMode = 'singleplayer';
 	diagnostics.sessionDiagnostics = () => ({
@@ -65,17 +51,11 @@ async function openSinglePlayer(hosts, options = {}, environment = globalThis) {
 		state: 'singleplayer',
 		transport: 'none'
 	});
-	launchMitzvahWorldPostPlayExperience(diagnostics, environment);
+	launchMitzvahWorldPostPlayByPolicy(diagnostics, environment, runtimeOptions);
 	return diagnostics;
 }
 
-/**
- * @description Opens the shared runtime through its literal deferred module door and then adds optional post-play presentation.
- * @param {object} hosts Canonical game host elements.
- * @param {object} options Shared-world launch options.
- * @param {object} environment Browser-like runtime environment.
- * @returns {Promise<object>} Multiplayer diagnostics.
- */
+/** Opens the shared runtime with generic options so local fallback policy can never contaminate multiplayer. */
 async function openMultiplayer(hosts, options = {}, environment = globalThis) {
 	reportDirectWorldProgress(options, 'Preparing visible WebGL shared control and map…');
 	const { createMultiplayerEretzRuntime } = await import(

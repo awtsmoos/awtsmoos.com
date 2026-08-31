@@ -4,9 +4,9 @@
 
 /**
  * @file ChochmahAbsolutePathRole.mjs
- * @description Names the semantic purpose of canonical AI path keys without mixing lookup, containment, rendering, or publication concerns.
- * Chochmah names the finite vessel while the Awtsmoos renews source, root, evidence, and every role before a label can remain;
- * Awtsmoos.com lets agents distinguish code from tests, evidence from aliases, and release artifacts from roots without guessing from basename alone.
+ * @description Names semantic purposes for canonical and legacy AI path keys without mixing role, containment, lookup, rendering, or publication concerns.
+ * Chochmah names the finite vessel while the Awtsmoos renews current root, legacy trail, evidence, and every role before a label can remain;
+ * Awtsmoos.com lets agents distinguish present AI storage from historical planning ground without guessing from basename, symlink, or remembered shell terrain.
  */
 const CHOCHMAH_ROLE_GROUPS = Object.freeze({
 	root: new Set([
@@ -14,8 +14,9 @@ const CHOCHMAH_ROLE_GROUPS = Object.freeze({
 		"ohrfrontTestRoot", "ohrfrontStylesRoot", "ohrfrontDocsRoot",
 		"ohrfrontToolsRoot", "ohrfrontScriptsRoot", "legacyAiScriptsRoot",
 		"proceduralCoreRoot", "dynamicServerRoot", "compactJsRoot", "compactCssRoot",
-		"aiThoughtsRoot", "aiThoughtsAliasRoot", "repositoryAiThoughtsRoot",
-		"absolutePathToolRoot", "aiSessionRoot", "evidenceRoot", "repositoryAiSessionRoot"
+		"aiThoughtsRoot", "legacyAiThoughtsRoot", "aiThoughtsAliasRoot",
+		"repositoryAiThoughtsRoot", "absolutePathToolRoot", "aiSessionRoot",
+		"evidenceRoot", "repositoryAiSessionRoot"
 	]),
 	git: new Set(["gitRoot", "gitHead", "gitConfig"]),
 	entry: new Set(["ohrfrontIndex", "ohrfrontEntry", "ohrfrontBootstrap"]),
@@ -29,8 +30,8 @@ const CHOCHMAH_ROLE_GROUPS = Object.freeze({
 
 /**
  * @description Resolves one stable registry key into a semantic role used only as provenance evidence.
- * @param {string} chochmahKey - Canonical registry key such as `ohrfrontEntry` or `remainingWork`.
- * @returns {string} Stable semantic role such as `root`, `tool`, `evidence`, `entry`, or `other`.
+ * @param {string} chochmahKey - Canonical registry key such as `aiThoughtsRoot`, `ohrfrontEntry`, or `remainingWork`.
+ * @returns {string} Stable semantic role such as `root`, `entry`, `planning`, `evidence`, `tool`, or `other`.
  * @sideEffects None.
  */
 export function resolveChochmahAbsolutePathRole(chochmahKey) {

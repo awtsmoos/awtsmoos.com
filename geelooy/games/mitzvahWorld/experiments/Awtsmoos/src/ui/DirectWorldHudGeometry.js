@@ -4,9 +4,9 @@
 
 /**
  * @file DirectWorldHudGeometry.js
- * @description Defines the compact direct-play HUD acceptance rectangles while delegating generic rectangle arithmetic to a smaller math vessel.
+ * @description Defines compact direct-play acceptance rectangles that leave the portrait world's center visibly open.
  * The Awtsmoos gives objective, movement, Jump, context, and advanced power one measured shore while Awtsmoos.com keeps the proof readable and light;
- * portrait and landscape reveal different arrangements, yet every finite zone remains bounded by the same safe-area covenant in sight.
+ * portrait instruction rests at the upper-left instead of crossing the valley, while every thumb zone remains bounded in sight.
  */
 
 import {
@@ -35,6 +35,7 @@ export function directWorldHudRectangles(viewport = {}) {
 		: portraitPlan(width, height, safe);
 }
 
+/** Builds the upper-left objective plus lower thumb controls for portrait phones. */
 function portraitPlan(width, height, safe) {
 	const rightInset = Math.max(14, safe.right + 10);
 	const bottom = Math.max(18, safe.bottom + 14);
@@ -45,12 +46,13 @@ function portraitPlan(width, height, safe) {
 	const advancedSize = 48;
 	const contextBottom = bottom + jumpSize + gap;
 	const advancedBottom = contextBottom + contextHeight + gap;
-	const objectiveWidth = Math.min(360, width - safe.left - safe.right - 24);
-	const objectiveTop = Math.max(10, safe.top + 7);
+	const objectiveBudget = Math.max(120, width - safe.left - safe.right - 140);
+	const objectiveWidth = Math.min(directClamp(width * 0.54, 164, 220), objectiveBudget);
+	const objectiveTop = Math.max(10, safe.top + 8);
 	const movementWidth = Math.min(340, Math.max(168, width * 0.56));
 	const movementHeight = Math.min(300, height * 0.44);
 	return freezePlan('portrait', {
-		objective: directRect((width - objectiveWidth) / 2, objectiveTop, objectiveWidth, 112),
+		objective: directRect(safe.left + 8, objectiveTop, objectiveWidth, 96),
 		movement: directRect(0, height - movementHeight, movementWidth, movementHeight),
 		jump: directRightRect(width, rightInset, height, bottom, jumpSize, jumpSize),
 		context: directRightRect(width, rightInset, height, contextBottom, contextWidth, contextHeight),
@@ -58,6 +60,7 @@ function portraitPlan(width, height, safe) {
 	});
 }
 
+/** Builds the compact upper-left instruction and edge controls for short landscape phones. */
 function landscapePlan(width, height, safe) {
 	const rightInset = Math.max(12, safe.right + 8);
 	const bottom = Math.max(12, safe.bottom + 10);
@@ -68,11 +71,11 @@ function landscapePlan(width, height, safe) {
 	const advancedSize = 44;
 	const contextBottom = bottom + jumpSize + gap;
 	const advancedBottom = contextBottom + contextHeight + gap;
-	const objectiveWidth = Math.min(320, width * 0.42, width - safe.left - safe.right - 24);
+	const objectiveWidth = Math.min(280, width * 0.42, width - safe.left - safe.right - 24);
 	const movementWidth = Math.min(300, width * 0.42);
 	const movementHeight = Math.min(260, height * 0.64);
 	return freezePlan('landscape', {
-		objective: directRect(safe.left + 10, safe.top + 8, objectiveWidth, 96),
+		objective: directRect(safe.left + 8, safe.top + 6, objectiveWidth, 88),
 		movement: directRect(0, height - movementHeight, movementWidth, movementHeight),
 		jump: directRightRect(width, rightInset, height, bottom, jumpSize, jumpSize),
 		context: directRightRect(width, rightInset, height, contextBottom, contextWidth, contextHeight),
@@ -80,6 +83,7 @@ function landscapePlan(width, height, safe) {
 	});
 }
 
+/** Freezes one acceptance plan so tests and runtime diagnostics cannot mutate geometry by accident. */
 function freezePlan(mode, zones) {
 	return Object.freeze({ mode, zones: Object.freeze(zones) });
 }

@@ -1,14 +1,18 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file EretzRuntimePromotion.js
- * @description Replaces the first-play bootstrap scheduler with the canonical rich-world scheduler exactly once.
- * The Awtsmoos lets one early heartbeat yield to a fuller ordered pulse without two clocks ruling one traveler;
- * Awtsmoos.com starts the rich loop, retires bootstrap frames, preserves UI, and publishes one immutable handoff receipt.
+ * @description Replaces the bootstrap scheduler with the canonical rich-world scheduler exactly once while carrying horizontal momentum through the handoff.
+ * The Awtsmoos lets one early heartbeat yield to a fuller ordered pulse without dropping the traveler between two clocks;
+ * Awtsmoos.com preserves body, UI, velocity, and witness as richer scenery opens beneath the same uninterrupted walk.
  */
 
+import {
+	confirmEretzMovementPromotion,
+	prepareEretzMovementPromotion
+} from './EretzMovementPromotionState.js';
 import { startEretzRuntime } from './EretzRuntimeLoop.js';
 
 const REQUIRED_RUNTIME_SERVICES = Object.freeze([
@@ -32,10 +36,14 @@ export function promoteEretzRuntimeLoop(context, options = {}) {
 	}
 	assertRichRuntimeReady(runtime);
 	const previousMovement = context.movement || diagnostics.movement || null;
+	const inheritedVelocity = prepareEretzMovementPromotion(runtime, previousMovement);
 	const startRuntime = options.startRuntime || startEretzRuntime;
 	const environment = context.options?.environment || globalThis;
 	const richMovement = startRuntime(runtime, diagnostics, environment);
-	if (!richMovement) throw new Error('Rich Eretz runtime did not return a movement controller.');
+	if (!richMovement) {
+		throw new Error('Rich Eretz runtime did not return a movement controller.');
+	}
+	confirmEretzMovementPromotion(richMovement, inheritedVelocity);
 	try {
 		previousMovement?.stop?.({ preserveUi: true });
 	} catch (error) {
@@ -52,6 +60,7 @@ export function promoteEretzRuntimeLoop(context, options = {}) {
 	return promotionResult(context, receipt);
 }
 
+/** Verifies every service the rich scheduler will touch before bootstrap relinquishes ownership. */
 function assertRichRuntimeReady(runtime) {
 	for (const [owner, method] of REQUIRED_RUNTIME_SERVICES) {
 		if (typeof runtime?.[owner]?.[method] !== 'function') {
@@ -63,6 +72,7 @@ function assertRichRuntimeReady(runtime) {
 	}
 }
 
+/** Creates the stable scheduler-handoff receipt consumed by diagnostics and tests. */
 function createReceipt(previous, current, status) {
 	return Object.freeze({
 		from: previous?.constructor?.name || 'none',
@@ -84,6 +94,7 @@ function promotionResult(context, receipt) {
 	});
 }
 
+/** Publishes controller and scheduler state without exposing mutable velocity internals. */
 function movementState(runtime, movement) {
 	return Object.freeze({
 		controller: movement?.constructor?.name || 'unknown',

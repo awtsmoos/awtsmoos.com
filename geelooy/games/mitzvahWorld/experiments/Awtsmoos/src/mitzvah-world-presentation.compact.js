@@ -10925,9 +10925,9 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	/**
 	 * @file WorldMinimapLayoutCss.js
-	 * @description Preserves the compact, expanded, and responsive map geometry while giving every map action a true touch-size vessel.
-	 * The Awtsmoos gives every instrument a boundary so the road remains visible beneath the sky;
-	 * Awtsmoos.com keeps the map small by default while forty-eight-pixel actions let a living hand answer nearby.
+	 * @description Keeps the compact phone map at the upper-right edge while preserving full-size expanded and fullscreen cartography.
+	 * The Awtsmoos folds a wide road into a small instrument without shrinking the hand that touches it;
+	 * Awtsmoos.com keeps forty-eight-pixel actions beside a bounded map, then lets expanded space unfold when the traveler requests it.
 	 */
 
 	const WORLD_MINIMAP_LAYOUT_CSS = `
@@ -10978,19 +10978,52 @@ const __awtsmoosModule_0 = Object.create(null);
 		}
 
 		@media (max-width: 650px) {
-			.Awtsmoos-minimap {
-				top: 56px;
-				right: 8px;
-				width: 142px;
+			.Awtsmoos-minimap[data-mode="compact"] {
+				top: max(8px, env(safe-area-inset-top));
+				right: max(8px, env(safe-area-inset-right));
+				width: 112px;
+				border-radius: 14px;
 			}
 
-			.Awtsmoos-minimap header strong {
+			.Awtsmoos-minimap[data-mode="compact"] header {
+				grid-template-columns: 1fr;
+				gap: 4px;
+				padding: 5px;
+			}
+
+			.Awtsmoos-minimap[data-mode="compact"] header strong {
+				display: none;
+			}
+
+			.Awtsmoos-minimap[data-mode="compact"] .Awtsmoos-map-actions {
+				display: grid;
+				grid-template-columns: repeat(2, 48px);
+				gap: 4px;
+				justify-content: center;
+			}
+
+			.Awtsmoos-minimap[data-mode="compact"] button {
+				width: 48px;
+				min-width: 48px;
+				height: 48px;
+				min-height: 48px;
+				padding: 0;
 				font-size: 0;
 			}
 
-			.Awtsmoos-minimap header strong::after {
-				content: "Map";
-				font-size: 10px;
+			.Awtsmoos-minimap[data-mode="compact"] [data-map-expand]::after {
+				content: "+";
+				font-size: 20px;
+			}
+
+			.Awtsmoos-minimap[data-mode="compact"] [data-map-fullscreen]::after {
+				content: "⛶";
+				font-size: 17px;
+			}
+
+			.Awtsmoos-minimap[data-mode="compact"] .Awtsmoos-map-canvas {
+				height: 64px;
+				min-height: 64px;
 			}
 		}
 	`;

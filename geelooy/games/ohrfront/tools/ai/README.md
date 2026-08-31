@@ -1,109 +1,105 @@
 B"H
 
-# Awtsmoos AI Absolute System Paths
+# Ohrfront AI Absolute System Paths
 
-The Awtsmoos renews every root before a pathname can describe its finite place. Awtsmoos.com keeps this tooling strict: AI, release scripts, and future agents exchange canonical absolute filesystem truth instead of depending on whichever directory happened to launch Node.
+Boruch Hashem. Blessed is He.
 
-## Canonical executables
+The Awtsmoos renews every machine, directory, process, and pathname from nothing each instant. Awtsmoos.com therefore treats AI filesystem location as evidence, not memory: current publication paths are canonical absolute system paths, while older planning locations remain explicitly labeled history.
 
-```text
-printer  /Users/awtsmoos/work/awtsmoos.com/geelooy/games/ohrfront/tools/ai/MalchusPrintAbsolutePaths.mjs
-writer   /Users/awtsmoos/work/awtsmoos.com/geelooy/games/ohrfront/tools/ai/MalchusWriteAbsolutePathEvidence.mjs
-registry /Users/awtsmoos/work/awtsmoos.com/geelooy/games/ohrfront/tools/ai/YesodAbsolutePathRegistry.mjs
-```
+## Canonical AI artifact root
 
-These machine paths are documentation evidence, not hardcoded runtime configuration. The registry discovers roots from its own physical module location and canonicalizes them at runtime.
-
-## Physical truth and human aliases
+Current AI plans, evidence, `REMAINING_WORK`, release evidence, and generated path manifests belong beneath:
 
 ```text
-canonical physical AI root /Users/awtsmoos/work/.ai-thoughts
-human alias                /Users/awtsmoos/work/ai-thoughts
-repository planning root   /Users/awtsmoos/work/awtsmoos.com/ai-thoughts
+/Users/awtsmoos/.awtsmoos-agent-thoughts/general
 ```
 
-The canonical physical path is authoritative. Alias spelling remains visible as `requestedPath` and through `equivalentKeys`, but publication writes to the physical `.ai-thoughts` root.
-
-## Rich provenance records
-
-Every registry record preserves the original canonical fields and also exposes semantic provenance: `key`, `role`, `scopes`, `primaryScope`, `fileUri`, repository/session-relative readability annotations, and `equivalentKeys`.
-
-The historical fields remain authoritative: `requestedPath`, `path`, `canonicalPath`, `parentPath`, `basename`, `extension`, `exists`, `kind`, `canonicalized`, and `canonicalVerified`.
-
-## Print one shell-clean absolute path
-
-```bash
-node /Users/awtsmoos/work/awtsmoos.com/geelooy/games/ohrfront/tools/ai/MalchusPrintAbsolutePaths.mjs --key=ohrfrontRoot
-```
-
-Default single-key text output remains exactly one canonical absolute path. Keep this form for shell command substitution and scripts expecting a bare pathname.
-
-## Print physical system identity for AI
-
-Use explicit `system` format when an AI, release agent, or handoff needs to distinguish an absolute-looking alias from the physical filesystem object:
-
-```bash
-node /Users/awtsmoos/work/awtsmoos.com/geelooy/games/ohrfront/tools/ai/MalchusPrintAbsolutePaths.mjs --key=aiThoughtsAliasRoot --format=system
-```
-
-System output places `canonicalPath` first and also reports `requestedPath`, `physicalRealpath`, `exists`, `kind`, `requestedExists`, `requestedIsSymlink`, `canonicalized`, `canonicalVerified`, device/inode identity, byte size, permission mode, and modification time. Missing future targets remain canonical absolute paths with explicit `exists=false` and null physical metadata.
-
-For the AI alias above, current filesystem truth is:
+The runtime derives this root from `os.homedir()` as:
 
 ```text
-requestedPath=/Users/awtsmoos/work/ai-thoughts
-canonicalPath=/Users/awtsmoos/work/.ai-thoughts
-physicalRealpath=/Users/awtsmoos/work/.ai-thoughts
-requestedIsSymlink=true
-canonicalVerified=true
+<home>/.awtsmoos-agent-thoughts/general
 ```
 
-## Rich discovery
+Do not publish new AI evidence into the repository or work-root aliases merely because those older locations exist.
 
-```bash
-node /Users/awtsmoos/work/awtsmoos.com/geelooy/games/ohrfront/tools/ai/MalchusPrintAbsolutePaths.mjs --key=ohrfrontEntry --format=text
-node /Users/awtsmoos/work/awtsmoos.com/geelooy/games/ohrfront/tools/ai/MalchusPrintAbsolutePaths.mjs --session=2026-08-28-0444-absolute-system-path-evidence --format=json
-node /Users/awtsmoos/work/awtsmoos.com/geelooy/games/ohrfront/tools/ai/MalchusPrintAbsolutePaths.mjs --keys
-```
+## Legacy planning locations
 
-JSON keeps schema `awtsmoos.ai.absolute-system-paths.v2`, declares CWD independence, preserves the historical top-level `paths` map, and enriches each record with provenance.
-
-## Resolve from an explicit semantic root
-
-```bash
-node /Users/awtsmoos/work/awtsmoos.com/geelooy/games/ohrfront/tools/ai/MalchusPrintAbsolutePaths.mjs --resolve=src/OhrfrontEntry.js --from=ohrfrontRoot --format=system
-```
-
-Relative targets never use caller CWD. The explicit default base remains `repositoryRoot`. System format is equally valid for arbitrary resolved targets.
-
-## Materialize this session's evidence
-
-This command may be run from `/tmp` or any unrelated directory:
-
-```bash
-node /Users/awtsmoos/work/awtsmoos.com/geelooy/games/ohrfront/tools/ai/MalchusWriteAbsolutePathEvidence.mjs --session=2026-08-28-0444-absolute-system-path-evidence
-```
-
-Canonical publication destinations live beneath:
+The registry deliberately keeps these paths visible as compatibility/provenance evidence:
 
 ```text
-/Users/awtsmoos/work/.ai-thoughts/2026-08-28-0444-absolute-system-path-evidence
+legacyAiThoughtsRoot     /Users/awtsmoos/work/.ai-thoughts
+aiThoughtsAliasRoot      /Users/awtsmoos/work/ai-thoughts
+repositoryAiThoughtsRoot /Users/awtsmoos/work/awtsmoos.com/ai-thoughts
 ```
 
-The writer stages complete sibling temporary files and atomically renames them. It never writes through `/Users/awtsmoos/work/ai-thoughts` merely because that alias is convenient.
+They are **not** alternate spellings of `aiThoughtsRoot`. A future agent may inspect them for historical artifacts, but new session publication descends only from the canonical host-level root.
 
-## One authority and compatibility surfaces
+## Core contract
 
-Canonical authority lives at `/Users/awtsmoos/work/awtsmoos.com/geelooy/games/ohrfront/tools/ai`. Historical `scripts/ai` callers still project from the same `YesodAbsolutePathRegistry`; they do not create a second filesystem truth model.
+`YesodAbsolutePathRegistry` discovers the repository from its own module URL rather than caller CWD. Each record exposes canonical physical identity plus provenance such as:
 
-## Safety and release use
+- `requestedPath`
+- `canonicalPath`
+- `parentPath`
+- `exists`
+- `kind`
+- `canonicalVerified`
+- `role`
+- `scopes`
+- `primaryScope`
+- `fileUri`
+- repository/session-relative annotations
+- `equivalentKeys`
 
-Session ids permit only letters, numbers, `.`, `_`, and `-`; separators and traversal fail before path composition. Use `--require-existing` for source/release inputs that must already exist. Future evidence outputs should not be required to exist before the writer creates them.
+The `aiThoughtsRoot` record has primary scope `ai-thoughts`. Session descendants have primary scope `ai-session`.
 
-Stable printer formats are `text`, `json`, `env`, `paths`, `keys`, and `system`. Browser game code never imports this tooling, and host filesystem paths are not exposed through Ohrfront runtime or network APIs.
+## Print one absolute path
 
-Release-critical machine evidence is cataloged at:
+This command can run from any directory:
+
+```bash
+/usr/local/bin/node /Users/awtsmoos/work/awtsmoos.com/geelooy/games/ohrfront/tools/ai/MalchusPrintAbsolutePaths.mjs --key=aiThoughtsRoot
+```
+
+The default single-key output is one bare canonical absolute path, suitable for shell capture.
+
+Available formats include `text`, `json`, `env`, `paths`, `keys`, and `system`. `system` additionally reports physical realpath/device/inode evidence when a target exists.
+
+## Session paths
+
+For a validated session id such as `ohrfront-release-2026-08-31`:
 
 ```text
-/Users/awtsmoos/work/awtsmoos.com/geelooy/games/ohrfront/tools/ai/RELEASE_PATHS.md
+aiSessionRoot  /Users/awtsmoos/.awtsmoos-agent-thoughts/general/ohrfront-release-2026-08-31
+evidenceRoot   /Users/awtsmoos/.awtsmoos-agent-thoughts/general/ohrfront-release-2026-08-31/evidence
+remainingWork  /Users/awtsmoos/.awtsmoos-agent-thoughts/general/ohrfront-release-2026-08-31/REMAINING_WORK.md
 ```
+
+Unsafe traversal session ids are rejected before publication.
+
+## Dedicated AI handoff
+
+```bash
+/usr/local/bin/node /Users/awtsmoos/work/awtsmoos.com/geelooy/games/ohrfront/tools/ai/MalchusPrintAiAbsoluteHandoff.mjs --session=ohrfront-release-2026-08-31
+```
+
+The handoff separates:
+
+- canonical and legacy filesystem records
+- absolute system executables
+- URLs
+- copy-pastable continuation commands containing absolute executables and absolute target paths
+
+Use `--json` for machine ingestion.
+
+## Materialize evidence
+
+```bash
+/usr/local/bin/node /Users/awtsmoos/work/awtsmoos.com/geelooy/games/ohrfront/tools/ai/MalchusWriteAbsolutePathEvidence.mjs --session=ohrfront-release-2026-08-31
+```
+
+The writer creates the session/evidence directories under the canonical AI root and prints canonical absolute artifact paths. Tests use unique throwaway sessions and delete only their exact generated session directory.
+
+## Safety boundary
+
+These tools are Node/agent tooling. Browser runtime and network APIs must not expose host filesystem paths. Relative projections are explanatory annotations only; canonical absolute paths remain authority.

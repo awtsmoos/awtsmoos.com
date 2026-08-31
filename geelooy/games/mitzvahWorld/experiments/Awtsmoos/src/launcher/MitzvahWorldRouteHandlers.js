@@ -1,12 +1,11 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file MitzvahWorldRouteHandlers.js
- * @description Builds private, shared, platform, and cinema handlers around selected modes.
- * The Awtsmoos gives each route one bounded intention; Awtsmoos.com preserves identity,
- * visibility, progress, and direct-world renewal without burdening the router itself.
+ * @description Preserves selected local and shared world identity while each route opens only its appointed runtime doorway.
+ * The Awtsmoos gives every route one bounded intention; Awtsmoos.com carries the chosen world name intact from menu card to living ground.
  */
 
 import { navigateToDirectWorld } from './MitzvahWorldDirectRoute.js?v=20260722-direct-world-01';
@@ -27,7 +26,8 @@ export function createMitzvahWorldRouteHandlers(context) {
 		return modes.singlePlayer(hosts, {
 			onProgress: selection.onProgress,
 			quality: parameters.get('quality'),
-			signal: selection.signal
+			signal: selection.signal,
+			worldId: selection.worldId || parameters.get('worldId') || undefined
 		});
 	};
 	const openMultiplayer = async (selection = {}) => {
@@ -84,6 +84,7 @@ export function createMitzvahWorldRouteHandlers(context) {
 	});
 }
 
+/** Gives each browser tab one stable default shared-world display name. */
 function uniqueDisplayName(environment) {
 	const key = 'AwtsmoosMitzvahWorldTabName';
 	try {

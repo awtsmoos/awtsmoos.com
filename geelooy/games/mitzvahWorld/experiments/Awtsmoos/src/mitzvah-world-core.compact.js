@@ -1248,9 +1248,9 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	/**
 	 * @file WorldMinimapLayoutCss.js
-	 * @description Preserves the compact, expanded, and responsive map geometry while giving every map action a true touch-size vessel.
-	 * The Awtsmoos gives every instrument a boundary so the road remains visible beneath the sky;
-	 * Awtsmoos.com keeps the map small by default while forty-eight-pixel actions let a living hand answer nearby.
+	 * @description Keeps the compact phone map at the upper-right edge while preserving full-size expanded and fullscreen cartography.
+	 * The Awtsmoos folds a wide road into a small instrument without shrinking the hand that touches it;
+	 * Awtsmoos.com keeps forty-eight-pixel actions beside a bounded map, then lets expanded space unfold when the traveler requests it.
 	 */
 
 	const WORLD_MINIMAP_LAYOUT_CSS = `
@@ -1301,19 +1301,52 @@ const __awtsmoosModule_0 = Object.create(null);
 		}
 
 		@media (max-width: 650px) {
-			.Awtsmoos-minimap {
-				top: 56px;
-				right: 8px;
-				width: 142px;
+			.Awtsmoos-minimap[data-mode="compact"] {
+				top: max(8px, env(safe-area-inset-top));
+				right: max(8px, env(safe-area-inset-right));
+				width: 112px;
+				border-radius: 14px;
 			}
 
-			.Awtsmoos-minimap header strong {
+			.Awtsmoos-minimap[data-mode="compact"] header {
+				grid-template-columns: 1fr;
+				gap: 4px;
+				padding: 5px;
+			}
+
+			.Awtsmoos-minimap[data-mode="compact"] header strong {
+				display: none;
+			}
+
+			.Awtsmoos-minimap[data-mode="compact"] .Awtsmoos-map-actions {
+				display: grid;
+				grid-template-columns: repeat(2, 48px);
+				gap: 4px;
+				justify-content: center;
+			}
+
+			.Awtsmoos-minimap[data-mode="compact"] button {
+				width: 48px;
+				min-width: 48px;
+				height: 48px;
+				min-height: 48px;
+				padding: 0;
 				font-size: 0;
 			}
 
-			.Awtsmoos-minimap header strong::after {
-				content: "Map";
-				font-size: 10px;
+			.Awtsmoos-minimap[data-mode="compact"] [data-map-expand]::after {
+				content: "+";
+				font-size: 20px;
+			}
+
+			.Awtsmoos-minimap[data-mode="compact"] [data-map-fullscreen]::after {
+				content: "⛶";
+				font-size: 17px;
+			}
+
+			.Awtsmoos-minimap[data-mode="compact"] .Awtsmoos-map-canvas {
+				height: 64px;
+				min-height: 64px;
 			}
 		}
 	`;
@@ -2668,16 +2701,54 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	/**
 	 * @file BootstrapCubeGeometry.js
-	 * @description Shares one indexed cube across every first-playable landmark and traveler part.
-	 * The Awtsmoos reveals many forms from one measured vessel; Awtsmoos.com reuses eight vertices
-	 * so ground, path, ridge, body, hat, and signposts appear without a geometry-allocation storm.
+	 * @description Shares one face-aware cube with positions, normals, and UVs across first-play terrain, landmarks, and traveler parts.
+	 * The Awtsmoos gives each face a direction and each texture a measured place; Awtsmoos.com reuses one complete vessel,
+	 * so grass may repeat across the earth and simple forms may catch light without an allocation race.
 	 */
 
 	const BufferAttribute = __awtsmoosModule_22.BufferAttribute;
 	const BufferGeometry = __awtsmoosModule_22.BufferGeometry;
 
+	const FACE_UVS = [
+		0, 0,
+		1, 0,
+		1, 1,
+		0, 1
+	];
+
+	const POSITIONS = [
+		-0.5, -0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5,
+		0.5, -0.5, -0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5,
+		-0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5,
+		0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5,
+		-0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5,
+		-0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5
+	];
+
+	const NORMALS = [
+		0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1,
+		0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1,
+		-1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0,
+		1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0,
+		0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0,
+		0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0
+	];
+
+	const INDICES = [
+		0, 1, 2, 0, 2, 3,
+		4, 5, 6, 4, 6, 7,
+		8, 9, 10, 8, 10, 11,
+		12, 13, 14, 12, 14, 15,
+		16, 17, 18, 16, 18, 19,
+		20, 21, 22, 20, 22, 23
+	];
+
 	let sharedGeometry = null;
 
+	/**
+	 * Returns the one cached bootstrap cube used by every lightweight visible object.
+	 * @returns {BufferGeometry} Shared geometry with 24 positions, normals, UVs, and 36 indices.
+	 */
 	function bootstrapCubeGeometry() {
 		sharedGeometry ||= createCubeGeometry();
 		return sharedGeometry;
@@ -2685,27 +2756,15 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.bootstrapCubeGeometry = bootstrapCubeGeometry;
+	/** Creates the face-separated cube so each face owns truthful lighting and texture coordinates. */
 	function createCubeGeometry() {
 		const geometry = new BufferGeometry();
-		geometry.setAttribute('position', new BufferAttribute(new Float32Array([
-			-0.5, -0.5, -0.5,
-			0.5, -0.5, -0.5,
-			0.5, 0.5, -0.5,
-			-0.5, 0.5, -0.5,
-			-0.5, -0.5, 0.5,
-			0.5, -0.5, 0.5,
-			0.5, 0.5, 0.5,
-			-0.5, 0.5, 0.5
-		]), 3));
-		geometry.setIndex(new BufferAttribute(new Uint16Array([
-			0, 1, 2, 0, 2, 3,
-			5, 4, 7, 5, 7, 6,
-			4, 0, 3, 4, 3, 7,
-			1, 5, 6, 1, 6, 2,
-			3, 2, 6, 3, 6, 7,
-			4, 5, 1, 4, 1, 0
-		]), 1));
-		geometry.userData.bootstrapPrimitive = 'shared-cube';
+		const uvs = Array.from({ length: 6 }, () => FACE_UVS).flat();
+		geometry.setAttribute('position', new BufferAttribute(new Float32Array(POSITIONS), 3));
+		geometry.setAttribute('normal', new BufferAttribute(new Float32Array(NORMALS), 3));
+		geometry.setAttribute('uv', new BufferAttribute(new Float32Array(uvs), 2));
+		geometry.setIndex(new BufferAttribute(new Uint16Array(INDICES), 1));
+		geometry.userData.bootstrapPrimitive = 'shared-cube-face-aware';
 		return geometry;
 	}
 
@@ -2787,9 +2846,9 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	/**
 	 * @file BootstrapVisiblePlayer.js
-	 * @description Creates a remote-only three-part Chossid marker whose surfaces stay hidden until legitimate real images are resident.
-	 * The Awtsmoos gives the traveler identity beyond garment and face; Awtsmoos.com lets cloth descend truthfully,
-	 * while the face remains concealed rather than borrowing an unrelated texture merely to fill visual space.
+	 * @description Creates an immediate three-part Chossid fallback that remains visible until the canonical player garment arrives.
+	 * The Awtsmoos reveals the traveler before remote cloth can cross the wire; Awtsmoos.com keeps body, face, and hat truthful in color,
+	 * so the first playable moment has a living guide while richer imagery may later rise higher.
 	 */
 
 	const Group = __awtsmoosModule_22.Group;
@@ -2803,7 +2862,10 @@ const __awtsmoosModule_0 = Object.create(null);
 		['hat', [0, 2.52, -0.02], [0.86, 0.3, 0.72], [0.025, 0.03, 0.04, 1], 'fabric.cloth']
 	]);
 
-	/** Creates the three-mesh first-play marker without displaying any solid-color placeholder. */
+	/**
+	 * Creates the visible first-play traveler whose simple geometry survives slow or failed remote hydration.
+	 * @returns {Group} A visible three-mesh fallback group that canonical hydration may later replace.
+	 */
 	function createBootstrapVisiblePlayer() {
 		const group = new Group();
 		group.name = 'Awtsmoos_bootstrap_visible_chossid';
@@ -2812,15 +2874,25 @@ const __awtsmoosModule_0 = Object.create(null);
 		}
 		group.userData = {
 			bootstrapPlayerVisual: true,
+			fallbackVisible: true,
 			meshCount: PARTS.length,
-			remoteOnly: true
+			remoteOnly: false
 		};
 		return group;
 	}
 
 
 	__exports.createBootstrapVisiblePlayer = createBootstrapVisiblePlayer;
-	/** Adds one hidden player part awaiting a real remote texture for its semantic role. */
+	/**
+	 * Adds one visible solid-color player part as a truthful first-play fallback.
+	 * @param {Group} group Parent player group receiving the mesh.
+	 * @param {string} name Semantic part name.
+	 * @param {number[]} position Local XYZ position.
+	 * @param {number[]} scale Local XYZ scale.
+	 * @param {number[]} color Immediate RGBA fallback color.
+	 * @param {string} semanticRole Material role used by later texture hydration.
+	 * @returns {void}
+	 */
 	function addPart(group, name, position, scale, color, semanticRole) {
 		const mesh = new Mesh(
 			bootstrapCubeGeometry(),
@@ -2832,13 +2904,10 @@ const __awtsmoosModule_0 = Object.create(null);
 		mesh.name = `Awtsmoos_player_${name}`;
 		mesh.position.set(...position);
 		mesh.scale.set(...scale);
-		mesh.visible = false;
+		mesh.visible = true;
 		mesh.userData.bootstrapVisual = true;
+		mesh.userData.bootstrapFallbackVisible = true;
 		mesh.userData.semanticMaterialRole = semanticRole;
-		mesh.userData.awtsmoosRemoteOnlyVisibility = {
-			hiddenByCovenant: true,
-			previousVisible: true
-		};
 		group.add(mesh);
 	}
 

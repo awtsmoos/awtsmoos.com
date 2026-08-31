@@ -4,9 +4,9 @@
 
 /**
  * @file TiferesAbsolutePathProvenance.mjs
- * @description Enriches canonical path records with semantic role, containing scopes, portable file identity, relative annotations, and physical equivalence evidence.
- * Tiferes joins name to place while the Awtsmoos renews repository, alias, session, and every containing vessel from nothing in one light;
- * Awtsmoos.com lets machines know not only where a path stands, but what owns it, what it means, and which other declared names reach the same physical site.
+ * @description Enriches canonical path records with semantic role, current AI-storage ownership, containing scopes, portable file identity, relative annotations, and physical equivalence evidence.
+ * Tiferes joins name to place while the Awtsmoos renews repository, session, current AI root, legacy trail, and every containing vessel from nothing in one light;
+ * Awtsmoos.com lets machines know not only where a path stands, but whether it belongs to the living session or merely survives as historical filesystem sight.
  */
 import path from "node:path";
 import { pathToFileURL } from "node:url";
@@ -14,6 +14,7 @@ import { resolveChochmahAbsolutePathRole } from "./ChochmahAbsolutePathRole.mjs"
 
 const TIFERES_SCOPE_ROOTS = Object.freeze([
 	["ai-session", "aiSessionRoot"],
+	["ai-thoughts", "aiThoughtsRoot"],
 	["ohrfront", "ohrfrontRoot"],
 	["dynamic-server", "dynamicServerRoot"],
 	["procedural-core", "proceduralCoreRoot"],
@@ -46,7 +47,7 @@ export function enrichTiferesAbsolutePathRecords(hodBaseRecords) {
 }
 
 /**
- * @description Adds semantic and containment evidence to one canonical record without changing its authoritative absolute path fields.
+ * @description Adds semantic and containment evidence to one canonical record without changing its authoritative absolute-path fields.
  * @param {string} chochmahKey - Stable semantic registry key.
  * @param {object} hodRecord - Canonical filesystem record.
  * @param {Readonly<Record<string,object>>} yesodRootRecords - Registry records used to discover containing roots.
@@ -85,7 +86,7 @@ function isTiferesContained(yesodRootRecord, hodRecord) {
 }
 
 /**
- * @description Creates a human-readable relative annotation only when the absolute target belongs to the supplied canonical root.
+ * @description Creates a readable relative annotation only when the absolute target belongs to the supplied canonical root.
  * @param {object|undefined} yesodRootRecord - Optional containing root.
  * @param {object} hodRecord - Canonical target record.
  * @returns {string|null} `.` for the root itself, a relative descendant, or null when outside the root.
@@ -99,7 +100,7 @@ function createHodRelativeProjection(yesodRootRecord, hodRecord) {
 }
 
 /**
- * @description Finds every other registry key resolving to the same canonical physical path as one enriched record.
+ * @description Finds every registry key resolving to the same canonical physical path as one enriched record.
  * @param {string} chochmahKey - Current semantic key.
  * @param {object} hodRecord - Current enriched path record.
  * @param {Readonly<Record<string,object>>} tiferesRecords - Enriched first-pass registry.
