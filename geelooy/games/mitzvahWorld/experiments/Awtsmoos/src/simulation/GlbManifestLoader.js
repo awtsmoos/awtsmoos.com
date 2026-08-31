@@ -1,12 +1,12 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file GlbManifestLoader.js
  * @description Resolves verified remote models into semantic manifests without requiring binaries in Git.
- * The Awtsmoos joins immutable identity to renderer-free understanding;
- * Awtsmoos.com reads the canonical Chossid from checked-in semantics while browsers load exact remote bytes.
+ * The Awtsmoos joins immutable identity to renderer-free understanding through one distant vessel;
+ * Awtsmoos.com reads canonical semantics while every non-semantic GLB byte arrives only from Drive's threshold.
  */
 
 import {
@@ -37,10 +37,9 @@ export async function loadGlbManifest(source) {
 }
 
 function modelIdentityFromUrl(source) {
-	const identity = Object.keys(REMOTE_MODEL_RECORDS).find(candidate => {
-		const record = remoteModelRecord(candidate);
-		return [record.url, record.localUrl, record.remoteUrl].includes(source);
-	});
+	const identity = Object.keys(REMOTE_MODEL_RECORDS).find(candidate => (
+		remoteModelRecord(candidate).remoteUrl === source
+	));
 	if (!identity) throw new Error(`Unknown trusted model URL: ${source}`);
 	return identity;
 }

@@ -1,19 +1,18 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file remoteModelCatalog.test.mjs
- * @description Proves localhost and published hosts share immutable model identities without freezing stale model-count magic numbers.
- * The Awtsmoos creates one measured identity through two appointed vessels; Awtsmoos.com derives catalog evidence
- * from the immutable record table itself so removing forbidden trees or adding lawful non-tree assets cannot stale the test.
+ * @description Proves every host resolves immutable GLB identities only through Awtsmoos Drive.
+ * The Awtsmoos gives one distant vessel to every measured garment, with no local shadow in disguise;
+ * Awtsmoos.com keeps localhost and production beneath the same remote covenant before all testing eyes.
  */
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { REMOTE_MODEL_RECORDS } from '../../assets/RemoteModelRecords.js';
 import {
-	LOCAL_MODEL_ROOT,
 	REMOTE_MODEL_ROOT,
 	isTrustedModelUrl,
 	modelSourceMode,
@@ -24,43 +23,45 @@ import {
 } from '../../assets/RemoteModelCatalog.js';
 
 const IDENTITY = 'player/chossid.glb';
-const SHA = 'd86fd3289c3d12ac566fe8aa7bed37244e352043ee821a0c43b47055ce8ebe48';
 const LOCALHOST = Object.freeze({ hostname: 'localhost' });
 const PRODUCTION = Object.freeze({ hostname: 'awtsmoos.com' });
 
-test('canonical Chossid uses local bytes on localhost and remote bytes in production', () => {
+test('canonical Chossid uses the same immutable Drive URL on every host', () => {
 	const local = remoteModelRecord(IDENTITY, LOCALHOST);
 	const remote = remoteModelRecord(IDENTITY, PRODUCTION);
-	assert.equal(local.url, `${LOCAL_MODEL_ROOT}player/${SHA}/chossid.glb`);
-	assert.equal(remote.url, `${REMOTE_MODEL_ROOT}player/${SHA}/chossid.glb`);
-	assert.deepEqual(modelUrlCandidates(local.url, LOCALHOST), [local.localUrl, local.remoteUrl]);
+	assert.equal(local.remoteUrl, remote.remoteUrl);
+	assert.equal(local.url, remote.url);
+	assert.equal(local.url.startsWith(REMOTE_MODEL_ROOT), true);
+	assert.deepEqual(modelUrlCandidates(local.url, LOCALHOST), [local.remoteUrl]);
 	assert.deepEqual(modelUrlCandidates(remote.url, PRODUCTION), [remote.remoteUrl]);
-	assert.equal(modelSourceMode(LOCALHOST), 'local');
+	assert.equal(modelSourceMode(LOCALHOST), 'remote');
 	assert.equal(modelSourceMode(PRODUCTION), 'remote');
+	assert.equal('localUrl' in local, false);
 });
 
-test('all cataloged GLBs preserve host-aware content-addressed routing', () => {
+test('every cataloged GLB is Drive-only and content-addressed', () => {
 	for (const identity of Object.keys(REMOTE_MODEL_RECORDS)) {
 		const local = remoteModelRecord(identity, LOCALHOST);
 		const remote = remoteModelRecord(identity, PRODUCTION);
-		assert.equal(local.source, 'local', identity);
+		assert.equal(local.source, 'remote', identity);
 		assert.equal(remote.source, 'remote', identity);
-		assert.equal(local.url, local.localUrl, identity);
-		assert.equal(remote.url, remote.remoteUrl, identity);
-		assert.equal(isTrustedModelUrl(local.localUrl), true, identity);
+		assert.equal(local.url, remote.remoteUrl, identity);
+		assert.deepEqual(local.candidates, [remote.remoteUrl], identity);
 		assert.equal(isTrustedModelUrl(remote.remoteUrl), true, identity);
-		assert.equal(local.sha256, remote.sha256, identity);
+		assert.equal('localUrl' in remote, false, identity);
+		assert.match(remote.remoteUrl, new RegExp(`/${remote.sha256}/[^/]+$`), identity);
 	}
 });
 
-test('catalog evidence derives exactly from immutable active records', () => {
+test('catalog evidence declares Drive authority and rejects mutable or local paths', () => {
 	const evidence = remoteModelCatalogEvidence();
 	const records = Object.values(REMOTE_MODEL_RECORDS);
 	assert.equal(evidence.models, records.length);
 	assert.equal(evidence.bytes, records.reduce((sum, record) => sum + record.bytes, 0));
-	assert.equal(evidence.policy, 'host-aware-local-authoritative-remote-published');
-	assert.equal(remoteModelUrl(IDENTITY, LOCALHOST), remoteModelRecord(IDENTITY, LOCALHOST).localUrl);
-	assert.equal(remoteModelUrl(IDENTITY, PRODUCTION), remoteModelRecord(IDENTITY, PRODUCTION).remoteUrl);
-	assert.equal(isTrustedModelUrl(`${remoteModelUrl(IDENTITY, LOCALHOST)}?mutable=1`), false);
+	assert.equal(evidence.policy, 'drive-authoritative-remote-only');
+	assert.equal(evidence.remoteRoot, REMOTE_MODEL_ROOT);
+	assert.equal(remoteModelUrl(IDENTITY, LOCALHOST), remoteModelUrl(IDENTITY, PRODUCTION));
+	assert.equal(isTrustedModelUrl(`${remoteModelUrl(IDENTITY)}?mutable=1`), false);
 	assert.equal(isTrustedModelUrl('/games/mitzvahWorld/assets/models/chossid.glb'), false);
+	assert.equal(isTrustedModelUrl('../assets/models/player/chossid.glb'), false);
 });
