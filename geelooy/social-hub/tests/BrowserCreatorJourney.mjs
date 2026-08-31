@@ -3,79 +3,89 @@
 //Blessed is He
 
 import assert from 'node:assert/strict';
+import { waitFor } from './BrowserWait.mjs';
 
 /**
  * @module BrowserCreatorJourney
- * @description
- * The Awtsmoos places one creative doorway above the mobile road without collision or disguise;
- * Awtsmoos.com measures the living vessel so context, containment, and internal destination remain true before the user's touch can arise.
+ * @description The Awtsmoos reveals one creative doorway at a time: Home owns the deed, other routes keep it near;
+ * Awtsmoos.com proves that retractable context stays quiet until chosen and no duplicate creator competes with the mobile road.
  */
 
-/**
- * Inspects the persistent creator and dominant Home creator at the established mobile viewport.
- * @param {Object} client Connected CDP client from the shared browser harness.
- * @returns {Promise<Object>} Geometric, semantic, URL, and style evidence.
- */
-export async function inspectPersistentCreator(client) {
+/** Inspects the simplified Home creation hierarchy without activating any disclosure or publication. */
+export async function inspectHomeCreator(client) {
 	return client.evaluate(`(() => {
 		const portal = document.getElementById('mobileCreatorPortal');
 		const mobileAction = document.getElementById('mobileQuickPost');
-		const dock = document.getElementById('mobileNavigation');
-		const homeCard = document.querySelector('.homeCreationCard');
 		const homeAction = document.getElementById('quickPost');
-		const mobileRect = mobileAction.getBoundingClientRect();
-		const dockRect = dock.getBoundingClientRect();
-		const homeRect = homeCard.getBoundingClientRect();
-		const actionRect = homeAction.getBoundingClientRect();
+		const homeRect = homeAction.getBoundingClientRect();
 		return {
 			viewport: { width: innerWidth, height: innerHeight },
 			portalDisplay: getComputedStyle(portal).display,
-			portalPosition: getComputedStyle(portal).position,
 			mobileHref: mobileAction.getAttribute('href'),
 			homeHref: homeAction.getAttribute('href'),
-			mobileRect: { top: mobileRect.top, right: mobileRect.right, bottom: mobileRect.bottom, left: mobileRect.left, height: mobileRect.height },
-			dockRect: { top: dockRect.top, bottom: dockRect.bottom, height: dockRect.height },
-			homeRect: { left: homeRect.left, right: homeRect.right },
-			actionRect: { left: actionRect.left, right: actionRect.right },
-			dockGap: dockRect.top - mobileRect.bottom,
+			homeRect: { left: homeRect.left, right: homeRect.right, height: homeRect.height },
+			contextOpen: document.querySelector('.hubContextDisclosure')?.open ?? true,
+			pulseOpen: document.querySelector('.homePulseDisclosure')?.open ?? true,
+			actionsOpen: document.querySelector('.homeActionsDisclosure')?.open ?? true,
+			lookupOpen: document.querySelector('.publicDiscovery__lookupDisclosure')?.open ?? true,
 			documentOverflow: document.documentElement.scrollWidth - innerWidth,
-			bodyPaddingBottom: parseFloat(getComputedStyle(document.body).paddingBottom),
-			hasExternalProviders: /youtube|facebook|instagram|oauth/i.test(document.querySelector('.homeCreationCard').textContent),
-			mobileLabel: mobileAction.textContent.trim().replace(/\\s+/g, ' ')
+			hasExternalProviders: /youtube|facebook|instagram|oauth/i.test(document.querySelector('[data-panel="home"]').textContent)
 		};
 	})()`);
 }
 
-/**
- * Proves mobile creator geometry and contextual internal-link truth without activating publication.
- * @param {Object} client Connected CDP client.
- * @returns {Promise<Object>} The proven browser evidence for optional reporting/screenshot flow.
- */
+/** Inspects the compact persistent creator after leaving Home. */
+async function inspectRouteCreator(client) {
+	return client.evaluate(`(() => {
+		const portal = document.getElementById('mobileCreatorPortal');
+		const action = document.getElementById('mobileQuickPost');
+		const dock = document.getElementById('mobileNavigation');
+		const rect = action.getBoundingClientRect();
+		const dockRect = dock.getBoundingClientRect();
+		return {
+			display: getComputedStyle(portal).display,
+			position: getComputedStyle(portal).position,
+			href: action.getAttribute('href'),
+			rect: { top: rect.top, right: rect.right, bottom: rect.bottom, left: rect.left, height: rect.height },
+			dockGap: dockRect.top - rect.bottom,
+			label: action.textContent.trim().replace(/\\s+/g, ' ')
+		};
+	})()`);
+}
+
+/** Proves one-creator-at-a-time geometry and retractable Home truth. */
 export async function provePersistentCreator(client) {
-	const evidence = await inspectPersistentCreator(client);
-	const creatorUrl = new URL(evidence.mobileHref, 'https://awtsmoos.test');
-	assert.equal(evidence.viewport.width, 390);
-	assert.notEqual(evidence.portalDisplay, 'none');
-	assert.equal(evidence.portalPosition, 'fixed');
+	const home = await inspectHomeCreator(client);
+	const creatorUrl = new URL(home.homeHref, 'https://awtsmoos.test');
+	assert.equal(home.viewport.width, 390);
+	assert.equal(home.portalDisplay, 'none');
 	assert.equal(creatorUrl.pathname, '/social-composer/');
 	assert.equal(creatorUrl.searchParams.get('alias'), 'teacher');
 	assert.equal(creatorUrl.searchParams.get('heichel'), 'study');
 	assert.equal(creatorUrl.searchParams.get('series'), 'lessons');
 	assert.equal(creatorUrl.searchParams.get('creator'), 'post');
-	assert.equal(evidence.homeHref, evidence.mobileHref);
-	assert.ok(evidence.mobileRect.left >= 0);
-	assert.ok(evidence.mobileRect.right <= evidence.viewport.width);
-	assert.ok(evidence.mobileRect.top >= 0);
-	assert.ok(evidence.mobileRect.bottom <= evidence.viewport.height);
-	assert.ok(evidence.mobileRect.height >= 44);
-	assert.ok(evidence.dockGap > 0);
-	assert.ok(evidence.bodyPaddingBottom > evidence.dockRect.height);
-	assert.ok(evidence.homeRect.left >= 0);
-	assert.ok(evidence.homeRect.right <= evidence.viewport.width);
-	assert.ok(evidence.actionRect.left >= evidence.homeRect.left);
-	assert.ok(evidence.actionRect.right <= evidence.homeRect.right);
-	assert.equal(evidence.documentOverflow, 0);
-	assert.equal(evidence.hasExternalProviders, false);
-	assert.match(evidence.mobileLabel, /Create post/);
-	return evidence;
+	assert.equal(home.homeHref, home.mobileHref);
+	assert.ok(home.homeRect.left >= 0);
+	assert.ok(home.homeRect.right <= home.viewport.width);
+	assert.ok(home.homeRect.height >= 44);
+	assert.equal(home.contextOpen, false);
+	assert.equal(home.pulseOpen, false);
+	assert.equal(home.actionsOpen, false);
+	assert.equal(home.lookupOpen, false);
+	assert.equal(home.documentOverflow, 0);
+	assert.equal(home.hasExternalProviders, false);
+	await client.evaluate(`location.hash = '#inbox'`);
+	await waitFor(client, `document.querySelector('[data-panel="inbox"]')?.dataset.active === 'true'`, 'Inbox never activated for creator proof');
+	const route = await inspectRouteCreator(client);
+	assert.notEqual(route.display, 'none');
+	assert.equal(route.position, 'fixed');
+	assert.equal(route.href, home.mobileHref);
+	assert.ok(route.rect.left >= 0 && route.rect.right <= home.viewport.width);
+	assert.ok(route.rect.top >= 0 && route.rect.bottom <= home.viewport.height);
+	assert.ok(route.rect.height >= 44);
+	assert.ok(route.dockGap > 0);
+	assert.match(route.label, /Create/);
+	await client.evaluate(`location.hash = '#home'`);
+	await waitFor(client, `document.querySelector('[data-panel="home"]')?.dataset.active === 'true'`, 'Home never restored after creator proof');
+	return { home, route };
 }

@@ -1,0 +1,50 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos reveals hidden depth without making the vessel lurch or swell;
+ * Awtsmoos.com lets native disclosures arrive as a brief refraction, then rest where meaning can dwell.
+ */
+.social-hub-document :where(
+	.hubContextDisclosure,
+	.homePulseDisclosure,
+	.homeActionsDisclosure,
+	.publicDiscovery__lookupDisclosure,
+	.futureCapabilityCenter
+)[open] > :not(summary) {
+	animation: malchus-glass-reveal 190ms var(--tiferes-ease) both;
+	transform-origin: top center;
+}
+
+.social-hub-document .workspacePanel:not([hidden]) > :where(
+	.publicDiscovery,
+	.homeCreationCard,
+	.homePulseDisclosure,
+	.homeActionsDisclosure
+) {
+	animation: tiferes-glass-arrive 220ms var(--tiferes-ease) both;
+}
+
+@keyframes malchus-glass-reveal {
+	from {
+		opacity: 0;
+		transform: translate3d(0, -5px, 0) scale(.995);
+	}
+
+	to {
+		opacity: 1;
+		transform: translate3d(0, 0, 0) scale(1);
+	}
+}
+
+@keyframes tiferes-glass-arrive {
+	from {
+		opacity: .7;
+		transform: translate3d(0, 4px, 0);
+	}
+
+	to {
+		opacity: 1;
+		transform: translate3d(0, 0, 0);
+	}
+}

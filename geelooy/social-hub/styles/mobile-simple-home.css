@@ -1,0 +1,82 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos lets one deed appear before many measurements; Awtsmoos.com folds pulse and secondary actions until the user asks them to shine. */
+@media (max-width: 62.4375rem) {
+	.social-hub-document .homePanel { display: flex; flex-direction: column; gap: .5rem; }
+	.social-hub-document .homeCreationCard {
+		order: 0;
+		display: block;
+		padding: 0;
+		border: 0;
+		background: transparent;
+		box-shadow: none;
+	}
+	.social-hub-document .homeCreationCard__copy { display: none; }
+	.social-hub-document .homeCreationAction {
+		min-block-size: 52px;
+		padding: .55rem .7rem;
+		border-radius: .9rem;
+		box-shadow: none;
+	}
+	.social-hub-document .homeCreationAction__icon { flex-basis: 2.15rem; block-size: 2.15rem; font-size: 1rem; }
+	.social-hub-document .homeCreationAction__title { font-size: .92rem; }
+	.social-hub-document .homeCreationAction__hint { font-size: .68rem; }
+	.social-hub-document .publicDiscovery { order: 1; }
+	.social-hub-document .homePulseDisclosure { order: 2; }
+	.social-hub-document .homeActionsDisclosure { order: 3; }
+	.social-hub-document :where(.homePulseDisclosure, .homeActionsDisclosure) {
+		margin: 0;
+		border-radius: .85rem;
+		box-shadow: none;
+		background: rgb(7 15 29 / 82%);
+	}
+	.social-hub-document :where(.homePulseDisclosure, .homeActionsDisclosure) > .homeDisclosureSummary {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: .55rem;
+		min-block-size: 44px;
+		padding: .5rem .65rem;
+		background: transparent;
+		font-size: .8rem;
+	}
+	.social-hub-document .homeDisclosureSummary span { display: flex; gap: .35rem; align-items: baseline; min-inline-size: 0; }
+	.social-hub-document .homeDisclosureSummary small { overflow: hidden; max-inline-size: 8rem; color: var(--muted); text-overflow: ellipsis; white-space: nowrap; }
+	.social-hub-document :where(.homePulseDisclosure, .homeActionsDisclosure) > :not(summary) { margin-inline: .5rem; }
+	.social-hub-document .homePulseDisclosure .heroRift { display: block; padding: .5rem; text-align: start; }
+	.social-hub-document .homePulseDisclosure .pulseOrb,
+	.social-hub-document .homePulseDisclosure .eyebrow,
+	.social-hub-document .homePulseDisclosure .heroRift h2 { display: none; }
+	.social-hub-document #pulseTarget { margin: 0; color: var(--muted); font-size: .7rem; overflow-wrap: anywhere; }
+	.social-hub-document .homePulseDisclosure .pulseGrid {
+		grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+		gap: .3rem;
+		margin: .35rem 0 .5rem;
+	}
+	.social-hub-document .homePulseDisclosure .pulseGrid article {
+		min-block-size: 3.5rem;
+		padding: .35rem .25rem;
+		border-radius: .65rem;
+		box-shadow: none;
+		text-align: center;
+	}
+	.social-hub-document .homePulseDisclosure .pulseGrid strong { font-size: .92rem; }
+	.social-hub-document .homePulseDisclosure .pulseGrid span { font-size: .56rem; line-height: 1.15; }
+	.social-hub-document .homeActionsDisclosure .quickActionGrid {
+		grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+		gap: .35rem;
+		margin: .4rem 0 .5rem;
+	}
+	.social-hub-document .homeActionsDisclosure .quickActionGrid > * {
+		min-block-size: 44px;
+		padding: .4rem;
+		border-radius: .65rem;
+		box-shadow: none;
+		font-size: .74rem;
+	}
+	.social-hub-document .homeActionsDisclosure .quickActionGrid > *::before { display: none; }
+}
+@media (max-width: 23rem) {
+	.social-hub-document .homePulseDisclosure .pulseGrid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+}

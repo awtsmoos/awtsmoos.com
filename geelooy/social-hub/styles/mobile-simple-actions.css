@@ -1,0 +1,58 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos keeps creation near without letting it hover over the deed already before us; Awtsmoos.com quiets dock and tool catalog into measured secondary vessels. */
+@media (max-width: 62.4375rem) {
+	.social-hub-document:has([data-panel="home"][data-active="true"]) .mobileCreatorPortal { display: none; }
+	.social-hub-document:not(:has([data-panel="home"][data-active="true"])) .mobileCreatorPortal {
+		inset-inline-end: max(.5rem, env(safe-area-inset-right));
+		inset-block-end: calc(var(--hub-mobile-dock-clearance) + .35rem);
+	}
+	.social-hub-document .mobileCreatorAction {
+		min-inline-size: 0;
+		min-block-size: 44px;
+		padding: .35rem .5rem;
+		border-radius: .8rem;
+		box-shadow: 0 .45rem 1.1rem rgb(0 0 0 / 24%);
+	}
+	.social-hub-document .mobileCreatorAction__icon { flex-basis: 1.8rem; block-size: 1.8rem; border-radius: .55rem; font-size: .9rem; }
+	.social-hub-document .mobileCreatorAction__label { font-size: .78rem; }
+	.social-hub-document .mobileCreatorAction__hint { display: none; }
+	.social-hub-document .homePanel > .futureCapabilityCenter { order: 4; }
+	.social-hub-document .futureCapabilityCenter {
+		margin-block: 0;
+		border-radius: .8rem;
+		box-shadow: none;
+		background: rgb(7 15 29 / 76%);
+	}
+	.social-hub-document .futureCapabilityCenter__summary {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: .4rem;
+		min-block-size: 44px;
+		padding: .3rem .6rem;
+	}
+	.social-hub-document .futureCapabilityCenter__title { font-size: .76rem; }
+	.social-hub-document .futureCapabilityCenter__hint { display: none; }
+	.social-hub-document .futureCapabilityCenter__chevron { margin-inline-start: auto; }
+	.social-hub-document .mobileDock {
+		inset-inline: max(.4rem, env(safe-area-inset-left)) max(.4rem, env(safe-area-inset-right));
+		padding: .22rem;
+		border-radius: .9rem;
+		box-shadow: 0 .55rem 1.4rem rgb(0 0 0 / 30%);
+		background: rgb(4 10 21 / 96%);
+	}
+	.social-hub-document .mobileDock .routeButton { min-block-size: 3rem; padding: .2rem .08rem; border-radius: .62rem; }
+	.social-hub-document .mobileDock .routeIcon { inline-size: 1.75rem; block-size: 1.75rem; font-size: .95rem; }
+	.social-hub-document .mobileDock .routeLabel { font-size: .56rem; }
+	.social-hub-document .hubStatus { inset-block-end: calc(4.9rem + var(--safe-bottom)); font-size: .78rem; }
+	.social-hub-document .socialHubMount[data-shell-ready="false"] > .workspacePanel {
+		max-inline-size: 28rem;
+		margin: 1rem auto;
+		padding: 1rem;
+	}
+	.social-hub-document .socialHubMount[data-shell-ready="false"] > .workspacePanel > :where(.panelIntro, .actionRow) { display: none; }
+	.social-hub-document .socialHubMount[data-shell-ready="false"] > .workspacePanel h1 { margin: 0 0 .35rem; font-size: 1.25rem; }
+	.social-hub-document .socialHubMount[data-shell-ready="false"] > .workspacePanel p { margin: .35rem 0; font-size: .82rem; line-height: 1.4; }
+}

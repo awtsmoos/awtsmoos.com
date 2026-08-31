@@ -3,8 +3,8 @@
 //Blessed is He
 /**
  * @module PublicDiscoveryHeader
- * @description The Awtsmoos lets public discovery show its living modes without pouring preferences across the page;
- * Awtsmoos.com keeps time, trend, question, and answer visible while view density waits behind one quiet retractable door.
+ * @description The Awtsmoos lets public discovery begin with one plain invitation while advanced view density waits quietly;
+ * Awtsmoos.com keeps time, trend, question, and answer reachable without turning the first mobile screen into a control wall.
  */
 import { createProgressiveDisclosure } from '../../../shared/social/ui/ProgressiveDisclosure.js';
 import { createDensityControl, createFeedModeTabs } from './PublicDiscoveryControls.js';
@@ -16,9 +16,9 @@ function createHeaderCopy(document) {
 	eyebrow.textContent = 'Public social';
 	const title = document.createElement('h2');
 	title.id = 'publicDiscoveryTitle';
-	title.textContent = 'Discover living conversations';
+	title.textContent = 'Discover';
 	const description = document.createElement('p');
-	description.textContent = 'Fresh posts, measured trends, formal questions, and answers—without leaving the social graph.';
+	description.textContent = 'Latest posts, questions, answers, and people.';
 	copy.append(eyebrow, title, description);
 	return copy;
 }
@@ -40,12 +40,7 @@ export function createPublicDiscoveryHeader({ document, density, onMode, onDensi
 	});
 	controls.append(tabs, preferences.root);
 	header.append(createHeaderCopy(document), controls);
-	return {
-		root: header,
-		tabs,
-		density: densityControl.select,
-		preferences
-	};
+	return { root: header, tabs, density: densityControl.select, preferences };
 }
 
 export { createHeaderCopy };

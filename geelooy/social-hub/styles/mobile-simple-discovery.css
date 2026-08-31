@@ -1,0 +1,54 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos reveals the feed before its preferences; Awtsmoos.com makes discovery compact while profile lookup waits behind a deliberate door. */
+@media (max-width: 62.4375rem) {
+	.social-hub-document .publicDiscovery {
+		margin: 0;
+		padding: .65rem;
+		border-radius: .9rem;
+		box-shadow: none;
+		background: rgb(7 15 29 / 80%);
+	}
+	.social-hub-document .publicDiscovery__header { gap: .45rem; }
+	.social-hub-document .publicDiscovery__header h2 { font-size: 1rem; }
+	.social-hub-document .publicDiscovery__header p:last-child { display: none; }
+	.social-hub-document .publicDiscovery__controls { display: block; margin-block-start: .4rem; }
+	.social-hub-document .publicDiscovery__tabs {
+		display: grid;
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+		gap: .25rem;
+		inline-size: 100%;
+	}
+	.social-hub-document .publicDiscovery__tabs button {
+		min-inline-size: 0;
+		min-block-size: 44px;
+		padding: .25rem;
+		border-radius: .65rem;
+		font-size: .68rem;
+		white-space: normal;
+	}
+	.social-hub-document .publicDiscovery__viewOptions { display: none; }
+	.social-hub-document .publicDiscovery__lookupDisclosure { margin-block-start: .4rem; border: 0; background: transparent; }
+	.social-hub-document .publicDiscovery__lookupDisclosure > summary {
+		min-block-size: 44px;
+		padding: .45rem .6rem;
+		border: 1px solid var(--yesod-edge);
+		border-radius: .65rem;
+		font-size: .75rem;
+		font-weight: 760;
+		list-style: none;
+	}
+	.social-hub-document .publicDiscovery__lookupDisclosure > summary::-webkit-details-marker { display: none; }
+	.social-hub-document .publicDiscovery__lookup { grid-template-columns: minmax(0, 1fr) auto; gap: .3rem; margin-block-start: .35rem; }
+	.social-hub-document .publicDiscovery__lookup :where(input, button) { min-block-size: 44px; }
+	.social-hub-document .publicDiscovery__lookup button { inline-size: auto; }
+	.social-hub-document .publicDiscovery__feed { margin-top: .5rem; }
+	.social-hub-document :where(.publicDiscoveryEmpty, .publicFeedCard) { padding: .7rem; border-radius: .75rem; }
+	.social-hub-document .publicDiscoveryEmpty p { margin-block: .35rem; font-size: .78rem; line-height: 1.35; }
+}
+@media (max-width: 23rem) {
+	.social-hub-document .publicDiscovery__tabs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+	.social-hub-document .publicDiscovery__lookup { grid-template-columns: 1fr; }
+	.social-hub-document .publicDiscovery__lookup button { inline-size: 100%; }
+}
