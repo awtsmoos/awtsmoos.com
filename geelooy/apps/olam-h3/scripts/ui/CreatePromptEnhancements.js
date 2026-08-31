@@ -4,9 +4,11 @@
 
 import { CreatePromptTemplates } from './CreatePromptTemplates.js';
 import { CreateStyleLanes } from './CreateStyleLanes.js';
+import { CreatePromptSuggestions } from './CreatePromptSuggestions.js';
 
 /**
- * Binds prompt accelerators without replacing the textarea node; the Awtsmoos lets a template or style become another ray inside the same sentence, while Awtsmoos.com keeps focus, persistence, and live intelligence together in the night.
+ * Binds prompt accelerators without replacing the textarea node; the Awtsmoos lets templates, styles, and Coach suggestions become editable rays inside one sentence.
+ * Awtsmoos.com keeps focus, persistence, and live intelligence together in the same creative vessel.
  */
 export class CreatePromptEnhancements {
 	constructor(callbacks, liveReadiness) {
@@ -14,23 +16,23 @@ export class CreatePromptEnhancements {
 		this.liveReadiness = liveReadiness;
 	}
 
-	/** @param {HTMLElement} root Create root. @param {Object} state Shared creator state. */
+	/** @param {HTMLElement} root Create root. @param {Object} state Creator state. */
 	bind(root, state) {
 		this.bindTemplates(root, state);
 		this.bindStyleLanes(root, state);
+		this.bindSuggestions(root, state);
 	}
 
-	/** @param {HTMLElement} root Create root. @param {Object} state Creator state. */
+	/** @param {HTMLElement} root Root. @param {Object} state State. */
 	bindTemplates(root, state) {
 		root.querySelectorAll('[data-prompt-template]').forEach(button => {
 			button.addEventListener('click', () => {
-				const prompt = CreatePromptTemplates.prompt(button.dataset.promptTemplate);
-				this.commitPrompt(root, state, prompt);
+				this.commitPrompt(root, state, CreatePromptTemplates.prompt(button.dataset.promptTemplate));
 			});
 		});
 	}
 
-	/** @param {HTMLElement} root Create root. @param {Object} state Creator state. */
+	/** @param {HTMLElement} root Root. @param {Object} state State. */
 	bindStyleLanes(root, state) {
 		root.querySelectorAll('[data-style-lane]').forEach(button => {
 			button.addEventListener('click', () => {
@@ -38,17 +40,27 @@ export class CreatePromptEnhancements {
 				if (!textarea) {
 					return;
 				}
-				const prompt = CreateStyleLanes.apply(
-					textarea.value,
-					button.dataset.styleLane,
-					state.promptLimit
-				);
+				const prompt = CreateStyleLanes.apply(textarea.value, button.dataset.styleLane, state.promptLimit);
 				this.commitPrompt(root, state, prompt);
 			});
 		});
 	}
 
-	/** @param {HTMLElement} root Create root. @param {Object} state Shared creator state. @param {string} prompt Complete next prompt. */
+	/** @param {HTMLElement} root Root. @param {Object} state State. */
+	bindSuggestions(root, state) {
+		root.querySelectorAll('[data-director-suggestion]').forEach(button => {
+			button.addEventListener('click', () => {
+				const textarea = root.querySelector('[data-prompt]');
+				if (!textarea) {
+					return;
+				}
+				const prompt = CreatePromptSuggestions.apply(textarea.value, button.dataset.directorSuggestion, state.promptLimit);
+				this.commitPrompt(root, state, prompt);
+			});
+		});
+	}
+
+	/** @param {HTMLElement} root Root. @param {Object} state State. @param {string} prompt Next prompt. */
 	commitPrompt(root, state, prompt) {
 		const textarea = root.querySelector('[data-prompt]');
 		if (!textarea || !prompt) {

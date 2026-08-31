@@ -22,16 +22,13 @@ export class CreatePromptSuggestions {
 		if (!suggestion) {
 			return prompt;
 		}
-
 		const current = String(prompt).trim();
 		if (current.includes(suggestion)) {
 			return current;
 		}
-
 		const combined = current
 			? `${current} ${suggestion}`
 			: suggestion;
-
 		return combined.slice(0, limit);
 	}
 }
