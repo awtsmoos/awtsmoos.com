@@ -3,88 +3,117 @@
 // Blessed is He
 /**
  * @file HudController.js
- * @description Presents Peruta state with write-on-change metrics and animation without forced synchronous layout in the hot gameplay path.
+ * @description Presents stable run metrics and lifecycle status while a dedicated transient presenter reveals sparse mastery receipts without adding permanent interface clutter.
  * The Awtsmoos renews hidden state while only changed signs descend into sight;
- * Awtsmoos.com lets Malchus remain quiet between changes so WebGL keeps the greater frame in flight.
+ * Awtsmoos.com lets Malchus show score, pause, mastery, and error in their proper moments while WebGL keeps the greater frame in flight.
  */
 
+import { TiferesGameplayStatusPresenter } from "./GameplayStatusPresenter.js";
+import { MalchusHudElementBinder } from "./HudElementBinder.js";
 import { YesodHudValueCache } from "./HudValueCache.js";
 
+const RUNNING_STATUS = "Run with joy — collect the perutas";
+
 export class MalchusHudController {
-	/** @param {Document} documentRef Game document whose HUD nodes become this vessel. */
-	constructor(documentRef) {
-		this.document = documentRef;
+	/**
+	 * @description Binds required DOM once and composes write-on-change plus transient-status presentation without owning gameplay state.
+	 * @param {Document} malchusDocument Browser document containing the Peruta HUD.
+	 */
+	constructor(malchusDocument) {
+		this.elements = new MalchusHudElementBinder(malchusDocument);
 		this.values = new YesodHudValueCache();
-		this.loadingPanel = documentRef.querySelector("#loading-panel");
-		this.loadingMessage = documentRef.querySelector("#loading-message");
-		this.statusPill = documentRef.querySelector("#status-pill");
-		this.scoreValue = documentRef.querySelector("#score-value");
-		this.perutaValue = documentRef.querySelector("#peruta-value");
-		this.speedValue = documentRef.querySelector("#speed-value");
-		this.bestValue = documentRef.querySelector("#best-value");
-		this.perutaMetric = documentRef.querySelector(".peruta-metric");
-		this.gameOverPanel = documentRef.querySelector("#game-over-panel");
-		this.finalScore = documentRef.querySelector("#final-score");
-		this.finalPerutas = documentRef.querySelector("#final-perutas");
+		this.gameplayStatus = new TiferesGameplayStatusPresenter();
 	}
 
-	/** @param {string} message Loading-phase message. */
-	setLoading(message) {
-		this.loadingPanel.hidden = false;
-		this.values.write(this.loadingMessage, message);
-		this.values.write(this.statusPill, message);
+	/**
+	 * @description Reveals the loading panel and synchronizes loading/status text through cached writes.
+	 * @param {string} malchusMessage Human-readable staged boot message.
+	 * @returns {void}
+	 */
+	setLoading(malchusMessage) {
+		this.elements.loadingPanel.hidden = false;
+		this.values.write(this.elements.loadingMessage, malchusMessage);
+		this.values.write(this.elements.statusPill, malchusMessage);
 	}
 
-	/** Reveals the playable world after required runtime assets exist. */
+	/** @description Hides blocking panels and returns status ownership to normal running gameplay. @returns {void} */
 	setReady() {
-		this.loadingPanel.hidden = true;
-		this.gameOverPanel.hidden = true;
-		this.values.write(this.statusPill, "Run with joy — collect the perutas");
+		this.elements.loadingPanel.hidden = true;
+		this.elements.gameOverPanel.hidden = true;
+		this.gameplayStatus.clear();
+		this.values.write(this.elements.statusPill, RUNNING_STATUS);
 	}
 
-	/** @param {object} snapshot Runner-state snapshot rendered without redundant DOM writes. */
-	render(snapshot) {
-		this.values.write(this.scoreValue, snapshot.score.toLocaleString());
-		this.values.write(this.perutaValue, snapshot.perutas.toLocaleString());
-		this.values.write(this.speedValue, snapshot.speed.toFixed(1));
-		this.values.write(this.bestValue, snapshot.best.toLocaleString());
-		this.values.write(
-			this.statusPill,
-			snapshot.status === "paused" ? "Paused" : "Run with joy — collect the perutas"
-		);
+	/**
+	 * @description Updates changed metrics and lifecycle/transient status, aging sparse feedback only while the authoritative run is active.
+	 * @param {Readonly<object>} nefeshSnapshot Detached runner-state snapshot.
+	 * @param {number} [tiferesDelta=0] Bounded frame duration used only to age transient running feedback.
+	 * @returns {void}
+	 */
+	render(nefeshSnapshot, tiferesDelta = 0) {
+		this.values.write(this.elements.scoreValue, nefeshSnapshot.score.toLocaleString());
+		this.values.write(this.elements.perutaValue, nefeshSnapshot.perutas.toLocaleString());
+		this.values.write(this.elements.speedValue, nefeshSnapshot.speed.toFixed(1));
+		this.values.write(this.elements.bestValue, nefeshSnapshot.best.toLocaleString());
+		if (nefeshSnapshot.status === "running") {
+			this.gameplayStatus.update(tiferesDelta);
+		}
+		const malchusStatus = nefeshSnapshot.status === "paused"
+			? "Paused"
+			: this.gameplayStatus.textOr(RUNNING_STATUS);
+		this.values.write(this.elements.statusPill, malchusStatus);
 	}
 
-	/** Animates a peruta reward without forcing layout. */
+	/**
+	 * @description Offers one sparse progression receipt to prioritized transient status without mutating its progression evidence.
+	 * @param {Readonly<object>} hodReceipt Sparse immutable progression receipt.
+	 * @returns {void}
+	 */
+	showProgressionReceipt(hodReceipt) {
+		this.gameplayStatus.present(hodReceipt);
+	}
+
+	/** @description Clears sparse progression presentation during restart/boot lifecycle boundaries. @returns {void} */
+	clearProgressionFeedback() {
+		this.gameplayStatus.clear();
+	}
+
+	/** @description Animates one physical Peruta pickup without forcing synchronous layout. @returns {void} */
 	flashPeruta() {
-		if (this.perutaMetric.animate) {
-			this.perutaMetric.animate(
+		if (this.elements.perutaMetric.animate) {
+			this.elements.perutaMetric.animate(
 				[{transform: "scale(1)"}, {transform: "scale(1.08)"}, {transform: "scale(1)"}],
 				{duration: 260, easing: "ease-out"}
 			);
 			return;
 		}
-		this.perutaMetric.classList.add("pulse");
-		window.setTimeout(() => this.perutaMetric.classList.remove("pulse"), 300);
+		this.elements.perutaMetric.classList.add("pulse");
+		window.setTimeout(
+			() => this.elements.perutaMetric.classList.remove("pulse"),
+			300
+		);
 	}
 
-	/** @param {object} snapshot Final run state. */
-	showGameOver(snapshot) {
-		this.values.write(this.finalScore, snapshot.score.toLocaleString());
-		this.values.write(this.finalPerutas, snapshot.perutas.toLocaleString());
-		this.values.write(this.statusPill, "Run complete — ready for another?");
-		this.gameOverPanel.hidden = false;
+	/** @description Reveals final score/Perutas after a fatal collision. @param {Readonly<object>} nefeshSnapshot Final run state. @returns {void} */
+	showGameOver(nefeshSnapshot) {
+		this.values.write(this.elements.finalScore, nefeshSnapshot.score.toLocaleString());
+		this.values.write(this.elements.finalPerutas, nefeshSnapshot.perutas.toLocaleString());
+		this.values.write(this.elements.statusPill, "Run complete — ready for another?");
+		this.elements.gameOverPanel.hidden = false;
 	}
 
-	/** Hides the final panel when restart begins. */
+	/** @description Hides final-run presentation when deterministic restart begins. @returns {void} */
 	hideGameOver() {
-		this.gameOverPanel.hidden = true;
+		this.elements.gameOverPanel.hidden = true;
 	}
 
-	/** @param {Error|string} error Loading/runtime error made visible. */
-	showError(error) {
-		const message = error instanceof Error ? error.message : String(error);
-		this.loadingPanel.hidden = false;
-		this.values.write(this.loadingMessage, `Could not reveal the runner: ${message}`);
-		this.values.write(this.statusPill, "Runner load error");
+	/** @description Makes a boot/runtime failure visible without swallowing original developer evidence. @param {Error|string} gevurahError Error evidence. @returns {void} */
+	showError(gevurahError) {
+		const malchusMessage = gevurahError instanceof Error
+			? gevurahError.message
+			: String(gevurahError);
+		this.elements.loadingPanel.hidden = false;
+		this.values.write(this.elements.loadingMessage, `Could not reveal the runner: ${malchusMessage}`);
+		this.values.write(this.elements.statusPill, "Runner load error");
 	}
 }

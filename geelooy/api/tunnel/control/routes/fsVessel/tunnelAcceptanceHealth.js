@@ -19,11 +19,7 @@ function snapshot(client = {}, now = Date.now()) {
 	const failureAt = failureStamp(client, explicitAt);
 	const successAt = successStamp(client, custodyAt, explicitAt);
 	const observedAt = Math.max(failureAt, successAt, explicitAt);
-	const supported = Boolean(
-		client.acceptanceHealthSupported === true ||
-		typeof client.acceptanceHealthy === "boolean" ||
-		custodyAt > 0
-	);
+	const supported = hasAcceptanceEvidence(client, custodyAt, successAt, failureAt, explicitAt);
 	const ageMs = observedAt > 0 ? Math.max(0, now - observedAt) : null;
 	const fresh = supported && observedAt > 0 && ageMs <= ACCEPTANCE_HEALTH_STALE_MS;
 	const healthy = healthValue(client, fresh, successAt, failureAt);
@@ -40,6 +36,18 @@ function snapshot(client = {}, now = Date.now()) {
 		failureAt: failureAt || null,
 		failureStreak: nonnegative(client.acceptanceFailureStreak)
 	};
+}
+
+/** Returns whether any explicit or custody witness proves the acceptance protocol exists. */
+function hasAcceptanceEvidence(client, custodyAt, successAt, failureAt, explicitAt) {
+	return Boolean(
+		client.acceptanceHealthSupported === true ||
+		typeof client.acceptanceHealthy === "boolean" ||
+		custodyAt > 0 ||
+		successAt > 0 ||
+		failureAt > 0 ||
+		explicitAt > 0
+	);
 }
 
 /** Returns native parent custody whether carried directly or inside a connection view. */
@@ -86,7 +94,7 @@ function healthState(client, supported, fresh, healthy) {
 function healthSource(client, custodyAt, successAt, failureAt) {
 	if (failureAt > successAt) return "server_acceptance_failure";
 	if (custodyAt > 0 && custodyAt === successAt) return "native_parent_custody";
-	if (client.acceptanceHealthSupported === true) return "server_acceptance_health";
+	if (successAt > 0 || client.acceptanceHealthSupported === true) return "server_acceptance_health";
 	return "none";
 }
 
