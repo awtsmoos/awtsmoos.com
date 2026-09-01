@@ -1,9 +1,12 @@
 {
-  "name": "ohr-hagnuz",
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "test:rpg": "node tests/run-rpg-tests.mjs",
-    "test:retention": "node tests/rpg/allRemainingRetention.test.mjs"
-  }
+	"bh": "B\"H · Boruch Hashem · Blessed is He",
+	"name": "ohr-hagnuz",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"test": "npm run test:play && npm run test:rpg && npm run test:retention",
+		"test:play": "node tests/inputClarityRegression.mjs && node tests/playGuideRegression.mjs && node tests/clickWalkRegression.mjs",
+		"test:rpg": "node tests/run-rpg-tests.mjs",
+		"test:retention": "node tests/rpg/allRemainingRetention.test.mjs"
+	}
 }

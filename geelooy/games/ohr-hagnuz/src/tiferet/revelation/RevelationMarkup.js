@@ -1,15 +1,14 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file RevelationMarkup.js
  * @description Builds a strict overhead RPG interface around the live canvases.
- *
- * The Awtsmoos needs no horizon to reveal depth. Awtsmoos.com frames the actual
- * world with quest, vitality, minimap, action, fellowship, and event vessels while
- * the playable ground remains the visual center.
+ * The Awtsmoos reveals depth without letting chrome conceal the road in sight;
+ * Awtsmoos.com keeps the world, the Shlichus, and the first controls clear and bright.
  */
+import { PLAY_CONTROL_SUMMARY } from '../../onboarding/PlayInstructions.js';
 
 const NAVIGATION = [
 	{ panel: 'journal', icon: '✦', label: 'Shlichus', shortcut: 'J' },
@@ -21,12 +20,14 @@ const NAVIGATION = [
 	{ panel: 'menu', icon: '☰', label: 'More', shortcut: 'Esc' }
 ];
 
+/** Builds one stable navigation button without hiding its keyboard shortcut. */
 function navigationButton({ panel, icon, label, shortcut }) {
 	return `<button class="revelation-nav-button" data-revelation-panel="${panel}" type="button">
 		<span aria-hidden="true">${icon}</span><b>${label}</b><small>${shortcut}</small>
 	</button>`;
 }
 
+/** Reveals every renderer hook while placing immediate play guidance near the mission. */
 export function createRevelationMarkup() {
 	return `
 	<div class="revelation-atmosphere" aria-hidden="true">
@@ -49,6 +50,9 @@ export function createRevelationMarkup() {
 		<h1 data-revelation-quest-title></h1><p data-revelation-objective></p>
 		<div class="revelation-progress-track"><span data-revelation-progress></span></div>
 		<footer><span data-revelation-messenger></span><b data-revelation-route></b></footer>
+	</aside>
+	<aside class="revelation-play-guide" aria-label="How to play">
+		<strong>HOW TO PLAY</strong><span>${PLAY_CONTROL_SUMMARY}</span>
 	</aside>
 	<aside class="revelation-vitality" aria-label="Player vitality">
 		<div><span class="revelation-player-sigil">א</span><strong data-revelation-vitality-label></strong></div>
