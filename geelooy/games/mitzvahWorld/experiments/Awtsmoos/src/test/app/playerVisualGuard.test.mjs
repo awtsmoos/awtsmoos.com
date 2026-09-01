@@ -4,13 +4,12 @@
 
 /**
  * @file playerVisualGuard.test.mjs
- * @description Proves the rigid WebGL Chossid survives richer promotion and follows canonical motion without surrendering its safe geometry scale.
- * The Awtsmoos lets the richer garment dance while the first visible silhouette remains a faithful underlay;
- * Awtsmoos.com makes one moving human form resilient to device-specific skinned shader darkness or disappearance.
+ * @description Proves the rigid WebGL Chossid shares canonical root transforms without depending on any frame scheduler.
+ * The Awtsmoos binds two visible garments to one moving place, so a compact loop cannot leave the humble body behind;
+ * Awtsmoos.com keeps the guard's own scale and meshes while canonical position and orientation flow through one root intertwined.
  */
 
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 import { Group } from '../../../../light-three-gltf/tiny-runtime.js';
 import {
@@ -27,7 +26,7 @@ function runtimeFixture() {
 	return { guard, runtime: { model } };
 }
 
-test('B"H visual guard stays visible, marked, and preserves its own scale', () => {
+test('B"H guard shares canonical transform objects while preserving device-safe scale', () => {
 	const { guard, runtime } = runtimeFixture();
 	guard.visible = false;
 	const preserved = preservePlayerVisualGuard(runtime, guard);
@@ -35,26 +34,34 @@ test('B"H visual guard stays visible, marked, and preserves its own scale', () =
 	assert.equal(runtime.playerVisualGuard, guard);
 	assert.equal(guard.visible, true);
 	assert.equal(guard.userData.awtsmoosPlayerVisualGuard, true);
+	assert.equal(guard.position, runtime.model.position);
+	assert.equal(guard.quaternion, runtime.model.quaternion);
 	assert.deepEqual(guard.position.toArray(), [4, 2, -3]);
 	assert.deepEqual(guard.scale.toArray(), [1.52, 1.52, 1.52]);
 });
 
-test('B"H visual guard mirrors canonical root motion and orientation', () => {
+test('B"H canonical movement reaches the guard without any frame-task sync call', () => {
 	const { guard, runtime } = runtimeFixture();
 	preservePlayerVisualGuard(runtime, guard);
 	runtime.model.position.set(-5, 1.25, 8);
 	runtime.model.quaternion.set(0, -0.7071068, 0, 0.7071068);
-	syncPlayerVisualGuard(runtime);
 	assert.deepEqual(guard.position.toArray(), [-5, 1.25, 8]);
 	assert.ok(Math.abs(guard.quaternion.y + 0.7071068) < 1e-6);
 	assert.ok(Math.abs(guard.quaternion.w - 0.7071068) < 1e-6);
+	assert.equal(guard.position, runtime.model.position);
+	assert.equal(guard.quaternion, runtime.model.quaternion);
 	assert.deepEqual(guard.scale.toArray(), [1.52, 1.52, 1.52]);
 });
 
-test('B"H frame task synchronizes guard immediately before WebGL render', async () => {
-	const source = await readFile(new URL('../../app/EretzRuntimeFrameTasks.js', import.meta.url), 'utf8');
-	const syncIndex = source.indexOf('syncPlayerVisualGuard(runtime)');
-	const renderIndex = source.indexOf('runtime.renderer.render(runtime.scene, runtime.camera)');
-	assert.ok(syncIndex >= 0);
-	assert.ok(renderIndex > syncIndex);
+test('B"H compatibility sync structurally rebinds a guard whose references were replaced', () => {
+	const { guard, runtime } = runtimeFixture();
+	preservePlayerVisualGuard(runtime, guard);
+	guard.position = guard.position.clone();
+	guard.quaternion = guard.quaternion.clone();
+	assert.notEqual(guard.position, runtime.model.position);
+	assert.notEqual(guard.quaternion, runtime.model.quaternion);
+	const rebound = syncPlayerVisualGuard(runtime);
+	assert.equal(rebound, guard);
+	assert.equal(guard.position, runtime.model.position);
+	assert.equal(guard.quaternion, runtime.model.quaternion);
 });

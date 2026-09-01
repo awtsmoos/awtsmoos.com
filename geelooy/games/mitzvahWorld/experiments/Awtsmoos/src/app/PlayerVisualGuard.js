@@ -4,12 +4,17 @@
 
 /**
  * @file PlayerVisualGuard.js
- * @description Keeps the original rigid WebGL Chossid as a synchronized underlay beneath the richer canonical player.
- * The Awtsmoos lets richer bones dance without gambling away the first visible human silhouette;
- * Awtsmoos.com keeps one humble WebGL body moving beneath canonical light, so device shader differences cannot erase the traveler.
+ * @description Preserves the rigid WebGL Chossid and binds it structurally to the canonical root transform.
+ * The Awtsmoos joins two visible garments to one living place, so no skipped scheduler can divide their way;
+ * Awtsmoos.com lets the richer body shine while a humble WebGL silhouette shares its motion every frame and every day.
  */
 
-/** Preserves and registers the existing bootstrap body as the runtime's visible WebGL guard. */
+/**
+ * Preserves the bootstrap body as a scene sibling and shares canonical root transform objects.
+ * @param {object} runtime Active gameplay runtime whose canonical model owns movement.
+ * @param {object} fallbackModel Rigid WebGL body created before canonical hydration.
+ * @returns {object|null} The preserved guard, or null when no distinct guard can be installed.
+ */
 export function preservePlayerVisualGuard(runtime, fallbackModel) {
 	if (!runtime || !fallbackModel || fallbackModel === runtime.model) return null;
 	fallbackModel.visible = true;
@@ -19,35 +24,20 @@ export function preservePlayerVisualGuard(runtime, fallbackModel) {
 	fallbackModel.userData ||= {};
 	fallbackModel.userData.awtsmoosPlayerVisualGuard = true;
 	runtime.playerVisualGuard = fallbackModel;
-	syncPlayerVisualGuard(runtime);
-	return fallbackModel;
+	return syncPlayerVisualGuard(runtime);
 }
 
-/** Mirrors canonical root movement without replacing the guard's device-safe geometry or scale. */
+/**
+ * Binds guard transform references to canonical references so every movement path updates both automatically.
+ * @param {object} runtime Runtime carrying canonical model and optional guard.
+ * @returns {object|null} Structurally bound guard, or null when the binding cannot exist.
+ */
 export function syncPlayerVisualGuard(runtime) {
 	const guard = runtime?.playerVisualGuard;
 	const model = runtime?.model;
 	if (!guard || !model || guard === model) return null;
-	copyVector(guard.position, model.position);
-	copyQuaternion(guard.quaternion, model.quaternion);
+	guard.position = model.position;
+	guard.quaternion = model.quaternion;
 	guard.visible = true;
 	return guard;
-}
-
-function copyVector(target, source) {
-	if (!target || !source) return;
-	if (typeof target.copy === 'function') {
-		target.copy(source);
-		return;
-	}
-	target.set?.(source.x || 0, source.y || 0, source.z || 0);
-}
-
-function copyQuaternion(target, source) {
-	if (!target || !source) return;
-	if (typeof target.copy === 'function') {
-		target.copy(source);
-		return;
-	}
-	target.set?.(source.x || 0, source.y || 0, source.z || 0, source.w ?? 1);
 }

@@ -4,14 +4,13 @@
 
 /**
  * @file EretzRuntimeFrameTasks.js
- * @description Runs rich-world tasks in fixed budgets while native chunks, built-in regions, creator cells, and the visible player guard share one cadence.
- * The Awtsmoos renews collision, deed, river, camera, distant lands, and the traveler without multiplying clocks in the frame;
- * Awtsmoos.com lets canonical motion carry a humble WebGL silhouette into the same render, preserving human visibility on every supported device.
+ * @description Runs rich-world tasks in fixed budgets while native chunks, built-in regions, and creator cells share one streaming cadence.
+ * The Awtsmoos renews collision, deed, river, camera, distant lands, and authored worlds without multiplying clocks in the frame;
+ * Awtsmoos.com lets one traveler awaken only nearby vessels while movement and rendering keep their measured name.
  */
 
 import { updateEretzAnimationFrame } from './EretzAnimationFrame.js';
 import { faceTarget } from './EretzPlayerModel.js';
-import { syncPlayerVisualGuard } from './PlayerVisualGuard.js';
 import { refreshStatusHud } from './EretzStatusHud.js';
 import { updateEretzWorldServices } from './EretzWorldServiceFrame.js';
 import { refreshWorldDiagnostics } from './WorldDiagnostics.js';
@@ -39,7 +38,10 @@ function measureTask(costs, name, task, runtime, context, deltaTime, now) {
 function updateStreaming(runtime, context, deltaTime, now) {
 	if (context.cadence.due('chunks', now)) {
 		const playerPosition = runtime.model.position;
-		runtime.chunkRuntime?.update({ at: now, playerPosition });
+		runtime.chunkRuntime?.update({
+			at: now,
+			playerPosition
+		});
 		runtime.openWorldStreaming?.update?.(playerPosition);
 		runtime.creatorWorldStreaming?.update?.(playerPosition);
 	}
@@ -89,7 +91,6 @@ function updateCamera(runtime, context, deltaTime) {
 }
 
 function renderWorld(runtime, context, deltaTime, now) {
-	syncPlayerVisualGuard(runtime);
 	runtime.renderer.setInteractor(runtime.state, now / 1000);
 	runtime.renderer.render(runtime.scene, runtime.camera);
 }
