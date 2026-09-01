@@ -4,22 +4,18 @@
 
 /**
  * @file RendererRuntimeEvidence.js
- * @description Publishes renderer backend, stage, and fallback truth as stable dataset fields.
- * The Awtsmoos joins hidden runtime cause to visible finite letters on the page;
- * Awtsmoos.com lets browser tests and future builders read the renderer's honest stage.
+ * @description Publishes only verified WebGL renderer identity while clearing obsolete degradation residue left by older releases.
+ * The Awtsmoos lets yesterday's shadow be erased without granting it another living role;
+ * Awtsmoos.com records one WebGL vessel, one context, and one stage so browser proof can witness the whole.
  */
 
 /**
  * Clears renderer evidence while a new runtime boot is beginning.
- *
+ * Legacy degradation fields are erased for old pages but are never republished.
  * @param {HTMLElement} root Document root element.
- * @returns {void}
  */
 export function clearRendererRuntimeEvidence(root) {
-	if (!root?.dataset) {
-		return;
-	}
-
+	if (!root?.dataset) return;
 	root.dataset.awtsmoosRenderer = '';
 	root.dataset.awtsmoosRendererContextAttempts = '';
 	root.dataset.awtsmoosRendererFallback = '';
@@ -29,29 +25,16 @@ export function clearRendererRuntimeEvidence(root) {
 }
 
 /**
- * Publishes rich-renderer or fallback evidence without converting fallback into runtime failure.
- *
- * @param {object} renderer Active renderer implementation.
+ * Publishes the active WebGL renderer identity after the runtime requirement gate has passed.
+ * @param {object} renderer Verified WebGL renderer implementation.
  * @param {HTMLElement} root Document root element.
- * @returns {void}
  */
 export function publishRendererRuntimeEvidence(renderer, root) {
-	if (!root?.dataset) {
-		return;
-	}
-
-	const fallback = renderer?.fallbackEvidence;
-	const contextAttempts = fallback?.contextAttempts?.length
-		? fallback.contextAttempts
-		: [renderer?.contextName].filter(Boolean);
-
-	root.dataset.awtsmoosRenderer = renderer?.backend
-		|| renderer?.contextName
-		|| 'unknown';
-	root.dataset.awtsmoosRendererContextAttempts = contextAttempts.join(',');
-	root.dataset.awtsmoosRendererFallback = fallback?.code || '';
-	root.dataset.awtsmoosRendererFallbackMessage = fallback?.message || '';
-	root.dataset.awtsmoosRendererFallbackRecoverable = fallback
-		? String(Boolean(fallback.recoverable))
-		: '';
+	if (!root?.dataset) return;
+	root.dataset.awtsmoosRenderer = renderer?.backend || 'webgl';
+	root.dataset.awtsmoosRendererContextAttempts = renderer?.contextName || 'webgl';
+	root.dataset.awtsmoosRendererFallback = '';
+	root.dataset.awtsmoosRendererFallbackMessage = '';
+	root.dataset.awtsmoosRendererFallbackRecoverable = '';
+	root.dataset.awtsmoosRendererStage = renderer?.hydrationState || 'unknown';
 }

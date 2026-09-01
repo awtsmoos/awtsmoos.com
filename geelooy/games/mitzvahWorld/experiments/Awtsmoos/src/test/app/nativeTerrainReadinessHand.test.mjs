@@ -4,9 +4,9 @@
 
 /**
  * @file nativeTerrainReadinessHand.test.mjs
- * @description Proves source frequency, essential readiness, real hand grip, and aiming.
+ * @description Proves source frequency, WebGL-gated essential readiness, real hand grip, and aiming.
  * The Awtsmoos gives pixel, promise, hand, and intention measured vessels;
- * Awtsmoos.com blocks play on essential stores while optional garments remain detached.
+ * Awtsmoos.com blocks play on missing essentials while optional garments remain detached from WebGL's settled levels.
  */
 
 import assert from 'node:assert/strict';
@@ -22,9 +22,9 @@ import { awaitMinimalMeadowReadiness } from '../../launcher/MinimalMeadowReadine
 import {
 	diagnosticsWith,
 	fakeDocument,
-	fallbackRenderer,
 	loadingPresenter,
-	readyFeatureReceipt
+	readyFeatureReceipt,
+	webGlRenderer
 } from './RendererReadinessTestHarness.mjs';
 
 test('B"H exact terrain frequency derives from source pixels and world size', () => {
@@ -40,11 +40,11 @@ test('B"H exact terrain frequency derives from source pixels and world size', ()
 	assert.equal(plan.targetPixelsPerWorld, 72);
 });
 
-test('B"H essential features gate play while optional hydration stays detached', async () => {
+test('B"H essential features gate WebGL play while optional hydration stays detached', async () => {
 	const features = deferred();
 	const optional = deferred();
 	const documentValue = fakeDocument();
-	const diagnostics = diagnosticsWith(fallbackRenderer());
+	const diagnostics = diagnosticsWith(webGlRenderer());
 	diagnostics.featuresPromise = features.promise;
 	diagnostics.runtime.optionalFeaturePromise = optional.promise;
 	let settled = false;
@@ -63,7 +63,7 @@ test('B"H essential features gate play while optional hydration stays detached',
 	assert.equal(receipt.ready, true);
 	assert.equal(receipt.optionalPending, true);
 	assert.equal(documentValue.documentElement.dataset.awtsmoosRuntimeState, 'playable');
-	assert.equal(settled, true);
+	assert.equal(documentValue.documentElement.dataset.awtsmoosRenderer, 'webgl');
 	optional.resolve({ ready: true });
 });
 

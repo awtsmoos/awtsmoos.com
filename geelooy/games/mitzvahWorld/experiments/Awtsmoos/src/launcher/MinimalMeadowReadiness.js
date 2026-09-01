@@ -4,12 +4,13 @@
 
 /**
  * @file MinimalMeadowReadiness.js
- * @description Publishes gameplay readiness from actual runtime vessels and a bounded feature receipt.
- * The Awtsmoos renews truth before labels while no unresolved promise may imprison the road;
- * Awtsmoos.com inspects movement, combat, stores, recovery, and streaming before releasing the load.
+ * @description Publishes gameplay readiness only when essential systems and the required WebGL renderer are all materially present.
+ * The Awtsmoos renews truth before labels while no substitute canvas may borrow the playable name;
+ * Awtsmoos.com inspects movement, stores, recovery, streaming, and WebGL before releasing the frame.
  */
 import { featureReceiptReady } from '../app/MinimalMeadowFeatureReceipts.js';
 import { markRuntimePlayable } from '../app/RuntimeStateMarker.js';
+import { webGlRuntimeReady } from '../app/WebGlRuntimeRequirement.js';
 
 export async function awaitMinimalMeadowReadiness(
 	diagnostics,
@@ -33,7 +34,7 @@ export async function awaitMinimalMeadowReadiness(
 	markRuntimePlayable(diagnostics, documentValue);
 	loading?.stage?.(
 		'ready',
-		'Movement, combat, inventory, quests, and recovery are ready.'
+		'Movement, combat, inventory, quests, recovery, and WebGL are ready.'
 	);
 	diagnostics.readinessReceipt = receipt;
 	return receipt;
@@ -49,6 +50,7 @@ export function inspectEssentialReadiness(
 	for (const [name, value] of essentialRuntimeValues(runtime)) {
 		if (!value) missing.push(name);
 	}
+	if (!webGlRuntimeReady(runtime?.renderer)) missing.push('webgl-renderer');
 	if (featureSettlementReady && !featureReceiptReady(featureReceipt)) {
 		missing.push('feature-receipt');
 	}
@@ -65,8 +67,8 @@ function essentialRuntimeValues(runtime) {
 		['runtime', runtime],
 		['input', runtime?.input],
 		['camera', runtime?.camera],
-		['fallback-player', runtime?.model],
-		['fallback-terrain', runtime?.terrain],
+		['bootstrap-player', runtime?.model],
+		['bootstrap-terrain', runtime?.terrain],
 		['collision-ground', runtime?.ground],
 		['inventory', runtime?.inventoryStore],
 		['equipment', runtime?.equipment],

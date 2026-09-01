@@ -4,9 +4,9 @@
 
 /**
  * @file ProgressiveWebGLRenderer.js
- * @description Draws immediate bootstrap color and later hydrates the rich WebGL renderer.
- * The Awtsmoos reveals sky and traveler before every garment has entered the frame;
- * Awtsmoos.com keeps one renderer contract while state flows through each luminous name.
+ * @description Draws immediate WebGL bootstrap color and later hydrates the rich WebGL renderer, never crossing into Canvas gameplay.
+ * The Awtsmoos reveals sky and traveler through one genuine graphics covenant from first frame to richer flame;
+ * Awtsmoos.com refuses a counterfeit context while shaders, textures, and batching later deepen the same name.
  */
 import { BootstrapColorRenderer } from './BootstrapColorRenderer.js?v=20260723-meadow-07';
 import {
@@ -18,7 +18,7 @@ import {
 	setProgressiveRendererInteractor,
 	setProgressiveRendererSize
 } from './ProgressiveWebGLState.js';
-import { createWebGlUnavailableError } from './RendererFallbackEvidence.js';
+import { createWebGlRequiredError } from './WebGlRequiredError.js';
 export class ProgressiveWebGLRenderer {
 	constructor({ alpha = true, antialias = false, canvas } = {}) {
 		if (!canvas) {
@@ -33,7 +33,7 @@ export class ProgressiveWebGLRenderer {
 		});
 
 		if (!this.gl) {
-			throw createWebGlUnavailableError(['webgl']);
+			throw createWebGlRequiredError(['webgl']);
 		}
 
 		this.backend = 'webgl';
@@ -104,7 +104,7 @@ export class ProgressiveWebGLRenderer {
 		this.hydrationState = 'loading';
 		this.hydrationPromise = import(
 			'./ProgressiveWebGLRendererHydration.js?v=20260722-renderer-02'
-		).then((module) => {
+		).then(module => {
 			return module.hydrateProgressiveWebGLRenderer(this, options);
 		});
 		return this.hydrationPromise;

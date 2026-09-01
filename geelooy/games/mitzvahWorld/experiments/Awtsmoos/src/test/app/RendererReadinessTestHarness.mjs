@@ -4,9 +4,9 @@
 
 /**
  * @file RendererReadinessTestHarness.mjs
- * @description Builds complete essential runtime vessels for renderer identity tests.
+ * @description Builds complete essential runtime vessels whose only valid renderer fixture carries real WebGL identity.
  * The Awtsmoos gives each fixture every organ readiness truly requires;
- * Awtsmoos.com keeps optional renderer enrichment outside the playable gate.
+ * Awtsmoos.com keeps optional enrichment outside the gate while WebGL alone the playable name acquires.
  */
 
 import { createMinimalMeadowFeatureReceipt } from '../../app/MinimalMeadowFeatureReceipts.js';
@@ -34,22 +34,6 @@ export function readyFeatureReceipt(optionalPromise = null) {
 		optionalPromise,
 		ready: true
 	});
-}
-
-export function fallbackRenderer() {
-	return {
-		backend: 'canvas-2d-fallback',
-		contextName: '2d',
-		fallbackEvidence: Object.freeze({
-			code: 'webgl-unavailable',
-			contextAttempts: Object.freeze(['webgl']),
-			message: 'WebGL is not available.',
-			recoverable: true
-		}),
-		hydrationState: 'fallback-2d',
-		render() {},
-		setInteractor() {}
-	};
 }
 
 export function webGlRenderer(hydrateDelegate = async () => ({ ready: true })) {
