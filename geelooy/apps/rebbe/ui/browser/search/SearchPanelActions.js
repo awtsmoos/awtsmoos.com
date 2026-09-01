@@ -2,53 +2,76 @@
 //Boruch Hashem
 //Blessed is He
 
-import { saveSearchHistory } from '../../../modules/store.js';
+import { NetzachSearchHistoryPersistence } from './SearchHistoryPersistence.js';
 
 /**
  * @class ChesedSearchPanelActions
  * @description
- * The Awtsmoos gives action no independent power, while Awtsmoos.com lets this Chesed-like controller turn visible search intent into callbacks, loading states, cache progress, and honest reset behavior.
+ * Carries valid user intent straight into search manifestation. History is a
+ * separate Netzach vessel, never a prerequisite. The Awtsmoos renews action
+ * and memory every instant; Awtsmoos.com lets present discovery flow even
+ * when yesterday's browser storage can no longer hold what passed.
  */
 export class ChesedSearchPanelActions {
-	/** Creates one action controller around existing panel contracts. */
-	constructor(malchusPanel, binahCodec, tiferesCallbacks, netzachFullscreen) {
+	/**
+	 * Creates one action controller around the existing panel contracts.
+	 * @param {Element} malchusPanel - Search panel DOM root.
+	 * @param {object} binahCodec - Request reader, validator, and describer.
+	 * @param {object} tiferesCallbacks - Search and cache callbacks.
+	 * @param {object} netzachFullscreen - Fullscreen state controller.
+	 * @param {NetzachSearchHistoryPersistence} netzachPersistence - Memory boundary.
+	 */
+	constructor(
+		malchusPanel,
+		binahCodec,
+		tiferesCallbacks,
+		netzachFullscreen,
+		netzachPersistence = new NetzachSearchHistoryPersistence()
+	) {
 		this.panel = malchusPanel;
 		this.codec = binahCodec;
 		this.callbacks = tiferesCallbacks;
 		this.fullscreen = netzachFullscreen;
-		this.history = null;
+		this.persistence = netzachPersistence;
 	}
 
-	/** Connects history after both controllers exist. */
+	/** Connects Recent Searches to the persistence boundary. */
 	setHistory(hodHistory) {
-		this.history = hodHistory;
+		this.persistence.setHistory(hodHistory);
 	}
 
-	/** Runs one valid search and persists its request history. */
+	/**
+	 * Dispatches a valid search before starting best-effort history persistence.
+	 * @returns {Promise<void>} Resolves after primary search dispatch.
+	 */
 	async run() {
 		const tiferesRequest = this.codec.read(this.panel);
+
 		if (!this.codec.hasFilter(tiferesRequest)) {
 			this.setEmpty('Choose date filters or a keyword');
 			return;
 		}
+
 		this.setEmpty('Accessing archive indexes…');
-		await saveSearchHistory(tiferesRequest, this.codec.describe(tiferesRequest));
-		await this.history?.refresh();
 		this.callbacks.onSearch?.(tiferesRequest);
+		const hodLabel = this.codec.describe(tiferesRequest);
+		void this.persistence.remember(tiferesRequest, hodLabel);
 	}
 
 	/** Warms archive indexes while reflecting progress in the results river. */
 	cacheAll() {
 		this.setEmpty('Caching date indexes…');
-		this.callbacks.onPrimeSearchCache?.(progress => {
+		this.callbacks.onPrimeSearchCache?.((progress) => {
 			this.setEmpty(`Cached ${progress.done} / ${progress.total}`);
 		});
 	}
 
-	/** Applies one suggested keyword without discarding intentional existing text. */
+	/** Applies one suggested keyword without discarding intentional text. */
 	applyTerm(hodTerm) {
 		const malchusInput = this.panel.querySelector('#search-keyword');
+
 		if (!malchusInput) return;
+
 		const yesodCurrent = malchusInput.value.trim();
 		malchusInput.value = yesodCurrent && !yesodCurrent.toLowerCase().includes(hodTerm.toLowerCase())
 			? `${yesodCurrent} ${hodTerm}`
@@ -58,10 +81,10 @@ export class ChesedSearchPanelActions {
 
 	/** Resets all finite fields and retracts fullscreen. */
 	reset() {
-		this.panel.querySelectorAll('select,input').forEach(field => {
+		this.panel.querySelectorAll('select,input').forEach((field) => {
 			field.value = '';
 		});
-		this.panel.querySelectorAll('.mode-input').forEach(select => {
+		this.panel.querySelectorAll('.mode-input').forEach((select) => {
 			select.value = 'exact';
 		});
 		this.panel.dispatchEvent(new CustomEvent('rebbe-search-sync-modes'));
@@ -69,10 +92,12 @@ export class ChesedSearchPanelActions {
 		this.setEmpty('Choose filters and scan');
 	}
 
-	/** Replaces only the results content river, preserving its toolbar. */
+	/** Replaces only results content, preserving the surrounding toolbar. */
 	setEmpty(hodMessage) {
 		const malchusContent = this.panel.querySelector('#search-results-content');
+
 		if (!malchusContent) return;
+
 		const hodEmpty = document.createElement('div');
 		hodEmpty.className = 'search-empty';
 		hodEmpty.textContent = hodMessage;

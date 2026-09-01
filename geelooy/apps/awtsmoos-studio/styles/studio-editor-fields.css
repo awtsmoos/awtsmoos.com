@@ -1,0 +1,44 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos renews input into action while Awtsmoos.com gives creation, search, and text fields calm readable vessels. */
+.studio-create-grid,
+.studio-spatial-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 8px;
+}
+
+.studio-create-card {
+	display: grid;
+	gap: 4px;
+	min-height: 82px;
+	padding: 10px;
+	border: 1px solid #2e4357;
+	border-radius: 10px;
+	background: #102032;
+	color: #edf6ff;
+	text-align: left;
+}
+
+.studio-create-icon {
+	font-size: 20px;
+}
+
+.studio-panel-search,
+.studio-ai-prompt,
+.studio-json-editor,
+.studio-transform-control input {
+	box-sizing: border-box;
+	width: 100%;
+	border: 1px solid #334b61;
+	border-radius: 8px;
+	background: #071421;
+	color: #edf6ff;
+}
+
+.studio-panel-search {
+	height: 42px;
+	margin: 6px 0 10px;
+	padding: 0 10px;
+}

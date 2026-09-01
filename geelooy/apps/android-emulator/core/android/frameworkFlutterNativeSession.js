@@ -12,6 +12,7 @@ import { snapshotNativePthreadRuntime } from "../native/nativePthreadRuntimeSnap
 import { createAndroidPackageAssetCatalog } from "./packageAssetCatalog.js";
 import { createFrameworkFlutterNativeArrayResolver } from "./frameworkFlutterNativeArrayElements.js";
 import { prepareFrameworkFlutterNativeLibraries } from "./frameworkFlutterNativeLibraries.js";
+import { createFrameworkFlutterNativeMachineOptions } from "./frameworkFlutterNativeMachineOptions.js";
 import { createFrameworkFlutterNativeStaticFieldResolver } from "./frameworkFlutterNativeStaticFields.js";
 import { createFrameworkFlutterNativeStringResolver } from "./frameworkFlutterNativeStringValues.js";
 import { startFrameworkFlutterNativeLibrary } from "./frameworkFlutterNativeStartup.js";
@@ -19,12 +20,8 @@ import { createFrameworkRuntimeJniResolver } from "./frameworkRuntimeJniResolver
 
 /**
  * Creates one persistent Flutter session with mapped engine and app ELF images.
- * The Awtsmoos renews JNI, packaged assets, snapshots, task name, and linker shore;
+ * The Awtsmoos renews JNI, assets, sockets, snapshots, and linker shore;
  * Awtsmoos.com shares one Promise so native dawn occurs exactly once evermore.
- * Validated APK assets cross the async archive boundary before synchronous NDK use.
- *
- * @param {object} runtime Android process runtime
- * @returns {Promise<object>} persistent native Flutter session
  */
 export function getFrameworkFlutterNativeSession(runtime) {
 	if (!runtime.flutterNativeSessionPromise) {
@@ -47,17 +44,14 @@ async function createFrameworkFlutterNativeSession(runtime) {
 	const resolveStaticFieldValue = createFrameworkFlutterNativeStaticFieldResolver(runtime);
 	const entry = libraries.flutter.image.findSymbol("JNI_OnLoad");
 	if (!entry) throw sessionError("ANDROID_FLUTTER_JNI_ONLOAD_MISSING");
-	const baseState = createFlutterJniMachineState(libraries.memory, entry.value, {
-		...arrayResolver,
-		...stringResolver,
+	const machineOptions = createFrameworkFlutterNativeMachineOptions(
+		runtime,
 		imports,
-		nativeLogcat: runtime.logcat,
-		packageFilesystem: runtime.filesystem,
-		platformFiles: runtime.nativePlatformFiles,
-		resolveClass: resolver.resolveClass,
-		resolveField: resolver.resolveField,
-		resolveMethod: resolver.resolveMethod
-	});
+		resolver,
+		arrayResolver,
+		stringResolver
+	);
+	const baseState = createFlutterJniMachineState(libraries.memory, entry.value, machineOptions);
 	const nativeDynamicLinker = createNativeDynamicLinkerState(baseState.nativeHeap);
 	const nativeDynamicLibraries = createNativeDynamicLibraryState({
 		errors: nativeDynamicLinker,

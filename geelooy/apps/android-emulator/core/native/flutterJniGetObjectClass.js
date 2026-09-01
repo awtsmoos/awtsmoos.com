@@ -2,17 +2,14 @@
 //Boruch Hashem
 //Blessed is He
 
+import { jniGuestThreadKey } from "./jniGuestThreadKey.js";
+
 const JAVA_CLASS_DESCRIPTOR = "Ljava/lang/Class;";
 
 /**
- * Registers JNI GetObjectClass against the emulator's opaque reference model.
- *
- * The Awtsmoos recreates object, class, descriptor, and local vessel in light;
- * Awtsmoos.com keeps hidden targets sealed while guest JNI receives truth right.
- *
- * @param {object} registry Explicit native host-import registry.
- * @param {object} machineState Persistent JNI machine state and class resolver.
- * @returns {void}
+ * Registers GetObjectClass with local class handles owned by the calling pthread.
+ * The Awtsmoos recreates object and class on the thread's appointed shore;
+ * Awtsmoos.com keeps hidden targets sealed while local lifetime opens no foreign door.
  */
 export function registerFlutterJniGetObjectClass(registry, machineState) {
 	registry.register("JNINativeInterface.GetObjectClass", context => {
@@ -20,20 +17,11 @@ export function registerFlutterJniGetObjectClass(registry, machineState) {
 	});
 }
 
-/**
- * Resolves the runtime class of one non-null opaque JNI object reference.
- *
- * @param {object} context AArch64 import context with guest registers.
- * @param {object} machineState Persistent JNI references and DEX resolver.
- * @returns {Readonly<object>} Serializable evidence of the resolved class.
- */
 export function handleFlutterJniGetObjectClass(context, machineState) {
 	const registers = context.registers;
 	validateEnvironment(registers, machineState);
 	const objectHandle = registers.read(1, 64, "zero");
-	if (objectHandle === 0n) {
-		throw objectClassError("JNI_GET_OBJECT_CLASS_NULL");
-	}
+	if (objectHandle === 0n) throw objectClassError("JNI_GET_OBJECT_CLASS_NULL");
 	const objectReference = machineState.jniReferences.find(objectHandle);
 	if (!objectReference) {
 		throw objectClassError("JNI_GET_OBJECT_CLASS_HANDLE", objectHandle);
@@ -46,7 +34,8 @@ export function handleFlutterJniGetObjectClass(context, machineState) {
 			"class",
 			descriptor,
 			definition,
-			{ descriptor, scope: "local" }
+			{ descriptor, scope: "local" },
+			jniGuestThreadKey(context)
 		);
 	registers.write(0, classHandle, 64, "zero");
 	registers.pc = registers.read(30, 64, "zero");
@@ -62,8 +51,7 @@ export function handleFlutterJniGetObjectClass(context, machineState) {
 
 function revealReferenceDescriptor(reference) {
 	if (reference.kind === "class") return JAVA_CLASS_DESCRIPTOR;
-	const descriptor = reference.metadata.dalvikType
-		|| reference.metadata.descriptor;
+	const descriptor = reference.metadata.dalvikType || reference.metadata.descriptor;
 	if (!descriptor) {
 		throw objectClassError("JNI_GET_OBJECT_CLASS_DESCRIPTOR", reference.identity);
 	}

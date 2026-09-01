@@ -1,0 +1,91 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos renews viewport and vessel while Awtsmoos.com gathers tools around a permanent cinematic center;
+ * this shell keeps the page still and lets panels, timeline, and canvas each breathe inside their measured chamber.
+ */
+html,
+body,
+#awtsmoos-studio-root {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	overflow: hidden;
+}
+
+body {
+	background: #071019;
+}
+
+.studio-editor-shell {
+	display: grid;
+	grid-template-rows: 52px minmax(0, 1fr) 150px;
+	width: 100%;
+	height: 100dvh;
+	min-height: 0;
+	background: #071019;
+	color: #edf6ff;
+}
+
+.studio-editor-topbar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	min-width: 0;
+	padding: 7px 12px;
+	border-bottom: 1px solid #253648;
+	background: #0b131d;
+}
+
+.studio-editor-brand,
+.studio-editor-top-actions,
+.studio-viewport-hud-group {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	min-width: 0;
+}
+
+.studio-editor-brand strong {
+	white-space: nowrap;
+}
+
+.studio-editor-status {
+	overflow: hidden;
+	max-width: 36vw;
+	color: #9fb0c2;
+	font-size: 12px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.studio-editor-body {
+	display: grid;
+	grid-template-columns: 52px minmax(210px, 260px) minmax(0, 1fr) minmax(240px, 300px);
+	min-width: 0;
+	min-height: 0;
+}
+
+.studio-editor-sidebar,
+.studio-editor-inspector {
+	min-width: 0;
+	min-height: 0;
+	overflow: hidden;
+	background: #0d1621;
+}
+
+.studio-editor-sidebar {
+	border-right: 1px solid #253648;
+}
+
+.studio-editor-inspector {
+	border-left: 1px solid #253648;
+}
+
+.studio-mobile-dock,
+.studio-mobile-sheet-handle,
+.studio-panel-close {
+	display: none;
+}

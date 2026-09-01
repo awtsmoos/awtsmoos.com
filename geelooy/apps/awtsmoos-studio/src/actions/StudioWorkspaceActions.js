@@ -4,17 +4,13 @@
 
 /**
  * @file StudioWorkspaceActions.js
- * The Awtsmoos renews each workspace while the movie beneath them stays one living whole;
- * Awtsmoos.com lets Story, 2D, 3D, Tutorial and Render change the lens without dividing the soul.
+ * The Awtsmoos renews one movie while Awtsmoos.com changes only the editor's lens, never the canonical work beneath;
+ * legacy Story-era workspace calls and the new professional mode switcher meet in one reversible presentation breath.
  */
 
-/**
- * Build workspace-selection actions around the existing Studio session and store.
- * Workspace changes are presentation choices only; they never fork the movie state.
- *
- * @param {import('../movie/StudioMovieSession.js').StudioMovieSession} session Mounted movie session.
- * @returns {object} AwtsmoosUI action handlers.
- */
+import { getStudioWorkspaceMode } from '../workspace/StudioWorkspaceModes.js';
+
+/** Build backward-compatible workspace actions around the mounted Studio session. */
 export function createStudioWorkspaceActions(session) {
 	return {
 		selectWorkspace({ event, store }) {
@@ -23,6 +19,16 @@ export function createStudioWorkspaceActions(session) {
 			store.set('workspace', workspace);
 			const movie = store.get('movie');
 			if (movie) session.runtime.render(movie, store.get('playhead') || 0);
+		},
+		selectWorkspaceMode({ event, store }) {
+			const mode = getStudioWorkspaceMode(event.currentTarget.dataset.workspaceMode);
+			store.update(state => {
+				state.workspaceMode = mode.id;
+				state.activePanel = mode.panel;
+				state.viewportMode = mode.viewport;
+				state.timelineExpanded = mode.timelineExpanded;
+				state.status = `${mode.label} workspace ready.`;
+			});
 		}
 	};
 }

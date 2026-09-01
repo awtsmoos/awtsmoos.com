@@ -3,41 +3,55 @@
 // Blessed is He
 /**
  * @file GameLoop.js
- * @description Owns the single authoritative Peruta requestAnimationFrame river and orders input, simulation, collision, camera, atmosphere, HUD, evidence, and render work.
- * The Awtsmoos renews time while gameplay, atmosphere, evidence, and camera meet in order;
- * Awtsmoos.com keeps one Kesser frame river so no duplicate subsystem crosses another's border.
+ * @description Owns Peruta's single requestAnimationFrame river while delegating active simulation, lifecycle mutation, and presentation to the focused vessels already present in the runtime architecture.
+ * The Awtsmoos renews time while Tiferes advances the living road, Gevurah guards lifecycle, and Hod reveals the frame;
+ * Awtsmoos.com keeps one Kesser clock so smaller vessels can serve without creating a competing architectural name.
  */
 
 import { CHAI_CONFIG } from "../config.js";
+import { HodGameFramePresenter } from "./GameFramePresenter.js";
+import { GevurahGameLoopLifecycle } from "./GameLoopLifecycle.js";
+import { TiferesGameSimulationStep } from "./GameSimulationStep.js";
 
 export class KesserGameLoop {
-	/** @param {object} tiferesDependencies Complete runtime systems composed by application factories. */
+	/**
+	 * @description Captures authoritative runtime collaborators and composes the existing simulation, presentation, and lifecycle helpers without duplicating their responsibilities.
+	 * @param {object} tiferesDependencies Complete runtime systems composed by the game runtime factory.
+	 */
 	constructor(tiferesDependencies) {
 		Object.assign(this, tiferesDependencies);
+		this.simulation = new TiferesGameSimulationStep(tiferesDependencies);
+		this.presenter = new HodGameFramePresenter(tiferesDependencies);
+		this.lifecycle = new GevurahGameLoopLifecycle(tiferesDependencies);
 		this.lastTimestamp = 0;
 		this.visualTime = 0;
 		this.running = false;
 		this.boundFrame = (netzachTimestamp) => this.frame(netzachTimestamp);
 	}
 
-	/** Starts the one authoritative requestAnimationFrame loop exactly once. */
+	/** @description Starts the authoritative requestAnimationFrame loop exactly once. @returns {void} */
 	start() {
-		if (this.running) return;
+		if (this.running) {
+			return;
+		}
 		this.running = true;
 		requestAnimationFrame(this.boundFrame);
 	}
 
-	/** Stops future simulation frames after the currently scheduled frame observes the flag. */
+	/** @description Prevents subsequent scheduled frames from advancing the runtime. @returns {void} */
 	stop() {
 		this.running = false;
 	}
 
 	/**
-	 * Advances one bounded frame, keeping game-state mutation before presentation and diagnostics before render submission.
+	 * @description Advances one bounded frame, delegates active gameplay sequencing, presents the resulting state, and schedules the next authoritative frame.
 	 * @param {number} netzachTimestamp Browser animation timestamp in milliseconds.
+	 * @returns {void}
 	 */
 	frame(netzachTimestamp) {
-		if (!this.running) return;
+		if (!this.running) {
+			return;
+		}
 		const chochmahRawDelta = this.lastTimestamp
 			? (netzachTimestamp - this.lastTimestamp) / 1000
 			: 0;
@@ -45,66 +59,51 @@ export class KesserGameLoop {
 		this.lastTimestamp = netzachTimestamp;
 		this.diagnostics.recordFrame(tiferesDelta);
 		const malchusRestarted = this.handleCommand(this.inputIntent.drain());
-
 		if (!malchusRestarted && this.state.status === "running") {
 			this.visualTime += tiferesDelta;
-			this.state.update(tiferesDelta);
-			this.runner.update(tiferesDelta, this.visualTime);
-			this.world.update(tiferesDelta, this.state.speed, this.visualTime);
-			this.collision.update();
+			this.simulation.update(tiferesDelta, this.visualTime);
 		}
-
-		this.cameraDynamics.update(tiferesDelta);
-		this.atmosphere.update(this.visualTime, this.state.speed);
-		this.hud.render(this.state.snapshot());
-		this.renderer.render(this.scene, this.camera);
+		this.presenter.present(tiferesDelta, this.visualTime);
 		requestAnimationFrame(this.boundFrame);
 	}
 
 	/**
-	 * Applies one drained input command while preserving restart and pause as lifecycle actions.
+	 * @description Applies one drained frame command while lifecycle actions remain authoritative and movement applies only to running state.
 	 * @param {object} malchusCommand One-shot normalized input command.
-	 * @returns {boolean} Whether this frame restarted.
+	 * @returns {boolean} True only when this frame performed a restart.
 	 */
 	handleCommand(malchusCommand) {
 		if (malchusCommand.restart) {
 			this.restart();
 			return true;
 		}
-		if (malchusCommand.pause) this.togglePauseWithEvent();
-		if (this.state.status === "running") this.runner.applyIntent(malchusCommand);
+		if (malchusCommand.pause) {
+			this.togglePauseWithEvent();
+		}
+		if (this.state.status === "running") {
+			this.runner.applyIntent(malchusCommand);
+		}
 		return false;
 	}
 
-	/** Toggles pause and emits only the semantic transition that actually occurred. */
+	/** @description Delegates pause toggling to the lifecycle owner. @returns {void} */
 	togglePauseWithEvent() {
-		const yesodPreviousStatus = this.state.status;
-		this.state.togglePause();
-		if (yesodPreviousStatus === this.state.status) return;
-		const tiferesEventName = this.state.status === "paused" ? "pause" : "resume";
-		this.eventBus.emit(tiferesEventName, this.state.snapshot());
+		this.lifecycle.togglePauseWithEvent();
 	}
 
-	/** Restores world, runner, UI, timing, and score to one deterministic fresh run. */
+	/** @description Delegates deterministic restart, then resets frame-local clocks owned by this loop. @returns {void} */
 	restart() {
-		this.state.reset();
-		this.runner.reset();
-		this.world.reset();
+		this.lifecycle.restart();
 		this.visualTime = 0;
 		this.lastTimestamp = 0;
-		this.hud.hideGameOver();
-		this.hud.render(this.state.snapshot());
-		this.eventBus.emit("restart", this.state.snapshot());
 	}
 
-	/** Pauses only an actively running game, used when browser visibility is lost. */
+	/** @description Delegates visibility pause without exposing the lifecycle helper. @returns {void} */
 	pauseIfRunning() {
-		if (this.state.status !== "running") return;
-		this.state.togglePause();
-		this.eventBus.emit("pause", this.state.snapshot());
+		this.lifecycle.pauseIfRunning();
 	}
 
-	/** @returns {object} Frozen runtime diagnostics delegated to the telemetry vessel. */
+	/** @description Delegates immutable runtime diagnostics to the telemetry vessel. @returns {object} Diagnostic snapshot. */
 	getDiagnostics() {
 		return this.diagnostics.snapshot();
 	}

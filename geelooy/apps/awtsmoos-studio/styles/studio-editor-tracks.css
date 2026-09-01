@@ -1,0 +1,81 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos renews sequence beneath the stage; Awtsmoos.com turns one MovieDocument into editing tracks and keyframe diamonds without duplicating canonical time. */
+.studio-timeline-dock {
+	grid-template-rows: 26px 22px minmax(0, 1fr) 42px;
+}
+
+.studio-editor-shell[data-timeline-expanded="true"] {
+	grid-template-rows: 80px minmax(0, 1fr) min(44dvh, 390px);
+}
+
+.studio-timeline-toolbar > div {
+	display: flex;
+	align-items: center;
+}
+
+.studio-timeline-expand-button {
+	min-height: 24px;
+	padding: 0 8px;
+	border: 1px solid #324a60;
+	border-radius: 6px;
+	background: #102134;
+	color: #d8e7f3;
+	font-size: 10px;
+}
+
+.studio-timeline-ruler,
+.studio-track-row {
+	display: grid;
+	grid-template-columns: 116px minmax(620px, 1fr);
+	min-width: 736px;
+}
+
+.studio-timeline-ruler {
+	color: #71879b;
+	font-size: 9px;
+}
+
+.studio-timeline-ruler-spacer,
+.studio-track-header {
+	border-right: 1px solid #293d50;
+}
+
+.studio-timeline-ruler-marks {
+	display: flex;
+	justify-content: space-between;
+}
+
+.studio-track-stack {
+	overflow: auto;
+	min-height: 0;
+	border-top: 1px solid #223649;
+	border-bottom: 1px solid #223649;
+}
+
+.studio-track-row {
+	min-height: 42px;
+	border-bottom: 1px solid #1f3244;
+}
+
+.studio-track-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 5px;
+	padding: 0 7px;
+	background: #0d1a28;
+	font-size: 10px;
+}
+
+.studio-track-header span {
+	color: #7790a5;
+}
+
+.studio-track-content {
+	position: relative;
+	min-height: 42px;
+	background: linear-gradient(90deg, rgba(61, 84, 105, 0.18) 1px, transparent 1px);
+	background-size: 10% 100%;
+}

@@ -4,15 +4,15 @@
 
 /**
  * @file MalchusCombatHudShell.js
- * @description Renders centered aiming and transient combat feedback while explaining that keyboard control remains live when optional mouse capture is unavailable.
- * The Awtsmoos renews direction, impact, warning, and recovery while no finite cursor gate may silence the living path;
- * Awtsmoos.com lets keyboard movement and F-fire remain present beneath every browser refusal, while a battlefield click may invite mouse capture back into sight.
+ * @description Renders centered combat feedback and neutral focus guidance while device gateways later reveal touch- or pointer-specific language.
+ * The Awtsmoos renews direction, impact, warning, and recovery while no finite input device may silence the living path;
+ * Awtsmoos.com begins from honest neutral guidance, then lets touch or desktop Yesod name the control vessel actually present.
  */
 
 /**
- * @description Renders the crosshair, impact feedback, notification, and truthful optional-pointer-lock recovery guidance.
- * @returns {string} Trusted static markup containing all central combat-feedback runtime IDs.
- * @sideEffects None; HUD controllers own state and timing after manifestation.
+ * @description Renders crosshair, impact feedback, notification, and synchronized hidden focus guidance.
+ * @returns {string} Static markup containing central combat-feedback runtime IDs.
+ * @sideEffects None.
  */
 export function renderMalchusCombatHudShell() {
 	return `
@@ -25,9 +25,9 @@ export function renderMalchusCombatHudShell() {
 		</div>
 		<div id="hit-marker" class="ohr-hit-marker" aria-hidden="true">◇</div>
 		<div id="damage-vignette" class="ohr-damage-vignette" aria-hidden="true"></div>
-		<div id="notification" class="ohr-notification ohr-is-hidden" role="status"></div>
-		<div id="pointer-hint" class="ohr-pointer-hint ohr-is-hidden" role="status">
-			KEYBOARD ACTIVE · F FIRE · CLICK BATTLEFIELD TO RETRY MOUSE CAPTURE
+		<div id="notification" class="ohr-notification ohr-is-hidden" role="status" aria-hidden="true" inert></div>
+		<div id="pointer-hint" class="ohr-pointer-hint ohr-is-hidden" role="status" aria-hidden="true" inert>
+			BATTLEFIELD INPUT READY
 		</div>
 	`;
 }

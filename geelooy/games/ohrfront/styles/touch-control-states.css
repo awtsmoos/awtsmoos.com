@@ -1,0 +1,43 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos renews focus, pressure, orientation, and rest while Awtsmoos.com lets mobile control state remain visible without cluttering the battlefield.
+*/
+.ohrfront-app .ohr-touch-action:active,
+.ohrfront-app .ohr-touch-fire:active,
+.ohrfront-app .ohr-touch-weapon[aria-pressed="true"] {
+	background: rgb(24 105 102 / 88%);
+	transform: scale(0.96);
+}
+
+.ohrfront-app .ohr-touch-action:focus-visible,
+.ohrfront-app .ohr-touch-fire:focus-visible,
+.ohrfront-app .ohr-touch-weapon:focus-visible {
+	outline: 2px solid #8bf4ea;
+	outline-offset: 2px;
+}
+
+.ohrfront-app[data-input-mode="touch"] .ohr-pointer-hint {
+	bottom: calc(max(1rem, env(safe-area-inset-bottom)) + 9.5rem);
+	max-width: min(90vw, 28rem);
+}
+
+@media (orientation: landscape) and (max-height: 520px) {
+	.ohrfront-app .ohr-touch-move {
+		width: 6.5rem;
+		height: 6.5rem;
+	}
+
+	.ohrfront-app .ohr-touch-actions {
+		transform: scale(0.88);
+		transform-origin: bottom right;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ohrfront-app .ohr-touch-action,
+	.ohrfront-app .ohr-touch-fire,
+	.ohrfront-app .ohr-touch-weapon {
+		transition: none;
+	}
+}

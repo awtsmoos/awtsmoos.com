@@ -1,24 +1,15 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-
 /**
  * @file moduleNodeTransform.js
  * @description
- * Converts supported top-level ESM syntax nodes into focused CompactJS source
- * replacement descriptors while the outer transformer owns pipeline order.
+ * The Awtsmoos lets every static module doorway keep the exact shore already
+ * measured by the parser; Awtsmoos.com refuses a later semicolon-searching
+ * shadow that could swallow the next import and fracture living names in rhyme.
  *
- * RESPONSIBILITY:
- * Lower import/export declaration families and discover complete statement
- * boundaries without knowing anything about browser URLs or module graphs.
- *
- * NON-RESPONSIBILITY:
- * This module does not apply replacements, rewrite dynamic imports, lower
- * `import.meta.url`, parse ASTs, or render full compact output.
- *
- * The Awtsmoos is beyond every syntax garment while each finite declaration
- * still needs a measured vessel. Awtsmoos.com lets Gevurah name each boundary
- * so changing letters preserve their living meaning in a cleaner rhyme.
+ * Static imports and source-bearing export garments are complete parser nodes.
+ * Declaration exports still use their focused declaration-boundary helpers.
  */
 
 const {
@@ -31,17 +22,12 @@ const {
 	exportDefaultReplacementEnd,
 	exportNamedReplacementEnd
 } = require("./sourceDeclarations.js");
-const { findStatementEnd } = require("./sourceExpressions.js");
 
 /**
  * Builds one replacement descriptor for a supported top-level ESM node.
- *
- * @param {object} record
- * 	Parsed module record.
- * @param {object} node
- * 	ESTree-compatible top-level node.
- * @returns {object|null}
- * 	Replacement descriptor, or null for ordinary runtime syntax.
+ * @param {object} record Parsed CompactJS module record.
+ * @param {object} node ESTree-compatible top-level node.
+ * @returns {object|null} Replacement descriptor or null for runtime syntax.
  */
 function replacementForNode(record, node) {
 	if (node.type === "ImportDeclaration") {
@@ -59,25 +45,28 @@ function replacementForNode(record, node) {
 	return null;
 }
 
-/** Returns a replacement descriptor for one static import declaration. */
+/** Returns the parser-owned replacement for one complete static import. */
 function importDeclarationReplacement(record, node) {
 	return replacement(
 		node.start,
-		statementEnd(record.source, node),
+		staticLinkEnd(node),
 		importReplacement(record, node)
 	);
 }
 
-/** Returns a replacement descriptor for one named export declaration. */
+/** Keeps declaration exports specialized while list/source exports trust parser truth. */
 function namedExportDeclarationReplacement(record, node) {
+	const end = node.declaration
+		? exportNamedReplacementEnd(record, node)
+		: staticLinkEnd(node);
 	return replacement(
 		node.start,
-		exportNamedReplacementEnd(record, node),
+		end,
 		namedExportReplacement(record, node)
 	);
 }
 
-/** Returns a replacement descriptor for one default export declaration. */
+/** Returns the focused replacement for one default export declaration. */
 function defaultExportDeclarationReplacement(record, node) {
 	return replacement(
 		node.start,
@@ -86,25 +75,31 @@ function defaultExportDeclarationReplacement(record, node) {
 	);
 }
 
-/** Returns a replacement descriptor for one export-all declaration. */
+/** Returns the parser-owned replacement for one complete export-all link. */
 function exportAllDeclarationReplacement(record, node) {
 	return replacement(
 		node.start,
-		statementEnd(record.source, node),
+		staticLinkEnd(node),
 		exportAllReplacement(record, node)
 	);
 }
 
-/** Returns the lexical end of one complete source statement. */
-function statementEnd(source, node) {
-	const discoveredEnd = findStatementEnd(source, node.start);
-	if (discoveredEnd > node.start) {
-		return discoveredEnd;
+/**
+ * Validates the parser boundary for syntax that is already a complete module link.
+ * Failing closed is safer than scanning forward into a neighboring declaration.
+ */
+function staticLinkEnd(node) {
+	const start = Number(node?.start);
+	const end = Number(node?.end);
+	if (!Number.isFinite(start) || !Number.isFinite(end) || end <= start) {
+		const error = new Error(`Invalid CompactJS static-link boundary for ${node?.type || "unknown"}.`);
+		error.code = "COMPACT_STATIC_LINK_BOUNDARY_INVALID";
+		throw error;
 	}
-	return node.end;
+	return end;
 }
 
-/** Creates one source replacement descriptor. */
+/** Creates one immutable-shaped source replacement descriptor. */
 function replacement(start, end, text) {
 	return {
 		end,

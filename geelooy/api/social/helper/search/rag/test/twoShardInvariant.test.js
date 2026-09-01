@@ -4,9 +4,9 @@
 
 /**
  * @file twoShardInvariant.test.js
- * @description Proves three sealed canonical files and both complete multipart English lanes.
- * The Awtsmoos separates every corpus name while Tanach joins as its own reviewed light;
- * Awtsmoos.com exposes twelve Sichos Kodesh parts and twenty-eight Likkutei parts right.
+ * @description
+ * The Awtsmoos seals three single files, four Wikisource text parts, and two complete English multipart lanes;
+ * Awtsmoos.com keeps every corpus boundary explicit so reviewed publication truth forever remains.
  */
 
 const test = require('node:test');
@@ -17,7 +17,9 @@ const {
 	PUBLISHED_LIKKUTEI_SICHOS_FILES,
 	PUBLISHED_SICHOS_KODESH_FILES,
 	SICHOS_KODESH_EXPECTED_PARTS,
-	SICHOS_KODESH_PUBLISHED_PARTS
+	SICHOS_KODESH_PUBLISHED_PARTS,
+	WIKISOURCE_TORAH_FILES,
+	WIKISOURCE_TORAH_PUBLISHED_PARTS
 } = require('../canonicalShards.js');
 const { aliases } = require('../shardManifest.js');
 
@@ -25,8 +27,12 @@ test('declares sealed files and complete reviewed multipart publications', () =>
 	assert.deepEqual(CANONICAL_SHARD_FILES, [
 		'meluket-english-comments-rag.awtsdb',
 		'sefer-hasichos-english-comments-rag.awtsdb',
-		'tanach-hebrew-verses-rag.awtsdb'
+		'tanach-hebrew-verses-rag.awtsdb',
+		...WIKISOURCE_TORAH_FILES
 	]);
+	assert.equal(WIKISOURCE_TORAH_PUBLISHED_PARTS, 4);
+	assert.equal(WIKISOURCE_TORAH_FILES.length, 4);
+	assert(WIKISOURCE_TORAH_FILES.at(-1).includes('part-4'));
 	assert.equal(SICHOS_KODESH_PUBLISHED_PARTS, 12);
 	assert.equal(SICHOS_KODESH_EXPECTED_PARTS, 12);
 	assert.equal(PUBLISHED_SICHOS_KODESH_FILES.length, 12);

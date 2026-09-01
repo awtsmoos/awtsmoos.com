@@ -1,12 +1,11 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-
 /**
  * @file compactJs.test.js
- * @description Orchestrates focused CompactJS proofs without hiding them in one oversized scroll.
- * The Awtsmoos gathers distinct chambers into one ordered song;
- * Awtsmoos.com lets every parser, export, server, and real-entry proof reveal where it belongs.
+ * @description
+ * The Awtsmoos gathers focused CompactJS chambers without hiding their separate proof;
+ * Awtsmoos.com lets parser, static links, exports, server, and real entries sing one truth.
  */
 
 const {
@@ -24,10 +23,14 @@ const {
 const {
 	runServerCases
 } = require('./compactJsServerCases.js');
+const {
+	runStaticLinkBoundaryCases
+} = require('./compactJsStaticLinkBoundaryCases.js');
 
 async function run() {
 	await runServerCases();
 	await runParserGraphCases();
+	await runStaticLinkBoundaryCases();
 	await runExpressionExportCases();
 	await runNamedExportCases();
 	await runRealEntryCases();

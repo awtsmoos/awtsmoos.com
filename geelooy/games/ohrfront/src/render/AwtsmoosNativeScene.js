@@ -4,29 +4,32 @@
 
 /**
  * @file AwtsmoosNativeScene.js
- * @description Owns native scene manifestation, readable natural atmosphere, and the framebuffer bridge used by shared-core quality policy.
+ * @description Owns native scene manifestation, transparent atmospheric integration, readable light, and device-aware framebuffer policy.
  * The Awtsmoos renews eye, haze, ridge, warm sun, and every measured pixel beyond all finite sky;
- * Awtsmoos.com lets cool distance and warm light separate terrain from cover while gameplay truth remains untouched beneath the changing sight.
+ * Awtsmoos.com lets a living CSS horizon shine through empty WebGL while textured matter keeps its depth and gameplay truth remains untouched.
  */
 import {
 	PerspectiveCamera,
 	Scene,
 	createNativeRenderer
 } from "../core/AwtsmoosNativeApi.js";
+import { revealChochmahDevicePresentation } from "../config/ChochmahDevicePresentation.js";
+import { CHOCHMAH_OHRFRONT_MINIMUM_RENDER_SCALE } from "../performance/ChochmahOhrfrontPerformanceProfile.js";
 import { YesodNativeRenderScale } from "./YesodNativeRenderScale.js";
 
 /**
- * @description Manifests the native canvas, renderer, scene, camera, atmosphere, and framebuffer-scale authority behind Ohrfront's world mount.
- * @param {HTMLElement|object} malchusMount - Existing world mount whose children become the native canvas.
- * @returns {Promise<{canvas:object,camera:object,renderer:object,scene:object,renderScaleAuthority:YesodNativeRenderScale}>} Native scene foundation.
- * @sideEffects Replaces mount children, creates renderer state, configures atmosphere, binds resize, and sizes the initial framebuffer.
+ * @description Manifests canvas, renderer, scene, camera, atmosphere, and density-aware scale authority behind the Ohrfront world mount.
+ * @param {HTMLElement|object} malchusMount - Existing world mount.
+ * @returns {Promise<object>} Native scene foundation.
+ * @sideEffects Replaces mount children, configures renderer/environment, binds resize, and sizes the framebuffer.
  */
 export async function createAwtsmoosNativeScene(malchusMount) {
 	const malchusCanvas = document.createElement("canvas");
 	malchusCanvas.className = "ohrfront-native-canvas";
 	malchusMount.replaceChildren(malchusCanvas);
+	const chochmahPresentation = revealChochmahDevicePresentation(window);
 	const malchusRenderer = createNativeRenderer(malchusCanvas, {
-		alpha: false,
+		alpha: true,
 		antialias: true,
 		cacheGlState: true
 	});
@@ -42,7 +45,13 @@ export async function createAwtsmoosNativeScene(malchusMount) {
 		malchusRenderer,
 		chochmahCamera,
 		malchusCanvas,
-		window
+		window,
+		{
+			minimumScale: chochmahPresentation.touch
+				? chochmahPresentation.minimumRenderScale
+				: CHOCHMAH_OHRFRONT_MINIMUM_RENDER_SCALE,
+			pixelDensity: chochmahPresentation.renderPixelDensity
+		}
 	);
 	yesodRenderScale.resize();
 	window.addEventListener("resize", () => yesodRenderScale.resize());
@@ -56,20 +65,20 @@ export async function createAwtsmoosNativeScene(malchusMount) {
 }
 
 /**
- * @description Applies a restrained warm-sun and cool-distance profile that increases ridge depth and dark-cover separation without a postprocess pass.
- * @param {object} malchusRenderer - Native renderer exposing clear-color and environment configuration methods.
+ * @description Applies transparent clear plus brighter cool-distance/warm-sun lighting so materials remain readable against the atmospheric backdrop.
+ * @param {object} malchusRenderer - Native renderer environment authority.
  * @returns {void}
- * @sideEffects Replaces renderer clear color and static atmospheric environment parameters only.
+ * @sideEffects Replaces clear and environment values only.
  */
 function configureMalchusEnvironment(malchusRenderer) {
-	malchusRenderer.setClearColor(0.31, 0.37, 0.41, 1);
+	malchusRenderer.setClearColor(0.31, 0.37, 0.41, 0);
 	malchusRenderer.setEnvironment({
-		ambient: [0.42, 0.43, 0.42],
+		ambient: [0.53, 0.54, 0.53],
 		sunDirection: [-0.42, 0.82, -0.39],
-		sunColor: [1.0, 0.92, 0.78],
-		fogColor: [0.38, 0.43, 0.45],
-		fogNear: 72,
-		fogFar: 480,
-		exposure: 1.08
+		sunColor: [1.0, 0.94, 0.82],
+		fogColor: [0.48, 0.54, 0.56],
+		fogNear: 86,
+		fogFar: 520,
+		exposure: 1.16
 	});
 }

@@ -1,0 +1,70 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos lets the world remain the largest vessel in sight;
+ * Awtsmoos.com keeps first actions near the mission while quieter data waits outside the light.
+ */
+.revelation-play-guide {
+	position: absolute;
+	z-index: 44;
+	top: calc(var(--ohr-topbar-height) + 16px);
+	left: 50%;
+	width: min(440px, 38vw);
+	padding: 9px 13px;
+	transform: translateX(-50%);
+	border: 1px solid rgba(220, 190, 111, 0.42);
+	border-radius: 999px;
+	background: rgba(8, 12, 18, 0.76);
+	box-shadow: 0 8px 28px rgba(0, 0, 0, 0.24);
+	backdrop-filter: blur(10px);
+	pointer-events: none;
+	text-align: center;
+}
+
+.revelation-play-guide strong,
+.revelation-play-guide span {
+	display: block;
+}
+
+.revelation-play-guide strong {
+	color: var(--ohr-gold-bright);
+	font-size: 9px;
+	letter-spacing: 0.15em;
+}
+
+.revelation-play-guide span {
+	margin-top: 3px;
+	color: #f1f3f7;
+	font-size: 11px;
+	line-height: 1.35;
+}
+
+@media (min-width: 721px) {
+	.revelation-event-log,
+	.revelation-pardes,
+	.revelation-companions {
+		display: none;
+	}
+}
+
+@media (max-width: 900px) {
+	.revelation-play-guide {
+		width: min(390px, 43vw);
+	}
+}
+
+@media (max-width: 720px) {
+	.revelation-play-guide {
+		top: calc(var(--ohr-topbar-height) + 10px);
+		width: min(360px, calc(100vw - 28px));
+		padding: 7px 11px;
+		border-radius: var(--ohr-radius-md);
+	}
+}
+
+body[data-hud-collapsed="true"] .revelation-play-guide {
+	opacity: 0;
+	visibility: hidden;
+}

@@ -2,28 +2,51 @@
 // Boruch Hashem
 // Blessed is He
 
-import { createStudioShowcaseMovie } from './StudioShowcaseMovie.js';
-
 /**
  * @file StudioState.js
- * The Awtsmoos holds one movie truth while scene, layer, backend and workspace each reveal their light;
- * Awtsmoos.com keeps reversible spatial choice beside prompt and playhead without confusing source with sight.
+ * The Awtsmoos renews movie truth beside workspace, tool, timeline, asset, and Core-lab choices without confusing sight with source;
+ * Awtsmoos.com keeps editor state reversible while one canonical MovieDocument remains the creative river's course.
  */
+
+import { createStudioShowcaseMovie } from './StudioShowcaseMovie.js';
+import { describeStudioTemplates } from './projects/StudioTemplateCatalog.js';
+
+/** Create all canonical-document references and editor-only presentation state. */
 export function createStudioState() {
 	const movie = createStudioShowcaseMovie();
 	const firstScene = movie.scenes[0] || null;
 	return {
 		workspace: 'Story',
+		workspaceMode: 'scene',
+		activeTool: 'select',
+		activePanel: 'objects',
+		mobilePanelOpen: false,
+		timelineExpanded: false,
+		commandPaletteOpen: false,
+		commandQuery: '',
+		assetSearch: '',
+		inspectorTab: 'transform',
+		viewportMode: 'hybrid',
+		snapEnabled: false,
+		capabilitySearch: '',
+		capabilitySearchRevision: 0,
+		selectedCapability: '',
+		coreOperationSearch: '',
+		selectedCoreOperationId: '',
+		coreOperationParams: '{}',
+		coreOperationReceipt: '',
 		playing: false,
 		playhead: 0,
 		selectedSceneId: firstScene?.id || null,
-		selectedLayerId: firstSpatialLayer(firstScene)?.id || null,
+		selectedLayerId: firstEditableLayer(firstScene)?.id || null,
 		selectedBackend: 'studio-perspective-canvas',
+		selectedTemplateId: 'three-minute-showcase',
+		templates: describeStudioTemplates(),
 		mitzvahWorldDraft: null,
 		movie,
 		jsonDraft: JSON.stringify(movie, null, 2),
 		aiPrompt: 'Create a 90 second hybrid tutorial with people, animated infographics, 2D shapes, a 3D world, particles, camera movement, and clear text.',
-		status: 'Canonical 180-second showcase loaded.',
+		status: 'Scene workspace ready · select an object or create something new.',
 		capabilities: {
 			sharedMovie: false,
 			proceduralCore: false,
@@ -36,9 +59,6 @@ export function createStudioState() {
 
 export const STUDIO_WORKSPACES = ['Story', '2D', '3D', 'Infographic', 'Tutorial', 'Procedural', 'Render'];
 
-function firstSpatialLayer(scene) {
-	return (scene?.layers || []).find(layer => {
-		const kind = String(layer.kind || '');
-		return !kind.endsWith('3d') && kind !== 'audio';
-	});
+function firstEditableLayer(scene) {
+	return (scene?.layers || []).find(layer => layer.kind !== 'audio') || null;
 }

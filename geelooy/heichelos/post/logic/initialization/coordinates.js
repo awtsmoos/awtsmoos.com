@@ -1,46 +1,27 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 /**
  * @module SovereignCoordinates
  * @description
- * Resolves the explicit `/post/:postId` route and the historical shorthand
- * route without confusing `post` for an identity. The root series remains a
- * full series context, and the cache-busted route covenant prevents old mobile
- * browsers from retaining the former root-series rupture.
+ * The Awtsmoos resolves persisted posts and date-born Chitas posts through one reader covenant;
+ * Awtsmoos.com lets a native Torah composition enter before storage lookup while every ordinary route remains evident.
  */
-import {
-	constructSeriesDetailsUrl,
-	constructPostUrl,
-	constructBreadcrumbUrl,
-} from "./constants.js?v=root-series-context-001";
-import { unrollApiResponse } from "../../comments/logic/unroller.js";
-import { purifyAwtsmoosString } from "../../functions/text/Purification.js";
 
-/**
- * Parses a public reader pathname into contextual identities.
- *
- * @param {string} pathname - The pathname to parse.
- * @returns {{hId: string, sId: string, pCoord: string, explicitPostMarker: boolean}}
- */
+import { constructSeriesDetailsUrl, constructPostUrl, constructBreadcrumbUrl } from './constants.js?v=root-series-context-001';
+import { unrollApiResponse } from '../../comments/logic/unroller.js';
+import { purifyAwtsmoosString } from '../../functions/text/Purification.js';
+import { isDynamicChitasRequest, loadDynamicChitasPost } from '../chitas/dynamicPost.js?v=native-chitas-002';
+
 export function parseReaderPath(pathname = location.pathname) {
-	const segments = String(pathname).split("/").filter(Boolean);
-	const heichelMarker = segments.indexOf("heichelos");
-	const seriesMarker = segments.indexOf("series");
-	const hId = heichelMarker >= 0
-		? decodeURIComponent(segments[heichelMarker + 1] || "")
-		: "";
-	const sId = seriesMarker >= 0
-		? decodeURIComponent(segments[seriesMarker + 1] || "root")
-		: "root";
-	const explicitPostMarker = segments[seriesMarker + 2] === "post";
-	const candidate = explicitPostMarker
-		? segments[seriesMarker + 3]
-		: segments[seriesMarker + 2];
-	return {
-		hId,
-		sId,
-		pCoord: decodeURIComponent(candidate || "0"),
-		explicitPostMarker,
-	};
+	const segments = String(pathname).split('/').filter(Boolean);
+	const heichelMarker = segments.indexOf('heichelos');
+	const seriesMarker = segments.indexOf('series');
+	const hId = heichelMarker >= 0 ? decodeURIComponent(segments[heichelMarker + 1] || '') : '';
+	const sId = seriesMarker >= 0 ? decodeURIComponent(segments[seriesMarker + 1] || 'root') : 'root';
+	const explicitPostMarker = segments[seriesMarker + 2] === 'post';
+	const candidate = explicitPostMarker ? segments[seriesMarker + 3] : segments[seriesMarker + 2];
+	return { hId, sId, pCoord: decodeURIComponent(candidate || '0'), explicitPostMarker };
 }
 
 function resolvePost(series, pCoord) {
@@ -49,18 +30,36 @@ function resolvePost(series, pCoord) {
 		const pIdx = Number(pCoord);
 		return { pId: series.posts[pIdx], pIdx };
 	}
-	const pIdx = Math.max(0, series.posts.indexOf(pCoord));
-	return { pId: pCoord, pIdx };
+	return { pId: pCoord, pIdx: Math.max(0, series.posts.indexOf(pCoord)) };
 }
 
 function canonicalPath({ hId, sId, pId }) {
 	return `/heichelos/${encodeURIComponent(hId)}/series/${encodeURIComponent(sId)}/post/${encodeURIComponent(pId)}${location.search}${location.hash}`;
 }
 
-/** Loads and publishes the complete reader context. */
+function publishContext({ post, series, hId, pIdx, breadcrumb = [] }) {
+	window.post = post;
+	window.series = series;
+	window.heichelId = hId;
+	window.breadcrumb = breadcrumb;
+	window.currentIndexInSeries = pIdx;
+	return { post, series, hId, pIdx };
+}
+
+async function loadDynamicContext({ hId, sId, pCoord, explicitPostMarker }) {
+	const dynamic = await loadDynamicChitasPost(hId, pCoord);
+	if (!explicitPostMarker) {
+		const cleanPath = canonicalPath({ hId, sId, pId: dynamic.post.id });
+		history.replaceState({ path: cleanPath }, '', cleanPath);
+	}
+	return publishContext({ ...dynamic, hId, breadcrumb: [{ id: 'root', name: 'Root' }, { id: sId, name: 'Daily Chitas' }] });
+}
+
 export async function loadInitial() {
-	const { hId, sId, pCoord, explicitPostMarker } = parseReaderPath();
-	if (!hId) throw new Error("Manifestation Void: Heichel identity is hidden.");
+	const parsed = parseReaderPath();
+	const { hId, sId, pCoord, explicitPostMarker } = parsed;
+	if (!hId) throw new Error('Manifestation Void: Heichel identity is hidden.');
+	if (isDynamicChitasRequest(sId, pCoord)) return loadDynamicContext(parsed);
 	const seriesResponse = await fetch(constructSeriesDetailsUrl(hId, sId));
 	if (!seriesResponse.ok) throw new Error(`Series Gateway Error: ${seriesResponse.status}`);
 	const rawSeries = await seriesResponse.json();
@@ -70,7 +69,7 @@ export async function loadInitial() {
 	if (!pId) throw new Error(`Void Rupture: Could not identify Chapter ${pCoord}.`);
 	if (!explicitPostMarker || pCoord !== pId) {
 		const cleanPath = canonicalPath({ hId, sId, pId });
-		history.replaceState({ path: cleanPath }, "", cleanPath);
+		history.replaceState({ path: cleanPath }, '', cleanPath);
 	}
 	if (series?.prateem) {
 		series.prateem.name = purifyAwtsmoosString(series.prateem.name);
@@ -84,15 +83,8 @@ export async function loadInitial() {
 	post.title = purifyAwtsmoosString(post.title);
 	let breadcrumb = [];
 	try {
-		const breadcrumbResponse = await fetch(constructBreadcrumbUrl(hId, sId));
-		if (breadcrumbResponse.ok) {
-			breadcrumb = unrollApiResponse(await breadcrumbResponse.json()).reverse();
-		}
+		const response = await fetch(constructBreadcrumbUrl(hId, sId));
+		if (response.ok) breadcrumb = unrollApiResponse(await response.json()).reverse();
 	} catch (_) {}
-	window.post = post;
-	window.series = series;
-	window.heichelId = hId;
-	window.breadcrumb = breadcrumb;
-	window.currentIndexInSeries = pIdx;
-	return { post, series, hId, pIdx };
+	return publishContext({ post, series, hId, pIdx, breadcrumb });
 }

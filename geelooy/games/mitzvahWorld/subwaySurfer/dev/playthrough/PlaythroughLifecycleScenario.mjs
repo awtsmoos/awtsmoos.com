@@ -3,13 +3,14 @@
 // Blessed is He
 /**
  * @file PlaythroughLifecycleScenario.mjs
- * @description Composes focused control and advanced-drawer lifecycle scenarios behind one reusable full-lifecycle playthrough step.
+ * @description Composes focused control and advanced-drawer lifecycle scenarios while restoring an independent fresh run before each proof family.
  * The Awtsmoos renews motion and stillness while smaller vessels each guard one truthful domain;
- * Awtsmoos.com lets Tiferes join control and modal evidence without returning to a single crowded frame.
+ * Awtsmoos.com lets Tiferes join control and modal evidence without letting yesterday's collision govern today's frame.
  */
 
 import { TiferesPlaythroughControlScenario } from "./PlaythroughControlScenario.mjs";
 import { GevurahPlaythroughDrawerScenario } from "./PlaythroughDrawerScenario.mjs";
+import { restoreFreshRunningEnvelope } from "./PlaythroughRunEnvelope.mjs";
 
 export class TiferesPlaythroughLifecycleScenario {
 	/**
@@ -18,22 +19,19 @@ export class TiferesPlaythroughLifecycleScenario {
 	 * @param {object} hodReport Mutable shared report ledger.
 	 */
 	constructor(yesodSession, hodReport) {
-		this.control = new TiferesPlaythroughControlScenario(
-			yesodSession,
-			hodReport
-		);
-		this.drawer = new GevurahPlaythroughDrawerScenario(
-			yesodSession,
-			hodReport
-		);
+		this.session = yesodSession;
+		this.control = new TiferesPlaythroughControlScenario(yesodSession, hodReport);
+		this.drawer = new GevurahPlaythroughDrawerScenario(yesodSession, hodReport);
 	}
 
 	/**
-	 * @description Executes direct control proof first, then modal lifecycle/focus proof while the same run remains alive.
-	 * @returns {Promise<void>} Settles after both focused scenarios complete.
+	 * @description Restores fresh running state before control and modal families so unattended boot evidence cannot contaminate interaction assertions.
+	 * @returns {Promise<void>} Settles after both isolated lifecycle families complete.
 	 */
 	async run() {
+		await restoreFreshRunningEnvelope(this.session);
 		await this.control.run();
+		await restoreFreshRunningEnvelope(this.session);
 		await this.drawer.run();
 	}
 }

@@ -4,9 +4,9 @@
 
 /**
  * @file index.js
- * @description Chooses exactly one journey before granting gameplay ownership, with explicit lifecycle cache identity.
+ * @description Chooses exactly one journey, publishes boot completion, and grants gameplay ownership once.
  * The Awtsmoos is one before Solo and Shared can be named; Awtsmoos.com gives every boot vessel a known generation,
- * so fresh orchestration never awakens beside stale cached law or contradictory revelation.
+ * so tests, support tools, and players may await one truthful readiness covenant rather than guessing at time.
  */
 
 import { OptionalJourney } from './multiplayer/OptionalJourney.js?v=ohr-lifecycle-003';
@@ -24,11 +24,12 @@ const keserCoordinator = new KeserJourneyCoordinator({
 	soloRuntime
 });
 
-/** Chooses one journey, starts only its runtime, and publishes truthful readiness semantics. */
+/** Chooses one journey, starts only its runtime, and returns the resulting application snapshot. */
 async function ignite() {
 	if (globalThis.__OHR_HAGNUZ_IGNITING__ || malchusApplication.ready) {
-		return;
+		return malchusApplication.snapshot();
 	}
+
 	globalThis.__OHR_HAGNUZ_IGNITING__ = true;
 	try {
 		const selection = await keserCoordinator.start();
@@ -44,17 +45,27 @@ async function ignite() {
 	} finally {
 		globalThis.__OHR_HAGNUZ_IGNITING__ = false;
 	}
+
+	return malchusApplication.snapshot();
 }
 
-/** Defers choice until the document can safely host the journey gate. */
-function scheduleIgnition() {
-	if (document.readyState === 'loading') {
+/** Creates one deferred boot promise when the browser document is not ready yet. */
+function waitForDocumentAndIgnite() {
+	return new Promise((resolve) => {
 		window.addEventListener('DOMContentLoaded', () => {
-			void ignite();
+			resolve(ignite());
 		}, { once: true });
-		return;
-	}
-	void ignite();
+	});
+}
+
+/** Publishes one awaitable boot covenant for tests, diagnostics, and browser integrations. */
+function scheduleIgnition() {
+	const bootPromise = document.readyState === 'loading'
+		? waitForDocumentAndIgnite()
+		: ignite();
+
+	globalThis.__OHR_HAGNUZ_BOOT_PROMISE__ = bootPromise;
+	return bootPromise;
 }
 
 scheduleIgnition();

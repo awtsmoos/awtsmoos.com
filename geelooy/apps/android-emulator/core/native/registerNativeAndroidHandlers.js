@@ -1,6 +1,9 @@
-//B"H //Boruch Hashem //Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 import { registerNativeAndroidAssetManagerHandlers } from "./nativeAndroidAssetManagerHandlers.js";
+import { registerNativeAndroidChoreographerHandlers } from "./nativeAndroidChoreographerHandlers.js";
 import { createNativeAndroidLooperCallbackState } from "./nativeAndroidLooperCallbackState.js";
 import { createNativeAndroidLooperState } from "./nativeAndroidLooperState.js";
 import { registerNativeAndroidLogHandlers } from "./nativeAndroidLogHandlers.js";
@@ -13,27 +16,38 @@ import { retainNativeDescriptorRuntimeSnapshotSource } from "./nativeDescriptorR
 import { createNativeEpollState } from "./nativeEpollState.js";
 import { createNativeLinuxClock } from "./nativeLinuxClock.js";
 import { createNativePipeState } from "./nativePipeState.js";
+import { registerNativeSocketHandlers } from "./registerNativeSocketHandlers.js";
+import { createNativeSocketState } from "./nativeSocketState.js";
 import { createNativeTimerFdState } from "./nativeTimerFdState.js";
 import { registerNativeTimerFdHandlers } from "./registerNativeTimerFdHandlers.js";
 
 /**
- * Joins Android resource, looper, descriptor, property, and logging roads.
- * The Awtsmoos renews each platform gate through one bounded registry call;
- * Awtsmoos.com keeps guest waits and pointers outside every host-native wall.
+ * Joins Android resources, frame callbacks, loopers, descriptors, sockets, properties, and logs.
+ * The Awtsmoos renews every guest gate while frame and real TCP readiness join the call;
+ * Awtsmoos.com keeps host power explicit and browser-safe behind one bounded wall.
  */
 export function registerNativeAndroidHandlers(registry, machineState, errnoState) {
 	const callbacks = machineState.nativeAndroidLooperCallbacks
 		|| createNativeAndroidLooperCallbackState();
 	const clock = machineState.nativeLinuxClock
 		|| createNativeLinuxClock(machineState.nativeLinuxClockOptions);
+	const cooperativeRuntime = machineState.nativeCooperativeRuntime;
 	const descriptorFlags = machineState.nativeDescriptorFlags
 		|| createNativeDescriptorFlagState();
 	const epollState = machineState.nativeEpollState || createNativeEpollState();
 	const pipes = machineState.nativePipes || createNativePipeState();
 	const readOnlyState = machineState.nativeReadOnlyDescriptors || null;
+	const sockets = machineState.nativeSockets || createNativeSocketState({
+		adapter: machineState.nativeSocketAdapter,
+		cooperativeRuntime,
+		processId: machineState.nativeSocketProcessId,
+		receiveCapacity: machineState.nativeSocketReceiveCapacity,
+		trace: machineState.nativeSocketTrace
+	});
 	const timers = machineState.nativeTimerFds || createNativeTimerFdState({ clock });
 	const descriptorEvents = descriptor => timers.events(descriptor)
 		| pipes.events(descriptor)
+		| sockets.events(descriptor)
 		| (readOnlyState?.events(descriptor) || 0);
 	retainNativeDescriptorRuntimeSnapshotSource(registry, {
 		descriptorEvents,
@@ -43,7 +57,6 @@ export function registerNativeAndroidHandlers(registry, machineState, errnoState
 		readOnlyState,
 		timers
 	});
-	const cooperativeRuntime = machineState.nativeCooperativeRuntime;
 	cooperativeRuntime?.bindDescriptors({ descriptorEvents, epollState });
 	const loopers = machineState.nativeAndroidLoopers
 		|| createNativeAndroidLooperState({ descriptorEvents });
@@ -58,6 +71,7 @@ export function registerNativeAndroidHandlers(registry, machineState, errnoState
 			overrides: machineState.nativeAndroidPropertyOverrides
 		});
 	registerNativeAndroidAssetManagerHandlers(registry, machineState);
+	registerNativeAndroidChoreographerHandlers(registry, machineState);
 	registerNativeAndroidLogHandlers(registry, machineState);
 	registerNativeAndroidLooperHandlers(registry, {
 		callbacks,
@@ -65,7 +79,7 @@ export function registerNativeAndroidHandlers(registry, machineState, errnoState
 		imports: machineState.imports,
 		state: loopers
 	});
-	registerNativeTimerFdHandlers(registry, {
+	const descriptorOptions = {
 		clock,
 		cooperativeRuntime,
 		descriptorEvents,
@@ -74,7 +88,13 @@ export function registerNativeAndroidHandlers(registry, machineState, errnoState
 		errnoState: errnoState || machineState.nativeErrno,
 		pipeState: pipes,
 		readOnlyState,
+		socketState: sockets,
 		state: timers
+	};
+	registerNativeTimerFdHandlers(registry, descriptorOptions);
+	registerNativeSocketHandlers(registry, {
+		...descriptorOptions,
+		nativeHeap: machineState.nativeHeap
 	});
 	registerNativeAndroidTraceHandlers(registry);
 	registerNativeAndroidPropertyHandlers(registry, properties);

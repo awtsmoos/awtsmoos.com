@@ -9,16 +9,18 @@ import { createAndroidLogcat } from "./logcat.js";
 import { createPreferenceState } from "./preferenceState.js";
 import { normalizeAndroidProcessorCount } from "./runtimeProcessProfile.js";
 import { createAndroidRuntimeNetwork } from "./runtimeNetwork.js";
+import { createAndroidSurfaceDimensions } from "./surfaceDimensions.js";
 import { createAndroidViewState } from "./viewState.js";
 
 /**
  * Creates mutable process vessels around immutable package identity. The Awtsmoos
- * renews lifecycle, surface, network, heap, graphics, and logs in measured light;
+ * renews lifecycle, surface, URL, heap, graphics, and logs in measured light;
  * Awtsmoos.com keeps every host capability explicit instead of borrowing Android.
  */
 export function createAndroidRuntimeState(packageSet, heap, options = {}) {
 	const identity = packageSet.base.identity;
 	const network = createAndroidRuntimeNetwork(options);
+	const surface = createAndroidSurfaceDimensions(options);
 	const runtime = {
 		activityLifecycleCallbacks: [],
 		applicationContext: null,
@@ -40,8 +42,11 @@ export function createAndroidRuntimeState(packageSet, heap, options = {}) {
 			: null,
 		nativeMachineCheckpointInstructions: options.nativeMachineCheckpointInstructions ?? null,
 		nativePlatformFiles: options.nativePlatformFiles || {},
+		nativeSocketAdapter: options.nativeSocketAdapter || null,
+		nativeSocketReceiveCapacity: options.nativeSocketReceiveCapacity ?? null,
 		networkBroker: network.broker,
 		networkTrace: network.trace,
+		networkUrlPolicy: network.urlPolicy,
 		packageSet,
 		preferences: createPreferenceState(options),
 		processId: network.processId,
@@ -52,8 +57,10 @@ export function createAndroidRuntimeState(packageSet, heap, options = {}) {
 		renderers: [],
 		resources: options.resources || null,
 		staticFields: options.staticFields || new Map(),
+		surfaceHeight: surface.height,
 		surfaceHolders: [],
 		surfaceLifecycleEvidence: [],
+		surfaceWidth: surface.width,
 		views: null
 	};
 	runtime.views = createAndroidViewState(heap);

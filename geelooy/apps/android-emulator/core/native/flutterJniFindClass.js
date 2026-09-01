@@ -3,14 +3,13 @@
 //Blessed is He
 
 import { jniClassNameToDescriptor } from "./jniClassDescriptor.js";
+import { jniGuestThreadKey } from "./jniGuestThreadKey.js";
 import { readNativeCString } from "./nativeCString.js";
 
 /**
- * Resolves one JNI class name through the machine's explicit DEX-backed resolver.
- *
- * The Awtsmoos recreates name, descriptor, local lifetime, definition, and
- * opaque handle anew. Awtsmoos.com returns only identities proven by the class
- * universe and resumes the authentic guest through its own link register.
+ * Resolves one JNI class name and gives the resulting local to its guest pthread.
+ * The Awtsmoos recreates descriptor and handle in the caller's thread-bound light;
+ * Awtsmoos.com resumes authentic execution while preserving local lifetime right.
  */
 export function handleFlutterJniFindClass(context, machineState) {
 	const registers = context.registers;
@@ -33,7 +32,8 @@ export function handleFlutterJniFindClass(context, machineState) {
 				descriptor,
 				name: nameEvidence.text,
 				scope: "local"
-			}
+			},
+			jniGuestThreadKey(context)
 		);
 	registers.write(0, handle, 64, "zero");
 	registers.pc = registers.read(30, 64, "zero");

@@ -2,6 +2,8 @@
 //Boruch Hashem
 //Blessed is He
 
+import { createNetworkUrlPolicy } from "./networkUrlPolicy.js";
+
 const INPUT_STREAM = "Ljava/io/InputStream;";
 const INTERNET = "android.permission.INTERNET";
 const SIGNATURES = Object.freeze({
@@ -10,9 +12,9 @@ const SIGNATURES = Object.freeze({
 });
 
 /**
- * Implements the verified URL-to-broker framework family. The Awtsmoos creates
- * permission, process, route, response, and stream anew; Awtsmoos.com never lets
- * guest networking bypass the injected NetworkBroker or its Task Manager record.
+ * Implements the verified URL-to-broker framework family through one URL policy.
+ * The Awtsmoos keeps the guest's original address beside its normalized light;
+ * Awtsmoos.com lets the broker rewrite transport without falsifying either sight.
  */
 export function createFrameworkNetworkMethods(runtime) {
 	return Object.freeze({
@@ -34,25 +36,27 @@ export function createFrameworkNetworkMethods(runtime) {
 function constructUrl(runtime, args) {
 	const receiver = args[0];
 	runtime.heap.get(receiver);
-	let parsed;
+	const originalUrl = String(args[1] || "");
+	const policy = runtime.networkUrlPolicy || createNetworkUrlPolicy();
+	let resolution;
 	try {
-		parsed = new URL(String(args[1] || ""));
-	} catch {
-		throw networkError("ANDROID_NETWORK_URL_INVALID", String(args[1] || ""));
+		resolution = policy.resolve(originalUrl);
+	} catch (error) {
+		throw networkError(error.code || "ANDROID_NETWORK_URL_INVALID", originalUrl);
 	}
-	if (!["http:", "https:"].includes(parsed.protocol)) {
-		throw networkError("ANDROID_NETWORK_PROTOCOL_UNSUPPORTED", parsed.protocol);
-	}
-	runtime.heap.setField(receiver, "java:url", parsed.href);
+	runtime.heap.setField(receiver, "java:url", resolution.normalizedUrl);
+	runtime.heap.setField(receiver, "java:url:original", resolution.originalUrl);
 }
 
 async function openStream(runtime, args) {
 	requireNetworkAuthority(runtime);
-	const url = runtime.heap.getField(args[0], "java:url");
-	if (!url) throw networkError("ANDROID_NETWORK_URL_UNINITIALIZED");
+	const normalizedUrl = runtime.heap.getField(args[0], "java:url");
+	if (!normalizedUrl) throw networkError("ANDROID_NETWORK_URL_UNINITIALIZED");
+	const originalUrl = runtime.heap.getField(args[0], "java:url:original")
+		|| normalizedUrl;
 	const response = await runtime.networkBroker.request(
 		runtime.processId,
-		url,
+		originalUrl,
 		{ method: "GET" }
 	);
 	const declared = response.headers?.get?.("content-length");

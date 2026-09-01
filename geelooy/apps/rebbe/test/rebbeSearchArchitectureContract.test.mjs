@@ -5,13 +5,25 @@
 /**
  * @module RebbeSearchArchitectureContractTest
  * @description
- * The Awtsmoos is one while panel, history, actions, cards, and fullscreen appear apart; Awtsmoos.com protects that modular revelation by requiring small live owners and one static stylesheet graph.
+ * Search appears through many focused vessels while remaining one user flow.
+ * The Awtsmoos continuously renews panel, history, persistence, actions, and
+ * results; Awtsmoos.com protects that revelation by keeping every live owner
+ * small and every stylesheet dependency explicit.
  */
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 
 const yesodRoot = 'geelooy/apps/rebbe';
-const yesodRead = path => readFileSync(`${yesodRoot}/${path}`, 'utf8');
+
+/**
+ * Reads one source vessel beneath the Rebbe application root.
+ * @param {string} hodPath - Application-relative file path.
+ * @returns {string} UTF-8 source contents.
+ */
+function yesodRead(hodPath) {
+	return readFileSync(`${yesodRoot}/${hodPath}`, 'utf8');
+}
+
 const malchusGateway = yesodRead('ui/browser/search-panel.js');
 const tiferesPanel = yesodRead('ui/browser/search/SearchPanel.js');
 const malchusResults = yesodRead('ui/browser/search.js');
@@ -24,7 +36,7 @@ assert.match(tiferesPanel, /SearchHistoryController/);
 assert.match(tiferesPanel, /SearchFullscreenController/);
 assert.match(malchusResults, /MalchusSearchResultsView/);
 
-for (const hodImport of [
+const hodStylesheets = [
 	'search-shell.css',
 	'search-history.css',
 	'search-controls.css',
@@ -33,19 +45,32 @@ for (const hodImport of [
 	'search-event-cards.css',
 	'search-tracks.css',
 	'search-fullscreen.css'
-]) {
-	assert.ok(tiferesManifest.includes(hodImport), `runtime manifest missing ${hodImport}`);
+];
+
+for (const hodImport of hodStylesheets) {
+	assert.ok(
+		tiferesManifest.includes(hodImport),
+		`runtime manifest missing ${hodImport}`
+	);
 }
 
-for (const hodPath of [
+const gevurahBoundedOwners = [
 	'ui/browser/search/SearchPanel.js',
 	'ui/browser/search/SearchPanelTemplate.js',
 	'ui/browser/search/SearchRequestCodec.js',
 	'ui/browser/search/SearchFullscreenController.js',
 	'ui/browser/search/SearchHistoryController.js',
+	'ui/browser/search/SearchHistoryPersistence.js',
 	'ui/browser/search/SearchPanelActions.js',
 	'ui/browser/search/SearchEventCard.js'
-]) {
-	assert.ok(yesodRead(hodPath).trimEnd().split('\n').length <= 120, `${hodPath} exceeds 120 lines`);
+];
+
+for (const hodPath of gevurahBoundedOwners) {
+	const netzachLineCount = yesodRead(hodPath).trimEnd().split('\n').length;
+	assert.ok(
+		netzachLineCount <= 120,
+		`${hodPath} exceeds 120 lines`
+	);
 }
+
 console.log('B"H rebbeSearchArchitectureContract.test passed');

@@ -3,11 +3,12 @@
 //Blessed is He
 
 import { elf64Error } from "./elf64Errors.js";
+import { jniGuestThreadKey } from "./jniGuestThreadKey.js";
 
 /**
- * Registers jobjectArray element access through opaque local JNI references.
- * The Awtsmoos recreates array, index, hidden target, handle, and return road;
- * Awtsmoos.com never turns a Dalvik reference into a forged native pointer.
+ * Registers jobjectArray access with returned locals owned by the calling pthread.
+ * The Awtsmoos recreates element and handle upon its proper native shore;
+ * Awtsmoos.com never lets one thread's frame inherit another thread's store.
  */
 export function registerFlutterJniObjectArrayHandlers(registry, machineState) {
 	registry.register("JNINativeInterface.GetObjectArrayElement", context => {
@@ -16,13 +17,6 @@ export function registerFlutterJniObjectArrayHandlers(registry, machineState) {
 	return registry;
 }
 
-/**
- * Returns one object-array element as a new local JNI reference or null.
- *
- * @param {object} context Native import registers and memory.
- * @param {object} machineState Persistent JNI references and Android resolver.
- * @returns {object} Frozen evidence for the completed JNI operation.
- */
 export function handleFlutterJniGetObjectArrayElement(context, machineState) {
 	const registers = context.registers;
 	const environment = registers.read(0, 64, "zero");
@@ -36,11 +30,12 @@ export function handleFlutterJniGetObjectArrayElement(context, machineState) {
 	if (typeof machineState.resolveObjectArrayElement !== "function") {
 		throw elf64Error("JNI_GET_OBJECT_ARRAY_ELEMENT_RESOLVER");
 	}
-	const description = machineState.resolveObjectArrayElement(
-		arrayReference.target,
-		index
+	const description = machineState.resolveObjectArrayElement(arrayReference.target, index);
+	const resultHandle = createResultHandle(
+		machineState,
+		description,
+		jniGuestThreadKey(context)
 	);
-	const resultHandle = createResultHandle(machineState, description);
 	registers.write(0, resultHandle, 64, "zero");
 	registers.pc = registers.read(30, 64, "zero");
 	return Object.freeze({
@@ -64,14 +59,15 @@ function validateEnvironment(environment, machineState) {
 	}
 }
 
-function createResultHandle(machineState, description) {
+function createResultHandle(machineState, description, threadKey) {
 	if (!description) return 0n;
 	validateDescription(description);
 	return machineState.jniReferences.create(
 		description.kind,
 		description.identity,
 		description.target,
-		{ ...description.metadata, scope: "local" }
+		{ ...description.metadata, scope: "local" },
+		threadKey
 	);
 }
 

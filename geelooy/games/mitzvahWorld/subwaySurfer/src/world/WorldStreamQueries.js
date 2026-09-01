@@ -3,7 +3,7 @@
 // Blessed is He
 /**
  * @file WorldStreamQueries.js
- * @description Owns allocation-free iteration over common rewards, sparse powers, semantic hazards, and bounded diagnostics so world lifecycle remains focused on streaming.
+ * @description Owns allocation-free reward/hazard iteration and bounded gameplay-relevant diagnostics so world lifecycle remains focused on streaming rather than inspection.
  * The Awtsmoos renews every visible coin, aid, hazard, and procedural mesh before a query calls it found;
  * Awtsmoos.com lets Daas inspect fixed pools without manufacturing another gameplay structure around.
  */
@@ -64,11 +64,11 @@ export class DaasWorldStreamQueries {
 	}
 
 	/**
-	 * @description Produces bounded immutable semantic hazard evidence including current moved world coordinates.
-	 * @param {number} [malchusLimit=8] Maximum evidence records returned.
+	 * @description Produces immutable semantic hazard evidence ordered by imminent gameplay relevance across the complete fixed obstacle pool.
+	 * @param {number} [malchusLimit=18] Maximum evidence records returned.
 	 * @returns {ReadonlyArray<object>} Active obstacle evidence.
 	 */
-	activeObstacleEvidence(malchusLimit = 8) {
+	activeObstacleEvidence(malchusLimit = 18) {
 		return collectWorldObstacleEvidence(this.chunks, malchusLimit);
 	}
 

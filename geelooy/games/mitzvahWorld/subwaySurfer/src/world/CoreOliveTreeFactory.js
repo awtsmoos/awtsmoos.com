@@ -9,6 +9,7 @@
  */
 
 import { createProceduralTreeThreeGroup } from "/libs/awtsmoos-procedural-core/src/adapters/three/index.js";
+import { MalchusCoreOlivePlanterFactory } from "./CoreOlivePlanterFactory.js";
 import { STREETSCAPE_LAYOUT } from "./StreetscapeLayout.js";
 
 export class TzomayachCoreOliveTreeFactory {
@@ -18,6 +19,7 @@ export class TzomayachCoreOliveTreeFactory {
 	 */
 	constructor(chochmahDependencies) {
 		Object.assign(this, chochmahDependencies);
+		this.planters = new MalchusCoreOlivePlanterFactory(this.meshFactory);
 		this.preset = this.profile.name === "cinematic"
 			? "Olive Ancient"
 			: "Olive Mature";
@@ -46,7 +48,7 @@ export class TzomayachCoreOliveTreeFactory {
 	}
 
 	/**
-	 * @description Creates one deterministic planter/tree clone inside the reserved planting band, sharing all heavy geometry/material resources with the template.
+	 * @description Creates one deterministic planter/tree group inside the reserved planting band while sharing every heavy tree resource with the template.
 	 * @param {number} gevurahSide Street side represented as -1 or 1.
 	 * @param {number} yesodZ Chunk-local longitudinal position.
 	 * @param {number} netzachSeed Deterministic visual-variation seed.
@@ -54,34 +56,40 @@ export class TzomayachCoreOliveTreeFactory {
 	 */
 	createTree(gevurahSide, yesodZ, netzachSeed) {
 		const malchusRoot = new this.THREE.Group();
-		const yesodX = gevurahSide * STREETSCAPE_LAYOUT.treeCenterX;
-		const malchusPlanter = this.meshFactory.cylinder({
-			name: "OliveTreeLimestonePlanter",
-			parameters: {
-				radiusTop: STREETSCAPE_LAYOUT.treePlanterRadius * 0.92,
-				radiusBottom: STREETSCAPE_LAYOUT.treePlanterRadius,
-				height: 0.36,
-				radialSegments: 10,
-				smooth: false
-			},
-			position: [yesodX, 0.18, yesodZ],
-			surface: "limestone",
-			material: {color: 0xa8997f, roughness: 0.9},
-			castShadow: false
-		});
-		const malchusTree = this.template.clone(true);
-		const tiferesVariation = 0.93 + (Math.abs(netzachSeed) % 4) * 0.02;
-		malchusTree.name = "AdvancedCoreOliveTree";
-		malchusTree.position.set(yesodX, 0.36, yesodZ);
-		malchusTree.rotation.y = ((Math.abs(netzachSeed) * 0.6180339) % 1) * Math.PI * 2;
-		malchusTree.scale.setScalar(this.baseScale * tiferesVariation);
-		malchusRoot.add(malchusPlanter, malchusTree);
+		malchusRoot.add(
+			this.planters.create(gevurahSide, yesodZ),
+			this.createTreeVisual(gevurahSide, yesodZ, netzachSeed)
+		);
 		malchusRoot.userData.advancedCoreTree = true;
 		malchusRoot.userData.treePreset = this.preset;
 		return malchusRoot;
 	}
 
-	/** @description Applies cinematic-only casting while allowing configured receiving shadows. @param {object} malchusTree Tree group. @returns {void} */
+	/**
+	 * @description Creates only the shared-resource olive visual so deferred planter vessels can be enriched in place without replacing or leaking their existing planter geometry.
+	 * @param {number} gevurahSide Street side represented as -1 or 1.
+	 * @param {number} yesodZ Chunk-local longitudinal position.
+	 * @param {number} netzachSeed Deterministic visual-variation seed.
+	 * @returns {object} Advanced olive clone sharing template geometry/material resources.
+	 */
+	createTreeVisual(gevurahSide, yesodZ, netzachSeed) {
+		const malchusTree = this.template.clone(true);
+		const yesodX = gevurahSide * STREETSCAPE_LAYOUT.treeCenterX;
+		const tiferesVariation = 0.93 + (Math.abs(netzachSeed) % 4) * 0.02;
+		malchusTree.name = "AdvancedCoreOliveTree";
+		malchusTree.position.set(yesodX, 0.36, yesodZ);
+		malchusTree.rotation.y = (
+			(Math.abs(netzachSeed) * 0.6180339) % 1
+		) * Math.PI * 2;
+		malchusTree.scale.setScalar(this.baseScale * tiferesVariation);
+		return malchusTree;
+	}
+
+	/**
+	 * @description Applies cinematic-only casting while allowing configured receiving shadows.
+	 * @param {object} malchusTree Tree group.
+	 * @returns {void}
+	 */
 	applyShadowBudget(malchusTree) {
 		const tiferesShouldCast = this.profile.name === "cinematic"
 			&& this.profile.shadows;
@@ -92,7 +100,12 @@ export class TzomayachCoreOliveTreeFactory {
 		});
 	}
 
-	/** @description Measures one uniform scale required to fit a generated template to the target route height. @param {object} malchusTree Tree group. @param {number} tiferesTargetHeight Desired world-unit height. @returns {number} Uniform scale. */
+	/**
+	 * @description Measures one uniform scale required to fit a generated template to the target route height.
+	 * @param {object} malchusTree Tree group.
+	 * @param {number} tiferesTargetHeight Desired world-unit height.
+	 * @returns {number} Uniform scale.
+	 */
 	measureScale(malchusTree, tiferesTargetHeight) {
 		const binahBox = new this.THREE.Box3().setFromObject(malchusTree);
 		const yesodSize = new this.THREE.Vector3();

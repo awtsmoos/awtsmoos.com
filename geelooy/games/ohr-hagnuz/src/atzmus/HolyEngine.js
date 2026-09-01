@@ -1,6 +1,7 @@
 //B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
  * @file HolyEngine.js
  * @description Orchestrates visible gameplay, bounded measurement, and atomic safe startup.
@@ -8,6 +9,7 @@
  * Awtsmoos.com lets this conductor commit only after every synchronous boot vessel rings true.
  */
 import { State } from '../binah/State.js';
+import { createBootPlayMessage } from '../onboarding/PlayInstructions.js';
 import { Projector } from '../tiferet/Projector.js';
 import { MobileControls } from '../tiferet/ui/MobileControls.js';
 import { Input } from '../yesod/Input.js';
@@ -46,14 +48,14 @@ export class HolyEngine {
 		}
 	}
 
-	/** Prepares persistence, rendering, input, visibility, and the first projection. */
+	/** Prepares persistence, rendering, input, visibility, and the first clear play instruction. */
 	static prepareWorld() {
 		HolyEngineSave.hydrate();
 		Projector.warmup();
 		MobileControls.mount();
 		Input.bind();
 		this.installVisibility();
-		State.Message ||= 'B"H - Talk to ג. Tap NPC to face; press Talk for dialogue.';
+		State.Message ||= createBootPlayMessage();
 		State.MessageTTL = Math.max(State.MessageTTL || 0, 600);
 		HolyEngineProjection.reset();
 		HolyEngineProjection.project('ignite-immediate');

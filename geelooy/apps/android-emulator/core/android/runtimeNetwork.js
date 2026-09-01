@@ -4,22 +4,23 @@
 
 import { createFetchNetworkBroker } from "./fetchNetworkBroker.js";
 import { createNetworkTraceLedger } from "./networkTraceLedger.js";
+import { createNetworkUrlPolicy } from "./networkUrlPolicy.js";
 
 /**
- * Creates explicit runtime networking, attribution, limits, and trace evidence.
- *
- * The Awtsmoos recreates process, broker, bounded response, and ledger anew;
- * Awtsmoos.com never enables host transport silently and lets an injected broker
- * remain first authority over the built-in fetch vessel.
+ * Creates explicit runtime networking, URL policy, limits, and trace evidence.
+ * The Awtsmoos makes one policy vessel for every Java/fetch road; Awtsmoos.com
+ * keeps injected transport first authority while URL resolution carries one shared code.
  */
 export function createAndroidRuntimeNetwork(options = {}) {
 	const trace = options.networkTrace || createNetworkTraceLedger({
 		capacity: options.networkTraceCapacity,
 		sink: options.networkTraceSink
 	});
+	const urlPolicy = options.networkUrlPolicy || createNetworkUrlPolicy(options);
 	const broker = options.networkBroker || createOptionalFetchBroker(
 		options,
-		trace
+		trace,
+		urlPolicy
 	);
 	return Object.freeze({
 		broker,
@@ -27,7 +28,8 @@ export function createAndroidRuntimeNetwork(options = {}) {
 			options.maximumNetworkResponseBytes
 		),
 		processId: processIdentifier(options.processId),
-		trace
+		trace,
+		urlPolicy
 	});
 }
 
@@ -36,16 +38,21 @@ export function snapshotAndroidRuntimeNetwork(runtime) {
 		enabled: Boolean(runtime.networkBroker),
 		entries: runtime.networkTrace.snapshot(),
 		maximumResponseBytes: runtime.maximumNetworkResponseBytes,
-		processId: runtime.processId
+		processId: runtime.processId,
+		urlPolicy: Object.freeze({
+			baseUrl: runtime.networkUrlPolicy?.baseUrl || null,
+			rewriteOrigin: runtime.networkUrlPolicy?.rewriteOrigin || null
+		})
 	});
 }
 
-function createOptionalFetchBroker(options, trace) {
+function createOptionalFetchBroker(options, trace, urlPolicy) {
 	if (!options.enableHostFetch) return null;
 	return createFetchNetworkBroker({
 		fetch: options.fetch,
 		ledger: trace,
-		now: options.networkNow
+		now: options.networkNow,
+		urlPolicy
 	});
 }
 
