@@ -1,9 +1,10 @@
 {
-	"name": "@awtsmoos/studio",
-	"version": "0.1.0",
+	"name": "awtsmoos-studio",
+	"version": "1.0.0",
 	"private": true,
 	"type": "module",
-	"bh": "B\"H",
-	"blessing": "Boruch Hashem · Blessed is He",
-	"description": "Mobile-first Awtsmoos Studio composition shell for shared movie, procedural, and UI vessels."
+	"description": "B\"H · Unified Awtsmoos.com movie studio with real editable 2D, 3D, AI, infographic, tutorial, procedural, and showcase templates.",
+	"scripts": {
+		"test": "node --test test/*.test.mjs"
+	}
 }

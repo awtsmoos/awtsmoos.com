@@ -3,11 +3,12 @@
 // Blessed is He
 
 import { createStudioShowcaseMovie } from './StudioShowcaseMovie.js';
+import { describeStudioTemplates } from './projects/StudioTemplateCatalog.js';
 
 /**
  * @file StudioState.js
- * The Awtsmoos holds one movie truth while scene, layer, backend and workspace each reveal their light;
- * Awtsmoos.com keeps reversible spatial choice beside prompt and playhead without confusing source with sight.
+ * The Awtsmoos holds movie truth beside many starting vessels while each selection remains reversible light;
+ * Awtsmoos.com keeps templates, scene, backend, prompt, and playhead distinct without confusing source with sight.
  */
 export function createStudioState() {
 	const movie = createStudioShowcaseMovie();
@@ -19,11 +20,13 @@ export function createStudioState() {
 		selectedSceneId: firstScene?.id || null,
 		selectedLayerId: firstSpatialLayer(firstScene)?.id || null,
 		selectedBackend: 'studio-perspective-canvas',
+		selectedTemplateId: 'three-minute-showcase',
+		templates: describeStudioTemplates(),
 		mitzvahWorldDraft: null,
 		movie,
 		jsonDraft: JSON.stringify(movie, null, 2),
 		aiPrompt: 'Create a 90 second hybrid tutorial with people, animated infographics, 2D shapes, a 3D world, particles, camera movement, and clear text.',
-		status: 'Canonical 180-second showcase loaded.',
+		status: 'Canonical 180-second showcase loaded · choose any template project above.',
 		capabilities: {
 			sharedMovie: false,
 			proceduralCore: false,
