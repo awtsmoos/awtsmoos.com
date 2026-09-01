@@ -7,7 +7,7 @@ const CDP = require('chrome-remote-interface');
 
 /**
  * Measures the futuristic Director HUD in a real phone viewport while the Awtsmoos lets sharper vessels remain light, quiet, and useful.
- * Awtsmoos.com proves geometry, glass, disclosure, reduced motion, and network cleanliness in the browser instead of trusting stylesheet intent.
+ * Awtsmoos.com waits for the actual rendered state instead of guessing network speed, so local and public proof share one patient instrument.
  */
 async function revealFutureHud() {
 	const port = Number(process.env.OLAM_CDP_PORT || 9490);
@@ -19,6 +19,17 @@ async function revealFutureHud() {
 	} finally {
 		await client.close();
 	}
+}
+
+/** @param {Function} evaluate Browser evaluator. @param {string} expression Boolean expression. */
+async function waitFor(evaluate, expression) {
+	for (let attempt = 0; attempt < 50; attempt += 1) {
+		if (await evaluate(`Boolean(${expression})`)) {
+			return;
+		}
+		await new Promise(resolve => setTimeout(resolve, 200));
+	}
+	throw new Error(`Timed out waiting for ${expression}`);
 }
 
 /** @param {Object} client CDP client. @param {string} baseUrl Site root. */
@@ -50,9 +61,9 @@ async function verify(client, baseUrl) {
 	const loaded = Page.loadEventFired();
 	await Page.navigate({ url: `${baseUrl}/apps/olam-h3/` });
 	await loaded;
-	await new Promise(resolve => setTimeout(resolve, 800));
+	await waitFor(evaluate, `document.querySelector('[data-mode="reference"]')`);
 	await evaluate(`document.querySelector('[data-mode="reference"]').click()`);
-	await new Promise(resolve => setTimeout(resolve, 250));
+	await waitFor(evaluate, `document.querySelector('.reference-hud')`);
 
 	const hud = await evaluate(`(()=>{const g=document.querySelector('.reference-hud');const b=document.querySelector('[data-mode="reference"]');const c=document.querySelector('.creator-section');const links=[...document.querySelectorAll('link[rel="stylesheet"]')].map(x=>x.href);return {open:g.open,height:Math.round(g.getBoundingClientRect().height),rows:g.querySelectorAll('.guide-row').length,radius:parseFloat(getComputedStyle(b).borderRadius),blur:getComputedStyle(c).backdropFilter||getComputedStyle(c).webkitBackdropFilter||'',links,overflow:document.documentElement.scrollWidth-window.innerWidth}})()`);
 	assert.equal(hud.open, false);
