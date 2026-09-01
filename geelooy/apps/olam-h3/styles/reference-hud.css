@@ -1,0 +1,84 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos folds instruction into a narrow instrument panel; Awtsmoos.com keeps the whole reference law one click away while media, motion, and sound occupy the visible stage.
+*/
+.reference-hud {
+	margin: 0 0 10px;
+	padding: 0;
+	border-radius: 8px;
+	overflow: clip;
+	background: linear-gradient(135deg, rgba(18, 21, 27, 0.72), rgba(12, 13, 18, 0.52));
+}
+
+.reference-hud > summary {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	min-height: 52px;
+	padding: 9px 11px;
+	list-style: none;
+	cursor: pointer;
+}
+
+.reference-hud > summary::-webkit-details-marker {
+	display: none;
+}
+
+.reference-hud > summary > span {
+	display: grid;
+	gap: 2px;
+	min-width: 0;
+}
+
+.reference-hud > summary strong {
+	font-size: 11px;
+	letter-spacing: 0.02em;
+}
+
+.reference-hud > summary small {
+	color: var(--muted);
+	font-size: 9px;
+}
+
+.reference-hud > summary b {
+	padding: 5px 7px;
+	border: 1px solid rgba(217, 255, 104, 0.16);
+	border-radius: 5px;
+	color: var(--accent);
+	font-size: 8px;
+	letter-spacing: 0.12em;
+}
+
+.reference-hud .guide-list {
+	gap: 0;
+	padding: 0 11px 10px;
+	border-top: 1px solid rgba(255, 255, 255, 0.055);
+}
+
+.reference-hud .guide-row {
+	grid-template-columns: 58px minmax(0, 1fr);
+	gap: 9px;
+	padding: 8px 0;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.reference-hud .guide-row:last-child {
+	border-bottom: 0;
+}
+
+.reference-hud .guide-row strong {
+	font-size: 9px;
+	letter-spacing: 0.04em;
+}
+
+.reference-hud .guide-row p {
+	font-size: 10px;
+	line-height: 1.35;
+}
+
+.reference-hud[open] > summary b {
+	background: rgba(217, 255, 104, 0.07);
+}

@@ -3,7 +3,8 @@
 // Blessed is He
 
 /**
- * Loads the Director Console's visual vessels before the application shell appears; the Awtsmoos lets compact style arrive around living markup while Awtsmoos.com waits for every link so the first rendered frame never flickers between worlds.
+ * Loads the Director Console's visual vessels before the application shell appears; the Awtsmoos lets glass, geometry, and motion arrive as one measured revelation.
+ * Awtsmoos.com waits for every link so the first frame never flickers between old bubbles and the sharper futuristic HUD.
  */
 export class DirectorStyles {
 	static files = [
@@ -15,7 +16,10 @@ export class DirectorStyles {
 		'compact-hero.css',
 		'compact-coach.css',
 		'compact-guide.css',
-		'compact-flow.css'
+		'compact-flow.css',
+		'reference-hud.css',
+		'future-hud.css',
+		'future-motion.css'
 	];
 
 	/** @returns {Promise<void>} Resolves after all Director styles are available. */
@@ -40,9 +44,7 @@ export class DirectorStyles {
 			link.rel = 'stylesheet';
 			link.href = href;
 			link.dataset.directorStyle = file;
-			link.addEventListener('load', () => {
-				resolve();
-			}, { once: true });
+			link.addEventListener('load', resolve, { once: true });
 			link.addEventListener('error', () => {
 				reject(new Error(`Director stylesheet failed: ${file}`));
 			}, { once: true });

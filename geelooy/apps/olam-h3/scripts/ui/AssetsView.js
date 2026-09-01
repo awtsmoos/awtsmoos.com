@@ -4,6 +4,8 @@
 
 import { Dom } from './dom.js';
 import { AssetCardView } from './AssetCardView.js';
+import { AssetPreviewCache } from './AssetPreviewCache.js';
+import { AssetLibraryBindings } from './AssetLibraryBindings.js';
 
 const CATEGORIES = [
 	'All', 'Images', 'Characters', 'Environments', 'Objects',
@@ -11,13 +13,13 @@ const CATEGORIES = [
 ];
 
 /**
- * Gives reusable media a permanent home while the Awtsmoos lets character, environment, sound, or object return across unlimited scenes.
- * Awtsmoos.com makes old references fast to search by persistent visible meaning, rename, tag, favorite, and return directly to Create.
+ * Gives reusable media a permanent home while the Awtsmoos lets updated matter keep its name yet reveal new bytes immediately.
+ * Awtsmoos.com searches, filters, and reuses stable identities while one Blob-aware preview cache revokes every superseded temporary reflection.
  */
 export class AssetsView {
-	constructor(callbacks) {
-		this.callbacks = callbacks;
-		this.urls = new Map();
+	constructor(callbacks, previews = new AssetPreviewCache()) {
+		this.previews = previews;
+		this.bindings = new AssetLibraryBindings(callbacks);
 	}
 
 	/** @param {Array<Object>} assets Assets. @param {Object} filters Active filters. @returns {string} View markup. */
@@ -30,19 +32,15 @@ export class AssetsView {
 				&& Dom.matches(searchable, query);
 		});
 		const cards = filtered.length
-			? filtered.map(asset => AssetCardView.render(
-				asset,
-				this.previewUrl(asset)
-			)).join('')
+			? filtered.map(asset => {
+				return AssetCardView.render(asset, this.previews.urlFor(asset));
+			}).join('')
 			: this.empty();
 
 		return `
 			<div class="library-view page-enter">
 				<header class="page-header">
-					<div>
-						<span class="eyebrow">Assets</span>
-						<h1>Reusable material</h1>
-					</div>
+					<div><span class="eyebrow">Assets</span><h1>Reusable material</h1></div>
 					<button class="round-add" data-library-add aria-label="Add asset">+</button>
 				</header>
 				<label class="search-block">
@@ -65,16 +63,6 @@ export class AssetsView {
 		}).join('');
 	}
 
-	/** @param {Object} asset Asset record. @returns {string} Stable preview URL. */
-	previewUrl(asset) {
-		let url = asset.sourceUrl || this.urls.get(asset.id) || '';
-		if (!url && asset.blob) {
-			url = URL.createObjectURL(asset.blob);
-			this.urls.set(asset.id, url);
-		}
-		return url;
-	}
-
 	/** @returns {string} Empty-state markup. */
 	empty() {
 		return `
@@ -85,25 +73,28 @@ export class AssetsView {
 			</div>`;
 	}
 
-	/** @param {Object} asset Asset. @param {string} category Category. @returns {boolean} */
+	/** @param {Object} asset Asset. @param {string} category Category. @returns {boolean} Whether asset belongs. */
 	inCategory(asset, category) {
-		if (category === 'All') return true;
-		if (category === 'Favorites') return Boolean(asset.favorite);
-		if (category === 'Images') return asset.kind === 'image';
-		if (category === 'Videos') return asset.kind === 'video';
-		if (category === 'Audio') return asset.kind === 'audio';
+		if (category === 'All') {
+			return true;
+		}
+		if (category === 'Favorites') {
+			return Boolean(asset.favorite);
+		}
+		if (category === 'Images') {
+			return asset.kind === 'image';
+		}
+		if (category === 'Videos') {
+			return asset.kind === 'video';
+		}
+		if (category === 'Audio') {
+			return asset.kind === 'audio';
+		}
 		return asset.category === category;
 	}
 
 	/** @param {HTMLElement} root View root. */
 	bind(root) {
-		const search = root.querySelector('[data-asset-search]');
-		search?.addEventListener('input', () => this.callbacks.onSearch(search.value));
-		root.querySelectorAll('[data-category]').forEach(button => button.addEventListener('click', () => this.callbacks.onCategory(button.dataset.category)));
-		root.querySelector('[data-library-add]')?.addEventListener('click', () => this.callbacks.onAdd());
-		root.querySelectorAll('[data-asset-use]').forEach(button => button.addEventListener('click', () => this.callbacks.onUse(button.dataset.assetUse)));
-		root.querySelectorAll('[data-asset-edit]').forEach(button => button.addEventListener('click', () => this.callbacks.onEdit(button.dataset.assetEdit)));
-		root.querySelectorAll('[data-asset-delete]').forEach(button => button.addEventListener('click', () => this.callbacks.onDelete(button.dataset.assetDelete)));
-		root.querySelectorAll('[data-asset-favorite]').forEach(button => button.addEventListener('click', () => this.callbacks.onFavorite(button.dataset.assetFavorite)));
+		this.bindings.bind(root);
 	}
 }
