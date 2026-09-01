@@ -1,108 +1,108 @@
+//B"H
+//Boruch Hashem
+//Blessed is He
+/**
+ * @module Accompaniment
+ * @description
+ * Tiferes joins the player's living notes with a bass pulse that knows when to speak and when to rest.
+ * The Awtsmoos is beyond tempo while recreating every beat from nothing each instant;
+ * Awtsmoos.com exposes one shared clock so bass and drums can walk together rather than drift apart.
+ */
 
-/* B"H */
-// piano/modules/accompaniment.js
-import { AudioState } from './audio.js';
-import { createSynthNode, startSynth, stopSynth, activeNotes } from './synth.js';
+import {
+	createAccompanimentVoice,
+	findLowestActiveNote,
+	transposeAccompanimentNote
+} from './accompanimentNotes.js';
+import { activeNotes, stopSynth } from './synth.js';
 import { elements } from './ui.js';
-import { noteFrequencies, noteNames } from './input.js';
 
-let intervalId = null;
-let currentBassNotes = [];
+const MINIMUM_BPM = 50;
+const MAXIMUM_BPM = 220;
+const PATTERN_INTERVALS = [0, 7, 0, 7];
+let accompanimentBpm = 120;
+let accompanimentTimer = null;
 let beatCounter = 0;
-const BPM = 120;
-const BEAT_TIME = 60 / BPM * 1000; // ms
+let currentBassVoices = [];
 
+/** Starts the accompaniment clock exactly once. @returns {void} */
 export function startAccompaniment() {
-    if (intervalId) return;
-    intervalId = setInterval(tick, BEAT_TIME);
+	if (!accompanimentTimer) {
+		accompanimentTimer = setInterval(
+			playAccompanimentBeat,
+			beatTimeMilliseconds()
+		);
+	}
 }
 
+/** Stops the clock and releases bass voices owned by accompaniment. @returns {void} */
 export function stopAccompaniment() {
-    if (intervalId) {
-        clearInterval(intervalId);
-        intervalId = null;
-    }
-    stopBass();
+	if (accompanimentTimer) {
+		clearInterval(accompanimentTimer);
+		accompanimentTimer = null;
+	}
+	releaseCurrentBassVoices();
 }
 
-function stopBass() {
-    currentBassNotes.forEach(n => stopSynth(n));
-    currentBassNotes = [];
+/** @param {number} nextBpm - Requested tempo. @returns {number} Clamped BPM applied. */
+export function setAccompanimentBpm(nextBpm) {
+	const parsedBpm = Number(nextBpm);
+	const safeBpm = Number.isFinite(parsedBpm)
+		? parsedBpm
+		: accompanimentBpm;
+	const clampedBpm = Math.max(
+		MINIMUM_BPM,
+		Math.min(MAXIMUM_BPM, safeBpm)
+	);
+	if (clampedBpm === accompanimentBpm) {
+		return accompanimentBpm;
+	}
+	accompanimentBpm = clampedBpm;
+	restartActiveClock();
+	return accompanimentBpm;
 }
 
-function tick() {
-    if (!elements.autoBassCheckbox.checked || activeNotes.size === 0) {
-        if (currentBassNotes.length > 0) stopBass();
-        return;
-    }
+/** @returns {number} Current accompaniment tempo. */
+export function getAccompanimentBpm() {
+	return accompanimentBpm;
+}
 
-    // Determine root note from active notes (simplest: lowest note)
-    let lowestNoteFreq = Infinity;
-    let lowestNoteName = null;
-    
-    // Scan active keys
-    activeNotes.forEach((val, key) => {
-        // Parse note name to freq
-        const name = val.keyElement.dataset.note;
-        const note = name.replace(/\d+/g, '');
-        const octave = parseInt(name.match(/\d+/g));
-        const freq = noteFrequencies[note] * Math.pow(2, octave);
-        if (freq < lowestNoteFreq) {
-            lowestNoteFreq = freq;
-            lowestNoteName = note;
-        }
-    });
+function playAccompanimentBeat() {
+	releaseCurrentBassVoices();
+	if (!elements.autoBassCheckbox?.checked || activeNotes.size === 0) {
+		return;
+	}
+	const rootNote = findLowestActiveNote(activeNotes);
+	if (!rootNote) {
+		return;
+	}
+	const interval = PATTERN_INTERVALS[beatCounter % PATTERN_INTERVALS.length];
+	beatCounter = (beatCounter + 1) % PATTERN_INTERVALS.length;
+	const bassNote = transposeAccompanimentNote(rootNote, interval, -1);
+	const voice = bassNote ? createAccompanimentVoice(bassNote) : null;
+	if (voice) {
+		currentBassVoices.push(voice);
+	}
+}
 
-    if (!lowestNoteName) return;
+function restartActiveClock() {
+	if (!accompanimentTimer) {
+		return;
+	}
+	clearInterval(accompanimentTimer);
+	accompanimentTimer = setInterval(
+		playAccompanimentBeat,
+		beatTimeMilliseconds()
+	);
+}
 
-    stopBass(); // Stop previous beat
+function releaseCurrentBassVoices() {
+	for (const synthNodes of currentBassVoices) {
+		stopSynth(synthNodes);
+	}
+	currentBassVoices = [];
+}
 
-    // Pattern: Root(Oct-1) -> 5th(Oct-1) -> Root(Oct) -> 5th(Oct-1)
-    let targetNote = lowestNoteName;
-    let octaveOffset = -1;
-    
-    const step = beatCounter % 4;
-    
-    if (step === 0) {
-        // Root low
-        targetNote = lowestNoteName;
-        octaveOffset = -1;
-    } else if (step === 1 || step === 3) {
-        // 5th
-        const rootIndex = noteNames.indexOf(lowestNoteName);
-        targetNote = noteNames[(rootIndex + 7) % 12];
-        // If 5th wraps around, it's higher, so maybe drop octave to keep it bassy
-        if ((rootIndex + 7) >= 12) octaveOffset = -1;
-        else octaveOffset = -1; 
-    } else if (step === 2) {
-        // Root high (original octave or -1 if user played high)
-        targetNote = lowestNoteName;
-        octaveOffset = 0; 
-    }
-    
-    // Enforce Bass Range (C2 - C3 approx)
-    // We base it relative to C3 (approx 130Hz)
-    // Actually, let's just use the user's octave - 2
-    
-    const baseFreq = noteFrequencies[targetNote];
-    // We need an octave. Let's assume user plays around C4. Bass should be C2.
-    // We can infer average octave of user play
-    let avgOctave = 4; // Default
-    // Calculate real avg
-    let sum = 0, count = 0;
-    activeNotes.forEach((val) => {
-       const name = val.keyElement.dataset.note;
-       sum += parseInt(name.match(/\d+/g)[0]);
-       count++;
-    });
-    if (count > 0) avgOctave = Math.floor(sum/count);
-    
-    const bassOctave = Math.max(1, avgOctave - 2 + octaveOffset);
-    const finalFreq = baseFreq * Math.pow(2, bassOctave);
-
-    const nodes = createSynthNode(false, true, { inputId: 'auto-bass', coords: { x: 0, y: 160 } });
-    startSynth(nodes, finalFreq, targetNote + bassOctave);
-    currentBassNotes.push(nodes);
-
-    beatCounter++;
+function beatTimeMilliseconds() {
+	return 60000 / accompanimentBpm;
 }

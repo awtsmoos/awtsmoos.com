@@ -1,0 +1,119 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * @file Pro Synth Shell Styles
+ * @description
+ * Malchus gives the workstation its floating outer vessel while the Awtsmoos remains beyond panel, edge, shadow, and screen.
+ * Awtsmoos.com keeps shell, header, launcher, Panic and mobile bounds together so deep editing can appear without displacing the piano underneath.
+ */
+
+.pro-synth-launcher {
+	min-height: 38px;
+	padding: 8px 12px;
+	border: 1px solid #555;
+	border-radius: 9px;
+	background: #181818;
+	color: #fff;
+	font-weight: 700;
+}
+
+.pro-synth-launcher.active {
+	background: #343434;
+}
+
+.pro-synth-panel {
+	position: fixed;
+	z-index: 1400;
+	top: 62px;
+	right: 10px;
+	bottom: 10px;
+	width: min(760px, calc(100vw - 20px));
+	display: flex;
+	flex-direction: column;
+	background: #111;
+	color: #f5f5f5;
+	border: 1px solid #4b4b4b;
+	border-radius: 16px;
+	box-shadow: 0 18px 55px rgba(0, 0, 0, 0.6);
+	overflow: hidden;
+}
+
+.pro-synth-hidden {
+	display: none;
+}
+
+.pro-synth-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	padding: 12px 14px;
+	background: #1d1d1d;
+	border-bottom: 1px solid #333;
+}
+
+.pro-synth-title {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+
+.pro-synth-title span {
+	font-size: 11px;
+	color: #aaa;
+}
+
+.pro-synth-header-actions {
+	display: flex;
+	align-items: center;
+	gap: 7px;
+}
+
+.pro-synth-close,
+.pro-synth-panic {
+	min-height: 38px;
+	border: 0;
+	border-radius: 10px;
+	color: #fff;
+}
+
+.pro-synth-close {
+	min-width: 38px;
+	background: #333;
+	font-size: 18px;
+}
+
+.pro-synth-panic {
+	padding: 0 11px;
+	background: #6c2626;
+	font-size: 11px;
+	font-weight: 800;
+}
+
+.pro-synth-body {
+	flex: 1;
+	overflow: auto;
+	padding: 12px;
+}
+
+.pro-synth-status {
+	padding: 8px 12px;
+	border-top: 1px solid #333;
+	font-size: 10px;
+	color: #aaa;
+}
+
+@media (max-width: 620px) {
+	.pro-synth-panel {
+		top: 54px;
+		right: 4px;
+		bottom: 4px;
+		width: calc(100vw - 8px);
+		border-radius: 12px;
+	}
+
+	.pro-synth-panic {
+		padding: 0 8px;
+	}
+}

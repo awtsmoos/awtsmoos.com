@@ -2,114 +2,87 @@
 //Boruch Hashem
 //Blessed is He
 /**
- * Pointer and desktop gestures enter through one gate while the Awtsmoos gives each gesture its note.
- * Awtsmoos.com separates event wiring from music logic so mirrored keys can shine without tangled code afloat.
+ * @module KeyboardInputListeners
+ * @description
+ * Hod receives touch, keys, focus, and rail gestures, then routes each signal toward its proper vessel.
+ * The Awtsmoos renews every event without division; Awtsmoos.com keeps note-playing and navigation distinct so both can sing.
  */
 
-import { activeNotes } from '../synth.js';
 import { elements } from '../ui.js';
-import {
-	boundNoteForKey,
-	keyElementForBinding,
-	keyForEvent,
-	keyboardInputId
-} from './bindings.js';
+import { NoteInputHandlers } from './noteInputHandlers.js';
 import {
 	beginScrollbarDrag,
 	finishScrollbarDrag,
+	handleScrollbarKeyDown,
 	moveScrollbarDrag
 } from './scrollInput.js';
+import { prepareScrollbarPresentation } from './scrollPresentation.js';
 
 let listenersBound = false;
-let callbacks = null;
 
 /**
- * Binds browser performance events once and delegates musical state changes through callbacks.
+ * Binds performance and navigator browser events exactly once.
  *
- * @param {object} handlers Trigger and panic functions supplied by the input coordinator.
+ * @param {Object} callbacks - Trigger and panic callbacks from the input coordinator.
+ * @returns {void}
  */
-export function bindInputListeners(handlers) {
-	callbacks = handlers;
+export function bindInputListeners(callbacks) {
 	if (listenersBound) {
 		return;
 	}
 	listenersBound = true;
-	elements.keyboardContainer.addEventListener('pointerdown', handlePointerDown);
-	document.addEventListener('pointerup', handlePointerUpOrCancel);
-	document.addEventListener('pointercancel', handlePointerUpOrCancel);
-	elements.customScrollbarThumb.addEventListener('pointerdown', (event) => beginScrollbarDrag(event, 0));
-	elements.customScrollbarThumbTop.addEventListener('pointerdown', (event) => beginScrollbarDrag(event, 1));
-	document.addEventListener('pointermove', moveScrollbarDrag);
-	document.addEventListener('keydown', handleKeyDown);
-	document.addEventListener('keyup', handleKeyUp);
-	window.addEventListener('blur', () => callbacks?.panic());
-	document.addEventListener('visibilitychange', handleVisibilityChange);
+	const noteHandlers = new NoteInputHandlers(callbacks);
+	prepareScrollbarPresentation(elements);
+	bindNoteListeners(noteHandlers);
+	bindScrollbarRail(elements.customScrollbarContainer, 0);
+	bindScrollbarRail(elements.customScrollbarContainerTop, 1);
 }
 
-function handlePointerDown(event) {
-	const keyElement = event.target.closest('.key');
-	if (!keyElement) {
-		return;
-	}
-	if (activeNotes.has(event.pointerId)) {
-		callbacks?.noteOff(event.pointerId);
-	}
-	event.preventDefault();
-	const rect = keyElement.getBoundingClientRect();
-	callbacks?.noteOn(
-		keyElement.dataset.note,
-		event.pointerId,
-		{ x: event.clientX - rect.left, y: event.clientY - rect.top },
-		keyElement,
-		false
+function bindNoteListeners(noteHandlers) {
+	elements.keyboardContainer.addEventListener(
+		'pointerdown',
+		noteHandlers.handlePointerDown.bind(noteHandlers)
 	);
-}
-
-function handlePointerUpOrCancel(event) {
-	finishScrollbarDrag();
-	callbacks?.noteOff(event.pointerId);
-}
-
-function handleKeyDown(event) {
-	if (event.key === 'Escape') {
-		callbacks?.panic();
-		return;
-	}
-	if (event.repeat || ['INPUT', 'SELECT', 'TEXTAREA'].includes(event.target.tagName)) {
-		return;
-	}
-	const binding = keyForEvent(event);
-	const inputId = keyboardInputId(event);
-	if (!binding || activeNotes.has(inputId)) {
-		return;
-	}
-	const noteName = boundNoteForKey(binding);
-	const keyElement = keyElementForBinding(binding, noteName);
-	if (!noteName || !keyElement) {
-		return;
-	}
-	event.preventDefault();
-	const rect = keyElement.getBoundingClientRect();
-	callbacks?.noteOn(
-		noteName,
-		inputId,
-		{ x: rect.width / 2, y: rect.height / 2 },
-		keyElement,
-		true
+	document.addEventListener('pointerup', (event) => {
+		finishScrollbarDrag(event);
+		noteHandlers.handlePointerEnd(event);
+	});
+	document.addEventListener('pointercancel', (event) => {
+		finishScrollbarDrag(event);
+		noteHandlers.handlePointerEnd(event);
+	});
+	document.addEventListener('pointermove', moveScrollbarDrag, {
+		passive: false
+	});
+	document.addEventListener(
+		'keydown',
+		noteHandlers.handleKeyDown.bind(noteHandlers)
 	);
+	document.addEventListener(
+		'keyup',
+		noteHandlers.handleKeyUp.bind(noteHandlers)
+	);
+	window.addEventListener('blur', () => {
+		finishScrollbarDrag();
+		noteHandlers.handleBlur();
+	});
+	document.addEventListener('visibilitychange', () => {
+		if (document.hidden) {
+			finishScrollbarDrag();
+		}
+		noteHandlers.handleVisibilityChange();
+	});
 }
 
-function handleKeyUp(event) {
-	const inputId = keyboardInputId(event);
-	if (!activeNotes.has(inputId)) {
+function bindScrollbarRail(rail, railIndex) {
+	if (!rail) {
 		return;
 	}
-	event.preventDefault();
-	callbacks?.noteOff(inputId);
-}
-
-function handleVisibilityChange() {
-	if (document.hidden) {
-		callbacks?.panic();
-	}
+	rail.addEventListener('pointerdown', (event) => {
+		beginScrollbarDrag(event, railIndex);
+	});
+	rail.addEventListener('keydown', (event) => {
+		handleScrollbarKeyDown(event, railIndex);
+	});
+	rail.addEventListener('lostpointercapture', finishScrollbarDrag);
 }

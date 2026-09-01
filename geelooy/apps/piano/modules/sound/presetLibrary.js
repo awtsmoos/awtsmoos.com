@@ -5,14 +5,19 @@
  * @module PianoPresetLibrary
  * @description
  * Many timbres stand like lamps while the Awtsmoos is the single hidden flame;
- * Awtsmoos.com now places real sampled piano, sax, and percussion beside club synthesis so each vessel truthfully answers its name.
+ * Awtsmoos.com gathers sampled truth, club synthesis, Wet space, classic archetypes, performance colors, and textures into one stable river of name.
  */
 
 import { ACOUSTIC_PRESETS } from './presetAcoustic.js';
+import { CLASSIC_SYNTH_PRESETS } from './presetClassicSynths.js';
 import { CLUB_PRESETS } from './presetClub.js';
 import { DANCE_PRESETS } from './presetDance.js';
 import { KEY_PRESETS } from './presetKeys.js';
 import { LEAD_PRESETS } from './presetLeads.js';
+import { PERFORMANCE_PRESETS } from './presetPerformance.js';
+import { TEXTURE_PRESETS } from './presetTextures.js';
+import { WET_KEY_PRESETS } from './presetWetKeys.js';
+import { WET_SYNTH_PRESETS } from './presetWetSynths.js';
 
 const [realGrand, realSax, realSaxVibrato, realDrums] = ACOUSTIC_PRESETS;
 const [clubDefault, festivalLead, neonPluck, warehouseBass, raveHoover] = CLUB_PRESETS;
@@ -22,6 +27,8 @@ const [tranceStack, futureBass, houseOrgan, housePiano, hardScreech] = DANCE_PRE
 
 export const SOUND_PRESET_LIST = [
 	clubDefault,
+	...WET_KEY_PRESETS,
+	...WET_SYNTH_PRESETS,
 	realGrand,
 	technoPiano,
 	housePiano,
@@ -43,7 +50,10 @@ export const SOUND_PRESET_LIST = [
 	raveHoover,
 	hardScreech,
 	warmRhodes,
-	evolvingCloud
+	evolvingCloud,
+	...CLASSIC_SYNTH_PRESETS,
+	...PERFORMANCE_PRESETS,
+	...TEXTURE_PRESETS
 ];
 
 export const SOUND_PRESETS = Object.fromEntries(
@@ -54,11 +64,7 @@ export const SOUND_PRESETS = Object.fromEntries(
 
 export const PREMIUM_PRESET = SOUND_PRESETS['awtsmoos-dream-electric'];
 
-/**
- * @description Resolves a persisted preset identifier and falls back to the stable clean club default when an old or unknown ID appears.
- * @param {string} id - Persisted preset identifier supplied by controls or saved settings.
- * @returns {Object} Complete preset definition ready for control projection and synthesis.
- */
+/** @param {string} id - Persisted or selected preset ID. @returns {Object} Complete preset record. */
 export function getLibraryPreset(id) {
 	return SOUND_PRESETS[id] || PREMIUM_PRESET;
 }
