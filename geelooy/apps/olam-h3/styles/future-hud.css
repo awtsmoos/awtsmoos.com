@@ -1,0 +1,88 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos gives the studio sharper vessels: glass becomes an instrument instead of a bubble, and Awtsmoos.com traces each edge with quiet light so information feels futuristic without becoming heavy.
+*/
+.creator-section,
+.provider-banner,
+.quick-guide,
+.settings-card,
+.breakdown-card,
+.metric-card,
+.metric-hero,
+.accounting-note {
+	border-radius: 10px;
+	-webkit-backdrop-filter: blur(13px) saturate(135%);
+	backdrop-filter: blur(13px) saturate(135%);
+	box-shadow: 0 14px 40px rgba(0, 0, 0, 0.24), inset 0 1px rgba(255, 255, 255, 0.055);
+}
+
+.creator-section,
+.provider-banner,
+.quick-guide {
+	position: relative;
+}
+
+.creator-section::after,
+.provider-banner::after,
+.quick-guide::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	border-radius: inherit;
+	background: linear-gradient(110deg, transparent 8%, rgba(217, 255, 104, 0.055) 35%, transparent 54%, rgba(137, 105, 255, 0.055) 80%, transparent);
+	pointer-events: none;
+	opacity: 0.55;
+}
+
+.segmented {
+	gap: 3px;
+	padding: 3px;
+	border-radius: 9px;
+	background: rgba(5, 7, 10, 0.54);
+}
+
+.segmented button,
+.category-strip button,
+.prompt-actions button,
+.asset-add,
+.asset-card-actions button,
+.asset-library-actions button,
+.provider-status-actions button,
+.reference-shortcuts button,
+.text-button,
+.primary-button {
+	border-radius: 7px;
+}
+
+.segmented button.is-active,
+.category-strip button.is-active {
+	border-color: rgba(217, 255, 104, 0.30);
+	background: linear-gradient(145deg, rgba(217, 255, 104, 0.10), rgba(137, 105, 255, 0.055));
+	box-shadow: inset 0 0 0 1px rgba(217, 255, 104, 0.045), 0 0 22px rgba(217, 255, 104, 0.055);
+}
+
+.asset-card {
+	border-radius: 8px;
+	background: linear-gradient(145deg, rgba(20, 22, 29, 0.72), rgba(11, 13, 18, 0.58));
+}
+
+.asset-preview {
+	border-radius: 6px;
+}
+
+.reference-recipes,
+.asset-library-grid,
+.asset-tray {
+	content-visibility: auto;
+	contain-intrinsic-size: auto 420px;
+}
+
+@media (max-width: 520px) {
+	.creator-section,
+	.provider-banner,
+	.quick-guide {
+		border-radius: 8px;
+	}
+}
