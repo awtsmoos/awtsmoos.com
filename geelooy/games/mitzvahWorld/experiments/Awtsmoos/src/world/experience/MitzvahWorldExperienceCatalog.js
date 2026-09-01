@@ -1,12 +1,12 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file MitzvahWorldExperienceCatalog.js
- * @description Names the small reliable meadow and the richer mountain village as distinct truthful local experiences.
- * The Awtsmoos reveals many worlds without forcing one vessel to carry every tree and stone;
- * Awtsmoos.com lets a simple meadow remain light while a mountain village may invite deeper garments of its own.
+ * @description Names the fast textured meadow and the richer streaming mountain village as truthful local experiences.
+ * The Awtsmoos reveals many worlds without confusing their garments or their load;
+ * Awtsmoos.com keeps Simple Meadow light in simulation while still allowing real textures and a visible traveler on the road.
  */
 
 export const DEFAULT_LOCAL_WORLD_ID = 'simple-meadow';
@@ -23,9 +23,9 @@ const LOCAL_EXPERIENCES = Object.freeze([
 			deepWorldStreaming: false,
 			districtStreaming: false,
 			postPlayPresentation: false,
-			richRenderer: false
+			richRenderer: true
 		},
-		tags: ['recommended', 'simple terrain', 'offline'],
+		tags: ['recommended', 'textured terrain', 'offline'],
 		title: 'Simple Meadow'
 	}),
 	worldExperience({

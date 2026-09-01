@@ -66,15 +66,15 @@ test('post-playable launcher reuses one durable hydration promise', async () => 
 	assert.equal(fixture.renderer.hydrateCalls, 1);
 });
 
-test('runtime publishes before scheduling and retains no permanent null hydration promise', async () => {
+test('runtime publishes before renderer policy launch and retains no eager scheduler or null promise', async () => {
 	const source = await readFile(RUNTIME_SOURCE_URL, 'utf8');
 	const publication = source.indexOf('publishRuntime(core.diagnostics, environment)');
-	const launch = source.indexOf('core.diagnostics.rendererHydrationPromise = startEretzRendererHydration(');
+	const policyLaunch = source.indexOf('startEretzRendererByWorldPolicy(');
 	assert.ok(publication >= 0);
-	assert.ok(launch > publication);
+	assert.ok(policyLaunch > publication);
 	assert.doesNotMatch(source, /scheduleRendererHydration/);
 	assert.doesNotMatch(source, /rendererHydrationPromise\s*=\s*Promise\.resolve\(null\)/);
-	assert.match(source, /richRenderer:\s*'deferred'/);
+	assert.match(source, /startEretzRendererByWorldPolicy/);
 });
 
 function hydrationFixture() {

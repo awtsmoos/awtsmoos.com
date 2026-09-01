@@ -4,12 +4,13 @@
 
 /**
  * @file MinimalMeadowTerrainHydrationSchedule.js
- * @description Keeps gameplay terrain procedural unless an experiment explicitly opts into bitmap hydration.
- * The Awtsmoos lets earth remain alive through light and form without a delayed decoding storm;
- * Awtsmoos.com protects every gameplay minute, while explicit experiments may still request the old garment form.
+ * @description Promotes procedural bootstrap earth into authored bitmap terrain after first control and a short protected quiet window.
+ * The Awtsmoos lets the foot move before every image is decoded, then clothes the earth with texture in its proper hour;
+ * Awtsmoos.com keeps explicit opt-out available without making flat fallback color the permanent power.
  */
 
 import { afterGameplayQuietWindow } from './GameplayQuietWindow.js';
+import { POST_PLAYABLE_VISUAL_DELAY_MILLISECONDS } from './PostPlayableVisualTiming.js';
 
 export function scheduleMinimalMeadowTerrainHydration(
 	runtime,
@@ -17,24 +18,29 @@ export function scheduleMinimalMeadowTerrainHydration(
 ) {
 	if (!runtime?.terrain?.startTextureHydration) return null;
 	if (runtime.terrainTextureSchedule) return runtime.terrainTextureSchedule;
-	if (runtime.terrainTextureHydrationEnabled !== true) {
+	if (runtime.terrainTextureHydrationEnabled === false) {
 		const schedule = disabledSchedule();
 		runtime.terrainTextureSchedule = schedule;
 		return schedule;
 	}
 	const schedule = {
 		started: false,
-		status: 'scheduled-opt-in',
+		status: 'scheduled',
 		promise: null
 	};
-	schedule.promise = afterGameplayQuietWindow(environment)
-		.then(() => beginHydration(runtime, schedule));
+	schedule.promise = afterGameplayQuietWindow(
+		environment,
+		POST_PLAYABLE_VISUAL_DELAY_MILLISECONDS
+	).then(ready => ready ? beginHydration(runtime, schedule) : null);
 	runtime.terrainTextureSchedule = schedule;
 	return schedule;
 }
 
 function beginHydration(runtime, schedule) {
-	if (runtime.destroyed || schedule.started) return null;
+	if (runtime.destroyed || schedule.started) {
+		schedule.status = runtime.destroyed ? 'cancelled' : schedule.status;
+		return null;
+	}
 	schedule.started = true;
 	schedule.status = 'hydrating';
 	runtime.terrainTexturePromise = runtime.terrain.startTextureHydration()
@@ -55,9 +61,9 @@ function beginHydration(runtime, schedule) {
 function disabledSchedule() {
 	return Object.freeze({
 		started: false,
-		status: 'disabled-procedural-default',
+		status: 'disabled-by-explicit-policy',
 		promise: Promise.resolve(Object.freeze({
-			phase: 'disabled-procedural-default'
+			phase: 'disabled-by-explicit-policy'
 		}))
 	});
 }

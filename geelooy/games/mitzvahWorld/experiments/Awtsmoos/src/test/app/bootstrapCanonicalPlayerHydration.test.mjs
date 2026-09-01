@@ -4,9 +4,9 @@
 
 /**
  * @file bootstrapCanonicalPlayerHydration.test.mjs
- * @description Proves immediate fallback humanity remains playable while the stable launch promise later installs the real animated Chossid.
+ * @description Proves fallback humanity stays visible until a renderer-ready launch covenant may install the real animated Chossid.
  * The Awtsmoos lets one visible traveler answer before the authored garment crosses the frame;
- * Awtsmoos.com keeps launch and model promises separate, then joins them without a cycle when canonical humanity receives its name.
+ * Awtsmoos.com joins model and renderer only when both vessels can reveal one embodied human name.
  */
 
 import assert from 'node:assert/strict';
@@ -39,7 +39,7 @@ test('first-frame canonical player installs real animation and material contract
 	assert.ok(receipt.materials.materialsVisited > 0);
 });
 
-test('fallback runtime stays visible until launch promise replaces it with canonical player', async () => {
+test('fallback stays visible until renderer-ready launch replaces it with canonical player', async () => {
 	const worldScene = new Group();
 	const fallbackRoot = new Group();
 	const canonicalScene = createBootstrapVisiblePlayer();
@@ -53,7 +53,8 @@ test('fallback runtime stays visible until launch promise replaces it with canon
 			loadGltf: async url => {
 				calls.push(url);
 				return { animations: [STAND_CLIP], scene: canonicalScene };
-			}
+			},
+			waitForVisualRenderer: async () => true
 		},
 		scene: worldScene
 	};

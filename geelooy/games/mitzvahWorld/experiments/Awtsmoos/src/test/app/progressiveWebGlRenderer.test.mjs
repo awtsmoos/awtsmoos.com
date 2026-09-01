@@ -4,7 +4,9 @@
 
 /**
  * @file progressiveWebGlRenderer.test.mjs
- * @description Proves real WebGL clears and exposes colored-bootstrap diagnostics.
+ * @description Proves bootstrap WebGL renders immediately while policy-controlled rich rendering is launched only after runtime publication.
+ * The Awtsmoos gives the first responsive color before deeper radiance enters its vessel;
+ * Awtsmoos.com preserves that ordering while still guaranteeing a later path toward textured revelation.
  */
 
 import assert from 'node:assert/strict';
@@ -54,7 +56,7 @@ test('progressive renderer creates WebGL and clears an empty scene', () => {
 	assert.ok(calls.some(call => call[0] === 'clear'));
 });
 
-test('startup publishes playability without eagerly entering rich renderer', async () => {
+test('startup publishes playability before policy-controlled rich renderer launch', async () => {
 	const [foundation, progressive, hydration, runtime] = await Promise.all([
 		source('EretzFoundationServices.js'),
 		source('ProgressiveWebGLRenderer.js'),
@@ -62,10 +64,12 @@ test('startup publishes playability without eagerly entering rich renderer', asy
 		source('createEretzRuntime.js')
 	]);
 	const startup = `${foundation}${progressive}`;
+	const publication = runtime.indexOf('publishRuntime(core.diagnostics, environment)');
+	const policyLaunch = runtime.indexOf('startEretzRendererByWorldPolicy(');
 	assert.doesNotMatch(startup, /tiny-webgl-renderer|tiny-static-opaque-batcher/);
 	assert.match(progressive, /BootstrapColorRenderer/);
 	assert.match(hydration, /tiny-webgl-renderer\.js/);
-	assert.match(runtime, /publishRuntime\(core\.diagnostics, environment\)/);
+	assert.ok(publication >= 0);
+	assert.ok(policyLaunch > publication);
 	assert.doesNotMatch(runtime, /scheduleRendererHydration/);
-	assert.match(runtime, /richRenderer:\s*'deferred'/);
 });

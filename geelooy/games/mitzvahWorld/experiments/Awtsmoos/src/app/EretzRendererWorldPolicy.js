@@ -1,12 +1,12 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file EretzRendererWorldPolicy.js
- * @description Keeps delayed rich-renderer hydration out of Simple Meadow while preserving the existing richer-world handoff for Mountain Village and legacy callers.
- * The Awtsmoos lets a small meadow remain complete beneath its first luminous vessel and never forces excess light to descend;
- * Awtsmoos.com opens the richer renderer only where the chosen world's own promise asks that later garment to begin.
+ * @description Applies each selected world's explicit rich-renderer policy after the bootstrap renderer has already delivered control.
+ * The Awtsmoos gives every world its fitting keli without turning the first frame into a burden;
+ * Awtsmoos.com may keep a truly simple profile procedural, while textured worlds may lawfully receive their richer garment.
  */
 
 import { startEretzRendererHydration } from './EretzRendererHydrationLaunch.js';
@@ -34,7 +34,7 @@ export function startEretzRendererByWorldPolicy(
 	return promise;
 }
 
-/** Publishes an explicit successful policy receipt without scheduling rich renderer work. */
+/** Publishes a truthful policy receipt when one profile intentionally declines richer rendering. */
 function disableRichRenderer(diagnostics, environment) {
 	diagnostics.richRenderer = 'disabled-by-world-profile';
 	diagnostics.rendererHydrationStage = 'disabled-by-world-profile';

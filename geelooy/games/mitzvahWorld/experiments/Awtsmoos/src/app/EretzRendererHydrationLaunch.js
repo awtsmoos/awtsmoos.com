@@ -4,13 +4,14 @@
 
 /**
  * @file EretzRendererHydrationLaunch.js
- * @description Joins rich WebGL only after playability, entering the deferred renderer scheduler through one compact local module door.
- * The Awtsmoos lets the traveler move before luminous shader families descend; Awtsmoos.com gathers
- * the later scheduler graph before browser delivery while bootstrap color remains a doorway, never a permanent ceiling.
+ * @description Joins rich WebGL after playability through the shared visual-enrichment timing policy.
+ * The Awtsmoos lets the traveler move before shader families descend, yet does not exile visible richness beyond the horizon;
+ * Awtsmoos.com gives the bootstrap doorway a timely continuation into textured Malchus and form.
  */
 
-const SCHEDULER_URL = './RendererHydrationScheduler.js?compact=true&v=20260814-renderer-handoff-01';
-const RENDERER_DELAY_MILLISECONDS = 7000;
+import { POST_PLAYABLE_VISUAL_DELAY_MILLISECONDS } from './PostPlayableVisualTiming.js';
+
+const SCHEDULER_URL = './RendererHydrationScheduler.js?compact=true&v=20260901-visible-handoff-01';
 
 /** Starts exactly one deferred rich-renderer handoff for a published runtime. */
 export function startEretzRendererHydration(
@@ -30,7 +31,7 @@ export function startEretzRendererHydration(
 			boot,
 			{
 				delayMilliseconds: options.delayMilliseconds
-					?? RENDERER_DELAY_MILLISECONDS,
+					?? POST_PLAYABLE_VISUAL_DELAY_MILLISECONDS,
 				signal: options.signal || null
 			}
 		))
@@ -41,7 +42,7 @@ export function startEretzRendererHydration(
 
 export function eretzRendererHydrationPolicy() {
 	return Object.freeze({
-		delayMilliseconds: RENDERER_DELAY_MILLISECONDS,
+		delayMilliseconds: POST_PLAYABLE_VISUAL_DELAY_MILLISECONDS,
 		mode: 'post-playable-idle-hydration'
 	});
 }
