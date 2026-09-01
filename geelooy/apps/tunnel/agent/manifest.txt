@@ -1,5 +1,5 @@
 B"H
-1.0.571
+1.0.572
 main.js
 ai/relay/direct/browser/AgentTabCatalog.mjs
 ai/relay/direct/browser/AgentTabProtectionState.mjs
@@ -975,12 +975,17 @@ lib/connection-vessel/child-runtime-parent.js
 lib/connection-vessel/child-runtime-view.js
 lib/connection-vessel/child-runtime.js
 lib/connection-vessel/child.js
+lib/connection-vessel/connection-incarnation.js
+lib/connection-vessel/controller-child-birth.js
 lib/connection-vessel/controller-child-liveness.js
 lib/connection-vessel/controller-child-repair-values.js
 lib/connection-vessel/controller-child-repair.js
+lib/connection-vessel/controller-child-source.js
+lib/connection-vessel/controller-incarnation-repair.js
 lib/connection-vessel/controller-mailbox.js
 lib/connection-vessel/controller-message-router.js
 lib/connection-vessel/controller-process-config.js
+lib/connection-vessel/controller-process-lifecycle.js
 lib/connection-vessel/controller-process-restart.js
 lib/connection-vessel/controller-process-watchdog.js
 lib/connection-vessel/controller-process.js
@@ -989,6 +994,7 @@ lib/connection-vessel/controller-state.js
 lib/connection-vessel/controller-stats-publisher.js
 lib/connection-vessel/controller.js
 lib/connection-vessel/mailbox-acknowledgement-debt.js
+lib/connection-vessel/mailbox-custody-identity.js
 lib/connection-vessel/mailbox-custody-metadata.js
 lib/connection-vessel/mailbox-custody-record.js
 lib/connection-vessel/mailbox-custody.js
@@ -1000,6 +1006,7 @@ lib/connection-vessel/mailbox-emergency-telemetry.js
 lib/connection-vessel/mailbox-evidence.js
 lib/connection-vessel/mailbox-health-policy.js
 lib/connection-vessel/mailbox-health.js
+lib/connection-vessel/mailbox-incarnation.js
 lib/connection-vessel/mailbox-io.js
 lib/connection-vessel/mailbox-legacy-io.js
 lib/connection-vessel/mailbox-legacy.js
@@ -1014,6 +1021,7 @@ lib/connection-vessel/mailbox-store-limits.js
 lib/connection-vessel/mailbox-store-reader.js
 lib/connection-vessel/mailbox-store.js
 lib/connection-vessel/mailbox-usage.js
+lib/connection-vessel/mailbox-writer.js
 lib/connection-vessel/mailbox.js
 lib/connection-vessel/parent-consumer-evidence.js
 lib/connection-vessel/parent-consumer-health-values.js

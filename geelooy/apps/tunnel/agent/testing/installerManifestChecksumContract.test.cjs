@@ -15,11 +15,11 @@ const manifestPath = path.join(tunnelRoot, "agent/manifest.txt");
 const downloads = path.join(tunnelRoot, "downloads");
 
 /**
- * @file Proves exact release bytes and one bootstrap component covenant.
+ * @file Proves exact release bytes and the current transactional bootstrap covenant.
  * @description
  * The Awtsmoos renews manifest, descriptor, ZIP, Unix metadata, component archive,
- * fallback inventory, and Windows helpers as one checksum oath. The consolidated
- * source scroll is validated rather than expecting obsolete direct entrypoint imports.
+ * fallback inventory, and Windows helpers as one checksum oath. Awtsmoos.com verifies
+ * current mismatch guards and the consolidated bootstrap runner rather than obsolete paths.
  */
 const manifestBytes = fs.readFileSync(manifestPath);
 const bundle = buildAgentBundle(repositoryRoot);
@@ -45,7 +45,7 @@ assert.equal(bundle.manifestSha256, hash(manifestBytes));
 assert.equal(bundle.sha256, hash(bundle.buffer));
 assert.equal(bundle.bytes, bundle.buffer.length);
 assert.match(metadata, /actual_manifest_sha="\$\(sha256_file "\$RELEASE_MANIFEST_PATH"\)"/);
-assert.match(metadata, /"\$actual_manifest_sha" = "\$MANIFEST_SHA"/);
+assert.match(metadata, /"\$actual_manifest_sha" != "\$MANIFEST_SHA"/);
 assert.match(packageStage, /actual_bundle_sha="\$\(sha256_file "\$bundle_path"\)"/);
 assert.match(packageStage, /"\$actual_bundle_sha" = "\$BUNDLE_SHA"/);
 assert.match(packageStage, /cp -p "\$RELEASE_MANIFEST_PATH"/);
@@ -57,7 +57,7 @@ assert.match(installSources, /unix-emergency-capture\.sh/);
 assert.match(installSources, /unix-install-lifecycle\.sh/);
 assert.match(installCore, /stage_release_candidate/);
 assert.match(installCore, /activate_release_candidate/);
-assert.match(bootstrap, /unix-bootstrap-components\.sh/);
+assert.match(bootstrap, /unix-bootstrap-run\.sh/);
 assert.match(bootstrap, /AWTSMOOS_INSTALLER_COMPONENTS_SHA256/);
 assert.deepEqual(Components.componentNames(), [...Components.COMPONENTS]);
 assert.equal(Components.COMPONENTS.length, new Set(Components.COMPONENTS).size);

@@ -2,15 +2,17 @@
 // Boruch Hashem
 // Blessed is He
 
+const Incarnation = require("./connection-incarnation.js");
+const MailboxIncarnation = require("./mailbox-incarnation.js");
 const Protocol = require("./protocol.js");
 const Replay = require("./child-delivery-replay.js");
 const RequestLifecycle = require("./request-lifecycle.js");
-
 /**
- * @file Keeps inbound custody durable until terminal outbound testimony exists.
+ * @file Keeps current-incarnation inbound custody durable until terminal testimony exists.
  * @description
- * The Awtsmoos passes one deed from inbox to execution to outbox without a void.
- * Awtsmoos.com marks every parent handoff attempt before IPC, so silence gains a bounded witness.
+ * The Awtsmoos preserves old deeds as evidence without lending them a newborn child's hand.
+ * Awtsmoos.com redelivers only records stamped by this exact child incarnation, so durable
+ * history cannot be reaccepted merely because a replacement process also calls itself generation one.
  */
 function createDelivery(options = {}) {
 	let parentReady = false;
@@ -25,7 +27,6 @@ function createDelivery(options = {}) {
 		state: options.state,
 		transmit
 	});
-
 	function enqueueRequest(ws, envelope) {
 		options.mailbox.putInbox(envelope);
 		lifecycle.accept(envelope, ws);
@@ -39,7 +40,6 @@ function createDelivery(options = {}) {
 		redeliver();
 		flush();
 	}
-
 	function redeliver() {
 		if (!parentReady || inboxReplayScheduled) return 0;
 		const entries = unsettledInbox();
@@ -49,11 +49,14 @@ function createDelivery(options = {}) {
 	}
 
 	function unsettledInbox() {
-		return options.mailbox.inbox().filter(envelope =>
+		const current = MailboxIncarnation.currentValues(
+			options.mailbox.inbox(),
+			options.state.childIncarnationId
+		);
+		return current.filter(envelope =>
 			!hasTerminal(Protocol.requestId(envelope))
 		);
 	}
-
 	function hasTerminal(receiptId) {
 		return Boolean(
 			receiptId &&
@@ -67,7 +70,6 @@ function createDelivery(options = {}) {
 		options.mailbox.noteDeliveryAttempt?.(receiptId);
 		return options.send(Protocol.message(Protocol.TYPES.REQUEST, { envelope }));
 	}
-
 	function flush(id = "") {
 		const ws = options.state.activeWs;
 		if (!options.state.registrationConfirmed || !ws?.opened) return 0;
@@ -87,9 +89,11 @@ function createDelivery(options = {}) {
 		);
 		return entries.length;
 	}
-
 	function recoverGeneration(ws) {
-		const generation = Number(options.state.generation || 0);
+		const generation = Incarnation.generationKey(
+			options.state.childIncarnationId,
+			options.state.generation
+		);
 		if (generation === recoveredGeneration) return 0;
 		recoveredGeneration = generation;
 		return lifecycle.recover(unsettledInbox(), ws);
@@ -99,7 +103,6 @@ function createDelivery(options = {}) {
 		if (!options.state.registrationConfirmed || !socket?.opened) return false;
 		return options.Send.safeSend(socket, envelope);
 	}
-
 	return {
 		enqueueRequest,
 		flush,

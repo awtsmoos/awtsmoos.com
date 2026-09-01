@@ -3,12 +3,12 @@
 // Blessed is He
 
 const ChildHealth = require("./child-health.js");
-
 /**
- * @file Projects bounded child state while letting mailbox truth join transport and execution.
+ * @file Projects bounded child state while mailbox truth joins transport and execution.
  * @description
- * The Awtsmoos reveals socket, worker, and durable receipt in one honest frame;
- * Awtsmoos.com snapshots mailbox before composing health, so stalled custody cannot borrow a healthy name.
+ * The Awtsmoos reveals socket, worker, incarnation, and durable receipt in one honest frame.
+ * Awtsmoos.com snapshots mailbox before composing health, so stale residue cannot borrow a
+ * current child's name and a recycled numeric generation can no longer hide process rebirth.
  */
 function snapshot(options = {}) {
 	const state = options.state || {};
@@ -16,6 +16,7 @@ function snapshot(options = {}) {
 	const mailbox = options.mailbox?.snapshot?.() || null;
 	const health = ChildHealth.compose(state, parentHealth, mailbox || {});
 	return {
+		childIncarnationId: state.childIncarnationId || "",
 		childPid: process.pid,
 		connected: state.activeWs?.opened === true,
 		executionHealth: health.execution,
@@ -35,5 +36,4 @@ function snapshot(options = {}) {
 		tunnelName: state.tunnelName
 	};
 }
-
 module.exports = { snapshot };

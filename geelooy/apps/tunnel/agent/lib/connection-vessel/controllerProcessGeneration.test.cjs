@@ -7,32 +7,29 @@ const { EventEmitter } = require("node:events");
 const ProcessSupervisor = require("./controller-process.js");
 
 /**
- * @file Proves a delayed exit from an older child cannot control a newer generation.
+ * @file Proves stale exits, IPC frames, and repair testimony cannot control a replacement child.
  * @description
- * The Awtsmoos recreates the messenger without giving yesterday's shadow authority over
- * today's vessel. Awtsmoos.com binds every exit callback to the exact child object, so
- * an old duplicate exit cannot schedule a third birth after a replacement already lives.
+ * The Awtsmoos renews the messenger while Awtsmoos.com keeps yesterday's voice outside
+ * today's authority. Object identity and incarnation identity must agree before any frame,
+ * exit, or recovery request can touch the child that now carries the living connection.
  */
 const children = [];
-const mirrors = [];
+const messages = [];
+const repairs = [];
+const incarnations = ["child-one", "child-two"];
 const liveness = {
-	inspect() {
-		return { shouldRestart: false, reason: "healthy" };
-	},
+	inspect: () => ({ shouldRestart: false, reason: "healthy" }),
 	note() {},
 	started() {},
-	status() {
-		return { checkMs: 60000 };
-	}
+	status: () => ({ checkMs: 60000 })
 };
 const repair = {
 	clear() {},
-	request() {
-		return false;
+	request(reason) {
+		repairs.push(reason);
+		return true;
 	},
-	snapshot() {
-		return { repairing: false };
-	}
+	snapshot: () => ({ repairing: false })
 };
 const supervisor = ProcessSupervisor.createProcessSupervisor({
 	forkChild() {
@@ -40,31 +37,50 @@ const supervisor = ProcessSupervisor.createProcessSupervisor({
 		children.push(child);
 		return child;
 	},
+	handleMessage(message) {
+		messages.push(message);
+		return true;
+	},
 	liveness,
 	log() {},
-	mirror(value) {
-		mirrors.push(value);
+	makeChildIncarnation() {
+		return incarnations.shift();
 	},
+	mirror() {},
 	repair
 });
 
 (async () => {
 	const first = supervisor.start();
-	assert.equal(children.length, 1);
+	const firstIncarnation = supervisor.livenessStatus().childIncarnationId;
+	first.emit("message", { type: "STATE" });
+	assert.equal(messages.length, 1);
 	first.emit("exit", 0, "SIGTERM");
-	await delay(600);
-	assert.equal(children.length, 2);
+	await delay(650);
 	const second = children[1];
-	assert.notEqual(second, first);
+	assert.ok(second);
+	const secondIncarnation = supervisor.livenessStatus().childIncarnationId;
+	assert.notEqual(secondIncarnation, firstIncarnation);
 
+	first.emit("message", { type: "STATE" });
 	first.emit("exit", 0, "SIGTERM");
-	await delay(600);
+	await delay(50);
+	assert.equal(messages.length, 1);
 	assert.equal(children.length, 2);
-	assert.equal(supervisor.restartCount(), 1);
-	assert.equal(mirrors.at(-1).childPid, second.pid);
+
+	assert.equal(supervisor.requestRepair({
+		childIncarnationId: firstIncarnation,
+		reason: "old_child_must_be_inert"
+	}), false);
+	assert.equal(repairs.length, 0);
+	assert.equal(supervisor.requestRepair({
+		childIncarnationId: secondIncarnation,
+		reason: "current_child_may_repair"
+	}), true);
+	assert.deepEqual(repairs, ["current_child_may_repair"]);
 
 	supervisor.stop({ type: "STOP" });
-	console.log("BHY old child exits cannot schedule births over a newer generation");
+	console.log("BHY stale child exits, frames, and repair testimony are incarnation-fenced");
 })().catch(error => {
 	console.error(error.stack || error);
 	process.exitCode = 1;

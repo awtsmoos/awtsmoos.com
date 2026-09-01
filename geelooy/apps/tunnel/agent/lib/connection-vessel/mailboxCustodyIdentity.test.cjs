@@ -3,17 +3,17 @@
 // Blessed is He
 
 const assert = require("node:assert/strict");
-const ChildRouter = require("./child-message-router.js");
+const ChildCustody = require("./child-runtime-custody.js");
 const ControllerRouter = require("./controller-message-router.js");
 const CustodyMetadata = require("./mailbox-custody-metadata.js");
 const Protocol = require("./protocol.js");
 
 /**
- * @file Proves accepted custody keeps one deed identity across parent and child IPC.
+ * @file Proves parent custody binds request identity to exact child incarnation and generation.
  * @description
- * The Awtsmoos gives every shliach-deed one enduring name; Awtsmoos.com therefore
- * carries request, session, transport, and generation testimony through ACK custody
- * instead of creating anonymous generation-zero shadows that confuse later healing.
+ * The Awtsmoos gives every accepted deed one living vessel. Awtsmoos.com therefore rejects
+ * a delayed ACK from an older child before it can refresh custody or reconnect pressure,
+ * while the current child's ACK preserves request, session, generation, and incarnation.
  */
 const envelope = {
 	id: "transport-receipt-1",
@@ -26,12 +26,8 @@ const envelope = {
 	payload: {}
 };
 let acknowledgement = null;
-let enqueued = null;
-
 const controller = ControllerRouter.createMessageRouter({
-	enqueueRequest(_proxy, acceptedEnvelope) {
-		enqueued = acceptedEnvelope;
-	},
+	enqueueRequest() {},
 	log() {},
 	mirror() {},
 	notify(message) {
@@ -43,37 +39,49 @@ const controller = ControllerRouter.createMessageRouter({
 	proxy: {},
 	publishStats() {}
 });
+assert.equal(controller.handleRequest(envelope, "child-current"), true);
+assert.equal(acknowledgement.childIncarnationId, "child-current");
 
-assert.equal(controller.handleRequest(envelope), true);
-assert.equal(enqueued, envelope);
-assert.equal(acknowledgement.type, Protocol.TYPES.ACK);
-assert.equal(acknowledgement.id, "transport-receipt-1");
-assert.equal(acknowledgement.requestId, "request-deed-1");
-assert.equal(acknowledgement.requestKey, "request-key-1");
-assert.equal(acknowledgement.logicalAgentId, "logical-agent-1");
-assert.equal(acknowledgement.agentSessionId, "agent-session-1");
+const metadata = CustodyMetadata.fromAcknowledgement(
+	acknowledgement,
+	7,
+	"child-current"
+);
+assert.equal(metadata.generation, 7);
+assert.equal(metadata.childIncarnationId, "child-current");
+assert.equal(metadata.requestId, "request-deed-1");
+assert.equal(metadata.agentSessionId, "agent-session-1");
 
-let childReceipt = null;
-let childAck = null;
-const child = ChildRouter.createChildMessageRouter({
-	noteParentCustody(receiptId, message) {
-		childReceipt = receiptId;
-		childAck = message;
+const recorded = [];
+const parentReceipts = [];
+const custody = ChildCustody.createCustody({
+	mailbox: {
+		noteParentCustody(receiptId, value) {
+			recorded.push([receiptId, value]);
+		}
+	},
+	parent: {
+		noteCustody(receiptId) {
+			parentReceipts.push(receiptId);
+			return true;
+		}
+	},
+	state: {
+		childIncarnationId: "child-current",
+		generation: 7,
+		reconnectAttempt: 4
 	}
 });
-assert.equal(child.acknowledge(acknowledgement), true);
-assert.equal(childReceipt, "transport-receipt-1");
-assert.equal(childAck, acknowledgement);
+assert.equal(custody.noteParentCustody("old-receipt", {
+	...acknowledgement,
+	childIncarnationId: "child-old"
+}), false);
+assert.equal(recorded.length, 0);
+assert.equal(parentReceipts.length, 0);
 
-const custody = CustodyMetadata.fromAcknowledgement(childAck, 7);
-assert.deepEqual(custody, {
-	requestId: "request-deed-1",
-	requestKey: "request-key-1",
-	logicalAgentId: "logical-agent-1",
-	agentSessionId: "agent-session-1",
-	controlRequestId: "control-request-1",
-	transportReceiptId: "transport-receipt-1",
-	generation: 7
-});
+assert.equal(custody.noteParentCustody("transport-receipt-1", acknowledgement), true);
+assert.equal(recorded.length, 1);
+assert.equal(recorded[0][1].childIncarnationId, "child-current");
+assert.deepEqual(parentReceipts, ["transport-receipt-1"]);
 
-console.log("BHY parent-child custody preserves exact deed identity and live generation");
+console.log("BHY only exact-incarnation ACKs become fresh parent custody");

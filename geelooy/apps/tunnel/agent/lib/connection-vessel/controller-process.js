@@ -2,23 +2,25 @@
 // Boruch Hashem
 // Blessed is He
 
-const { fork } = require("node:child_process");
+const ChildBirth = require("./controller-child-birth.js");
 const ChildLiveness = require("./controller-child-liveness.js");
 const ChildRepair = require("./controller-child-repair.js");
+const ChildSource = require("./controller-child-source.js");
 const Config = require("./controller-process-config.js");
+const IncarnationRepair = require("./controller-incarnation-repair.js");
+const Lifecycle = require("./controller-process-lifecycle.js");
 const Restart = require("./controller-process-restart.js");
 const Watchdog = require("./controller-process-watchdog.js");
-
 /**
- * @file Owns connection-child birth, exact repair, and generation identity.
+ * @file Owns connection-child birth, exact repair, and incarnation authority.
  * @description
- * The Awtsmoos recreates the messenger without confusing an old exit with a new life.
- * Awtsmoos.com binds every exit to its exact child object while restart cadence and
- * liveness cadence remain in smaller vessels outside this identity-bearing supervisor.
+ * The Awtsmoos recreates the messenger without confusing an old voice with a new life.
+ * Awtsmoos.com gives sibling vessels source fencing, repair authority, and shutdown law,
+ * while this supervisor keeps one readable covenant for birth, exit, restart, and custody.
  */
 function createProcessSupervisor(options = {}) {
 	let child = null;
-	let stopping = false;
+	let childIncarnationId = "";
 	const liveness = options.liveness || ChildLiveness.create(options.childLivenessOptions);
 	const repair = options.repair || ChildRepair.create({
 		getChild: () => child,
@@ -29,33 +31,46 @@ function createProcessSupervisor(options = {}) {
 		maximumDelayMs: Config.maximumRestartDelay(options),
 		start
 	});
+	let lifecycle = null;
 	const watchdog = Watchdog.create({
 		getChild: () => child,
-		isStopping: () => stopping,
+		isStopping: () => lifecycle?.isStopping?.() === true,
 		liveness,
 		repair
 	});
-
-	/** Forks one exact connection child and arms independent liveness supervision. */
+	lifecycle = Lifecycle.create({
+		clearChild,
+		getChild: () => child,
+		notify,
+		repair,
+		restart,
+		watchdog
+	});
+	const source = ChildSource.create({
+		getChild: () => child,
+		getChildIncarnationId: () => childIncarnationId,
+		handleMessage: options.handleMessage,
+		liveness,
+		log: options.log
+	});
+	const incarnationRepair = IncarnationRepair.create({
+		getChildIncarnationId: () => childIncarnationId,
+		isStopping: lifecycle.isStopping,
+		repair
+	});
+	/** Forks one exact child and binds all callbacks to that immutable incarnation. */
 	function start() {
-		stopping = false;
+		lifecycle.begin();
 		if (child?.connected) return child;
-		const spawned = (options.forkChild || fork)(Config.childPath(options), [], {
-			env: Config.childEnvironment(options),
-			stdio: ["ignore", "inherit", "inherit", "ipc"]
-		});
-		child = spawned;
+		const birth = ChildBirth.spawn(options);
+		child = birth.child;
+		childIncarnationId = birth.childIncarnationId;
 		liveness.started();
-		spawned.on("message", handleMessage);
-		spawned.on("exit", (code, signal) => handleExit(spawned, code, signal));
-		spawned.on("error", error => {
-			options.log("warn", `connection child error: ${error.message}`);
-		});
-		options.mirror({ childPid: spawned.pid, running: true });
+		source.bind(child, childIncarnationId, handleExit);
+		options.mirror({ childIncarnationId, childPid: child.pid, running: true });
 		watchdog.start();
-		return spawned;
+		return child;
 	}
-
 	/** Sends one IPC message only to the exact currently connected child. */
 	function notify(message) {
 		if (!child?.connected) return false;
@@ -65,52 +80,37 @@ function createProcessSupervisor(options = {}) {
 			return false;
 		}
 	}
-
-	/** Marks every child IPC frame as liveness before routing its semantic meaning. */
-	function handleMessage(message) {
-		liveness.note();
-		return options.handleMessage?.(message);
-	}
-
-	/** Reaps only the generation that actually emitted this exit event. */
-	function handleExit(exitedChild, code, signal) {
-		if (child !== exitedChild) return;
+	/** Reaps only the incarnation that actually emitted this exit event. */
+	function handleExit(exitedChild, exitedIncarnationId, code, signal) {
+		if (!source.owns(exitedChild, exitedIncarnationId)) return;
 		repair.clear(Number(exitedChild?.pid || 0));
+		clearChild();
+		options.mirror({
+			childIncarnationId: "",
+			connected: false,
+			exitCode: code,
+			running: false,
+			signal
+		});
+		if (!lifecycle.isStopping()) restart.schedule();
+	}
+	function clearChild() {
 		child = null;
-		options.mirror({ connected: false, exitCode: code, running: false, signal });
-		if (!stopping) restart.schedule();
+		childIncarnationId = "";
 	}
-
-	/** Delegates bounded semantic ambiguity to the existing exact-child repair covenant. */
-	function requestRepair(reason) {
-		if (stopping) return false;
-		return repair.request(String(reason || "child_repair_requested"));
-	}
-
-	/** Stops restart machinery and terminates only the currently owned child. */
-	function stop(stopMessage) {
-		stopping = true;
-		restart.stop();
-		watchdog.stop();
-		notify(stopMessage);
-		repair.clear(Number(child?.pid || 0));
-		child?.kill?.("SIGTERM");
-		child = null;
-	}
-
 	return {
-		livenessStatus: () => ({ ...liveness.status(), repair: repair.snapshot() }),
+		livenessStatus: () => ({
+			...liveness.status(),
+			childIncarnationId,
+			repair: repair.snapshot()
+		}),
 		markRegistered: restart.reset,
 		notify,
-		preventRestart: () => {
-			stopping = true;
-			restart.stop();
-			watchdog.stop();
-		},
-		requestRepair,
+		preventRestart: lifecycle.preventRestart,
+		requestRepair: incarnationRepair.request,
 		restartCount: () => restart.status().count,
 		start,
-		stop
+		stop: lifecycle.stop
 	};
 }
 

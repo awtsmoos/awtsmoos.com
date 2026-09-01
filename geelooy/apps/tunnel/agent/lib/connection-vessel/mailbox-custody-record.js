@@ -2,70 +2,41 @@
 // Boruch Hashem
 // Blessed is He
 
+const Identity = require("./mailbox-custody-identity.js");
 const PhasePolicy = require("./request-phase-policy.js");
-
 /**
- * @file Builds and advances exact mailbox custody records without erasing identity.
+ * @file Builds and advances exact mailbox custody records without erasing incarnation identity.
  * @description
- * The Awtsmoos renews each deed while its name remains one continuous witness;
- * Awtsmoos.com lets phase and worker progress change without dissolving exact fitness.
- * Generation, session, and request identity survive sparse updates in bounded stillness.
+ * The Awtsmoos renews each deed while its request and vessel remain continuous witnesses.
+ * Awtsmoos.com moves identity mechanics into a smaller sibling so phase policy stays clear,
+ * and sparse progress can never make an older child incarnation look newly authoritative.
  */
 function make(id, phase, metadata = {}, observedAt = Date.now()) {
 	return {
 		id,
-		...identity(metadata),
+		...Identity.initial(metadata),
 		phase,
 		acceptedAt: observedAt,
 		lastProgressAt: observedAt,
 		phaseStartedAt: observedAt,
 		leaseExpiresAt: PhasePolicy.expiresAt(phase, observedAt, metadata.leaseMs),
-		workerId: clean(metadata.workerId),
-		resultState: clean(metadata.resultState)
+		workerId: Identity.clean(metadata.workerId),
+		resultState: Identity.clean(metadata.resultState)
 	};
 }
 
-/**
- * Advances one custody witness while preserving identity omitted by sparse progress metadata.
- * @param {object} record Existing exact custody witness.
- * @param {object} metadata New phase, worker, result, or explicit identity evidence.
- * @param {number} observedAt Time of the proven progress event.
- * @returns {object} Updated exact witness.
- */
+/** Advances one custody witness while preserving identity omitted by sparse progress metadata. */
 function progress(record, metadata = {}, observedAt = Date.now()) {
-	const phase = clean(metadata.phase) || record.phase;
+	const phase = Identity.clean(metadata.phase) || record.phase;
 	return {
 		...record,
-		...progressIdentity(record, metadata),
+		...Identity.progress(record, metadata),
 		phase,
-		workerId: clean(metadata.workerId) || record.workerId,
+		workerId: Identity.clean(metadata.workerId) || record.workerId,
 		lastProgressAt: observedAt,
 		phaseStartedAt: phase === record.phase ? record.phaseStartedAt : observedAt,
 		leaseExpiresAt: PhasePolicy.expiresAt(phase, observedAt, metadata.leaseMs),
-		resultState: clean(metadata.resultState) || record.resultState
-	};
-}
-
-/** Builds identity for the first durable parent-custody witness. */
-function identity(metadata = {}) {
-	return {
-		requestId: clean(metadata.requestId),
-		requestKey: clean(metadata.requestKey),
-		logicalAgentId: clean(metadata.logicalAgentId),
-		agentSessionId: clean(metadata.agentSessionId),
-		generation: finiteGeneration(metadata.generation)
-	};
-}
-
-/** Preserves existing identity unless progress carries a meaningful replacement witness. */
-function progressIdentity(record = {}, metadata = {}) {
-	const generation = finiteGeneration(metadata.generation);
-	return {
-		requestId: clean(metadata.requestId) || clean(record.requestId),
-		requestKey: clean(metadata.requestKey) || clean(record.requestKey),
-		logicalAgentId: clean(metadata.logicalAgentId) || clean(record.logicalAgentId),
-		agentSessionId: clean(metadata.agentSessionId) || clean(record.agentSessionId),
-		generation: generation > 0 ? generation : finiteGeneration(record.generation)
+		resultState: Identity.clean(metadata.resultState) || record.resultState
 	};
 }
 
@@ -92,25 +63,15 @@ function oldest(values) {
 	const finite = values.map(Number).filter(value => Number.isFinite(value) && value > 0);
 	return finite.length ? Math.min(...finite) : null;
 }
-
 function age(value, observedAt) {
 	return value ? Math.max(0, Number(observedAt) - Number(value)) : 0;
 }
 
-function finiteGeneration(value) {
-	const generation = Number(value || 0);
-	return Number.isFinite(generation) && generation >= 0 ? generation : 0;
-}
-
-function clean(value) {
-	return String(value || "").trim();
-}
-
 module.exports = {
-	clean,
-	identity,
+	clean: Identity.clean,
+	identity: Identity.initial,
 	make,
 	progress,
-	progressIdentity,
+	progressIdentity: Identity.progress,
 	snapshot
 };

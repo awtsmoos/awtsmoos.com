@@ -2,27 +2,28 @@
 // Boruch Hashem
 // Blessed is He
 
+const Incarnation = require("./connection-incarnation.js");
 const CustodyMetadata = require("./mailbox-custody-metadata.js");
 const Reconnect = require("../runtime/main-reconnect-policy.js");
-
 /**
- * @file Transfers one parent ACK into generation-aware child and parent custody witnesses.
+ * @file Transfers only an exact-incarnation parent ACK into living custody witnesses.
  * @description
- * The Awtsmoos lets one accepted deed remain one deed while crossing process borders.
- * Awtsmoos.com stamps the live generation and resets reconnect pressure only when real custody arrives,
- * so a merely registered but action-dead socket cannot masquerade as a healed connection.
+ * The Awtsmoos lets one accepted deed remain one deed while process borders change.
+ * Awtsmoos.com rejects delayed ACKs from older children before they can refresh custody
+ * or reset reconnect pressure, so a recycled generation number cannot impersonate healing.
  */
 function createCustody(options = {}) {
-	/**
-	 * Records one accepted transport receipt in the child mailbox and parent health pulse.
-	 * @param {string} receiptId Durable transport receipt accepted by the parent queue.
-	 * @param {object} acknowledgement Identity-bearing parent ACK IPC message.
-	 * @returns {*} Parent-side custody witness.
-	 */
+	/** Records parent acceptance only when the ACK belongs to this exact child incarnation. */
 	function noteParentCustody(receiptId, acknowledgement = {}) {
+		const expectedIncarnation = Incarnation.clean(options.state.childIncarnationId);
+		if (!Incarnation.matches(
+			expectedIncarnation,
+			acknowledgement.childIncarnationId
+		)) return false;
 		const metadata = CustodyMetadata.fromAcknowledgement(
 			acknowledgement,
-			options.state.generation
+			options.state.generation,
+			expectedIncarnation
 		);
 		options.mailbox.noteParentCustody(receiptId, metadata);
 		Reconnect.markAccepted(options.state);

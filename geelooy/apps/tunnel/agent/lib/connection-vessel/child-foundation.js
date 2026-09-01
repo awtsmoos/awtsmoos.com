@@ -1,7 +1,6 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-
 const Config = require("../config.js");
 const { makeLogger } = require("../log.js");
 const { TinyWebSocket } = require("../ws.js");
@@ -16,22 +15,25 @@ const Control = require("../runtime/control-plane.js");
 const Replacement = require("../runtime/replacement-policy.js");
 const Receipt = require("../runtime/connection-receipt.js");
 const Send = require("../runtime/safe-send.js");
+const Incarnation = require("./connection-incarnation.js");
 const Mailbox = require("./mailbox.js");
-
 /**
-	* @file Builds the connection child with the same canonical runtime config as parent.
-	* @description
-	* The Awtsmoos gives both processes one relay, root, state, and response covenant.
-	* Awtsmoos.com never lets a child guess coordinates from incomplete stored fields.
-	*/
+ * @file Builds one incarnation-named connection child from the canonical runtime config.
+ * @description
+ * The Awtsmoos gives parent and child one relay covenant while every child life keeps its
+ * own exact name. Awtsmoos.com creates mailbox and state from that same incarnation, so
+ * durable history may cross rebirth without masquerading as current authority.
+ */
 function createFoundation(callbacks = {}) {
 	const loadConfig = createConfigLoader(Config, {
 		DeviceStateRoot,
 		inlineLimit
 	});
 	const config = loadConfig();
-	const mailbox = Mailbox.createMailbox(config);
-	const state = createState(config);
+	const state = createState(config, callbacks.environment || process.env);
+	const mailbox = Mailbox.createMailbox(config, {
+		childIncarnationId: state.childIncarnationId
+	});
 	const workers = { status: () => ({ connectionVessel: true, pid: process.pid }) };
 	const registration = Registration.createRegistrationRuntime({
 		AGENT_VERSION: process.env.AWTSMOOS_AGENT_VERSION || "",
@@ -69,9 +71,10 @@ function createFoundation(callbacks = {}) {
 	};
 }
 
-function createState(config) {
+function createState(config, environment = process.env) {
 	return {
 		activeWs: null,
+		childIncarnationId: Incarnation.fromEnvironment(environment) || Incarnation.create(),
 		generation: 0,
 		lastRegisteredAt: 0,
 		pendingResponses: [],

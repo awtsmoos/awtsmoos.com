@@ -2,12 +2,13 @@
 // Boruch Hashem
 // Blessed is He
 
+const Incarnation = require("./connection-incarnation.js");
 /**
- * @file Interprets bounded child mailbox recovery testimony for parent supervision.
+ * @file Interprets bounded, incarnation-bound mailbox recovery testimony for supervision.
  * @description
- * The Awtsmoos lets evidence cross a process boundary without granting arbitrary text
- * the power of repair. Awtsmoos.com accepts only explicit replacement testimony and
- * translates known semantic reasons into a finite exact-child supervisor vocabulary.
+ * The Awtsmoos lets evidence cross a process boundary without granting old testimony a sword.
+ * Awtsmoos.com accepts only known semantic reasons spoken by the exact current incarnation,
+ * so a delayed state frame cannot authorize repair of the child that replaced its author.
  */
 const KNOWN_REASONS = new Set([
 	"result_waiting_for_ack",
@@ -16,15 +17,26 @@ const KNOWN_REASONS = new Set([
 	"semantic_recovery_ambiguous"
 ]);
 
-/**
- * Reads one mirrored child state and decides whether exact-child repair is authorized.
- * @param {object} state Child connection state received over IPC.
- * @returns {{required:boolean, reason:string}} Bounded parent repair testimony.
- */
-function fromState(state = {}) {
+/** Decides whether one state frame may authorize repair of its exact source incarnation. */
+function fromState(state = {}, sourceChildIncarnationId = "") {
+	const sourceIncarnation = Incarnation.clean(sourceChildIncarnationId);
+	const stateIncarnation = Incarnation.clean(state.childIncarnationId);
+	if (!Incarnation.matches(sourceIncarnation, stateIncarnation)) {
+		return {
+			required: false,
+			reason: "",
+			childIncarnationId: sourceIncarnation,
+			incarnationMismatch: true
+		};
+	}
 	const recovery = state.mailboxRecovery || {};
 	if (recovery.replacementRequired !== true) {
-		return { required: false, reason: "" };
+		return {
+			required: false,
+			reason: "",
+			childIncarnationId: sourceIncarnation,
+			incarnationMismatch: false
+		};
 	}
 	const semanticReason = String(recovery.reason || "").trim();
 	const reason = KNOWN_REASONS.has(semanticReason)
@@ -32,7 +44,9 @@ function fromState(state = {}) {
 		: "semantic_recovery_ambiguous";
 	return {
 		required: true,
-		reason: `child_mailbox_${reason}`
+		reason: `child_mailbox_${reason}`,
+		childIncarnationId: sourceIncarnation,
+		incarnationMismatch: false
 	};
 }
 

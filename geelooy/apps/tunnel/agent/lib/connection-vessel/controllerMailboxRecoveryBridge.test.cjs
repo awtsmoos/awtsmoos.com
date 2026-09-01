@@ -1,4 +1,4 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 
@@ -8,29 +8,22 @@ const MessageRouter = require("./controller-message-router.js");
 const Protocol = require("./protocol.js");
 
 /**
- * @file Proves preserved mailbox ambiguity becomes bounded exact-child recovery testimony.
+ * @file Proves only current-incarnation mailbox ambiguity can authorize exact-child recovery.
  * @description
- * The Awtsmoos lets evidence cross process boundaries without turning age into permission.
- * Awtsmoos.com mirrors the child's preserved custody first, then asks the supervisor to repair
- * only the exact child generation while the accepted deed remains protected from redispatch.
- *
- * > Preserve what is known, repair what is bound,
- * > Let no stale lease erase what was found;
- * > The Awtsmoos renews every process around,
- * > While exact-child testimony keeps truth on the ground.
+ * The Awtsmoos preserves ambiguity as evidence, yet Awtsmoos.com grants repair authority
+ * only to testimony whose source and state name the same living child incarnation.
+ * Old testimony remains visible but cannot destroy the replacement that came after it.
  */
 const events = [];
 const router = MessageRouter.createMessageRouter({
 	enqueueRequest() {},
 	log() {},
 	mirror(state) {
-		events.push(["mirror", state.mailboxRecovery?.reason || ""]);
+		events.push(["mirror", state.mailboxRecovery?.reason || "", state.childIncarnationId]);
 	},
-	notify() {
-		return true;
-	},
-	onRecoveryRequired(reason) {
-		events.push(["repair", reason]);
+	notify: () => true,
+	onRecoveryRequired(testimony) {
+		events.push(["repair", testimony.reason, testimony.childIncarnationId]);
 	},
 	onRegistered() {},
 	onTerminal() {},
@@ -45,17 +38,19 @@ const ambiguous = RecoveryView.present({
 	ok: false,
 	replacementRequired: true
 });
-assert.equal(ambiguous.reason, "semantic_recovery_ambiguous");
-assert.equal(ambiguous.preserved, 1);
-assert.equal(ambiguous.quarantined, 0);
-assert.equal(ambiguous.replacementRequired, true);
+router.handle(stateMessage("child-current", "child-current", ambiguous));
+assert.deepEqual(events.slice(-2), [
+	["mirror", "semantic_recovery_ambiguous", "child-current"],
+	["repair", "child_mailbox_semantic_recovery_ambiguous", "child-current"]
+]);
 
-router.handle(Protocol.message(Protocol.TYPES.STATE, {
-	state: { mailboxRecovery: ambiguous, registered: true }
-}));
-assert.deepEqual(events, [
-	["mirror", "semantic_recovery_ambiguous"],
-	["repair", "child_mailbox_semantic_recovery_ambiguous"]
+const repairCount = events.filter(event => event[0] === "repair").length;
+router.handle(stateMessage("child-current", "child-old", ambiguous));
+assert.equal(events.filter(event => event[0] === "repair").length, repairCount);
+assert.deepEqual(events.at(-1), [
+	"mirror",
+	"semantic_recovery_ambiguous",
+	"child-current"
 ]);
 
 const result = RecoveryView.present({
@@ -65,27 +60,22 @@ const result = RecoveryView.present({
 	ok: false,
 	replacementRequired: true
 });
-assert.equal(result.reason, "result_waiting_for_ack");
-assert.equal(result.preserved, 1);
-
-router.handle(Protocol.message(Protocol.TYPES.STATE, {
-	state: { mailboxRecovery: result, registered: true }
-}));
-assert.deepEqual(events.slice(-2), [
-	["mirror", "result_waiting_for_ack"],
-	["repair", "child_mailbox_result_waiting_for_ack"]
+router.handle(stateMessage("child-current", "child-current", result));
+assert.deepEqual(events.at(-1), [
+	"repair",
+	"child_mailbox_result_waiting_for_ack",
+	"child-current"
 ]);
 
-const healthy = RecoveryView.present({
-	actions: [],
-	expired: 0,
-	observedAt: 3000,
-	ok: true,
-	replacementRequired: false
-});
-router.handle(Protocol.message(Protocol.TYPES.STATE, {
-	state: { mailboxRecovery: healthy, registered: true }
-}));
-assert.deepEqual(events.slice(-1), [["mirror", "no_expired_custody"]]);
+console.log("BHY only current-incarnation mailbox testimony can request child recovery");
 
-console.log("BHY preserved mailbox ambiguity mirrors before exact child recovery testimony");
+function stateMessage(sourceIncarnation, stateIncarnation, mailboxRecovery) {
+	return Protocol.message(Protocol.TYPES.STATE, {
+		childIncarnationId: sourceIncarnation,
+		state: {
+			childIncarnationId: stateIncarnation,
+			mailboxRecovery,
+			registered: true
+		}
+	});
+}

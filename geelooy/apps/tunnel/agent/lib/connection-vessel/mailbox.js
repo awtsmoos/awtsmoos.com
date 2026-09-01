@@ -4,56 +4,48 @@
 
 const Custody = require("./mailbox-custody.js");
 const Evidence = require("./mailbox-evidence.js");
-const Protocol = require("./protocol.js");
+const Incarnation = require("./connection-incarnation.js");
 const QuarantineGuard = require("./mailbox-quarantine-guard.js");
 const Store = require("./mailbox-store.js");
-
+const Writer = require("./mailbox-writer.js");
 /**
- * @file Joins durable mailbox truth to exact living custody and acknowledgement.
+ * @file Joins durable mailbox truth to exact living custody and child-incarnation identity.
  * @description
- * The Awtsmoos preserves each result before changing the story of its living deed;
- * Awtsmoos.com keeps valid testimony from quarantine until durable retirement proof takes seed.
- * Relay acknowledgement alone may settle and remove the witness once delivery is agreed.
+ * The Awtsmoos preserves each witness while authority changes from vessel unto vessel.
+ * Awtsmoos.com stamps persistence at one boundary and keeps health observation separate,
+ * so obsolete residue stays visible without being allowed to become present-tense debt.
  */
 function createMailbox(config = {}, options = {}) {
+	let childIncarnationId = Incarnation.clean(options.childIncarnationId);
 	const store = Store.createStore(config, options);
 	const custody = Custody.create(options);
-	const evidence = Evidence.create({ store, custody });
+	const getChildIncarnationId = () => childIncarnationId;
+	const evidence = Evidence.create({
+		custody,
+		getChildIncarnationId,
+		store
+	});
 	const quarantine = QuarantineGuard.create({ store });
+	const writer = Writer.create({
+		custody,
+		getChildIncarnationId,
+		store
+	});
 
-	function putInbox(envelope) {
-		const id = Protocol.requestId(envelope);
-		store.put("inbox", id, envelope);
-		return id;
-	}
-
-	/** Persists terminal truth first, then advances custody to acknowledgement debt. */
-	function putOutbox(envelope) {
-		const id = Protocol.requestId(envelope);
-		const value = {
-			...envelope,
-			transportReceiptId: envelope.transportReceiptId || id
-		};
-		store.put("outbox", id, value);
-		custody.progress(id, {
-			phase: "result_waiting_for_ack",
-			resultState: "result_waiting_for_ack"
-		});
-		return value;
+	function setCurrentIncarnation(value) {
+		childIncarnationId = Incarnation.clean(value);
+		return childIncarnationId;
 	}
 
 	function noteDeliveryAttempt(id, metadata = {}) {
 		return custody.noteAttempt(id, metadata);
 	}
-
 	function noteParentCustody(id, metadata = {}) {
 		return custody.noteParent(id, metadata);
 	}
-
 	function noteCustodyProgress(id, metadata = {}) {
 		return custody.progress(id, metadata);
 	}
-
 	function settleCustody(id) {
 		return custody.settle(id);
 	}
@@ -75,11 +67,9 @@ function createMailbox(config = {}, options = {}) {
 	function inbox() {
 		return store.list("inbox").map(entry => entry.value);
 	}
-
 	function outbox() {
 		return store.list("outbox").map(entry => entry.value);
 	}
-
 	function outboxOne(id) {
 		return store.get("outbox", id)?.value || null;
 	}
@@ -100,10 +90,11 @@ function createMailbox(config = {}, options = {}) {
 		noteParentCustody,
 		outbox,
 		outboxOne,
-		putInbox,
-		putOutbox,
+		putInbox: writer.putInbox,
+		putOutbox: writer.putOutbox,
 		quarantineExact,
 		quarantineInvalid,
+		setCurrentIncarnation,
 		settleCustody,
 		snapshot: evidence.snapshot
 	};

@@ -2,18 +2,13 @@
 // Boruch Hashem
 // Blessed is He
 
+const Incarnation = require("./connection-incarnation.js");
 /**
- * @file Carries exact request identity across the parent/child custody boundary.
+ * @file Carries exact request and child-incarnation identity across parent/child custody.
  * @description
  * The Awtsmoos gives one deed one name through every changing vessel. Awtsmoos.com
- * therefore preserves request, transport, shliach, session, and generation testimony
- * instead of letting an accepted request dissolve into an anonymous generation-zero ghost.
- */
-
-/**
- * Extracts stable custody identity from one relay request or acknowledgement envelope.
- * @param {object} envelope Relay request, parent ACK, or compatible transport envelope.
- * @returns {object} Normalized request and owner identity without inventing secrets.
+ * preserves request, transport, shliach, session, generation, and incarnation testimony,
+ * so an accepted request cannot dissolve into a recycled generation-one ghost.
  */
 function fromEnvelope(envelope = {}) {
 	const payload = objectValue(envelope.payload);
@@ -41,27 +36,31 @@ function fromEnvelope(envelope = {}) {
 		logicalAgentId: first(envelope.logicalAgentId, payload.logicalAgentId),
 		agentSessionId: first(envelope.agentSessionId, payload.agentSessionId),
 		controlRequestId,
-		transportReceiptId
+		transportReceiptId,
+		childIncarnationId: first(
+			envelope.childIncarnationId,
+			payload.childIncarnationId
+		)
 	};
 }
 
-/**
- * Adds the live child connection generation to identity carried by a parent ACK.
- * @param {object} acknowledgement Parent acceptance IPC message.
- * @param {*} generation Live connection generation owned by the child runtime.
- * @returns {object} Exact custody metadata suitable for `noteParentCustody`.
- */
-function fromAcknowledgement(acknowledgement = {}, generation = 0) {
+/** Adds exact live child incarnation and socket generation to a parent ACK identity. */
+function fromAcknowledgement(
+	acknowledgement = {},
+	generation = 0,
+	childIncarnationId = ""
+) {
 	return {
 		...fromEnvelope(acknowledgement),
-		generation: positiveGeneration(generation)
+		generation: positiveGeneration(generation),
+		childIncarnationId: Incarnation.clean(childIncarnationId) ||
+			Incarnation.clean(acknowledgement.childIncarnationId)
 	};
 }
 
 function objectValue(value) {
 	return value && typeof value === "object" ? value : {};
 }
-
 function first(...values) {
 	for (const value of values) {
 		const text = String(value || "").trim();
@@ -69,7 +68,6 @@ function first(...values) {
 	}
 	return "";
 }
-
 function positiveGeneration(value) {
 	const number = Number(value);
 	return Number.isFinite(number) && number > 0 ? Math.floor(number) : 0;
