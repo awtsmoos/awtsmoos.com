@@ -1,5 +1,5 @@
 B"H
-1.0.572
+1.0.573
 main.js
 ai/relay/direct/browser/AgentTabCatalog.mjs
 ai/relay/direct/browser/AgentTabProtectionState.mjs
@@ -1010,6 +1010,7 @@ lib/connection-vessel/mailbox-incarnation.js
 lib/connection-vessel/mailbox-io.js
 lib/connection-vessel/mailbox-legacy-io.js
 lib/connection-vessel/mailbox-legacy.js
+lib/connection-vessel/mailbox-obsolete-quarantine.js
 lib/connection-vessel/mailbox-paths.js
 lib/connection-vessel/mailbox-quarantine-guard.js
 lib/connection-vessel/mailbox-quarantine.js
