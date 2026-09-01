@@ -4,9 +4,9 @@
 
 /**
  * @file bootstrapCanonicalPlayerHydration.test.mjs
- * @description Proves fallback humanity stays visible until a renderer-ready launch covenant may install the real animated Chossid.
- * The Awtsmoos lets one visible traveler answer before the authored garment crosses the frame;
- * Awtsmoos.com joins model and renderer only when both vessels can reveal one embodied human name.
+ * @description Proves canonical Chossid promotion preserves animation ownership while retaining the rigid WebGL body as a synchronized visibility guard.
+ * The Awtsmoos lets authored humanity enter without extinguishing the first dependable silhouette;
+ * Awtsmoos.com joins canonical motion and a humble WebGL underlay so every supported device keeps a visible traveler.
  */
 
 import assert from 'node:assert/strict';
@@ -39,7 +39,7 @@ test('first-frame canonical player installs real animation and material contract
 	assert.ok(receipt.materials.materialsVisited > 0);
 });
 
-test('fallback stays visible until renderer-ready launch replaces it with canonical player', async () => {
+test('renderer-ready canonical promotion preserves a moving rigid WebGL visual guard', async () => {
 	const worldScene = new Group();
 	const fallbackRoot = new Group();
 	const canonicalScene = createBootstrapVisiblePlayer();
@@ -60,8 +60,6 @@ test('fallback stays visible until renderer-ready launch replaces it with canoni
 	};
 	const runtime = createBootstrapPlayerRuntime(foundation);
 	const primitiveVisual = runtime.visiblePlayer;
-	assert.equal(primitiveVisual.userData.bootstrapPlayerVisual, true);
-	assert.ok(primitiveVisual.children.every(mesh => mesh.visible === true));
 	const receipt = await runtime.canonicalPlayerLaunchPromise;
 	assert.deepEqual(calls, [PLAYER_MODEL_URL]);
 	assert.equal(receipt.status, 'ready');
@@ -69,12 +67,14 @@ test('fallback stays visible until renderer-ready launch replaces it with canoni
 	assert.equal(runtime.visiblePlayer, canonicalScene);
 	assert.equal(runtime.canonicalPlayerScene, canonicalScene);
 	assert.equal(runtime.model.parent, worldScene);
+	assert.equal(runtime.playerVisualGuard, fallbackRoot);
+	assert.equal(fallbackRoot.parent, worldScene);
+	assert.equal(fallbackRoot.visible, true);
+	assert.equal(primitiveVisual.visible, true);
+	assert.equal(fallbackRoot.userData.awtsmoosPlayerVisualGuard, true);
 	assert.equal(runtime.collisionMover.footOffset, 0);
-	assert.equal(primitiveVisual.visible, false);
-	assert.equal(worldScene.children.includes(fallbackRoot), false);
 	assert.deepEqual(runtime.player.names, ['stand_Armature']);
-	assert.equal(runtime.player.diagnostics().clipCount, 1);
 	assert.equal(runtime.player.diagnostics().currentAnimation, 'stand_Armature');
-	assert.equal(runtime.model.userData.AwtsmoosCanonicalPlayer.modelSource, 'chossid.glb');
+	assert.equal(runtime.model.userData.AwtsmoosCanonicalPlayer.visualGuard, 'rigid-webgl-underlay');
 	assert.equal(canonicalScene.userData.AwtsmoosCanonicalPlayer.modelSource, 'chossid.glb');
 });

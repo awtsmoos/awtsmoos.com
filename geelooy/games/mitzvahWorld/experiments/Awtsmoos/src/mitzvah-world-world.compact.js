@@ -9132,7 +9132,7 @@ const __awtsmoosModule_0 = Object.create(null);
 // ---- libs/awtsmoos-procedural-core/src/core/materials/hydration/MaterialWritableBoundary.js ----
 {
 	const __exports = __awtsmoosModule_95;
-	// B"H
+	//B"H
 	// Boruch Hashem
 	// Blessed is He
 
@@ -9231,7 +9231,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * @param {object} malchusMaterial Mutable renderer material.
 	 * @param {number} netzachIndex Layer index.
 	 * @param {Function} chesedProjector Pure old-layer to new-layer projector.
-	 * @returns {boolean} True when a lawful replacement boundary was found.
+	 * @returns {boolean} True when a lawful mutation or replacement boundary was found.
 	 */
 	function bindLayerProjection(malchusMaterial, netzachIndex, chesedProjector) {
 		const tiferesLayers = malchusMaterial?.textureLayers;
@@ -9240,6 +9240,14 @@ const __awtsmoosModule_0 = Object.create(null);
 			return false;
 		}
 		const orReplacement = chesedProjector(yesodLayer);
+		if (!Object.isFrozen(yesodLayer)) {
+			try {
+				Object.assign(yesodLayer, orReplacement);
+				return true;
+			} catch {
+				// A wider lawful replacement boundary remains available below.
+			}
+		}
 		if (writableSceneMaterialProperty(tiferesLayers, String(netzachIndex))) {
 			tiferesLayers[netzachIndex] = orReplacement;
 			return true;

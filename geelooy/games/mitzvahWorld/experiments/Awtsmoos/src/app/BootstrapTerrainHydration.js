@@ -4,13 +4,18 @@
 
 /**
  * @file BootstrapTerrainHydration.js
- * @description Keeps remote terrain-source code outside first play and loads it only when hydration truly begins.
- * The Awtsmoos reveals the walkable valley before distant pixels enter the gate;
- * Awtsmoos.com preserves truthful deferred diagnostics while later texture garments arrive in their appointed time.
+ * @description Loads remote terrain after first play and binds genuine grass over the generated bootstrap surface.
+ * The Awtsmoos reveals walkable earth before the distant garment arrives, yet never mistakes the placeholder for the destination;
+ * Awtsmoos.com lets one preferred grass ray replace generated pixels while truthful diagnostics record the completed hydration.
  */
 
+import {
+	bindBootstrapTerrainRecord,
+	bindBootstrapTerrainRole
+} from './BootstrapTerrainRemoteBinding.js';
+
 const TERRAIN_SOURCES_URL = new URL(
-	'./MinimalMeadowTerrainSources.js?v=20260803-progressive-1',
+	'./MinimalMeadowTerrainSources.js?v=20260901-real-grass-01',
 	import.meta.url
 ).href;
 
@@ -34,17 +39,18 @@ async function hydrate(group, stats, state, importer) {
 	state.phase = 'loading';
 	const module = await resolveTerrainModule(importer);
 	publishImmediateCatalog(stats, module);
+	const preferredUrl = module.TEXTURES?.grassFour || '';
 	const sources = await module.loadMinimalMeadowTerrainSources({
 		onTextureSettled(record) {
-			applySettledRemoteImage(group, record);
+			bindBootstrapTerrainRecord(group, record, preferredUrl);
 		}
 	});
 	stats.textureSources = sourceEvidence(sources);
-	applyFirstRemoteImage(group, sources.images);
-	state.error = null;
+	const bound = bindBootstrapTerrainRole(group, sources, 'grassFour');
+	state.error = bound ? null : 'Preferred remote grass did not bind to visible terrain.';
 	state.failed = sources.failed || 0;
 	state.loaded = sources.loaded || 0;
-	state.phase = sources.mode || (state.loaded ? 'partial' : 'degraded');
+	state.phase = bound ? (sources.mode || 'ready') : 'degraded';
 	return Object.freeze({ ...state });
 }
 
@@ -65,31 +71,6 @@ function sourceEvidence(sources) {
 		transport: sources.transport,
 		urls: sources.urls
 	});
-}
-
-function applySettledRemoteImage(group, record) {
-	if (!record?.ok || !record.image) return;
-	const material = group.children?.[0]?.material;
-	if (!material || usableImage(material.mapImage)) return;
-	bindImage(material, record.image, record.url || record.primaryUrl || null);
-}
-
-function applyFirstRemoteImage(group, images = {}) {
-	const image = Object.values(images).find(usableImage);
-	const material = group.children?.[0]?.material;
-	if (image && material) bindImage(material, image, image.src || null);
-}
-
-function bindImage(material, image, textureUrl) {
-	material.map = image;
-	material.mapImage = image;
-	material.textureUrl = textureUrl;
-	material.color = [1, 1, 1, 1];
-	material.needsUpdate = true;
-}
-
-function usableImage(image) {
-	return Boolean(image) && Number(image.naturalWidth || image.width || 0) > 0;
 }
 
 function deferredSourceEvidence() {

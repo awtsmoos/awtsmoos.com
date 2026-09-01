@@ -4,12 +4,13 @@
 
 /**
  * @file MinimalMeadowCanonicalPlayerInstall.js
- * @description Owns the atomic scene swap that manifests a renderer-ready canonical Chossid and retires the bootstrap body.
- * The Awtsmoos joins model, motion, equipment, and measured feet in one revealed form;
- * Awtsmoos.com removes the earlier silhouette only after the richer vessel can actually make the traveler visible and warm.
+ * @description Installs the canonical Chossid while preserving the original rigid WebGL body as a synchronized visual guard.
+ * The Awtsmoos joins model, motion, equipment, and measured feet without extinguishing the first dependable silhouette;
+ * Awtsmoos.com lets canonical beauty stand above a humble WebGL underlay so every supported device still sees the traveler move.
  */
 
 import { installCanonicalChossidAnimation } from './MinimalMeadowCanonicalAnimation.js';
+import { preservePlayerVisualGuard } from './PlayerVisualGuard.js';
 
 export function installCanonicalPlayer(runtime, fallbackModel, gltf, prepared) {
 	runtime.scene.add(prepared.model);
@@ -32,11 +33,8 @@ export function installCanonicalPlayer(runtime, fallbackModel, gltf, prepared) {
 	const evidence = canonicalEvidence(animation, gltf);
 	markCanonical(prepared.model, evidence);
 	markCanonical(prepared.visiblePlayer, evidence);
-	fallbackModel.traverse?.(object => {
-		object.visible = false;
-	});
-	fallbackModel.parent?.remove?.(fallbackModel);
-	return Object.freeze({ animation, evidence });
+	const visualGuard = preservePlayerVisualGuard(runtime, fallbackModel);
+	return Object.freeze({ animation, evidence, visualGuard });
 }
 
 function canonicalEvidence(animation, gltf) {
@@ -44,7 +42,8 @@ function canonicalEvidence(animation, gltf) {
 		animationCount: gltf.animations?.length || 0,
 		defaultClip: animation.defaultClip,
 		modelSource: 'chossid.glb',
-		measuredAnimatedIdle: Boolean(animation.defaultClip)
+		measuredAnimatedIdle: Boolean(animation.defaultClip),
+		visualGuard: 'rigid-webgl-underlay'
 	});
 }
 

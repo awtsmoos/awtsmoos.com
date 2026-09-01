@@ -4,9 +4,9 @@
 
 /**
  * @file progressiveTerrainHydration.test.mjs
- * @description Proves real terrain images bind before the full remote catalog finishes.
- * The Awtsmoos reveals the first truthful pixel while distant garments still prepare;
- * Awtsmoos.com keeps grass and road alive without waiting for every texture prayer.
+ * @description Proves the preferred remote-authoritative grass replaces bootstrap pixels before the full catalog finishes.
+ * The Awtsmoos lets the first truthful authored grass clothe visible earth while distant garments still prepare;
+ * Awtsmoos.com refuses arbitrary arrivals and generated placeholders the throne reserved for the preferred remote field.
  */
 
 import assert from 'node:assert/strict';
@@ -22,41 +22,71 @@ import {
 } from '../../app/MinimalMeadowTerrainSources.js';
 
 function image(src) {
-	return { complete: true, height: 64, naturalHeight: 64, naturalWidth: 64, src, width: 64 };
+	return {
+		complete: true,
+		dataset: { publicUrl: src },
+		height: 64,
+		naturalHeight: 64,
+		naturalWidth: 64,
+		src,
+		width: 64
+	};
 }
 
 function material() {
 	return { color: null, map: null, mapImage: null, needsUpdate: false };
 }
 
-test('B"H bootstrap binds the first verified image before catalog completion', async () => {
+test('B"H bootstrap binds preferred verified grass before catalog completion', async () => {
 	const terrainMaterial = material();
 	const group = { children: [{ material: terrainMaterial }] };
 	const stats = {};
+	const grass = image(TEXTURES.grassFour);
 	let settle;
-	const pending = new Promise(resolve => { settle = resolve; });
+	const pending = new Promise(resolve => {
+		settle = resolve;
+	});
 	const hydration = createBootstrapTerrainHydration(group, stats, async () => ({
-		createMinimalMeadowTerrainSourceSnapshot: () => ({ mode: 'visible-fallback', records: {}, transport: {}, urls: ['grass'] }),
-		loadMinimalMeadowTerrainSources: options => {
-			options.onTextureSettled({ image: image('grass'), ok: true, url: 'grass' });
+		TEXTURES,
+		createMinimalMeadowTerrainSourceSnapshot: () => ({
+			mode: 'visible-fallback',
+			records: {},
+			transport: {},
+			urls: [TEXTURES.grassFour]
+		}),
+		loadMinimalMeadowTerrainSources(options) {
+			options.onTextureSettled({ image: grass, ok: true, url: TEXTURES.grassFour });
 			return pending;
 		}
 	}));
 	const promise = hydration.start();
 	await Promise.resolve();
 	await Promise.resolve();
-	assert.equal(terrainMaterial.mapImage?.src, 'grass');
+	assert.equal(terrainMaterial.mapImage, grass);
+	assert.equal(terrainMaterial.textureUrl, TEXTURES.grassFour);
+	assert.equal(terrainMaterial.texturePolicy.realMapImage, true);
 	assert.deepEqual(terrainMaterial.color, [1, 1, 1, 1]);
 	assert.equal(hydration.diagnostics().phase, 'loading');
-	settle({ failed: 0, images: { grass: terrainMaterial.mapImage }, loaded: 1, mode: 'partial', records: {}, transport: {}, urls: ['grass'] });
+	settle({
+		failed: 0,
+		images: { grassFour: grass },
+		loaded: 1,
+		mode: 'partial',
+		records: { grassFour: { url: TEXTURES.grassFour } },
+		transport: {},
+		urls: [TEXTURES.grassFour]
+	});
 	await promise;
+	assert.equal(hydration.diagnostics().phase, 'partial');
 });
 
 test('B"H rich hydration binds grass and road before final composites settle', async () => {
 	const mesh = { material: material() };
 	const road = { material: material() };
 	let settle;
-	const pending = new Promise(resolve => { settle = resolve; });
+	const pending = new Promise(resolve => {
+		settle = resolve;
+	});
 	const hydration = createMinimalMeadowTerrainHydration({
 		loadSources(options) {
 			options.onTextureSettled({ image: image(TEXTURES.grassFour), ok: true, url: TEXTURES.grassFour });
