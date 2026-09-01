@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file Bounds child-owned mailbox recovery into parent-visible testimony.
+ * @file Bounds child-owned mailbox attention into parent-visible non-destructive testimony.
  * @description
  * The Awtsmoos lets one durable deed carry truth without carrying an ocean of state.
- * Awtsmoos.com counts quarantine, preservation, and failure in a small witness so the
- * parent may repair the exact messenger without duplicating mailbox snapshots or deeds.
+ * Awtsmoos.com keeps expired custody visible as attention while withholding repair authority,
+ * so an old lease may warn the parent without becoming a sword against a healthy child.
  */
 
 /**
@@ -21,6 +21,7 @@ function present(result = {}) {
 	const quarantined = count(actions, "quarantined");
 	const preserved = count(actions, "preserved");
 	const failed = count(actions, "quarantine_failed");
+	const attentionRequired = result.attentionRequired === true || expired > 0;
 	const replacementRequired = result.replacementRequired === true;
 	return {
 		attempted: expired > 0,
@@ -30,13 +31,14 @@ function present(result = {}) {
 		quarantined,
 		preserved,
 		failed,
+		attentionRequired,
 		replacementRequired,
-		reason: reason(actions, replacementRequired, expired)
+		reason: reason(actions, replacementRequired, attentionRequired, expired)
 	};
 }
 
 /** Returns a stable semantic reason without exposing arbitrary error text. */
-function reason(actions, replacementRequired, expired) {
+function reason(actions, replacementRequired, attentionRequired, expired) {
 	if (replacementRequired) {
 		if (actions.some(action => action?.operation === "quarantine_failed")) {
 			return "quarantine_failed";
@@ -48,6 +50,15 @@ function reason(actions, replacementRequired, expired) {
 			return "missing_exact_custody_id";
 		}
 		return "semantic_recovery_ambiguous";
+	}
+	if (attentionRequired) {
+		if (actions.some(action => action?.reason === "result_waiting_for_ack")) {
+			return "result_waiting_for_ack_attention";
+		}
+		if (actions.some(action => action?.reason === "missing_exact_custody_id")) {
+			return "missing_exact_custody_id_attention";
+		}
+		return "semantic_attention_required";
 	}
 	if (actions.some(action => action?.operation === "quarantined")) {
 		return "expired_pre_result_quarantined";

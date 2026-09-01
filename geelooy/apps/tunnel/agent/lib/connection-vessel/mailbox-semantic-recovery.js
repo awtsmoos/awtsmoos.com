@@ -5,24 +5,24 @@
 const PhasePolicy = require("./request-phase-policy.js");
 
 /**
- * @file Reconciles expired exact custody without inventing a proof of non-execution.
+ * @file Observes expired exact custody without turning age into destructive authority.
  * @description
  * A parent-custody lease is a clock, never a verdict. Once the parent accepted a deed,
  * age alone cannot prove whether the deed waited, ran, completed, or lost an acknowledgement.
- * Awtsmoos.com therefore preserves ambiguous accepted custody until a stronger witness can
- * reconcile it, just as the Awtsmoos renews every instant without splitting one truth in two.
+ * Awtsmoos.com therefore preserves ambiguous accepted custody for stronger living evidence,
+ * while the Awtsmoos renews each instant without letting an old clock kill today's vessel.
  *
  * > When clocks grow old but witnesses hide,
  * > The deed stays whole on the guarded side;
- * > The Awtsmoos renews each moment and tide,
- * > So only proven truth may let custody divide.
+ * > The Awtsmoos renews both vessel and tide,
+ * > So only present proof may make process life divide.
  */
 
 /**
- * Preserves every expired parent-custody record that cannot be retired with positive proof.
+ * Preserves every expired parent-custody record while withholding replacement authority.
  * @param {object} mailbox Live mailbox exposing durable custody evidence and a snapshot.
  * @param {object} [options] Observation controls and a caller-visible reason.
- * @returns {object} Bounded testimony that never redispatches or age-quarantines accepted work.
+ * @returns {object} Bounded attention testimony that never redispatches or kills by age alone.
  */
 function reconcile(mailbox, options = {}) {
 	const observedAt = Number(options.now || Date.now());
@@ -30,15 +30,16 @@ function reconcile(mailbox, options = {}) {
 	const records = Array.isArray(evidence.custody) ? evidence.custody : [];
 	const expired = records.filter(record => PhasePolicy.expired(record, observedAt));
 	const actions = expired.map(preserveExpiredCustody);
-	const replacementRequired = actions.length > 0;
+	const attentionRequired = actions.length > 0;
 
 	return {
-		ok: !replacementRequired,
+		ok: true,
 		reason: String(options.reason || "semantic_reconcile"),
 		observedAt,
 		expired: expired.length,
 		actions,
-		replacementRequired,
+		attentionRequired,
+		replacementRequired: false,
 		safeToRedispatch: false,
 		snapshot: mailbox.snapshot()
 	};
