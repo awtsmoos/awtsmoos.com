@@ -4,9 +4,9 @@
 
 /**
  * @file EretzFoundationServices.js
- * @description Creates camera, input, scene, LOD, and the bootstrap renderer from pure spatial arrival data, never triggering live-nature scheduling merely to learn camera geometry.
- * The Awtsmoos gives sight and place without confusing still measure with later growing life;
- * Awtsmoos.com lets the first frame drink from pure geometry while trees and nature awaken after control, free from startup strife.
+ * @description Composes the first playable Eretz services and explicitly carries visible jump intent into the movement-facing input contract.
+ * The Awtsmoos gives camera, scene, hand, and leap their distinct vessels while one living world appears in stride;
+ * Awtsmoos.com lets Yesod join the Jump button to movement without mixing renderer light, orbit measure, or later nature inside.
  */
 
 import { PerspectiveCamera, Scene } from '../../../light-three-gltf/tiny-runtime.js';
@@ -16,12 +16,17 @@ import { MobileJoystick } from '../input/MobileJoystick.js';
 import { UiEventSystem } from '../input/UiEventSystem.js';
 import { SceneLodRuntime } from '../lod/SceneLodRuntime.js';
 import { AwtsmoosEventBus } from '../ui/AwtsmoosEventBus.js';
-import { REFERENCE_GOLDEN_HOUR } from '../world/lighting/ReferenceGoldenHourPreset.js';
 import { VILLAGE_ARRIVAL_CAMERA } from '../world/village/VillageArrivalSpatialContract.js';
-import { createMinimalMeadowRenderer } from './MinimalMeadowRenderer.js';
+import { createEretzFoundationRenderer } from './EretzFoundationRenderer.js';
+import { installEretzGameplayInputBridge } from './EretzGameplayInputBridge.js';
 
-const GOLDEN_HOUR_ENVIRONMENT = referenceEnvironment(REFERENCE_GOLDEN_HOUR);
-
+/**
+ * Creates the foundation services required before first playable control.
+ * @param {object} hosts DOM hosts for canvas and mobile controls.
+ * @param {object} qualityProfile Active quality and render-distance policy.
+ * @param {object} environment Browser-like runtime environment.
+ * @returns {object} Camera, input, controls, renderer, scene, and LOD services.
+ */
 export function createEretzFoundationServices(
 	hosts,
 	qualityProfile,
@@ -36,36 +41,28 @@ export function createEretzFoundationServices(
 		0.08,
 		1600
 	);
-	const renderer = createRenderer(hosts.canvas, qualityProfile);
 	const bus = new AwtsmoosEventBus();
 	const input = new UiEventSystem(hosts.canvas).install(bus);
+	const jumpButton = new JumpButton(hosts.jumpHost);
+	installEretzGameplayInputBridge(input, jumpButton);
 	return {
 		bus,
 		camera,
 		input,
 		joystick: new MobileJoystick(hosts.joystickHost),
-		jumpButton: new JumpButton(hosts.jumpHost),
+		jumpButton,
 		orbit: createArrivalOrbit(hosts.canvas),
-		renderer,
+		renderer: createEretzFoundationRenderer(hosts.canvas, qualityProfile),
 		scene,
 		sceneLod: new SceneLodRuntime({ scene })
 	};
 }
 
-function createRenderer(canvas, qualityProfile) {
-	const renderer = createMinimalMeadowRenderer(canvas);
-	renderer.options ||= {};
-	renderer.options.culling = true;
-	renderer.options.defaultRenderDistance = qualityProfile.renderDistance;
-	renderer.setClearColor(...GOLDEN_HOUR_ENVIRONMENT.fogColor, 1);
-	renderer.setEnvironment({
-		...GOLDEN_HOUR_ENVIRONMENT,
-		fogFar: qualityProfile.renderDistance * 1.08,
-		fogNear: qualityProfile.renderDistance * 0.38
-	});
-	return renderer;
-}
-
+/**
+ * Creates the authored arrival orbit without starting later world scheduling.
+ * @param {HTMLCanvasElement} canvas Runtime canvas.
+ * @returns {CameraOrbitController} Arrival camera controller.
+ */
 function createArrivalOrbit(canvas) {
 	return new CameraOrbitController(canvas, {
 		distance: VILLAGE_ARRIVAL_CAMERA.distance,
@@ -78,32 +75,4 @@ function createArrivalOrbit(canvas) {
 	});
 }
 
-function referenceEnvironment(reference) {
-	const cool = reference.coolShadow;
-	const horizon = reference.horizonColor;
-	const sun = reference.sunCore;
-	return Object.freeze({
-		ambient: Object.freeze([
-			cool[0] * 0.78 + 0.145,
-			cool[1] * 0.76 + 0.11,
-			cool[2] * 0.72 + 0.09
-		]),
-		exposure: 1.30,
-		fogColor: Object.freeze([
-			cool[0] * 0.66 + horizon[0] * 0.34,
-			cool[1] * 0.68 + horizon[1] * 0.32,
-			cool[2] * 0.74 + horizon[2] * 0.26
-		]),
-		sunColor: Object.freeze([
-			sun[0] * 1.22,
-			sun[1] * 1.06,
-			sun[2] * 0.86
-		]),
-		sunDirection: Object.freeze(normalized(reference.sunPosition))
-	});
-}
-
-function normalized(vector) {
-	const length = Math.hypot(vector[0], vector[1], vector[2]) || 1;
-	return [vector[0] / length, vector[1] / length, vector[2] / length];
-}
+export default createEretzFoundationServices;
