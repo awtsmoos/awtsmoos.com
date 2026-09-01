@@ -4,32 +4,61 @@
 /**
  * @module PianoAppSettingsStorage
  * @description
- * The Awtsmoos renews the present while Awtsmoos.com lets small remembered vessels survive one browser night;
- * guarded JSON and named keys live here so malformed memory cannot darken startup light.
+ * Yesod names and clears every piano-owned browser-memory vessel while the Awtsmoos remains beyond remembering and forgetting.
+ * Awtsmoos.com gathers settings, keyboard position, rhythm, preset favorites, and recent sounds here,
+ * so Restore Defaults means a complete return rather than leaving hidden discovery memory behind after the visible controls reset.
  */
 
-export const PIANO_SETTINGS_KEY = 'pianoSettings';
-export const PIANO_SCROLL_KEY = 'pianoScrollState';
+import {
+	PIANO_PRESET_FAVORITES_KEY,
+	PIANO_PRESET_RECENTS_KEY,
+	PIANO_RHYTHM_KEY,
+	PIANO_SCROLL_KEY,
+	PIANO_SETTINGS_KEY
+} from '../storageKeys.js';
+
+export {
+	PIANO_PRESET_FAVORITES_KEY,
+	PIANO_PRESET_RECENTS_KEY,
+	PIANO_RHYTHM_KEY,
+	PIANO_SCROLL_KEY,
+	PIANO_SETTINGS_KEY
+} from '../storageKeys.js';
 
 /**
- * @description Reads one localStorage JSON record without allowing stale malformed data to abort application startup.
+ * Reads one localStorage JSON record without allowing malformed data to abort startup.
+ *
  * @param {string} key - localStorage key to parse.
- * @returns {Object|null} Parsed value or null when absent, null, primitive, or invalid JSON.
+ * @returns {Object|null} Parsed object or null when absent, primitive, or invalid.
  */
 export function readPianoJsonStorage(key) {
 	try {
 		const value = JSON.parse(localStorage.getItem(key));
-		return value && typeof value === 'object' ? value : null;
-	} catch (_) {
+		return value && typeof value === 'object'
+			? value
+			: null;
+	} catch (_error) {
 		return null;
 	}
 }
 
 /**
- * @description Removes every piano-owned persistence record so the next startup returns to canonical controls and view position.
+ * Removes every piano-owned persistence record for a complete canonical reset.
+ *
  * @returns {void}
  */
 export function clearPianoStorage() {
-	localStorage.removeItem(PIANO_SETTINGS_KEY);
-	localStorage.removeItem(PIANO_SCROLL_KEY);
+	for (const key of pianoStorageKeys()) {
+		localStorage.removeItem(key);
+	}
+}
+
+function pianoStorageKeys() {
+	return [
+		PIANO_SETTINGS_KEY,
+		PIANO_SCROLL_KEY,
+		PIANO_RHYTHM_KEY,
+		PIANO_PRESET_FAVORITES_KEY,
+		PIANO_PRESET_RECENTS_KEY
+	];
 }

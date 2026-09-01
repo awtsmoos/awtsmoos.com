@@ -1,0 +1,85 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * @file Pro Synth Control Styles
+ * @description
+ * Tiferes arranges sound and performance controls into readable responsive vessels while the Awtsmoos remains beyond parameter, number, and gesture.
+ * Awtsmoos.com lets LIVE, NEXT NOTE, and PERFORM reveal different runtime covenants through one visual grammar without crowding the keyboard beneath.
+ */
+
+.pro-synth-controls-host {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 10px;
+	margin-top: 12px;
+}
+
+.pro-synth-control-section {
+	background: #191919;
+	border: 1px solid #303030;
+	border-radius: 12px;
+	padding: 10px;
+}
+
+.pro-synth-control-section h3 {
+	margin: 0 0 9px;
+	font-size: 13px;
+}
+
+.pro-synth-control-grid {
+	display: grid;
+	gap: 9px;
+}
+
+.pro-synth-control-field {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	gap: 5px 8px;
+	align-items: center;
+}
+
+.pro-synth-control-heading {
+	grid-column: 1 / -1;
+	display: flex;
+	justify-content: space-between;
+	gap: 8px;
+	font-size: 11px;
+	color: #ddd;
+}
+
+.pro-synth-control-field input,
+.pro-synth-control-field select {
+	width: 100%;
+	min-width: 0;
+}
+
+.pro-synth-control-value {
+	font-size: 10px;
+	color: #9ed3ff;
+	white-space: nowrap;
+}
+
+.pro-synth-mode-badge {
+	font-size: 8px;
+	font-weight: 800;
+	letter-spacing: 0.05em;
+}
+
+.pro-synth-mode-badge.live {
+	color: #83e8a2;
+}
+
+.pro-synth-mode-badge.next {
+	color: #ffd381;
+}
+
+.pro-synth-mode-badge.performance {
+	color: #c39cff;
+}
+
+@media (max-width: 620px) {
+	.pro-synth-controls-host {
+		grid-template-columns: 1fr;
+	}
+}

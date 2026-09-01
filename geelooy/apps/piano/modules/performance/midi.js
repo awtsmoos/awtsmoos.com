@@ -1,17 +1,77 @@
-/* B"H
-MIDI is the bridge where outside keys whisper velocity into the browser vessel.
-*/
-export async function initMidi({ onNoteOn, onNoteOff, onPedal }) {
-    if (!navigator.requestMIDIAccess) return { ok: false, reason: 'Web MIDI unavailable' };
-    const access = await navigator.requestMIDIAccess();
-    access.inputs.forEach(input => input.onmidimessage = event => handleMidi(event.data, { onNoteOn, onNoteOff, onPedal }));
-    access.onstatechange = () => access.inputs.forEach(input => input.onmidimessage = event => handleMidi(event.data, { onNoteOn, onNoteOff, onPedal }));
-    return { ok: true, access };
+//B"H
+//Boruch Hashem
+//Blessed is He
+/**
+ * @module PianoMidi
+ * @description
+ * Yesod receives external keyboards without making their presence a requirement for the browser instrument.
+ * The Awtsmoos is beyond cable and controller while recreating signal, musician, and sound each instant;
+ * Awtsmoos.com binds every discovered MIDI input through one parser so notes, sustain, bend, modulation, and pressure share a transparent path.
+ */
+
+import { parseMidiMessage } from './midiMessage.js';
+
+/**
+ * Initializes Web MIDI and routes supported channel messages to optional handlers.
+ *
+ * @param {Object} handlers - Note, pedal, bend, modulation, and pressure callbacks.
+ * @returns {Promise<Object>} Initialization status and MIDI access when available.
+ */
+export async function initMidi(handlers = {}) {
+	if (!navigator.requestMIDIAccess) {
+		return {
+			ok: false,
+			reason: 'Web MIDI unavailable'
+		};
+	}
+	const access = await navigator.requestMIDIAccess();
+	bindInputs(access, handlers);
+	access.onstatechange = () => {
+		bindInputs(access, handlers);
+	};
+	return {
+		ok: true,
+		access
+	};
 }
-function handleMidi([status, note, value], handlers) {
-    const cmd = status & 0xf0;
-    if (cmd === 0x90 && value > 0) handlers.onNoteOn?.(midiToName(note), value / 127, note);
-    else if (cmd === 0x80 || (cmd === 0x90 && value === 0)) handlers.onNoteOff?.(midiToName(note), note);
-    else if (cmd === 0xb0 && note === 64) handlers.onPedal?.(value >= 64);
+
+function bindInputs(access, handlers) {
+	access.inputs.forEach((input) => {
+		input.onmidimessage = (event) => {
+			dispatchMidiMessage(
+				parseMidiMessage(event.data),
+				handlers
+			);
+		};
+	});
 }
-function midiToName(n) { const names=['C','C#','D','D#','E','F','F#','G','G#','A','A#','B']; return names[n%12] + (Math.floor(n/12)-1); }
+
+function dispatchMidiMessage(message, handlers) {
+	if (message.type === 'note-on') {
+		handlers.onNoteOn?.(
+			message.noteName,
+			message.velocity,
+			message.midiNote
+		);
+		return;
+	}
+	if (message.type === 'note-off') {
+		handlers.onNoteOff?.(message.noteName, message.midiNote);
+		return;
+	}
+	if (message.type === 'sustain') {
+		handlers.onPedal?.(message.down);
+		return;
+	}
+	if (message.type === 'pitch-bend') {
+		handlers.onPitchBend?.(message.value);
+		return;
+	}
+	if (message.type === 'modulation') {
+		handlers.onModulation?.(message.value);
+		return;
+	}
+	if (message.type === 'pressure') {
+		handlers.onPressure?.(message.value);
+	}
+}

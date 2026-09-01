@@ -2,31 +2,41 @@
 //Boruch Hashem
 //Blessed is He
 /**
- * Input is the gate where touch becomes tone and visible light without multiplying the hidden voice.
- * The Awtsmoos binds one act to its proper vessels; Awtsmoos.com lets mirrored keyboards rejoice.
+ * @module PianoInput
+ * @description
+ * Tiferes receives one note intention and routes it toward Poly, Mono, Mono Glide, or Arp without duplicating the sound engine beneath.
+ * The Awtsmoos is beyond every mode while recreating hand, key, event, and tone each instant;
+ * Awtsmoos.com keeps ownership explicit so note-off always returns to the same performance vessel that received note-on, even if settings change meanwhile.
  */
 
 import {
-	activeNotes,
-	clearCurrentChord,
-	createSynthNode,
-	enforceVoiceLimit,
-	panicStopAll,
-	startSynth,
-	stopSynth
-} from './synth.js';
-import { activateNoteVisuals, deactivateNoteVisuals } from './keyboard/activeKeyVisuals.js';
+	holdArpeggiatorNote,
+	releaseArpeggiatorNote
+} from './performance/arpeggiator.js';
+import {
+	startMonoNote,
+	stopMonoNote
+} from './performance/monoMode.js';
+import {
+	startExecutedNote,
+	stopExecutedNote
+} from './performance/noteExecution.js';
+import { panicPerformance } from './performance/performancePanic.js';
+import { performanceState } from './performance/performanceState.js';
 import { bindInputListeners } from './keyboard/inputListeners.js';
-import { frequencyForNote, noteFrequencies, noteNames } from './keyboard/noteData.js';
-import { resolveNoteVisuals, triggerConfiguredChord } from './keyboard/noteInputHelpers.js';
-import { recordInputEnd, recordInputStart } from './performance/inputRecording.js';
-import { clearDeferred, deferRelease, panicDeferred } from './performance/pedal.js';
-import { elements } from './ui.js';
-import { showRealtimeEffect } from './visual/liveEffects.js';
 
-export { noteFrequencies, noteNames };
+export {
+	noteFrequencies,
+	noteNames
+} from './keyboard/noteData.js';
 
-/** Binds pointer, desktop keyboard, blur, visibility, and split-scroll input once. */
+const inputOwners = new Map();
+
+/**
+ * Binds pointer, desktop-key, focus, and panic listeners to the performance router.
+ *
+ * @returns {void}
+ */
 export function setupInputListeners() {
 	bindInputListeners({
 		noteOn: triggerNoteOn,
@@ -36,63 +46,74 @@ export function setupInputListeners() {
 }
 
 /**
- * Starts one musical voice and the correct set of visual key copies.
+ * Routes one note-on through the currently selected performance mode.
  *
- * @param {string} noteName Full note name such as C4.
- * @param {string|number} inputId Stable pointer, keyboard, or MIDI identity.
- * @param {{x:number,y:number}} coords Performance coordinates.
- * @param {HTMLElement|null} keyElement Primary visible key, when available.
- * @param {boolean} mirrorVisuals Whether every DOM copy should illuminate.
+ * @param {string} noteName - Scientific pitch name.
+ * @param {string|number} inputId - Stable physical/MIDI owner.
+ * @param {Object} [coords] - Pointer or MIDI performance data.
+ * @param {HTMLElement|null} [keyElement=null] - Optional directly hit key.
+ * @param {boolean} [mirrorVisuals=false] - Whether both rows should illuminate.
+ * @returns {Object|null|undefined} Active note when direct synthesis is used.
  */
-export function triggerNoteOn(noteName, inputId, coords, keyElement = null, mirrorVisuals = false) {
-	if (activeNotes.has(inputId)) {
-		triggerNoteOff(inputId);
+export function triggerNoteOn(
+	noteName,
+	inputId,
+	coords = {},
+	keyElement = null,
+	mirrorVisuals = false
+) {
+	triggerNoteOff(inputId);
+	if (performanceState.arpEnabled) {
+		inputOwners.set(inputId, 'arp');
+		holdArpeggiatorNote(noteName, inputId, coords);
+		return undefined;
 	}
-	const frequency = frequencyForNote(noteName);
-	const keyElements = resolveNoteVisuals(noteName, keyElement, mirrorVisuals);
-	const primaryElement = keyElements[0];
-	if (!frequency || !primaryElement) {
-		return;
-	}
-	enforceVoiceLimit();
-	triggerConfiguredChord(noteName);
-	clearDeferred(inputId);
-	const synthNodes = createSynthNode(false, false, { inputId, coords });
-	if (!synthNodes) {
-		return;
-	}
-	startSynth(synthNodes, frequency, noteName);
-	const activeNote = {
-		synthNodes,
-		keyElement: primaryElement,
-		keyElements,
-		noteName
+	const options = {
+		keyElement,
+		mirrorVisuals
 	};
-	activeNotes.set(inputId, activeNote);
-	activateNoteVisuals(keyElements);
-	showRealtimeEffect(primaryElement, noteName, coords);
-	recordInputStart(activeNote, noteName, coords);
+	if (performanceState.voiceMode !== 'poly') {
+		inputOwners.set(inputId, 'mono');
+		return startMonoNote(
+			noteName,
+			inputId,
+			coords,
+			{
+				...options,
+				triggerChord: false
+			}
+		);
+	}
+	inputOwners.set(inputId, 'poly');
+	return startExecutedNote(
+		noteName,
+		inputId,
+		coords,
+		options
+	);
 }
 
-/** Releases one musical input and clears every visual copy retained for it. */
+/**
+ * Releases one input through the same owner selected at note-on time.
+ *
+ * @param {string|number} inputId - Stable physical/MIDI owner.
+ * @returns {void}
+ */
 export function triggerNoteOff(inputId) {
-	const activeNote = activeNotes.get(inputId);
-	if (!activeNote) {
+	const owner = inputOwners.get(inputId);
+	inputOwners.delete(inputId);
+	if (owner === 'arp') {
+		releaseArpeggiatorNote(inputId);
 		return;
 	}
-	if (!deferRelease(inputId, activeNote)) {
-		stopSynth(activeNote.synthNodes);
+	if (owner === 'mono') {
+		stopMonoNote(inputId);
+		return;
 	}
-	deactivateNoteVisuals(activeNote.keyElements || [activeNote.keyElement]);
-	const noteName = activeNote.noteName || activeNote.keyElement?.dataset.note || '';
-	activeNotes.delete(inputId);
-	if (activeNotes.size === 0 && elements.playChordsCheckbox.checked) {
-		clearCurrentChord();
-	}
-	recordInputEnd(activeNote, noteName);
+	stopExecutedNote(inputId);
 }
 
 function panicEverything() {
-	panicStopAll();
-	panicDeferred(stopSynth);
+	inputOwners.clear();
+	panicPerformance();
 }

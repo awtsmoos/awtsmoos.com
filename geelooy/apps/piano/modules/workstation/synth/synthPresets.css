@@ -1,0 +1,109 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos is beyond favorites and categories; Awtsmoos.com turns forty-six patches into searchable musical rooms,
+ * giving each sound enough space to say what it is without making the preset list itself louder than the instrument.
+ */
+.pro-synth-preset-browser {
+	background: #171717;
+	border: 1px solid #303030;
+	border-radius: 12px;
+	padding: 10px;
+}
+.pro-synth-preset-controls {
+	display: grid;
+	grid-template-columns: minmax(130px, 1fr) auto auto auto;
+	gap: 7px;
+	align-items: center;
+}
+.pro-synth-preset-controls input,
+.pro-synth-preset-controls select,
+.preset-surprise {
+	min-height: 36px;
+	border: 1px solid #444;
+	border-radius: 8px;
+	background: #242424;
+	color: #fff;
+	padding: 6px 8px;
+}
+.preset-result-count {
+	font-size: 10px;
+	color: #aaa;
+	white-space: nowrap;
+}
+.pro-synth-preset-list {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 7px;
+	max-height: 260px;
+	overflow: auto;
+	margin-top: 9px;
+}
+.pro-synth-preset-card {
+	position: relative;
+	display: grid;
+	gap: 4px;
+	min-height: 94px;
+	padding: 9px 34px 9px 9px;
+	border: 1px solid #363636;
+	border-radius: 10px;
+	background: #202020;
+	color: #fff;
+	cursor: pointer;
+	outline: none;
+}
+.pro-synth-preset-card:hover,
+.pro-synth-preset-card:focus-visible {
+	border-color: #777;
+	background: #292929;
+}
+.pro-synth-preset-card.selected {
+	border-color: #8acbff;
+	box-shadow: inset 0 0 0 1px #8acbff;
+}
+.preset-card-heading {
+	font-size: 11px;
+	font-weight: 800;
+}
+.preset-card-category {
+	width: max-content;
+	max-width: 100%;
+	padding: 2px 5px;
+	border-radius: 6px;
+	background: #333;
+	font-size: 8px;
+	color: #c9e6ff;
+}
+.preset-card-description {
+	font-size: 9px;
+	line-height: 1.25;
+	color: #aaa;
+}
+.preset-favorite {
+	position: absolute;
+	top: 6px;
+	right: 6px;
+	width: 28px;
+	height: 28px;
+	border: 0;
+	border-radius: 8px;
+	background: #151515;
+	color: #ffd46c;
+	font-size: 17px;
+}
+.preset-browser-empty {
+	grid-column: 1 / -1;
+	padding: 18px;
+	text-align: center;
+	color: #aaa;
+}
+@media (max-width: 620px) {
+	.pro-synth-preset-controls {
+		grid-template-columns: 1fr 1fr;
+	}
+	.pro-synth-preset-list {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		max-height: 230px;
+	}
+}
