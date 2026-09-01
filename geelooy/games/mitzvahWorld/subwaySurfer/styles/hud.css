@@ -11,7 +11,7 @@
 	position: absolute;
 	top: var(--peruta-safe-top);
 	left: var(--peruta-safe-left);
-	right: var(--peruta-safe-right);
+	right: calc(var(--peruta-safe-right) + 170px);
 	z-index: var(--peruta-layer-hud);
 	display: flex;
 	align-items: center;
@@ -82,7 +82,6 @@
 
 @media (max-width: 800px), (pointer: coarse) {
 	.peruta-run-route .hud {
-		right: calc(var(--peruta-safe-right) + 116px);
 		display: grid;
 		grid-template-columns: repeat(3, minmax(0, 1fr));
 		gap: 5px;
@@ -104,11 +103,5 @@
 	.peruta-run-route .metric span {
 		font-size: clamp(0.46rem, 2vw, 0.54rem);
 		letter-spacing: 0.07em;
-	}
-}
-
-@media (max-width: 350px) {
-	.peruta-run-route .hud {
-		right: calc(var(--peruta-safe-right) + 108px);
 	}
 }

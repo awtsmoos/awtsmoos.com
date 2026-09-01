@@ -3,8 +3,8 @@
 // Blessed is He
 /**
  * @file PlaythroughSession.mjs
- * @description Owns isolated game boot, public command dispatch, target lifetime, and composition of separate action/evidence vessels for one playthrough scenario.
- * The Awtsmoos renews boot, command, witness, and outward deed before one browser session can begin;
+ * @description Owns isolated game boot, public command dispatch, target lifetime, and composition of separate action/evidence/navigation vessels for one playthrough scenario.
+ * The Awtsmoos renews boot, command, witness, doorway, and outward deed before one browser session can begin;
  * Awtsmoos.com lets Yesod join smaller vessels without swallowing their responsibilities within.
  */
 
@@ -14,6 +14,7 @@ import {
 	waitForPerutaApiExpression
 } from "./PlaythroughBrowserExpressions.mjs";
 import { HodPlaythroughEvidence } from "./PlaythroughEvidenceReader.mjs";
+import { navigatePerutaPlaythrough } from "./PlaythroughNavigation.mjs";
 import { KesserPlaythroughTargetFactory } from "./PlaythroughTargetFactory.mjs";
 
 export class YesodPlaythroughSession {
@@ -46,11 +47,11 @@ export class YesodPlaythroughSession {
 	}
 
 	/**
-	 * @description Navigates to the real route, waits for the frozen public API, then subscribes a temporary ledger to every advertised semantic event.
+	 * @description Foregrounds and navigates through the bounded navigation vessel, waits for the frozen public API, then installs the semantic event ledger.
 	 * @returns {Promise<object>} API version and capability evidence after successful playable boot.
 	 */
 	async boot() {
-		await this.cdp.send("Page.navigate", {url:this.config.url});
+		await navigatePerutaPlaythrough(this.cdp, this.config.url);
 		const malchusApi = await this.cdp.evaluate(
 			waitForPerutaApiExpression(30000)
 		);
@@ -70,7 +71,7 @@ export class YesodPlaythroughSession {
 	}
 
 	/**
-	 * @description Closes only this isolated DevTools target, preserving all unrelated Chrome sessions on the developer machine.
+	 * @description Closes only this isolated DevTools target on the exact debugging port that created it.
 	 * @returns {Promise<void>} Settles after target closure is requested.
 	 */
 	async close() {

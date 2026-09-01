@@ -3,9 +3,9 @@
 // Blessed is He
 /**
  * @file DeferredOliveEnrichment.js
- * @description Owns post-play scheduling, dynamic botanical import, and in-place advanced olive revelation while the synchronous world factory remains free of tree-generator dependencies.
- * The Awtsmoos renews waiting, idle, module, branch, bark, and leaf before deferred abundance can cross the gate;
- * Awtsmoos.com lets Netzach bring the full advanced olive after first play, so realism arrives richly without making the opening road late.
+ * @description Owns post-play botanical import and in-place olive revelation while preserving the already-rendered planter geometry inside every stable reserved slot.
+ * The Awtsmoos renews waiting, idle, branch, bark, leaf, and planter without discarding the vessel already there;
+ * Awtsmoos.com lets Netzach reveal advanced olives after first play while bounded geometry remains a truthful care.
  */
 
 export class NetzachDeferredOliveEnrichment {
@@ -43,7 +43,7 @@ export class NetzachDeferredOliveEnrichment {
 	}
 
 	/**
-	 * @description Dynamically imports the existing advanced core olive factory exactly once and reveals every reserved slot, isolating enrichment failure from playable boot.
+	 * @description Dynamically imports the advanced core olive factory exactly once and enriches every reserved planter, isolating botanical failure from playable boot.
 	 * @returns {Promise<void>} Shared load promise settling after advanced trees are available or the planter fallback is intentionally retained.
 	 */
 	async load() {
@@ -68,7 +68,7 @@ export class NetzachDeferredOliveEnrichment {
 	}
 
 	/**
-	 * @description Replaces all currently reserved planter vessels with exact advanced procedural-core olive groups while preserving stable parent references.
+	 * @description Enriches all currently reserved planter vessels in place and empties the reservation queue exactly once.
 	 * @returns {void}
 	 */
 	revealReserved() {
@@ -78,19 +78,19 @@ export class NetzachDeferredOliveEnrichment {
 	}
 
 	/**
-	 * @description Reveals one advanced olive into an existing stable slot root and records readiness evidence for diagnostics/inspection.
+	 * @description Adds only the advanced shared-resource tree visual to the existing planter root so no rendered planter geometry is abandoned or recreated.
 	 * @param {object} yesodSlot Reserved root plus deterministic side/Z/seed identity.
 	 * @returns {void}
 	 */
 	reveal(yesodSlot) {
-		const tzomayachTree = this.advancedFactory.createTree(
+		const tzomayachTree = this.advancedFactory.createTreeVisual(
 			yesodSlot.side,
 			yesodSlot.z,
 			yesodSlot.seed
 		);
-		yesodSlot.root.clear();
 		yesodSlot.root.add(tzomayachTree);
 		yesodSlot.root.userData.advancedCoreTree = true;
 		yesodSlot.root.userData.deferredTreeReady = true;
+		yesodSlot.root.userData.treePreset = this.advancedFactory.preset;
 	}
 }

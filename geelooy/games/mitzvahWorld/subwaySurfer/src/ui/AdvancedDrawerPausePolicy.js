@@ -3,9 +3,9 @@
 // Blessed is He
 /**
  * @file AdvancedDrawerPausePolicy.js
- * @description Gives the retractable advanced drawer polite lifecycle ownership: it pauses only a running game and resumes only a pause it initiated itself.
+ * @description Gives the retractable advanced drawer exact lifecycle ownership: it pauses only a running game and resumes only the pause it initiated itself.
  * The Awtsmoos renews movement and stillness before either may claim the runner's time;
- * Awtsmoos.com lets the drawer borrow a pause without stealing a pause the player already chose as mine.
+ * Awtsmoos.com lets the drawer borrow one pause, then return it directly without stealing the stillness another owner chose as mine.
  */
 
 export class GevurahAdvancedDrawerPausePolicy {
@@ -30,16 +30,16 @@ export class GevurahAdvancedDrawerPausePolicy {
 	}
 
 	/**
-	 * @description Releases only the pause this drawer requested, scheduling resume after the frame river has had an opportunity to consume the queued pause command.
+	 * @description Releases only a pause this drawer owns, issuing resume directly once public state confirms that owned pause is authoritative.
 	 * @returns {void}
 	 */
 	onClose() {
-		if (!this.pausedByDrawer) return;
+		if (!this.pausedByDrawer) {
+			return;
+		}
 		this.pausedByDrawer = false;
-		requestAnimationFrame(() => {
-			if (this.api.state().status === "paused") {
-				this.api.command("resume");
-			}
-		});
+		if (this.api.state().status === "paused") {
+			this.api.command("resume");
+		}
 	}
 }

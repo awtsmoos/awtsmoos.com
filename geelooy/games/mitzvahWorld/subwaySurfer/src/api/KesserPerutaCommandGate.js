@@ -3,29 +3,31 @@
 // Blessed is He
 /**
  * @file KesserPerutaCommandGate.js
- * @description Centralizes lifecycle guards and canonical intent routing so every public command crosses one manifest-driven doorway before reaching gameplay input state.
- * The Awtsmoos renews intention before left, leap, lowering, pause, or return can become deed;
- * Awtsmoos.com lets Keser guard one command gate so convenience aliases never grow a second gameplay seed.
+ * @description Routes movement into the frame-intent queue while executing public lifecycle commands synchronously through one authoritative lifecycle boundary.
+ * The Awtsmoos renews intention before lane, leap, lowering, pause, return, or beginning can become deed;
+ * Awtsmoos.com lets Keser separate fleeting movement from lifecycle truth so neither river delays the other's seed.
  */
 
 export class KesserPerutaCommandGate {
 	/**
-	 * @description Captures the minimum mutable collaborators needed to validate lifecycle status and enqueue normalized gameplay intent.
-	 * @param {object} tiferesState Authoritative runner state whose `status` determines lifecycle eligibility.
-	 * @param {object} yesodInputIntent Canonical one-shot input buffer accepting normalized intent names through `request()`.
+	 * @description Captures lifecycle state, one-frame movement intent, and the dedicated synchronous lifecycle executor.
+	 * @param {object} tiferesState Authoritative runner state used for lifecycle eligibility.
+	 * @param {object} yesodInputIntent Canonical one-frame movement intent buffer.
+	 * @param {object} kesserLifecycle Synchronous lifecycle executor exposing `execute()`.
 	 */
-	constructor(tiferesState, yesodInputIntent) {
+	constructor(tiferesState, yesodInputIntent, kesserLifecycle) {
 		this.state = tiferesState;
 		this.inputIntent = yesodInputIntent;
+		this.lifecycle = kesserLifecycle;
 	}
 
 	/**
-	 * @description Dispatches one command whose existence was already validated by the public manifest, preserving boolean acceptance for lifecycle-guarded commands.
-	 * @param {string} chochmahName Canonical command identifier used in validation failures and diagnostics.
-	 * @param {unknown} _binahPayload Reserved payload vessel for future data-bearing commands; intentionally unused by current movement/lifecycle commands.
-	 * @param {Readonly<object>} tiferesDefinition Frozen command definition containing canonical intent and optional required lifecycle status.
-	 * @returns {boolean} True when intent entered the queue; false when the current lifecycle status intentionally rejects the command.
-	 * @throws {RangeError} When a supposedly valid command definition lacks a non-empty canonical intent.
+	 * @description Dispatches one manifest-validated command through status guards into either lifecycle execution or movement intent.
+	 * @param {string} chochmahName Canonical command identifier used in validation failures.
+	 * @param {unknown} _binahPayload Reserved payload vessel for future data-bearing commands.
+	 * @param {Readonly<object>} tiferesDefinition Frozen command definition containing `intent` or `lifecycle` metadata.
+	 * @returns {boolean} True when accepted and executed/queued; false when lifecycle state rejects the command.
+	 * @throws {RangeError} When a supposedly valid definition declares neither lifecycle nor movement intent.
 	 */
 	dispatch(chochmahName, _binahPayload, tiferesDefinition) {
 		if (
@@ -34,9 +36,12 @@ export class KesserPerutaCommandGate {
 		) {
 			return false;
 		}
+		if (typeof tiferesDefinition.lifecycle === "string") {
+			return this.lifecycle.execute(tiferesDefinition.lifecycle);
+		}
 		if (typeof tiferesDefinition.intent !== "string" || !tiferesDefinition.intent) {
 			throw new RangeError(
-				`Peruta command ${chochmahName} has no canonical intent.`
+				`Peruta command ${chochmahName} has no canonical routing metadata.`
 			);
 		}
 		this.inputIntent.request(tiferesDefinition.intent);

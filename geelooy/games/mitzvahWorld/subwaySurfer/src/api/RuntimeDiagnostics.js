@@ -3,7 +3,7 @@
 // Blessed is He
 /**
  * @file RuntimeDiagnostics.js
- * @description Projects bounded renderer, camera, body, texture, world, and semantic-obstacle evidence while retaining no authority to mutate those systems.
+ * @description Projects bounded renderer, camera, body, texture, world, and complete pooled semantic-obstacle evidence while retaining no authority to mutate those systems.
  * The Awtsmoos renews frame, camera, texture, body, and road before Daas can measure their finite sign;
  * Awtsmoos.com lets evidence illuminate performance and gameplay without handing mutable ownership across the API line.
  */
@@ -12,7 +12,7 @@ import { API_VERSION } from "../config.js";
 
 export class DaasRuntimeDiagnostics {
 	/**
-	 * @description Captures read-only collaborating services and initializes a smoothed FPS estimator whose early samples converge faster than its settled state.
+	 * @description Captures read-only collaborators and initializes a smoothed FPS estimator whose early samples converge faster than its settled state.
 	 * @param {object} chochmahDependencies Renderer, camera, state, world, runner, quality profile, and optional photographic surface library.
 	 */
 	constructor(chochmahDependencies) {
@@ -22,7 +22,7 @@ export class DaasRuntimeDiagnostics {
 	}
 
 	/**
-	 * @description Updates exponential FPS evidence from one positive frame duration, clamping extreme tiny deltas so diagnostics do not report meaningless infinity-like spikes.
+	 * @description Updates exponential FPS evidence from one positive frame duration, clamping extreme tiny deltas so diagnostics avoid meaningless spikes.
 	 * @param {number} tiferesDelta Current bounded frame duration in seconds.
 	 * @returns {void}
 	 */
@@ -35,8 +35,8 @@ export class DaasRuntimeDiagnostics {
 	}
 
 	/**
-	 * @description Creates one detached diagnostic evidence record describing current presentation cost, body envelope, semantic road content, texture hydration, and gameplay state.
-	 * @returns {Readonly<object>} Shallow-frozen evidence; public protocol detachment subsequently deep-freezes nested data for external consumers.
+	 * @description Creates detached diagnostic evidence covering presentation cost, body envelope, every pooled semantic hazard, texture hydration, and gameplay state.
+	 * @returns {Readonly<object>} Shallow-frozen evidence; public protocol detachment deep-freezes nested data for external consumers.
 	 */
 	snapshot() {
 		const tiferesRender = this.renderer.info?.render || {};
@@ -61,14 +61,14 @@ export class DaasRuntimeDiagnostics {
 			}),
 			chunkCount: this.world.chunks.length,
 			proceduralMeshCount: this.world.countProceduralMeshes(),
-			obstacles: this.world.activeObstacleEvidence(8),
+			obstacles: this.world.activeObstacleEvidence(18),
 			surfaces: this.surfaceLibrary?.diagnostics?.() || null,
 			...this.state.snapshot()
 		});
 	}
 
 	/**
-	 * @description Projects only the framing values needed to detect camera drift or responsive mistakes without exposing the mutable Three camera.
+	 * @description Projects only framing values needed to detect camera drift or responsive mistakes without exposing mutable Three camera ownership.
 	 * @returns {Readonly<object>} Frozen FOV, aspect, and XYZ camera position evidence.
 	 */
 	cameraEvidence() {
@@ -83,7 +83,7 @@ export class DaasRuntimeDiagnostics {
 }
 
 /**
- * @description Normalizes one numeric diagnostic value to a bounded decimal precision while converting missing/non-numeric values to zero for stable serialization.
+ * @description Normalizes one numeric diagnostic value to bounded decimal precision while converting missing/non-numeric values to zero for stable serialization.
  * @param {number} yesodValue Candidate numeric evidence value.
  * @param {number} netzachDigits Non-negative decimal precision used by `toFixed()`.
  * @returns {number} Finite rounded diagnostic number.

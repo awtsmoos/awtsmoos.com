@@ -3,37 +3,38 @@
 // Blessed is He
 /**
  * @file PlaythroughControlScenario.mjs
- * @description Proves public lane/jump/duck commands and real keyboard lane movement through observable runner state and collision-body evidence.
- * The Awtsmoos renews lane, leap, lowering, key, and body before control can be called alive;
- * Awtsmoos.com lets Tiferes compare public intention with physical keyboard deed while every result remains visible in the drive.
+ * @description Proves public lane/jump/duck commands and real keyboard lane movement from independent fresh runs with frame-robust body observation.
+ * The Awtsmoos renews lane, leap, lowering, key, and body before each proof can be called alive;
+ * Awtsmoos.com lets Tiferes wait for actual motion instead of mistaking one overloaded instant for the whole drive.
  */
+
+import { waitForPlaythroughBodyState } from "./PlaythroughBodyStateObserver.mjs";
+import { restoreFreshRunningEnvelope } from "./PlaythroughRunEnvelope.mjs";
 
 export class TiferesPlaythroughControlScenario {
 	/**
 	 * @description Captures one connected browser session and shared report ledger used for control evidence.
-	 * @param {object} yesodSession Connected playthrough session exposing public commands, actions, and evidence.
-	 * @param {object} hodReport Mutable playthrough report receiving checkpoints and findings.
+	 * @param {object} yesodSession Connected playthrough session.
+	 * @param {object} hodReport Mutable playthrough report.
 	 */
 	constructor(yesodSession, hodReport) {
 		this.session = yesodSession;
 		this.report = hodReport;
 	}
 
-	/**
-	 * @description Executes public left/right/jump/duck commands followed by physical ArrowLeft/ArrowRight keyboard presses and validates observable state changes.
-	 * @returns {Promise<void>} Settles after all control checkpoints are recorded.
-	 */
+	/** @description Executes four independent control proof families from fresh running envelopes. @returns {Promise<void>} Settles after all checkpoints. */
 	async run() {
+		await restoreFreshRunningEnvelope(this.session);
 		await this.proveLaneCommands();
+		await restoreFreshRunningEnvelope(this.session);
 		await this.proveJump();
+		await restoreFreshRunningEnvelope(this.session);
 		await this.proveDuck();
+		await restoreFreshRunningEnvelope(this.session);
 		await this.proveKeyboardLaneChange();
 	}
 
-	/**
-	 * @description Verifies a public left command decreases lane index and a right command can return toward the starting lane.
-	 * @returns {Promise<void>} Settles after lane checkpoints.
-	 */
+	/** @description Verifies public left decreases lane index and right returns toward center. @returns {Promise<void>} Settles after lane evidence. */
 	async proveLaneCommands() {
 		const malchusStart = await this.session.evidence.snapshot();
 		await this.session.command("left");
@@ -41,58 +42,42 @@ export class TiferesPlaythroughControlScenario {
 		const malchusLeft = await this.session.evidence.snapshot();
 		this.report.checkpoint("public-left", malchusLeft);
 		if (malchusLeft.state?.laneIndex >= malchusStart.state?.laneIndex) {
-			this.report.issue(
-				"BLOCKER",
-				"Public left command did not move the runner left.",
-				{start:malchusStart.state, after:malchusLeft.state}
-			);
+			this.report.issue("BLOCKER", "Public left command did not move the runner left.", {
+				start:malchusStart.state,
+				after:malchusLeft.state
+			});
 		}
 		await this.session.command("right");
 		await this.session.actions.wait(180);
 	}
 
-	/**
-	 * @description Issues one public jump command and proves the collision body's live `jumpY` becomes positive before waiting for landing recovery.
-	 * @returns {Promise<void>} Settles after jump evidence and landing delay.
-	 */
+	/** @description Issues public jump and polls until the live collision body reveals positive jump height. @returns {Promise<void>} Settles after bounded jump evidence. */
 	async proveJump() {
 		await this.session.command("jump");
-		await this.session.actions.wait(110);
-		const malchusJump = await this.session.evidence.snapshot();
+		const malchusJump = await waitForPlaythroughBodyState(
+			this.session,
+			(gevurahBody) => Number(gevurahBody.jumpY || 0) > 0
+		);
 		this.report.checkpoint("public-jump", malchusJump);
 		if (!(malchusJump.diagnostics?.body?.jumpY > 0)) {
-			this.report.issue(
-				"BLOCKER",
-				"Public jump command produced no positive jumpY.",
-				malchusJump.diagnostics?.body
-			);
+			this.report.issue("BLOCKER", "Public jump command produced no positive jumpY.", malchusJump.diagnostics?.body);
 		}
-		await this.session.actions.wait(760);
 	}
 
-	/**
-	 * @description Issues one public duck command and proves the collision body enters ducking state before allowing its bounded timer to recover.
-	 * @returns {Promise<void>} Settles after duck evidence and recovery delay.
-	 */
+	/** @description Issues public duck from grounded state and polls until the live collision body enters ducking state. @returns {Promise<void>} Settles after bounded duck evidence. */
 	async proveDuck() {
 		await this.session.command("duck");
-		await this.session.actions.wait(80);
-		const malchusDuck = await this.session.evidence.snapshot();
+		const malchusDuck = await waitForPlaythroughBodyState(
+			this.session,
+			(gevurahBody) => Boolean(gevurahBody.ducking)
+		);
 		this.report.checkpoint("public-duck", malchusDuck);
 		if (!malchusDuck.diagnostics?.body?.ducking) {
-			this.report.issue(
-				"BLOCKER",
-				"Public duck command did not enter duck body state.",
-				malchusDuck.diagnostics?.body
-			);
+			this.report.issue("BLOCKER", "Public duck command did not enter duck body state.", malchusDuck.diagnostics?.body);
 		}
-		await this.session.actions.wait(760);
 	}
 
-	/**
-	 * @description Dispatches real DevTools keyboard events and proves ArrowLeft changes lane independently from the public command helper.
-	 * @returns {Promise<void>} Settles after keyboard lane evidence and a return ArrowRight press.
-	 */
+	/** @description Dispatches real DevTools keyboard events and proves ArrowLeft changes lane. @returns {Promise<void>} Settles after keyboard evidence. */
 	async proveKeyboardLaneChange() {
 		const malchusBefore = await this.session.evidence.snapshot();
 		await this.session.actions.key("ArrowLeft", "ArrowLeft");
@@ -100,11 +85,10 @@ export class TiferesPlaythroughControlScenario {
 		const malchusAfter = await this.session.evidence.snapshot();
 		this.report.checkpoint("keyboard-left", malchusAfter);
 		if (malchusAfter.state?.laneIndex >= malchusBefore.state?.laneIndex) {
-			this.report.issue(
-				"MAJOR",
-				"Real ArrowLeft keyboard input did not change lane left.",
-				{before:malchusBefore.state, after:malchusAfter.state}
-			);
+			this.report.issue("MAJOR", "Real ArrowLeft keyboard input did not change lane left.", {
+				before:malchusBefore.state,
+				after:malchusAfter.state
+			});
 		}
 		await this.session.actions.key("ArrowRight", "ArrowRight");
 		await this.session.actions.wait(180);

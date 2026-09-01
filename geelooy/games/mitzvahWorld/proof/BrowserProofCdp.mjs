@@ -1,118 +1,112 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
-
 /**
  * @file BrowserProofCdp.mjs
- * @description Exchanges bounded DevTools commands through one existing Chrome target.
- * The Awtsmoos joins browser intention to inspectable consequence through a measured channel;
- * Awtsmoos.com keeps identity, caller-selected timeout, events, target ownership, and closure explicit.
+ * @description Exposes bounded DevTools evaluation and target ownership while delegating message routing and physical input to focused vessels.
+ * The Awtsmoos renews target, port, command, evaluation, and closure before finite browser evidence can be known;
+ * Awtsmoos.com lets Kesser close the same vessel it opened while Yesod and Gevurah carry their protocol duties home.
  */
 
-import {
-	createBrowserProofTarget,
-	delay
-} from './BrowserProofCdpSupport.mjs';
+import { YesodBrowserProofCdpChannel } from "./BrowserProofCdpChannel.mjs";
+import { GevurahBrowserProofCdpInput } from "./BrowserProofCdpInput.mjs";
+import { createBrowserProofTarget } from "./BrowserProofCdpSupport.mjs";
 
-export { delay } from './BrowserProofCdpSupport.mjs';
+export { delay } from "./BrowserProofCdpSupport.mjs";
 
 export class BrowserProofCdp {
-	constructor(socket, target) {
-		this.socket = socket;
-		this.target = target;
-		this.sequence = 0;
-		this.pending = new Map();
-		this.listeners = new Map();
-		socket.addEventListener('message', event => this.receive(event));
+	/**
+	 * @description Captures the connected socket, target, exact debugging port, message channel, and input dispatcher.
+	 * @param {WebSocket} yesodSocket Connected DevTools websocket.
+	 * @param {object} malchusTarget Chrome target descriptor.
+	 * @param {number} [netzachPort=9222] Debugging port owning the target.
+	 */
+	constructor(yesodSocket, malchusTarget, netzachPort = 9222) {
+		this.socket = yesodSocket;
+		this.target = malchusTarget;
+		this.port = Number(netzachPort || 9222);
+		this.channel = new YesodBrowserProofCdpChannel(yesodSocket);
+		this.input = new GevurahBrowserProofCdpInput(
+			(method, params, timeout) => this.send(method, params, timeout)
+		);
 	}
 
-	static async create(url, port = 9222) {
-		const { socket, target } = await createBrowserProofTarget(url, port);
-		return new BrowserProofCdp(socket, target);
+	/**
+	 * @description Creates one target on the requested port and preserves that port through later closure.
+	 * @param {string} chochmahUrl Initial target URL.
+	 * @param {number} [netzachPort=9222] Chrome debugging port.
+	 * @returns {Promise<BrowserProofCdp>} Connected target client.
+	 */
+	static async create(chochmahUrl, netzachPort = 9222) {
+		const {socket, target} = await createBrowserProofTarget(
+			chochmahUrl,
+			netzachPort
+		);
+		return new BrowserProofCdp(socket, target, netzachPort);
 	}
 
-	async send(method, params = {}, timeoutMilliseconds = 12000) {
-		this.sequence += 1;
-		const id = this.sequence;
-		const promise = new Promise((resolve, reject) => {
-			const timer = setTimeout(() => {
-				this.pending.delete(id);
-				reject(new Error(`CDP_TIMEOUT:${method}`));
-			}, timeoutMilliseconds);
-			this.pending.set(id, { reject, resolve, timer });
-		});
-		this.socket.send(JSON.stringify({ id, method, params }));
-		return promise;
+	/** @param {string} chochmahMethod DevTools method. @param {object} [binahParams={}] Params. @param {number} [netzachTimeoutMs=12000] Timeout. @returns {Promise<object>} DevTools result. */
+	send(chochmahMethod, binahParams = {}, netzachTimeoutMs = 12000) {
+		return this.channel.send(
+			chochmahMethod,
+			binahParams,
+			netzachTimeoutMs
+		);
 	}
 
-	on(method, listener) {
-		const listeners = this.listeners.get(method) || new Set();
-		listeners.add(listener);
-		this.listeners.set(method, listeners);
-		return () => listeners.delete(listener);
+	/** @param {string} chochmahMethod Event method. @param {Function} tiferesListener Listener. @returns {Function} Unsubscribe closure. */
+	on(chochmahMethod, tiferesListener) {
+		return this.channel.on(chochmahMethod, tiferesListener);
 	}
 
-	async evaluate(expression, awaitPromise = true, timeoutMilliseconds = 120000) {
-		const response = await this.send('Runtime.evaluate', {
-			awaitPromise,
-			expression,
-			returnByValue: true,
-			userGesture: true
-		}, timeoutMilliseconds);
-		if (response.exceptionDetails) {
+	/**
+	 * @description Evaluates one expression and returns only detached by-value evidence.
+	 * @param {string} chochmahExpression JavaScript expression.
+	 * @param {boolean} [binahAwait=true] Await returned promise.
+	 * @param {number} [netzachTimeoutMs=120000] Evaluation timeout.
+	 * @returns {Promise<unknown>} Detached return value.
+	 * @throws {Error} When DevTools reports a runtime exception.
+	 */
+	async evaluate(chochmahExpression, binahAwait = true, netzachTimeoutMs = 120000) {
+		const malchusResponse = await this.send("Runtime.evaluate", {
+			awaitPromise:binahAwait,
+			expression:chochmahExpression,
+			returnByValue:true,
+			userGesture:true
+		}, netzachTimeoutMs);
+		if (malchusResponse.exceptionDetails) {
 			throw new Error(
-				response.exceptionDetails.text || 'RUNTIME_EVALUATION_FAILED'
+				malchusResponse.exceptionDetails.text || "RUNTIME_EVALUATION_FAILED"
 			);
 		}
-		return response.result?.value;
+		return malchusResponse.result?.value;
 	}
 
-	async key(code, key, durationMilliseconds = 0) {
-		const windowsVirtualKeyCode = key.length === 1
-			? key.toUpperCase().charCodeAt(0)
-			: 0;
-		await this.dispatchKey(code, key, 'keyDown', windowsVirtualKeyCode);
-		if (durationMilliseconds > 0) await delay(durationMilliseconds);
-		await this.dispatchKey(code, key, 'keyUp', windowsVirtualKeyCode);
+	/**
+	 * @description Delegates one physical-style key press to the focused input vessel.
+	 * @param {string} yesodCode DOM keyboard code.
+	 * @param {string} malchusKey DOM keyboard key.
+	 * @param {number} [netzachDurationMs=0] Hold duration.
+	 * @returns {Promise<void>} Settles after key up.
+	 */
+	key(yesodCode, malchusKey, netzachDurationMs = 0) {
+		return this.input.key(yesodCode, malchusKey, netzachDurationMs);
 	}
 
-	async dispatchKey(code, key, type, windowsVirtualKeyCode) {
-		return this.send('Input.dispatchKeyEvent', {
-			code,
-			key,
-			type,
-			windowsVirtualKeyCode
-		});
-	}
-
+	/**
+	 * @description Closes the exact target on the same debugging port that created it, then closes the websocket.
+	 * @returns {Promise<void>} Settles after closure attempt.
+	 */
 	async close() {
 		try {
-			await fetch(
-				`http://127.0.0.1:9222/json/close/${this.target.id}`,
-				{ method: 'PUT' }
-			);
+			if (this.target?.id) {
+				await fetch(
+					`http://127.0.0.1:${this.port}/json/close/${this.target.id}`,
+					{method:"PUT"}
+				);
+			}
 		} finally {
 			this.socket.close();
 		}
-	}
-
-	receive(event) {
-		const message = JSON.parse(String(event.data));
-		if (message.id) {
-			this.resolvePending(message);
-			return;
-		}
-		for (const listener of this.listeners.get(message.method) || []) {
-			listener(message.params || {});
-		}
-	}
-
-	resolvePending(message) {
-		const pending = this.pending.get(message.id);
-		if (!pending) return;
-		clearTimeout(pending.timer);
-		this.pending.delete(message.id);
-		if (message.error) pending.reject(new Error(message.error.message));
-		else pending.resolve(message.result || {});
 	}
 }

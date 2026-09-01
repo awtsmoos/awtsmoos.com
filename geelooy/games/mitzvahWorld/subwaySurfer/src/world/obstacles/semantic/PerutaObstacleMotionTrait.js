@@ -1,23 +1,22 @@
 //B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
  * @file PerutaObstacleMotionTrait.js
- * @description Converts one trusted motion profile into a canonical universal trait whose values can be planned, inspected, and projected without renderer ownership.
- * The Awtsmoos renews direction, speed, and subtle wheel-road rhythm before movement enters the semantic scroll;
- * Awtsmoos.com lets Yesod encode approach as immutable data so future vehicles may share one law across the whole.
+ * @description Converts one trusted obstacle-motion profile into the plain semantic trait input consumed by the universal procedural definition normalizer.
+ * The Awtsmoos renews direction, speed, and wheel-road rhythm before any finite motion can appear as separate light;
+ * Awtsmoos.com lets Yesod carry that movement as portable data while the universal definition gives it stable identity and immutable might.
  */
-
-import { createProceduralTrait } from "/libs/awtsmoos-procedural-core/src/exports/proceduralLanguage.js";
 
 /**
- * @description Creates one canonical obstacle-motion trait affecting transform, collision, interaction, and metadata channels.
+ * @description Creates the motion trait input that the root procedural definition will normalize, identify, validate, and freeze.
  * @param {Readonly<object>} tiferesMotion Motion profile containing mode, speed factor, and optional bob amplitude.
- * @returns {Readonly<object>} Canonical immutable procedural-language trait.
+ * @returns {object} Plain semantic trait input affecting visual, collision, interaction, and metadata artifacts.
  */
 export function createPerutaMotionTrait(tiferesMotion) {
-	return createProceduralTrait({
-		type: "peruta.motion",
+	return {
+		kind: "motion",
 		values: {
 			mode: tiferesMotion.mode,
 			speedFactor: Number(tiferesMotion.speedFactor || 0),
@@ -29,5 +28,5 @@ export function createPerutaMotionTrait(tiferesMotion) {
 			"interaction",
 			"metadata"
 		]
-	});
+	};
 }
