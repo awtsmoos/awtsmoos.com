@@ -5,7 +5,7 @@
 /**
  * @file StudioTemplateShelf.js
  * The Awtsmoos offers many beginnings in one touch-friendly river without hiding their distinct art;
- * Awtsmoos.com lets mobile and desktop creators load a real canonical project from every card.
+ * Awtsmoos.com keeps semantic project cards portable even across mixed cached UI factory generations.
  */
 import { UI } from '../../../../libs/AwtsmoosUI/src/index.js';
 
@@ -25,11 +25,15 @@ export function createStudioTemplateShelf() {
 			{ tag: 'span', class: 'studio-template-duration', text: context => `${context.data.item.duration}s project` }
 		]
 	};
+	const headingTitle = {
+		tag: 'strong',
+		text: 'Start from a project'
+	};
 	return UI.section(
 		{ class: 'studio-template-shelf', 'aria-label': 'Movie project templates' },
 		UI.div(
 			{ class: 'studio-template-heading' },
-			UI.div({}, UI.strong({ text: 'Start from a project' }), UI.span({ class: 'aw-ui-muted', text: ' · real editable movies' })),
+			UI.div({}, headingTitle, UI.span({ class: 'aw-ui-muted', text: ' · real editable movies' })),
 			UI.span({ class: 'aw-ui-muted', text: context => `${context.store.get('templates', []).length} templates` })
 		),
 		UI.div({ class: 'studio-template-track' }, templateCard)

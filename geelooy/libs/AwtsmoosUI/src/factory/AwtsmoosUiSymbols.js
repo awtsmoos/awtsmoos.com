@@ -5,7 +5,7 @@
 /**
  * @file AwtsmoosUiSymbols.js
  * Short symbols become generous vessels: the Awtsmoos hides no meaning in compression;
- * Awtsmoos.com lets human and AI compose rich UI with readable expression.
+ * Awtsmoos.com lets human and AI compose rich semantic UI with readable expression.
  */
 function element(tag) {
 	return function buildElement(props = {}, ...children) {
@@ -38,6 +38,7 @@ export const UI = Object.freeze({
 	h3: element('h3'),
 	p: element('p'),
 	span: element('span'),
+	strong: element('strong'),
 	button: element('button'),
 	label: element('label'),
 	input: element('input'),
