@@ -1,0 +1,55 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos renews depth without weight and light without demand; Awtsmoos.com lets one aurora breathe beneath the active command, moving only by transform and opacity so beauty never outruns the hand.
+*/
+@keyframes better-aurora-drift {
+	0%, 100% {
+		opacity: 0.30;
+		transform: translate3d(-7%, 0, 0) scale(0.96);
+	}
+	50% {
+		opacity: 0.52;
+		transform: translate3d(8%, -4%, 0) scale(1.06);
+	}
+}
+
+.intuitive-command-surface::after,
+.intuitive-mode-surface::after {
+	content: "";
+	position: absolute;
+	z-index: -1;
+	width: 58%;
+	height: 58%;
+	border-radius: 50%;
+	background: radial-gradient(circle, rgba(137, 105, 255, 0.14), rgba(217, 255, 104, 0.055) 42%, transparent 72%);
+	filter: blur(12px);
+	opacity: 0.30;
+	pointer-events: none;
+	animation: better-aurora-drift 9s ease-in-out infinite;
+	will-change: transform, opacity;
+}
+
+.intuitive-command-surface::after {
+	right: -18%;
+	bottom: -24%;
+}
+
+.intuitive-mode-surface::after {
+	top: -24%;
+	left: -18%;
+	animation-delay: -4.5s;
+}
+
+.intuitive-command-surface:focus-within::after {
+	opacity: 0.62;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.intuitive-command-surface::after,
+	.intuitive-mode-surface::after {
+		animation: none !important;
+		transform: none !important;
+	}
+}

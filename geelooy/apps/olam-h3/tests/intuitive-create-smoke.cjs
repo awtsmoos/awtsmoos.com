@@ -7,8 +7,8 @@ const CDP = require('chrome-remote-interface');
 const { BrowserWaits } = require('./browser-waits.cjs');
 
 /**
- * Measures simplicity where the hand actually meets the screen; the Awtsmoos lets many powers hide inside one clear path instead of crowding the eye.
- * Awtsmoos.com proves Prompt leads to Mode, optional wisdom stays folded, and living glass remains fast, focused, and quiet when motion should die.
+ * Measures simplicity where the hand meets the screen; the Awtsmoos lets Prompt and Mode remain ordered even when their glass edges join as one scene.
+ * Awtsmoos.com proves semantic sequence, bounded visual fusion, folded wisdom, living glass, and focused creation without mistaking empty space for clean.
  */
 async function revealIntuitiveConsole() {
 	const port = Number(process.env.OLAM_CDP_PORT || 9521);
@@ -47,8 +47,10 @@ async function verify(client, baseUrl) {
 	await waits.forCondition(`document.querySelector('.intuitive-command-surface')`, 'intuitive command surface');
 	await waits.forCondition(`document.querySelector('.intuitive-mode-surface')`, 'mode surface');
 
-	const layout = await waits.evaluate(`(()=>{const p=document.querySelector('.intuitive-command-surface');const m=document.querySelector('.intuitive-mode-surface');const d=document.querySelector('.intuitive-director-pulse');const s=document.querySelector('.intuitive-style-lanes');const t=document.querySelector('[data-prompt]');return {promptBottom:p.getBoundingClientRect().bottom,modeTop:m.getBoundingClientRect().top,modeBottom:m.getBoundingClientRect().bottom,directorTop:d.getBoundingClientRect().top,textareaHeight:t.getBoundingClientRect().height,directorOpen:d.open,stylesOpen:s.open,moreOpen:document.querySelector('.prompt-more').open,starters:document.querySelectorAll('[data-prompt-template]').length,overflow:document.documentElement.scrollWidth-innerWidth}})()`);
-	assert.ok(layout.promptBottom <= layout.modeTop + 1, 'Mode does not follow Prompt');
+	const layout = await waits.evaluate(`(()=>{const p=document.querySelector('.intuitive-command-surface');const m=document.querySelector('.intuitive-mode-surface');const d=document.querySelector('.intuitive-director-pulse');const s=document.querySelector('.intuitive-style-lanes');const t=document.querySelector('[data-prompt]');const order=Boolean(p.compareDocumentPosition(m)&Node.DOCUMENT_POSITION_FOLLOWING);return {promptBottom:p.getBoundingClientRect().bottom,modeTop:m.getBoundingClientRect().top,modeBottom:m.getBoundingClientRect().bottom,directorTop:d.getBoundingClientRect().top,textareaHeight:t.getBoundingClientRect().height,directorOpen:d.open,stylesOpen:s.open,moreOpen:document.querySelector('.prompt-more').open,starters:document.querySelectorAll('[data-prompt-template]').length,order,overflow:document.documentElement.scrollWidth-innerWidth}})()`);
+	const seam = layout.modeTop - layout.promptBottom;
+	assert.equal(layout.order, true, 'Mode must follow Prompt in document order');
+	assert.ok(Math.abs(seam) <= 2, `Prompt/Mode seam is too large: ${seam}px`);
 	assert.ok(layout.modeTop < 720, `Mode is still too far down: ${layout.modeTop}px`);
 	assert.ok(layout.modeBottom <= layout.directorTop + 1, 'Director appears before essential Mode');
 	assert.ok(layout.textareaHeight <= 200, `Prompt remains oversized: ${layout.textareaHeight}px`);
@@ -78,7 +80,7 @@ async function verify(client, baseUrl) {
 	assert.ok((await waits.evaluate('document.documentElement.scrollWidth-innerWidth')) <= 1, '360px layout overflows');
 	assert.deepEqual(errors, []);
 	assert.deepEqual(failed, []);
-	console.log(`PASS intuitive create: mode ${Math.round(layout.modeTop)}px, prompt ${Math.round(layout.textareaHeight)}px, folded intelligence, live glass`);
+	console.log(`PASS intuitive create: mode ${Math.round(layout.modeTop)}px, seam ${seam.toFixed(2)}px, folded intelligence, live glass`);
 }
 
 revealIntuitiveConsole().catch(error => {

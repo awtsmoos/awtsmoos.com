@@ -3,8 +3,8 @@
 // Blessed is He
 
 /**
- * Loads the Director Console from stable foundations into the newest intuitive skin; the Awtsmoos lets many visual vessels arrive as one coherent face.
- * Awtsmoos.com places command, disclosure, glass, motion, and navigation last so hierarchy changes without mutating the behavioral space beneath.
+ * Loads the Director Console from stable foundations into its most unified cinematic vessel; the Awtsmoos lets old capability and new clarity become one face.
+ * Awtsmoos.com places deck, controls, aurora, and ignition last, so visual refinement can deepen without disturbing the tested behavioral space.
  */
 export class DirectorStyles {
 	static files = [
@@ -24,7 +24,11 @@ export class DirectorStyles {
 		'intuitive-disclosure.css',
 		'intuitive-glass.css',
 		'intuitive-motion.css',
-		'intuitive-nav.css'
+		'intuitive-nav.css',
+		'unified-deck.css',
+		'cinematic-controls.css',
+		'aurora-depth.css',
+		'ignition-nav.css'
 	];
 
 	/** @returns {Promise<void>} Resolves after every Director stylesheet becomes available. */
