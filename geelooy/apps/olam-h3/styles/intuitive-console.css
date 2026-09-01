@@ -1,0 +1,101 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos gathers the first creative act into one readable vessel; Awtsmoos.com lets prompt, paste, library, and quick seeds glow near the hand while unnecessary controls wait outside the command.
+*/
+.intuitive-command-surface {
+	padding: 15px;
+}
+
+.intuitive-command-surface .section-heading {
+	margin-bottom: 10px;
+}
+
+.intuitive-command-surface .section-heading h2 {
+	font-size: clamp(27px, 7vw, 38px);
+	line-height: 1;
+}
+
+.intuitive-command-surface .prompt-input {
+	min-height: 158px;
+	max-height: 260px;
+	padding: 14px;
+	border-radius: 8px;
+}
+
+.intuitive-prompt-actions {
+	display: grid;
+	grid-template-columns: 1.1fr 1fr 0.82fr;
+	gap: 7px;
+	margin-top: 9px;
+}
+
+.intuitive-prompt-actions > button,
+.prompt-more > summary {
+	display: grid;
+	place-items: center;
+	min-height: 42px;
+	padding: 0 12px;
+	border-radius: 7px;
+}
+
+.prompt-more {
+	position: relative;
+}
+
+.prompt-more > summary {
+	list-style: none;
+	cursor: pointer;
+}
+
+.prompt-more > summary::-webkit-details-marker {
+	display: none;
+}
+
+.prompt-more-menu {
+	position: absolute;
+	right: 0;
+	top: calc(100% + 6px);
+	z-index: 30;
+	display: grid;
+	gap: 6px;
+	min-width: 132px;
+	padding: 7px;
+	border-radius: 8px;
+}
+
+.prompt-more-menu button {
+	min-height: 38px;
+	border-radius: 6px;
+}
+
+.intuitive-starters {
+	margin-top: 11px;
+}
+
+.intuitive-starters .mini-heading {
+	margin-bottom: 7px;
+}
+
+.intuitive-starters .template-strip {
+	gap: 7px;
+	padding-bottom: 2px;
+}
+
+.intuitive-starter {
+	min-width: 116px;
+	min-height: 54px;
+	padding: 9px 10px;
+	border-radius: 8px;
+}
+
+.intuitive-starter strong,
+.intuitive-starter span {
+	display: block;
+}
+
+.intuitive-starter span {
+	margin-top: 2px;
+	font-size: 10px;
+}

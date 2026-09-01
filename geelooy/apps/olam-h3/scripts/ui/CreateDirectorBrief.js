@@ -6,11 +6,11 @@ import { Dom } from './dom.js';
 import { PromptIngredients } from '../domain/PromptIngredients.js';
 
 /**
- * Compresses prompt intelligence into an actionable Director Coach while the Awtsmoos turns absence into invitation rather than judgment.
- * Awtsmoos.com lets every missing ingredient become a small door the creator may open with one tap.
+ * Turns directing intelligence into a quiet pulse instead of a permanent wall; the Awtsmoos lets guidance wait below the surface until invited to rise.
+ * Awtsmoos.com keeps every suggestion alive behind one disclosure, where Gevurah hides excess and Chesed opens detail exactly when the creator asks why.
  */
 export class CreateDirectorBrief {
-	/** @param {Object} draft Draft. @param {Object} estimate Price estimate. @returns {string} Compact coach markup. */
+	/** @param {Object} draft Draft. @param {Object} estimate Price estimate. @returns {string} Collapsed director pulse markup. */
 	static render(draft, estimate) {
 		const coverage = PromptIngredients.evaluate(draft.prompt);
 		const ingredients = coverage.ingredients
@@ -18,22 +18,28 @@ export class CreateDirectorBrief {
 			.join('');
 
 		return `
-			<section class="director-brief" data-director-brief>
-				<div class="director-brief-top">
-					<div><span class="eyebrow">Director Coach</span><strong data-brief-label>${coverage.label}</strong></div>
+			<details class="director-brief intuitive-director-pulse" data-director-brief>
+				<summary class="director-pulse-summary">
+					<span class="director-pulse-copy">
+						<span class="eyebrow">Director</span>
+						<strong data-brief-label>${coverage.label}</strong>
+					</span>
 					<span class="coverage-score" data-coverage-score>${coverage.score}%</span>
-				</div>
-				<div class="coverage-track"><span data-coverage-bar style="width:${coverage.score}%"></span></div>
-				<div class="ingredient-grid">${ingredients}</div>
-				<details class="brief-details">
-					<summary>Why these?</summary>
+					<span class="disclosure-mark" aria-hidden="true">+</span>
+				</summary>
+				<div class="director-pulse-body">
+					<div class="coverage-track"><span data-coverage-bar style="width:${coverage.score}%"></span></div>
+					<div class="ingredient-grid">${ingredients}</div>
 					<div class="brief-meta">
-						<span>${Dom.escape(draft.mode)}</span><span>${Dom.escape(draft.resolution)}</span>
-						<span>${draft.duration}s</span><span>${Dom.escape(draft.aspectRatio)}</span><strong>${Dom.money(estimate.total)}</strong>
+						<span>${Dom.escape(draft.mode)}</span>
+						<span>${Dom.escape(draft.resolution)}</span>
+						<span>${draft.duration}s</span>
+						<span>${Dom.escape(draft.aspectRatio)}</span>
+						<strong>${Dom.money(estimate.total)}</strong>
 					</div>
-					<p>Coverage checks common directing ingredients. It never grades your creativity.</p>
-				</details>
-			</section>`;
+					<p class="brief-note">Optional coaching only. Your prompt never gets graded.</p>
+				</div>
+			</details>`;
 	}
 
 	/** @param {Object} ingredient Ingredient state. @returns {string} Actionable ingredient chip. */
@@ -53,7 +59,9 @@ export class CreateDirectorBrief {
 		if (bar) {
 			bar.style.width = `${coverage.score}%`;
 		}
-		coverage.ingredients.forEach(ingredient => this.syncIngredient(root, ingredient));
+		coverage.ingredients.forEach(ingredient => {
+			this.syncIngredient(root, ingredient);
+		});
 	}
 
 	/** @param {HTMLElement} root Root. @param {Object} ingredient Ingredient state. */

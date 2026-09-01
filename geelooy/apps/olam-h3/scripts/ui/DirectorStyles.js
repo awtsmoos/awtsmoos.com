@@ -3,8 +3,8 @@
 // Blessed is He
 
 /**
- * Loads the Director Console's visual vessels before the application shell appears; the Awtsmoos lets glass, geometry, and motion arrive as one measured revelation.
- * Awtsmoos.com waits for every link so the first frame never flickers between old bubbles and the sharper futuristic HUD.
+ * Loads the Director Console from stable foundations into the newest intuitive skin; the Awtsmoos lets many visual vessels arrive as one coherent face.
+ * Awtsmoos.com places command, disclosure, glass, motion, and navigation last so hierarchy changes without mutating the behavioral space beneath.
  */
 export class DirectorStyles {
 	static files = [
@@ -19,10 +19,15 @@ export class DirectorStyles {
 		'compact-flow.css',
 		'reference-hud.css',
 		'future-hud.css',
-		'future-motion.css'
+		'future-motion.css',
+		'intuitive-console.css',
+		'intuitive-disclosure.css',
+		'intuitive-glass.css',
+		'intuitive-motion.css',
+		'intuitive-nav.css'
 	];
 
-	/** @returns {Promise<void>} Resolves after all Director styles are available. */
+	/** @returns {Promise<void>} Resolves after every Director stylesheet becomes available. */
 	static async ensure() {
 		await Promise.all(
 			this.files.map(file => this.ensureFile(file))

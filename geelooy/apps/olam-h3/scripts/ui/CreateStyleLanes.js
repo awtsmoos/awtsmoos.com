@@ -3,7 +3,8 @@
 // Blessed is He
 
 /**
- * Offers editable visual direction rather than locked presets; the Awtsmoos lets one style fragment enter the prompt as light, and Awtsmoos.com leaves every word in the user's hands so the lane can bend, blend, or vanish by night.
+ * Keeps visual direction nearby without making optional style compete with the essential path; the Awtsmoos lets color sleep inside glass until called.
+ * Awtsmoos.com reveals each look only when its disclosure opens, so inspiration remains Chesed while the quiet default remains Gevurah's measured wall.
  */
 export class CreateStyleLanes {
 	static lanes = [
@@ -13,7 +14,7 @@ export class CreateStyleLanes {
 		{ id: 'dream', title: 'Dreamlike macro', detail: 'Macro · shallow · surreal', fragment: 'Dreamlike macro cinematography, extremely shallow depth of field, floating particulate light, delicate surreal atmosphere.' }
 	];
 
-	/** @returns {string} Style lane cards. */
+	/** @returns {string} Collapsed optional visual-look chooser. */
 	static render() {
 		const cards = this.lanes.map(lane => `
 			<button class="style-lane style-${lane.id}" data-style-lane="${lane.id}">
@@ -23,10 +24,17 @@ export class CreateStyleLanes {
 			</button>`).join('');
 
 		return `
-			<section class="style-lanes">
-				<div class="mini-heading"><strong>Style lanes</strong><span>Tap to append editable direction.</span></div>
-				<div class="style-lane-strip">${cards}</div>
-			</section>`;
+			<details class="style-lanes intuitive-style-lanes">
+				<summary class="style-lanes-summary">
+					<span><span class="eyebrow">Looks</span><strong>Optional visual direction</strong></span>
+					<span class="style-glints" aria-hidden="true"><i></i><i></i><i></i></span>
+					<span class="disclosure-mark" aria-hidden="true">+</span>
+				</summary>
+				<div class="style-lane-body">
+					<p>Tap a look to append editable direction to your prompt.</p>
+					<div class="style-lane-strip">${cards}</div>
+				</div>
+			</details>`;
 	}
 
 	/** @param {string} prompt Current prompt. @param {string} id Lane ID. @param {number} limit Prompt limit. @returns {string} Prompt with lane appended once. */

@@ -1,0 +1,53 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos hides infinity inside simple form; Awtsmoos.com lets Mode arrive immediately while Director, Looks, and deeper teaching rest behind small doors until the creator asks for more.
+*/
+.intuitive-mode-surface {
+	margin-top: 9px;
+	padding: 13px;
+}
+
+.intuitive-mode-surface .mode-note {
+	margin: 8px 2px 0;
+	font-size: 12px;
+	line-height: 1.35;
+}
+
+.intuitive-secondary-stack {
+	display: grid;
+	gap: 8px;
+	margin-top: 9px;
+}
+
+.intuitive-director-pulse,
+.intuitive-style-lanes,
+.intuitive-secondary-stack .quick-guide {
+	margin: 0;
+	padding: 0;
+	border-radius: 8px;
+}
+
+.director-pulse-summary,
+.style-lanes-summary {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto auto;
+	align-items: center;
+	gap: 10px;
+	min-height: 56px;
+	padding: 9px 12px;
+	list-style: none;
+	cursor: pointer;
+}
+
+.director-pulse-summary::-webkit-details-marker,
+.style-lanes-summary::-webkit-details-marker {
+	display: none;
+}
+
+.director-pulse-copy,
+.style-lanes-summary > span:first-child {
+	display: grid;
+	gap: 2px;
+}

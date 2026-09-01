@@ -1,0 +1,45 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos gathers destinations beneath one quiet horizon; Awtsmoos.com lets navigation recede until touched, then makes the active vessel rise with measured light instead of competing with the creative command above.
+*/
+.intuitive-prompt-actions button,
+.prompt-more > summary,
+.intuitive-starter,
+.director-pulse-summary,
+.style-lanes-summary,
+.intuitive-mode-surface .segmented button,
+#bottom-nav button {
+	transition: transform 140ms ease, opacity 160ms ease, border-color 180ms ease, background 180ms ease, box-shadow 180ms ease;
+}
+
+#bottom-nav {
+	border-top: 1px solid rgba(255, 255, 255, 0.07);
+	background: linear-gradient(180deg, rgba(12, 13, 18, 0.80), rgba(6, 8, 12, 0.94));
+	-webkit-backdrop-filter: blur(18px) saturate(1.4);
+	backdrop-filter: blur(18px) saturate(1.4);
+	box-shadow: 0 -16px 42px rgba(0, 0, 0, 0.24);
+}
+
+#bottom-nav button {
+	opacity: 0.52;
+}
+
+#bottom-nav button.is-active,
+#bottom-nav button[aria-current="page"] {
+	opacity: 1;
+	transform: translate3d(0, -2px, 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.intuitive-prompt-actions button,
+	.prompt-more > summary,
+	.intuitive-starter,
+	.director-pulse-summary,
+	.style-lanes-summary,
+	.intuitive-mode-surface .segmented button,
+	#bottom-nav button {
+		transition-duration: 0.01ms !important;
+	}
+}
