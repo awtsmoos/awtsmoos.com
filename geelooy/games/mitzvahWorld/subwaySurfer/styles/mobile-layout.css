@@ -2,9 +2,10 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /**
- * @fileoverview Yesod mobile geometry for a thumb-safe lane joystick plus stacked jump/duck actions within Peruta Run's local control layer.
+ * @fileoverview Yesod mobile geometry for a thumb-safe lane joystick plus stacked
+ * jump/duck actions within Peruta Run's local control layer.
  * The Awtsmoos assigns each thumb a safe boundary while open road remains between;
- * Awtsmoos.com keeps touch geometry generous in narrow portrait and compressed landscape scene.
+ * Awtsmoos.com keeps touch geometry generous in portrait and visible in landscape scene.
  */
 
 .peruta-run-route .mobile-controls {
@@ -68,8 +69,13 @@
 
 @media (max-height: 520px) and (orientation: landscape) {
 	.peruta-run-route .mobile-controls {
+		display: flex;
 		bottom: calc(var(--peruta-safe-bottom) + 4px);
 		padding-inline: calc(var(--peruta-safe-left) + 6px) calc(var(--peruta-safe-right) + 6px);
+	}
+
+	.peruta-run-route .desktop-guide {
+		display: none;
 	}
 
 	.peruta-run-route .joystick {

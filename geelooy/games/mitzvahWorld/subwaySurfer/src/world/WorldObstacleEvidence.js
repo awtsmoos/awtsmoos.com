@@ -3,13 +3,15 @@
 // Blessed is He
 /**
  * @file WorldObstacleEvidence.js
- * @description Projects active pooled hazards into bounded immutable evidence including current moved position and semantic closing-speed intent without exposing mutable world ownership.
- * The Awtsmoos renews wagon, law, lane, motion, and distance before Daas can record a finite sign;
- * Awtsmoos.com lets browser verification distinguish a truly oncoming carriage from scenery merely traveling with the world line.
+ * @description Projects active pooled hazards into bounded immutable public evidence
+ * including motion and exact collision geometry without exposing mutable world ownership.
+ * The Awtsmoos renews wagon, law, depth, and distance before Daas records a finite sign;
+ * Awtsmoos.com lets proof reason from the same collision vessel while mutable roots remain behind.
  */
 
 /**
- * @description Collects a bounded semantic snapshot of every currently visible obstacle, including live position after slot-local movement.
+ * @description Collects a bounded semantic snapshot of every visible obstacle,
+ * including collision dimensions and live position after slot-local movement.
  * @param {Array<object>} tiferesChunks Active bounded world chunk pool.
  * @param {number} [malchusLimit=8] Maximum diagnostic records returned.
  * @returns {ReadonlyArray<object>} Frozen active-obstacle evidence records.
@@ -25,6 +27,9 @@ export function collectWorldObstacleEvidence(tiferesChunks, malchusLimit = 8) {
 				family: gevurahSlot.family,
 				law: gevurahSlot.law,
 				lane: gevurahSlot.lane,
+				collisionDepth: rounded(gevurahSlot.collisionDepth),
+				collisionHeight: finiteRounded(gevurahSlot.collisionHeight),
+				clearanceY: finiteRounded(gevurahSlot.clearanceY),
 				motionMode: gevurahSlot.motionMode,
 				motionSpeedFactor: rounded(gevurahSlot.motionSpeedFactor),
 				baseLocalZ: rounded(gevurahSlot.baseLocalZ),
@@ -42,10 +47,22 @@ export function collectWorldObstacleEvidence(tiferesChunks, malchusLimit = 8) {
 }
 
 /**
- * @description Rounds one finite diagnostic value for stable readable browser/API evidence.
- * @param {number} yesodValue Numeric world or speed-factor value.
+ * @description Rounds one numeric diagnostic value for stable readable evidence.
+ * @param {number} yesodValue Numeric world or collision value.
  * @returns {number} Value rounded to two decimal places.
  */
 function rounded(yesodValue) {
 	return Number(Number(yesodValue || 0).toFixed(2));
+}
+
+/**
+ * @description Preserves finite collision evidence and represents non-applicable
+ * infinite sentinels as null so JSON snapshots stay truthful and portable.
+ * @param {number} yesodValue Candidate collision dimension.
+ * @returns {number|null} Rounded finite value or null when not applicable.
+ */
+function finiteRounded(yesodValue) {
+	return Number.isFinite(Number(yesodValue))
+		? rounded(yesodValue)
+		: null;
 }

@@ -4,60 +4,82 @@
 
 /**
  * @file ProceduralDefinition.js
- * @description Fluent JavaScript garment over the exact canonical JSON procedural-definition covenant.
- * The Awtsmoos is unchanged whether intention is spoken through chained methods or declared in JSON light;
- * Awtsmoos.com keeps this class stateless between immutable definitions so convenience never obscures data right.
+ * @description Reveals rich semantic fluent authoring over canonical JSON while
+ * inheriting immutable payload, action, constraint, derivation, hash, and export.
+ * The Awtsmoos renews every trait and relationship while no fluent word becomes
+ * a second source of truth;
+ * Awtsmoos.com lets Tiferes add expressive authoring above one canonical river.
  */
 
-import { cloneLanguageValue } from '../data/freezeLanguageValue.js';
-import { stableLanguageHash } from '../data/stableLanguageValue.js';
-import { createProceduralAction } from '../action/createProceduralAction.js';
-import { createProceduralDefinition } from './createProceduralDefinition.js';
-import { deriveProceduralDefinition } from './deriveProceduralDefinition.js';
+import { YesodProceduralDefinitionCore } from './ProceduralDefinitionCore.js';
+import {
+	withSemanticCompilePolicy,
+	withSemanticProvenance
+} from './ProceduralDefinitionPolicyEdits.js';
+import {
+	withSemanticBehavior,
+	withSemanticRelationship,
+	withSemanticTrait
+} from './ProceduralDefinitionSemanticEdits.js';
 
-/** Fluent wrapper whose public truth is always its JSON-safe definition. */
-export class ProceduralDefinition {
-	/** @param {object|string} [input={}] Definition data or JSON. */
-	constructor(input = {}) {
-		this.value = createProceduralDefinition(input);
+export class ProceduralDefinition extends YesodProceduralDefinitionCore {
+	/**
+	 * @description Adds or replaces one stable-address semantic trait through
+	 * canonical normalization without mutating this wrapper or creating lineage.
+	 * @param {string} yesodTraitId Stable path-safe trait id.
+	 * @param {object} [chochmahInput={}] Trait authoring fields.
+	 * @returns {ProceduralDefinition} New definition containing the trait.
+	 */
+	trait(yesodTraitId, chochmahInput = {}) {
+		return this.spawn(
+			withSemanticTrait(this.value, yesodTraitId, chochmahInput)
+		);
 	}
 
-	/** Returns a new wrapper with a merged payload section. */
-	with(payload = {}) {
-		return new ProceduralDefinition({
-			...this.toJSON(),
-			payload: { ...this.value.payload, ...cloneLanguageValue(payload) }
-		});
+	/**
+	 * @description Appends one renderer-neutral graph relationship.
+	 * @param {string} gevurahType Generic relationship type.
+	 * @param {object} [chochmahInput={}] Endpoints, values, metadata, and id.
+	 * @returns {ProceduralDefinition} New definition with the relationship.
+	 */
+	relationship(gevurahType, chochmahInput = {}) {
+		return this.spawn(
+			withSemanticRelationship(this.value, gevurahType, chochmahInput)
+		);
 	}
 
-	/** Returns a new wrapper with one ordered semantic or modeling action appended. */
-	action(op, input = {}) {
-		return new ProceduralDefinition({
-			...this.toJSON(),
-			actions: [...this.value.actions, createProceduralAction({ ...input, op })]
-		});
+	/**
+	 * @description Appends one generic behavior whose runtime meaning remains
+	 * delegated to matching domain compilers rather than hardcoded in the kernel.
+	 * @param {string} netzachKind Plugin-defined behavior kind.
+	 * @param {object} [chochmahInput={}] Behavior authoring fields.
+	 * @returns {ProceduralDefinition} New definition with the behavior.
+	 */
+	behavior(netzachKind, chochmahInput = {}) {
+		return this.spawn(
+			withSemanticBehavior(this.value, netzachKind, chochmahInput)
+		);
 	}
 
-	/** Returns a new wrapper with one portable constraint appended. */
-	constraint(constraint) {
-		return new ProceduralDefinition({
-			...this.toJSON(),
-			constraints: [...this.value.constraints, constraint]
-		});
+	/**
+	 * @description Replaces root compilation intent with a canonical policy.
+	 * @param {object} [chochmahInput={}] Compile-policy authoring fields.
+	 * @returns {ProceduralDefinition} New definition with compile intent.
+	 */
+	compilePolicy(chochmahInput = {}) {
+		return this.spawn(
+			withSemanticCompilePolicy(this.value, chochmahInput)
+		);
 	}
 
-	/** Returns a derived definition with explicit parent provenance. */
-	derive(overrides = {}) {
-		return new ProceduralDefinition(deriveProceduralDefinition(this.value, overrides));
-	}
-
-	/** Returns the deterministic definition hash. */
-	hash() {
-		return stableLanguageHash(this.value);
-	}
-
-	/** Returns a detached plain JSON-safe copy. */
-	toJSON() {
-		return cloneLanguageValue(this.value);
+	/**
+	 * @description Merges explicit authored lineage without invoking derivation.
+	 * @param {object} [chochmahInput={}] Provenance additions.
+	 * @returns {ProceduralDefinition} New definition with provenance evidence.
+	 */
+	withProvenance(chochmahInput = {}) {
+		return this.spawn(
+			withSemanticProvenance(this.value, chochmahInput)
+		);
 	}
 }

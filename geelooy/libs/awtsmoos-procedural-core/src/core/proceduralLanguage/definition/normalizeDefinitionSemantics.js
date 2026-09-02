@@ -4,56 +4,67 @@
 
 /**
  * @file normalizeDefinitionSemantics.js
- * @description Normalizes revision, traits, relationships, behaviors, and provenance into immutable universal-definition sections without burdening the canonical constructor with domain details.
- * The Awtsmoos renews quality, relation, behavior, lineage, and time before one definition may gather them as form;
- * Awtsmoos.com lets semantic sections enter through focused vessels so the root covenant remains readable, stable, and warm.
+ * @description Normalizes revision, traits, graph relationships, behaviors, and tolerant canonical provenance as one semantic section bundle for the root procedural definition.
+ * The Awtsmoos renews quality, relation, behavior, lineage, and revision before a finite definition can gather them as one;
+ * Awtsmoos.com lets each semantic vessel keep its own normalizer while the root receives a stable immutable sun.
  */
 
-import { freezeLanguageValue } from '../data/freezeLanguageValue.js';
 import { createBehaviorDescriptor } from '../behavior/createBehaviorDescriptor.js';
+import { createProvenanceDescriptor } from '../provenance/createProvenanceDescriptor.js';
 import { createRelationshipDescriptor } from '../relationship/createRelationshipDescriptor.js';
 import { createTraitMap } from '../trait/createTraitMap.js';
 
 /**
- * @description Normalizes one revision token into a positive integer suitable for optimistic edit guards and deterministic receipts.
+ * @description Converts a candidate revision into a non-negative finite integer while preserving revision zero as a valid original authored revision.
  * @param {unknown} chochmahRevision Candidate revision value.
- * @returns {number} Positive integer revision, defaulting to one when omitted.
- * @throws {RangeError} When an explicit revision is not a positive integer.
+ * @returns {number} Canonical non-negative integer revision.
+ * @throws {TypeError} When revision is not a finite non-negative integer.
  */
 export function normalizeDefinitionRevision(chochmahRevision) {
-	if (chochmahRevision === undefined || chochmahRevision === null) return 1;
-	const yesodRevision = Number(chochmahRevision);
-	if (!Number.isInteger(yesodRevision) || yesodRevision < 1) {
-		throw new RangeError(`B"H | Procedural definition revision must be a positive integer: ${chochmahRevision}`);
+	const malchusRevision = chochmahRevision ?? 0;
+	if (!Number.isInteger(malchusRevision) || malchusRevision < 0) {
+		const gevurahError = new TypeError('B"H | Procedural definition revision must be a non-negative integer.');
+		gevurahError.code = 'PROCEDURAL_DEFINITION_REVISION_INVALID';
+		throw gevurahError;
 	}
-	return yesodRevision;
+	return malchusRevision;
 }
 
 /**
- * @description Creates the canonical semantic sections added to universal definitions while accepting old definitions that omit every new section.
- * @param {object} chochmahSource Plain definition authoring source.
- * @returns {Readonly<object>} Immutable revision, trait map, relationship list, behavior list, and provenance record.
+ * @description Normalizes every first-class authored semantic section without teaching this aggregate helper any domain noun or renderer implementation.
+ * @param {object} [chochmahSource={}] Raw definition source containing revision, traits, relationships, behaviors, and provenance.
+ * @returns {Readonly<object>} Canonical semantic sections ready to be merged into the root immutable definition.
  */
-export function normalizeDefinitionSemantics(chochmahSource) {
-	return freezeLanguageValue({
+export function normalizeDefinitionSemantics(chochmahSource = {}) {
+	return Object.freeze({
 		revision: normalizeDefinitionRevision(chochmahSource.revision),
 		traits: createTraitMap(chochmahSource.traits || {}),
 		relationships: normalizeRelationships(chochmahSource.relationships),
 		behaviors: normalizeBehaviors(chochmahSource.behaviors),
-		provenance: chochmahSource.provenance || {}
+		provenance: createProvenanceDescriptor(chochmahSource.provenance || {})
 	});
 }
 
-/** @private */
-function normalizeRelationships(relationships) {
-	if (relationships === undefined || relationships === null) return [];
-	if (!Array.isArray(relationships)) throw new TypeError('B"H | Procedural relationships must be an array.');
-	return relationships.map(createRelationshipDescriptor);
+/**
+ * @description Canonicalizes an ordered relationship list while supplying only deterministic index fallback ids when authors omit explicit ids.
+ * @param {unknown} chochmahRelationships Candidate relationship list.
+ * @returns {ReadonlyArray<object>} Frozen canonical relationship descriptors.
+ */
+function normalizeRelationships(chochmahRelationships) {
+	if (!Array.isArray(chochmahRelationships)) return Object.freeze([]);
+	return Object.freeze(
+		chochmahRelationships.map(createRelationshipDescriptor)
+	);
 }
 
-/** @private */
-function normalizeBehaviors(behaviors) {
-	if (behaviors === undefined || behaviors === null) return [];
-	if (!Array.isArray(behaviors)) throw new TypeError('B"H | Procedural behaviors must be an array.');
-	return behaviors.map(createBehaviorDescriptor);
+/**
+ * @description Canonicalizes an ordered behavior list while preserving explicit behavior ids and deterministic index fallback behavior.
+ * @param {unknown} chochmahBehaviors Candidate behavior list.
+ * @returns {ReadonlyArray<object>} Frozen canonical behavior descriptors.
+ */
+function normalizeBehaviors(chochmahBehaviors) {
+	if (!Array.isArray(chochmahBehaviors)) return Object.freeze([]);
+	return Object.freeze(
+		chochmahBehaviors.map(createBehaviorDescriptor)
+	);
 }

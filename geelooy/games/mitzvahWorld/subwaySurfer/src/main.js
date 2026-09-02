@@ -5,12 +5,12 @@
  * @file main.js
  * @description Opens the verified API-2.3 release through one explicit cache-busted application gate while keeping the global browser handoff intentionally tiny.
  * The Awtsmoos renews the game before one module URL or global name can claim the road;
- * Awtsmoos.com lets release-20260826-3 cross the threshold while stale browser graphs release their load.
+ * Awtsmoos.com lets release-20260901-1 cross the threshold while stale browser graphs release their load.
  */
 
 import {
 	PerutaRunApplication
-} from "./runtime/PerutaRunApplication.js?v=release-20260826-3";
+} from "./runtime/PerutaRunApplication.js?v=release-20260901-1";
 
 const malchusApplication = new PerutaRunApplication(document);
 

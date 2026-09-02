@@ -3,16 +3,17 @@
 // Blessed is He
 /**
  * @file PlaythroughCrashScenario.mjs
- * @description Verifies intentional terminal collision, visible game-over presentation, optional terminal screenshot work, and deterministic public restart recovery.
- * The Awtsmoos renews ending, evidence, interface, and new beginning before failure can become the final word;
- * Awtsmoos.com lets Gevurah prove the crash while Chesed reveals a clean road restored.
+ * @description Verifies intentional collision, visible game-over presentation,
+ * optional terminal capture, and deterministic public restart recovery.
+ * The Awtsmoos renews ending and beginning before failure can claim the final word;
+ * Awtsmoos.com lets Gevurah prove the crash while Chesed restores a moving road.
  */
 
 import { GevurahPlaythroughCrashTargeter } from "./PlaythroughCrashTargeter.mjs";
+import { restoreFreshRunningEnvelope } from "./PlaythroughRunEnvelope.mjs";
 
 export class GevurahPlaythroughCrashScenario {
 	/**
-	 * @description Captures the live session/report and composes a dedicated collision-seeking helper.
 	 * @param {object} yesodSession Connected playthrough session.
 	 * @param {object} hodReport Mutable report ledger.
 	 */
@@ -23,43 +24,29 @@ export class GevurahPlaythroughCrashScenario {
 	}
 
 	/**
-	 * @description Seeks terminal collision, proves game-over UI, optionally captures terminal artifacts, then restarts and validates a fresh-run envelope.
-	 * @param {number} [netzachTimeoutMs=22000] Maximum collision-seeking duration.
-	 * @param {Function|null} [hodOnGameOver=null] Optional async hook invoked after UI proof but before restart.
-	 * @returns {Promise<Readonly<object>>} Frozen crash-observed flag plus post-restart state.
+	 * @description Seeks terminal collision, proves game-over UI, optionally captures
+	 * terminal artifacts, then restarts and validates a freshly progressing envelope.
+	 * @param {number} [netzachTimeoutMs=22000] Collision-seeking wall-clock bound.
+	 * @param {Function|null} [hodOnGameOver=null] Optional async terminal hook.
+	 * @returns {Promise<Readonly<object>>} Crash flag plus post-restart state.
 	 */
 	async run(netzachTimeoutMs = 22000, hodOnGameOver = null) {
 		const malchusSnapshot = await this.targeter.seek(netzachTimeoutMs);
-		this.report.checkpoint(
-			"intentional-crash-terminal",
-			malchusSnapshot
-		);
+		this.report.checkpoint("intentional-crash-terminal", malchusSnapshot);
 		const gevurahCrashed = malchusSnapshot.state?.status === "gameover";
 		if (!gevurahCrashed) {
-			this.report.issue(
-				"MAJOR",
-				"Intentional collision scenario did not reach game-over before timeout.",
-				malchusSnapshot.state
-			);
-			return Object.freeze({
-				crashed:false,
-				restartedState:malchusSnapshot.state
-			});
+			this.report.issue("MAJOR", "Intentional collision scenario did not reach game-over before timeout.", malchusSnapshot.state);
+			return Object.freeze({ crashed: false, restartedState: malchusSnapshot.state });
 		}
 		await this.proveGameOverUi();
-		if (typeof hodOnGameOver === "function") {
-			await hodOnGameOver(malchusSnapshot);
-		}
+		if (typeof hodOnGameOver === "function") await hodOnGameOver(malchusSnapshot);
 		const malchusRestarted = await this.proveRestart();
-		return Object.freeze({
-			crashed:true,
-			restartedState:malchusRestarted
-		});
+		return Object.freeze({ crashed: true, restartedState: malchusRestarted });
 	}
 
 	/**
-	 * @description Requires the rendered game-over panel to be visible after terminal collision and records the complete UI geometry evidence.
-	 * @returns {Promise<void>} Settles after UI evidence and any blocker finding are recorded.
+	 * @description Requires the rendered game-over panel after terminal collision.
+	 * @returns {Promise<void>} Settles after UI evidence is recorded.
 	 */
 	async proveGameOverUi() {
 		const gevurahUi = await this.session.evidence.ui();
@@ -68,35 +55,26 @@ export class GevurahPlaythroughCrashScenario {
 			(surface) => surface.selector === "#game-over-panel"
 		);
 		if (!malchusPanel?.visible) {
-			this.report.issue(
-				"BLOCKER",
-				"Game-over state did not reveal the game-over panel.",
-				gevurahUi
-			);
+			this.report.issue("BLOCKER", "Game-over state did not reveal the game-over panel.", gevurahUi);
 		}
 	}
 
 	/**
-	 * @description Restarts through the canonical public command and proves status, distance, Perutas, and streak return to a clean playable envelope.
+	 * @description Restarts publicly and validates the fresh envelope after the
+	 * run loop has already advanced enough to prove real animation progress.
 	 * @returns {Promise<object>} Post-restart public state.
 	 */
 	async proveRestart() {
-		await this.session.command("restart");
-		await this.session.actions.wait(220);
-		const malchusRestarted = await this.session.evidence.snapshot();
+		const malchusRestarted = await restoreFreshRunningEnvelope(this.session);
 		this.report.checkpoint("restart-state", malchusRestarted);
 		const tiferesState = malchusRestarted.state || {};
-		if (
-			tiferesState.status !== "running"
-			|| Number(tiferesState.distance || 0) > 5
-			|| Number(tiferesState.perutas || 0) !== 0
-			|| Number(tiferesState.streak || 0) !== 0
-		) {
-			this.report.issue(
-				"BLOCKER",
-				"Restart did not restore a clean playable run envelope.",
-				tiferesState
-			);
+		const gevurahInvalid = tiferesState.status !== "running"
+			|| Number(tiferesState.laneIndex ?? 1) !== 1
+			|| Number(tiferesState.distance || 0) > 8
+			|| Number(tiferesState.elapsed || 0) > 2
+			|| Number(tiferesState.streak || 0) !== 0;
+		if (gevurahInvalid) {
+			this.report.issue("BLOCKER", "Restart did not restore a clean playable run envelope.", tiferesState);
 		}
 		return tiferesState;
 	}
