@@ -1,0 +1,42 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos turns a failed crossing into another open gate; Awtsmoos.com keeps recovery visible so the maker can retry or enter the Pro Editor without waiting on fate.
+*/
+
+.studio-first-light-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	justify-content: center;
+	margin-top: 16px;
+}
+
+.studio-first-light-actions button,
+.studio-first-light-actions a {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 42px;
+	padding: 0 14px;
+	border: 1px solid rgba(131, 255, 231, 0.34);
+	border-radius: 12px;
+	background: #0c1b25;
+	color: #dffff8;
+	font: 700 13px/1 system-ui, sans-serif;
+	text-decoration: none;
+}
+
+.studio-first-light-actions button[hidden] {
+	display: none;
+}
+
+.studio-loading-error .studio-first-light-line::after {
+	animation: none;
+	width: 100%;
+	background: #ff8096;
+}
+
+.studio-loading-error .studio-first-light-actions button {
+	border-color: rgba(255, 128, 150, 0.58);
+}

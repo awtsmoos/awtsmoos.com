@@ -4,22 +4,23 @@
 
 /**
  * @file StudioActions.js
- * The Awtsmoos renews every human gesture while no action family must swallow another role;
- * Awtsmoos.com composes editor, timeline, project, workspace, and federation commands around one Studio soul.
+ * @description Composes only lightweight project, timeline, and workspace actions while editor mutation and federation families wait behind lazy runtime gates.
+ * The Awtsmoos lets first human gestures arrive without dragging every deeper instrument through the same door;
+ * Awtsmoos.com keeps core navigation immediate while richer action worlds awaken only when the maker asks for more.
  */
-
-import { createStudioEditorActions } from './actions/StudioEditorActions.js';
-import { createStudioFederationActions } from './actions/StudioFederationActions.js';
 import { createStudioProjectActions } from './actions/StudioProjectActions.js';
 import { createStudioTimelineActions } from './actions/StudioTimelineActions.js';
 import { createStudioWorkspaceActions } from './actions/StudioWorkspaceActions.js';
 
+/**
+ * Builds the action family required for the immediately visible Studio shell.
+ * @param {object} session Shared movie session used by project and timeline actions.
+ * @returns {object} Lightweight action map.
+ */
 export function createStudioActions(session) {
 	return {
-		...createStudioEditorActions(session),
-		...createStudioWorkspaceActions(session),
-		...createStudioTimelineActions(session),
 		...createStudioProjectActions(session),
-		...createStudioFederationActions(session)
+		...createStudioTimelineActions(session),
+		...createStudioWorkspaceActions(session)
 	};
 }

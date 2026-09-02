@@ -1,0 +1,119 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets professional depth descend through one deliberate doorway; Awtsmoos.com keeps that doorway touchable, focused, and light while the unified movie remains bright.
+*/
+
+.nesher-pro-launcher {
+	position: fixed;
+	right: max(16px, env(safe-area-inset-right));
+	bottom: max(16px, env(safe-area-inset-bottom));
+	z-index: 7000;
+	min-height: 46px;
+	padding: 0 18px;
+	border: 1px solid rgba(131, 255, 231, 0.38);
+	border-radius: 999px;
+	background: rgba(5, 16, 24, 0.94);
+	box-shadow: 0 12px 36px rgba(0, 0, 0, 0.4);
+	color: #dffff8;
+	font: 700 13px/1 system-ui, sans-serif;
+	backdrop-filter: blur(14px);
+}
+
+.nesher-pro-drawer {
+	position: fixed;
+	inset: 6vh 4vw;
+	z-index: 7100;
+	display: grid;
+	grid-template-rows: auto auto minmax(0, 1fr);
+	min-width: 0;
+	overflow: hidden;
+	border: 1px solid rgba(131, 255, 231, 0.26);
+	border-radius: 24px;
+	background: #061019;
+	box-shadow: 0 32px 100px rgba(0, 0, 0, 0.62);
+}
+
+.nesher-pro-drawer[hidden] {
+	display: none;
+}
+
+.nesher-pro-header {
+	display: flex;
+	gap: 16px;
+	align-items: center;
+	justify-content: space-between;
+	padding: 14px 16px;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.nesher-pro-heading {
+	display: grid;
+	gap: 2px;
+	min-width: 0;
+}
+
+.nesher-pro-eyebrow,
+.nesher-pro-status {
+	color: #8eb9b3;
+	font: 600 11px/1.3 system-ui, sans-serif;
+}
+
+.nesher-pro-title {
+	font: 750 16px/1.2 system-ui, sans-serif;
+}
+
+.nesher-pro-actions,
+.nesher-pro-nav {
+	display: flex;
+	gap: 8px;
+	align-items: center;
+}
+
+.nesher-pro-nav {
+	overflow-x: auto;
+	padding: 10px 14px;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+	scrollbar-width: thin;
+}
+
+.nesher-pro-button {
+	flex: 0 0 auto;
+	min-height: 40px;
+	padding: 0 12px;
+	border: 1px solid rgba(255, 255, 255, 0.12);
+	border-radius: 12px;
+	background: #0c1722;
+	color: #d7e9ee;
+	font: 650 12px/1 system-ui, sans-serif;
+}
+
+.nesher-pro-button.active {
+	border-color: rgba(131, 255, 231, 0.62);
+	background: #12312f;
+	color: #dffff8;
+}
+
+.nesher-pro-frame-slot {
+	position: relative;
+	min-width: 0;
+	min-height: 0;
+	background: #080d12;
+}
+
+.nesher-pro-frame {
+	display: block;
+	width: 100%;
+	height: 100%;
+	border: 0;
+	background: #080d12;
+}
+
+.nesher-pro-empty {
+	display: grid;
+	place-items: center;
+	height: 100%;
+	padding: 24px;
+	color: #91aaa9;
+	text-align: center;
+}

@@ -1,0 +1,28 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets professional depth become a full-screen vessel when the maker holds a smaller screen; Awtsmoos.com keeps the same tools reachable by touch without compressing their meaning into a crowded seam.
+*/
+
+@media (max-width: 700px) {
+	.nesher-pro-drawer {
+		inset: 0;
+		padding-top: env(safe-area-inset-top);
+		padding-bottom: env(safe-area-inset-bottom);
+		border: 0;
+		border-radius: 0;
+	}
+
+	.nesher-pro-header {
+		align-items: flex-start;
+	}
+
+	.nesher-pro-actions {
+		flex-wrap: wrap;
+		justify-content: flex-end;
+	}
+
+	.nesher-pro-launcher {
+		min-height: 48px;
+	}
+}

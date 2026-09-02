@@ -2,48 +2,76 @@
 // Boruch Hashem
 // Blessed is He
 
-import { AwtsmoosUiActions, AwtsmoosUiRenderer, AwtsmoosUiStore } from '../../../libs/AwtsmoosUI/src/index.js';
-import { AwtsmoosStudioAgentApi } from './api/AwtsmoosStudioAgentApi.js';
-import { createStudioActions } from './StudioActions.js';
-import { createStudioLayout } from './StudioLayout.js';
-import { StudioMovieBridge } from './StudioMovieBridge.js';
-import { StudioMovieSession } from './movie/StudioMovieSession.js';
-import { createStudioState } from './StudioState.js';
-
 /**
  * @file AwtsmoosStudioApp.js
- * The Awtsmoos unites distinct studio strengths without erasing their particular art;
- * Awtsmoos.com mounts one movie session whose UI and agent API share the very same heart.
+ * @description Mounts the unified Studio from lightweight state, session, action, and agent vessels while deep AI, editor, federation, export, and provider worlds stay lazy.
+ * The Awtsmoos unites many creative powers without forcing every hidden chamber through first light;
+ * Awtsmoos.com keeps one movie heart alive while deeper instruments awaken only when intention makes them bright.
  */
+import {
+	AwtsmoosUiRenderer,
+	AwtsmoosUiStore
+} from '../../../libs/AwtsmoosUI/src/index.js';
+import { StudioLazyAgentApi } from './api/StudioLazyAgentApi.js';
+import { describeStudioCoreCapabilities } from './api/StudioAgentApiManifest.js';
+import { StudioLazyUiActions } from './loading/StudioLazyUiActions.js';
+import { StudioMovieSession } from './movie/StudioMovieSession.js';
+import { createStudioActions } from './StudioActions.js';
+import { createStudioLayout } from './StudioLayout.js';
+import { createStudioState } from './StudioState.js';
+
+/** Unified application root whose heavy capability implementations are no longer startup dependencies. */
 export class AwtsmoosStudioApp {
 	constructor(root) {
 		this.root = root;
 		this.store = new AwtsmoosUiStore(createStudioState());
-		this.session = new StudioMovieSession({ root, store: this.store });
-		this.agentApi = new AwtsmoosStudioAgentApi(this.session);
-		this.actions = new AwtsmoosUiActions(createStudioActions(this.session));
-		this.renderer = new AwtsmoosUiRenderer({ root, store: this.store, actions: this.actions });
+		this.session = new StudioMovieSession({
+			root,
+			store: this.store
+		});
+		this.agentApi = new StudioLazyAgentApi(this.session);
+		this.actions = new StudioLazyUiActions(
+			createStudioActions(this.session),
+			this.session
+		);
+		this.renderer = new AwtsmoosUiRenderer({
+			root,
+			store: this.store,
+			actions: this.actions
+		});
 	}
 
+	/** Mounts visible Studio UI and publishes lightweight capability evidence immediately. */
 	mount() {
 		this.renderer.mount(createStudioLayout());
 		this.session.mount();
-		this.refreshCapabilities();
+		this.publishCoreCapabilities();
 		return this;
 	}
 
-	async refreshCapabilities() {
-		const capabilities = StudioMovieBridge.capabilities();
-		capabilities.renderer = this.agentApi.capabilities();
+	/** Publishes truthful first-render capability metadata without importing procedural or provider implementations. */
+	publishCoreCapabilities() {
+		const capabilities = describeStudioCoreCapabilities();
 		this.store.set('capabilities', capabilities);
-		const nativeCount = capabilities.nativeAssetSystems.length;
-		const studioCount = Object.keys(capabilities.studios).length;
 		this.store.set(
 			'status',
-			`Unified movie runtime live · ${studioCount} studio profiles · ${nativeCount} native procedural systems · federated backends ready.`
+			'Core Studio ready · advanced editor, AI, federation, export, and Pro Tools load only when requested.'
 		);
+		return capabilities;
 	}
 
+	/** Preloads the advanced agent island for callers that want full synchronous metadata afterward. */
+	async preloadAdvancedCapabilities() {
+		const api = await this.agentApi.preloadAdvanced();
+		const capabilities = {
+			...this.store.get('capabilities', {}),
+			renderer: api.capabilities()
+		};
+		this.store.set('capabilities', capabilities);
+		return capabilities;
+	}
+
+	/** Releases playback, subscriptions, and rendered UI owned by this app instance. */
 	destroy() {
 		this.session.destroy();
 		this.renderer.destroy();
