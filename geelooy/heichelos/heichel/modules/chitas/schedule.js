@@ -82,9 +82,10 @@ function transitionReference(items, date, portionIndex, israel) {
  */
 export function buildStudyCards(studyDate, parsha, items = [], { israel = false } = {}) {
 	const readings = sevenAliyahReadings(parsha);
-	const todayKey = toLocalDateKey(studyDate);
+	const todayKey = toLocalDateKey(todayDate);
 	return weekDates(studyDate).map((date, index) => {
 		const dateKey = toLocalDateKey(date);
+		const referenceText = specialReference(items, date, index, readings, israel) || readings[index] || '';
 		const today = dateKey === todayKey;
 		const special = transitionReference(items, date, index, israel);
 		return {
@@ -92,10 +93,14 @@ export function buildStudyCards(studyDate, parsha, items = [], { israel = false 
 			name: `${today ? 'Today · ' : ''}${WEEKDAY_NAMES[index]} · ${PORTION_NAMES[index]}`,
 			description: special || readings[index] || 'Open Chabad Daily Study for the exact Chumash portion.',
 			type: 'post',
-			virtualStudy: true,
-			externalHref: chabadStudyHref(date),
+			chitasStudy: true,
 			date: dateKey,
-			aliyah: index + 1
+			aliyah: index + 1,
+			weekday: WEEKDAY_NAMES[index],
+			weekdayHebrew: WEEKDAY_HEBREW[index],
+			portion: PORTION_NAMES[index],
+			portionHebrew: PORTION_HEBREW[index],
+			referenceText
 		};
 	});
 }

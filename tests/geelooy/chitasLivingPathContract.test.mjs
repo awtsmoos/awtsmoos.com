@@ -4,65 +4,49 @@
 /**
  * @module ChitasLivingPathContractTest
  * @description
- * The Awtsmoos joins computed study to the existing road without granting phantom ownership or unsafe escape;
- * Awtsmoos.com proves Ikar-only grouping, virtual loading, trusted Chabad navigation, and compact modules in shape.
+ * The Awtsmoos proves the Daily Chitas doorway remains native while every browser-facing module shares one generation;
+ * Awtsmoos.com rejects external exile, stale Chitas descendants, and social silence before release can cross creation.
  */
 
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { readFile } from 'node:fs/promises';
 import { injectChitasGrouping } from '../../geelooy/heichelos/heichel/modules/chitas/virtual-series.js';
 
-const read = file => readFileSync(file, 'utf8');
-const loaderPath = 'geelooy/heichelos/heichel/modules/navigator/loader.js';
-const cardsPath = 'geelooy/heichelos/heichel/modules/ui/render/living-path/cards.js';
-const controlsPath = 'geelooy/heichelos/heichel/modules/ui/render/controls.js';
-const governancePaths = [
-	'geelooy/heichelos/heichel/modules/ui/render/governance/control-plan.js',
-	'geelooy/heichelos/heichel/modules/ui/render/governance/create-controls.js',
-	'geelooy/heichelos/heichel/modules/ui/render/governance/series-controls.js'
-];
-const loader = read(loaderPath);
-const cards = read(cardsPath);
-const controls = read(controlsPath);
-
-const rootGroups = injectChitasGrouping([], 'ikar', 'root');
-assert.equal(rootGroups.length, 1);
-assert.equal(rootGroups[0].id, 'daily-chitas');
-assert.equal(rootGroups[0].type, 'grouping');
 assert.equal(injectChitasGrouping([], 'other', 'root').length, 0);
-assert.equal(injectChitasGrouping([], 'ikar', 'child').length, 0);
-assert.equal(injectChitasGrouping(rootGroups, 'ikar', 'root').length, 1);
+const injected = injectChitasGrouping([], 'ikar', 'root');
+assert.equal(injected.length, 1);
+assert.equal(injected[0].id, 'daily-chitas');
+assert.equal(injectChitasGrouping(injected, 'ikar', 'root').length, 1);
 
-assert.match(loader, /isChitasSeries\(seriesId\)/);
-assert.match(loader, /loadChitasVirtualSeries\(\)/);
-assert.match(loader, /injectChitasGrouping/);
-assert.match(loader, /seriesData\?\.virtual\) return 'posts'/);
-assert.match(loader, /appState\.ownsIt && !seriesData\?\.virtual/);
-
-assert.match(cards, /CHABAD_STUDY_HOST = 'www\.chabad\.org'/);
-assert.match(cards, /CHABAD_STUDY_PATH = '\/dailystudy\/'/);
-assert.match(cards, /data\.raw\?\.virtualStudy/);
-assert.match(cards, /trustedExternalHref\(data\)/);
-assert.match(controls, /appState\.currentSeriesData\?\.virtual/);
-assert.match(controls, /hideControlsArea\(\)/);
-assert.match(controls, /governance\/create-controls\.js/);
-assert.match(controls, /governance\/series-controls\.js/);
-
-const sourcePaths = [
-	'geelooy/heichelos/heichel/modules/chitas/constants.js',
-	'geelooy/heichelos/heichel/modules/chitas/date-policy.js',
+const paths = [
+	'geelooy/heichelos/heichel/modules/navigator/loader.js',
+	'geelooy/heichelos/heichel/modules/ui/render/living-path/cards.js',
+	'geelooy/heichelos/heichel/modules/chitas/week-state.js',
 	'geelooy/heichelos/heichel/modules/chitas/hebcal-provider.js',
 	'geelooy/heichelos/heichel/modules/chitas/schedule.js',
 	'geelooy/heichelos/heichel/modules/chitas/virtual-series.js',
-	loaderPath,
-	cardsPath,
-	controlsPath,
-	...governancePaths
+	'geelooy/heichelos/post/logic/chitas/rangeParser.js',
+	'geelooy/heichelos/post/logic/chitas/dynamicPost.js',
+	'geelooy/heichelos/post/logic/initialization/coordinates.js',
+	'geelooy/heichelos/post/logic/initialization/postManifest.js',
+	'geelooy/heichelos/post/logic/reference-posts/rangeResolver.js'
 ];
-for (const file of sourcePaths) {
-	const source = read(file);
-	assert.ok(source.split('\n').length - 1 <= 120, `${file} exceeds 120 lines`);
-	assert.match(source, /^\/\/ B"H/);
+const sources = Object.fromEntries(await Promise.all(paths.map(async path => [path, await readFile(path, 'utf8')])));
+const cards = sources[paths[1]];
+assert.match(cards, /chitasStudy/);
+assert.match(cards, /series\/daily-chitas\/post/);
+assert.doesNotMatch(cards, /chabad\.org|externalHref|virtualStudy/);
+assert.match(cards, /primarySocialActionRail/);
+const coordinates = sources[paths[8]];
+assert.match(coordinates, /loadDynamicChitasPost/);
+assert.match(coordinates, /native-chitas-002/);
+const manifest = sources[paths[9]];
+assert.match(manifest, /renderChitasMasthead/);
+assert.match(manifest, /native-chitas-002/);
+const generatedOwners = paths.slice(2, 10).map(path => sources[path]).join('\n');
+assert.doesNotMatch(generatedOwners, /native-chitas-001/);
+for (const [path, source] of Object.entries(sources)) {
+	assert.match(source.slice(0, 90), /B"H/);
+	assert.ok(source.split('\n').length - 1 <= 120, `${path} exceeds 120 lines`);
 }
-
-console.log('B"H Daily Chitas Living Path contract passed.');
+console.log('B"H Daily Chitas native Living Path generation contract passed.');

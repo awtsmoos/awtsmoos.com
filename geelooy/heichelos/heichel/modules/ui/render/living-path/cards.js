@@ -4,8 +4,8 @@
 /**
  * @module LivingPathCards
  * @description
- * The Awtsmoos creates each teaching beyond the card that reveals its light;
- * Awtsmoos.com joins progress and navigation while Chitas opens only a trusted study site.
+ * The Awtsmoos lets every teaching open inside its own Awtsmoos vessel, including date-born Chitas windows;
+ * Awtsmoos.com preserves progress and social action while refusing to exile native Torah through an external door.
  */
 
 import { getItemKey } from '../../../state.js';
@@ -16,8 +16,6 @@ import { cardMenuBlueprint } from './card-menu.js';
 import { bodyBlueprint, mediaBlueprint } from './card-content.js';
 
 const storage = createStorageGateway();
-const CHABAD_STUDY_HOST = 'www.chabad.org';
-const CHABAD_STUDY_PATH = '/dailystudy/';
 
 export function cardBlueprint(item, data, navigator, appState, options = {}) {
 	const key = getItemKey({ id: data.id, type: data.type });
@@ -26,7 +24,7 @@ export function cardBlueprint(item, data, navigator, appState, options = {}) {
 	return {
 		tag: 'article',
 		attr: {
-			class: `nav-card ${data.type}-nav-card ${options.variant || ''} ${selected ? 'selected' : ''}`.trim(),
+			class: `nav-card ${data.type}-nav-card ${data.raw?.chitasStudy ? 'chitas-study-card' : ''} ${options.variant || ''} ${selected ? 'selected' : ''}`.trim(),
 			'data-id': data.id,
 			'data-type': data.type,
 			'data-kind': data.kind,
@@ -46,31 +44,20 @@ export function cardBlueprint(item, data, navigator, appState, options = {}) {
 }
 
 export function cardHref(item, data, appState) {
-	const externalHref = trustedExternalHref(data);
-	if (externalHref) return externalHref;
 	if (['series', 'grouping'].includes(data.type)) {
 		return `${location.pathname}?view=series&series=${encodeURIComponent(data.id)}`;
+	}
+	if (data.raw?.chitasStudy) {
+		const params = new URLSearchParams(location.search);
+		params.set('chitasDate', data.raw.date);
+		if (!params.has('chitasLang')) params.set('chitasLang', 'en');
+		return `/heichelos/${encodeURIComponent(appState.heichelId)}/series/daily-chitas/post/${encodeURIComponent(data.id)}?${params}`;
 	}
 	const postKey = item.indexInSeries !== undefined ? item.indexInSeries : data.id;
 	return `/heichelos/${appState.heichelId}/series/${appState.currentSeries}/${postKey}`;
 }
 
-function trustedExternalHref(data) {
-	const candidate = data.raw?.externalHref;
-	if (!data.raw?.virtualStudy || typeof candidate !== 'string') return '';
-	try {
-		const url = new URL(candidate);
-		if (url.protocol !== 'https:') return '';
-		if (url.hostname !== CHABAD_STUDY_HOST) return '';
-		if (!url.pathname.startsWith(CHABAD_STUDY_PATH)) return '';
-		return url.href;
-	} catch {
-		return '';
-	}
-}
-
 function actionBlueprint(data, item, navigator, appState, options) {
-	if (data.raw?.virtualStudy) return options.expandControl || null;
 	return {
 		tag: 'div',
 		attr: { class: 'nav-card-actions' },
@@ -79,7 +66,7 @@ function actionBlueprint(data, item, navigator, appState, options) {
 			data.type === 'post'
 				? primarySocialActionRail({ ...item, id: data.id, title: data.title, contentType: data.kind }, appState)
 				: null,
-			cardMenuBlueprint(data, item, navigator, appState)
+			data.raw?.chitasStudy ? null : cardMenuBlueprint(data, item, navigator, appState)
 		].filter(Boolean)
 	};
 }
@@ -99,7 +86,6 @@ function openCard(event, item, data, href, navigator, appState) {
 		parentLabel: appState.currentSeriesData?.name || appState.currentSeries,
 		openedAt: Date.now()
 	});
-	if (trustedExternalHref(data)) location.href = href;
-	else if (['series', 'grouping'].includes(data.type)) navigator.navigateTo(data.id);
+	if (['series', 'grouping'].includes(data.type)) navigator.navigateTo(data.id);
 	else location.href = href;
 }

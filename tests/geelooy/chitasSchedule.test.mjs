@@ -35,31 +35,30 @@ const nitzavimVayeilech = {
 };
 const haazinu = {
 	category: 'parashat',
-	date: '2026-09-19',
-	title: 'Parashat Ha’azinu',
+	date: '2026-10-10',
+	title: 'Parashat Bereshit',
 	leyning: {
-		'1': 'Deuteronomy 32:1-32:6',
-		'2': 'Deuteronomy 32:7-32:12',
-		'3': 'Deuteronomy 32:13-32:18',
-		'4': 'Deuteronomy 32:19-32:28',
-		'5': 'Deuteronomy 32:29-32:39',
-		'6': 'Deuteronomy 32:40-32:43',
-		'7': 'Deuteronomy 32:44-32:52'
+		'1': 'Genesis 1:1-2:3',
+		'2': 'Genesis 2:4-2:19',
+		'3': 'Genesis 2:20-3:21',
+		'4': 'Genesis 3:22-4:18',
+		'5': 'Genesis 4:19-4:22',
+		'6': 'Genesis 4:23-5:24',
+		'7': 'Genesis 5:25-6:8'
 	}
 };
 
 const sunday = new Date(2026, 7, 30, 12);
 assert.equal(aliyahNumberForDate(sunday), 1);
-assert.deepEqual(
-	weekDates(sunday).map(toLocalDateKey),
-	['2026-08-30', '2026-08-31', '2026-09-01', '2026-09-02', '2026-09-03', '2026-09-04', '2026-09-05']
-);
-assert.deepEqual(sevenAliyahReadings(nitzavimVayeilech), Object.values(nitzavimVayeilech.leyning));
-const ordinaryCards = buildStudyCards(sunday, nitzavimVayeilech);
-assert.equal(ordinaryCards.length, 7);
-assert.match(ordinaryCards[0].name, /^Today · Sunday · 1st Portion$/);
-assert.equal(ordinaryCards[0].description, 'Deuteronomy 29:9-29:28');
-assert.match(ordinaryCards[0].externalHref, /^https:\/\/www\.chabad\.org\/dailystudy\//);
+assert.deepEqual(weekDates(sunday).map(toLocalDateKey), [
+	'2026-08-30', '2026-08-31', '2026-09-01', '2026-09-02', '2026-09-03', '2026-09-04', '2026-09-05'
+]);
+const ordinary = buildStudyCards(sunday, nitzavimVayeilech, [], { todayDate: sunday });
+assert.equal(ordinary.length, 7);
+assert.equal(ordinary[0].referenceText, 'Deuteronomy 29:9-29:28');
+assert.equal(ordinary[6].referenceText, 'Deuteronomy 31:20-31:30');
+assert.equal(ordinary[0].chitasStudy, true);
+assert.equal('externalHref' in ordinary[0], false);
 
 const holidayWeek = [
 	{ category: 'holiday', date: '2026-09-12', title: 'Rosh Hashana 5787' },

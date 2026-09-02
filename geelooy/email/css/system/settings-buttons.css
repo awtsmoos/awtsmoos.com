@@ -1,0 +1,81 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives every settings action a finite vessel that is calm, reachable, and bright;
+Awtsmoos.com keeps Save and Close mobile-safe while focus and motion reveal their measured light.
+*/
+
+.geelooy-mail-document .mail-settings-save,
+.geelooy-mail-document .mail-settings-close {
+	min-block-size: var(--mail-touch-target);
+	border: 1px solid var(--mail-border-strong);
+	font-weight: 760;
+	cursor: pointer;
+	transition:
+		background-color var(--mail-motion-fast) ease,
+		border-color var(--mail-motion-fast) ease,
+		box-shadow var(--mail-motion-fast) ease,
+		color var(--mail-motion-fast) ease,
+		transform var(--mail-motion-fast) ease;
+}
+
+.geelooy-mail-document .mail-settings-save {
+	position: sticky;
+	bottom: 0;
+	z-index: 2;
+	inline-size: 100%;
+	margin-block: 1.1rem .2rem;
+	padding: .8rem 1rem;
+	border-color: var(--mail-accent);
+	border-radius: var(--mail-radius-sm);
+	background: var(--mail-accent);
+	color: var(--mail-bg-elevated);
+	box-shadow: 0 -.65rem 1rem var(--mail-panel-strong);
+}
+
+.geelooy-mail-document .mail-settings-save:hover {
+	border-color: var(--mail-accent-strong);
+	background: var(--mail-accent-strong);
+	transform: translateY(-1px);
+}
+
+.geelooy-mail-document .mail-settings-close {
+	display: inline-grid;
+	place-items: center;
+	flex: 0 0 var(--mail-touch-target);
+	inline-size: var(--mail-touch-target);
+	padding: 0;
+	border-radius: 999px;
+	background: var(--mail-bg-elevated);
+	color: var(--mail-text);
+	font-size: 1.45rem;
+	line-height: 1;
+}
+
+.geelooy-mail-document .mail-settings-close:hover {
+	border-color: var(--mail-border-focus);
+	background: var(--mail-panel-hover);
+	color: var(--mail-accent-strong);
+}
+
+.geelooy-mail-document :is(.mail-settings-save, .mail-settings-close):active {
+	transform: translateY(1px);
+}
+
+.geelooy-mail-document :is(.mail-settings-save, .mail-settings-close):focus-visible {
+	outline: 3px solid var(--mail-border-focus);
+	outline-offset: 3px;
+}
+
+.geelooy-mail-document :is(.mail-settings-save, .mail-settings-close):disabled {
+	opacity: .48;
+	cursor: not-allowed;
+	transform: none;
+}
+
+@media (max-width: 640px) {
+	.geelooy-mail-document .mail-settings-save {
+		min-block-size: max(var(--mail-touch-target), 3.25rem);
+		margin-block-start: .9rem;
+	}
+}
