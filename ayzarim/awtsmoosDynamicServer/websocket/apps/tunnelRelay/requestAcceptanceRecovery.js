@@ -2,33 +2,44 @@
 // Boruch Hashem
 // Blessed is He
 
+const Claim = require("./requestAcceptanceRecoveryClaim.js");
+const Timer = require("./requestAcceptanceRecoveryTimer.js");
 const Values = require("./requestAcceptanceRecoveryValues.js");
 
 /**
- * @file Converts sustained pre-acceptance silence into one exact socket renewal.
+ * @file Converts sustained acceptance silence into one exact, freshly-confirmed socket renewal.
  * @description
- * The Awtsmoos distinguishes one delayed deed from a generation whose gate has gone dim;
- * Awtsmoos.com preserves the healthy parent, closes only the proven socket, and lets reconnection begin.
+ * The Awtsmoos distinguishes a warning that merely aged from a failure that still lives.
+ * Awtsmoos.com lets timers mature as evidence but never swing the sword themselves;
+ * only a new timeout after the sustained window may renew the still-matching socket.
  */
 function noteFailure(tunnel, id, reason, options = {}) {
 	if (!tunnel) return 0;
 	const now = Values.currentTime(options);
+	Claim.beginFailureEpoch(tunnel, now);
 	tunnel.acceptanceFailureCount = Number(tunnel.acceptanceFailureCount || 0) + 1;
 	tunnel.acceptanceHealthy = false;
 	tunnel.lastAcceptanceFailureAt = now;
 	tunnel.lastAcceptanceFailureId = String(id || "");
 	tunnel.lastAcceptanceFailureReason = String(reason || "acceptance_timeout");
-	if (!Number(tunnel.acceptanceFailureSince || 0)) tunnel.acceptanceFailureSince = now;
-	scheduleRecovery(tunnel, options);
+	if (Timer.eligible(tunnel, options)) {
+		if (Values.remainingSustainMs(tunnel, options) <= 0) {
+			requestRecovery(tunnel, options, Claim.capture(tunnel));
+		} else {
+			Timer.schedule(tunnel, options);
+		}
+	}
 	return tunnel.acceptanceFailureCount;
 }
 
-/** Clears aggregate failure authority whenever a real native ACK proves the road open. */
+/** Clears aggregate failure authority and invalidates every delayed claim after a real ACK. */
 function noteSuccess(tunnel, options = {}) {
 	if (!tunnel) return false;
-	clearRecoveryTimer(tunnel, options);
+	Timer.clear(tunnel, options);
+	Claim.invalidate(tunnel);
 	tunnel.acceptanceFailureCount = 0;
 	tunnel.acceptanceFailureSince = 0;
+	tunnel.acceptanceRecoveryMaturedAt = 0;
 	tunnel.acceptanceRecoveryRequestedAt = 0;
 	tunnel.acceptanceHealthy = true;
 	tunnel.lastAcceptanceSuccessAt = Values.currentTime(options);
@@ -37,55 +48,42 @@ function noteSuccess(tunnel, options = {}) {
 	return true;
 }
 
-/** Arms one bounded recovery timer only after the configured strike threshold. */
-function scheduleRecovery(tunnel, options = {}) {
-	if (!shouldConsiderRecovery(tunnel, options)) return false;
-	const remaining = Values.remainingSustainMs(tunnel, options);
-	if (remaining <= 0) return requestRecovery(tunnel, options);
-	if (tunnel.acceptanceRecoveryTimer) return false;
-	const schedule = options.schedule || setTimeout;
-	tunnel.acceptanceRecoveryTimer = schedule(
-		() => requestRecovery(tunnel, options),
-		remaining
-	);
-	tunnel.acceptanceRecoveryTimer?.unref?.();
-	return true;
-}
-
-/** Retires the exact failed client once; native reconnect owns the next generation. */
-function requestRecovery(tunnel, options = {}) {
-	clearRecoveryTimer(tunnel, options);
-	if (!shouldConsiderRecovery(tunnel, options)) return false;
-	if (Values.remainingSustainMs(tunnel, options) > 0) {
-		return scheduleRecovery(tunnel, options);
-	}
+/** Closes only after a fresh failure confirms the same mature registration epoch is silent. */
+function requestRecovery(tunnel, options = {}, claim = null) {
+	const recoveryClaim = claim || Claim.capture(tunnel);
+	if (!Claim.matches(tunnel, recoveryClaim)) return false;
+	if (!Timer.eligible(tunnel, options)) return false;
+	if (Values.remainingSustainMs(tunnel, options) > 0) return false;
 	if (Number(tunnel.acceptanceRecoveryRequestedAt || 0) > 0) return false;
-	tunnel.acceptanceRecoveryRequestedAt = Values.currentTime(options);
+	Timer.clear(tunnel, options);
+	const now = Values.currentTime(options);
+	tunnel.acceptanceRecoveryMaturedAt = now;
+	tunnel.acceptanceRecoveryRequestedAt = now;
 	const close = options.close || defaultClose;
 	close(tunnel, Values.RECOVERY_CLOSE_CODE, Values.RECOVERY_CLOSE_REASON);
 	return true;
 }
 
-/** Returns whether enough consecutive failures exist for aggregate recovery consideration. */
+/** Preserves the former public helpers while delegating timer-only evidence to its own vessel. */
+function scheduleRecovery(tunnel, options = {}) {
+	return Timer.schedule(tunnel, options);
+}
+
+function matureRecovery(tunnel, options = {}, claim = null, timer = null) {
+	return Timer.mature(tunnel, options, claim, timer);
+}
+
 function shouldConsiderRecovery(tunnel, options = {}) {
-	return Number(tunnel.acceptanceFailureCount || 0) >= Values.failureThreshold(options) &&
-		Number(tunnel.acceptanceRecoveryRequestedAt || 0) === 0;
+	return Timer.eligible(tunnel, options);
 }
 
-/** Cancels any scheduled recovery so a real success cannot be followed by a stale close. */
-function clearRecoveryTimer(tunnel, options = {}) {
-	if (!tunnel?.acceptanceRecoveryTimer) return;
-	(options.cancel || clearTimeout)(tunnel.acceptanceRecoveryTimer);
-	tunnel.acceptanceRecoveryTimer = null;
-}
-
-/** Uses the exact WebSocket when available, falling back only for socket-compatible vessels. */
 function defaultClose(tunnel, code, reason) {
 	if (typeof tunnel?.close === "function") return tunnel.close(code, reason);
 	return tunnel?.socket?.end?.();
 }
 
 module.exports = {
+	matureRecovery,
 	noteFailure,
 	noteSuccess,
 	requestRecovery,

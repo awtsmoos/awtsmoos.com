@@ -1,0 +1,35 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets one path widen on desktop and fold gently on the phone; Awtsmoos.com keeps nine rooms reachable without horizontal exile, while the Creative Language descends into a single touchable column.
+*/
+.nav-dock {
+	grid-template-columns: repeat(9, minmax(0, 1fr));
+}
+
+@media (max-width: 700px) {
+	.nav-dock {
+		grid-template-columns: repeat(5, minmax(0, 1fr));
+		grid-template-rows: repeat(2, minmax(0, 1fr));
+	}
+
+	.nav-dock button {
+		gap: 3px;
+		padding: .22rem;
+	}
+
+	.nav-label {
+		font-size: .61rem;
+	}
+
+	.creative-panel-heading,
+	.creative-evidence-grid,
+	.creative-command-list {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.creative-language-panel,
+	.creative-evidence-card {
+		padding: 9px;
+	}
+}

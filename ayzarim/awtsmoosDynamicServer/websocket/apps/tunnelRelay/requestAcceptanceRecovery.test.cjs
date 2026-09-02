@@ -6,28 +6,29 @@ const assert = require("node:assert/strict");
 const Recovery = require("./requestAcceptanceRecovery.js");
 
 /**
- * @file Proves sustained acceptance silence retires one exact socket while a real ACK resets the decree.
+ * @file Proves sustained silence matures first and only a fresh failure may renew the socket.
  * @description
- * The Awtsmoos counts evidence before renewal; Awtsmoos.com closes once,
- * preserves the parent, and restores peace through truth.
+ * The Awtsmoos lets time become testimony without turning time itself into a destroyer.
+ * Awtsmoos.com closes only when a new timeout confirms the same registration is still silent.
  */
 let now = 10000;
 let scheduled = null;
-let cancelled = 0;
 const closes = [];
-const tunnel = { registeredAt: 1000 };
+const tunnel = {
+	registeredAt: 1000,
+	registrationGeneration: 7
+};
 const options = {
 	now: () => now,
 	failureThreshold: 3,
 	sustainMs: 30000,
-	schedule: (callback, delay) => {
-		scheduled = { callback, delay };
-		return { unref() {} };
+	schedule(callback, delay) {
+		const timer = { callback, delay, unref() {} };
+		scheduled = timer;
+		return timer;
 	},
-	cancel: () => {
-		cancelled += 1;
-	},
-	close: (_client, code, reason) => {
+	cancel() {},
+	close(_client, code, reason) {
 		closes.push([code, reason]);
 	}
 };
@@ -40,17 +41,23 @@ assert.equal(closes.length, 0);
 assert.equal(scheduled.delay, 25000);
 
 now = 40000;
-scheduled.callback();
+assert.equal(scheduled.callback(), true);
+assert.equal(tunnel.acceptanceRecoveryMaturedAt, 40000);
+assert.equal(tunnel.acceptanceRecoveryRequestedAt || 0, 0);
+assert.equal(closes.length, 0);
+
+assert.equal(Recovery.noteFailure(tunnel, "d", "timeout", options), 4);
 assert.deepEqual(closes, [[4001, "Acceptance recovery"]]);
 assert.equal(tunnel.acceptanceRecoveryRequestedAt, 40000);
-Recovery.noteFailure(tunnel, "d", "timeout", options);
+Recovery.noteFailure(tunnel, "e", "timeout", options);
 assert.equal(closes.length, 1);
 
 now = 41000;
 assert.equal(Recovery.noteSuccess(tunnel, options), true);
 assert.equal(tunnel.acceptanceFailureCount, 0);
+assert.equal(tunnel.acceptanceFailureSince, 0);
+assert.equal(tunnel.acceptanceRecoveryMaturedAt, 0);
 assert.equal(tunnel.acceptanceRecoveryRequestedAt, 0);
 assert.equal(tunnel.acceptanceHealthy, true);
-assert.equal(cancelled > 0, true);
 
-console.log("BHY sustained acceptance loss closes once after thirty seconds and success resets recovery");
+console.log("BHY acceptance recovery requires fresh post-sustain failure confirmation");
