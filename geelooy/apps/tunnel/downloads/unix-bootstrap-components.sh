@@ -3,8 +3,8 @@
 # Boruch Hashem
 # Blessed is He
 
-# The Awtsmoos gathers installer, guardian, and rescue garments into one verified archive;
-# Awtsmoos.com keeps every transient-retirement vessel declared so no old guardian survives a rewrite.
+# The Awtsmoos gathers installer, guardian, startup, and rescue garments into one verified archive;
+# Awtsmoos.com keeps every phase vessel declared so no release forgets the evidence needed to survive.
 helpers=(
 	unix-install-core.sh unix-install-custody.cjs unix-install-sources.sh unix-cleanup.sh
 	unix-install-log.sh unix-install-progress.sh unix-install-browser.sh
@@ -14,15 +14,16 @@ helpers=(
 	unix-package-config.sh unix-legacy-catalog.sh unix-process-census.sh
 	unix-legacy-transient-supervisor.sh unix-process-runtime.sh unix-process-control.sh
 	unix-connection-health.sh unix-project-root-health.sh unix-project-root-compat.sh
-	unix-service-health.sh unix-install-readiness.sh unix-late-readiness.sh
-	unix-emergency-continuity.sh unix-install-success-values.sh unix-install-success.sh
-	unix-version-policy.sh unix-legacy-fallback.sh unix-install-resume.sh
-	unix-fast-repair-health.sh unix-fast-repair.sh unix-metadata-fallback.sh
-	unix-package-stage.sh unix-recovery-archive-list.sh unix-recovery-retention.sh
-	unix-recovery-store.sh unix-recovery-validation.sh unix-recovery-identity.sh
-	unix-recovery-candidates.sh unix-recovery-rescue.sh unix-emergency-capture.sh
-	unix-emergency-runtime.sh unix-fresh-identity-grant.sh unix-activation-state.sh
-	unix-activation-fresh.sh unix-activation-rollback.sh unix-candidate-pairing.sh
+	unix-service-health.sh unix-readiness-runtime.sh unix-startup-phase.sh
+	unix-install-readiness.sh unix-late-readiness.sh unix-emergency-continuity.sh
+	unix-install-success-values.sh unix-install-success.sh unix-version-policy.sh
+	unix-legacy-fallback.sh unix-install-resume.sh unix-fast-repair-health.sh
+	unix-fast-repair.sh unix-metadata-fallback.sh unix-package-stage.sh
+	unix-recovery-archive-list.sh unix-recovery-retention.sh unix-recovery-store.sh
+	unix-recovery-validation.sh unix-recovery-identity.sh unix-recovery-candidates.sh
+	unix-recovery-rescue.sh unix-emergency-capture.sh unix-emergency-runtime.sh
+	unix-fresh-identity-grant.sh unix-activation-state.sh unix-activation-fresh.sh
+	unix-activation-rollback.sh unix-candidate-pairing.sh
 	unix-candidate-probe-readiness-state.sh unix-candidate-probe-readiness-evidence.sh
 	unix-candidate-probe-readiness.sh unix-candidate-probe.sh unix-activation-promotion.sh
 	unix-activation.sh unix-install-lifecycle.sh unix-service-identity.sh

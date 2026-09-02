@@ -2,6 +2,7 @@
 // Boruch Hashem
 // Blessed is He
 
+const EffectiveInbox = require("./mailbox-effective-inbox.js");
 const Health = require("./mailbox-health.js");
 const Incarnation = require("./connection-incarnation.js");
 const MailboxIncarnation = require("./mailbox-incarnation.js");
@@ -51,6 +52,7 @@ function create(options = {}) {
 		return {
 			health,
 			inbox: inboxState,
+			rawInbox,
 			limits: store.limits,
 			outbox: outboxState
 		};

@@ -15,6 +15,7 @@ const Values = require("./requestAcceptanceRecoveryValues.js");
  */
 function noteFailure(tunnel, id, reason, options = {}) {
 	if (!tunnel) return 0;
+	Lifecycle.ensure(tunnel);
 	const now = Values.currentTime(options);
 	Claim.beginFailureEpoch(tunnel, now);
 	tunnel.acceptanceFailureCount = Number(tunnel.acceptanceFailureCount || 0) + 1;

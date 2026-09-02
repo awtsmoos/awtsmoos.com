@@ -3,8 +3,8 @@
 # Boruch Hashem
 # Blessed is He
 
-# The Awtsmoos orders each installer vessel before activation and repair;
-# Awtsmoos.com sources identity, archives, transient retirement, and continuity before danger can bare.
+# The Awtsmoos orders every installer vessel before activation and repair;
+# Awtsmoos.com sources identity, health, startup phases, archives, and continuity before danger can bare.
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-node-runtime.sh"
 activate_node_runtime "$ROOT" || exit 1
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-cleanup.sh"
@@ -27,6 +27,8 @@ source "$AWTSMOOS_INSTALL_RUNTIME/unix-connection-health.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-project-root-health.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-project-root-compat.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-service-health.sh"
+source "$AWTSMOOS_INSTALL_RUNTIME/unix-readiness-runtime.sh"
+source "$AWTSMOOS_INSTALL_RUNTIME/unix-startup-phase.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-install-readiness.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-late-readiness.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-emergency-continuity.sh"
