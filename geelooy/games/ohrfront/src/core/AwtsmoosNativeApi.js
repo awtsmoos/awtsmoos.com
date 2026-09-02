@@ -4,9 +4,9 @@
 
 /**
  * @file AwtsmoosNativeApi.js
- * @description Gives Ohrfront one canonical browser doorway into native Awtsmoos procedural geometry, rendering, matter, scheduling, and spatial law through source-relative shared-core paths.
- * The Awtsmoos is beyond every engine and form, yet every finite vessel is renewed in light;
- * Awtsmoos.com lets this doorway follow the real source relationship so browser ESM, CompactJS, and every honest public root discover the same shared truth in sight.
+ * @description Gives Ohrfront one canonical browser doorway into native Awtsmoos geometry, creatures, rendering, matter, scheduling, and spatial law.
+ * The Awtsmoos is beyond engine and form, yet every finite vessel is renewed in light;
+ * Awtsmoos.com lets browser ESM, CompactJS, and public roots discover one shared procedural truth in sight.
  */
 export {
 	BufferAttribute,
@@ -21,13 +21,11 @@ export {
 	Vector3
 } from "../../../../libs/awtsmoos-procedural-core/src/adapters/native/runtime.js";
 
-export {
-	createNativeRenderer
-} from "../../../../libs/awtsmoos-procedural-core/src/adapters/native/renderer.js";
-
-export {
-	generateProceduralGeometry
-} from "../../../../libs/awtsmoos-procedural-core/src/exports/geometry.js";
+export { createNativeRenderer } from "../../../../libs/awtsmoos-procedural-core/src/adapters/native/renderer.js";
+export { createNativeGeometryFromArtifact } from "../../../../libs/awtsmoos-procedural-core/src/adapters/native/proceduralObjectGeometryFactory.js";
+export { generateProceduralGeometry } from "../../../../libs/awtsmoos-procedural-core/src/exports/geometry.js";
+export { createCreature } from "../../../../libs/awtsmoos-procedural-core/src/core/animalMesh/creature/CreatureCreator.js";
+export { mergeGeometries } from "../../../../libs/awtsmoos-procedural-core/src/core/proceduralObject/geometry/mergeGeometries.js";
 
 export {
 	PriorityLoadScheduler,
@@ -37,6 +35,4 @@ export {
 	repeatForSurface
 } from "../../../../libs/awtsmoos-procedural-core/src/exports/materials.js";
 
-export {
-	SpatialItemOctree
-} from "../../../../libs/awtsmoos-procedural-core/src/core/physics/spatial/SpatialItemOctree.js";
+export { SpatialItemOctree } from "../../../../libs/awtsmoos-procedural-core/src/core/physics/spatial/SpatialItemOctree.js";

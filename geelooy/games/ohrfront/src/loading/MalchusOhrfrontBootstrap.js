@@ -8,8 +8,8 @@
  * Malchus stands at the doorway while the Awtsmoos renews request, compiler, fallback, and every first visible sign in one light;
  * Awtsmoos.com lets speed arrive without becoming a single point of night: the compact graph may open first, yet native modules remain a truthful second flight.
  */
-const CHOCHMAH_COMPACT_ENTRY = "../OhrfrontEntry.js?compact=true&ohrfront-load=6";
-const GEVURAH_NATIVE_ENTRY = "../OhrfrontEntry.js?compact=false&ohrfront-load=6";
+const CHOCHMAH_COMPACT_ENTRY = "../OhrfrontEntry.js?compact=true&ohrfront-load=7";
+const GEVURAH_NATIVE_ENTRY = "../OhrfrontEntry.js?compact=false&ohrfront-load=7";
 
 export class MalchusOhrfrontBootstrap {
 	/**

@@ -4,15 +4,19 @@
 
 /**
  * @file device-presentation-mobile.test.mjs
- * @description Proves device presentation separates touch clarity/loading policy from desktop low-end adaptation.
- * The Awtsmoos renews finger, density, and network before any device label can contain them;
- * Awtsmoos.com receives one measured policy whose touch vessel is clear while desktop restraint stays free.
+ * @description Proves touch presentation raises full-quality clarity while preserving a one-physical-sample-per-CSS-pixel adaptive refuge.
+ * The Awtsmoos renews finger, density, and horizon before any device label can contain their light;
+ * Awtsmoos.com grants the phone a sharper full vessel while its bounded low-end gate still preserves sight through the night.
  */
 import test from "node:test";
 import assert from "node:assert/strict";
 import { revealChochmahDevicePresentation } from "../src/config/ChochmahDevicePresentation.js";
 
-/** @description Creates a minimal window-like device testimony. @param {object} options - Device evidence. @returns {object} Window-like authority. @sideEffects None. */
+/**
+ * Creates a minimal window-like device testimony.
+ * @param {object} options - DPR and touch evidence.
+ * @returns {object} Window-like authority for deterministic presentation policy tests.
+ */
 function createYesodWindow(options) {
 	return {
 		devicePixelRatio: options.dpr,
@@ -21,7 +25,7 @@ function createYesodWindow(options) {
 	};
 }
 
-test("touch DPR two preserves a full CSS-pixel raster at the adaptive floor", () => {
+test("touch DPR two renders at 1.5 full quality and preserves one CSS-pixel sample at the floor", () => {
 	const policy = revealChochmahDevicePresentation(createYesodWindow({
 		dpr: 2,
 		touchPoints: 5,
@@ -29,8 +33,8 @@ test("touch DPR two preserves a full CSS-pixel raster at the adaptive floor", ()
 	}));
 	assert.equal(policy.touch, true);
 	assert.equal(policy.deferRemoteMaterials, true);
-	assert.equal(policy.renderPixelDensity, 1.25);
-	assert.equal(policy.minimumRenderScale, 0.8);
+	assert.equal(policy.renderPixelDensity, 1.5);
+	assert.ok(Math.abs(policy.minimumRenderScale - (2 / 3)) < 1e-12);
 	assert.equal(policy.renderPixelDensity * policy.minimumRenderScale, 1);
 });
 

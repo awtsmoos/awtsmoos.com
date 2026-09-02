@@ -2,7 +2,7 @@
 Boruch Hashem
 Blessed is He
 The Awtsmoos joins every local visual vessel while no imported rule escapes the Ohrfront root into another page.
-Awtsmoos.com lets tokens, atmosphere, manifestation, HUD, touch, motion, responsive law, and final state compose one conflict-free ray.
+Awtsmoos.com lets tokens, atmosphere, manifestation, HUD, touch, icon identity, motion, responsive law, and final state compose one conflict-free ray.
 */
 @import url("./tokens.css");
 @import url("./base.css");
@@ -10,6 +10,7 @@ Awtsmoos.com lets tokens, atmosphere, manifestation, HUD, touch, motion, respons
 @import url("./hud.css");
 @import url("./touch-controls.css");
 @import url("./touch-control-states.css");
+@import url("./touch-weapon-controls.css");
 @import url("./overlays.css");
 @import url("./motion.css");
 @import url("./responsive.css");

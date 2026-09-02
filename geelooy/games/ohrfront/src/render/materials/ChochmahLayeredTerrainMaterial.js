@@ -4,19 +4,14 @@
 
 /**
  * @file ChochmahLayeredTerrainMaterial.js
- * @description Composes Har HaOhr's texture-bearing terrain material while profile data and runtime layer resolution remain focused submodules.
- * Chochmah joins broad earth and micro texture while the Awtsmoos renews every ridge beneath the traveler's tread;
- * Awtsmoos.com lets broad deterministic variation break repetition without adding texture fetches, geometry, or gameplay debt.
+ * @description Composes Har HaOhr's grass-and-dirt base plus six ecological layers with distance-readable native sampling.
+ * Chochmah joins blade, earth, stone, and broad variation while the Awtsmoos renews every ridge beneath the traveler's tread;
+ * Awtsmoos.com lets natural soil break the meadow's repetition without trading the mountain for a smeared green spread.
  */
 import { MeshStandardMaterial } from "../../core/AwtsmoosNativeApi.js";
 import { createChochmahTerrainLayers } from "./ChochmahTerrainLayerFactory.js";
 
-/**
- * @description Creates Har HaOhr's six-layer texture-bearing material with legal broad world-space patch mixing and progressive remote hydration.
- * @param {object} yesodMaterialLibrary - Semantic material library providing local fallback images, remote images, and progressive tracking.
- * @returns {object} Native tracked terrain material with base, mix, and six environment-sensitive texture layers.
- * @sideEffects Enrolls the material in progressive hydration so remote images may replace local fallback canvases later.
- */
+/** Creates the tracked layered terrain material with stronger natural dirt identity and bounded anisotropic sampling. */
 export function createChochmahLayeredTerrainMaterial(yesodMaterialLibrary) {
 	const malchusMaterial = new MeshStandardMaterial({
 		name: "HarHaOhrLayeredTerrain",
@@ -26,9 +21,10 @@ export function createChochmahLayeredTerrainMaterial(yesodMaterialLibrary) {
 	malchusMaterial.mapRepeat = [73, 67];
 	malchusMaterial.mixImage = yesodMaterialLibrary.image("dirt");
 	malchusMaterial.mixRepeat = [31, 37];
-	malchusMaterial.mixStrength = 0.34;
-	malchusMaterial.mixPatchScale = 0.022;
-	malchusMaterial.mixPatchSharpness = 0.56;
+	malchusMaterial.mixStrength = 0.58;
+	malchusMaterial.mixPatchScale = 0.026;
+	malchusMaterial.mixPatchSharpness = 0.48;
+	malchusMaterial.anisotropy = 4;
 	malchusMaterial.textureLayers = createChochmahTerrainLayers(yesodMaterialLibrary);
 	malchusMaterial.remoteTextureBindings = Object.freeze({
 		mapImage: "meadowLushGrass",

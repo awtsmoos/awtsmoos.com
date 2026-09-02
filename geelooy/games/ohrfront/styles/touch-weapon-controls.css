@@ -1,0 +1,92 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos renews pulse, burst, lance, letter, and touch while Awtsmoos.com keeps every icon deterministic instead of surrendering its face to platform emoji.
+The rail stays above RUN and FIRE; pure CSS signs remain crisp, tiny, accessible through their parent labels, and faithful in every browser light.
+*/
+.ohrfront-app .ohr-touch-weapon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.18rem;
+	padding: 0 0.18rem;
+	letter-spacing: 0;
+}
+
+.ohrfront-app .ohr-touch-weapon__icon {
+	position: relative;
+	display: inline-block;
+	width: 1rem;
+	height: 1rem;
+	flex: 0 0 1rem;
+	color: #82f5ea;
+	filter: drop-shadow(0 0 0.18rem rgb(106 238 226 / 45%));
+}
+
+.ohrfront-app .ohr-touch-weapon__icon--pulse {
+	box-sizing: border-box;
+	border: 0.12rem solid currentColor;
+	border-radius: 50%;
+}
+
+.ohrfront-app .ohr-touch-weapon__icon--pulse::after {
+	content: "";
+	position: absolute;
+	inset: 0.22rem;
+	border-radius: 50%;
+	background: currentColor;
+}
+
+.ohrfront-app .ohr-touch-weapon__icon--burst::before,
+.ohrfront-app .ohr-touch-weapon__icon--burst::after,
+.ohrfront-app .ohr-touch-weapon__icon--lance::before,
+.ohrfront-app .ohr-touch-weapon__icon--lance::after {
+	content: "";
+	position: absolute;
+}
+
+.ohrfront-app .ohr-touch-weapon__icon--burst::before {
+	inset: 0.28rem;
+	transform: rotate(45deg);
+	background: currentColor;
+}
+
+.ohrfront-app .ohr-touch-weapon__icon--burst::after {
+	left: 0.42rem;
+	top: 0.06rem;
+	width: 0.16rem;
+	height: 0.16rem;
+	border-radius: 50%;
+	background: currentColor;
+	box-shadow: 0.36rem 0.48rem 0 currentColor, -0.36rem 0.48rem 0 currentColor;
+}
+
+.ohrfront-app .ohr-touch-weapon__icon--lance::before {
+	left: 0.1rem;
+	top: 0.43rem;
+	width: 0.72rem;
+	height: 0.14rem;
+	border-radius: 999px;
+	background: currentColor;
+	transform: rotate(-35deg);
+}
+
+.ohrfront-app .ohr-touch-weapon__icon--lance::after {
+	right: 0.02rem;
+	top: 0.08rem;
+	border-left: 0.28rem solid currentColor;
+	border-top: 0.16rem solid transparent;
+	border-bottom: 0.16rem solid transparent;
+	transform: rotate(-35deg);
+}
+
+.ohrfront-app .ohr-touch-weapon__glyph {
+	font: 900 1.18rem/1 Georgia, serif;
+	color: #f7fffc;
+	text-shadow: 0 0 0.32rem rgb(111 244 232 / 72%);
+}
+
+.ohrfront-app .ohr-touch-weapon[aria-pressed="true"] .ohr-touch-weapon__icon,
+.ohrfront-app .ohr-touch-weapon[aria-pressed="true"] .ohr-touch-weapon__glyph {
+	transform: scale(1.12);
+}

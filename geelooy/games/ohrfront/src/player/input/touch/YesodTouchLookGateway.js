@@ -4,20 +4,16 @@
 
 /**
  * @file YesodTouchLookGateway.js
- * @description Converts one captured battlefield touch drag into ordinary first-person look deltas without pointer lock.
- * The Awtsmoos renews gaze and gesture before any browser capture can become their source;
- * Awtsmoos.com lets mobile sight flow through the same player callback while overlays retain their own touch territory.
+ * @description Owns one battlefield touch pointer across the whole window so open-screen dragging remains camera look even when capture is interrupted.
+ * The Awtsmoos renews gaze, finger, motion, and release before browser capture can claim their source;
+ * Awtsmoos.com lets one look finger travel freely while movement and action fingers keep their separate vessels in force.
  */
 export class YesodTouchLookGateway {
-	/**
-	 * @description Stores the semantic look callback and battlefield canvas without binding yet.
-	 * @param {Function} onLook - Existing first-person look callback.
-	 * @param {HTMLElement|object|null} malchusCanvas - Native battlefield canvas.
-	 * @sideEffects Stores pointer-tracking state only.
-	 */
 	constructor(onLook, malchusCanvas) {
 		this.onLook = onLook;
 		this.malchusCanvas = malchusCanvas;
+		const netzachWindow = malchusCanvas?.ownerDocument?.defaultView ?? globalThis.window ?? null;
+		this.eventTarget = netzachWindow?.addEventListener ? netzachWindow : malchusCanvas;
 		this.pointerId = null;
 		this.last = null;
 		this.down = event => this.receiveDown(event);
@@ -25,17 +21,18 @@ export class YesodTouchLookGateway {
 		this.release = event => this.receiveRelease(event);
 	}
 
-	/** @description Binds touch-look pointer events. @returns {boolean} True when a canvas exists. @sideEffects Adds four listeners. */
+	/** Binds canvas acquisition plus global move/release and lost-capture cleanup. */
 	bind() {
-		if (!this.malchusCanvas) return false;
+		if (!this.malchusCanvas || !this.eventTarget) return false;
 		this.malchusCanvas.addEventListener("pointerdown", this.down);
-		this.malchusCanvas.addEventListener("pointermove", this.move);
-		this.malchusCanvas.addEventListener("pointerup", this.release);
-		this.malchusCanvas.addEventListener("pointercancel", this.release);
+		this.malchusCanvas.addEventListener("lostpointercapture", this.release);
+		this.eventTarget.addEventListener("pointermove", this.move);
+		this.eventTarget.addEventListener("pointerup", this.release);
+		this.eventTarget.addEventListener("pointercancel", this.release);
 		return true;
 	}
 
-	/** @description Captures the first eligible touch as look authority. @param {PointerEvent|object} event - Pointer event. @returns {void} @sideEffects Captures pointer and stores coordinates. */
+	/** Acquires only the first touch that began on the battlefield canvas. */
 	receiveDown(event) {
 		if (event.pointerType !== "touch" || this.pointerId !== null) return;
 		event.preventDefault();
@@ -44,7 +41,7 @@ export class YesodTouchLookGateway {
 		this.malchusCanvas.setPointerCapture?.(event.pointerId);
 	}
 
-	/** @description Converts captured touch displacement into semantic look deltas. @param {PointerEvent|object} event - Pointer move. @returns {void} @sideEffects Calls `onLook` and advances stored coordinates. */
+	/** Carries the owning pointer's displacement into the existing first-person look callback. */
 	receiveMove(event) {
 		if (event.pointerId !== this.pointerId || !this.last) return;
 		event.preventDefault();
@@ -54,21 +51,25 @@ export class YesodTouchLookGateway {
 		this.onLook(deltaX, deltaY);
 	}
 
-	/** @description Releases touch-look ownership on up or cancellation. @param {PointerEvent|object} event - Ending pointer event. @returns {void} @sideEffects Clears captured state. */
+	/** Releases only the pointer that actually owns battlefield look. */
 	receiveRelease(event) {
 		if (event.pointerId !== this.pointerId) return;
-		event.preventDefault();
+		event.preventDefault?.();
+		this.malchusCanvas.releasePointerCapture?.(event.pointerId);
 		this.pointerId = null;
 		this.last = null;
 	}
 
-	/** @description Removes every touch-look listener. @returns {boolean} True when a canvas existed. @sideEffects Removes four listeners. */
+	/** Removes every listener and clears ownership deterministically. */
 	dispose() {
-		if (!this.malchusCanvas) return false;
+		if (!this.malchusCanvas || !this.eventTarget) return false;
 		this.malchusCanvas.removeEventListener("pointerdown", this.down);
-		this.malchusCanvas.removeEventListener("pointermove", this.move);
-		this.malchusCanvas.removeEventListener("pointerup", this.release);
-		this.malchusCanvas.removeEventListener("pointercancel", this.release);
+		this.malchusCanvas.removeEventListener("lostpointercapture", this.release);
+		this.eventTarget.removeEventListener("pointermove", this.move);
+		this.eventTarget.removeEventListener("pointerup", this.release);
+		this.eventTarget.removeEventListener("pointercancel", this.release);
+		this.pointerId = null;
+		this.last = null;
 		return true;
 	}
 }

@@ -4,49 +4,65 @@
 
 /**
  * @file YesodTouchWeaponInputGateway.js
- * @description Carries touch fire and direct weapon-selection intention into the same production callbacks as desktop input.
- * The Awtsmoos renews trigger, letter, projectile possibility, and release before any finite button can claim power;
- * Awtsmoos.com gives mobile combat a truthful Yesod bond while cadence, heat, bloom, and manifestation remain in their established authorities.
+ * @description Gives FIRE one owning touch pointer with global release while weapon selection remains independently multitouch-capable.
+ * The Awtsmoos renews trigger, letter, projectile, and release before any finite button can claim the flame;
+ * Awtsmoos.com lets movement, look, and FIRE coexist because only the finger that pressed the trigger may extinguish its aim.
  */
 import { revealChochmahDevicePresentation } from "../../config/ChochmahDevicePresentation.js";
 
 export class YesodTouchWeaponInputGateway {
-	/** @description Stores semantic weapon callbacks and document authority without binding. @param {object} callbacks - Trigger/select callbacks. @param {Document|object|null} malchusDocument - Document or test double. @sideEffects Initializes listener ledger. */
 	constructor(callbacks, malchusDocument) {
 		this.callbacks = callbacks;
 		this.document = malchusDocument;
 		this.listeners = [];
 		this.bound = false;
+		this.firePointerId = null;
+		this.fireElement = null;
 	}
 
-	/** @description Binds touch fire and weapon selection only on touch-capable presentation. @returns {boolean} True when any touch weapon listener binds. @sideEffects Adds pointer listeners. */
+	/** Binds the real production touch trigger and direct weapon selection controls. */
 	bind() {
 		if (this.bound || !this.document) return false;
-		const windowAuthority = this.document.defaultView ?? globalThis.window ?? null;
-		if (!revealChochmahDevicePresentation(windowAuthority).touch) return false;
-		this.bindFire(this.document.querySelector?.("#touch-fire"));
-		const buttons = this.document.querySelectorAll?.("[data-ohr-touch-weapon]") ?? [];
-		for (const button of buttons) this.bindWeapon(button);
+		const netzachWindow = this.document.defaultView ?? globalThis.window ?? null;
+		if (!revealChochmahDevicePresentation(netzachWindow).touch) return false;
+		this.bindFire(this.document.querySelector?.("#touch-fire"), netzachWindow);
+		for (const button of this.document.querySelectorAll?.("[data-ohr-touch-weapon]") ?? []) this.bindWeapon(button);
 		this.bound = this.listeners.length > 0;
 		return this.bound;
 	}
 
-	/** @description Binds cancellation-safe held trigger state to one touch fire button. @param {object|null} element - Fire button. @returns {void} @sideEffects Adds down/up/cancel listeners and updates aria-pressed. */
-	bindFire(element) {
+	/** Gives one touch identifier durable held-trigger ownership across window movement and capture loss. */
+	bindFire(element, windowAuthority) {
 		if (!element) return;
-		const change = held => event => {
-			if (event.pointerType !== "touch") return;
+		this.fireElement = element;
+		const malchusReleaseTarget = windowAuthority?.addEventListener ? windowAuthority : element;
+		const down = event => {
+			if (event.pointerType !== "touch" || this.firePointerId !== null) return;
 			event.preventDefault();
-			if (held) element.setPointerCapture?.(event.pointerId);
-			element.setAttribute("aria-pressed", String(held));
-			this.callbacks.onTriggerChange(held);
+			this.firePointerId = event.pointerId;
+			element.setPointerCapture?.(event.pointerId);
+			this.setFireHeld(true);
 		};
-		this.listen(element, "pointerdown", change(true));
-		this.listen(element, "pointerup", change(false));
-		this.listen(element, "pointercancel", change(false));
+		const release = event => {
+			if (event.pointerId !== this.firePointerId) return;
+			event.preventDefault?.();
+			element.releasePointerCapture?.(event.pointerId);
+			this.firePointerId = null;
+			this.setFireHeld(false);
+		};
+		this.listen(element, "pointerdown", down);
+		this.listen(element, "lostpointercapture", release);
+		this.listen(malchusReleaseTarget, "pointerup", release);
+		this.listen(malchusReleaseTarget, "pointercancel", release);
 	}
 
-	/** @description Binds direct weapon selection from one semantic touch button. @param {object} element - Weapon button carrying `data-ohr-touch-weapon`. @returns {void} @sideEffects Adds pointerdown listener. */
+	/** Writes held state through both accessibility semantics and the existing weapon callback. */
+	setFireHeld(held) {
+		this.fireElement?.setAttribute("aria-pressed", String(held));
+		this.callbacks.onTriggerChange(held);
+	}
+
+	/** Binds direct weapon selection without stealing the held FIRE pointer. */
 	bindWeapon(element) {
 		const down = event => {
 			if (event.pointerType !== "touch") return;
@@ -56,26 +72,21 @@ export class YesodTouchWeaponInputGateway {
 		this.listen(element, "pointerdown", down);
 	}
 
-	/** @description Registers and records one listener for deterministic cleanup. @param {object} element - Event target. @param {string} type - Event name. @param {Function} handler - Listener. @returns {void} @sideEffects Adds listener and ledger entry. */
 	listen(element, type, handler) {
 		element.addEventListener(type, handler);
 		this.listeners.push({ element, type, handler });
 	}
 
-	/** @description Synchronizes selected-state semantics across touch weapon buttons. @param {number} index - Active zero-based weapon index. @returns {void} @sideEffects Mutates aria-pressed only. */
 	setActiveIndex(index) {
-		const buttons = this.document?.querySelectorAll?.("[data-ohr-touch-weapon]") ?? [];
-		for (const button of buttons) {
+		for (const button of this.document?.querySelectorAll?.("[data-ohr-touch-weapon]") ?? []) {
 			button.setAttribute("aria-pressed", String(Number(button.dataset.ohrTouchWeapon) === index));
 		}
 	}
 
-	/** @description Removes every touch weapon listener and guarantees trigger release. @returns {boolean} Always true after cleanup. @sideEffects Removes listeners and calls trigger false. */
 	dispose() {
-		for (const listener of this.listeners) {
-			listener.element.removeEventListener(listener.type, listener.handler);
-		}
-		this.callbacks.onTriggerChange(false);
+		for (const listener of this.listeners) listener.element.removeEventListener(listener.type, listener.handler);
+		this.firePointerId = null;
+		this.setFireHeld(false);
 		this.listeners.length = 0;
 		this.bound = false;
 		return true;
