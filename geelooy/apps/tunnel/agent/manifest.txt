@@ -1,5 +1,5 @@
 B"H
-1.0.574
+1.0.575
 main.js
 ai/relay/direct/browser/AgentTabCatalog.mjs
 ai/relay/direct/browser/AgentTabProtectionState.mjs
@@ -958,6 +958,8 @@ lib/config-fakeSsh.js
 lib/config-normalizers.js
 lib/config-value-normalizers.js
 lib/config.js
+lib/connection-vessel/child-active-execution-grace.js
+lib/connection-vessel/child-custody-progress.js
 lib/connection-vessel/child-delivery-replay.js
 lib/connection-vessel/child-delivery.js
 lib/connection-vessel/child-foundation.js
@@ -981,6 +983,7 @@ lib/connection-vessel/controller-child-liveness.js
 lib/connection-vessel/controller-child-repair-values.js
 lib/connection-vessel/controller-child-repair.js
 lib/connection-vessel/controller-child-source.js
+lib/connection-vessel/controller-custody-progress.js
 lib/connection-vessel/controller-incarnation-repair.js
 lib/connection-vessel/controller-mailbox.js
 lib/connection-vessel/controller-message-router.js
@@ -993,11 +996,13 @@ lib/connection-vessel/controller-recovery-testimony.js
 lib/connection-vessel/controller-state.js
 lib/connection-vessel/controller-stats-publisher.js
 lib/connection-vessel/controller.js
+lib/connection-vessel/custody-progress-phase.js
 lib/connection-vessel/mailbox-acknowledgement-debt.js
 lib/connection-vessel/mailbox-custody-identity.js
 lib/connection-vessel/mailbox-custody-metadata.js
 lib/connection-vessel/mailbox-custody-record.js
 lib/connection-vessel/mailbox-custody.js
+lib/connection-vessel/mailbox-effective-inbox.js
 lib/connection-vessel/mailbox-emergency-recovery.js
 lib/connection-vessel/mailbox-emergency-registry.js
 lib/connection-vessel/mailbox-emergency-responses.js
@@ -1253,6 +1258,7 @@ lib/runtime/main-state.js
 lib/runtime/main-worker-stats.js
 lib/runtime/memory.js
 lib/runtime/priority.js
+lib/runtime/priority/adaptivePressurePolicy.js
 lib/runtime/priority/admissionPolicy.js
 lib/runtime/priority/controlSets.js
 lib/runtime/priority/emergencyRegistry.js
@@ -1260,6 +1266,7 @@ lib/runtime/priority/fairQueue.js
 lib/runtime/priority/fairQueueOwnership.js
 lib/runtime/priority/fairQueueRequesters.js
 lib/runtime/priority/laneClassifier.js
+lib/runtime/priority/laneHealthPolicy.js
 lib/runtime/priority/laneScheduler.js
 lib/runtime/priority/legacyQueue.js
 lib/runtime/priority/nativeGenerationRecovery.js
@@ -1316,6 +1323,7 @@ lib/runtime/worker-public.js
 lib/runtime/worker-reap-await.js
 lib/runtime/worker-reap-deadline.js
 lib/runtime/worker-reap-operation.js
+lib/runtime/worker-reap-preflight.js
 lib/runtime/worker-reaper-loop.js
 lib/runtime/worker-reaper.js
 lib/runtime/worker-registry-active.js
@@ -1389,6 +1397,8 @@ lib/ws/socketFactory.js
 lib/ws/transportFailure.js
 lib/ws/transportFailureHistory.js
 lib/ws/transportLiveness.js
+lib/ws/transportLivenessEvidence.js
+lib/ws/transportLivenessSchedulerGrace.js
 lib/ws/transportLivenessSettings.js
 next-runtime/command/activeRegistry.js
 next-runtime/command/admission.js
@@ -1499,6 +1509,7 @@ scripts/recovery-restore.cjs
 scripts/run-fs-action-child.cjs
 scripts/run-scan-worker.cjs
 scripts/verify-manifest.cjs
+STABILITY_COVENANT.md
 tools/chatgpt/actions/continuation.js
 tools/chatgpt/actions/conversations.js
 tools/chatgpt/actions/login.js
@@ -1793,8 +1804,12 @@ tools/fs/actionGroups/websiteAgents/store.js
 tools/fs/actionGroups/workflowActions.js
 tools/fs/actionGroups/writeActions.js
 tools/fs/actionLedger.js
+tools/fs/actionLedgerCompatibilityStore.js
+tools/fs/actionLedgerPaths.js
 tools/fs/actionLedgerPolicy.js
+tools/fs/actionLedgerReceiptStore.js
 tools/fs/actionLedgerRedact.js
+tools/fs/actionLedgerRetentionStore.js
 tools/fs/actionLedgerStore.js
 tools/fs/actionMissionRuntime.js
 tools/fs/actionOffload.js
@@ -1866,6 +1881,7 @@ tools/fs/commandJob/metaFactory.js
 tools/fs/commandJob/metaIdentity.js
 tools/fs/commandJob/normalFinalization.js
 tools/fs/commandJob/output.js
+tools/fs/commandJob/outputAccounting.js
 tools/fs/commandJob/outputRetention.js
 tools/fs/commandJob/outputWriteTracking.js
 tools/fs/commandJob/owner.js
@@ -1877,6 +1893,7 @@ tools/fs/commandJob/pollingGuidance.js
 tools/fs/commandJob/process.js
 tools/fs/commandJob/processCleanup.js
 tools/fs/commandJob/processGroup.js
+tools/fs/commandJob/processGroupWitness.js
 tools/fs/commandJob/processIdentity.js
 tools/fs/commandJob/processObserve.js
 tools/fs/commandJob/processObserveParse.js
@@ -1885,11 +1902,15 @@ tools/fs/commandJob/queueLimits.js
 tools/fs/commandJob/queueStartLease.js
 tools/fs/commandJob/reap.js
 tools/fs/commandJob/reapArbitration.js
+tools/fs/commandJob/reapPreflight.js
 tools/fs/commandJob/receiptGc.js
 tools/fs/commandJob/receiptLocator.js
 tools/fs/commandJob/receiptPaths.js
 tools/fs/commandJob/receiptPolicy.js
 tools/fs/commandJob/reconcile.js
+tools/fs/commandJob/reconcileDetachedView.js
+tools/fs/commandJob/reconcileExitEvidence.js
+tools/fs/commandJob/reconcileIdentity.js
 tools/fs/commandJob/registryBridge.js
 tools/fs/commandJob/responseLanguage.js
 tools/fs/commandJob/responsePage.js
