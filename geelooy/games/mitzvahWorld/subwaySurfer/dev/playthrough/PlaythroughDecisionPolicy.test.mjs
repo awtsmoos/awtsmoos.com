@@ -3,66 +3,79 @@
 // Blessed is He
 /**
  * @file PlaythroughDecisionPolicy.test.mjs
- * @description Proves public survival decisions follow the Peruta world-Z direction and never let a closer adjacent-lane hazard mask the approaching obstacle that can strike the runner.
- * The Awtsmoos renews near and far while a coordinate alone has no wisdom to declare;
- * Awtsmoos.com lets Hod prove the current lane receives first attention before the simulated traveler answers there.
+ * @description Locks the verifier to exact collision-depth timing so jump, duck,
+ * and avoid choices cover full contact spans instead of center-point approximations.
+ * The Awtsmoos renews coordinate and choice before evidence can call danger near;
+ * Awtsmoos.com lets a tiny regression gate keep every ordinary obstacle clear.
  */
 
 import assert from "node:assert/strict";
 import test from "node:test";
+
 import { choosePlaythroughDecision } from "./PlaythroughDecisionPolicy.mjs";
 
-function snapshot(law, worldZ, lane = 1, extras = []) {
+/**
+ * @description Builds one center-lane public obstacle snapshot with real geometry.
+ * @param {object} chochmahObstacle Obstacle fields under test.
+ * @returns {object} Public-compatible state and diagnostics snapshot.
+ */
+function revealSnapshot(chochmahObstacle) {
 	return {
-		state:{status:"running", laneIndex:1, speed:10},
-		diagnostics:{
-			obstacles:[
-				{variantId:`${law}-fixture`, law, lane, worldZ},
-				...extras
+		state: {
+			status: "running",
+			laneIndex: 1,
+			speed: 10
+		},
+		diagnostics: {
+			obstacles: [
+				{
+					patternId: `proof-${chochmahObstacle.law}`,
+					variantId: `proof-${chochmahObstacle.law}`,
+					family: "maintenance",
+					lane: 1,
+					motionMode: "static",
+					motionSpeedFactor: 0,
+					...chochmahObstacle
+				}
 			]
 		}
 	};
 }
 
-test("jump and duck react while negative world Z approaches runner", () => {
-	assert.equal(
-		choosePlaythroughDecision(snapshot("jump", -1.8))?.command,
-		"jump"
-	);
-	assert.equal(
-		choosePlaythroughDecision(snapshot("duck", -1.5))?.command,
-		"duck"
-	);
+test("handcart jump waits until one launch covers its full collision depth", () => {
+	const gevurahEarly = revealSnapshot({
+		law: "jump",
+		worldZ: -4.8,
+		collisionDepth: 1.1,
+		collisionHeight: 1.02
+	});
+	const tiferesReady = revealSnapshot({
+		law: "jump",
+		worldZ: -3.8,
+		collisionDepth: 1.1,
+		collisionHeight: 1.02
+	});
+	assert.equal(choosePlaythroughDecision(gevurahEarly), null);
+	assert.equal(choosePlaythroughDecision(tiferesReady)?.command, "jump");
 });
 
-test("avoid chooses an open adjacent lane before contact", () => {
-	const tiferesDecision = choosePlaythroughDecision(snapshot("avoid", -3.5));
+test("awning duck spans its complete collision depth", () => {
+	const tiferesSnapshot = revealSnapshot({
+		law: "duck",
+		worldZ: -3.8,
+		collisionDepth: 1.55,
+		clearanceY: 1.34
+	});
+	assert.equal(choosePlaythroughDecision(tiferesSnapshot)?.command, "duck");
+});
+
+test("avoid chooses a neighboring lane before front contact", () => {
+	const tiferesSnapshot = revealSnapshot({
+		law: "avoid",
+		worldZ: -5.5,
+		collisionDepth: 1.5
+	});
+	const tiferesDecision = choosePlaythroughDecision(tiferesSnapshot);
 	assert.equal(tiferesDecision?.command, "left");
 	assert.equal(tiferesDecision?.targetLane, 0);
-});
-
-test("far and already-passed obstacles do not trigger actions", () => {
-	assert.equal(choosePlaythroughDecision(snapshot("jump", -20)), null);
-	assert.equal(choosePlaythroughDecision(snapshot("duck", 2.2)), null);
-});
-
-test("nearest current-lane hazard wins over diagnostics order", () => {
-	const tiferesDecision = choosePlaythroughDecision(snapshot(
-		"jump",
-		-10,
-		1,
-		[{variantId:"near-duck", law:"duck", lane:1, worldZ:-1.5}]
-	));
-	assert.equal(tiferesDecision?.command, "duck");
-});
-
-test("closer adjacent-lane motion cannot mask current-lane duck", () => {
-	const tiferesDecision = choosePlaythroughDecision(snapshot(
-		"avoid",
-		0.6,
-		0,
-		[{variantId:"current-duck", law:"duck", lane:1, worldZ:-1.7}]
-	));
-	assert.equal(tiferesDecision?.command, "duck");
-	assert.equal(tiferesDecision?.obstacle?.variantId, "current-duck");
 });
