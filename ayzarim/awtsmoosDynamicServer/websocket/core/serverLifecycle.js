@@ -4,21 +4,20 @@
 
 const Live = require("./clientLiveness.js");
 const { sendFrame } = require("./frameWriter.js");
-const {
-	disconnectApplicationClient
-} = require("../apps/applicationCatalog.js");
+const { disconnectApplicationClient } = require("../apps/applicationCatalog.js");
 const { forgetClient } = require("../apps/socialLive.js");
-const {
-	publishConnection
-} = require("../apps/tunnelActivity/publisher.js");
+const { publishConnection } = require("../apps/tunnelActivity/publisher.js");
 const { ensureServerState } = require("../platform/ServerState.js");
 
 /**
- * @file Releases socket state and publishes authoritative departure testimony.
+ * @file Enforces heartbeat failure as a terminal transport transition, never a zombie route.
  * @description
- * The Awtsmoos keeps each heartbeat failure inside its own client vessel. One
- * slow, closed, or malformed connection can never prevent sibling tunnels from
- * receiving their liveness frames.
+ * The Awtsmoos lets local pressure and remote silence testify in separate voices. Awtsmoos.com
+ * permits bounded backpressure, but when proof expires it closes the old vessel completely so
+ * a new registration—not a late frame—must reveal the route again.
+ *
+ * STABILITY COVENANT — DO NOT SIMPLIFY WITHOUT RUNNING heartbeatIsolation.test.cjs
+ * An unroutable tunnel must not remain open and later resurrect on the same generation.
  */
 function removeSocketClient(server, client) {
 	const state = ensureServerState(server);
@@ -54,36 +53,41 @@ function heartbeatSocketClients(server, now = Date.now()) {
 
 function heartbeatOne(server, client, now) {
 	try {
-		if (Live.shouldTerminate(client, now)) {
-			publishConnection(server, client, "connection.stale", {
-				state: "terminating",
-				severity: "warning",
-				summary: `${client.deviceName || client.tunnelName || client.id} heartbeat expired`
-			});
-			client.socket.end();
-			return false;
-		}
-
+		if (Live.shouldTerminate(client, now)) return terminateStale(server, client, now);
 		const accepted = sendFrame(client.socket, Buffer.alloc(0), 0x9);
 		if (accepted) {
 			Live.markHeartbeatSent(client, now);
-			client.heartbeatWriteDeferred = false;
+			if (Live.shouldTerminate(client, now)) return terminateStale(server, client, now);
 			return true;
 		}
-
-		client.heartbeatWriteDeferred = true;
-		client.lastTransportError = client.socket?.destroyed || client.socket?.writable !== true
-			? "heartbeat_socket_not_writable"
-			: "heartbeat_socket_backpressure";
-		if (client.socket?.destroyed || client.socket?.writable !== true) {
-			client.socket?.end?.();
-		}
+		const reason = heartbeatWriteReason(client);
+		Live.markHeartbeatDeferred(client, now, reason);
+		if (Live.shouldTerminate(client, now)) return terminateStale(server, client, now);
 		return false;
 	} catch (error) {
 		client.lastTransportError = `heartbeat_write_failed:${String(error?.message || error).slice(0, 300)}`;
-		try { client.socket?.end?.(); } catch {}
-		return false;
+		Live.fence(client, "heartbeat_write_failed", now);
+		return terminateStale(server, client, now);
 	}
+}
+
+function heartbeatWriteReason(client) {
+	if (!Live.socketIsUsable(client)) return "heartbeat_socket_not_writable";
+	return "heartbeat_socket_backpressure";
+}
+
+function terminateStale(server, client, now = Date.now()) {
+	const snapshot = Live.livenessSnapshot(client, now);
+	publishConnection(server, client, "connection.stale", {
+		state: "terminating",
+		severity: "warning",
+		summary: `${client.deviceName || client.tunnelName || client.id} ${snapshot.livenessTerminalReason || "heartbeat expired"}`
+	});
+	try {
+		if (typeof client.socket?.destroy === "function") client.socket.destroy();
+		else client.socket?.end?.();
+	} catch {}
+	return false;
 }
 
 function publishDeparture(server, client) {
@@ -96,9 +100,5 @@ function publishDeparture(server, client) {
 }
 
 module.exports = {
-	heartbeatOne,
-	heartbeatSocketClients,
-	removeAlias,
-	removeSocketClient,
-	removeTunnel
+	heartbeatOne, heartbeatSocketClients, removeAlias, removeSocketClient, removeTunnel, terminateStale
 };

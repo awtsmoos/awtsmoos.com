@@ -8,10 +8,15 @@ const Devices = require("../liveDevices.js");
 const Client = require("../tunnelClient.js");
 
 /**
- * @file Proves delayed pongs remain routable below the real termination threshold.
+ * @file Proves control routing distinguishes clock age from proven transport death.
  * @description
- * The Awtsmoos keeps one delayed answer distinct from route death. Only repeated
- * misses combined with stale response evidence fence the transport from new work.
+ * The Awtsmoos does not let an old timestamp erase a living vessel; Awtsmoos.com keeps
+ * stale-but-unproven tunnels in probing service. Only failed heartbeat proof or an unusable
+ * socket crosses the terminal fence and disappears from routable native-device inventory.
+ *
+ * STABILITY COVENANT — DO NOT SIMPLIFY WITHOUT RUNNING THIS REGRESSION
+ * Historical symptom: stale age alone made /my-device report offline, then the same socket
+ * revived. Unproven age remains routable; proven failure is terminal and one-way.
  */
 const now = Date.parse("2026-07-27T02:15:00.000Z");
 
@@ -29,12 +34,7 @@ function native(overrides = {}) {
 		lastSeenAt: now - 1000,
 		heartbeatAt: now - 1000,
 		missedHeartbeats: 0,
-		capabilities: {
-			commandRun: true,
-			fsRead: true,
-			fsWrite: true,
-			runtime: true
-		},
+		capabilities: { commandRun: true, fsRead: true, fsWrite: true, runtime: true },
 		...overrides
 	};
 }
@@ -47,7 +47,6 @@ assert.equal(active.livenessState, "active");
 const waitingClient = native();
 Live.markHeartbeatSent(waitingClient, now);
 const waiting = Client.publicNativeTunnel(waitingClient, now + 1000);
-assert.equal(waitingClient.isAlive, true);
 assert.equal(waiting.connected, true);
 assert.equal(waiting.isAlive, true);
 assert.equal(waiting.livenessState, "probing");
@@ -56,7 +55,6 @@ assert.equal(Devices.canRouteDevice(waiting, { action: "commandStart" }), true);
 Live.markHeartbeatSent(waitingClient, now + 20000);
 const degraded = Client.publicNativeTunnel(waitingClient, now + 21000);
 assert.equal(degraded.connected, true);
-assert.equal(degraded.isAlive, true);
 assert.equal(degraded.livenessState, "degraded");
 assert.equal(Devices.canRouteDevice(degraded, { action: "tunnelDoctor" }), true);
 
@@ -65,18 +63,26 @@ Live.markHeartbeatSent(waitingClient, now + 60000);
 const terminated = Client.publicNativeTunnel(waitingClient, now + 61000);
 assert.equal(terminated.connected, false);
 assert.equal(terminated.isAlive, false);
-assert.equal(terminated.livenessState, "stale_terminate_ready");
+assert.equal(terminated.livenessState, "terminal_fenced");
 assert.equal(Devices.canRouteDevice(terminated, { action: "tunnelDoctor" }), false);
 
-const stale = Client.publicNativeTunnel(native({
-	isAlive: false,
+const staleUnproven = Client.publicNativeTunnel(native({
+	lastSeenAt: now - Live.DEFAULTS.staleMs - 1,
+	heartbeatAt: now - Live.DEFAULTS.staleMs - 1,
+	registeredAt: now - Live.DEFAULTS.staleMs - 1
+}), now);
+assert.equal(staleUnproven.connected, true);
+assert.equal(staleUnproven.isAlive, true);
+assert.equal(staleUnproven.livenessState, "stale_probing");
+
+const staleProven = Client.publicNativeTunnel(native({
 	lastSeenAt: now - Live.DEFAULTS.staleMs - 1,
 	heartbeatAt: now - Live.DEFAULTS.staleMs - 1,
 	registeredAt: now - Live.DEFAULTS.staleMs - 1,
 	missedHeartbeats: Live.DEFAULTS.maxMissedHeartbeats
 }), now);
-assert.equal(stale.connected, false);
-assert.equal(stale.livenessState, "stale_terminate_ready");
+assert.equal(staleProven.connected, false);
+assert.equal(staleProven.livenessState, "terminal_fenced");
 
 const disconnected = Client.publicNativeTunnel(native({ connected: false }), now);
 assert.equal(disconnected.connected, false);
@@ -86,10 +92,7 @@ assert.equal(disconnected.livenessState, "disconnected");
 console.log(JSON.stringify({
 	ok: true,
 	suite: "tunnel-client-heartbeat-grace",
-	activeRoutable: true,
-	firstPingProbeRoutable: true,
-	degradedRoutable: true,
-	thresholdRejected: true,
-	staleRejected: true,
+	staleUnprovenRemainsRoutable: true,
+	provenFailureIsTerminal: true,
 	disconnectedRejected: true
 }, null, 2));
