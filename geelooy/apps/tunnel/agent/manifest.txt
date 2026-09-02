@@ -974,11 +974,13 @@ lib/connection-vessel/child-runtime-custody.js
 lib/connection-vessel/child-runtime-cycle.js
 lib/connection-vessel/child-runtime-ipc.js
 lib/connection-vessel/child-runtime-parent.js
+lib/connection-vessel/child-runtime-state.js
 lib/connection-vessel/child-runtime-view.js
 lib/connection-vessel/child-runtime.js
 lib/connection-vessel/child.js
 lib/connection-vessel/connection-incarnation.js
 lib/connection-vessel/controller-child-birth.js
+lib/connection-vessel/controller-child-liveness-policy.js
 lib/connection-vessel/controller-child-liveness.js
 lib/connection-vessel/controller-child-repair-values.js
 lib/connection-vessel/controller-child-repair.js
