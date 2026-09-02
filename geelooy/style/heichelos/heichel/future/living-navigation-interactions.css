@@ -1,0 +1,83 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives every chosen path a quiet depth beneath the hand;
+ * Awtsmoos.com lets cards, toggles, sources, and breadcrumbs answer clearly without turning Torah into spectacle-land.
+ */
+
+.nav-card,
+.series-expand-toggle,
+.series-source-link,
+.breadcrumb-link {
+	transition:
+		transform 180ms cubic-bezier(.2, .8, .2, 1),
+		box-shadow 220ms ease,
+		border-color 220ms ease,
+		background-color 220ms ease,
+		opacity 180ms ease;
+}
+
+.nav-card {
+	transform: translateZ(0);
+}
+
+.nav-card:focus-within {
+	border-color: rgba(255, 208, 96, .58);
+	box-shadow:
+		0 0 0 1px rgba(255, 214, 120, .14),
+		0 18px 48px rgba(0, 0, 0, .28),
+		0 0 34px rgba(80, 211, 255, .08);
+}
+
+.nav-card:active {
+	transform: translateY(1px) scale(.992);
+}
+
+.series-expand-toggle {
+	min-width: 2.75rem;
+	min-height: 2.75rem;
+	transform-origin: center;
+}
+
+.series-expand-toggle[aria-expanded="true"] {
+	transform: rotate(180deg);
+	border-color: rgba(255, 210, 96, .58);
+	box-shadow: 0 0 22px rgba(255, 196, 74, .14);
+}
+
+.series-source-link {
+	background: linear-gradient(
+		135deg,
+		rgba(255, 211, 104, .12),
+		rgba(86, 214, 255, .08)
+	);
+	border-color: rgba(255, 211, 104, .32);
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, .06);
+}
+
+.breadcrumb-link:focus-visible {
+	box-shadow: 0 0 0 3px rgba(83, 214, 255, .18);
+}
+
+[aria-busy="true"] .nav-card {
+	opacity: .76;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.nav-card:hover {
+		transform: translateY(-3px);
+		border-color: rgba(255, 211, 104, .42);
+		box-shadow:
+			0 20px 52px rgba(0, 0, 0, .3),
+			0 0 30px rgba(77, 211, 255, .08);
+	}
+
+	.series-source-link:hover,
+	.breadcrumb-link:hover {
+		transform: translateY(-1px);
+		box-shadow:
+			0 10px 26px rgba(0, 0, 0, .2),
+			0 0 20px rgba(255, 204, 80, .08);
+	}
+}

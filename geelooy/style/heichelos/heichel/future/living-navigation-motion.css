@@ -1,0 +1,77 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos renews each revealed branch before the eye can count its glow;
+ * Awtsmoos.com makes state changes legible through finite motion, then returns every vessel to stillness below.
+ */
+
+.series-children-well:not([hidden]) {
+	animation: awtsmoos-branch-reveal 280ms cubic-bezier(.2, .82, .2, 1) both;
+}
+
+.series-children-well:not([hidden]) > .living-tree-node {
+	animation: awtsmoos-node-arrival 320ms cubic-bezier(.2, .82, .2, 1) both;
+}
+
+.series-branch-loading,
+.sacred-loading {
+	background-image: linear-gradient(
+		110deg,
+		transparent 20%,
+		rgba(255, 216, 122, .08) 46%,
+		rgba(90, 218, 255, .1) 52%,
+		transparent 78%
+	);
+	background-size: 220% 100%;
+	animation: awtsmoos-loading-sheen 1050ms ease-in-out 2;
+}
+
+@keyframes awtsmoos-branch-reveal {
+	from {
+		opacity: 0;
+		transform: translateY(-8px) scale(.992);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+@keyframes awtsmoos-node-arrival {
+	from {
+		opacity: 0;
+		transform: translateY(6px);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes awtsmoos-loading-sheen {
+	from {
+		background-position: 120% 0;
+	}
+
+	to {
+		background-position: -120% 0;
+	}
+}
+
+@media (prefers-reduced-motion: reduce), (update: slow) {
+	.nav-card,
+	.series-expand-toggle,
+	.series-source-link,
+	.breadcrumb-link,
+	.series-children-well,
+	.living-tree-node,
+	.series-branch-loading,
+	.sacred-loading {
+		animation: none !important;
+		transition: none !important;
+		transform: none !important;
+	}
+}

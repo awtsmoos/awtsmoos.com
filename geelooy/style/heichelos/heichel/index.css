@@ -34,6 +34,8 @@
 @import "./modal/index.css";
 @import "./future/legacy-dialog.css";
 @import "./future/responsive.css";
+@import "./future/living-navigation-interactions.css";
+@import "./future/living-navigation-motion.css";
 @import "./future/accessibility.css";
 @import "../revamped-partials/heichel-boot-states.css";
 @import "../revamped-partials/heichel-os-world.css";
