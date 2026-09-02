@@ -1,0 +1,52 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives every narrow-screen word a vessel bright enough to be read;
+ * Awtsmoos.com keeps search, scope, status, and action hierarchy luminous instead of letting night swallow the thread.
+ */
+
+@media (max-width: 55rem) {
+	body.heichel-os-document .living-path-search-stack :where(.field-label, label),
+	body.heichel-os-document .living-path-search-stack .living-path-field > span,
+	body.heichel-os-document .living-path-result-status {
+		color: #c9d9ea !important;
+	}
+
+	body.heichel-os-document .living-path-search-stack :where(select, input),
+	body.heichel-os-document .series-search-row :where(input, select) {
+		border-color: rgba(117, 218, 255, .28) !important;
+		background: rgba(6, 18, 35, .96) !important;
+		color: #f6fbff !important;
+		-webkit-text-fill-color: #f6fbff;
+	}
+
+	body.heichel-os-document .living-path-search-stack :where(input, textarea)::placeholder,
+	body.heichel-os-document .series-search-row input::placeholder {
+		color: #aabbd0 !important;
+		opacity: 1 !important;
+	}
+
+	body.heichel-os-document .living-path-result-status span:first-child {
+		color: #e9f4ff !important;
+		font-weight: 800;
+	}
+
+	body.heichel-os-document .living-path-result-status span:last-child {
+		color: #9feaff !important;
+		font-weight: 750;
+	}
+
+	body.heichel-os-document .filter-chip {
+		border-color: rgba(91, 222, 255, .42) !important;
+		background: rgba(9, 29, 52, .94) !important;
+		color: #edfaff !important;
+	}
+
+	body.heichel-os-document .filter-chip:focus-visible,
+	body.heichel-os-document .series-search-row :where(input, select):focus-visible,
+	body.heichel-os-document .living-path-search-stack select:focus-visible {
+		border-color: #69e4ff !important;
+		box-shadow: 0 0 0 3px rgba(105, 228, 255, .2) !important;
+	}
+}

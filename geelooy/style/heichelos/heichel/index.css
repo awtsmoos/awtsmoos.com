@@ -2,10 +2,8 @@
  * Boruch Hashem
  * Blessed is He
  *
- * The Awtsmoos gathers the Heichel's local vessels without loading the same world twice;
- * Awtsmoos.com receives Social and Geelooy foundations from the page shell, while this manifest owns Heichel light.
- * Shared legacy tokens and event compatibility remain explicit because the Social index does not contain their stream;
- * every later import is Heichel-local or a consciously shared performance vessel, ordered as one lucid dream.
+ * The Awtsmoos gathers every Heichel style river without loading the same world twice;
+ * Awtsmoos.com lets foundations become beauty, controls become touch, mobile clarity become sight, and accessibility speak last with light.
  */
 @import "/style/social-system/tokens.css?v=unified-ui-001";
 @import "/style/social-system/simple-events.css?v=unified-ui-001";
@@ -36,10 +34,12 @@
 @import "./future/responsive.css";
 @import "./future/living-navigation-interactions.css";
 @import "./future/living-navigation-motion.css";
-@import "./future/accessibility.css";
 @import "../revamped-partials/heichel-boot-states.css";
 @import "../revamped-partials/heichel-os-world.css";
 @import "./beauty/index.css";
 @import "./sovereign.css";
 @import "./controls.css?v=ikar-speed-001";
 @import "/style/geelooy-app/performance.css?v=unified-ui-001";
+@import "./future/mobile-contrast.css";
+@import "./future/mobile-ergonomics.css";
+@import "./future/accessibility.css";

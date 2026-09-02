@@ -1,0 +1,88 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives the hand-sized Heichel enough air above the dock and enough nearness between related thought;
+ * Awtsmoos.com reserves the physical safe area, trims giant first-screen monuments, and keeps every touch doorway easily sought.
+ */
+
+@media (max-width: 55rem) {
+	body.heichel-os-document {
+		--heichel-mobile-dock-clearance: max(
+			7.25rem,
+			calc(6rem + env(safe-area-inset-bottom))
+		);
+	}
+
+	body.heichel-os-document .geelooy-main-stage {
+		padding-block-end: var(--heichel-mobile-dock-clearance) !important;
+	}
+
+	body.heichel-os-document .heichel-nav-panel {
+		gap: .62rem;
+		margin-block-start: .45rem;
+		padding: .68rem;
+	}
+
+	body.heichel-os-document .living-path-search-stack {
+		display: grid;
+		gap: .55rem;
+	}
+
+	body.heichel-os-document .series-search-row {
+		gap: .55rem;
+		margin-block: 0 .35rem;
+	}
+
+	body.heichel-os-document .living-path-result-status {
+		min-block-size: 2.25rem;
+		align-items: center;
+		padding: .45rem .15rem;
+	}
+
+	body.heichel-os-document .geelooy-bottom-nav {
+		max-inline-size: calc(100% - 1rem);
+		padding-block-end: max(.25rem, env(safe-area-inset-bottom));
+	}
+
+	body.heichel-os-document .geelooy-bottom-nav :where(a, button),
+	body.heichel-os-document .filter-chip,
+	body.heichel-os-document .continue-action {
+		min-block-size: 46px !important;
+	}
+}
+
+@media (max-width: 32rem) {
+	body.heichel-os-document .series-search-row {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	body.heichel-os-document .filter-chip {
+		inline-size: 100%;
+		justify-content: center;
+	}
+
+	body.heichel-os-document .living-path-continue {
+		gap: .55rem;
+		padding: .72rem;
+	}
+}
+
+@media (max-width: 28rem) {
+	body.heichel-os-document :where(.geelooy-heichel-hero, .heichel-hero) {
+		min-block-size: 0 !important;
+		min-height: 0 !important;
+	}
+
+	body.heichel-os-document #heichel-main-title {
+		font-size: clamp(1.45rem, 8vw, 2rem) !important;
+	}
+
+	body.heichel-os-document .cosmic-heichel-profile {
+		min-block-size: 0 !important;
+	}
+
+	body.heichel-os-document .heichel-profile-cover {
+		block-size: 4.25rem;
+	}
+}
