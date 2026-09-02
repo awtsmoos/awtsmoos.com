@@ -288,10 +288,14 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com marks the renderer only after a yielded frame, while distant richness waits beyond the playable sun.
 	 */
 
-	const markMitzvahWorldStartupMilestone = __awtsmoosModule_1.markMitzvahWorldStartupMilestone;const resolveResponsiveRuntimeModuleUrl = __awtsmoosModule_2.resolveResponsiveRuntimeModuleUrl;const nextLaunchFrame = __awtsmoosModule_3.nextLaunchFrame;
+	const markMitzvahWorldStartupMilestone = __awtsmoosModule_1.markMitzvahWorldStartupMilestone;
+	const resolveResponsiveRuntimeModuleUrl = __awtsmoosModule_2.resolveResponsiveRuntimeModuleUrl;
+	const nextLaunchFrame = __awtsmoosModule_3.nextLaunchFrame;
 	const nextLaunchTask = __awtsmoosModule_3.nextLaunchTask;
 	const reportLaunchProgress = __awtsmoosModule_3.reportLaunchProgress;
-	const throwIfLaunchAborted = __awtsmoosModule_3.throwIfLaunchAborted;/** Creates visible foundation services, local control assets, and the bootstrap valley. */
+	const throwIfLaunchAborted = __awtsmoosModule_3.throwIfLaunchAborted;
+
+	/** Creates visible foundation services, local control assets, and the bootstrap valley. */
 	async function createEretzWorldFoundation(hosts, options = {}) {
 		const qualityProfile = options.qualityProfile;
 		if (!qualityProfile) {

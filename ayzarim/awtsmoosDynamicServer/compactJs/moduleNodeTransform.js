@@ -16,8 +16,8 @@ const {
 	namedExportReplacement
 } = require("./exportTransform.js");
 const { importReplacement } = require("./importTransform.js");
+const { exactModuleDeclarationEnd } = require("./moduleDeclarationBoundary.js");
 const {
-	consumeTrailingSemicolon,
 	exportDefaultReplacementEnd,
 	exportNamedReplacementEnd
 } = require("./sourceDeclarations.js");
@@ -44,11 +44,11 @@ function replacementForNode(record, node) {
 	return null;
 }
 
-/** Replaces exactly one parsed import declaration. */
+/** Replaces exactly one parsed import declaration at its parser-owned boundary. */
 function importDeclarationReplacement(record, node) {
 	return replacement(
 		node.start,
-		consumeTrailingSemicolon(record.source, node.end),
+		exactModuleDeclarationEnd(node),
 		importReplacement(record, node)
 	);
 }
@@ -71,25 +71,13 @@ function defaultExportDeclarationReplacement(record, node) {
 	);
 }
 
-/** Returns a replacement descriptor for one export-all declaration. */
+/** Replaces exactly one parsed export-all declaration at its parser-owned boundary. */
 function exportAllDeclarationReplacement(record, node) {
 	return replacement(
 		node.start,
-		consumeTrailingSemicolon(record.source, node.end),
+		exactModuleDeclarationEnd(node),
 		exportAllReplacement(record, node)
 	);
-}
-
-/**
- * Returns the exact parser-owned end of one complete module declaration.
- * @param {object} node Parsed ESM declaration.
- * @returns {number} Source offset immediately after the declaration.
- */
-function moduleDeclarationEnd(node) {
-	if (!Number.isInteger(node?.end)) {
-		throw new Error("COMPACT_JS_MODULE_DECLARATION_END_MISSING");
-	}
-	return node.end;
 }
 
 /** Creates one immutable-shaped source replacement descriptor. */

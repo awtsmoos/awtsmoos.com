@@ -480,7 +480,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 */
 
 	const directActionState = __awtsmoosModule_5.directActionState;
-	const HIDDEN_DIRECT_ACTION = __awtsmoosModule_5.HIDDEN_DIRECT_ACTION;/** Coordinates existing friendly-NPC interaction and canonical quest transitions. */
+	const HIDDEN_DIRECT_ACTION = __awtsmoosModule_5.HIDDEN_DIRECT_ACTION;
+
+	/** Coordinates existing friendly-NPC interaction and canonical quest transitions. */
 	class DirectWorldContextAction {
 		/** @param {object} runtime Staged Mitzvah World runtime. */
 		constructor(runtime) {
@@ -691,7 +693,10 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * one generous touch, one E-key covenant, and one presentation gate preserve simple surface play without accidental advanced-layer travail.
 	 */
 
-	const isGameplayInputSuppressed = __awtsmoosModule_7.isGameplayInputSuppressed;const isEditableTarget = __awtsmoosModule_8.isEditableTarget;/** Owns direct-world contextual action presentation and keyboard parity. */
+	const isGameplayInputSuppressed = __awtsmoosModule_7.isGameplayInputSuppressed;
+	const isEditableTarget = __awtsmoosModule_8.isEditableTarget;
+
+	/** Owns direct-world contextual action presentation and keyboard parity. */
 	class ContextActionButton {
 		/**
 		 * @param {HTMLElement} host Game-root host.
@@ -780,7 +785,12 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com keeps the center world untouched while one objective speaks and one useful action draws nigh.
 	 */
 
-	const BootstrapJourneyGuide = __awtsmoosModule_2.BootstrapJourneyGuide;const BootstrapControlsHudView = __awtsmoosModule_3.BootstrapControlsHudView;const DirectWorldContextAction = __awtsmoosModule_4.DirectWorldContextAction;const ContextActionButton = __awtsmoosModule_6.ContextActionButton;const GAME_ROOT_ID = 'mitzvah-world-root';
+	const BootstrapJourneyGuide = __awtsmoosModule_2.BootstrapJourneyGuide;
+	const BootstrapControlsHudView = __awtsmoosModule_3.BootstrapControlsHudView;
+	const DirectWorldContextAction = __awtsmoosModule_4.DirectWorldContextAction;
+	const ContextActionButton = __awtsmoosModule_6.ContextActionButton;
+
+	const GAME_ROOT_ID = 'mitzvah-world-root';
 
 	/**
 	 * Installs compact first-play story and direct-world contextual interaction.
@@ -1416,7 +1426,10 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com composes small readable modules so future maps inherit clarity instead of overlapping frames.
 	 */
 
-	const WORLD_MINIMAP_LAYOUT_CSS = __awtsmoosModule_17.WORLD_MINIMAP_LAYOUT_CSS;const WORLD_MINIMAP_SURFACE_CSS = __awtsmoosModule_18.WORLD_MINIMAP_SURFACE_CSS;function installWorldMinimapStyle(documentValue = document) {
+	const WORLD_MINIMAP_LAYOUT_CSS = __awtsmoosModule_17.WORLD_MINIMAP_LAYOUT_CSS;
+	const WORLD_MINIMAP_SURFACE_CSS = __awtsmoosModule_18.WORLD_MINIMAP_SURFACE_CSS;
+
+	function installWorldMinimapStyle(documentValue = document) {
 		if (documentValue.getElementById('AwtsmoosWorldMinimapStyle')) {
 			return;
 		}
@@ -1510,11 +1523,18 @@ const __awtsmoosModule_0 = Object.create(null);
 	 */
 
 	const bindWorldMinimapControls = __awtsmoosModule_12.bindWorldMinimapControls;
-	const updateWorldMinimapControls = __awtsmoosModule_12.updateWorldMinimapControls;const projectWorldMinimap = __awtsmoosModule_13.projectWorldMinimap;const ensureWorldMinimapQuestSubscription = __awtsmoosModule_14.ensureWorldMinimapQuestSubscription;
+	const updateWorldMinimapControls = __awtsmoosModule_12.updateWorldMinimapControls;
+	const projectWorldMinimap = __awtsmoosModule_13.projectWorldMinimap;
+	const ensureWorldMinimapQuestSubscription = __awtsmoosModule_14.ensureWorldMinimapQuestSubscription;
 	const worldMinimapPeerSignature = __awtsmoosModule_14.worldMinimapPeerSignature;
-	const worldMinimapPlayerPosition = __awtsmoosModule_14.worldMinimapPlayerPosition;const readWorldMinimapMode = __awtsmoosModule_15.readWorldMinimapMode;
-	const writeWorldMinimapMode = __awtsmoosModule_15.writeWorldMinimapMode;const installWorldMinimapStyle = __awtsmoosModule_16.installWorldMinimapStyle;const createWorldMinimapRoot = __awtsmoosModule_19.createWorldMinimapRoot;
-	const renderWorldMinimapMarkers = __awtsmoosModule_19.renderWorldMinimapMarkers;const MOVEMENT_THRESHOLD = 1.5;
+	const worldMinimapPlayerPosition = __awtsmoosModule_14.worldMinimapPlayerPosition;
+	const readWorldMinimapMode = __awtsmoosModule_15.readWorldMinimapMode;
+	const writeWorldMinimapMode = __awtsmoosModule_15.writeWorldMinimapMode;
+	const installWorldMinimapStyle = __awtsmoosModule_16.installWorldMinimapStyle;
+	const createWorldMinimapRoot = __awtsmoosModule_19.createWorldMinimapRoot;
+	const renderWorldMinimapMarkers = __awtsmoosModule_19.renderWorldMinimapMarkers;
+
+	const MOVEMENT_THRESHOLD = 1.5;
 
 	class WorldMinimap {
 		constructor(runtime, documentValue, environment = globalThis) {
@@ -1614,7 +1634,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com preserves immediate mount, diagnostics, refresh, handoff, and exact teardown.
 	 */
 
-	const WorldMinimap = __awtsmoosModule_11.WorldMinimap;const WORLD_MINIMAP_URL = new URL(
+	const WorldMinimap = __awtsmoosModule_11.WorldMinimap;
+
+	const WORLD_MINIMAP_URL = new URL(
 		'../ui/WorldMinimap.js',
 		(( globalThis.location?.origin && globalThis.location.origin !== "null" ? globalThis.location.origin : "https://awtsmoos.local" ) + "/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowBootstrapMinimap.js")
 	).href;
@@ -1810,7 +1832,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * complete local vessel in one pass so no temporary translation or scale matrix is born.
 	 */
 
-	const identity = __awtsmoosModule_25.identity;function quatNormalize(quaternion) {
+	const identity = __awtsmoosModule_25.identity;
+
+	function quatNormalize(quaternion) {
 		const x = quaternion?.[0] || 0;
 		const y = quaternion?.[1] || 0;
 		const z = quaternion?.[2] || 0;
@@ -1892,7 +1916,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * vessel directly so each ridge, flower, and Chossid reaches the screen without waste.
 	 */
 
-	const identity = __awtsmoosModule_25.identity;function perspective(fovDegrees, aspect, near, far) {
+	const identity = __awtsmoosModule_25.identity;
+
+	function perspective(fovDegrees, aspect, near, far) {
 		const factor = 1 / Math.tan(fovDegrees * Math.PI / 360);
 		const depth = 1 / (near - far);
 		const result = new Float32Array(16);
@@ -1975,7 +2001,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * visible traveler a measured path between samples without changing either endpoint.
 	 */
 
-	const quatNormalize = __awtsmoosModule_26.quatNormalize;function quatSlerp(left, right, amount) {
+	const quatNormalize = __awtsmoosModule_26.quatNormalize;
+
+	function quatSlerp(left, right, amount) {
 		const [ax, ay, az, aw] = left;
 		let [bx, by, bz, bw] = right;
 		let cosine = ax * bx + ay * by + az * bz + aw * bw;
@@ -2037,12 +2065,16 @@ const __awtsmoosModule_0 = Object.create(null);
 	__exports.mat4FromArray = __awtsmoosModule_25.mat4FromArray;
 	__exports.multiply = __awtsmoosModule_25.multiply;
 	__exports.scale = __awtsmoosModule_25.scale;
-	__exports.translate = __awtsmoosModule_25.translate;__exports.composeTRS = __awtsmoosModule_26.composeTRS;
+	__exports.translate = __awtsmoosModule_25.translate;
+	__exports.composeTRS = __awtsmoosModule_26.composeTRS;
 	__exports.quatMatrix = __awtsmoosModule_26.quatMatrix;
-	__exports.quatNormalize = __awtsmoosModule_26.quatNormalize;__exports.lookAt = __awtsmoosModule_27.lookAt;
+	__exports.quatNormalize = __awtsmoosModule_26.quatNormalize;
+	__exports.lookAt = __awtsmoosModule_27.lookAt;
 	__exports.perspective = __awtsmoosModule_27.perspective;
-	__exports.transformPoint = __awtsmoosModule_27.transformPoint;__exports.lerpArray = __awtsmoosModule_28.lerpArray;
+	__exports.transformPoint = __awtsmoosModule_27.transformPoint;
+	__exports.lerpArray = __awtsmoosModule_28.lerpArray;
 	__exports.quatSlerp = __awtsmoosModule_28.quatSlerp;
+
 }
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-transform-cache.js ----
@@ -2059,7 +2091,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * vessels for moving hierarchy nodes while mesh matrix identity still invalidates batches.
 	 */
 
-	const identity = __awtsmoosModule_24.identity;const MATRIX_SNAPSHOT = 1;
+	const identity = __awtsmoosModule_24.identity;
+
+	const MATRIX_SNAPSHOT = 1;
 	const TRS_SNAPSHOT = 2;
 
 	const ROOT_WORLD_MATRIX = identity();
@@ -2340,11 +2374,15 @@ const __awtsmoosModule_0 = Object.create(null);
 	 */
 
 	const copyMat4 = __awtsmoosModule_24.copyMat4;
-	const identity = __awtsmoosModule_24.identity;const cachedLocalMatrix = __awtsmoosModule_29.cachedLocalMatrix;
+	const identity = __awtsmoosModule_24.identity;
+	const cachedLocalMatrix = __awtsmoosModule_29.cachedLocalMatrix;
 	const invalidateTransformCache = __awtsmoosModule_29.invalidateTransformCache;
 	const ROOT_WORLD_MATRIX = __awtsmoosModule_29.ROOT_WORLD_MATRIX;
-	const updateCachedWorldMatrix = __awtsmoosModule_29.updateCachedWorldMatrix;const Quaternion = __awtsmoosModule_30.Quaternion;
-	const Vector3 = __awtsmoosModule_30.Vector3;class Object3D {
+	const updateCachedWorldMatrix = __awtsmoosModule_29.updateCachedWorldMatrix;
+	const Quaternion = __awtsmoosModule_30.Quaternion;
+	const Vector3 = __awtsmoosModule_30.Vector3;
+
+	class Object3D {
 		constructor() {
 			this.children = [];
 			this.parent = null;
@@ -2477,7 +2515,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * contract focused so rigid stone and animated Chossid may share one clear doorway.
 	 */
 
-	const Object3D = __awtsmoosModule_23.Object3D;class Mesh extends Object3D {
+	const Object3D = __awtsmoosModule_23.Object3D;
+
+	class Mesh extends Object3D {
 		constructor(geometry = null, material = null) {
 			super();
 			this.geometry = geometry;
@@ -2576,7 +2616,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * rooted in the same cached scene graph as every visible flower and traveler.
 	 */
 
-	const Object3D = __awtsmoosModule_23.Object3D;class PerspectiveCamera extends Object3D {
+	const Object3D = __awtsmoosModule_23.Object3D;
+
+	class PerspectiveCamera extends Object3D {
 		constructor(fov = 45, aspect = 1, near = 0.1, far = 1000) {
 			super();
 			this.fov = fov;
@@ -2607,10 +2649,16 @@ const __awtsmoosModule_0 = Object.create(null);
 	const Bone = __awtsmoosModule_23.Bone;
 	const Group = __awtsmoosModule_23.Group;
 	const Object3D = __awtsmoosModule_23.Object3D;
-	const Scene = __awtsmoosModule_23.Scene;const Mesh = __awtsmoosModule_31.Mesh;const BufferAttribute = __awtsmoosModule_32.BufferAttribute;
+	const Scene = __awtsmoosModule_23.Scene;
+	const Mesh = __awtsmoosModule_31.Mesh;
+	const BufferAttribute = __awtsmoosModule_32.BufferAttribute;
 	const BufferGeometry = __awtsmoosModule_32.BufferGeometry;
-	const MeshStandardMaterial = __awtsmoosModule_32.MeshStandardMaterial;const PerspectiveCamera = __awtsmoosModule_33.PerspectiveCamera;const Quaternion = __awtsmoosModule_30.Quaternion;
-	const Vector3 = __awtsmoosModule_30.Vector3;__exports.Bone = Bone;
+	const MeshStandardMaterial = __awtsmoosModule_32.MeshStandardMaterial;
+	const PerspectiveCamera = __awtsmoosModule_33.PerspectiveCamera;
+	const Quaternion = __awtsmoosModule_30.Quaternion;
+	const Vector3 = __awtsmoosModule_30.Vector3;
+
+	__exports.Bone = Bone;
 	__exports.BufferAttribute = BufferAttribute;
 	__exports.BufferGeometry = BufferGeometry;
 	__exports.Group = Group;
@@ -2620,13 +2668,15 @@ const __awtsmoosModule_0 = Object.create(null);
 	__exports.PerspectiveCamera = PerspectiveCamera;
 	__exports.Quaternion = Quaternion;
 	__exports.Scene = Scene;
-	__exports.Vector3 = Vector3;function resetTreeToBase(root) {
+	__exports.Vector3 = Vector3;
+
+	function resetTreeToBase(root) {
 		root.traverse(object => object.resetToBase?.());
 	}
 
 
 	__exports.resetTreeToBase = resetTreeToBase;
-	const __awtsmoosDefault_1csdmex = {
+	const __awtsmoosDefault_dh813p = {
 		Bone,
 		BufferAttribute,
 		BufferGeometry,
@@ -2639,7 +2689,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		Scene,
 		Vector3
 	};
-	__exports.default = __awtsmoosDefault_1csdmex;
+	__exports.default = __awtsmoosDefault_dh813p;
 }
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapCubeGeometry.js ----
@@ -2657,7 +2707,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 */
 
 	const BufferAttribute = __awtsmoosModule_22.BufferAttribute;
-	const BufferGeometry = __awtsmoosModule_22.BufferGeometry;const FACE_UVS = [
+	const BufferGeometry = __awtsmoosModule_22.BufferGeometry;
+
+	const FACE_UVS = [
 		0, 0,
 		1, 0,
 		1, 1,
@@ -2732,7 +2784,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * only after a real remote image descends may the later hydration covenant reveal the material in light.
 	 */
 
-	const MeshStandardMaterial = __awtsmoosModule_22.MeshStandardMaterial;/**
+	const MeshStandardMaterial = __awtsmoosModule_22.MeshStandardMaterial;
+
+	/**
 	 * Creates one remote-only bootstrap material whose mesh must remain hidden until
 	 * the shared hydration system binds a genuine decoded image.
 	 *
@@ -2798,7 +2852,11 @@ const __awtsmoosModule_0 = Object.create(null);
 	 */
 
 	const Group = __awtsmoosModule_22.Group;
-	const Mesh = __awtsmoosModule_22.Mesh;const bootstrapCubeGeometry = __awtsmoosModule_34.bootstrapCubeGeometry;const createBootstrapImmediateMaterial = __awtsmoosModule_35.createBootstrapImmediateMaterial;const PARTS = Object.freeze([
+	const Mesh = __awtsmoosModule_22.Mesh;
+	const bootstrapCubeGeometry = __awtsmoosModule_34.bootstrapCubeGeometry;
+	const createBootstrapImmediateMaterial = __awtsmoosModule_35.createBootstrapImmediateMaterial;
+
+	const PARTS = Object.freeze([
 		['body', [0, 0.9, 0], [0.75, 1.8, 0.55], [0.08, 0.1, 0.13, 1], 'fabric.cloth'],
 		['face', [0, 2.05, -0.02], [0.62, 0.52, 0.54], [0.88, 0.68, 0.5, 1], 'character.skin'],
 		['hat', [0, 2.52, -0.02], [0.86, 0.3, 0.72], [0.025, 0.03, 0.04, 1], 'fabric.cloth']
@@ -2915,7 +2973,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com restores the app doorway before the canonical Chossid descends, so a changed vessel never makes the browser seek light in the wrong site.
 	 */
 
-	const resolveDeferredAppModuleUrl = __awtsmoosModule_37.resolveDeferredAppModuleUrl;const HYDRATOR_SPECIFIER = 'MinimalMeadowPlayerHydration.js?v=20260820-promise-cycle-01';
+	const resolveDeferredAppModuleUrl = __awtsmoosModule_37.resolveDeferredAppModuleUrl;
+
+	const HYDRATOR_SPECIFIER = 'MinimalMeadowPlayerHydration.js?v=20260820-promise-cycle-01';
 	const SOURCE_FILE_NAME = 'BootstrapCanonicalPlayerHydration.js';
 
 	/** Resolves the canonical-player hydrator from readable source or the relocated compact core bundle. */
@@ -3085,7 +3145,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * honest no-op contracts so movement begins before horses, enemies, doors, lava, and shadows.
 	 */
 
-	const Group = __awtsmoosModule_22.Group;function createDeferredActorSystems() {
+	const Group = __awtsmoosModule_22.Group;
+
+	function createDeferredActorSystems() {
 		const npc = createNpcPlaceholder();
 		return {
 			doors: [],
@@ -3191,7 +3253,9 @@ const __awtsmoosModule_0 = Object.create(null);
 {
 	const __exports = __awtsmoosModule_43;
 	// B"H
-	const BufferAttribute = __awtsmoosModule_22.BufferAttribute;/** Accessors: the hidden letters of GLTF made exact before the body moves. */
+	const BufferAttribute = __awtsmoosModule_22.BufferAttribute;
+
+	/** Accessors: the hidden letters of GLTF made exact before the body moves. */
 	const COMPONENTS={5120:Int8Array,5121:Uint8Array,5122:Int16Array,5123:Uint16Array,5125:Uint32Array,5126:Float32Array};
 
 	__exports.COMPONENTS = COMPONENTS;
@@ -3260,7 +3324,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * preserves each source channel exactly while separating parsing from living playback.
 	 */
 
-	const accessorFloatArray = __awtsmoosModule_43.accessorFloatArray;const TARGET_SIZE = {
+	const accessorFloatArray = __awtsmoosModule_43.accessorFloatArray;
+
+	const TARGET_SIZE = {
 		rotation: 4,
 		scale: 3,
 		translation: 3,
@@ -3526,7 +3592,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * same measured pose while temporary numbers pass through stable, reusable vessels.
 	 */
 
-	const slerpQuaternionInto = __awtsmoosModule_47.slerpQuaternionInto;function applyChannelSample(channel, time, fadeFrom, fadeAmount = 1) {
+	const slerpQuaternionInto = __awtsmoosModule_47.slerpQuaternionInto;
+
+	function applyChannelSample(channel, time, fadeFrom, fadeAmount = 1) {
 		const span = resolveSpan(channel, time);
 		if (channel.path === 'rotation') {
 			applyRotation(channel, span, fadeFrom, fadeAmount);
@@ -3628,7 +3696,10 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	const captureClipPose = __awtsmoosModule_45.captureClipPose;
 	const createAnimationBindings = __awtsmoosModule_45.createAnimationBindings;
-	const resetAnimationBindings = __awtsmoosModule_45.resetAnimationBindings;const applyChannelSample = __awtsmoosModule_46.applyChannelSample;class TinyAnimationPlayer {
+	const resetAnimationBindings = __awtsmoosModule_45.resetAnimationBindings;
+	const applyChannelSample = __awtsmoosModule_46.applyChannelSample;
+
+	class TinyAnimationPlayer {
 		constructor(root, clips = []) {
 			this.root = root;
 			this.clips = clips;
@@ -3753,7 +3824,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 */
 
 	__exports.parseTinyAnimations = __awtsmoosModule_42.parseTinyAnimations;
-	__exports.summarizeAnimations = __awtsmoosModule_42.summarizeAnimations;__exports.TinyAnimationPlayer = __awtsmoosModule_44.TinyAnimationPlayer;
+	__exports.summarizeAnimations = __awtsmoosModule_42.summarizeAnimations;
+	__exports.TinyAnimationPlayer = __awtsmoosModule_44.TinyAnimationPlayer;
+
 }
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/GroundRay.js ----
@@ -3806,7 +3879,10 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * same runtime doorway for a local silhouette and a later canonical animated garment.
 	 */
 
-	const TinyAnimationPlayer = __awtsmoosModule_41.TinyAnimationPlayer;const alignModelFeetToGround = __awtsmoosModule_49.alignModelFeetToGround;function createPlayerModel(playerGltf, scene) {
+	const TinyAnimationPlayer = __awtsmoosModule_41.TinyAnimationPlayer;
+	const alignModelFeetToGround = __awtsmoosModule_49.alignModelFeetToGround;
+
+	function createPlayerModel(playerGltf, scene) {
 		const model = playerGltf.scene;
 		model.name = 'Awtsmoos_visible_player_isolated_chossid';
 		model.visible = true;
@@ -3912,7 +3988,10 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * gameplay composition, Movie Studio, diagnostics, and reproduction so a later compatibility player cannot erase fourteen authored clips.
 	 */
 
-	const TinyAnimationPlayer = __awtsmoosModule_41.TinyAnimationPlayer;const createClipMap = __awtsmoosModule_48.createClipMap;function installCanonicalChossidAnimation(runtime, gltf, visiblePlayer) {
+	const TinyAnimationPlayer = __awtsmoosModule_41.TinyAnimationPlayer;
+	const createClipMap = __awtsmoosModule_48.createClipMap;
+
+	function installCanonicalChossidAnimation(runtime, gltf, visiblePlayer) {
 		const animations = gltf.animations || [];
 		const player = new TinyAnimationPlayer(visiblePlayer, animations);
 		const clips = createClipMap(animations);
@@ -4099,7 +4178,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos surrounds every finite form without being bounded by it;
 	 * Awtsmoos.com reveals exact containment and contact through readable planes.
 	 */
-	const Vec3 = __awtsmoosModule_55.Vec3;class Aabb {
+	const Vec3 = __awtsmoosModule_55.Vec3;
+
+	class Aabb {
 		constructor(min = new Vec3(), max = new Vec3()) {
 			this.min = Vec3.from(min);
 			this.max = Vec3.from(max);
@@ -4280,7 +4361,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	const projectToPlane = __awtsmoosModule_57.projectToPlane;
 	const scale = __awtsmoosModule_57.scale;
 	const sub = __awtsmoosModule_57.sub;
-	const triangleContainsPoint = __awtsmoosModule_57.triangleContainsPoint;/** Capsule-triangle contact: copied as an idea from Octree.js, reborn raw. */
+	const triangleContainsPoint = __awtsmoosModule_57.triangleContainsPoint;
+
+	/** Capsule-triangle contact: copied as an idea from Octree.js, reborn raw. */
 	function capsuleTriangleContact(capsule, tri) {
 	  const center = scale(add(capsule.start, capsule.end), 0.5);
 	  const facingNormal = dot(sub(center, tri.a), tri.normal) < 0 ? negate(tri.normal) : tri.normal;
@@ -4319,7 +4402,10 @@ const __awtsmoosModule_0 = Object.create(null);
 {
 	const __exports = __awtsmoosModule_53;
 	// B"H
-	const Aabb = __awtsmoosModule_54.Aabb;const capsuleTriangleContact = __awtsmoosModule_56.capsuleTriangleContact;function capsuleFor(position, radius, height, footOffset) {
+	const Aabb = __awtsmoosModule_54.Aabb;
+	const capsuleTriangleContact = __awtsmoosModule_56.capsuleTriangleContact;
+
+	function capsuleFor(position, radius, height, footOffset) {
 		const base = position.y - footOffset;
 		return {
 			radius,
@@ -4443,8 +4529,11 @@ const __awtsmoosModule_0 = Object.create(null);
 	 */
 
 	const capsuleFor = __awtsmoosModule_53.capsuleFor;
-	const deepestContact = __awtsmoosModule_53.deepestContact;const collisionMoveReceipt = __awtsmoosModule_58.collisionMoveReceipt;
-	const createCollisionMovePlan = __awtsmoosModule_58.createCollisionMovePlan;class AwtsmoosCollisionMover {
+	const deepestContact = __awtsmoosModule_53.deepestContact;
+	const collisionMoveReceipt = __awtsmoosModule_58.collisionMoveReceipt;
+	const createCollisionMovePlan = __awtsmoosModule_58.createCollisionMovePlan;
+
+	class AwtsmoosCollisionMover {
 		constructor({ octree, radius = 0.38, height = 1.72, footOffset = 0 }) {
 			Object.assign(this, { octree, radius, height, footOffset });
 			this.lastCeiling = null;
@@ -4642,7 +4731,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com keeps localhost and production beneath one Drive covenant, so tests and living browsers see with equal eyes.
 	 */
 
-	const REMOTE_MODEL_RECORDS = __awtsmoosModule_62.REMOTE_MODEL_RECORDS;const REMOTE_MODEL_ROOT = 'https://awtsmoos.com/sites/firebase_drive_migration/assets/mitzvah-world/models/';
+	const REMOTE_MODEL_RECORDS = __awtsmoosModule_62.REMOTE_MODEL_RECORDS;
+
+	const REMOTE_MODEL_ROOT = 'https://awtsmoos.com/sites/firebase_drive_migration/assets/mitzvah-world/models/';
 
 
 	__exports.REMOTE_MODEL_ROOT = REMOTE_MODEL_ROOT;
@@ -4755,7 +4846,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com preserves sharp CSS-pixel clarity without surplus Retina work in youth.
 	 */
 
-	const remoteModelUrl = __awtsmoosModule_61.remoteModelUrl;const PLAYER_MODEL_URL = remoteModelUrl('player/chossid.glb');
+	const remoteModelUrl = __awtsmoosModule_61.remoteModelUrl;
+
+	const PLAYER_MODEL_URL = remoteModelUrl('player/chossid.glb');
 
 	__exports.PLAYER_MODEL_URL = PLAYER_MODEL_URL;
 	const SIDE_SIGN = -1;
@@ -4883,7 +4976,10 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * spawn truth arrives without distant forests entering the gate, then richer worlds may bloom after the traveler takes flight.
 	 */
 
-	const VILLAGE_ARRIVAL_PLAYER = __awtsmoosModule_64.VILLAGE_ARRIVAL_PLAYER;const FACE_HEIGHT = __awtsmoosModule_60.FACE_HEIGHT;const PLAYER_SPAWN = VILLAGE_ARRIVAL_PLAYER;
+	const VILLAGE_ARRIVAL_PLAYER = __awtsmoosModule_64.VILLAGE_ARRIVAL_PLAYER;
+	const FACE_HEIGHT = __awtsmoosModule_60.FACE_HEIGHT;
+
+	const PLAYER_SPAWN = VILLAGE_ARRIVAL_PLAYER;
 
 
 	__exports.PLAYER_SPAWN = PLAYER_SPAWN;
@@ -4988,11 +5084,20 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com keeps pivot, shadow, collision, and ascent within one truthful view.
 	 */
 
-	const Group = __awtsmoosModule_22.Group;const AwtsmoosCollisionMover = __awtsmoosModule_52.AwtsmoosCollisionMover;const JumpPhysics = __awtsmoosModule_59.JumpPhysics;const findMinWorldY = __awtsmoosModule_49.findMinWorldY;const MAX_SLOPE_NORMAL = __awtsmoosModule_60.MAX_SLOPE_NORMAL;
+	const Group = __awtsmoosModule_22.Group;
+	const AwtsmoosCollisionMover = __awtsmoosModule_52.AwtsmoosCollisionMover;
+	const JumpPhysics = __awtsmoosModule_59.JumpPhysics;
+	const findMinWorldY = __awtsmoosModule_49.findMinWorldY;
+	const MAX_SLOPE_NORMAL = __awtsmoosModule_60.MAX_SLOPE_NORMAL;
 	const PLAYER_HEIGHT = __awtsmoosModule_60.PLAYER_HEIGHT;
-	const PLAYER_RADIUS = __awtsmoosModule_60.PLAYER_RADIUS;const createEretzPlayerState = __awtsmoosModule_63.createEretzPlayerState;
-	const createEretzPlayerStats = __awtsmoosModule_63.createEretzPlayerStats;__exports.createEretzPlayerState = createEretzPlayerState;
-	__exports.createEretzPlayerStats = createEretzPlayerStats;const CANONICAL_PLAYER_SCALE = 1.52;
+	const PLAYER_RADIUS = __awtsmoosModule_60.PLAYER_RADIUS;
+	const createEretzPlayerState = __awtsmoosModule_63.createEretzPlayerState;
+	const createEretzPlayerStats = __awtsmoosModule_63.createEretzPlayerStats;
+
+	__exports.createEretzPlayerState = createEretzPlayerState;
+	__exports.createEretzPlayerStats = createEretzPlayerStats;
+
+	const CANONICAL_PLAYER_SCALE = 1.52;
 
 
 	__exports.CANONICAL_PLAYER_SCALE = CANONICAL_PLAYER_SCALE;
@@ -5105,11 +5210,20 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com keeps state, collision, camera height, and movement alive while canonical humanity is sealed.
 	 */
 
-	const createBootstrapVisiblePlayer = __awtsmoosModule_21.createBootstrapVisiblePlayer;const scheduleBootstrapCanonicalPlayerHydration = __awtsmoosModule_36.scheduleBootstrapCanonicalPlayerHydration;const createBootstrapAnimationHandle = __awtsmoosModule_38.createBootstrapAnimationHandle;
+	const createBootstrapVisiblePlayer = __awtsmoosModule_21.createBootstrapVisiblePlayer;
+	const scheduleBootstrapCanonicalPlayerHydration = __awtsmoosModule_36.scheduleBootstrapCanonicalPlayerHydration;
+	const createBootstrapAnimationHandle = __awtsmoosModule_38.createBootstrapAnimationHandle;
 	const isFallbackPlayer = __awtsmoosModule_38.isFallbackPlayer;
-	const prepareBootstrapPlayerMeshes = __awtsmoosModule_38.prepareBootstrapPlayerMeshes;const createDeferredActorSystems = __awtsmoosModule_39.createDeferredActorSystems;const installCanonicalChossidAnimation = __awtsmoosModule_40.installCanonicalChossidAnimation;const hydrateReadablePlayerMaterials = __awtsmoosModule_50.hydrateReadablePlayerMaterials;const createBootstrapPlayerVessels = __awtsmoosModule_51.createBootstrapPlayerVessels;
-	const prepareCanonicalPlayerMeshes = __awtsmoosModule_51.prepareCanonicalPlayerMeshes;const createBootstrapPlayerState = __awtsmoosModule_63.createBootstrapPlayerState;
-	const createBootstrapPlayerStats = __awtsmoosModule_63.createBootstrapPlayerStats;const CANONICAL_PLAYER_SCALE = 1.52;
+	const prepareBootstrapPlayerMeshes = __awtsmoosModule_38.prepareBootstrapPlayerMeshes;
+	const createDeferredActorSystems = __awtsmoosModule_39.createDeferredActorSystems;
+	const installCanonicalChossidAnimation = __awtsmoosModule_40.installCanonicalChossidAnimation;
+	const hydrateReadablePlayerMaterials = __awtsmoosModule_50.hydrateReadablePlayerMaterials;
+	const createBootstrapPlayerVessels = __awtsmoosModule_51.createBootstrapPlayerVessels;
+	const prepareCanonicalPlayerMeshes = __awtsmoosModule_51.prepareCanonicalPlayerMeshes;
+	const createBootstrapPlayerState = __awtsmoosModule_63.createBootstrapPlayerState;
+	const createBootstrapPlayerStats = __awtsmoosModule_63.createBootstrapPlayerStats;
+
+	const CANONICAL_PLAYER_SCALE = 1.52;
 
 	function createBootstrapPlayerRuntime(foundation) {
 		const model = foundation.playerGltf.scene;
@@ -5745,7 +5859,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	const boundedMovementUnit = __awtsmoosModule_72.boundedMovementUnit;
 	const finiteMovementNumber = __awtsmoosModule_72.finiteMovementNumber;
 	const moveMovementVectorToward = __awtsmoosModule_72.moveMovementVectorToward;
-	const positiveMovementNumber = __awtsmoosModule_72.positiveMovementNumber;/**
+	const positiveMovementNumber = __awtsmoosModule_72.positiveMovementNumber;
+
+	/**
 	 * @description Creates a fresh horizontal velocity record.
 	 * @param {object} initial Optional initial vector.
 	 * @returns {{x:number,z:number}} Finite horizontal velocity.
@@ -6222,7 +6338,10 @@ const __awtsmoosModule_0 = Object.create(null);
 	const actorMovementBasis = __awtsmoosModule_76.actorMovementBasis;
 	const cameraMovementBasis = __awtsmoosModule_76.cameraMovementBasis;
 	const combineMovementVectors = __awtsmoosModule_76.combineMovementVectors;
-	const movementVectorFromBasis = __awtsmoosModule_76.movementVectorFromBasis;const MITZVAH_MOVEMENT_PROFILE = __awtsmoosModule_80.MITZVAH_MOVEMENT_PROFILE;/**
+	const movementVectorFromBasis = __awtsmoosModule_76.movementVectorFromBasis;
+	const MITZVAH_MOVEMENT_PROFILE = __awtsmoosModule_80.MITZVAH_MOVEMENT_PROFILE;
+
+	/**
 	 * Builds the desired horizontal velocity while calculating the camera basis only once.
 	 * @param {object} runtime Active game runtime.
 	 * @param {object} state Canonical player state.
@@ -6531,11 +6650,16 @@ const __awtsmoosModule_0 = Object.create(null);
 	const advanceJumpWindowState = __awtsmoosModule_85.advanceJumpWindowState;
 	const consumeBufferedJump = __awtsmoosModule_85.consumeBufferedJump;
 	const hasBufferedJump = __awtsmoosModule_85.hasBufferedJump;
-	const hasCoyoteGrace = __awtsmoosModule_85.hasCoyoteGrace;const captureVerticalPosition = __awtsmoosModule_82.captureVerticalPosition;
+	const hasCoyoteGrace = __awtsmoosModule_85.hasCoyoteGrace;
+	const captureVerticalPosition = __awtsmoosModule_82.captureVerticalPosition;
 	const integrateVerticalMotion = __awtsmoosModule_82.integrateVerticalMotion;
 	const isBodyAboveGround = __awtsmoosModule_82.isBodyAboveGround;
 	const landVerticalMotion = __awtsmoosModule_82.landVerticalMotion;
-	const launchVerticalMotion = __awtsmoosModule_82.launchVerticalMotion;const minimalMeadowGroundHeight = __awtsmoosModule_83.minimalMeadowGroundHeight;const MITZVAH_MOVEMENT_PROFILE = __awtsmoosModule_80.MITZVAH_MOVEMENT_PROFILE;function prepareMitzvahVertical(runtime, state, deltaSeconds) {
+	const launchVerticalMotion = __awtsmoosModule_82.launchVerticalMotion;
+	const minimalMeadowGroundHeight = __awtsmoosModule_83.minimalMeadowGroundHeight;
+	const MITZVAH_MOVEMENT_PROFILE = __awtsmoosModule_80.MITZVAH_MOVEMENT_PROFILE;
+
+	function prepareMitzvahVertical(runtime, state, deltaSeconds) {
 		captureVerticalPosition(state);
 		const ground = groundHeight(runtime, state);
 		state.jumpWindow = advanceJumpWindowState(state.jumpWindow, {
@@ -6684,10 +6808,16 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com keeps this adapter small so collision truth stays local and first play awakens only the motion law it has picked.
 	 */
 
-	const landVerticalMotion = __awtsmoosModule_82.landVerticalMotion;const minimalMeadowGroundHeight = __awtsmoosModule_83.minimalMeadowGroundHeight;const finishMitzvahVertical = __awtsmoosModule_84.finishMitzvahVertical;
-	const prepareMitzvahVertical = __awtsmoosModule_84.prepareMitzvahVertical;__exports.movementAxes = __awtsmoosModule_86.movementAxes;
+	const landVerticalMotion = __awtsmoosModule_82.landVerticalMotion;
+	const minimalMeadowGroundHeight = __awtsmoosModule_83.minimalMeadowGroundHeight;
+	const finishMitzvahVertical = __awtsmoosModule_84.finishMitzvahVertical;
+	const prepareMitzvahVertical = __awtsmoosModule_84.prepareMitzvahVertical;
+
+	__exports.movementAxes = __awtsmoosModule_86.movementAxes;
 	__exports.movementModeFor = __awtsmoosModule_86.movementModeFor;
-	__exports.updateMovementCamera = __awtsmoosModule_86.updateMovementCamera;function prepareMovementVertical(runtime, state, deltaSeconds) {
+	__exports.updateMovementCamera = __awtsmoosModule_86.updateMovementCamera;
+
+	function prepareMovementVertical(runtime, state, deltaSeconds) {
 		runtime.movementRecovery?.beforeStep(state);
 		if (supportsRichVertical(runtime)) {
 			prepareMitzvahVertical(runtime, state, deltaSeconds);
@@ -6804,16 +6934,27 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * the Awtsmoos recreates traveler and direction before the step can begin, and Awtsmoos.com keeps each responsibility in its proper vessel within.
 	 */
 
-	const normalizeMovementIntent = __awtsmoosModule_75.normalizeMovementIntent;const movementStepFromVelocity = __awtsmoosModule_76.movementStepFromVelocity;const advanceMovementVelocity = __awtsmoosModule_71.advanceMovementVelocity;const bootstrapInputAxis = __awtsmoosModule_77.bootstrapInputAxis;const bootstrapMovementSpeed = __awtsmoosModule_78.bootstrapMovementSpeed;
-	const bootstrapTravelFacingLocked = __awtsmoosModule_78.bootstrapTravelFacingLocked;const bootstrapMovementAction = __awtsmoosModule_73.bootstrapMovementAction;
-	const setBootstrapMovementYaw = __awtsmoosModule_73.setBootstrapMovementYaw;const bootstrapDesiredVelocity = __awtsmoosModule_79.bootstrapDesiredVelocity;
-	const bootstrapVelocityOptions = __awtsmoosModule_79.bootstrapVelocityOptions;const MITZVAH_MOVEMENT_PROFILE = __awtsmoosModule_80.MITZVAH_MOVEMENT_PROFILE;const applyMovementCollision = __awtsmoosModule_81.applyMovementCollision;
+	const normalizeMovementIntent = __awtsmoosModule_75.normalizeMovementIntent;
+	const movementStepFromVelocity = __awtsmoosModule_76.movementStepFromVelocity;
+	const advanceMovementVelocity = __awtsmoosModule_71.advanceMovementVelocity;
+	const bootstrapInputAxis = __awtsmoosModule_77.bootstrapInputAxis;
+	const bootstrapMovementSpeed = __awtsmoosModule_78.bootstrapMovementSpeed;
+	const bootstrapTravelFacingLocked = __awtsmoosModule_78.bootstrapTravelFacingLocked;
+	const bootstrapMovementAction = __awtsmoosModule_73.bootstrapMovementAction;
+	const setBootstrapMovementYaw = __awtsmoosModule_73.setBootstrapMovementYaw;
+	const bootstrapDesiredVelocity = __awtsmoosModule_79.bootstrapDesiredVelocity;
+	const bootstrapVelocityOptions = __awtsmoosModule_79.bootstrapVelocityOptions;
+	const MITZVAH_MOVEMENT_PROFILE = __awtsmoosModule_80.MITZVAH_MOVEMENT_PROFILE;
+	const applyMovementCollision = __awtsmoosModule_81.applyMovementCollision;
 	const finishMovementVertical = __awtsmoosModule_81.finishMovementVertical;
 	const movementAxes = __awtsmoosModule_81.movementAxes;
 	const movementModeFor = __awtsmoosModule_81.movementModeFor;
 	const prepareMovementVertical = __awtsmoosModule_81.prepareMovementVertical;
-	const updateMovementCamera = __awtsmoosModule_81.updateMovementCamera;const isMinimalMeadowMovementStep = __awtsmoosModule_87.isMinimalMeadowMovementStep;
-	const retainedMinimalMeadowTravelFacing = __awtsmoosModule_87.retainedMinimalMeadowTravelFacing;/**
+	const updateMovementCamera = __awtsmoosModule_81.updateMovementCamera;
+	const isMinimalMeadowMovementStep = __awtsmoosModule_87.isMinimalMeadowMovementStep;
+	const retainedMinimalMeadowTravelFacing = __awtsmoosModule_87.retainedMinimalMeadowTravelFacing;
+
+	/**
 	 * Advances one complete player-control frame from fresh input through settled camera presentation.
 	 * @param {BootstrapMovementController} controller Active movement controller.
 	 * @param {number} deltaSeconds Frame delta in seconds.
@@ -6913,7 +7054,11 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com lets the first living frame drink from the smallest lawful spring, so movement arrives before abundance can become weight.
 	 */
 
-	const createMovementVelocity = __awtsmoosModule_71.createMovementVelocity;const bootstrapMovementSnapshot = __awtsmoosModule_73.bootstrapMovementSnapshot;const advanceBootstrapMovement = __awtsmoosModule_74.advanceBootstrapMovement;class BootstrapMovementController {
+	const createMovementVelocity = __awtsmoosModule_71.createMovementVelocity;
+	const bootstrapMovementSnapshot = __awtsmoosModule_73.bootstrapMovementSnapshot;
+	const advanceBootstrapMovement = __awtsmoosModule_74.advanceBootstrapMovement;
+
+	class BootstrapMovementController {
 		/** @param {object} runtime Immediate Mitzvah World runtime. */
 		constructor(runtime) {
 			this.runtime = runtime;
@@ -7078,12 +7223,18 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * and Awtsmoos.com records the moment colored earth is truly rendered and the traveler may truly go.
 	 */
 
-	const FrameBudgetWindow = __awtsmoosModule_67.FrameBudgetWindow;const advanceBootstrapGameplay = __awtsmoosModule_68.advanceBootstrapGameplay;
+	const FrameBudgetWindow = __awtsmoosModule_67.FrameBudgetWindow;
+	const advanceBootstrapGameplay = __awtsmoosModule_68.advanceBootstrapGameplay;
 	const primeBootstrapGameplay = __awtsmoosModule_68.primeBootstrapGameplay;
 	const recordBootstrapFrameFailure = __awtsmoosModule_68.recordBootstrapFrameFailure;
 	const recordBootstrapFrameSuccess = __awtsmoosModule_68.recordBootstrapFrameSuccess;
 	const refreshBootstrapPresentation = __awtsmoosModule_68.refreshBootstrapPresentation;
-	const renderBootstrapGameplay = __awtsmoosModule_68.renderBootstrapGameplay;const createBootstrapFrameScheduler = __awtsmoosModule_69.createBootstrapFrameScheduler;const BootstrapMovementController = __awtsmoosModule_70.BootstrapMovementController;const markMitzvahWorldStartupMilestone = __awtsmoosModule_88.markMitzvahWorldStartupMilestone;const MAX_FRAME_DELTA_SECONDS = 0.05;
+	const renderBootstrapGameplay = __awtsmoosModule_68.renderBootstrapGameplay;
+	const createBootstrapFrameScheduler = __awtsmoosModule_69.createBootstrapFrameScheduler;
+	const BootstrapMovementController = __awtsmoosModule_70.BootstrapMovementController;
+	const markMitzvahWorldStartupMilestone = __awtsmoosModule_88.markMitzvahWorldStartupMilestone;
+
+	const MAX_FRAME_DELTA_SECONDS = 0.05;
 
 	/**
 	 * Starts the main visual gameplay loop without multiplying animation clocks.
@@ -7191,7 +7342,14 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com keeps movement, battle, light, and the full map doorway alive in the first vessel.
 	 */
 
-	const installBootstrapControlsHud = __awtsmoosModule_1.installBootstrapControlsHud;const MinimalMeadowBootstrapCombat = __awtsmoosModule_9.MinimalMeadowBootstrapCombat;const createMinimalMeadowBootstrapMinimap = __awtsmoosModule_10.createMinimalMeadowBootstrapMinimap;const createBootstrapPlayerRuntime = __awtsmoosModule_20.createBootstrapPlayerRuntime;const createBootstrapRuntimeDiagnostics = __awtsmoosModule_65.createBootstrapRuntimeDiagnostics;const startBootstrapRuntimeLoop = __awtsmoosModule_66.startBootstrapRuntimeLoop;function assembleBootstrapCoreRuntime(
+	const installBootstrapControlsHud = __awtsmoosModule_1.installBootstrapControlsHud;
+	const MinimalMeadowBootstrapCombat = __awtsmoosModule_9.MinimalMeadowBootstrapCombat;
+	const createMinimalMeadowBootstrapMinimap = __awtsmoosModule_10.createMinimalMeadowBootstrapMinimap;
+	const createBootstrapPlayerRuntime = __awtsmoosModule_20.createBootstrapPlayerRuntime;
+	const createBootstrapRuntimeDiagnostics = __awtsmoosModule_65.createBootstrapRuntimeDiagnostics;
+	const startBootstrapRuntimeLoop = __awtsmoosModule_66.startBootstrapRuntimeLoop;
+
+	function assembleBootstrapCoreRuntime(
 		foundation,
 		options,
 		qualityProfile,
