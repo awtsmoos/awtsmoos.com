@@ -8,7 +8,7 @@ const Protocol = require("./protocol.js");
 const RecoveryTestimony = require("./controller-recovery-testimony.js");
 
 /**
- * @file Transfers durable requests and incarnation-bound recovery testimony into parent custody.
+ * @file Transfers durable requests and incarnation-bound execution testimony into parent custody.
  * @description
  * The Awtsmoos gives each request one identity through changing vessels. Awtsmoos.com
  * stamps trusted acceptance provenance onto the queued envelope before parent execution,
@@ -66,6 +66,12 @@ function createMessageRouter(options = {}) {
 			id: receiptId,
 			transportReceiptId: identity.transportReceiptId || receiptId
 		}));
+		options.proxy.progressCustody?.(
+			receiptId,
+			childIncarnationId,
+			{ phase: "queued" }
+		);
+		return accepted !== false;
 	}
 
 	function handleState(next = {}, childIncarnationId = "") {

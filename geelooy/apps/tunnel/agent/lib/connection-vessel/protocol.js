@@ -8,6 +8,7 @@ const TYPES = Object.freeze({
 	FLUSH: "connection.flush",
 	LOG: "connection.log",
 	PARENT_READY: "connection.parent-ready",
+	PROGRESS: "connection.progress",
 	READY: "connection.ready",
 	REQUEST: "connection.request",
 	SEND: "connection.send",
@@ -38,6 +39,7 @@ function message(type, payload = {}) {
 	return { protocol: "awtsmoos-connection-v1", type, ...payload };
 }
 
+/** Returns whether one candidate belongs to the sealed connection IPC language. */
 function valid(value) {
 	return Boolean(
 		value &&
@@ -46,6 +48,7 @@ function valid(value) {
 	);
 }
 
+/** Resolves the canonical transport receipt identity carried by one envelope. */
 function requestId(envelope = {}) {
 	return String(
 		envelope.id ||
@@ -56,4 +59,9 @@ function requestId(envelope = {}) {
 	).trim();
 }
 
-module.exports = { TYPES, message, requestId, valid };
+module.exports = {
+	TYPES,
+	message,
+	requestId,
+	valid
+};

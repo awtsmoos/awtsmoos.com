@@ -35,6 +35,7 @@ function recoverPending(context, tunnel) {
 	return recovered;
 }
 
+/** Redelivers only into a newer generation; otherwise preserves observation-only uncertainty. */
 function recoverPriorDispatch(context, id, record, tunnel) {
 	const currentGeneration = generation(tunnel.registrationGeneration);
 	const priorGeneration = generation(record.dispatchRegistrationGeneration);
@@ -84,6 +85,7 @@ function watchPriorDispatch(context, id, record, tunnel) {
 		summary: `${record.activityContext?.action || "action"} awaits prior dispatch acceptance`,
 		phase: "registration_reconciliation"
 	});
+	return false;
 }
 
 function eligible(record, tunnel) {

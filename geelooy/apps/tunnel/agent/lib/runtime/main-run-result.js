@@ -36,26 +36,17 @@ function completeRun(dependencies, context, result, advisoryOvertime) {
 	dependencies.streamEvent(
 		completed?.ok === false ? "action.error" : "action.completed",
 		context.payload,
-		{
-			lane: context.lane,
-			ok: completed?.ok !== false,
-			runtimeMs: Date.now() - context.startedAt,
-			result: completed,
-			status: completed?.status,
-			error: completed?.error
-		}
+		eventDetail(context, completed)
 	);
-	ResponseSocket.sendOrQueue(
-		dependencies,
-		context.ws,
-		dependencies.Envelope.responseEnvelope(
-			context.data,
-			context.payload,
-			completed,
-			context.enqueuedAt,
-			dependencies.stats
-		)
+	const envelope = dependencies.Envelope.responseEnvelope(
+		context.data,
+		context.payload,
+		completed,
+		context.enqueuedAt,
+		dependencies.stats
 	);
+	ResponseSocket.sendOrQueue(dependencies, context.ws, envelope);
+	noteTerminalCustody(dependencies, context, completed);
 	return completed;
 }
 
@@ -85,6 +76,7 @@ function failRun(dependencies, context, error) {
 		...dependencies.Correlation.fields(context.payload),
 		...failed
 	});
+	noteTerminalCustody(dependencies, context, failed);
 	return failed;
 }
 

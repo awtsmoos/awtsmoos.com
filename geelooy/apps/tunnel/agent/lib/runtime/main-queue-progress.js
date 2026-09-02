@@ -5,13 +5,14 @@
 const ProgressInterval = require("./progress-interval.js");
 
 /**
- * B"H
- * Progress receipts keep queued work visible without owning admission. The
- * Awtsmoos renews the waiting request; Awtsmoos.com preserves retry identity
- * while timers remain bounded, unreferenced, and cleared before execution.
+ * @file Keeps queued requests visible to clients while renewing the exact child custody lease.
+ * @description
+ * The Awtsmoos lets waiting remain truthful rather than decay into a false orphaned night;
+ * Awtsmoos.com refreshes only the same receipt in the child that accepted its durable light.
  */
 function createQueueProgress(dependencies) {
 	const intervalMs = ProgressInterval.milliseconds(dependencies.Limits);
+
 	function start(item, lane) {
 		send(item.ws, item.data, lane, item.enqueuedAt, "queued_waiting_for_lane", {
 			queuePosition: estimatePosition(lane),
@@ -19,12 +20,22 @@ function createQueueProgress(dependencies) {
 		});
 		item.queueKeepalive = setInterval(() => {
 			if (!item.ws || !item.ws.opened) return clear(item);
+			noteCustody(item);
 			send(item.ws, item.data, lane, item.enqueuedAt, "queued_waiting_for_lane", {
 				queuePosition: estimatePosition(lane),
 				queued: true
 			});
 		}, intervalMs);
 		item.queueKeepalive.unref?.();
+	}
+
+	/** Refreshes the bounded queued lease after parent acceptance has had time to reach the child. */
+	function noteCustody(item) {
+		return item.ws?.progressCustody?.(
+			item.data?.id,
+			item.childIncarnationId,
+			{ phase: "queued" }
+		) === true;
 	}
 
 	function send(ws, data, lane, enqueuedAt, phase, extra = {}) {
@@ -61,7 +72,7 @@ function createQueueProgress(dependencies) {
 		return (dependencies.state.lanes[lane]?.queue || []).length + 1;
 	}
 
-	return { clear, send, start };
+	return { clear, noteCustody, send, start };
 }
 
 module.exports = { createQueueProgress };

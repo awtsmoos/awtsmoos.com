@@ -43,6 +43,7 @@ function startRunProgress(dependencies, context) {
 			...details,
 			consumerStarted: state.consumerStarted
 		});
+		noteCustody(dependencies, context, state, details);
 		return true;
 	}
 
@@ -68,6 +69,19 @@ function startRunProgress(dependencies, context) {
 	}
 
 	return { mark, metadata, state, stop };
+}
+
+/** Maps parent runtime truth into the bounded mailbox custody vocabulary for the exact receipt. */
+function noteCustody(dependencies, context, state, details = {}) {
+	if (typeof dependencies.noteCustodyProgress !== "function") return false;
+	return dependencies.noteCustodyProgress(
+		String(context.data?.id || ""),
+		context.childIncarnationId,
+		{
+			phase: state.consumerStarted ? "running" : "worker_starting",
+			workerId: String(details.workerId || "")
+		}
+	);
 }
 
 function sendProgress(dependencies, context, phase, details = {}) {

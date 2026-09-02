@@ -1,8 +1,8 @@
-#B"H
+# B"H
 # Boruch Hashem
 # Blessed is He
-# The Awtsmoos carries one verified main-branch revelation toward the production shore;
-# Awtsmoos.com lets GitHub summon Hetzner's shlep.sh so the published tree and living site agree once more.
+# The Awtsmoos binds one pushed SHA to one guarded production shore;
+# Awtsmoos.com verifies that exact revelation remotely, never guessing through shlep.sh anymore.
 name: Deploy to Hetzner Awtsmoos
 
 on:
@@ -10,17 +10,59 @@ on:
     branches:
       - main
 
+concurrency:
+  group: awtsmoos-production-main
+  cancel-in-progress: false
+
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
+    env:
+      EXPECTED_SHA: ${{ github.sha }}
+      DEPLOY_HOST: ${{ secrets.SERVER_IP }}
+      DEPLOY_USER: ${{ secrets.SERVER_USER }}
+      DEPLOY_PASSWORD: ${{ secrets.AWTSMOOS_PASSWORD }}
     steps:
-      - name: Execute production deployment over SSH
-        uses: appleboy/ssh-action@master
+      - name: Verify deployment inputs
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          for name in EXPECTED_SHA DEPLOY_HOST DEPLOY_USER DEPLOY_PASSWORD; do
+            if [ -z "${!name:-}" ]; then
+              echo "::error::Missing required deployment input: $name"
+              exit 1
+            fi
+          done
+          case "$EXPECTED_SHA" in
+            *[!0-9a-f]*|'') echo "::error::Invalid GitHub source SHA"; exit 1 ;;
+          esac
+          test "${#EXPECTED_SHA}" -eq 40
+
+      - name: Execute canonical production deployment over SSH
+        uses: appleboy/ssh-action@v1.2.5
+        env:
+          EXPECTED_SHA: ${{ github.sha }}
         with:
           host: ${{ secrets.SERVER_IP }}
           username: ${{ secrets.SERVER_USER }}
           password: ${{ secrets.AWTSMOOS_PASSWORD }}
           port: 22
+          envs: EXPECTED_SHA
+          timeout: 30s
+          command_timeout: 30m
+          script_stop: true
           script: |
-            cd ~/Awtsmoos
-            ./shlep.sh
+            set -Eeuo pipefail
+            repo="${AWTSMOOS_PRODUCTION_REPO:-/mnt/HC_Volume_102267213/git/awtsmoos.com}"
+            git -C "$repo" rev-parse --git-dir >/dev/null
+            test "$(git -C "$repo" branch --show-current)" = "main"
+            test -z "$(git -C "$repo" status --porcelain)"
+            git -C "$repo" fetch --prune --tags origin main
+            test "$(git -C "$repo" rev-parse origin/main^{commit})" = "$EXPECTED_SHA"
+            git -C "$repo" merge-base --is-ancestor HEAD origin/main
+            git -C "$repo" merge --ff-only origin/main
+            test "$(git -C "$repo" rev-parse HEAD^{commit})" = "$EXPECTED_SHA"
+            bash "$repo/scripts/production/canonical-server-activate.sh" "$EXPECTED_SHA"
+            node "$repo/scripts/verifyHomeProduction.mjs"
+            node "$repo/scripts/verifyTunnelPublicRelease.mjs"
+            test "$(git -C "$repo" rev-parse HEAD^{commit})" = "$EXPECTED_SHA"

@@ -2,8 +2,10 @@
 // Boruch Hashem
 // Blessed is He
 
+const Grace = require("./child-active-execution-grace.js");
+
 /**
- * @file Composes transport, execution, mailbox, and consumer-recovery testimony.
+ * @file Composes transport, execution, mailbox, and recovery testimony from exact custody truth.
  * @description
  * The Awtsmoos reveals each witness without letting one borrow another's certainty.
  * Awtsmoos.com publishes mailbox debt exactly as the durable child sees it; aggregate
@@ -75,8 +77,11 @@ function mailboxHealth(mailbox = {}) {
 		inboxState: text(inbox.state || "healthy"),
 		outboxState: text(outbox.state || "healthy"),
 		activeExecutionGrace: false,
+		activeCustodyCount: Grace.activeCount(
+			inbox.parentCustodyRecords,
+			inbox.parentCustodyStaleIds
+		),
 		inboxCount: nonnegative(inbox.count),
-		inboxParentCustodyCount: nonnegative(inbox.parentCustodyCount),
 		inboxOldestAgeMs: nonnegative(inbox.oldestAgeMs),
 		outboxCount: nonnegative(outbox.count),
 		outboxOldestAgeMs: nonnegative(outbox.oldestAgeMs)
@@ -104,7 +109,7 @@ function text(value) {
 }
 
 module.exports = {
-	applyActiveExecutionGrace,
+	applyActiveExecutionGrace: Grace.apply,
 	compose,
 	consumerRecovery,
 	executionHealth,

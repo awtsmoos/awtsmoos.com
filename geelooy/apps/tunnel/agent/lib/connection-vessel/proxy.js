@@ -4,12 +4,12 @@
 
 const Incarnation = require("./connection-incarnation.js");
 const Protocol = require("./protocol.js");
+
 /**
- * @file Presents a socket-shaped durable IPC doorway to the main agent.
+ * @file Presents a socket-shaped durable IPC doorway plus exact child-custody progress testimony.
  * @description
- * The Awtsmoos lets old queue code speak through a new vessel while results keep provenance.
- * Awtsmoos.com mirrors the exact child incarnation and stamps terminal outbox truth with it,
- * so a completed deed may survive transport rebirth without becoming anonymous health debt.
+ * The Awtsmoos lets execution speak through one supervised child while identities stay bright;
+ * Awtsmoos.com fences progress to that living incarnation, never to an older night.
  */
 function createProxy(options = {}) {
 	const state = {
@@ -30,10 +30,20 @@ function createProxy(options = {}) {
 	}
 
 	function sendJson(envelope) {
-		return options.notify(Protocol.message(Protocol.TYPES.SEND, {
-			envelope
+		return options.notify(Protocol.message(Protocol.TYPES.SEND, { envelope }));
+	}
+
+	/** Sends progress only to the exact child incarnation that accepted this request. */
+	function progressCustody(receiptId, acceptingIncarnationId, metadata = {}) {
+		const accepting = Incarnation.clean(acceptingIncarnationId);
+		if (!accepting || !Incarnation.matches(state.childIncarnationId, accepting)) return false;
+		return options.notify(Protocol.message(Protocol.TYPES.PROGRESS, {
+			childIncarnationId: accepting,
+			id: String(receiptId || ""),
+			metadata
 		}));
 	}
+
 	function close() {
 		state.closed = true;
 		state.opened = false;
@@ -62,6 +72,7 @@ function createProxy(options = {}) {
 		get closed() { return state.closed; },
 		get opened() { return state.opened; },
 		get registered() { return state.registered; },
+		progressCustody,
 		sendJson,
 		snapshot,
 		update

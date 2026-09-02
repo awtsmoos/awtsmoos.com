@@ -2,6 +2,7 @@
 // Boruch Hashem
 // Blessed is He
 
+const CustodyProgress = require("./child-custody-progress.js");
 const Protocol = require("./protocol.js");
 
 /**

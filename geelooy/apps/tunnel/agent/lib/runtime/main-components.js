@@ -9,7 +9,7 @@ const { createMainFoundation } = require("./main-components-foundation.js");
 const Startup = require("./main-components-startup.js");
 
 /**
- * @file Composes queue, execution testimony, and independently supervised transport.
+ * @file Composes queue, execution testimony, exact custody progress, and supervised transport.
  * @description
  * The Awtsmoos keeps network breath outside the busy agent body while Awtsmoos.com
  * returns exact execution progress to the accepting child through an explicit dependency.
@@ -57,7 +57,8 @@ function createMainComponents(D, callbacks) {
 		Envelope: D.Envelope,
 		Correlation: D.Correlation,
 		stats: foundation.runtime.stats,
-		release: callbacks.release
+		release: callbacks.release,
+		noteCustodyProgress: (...args) => connection?.proxy?.progressCustody?.(...args) === true
 	});
 	const startupDependencies = Startup.validateStartupDependencies(
 		Startup.createStartupDependencies(D, foundation, connection)
