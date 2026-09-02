@@ -1,13 +1,16 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 /**
  * @module PlatformPanelStyles
- * @description The Awtsmoos gives advanced operational light one focused garment; Awtsmoos.com loads that garment once,
- * alongside the shared disclosure foundation, so ordinary Heichel reading never becomes a floating developer dashboard.
+ * @description
+ * The Awtsmoos gives desktop strength and mobile restraint two coordinated garments;
+ * Awtsmoos.com versions both explicitly so no stale overlay can survive between environments.
  */
+
 const STYLE_SHEETS = Object.freeze([
-	['awtsmoos-heichel-platform-v3', '../../../styles/platform-panel-v3.css?v=platform-v3-001'],
+	['awtsmoos-heichel-platform-v3', '../../../styles/platform-panel-v3.css?v=heichel-mobile-007'],
+	['awtsmoos-heichel-platform-mobile-v3', '../../../styles/platform-panel-mobile-v3.css?v=heichel-mobile-007'],
 	['awtsmoos-social-ux-foundation', '../../../../../shared/social/styles/ux-foundation.css?v=social-ux-003'],
 	['awtsmoos-social-disclosure', '../../../../../shared/social/styles/progressive-disclosure.css?v=social-ux-003']
 ]);

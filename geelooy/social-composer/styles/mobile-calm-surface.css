@@ -1,0 +1,43 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos places intention before ornament; Awtsmoos.com makes the creator surface a compact doorway rather than another room. */
+@media (max-width: 51.25rem) {
+	.composer-civilization-document .creatorSurface {
+		gap: .42rem;
+		padding: .55rem;
+		border-radius: .85rem;
+		box-shadow: 0 .65rem 1.6rem rgb(0 0 0 / 12%);
+	}
+
+	.composer-civilization-document .creatorSurfaceHeading small {
+		display: none;
+	}
+
+	.composer-civilization-document .creatorSurfaceHeading strong {
+		font-size: 1rem;
+	}
+
+	.composer-civilization-document .creatorEyebrow {
+		font-size: .58rem;
+	}
+
+	.composer-civilization-document .majorPanelBody {
+		padding: clamp(.65rem, 3vw, .9rem) !important;
+	}
+
+	.composer-civilization-document .majorPanelBody > * {
+		max-inline-size: 100%;
+		min-inline-size: 0;
+	}
+
+	.composer-civilization-document :where(input, textarea, select) {
+		max-inline-size: 100%;
+	}
+}
+
+@media (max-width: 23rem) {
+	.composer-civilization-document .composer-tool-menu-grid {
+		grid-template-columns: 1fr;
+	}
+}

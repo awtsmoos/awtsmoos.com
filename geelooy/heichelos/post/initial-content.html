@@ -1,90 +1,22 @@
 <!-- B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos guards each word before it enters the visible vessel,
-so Awtsmoos.com reveals Torah immediately while untrusted markup stays harmless and level.
+
+The Awtsmoos prepares the quiet parchment before fetched Torah enters sight;
+Awtsmoos.com gives the reader a truthful first breath, then canonical client revelation replaces it with living light.
 -->
-<?<script>
-	function escapeHtml(value) {
-		var map = {
-			"&": "&amp;",
-			"<": "&lt;",
-			">": "&gt;",
-			'"': "&quot;",
-			"'": "&#39;"
-		};
-		return String(value == null ? "" : value).replace(/[&<>"']/g, function(character) {
-			return map[character];
-		});
-	}
-
-	function decodeCommonEntities(value) {
-		return String(value || "")
-			.replace(/&nbsp;/gi, " ")
-			.replace(/&amp;/gi, "&")
-			.replace(/&lt;/gi, "<")
-			.replace(/&gt;/gi, ">")
-			.replace(/&quot;/gi, '"')
-			.replace(/&#39;|&apos;/gi, "'");
-	}
-
-	function toPlainText(value) {
-		if (value == null) return "";
-		return decodeCommonEntities(value)
-			.replace(/<br\s*\/?>/gi, "\n")
-			.replace(/<\/(p|div|li|h[1-6]|blockquote|section|article)>/gi, "\n\n")
-			.replace(/<[^>]*>/g, " ")
-			.replace(/[ \t]+\n/g, "\n")
-			.replace(/\n[ \t]+/g, "\n")
-			.replace(/[ \t]{2,}/g, " ")
-			.replace(/\n{3,}/g, "\n\n")
-			.trim();
-	}
-
-	function collectReadableText(value, depth) {
-		if (value == null || depth > 5) return "";
-		if (typeof value === "string" || typeof value === "number") return toPlainText(value);
-		if (Array.isArray(value)) {
-			return value.map(function(item) {
-				return collectReadableText(item, depth + 1);
-			}).filter(Boolean).join("\n\n");
-		}
-		if (typeof value !== "object") return "";
-		var preferred = ["text", "content", "body", "paragraph", "html", "value", "description"];
-		for (var i = 0; i < preferred.length; i++) {
-			var preferredText = collectReadableText(value[preferred[i]], depth + 1);
-			if (preferredText) return preferredText;
-		}
-		var ignored = { id: true, author: true, aliasId: true, timestamp: true, createdAt: true, updatedAt: true };
-		return Object.keys(value).filter(function(key) {
-			return !ignored[key];
-		}).map(function(key) {
-			return collectReadableText(value[key], depth + 1);
-		}).filter(Boolean).join("\n\n");
-	}
-
-	function renderParagraphs(text) {
-		return String(text || "").split(/\n{2,}/).map(function(paragraph) {
-			var safe = escapeHtml(paragraph.trim()).replace(/\n/g, "<br>");
-			return safe ? "<p>" + safe + "</p>" : "";
-		}).filter(Boolean).join("\n");
-	}
-
-	var sod = $$sd || {};
-	var post = sod.post;
-	if (!post || typeof post !== "object") return $a("loading.html");
-	var title = toPlainText(post.title) || "Torah Revelation";
-	var body = collectReadableText(post.content, 0) || collectReadableText(post.dayuh, 0);
-	var heichel = sod.heichel || {};
-	var alias = sod.alias || {};
-	var heichelName = toPlainText(heichel.name || heichel.title);
-	var authorName = toPlainText(alias.name || alias.aliasId);
-	var context = [heichelName, authorName ? "By " + authorName : ""].filter(Boolean).join(" · ");
-	var bodyMarkup = renderParagraphs(body) || "<p>The Torah text is preparing for the interactive reader.</p>";
-	return "<article class=\"awtsmoos-initial-post\" data-awtsmoos-initial-post dir=\"auto\">"
-		+ (context ? "<p class=\"awtsmoos-initial-post-context\">" + escapeHtml(context) + "</p>" : "")
-		+ "<h1>" + escapeHtml(title) + "</h1>"
-		+ "<div class=\"awtsmoos-initial-post-body\">" + bodyMarkup + "</div>"
-		+ "<p class=\"awtsmoos-reader-enhancement-status\" role=\"status\">Reader controls and commentary are loading.</p>"
-		+ "</article>";
-</script>?>
+<article
+	class="awtsmoos-initial-post"
+	data-awtsmoos-initial-post
+	aria-busy="true"
+	dir="auto"
+>
+	<p class="awtsmoos-initial-post-context">Torah reader</p>
+	<h1>Opening this teaching…</h1>
+	<div class="awtsmoos-initial-post-body">
+		<p>The text is being gathered into the reading surface.</p>
+	</div>
+	<p class="awtsmoos-reader-enhancement-status" role="status">
+		Loading Torah, navigation, and commentary.
+	</p>
+</article>

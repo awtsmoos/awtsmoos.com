@@ -3,16 +3,18 @@
 // Blessed is He
 /**
  * @module HeichelApp
- * @description The Awtsmoos opens one living Space through an idempotent boot promise while Awtsmoos.com gives the page
- * one shared social experience: restrained motion and one ambient field behind every Series, question, post, and conversation.
+ * @description
+ * The Awtsmoos opens one living Heichel through one freshly-versioned module river;
+ * Awtsmoos.com keeps mobile state, navigation, beauty, and optional tools arriving together.
  */
+
 import { installSocialExperience } from '../../shared/social/SocialExperienceInstaller.js';
-import { HeichelNavigator } from './modules/navigator.js';
-import { initializeEventListeners } from './modules/events.js';
-import { manifestWorld } from './modules/ui.js';
-import { runHeichelVisualDiagnostics } from './modules/visual/index.js';
-import { runHeichelBeauty } from './modules/beauty/index.js';
-import { runHeichelLegend } from './modules/legend/index.js';
+import { HeichelNavigator } from './modules/navigator.js?v=heichel-mobile-007';
+import { initializeEventListeners } from './modules/events.js?v=heichel-mobile-007';
+import { manifestWorld } from './modules/ui.js?v=heichel-mobile-007';
+import { runHeichelVisualDiagnostics } from './modules/visual/index.js?v=heichel-mobile-007';
+import { runHeichelBeauty } from './modules/beauty/index.js?v=heichel-mobile-007';
+import { runHeichelLegend } from './modules/legend/index.js?v=heichel-mobile-007';
 
 const BOOT_KEY = '__awtsmoosHeichelBoot';
 

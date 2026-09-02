@@ -1,7 +1,7 @@
-/*B"H*/
-/*Boruch Hashem*/
-/*Blessed is He*/
-/** The Awtsmoos contains operational depth behind one quiet threshold; Awtsmoos.com keeps Advanced powerful, bounded, tactile, and clear of mobile navigation. */
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos contains operational depth behind one quiet threshold; Awtsmoos.com keeps desktop Advanced strong while mobile receives its own uncluttered vessel. */
 .awtsmoos-platform-panel {
 	position: fixed;
 	z-index: 90;
@@ -42,11 +42,11 @@
 	min-inline-size: 0;
 }
 .awtsmoos-platform-body header {
-	grid-template-columns: minmax(0,1fr) auto;
+	grid-template-columns: minmax(0, 1fr) auto;
 	align-items: center;
 }
 .awtsmoos-platform-search {
-	grid-template-columns: minmax(0,1fr) auto;
+	grid-template-columns: minmax(0, 1fr) auto;
 }
 .awtsmoos-platform-search input,
 .awtsmoos-platform-search button,
@@ -71,33 +71,41 @@
 }
 .awtsmoos-platform-actions {
 	display: grid;
-	grid-template-columns: repeat(4,minmax(0,1fr));
+	grid-template-columns: repeat(4, minmax(0, 1fr));
 	gap: .45rem;
 }
-.awtsmoos-platform-actions--advanced { grid-template-columns: repeat(2,minmax(0,1fr)); }
-.awtsmoos-platform-output { min-block-size: 5.25rem; padding-block-start: .5rem; border-block-start: 1px solid var(--social-line,currentColor); }
-.awtsmoos-platform-list { display: grid; gap: .4rem; min-inline-size: 0; }
-.awtsmoos-platform-card { min-inline-size: 0; padding: .58rem .65rem; overflow-wrap: anywhere; border-radius: .75rem; background: var(--social-soft,color-mix(in srgb,CanvasText 6%,Canvas)); font-size: .8rem; }
+.awtsmoos-platform-actions--advanced {
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.awtsmoos-platform-output {
+	min-block-size: 5.25rem;
+	padding-block-start: .5rem;
+	border-block-start: 1px solid var(--social-line, currentColor);
+}
+.awtsmoos-platform-list {
+	display: grid;
+	gap: .4rem;
+	min-inline-size: 0;
+}
+.awtsmoos-platform-card {
+	min-inline-size: 0;
+	padding: .58rem .65rem;
+	overflow-wrap: anywhere;
+	border-radius: .75rem;
+	background: var(--social-soft, color-mix(in srgb, CanvasText 6%, Canvas));
+	font-size: .8rem;
+}
 .awtsmoos-platform-error { color: #dc2626; }
-@media (hover:hover) and (pointer:fine) {
-	.awtsmoos-platform-search button:hover,
-	.awtsmoos-platform-action:hover { transform: translateY(-1px); background: var(--social-strong,color-mix(in srgb,CanvasText 10%,Canvas)); }
-}
-.awtsmoos-platform-search button:active,
-.awtsmoos-platform-action:active { transform: scale(.97); }
-.awtsmoos-platform-search :focus-visible,
-.awtsmoos-platform-action:focus-visible { outline: 2px solid var(--social-focus,#67e8f9); outline-offset: 2px; }
-@media (max-width:38.75rem) {
+@media (prefers-reduced-transparency: reduce) {
 	.awtsmoos-platform-panel {
-		inset-inline: max(.6rem,env(safe-area-inset-left)) max(.6rem,env(safe-area-inset-right));
-		inset-block-end: calc(5rem + max(.6rem,env(safe-area-inset-bottom)));
-		inline-size: auto;
-		max-inline-size: none;
-		max-block-size: calc(100dvh - 6.5rem - max(1rem,env(safe-area-inset-top)) - max(.6rem,env(safe-area-inset-bottom)));
+		backdrop-filter: none;
+		background: Canvas;
 	}
-	.awtsmoos-platform-panel:not([open]) { inset-inline-start: auto; inline-size: auto; }
-	.awtsmoos-platform-body { max-block-size: min(60dvh,32rem); }
-	.awtsmoos-platform-actions { grid-template-columns: repeat(2,minmax(0,1fr)); }
 }
-@media (prefers-reduced-transparency:reduce) { .awtsmoos-platform-panel { backdrop-filter: none; background: Canvas; } }
-@media (prefers-reduced-motion:reduce) { .awtsmoos-platform-panel *, .awtsmoos-platform-panel *::before { transition: none; animation: none; } }
+@media (prefers-reduced-motion: reduce) {
+	.awtsmoos-platform-panel *,
+	.awtsmoos-platform-panel *::before {
+		transition: none;
+		animation: none;
+	}
+}

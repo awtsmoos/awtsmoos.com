@@ -4,17 +4,16 @@
 /**
  * @module SovereignNavigator
  * @description
- * The Awtsmoos creates route, content, and reader intention in one present.
- * Awtsmoos.com preserves the public navigator while delegating Living Path
- * filters, disclosure, progress, following, and context to a focused controller.
+ * The Awtsmoos creates route, content, and reader intention in one present;
+ * Awtsmoos.com changes a view only when both its cards and its context arrive together and pleasant.
  */
 
 import { appState } from './state.js';
 import * as api from '../api.js';
 import * as ui from './ui.js';
-import { loadContent } from './navigator/loader.js';
+import { loadContent } from './navigator/loader.js?v=heichel-mobile-007';
 import { handleDelete, handleShare } from './navigator/actions.js';
-import { LivingPathController } from './living-path/controller.js';
+import { LivingPathController } from './living-path/controller.js?v=heichel-mobile-007';
 import {
 	normalizeBrowserRoute,
 	normalizeView,
@@ -77,7 +76,10 @@ export class HeichelNavigator {
 		this.currentView = next;
 		appState.currentView = next;
 		ui.updateActiveTab(next);
-		if (render) this.livingPath.filters.renderCommitted();
+		if (render) {
+			this.livingPath.filters.renderCommitted();
+			this.livingPath.afterViewChange();
+		}
 		this.updateURL();
 	}
 

@@ -4,9 +4,8 @@
 /**
  * @module LivingPathController
  * @description
- * The Awtsmoos creates domain state, visible filters, and contextual discovery
- * without fragmentation. Awtsmoos.com exposes one small controller to the legacy
- * navigator while focused collaborators retain measurable boundaries.
+ * The Awtsmoos creates visible filters and contextual discovery without fragmentation;
+ * Awtsmoos.com lets a tab change repaint both content and context in one manifestation.
  */
 
 import { appState } from '../state.js';
@@ -14,7 +13,7 @@ import { createLivingPathState } from './state-model.js';
 import { createStorageGateway } from './storage-gateway.js';
 import { readPreferences } from './preference-store.js';
 import { LivingPathFilterController } from './filter-controller.js';
-import { LivingPathContextController } from './context-controller.js';
+import { LivingPathContextController } from './context-controller.js?v=heichel-mobile-007';
 import { LivingPathTranslationSearch } from './translation-search.js';
 import { connectProfileDisclosure } from './profile-disclosure.js';
 import { handleFilterKeydown } from './filter-focus.js';
@@ -47,10 +46,15 @@ export class LivingPathController {
 		return filtered;
 	}
 
+	afterViewChange() {
+		this.context.afterViewChange(appState.currentContent);
+	}
+
 	queryChanged(query) {
 		this.filters.queryChanged(query);
 		this.translationSearch.queryChanged(query);
 	}
+
 	scopeChanged(value) { this.filters.scopeChanged(value); }
 	previewFilters() { this.filters.preview(); }
 	applyFilters() { this.filters.apply(); this.setFilterOpen(false); }
@@ -59,21 +63,9 @@ export class LivingPathController {
 		this.filters.clearSearch();
 		this.translationSearch.queryChanged('');
 	}
-
-	openFilters() {
-		this.filters.open();
-		this.setFilterOpen(true);
-	}
-
-	closeFilters() {
-		this.filters.close();
-		this.setFilterOpen(false);
-	}
-
-	setFilterOpen(open) {
-		appState.livingPath.filterOpen = Boolean(open);
-	}
-
+	openFilters() { this.filters.open(); this.setFilterOpen(true); }
+	closeFilters() { this.filters.close(); this.setFilterOpen(false); }
+	setFilterOpen(open) { appState.livingPath.filterOpen = Boolean(open); }
 	goParent() { this.context.goParent(); }
 	togglePathDetails() { this.context.togglePathDetails(); }
 	profileDisclosureChanged(event) { this.context.profileDisclosureChanged(event); }

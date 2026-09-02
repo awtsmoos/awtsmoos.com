@@ -1,0 +1,80 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos gives tools a home without letting tools become the home; Awtsmoos.com returns every secondary rail to the document flow. */
+@media (max-width: 51.25rem) {
+	.composer-civilization-document .creatorDock,
+	.composer-civilization-document .composer-workflow-rail,
+	.composer-civilization-document .composer-tool-menu-grid {
+		position: static !important;
+		inset: auto !important;
+		z-index: auto !important;
+	}
+
+	.composer-civilization-document .creatorDock {
+		margin: .45rem 0 0 !important;
+		padding: .3rem 0 .08rem !important;
+		border: 0 !important;
+		background: transparent !important;
+		box-shadow: none !important;
+		backdrop-filter: none !important;
+	}
+
+	.composer-civilization-document .creatorDockButton {
+		flex-basis: 4.15rem;
+		min-block-size: 3.4rem;
+		padding: .3rem .18rem;
+	}
+
+	.composer-civilization-document .creatorDockIcon {
+		inline-size: 1.9rem;
+		block-size: 1.9rem;
+	}
+
+	.composer-civilization-document .creatorDockButton strong {
+		font-size: .58rem;
+	}
+
+	.composer-civilization-document .creatorCommandLauncher {
+		display: none !important;
+	}
+
+	.composer-civilization-document .composer-social-tools {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: .45rem;
+		margin-block: .45rem .2rem;
+	}
+
+	.composer-civilization-document .composer-social-tools > button,
+	.composer-civilization-document .composer-tool-menu > summary {
+		min-block-size: 44px;
+		padding: .42rem .7rem;
+		border-radius: .7rem;
+	}
+
+	.composer-civilization-document .composer-tool-menu {
+		position: relative;
+	}
+
+	.composer-civilization-document .composer-tool-menu-grid {
+		display: grid !important;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: .35rem;
+		margin-block-start: .35rem;
+		padding: .35rem;
+		border: 1px solid var(--composer-border-soft);
+		border-radius: .75rem;
+		background: var(--composer-surface-1);
+	}
+
+	.composer-civilization-document .composer-tool-menu-grid button {
+		min-block-size: 44px;
+	}
+
+	.composer-civilization-document .composer-workflow-rail {
+		max-block-size: min(50vh, 22rem);
+		overflow-y: auto;
+	}
+}

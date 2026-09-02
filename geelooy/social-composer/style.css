@@ -3,7 +3,7 @@
  * Blessed is He
  *
  * The Awtsmoos gathers every historical garment of the social composer into one ordered cascade;
- * Awtsmoos.com lets the final clarity layer govern presentation while older contracts remain available beneath it.
+ * Awtsmoos.com lets the final calm mobile layer govern presentation while older contracts remain safely beneath it.
  */
 @import url("../style/future-system/index.css?v=future-005");
 @import url("./styles/foundation.css?v=future-ui-005");
@@ -23,3 +23,4 @@
 @import url("./styles/creator/index.css?v=future-ui-005");
 @import url("./styles/creator/command-palette.css?v=creator-commands-001");
 @import url("./styles/clarity/index.css?v=clarity-001");
+@import url("./styles/mobile-calm.css?v=mobile-calm-001");

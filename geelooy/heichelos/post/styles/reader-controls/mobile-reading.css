@@ -1,0 +1,86 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gives Torah the widest vessel and tools only the space they need;
+ * Awtsmoos.com lets reading remain first while controls gather quietly near the edge like a reed.
+ */
+@media (max-width: 48rem) {
+	.awtsmoos-reader-vision .main {
+		display: block;
+		min-inline-size: 0;
+	}
+
+	.awtsmoos-reader-vision .scroll-view-wrapper,
+	.awtsmoos-reader-vision .content {
+		inline-size: 100%;
+		max-inline-size: 100%;
+		min-inline-size: 0;
+	}
+
+	.awtsmoos-reader-vision .content {
+		padding-inline: clamp(.85rem, 4vw, 1.25rem);
+		padding-block-end: calc(5.25rem + env(safe-area-inset-bottom));
+	}
+
+	.awtsmoos-reader-vision .awtsmoos-initial-post {
+		max-inline-size: 44rem;
+		margin: 1.25rem auto;
+		padding: clamp(1rem, 4vw, 1.35rem);
+		border: 1px solid rgb(112 225 255 / 18%);
+		border-radius: 1rem;
+		background: rgb(7 15 29 / 72%);
+		box-shadow: 0 1rem 2.4rem rgb(0 0 0 / 16%);
+	}
+
+	.awtsmoos-reader-vision .awtsmoos-initial-post h1 {
+		margin-block: .35rem .65rem;
+		font-size: clamp(1.45rem, 7vw, 2.15rem);
+		line-height: 1.08;
+	}
+
+	.awtsmoos-reader-vision .awtsmoos-initial-post-context,
+	.awtsmoos-reader-vision .awtsmoos-reader-enhancement-status {
+		margin: 0;
+		color: var(--color-muted, #a8b4c7);
+		font-size: .82rem;
+		line-height: 1.45;
+	}
+
+	.awtsmoos-reader-vision .awtsmoos-floating-controls {
+		position: fixed;
+		inset-inline: auto max(.65rem, env(safe-area-inset-right));
+		inset-block: auto calc(.75rem + env(safe-area-inset-bottom));
+		z-index: 80;
+		display: flex;
+		gap: .4rem;
+		padding: .32rem;
+		border: 1px solid rgb(112 225 255 / 20%);
+		border-radius: .9rem;
+		background: rgb(6 13 25 / 88%);
+		box-shadow: 0 .8rem 1.8rem rgb(0 0 0 / 22%);
+		backdrop-filter: blur(14px) saturate(125%);
+	}
+
+	.awtsmoos-reader-vision .awtsmoos-floating-controls button {
+		inline-size: 44px;
+		block-size: 44px;
+		min-inline-size: 44px;
+		min-block-size: 44px;
+		padding: 0;
+		border-radius: .7rem;
+	}
+
+	.awtsmoos-reader-vision .typography-details {
+		max-inline-size: min(24rem, calc(100vw - 1rem));
+		max-block-size: min(72vh, 36rem);
+		overflow-y: auto;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.awtsmoos-reader-vision .awtsmoos-floating-controls,
+	.awtsmoos-reader-vision .typography-details {
+		transition: none;
+	}
+}

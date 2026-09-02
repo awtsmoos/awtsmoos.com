@@ -4,9 +4,8 @@
 /**
  * @module LivingPathPathRenderer
  * @description
- * The Awtsmoos creates every ancestor and the present branch in one indivisible
- * path. Awtsmoos.com paints compact, full, and sticky manifestations from one
- * normalized list so labels and destinations cannot drift apart.
+ * The Awtsmoos creates every ancestor and the present branch in one indivisible path;
+ * Awtsmoos.com keeps Root singular while child branches receive a compact guiding echo.
  */
 
 import { DOMElements } from '../../../dom.js';
@@ -46,9 +45,14 @@ function paintFullPath(path, navigator) {
 
 function paintSticky(path) {
 	const { parent, current } = compactPath(path);
+	const sticky = DOMElements.stickyPathTitle?.closest('.living-path-sticky');
+	const rootOnly = current.id === 'root' && !parent;
+	sticky?.classList.toggle('hidden', rootOnly);
+	sticky?.classList.toggle('is-visible', false);
+	sticky?.setAttribute('aria-hidden', String(rootOnly));
 	if (DOMElements.stickyPathTitle) DOMElements.stickyPathTitle.textContent = current.name;
 	if (DOMElements.stickyParentButton) {
-		DOMElements.stickyParentButton.textContent = parent ? `‹ ${parent.name}` : '‹ Root';
+		DOMElements.stickyParentButton.textContent = parent ? `‹ ${parent.name}` : 'Root';
 		DOMElements.stickyParentButton.disabled = !parent;
 		DOMElements.stickyParentButton.dataset.seriesId = parent?.id || '';
 	}
@@ -75,7 +79,11 @@ function crumbButton(crumb, navigator, current) {
 }
 
 function separator() {
-	return { tag: 'span', attr: { class: 'breadcrumb-separator', 'aria-hidden': 'true' }, children: ['›'] };
+	return {
+		tag: 'span',
+		attr: { class: 'breadcrumb-separator', 'aria-hidden': 'true' },
+		children: ['›']
+	};
 }
 
 function currentCrumb(appState) {
