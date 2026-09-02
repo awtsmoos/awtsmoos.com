@@ -1,0 +1,74 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos gives the selected week a calm crown without crowding the Torah beneath it;
+ * Awtsmoos.com keeps mobile controls broad, clear, and native while each pasuk keeps its own light.
+ */
+.chitas-reader-masthead {
+	display: grid;
+	gap: .75rem;
+	margin: 0 0 1rem;
+	padding: clamp(1rem, 3vw, 1.5rem);
+	border: 1px solid color-mix(in srgb, #5de8ff 42%, transparent);
+	border-radius: 1.15rem;
+	background: linear-gradient(145deg, rgba(39, 191, 230, .12), rgba(8, 15, 29, .96) 58%, rgba(178, 74, 230, .1));
+	box-shadow: 0 1rem 2.5rem rgba(0, 0, 0, .22), inset 0 1px 0 rgba(255, 255, 255, .06);
+}
+.chitas-reader-eyebrow {
+	margin: 0;
+	color: #71e8ff;
+	font-size: .76rem;
+	font-weight: 900;
+	letter-spacing: .16em;
+}
+.chitas-reader-masthead h2 {
+	margin: 0;
+	font-size: clamp(1.35rem, 5vw, 2rem);
+}
+.chitas-reader-meta {
+	margin: 0;
+	color: rgba(225, 235, 250, .72);
+	overflow-wrap: anywhere;
+}
+.chitas-reader-controls {
+	display: grid;
+	grid-template-columns: repeat(6, minmax(0, 1fr));
+	gap: .5rem;
+}
+.chitas-reader-control,
+.chitas-reader-date {
+	box-sizing: border-box;
+	min-width: 0;
+	min-height: 48px;
+	border: 1px solid rgba(113, 232, 255, .34);
+	border-radius: .8rem;
+	background: rgba(10, 23, 42, .88);
+	color: #f5f8ff;
+	font: inherit;
+}
+.chitas-reader-control {
+	padding: .7rem .8rem;
+	cursor: pointer;
+}
+.chitas-reader-control.is-active {
+	border-color: #71e8ff;
+	background: rgba(61, 190, 230, .2);
+	box-shadow: inset 0 -2px 0 #e468dd;
+}
+.chitas-reader-date {
+	padding: .65rem;
+	color-scheme: dark;
+}
+@media (max-width: 700px) {
+	.chitas-reader-controls {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+	.chitas-reader-date {
+		grid-column: 1 / -1;
+	}
+}
+@media (max-width: 360px) {
+	.chitas-reader-masthead { padding: .85rem; }
+	.chitas-reader-controls { grid-template-columns: 1fr; }
+	.chitas-reader-date { grid-column: auto; }
+}

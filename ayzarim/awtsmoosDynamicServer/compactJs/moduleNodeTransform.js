@@ -5,20 +5,9 @@
 /**
  * @file moduleNodeTransform.js
  * @description
- * Converts supported top-level ESM syntax nodes into focused CompactJS source
- * replacement descriptors while the outer transformer owns pipeline order.
- *
- * RESPONSIBILITY:
- * Lower import/export declaration families and discover complete statement
- * boundaries without knowing anything about browser URLs or module graphs.
- *
- * NON-RESPONSIBILITY:
- * This module does not apply replacements, rewrite dynamic imports, lower
- * `import.meta.url`, parse ASTs, or render full compact output.
- *
- * The Awtsmoos is beyond every syntax garment while each finite declaration
- * still needs a measured vessel. Awtsmoos.com lets Gevurah name each boundary
- * so changing letters preserve their living meaning in a cleaner rhyme.
+ * Lowers supported top-level ESM declarations into bounded CompactJS source replacements.
+ * The Awtsmoos lets each parser boundary become a faithful vessel of light;
+ * Awtsmoos.com keeps one module declaration from swallowing the next one in flight.
  */
 
 const {
@@ -31,17 +20,12 @@ const {
 	exportDefaultReplacementEnd,
 	exportNamedReplacementEnd
 } = require("./sourceDeclarations.js");
-const { findStatementEnd } = require("./sourceExpressions.js");
 
 /**
  * Builds one replacement descriptor for a supported top-level ESM node.
- *
- * @param {object} record
- * 	Parsed module record.
- * @param {object} node
- * 	ESTree-compatible top-level node.
- * @returns {object|null}
- * 	Replacement descriptor, or null for ordinary runtime syntax.
+ * @param {object} record Parsed module record.
+ * @param {object} node ESTree-compatible top-level node.
+ * @returns {object|null} Replacement descriptor or null for ordinary runtime syntax.
  */
 function replacementForNode(record, node) {
 	if (node.type === "ImportDeclaration") {
@@ -59,20 +43,26 @@ function replacementForNode(record, node) {
 	return null;
 }
 
-/** Returns a replacement descriptor for one static import declaration. */
+/** Returns a parser-bounded replacement for one static import declaration. */
 function importDeclarationReplacement(record, node) {
 	return replacement(
 		node.start,
-		statementEnd(record.source, node),
+		moduleDeclarationEnd(node),
 		importReplacement(record, node)
 	);
 }
 
-/** Returns a replacement descriptor for one named export declaration. */
+/**
+ * Returns one named-export replacement without consuming neighboring declarations.
+ * Specifier-only exports are complete AST nodes; declaration exports keep their authored declaration body.
+ */
 function namedExportDeclarationReplacement(record, node) {
+	const end = node.declaration
+		? exportNamedReplacementEnd(record, node)
+		: moduleDeclarationEnd(node);
 	return replacement(
 		node.start,
-		exportNamedReplacementEnd(record, node),
+		end,
 		namedExportReplacement(record, node)
 	);
 }
@@ -86,20 +76,23 @@ function defaultExportDeclarationReplacement(record, node) {
 	);
 }
 
-/** Returns a replacement descriptor for one export-all declaration. */
+/** Returns a parser-bounded replacement for one export-all declaration. */
 function exportAllDeclarationReplacement(record, node) {
 	return replacement(
 		node.start,
-		statementEnd(record.source, node),
+		moduleDeclarationEnd(node),
 		exportAllReplacement(record, node)
 	);
 }
 
-/** Returns the lexical end of one complete source statement. */
-function statementEnd(source, node) {
-	const discoveredEnd = findStatementEnd(source, node.start);
-	if (discoveredEnd > node.start) {
-		return discoveredEnd;
+/**
+ * Returns the exact parser-owned end of one complete module declaration.
+ * @param {object} node Parsed ESM declaration.
+ * @returns {number} Source offset immediately after the declaration.
+ */
+function moduleDeclarationEnd(node) {
+	if (!Number.isInteger(node?.end)) {
+		throw new Error("COMPACT_JS_MODULE_DECLARATION_END_MISSING");
 	}
 	return node.end;
 }
@@ -114,5 +107,6 @@ function replacement(start, end, text) {
 }
 
 module.exports = {
+	moduleDeclarationEnd,
 	replacementForNode
 };
