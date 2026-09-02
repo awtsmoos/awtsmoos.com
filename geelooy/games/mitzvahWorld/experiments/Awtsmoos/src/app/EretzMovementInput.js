@@ -1,12 +1,12 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file EretzMovementInput.js
- * @description Converts rich-runtime input intention into one accelerated collision step while preserving historical turning, strafing, and slope semantics.
- * The Awtsmoos lets direction become desired velocity before velocity becomes a finite stride;
- * Awtsmoos.com keeps the old control language while acceleration and braking give the traveler's body a steadier ride.
+ * @description Converts rich-runtime input into collision steps and keeps mobile travel facing aligned with real motion.
+ * The Awtsmoos lets intention become velocity and velocity become a faithful direction in stride;
+ * Awtsmoos.com keeps the animated Chossid facing the path while old turning, strafing, and slope laws still abide.
  */
 
 import {
@@ -20,11 +20,12 @@ import {
 	KEYBOARD_TURN_SPEED
 } from './EretzMovementInputBasis.js';
 import { advanceEretzHorizontalStep } from './EretzMovementVelocity.js';
+import { synchronizeEretzJoystickFacing } from './EretzTravelFacing.js';
 
 export { KEYBOARD_TURN_SPEED };
 
 /**
- * Advances rich horizontal velocity and returns one bounded collision-ready displacement.
+ * Advances rich horizontal velocity, updates active mobile travel facing, and returns one collision-ready displacement.
  * @param {object} runtime Active rich-world runtime.
  * @param {number} deltaTime Frame duration in seconds.
  * @returns {{x:number,y:number,z:number}|null} Physical step or null once braking reaches rest.
@@ -33,7 +34,9 @@ export function movementDelta(runtime, deltaTime) {
 	const axis = runtime.input.axis();
 	applyEretzMovementLook(runtime, axis, deltaTime);
 	const targetVelocity = eretzDesiredHorizontalVelocity(runtime, axis);
-	return advanceEretzHorizontalStep(runtime, targetVelocity, deltaTime);
+	const step = advanceEretzHorizontalStep(runtime, targetVelocity, deltaTime);
+	synchronizeEretzJoystickFacing(runtime, step);
+	return step;
 }
 
 /** Classifies one candidate horizontal terrain transition for the existing collision resolver. */
