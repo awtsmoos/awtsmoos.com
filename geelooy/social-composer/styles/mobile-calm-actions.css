@@ -1,0 +1,75 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos keeps the final deed near the thumb; Awtsmoos.com lets publication persist without becoming a wall. */
+@media (max-width: 51.25rem) {
+	.composer-civilization-document .composerLayout {
+		padding-block-end: calc(5.25rem + env(safe-area-inset-bottom)) !important;
+	}
+
+	.composer-civilization-document .actionBar {
+		position: fixed !important;
+		inset-inline: max(.5rem, env(safe-area-inset-left)) max(.5rem, env(safe-area-inset-right)) !important;
+		inset-block: auto max(.5rem, env(safe-area-inset-bottom)) !important;
+		z-index: var(--creator-layer-publish, 90);
+		display: grid !important;
+		grid-template-columns: auto minmax(0, 1fr) !important;
+		gap: .4rem !important;
+		max-inline-size: 46rem;
+		margin-inline: auto;
+		padding: .35rem !important;
+		border: 1px solid var(--composer-border) !important;
+		border-radius: .9rem !important;
+		background: rgb(7 13 22 / 94%) !important;
+		box-shadow: 0 .8rem 2rem rgb(0 0 0 / 26%) !important;
+		backdrop-filter: blur(16px) saturate(128%) !important;
+	}
+
+	.composer-civilization-document .actionBar #previewButton {
+		display: none !important;
+	}
+
+	.composer-civilization-document .actionBar #publishButton,
+	.composer-civilization-document .composer-action-menu > summary {
+		min-block-size: 48px !important;
+		margin: 0 !important;
+		padding: .5rem .72rem !important;
+		border-radius: .7rem !important;
+	}
+
+	.composer-civilization-document .actionBar #publishButton {
+		inline-size: 100%;
+		font-size: .9rem;
+	}
+
+	.composer-civilization-document .composer-action-menu > summary {
+		display: grid;
+		min-inline-size: 4.3rem;
+		place-items: center;
+		font-size: .78rem;
+		list-style: none;
+	}
+
+	.composer-civilization-document .composer-action-menu > summary::-webkit-details-marker {
+		display: none;
+	}
+
+	.composer-civilization-document .composer-action-menu-panel {
+		position: absolute !important;
+		inset: auto 0 calc(100% + .4rem) auto !important;
+		display: grid;
+		gap: .35rem;
+		inline-size: min(18rem, calc(100vw - 1rem));
+		min-inline-size: 0 !important;
+		padding: .4rem;
+		border: 1px solid var(--composer-border);
+		border-radius: .8rem;
+		background: rgb(7 13 22 / 98%);
+		box-shadow: 0 1rem 2.4rem rgb(0 0 0 / 28%);
+	}
+
+	.composer-civilization-document .composer-action-menu-panel button {
+		inline-size: 100%;
+		min-block-size: 44px;
+	}
+}
