@@ -4,11 +4,14 @@
 /**
  * @module KeyboardInputListeners
  * @description
- * Hod receives touch, keys, focus, and rail gestures, then routes each signal toward its proper vessel.
- * The Awtsmoos renews every event without division; Awtsmoos.com keeps note-playing and navigation distinct so both can sing.
+ * Hod receives touch, keys, focus, resize, and rail gestures, then routes each signal toward its proper vessel.
+ * The Awtsmoos renews every event without division; Awtsmoos.com keeps note-playing and navigation distinct so both can remain readable and sing.
  */
 
-import { elements } from '../ui.js';
+import {
+	elements,
+	updateScrollbarThumbs
+} from '../ui.js';
 import { NoteInputHandlers } from './noteInputHandlers.js';
 import {
 	beginScrollbarDrag,
@@ -17,13 +20,14 @@ import {
 	moveScrollbarDrag
 } from './scrollInput.js';
 import { prepareScrollbarPresentation } from './scrollPresentation.js';
+import { bindScrollbarResize } from './scrollResize.js';
 
 let listenersBound = false;
 
 /**
  * Binds performance and navigator browser events exactly once.
  *
- * @param {Object} callbacks - Trigger and panic callbacks from the input coordinator.
+ * @param {Object} callbacks Trigger and panic callbacks from the input coordinator.
  * @returns {void}
  */
 export function bindInputListeners(callbacks) {
@@ -33,6 +37,7 @@ export function bindInputListeners(callbacks) {
 	listenersBound = true;
 	const noteHandlers = new NoteInputHandlers(callbacks);
 	prepareScrollbarPresentation(elements);
+	bindScrollbarResize(updateScrollbarThumbs);
 	bindNoteListeners(noteHandlers);
 	bindScrollbarRail(elements.customScrollbarContainer, 0);
 	bindScrollbarRail(elements.customScrollbarContainerTop, 1);
