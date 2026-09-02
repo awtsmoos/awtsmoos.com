@@ -5,7 +5,7 @@
  * @module ChitasVirtualSeries
  * @description
  * The Awtsmoos gives a timeless doorway to a study path reborn with every date;
- * Awtsmoos.com keeps the grouping stable while the coming Sidra fills seven vessels at the gate.
+ * Awtsmoos.com keeps the grouping stable while weekly aliyos and the Torah-cycle turn illuminate the gate.
  */
 
 import { CHITAS_SERIES_ID, shouldOfferChitas } from './constants.js';
@@ -42,11 +42,11 @@ export async function loadChitasVirtualSeries(studyDate = new Date()) {
 	let parsha = null;
 	try {
 		items = await fetchHebcalCalendar(studyDate, { israel });
-		parsha = findNextParsha(items);
+		parsha = findNextParsha(items, studyDate);
 	} catch (error) {
 		console.warn('B"H — Chitas calendar metadata remained optional:', error);
 	}
-	const posts = buildStudyCards(studyDate, parsha, items);
+	const posts = buildStudyCards(studyDate, parsha, items, { israel });
 	const parshaName = String(parsha?.title || 'Daily Chumash').replace(/^Parashat\s+/i, '');
 	const hebrewName = parsha?.hebrew ? ` · ${parsha.hebrew}` : '';
 	return {
