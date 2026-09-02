@@ -2,19 +2,20 @@
 // Boruch Hashem
 // Blessed is He
 
+const Grace = require("./child-active-execution-grace.js");
+
 /**
- * @file Composes transport, execution, mailbox, and consumer-recovery testimony.
+ * @file Composes transport, execution, mailbox, and recovery testimony from exact custody truth.
  * @description
- * The Awtsmoos reveals each witness without letting one borrow another's certainty.
- * Awtsmoos.com shows when a consumer is merely pressured, when recovery is gathering
- * evidence, and when durable custody still needs protection before any generation turns.
+ * The Awtsmoos reveals each witness without letting persistence impersonate execution in sight;
+ * Awtsmoos.com grants mailbox grace only when non-stale request records prove active ownership light.
  */
 function compose(state = {}, parent = {}, mailbox = {}) {
 	const transportHealthy = state.activeWs?.opened === true &&
 		state.registrationConfirmed === true;
 	const execution = executionHealth(parent);
 	const rawMailbox = mailboxHealth(mailbox);
-	const mailboxView = applyActiveExecutionGrace(rawMailbox, execution);
+	const mailboxView = Grace.apply(rawMailbox, execution);
 	const healthy = transportHealthy && execution.healthy && mailboxView.healthy;
 	return {
 		healthy,
@@ -28,7 +29,6 @@ function compose(state = {}, parent = {}, mailbox = {}) {
 	};
 }
 
-/** Projects execution testimony plus the bounded consumer-recovery state. */
 function executionHealth(parent = {}) {
 	const execution = parent.execution || {};
 	const healthy = parent.healthy !== false && execution.healthy !== false;
@@ -45,7 +45,6 @@ function executionHealth(parent = {}) {
 	};
 }
 
-/** Projects only non-identifying recovery evidence safe for health publication. */
 function consumerRecovery(value = {}) {
 	return {
 		repairAuthorized: value.repairAuthorized === true,
@@ -59,7 +58,7 @@ function consumerRecovery(value = {}) {
 	};
 }
 
-/** Projects bounded mailbox health and custody age without request identities. */
+/** Projects bounded mailbox health plus exact active custody without exposing request IDs. */
 function mailboxHealth(mailbox = {}) {
 	const health = mailbox.health || {};
 	const inbox = mailbox.inbox || {};
@@ -73,40 +72,15 @@ function mailboxHealth(mailbox = {}) {
 		inboxState: text(inbox.state || "healthy"),
 		outboxState: text(outbox.state || "healthy"),
 		activeExecutionGrace: false,
+		activeCustodyCount: Grace.activeCount(
+			inbox.parentCustodyRecords,
+			inbox.parentCustodyStaleIds
+		),
 		inboxCount: nonnegative(inbox.count),
-		inboxParentCustodyCount: nonnegative(inbox.parentCustodyCount),
 		inboxOldestAgeMs: nonnegative(inbox.oldestAgeMs),
 		outboxCount: nonnegative(outbox.count),
 		outboxOldestAgeMs: nonnegative(outbox.oldestAgeMs)
 	};
-}
-
-/** Grants degraded inbox custody only when current execution demonstrably owns all of it. */
-function applyActiveExecutionGrace(mailbox = {}, execution = {}) {
-	if (!canGrace(mailbox, execution)) return mailbox;
-	return {
-		...mailbox,
-		healthy: true,
-		state: "healthy",
-		activeExecutionGrace: true
-	};
-}
-
-function canGrace(mailbox, execution) {
-	const stages = execution.stages || {};
-	const inboxCount = nonnegative(mailbox.inboxCount);
-	const activeOwned = nonnegative(stages.active) >= inboxCount &&
-		nonnegative(stages.consumerStarted) >= inboxCount;
-	const parentOwned = nonnegative(mailbox.inboxParentCustodyCount) >= inboxCount;
-	return mailbox.rawState === "degraded" &&
-		mailbox.inboxState === "degraded" &&
-		mailbox.outboxState === "healthy" &&
-		inboxCount > 0 &&
-		execution.healthy === true &&
-		execution.consumerStalled !== true &&
-		execution.backpressured !== true &&
-		execution.repairing !== true &&
-		(activeOwned || parentOwned);
 }
 
 function overallState(transportHealthy, execution, mailbox) {
@@ -126,7 +100,7 @@ function text(value) {
 }
 
 module.exports = {
-	applyActiveExecutionGrace,
+	applyActiveExecutionGrace: Grace.apply,
 	compose,
 	consumerRecovery,
 	executionHealth,

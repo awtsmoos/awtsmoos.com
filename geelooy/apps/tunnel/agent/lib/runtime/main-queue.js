@@ -11,10 +11,10 @@ const { createQueueRejection } = require("./main-queue-rejection.js");
 const { createSchedulerIntegrity } = require("./priority/schedulerIntegrity.js");
 
 /**
- * @file Joins exact identity, truthful admission telemetry, self-healing integrity, and dispatch.
+ * @file Joins exact request identity, accepting-child provenance, admission telemetry, and dispatch.
  * @description
- * The Awtsmoos receives each deed in one living vessel; Awtsmoos.com counts acceptance only after entry is real,
- * so rejected shadows never inflate the ledger and every admitted lane can reveal the truth it carries and feels.
+ * The Awtsmoos receives each deed in one living vessel; Awtsmoos.com preserves which child first knew it,
+ * so every later phase can refresh only that custody while fair lanes reveal the truth they carry through it.
  */
 function createQueueRuntime(dependencies) {
 	let scheduleDrain = () => {};
@@ -34,13 +34,13 @@ function createQueueRuntime(dependencies) {
 		scheduleDrain = callback;
 	}
 
-	function enqueueRequest(ws, raw) {
+	function enqueueRequest(ws, raw, childIncarnationId = "") {
 		const data = dependencies.routedData(raw);
 		const payload = data.payload;
 		if (dependencies.retryControl.handleIngress(ws, data, payload)) return undefined;
 		integrity.reconcile("before_enqueue");
 		pruner.prune();
-		const item = createItem(ws, data);
+		const item = createItem(ws, data, childIncarnationId);
 		const lane = dependencies.Priority.laneOf(item);
 		const currentStats = dependencies.stats();
 		const circuitGate = dependencies.Circuit.canAccept(
@@ -104,10 +104,11 @@ function createQueueRuntime(dependencies) {
 	};
 }
 
-function createItem(ws, data) {
+function createItem(ws, data, childIncarnationId) {
 	return {
 		ws,
 		data,
+		childIncarnationId: String(childIncarnationId || "").trim(),
 		enqueuedAt: Date.now(),
 		queueKeepalive: null,
 		queueExpiryTimer: null

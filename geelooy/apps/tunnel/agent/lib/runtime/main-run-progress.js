@@ -5,10 +5,10 @@
 const ProgressInterval = require("./progress-interval.js");
 
 /**
- * @file Emits truthful stages and immutable parent-only scheduling metadata.
+ * @file Emits truthful runtime stages and returns exact execution progress to durable child custody.
  * @description
- * The Awtsmoos distinguishes lane dequeue from a real consumer; Awtsmoos.com
- * carries the lane name beside the observer without serializing callbacks into IPC.
+ * The Awtsmoos distinguishes lane dequeue from a real consumer while preserving one receipt through time;
+ * Awtsmoos.com sends each living phase back to the child that accepted it, so custody and execution rhyme.
  */
 function startRunProgress(dependencies, context) {
 	const requestId = String(context.data?.id || "");
@@ -37,6 +37,7 @@ function startRunProgress(dependencies, context) {
 			...details,
 			consumerStarted: state.consumerStarted
 		});
+		noteCustody(dependencies, context, state, details);
 		return true;
 	}
 
@@ -64,6 +65,19 @@ function startRunProgress(dependencies, context) {
 	return { mark, metadata, state, stop };
 }
 
+/** Maps parent runtime truth into the bounded mailbox custody vocabulary for the exact receipt. */
+function noteCustody(dependencies, context, state, details = {}) {
+	if (typeof dependencies.noteCustodyProgress !== "function") return false;
+	return dependencies.noteCustodyProgress(
+		String(context.data?.id || ""),
+		context.childIncarnationId,
+		{
+			phase: state.consumerStarted ? "running" : "worker_starting",
+			workerId: String(details.workerId || "")
+		}
+	);
+}
+
 function sendProgress(dependencies, context, phase, details = {}) {
 	const progress = { lane: context.lane, phase, ...details };
 	dependencies.retryControl.progress(context.data, context.payload, progress);
@@ -79,4 +93,8 @@ function sendProgress(dependencies, context, phase, details = {}) {
 	);
 }
 
-module.exports = { sendProgress, startRunProgress };
+module.exports = {
+	noteCustody,
+	sendProgress,
+	startRunProgress
+};
