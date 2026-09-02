@@ -1,0 +1,70 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets instruction wait behind a gentle door; Awtsmoos.com keeps the complete workflow close without charging every creator the vertical cost of reading it before they need it.
+*/
+.quick-guide {
+	margin: 9px 0;
+	padding: 0;
+	border-radius: 15px;
+	overflow: hidden;
+}
+
+.quick-guide > summary {
+	min-height: 48px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 10px;
+	padding: 10px 12px;
+	list-style: none;
+	cursor: pointer;
+}
+
+.quick-guide > summary::-webkit-details-marker {
+	display: none;
+}
+
+.quick-guide > summary > span {
+	display: grid;
+	gap: 1px;
+}
+
+.quick-guide > summary strong {
+	font-size: 11px;
+}
+
+.quick-guide > summary b {
+	padding: 5px 7px;
+	border-radius: 8px;
+	background: rgba(255, 255, 255, 0.04);
+	color: var(--muted);
+	font-size: 9px;
+}
+
+.quick-guide[open] > summary b {
+	color: var(--accent);
+}
+
+.quick-guide-body {
+	padding: 0 12px 12px;
+}
+
+.quick-guide .workflow-steps {
+	gap: 6px;
+}
+
+.quick-guide .workflow-step {
+	padding: 8px;
+}
+
+.quick-guide .prompt-formula {
+	margin-top: 7px;
+}
+
+@media (max-width: 620px) {
+	.quick-guide .workflow-step {
+		flex-basis: 76%;
+	}
+}

@@ -1,0 +1,94 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets the opening frame become a quiet threshold instead of a billboard; Awtsmoos.com keeps cinema in the viewfinder while moving the prompt upward toward the creator's hand.
+*/
+.director-hero {
+	padding: 14px;
+	gap: 12px;
+	border-radius: 20px;
+}
+
+.director-hero-copy h1 {
+	margin: 3px 0 5px;
+	font-size: clamp(30px, 6vw, 48px);
+}
+
+.director-hero-copy p {
+	font-size: 11px;
+}
+
+.hero-status-rail {
+	gap: 5px;
+}
+
+.hero-status-rail span,
+.hero-status-rail strong {
+	padding: 4px 7px;
+	font-size: 8px;
+}
+
+.prompt-section {
+	padding: 14px;
+}
+
+.prompt-input {
+	min-height: 150px;
+}
+
+.prompt-actions {
+	display: flex;
+	flex-wrap: nowrap;
+	gap: 6px;
+	overflow-x: auto;
+	scrollbar-width: none;
+}
+
+.prompt-actions::-webkit-scrollbar,
+.template-strip::-webkit-scrollbar {
+	display: none;
+}
+
+.prompt-actions button {
+	flex: 0 0 auto;
+	min-height: 38px;
+}
+
+.prompt-starters {
+	margin-top: 9px;
+}
+
+.template-strip {
+	display: flex;
+	gap: 7px;
+	overflow-x: auto;
+	scroll-snap-type: x proximity;
+	scrollbar-width: none;
+}
+
+.template-strip .prompt-template {
+	flex: 0 0 140px;
+	min-width: 0;
+	scroll-snap-align: start;
+}
+
+@media (max-width: 620px) {
+	.director-hero {
+		grid-template-columns: minmax(0, 1fr) 88px;
+		padding: 12px;
+		gap: 9px;
+	}
+
+	.director-hero-copy h1 {
+		font-size: 30px;
+	}
+
+	.director-hero-copy p {
+		max-width: 230px;
+	}
+
+	.hero-viewfinder {
+		min-height: 86px;
+	}
+}
