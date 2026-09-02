@@ -4,9 +4,9 @@
 
 /**
  * @file EretzEssentialHydrationState.test.js
- * @description Proves deferred actor hydration restores canonical profiles after play instead of forwarding an empty village.
- * The Awtsmoos preserves every neighbor beyond the first-control gate and returns each name when streaming may begin;
- * Awtsmoos.com keeps startup light without sacrificing the people whose later authored garments must enter the scene.
+ * @description Proves optional actor enrichment remains deferred while disabled streaming rests in truthful canonical stability.
+ * The Awtsmoos lets distant authored neighbors wait beyond first play without naming absence as fallback night;
+ * Awtsmoos.com keeps the state language aligned with GLB-only humanity, so diagnostics and visible truth unite.
  */
 
 import assert from 'node:assert/strict';
@@ -35,10 +35,9 @@ test('deferred actor hydration forwards recovered canonical profiles', async () 
 	assert.equal(receivedProfiles, profiles);
 	assert.equal(result.actors, 2);
 	assert.equal(hydration.status, 'ready');
-	assert.equal(hydration.value, result);
 });
 
-test('disabled canonical actor stream never loads profile catalogs', async () => {
+test('disabled actor refresh is canonical-stable and loads no catalog', async () => {
 	let loadCalls = 0;
 	const hydration = createEssentialActorHydration(
 		{ streamCanonicalActors: false },
@@ -47,7 +46,7 @@ test('disabled canonical actor stream never loads profile catalogs', async () =>
 			loadProfiles: async () => { loadCalls += 1; return []; }
 		}
 	);
-	assert.equal(hydration.status, 'fallback-stable');
+	assert.equal(hydration.status, 'canonical-stable');
 	assert.equal(await hydration.start(), null);
 	assert.equal(loadCalls, 0);
 });

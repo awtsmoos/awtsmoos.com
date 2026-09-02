@@ -4,15 +4,17 @@
 
 /**
  * @file EretzPlayerModel.js
- * @description Mounts immediate or canonical Chossid forms behind one replaceable contract.
- * The Awtsmoos reveals living presence before optional animation; Awtsmoos.com keeps the
- * same runtime doorway for a local silhouette and a later canonical animated garment.
+ * @description Mounts only an authored animated Chossid GLB and exposes shared placement, equipment, and clip contracts.
+ * The Awtsmoos gives one traveler a measured body, authored bones, and living motion beneath the sky;
+ * Awtsmoos.com rejects fallback humanity at this final doorway, so every accepted player source remains truthful to the eye.
  */
 
 import { TinyAnimationPlayer } from '../../../light-three-gltf/tiny-animation.js';
 import { alignModelFeetToGround } from '../world/GroundRay.js';
 
+/** Creates one grounded canonical animated player or throws when a fallback identity enters this boundary. */
 export function createPlayerModel(playerGltf, scene) {
+	assertCanonicalPlayer(playerGltf);
 	const model = playerGltf.scene;
 	model.name = 'Awtsmoos_visible_player_isolated_chossid';
 	model.visible = true;
@@ -22,15 +24,16 @@ export function createPlayerModel(playerGltf, scene) {
 	scene.add(model);
 	const feet = alignModelFeetToGround(model, 0);
 	const footOffset = model.position.y;
-	const player = new TinyAnimationPlayer(model, playerGltf.animations || []);
-	const clips = createClipMap(playerGltf.animations || []);
+	const player = new TinyAnimationPlayer(model, playerGltf.animations);
+	const clips = createClipMap(playerGltf.animations);
 	const defaultClip = clips.stand || player.names[0] || '';
-	if (defaultClip) player.play(defaultClip);
-	model.userData.AwtsmoosCanonicalPlayer = playerEvidence(playerGltf, player, defaultClip);
+	if (!defaultClip) throw new Error('Canonical Chossid GLB did not expose a playable animation clip.');
+	player.play(defaultClip);
+	model.userData.AwtsmoosCanonicalPlayer = playerEvidence(player, defaultClip);
 	return { clips, defaultClip, feet, footOffset, model, player };
 }
 
-
+/** Collects authored equipment meshes and their current visibility. */
 export function createEquipment(model) {
 	const materials = new Set();
 	const meshes = [];
@@ -45,6 +48,7 @@ export function createEquipment(model) {
 	return { materials: [...materials], meshes, visible };
 }
 
+/** Toggles every authored mesh sharing one material name. */
 export function toggleEquipmentMaterial(model, name, enabled) {
 	model.traverse(object => {
 		if ((object.isMesh || object.isSkinnedMesh) && object.material?.name === name) {
@@ -53,6 +57,7 @@ export function toggleEquipmentMaterial(model, name, enabled) {
 	});
 }
 
+/** Places the canonical player root from authoritative runtime state. */
 export function placePlayerModel(model, state) {
 	model.position.set(state.x, state.renderY, state.z);
 	model.quaternion.set(0, Math.sin(state.facing / 2), 0, Math.cos(state.facing / 2));
@@ -79,13 +84,22 @@ export function createClipMap(animations) {
 	return { fall: animated(/fall|air|drop/i) || jump, jump, run, stand, walk };
 }
 
-function playerEvidence(gltf, player, defaultClip) {
-	const fallback = gltf.scene?.userData?.isolatedModelLoad?.fallback === true;
-	return {
+function assertCanonicalPlayer(gltf) {
+	if (!gltf?.scene) throw new Error('Canonical Chossid GLB scene is required.');
+	const userData = gltf.scene.userData || {};
+	if (gltf.userData?.fallback || userData.fallback || userData.modelAssetFallback || userData.isolatedModelLoad?.fallback) {
+		throw new Error('Generated player fallbacks are forbidden.');
+	}
+	if ((gltf.animations?.length || 0) < 1) throw new Error('Canonical Chossid GLB animations are required.');
+}
+
+function playerEvidence(player, defaultClip) {
+	return Object.freeze({
 		animationCount: player.names.length,
 		defaultClip,
-		modelSource: fallback ? 'local-procedural-chossid-silhouette' : 'chossid.glb',
-		measuredAnimatedIdle: defaultClip === 'stand_Armature',
-		optionalAnimationsDeferred: fallback
-	};
+		measuredAnimatedIdle: Boolean(defaultClip),
+		modelSource: 'chossid.glb',
+		optionalAnimationsDeferred: false,
+		visualGuard: 'none-glb-only'
+	});
 }

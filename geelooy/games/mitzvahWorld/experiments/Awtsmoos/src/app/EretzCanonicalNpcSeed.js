@@ -4,34 +4,35 @@
 
 /**
  * @file EretzCanonicalNpcSeed.js
- * @description Recovers canonical village identities after play through compact local profile and fallback module doors.
- * The Awtsmoos reveals every neighbor with a name, purpose, garment, and place beneath the sky;
- * Awtsmoos.com gathers each local module graph before the browser receives it while authored GLBs remain deferred from the eye.
+ * @description Seeds the canonical village with authored GLB Chassidim only, reusing the immutable player model with outfit resolvers.
+ * The Awtsmoos gives every neighbor a profile and a genuine animated vessel beneath the sky;
+ * Awtsmoos.com opens no procedural-human door, so village life may wait for GLB truth but never counterfeit the eye.
  */
 
-const PROFILE_URL = '../world/npc/FriendlyNpcProfiles.js?compact=true&v=20260820-canonical-seed-01';
-const FALLBACK_URL = './EretzFallbackActorTemplate.js?compact=true&v=20260820-canonical-seed-01';
+const PROFILE_URL = '../world/npc/FriendlyNpcProfiles.js?compact=true&v=20260902-glb-humans-only-01';
+const ACTOR_URL = './EretzActorAssetLoader.js?compact=true&v=20260902-glb-humans-only-01';
 
 export async function createCanonicalNpcSeed(quality = 'medium', dependencies = {}) {
 	const loadModules = dependencies.loadModules || loadCanonicalNpcModules;
 	const modules = await loadModules();
 	const npcProfiles = modules.profiles.friendlyNpcProfiles(quality);
-	const npcGltfs = npcProfiles.map((profile, index) => (
-		modules.fallback.createFallbackActorGltf(
-			`canonical-village-${index}-${profile.id}`,
-			{ outfit: profile.outfit }
-		)
-	));
+	const actors = await modules.actors.loadRemoteEretzActorAssets(
+		{ quality },
+		npcProfiles
+	);
+	if (actors.npcGltfs.length !== npcProfiles.length) {
+		throw new Error('Canonical NPC GLB count did not match friendly profile count.');
+	}
 	return Object.freeze({
-		npcGltfs: Object.freeze(npcGltfs),
+		npcGltfs: Object.freeze(actors.npcGltfs.slice()),
 		npcProfiles: Object.freeze(npcProfiles.slice())
 	});
 }
 
 async function loadCanonicalNpcModules() {
-	const [profiles, fallback] = await Promise.all([
+	const [profiles, actors] = await Promise.all([
 		import(PROFILE_URL),
-		import(FALLBACK_URL)
+		import(ACTOR_URL)
 	]);
-	return { fallback, profiles };
+	return { actors, profiles };
 }

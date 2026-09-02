@@ -4,9 +4,9 @@
 
 /**
  * @file compactDeferredImportPolicy.test.mjs
- * @description Guards computed local ESM doors while allowing source-aware URL helpers to restore original app paths after compact relocation.
- * The Awtsmoos lets deferred abundance remain separate without forgetting where each light began;
- * Awtsmoos.com tests literal compact doors at their true owners, so gathered code can move while truthful module paths remain.
+ * @description Guards compact module doors while enforcing the new GLB-only human graph and authored-before-play visual gate.
+ * The Awtsmoos lets deferred abundance remain separate while every human doorway stays authored and true;
+ * Awtsmoos.com preserves compact identity without reopening a fallback actor or delayed generated-player route anew.
  */
 
 import assert from 'node:assert/strict';
@@ -17,8 +17,8 @@ import { fileURLToPath } from 'node:url';
 const SOURCE_ROOT = fileURLToPath(new URL('../../', import.meta.url));
 const EXPECTED = Object.freeze({
 	'app/EretzCanonicalNpcSeed.js': [
-		'FriendlyNpcProfiles.js?compact=true&v=',
-		'EretzFallbackActorTemplate.js?compact=true&v='
+		'FriendlyNpcProfiles.js?compact=true&v=20260902-glb-humans-only-01',
+		'EretzActorAssetLoader.js?compact=true&v=20260902-glb-humans-only-01'
 	],
 	'app/EretzDeferredEnrichmentLaunch.js': ['EretzDeferredRuntimeEnrichment.js?compact=true&v='],
 	'app/EretzDistrictStreamingLaunch.js': ['BootstrapDistrictStreamer.js?compact=true&v='],
@@ -43,23 +43,17 @@ test('literal variable module doors explicitly request compact server graphs', a
 	}
 });
 
-test('canonical player hydration delegates compact identity to the source-aware app resolver', async () => {
-	const source = await readSource('app/BootstrapCanonicalPlayerHydration.js');
-	assert.match(source, /resolveDeferredAppModuleUrl/);
-	assert.match(source, /MinimalMeadowPlayerHydration\.js\?v=/);
-	assert.match(source, /canonicalPlayerHydratorUrl/);
-	assert.doesNotMatch(source, /import\(['"]\.\/MinimalMeadowPlayerHydration\.js/);
+test('canonical NPC seed contains no procedural-human compact doorway', async () => {
+	const source = await readSource('app/EretzCanonicalNpcSeed.js');
+	assert.doesNotMatch(source, /EretzFallbackActorTemplate|createFallbackActorGltf/);
+	assert.match(source, /EretzActorAssetLoader\.js\?compact=true/);
 });
 
-test('deferred app URL helper prepends compact while preserving authored query entries', async () => {
-	const { resolveDeferredAppModuleUrl } = await import('../../app/DeferredAppModuleUrl.js');
-	const resolved = resolveDeferredAppModuleUrl(
-		'Feature.js?v=alpha&mode=quiet',
-		'https://awtsmoos.com/game/app/DeferredAppModuleUrl.js',
-		'DeferredAppModuleUrl.js'
-	);
-	const url = new URL(resolved);
-	assert.equal(url.search, '?compact=true&v=alpha&mode=quiet');
+test('world foundation resolves authored gates through responsive compact URLs', async () => {
+	const source = await readSource('app/EretzWorldFoundation.js');
+	assert.match(source, /EretzEssentialAssetLoader\.js\?v=/);
+	assert.match(source, /EretzEssentialVisualGate\.js\?v=/);
+	assert.match(source, /resolveResponsiveRuntimeModuleUrl/);
 });
 
 test('shared page launcher builder records compact before version identity', async () => {

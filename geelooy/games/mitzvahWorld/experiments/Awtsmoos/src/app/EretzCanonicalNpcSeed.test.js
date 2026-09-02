@@ -4,46 +4,42 @@
 
 /**
  * @file EretzCanonicalNpcSeed.test.js
- * @description Proves every canonical friendly profile receives one matching lightweight local Chossid vessel.
- * The Awtsmoos gives each neighbor one garment matched to one name in an ordered line;
- * Awtsmoos.com keeps the village populated without multiplying heavy startup requests before their time.
+ * @description Proves every friendly profile receives one authored GLB from the canonical actor loader with no procedural seed path.
+ * The Awtsmoos gives each neighbor one true garment in ordered relation to the name;
+ * Awtsmoos.com keeps profiles and GLBs aligned, so a generated human can never re-enter the game.
  */
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { createCanonicalNpcSeed } from './EretzCanonicalNpcSeed.js';
 
-test('creates one ordered fallback GLTF per canonical profile', async () => {
-	const profiles = [
-		{ id: 'reb-one', outfit: { coatColor: [0.1, 0.1, 0.1, 1] } },
-		{ id: 'reb-two', outfit: { coatColor: [0.2, 0.2, 0.2, 1] } },
-		{ id: 'reb-three', outfit: { coatColor: [0.3, 0.3, 0.3, 1] } }
-	];
-	const calls = [];
+test('creates one ordered authored GLB per canonical profile', async () => {
+	const profiles = [{ id: 'reb-one' }, { id: 'reb-two' }, { id: 'reb-three' }];
+	const gltfs = profiles.map(profile => ({ source: `${profile.id}.glb` }));
+	let actorCalls = 0;
 	const seed = await createCanonicalNpcSeed('medium', {
 		loadModules: async () => ({
-			fallback: {
-				createFallbackActorGltf: (label, options) => {
-					calls.push({ label, outfit: options.outfit });
-					return { label, outfit: options.outfit };
+			actors: {
+				loadRemoteEretzActorAssets: async (options, received) => {
+					actorCalls += 1;
+					assert.equal(options.quality, 'medium');
+					assert.equal(received, profiles);
+					return { npcGltfs: gltfs };
 				}
 			},
-			profiles: {
-				friendlyNpcProfiles: quality => {
-					assert.equal(quality, 'medium');
-					return profiles;
-				}
-			}
+			profiles: { friendlyNpcProfiles: () => profiles }
 		})
 	});
-	assert.equal(seed.npcProfiles.length, 3);
-	assert.equal(seed.npcGltfs.length, 3);
-	assert.deepEqual(seed.npcProfiles.map(profile => profile.id), [
-		'reb-one',
-		'reb-two',
-		'reb-three'
-	]);
-	assert.equal(calls[0].outfit, profiles[0].outfit);
-	assert.equal(calls[1].outfit, profiles[1].outfit);
-	assert.match(calls[2].label, /reb-three$/);
+	assert.equal(actorCalls, 1);
+	assert.deepEqual(seed.npcProfiles.map(profile => profile.id), ['reb-one', 'reb-two', 'reb-three']);
+	assert.deepEqual(seed.npcGltfs, gltfs);
+});
+
+test('rejects mismatched authored GLB population', async () => {
+	await assert.rejects(() => createCanonicalNpcSeed('low', {
+		loadModules: async () => ({
+			actors: { loadRemoteEretzActorAssets: async () => ({ npcGltfs: [] }) },
+			profiles: { friendlyNpcProfiles: () => [{ id: 'reb-one' }] }
+		})
+	}), /GLB count/);
 });

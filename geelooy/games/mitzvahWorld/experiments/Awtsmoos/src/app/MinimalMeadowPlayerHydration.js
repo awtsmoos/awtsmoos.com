@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalMeadowPlayerHydration.js
- * @description Loads canonical humanity early but installs it only when its renderer is capable of visible manifestation.
- * The Awtsmoos preserves the bootstrap Chossid until the richer form can truly be seen;
- * Awtsmoos.com joins authored colors, bones, and motion without creating an invisible interval between.
+ * @description Hydrates canonical humanity for alternate runtime paths and never restores a procedural person on failure.
+ * The Awtsmoos lets authored bones arrive through measured WebGL readiness; Awtsmoos.com chooses honest absence over imitation,
+ * then installs one grounded Chossid whose materials and animation may become the only visible human manifestation.
  */
 
 import { loadIsolatedGltf } from '../assets/ModelAssetLoader.js';
@@ -21,29 +21,21 @@ import { waitForCanonicalVisualRenderer } from './MinimalMeadowCanonicalVisualGa
 import { hydrateReadablePlayerMaterials } from './MinimalMeadowPlayerMaterialHydrator.js';
 import {
 	announcePlayerHydration,
-	preserveVisiblePlayerFallback
+	rejectNoncanonicalPlayerFallback
 } from './MinimalMeadowPlayerHydrationState.js';
 
-export function hydrateMinimalMeadowPlayer(
-	runtime,
-	environment = globalThis,
-	dependencies = {}
-) {
+export function hydrateMinimalMeadowPlayer(runtime, environment = globalThis, dependencies = {}) {
 	if (runtime.canonicalPlayer?.status === 'ready') {
 		return Promise.resolve(runtime.canonicalPlayer);
 	}
 	if (runtime.canonicalPlayerPromise) return runtime.canonicalPlayerPromise;
-	runtime.canonicalPlayerPromise = loadCanonicalPlayer(
-		runtime,
-		environment,
-		dependencies
-	);
+	runtime.canonicalPlayerPromise = loadCanonicalPlayer(runtime, environment, dependencies);
 	return runtime.canonicalPlayerPromise;
 }
 
 async function loadCanonicalPlayer(runtime, environment, dependencies) {
 	announcePlayerHydration(environment, { phase: 'starting', progress: 0 });
-	const fallbackModel = runtime.model;
+	const predecessor = runtime.model;
 	try {
 		const loadGltf = dependencies.loadGltf || loadIsolatedGltf;
 		const gltf = await loadGltf(PLAYER_MODEL_URL, 'minimal-meadow-player-canonical', {
@@ -53,36 +45,23 @@ async function loadCanonicalPlayer(runtime, environment, dependencies) {
 		const prepared = createGroundedCanonicalPlayer(gltf.scene, runtime.state);
 		const materials = hydrateReadablePlayerMaterials(prepared.visiblePlayer);
 		const meshCount = prepareCanonicalPlayerMeshes(prepared.visiblePlayer);
-		if (meshCount < 1) {
-			throw new Error('Canonical Chossid GLB contained no renderable meshes.');
-		}
-		const visualGate = dependencies.waitForVisualRenderer
-			|| waitForCanonicalVisualRenderer;
+		if (meshCount < 1) throw new Error('Canonical Chossid GLB contained no renderable meshes.');
+		if ((gltf.animations?.length || 0) < 1) throw new Error('Canonical Chossid GLB contained no authored animations.');
+		const visualGate = dependencies.waitForVisualRenderer || waitForCanonicalVisualRenderer;
 		const rendererReady = await visualGate(
 			runtime,
 			environment,
 			dependencies.visualGateOptions || {}
 		);
 		if (!rendererReady || runtime.destroyed) {
-			return preserveVisiblePlayerFallback(runtime, fallbackModel, environment);
+			return rejectNoncanonicalPlayerFallback(runtime, predecessor, environment);
 		}
-		const installed = installCanonicalPlayer(runtime, fallbackModel, gltf, prepared);
-		runtime.canonicalPlayer = canonicalReceipt(
-			gltf,
-			installed.animation,
-			prepared,
-			materials,
-			meshCount
-		);
+		const installed = installCanonicalPlayer(runtime, predecessor, gltf, prepared);
+		runtime.canonicalPlayer = canonicalReceipt(gltf, installed.animation, prepared, materials, meshCount);
 		announcePlayerHydration(environment, { phase: 'ready', progress: 1 });
 		return runtime.canonicalPlayer;
 	} catch (error) {
-		return preserveVisiblePlayerFallback(
-			runtime,
-			fallbackModel,
-			environment,
-			error
-		);
+		return rejectNoncanonicalPlayerFallback(runtime, predecessor, environment, error);
 	}
 }
 
@@ -95,7 +74,8 @@ function canonicalReceipt(gltf, animation, prepared, materials, meshCount) {
 		meshes: meshCount,
 		scale: CANONICAL_PLAYER_SCALE,
 		source: PLAYER_MODEL_URL,
-		status: 'ready'
+		status: 'ready',
+		visualGuard: 'none-glb-only'
 	});
 }
 

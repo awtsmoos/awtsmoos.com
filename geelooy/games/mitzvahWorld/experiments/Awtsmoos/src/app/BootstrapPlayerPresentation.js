@@ -4,38 +4,17 @@
 
 /**
  * @file BootstrapPlayerPresentation.js
- * @description Keeps bootstrap Chossid presentation truthful without marking fallback geometry canonical.
- * The Awtsmoos gives even the temporary vessel dignity, shadow, and motion in measured light;
- * Awtsmoos.com distinguishes humble first-play form from the real GLB that follows into sight.
+ * @description Defines the rejection boundary that prevents fallback assets from masquerading as the canonical player.
+ * The Awtsmoos gives authored identity a measurable sign; Awtsmoos.com rejects every procedural mark at the gate,
+ * so no generated Chossid may enter the visible player line while the real GLB alone carries human state.
  */
 
-export function prepareBootstrapPlayerMeshes(model) {
-	let count = 0;
-	model.traverse?.(object => {
-		if (!object.isMesh && !object.isSkinnedMesh) return;
-		object.castShadow = true;
-		object.receiveShadow = true;
-		object.visible = true;
-		count += 1;
-	});
-	return count;
-}
-
+/** Returns true for every known procedural/fallback player identity emitted by asset services. */
 export function isFallbackPlayer(gltf) {
-	return gltf?.scene?.userData?.isolatedModelLoad?.fallback === true
-		|| gltf?.userData?.fallback === true;
-}
-
-export function createBootstrapAnimationHandle(animations, state) {
-	return {
-		diagnostics: () => ({
-			action: state.action,
-			animations: animations.length,
-			bootstrap: true,
-			lifecycle: state.lifecycle
-		}),
-		names: animations.map(clip => clip.name || ''),
-		play() {},
-		update() {}
-	};
+	return Boolean(
+		gltf?.userData?.fallback
+		|| gltf?.scene?.userData?.fallback
+		|| gltf?.scene?.userData?.modelAssetFallback
+		|| gltf?.scene?.userData?.isolatedModelLoad?.fallback
+	);
 }

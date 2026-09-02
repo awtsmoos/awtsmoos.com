@@ -4,31 +4,29 @@
 
 /**
  * @file bootstrapCanonicalPlayerHydrationUrl.test.mjs
- * @description Proves the deferred canonical-player import keeps its app directory when source is gathered into the compact core entry.
- * The Awtsmoos changes garments without losing the chamber from which the light came;
- * Awtsmoos.com makes readable source and compact runtime reach one hydrator path, so bundling cannot turn a living player into a browser 404 flame.
+ * @description Replaces the deleted deferred-player URL contract with the authored-before-play foundation import contract.
+ * The Awtsmoos no longer sends a second human through a delayed module door after control has begun;
+ * Awtsmoos.com now resolves canonical player and essential visuals inside foundation loading before gameplay sees the sun.
  */
 
 import assert from 'node:assert/strict';
+import { access, readFile } from 'node:fs/promises';
 import test from 'node:test';
-import { canonicalPlayerHydratorUrl } from '../../app/BootstrapCanonicalPlayerHydration.js';
 
-const ROOT = 'https://awtsmoos.com/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/';
-const EXPECTED_PATH = '/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowPlayerHydration.js';
+const APP_URL = new URL('../../app/', import.meta.url);
 
-test('readable app source resolves the canonical hydrator through compact processing', () => {
-	const resolved = new URL(canonicalPlayerHydratorUrl(
-		`${ROOT}app/BootstrapCanonicalPlayerHydration.js`
-	));
-	assert.equal(resolved.pathname, EXPECTED_PATH);
-	assert.equal(resolved.searchParams.get('compact'), 'true');
-	assert.equal(resolved.searchParams.get('v'), '20260820-promise-cycle-01');
+test('deferred canonical-player hydrator module remains deleted', async () => {
+	await assert.rejects(access(new URL('BootstrapCanonicalPlayerHydration.js', APP_URL)));
 });
 
-test('relocated compact core resolves back into the original app directory', () => {
-	const resolved = new URL(canonicalPlayerHydratorUrl(
-		`${ROOT}mitzvah-world-core.compact.js`
-	));
-	assert.equal(resolved.pathname, EXPECTED_PATH);
-	assert.equal(resolved.search, '?compact=true&v=20260820-promise-cycle-01');
+test('world foundation imports essential player and authored visual gates before ready', async () => {
+	const source = await readFile(new URL('EretzWorldFoundation.js', APP_URL), 'utf8');
+	assert.match(source, /EretzEssentialAssetLoader\.js\?v=20260902-glb-only-player-01/);
+	assert.match(source, /EretzEssentialVisualGate\.js\?v=20260902-authored-first-frame-01/);
+	const assets = source.indexOf('await assetModule.loadEretzEssentialAssets');
+	const visuals = source.indexOf('await visualModule.prepareEretzEssentialVisuals');
+	const ready = source.indexOf('markVisibleWorldReady(options)');
+	assert.ok(assets >= 0);
+	assert.ok(visuals > assets);
+	assert.ok(ready > visuals);
 });

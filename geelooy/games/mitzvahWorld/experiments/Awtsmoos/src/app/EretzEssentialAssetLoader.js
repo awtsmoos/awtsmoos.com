@@ -4,64 +4,48 @@
 
 /**
  * @file EretzEssentialAssetLoader.js
- * @description Opens control with a local Chossid silhouette while the exact GLB waits beyond first play.
- * The Awtsmoos grants motion before a heavy garment crosses the wire; Awtsmoos.com keeps the player
- * visibly human at once, then lets the canonical Chossid arrive through the existing grounded hydrator.
+ * @description Makes the immutable animated Chossid a true essential asset and leaves deferred NPC seats empty until authored GLBs arrive.
+ * The Awtsmoos reveals one human only through authored form; Awtsmoos.com waits for the real garment before opening play,
+ * while distant people remain honestly absent rather than being carved from procedural boxes for a temporary day.
  */
 
 import { createEssentialAssetRecord } from './EretzEssentialAssetRecord.js';
-import { createFallbackActorGltf } from './EretzFallbackActorTemplate.js';
 import {
 	createEssentialActorHydration,
 	createEssentialMaterialHydration
 } from './EretzEssentialHydrationState.js';
+import { loadEretzEssentialPlayerGlb } from './EretzEssentialPlayerGlb.js';
 
 export async function loadEretzEssentialAssets(options = {}) {
 	const boot = options.boot || globalThis.AwtsmoosBootTracker;
-	boot?.begin?.('essential-local-player');
-	const playerGltf = createFallbackActorGltf('player-essential-bootstrap');
-	const npcGltf = createFallbackActorGltf('npc-deferred-placeholder');
-	const playerSource = playerGltf.scene.userData.isolatedModelLoad?.source
-		|| 'local-procedural-chossid-silhouette';
+	const player = await loadEretzEssentialPlayerGlb({ ...options, boot });
 	const assets = createEssentialAssetRecord();
 	assets.actorAssets = Object.freeze({
-		fallbackActors: 2,
-		playerBlockingRequests: 0,
-		strategy: 'play-first-canonical-next-frame'
+		fallbackActors: 0,
+		playerBlockingRequests: 1,
+		strategy: 'canonical-glb-before-play'
 	});
 	assets.importedModelMaterials = Object.freeze({
 		npcs: [],
 		player: Object.freeze({
-			fallback: true,
-			source: playerSource
+			fallback: false,
+			source: player.evidence.source
 		})
 	});
 	const actorHydration = createEssentialActorHydration(options);
 	const materialHydration = createEssentialMaterialHydration(assets, options, boot);
 	assets.publicMaterialStreaming = materialHydration;
 	assets.publicMaterialHydration = materialHydration;
-	boot?.progress?.(
-		'essential-local-player',
-		1,
-		1,
-		'Playable local Chossid ready; canonical GLB streams after control.',
-		'ready'
-	);
 	return {
 		actorAssetStats: assets.actorAssets,
 		actorHydration,
 		assets,
 		grassImage: null,
 		importedModelMaterials: assets.importedModelMaterials,
-		npcGltf,
-		npcGltfs: [npcGltf],
+		npcGltf: null,
+		npcGltfs: [],
 		npcProfiles: [],
-		playerGltf,
-		playerHydrationDependencies: hydrationDependencies(options)
+		playerGltf: player.gltf,
+		playerHydrationDependencies: Object.freeze({})
 	};
-}
-
-function hydrationDependencies(options) {
-	if (typeof options.playerLoader !== 'function') return {};
-	return Object.freeze({ loadGltf: options.playerLoader });
 }

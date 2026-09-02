@@ -4,23 +4,19 @@
 
 /**
  * @file BootstrapPlayerRuntime.js
- * @description Mounts immediate Chossid play and promotes the real grounded GLB just beyond first control.
- * The Awtsmoos lets a humble local form answer the hand before the authored garment is revealed;
- * Awtsmoos.com keeps state, collision, camera height, and movement alive while canonical humanity is sealed.
+ * @description Installs only the canonical grounded GLB as the playable Chossid and starts its authored animation immediately.
+ * The Awtsmoos joins bones, cloth, soles, collision, and motion within one honest traveler;
+ * Awtsmoos.com forbids a generated underlay, so every visible human pixel belongs to the authored GLB revelator.
  */
 
-import { createBootstrapVisiblePlayer } from './BootstrapVisiblePlayer.js';
-import { scheduleBootstrapCanonicalPlayerHydration } from './BootstrapCanonicalPlayerHydration.js';
-import {
-	createBootstrapAnimationHandle,
-	isFallbackPlayer,
-	prepareBootstrapPlayerMeshes
-} from './BootstrapPlayerPresentation.js';
+import { isFallbackPlayer } from './BootstrapPlayerPresentation.js';
 import { createDeferredActorSystems } from './EretzDeferredActorPlaceholders.js';
 import { installCanonicalChossidAnimation } from './MinimalMeadowCanonicalAnimation.js';
 import { hydrateReadablePlayerMaterials } from './MinimalMeadowPlayerMaterialHydrator.js';
 import {
+	CANONICAL_PLAYER_SCALE,
 	createBootstrapPlayerVessels,
+	createGroundedCanonicalPlayer,
 	prepareCanonicalPlayerMeshes
 } from './EretzPlayerRuntimeFactories.js';
 import {
@@ -28,81 +24,57 @@ import {
 	createBootstrapPlayerStats
 } from './EretzPlayerStateFactory.js';
 
-const CANONICAL_PLAYER_SCALE = 1.52;
-
 export function createBootstrapPlayerRuntime(foundation) {
-	const model = foundation.playerGltf.scene;
-	const fallback = isFallbackPlayer(foundation.playerGltf);
-	model.name ||= 'Awtsmoos_minimal_meadow_player';
-	model.position.set(0, 0, 0);
-	model.scale?.set?.(
-		CANONICAL_PLAYER_SCALE,
-		CANONICAL_PLAYER_SCALE,
-		CANONICAL_PLAYER_SCALE
-	);
-	model.visible = true;
-	model.setBaseTransform?.();
-	let meshCount = fallback
-		? prepareBootstrapPlayerMeshes(model)
-		: prepareCanonicalPlayerMeshes(model);
-	let visiblePlayer = model;
-	if (meshCount === 0) {
-		visiblePlayer = createBootstrapVisiblePlayer();
-		model.add(visiblePlayer);
-		meshCount = visiblePlayer.userData.meshCount;
-	}
-	if (!model.parent) foundation.scene.add(model);
+	assertCanonicalGltf(foundation.playerGltf);
 	const state = createBootstrapPlayerState();
-	const deferredActors = createDeferredActorSystems();
-	const player = createBootstrapAnimationHandle(
-		foundation.playerGltf.animations || [],
-		state
-	);
+	const prepared = createGroundedCanonicalPlayer(foundation.playerGltf.scene, state);
+	const meshCount = prepareCanonicalPlayerMeshes(prepared.visiblePlayer);
+	if (meshCount < 1) throw new Error('Canonical Chossid GLB contained no renderable meshes.');
+	if (!prepared.model.parent) foundation.scene.add(prepared.model);
 	const runtime = {
 		...foundation,
 		...createBootstrapPlayerVessels(foundation),
-		...deferredActors,
-		feet: 0,
+		...createDeferredActorSystems(),
+		feet: prepared.feet,
 		footOffset: 0,
-		model,
-		player,
+		model: prepared.model,
+		player: null,
 		playerStats: createBootstrapPlayerStats(),
 		state,
-		visiblePlayer,
+		visiblePlayer: prepared.visiblePlayer,
 		worldActorsReady: false
 	};
-	startCanonicalPlayer(
+	const materials = hydrateReadablePlayerMaterials(prepared.visiblePlayer);
+	const animation = installCanonicalChossidAnimation(
 		runtime,
-		foundation,
-		!fallback && visiblePlayer === model,
-		meshCount
+		foundation.playerGltf,
+		prepared.visiblePlayer
 	);
+	if (!animation.defaultClip) {
+		throw new Error('Canonical Chossid GLB did not expose a playable animation clip.');
+	}
+	runtime.canonicalPlayer = canonicalReceipt(foundation, animation, materials, meshCount);
+	runtime.canonicalPlayerHydrationStage = 'ready';
+	runtime.canonicalPlayerPromise = Promise.resolve(runtime.canonicalPlayer);
 	return runtime;
 }
 
-function startCanonicalPlayer(runtime, foundation, alreadyCanonical, meshCount) {
-	if (!alreadyCanonical) {
-		scheduleBootstrapCanonicalPlayerHydration(
-			runtime,
-			foundation,
-			foundation.environment || globalThis
-		);
-		return;
+function assertCanonicalGltf(gltf) {
+	if (!gltf?.scene) throw new Error('Canonical Chossid GLB scene is required before player runtime.');
+	if (isFallbackPlayer(gltf)) throw new Error('Generated player fallbacks are forbidden.');
+	if ((gltf.animations?.length || 0) < 1) {
+		throw new Error('Canonical Chossid GLB animations are required before player runtime.');
 	}
-	const materials = hydrateReadablePlayerMaterials(runtime.visiblePlayer);
-	const animation = installCanonicalChossidAnimation(
-		runtime,
-		runtime.playerGltf,
-		runtime.visiblePlayer
-	);
-	runtime.canonicalPlayer = Object.freeze({
-		animations: runtime.playerGltf.animations?.length || 0,
+}
+
+function canonicalReceipt(foundation, animation, materials, meshCount) {
+	return Object.freeze({
+		animations: foundation.playerGltf.animations.length,
 		defaultClip: animation.defaultClip,
 		materials,
 		meshes: meshCount,
 		scale: CANONICAL_PLAYER_SCALE,
-		status: 'ready'
+		status: 'ready',
+		visualGuard: 'none-glb-only'
 	});
-	runtime.canonicalPlayerHydrationStage = 'ready';
-	runtime.canonicalPlayerPromise = Promise.resolve(runtime.canonicalPlayer);
 }

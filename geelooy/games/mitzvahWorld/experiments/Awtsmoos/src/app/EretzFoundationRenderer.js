@@ -1,12 +1,12 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file EretzFoundationRenderer.js
- * @description Builds the required WebGL bootstrap renderer and translates authored golden-hour light into its compact first-frame environment.
- * The Awtsmoos clothes the first visible field in measured sun before richer garments descend from above;
- * Awtsmoos.com keeps renderer assembly apart from input assembly, so each vessel can reveal its own covenant of love.
+ * @description Builds required WebGL with a deliberate authored sky clear distinct from the distance-fog color.
+ * The Awtsmoos stretches cool heaven above warm earth while one sun joins both in living light;
+ * Awtsmoos.com keeps sky present from the first framebuffer through rich-renderer handoff, so no gray void crowns the sight.
  */
 
 import { REFERENCE_GOLDEN_HOUR } from '../world/lighting/ReferenceGoldenHourPreset.js';
@@ -14,18 +14,12 @@ import { createMinimalMeadowRenderer } from './MinimalMeadowRenderer.js';
 
 const GOLDEN_HOUR_ENVIRONMENT = referenceEnvironment(REFERENCE_GOLDEN_HOUR);
 
-/**
- * Creates and configures the required WebGL renderer for first paint.
- * @param {HTMLCanvasElement} canvas Runtime canvas.
- * @param {object} qualityProfile Active render-distance policy.
- * @returns {object} Configured progressive WebGL renderer.
- */
 export function createEretzFoundationRenderer(canvas, qualityProfile) {
 	const renderer = createMinimalMeadowRenderer(canvas);
 	renderer.options ||= {};
 	renderer.options.culling = true;
 	renderer.options.defaultRenderDistance = qualityProfile.renderDistance;
-	renderer.setClearColor(...GOLDEN_HOUR_ENVIRONMENT.fogColor, 1);
+	renderer.setClearColor(...GOLDEN_HOUR_ENVIRONMENT.skyColor, 1);
 	renderer.setEnvironment({
 		...GOLDEN_HOUR_ENVIRONMENT,
 		fogFar: qualityProfile.renderDistance * 1.08,
@@ -34,8 +28,8 @@ export function createEretzFoundationRenderer(canvas, qualityProfile) {
 	return renderer;
 }
 
-/** Freezes the authored lighting into the small bootstrap renderer environment. */
-function referenceEnvironment(reference) {
+/** Freezes one blue-golden sky and distance-fog environment from the shared authored lighting preset. */
+export function referenceEnvironment(reference) {
 	const cool = reference.coolShadow;
 	const horizon = reference.horizonColor;
 	const sun = reference.sunCore;
@@ -51,6 +45,11 @@ function referenceEnvironment(reference) {
 			cool[1] * 0.68 + horizon[1] * 0.32,
 			cool[2] * 0.74 + horizon[2] * 0.26
 		]),
+		skyColor: Object.freeze([
+			cool[0] * 0.58 + 0.18,
+			cool[1] * 0.62 + 0.24,
+			cool[2] * 0.70 + 0.27
+		]),
 		sunColor: Object.freeze([
 			sun[0] * 1.22,
 			sun[1] * 1.06,
@@ -60,7 +59,6 @@ function referenceEnvironment(reference) {
 	});
 }
 
-/** Normalizes one authored direction vector for the bootstrap renderer. */
 function normalized(vector) {
 	const length = Math.hypot(vector[0], vector[1], vector[2]) || 1;
 	return [vector[0] / length, vector[1] / length, vector[2] / length];

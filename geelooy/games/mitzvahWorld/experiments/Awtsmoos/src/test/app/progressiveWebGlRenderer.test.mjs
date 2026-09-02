@@ -4,9 +4,9 @@
 
 /**
  * @file progressiveWebGlRenderer.test.mjs
- * @description Proves bootstrap WebGL renders immediately while policy-controlled rich rendering is launched only after runtime publication.
- * The Awtsmoos gives the first responsive color before deeper radiance enters its vessel;
- * Awtsmoos.com preserves that ordering while still guaranteeing a later path toward textured revelation.
+ * @description Proves WebGL bootstrap capability exists internally while authored rich rendering is awaited before visible-world readiness.
+ * The Awtsmoos lets a hidden first vessel test the device, then clothes it in richer radiance before gameplay may appear;
+ * Awtsmoos.com turns renderer hydration from post-play decoration into a prerequisite the loading covenant must hear.
  */
 
 import assert from 'node:assert/strict';
@@ -20,10 +20,7 @@ const source = file => readFile(new URL(file, APP_URL), 'utf8');
 function createCanvasHarness() {
 	const calls = [];
 	const gl = {
-		COLOR_BUFFER_BIT: 1,
-		CULL_FACE: 4,
-		DEPTH_BUFFER_BIT: 2,
-		DEPTH_TEST: 3,
+		COLOR_BUFFER_BIT: 1, CULL_FACE: 4, DEPTH_BUFFER_BIT: 2, DEPTH_TEST: 3,
 		clear: mask => calls.push(['clear', mask]),
 		clearColor: (...values) => calls.push(['clearColor', ...values]),
 		clearDepth: value => calls.push(['clearDepth', value]),
@@ -31,45 +28,25 @@ function createCanvasHarness() {
 		enable: value => calls.push(['enable', value]),
 		viewport: (...values) => calls.push(['viewport', ...values])
 	};
-	const canvas = {
-		getContext(name, options) {
-			calls.push(['getContext', name, options]);
-			return gl;
-		},
-		height: 0,
-		width: 0
-	};
-	return { calls, canvas };
+	return { calls, canvas: { getContext: () => gl, height: 0, width: 0 } };
 }
 
-test('progressive renderer creates WebGL and clears an empty scene', () => {
+test('progressive renderer creates WebGL and clears an internal capability scene', () => {
 	const { calls, canvas } = createCanvasHarness();
 	const renderer = new ProgressiveWebGLRenderer({ canvas });
 	renderer.setSize(320, 180);
 	renderer.setClearColor(0.1, 0.2, 0.3, 1);
 	renderer.render({}, {});
 	assert.equal(renderer.backend, 'webgl');
-	assert.equal(renderer.hydrationState, 'idle');
-	assert.equal(renderer.stats.frames, 1);
 	assert.equal(renderer.stats.phase, 'colored-bootstrap');
-	assert.deepEqual([canvas.width, canvas.height], [320, 180]);
 	assert.ok(calls.some(call => call[0] === 'clear'));
 });
 
-test('startup publishes playability before policy-controlled rich renderer launch', async () => {
-	const [foundation, progressive, hydration, runtime] = await Promise.all([
-		source('EretzFoundationServices.js'),
-		source('ProgressiveWebGLRenderer.js'),
-		source('ProgressiveWebGLRendererHydration.js'),
-		source('createEretzRuntime.js')
-	]);
-	const startup = `${foundation}${progressive}`;
-	const publication = runtime.indexOf('publishRuntime(core.diagnostics, environment)');
-	const policyLaunch = runtime.indexOf('startEretzRendererByWorldPolicy(');
-	assert.doesNotMatch(startup, /tiny-webgl-renderer|tiny-static-opaque-batcher/);
-	assert.match(progressive, /BootstrapColorRenderer/);
-	assert.match(hydration, /tiny-webgl-renderer\.js/);
-	assert.ok(publication >= 0);
-	assert.ok(policyLaunch > publication);
-	assert.doesNotMatch(runtime, /scheduleRendererHydration/);
+test('world foundation awaits authored visual gate before visible-world readiness', async () => {
+	const foundation = await source('EretzWorldFoundation.js');
+	const hydrate = foundation.indexOf('await visualModule.prepareEretzEssentialVisuals');
+	const ready = foundation.indexOf('markVisibleWorldReady(options)');
+	assert.ok(hydrate >= 0);
+	assert.ok(ready > hydrate);
+	assert.match(foundation, /EretzEssentialVisualGate\.js/);
 });

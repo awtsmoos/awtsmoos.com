@@ -4,38 +4,32 @@
 
 /**
  * @file EretzActorAssetLoader.js
- * @description Reveals local actors immediately and keeps canonical GLB parsing outside entry.
- * The Awtsmoos grants movement before a heavy garment is parsed; Awtsmoos.com begins with
- * dignified local Chassidim and exposes canonical actor hydration only as an explicit idle stream.
+ * @description Loads only authored animated GLBs for the player and friendly Chassidim; procedural human substitutes are forbidden.
+ * The Awtsmoos reveals each neighbor through one authored garment whose animation and material may truly live;
+ * Awtsmoos.com chooses honest network waiting over carved boxes, so every human form the valley shows has a GLB source to give.
  */
 
 import { loadHouseAssets } from '../assets/HouseAssets.js';
 import { friendlyNpcProfiles } from '../world/npc/FriendlyNpcProfiles.js';
 import { PLAYER_MODEL_URL } from './EretzConstants.js';
-import { createFallbackActorGltf } from './EretzFallbackActorTemplate.js';
 import { scheduleActorHydration } from './EretzActorHydrationScheduler.js';
 
 export async function loadEretzActorAssets(options = {}) {
 	const quality = options.quality || 'medium';
 	const npcProfiles = friendlyNpcProfiles(quality);
-	const playerGltf = createFallbackActorGltf('player');
-	const npcGltfs = npcProfiles.map((profile, index) => createFallbackActorGltf(
-		`friendly-npc-${index}-${profile.id}`,
-		{ outfit: profile.outfit }
-	));
 	const houseLoader = options.houseLoader || loadHouseAssets;
-	const assets = await houseLoader(async () => null);
-	assets.actorAssets = actorStats(npcGltfs.length);
-	assets.importedModelMaterials = fallbackMaterials(npcProfiles);
+	const [actors, assets] = await Promise.all([
+		loadRemoteEretzActorAssets(options, npcProfiles),
+		houseLoader(async () => null)
+	]);
+	assets.actorAssets = actorStats(actors.npcGltfs.length);
+	assets.importedModelMaterials = canonicalMaterials(npcProfiles);
 	return {
+		...actors,
 		actorAssetStats: assets.actorAssets,
 		actorHydration: createDeferredActorHydration(options, npcProfiles),
 		assets,
-		importedModelMaterials: assets.importedModelMaterials,
-		npcGltf: npcGltfs[0],
-		npcGltfs,
-		npcProfiles,
-		playerGltf
+		importedModelMaterials: assets.importedModelMaterials
 	};
 }
 
@@ -46,7 +40,7 @@ export function createDeferredActorHydration(options = {}, npcProfiles = []) {
 		error: null,
 		promise: null,
 		startedAt: null,
-		status: enabled ? 'waiting-for-idle-start' : 'fallback-stable',
+		status: enabled ? 'waiting-for-idle-start' : 'canonical-ready',
 		value: null,
 		start() {
 			if (!enabled) return Promise.resolve(null);
@@ -78,8 +72,8 @@ export async function loadRemoteEretzActorAssets(options = {}, npcProfiles = [])
 
 async function defaultRemoteActorLoader(options, npcProfiles) {
 	const [{ loadIsolatedGltf, sharedGltfAssetStats }, palette] = await Promise.all([
-		import('../assets/ModelAssetLoader.js?v=20260722-idle-actor-02'),
-		import('../assets/ChossidOutfitPalette.js?v=20260722-idle-actor-02')
+		import('../assets/ModelAssetLoader.js?v=20260902-glb-humans-only-01'),
+		import('../assets/ChossidOutfitPalette.js?v=20260902-glb-humans-only-01')
 	]);
 	const playerGltf = await loadIsolatedGltf(PLAYER_MODEL_URL, 'player-canonical');
 	const npcGltfs = await Promise.all(npcProfiles.map((profile, index) => loadIsolatedGltf(
@@ -89,26 +83,27 @@ async function defaultRemoteActorLoader(options, npcProfiles) {
 	)));
 	return {
 		actorAssetStats: sharedGltfAssetStats(),
-		npcGltf: npcGltfs[0],
+		npcGltf: npcGltfs[0] || null,
 		npcGltfs,
 		npcProfiles,
 		playerGltf
 	};
 }
 
-function actorStats(fallbackActors) {
-	return {
-		fallbackActors,
-		playerBlockingRequests: 0,
-		strategy: 'procedural-first-explicit-idle-canonical-hydration'
-	};
+function actorStats(npcCount) {
+	return Object.freeze({
+		canonicalNpcGlbs: npcCount,
+		fallbackActors: 0,
+		playerBlockingRequests: 1,
+		strategy: 'authored-glb-humans-only'
+	});
 }
 
-function fallbackMaterials(npcProfiles) {
-	return {
-		npcs: npcProfiles.map(profile => ({ fallback: true, profileId: profile.id })),
-		player: { fallback: true, source: 'local-procedural-chossid-silhouette' }
-	};
+function canonicalMaterials(npcProfiles) {
+	return Object.freeze({
+		npcs: npcProfiles.map(profile => Object.freeze({ fallback: false, profileId: profile.id })),
+		player: Object.freeze({ fallback: false, source: PLAYER_MODEL_URL })
+	});
 }
 
 function now() {

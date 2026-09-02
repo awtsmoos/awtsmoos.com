@@ -4,9 +4,9 @@
 
 /**
  * @file EretzEssentialAssetRecord.js
- * @description Creates every legacy asset key with solid-first, null-safe startup values.
- * The Awtsmoos gives form before pigment; Awtsmoos.com preserves the old asset contract while
- * no texture catalog, house manifest, or remote material enters the first controllable frame.
+ * @description Creates legacy asset keys with null-safe startup values while declaring a strict authored-human policy.
+ * The Awtsmoos lets texture vessels begin empty without inventing a person; Awtsmoos.com preserves the legacy record shape,
+ * yet every human diagnostic now says GLB truth only, while authored visual hydration fills the remaining landscape.
  */
 
 const IMAGE_KEYS = Object.freeze([
@@ -31,23 +31,20 @@ export function createEssentialAssetRecord() {
 	assets.lavaImage = null;
 	assets.terrainDirtImages = [null, null, null, null, null];
 	assets.actorAssets = Object.freeze({
-		fallbackActors: 2,
-		playerBlockingRequests: 0,
-		strategy: 'single-local-player-before-rich-catalogs'
+		fallbackActors: 0,
+		playerBlockingRequests: 1,
+		strategy: 'canonical-glb-before-play'
 	});
 	assets.importedModelMaterials = Object.freeze({
 		npcs: [],
-		player: Object.freeze({
-			fallback: true,
-			source: 'local-procedural-chossid-silhouette'
-		})
+		player: Object.freeze({ fallback: false, source: 'canonical-player-glb' })
 	});
 	assets.houseMaterialDegradation = Object.freeze([]);
 	assets.publicMaterialCache = Object.freeze({ entries: 0, ready: 0 });
 	assets.publicMaterialPolicy = Object.freeze({
-		blockingTextureRequests: 0,
-		fallbackFirst: true,
-		strategy: 'solid-first-rich-assets-after-playable'
+		blockingTextureRequests: 1,
+		fallbackFirst: false,
+		strategy: 'authored-terrain-before-gameplay-presentation'
 	});
 	assets.publicUrls = Object.freeze({});
 	return assets;

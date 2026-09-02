@@ -4,34 +4,41 @@
 
 /**
  * @file EretzEssentialAssetLoader.test.js
- * @description Proves first control never waits for the heavy canonical Chossid loader.
- * The Awtsmoos reveals a local traveler before distant bytes arrive in their line;
- * Awtsmoos.com preserves the real loader for hydration while the first movement remains fine.
+ * @description Proves first gameplay waits for the authored animated Chossid instead of manufacturing a local human substitute.
+ * The Awtsmoos lets the loading vessel wait while the true garment descends in its line;
+ * Awtsmoos.com counts one blocking GLB request so no counterfeit traveler can appear before its time.
  */
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { loadEretzEssentialAssets } from './EretzEssentialAssetLoader.js';
 
-test('essential boot returns local Chossid without invoking canonical loader', async () => {
+const CLIP = Object.freeze({ duration: 2, name: 'stand_Armature' });
+
+test('essential boot invokes canonical loader and publishes no fallback player', async () => {
 	let loaderCalls = 0;
-	const playerLoader = async () => {
-		loaderCalls += 1;
-		throw new Error('canonical loader must not run during essential boot');
-	};
+	const scene = canonicalScene();
 	const result = await loadEretzEssentialAssets({
-		boot: {
-			begin() {},
-			progress() {}
-		},
-		playerLoader
+		boot: { begin() {}, progress() {} },
+		playerLoader: async () => {
+			loaderCalls += 1;
+			return { animations: [CLIP], scene };
+		}
 	});
-	assert.equal(loaderCalls, 0);
-	assert.equal(
-		result.playerGltf.scene.userData.isolatedModelLoad.fallback,
-		true
-	);
-	assert.equal(result.actorAssetStats.playerBlockingRequests, 0);
-	assert.equal(result.actorAssetStats.strategy, 'play-first-canonical-next-frame');
-	assert.equal(result.playerHydrationDependencies.loadGltf, playerLoader);
+	assert.equal(loaderCalls, 1);
+	assert.equal(result.playerGltf.scene, scene);
+	assert.equal(result.actorAssetStats.fallbackActors, 0);
+	assert.equal(result.actorAssetStats.playerBlockingRequests, 1);
+	assert.equal(result.actorAssetStats.strategy, 'canonical-glb-before-play');
+	assert.equal(result.importedModelMaterials.player.fallback, false);
+	assert.deepEqual(result.npcGltfs, []);
 });
+
+function canonicalScene() {
+	return {
+		userData: {},
+		traverse(visitor) {
+			visitor({ isMesh: true });
+		}
+	};
+}

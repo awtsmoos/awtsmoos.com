@@ -4,15 +4,14 @@
 
 /**
  * @file MinimalMeadowCanonicalPlayerInstall.js
- * @description Installs the canonical Chossid while preserving the original rigid WebGL body as a synchronized visual guard.
- * The Awtsmoos joins model, motion, equipment, and measured feet without extinguishing the first dependable silhouette;
- * Awtsmoos.com lets canonical beauty stand above a humble WebGL underlay so every supported device still sees the traveler move.
+ * @description Atomically installs the authored Chossid and removes every predecessor instead of preserving a rigid human underlay.
+ * The Awtsmoos lets richer manifestation replace lesser vessels without double form; Awtsmoos.com keeps one traveler in sight,
+ * so bones may visibly animate without a generated silhouette covering the authored motion and light.
  */
 
 import { installCanonicalChossidAnimation } from './MinimalMeadowCanonicalAnimation.js';
-import { preservePlayerVisualGuard } from './PlayerVisualGuard.js';
 
-export function installCanonicalPlayer(runtime, fallbackModel, gltf, prepared) {
+export function installCanonicalPlayer(runtime, predecessor, gltf, prepared) {
 	runtime.scene.add(prepared.model);
 	runtime.model = prepared.model;
 	runtime.visiblePlayer = prepared.visiblePlayer;
@@ -33,8 +32,9 @@ export function installCanonicalPlayer(runtime, fallbackModel, gltf, prepared) {
 	const evidence = canonicalEvidence(animation, gltf);
 	markCanonical(prepared.model, evidence);
 	markCanonical(prepared.visiblePlayer, evidence);
-	const visualGuard = preservePlayerVisualGuard(runtime, fallbackModel);
-	return Object.freeze({ animation, evidence, visualGuard });
+	removePredecessor(predecessor, prepared.model);
+	runtime.playerVisualGuard = null;
+	return Object.freeze({ animation, evidence, visualGuard: null });
 }
 
 function canonicalEvidence(animation, gltf) {
@@ -43,11 +43,19 @@ function canonicalEvidence(animation, gltf) {
 		defaultClip: animation.defaultClip,
 		modelSource: 'chossid.glb',
 		measuredAnimatedIdle: Boolean(animation.defaultClip),
-		visualGuard: 'rigid-webgl-underlay'
+		visualGuard: 'none-glb-only'
 	});
 }
 
 function markCanonical(model, evidence) {
 	model.userData ||= {};
 	model.userData.AwtsmoosCanonicalPlayer = evidence;
+}
+
+function removePredecessor(predecessor, canonicalRoot) {
+	if (!predecessor || predecessor === canonicalRoot) return;
+	predecessor.traverse?.(object => {
+		object.visible = false;
+	});
+	predecessor.parent?.remove?.(predecessor);
 }

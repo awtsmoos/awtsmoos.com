@@ -2,50 +2,51 @@
 // Boruch Hashem
 // Blessed is He
 
+/**
+ * @file actorFirstFramePolicy.test.mjs
+ * @description Proves the canonical player is blocking while optional remote NPC refresh remains separately idle-scheduled.
+ * The Awtsmoos reveals the traveler before control yet permits distant neighbors to arrive by later measure;
+ * Awtsmoos.com blocks only the human who must already be on screen, preserving truthful first-frame treasure.
+ */
+
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import {
-	createDeferredActorHydration,
-	loadEretzActorAssets
-} from '../../app/EretzActorAssetLoader.js';
+import { createDeferredActorHydration, loadEretzActorAssets } from '../../app/EretzActorAssetLoader.js';
 
-test('first-frame actor assets never invoke the canonical GLB loader', async () => {
+test('actor asset loader resolves authored humans before returning its player contract', async () => {
 	let canonicalLoads = 0;
+	const remote = { npcGltfs: [], npcProfiles: [], playerGltf: { scene: {} } };
 	const result = await loadEretzActorAssets({
 		houseLoader: async () => ({}),
 		remoteActorLoader: async () => {
 			canonicalLoads += 1;
-			return null;
+			return remote;
 		}
 	});
-	assert.equal(canonicalLoads, 0);
-	assert.equal(result.playerGltf.scene.userData.isolatedModelLoad.fallback, true);
-	assert.equal(result.actorAssetStats.playerBlockingRequests, 0);
-	assert.equal(result.actorHydration.status, 'fallback-stable');
+	assert.equal(canonicalLoads, 1);
+	assert.equal(result.playerGltf, remote.playerGltf);
+	assert.equal(result.actorAssetStats.fallbackActors, 0);
+	assert.equal(result.actorAssetStats.playerBlockingRequests, 1);
+	assert.equal(result.actorHydration.status, 'canonical-ready');
 });
 
-test('canonical actor hydration remains lazy even when explicitly enabled', async () => {
+test('optional canonical actor refresh remains lazy when explicitly enabled', async () => {
 	let canonicalLoads = 0;
 	const scheduled = [];
-	const environment = {
-		requestIdleCallback(callback) { scheduled.push(callback); },
-		setTimeout(callback) { scheduled.push(callback); }
-	};
 	const hydration = createDeferredActorHydration({
-		environment,
+		environment: {
+			requestIdleCallback(callback) { scheduled.push(callback); },
+			setTimeout(callback) { scheduled.push(callback); }
+		},
 		remoteActorLoader: async () => {
 			canonicalLoads += 1;
-			return { playerGltf: null };
+			return { npcGltfs: [] };
 		},
 		streamCanonicalActors: true
 	}, []);
-	assert.equal(canonicalLoads, 0);
 	const promise = hydration.start();
 	assert.equal(canonicalLoads, 0);
-	assert.equal(scheduled.length, 1);
-	scheduled.shift()();
-	assert.equal(scheduled.length, 1);
-	scheduled.shift()();
+	while (scheduled.length) scheduled.shift()();
 	await promise;
 	assert.equal(canonicalLoads, 1);
 	assert.equal(hydration.status, 'ready');
