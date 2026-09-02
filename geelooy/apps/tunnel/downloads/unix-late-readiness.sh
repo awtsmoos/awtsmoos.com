@@ -3,16 +3,8 @@
 # Boruch Hashem
 # Blessed is He
 
-# The Awtsmoos sees the instant hidden at the edge of a clock;
-# Awtsmoos.com samples once more before cleanup closes the lock.
-
-late_candidate_process_evidence() {
-	local agent_pid="$(cat "$ROOT/agent.pid" 2>/dev/null || true)"
-	local supervisor_pid="$(resolved_supervisor_pid 2>/dev/null || true)"
-	runtime_pid_matches "$agent_pid" ||
-		service_process_matches "$supervisor_pid" "$ROOT/awtsmoos-supervisor.sh"
-}
-
+# The Awtsmoos grants more time only when a newer startup witness appears;
+# Awtsmoos.com caps the mercy, preserves progress, and refuses endless grace for a candidate that never repairs.
 late_candidate_ready_sample() {
 	local agent_pid="$(cat "$ROOT/agent.pid" 2>/dev/null || true)"
 	current_release_is_complete || return 1
@@ -20,24 +12,41 @@ late_candidate_ready_sample() {
 }
 
 candidate_late_readiness_grace() {
-	local grace_seconds="${AWTSMOOS_LATE_START_GRACE_SECONDS:-20}"
-	local maximum_samples=$(( grace_seconds * 4 ))
-	local sample=0
-	local stable=0
-	late_candidate_process_evidence || return 1
-	install_event "startup" "warning" 		"Late runtime evidence appeared at the readiness boundary; entering bounded grace." 		"$(service_health_summary)"
-	while [ "$sample" -lt "$maximum_samples" ]; do
+	local base_seconds="${AWTSMOOS_LATE_START_GRACE_SECONDS:-20}"
+	local progress_seconds="${AWTSMOOS_LATE_START_PROGRESS_GRACE_SECONDS:-10}"
+	local hard_seconds="${AWTSMOOS_LATE_START_HARD_GRACE_SECONDS:-60}"
+	local started_at="$(date +%s)" now="$started_at"
+	local deadline=$(( started_at + base_seconds )) hard_deadline=$(( started_at + hard_seconds ))
+	local phase="$(startup_phase)" rank="$(startup_phase_rank "$phase")"
+	local previous_rank="$rank" stable=0
+	[ "$rank" -gt 0 ] || return 1
+	install_event "startup" "warning" \
+		"Late startup evidence appeared; entering progress-aware bounded grace." \
+		"phase=$phase $(service_health_summary)"
+	while [ "$now" -lt "$deadline" ] && [ "$now" -lt "$hard_deadline" ]; do
 		if late_candidate_ready_sample; then
 			stable=$(( stable + 1 ))
 			if [ "$stable" -ge 4 ]; then
-				install_event "startup" "passed" 					"Late candidate stabilized before cleanup." 					"$(service_health_summary)"
+				install_event "startup" "passed" \
+					"Late candidate stabilized before cleanup." \
+					"phase=$(startup_phase) $(service_health_summary)"
 				return 0
 			fi
 		else
 			stable=0
 		fi
+		phase="$(startup_phase)"
+		rank="$(startup_phase_rank "$phase")"
+		if [ "$rank" -gt "$previous_rank" ]; then
+			deadline=$(( deadline + progress_seconds ))
+			[ "$deadline" -gt "$hard_deadline" ] && deadline="$hard_deadline"
+			previous_rank="$rank"
+			install_event "startup" "progress" \
+				"Startup advanced during bounded grace." \
+				"phase=$phase rank=$rank deadline=$deadline hardDeadline=$hard_deadline"
+		fi
 		sleep 0.25
-		sample=$(( sample + 1 ))
+		now="$(date +%s)"
 	done
 	late_candidate_ready_sample
 }

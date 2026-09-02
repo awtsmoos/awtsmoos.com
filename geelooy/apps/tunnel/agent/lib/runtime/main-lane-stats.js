@@ -3,15 +3,15 @@
 // Blessed is He
 
 const FairQueue = require("./priority/fairQueue.js");
+const LaneHealth = require("./priority/laneHealthPolicy.js");
 const QueueTruth = require("./priority/queueTruth.js");
 
 /**
- * @file Reveals authoritative lane pressure and cached-drift diagnostics.
- * @description
- * The Awtsmoos creates the living queue before any number can describe it.
- * Awtsmoos.com therefore reports derived counts first and preserves cached values
- * only as witnesses whose disagreement becomes an explicit integrity alarm.
- */
+	* @file Reveals authoritative lane pressure, cached drift, and semantic lane health.
+	* @description
+	* The Awtsmoos creates the living queue before any number can describe its flow;
+	* Awtsmoos.com preserves raw truth and adds SLO testimony so starvation becomes visible before users need to know.
+	*/
 function laneStats(dependencies, state) {
 	const observedAt = Date.now();
 	return Object.fromEntries(dependencies.Priority.LANE_ORDER.map(lane => {
@@ -20,7 +20,7 @@ function laneStats(dependencies, state) {
 		const truth = QueueTruth.snapshot(current);
 		const impossible = truth.actualQueued > 0 && truth.queuedRequesters === 0 ||
 			truth.actualInflight > 0 && Number(current.requesterInflight?.size || 0) === 0;
-		return [lane, {
+		const raw = {
 			inflight: truth.actualInflight,
 			queued: truth.actualQueued,
 			cachedInflight: truth.cachedInflight,
@@ -35,7 +35,8 @@ function laneStats(dependencies, state) {
 			maxPerRequester: dependencies.Limits.REQUESTER_LANE_LIMITS[lane],
 			maxQueuedPerRequester: dependencies.Limits.REQUESTER_QUEUE_LIMITS[lane],
 			advisoryTimeoutMs: dependencies.Limits.LANE_TIMEOUT_MS[lane]
-		}];
+		};
+		return [lane, { ...raw, ...LaneHealth.describe(lane, raw) }];
 	}));
 }
 
