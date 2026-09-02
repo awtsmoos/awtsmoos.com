@@ -7,6 +7,7 @@ const TYPES = Object.freeze({
 	FLUSH: "connection.flush",
 	LOG: "connection.log",
 	PARENT_READY: "connection.parent-ready",
+	PROGRESS: "connection.progress",
 	READY: "connection.ready",
 	REQUEST: "connection.request",
 	SEND: "connection.send",
@@ -17,11 +18,11 @@ const TYPES = Object.freeze({
 });
 
 /**
-	* @file Seals the tiny IPC language between the agent and connection vessel.
-	* @description
-	* The Awtsmoos gives transport and execution separate breaths. Awtsmoos.com
-	* permits only named messages so reconnect cannot reinterpret an old envelope.
-	*/
+ * @file Seals the tiny IPC language between parent execution and the connection vessel.
+ * @description
+ * The Awtsmoos gives acceptance and execution progress distinct truthful breath;
+ * Awtsmoos.com names every crossing so a reborn child cannot inherit an older shadow's debt.
+ */
 function message(type, payload = {}) {
 	if (!Object.values(TYPES).includes(type)) {
 		throw new Error(`unknown_connection_message:${type}`);
@@ -33,12 +34,14 @@ function message(type, payload = {}) {
 	};
 }
 
+/** Returns whether one candidate belongs to the sealed connection IPC language. */
 function valid(value) {
 	return Boolean(value) &&
 		value.protocol === "awtsmoos-connection-v1" &&
 		Object.values(TYPES).includes(value.type);
 }
 
+/** Resolves the canonical transport receipt identity carried by one envelope. */
 function requestId(envelope = {}) {
 	return String(
 		envelope.id ||
@@ -49,4 +52,9 @@ function requestId(envelope = {}) {
 	).trim();
 }
 
-module.exports = { TYPES, message, requestId, valid };
+module.exports = {
+	TYPES,
+	message,
+	requestId,
+	valid
+};

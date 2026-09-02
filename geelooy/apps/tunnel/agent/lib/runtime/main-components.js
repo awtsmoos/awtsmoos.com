@@ -9,11 +9,10 @@ const { createMainFoundation } = require("./main-components-foundation.js");
 const Startup = require("./main-components-startup.js");
 
 /**
- * @file Composes queue, execution testimony, and independently supervised transport.
+ * @file Composes queue, execution testimony, exact custody progress, and supervised transport.
  * @description
- * The Awtsmoos keeps network breath outside the busy agent body while Awtsmoos.com
- * carries aggregate request-stage evidence from the execution parent to the child.
- * One composition root now joins queue, worker witness, retry, and durable proxy.
+ * The Awtsmoos keeps network breath outside the busy body while one receipt remains the thread;
+ * Awtsmoos.com returns exact runtime progress to the accepting child instead of leaving custody dead.
  */
 function createMainComponents(D, callbacks) {
 	const foundation = createMainFoundation(D);
@@ -31,6 +30,7 @@ function createMainComponents(D, callbacks) {
 		Correlation: D.Correlation
 	});
 	queue.setScheduleDrain(callbacks.scheduleDrain);
+	let connection = null;
 	const runRequest = createRequestRunner({
 		state: foundation.runtime.state,
 		executionStages: foundation.runtime.executionStages,
@@ -46,9 +46,10 @@ function createMainComponents(D, callbacks) {
 		Envelope: D.Envelope,
 		Correlation: D.Correlation,
 		stats: foundation.runtime.stats,
-		release: callbacks.release
+		release: callbacks.release,
+		noteCustodyProgress: (...args) => connection?.proxy?.progressCustody?.(...args) === true
 	});
-	const connection = D.ConnectionVessel.createController({
+	connection = D.ConnectionVessel.createController({
 		agentVersion: D.AGENT_VERSION,
 		enqueueRequest: queue.enqueueRequest,
 		loadConfig: foundation.loadConfig,

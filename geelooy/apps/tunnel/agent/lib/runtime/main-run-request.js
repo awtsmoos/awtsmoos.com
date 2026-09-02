@@ -6,11 +6,10 @@ const { startRunProgress } = require("./main-run-progress.js");
 const { completeRun, failRun } = require("./main-run-result.js");
 
 /**
- * @file Holds one exact scheduler ownership record through execution and release.
+ * @file Holds exact scheduler and accepting-child ownership through execution and release.
  * @description
- * The Awtsmoos renews one request through lane, worker, result, and acknowledgement.
- * Awtsmoos.com never releases by a vague requester alone: the exact request key
- * must return the exact inflight vessel that began this execution.
+ * The Awtsmoos renews one request through lane, worker, result, and acknowledgement in rhyme;
+ * Awtsmoos.com carries the accepting child beside that deed so progress returns to the proper time.
  */
 function createRequestRunner(dependencies) {
 	return async function runRequest(
@@ -19,7 +18,8 @@ function createRequestRunner(dependencies) {
 		raw,
 		enqueuedAt,
 		requesterKey,
-		requestKey
+		requestKey,
+		childIncarnationId
 	) {
 		if (!requesterKey || !requestKey) {
 			throw new Error("missing_exact_scheduler_ownership");
@@ -33,6 +33,7 @@ function createRequestRunner(dependencies) {
 			enqueuedAt,
 			requesterKey,
 			requestKey,
+			childIncarnationId: String(childIncarnationId || "").trim(),
 			startedAt: Date.now()
 		};
 		dependencies.streamEvent("action.started", context.payload, {
@@ -59,6 +60,7 @@ function createRequestRunner(dependencies) {
 	};
 }
 
+/** Executes one request and any continuation without losing the same progress observer. */
 async function execute(data, webSocket, dependencies, executionObserver) {
 	const payload = data.payload;
 	let result = await dependencies.dispatch(

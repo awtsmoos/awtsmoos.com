@@ -5,11 +5,17 @@
 const ResponseSocket = require("./main-response-socket.js");
 
 /**
- * B"H
+ * @file Persists terminal action truth before delivery, then advances exact child custody to ACK wait.
+ * @description
+ * The Awtsmoos seals result and receipt before the socket may scatter or sever the line;
+ * Awtsmoos.com tells the accepting child that terminal truth now waits for server acknowledgement in time.
  *
- * Completion becomes durable before it crosses a socket. The Awtsmoos renews
- * result and receipt together; Awtsmoos.com may lose the admitting connection,
- * yet retry polling will still recover the exact persisted terminal testimony.
+ * STABILITY COVENANT — DO NOT SIMPLIFY WITHOUT RUNNING `custodyProgressBridge.test.cjs`.
+ * The parent and connection child hold separate process-local custody maps over shared mailbox files.
+ * Persisting a terminal result in the parent does not advance the child's lease by itself. Keep the
+ * exact child-incarnation `result_waiting_for_ack` testimony after durable result persistence and
+ * transport enqueue. This phase means execution is finished but server acknowledgement is still owed;
+ * never collapse it into `running`, and never delete mailbox evidence merely because execution ended.
  */
 function completeRun(dependencies, context, result, advisoryOvertime) {
 	if (result && result.ok !== false) {
@@ -21,35 +27,21 @@ function completeRun(dependencies, context, result, advisoryOvertime) {
 		longLivedConnection: true,
 		advisoryOvertime
 	};
-	const persisted = dependencies.retryControl.complete(
-		context.data,
-		context.payload,
-		candidate
-	);
-	const completed = persisted?.result || candidate;
+	const completed = persistResult(dependencies, context, candidate);
 	dependencies.streamEvent(
 		completed?.ok === false ? "action.error" : "action.completed",
 		context.payload,
-		{
-			lane: context.lane,
-			ok: completed?.ok !== false,
-			runtimeMs: Date.now() - context.startedAt,
-			result: completed,
-			status: completed?.status,
-			error: completed?.error
-		}
+		eventDetail(context, completed)
 	);
-	ResponseSocket.sendOrQueue(
-		dependencies,
-		context.ws,
-		dependencies.Envelope.responseEnvelope(
-			context.data,
-			context.payload,
-			completed,
-			context.enqueuedAt,
-			dependencies.stats
-		)
+	const envelope = dependencies.Envelope.responseEnvelope(
+		context.data,
+		context.payload,
+		completed,
+		context.enqueuedAt,
+		dependencies.stats
 	);
+	ResponseSocket.sendOrQueue(dependencies, context.ws, envelope);
+	noteTerminalCustody(dependencies, context, completed);
 	return completed;
 }
 
@@ -62,26 +54,55 @@ function failRun(dependencies, context, error) {
 		lane: context.lane,
 		longLivedConnection: true
 	};
-	const persisted = dependencies.retryControl.complete(
-		context.data,
-		context.payload,
-		candidate
-	);
-	const failed = persisted?.result || candidate;
-	dependencies.streamEvent("action.error", context.payload, {
-		...failed,
-		runtimeMs: Date.now() - context.startedAt
-	});
+	const failed = persistResult(dependencies, context, candidate);
+	dependencies.streamEvent("action.error", context.payload, eventDetail(context, failed));
 	ResponseSocket.sendOrQueue(dependencies, context.ws, {
 		type: "TUNNEL_RESPONSE",
 		id: context.data.id,
 		...dependencies.Correlation.fields(context.payload),
 		...failed
 	});
+	noteTerminalCustody(dependencies, context, failed);
 	return failed;
+}
+
+/** Persists terminal retry testimony before any transport-side custody phase changes. */
+function persistResult(dependencies, context, candidate) {
+	const persisted = dependencies.retryControl.complete(
+		context.data,
+		context.payload,
+		candidate
+	);
+	return persisted?.result || candidate;
+}
+
+/** Advances only the child that accepted this exact request into terminal ACK waiting. */
+function noteTerminalCustody(dependencies, context, result) {
+	return dependencies.noteCustodyProgress?.(
+		String(context.data?.id || ""),
+		context.childIncarnationId,
+		{
+			phase: "result_waiting_for_ack",
+			resultState: result?.ok === false ? "failed" : "completed"
+		}
+	) === true;
+}
+
+function eventDetail(context, result) {
+	return {
+		lane: context.lane,
+		ok: result?.ok !== false,
+		runtimeMs: Date.now() - context.startedAt,
+		result,
+		status: result?.status,
+		error: result?.error
+	};
 }
 
 module.exports = {
 	completeRun,
-	failRun
+	eventDetail,
+	failRun,
+	noteTerminalCustody,
+	persistResult
 };

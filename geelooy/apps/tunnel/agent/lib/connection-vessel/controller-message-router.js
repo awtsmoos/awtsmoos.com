@@ -6,12 +6,20 @@ const Incarnation = require("./connection-incarnation.js");
 const CustodyMetadata = require("./mailbox-custody-metadata.js");
 const Protocol = require("./protocol.js");
 const RecoveryTestimony = require("./controller-recovery-testimony.js");
+
 /**
- * @file Transfers durable requests and incarnation-bound recovery testimony into parent custody.
+ * @file Transfers durable requests and incarnation-bound execution testimony into parent custody.
  * @description
- * The Awtsmoos joins persistence and execution without erasing the deed's true vessel.
- * Awtsmoos.com mirrors trusted child identity before acting on ambiguity testimony, so
- * accepted work survives rebirth while an obsolete child's warning cannot kill its successor.
+ * The Awtsmoos joins persistence and execution without erasing the deed's true vessel;
+ * Awtsmoos.com ACKs acceptance first, then marks that exact custody queued at the proper level.
+ * Delayed testimony from an older incarnation therefore cannot refresh the successor's schedule.
+ *
+ * STABILITY COVENANT — DO NOT SIMPLIFY WITHOUT RUNNING `custodyProgressBridge.test.cjs`.
+ * Historical crash: this router once called `enqueueRequest(proxy, envelope)` and discarded the
+ * accepting child incarnation. Parent execution then had no identity with which to renew the
+ * child's process-local custody record, so `accepted_waiting_for_consumer` expired while the
+ * same request was already `lane_running`. Preserve the third enqueue argument and the queued
+ * progress message. A socket generation is not a child incarnation and cannot replace this ID.
  */
 function createMessageRouter(options = {}) {
 	function handle(message) {
@@ -41,7 +49,7 @@ function createMessageRouter(options = {}) {
 		return true;
 	}
 
-	/** Accepts parent execution custody and ACKs with trusted child-incarnation identity. */
+	/** Accepts parent custody, emits the durable ACK, then advances the same receipt into queued work. */
 	function handleRequest(envelope = {}, childIncarnationId = "") {
 		const receiptId = Protocol.requestId(envelope);
 		if (!receiptId) {
@@ -49,7 +57,7 @@ function createMessageRouter(options = {}) {
 			return false;
 		}
 		try {
-			options.enqueueRequest(options.proxy, envelope);
+			options.enqueueRequest(options.proxy, envelope, childIncarnationId);
 		} catch (error) {
 			options.log("warn", `parent queue rejected custody: ${error.message}`);
 			return false;
@@ -58,11 +66,17 @@ function createMessageRouter(options = {}) {
 			...CustodyMetadata.fromEnvelope(envelope),
 			childIncarnationId: Incarnation.clean(childIncarnationId)
 		};
-		return options.notify(Protocol.message(Protocol.TYPES.ACK, {
+		const accepted = options.notify(Protocol.message(Protocol.TYPES.ACK, {
 			...identity,
 			id: receiptId,
 			transportReceiptId: identity.transportReceiptId || receiptId
 		}));
+		options.proxy.progressCustody?.(
+			receiptId,
+			childIncarnationId,
+			{ phase: "queued" }
+		);
+		return accepted !== false;
 	}
 
 	/** Mirrors trusted state before delegating only current-incarnation repair testimony. */

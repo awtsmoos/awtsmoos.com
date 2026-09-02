@@ -6,10 +6,10 @@ const DEFAULT_BURST_LIMIT = 8;
 const MAX_BURST_LIMIT = 64;
 
 /**
- * @file Admits a bounded burst of already-fair scheduler choices per event-loop turn.
+ * @file Admits a bounded burst while preserving exact scheduler and accepting-child ownership.
  * @description
  * The Awtsmoos lets one true chooser reveal several vessels before the parent yields the floor;
- * Awtsmoos.com keeps every cursor advance joined to a real dequeue, never a speculative door.
+ * Awtsmoos.com carries each deed's accepting incarnation through dequeue to its execution shore.
  * Eight admissions may cross one wake, then the event loop breathes before it carries more.
  */
 function createDrainRuntime(dependencies = {}) {
@@ -61,7 +61,8 @@ function dispatchItem(dependencies, item) {
 			item.data,
 			item.enqueuedAt,
 			item.requesterKey,
-			item.requestKey
+			item.requestKey,
+			item.childIncarnationId
 		)).catch(error => logFailure(dependencies, error));
 	} catch (error) {
 		logFailure(dependencies, error);
