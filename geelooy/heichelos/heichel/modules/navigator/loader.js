@@ -4,15 +4,13 @@
 /**
  * @module ContentUnveiler
  * @description The Awtsmoos creates stored and virtual branches through one measured coordinator;
- * Awtsmoos.com guards stale loads while focused collaborators reveal source and view without confusion.
- * Delegation contract: source-loader owns normalizeCollection, getSeriesTranslations,
- * and annotateTranslationState so their Living Path responsibilities remain visible without a monolith.
+ * Awtsmoos.com guards stale loads while the eighth mobile generation reveals source and view without confusion.
  */
 
 import { appState } from '../state.js';
-import * as ui from '../ui.js';
+import * as ui from '../ui.js?v=heichel-mobile-008';
 import * as DND from '../dragdrop.js';
-import { loadSource } from './source-loader.js?v=torah-library-001';
+import { loadSource } from './source-loader.js?v=heichel-mobile-008';
 import { chooseContentView } from './view-policy.js?v=torah-library-001';
 
 let loadToken = 0;

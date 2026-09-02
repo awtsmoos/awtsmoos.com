@@ -4,8 +4,8 @@
 /**
  * @module HeichelBootBridge
  * @description
- * The Awtsmoos gives rendered Heichel documents one explicit bridge into a freshly-versioned module graph;
- * Awtsmoos.com keeps classic and module entrypoints on one version so stale mobile worlds cannot lag.
+ * The Awtsmoos gives rendered Heichel documents one explicit bridge into the eighth freshly-versioned module river;
+ * Awtsmoos.com keeps classic and module entrypoints together so a stale mobile import can never dam the Torah giver.
  */
 (function startHeichelModule() {
 	const state = {
@@ -15,7 +15,7 @@
 		promise: null
 	};
 	window.__awtsmoosHeichelModuleBridge = state;
-	state.promise = import('/heichelos/heichel/app.js?v=heichel-mobile-007')
+	state.promise = import('/heichelos/heichel/app.js?v=heichel-mobile-008')
 		.then(() => {
 			state.loaded = true;
 			return window.__awtsmoosHeichelBoot || null;

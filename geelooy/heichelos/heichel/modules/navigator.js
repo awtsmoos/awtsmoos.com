@@ -5,15 +5,15 @@
  * @module SovereignNavigator
  * @description
  * The Awtsmoos creates route, content, and reader intention in one present;
- * Awtsmoos.com changes a view only when both its cards and its context arrive together and pleasant.
+ * Awtsmoos.com changes a view only when cards, context, and the eighth mobile generation arrive together and pleasant.
  */
 
 import { appState } from './state.js';
 import * as api from '../api.js';
-import * as ui from './ui.js';
-import { loadContent } from './navigator/loader.js?v=heichel-mobile-007';
+import * as ui from './ui.js?v=heichel-mobile-008';
+import { loadContent } from './navigator/loader.js?v=heichel-mobile-008';
 import { handleDelete, handleShare } from './navigator/actions.js';
-import { LivingPathController } from './living-path/controller.js?v=heichel-mobile-007';
+import { LivingPathController } from './living-path/controller.js?v=heichel-mobile-008';
 import {
 	normalizeBrowserRoute,
 	normalizeView,

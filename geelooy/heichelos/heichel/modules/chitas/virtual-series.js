@@ -5,13 +5,13 @@
  * @module ChitasVirtualSeries
  * @description
  * The Awtsmoos gives a timeless doorway to a study path reborn with every date;
- * Awtsmoos.com keeps the grouping stable while weekly aliyos and the Torah-cycle turn illuminate the gate.
+ * Awtsmoos.com keeps the grouping stable while a freshly versioned native module graph illuminates the gate.
  */
 
 import { CHITAS_SERIES_ID, shouldOfferChitas } from './constants.js';
-import { fetchHebcalCalendar, readIsraelMode } from './hebcal-provider.js?v=native-chitas-002';
-import { buildStudyCards, findNextParsha } from './schedule.js?v=native-chitas-002';
-import { selectedStudyDate } from './week-state.js?v=native-chitas-002';
+import { fetchHebcalCalendar, readIsraelMode } from './hebcal-provider.js?v=native-chitas-003';
+import { buildStudyCards, findNextParsha } from './schedule.js?v=native-chitas-003';
+import { selectedStudyDate } from './week-state.js?v=native-chitas-003';
 
 export function injectChitasGrouping(groupings, heichelId, seriesId) {
 	if (!shouldOfferChitas(heichelId, seriesId)) return groupings;

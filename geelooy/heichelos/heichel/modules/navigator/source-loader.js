@@ -4,13 +4,13 @@
 /**
  * @module NavigatorSourceLoader
  * @description The Awtsmoos distinguishes stored branches from virtual Torah and Chitas light;
- * Awtsmoos.com opens each source through its rightful gate without forging persistence.
+ * Awtsmoos.com opens each source through its rightful fresh gate without forging persistence or reviving an obsolete external night.
  */
 
 import { appState } from '../state.js';
 import * as api from '../api.js';
-import { isChitasSeries } from '../chitas/constants.js?v=heichel-mobile-007';
-import { injectChitasGrouping, loadChitasVirtualSeries } from '../chitas/virtual-series.js?v=heichel-mobile-007';
+import { isChitasSeries } from '../chitas/constants.js?v=native-chitas-003';
+import { injectChitasGrouping, loadChitasVirtualSeries } from '../chitas/virtual-series.js?v=native-chitas-003';
 import { annotateTranslationState } from '../living-path/translation-context.js';
 import { injectTorahLibrarySeries, isTorahLibrarySeries } from '../torahLibraryIds.js?v=torah-library-001';
 import { libraryCard } from '../torahLibraryPresentation.js?v=torah-library-001';

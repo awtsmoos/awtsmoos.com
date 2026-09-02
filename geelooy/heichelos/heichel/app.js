@@ -4,17 +4,17 @@
 /**
  * @module HeichelApp
  * @description
- * The Awtsmoos opens one living Heichel through one freshly-versioned module river;
- * Awtsmoos.com keeps mobile state, navigation, beauty, and optional tools arriving together.
+ * The Awtsmoos opens one living Heichel through the eighth freshly-versioned module river;
+ * Awtsmoos.com keeps mobile state, navigation, beauty, and optional tools arriving together without stale generations that shiver.
  */
 
 import { installSocialExperience } from '../../shared/social/SocialExperienceInstaller.js';
-import { HeichelNavigator } from './modules/navigator.js?v=heichel-mobile-007';
-import { initializeEventListeners } from './modules/events.js?v=heichel-mobile-007';
-import { manifestWorld } from './modules/ui.js?v=heichel-mobile-007';
-import { runHeichelVisualDiagnostics } from './modules/visual/index.js?v=heichel-mobile-007';
-import { runHeichelBeauty } from './modules/beauty/index.js?v=heichel-mobile-007';
-import { runHeichelLegend } from './modules/legend/index.js?v=heichel-mobile-007';
+import { HeichelNavigator } from './modules/navigator.js?v=heichel-mobile-008';
+import { initializeEventListeners } from './modules/events.js?v=heichel-mobile-008';
+import { manifestWorld } from './modules/ui.js?v=heichel-mobile-008';
+import { runHeichelVisualDiagnostics } from './modules/visual/index.js?v=heichel-mobile-008';
+import { runHeichelBeauty } from './modules/beauty/index.js?v=heichel-mobile-008';
+import { runHeichelLegend } from './modules/legend/index.js?v=heichel-mobile-008';
 
 const BOOT_KEY = '__awtsmoosHeichelBoot';
 
