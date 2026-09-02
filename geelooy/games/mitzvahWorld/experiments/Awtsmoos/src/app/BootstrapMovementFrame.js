@@ -1,20 +1,21 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file BootstrapMovementFrame.js
- * @description Coordinates one responsive player frame while importing only focused movement laws, so first control never awakens the entire procedural engine merely to take a step.
- * Netzach carries intention into motion while Tiferes joins turning, collision, animation, and camera without duplicating shared law;
- * the Awtsmoos recreates traveler and direction before the step can begin, and Awtsmoos.com keeps each responsibility in its proper vessel within.
+ * @description Coordinates one responsive player frame while preserving one canonical visible facing across movement and animation presentation.
+ * Netzach carries intention into motion while Tiferes joins collision, facing, and camera in one measured light;
+ * the Awtsmoos renews traveler and direction each instant, and Awtsmoos.com keeps later presentation from undoing the path made right.
  */
 
 import { normalizeMovementIntent } from '../../../../../../libs/awtsmoos-procedural-core/src/core/movement/MovementIntent.js';
 import { movementStepFromVelocity } from '../../../../../../libs/awtsmoos-procedural-core/src/core/movement/MovementStep.js';
 import { advanceMovementVelocity } from '../../../../../../libs/awtsmoos-procedural-core/src/core/movement/MovementVelocity.js';
 import { bootstrapInputAxis } from './BootstrapInputAxis.js';
-import { bootstrapMovementSpeed, bootstrapTravelFacingLocked } from './BootstrapMovementPace.js';
-import { bootstrapMovementAction, setBootstrapMovementYaw } from './BootstrapMovementControllerSupport.js';
+import { settleBootstrapMovementFacing } from './BootstrapMovementFacing.js';
+import { bootstrapMovementSpeed } from './BootstrapMovementPace.js';
+import { setBootstrapMovementYaw } from './BootstrapMovementControllerSupport.js';
 import { bootstrapDesiredVelocity, bootstrapVelocityOptions } from './BootstrapMovementVelocity.js';
 import { MITZVAH_MOVEMENT_PROFILE } from './MitzvahMovementProfile.js';
 import {
@@ -25,10 +26,6 @@ import {
 	prepareMovementVertical,
 	updateMovementCamera
 } from './MitzvahMovementRuntime.js';
-import {
-	isMinimalMeadowMovementStep,
-	retainedMinimalMeadowTravelFacing
-} from './MinimalMeadowTravelFacingPolicy.js';
 
 /**
  * Advances one complete player-control frame from fresh input through settled camera presentation.
@@ -74,7 +71,7 @@ export function advanceBootstrapMovement(controller, deltaSeconds) {
 	);
 	applyMovementCollision(runtime, state, step);
 	finishMovementVertical(runtime, state, richVertical);
-	settleFacing(runtime, state, keyboard, step);
+	settleBootstrapMovementFacing(runtime, state, keyboard, step);
 	settlePresentation(runtime, state);
 	const cameraMode = updateMovementCamera(runtime, state, deltaSeconds);
 	runtime.multiplayerBridge?.update?.(deltaSeconds, state);
@@ -91,23 +88,12 @@ export function advanceBootstrapMovement(controller, deltaSeconds) {
 	return state;
 }
 
-function settleFacing(runtime, state, keyboard, step) {
-	state.moving = isMinimalMeadowMovementStep(step);
-	state.travelFacing = bootstrapTravelFacingLocked(runtime, keyboard)
-		? state.facing
-		: retainedMinimalMeadowTravelFacing(
-			step,
-			state.travelFacing,
-			state.facing
-		);
-	state.action = bootstrapMovementAction(state);
-}
-
+/** Applies the same canonical facing that animation presentation will use moments later. */
 function settlePresentation(runtime, state) {
 	runtime.model.position.set(state.x, state.renderY, state.z);
 	setBootstrapMovementYaw(
 		runtime.model.quaternion,
-		state.travelFacing
+		state.facing
 	);
 	runtime.equipment?.update?.();
 }
