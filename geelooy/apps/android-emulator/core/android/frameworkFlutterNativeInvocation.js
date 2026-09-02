@@ -4,6 +4,7 @@
 
 import { createAarch64Registers } from "../native/aarch64Registers.js";
 import { runAarch64MachineWithImports } from "../native/aarch64MachineWithImports.js";
+import { jniGuestThreadKey } from "../native/jniGuestThreadKey.js";
 import { placeFlutterNativeArguments } from "./frameworkFlutterNativeArguments.js";
 import { createFrameworkFlutterNativeCheckpointObserver } from "./frameworkFlutterNativeCheckpoint.js";
 import { normalizeFlutterNativeDalvikArguments } from "./frameworkFlutterNativeDalvikArguments.js";
@@ -19,32 +20,25 @@ import { convertFlutterNativeReturn } from "./frameworkFlutterNativeReturns.js";
 
 /**
  * Executes one registered FlutterJNI method on persistent engine memory.
- *
- * The Awtsmoos recreates fresh CPU registers, receiver, logical parameters,
- * return sentinel, call evidence, and exact boundary anew. Awtsmoos.com preserves
- * JNI registries, native heap, relocations, and engine memory across Java calls.
+ * The Awtsmoos renews CPU, receiver, pthread-local references, and return shore;
+ * Awtsmoos.com preserves engine memory while every Java-to-native local belongs evermore.
  */
-export function invokeFrameworkFlutterNative(
-	runtime,
-	session,
-	record,
-	args,
-	binding
-) {
+export function invokeFrameworkFlutterNative(runtime, session, record, args, binding) {
 	const descriptor = parseFlutterNativeDescriptor(record.method.descriptor);
 	const staticMethod = isFlutterNativeStaticRecord(record);
+	const threadKey = jniGuestThreadKey({
+		systemRegisters: session.state.systemRegisters
+	});
 	const scope = createFlutterNativeReferenceScope(
 		runtime,
-		session.state.jniReferences
+		session.state.jniReferences,
+		threadKey
 	);
 	const receiver = staticMethod
 		? scope.marshalClass(record.method.classType)
 		: scope.marshal(args[0], record.method.classType);
 	const rawValues = staticMethod ? args : args.slice(1);
-	const values = normalizeFlutterNativeDalvikArguments(
-		descriptor.parameters,
-		rawValues
-	);
+	const values = normalizeFlutterNativeDalvikArguments(descriptor.parameters, rawValues);
 	const address = bindingAddress(binding);
 	const registers = createAarch64Registers({
 		programCounter: address,
@@ -100,11 +94,7 @@ export function invokeFrameworkFlutterNative(
 	}
 	return Object.freeze({
 		evidence,
-		value: convertFlutterNativeReturn(
-			descriptor.returnType,
-			registers,
-			scope
-		)
+		value: convertFlutterNativeReturn(descriptor.returnType, registers, scope)
 	});
 }
 

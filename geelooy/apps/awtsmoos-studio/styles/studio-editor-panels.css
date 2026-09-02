@@ -1,0 +1,91 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos renews object and property while Awtsmoos.com turns deep capability into searchable contextual panels that never overwhelm the central stage. */
+.studio-panel-pane {
+	display: none;
+	height: 100%;
+	min-height: 0;
+}
+
+.studio-editor-shell[data-editor-panel="objects"] .studio-panel-pane[data-panel="objects"],
+.studio-editor-shell[data-editor-panel="assets"] .studio-panel-pane[data-panel="assets"],
+.studio-editor-shell[data-editor-panel="create"] .studio-panel-pane[data-panel="create"],
+.studio-editor-shell[data-editor-panel="procedural"] .studio-panel-pane[data-panel="procedural"],
+.studio-editor-shell[data-editor-panel="projects"] .studio-panel-pane[data-panel="projects"],
+.studio-editor-shell[data-editor-panel="ai"] .studio-panel-pane[data-panel="ai"],
+.studio-editor-shell[data-editor-panel="advanced"] .studio-panel-pane[data-panel="advanced"] {
+	display: block;
+}
+
+.studio-editor-panel-content,
+.studio-editor-inspector {
+	box-sizing: border-box;
+	height: 100%;
+	overflow: auto;
+	padding: 12px;
+}
+
+.studio-panel-heading,
+.studio-inspector-heading,
+.studio-inspector-section-title,
+.studio-panel-action-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+}
+
+.studio-panel-heading,
+.studio-inspector-heading {
+	margin-bottom: 12px;
+}
+
+.studio-panel-heading span,
+.studio-inspector-heading span,
+.studio-panel-help,
+.studio-create-category,
+.studio-outliner-type,
+.studio-project-row span,
+.studio-project-row small,
+.studio-capability-row span {
+	color: #9fb0c2;
+	font-size: 12px;
+}
+
+.studio-outliner-list,
+.studio-project-list,
+.studio-capability-list {
+	display: grid;
+	gap: 6px;
+	margin-bottom: 10px;
+}
+
+.studio-outliner-row,
+.studio-project-row,
+.studio-capability-row {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr) auto;
+	align-items: center;
+	gap: 8px;
+	width: 100%;
+	min-height: 46px;
+	padding: 8px 10px;
+	border: 1px solid #2e4357;
+	border-radius: 8px;
+	background: #102032;
+	color: #edf6ff;
+	text-align: left;
+}
+
+.studio-project-row,
+.studio-capability-row {
+	grid-template-columns: 1fr;
+}
+
+.studio-outliner-name,
+.studio-capability-row strong {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}

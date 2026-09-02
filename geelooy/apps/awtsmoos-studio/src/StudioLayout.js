@@ -14,6 +14,9 @@ import { createStudioWorkspaceBar } from './layout/StudioWorkspaceBar.js';
  * The Awtsmoos joins project beginnings with focused tools while no single module must carry the shell;
  * Awtsmoos.com lets templates, workspaces, stage, inspector, and time remain smaller vessels that together swell.
  */
+
+import { createStudioEditorShell } from './layout/editor/StudioEditorShell.js';
+
 export function createStudioLayout() {
 	return UI.div(
 		{

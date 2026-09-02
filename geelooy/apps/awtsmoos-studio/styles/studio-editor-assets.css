@@ -1,0 +1,46 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos renews reusable forms while Awtsmoos.com gathers project assets into compact cards that become canonical scene instances on demand. */
+.studio-assets-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 7px;
+}
+
+.studio-asset-card {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr);
+	grid-template-areas: "glyph title" "glyph category";
+	align-items: center;
+	gap: 2px 8px;
+	min-height: 58px;
+	padding: 8px;
+	border: 1px solid #2d4559;
+	border-radius: 9px;
+	background: #102133;
+	color: #eef7ff;
+	text-align: left;
+}
+
+.studio-asset-glyph {
+	grid-area: glyph;
+	display: grid;
+	place-items: center;
+	width: 34px;
+	height: 34px;
+	border-radius: 8px;
+	background: #18344b;
+	font-size: 18px;
+}
+
+.studio-asset-card strong {
+	grid-area: title;
+	font-size: 12px;
+}
+
+.studio-asset-card > span:last-child {
+	grid-area: category;
+	color: #8da5ba;
+	font-size: 10px;
+}

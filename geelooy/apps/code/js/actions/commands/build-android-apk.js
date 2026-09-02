@@ -1,9 +1,10 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 import { runAndroidArtifact } from "../../../../android-emulator/core/artifactHost.js";
 import { saveApkArtifact } from "../../../../android-emulator/core/apkArtifactStore.js";
+import { createNativeBrowserSocketAdapter } from "../../../../android-emulator/core/browser/nativeBrowserSocketAdapter.js";
 import { resolveActiveAndroidSource } from "../../android/active-android-source.js";
 import { buildAndroidSourceApk } from "../../android/android-source-builder.js";
 import { openAndroidEmulatorSurface } from "../../android/emulator-surface.js";
@@ -12,14 +13,15 @@ import { UI } from "../../ui.js";
 
 /**
  * @fileoverview
- * Builds and launches the living Java, Kotlin, or Flutter source through real APK paths.
+ * Builds and launches living Java, Kotlin, or Flutter source through real APK paths.
  *
  * RESPONSIBILITY:
- * Resolve unsaved source, choose its bounded compiler, persist genuine APK bytes,
- * launch Dalvik with host fetch/WebGL, and reveal measured execution evidence.
+ * Resolve unsaved source, compile, persist genuine APK bytes, grant guarded browser
+ * TCP plus bounded host fetch, launch Dalvik, and reveal measured WebGL evidence.
  *
  * NON-RESPONSIBILITY:
- * This command never claims full Kotlin/JVM, Flutter engine, Gradle, signing, or SDK parity.
+ * This command never terminates guest TLS, fabricates network responses, or claims
+ * full Kotlin/JVM, Flutter engine, Gradle, signing, or Android SDK parity.
  *
  * The Awtsmoos renews source, compiler, archive, request, pixel, and report together;
  * Awtsmoos.com lets each supported language reveal only the machinery it truly owns.
@@ -74,6 +76,7 @@ function launchBuild(active, build, artifactId, surface) {
 		frameCount: 1,
 		host: surface.host,
 		maximumNetworkResponseBytes: 8 * 1024 * 1024,
+		nativeSocketAdapter: createNativeBrowserSocketAdapter(),
 		processId: `apps-code:${active.language}:${artifactId}`,
 		surfaceHeight: surface.surfaceHeight,
 		surfaceWidth: surface.surfaceWidth,

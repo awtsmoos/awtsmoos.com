@@ -4,61 +4,67 @@
 
 /**
  * @file YesodMedaberInputAssembly.js
- * @description Composes browser input, translation intent, and fixed-step keyboard turning behind one small semantic player-input authority.
- * Yesod joins key to embodied direction while the Awtsmoos renews hand, horizon, sidestep, and turning beyond every finite binding;
- * Awtsmoos.com lets Medaber ask only for movement and yaw intention, while gateway mechanics and key semantics remain hidden in their proper ring.
+ * @description Composes desktop and analog-touch movement behind one semantic player-input authority without synthesizing foreign input events.
+ * Yesod joins key and finger to embodied direction while the Awtsmoos renews every path beyond their finite names;
+ * Awtsmoos.com lets Medaber receive one normalized movement covenant while browser mechanics remain in focused outer vessels.
  */
+import {
+	addScaled,
+	lengthSquared,
+	normalize,
+	vector
+} from "../../core/OhrVectorMath.js";
 import { ChochmahKeyboardTurnIntent } from "./ChochmahKeyboardTurnIntent.js";
 import { ChochmahMovementIntentReader } from "./ChochmahMovementIntentReader.js";
 import { YesodFirstPersonInputGateway } from "./YesodFirstPersonInputGateway.js";
+import { ChochmahTouchMovementIntentReader } from "./touch/ChochmahTouchMovementIntentReader.js";
+import { HodTouchMovementState } from "./touch/HodTouchMovementState.js";
+import { YesodTouchPlayerGateway } from "./touch/YesodTouchPlayerGateway.js";
 
 export class YesodMedaberInputAssembly {
-	/**
-	 * @description Creates and binds the complete keyboard/mouse intention assembly around semantic player callbacks.
-	 * @param {object} chochmahCallbacks - Semantic player callbacks for look, jump, and slide.
-	 * @param {Function} chochmahCallbacks.onLook - Receives pointer look deltas when lock exists.
-	 * @param {Function} chochmahCallbacks.onJump - Receives jump intention.
-	 * @param {Function} chochmahCallbacks.onSlide - Receives slide intention.
-	 * @param {Document|object|null} [malchusDocument] - Browser document or test double.
-	 * @sideEffects Creates and binds one browser input gateway.
-	 */
+	/** @description Creates desktop and touch input authorities around shared semantic callbacks. @param {object} chochmahCallbacks - Player callbacks. @param {Document|object|null} [malchusDocument] - Browser document or test double. @sideEffects Binds eligible desktop and touch listeners. */
 	constructor(chochmahCallbacks, malchusDocument = globalThis.document ?? null) {
-		this.gateway = new YesodFirstPersonInputGateway(
-			chochmahCallbacks,
-			malchusDocument
-		);
+		this.gateway = new YesodFirstPersonInputGateway(chochmahCallbacks, malchusDocument);
 		this.keys = this.gateway.keys;
 		this.movement = new ChochmahMovementIntentReader(this.keys);
 		this.turning = new ChochmahKeyboardTurnIntent(this.keys);
+		this.touchState = new HodTouchMovementState();
+		this.touchMovement = new ChochmahTouchMovementIntentReader(this.touchState);
+		this.touchGateway = new YesodTouchPlayerGateway(
+			this.touchState,
+			chochmahCallbacks,
+			malchusDocument
+		);
 		this.gateway.bind();
+		this.touchGateway.bind();
 	}
 
-	/**
-	 * @description Resolves translation and stance intent using the current post-turn yaw.
-	 * @param {number} netzachYaw - Current horizontal player orientation in radians.
-	 * @returns {{direction:object,sprint:boolean,crouch:boolean}} Fresh movement intent.
-	 * @sideEffects None beyond temporary vector allocation inside the movement reader.
-	 */
+	/** @description Merges keyboard and touch translation into one normalized stance-aware intention. @param {number} netzachYaw - Player yaw. @returns {{direction:object,sprint:boolean,crouch:boolean}} Unified movement. @sideEffects Allocates one finite vector. */
 	readMovement(netzachYaw) {
-		return this.movement.read(netzachYaw);
+		const chochmahKeyboard = this.movement.read(netzachYaw);
+		const chochmahTouch = this.touchMovement.read(netzachYaw);
+		const tiferesDirection = vector();
+		addScaled(tiferesDirection, chochmahKeyboard.direction, 1);
+		addScaled(tiferesDirection, chochmahTouch.direction, 1);
+		if (lengthSquared(tiferesDirection) > 1) {
+			normalize(tiferesDirection, tiferesDirection);
+		}
+		return {
+			direction: tiferesDirection,
+			sprint: chochmahKeyboard.sprint || chochmahTouch.sprint,
+			crouch: chochmahKeyboard.crouch || chochmahTouch.crouch
+		};
 	}
 
-	/**
-	 * @description Resolves the fixed-step keyboard yaw delta from A/D or mirrored Left/Right arrows.
-	 * @param {number} netzachDelta - Fixed simulation duration in seconds.
-	 * @returns {number} Signed yaw delta in radians.
-	 * @sideEffects None.
-	 */
+	/** @description Reads desktop keyboard turn contribution for one simulation delta. @param {number} netzachDelta - Frame delta seconds. @returns {number} Turn delta. @sideEffects None. */
 	readTurnDelta(netzachDelta) {
 		return this.turning.readDelta(netzachDelta);
 	}
 
-	/**
-	 * @description Releases browser listeners and held-key state during teardown or embedding changes.
-	 * @returns {boolean} True when an active browser binding was removed.
-	 * @sideEffects Delegates listener disposal to the focused gateway.
-	 */
+	/** @description Disposes desktop and touch browser gateways together. @returns {boolean} True when either gateway removed listeners. @sideEffects Removes listeners and clears touch state. */
 	dispose() {
-		return this.gateway.dispose();
+		const netzachDesktop = this.gateway.dispose();
+		const netzachTouch = this.touchGateway.dispose();
+		return netzachDesktop || netzachTouch;
 	}
 }

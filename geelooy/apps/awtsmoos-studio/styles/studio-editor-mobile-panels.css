@@ -1,0 +1,68 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos renews expert depth as temporary sheets while Awtsmoos.com keeps touch users anchored to the stage beneath. */
+@media (max-width: 780px) {
+	.studio-editor-sidebar,
+	.studio-editor-inspector {
+		position: fixed;
+		z-index: 40;
+		left: 0;
+		right: 0;
+		bottom: 166px;
+		display: none;
+		height: min(54dvh, 520px);
+		border: 1px solid #365068;
+		border-radius: 18px 18px 0 0;
+		box-shadow: 0 -16px 50px rgba(0, 0, 0, 0.48);
+	}
+
+	.studio-editor-shell[data-mobile-open="true"] .studio-editor-sidebar {
+		display: block;
+	}
+
+	.studio-editor-shell[data-mobile-open="true"][data-editor-panel="inspect"] .studio-editor-sidebar {
+		display: none;
+	}
+
+	.studio-editor-shell[data-mobile-open="true"][data-editor-panel="inspect"] .studio-editor-inspector {
+		display: block;
+	}
+
+	.studio-mobile-sheet-handle,
+	.studio-panel-close {
+		display: flex;
+	}
+
+	.studio-mobile-sheet-handle {
+		align-items: center;
+		justify-content: space-between;
+		padding: 8px 12px 0;
+	}
+
+	.studio-mobile-dock {
+		display: grid;
+		grid-template-columns: repeat(6, 1fr);
+		padding: 4px max(6px, env(safe-area-inset-right)) max(4px, env(safe-area-inset-bottom)) max(6px, env(safe-area-inset-left));
+		border-top: 1px solid #253648;
+		background: #08111b;
+	}
+
+	.studio-mobile-dock-button {
+		display: grid;
+		place-items: center;
+		gap: 1px;
+		min-width: 0;
+		border: 0;
+		background: transparent;
+		color: #dceafa;
+	}
+
+	.studio-mobile-dock-glyph {
+		font-size: 17px;
+	}
+
+	.studio-mobile-dock-label {
+		font-size: 8px;
+	}
+}

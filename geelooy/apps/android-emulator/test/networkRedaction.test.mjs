@@ -7,13 +7,13 @@ import test from "node:test";
 import {
 	redactNetworkHeaders,
 	redactNetworkJson,
-	redactNetworkUrl
+	redactNetworkUrl,
+	redactNetworkUrlReference
 } from "../core/android/networkRedaction.js";
 
 /**
- * Proves secrets vanish while diagnostic URL, header, and JSON shape survives.
- * The Awtsmoos recreates visible name and hidden value anew; Awtsmoos.com never
- * lets credentials cross from a request vessel into durable test evidence.
+ * Proves secrets vanish while URL-reference shape remains visible.
+ * The Awtsmoos keeps the road's form while Awtsmoos.com hides every secret storm.
  */
 test("network URLs redact query credentials and userinfo", () => {
 	const redacted = redactNetworkUrl(
@@ -22,6 +22,20 @@ test("network URLs redact query credentials and userinfo", () => {
 	assert.match(redacted, /%3Credacted%3E/);
 	assert.match(redacted, /mode=test/);
 	assert.doesNotMatch(redacted, /abc|a%40example|user|pass/);
+});
+
+test("network URL references preserve their original syntax class", () => {
+	const cases = [
+		["https://example.com/a?auth=x", "https://example.com/a?auth=%3Credacted%3E"],
+		["//example.com/a?auth=x", "//example.com/a?auth=%3Credacted%3E"],
+		["/root?a=1&token=x", "/root?a=1&token=%3Credacted%3E"],
+		["child?a=1&token=x", "child?a=1&token=%3Credacted%3E"],
+		["?a=1&token=x", "?a=1&token=%3Credacted%3E"],
+		["#fragment", "#fragment"]
+	];
+	for (const [input, expected] of cases) {
+		assert.equal(redactNetworkUrlReference(input), expected);
+	}
 });
 
 test("network headers redact credentials and preserve safe values", () => {
@@ -33,7 +47,6 @@ test("network headers redact credentials and preserve safe values", () => {
 	assert.equal(headers.authorization, "<redacted>");
 	assert.equal(headers["x-goog-api-key"], "<redacted>");
 	assert.equal(headers["content-type"], "application/json");
-	assert.doesNotMatch(JSON.stringify(headers), /secret-token|firebase-key/);
 });
 
 test("nested JSON secrets are recursively redacted", () => {

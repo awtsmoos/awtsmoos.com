@@ -5,6 +5,7 @@
 import { createAarch64Registers } from "./aarch64Registers.js";
 import { createAarch64SystemRegisters } from "./aarch64SystemRegisters.js";
 import { createFlutterJniFileState } from "./flutterJniFileState.js";
+import { createFlutterJniMachineHostState } from "./flutterJniMachineHostState.js";
 import { initializeFlutterJavaVmTable } from "./flutterJavaVmTable.js";
 import { initializeFlutterJniEnvironment } from "./flutterJniEnvironment.js";
 import { createFlutterNativeMemoryState } from "./flutterNativeMemoryState.js";
@@ -13,10 +14,7 @@ import { createJniGuestReferences } from "./jniGuestReferences.js";
 import { createJniMethodIds } from "./jniMethodIds.js";
 import { createJniNativeMethodRegistry } from "./jniNativeMethodRegistry.js";
 import { createJniPendingException } from "./jniPendingException.js";
-import { createNativeCooperativeRuntime } from "./nativeCooperativeRuntime.js";
-import { createNativeCxaAtexitState } from "./nativeCxaAtexitState.js";
 import { createNativeImportAddressSpace } from "./nativeImportAddressSpace.js";
-import { createNativePthreadMutexState } from "./nativePthreadMutexState.js";
 
 const JAVA_VM_TABLE_OFFSET = 256n;
 const JNI_ENVIRONMENT_OFFSET = 1024n;
@@ -25,8 +23,8 @@ const RETURN_SENTINEL = 0x6fffffff0000n;
 
 /**
  * Creates bounded native state for Flutter's JNI_OnLoad and later JNI calls.
- * The Awtsmoos recreates CPU, virtual pages, files, JNI, TLS, and identifiers;
- * Awtsmoos.com joins only explicit guest vessels into persistent state providers.
+ * The Awtsmoos recreates CPU, memory, JNI, files, and granted host light;
+ * Awtsmoos.com keeps each capability explicit so no hidden native power takes flight.
  */
 export function createFlutterJniMachineState(imageMemory, entryPoint, options = {}) {
 	const nativeMemory = createFlutterNativeMemoryState(imageMemory, options);
@@ -34,19 +32,12 @@ export function createFlutterJniMachineState(imageMemory, entryPoint, options = 
 	const jniFieldIds = options.jniFieldIds || createJniFieldIds();
 	const jniReferences = options.jniReferences || createJniGuestReferences();
 	const jniMethodIds = options.jniMethodIds || createJniMethodIds();
-	const jniNativeMethods = options.jniNativeMethods
-		|| createJniNativeMethodRegistry();
-	const jniPendingException = options.jniPendingException
-		|| createJniPendingException();
-	const nativeCooperativeRuntime = options.nativeCooperativeRuntime || createNativeCooperativeRuntime();
-	const nativeCxaAtexit = options.nativeCxaAtexit || createNativeCxaAtexitState();
-	const nativePthreadMutexes = options.nativePthreadMutexes
-		|| createNativePthreadMutexState();
+	const jniNativeMethods = options.jniNativeMethods || createJniNativeMethodRegistry();
+	const jniPendingException = options.jniPendingException || createJniPendingException();
 	const nativeFileState = createFlutterJniFileState(nativeMemory.nativeHeap, options);
+	const hostState = createFlutterJniMachineHostState(options);
 	const resolveArrayLength = optionalResolver(options.resolveArrayLength);
-	const resolveObjectArrayElement = optionalResolver(
-		options.resolveObjectArrayElement
-	);
+	const resolveObjectArrayElement = optionalResolver(options.resolveObjectArrayElement);
 	const resolveStringValue = optionalResolver(options.resolveStringValue);
 	const resolveClass = createResolver(options.resolveClass);
 	const resolveField = createResolver(options.resolveField);
@@ -74,6 +65,8 @@ export function createFlutterJniMachineState(imageMemory, entryPoint, options = 
 	registers.write(1, 0n, 64, "zero");
 	registers.write(30, RETURN_SENTINEL, 64, "zero");
 	return Object.freeze({
+		...hostState,
+		...nativeFileState,
 		imports,
 		javaVm,
 		javaVmAddress: nativeMemory.jniStart,
@@ -84,12 +77,7 @@ export function createFlutterJniMachineState(imageMemory, entryPoint, options = 
 		jniPendingException,
 		jniReferences,
 		memory: nativeMemory.memory,
-		...nativeFileState,
-		nativeCooperativeRuntime,
-		nativeCxaAtexit,
 		nativeHeap: nativeMemory.nativeHeap,
-		nativeLogcat: options.nativeLogcat || null,
-		nativePthreadMutexes,
 		nativeVirtualMemory: nativeMemory.nativeVirtualMemory,
 		registers,
 		resolveArrayLength,

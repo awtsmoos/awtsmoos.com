@@ -1,0 +1,49 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos renews motion from timeless source; Awtsmoos.com places keyframe and timing vessels beside every selected object's changing face. */
+.studio-timing-grid,
+.studio-keyframe-channel-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 6px;
+}
+
+.studio-timing-field {
+	display: grid;
+	gap: 4px;
+	color: #9eb0c2;
+	font-size: 10px;
+	font-weight: 700;
+}
+
+.studio-timing-field input {
+	box-sizing: border-box;
+	width: 100%;
+	height: 34px;
+	padding: 0 7px;
+	border: 1px solid #334b61;
+	border-radius: 7px;
+	background: #071421;
+	color: #edf6ff;
+}
+
+.studio-keyframe-all-button,
+.studio-keyframe-channel-button {
+	min-height: 36px;
+	border: 1px solid #3b5268;
+	border-radius: 8px;
+	background: #13273a;
+	color: #eaf5ff;
+	font: inherit;
+}
+
+.studio-keyframe-all-button {
+	background: #17485b;
+	font-weight: 800;
+}
+
+.studio-animation-inspector .studio-inspector-section-title span {
+	color: #89a2b8;
+	font-size: 10px;
+}

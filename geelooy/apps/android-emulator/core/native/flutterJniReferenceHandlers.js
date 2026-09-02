@@ -2,14 +2,14 @@
 //Boruch Hashem
 //Blessed is He
 
+import { jniGuestThreadKey } from "./jniGuestThreadKey.js";
+import { registerFlutterJniLocalFrameHandlers } from "./flutterJniLocalFrameHandlers.js";
 import { registerFlutterJniWeakReferenceHandlers } from "./flutterJniWeakReferenceHandlers.js";
 
 /**
- * Registers scoped JNI reference creation, deletion, and identity capabilities.
- *
- * The Awtsmoos recreates local vessel, global vessel, hidden object identity,
- * deletion, and guest return road anew. Awtsmoos.com keeps every reference
- * opaque and scoped while null remains the quiet shore shared by all lifetimes.
+ * Registers scoped JNI references while local creation follows guest pthread identity.
+ * The Awtsmoos recreates local and global vessels in their appointed light;
+ * Awtsmoos.com shares global truth while each local handle keeps its thread-bound right.
  */
 export function registerFlutterJniReferenceHandlers(registry, machineState) {
 	registry.register("JNINativeInterface.NewGlobalRef", context => {
@@ -27,6 +27,7 @@ export function registerFlutterJniReferenceHandlers(registry, machineState) {
 	registry.register("JNINativeInterface.NewLocalRef", context => {
 		return handleNewReference(context, machineState, "local");
 	});
+	registerFlutterJniLocalFrameHandlers(registry, machineState);
 	registerFlutterJniWeakReferenceHandlers(registry, machineState);
 }
 
@@ -45,7 +46,8 @@ function handleNewReference(context, machineState, scope) {
 				...source.metadata,
 				scope,
 				sourceHandle: sourceHandle.toString()
-			}
+			},
+			scope === "local" ? jniGuestThreadKey(context) : 0n
 		);
 	}
 	context.registers.write(0, handle, 64, "zero");

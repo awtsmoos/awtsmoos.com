@@ -1,0 +1,105 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos renews direction while Awtsmoos.com reveals XYZ transformation as touchable light over the cinematic stage. */
+.studio-transform-gizmo {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	width: 128px;
+	height: 128px;
+	transform: translate(-50%, -50%);
+	pointer-events: none;
+	opacity: 0;
+	transition: opacity 120ms ease;
+}
+
+.studio-transform-gizmo.is-active {
+	pointer-events: auto;
+	opacity: 1;
+}
+
+.studio-gizmo-origin {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	width: 16px;
+	height: 16px;
+	border: 2px solid #ffffff;
+	border-radius: 50%;
+	background: #09111d;
+	transform: translate(-50%, -50%);
+	box-shadow: 0 0 18px rgba(255, 255, 255, 0.4);
+}
+
+.studio-gizmo-axis {
+	position: absolute;
+	width: 44px;
+	height: 44px;
+	border: 2px solid currentColor;
+	border-radius: 999px;
+	background: rgba(7, 16, 25, 0.9);
+	color: #ffffff;
+	font-weight: 900;
+	touch-action: none;
+	cursor: grab;
+}
+
+.studio-gizmo-axis:active {
+	cursor: grabbing;
+	transform: scale(0.94);
+}
+
+.studio-gizmo-axis-x {
+	right: 0;
+	top: 42px;
+	color: #ff6b75;
+}
+
+.studio-gizmo-axis-y {
+	left: 42px;
+	top: 0;
+	color: #76e49c;
+}
+
+.studio-gizmo-axis-z {
+	left: 0;
+	bottom: 0;
+	color: #70a8ff;
+}
+
+.studio-gizmo-caption {
+	position: absolute;
+	left: 50%;
+	top: calc(100% + 6px);
+	min-width: max-content;
+	padding: 4px 7px;
+	border-radius: 6px;
+	background: rgba(4, 12, 22, 0.88);
+	color: #ddecfa;
+	font-size: 9px;
+	font-weight: 700;
+	transform: translateX(-50%);
+	pointer-events: none;
+}
+
+@media (max-width: 780px) {
+	.studio-transform-gizmo {
+		width: 140px;
+		height: 140px;
+	}
+
+	.studio-gizmo-axis {
+		width: 48px;
+		height: 48px;
+		font-size: 15px;
+	}
+
+	.studio-gizmo-axis-x {
+		top: 46px;
+	}
+
+	.studio-gizmo-axis-y {
+		left: 46px;
+	}
+}

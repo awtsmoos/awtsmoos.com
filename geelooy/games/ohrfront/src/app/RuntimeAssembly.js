@@ -4,10 +4,11 @@
 
 /**
  * @file RuntimeAssembly.js
- * @description Builds a critical-texture-first battlefield, then composes shared-core visibility over explicitly decorative world results before optional realism streams.
- * The Awtsmoos joins terrain, ruin, player, letter, sound, and concealment while secondary garments need not bar the gate;
- * Awtsmoos.com lets the playable world awaken from essential matter first, then deepen and hide safely without rebuilding tactical state.
+ * @description Builds a procedurally textured playable battlefield first, then streams remote photographic enrichment according to device presentation policy.
+ * The Awtsmoos joins terrain, ruin, player, letter, sound, and concealment before distant bandwidth can claim the gate;
+ * Awtsmoos.com lets mobile awaken from rich local matter immediately while remote garments arrive later without rebuilding tactical truth.
  */
+import { revealChochmahDevicePresentation } from "../config/ChochmahDevicePresentation.js";
 import { qualityFromLocation } from "../config/OhrfrontQualityProfiles.js";
 import { createSceneFoundation } from "./SceneFoundation.js";
 import { OctreeCollisionWorld } from "../physics/OctreeCollisionWorld.js";
@@ -18,6 +19,7 @@ import { createHarHaOhrTerrain } from "../world/HarHaOhrTerrain.js";
 import { createProceduralBattlefieldProps } from "../world/ProceduralBattlefieldProps.js";
 import { createTiferesVisibilityAssembly } from "../visibility/TiferesVisibilityAssembly.js";
 import { RemoteMaterialLibrary } from "../render/RemoteMaterialLibrary.js";
+import { NetzachMaterialStartup } from "../render/NetzachMaterialStartup.js";
 import { MedaberFirstPersonController } from "../player/MedaberFirstPersonController.js";
 import { FirstPersonEmitterRig } from "../player/FirstPersonEmitterRig.js";
 import { getWeaponProfile } from "../combat/WeaponProfiles.js";
@@ -31,19 +33,24 @@ import { LaunchOverlay } from "../ui/LaunchOverlay.js";
 import { OhrfrontAudio } from "../audio/OhrfrontAudio.js";
 
 /**
- * Creates the complete not-yet-running dependency vessel for Keser runtime orchestration.
- * @returns {Promise<object>} Native scene, gameplay, UI, materials, performance/visibility, and world authorities.
- * @sideEffects Loads critical materials, manifests the world, registers collision/tactical props, and begins optional material streaming.
+ * @description Creates the complete not-yet-running dependency vessel for Keser runtime orchestration.
+ * @returns {Promise<object>} Scene, gameplay, UI, material, visibility, and world authorities.
+ * @sideEffects Manifests procedural world matter and begins remote hydration only according to startup policy.
  */
 export async function createRuntimeAssembly() {
 	const malchusMount = document.querySelector("#game-canvas");
 	const chochmahQuality = qualityFromLocation();
+	const chochmahPresentation = revealChochmahDevicePresentation(window);
 	const chochmahFoundation = await createSceneFoundation(malchusMount);
 	const { scene: malchusScene, camera: chochmahCamera } = chochmahFoundation;
 	const yesodMaterialLibrary = new RemoteMaterialLibrary({
 		concurrency: chochmahQuality.textureConcurrency
 	});
-	await yesodMaterialLibrary.loadCritical();
+	const netzachMaterialStartup = new NetzachMaterialStartup(
+		yesodMaterialLibrary,
+		chochmahPresentation
+	);
+	await netzachMaterialStartup.preparePlayableWorld();
 	const gevurahCollisionWorld = new OctreeCollisionWorld();
 	const malchusTerrain = createHarHaOhrTerrain(malchusScene, yesodMaterialLibrary);
 	const malchusAtmosphere = createBattlefieldAtmosphere(malchusScene, yesodMaterialLibrary, chochmahQuality);
@@ -66,7 +73,7 @@ export async function createRuntimeAssembly() {
 	const hodHud = new OhrfrontHud();
 	const yesodLaunchOverlay = new LaunchOverlay(hodHud);
 	const hodAudio = new OhrfrontAudio();
-	void yesodMaterialLibrary.startOptional();
+	void netzachMaterialStartup.beginEnrichment();
 	return {
 		...chochmahFoundation,
 		atmosphere: malchusAtmosphere,

@@ -1,0 +1,63 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos renews one creative universe through many workspaces; Awtsmoos.com lets scene, animation, edit, composite, Core, and render share one unclipped horizon. */
+.studio-editor-shell {
+	grid-template-rows: 80px minmax(0, 1fr) 150px;
+}
+
+.studio-editor-topbar {
+	display: grid;
+	grid-template-rows: 42px 36px;
+	gap: 0;
+	padding: 0 10px;
+}
+
+.studio-editor-topline {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 10px;
+	min-width: 0;
+}
+
+.studio-workspace-switcher {
+	display: flex;
+	align-items: stretch;
+	gap: 2px;
+	overflow-x: auto;
+	min-width: 0;
+	border-top: 1px solid #1e2f40;
+}
+
+.studio-workspace-button {
+	flex: 0 0 auto;
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	min-height: 34px;
+	padding: 0 10px;
+	border: 0;
+	border-bottom: 2px solid transparent;
+	background: transparent;
+	color: #95a8bb;
+	font: inherit;
+	font-size: 11px;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.studio-workspace-button[aria-pressed="true"] {
+	border-bottom-color: #88e3f5;
+	background: #102231;
+	color: #eefbff;
+}
+
+.studio-workspace-glyph {
+	font-size: 12px;
+}
+
+.studio-command-palette-trigger {
+	border-color: #47647a;
+	background: #152a3b;
+}

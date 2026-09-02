@@ -1,14 +1,23 @@
 <!-- B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos lets the document name itself before scripts awaken; Awtsmoos.com receives the semantic vessel directly, where title and description rhyme with truth and never chase an absent shadow.
+The Awtsmoos lets the chamber name itself before scripts awaken; Awtsmoos.com receives one canonical semantic vessel where title, description, and public path rhyme with the same truth.
 -->
 <?<script>
 	var semanticModel = typeof semantic === "object" && semantic ? semantic : {};
 	var title = semanticModel.pageTitle || "Geelooy Heichel | Awtsmoos";
 	var description = semanticModel.description || "Explore a living Heichel on Awtsmoos.com.";
+	var canonicalPath = semanticModel.canonicalPath || "/heichelos";
+	var canonicalUrl = "https://awtsmoos.com" + canonicalPath;
 	return "<title>" + title + "</title>"
 		+ "<meta name=\"description\" content=\"" + description + "\">"
+		+ "<meta name=\"robots\" content=\"index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1\">"
+		+ "<link rel=\"canonical\" href=\"" + canonicalUrl + "\">"
+		+ "<meta property=\"og:type\" content=\"website\">"
 		+ "<meta property=\"og:title\" content=\"" + title + "\">"
-		+ "<meta property=\"og:description\" content=\"" + description + "\">";
+		+ "<meta property=\"og:description\" content=\"" + description + "\">"
+		+ "<meta property=\"og:url\" content=\"" + canonicalUrl + "\">"
+		+ "<meta name=\"twitter:card\" content=\"summary\">"
+		+ "<meta name=\"twitter:title\" content=\"" + title + "\">"
+		+ "<meta name=\"twitter:description\" content=\"" + description + "\">";
 </script>?>

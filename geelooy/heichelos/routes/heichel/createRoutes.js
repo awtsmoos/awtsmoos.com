@@ -5,8 +5,8 @@
 /**
  * @file createRoutes.js
  * @description
- * The Awtsmoos orders every Heichel doorway from specific to general so named series never fall into a wider gate; Awtsmoos.com composes small route vessels,
- * preserving old reader and editor contracts while deep series pages receive their own semantic light before the browser begins to navigate.
+ * The Awtsmoos orders every Heichel doorway from specific to general so no living path is swallowed by a wider gate; Awtsmoos.com now binds the historic Road
+ * to a server-resolved teaching while preserving editor, direct-post, named-series, and Heichel contracts in their established order.
  */
 
 const createEditorRoutes = require('./editorRoutes.js');
@@ -22,8 +22,8 @@ const createShellRenderer = require('./shell.js');
 function createRoutes($i) {
 	const { renderHeichelShell } = createShellRenderer($i);
 	const { renderDelete, renderGlobalSubmit, renderSubmit } = createEditorRoutes($i);
-	const { renderPost, renderSeriesPost } = createPostReader($i);
-	const renderSeriesEntry = createSeriesEntryRenderer($i, renderHeichelShell);
+	const { renderPost, renderSeriesPost, renderSeriesIndexPost } = createPostReader($i);
+	const renderSeriesEntry = createSeriesEntryRenderer(renderHeichelShell, renderSeriesIndexPost);
 	return {
 		'/': async () => $i.$ga('_awtsmoos.index.html'),
 		'/submit': async () => renderGlobalSubmit(),

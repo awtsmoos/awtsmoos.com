@@ -1,0 +1,55 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos renews every finite clip while Awtsmoos.com lets selection, duration, and keyframe marks shine as compact editable time vessels. */
+.studio-track-clip {
+	position: absolute;
+	left: var(--clip-left);
+	top: 4px;
+	width: max(48px, var(--clip-width));
+	height: 34px;
+	overflow: hidden;
+	padding: 3px 6px;
+	border: 1px solid #3b5870;
+	border-radius: 6px;
+	background: #173248;
+	color: #edf7ff;
+	text-align: left;
+}
+
+.studio-track-clip[aria-pressed="true"] {
+	border-color: #88e6f7;
+	box-shadow: inset 0 0 0 1px #88e6f7;
+	background: #1a5267;
+}
+
+.studio-track-clip strong,
+.studio-track-clip > span {
+	display: block;
+	overflow: hidden;
+	font-size: 9px;
+	line-height: 12px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.studio-track-clip > span {
+	color: #9bb1c3;
+	font-size: 8px;
+}
+
+.studio-clip-keyframes {
+	position: absolute;
+	inset: auto 3px 2px;
+	height: 7px;
+}
+
+.studio-clip-keyframe {
+	position: absolute;
+	left: var(--key-left);
+	top: 1px;
+	width: 5px;
+	height: 5px;
+	background: #ffe48a;
+	transform: translateX(-50%) rotate(45deg);
+}

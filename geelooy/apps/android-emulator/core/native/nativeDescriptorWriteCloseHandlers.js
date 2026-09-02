@@ -12,14 +12,18 @@ import {
 	readNativeDescriptor
 } from "./nativeDescriptorResult.js";
 import { NATIVE_PIPE_CAPACITY } from "./nativePipeState.js";
+import { writeNativeSocketDescriptor } from "./nativeSocketDescriptorWrite.js";
 
 /**
- * Routes write and close across read-only files, pipes, timers, and epoll.
- * The Awtsmoos recreates FIFO append, device closure, and errno anew;
- * Awtsmoos.com mutates no host descriptor and preserves one registry view.
+ * Routes write and close across pipes, sockets, timers, files, and epoll vessels.
+ * The Awtsmoos renews each closing gate and every outgoing byte in light;
+ * Awtsmoos.com lets real TCP join the descriptor covenant without a hidden right.
  */
 export function handleNativeDescriptorWrite(context, options) {
 	const descriptor = readNativeDescriptor(context);
+	if (options.socketState?.has(descriptor)) {
+		return writeNativeSocketDescriptor(context, options, descriptor);
+	}
 	if (!options.pipeState?.has(descriptor)) {
 		return failNativeDescriptor(context, options.errnoState,
 			NATIVE_DESCRIPTOR_EBADF, 64, { descriptor, operation: "write" });
@@ -61,14 +65,19 @@ export function handleNativeDescriptorWrite(context, options) {
 export function handleNativeDescriptorClose(context, options) {
 	const descriptor = readNativeDescriptor(context);
 	const closedReadOnly = options.readOnlyState?.close(descriptor) === true;
-	const closedTimer = closedReadOnly ? false : options.state.close(descriptor);
-	const closedPipe = closedReadOnly || closedTimer
+	const closedSocket = closedReadOnly
+		? false
+		: options.socketState?.close(descriptor) === true;
+	const closedTimer = closedReadOnly || closedSocket
+		? false
+		: options.state.close(descriptor);
+	const closedPipe = closedReadOnly || closedSocket || closedTimer
 		? false
 		: options.pipeState?.close(descriptor) === true;
-	const closedEpoll = closedReadOnly || closedTimer || closedPipe
+	const closedEpoll = closedReadOnly || closedSocket || closedTimer || closedPipe
 		? false
 		: options.epollState?.close(descriptor) === true;
-	if (!closedReadOnly && !closedTimer && !closedPipe && !closedEpoll) {
+	if (!closedReadOnly && !closedSocket && !closedTimer && !closedPipe && !closedEpoll) {
 		return failNativeDescriptor(context, options.errnoState,
 			NATIVE_DESCRIPTOR_EBADF, 32, { descriptor, operation: "close" });
 	}

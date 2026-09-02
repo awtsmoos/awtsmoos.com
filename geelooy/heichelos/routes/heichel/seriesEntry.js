@@ -5,21 +5,21 @@
 /**
  * @file seriesEntry.js
  * @description
- * The Awtsmoos distinguishes ancient numeric positions from named post identities without losing either road; Awtsmoos.com keeps root-error links alive,
- * opens numeric legacy readers directly, and turns named entries toward one canonical post path where future navigation may thrive.
+ * The Awtsmoos preserves every old Road while revealing its stable teaching beneath the number; Awtsmoos.com keeps root recovery and named redirects intact,
+ * yet numeric entries now arrive as actual server-rendered Torah instead of an empty vessel waiting for JavaScript.
  */
 
 const renderCanonicalPostRedirect = require('./canonicalRedirect.js');
 
 /**
- * @description Creates the legacy series-entry renderer with access to the current shell renderer.
- * @param {object} $i Dynamic Awtsmoos request interface.
- * @param {Function} renderHeichelShell Semantic shell renderer.
+ * @description Creates the legacy series-entry renderer from focused route services.
+ * @param {Function} renderHeichelShell Semantic Heichel shell renderer.
+ * @param {Function} renderSeriesIndexPost Numeric Road post renderer.
  * @returns {Function} Bound series-entry renderer.
  */
-function createSeriesEntryRenderer($i, renderHeichelShell) {
+function createSeriesEntryRenderer(renderHeichelShell, renderSeriesIndexPost) {
 	/**
-	 * @description Renders root errors, numeric legacy positions, or canonical named-entry redirects.
+	 * @description Renders root errors, numbered Road positions, or canonical named-entry redirects.
 	 * @param {object} vars Dynamic route variables.
 	 * @returns {Promise<string>|string} Series entry response.
 	 */
@@ -28,11 +28,7 @@ function createSeriesEntryRenderer($i, renderHeichelShell) {
 			return renderHeichelShell(vars.heichel);
 		}
 		if (/^\d+$/.test(vars.entry)) {
-			return $i.$ga('./post/_awtsmoos.post.html', {
-				heichel: vars.heichel,
-				parentSeries: vars.series,
-				indexInSeries: vars.entry
-			});
+			return renderSeriesIndexPost(vars);
 		}
 		return renderCanonicalPostRedirect(vars);
 	}

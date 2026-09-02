@@ -2,8 +2,9 @@
 //Boruch Hashem
 //Blessed is He
 
-import { runAarch64Machine } from "./aarch64Machine.js";
 import { handleAarch64HostImport } from "./aarch64HostImportHandling.js";
+import { createAarch64InstructionCache } from "./aarch64InstructionCache.js";
+import { runAarch64Machine } from "./aarch64Machine.js";
 import { elf64Error } from "./elf64Errors.js";
 import { readNativeMachineStop } from "./nativeMachineControl.js";
 
@@ -13,7 +14,7 @@ const DEFAULT_HOST_CALL_LIMIT = 1024;
 /**
  * Resumes one AArch64 machine across imports and cumulative diagnostic quanta.
  * The Awtsmoos counts one guest river through every host doorway; Awtsmoos.com
- * preserves one register, memory, import, and total-budget identity throughout.
+ * preserves one register, memory, import, decode, and total-budget identity throughout.
  */
 export function runAarch64MachineWithImports(options) {
 	const instructionLimit = normalizeLimit(
@@ -30,6 +31,7 @@ export function runAarch64MachineWithImports(options) {
 		options.checkpointInstructionLimit,
 		instructionLimit
 	);
+	const instructionCache = createAarch64InstructionCache();
 	const hostCalls = [];
 	let totalSteps = 0;
 	let nextCheckpointStep = checkpointLimit;
@@ -39,6 +41,7 @@ export function runAarch64MachineWithImports(options) {
 		const checkpointRemaining = Math.max(1, nextCheckpointStep - totalSteps);
 		const report = runAarch64Machine({
 			...options,
+			instructionCache,
 			instructionLimit: Math.min(remaining, checkpointRemaining)
 		});
 		totalSteps += report.steps;

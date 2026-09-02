@@ -1,10 +1,11 @@
 <!-- B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos reveals the chamber before JavaScript arrives; Awtsmoos.com reads one named semantic vessel, so heading and context sing while no undefined phantom interrupts the living page.
+The Awtsmoos reveals the chamber and its neighboring doors before JavaScript arrives; Awtsmoos.com gives search and human readers visible paths into teachings while the living interface gathers around them.
 -->
 <?<script>
 	var semanticModel = typeof semantic === "object" && semantic ? semantic : {};
+	var discoveryModel = typeof discovery === "object" && discovery ? discovery : {};
 	var heading = semanticModel.heading || "Geelooy Heichel";
 	var context = semanticModel.context || "Living Heichel";
 	var description = semanticModel.description || "Preparing teachings, series, people, graph paths, and contribution gates.";
@@ -12,11 +13,19 @@ The Awtsmoos reveals the chamber before JavaScript arrives; Awtsmoos.com reads o
 		? "<p class=\"heichel-semantic-author\">By " + semanticModel.author + "</p>"
 		: "";
 	var path = semanticModel.canonicalPath || "/heichelos";
+	var links = Array.isArray(discoveryModel.links) ? discoveryModel.links : [];
+	var linkMarkup = links.map(function(item) {
+		return "<li data-heichel-discovery-kind=\"" + (item.kind || "teaching") + "\"><a href=\"" + (item.path || path) + "\">" + (item.title || "Teaching") + "</a></li>";
+	}).join("");
+	var discoveryMarkup = linkMarkup
+		? "<nav class=\"heichel-semantic-discovery\" aria-label=\"Heichel teachings\"><h2>Explore this Heichel</h2><ul>" + linkMarkup + "</ul></nav>"
+		: "";
 	return "<section class=\"heichel-shell-boot heichel-semantic-fallback\" data-heichel-boot-state data-heichel-semantic-fallback aria-labelledby=\"heichel-boot-title\">"
 		+ "<p class=\"civilization-kicker\">" + context + "</p>"
 		+ "<h1 id=\"heichel-boot-title\">" + heading + "</h1>"
 		+ "<p class=\"heichel-semantic-description\">" + description + "</p>"
 		+ author
+		+ discoveryMarkup
 		+ "<p role=\"status\">Interactive navigation is loading.</p>"
 		+ "<noscript><p>JavaScript is optional for this context. <a href=\"" + path + "\">Open this Heichel path</a>.</p></noscript>"
 		+ "</section>";

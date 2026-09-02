@@ -1,0 +1,97 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos renews registered procedural command into safe visible choice while Awtsmoos.com preserves the native Universal executor beneath the interface. */
+.studio-core-operation-lab {
+	display: grid;
+	gap: 8px;
+	margin-bottom: 16px;
+	padding-bottom: 14px;
+	border-bottom: 1px solid #263a4e;
+}
+
+.studio-core-operation-search,
+.studio-core-operation-params {
+	box-sizing: border-box;
+	width: 100%;
+	border: 1px solid #334b61;
+	border-radius: 8px;
+	background: #071421;
+	color: #edf6ff;
+}
+
+.studio-core-operation-search {
+	height: 40px;
+	padding: 0 9px;
+}
+
+.studio-core-operation-list {
+	display: grid;
+	gap: 5px;
+	max-height: 190px;
+	overflow: auto;
+}
+
+.studio-core-operation-row {
+	display: grid;
+	gap: 2px;
+	width: 100%;
+	min-height: 42px;
+	padding: 7px 9px;
+	border: 1px solid #2e4357;
+	border-radius: 8px;
+	background: #102032;
+	color: #edf6ff;
+	text-align: left;
+}
+
+.studio-core-operation-row[aria-pressed="true"] {
+	border-color: #8eeaff;
+	background: #17485b;
+}
+
+.studio-core-operation-row strong,
+.studio-core-operation-row span {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.studio-core-operation-row span {
+	color: #9fb0c2;
+	font-size: 10px;
+}
+
+.studio-core-operation-params {
+	min-height: 96px;
+	padding: 8px;
+	font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+	font-size: 11px;
+	resize: vertical;
+}
+
+.studio-core-operation-receipt {
+	max-height: 150px;
+	overflow: auto;
+	padding: 8px;
+	border-radius: 8px;
+	background: #050c14;
+	color: #aebed0;
+	font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+	font-size: 10px;
+	white-space: pre-wrap;
+}
+
+.studio-primary-compact-button {
+	min-height: 38px;
+	padding: 0 12px;
+	border: 0;
+	border-radius: 9px;
+	background: #8bc5d4;
+	color: #071019;
+	font-weight: 800;
+}
+
+.studio-core-discovery-heading {
+	margin: 6px 0;
+}

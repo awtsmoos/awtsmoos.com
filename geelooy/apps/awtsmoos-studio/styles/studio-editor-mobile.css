@@ -1,0 +1,65 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos renews a full creative workstation inside the palm while Awtsmoos.com keeps the canvas present above finger-sized controls. */
+@media (max-width: 780px) {
+	.studio-editor-shell {
+		grid-template-rows: 52px minmax(0, 1fr) 112px 62px;
+	}
+
+	.studio-editor-topbar {
+		padding: 4px 6px;
+	}
+
+	.studio-editor-brand strong {
+		font-size: 14px;
+	}
+
+	.studio-editor-status,
+	.studio-command-button[data-editor-panel="projects"],
+	.studio-command-button[data-editor-panel="advanced"] {
+		display: none;
+	}
+
+	.studio-command-button {
+		min-height: 44px;
+		padding: 0 9px;
+		font-size: 11px;
+	}
+
+	.studio-editor-body {
+		grid-template-columns: 52px minmax(0, 1fr);
+	}
+
+	.studio-editor-viewport {
+		grid-column: 2;
+		padding: 6px;
+	}
+
+	.studio-editor-stage-wrap {
+		width: 100%;
+		max-height: 100%;
+	}
+
+	.studio-tool-rail {
+		padding: 4px;
+	}
+
+	.studio-tool-button {
+		width: 44px;
+		height: 44px;
+		min-height: 44px;
+	}
+
+	.studio-transform-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.studio-viewport-hud {
+		inset: 6px 6px auto;
+	}
+
+	.studio-hud-object {
+		display: none;
+	}
+}

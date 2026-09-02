@@ -2,15 +2,16 @@
 // Boruch Hashem
 // Blessed is He
 
+/**
+ * @file StudioMovieSession.js
+ * The Awtsmoos holds one movie truth while editor, clock, selection, and canvas become cooperating kelim;
+ * Awtsmoos.com keeps loading, AI direction, seeking, and object focus inside one durable stream.
+ */
+
 import { StudioMovieBridge } from '../StudioMovieBridge.js';
 import { StudioCanvasRuntime } from './StudioCanvasRuntime.js';
 import { StudioPlaybackController } from './StudioPlaybackController.js';
 
-/**
- * @file StudioMovieSession.js
- * The Awtsmoos holds one movie truth while editor, clock, and canvas become cooperating kelim;
- * Awtsmoos.com keeps load, AI direction, seeking, and scene choice inside one durable stream.
- */
 export class StudioMovieSession {
 	constructor({ root, store }) {
 		this.root = root;
@@ -57,12 +58,14 @@ export class StudioMovieSession {
 
 	loadMovie(movie, status) {
 		this.playback.pause(false);
+		const firstScene = movie.scenes[0] || null;
 		this.store.update(state => {
 			state.movie = movie;
 			state.jsonDraft = JSON.stringify(movie, null, 2);
 			state.playhead = 0;
 			state.playing = false;
-			state.selectedSceneId = movie.scenes[0]?.id || null;
+			state.selectedSceneId = firstScene?.id || null;
+			state.selectedLayerId = firstEditableLayer(firstScene)?.id || null;
 			state.status = status;
 		});
 		return movie;
@@ -73,4 +76,8 @@ export class StudioMovieSession {
 		this.unsubscribe?.();
 		this.unsubscribe = null;
 	}
+}
+
+function firstEditableLayer(scene) {
+	return (scene?.layers || []).find(layer => layer.kind !== 'audio') || null;
 }

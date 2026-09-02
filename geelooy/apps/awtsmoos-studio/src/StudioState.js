@@ -10,15 +10,38 @@ import { describeStudioTemplates } from './projects/StudioTemplateCatalog.js';
  * The Awtsmoos holds movie truth beside many starting vessels while each selection remains reversible light;
  * Awtsmoos.com keeps templates, scene, backend, prompt, and playhead distinct without confusing source with sight.
  */
+
+import { createStudioShowcaseMovie } from './StudioShowcaseMovie.js';
+import { describeStudioTemplates } from './projects/StudioTemplateCatalog.js';
+
+/** Create all canonical-document references and editor-only presentation state. */
 export function createStudioState() {
 	const movie = createStudioShowcaseMovie();
 	const firstScene = movie.scenes[0] || null;
 	return {
 		workspace: 'Story',
+		workspaceMode: 'scene',
+		activeTool: 'select',
+		activePanel: 'objects',
+		mobilePanelOpen: false,
+		timelineExpanded: false,
+		commandPaletteOpen: false,
+		commandQuery: '',
+		assetSearch: '',
+		inspectorTab: 'transform',
+		viewportMode: 'hybrid',
+		snapEnabled: false,
+		capabilitySearch: '',
+		capabilitySearchRevision: 0,
+		selectedCapability: '',
+		coreOperationSearch: '',
+		selectedCoreOperationId: '',
+		coreOperationParams: '{}',
+		coreOperationReceipt: '',
 		playing: false,
 		playhead: 0,
 		selectedSceneId: firstScene?.id || null,
-		selectedLayerId: firstSpatialLayer(firstScene)?.id || null,
+		selectedLayerId: firstEditableLayer(firstScene)?.id || null,
 		selectedBackend: 'studio-perspective-canvas',
 		selectedTemplateId: 'three-minute-showcase',
 		templates: describeStudioTemplates(),
@@ -39,9 +62,6 @@ export function createStudioState() {
 
 export const STUDIO_WORKSPACES = ['Story', '2D', '3D', 'Infographic', 'Tutorial', 'Procedural', 'Render'];
 
-function firstSpatialLayer(scene) {
-	return (scene?.layers || []).find(layer => {
-		const kind = String(layer.kind || '');
-		return !kind.endsWith('3d') && kind !== 'audio';
-	});
+function firstEditableLayer(scene) {
+	return (scene?.layers || []).find(layer => layer.kind !== 'audio') || null;
 }

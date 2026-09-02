@@ -2,25 +2,18 @@
 //Boruch Hashem
 //Blessed is He
 
+import { jniGuestThreadKey } from "./jniGuestThreadKey.js";
 import { readNativeCString } from "./nativeCString.js";
 
 /**
  * Registers JNI operations that create, replace, or clear pending exceptions.
- *
- * The Awtsmoos recreates throwable handle, UTF-8 message, pending identity, and
- * clear shore anew. Awtsmoos.com keeps mutation separate from observation so
- * guest JNI state remains explicit and independently testable.
+ * The Awtsmoos recreates throwable, message, pending identity, and pthread shore;
+ * Awtsmoos.com keeps each new local exception inside the thread that asked for more.
  */
 export function registerFlutterJniExceptionMutations(registry, machineState) {
-	registry.register("JNINativeInterface.Throw", context => {
-		return handleThrow(context, machineState);
-	});
-	registry.register("JNINativeInterface.ThrowNew", context => {
-		return handleThrowNew(context, machineState);
-	});
-	registry.register("JNINativeInterface.ExceptionClear", context => {
-		return handleClear(context, machineState);
-	});
+	registry.register("JNINativeInterface.Throw", context => handleThrow(context, machineState));
+	registry.register("JNINativeInterface.ThrowNew", context => handleThrowNew(context, machineState));
+	registry.register("JNINativeInterface.ExceptionClear", context => handleClear(context, machineState));
 }
 
 function handleThrow(context, machineState) {
@@ -41,23 +34,16 @@ function handleThrow(context, machineState) {
 function handleThrowNew(context, machineState) {
 	validateEnvironment(context.registers, machineState);
 	const classHandle = context.registers.read(1, 64, "zero");
-	const classReference = requireReference(
-		machineState,
-		classHandle,
-		"JNI_THROW_NEW_CLASS"
-	);
+	const classReference = requireReference(machineState, classHandle, "JNI_THROW_NEW_CLASS");
 	if (classReference.kind !== "class") {
 		throw new Error(`JNI_THROW_NEW_CLASS:${classHandle}`);
 	}
-	const messageAddress = context.registers.read(2, 64, "zero");
-	const message = readNativeCString(context.memory, messageAddress).text;
-	const identity = machineState.jniPendingException.nextIdentity(
-		classReference.identity
-	);
-	const target = Object.freeze({
-		classDescriptor: classReference.identity,
-		message
-	});
+	const message = readNativeCString(
+		context.memory,
+		context.registers.read(2, 64, "zero")
+	).text;
+	const identity = machineState.jniPendingException.nextIdentity(classReference.identity);
+	const target = Object.freeze({ classDescriptor: classReference.identity, message });
 	const handle = machineState.jniReferences.create(
 		"throwable",
 		identity,
@@ -66,7 +52,8 @@ function handleThrowNew(context, machineState) {
 			classDescriptor: classReference.identity,
 			message,
 			scope: "local"
-		}
+		},
+		jniGuestThreadKey(context)
 	);
 	machineState.jniPendingException.set(handle);
 	return finish(context.registers, 0n, {
@@ -78,7 +65,6 @@ function handleThrowNew(context, machineState) {
 }
 
 function handleClear(context, machineState) {
-	validateEnvironment(context.registers, machineState);
 	const prior = machineState.jniPendingException.clear();
 	return finish(context.registers, 0n, {
 		clearedHandle: prior.toString(),

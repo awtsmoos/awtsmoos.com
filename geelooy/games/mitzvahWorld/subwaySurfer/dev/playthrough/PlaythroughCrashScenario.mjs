@@ -62,9 +62,7 @@ export class GevurahPlaythroughCrashScenario {
 	async proveGameOverUi() {
 		const gevurahUi = await this.session.evidence.ui();
 		this.report.checkpoint("game-over-ui", gevurahUi);
-		const malchusPanel = gevurahUi.surfaces?.find(
-			(surface) => surface.selector === "#game-over-panel"
-		);
+		const malchusPanel = gevurahUi.surfaces?.find((surface) => surface.selector === "#game-over-panel");
 		if (!malchusPanel?.visible) {
 			this.report.issue("BLOCKER", "Game-over state did not reveal the game-over panel.", gevurahUi);
 		}

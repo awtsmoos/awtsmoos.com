@@ -1,14 +1,19 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
  * @module SourceSearch
- * @description The Awtsmoos routes legacy libraries through HNSW's tree,
- * while Tanach crosses an exact persisted matrix on Awtsmoos.com faithfully.
+ * @description
+ * The Awtsmoos routes persisted HNSW parts through a cooperative river, while
+ * flat matrices keep their exact lane; Awtsmoos.com preserves provenance and
+ * lets the HTTP heart breathe between the many vessels of a multipart corpus.
  */
+
 const corpusReader = require('../../../../../../ayzarim/DosDB/aiSearch/vectorCorpus/reader.js');
 const { rowsForFlatShard, searchFlatShard } = require('./flatMatrixSearch.js');
 const { closeness } = require('./math.js');
+const { searchMultipart } = require('./multipartVectorSearch.js');
 const { publicHit, publicRow } = require('./resultShape.js');
 const { openShardSession } = require('./shardStore.js');
 
@@ -38,32 +43,27 @@ async function rowsForShard(_context, shard, maximumRows = DEFAULT_DIAGNOSTIC_RO
 			rows.push(corpusReader.decode(session.database, session.list[index]));
 		}
 	}
-	return { rows, source: 'awtsdb-bounded-list-read', truncated: rows.length >= limit };
+	return {
+		rows,
+		source: 'awtsdb-bounded-list-read',
+		truncated: rows.length >= limit
+	};
 }
 
 async function searchShard(shard, queryVector, limit, options = {}) {
 	assertVectorSupported(shard);
-	if (shard.indexType === 'flat-f32') return searchFlatShard(shard, queryVector, limit);
+	if (shard.indexType === 'flat-f32') {
+		return searchFlatShard(shard, queryVector, limit);
+	}
 	const parts = shard.parts || [shard];
-	const results = await Promise.all(
-		parts.map(part => searchPhysical(part, queryVector, limit, options))
+	if (parts.length === 1) {
+		return searchPhysical(parts[0], queryVector, limit, options);
+	}
+	return searchMultipart(
+		parts,
+		part => searchPhysical(part, queryVector, limit, options),
+		limit
 	);
-	if (results.length === 1) return results[0];
-	const hits = results.flatMap(result => result.hits)
-		.sort((left, right) => Number(left.score) - Number(right.score))
-		.slice(0, limit)
-		.map((hit, index) => ({ ...hit, rank: index + 1 }));
-	return {
-		hits,
-		totalRows: results.reduce((sum, result) => sum + result.totalRows, 0),
-		source: 'awtsdb-hnsw-persisted',
-		index: {
-			persisted: true,
-			registryCount: results.reduce((sum, result) => sum + Number(result.index?.registryCount || 0), 0),
-			parts: results.length,
-			sessionReused: results.every(result => result.index?.sessionReused === true)
-		}
-	};
 }
 
 function searchPhysical(shard, queryVector, limit) {

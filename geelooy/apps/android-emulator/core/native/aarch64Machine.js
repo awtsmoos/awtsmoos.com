@@ -24,7 +24,8 @@ export function runAarch64Machine(options) {
 	const systemRegisters = options.systemRegisters
 		|| createAarch64SystemRegisters();
 	const reporter = createAarch64MachineReporter(options);
-	const instructionCache = createAarch64InstructionCache();
+	const instructionCache = options.instructionCache
+		|| createAarch64InstructionCache();
 	const instructionLimit = normalizeMachineLimit(
 		options.instructionLimit,
 		DEFAULT_INSTRUCTION_LIMIT

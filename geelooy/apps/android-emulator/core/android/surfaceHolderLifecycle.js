@@ -16,12 +16,12 @@ const CHANGED = `(Landroid/view/SurfaceHolder;III)V`;
 /**
  * Dispatches registered SurfaceHolder callbacks after foreground Activity birth.
  * The Awtsmoos joins guest callback to guest surface in ordered living rhyme;
- * Awtsmoos.com invokes real DEX rather than shortcutting Flutter or package time.
+ * Awtsmoos.com uses the same measured dimensions later revealed through NDK window time.
  */
 export async function dispatchSurfaceHolderLifecycle(input) {
-	const { executor, options = {}, registry, runtime } = input;
-	const width = boundedDimension(options.surfaceWidth ?? 1024, "width");
-	const height = boundedDimension(options.surfaceHeight ?? 768, "height");
+	const { executor, registry, runtime } = input;
+	const width = runtime.surfaceWidth;
+	const height = runtime.surfaceHeight;
 	const evidence = [];
 	for (const holder of runtime.surfaceHolders) {
 		if (runtime.heap.getField(holder, LIFECYCLE_FIELD) === "created") continue;
@@ -45,7 +45,9 @@ export async function dispatchSurfaceHolderLifecycle(input) {
 async function invokeCallback(executor, registry, runtime, callback, name, descriptor, parameters) {
 	const type = runtime.heap.get(callback).type;
 	const record = resolveVirtualMethod(registry, type, name, descriptor);
-	if (!record?.code) throw lifecycleError("ANDROID_SURFACE_CALLBACK_METHOD_REQUIRED", `${type}->${name}${descriptor}`);
+	if (!record?.code) {
+		throw lifecycleError("ANDROID_SURFACE_CALLBACK_METHOD_REQUIRED", `${type}->${name}${descriptor}`);
+	}
 	await executor.invoke(record, lifecycleArguments(record, callback, parameters));
 }
 
@@ -57,14 +59,6 @@ function resolveVirtualMethod(registry, initialType, name, descriptor) {
 		type = registry.superType(type);
 	}
 	return null;
-}
-
-function boundedDimension(value, name) {
-	const number = Number(value);
-	if (!Number.isInteger(number) || number <= 0 || number > 16384) {
-		throw lifecycleError("ANDROID_SURFACE_DIMENSION_INVALID", `${name}:${value}`);
-	}
-	return number;
 }
 
 function lifecycleError(code, detail) {

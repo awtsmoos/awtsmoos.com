@@ -1,0 +1,44 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos renews horizon, sun, haze, and cloudless distance while Awtsmoos.com gives empty WebGL a calm atmospheric vessel instead of a dead gray wall.
+*/
+.ohrfront-app .ohr-world {
+	background:
+		radial-gradient(circle at 72% 18%, rgb(255 238 190 / 76%) 0 2%, rgb(250 226 177 / 20%) 7%, transparent 18%),
+		linear-gradient(180deg, #68879b 0%, #8ca6b2 38%, #c3c4b2 62%, #7a887b 100%);
+}
+
+.ohrfront-app .ohr-world::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: var(--ohr-z-world);
+	pointer-events: none;
+	background:
+		radial-gradient(ellipse at 28% 32%, rgb(239 243 235 / 13%) 0 9%, transparent 22%),
+		radial-gradient(ellipse at 61% 27%, rgb(244 241 225 / 11%) 0 8%, transparent 20%);
+	filter: blur(10px);
+	animation: ohr-sky-drift 54s ease-in-out infinite alternate;
+}
+
+.ohrfront-app .ohrfront-native-canvas {
+	z-index: var(--ohr-z-world);
+	background: transparent;
+}
+
+@keyframes ohr-sky-drift {
+	from {
+		transform: translate3d(-1.2%, 0, 0) scale(1.02);
+	}
+
+	to {
+		transform: translate3d(1.2%, -0.5%, 0) scale(1.04);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ohrfront-app .ohr-world::before {
+		animation: none;
+	}
+}

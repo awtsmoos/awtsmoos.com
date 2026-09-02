@@ -17,6 +17,7 @@ const LIKKUTEI_SICHOS_PART_SIZE = 8000;
 const LIKKUTEI_SICHOS_EXPECTED_PARTS = Math.ceil(
 	LIKKUTEI_SICHOS_RECORDS / LIKKUTEI_SICHOS_PART_SIZE
 );
+const WIKISOURCE_TORAH_PUBLISHED_PARTS = 4;
 const SICHOS_KODESH_FILES = partFiles(
 	'sichos-kodesh-english-comments-rag',
 	SICHOS_KODESH_EXPECTED_PARTS
@@ -24,6 +25,10 @@ const SICHOS_KODESH_FILES = partFiles(
 const LIKKUTEI_SICHOS_FILES = partFiles(
 	'likkutei-sichos-english-comments-text',
 	LIKKUTEI_SICHOS_EXPECTED_PARTS
+);
+const WIKISOURCE_TORAH_FILES = partFiles(
+	'hewikisource-torah-text-rag',
+	WIKISOURCE_TORAH_PUBLISHED_PARTS
 );
 const PUBLISHED_SICHOS_KODESH_FILES = Object.freeze(
 	SICHOS_KODESH_FILES.slice(0, SICHOS_KODESH_PUBLISHED_PARTS)
@@ -34,7 +39,8 @@ const PUBLISHED_LIKKUTEI_SICHOS_FILES = Object.freeze([
 const CANONICAL_SHARD_FILES = Object.freeze([
 	'meluket-english-comments-rag.awtsdb',
 	'sefer-hasichos-english-comments-rag.awtsdb',
-	'tanach-hebrew-verses-rag.awtsdb'
+	'tanach-hebrew-verses-rag.awtsdb',
+	...WIKISOURCE_TORAH_FILES
 ]);
 
 function partFiles(prefix, count) {
@@ -62,5 +68,7 @@ module.exports = {
 	SICHOS_KODESH_EXPECTED_PARTS,
 	SICHOS_KODESH_FILES,
 	SICHOS_KODESH_PUBLISHED_PARTS,
+	WIKISOURCE_TORAH_FILES,
+	WIKISOURCE_TORAH_PUBLISHED_PARTS,
 	isCanonicalShardFile
 };

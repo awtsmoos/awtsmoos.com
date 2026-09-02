@@ -5,10 +5,11 @@
 /**
  * @file shell.js
  * @description
- * The Awtsmoos gathers Heichel identity and prepares semantic light before the interactive universe awakens;
- * Awtsmoos.com therefore renders route-local meaning through the proper gate, so no global-template shadow can make the first chamber forsaken.
+ * The Awtsmoos gathers Heichel identity, semantic light, and public paths before the interactive universe awakens; Awtsmoos.com therefore gives every chamber
+ * both a truthful name and visible doors into its teachings, while JavaScript remains an enhancement rather than the only witness to its contents.
  */
 
+const createDiscovery = require('./discovery.js');
 const { heichelFields } = require('./fieldMaps.js');
 const { buildSemanticModel, normalizeSeries } = require('./semantic.js');
 
@@ -18,7 +19,9 @@ const { buildSemanticModel, normalizeSeries } = require('./semantic.js');
  * @returns {{getHeichel:Function,getSeries:Function,renderHeichelShell:Function}} Bound shell operations.
  */
 function createShellRenderer($i) {
-	/** Fetches public Heichel metadata through the established property-map API. */
+	const { getDiscovery } = createDiscovery($i);
+
+	/** @description Fetches public Heichel metadata through the established property-map API. */
 	async function getHeichel(heichelId) {
 		const heichel = await $i.fetchAwtsmoos(
 			`/api/social/alias/itDoesntEvenMatter/heichelos/${encodeURIComponent(heichelId)}?${heichelFields()}`
@@ -29,7 +32,7 @@ function createShellRenderer($i) {
 		return { ...heichel, id: heichelId };
 	}
 
-	/** Fetches optional series metadata through the same public endpoint used by the browser. */
+	/** @description Fetches optional series metadata through the public browser endpoint. */
 	async function getSeries(heichelId, seriesId) {
 		if (!seriesId || seriesId === 'root') {
 			return null;
@@ -44,32 +47,32 @@ function createShellRenderer($i) {
 		}
 	}
 
-	/**
-	 * @description Renders route-local semantic fragments before the parent document receives them.
-	 * @param {object} semantic Semantic Heichel model.
-	 * @returns {Promise<{semanticHead:string,semanticFallback:string}>} Finished semantic HTML fragments.
-	 */
-	async function renderSemanticFragments(semantic) {
+	/** @description Renders route-local semantic fragments before the parent document receives them. */
+	async function renderSemanticFragments(semantic, discovery) {
 		const [semanticHead, semanticFallback] = await Promise.all([
 			$i.$ga('./heichel/semantic/head.html', { semantic }),
-			$i.$ga('./heichel/semantic/fallback.html', { semantic })
+			$i.$ga('./heichel/semantic/fallback.html', { semantic, discovery })
 		]);
 		return { semanticHead, semanticFallback };
 	}
 
-	/** Renders a semantic Heichel document while preserving the existing interactive client shell. */
+	/** @description Renders a semantic Heichel document while preserving the interactive client shell. */
 	async function renderHeichelShell(heichelId, seriesId = '') {
 		const heichel = await getHeichel(heichelId);
 		if (!heichel) {
 			return $i.$ga('_awtsmoos.heichelNotFound.html');
 		}
-		const series = await getSeries(heichelId, seriesId);
+		const [series, discovery] = await Promise.all([
+			getSeries(heichelId, seriesId),
+			getDiscovery(heichelId, seriesId)
+		]);
 		const semantic = buildSemanticModel({ heichel, series, heichelId, seriesId });
-		const semanticFragments = await renderSemanticFragments(semantic);
+		const semanticFragments = await renderSemanticFragments(semantic, discovery);
 		return $i.$ga('./heichel/_awtsmoos.heichel.html', {
 			heichel,
 			series,
 			semantic,
+			discovery,
 			...semanticFragments
 		});
 	}

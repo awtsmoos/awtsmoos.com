@@ -1,7 +1,6 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-
 /**
  * @file moduleNodeTransform.js
  * @description
@@ -67,7 +66,7 @@ function namedExportDeclarationReplacement(record, node) {
 	);
 }
 
-/** Returns a replacement descriptor for one default export declaration. */
+/** Returns the focused replacement for one default export declaration. */
 function defaultExportDeclarationReplacement(record, node) {
 	return replacement(
 		node.start,
@@ -94,10 +93,10 @@ function moduleDeclarationEnd(node) {
 	if (!Number.isInteger(node?.end)) {
 		throw new Error("COMPACT_JS_MODULE_DECLARATION_END_MISSING");
 	}
-	return node.end;
+	return end;
 }
 
-/** Creates one source replacement descriptor. */
+/** Creates one immutable-shaped source replacement descriptor. */
 function replacement(start, end, text) {
 	return {
 		end,

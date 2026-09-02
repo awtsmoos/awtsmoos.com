@@ -1,0 +1,97 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos renews x, y, z and form while Awtsmoos.com gives every selected layer precise editor vessels. */
+.studio-inspector-heading > div {
+	display: grid;
+	gap: 3px;
+	min-width: 0;
+}
+
+.studio-inspector-heading strong,
+.studio-inspector-heading span {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.studio-transform-inspector,
+.studio-inspector-section {
+	display: grid;
+	gap: 10px;
+	margin-bottom: 14px;
+	padding-bottom: 14px;
+	border-bottom: 1px solid #263a4e;
+}
+
+.studio-transform-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 8px;
+}
+
+.studio-transform-field {
+	display: grid;
+	gap: 5px;
+}
+
+.studio-transform-label {
+	color: #9fb0c2;
+	font-size: 11px;
+	font-weight: 700;
+	text-transform: uppercase;
+}
+
+.studio-transform-control {
+	display: grid;
+	grid-template-columns: 34px minmax(0, 1fr) 34px;
+	gap: 4px;
+}
+
+.studio-transform-control input {
+	min-width: 0;
+	height: 34px;
+	padding: 0 6px;
+	text-align: center;
+}
+
+.studio-inspector-actions {
+	margin-top: auto;
+}
+
+.studio-capability-groups {
+	display: flex;
+	gap: 5px;
+	overflow-x: auto;
+	padding-bottom: 8px;
+}
+
+.studio-capability-group {
+	flex: 0 0 auto;
+	padding: 5px 7px;
+	border-radius: 999px;
+	background: #17293b;
+	color: #abc0d4;
+	font-size: 10px;
+}
+
+.studio-ai-prompt {
+	min-height: 150px;
+	margin-bottom: 10px;
+	padding: 10px;
+	resize: vertical;
+}
+
+.studio-advanced-json {
+	display: grid;
+	gap: 8px;
+	margin-top: 16px;
+}
+
+.studio-json-editor {
+	min-height: 260px;
+	padding: 10px;
+	font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+	font-size: 12px;
+	resize: vertical;
+}

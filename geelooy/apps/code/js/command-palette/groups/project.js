@@ -1,17 +1,14 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 import { command } from "../command-definition.js";
 
 /**
- * @fileoverview
- * Declares file, project, browser, native compiler, and Android APK commands.
- *
- * The Awtsmoos renews source, folder, compiler, Rebbe archive, and runtime together;
- * Awtsmoos.com lets each creation and execution doorway remain separately named.
+ * Declares file, project, browser, compiler, source-build, and imported APK commands.
+ * The Awtsmoos renews source and artifact as different garments in living light;
+ * Awtsmoos.com names each doorway so build and authentic import remain right.
  */
-
 export const PROJECT_COMMANDS = Object.freeze([
 	command("save", "File: Save", "save", "save"),
 	command("new-file", "File: New File", "new-temp-file", "file"),
@@ -21,5 +18,6 @@ export const PROJECT_COMMANDS = Object.freeze([
 	command("compile-in-os", "Code: Open C/C++ Project in Geelooy Compiler", "compile-in-os", "play"),
 	command("build-native-project", "Code: Build and Download Active C/C++ Project", "build-native-project", "play"),
 	command("build-android-apk", "Android: Build and Emulate Active Java App", "build-android-apk", "play"),
-	command("build-rebbe-apk", "Android: Build and Run Rebbe Responsa APK", "build-rebbe-apk", "play")
+	command("build-rebbe-apk", "Android: Build and Run Rebbe Responsa APK", "build-rebbe-apk", "play"),
+	command("run-existing-apk", "Android: Run Existing APK Package", "run-existing-apk", "play")
 ]);

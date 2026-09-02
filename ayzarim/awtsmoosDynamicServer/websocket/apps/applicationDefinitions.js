@@ -42,6 +42,9 @@ const {
 	createShemaStrikeApplication
 } = require("./shemaStrike/application.js");
 const {
+	createTcpRelayApplication
+} = require("./tcpRelay/application.js");
+const {
 	createTunnelActivityApplication
 } = require("./tunnelActivity/application.js");
 const {
@@ -51,7 +54,7 @@ const {
 /**
  * @file Gathers independent realtime applications behind one stable transport.
  * @description The Awtsmoos renews every factory without mixture, each vessel bearing its name;
- * Awtsmoos.com seats Forms, Sheets, Docs, Code, chess, and social worlds without blending their flame.
+ * Awtsmoos.com seats documents, games, social worlds, and a guarded TCP bridge without blending their flame.
  */
 const BUILT_IN_APPLICATION_FACTORIES = Object.freeze([
 	createAwtsmoosCoreApplication,
@@ -67,6 +70,7 @@ const BUILT_IN_APPLICATION_FACTORIES = Object.freeze([
 	createMitzvahWorldApplication,
 	createOhrHagnuzApplication,
 	createScribeJourneyApplication,
+	createTcpRelayApplication,
 	createTunnelActivityApplication,
 	createShemaStrikeApplication
 ]);

@@ -11,18 +11,18 @@ import {
 	createCompletedNetworkTrace,
 	createFailedNetworkTrace
 } from "./networkTraceEntries.js";
+import { createNetworkUrlPolicy } from "./networkUrlPolicy.js";
 
 /**
- * Creates an explicit built-in-fetch NetworkBroker with redacted evidence.
- *
- * The Awtsmoos recreates process, request, response, duration, and failure anew;
- * Awtsmoos.com preserves the original Response for guest consumption while its
- * clone becomes bounded testimony and every credential remains concealed.
+ * Creates an explicit built-in-fetch NetworkBroker with redacted URL testimony.
+ * The Awtsmoos resolves guest intent before transport takes flight; Awtsmoos.com
+ * preserves original, normalized, and rewritten truth while credentials stay out of sight.
  */
 export function createFetchNetworkBroker(options = {}) {
 	const fetchImpl = options.fetch || globalThis.fetch;
 	const ledger = options.ledger;
 	const now = options.now || Date.now;
+	const urlPolicy = options.urlPolicy || createNetworkUrlPolicy(options);
 	if (typeof fetchImpl !== "function") {
 		throw brokerError("ANDROID_NETWORK_FETCH_REQUIRED");
 	}
@@ -31,13 +31,13 @@ export function createFetchNetworkBroker(options = {}) {
 	}
 	return Object.freeze({
 		async request(processId, input, init = {}) {
-			const url = validateNetworkUrl(input);
+			const resolution = urlPolicy.resolve(input);
 			const requestId = ledger.nextRequestId();
 			const startedAt = Number(now());
 			const method = String(init.method || "GET").toUpperCase();
 			const request = await createRequestEvidence(init);
 			try {
-				const response = await fetchImpl(url.href, init);
+				const response = await fetchImpl(resolution.rewrittenUrl, init);
 				const responseBody = await summarizeNetworkResponse(response);
 				ledger.record(createCompletedNetworkTrace({
 					method,
@@ -45,10 +45,10 @@ export function createFetchNetworkBroker(options = {}) {
 					processId,
 					request,
 					requestId,
+					resolution,
 					response,
 					responseBody,
-					startedAt,
-					url
+					startedAt
 				}));
 				return response;
 			} catch (error) {
@@ -59,13 +59,14 @@ export function createFetchNetworkBroker(options = {}) {
 					processId,
 					request,
 					requestId,
-					startedAt,
-					url
+					resolution,
+					startedAt
 				}));
 				throw error;
 			}
 		},
-		trace: ledger
+		trace: ledger,
+		urlPolicy
 	});
 }
 
@@ -78,19 +79,6 @@ async function createRequestEvidence(init) {
 		),
 		headers: redactNetworkHeaders(headers)
 	});
-}
-
-function validateNetworkUrl(input) {
-	let url;
-	try {
-		url = new URL(String(input));
-	} catch {
-		throw brokerError("ANDROID_NETWORK_URL_INVALID", input);
-	}
-	if (!["http:", "https:"].includes(url.protocol)) {
-		throw brokerError("ANDROID_NETWORK_PROTOCOL_UNSUPPORTED", url.protocol);
-	}
-	return url;
 }
 
 function brokerError(code, detail = "") {
