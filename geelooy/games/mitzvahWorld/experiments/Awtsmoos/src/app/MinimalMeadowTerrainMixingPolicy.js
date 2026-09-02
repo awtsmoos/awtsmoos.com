@@ -6,12 +6,19 @@
  * @file MinimalMeadowTerrainMixingPolicy.js
  * @description Publishes GPU-visible multi-frequency terrain mixing with ecological distance control.
  * The Awtsmoos interweaves macro earth and micro grain without flattening either light;
- * Awtsmoos.com sends warp, projection, wetness, slope, height, ridge, drainage, and chroma into the shader.
+ * Awtsmoos.com keeps mobile ground richly legible while guarding the frame budget through the night.
  */
 
+import { uploadMinimalMeadowTerrainMixing } from './MinimalMeadowTerrainMixingUpload.js';
+
+/**
+ * Creates the immutable terrain-frequency policy used by the WebGL material path.
+ * @param {boolean} mobile Whether the current device uses the bounded mobile tier.
+ * @returns {Readonly<object>} Terrain mixing controls.
+ */
 export function createMinimalMeadowTerrainMixingPolicy(mobile = false) {
-	const quality = mobile ? 0.74 : 1;
-	const microRepeat = mobile ? 1.42 : 1.86;
+	const quality = mobile ? 0.84 : 1;
+	const microRepeat = mobile ? 1.58 : 1.86;
 	return Object.freeze({
 		channelOrder: Object.freeze([
 			'roadCenter',
@@ -24,7 +31,7 @@ export function createMinimalMeadowTerrainMixingPolicy(mobile = false) {
 		chromatic: Object.freeze({
 			coolShadow: 0.08 * quality,
 			dryWarmth: 0.14,
-			patchScale: mobile ? 0.012 : 0.009,
+			patchScale: mobile ? 0.0105 : 0.009,
 			tintStrength: 0.26 * quality
 		}),
 		detail: Object.freeze({
@@ -35,9 +42,9 @@ export function createMinimalMeadowTerrainMixingPolicy(mobile = false) {
 			roughnessStrength: 0.4 * quality
 		}),
 		distance: Object.freeze({
-			fadeEnd: mobile ? 160 : 260,
-			fadeStart: mobile ? 74 : 118,
-			macroDominance: mobile ? 0.7 : 0.58
+			fadeEnd: mobile ? 180 : 260,
+			fadeStart: mobile ? 84 : 118,
+			macroDominance: mobile ? 0.64 : 0.58
 		}),
 		ecology: Object.freeze({
 			drainageStrength: 0.72,
@@ -50,20 +57,20 @@ export function createMinimalMeadowTerrainMixingPolicy(mobile = false) {
 		}),
 		macro: Object.freeze({
 			contrast: 0.38,
-			repeatMultiplier: mobile ? 0.2 : 0.13,
-			rotationJitter: mobile ? 0.22 : 0.38
+			repeatMultiplier: mobile ? 0.17 : 0.13,
+			rotationJitter: mobile ? 0.3 : 0.38
 		}),
 		noise: Object.freeze({
 			detailScale: 0.031,
 			macroScale: 0.0075,
 			patchScale: 0.015,
 			seed: 178,
-			warpStrength: mobile ? 0.46 : 0.64
+			warpStrength: mobile ? 0.54 : 0.64
 		}),
 		quality: mobile ? 'mobile-rich' : 'desktop-ultra',
 		triplanar: Object.freeze({
 			enabled: true,
-			sharpness: mobile ? 3.4 : 5.2,
+			sharpness: mobile ? 4.1 : 5.2,
 			slopeThreshold: 0.38
 		}),
 		wetness: Object.freeze({
@@ -74,41 +81,13 @@ export function createMinimalMeadowTerrainMixingPolicy(mobile = false) {
 	});
 }
 
+/**
+ * Applies the resolved profile to the compact material upload contract.
+ * @param {object} material Terrain material target.
+ * @param {boolean} mobile Whether the mobile tier is active.
+ * @returns {Readonly<object>} Applied terrain policy.
+ */
 export function applyMinimalMeadowTerrainMixing(material, mobile = false) {
 	const policy = createMinimalMeadowTerrainMixingPolicy(mobile);
-	Object.assign(material, {
-		mixChromaticStrength: policy.chromatic.tintStrength,
-		mixDetailContrast: policy.detail.contrast,
-		mixDetailRepeatMultiplier: policy.detail.repeatMultiplier,
-		mixDistanceFade: [policy.distance.fadeStart, policy.distance.fadeEnd],
-		mixDrainageStrength: policy.ecology.drainageStrength,
-		mixErosionStrength: policy.ecology.erosionStrength,
-		mixMacroRepeatMultiplier: policy.macro.repeatMultiplier,
-		mixMoistureStrength: policy.ecology.moistureStrength,
-		mixNoiseWarp: policy.noise.warpStrength,
-		mixRidgeStrength: policy.ecology.ridgeStrength,
-		mixSlopeStrength: policy.ecology.slopeStrength,
-		mixTriplanarSharpness: policy.triplanar.sharpness,
-		mixWetnessStrength: policy.wetness.darkening,
-		terrainMixingA: [
-			policy.noise.macroScale,
-			policy.detail.repeatMultiplier,
-			policy.noise.patchScale,
-			policy.noise.warpStrength
-		],
-		terrainMixingB: [
-			policy.distance.fadeStart,
-			policy.distance.fadeEnd,
-			policy.triplanar.sharpness,
-			policy.wetness.darkening
-		],
-		terrainMixingC: [
-			policy.chromatic.tintStrength,
-			policy.detail.contrast,
-			policy.ecology.slopeStrength,
-			policy.ecology.heightStrength
-		],
-		terrainMixingPolicy: policy
-	});
-	return policy;
+	return uploadMinimalMeadowTerrainMixing(material, policy);
 }

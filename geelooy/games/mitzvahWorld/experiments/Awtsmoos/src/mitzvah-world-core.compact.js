@@ -168,31 +168,33 @@ const __awtsmoosModule_73 = Object.create(null);
 
 const __awtsmoosModule_74 = Object.create(null);
 
-const __awtsmoosModule_75 = Object.create(null);
+const __awtsmoosModule_76 = Object.create(null);
 
 const __awtsmoosModule_77 = Object.create(null);
 
-const __awtsmoosModule_76 = Object.create(null);
+const __awtsmoosModule_75 = Object.create(null);
 
 const __awtsmoosModule_79 = Object.create(null);
 
-const __awtsmoosModule_80 = Object.create(null);
-
-const __awtsmoosModule_82 = Object.create(null);
+const __awtsmoosModule_78 = Object.create(null);
 
 const __awtsmoosModule_81 = Object.create(null);
 
-const __awtsmoosModule_83 = Object.create(null);
-
-const __awtsmoosModule_78 = Object.create(null);
+const __awtsmoosModule_82 = Object.create(null);
 
 const __awtsmoosModule_84 = Object.create(null);
+
+const __awtsmoosModule_83 = Object.create(null);
+
+const __awtsmoosModule_85 = Object.create(null);
+
+const __awtsmoosModule_80 = Object.create(null);
 
 const __awtsmoosModule_71 = Object.create(null);
 
 const __awtsmoosModule_67 = Object.create(null);
 
-const __awtsmoosModule_85 = Object.create(null);
+const __awtsmoosModule_86 = Object.create(null);
 
 const __awtsmoosModule_61 = Object.create(null);
 
@@ -5992,7 +5994,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapMovementPace.js ----
 {
-	const __exports = __awtsmoosModule_75;
+	const __exports = __awtsmoosModule_76;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -6034,9 +6036,102 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahMovementProfile.js ----
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTravelFacingPolicy.js ----
 {
 	const __exports = __awtsmoosModule_77;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file MinimalMeadowTravelFacingPolicy.js
+	 * @description Retains the last meaningful travel orientation across zero-input release frames.
+	 * The Awtsmoos gives each journey a remembered direction; Awtsmoos.com refuses to turn
+	 * the visible traveler merely because a finite thumb has lifted from the joystick.
+	 */
+
+	const MOVEMENT_EPSILON = 0.0001;
+
+	function retainedMinimalMeadowTravelFacing(
+		step,
+		currentTravelFacing,
+		fallbackFacing
+	) {
+		const distance = Math.hypot(Number(step?.x) || 0, Number(step?.z) || 0);
+		if (distance > MOVEMENT_EPSILON) {
+			return Math.atan2(step.x, step.z);
+		}
+		if (Number.isFinite(currentTravelFacing)) {
+			return currentTravelFacing;
+		}
+		return Number.isFinite(fallbackFacing) ? fallbackFacing : 0;
+	}
+
+
+	__exports.retainedMinimalMeadowTravelFacing = retainedMinimalMeadowTravelFacing;
+	function isMinimalMeadowMovementStep(step) {
+		return Math.hypot(Number(step?.x) || 0, Number(step?.z) || 0) > MOVEMENT_EPSILON;
+	}
+
+	__exports.isMinimalMeadowMovementStep = isMinimalMeadowMovementStep;
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapMovementFacing.js ----
+{
+	const __exports = __awtsmoosModule_75;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file BootstrapMovementFacing.js
+	 * @description Makes visible player facing authoritative across bootstrap movement and canonical animation presentation.
+	 * The Awtsmoos joins the path beneath the feet with the face of the traveler in one light;
+	 * Awtsmoos.com keeps travel memory and rendered heading united so a later presentation cannot undo what movement made right.
+	 */
+
+	const bootstrapMovementAction = __awtsmoosModule_70.bootstrapMovementAction;
+	const bootstrapTravelFacingLocked = __awtsmoosModule_76.bootstrapTravelFacingLocked;
+	const isMinimalMeadowMovementStep = __awtsmoosModule_77.isMinimalMeadowMovementStep;
+	const retainedMinimalMeadowTravelFacing = __awtsmoosModule_77.retainedMinimalMeadowTravelFacing;
+
+	/**
+	 * Settles movement state and promotes unlocked travel direction into the canonical visible facing.
+	 * @param {object} runtime Active bootstrap runtime.
+	 * @param {object} state Canonical player state shared with animation presentation.
+	 * @param {object} keyboard Normalized keyboard intent used by the existing facing-lock law.
+	 * @param {{x:number,z:number}} step Settled world-space movement step.
+	 * @returns {{locked:boolean,moving:boolean,travelFacing:number}} Facing receipt for diagnostics and tests.
+	 */
+	function settleBootstrapMovementFacing(runtime, state, keyboard, step) {
+		const locked = bootstrapTravelFacingLocked(runtime, keyboard);
+		state.moving = isMinimalMeadowMovementStep(step);
+		state.travelFacing = locked
+			? state.facing
+			: retainedMinimalMeadowTravelFacing(
+				step,
+				state.travelFacing,
+				state.facing
+			);
+		if (!locked && state.moving) {
+			state.facing = state.travelFacing;
+		}
+		state.action = bootstrapMovementAction(state);
+		return {
+			locked,
+			moving: state.moving,
+			travelFacing: state.travelFacing
+		};
+	}
+
+	__exports.settleBootstrapMovementFacing = settleBootstrapMovementFacing;
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahMovementProfile.js ----
+{
+	const __exports = __awtsmoosModule_79;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -6068,7 +6163,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapMovementVelocity.js ----
 {
-	const __exports = __awtsmoosModule_76;
+	const __exports = __awtsmoosModule_78;
 	//B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -6084,7 +6179,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	const cameraMovementBasis = __awtsmoosModule_73.cameraMovementBasis;
 	const combineMovementVectors = __awtsmoosModule_73.combineMovementVectors;
 	const movementVectorFromBasis = __awtsmoosModule_73.movementVectorFromBasis;
-	const MITZVAH_MOVEMENT_PROFILE = __awtsmoosModule_77.MITZVAH_MOVEMENT_PROFILE;
+	const MITZVAH_MOVEMENT_PROFILE = __awtsmoosModule_79.MITZVAH_MOVEMENT_PROFILE;
 
 	/**
 	 * Builds the desired horizontal velocity while calculating the camera basis only once.
@@ -6137,7 +6232,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/movement/VerticalKinematics.js ----
 {
-	const __exports = __awtsmoosModule_79;
+	const __exports = __awtsmoosModule_81;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -6239,7 +6334,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowGroundSupport.js ----
 {
-	const __exports = __awtsmoosModule_80;
+	const __exports = __awtsmoosModule_82;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -6289,7 +6384,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/movement/JumpWindowState.js ----
 {
-	const __exports = __awtsmoosModule_82;
+	const __exports = __awtsmoosModule_84;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -6380,7 +6475,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahJumpPolicy.js ----
 {
-	const __exports = __awtsmoosModule_81;
+	const __exports = __awtsmoosModule_83;
 	//B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -6392,17 +6487,17 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com keeps double-jump meaning in the game while narrow canonical kinematics carry universal names.
 	 */
 
-	const advanceJumpWindowState = __awtsmoosModule_82.advanceJumpWindowState;
-	const consumeBufferedJump = __awtsmoosModule_82.consumeBufferedJump;
-	const hasBufferedJump = __awtsmoosModule_82.hasBufferedJump;
-	const hasCoyoteGrace = __awtsmoosModule_82.hasCoyoteGrace;
-	const captureVerticalPosition = __awtsmoosModule_79.captureVerticalPosition;
-	const integrateVerticalMotion = __awtsmoosModule_79.integrateVerticalMotion;
-	const isBodyAboveGround = __awtsmoosModule_79.isBodyAboveGround;
-	const landVerticalMotion = __awtsmoosModule_79.landVerticalMotion;
-	const launchVerticalMotion = __awtsmoosModule_79.launchVerticalMotion;
-	const minimalMeadowGroundHeight = __awtsmoosModule_80.minimalMeadowGroundHeight;
-	const MITZVAH_MOVEMENT_PROFILE = __awtsmoosModule_77.MITZVAH_MOVEMENT_PROFILE;
+	const advanceJumpWindowState = __awtsmoosModule_84.advanceJumpWindowState;
+	const consumeBufferedJump = __awtsmoosModule_84.consumeBufferedJump;
+	const hasBufferedJump = __awtsmoosModule_84.hasBufferedJump;
+	const hasCoyoteGrace = __awtsmoosModule_84.hasCoyoteGrace;
+	const captureVerticalPosition = __awtsmoosModule_81.captureVerticalPosition;
+	const integrateVerticalMotion = __awtsmoosModule_81.integrateVerticalMotion;
+	const isBodyAboveGround = __awtsmoosModule_81.isBodyAboveGround;
+	const landVerticalMotion = __awtsmoosModule_81.landVerticalMotion;
+	const launchVerticalMotion = __awtsmoosModule_81.launchVerticalMotion;
+	const minimalMeadowGroundHeight = __awtsmoosModule_82.minimalMeadowGroundHeight;
+	const MITZVAH_MOVEMENT_PROFILE = __awtsmoosModule_79.MITZVAH_MOVEMENT_PROFILE;
 
 	function prepareMitzvahVertical(runtime, state, deltaSeconds) {
 		captureVerticalPosition(state);
@@ -6470,7 +6565,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahMovementSupport.js ----
 {
-	const __exports = __awtsmoosModule_83;
+	const __exports = __awtsmoosModule_85;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -6541,7 +6636,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahMovementRuntime.js ----
 {
-	const __exports = __awtsmoosModule_78;
+	const __exports = __awtsmoosModule_80;
 	//B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -6553,14 +6648,14 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com keeps this adapter small so collision truth stays local and first play awakens only the motion law it has picked.
 	 */
 
-	const landVerticalMotion = __awtsmoosModule_79.landVerticalMotion;
-	const minimalMeadowGroundHeight = __awtsmoosModule_80.minimalMeadowGroundHeight;
-	const finishMitzvahVertical = __awtsmoosModule_81.finishMitzvahVertical;
-	const prepareMitzvahVertical = __awtsmoosModule_81.prepareMitzvahVertical;
+	const landVerticalMotion = __awtsmoosModule_81.landVerticalMotion;
+	const minimalMeadowGroundHeight = __awtsmoosModule_82.minimalMeadowGroundHeight;
+	const finishMitzvahVertical = __awtsmoosModule_83.finishMitzvahVertical;
+	const prepareMitzvahVertical = __awtsmoosModule_83.prepareMitzvahVertical;
 
-	__exports.movementAxes = __awtsmoosModule_83.movementAxes;
-	__exports.movementModeFor = __awtsmoosModule_83.movementModeFor;
-	__exports.updateMovementCamera = __awtsmoosModule_83.updateMovementCamera;
+	__exports.movementAxes = __awtsmoosModule_85.movementAxes;
+	__exports.movementModeFor = __awtsmoosModule_85.movementModeFor;
+	__exports.updateMovementCamera = __awtsmoosModule_85.updateMovementCamera;
 
 	function prepareMovementVertical(runtime, state, deltaSeconds) {
 		runtime.movementRecovery?.beforeStep(state);
@@ -6624,80 +6719,36 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTravelFacingPolicy.js ----
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapMovementFrame.js ----
 {
-	const __exports = __awtsmoosModule_84;
+	const __exports = __awtsmoosModule_71;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
 
 	/**
-	 * @file MinimalMeadowTravelFacingPolicy.js
-	 * @description Retains the last meaningful travel orientation across zero-input release frames.
-	 * The Awtsmoos gives each journey a remembered direction; Awtsmoos.com refuses to turn
-	 * the visible traveler merely because a finite thumb has lifted from the joystick.
-	 */
-
-	const MOVEMENT_EPSILON = 0.0001;
-
-	function retainedMinimalMeadowTravelFacing(
-		step,
-		currentTravelFacing,
-		fallbackFacing
-	) {
-		const distance = Math.hypot(Number(step?.x) || 0, Number(step?.z) || 0);
-		if (distance > MOVEMENT_EPSILON) {
-			return Math.atan2(step.x, step.z);
-		}
-		if (Number.isFinite(currentTravelFacing)) {
-			return currentTravelFacing;
-		}
-		return Number.isFinite(fallbackFacing) ? fallbackFacing : 0;
-	}
-
-
-	__exports.retainedMinimalMeadowTravelFacing = retainedMinimalMeadowTravelFacing;
-	function isMinimalMeadowMovementStep(step) {
-		return Math.hypot(Number(step?.x) || 0, Number(step?.z) || 0) > MOVEMENT_EPSILON;
-	}
-
-	__exports.isMinimalMeadowMovementStep = isMinimalMeadowMovementStep;
-
-}
-
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapMovementFrame.js ----
-{
-	const __exports = __awtsmoosModule_71;
-	//B"H
-	// Boruch Hashem
-	// Blessed is He
-
-	/**
 	 * @file BootstrapMovementFrame.js
-	 * @description Coordinates one responsive player frame while importing only focused movement laws, so first control never awakens the entire procedural engine merely to take a step.
-	 * Netzach carries intention into motion while Tiferes joins turning, collision, animation, and camera without duplicating shared law;
-	 * the Awtsmoos recreates traveler and direction before the step can begin, and Awtsmoos.com keeps each responsibility in its proper vessel within.
+	 * @description Coordinates one responsive player frame while preserving one canonical visible facing across movement and animation presentation.
+	 * Netzach carries intention into motion while Tiferes joins collision, facing, and camera in one measured light;
+	 * the Awtsmoos renews traveler and direction each instant, and Awtsmoos.com keeps later presentation from undoing the path made right.
 	 */
 
 	const normalizeMovementIntent = __awtsmoosModule_72.normalizeMovementIntent;
 	const movementStepFromVelocity = __awtsmoosModule_73.movementStepFromVelocity;
 	const advanceMovementVelocity = __awtsmoosModule_68.advanceMovementVelocity;
 	const bootstrapInputAxis = __awtsmoosModule_74.bootstrapInputAxis;
-	const bootstrapMovementSpeed = __awtsmoosModule_75.bootstrapMovementSpeed;
-	const bootstrapTravelFacingLocked = __awtsmoosModule_75.bootstrapTravelFacingLocked;
-	const bootstrapMovementAction = __awtsmoosModule_70.bootstrapMovementAction;
+	const settleBootstrapMovementFacing = __awtsmoosModule_75.settleBootstrapMovementFacing;
+	const bootstrapMovementSpeed = __awtsmoosModule_76.bootstrapMovementSpeed;
 	const setBootstrapMovementYaw = __awtsmoosModule_70.setBootstrapMovementYaw;
-	const bootstrapDesiredVelocity = __awtsmoosModule_76.bootstrapDesiredVelocity;
-	const bootstrapVelocityOptions = __awtsmoosModule_76.bootstrapVelocityOptions;
-	const MITZVAH_MOVEMENT_PROFILE = __awtsmoosModule_77.MITZVAH_MOVEMENT_PROFILE;
-	const applyMovementCollision = __awtsmoosModule_78.applyMovementCollision;
-	const finishMovementVertical = __awtsmoosModule_78.finishMovementVertical;
-	const movementAxes = __awtsmoosModule_78.movementAxes;
-	const movementModeFor = __awtsmoosModule_78.movementModeFor;
-	const prepareMovementVertical = __awtsmoosModule_78.prepareMovementVertical;
-	const updateMovementCamera = __awtsmoosModule_78.updateMovementCamera;
-	const isMinimalMeadowMovementStep = __awtsmoosModule_84.isMinimalMeadowMovementStep;
-	const retainedMinimalMeadowTravelFacing = __awtsmoosModule_84.retainedMinimalMeadowTravelFacing;
+	const bootstrapDesiredVelocity = __awtsmoosModule_78.bootstrapDesiredVelocity;
+	const bootstrapVelocityOptions = __awtsmoosModule_78.bootstrapVelocityOptions;
+	const MITZVAH_MOVEMENT_PROFILE = __awtsmoosModule_79.MITZVAH_MOVEMENT_PROFILE;
+	const applyMovementCollision = __awtsmoosModule_80.applyMovementCollision;
+	const finishMovementVertical = __awtsmoosModule_80.finishMovementVertical;
+	const movementAxes = __awtsmoosModule_80.movementAxes;
+	const movementModeFor = __awtsmoosModule_80.movementModeFor;
+	const prepareMovementVertical = __awtsmoosModule_80.prepareMovementVertical;
+	const updateMovementCamera = __awtsmoosModule_80.updateMovementCamera;
 
 	/**
 	 * Advances one complete player-control frame from fresh input through settled camera presentation.
@@ -6743,7 +6794,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		);
 		applyMovementCollision(runtime, state, step);
 		finishMovementVertical(runtime, state, richVertical);
-		settleFacing(runtime, state, keyboard, step);
+		settleBootstrapMovementFacing(runtime, state, keyboard, step);
 		settlePresentation(runtime, state);
 		const cameraMode = updateMovementCamera(runtime, state, deltaSeconds);
 		runtime.multiplayerBridge?.update?.(deltaSeconds, state);
@@ -6762,23 +6813,12 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.advanceBootstrapMovement = advanceBootstrapMovement;
-	function settleFacing(runtime, state, keyboard, step) {
-		state.moving = isMinimalMeadowMovementStep(step);
-		state.travelFacing = bootstrapTravelFacingLocked(runtime, keyboard)
-			? state.facing
-			: retainedMinimalMeadowTravelFacing(
-				step,
-				state.travelFacing,
-				state.facing
-			);
-		state.action = bootstrapMovementAction(state);
-	}
-
+	/** Applies the same canonical facing that animation presentation will use moments later. */
 	function settlePresentation(runtime, state) {
 		runtime.model.position.set(state.x, state.renderY, state.z);
 		setBootstrapMovementYaw(
 			runtime.model.quaternion,
-			state.travelFacing
+			state.facing
 		);
 		runtime.equipment?.update?.();
 	}
@@ -6830,7 +6870,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldStartupMilestones.js ----
 {
-	const __exports = __awtsmoosModule_85;
+	const __exports = __awtsmoosModule_86;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -6977,7 +7017,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	const renderBootstrapGameplay = __awtsmoosModule_63.renderBootstrapGameplay;
 	const createBootstrapFrameScheduler = __awtsmoosModule_66.createBootstrapFrameScheduler;
 	const BootstrapMovementController = __awtsmoosModule_67.BootstrapMovementController;
-	const markMitzvahWorldStartupMilestone = __awtsmoosModule_85.markMitzvahWorldStartupMilestone;
+	const markMitzvahWorldStartupMilestone = __awtsmoosModule_86.markMitzvahWorldStartupMilestone;
 
 	const MAX_FRAME_DELTA_SECONDS = 0.05;
 

@@ -1,36 +1,32 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file SkyDome.js
- * @description Builds inward atmosphere geometry but leaves it hidden because no legitimate remote sky image currently exists.
- * The Awtsmoos surrounds every gaze without needing a painted sphere; Awtsmoos.com keeps this geometry prepared yet unseen,
- * awaiting a truthful remote sky garment rather than revealing procedural color where no authentic image has been given.
+ * @description Builds the local inward atmosphere vessel for the renderer's existing procedural daylight shader.
+ * The Awtsmoos surrounds every traveler with a heaven renewed before sight can climb;
+ * Awtsmoos.com now reveals the waiting sun, cloud, haze, and horizon without a network toll in time.
  */
 
-import { createSkyMesh } from './SkyMeshFactory.js';
+import { createProceduralSkyMesh } from './ProceduralSkyMeshFactory.js';
 
-/** Creates one remote-pending atmosphere sphere. */
+/**
+ * Creates one visible procedural atmosphere sphere.
+ * @param {number} radius Sky radius in world units.
+ * @param {number} rings Vertical sphere subdivisions.
+ * @param {number} segments Horizontal sphere subdivisions.
+ * @returns {object} Tiny-runtime sky mesh.
+ */
 export function createSkyDome(radius = 360, rings = 28, segments = 64) {
 	const geometry = sphereGeometry(radius, rings, segments);
-	const mesh = createSkyMesh('Awtsmoos_remote_pending_atmosphere_sphere', geometry, {
-		color: [1, 1, 1, 1],
-		doubleSided: true,
-		texturePolicy: {
-			cameraCentered: true,
-			remoteOnly: true,
-			semanticRole: null
-		},
-		textureUrl: null
-	});
-	mesh.frustumCulled = false;
-	mesh.userData.family = 'world-sky-atmosphere';
-	mesh.userData.missingRemoteSkySource = true;
-	mesh.userData.renderDistance = Infinity;
-	return mesh;
+	return createProceduralSkyMesh(
+		'Awtsmoos_procedural_daylight_atmosphere_sphere',
+		geometry
+	);
 }
 
+/** Builds the bounded inward-facing sphere data consumed by the procedural sky mesh factory. */
 function sphereGeometry(radius, rings, segments) {
 	const positions = [];
 	const normals = [];

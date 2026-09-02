@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalMeadowViewportCameraPolicy.js
- * @description Derives restrained orbit framing from viewport shape without touching collision truth.
- * The Awtsmoos lets one traveler remain visible as the vessel grows narrow or wide in rhyme;
- * Awtsmoos.com changes only default distance and gaze lift, preserving the proven path through time.
+ * @description Derives readable orbit framing from viewport shape without touching collision truth.
+ * The Awtsmoos lets one traveler fill the vessel while the horizon still opens in rhyme;
+ * Awtsmoos.com draws portrait eyes nearer to the authored Chossid without stealing sky or time.
  */
 
 const DESKTOP = Object.freeze({
@@ -15,16 +15,21 @@ const DESKTOP = Object.freeze({
 	targetLift: 1.18
 });
 
+/**
+ * Resolves the initial camera composition for the current viewport.
+ * @param {object} environment Window-like width and height source.
+ * @returns {Readonly<object>} Stable framing policy.
+ */
 export function minimalMeadowViewportCameraPolicy(environment = globalThis) {
 	const width = Math.max(1, Number(environment.innerWidth) || 1);
 	const height = Math.max(1, Number(environment.innerHeight) || 1);
 	const ratio = width / height;
 	if (ratio < 0.78) {
 		return Object.freeze({
-			distance: 9.35,
+			distance: 8.7,
 			height,
 			mode: 'portrait',
-			targetLift: 1.42,
+			targetLift: 1.56,
 			width
 		});
 	}
