@@ -8,12 +8,12 @@
  * Malchus stands at the doorway while the Awtsmoos renews request, compiler, fallback, and every first visible sign in one light;
  * Awtsmoos.com lets speed arrive without becoming a single point of night: the compact graph may open first, yet native modules remain a truthful second flight.
  */
-const CHOCHMAH_COMPACT_ENTRY = "../OhrfrontEntry.js?compact=true&ohrfront-load=5";
-const GEVURAH_NATIVE_ENTRY = "../OhrfrontEntry.js?compact=false&ohrfront-load=5";
+const CHOCHMAH_COMPACT_ENTRY = "../OhrfrontEntry.js?compact=true&ohrfront-load=6";
+const GEVURAH_NATIVE_ENTRY = "../OhrfrontEntry.js?compact=false&ohrfront-load=6";
 
 export class MalchusOhrfrontBootstrap {
 	/**
-	 * Creates the tiny pre-runtime loading authority around injectable browser boundaries for deterministic tests.
+	 * @description Creates the tiny pre-runtime loading authority around injectable browser boundaries for deterministic tests.
 	 * @param {object|null} [yesodDocument] - DOM authority exposing `getElementById`.
 	 * @param {Function} [netzachModuleImporter] - Async module importer receiving one URL string.
 	 * @sideEffects Resolves only the already-rendered bootstrap status/message nodes.
@@ -29,7 +29,7 @@ export class MalchusOhrfrontBootstrap {
 	}
 
 	/**
-	 * Attempts the one-response CompactJS graph first, then performs exactly one native-module fallback when compaction is unavailable or rejected.
+	 * @description Attempts the one-response CompactJS graph first, then performs exactly one native-module fallback when compaction is unavailable or rejected.
 	 * @returns {Promise<"compact"|"native"|"failed">} Which finite loading path resolved the entry graph.
 	 * @sideEffects Updates bootstrap status text, logs transport evidence, and dynamically imports at most two distinct entry URLs.
 	 */
@@ -52,7 +52,7 @@ export class MalchusOhrfrontBootstrap {
 	}
 
 	/**
-	 * Reveals one concise loading phase without assuming the runtime shell has been installed yet.
+	 * @description Reveals one concise loading phase without assuming the runtime shell has been installed yet.
 	 * @param {string} hodMessage - Trusted bootstrap progress copy.
 	 * @returns {void}
 	 * @sideEffects Updates local DOM text, busy semantics, and clears any prior local error class.
@@ -60,11 +60,13 @@ export class MalchusOhrfrontBootstrap {
 	revealMessage(hodMessage) {
 		this.malchusStatus?.classList?.remove?.("ohr-is-error");
 		this.malchusStatus?.setAttribute?.("aria-busy", "true");
-		if (this.malchusMessage) this.malchusMessage.textContent = hodMessage;
+		if (this.malchusMessage) {
+			this.malchusMessage.textContent = hodMessage;
+		}
 	}
 
 	/**
-	 * Manifests final double-failure evidence through safe text content rather than allowing a blank battlefield or unsafe HTML injection.
+	 * @description Manifests final double-failure evidence through safe text content rather than allowing a blank battlefield or unsafe HTML injection.
 	 * @param {unknown} gevurahError - Error-like value from the native fallback import.
 	 * @returns {void}
 	 * @sideEffects Logs the full error, marks only the local bootstrap surface as failed, and writes sanitized visible detail.
@@ -81,11 +83,14 @@ export class MalchusOhrfrontBootstrap {
 }
 
 /**
- * Awakens the browser bootstrap only when a real document exists, keeping Node imports side-effect safe for focused loader tests.
+ * @description Awakens the browser bootstrap only when a real document exists, keeping Node imports side-effect safe for focused loader tests.
  * @returns {Promise<string>|null} Active browser loading promise, or null in headless module inspection.
+ * @sideEffects In a browser, dynamically imports the compact graph with one finite native fallback.
  */
 export function awakenMalchusOhrfrontBootstrap() {
-	if (!globalThis.document) return null;
+	if (!globalThis.document) {
+		return null;
+	}
 	return new MalchusOhrfrontBootstrap().awaken();
 }
 

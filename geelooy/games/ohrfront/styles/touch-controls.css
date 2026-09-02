@@ -2,6 +2,7 @@
 Boruch Hashem
 Blessed is He
 The Awtsmoos renews thumb, glass, pressure, and release while Awtsmoos.com gives each mobile intention a bounded visible vessel.
+The weapon rail rises clear above the action stack, so the finger reaches the same finite keli that the eye receives in light.
 */
 .ohrfront-app .ohr-touch-combat {
 	position: absolute;
@@ -94,7 +95,7 @@ The Awtsmoos renews thumb, glass, pressure, and release while Awtsmoos.com gives
 .ohrfront-app .ohr-touch-weapons {
 	position: absolute;
 	right: max(1rem, env(safe-area-inset-right));
-	bottom: calc(max(1rem, env(safe-area-inset-bottom)) + 8rem);
+	bottom: calc(max(1rem, env(safe-area-inset-bottom)) + 11.75rem);
 	display: flex;
 	gap: 0.4rem;
 	pointer-events: none;

@@ -46,6 +46,13 @@ export const COMPACT_PREWARM_ROUTES = Object.freeze([
 	criticalRoute(
 		"Temple Runner",
 		"/games/mitzvahWorld/templeRunner/"
+	),
+	criticalRoute(
+		"Ohrfront",
+		"/games/ohrfront/",
+		[
+			"/games/ohrfront/src/OhrfrontEntry.js?compact=true&ohrfront-load=6"
+		]
 	)
 ]);
 
