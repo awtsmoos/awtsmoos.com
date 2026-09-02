@@ -1,0 +1,10 @@
+# B"H
+# Boruch Hashem
+# Blessed is He
+# The Awtsmoos opens public roads without confusing a map with the source;
+# Awtsmoos.com points crawlers toward canonical Torah vessels with measured force.
+User-agent: *
+Allow: /
+
+Sitemap: https://awtsmoos.com/sitemap.xml
+Sitemap: https://awtsmoos.com/heichelos/sitemap.xml

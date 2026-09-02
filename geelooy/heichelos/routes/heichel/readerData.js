@@ -5,11 +5,11 @@
 /**
  * @file readerData.js
  * @description
- * The Awtsmoos gathers one public teaching before the browser awakens; on Awtsmoos.com the same API river that feeds JavaScript now pours into initial HTML,
- * so direct doors and numbered roads reveal one Torah truth without a crawler-only disguise.
+ * The Awtsmoos gathers one public teaching before the browser awakens; on Awtsmoos.com the same public series river
+ * feeds direct doors, named posts, and numbered Roads, so one Torah truth is never split by obsolete API shadows.
  */
 
-const { aliasFields, heichelFields, postFields } = require('./fieldMaps.js');
+const { aliasFields, heichelFields } = require('./fieldMaps.js');
 
 /** @description Encodes one public route segment without changing its identity. */
 function encodeSegment(value) {
@@ -75,10 +75,10 @@ function createReaderData($i) {
 	}
 
 	async function loadDirect(heichelId, postId) {
+		const seriesId = 'root';
 		const post = await fetchPublic(
-			`/api/social/heichelos/${encodeSegment(heichelId)}/post/${encodeSegment(postId)}?${postFields()}`
+			`/api/social/heichelos/${encodeSegment(heichelId)}/series/${seriesId}/post/${encodeSegment(postId)}`
 		);
-		const seriesId = post?.parentSeriesId || post?.seriesId || '';
 		return decorate({ heichelId, seriesId, postId, post });
 	}
 

@@ -1,0 +1,95 @@
+<!-- B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives each reader control its measured vessel;
+Awtsmoos.com keeps the Torah surface calm while every useful setting remains near and revealable.
+-->
+<div class="typography-details hidden-details" id="typographyDetails" role="region" aria-label="Reader settings" aria-hidden="true">
+	<div class="typography-content">
+		<div class="settings-group">
+			<div class="control-label">Scribe's Lens</div>
+			<div class="focus-mode-control settings-group">
+				<span class="setting-name control-label">Focus Mode</span>
+				<input type="checkbox" id="focusModeToggle" class="awtsmoos-toggle font-selector" aria-label="Focus mode">
+				<label for="focusModeToggle" class="awtsmoos-toggle-label control-label"></label>
+			</div>
+		</div>
+		<div class="settings-group">
+			<div class="control-label">Text Scale</div>
+			<div class="text-controls">
+				<button type="button" class="font-adjust-btn" id="fontDecreaseBtn" aria-label="Decrease text size">−</button>
+				<div class="font-size-display" aria-live="polite">Aa</div>
+				<button type="button" class="font-adjust-btn" id="fontIncreaseBtn" aria-label="Increase text size">+</button>
+			</div>
+		</div>
+		<div class="settings-group auto-scroll-settings">
+			<div class="auto-scroll-heading">
+				<div class="control-label">Auto Scroll River</div>
+				<output id="autoScrollStatus" data-auto-scroll-status>Off</output>
+			</div>
+			<button id="autoScrollSettingsToggle" class="auto-scroll-settings-toggle" type="button" data-auto-scroll-toggle aria-pressed="false">
+				<span class="awtsmoos-auto-scroll-icon" aria-hidden="true">↓</span>
+				<span class="awtsmoos-auto-scroll-label">Start</span>
+				<span class="awtsmoos-auto-scroll-speed">0.35×</span>
+			</button>
+			<div class="speed-control-row">
+				<span class="speed-word">Still</span>
+				<input type="range" id="autoScrollSpeedRange" min="0.05" max="8" step="0.05" value="0.35" aria-label="Auto scroll speed" aria-describedby="autoScrollSpeedDisplay">
+				<span class="speed-word">Fast</span>
+			</div>
+			<div class="speed-readout-row">
+				<span>Reading flow speed</span>
+				<output id="autoScrollSpeedDisplay" for="autoScrollSpeedRange">0.35× · Slow reading · 28 px/s</output>
+			</div>
+			<p class="auto-scroll-help">Always starts off. Your chosen pace is remembered and synchronized across open reader tabs.</p>
+		</div>
+		<div class="settings-group">
+			<label class="control-label" for="fontSelector">Font Alchemist</label>
+			<select id="fontSelector" class="font-selector">
+				<option value="'Cardo', serif">Cardo</option>
+				<option value="'Source Serif 4', serif">Source Serif 4</option>
+				<option value="'Frank Ruhl Libre', serif">Frank Ruhl Libre</option>
+				<option value="'Inter', sans-serif">Inter</option>
+			</select>
+		</div>
+		<div class="settings-group">
+			<label class="control-label" for="themeSelector">Theme Engine</label>
+			<div class="theme-controls settings-group">
+				<select id="themeSelector">
+					<option value="light">Light</option>
+					<option value="dark">Dark</option>
+				</select>
+			</div>
+		</div>
+		<details class="reader-advanced-settings settings-group">
+			<summary>
+				<span>Advanced appearance</span>
+				<small>Custom tincture</small>
+			</summary>
+			<div class="reader-advanced-content">
+				<div class="control-label">Live Tincture</div>
+				<div class="color-picker-grid settings-group">
+					<div class="color-control settings-group">
+						<label for="inkColorPicker">Ink</label>
+						<input type="color" id="inkColorPicker" data-css-var="--color-ink" class="ink-pot font-selector">
+					</div>
+					<div class="color-control settings-group">
+						<label for="vellumColorPicker">Vellum</label>
+						<input type="color" id="vellumColorPicker" data-css-var="--bg-vellum" class="ink-pot font-selector">
+					</div>
+					<div class="color-control settings-group">
+						<label for="primaryColorPicker">Primary</label>
+						<input type="color" id="primaryColorPicker" data-css-var="--color-primary" class="ink-pot font-selector">
+					</div>
+					<div class="color-control settings-group">
+						<label for="accentColorPicker">Accent</label>
+						<input type="color" id="accentColorPicker" data-css-var="--color-accent" class="ink-pot font-selector">
+					</div>
+				</div>
+			</div>
+		</details>
+	</div>
+	<div class="reset-section">
+		<button type="button" id="resetDefaultsBtn" class="danger-outline">Reset to Defaults</button>
+	</div>
+</div>
