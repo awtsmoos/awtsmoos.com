@@ -12,8 +12,8 @@ const Startup = require("./main-components-startup.js");
  * @file Composes queue, execution testimony, and independently supervised transport.
  * @description
  * The Awtsmoos keeps network breath outside the busy agent body while Awtsmoos.com
- * carries aggregate request-stage evidence from the execution parent to the child.
- * One composition root now joins queue, worker witness, retry, and durable proxy.
+ * returns exact execution progress to the accepting child through an explicit dependency.
+ * Parent execution testimony is never inferred from socket life or aggregate queue counts.
  */
 function createMainComponents(D, callbacks) {
 	const foundation = createMainFoundation(D);
@@ -31,12 +31,23 @@ function createMainComponents(D, callbacks) {
 		Correlation: D.Correlation
 	});
 	queue.setScheduleDrain(callbacks.scheduleDrain);
+
+	const connection = D.ConnectionVessel.createController({
+		agentVersion: D.AGENT_VERSION,
+		enqueueRequest: queue.enqueueRequest,
+		loadConfig: foundation.loadConfig,
+		log: foundation.log,
+		state: foundation.runtime.state,
+		stats: foundation.runtime.stats
+	});
+
 	const runRequest = createRequestRunner({
 		state: foundation.runtime.state,
 		executionStages: foundation.runtime.executionStages,
 		routedData: foundation.payload.routedData,
 		streamEvent: foundation.streamEvent,
 		sendProgress: queue.sendProgress,
+		progressCustody: connection.progressCustody,
 		retryControl: foundation.retryControl,
 		dispatch: foundation.dispatch,
 		Kind: D.Kind,
@@ -47,14 +58,6 @@ function createMainComponents(D, callbacks) {
 		Correlation: D.Correlation,
 		stats: foundation.runtime.stats,
 		release: callbacks.release
-	});
-	const connection = D.ConnectionVessel.createController({
-		agentVersion: D.AGENT_VERSION,
-		enqueueRequest: queue.enqueueRequest,
-		loadConfig: foundation.loadConfig,
-		log: foundation.log,
-		state: foundation.runtime.state,
-		stats: foundation.runtime.stats
 	});
 	const startupDependencies = Startup.validateStartupDependencies(
 		Startup.createStartupDependencies(D, foundation, connection)

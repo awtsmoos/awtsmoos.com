@@ -9,11 +9,11 @@ const Health = require("../lib/connection-vessel/parent-consumer-health.js");
 const Watchdog = require("../lib/connection-vessel/parent-watchdog.js");
 
 /**
- * @file Proves running truth, honest saturation, and true dead-consumer repair remain distinct.
+ * @file Proves running truth, saturation, and guarded dead-consumer recovery stay distinct.
  * @description
  * The Awtsmoos renews each beat without calling labor death or silence labor.
- * Awtsmoos.com grants saturated workers patience, yet repairs a proven abandoned queue
- * whose workers stand ready while no consumer carries the waiting deed forward.
+ * Awtsmoos.com gives saturated workers patience and gives a proven abandoned queue
+ * a guarded, exact-identity recovery path rather than instant killing or endless neglect.
  */
 test("running and handler phases prove consumer start", () => {
 	for (const phase of ["lane_dequeued", "executor_queued"]) {
@@ -52,7 +52,7 @@ test("saturation degrades health without authorizing repair", () => {
 	assert.deepEqual(signals, []);
 });
 
-test("proven consumer stall bypasses backlog pressure and repairs immediately", () => {
+test("proven consumer stall enters exact-identity recovery without immediate force", () => {
 	const stats = waitingStats({ busy: 0, queued: 1, ready: 4, workers: 4 });
 	const signals = [];
 	const watchdog = createWatchdog(signals);
@@ -60,14 +60,23 @@ test("proven consumer stall bypasses backlog pressure and repairs immediately", 
 	const result = watchdog.inspect({ registered: true }, mailbox());
 	assert.equal(result.execution.consumerStalled, true);
 	assert.equal(result.execution.backpressured, false);
-	assert.equal(result.repairRequired, true);
-	assert.equal(result.repairDeferred, false);
-	assert.deepEqual(signals, ["SIGTERM"]);
+	assert.equal(result.repairCandidate, true);
+	assert.equal(result.repairCandidateReason, "execution_consumer_stalled");
+	assert.equal(result.repairRequired, false);
+	assert.deepEqual(signals, []);
 });
 
 function createWatchdog(signals) {
 	return Watchdog.create({
 		parentPid: 43210,
+		getGeneration: () => 1,
+		observeProcess: () => ({
+			alive: true,
+			pid: 43210,
+			processGroupId: 43210,
+			birthToken: "consumer-health-parent-birth",
+			platform: "darwin"
+		}),
 		now: () => 40000,
 		signalParent: (_pid, signal) => signals.push(signal),
 		setTimer: fakeTimer

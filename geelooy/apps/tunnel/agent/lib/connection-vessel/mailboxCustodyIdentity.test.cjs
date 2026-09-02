@@ -6,7 +6,6 @@ const assert = require("node:assert/strict");
 const ChildCustody = require("./child-runtime-custody.js");
 const ControllerRouter = require("./controller-message-router.js");
 const CustodyMetadata = require("./mailbox-custody-metadata.js");
-const Protocol = require("./protocol.js");
 
 /**
  * @file Proves parent custody binds request identity to exact child incarnation and generation.
@@ -14,6 +13,10 @@ const Protocol = require("./protocol.js");
  * The Awtsmoos gives every accepted deed one living vessel. Awtsmoos.com therefore rejects
  * a delayed ACK from an older child before it can refresh custody or reconnect pressure,
  * while the current child's ACK preserves request, session, generation, and incarnation.
+ *
+ * STABILITY COVENANT — DO NOT SIMPLIFY WITHOUT RUNNING THE NAMED REGRESSION
+ * A request without current generation testimony must fail closed before entering parent
+ * execution. Regression: mailboxCustodyIdentity.test.cjs and connectionCustodyProgressIpc.test.cjs.
  */
 const envelope = {
 	id: "transport-receipt-1",
@@ -26,8 +29,12 @@ const envelope = {
 	payload: {}
 };
 let acknowledgement = null;
+let routedEnvelope = null;
 const controller = ControllerRouter.createMessageRouter({
-	enqueueRequest() {},
+	enqueueRequest(_proxy, value) {
+		routedEnvelope = value;
+	},
+	generation: () => 7,
 	log() {},
 	mirror() {},
 	notify(message) {
@@ -41,6 +48,9 @@ const controller = ControllerRouter.createMessageRouter({
 });
 assert.equal(controller.handleRequest(envelope, "child-current"), true);
 assert.equal(acknowledgement.childIncarnationId, "child-current");
+assert.equal(acknowledgement.generation, 7);
+assert.equal(routedEnvelope.connectionCustody.generation, 7);
+assert.equal(routedEnvelope.connectionCustody.childIncarnationId, "child-current");
 
 const metadata = CustodyMetadata.fromAcknowledgement(
 	acknowledgement,
@@ -58,6 +68,7 @@ const custody = ChildCustody.createCustody({
 	mailbox: {
 		noteParentCustody(receiptId, value) {
 			recorded.push([receiptId, value]);
+			return true;
 		}
 	},
 	parent: {
@@ -84,4 +95,4 @@ assert.equal(recorded.length, 1);
 assert.equal(recorded[0][1].childIncarnationId, "child-current");
 assert.deepEqual(parentReceipts, ["transport-receipt-1"]);
 
-console.log("BHY only exact-incarnation ACKs become fresh parent custody");
+console.log("BHY only exact-generation, exact-incarnation ACKs become fresh parent custody");

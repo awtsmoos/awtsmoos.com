@@ -6,12 +6,13 @@ const Incarnation = require("./connection-incarnation.js");
 const CustodyMetadata = require("./mailbox-custody-metadata.js");
 const Protocol = require("./protocol.js");
 const RecoveryTestimony = require("./controller-recovery-testimony.js");
+
 /**
  * @file Transfers durable requests and incarnation-bound recovery testimony into parent custody.
  * @description
- * The Awtsmoos joins persistence and execution without erasing the deed's true vessel.
- * Awtsmoos.com mirrors trusted child identity before acting on ambiguity testimony, so
- * accepted work survives rebirth while an obsolete child's warning cannot kill its successor.
+ * The Awtsmoos gives each request one identity through changing vessels. Awtsmoos.com
+ * stamps trusted acceptance provenance onto the queued envelope before parent execution,
+ * so later progress can return only to the child incarnation that accepted that deed.
  */
 function createMessageRouter(options = {}) {
 	function handle(message) {
@@ -41,23 +42,25 @@ function createMessageRouter(options = {}) {
 		return true;
 	}
 
-	/** Accepts parent execution custody and ACKs with trusted child-incarnation identity. */
 	function handleRequest(envelope = {}, childIncarnationId = "") {
 		const receiptId = Protocol.requestId(envelope);
 		if (!receiptId) {
-			options.log("warn", "connection child request omitted a transport receipt id");
-			return false;
-		}
-		try {
-			options.enqueueRequest(options.proxy, envelope);
-		} catch (error) {
-			options.log("warn", `parent queue rejected custody: ${error.message}`);
+			options.log("warn", "connection child sent request without receipt identity");
 			return false;
 		}
 		const identity = {
 			...CustodyMetadata.fromEnvelope(envelope),
-			childIncarnationId: Incarnation.clean(childIncarnationId)
+			childIncarnationId: Incarnation.clean(childIncarnationId),
+			generation: CustodyMetadata.positiveGeneration(options.generation?.())
 		};
+		if (!identity.childIncarnationId || !identity.generation) return false;
+		const routedEnvelope = { ...envelope, connectionCustody: identity };
+		try {
+			options.enqueueRequest(options.proxy, routedEnvelope);
+		} catch (error) {
+			options.log("error", `connection request enqueue failed: ${error.message}`);
+			return false;
+		}
 		return options.notify(Protocol.message(Protocol.TYPES.ACK, {
 			...identity,
 			id: receiptId,
@@ -65,15 +68,11 @@ function createMessageRouter(options = {}) {
 		}));
 	}
 
-	/** Mirrors trusted state before delegating only current-incarnation repair testimony. */
-	function handleState(state = {}, childIncarnationId = "") {
-		const incarnation = Incarnation.clean(childIncarnationId);
-		const testimony = RecoveryTestimony.fromState(state, incarnation);
-		const trustedState = { ...state, childIncarnationId: incarnation };
-		if (trustedState.registered === true) options.onRegistered();
-		options.mirror(trustedState);
-		if (testimony.required) options.onRecoveryRequired?.(testimony);
-		options.publishStats();
+	function handleState(next = {}, childIncarnationId = "") {
+		const state = RecoveryTestimony.withIncarnation(next, childIncarnationId);
+		options.mirror(state);
+		options.onRegistered(state);
+		if (RecoveryTestimony.requiresRepair(state)) options.onRecoveryRequired(state.reason);
 		return true;
 	}
 

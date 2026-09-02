@@ -5,10 +5,16 @@
 const ProgressInterval = require("./progress-interval.js");
 
 /**
- * @file Emits truthful stages and immutable parent-only scheduling metadata.
+ * @file Emits truthful stages and projects exact custody testimony independently of sockets.
  * @description
- * The Awtsmoos distinguishes lane dequeue from a real consumer; Awtsmoos.com
- * carries the lane name beside the observer without serializing callbacks into IPC.
+ * The Awtsmoos distinguishes lane dequeue from a real consumer; Awtsmoos.com sends the
+ * same request-level witness both to scheduler observers and to the accepting child.
+ * Socket absence may hide server progress, but it must never freeze local durable custody.
+ *
+ * STABILITY COVENANT — DO NOT SIMPLIFY WITHOUT RUNNING THE NAMED REGRESSION
+ * Historical symptom: child custody expired while parent work was running. Root cause:
+ * progress only fed parent/server observers. Forbidden: infer child progress from heartbeat.
+ * Regression: connectionCustodyProgressIpc.test.cjs. Live proof: >60s running custody chaos.
  */
 function startRunProgress(dependencies, context) {
 	const requestId = String(context.data?.id || "");
@@ -66,6 +72,7 @@ function startRunProgress(dependencies, context) {
 
 function sendProgress(dependencies, context, phase, details = {}) {
 	const progress = { lane: context.lane, phase, ...details };
+	projectCustody(dependencies, context, phase, progress);
 	dependencies.retryControl.progress(context.data, context.payload, progress);
 	dependencies.streamEvent("action.progress", context.payload, { ...progress, message: phase });
 	if (!context.ws?.opened) return;
@@ -77,6 +84,14 @@ function sendProgress(dependencies, context, phase, details = {}) {
 		phase,
 		progress
 	);
+}
+
+function projectCustody(dependencies, context, phase, progress) {
+	try {
+		return Boolean(dependencies.progressCustody?.(context.data, phase, progress));
+	} catch {
+		return false;
+	}
 }
 
 module.exports = { sendProgress, startRunProgress };

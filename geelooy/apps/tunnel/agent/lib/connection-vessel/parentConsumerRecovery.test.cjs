@@ -1,4 +1,4 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 
@@ -7,20 +7,19 @@ const Recovery = require("./parent-consumer-recovery.js");
 const Harness = require("./parentConsumerRecoveryHarness.cjs");
 
 /**
- * @file Proves corroboration, vetoes, preflight, and exact identity stay one covenant.
+ * @file Proves corroboration, fresh-progress vetoes, preflight, and identity-bound repair.
  * @description
- * The Awtsmoos renews process and generation; stale testimony must dissolve from view.
- * Awtsmoos.com lets sustained silence mature only while one exact identity remains true.
- * Fresh success, pressure, or a changed birth begins the witnessing cycle anew.
+ * The Awtsmoos renews process and generation; stale testimony dissolves from view.
+ * Awtsmoos.com lets sustained silence mature only while one exact identity remains true,
+ * while generic pressure cannot eternally hide an already corroborated abandoned queue.
  */
 proveSustainedCandidate();
 proveFreshWitnessCancelsCandidate();
 provePersistentStallRepairsOnce();
 proveIdentityChangeRestartsCorroboration();
-proveImmediateVetoes();
+proveFreshAndPressureSemantics();
 console.log("BHY consumer recovery preserves identity-bound corroboration and bounded healing");
 
-/** Proves the historical observation window cannot claim repair before preflight matures. */
 function proveSustainedCandidate() {
 	const harness = Harness.createHarness();
 	const recovery = Recovery.create({
@@ -38,7 +37,6 @@ function proveSustainedCandidate() {
 	assert.equal(harness.claims, 0);
 }
 
-/** Proves fresh execution after maturity erases candidate and preflight testimony. */
 function proveFreshWitnessCancelsCandidate() {
 	const harness = Harness.createHarness(20000);
 	const recovery = harness.fastRecovery();
@@ -55,7 +53,6 @@ function proveFreshWitnessCancelsCandidate() {
 	assert.equal(harness.claims, 0);
 }
 
-/** Proves persistent silence earns one durable identity-bearing claim. */
 function provePersistentStallRepairsOnce() {
 	const harness = Harness.createHarness(30000);
 	const recovery = harness.fastRecovery();
@@ -70,7 +67,6 @@ function provePersistentStallRepairsOnce() {
 	assert.equal(harness.claims, 1);
 }
 
-/** Proves same PID with a new generation or birth cannot inherit old corroboration. */
 function proveIdentityChangeRestartsCorroboration() {
 	const harness = Harness.createHarness(40000);
 	const recovery = harness.fastRecovery();
@@ -80,11 +76,7 @@ function proveIdentityChangeRestartsCorroboration() {
 	harness.setNow(41250);
 	const changed = {
 		...harness.stalled,
-		repairIdentity: {
-			...harness.identity,
-			generation: 8,
-			birthToken: "parent-birth-b"
-		}
+		repairIdentity: { ...harness.identity, generation: 8, birthToken: "parent-birth-b" }
 	};
 	const restarted = recovery.observe(changed);
 	assert.equal(restarted.repairAuthorized, false);
@@ -93,17 +85,19 @@ function proveIdentityChangeRestartsCorroboration() {
 	assert.equal(harness.claims, 0);
 }
 
-/** Proves fresh execution and runtime pressure remain immediate repair vetoes. */
-function proveImmediateVetoes() {
+function proveFreshAndPressureSemantics() {
 	const harness = Harness.createHarness(50000);
 	const recovery = harness.fastRecovery();
-	assert.equal(recovery.observe({
+	const fresh = recovery.observe({
 		...harness.stalled,
 		execution: { ...harness.stalled.execution, recentSuccess: true }
-	}).reason, "fresh_execution_progress");
-	assert.equal(recovery.observe({
+	});
+	assert.equal(fresh.reason, "fresh_execution_progress");
+	const pressuredStall = recovery.observe({
 		...harness.stalled,
 		pressure: { deferRepair: true }
-	}).reason, "runtime_pressure");
+	});
+	assert.equal(pressuredStall.reason, "execution_ingress_stalled");
+	assert.equal(pressuredStall.repairAuthorized, false);
 	assert.equal(harness.claims, 0);
 }

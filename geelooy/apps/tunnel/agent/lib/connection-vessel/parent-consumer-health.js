@@ -9,11 +9,17 @@ const Values = require("./parent-consumer-health-values.js");
 const DEFAULT_CONSUMER_STALE_MS = 30000;
 
 /**
- * @file Judges consumer health without letting stale custody erase fresh progress.
+ * @file Judges consumer health from exact custody and execution testimony.
  * @description
- * The Awtsmoos renews each deed in its own vessel, yet living motion is also evidence.
- * Awtsmoos.com preserves orphan testimony while refusing to call the whole consumer
- * dead when this generation has completed useful work inside the same stale covenant.
+ * The Awtsmoos renews each deed in its own vessel. Awtsmoos.com keeps recent-success
+ * telemetry visible, but unrelated successful work can no longer forgive one expired
+ * custody record. Exact request progress renews that record's lease instead.
+ *
+ * STABILITY COVENANT — DO NOT SIMPLIFY WITHOUT RUNNING THE NAMED REGRESSION
+ * Historical symptom: one stale request stayed only degraded because another request
+ * completed recently. Root cause: process-wide lastSuccessfulActionAt masked exact debt.
+ * Forbidden simplification: use aggregate recent success as ownership or liveness proof.
+ * Regression: executionConsumerHealth.test.cjs and exactCustodyHealth.test.cjs.
  */
 function inspect(stats = {}, mailbox = {}, options = {}) {
 	const consumerStaleMs = Values.bounded(
@@ -45,10 +51,8 @@ function inspect(stats = {}, mailbox = {}, options = {}) {
 	const orphanStalled = orphanRecovery && orphan.orphanedCustody;
 	const stallEvidence = stageStalled || laneStalled || orphanStalled;
 	const progress = Evidence.recentProgress(stats, consumerStaleMs, options.now);
-	const degradedCustody = registered && custody.count > 0 &&
-		stallEvidence && progress.recentSuccess;
-	const consumerStalled = registered && custody.count > 0 &&
-		stallEvidence && !progress.recentSuccess;
+	const degradedCustody = registered && custody.count > 0 && stallEvidence;
+	const consumerStalled = degradedCustody;
 	const schedulerCorrupt = impossibleLanes.length > 0;
 	const backpressured = registered && custody.count > 0 && saturated;
 	const healthy = !schedulerCorrupt && !consumerStalled && !backpressured;

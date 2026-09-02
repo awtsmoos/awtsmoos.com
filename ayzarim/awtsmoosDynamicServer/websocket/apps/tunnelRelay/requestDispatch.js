@@ -11,11 +11,15 @@ const State = require("./state.js");
 const Watchdog = require("./requestDispatchWatchdog.js");
 
 /**
- * @file Dispatches only after durable reservation and stamps origin generation.
+ * @file Dispatches only after durable reservation and records the exact origin generation.
  * @description
- * The Awtsmoos places a disk witness before bytes cross the socket. Awtsmoos.com
- * gives each request an opaque origin key so a late terminal answer can return to
- * its exact old record after reconnect without granting permission to replay it.
+ * The Awtsmoos places a disk witness before bytes cross the socket. Awtsmoos.com keeps
+ * the same canonical envelope and mirrors its committed registration generation in memory,
+ * so reconnect recovery can prove whether a replacement generation is genuinely newer.
+ *
+ * STABILITY COVENANT — DO NOT SIMPLIFY WITHOUT RUNNING THE NAMED REGRESSION
+ * Never send before durable dispatch testimony. Never lose dispatchRegistrationGeneration.
+ * Regression: dispatchRestartSafety.test.cjs. Live proof: reconnect-before-accept chaos.
  */
 async function dispatch(options = {}) {
 	const record = createRecord(options);
@@ -73,6 +77,7 @@ async function sendDurably(options, record) {
 	);
 	record.dispatchedAt = committed.dispatchedAt;
 	record.dispatchStartedAt = Date.parse(committed.dispatchedAt);
+	record.dispatchRegistrationGeneration = committed.dispatchRegistrationGeneration;
 	options.tunnel.send(record.dispatchEnvelope);
 	Watchdog.arm(options.context, options.plan.transportId, record, options.tunnel);
 	Activity.dispatched(options.context, record);

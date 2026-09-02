@@ -5,47 +5,42 @@
 const Protocol = require("./protocol.js");
 
 /**
- * @file Interprets parent commands without mistaking queue custody for settlement.
+ * @file Routes parent IPC testimony into the connection child runtime.
  * @description
- * The Awtsmoos renews one request through several vessels; Awtsmoos.com therefore
- * keeps durable inbox evidence after parent admission and now carries the deed's full
- * identity into child custody instead of reducing a living request to an anonymous ID.
+ * The Awtsmoos distinguishes acceptance from execution; Awtsmoos.com therefore routes
+ * custody progress as its own message, fenced later against the durable child record.
  */
 function createChildMessageRouter(runtime, options = {}) {
-	const exitProcess = options.exitProcess || (code => process.exit(code));
+	const exitProcess = options.exitProcess || process.exit;
 
 	function handle(message) {
 		if (!Protocol.valid(message)) return false;
 		if (message.type === Protocol.TYPES.PARENT_READY) {
-			runtime.parentDidBecomeReady();
+			runtime.parentDidBecomeReady?.();
 			return true;
 		}
 		if (message.type === Protocol.TYPES.ACK) return acknowledge(message);
+		if (message.type === Protocol.TYPES.CUSTODY_PROGRESS) return progress(message);
 		if (message.type === Protocol.TYPES.FLUSH) {
-			runtime.flush(message.id);
+			runtime.flush?.();
 			return true;
 		}
 		if (message.type === Protocol.TYPES.SEND) {
-			runtime.transmit(message.envelope);
+			runtime.transmit?.(message.payload);
 			return true;
 		}
 		if (message.type === Protocol.TYPES.STATS) {
-			runtime.updateParentStats(message.stats);
+			runtime.updateParentStats?.(message.stats);
 			return true;
 		}
 		if (message.type === Protocol.TYPES.STOP) {
-			runtime.stop();
-			exitProcess(0);
+			runtime.stop?.();
+			exitProcess(Number(message.exitCode || 0));
 			return true;
 		}
 		return false;
 	}
 
-	/**
-	 * Records parent acceptance with every request-identity field carried by the ACK.
-	 * @param {object} message Valid connection ACK from the parent controller.
-	 * @returns {boolean} True only when the ACK names an actual transport receipt.
-	 */
 	function acknowledge(message) {
 		const receiptId = Protocol.requestId(message);
 		if (!receiptId) return false;
@@ -53,7 +48,13 @@ function createChildMessageRouter(runtime, options = {}) {
 		return true;
 	}
 
-	return { acknowledge, handle };
+	function progress(message) {
+		const receiptId = Protocol.requestId(message);
+		if (!receiptId) return false;
+		return Boolean(runtime.noteCustodyProgress?.(receiptId, message));
+	}
+
+	return { acknowledge, handle, progress };
 }
 
 module.exports = { createChildMessageRouter };

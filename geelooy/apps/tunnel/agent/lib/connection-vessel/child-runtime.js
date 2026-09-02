@@ -1,4 +1,4 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 
@@ -12,12 +12,13 @@ const { createFoundation } = require("./child-foundation.js");
 const { createDelivery } = require("./child-delivery.js");
 const Protocol = require("./protocol.js");
 const Send = require("../runtime/safe-send.js");
+
 /**
  * @file Composes transport, durable custody, parent health, and relay testimony.
  * @description
  * The Awtsmoos renews each request and generation across socket and process vessels.
- * Awtsmoos.com keeps composition here while smaller custody and cycle vessels guard the
- * exact deed, so runtime life remains readable and expandable without a monolithic veil.
+ * Awtsmoos.com keeps acceptance and later execution progress distinct so no heartbeat
+ * or parent aggregate can impersonate the exact deed held by this connection child.
  */
 function createRuntime() {
 	let foundation;
@@ -32,7 +33,6 @@ function createRuntime() {
 	let cycle;
 	let custody;
 
-	/** Returns the parent-visible transport and mailbox state without mutation. */
 	function snapshot() {
 		const parentView = parent.snapshot();
 		return RuntimeView.snapshot({
@@ -44,15 +44,10 @@ function createRuntime() {
 		});
 	}
 
-	/** Returns bounded parent scheduler statistics plus current connection testimony. */
 	function stats() {
-		return {
-			...parent.snapshot().stats,
-			connection: snapshot()
-		};
+		return { ...parent.snapshot().stats, connection: snapshot() };
 	}
 
-	/** Converts a child-terminal path into the correct supervised process exit reason. */
 	function exitProcess(code) {
 		const reason = foundation?.state?.replacementRequested
 			? "newer_connection_owns_tunnel"
@@ -86,7 +81,6 @@ function createRuntime() {
 		state: foundation.state
 	});
 
-	/** Starts the connection transport and periodic healing/publication cycle. */
 	function start() {
 		stateTimer = setInterval(cycle.publish, 500);
 		stateTimer.unref?.();
@@ -95,7 +89,6 @@ function createRuntime() {
 		return foundation.state;
 	}
 
-	/** Stops this child timer, reconnect timer, and active transport without touching parent. */
 	function stop() {
 		if (stateTimer) clearInterval(stateTimer);
 		stateTimer = null;
@@ -106,6 +99,7 @@ function createRuntime() {
 	return {
 		flush: delivery.flush,
 		mailbox: foundation.mailbox,
+		noteCustodyProgress: custody.noteCustodyProgress,
 		noteParentCustody: custody.noteParentCustody,
 		parentDidBecomeReady: delivery.parentDidBecomeReady,
 		redeliver: delivery.redeliver,
