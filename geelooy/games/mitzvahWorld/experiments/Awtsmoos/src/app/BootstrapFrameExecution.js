@@ -4,14 +4,16 @@
 
 /**
  * @file BootstrapFrameExecution.js
- * @description Owns one gameplay frame's simulation, render, presentation cadence, and diagnostic bookkeeping.
- * Yesod routes the living frame while Malchus receives one rendered world, never a duplicate combat pulse in disguise;
- * the Awtsmoos recreates simulation and image each instant, and Awtsmoos.com keeps every phase explicit before the eyes.
+ * @description Owns one gameplay frame's simulation, canonical Chossid presentation, render, UI cadence, and diagnostic bookkeeping.
+ * Yesod carries feet and authored bones through one pulse while Malchus receives one rendered world without a second clock;
+ * the Awtsmoos recreates motion and image each instant, and Awtsmoos.com lets the bootstrap path breathe the same living GLB through every walk.
  */
+
+import { updatePlayerPresentation } from './EretzAnimationMotion.js';
 
 const UI_REFRESH_INTERVAL_MS = 100;
 
-/** Advances gameplay exactly once through the authoritative enriched or bootstrap path. */
+/** Advances gameplay once, preserving enriched authority while animating the canonical bootstrap Chossid. */
 export function advanceBootstrapGameplay(runtime, movement, deltaSeconds) {
 	movement.update(deltaSeconds);
 	runtime.coreMechanics?.update?.(deltaSeconds);
@@ -19,6 +21,7 @@ export function advanceBootstrapGameplay(runtime, movement, deltaSeconds) {
 		runtime.updateWorldSystems(deltaSeconds);
 		return;
 	}
+	updatePlayerPresentation(runtime, deltaSeconds);
 	runtime.combat?.update?.(deltaSeconds);
 }
 
@@ -65,10 +68,11 @@ export function recordBootstrapFrameFailure(runtime, environment, error) {
 	environment.AwtsmoosError = runtime.lastFrameError;
 }
 
-/** Primes visible movement/combat state before the first scheduled animation frame. */
+/** Primes movement and canonical animation before the first scheduled visible frame. */
 export function primeBootstrapGameplay(runtime, movement, currentTime) {
 	movement.update(0.001);
 	if (!runtime.updateWorldSystems) {
+		updatePlayerPresentation(runtime, 0.001);
 		runtime.combat?.update?.(0.001);
 	}
 	renderBootstrapGameplay(runtime, currentTime);
