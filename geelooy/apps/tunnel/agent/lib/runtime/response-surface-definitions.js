@@ -6,29 +6,27 @@
  * @file Defines the bounded public response surface and its correlation testimony.
  * @description
  * The Awtsmoos reveals truth through measured vessels; Awtsmoos.com therefore keeps
- * compact responses small without hiding the counters required to reconcile durable
- * output. Characters describe paging positions, bytes describe retained storage cost;
- * both witnesses travel together, distinct yet singing one trustworthy report.
+ * compact responses small without hiding request-generation identity or durable output
+ * counters. Character and byte witnesses travel with the same named request and generation.
  *
- * STABILITY COVENANT — DO NOT SIMPLIFY WITHOUT RUNNING THE NAMED REGRESSION
- * Historical symptom: durable stdout/stderr existed and byte counters were computed, yet
- * compact commandStatus silently omitted character counters used to reconcile the page.
- * Root cause: the essential-key boundary exposed bytes but omitted stdoutChars/stderrChars.
- * Forbidden simplification: expose raw/private metadata to fix one missing safe counter.
- * Regression: commandOutputAccounting.test.cjs. Live proof: status counters equal pages.
+ * STABILITY COVENANT — DO NOT SIMPLIFY WITHOUT RUNNING THE NAMED REGRESSIONS
+ * Historical symptoms: output counters disappeared from compact status, and params-only
+ * v3 requestId/generation could disappear again on response projection. Root cause: bounded
+ * allowlists omitted safe identity/counter fields. Forbidden simplification: expose raw data.
+ * Regressions: commandOutputAccounting.test.cjs and v3ParamsIdentity.test.cjs.
  */
 const DEBUG_MODES = new Set(["debug", "full", "audit", "raw", "standard"]);
 const CORRELATION_KEYS = [
-	"type", "id", "originRegistrationKey", "tunnelName", "requestedTunnelName",
-	"controlRequestId", "clientRequestId", "agentSessionId", "logicalAgentId", "agentName",
-	"projectRoot", "scopeRoot", "workspaceId", "nonce", "conversationId",
-	"conversationName", "missionId", "roomId", "leaseId", "parentActionId",
-	"traceId", "spanId", "causalParentId", "correlationId", "actionId",
-	"vessel", "routeReason", "requestAction", "requestedAction",
-	"executionAction", "actualAction", "servedByAction", "adapterAction",
-	"canonicalAction", "actionPromoted", "actionMismatch", "jobId",
-	"workerId", "receiptId", "taskId", "stream", "cwd", "command",
-	"path", "paths"
+	"type", "id", "requestId", "generation", "originRegistrationKey",
+	"tunnelName", "requestedTunnelName", "controlRequestId", "clientRequestId",
+	"agentSessionId", "logicalAgentId", "agentName", "projectRoot", "scopeRoot",
+	"workspaceId", "nonce", "conversationId", "conversationName", "missionId",
+	"roomId", "leaseId", "parentActionId", "traceId", "spanId",
+	"causalParentId", "correlationId", "actionId", "vessel", "routeReason",
+	"requestAction", "requestedAction", "executionAction", "actualAction",
+	"servedByAction", "adapterAction", "canonicalAction", "actionPromoted",
+	"actionMismatch", "jobId", "workerId", "receiptId", "taskId", "stream",
+	"cwd", "command", "path", "paths"
 ];
 const ESSENTIAL_KEYS = [
 	"content", "content64", "offsetChars", "returnedChars", "totalChars",

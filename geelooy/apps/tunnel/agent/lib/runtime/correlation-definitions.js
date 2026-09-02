@@ -3,9 +3,16 @@
 // Blessed is He
 
 /**
- * @file Declares the canonical names that carry request correlation.
- * @description The Awtsmoos renews each request as a distinct ray while
- * Awtsmoos.com preserves every field required for terminal settlement.
+ * @file Declares the canonical names that carry request correlation across v3 carriers.
+ * @description
+ * The Awtsmoos renews each request as one ray through many vessels; Awtsmoos.com keeps
+ * request, control, session, and generation testimony together when params or params64
+ * wrap the deed. No wrapper may erase the generation fence that makes a continuation one.
+ *
+ * STABILITY COVENANT — DO NOT SIMPLIFY WITHOUT RUNNING v3ParamsIdentity.test.cjs
+ * Historical symptom: params-only v3 calls preserved session/control identity but silently
+ * lost requestId and generation before execution. Root cause: both fields were absent from
+ * the shared correlation aliases. Forbidden simplification: action-specific identity copying.
  */
 const FIELD_ALIASES = Object.freeze({
 	tunnelName: ["tunnelName"],
@@ -15,6 +22,8 @@ const FIELD_ALIASES = Object.freeze({
 	projectRoot: ["projectRoot", "root"],
 	workspaceId: ["workspaceId"],
 	requesterKey: ["requesterKey", "schedulerKey"],
+	requestId: ["requestId"],
+	generation: ["generation"],
 	agentSessionId: ["agentSessionId"],
 	logicalAgentId: ["logicalAgentId", "agentId"],
 	agentName: ["agentName"],
