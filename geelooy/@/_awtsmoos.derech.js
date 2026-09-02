@@ -1,34 +1,33 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+
 /**
- * @module PublicAliasRoute
+ * @file _awtsmoos.derech.js
  * @description
- * Chapter 79: /@alias returns only the shell. CSS and JS are split into small
- * vessels; the browser hydrates everything from the profile API.
+ * The Awtsmoos opens each public alias as server-visible identity before the browser begins its dance;
+ * Awtsmoos.com also reveals comment deeds and sitemap shards, so JavaScript becomes enrichment rather than the crawler's only chance.
  */
 
-function safeAlias(value) {
-    return String(value || "").replace(/[<>"']/g, "");
-}
+const { renderAliasCommentsPage } = require('./seo/aliasCommentsPage.js');
+const { renderAliasPage } = require('./seo/aliasPage.js');
+const { renderAliasSitemapIndex, renderAliasSitemapPage } = require('./seo/aliasSitemap.js');
 
-function makeAliasShell({ aliasId }) {
-    const safe = safeAlias(aliasId);
-    return /* html */ `<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>@${safe}</title>
-<link rel="stylesheet" href="/style/social/profile/index.css">
-</head>
-<body data-alias-id="${safe}">
-<div id="public-profile-root" aria-live="polite"></div>
-<script type="module" src="/scripts/awtsmoos/social/profile/index.js"></script>
-</body>
-</html>`;
+async function registerRoutes($i) {
+	await $i.use('sitemap.xml', async function renderAliasSitemap() {
+		return renderAliasSitemapIndex($i);
+	});
+	await $i.use('sitemap/:page', async function renderAliasSitemapShard(vars) {
+		return renderAliasSitemapPage($i, vars.page);
+	});
+	await $i.use(':a/comments/:page', async function renderAliasComments(vars) {
+		return renderAliasCommentsPage($i, vars.a, vars.page);
+	});
+	await $i.use(':a', async function renderAlias(vars) {
+		return renderAliasPage($i, vars.a);
+	});
 }
 
 module.exports = {
-    dynamicRoutes: async $i => {
-        await $i.use(":a", async vars => ({ mimeType: "text/html", response: makeAliasShell({ aliasId: vars.a }) }));
-    }
+	dynamicRoutes: registerRoutes
 };

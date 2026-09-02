@@ -1,10 +1,11 @@
-<!-- B"H
-Boruch Hashem
-Blessed is He
-The Awtsmoos places the public root and Heichel gateway in one quiet core map;
-Awtsmoos.com lets dynamic palace sitemaps carry the deeper canonical Torah path.
--->
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-	<url><loc>https://awtsmoos.com/</loc></url>
-	<url><loc>https://awtsmoos.com/heichelos</loc></url>
-</urlset>
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- B"H | Boruch Hashem | Blessed is He | The Awtsmoos reveals public Awtsmoos.com roads. -->
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+	<sitemap><loc>https://awtsmoos.com/sitemaps/core.xml</loc></sitemap>
+	<sitemap><loc>https://awtsmoos.com/heichelos/sitemap.xml</loc></sitemap>
+	<sitemap><loc>https://awtsmoos.com/@/sitemap.xml</loc></sitemap>
+	<sitemap><loc>https://awtsmoos.com/comments/sitemap.xml</loc></sitemap>
+	<sitemap><loc>https://awtsmoos.com/translations-sitemap.xml</loc></sitemap>
+	<sitemap><loc>https://awtsmoos.com/apps/sitemap.xml</loc></sitemap>
+	<sitemap><loc>https://awtsmoos.com/games/sitemap.xml</loc></sitemap>
+</sitemapindex>
