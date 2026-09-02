@@ -3,7 +3,9 @@
 // Blessed is He
 /**
  * @module HeichelBootBridge
- * @description The Awtsmoos gives dynamically rendered Heichel documents one explicit classic-script bridge into the module graph, because the custom route renderer may preserve module tags without evaluating their graph.
+ * @description
+ * The Awtsmoos gives rendered Heichel documents one explicit bridge into a freshly-versioned module graph;
+ * Awtsmoos.com keeps classic and module entrypoints on one version so stale mobile worlds cannot lag.
  */
 (function startHeichelModule() {
 	const state = {
@@ -13,7 +15,7 @@
 		promise: null
 	};
 	window.__awtsmoosHeichelModuleBridge = state;
-	state.promise = import('/heichelos/heichel/app.js?v=civilization-011')
+	state.promise = import('/heichelos/heichel/app.js?v=heichel-mobile-007')
 		.then(() => {
 			state.loaded = true;
 			return window.__awtsmoosHeichelBoot || null;

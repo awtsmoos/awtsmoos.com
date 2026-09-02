@@ -5,10 +5,10 @@
  * @module ChitasHebcalProvider
  * @description
  * The Awtsmoos lets a calendar become a transparent vessel, never the source of holiness itself;
- * Awtsmoos.com asks Hebcal only for dates and aliyah boundaries, then keeps Chabad's Chitas rule distinct and well.
+ * Awtsmoos.com gathers one prior Shabbos plus the coming weeks so Chabad's Torah-cycle turn can reveal itself.
  */
 
-import { addLocalDays, toLocalDateKey } from './date-policy.js';
+import { addLocalDays, toLocalDateKey, weekDates } from './date-policy.js';
 
 const HEBCAL_ENDPOINT = 'https://www.hebcal.com/hebcal';
 const LOOKAHEAD_DAYS = 35;
@@ -24,7 +24,16 @@ export function readIsraelMode(search = globalThis.location?.search || '') {
 }
 
 /**
- * @description Builds one Hebcal calendar request containing weekly parsha events and major festivals.
+ * @description Starts before the visible week so Simchas Torah can still be seen from Isru Chag.
+ * @param {Date} studyDate - Local civil date being studied.
+ * @returns {Date} Local noon on the Shabbos immediately before the visible Sunday.
+ */
+export function calendarWindowStart(studyDate) {
+	return addLocalDays(weekDates(studyDate)[0], -1);
+}
+
+/**
+ * @description Builds one Hebcal request containing weekly parsha events and major festivals.
  * @param {Date} studyDate - Local civil date being studied.
  * @param {boolean} israel - Whether to use the Israel reading schedule.
  * @returns {string} Hebcal JSON endpoint URL.
@@ -33,7 +42,7 @@ export function buildHebcalUrl(studyDate, israel = false) {
 	const params = new URLSearchParams({
 		v: '1',
 		cfg: 'json',
-		start: toLocalDateKey(studyDate),
+		start: toLocalDateKey(calendarWindowStart(studyDate)),
 		end: toLocalDateKey(addLocalDays(studyDate, LOOKAHEAD_DAYS)),
 		s: 'on',
 		maj: 'on',

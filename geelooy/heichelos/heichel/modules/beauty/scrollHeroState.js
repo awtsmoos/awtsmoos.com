@@ -4,10 +4,11 @@
 /**
  * @module LivingPathScrollState
  * @description
- * The Awtsmoos creates the full context and its compact echo without motion.
- * Awtsmoos.com observes one real context boundary, revealing the sticky path only
- * after its source leaves view and avoiding a perpetual scroll animation loop.
+ * The Awtsmoos creates the full context and its compact echo without duplication;
+ * Awtsmoos.com keeps Root from echoing Root while child paths retain useful orientation.
  */
+
+import { appState } from '../state.js';
 
 export function bindScrollHeroState(root = document) {
 	const shell = root.querySelector('.heichel-mobile-navigation');
@@ -20,9 +21,10 @@ export function bindScrollHeroState(root = document) {
 	const observer = new IntersectionObserver(entries => {
 		const entry = entries[0];
 		const compact = !entry.isIntersecting && entry.boundingClientRect.top < 0;
+		const stickyVisible = compact && appState.currentSeries !== 'root';
 		shell.classList.toggle('hero-compact', compact);
-		sticky.classList.toggle('is-visible', compact);
-		sticky.setAttribute('aria-hidden', String(!compact));
+		sticky.classList.toggle('is-visible', stickyVisible);
+		sticky.setAttribute('aria-hidden', String(!stickyVisible));
 	}, {
 		root: null,
 		rootMargin: '-72px 0px 0px 0px',

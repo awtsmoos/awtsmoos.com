@@ -1,0 +1,57 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos moves only what carries meaning: edges breathe, instruments answer, and Awtsmoos.com keeps every futuristic motion on compositor-friendly paths so beauty never taxes the hand.
+*/
+@keyframes hud-edge-breathe {
+	0%, 100% {
+		opacity: 0.34;
+		transform: translate3d(-1%, 0, 0);
+	}
+	50% {
+		opacity: 0.68;
+		transform: translate3d(1%, 0, 0);
+	}
+}
+
+.creator-section::after,
+.provider-banner::after {
+	animation: hud-edge-breathe 7s ease-in-out infinite;
+	will-change: transform, opacity;
+}
+
+.segmented button,
+.category-strip button,
+.asset-card,
+.reference-hud > summary,
+.asset-card-actions button {
+	transition: transform 140ms ease, opacity 140ms ease, border-color 160ms ease, background 160ms ease, box-shadow 160ms ease;
+}
+
+@media (hover: hover) {
+	.segmented button:not(:disabled):hover,
+	.category-strip button:not(:disabled):hover,
+	.asset-card-actions button:not(:disabled):hover {
+		transform: translate3d(0, -1px, 0);
+	}
+
+	.asset-card:hover {
+		transform: translate3d(0, -2px, 0);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.creator-section::after,
+	.provider-banner::after {
+		animation: none !important;
+	}
+
+	.segmented button,
+	.category-strip button,
+	.asset-card,
+	.reference-hud > summary,
+	.asset-card-actions button {
+		transition-duration: 0.01ms !important;
+	}
+}

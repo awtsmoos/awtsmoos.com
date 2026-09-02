@@ -3,19 +3,22 @@
 // Blessed is He
 
 import { Dom } from './dom.js';
+import { AssetPreviewCache } from './AssetPreviewCache.js';
 
 /**
- * Gives each assigned reference a visible role while the Awtsmoos lets reusable matter keep its identity; Awtsmoos.com separates card rendering from tray guidance so instruction can grow without making the media vessel dense.
+ * Gives each assigned reference a visible role while the Awtsmoos lets replaced matter keep one identity and reveal its newest face.
+ * Awtsmoos.com separates preview custody from card markup so replacement revokes stale URLs and every reference can refresh without memory waste.
  */
 export class CreateAssignedAssetView {
-	constructor() {
-		this.previewUrls = new Map();
+	constructor(previews = new AssetPreviewCache()) {
+		this.previews = previews;
 	}
 
 	/** @param {Object} item Role-aware asset. @returns {string} Assigned media card markup. */
 	render(item) {
 		const asset = item.asset;
 		const draggable = item.role.startsWith('reference_');
+
 		return `
 			<article class="asset-card" draggable="${draggable}" data-asset-id="${asset.id}">
 				${this.preview(asset)}
@@ -34,11 +37,7 @@ export class CreateAssignedAssetView {
 
 	/** @param {Object} asset Asset record. @returns {string} Image/video/audio preview. */
 	preview(asset) {
-		let url = asset.sourceUrl || this.previewUrls.get(asset.id);
-		if (!url && asset.blob) {
-			url = URL.createObjectURL(asset.blob);
-			this.previewUrls.set(asset.id, url);
-		}
+		const url = this.previews.urlFor(asset);
 		if (asset.kind === 'image' && url) {
 			return `<img class="asset-preview" src="${Dom.escape(url)}" alt="">`;
 		}
