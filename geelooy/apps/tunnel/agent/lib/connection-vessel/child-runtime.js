@@ -7,18 +7,18 @@ const Ipc = require("./child-runtime-ipc.js");
 const ParentState = require("./child-runtime-parent.js");
 const RuntimeCustody = require("./child-runtime-custody.js");
 const RuntimeCycle = require("./child-runtime-cycle.js");
-const RuntimeView = require("./child-runtime-view.js");
+const RuntimeState = require("./child-runtime-state.js");
 const { createFoundation } = require("./child-foundation.js");
 const { createDelivery } = require("./child-delivery.js");
 const Protocol = require("./protocol.js");
 const Send = require("../runtime/safe-send.js");
 
 /**
- * @file Composes transport, durable custody, parent health, and relay testimony.
+ * @file Composes transport, durable custody, parent health, and one shared cycle witness.
  * @description
- * The Awtsmoos renews each request and generation across socket and process vessels.
- * Awtsmoos.com keeps acceptance and later execution progress distinct so no heartbeat
- * or parent aggregate can impersonate the exact deed held by this connection child.
+ * The Awtsmoos renews each request across socket and process vessels; Awtsmoos.com lets one
+ * mailbox observation illuminate an entire health breath instead of making synchronous disk
+ * reopen the same truth again and again while IPC waits beside the gate.
  */
 function createRuntime() {
 	let foundation;
@@ -30,35 +30,18 @@ function createRuntime() {
 		parentPid: process.env.AWTSMOOS_CONNECTION_OWNER_PID,
 		getGeneration: () => foundation?.state?.generation || 0
 	});
+	const runtimeState = RuntimeState.create({
+		getFoundation: () => foundation,
+		ipc,
+		parent
+	});
 	let cycle;
 	let custody;
 
-	function snapshot() {
-		const parentView = parent.snapshot();
-		return RuntimeView.snapshot({
-			state: foundation.state,
-			mailbox: foundation.mailbox,
-			parentHealth: parentView.health,
-			parentCustody: parentView.custody,
-			terminal: ipc.isTerminal()
-		});
-	}
-
-	function stats() {
-		return { ...parent.snapshot().stats, connection: snapshot() };
-	}
-
-	function exitProcess(code) {
-		const reason = foundation?.state?.replacementRequested
-			? "newer_connection_owns_tunnel"
-			: "connection_child_terminal";
-		ipc.exitProcess(code, reason);
-	}
-
 	foundation = createFoundation({
 		enqueueRequest: (...args) => delivery.enqueueRequest(...args),
-		exitProcess,
-		stats
+		exitProcess: runtimeState.exitProcess,
+		stats: runtimeState.stats
 	});
 	delivery = createDelivery({
 		Send,
@@ -77,7 +60,7 @@ function createRuntime() {
 		ipc,
 		mailbox: foundation.mailbox,
 		parent,
-		snapshot,
+		snapshot: runtimeState.snapshot,
 		state: foundation.state
 	});
 
@@ -85,7 +68,9 @@ function createRuntime() {
 		stateTimer = setInterval(cycle.publish, 500);
 		stateTimer.unref?.();
 		foundation.connection.connect();
-		ipc.send(Protocol.message(Protocol.TYPES.READY, { pid: process.pid }));
+		ipc.send(Protocol.message(Protocol.TYPES.READY, {
+			pid: process.pid
+		}));
 		return foundation.state;
 	}
 
@@ -103,7 +88,7 @@ function createRuntime() {
 		noteParentCustody: custody.noteParentCustody,
 		parentDidBecomeReady: delivery.parentDidBecomeReady,
 		redeliver: delivery.redeliver,
-		snapshot,
+		snapshot: runtimeState.snapshot,
 		start,
 		stop,
 		transmit: delivery.transmit,
@@ -111,4 +96,6 @@ function createRuntime() {
 	};
 }
 
-module.exports = { createRuntime };
+module.exports = {
+	createRuntime
+};

@@ -3,17 +3,20 @@
 // Blessed is He
 
 const ChildHealth = require("./child-health.js");
+
 /**
- * @file Projects bounded child state while mailbox truth joins transport and execution.
+ * @file Projects bounded child state from one mailbox witness when the caller already holds it.
  * @description
- * The Awtsmoos reveals socket, worker, incarnation, and durable receipt in one honest frame.
- * Awtsmoos.com snapshots mailbox before composing health, so stale residue cannot borrow a
- * current child's name and a recycled numeric generation can no longer hide process rebirth.
+ * The Awtsmoos reveals one durable scene once, and Awtsmoos.com lets health compose from that
+ * same witness instead of reopening every parchment in the same breath. Standalone callers may
+ * still request a fresh mailbox view when no shared cycle testimony was carried on their path.
  */
 function snapshot(options = {}) {
 	const state = options.state || {};
 	const parentHealth = options.parentHealth || {};
-	const mailbox = options.mailbox?.snapshot?.() || null;
+	const mailbox = options.mailboxSnapshot !== undefined
+		? options.mailboxSnapshot
+		: options.mailbox?.snapshot?.() || null;
 	const health = ChildHealth.compose(state, parentHealth, mailbox || {});
 	return {
 		childIncarnationId: state.childIncarnationId || "",
@@ -25,7 +28,9 @@ function snapshot(options = {}) {
 		lastRegisteredAt: state.lastRegisteredAt,
 		mailbox,
 		parent: parentHealth,
-		parentCustody: { ...(options.parentCustody || {}) },
+		parentCustody: {
+			...(options.parentCustody || {})
+		},
 		lastFailure: state.lastFailure || null,
 		recentFailures: state.recentFailures || [],
 		reconnectAttempt: state.reconnectAttempt,
@@ -36,4 +41,7 @@ function snapshot(options = {}) {
 		tunnelName: state.tunnelName
 	};
 }
-module.exports = { snapshot };
+
+module.exports = {
+	snapshot
+};

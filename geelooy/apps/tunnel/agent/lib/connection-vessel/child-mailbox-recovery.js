@@ -5,24 +5,17 @@
 const SemanticRecovery = require("./mailbox-semantic-recovery.js");
 
 /**
- * @file Heals the connection child's own custody before watchdog testimony is published.
+ * @file Reconciles stale child custody while allowing one already-observed mailbox witness to flow.
  * @description
- * The Awtsmoos lets stale pre-result custody leave the hot path without erasing history.
- * Awtsmoos.com heals the exact child-owned mailbox in-process, while result testimony
- * remains untouched until acknowledgement or a stronger recovery covenant can decide it.
- */
-
-/**
- * Reconciles the child mailbox only when its exact parent custody has crossed stale age.
- * @param {object} mailbox Live child-owned mailbox object.
- * @param {object} options Optional reason passed into the semantic recovery witness.
- * @returns {object} Bounded recovery testimony; never redispatches accepted work.
+ * The Awtsmoos does not demand the same parchment be reread merely to prove it was just seen;
+ * Awtsmoos.com reuses one current snapshot on the hot path, yet stronger stale-custody recovery
+ * may still gather fresh testimony when ambiguity truly appears between.
  */
 function reconcileIfStale(mailbox, options = {}) {
 	if (!mailbox || typeof mailbox.snapshot !== "function") {
 		return unavailable();
 	}
-	const before = mailbox.snapshot();
+	const before = options.snapshot || mailbox.snapshot();
 	const staleCount = Number(before.inbox?.parentCustodyStaleCount || 0);
 	if (staleCount < 1) {
 		return {

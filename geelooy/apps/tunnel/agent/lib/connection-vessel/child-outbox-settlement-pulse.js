@@ -5,24 +5,11 @@
 const SettlementPolicy = require("./child-outbox-settlement-policy.js");
 
 /**
- * @file Retransmits durable terminal testimony until the relay acknowledges settlement.
+ * @file Retransmits durable terminal truth without scanning an outbox transport cannot yet use.
  * @description
- * The Awtsmoos gives one completed deed one immutable truth, even when a packet or ACK
- * disappears between worlds. Awtsmoos.com therefore repeats only the saved outbox
- * envelope with bounded Gevurah, never the underlying command, mutation, or mission.
- */
-
-/**
- * Creates one in-memory settlement pulse around an existing durable outbox transport.
- * @param {object} options Runtime dependencies and retry timing configuration.
- * @param {{flush:()=>number}} options.delivery Durable-response delivery adapter whose `flush()` resends persisted outbox envelopes only.
- * @param {{outbox:()=>Array}} options.mailbox Connection mailbox exposing the current durable outbox entries awaiting server ACK.
- * @param {{registrationConfirmed:boolean}} options.state Mutable connection state whose registration flag proves the socket may carry settlement traffic.
- * @param {()=>number} [options.now=Date.now] Clock returning milliseconds for deterministic cooldown calculation and tests.
- * @param {number} [options.initialRetryMs=2000] Grace period before the first same-generation terminal-response retry.
- * @param {number} [options.maxRetryMs=30000] Maximum cooldown between later retries while the same outbox remains unsettled.
- * @returns {{tick:()=>object,snapshot:(registered?:boolean,outboxCount?:number,observedAt?:number)=>object}} Settlement controller exposing mutation and read-only testimony operations.
- * @sideEffect `tick()` may call `options.delivery.flush()`; creation itself performs no I/O, action execution, or socket transmission.
+ * The Awtsmoos preserves every completed deed while Awtsmoos.com refuses needless disk toil:
+ * an unregistered socket cannot settle an ACK, so its pulse touches no outbox parchment at all.
+ * When a caller already measured the outbox, that witness flows onward instead of another soil.
  */
 function create(options = {}) {
 	const now = options.now || Date.now;
@@ -33,43 +20,42 @@ function create(options = {}) {
 	let nextAttemptAt = 0;
 	let reason = "idle";
 
-	/**
-	 * Advances one acknowledgement-seeking cycle without executing any original deed.
-	 * @returns {object} Current registration, outbox, retry, and send-count testimony.
-	 * @sideEffect May call `delivery.flush()` to retransmit already-persisted responses.
-	 */
-	function tick() {
+	/** Advances one ACK-seeking cycle while reusing a known outbox count when supplied. */
+	function tick(knownOutboxCount) {
 		const observedAt = now();
 		const registered = options.state?.registrationConfirmed === true;
-		const outboxCount = options.mailbox.outbox().length;
-		if (!registered || outboxCount === 0) {
-			reset(registered ? "outbox_empty" : "not_registered");
-			return snapshot(registered, outboxCount, observedAt);
+		if (!registered) {
+			reset("not_registered");
+			return snapshot(false, 0, observedAt);
+		}
+		const outboxCount = resolveOutboxCount(knownOutboxCount);
+		if (outboxCount === 0) {
+			reset("outbox_empty");
+			return snapshot(true, 0, observedAt);
 		}
 		if (!nextAttemptAt) {
 			nextAttemptAt = observedAt + policy.initialRetryMs;
 			reason = "settlement_grace";
-			return snapshot(registered, outboxCount, observedAt);
+			return snapshot(true, outboxCount, observedAt);
 		}
 		if (observedAt < nextAttemptAt) {
 			reason = "settlement_cooldown";
-			return snapshot(registered, outboxCount, observedAt);
+			return snapshot(true, outboxCount, observedAt);
 		}
 		lastSent = Number(options.delivery.flush() || 0);
 		attempts += 1;
 		lastAttemptAt = observedAt;
 		nextAttemptAt = observedAt + policy.retryDelay(attempts);
 		reason = lastSent > 0 ? "terminal_retransmitted" : "flush_already_active";
-		return snapshot(registered, outboxCount, observedAt);
+		return snapshot(true, outboxCount, observedAt);
 	}
 
-	/**
-	 * Returns the current retry state without mutating mailbox or socket state.
-	 * @param {boolean} [registered=false] Whether the active socket registration is confirmed.
-	 * @param {number} [outboxCount=0] Number of durable terminal envelopes awaiting ACK.
-	 * @param {number} [observedAt=now()] Millisecond timestamp represented by this testimony.
-	 * @returns {object} Immutable settlement-pulse status for parent diagnostics and tests.
-	 */
+	function resolveOutboxCount(value) {
+		const known = Number(value);
+		if (Number.isFinite(known) && known >= 0) return Math.floor(known);
+		return options.mailbox.outbox().length;
+	}
+
 	function snapshot(registered = false, outboxCount = 0, observedAt = now()) {
 		return {
 			attempts,
@@ -83,11 +69,6 @@ function create(options = {}) {
 		};
 	}
 
-	/**
-	 * Clears retry timing after settlement or registration loss.
-	 * @param {string} nextReason Diagnostic reason explaining why retry state reset.
-	 * @returns {void} Mutates only this pulse's in-memory timing testimony.
-	 */
 	function reset(nextReason) {
 		attempts = 0;
 		lastAttemptAt = 0;
@@ -96,7 +77,12 @@ function create(options = {}) {
 		reason = nextReason;
 	}
 
-	return { snapshot, tick };
+	return {
+		snapshot,
+		tick
+	};
 }
 
-module.exports = { create };
+module.exports = {
+	create
+};

@@ -2,78 +2,74 @@
 // Boruch Hashem
 // Blessed is He
 
-const DEFAULT_STALE_MS = 15000;
-const DEFAULT_CHECK_MS = 1000;
-const DEFAULT_COOLDOWN_MS = 30000;
-const DEFAULT_STARTUP_GRACE_MS = 10000;
+const Policy = require("./controller-child-liveness-policy.js");
 
 /**
- * @file Detects a living-but-silent connection child without mistaking parent lag for death.
+ * @file Detects silent connection children only after the parent regains sustained punctual sight.
  * @description
- * The Awtsmoos renews both messenger and listener; Awtsmoos.com therefore waits for
- * repeated silence while the listener itself remains punctual. A delayed parent clock
- * cannot condemn the child before queued IPC has one fresh interval to manifest.
+ * The Awtsmoos renews messenger and listener while Awtsmoos.com refuses borrowed certainty:
+ * parent scheduler delay creates a bounded judgment grace, never a fabricated child heartbeat.
+ * Real IPC alone refreshes child evidence; only silence surviving a clean window earns repair.
  */
 function create(options = {}) {
 	const now = options.now || Date.now;
-	const staleMs = bounded(options.staleMs, DEFAULT_STALE_MS, 5000);
-	const checkMs = bounded(options.checkMs, DEFAULT_CHECK_MS, 250);
-	const cooldownMs = bounded(options.cooldownMs, DEFAULT_COOLDOWN_MS, staleMs);
-	const startupGraceMs = bounded(options.startupGraceMs, DEFAULT_STARTUP_GRACE_MS, checkMs);
+	const timing = Policy.create(options);
 	let startedAt = now();
 	let lastMessageAt = startedAt;
 	let lastCheckAt = startedAt;
 	let lastRestartAt = 0;
-	let delayedParentCycle = false;
+	let parentLagGraceUntil = 0;
+	let hasMessage = false;
 
-	/** Marks a newly forked child generation as alive during its bounded startup covenant. */
+	/** Marks a new exact child generation without claiming that IPC has already arrived. */
 	function started() {
 		startedAt = now();
 		lastMessageAt = startedAt;
 		lastCheckAt = startedAt;
-		delayedParentCycle = false;
+		parentLagGraceUntil = 0;
+		hasMessage = false;
 		return snapshot(startedAt, "child_started");
 	}
 
-	/** Records any valid child IPC message as proof that the connection vessel is moving. */
+	/** Records only genuine child IPC and immediately restores ordinary liveness judgment. */
 	function note() {
 		lastMessageAt = now();
-		delayedParentCycle = false;
+		hasMessage = true;
+		parentLagGraceUntil = 0;
 		return snapshot(lastMessageAt, "child_message");
 	}
 
-	/**
-	 * Determines whether exact-child replacement is justified now.
-	 * @returns {object} Stable liveness evidence and `shouldRestart` authorization.
-	 */
+	/** Authorizes replacement only after a full punctual observation window proves silence. */
 	function inspect() {
 		const observedAt = now();
 		const checkGapMs = Math.max(0, observedAt - lastCheckAt);
 		lastCheckAt = observedAt;
-		if (checkGapMs > checkMs * 4) {
-			delayedParentCycle = true;
+		if (Policy.parentDelayed(checkGapMs, timing.checkMs)) {
+			parentLagGraceUntil = Math.max(
+				parentLagGraceUntil,
+				observedAt + timing.parentLagGraceMs
+			);
 			return snapshot(observedAt, "parent_event_loop_delayed");
 		}
-		if (delayedParentCycle) {
-			delayedParentCycle = false;
-			return snapshot(observedAt, "post_lag_grace");
+		if (observedAt < parentLagGraceUntil) {
+			return snapshot(observedAt, "parent_lag_grace");
 		}
-		if (observedAt - startedAt < startupGraceMs) {
+		if (observedAt - startedAt < timing.startupGraceMs) {
 			return snapshot(observedAt, "startup_grace");
 		}
 		const messageAgeMs = Math.max(0, observedAt - lastMessageAt);
-		if (messageAgeMs < staleMs) return snapshot(observedAt, "healthy");
-		if (lastRestartAt && observedAt - lastRestartAt < cooldownMs) {
+		if (messageAgeMs < timing.staleMs) return snapshot(observedAt, "healthy");
+		if (lastRestartAt && observedAt - lastRestartAt < timing.cooldownMs) {
 			return snapshot(observedAt, "restart_cooldown");
 		}
 		lastRestartAt = observedAt;
+		const reason = hasMessage ? "child_ipc_stalled" : "child_ipc_bootstrap_stalled";
 		return {
-			...snapshot(observedAt, "child_ipc_stalled"),
+			...snapshot(observedAt, reason),
 			shouldRestart: true
 		};
 	}
 
-	/** Returns current timing evidence without authorizing another replacement. */
 	function status() {
 		return snapshot(now(), "status");
 	}
@@ -82,30 +78,28 @@ function create(options = {}) {
 		return {
 			shouldRestart: false,
 			reason,
+			hasMessage,
 			messageAgeMs: Math.max(0, observedAt - lastMessageAt),
 			generationAgeMs: Math.max(0, observedAt - startedAt),
-			staleMs,
-			checkMs,
-			cooldownMs,
-			startupGraceMs,
+			parentLagGraceUntil,
+			parentLagGraceRemainingMs: Math.max(0, parentLagGraceUntil - observedAt),
+			...timing,
 			lastRestartAt
 		};
 	}
 
-	return { inspect, note, started, status };
-}
-
-function bounded(value, fallback, minimum) {
-	const number = Number(value);
-	return Number.isFinite(number)
-		? Math.max(minimum, Math.floor(number))
-		: fallback;
+	return {
+		inspect,
+		note,
+		started,
+		status
+	};
 }
 
 module.exports = {
-	DEFAULT_CHECK_MS,
-	DEFAULT_COOLDOWN_MS,
-	DEFAULT_STALE_MS,
-	DEFAULT_STARTUP_GRACE_MS,
+	DEFAULT_CHECK_MS: Policy.DEFAULT_CHECK_MS,
+	DEFAULT_COOLDOWN_MS: Policy.DEFAULT_COOLDOWN_MS,
+	DEFAULT_STALE_MS: Policy.DEFAULT_STALE_MS,
+	DEFAULT_STARTUP_GRACE_MS: Policy.DEFAULT_STARTUP_GRACE_MS,
 	create
 };

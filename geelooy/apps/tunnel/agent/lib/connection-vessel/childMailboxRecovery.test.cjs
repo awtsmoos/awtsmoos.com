@@ -1,4 +1,4 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 
@@ -6,50 +6,63 @@ const assert = require("node:assert/strict");
 const Recovery = require("./child-mailbox-recovery.js");
 
 /**
- * @file Proves stale accepted custody remains visible without becoming child-kill authority.
+ * @file Proves fresh custody reuses one observed snapshot while stale ambiguity stays preserved.
  * @description
- * Awtsmoos.com may observe an old lease, but age cannot prove execution failure or safety to retry.
- * The Awtsmoos renews every instant; this test keeps ambiguity preserved as attention while
- * stronger present-tense watchdog evidence alone decides whether a living child must be replaced.
+ * The Awtsmoos renews every instant without rereading the same parchment twice; Awtsmoos.com
+ * accepts one current mailbox witness on the hot path, yet stale custody still enters semantic
+ * recovery where ambiguity remains visible and never becomes permission for destructive reprise.
  */
-const now = Date.now();
+proveFreshSnapshotReuse();
+proveAcceptedAmbiguityPreserved();
+proveResultAmbiguityPreserved();
+console.log("BHY mailbox recovery reuses fresh testimony and preserves stale custody ambiguity");
 
-const acceptedRecords = [record("accepted-1", "accepted_waiting_for_consumer")];
-const acceptedMailbox = mailbox(acceptedRecords);
-const first = Recovery.reconcileIfStale(acceptedMailbox, {
-	reason: "test_child_stale_custody"
-});
-assert.equal(first.attempted, true);
-assert.equal(first.ok, true);
-assert.equal(first.attentionRequired, true);
-assert.equal(first.replacementRequired, false);
-assert.equal(first.safeToRedispatch, false);
-assert.equal(first.actions[0].operation, "preserved");
-assert.equal(first.actions[0].reason, "accepted_execution_ambiguity");
-assert.equal(acceptedRecords.length, 1);
+function proveFreshSnapshotReuse() {
+	let snapshots = 0;
+	const known = {
+		inbox: {
+			parentCustodyStaleCount: 0
+		}
+	};
+	const mailbox = {
+		snapshot() {
+			snapshots += 1;
+			return known;
+		}
+	};
+	const result = Recovery.reconcileIfStale(mailbox, { snapshot: known });
+	assert.equal(result.attempted, false);
+	assert.equal(result.reason, "child_mailbox_fresh");
+	assert.equal(snapshots, 0);
+}
 
-const second = Recovery.reconcileIfStale(acceptedMailbox);
-assert.equal(second.attempted, true);
-assert.equal(second.attentionRequired, true);
-assert.equal(second.replacementRequired, false);
-assert.equal(second.actions[0].operation, "preserved");
-assert.equal(acceptedRecords.length, 1);
+function proveAcceptedAmbiguityPreserved() {
+	const records = [record("accepted-1", "accepted_waiting_for_consumer")];
+	const result = Recovery.reconcileIfStale(mailbox(records), {
+		reason: "test_child_stale_custody"
+	});
+	assertPreserved(result, records, "accepted_execution_ambiguity");
+}
 
-const resultRecords = [record("result-1", "result_waiting_for_ack")];
-const result = Recovery.reconcileIfStale(mailbox(resultRecords));
-assert.equal(result.attempted, true);
-assert.equal(result.ok, true);
-assert.equal(result.attentionRequired, true);
-assert.equal(result.replacementRequired, false);
-assert.equal(result.safeToRedispatch, false);
-assert.equal(result.actions[0].operation, "preserved");
-assert.equal(result.actions[0].reason, "result_waiting_for_ack");
-assert.equal(resultRecords.length, 1);
+function proveResultAmbiguityPreserved() {
+	const records = [record("result-1", "result_waiting_for_ack")];
+	const result = Recovery.reconcileIfStale(mailbox(records));
+	assertPreserved(result, records, "result_waiting_for_ack");
+}
 
-console.log("BHY custody age remains attention without destructive child replacement");
+function assertPreserved(result, records, reason) {
+	assert.equal(result.attempted, true);
+	assert.equal(result.ok, true);
+	assert.equal(result.attentionRequired, true);
+	assert.equal(result.replacementRequired, false);
+	assert.equal(result.safeToRedispatch, false);
+	assert.equal(result.actions[0].operation, "preserved");
+	assert.equal(result.actions[0].reason, reason);
+	assert.equal(records.length, 1);
+}
 
-/** Creates one deliberately expired exact-custody witness. */
 function record(id, phase) {
+	const now = Date.now();
 	return {
 		id,
 		phase,
@@ -59,7 +72,6 @@ function record(id, phase) {
 	};
 }
 
-/** Creates the minimum semantic-recovery mailbox contract while retaining live custody. */
 function mailbox(records) {
 	return {
 		evidence() {

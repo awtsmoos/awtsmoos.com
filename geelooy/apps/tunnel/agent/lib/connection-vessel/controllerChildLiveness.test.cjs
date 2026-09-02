@@ -6,56 +6,99 @@ const assert = require("node:assert/strict");
 const Liveness = require("./controller-child-liveness.js");
 
 /**
- * @file Proves connection-child silence is repaired only after startup, lag, stale, and cooldown gates.
+ * @file Proves scheduler delay postpones judgment without inventing child IPC evidence.
  * @description
- * The Awtsmoos lets a delayed listener recover its hearing before judging the messenger.
- * Awtsmoos.com waits through startup and one post-lag grace cycle, then permits exact
- * child replacement only after real IPC silence survives the configured threshold.
+ * The Awtsmoos renews listener and messenger in every measured ray; Awtsmoos.com grants
+ * a delayed parent one full clean observation window before Gevurah may replace the child.
+ * Real child speech alone refreshes evidence; local lag never masquerades as a message today.
  */
-let now = 1000;
-const liveness = Liveness.create({
-	now: () => now,
-	staleMs: 5000,
-	checkMs: 1000,
-	cooldownMs: 10000,
-	startupGraceMs: 1000
-});
+proveOrdinarySilence();
+proveBootstrapSilence();
+proveParentLagWindow();
+proveRepeatedLagExtendsGrace();
+proveRealMessageEndsGrace();
 
-liveness.started();
-now = 1500;
-assert.equal(liveness.inspect().reason, "startup_grace");
+console.log("BHY child liveness requires sustained punctual sight after parent lag");
 
-liveness.note();
-now = 5500;
-assert.equal(liveness.inspect().reason, "healthy");
-now = 7000;
-const stalled = liveness.inspect();
-assert.equal(stalled.reason, "child_ipc_stalled");
-assert.equal(stalled.shouldRestart, true);
+function proveOrdinarySilence() {
+	let now = 1000;
+	const liveness = create(() => now);
+	liveness.started();
+	now = 1500;
+	assert.equal(liveness.inspect().reason, "startup_grace");
+	liveness.note();
+	now = 5500;
+	assert.equal(liveness.inspect().reason, "healthy");
+	now = 7000;
+	const stalled = liveness.inspect();
+	assert.equal(stalled.reason, "child_ipc_stalled");
+	assert.equal(stalled.shouldRestart, true);
+}
 
-liveness.started();
-now = 13000;
-assert.equal(liveness.inspect().reason, "parent_event_loop_delayed");
-now = 14000;
-assert.equal(liveness.inspect().reason, "post_lag_grace");
-now = 15000;
-assert.equal(liveness.inspect().reason, "restart_cooldown");
-assert.equal(liveness.inspect().shouldRestart, false);
+function proveBootstrapSilence() {
+	let now = 1000;
+	const liveness = create(() => now);
+	liveness.started();
+	now = 7000;
+	const delayed = liveness.inspect();
+	assert.equal(delayed.reason, "parent_event_loop_delayed");
+	now = 8000;
+	assert.equal(liveness.inspect().reason, "parent_lag_grace");
+	now = 12000;
+	const bootstrap = liveness.inspect();
+	assert.equal(bootstrap.reason, "child_ipc_bootstrap_stalled");
+	assert.equal(bootstrap.shouldRestart, true);
+}
 
-let lagNow = 1000;
-const delayedParent = Liveness.create({
-	now: () => lagNow,
-	staleMs: 5000,
-	checkMs: 1000,
-	cooldownMs: 10000,
-	startupGraceMs: 1000
-});
-delayedParent.started();
-lagNow = 7000;
-assert.equal(delayedParent.inspect().reason, "parent_event_loop_delayed");
-lagNow = 8000;
-assert.equal(delayedParent.inspect().reason, "post_lag_grace");
-lagNow = 9000;
-assert.equal(delayedParent.inspect().shouldRestart, true);
+function proveParentLagWindow() {
+	let now = 1000;
+	const liveness = create(() => now);
+	liveness.started();
+	now = 7000;
+	const delayed = liveness.inspect();
+	assert.equal(delayed.reason, "parent_event_loop_delayed");
+	assert.equal(delayed.parentLagGraceUntil, 12000);
+	now = 8000;
+	assert.equal(liveness.inspect().reason, "parent_lag_grace");
+	now = 11000;
+	assert.equal(liveness.inspect().reason, "parent_lag_grace");
+}
 
-console.log("BHY connection-child liveness distinguishes child silence from parent lag");
+function proveRepeatedLagExtendsGrace() {
+	let now = 1000;
+	const liveness = create(() => now);
+	liveness.started();
+	now = 7000;
+	liveness.inspect();
+	now = 13000;
+	const delayedAgain = liveness.inspect();
+	assert.equal(delayedAgain.reason, "parent_event_loop_delayed");
+	assert.equal(delayedAgain.parentLagGraceUntil, 18000);
+	now = 17000;
+	assert.equal(liveness.inspect().reason, "parent_lag_grace");
+}
+
+function proveRealMessageEndsGrace() {
+	let now = 1000;
+	const liveness = create(() => now);
+	liveness.started();
+	now = 7000;
+	liveness.inspect();
+	now = 8000;
+	liveness.note();
+	const status = liveness.status();
+	assert.equal(status.parentLagGraceUntil, 0);
+	assert.equal(status.hasMessage, true);
+	now = 9000;
+	assert.equal(liveness.inspect().reason, "healthy");
+}
+
+function create(now) {
+	return Liveness.create({
+		now,
+		staleMs: 5000,
+		checkMs: 1000,
+		cooldownMs: 10000,
+		startupGraceMs: 1000
+	});
+}
