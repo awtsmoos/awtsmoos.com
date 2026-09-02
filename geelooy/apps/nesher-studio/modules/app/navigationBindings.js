@@ -1,13 +1,28 @@
-/* B"H
-Boruch Hashem
-Blessed is He
-The Awtsmoos reveals one chamber through a flowing change of garments; Awtsmoos.com unifies dock buttons, deep links, keyboard intent, and touch gestures.
-*/
+//B"H
+// Boruch Hashem
+// Blessed is He
+/**
+ * @file navigationBindings.js
+ * @description Unifies dock buttons, deep links, keyboard motion, and touch gestures across every Studio room.
+ * The Awtsmoos changes garments while one current chamber remains known;
+ * Awtsmoos.com lets Home, Stage, Audio, NLE, and deeper Creative Language share one navigational throne.
+ */
 import { PageTransitionController } from './PageTransitionController.js';
 import { bindGestureNavigation } from './gestureNavigation.js';
 
-const PAGE_ORDER = ['home', 'stage', 'audio', 'sources', 'live', 'setup', 'nle'];
+const PAGE_ORDER = ['home', 'stage', 'audio', 'sources', 'live', 'setup', 'nle', 'more'];
+const PAGE_LABELS = {
+	home: 'Studio home',
+	stage: 'Stage',
+	audio: 'Audio Lab',
+	sources: 'Sources',
+	live: 'Live health',
+	setup: 'Studio setup',
+	nle: 'Timeline editor',
+	more: 'Creative language'
+};
 
+/** Binds all supported navigation interfaces to one page transition controller. */
 export function bindNavigation({ dom, setStatus }) {
 	const pages = Array.from(document.querySelectorAll('[data-studio-page]'));
 	const controller = new PageTransitionController({ pages, order: PAGE_ORDER, labelElement: dom.currentRoomLabel });
@@ -32,14 +47,21 @@ export function bindNavigation({ dom, setStatus }) {
 
 function bindPrimaryButtons(dom, openPage) {
 	const actions = [
-		[dom.navHome, 'home', dom.homeSection], [dom.navStage, 'stage', dom.stageSection],
-		[dom.navAudio, 'audio', dom.audioLabSection], [dom.navSources, 'sources', dom.sourcesSection],
-		[dom.navLive, 'live', dom.streamSection], [dom.navSetup, 'setup', dom.studioSettings],
-		[dom.navNle, 'nle', dom.nleSection], [dom.navBenchmark, 'nle', dom.benchmarkCard],
+		[dom.navHome, 'home', dom.homeSection],
+		[dom.navStage, 'stage', dom.stageSection],
+		[dom.navAudio, 'audio', dom.audioLabSection],
+		[dom.navSources, 'sources', dom.sourcesSection],
+		[dom.navLive, 'live', dom.streamSection],
+		[dom.navSetup, 'setup', dom.studioSettings],
+		[dom.navNle, 'nle', dom.nleSection],
+		[dom.navBenchmark, 'nle', dom.benchmarkCard],
+		[dom.navMore, 'more', dom.moreSection],
 		[dom.backToStudio, 'home', dom.homeSection]
 	];
 
-	actions.forEach(([button, page, focus]) => bindButton(button, () => openPage(page, focus, `${pageLabel(page)} ready.`)));
+	for (const [button, page, focus] of actions) {
+		bindButton(button, () => openPage(page, focus, `${pageLabel(page)} ready.`));
+	}
 }
 
 function bindButton(button, action) {
@@ -61,12 +83,19 @@ function bindPageTargets(openPage) {
 
 function bindKeyboardNavigation(controller, openPage) {
 	window.addEventListener('keydown', (event) => {
-		if (!event.altKey || !['ArrowLeft', 'ArrowRight'].includes(event.key)) return;
+		if (!event.altKey || !['ArrowLeft', 'ArrowRight'].includes(event.key)) {
+			return;
+		}
+
 		const current = controller.currentPage?.dataset.studioPage || 'home';
 		const index = PAGE_ORDER.indexOf(current);
-		const targetIndex = event.key === 'ArrowRight' ? index + 1 : index - 1;
-		const page = PAGE_ORDER[Math.max(0, Math.min(PAGE_ORDER.length - 1, targetIndex))];
-		if (page !== current) openPage(page, pageElement(page), `${pageLabel(page)} ready.`);
+		const direction = event.key === 'ArrowRight' ? 1 : -1;
+		const targetIndex = Math.max(0, Math.min(PAGE_ORDER.length - 1, index + direction));
+		const page = PAGE_ORDER[targetIndex];
+
+		if (page !== current) {
+			openPage(page, pageElement(page), `${pageLabel(page)} ready.`);
+		}
 	});
 }
 
@@ -80,7 +109,9 @@ function openInitialLocation(openPage) {
 function markNavigation(page, focusId) {
 	document.querySelectorAll('[data-nav-page]').forEach((button) => {
 		const benchmark = focusId === 'benchmarkCard';
-		const active = benchmark ? button.id === 'navBenchmark' : button.dataset.navPage === page && button.id !== 'navBenchmark';
+		const active = benchmark
+			? button.id === 'navBenchmark'
+			: button.dataset.navPage === page && button.id !== 'navBenchmark';
 		button.classList.toggle('active', active);
 	});
 }
@@ -90,5 +121,5 @@ function pageElement(page) {
 }
 
 function pageLabel(page) {
-	return { home: 'Studio home', stage: 'Stage', audio: 'Audio Lab', sources: 'Sources', live: 'Live health', setup: 'Studio setup', nle: 'Timeline editor' }[page] || 'Studio';
+	return PAGE_LABELS[page] || 'Studio';
 }

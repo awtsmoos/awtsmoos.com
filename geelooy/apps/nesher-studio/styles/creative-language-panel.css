@@ -1,0 +1,145 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets one command chamber remain calm while many operations wait beneath the surface; Awtsmoos.com clothes metadata, forms, history, and reusable work in readable vessels without hiding their source.
+*/
+.creative-more-page {
+	overflow-y: auto;
+}
+
+.creative-more-hero {
+	margin-bottom: 10px;
+}
+
+.creative-language-panel,
+.creative-evidence-card {
+	border: 1px solid var(--line);
+	border-radius: var(--radius);
+	background: rgba(6, 15, 30, .72);
+	box-shadow: var(--shadow);
+}
+
+.creative-language-panel,
+.creative-evidence-card {
+	padding: 12px;
+}
+
+.creative-panel-heading {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(180px, 320px);
+	gap: 10px;
+	align-items: end;
+}
+
+.creative-panel-heading h3,
+.creative-evidence-card h3 {
+	margin: 2px 0 0;
+}
+
+.creative-search-label {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	white-space: nowrap;
+}
+
+.creative-command-search,
+.creative-command-field input {
+	width: 100%;
+	min-height: var(--touch);
+}
+
+.creative-command-list,
+.creative-evidence-grid {
+	display: grid;
+	gap: 9px;
+	margin-top: 12px;
+}
+
+.creative-command-list {
+	grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.creative-evidence-grid {
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.creative-command-card {
+	display: grid;
+	gap: 8px;
+	min-width: 0;
+	padding: 10px;
+	border: 1px solid var(--line);
+	border-radius: calc(var(--radius) - 3px);
+	background: rgba(15, 28, 49, .72);
+}
+
+.creative-command-card p,
+.creative-command-field,
+.creative-history-list li {
+	color: var(--soft);
+}
+
+.creative-command-card p {
+	margin: 0;
+	font-size: .78rem;
+}
+
+.creative-command-heading,
+.creative-command-field,
+.creative-history-list {
+	display: grid;
+	gap: 4px;
+}
+
+.creative-command-heading code,
+.creative-history-list li span {
+	color: var(--muted);
+	font-size: .67rem;
+}
+
+.creative-command-heading code {
+	overflow-wrap: anywhere;
+}
+
+.creative-command-field {
+	font-size: .72rem;
+}
+
+.creative-command-field input[type="checkbox"] {
+	width: var(--touch);
+	justify-self: start;
+}
+
+.creative-command-run {
+	min-height: var(--touch);
+}
+
+.creative-command-result {
+	min-height: 1.4em;
+	margin: 10px 0 0;
+	color: var(--soft);
+}
+
+.creative-command-result.is-error {
+	color: #ff9aaa;
+}
+
+.creative-evidence-card {
+	min-width: 0;
+}
+
+.creative-history-list {
+	padding-left: 20px;
+}
+
+.creative-history-list li {
+	padding: 6px 0;
+}
+
+.creative-history-list li span {
+	display: block;
+	text-transform: uppercase;
+}
