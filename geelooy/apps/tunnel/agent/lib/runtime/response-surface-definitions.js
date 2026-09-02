@@ -2,6 +2,21 @@
 // Boruch Hashem
 // Blessed is He
 
+/**
+ * @file Defines the bounded public response surface and its correlation testimony.
+ * @description
+ * The Awtsmoos reveals truth through measured vessels; Awtsmoos.com therefore keeps
+ * compact responses small without hiding the counters required to reconcile durable
+ * output. Characters describe paging positions, bytes describe retained storage cost;
+ * both witnesses travel together, distinct yet singing one trustworthy report.
+ *
+ * STABILITY COVENANT — DO NOT SIMPLIFY WITHOUT RUNNING THE NAMED REGRESSION
+ * Historical symptom: durable stdout/stderr existed and byte counters were computed, yet
+ * compact commandStatus silently omitted character counters used to reconcile the page.
+ * Root cause: the essential-key boundary exposed bytes but omitted stdoutChars/stderrChars.
+ * Forbidden simplification: expose raw/private metadata to fix one missing safe counter.
+ * Regression: commandOutputAccounting.test.cjs. Live proof: status counters equal pages.
+ */
 const DEBUG_MODES = new Set(["debug", "full", "audit", "raw", "standard"]);
 const CORRELATION_KEYS = [
 	"type", "id", "originRegistrationKey", "tunnelName", "requestedTunnelName",
@@ -41,9 +56,10 @@ const ESSENTIAL_KEYS = [
 	"currentTarget", "browser", "port", "enabled", "pid", "processGroupId",
 	"version", "webSocketDebuggerUrl", "responseShape", "responseMode",
 	"responseProtocol", "storage", "trust", "warnings", "mode", "syncOptIn",
-	"aiInstructions", "shell", "timeoutMs", "stdout", "stderr", "stdoutBytes",
-	"stderrBytes", "exitCode", "signal", "durationMs", "resourceUsage",
-	"orphanReason", "reconciliationAt", "health", "stats", "lane", "priority"
+	"aiInstructions", "shell", "timeoutMs", "stdout", "stderr", "stdoutChars",
+	"stderrChars", "stdoutBytes", "stderrBytes", "exitCode", "signal",
+	"durationMs", "resourceUsage", "orphanReason", "reconciliationAt",
+	"health", "stats", "lane", "priority"
 ];
 
 module.exports = { CORRELATION_KEYS, DEBUG_MODES, ESSENTIAL_KEYS };

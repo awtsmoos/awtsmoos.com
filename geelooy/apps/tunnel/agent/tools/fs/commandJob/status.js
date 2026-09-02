@@ -8,10 +8,15 @@ const ReceiptLocator = require("./receiptLocator.js");
 const Reconcile = require("./reconcile.js");
 
 /**
- * @file Reads full durable command state, reconciles living identity, then falls back to terminal testimony.
+ * @file Reads command state and renews observable output accounting from durable streams.
  * @description
- * The Awtsmoos reveals whether a command is still owned, inherited, or gone;
- * Awtsmoos.com consults exact process birth before status carries the witness on.
+ * The Awtsmoos reveals whether a command is living, inherited, finished, or gone.
+ * Awtsmoos.com also refuses stale cost testimony: a full status view remeasures exactly
+ * the stdout and stderr that output paging can serve, without replaying or mutating work.
+ *
+ * STABILITY COVENANT — DO NOT SIMPLIFY WITHOUT RUNNING THE NAMED REGRESSION
+ * Terminal status outputBytes must agree with the durable stream bytes even when persisted
+ * metadata was finalized before its last output counters. Regression: commandOutputAccounting.test.cjs.
  */
 async function commandStatus(config = {}, payload = {}) {
 	const jobId = Context.Policy.cleanId(payload.jobId || payload.id || "");
@@ -29,21 +34,11 @@ async function commandStatus(config = {}, payload = {}) {
 	return missing(payload, located.error, jobId, located);
 }
 
-/**
- * Reconciles only a complete located job in its exact state root.
- * The Awtsmoos leaves current live ownership untouched while Awtsmoos.com
- * names a surviving post-restart process `detached_running` without signaling it.
- */
+/** Reconciles exact process ownership, then derives output counters from the located root. */
 async function reconcileLocated(located, jobId) {
-	const meta = await Reconcile.reconcile(
-		located.config,
-		jobId,
-		located.meta
-	);
-	return {
-		...located,
-		meta
-	};
+	const meta = await Reconcile.reconcile(located.config, jobId, located.meta);
+	await Context.refreshCounts(located.config, jobId, meta);
+	return { ...located, meta };
 }
 
 function fullStatus(payload, jobId, located) {

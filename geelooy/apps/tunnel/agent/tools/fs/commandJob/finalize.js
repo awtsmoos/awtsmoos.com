@@ -1,41 +1,46 @@
 // B"H
-const WorkerProtocol = require('../../../lib/workers/worker-protocol.js');
-const WorkerReceipts = require('../../../lib/workers/worker-receipts.js');
+// Boruch Hashem
+// Blessed is He
+
+const WorkerProtocol = require("../../../lib/workers/worker-protocol.js");
+const WorkerReceipts = require("../../../lib/workers/worker-receipts.js");
+const OutputAccounting = require("./outputAccounting.js");
 
 /**
- * B"H
- * Finalization binds the worker's last breath into its receipt.
- * The action name remains untouched; only state, output cost, and final pulse
- * are sealed into metadata for later trust.
+ * @file Seals terminal worker identity while leaving durable output accounting renewable.
+ * @description
+ * The Awtsmoos binds the last breath to its deed; Awtsmoos.com records wall time here
+ * but lets the durable stream reconciler own final byte truth. Legacy counters remain a
+ * fallback so old metadata can cross into the newer covenant without becoming unreadable.
  */
 function finalizeMeta(meta = {}) {
-  const state = meta.status || (meta.exitCode === 0 ? 'completed' : 'failed');
-  meta.worker = WorkerProtocol.commandFinalWorker(meta.worker || {}, {
-    state,
-    exitCode: meta.exitCode,
-    signal: meta.signal,
-    finishedAt: meta.finishedAt,
-    heartbeatAt: new Date().toISOString()
-  });
-  meta.receipt = WorkerReceipts.update(meta.receipt || {}, {
-    state,
-    exitCode: meta.exitCode,
-    signal: meta.signal,
-    safeToReplay: false
-  });
-  meta.cost = {
-    ...(meta.cost || {}),
-    wallMs: duration(meta.startedAt, meta.finishedAt),
-    outputBytes: Number(meta.stdoutChars || 0) + Number(meta.stderrChars || 0)
-  };
-  return meta;
+	const state = meta.status || (meta.exitCode === 0 ? "completed" : "failed");
+	meta.worker = WorkerProtocol.commandFinalWorker(meta.worker || {}, {
+		state,
+		exitCode: meta.exitCode,
+		signal: meta.signal,
+		finishedAt: meta.finishedAt,
+		heartbeatAt: new Date().toISOString()
+	});
+	meta.receipt = WorkerReceipts.update(meta.receipt || {}, {
+		state,
+		exitCode: meta.exitCode,
+		signal: meta.signal,
+		safeToReplay: false
+	});
+	meta.cost = {
+		...(meta.cost || {}),
+		wallMs: duration(meta.startedAt, meta.finishedAt),
+		outputBytes: OutputAccounting.byteCount(meta)
+	};
+	return meta;
 }
 
 function duration(startedAt, finishedAt) {
-  const start = Date.parse(startedAt || '');
-  const finish = Date.parse(finishedAt || new Date().toISOString());
-  if (!Number.isFinite(start) || !Number.isFinite(finish)) return 0;
-  return Math.max(0, finish - start);
+	const start = Date.parse(startedAt || "");
+	const finish = Date.parse(finishedAt || new Date().toISOString());
+	if (!Number.isFinite(start) || !Number.isFinite(finish)) return 0;
+	return Math.max(0, finish - start);
 }
 
-module.exports = { finalizeMeta, duration };
+module.exports = { duration, finalizeMeta };

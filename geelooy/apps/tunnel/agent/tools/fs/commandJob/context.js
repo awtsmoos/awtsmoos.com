@@ -4,26 +4,28 @@
 
 const Identity = require("../../../lib/runtime/action-identity.js");
 const { safePath } = require("../pathGuard.js");
-const Policy = require("./policy.js");
-const Paths = require("./paths.js");
-const Meta = require("./meta.js");
-const GarbageCollection = require("./gc.js");
-const IO = require("./io.js");
-const ProcessControl = require("./process.js");
-const Responses = require("./responses.js");
-const Ids = require("./ids.js");
-const MetaFactory = require("./metaFactory.js");
-const Heartbeat = require("./heartbeat.js");
-const RegistryBridge = require("./registryBridge.js");
 const Finalize = require("./finalize.js");
+const GarbageCollection = require("./gc.js");
+const Heartbeat = require("./heartbeat.js");
+const Ids = require("./ids.js");
+const IO = require("./io.js");
+const Meta = require("./meta.js");
+const MetaFactory = require("./metaFactory.js");
+const OutputAccounting = require("./outputAccounting.js");
+const Paths = require("./paths.js");
+const Policy = require("./policy.js");
+const ProcessControl = require("./process.js");
+const RegistryBridge = require("./registryBridge.js");
+const Responses = require("./responses.js");
 const { getGlobalReaper, getGlobalRegistry } = require("../../../lib/runtime/worker-supervisor.js");
 
 /**
-	* @file Shares strict command scope, durable helpers, and worker control state.
-	* @description
-	* The Awtsmoos refuses silent rerouting. Awtsmoos.com either honors the exact
-	* cwd inside the selected project root or returns the path error unchanged.
-	*/
+ * @file Shares strict command scope, durable helpers, worker state, and output testimony.
+ * @description
+ * The Awtsmoos refuses silent rerouting, while Awtsmoos.com measures the durable stream
+ * anew whenever status or finalization needs truth. Path identity and output identity stay
+ * separate vessels whose witnesses meet only at the explicit command context boundary.
+ */
 const activeJobs = new Map();
 
 function allowed(config = {}, payload = {}) {
@@ -38,12 +40,8 @@ function resolveCwd(config, payload = {}) {
 
 function named(payload = {}, fallback, body = {}) {
 	const requestAction = Identity.requested(payload, fallback);
-	const executionAction = payload.executionAction ||
-		payload.actualAction ||
-		fallback;
-	return Identity.decorate(body, requestAction, executionAction, {
-		adapterAction: fallback
-	});
+	const executionAction = payload.executionAction || payload.actualAction || fallback;
+	return Identity.decorate(body, requestAction, executionAction, { adapterAction: fallback });
 }
 
 function running(status) {
@@ -51,9 +49,11 @@ function running(status) {
 		.includes(String(status || ""));
 }
 
+/** Renews retained character and UTF-8 byte counters from the exact durable stream files. */
 async function refreshCounts(config, jobId, meta) {
-	meta.stdoutChars = (await Paths.readText(config, jobId, "stdout.txt")).length;
-	meta.stderrChars = (await Paths.readText(config, jobId, "stderr.txt")).length;
+	const stdout = await Paths.readText(config, jobId, "stdout.txt");
+	const stderr = await Paths.readText(config, jobId, "stderr.txt");
+	OutputAccounting.apply(meta, stdout, stderr);
 	meta.storage ||= {
 		backend: "device-file",
 		outsideProject: true,
@@ -63,8 +63,7 @@ async function refreshCounts(config, jobId, meta) {
 }
 
 module.exports = {
-	Finalize, GarbageCollection, Heartbeat, IO, Ids, Meta, MetaFactory,
-	Paths, Policy, ProcessControl, RegistryBridge, Responses, activeJobs,
-	allowed, getGlobalReaper, getGlobalRegistry, named, refreshCounts,
-	resolveCwd, running
+	Finalize, GarbageCollection, Heartbeat, IO, Ids, Meta, MetaFactory, OutputAccounting,
+	Paths, Policy, ProcessControl, RegistryBridge, Responses, activeJobs, allowed,
+	getGlobalReaper, getGlobalRegistry, named, refreshCounts, resolveCwd, running
 };

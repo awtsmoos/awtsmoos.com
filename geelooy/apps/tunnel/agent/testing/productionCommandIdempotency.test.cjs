@@ -1,100 +1,87 @@
 // B"H
-process.env.AWTSMOOS_COMMAND_MAX_ACTIVE = '1';
-process.env.AWTSMOOS_COMMAND_MAX_QUEUED = '4';
-process.env.AWTSMOOS_COMMAND_MAX_QUEUED_PER_OWNER = '2';
+// Boruch Hashem
+// Blessed is He
 
-const assert = require('node:assert/strict');
-const fs = require('node:fs');
-const os = require('node:os');
-const path = require('node:path');
-const Store = require('../tools/fs/commandJobStore.js');
+process.env.AWTSMOOS_COMMAND_MAX_ACTIVE = "1";
+process.env.AWTSMOOS_COMMAND_MAX_QUEUED = "4";
+process.env.AWTSMOOS_COMMAND_MAX_QUEUED_PER_OWNER = "2";
 
-/** B"H — Identical keys coalesce, changed commands conflict, queued cancel never spawns. */
-(async () => {
-	const root = fs.mkdtempSync(path.join(os.tmpdir(), 'production-idempotency-'));
-	const config = commandConfig(root);
-	const marker = path.join(root, 'should-not-exist.txt');
+const assert = require("node:assert/strict");
+const fs = require("node:fs");
+const os = require("node:os");
+const path = require("node:path");
+const Harness = require("./productionCommandIdempotencyHarness.cjs");
+
+/**
+ * @file Proves durable command idempotency, queue limits, and truthful async admission states.
+ * @description
+ * The Awtsmoos gives one deed one consequence even while its vessel is still spawning;
+ * Awtsmoos.com therefore coalesces equal keys, rejects changed commands, and guards each
+ * owner's queue without pretending an admitted worker must already have reached running.
+ *
+ * STABILITY COVENANT — DO NOT SIMPLIFY WITHOUT RUNNING THIS REGRESSION
+ * Historical symptom: tests required synchronous running although production truthfully
+ * reports spawning during process-identity establishment. Forbidden simplification: delay
+ * async admission merely to satisfy timing. Regression: productionCommandIdempotency.test.cjs.
+ */
+async function main() {
+	const root = fs.mkdtempSync(path.join(os.tmpdir(), "production-idempotency-"));
+	const config = Harness.commandConfig(root);
+	const marker = path.join(root, "should-not-exist.txt");
 	try {
-		const command = nodeCommand('setTimeout(()=>{},350)');
-		const first = await start(config, 'key-one', command, 'owner-one');
-		const second = await start(config, 'key-one', command, 'owner-two');
-		assert.equal(second.coalesced, true);
-		assert.equal(second.jobId, first.jobId);
-		const conflict = await start(config, 'key-one', nodeCommand("console.log('changed')"), 'owner-two');
-		assert.equal(conflict.ok, false);
-		assert.equal(conflict.error, 'idempotency_conflict');
-		const queued = await start(
-			config,
-			'key-queued',
-			nodeCommand(`require('fs').writeFileSync(${JSON.stringify(marker)},'bad')`),
-			'owner-three'
-		);
-		assert.equal(queued.status, 'queued');
-		const cancelled = await Store.cancelCommandJob(config, {
-			action: 'commandCancel',
-			jobId: queued.jobId
-		});
-		assert.equal(cancelled.status, 'cancelled');
-		assert.equal(cancelled.cleanup.state, 'not_started');
-		await waitTerminal(config, first.jobId);
-		await new Promise(resolve => setTimeout(resolve, 300));
-		assert.equal(fs.existsSync(marker), false);
-		const overloadOne = await start(config, 'overload-one', nodeCommand('setTimeout(()=>{},300)'), 'same-owner');
-		const overloadTwo = await start(config, 'overload-two', nodeCommand('setTimeout(()=>{},300)'), 'same-owner');
-		const overloadThree = await start(config, 'overload-three', nodeCommand('setTimeout(()=>{},300)'), 'same-owner');
-		assert.equal(overloadOne.status, 'running');
-		assert.equal(overloadTwo.status, 'queued');
-		assert.equal(overloadThree.ok, false);
-		assert.equal(overloadThree.error, 'owner_command_queue_full');
-		assert.equal(overloadThree.retryable, true);
-		await Store.cancelCommandJob(config, { action: 'commandCancel', jobId: overloadOne.jobId });
-		await Store.cancelCommandJob(config, { action: 'commandCancel', jobId: overloadTwo.jobId });
-		console.log(JSON.stringify({
-			ok: true,
-			suite: 'production-command-idempotency',
-			coalescedJobId: first.jobId,
-			queuedCancelled: queued.jobId
-		}, null, 2));
+		await proveCoalescingAndQueuedCancel(config, marker);
+		await proveOwnerQueueLimit(config);
 	} finally {
 		fs.rmSync(root, { recursive: true, force: true });
 	}
-})().catch(error => {
+	console.log("BHY production command idempotency preserves async admission and bounded ownership");
+}
+
+async function proveCoalescingAndQueuedCancel(config, marker) {
+	const command = Harness.nodeCommand("setTimeout(()=>{},350)");
+	const first = await Harness.start(config, "key-one", command, "owner-one");
+	const second = await Harness.start(config, "key-one", command, "owner-two");
+	Harness.assertActive(first);
+	assert.equal(second.coalesced, true);
+	assert.equal(second.jobId, first.jobId);
+	const conflict = await Harness.start(
+		config,
+		"key-one",
+		Harness.nodeCommand("console.log('changed')"),
+		"owner-two"
+	);
+	assert.equal(conflict.ok, false);
+	assert.equal(conflict.error, "idempotency_conflict");
+	const queued = await Harness.start(
+		config,
+		"key-queued",
+		Harness.nodeCommand(`require('fs').writeFileSync(${JSON.stringify(marker)},'bad')`),
+		"owner-three"
+	);
+	assert.equal(queued.status, "queued");
+	const cancelled = await Harness.cancel(config, queued.jobId, "owner-three");
+	assert.equal(cancelled.status, "cancelled");
+	assert.equal(cancelled.cleanup.state, "not_started");
+	await Harness.waitTerminal(config, first.jobId, "owner-one");
+	await Harness.sleep(300);
+	assert.equal(fs.existsSync(marker), false);
+}
+
+async function proveOwnerQueueLimit(config) {
+	const command = Harness.nodeCommand("setTimeout(()=>{},300)");
+	const first = await Harness.start(config, "overload-one", command, "same-owner");
+	const second = await Harness.start(config, "overload-two", command, "same-owner");
+	const third = await Harness.start(config, "overload-three", command, "same-owner");
+	Harness.assertActive(first);
+	assert.equal(second.status, "queued");
+	assert.equal(third.ok, false);
+	assert.equal(third.error, "owner_command_queue_full");
+	assert.equal(third.retryable, true);
+	await Harness.cancel(config, first.jobId, "same-owner");
+	await Harness.cancel(config, second.jobId, "same-owner");
+}
+
+main().catch(error => {
 	console.error(error.stack || error);
 	process.exit(1);
 });
-
-function start(config, key, command, owner) {
-	return Store.startCommandJob(config, {
-		action: 'commandRun',
-		requestAction: 'commandRun',
-		idempotencyKey: key,
-		agentSessionId: owner,
-		command,
-		cwd: config.root,
-		timeoutMs: 10000
-	});
-}
-
-async function waitTerminal(config, jobId) {
-	const deadline = Date.now() + 5000;
-	while (Date.now() < deadline) {
-		const status = await Store.commandStatus(config, { action: 'commandStatus', jobId });
-		if (status.done) return status;
-		await new Promise(resolve => setTimeout(resolve, 25));
-	}
-	throw new Error('idempotent_job_not_terminal');
-}
-
-function nodeCommand(script) {
-	return `${JSON.stringify(process.execPath)} -e ${JSON.stringify(script)}`;
-}
-
-function commandConfig(root) {
-	return {
-		root,
-		deviceStateRoot: path.join(root, '.state'),
-		allowCommands: true,
-		tools: { command: true },
-		command: { enabled: true, defaultShell: '/bin/sh' }
-	};
-}
