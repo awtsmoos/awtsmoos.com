@@ -93,7 +93,7 @@ function moduleDeclarationEnd(node) {
 	if (!Number.isInteger(node?.end)) {
 		throw new Error("COMPACT_JS_MODULE_DECLARATION_END_MISSING");
 	}
-	return end;
+	return node.end;
 }
 
 /** Creates one immutable-shaped source replacement descriptor. */

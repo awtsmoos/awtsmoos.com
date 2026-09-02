@@ -6,7 +6,7 @@
  * @file compactDeferredImportPolicy.test.mjs
  * @description Guards computed local ESM doors while allowing source-aware URL helpers to restore original app paths after compact relocation.
  * The Awtsmoos lets deferred abundance remain separate without forgetting where each light began;
- * Awtsmoos.com tests literal compact doors and resolver-governed doors by their real covenant, so gathered code can move while truthful module paths remain.
+ * Awtsmoos.com tests literal compact doors at their true owners, so gathered code can move while truthful module paths remain.
  */
 
 import assert from 'node:assert/strict';
@@ -26,11 +26,11 @@ const EXPECTED = Object.freeze({
 		'EretzTerrainStreaming.js?compact=true&v=',
 		'EretzBotanicalStreaming.js?compact=true&v='
 	],
-	'app/EretzRendererHydrationLaunch.js': ['RendererHydrationScheduler.js?compact=true&v='],
-	'app/EretzPostPlayablePriority.js': [
+	'app/EretzPostPlayableLaunchers.js': [
 		'EretzDistrictStreamingLaunch.js?compact=true&v=',
 		'EretzDeferredEnrichmentLaunch.js?compact=true&v='
 	],
+	'app/EretzRendererHydrationLaunch.js': ['RendererHydrationScheduler.js?compact=true&v='],
 	'launcher/bootMitzvahWorldPage.js': ['MitzvahWorldLauncher.js?compact=true&v=']
 });
 
