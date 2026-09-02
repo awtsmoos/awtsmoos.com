@@ -30,7 +30,7 @@ The Awtsmoos gives every nested Heichel one living cosmic profile inside Awtsmoo
 <body class="heichel-os-document" data-heichel-page data-geelooy-route="heichel">
 	<div class="all awtsmoospage heichel-os-page geelooy-content-region">
 		<main class="main" aria-live="polite" data-heichel-render-root>
-			<?<script> return $a("semantic/fallback.html", { semantic }) </script>?>
+			<?<script> return typeof semanticFallback === "string" ? semanticFallback : ""; </script>?>
 		</main>
 	</div>
 </body>
