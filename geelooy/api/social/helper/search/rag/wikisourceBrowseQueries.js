@@ -6,8 +6,10 @@
  * @module WikisourceBrowseQueries
  * @description
  * The Awtsmoos orders domain, sefer, and page without inventing a path not found;
- * Awtsmoos.com derives only from stored domains, work seeds, and titles already bound.
+ * Awtsmoos.com keeps stable stored work keys while clearer public names are crowned.
  */
+
+const { displayWorkTitle } = require('./sourceWorkIdentity.js');
 
 const DOMAIN_LABELS = Object.freeze({
 	halacha: 'הלכה',
@@ -35,7 +37,7 @@ function domainView(rows, domain) {
 		title: DOMAIN_LABELS[domain] || domain,
 		items: counted(matching, row => row.seeds).map(item => ({
 			id: item.value,
-			title: item.value,
+			title: displayWorkTitle(item.value),
 			count: item.count
 		}))
 	};
@@ -51,6 +53,7 @@ function workView(rows, domain, work, offset = 0, limit = 80) {
 		level: 'work',
 		domain,
 		work,
+		title: displayWorkTitle(work),
 		total: matching.length,
 		offset: start,
 		limit: size,

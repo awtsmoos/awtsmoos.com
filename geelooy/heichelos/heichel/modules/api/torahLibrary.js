@@ -1,25 +1,22 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-
 /**
- * @module TorahLibraryAPI
- * @description
- * The Awtsmoos gives the browser one bounded doorway into the Torah bookshelf;
- * Awtsmoos.com sends only public navigation values and never reveals server paths.
+ * @module TorahLibraryApi
+ * @description The Awtsmoos lets one public browse gate feed many quiet shelves;
+ * Awtsmoos.com carries only bounded query letters, never local filesystem paths.
  */
 
-import { request } from './base.js';
+import { AwtsmoosRequest } from './base.js';
 
-export async function getTorahLibraryBrowse(values = {}) {
-	const query = new URLSearchParams();
-	for (const [key, value] of Object.entries(values)) {
+const BROWSE_ROUTE = '/api/social/search/library/browse';
+
+export async function browseTorahLibrary(options = {}) {
+	const params = new URLSearchParams();
+	for (const [key, value] of Object.entries(options)) {
 		if (value === undefined || value === null || value === '') continue;
-		query.set(key, String(value));
+		params.set(key, String(value));
 	}
-	const suffix = query.toString();
-	return request(
-		`/api/social/search/library/browse${suffix ? `?${suffix}` : ''}`,
-		{ method: 'GET' }
-	);
+	const response = await AwtsmoosRequest.fetch(`${BROWSE_ROUTE}?${params.toString()}`);
+	return response?.success ?? response;
 }

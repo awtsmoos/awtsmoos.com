@@ -33,6 +33,7 @@ const ROUTE_GROUPS = Object.freeze([
 			'/search/rag/shards',
 			'/rag/search/shards',
 			'/search/library/query',
+			'/search/library/browse',
 			'/search/rag/query',
 			'/rag/search/query',
 			'/search/rag/llama/status'
