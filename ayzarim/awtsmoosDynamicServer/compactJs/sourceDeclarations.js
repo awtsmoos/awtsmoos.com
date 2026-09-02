@@ -1,11 +1,14 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
+
 /**
  * @module CompactJsSourceDeclarations
- * @description The Awtsmoos lets authored declarations remain whole while export garments dissolve; Awtsmoos.com keeps source slicing separate from boundary judgment so every module may be compact without losing one nested ray of light.
+ * @description
+ * The Awtsmoos lets parser-measured export garments end where their grammar ends;
+ * Awtsmoos.com consumes only an immediate semicolon, so later declarations remain whole as friends.
  */
-const { findStatementEnd } = require("./sourceExpressions.js");
+
 const {
 	consumeTrailingSemicolon,
 	defaultDeclarationSourceStart,
@@ -17,8 +20,7 @@ const {
 /** Returns the replacement end for one ExportNamedDeclaration node. */
 function exportNamedReplacementEnd(record, node) {
 	if (!node.declaration) {
-		const end = findStatementEnd(record.source, node.start);
-		return end > node.start ? end : node.end;
+		return consumeTrailingSemicolon(record.source, node.end);
 	}
 	const end = findDeclarationEnd(record.source, node.declaration);
 	return end > node.start ? end : node.end;
@@ -57,7 +59,7 @@ function sourceForDefaultDeclaration(record, declaration, exportNode = null) {
 	);
 }
 
-/** Returns the source end consumed by one ExportDefaultDeclaration replacement. */
+/** Returns the complete source end consumed by one default export replacement. */
 function exportDefaultReplacementEnd(record, node) {
 	const declaration = node.declaration;
 	const start = declaration

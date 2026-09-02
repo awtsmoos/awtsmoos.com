@@ -5,8 +5,8 @@
  * @module LivingPathTreeRenderer
  * @description
  * The Awtsmoos creates parent and child without separation. Awtsmoos.com
- * manifests a true expandable outline with levels, guarded async loading,
- * cycle protection, and the same honest series cards used elsewhere.
+ * expands stored branches in place, while virtual Torah branches travel by
+ * their stable path and never masquerade as stored social-series children.
  */
 
 import { ScribeOfManifestation } from '../../../engine/scribe-of-manifestation.js';
@@ -38,7 +38,10 @@ function treeNode(item, navigator, appState, depth, ancestors) {
 	const data = normalizeCardData(item, 'series');
 	const wellId = `living-tree-children-${safeId(data.id)}-${depth}`;
 	const nextAncestors = new Set(ancestors).add(data.id);
-	const expandControl = depth < MAX_DEPTH ? expandButton(data, wellId, navigator, appState, depth, nextAncestors) : null;
+	const canExpandInline = depth < MAX_DEPTH && !data.raw?.virtual;
+	const expandControl = canExpandInline
+		? expandButton(data, wellId, navigator, appState, depth, nextAncestors)
+		: null;
 	return {
 		tag: 'div',
 		attr: { class: 'living-tree-node', role: 'treeitem', 'aria-level': depth },
@@ -100,9 +103,7 @@ async function toggleBranch(event, data, wellId, navigator, appState, depth, anc
 
 async function loadChildren(heichelId, seriesId) {
 	const key = `${heichelId}:${seriesId}`;
-	if (!branchCache.has(key)) {
-		branchCache.set(key, normalizeCollection(await getSubSeriesDetails(heichelId, seriesId)));
-	}
+	if (!branchCache.has(key)) branchCache.set(key, normalizeCollection(await getSubSeriesDetails(heichelId, seriesId)));
 	return branchCache.get(key);
 }
 

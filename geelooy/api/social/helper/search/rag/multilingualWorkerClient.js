@@ -5,8 +5,8 @@
 /**
  * @module MultilingualWorkerClient
  * @description
- * The Awtsmoos keeps one semantic flame awake only when sought, with measured threads beneath its glow;
- * Awtsmoos.com bounds the cold doorway, then lets every warmed vector swiftly flow.
+ * The Awtsmoos keeps one warmed semantic child beyond the HTTP event-loop wall;
+ * Awtsmoos.com lets cold callers join the same awakening promise, then bounds only live inference calls.
  */
 
 const { spawn } = require('node:child_process');
@@ -16,6 +16,7 @@ const { pythonPath } = require('./multilingualRuntime.js');
 const { semanticWorkerEnvironment } = require('./workerEnvironment.js');
 
 const SCRIPT = path.join(__dirname, 'multilingualWorker.py');
+const QUERY_TIMEOUT_MS = 15000;
 const pending = new Map();
 let child = null;
 let readyPromise = null;
@@ -42,7 +43,13 @@ function rejectAll(error) {
 
 function handleMessage(message) {
 	if (message.type === 'ready') {
-		state = { state: 'ready', model: message.model, dimension: message.dimension, readyAt: Date.now() };
+		state = {
+			state: 'ready',
+			model: message.model,
+			dimension: message.dimension,
+			inferenceWarm: message.inferenceWarm === true,
+			readyAt: Date.now()
+		};
 		readyResolve?.(message);
 		return;
 	}
@@ -94,8 +101,8 @@ async function waitForReady(timeoutMs = 5000) {
 	}
 }
 
-async function requestVector(query, timeoutMs = 15000) {
-	await waitForReady();
+async function requestVector(query, timeoutMs = QUERY_TIMEOUT_MS) {
+	await startWorker();
 	const id = String(++sequence);
 	return new Promise((resolve, reject) => {
 		const timer = setTimeout(() => {

@@ -3,19 +3,17 @@
 // Blessed is He
 /**
  * @module ContentUnveiler
- * @description
- * The Awtsmoos creates stored branches and date-born Chitas branches in one road;
- * Awtsmoos.com protects stale loads while each vessel receives only its rightful mode.
+ * @description The Awtsmoos creates stored and virtual branches through one measured coordinator;
+ * Awtsmoos.com guards stale loads while focused collaborators reveal source and view without confusion.
+ * Delegation contract: source-loader owns normalizeCollection, getSeriesTranslations,
+ * and annotateTranslationState so their Living Path responsibilities remain visible without a monolith.
  */
 
 import { appState } from '../state.js';
-import * as api from '../api.js';
 import * as ui from '../ui.js';
 import * as DND from '../dragdrop.js';
-import { isChitasSeries } from '../chitas/constants.js?v=heichel-mobile-007';
-import { injectChitasGrouping, loadChitasVirtualSeries } from '../chitas/virtual-series.js?v=heichel-mobile-007';
-import { annotateTranslationState } from '../living-path/translation-context.js';
-import { normalizeCollection } from './content-normalizer.js';
+import { loadSource } from './source-loader.js?v=torah-library-001';
+import { chooseContentView } from './view-policy.js?v=torah-library-001';
 
 let loadToken = 0;
 
@@ -27,10 +25,8 @@ export async function loadContent(navigator, seriesId) {
 	try {
 		const source = await loadSource(seriesId);
 		if (token !== loadToken) return;
-		appState.breadcrumb = seriesId === 'root' ? [] : (source.breadcrumb || []);
-		appState.currentSeriesData = source.seriesData;
-		appState.currentContent = source.content;
-		const view = chooseView(source.content, source.seriesData);
+		adoptSource(source, seriesId);
+		const view = chooseContentView(source.content, source.seriesData);
 		navigator.switchView(view, true, false);
 		await renderAll(navigator, source.content, source.seriesData);
 	} catch (error) {
@@ -46,52 +42,10 @@ export async function loadContent(navigator, seriesId) {
 	}
 }
 
-async function loadSource(seriesId) {
-	if (isChitasSeries(seriesId)) return loadChitasVirtualSeries();
-	const [breadcrumb, seriesData] = await loadIdentity(seriesId);
-	return {
-		breadcrumb,
-		seriesData,
-		content: await loadCollections(seriesId)
-	};
-}
-
-async function loadIdentity(seriesId) {
-	const [breadcrumb, seriesData] = await Promise.all([
-		api.getBreadcrumb(appState.heichelId, seriesId),
-		api.getSeriesDetails(appState.heichelId, seriesId)
-	]);
-	if (!seriesData) throw new Error(`The series “${seriesId}” is unavailable.`);
-	return [breadcrumb, seriesData];
-}
-
-function optionalTranslations(seriesId) {
-	if (!api.isTranslationSeries(seriesId)) return Promise.resolve(null);
-	return api.getSeriesTranslations(appState.heichelId, seriesId, 250).catch(error => {
-		console.warn('B"H translation metadata remained optional', error);
-		return null;
-	});
-}
-
-async function loadCollections(seriesId) {
-	const [postsRaw, subSeries, groupingsRaw, translations] = await Promise.all([
-		api.getPostDetails(appState.heichelId, seriesId),
-		api.getSubSeriesDetails(appState.heichelId, seriesId),
-		api.getAlternateGroupDetails(appState.heichelId, seriesId),
-		optionalTranslations(seriesId)
-	]);
-	const posts = annotateTranslationState(normalizeCollection(postsRaw), translations);
-	const groupings = injectChitasGrouping(
-		normalizeCollection(groupingsRaw),
-		appState.heichelId,
-		seriesId
-	);
-	return {
-		posts,
-		subSeries: normalizeCollection(subSeries),
-		groupings,
-		translationMeta: translations?.meta || null
-	};
+function adoptSource(source, seriesId) {
+	appState.breadcrumb = seriesId === 'root' ? [] : (source.breadcrumb || []);
+	appState.currentSeriesData = source.seriesData;
+	appState.currentContent = source.content;
 }
 
 async function renderAll(navigator, content, seriesData) {
@@ -106,14 +60,4 @@ async function renderAll(navigator, content, seriesData) {
 		currentSeries: appState.currentSeries
 	});
 	if (appState.ownsIt && !seriesData?.virtual) DND.initialize();
-}
-
-function chooseView(content, seriesData) {
-	if (seriesData?.virtual) return 'posts';
-	const explicit = new URLSearchParams(location.search).get('view');
-	if (['posts', 'series', 'groupings'].includes(explicit)) return explicit;
-	if (content.posts.length) return 'posts';
-	if (content.subSeries.length) return 'series';
-	if (content.groupings.length) return 'groupings';
-	return 'posts';
 }

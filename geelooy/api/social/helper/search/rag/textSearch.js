@@ -4,51 +4,15 @@
 
 /**
  * @module TextSearchFallback
- * @description Stored text mirrors remain searchable without vectors or whole-corpus materialization.
- * The Awtsmoos contains every reviewed part at once, while Awtsmoos.com may choose a deterministic bounded sample for latency-sensitive callers in light;
- * callers that pass no budget retain the original covenant and search every available part exactly as before in sight.
+ * @description
+ * The Awtsmoos streams reviewed mirrors without swallowing the whole sea;
+ * Awtsmoos.com reveals an exact named sefer first, then falls back faithfully.
  */
 
 const { searchSidecar } = require('./sidecarSearch.js');
 const { mergeTextParts } = require('./textSearchParts.js');
-
-function normalize(value) {
-	return String(value ?? '')
-		.normalize('NFKC')
-		.toLocaleLowerCase()
-		.replace(/[^\p{L}\p{N}]+/gu, ' ')
-		.trim();
-}
-
-function tokens(query) {
-	return [...new Set(normalize(query).split(/\s+/).filter(Boolean))];
-}
-
-function searchableText(row = {}) {
-	return normalize([
-		row.text,
-		row.previewEnglish,
-		row.sampleContent,
-		row.content,
-		row.title,
-		row.postTitle,
-		row.postId,
-		row.seriesTitle,
-		row.seriesId
-	].filter(Boolean).join(' '));
-}
-
-function relevance(row, queryText, queryTokens) {
-	const haystack = searchableText(row);
-	if (!haystack) return 0;
-	let score = haystack.includes(queryText) ? 8 : 0;
-	for (const token of queryTokens) {
-		if (haystack === token) score += 5;
-		else if (haystack.includes(` ${token} `)) score += 3;
-		else if (haystack.includes(token)) score += 1;
-	}
-	return score / Math.max(1, queryTokens.length * 3 + 8);
-}
+const { exactPublicTitleForQuery } = require('./sourceWorkIdentity.js');
+const { normalize, relevance, searchableText, tokens } = require('./textRelevance.js');
 
 async function textSearchShard(shard, query, limit = 10, options = {}) {
 	const available = (shard.parts || [shard]).filter(part => part.textFile);
@@ -58,18 +22,32 @@ async function textSearchShard(shard, query, limit = 10, options = {}) {
 	const parts = selectTextParts(available, query, options.textPartLimit);
 	const queryText = normalize(query);
 	const queryTokens = tokens(query);
-	const results = await Promise.all(parts.map(part => searchSidecar({
+	const searchLimit = Math.max(1, Number(limit) || 10);
+	const exactTitle = exactPublicTitleForQuery(query);
+	if (exactTitle) {
+		const exact = await runParts(parts, shard, queryText, queryTokens, searchLimit, options, exactTitle);
+		const merged = mergeTextParts(exact, searchLimit, shard);
+		if (merged.hits.some(hit => Number(hit.score) >= 4)) {
+			return { ...merged, identityMatch: true };
+		}
+	}
+	const results = await runParts(parts, shard, queryText, queryTokens, searchLimit, options);
+	return mergeTextParts(results, searchLimit, shard);
+}
+
+function runParts(parts, shard, queryText, queryTokens, limit, options, exactTitle = '') {
+	return Promise.all(parts.map(part => searchSidecar({
 		file: part.textFile,
 		queryText,
 		queryTokens,
 		relevance,
-		limit: Math.max(1, Number(limit) || 10),
-		shard: part,
+		limit,
+		shard: { ...shard, ...part },
+		exactTitle,
 		maxRows: options.textMaxRows,
 		maxMs: options.textMaxMs,
 		minRows: options.textMinRows
 	})));
-	return mergeTextParts(results, Math.max(1, Number(limit) || 10), shard);
 }
 
 function selectTextParts(parts, query, requestedLimit) {
@@ -77,9 +55,9 @@ function selectTextParts(parts, query, requestedLimit) {
 	if (limit >= parts.length) return [...parts];
 	const offset = queryHash(query) % parts.length;
 	const rotated = [...parts.slice(offset), ...parts.slice(0, offset)];
-	return Array.from({ length: limit }, (_, index) => {
-		return rotated[Math.floor(index * rotated.length / limit)];
-	});
+	return Array.from({ length: limit }, (_, index) => (
+		rotated[Math.floor(index * rotated.length / limit)]
+	));
 }
 
 function boundedPartLimit(value, maximum) {

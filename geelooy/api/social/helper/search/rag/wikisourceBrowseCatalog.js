@@ -5,8 +5,8 @@
 /**
  * @module WikisourceBrowseCatalog
  * @description
- * The Awtsmoos lets thousands of Torah pages flow as a stream while Awtsmoos.com
- * remembers only the small navigation sparks needed to reveal an honest bookshelf.
+ * The Awtsmoos gathers compact Torah sparks without dragging every page body into memory;
+ * Awtsmoos.com remembers each page's part, so one chosen source opens with faithful identity.
  */
 
 const fs = require('node:fs');
@@ -15,72 +15,95 @@ const { resolveShard } = require('./shards.js');
 
 let catalogPromise = null;
 
-async function catalogFor({ $i }) {
-	if (!catalogPromise) catalogPromise = buildCatalog({ $i });
+async function catalogFor({ $i } = {}) {
+	if (!catalogPromise) {
+		catalogPromise = buildCatalog({ $i }).catch(error => {
+			catalogPromise = null;
+			throw error;
+		});
+	}
 	return catalogPromise;
 }
 
-async function buildCatalog({ $i }) {
+async function buildCatalog({ $i } = {}) {
 	const shard = await resolveShard({ $i, lane: 'hewikisource-torah' });
-	if (!shard) throw Object.assign(new Error('Wikisource Torah lane is unavailable.'), {
-		code: 'WIKISOURCE_BROWSE_UNAVAILABLE'
-	});
+	if (!shard) {
+		throw Object.assign(new Error('Torah source corpus is unavailable.'), {
+			code: 'WIKISOURCE_BROWSE_UNAVAILABLE'
+		});
+	}
 	const parts = shard.parts || [shard];
 	const rows = [];
-	for (const part of parts) {
-		await streamRows(part.textFile, row => rows.push(compactRow(row)));
+	const pageParts = new Map();
+	for (let partIndex = 0; partIndex < parts.length; partIndex += 1) {
+		await streamRows(parts[partIndex].textFile, row => {
+			const compact = compactRow(row);
+			rows.push(compact);
+			if (compact.pageId !== '') pageParts.set(String(compact.pageId), partIndex);
+		});
 	}
 	return {
 		rows,
+		pageParts,
 		parts: parts.map(part => ({ textFile: part.textFile }))
 	};
 }
 
-async function streamRows(file, onRow) {
+async function streamRows(file, visit) {
 	if (!file) return;
-	const lines = readline.createInterface({
-		input: fs.createReadStream(file, { encoding: 'utf8' }),
-		crlfDelay: Infinity
-	});
+	const input = fs.createReadStream(file, { encoding: 'utf8' });
+	const lines = readline.createInterface({ input, crlfDelay: Infinity });
 	for await (const line of lines) {
 		if (!line.trim()) continue;
-		onRow(JSON.parse(line));
+		visit(JSON.parse(line));
 	}
+}
+
+async function findPage(file, pageId) {
+	let found = null;
+	await streamRows(file, row => {
+		if (!found && String(row.pageId || row.id) === String(pageId)) {
+			found = publicPage(row);
+		}
+	});
+	return found;
+}
+
+async function pageById({ $i, pageId } = {}) {
+	const catalog = await catalogFor({ $i });
+	const partIndex = catalog.pageParts.get(String(pageId));
+	if (partIndex === undefined) return null;
+	return findPage(catalog.parts[partIndex].textFile, pageId);
 }
 
 function compactRow(row = {}) {
 	return {
-		pageId: Number(row.pageId || 0),
-		title: String(row.title || ''),
-		domains: Array.isArray(row.domains) ? row.domains : [],
-		seeds: Array.isArray(row.seeds) ? row.seeds : [],
-		revisionId: Number(row.revisionId || 0),
-		revisionTimestamp: row.revisionTimestamp || '',
-		sourceUrl: row.sourceUrl || '',
-		sourceHash: row.sourceHash || '',
-		qualityState: row.qualityState || '',
-		license: row.license || ''
+		pageId: row.pageId || row.id || '',
+		title: row.title || '',
+		domains: asList(row.domains ?? row.domain),
+		seeds: asList(row.seeds ?? row.workSeeds ?? row.workSeed ?? row.work),
+		revisionId: row.revisionId || null,
+		revisionTimestamp: row.revisionTimestamp || null,
+		sourceUrl: row.sourceUrl || null,
+		sourceHash: row.sourceHash || null,
+		qualityState: row.qualityState || null,
+		license: row.license || null
 	};
 }
 
-async function pageById({ $i, pageId }) {
-	const catalog = await catalogFor({ $i });
-	let found = null;
-	for (const part of catalog.parts) {
-		await streamRows(part.textFile, row => {
-			if (!found && Number(row.pageId) === Number(pageId)) found = publicPage(row);
-		});
-		if (found) break;
-	}
-	return found;
+function asList(value) {
+	if (Array.isArray(value)) return value.filter(Boolean).map(String);
+	if (value === undefined || value === null || value === '') return [];
+	return [String(value)];
 }
 
 function publicPage(row = {}) {
-	const { vec, embedding, vector, ...plain } = row;
-	return plain;
+	const { vec, vector, embedding, embeddingVector, ...clean } = row;
+	return clean;
 }
 
 module.exports = {
+	buildCatalog,
 	catalogFor,
 	compactRow,
 	pageById,

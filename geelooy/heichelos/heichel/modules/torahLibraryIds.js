@@ -1,64 +1,59 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-
 /**
  * @module TorahLibraryIds
- * @description
- * The Awtsmoos gives every virtual bookshelf step a stable name in the road;
- * Awtsmoos.com keeps domain, sefer, page, and pagination inside one honest code.
+ * @description The Awtsmoos binds domain, work, page, and pagination into quiet stable names;
+ * Awtsmoos.com keeps public paths source-neutral while every inner identity remains faithful in its frames.
  */
 
-export const TORAH_LIBRARY_ROOT_ID = 'torah-library:wikisource';
+export const TORAH_LIBRARY_ROOT_ID = 'torah-library:source';
 const PREFIX = `${TORAH_LIBRARY_ROOT_ID}:`;
 
 export function isTorahLibrarySeries(seriesId) {
-	return seriesId === TORAH_LIBRARY_ROOT_ID
-		|| String(seriesId || '').startsWith(PREFIX);
+	return seriesId === TORAH_LIBRARY_ROOT_ID || String(seriesId || '').startsWith(PREFIX);
 }
 
 export function shouldOfferTorahLibrary(heichelId, seriesId) {
 	return heichelId === 'ikar' && seriesId === 'root';
 }
 
-export function injectTorahLibrarySeries(items, heichelId, seriesId, card) {
-	if (!shouldOfferTorahLibrary(heichelId, seriesId)) return items;
-	if (items.some(item => item?.id === TORAH_LIBRARY_ROOT_ID)) return items;
-	return [...items, card];
+export function injectTorahLibrarySeries(series, heichelId, seriesId, card) {
+	if (!shouldOfferTorahLibrary(heichelId, seriesId)) return series;
+	if (series.some(item => item?.id === TORAH_LIBRARY_ROOT_ID)) return series;
+	return [...series, card];
 }
 
-export function domainId(domain) {
-	return `${PREFIX}domain:${encodeURIComponent(domain)}`;
+export function domainSeriesId(domain) {
+	return `${PREFIX}domain:${encode(domain)}`;
 }
 
-export function workId(domain, work, offset = 0) {
-	return `${PREFIX}work:${encodeURIComponent(domain)}:${encodeURIComponent(work)}:${Number(offset) || 0}`;
+export function workSeriesId(domain, work, offset = 0) {
+	return `${PREFIX}work:${encode(domain)}:${encode(work)}:${Math.max(0, Number(offset) || 0)}`;
 }
 
-export function pageId(domain, work, id) {
-	return `${PREFIX}page:${Number(id)}:${encodeURIComponent(domain)}:${encodeURIComponent(work)}`;
+export function pageSeriesId(pageId, domain, work) {
+	return `${PREFIX}page:${encode(pageId)}:${encode(domain)}:${encode(work)}`;
 }
 
 export function parseTorahLibraryId(seriesId) {
-	if (seriesId === TORAH_LIBRARY_ROOT_ID) return { level: 'root' };
-	const parts = String(seriesId || '').split(':');
-	const level = parts[2];
-	if (level === 'domain') return { level, domain: decodeURIComponent(parts[3] || '') };
-	if (level === 'work') {
-		return {
-			level,
-			domain: decodeURIComponent(parts[3] || ''),
-			work: decodeURIComponent(parts[4] || ''),
-			offset: Number(parts[5] || 0)
-		};
+	if (seriesId === TORAH_LIBRARY_ROOT_ID) return { kind: 'root' };
+	if (!String(seriesId || '').startsWith(PREFIX)) return null;
+	const [kind, first, second, third] = String(seriesId).slice(PREFIX.length).split(':');
+	if (kind === 'domain' && first) return { kind, domain: decode(first) };
+	if (kind === 'work' && first && second) {
+		return { kind, domain: decode(first), work: decode(second), offset: Math.max(0, Number(third) || 0) };
 	}
-	if (level === 'page') {
-		return {
-			level,
-			pageId: Number(parts[3] || 0),
-			domain: decodeURIComponent(parts[4] || ''),
-			work: decodeURIComponent(parts[5] || '')
-		};
+	if (kind === 'page' && first && second && third) {
+		return { kind, pageId: decode(first), domain: decode(second), work: decode(third) };
 	}
-	return { level: 'unknown' };
+	return null;
+}
+
+function encode(value) {
+	return encodeURIComponent(String(value ?? ''));
+}
+
+function decode(value) {
+	return decodeURIComponent(String(value ?? ''));
 }
