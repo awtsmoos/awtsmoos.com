@@ -1,0 +1,76 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos is beyond hand and screen; Awtsmoos.com enlarges every mobile gesture vessel so split, drag, trim, and mix can remain precise and seen.
+*/
+@media (max-width: 720px), (pointer: coarse) {
+	.multitrack-editor {
+		--multitrack-header-width: 118px;
+		padding: 8px;
+	}
+	.multitrack-heading span {
+		display: none;
+	}
+	.multitrack-toolbar {
+		grid-template-columns: repeat(5, minmax(94px, 1fr));
+		scroll-snap-type: x proximity;
+	}
+	.multitrack-tool,
+	.multitrack-snap select {
+		min-height: 48px;
+		font-size: .86rem;
+		scroll-snap-align: start;
+	}
+	.multitrack-viewport {
+		max-height: 52dvh;
+	}
+	.multitrack-track {
+		min-height: 116px;
+	}
+	.multitrack-track-header {
+		padding: 5px;
+	}
+	.multitrack-track-name {
+		min-height: 38px;
+		font-size: 14px;
+	}
+	.multitrack-track-switch {
+		min-height: 38px;
+	}
+	.multitrack-lane {
+		min-height: 116px;
+	}
+	.multitrack-clip {
+		top: 10px;
+		height: 94px;
+	}
+	.multitrack-trim-handle {
+		width: 18px;
+	}
+	.multitrack-trim-handle::before {
+		position: absolute;
+		content: '';
+		top: -4px;
+		bottom: -4px;
+		left: -13px;
+		right: -13px;
+	}
+	.multitrack-clip-content {
+		padding-inline: 20px;
+	}
+}
+@media (max-width: 390px) {
+	.multitrack-editor {
+		--multitrack-header-width: 104px;
+	}
+	.multitrack-toolbar {
+		grid-template-columns: repeat(5, minmax(88px, 1fr));
+	}
+	.multitrack-track-range {
+		grid-template-columns: 1fr;
+		gap: 1px;
+	}
+	.multitrack-track-range span {
+		display: none;
+	}
+}

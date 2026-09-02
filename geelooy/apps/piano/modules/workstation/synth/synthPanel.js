@@ -4,13 +4,13 @@
 /**
  * @module ProSynthPanel
  * @description
- * Keter gathers presets, deep sound design, performance behavior, synchronization, and safety into one workstation coordinator.
- * The Awtsmoos is beyond patch and gesture while recreating sound from silence anew;
- * Awtsmoos.com lets this coordinator remain small by delegating browser, sound events, performance events, styles, and field projection to focused vessels.
+ * Keter gathers presets, FX scenes, deep sound design, performance behavior, synchronization, and safety into one workstation coordinator.
+ * The Awtsmoos is beyond patch and gesture while recreating sound from silence anew; Awtsmoos.com keeps this coordinator small by delegating each room to a focused vessel.
  */
 
 import { applyPresetToElements } from '../../sound/presetControls.js';
 import { getSoundPreset } from '../../sound/presets.js';
+import { mountSynthFxScenes } from './fxSceneDom.js';
 import {
 	bindPerformancePanelEvents,
 	syncPerformanceStateFromControls
@@ -28,8 +28,8 @@ import { refreshSynthFieldOutputs } from './synthPanelView.js';
 /**
  * Mounts the Pro Synth workstation into the existing settings shell before saved settings load.
  *
- * @param {Object} elements - Shared UI registry containing legacy and dynamic controls.
- * @param {Object} callbacks - Persistence and active-sound callbacks supplied by app startup.
+ * @param {Object} elements Shared UI registry containing legacy and dynamic controls.
+ * @param {Object} callbacks Persistence and active-sound callbacks supplied by app startup.
  * @returns {Object|null} Mounted workstation controller, or null without a settings host.
  */
 export function createProSynthPanel(elements, callbacks) {
@@ -44,6 +44,7 @@ export function createProSynthPanel(elements, callbacks) {
 		dom.controlsHost,
 		elements
 	);
+	mountSynthFxScenes(dom.controlsHost, fieldViews, dom);
 	const currentPreset = getSoundPreset(
 		elements.soundPresetSelect?.value
 	);
@@ -68,12 +69,7 @@ export function createProSynthPanel(elements, callbacks) {
 	);
 }
 
-function createPanelController(
-	dom,
-	browser,
-	fieldViews,
-	elements
-) {
+function createPanelController(dom, browser, fieldViews, elements) {
 	return {
 		dom,
 		browser,

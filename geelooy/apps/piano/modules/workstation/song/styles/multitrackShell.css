@@ -1,0 +1,79 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos is beyond lane and toolbar; Awtsmoos.com gives the generic audio editor a dark mobile vessel where every action can remain near.
+*/
+.multitrack-editor {
+	--multitrack-header-width: 146px;
+	display: flex;
+	flex-direction: column;
+	gap: 9px;
+	padding: 11px;
+	border: 1px solid rgba(116, 219, 255, .16);
+	border-radius: 14px;
+	background: rgba(255, 255, 255, .04);
+}
+.multitrack-heading {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: 10px;
+}
+.multitrack-heading strong {
+	font-size: .98rem;
+}
+.multitrack-heading span {
+	font-size: .75rem;
+	opacity: .64;
+}
+.multitrack-toolbar {
+	display: grid;
+	grid-template-columns: repeat(6, minmax(82px, 1fr));
+	gap: 7px;
+	overflow-x: auto;
+	padding-bottom: 2px;
+	scrollbar-width: thin;
+}
+.multitrack-tool,
+.multitrack-snap select {
+	min-height: 44px;
+	box-sizing: border-box;
+	border: 1px solid rgba(255, 255, 255, .12);
+	border-radius: 9px;
+	color: #f5fbff;
+	background: rgba(255, 255, 255, .075);
+	font-weight: 700;
+}
+.multitrack-tool {
+	padding: 7px 9px;
+	white-space: nowrap;
+}
+.multitrack-tool-primary {
+	background: rgba(0, 123, 255, .76);
+}
+.multitrack-tool-remix {
+	background: rgba(113, 51, 196, .86);
+}
+.multitrack-tool:disabled {
+	opacity: .42;
+}
+.multitrack-snap {
+	display: grid;
+	grid-template-columns: auto 1fr;
+	align-items: center;
+	gap: 5px;
+	min-width: 110px;
+	font-size: .72rem;
+}
+.multitrack-snap select {
+	min-width: 68px;
+	padding: 5px;
+}
+.multitrack-file-input {
+	display: none;
+}
+.multitrack-status {
+	min-height: 20px;
+	font-size: .76rem;
+	opacity: .82;
+}

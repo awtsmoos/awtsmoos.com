@@ -1,0 +1,90 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos is beyond waveform and boundary; Awtsmoos.com gives every clip a visible body, trim gates, and playhead so touch can shape time without harming source sound.
+*/
+.multitrack-clip {
+	position: absolute;
+	top: 9px;
+	height: 84px;
+	min-width: 18px;
+	box-sizing: border-box;
+	border: 1px solid rgba(113, 219, 255, .48);
+	border-radius: 9px;
+	background: linear-gradient(
+		180deg,
+		rgba(22, 136, 192, .82),
+		rgba(29, 77, 113, .9)
+	);
+	box-shadow: 0 5px 16px rgba(0, 0, 0, .28);
+	overflow: hidden;
+	touch-action: none;
+	user-select: none;
+	-webkit-user-select: none;
+}
+.multitrack-clip-selected {
+	outline: 3px solid rgba(255, 213, 79, .92);
+	outline-offset: 1px;
+}
+.multitrack-clip-content {
+	display: grid;
+	grid-template-rows: auto 1fr auto;
+	height: 100%;
+	padding: 6px 15px;
+	box-sizing: border-box;
+	pointer-events: none;
+}
+.multitrack-clip-label,
+.multitrack-clip-timing {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	font-size: .65rem;
+}
+.multitrack-clip-label {
+	font-weight: 800;
+}
+.multitrack-clip-timing {
+	opacity: .75;
+}
+.multitrack-waveform {
+	display: flex;
+	align-items: center;
+	gap: 1px;
+	min-height: 31px;
+	overflow: hidden;
+}
+.multitrack-waveform-bar {
+	flex: 1 0 1px;
+	height: calc(var(--multitrack-peak) * 100%);
+	min-height: 2px;
+	border-radius: 1px;
+	background: rgba(236, 250, 255, .7);
+}
+.multitrack-trim-handle {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	z-index: 4;
+	width: 14px;
+	background: rgba(255, 255, 255, .12);
+	cursor: ew-resize;
+}
+.multitrack-trim-left {
+	left: 0;
+	border-radius: 8px 0 0 8px;
+}
+.multitrack-trim-right {
+	right: 0;
+	border-radius: 0 8px 8px 0;
+}
+.multitrack-playhead {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	z-index: 20;
+	width: 2px;
+	background: #ff4d67;
+	box-shadow: 0 0 8px rgba(255, 77, 103, .72);
+	pointer-events: none;
+}

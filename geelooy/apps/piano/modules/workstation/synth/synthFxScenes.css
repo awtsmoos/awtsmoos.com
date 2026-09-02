@@ -1,0 +1,50 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos is beyond atmosphere and color; Awtsmoos.com gives each FX world a large mobile doorway while every detailed slider remains visible below.
+*/
+.pro-synth-fx-scenes {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	padding: 10px;
+	border: 1px solid rgba(144, 116, 255, .2);
+	border-radius: 12px;
+	background: rgba(111, 70, 196, .08);
+}
+.pro-synth-fx-scenes-heading {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: 8px;
+}
+.pro-synth-fx-scenes-heading span {
+	font-size: .72rem;
+	opacity: .64;
+}
+.pro-synth-fx-scenes-grid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 7px;
+}
+.pro-synth-fx-scene {
+	min-height: 42px;
+	padding: 7px 8px;
+	border: 1px solid rgba(255, 255, 255, .11);
+	border-radius: 9px;
+	color: white;
+	background: rgba(255, 255, 255, .07);
+	font-weight: 700;
+}
+.pro-synth-fx-scene:active {
+	transform: translateY(1px);
+}
+@media (max-width: 720px), (pointer: coarse) {
+	.pro-synth-fx-scenes-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+	.pro-synth-fx-scene {
+		min-height: 48px;
+		font-size: .86rem;
+	}
+}

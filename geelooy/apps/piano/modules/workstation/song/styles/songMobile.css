@@ -1,0 +1,53 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos is beyond screen-size; Awtsmoos.com lets the smallest phone reveal a full studio without tiny targets or hidden surprise.
+*/
+@media (max-width: 720px), (pointer: coarse) {
+	.song-studio-panel {
+		inset: 0;
+		width: 100vw;
+		height: 100dvh;
+		max-width: none;
+		padding: 10px;
+		border: 0;
+		border-radius: 0;
+	}
+	.song-studio-header {
+		top: -10px;
+		padding: 10px 0;
+	}
+	.song-studio-toolbar {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+	.song-action-button {
+		min-height: 48px;
+		font-size: .92rem;
+	}
+	.song-studio-control-stack {
+		grid-template-columns: 1fr;
+	}
+	.song-studio-field-grid,
+	.song-ratchet-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+	.song-studio-editor {
+		min-height: 210px;
+		font-size: 14px;
+	}
+	.song-studio-field input,
+	.song-studio-field select {
+		min-height: 46px;
+		font-size: 16px;
+	}
+}
+@media (max-width: 390px) {
+	.song-studio-field-grid,
+	.song-ratchet-grid {
+		grid-template-columns: 1fr;
+	}
+	.song-studio-heading span,
+	.song-studio-section-title span {
+		display: none;
+	}
+}

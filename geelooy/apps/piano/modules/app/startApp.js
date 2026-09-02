@@ -4,9 +4,8 @@
 /**
  * @module PianoAppStart
  * @description
- * The Awtsmoos gathers audio, keys, MIDI, memory, professional synthesis, accompaniment, rhythm, and acoustic readiness into one beginning.
- * Awtsmoos.com mounts the deep editor before settings load so every new control can remember its value,
- * while startup remains ordered here and the public entry file remains a doorway rather than the whole building.
+ * The Awtsmoos gathers audio, keys, MIDI, memory, synthesis, Media Studio, Song Studio, accompaniment, and rhythm into one beginning.
+ * Awtsmoos.com mounts each workstation through a small doorway so every finite editor may awaken in order while the One beyond order renews all time.
  */
 
 import { startAccompaniment } from '../accompaniment.js';
@@ -15,7 +14,9 @@ import { noteNames, setupInputListeners } from '../input.js';
 import { applyPresetToElements, getSoundPreset } from '../sound/presets.js';
 import { generateKeyboard } from '../ui.js';
 import { createCustomWaves } from '../waveforms.js';
+import { initMediaStudioWorkstation } from '../workstation/media/index.js';
 import { initRhythmWorkstation } from '../workstation/rhythm/index.js';
+import { initSongStudioWorkstation } from '../workstation/song/index.js';
 import { initProSynthWorkstation } from '../workstation/synth/index.js';
 import { initializeMidiBridge } from './midiBridge.js';
 import {
@@ -29,7 +30,12 @@ import {
 	saveSettings
 } from './settings.js';
 
-/** @param {Object} elements - Cached piano DOM registry. @returns {Promise<void>} */
+/**
+ * Starts the complete Piano experience after one user gesture unlocks browser audio.
+ *
+ * @param {Object} elements Cached piano DOM registry.
+ * @returns {Promise<void>} Resolves after startup wiring is complete.
+ */
 export async function startPianoApp(elements) {
 	if (!initAudio()) {
 		alert('Audio Init Failed');
@@ -43,6 +49,8 @@ export async function startPianoApp(elements) {
 		saveSettings,
 		refreshActiveSound
 	});
+	initMediaStudioWorkstation();
+	initSongStudioWorkstation();
 	loadSettings(elements);
 	reapplyCanonicalDefault(elements);
 	proSynth?.sync();
@@ -55,6 +63,12 @@ export async function startPianoApp(elements) {
 	void warmCurrentAcousticPreset(elements);
 }
 
+/**
+ * Reapplies the canonical default after stored settings load.
+ *
+ * @param {Object} elements Cached piano DOM registry.
+ * @returns {void}
+ */
 function reapplyCanonicalDefault(elements) {
 	if (elements.soundPresetSelect?.value !== DEFAULT_PRESET_ID) {
 		return;

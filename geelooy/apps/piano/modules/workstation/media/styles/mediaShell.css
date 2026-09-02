@@ -1,0 +1,96 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos is beyond every captured form; Awtsmoos.com gives Media Studio a clear glass room where four recording doors stay visible and warm.
+*/
+.media-studio-launcher {
+	min-height: 38px;
+	font-weight: 800;
+}
+.media-studio-launcher-active {
+	box-shadow: 0 0 0 2px rgba(255, 91, 126, .48);
+}
+.media-studio-panel {
+	position: fixed;
+	inset: 14vh 8vw;
+	z-index: 5100;
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
+	max-width: 760px;
+	max-height: 72vh;
+	margin: 0 auto;
+	padding: 16px;
+	box-sizing: border-box;
+	overflow: auto;
+	border: 1px solid rgba(255, 110, 143, .3);
+	border-radius: 18px;
+	background: rgba(12, 13, 20, .97);
+	box-shadow: 0 24px 90px rgba(0, 0, 0, .64);
+	backdrop-filter: blur(18px);
+	-webkit-backdrop-filter: blur(18px);
+}
+.media-studio-hidden {
+	display: none;
+}
+.media-studio-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+}
+.media-studio-title {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+.media-studio-title span {
+	font-size: .76rem;
+	opacity: .66;
+}
+.media-studio-close {
+	width: 44px;
+	height: 44px;
+	border: 0;
+	border-radius: 50%;
+	color: white;
+	background: rgba(255, 255, 255, .1);
+	font-size: 1.5rem;
+}
+.media-studio-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 10px;
+}
+.media-studio-card {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	padding: 12px;
+	border-radius: 12px;
+	background: rgba(255, 255, 255, .045);
+}
+.media-studio-card p {
+	margin: 0;
+	font-size: .77rem;
+	opacity: .7;
+}
+.media-studio-record {
+	min-height: 50px;
+	border: 1px solid rgba(255, 255, 255, .13);
+	border-radius: 10px;
+	color: white;
+	background: rgba(255, 255, 255, .08);
+	font-weight: 800;
+	font-size: .98rem;
+}
+.media-studio-recording {
+	background: rgba(211, 47, 77, .88);
+}
+.media-studio-status {
+	min-height: 22px;
+	padding: 9px 11px;
+	border-radius: 9px;
+	background: rgba(255, 255, 255, .05);
+	font-size: .78rem;
+}

@@ -1,0 +1,92 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos is beyond control and choice; Awtsmoos.com gives every editor action a clear hand and voice.
+*/
+.song-studio-toolbar {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 8px;
+}
+.song-action-button {
+	min-height: 44px;
+	padding: 8px 10px;
+	border: 1px solid rgba(255, 255, 255, .11);
+	border-radius: 10px;
+	color: white;
+	background: rgba(255, 255, 255, .08);
+	font-weight: 700;
+}
+.song-action-primary,
+.song-action-remix {
+	background: rgba(0, 123, 255, .75);
+}
+.song-action-recording {
+	background: rgba(220, 53, 69, .88);
+}
+.song-action-button:disabled {
+	opacity: .42;
+}
+.song-studio-file-input {
+	display: none;
+}
+.song-studio-editor-room,
+.song-basic-room,
+.song-ratchet-room {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	padding: 11px;
+	border-radius: 13px;
+	background: rgba(255, 255, 255, .045);
+}
+.song-studio-section-title {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: 8px;
+}
+.song-studio-editor {
+	width: 100%;
+	min-height: 180px;
+	box-sizing: border-box;
+	padding: 11px;
+	resize: vertical;
+	border: 1px solid rgba(255, 255, 255, .13);
+	border-radius: 10px;
+	color: #eaf7ff;
+	background: #080b10;
+	font: 13px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace;
+	user-select: text;
+	-webkit-user-select: text;
+}
+.song-studio-control-stack {
+	display: grid;
+	grid-template-columns: 1fr 1.35fr;
+	gap: 12px;
+}
+.song-studio-field-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 8px;
+}
+.song-ratchet-grid {
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.song-studio-field {
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+	font-size: .76rem;
+	opacity: .94;
+}
+.song-studio-field input,
+.song-studio-field select {
+	min-height: 40px;
+	box-sizing: border-box;
+	border: 1px solid rgba(255, 255, 255, .12);
+	border-radius: 8px;
+	padding: 7px 8px;
+	color: white;
+	background: rgba(255, 255, 255, .08);
+}

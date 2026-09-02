@@ -1,0 +1,101 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos is beyond time and lane; Awtsmoos.com gives ruler, viewport, and track headers a measured place so mobile editing can remain sane.
+*/
+.multitrack-viewport {
+	position: relative;
+	min-height: 180px;
+	max-height: 430px;
+	overflow: auto;
+	border: 1px solid rgba(255, 255, 255, .08);
+	border-radius: 11px;
+	background: #080b10;
+	overscroll-behavior: contain;
+	-webkit-overflow-scrolling: touch;
+}
+.multitrack-timeline {
+	position: relative;
+	min-width: 100%;
+	min-height: 180px;
+}
+.multitrack-ruler {
+	position: sticky;
+	top: 0;
+	z-index: 12;
+	height: 30px;
+	border-bottom: 1px solid rgba(255, 255, 255, .1);
+	background: rgba(8, 11, 16, .96);
+}
+.multitrack-ruler-mark {
+	position: absolute;
+	bottom: 3px;
+	font-size: .65rem;
+	opacity: .62;
+	transform: translateX(-1px);
+}
+.multitrack-track {
+	display: grid;
+	grid-template-columns: var(--multitrack-header-width) auto;
+	min-height: 104px;
+	border-bottom: 1px solid rgba(255, 255, 255, .06);
+}
+.multitrack-track-header {
+	position: sticky;
+	left: 0;
+	z-index: 8;
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 5px;
+	min-width: 0;
+	padding: 7px;
+	box-sizing: border-box;
+	background: rgba(17, 22, 32, .98);
+	box-shadow: 4px 0 8px rgba(0, 0, 0, .28);
+}
+.multitrack-track-name {
+	width: 100%;
+	min-height: 32px;
+	box-sizing: border-box;
+	border: 1px solid rgba(255, 255, 255, .1);
+	border-radius: 6px;
+	padding: 5px;
+	color: white;
+	background: rgba(255, 255, 255, .06);
+}
+.multitrack-track-switches {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 4px;
+}
+.multitrack-track-switch {
+	min-height: 30px;
+	border: 0;
+	border-radius: 6px;
+	color: white;
+	background: rgba(255, 255, 255, .08);
+}
+.multitrack-track-switch-active {
+	background: rgba(0, 123, 255, .72);
+}
+.multitrack-track-range {
+	display: grid;
+	grid-template-columns: 32px 1fr;
+	align-items: center;
+	gap: 4px;
+	font-size: .62rem;
+}
+.multitrack-track-range input {
+	width: 100%;
+	margin: 0;
+}
+.multitrack-lane {
+	position: relative;
+	min-height: 104px;
+	background-image: linear-gradient(
+		90deg,
+		rgba(255, 255, 255, .035) 1px,
+		transparent 1px
+	);
+	background-size: 72px 100%;
+}
