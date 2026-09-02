@@ -3,13 +3,14 @@
 // Blessed is He
 
 const Await = require("./worker-reap-await.js");
+const Preflight = require("./worker-reap-preflight.js");
 
 /**
- * B"H
- *
- * One reap operation claims ownership before cleanup and seals one ending after
- * bounded evidence returns. The Awtsmoos renews claim and result; Awtsmoos.com
- * never lets a private callback restore active ownership or duplicate counters.
+ * @file Claims and finalizes worker cleanup after stale-only preflight permits custody to move.
+ * @description
+ * The Awtsmoos lets each destructive transition wait for present testimony at its gate;
+ * Awtsmoos.com preserves the established reap covenant while stale suspicion first consults fate.
+ * Timeout and cancellation keep their authority, and terminal projection remains one faithful shore.
  */
 function createReapOperation(options = {}) {
 	const {
@@ -21,6 +22,16 @@ function createReapOperation(options = {}) {
 	return async function reapWorker(workerId, request = {}) {
 		const reason = request.reason || "worker_reap_requested";
 		const status = request.status || "cancelled";
+		const deferred = await Preflight.preflightStale(
+			registry,
+			workerId,
+			request,
+			status,
+			reason
+		);
+		if (deferred) {
+			return deferred;
+		}
 		const claimed = registry.claimReap(workerId, {
 			reapReason: reason,
 			reapRequestedStatus: status
@@ -32,7 +43,6 @@ function createReapOperation(options = {}) {
 				record: claimed.record
 			};
 		}
-
 		state.totalReaped += 1;
 		state.lastReapAt = new Date().toISOString();
 		const outcome = await invokeControl(
@@ -57,6 +67,7 @@ function createReapOperation(options = {}) {
 	};
 }
 
+/** Invokes the established private cleanup contract through the bounded deadline vessel. */
 function invokeControl(control, request, reason, status, timeoutMs) {
 	if (typeof control?.reap !== "function") {
 		return Promise.resolve({
@@ -72,6 +83,7 @@ function invokeControl(control, request, reason, status, timeoutMs) {
 	}), timeoutMs);
 }
 
+/** Preserves the established terminal cleanup/result projection used by registry telemetry. */
 function terminalPatch(requestedStatus, reason, outcome) {
 	const result = outcome.result || {};
 	const state = outcome.ok
@@ -94,5 +106,6 @@ function terminalPatch(requestedStatus, reason, outcome) {
 module.exports = {
 	createReapOperation,
 	invokeControl,
+	preflightStale: Preflight.preflightStale,
 	terminalPatch
 };

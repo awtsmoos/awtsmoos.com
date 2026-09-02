@@ -1,80 +1,74 @@
 // B"H
-const Context = require('./context.js');
-const Lifecycle = require('./lifecycle.js');
-const Identity = require('./processIdentity.js');
-const Observe = require('./processObserve.js');
+// Boruch Hashem
+// Blessed is He
+
+const Context = require("./context.js");
+const IdentityReconciliation = require("./reconcileIdentity.js");
+const View = require("./reconcileDetachedView.js");
 
 /**
- * B"H — Detached recovery requires exact birth identity. Missing, recycled, or
- * mismatched processes become terminal evidence and are never adopted or signaled.
+ * @file Coordinates durable command reconciliation without inventing terminal execution truth.
+ * @description
+ * This Yesod coordinator joins durable metadata, living in-memory custody, and exact identity
+ * arbitration without owning the lower-level observations itself. Awtsmoos.com lets each witness
+ * remain in its proper vessel. The Awtsmoos renews storage, process, and observer in every shore;
+ * fresh terminal truth wins, while detached uncertainty remains available to be examined once more.
  */
 async function reconcile(config, jobId, meta) {
 	await Context.refreshCounts(config, jobId, meta);
 	const live = Context.activeJobs.get(jobId);
-	if (live && !Context.Policy.TERMINAL.has(meta.status)) return mergeLive(meta, live);
-	// A queued command intentionally has no PID until the scheduler gives it a lane.
-	if (meta.status === 'queued') return meta;
-	if (!Context.running(meta.status) && meta.status !== 'spawning' && meta.status !== 'cancelling') {
+	if (live && !Context.Policy.TERMINAL.has(meta.status)) {
+		return View.mergeLive(meta, live);
+	}
+	if (meta.status === "queued") {
+		return meta;
+	}
+	if (!reconcilable(meta.status)) {
 		return meta;
 	}
 	const fresh = await Context.Meta.read(config, jobId);
 	if (fresh) {
-		await Context.refreshCounts(config, jobId, fresh);
-		if (Context.Policy.TERMINAL.has(fresh.status)) return fresh;
-		const freshLive = Context.activeJobs.get(jobId);
-		if (freshLive) return mergeLive(fresh, freshLive);
-		if (fresh.status === 'queued') return fresh;
+		const resolved = await reconcileFresh(config, jobId, fresh);
+		if (resolved) {
+			return resolved;
+		}
 		meta = fresh;
 	}
-	const expected = Identity.fromMeta(meta);
-	const observed = await Observe.observe(expected.pid);
-	const comparison = Identity.compare(expected, observed);
-	if (comparison.ok) return markDetached(meta, observed);
-	const state = comparison.state === 'dead'
-		? 'stale_lost_worker'
-		: 'identity_unverified';
-	return Lifecycle.finalizeDetached(config, jobId, meta, {
-		status: state,
-		staleRecovered: comparison.state === 'dead',
-		error: comparison.reason || comparison.state,
-		processComparison: comparison,
-		worker: {
-			...(meta.worker || {}),
-			detached: true
-		}
-	});
+	return IdentityReconciliation.reconcile(config, jobId, meta);
 }
 
-function mergeLive(meta, live) {
-	return {
-		...meta,
-		...live.meta,
-		stdoutChars: meta.stdoutChars,
-		stderrChars: meta.stderrChars
-	};
+/**
+ * Re-checks durable state after the initial read so concurrent terminal evidence wins.
+ * @param {object} config Command runtime configuration.
+ * @param {string} jobId Durable job identity.
+ * @param {object} fresh Newly-read metadata.
+ * @returns {Promise<object|null>} Resolved state or null when identity arbitration must continue.
+ */
+async function reconcileFresh(config, jobId, fresh) {
+	await Context.refreshCounts(config, jobId, fresh);
+	if (Context.Policy.TERMINAL.has(fresh.status)) {
+		return fresh;
+	}
+	const live = Context.activeJobs.get(jobId);
+	if (live) {
+		return View.mergeLive(fresh, live);
+	}
+	if (fresh.status === "queued") {
+		return fresh;
+	}
+	return null;
 }
 
-function markDetached(meta, observed) {
-	return {
-		...meta,
-		status: 'detached_running',
-		detachedRunning: true,
-		processIdentity: Identity.create(observed),
-		worker: {
-			...(meta.worker || {}),
-			pid: observed.pid,
-			processGroupId: observed.processGroupId,
-			birthToken: observed.birthToken,
-			state: 'detached_running',
-			detached: true,
-			heartbeatAt: meta.heartbeatAt || meta.updatedAt || meta.startedAt
-		},
-		receipt: {
-			...(meta.receipt || {}),
-			state: 'detached_running',
-			updatedAt: new Date().toISOString()
-		}
-	};
+/** Returns whether the durable state still requires detached process reconciliation. */
+function reconcilable(status) {
+	return Context.running(status) || status === "spawning" || status === "cancelling";
 }
 
-module.exports = { markDetached, mergeLive, reconcile };
+module.exports = {
+	detachedMeta: View.detachedMeta,
+	markDetached: View.markDetached,
+	markGroupDetached: View.markGroupDetached,
+	markObservationDeferred: View.markObservationDeferred,
+	mergeLive: View.mergeLive,
+	reconcile
+};
