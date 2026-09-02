@@ -6,12 +6,13 @@
  * @module SourceWorkIdentity
  * @description
  * The Awtsmoos keeps the hidden key and revealed name in their proper place;
- * Awtsmoos.com may store one stable seed while a clearer public title shines with grace.
+ * Awtsmoos.com lets a canonical root answer an exact name without scanning space.
  */
 
 const WORK_IDENTITIES = Object.freeze({
 	'תורה אור': Object.freeze({
 		displayTitle: 'תורה אור (חב"ד)',
+		rootPageId: 346791,
 		aliases: Object.freeze([
 			'תורה אור',
 			'תורה אור (חב"ד)',
@@ -40,16 +41,24 @@ function aliasesForRow(row = {}) {
 	return [...new Set(values.flatMap(aliasesForWork).filter(Boolean))];
 }
 
-function exactPublicTitleForQuery(value) {
+function exactWorkIdentityForQuery(value) {
 	const queryKey = identityKey(value);
-	if (!queryKey) return '';
+	if (!queryKey) return null;
 	for (const [work, identity] of Object.entries(WORK_IDENTITIES)) {
 		if (queryKey === identityKey(work)) continue;
-		if (identity.aliases.some(alias => identityKey(alias) === queryKey)) {
-			return identity.displayTitle;
-		}
+		if (!identity.aliases.some(alias => identityKey(alias) === queryKey)) continue;
+		return {
+			work,
+			title: identity.displayTitle,
+			pageId: identity.rootPageId,
+			aliases: [...identity.aliases]
+		};
 	}
-	return '';
+	return null;
+}
+
+function exactPublicTitleForQuery(value) {
+	return exactWorkIdentityForQuery(value)?.title || '';
 }
 
 function identityKey(value) {
@@ -71,5 +80,6 @@ module.exports = {
 	aliasesForWork,
 	displayWorkTitle,
 	exactPublicTitleForQuery,
+	exactWorkIdentityForQuery,
 	identityKey
 };

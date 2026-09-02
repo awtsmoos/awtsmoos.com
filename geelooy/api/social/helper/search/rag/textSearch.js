@@ -5,13 +5,14 @@
 /**
  * @module TextSearchFallback
  * @description
- * The Awtsmoos streams reviewed mirrors without swallowing the whole sea;
- * Awtsmoos.com reveals an exact named sefer first, then falls back faithfully.
+ * The Awtsmoos lets a known sefer answer by identity before the broad mirror is read;
+ * Awtsmoos.com keeps ordinary lexical search unchanged for every other thread.
  */
 
+const { publicHit } = require('./resultShape.js');
 const { searchSidecar } = require('./sidecarSearch.js');
 const { mergeTextParts } = require('./textSearchParts.js');
-const { exactPublicTitleForQuery } = require('./sourceWorkIdentity.js');
+const { exactWorkIdentityForQuery } = require('./sourceWorkIdentity.js');
 const { normalize, relevance, searchableText, tokens } = require('./textRelevance.js');
 
 async function textSearchShard(shard, query, limit = 10, options = {}) {
@@ -19,23 +20,43 @@ async function textSearchShard(shard, query, limit = 10, options = {}) {
 	if (!available.length) {
 		throw codedError('TEXT_MIRROR_UNAVAILABLE', `Shard ${shard.id} has no readable text mirror.`);
 	}
+	const identity = exactWorkIdentityForQuery(query);
+	if (identity) return exactIdentityResult(shard, identity);
 	const parts = selectTextParts(available, query, options.textPartLimit);
 	const queryText = normalize(query);
 	const queryTokens = tokens(query);
 	const searchLimit = Math.max(1, Number(limit) || 10);
-	const exactTitle = exactPublicTitleForQuery(query);
-	if (exactTitle) {
-		const exact = await runParts(parts, shard, queryText, queryTokens, searchLimit, options, exactTitle);
-		const merged = mergeTextParts(exact, searchLimit, shard);
-		if (merged.hits.some(hit => Number(hit.score) >= 4)) {
-			return { ...merged, identityMatch: true };
-		}
-	}
 	const results = await runParts(parts, shard, queryText, queryTokens, searchLimit, options);
 	return mergeTextParts(results, searchLimit, shard);
 }
 
-function runParts(parts, shard, queryText, queryTokens, limit, options, exactTitle = '') {
+function exactIdentityResult(shard, identity) {
+	const hit = publicHit({
+		rank: 1,
+		score: 4,
+		percent: 100,
+		row: {
+			pageId: identity.pageId,
+			title: identity.title,
+			seeds: [identity.work],
+			sourceLabel: shard.title,
+			corpus: shard.id
+		}
+	});
+	return {
+		hits: [hit],
+		totalRows: Number(shard.count || 0),
+		scannedRows: 0,
+		invalidRows: 0,
+		scanComplete: true,
+		truncated: false,
+		source: 'canonical-work-identity',
+		partsSearched: 0,
+		identityMatch: true
+	};
+}
+
+function runParts(parts, shard, queryText, queryTokens, limit, options) {
 	return Promise.all(parts.map(part => searchSidecar({
 		file: part.textFile,
 		queryText,
@@ -43,7 +64,6 @@ function runParts(parts, shard, queryText, queryTokens, limit, options, exactTit
 		relevance,
 		limit,
 		shard: { ...shard, ...part },
-		exactTitle,
 		maxRows: options.textMaxRows,
 		maxMs: options.textMaxMs,
 		minRows: options.textMinRows
@@ -55,9 +75,7 @@ function selectTextParts(parts, query, requestedLimit) {
 	if (limit >= parts.length) return [...parts];
 	const offset = queryHash(query) % parts.length;
 	const rotated = [...parts.slice(offset), ...parts.slice(0, offset)];
-	return Array.from({ length: limit }, (_, index) => (
-		rotated[Math.floor(index * rotated.length / limit)]
-	));
+	return Array.from({ length: limit }, (_, index) => rotated[Math.floor(index * rotated.length / limit)]);
 }
 
 function boundedPartLimit(value, maximum) {
@@ -80,6 +98,7 @@ function codedError(code, message) {
 }
 
 module.exports = {
+	exactIdentityResult,
 	normalize,
 	relevance,
 	searchableText,
