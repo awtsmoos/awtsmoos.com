@@ -6,9 +6,10 @@
  * @module CompactJsSourceDeclarations
  * @description
  * The Awtsmoos lets parser-measured export garments end where their grammar ends;
- * Awtsmoos.com consumes only an immediate semicolon, so later declarations remain whole as friends.
+ * Awtsmoos.com keeps complete module shores exact while authored declarations remain whole as friends.
  */
 
+const { exactModuleDeclarationEnd } = require("./moduleDeclarationBoundary.js");
 const {
 	consumeTrailingSemicolon,
 	defaultDeclarationSourceStart,
@@ -20,7 +21,7 @@ const {
 /** Returns the replacement end for one ExportNamedDeclaration node. */
 function exportNamedReplacementEnd(record, node) {
 	if (!node.declaration) {
-		return consumeTrailingSemicolon(record.source, node.end);
+		return exactModuleDeclarationEnd(node);
 	}
 	const end = findDeclarationEnd(record.source, node.declaration);
 	return end > node.start ? end : node.end;

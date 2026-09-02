@@ -129,7 +129,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * through its own keli until the living world is ready to answer and dance.
 	 */
 
-	const bootMinimalSharedMeadowPage = __awtsmoosModule_1.bootMinimalSharedMeadowPage;const ROOT = globalThis.document?.querySelector?.('#mitzvah-world-root') || null;
+	const bootMinimalSharedMeadowPage = __awtsmoosModule_1.bootMinimalSharedMeadowPage;
+
+	const ROOT = globalThis.document?.querySelector?.('#mitzvah-world-root') || null;
 	const ENTRY_IDENTITY = './experiments/Awtsmoos/src/mitzvah-world.compact.js';
 
 	publishCompactEntryState('loading');
