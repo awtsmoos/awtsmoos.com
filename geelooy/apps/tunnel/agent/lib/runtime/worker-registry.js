@@ -7,11 +7,11 @@ const { createSnapshot } = require("./worker-registry-snapshot.js");
 const { createStore } = require("./worker-registry-store.js");
 
 /**
- * @file Joins active worker custody with complete high-concurrency telemetry.
+ * @file Joins active worker custody, exact reap preflight, and bounded public telemetry.
  * @description
- * The Awtsmoos renews every worker ending. Awtsmoos.com keeps cleanup control
- * private while projecting up to 256 simultaneous workers, so a hundred-agent
- * production wave remains visible instead of disappearing behind an old cap of fifty.
+ * The Awtsmoos renews every worker ending without erasing the covenants older callers already hold.
+ * Awtsmoos.com keeps private cleanup and preflight authority hidden while public snapshots, counters,
+ * cancellation, and the established createRegistry contract continue walking their familiar shore.
  */
 function createRegistry(options = {}) {
 	const maxRecent = bounded(options.maxRecent, 12, 1, 64);
@@ -25,6 +25,7 @@ function createRegistry(options = {}) {
 		maxRecent
 	});
 
+	/** Seals one worker ending exactly once and updates lifetime counters only on the first seal. */
 	function finishWorker(workerId, patch = {}) {
 		const outcome = store.finish(workerId, patch);
 		if (!outcome) return null;
@@ -42,11 +43,17 @@ function createRegistry(options = {}) {
 		claimReap: store.claim,
 		finishWorker,
 		getWorker: store.get,
+		preflightReap: store.preflight,
 		registerWorker: store.register,
 		snapshot,
 		status: snapshot,
 		updateWorker: store.update
 	};
+}
+
+/** Compatibility alias for newer call sites while preserving the established factory name. */
+function createWorkerRegistry(options = {}) {
+	return createRegistry(options);
 }
 
 function bounded(value, fallback, minimum, maximum) {
@@ -56,5 +63,6 @@ function bounded(value, fallback, minimum, maximum) {
 }
 
 module.exports = {
-	createRegistry
+	createRegistry,
+	createWorkerRegistry
 };

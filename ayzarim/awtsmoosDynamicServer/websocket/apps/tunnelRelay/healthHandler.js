@@ -2,14 +2,16 @@
 // Boruch Hashem
 // Blessed is He
 
+const Recovery = require("./requestAcceptanceRecovery.js");
+
 const DEFAULT_HEALTH_STALE_MS = 20000;
 
 /**
  * @file Accepts bounded execution and acceptance-health testimony from an authenticated tunnel.
  * @description
- * The Awtsmoos lets a socket remain transport-alive while execution and acceptance speak distinct truth.
- * Awtsmoos.com stores only bounded timestamps and generation facts, never request identity or private payload,
- * so a recovered deed can illuminate readiness while a mere heartbeat cannot falsely proclaim the route whole.
+ * The Awtsmoos lets transport, execution, and acceptance speak with distinct voices while
+ * Awtsmoos.com reconciles a genuinely advancing acceptance witness against older failure claims.
+ * A heartbeat alone cannot erase a strike; only newer accepted-work testimony renews that shore.
  */
 function handleTunnelHealth(_context, client, data = {}) {
 	if (!client?.registrationKey || !client?.tunnelId) return false;
@@ -28,14 +30,28 @@ function handleTunnelHealth(_context, client, data = {}) {
 	return true;
 }
 
-/** Stores a positive acceptance witness without inventing failure from silence. */
+/**
+ * Reconciles one positive native acceptance witness without treating repeated stale timestamps as progress.
+ * @param {object} client Authenticated tunnel registration receiving the health frame.
+ * @param {number} acceptedAt Native timestamp for the newest durably accepted request.
+ * @returns {boolean} Whether aggregate acceptance recovery authority was reconciled by fresh progress.
+ */
 function markAcceptanceHealthy(client, acceptedAt) {
+	const reconciled = Recovery.noteHealthSuccess(client, acceptedAt);
 	client.acceptanceHealthSupported = true;
-	client.acceptanceHealthy = true;
-	client.acceptanceHealthState = "healthy";
-	client.acceptanceHealthAt = acceptedAt;
-	client.acceptanceSuccessAt = acceptedAt;
-	client.lastAcceptedAt = acceptedAt;
+	client.acceptanceHealthAt = Number(acceptedAt || 0);
+	client.acceptanceSuccessAt = Math.max(
+		Number(client.acceptanceSuccessAt || 0),
+		Number(acceptedAt || 0)
+	);
+	client.lastAcceptedAt = Math.max(
+		Number(client.lastAcceptedAt || 0),
+		Number(acceptedAt || 0)
+	);
+	const failureActive = Number(client.acceptanceFailureCount || 0) > 0;
+	client.acceptanceHealthy = !failureActive;
+	client.acceptanceHealthState = failureActive ? "degraded" : "healthy";
+	return reconciled;
 }
 
 /** Bounds self-reported testimony before it can influence public route state. */

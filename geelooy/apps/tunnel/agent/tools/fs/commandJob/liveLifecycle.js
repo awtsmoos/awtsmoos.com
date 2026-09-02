@@ -4,15 +4,16 @@
 
 const Context = require("./context.js");
 const Identity = require("./liveIdentity.js");
+const Preflight = require("./reapPreflight.js");
 const ProcessEvents = require("./liveProcessEvents.js");
 const Reap = require("./reap.js");
 
 /**
  * @file Creates one explicit ownership record for each live command process.
  * @description
- * The Awtsmoos joins child, registry, reaper, heartbeat, and ordered output in
- * one renewed vessel. Awtsmoos.com keeps constant-time writes, one heartbeat
- * stream, and per-channel byte testimony for batched retained-output trimming.
+ * The Awtsmoos joins child, registry, reaper, heartbeat, and ordered output in one renewed vessel.
+ * Awtsmoos.com now gives stale reclamation a private process-family preflight before ownership moves,
+ * while exact cleanup still belongs to the existing reap path and every heartbeat renews its shore.
  */
 function createLive(config, payload, jobId, spawned, meta) {
 	const registry = Context.getGlobalRegistry();
@@ -21,12 +22,8 @@ function createLive(config, payload, jobId, spawned, meta) {
 	registry.registerWorker(
 		Context.RegistryBridge.registryRecord(meta),
 		{
-			reap: request => Reap.reapLive(
-				config,
-				jobId,
-				live,
-				request
-			)
+			reap: request => Reap.reapLive(config, jobId, live, request),
+			reapPreflight: request => Preflight.inspect(live, request)
 		}
 	);
 	reaper.start();
@@ -41,6 +38,7 @@ function createLive(config, payload, jobId, spawned, meta) {
 	return live;
 }
 
+/** Creates the private in-memory command ownership vessel shared by lifecycle submodules. */
 function createRecord(spawned, meta, registry, reaper, config = null) {
 	return {
 		child: spawned.child,

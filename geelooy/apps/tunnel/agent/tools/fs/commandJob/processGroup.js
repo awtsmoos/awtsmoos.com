@@ -1,82 +1,91 @@
 // B"H
-const childProcess = require('node:child_process');
-const util = require('node:util');
-const Observe = require('./processObserve.js');
-const execFile = util.promisify(childProcess.execFile);
+// Boruch Hashem
+// Blessed is He
 
-/** B"H — Every Unix command receives its own process family. */
+const childProcess = require("node:child_process");
+const Witness = require("./processGroupWitness.js");
+
+/**
+ * @file Creates and controls the exact detached process family for one command job.
+ * @description
+ * This Gevurah vessel owns birth and signaling while observation lives in a separate witness.
+ * Awtsmoos.com keeps command families bounded without confusing one leader with the whole deed.
+ * The Awtsmoos renews every process, every boundary, every instant, every shore;
+ * one group remains one keli until verified testimony says it carries life no more.
+ */
 function spawn(command, cwd, shell, options = {}) {
-	const child = childProcess.spawn(String(command || ''), {
+	const child = childProcess.spawn(String(command || ""), {
 		cwd: cwd || process.cwd(),
 		shell: shell || true,
-		env: { ...process.env, ...(options.env || {}) },
-		detached: process.platform !== 'win32',
+		env: {
+			...process.env,
+			...(options.env || {})
+		},
+		detached: process.platform !== "win32",
 		windowsHide: true,
-		stdio: ['ignore', 'pipe', 'pipe']
+		stdio: ["ignore", "pipe", "pipe"]
 	});
 	return {
 		child,
 		pid: child.pid,
-		processGroupId: process.platform === 'win32' ? child.pid : child.pid
+		processGroupId: child.pid
 	};
 }
 
-function signal(identity = {}, signal = 'SIGTERM') {
+/**
+ * Signals the exact process family, preferring Unix process-group authority.
+ * @param {object} identity Exact pid/processGroupId witness recorded at process birth.
+ * @param {string} [requestedSignal="SIGTERM"] Signal to deliver.
+ * @returns {object} Bounded signal testimony including absent/error state.
+ */
+function signal(identity = {}, requestedSignal = "SIGTERM") {
 	const pid = Number(identity.pid || 0);
 	const processGroupId = Number(identity.processGroupId || 0);
 	if (!pid && !processGroupId) {
-		return result(false, false, 'missing_process_identity', signal);
+		return signalResult(false, false, "missing_process_identity", requestedSignal);
 	}
 	try {
-		if (process.platform !== 'win32' && processGroupId > 0) {
-			process.kill(-processGroupId, signal);
+		if (process.platform !== "win32" && processGroupId > 0) {
+			process.kill(-processGroupId, requestedSignal);
 		} else {
-			process.kill(pid, signal);
+			process.kill(pid, requestedSignal);
 		}
-		return result(true, false, null, signal);
+		return signalResult(true, false, null, requestedSignal);
 	} catch (error) {
-		if (error.code === 'ESRCH') return result(false, true, 'ESRCH', signal);
-		return result(
+		if (error.code === "ESRCH") {
+			return signalResult(false, true, "ESRCH", requestedSignal);
+		}
+		return signalResult(
 			false,
 			false,
-			error.code || 'signal_failed',
-			signal,
+			error.code || "signal_failed",
+			requestedSignal,
 			error.message
 		);
 	}
 }
 
+/** Returns true only when observation is verified and the process family still has life. */
 async function alive(processGroupId) {
-	const pgid = Number(processGroupId || 0);
-	if (!pgid) return false;
-	if (process.platform === 'win32') return (await Observe.observe(pgid)).alive;
-	try {
-		const { stdout } = await execFile('ps', ['-axo', 'pgid=,stat='], {
-			encoding: 'utf8',
-			maxBuffer: 2 * 1024 * 1024
-		});
-		return parseAlive(stdout, pgid);
-	} catch {
-		return false;
-	}
+	const testimony = await Witness.witness({ processGroupId });
+	return testimony.verified && testimony.alive;
 }
 
-function parseAlive(output, pgid) {
-	return String(output || '').split('\n').some(line => {
-		const match = line.trim().match(/^(\d+)\s+(\S+)/);
-		return match && Number(match[1]) === pgid && !match[2].includes('Z');
-	});
-}
-
-function result(sent, absent, errorCode, signal, message = null) {
+function signalResult(sent, absent, errorCode, requestedSignal, message = null) {
 	return {
 		sent,
 		absent,
 		errorCode,
-		signal,
+		signal: requestedSignal,
 		message,
 		at: new Date().toISOString()
 	};
 }
 
-module.exports = { alive, parseAlive, signal, spawn };
+module.exports = {
+	alive,
+	parseAlive: Witness.parseAlive,
+	signal,
+	spawn,
+	witness: Witness.witness
+};

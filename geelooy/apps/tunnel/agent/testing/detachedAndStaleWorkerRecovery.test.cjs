@@ -1,81 +1,73 @@
 // B"H
-const assert = require('assert');
-const childProcess = require('child_process');
-const fsp = require('fs/promises');
-const os = require('os');
-const path = require('path');
-const { commandStatus, jobDir } = require('../tools/fs/commandJobStore.js');
-const Observe = require('../tools/fs/commandJob/processObserve.js');
+// Boruch Hashem
+// Blessed is He
 
-async function writeJob(config, jobId, meta) {
-  const dir = jobDir(config, jobId);
-  await fsp.mkdir(dir, { recursive: true });
-  await fsp.writeFile(path.join(dir, 'stdout.txt'), '', 'utf8');
-  await fsp.writeFile(path.join(dir, 'stderr.txt'), '', 'utf8');
-  await fsp.writeFile(path.join(dir, 'meta.json'), JSON.stringify(meta, null, 2), 'utf8');
-}
+const assert = require("node:assert/strict");
+const childProcess = require("node:child_process");
+const Store = require("../tools/fs/commandJobStore.js");
+const Observe = require("../tools/fs/commandJob/processObserve.js");
+const Fixture = require("./commandReconciliationFixture.cjs");
 
-function meta(jobId, identity) {
-  const startedAt = new Date().toISOString();
-  const pid = identity.pid;
-  return {
-    BH: 'B"H',
-    jobId,
-    action: 'commandStart',
-    requestAction: 'commandStart',
-    actualAction: 'commandStart',
-    command: 'synthetic detached recovery',
-    cwd: process.cwd(),
-    shell: 'sh',
-    startedAt,
-    status: 'running',
-    pid,
-    processGroupId: identity.processGroupId,
-    birthToken: identity.birthToken,
-    processIdentity: identity,
-    workerId: `worker_${jobId}`,
-    receiptId: `receipt_${jobId}`,
-    worker: {
-      workerId: `worker_${jobId}`,
-      jobId,
-      kind: 'subprocess',
-      state: 'running',
-      pid,
-      processGroupId: identity.processGroupId,
-      birthToken: identity.birthToken,
-      startedAt,
-      heartbeatAt: startedAt
-    },
-    receipt: { receiptId: `receipt_${jobId}`, jobId, workerId: `worker_${jobId}`, action: 'commandStart', state: 'running', createdAt: startedAt },
-    cost: { units: 1, wallMs: 0, outputBytes: 0, riskClass: 'long_running_command', timeoutMs: 30000 }
-  };
-}
-
+/**
+ * @file Proves leader death cannot erase a still-living detached command family.
+ * @description
+ * Awtsmoos.com watches the whole process vessel, not one fading PID. The Awtsmoos
+ * renews leader and descendants from nothing, instant after instant, shore after shore;
+ * only verified family absence may become stale_lost_worker and close the durable door.
+ */
 (async () => {
-  const root = await fsp.mkdtemp(path.join(os.tmpdir(), 'awts-detached-stale-'));
-  const config = { root, allowCommands: true };
-  const sleeper = childProcess.spawn(process.execPath, ['-e', 'setTimeout(()=>{}, 5000)'], { stdio: 'ignore' });
-  try {
-    const liveIdentity = await Observe.observe(sleeper.pid);
-    assert.equal(liveIdentity.alive, true);
-    assert.ok(liveIdentity.birthToken);
-    await writeJob(config, 'detached-live', meta('detached-live', liveIdentity));
-    const detached = await commandStatus(config, { jobId: 'detached-live' });
-    assert.strictEqual(detached.status, 'detached_running');
-    assert.strictEqual(detached.worker.state, 'detached_running');
+	const config = await Fixture.createConfig("awts-detached-truth-");
+	const leader = childProcess.spawn(process.execPath, ["-e", "setTimeout(()=>{}, 3000)"], {
+		stdio: "ignore"
+	});
+	try {
+		await proveLivingLeader(config, leader);
+		if (process.platform !== "win32") {
+			await proveSurvivingGroup(config);
+		}
+		await proveDeadFamily(config);
+	} finally {
+		try {
+			leader.kill("SIGTERM");
+		} catch {}
+	}
+	console.log("BHY detached reconciliation follows verified process-family truth");
+})().catch(error => {
+	console.error(error.stack || error.message);
+	process.exit(1);
+});
 
-    await writeJob(config, 'stale-dead', meta('stale-dead', {
-      pid: 99999999,
-      processGroupId: 99999999,
-      birthToken: 'synthetic-dead-birth-token',
-      platform: process.platform
-    }));
-    const stale = await commandStatus(config, { jobId: 'stale-dead' });
-    assert.strictEqual(stale.status, 'stale_lost_worker');
-    assert.strictEqual(stale.receipt.state, 'stale_lost_worker');
-    assert.strictEqual(stale.worker.detached, true);
-  } finally {
-    try { sleeper.kill('SIGTERM'); } catch {}
-  }
-  console.log(JSON.stringify({ ok: true, suite: 'detached-and-stale-worker-recovery' }, null, 2));
-})().catch(error => { console.error(error.stack || error.message); process.exit(1); });
+/** Proves an exact living leader remains detached-running and non-terminal. */
+async function proveLivingLeader(config, leader) {
+	const liveIdentity = await Observe.observe(leader.pid);
+	await Fixture.writeJob(config, "live-leader", Fixture.commandMeta("live-leader", liveIdentity));
+	const liveStatus = await Store.commandStatus(config, { jobId: "live-leader" });
+	assert.equal(liveStatus.status, "detached_running");
+}
+
+/** Creates a leader that exits while a descendant remains in the original Unix process group. */
+async function proveSurvivingGroup(config) {
+	const shell = childProcess.spawn("/bin/sh", ["-c", "sleep 3 & sleep 0.4"], {
+		detached: true,
+		stdio: "ignore"
+	});
+	const original = await Observe.observe(shell.pid);
+	await Fixture.writeJob(config, "living-group", Fixture.commandMeta("living-group", original));
+	await Fixture.onceExit(shell);
+	const during = await Store.commandStatus(config, { jobId: "living-group" });
+	assert.equal(during.status, "detached_running");
+	assert.equal((await Fixture.readMeta(config, "living-group")).status, "running");
+	await Fixture.delay(3000);
+	const after = await Store.commandStatus(config, { jobId: "living-group" });
+	assert.equal(after.status, "stale_lost_worker");
+}
+
+/** Proves verified family absence remains terminal stale-lost-worker testimony. */
+async function proveDeadFamily(config) {
+	const deadIdentity = Fixture.identity(99999991, "synthetic-dead-token");
+	await Fixture.writeJob(config, "dead-family", Fixture.commandMeta("dead-family", deadIdentity));
+	const deadStatus = await Store.commandStatus(config, { jobId: "dead-family" });
+	assert.equal(deadStatus.status, "stale_lost_worker");
+	assert.equal(deadStatus.receipt.state, "stale_lost_worker");
+	assert.equal(deadStatus.worker.detached, true);
+}

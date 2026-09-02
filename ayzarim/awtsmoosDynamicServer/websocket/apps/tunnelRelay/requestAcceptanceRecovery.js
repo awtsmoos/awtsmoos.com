@@ -3,19 +3,24 @@
 // Blessed is He
 
 const Claim = require("./requestAcceptanceRecoveryClaim.js");
+const Success = require("./requestAcceptanceRecoverySuccess.js");
 const Timer = require("./requestAcceptanceRecoveryTimer.js");
 const Values = require("./requestAcceptanceRecoveryValues.js");
 
 /**
- * @file Converts sustained acceptance silence into one exact, freshly-confirmed socket renewal.
+ * @file Coordinates sustained acceptance failure recovery while delegating success invalidation.
  * @description
- * The Awtsmoos distinguishes a warning that merely aged from a failure that still lives.
- * Awtsmoos.com lets timers mature as evidence but never swing the sword themselves;
- * only a new timeout after the sustained window may renew the still-matching socket.
+ * The Awtsmoos distinguishes silence from proof, timer from authority, warning from decree;
+ * Awtsmoos.com lets fresh acceptance dissolve old claims while only a current silent epoch may
+ * renew the socket. Failure and success travel through separate vessels toward one truthful sea.
  */
 function noteFailure(tunnel, id, reason, options = {}) {
 	if (!tunnel) return 0;
 	const now = Values.currentTime(options);
+	const beginningEpoch = Number(tunnel.acceptanceFailureSince || 0) <= 0;
+	if (beginningEpoch) {
+		Success.captureFailureBaseline(tunnel);
+	}
 	Claim.beginFailureEpoch(tunnel, now);
 	tunnel.acceptanceFailureCount = Number(tunnel.acceptanceFailureCount || 0) + 1;
 	tunnel.acceptanceHealthy = false;
@@ -32,20 +37,14 @@ function noteFailure(tunnel, id, reason, options = {}) {
 	return tunnel.acceptanceFailureCount;
 }
 
-/** Clears aggregate failure authority and invalidates every delayed claim after a real ACK. */
+/** Clears aggregate failure authority after one correlated device acceptance ACK. */
 function noteSuccess(tunnel, options = {}) {
-	if (!tunnel) return false;
-	Timer.clear(tunnel, options);
-	Claim.invalidate(tunnel);
-	tunnel.acceptanceFailureCount = 0;
-	tunnel.acceptanceFailureSince = 0;
-	tunnel.acceptanceRecoveryMaturedAt = 0;
-	tunnel.acceptanceRecoveryRequestedAt = 0;
-	tunnel.acceptanceHealthy = true;
-	tunnel.lastAcceptanceSuccessAt = Values.currentTime(options);
-	tunnel.lastAcceptanceFailureId = "";
-	tunnel.lastAcceptanceFailureReason = "";
-	return true;
+	return Success.noteSuccess(tunnel, options);
+}
+
+/** Reconciles aggregate failure authority when authenticated health proves acceptance advanced. */
+function noteHealthSuccess(tunnel, acceptedAt, options = {}) {
+	return Success.noteHealthSuccess(tunnel, acceptedAt, options);
 }
 
 /** Closes only after a fresh failure confirms the same mature registration epoch is silent. */
@@ -64,7 +63,6 @@ function requestRecovery(tunnel, options = {}, claim = null) {
 	return true;
 }
 
-/** Preserves the former public helpers while delegating timer-only evidence to its own vessel. */
 function scheduleRecovery(tunnel, options = {}) {
 	return Timer.schedule(tunnel, options);
 }
@@ -85,6 +83,7 @@ function defaultClose(tunnel, code, reason) {
 module.exports = {
 	matureRecovery,
 	noteFailure,
+	noteHealthSuccess,
 	noteSuccess,
 	requestRecovery,
 	scheduleRecovery,
