@@ -83,10 +83,7 @@ export class NetzachPlaythroughSurvivalDriver {
 		for (const gevurahObstacle of gevurahObstacles) {
 			this.encounteredFamilies.add(gevurahObstacle.family);
 			this.encounteredLaws.add(gevurahObstacle.law);
-			if (
-				gevurahObstacle.motionMode
-				&& gevurahObstacle.motionMode !== "static"
-			) {
+			if (gevurahObstacle.motionMode && gevurahObstacle.motionMode !== "static") {
 				this.movingVariants.add(gevurahObstacle.variantId);
 			}
 		}

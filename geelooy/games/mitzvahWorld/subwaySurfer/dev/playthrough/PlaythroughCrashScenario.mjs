@@ -47,9 +47,7 @@ export class GevurahPlaythroughCrashScenario {
 			});
 		}
 		await this.proveGameOverUi();
-		if (typeof hodOnGameOver === "function") {
-			await hodOnGameOver(malchusSnapshot);
-		}
+		if (typeof hodOnGameOver === "function") await hodOnGameOver(malchusSnapshot);
 		const malchusRestarted = await this.proveRestart();
 		return Object.freeze({
 			crashed: true,
@@ -68,11 +66,7 @@ export class GevurahPlaythroughCrashScenario {
 			(surface) => surface.selector === "#game-over-panel"
 		);
 		if (!malchusPanel?.visible) {
-			this.report.issue(
-				"BLOCKER",
-				"Game-over state did not reveal the game-over panel.",
-				gevurahUi
-			);
+			this.report.issue("BLOCKER", "Game-over state did not reveal the game-over panel.", gevurahUi);
 		}
 	}
 
