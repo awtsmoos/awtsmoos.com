@@ -1,5 +1,5 @@
 B"H
-1.0.576
+1.0.577
 main.js
 ai/relay/direct/browser/AgentTabCatalog.mjs
 ai/relay/direct/browser/AgentTabProtectionState.mjs
@@ -1031,7 +1031,6 @@ lib/connection-vessel/mailbox-store.js
 lib/connection-vessel/mailbox-usage.js
 lib/connection-vessel/mailbox-writer.js
 lib/connection-vessel/mailbox.js
-lib/connection-vessel/mailboxEvidenceMergeRegression.test.cjs
 lib/connection-vessel/parent-consumer-evidence.js
 lib/connection-vessel/parent-consumer-health-values.js
 lib/connection-vessel/parent-consumer-health.js
