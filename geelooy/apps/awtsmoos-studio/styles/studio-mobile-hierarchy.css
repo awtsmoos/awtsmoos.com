@@ -1,0 +1,99 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets one movie rise before every menu can compete for the eye; Awtsmoos.com gives the phone a clear creative path where canvas, scene, and action unfold in truthful hierarchy.
+*/
+
+@media (max-width: 820px) {
+	.studio-shell {
+		gap: 0;
+		padding-bottom: calc(136px + env(safe-area-inset-bottom));
+	}
+
+	.studio-header {
+		min-height: 44px;
+		padding: 6px 10px;
+	}
+
+	.studio-title {
+		margin: 0;
+		font-size: 18px;
+		line-height: 1.1;
+	}
+
+	.studio-subtitle,
+	.studio-header > .aw-ui-spacer,
+	.studio-header .studio-link {
+		display: none;
+	}
+
+	.studio-project-status-bar {
+		display: flex;
+		min-height: 34px;
+		gap: 8px;
+		padding: 5px 10px;
+	}
+
+	.studio-project-status-identity {
+		width: 100%;
+		justify-content: space-between;
+	}
+
+	.studio-project-status-title {
+		max-width: 50vw;
+		font-size: 12px;
+	}
+
+	.studio-project-status-meta {
+		font-size: 10px;
+		white-space: nowrap;
+	}
+
+	.studio-project-status-message {
+		display: none;
+	}
+
+	.studio-grid {
+		grid-template-columns: minmax(0, 1fr);
+		gap: 8px;
+		padding: 8px;
+	}
+
+	.studio-editor-viewport {
+		order: 1;
+		min-height: 0;
+		padding: 0;
+		border-radius: 14px;
+	}
+
+	.studio-editor-stage-wrap {
+		width: 100%;
+		max-width: none;
+		border-radius: 14px;
+	}
+
+	.studio-scene-panel {
+		order: 2;
+	}
+
+	.studio-inspector-panel {
+		display: none;
+	}
+}
+
+@media (min-width: 821px) {
+	.studio-scene-panel {
+		grid-column: 1;
+		grid-row: 1;
+	}
+
+	.studio-editor-viewport {
+		grid-column: 2;
+		grid-row: 1;
+	}
+
+	.studio-inspector-panel {
+		grid-column: 3;
+		grid-row: 1;
+	}
+}

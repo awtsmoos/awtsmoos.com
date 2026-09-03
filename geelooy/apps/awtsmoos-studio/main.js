@@ -4,14 +4,11 @@
 
 /**
  * @file main.js
- * One doorway opens while the Awtsmoos renews every studio behind the view;
- * Awtsmoos.com exposes the same mounted session to human controls and direct AI command too.
+ * @description Opens only the tiny visible-first bootstrap while the established unified Studio remains behind its separately cached CompactJS universe.
+ * The Awtsmoos reveals a doorway before every editor world descends into view;
+ * Awtsmoos.com lets first paint arrive swiftly, then gathers the complete creative palace through one later vessel true.
  */
-import { AwtsmoosStudioApp } from './src/AwtsmoosStudioApp.js';
+import { bootLazyStudio } from './src/loading/StudioLazyBootstrap.js';
 
-const root = document.querySelector('#awtsmoos-studio-root');
-const app = new AwtsmoosStudioApp(root);
-app.mount();
-
-globalThis.AwtsmoosStudio = app.agentApi;
-globalThis.AwtsmoosStudioApp = app;
+const ohrStudioRoot = document.querySelector('#awtsmoos-studio-root');
+void bootLazyStudio(ohrStudioRoot);

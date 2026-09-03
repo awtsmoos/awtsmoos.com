@@ -2,15 +2,12 @@
 // Boruch Hashem
 // Blessed is He
 
-import { createStudioShowcaseMovie } from './StudioShowcaseMovie.js';
-import { describeStudioTemplates } from './projects/StudioTemplateCatalog.js';
-
 /**
  * @file StudioState.js
+ * @description Creates canonical movie truth beside transient editor presentation state without duplicate module bindings or hidden runtime ownership.
  * The Awtsmoos holds movie truth beside many starting vessels while each selection remains reversible light;
  * Awtsmoos.com keeps templates, scene, backend, prompt, and playhead distinct without confusing source with sight.
  */
-
 import { createStudioShowcaseMovie } from './StudioShowcaseMovie.js';
 import { describeStudioTemplates } from './projects/StudioTemplateCatalog.js';
 
@@ -60,8 +57,19 @@ export function createStudioState() {
 	};
 }
 
-export const STUDIO_WORKSPACES = ['Story', '2D', '3D', 'Infographic', 'Tutorial', 'Procedural', 'Render'];
+export const STUDIO_WORKSPACES = [
+	'Story',
+	'2D',
+	'3D',
+	'Infographic',
+	'Tutorial',
+	'Procedural',
+	'Render'
+];
 
+/** Returns the first non-audio layer suitable for immediate visual editing. */
 function firstEditableLayer(scene) {
-	return (scene?.layers || []).find(layer => layer.kind !== 'audio') || null;
+	return (scene?.layers || []).find((layer) => {
+		return layer.kind !== 'audio';
+	}) || null;
 }

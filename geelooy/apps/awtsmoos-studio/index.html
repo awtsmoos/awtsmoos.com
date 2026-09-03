@@ -1,7 +1,7 @@
 <!--B"H-->
 <!-- Boruch Hashem -->
 <!-- Blessed is He -->
-<!-- The Awtsmoos gathers many creative vessels; Awtsmoos.com lets one studio reveal their shared light through real starter projects. -->
+<!-- The Awtsmoos reveals first light before every creative chamber descends; Awtsmoos.com keeps the bootstrap sovereign and lets the phone meet the movie before menus, catalogs, and expert vessels can crowd the way. -->
 <!doctype html>
 <html lang="en">
 <head>
@@ -9,15 +9,46 @@
 	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 	<meta name="theme-color" content="#071019">
 	<title>Awtsmoos Studio</title>
+	<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2064%2064%27%3E%3Crect%20width=%2764%27%20height=%2764%27%20rx=%2716%27%20fill=%27%23071019%27/%3E%3Cpath%20d=%27M11%2035c8-1%2014-6%2020-15%202%207%204%2011%208%2014%205-4%209-9%2014-16-1%2013-7%2024-19%2031l-2%207-4-7c-8-3-14-8-17-14Z%27%20fill=%27%2383ffe7%27/%3E%3C/svg%3E">
 	<link rel="stylesheet" href="../../libs/AwtsmoosUI/styles/tokens.css">
 	<link rel="stylesheet" href="../../libs/AwtsmoosUI/styles/studio-layout.css">
 	<link rel="stylesheet" href="../../libs/AwtsmoosUI/styles/studio-controls.css">
 	<link rel="stylesheet" href="./styles/studio-stage.css">
 	<link rel="stylesheet" href="./styles/studio-project.css">
 	<link rel="stylesheet" href="./styles/studio-templates.css">
+	<link rel="stylesheet" href="./styles/studio-shell-ux.css">
+	<link rel="stylesheet" href="./styles/studio-mobile-dock.css">
+	<link rel="stylesheet" href="./styles/studio-mobile-hierarchy.css">
+	<link rel="stylesheet" href="./styles/studio-mobile-scenes.css">
+	<link rel="stylesheet" href="./styles/studio-mobile-create.css">
+	<link rel="stylesheet" href="./styles/studio-mobile-transport.css">
+	<link rel="stylesheet" href="./styles/studio-first-light.css">
+	<link rel="stylesheet" href="./styles/studio-first-light-actions.css">
+	<link rel="stylesheet" href="./styles/nesher-pro-tools.css">
+	<link rel="stylesheet" href="./styles/nesher-pro-tools-mobile.css">
 </head>
 <body>
+	<div class="studio-first-light" data-studio-loading role="status" aria-live="polite">
+		<div class="studio-first-light-card">
+			<div class="studio-first-light-mark" aria-hidden="true">🦅</div>
+			<h1>AWTSMOOS STUDIO</h1>
+			<p data-studio-loading-status>Opening creative workspace…</p>
+			<div class="studio-first-light-line" aria-hidden="true"></div>
+			<div class="studio-first-light-meta">
+				<span data-studio-loading-build>Build loading…</span>
+				<span>Advanced tools load on demand</span>
+			</div>
+			<div class="studio-first-light-actions">
+				<button type="button" data-studio-loading-retry hidden>Retry Studio</button>
+				<a href="../nesher-studio/">Open Pro Editor</a>
+			</div>
+			<details class="studio-first-light-details" data-studio-loading-details hidden>
+				<summary>Technical details</summary>
+				<code data-studio-loading-error></code>
+			</details>
+		</div>
+	</div>
 	<div id="awtsmoos-studio-root"></div>
-	<script type="module" src="./main.js"></script>
+	<script type="module" data-awtsmoos-no-compact src="./main.js?v=awtsmoos-studio-mobile-rescue-20260902-2105"></script>
 </body>
 </html>

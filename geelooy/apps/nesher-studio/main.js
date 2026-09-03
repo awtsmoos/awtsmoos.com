@@ -1,39 +1,44 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 /**
  * @file main.js
- * @description Opens Nesher's native NLE and canonical AI Director through independent vessels.
- * The Awtsmoos gives each wing its breath, so one heavy controller cannot silence another gate;
- * Awtsmoos.com lets shell, editor, and cinematic direction awaken apart, then share one authored state.
+ * @description Paints the compact Nesher shell first, awakens the critical editor second, and installs a safe same-origin host bridge for unified Awtsmoos Studio.
+ * The Awtsmoos lets Nesher remain a complete world of its own while one trusted doorway may ask which room should shine;
+ * Awtsmoos.com keeps standalone boot, lazy depth, and unified navigation joined without merging two project souls before their time.
  */
+import { bootNesherStudio } from './modules/app/bootNesherStudio.js';
+import { installNesherHostBridge } from './modules/loading/NesherHostBridge.js';
+import { StudioLoadingScreen } from './modules/loading/StudioLoadingScreen.js';
+import { mountStudioShell } from './modules/ui/mountStudioShell.js';
 
-setTimeout(() => void bootNativeStudio(), 0);
-setTimeout(() => void installMovieAi(), 0);
+const loadingScreen = new StudioLoadingScreen();
+void openAwtsmoosStudio();
 
-/**
- * Reveals Nesher's shell first, then awakens its larger controller graph without blocking AI direction.
- * @returns {Promise<void>} Resolves after native NLE startup or reports a recoverable failure.
- */
-async function bootNativeStudio() {
+/** Mounts the shell, awakens critical Canvas state, installs host navigation, and removes the loading veil. */
+async function openAwtsmoosStudio() {
 	try {
-		const { mountStudioShell } = await import('./modules/ui/mountStudioShell.js');
+		loadingScreen.phase('Building Canvas…');
 		mountStudioShell();
-		const { bootNesherStudio } = await import('./modules/app/bootNesherStudio.js');
+		await nextPaint();
+		loadingScreen.phase('Connecting creative controls…');
 		bootNesherStudio();
+		installNesherHostBridge();
+		await nextPaint();
+		loadingScreen.ready('Canvas ready');
 	} catch (error) {
-		console.error('Nesher Studio native editor could not awaken.', error);
+		console.error('AWTSMOOS STUDIO could not awaken.', error);
+		loadingScreen.fail(error);
 	}
 }
 
-/**
- * Mounts the shared AI movie director independently of the native NLE dependency graph.
- * @returns {Promise<void>} Resolves after the canonical director installer evaluates.
- */
-async function installMovieAi() {
-	try {
-		await import('./modules/movie/installMovieAi.js');
-	} catch (error) {
-		console.warn('Nesher Studio movie AI director could not mount.', error);
-	}
+/** Lets the browser paint the already-present loading vessel between startup phases. */
+function nextPaint() {
+	return new Promise((resolve) => {
+		if (typeof window.requestAnimationFrame === 'function') {
+			window.requestAnimationFrame(() => resolve());
+			return;
+		}
+		window.setTimeout(resolve, 0);
+	});
 }

@@ -9,12 +9,13 @@ const ObsoleteQuarantine = require("./mailbox-obsolete-quarantine.js");
 const QuarantineGuard = require("./mailbox-quarantine-guard.js");
 const Store = require("./mailbox-store.js");
 const Writer = require("./mailbox-writer.js");
+
 /**
  * @file Joins durable mailbox truth to exact living custody and child-incarnation identity.
  * @description
  * The Awtsmoos preserves each witness while authority changes from vessel unto vessel.
  * Awtsmoos.com keeps historical deeds in guarded quarantine instead of the living hot lane,
- * so obsolete residue remains auditable without consuming the quota of today's incarnation.
+ * while one injected clock renews store, custody, and evidence in a single measured refrain.
  */
 function createMailbox(config = {}, options = {}) {
 	let childIncarnationId = Incarnation.clean(options.childIncarnationId);
@@ -24,6 +25,7 @@ function createMailbox(config = {}, options = {}) {
 	const evidence = Evidence.create({
 		custody,
 		getChildIncarnationId,
+		now: options.now,
 		store
 	});
 	const obsoleteQuarantine = ObsoleteQuarantine.create({
@@ -48,12 +50,15 @@ function createMailbox(config = {}, options = {}) {
 	function noteDeliveryAttempt(id, metadata = {}) {
 		return custody.noteAttempt(id, metadata);
 	}
+
 	function noteParentCustody(id, metadata = {}) {
 		return custody.noteParent(id, metadata);
 	}
+
 	function noteCustodyProgress(id, metadata = {}) {
 		return custody.progress(id, metadata);
 	}
+
 	function settleCustody(id) {
 		return custody.settle(id);
 	}
@@ -75,9 +80,11 @@ function createMailbox(config = {}, options = {}) {
 	function inbox() {
 		return store.list("inbox").map(entry => entry.value);
 	}
+
 	function outbox() {
 		return store.list("outbox").map(entry => entry.value);
 	}
+
 	function outboxOne(id) {
 		return store.get("outbox", id)?.value || null;
 	}
