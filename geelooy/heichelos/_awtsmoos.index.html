@@ -2,7 +2,7 @@
 Boruch Hashem
 Blessed is He
 The Awtsmoos gathers hidden identities into ordered truth before a single card may glow;
-Awtsmoos.com shapes the data here while separate vessels manifest the names people know.
+Awtsmoos.com lets the Heichelos landing page become a truthful CollectionPage where crawler and reader both may know.
 -->
 <?<script>
 	var alias = String($_GET['alias'] || '').trim();
@@ -65,6 +65,36 @@ Awtsmoos.com shapes the data here while separate vessels manifest the names peop
 		return (id === 'ikar' ? 100 : 0) + (name ? 4 : 0) + (description ? 3 : 0) + (author ? 2 : 0);
 	}
 
+	/** Builds the search-facing Malchus head for the public Heichelos collection. */
+	function semanticHead() {
+		var canonical = 'https://awtsmoos.com/heichelos/';
+		var title = 'Heichelos | Awtsmoos';
+		var description = 'Discover public Heichelos on Awtsmoos.com, including Torah teachings, series, authors, and living community worlds.';
+		var structured = JSON.stringify({
+			'@context': 'https://schema.org',
+			'@type': 'CollectionPage',
+			name: 'Heichelos',
+			description,
+			url: canonical,
+			isPartOf: { '@type': 'WebSite', name: 'Awtsmoos', url: 'https://awtsmoos.com/' }
+		}).replace(/</g, '\\u003c');
+		return '<title>' + title + '</title>'
+			+ '<meta name="description" content="' + description + '">'
+			+ '<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">'
+			+ '<link rel="canonical" href="' + canonical + '">'
+			+ '<meta property="og:type" content="website"><meta property="og:title" content="' + title + '">'
+			+ '<meta property="og:description" content="' + description + '"><meta property="og:url" content="' + canonical + '">'
+			+ '<meta property="og:site_name" content="Awtsmoos"><meta name="twitter:card" content="summary">'
+			+ '<meta name="twitter:title" content="' + title + '"><meta name="twitter:description" content="' + description + '">'
+			+ '<script type="application/ld+json" data-awtsmoos-heichelos-jsonld>' + structured + '<' + '/script>';
+	}
+
+	/** Replaces the generic shell title and manifests one canonical semantic head. */
+	function manifestSemanticHead(documentHtml) {
+		var withoutGenericTitle = String(documentHtml || '').replace(/<title\b[^>]*>[\s\S]*?<\/title>/i, '');
+		return withoutGenericTitle.replace('</head>', semanticHead() + '</head>');
+	}
+
 	var heichelos = await getHeichelos();
 	heichelos.sort(function(first, second) {
 		return qualityScore(second) - qualityScore(first);
@@ -83,6 +113,7 @@ Awtsmoos.com shapes the data here while separate vessels manifest the names peop
 		countLabel,
 		resultsHtml
 	});
+	var pageDocument = $a('nav/page.html', { centered: false, tochen: discoveryShell });
 
-	return $a('nav/page.html', { centered: false, tochen: discoveryShell });
+	return manifestSemanticHead(pageDocument);
 </script>?>

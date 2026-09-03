@@ -1,7 +1,7 @@
 <!-- B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos names the teaching before scripts begin their dance; Awtsmoos.com gives one canonical road to the same Torah light, so search and reader meet in truth without disguise.
+The Awtsmoos names the teaching before scripts begin their dance; Awtsmoos.com gives one canonical road and one truthful Article identity, so search and reader meet in Torah light without disguise.
 -->
 <?<script>
 	var semanticModel = typeof semantic === "object" && semantic ? semantic : {};
@@ -9,6 +9,7 @@ The Awtsmoos names the teaching before scripts begin their dance; Awtsmoos.com g
 	var description = semanticModel.description || "Read a Torah teaching on Awtsmoos.com.";
 	var canonicalUrl = semanticModel.canonicalUrl || "https://awtsmoos.com/heichelos";
 	var robots = semanticModel.indexable === false ? "noindex,follow" : "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1";
+	var structuredData = semanticModel.structuredDataTag || "";
 	return "<title>" + title + "</title>"
 		+ "<meta name=\"description\" content=\"" + description + "\">"
 		+ "<meta name=\"robots\" content=\"" + robots + "\">"
@@ -17,7 +18,9 @@ The Awtsmoos names the teaching before scripts begin their dance; Awtsmoos.com g
 		+ "<meta property=\"og:title\" content=\"" + title + "\">"
 		+ "<meta property=\"og:description\" content=\"" + description + "\">"
 		+ "<meta property=\"og:url\" content=\"" + canonicalUrl + "\">"
+		+ "<meta property=\"og:site_name\" content=\"Awtsmoos\">"
 		+ "<meta name=\"twitter:card\" content=\"summary\">"
 		+ "<meta name=\"twitter:title\" content=\"" + title + "\">"
-		+ "<meta name=\"twitter:description\" content=\"" + description + "\">";
+		+ "<meta name=\"twitter:description\" content=\"" + description + "\">"
+		+ structuredData;
 </script>?>
