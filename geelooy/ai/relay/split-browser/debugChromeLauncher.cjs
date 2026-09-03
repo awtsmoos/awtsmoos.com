@@ -4,26 +4,36 @@
 
 const { spawn } = require("node:child_process");
 const fs = require("node:fs");
+const LaunchGate = require("./debugChromeLaunchGate.cjs");
+const SharedProfile = require("./sharedChromeProfile.cjs");
 const { ownedProfilePort } = require("./debugChromeProfileOwner.cjs");
 
 const CHATGPT = "https://chatgpt.com";
 const BOOTSTRAP_URL = "data:text/html,%3Ctitle%3EAwtsmoos%20Debug%20Browser%3C%2Ftitle%3E";
 
 /**
- * @file Starts or reuses one authenticated dedicated Chrome profile.
+ * @file Starts or reuses the one device-scoped Chrome shared by every AI agent.
  * @description
- * The Awtsmoos honors Chrome's singleton: an existing profile owner and its port are
- * reused exactly. Otherwise Awtsmoos.com starts port 9223 with one inert data keeper,
- * never about:blank, while each agent turn creates its own final custom-GPT target.
+ * The Awtsmoos keeps one persistent browser soul while many agent tabs unfold;
+ * Awtsmoos.com converges simultaneous callers so one profile receives one owner, never a racing household.
  */
 async function launchDebugChrome(config = {}) {
 	const profile = profilePath();
-	const ownedPort = ownedProfilePort(profile);
-	if (ownedPort) {
-		return { ok: true, reused: true, debugPort: ownedPort, profile };
-	}
+	const existing = ownedProfilePort(profile);
+	if (existing) return reusedOwner(profile, existing);
+	return await LaunchGate.converge(async () => {
+		const owner = ownedProfilePort(profile);
+		if (owner) return reusedOwner(profile, owner);
+		return await spawnOwner(profile, config);
+	});
+}
+
+/** Creates the one browser process after both outer and gated owner checks are empty. */
+async function spawnOwner(profile, config = {}) {
 	fs.mkdirSync(profile, { recursive: true, mode: 0o700 });
-	try { fs.chmodSync(profile, 0o700); } catch {}
+	try {
+		fs.chmodSync(profile, 0o700);
+	} catch {}
 	const port = requestedPort(config);
 	const child = spawn(chromePath(), [
 		`--remote-debugging-port=${port}`,
@@ -31,15 +41,18 @@ async function launchDebugChrome(config = {}) {
 		"--no-first-run",
 		"--new-window",
 		config.launchUrl || BOOTSTRAP_URL
-	], {
-		detached: true,
-		stdio: "ignore"
-	});
+	], { detached: true, stdio: "ignore" });
 	await spawned(child, Number(config.spawnTimeoutMs || 5000));
 	child.unref();
 	return { ok: true, reused: false, pid: child.pid, debugPort: port, profile };
 }
 
+/** Returns a stable result when a process already owns the canonical profile. */
+function reusedOwner(profile, port) {
+	return { ok: true, reused: true, debugPort: port, profile };
+}
+
+/** Waits only for process creation; CDP readiness remains the responsibility of cdpChrome. */
 function spawned(child, timeoutMs) {
 	return new Promise((resolve, reject) => {
 		const timer = setTimeout(() => reject(new Error("debug_chrome_spawn_timeout")), timeoutMs);
@@ -59,9 +72,7 @@ function debugPort(config = {}) {
 }
 
 function requestedPort(config = {}) {
-	return Number(config.debugPort
-		|| process.env.AWTSMOOS_CHROME_DEBUG_PORT
-		|| 9223);
+	return SharedProfile.requestedPort(config);
 }
 
 function discoveryOptions(config = {}) {
@@ -69,18 +80,13 @@ function discoveryOptions(config = {}) {
 }
 
 function profilePath() {
-	return process.env.AWTSMOOS_CHROME_PROFILE
-		|| `${process.env.USERPROFILE || process.env.HOME || "."}/.awtsmoos-split-debug-chrome`;
+	return SharedProfile.profilePath();
 }
 
 function chromePath() {
 	if (process.env.CHROME_PATH) return process.env.CHROME_PATH;
-	if (process.platform === "win32") {
-		return "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";
-	}
-	if (process.platform === "darwin") {
-		return "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
-	}
+	if (process.platform === "win32") return "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";
+	if (process.platform === "darwin") return "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
 	return "google-chrome";
 }
 

@@ -6,6 +6,7 @@ const http = require("node:http");
 const { URL } = require("node:url");
 const { loadConfig } = require("./config.js");
 const Catalog = require("./local-api-catalog.js");
+const PortPolicy = require("./local-api-port-policy.js");
 const Response = require("./local-api-response.js");
 const Routes = require("./local-api-routes.js");
 const { handleLocalBrowserRelay } = require("./local-browser-relay.js");
@@ -20,10 +21,10 @@ const DEFAULT_PORT = 3977;
 const LISTEN_BACKLOG = 4096;
 
 /**
- * @file Hosts the modular local tunnel API behind one compact capability catalog.
+ * @file Hosts the local tunnel API while honoring exact candidate port custody.
  * @description
- * The Awtsmoos lets transport remain calm while inner deeds retain their exact strength;
- * Awtsmoos.com now advertises fourteen doors locally, yet legacy execution paths keep length.
+ * The Awtsmoos lets ordinary service find a neighboring gate when a doorway is filled;
+ * Awtsmoos.com keeps installer candidates on the exact promised port, so readiness truth is never willed.
  */
 function createLocalApiServer(dependencies = {}) {
 	return http.createServer((request, response) => {
@@ -31,6 +32,7 @@ function createLocalApiServer(dependencies = {}) {
 	});
 }
 
+/** Starts the local API and fails fast when an explicitly assigned port is unavailable. */
 function startLocalApiServer(options = {}) {
 	const log = options.log || (() => {});
 	const config = (options.configLoader || loadConfig)();
@@ -41,10 +43,14 @@ function startLocalApiServer(options = {}) {
 	let attempts = 0;
 	configureServer(server, log);
 	server.on("error", error => {
-		if (error.code === "EADDRINUSE" && attempts < 20) {
+		if (PortPolicy.mayRetry(error, settings.fixedPort, attempts)) {
 			attempts += 1;
-			port += 1;
+			port = PortPolicy.next(port);
 			return server.listen(port, settings.host, LISTEN_BACKLOG);
+		}
+		if (error.code === "EADDRINUSE" && settings.fixedPort) {
+			log("Local tunnel API fixed port unavailable:", port);
+			return PortPolicy.failFixedPort(error, port, options.fatalListenError);
 		}
 		log("Local tunnel API error:", error.message);
 	});
@@ -56,6 +62,7 @@ function startLocalApiServer(options = {}) {
 	return server;
 }
 
+/** Applies long-lived local request timings without coupling route behavior to transport policy. */
 function configureServer(server, log) {
 	server.keepAliveTimeout = 65000;
 	server.headersTimeout = 70000;
@@ -66,6 +73,7 @@ function configureServer(server, log) {
 	});
 }
 
+/** Resolves the handlers injected into the compact route catalog. */
 function makeDeps(dependencies = {}) {
 	return {
 		configLoader: dependencies.configLoader || loadConfig,
@@ -78,18 +86,18 @@ function makeDeps(dependencies = {}) {
 	};
 }
 
+/** Returns local API settings and records whether the environment fixed the port exactly. */
 function localSettings(config = {}) {
 	const localApi = config.localApi || {};
 	return {
 		enabled: process.env.AWTSMOOS_LOCAL_API !== "0" && localApi.enabled !== false,
 		host: process.env.AWTSMOOS_LOCAL_API_HOST || localApi.host || DEFAULT_HOST,
-		port: Response.bounded(
-			process.env.AWTSMOOS_LOCAL_API_PORT || localApi.port,
-			DEFAULT_PORT
-		)
+		port: Response.bounded(process.env.AWTSMOOS_LOCAL_API_PORT || localApi.port, DEFAULT_PORT),
+		fixedPort: PortPolicy.isFixed()
 	};
 }
 
+/** Routes one local request through CORS, browser relay, GET, or POST handlers. */
 async function route(request, response, deps) {
 	Response.setCors(response);
 	if (request.method === "OPTIONS") return Response.endJson(response, 204, {});
@@ -100,18 +108,8 @@ async function route(request, response, deps) {
 		if (request.method === "POST") return await Routes.post(request, response, deps, url);
 		return Response.endJson(response, 404, { ok: false, error: "unknown_local_api_route" });
 	} catch (error) {
-		return Response.endJson(response, 500, {
-			ok: false,
-			error: error.message,
-			code: error.code || "local_api_error"
-		});
+		return Response.endJson(response, 500, { ok: false, error: error.message, code: error.code || "local_api_error" });
 	}
 }
 
-module.exports = {
-	createLocalApiServer,
-	localSettings,
-	makeCatalog: Catalog.makeCatalog,
-	makeDeps,
-	startLocalApiServer
-};
+module.exports = { createLocalApiServer, localSettings, makeCatalog: Catalog.makeCatalog, makeDeps, startLocalApiServer };

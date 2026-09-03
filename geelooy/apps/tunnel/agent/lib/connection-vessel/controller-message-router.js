@@ -8,13 +8,15 @@ const Protocol = require("./protocol.js");
 const RecoveryTestimony = require("./controller-recovery-testimony.js");
 
 /**
- * @file Transfers durable requests and incarnation-bound execution testimony into parent custody.
+ * @file Routes child IPC through exact incarnation, generation, custody, and recovery testimony.
  * @description
- * The Awtsmoos gives each request one identity through changing vessels. Awtsmoos.com
- * stamps trusted acceptance provenance onto the queued envelope before parent execution,
- * so later progress can return only to the child incarnation that accepted that deed.
+ * The Awtsmoos binds each deed to the vessel that received its living flame;
+ * Awtsmoos.com keeps generation and incarnation together so delayed shadows cannot claim its name.
+ * Raw child state becomes trusted parent testimony only through the current incarnation's frame,
+ * while ACK and queued progress cross one ordered bridge, each preserving the very same deed.
  */
 function createMessageRouter(options = {}) {
+	/** Routes one valid child protocol message into its narrow parent responsibility. */
 	function handle(message) {
 		if (!Protocol.valid(message)) return false;
 		const childIncarnationId = Incarnation.clean(message.childIncarnationId);
@@ -36,12 +38,19 @@ function createMessageRouter(options = {}) {
 		return false;
 	}
 
+	/** Announces parent readiness, then publishes the first bounded stats witness. */
 	function handleReady() {
 		options.notify(Protocol.message(Protocol.TYPES.PARENT_READY));
 		options.publishStats(true);
 		return true;
 	}
 
+	/**
+	 * Accepts exact parent custody, ACKs that identity, then advances the same deed to queued work.
+	 * @param {object} envelope Original durable relay request.
+	 * @param {string} childIncarnationId Incarnation that accepted the request from the relay.
+	 * @returns {boolean} True unless the child notification explicitly rejects the ACK.
+	 */
 	function handleRequest(envelope = {}, childIncarnationId = "") {
 		const receiptId = Protocol.requestId(envelope);
 		if (!receiptId) {
@@ -56,29 +65,38 @@ function createMessageRouter(options = {}) {
 		if (!identity.childIncarnationId || !identity.generation) return false;
 		const routedEnvelope = { ...envelope, connectionCustody: identity };
 		try {
-			options.enqueueRequest(options.proxy, routedEnvelope);
+			options.enqueueRequest(options.proxy, routedEnvelope, identity.childIncarnationId);
 		} catch (error) {
 			options.log("error", `connection request enqueue failed: ${error.message}`);
 			return false;
 		}
-		return options.notify(Protocol.message(Protocol.TYPES.ACK, {
+		const accepted = options.notify(Protocol.message(Protocol.TYPES.ACK, {
 			...identity,
 			id: receiptId,
 			transportReceiptId: identity.transportReceiptId || receiptId
 		}));
 		options.proxy.progressCustody?.(
 			receiptId,
-			childIncarnationId,
+			identity.childIncarnationId,
 			{ phase: "queued" }
 		);
 		return accepted !== false;
 	}
 
+	/**
+	 * Mirrors state with trusted source incarnation and delegates only fenced recovery testimony.
+	 * @param {object} next Current child state payload.
+	 * @param {string} childIncarnationId Incarnation carried by the IPC message boundary.
+	 * @returns {boolean} True after state, registration, recovery, and stats testimony are handled.
+	 */
 	function handleState(next = {}, childIncarnationId = "") {
-		const state = RecoveryTestimony.withIncarnation(next, childIncarnationId);
-		options.mirror(state);
-		options.onRegistered(state);
-		if (RecoveryTestimony.requiresRepair(state)) options.onRecoveryRequired(state.reason);
+		const incarnation = Incarnation.clean(childIncarnationId);
+		const testimony = RecoveryTestimony.fromState(next, incarnation);
+		const trustedState = { ...next, childIncarnationId: incarnation };
+		if (trustedState.registered === true) options.onRegistered();
+		options.mirror(trustedState);
+		if (testimony.required) options.onRecoveryRequired?.(testimony);
+		options.publishStats();
 		return true;
 	}
 

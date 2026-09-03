@@ -1,19 +1,59 @@
 // B"H
-const { chromeLaunch, chromeStatus, chromeNavigate, chromeCloseTabs } = require("../../chrome/actions.js");
+// Boruch Hashem
+// Blessed is He
+
+const { chromeNavigate, chromeCloseTabs } = require("../../chrome/actions.js");
+const SharedBrowser = require("./sharedProfile.js");
 const { currentProfile, saveProfileState } = require("../storage/profileState.js");
 
-/** B"H: launches/reuses dedicated ChatGPT profile and verifies navigation. */
+/**
+ * @file Opens ChatGPT inside the same Shared AI Browser used by every website sub-agent.
+ * @description
+ * The Awtsmoos lets the human authenticate once while many agent tabs later receive that light;
+ * Awtsmoos.com delegates launch and recovery to split-browser, so no second Chrome identity hides from sight.
+ */
 async function ensureProfileChrome(payload = {}) {
-  const name = payload.profile || payload.profileName || "default";
-  const profile = await currentProfile(name);
-  const port = Number(payload.port || payload.chromePort || profile.port || 9223);
-  const url = payload.url || "https://chatgpt.com/";
-  const status = await chromeStatus({ port, maxLogs: 50 });
-  if (!status.connected) await chromeLaunch({ port, userDataDir: profile.userDataDir, url, headless:false, startupWaitMs:payload.startupWaitMs || 1800, maxLogs:80 });
-  if (payload.closeOldTabs === true) await chromeCloseTabs({ port, chatgpt:true, keep:Number(payload.keepTabs || 1), browserSessionId:payload.browserSessionId, force:payload.forceCloseTabs === true }).catch(() => null);
-  let navigation = null;
-  if (payload.navigate !== false) navigation = await chromeNavigate({ ...payload, port, url, waitMs:payload.waitMs || 0, timeoutMs:payload.timeoutMs || 30000, snapshot:false });
-  const saved = await saveProfileState(name, { port, userDataDir:profile.userDataDir, lastUrl:url, lastChromeEnsure:new Date().toISOString(), lastNavigation:navigation });
-  return { ok:navigation ? navigation.ok !== false : true, action:"chatgptEnsureChrome", profile:saved, port, url, navigation, chromeTargetId:navigation?.chromeTargetId || "" };
+	const name = payload.profile || payload.profileName || "default";
+	const profile = await currentProfile(name);
+	const url = payload.url || "https://chatgpt.com/";
+	const opened = await SharedBrowser.open({
+		debugPort: payload.port || payload.chromePort || profile.port,
+		launchUrl: payload.navigate === false ? undefined : url,
+		spawnTimeoutMs: payload.spawnTimeoutMs
+	});
+	if (!opened?.ok) {
+		const error = new Error(opened?.error || "shared_ai_browser_unavailable");
+		error.code = opened?.status || "shared_ai_browser_unavailable";
+		throw error;
+	}
+	const port = Number(opened.debugPort);
+	if (payload.closeOldTabs === true) {
+		await chromeCloseTabs({ port, keepUrl: url });
+	}
+	let navigation = null;
+	if (payload.navigate !== false) {
+		navigation = await chromeNavigate({
+			...payload,
+			port,
+			url,
+			newTab: payload.newTab !== false,
+			autoLaunch: false
+		});
+	}
+	const saved = await saveProfileState(name, {
+		port,
+		browserReady: true,
+		lastOpenedAt: new Date().toISOString()
+	});
+	return {
+		ok: true,
+		browserStatus: opened.status,
+		profile: saved.name,
+		profileIdentity: saved.profileIdentity,
+		port,
+		reused: opened.launch?.reused !== false,
+		navigation
+	};
 }
+
 module.exports = { ensureProfileChrome };
