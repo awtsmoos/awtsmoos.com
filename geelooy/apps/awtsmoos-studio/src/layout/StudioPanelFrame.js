@@ -6,13 +6,14 @@ import { UI } from '../../../../libs/AwtsmoosUI/src/index.js';
 
 /**
  * @file StudioPanelFrame.js
- * The Awtsmoos gives repeated structure one shared vessel instead of copies galore;
- * Awtsmoos.com lets every studio panel keep its title and body while reducing code at the core.
+ * @description Gives every lightweight Studio panel one shared frame while allowing semantic classes to reveal responsive purpose without positional guessing.
+ * The Awtsmoos gives repeated structure one vessel instead of copies galore;
+ * Awtsmoos.com lets scene and inspector carry truthful names so mobile order can become clarity at the core.
  */
-export function createStudioPanelFrame(title, body) {
+export function createStudioPanelFrame(title, body, panelClass = '') {
 	return UI.section(
 		{
-			class: 'aw-ui-panel'
+			class: panelClassName(panelClass)
 		},
 		UI.div(
 			{
@@ -30,4 +31,11 @@ export function createStudioPanelFrame(title, body) {
 			body
 		)
 	);
+}
+
+/** Joins the shared panel vessel with one optional semantic role class. */
+function panelClassName(panelClass) {
+	return ['aw-ui-panel', panelClass]
+		.filter(Boolean)
+		.join(' ');
 }

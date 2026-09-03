@@ -9,8 +9,9 @@ import { createStudioPanelFrame } from './StudioPanelFrame.js';
 
 /**
  * @file StudioInspectorPanel.js
- * The Awtsmoos lets prompt, federation, spatial choice, and exact JSON meet without confusing their role;
- * Awtsmoos.com gives AI and human hands one mobile inspector while every specialist system remains whole.
+ * @description Marks the advanced AI/project inspector semantically so phones can keep it behind progressive depth while desktop makers retain the full vessel.
+ * The Awtsmoos lets prompt, federation, and canonical JSON remain present without demanding the beginner confront them first;
+ * Awtsmoos.com keeps expert truth intact while the mobile canvas receives the clearer thirst.
  */
 export function createStudioInspectorPanel() {
 	return createStudioPanelFrame(
@@ -31,6 +32,7 @@ export function createStudioInspectorPanel() {
 				UI.button({ class: 'aw-ui-button', text: 'Load JSON', $on: { click: 'loadJson' } }),
 				UI.button({ class: 'aw-ui-button', text: 'Reset 3m', $on: { click: 'resetShowcase' } })
 			)
-		)
+		),
+		'studio-inspector-panel'
 	);
 }

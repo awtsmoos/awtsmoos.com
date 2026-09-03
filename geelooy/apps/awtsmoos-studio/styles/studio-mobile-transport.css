@@ -1,0 +1,70 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos renews created time beat by beat while Awtsmoos.com gives play and scrub one calm rail above the thumb; no browser-default button may interrupt the cinematic rhythm from which each visible frame has come.
+*/
+
+@media (max-width: 820px) {
+	.studio-transport {
+		position: fixed;
+		right: 0;
+		bottom: calc(66px + env(safe-area-inset-bottom));
+		left: 0;
+		z-index: 6700;
+		display: grid;
+		grid-template-columns: 48px minmax(0, 1fr) auto;
+		gap: 8px;
+		align-items: center;
+		min-height: 58px;
+		padding: 6px 10px;
+		border-top: 1px solid rgb(255 255 255 / 10%);
+		background: rgb(7 16 25 / 94%);
+		box-shadow: 0 -8px 26px rgb(0 0 0 / 24%);
+		backdrop-filter: blur(16px);
+	}
+
+	.studio-play-button {
+		width: 48px;
+		height: 44px;
+		min-height: 44px;
+		padding: 0;
+		border: 1px solid rgb(131 255 231 / 32%);
+		border-radius: 12px;
+		background: rgb(131 255 231 / 12%);
+		color: #e6fff9;
+		font: 750 11px/1 system-ui, sans-serif;
+	}
+
+	.studio-play-button:focus-visible {
+		outline: 2px solid #83ffe7;
+		outline-offset: 2px;
+	}
+
+	.studio-scrub {
+		width: 100%;
+		min-width: 0;
+		height: 44px;
+		margin: 0;
+	}
+
+	.studio-time-readout {
+		min-width: 72px;
+		color: #d4e6e3;
+		font: 650 11px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+		font-variant-numeric: tabular-nums;
+		text-align: right;
+		white-space: nowrap;
+	}
+}
+
+@media (max-width: 380px) {
+	.studio-transport {
+		gap: 6px;
+		padding-inline: 7px;
+	}
+
+	.studio-time-readout {
+		min-width: 64px;
+		font-size: 10px;
+	}
+}

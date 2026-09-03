@@ -9,16 +9,17 @@ import { createStudioViewportPanel } from './StudioViewportPanel.js';
 
 /**
  * @file StudioPanels.js
- * The Awtsmoos joins three clear vessels without making one file carry every shore;
- * Awtsmoos.com keeps scene, viewport, and inspector modular so each can become more.
+ * @description Places the movie viewport first in semantic reading order while CSS restores the expert three-column desktop arrangement.
+ * The Awtsmoos lets the image itself speak before lists and machinery ask for the maker's sight;
+ * Awtsmoos.com gives mobile the canvas first while desktop still gathers scene, stage, and inspector in measured light.
  */
 export function createStudioPanels() {
 	return UI.main(
 		{
 			class: 'aw-ui-grid studio-grid'
 		},
-		createStudioScenePanel(),
 		createStudioViewportPanel(),
+		createStudioScenePanel(),
 		createStudioInspectorPanel()
 	);
 }
