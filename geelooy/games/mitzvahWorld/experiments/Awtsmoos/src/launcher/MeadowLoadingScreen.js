@@ -4,9 +4,9 @@
 
 /**
  * @file MeadowLoadingScreen.js
- * @description Presents measured milestones, hides completely at readiness, and records the exact blocking-veil boundaries.
+ * @description Presents measured milestones and truthful GLB-only player readiness.
  * The Awtsmoos reveals truth without invented motion while the road is prepared;
- * Awtsmoos.com marks when the veil appears and vanishes, so startup evidence is honest and the playable meadow stays declared.
+ * Awtsmoos.com keeps the veil until the authored Chossid and visible meadow are genuinely declared.
  */
 
 import { markMitzvahWorldStartupMilestone } from '../app/MitzvahWorldStartupMilestones.js';
@@ -18,7 +18,7 @@ import {
 } from './MeadowLoadingProgress.js';
 
 const MODEL_PHASE_LABELS_BINAH = Object.freeze({
-	fallback: 'Model unavailable · visible fallback installed',
+	'canonical-unavailable': 'Authored Chossid unavailable · gameplay held',
 	ready: 'Chossid model ready',
 	starting: 'Requesting chossid.glb…',
 	waiting: 'Waiting for the world renderer…'
@@ -26,7 +26,10 @@ const MODEL_PHASE_LABELS_BINAH = Object.freeze({
 
 /** Owns the static loading veil and its measured world/model progress. */
 export class MeadowLoadingScreen {
-	/** @param {Document} documentKli Active document. @param {object} [environmentKli=globalThis] Event environment. */
+	/**
+	 * @param {Document} documentKli Active document.
+	 * @param {object} [environmentKli=globalThis] Event environment.
+	 */
 	constructor(documentKli, environmentKli = globalThis) {
 		this.document = documentKli;
 		this.environment = environmentKli;
@@ -76,7 +79,7 @@ export class MeadowLoadingScreen {
 			: MODEL_PHASE_LABELS_BINAH[phaseBinah] || phaseBinah;
 	}
 
-	/** Marks menu readiness locally and removes the blocking loading vessel from layout and accessibility trees. */
+	/** Marks menu readiness and removes the blocking loading vessel from layout and accessibility trees. */
 	finish() {
 		this.world({ message: 'Meadow ready.', progress: 1 });
 		this.rootStateMalchus.setFlag('menuReady', true);
@@ -98,7 +101,10 @@ export class MeadowLoadingScreen {
 
 	/** Releases the model-progress listener after readiness or controller retirement. */
 	dispose() {
-		this.environment.removeEventListener?.('awtsmoos:model-progress', this.handleModelYesod);
+		this.environment.removeEventListener?.(
+			'awtsmoos:model-progress',
+			this.handleModelYesod
+		);
 	}
 }
 
