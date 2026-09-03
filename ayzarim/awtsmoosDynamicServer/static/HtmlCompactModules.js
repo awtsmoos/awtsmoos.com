@@ -1,6 +1,6 @@
 //B"H
-//Boruch Hashem
-//Blessed is He
+// Boruch Hashem
+// Blessed is He
 
 const {
 	isJavaScriptPath,
@@ -9,24 +9,28 @@ const {
 } = require('../compactJs/crn.js');
 
 /**
- * @file Turns served local module-script URLs into explicit CompactJS requests.
- * @description The Awtsmoos lets one authored module remain itself through query and fragment light;
- * Awtsmoos.com adds the compact vessel at the HTML gate while classic and external rivers stay right.
+ * @file HtmlCompactModules.js
+ * @description Turns served local module-script URLs into CompactJS requests unless the author explicitly keeps one bootstrap raw.
+ * The Awtsmoos lets ordinary modules enter the compact vessel while a deliberate first-light gate may remain sovereign and small;
+ * Awtsmoos.com preserves the platform default, yet honors `data-awtsmoos-no-compact` when startup must not be swallowed by the whole graph at all.
  */
-
 const SCRIPT_TAG = /<script\b[^>]*>/gi;
 const SRC_ATTRIBUTE = /(\bsrc\s*=\s*)(?:"([^"]*)"|'([^']*)'|([^\s>]+))/i;
 const TYPE_ATTRIBUTE = /\btype\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))/i;
+const NO_COMPACT_ATTRIBUTE = /\bdata-awtsmoos-no-compact\b/i;
 
-/** Rewrites every local external module script in one HTML document through CompactJS exactly once. */
+/** Rewrites every eligible local external module script in one HTML document through CompactJS exactly once. */
 function compactHtmlModuleScripts(html) {
 	return String(html || '').replace(SCRIPT_TAG, compactScriptTag);
 }
 
-/** Rewrites one opening script tag only when it declares a local JavaScript module source. */
+/** Rewrites one module-script tag unless its author explicitly requests raw browser ESM. */
 function compactScriptTag(tag) {
 	const type = attributeValue(tag, TYPE_ATTRIBUTE);
 	if (String(type || '').toLowerCase() !== 'module') {
+		return tag;
+	}
+	if (NO_COMPACT_ATTRIBUTE.test(tag)) {
 		return tag;
 	}
 	return tag.replace(SRC_ATTRIBUTE, (whole, prefix, doubleQuoted, singleQuoted, bare) => {

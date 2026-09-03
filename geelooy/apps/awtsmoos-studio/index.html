@@ -1,7 +1,7 @@
 <!--B"H-->
 <!-- Boruch Hashem -->
 <!-- Blessed is He -->
-<!-- The Awtsmoos reveals first light before every creative chamber descends; Awtsmoos.com keeps the root module raw and tiny so no giant compiled universe can hide the doorway again. -->
+<!-- The Awtsmoos reveals first light before every creative chamber descends; Awtsmoos.com keeps the bootstrap sovereign and tiny while deeper creative worlds arrive only after intention calls them. -->
 <!doctype html>
 <html lang="en">
 <head>
@@ -16,6 +16,8 @@
 	<link rel="stylesheet" href="./styles/studio-stage.css">
 	<link rel="stylesheet" href="./styles/studio-project.css">
 	<link rel="stylesheet" href="./styles/studio-templates.css">
+	<link rel="stylesheet" href="./styles/studio-shell-ux.css">
+	<link rel="stylesheet" href="./styles/studio-mobile-dock.css">
 	<link rel="stylesheet" href="./styles/studio-first-light.css">
 	<link rel="stylesheet" href="./styles/studio-first-light-actions.css">
 	<link rel="stylesheet" href="./styles/nesher-pro-tools.css">
@@ -28,13 +30,21 @@
 			<h1>AWTSMOOS STUDIO</h1>
 			<p data-studio-loading-status>Opening creative workspace…</p>
 			<div class="studio-first-light-line" aria-hidden="true"></div>
+			<div class="studio-first-light-meta">
+				<span data-studio-loading-build>Build loading…</span>
+				<span>Advanced tools load on demand</span>
+			</div>
 			<div class="studio-first-light-actions">
 				<button type="button" data-studio-loading-retry hidden>Retry Studio</button>
 				<a href="../nesher-studio/">Open Pro Editor</a>
 			</div>
+			<details class="studio-first-light-details" data-studio-loading-details hidden>
+				<summary>Technical details</summary>
+				<code data-studio-loading-error></code>
+			</details>
 		</div>
 	</div>
 	<div id="awtsmoos-studio-root"></div>
-	<script type="module" src="./main.js?v=awtsmoos-unified-recovery-20260902-0959"></script>
+	<script type="module" data-awtsmoos-no-compact src="./main.js?v=awtsmoos-studio-ux-20260902-2012"></script>
 </body>
 </html>

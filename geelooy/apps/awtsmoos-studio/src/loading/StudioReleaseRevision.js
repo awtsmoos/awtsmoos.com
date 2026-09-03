@@ -4,8 +4,8 @@
 
 /**
  * @file StudioReleaseRevision.js
- * @description Names one explicit Studio release vessel so deep CompactJS islands can invalidate stale compiled universes without making the root bootstrap heavy.
- * The Awtsmoos renews creation every instant and stale code must not pretend yesterday is today;
- * Awtsmoos.com carries one clear revision through hidden chambers so fresh light reaches every lazy way.
+ * @description Names the current Studio release vessel so bootstrap diagnostics and every late CompactJS island agree on one explicit runtime identity.
+ * The Awtsmoos renews creation every instant and stale code must never pretend yesterday is today;
+ * Awtsmoos.com carries one clear revision through first light and deeper chambers so diagnostics can name the exact vessel in play.
  */
-export const STUDIO_RELEASE_REVISION = 'awtsmoos-unified-recovery-20260902-0959';
+export const STUDIO_RELEASE_REVISION = 'awtsmoos-studio-ux-20260902-2012';

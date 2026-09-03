@@ -1,0 +1,74 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets project truth stay visible without competing with the canvas; Awtsmoos.com gives title, scale, mode, and current status one restrained place so creative attention can remain whole.
+*/
+
+.studio-project-status-bar {
+	display: flex;
+	gap: 16px;
+	align-items: center;
+	min-width: 0;
+	padding: 8px 14px;
+	border-bottom: 1px solid color-mix(in srgb, currentColor 10%, transparent);
+	background: color-mix(in srgb, var(--aw-ui-surface, #0a121a) 94%, transparent);
+}
+
+.studio-project-status-identity {
+	display: flex;
+	gap: 8px;
+	align-items: baseline;
+	min-width: 0;
+}
+
+.studio-project-status-title {
+	overflow: hidden;
+	max-width: 30vw;
+	color: var(--aw-ui-text, #e9f7f4);
+	font-size: 13px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.studio-project-status-meta {
+	flex: 0 0 auto;
+	color: var(--aw-ui-text-muted, #8fa9a6);
+	font-size: 11px;
+}
+
+.studio-project-status-message {
+	overflow: hidden;
+	max-width: 55vw;
+	margin-left: auto;
+	color: var(--aw-ui-text-muted, #9bb8b3);
+	font-size: 11px;
+	text-align: right;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.studio-workspace-bar {
+	scrollbar-width: thin;
+}
+
+@media (max-width: 820px) {
+	.studio-project-status-bar {
+		display: grid;
+		gap: 3px;
+		padding: 7px 12px;
+	}
+
+	.studio-project-status-identity {
+		justify-content: space-between;
+	}
+
+	.studio-project-status-title {
+		max-width: 58vw;
+	}
+
+	.studio-project-status-message {
+		max-width: 100%;
+		margin-left: 0;
+		text-align: left;
+	}
+}
