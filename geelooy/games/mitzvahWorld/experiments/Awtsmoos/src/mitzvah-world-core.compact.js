@@ -2700,7 +2700,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.resetTreeToBase = resetTreeToBase;
-	const __awtsmoosDefault_dh813p = {
+	const __awtsmoosDefault_1aph1pf = {
 		Bone,
 		BufferAttribute,
 		BufferGeometry,
@@ -2713,7 +2713,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		Scene,
 		Vector3
 	};
-	__exports.default = __awtsmoosDefault_dh813p;
+	__exports.default = __awtsmoosDefault_1aph1pf;
 }
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzDeferredActorPlaceholders.js ----

@@ -33,6 +33,7 @@ test('B"H mouse chords distinguish camera-only, player-bound, and forward modes'
 test('B"H right drag synchronizes facing while left drag does not', () => {
 	let mouse = { leftDown: true, moveForward: false, rightDown: false };
 	const rig = Object.create(MinimalMeadowCameraRig.prototype);
+	rig.mouseAxis = { forward: 0, strafe: 0, turn: 0 };
 	rig.orbit = { gestures: { mouseState: () => mouse }, yaw: 1.25 };
 	const state = { facing: 0.4, travelFacing: 0.4 };
 	assert.equal(rig.synchronizeFacing(state), false);
