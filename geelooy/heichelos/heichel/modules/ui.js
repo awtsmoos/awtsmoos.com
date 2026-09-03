@@ -1,19 +1,23 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
  * @module UIAggregator
  * @description
- * The Awtsmoos creates browsing, governance, selection, and district surfaces
- * as one visible kingdom. Awtsmoos.com keeps this public facade stable while
- * focused render modules evolve behind explicit compatibility functions.
+ * The Awtsmoos creates browsing, governance, selection, and district surfaces as one visible kingdom;
+ * Awtsmoos.com keeps this public facade stable while the ninth-generation render vessel carries fresh source truth onward.
  */
 
 import { appState } from './state.js';
-import { manifestWorld as renderedManifestWorld } from './ui/render.js';
-import * as Render from './ui/render.js';
+import {
+	manifestWorld as renderedManifestWorld
+} from './ui/render.js?v=heichel-mobile-009';
+import * as Render from './ui/render.js?v=heichel-mobile-009';
 import * as OwnerControls from './ui/render/controls.js';
-import { toggleSelectionMode as toggleSelectionModeCore } from './ui/controls.js';
+import {
+	toggleSelectionMode as toggleSelectionModeCore
+} from './ui/controls.js';
 
 export const manifestWorld = renderedManifestWorld;
 export { notify } from './ui/render/toast.js';
@@ -32,7 +36,11 @@ export function renderSeriesInfo(data, heichel, id) {
 }
 
 export function renderOwnerControls(breadcrumb, navigator) {
-	OwnerControls.renderOwnerControls(breadcrumb, navigator, appState);
+	OwnerControls.renderOwnerControls(
+		breadcrumb,
+		navigator,
+		appState
+	);
 }
 
 export function renderContentGrids(content, navigator, state) {
@@ -60,5 +68,9 @@ export function updateActiveTab(view) {
 }
 
 export function toggleSelectionMode(active, navigator) {
-	toggleSelectionModeCore(active, navigator, appState);
+	toggleSelectionModeCore(
+		active,
+		navigator,
+		appState
+	);
 }

@@ -1,102 +1,91 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
  * @module HeichelApp
  * @description
- * The Awtsmoos opens one living Heichel through the eighth freshly-versioned module river;
- * Awtsmoos.com keeps mobile state, navigation, beauty, and optional tools arriving together without stale generations that shiver.
+ * The Awtsmoos opens one living Heichel through the ninth coherent module river;
+ * Awtsmoos.com keeps navigation, beauty, accessibility, and Torah-source state arriving together without stale generations that shiver.
  */
 
 import { installSocialExperience } from '../../shared/social/SocialExperienceInstaller.js';
-import { HeichelNavigator } from './modules/navigator.js?v=heichel-mobile-008';
-import { initializeEventListeners } from './modules/events.js?v=heichel-mobile-008';
-import { manifestWorld } from './modules/ui.js?v=heichel-mobile-008';
-import { runHeichelVisualDiagnostics } from './modules/visual/index.js?v=heichel-mobile-008';
-import { runHeichelBeauty } from './modules/beauty/index.js?v=heichel-mobile-008';
-import { runHeichelLegend } from './modules/legend/index.js?v=heichel-mobile-008';
+import { HeichelNavigator } from './modules/navigator.js?v=heichel-mobile-009';
+import { initializeEventListeners } from './modules/events.js?v=heichel-mobile-009';
+import { manifestWorld } from './modules/ui.js?v=heichel-mobile-009';
+import {
+	fatalStateCard,
+	renderFatalState
+} from './modules/app/fatal-state.js?v=heichel-mobile-009';
+import {
+	refreshVesselHealth,
+	runSafe
+} from './modules/app/visual-health.js?v=heichel-mobile-009';
 
 const BOOT_KEY = '__awtsmoosHeichelBoot';
 
+/** Reads the current Heichel identity from the canonical public path. */
 function readHeichelId() {
-	const segments = window.location.pathname.split('/').filter(Boolean);
+	const segments = window.location.pathname
+		.split('/')
+		.filter(Boolean);
 	return segments[1] || null;
 }
 
-function renderFatalState(error) {
-	console.error('B"H - Fatal failure in the Great Manifestation:', error);
-	const root = document.querySelector('[data-heichel-render-root]') || document.body;
-	root.replaceChildren(fatalStateCard(error));
-}
-
-function fatalStateCard(error) {
-	const section = document.createElement('section');
-	section.className = 'heichel-runtime-state heichel-runtime-state--error';
-	section.setAttribute('role', 'alert');
-	const kicker = document.createElement('p');
-	kicker.className = 'civilization-kicker';
-	kicker.textContent = 'Heichel unavailable';
-	const title = document.createElement('h1');
-	title.textContent = 'The institution could not open.';
-	const message = document.createElement('p');
-	message.textContent = error?.message || 'An unknown Heichel error occurred.';
-	const actions = document.createElement('div');
-	actions.className = 'heichel-runtime-state__actions';
-	const retry = document.createElement('button');
-	retry.type = 'button';
-	retry.textContent = 'Try again';
-	retry.addEventListener('click', () => location.reload());
-	const browse = document.createElement('a');
-	browse.href = '/heichelos';
-	browse.textContent = 'Browse Heichelos';
-	actions.append(retry, browse);
-	section.append(kicker, title, message, actions);
-	return section;
-}
-
-function runSafe(label, callback) {
-	try {
-		return callback();
-	} catch (error) {
-		console.warn(`B"H - ${label} failed safely:`, error);
-		return null;
-	}
-}
-
-function refreshVesselHealth() {
-	runSafe('Heichel visual diagnostics', runHeichelVisualDiagnostics);
-	runSafe('Heichel beauty', runHeichelBeauty);
-	runSafe('Heichel legend', runHeichelLegend);
-}
-
+/** Begins one idempotent boot promise so duplicate entrypoints cannot race. */
 async function boot() {
-	if (window[BOOT_KEY]?.started) return window[BOOT_KEY].promise;
-	const state = { started: true, ready: false, error: null, promise: null };
+	if (window[BOOT_KEY]?.started) {
+		return window[BOOT_KEY].promise;
+	}
+	const state = {
+		started: true,
+		ready: false,
+		error: null,
+		promise: null
+	};
 	window[BOOT_KEY] = state;
-	state.promise = (async () => {
-		try {
-			const heichelId = readHeichelId();
-			if (!heichelId) throw new Error('Heichel ID missing from the URL.');
-			installSocialExperience(document, { ambient: true });
-			const navigator = new HeichelNavigator(heichelId);
-			window.__awtsmoosHeichelNavigator = navigator;
-			manifestWorld(navigator, document.body);
-			refreshVesselHealth();
-			await navigator.initialize();
-			initializeEventListeners(navigator);
-			[40, 300, 1000, 2200].forEach(delay => setTimeout(refreshVesselHealth, delay));
-			state.ready = true;
-		} catch (error) {
-			state.error = error;
-			renderFatalState(error);
-		}
-	})();
+	state.promise = performBoot(state);
 	return state.promise;
 }
 
+/** Manifests the social shell, source navigator, event graph, and bounded visual health. */
+async function performBoot(state) {
+	try {
+		const heichelId = readHeichelId();
+		if (!heichelId) {
+			throw new Error('Heichel ID missing from the URL.');
+		}
+		installSocialExperience(document, {
+			ambient: true
+		});
+		const navigator = new HeichelNavigator(heichelId);
+		window.__awtsmoosHeichelNavigator = navigator;
+		manifestWorld(navigator, document.body);
+		refreshVesselHealth();
+		await navigator.initialize();
+		initializeEventListeners(navigator);
+		for (const delay of [40, 300, 1000, 2200]) {
+			setTimeout(refreshVesselHealth, delay);
+		}
+		state.ready = true;
+	} catch (error) {
+		state.error = error;
+		renderFatalState(error);
+	}
+}
+
 if (document.readyState === 'loading') {
-	document.addEventListener('DOMContentLoaded', boot, { once: true });
+	document.addEventListener('DOMContentLoaded', boot, {
+		once: true
+	});
 }
 queueMicrotask(() => void boot());
 
-export { boot, fatalStateCard, readHeichelId, refreshVesselHealth, renderFatalState, runSafe };
+export {
+	boot,
+	fatalStateCard,
+	readHeichelId,
+	refreshVesselHealth,
+	renderFatalState,
+	runSafe
+};

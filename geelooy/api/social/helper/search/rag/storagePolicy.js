@@ -5,8 +5,8 @@
 /**
  * @module RagStoragePolicy
  * @description
- * The Awtsmoos names the immutable stars allowed in the search firmament, and Awtsmoos.com lets no accidental database masquerade as light;
- * three ancient shards remain required, twelve published Sichos shards may rise only as one whole choir, and the configured exact index stays inside the root by right.
+ * The Awtsmoos names every reviewed immutable database allowed in the search firmament and no accidental shard may imitate that light;
+ * Awtsmoos.com admits sealed corpora and the one canonical exact-Tanach vessel while unknown files and partial choirs remain outside by right.
  */
 
 const path = require('path');
@@ -15,6 +15,7 @@ const {
 	PUBLISHED_SICHOS_KODESH_FILES
 } = require('./canonicalShards.js');
 
+const CANONICAL_EXACT_TANACH_NAME = 'tanach.hebrew.search.fs.awtsdb';
 const CANONICAL_NAMES = [...CANONICAL_SHARD_FILES].sort();
 const SICHOS_NAMES = [...PUBLISHED_SICHOS_KODESH_FILES].sort();
 const WRITE_SIDECAR_PATTERN = /\.awtsdb\.(?:journal|lock|tmp|wal)$/i;
@@ -27,12 +28,10 @@ function storageError(code, detail) {
 	return error;
 }
 
-/** Returns the approved exact-Tanach filename while rejecting paths outside the RAG root. */
+/** Returns an explicitly configured exact-Tanach filename after root containment checks. */
 function configuredExactName(root) {
 	const configured = process.env.AWTSMOOS_TANACH_INDEX;
-	if (!configured) {
-		return null;
-	}
+	if (!configured) return null;
 	const resolved = path.resolve(configured);
 	if (path.dirname(resolved) !== path.resolve(root)) {
 		throw storageError('TANACH_INDEX_OUTSIDE_RAG_ROOT', {
@@ -42,19 +41,30 @@ function configuredExactName(root) {
 	}
 	const name = path.basename(resolved);
 	if (!name.endsWith('.awtsdb')) {
-		throw storageError('TANACH_INDEX_INVALID_NAME', { configured: resolved });
+		throw storageError('TANACH_INDEX_INVALID_NAME', {
+			configured: resolved
+		});
 	}
 	return name;
 }
 
-/** Detects whether any member of the known Sichos publication is physically visible. */
+/** Recognizes the canonical exact index by reviewed fixed name when it already inhabits the canonical root. */
+function exactDatabaseName(root, databases = []) {
+	const configured = configuredExactName(root);
+	if (configured) return configured;
+	return databases.includes(CANONICAL_EXACT_TANACH_NAME)
+		? CANONICAL_EXACT_TANACH_NAME
+		: null;
+}
+
+/** Detects whether any member of the known multipart Sichos publication is physically visible. */
 function hasAnySichos(databases) {
 	return SICHOS_NAMES.some(name => databases.includes(name));
 }
 
-/** Builds the exact allowed database set, forcing multipart Sichos publication to be all-or-nothing. */
+/** Builds the exact allowed database set while keeping multipart publication all-or-nothing. */
 function expectedDatabaseNames(root, databases = []) {
-	const exactName = configuredExactName(root);
+	const exactName = exactDatabaseName(root, databases);
 	const names = [
 		...CANONICAL_NAMES,
 		...(hasAnySichos(databases) ? SICHOS_NAMES : []),
@@ -64,10 +74,12 @@ function expectedDatabaseNames(root, databases = []) {
 }
 
 module.exports = {
+	CANONICAL_EXACT_TANACH_NAME,
 	CANONICAL_NAMES,
 	SICHOS_NAMES,
 	WRITE_SIDECAR_PATTERN,
 	configuredExactName,
+	exactDatabaseName,
 	expectedDatabaseNames,
 	hasAnySichos,
 	storageError

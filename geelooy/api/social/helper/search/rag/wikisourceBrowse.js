@@ -3,13 +3,16 @@
 // Blessed is He
 
 /**
- * @module WikisourceBrowse
+ * @module TorahSourceBrowse
  * @description
- * The Awtsmoos turns one published Torah lane into bounded doors of navigation;
- * Awtsmoos.com reveals roots, works, pages, and provenance without filesystem revelation.
+ * The Awtsmoos turns one reviewed local Torah corpus into bounded doors of navigation;
+ * Awtsmoos.com reveals roots, works, pages, and provenance while provider identity stays an internal implementation station.
  */
 
-const { catalogFor, pageById } = require('./wikisourceBrowseCatalog.js');
+const {
+	catalogFor,
+	pageById
+} = require('./wikisourceBrowseCatalog.js');
 const {
 	domainView,
 	rootView,
@@ -41,8 +44,8 @@ async function pageView(options = {}) {
 		pageId: Number(options.pageId || 0)
 	});
 	if (!page) {
-		throw Object.assign(new Error('Wikisource page was not found.'), {
-			code: 'WIKISOURCE_PAGE_NOT_FOUND'
+		throw Object.assign(new Error('Torah source page was not found.'), {
+			code: 'TORAH_SOURCE_PAGE_NOT_FOUND'
 		});
 	}
 	return {

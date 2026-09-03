@@ -1,0 +1,64 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos lets Hebrew and English share one verse gate without direction fighting direction;
+ * Awtsmoos.com keeps the original Torah foremost while exact installed English appears by learner selection.
+ */
+
+.awtsmoos-tanach-language-controls {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: .5rem;
+	margin-block-start: .85rem;
+}
+
+.awtsmoos-tanach-language-controls button {
+	min-height: 44px;
+	padding: .55rem .9rem;
+	border-radius: 999px;
+	font: inherit;
+	cursor: pointer;
+}
+
+.awtsmoos-tanach-language-controls button[aria-pressed="true"] {
+	font-weight: 800;
+	box-shadow: 0 0 0 2px currentColor inset;
+}
+
+.awtsmoos-tanach-native-translation {
+	margin-block-start: .65rem;
+	padding-block-start: .65rem;
+	border-block-start: 1px solid rgb(255 255 255 / 12%);
+	font-size: .96em;
+	line-height: 1.65;
+	text-align: left;
+	unicode-bidi: plaintext;
+}
+
+#realPost[data-tanach-language-mode="hebrew"] .awtsmoos-tanach-native-translation {
+	display: none;
+}
+
+#realPost[data-tanach-language-mode="english"] .section.heb > .toichen {
+	display: none;
+}
+
+#realPost[data-tanach-language-mode="english"] .awtsmoos-tanach-native-translation,
+#realPost[data-tanach-language-mode="both"] .awtsmoos-tanach-native-translation {
+	display: block;
+}
+
+@media (max-width: 600px) {
+	.awtsmoos-tanach-language-controls {
+		position: sticky;
+		top: env(safe-area-inset-top);
+		z-index: 2;
+		padding: .45rem;
+		backdrop-filter: blur(14px);
+	}
+
+	.awtsmoos-tanach-language-controls button {
+		flex: 1 1 30%;
+	}
+}
