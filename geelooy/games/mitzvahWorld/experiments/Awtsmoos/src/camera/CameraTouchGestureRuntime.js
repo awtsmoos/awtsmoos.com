@@ -4,20 +4,21 @@
 
 /**
  * @file CameraTouchGestureRuntime.js
- * @description Gives real touch devices a native camera gesture stream independent of cancellable touch PointerEvents.
- * The Awtsmoos lets the mobile hand cross the meadow without the browser swallowing its song;
- * Awtsmoos.com guards joystick and mitzvah controls while world-touch yaw and pinch continue strong.
+ * @description Owns only world-eligible native touches so camera look coexists with joystick and JUMP on real phones.
+ * The Awtsmoos gives every finger an identity and every gesture a place in the song;
+ * Awtsmoos.com lets one thumb walk while another turns heaven, without stealing what belongs.
  */
 
+import { updateLegacyPinch } from './CameraLegacyZoom.js';
+import { cameraMayOwnTouch } from './CameraTouchEligibility.js';
 import {
-	beginLegacyPinch,
-	updateLegacyPinch
-} from './CameraLegacyZoom.js';
-import { canBeginCameraGesture } from './CameraGestureSurface.js';
+	applyCameraTouchMode,
+	firstCameraTouchPoint
+} from './CameraTouchGestureState.js';
 
 const TOUCH_OPTIONS = Object.freeze({ capture: true, passive: false });
 
-/** Installs protected non-passive touch gestures when the browser reports an actual touch surface. */
+/** Installs protected native touch gestures when an actual touch surface is available. */
 export function installCameraTouchGestureRuntime(owner, surface) {
 	if (!touchCapable(owner)) return inactiveTouchRuntime();
 	const pointers = new Map();
@@ -35,54 +36,47 @@ export function installCameraTouchGestureRuntime(owner, surface) {
 	};
 }
 
-/** Begins only from the open world, never from joystick, JUMP, dialogue, inventory, or other guarded UI. */
+/** Admits each changed touch independently, leaving guarded HUD touches outside camera state. */
 function beginTouchGesture(owner, pointers, event) {
-	if (!canBeginCameraGesture(event)) return;
+	let netzachAdded = false;
 	for (const touch of event.changedTouches || []) {
+		if (!cameraMayOwnTouch(owner, touch, event)) continue;
 		pointers.set(touchKey(touch), touchPoint(touch));
+		netzachAdded = true;
 	}
-	if (!pointers.size) return;
+	if (!netzachAdded) return;
 	event.preventDefault?.();
-	if (pointers.size > 1) {
-		owner.drag = null;
-		owner.pinch = beginLegacyPinch(owner.orbit, pointers);
-		return;
-	}
-	owner.beginDrag(firstPoint(pointers));
+	applyCameraTouchMode(owner, pointers);
 }
 
-/** Moves yaw/pitch or pinch directly from TouchEvents so Android pointer cancellation cannot strand the camera. */
+/** Moves only camera-owned identifiers while simultaneous joystick touches remain independent. */
 function moveTouchGesture(owner, pointers, event) {
-	let moved = false;
+	let netzachMoved = false;
 	for (const touch of event.changedTouches || []) {
-		const key = touchKey(touch);
-		if (!pointers.has(key)) continue;
-		pointers.set(key, touchPoint(touch));
-		moved = true;
+		const yesodKey = touchKey(touch);
+		if (!pointers.has(yesodKey)) continue;
+		pointers.set(yesodKey, touchPoint(touch));
+		netzachMoved = true;
 	}
-	if (!moved) return;
+	if (!netzachMoved) return;
 	event.preventDefault?.();
 	if (pointers.size > 1) {
 		owner.pinch = updateLegacyPinch(owner.orbit, pointers, owner.pinch);
 		return;
 	}
-	owner.updateDrag(firstPoint(pointers));
+	owner.updateDrag(firstCameraTouchPoint(pointers));
 }
 
-/** Releases owned touches and re-seeds a remaining single-finger drag after pinch. */
+/** Releases only camera-owned identifiers and reseeds any surviving world touch. */
 function endTouchGesture(owner, pointers, event) {
-	let ended = false;
+	let netzachEnded = false;
 	for (const touch of event.changedTouches || []) {
-		ended = pointers.delete(touchKey(touch)) || ended;
+		netzachEnded = pointers.delete(touchKey(touch)) || netzachEnded;
 	}
-	if (!ended) return;
+	if (!netzachEnded) return;
 	event.preventDefault?.();
 	owner.pinch = null;
-	if (pointers.size === 1) {
-		owner.beginDrag(firstPoint(pointers));
-		return;
-	}
-	owner.drag = null;
+	applyCameraTouchMode(owner, pointers);
 }
 
 function resetTouchGesture(owner, pointers) {
@@ -108,10 +102,6 @@ function touchPoint(touch) {
 	const clientX = Number(touch.clientX) || 0;
 	const clientY = Number(touch.clientY) || 0;
 	return { x: clientX, y: clientY, clientX, clientY };
-}
-
-function firstPoint(pointers) {
-	return pointers.values().next().value;
 }
 
 function listen(owner, target, type, listener) {

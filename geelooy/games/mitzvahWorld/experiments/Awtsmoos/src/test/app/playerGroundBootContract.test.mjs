@@ -4,9 +4,9 @@
 
 /**
  * @file playerGroundBootContract.test.mjs
- * @description Proves the canonical player begins a dynamic stand above always-visible terrain.
- * The Awtsmoos reveals person and earth together; Awtsmoos.com rejects frozen neutral naming
- * and chooses a living stand before the first rendered matrix reaches the finite screen vessel.
+ * @description Proves the canonical player animates immediately while untextured remote-only terrain stays truthfully concealed.
+ * The Awtsmoos reveals person and earth in their appointed order; Awtsmoos.com rejects both a frozen Chossid and a naked green floor,
+ * so geometry may be prepared beneath the gate while only verified texture garments are permitted to enter the visible shore.
  */
 
 import assert from 'node:assert/strict';
@@ -36,13 +36,15 @@ test('player model is visible and begins its animated stand', () => {
 	assert.equal(result.model.userData.AwtsmoosCanonicalPlayer.modelSource, 'chossid.glb');
 });
 
-test('terrain remains visible and opaque before source images hydrate', () => {
+test('remote-only terrain geometry is prepared but cannot flash before real imagery hydrates', () => {
 	const terrain = createTerrainGeometry();
 	const mesh = createTerrainMesh(terrain, null, null, 'fallback-grass.jpg', 'high');
-	assert.equal(mesh.visible, true);
-	assert.equal(mesh.material.visible, true);
+	assert.equal(mesh.visible, false);
 	assert.equal(mesh.material.transparent, false);
 	assert.equal(mesh.material.opacity, 1);
+	assert.equal(mesh.material.texturePolicy.remoteOnly, true);
+	assert.equal(mesh.material.texturePolicy.realBaseImage, false);
+	assert.equal(mesh.userData.awtsmoosRemoteOnlyVisibility.hiddenByCovenant, true);
 	assert.ok(mesh.userData.AwtsmoosTerrainValley.vertexCount > 10000);
 	assert.ok(mesh.userData.AwtsmoosTerrainValley.indexCount > 50000);
 });

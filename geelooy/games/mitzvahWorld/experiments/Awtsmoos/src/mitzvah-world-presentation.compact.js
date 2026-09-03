@@ -3849,7 +3849,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.resetTreeToBase = resetTreeToBase;
-	const __awtsmoosDefault_dh813p = {
+	const __awtsmoosDefault_1aph1pf = {
 		Bone,
 		BufferAttribute,
 		BufferGeometry,
@@ -3862,7 +3862,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		Scene,
 		Vector3
 	};
-	__exports.default = __awtsmoosDefault_dh813p;
+	__exports.default = __awtsmoosDefault_1aph1pf;
 }
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-gltf-accessors.js ----
@@ -25954,8 +25954,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	const loadTinyGlb = loadTinyGltf;
 
 	__exports.loadTinyGlb = loadTinyGlb;
-	const __awtsmoosDefault_1g08ksk = { loadTinyGltf, loadTinyGlb };
-	__exports.default = __awtsmoosDefault_1g08ksk;
+	const __awtsmoosDefault_1nh32c2 = { loadTinyGltf, loadTinyGlb };
+	__exports.default = __awtsmoosDefault_1nh32c2;
 }
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteModelResponseCache.js ----

@@ -5,10 +5,10 @@
 /**
  * @file MaterialStackRecipe.js
  * @description Owns immutable logical surface stacks while paging finite GPU views without losing the richer authoring covenant.
- * The Awtsmoos is not reduced when hardware sees ten samplers from sixteen layers; Awtsmoos.com lets Binah preserve
+ * The Awtsmoos is not reduced when hardware sees six samplers from thirty-two layers; Awtsmoos.com lets Binah preserve
  * the whole geological, botanical, architectural, or creature surface while Malchus reveals only the bounded page needed now.
  */
-export const MATERIAL_STACK_LOGICAL_LIMIT = 16;
+export const MATERIAL_STACK_LOGICAL_LIMIT = 32;
 export const MATERIAL_STACK_TARGET_ACTIVE = 10;
 
 export class MaterialStackRecipe {
@@ -36,12 +36,7 @@ export class MaterialStackRecipe {
 		Object.freeze(this);
 	}
 
-	/**
-	 * Creates one bounded page for renderers whose sampler capacity is smaller than the logical authoring stack.
-	 * @param {number} malchusCapacity Maximum active layers.
-	 * @param {number} [netzachPageIndex=0] Zero-based logical page index.
-	 * @returns {object} Frozen page retaining recipe identity and page evidence.
-	 */
+	/** Creates one bounded page for renderers whose sampler capacity is smaller than the logical authoring stack. */
 	page(malchusCapacity, netzachPageIndex = 0) {
 		const gevurahPageSize = boundedCapacity(malchusCapacity, 1);
 		const hodPageIndex = Math.max(0, Math.floor(Number(netzachPageIndex) || 0));
@@ -56,11 +51,7 @@ export class MaterialStackRecipe {
 		});
 	}
 
-	/**
-	 * Reports the relationship between logical authoring richness and current renderer capacity.
-	 * @param {number} malchusCapacity Active renderer layer capacity.
-	 * @returns {object} Frozen capacity diagnostics.
-	 */
+	/** Reports the relationship between logical authoring richness and current renderer capacity. */
 	diagnostics(malchusCapacity) {
 		const gevurahCapacity = Math.max(0, Math.floor(Number(malchusCapacity) || 0));
 		return Object.freeze({

@@ -4,8 +4,9 @@
 
 /**
  * @file tiny-renderer-realism-contract.test.mjs
- * @description Locks source-aware water chroma, layered-terrain midtone lift, macro relief, and bounded atmospheric fill.
- * The Awtsmoos is one before gamma, depth, sky, and earth divide; Awtsmoos.com proves realism without adding a texture fetch.
+ * @description Locks source-aware water chroma, ecological terrain midtone lift, measured macro relief, and bounded atmospheric fill.
+ * The Awtsmoos is one before gamma, depth, sky, and earth divide; Awtsmoos.com keeps the measured light alive,
+ * so richer texture ecology can breathe without stale constants pretending yesterday's tuning is eternally right.
  */
 
 import assert from 'node:assert/strict';
@@ -21,11 +22,12 @@ test('water receives encoded source chroma before physical depth law', () => {
 	assert.match(fragmentLightingFunctions, /sourceShare=clamp\(uWaterWaveProfile\.w\+0\.18/);
 });
 
-test('terrain keeps linear lighting while restoring measured midtones and macro relief', () => {
+test('terrain keeps linear lighting with current measured midtones and macro relief', () => {
 	assert.match(fragmentMainFunction, /terrainLinear=mix\(textureLinear,encoded,0\.20\)/);
 	assert.match(fragmentMainFunction, /uMaterialMode==5\?terrainLinear:textureLinear/);
-	assert.match(terrainFragmentFunctions, /valueRelief=\(terrainMacro\(31\.9\)-0\.5\)\*0\.16/);
-	assert.match(terrainFragmentFunctions, /slopeRelief=.*\*0\.08/);
+	assert.match(terrainFragmentFunctions, /valueRelief\s*=\s*\(terrainMacro\(31\.9\)\s*-\s*0\.5\)\s*\*\s*0\.13/);
+	assert.match(terrainFragmentFunctions, /slopeRelief\s*=.*\*\s*0\.07/);
+	assert.match(terrainFragmentFunctions, /result\.rgb\s*\*=\s*1\.0\s*\+\s*chroma\s*\+\s*valueRelief\s*-\s*slopeRelief/);
 });
 
 test('fill lighting and fog remain bounded rather than flattening the frame', () => {

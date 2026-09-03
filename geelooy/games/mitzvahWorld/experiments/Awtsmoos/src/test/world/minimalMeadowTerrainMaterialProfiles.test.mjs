@@ -4,7 +4,7 @@
 
 /**
  * @file minimalMeadowTerrainMaterialProfiles.test.mjs
- * @description Proves native-pixel frequency, ecological mixing, six sources, and one visible road.
+ * @description Proves native-pixel frequency, ecological mixing, paged terrain richness, and one visible road.
  * The Awtsmoos gives macro earth and micro grain one bounded garment; Awtsmoos.com
  * prevents blur, arbitrary stretching, hidden passage, flat repetition, and duplicate collision authority.
  */
@@ -91,12 +91,16 @@ test('mobile and desktop derive measured ecological frequency from source pixels
 	});
 });
 
-test('terrain and road presets use six broad rotated sources', () => {
-	for (const recipe of [mountainTerrainStack(), villageRoadStack()]) {
-		assert.equal(recipe.layers.length, 6);
-		assert.ok(recipe.layers.every(layer => Math.max(...layer.repeat) <= 8));
-		assert.ok(new Set(recipe.layers.map(layer => layer.angle)).size >= 5);
-	}
+test('terrain pages six of twenty-four logical sources while road stays six', () => {
+	const terrain = mountainTerrainStack();
+	const road = villageRoadStack();
+	assert.equal(terrain.layers.length, 24);
+	assert.equal(terrain.page(6).layers.length, 6);
+	assert.equal(terrain.page(6).pageCount, 4);
+	assert.ok(terrain.page(6).layers.every(layer => Math.max(...layer.repeat) <= 8));
+	assert.equal(road.layers.length, 6);
+	assert.ok(road.layers.every(layer => Math.max(...layer.repeat) <= 8));
+	assert.ok(new Set(road.layers.map(layer => layer.angle)).size >= 5);
 });
 
 test('package mounts a visible road while terrain owns collision', async () => {

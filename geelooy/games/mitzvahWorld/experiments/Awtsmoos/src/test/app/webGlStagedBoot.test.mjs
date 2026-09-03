@@ -4,9 +4,9 @@
 
 /**
  * @file webGlStagedBoot.test.mjs
- * @description Proves startup prefers WebGL with a truthful Canvas2D fallback and cannot await a frame forever.
- * The Awtsmoos reveals light before landscape; Awtsmoos.com records the selected backend,
- * framebuffer, bounded scheduling, and the absence of every WebGPU doorway.
+ * @description Proves startup requires WebGL through the foundation renderer abstraction and cannot await a frame forever.
+ * The Awtsmoos reveals light before landscape without a Canvas disguise; Awtsmoos.com records the real framebuffer,
+ * bounded scheduling, the layered renderer vessel, and the absence of every WebGPU or Canvas-fallback doorway.
  */
 
 import assert from 'node:assert/strict';
@@ -18,17 +18,19 @@ import { nextLaunchFrame } from '../../app/RuntimeLaunchProgress.js';
 const APP_ROOT_URL = new URL('../../app/', import.meta.url);
 const source = fileName => readFile(new URL(fileName, APP_ROOT_URL), 'utf8');
 
-test('live staged startup uses the WebGL-first fallback renderer and no WebGPU selector', async () => {
-	const [services, frame, staged, runtime] = await Promise.all([
+test('live staged startup uses the WebGL foundation renderer and no alternate backend selector', async () => {
+	const [services, rendererFactory, frame, staged, runtime] = await Promise.all([
 		source('EretzFoundationServices.js'),
+		source('EretzFoundationRenderer.js'),
 		source('EretzWebGlBootFrame.js'),
 		source('EretzStagedRuntime.js'),
 		source('createEretzRuntime.js')
 	]);
-	const startup = [services, frame, staged, runtime].join(String.fromCharCode(10));
-	assert.match(services, /createMinimalMeadowRenderer/);
+	const startup = [services, rendererFactory, frame, staged, runtime].join(String.fromCharCode(10));
+	assert.match(services, /createEretzFoundationRenderer/);
+	assert.match(rendererFactory, /createMinimalMeadowRenderer/);
 	assert.match(startup, /renderer\.gl/);
-	assert.doesNotMatch(startup, /WebGPURenderer|navigator\.gpu|three\/webgpu/i);
+	assert.doesNotMatch(startup, /CanvasRenderer|WebGPURenderer|navigator\.gpu|three\/webgpu/i);
 	assert.doesNotMatch(runtime, /playable-runtime|PLAYABLE_BUNDLE_URL/);
 });
 

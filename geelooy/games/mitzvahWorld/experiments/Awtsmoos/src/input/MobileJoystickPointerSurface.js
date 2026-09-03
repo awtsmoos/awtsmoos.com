@@ -4,9 +4,9 @@
 
 /**
  * @file MobileJoystickPointerSurface.js
- * @description Owns floating pointer capture while importing only the narrow bounded joystick geometry required before first play.
- * The Awtsmoos lets the thumb begin where the traveler truly reaches and keeps its finite road precise;
- * Awtsmoos.com opens only the tiny Yesod vector chamber, so touch movement awakens swiftly without summoning the whole procedural palace twice.
+ * @description Anchors joystick mathematics exactly beneath first contact while preserving isolated pointer ownership.
+ * The Awtsmoos recreates the thumb where it truly lands, with no hidden inward decree;
+ * Awtsmoos.com lets the first touch be perfect stillness before intentional movement sets the traveler free.
  */
 
 import {
@@ -15,7 +15,6 @@ import {
 } from '../../../../../../libs/awtsmoos-procedural-core/src/core/input/joystick/JoystickVector.js';
 
 const RADIUS = 52;
-const EDGE_PADDING = 62;
 
 export class MobileJoystickPointerSurface {
 	constructor(host, ring, knob, onVector) {
@@ -40,43 +39,36 @@ export class MobileJoystickPointerSurface {
 		this.host.addEventListener('lostpointercapture', this.onEnd);
 	}
 
-	/** Begins one floating joystick gesture at a bounded local center. */
+	/** Begins exactly under the finger, publishing zero vector before any later displacement. */
 	begin(event) {
 		if (this.pointerId !== null) return;
 		event.preventDefault();
-		const bounds = this.host.getBoundingClientRect();
-		const localX = bounded(
-			event.clientX - bounds.left,
-			EDGE_PADDING,
-			bounds.width - EDGE_PADDING
-		);
-		const localY = bounded(
-			event.clientY - bounds.top,
-			EDGE_PADDING,
-			bounds.height - EDGE_PADDING
-		);
+		const yesodBounds = this.host.getBoundingClientRect();
+		const malchusLocalX = event.clientX - yesodBounds.left;
+		const malchusLocalY = event.clientY - yesodBounds.top;
 		this.center = {
-			x: bounds.left + localX,
-			y: bounds.top + localY
+			x: Number(event.clientX) || 0,
+			y: Number(event.clientY) || 0
 		};
 		this.pointerId = event.pointerId;
-		this.ring.style.left = `${localX}px`;
-		this.ring.style.top = `${localY}px`;
+		this.ring.style.left = `${malchusLocalX}px`;
+		this.ring.style.top = `${malchusLocalY}px`;
 		this.ring.dataset.active = 'true';
 		this.host.setPointerCapture?.(event.pointerId);
-		this.move(event);
+		this.onVector(zeroJoystickVector());
+		this.knob.style.transform = 'translate(0, 0)';
 	}
 
-	/** Converts one pointer displacement into bounded knob geometry and semantic movement. */
+	/** Converts only later owned-pointer displacement into bounded knob geometry and semantic movement. */
 	move(event) {
 		if (this.pointerId !== event.pointerId || !this.center) return;
-		const result = joystickVectorFromOffset(
+		const tiferesResult = joystickVectorFromOffset(
 			event.clientX - this.center.x,
 			event.clientY - this.center.y,
 			RADIUS
 		);
-		this.onVector(result.vector);
-		this.knob.style.transform = `translate(${result.knob.x}px, ${result.knob.y}px)`;
+		this.onVector(tiferesResult.vector);
+		this.knob.style.transform = `translate(${tiferesResult.knob.x}px, ${tiferesResult.knob.y}px)`;
 	}
 
 	/** Ends the active pointer gesture and returns movement to the recreated center. */
@@ -104,11 +96,4 @@ export class MobileJoystickPointerSurface {
 		this.host.removeEventListener('pointercancel', this.onEnd);
 		this.host.removeEventListener('lostpointercapture', this.onEnd);
 	}
-}
-
-/** Clamps one floating-center coordinate inside the mobile movement surface. */
-function bounded(value, minimum, maximum) {
-	return maximum < minimum
-		? Math.max(0, value)
-		: Math.min(maximum, Math.max(minimum, value));
 }

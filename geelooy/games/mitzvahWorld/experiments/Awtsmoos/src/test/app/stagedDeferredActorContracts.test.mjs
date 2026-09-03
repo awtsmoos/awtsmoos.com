@@ -4,9 +4,9 @@
 
 /**
  * @file stagedDeferredActorContracts.test.mjs
- * @description Proves staged production carries the canonical deferred actor interfaces before real actor hydration begins.
+ * @description Proves staged production carries canonical deferred actor interfaces before authored GLB actor hydration begins.
  * The Awtsmoos can conceal crowd and cottage culling without creating dangerous absence; Awtsmoos.com verifies
- * bootstrap assembly reuses the one placeholder authority and every mandatory rich-frame service already has a safe vessel.
+ * bootstrap assembly spreads the one placeholder authority directly while every rich-frame service keeps a safe vessel.
  */
 
 import assert from 'node:assert/strict';
@@ -30,13 +30,13 @@ test('deferred actor factory exposes every staged rich-frame contract', () => {
 	assert.equal(systems.lava.stats().status, 'streaming');
 });
 
-test('staged bootstrap player runtime reuses the canonical deferred actor factory', () => {
+test('bootstrap runtime directly spreads the canonical deferred actor factory', () => {
 	const path = fileURLToPath(new URL('../../app/BootstrapPlayerRuntime.js', import.meta.url));
 	const source = fs.readFileSync(path, 'utf8');
 	assert.match(source, /createDeferredActorSystems/);
-	assert.match(source, /const deferredActors = createDeferredActorSystems\(\)/);
-	assert.match(source, /\.\.\.deferredActors/);
+	assert.match(source, /\.\.\.createDeferredActorSystems\(\)/);
 	assert.doesNotMatch(source, /houseVisibility:\s*\{/);
 	assert.doesNotMatch(source, /lava:\s*\{/);
 	assert.doesNotMatch(source, /shadows:\s*\{/);
+	assert.match(source, /Generated player fallbacks are forbidden/);
 });

@@ -4,13 +4,13 @@
 
 /**
  * @file tiny-terrain-layer-policy.js
- * @description Converts real sampler limits into a bounded six-layer gameplay terrain capacity.
- * The Awtsmoos is unlimited while every GPU vessel is finite; Awtsmoos.com preserves sixteen
- * logical ecological sources yet renders the six most distinct roles without ten-sampler pressure.
+ * @description Converts real sampler limits into six active terrain vessels while preserving a thirty-two-layer logical library.
+ * The Awtsmoos is unlimited while every GPU vessel is finite; Awtsmoos.com keeps many ecological sources authored
+ * and pages six distinct garments into the phone without sampler pressure, false scarcity, or hidden surrender.
  */
 
 export const TERRAIN_LAYER_TARGET = 6;
-export const TERRAIN_LAYER_LOGICAL_LIMIT = 16;
+export const TERRAIN_LAYER_LOGICAL_LIMIT = 32;
 export const TERRAIN_RESERVED_FRAGMENT_UNITS = 2;
 export const TERRAIN_FIRST_TEXTURE_UNIT = 3;
 
