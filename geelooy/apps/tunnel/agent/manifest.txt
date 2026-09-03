@@ -1,5 +1,5 @@
 B"H
-1.0.577
+1.0.578
 main.js
 ai/relay/direct/browser/AgentTabCatalog.mjs
 ai/relay/direct/browser/AgentTabProtectionState.mjs
@@ -144,6 +144,7 @@ ai/relay/split-browser/debugChromeDiscovery.cjs
 ai/relay/split-browser/debugChromeFrames.cjs
 ai/relay/split-browser/debugChromeKeeper.cjs
 ai/relay/split-browser/debugChromeLauncher.cjs
+ai/relay/split-browser/debugChromeLaunchGate.cjs
 ai/relay/split-browser/debugChromeProcessRecovery.cjs
 ai/relay/split-browser/debugChromeProfileOwner.cjs
 ai/relay/split-browser/debugChromeShutdown.cjs
@@ -172,6 +173,7 @@ ai/relay/split-browser/runtimeView.cjs
 ai/relay/split-browser/server.cjs
 ai/relay/split-browser/serverSupport.cjs
 ai/relay/split-browser/sessionStatusCache.cjs
+ai/relay/split-browser/sharedChromeProfile.cjs
 ai/relay/split-browser/targetProtectionRegistry.cjs
 ai/relay/split-browser/targetProtectionState.cjs
 ai/relay/split-browser/urlMap.cjs
@@ -1138,6 +1140,7 @@ lib/local-api-catalog-cache.js
 lib/local-api-catalog.js
 lib/local-api-health.js
 lib/local-api-limits.js
+lib/local-api-port-policy.js
 lib/local-api-response.js
 lib/local-api-route-handlers.js
 lib/local-api-routes.js
@@ -1518,9 +1521,11 @@ tools/chatgpt/actions/login.js
 tools/chatgpt/actions/message.js
 tools/chatgpt/actions/optimizer.js
 tools/chatgpt/actions/sessions.js
+tools/chatgpt/actions/sharedBrowserSummary.js
 tools/chatgpt/actions/status.js
 tools/chatgpt/auth/sessionCheck.js
 tools/chatgpt/chrome/ensureProfileChrome.js
+tools/chatgpt/chrome/sharedProfile.js
 tools/chatgpt/continuation/compact.js
 tools/chatgpt/continuation/defaults.js
 tools/chatgpt/continuation/state.js
