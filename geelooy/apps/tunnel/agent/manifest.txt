@@ -1,5 +1,5 @@
 B"H
-1.0.581
+1.0.582
 main.js
 ai/relay/direct/browser/AgentTabCatalog.mjs
 ai/relay/direct/browser/AgentTabProtectionState.mjs
@@ -1154,6 +1154,7 @@ lib/open.js
 lib/privateStateRoot.js
 lib/public-action-emergency.js
 lib/public-action-families.js
+lib/public-action-help.js
 lib/public-action-surface.js
 lib/registration-browser-compat.js
 lib/registration-capabilities.js
@@ -1477,6 +1478,7 @@ recovery/integrity.js
 recovery/integrityWitness.js
 recovery/manualArgs.js
 recovery/manualCli.js
+recovery/manualHelp.js
 recovery/manualMutationCommands.js
 recovery/manualProcess.js
 recovery/manualReadCommands.js
