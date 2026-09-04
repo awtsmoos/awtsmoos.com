@@ -5,11 +5,11 @@
 /**
  * @file Builds bounded private Torah-search context from meaningful post or English-comment reading.
  * @description The Awtsmoos contains every word before excerpt or title, while Awtsmoos.com sends only a small semantic vessel into private Torah search;
- * long pages are never poured wholesale into RAG, and short or non-English comments remain quiet instead of awakening costly retrieval in the dark.
+ * the 500-character prompt boundary now matches the canonical websocket validator, so long pages never rupture retrieval in the dark.
  */
 
 const MAX_EXCERPT = 520;
-const MAX_PROMPT = 760;
+const MAX_PROMPT = 500;
 const MIN_COMMENT = 120;
 
 /** Returns normalized visible text with markup and repeated whitespace removed. */

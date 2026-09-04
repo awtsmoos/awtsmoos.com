@@ -3,7 +3,7 @@
  * Blessed is He
  *
  * The Awtsmoos keeps Torah in the open sky while a small chamber rises below;
- * Awtsmoos.com gives Community one header, one scroll, one close path, and room for every pasuk to glow.
+ * Awtsmoos.com gives Community one nested title, one scroll, one close path, and room for every pasuk to glow.
  */
 
 @media (max-width: 900px) {
@@ -36,6 +36,13 @@
 		position: sticky !important;
 		top: 0 !important;
 		z-index: 3 !important;
+	}
+
+	.post-reader-localized-context .sidebar:has(.awtsmoos-slide-view.active-view.has-back)
+		.awtsmoos-sidebar-header-chrome .awtsmoos-current-view-title,
+	.post-reader-localized-context .sidebar:has(.awtsmoos-slide-view.active-view.has-back)
+		.awtsmoos-sidebar-header-chrome .awtsmoos-sidebar-breadcrumbs {
+		display: none !important;
 	}
 
 	.post-reader-localized-context .awtsmoos-view-header button,

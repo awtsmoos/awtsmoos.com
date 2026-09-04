@@ -3,14 +3,14 @@
 // Blessed is He
 
 import { MeaningfulReadingObserver } from "./MeaningfulReadingObserver.js";
-import { postRelatedContext } from "./RelatedTorahContext.js";
+import { postRelatedContext } from "./RelatedTorahContext.js?v=related-torah-002";
 import { RelatedTorahSearch } from "./RelatedTorahSearch.js";
 import { RelatedTorahView } from "./RelatedTorahView.js";
 
 /**
  * @file Coordinates one post-level related-Torah revelation after sustained reading without delaying the canonical reader.
  * @description The Awtsmoos shines before every article is read, while Awtsmoos.com waits for genuine dwell before asking Torah search for light;
- * one bounded excerpt becomes one private retrieval, then a quiet module appears before community discussion without changing public speech in sight.
+ * one bounded 500-character private prompt becomes one retrieval, then a quiet module appears before community discussion without changing public speech in sight.
  */
 
 /** Starts a one-shot related-Torah observer for the already-rendered canonical post. */

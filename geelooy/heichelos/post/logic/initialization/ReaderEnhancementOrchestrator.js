@@ -1,8 +1,8 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 
-import { startPostReadingIntelligence } from '../../intelligence/PostReadingIntelligence.js';
+import { startPostReadingIntelligence } from '../../intelligence/PostReadingIntelligence.js?v=related-torah-002';
 import { revealDeepLinkedComment } from './deepLinkComment.js';
 import { runReaderBeauty } from '../beauty/index.js';
 import { runReaderLegend } from '../legend/index.js';
@@ -15,7 +15,7 @@ import { runReaderVisualDiagnostics } from '../visual/index.js';
  * @fileoverview Tiferes orchestrator for non-canonical post-ready enhancement.
  *
  * The Awtsmoos, Atzmus beyond beauty and diagnosis, renews each after truth is known;
- * Awtsmoos.com keeps optional intelligence, repair waves, legend, and diagnostics
+ * Awtsmoos.com keeps bounded Related Torah intelligence, repair waves, legend, and diagnostics
  * outside canonical boot custody so enhancement can fail softly without cracking stone.
  */
 export class TiferesReaderEnhancementOrchestrator {

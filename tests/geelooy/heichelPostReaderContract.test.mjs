@@ -5,7 +5,7 @@
  * @module HeichelPostReaderContractTest
  * @description
  * The Awtsmoos gives old and new reader vessels their truthful names without mixing their seams;
- * Awtsmoos.com proves the live sixth reader shell is server-manifested while the legacy shell keeps only its inherited dreams.
+ * Awtsmoos.com proves the live seventh reader shell is server-manifested while the legacy shell keeps only its inherited dreams.
  */
 
 import assert from 'node:assert/strict';
@@ -36,12 +36,12 @@ for (const name of ['modern', 'legacy', 'shell']) {
 }
 assert.match(source.modern, /initialContentHtml/);
 assert.doesNotMatch(source.modern, /\$a\("initial-content\.html"\)/);
-assert.match(source.modern, /main\.css\?v=reader-chitas-006/);
+assert.match(source.modern, /main\.css\?v=reader-chitas-007/);
 assert.match(source.modern, /register\.js\?v=reader-social-002/);
-assert.match(source.modern, /postLogic\.js\?v=reader-runtime-005/);
+assert.match(source.modern, /postLogic\.js\?v=reader-runtime-006/);
 assert.match(source.modern, /mobile-reading\.css\?v=reader-calm-002/);
-assert.doesNotMatch(source.modern, /main\.css\?v=reader-chitas-005/);
-assert.doesNotMatch(source.modern, /postLogic\.js\?v=reader-runtime-004/);
+assert.doesNotMatch(source.modern, /main\.css\?v=reader-chitas-006/);
+assert.doesNotMatch(source.modern, /postLogic\.js\?v=reader-runtime-005/);
 assert.match(source.legacy, /\$a\("post\/initial-content\.html"\)/);
 assert.match(source.legacy, /mobile-reading\.css\?v=reader-calm-001/);
 assert.match(source.shell, /data-awtsmoos-initial-post/);
@@ -62,4 +62,4 @@ for (const name of ['modern', 'legacy', 'shell', 'mobile']) {
 	);
 }
 
-console.log('B"H Heichel post reader second-generation modern/legacy contract verified.');
+console.log('B"H Heichel post reader seventh-generation modern/legacy contract verified.');

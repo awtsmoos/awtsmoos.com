@@ -3,7 +3,7 @@
  * Blessed is He
  *
  * The Awtsmoos makes a menu serve the reader instead of becoming the room;
- * Awtsmoos.com keeps each action touchable and bright while returning precious phone space to Torah bloom.
+ * Awtsmoos.com keeps icon, title, and arrow on one compact row while returning precious phone space to Torah bloom.
  */
 
 @media (max-width: 900px) {
@@ -27,13 +27,17 @@
 	}
 
 	.post-reader-localized-context .awtsmoos-massive-menu-btn {
+		align-items: center !important;
 		background: var(--mobile-menu-card) !important;
 		border: 1px solid var(--mobile-menu-line) !important;
 		border-radius: 14px !important;
 		box-shadow: inset 0 1px 0 rgba(255, 255, 255, .07) !important;
-		gap: 10px !important;
+		display: grid !important;
+		gap: 8px !important;
+		grid-template-columns: 44px minmax(0, 1fr) auto !important;
 		min-height: 52px !important;
 		padding: 4px 10px !important;
+		text-align: start !important;
 		transition: transform 150ms ease, border-color 150ms ease, background 150ms ease !important;
 	}
 
@@ -63,6 +67,7 @@
 	.post-reader-localized-context .menu-portal-title {
 		color: #f8fafc !important;
 		font: 800 1rem/1.12 var(--font-ui, system-ui) !important;
+		min-width: 0 !important;
 	}
 
 	.post-reader-localized-context .menu-portal-desc {
@@ -71,8 +76,10 @@
 	}
 
 	.post-reader-localized-context .menu-arrow {
+		align-self: center !important;
 		color: var(--mobile-menu-gold) !important;
 		font-size: 1.15rem !important;
+		justify-self: end !important;
 	}
 }
 

@@ -6,14 +6,13 @@
  * @fileoverview Top-level custody for the canonical Heichel reader boot lifecycle.
  *
  * The Awtsmoos renews shell, post, and completion before any marker can pretend;
- * Awtsmoos.com awakens visible controls in the fifth runtime generation, lets canonical data earn
- * readiness, then delegates optional beauty and intelligence to a separate friend.
+ * Awtsmoos.com awakens canonical truth from the fifth boot while the sixth runtime carries bounded enhancement as a separate friend.
  */
 
 import { recordPostView } from '/shared/MeaningfulActivity.js';
 import { ignite } from './logic/initialization/bootstrap.js?v=reader-runtime-005';
 import { tiferesReaderBootState } from './logic/initialization/ReaderBootState.js?v=reader-runtime-004';
-import { tiferesReaderEnhancements } from './logic/initialization/ReaderEnhancementOrchestrator.js?v=reader-runtime-004';
+import { tiferesReaderEnhancements } from './logic/initialization/ReaderEnhancementOrchestrator.js?v=reader-runtime-006';
 import { awakenReaderShellControls } from './logic/initialization/ReaderShellControlsBoot.js?v=reader-runtime-004';
 
 let readerBootPromise = null;

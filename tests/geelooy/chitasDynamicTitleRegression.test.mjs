@@ -5,7 +5,7 @@
  * @module ChitasDynamicTitleRegressionTest
  * @description
  * The Awtsmoos gives one Daily Chitas card a real composed name rather than phantom English fields;
- * Awtsmoos.com proves title and masthead drink from that existing vessel so undefined language never yields.
+ * Awtsmoos.com proves title, canonical fifth boot, and sixth optional enhancement keep that real identity through the public vessel.
  */
 
 import assert from 'node:assert/strict';
@@ -52,7 +52,8 @@ assert.match(manifestSource, /masthead\.js\?v=native-chitas-006/);
 assert.match(bootstrapSource, /coordinates\.js\?v=reader-runtime-005/);
 assert.match(bootstrapSource, /postManifest\.js\?v=reader-runtime-005/);
 assert.match(postLogicSource, /bootstrap\.js\?v=reader-runtime-005/);
-assert.match(templateSource, /postLogic\.js\?v=reader-runtime-005/);
+assert.match(postLogicSource, /ReaderEnhancementOrchestrator\.js\?v=reader-runtime-006/);
+assert.match(templateSource, /postLogic\.js\?v=reader-runtime-006/);
 
 for (const [path, source] of Object.entries({
 	[dynamicPath]: dynamicSource,
@@ -66,4 +67,4 @@ for (const [path, source] of Object.entries({
 	assert.ok(source.trimEnd().split('\n').length <= 120, `${path} exceeds 120 lines`);
 }
 
-console.log('B"H Daily Chitas dynamic title regression passed.');
+console.log('B"H Daily Chitas dynamic title sixth-runtime regression passed.');

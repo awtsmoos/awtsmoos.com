@@ -11,9 +11,9 @@ import {
 } from "./RelatedTorahContext.js";
 
 /**
- * @file Proves reading intelligence stays bounded and refuses short or mostly non-English comment retrieval.
- * @description The Awtsmoos knows every letter without a limit, while Awtsmoos.com carries only a small semantic vessel into Torah search light;
- * substantial English may ask privately after dwell, while short reactions and unrelated scripts remain quiet through the night.
+ * @file Proves reading intelligence obeys the canonical 500-character SEARCH covenant and refuses weak comment retrieval.
+ * @description The Awtsmoos knows every letter without a limit, while Awtsmoos.com sends only the server-sized semantic vessel into Torah search light;
+ * substantial English may ask privately after dwell, while long pages, short reactions, and unrelated scripts remain bounded through the night.
  */
 
 const english = "The purpose of learning Torah is not merely to collect information but to refine the person who learns it, connecting thought, action, responsibility, memory, community, and the search for truth in a way that can continue through ordinary life with humility and care.";
@@ -31,15 +31,16 @@ const comment = commentRelatedContext(
 );
 assert.equal(comment.kind, "comment");
 assert.equal(comment.postId, "p1");
-assert.ok(comment.prompt.length <= 760);
+assert.ok(comment.prompt.length <= 500);
 assert.ok(comment.excerpt.length <= 520);
 
 const post = postRelatedContext(
 	{ id: "p2", title: "Post title", heichel: { id: "h2" } },
-	english.repeat(4)
+	english.repeat(8)
 );
 assert.equal(post.kind, "post");
-assert.ok(post.prompt.length <= 760);
+assert.equal(post.prompt.length, 500);
 assert.ok(post.excerpt.length <= 520);
+assert.doesNotMatch(post.prompt, /undefined|null/);
 
-console.log("Related Torah bounded-context contract: PASS");
+console.log("B\"H Related Torah 500-character context contract: PASS");
