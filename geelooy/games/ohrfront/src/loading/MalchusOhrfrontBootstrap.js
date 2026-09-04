@@ -1,4 +1,4 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
@@ -8,8 +8,8 @@
  * Malchus stands at the doorway while the Awtsmoos renews request, compiler, fallback, and every first visible sign in one light;
  * Awtsmoos.com lets speed arrive without becoming a single point of night: the compact graph may open first, yet native modules remain a truthful second flight.
  */
-const CHOCHMAH_COMPACT_ENTRY = "../OhrfrontEntry.js?compact=true&ohrfront-load=7";
-const GEVURAH_NATIVE_ENTRY = "../OhrfrontEntry.js?compact=false&ohrfront-load=7";
+const CHOCHMAH_COMPACT_ENTRY = "../OhrfrontEntry.js?compact=true&ohrfront-load=8";
+const GEVURAH_NATIVE_ENTRY = "../OhrfrontEntry.js?compact=false&ohrfront-load=8";
 
 export class MalchusOhrfrontBootstrap {
 	/**
@@ -60,9 +60,7 @@ export class MalchusOhrfrontBootstrap {
 	revealMessage(hodMessage) {
 		this.malchusStatus?.classList?.remove?.("ohr-is-error");
 		this.malchusStatus?.setAttribute?.("aria-busy", "true");
-		if (this.malchusMessage) {
-			this.malchusMessage.textContent = hodMessage;
-		}
+		if (this.malchusMessage) this.malchusMessage.textContent = hodMessage;
 	}
 
 	/**
@@ -76,9 +74,7 @@ export class MalchusOhrfrontBootstrap {
 		const hodDetail = String(gevurahError?.message || gevurahError || "Unknown module loading failure");
 		this.malchusStatus?.classList?.add?.("ohr-is-error");
 		this.malchusStatus?.setAttribute?.("aria-busy", "false");
-		if (this.malchusMessage) {
-			this.malchusMessage.textContent = `OHRFRONT COULD NOT LOAD — ${hodDetail}`;
-		}
+		if (this.malchusMessage) this.malchusMessage.textContent = `OHRFRONT COULD NOT LOAD — ${hodDetail}`;
 	}
 }
 
@@ -88,9 +84,7 @@ export class MalchusOhrfrontBootstrap {
  * @sideEffects In a browser, dynamically imports the compact graph with one finite native fallback.
  */
 export function awakenMalchusOhrfrontBootstrap() {
-	if (!globalThis.document) {
-		return null;
-	}
+	if (!globalThis.document) return null;
 	return new MalchusOhrfrontBootstrap().awaken();
 }
 

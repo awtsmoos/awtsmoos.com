@@ -1,12 +1,12 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file touch-player-gateways.test.mjs
- * @description Proves pointer-driven movement/actions and native-TouchEvent battlefield look coexist without camera theft from semantic controls.
- * The Awtsmoos renews thumb, touch, gaze, and stride while Awtsmoos.com lets each input authority keep its truthful stream in light;
- * movement may remain Pointer Events, yet a second native touch may turn the battlefield freely through decorative glass at night.
+ * @description Proves pointer movement/actions and document-capture native camera look remain simultaneous while only actual controls block acquisition.
+ * The Awtsmoos renews thumb, stride, fire, and gaze while Awtsmoos.com gives each finger its truthful stream in light;
+ * open screen turns the battlefield from canvas or HUD, yet every real control preserves its finite right.
  */
 import test from "node:test";
 import assert from "node:assert/strict";
@@ -15,18 +15,21 @@ import { YesodTouchMovementPad } from "../src/player/input/touch/YesodTouchMovem
 import { YesodTouchLookGateway } from "../src/player/input/touch/YesodTouchLookGateway.js";
 import { YesodTouchPlayerActions } from "../src/player/input/touch/YesodTouchPlayerActions.js";
 import {
+	createTouchLookContact,
+	createTouchLookDocument,
 	createTouchLookEvent,
+	createTouchLookEventFromContacts,
 	createTouchLookTarget
 } from "./support/TouchLookTestAuthorities.mjs";
 
-/** Creates one window/canvas pair whose native touch events reach the camera gateway globally. */
+/** Creates one document/canvas pair whose native TouchEvents reach camera look at document capture. */
 function createYesodLookWitness(onLook = () => {}) {
-	const windowAuthority = createTouchLookTarget();
+	const { documentAuthority, windowAuthority } = createTouchLookDocument();
 	const canvas = createTouchLookTarget({ tagName: "CANVAS" });
-	canvas.ownerDocument = { defaultView: windowAuthority };
+	canvas.ownerDocument = documentAuthority;
 	const gateway = new YesodTouchLookGateway(onLook, canvas);
 	assert.equal(gateway.bind(), true);
-	return { windowAuthority, canvas, gateway };
+	return { documentAuthority, windowAuthority, canvas, gateway };
 }
 
 test("movement pad produces forward intent and cancellation returns neutral", () => {
@@ -40,57 +43,64 @@ test("movement pad produces forward intent and cancellation returns neutral", ()
 	assert.equal(state.view().forward, 0);
 });
 
-test("native touch battlefield look acquires through noninteractive HUD overlay", () => {
+test("decorative HUD acquires native camera look on document capture", () => {
 	const deltas = [];
-	const { windowAuthority, gateway } = createYesodLookWitness((x, y) => deltas.push([x, y]));
+	const { documentAuthority, gateway } = createYesodLookWitness((x, y) => deltas.push([x, y]));
 	const overlay = createTouchLookTarget({ className: "ohr-hud-readout" });
-	windowAuthority.dispatch("touchstart", createTouchLookEvent(9, overlay));
-	windowAuthority.dispatch("touchmove", createTouchLookEvent(9, overlay, 31, 23));
-	windowAuthority.dispatch("touchend", createTouchLookEvent(7, overlay, 31, 23, false));
-	windowAuthority.dispatch("touchmove", createTouchLookEvent(9, overlay, 38, 18));
-	assert.deepEqual(deltas, [[11, -7], [7, -5]]);
+	documentAuthority.dispatch("touchstart", createTouchLookEvent(9, overlay));
+	documentAuthority.dispatch("touchmove", createTouchLookEvent(9, overlay, 31, 23));
+	assert.deepEqual(deltas, [[11, -7]]);
 	assert.equal(gateway.view().touchIdentifier, 9);
-	assert.deepEqual(gateway.view().acquisition.path, ["div.ohr-hud-readout"]);
+	assert.equal(gateway.view().acquisition.captureSurface, "document");
 });
 
-test("semantic controls never become native-touch camera acquisition surfaces", () => {
-	const { windowAuthority, gateway } = createYesodLookWitness(() => assert.fail("control moved camera"));
-	for (const target of [
-		createTouchLookTarget({ id: "touch-move" }),
-		createTouchLookTarget({ className: "ohr-touch-fire", tagName: "BUTTON" }),
-		createTouchLookTarget({ className: "ohr-touch-weapon", tagName: "BUTTON" })
-	]) {
-		windowAuthority.dispatch("touchstart", createTouchLookEvent(4, target));
-		windowAuthority.dispatch("touchmove", createTouchLookEvent(4, target, 60, 60));
-		assert.equal(gateway.view().touchIdentifier, null);
-	}
+test("first blocked changed touch does not prevent a second open touch acquiring camera", () => {
+	const { documentAuthority, gateway } = createYesodLookWitness();
+	const fire = createTouchLookTarget({ className: "ohr-touch-fire", tagName: "BUTTON" });
+	const open = createTouchLookTarget({ className: "ohr-hud-overlay" });
+	documentAuthority.dispatch("touchstart", createTouchLookEventFromContacts([
+		createTouchLookContact(30, fire),
+		createTouchLookContact(31, open, 80, 90)
+	], fire));
+	assert.equal(gateway.view().touchIdentifier, 31);
+});
+
+test("owned open touch keeps rotating after crossing over a control", () => {
+	const deltas = [];
+	const { documentAuthority, gateway } = createYesodLookWitness((x, y) => deltas.push([x, y]));
+	const open = createTouchLookTarget({ tagName: "CANVAS" });
+	const fire = createTouchLookTarget({ className: "ohr-touch-fire", tagName: "BUTTON" });
+	documentAuthority.dispatch("touchstart", createTouchLookEvent(44, open, 100, 100));
+	documentAuthority.dispatch("touchmove", createTouchLookEvent(44, fire, 130, 115));
+	assert.deepEqual(deltas, [[30, 15]]);
+	assert.equal(gateway.view().touchIdentifier, 44);
 });
 
 test("owner touchcancel clears look while a stranger touchend cannot release it", () => {
-	const { windowAuthority, canvas, gateway } = createYesodLookWitness();
-	windowAuthority.dispatch("touchstart", createTouchLookEvent(12, canvas));
-	windowAuthority.dispatch("touchend", createTouchLookEvent(77, canvas, 20, 30, false));
+	const { documentAuthority, canvas, gateway } = createYesodLookWitness();
+	documentAuthority.dispatch("touchstart", createTouchLookEvent(12, canvas));
+	documentAuthority.dispatch("touchend", createTouchLookEvent(77, canvas, 20, 30, false));
 	assert.equal(gateway.view().touchIdentifier, 12);
-	windowAuthority.dispatch("touchcancel", createTouchLookEvent(12, canvas, 20, 30, false));
+	documentAuthority.dispatch("touchcancel", createTouchLookEvent(12, canvas, 20, 30, false));
 	assert.equal(gateway.view().touchIdentifier, null);
 });
 
-test("pointer movement and native-touch look remain simultaneous independent authorities", () => {
+test("pointer movement and document-native look remain simultaneous authorities", () => {
 	const state = new HodTouchMovementState();
 	const pad = createTouchLookTarget();
 	const knob = createTouchLookTarget();
 	const deltas = [];
 	new YesodTouchMovementPad(state, pad, knob).bind();
-	const { windowAuthority } = createYesodLookWitness((x, y) => deltas.push([x, y]));
+	const { documentAuthority } = createYesodLookWitness((x, y) => deltas.push([x, y]));
 	const battlefield = createTouchLookTarget({ className: "ohr-hud-overlay" });
 	pad.dispatch("pointerdown", { pointerType: "touch", pointerId: 31, clientX: 50, clientY: 8 });
-	windowAuthority.dispatch("touchstart", createTouchLookEvent(42, battlefield, 100, 120));
-	windowAuthority.dispatch("touchmove", createTouchLookEvent(42, battlefield, 150, 100));
+	documentAuthority.dispatch("touchstart", createTouchLookEvent(42, battlefield, 100, 120));
+	documentAuthority.dispatch("touchmove", createTouchLookEvent(42, battlefield, 150, 100));
 	assert.ok(state.view().forward > 0.9);
 	assert.deepEqual(deltas, [[50, -20]]);
 });
 
-test("action holds release on cancellation while jump and slide remain semantic callbacks", () => {
+test("action holds release on cancellation while jump and slide remain callbacks", () => {
 	const state = new HodTouchMovementState();
 	const elements = Object.fromEntries(["#touch-jump", "#touch-sprint", "#touch-slide"].map(key => [key, createTouchLookTarget()]));
 	const actions = new YesodTouchPlayerActions(state, { onJump() {}, onSlide() {} }, { querySelector: selector => elements[selector] });

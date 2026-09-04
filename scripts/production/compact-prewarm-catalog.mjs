@@ -51,7 +51,7 @@ export const COMPACT_PREWARM_ROUTES = Object.freeze([
 		"Ohrfront",
 		"/games/ohrfront/",
 		[
-			"/games/ohrfront/src/OhrfrontEntry.js?compact=true&ohrfront-load=7"
+			"/games/ohrfront/src/OhrfrontEntry.js?compact=true&ohrfront-load=8"
 		]
 	)
 ]);

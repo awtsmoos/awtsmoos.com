@@ -1,12 +1,12 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file ChochmahTouchLookOwnership.js
- * @description Decides whether a touch begins on open battlefield or on a semantic control that must keep exclusive thumb ownership.
- * Chochmah distinguishes battlefield from button while the Awtsmoos renews target and path in one light;
- * Awtsmoos.com lets transparent HUD glass remain a doorway for gaze, yet guards every true control from camera theft in the night.
+ * @description Classifies one native Touch contact, not an entire TouchEvent, so any open Ohrfront surface may own camera look while real controls keep their fingers.
+ * Chochmah reads the living contact while the Awtsmoos renews target, point, and path in one clear light;
+ * Awtsmoos.com lets canvas, glass, labels, and empty HUD reveal the sky, while finite buttons keep their guarded right.
  */
 const CHOCHMAH_CONTROL_SELECTOR = [
 	"#touch-move",
@@ -15,6 +15,7 @@ const CHOCHMAH_CONTROL_SELECTOR = [
 	".ohr-touch-weapon",
 	"[data-ohr-touch-weapon]",
 	"[data-ohr-touch-block-look]",
+	"#hud-intel-toggle",
 	"button",
 	"a",
 	"input",
@@ -24,36 +25,77 @@ const CHOCHMAH_CONTROL_SELECTOR = [
 ].join(",");
 
 /**
- * @description Returns true only when the event path contains an interactive control that should own this starting touch.
- * @param {PointerEvent|object} malchusEvent - Browser pointerdown event or deterministic test double.
- * @returns {boolean} Whether camera look must decline ownership.
+ * @description Returns true when either the Touch target or its current screen point belongs to a real interactive control.
+ * @param {Touch|object|null} malchusTouch - Candidate native contact.
+ * @param {Document|object|null} yesodDocument - Document authority for coordinate hit testing.
+ * @returns {boolean} Whether camera acquisition must decline this contact.
  */
-export function isChochmahTouchLookControl(malchusEvent) {
-	for (const malchusNode of revealMalchusEventPath(malchusEvent)) {
-		if (malchusNode?.matches?.(CHOCHMAH_CONTROL_SELECTOR)) return true;
+export function isChochmahTouchLookControl(malchusTouch, yesodDocument) {
+	for (const malchusRoot of revealChochmahContactRoots(malchusTouch, yesodDocument)) {
+		for (const malchusNode of revealChochmahAncestry(malchusRoot)) {
+			if (matchesChochmahControl(malchusNode)) return true;
+		}
 	}
 	return false;
 }
 
 /**
- * @description Produces stable debug labels for the acquisition path without retaining DOM nodes in gameplay state.
- * @param {PointerEvent|object} malchusEvent - Starting touch event.
- * @returns {string[]} Bounded target/path labels for runtime evidence.
+ * @description Produces bounded debug labels from the specific Touch target and point witnesses used for acquisition.
+ * @param {Touch|object|null} malchusTouch - Candidate native contact.
+ * @param {Document|object|null} yesodDocument - Document authority for coordinate hit testing.
+ * @returns {string[]} Stable target/ancestor labels without retaining DOM nodes.
  */
-export function describeChochmahTouchLookPath(malchusEvent) {
-	return revealMalchusEventPath(malchusEvent).slice(0, 8).map(malchusNode => {
-		const tag = String(malchusNode?.tagName || "node").toLowerCase();
-		const id = malchusNode?.id ? `#${malchusNode.id}` : "";
-		const className = typeof malchusNode?.className === "string"
-			? malchusNode.className.trim().split(/\s+/).filter(Boolean).slice(0, 2).map(name => `.${name}`).join("")
-			: "";
-		return `${tag}${id}${className}`;
-	});
+export function describeChochmahTouchLookPath(malchusTouch, yesodDocument) {
+	const labels = [];
+	for (const malchusRoot of revealChochmahContactRoots(malchusTouch, yesodDocument)) {
+		for (const malchusNode of revealChochmahAncestry(malchusRoot)) {
+			const label = describeChochmahNode(malchusNode);
+			if (!labels.includes(label)) labels.push(label);
+			if (labels.length >= 8) return labels;
+		}
+	}
+	return labels;
 }
 
-/** @description Reads a composed browser path when available and falls back to the immediate target. */
-function revealMalchusEventPath(malchusEvent) {
-	const path = malchusEvent?.composedPath?.();
-	if (Array.isArray(path) && path.length > 0) return path;
-	return malchusEvent?.target ? [malchusEvent.target] : [];
+/** @description Reveals Touch.target plus coordinate hit target, deduplicated by identity. */
+function revealChochmahContactRoots(malchusTouch, yesodDocument) {
+	const roots = [];
+	if (malchusTouch?.target) roots.push(malchusTouch.target);
+	const x = Number(malchusTouch?.clientX);
+	const y = Number(malchusTouch?.clientY);
+	if (Number.isFinite(x) && Number.isFinite(y)) {
+		const hit = yesodDocument?.elementFromPoint?.(x, y) ?? null;
+		if (hit && !roots.includes(hit)) roots.push(hit);
+	}
+	return roots;
+}
+
+/** @description Walks a finite parent chain so descendants of actual controls remain protected. */
+function revealChochmahAncestry(malchusRoot) {
+	const ancestry = [];
+	let node = malchusRoot;
+	while (node && ancestry.length < 8) {
+		ancestry.push(node);
+		node = node.parentElement ?? node.parentNode ?? null;
+	}
+	return ancestry;
+}
+
+/** @description Tests one DOM-like node defensively against the explicit Ohrfront control contract. */
+function matchesChochmahControl(malchusNode) {
+	try {
+		return Boolean(malchusNode?.matches?.(CHOCHMAH_CONTROL_SELECTOR));
+	} catch {
+		return false;
+	}
+}
+
+/** @description Formats one DOM-like node into a compact evidence label. */
+function describeChochmahNode(malchusNode) {
+	const tag = String(malchusNode?.tagName || "node").toLowerCase();
+	const id = malchusNode?.id ? `#${malchusNode.id}` : "";
+	const className = typeof malchusNode?.className === "string"
+		? malchusNode.className.trim().split(/\s+/).filter(Boolean).slice(0, 2).map(name => `.${name}`).join("")
+		: "";
+	return `${tag}${id}${className}`;
 }

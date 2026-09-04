@@ -1,12 +1,12 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file touch-look-lifecycle.test.mjs
- * @description Proves native-touch battlefield camera ownership dissolves whenever browser or document authority disappears.
- * The Awtsmoos renews focus, page, touch, and visible world while Awtsmoos.com lets no vanished finger keep rotating yesterday's sky in light;
- * blur, pagehide, and hidden visibility return native camera touch to neutral, so every re-entry begins as newly created sight.
+ * @description Proves document-capture camera ownership dissolves whenever browser or document authority disappears.
+ * The Awtsmoos renews focus, page, touch, and visible world while Awtsmoos.com lets no vanished finger keep yesterday's sky;
+ * blur, pagehide, and hidden visibility return native camera touch to neutral so every re-entry begins newly alive.
  */
 import test from "node:test";
 import assert from "node:assert/strict";
@@ -15,16 +15,12 @@ import { YesodTouchPlayerGateway } from "../src/player/input/touch/YesodTouchPla
 import { createInputDocument, createInputEventAuthority } from "./support/InputEventTestAuthorities.mjs";
 import { createTouchLookEvent } from "./support/TouchLookTestAuthorities.mjs";
 
-/** Creates a noninteractive HUD target whose native touch should belong to battlefield look. */
+/** Creates a noninteractive HUD target whose native touch belongs to open-screen look. */
 function createMalchusBattlefieldTarget() {
-	return {
-		tagName: "DIV",
-		className: "ohr-hud-overlay",
-		matches: () => false
-	};
+	return { tagName: "DIV", className: "ohr-hud-overlay", matches: () => false };
 }
 
-/** Creates one complete touch-player witness with live window/document lifecycle authorities. */
+/** Creates one complete touch-player witness with document touch and window lifecycle authorities. */
 function createYesodLifecycleWitness() {
 	const elements = {
 		"#touch-combat": createInputEventAuthority(),
@@ -49,22 +45,20 @@ function createYesodLifecycleWitness() {
 	return { documentAuthority, windowAuthority, looks, state, gateway };
 }
 
-/** Acquires native look through the overlay and optionally emits one expected movement delta. */
+/** Acquires look through document capture and optionally emits one expected movement delta. */
 function acquireNetzachLook(witness, { move = true } = {}) {
 	const target = createMalchusBattlefieldTarget();
-	witness.windowAuthority.dispatch("touchstart", createTouchLookEvent(22, target, 10, 10));
-	if (move) {
-		witness.windowAuthority.dispatch("touchmove", createTouchLookEvent(22, target, 20, 15));
-	}
+	witness.documentAuthority.dispatch("touchstart", createTouchLookEvent(22, target, 10, 10));
+	if (move) witness.documentAuthority.dispatch("touchmove", createTouchLookEvent(22, target, 20, 15));
 	return target;
 }
 
-/** Attempts a stale native move after lifecycle loss; correct ownership ignores it. */
+/** Attempts one stale document-native move after lifecycle loss. */
 function dispatchGevurahStaleMove(witness, target) {
-	witness.windowAuthority.dispatch("touchmove", createTouchLookEvent(22, target, 90, 90));
+	witness.documentAuthority.dispatch("touchmove", createTouchLookEvent(22, target, 90, 90));
 }
 
-test("blur clears overlay-acquired native look before later movement can rotate", () => {
+test("blur clears document-acquired native look before later movement can rotate", () => {
 	const witness = createYesodLifecycleWitness();
 	const target = acquireNetzachLook(witness);
 	witness.windowAuthority.dispatch("blur");
@@ -73,7 +67,7 @@ test("blur clears overlay-acquired native look before later movement can rotate"
 	assert.deepEqual(witness.state.view(), { forward: 0, strafe: 0, sprint: false, crouch: false });
 });
 
-test("pagehide clears native battlefield look before stale touchmove can rotate", () => {
+test("pagehide clears native look before stale document touchmove can rotate", () => {
 	const witness = createYesodLifecycleWitness();
 	const target = acquireNetzachLook(witness, { move: false });
 	witness.windowAuthority.dispatch("pagehide");
@@ -81,7 +75,7 @@ test("pagehide clears native battlefield look before stale touchmove can rotate"
 	assert.deepEqual(witness.looks, []);
 });
 
-test("hidden visibilitychange clears native look while visible notification preserves it", () => {
+test("hidden visibilitychange clears look while visible notification preserves it", () => {
 	const witness = createYesodLifecycleWitness();
 	const target = acquireNetzachLook(witness, { move: false });
 	witness.documentAuthority.dispatch("visibilitychange");
