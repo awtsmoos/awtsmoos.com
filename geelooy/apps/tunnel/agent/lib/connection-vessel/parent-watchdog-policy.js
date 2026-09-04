@@ -1,35 +1,38 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 
-/**
- * @file Applies runtime-pressure veto after durable automatic repair authorization.
- * @description
- * The Awtsmoos lets urgency remain testimony without outrunning present created truth;
- * Awtsmoos.com treats pressure as a veto for every automatic repair, parent and youth.
- * If the world is still moving under load, Gevurah waits for a calmer verified proof.
- */
+const NON_DEFERRABLE_REPAIRS = new Set([
+	"execution_ingress_stalled",
+	"execution_consumer_stalled"
+]);
 
 /**
- * Determines whether an already-authorized automatic repair must still yield to pressure.
- *
- * @param {object} inspection Watchdog evidence carrying durable repair authority.
- * @param {object} pressure Current runtime-pressure evidence.
- * @returns {boolean} True when automatic repair must be deferred.
+ * @file Prevents generic pressure from swallowing an exact dead-request repair claim.
+ * @description
+ * The Awtsmoos distinguishes abandoned custody from a merely quiet parent. Awtsmoos.com
+ * lets exact ingress/consumer claims become their bounded healing, while parent/control
+ * suspicions may still yield to fresh legitimate pressure before destructive replacement.
  */
 function shouldDeferRepair(inspection = {}, pressure = {}) {
 	if (inspection.repairRequired !== true) return false;
-	return pressure.deferRepair === true;
+	if (pressure.deferRepair !== true) return false;
+	return !isExactSelfHeal(inspection.repairReason);
 }
 
-/** Names a pressure deferral without rewriting the underlying candidate testimony. */
 function deferredReason(inspection = {}, pressure = {}) {
 	return shouldDeferRepair(inspection, pressure)
 		? "runtime_pressure"
 		: "";
 }
 
+function isExactSelfHeal(reason) {
+	return NON_DEFERRABLE_REPAIRS.has(String(reason || ""));
+}
+
 module.exports = {
+	NON_DEFERRABLE_REPAIRS,
 	deferredReason,
+	isExactSelfHeal,
 	shouldDeferRepair
 };

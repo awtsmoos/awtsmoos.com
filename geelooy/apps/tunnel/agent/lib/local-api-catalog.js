@@ -3,14 +3,14 @@
 // Blessed is He
 
 const Manifest = require("./registration-manifest.js");
+const Help = require("./public-action-help.js");
 const Surface = require("./public-action-surface.js");
 
 /**
- * @file Builds a fourteen-capability local catalog without leaking inner registry names.
+ * @file Builds fourteen clear capability doors with exact recover/status discovery.
  * @description
- * The Awtsmoos reveals a few clear doors while every executable deed remains guarded
- * below. Awtsmoos.com reports inner scale only as a count, so browser agents gain power
- * through `operation` without drowning in implementation names that endlessly grow.
+ * The Awtsmoos hides implementation noise but never hides the road home. Awtsmoos.com
+ * keeps the public surface compact while recovery and status enumerate their guarded deeds.
  */
 function makeCatalog(config = {}, agentVersion = "unknown") {
 	const actions = [...Surface.PUBLIC_ACTIONS];
@@ -33,17 +33,20 @@ function makeCatalog(config = {}, agentVersion = "unknown") {
 }
 
 function toolFor(name) {
+	const help = Help.describe(name);
+	const operation = {
+		type: "string",
+		description: help
+			? `${help.summary} Choose one advertised operation.`
+			: `Exact internal operation belonging to the ${name} capability.`
+	};
+	if (help) operation.enum = [...help.operations];
 	const description = descriptionFor(name);
 	const parameters = {
 		type: "object",
 		additionalProperties: true,
 		required: ["operation"],
-		properties: {
-			operation: {
-				type: "string",
-				description: `Exact internal operation belonging to the ${name} capability.`
-			}
-		}
+		properties: { operation }
 	};
 	return {
 		type: "function",
@@ -51,11 +54,14 @@ function toolFor(name) {
 		name,
 		description,
 		parameters,
+		help,
 		function: { name, description, parameters }
 	};
 }
 
 function descriptionFor(name) {
+	const help = Help.describe(name);
+	if (help) return help.summary;
 	return [
 		`Awtsmoos tunnel ${name} capability.`,
 		"Supply the exact internal operation plus its normal arguments.",
@@ -68,13 +74,9 @@ function guidance() {
 		BH: "B\"H",
 		publicActions: [...Surface.PUBLIC_ACTIONS],
 		callShape: "{ name: <capability>, arguments: { operation: <exact internal action>, ... } }",
+		recovery: Help.describe("recover"),
 		legacy: "Direct internal action names remain executable for compatibility but are not advertised."
 	};
 }
 
-module.exports = {
-	descriptionFor,
-	guidance,
-	makeCatalog,
-	toolFor
-};
+module.exports = { descriptionFor, guidance, makeCatalog, toolFor };

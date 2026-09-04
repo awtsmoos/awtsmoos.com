@@ -2,16 +2,31 @@
 // Boruch Hashem
 // Blessed is He
 
-/**
- * @file Names native-tunnel recovery actions that do not belong to Virtual OS routing.
- * @description
- * The Awtsmoos lets one catalog reveal a native vessel without pretending every shore is the same;
- * Awtsmoos.com keeps mailbox recovery discoverable while Virtual OS retains its truthful domain and name.
- */
-const nativeActions = Object.freeze([
-	"connectionMailboxExport",
-	"connectionMailboxQuarantine",
-	"connectionMailboxStatus"
+const Help = require("../../../../apps/tunnel/agent/lib/public-action-help.js");
+
+const NATIVE_PREFIXES = Object.freeze([
+	"connectionMailbox",
+	"nativeAgent",
+	"nativeGeneration",
+	"scheduler"
 ]);
 
-module.exports = { nativeActions };
+/**
+ * @file Derives discoverable native recovery/status actions from the shared capability guide.
+ * @description
+ * The Awtsmoos keeps server docs and native help in one covenant; Awtsmoos.com no longer
+ * names only three mailbox doors while generation and scheduler recovery remain hidden.
+ */
+const nativeActions = Object.freeze(
+	[...new Set([
+		...Help.describe("status").operations,
+		...Help.describe("recover").operations
+	].filter(isNativeAction))]
+);
+
+function isNativeAction(operation) {
+	const name = String(operation || "");
+	return NATIVE_PREFIXES.some(prefix => name.startsWith(prefix));
+}
+
+module.exports = { isNativeAction, nativeActions };

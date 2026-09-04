@@ -7,11 +7,10 @@ const path = require("node:path");
 const Cli = require("../recovery/manualCli.js");
 
 /**
- * @file Stable one-word entry for diagnosis and layered Awtsmoos tunnel recovery.
+ * @file Stable human entry for diagnosis, discoverable help, and layered tunnel recovery.
  * @description
- * The Awtsmoos lets a frightened hand speak briefly while Awtsmoos.com keeps the
- * deeper guards explicit. Human output names the chosen recovery plane; JSON keeps
- * exact evidence for automation without hiding whether a mutation actually occurred.
+ * The Awtsmoos lets a frightened hand speak briefly while Awtsmoos.com answers with the
+ * exact safe road: inspect, reconcile, replace, service repair, and only then reinstall.
  */
 async function main(argv = process.argv.slice(2)) {
 	const rootArg = argv.find(arg => arg.startsWith("--root="));
@@ -28,6 +27,7 @@ async function main(argv = process.argv.slice(2)) {
 }
 
 function summary(result = {}) {
+	if (result.ok && result.command === "help" && result.topic) return topicHelp(result);
 	if (result.ok && result.command === "diagnose") {
 		return `OK diagnose recommendation=${result.recommendation} identity=${result.identity?.state || "unknown"}`;
 	}
@@ -59,6 +59,15 @@ function summary(result = {}) {
 	return `ERROR ${result.error || "recovery_failed"}${suggestion}${example}`;
 }
 
+function topicHelp(result) {
+	return [
+		`awt help ${result.topic} — ${result.summary}`,
+		`remote operations: ${result.operations.join(", ")}`,
+		`safe order: ${result.safeOrder.join(" -> ")}`,
+		`local fallbacks:\n- ${result.localFallbacks.join("\n- ")}`
+	].join("\n");
+}
+
 if (require.main === module) {
 	main().catch(error => {
 		console.error(`ERROR ${error?.message || error}`);
@@ -66,4 +75,4 @@ if (require.main === module) {
 	});
 }
 
-module.exports = { main, summary };
+module.exports = { main, summary, topicHelp };

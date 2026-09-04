@@ -9,10 +9,10 @@ const path = require("node:path");
 const Mailbox = require("../lib/connection-vessel/mailbox.js");
 
 /**
- * @file Proves mailbox health follows shared disk truth across process-shaped instances.
+ * @file Proves exact-incarnation mailbox health follows shared disk truth across process-shaped instances.
  * @description
- * One vessel may remember, another may settle, yet the Awtsmoos creates one durable witness.
- * Observation must reveal that shared testimony without recreating the observer.
+ * One vessel may remember and another may settle, yet the Awtsmoos creates one durable witness.
+ * Awtsmoos.com preserves that witness across instances without letting nameless residue impersonate life.
  */
 const sandbox = fs.mkdtempSync(path.join(os.tmpdir(), "awts-mailbox-cross-process-"));
 const config = {
@@ -20,11 +20,14 @@ const config = {
 	root: path.join(sandbox, "project"),
 	tunnelName: "awt-cross-process-mailbox"
 };
+const options = {
+	childIncarnationId: "child-cross-process-mailbox"
+};
 
 try {
 	fs.mkdirSync(config.root, { recursive: true });
-	const observer = Mailbox.createMailbox(config);
-	const actor = Mailbox.createMailbox(config);
+	const observer = Mailbox.createMailbox(config, options);
+	const actor = Mailbox.createMailbox(config, options);
 
 	assert.equal(observer.snapshot().inbox.count, 0);
 	assert.equal(observer.snapshot().outbox.count, 0);
@@ -48,6 +51,7 @@ try {
 	console.log(JSON.stringify({
 		ok: true,
 		suite: "connection-mailbox-cross-process-snapshot",
+		exactIncarnation: true,
 		crossInstanceInsertion: true,
 		crossInstanceAcknowledgement: true
 	}, null, 2));

@@ -10,14 +10,14 @@ const Receipt = require("./actionLedgerReceiptStore.js");
 const Retention = require("./actionLedgerRetentionStore.js");
 
 /**
- * @file Coordinates exact durable receipts with amortized history retention.
+ * @file Coordinates exact durable receipts, legacy residue cleanup, and amortized retention.
  * @description
- * The Awtsmoos seals each deed before returning it to the world, while Awtsmoos.com
- * gives pruning, paths, and compatibility their own vessels. The coordinator stays small:
- * receipt truth arrives immediately, archive maintenance walks by cadence and overflow,
- * and every old public name still reaches the same faithful shore.
+ * The Awtsmoos seals each deed before returning it to the world. Awtsmoos.com keeps
+ * modern JSON receipts lock-free, yet before writing lets a certainly dead legacy lock
+ * dissolve so yesterday's abandoned vessel cannot imprison today's durable testimony.
  */
 function savePending(config, entry, output) {
+	Compatibility.reclaimStaleLock(config);
 	Receipt.write(Paths.pendingPath(config, entry.actionId), entry, output);
 	Retention.afterWrite(Paths.pendingDir(config), retention(config), Date.now());
 	return true;
@@ -75,9 +75,7 @@ async function garbageCollect(config, overrides = {}) {
 
 function applyOverrides(policy, overrides) {
 	for (const key of ["maxEntries", "maxAgeMs", "maxResultFiles"]) {
-		if (Number.isFinite(Number(overrides[key]))) {
-			policy[key] = Number(overrides[key]);
-		}
+		if (Number.isFinite(Number(overrides[key]))) policy[key] = Number(overrides[key]);
 	}
 }
 

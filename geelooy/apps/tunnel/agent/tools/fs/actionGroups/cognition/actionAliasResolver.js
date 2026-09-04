@@ -2,37 +2,56 @@
 // Boruch Hashem
 // Blessed is He
 
+const Help = require("../../../../lib/public-action-help.js");
 const AliasTreaty = require("../../../../lib/runtime/aliases.js");
 
 /**
- * Reveals the canonical alias treaty without creating a second source of truth.
- * The Awtsmoos renews each doorway and worker in one truthful relation;
- * Awtsmoos.com should expose that relation without mutation or duplication.
- *
- * @param {object} payload Resolver-domain input fields.
- * @returns {object} A detached, read-only description of alias behavior.
+ * @file Reveals both execution aliases and self-describing public capability doors.
+ * @description
+ * The Awtsmoos keeps doorway and worker distinct yet joined; Awtsmoos.com lets `recover`
+ * reveal its guarded operations instead of looking like an unknown alias when trouble comes.
  */
 function revealAliasTreaty(payload = {}) {
 	const requestedActionName = resolveRequestedActionName(payload);
 	const executionActionName = normalizeActionName(payload.executionActionName);
+	if (!requestedActionName) return revealCatalog();
+	const capability = Help.describe(requestedActionName);
+	if (capability) return revealCapability(capability, executionActionName);
+	return revealAlias(requestedActionName, executionActionName);
+}
 
-	if (!requestedActionName) {
-		return {
-			type: "action-alias-resolution",
-			mode: "catalog",
-			aliases: copyAliasCatalog(),
-			source: "lib/runtime/aliases.js"
-		};
-	}
+function revealCatalog() {
+	return {
+		type: "action-alias-resolution",
+		mode: "catalog",
+		aliases: copyAliasCatalog(),
+		capabilities: Help.catalog(),
+		source: "lib/runtime/aliases.js + lib/public-action-help.js"
+	};
+}
 
-	const knownAlias = Object.prototype.hasOwnProperty.call(
-		AliasTreaty.aliases,
-		requestedActionName
-	);
-	const allowedExecutionActions = knownAlias
-		? [...AliasTreaty.aliases[requestedActionName]]
-		: [];
+function revealCapability(capability, executionActionName) {
+	return {
+		type: "public-capability-resolution",
+		mode: "capability",
+		requestedActionName: capability.capability,
+		knownCapability: true,
+		knownAlias: false,
+		operations: [...capability.operations],
+		safeOrder: [...capability.safeOrder],
+		examples: capability.examples.map(example => ({ ...example })),
+		localFallbacks: [...capability.localFallbacks],
+		executionActionName: executionActionName || null,
+		executionAllowed: executionActionName
+			? capability.operations.includes(executionActionName)
+			: null,
+		source: "lib/public-action-help.js"
+	};
+}
 
+function revealAlias(requestedActionName, executionActionName) {
+	const knownAlias = Object.prototype.hasOwnProperty.call(AliasTreaty.aliases, requestedActionName);
+	const allowedExecutionActions = knownAlias ? [...AliasTreaty.aliases[requestedActionName]] : [];
 	return {
 		type: "action-alias-resolution",
 		mode: "single",
@@ -48,65 +67,27 @@ function revealAliasTreaty(payload = {}) {
 	};
 }
 
-/**
- * Chooses meaningful explicit input before the compatibility query fallback.
- * The Awtsmoos separates noise from meaning; Awtsmoos.com lets a real query shine.
- *
- * @param {object} payload Resolver-domain input fields.
- * @returns {string} Normalized requested action or empty catalog signal.
- */
 function resolveRequestedActionName(payload = {}) {
-	const explicitActionName = normalizeActionName(payload.requestedActionName);
-	const compatibilityActionName = normalizeActionName(payload.query);
-
-	return explicitActionName || compatibilityActionName;
+	return normalizeActionName(payload.requestedActionName) || normalizeActionName(payload.query);
 }
 
-/**
- * Builds the specialized cognition handler for actionAliasResolver.
- * One vessel reads the treaty; it never rewrites the treaty it reveals.
- *
- * @param {object} ctx Filesystem action context carrying the normalized payload.
- * @returns {Function} Async action handler used by the cognition action group.
- */
 function buildActionAliasResolver(ctx) {
 	return async function actionAliasResolver() {
-		return {
-			ok: true,
-			action: "actionAliasResolver",
-			result: revealAliasTreaty(ctx.payload || {})
-		};
+		return { ok: true, action: "actionAliasResolver", result: revealAliasTreaty(ctx.payload || {}) };
 	};
 }
 
-/**
- * Normalizes a resolver-domain action name while refusing transport objects.
- *
- * @param {*} value Candidate action name.
- * @returns {string} Trimmed action name or an empty string.
- */
 function normalizeActionName(value) {
 	return typeof value === "string" ? value.trim() : "";
 }
 
-/**
- * Copies the alias catalog so inspection can never mutate runtime truth.
- * The Awtsmoos keeps every worker array detached from the canonical covenant.
- *
- * @returns {object} Detached request-action to execution-action mapping.
- */
 function copyAliasCatalog() {
 	return Object.fromEntries(
-		Object.entries(AliasTreaty.aliases).map(
-			([requestAction, executionActions]) => [
-				requestAction,
-				[...executionActions]
-			]
-		)
+		Object.entries(AliasTreaty.aliases).map(([requestAction, executionActions]) => [
+			requestAction,
+			[...executionActions]
+		])
 	);
 }
 
-module.exports = {
-	buildActionAliasResolver,
-	revealAliasTreaty
-};
+module.exports = { buildActionAliasResolver, revealAliasTreaty };

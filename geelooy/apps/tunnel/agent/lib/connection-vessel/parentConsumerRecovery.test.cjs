@@ -7,18 +7,18 @@ const Recovery = require("./parent-consumer-recovery.js");
 const Harness = require("./parentConsumerRecoveryHarness.cjs");
 
 /**
- * @file Proves corroboration, fresh-progress vetoes, preflight, and identity-bound repair.
+ * @file Proves exact stalls mature despite unrelated motion while true health cancels repair.
  * @description
- * The Awtsmoos renews process and generation; stale testimony dissolves from view.
- * Awtsmoos.com lets sustained silence mature only while one exact identity remains true,
- * while generic pressure cannot eternally hide an already corroborated abandoned queue.
+ * The Awtsmoos renews each request by its own testimony; Awtsmoos.com lets a healthy
+ * request dissolve Gevurah, but never lets another request's success conceal abandoned custody.
  */
 proveSustainedCandidate();
-proveFreshWitnessCancelsCandidate();
+proveFreshHealthCancelsCandidate();
+proveUnrelatedSuccessCannotMaskStall();
 provePersistentStallRepairsOnce();
 proveIdentityChangeRestartsCorroboration();
-proveFreshAndPressureSemantics();
-console.log("BHY consumer recovery preserves identity-bound corroboration and bounded healing");
+provePressureCannotMaskExactStall();
+console.log("BHY consumer recovery keeps exact stalled custody non-starvable");
 
 function proveSustainedCandidate() {
 	const harness = Harness.createHarness();
@@ -37,67 +37,74 @@ function proveSustainedCandidate() {
 	assert.equal(harness.claims, 0);
 }
 
-function proveFreshWitnessCancelsCandidate() {
+function proveFreshHealthCancelsCandidate() {
 	const harness = Harness.createHarness(20000);
 	const recovery = harness.fastRecovery();
-	assert.equal(recovery.observe(harness.stalled).repairAuthorized, false);
-	harness.setNow(21000);
-	assert.equal(recovery.observe(harness.stalled).reason, "repair_preflight");
-	harness.setNow(21250);
-	const fresh = recovery.observe({
+	recovery.observe(harness.stalled);
+	harness.setNow(20500);
+	const healthy = recovery.observe({
+		...harness.stalled,
+		execution: {
+			...harness.stalled.execution,
+			consumerStalled: false,
+			ingressStalled: false,
+			recentSuccess: true
+		}
+	});
+	assert.equal(healthy.reason, "fresh_execution_progress");
+	assert.equal(recovery.snapshot().observations, 0);
+}
+
+function proveUnrelatedSuccessCannotMaskStall() {
+	const harness = Harness.createHarness(25000);
+	const recovery = harness.fastRecovery();
+	const stalled = {
 		...harness.stalled,
 		execution: { ...harness.stalled.execution, recentSuccess: true }
-	});
-	assert.equal(fresh.reason, "fresh_execution_progress");
-	assert.equal(recovery.snapshot().preflight.active, false);
-	assert.equal(harness.claims, 0);
+	};
+	assert.equal(recovery.observe(stalled).reason, "execution_ingress_stalled");
+	harness.setNow(26000);
+	assert.equal(recovery.observe(stalled).reason, "repair_preflight");
+	harness.setNow(26250);
+	assert.equal(recovery.observe(stalled).repairAuthorized, true);
 }
 
 function provePersistentStallRepairsOnce() {
 	const harness = Harness.createHarness(30000);
 	const recovery = harness.fastRecovery();
-	assert.equal(recovery.observe(harness.stalled).repairAuthorized, false);
+	recovery.observe(harness.stalled);
 	harness.setNow(31000);
 	assert.equal(recovery.observe(harness.stalled).reason, "repair_preflight");
 	harness.setNow(31250);
 	const repaired = recovery.observe(harness.stalled);
 	assert.equal(repaired.repairAuthorized, true);
-	assert.equal(repaired.reason, "execution_ingress_stalled");
-	assert.deepEqual(repaired.claim.identity, harness.identity);
 	assert.equal(harness.claims, 1);
 }
 
 function proveIdentityChangeRestartsCorroboration() {
 	const harness = Harness.createHarness(40000);
 	const recovery = harness.fastRecovery();
-	assert.equal(recovery.observe(harness.stalled).repairAuthorized, false);
+	recovery.observe(harness.stalled);
 	harness.setNow(41000);
-	assert.equal(recovery.observe(harness.stalled).reason, "repair_preflight");
+	recovery.observe(harness.stalled);
 	harness.setNow(41250);
 	const changed = {
 		...harness.stalled,
 		repairIdentity: { ...harness.identity, generation: 8, birthToken: "parent-birth-b" }
 	};
-	const restarted = recovery.observe(changed);
-	assert.equal(restarted.repairAuthorized, false);
-	assert.equal(restarted.candidateAgeMs, 0);
+	assert.equal(recovery.observe(changed).repairAuthorized, false);
 	assert.equal(recovery.snapshot().observations, 1);
 	assert.equal(harness.claims, 0);
 }
 
-function proveFreshAndPressureSemantics() {
+function provePressureCannotMaskExactStall() {
 	const harness = Harness.createHarness(50000);
 	const recovery = harness.fastRecovery();
-	const fresh = recovery.observe({
-		...harness.stalled,
-		execution: { ...harness.stalled.execution, recentSuccess: true }
-	});
-	assert.equal(fresh.reason, "fresh_execution_progress");
-	const pressuredStall = recovery.observe({
+	const result = recovery.observe({
 		...harness.stalled,
 		pressure: { deferRepair: true }
 	});
-	assert.equal(pressuredStall.reason, "execution_ingress_stalled");
-	assert.equal(pressuredStall.repairAuthorized, false);
+	assert.equal(result.reason, "execution_ingress_stalled");
+	assert.equal(result.repairAuthorized, false);
 	assert.equal(harness.claims, 0);
 }

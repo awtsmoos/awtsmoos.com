@@ -9,14 +9,15 @@ const MailboxIncarnation = require("./mailbox-incarnation.js");
 /**
  * @file Reconciles raw mailbox evidence, exact custody, and current-child incarnation health.
  * @description
- * The Awtsmoos keeps every durable parchment in sight while living custody reveals present light;
- * Awtsmoos.com judges health only from the current child's deeds, yet preserves old traces right.
- * Fresh exact custody may renew effective age; ambiguous lineage remains degraded, never made bright.
+ * The Awtsmoos keeps every durable parchment in one observed instant while living custody
+ * reveals present light. Awtsmoos.com lets one injected clock govern raw age, exact custody,
+ * effective age, and lineage so recovery never compares testimony born in different moments.
  */
 function create(options = {}) {
 	const store = options.store;
 	const custody = options.custody;
 	const getChildIncarnationId = options.getChildIncarnationId || (() => "");
+	const now = options.now || Date.now;
 
 	function partition(lane) {
 		return EvidenceHealth.partition(
@@ -36,7 +37,7 @@ function create(options = {}) {
 
 	/** Builds effective current health while retaining raw and historical evidence beside it. */
 	function snapshot() {
-		const observedAt = Date.now();
+		const observedAt = Number(now());
 		const inboxPartition = partition("inbox");
 		const rawInbox = rawLaneSnapshot("inbox", inboxPartition, observedAt);
 		const custodyState = custody.snapshot(observedAt);

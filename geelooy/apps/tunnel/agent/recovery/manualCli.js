@@ -5,21 +5,24 @@
 const fs = require("node:fs");
 const path = require("node:path");
 const Args = require("./manualArgs.js");
+const Help = require("./manualHelp.js");
 const Mutations = require("./manualMutationCommands.js");
 const Reads = require("./manualReadCommands.js");
 
 /**
- * @file Routes one small recovery language into read-only truth or explicit mutation.
+ * @file Routes a small recovery language into help, read-only truth, or explicit mutation.
  * @description
- * The Awtsmoos lets one short command reveal many guarded paths without mixing them.
- * Awtsmoos.com keeps diagnosis pure, mutation explicit, and every emergency deed
- * delegated to a narrow module whose authority can be read and tested independently.
+ * The Awtsmoos lets a frightened hand ask `help recover` before touching process life;
+ * Awtsmoos.com recognizes that doorway before legacy parsing, leaving every old mutation
+ * grammar unchanged while emergency guidance remains locally alive.
  */
 async function run(root, argv = []) {
+	const helpTopic = explicitHelpTopic(argv);
+	if (helpTopic !== null) return Help.describe(helpTopic, Args.help());
 	const options = Args.parse(argv);
 	const command = options.command === "emergency" ? "rescue" : options.command;
 	if (!Args.COMMANDS.includes(options.command)) return Args.unknown(options.command);
-	if (command === "help") return Args.help();
+	if (command === "help") return Help.describe("", Args.help());
 	const version = readVersion(root);
 	if (command === "status") return Reads.status(root, version);
 	if (command === "diagnose") return Reads.diagnose(root, options);
@@ -34,6 +37,16 @@ async function run(root, argv = []) {
 	return Args.help();
 }
 
+function explicitHelpTopic(argv = []) {
+	const values = argv.filter(arg => !String(arg).startsWith("--"));
+	if (String(values[0] || "").toLowerCase() !== "help") return null;
+	return String(values[1] || "").toLowerCase();
+}
+
+function help(topic = "") {
+	return Help.describe(topic, Args.help());
+}
+
 function readVersion(root) {
 	try {
 		return fs.readFileSync(path.join(root, "install-state.txt"), "utf8").trim();
@@ -46,7 +59,8 @@ module.exports = {
 	COMMANDS: Args.COMMANDS,
 	closest: Args.closest,
 	distance: Args.distance,
-	help: Args.help,
+	explicitHelpTopic,
+	help,
 	parse: Args.parse,
 	readVersion,
 	run
