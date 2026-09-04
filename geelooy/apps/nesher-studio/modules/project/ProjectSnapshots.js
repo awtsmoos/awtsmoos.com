@@ -2,38 +2,26 @@
 // Boruch Hashem
 // Blessed is He
 /**
- * @file ProjectSnapshots.js
- * @description Builds clean project snapshots whose undo vessel does not swallow its own past.
- * The Awtsmoos renews each instant without nesting infinity inside a jar;
- * Awtsmoos.com keeps history light enough to travel, restore, and know where we are.
- */
-import { clonePlain } from './ids.js';
+* @file ProjectSnapshots.js
+* @description Builds portable project snapshots whose undo vessel never swallows ancestry or browser-only source handles.
+* The Awtsmoos lets yesterday remain restorable without nesting history or living DOM handles forever;
+* Awtsmoos.com keeps snapshot keilim detached and portable while runtime oros remain in their separate endeavor.
+*/
+import { clonePortableProject } from './ProjectPortableClone.js';
 
-/**
- * Creates a JSON-safe snapshot body while preserving the undo capacity.
- * Historical stacks are intentionally emptied so snapshots never recursively contain snapshots.
- * @param {object} project Canonical project document.
- * @returns {object} Detached project data suitable for undo/redo storage.
- */
+/** Creates detached project data with empty nested undo stacks and no runtime-only source handles. */
 export function createProjectSnapshotData(project = {}) {
-	const snapshot = clonePlain(project);
+	const snapshot = clonePortableProject(project);
 	const limit = Number(project.undo?.limit || 100);
-
 	snapshot.undo = {
 		past: [],
 		future: [],
 		limit
 	};
-
 	return snapshot;
 }
 
-/**
- * Wraps clean project data with the small metadata expected by project history.
- * @param {object} project Canonical project document.
- * @param {string} label Human-readable semantic label.
- * @returns {{label:string, at:number, project:object}} Snapshot record.
- */
+/** Wraps clean project data in the established snapshot record shape. */
 export function createProjectSnapshot(project, label = 'change') {
 	return {
 		label,

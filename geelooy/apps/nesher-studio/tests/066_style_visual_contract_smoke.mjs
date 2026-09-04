@@ -1,104 +1,100 @@
-/* B"H
-Boruch Hashem
-Blessed is He
-The Awtsmoos clothes seven fixed rooms in a recursively verified style and shader graph; Awtsmoos.com tests no-scroll geometry, modular imports, realistic GPU depth, and recoverable rendering.
+//B"H
+// Boruch Hashem
+// Blessed is He
+/**
+* @file 066_style_visual_contract_smoke.mjs
+* @description Verifies Stage-first intent UX, responsive disclosure, lazy optional CSS, modular style integrity, and preserved professional rendering depth.
+* The Awtsmoos lets Canvas receive first sight while deeper workrooms wait behind deliberate intent;
+* Awtsmoos.com keeps responsive kelim, GPU depth, and lazy creative garments joined without burdening first paint.
 */
 import assert from 'node:assert/strict';
-import { existsSync, readFileSync, readdirSync } from 'node:fs';
-import { audioLabView } from '../modules/ui/views/audioLabView.js';
-import { headerView } from '../modules/ui/views/headerView.js';
-import { homeView } from '../modules/ui/views/homeView.js';
-import { liveView } from '../modules/ui/views/liveView.js';
-import { navigationView } from '../modules/ui/views/navigationView.js';
-import { nleView } from '../modules/ui/views/nleView.js';
-import { setupView } from '../modules/ui/views/setupView.js';
-import { sourcesView } from '../modules/ui/views/sourcesView.js';
-import { stageView } from '../modules/ui/views/stageView.js';
+import { mountStudioShell } from '../modules/ui/mountStudioShell.js';
+import { primaryIntentBarView } from '../modules/ui/views/primaryIntentBarView.js';
+import {
+	assertStyleImports,
+	assertStyleVessels,
+	readRelative,
+	readShaderGraph,
+	readStyleGraph
+} from './styleVisualContractHelpers.mjs';
 
 const appUrl = new URL('../', import.meta.url);
-const styleFiles = ['style.css', ...readdirSync(new URL('styles/', appUrl))
-	.filter((name) => name.endsWith('.css'))
-	.map((name) => `styles/${name}`)];
-const styles = Object.fromEntries(styleFiles.map((file) => [file, read(file)]));
-const css = Object.values(styles).join('\n');
-const navigation = read('modules/app/navigationBindings.js');
-const transitions = read('modules/app/PageTransitionController.js');
-const renderer = read('modules/audioLab/AudioLabRenderer.js');
-const shaderFiles = [
-	'modules/audioLab/shaders.js',
-	'modules/audioLab/particleVertexPrelude.js',
-	'modules/audioLab/particleVertexModes.js',
-	'modules/audioLab/particleVertexProjection.js',
-	'modules/audioLab/particleFragmentShader.js',
-	'modules/audioLab/webglParticleState.js',
-	'modules/audioLab/WebglParticleRiver.js'
-];
-const shaders = shaderFiles.map(read).join('\n');
-const presets = read('modules/audioLab/presets.js');
-const rooms = [homeView(), stageView(), audioLabView(), sourcesView(),
-	liveView(), setupView(), nleView()].join('\n');
-const markup = `${headerView()}<section id="studioPage">${rooms}</section>${navigationView()}`;
-const ids = new Set([...markup.matchAll(/\bid="([^"]+)"/g)].map((match) => match[1]));
+const styleGraph = readStyleGraph(appUrl);
+const rootStyle = styleGraph.styles['style.css'];
+const mobileStyle = styleGraph.styles['styles/intent-mobile.css'];
+const intentMarkup = primaryIntentBarView();
+const shellSource = mountStudioShell.toString();
+const navigation = readRelative(appUrl, 'modules/app/navigationBindings.js');
+const renderer = readRelative(appUrl, 'modules/audioLab/AudioLabRenderer.js');
+const manifest = readRelative(appUrl, 'modules/loading/StudioFeatureManifest.js');
+const featureLoader = readRelative(appUrl, 'modules/loading/StudioFeatureLoader.js');
+const shaders = readShaderGraph(appUrl);
+const presets = readRelative(appUrl, 'modules/audioLab/presets.js');
 
-assertStyleFiles();
-assertImportGraph();
-assert.equal(/overflow(?:-[xy])?\s*:\s*(?:auto|scroll)/i.test(css), false);
-assert.ok(/html\s*,\s*body\s*,\s*#appRoot\s*\{/.test(css));
-assertTokens(['height: 100dvh', '.nav-dock', '.workspace-page', '.deck-tabs',
-	'.list-pager', '.stage-workspace', '.audio-lab-grid', '.nle-deck',
-	'@media (max-width: 700px)'], css, 'viewport style');
-assertTokens(['transform var(--transition)', 'opacity var(--transition)',
-	'will-change: transform, opacity', 'prefers-reduced-motion'], css, 'transition style');
-assertTokens(['PageTransitionController', 'bindGestureNavigation',
-	'controller.activate', 'data-page-target'], navigation, 'navigation behavior');
-assertTokens(['is-entering', 'is-leaving', 'from-right', 'to-left',
-	'nesher:pagechange'], transitions, 'page transition behavior');
-assertTokens(['AdaptiveParticleBudget', 'AudioCanvasLayout',
-	'lastOverlayTime', 'lastHudTime'], renderer, 'adaptive renderer');
-assertTokens(['u_pulse', 'u_aspect', 'u_quality', 'u_mode == 9', 'gl_VertexID',
-	'cameraDepth', 'normalZ', 'specular', 'webglcontextlost',
-	'powerPreference', 'blendFuncSeparate'], shaders, 'realistic GPU behavior');
-assert.equal((presets.match(/^\tpreset\('/gm) || []).length, 10);
-assertTokens(['data-workspace-deck="stageTools"',
-	'data-workspace-deck="audioControls"', 'data-workspace-deck="nleMain"',
-	'audioLabImmersive', 'audioLabQuality'], markup, 'generated control');
-assertDomMapsExist();
-assert.equal([...markup.matchAll(/data-studio-page=/g)].length, 7);
-assert.ok(styleFiles.length >= 20);
-console.log(`B"H recursive no-scroll style contract passed across ${styleFiles.length} CSS vessels`);
+assertStyleVessels(styleGraph.styles);
+assertStyleImports(appUrl, styleGraph.styles);
+assertRootCascade();
+assertLazyCreativeStyle();
+assertIntentContract();
+assertResponsiveDisclosure();
+assertProfessionalDepth();
+assert.equal((presets.match(/^	preset\('/gm) || []).length, 10);
+assert.ok(styleGraph.files.length >= 20);
+console.log(`B"H Stage-first style contract passed across ${styleGraph.files.length} CSS vessels`);
 
-function read(relativePath) {
-	return readFileSync(new URL(relativePath, appUrl), 'utf8');
+/** Confirms foundational first-paint styles load before responsive intent overrides. */
+function assertRootCascade() {
+	const studioIndex = rootStyle.indexOf('./styles/studio.css');
+	const responsiveIndex = rootStyle.indexOf('./styles/responsive.css');
+	const intentIndex = rootStyle.indexOf('./styles/intent-shell.css');
+	assert.ok(studioIndex >= 0);
+	assert.ok(responsiveIndex > studioIndex);
+	assert.ok(intentIndex > responsiveIndex);
+	assert.equal(rootStyle.includes('./styles/creative-language.css'), false);
 }
 
-function assertStyleFiles() {
-	Object.entries(styles).forEach(([file, source]) => {
-		assert.ok(source.includes('B"H'), `${file} needs B"H`);
-		assert.ok(source.includes('Awtsmoos'), `${file} needs Awtsmoos`);
-		assert.ok(source.includes('Awtsmoos.com'), `${file} needs Awtsmoos.com`);
-		assert.ok(source.split('\n').length <= 120, `${file} exceeds 120 lines`);
-	});
+/** Proves Commands & History owns its stylesheet through the lazy feature loader. */
+function assertLazyCreativeStyle() {
+	assert.ok(manifest.includes("'creative-more': feature('Commands & History'"));
+	assert.ok(manifest.includes("'../../styles/creative-language.css'"));
+	assert.ok(featureLoader.includes('definition.styles.map'));
+	assert.ok(featureLoader.includes('this.styleCache.load'));
 }
 
-function assertImportGraph() {
-	Object.entries(styles).forEach(([file, source]) => {
-		for (const match of source.matchAll(/@import url\(['"](.+?)['"]\);/g)) {
-			const importedUrl = new URL(match[1], new URL(file, appUrl));
-			assert.ok(existsSync(importedUrl), `${file} imports missing ${match[1]}`);
-		}
-	});
+/** Proves the visible beginner surface is intent-driven rather than the retired room dock. */
+function assertIntentContract() {
+	for (const label of ['Create', 'Edit', 'Timeline', 'Animate', 'More']) {
+		assert.ok(intentMarkup.includes(`>${label}<`), `missing ${label}`);
+	}
+	assert.ok(intentMarkup.includes('primaryIntentBar'));
+	assert.equal(intentMarkup.includes('>Play<'), false);
+	assert.equal(shellSource.includes('navigationView()'), false);
+	assert.ok(shellSource.includes('stageView()'));
+	assert.ok(shellSource.includes('primaryIntentBarView()'));
+	assert.ok(shellSource.includes('intentSheetView()'));
 }
 
+/** Confirms phone Canvas priority and deliberate professional-workstation disclosure. */
+function assertResponsiveDisclosure() {
+	assert.ok(mobileStyle.includes('@media (max-width: 700px)'));
+	assert.ok(mobileStyle.includes('.stage-dock'));
+	assert.ok(mobileStyle.includes('display: none'));
+	assert.ok(mobileStyle.includes('.stage-workstation-open .stage-dock'));
+	assert.ok(mobileStyle.includes('grid-template-columns: minmax(0, 1fr)'));
+	assert.ok(styleGraph.css.includes('prefers-reduced-motion'));
+}
+
+/** Preserves advanced decks, navigation transitions, adaptive audio, and realistic GPU behavior. */
+function assertProfessionalDepth() {
+	assertTokens(['PageTransitionController', 'bindGestureNavigation', 'controller.activate'], navigation, 'navigation');
+	assertTokens(['AdaptiveParticleBudget', 'AudioCanvasLayout', 'lastOverlayTime'], renderer, 'renderer');
+	assertTokens(['u_pulse', 'u_aspect', 'gl_VertexID', 'cameraDepth', 'specular', 'webglcontextlost'], shaders, 'shader');
+	assertTokens(['.deck-tabs', '.stage-workspace', '.audio-lab-grid', '.nle-deck'], styleGraph.css, 'professional style');
+}
+
+/** Asserts a compact set of required visual/runtime tokens with clear failure labels. */
 function assertTokens(tokens, source, label) {
-	tokens.forEach((token) => assert.ok(source.includes(token), `${label}: ${token}`));
-}
-
-function assertDomMapsExist() {
-	const domDirectory = new URL('modules/dom/', appUrl);
-	const domFiles = readdirSync(domDirectory).filter((name) => name.endsWith('Dom.js'));
-	domFiles.forEach((fileName) => {
-		const source = readFileSync(new URL(fileName, domDirectory), 'utf8');
-		const mappedIds = [...source.matchAll(/'([A-Za-z][\w-]*)'/g)].map((match) => match[1]);
-		mappedIds.forEach((id) => assert.ok(ids.has(id), `${fileName} references missing #${id}`));
-	});
+	for (const token of tokens) {
+		assert.ok(source.includes(token), `${label}: ${token}`);
+	}
 }

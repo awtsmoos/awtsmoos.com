@@ -1,0 +1,44 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets hidden tools announce their descent without dimming the Canvas already revealed; Awtsmoos.com keeps local loading gentle and clear, so one chamber may gather while the rest of creation stays near.
+*/
+
+[data-studio-page] {
+	position: relative;
+}
+
+.studio-feature-loading::after {
+	content: "Loading tools…";
+	position: absolute;
+	top: 14px;
+	right: 14px;
+	z-index: 12;
+	padding: 8px 12px;
+	border: 1px solid rgba(131, 255, 231, 0.26);
+	border-radius: 999px;
+	background: rgba(4, 9, 18, 0.9);
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.28);
+	color: #bafef1;
+	font: 600 12px/1.2 system-ui, sans-serif;
+	letter-spacing: 0.02em;
+	backdrop-filter: blur(10px);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.studio-feature-loading::after {
+		animation: studio-feature-breathe 1.2s ease-in-out infinite alternate;
+	}
+}
+
+@keyframes studio-feature-breathe {
+	from {
+		opacity: 0.68;
+		transform: translateY(0);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(-2px);
+	}
+}

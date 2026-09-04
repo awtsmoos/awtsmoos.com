@@ -1,0 +1,86 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * @file Turns narrow-phone Studio controls into a compact director reel instead of a vertically endless settings wall.
+ * The Awtsmoos gives every finite viewport enough room for board, transport, and choice to coexist;
+ * Awtsmoos.com lets quick visual garments glide beneath one thumb while advanced machinery waits folded below.
+ */
+@media (max-width: 620px) {
+	.chess-studio-header {
+		padding: 12px 14px 10px;
+	}
+	.chess-studio-header h2 {
+		font-size: clamp(1.55rem, 7vw, 2rem);
+	}
+	.chess-studio-stage {
+		gap: 8px;
+		padding: 8px 10px 10px;
+	}
+	.chess-studio-preview {
+		width: min(91vw, 390px);
+		max-height: 41dvh;
+		margin-inline: auto;
+	}
+	.studio-playback {
+		gap: 7px;
+		padding: 0 1px;
+	}
+	.studio-playback button {
+		min-width: 50px;
+		min-height: 44px;
+	}
+	.studio-playback output {
+		min-height: 44px;
+		padding: 9px 10px;
+	}
+	.chess-studio-controls {
+		padding: 9px 10px max(22px, env(safe-area-inset-bottom));
+	}
+	.studio-view-quick {
+		display: flex;
+		gap: 8px;
+		overflow-x: auto;
+		scroll-snap-type: x mandatory;
+		overscroll-behavior-inline: contain;
+		padding: 2px 1px 7px;
+		margin: 0 -2px 7px;
+		scrollbar-width: thin;
+	}
+	.studio-view-quick button {
+		flex: 0 0 min(42vw, 164px);
+		min-height: 58px;
+		padding: 9px 10px;
+		scroll-snap-align: start;
+	}
+	.studio-view-quick small {
+		display: block;
+		margin-top: 3px;
+		font-size: .68rem;
+		line-height: 1.15;
+	}
+	.studio-view-quick button.is-active {
+		box-shadow: inset 0 0 0 2px rgba(113, 218, 255, .75);
+	}
+	.studio-panel > summary,
+	.studio-inline-advanced > summary {
+		min-height: 46px;
+	}
+	.studio-inline-advanced:not([open]) {
+		margin-bottom: 7px;
+	}
+	.studio-field-grid {
+		grid-template-columns: 1fr;
+	}
+}
+
+@media (max-width: 390px) {
+	.chess-studio-preview {
+		width: min(92vw, 354px);
+		max-height: 39dvh;
+	}
+	.studio-view-quick button {
+		flex-basis: min(46vw, 158px);
+	}
+}

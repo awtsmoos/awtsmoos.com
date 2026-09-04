@@ -1,0 +1,54 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets one selected source reveal a few useful measures before deeper geometry is requested; Awtsmoos.com keeps quick Edit controls spacious and exact so simplicity and professional precision remain connected.
+*/
+.intent-selection-card {
+	display: grid;
+	gap: 4px;
+	padding: 10px;
+	margin-bottom: 9px;
+	border: 1px solid var(--line);
+	border-radius: 14px;
+	background: rgba(17, 31, 57, .64);
+}
+
+.intent-selection-card span {
+	color: var(--muted);
+	font-size: .72rem;
+}
+
+.intent-edit-quick-grid,
+.intent-inline-form {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 8px;
+	margin-bottom: 8px;
+}
+
+.intent-inline-form label {
+	display: grid;
+	gap: 4px;
+	color: var(--soft);
+	font-size: .72rem;
+}
+
+.intent-inline-form input {
+	width: 100%;
+	min-height: var(--touch);
+}
+
+.intent-check-form label {
+	grid-template-columns: auto 1fr;
+	align-items: center;
+}
+
+.intent-check-form input {
+	width: var(--touch);
+}
+
+.intent-go-deeper {
+	width: 100%;
+	min-height: var(--touch);
+	margin-top: 3px;
+}

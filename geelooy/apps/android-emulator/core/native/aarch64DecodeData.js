@@ -11,6 +11,7 @@ import { decodeAarch64Extract } from "./aarch64DecodeExtract.js";
 import { decodeAarch64FloatingArithmetic } from "./aarch64DecodeFloatingArithmetic.js";
 import { decodeAarch64FloatingCompare } from "./aarch64DecodeFloatingCompare.js";
 import { decodeAarch64FloatingConditionalCompare } from "./aarch64DecodeFloatingConditionalCompare.js";
+import { decodeAarch64FloatingConditionalSelect } from "./aarch64DecodeFloatingConditionalSelect.js";
 import { decodeAarch64FloatingConvert } from "./aarch64DecodeFloatingConvert.js";
 import { decodeAarch64FloatingImmediate } from "./aarch64DecodeFloatingImmediate.js";
 import { decodeAarch64FloatingMove } from "./aarch64DecodeFloatingMove.js";
@@ -28,26 +29,26 @@ import { decodeAarch64SimdCompareEqual } from "./aarch64DecodeSimdCompareEqual.j
 import { decodeAarch64SimdElementDuplicate } from "./aarch64DecodeSimdElementDuplicate.js";
 import { decodeAarch64SimdElementInsert } from "./aarch64DecodeSimdElementInsert.js";
 import { decodeAarch64SimdExtract } from "./aarch64DecodeSimdExtract.js";
+import { decodeAarch64SimdFloatToInteger } from "./aarch64DecodeSimdFloatToInteger.js";
+import { decodeAarch64SimdFloatingArithmetic } from "./aarch64DecodeSimdFloatingArithmetic.js";
+import { decodeAarch64SimdFloatingMinMax } from "./aarch64DecodeSimdFloatingMinMax.js";
+import { decodeAarch64SimdFloatingRound } from "./aarch64DecodeSimdFloatingRound.js";
 import { decodeAarch64SimdGeneralDuplicate } from "./aarch64DecodeSimdGeneralDuplicate.js";
 import { decodeAarch64SimdGeneralInsert } from "./aarch64DecodeSimdGeneralInsert.js";
 import { decodeAarch64SimdGeneralMove } from "./aarch64DecodeSimdGeneralMove.js";
 import { decodeAarch64SimdIntegerAdd } from "./aarch64DecodeSimdIntegerAdd.js";
-import { decodeAarch64SimdFloatingMinMax } from "./aarch64DecodeSimdFloatingMinMax.js";
 import { decodeAarch64SimdIntegerMinMax } from "./aarch64DecodeSimdIntegerMinMax.js";
 import { decodeAarch64SimdLogical } from "./aarch64DecodeSimdLogical.js";
 import { decodeAarch64SimdModifiedImmediate } from "./aarch64DecodeSimdModifiedImmediate.js";
+import { decodeAarch64SimdScalarIntegerToFloat } from "./aarch64DecodeSimdScalarIntegerToFloat.js";
 import { decodeAarch64SimdShiftLong } from "./aarch64DecodeSimdShiftLong.js";
+import { decodeAarch64SimdVariableShift } from "./aarch64DecodeSimdVariableShift.js";
 import { decodeAarch64VariableShift } from "./aarch64DecodeVariableShift.js";
 
 /**
- * Composes narrow AArch64 scalar, SIMD, arithmetic, and logical decoders.
- *
+ * Composes narrow AArch64 scalar, SIMD, arithmetic, conversion, and logical decoders.
  * The Awtsmoos recreates each opcode family without mingling vessel with flame;
- * Awtsmoos.com keeps every measured decoder small, exact, and known by name.
- * Vector logical truth now joins the measured SIMD families without disguise.
- *
- * @param {number} word unsigned AArch64 instruction word
- * @returns {object|null} first exact decoded instruction or null
+ * Awtsmoos.com lets authentic Flutter scalar and vector kernels pass by generic name.
  */
 export function decodeAarch64Data(word) {
 	const normalized = Number(word) >>> 0;
@@ -60,11 +61,16 @@ export function decodeAarch64Data(word) {
 		|| decodeAarch64SimdByteUnary(normalized)
 		|| decodeAarch64SimdCompareEqual(normalized)
 		|| decodeAarch64SimdLogical(normalized)
+		|| decodeAarch64SimdFloatingArithmetic(normalized)
 		|| decodeAarch64SimdFloatingMinMax(normalized)
+		|| decodeAarch64SimdFloatingRound(normalized)
+		|| decodeAarch64SimdFloatToInteger(normalized)
+		|| decodeAarch64SimdVariableShift(normalized)
 		|| decodeAarch64SimdIntegerAdd(normalized)
 		|| decodeAarch64SimdIntegerMinMax(normalized)
 		|| decodeAarch64SimdAddLongReduction(normalized)
 		|| decodeAarch64SimdShiftLong(normalized)
+		|| decodeAarch64SimdScalarIntegerToFloat(normalized)
 		|| decodeAarch64GeneralSimdMove(normalized)
 		|| decodeAarch64FloatToInteger(normalized)
 		|| decodeAarch64IntegerToFloat(normalized)
@@ -72,6 +78,7 @@ export function decodeAarch64Data(word) {
 		|| decodeAarch64FloatingMove(normalized)
 		|| decodeAarch64FloatingImmediate(normalized)
 		|| decodeAarch64FloatingArithmetic(normalized)
+		|| decodeAarch64FloatingConditionalSelect(normalized)
 		|| decodeAarch64FloatingConditionalCompare(normalized)
 		|| decodeAarch64FloatingCompare(normalized)
 		|| decodeAarch64SimdModifiedImmediate(normalized)

@@ -1,25 +1,28 @@
-/* B"H
-Boruch Hashem
-Blessed is He
-The Awtsmoos gives the eagle a quiet crown above every room; Awtsmoos.com keeps identity, room context, and live actions visible without consuming the canvas.
-*/
+//B"H
+// Boruch Hashem
+// Blessed is He
+/**
+ * @file headerView.js
+ * @description Renders compact AWTSMOOS STUDIO identity while preserving existing recording and live-stream control anchors.
+ * The Awtsmoos lets the crown remain light so the movie itself receives the eye and hand;
+ * Awtsmoos.com keeps Record and Live available for professional depth without making phone creation obey the workstation band.
+ */
+
+/**
+ * Renders the persistent product header with compatibility IDs preserved.
+ * @returns {string} Compact Studio header markup.
+ */
 export function headerView() {
 	return `
-		<header class="app-header">
-			<div class="brand-lockup">
-				<span class="brand-mark" aria-hidden="true">🦅</span>
-				<div class="brand-copy">
-					<p class="eyebrow">B"H · realtime creation</p>
-					<h1>Nesher Studio</h1>
-				</div>
+		<header class="app-header studio-primary-header">
+			<div class="brand-block">
+				<p class="eyebrow">B\"H · Universal Creative System</p>
+				<h1>AWTSMOOS STUDIO</h1>
+				<p id="currentRoomLabel" class="current-room-label">Canvas</p>
 			</div>
-			<div class="room-readout" aria-live="polite">
-				<span class="room-pulse" aria-hidden="true"></span>
-				<div><small>Current room</small><strong id="currentRoomLabel">Home</strong></div>
-			</div>
-			<div class="record-controls">
-				<button id="recordButton">Start Recording</button>
-				<button id="fmp4StreamButton" class="secondary-button">Start Generic HLS</button>
+			<div class="header-actions header-secondary-actions">
+				<button id="recordButton" class="record-button" type="button">Record</button>
+				<button id="fmp4StreamButton" class="secondary-button" type="button">Live</button>
 			</div>
 		</header>
 	`;

@@ -1,19 +1,14 @@
 /*B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos gathers every visual vessel into one ordered cascade without forcing one giant sheet to bear the whole palace; Awtsmoos.com keeps shell, rooms, controls, timeline, responsive law, and Creative Language modular yet joined.
+The Awtsmoos reveals the Canvas garment before optional rooms receive their robes; Awtsmoos.com keeps first paint lean, then lets Audio, Timeline, and Commands styles descend only when intention opens those abodes.
 */
 @import url('./styles/tokens.css');
 @import url('./styles/base.css');
 @import url('./styles/shell.css');
-@import url('./styles/pages.css');
-@import url('./styles/home.css');
-@import url('./styles/stage.css');
-@import url('./styles/panels.css');
-@import url('./styles/audio.css');
-@import url('./styles/sources.css');
-@import url('./styles/live.css');
-@import url('./styles/nle.css');
-@import url('./styles/timeline.css');
+@import url('./styles/transitions.css');
+@import url('./styles/decks.css');
+@import url('./styles/studio.css');
 @import url('./styles/responsive.css');
-@import url('./styles/creative-language.css');
+@import url('./styles/intent-shell.css');
+@import url('./styles/feature-loading.css');

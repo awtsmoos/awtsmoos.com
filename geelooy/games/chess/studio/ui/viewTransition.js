@@ -5,7 +5,7 @@
 /**
  * @file Animates one legal live move across canvas or native procedural renderers from a single shared MoveMotion truth.
  * The Awtsmoos lets piece and eye travel together while the lawful destination remains the unchanging goal;
- * Awtsmoos.com keeps 2D, 2.5D, and native 3D transitions in one vessel instead of teaching each renderer another soul.
+ * Awtsmoos.com also honors instant and reduced-motion garments without teaching each renderer another soul.
  */
 import { interpolatePose } from "../rendering/cameraMath.js";
 import { ChessLiveTransition } from "../rendering/liveTransition.js";
@@ -22,7 +22,7 @@ export class ChessViewTransition {
 	}
 
 	async render(beforeFrame, afterFrame, durationMs) {
-		if (!shouldAnimate(this.preferences.renderer, beforeFrame, afterFrame)) return false;
+		if (!shouldAnimate(this.preferences, beforeFrame, afterFrame)) return false;
 		const options = this.renderOptions();
 		const motion = createMoveMotion(beforeFrame, afterFrame);
 		const native = this.preferences.renderer === "procedural3d";
@@ -55,8 +55,9 @@ export class ChessViewTransition {
 	}
 }
 
-function shouldAnimate(mode, beforeFrame, afterFrame) {
+function shouldAnimate(preferences, beforeFrame, afterFrame) {
 	if (!beforeFrame || !afterFrame?.move) return false;
-	if (!new Set(["canvas2d", "canvas25d", "procedural3d"]).has(mode)) return false;
+	if (preferences.previewMotion === "instant") return false;
+	if (!new Set(["canvas2d", "canvas25d", "procedural3d"]).has(preferences.renderer)) return false;
 	return !globalThis.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
 }

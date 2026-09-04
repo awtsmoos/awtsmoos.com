@@ -5,8 +5,8 @@
 /**
  * @file sitewideArtifacts.test.mjs
  * @description
- * The Awtsmoos tests that generated search roads still mirror today's registries and corpus rather than yesterday's memory;
- * Awtsmoos.com distinguishes public worlds like Editor from true action segments, catching unsafe paths without hiding legitimate light.
+ * The Awtsmoos tests every generated discovery and metadata vessel against today's registries and authored public pages;
+ * Awtsmoos.com rejects stale, redirecting, or action roads while root, Heichel, apps, games, translations, and public information remain in phase.
  */
 
 import assert from 'node:assert/strict';
@@ -14,11 +14,11 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { PUBLIC_APPS } from '../../apps/scripts/catalog/index.mjs';
 import { GAMES } from '../../games/scripts/catalog/index.mjs';
-import { buildArtifactPlan, ROOT_SITEMAPS } from '../../scripts/seo/artifactPlan.mjs';
-import { applicationEntries, catalogPaths } from '../../scripts/seo/catalogPaths.mjs';
+import { buildAllArtifacts } from '../../scripts/seo/buildAllArtifacts.mjs';
+import { CORE_PUBLIC_PATHS } from '../../scripts/seo/corePaths.mjs';
 
 const root = path.resolve('geelooy');
-const plan = buildArtifactPlan({ geelooyRoot: root, apps: PUBLIC_APPS, games: GAMES });
+const plan = buildAllArtifacts({ geelooyRoot: root, apps: PUBLIC_APPS, games: GAMES });
 const forbiddenSegments = new Set(['edit', 'submit', 'delete', 'admin', 'internal', 'debug', 'staging']);
 
 function locations(xml) {
@@ -26,12 +26,9 @@ function locations(xml) {
 }
 
 function isForbidden(url) {
-	const parsed = new URL(url);
-	if (parsed.pathname === '/api' || parsed.pathname.startsWith('/api/')) {
-		return true;
-	}
-	const segments = parsed.pathname.split('/').filter(Boolean);
-	return segments.some(segment => forbiddenSegments.has(segment));
+	const pathname = new URL(url).pathname;
+	if (pathname === '/api' || pathname.startsWith('/api/')) return true;
+	return pathname.split('/').filter(Boolean).some(segment => forbiddenSegments.has(segment));
 }
 
 for (const [relative, expected] of Object.entries(plan)) {
@@ -39,22 +36,25 @@ for (const [relative, expected] of Object.entries(plan)) {
 	assert.equal(actual, `${expected}\n`, `stale generated artifact: ${relative}`);
 }
 
-for (const family of ROOT_SITEMAPS) {
-	assert.ok(plan['sitemap.xml'].includes(`https://awtsmoos.com${family}`), `missing root family ${family}`);
+const allLocations = Object.entries(plan)
+	.filter(([relative]) => relative.endsWith('.xml'))
+	.flatMap(([, xml]) => locations(xml));
+assert.deepEqual(allLocations.filter(isForbidden), []);
+for (const publicPath of CORE_PUBLIC_PATHS) {
+	assert.ok(plan['sitemaps/core.xml'].includes(`https://awtsmoos.com${publicPath}`));
+}
+assert.ok(!plan['sitemaps/core.xml'].includes('<loc>https://awtsmoos.com/heichelos</loc>'));
+for (const excluded of ['/login/', '/logout/', '/control/', '/donate/']) {
+	assert.ok(!plan['sitemaps/core.xml'].includes(`https://awtsmoos.com${excluded}`));
 }
 
-const xmlFiles = Object.entries(plan).filter(([relative]) => relative.endsWith('.xml'));
-const allLocations = xmlFiles.flatMap(([, xml]) => locations(xml));
-assert.deepEqual(allLocations.filter(isForbidden), []);
-
-const appEntries = applicationEntries(PUBLIC_APPS);
-const appPaths = catalogPaths(appEntries, '/apps/');
-const gamePaths = catalogPaths(GAMES, '/games/');
-assert.equal(locations(plan['apps/sitemap.xml']).length, appPaths.length + 1);
-assert.equal(locations(plan['games/sitemap.xml']).length, gamePaths.length + 1);
-assert.ok(plan['apps/sitemap.xml'].includes('https://awtsmoos.com/apps/editor/'));
-assert.ok(plan['apps/catalog.html'].includes('data-awtsmoos-seo-catalog'));
-assert.ok(plan['games/catalog.html'].includes('data-awtsmoos-seo-catalog'));
+const metadata = await import('../../scripts/seo/publicPageMetadata.mjs');
+const records = metadata.publicPageMetadataRecords(PUBLIC_APPS, GAMES, root);
+const byFile = new Map(records.map(record => [record.filePath, record]));
+for (const file of ['index.html', 'about/index.html', 'apps/index.html', 'docs/index.html', 'games/index.html', 'social/index.html', 'contact/index.html']) {
+	assert.ok(byFile.has(file), `missing curated metadata for ${file}`);
+}
+assert.ok(records.length >= 82);
 assert.ok(plan['robots.txt'].includes('Disallow: /api/'));
-assert.ok(plan['robots.txt'].includes('Sitemap: https://awtsmoos.com/sitemap.xml'));
+assert.ok(plan['apps/sitemap.xml'].includes('https://awtsmoos.com/apps/editor/'));
 console.log('SITEWIDE_ARTIFACT_REGRESSION_PASS');

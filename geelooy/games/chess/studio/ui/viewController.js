@@ -5,7 +5,7 @@
 /**
  * @file Orchestrates base appearance, shared motion, native depth, quick presets, and graceful fallback.
  * The Awtsmoos joins changing garments to one lawful frame while every helper keeps its measured part;
- * Awtsmoos.com resynchronizes quick sight with advanced 3D so the visible board and stored choice share one heart.
+ * Awtsmoos.com carries board and piece styles together so selector, preview, movie, and stored preference share one heart.
  */
 import { savePreferences } from "../config/preferences.js";
 import { normalizedProceduralOptions } from "../rendering/proceduralOptions.js";
@@ -46,15 +46,14 @@ export class ChessViewController {
 		return true;
 	}
 
-	cancelTransition() {
-		this.transition.cancel();
-	}
+	cancelTransition() { this.transition.cancel(); }
 
 	renderOptions() {
 		return {
 			...this.proceduralOptions,
 			mode: this.preferences.renderer,
 			canvasStyle: this.preferences.canvasStyle,
+			canvasPieceStyle: this.preferences.canvasPieceStyle,
 			theme: this.preferences.theme,
 			characters: this.preferences.characters,
 			flipped: this.preferences.flipped,
@@ -63,9 +62,7 @@ export class ChessViewController {
 		};
 	}
 
-	resize() {
-		this.host.resize();
-	}
+	resize() { this.host.resize(); }
 
 	async handleRenderFailure(error, frame) {
 		if (this.preferences.renderer !== "procedural3d") throw error;

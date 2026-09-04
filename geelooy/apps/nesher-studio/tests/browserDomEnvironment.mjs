@@ -1,30 +1,49 @@
-/* B"H
-Boruch Hashem
-Blessed is He
-The Awtsmoos joins elements into a testable browser world; Awtsmoos.com models selectors, pages, history, and events without hidden magic.
+//B"H
+// Boruch Hashem
+// Blessed is He
+/**
+* @file browserDomEnvironment.mjs
+* @description Builds browser globals and page vessels while delegating document structure to focused fake-DOM vessels.
+* The Awtsmoos gives each simulated browser chamber only the power its confidence path needs;
+* Awtsmoos.com keeps globals, pages, and document vessels separate so the harness grows by modules rather than tangled weeds.
 */
 import { FakeElement, tagFor } from './browserDomElement.mjs';
+import {
+	createDocumentVessels,
+	selectDocumentElements
+} from './browserDomDocumentVessels.mjs';
 
+/** Creates a bounded fake document with page selectors plus stylesheet-aware head and body vessels. */
 export function createDocument(elements) {
+	const { head, body } = createDocumentVessels();
 	return {
+		head,
+		body,
 		activeElement: null,
 		createElement: (tag) => new FakeElement('', tag),
 		getElementById: (id) => elements.get(id) || createMappedElement(elements, id),
-		querySelector: (selector) => selectAll(elements, selector)[0] || null,
-		querySelectorAll: (selector) => selectAll(elements, selector)
+		querySelector: (selector) => selectDocumentElements(elements, selector, head)[0] || null,
+		querySelectorAll: (selector) => selectDocumentElements(elements, selector, head)
 	};
 }
 
+/** Creates and remembers one fixture element with the same tag inference used by the real harness. */
 export function createMappedElement(elements, id) {
 	const element = new FakeElement(id, tagFor(id));
 	elements.set(id, element);
 	return element;
 }
 
+/** Installs page vessels plus legacy nav markers still exercised by older navigation tests. */
 export function installPageVessels(make) {
 	const pages = {
-		homeSection: 'home', stageSection: 'stage', audioLabSection: 'audio',
-		sourcesSection: 'sources', streamSection: 'live', studioSettings: 'setup', nleSection: 'nle'
+		homeSection: 'home',
+		stageSection: 'stage',
+		audioLabSection: 'audio',
+		sourcesSection: 'sources',
+		streamSection: 'live',
+		studioSettings: 'setup',
+		nleSection: 'nle'
 	};
 	Object.entries(pages).forEach(([id, page]) => {
 		const element = make(id);
@@ -37,6 +56,7 @@ export function installPageVessels(make) {
 	});
 }
 
+/** Installs the global browser-shaped APIs required by Studio boot and navigation. */
 export function installGlobals(document, eventBus) {
 	globalThis.document = document;
 	globalThis.window = {
@@ -45,23 +65,40 @@ export function installGlobals(document, eventBus) {
 		removeEventListener() {},
 		dispatchEvent: (event) => listeners(eventBus, event.type).forEach((callback) => callback(event))
 	};
-	globalThis.location = { search: '', hash: '', pathname: '/' };
-	globalThis.history = { replaceState(_state, _title, url) { globalThis.location.hash = hashFrom(url); } };
-	globalThis.CustomEvent = class { constructor(type, options = {}) { this.type = type; this.detail = options.detail; } };
+	globalThis.location = {
+		search: '',
+		hash: '',
+		pathname: '/'
+	};
+	globalThis.history = {
+		replaceState(_state, _title, url) {
+			globalThis.location.hash = hashFrom(url);
+		}
+	};
+	globalThis.CustomEvent = class {
+		constructor(type, options = {}) {
+			this.type = type;
+			this.detail = options.detail;
+		}
+	};
 	globalThis.setInterval = () => 1;
 	globalThis.clearInterval = () => {};
 	globalThis.requestAnimationFrame = () => 1;
 	globalThis.cancelAnimationFrame = () => {};
 }
 
-function selectAll(elements, selector) {
-	const values = [...elements.values()];
-	if (selector === '[data-studio-page]') return values.filter((element) => element.dataset.studioPage);
-	if (selector === '[data-nav-page]') return values.filter((element) => element.dataset.navPage);
-	if (selector === '[data-page-target]') return values.filter((element) => element.dataset.pageTarget);
-	const pageMatch = selector.match(/^\[data-studio-page="([^"]+)"\]$/);
-	return pageMatch ? values.filter((element) => element.dataset.studioPage === pageMatch[1]) : [];
+/** Returns the listener bucket for one simulated window event. */
+function listeners(eventBus, name) {
+	if (!eventBus.has(name)) {
+		eventBus.set(name, []);
+	}
+	return eventBus.get(name);
 }
 
-function listeners(eventBus, name) { if (!eventBus.has(name)) eventBus.set(name, []); return eventBus.get(name); }
-function hashFrom(url) { const text = String(url); return text.includes('#') ? text.slice(text.indexOf('#')) : ''; }
+/** Extracts a hash from one navigation URL without modeling the full URL API. */
+function hashFrom(url) {
+	const text = String(url);
+	return text.includes('#')
+		? text.slice(text.indexOf('#'))
+		: '';
+}

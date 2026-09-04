@@ -3,123 +3,96 @@
 // Blessed is He
 /**
  * @file navigationBindings.js
- * @description Unifies dock buttons, deep links, keyboard motion, and touch gestures across every Studio room.
- * The Awtsmoos changes garments while one current chamber remains known;
- * Awtsmoos.com lets Home, Stage, Audio, NLE, and deeper Creative Language share one navigational throne.
+ * @description Opens lightweight workspaces immediately, then awaits only the optional feature chamber mapped to the requested room.
+ * The Awtsmoos lets a maker enter a doorway before every instrument inside has finished descending;
+ * Awtsmoos.com keeps Canvas alive while each room loads locally, retryably, and without forcing unrelated code to bend.
  */
 import { PageTransitionController } from './PageTransitionController.js';
 import { bindGestureNavigation } from './gestureNavigation.js';
+import {
+	STUDIO_PAGE_ORDER,
+	normalizeStudioPage,
+	studioPageElement,
+	studioPageLabel
+} from './navigationModel.js';
+import {
+	bindWorkspaceKeyboardNavigation,
+	bindWorkspacePageTargets,
+	openInitialWorkspaceLocation
+} from './WorkspaceNavigationEvents.js';
 
-const PAGE_ORDER = ['home', 'stage', 'audio', 'sources', 'live', 'setup', 'nle', 'more'];
-const PAGE_LABELS = {
-	home: 'Studio home',
-	stage: 'Stage',
-	audio: 'Audio Lab',
-	sources: 'Sources',
-	live: 'Live health',
-	setup: 'Studio setup',
-	nle: 'Timeline editor',
-	more: 'Creative language'
-};
+/**
+ * Binds deep links, page targets, keyboard traversal, gestures, and optional feature readiness.
+ * @param {object} input Shared DOM, status writer, and feature loader.
+ * @returns {object} Promise-aware transient workspace navigator.
+ */
+export function bindNavigation({ dom, setStatus, featureLoader } = {}) {
+	const pages = Array.from(
+		document.querySelectorAll('[data-studio-page]')
+	);
+	const controller = new PageTransitionController({
+		pages,
+		order: STUDIO_PAGE_ORDER,
+		labelElement: dom.currentRoomLabel
+	});
+	const navigator = createNavigator(
+		controller,
+		setStatus,
+		featureLoader
+	);
 
-/** Binds all supported navigation interfaces to one page transition controller. */
-export function bindNavigation({ dom, setStatus }) {
-	const pages = Array.from(document.querySelectorAll('[data-studio-page]'));
-	const controller = new PageTransitionController({ pages, order: PAGE_ORDER, labelElement: dom.currentRoomLabel });
-	const openPage = (page, focusElement, message, animate = true) => {
-		controller.activate(page, { focusId: focusElement?.id || '', message, animate });
-		markNavigation(page, focusElement?.id || '');
-		setStatus?.(message);
-	};
-
-	bindPrimaryButtons(dom, openPage);
-	bindPageTargets(openPage);
-	bindKeyboardNavigation(controller, openPage);
+	bindWorkspacePageTargets(navigator);
+	bindWorkspaceKeyboardNavigation(navigator);
 	bindGestureNavigation({
 		root: dom.studioPage,
-		order: PAGE_ORDER,
-		currentPage: () => controller.currentPage?.dataset.studioPage || 'home',
-		navigate: (page) => openPage(page, pageElement(page), `${pageLabel(page)} ready.`)
+		order: STUDIO_PAGE_ORDER,
+		currentPage: navigator.currentPage,
+		navigate: navigator.openPage
 	});
-	openInitialLocation(openPage);
-	return controller;
+	openInitialWorkspaceLocation(navigator);
+	return navigator;
 }
 
-function bindPrimaryButtons(dom, openPage) {
-	const actions = [
-		[dom.navHome, 'home', dom.homeSection],
-		[dom.navStage, 'stage', dom.stageSection],
-		[dom.navAudio, 'audio', dom.audioLabSection],
-		[dom.navSources, 'sources', dom.sourcesSection],
-		[dom.navLive, 'live', dom.streamSection],
-		[dom.navSetup, 'setup', dom.studioSettings],
-		[dom.navNle, 'nle', dom.nleSection],
-		[dom.navBenchmark, 'nle', dom.benchmarkCard],
-		[dom.navMore, 'more', dom.moreSection],
-		[dom.backToStudio, 'home', dom.homeSection]
-	];
-
-	for (const [button, page, focus] of actions) {
-		bindButton(button, () => openPage(page, focus, `${pageLabel(page)} ready.`));
-	}
-}
-
-function bindButton(button, action) {
-	button?.addEventListener('click', (event) => {
-		event.preventDefault();
-		action();
-	});
-}
-
-function bindPageTargets(openPage) {
-	document.querySelectorAll('[data-page-target]').forEach((element) => {
-		element.addEventListener('click', (event) => {
-			event.preventDefault();
-			const page = element.dataset.pageTarget;
-			openPage(page, pageElement(page), `${pageLabel(page)} ready.`);
+/** Creates the transient navigation facade that contains optional loading failures at the room boundary. */
+function createNavigator(controller, setStatus, featureLoader) {
+	async function openPage(
+		requestedPage,
+		focusElement,
+		message,
+		animate = true
+	) {
+		const page = normalizeStudioPage(requestedPage);
+		const target = focusElement || studioPageElement(page);
+		const label = studioPageLabel(page);
+		controller.activate(page, {
+			focusId: target?.id || '',
+			message: message || `${label} opening…`,
+			animate
 		});
-	});
-}
 
-function bindKeyboardNavigation(controller, openPage) {
-	window.addEventListener('keydown', (event) => {
-		if (!event.altKey || !['ArrowLeft', 'ArrowRight'].includes(event.key)) {
-			return;
+		try {
+			await featureLoader?.loadForPage(page);
+			setStatus?.(message || `${label} ready.`);
+		} catch (error) {
+			setStatus?.(`${label} could not load: ${error?.message || error}`);
 		}
+		return page;
+	}
 
-		const current = controller.currentPage?.dataset.studioPage || 'home';
-		const index = PAGE_ORDER.indexOf(current);
-		const direction = event.key === 'ArrowRight' ? 1 : -1;
-		const targetIndex = Math.max(0, Math.min(PAGE_ORDER.length - 1, index + direction));
-		const page = PAGE_ORDER[targetIndex];
-
-		if (page !== current) {
-			openPage(page, pageElement(page), `${pageLabel(page)} ready.`);
+	return {
+		controller,
+		openPage,
+		openCanvas() {
+			return openPage('stage');
+		},
+		loadFeature(featureId) {
+			return featureLoader?.load(featureId) || Promise.resolve(null);
+		},
+		preloadFeature(featureId) {
+			return featureLoader?.preload(featureId) || Promise.resolve(null);
+		},
+		currentPage() {
+			return controller.currentPage?.dataset.studioPage || 'stage';
 		}
-	});
-}
-
-function openInitialLocation(openPage) {
-	const hashId = (location.hash || '').slice(1);
-	const hashElement = hashId ? document.getElementById(hashId) : null;
-	const page = hashElement?.closest?.('[data-studio-page]')?.dataset.studioPage || hashElement?.dataset?.studioPage || 'home';
-	openPage(page, hashElement || pageElement(page), `${pageLabel(page)} ready.`, false);
-}
-
-function markNavigation(page, focusId) {
-	document.querySelectorAll('[data-nav-page]').forEach((button) => {
-		const benchmark = focusId === 'benchmarkCard';
-		const active = benchmark
-			? button.id === 'navBenchmark'
-			: button.dataset.navPage === page && button.id !== 'navBenchmark';
-		button.classList.toggle('active', active);
-	});
-}
-
-function pageElement(page) {
-	return document.querySelector(`[data-studio-page="${page}"]`);
-}
-
-function pageLabel(page) {
-	return PAGE_LABELS[page] || 'Studio';
+	};
 }

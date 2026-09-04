@@ -3,31 +3,43 @@
 // Blessed is He
 /**
  * @file MacroStore.js
- * @description Stores reusable command sequences inside canonical project JSON without storing executable functions.
- * The Awtsmoos gathers many steps into one named vessel while each step keeps its own face;
- * Awtsmoos.com turns remembered work into inspectable macros that remain editable in place.
+ * @description Stores reusable command sequences inside canonical project JSON without persisting executable functions.
+ * The Awtsmoos gathers many deeds into one remembered vessel while each command keeps its own face;
+ * Awtsmoos.com lets history become a reusable path whose steps remain inspectable, editable, and traceable in place.
  */
 import { historyToMacroSteps } from '../history/CreativeHistory.js';
 import { clonePlain, makeId } from '../../project/ids.js';
 
+/**
+ * Owns persistence of declarative macro documents inside `project.creative.macros`.
+ */
 export class MacroStore {
+	/**
+	 * @param {object} input Shared state and command registry used to validate stored steps.
+	 */
 	constructor({ state, registry } = {}) {
 		this.state = state;
 		this.registry = registry;
 	}
 
-	/** Lists detached macro documents safe for UI, script, or AI inspection. */
+	/** Returns detached macro documents for human, script, or AI inspection. */
 	list() {
 		return clonePlain(this.state.project.creative.macros);
 	}
 
 	/** Returns one detached macro document or null. */
 	get(macroId) {
-		const macro = this.state.project.creative.macros.find((entry) => entry.id === macroId);
+		const macro = this.state.project.creative.macros.find((entry) => {
+			return entry.id === macroId;
+		});
 		return macro ? clonePlain(macro) : null;
 	}
 
-	/** Persists one validated declarative macro inside the canonical project. */
+	/**
+	 * Persists one declarative macro after validating each referenced command identity.
+	 * @param {object} input Macro identity, name, parameters, and steps.
+	 * @returns {object} Detached persisted macro.
+	 */
 	create(input = {}) {
 		const macro = {
 			id: input.id || makeId('macro'),
@@ -44,7 +56,7 @@ export class MacroStore {
 		return clonePlain(macro);
 	}
 
-	/** Converts a canonical operation range into a reusable macro document. */
+	/** Converts a successful operation-history range into a reusable macro document. */
 	createFromHistory(name, fromIndex = 0, toIndex) {
 		const creative = this.state.project.creative;
 		const finalIndex = toIndex ?? creative.operationLog.length - 1;
@@ -63,7 +75,10 @@ export class MacroStore {
 			}
 
 			if (step.macroId) {
-				return { macroId: step.macroId, parameters: clonePlain(step.parameters || {}) };
+				return {
+					macroId: step.macroId,
+					parameters: clonePlain(step.parameters || {})
+				};
 			}
 
 			throw new TypeError('Macro step requires commandId or macroId.');

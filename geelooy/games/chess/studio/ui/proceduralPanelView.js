@@ -3,27 +3,30 @@
 // Blessed is He
 
 /**
- * @file Builds the readable-first native 3D controls while leaving state mutation to the panel controller.
+ * @file Builds readable-first native 3D controls and truthful quick-preset selection state.
  * The Awtsmoos lets one quick recipe unfold into many finite controls without confusing root and branch;
- * Awtsmoos.com keeps DOM construction apart from preference changes so advanced power remains measured at a glance.
+ * Awtsmoos.com keeps power discoverable while a pressed state tells the eye what recipe still stands.
  */
 import { createRangeControl, createSelectControl, createToggleControl, humanizeOption } from "./proceduralControlFactory.js";
 
-export function buildProceduralPanel(options, catalog) {
+export function buildProceduralPanel(options, catalog, activeId = "") {
 	const panel = document.createElement("div");
 	panel.className = "chess-studio-procedural-options";
-	panel.append(quickChoices(catalog), advancedControls(options, catalog));
+	panel.append(quickChoices(catalog, activeId), advancedControls(options, catalog));
 	return panel;
 }
 
-function quickChoices(catalog) {
+function quickChoices(catalog, activeId) {
 	const box = document.createElement("div");
 	box.className = "studio-3d-quick-presets";
 	for (const preset of catalog.quick) {
 		const button = document.createElement("button");
+		const selected = preset.id === activeId;
 		button.type = "button";
 		button.dataset.proceduralPreset = preset.id;
 		button.textContent = preset.name;
+		button.classList.toggle("is-active", selected);
+		button.setAttribute("aria-pressed", selected ? "true" : "false");
 		box.append(button);
 	}
 	return box;
@@ -52,23 +55,14 @@ function advancedFields(options, catalog) {
 		select("lighting", "Lighting", catalog.lighting, options),
 		select("quality", "Quality", catalog.quality, options),
 		range("pieceScale", "Piece size", catalog, options),
-		toggle("fog", "Atmospheric fog", options),
-		toggle("followMove", "Follow each move", options),
+		toggle("fog", "Atmospheric fog", options), toggle("followMove", "Follow each move", options),
 		toggle("moveArrow", "3D move arrow", options)
 	];
-	if (options.camera === "manual") {
-		for (const key of ["distance", "elevation", "azimuth", "fov"]) fields.push(range(key, humanizeOption(key), catalog, options, true));
-	}
+	if (options.camera === "manual") for (const key of ["distance", "elevation", "azimuth", "fov"]) fields.push(range(key, humanizeOption(key), catalog, options, true));
 	return fields;
 }
-
-function select(key, label, items, options) {
-	return createSelectControl(key, label, items, options[key]);
-}
-function toggle(key, label, options) {
-	return createToggleControl(key, label, options[key]);
-}
+function select(key, label, items, options) { return createSelectControl(key, label, items, options[key]); }
+function toggle(key, label, options) { return createToggleControl(key, label, options[key]); }
 function range(key, label, catalog, options, manual = false) {
-	const value = manual ? options.manualCamera[key] : options[key];
-	return createRangeControl(key, label, catalog.ranges[key], value, manual);
+	return createRangeControl(key, label, catalog.ranges[key], manual ? options.manualCamera[key] : options[key], manual);
 }

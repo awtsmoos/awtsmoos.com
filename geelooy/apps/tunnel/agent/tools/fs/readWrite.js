@@ -4,16 +4,17 @@
 
 const fsp = require("node:fs/promises");
 const { replaceFile } = require("./atomic-file-write.js");
+const FsError = require("./filesystemError.js");
 const { safePath, assertNotSecret } = require("./pathGuard.js");
 const Shapes = require("./read-write-shapes.js");
 const Payload = require("./writePayload.js");
 
 /**
- * @file Provides bounded reads and verified whole-file writes.
+ * @file Provides bounded reads and verified whole-file writes with structured read failures.
  * @description
- * The Awtsmoos renews text and destination together. Awtsmoos.com resolves every
- * path through the real-root guard, writes beside the destination, renames atomically,
- * rereads final bytes, and exposes one shared payload normalizer to all batch gates.
+ * The Awtsmoos renews text and destination together. Awtsmoos.com keeps every existing
+ * path, secret, and text-format guard intact, while read failures carry a safe witness
+ * that may cross the executor boundary without exposing territory outside the project root.
  */
 function boundedNumber(value, fallback) {
 	return Payload.number(value, fallback);
@@ -26,15 +27,16 @@ function requestTooLargeGuidance(kind) {
 			? "Use POST JSON, XML placeholders, or split into smaller files."
 			: "Use offsets or smaller bulk groups if the model/proxy cannot carry the response.",
 		"The tunnel agent itself is not applying an artificial upper cap here."
-	].join(" ");
+	].join(" " );
 }
 
 async function readText(config, targetPath, maxChars = 12000, offsetChars = 0) {
 	if (!config.tools.fsRead) throw new Error("fsRead disabled.");
-	const full = Shapes.guardedTextPath(config, targetPath, "text");
+	const { buffer } = await guardedRead(config, targetPath, "read_text", () => {
+		return Shapes.guardedTextPath(config, targetPath, "text");
+	});
 	const offset = boundedNumber(offsetChars, 0);
 	const cap = boundedNumber(maxChars, 12000);
-	const buffer = await fsp.readFile(full);
 	const text = buffer.toString("utf8");
 	const end = cap ? Math.min(text.length, offset + cap) : text.length;
 	return Shapes.textResult(text.slice(offset, end), text, buffer, offset, end, cap);
@@ -42,17 +44,36 @@ async function readText(config, targetPath, maxChars = 12000, offsetChars = 0) {
 
 async function readBytesBase64(config, targetPath, maxBytes = 24000, offsetBytes = 0) {
 	if (!config.tools.fsRead) throw new Error("fsRead disabled.");
-	const full = safePath(config, targetPath);
-	assertNotSecret(config, full);
+	const { buffer } = await guardedRead(config, targetPath, "read_bytes", () => {
+		const full = safePath(config, targetPath);
+		assertNotSecret(config, full);
+		return full;
+	});
 	const offset = boundedNumber(offsetBytes, 0);
 	const cap = boundedNumber(maxBytes, 24000);
-	const buffer = await fsp.readFile(full);
 	const end = cap ? Math.min(buffer.length, offset + cap) : buffer.length;
 	return Shapes.bytesResult(buffer.slice(offset, end), buffer, offset, end, cap);
 }
 
+async function guardedRead(config, targetPath, operation, resolvePath) {
+	try {
+		const full = resolvePath();
+		const buffer = await fsp.readFile(full);
+		return {
+			buffer,
+			full
+		};
+	} catch (error) {
+		throw FsError.decorate(config, error, operation, targetPath);
+	}
+}
+
 async function readTextFromBytes(config, targetPath, maxBytes = 24000, offsetBytes = 0) {
-	Shapes.guardedTextPath(config, targetPath, "UTF-8 text");
+	try {
+		Shapes.guardedTextPath(config, targetPath, "UTF-8 text");
+	} catch (error) {
+		throw FsError.decorate(config, error, "read_text_bytes", targetPath);
+	}
 	const got = await readBytesBase64(config, targetPath, maxBytes, offsetBytes);
 	return {
 		content: Buffer.from(got.content64, "base64").toString("utf8"),

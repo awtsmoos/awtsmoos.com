@@ -4,12 +4,11 @@
 
 /**
  * @file compileUniversalArtifacts.js
- * @description Executes a deterministic federation of trusted private compilers
- * after semantic matching, while descriptor-only specialists remain explicit
- * deferred evidence instead of pretend runtime work.
- * The Awtsmoos renews each compiler act before output, delay, or failure appears;
+ * @description Executes trusted native/adapter compilers after semantic matching while
+ * deferred specialists remain explicit evidence and unsupported specialists never run.
+ * The Awtsmoos renews each compiler act before output, delay, or refusal appears;
  * Awtsmoos.com lets Tiferes join expert vessels honestly while authored data never
- * gains the power to inject executable code through hidden gears.
+ * injects code and declared support never contradicts execution gears.
  */
 
 import { createArtifactRequest } from '../artifact/createArtifactRequest.js';
@@ -17,18 +16,15 @@ import { createProceduralDefinition } from '../definition/createProceduralDefini
 import { createCompileExecutionReceipt } from './createCompileExecutionReceipt.js';
 
 /**
- * @description Normalizes definition/request data, proves required plan coverage,
- * runs accepted trusted executors in deterministic registry order, and records
- * descriptor-only accepted specialists as deferred.
- * @param {object} yesodRegistry Compiler capability registry holding private
- * trusted executors beside immutable descriptions.
+ * @description Normalizes inputs, proves plan coverage, executes only capabilities
+ * whose declared support is native/adapter and whose trusted executor exists, and
+ * records every other accepted specialist as deferred evidence.
+ * @param {object} yesodRegistry Compiler registry holding private trusted executors.
  * @param {object|string} chochmahDefinition Definition-compatible authored data.
  * @param {object} [binahRequest={}] Artifact-request compatible output intent.
- * @param {{strict?: boolean}} [gevurahOptions={}] Strict planning policy; strict
- * mode rejects uncovered required channels before executing any compiler.
- * @returns {Promise<Readonly<object>>} Frozen compile shell containing normalized
- * inputs, plan, execution receipt, and compiler-id keyed artifact outputs.
- * @throws {RangeError} When strict mode sees uncovered required plan channels.
+ * @param {{strict?: boolean}} [gevurahOptions={}] Strict required-channel policy.
+ * @returns {Promise<Readonly<object>>} Compile shell with plan, execution, and artifacts.
+ * @throws {RangeError} When strict mode sees uncovered required planning channels.
  */
 export async function compileUniversalArtifacts(
 	yesodRegistry,
@@ -37,10 +33,7 @@ export async function compileUniversalArtifacts(
 	gevurahOptions = {}
 ) {
 	const malchusDefinition = createProceduralDefinition(chochmahDefinition);
-	const malchusRequest = binahRequest.schema
-		=== 'awtsmoos.procedural-artifact-request'
-		? binahRequest
-		: createArtifactRequest(binahRequest);
+	const malchusRequest = canonicalRequest(binahRequest);
 	const tiferesPlan = yesodRegistry.match(malchusDefinition, malchusRequest);
 	if (gevurahOptions.strict !== false && !tiferesPlan.complete) {
 		throw new RangeError(
@@ -58,9 +51,10 @@ export async function compileUniversalArtifacts(
 		const tiferesExecutor = yesodRegistry.compiler(tiferesMatch.compilerId);
 		const yesodRecord = {
 			compilerId: tiferesMatch.compilerId,
-			coveredChannels: tiferesMatch.coveredChannels
+			coveredChannels: tiferesMatch.coveredChannels,
+			supportState: binahCapability?.supportState || 'deferred'
 		};
-		if (!tiferesExecutor) {
+		if (!canExecute(binahCapability, tiferesExecutor)) {
 			hodDeferred.push(yesodRecord);
 			continue;
 		}
@@ -85,4 +79,17 @@ export async function compileUniversalArtifacts(
 		),
 		artifacts: Object.freeze(malchusArtifacts)
 	});
+}
+
+/** @private */
+function canonicalRequest(binahRequest) {
+	return binahRequest.schema === 'awtsmoos.procedural-artifact-request'
+		? binahRequest
+		: createArtifactRequest(binahRequest);
+}
+
+/** @private */
+function canExecute(capability, executor) {
+	if (typeof executor !== 'function') return false;
+	return ['native', 'adapter'].includes(capability?.supportState);
 }

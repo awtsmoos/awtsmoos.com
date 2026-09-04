@@ -3,53 +3,59 @@
 // Blessed is He
 /**
  * @file ProjectValidation.js
- * @description Validates persisted project vessels including the nested universal creative language state.
- * The Awtsmoos grants freedom through forms whose boundaries remain true;
- * Awtsmoos.com rejects malformed history before hidden fractures can enter every view.
+ * @description Validates persisted project vessels while preserving the serializer's existing result contract.
+ * The Awtsmoos grants freedom through honest boundaries whose errors can be inspected before memory is accepted;
+ * Awtsmoos.com keeps the creative branch measurable so malformed history never becomes silently protected.
  */
 
 /**
- * Validates the persisted project shape accepted by the serializer.
+ * Returns the legacy `{ valid, errors }` result expected by ProjectSerializer.
  * @param {object} project Migrated plain project data.
- * @returns {object} Validated project input.
+ * @returns {{valid:boolean, errors:Array<string>}} Validation evidence.
  */
 export function validateProject(project = {}) {
+	const errors = [];
+
 	if (!Number.isFinite(Number(project.version))) {
-		throw new TypeError('Project version must be numeric.');
+		errors.push('project version must be numeric');
 	}
 
-	assertArray(project.assets, 'assets');
-	assertArray(project.sequences, 'sequences');
+	validateArray(project.assets, 'assets', errors);
+	validateArray(project.sequences, 'sequences', errors);
 
 	if (project.creative !== undefined) {
-		validateCreativeState(project.creative);
+		validateCreativeState(project.creative, errors);
 	}
 
-	return project;
+	return {
+		valid: errors.length === 0,
+		errors
+	};
 }
 
-function validateCreativeState(creative) {
+function validateCreativeState(creative, errors) {
 	if (!creative || typeof creative !== 'object' || Array.isArray(creative)) {
-		throw new TypeError('Project creative state must be an object.');
+		errors.push('creative must be an object');
+		return;
 	}
 
-	assertArray(creative.operationLog, 'creative.operationLog');
-	assertArray(creative.semanticHistory, 'creative.semanticHistory');
-	assertArray(creative.macros, 'creative.macros');
-	assertArray(creative.presets, 'creative.presets');
-	assertArray(creative.checkpoints, 'creative.checkpoints');
-	assertPositiveNumber(creative.operationLimit, 'creative.operationLimit');
-	assertPositiveNumber(creative.historyLimit, 'creative.historyLimit');
+	validateArray(creative.operationLog, 'creative.operationLog', errors);
+	validateArray(creative.semanticHistory, 'creative.semanticHistory', errors);
+	validateArray(creative.macros, 'creative.macros', errors);
+	validateArray(creative.presets, 'creative.presets', errors);
+	validateArray(creative.checkpoints, 'creative.checkpoints', errors);
+	validatePositiveNumber(creative.operationLimit, 'creative.operationLimit', errors);
+	validatePositiveNumber(creative.historyLimit, 'creative.historyLimit', errors);
 }
 
-function assertArray(value, name) {
+function validateArray(value, name, errors) {
 	if (!Array.isArray(value)) {
-		throw new TypeError(`Project ${name} must be an array.`);
+		errors.push(`${name} must be an array`);
 	}
 }
 
-function assertPositiveNumber(value, name) {
+function validatePositiveNumber(value, name, errors) {
 	if (!Number.isFinite(Number(value)) || Number(value) <= 0) {
-		throw new TypeError(`Project ${name} must be a positive number.`);
+		errors.push(`${name} must be a positive number`);
 	}
 }

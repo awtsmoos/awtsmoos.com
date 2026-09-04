@@ -1,103 +1,88 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- * The Awtsmoos lets seven portions breathe like one week instead of seven oversized generic cards in a row;
- * Awtsmoos.com keeps each touch broad, each reference clear, and each social doorway where a mobile learner can go.
+ * The Awtsmoos gathers seven days into one calm week whose source stays bright and whose chrome stays slight;
+ * Awtsmoos.com gives navigation room to breathe without pushing Torah out of sight.
  */
+@import url('./chitas-week-days.css?v=native-chitas-004');
+
 .chitas-week-panel {
 	display: grid;
-	gap: 1rem;
-	width: min(100%, 1100px);
+	gap: .8rem;
+	width: min(100%, 1120px);
 	margin-inline: auto;
 }
+
 .chitas-week-header {
 	display: grid;
-	gap: .7rem;
-	padding: 1rem;
-	border: 1px solid color-mix(in srgb, #61e8ff 38%, transparent);
+	gap: .48rem;
+	padding: .85rem;
+	border: 1px solid rgba(113, 232, 255, .22);
 	border-radius: 1rem;
-	background: linear-gradient(145deg, rgba(34, 173, 218, .12), rgba(8, 16, 30, .96));
+	background: linear-gradient(145deg, rgba(28, 152, 194, .08), rgba(7, 13, 25, .96));
 }
+
 .chitas-week-eyebrow,
-.chitas-week-language-note {
+.chitas-week-source {
 	margin: 0;
 }
+
 .chitas-week-eyebrow {
 	color: #71e8ff;
-	font-size: .76rem;
+	font-size: .69rem;
 	font-weight: 900;
-	letter-spacing: .14em;
+	letter-spacing: .12em;
 }
+
 .chitas-week-header h2 {
 	margin: 0;
-	font-size: clamp(1.2rem, 5vw, 1.8rem);
+	font-size: clamp(1.12rem, 4vw, 1.55rem);
 }
-.chitas-week-language-note {
-	color: rgba(226, 236, 250, .72);
-	font-size: .9rem;
-	line-height: 1.45;
+
+.chitas-week-source {
+	color: rgba(225, 235, 250, .66);
+	font-size: .76rem;
 }
+
 .chitas-week-controls {
 	display: grid;
 	grid-template-columns: repeat(2, minmax(0, 1fr));
-	gap: .5rem;
+	gap: .4rem;
 }
+
 .chitas-week-control,
 .chitas-week-date {
 	box-sizing: border-box;
 	min-width: 0;
-	min-height: 48px;
-	border: 1px solid rgba(113, 232, 255, .32);
-	border-radius: .78rem;
-	background: rgba(10, 23, 42, .9);
+	min-height: 44px;
+	border: 1px solid rgba(113, 232, 255, .2);
+	border-radius: .7rem;
+	background: rgba(10, 22, 39, .78);
 	color: #f7f9ff;
 	font: inherit;
 }
+
 .chitas-week-control {
-	padding: .7rem;
+	padding: .58rem;
 	cursor: pointer;
 }
+
 .chitas-week-control.is-active {
 	border-color: #71e8ff;
-	background: rgba(74, 195, 230, .18);
-	box-shadow: inset 0 -2px 0 #dc6ce5;
+	background: rgba(74, 195, 230, .12);
 }
+
 .chitas-week-date {
 	grid-column: 1 / -1;
-	padding: .65rem;
+	padding: .55rem;
 	color-scheme: dark;
 }
-.chitas-week-list {
-	display: grid;
-	grid-template-columns: 1fr;
-	gap: .7rem;
-}
-.chitas-week-panel .chitas-study-card {
-	display: grid;
-	grid-template-columns: 1fr;
-	min-height: 0;
-	border-radius: .95rem;
-}
-.chitas-week-panel .chitas-study-card .nav-card-media,
-.chitas-week-panel .chitas-study-card .nav-card-kicker,
-.chitas-week-panel .chitas-study-card .nav-card-meta {
-	display: none;
-}
-.chitas-week-panel .chitas-study-card .nav-card-body {
-	min-width: 0;
-}
-.chitas-week-panel .chitas-study-card .nav-card-description {
-	overflow-wrap: anywhere;
-}
-.chitas-week-panel .chitas-study-card.is-selected-day {
-	border-color: #71e8ff;
-	box-shadow: 0 0 0 1px rgba(113, 232, 255, .25), 0 .8rem 2rem rgba(0, 0, 0, .18);
-}
+
 @media (min-width: 720px) {
-	.chitas-week-controls { grid-template-columns: repeat(6, minmax(0, 1fr)); }
-	.chitas-week-date { grid-column: auto; }
-	.chitas-week-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-@media (min-width: 1080px) {
-	.chitas-week-list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+	.chitas-week-controls {
+		grid-template-columns: repeat(6, minmax(0, 1fr));
+	}
+	.chitas-week-date {
+		grid-column: auto;
+	}
 }

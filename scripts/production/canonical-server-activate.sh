@@ -15,6 +15,7 @@ health_url="${AWTSMOOS_PRODUCTION_HEALTH_URL:-http://127.0.0.1:8080/}"
 extension_builder="$repo/geelooy/ai/scripts/buildServerExtensionZip.cjs"
 extension_artifact="$repo/geelooy/ai/relay/install/awtsmoos-server-extension.zip"
 script_directory="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+watchdog_installer="$script_directory/install-health-watchdog.sh"
 virtual_ssh_probe="$script_directory/virtual-ssh-listener-probe.sh"
 compact_prewarmer="$script_directory/compact-prewarm.mjs"
 virtual_ssh_port="${AWTSMOOS_VIRTUAL_SSH_PORT:-2223}"
@@ -63,6 +64,7 @@ trap rollback EXIT
 [ -d "$repo/users" ] || fail canonical_users_missing
 [ -d "$repo/geelooy/.data" ] || fail canonical_data_missing
 [ -f "$extension_builder" ] || fail extension_builder_missing
+[ -f "$watchdog_installer" ] || fail watchdog_installer_missing
 [ -f "$virtual_ssh_probe" ] || fail virtual_ssh_protocol_probe_missing
 [ -f "$compact_prewarmer" ] || fail compact_prewarmer_missing
 
@@ -75,7 +77,7 @@ if [ -f "$override" ]; then
 fi
 armed=1
 install -D -m 0644 "$source_override" "$override"
-systemctl daemon-reload
+bash "$watchdog_installer"
 systemctl restart "$service"
 
 healthy=0

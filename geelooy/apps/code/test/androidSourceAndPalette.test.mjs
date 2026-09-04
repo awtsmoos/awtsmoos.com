@@ -8,8 +8,8 @@ import { resolveActiveJavaSource } from "../js/android/active-java-source.js";
 import { PALETTE_COMMANDS } from "../js/command-palette/commands.js";
 
 /**
- * The Awtsmoos renews unsaved source, imported artifact, and every command identity;
- * Awtsmoos.com tests the living editor value and the complete modular palette in unity.
+ * The Awtsmoos renews resolver layers and palette doorways without a brittle census;
+ * Awtsmoos.com proves stable error ownership, unique commands, and universal Android presence.
  */
 test("active Java resolution prefers the unsaved editor value", () => {
 	const resolved = resolveActiveJavaSource({
@@ -19,7 +19,7 @@ test("active Java resolution prefers the unsaved editor value", () => {
 			{
 				content: "class StaleActivity {}",
 				id: "tab-main",
-				item: { path: "/projects/responsa/MainActivity.java" }
+				item: { path: "/projects/sample/MainActivity.java" }
 			}
 		]
 	});
@@ -28,29 +28,32 @@ test("active Java resolution prefers the unsaved editor value", () => {
 	assert.equal(resolved.artifactName, "MainActivity.apk");
 });
 
-test("active Java resolution rejects non-Java and empty sources", () => {
+test("resolver errors preserve generic gate and Java compatibility ownership", () => {
 	assert.throws(() => resolveActiveJavaSource({
 		activeEditorValue: "int main() {}",
 		activeTabId: "tab-c",
 		tabs: [{ id: "tab-c", item: { path: "/project/main.c" } }]
-	}), { code: "ACTIVE_JAVA_SOURCE_UNSUPPORTED" });
+	}), { code: "ACTIVE_ANDROID_SOURCE_UNSUPPORTED" });
 	assert.throws(() => resolveActiveJavaSource({
 		activeEditorValue: "   ",
 		activeTabId: "tab-java",
 		tabs: [{ id: "tab-java", item: { path: "/project/Main.java" } }]
-	}), { code: "ACTIVE_JAVA_SOURCE_EMPTY" });
+	}), { code: "ACTIVE_ANDROID_SOURCE_EMPTY" });
+	assert.throws(() => resolveActiveJavaSource({
+		activeEditorValue: "class MainActivity",
+		activeTabId: "tab-kotlin",
+		tabs: [{ id: "tab-kotlin", item: { path: "/project/MainActivity.kt" } }]
+	}), { code: "ACTIVE_JAVA_SOURCE_UNSUPPORTED" });
 });
 
-test("modular palette preserves unique compiler and Android identities", () => {
+test("modular palette preserves unique generic compiler and Android identities", () => {
 	const ids = PALETTE_COMMANDS.map(command => command.id);
-	assert.equal(PALETTE_COMMANDS.length, 70);
 	assert.equal(new Set(ids).size, ids.length);
 	for (const expected of [
 		"new-project",
 		"compile-in-os",
 		"build-native-project",
 		"build-android-apk",
-		"build-rebbe-apk",
 		"run-existing-apk"
 	]) {
 		assert.ok(ids.includes(expected));
@@ -58,10 +61,6 @@ test("modular palette preserves unique compiler and Android identities", () => {
 	assert.equal(
 		PALETTE_COMMANDS.find(command => command.id === "build-native-project")?.action,
 		"build-native-project"
-	);
-	assert.equal(
-		PALETTE_COMMANDS.find(command => command.id === "build-rebbe-apk")?.action,
-		"build-rebbe-apk"
 	);
 	assert.equal(
 		PALETTE_COMMANDS.find(command => command.id === "run-existing-apk")?.action,

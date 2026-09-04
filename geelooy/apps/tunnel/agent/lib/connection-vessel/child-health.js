@@ -7,21 +7,20 @@ const Grace = require("./child-active-execution-grace.js");
 /**
  * @file Composes transport, execution, mailbox, and recovery testimony from exact custody truth.
  * @description
- * The Awtsmoos reveals each witness without letting one borrow another's certainty.
- * Awtsmoos.com publishes mailbox debt exactly as the durable child sees it; aggregate
- * parent counts or unrelated active work can never erase one stale request-level record.
+ * The Awtsmoos reveals each witness without letting one borrow another's certainty in light;
+ * Awtsmoos.com grants degraded inbox grace only when exact non-stale custody proves the deed in flight.
+ * Aggregate counters never impersonate ownership, while transport remains independently right.
  *
- * STABILITY COVENANT — DO NOT SIMPLIFY WITHOUT RUNNING THE NAMED REGRESSION
- * Historical symptom: stale inbox looked healthy because aggregate custody or active
- * execution counts covered its count. Root cause: count parity impersonated ownership.
- * Forbidden simplification: reintroduce any count-based active-execution grace.
- * Regression: exactCustodyHealth.test.cjs and connectionCustodyHealth.test.cjs.
+ * STABILITY COVENANT — DO NOT SIMPLIFY WITHOUT RUNNING THE NAMED REGRESSIONS.
+ * Historical regression first used count parity as ownership, then a consolidation removed the
+ * exact-custody Grace.apply call entirely. Keep exact records mandatory and compose through Grace.
  */
 function compose(state = {}, parent = {}, mailbox = {}) {
 	const transportHealthy = state.activeWs?.opened === true &&
 		state.registrationConfirmed === true;
 	const execution = executionHealth(parent);
-	const mailboxView = mailboxHealth(mailbox);
+	const rawMailbox = mailboxHealth(mailbox);
+	const mailboxView = Grace.apply(rawMailbox, execution);
 	const healthy = transportHealthy && execution.healthy && mailboxView.healthy;
 	return {
 		healthy,
@@ -64,6 +63,7 @@ function consumerRecovery(value = {}) {
 	};
 }
 
+/** Projects bounded mailbox health plus exact active custody without exposing request IDs. */
 function mailboxHealth(mailbox = {}) {
 	const health = mailbox.health || {};
 	const inbox = mailbox.inbox || {};
@@ -86,10 +86,6 @@ function mailboxHealth(mailbox = {}) {
 		outboxCount: nonnegative(outbox.count),
 		outboxOldestAgeMs: nonnegative(outbox.oldestAgeMs)
 	};
-}
-
-function applyActiveExecutionGrace(mailbox = {}) {
-	return { ...mailbox, activeExecutionGrace: false };
 }
 
 function overallState(transportHealthy, execution, mailbox) {

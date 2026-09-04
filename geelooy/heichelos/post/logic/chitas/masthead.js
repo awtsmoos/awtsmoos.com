@@ -2,96 +2,96 @@
 // Boruch Hashem
 // Blessed is He
 /**
- * @module ChitasMasthead
+ * @file masthead.js
  * @description
- * The Awtsmoos lets date, week, and language crown the Torah only after the Scribe has revealed its stream;
- * Awtsmoos.com keeps canonical Hebrew explicit while touchable controls remain honest, stable, and seen.
+ * The Awtsmoos lets the Torah itself become the center while chrome retreats from sight;
+ * Awtsmoos.com crowns one focused day with source truth, direct navigation, and native reader scale in a compact light.
  */
 
-const STYLE_HREF = '/heichelos/post/logic/chitas/masthead.css?v=native-chitas-003';
+import { createChitasNavigation } from './masthead-navigation.js?v=native-chitas-004';
+import { createChitasReaderScaleControls } from './masthead-reader-controls.js?v=native-chitas-004';
 
-function dateFromKey(key) {
-	return new Date(`${key}T12:00:00`);
-}
+const STYLE_HREF = '/heichelos/post/logic/chitas/masthead.css?v=native-chitas-004';
 
-function shiftedKey(key, days) {
-	const date = dateFromKey(key);
-	date.setDate(date.getDate() + days);
-	return [date.getFullYear(), String(date.getMonth() + 1).padStart(2, '0'), String(date.getDate()).padStart(2, '0')].join('-');
-}
-
-function todayKey() {
-	const date = new Date();
-	return [date.getFullYear(), String(date.getMonth() + 1).padStart(2, '0'), String(date.getDate()).padStart(2, '0')].join('-');
-}
-
-function navigate(dateKey, lang) {
-	const params = new URLSearchParams(location.search);
-	params.set('chitasDate', dateKey);
-	params.set('chitasLang', lang);
-	const path = location.pathname.replace(/chitas-\d{4}-\d{2}-\d{2}/, `chitas-${dateKey}`);
-	location.href = `${path}?${params}`;
-}
-
-function button(label, action, active = false) {
-	const element = document.createElement('button');
-	element.type = 'button';
-	element.className = `chitas-reader-control${active ? ' is-active' : ''}`;
-	element.textContent = label;
-	element.addEventListener('click', action);
-	return element;
+function safe(value, fallback) {
+	const text = String(value ?? '').trim();
+	if (!text || text === 'undefined' || text === 'null') {
+		return fallback;
+	}
+	return text;
 }
 
 function ensureStyle() {
-	if (document.querySelector(`link[href="${STYLE_HREF}"]`)) return;
+	if (document.querySelector(`link[href="${STYLE_HREF}"]`)) {
+		return;
+	}
 	const link = document.createElement('link');
 	link.rel = 'stylesheet';
 	link.href = STYLE_HREF;
 	document.head.append(link);
 }
 
-function datePicker(chitas, lang) {
-	const picker = document.createElement('input');
-	picker.type = 'date';
-	picker.className = 'chitas-reader-date';
-	picker.value = chitas.date;
-	picker.setAttribute('aria-label', lang === 'he' ? 'בחר תאריך' : 'Choose study date');
-	picker.addEventListener('change', () => picker.value && navigate(picker.value, lang));
-	return picker;
+function createIdentity(chitas, language) {
+	const identity = document.createElement('div');
+	identity.className = 'chitas-reader-identity';
+	const eyebrow = document.createElement('p');
+	eyebrow.className = 'chitas-reader-eyebrow';
+	eyebrow.textContent = language === 'he' ? 'חת״ת יומי · חומש' : 'DAILY CHITAS · CHUMASH';
+	const heading = document.createElement('h1');
+	const weekday = language === 'he'
+		? safe(chitas.weekdayHebrew, 'יום לימוד')
+		: safe(chitas.weekday, 'Daily Chitas');
+	const portion = language === 'he'
+		? safe(chitas.portionHebrew, 'חלק')
+		: safe(chitas.portion, 'Portion');
+	heading.textContent = `${weekday} · ${portion}`;
+	const meta = document.createElement('p');
+	meta.className = 'chitas-reader-meta';
+	meta.textContent = [
+		safe(chitas.date, 'Study date'),
+		safe(chitas.referenceText, 'Native Torah range'),
+		safe(chitas.parshaHebrew, '')
+	].filter(Boolean).join(' · ');
+	identity.append(eyebrow, heading, meta);
+	return identity;
+}
+
+function createSource(language) {
+	const source = document.createElement('div');
+	source.className = 'chitas-reader-source';
+	const badge = document.createElement('strong');
+	badge.textContent = language === 'he' ? 'עברית מקורית · איקר' : 'Canonical Hebrew · Ikar';
+	const note = document.createElement('span');
+	note.textContent = language === 'he'
+		? 'תרגום אנגלי מקומי אינו זמין.'
+		: 'English Torah is unavailable locally; English changes the interface only.';
+	source.append(badge, note);
+	return source;
 }
 
 export function renderChitasMasthead(viewport, post) {
-	const chitas = post?.dayuh?.meta?.chitas;
-	if (!chitas) return;
-	ensureStyle();
+	viewport.classList.remove('chitas-reader-active');
 	viewport.querySelector('.chitas-reader-masthead')?.remove();
-	const lang = chitas.lang === 'he' ? 'he' : 'en';
+	const chitas = post?.dayuh?.meta?.chitas;
+	if (!chitas) {
+		return;
+	}
+	ensureStyle();
+	viewport.classList.add('chitas-reader-active');
+	const language = chitas.lang === 'he' ? 'he' : 'en';
 	const shell = document.createElement('section');
 	shell.className = 'chitas-reader-masthead';
-	shell.dir = lang === 'he' ? 'rtl' : 'ltr';
-	const eyebrow = document.createElement('p');
-	eyebrow.className = 'chitas-reader-eyebrow';
-	eyebrow.textContent = lang === 'he' ? 'חת״ת יומי · חומש' : 'DAILY CHITAS · CHUMASH';
-	const heading = document.createElement('h2');
-	heading.textContent = lang === 'he' ? `${chitas.weekdayHebrew} · ${chitas.portionHebrew}` : `${chitas.weekday} · ${chitas.portion}`;
-	const meta = document.createElement('p');
-	meta.className = 'chitas-reader-meta';
-	meta.textContent = `${chitas.date} · ${chitas.referenceText}${chitas.parshaHebrew ? ` · ${chitas.parshaHebrew}` : ''}`;
-	const sourceNote = document.createElement('p');
-	sourceNote.className = 'chitas-reader-source-note';
-	sourceNote.textContent = lang === 'he'
-		? 'טקסט התורה הוא המקור העברי מתנ״ך איקר.'
-		: 'English interface · Torah text is canonical Hebrew. Native English Tanach translation is not materialized yet.';
+	shell.dir = language === 'he' ? 'rtl' : 'ltr';
 	const controls = document.createElement('div');
-	controls.className = 'chitas-reader-controls';
+	controls.className = 'chitas-reader-control-deck';
 	controls.append(
-		button(lang === 'he' ? 'שבוע קודם' : 'Previous week', () => navigate(shiftedKey(chitas.date, -7), lang)),
-		button(lang === 'he' ? 'היום' : 'Today', () => navigate(todayKey(), lang)),
-		datePicker(chitas, lang),
-		button(lang === 'he' ? 'שבוע הבא' : 'Next week', () => navigate(shiftedKey(chitas.date, 7), lang)),
-		button('עברית', () => navigate(chitas.date, 'he'), lang === 'he'),
-		button('English UI', () => navigate(chitas.date, 'en'), lang === 'en')
+		createChitasNavigation(chitas, language),
+		createChitasReaderScaleControls(language)
 	);
-	shell.append(eyebrow, heading, meta, sourceNote, controls);
+	shell.append(
+		createIdentity(chitas, language),
+		createSource(language),
+		controls
+	);
 	viewport.prepend(shell);
 }

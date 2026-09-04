@@ -1,0 +1,91 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos is beyond every button, while the learner still needs a small vessel to move and enlarge the light;
+ * Awtsmoos.com keeps navigation and reader scale touchable, compact, and faithful through day and night.
+ */
+.chitas-reader-control-deck {
+	display: grid;
+	gap: .42rem;
+}
+
+.chitas-reader-navigation,
+.chitas-reader-scale {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .34rem;
+	align-items: center;
+}
+
+.chitas-reader-control,
+.chitas-reader-scale-button {
+	min-height: 42px;
+	padding: .5rem .65rem;
+	border: 1px solid rgba(111, 226, 244, .2);
+	border-radius: .68rem;
+	background: rgba(8, 21, 35, .8);
+	color: #eef8ff;
+	font: 760 .7rem/1 system-ui, sans-serif;
+	cursor: pointer;
+	transition: transform 140ms ease, border-color 140ms ease, background 140ms ease;
+}
+
+.chitas-reader-control:hover,
+.chitas-reader-control:focus-visible,
+.chitas-reader-scale-button:hover,
+.chitas-reader-scale-button:focus-visible {
+	border-color: rgba(111, 226, 244, .55);
+	background: rgba(75, 193, 219, .1);
+}
+
+.chitas-reader-control:active,
+.chitas-reader-scale-button:active {
+	transform: translateY(1px);
+}
+
+.chitas-reader-control.is-active {
+	border-color: #72e6f4;
+	background: rgba(75, 193, 219, .15);
+}
+
+.chitas-reader-scale {
+	width: fit-content;
+	padding: .28rem;
+	border: 1px solid rgba(255, 255, 255, .06);
+	border-radius: .75rem;
+	background: rgba(255, 255, 255, .018);
+}
+
+.chitas-reader-scale-label {
+	padding-inline: .38rem .18rem;
+	color: rgba(227, 235, 245, .58);
+	font: 760 .64rem/1 system-ui, sans-serif;
+}
+
+.chitas-reader-scale-button {
+	min-width: 42px;
+	padding-inline: .48rem;
+}
+
+@media (max-width: 520px) {
+	.chitas-reader-navigation {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+
+	.chitas-reader-navigation .chitas-reader-control:nth-last-child(-n + 2) {
+		grid-column: span 1;
+	}
+
+	.chitas-reader-scale {
+		width: 100%;
+		justify-content: space-between;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.chitas-reader-control,
+	.chitas-reader-scale-button {
+		transition: none;
+	}
+}

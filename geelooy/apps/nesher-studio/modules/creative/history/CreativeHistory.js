@@ -3,13 +3,18 @@
 // Blessed is He
 /**
  * @file CreativeHistory.js
- * @description Preserves bounded semantic evidence without replacing reliable project snapshots.
- * The Awtsmoos gives memory meaning without making yesterday heavier than today;
- * Awtsmoos.com keeps operation intent reusable, inspectable, and ready to become a workflow way.
+ * @description Preserves bounded semantic evidence beside undo snapshots without making history recursively heavy.
+ * The Awtsmoos gives memory meaning while each instant is still renewed and free;
+ * Awtsmoos.com keeps successful operations reusable so yesterday can become tomorrow's macro tree.
  */
 import { clonePlain } from '../../project/ids.js';
 
-/** Records one successful operation and its human-readable semantic history entry. */
+/**
+ * Records one successful operation and its human-readable semantic history entry.
+ * @param {object} creative Canonical creative project branch.
+ * @param {object} operation JSON-safe operation envelope.
+ * @returns {object} The same operation for orchestration continuity.
+ */
 export function appendCreativeOperation(creative, operation) {
 	creative.operationLog.push(clonePlain(operation));
 	trimFront(creative.operationLog, creative.operationLimit);
@@ -18,26 +23,38 @@ export function appendCreativeOperation(creative, operation) {
 	return operation;
 }
 
-/** Returns detached recent semantic history for UI, scripts, or AI explanation. */
+/** Returns detached recent semantic history for UI, script, or AI explanation. */
 export function recentCreativeHistory(creative, count = 20) {
-	const limit = Math.max(0, Number(count) || 0);
+	const limit = normalizeCount(count);
 	return clonePlain(creative.semanticHistory.slice(-limit));
 }
 
 /** Returns detached recent operation envelopes. */
 export function recentCreativeOperations(creative, count = 20) {
-	const limit = Math.max(0, Number(count) || 0);
+	const limit = normalizeCount(count);
 	return clonePlain(creative.operationLog.slice(-limit));
 }
 
-/** Converts selected successful history into reusable command steps rather than session replay IDs. */
-export function historyToMacroSteps(creative, fromIndex = 0, toIndex = creative.operationLog.length - 1) {
+/**
+ * Converts successful operation history into declarative reusable macro steps.
+ * @param {object} creative Canonical creative branch.
+ * @param {number} fromIndex Inclusive starting operation index.
+ * @param {number} toIndex Inclusive ending operation index.
+ * @returns {Array<object>} Command steps with detached parameters.
+ */
+export function historyToMacroSteps(
+	creative,
+	fromIndex = 0,
+	toIndex = creative.operationLog.length - 1
+) {
 	return creative.operationLog
 		.slice(fromIndex, toIndex + 1)
-		.map((operation) => ({
-			commandId: operation.commandId,
-			parameters: clonePlain(operation.parameters || {})
-		}));
+		.map((operation) => {
+			return {
+				commandId: operation.commandId,
+				parameters: clonePlain(operation.parameters || {})
+			};
+		});
 }
 
 function createSemanticEntry(operation) {
@@ -50,6 +67,10 @@ function createSemanticEntry(operation) {
 		source: operation.source,
 		createdAt: operation.createdAt
 	};
+}
+
+function normalizeCount(count) {
+	return Math.max(0, Number(count) || 0);
 }
 
 function trimFront(items, limit) {

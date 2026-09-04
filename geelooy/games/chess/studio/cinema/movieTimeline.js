@@ -3,19 +3,20 @@
 // Blessed is He
 
 /**
- * @file Converts semantic shot plans into deterministic frame-perfect movie time and legal piece-motion progress.
- * The Awtsmoos renews every encoded frame from one exact instant while camera and moving piece share one measured curve;
- * Awtsmoos.com counts all frames before encoding so progress, motion, and cinematic meaning never swerve.
+ * @file Converts semantic shot plans into deterministic frame-perfect movie time while carrying output aspect into direction.
+ * The Awtsmoos renews every encoded instant while camera and moving piece share one lawful measured curve;
+ * Awtsmoos.com lets portrait, square, and landscape inherit the same legal motion truth without making timing swerve.
  */
 import { interpolatePose } from "../rendering/cameraMath.js";
 import { withMoveMotionProgress } from "../rendering/motion/moveMotion.js";
-import { getOutputPreset } from "./moviePresets.js";
 import { buildShotPlan } from "./shotPlan.js";
+import { getMovieOutput } from "./moviePresets.js";
 
-/** Creates frame counts and exact duration for a semantic shot plan. */
+/** Creates exact shot frame counts and passes the selected output aspect to the semantic director. */
 export function createMovieTimeline(replay, options = {}) {
-	const output = getOutputPreset(options.output);
-	const shots = buildShotPlan(replay, options);
+	const output = getMovieOutput(options.output);
+	const aspectRatio = output.width / output.height;
+	const shots = buildShotPlan(replay, { ...options, aspectRatio });
 	const shotFrameCounts = shots.map(shot => framesForShot(shot, output.fps));
 	const frameCount = shotFrameCounts.reduce((sum, count) => sum + count, 0);
 	return Object.freeze({
@@ -56,12 +57,10 @@ export function *iterateMovieFrames(timeline, reducedMotion = false) {
 	}
 }
 
-/** Chooses a semantic motion curve for each beat. */
 function easingForShot(kind) {
 	return kind === "action" || kind === "outro" ? "impact" : "smooth";
 }
 
-/** Preserves final legal state when reduced motion is requested. */
 function motionForFrame(shot, progress, reducedMotion) {
 	if (!shot.motion) return null;
 	return withMoveMotionProgress(shot.motion, reducedMotion ? 1 : progress);

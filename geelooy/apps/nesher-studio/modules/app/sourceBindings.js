@@ -1,39 +1,67 @@
-/* B"H
-Source bindings: each button invites a new vessel into the scene garden.
-The Awtsmoos is not the webcam, file, or visualizer; He is the instant it can appear.
+//B"H
+// Boruch Hashem
+// Blessed is He
+/**
+* @file sourceBindings.js
+* @description Composes deterministic, captured, and file source controls around one canonical add-and-project pathway.
+* The Awtsmoos lets many source garments enter one scene through a single river of truth;
+* Awtsmoos.com keeps graph mutation and visible projection joined while acquisition branches remain uncouth to neither youth nor sleuth.
 */
 import { addSource } from '../graph/sceneGraph.js';
-import { makeAudioFileSource, makeBrowserSource, makeCanvasSource, makeDisplaySource, makeIframeSource, makeImageFileSource, makeMonitorSource, makeVideoFileSource, makeWebcamSource } from '../sources.js';
+import {
+	makeBrowserSource,
+	makeCanvasSource,
+	makeIframeSource
+} from '../sources.js';
 import { makeAudioVisualizerSource } from '../visualizer/audioVisualizerSource.js';
-import { DEFAULT_VISUALIZER_SOURCE_FAMILY_ID, visualizerFamilyOptionsHtml } from '../visualizer/sourceFamilyRegistry.js';
+import {
+	DEFAULT_VISUALIZER_SOURCE_FAMILY_ID,
+	visualizerFamilyOptionsHtml
+} from '../visualizer/sourceFamilyRegistry.js';
+import { bindCaptureSourceControls } from './sourceCaptureBindings.js';
+import { bindFileSourceControls } from './sourceFileBindings.js';
 
-export function bindSourceControls({ dom, state, changed, setStatus }) {
-  setupVisualizerFamilies(dom);
-  const add = source => addSceneSource({ state, source, changed });
-  dom.addCanvas.onclick = () => add(makeCanvasSource());
-  dom.addIframe.onclick = () => add(makeIframeSource(dom.iframeUrl.value.trim()));
-  dom.addBrowser.onclick = () => add(makeBrowserSource(dom.iframeUrl.value.trim()));
-  dom.addAudioVisualizer.onclick = () => add(makeAudioVisualizerSource(state));
-  dom.addVisualizerFamily.onclick = () => add(makeAudioVisualizerSource(state, dom.visualizerFamily.value));
-  dom.addWebcam.onclick = () => guardedAdd(() => makeWebcamSource('both'), 'Webcam', add, setStatus);
-  dom.addWebcamVideo.onclick = () => guardedAdd(() => makeWebcamSource('video'), 'Webcam video', add, setStatus);
-  dom.addMic.onclick = () => guardedAdd(() => makeWebcamSource('audio'), 'Mic audio', add, setStatus);
-  dom.addMonitor.onclick = () => guardedAdd(() => makeMonitorSource('both'), 'Monitor', add, setStatus);
-  dom.addDisplay.onclick = () => guardedAdd(() => makeDisplaySource('both'), 'Display', add, setStatus);
-  dom.addDisplayVideo.onclick = () => guardedAdd(() => makeDisplaySource('video'), 'Display video', add, setStatus);
-  dom.addDisplayAudio.onclick = () => guardedAdd(() => makeDisplaySource('audio'), 'Display audio', add, setStatus);
-  bindFileButtons({ dom, add, setStatus });
+/** Binds every lazy Sources control while keeping all additions on one projection-aware callback. */
+export function bindSourceControls({
+	dom,
+	state,
+	changed,
+	refreshSources,
+	setStatus
+}) {
+	setupVisualizerFamilies(dom);
+	const add = (source) => addSceneSource({
+		state,
+		source,
+		changed,
+		refreshSources
+	});
+	bindDeterministicSourceControls({ dom, state, add });
+	bindCaptureSourceControls({ dom, add, setStatus });
+	bindFileSourceControls({ dom, add, setStatus });
 }
+
+/** Binds sources that can be created immediately without browser permission or file acquisition. */
+function bindDeterministicSourceControls({ dom, state, add }) {
+	dom.addCanvas.onclick = () => add(makeCanvasSource());
+	dom.addIframe.onclick = () => add(makeIframeSource(dom.iframeUrl.value.trim()));
+	dom.addBrowser.onclick = () => add(makeBrowserSource(dom.iframeUrl.value.trim()));
+	dom.addAudioVisualizer.onclick = () => add(makeAudioVisualizerSource(state));
+	dom.addVisualizerFamily.onclick = () => add(
+		makeAudioVisualizerSource(state, dom.visualizerFamily.value)
+	);
+}
+
+/** Populates visualizer families once the Sources feature owns its controls. */
 function setupVisualizerFamilies(dom) {
-  dom.visualizerFamily.innerHTML = visualizerFamilyOptionsHtml();
-  dom.visualizerFamily.value = DEFAULT_VISUALIZER_SOURCE_FAMILY_ID;
+	dom.visualizerFamily.innerHTML = visualizerFamilyOptionsHtml();
+	dom.visualizerFamily.value = DEFAULT_VISUALIZER_SOURCE_FAMILY_ID;
 }
-function bindFileButtons({ dom, add, setStatus }) {
-  dom.addImage.onclick = () => dom.imageFile.click(); dom.addVideoFile.onclick = () => dom.videoFile.click(); dom.addAudioFile.onclick = () => dom.audioFile.click();
-  dom.imageFile.onchange = () => addFile(dom.imageFile, makeImageFileSource, add, setStatus);
-  dom.videoFile.onchange = () => addFile(dom.videoFile, makeVideoFileSource, add, setStatus);
-  dom.audioFile.onchange = () => addFile(dom.audioFile, makeAudioFileSource, add, setStatus);
+
+/** Adds one source, publishes its projection, and only then announces the completed change. */
+function addSceneSource({ state, source, changed, refreshSources }) {
+	addSource(state, source);
+	refreshSources(state);
+	changed(`${source.name} added.`);
+	return source;
 }
-async function addFile(input, factory, add, setStatus) { const file = input.files?.[0]; if (!file) return; try { add(await factory(file)); input.value = ''; } catch (e) { setStatus(`File source failed: ${e.message}`); } }
-async function guardedAdd(factory, label, add, setStatus) { try { add(await factory()); } catch (e) { setStatus(`${label} blocked or unavailable: ${e.message}`); } }
-function addSceneSource({ state, source, changed }) { addSource(state, source); changed(`${source.name} added.`); }

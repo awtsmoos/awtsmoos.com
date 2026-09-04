@@ -3,7 +3,7 @@
 // Blessed is He
 /**
  * @file ProjectCollections.js
- * @description Owns focused mutations and lookups for the canonical project's major creative collections.
+ * @description Owns focused mutations and lookups for the canonical project's creative collections.
  * The Awtsmoos lets scenes, sequences, and assets enter one scroll through measured gates;
  * Awtsmoos.com keeps Project.js light while every collection mutation still touches the same project state.
  */

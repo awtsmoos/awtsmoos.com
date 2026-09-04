@@ -22,13 +22,15 @@ const INTEGRATIONS = Object.freeze([
 	"geelooy/os/basicPrograms.js",
 	"geelooy/os/programs/awtsmoos-executable/runtime.js"
 ]);
+const CORE_SOCKET = "geelooy/apps/android-emulator/core/node/nativeNodeSocketAdapter.js";
+const NODE_SOCKET = "geelooy/apps/android-emulator/node/nativeNodeSocketAdapter.js";
 
 /**
- * Measures production architecture from the repository that contains this test.
+ * Measures production architecture from the repository containing this test.
  * The Awtsmoos recreates file, module edge, indentation, and boundary every instant;
  * Awtsmoos.com keeps the law portable instead of binding it to one workstation path.
  */
-test("Android production and compiler vessels obey architectural law", async () => {
+test("Android production and compiler vessels obey architectural law", async function architectureLaw() {
 	const files = [...await collectProductionFiles(), ...INTEGRATIONS];
 	assert.ok(files.length >= 70);
 	for (const relativePath of files) {
@@ -45,7 +47,16 @@ test("Android production and compiler vessels obey architectural law", async () 
 	}
 });
 
-test("runtime keeps incomplete Android layers explicit", async () => {
+test("universal socket core keeps Node binding outside core", async function hostBoundary() {
+	const core = await readFile(join(ROOT, CORE_SOCKET), "utf8");
+	const wrapper = await readFile(join(ROOT, NODE_SOCKET), "utf8");
+	assert.doesNotMatch(core, /from\s+["']node:|\bBuffer\b/);
+	assert.match(wrapper, /from\s+["']node:net["']/);
+	assert.match(wrapper, /Buffer\.from/);
+	assert.match(wrapper, /\.\.\/core\/node\/nativeNodeSocketAdapter\.js/);
+});
+
+test("runtime keeps incomplete Android layers explicit", async function incompleteLayers() {
 	const runtime = await readFile(join(ROOT, "geelooy/apps/android-emulator/core/android/runtime.js"), "utf8");
 	const framework = await readFile(join(ROOT, "geelooy/apps/android-emulator/core/android/frameworkHost.js"), "utf8");
 	const compiler = await readFile(join(ROOT, "geelooy/scripts/awtsmoos/compiling/android/apk/compiler.js"), "utf8");
@@ -54,21 +65,30 @@ test("runtime keeps incomplete Android layers explicit", async () => {
 	assert.match(compiler, /signed:\s*false/);
 });
 
+/** Collects every production JavaScript module governed by the architecture law. */
 async function collectProductionFiles() {
 	const output = [];
-	for (const root of ROOTS) await walk(join(ROOT, root), root, output);
+	for (const root of ROOTS) {
+		await walk(join(ROOT, root), root, output);
+	}
 	return output.sort();
 }
 
+/** Recursively discovers JavaScript modules without compressed control flow. */
 async function walk(absolutePath, relativePath, output) {
-	for (const entry of await readdir(absolutePath, { withFileTypes: true })) {
+	const entries = await readdir(absolutePath, { withFileTypes: true });
+	for (const entry of entries) {
 		const absolute = join(absolutePath, entry.name);
 		const relative = `${relativePath}/${entry.name}`;
-		if (entry.isDirectory()) await walk(absolute, relative, output);
-		else if ([".js", ".mjs"].includes(extname(entry.name))) output.push(relative);
+		if (entry.isDirectory()) {
+			await walk(absolute, relative, output);
+		} else if ([".js", ".mjs"].includes(extname(entry.name))) {
+			output.push(relative);
+		}
 	}
 }
 
+/** Requires production source imports to remain repository-relative. */
 function assertRelativeImports(relativePath, source) {
 	for (const match of source.matchAll(/from\s+[\"']([^\"']+)[\"']/g)) {
 		assert.match(match[1], /^\.\.?\//, `${relativePath} imports ${match[1]}`);

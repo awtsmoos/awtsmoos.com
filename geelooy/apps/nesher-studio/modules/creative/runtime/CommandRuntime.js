@@ -3,16 +3,16 @@
 // Blessed is He
 /**
  * @file CommandRuntime.js
- * @description Executes every creative command through one validated transactional path regardless of caller.
+ * @description Executes every creative command through one validated path whose transaction may be owned locally or borrowed from an outer macro.
  * The Awtsmoos is one beneath human hand, AI voice, macro step, preset, and script call;
- * Awtsmoos.com lets one runtime judge, mutate, record, undo, and refresh them all.
+ * Awtsmoos.com lets Tiferes join validation and execution while focused vessels own transaction and history's fall.
  */
-import { appendCreativeOperation } from '../history/CreativeHistory.js';
-import { beginProjectTransaction } from '../history/ProjectTransaction.js';
-import { createOperationEnvelope } from '../operations/OperationEnvelope.js';
-import { syncProjectFromState } from '../../state.js';
+import { createCommandTransactionScope } from './CommandTransactionScope.js';
+import { recordCommandSuccess } from './CommandSuccessRecorder.js';
 
+/** Coordinates shared creative command execution. */
 export class CommandRuntime {
+	/** @param {object} input Shared state, registry, transient services, and refresh callback. */
 	constructor({ state, registry, services = {}, refresh = null } = {}) {
 		this.state = state;
 		this.registry = registry;
@@ -20,35 +20,60 @@ export class CommandRuntime {
 		this.refresh = typeof refresh === 'function' ? refresh : null;
 	}
 
-	/** Executes a stable command identity through the shared creative transaction law. */
+	/**
+	 * Executes one stable command through validation, availability, transaction, history, and refresh.
+	 * @param {string} commandId Registered stable command identity.
+	 * @param {object} parameters Declarative command input.
+	 * @param {object} options Provenance, grouping, and optional borrowed transaction metadata.
+	 * @returns {Promise<object>} Serializable execution evidence.
+	 */
 	async execute(commandId, parameters = {}, options = {}) {
 		const definition = this.registry.require(commandId);
 		const normalized = definition.validate(parameters);
-		const availability = definition.availability(this.state, normalized);
+		const availability = definition.availability(
+			this.state,
+			normalized
+		);
 
 		if (!availability.available) {
-			throw new Error(`${commandId}: ${availability.reason || 'command unavailable'}`);
+			throw new Error(
+				`${commandId}: ${availability.reason || 'command unavailable'}`
+			);
 		}
 
-		const transaction = definition.mutation === 'canonical'
-			? beginProjectTransaction(this.state, definition.label)
-			: null;
+		const scope = createCommandTransactionScope(
+			this.state,
+			definition,
+			options
+		);
 
 		try {
-			const result = await definition.executor(this.executionContext(normalized, options));
+			const result = await definition.executor(
+				this.executionContext(normalized, options)
+			);
 
 			if (isNoOp(result)) {
-				transaction?.rollback();
-				return { ok: true, noOp: true, commandId };
+				scope.rollback();
+				return noOpOutcome(commandId);
 			}
 
-			return this.finishSuccess(definition, normalized, result, options, transaction);
+			const outcome = recordCommandSuccess({
+				state: this.state,
+				definition,
+				parameters: normalized,
+				result,
+				options,
+				scope
+			});
+			this.refreshIfNeeded(options);
+			return outcome;
 		} catch (error) {
-			transaction?.rollback();
+			scope.rollback();
 			throw error;
 		}
 	}
 
+	/** Returns explicit transient dependencies made available to command executors. */
 	executionContext(parameters, options) {
 		return {
 			state: this.state,
@@ -59,28 +84,24 @@ export class CommandRuntime {
 		};
 	}
 
-	finishSuccess(definition, parameters, result, options, transaction) {
-		syncProjectFromState(this.state);
-		const summary = definition.summarizeResult(result);
-		const operation = createOperationEnvelope({
-			definition,
-			parameters,
-			result: summary,
-			source: options.source,
-			transactionId: options.transactionId,
-			parentMacroId: options.parentMacroId
-		});
-
-		if (definition.mutation === 'canonical') {
-			appendCreativeOperation(this.state.project.creative, operation);
-			transaction.commit();
+	/** Refreshes human projections unless an outer atomic workflow owns final presentation. */
+	refreshIfNeeded(options) {
+		if (!options.deferRefresh) {
+			this.refresh?.();
 		}
-
-		this.refresh?.();
-		return { ok: true, noOp: false, commandId: definition.id, operation, result: summary };
 	}
 }
 
+/** Returns one consistent no-op execution result. */
+function noOpOutcome(commandId) {
+	return {
+		ok: true,
+		noOp: true,
+		commandId
+	};
+}
+
+/** Treats explicit null/false command results as intentional no-op evidence. */
 function isNoOp(result) {
 	return result === null || result === false;
 }

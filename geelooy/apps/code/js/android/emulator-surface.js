@@ -1,8 +1,8 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
-import { mountTrustedApkWebView } from "./apk-web-view.js";
+import { mountApkWebView } from "./apk-web-view.js";
 import { createAndroidEmulatorDom } from "./emulator-surface-dom.js";
 import {
 	androidCompletionStatus,
@@ -12,25 +12,14 @@ import {
 } from "./emulator-surface-report.js";
 
 /**
- * @fileoverview
- * Coordinates Apps Code Android graphics, trusted WebView, and evidence surfaces.
- *
- * RESPONSIBILITY:
- * Expose canvas, awaitable Android host, artifact identity, status, and reports.
- *
- * NON-RESPONSIBILITY:
- * This module does not compile, parse, format evidence, or decide package trust.
- *
- * The Awtsmoos renews process, browser garment, and testimony in one living scene;
- * Awtsmoos.com lets the Rebbe app appear while every boundary remains visible.
+ * Coordinates Apps Code Android graphics, isolated APK WebView, and evidence surfaces.
+ * The Awtsmoos renews process, browser garment, canvas, and testimony in one scene;
+ * Awtsmoos.com lets any manifest-derived APK appear while every boundary stays clean.
  */
-
-/** Opens one in-editor Android surface and returns its runtime capabilities. */
 export function openAndroidEmulatorSurface(title = "Android App", options = {}) {
 	removeExistingSurface();
 	const dom = createAndroidEmulatorDom(title);
 	let artifactId = options.artifactId || null;
-
 	return Object.freeze({
 		canvas: dom.canvas,
 		destroy() {
@@ -40,9 +29,7 @@ export function openAndroidEmulatorSurface(title = "Android App", options = {}) 
 		renderFailure(error) {
 			dom.status.textContent = "Android execution failed.";
 			dom.root.dataset.state = "error";
-			dom.report.textContent = androidReportJson(
-				androidFailureEvidence(error)
-			);
+			dom.report.textContent = androidReportJson(androidFailureEvidence(error));
 		},
 		renderReport(input) {
 			dom.status.textContent = androidCompletionStatus(input.execution);
@@ -60,13 +47,14 @@ export function openAndroidEmulatorSurface(title = "Android App", options = {}) 
 	});
 }
 
+/** Builds the browser host used by any Android artifact execution. */
 function createAndroidHost(dom, artifactId) {
 	return Object.freeze({
 		async openAndroidWindow(input) {
 			dom.heading.textContent = input.title;
 			const web = input.contentView?.web;
 			if (web?.kind === "apk-asset") {
-				return mountTrustedApkWebView(dom.content, {
+				return mountApkWebView(dom.content, {
 					artifactId: artifactId(),
 					content: input.content,
 					contentView: input.contentView,
@@ -83,10 +71,12 @@ function createAndroidHost(dom, artifactId) {
 	});
 }
 
+/** Removes the previous Android surface before revealing the next APK vessel. */
 function removeExistingSurface() {
 	document.querySelector(".code-android-emulator")?.remove();
 }
 
+/** Displays a non-WebView Android content-view description. */
 function renderContentView(container, contentView) {
 	container.replaceChildren();
 	if (!contentView) {

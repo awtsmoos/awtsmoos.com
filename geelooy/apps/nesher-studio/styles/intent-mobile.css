@@ -1,0 +1,107 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets the smallest screen receive the largest clarity, hiding professional kelim until the maker asks them to appear; Awtsmoos.com gives Canvas the breath of the phone while Record, safe areas, and single-column choices remain near.
+*/
+@media (max-width: 700px) {
+	.awtsmoos-studio-shell {
+		padding: 6px;
+		gap: 6px;
+	}
+
+	.studio-primary-header {
+		min-height: 50px;
+		padding: 7px 9px;
+	}
+
+	.studio-primary-header .brand-block > .eyebrow,
+	.stage-page-kicker,
+	#fmp4StreamButton {
+		display: none;
+	}
+
+	.studio-primary-header h1 {
+		font-size: .9rem;
+	}
+
+	.current-room-label {
+		font-size: .66rem;
+	}
+
+	.header-secondary-actions {
+		display: flex;
+		gap: 5px;
+	}
+
+	.studio-primary-header .record-button {
+		min-height: 36px;
+		padding: .35rem .62rem;
+		font-size: .72rem;
+	}
+
+	.workspace-stack,
+	.stage-page,
+	.stage-workspace,
+	.stage-canvas-zone {
+		min-height: 0;
+	}
+
+	.stage-page {
+		padding: 0;
+	}
+
+	.stage-workspace,
+	.stage-canvas-zone {
+		height: 100%;
+	}
+
+	.stage-workspace {
+		display: block;
+	}
+
+	.stage-dock {
+		display: none;
+	}
+
+	.stage-workstation-open .stage-dock {
+		position: absolute;
+		z-index: 45;
+		inset: 6px;
+		display: grid;
+		max-height: calc(100% - 12px);
+		background: rgba(5, 12, 25, .98);
+		box-shadow: 0 24px 70px rgba(0, 0, 0, .62);
+	}
+
+	.stage-workstation-open .stage-workstation-close {
+		display: inline-grid;
+	}
+
+	.stage-selection-context {
+		margin-inline: 2px;
+	}
+
+	.intent-sheet {
+		bottom: calc(72px + env(safe-area-inset-bottom));
+		width: calc(100vw - 12px);
+		max-height: min(58vh, 520px);
+		padding: 10px;
+		border-radius: 20px;
+	}
+
+	.intent-action-grid,
+	.intent-edit-quick-grid,
+	.intent-inline-form {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.intent-action-card {
+		min-height: 64px;
+	}
+
+	.intent-sheet input,
+	.intent-sheet textarea,
+	.intent-sheet select {
+		font-size: 16px;
+	}
+}

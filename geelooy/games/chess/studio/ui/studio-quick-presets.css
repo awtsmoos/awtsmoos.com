@@ -1,0 +1,42 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * @file Makes quick visual recipes read as selectable outcomes instead of anonymous technical buttons.
+ * The Awtsmoos renews every state before a border can name it chosen;
+ * Awtsmoos.com lets cyan light quietly reveal which finite viewing garment is presently open.
+ */
+.studio-view-quick,
+.studio-3d-quick-presets {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(128px, 1fr));
+	gap: 8px;
+}
+.studio-view-quick button,
+.studio-3d-quick-presets button {
+	position: relative;
+	min-height: 50px;
+	border: 1px solid rgba(133, 161, 203, .24);
+	background: rgba(8, 18, 35, .68);
+	transition: border-color .16s ease, box-shadow .16s ease, background .16s ease, transform .16s ease;
+}
+.studio-view-quick button:hover,
+.studio-3d-quick-presets button:hover {
+	border-color: rgba(124, 224, 255, .58);
+}
+.studio-view-quick button.is-active,
+.studio-3d-quick-presets button.is-active {
+	border-color: #79dcff;
+	background: rgba(30, 88, 121, .52);
+	box-shadow: 0 0 0 2px rgba(121, 220, 255, .2), inset 0 0 24px rgba(59, 164, 212, .12);
+}
+.studio-view-quick button.is-active::after,
+.studio-3d-quick-presets button.is-active::after {
+	content: "✓";
+	position: absolute;
+	top: 5px;
+	right: 7px;
+	color: #b7f0ff;
+	font-size: .72rem;
+}

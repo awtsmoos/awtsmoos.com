@@ -2,19 +2,20 @@
 // Boruch Hashem
 // Blessed is He
 
+const ErrorFields = require("./main-run-error-fields.js");
 const ResponseSocket = require("./main-response-socket.js");
+const Settlement = require("./main-run-settlement.js");
 
 /**
- * @file Persists terminal result before socket settlement and marks custody awaiting ACK.
+ * @file Persists terminal result before transport and preserves both parent and child custody.
  * @description
  * The Awtsmoos renews result and receipt together; Awtsmoos.com keeps terminal metadata
- * durable before transport and tells the accepting child that execution is finished but
- * settlement is not. Only the later response ACK may remove durable mailbox custody.
+ * durable before transport, marks parent settlement, then advances the exact accepting child
+ * into ACK waiting only after the response enters its durable delivery vessel.
  *
- * STABILITY COVENANT — DO NOT SIMPLIFY WITHOUT RUNNING THE NAMED REGRESSION
- * Forbidden simplification: deleting custody at process exit or result persistence.
- * Regression: connectionCustodyProgressIpc.test.cjs. Live proof: result_waiting_for_ack
- * must remain until server settlement ACK and then disappear exactly once.
+ * STABILITY COVENANT — DO NOT SIMPLIFY WITHOUT RUNNING mainRunStructuredFailure.test.cjs.
+ * Parent settlement and child-incarnation settlement are distinct witnesses. Failure metadata
+ * must also retain its bounded filesystem testimony through the final response envelope.
  */
 function completeRun(dependencies, context, result, advisoryOvertime) {
 	if (result && result.ok !== false) {
@@ -26,17 +27,12 @@ function completeRun(dependencies, context, result, advisoryOvertime) {
 		longLivedConnection: true,
 		advisoryOvertime
 	};
-	const persisted = dependencies.retryControl.complete(
-		context.data,
-		context.payload,
-		candidate
-	);
-	const completed = persisted?.result || candidate;
-	markSettlementCustody(dependencies, context, completed);
+	const completed = Settlement.persistResult(dependencies, context, candidate);
+	Settlement.markParentSettlement(dependencies, context, completed);
 	dependencies.streamEvent(
 		completed?.ok === false ? "action.error" : "action.completed",
 		context.payload,
-		eventDetail(context, completed)
+		Settlement.eventDetail(context, completed)
 	);
 	const envelope = dependencies.Envelope.responseEnvelope(
 		context.data,
@@ -46,7 +42,7 @@ function completeRun(dependencies, context, result, advisoryOvertime) {
 		dependencies.stats
 	);
 	ResponseSocket.sendOrQueue(dependencies, context.ws, envelope);
-	noteTerminalCustody(dependencies, context, completed);
+	Settlement.markChildSettlement(dependencies, context, completed);
 	return completed;
 }
 
@@ -54,42 +50,28 @@ function failRun(dependencies, context, error) {
 	const candidate = {
 		ok: false,
 		status: 500,
-		error: error.message,
-		stack: error.stack,
+		...ErrorFields.failureFields(error),
 		lane: context.lane,
 		longLivedConnection: true
 	};
-	const persisted = dependencies.retryControl.complete(
-		context.data,
+	const failed = Settlement.persistResult(dependencies, context, candidate);
+	Settlement.markParentSettlement(dependencies, context, failed);
+	dependencies.streamEvent(
+		"action.error",
 		context.payload,
-		candidate
+		Settlement.eventDetail(context, failed)
 	);
-	const failed = persisted?.result || candidate;
-	markSettlementCustody(dependencies, context, failed);
-	dependencies.streamEvent("action.error", context.payload, {
-		...failed,
-		runtimeMs: Date.now() - context.startedAt
-	});
 	ResponseSocket.sendOrQueue(dependencies, context.ws, {
 		type: "TUNNEL_RESPONSE",
 		id: context.data.id,
 		...dependencies.Correlation.fields(context.payload),
 		...failed
 	});
-	noteTerminalCustody(dependencies, context, failed);
+	Settlement.markChildSettlement(dependencies, context, failed);
 	return failed;
 }
 
-function markSettlementCustody(dependencies, context, result = {}) {
-	try {
-		return Boolean(dependencies.progressCustody?.(
-			context.data,
-			"result_waiting_for_ack",
-			{ resultState: result?.ok === false ? "failed" : "completed" }
-		));
-	} catch {
-		return false;
-	}
-}
-
-module.exports = { completeRun, failRun };
+module.exports = {
+	completeRun,
+	failRun
+};

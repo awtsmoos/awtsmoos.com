@@ -3,52 +3,66 @@
 // Blessed is He
 /**
  * @file homeView.js
- * @description Reveals the beginner-facing Studio constellation, now including the deliberate doorway into deeper creative language.
- * The Awtsmoos lets simplicity stand above depth without severing the root below;
- * Awtsmoos.com gives seven friendly rooms while More opens the same canonical commands when the maker wishes to go.
+ * @description Reframes the former launcher as a deliberate Project Hub beneath the Stage-first creative surface.
+ * The Awtsmoos lets many workspaces remain discoverable without making the maker choose architecture before creation;
+ * Awtsmoos.com keeps project health and deeper rooms nearby while Canvas becomes the first visible revelation.
  */
-const HOME_ROOMS = [
-	['01', 'stage', 'Stage', 'Compose scenes, layers, transforms, and crops.', 'stage'],
-	['02', 'audio', 'Audio Lab', 'Shape GPU rivers, Hebrew currents, and particles.', 'audio'],
-	['03', 'sources', 'Sources', 'Bring cameras, screens, files, and browser worlds.', 'sources'],
-	['04', 'live', 'Live', 'Watch provider health, segments, and uploaded bytes.', 'live'],
-	['05', 'nle', 'Timeline', 'Arrange clips, markers, tracks, and exports.', 'nle'],
-	['06', 'setup', 'Setup', 'Choose canvas, profile, frame rate, and provider.', 'setup'],
-	['07', 'more', 'More', 'Inspect commands, history, macros, presets, scripting, and AI parity.', 'more']
+const PROJECT_HUB_ROOMS = [
+	['01', 'stage', 'Canvas', 'Return to the movie and current selection.'],
+	['02', 'nle', 'Timeline', 'Arrange clips, markers, timing, and exports.'],
+	['03', 'audio', 'Audio Lab', 'Shape sound and audio-reactive visuals.'],
+	['04', 'sources', 'Sources', 'Manage cameras, files, screens, and browser media.'],
+	['05', 'setup', 'Project Setup', 'Canvas, frame rate, recording profile, and provider.'],
+	['06', 'live', 'Live', 'Inspect streaming health and delivery state.'],
+	['07', 'more', 'Commands & History', 'Inspect the Universal Creative Language and reusable work.']
 ];
 
-/** Creates the mobile-friendly Studio home grid without binding navigation behavior. */
+/**
+ * Renders the advanced Project Hub while Stage remains the default initial surface.
+ * @returns {string} Project Hub workspace markup.
+ */
 export function homeView() {
-	const tiles = HOME_ROOMS.map(createHomeTile).join('');
+	const tiles = PROJECT_HUB_ROOMS.map(createProjectHubTile).join('');
 
 	return `
-		<section id="homeSection" class="workspace-page home-page is-active" data-studio-page="home">
-			<div class="home-aurora" aria-hidden="true"><span>א</span><span>ו</span><span>ר</span></div>
+		<section id="homeSection" class="workspace-page home-page" data-studio-page="home" hidden>
+			<div class="home-aurora" aria-hidden="true">
+				<span>א</span><span>ו</span><span>ר</span>
+			</div>
 			<header class="page-hero">
 				<div>
-					<p class="eyebrow">One runtime · seven focused rooms</p>
-					<h2>Build in the moment.</h2>
-					<p>Every room fills the viewport, shares live state, and changes without a page reload.</p>
+					<p class="eyebrow">Project systems & professional rooms</p>
+					<h2>Project Hub</h2>
+					<p>The canvas stays simple. Open a deeper workspace here when the project asks for it.</p>
 				</div>
 			</header>
-			<div class="studio-home" aria-label="Studio room grid">${tiles}</div>
-			<section class="metric-strip" aria-label="Recording status">
-				<div><span>Recording</span><strong id="recordPhase">Idle</strong></div>
-				<div><span>Elapsed</span><strong id="recordElapsed">00:00</strong></div>
-				<div><span>Frames</span><strong id="recordFrames">0</strong></div>
-				<div><span>Errors</span><strong id="recordErrors">0</strong></div>
-				<p id="recordNote">Manual WebCodecs recorder is idle.</p>
-			</section>
+			<div class="studio-home" aria-label="Project workspace grid">${tiles}</div>
+			${recordingStatusStrip()}
 		</section>
 	`;
 }
 
-function createHomeTile([number, accent, title, copy, page]) {
+function createProjectHubTile([number, page, title, copy]) {
 	return `
-		<button class="home-tile" data-accent="${accent}" data-page-target="${page}">
+		<button class="home-tile" data-accent="${page}" data-page-target="${page}" type="button">
 			<span class="tile-number">${number}</span>
-			<span class="tile-copy"><strong>${title}</strong><em>${copy}</em></span>
+			<span class="tile-copy">
+				<strong>${title}</strong>
+				<em>${copy}</em>
+			</span>
 			<span class="tile-arrow" aria-hidden="true">↗</span>
 		</button>
+	`;
+}
+
+function recordingStatusStrip() {
+	return `
+		<section class="metric-strip" aria-label="Recording status">
+			<div><span>Recording</span><strong id="recordPhase">Idle</strong></div>
+			<div><span>Elapsed</span><strong id="recordElapsed">00:00</strong></div>
+			<div><span>Frames</span><strong id="recordFrames">0</strong></div>
+			<div><span>Errors</span><strong id="recordErrors">0</strong></div>
+			<p id="recordNote">Manual WebCodecs recorder is idle.</p>
+		</section>
 	`;
 }

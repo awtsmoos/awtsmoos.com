@@ -7,41 +7,48 @@ const test = require("node:test");
 const Health = require("../lib/connection-vessel/child-health.js");
 
 /**
- * @file Proves active inbox custody stays routable without hiding real mailbox decay.
- * @description The Awtsmoos distinguishes a deed still being served from abandoned
- * testimony. Awtsmoos.com grants grace only when every degraded inbox receipt has
- * consumer-started execution, while stalled, full, outbound, and orphan states remain red.
+ * @file Proves degraded inbox grace comes only from exact non-stale custody ownership.
+ * @description
+ * The Awtsmoos never lets a stage counter impersonate one named deed in flight;
+ * Awtsmoos.com grants grace only when every current receipt has exact living custody light.
+ * Transport, execution, outbound debt, and stale ownership remain separate witnesses of right.
  */
-test("consumer-started degraded inbox receives bounded full-health grace", () => {
-	const result = compose({ inboxCount: 1, active: 1, consumerStarted: 1 });
+test("exact active custody grants degraded inbox grace", () => {
+	const result = compose({
+		inboxCount: 2,
+		activeCustody: 2
+	});
 	assert.equal(result.healthy, true);
 	assert.equal(result.mailboxHealthy, true);
 	assert.equal(result.mailbox.activeExecutionGrace, true);
+	assert.equal(result.mailbox.activeCustodyCount, 2);
 	assert.equal(result.mailbox.rawState, "degraded");
-	assert.equal(result.mailbox.inboxState, "degraded");
-	assert.equal(result.mailbox.outboxState, "healthy");
 });
 
-test("unowned or partially owned degraded inbox remains unhealthy", () => {
-	assert.equal(compose({ inboxCount: 1, active: 0, consumerStarted: 0 }).healthy, false);
-	assert.equal(compose({ inboxCount: 1, active: 1, consumerStarted: 0 }).healthy, false);
-	assert.equal(compose({ inboxCount: 2, active: 2, consumerStarted: 1 }).healthy, false);
+test("missing, partial, or stale exact custody cannot grant grace", () => {
+	assert.equal(compose({ inboxCount: 1 }).healthy, false);
+	assert.equal(compose({ inboxCount: 2, activeCustody: 1 }).healthy, false);
+	assert.equal(compose({ inboxCount: 1, activeCustody: 1, staleCustody: 1 }).healthy, false);
 });
 
 test("stalled, full, or outbound degradation is never forgiven", () => {
-	assert.equal(compose({ inboxCount: 1, active: 1, consumerStarted: 1, inboxState: "stalled", state: "stalled" }).healthy, false);
-	assert.equal(compose({ inboxCount: 1, active: 1, consumerStarted: 1, inboxState: "full", state: "full" }).healthy, false);
-	assert.equal(compose({ inboxCount: 1, active: 1, consumerStarted: 1, outboxState: "degraded" }).healthy, false);
+	assert.equal(compose({ inboxCount: 1, activeCustody: 1, inboxState: "stalled" }).healthy, false);
+	assert.equal(compose({ inboxCount: 1, activeCustody: 1, inboxState: "full" }).healthy, false);
+	assert.equal(compose({ inboxCount: 1, activeCustody: 1, outboxState: "degraded" }).healthy, false);
 });
 
-test("execution trouble disables mailbox grace", () => {
-	assert.equal(compose({ inboxCount: 1, active: 1, consumerStarted: 1, executionHealthy: false }).healthy, false);
-	assert.equal(compose({ inboxCount: 1, active: 1, consumerStarted: 1, backpressured: true }).healthy, false);
-	assert.equal(compose({ inboxCount: 1, active: 1, consumerStarted: 1, consumerStalled: true }).healthy, false);
+test("execution trouble disables exact-custody grace", () => {
+	assert.equal(compose({ inboxCount: 1, activeCustody: 1, executionHealthy: false }).healthy, false);
+	assert.equal(compose({ inboxCount: 1, activeCustody: 1, backpressured: true }).healthy, false);
+	assert.equal(compose({ inboxCount: 1, activeCustody: 1, consumerStalled: true }).healthy, false);
 });
 
 test("transport health remains independently mandatory", () => {
-	const result = compose({ inboxCount: 1, active: 1, consumerStarted: 1, transportHealthy: false });
+	const result = compose({
+		inboxCount: 1,
+		activeCustody: 1,
+		transportHealthy: false
+	});
 	assert.equal(result.mailbox.activeExecutionGrace, true);
 	assert.equal(result.healthy, false);
 	assert.equal(result.state, "transport_unhealthy");
@@ -50,27 +57,22 @@ test("transport health remains independently mandatory", () => {
 function compose(options = {}) {
 	const inboxState = options.inboxState || "degraded";
 	const outboxState = options.outboxState || "healthy";
-	const mailboxState = options.state || strongest(inboxState, outboxState);
-	return Health.compose({
-		activeWs: { opened: options.transportHealthy !== false },
-		registrationConfirmed: options.transportHealthy !== false
-	}, {
-		healthy: options.executionHealthy !== false,
-		execution: {
-			healthy: options.executionHealthy !== false,
-			consumerStalled: options.consumerStalled === true,
-			backpressured: options.backpressured === true,
-			stages: {
-				active: options.active || 0,
-				consumerStarted: options.consumerStarted || 0
-			}
-		}
-	}, {
-		health: { healthy: mailboxState === "healthy", state: mailboxState },
+	const mailboxState = strongest(inboxState, outboxState);
+	const custody = exactCustody(options.activeCustody || 0);
+	const staleIds = custody
+		.slice(0, options.staleCustody || 0)
+		.map(record => record.id);
+	return Health.compose(transport(options), execution(options), {
+		health: {
+			healthy: mailboxState === "healthy",
+			state: mailboxState
+		},
 		inbox: {
 			state: inboxState,
 			count: options.inboxCount || 0,
-			oldestAgeMs: 90000
+			oldestAgeMs: 90000,
+			parentCustodyRecords: custody,
+			parentCustodyStaleIds: staleIds
 		},
 		outbox: {
 			state: outboxState,
@@ -78,6 +80,36 @@ function compose(options = {}) {
 			oldestAgeMs: outboxState === "healthy" ? 0 : 90000
 		}
 	});
+}
+
+function exactCustody(count) {
+	return Array.from({ length: count }, (_, index) => ({
+		id: `receipt-${index + 1}`,
+		phase: index % 2 === 0 ? "running" : "worker_starting"
+	}));
+}
+
+function transport(options) {
+	const healthy = options.transportHealthy !== false;
+	return {
+		activeWs: {
+			opened: healthy
+		},
+		registrationConfirmed: healthy
+	};
+}
+
+function execution(options) {
+	const healthy = options.executionHealthy !== false;
+	return {
+		healthy,
+		execution: {
+			healthy,
+			consumerStalled: options.consumerStalled === true,
+			backpressured: options.backpressured === true,
+			repairing: options.repairing === true
+		}
+	};
 }
 
 function strongest(inbox, outbox) {

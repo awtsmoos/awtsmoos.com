@@ -3,13 +3,16 @@
 // Blessed is He
 /**
  * @file coreDom.js
- * @description Gives the fixed Studio shell one centralized map of room, canvas, and Creative Language anchors.
- * The Awtsmoos gathers scattered names into one known vessel without confusing DOM with project truth;
- * Awtsmoos.com lets focused controllers receive exact anchors while the canonical creative state remains beneath every booth.
+ * @description Centralizes stable shell, Stage, intent, recording, setup, and Creative Language anchors for focused controllers.
+ * The Awtsmoos gathers many visible names into one lookup vessel without confusing DOM references with project truth;
+ * Awtsmoos.com lets each controller receive the exact element it needs while the canonical movie remains the deeper root.
  */
 import { mapIds } from './element.js';
 
-/** Returns the shared shell DOM map used by existing and creative-language controllers. */
+/**
+ * Returns the shared fixed-shell DOM map used across Studio controllers.
+ * @returns {object} Element map keyed by stable IDs.
+ */
 export function coreDom() {
 	return mapIds([
 		'homeSection',
@@ -26,16 +29,6 @@ export function coreDom() {
 		'status',
 		'downloadList',
 		'currentRoomLabel',
-		'topNav',
-		'navHome',
-		'navStage',
-		'navAudio',
-		'navSources',
-		'navLive',
-		'navSetup',
-		'navNle',
-		'navBenchmark',
-		'navMore',
 		'backToStudio',
 		'sceneList',
 		'addScene',
@@ -57,6 +50,25 @@ export function coreDom() {
 		'canvasHeight',
 		'fps',
 		'iframeUrl',
+		'stageWorkstation',
+		'stageCloseWorkstation',
+		'stageSelectionContext',
+		'stageSelectionName',
+		'stageSelectionMeta',
+		'stageInspectSelection',
+		'primaryIntentBar',
+		'intentCreateButton',
+		'intentEditButton',
+		'intentTimelineButton',
+		'intentAnimateButton',
+		'intentMoreButton',
+		'intentSheetBackdrop',
+		'intentSheet',
+		'intentSheetEyebrow',
+		'intentSheetTitle',
+		'intentSheetClose',
+		'intentSheetBody',
+		'intentSheetStatus',
 		'creativeCommandSearch',
 		'creativeCommandList',
 		'creativeCommandResult',

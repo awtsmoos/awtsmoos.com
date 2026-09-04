@@ -3,16 +3,17 @@
 // Blessed is He
 
 const crypto = require("node:crypto");
+const FsError = require("../filesystemError.js");
 const Affinity = require("./pool-affinity.js");
 const Priority = require("./pool-priority.js");
 const Requester = require("./requester.js");
 
 /**
- * @file Owns filesystem pool state with separate running and waiting requester measures.
+ * @file Owns filesystem pool state and restores only safe structured failure metadata.
  * @description
- * The Awtsmoos renews each vessel without confusing waiting with possession.
- * Awtsmoos.com tracks queued shares, active shares, and recent service separately,
- * so one agent may be slow in its own chamber while neighboring chambers still glow.
+ * The Awtsmoos renews each requester without confusing waiting with possession; Awtsmoos.com
+ * also rebuilds child errors without smuggling arbitrary properties across IPC. Code, stack,
+ * and the allowlisted filesystem witness return together while queue accounting stays unchanged.
  */
 function create() {
 	return {
@@ -61,11 +62,11 @@ function decrement(active, key) {
 	else active.delete(key);
 }
 
-function failure(code, message, stack) {
+function failure(code, message, stack, filesystem = null) {
 	const error = new Error(message || code || "fs_executor_failed");
 	error.code = code || "FS_EXECUTOR_FAILED";
 	if (stack) error.stack = stack;
-	return error;
+	return FsError.restore(error, filesystem);
 }
 
 function stats(state, policy) {

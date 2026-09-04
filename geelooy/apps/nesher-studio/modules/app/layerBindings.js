@@ -1,20 +1,49 @@
-/* B"H
-Layer bindings: ascent, descent, duplication, and removal without a throne in main.
-Each layer is a rung; the Awtsmoos is the ladder appearing from nothing.
+//B"H
+// Boruch Hashem
+// Blessed is He
+/**
+* @file layerBindings.js
+* @description Binds Stage layer buttons to public creative commands without direct source mutation or legacy history commits.
+* The Awtsmoos lets every click become a named creative decree before the Canvas reflects its light;
+* Awtsmoos.com keeps human layer intent on the same command road as JSON and AI, with redraw but no duplicate history write.
 */
-import { duplicateSelected, moveSelected, moveSelectedBottom, moveSelectedTop, removeSelected } from '../layers.js';
+import { STAGE_COMMAND_IDS } from '../creative/catalog/StageCommandIds.js';
 
-export function bindLayerControls({ dom, state, changed }) {
-  const run = (action, okMessage) => layerAction({ action, okMessage, changed });
-  dom.layerTop.onclick = () => run(() => moveSelectedTop(state), 'Source moved to top.');
-  dom.layerUp.onclick = () => run(() => moveSelected(state, 1), 'Layer moved up.');
-  dom.layerDown.onclick = () => run(() => moveSelected(state, -1), 'Layer moved down.');
-  dom.layerBottom.onclick = () => run(() => moveSelectedBottom(state), 'Source moved to bottom.');
-  dom.duplicateSource.onclick = () => run(() => duplicateSelected(state), 'Source duplicated.');
-  dom.removeSource.onclick = () => run(() => removeSelected(state), 'Source removed.');
+const BUTTON_COMMANDS = [
+	['layerTop', STAGE_COMMAND_IDS.LAYER_TOP, 'Source moved to top.'],
+	['layerUp', STAGE_COMMAND_IDS.LAYER_UP, 'Layer moved up.'],
+	['layerDown', STAGE_COMMAND_IDS.LAYER_DOWN, 'Layer moved down.'],
+	['layerBottom', STAGE_COMMAND_IDS.LAYER_BOTTOM, 'Source moved to bottom.'],
+	['duplicateSource', STAGE_COMMAND_IDS.DUPLICATE_SOURCE, 'Source duplicated.'],
+	['removeSource', STAGE_COMMAND_IDS.REMOVE_SOURCE, 'Source removed.']
+];
+
+/** Binds every professional layer button through the public creative command surface. */
+export function bindLayerControls(context = {}) {
+	for (const [buttonId, commandId, message] of BUTTON_COMMANDS) {
+		bindLayerButton(context, buttonId, commandId, message);
+	}
 }
 
-function layerAction({ action, okMessage, changed }) {
-  const ok = action();
-  changed(ok ? okMessage : 'Choose a source first, or the action is unavailable.');
+/** Binds one button and refreshes projections only after its canonical command succeeds. */
+function bindLayerButton(context, buttonId, commandId, message) {
+	const button = context.dom?.[buttonId];
+	if (!button) {
+		return;
+	}
+	button.onclick = async () => {
+		try {
+			await context.api.execute(commandId, {
+				sourceId: context.state.selectedId
+			}, {
+				source: 'human'
+			});
+			context.drawStage?.(context.state);
+			context.refreshSources?.(context.state);
+			context.refreshInspector?.(context.state);
+			context.setStatus?.(message);
+		} catch (error) {
+			context.setStatus?.(error?.message || String(error));
+		}
+	};
 }

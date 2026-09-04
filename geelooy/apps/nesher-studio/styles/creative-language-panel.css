@@ -1,7 +1,7 @@
 /*B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos lets one command chamber remain calm while many operations wait beneath the surface; Awtsmoos.com clothes metadata, forms, history, and reusable work in readable vessels without hiding their source.
+The Awtsmoos lets the outer Creative Language chamber remain calm while smaller vessels hold each executable detail; Awtsmoos.com keeps discovery and evidence spacious so power can descend without crowding the maker's sight.
 */
 .creative-more-page {
 	overflow-y: auto;
@@ -13,15 +13,12 @@ The Awtsmoos lets one command chamber remain calm while many operations wait ben
 
 .creative-language-panel,
 .creative-evidence-card {
+	min-width: 0;
+	padding: 12px;
 	border: 1px solid var(--line);
 	border-radius: var(--radius);
 	background: rgba(6, 15, 30, .72);
 	box-shadow: var(--shadow);
-}
-
-.creative-language-panel,
-.creative-evidence-card {
-	padding: 12px;
 }
 
 .creative-panel-heading {
@@ -45,8 +42,7 @@ The Awtsmoos lets one command chamber remain calm while many operations wait ben
 	white-space: nowrap;
 }
 
-.creative-command-search,
-.creative-command-field input {
+.creative-command-search {
 	width: 100%;
 	min-height: var(--touch);
 }
@@ -64,82 +60,4 @@ The Awtsmoos lets one command chamber remain calm while many operations wait ben
 
 .creative-evidence-grid {
 	grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.creative-command-card {
-	display: grid;
-	gap: 8px;
-	min-width: 0;
-	padding: 10px;
-	border: 1px solid var(--line);
-	border-radius: calc(var(--radius) - 3px);
-	background: rgba(15, 28, 49, .72);
-}
-
-.creative-command-card p,
-.creative-command-field,
-.creative-history-list li {
-	color: var(--soft);
-}
-
-.creative-command-card p {
-	margin: 0;
-	font-size: .78rem;
-}
-
-.creative-command-heading,
-.creative-command-field,
-.creative-history-list {
-	display: grid;
-	gap: 4px;
-}
-
-.creative-command-heading code,
-.creative-history-list li span {
-	color: var(--muted);
-	font-size: .67rem;
-}
-
-.creative-command-heading code {
-	overflow-wrap: anywhere;
-}
-
-.creative-command-field {
-	font-size: .72rem;
-}
-
-.creative-command-field input[type="checkbox"] {
-	width: var(--touch);
-	justify-self: start;
-}
-
-.creative-command-run {
-	min-height: var(--touch);
-}
-
-.creative-command-result {
-	min-height: 1.4em;
-	margin: 10px 0 0;
-	color: var(--soft);
-}
-
-.creative-command-result.is-error {
-	color: #ff9aaa;
-}
-
-.creative-evidence-card {
-	min-width: 0;
-}
-
-.creative-history-list {
-	padding-left: 20px;
-}
-
-.creative-history-list li {
-	padding: 6px 0;
-}
-
-.creative-history-list li span {
-	display: block;
-	text-transform: uppercase;
 }

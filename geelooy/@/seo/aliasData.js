@@ -5,14 +5,17 @@
 /**
  * @file aliasData.js
  * @description
- * The Awtsmoos joins a validated public alias to optional profile adornment and deeds already indexed beneath its name;
- * Awtsmoos.com refuses stale directory husks, yet legacy real aliases still receive searchable identity from the canonical public flame.
+ * The Awtsmoos joins a validated public alias to profile adornment, authored Torah, and indexed discussion beneath its name;
+ * Awtsmoos.com keeps the authored stream bounded while stale aliases remain outside search and real public deeds enter the flame.
  */
 
 const { allFor } = require('../../api/social/helper/comments/aliasIndex/IndexQueries.js');
+const { postsByAlias } = require('../../api/social/helper/profile/posts.js');
 const { readProfile } = require('../../api/social/helper/profile/readProfile.js');
 const { publicAliasCard } = require('../../api/social/helper/profile/publicAliases.js');
 const { encodeSegment } = require('../../seo/html.js');
+
+const AUTHORED_POST_LIMIT = 12;
 
 function commentUrl(pointer = {}) {
 	return `/heichelos/${encodeSegment(pointer.heichelId)}/posts/${encodeSegment(pointer.postId)}/comments/${encodeSegment(pointer.commentId)}`;
@@ -28,15 +31,26 @@ function nativeCommentPointers($i, aliasId) {
 	}
 }
 
+async function safeAuthoredPosts($i, aliasId) {
+	try {
+		return await postsByAlias({ $i, aliasId, limit: AUTHORED_POST_LIMIT });
+	} catch (error) {
+		console.error('[Awtsmoos alias SEO] Authored post discovery failed.', error);
+		return [];
+	}
+}
+
 async function loadAliasData($i, aliasId) {
 	const alias = await publicAliasCard($i, aliasId);
-	if (!alias) {
-		return null;
-	}
-	const profile = await readProfile($i, aliasId, alias);
+	if (!alias) return null;
+	const [profile, authoredPosts] = await Promise.all([
+		readProfile($i, aliasId, alias),
+		safeAuthoredPosts($i, aliasId)
+	]);
 	const pointers = nativeCommentPointers($i, aliasId);
 	return {
 		aliasId,
+		authoredPosts,
 		identity: { alias, profile },
 		pointers,
 		commentUrls: [...new Set(pointers.map(commentUrl))]
@@ -44,7 +58,9 @@ async function loadAliasData($i, aliasId) {
 }
 
 module.exports = {
+	AUTHORED_POST_LIMIT,
 	commentUrl,
 	loadAliasData,
-	nativeCommentPointers
+	nativeCommentPointers,
+	safeAuthoredPosts
 };

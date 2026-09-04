@@ -1,0 +1,74 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets the canvas carry the first gaze while selection whispers only what matters now; Awtsmoos.com keeps professional Stage tools one deliberate descent below, so simplicity and precision share one vow.
+*/
+.stage-page-kicker {
+	padding-inline: 2px;
+}
+
+.stage-selection-context {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 10px;
+	min-width: 0;
+	padding: 8px 10px;
+	margin-top: 6px;
+	border: 1px solid rgba(117, 255, 229, .22);
+	border-radius: 14px;
+	background: rgba(5, 13, 28, .82);
+	backdrop-filter: blur(12px);
+}
+
+.stage-selection-copy {
+	display: grid;
+	gap: 2px;
+	min-width: 0;
+}
+
+.stage-selection-copy strong,
+.stage-selection-copy span {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.stage-selection-copy strong {
+	font-size: .82rem;
+}
+
+.stage-selection-copy span:last-child {
+	color: var(--muted);
+	font-size: .68rem;
+}
+
+.stage-workstation-heading {
+	align-items: start;
+}
+
+.stage-workstation-close {
+	display: none;
+}
+
+.stage-workstation-open .stage-workstation-close {
+	display: inline-grid;
+}
+
+.stage-canvas-zone {
+	grid-template-rows: minmax(0, 1fr) auto;
+}
+
+.stage-canvas-zone .stage-hud {
+	bottom: 54px;
+}
+
+.stage-dock {
+	display: grid;
+}
+
+@media (min-width: 701px) {
+	.stage-workstation-close {
+		display: none !important;
+	}
+}

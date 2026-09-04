@@ -3,12 +3,13 @@
 // Blessed is He
 
 /**
- * @file Directs readable semantic cameras, allowing low-angle spectacle only when the user explicitly asks for drama.
- * The Awtsmoos lets meaning guide the watching eye while the board remains a board and not a forest of silhouettes;
- * Awtsmoos.com makes balanced direction preserve chess truth first, then lets cinematic intensity spend its visual limits.
+ * @file Directs semantic cameras, then proves automatic shots readable before allowing them onto phone or movie screens.
+ * The Awtsmoos lets meaning guide the watching eye while safety weighs each cinematic vessel before it can conceal the board;
+ * Awtsmoos.com preserves manual freedom yet makes Auto Director answer to active squares, fit, and elevation on every road.
  */
 import { getCameraPreset } from "./cameraPresets.js";
 import { orbitPose, withTarget } from "./cameraMath.js";
+import { protectDirectedCamera } from "./cameraSafety.js";
 import { semanticPreset, semanticTarget } from "./cameraSemantics.js";
 
 const CALM_ANGLES = Object.freeze(["topDown3d", "broadcastWhite", "birdseyeWhite", "broadcastBlack"]);
@@ -18,8 +19,9 @@ const DRAMATIC_ANGLES = Object.freeze(["lowBoard", "rookRail", "queenOrbit", "wh
 export function directCamera(frame, options = {}) {
 	const intensity = options.intensity || "balanced";
 	const presetId = choosePreset(frame, intensity);
-	const pose = withTarget(getCameraPreset(presetId), semanticTarget(frame, Boolean(options.flipped)));
-	return varyPose(pose, frame?.ply || 0, presetId, intensity, frame?.event?.importance || 0);
+	const targeted = withTarget(getCameraPreset(presetId), semanticTarget(frame, Boolean(options.flipped)));
+	const varied = varyPose(targeted, frame?.ply || 0, presetId, intensity, frame?.event?.importance || 0);
+	return protectDirectedCamera(frame, varied, { ...options, intensity });
 }
 
 export function directCameraMotion(frame, options = {}) {

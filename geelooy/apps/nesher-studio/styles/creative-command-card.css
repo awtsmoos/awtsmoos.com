@@ -1,0 +1,88 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets every command wear a human-readable garment while its identity remains the same for script and AI; Awtsmoos.com keeps parameters, results, and semantic memory legible so deeper power never becomes visual noise in the sky.
+*/
+.creative-command-card {
+	display: grid;
+	gap: 8px;
+	min-width: 0;
+	padding: 10px;
+	border: 1px solid var(--line);
+	border-radius: calc(var(--radius) - 3px);
+	background: rgba(15, 28, 49, .72);
+}
+
+.creative-command-card p,
+.creative-command-field,
+.creative-history-list li {
+	color: var(--soft);
+}
+
+.creative-command-card p {
+	margin: 0;
+	font-size: .78rem;
+}
+
+.creative-command-heading,
+.creative-command-field,
+.creative-history-list {
+	display: grid;
+	gap: 4px;
+}
+
+.creative-command-heading code,
+.creative-history-list li span {
+	color: var(--muted);
+	font-size: .67rem;
+}
+
+.creative-command-heading code {
+	overflow-wrap: anywhere;
+}
+
+.creative-command-field {
+	font-size: .72rem;
+}
+
+.creative-command-field input,
+.creative-command-field textarea {
+	width: 100%;
+	min-height: var(--touch);
+}
+
+.creative-command-field textarea {
+	resize: vertical;
+}
+
+.creative-command-field input[type="checkbox"] {
+	width: var(--touch);
+	justify-self: start;
+}
+
+.creative-command-run {
+	min-height: var(--touch);
+}
+
+.creative-command-result {
+	min-height: 1.4em;
+	margin: 10px 0 0;
+	color: var(--soft);
+}
+
+.creative-command-result.is-error {
+	color: #ff9aaa;
+}
+
+.creative-history-list {
+	padding-left: 20px;
+}
+
+.creative-history-list li {
+	padding: 6px 0;
+}
+
+.creative-history-list li span {
+	display: block;
+	text-transform: uppercase;
+}

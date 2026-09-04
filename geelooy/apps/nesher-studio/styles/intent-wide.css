@@ -1,0 +1,36 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets the same creative law widen into tablet and desktop without becoming a second interface soul; Awtsmoos.com restores professional depth as space permits, while reduced motion preserves truth without decorative toll.
+*/
+@media (min-width: 701px) and (max-width: 1050px) {
+	.stage-workspace {
+		grid-template-columns: minmax(0, 1.35fr) minmax(280px, .65fr);
+	}
+
+	.intent-sheet {
+		width: min(640px, calc(100vw - 28px));
+	}
+}
+
+@media (min-width: 1051px) {
+	.stage-dock {
+		display: grid;
+	}
+
+	#stageInspectSelection,
+	.stage-workstation-close {
+		display: none !important;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.intent-sheet,
+	.intent-sheet-backdrop,
+	.intent-button,
+	.workspace-page {
+		transition: none !important;
+		animation: none !important;
+		scroll-behavior: auto !important;
+	}
+}

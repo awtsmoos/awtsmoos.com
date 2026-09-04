@@ -1,18 +1,105 @@
 // B"H
-const fsp = require("fs/promises");
-const path = require("path");
-const { safePath, assertNotSecret } = require("./pathGuard.js");
-const DEFAULT_SKIPS = ["node_modules", ".git", ".next", "dist", "build", ".cache", "coverage", ".turbo", ".parcel-cache", ".Awtsmoos", "command-jobs", ".awtsmoos-agent-thoughts"];
-function int(value, fallback) { const n = Number(value); return Number.isFinite(n) && n >= 0 ? Math.floor(n) : fallback; }
-function lowerSet(values = []) { return new Set(values.map(x => String(x).toLowerCase()).filter(Boolean)); }
-function options(payload = {}) { return { query:String(payload.query || payload.find || "").toLowerCase(), ext:String(payload.ext || "").toLowerCase().replace(/^\*/, ""), includeDirs:payload.includeDirs === true || payload.includeDirs === "true", metadata:payload.metadata === true || payload.stat === true, maxVisited:int(payload.maxVisited || payload.maxEntries, 25000), skip:lowerSet([...DEFAULT_SKIPS, ...(Array.isArray(payload.skipDirs) ? payload.skipDirs : [])]) }; }
-function matches(item, opt) { const name = item.name.toLowerCase(), rel = item.relativePath.toLowerCase(); if (opt.ext && !name.endsWith(opt.ext.startsWith(".") ? opt.ext : "." + opt.ext)) return false; if (opt.query && !name.includes(opt.query) && !rel.includes(opt.query)) return false; return true; }
-async function findFiles(config, payload = {}) { const start = safePath(config, payload.path || payload.p || "."), opt = options(payload); const pageSize = Math.max(1, Math.min(int(payload.pageSize || payload.maxResults || payload.limit, 100), 1000)); const cursor = int(payload.cursor || payload.offset || 0, 0); const results = []; let visited = 0, matched = 0, skipped = 0, stoppedReason = "";
-  async function push(item, full) { if (!matches(item, opt)) return; if (matched >= cursor && results.length < pageSize) results.push(opt.metadata ? await withStat(config, item, full) : item); matched++; }
-  async function walk(dir) { if (visited >= opt.maxVisited || results.length >= pageSize) { stoppedReason = results.length >= pageSize ? "page_full" : "max_visited"; return; } let entries = []; try { entries = await fsp.readdir(dir, { withFileTypes:true }); } catch { skipped++; return; }
-    for (const entry of entries) { if (visited >= opt.maxVisited || results.length >= pageSize) { stoppedReason = results.length >= pageSize ? "page_full" : "max_visited"; return; } const next = path.join(dir, entry.name); const rel = path.relative(config.root, next).replace(/\\/g, "/"); visited++; if (entry.isDirectory()) { if (opt.skip.has(entry.name.toLowerCase())) { skipped++; continue; } if (opt.includeDirs) await push({ path:rel, relativePath:rel, name:entry.name, isDirectory:true }, next); await walk(next); continue; } if (!entry.isFile()) continue; try { assertNotSecret(config, next); await push({ path:rel, relativePath:rel, name:entry.name, isFile:true }, next); } catch { skipped++; } }
-  }
-  await walk(start); const nextCursor = stoppedReason === "page_full" ? cursor + results.length : null; return { ok:true, action:payload.action || "findFiles", path:payload.path || payload.p || ".", absolutePath:start, query:payload.query || payload.find || "", ext:payload.ext || "", cursor, nextCursor, pageSize, visited, matchedSoFar:matched, returnedResults:results.length, skippedFiles:skipped, stoppedReason, hasNextPage:nextCursor !== null, partial:nextCursor !== null, defaultSkips:DEFAULT_SKIPS, nextRequest:nextCursor !== null ? { ...payload, action:payload.action || "findFiles", cursor:nextCursor, pageSize } : null, results };
+// Boruch Hashem
+// Blessed is He
+
+const path = require("node:path");
+const Diagnostics = require("./filesystemDiagnostics.js");
+const Options = require("./findFilesOptions.js");
+const Response = require("./findFilesResponse.js");
+const Traversal = require("./findFilesTraversal.js");
+
+/**
+ * @file Finds files through a bounded readable walk with explicit partial-failure testimony.
+ * @description
+ * The Awtsmoos lets search continue past one barred descendant without hiding why it was
+ * barred; Awtsmoos.com keeps secret policy absolute, expected skip directories quiet, and
+ * operating-system failures visible through bounded safe diagnostics instead of one counter.
+ */
+async function findFiles(config, payload = {}) {
+	const requestedPath = payload.path || payload.p || ".";
+	const start = Traversal.guardedStart(config, requestedPath);
+	const options = Options.resolve(payload);
+	options.defaultSkips = Options.DEFAULT_SKIPS;
+	const diagnostics = Diagnostics.create(config, payload.diagnosticsLimit);
+	const requestedPageSize = Options.integer(
+		payload.pageSize || payload.maxResults || payload.limit,
+		100
+	);
+	const pageSize = Math.max(1, Math.min(requestedPageSize, 1000));
+	const cursor = Options.integer(payload.cursor || payload.offset || 0, 0);
+	const state = {
+		results: [],
+		visited: 0,
+		matched: 0,
+		skipped: 0,
+		stoppedReason: ""
+	};
+
+	async function push(item, full) {
+		if (!Options.matches(item, options)) return;
+		let result = item;
+		if (options.metadata) {
+			result = await Traversal.withStat(item, full, diagnostics);
+		}
+		if (state.matched >= cursor && state.results.length < pageSize) {
+			state.results.push(result);
+		}
+		state.matched += 1;
+	}
+
+	async function walk(directory, depth = 0) {
+		if (Traversal.stopIfBounded(state, options, pageSize)) return;
+		const entries = await Traversal.readEntries(
+			config,
+			directory,
+			requestedPath,
+			depth,
+			diagnostics,
+			state
+		);
+		if (!entries) return;
+		for (const entry of entries) {
+			if (Traversal.stopIfBounded(state, options, pageSize)) return;
+			const full = path.join(directory, entry.name);
+			const relative = path.relative(config.root, full).replace(/\\/g, "/");
+			state.visited += 1;
+			if (entry.isDirectory()) {
+				if (options.skip.has(entry.name.toLowerCase())) {
+					state.skipped += 1;
+					continue;
+				}
+				if (options.includeDirs) {
+					await push(Response.directoryItem(entry, relative), full);
+				}
+				await walk(full, depth + 1);
+				continue;
+			}
+			if (!entry.isFile()) continue;
+			if (!Traversal.guardFile(config, full, diagnostics, state)) continue;
+			await push(Response.fileItem(entry, relative), full);
+		}
+	}
+
+	await walk(start);
+	const nextCursor = state.stoppedReason === "page_full"
+		? cursor + state.results.length
+		: null;
+	return Response.build({
+		payload,
+		requestedPath,
+		start,
+		options,
+		pageSize,
+		cursor,
+		nextCursor,
+		state,
+		diagnostics
+	});
 }
-async function withStat(config, item, full) { try { const st = await fsp.stat(full); return { ...item, sizeBytes:item.isDirectory ? 0 : st.size, mtimeMs:st.mtimeMs }; } catch { return item; } }
-module.exports = { findFiles, matches, DEFAULT_SKIPS, options };
+
+module.exports = {
+	DEFAULT_SKIPS: Options.DEFAULT_SKIPS,
+	findFiles,
+	matches: Options.matches,
+	options: Options.resolve
+};

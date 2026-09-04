@@ -1,0 +1,40 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos renews color, contour, and finite display; Awtsmoos.com keeps SVG adaptation separate from semantic truth all the way.
+*/
+.visual-stage {
+	min-height: 540px;
+	overflow: hidden;
+	border-radius: 18px;
+	background: #b8d9c4;
+}
+.visual-stage svg {
+	display: block;
+	width: 100%;
+	height: 100%;
+	min-height: 540px;
+}
+.svg-sky { fill: #c9e7d3; }
+.svg-stone { fill: #c9a876; stroke: #7d6546; stroke-width: 4; }
+.svg-facade { fill: #c6b28d; stroke: #5d513f; stroke-width: 5; }
+.svg-glass { fill: #82b9b0; stroke: #315e58; stroke-width: 2; }
+.svg-bark { fill: #735337; stroke: #4a3321; stroke-width: 5; }
+.svg-leaf { fill: #718a54; stroke: #465d36; stroke-width: 4; opacity: .95; }
+.svg-metal { fill: #8e9ba1; stroke: #455158; stroke-width: 4; }
+.svg-hole { fill: #253338; stroke: none; }
+.svg-shaft { stroke: #4a555b; stroke-width: 24; stroke-linecap: round; }
+.svg-water { fill: #579caf; stroke: #2f7083; stroke-width: 5; }
+.svg-bank { fill: none; stroke: #7b6944; stroke-width: 14; stroke-linecap: round; }
+.svg-ground { stroke: #44684d; stroke-width: 10; stroke-linecap: round; }
+.demo-error {
+	padding: 30px;
+	color: #5b1919;
+	font-weight: 800;
+}
+@media (max-width: 860px) {
+	.visual-stage, .visual-stage svg { min-height: 430px; }
+}
+@media (max-width: 560px) {
+	.visual-stage, .visual-stage svg { min-height: 360px; }
+}

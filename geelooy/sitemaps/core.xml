@@ -2,10 +2,12 @@
 <!-- B"H | Boruch Hashem | Blessed is He | The Awtsmoos reveals public Awtsmoos.com roads. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<url><loc>https://awtsmoos.com/</loc></url>
-	<url><loc>https://awtsmoos.com/heichelos</loc></url>
+	<url><loc>https://awtsmoos.com/about/</loc></url>
+	<url><loc>https://awtsmoos.com/contact/</loc></url>
+	<url><loc>https://awtsmoos.com/docs/</loc></url>
+	<url><loc>https://awtsmoos.com/social/</loc></url>
+	<url><loc>https://awtsmoos.com/heichelos/</loc></url>
 	<url><loc>https://awtsmoos.com/apps/</loc></url>
-	<url><loc>https://awtsmoos.com/apps/catalog.html</loc></url>
 	<url><loc>https://awtsmoos.com/games/</loc></url>
-	<url><loc>https://awtsmoos.com/games/catalog.html</loc></url>
 	<url><loc>https://awtsmoos.com/translations/</loc></url>
 </urlset>

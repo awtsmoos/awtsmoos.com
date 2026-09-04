@@ -1,0 +1,70 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos renews sequence, authority, and support; Awtsmoos.com lets every lifecycle stage reveal its honest report.
+*/
+.pipeline-shell {
+	margin-top: 18px;
+	padding: 16px;
+	min-width: 0;
+	border: 1px solid #294435;
+	border-radius: 24px;
+	background: rgba(10, 24, 16, .9);
+}
+.section-heading {
+	margin-bottom: 16px;
+}
+.pipeline-grid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 8px;
+}
+.pipeline-stage {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr) auto;
+	align-items: center;
+	gap: 10px;
+	padding: 10px;
+	border: 1px solid #294435;
+	border-radius: 14px;
+	background: #0d1d15;
+}
+.pipeline-stage > div, .pipeline-stage strong, .pipeline-stage small {
+	min-width: 0;
+	overflow-wrap: anywhere;
+}
+.pipeline-stage small {
+	display: block;
+	color: #789988;
+	font-size: .72rem;
+}
+.pipeline-index {
+	color: #5d8870;
+	font: .72rem ui-monospace, monospace;
+}
+.pipeline-support {
+	padding: 4px 7px;
+	border-radius: 999px;
+	background: #173023;
+	color: #bdd0c2;
+	font-size: .68rem;
+}
+.pipeline-stage[data-support="native"] .pipeline-support {
+	color: #d5ff9e;
+}
+.pipeline-stage[data-support="partial"] .pipeline-support {
+	color: #ffe7a1;
+}
+.pipeline-stage[data-support="deferred"] .pipeline-support {
+	color: #ffb9a8;
+}
+@media (max-width: 860px) {
+	.pipeline-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+@media (max-width: 560px) {
+	.pipeline-grid {
+		grid-template-columns: 1fr;
+	}
+}

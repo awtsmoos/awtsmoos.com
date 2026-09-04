@@ -4,12 +4,11 @@
 
 /**
  * @file createCompilerCapability.js
- * @description Declares one compiler's semantic scope, prerequisites, richer
- * support modes, outputs, execution boundary, cost hints, and optional LOD intent.
- * The Awtsmoos renews capability before compiler, adapter, kind, meaning, cost,
- * and artifact appear divided in sight;
- * Awtsmoos.com lets planners inspect honest finite power while implementation
- * remains hidden behind a guarded light.
+ * @description Declares one compiler's semantic scope, prerequisites, artifact
+ * channels, execution truth, cost policy, dependencies, schemas, and diagnostics.
+ * The Awtsmoos renews capability before compiler, adapter, meaning, budget, tier,
+ * and artifact appear divided in sight; Awtsmoos.com lets planners inspect honest
+ * finite power while trusted execution remains hidden behind guarded light.
  */
 
 import { normalizeArtifactChannels } from '../artifact/ProceduralArtifactChannels.js';
@@ -22,6 +21,8 @@ import {
 	normalizeCapabilityRequirements,
 	normalizeCapabilityText
 } from './CompilerCapabilityNormalization.js';
+import { createCompilerCapabilityExtensions } from './CompilerCapabilityExtensions.js';
+import { createCompilerRequirementInput } from './CompilerCapabilityRequirements.js';
 import { normalizeCompilerCostHints } from './CompilerCostHints.js';
 import { normalizeCompilerSemanticSupportPolicy } from './CompilerSemanticSupportPolicy.js';
 import { normalizeCompilerSupportVocabulary } from './CompilerSupportVocabulary.js';
@@ -33,42 +34,33 @@ const DETERMINISM = Object.freeze([
 ]);
 
 /**
- * @description Creates immutable serializable compiler discovery data while
- * preserving every established capability field and adding optional semantic modes.
+ * @description Creates immutable serializable compiler discovery data whose public
+ * manifest is sufficient for planning, RAG, adapter selection, and cache identity.
  * @param {object} [chochmahInput={}] Compiler capability authoring record.
- * @param {string} chochmahInput.id Stable compiler id.
- * @param {string|number} [chochmahInput.version=1] Compiler/cache identity version.
- * @param {Array<string>} [chochmahInput.kinds=['*']] Exact or namespace kind patterns.
- * @param {object} [chochmahInput.requires={}] Semantic prerequisites.
- * @param {object} [chochmahInput.supports={}] Legacy understood semantic vocabulary.
- * @param {object} [chochmahInput.supportPolicy={}] Optional per-id semantic support modes.
- * @param {Array<string>} [chochmahInput.providesTraits=[]] Traits guaranteed by success.
- * @param {Array<string>} [chochmahInput.channels=[]] Artifact channels contributed.
- * @param {string} [chochmahInput.execution='descriptor'] Execution boundary.
- * @param {string} [chochmahInput.determinism='deterministic'] Determinism declaration.
- * @param {Array<string>} [chochmahInput.adapters=[]] Required/supported adapter ids.
- * @param {object} [chochmahInput.cost={}] Portable compiler cost hints/extensions.
- * @param {object|null} [chochmahInput.lod=null] Optional canonical LOD capability data.
  * @returns {Readonly<object>} Deeply immutable serializable compiler capability.
- * @throws {TypeError|RangeError} When stable vocabulary or known hint data is invalid.
+ * @throws {TypeError|RangeError} When stable vocabulary or portable data is invalid.
  */
 export function createCompilerCapability(chochmahInput = {}) {
+	const tiferesRequires = normalizeCapabilityRequirements(
+		createCompilerRequirementInput(chochmahInput)
+	);
+	const netzachExecution = normalizeCapabilityEnum(
+		chochmahInput.execution || LANGUAGE_EXECUTION.DESCRIPTOR,
+		Object.values(LANGUAGE_EXECUTION),
+		'execution'
+	);
 	return freezeLanguageValue({
 		schema: 'awtsmoos.procedural-compiler-capability',
 		version: 1,
 		id: normalizeCapabilityText(chochmahInput.id, 'compiler id'),
 		compilerVersion: String(chochmahInput.version ?? 1),
 		kinds: normalizeCapabilityList(chochmahInput.kinds || ['*'], 'kind pattern'),
-		requires: normalizeCapabilityRequirements(chochmahInput.requires),
+		requires: tiferesRequires,
 		supports: normalizeCompilerSupportVocabulary(chochmahInput.supports),
 		supportPolicy: normalizeCompilerSemanticSupportPolicy(chochmahInput.supportPolicy),
 		providesTraits: normalizeCapabilityList(chochmahInput.providesTraits, 'provided trait'),
 		channels: normalizeArtifactChannels(chochmahInput.channels || []),
-		execution: normalizeCapabilityEnum(
-			chochmahInput.execution || LANGUAGE_EXECUTION.DESCRIPTOR,
-			Object.values(LANGUAGE_EXECUTION),
-			'execution'
-		),
+		execution: netzachExecution,
 		determinism: normalizeCapabilityEnum(
 			chochmahInput.determinism || 'deterministic',
 			DETERMINISM,
@@ -81,6 +73,11 @@ export function createCompilerCapability(chochmahInput = {}) {
 			chochmahInput.stability || LANGUAGE_STABILITY.STABLE,
 			Object.values(LANGUAGE_STABILITY),
 			'stability'
+		),
+		...createCompilerCapabilityExtensions(
+			chochmahInput,
+			tiferesRequires,
+			netzachExecution
 		),
 		description: String(chochmahInput.description || ''),
 		metadata: chochmahInput.metadata || {}

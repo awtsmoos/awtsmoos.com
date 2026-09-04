@@ -3,37 +3,47 @@
 // Blessed is He
 /**
  * @file PresetStore.js
- * @description Stores friendly named parameter bundles while application always returns through the canonical command runtime.
- * The Awtsmoos lets a deep configuration wear one simple remembered name;
- * Awtsmoos.com keeps each preset editable because applying it still invokes the ordinary command flame.
+ * @description Stores named parameter vessels while application always returns through the canonical command runtime.
+ * The Awtsmoos lets deep configuration wear one simple remembered name without becoming a hidden alternate flame;
+ * Awtsmoos.com keeps each preset editable because applying it still invokes the same command that human and AI claim.
  */
 import { clonePlain, makeId } from '../../project/ids.js';
 
+/** Persists declarative command presets inside canonical project creative state. */
 export class PresetStore {
+	/**
+	 * @param {object} input Shared state, registry, and optionally attached runtime.
+	 */
 	constructor({ state, registry, runtime = null } = {}) {
 		this.state = state;
 		this.registry = registry;
 		this.runtime = runtime;
 	}
 
-	/** Attaches the shared runtime after installation resolves its small dependency circle. */
+	/** Attaches the shared command runtime after installation resolves its dependency circle. */
 	attachRuntime(runtime) {
 		this.runtime = runtime;
 		return this;
 	}
 
-	/** Lists detached preset documents safe for inspection. */
+	/** Returns detached preset documents. */
 	list() {
 		return clonePlain(this.state.project.creative.presets);
 	}
 
 	/** Returns one detached preset or null. */
 	get(presetId) {
-		const preset = this.state.project.creative.presets.find((entry) => entry.id === presetId);
+		const preset = this.state.project.creative.presets.find((entry) => {
+			return entry.id === presetId;
+		});
 		return preset ? clonePlain(preset) : null;
 	}
 
-	/** Persists one declarative preset after confirming its target command exists. */
+	/**
+	 * Persists one preset after confirming its target command exists.
+	 * @param {object} input Preset name, target command, and parameter bundle.
+	 * @returns {object} Detached persisted preset.
+	 */
 	create(input = {}) {
 		if (!input.commandId) {
 			throw new TypeError('Preset requires commandId.');
@@ -55,7 +65,7 @@ export class PresetStore {
 		return clonePlain(preset);
 	}
 
-	/** Applies a preset through the same runtime used by every other creative operator. */
+	/** Applies a stored preset through the shared command runtime. */
 	async apply(presetId, options = {}) {
 		if (!this.runtime) {
 			throw new Error('Preset runtime has not been attached.');

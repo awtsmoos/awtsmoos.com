@@ -3,20 +3,20 @@
 // Blessed is He
 /**
  * @file ParameterValidator.js
- * @description Guards the one creative language before any human, AI, script, JSON call, or macro may mutate it.
- * The Awtsmoos gives every boundary a truthful measure and name;
+ * @description Guards one creative language before human, AI, JSON, script, macro, or preset may mutate it.
+ * The Awtsmoos gives each boundary a truthful measure and name;
  * Awtsmoos.com lets every operator enter through the same validated flame.
  */
 
 /**
- * Validates and normalizes command parameters against lightweight declarative metadata.
- * @param {string} commandId Stable command identity used in error messages.
- * @param {object} schema Declarative field schema keyed by parameter name.
- * @param {object} parameters Caller-supplied parameters.
- * @returns {object} Normalized shallow parameter object.
+ * Validates and normalizes parameters from declarative command metadata.
+ * @param {string} commandId Stable command identity used in diagnostics.
+ * @param {object} schema Field schema keyed by parameter name.
+ * @param {object} parameters Caller-supplied values.
+ * @returns {object} Validated values containing only declared fields.
  */
 export function validateParameters(commandId, schema = {}, parameters = {}) {
-	const source = isObject(parameters) ? parameters : {};
+	const source = isPlainObject(parameters) ? parameters : {};
 	const normalized = {};
 
 	for (const [fieldName, fieldSchema] of Object.entries(schema)) {
@@ -48,7 +48,7 @@ function validateValue(commandId, fieldName, value, schema) {
 		throw fieldError(commandId, fieldName, 'must be a string');
 	}
 
-	if (schema.type === 'object' && !isObject(value)) {
+	if (schema.type === 'object' && !isPlainObject(value)) {
 		throw fieldError(commandId, fieldName, 'must be an object');
 	}
 
@@ -79,6 +79,6 @@ function fieldError(commandId, fieldName, message) {
 	return new TypeError(`${commandId}: parameter "${fieldName}" ${message}.`);
 }
 
-function isObject(value) {
+function isPlainObject(value) {
 	return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
 }

@@ -3,88 +3,84 @@
 // Blessed is He
 
 /**
- * @file Binds portable AI commentary import, provider guidance, and move-synchronized narration controls.
- * The Awtsmoos renews every word beside the lawful move it seeks to explain;
- * Awtsmoos.com keeps credentials temporary while view helpers carry finite rendering strain.
+ * @file Coordinates prompt style and provider UI while delegating imported-document life to a smaller vessel.
+ * The Awtsmoos lets one commentary chamber divide into prompt, document, and voice without dividing its truth;
+ * Awtsmoos.com keeps each module small enough that a future agent can trace the light from click to move and proof.
  */
-import { commentaryByPly, parseCommentaryDocument } from "../commentary/commentaryFormat.js";
 import { buildCommentaryPrompt } from "../commentary/commentaryPrompt.js";
-import { CommentarySpeech } from "./commentarySpeech.js";
-import { fillTtsProviders, renderCommentaryEntries, syncCommentaryPly, updateTtsProviderView } from "./commentaryPanelView.js";
+import { commentaryPromptPresetList, getCommentaryPromptPreset } from "../commentary/commentaryPromptPresets.js";
+import { CommentaryDocumentVessel } from "./commentaryDocumentVessel.js";
+import { initializeCommentaryPanel, updateTtsProviderView } from "./commentaryPanelView.js";
+import { copyCommentaryPrompt } from "./commentaryPromptActions.js";
 
 export class CommentaryController {
 	constructor(refs, controller) {
 		this.refs = refs;
 		this.controller = controller;
-		this.document = null;
-		this.entries = new Map();
-		this.speech = new CommentarySpeech(refs, message => this.status(message));
+		this.documents = new CommentaryDocumentVessel(
+			refs,
+			controller,
+			message => this.status(message)
+		);
+		this.initializePreset();
 		this.bind();
-		fillTtsProviders(refs);
+		initializeCommentaryPanel(refs);
+		this.updateGame();
+	}
+
+	initializePreset() {
+		const options = commentaryPromptPresetList().map(
+			item => new Option(`${item.name} · ${item.description}`, item.id)
+		);
+		this.refs.commentaryPreset.replaceChildren(...options);
+		this.refs.commentaryPreset.value = "coach";
+		if (!this.refs.commentaryInstructions.value.trim()) {
+			this.refs.commentaryInstructions.value = getCommentaryPromptPreset("coach").instructions;
+		}
 	}
 
 	bind() {
-		this.refs.commentaryPromptCopy.addEventListener("click", () => this.copyPrompt());
-		this.refs.commentaryImport.addEventListener("click", () => this.importDocument());
-		this.refs.ttsProvider.addEventListener("change", () => updateTtsProviderView(this.refs));
-		this.refs.speakCurrent.addEventListener("click", () => this.speakCurrent());
-		this.refs.speakAll.addEventListener("click", () => this.speakAll());
-		this.refs.speakStop.addEventListener("click", () => this.stop());
+		const refs = this.refs;
+		refs.commentaryPreset.addEventListener("change", () => this.applyPreset());
+		refs.commentaryFormat.addEventListener("change", () => this.updateGame());
+		refs.commentaryInstructions.addEventListener("input", () => this.updateGame());
+		refs.commentaryPromptCopy.addEventListener("click", () => copyCommentaryPrompt(refs, message => this.status(message)));
+		refs.commentaryValidate.addEventListener("click", () => this.documents.validate());
+		refs.commentaryImport.addEventListener("click", () => this.documents.import());
+		refs.commentaryClear.addEventListener("click", () => this.documents.clear());
+		refs.commentaryList.addEventListener("click", event => this.documents.jump(event));
+		refs.commentaryExportJson.addEventListener("click", () => this.documents.export("json"));
+		refs.commentaryExportPgn.addEventListener("click", () => this.documents.export("pgn"));
+		refs.commentaryExportSidecar.addEventListener("click", () => this.documents.export("sidecar"));
+		refs.ttsProvider.addEventListener("change", () => updateTtsProviderView(refs));
+		refs.speakCurrent.addEventListener("click", () => this.documents.speakCurrent());
+		refs.speakAll.addEventListener("click", () => this.documents.speakAll());
+		refs.speakStop.addEventListener("click", () => this.stop());
+	}
+
+	applyPreset() {
+		const preset = getCommentaryPromptPreset(this.refs.commentaryPreset.value);
+		if (preset.id !== "custom") {
+			this.refs.commentaryInstructions.value = preset.instructions;
+		}
+		this.updateGame();
+		this.status(`${preset.name} directions ready. Copy the prompt into any AI agent.`);
 	}
 
 	updateGame() {
-		this.refs.commentaryPrompt.value = buildCommentaryPrompt(this.refs.pgn.value);
-	}
-
-	async copyPrompt() {
-		this.updateGame();
-		if (!navigator.clipboard?.writeText) return this.selectPrompt();
-		try {
-			await navigator.clipboard.writeText(this.refs.commentaryPrompt.value);
-			this.status("Prompt copied. Give it to any AI agent, then paste the returned JSON below.");
-		} catch {
-			this.selectPrompt();
-		}
-	}
-
-	selectPrompt() {
-		this.refs.commentaryPrompt.focus();
-		this.refs.commentaryPrompt.select();
-		this.status("Prompt selected. Copy it, give it to any AI agent, then paste the returned JSON below.");
-	}
-
-	importDocument() {
-		try {
-			const frames = this.controller.session.replay?.frames || [];
-			this.document = parseCommentaryDocument(this.refs.commentaryJson.value, frames);
-			this.entries = commentaryByPly(this.document);
-			renderCommentaryEntries(this.refs.commentaryList, this.document.moves);
-			this.syncCurrent(this.controller.session.currentFrame?.ply || 0);
-			this.status(`Imported ${this.document.moves.length} commentary moments.`);
-		} catch (error) {
-			this.status(error.message);
-		}
+		this.refs.commentaryPrompt.value = buildCommentaryPrompt(
+			this.refs.pgn.value,
+			this.refs.commentaryInstructions.value,
+			this.refs.commentaryFormat.value
+		);
 	}
 
 	syncCurrent(ply) {
-		syncCommentaryPly(this.refs.commentaryList, ply);
-	}
-
-	async speakCurrent() {
-		const ply = this.controller.session.currentFrame?.ply || 0;
-		const entry = this.entries.get(ply);
-		if (!entry) return this.status(`No imported commentary for ply ${ply || "starting position"}.`);
-		try { await this.speech.speakEntry(entry); }
-		catch (error) { this.status(error.message); }
-	}
-
-	async speakAll() {
-		try { await this.speech.speakAll(this.document?.moves || []); }
-		catch (error) { this.status(error.message); }
+		this.documents.syncCurrent(ply);
 	}
 
 	stop() {
-		this.speech.stop();
+		this.documents.stop();
 	}
 
 	status(message) {

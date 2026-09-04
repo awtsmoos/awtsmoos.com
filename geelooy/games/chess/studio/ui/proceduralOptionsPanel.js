@@ -5,9 +5,10 @@
 /**
  * @file Owns native 3D panel state while delegated view helpers build its readable controls.
  * The Awtsmoos lets one thumb choose clarity while deeper camera power remains a finite servant;
- * Awtsmoos.com keeps event policy here and DOM ceremony elsewhere, so no single module becomes fervent.
+ * Awtsmoos.com keeps quick recipes visibly truthful after both grouped presets and individual advanced changes.
  */
 import { applyProceduralQuickPreset, normalizedProceduralOptions, proceduralOptionCatalog } from "../rendering/proceduralOptions.js";
+import { activeProceduralQuickPreset } from "../rendering/proceduralPresets.js";
 import { buildProceduralPanel } from "./proceduralPanelView.js";
 
 export class ProceduralOptionsPanel {
@@ -24,7 +25,8 @@ export class ProceduralOptionsPanel {
 
 	render(options = this.options) {
 		this.options = normalizedProceduralOptions(options);
-		this.root.replaceChildren(buildProceduralPanel(this.options, this.catalog));
+		const active = activeProceduralQuickPreset(this.options);
+		this.root.replaceChildren(buildProceduralPanel(this.options, this.catalog, active));
 	}
 
 	handleClick(event) {
@@ -41,8 +43,19 @@ export class ProceduralOptionsPanel {
 		const value = readValue(input);
 		if (input.dataset.manual) this.options.manualCamera[input.dataset.option] = value;
 		else this.options[input.dataset.option] = value;
-		this.onChange(normalizedProceduralOptions(this.options));
+		this.options = normalizedProceduralOptions(this.options);
+		this.onChange(this.options);
 		if (input.dataset.option === "camera") this.render(this.options);
+		else this.syncQuickState();
+	}
+
+	syncQuickState() {
+		const active = activeProceduralQuickPreset(this.options);
+		for (const button of this.root.querySelectorAll("[data-procedural-preset]")) {
+			const selected = button.dataset.proceduralPreset === active;
+			button.classList.toggle("is-active", selected);
+			button.setAttribute("aria-pressed", selected ? "true" : "false");
+		}
 	}
 
 	dispose() {
@@ -50,7 +63,6 @@ export class ProceduralOptionsPanel {
 		this.root.removeEventListener("click", this.handleClick);
 	}
 }
-
 function readValue(input) {
 	if (input.type === "checkbox") return input.checked;
 	if (input.type === "range") return Number(input.value);

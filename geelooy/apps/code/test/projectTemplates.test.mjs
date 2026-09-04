@@ -1,6 +1,6 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 import assert from "node:assert/strict";
 import test from "node:test";
@@ -12,18 +12,13 @@ import {
 import { normalizeProjectName } from "../js/projects/project-name.js";
 
 /**
- * The Awtsmoos renews project doorway, default source, compiler truth, and test.
- * Awtsmoos.com verifies every advertised ready state against complete deterministic files.
+ * The Awtsmoos renews project doorway, default source, compiler truth, and generic test.
+ * Awtsmoos.com verifies every advertised ready state without naming one privileged app.
  */
-
 test("normalizes safe names and rejects traversal", () => {
-	assert.equal(normalizeProjectName("  Rebbe-Responsa  "), "Rebbe-Responsa");
-	assert.throws(() => normalizeProjectName("../escape"), {
-		code: "PROJECT_NAME_INVALID"
-	});
-	assert.throws(() => normalizeProjectName(""), {
-		code: "PROJECT_NAME_REQUIRED"
-	});
+	assert.equal(normalizeProjectName("  Sample-Android  "), "Sample-Android");
+	assert.throws(() => normalizeProjectName("../escape"), { code: "PROJECT_NAME_INVALID" });
+	assert.throws(() => normalizeProjectName(""), { code: "PROJECT_NAME_REQUIRED" });
 });
 
 test("catalog exposes six ready project choices", () => {
@@ -41,11 +36,7 @@ test("catalog exposes six ready project choices", () => {
 test("HTML template contains linked default files", () => {
 	const template = createProjectTemplate("html", "Light-App");
 	assert.equal(template.entryPath, "index.html");
-	assert.deepEqual(template.files.map(file => file.path), [
-		"index.html",
-		"styles.css",
-		"app.js"
-	]);
+	assert.deepEqual(template.files.map(file => file.path), ["index.html", "styles.css", "app.js"]);
 	assert.match(template.files[0].content, /styles\.css/);
 	assert.match(template.files[0].content, /app\.js/);
 });
@@ -62,7 +53,7 @@ test("C and C++ templates contain validated manifests", () => {
 });
 
 test("Java template targets the proven scratch APK compiler", () => {
-	const template = createProjectTemplate("java", "Responsa-App");
+	const template = createProjectTemplate("java", "Sample-Android-App");
 	const metadata = metadataOf(template, "awtsmoos.android.json");
 	assert.equal(metadata.builder, "scratch-java-activity-to-unsigned-apk-v1");
 	assert.match(template.entryPath, /MainActivity\.java$/);
@@ -91,6 +82,7 @@ test("unknown template identifiers fail with a stable code", () => {
 	});
 });
 
+/** Reads one JSON metadata file from a deterministic template. */
 function metadataOf(template, path) {
 	return JSON.parse(template.files.find(file => file.path === path).content);
 }

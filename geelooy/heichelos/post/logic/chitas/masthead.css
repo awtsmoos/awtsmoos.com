@@ -1,74 +1,85 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- * The Awtsmoos gives the selected week a calm crown without crowding the Torah beneath it;
- * Awtsmoos.com keeps mobile controls broad, clear, and native while each pasuk keeps its own light.
+ * The Awtsmoos lets the Torah body rise while its crown becomes quiet, lucid, and light;
+ * Awtsmoos.com keeps identity and source close enough to orient the learner without stealing the first sight.
  */
+@import url('./masthead-controls.css?v=native-chitas-004');
+
 .chitas-reader-masthead {
 	display: grid;
-	gap: .75rem;
-	margin: 0 0 1rem;
-	padding: clamp(1rem, 3vw, 1.5rem);
-	border: 1px solid color-mix(in srgb, #5de8ff 42%, transparent);
-	border-radius: 1.15rem;
-	background: linear-gradient(145deg, rgba(39, 191, 230, .12), rgba(8, 15, 29, .96) 58%, rgba(178, 74, 230, .1));
-	box-shadow: 0 1rem 2.5rem rgba(0, 0, 0, .22), inset 0 1px 0 rgba(255, 255, 255, .06);
+	gap: .58rem;
+	width: min(100%, 1080px);
+	box-sizing: border-box;
+	margin: 0 auto .85rem;
+	padding: .72rem;
+	border: 1px solid rgba(106, 226, 247, .22);
+	border-radius: .95rem;
+	background: linear-gradient(145deg, rgba(19, 43, 67, .72), rgba(7, 12, 23, .94));
+	box-shadow: 0 14px 34px rgba(0, 0, 0, .24);
 }
-.chitas-reader-eyebrow {
-	margin: 0;
-	color: #71e8ff;
-	font-size: .76rem;
-	font-weight: 900;
-	letter-spacing: .16em;
+
+.chitas-reader-identity {
+	display: grid;
+	gap: .22rem;
 }
-.chitas-reader-masthead h2 {
-	margin: 0;
-	font-size: clamp(1.35rem, 5vw, 2rem);
-}
+
+.chitas-reader-eyebrow,
 .chitas-reader-meta {
 	margin: 0;
-	color: rgba(225, 235, 250, .72);
+}
+
+.chitas-reader-eyebrow {
+	color: #72e6f4;
+	font-size: .68rem;
+	font-weight: 900;
+	letter-spacing: .13em;
+}
+
+.chitas-reader-identity h1 {
+	margin: 0;
+	font-size: clamp(1.3rem, 5vw, 2rem);
+	line-height: 1.04;
+	letter-spacing: -.025em;
+}
+
+.chitas-reader-meta {
+	color: rgba(230, 237, 248, .68);
+	font-size: .74rem;
+	line-height: 1.4;
 	overflow-wrap: anywhere;
 }
-.chitas-reader-controls {
-	display: grid;
-	grid-template-columns: repeat(6, minmax(0, 1fr));
-	gap: .5rem;
+
+.chitas-reader-source {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .28rem .65rem;
+	align-items: center;
+	padding: .42rem .55rem;
+	border: 1px solid rgba(236, 198, 104, .19);
+	border-radius: .68rem;
+	background: rgba(236, 198, 104, .045);
 }
-.chitas-reader-control,
-.chitas-reader-date {
-	box-sizing: border-box;
-	min-width: 0;
-	min-height: 48px;
-	border: 1px solid rgba(113, 232, 255, .34);
-	border-radius: .8rem;
-	background: rgba(10, 23, 42, .88);
-	color: #f5f8ff;
-	font: inherit;
+
+.chitas-reader-source strong {
+	color: #efd78f;
+	font-size: .67rem;
 }
-.chitas-reader-control {
-	padding: .7rem .8rem;
-	cursor: pointer;
+
+.chitas-reader-source span {
+	color: rgba(226, 232, 243, .58);
+	font-size: .64rem;
+	line-height: 1.35;
 }
-.chitas-reader-control.is-active {
-	border-color: #71e8ff;
-	background: rgba(61, 190, 230, .2);
-	box-shadow: inset 0 -2px 0 #e468dd;
-}
-.chitas-reader-date {
-	padding: .65rem;
-	color-scheme: dark;
-}
-@media (max-width: 700px) {
-	.chitas-reader-controls {
-		grid-template-columns: repeat(2, minmax(0, 1fr));
+
+@media (max-width: 520px) {
+	.chitas-reader-masthead {
+		gap: .5rem;
+		margin-bottom: .65rem;
+		padding: .62rem;
 	}
-	.chitas-reader-date {
-		grid-column: 1 / -1;
+
+	.chitas-reader-identity h1 {
+		font-size: clamp(1.22rem, 7vw, 1.72rem);
 	}
-}
-@media (max-width: 360px) {
-	.chitas-reader-masthead { padding: .85rem; }
-	.chitas-reader-controls { grid-template-columns: 1fr; }
-	.chitas-reader-date { grid-column: auto; }
 }

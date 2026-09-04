@@ -20,7 +20,11 @@ const SOURCES = new Set([
 	'remote'
 ]);
 
-/** Creates one canonical operation record from successful runtime evidence. */
+/**
+ * Creates a canonical operation record from successful runtime evidence.
+ * @param {object} input Command definition, parameters, result, and provenance.
+ * @returns {object} Detached JSON-safe operation envelope.
+ */
 export function createOperationEnvelope(input = {}) {
 	return {
 		id: createOperationId(),
@@ -36,7 +40,7 @@ export function createOperationEnvelope(input = {}) {
 	};
 }
 
-/** Restricts provenance to known descriptive values without granting privileges. */
+/** Restricts provenance labels to known descriptive values without changing authority. */
 export function normalizeOperationSource(source) {
 	return SOURCES.has(source) ? source : 'api';
 }

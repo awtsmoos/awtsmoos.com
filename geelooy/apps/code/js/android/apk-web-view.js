@@ -1,6 +1,6 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 import { apkWebExecutionPolicy, isExecutableApkWebPackage } from "./apk-web-policy.js";
 import {
@@ -9,22 +9,11 @@ import {
 } from "./apk-web-store.js";
 
 /**
- * @fileoverview
- * Mounts explicitly admitted APK web assets through package-specific sandboxes.
- *
- * RESPONSIBILITY:
- * Resolve executable policy before publication, activate the scoped worker, build
- * the smallest iframe capability set, and return measured load/isolation evidence.
- *
- * NON-RESPONSIBILITY:
- * This module never promotes package presence into trust or weakens a policy later.
- *
- * The Awtsmoos renews policy, package graph, iframe, and visible garment together;
- * Awtsmoos.com gives Rebbe and generated Flutter vessels their distinct boundaries.
+ * Mounts manifest-identified APK web assets through one generic isolated sandbox.
+ * The Awtsmoos renews package graph, worker, iframe, and visible garment together;
+ * Awtsmoos.com gives every APK the same bounded vessel without privileged names forever.
  */
-
-/** Mounts one policy-admitted APK WebView into the supplied container. */
-export async function mountTrustedApkWebView(container, input) {
+export async function mountApkWebView(container, input) {
 	const policy = apkWebExecutionPolicy(input.packageName);
 	const descriptor = input.contentView?.web;
 	if (descriptor?.kind !== "apk-asset") {
@@ -33,7 +22,6 @@ export async function mountTrustedApkWebView(container, input) {
 	if (!input.artifactId) {
 		throw webViewError("APK_WEB_ARTIFACT_ID_REQUIRED");
 	}
-
 	const entryUrl = await publishApkWebAssets(
 		input.content,
 		input.artifactId,
@@ -45,21 +33,21 @@ export async function mountTrustedApkWebView(container, input) {
 	const loaded = waitForFrame(iframe, input.loadTimeoutMs || 20000);
 	iframe.src = entryUrl;
 	await loaded;
-
 	return Object.freeze({
 		entryUrl,
 		isolationMode: policy.mode,
 		loaded: true,
-		packageName: input.packageName,
-		trusted: policy.mode === "trusted-source-owned"
+		packageName: policy.packageName,
+		trusted: false
 	});
 }
 
-/** Preserves the historic trust-query export for current callers and tests. */
-export function isTrustedApkWebPackage(packageName) {
+/** Returns whether a package identity can enter the generic isolated WebView. */
+export function isApkWebPackageExecutable(packageName) {
 	return isExecutableApkWebPackage(packageName);
 }
 
+/** Creates the isolated browser frame without granting arbitrary same-origin privilege. */
 function createWebViewFrame(policy) {
 	const iframe = document.createElement("iframe");
 	iframe.className = "code-android-emulator__webview";
@@ -76,11 +64,10 @@ function createWebViewFrame(policy) {
 	return iframe;
 }
 
+/** Resolves only after the package frame has genuinely loaded. */
 function waitForFrame(iframe, timeoutMs) {
 	return new Promise((resolve, reject) => {
-		const timeout = setTimeout(() => {
-			reject(webViewError("APK_WEB_FRAME_TIMEOUT"));
-		}, timeoutMs);
+		const timeout = setTimeout(() => reject(webViewError("APK_WEB_FRAME_TIMEOUT")), timeoutMs);
 		iframe.addEventListener("load", () => {
 			clearTimeout(timeout);
 			resolve();
@@ -92,6 +79,7 @@ function waitForFrame(iframe, timeoutMs) {
 	});
 }
 
+/** Creates a stable APK WebView error code. */
 function webViewError(code) {
 	const error = new Error(code);
 	error.code = code;

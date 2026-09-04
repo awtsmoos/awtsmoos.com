@@ -4,12 +4,11 @@
 
 /**
  * @file matchCompilerCapability.js
- * @description Explains compiler eligibility, artifact relevance, semantic
- * recognition, adapter preference, cost hints, and LOD capability in one receipt.
- * The Awtsmoos renews possibility and refusal before planner or compiler chooses
- * a finite road;
- * Awtsmoos.com lets matching speak its reasons and semantic limits plainly so
- * many expert vessels may reveal together what no single compiler should hold.
+ * @description Explains compiler eligibility, artifact relevance, semantic recognition,
+ * explicit support state, adapter preference, cost hints, and LOD capability.
+ * The Awtsmoos renews possibility and refusal before planner or compiler chooses a road;
+ * Awtsmoos.com makes unsupported power refuse coverage while deferred vessels may still
+ * describe a future artifact path without pretending native execution was bestowed.
  */
 
 import { createArtifactRequest, requestedArtifactChannels } from '../artifact/createArtifactRequest.js';
@@ -19,14 +18,18 @@ import { createCompilerSemanticMatchEvidence } from './CompilerSemanticMatchEvid
 import { createDefinitionSemanticIdIndex } from './DefinitionSemanticIdIndex.js';
 
 /**
- * @description Matches kind/prerequisites, measures channel contribution, and
- * reports authored semantic recognition without claiming domain constraints solved.
+ * @description Matches kind/prerequisites/support, measures channel contribution, and
+ * reports authored semantic recognition without claiming deferred work executed.
  * @param {Readonly<object>} tiferesCapability Canonical compiler capability.
  * @param {object|string} chochmahDefinition Definition-compatible semantic input.
  * @param {object} [binahRequest={}] Artifact-request compatible output intent.
- * @returns {Readonly<object>} Frozen decision and semantic/cost/LOD evidence.
+ * @returns {Readonly<object>} Frozen decision and semantic/cost/LOD/support evidence.
  */
-export function matchCompilerCapability(tiferesCapability, chochmahDefinition, binahRequest = {}) {
+export function matchCompilerCapability(
+	tiferesCapability,
+	chochmahDefinition,
+	binahRequest = {}
+) {
 	const malchusDefinition = createProceduralDefinition(chochmahDefinition);
 	const malchusRequest = canonicalRequest(binahRequest);
 	const binahSemanticIds = createDefinitionSemanticIdIndex(malchusDefinition);
@@ -36,24 +39,29 @@ export function matchCompilerCapability(tiferesCapability, chochmahDefinition, b
 	if (!matchesCompilerKind(tiferesCapability.kinds, malchusDefinition.kind)) {
 		gevurahReasons.unshift(`kind:${malchusDefinition.kind}`);
 	}
+	if (tiferesCapability.supportState === 'unsupported') {
+		gevurahReasons.push('support:unsupported');
+	}
 	const tiferesChannelSet = new Set(tiferesCapability.channels);
 	const yesodDesired = requestedArtifactChannels(malchusRequest);
-	const hodCovered = yesodDesired.filter((channel) => tiferesChannelSet.has(channel));
+	const hodCovered = tiferesCapability.supportState === 'unsupported'
+		? []
+		: yesodDesired.filter((channel) => tiferesChannelSet.has(channel));
 	const netzachRelevant = yesodDesired.length === 0 || hodCovered.length > 0;
 	if (!netzachRelevant) gevurahReasons.push('channels:none-requested-covered');
 	return Object.freeze({
 		compilerId: tiferesCapability.id,
 		definitionId: malchusDefinition.id,
 		accepted: gevurahReasons.length === 0,
-		semanticallyEligible: !gevurahReasons.some(
-			(reason) => reason !== 'channels:none-requested-covered'
-		),
+		semanticallyEligible: !gevurahReasons.some(isSemanticFailure),
 		relevant: netzachRelevant,
+		supportState: tiferesCapability.supportState,
+		executionTier: tiferesCapability.executionTier,
 		reasons: Object.freeze(gevurahReasons),
 		coveredChannels: Object.freeze(hodCovered),
-		coveredRequiredChannels: covered(malchusRequest.required, tiferesChannelSet),
-		coveredOptionalChannels: covered(malchusRequest.optional, tiferesChannelSet),
-		missingRequiredChannels: missing(malchusRequest.required, tiferesChannelSet),
+		coveredRequiredChannels: covered(malchusRequest.required, hodCovered),
+		coveredOptionalChannels: covered(malchusRequest.optional, hodCovered),
+		missingRequiredChannels: missing(malchusRequest.required, hodCovered),
 		adapterPreferenceMatched: adapterPreferenceMatches(
 			tiferesCapability.adapters,
 			malchusRequest.preferredAdapters
@@ -63,7 +71,8 @@ export function matchCompilerCapability(tiferesCapability, chochmahDefinition, b
 			binahSemanticIds
 		),
 		cost: tiferesCapability.cost || Object.freeze({}),
-		lod: tiferesCapability.lod || null
+		lod: tiferesCapability.lod || null,
+		dependencies: tiferesCapability.dependencies || Object.freeze([])
 	});
 }
 
@@ -75,13 +84,20 @@ function canonicalRequest(binahRequest) {
 }
 
 /** @private */
-function covered(chochmahChannels, tiferesChannelSet) {
-	return Object.freeze(chochmahChannels.filter((channel) => tiferesChannelSet.has(channel)));
+function isSemanticFailure(reason) {
+	return reason !== 'channels:none-requested-covered';
 }
 
 /** @private */
-function missing(chochmahChannels, tiferesChannelSet) {
-	return Object.freeze(chochmahChannels.filter((channel) => !tiferesChannelSet.has(channel)));
+function covered(channels, coveredChannels) {
+	const coveredSet = new Set(coveredChannels);
+	return Object.freeze(channels.filter((channel) => coveredSet.has(channel)));
+}
+
+/** @private */
+function missing(channels, coveredChannels) {
+	const coveredSet = new Set(coveredChannels);
+	return Object.freeze(channels.filter((channel) => !coveredSet.has(channel)));
 }
 
 /**

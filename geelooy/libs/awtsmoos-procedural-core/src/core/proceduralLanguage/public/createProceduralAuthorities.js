@@ -4,13 +4,13 @@
 
 /**
  * @file createProceduralAuthorities.js
- * @description Constructs one shared constellation of operation, resolver, semantic compiler, generator, domain, resource, cache, logger, and established compiler authorities for every public language facade.
+ * @description Constructs one shared constellation of language, resolver, semantic compiler, generator, domain, resource, cache, logger, and established compiler authorities for every public facade.
  * The Awtsmoos is One while registries receive many finite offices beneath the same light;
- * Awtsmoos.com creates them once per API vessel so authoring, planning, universal artifacts, execution, inspection, and plugins never drift into separate nights.
+ * Awtsmoos.com creates them once per API vessel so authoring, planning, specialist bridges, execution, inspection, and plugins never drift into separate nights.
  */
 
 import { ProceduralCompilationCache } from '../cache/ProceduralCompilationCache.js';
-import { ProceduralCompilerCapabilityRegistry } from '../capability/ProceduralCompilerCapabilityRegistry.js';
+import { createDefaultCompilerCapabilityRegistry } from '../capability/createDefaultCompilerCapabilityRegistry.js';
 import { ProceduralLanguageCompiler } from '../compiler/ProceduralLanguageCompiler.js';
 import { ProceduralDomainRegistry } from '../domain/ProceduralDomainRegistry.js';
 import { ProceduralGeneratorRegistry } from '../generation/ProceduralGeneratorRegistry.js';
@@ -20,7 +20,7 @@ import { SemanticResolverRegistry } from '../reference/SemanticResolverRegistry.
 import { ProceduralResourceRegistry } from '../resource/ProceduralResourceRegistry.js';
 
 /**
- * @description Creates shared runtime authorities while honoring caller-supplied registry/compiler/cache/resource/logger overrides, including the semantic compiler-capability registry used by universal artifact planning.
+ * @description Creates shared runtime authorities while honoring caller-supplied overrides; only an omitted compiler registry receives built-in semantic compiler bridges.
  * @param {object} [chochmahOptions={}] Optional authority overrides and cache/logger/compiler construction settings.
  * @returns {Readonly<object>} Frozen shared authority constellation consumed by all public API facets.
  */
@@ -30,7 +30,7 @@ export function createProceduralAuthorities(chochmahOptions = {}) {
 	const daasResolverRegistry = chochmahOptions.resolverRegistry
 		|| new SemanticResolverRegistry();
 	const tiferesCompilerRegistry = chochmahOptions.compilerRegistry
-		|| new ProceduralCompilerCapabilityRegistry();
+		|| createDefaultCompilerCapabilityRegistry();
 	const chesedGeneratorRegistry = chochmahOptions.generatorRegistry
 		|| new ProceduralGeneratorRegistry();
 	const gevurahDomainRegistry = chochmahOptions.domainRegistry

@@ -4,51 +4,50 @@
 
 /**
  * @file createProceduralLanguageSchema.js
- * @description Exposes machine-readable definition, semantic, patch, artifact, mesh, reference, descriptor, and execution structure for humans, editors, AI, and validators.
- * The Awtsmoos is beyond every schema while finite schemas let many authors speak one disciplined tongue;
- * Awtsmoos.com reveals semantic traits and precise edits beside geometry so universal intent and generated artifact are not confused as one.
+ * @description Exposes machine-readable definition, semantic, plugin, patch, artifact,
+ * mesh, descriptor, and execution structure for humans, editors, AI, and validators.
+ * The Awtsmoos is beyond every schema while finite schemas let many authors speak one
+ * disciplined tongue; Awtsmoos.com reveals semantic and extension truth beside geometry.
  */
 
+import { createProceduralLanguageCapabilities } from '../capabilities/createProceduralLanguageCapabilities.js';
 import {
 	PROCEDURAL_ACTIONS,
 	PROCEDURAL_LANGUAGE_SCHEMA,
 	PROCEDURAL_LANGUAGE_VERSION
 } from '../contract/ProceduralLanguageContract.js';
-import { createProceduralLanguageCapabilities } from '../capabilities/createProceduralLanguageCapabilities.js';
-
-const DEFINITION_SECTIONS = Object.freeze([
-	'revision',
-	'traits',
-	'relationships',
-	'behaviors',
-	'provenance',
-	'payload',
-	'actions',
-	'constraints',
-	'resources',
-	'compile',
-	'editor',
-	'metadata',
-	'extensions'
-]);
+import {
+	createBehaviorSectionSchema,
+	createDefinitionSectionSchema,
+	createRelationshipSectionSchema,
+	createTraitSectionSchema
+} from './ProceduralLanguageSemanticSchemas.js';
+import {
+	createCompilerManifestSchema,
+	createConstraintSolverManifestSchema
+} from './ProceduralLanguagePluginSchemas.js';
 
 /**
- * @description Creates one portable schema-like discovery record without binding procedural core to a specific third-party schema library.
- * @param {object} [binahOptions={}] Optional language registry used to reveal current operation vocabulary.
- * @returns {Readonly<object>} Immutable structural description for authoring tools, generated docs, validators, and RAG discovery.
+ * @description Creates one portable schema-like discovery record without binding the
+ * procedural core to a third-party schema library or executable registry implementation.
+ * @param {object} [binahOptions={}] Optional operation registry for live vocabulary.
+ * @returns {Readonly<object>} Immutable structural and plugin discovery contract.
  */
 export function createProceduralLanguageSchema(binahOptions = {}) {
-	const hodCapabilities = createProceduralLanguageCapabilities(
-		binahOptions.registry
-	);
+	const hodCapabilities = createProceduralLanguageCapabilities(binahOptions.registry);
 	return Object.freeze({
 		schema: 'awtsmoos.procedural-language-schema',
-		version: 2,
-		definition: definitionSchema(),
-		trait: traitSchema(),
-		relationship: relationshipSchema(),
-		behavior: behaviorSchema(),
-		patch: patchSchema(hodCapabilities),
+		version: 3,
+		definition: createDefinitionSectionSchema(
+			PROCEDURAL_LANGUAGE_SCHEMA,
+			PROCEDURAL_LANGUAGE_VERSION
+		),
+		trait: createTraitSectionSchema(),
+		relationship: createRelationshipSectionSchema(),
+		behavior: createBehaviorSectionSchema(),
+		compilerManifest: createCompilerManifestSchema(),
+		constraintSolverManifest: createConstraintSolverManifestSchema(),
+		patch: createPatchSchema(hodCapabilities),
 		action: Object.freeze({
 			required: Object.freeze(['op']),
 			universalOps: PROCEDURAL_ACTIONS,
@@ -71,46 +70,14 @@ export function createProceduralLanguageSchema(binahOptions = {}) {
 	});
 }
 
-/** @private */
-function definitionSchema() {
+/**
+ * @description Creates the transactional patch portion of procedural discovery.
+ * @param {Readonly<object>} tiferesCapabilities Live language capability description.
+ * @returns {Readonly<object>} Immutable patch operations, guards, and receipt contract.
+ */
+function createPatchSchema(tiferesCapabilities) {
 	return Object.freeze({
-		schema: PROCEDURAL_LANGUAGE_SCHEMA,
-		version: PROCEDURAL_LANGUAGE_VERSION,
-		required: Object.freeze(['id', 'kind', 'seed', 'payload']),
-		sections: DEFINITION_SECTIONS,
-		revision: 'positive-integer; advances once per non-empty atomic edit transaction'
-	});
-}
-
-/** @private */
-function traitSchema() {
-	return Object.freeze({
-		addressing: 'traits.<stableId>.values.<specificPath>',
-		fields: Object.freeze(['id', 'kind', 'values', 'constraints', 'affects', 'editor', 'metadata']),
-		stableId: 'letters, digits, underscore, hyphen'
-	});
-}
-
-/** @private */
-function relationshipSchema() {
-	return Object.freeze({
-		fields: Object.freeze(['id', 'type', 'from', 'to', 'values', 'metadata']),
-		purpose: 'generic semantic world-graph edge'
-	});
-}
-
-/** @private */
-function behaviorSchema() {
-	return Object.freeze({
-		fields: Object.freeze(['id', 'kind', 'enabled', 'triggers', 'values', 'affects', 'metadata']),
-		purpose: 'portable time/reactivity intent independent of runtime engine'
-	});
-}
-
-/** @private */
-function patchSchema(capabilities) {
-	return Object.freeze({
-		operations: capabilities.patchOperations,
+		operations: tiferesCapabilities.patchOperations,
 		guards: Object.freeze(['expect', 'expectExists', 'expectedRevision']),
 		atomic: true,
 		receipt: 'hashes, revisions, changed paths/sections, affected traits/channels, provenance'

@@ -3,20 +3,25 @@
 // Blessed is He
 /**
  * @file CommandRegistry.js
- * @description Collects stable creative capabilities without importing a second editor state.
- * The Awtsmoos lets many tools be known through one searchable tongue;
- * Awtsmoos.com keeps each command distinct, discoverable, and never twice-sung.
+ * @description Collects stable creative capabilities without owning any creative project state.
+ * The Awtsmoos lets many commands become known through one searchable keli while their ohr remains distinct;
+ * Awtsmoos.com keeps discovery honest, so a capability can be visible even when context says it cannot yet be picked.
  */
 import { CommandDefinition } from './CommandDefinition.js';
 
+/**
+ * Stores transient executable command definitions and exposes only serializable metadata outward.
+ */
 export class CommandRegistry {
 	constructor() {
 		this.definitions = new Map();
 	}
 
-	/** Registers one unique definition and rejects accidental identity collisions. */
+	/** Registers one stable definition and rejects identity collisions. */
 	register(input) {
-		const definition = input instanceof CommandDefinition ? input : new CommandDefinition(input);
+		const definition = input instanceof CommandDefinition
+			? input
+			: new CommandDefinition(input);
 
 		if (this.definitions.has(definition.id)) {
 			throw new Error(`Command already registered: ${definition.id}.`);
@@ -26,12 +31,12 @@ export class CommandRegistry {
 		return definition;
 	}
 
-	/** Returns one definition or null without mutating registry state. */
+	/** Returns one transient command definition or null. */
 	get(commandId) {
 		return this.definitions.get(commandId) || null;
 	}
 
-	/** Returns one definition or fails with an explicit stable-ID error. */
+	/** Returns one command definition or throws a precise identity error. */
 	require(commandId) {
 		const definition = this.get(commandId);
 
@@ -42,24 +47,29 @@ export class CommandRegistry {
 		return definition;
 	}
 
-	/** Lists serializable command metadata plus current contextual availability. */
+	/** Lists serializable metadata plus current contextual availability. */
 	list(state) {
-		return Array.from(this.definitions.values()).map((definition) => describe(definition, state));
+		return Array.from(this.definitions.values()).map((definition) => {
+			return describeDefinition(definition, state);
+		});
 	}
 
-	/** Searches the same metadata used by human UI, scripts, and AI discovery. */
+	/** Searches the same capability metadata used by human UI, script, and AI discovery. */
 	search(query = '', state) {
 		const needle = String(query).trim().toLowerCase();
+		const descriptions = this.list(state);
 
 		if (!needle) {
-			return this.list(state);
+			return descriptions;
 		}
 
-		return this.list(state).filter((entry) => searchableText(entry).includes(needle));
+		return descriptions.filter((entry) => {
+			return searchableText(entry).includes(needle);
+		});
 	}
 }
 
-function describe(definition, state) {
+function describeDefinition(definition, state) {
 	const metadata = definition.metadata();
 	const availability = definition.availability(state, {});
 
@@ -71,7 +81,11 @@ function describe(definition, state) {
 }
 
 function searchableText(entry) {
-	return [entry.id, entry.label, entry.description, entry.domain, ...(entry.tags || [])]
-		.join(' ')
-		.toLowerCase();
+	return [
+		entry.id,
+		entry.label,
+		entry.description,
+		entry.domain,
+		...(entry.tags || [])
+	].join(' ').toLowerCase();
 }

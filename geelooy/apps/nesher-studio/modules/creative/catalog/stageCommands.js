@@ -3,83 +3,89 @@
 // Blessed is He
 /**
  * @file stageCommands.js
- * @description Wraps proven selected-source stage transforms as canonical universal creative commands.
+ * @description Lists the proven selected-source Stage transformations using one shared stable command-id vocabulary.
  * The Awtsmoos lets one visible object move through many interfaces without losing its editable form;
- * Awtsmoos.com makes center, scale, aspect, and reset the same command whether human, macro, script, preset, or AI gives the storm.
+ * Awtsmoos.com keeps Center, Scale, Aspect, and Reset named once whether human, macro, preset, script, JSON, or AI gives the storm.
  */
-import { selectedSource } from '../../graph/sceneGraph.js';
 import {
 	centerSelectedSource,
 	resetSelectedTransform,
 	setSelectedAspectLock,
 	setSelectedSourceScale
 } from '../../stage/stageTransformCommands.js';
+import { STAGE_COMMAND_IDS } from './StageCommandIds.js';
+import { createStageCommandDefinition } from './stageCommandDefinition.js';
 
-const SURFACES = ['human', 'command', 'script', 'json', 'ai', 'macro', 'preset'];
-
-/** Returns project-backed stage transforms that require a real selected source. */
+/** Returns project-backed Stage command definitions for proven transform capabilities. */
 export function stageCommandDefinitions() {
 	return [
-		createStageDefinition('stage.source.center', 'Center selected source', {}, centerSelectedSource, 'simple'),
-		createStageDefinition(
-			'stage.source.scale',
-			'Scale selected source',
-			{ percent: { type: 'number', required: true, min: 5, max: 500 } },
-			(state, parameters) => setSelectedSourceScale(state, parameters.percent),
-			'parameterized'
-		),
-		createStageDefinition(
-			'stage.source.aspectLock',
-			'Set selected source aspect lock',
-			{ locked: { type: 'boolean', required: true } },
-			(state, parameters) => setSelectedAspectLock(state, parameters.locked),
-			'parameterized'
-		),
-		createStageDefinition(
-			'stage.source.resetTransform',
-			'Reset selected source transform',
-			{},
-			resetSelectedTransform,
-			'simple'
-		)
+		centerCommand(),
+		scaleCommand(),
+		aspectCommand(),
+		resetCommand()
 	];
 }
 
-function createStageDefinition(id, label, parameters, executor, level) {
-	return {
-		id,
-		version: 1,
-		label,
-		description: `${label} through the canonical project-backed stage state.`,
-		domain: 'stage',
-		level,
-		tags: ['stage', 'source', 'transform'],
-		parameters,
-		context: { selection: 'source' },
-		surfaces: SURFACES,
-		projectionHints: { nodeCandidate: true, modifierCandidate: true },
-		isAvailable({ state }) {
-			return selectedSource(state)
-				? { available: true, reason: '' }
-				: { available: false, reason: 'Select a source first.' };
-		},
-		executor({ state, parameters: values }) {
-			return executor(state, values);
-		},
-		summarizeResult: summarizeSource
-	};
+/** Defines the simple selected-source centering command. */
+function centerCommand() {
+	return createStageCommandDefinition({
+		id: STAGE_COMMAND_IDS.CENTER,
+		label: 'Center selected source',
+		level: 'simple',
+		executor: centerSelectedSource
+	});
 }
 
-function summarizeSource(source) {
-	return {
-		id: source.id,
-		x: source.x,
-		y: source.y,
-		w: source.w,
-		h: source.h,
-		rotation: source.rotation || 0,
-		opacity: source.opacity ?? 1,
-		scalePercent: source.scalePercent || 100,
-		lockAspect: source.lockAspect !== false
-	};
+/** Defines bounded percentage scaling through shared Stage geometry. */
+function scaleCommand() {
+	return createStageCommandDefinition({
+		id: STAGE_COMMAND_IDS.SCALE,
+		label: 'Scale selected source',
+		level: 'parameterized',
+		parameters: {
+			percent: {
+				type: 'number',
+				required: true,
+				min: 5,
+				max: 500
+			}
+		},
+		executor(state, parameters) {
+			return setSelectedSourceScale(
+				state,
+				parameters.percent
+			);
+		}
+	});
+}
+
+/** Defines selected-source aspect-lock policy as a canonical command. */
+function aspectCommand() {
+	return createStageCommandDefinition({
+		id: STAGE_COMMAND_IDS.ASPECT_LOCK,
+		label: 'Set selected source aspect lock',
+		level: 'parameterized',
+		parameters: {
+			locked: {
+				type: 'boolean',
+				required: true
+			}
+		},
+		executor(state, parameters) {
+			return setSelectedAspectLock(
+				state,
+				parameters.locked
+			);
+		}
+	});
+}
+
+/** Defines complete selected-source transform reset through existing Stage semantics. */
+function resetCommand() {
+	return createStageCommandDefinition({
+		id: STAGE_COMMAND_IDS.RESET_TRANSFORM,
+		label: 'Reset selected source transform',
+		level: 'simple',
+		executor: resetSelectedTransform
+	});
 }

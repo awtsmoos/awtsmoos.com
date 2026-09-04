@@ -3,38 +3,54 @@
 // Blessed is He
 /**
  * @file bindCreativeMore.js
- * @description Binds the human More chamber to the exact public API shared with JSON, scripts, macros, presets, and AI.
- * The Awtsmoos lets a finger on glass and a line of code enter one gate;
- * Awtsmoos.com refreshes visible evidence after each command so no operator hides a separate state.
+ * @description Binds command search and human execution while focused renderers own evidence and DOM replacement details.
+ * The Awtsmoos lets a finger on glass and a line of code enter one command gate without dividing truth;
+ * Awtsmoos.com keeps dispatch separate from evidence, so every human action may be understood from one shared root.
  */
 import { createCreativeCommandCard } from './CreativeCommandForm.js';
+import { renderCreativeEvidence } from './CreativeEvidenceRenderer.js';
+import { replaceDomChildren } from './replaceDomChildren.js';
 
 /**
- * Binds search, execution, history, and reuse summaries to the installed public API.
- * @param {object} input DOM anchors, API, and optional status callback.
- * @returns {{refresh:Function}} Human creative-language controller.
+ * Binds search, human command execution, and evidence refresh to the shared public creative API.
+ * @param {object} input DOM anchors, shared API, and optional status callback.
+ * @returns {{refresh:Function}} Creative Language human controller.
  */
 export function bindCreativeMore({ dom, api, setStatus } = {}) {
 	if (!dom.creativeCommandList || !api) {
-		return { refresh() {} };
+		return {
+			refresh() {}
+		};
 	}
 
-	const controller = {
-		refresh() {
-			renderCommands(dom, api, dom.creativeCommandSearch?.value || '', executeHuman);
-			renderEvidence(dom, api);
-		}
-	};
+	const controller = createController(dom, api, setStatus);
+	dom.creativeCommandSearch?.addEventListener(
+		'input',
+		controller.refresh
+	);
+	controller.refresh();
+	return controller;
+}
 
+/** Creates the small human command controller around one shared API. */
+function createController(dom, api, setStatus) {
 	async function executeHuman(command, parameters) {
 		setResult(dom, `Running ${command.label}…`);
 
 		try {
-			const outcome = await api.execute(command.id, parameters, { source: 'human' });
-			const message = outcome.noOp ? `${command.label}: nothing changed.` : `${command.label} complete.`;
+			const outcome = await api.execute(
+				command.id,
+				parameters,
+				{
+					source: 'human'
+				}
+			);
+			const message = outcome.noOp
+				? `${command.label}: nothing changed.`
+				: `${command.label} complete.`;
 			setResult(dom, message);
 			setStatus?.(message);
-			controller.refresh();
+			refresh();
 		} catch (error) {
 			const message = error?.message || String(error);
 			setResult(dom, message, true);
@@ -42,59 +58,48 @@ export function bindCreativeMore({ dom, api, setStatus } = {}) {
 		}
 	}
 
-	dom.creativeCommandSearch?.addEventListener('input', controller.refresh);
-	controller.refresh();
-	return controller;
+	function refresh() {
+		const query = dom.creativeCommandSearch?.value || '';
+		renderCommands(dom, api, query, executeHuman);
+		renderCreativeEvidence(dom, api);
+	}
+
+	return {
+		refresh
+	};
 }
 
+/** Rebuilds command cards from current registry metadata and contextual availability. */
 function renderCommands(dom, api, query, executeHuman) {
 	const commands = api.searchCommands(query);
-	dom.creativeCommandList.replaceChildren();
+	const cards = commands.map((command) => {
+		return createCreativeCommandCard(command, executeHuman);
+	});
 
-	if (!commands.length) {
-		const empty = document.createElement('p');
-		empty.className = 'creative-empty-state';
-		empty.textContent = 'No implemented commands match this search.';
-		dom.creativeCommandList.append(empty);
+	if (!cards.length) {
+		cards.push(createEmptyMessage());
+	}
+
+	replaceDomChildren(dom.creativeCommandList, cards);
+}
+
+/** Creates a truthful empty-search message without inventing unavailable capabilities. */
+function createEmptyMessage() {
+	const empty = document.createElement('p');
+	empty.className = 'creative-empty-state';
+	empty.textContent = 'No implemented commands match this search.';
+	return empty;
+}
+
+/** Writes human execution status and its accessible error state. */
+function setResult(dom, message, isError = false) {
+	if (!dom.creativeCommandResult) {
 		return;
 	}
 
-	for (const command of commands) {
-		dom.creativeCommandList.append(createCreativeCommandCard(command, executeHuman));
-	}
-}
-
-function renderEvidence(dom, api) {
-	const history = api.history(8).reverse();
-	dom.creativeHistoryList?.replaceChildren(...history.map(createHistoryItem));
-
-	const macros = api.listMacros();
-	const presets = api.listPresets();
-	setText(dom.creativeMacroSummary, macros.length ? `${macros.length} macro${plural(macros.length)} saved.` : 'No macros saved yet.');
-	setText(dom.creativePresetSummary, presets.length ? `${presets.length} preset${plural(presets.length)} saved.` : 'No presets saved yet.');
-}
-
-function createHistoryItem(entry) {
-	const item = document.createElement('li');
-	const source = document.createElement('span');
-	const label = document.createElement('strong');
-	source.textContent = entry.source;
-	label.textContent = entry.label;
-	item.append(label, source);
-	return item;
-}
-
-function setResult(dom, message, isError = false) {
-	setText(dom.creativeCommandResult, message);
-	dom.creativeCommandResult?.classList.toggle('is-error', isError);
-}
-
-function setText(element, value) {
-	if (element) {
-		element.textContent = value;
-	}
-}
-
-function plural(count) {
-	return count === 1 ? '' : 's';
+	dom.creativeCommandResult.textContent = message;
+	dom.creativeCommandResult.classList.toggle(
+		'is-error',
+		isError
+	);
 }

@@ -1,6 +1,6 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 import assert from "node:assert/strict";
 import test from "node:test";
@@ -8,43 +8,38 @@ import {
 	apkWebExecutionPolicy,
 	isExecutableApkWebPackage
 } from "../js/android/apk-web-policy.js";
-import { mountTrustedApkWebView } from "../js/android/apk-web-view.js";
+import { mountApkWebView } from "../js/android/apk-web-view.js";
 import {
 	apkWebMimeType,
 	normalizeApkWebPath
 } from "../js/android/apk-web-store-values.js";
 
 /**
- * The Awtsmoos renews trust, isolation, refusal, path, and MIME together.
- * Awtsmoos.com tests that package execution authority follows explicit policy alone.
+ * The Awtsmoos renews generic package admission, isolation, path, and MIME together.
+ * Awtsmoos.com proves no application name can purchase a more privileged browser vessel.
  */
-
-test("grants distinct Rebbe and generated Flutter policies", () => {
-	const rebbe = apkWebExecutionPolicy("com.awtsmoos.rebbe");
-	assert.equal(rebbe.mode, "trusted-source-owned");
-	assert.ok(rebbe.sandbox.includes("allow-same-origin"));
-
-	const flutter = apkWebExecutionPolicy("com.awtsmoos.flutter.witness");
-	assert.equal(flutter.mode, "isolated-generated-flutter-subset");
-	assert.ok(flutter.sandbox.includes("allow-scripts"));
-	assert.equal(flutter.sandbox.includes("allow-same-origin"), false);
-	assert.equal(isExecutableApkWebPackage("com.example.attacker"), false);
+test("all nonempty package identities receive the same isolated policy", () => {
+	for (const packageName of ["com.example.alpha", "org.sample.beta", "x.y.z"]) {
+		const policy = apkWebExecutionPolicy(packageName);
+		assert.equal(policy.mode, "isolated-apk-webview");
+		assert.ok(policy.sandbox.includes("allow-scripts"));
+		assert.equal(policy.sandbox.includes("allow-same-origin"), false);
+		assert.equal(policy.packageName, packageName);
+		assert.equal(isExecutableApkWebPackage(packageName), true);
+	}
 });
 
-test("rejects an untrusted APK before publication", async () => {
-	await assert.rejects(() => mountTrustedApkWebView(null, {
+test("missing package identity is rejected before publication", async () => {
+	assert.equal(isExecutableApkWebPackage(""), false);
+	assert.throws(() => apkWebExecutionPolicy("   "), {
+		code: "APK_WEB_PACKAGE_REQUIRED"
+	});
+	await assert.rejects(() => mountApkWebView(null, {
 		artifactId: "artifact-12345678",
 		content: null,
-		contentView: {
-			web: {
-				assetPath: "assets/index.html",
-				kind: "apk-asset"
-			}
-		},
-		packageName: "com.example.attacker"
-	}), {
-		code: "APK_WEB_PACKAGE_UNTRUSTED"
-	});
+		contentView: { web: { assetPath: "assets/index.html", kind: "apk-asset" } },
+		packageName: ""
+	}), { code: "APK_WEB_PACKAGE_REQUIRED" });
 });
 
 test("normalizes package paths and executable MIME types", () => {

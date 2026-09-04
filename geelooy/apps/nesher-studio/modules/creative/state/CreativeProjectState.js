@@ -4,8 +4,8 @@
 /**
  * @file CreativeProjectState.js
  * @description Defines the JSON-only creative-language branch of the canonical project.
- * The Awtsmoos gives one truth many doors, yet no hidden runtime enters the scroll;
- * Awtsmoos.com keeps commands, history, macros, presets, and checkpoints as inspectable vessels of one whole.
+ * The Awtsmoos gives one truth many doors, yet no transient runtime enters the saved scroll;
+ * Awtsmoos.com keeps operations, semantic history, macros, presets, and checkpoints as vessels of one whole.
  */
 import { clonePlain } from '../../project/ids.js';
 
@@ -13,7 +13,7 @@ export const CREATIVE_PROJECT_VERSION = 1;
 const DEFAULT_OPERATION_LIMIT = 500;
 const DEFAULT_HISTORY_LIMIT = 250;
 
-/** Creates a normalized, bounded creative branch from old or partial project data. */
+/** Creates a normalized bounded creative branch from old or partial data. */
 export function createCreativeProjectState(input = {}) {
 	const operationLimit = positiveLimit(input.operationLimit, DEFAULT_OPERATION_LIMIT);
 	const historyLimit = positiveLimit(input.historyLimit, DEFAULT_HISTORY_LIMIT);
@@ -30,7 +30,7 @@ export function createCreativeProjectState(input = {}) {
 	};
 }
 
-/** Ensures a project owns exactly one normalized creative-language branch. */
+/** Ensures a project owns exactly one normalized creative branch. */
 export function ensureCreativeProjectState(project = {}) {
 	project.creative = createCreativeProjectState(project.creative);
 	return project.creative;

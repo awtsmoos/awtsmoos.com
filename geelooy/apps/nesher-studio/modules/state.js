@@ -3,41 +3,53 @@
 // Blessed is He
 /**
  * @file state.js
- * @description Creates editor state around one canonical project and synchronizes persistent aliases both ways.
- * The Awtsmoos gives one project many working garments without dividing the soul;
- * Awtsmoos.com lets rollback, UI, script, and history return every alias to the same whole.
+ * @description Creates the critical editor state without importing Timeline machinery, then synchronizes persistent project aliases in either direction.
+ * The Awtsmoos lets the project awaken before every editing chamber has taken form;
+ * Awtsmoos.com keeps NLE vessels unborn until Timeline is requested, while project truth remains one through every storm.
  */
-import { currentScene, makeScene } from './graph/sceneGraph.js';
-import { createBin } from './nle/bin.js';
-import { createExportPlan } from './nle/exportPlan.js';
-import { addClip, createTimeline } from './nle/timeline.js';
+import { makeScene } from './graph/sceneGraph.js';
 import {
 	addProjectAsset,
 	addProjectSequence,
 	commitProject,
 	createProject
 } from './project/Project.js';
-import { createRecordingSessionState } from './recording/session/RecordingSessionState.js';
+import { createStudioRuntimeState } from './StudioRuntimeState.js';
 
-/** Creates the transient editor vessel around the canonical project document. */
+/** Creates the lightweight transient editor vessel around one canonical project. */
 export function createState() {
 	const firstScene = makeScene('scene-main', 'Scene 1');
-	const project = createProject({ scenes: [firstScene], width: 1280, height: 720, fps: 30 });
-	const bin = createBin();
-	const timeline = createTimeline();
+	const project = createProject({
+		scenes: [firstScene],
+		width: 1280,
+		height: 720,
+		fps: 30
+	});
 
-	addClip(timeline, { assetId: 'asset-canvas', name: 'Opening scene', duration: 4 });
-	addProjectAsset(project, { id: 'asset-canvas', name: 'Opening scene', mediaKind: 'generated', duration: 4 });
-	addProjectSequence(project, { id: 'sequence-main', name: 'Sequence 1' });
+	addProjectAsset(project, {
+		id: 'asset-canvas',
+		name: 'Opening scene',
+		mediaKind: 'generated',
+		duration: 4
+	});
+	addProjectSequence(project, {
+		id: 'sequence-main',
+		name: 'Sequence 1'
+	});
 	project.currentSequenceId = 'sequence-main';
 
-	const state = createRuntimeState(project, bin, timeline);
-	state.exportPlan = createExportPlan(state);
+	const state = createStudioRuntimeState(
+		project,
+		null,
+		null,
+		commitProjectState
+	);
+	state.exportPlan = null;
 	commitProjectState(state, 'initial state');
 	return state;
 }
 
-/** Synchronizes persistent editor aliases into the canonical project. */
+/** Synchronizes persistent editor aliases into canonical project truth. */
 export function syncProjectFromState(state) {
 	state.project.width = state.width;
 	state.project.height = state.height;
@@ -49,7 +61,7 @@ export function syncProjectFromState(state) {
 	return state.project;
 }
 
-/** Restores persistent editor aliases from the canonical project after undo or rollback. */
+/** Restores persistent editor aliases from canonical project truth after rollback or undo. */
 export function syncStateFromProject(state) {
 	state.width = state.project.width;
 	state.height = state.project.height;
@@ -61,7 +73,7 @@ export function syncStateFromProject(state) {
 	return state;
 }
 
-/** Commits synchronized project state for existing legacy editor callers. */
+/** Preserves the legacy commit doorway used by existing editor controllers. */
 export function commitProjectState(state, label = 'change') {
 	syncProjectFromState(state);
 	commitProject(state.project, label);
@@ -70,46 +82,7 @@ export function commitProjectState(state, label = 'change') {
 
 export { makeScene, currentScene } from './graph/sceneGraph.js';
 
-/** Creates a readable runtime identity. */
+/** Creates a readable runtime identity for transient editor entities. */
 export function nextId(prefix) {
 	return `${prefix}-${globalThis.crypto?.randomUUID?.() || Date.now()}`;
-}
-
-function createRuntimeState(project, bin, timeline) {
-	return {
-		project,
-		width: project.width,
-		height: project.height,
-		fps: project.fps,
-		aspectLock: true,
-		quality: 0.62,
-		maxCacheFrames: 10,
-		recordingProfile: 'speed-vp8',
-		scenes: project.scenes,
-		currentSceneId: project.currentSceneId,
-		selectedId: null,
-		drag: null,
-		recording: false,
-		worker: null,
-		frameTimer: null,
-		startedAt: 0,
-		lastFrameTime: 0,
-		audioCapture: null,
-		activeRecorder: null,
-		recordingSession: createRecordingSessionState(),
-		providerId: project.streaming.providerId,
-		bin,
-		timeline,
-		exportPlan: null,
-		creativeRuntime: null,
-		get sources() {
-			return currentScene(this).sources;
-		},
-		get selection() {
-			return project.selection;
-		},
-		commit(label = 'change') {
-			return commitProjectState(this, label);
-		}
-	};
 }

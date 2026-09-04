@@ -3,59 +3,40 @@
 // Blessed is He
 
 const EffectiveInbox = require("./mailbox-effective-inbox.js");
-const Health = require("./mailbox-health.js");
-const Incarnation = require("./connection-incarnation.js");
+const EvidenceHealth = require("./mailbox-evidence-health.js");
 const MailboxIncarnation = require("./mailbox-incarnation.js");
-const AMBIGUOUS_REASON = "ambiguous_incarnation_records";
 
 /**
- * @file Reconciles current-incarnation mailbox truth with exact custody and raw evidence.
+ * @file Reconciles raw mailbox evidence, exact custody, and current-child incarnation health.
  * @description
- * The Awtsmoos keeps yesterday's parchment visible while today's living custody reveals its light;
- * Awtsmoos.com lets raw age, effective progress, and incarnation lineage each testify aright.
- * This vessel computes health only from the current child, preserving ambiguity as degraded sight.
+ * The Awtsmoos keeps every durable parchment in sight while living custody reveals present light;
+ * Awtsmoos.com judges health only from the current child's deeds, yet preserves old traces right.
+ * Fresh exact custody may renew effective age; ambiguous lineage remains degraded, never made bright.
  */
 function create(options = {}) {
 	const store = options.store;
 	const custody = options.custody;
 	const getChildIncarnationId = options.getChildIncarnationId || (() => "");
-	const now = options.now || Date.now;
 
 	function partition(lane) {
-		const currentIncarnationId = Incarnation.clean(getChildIncarnationId());
-		return {
-			currentIncarnationId,
-			groups: MailboxIncarnation.partition(store.list(lane), currentIncarnationId)
-		};
+		return EvidenceHealth.partition(
+			store.list(lane),
+			getChildIncarnationId()
+		);
 	}
 
 	function rawLaneSnapshot(lane, partitioned, observedAt) {
-		const groups = partitioned.groups;
-		return {
-			...Health.lane(groups.current, store.limits, lane, observedAt),
-			currentIncarnationId: partitioned.currentIncarnationId,
-			currentIncarnationCount: groups.current.length,
-			obsoleteIncarnationCount: groups.obsolete.length,
-			ambiguousRecordCount: groups.ambiguous.length
-		};
+		return EvidenceHealth.rawLane(
+			lane,
+			partitioned,
+			store.limits,
+			observedAt
+		);
 	}
 
-	function overallHealth(inboxState, outboxState) {
-		const ambiguousRecordCount =
-			inboxState.ambiguousRecordCount + outboxState.ambiguousRecordCount;
-		const baseHealth = Health.overall(inboxState, outboxState);
-		if (ambiguousRecordCount === 0) return baseHealth;
-		return {
-			...baseHealth,
-			state: "degraded",
-			healthy: false,
-			reason: AMBIGUOUS_REASON
-		};
-	}
-
-	/** Builds one timestamp-consistent health view without erasing raw durable testimony. */
+	/** Builds effective current health while retaining raw and historical evidence beside it. */
 	function snapshot() {
-		const observedAt = now();
+		const observedAt = Date.now();
 		const inboxPartition = partition("inbox");
 		const rawInbox = rawLaneSnapshot("inbox", inboxPartition, observedAt);
 		const custodyState = custody.snapshot(observedAt);
@@ -73,7 +54,7 @@ function create(options = {}) {
 		const outboxPartition = partition("outbox");
 		const outboxState = rawLaneSnapshot("outbox", outboxPartition, observedAt);
 		return {
-			health: overallHealth(inboxState, outboxState),
+			health: EvidenceHealth.overall(inboxState, outboxState),
 			inbox: inboxState,
 			rawInbox,
 			limits: store.limits,
@@ -81,7 +62,7 @@ function create(options = {}) {
 		};
 	}
 
-	/** Exports durable evidence while preserving each record's incarnation classification. */
+	/** Exports all durable evidence with explicit current, obsolete, and ambiguous classification. */
 	function evidence(includePayloads = false) {
 		return {
 			snapshot: snapshot(),
@@ -92,7 +73,7 @@ function create(options = {}) {
 	}
 
 	function records(lane, includePayloads) {
-		const currentIncarnationId = Incarnation.clean(getChildIncarnationId());
+		const currentIncarnationId = getChildIncarnationId();
 		return store.list(lane).map(entry => ({
 			id: entry.id,
 			updatedAt: entry.updatedAt,
@@ -105,10 +86,13 @@ function create(options = {}) {
 		}));
 	}
 
-	return { evidence, snapshot };
+	return {
+		evidence,
+		snapshot
+	};
 }
 
 module.exports = {
-	AMBIGUOUS_REASON,
+	AMBIGUOUS_REASON: EvidenceHealth.AMBIGUOUS_REASON,
 	create
 };

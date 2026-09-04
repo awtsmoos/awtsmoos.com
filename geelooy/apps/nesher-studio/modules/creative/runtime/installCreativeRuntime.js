@@ -3,8 +3,8 @@
 // Blessed is He
 /**
  * @file installCreativeRuntime.js
- * @description Installs one transient creative-language runtime over the canonical project and exposes one public facade.
- * The Awtsmoos gives every operator one gate while functions remain outside the saved scroll;
+ * @description Installs one transient Universal Creative Language runtime over canonical project truth, including atomic reusable workflows.
+ * The Awtsmoos gives many operators one gate while runtime functions stay outside the saved scroll;
  * Awtsmoos.com lets UI, AI, JSON, macro, preset, and script meet the same command soul.
  */
 import { createAiCreativeBridge } from '../api/AiCreativeBridge.js';
@@ -17,7 +17,12 @@ import { PresetStore } from '../presets/PresetStore.js';
 import { ensureCreativeProjectState } from '../state/CreativeProjectState.js';
 import { CommandRuntime } from './CommandRuntime.js';
 
-/** Installs all currently implemented creative-language services exactly once for a state object. */
+/**
+ * Installs all currently implemented creative-language services exactly once per editor state.
+ * @param {object} state Shared Studio runtime state.
+ * @param {object} options Refresh callback and optional global exposure flag.
+ * @returns {object} Installed transient service vessel.
+ */
 export function installCreativeRuntime(state, options = {}) {
 	if (state.creativeRuntime) {
 		return state.creativeRuntime;
@@ -25,18 +30,31 @@ export function installCreativeRuntime(state, options = {}) {
 
 	ensureCreativeProjectState(state.project);
 	const registry = registerCoreCommands(new CommandRegistry());
-	const macroStore = new MacroStore({ state, registry });
-	const presetStore = new PresetStore({ state, registry });
-	const services = { macroStore, presetStore };
+	const macroStore = new MacroStore({
+		state,
+		registry
+	});
+	const presetStore = new PresetStore({
+		state,
+		registry
+	});
 	const runtime = new CommandRuntime({
 		state,
 		registry,
-		services,
+		services: {
+			macroStore,
+			presetStore
+		},
 		refresh: options.refresh
 	});
+
 	presetStore.attachRuntime(runtime);
-	const macroRuntime = new MacroRuntime({ store: macroStore, runtime });
-	const api = createStudioCreativeApi({
+	const macroRuntime = new MacroRuntime({
+		state,
+		store: macroStore,
+		runtime
+	});
+	const baseApi = createStudioCreativeApi({
 		state,
 		registry,
 		runtime,
@@ -44,8 +62,11 @@ export function installCreativeRuntime(state, options = {}) {
 		macroRuntime,
 		presetStore
 	});
-	const ai = createAiCreativeBridge(api);
-	const publicApi = Object.freeze({ ...api, ai });
+	const ai = createAiCreativeBridge(baseApi);
+	const publicApi = Object.freeze({
+		...baseApi,
+		ai
+	});
 	const installed = {
 		registry,
 		runtime,
@@ -61,14 +82,22 @@ export function installCreativeRuntime(state, options = {}) {
 	return installed;
 }
 
+/** Publishes the safe public API and readiness event without exposing the mutable runtime vessel. */
 function publishCreativeRuntime(publicApi, exposeGlobal) {
 	if (exposeGlobal && typeof globalThis.window !== 'undefined') {
 		globalThis.window.AwtsmoosStudio = publicApi;
 	}
 
-	if (typeof globalThis.dispatchEvent === 'function' && typeof globalThis.CustomEvent === 'function') {
-		globalThis.dispatchEvent(new globalThis.CustomEvent('awtsmoos-studio:creative-ready', {
-			detail: { api: publicApi }
-		}));
+	if (
+		typeof globalThis.dispatchEvent === 'function'
+		&& typeof globalThis.CustomEvent === 'function'
+	) {
+		globalThis.dispatchEvent(
+			new globalThis.CustomEvent('awtsmoos-studio:creative-ready', {
+				detail: {
+					api: publicApi
+				}
+			})
+		);
 	}
 }

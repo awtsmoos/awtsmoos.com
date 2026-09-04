@@ -1,42 +1,96 @@
-/* B"H
-Boruch Hashem
-Blessed is He
-The Awtsmoos preserves every operational anchor while the shell becomes a fixed animated palace; Awtsmoos.com verifies the complete generated rooms and dock.
-*/
+//B"H
+// Boruch Hashem
+// Blessed is He
+/**
+ * @file 062_recording_dom_contract_smoke.mjs
+ * @description Verifies recording anchors and professional decks survive inside the current Stage-first AWTSMOOS STUDIO shell without duplicate identities.
+ * The Awtsmoos lets a simpler creative face inherit every real recording vessel beneath the light;
+ * Awtsmoos.com keeps Record, Timeline, Audio, and deeper decks addressable while the retired room dock leaves sight.
+ */
 import assert from 'node:assert/strict';
 import { audioLabView } from '../modules/ui/views/audioLabView.js';
+import { creativeMoreView } from '../modules/ui/views/creativeMoreView.js';
 import { headerView } from '../modules/ui/views/headerView.js';
 import { homeView } from '../modules/ui/views/homeView.js';
+import { intentSheetView } from '../modules/ui/views/intentSheetView.js';
 import { liveView } from '../modules/ui/views/liveView.js';
-import { navigationView } from '../modules/ui/views/navigationView.js';
 import { nleView } from '../modules/ui/views/nleView.js';
+import { primaryIntentBarView } from '../modules/ui/views/primaryIntentBarView.js';
 import { setupView } from '../modules/ui/views/setupView.js';
 import { sourcesView } from '../modules/ui/views/sourcesView.js';
 import { stageView } from '../modules/ui/views/stageView.js';
 
-const rooms = [homeView(), stageView(), audioLabView(), sourcesView(), liveView(), setupView(), nleView()].join('\n');
-const markup = `${headerView()}<section id="studioPage">${rooms}</section>${navigationView()}`;
-const ids = new Set([...markup.matchAll(/\bid="([^"]+)"/g)].map((match) => match[1]));
-const requiredIds = [
-	'recordButton', 'recordingProfile', 'recordPhase', 'recordElapsed', 'recordFrames',
-	'recordErrors', 'recordNote', 'currentRoomLabel', 'topNav', 'navHome', 'navAudio',
-	'nleJumpStart', 'nlePlayheadBack', 'nlePlayheadForward', 'nleJumpEnd', 'nleZoomOut',
-	'nleZoomIn', 'runSmokeEncodingBenchmark', 'audioLabCanvas', 'audioGlyphCanvas',
-	'audioLabPreset', 'audioLabAddStage', 'audioLabImmersive', 'audioLabModeName',
-	'audioLabQuality'
-];
-const missingIds = requiredIds.filter((id) => !ids.has(id));
+const markup = [
+	headerView(),
+	stageView(),
+	homeView(),
+	audioLabView(),
+	sourcesView(),
+	liveView(),
+	setupView(),
+	nleView(),
+	creativeMoreView(),
+	primaryIntentBarView(),
+	intentSheetView()
+].join('\n');
 
-assert.deepEqual(missingIds, []);
-assert.equal(duplicateIds(markup).length, 0);
-assert.equal([...markup.matchAll(/data-studio-page=/g)].length, 7);
-assert.equal([...markup.matchAll(/data-nav-page=/g)].length, 8);
-assert.ok(markup.includes('data-workspace-deck="stageTools"'));
-assert.ok(markup.includes('data-workspace-deck="audioControls"'));
-assert.ok(markup.includes('data-workspace-deck="nleMain"'));
-console.log('B"H fixed viewport recording, deck, and audio DOM contract passed');
+assertRequiredRecordingAnchors();
+assertWorkspaceContract();
+assertIntentContract();
+assertProfessionalDecks();
+assertNoDuplicateIds();
+console.log('B"H Stage-first recording DOM contract passed');
 
-function duplicateIds(source) {
-	const allIds = [...source.matchAll(/\bid="([^"]+)"/g)].map((match) => match[1]);
-	return allIds.filter((id, index) => allIds.indexOf(id) !== index);
+/** Proves existing recording controls and status anchors remain addressable. */
+function assertRequiredRecordingAnchors() {
+	for (const id of [
+		'recordButton',
+		'recordingProfile',
+		'recordPhase',
+		'recordElapsed',
+		'recordFrames',
+		'recordErrors',
+		'recordNote'
+	]) {
+		assert.ok(markup.includes(`id="${id}"`), `missing ${id}`);
+	}
+}
+
+/** Verifies exactly the eight current deeper workspaces and no retired navigation dock. */
+function assertWorkspaceContract() {
+	const pages = [...markup.matchAll(/data-studio-page="([^"]+)"/g)]
+		.map((match) => match[1]);
+	assert.deepEqual(
+		pages.sort(),
+		['audio', 'home', 'live', 'more', 'nle', 'setup', 'sources', 'stage']
+	);
+	assert.equal(markup.includes('nav-dock'), false);
+	assert.equal(markup.includes('data-nav-page='), false);
+}
+
+/** Verifies the persistent beginner intent vocabulary remains mounted beside the workspaces. */
+function assertIntentContract() {
+	for (const id of [
+		'intentCreateButton',
+		'intentEditButton',
+		'intentTimelineButton',
+		'intentAnimateButton',
+		'intentMoreButton',
+		'intentSheet'
+	]) {
+		assert.ok(markup.includes(`id="${id}"`), `missing ${id}`);
+	}
+}
+
+/** Preserves the professional Stage, Audio, and NLE deck identities used by existing controllers. */
+function assertProfessionalDecks() {
+	for (const deck of ['stageTools', 'audioControls', 'nleMain']) {
+		assert.ok(markup.includes(`data-workspace-deck="${deck}"`), `missing ${deck}`);
+	}
+}
+
+/** Ensures modular view composition did not introduce ambiguous DOM identities. */
+function assertNoDuplicateIds() {
+	const ids = [...markup.matchAll(/\sid="([^"]+)"/g)].map((match) => match[1]);
+	assert.equal(new Set(ids).size, ids.length, 'duplicate DOM id found');
 }

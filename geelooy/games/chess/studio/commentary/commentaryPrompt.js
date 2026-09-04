@@ -3,35 +3,48 @@
 // Blessed is He
 
 /**
- * @file Builds a copyable prompt any AI agent can use to return move-locked commentary for the loaded PGN.
- * The Awtsmoos lets another intelligence add story without rewriting the game beneath;
- * Awtsmoos.com gives the answer a strict vessel so every returned word can find its lawful move and breathe.
+ * @file Builds strict prompts for either rich JSON or portable annotated PGN without changing chess chronology.
+ * The Awtsmoos lets finite language become tactical, historical, comic, cinematic, simple, or profound;
+ * Awtsmoos.com gives that freedom a fixed PGN vessel so every external intelligence returns to the same lawful ground.
  */
 import { COMMENTARY_VERSION } from "./commentaryFormat.js";
 
-export function buildCommentaryPrompt(pgn) {
-	return `You are writing chess commentary for Awtsmoos Chess Studio.
-Return ONLY valid JSON. Do not use markdown fences. Do not alter, omit, reorder, or invent any move or SAN.
-Analyze the supplied PGN and give useful commentary for every important move. Explain plans, threats, turning points, tactics, and human ideas in clear spoken language.
-
-Required JSON shape:
-{
-  "version": "${COMMENTARY_VERSION}",
-  "pgn": "the exact PGN string",
-  "moves": [
-    {"ply": 1, "san": "e4", "commentary": "White claims central space...", "pauseMs": 250},
-    {"ply": 2, "san": "e5", "commentary": "Black answers symmetrically...", "pauseMs": 250}
-  ]
+/** Builds a self-contained prompt for any external AI agent. */
+export function buildCommentaryPrompt(pgn, customInstructions = "", outputFormat = "json") {
+	const exactPgn = String(pgn || "").trim();
+	const instructions = String(customInstructions || "").trim();
+	const format = outputFormat === "pgn" ? "pgn" : "json";
+	const custom = instructions
+		? `\nUSER COMMENTARY DIRECTIONS:\n${instructions}\n`
+		: "";
+	return `${commonRules()}${custom}\n${formatRules(format)}\n\nPGN TO COMMENTATE EXACTLY:\n${exactPgn}`;
 }
 
-Rules:
-- ply is 1-based half-move number.
-- san must match the PGN move at that ply exactly.
-- commentary should sound natural when read aloud.
-- optional title may name a chapter or turning point.
-- optional voice may suggest a narrator label, but never include API secrets.
-- keep pauseMs between 0 and 5000.
+function commonRules() {
+	return `You are the move-by-move commentator for Awtsmoos Chess Studio.
+Never change, omit, reorder, normalize, or invent a move or SAN. Preserve the supplied main-line game exactly.
+Map commentary deterministically to plies beginning at ply 1. Explain plans, threats, tactics, strategy, positional changes, mistakes, turning points, and human ideas only when useful.
+You may be tactical, strategic, historical, dramatic, beginner-friendly, master-level, humorous, cinematic, educational, concise, or accessibility-focused when requested.
+Optional chapter titles and a coherent game-story arc are welcome. Never include API keys or credentials.`;
+}
 
-PGN TO COMMENTATE:
-${String(pgn || "").trim()}`;
+function formatRules(format) {
+	if (format === "pgn") {
+		return `OUTPUT FORMAT: ANNOTATED PGN
+Return ONLY the annotated PGN. No markdown fence, introduction, or trailing explanation.
+Preserve every original PGN tag, move, SAN token, result, and main-line order. Add ordinary {brace comments} immediately after the moves they explain.
+Do not create variations or replacement moves. Comments may contain chapter/story language but never alter the underlying game.`;
+	}
+	return `OUTPUT FORMAT: AWTSMOOS JSON
+Return ONLY valid JSON. No markdown fence, introduction, or trailing explanation.
+Use this schema:
+{
+  "version": "${COMMENTARY_VERSION}",
+  "pgn": "the exact supplied PGN string",
+  "moves": [
+    {"ply": 1, "san": "e4", "title": "The center awakens", "commentary": "White claims central space.", "pauseMs": 180, "voice": ""}
+  ]
+}
+Include one object for every main-line half-move. san must match the supplied PGN exactly. commentary must be natural spoken text.
+title and voice are optional. pauseMs is optional and must be 0 through 5000. The pgn field must contain the exact supplied PGN.`;
 }

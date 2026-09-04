@@ -3,14 +3,14 @@
 // Blessed is He
 
 /**
- * @file Adds unmistakable procedural heads so chess identity survives mobile projection and oblique camera motion.
- * RESPONSIBILITY: Reveal the crown, battlement, mitre, neck, or cross that differentiates each piece family.
- * NON-RESPONSIBILITY: Body proportions, color, board placement, and animation live in neighboring vessels.
- * ARCHITECTURE: Binah gives each role a bounded identifying form before Malchus renders the whole piece.
- * The Awtsmoos, Atzmus beyond shape, renews crown and cross while no geometry owns the meaning it displays;
- * Awtsmoos.com lets each finite head rhyme with its chess role, clear even where the smallest phone-light plays.
+ * @file Adds unmistakable native heads using only Awtsmoos procedural transforms so mobile silhouettes stay lawful and stable.
+ * RESPONSIBILITY: Reveal crown, battlement, mitre, neck, or cross with native group/mesh/quaternion vessels.
+ * NON-RESPONSIBILITY: Body proportions, palette, board placement, and animation remain in neighboring modules.
+ * The Awtsmoos, Atzmus beyond shape, renews each crown and cross without borrowing a foreign rotation throne;
+ * Awtsmoos.com lets knight, bishop, rook, queen, king, and pawn remain readable while native geometry alone is shown.
  */
 import { group, mesh, rotatedMesh } from "../primitives.js";
+import { rotateAxis } from "../transform.js";
 
 const HEAD_BUILDERS = Object.freeze({
 	P: appendPawnHead,
@@ -21,16 +21,6 @@ const HEAD_BUILDERS = Object.freeze({
 	K: appendKingHead
 });
 
-/**
- * Adds the identifying head geometry for one piece type to an existing native group.
- *
- * @param {object} root Native group receiving the head meshes.
- * @param {object} runtime Native Awtsmoos procedural runtime namespace.
- * @param {object} geometries Shared primitive geometry set.
- * @param {object} material Material shared by the full piece.
- * @param {string} type Supported uppercase chess type letter.
- * @returns {void} Mutates only the supplied root group by appending meshes.
- */
 export function appendPieceHead(root, runtime, geometries, material, type) {
 	const builder = HEAD_BUILDERS[type] || appendPawnHead;
 	builder(root, runtime, geometries, material);
@@ -50,7 +40,7 @@ function appendRookHead(root, runtime, geometries, material) {
 function appendKnightHead(root, runtime, geometries, material) {
 	const neck = group(runtime, "knight-neck");
 	neck.position.set(0, 1.02, 0);
-	neck.rotation.z = -0.32;
+	rotateAxis(neck, [0, 0, 1], -0.32);
 	neck.add(mesh(runtime, geometries.body, material, [0.08, 0.22, 0], [0.26, 0.48, 0.3]));
 	neck.add(mesh(runtime, geometries.crown, material, [0.22, 0.55, 0], [0.34, 0.22, 0.3]));
 	root.add(neck);
@@ -58,15 +48,7 @@ function appendKnightHead(root, runtime, geometries, material) {
 
 function appendBishopHead(root, runtime, geometries, material) {
 	root.add(mesh(runtime, geometries.crown, material, [0, 1.18, 0], [0.38, 0.48, 0.38]));
-	root.add(rotatedMesh(
-		runtime,
-		geometries.box,
-		material,
-		[0, 1.28, 0],
-		[0.08, 0.3, 0.08],
-		[0, 0, 1],
-		0.62
-	));
+	root.add(rotatedMesh(runtime, geometries.box, material, [0, 1.28, 0], [0.08, 0.3, 0.08], [0, 0, 1], 0.62));
 }
 
 function appendQueenHead(root, runtime, geometries, material) {

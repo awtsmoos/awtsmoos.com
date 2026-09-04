@@ -3,27 +3,57 @@
 // Blessed is He
 
 /**
- * @file Describes major text-to-speech gateways plus a generic proxy path without persisting credentials.
- * The Awtsmoos lets many finite voices serve one commentary while no secret becomes part of the saved game;
- * Awtsmoos.com names direct and proxy boundaries honestly so convenience never disguises a security claim.
+ * @file Declares narration gateways without pretending a cloud secret belongs in a public browser.
+ * The Awtsmoos gives one human sentence many finite voices while no vendor becomes the source of the word;
+ * Awtsmoos.com keeps device speech keyless and sends every secret-bearing cloud service through a backend vessel.
  */
 export const TTS_PROVIDERS = Object.freeze({
-	browser: provider("browser", "Browser voice · no key", "browser", "https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesis", "Uses voices already installed in this browser."),
-	openai: provider("openai", "OpenAI TTS", "direct", "https://platform.openai.com/docs/guides/text-to-speech", "Session-only API key; direct browser requests may be restricted by policy or CORS."),
-	elevenlabs: provider("elevenlabs", "ElevenLabs", "direct", "https://elevenlabs.io/docs/overview/capabilities/text-to-speech", "Session-only API key and voice ID."),
-	deepgram: provider("deepgram", "Deepgram Aura", "direct", "https://developers.deepgram.com/docs/text-to-speech", "Session-only key. Aura REST accepts plain text JSON; a short-lived token or proxy is safer on shared browsers."),
-	azure: provider("azure", "Azure Speech", "direct", "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/rest-text-to-speech", "Paste your full regional TTS endpoint; key stays in memory."),
-	google: provider("google", "Google Cloud TTS", "direct", "https://cloud.google.com/text-to-speech/docs", "Browser keys may be restricted; a user-controlled backend is safer."),
-	amazon: provider("amazon", "Amazon Polly · proxy", "proxy", "https://docs.aws.amazon.com/polly/latest/dg/what-is.html", "SigV4 credentials should stay on your own backend; point Studio at that proxy."),
-	generic: provider("generic", "Any HTTP TTS / proxy", "proxy", "https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API", "POST JSON to your own endpoint; bearer key is optional and session-only.")
+	browser: provider(
+		"browser",
+		"Browser voice · no key",
+		"browser",
+		"https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesis",
+		"Uses SpeechSynthesis voices already exposed by this browser or device."
+	),
+	openai: cloud("openai", "OpenAI speech", "https://platform.openai.com/docs/guides/text-to-speech"),
+	elevenlabs: cloud("elevenlabs", "ElevenLabs", "https://elevenlabs.io/docs/overview/capabilities/text-to-speech"),
+	deepgram: cloud("deepgram", "Deepgram Aura", "https://developers.deepgram.com/docs/text-to-speech"),
+	hume: cloud("hume", "Hume Octave", "https://dev.hume.ai/docs/text-to-speech-tts/overview"),
+	cartesia: cloud("cartesia", "Cartesia", "https://docs.cartesia.ai/api-reference/tts/bytes"),
+	murf: cloud("murf", "Murf", "https://murf.ai/api/docs/text-to-speech/overview"),
+	playht: cloud("playht", "PlayHT", "https://docs.play.ht/reference/api-getting-started"),
+	resemble: cloud("resemble", "Resemble AI", "https://docs.resemble.ai/api-reference/text-to-speech/synthesize"),
+	azure: cloud("azure", "Azure Speech", "https://learn.microsoft.com/azure/ai-services/speech-service/rest-text-to-speech"),
+	google: cloud("google", "Google Cloud TTS", "https://cloud.google.com/text-to-speech/docs"),
+	amazon: cloud("amazon", "Amazon Polly", "https://docs.aws.amazon.com/polly/latest/APIReference/API_SynthesizeSpeech.html"),
+	generic: provider(
+		"generic",
+		"Any HTTP TTS / your proxy",
+		"proxy",
+		"https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API",
+		"Connect an HTTPS endpoint you control. Optional proxy authentication stays only in this Studio session."
+	)
 });
 
+/** Returns providers in stable UI order. */
 export function ttsProviderList() {
 	return Object.values(TTS_PROVIDERS);
 }
 
+/** Resolves an unknown provider safely to browser-native speech. */
 export function getTtsProvider(id = "browser") {
 	return TTS_PROVIDERS[id] || TTS_PROVIDERS.browser;
+}
+
+/** Produces the security capability label shown before configuration. */
+export function ttsCapability(provider) {
+	return provider.kind === "browser"
+		? "NO KEY · DEVICE VOICE"
+		: "BACKEND / HTTPS PROXY REQUIRED";
+}
+
+function cloud(id, name, docs) {
+	return provider(id, `${name} · backend`, "proxy", docs, `${name} credentials stay on your backend. Studio calls only an HTTPS speech endpoint you control.`);
 }
 
 function provider(id, name, kind, docs, note) {

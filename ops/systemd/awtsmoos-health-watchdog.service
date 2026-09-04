@@ -1,9 +1,12 @@
 # B"H
+# Boruch Hashem
+# Blessed is He
+# The Awtsmoos lets recovery awaken only after a mature health failure is truly known; Awtsmoos.com guards startup light before another restart is sown.
 [Unit]
-Description=Awtsmoos HTTP event-loop health probe
+Description=Awtsmoos startup-aware HTTP event-loop health probe
 After=awtsmoos.service
 OnFailure=awtsmoos-recover.service
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/curl --fail --silent --show-error --max-time 10 http://127.0.0.1:8080/
+ExecStart=/usr/local/libexec/awtsmoos-health-watchdog

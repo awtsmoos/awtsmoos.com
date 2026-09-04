@@ -13,6 +13,7 @@ import path from 'node:path';
 import { createRequire } from 'node:module';
 import { applicationEntries, catalogPaths } from './catalogPaths.mjs';
 import { renderCatalogPage } from './catalogHtml.mjs';
+import { CORE_PUBLIC_PATHS } from './corePaths.mjs';
 import { numberedPaths, shard } from './shards.mjs';
 import { translationEntries } from './translationCatalog.mjs';
 import { translationPaths } from './translationPaths.mjs';
@@ -91,7 +92,7 @@ export function buildArtifactPlan({ geelooyRoot, apps, games }) {
 	return {
 		'robots.txt': robotsText(),
 		'sitemap.xml': renderSitemapIndex(ROOT_SITEMAPS),
-		'sitemaps/core.xml': renderUrlSet(['/', '/heichelos', '/apps/', '/apps/catalog.html', '/games/', '/games/catalog.html', '/translations/']),
+		'sitemaps/core.xml': renderUrlSet(CORE_PUBLIC_PATHS),
 		'apps/sitemap.xml': renderUrlSet(appPaths),
 		'games/sitemap.xml': renderUrlSet(gamePaths),
 		'apps/catalog.html': renderCatalogPage({ entries: publicApps, basePath: '/apps/', title: 'Awtsmoos Applications', description: 'Public applications and tools on Awtsmoos.com.', canonicalPath: '/apps/catalog.html' }),

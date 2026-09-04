@@ -1,0 +1,126 @@
+{
+  "status": "verified-selective-artifact-lineage-demo",
+  "head": "88bed0eb76073b8278cebf9ce5104ebb0eda7174",
+  "scenarios": {
+    "selective": {
+      "schema": "awtsmoos.procedural-artifact-regeneration-plan",
+      "version": 1,
+      "planHash": "fnv1a32:43ddecd5",
+      "semanticChanged": true,
+      "dependencyChanged": false,
+      "entries": [
+        {
+          "definitionId": "root",
+          "action": "regenerate",
+          "regenerate": [
+            "collision"
+          ],
+          "retire": [],
+          "reconsider": [],
+          "latentStaleChannels": [],
+          "reasons": [
+            "direct-patch-channels"
+          ]
+        },
+        {
+          "definitionId": "leaf",
+          "action": "regenerate",
+          "regenerate": [
+            "collision"
+          ],
+          "retire": [],
+          "reconsider": [],
+          "latentStaleChannels": [],
+          "reasons": [
+            "dependency-policy-channels"
+          ]
+        }
+      ]
+    },
+    "uncertainty": {
+      "schema": "awtsmoos.procedural-artifact-regeneration-plan",
+      "version": 1,
+      "planHash": "fnv1a32:6e0c86a0",
+      "semanticChanged": true,
+      "dependencyChanged": false,
+      "entries": [
+        {
+          "definitionId": "root",
+          "action": "reconsider",
+          "regenerate": [],
+          "retire": [],
+          "reconsider": [
+            "visual",
+            "collision",
+            "audio"
+          ],
+          "latentStaleChannels": [],
+          "reasons": [
+            "direct-content-uncertain"
+          ]
+        },
+        {
+          "definitionId": "leaf",
+          "action": "reconsider",
+          "regenerate": [],
+          "retire": [],
+          "reconsider": [
+            "visual",
+            "collision",
+            "audio"
+          ],
+          "latentStaleChannels": [],
+          "reasons": [
+            "dependency-policy-uncertain"
+          ]
+        }
+      ]
+    },
+    "latent": {
+      "schema": "awtsmoos.procedural-artifact-regeneration-plan",
+      "version": 1,
+      "planHash": "fnv1a32:4a048004",
+      "semanticChanged": true,
+      "dependencyChanged": false,
+      "entries": [
+        {
+          "definitionId": "root",
+          "action": "latent-stale",
+          "regenerate": [],
+          "retire": [],
+          "reconsider": [],
+          "latentStaleChannels": [
+            "thumbnail"
+          ],
+          "reasons": [
+            "direct-patch-channels"
+          ]
+        }
+      ]
+    },
+    "removal": {
+      "schema": "awtsmoos.procedural-artifact-regeneration-plan",
+      "version": 1,
+      "planHash": "fnv1a32:bf332b03",
+      "semanticChanged": true,
+      "dependencyChanged": true,
+      "entries": [
+        {
+          "definitionId": "leaf",
+          "action": "retire",
+          "regenerate": [],
+          "retire": [
+            "visual",
+            "collision",
+            "audio"
+          ],
+          "reconsider": [],
+          "latentStaleChannels": [],
+          "reasons": [
+            "definition-removed"
+          ]
+        }
+      ]
+    }
+  }
+}

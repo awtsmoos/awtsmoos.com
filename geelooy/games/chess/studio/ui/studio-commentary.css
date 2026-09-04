@@ -3,89 +3,95 @@
 /* Blessed is He */
 
 /**
- * @file Gives imported AI commentary and session-only voice controls a readable mobile chamber.
- * The Awtsmoos renews each word without confusing language for the lawful move beneath;
- * Awtsmoos.com lets commentary follow the current ply while private keys remain temporary breath.
+ * @file Gives personality, portable commentary, provider capability, and temporary voice controls a compact mobile chamber.
+ * The Awtsmoos renews every word without confusing language for the move beneath;
+ * Awtsmoos.com lets guidance read like four human steps while private keys remain temporary breath.
  */
+.studio-commentary-steps {
+	margin: 0;
+	padding: 10px 12px 10px 30px;
+	border: 1px solid rgba(111, 218, 255, .18);
+	border-radius: 13px;
+	background: rgba(14, 38, 61, .38);
+	color: #cbd8ea;
+	font-size: .82rem;
+	line-height: 1.45;
+}
 .studio-commentary-panel textarea {
 	width: 100%;
 	resize: vertical;
-	min-height: 116px;
+	min-height: 88px;
 	font: 500 .78rem/1.45 ui-monospace, SFMono-Regular, Menlo, monospace;
 }
-
 .studio-commentary-panel .studio-action-row {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 8px;
 }
-
 .studio-commentary-panel .studio-action-row button {
 	flex: 1 1 132px;
 	min-height: 44px;
 }
-
+.studio-export-row button { font-size: .8rem; }
 .studio-commentary-list {
 	display: grid;
 	gap: 8px;
-	max-height: 360px;
+	max-height: 320px;
 	overflow: auto;
 	padding: 2px;
 }
-
-.studio-commentary-list article {
-	padding: 11px 12px;
+.studio-commentary-list article,
+.studio-tts-guide article {
 	border: 1px solid rgba(133, 161, 203, .18);
 	border-radius: 13px;
 	background: rgba(7, 17, 34, .56);
-	transition: border-color .16s ease, background .16s ease, transform .16s ease;
+	overflow: hidden;
 }
-
 .studio-commentary-list article.is-current {
 	border-color: rgba(111, 218, 255, .78);
 	background: rgba(30, 76, 107, .48);
-	transform: translateY(-1px);
 }
-
-.studio-commentary-list article strong {
-	display: block;
-	margin-bottom: 5px;
-	color: #d9f4ff;
+.studio-commentary-list article > button {
+	width: 100%;
+	padding: 11px 12px;
+	border: 0;
+	border-radius: 0;
+	background: transparent;
+	color: inherit;
+	text-align: left;
 }
-
-.studio-commentary-list article p {
-	margin: 0;
-	line-height: 1.45;
-	color: #c7d2e5;
+.studio-commentary-list strong,
+.studio-tts-guide strong { display: block; margin-bottom: 5px; color: #d9f4ff; }
+.studio-commentary-list p,
+.studio-tts-guide p { margin: 0; line-height: 1.45; color: #c7d2e5; }
+.studio-tts-capability,
+.studio-provider-badge {
+	display: inline-flex;
+	width: fit-content;
+	margin: 2px 0 6px;
+	padding: 5px 8px;
+	border-radius: 999px;
+	font-size: .68rem;
+	font-weight: 850;
+	letter-spacing: .055em;
 }
-
+.is-browser { background: rgba(56, 161, 105, .2); color: #9ef0bf; }
+.is-direct { background: rgba(70, 154, 216, .2); color: #9edcff; }
+.is-proxy { background: rgba(222, 164, 66, .18); color: #f2d08f; }
 .studio-tts-credentials {
 	display: grid;
 	grid-template-columns: repeat(2, minmax(0, 1fr));
 	gap: 10px;
-	margin: 12px 0;
-	padding: 12px;
-	border-radius: 14px;
-	background: rgba(7, 17, 34, .48);
+	padding: 10px 0 2px;
 }
-
-.studio-tts-credentials[hidden] {
-	display: none;
-}
-
-.studio-commentary-panel a {
-	display: inline-block;
-	margin: 3px 0 8px;
-	color: #8de2ff;
-	font-weight: 750;
-}
-
+.studio-tts-credentials[hidden] { display: none; }
+.studio-wide-field { grid-column: 1 / -1; }
+.studio-tts-guide { display: grid; gap: 8px; padding-top: 10px; }
+.studio-tts-guide article { padding: 10px 12px; }
+.studio-commentary-panel a,
+.studio-tts-guide a { display: inline-block; margin-top: 6px; color: #8de2ff; font-weight: 750; }
 @media (max-width: 700px) {
-	.studio-tts-credentials {
-		grid-template-columns: 1fr;
-	}
-
-	.studio-commentary-list {
-		max-height: 280px;
-	}
+	.studio-tts-credentials { grid-template-columns: 1fr; }
+	.studio-wide-field { grid-column: auto; }
+	.studio-commentary-list { max-height: 240px; }
 }

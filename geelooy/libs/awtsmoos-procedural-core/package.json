@@ -43,7 +43,8 @@
 		"./creature/components": "./src/core/animalMesh/creature/components/index.js",
 		"./reality": "./src/core/reality/index.js",
 		"./materials": "./src/exports/materials.js",
-		"./universal-api": "./src/core/universalApi/index.js"
+		"./universal-api": "./src/core/universalApi/index.js",
+		"./universal-lifecycle": "./src/core/universalApi/createAwtsmoosLifecycle.js"
 	},
 	"sideEffects": false
 }
