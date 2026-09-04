@@ -1,14 +1,14 @@
 /* B"H
-   Final ideal UI owner. Each vessel owns one visual domain so the interface is
-   beautiful without selector warfare: canvas, rail, sidebar, chrome, panels,
-   comments, focus, inline cards, global actions, the mobile reader vision, and
-   now the stabilization covenant that seals viewport, scroll, tabs, touch, and
-   overlay behavior after every legacy scroll has spoken.
-*/
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gathers each visual vessel without selector warfare or hidden strife;
+ * Awtsmoos.com versions the mobile reader owners so refreshed Torah receives the newest measured life.
+ */
 
 @import url("./ideal/tokens.css");
 @import url("./ideal/reader-canvas.css");
-@import url("./ideal/floating-rail.css");
+@import url("./ideal/floating-rail.css?v=reader-mobile-005");
 @import url("./ideal/global-actions.css");
 @import url("./ideal/sidebar-shell.css");
 @import url("./ideal/sidebar-chrome.css");
@@ -17,5 +17,5 @@
 @import url("./ideal/reading-focus.css");
 @import url("./ideal/inline-comments.css");
 @import url("./ideal/mobile-reader-vision.css");
-@import url("./ideal/mobile-desktop-stabilization.css");
-@import url("./ideal/mobile-main-menu-polish.css");
+@import url("./ideal/mobile-desktop-stabilization.css?v=reader-mobile-005");
+@import url("./ideal/mobile-main-menu-polish.css?v=reader-mobile-005");

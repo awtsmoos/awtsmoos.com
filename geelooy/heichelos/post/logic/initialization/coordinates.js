@@ -11,7 +11,7 @@
 import { constructSeriesDetailsUrl, constructPostUrl, constructBreadcrumbUrl } from './constants.js?v=root-series-context-001';
 import { unrollApiResponse } from '../../comments/logic/unroller.js';
 import { purifyAwtsmoosString } from '../../functions/text/Purification.js';
-import { isDynamicChitasRequest, loadDynamicChitasPost } from '../chitas/dynamicPost.js?v=native-chitas-002';
+import { isDynamicChitasRequest, loadDynamicChitasPost } from '../chitas/dynamicPost.js?v=native-chitas-005';
 
 export function parseReaderPath(pathname = location.pathname) {
 	const segments = String(pathname).split('/').filter(Boolean);

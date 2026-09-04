@@ -1,0 +1,48 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives native English a quiet status vessel that never becomes a wall;
+ * Awtsmoos.com keeps waiting, retry, and provenance compact so the Hebrew Torah remains first of all.
+ */
+
+.awtsmoos-tanach-source-status {
+	align-items: center;
+	background: rgba(9, 18, 32, .72);
+	border: 1px solid rgba(125, 211, 252, .26);
+	border-radius: 12px;
+	color: #dcecff;
+	display: flex;
+	font: 600 .82rem/1.35 var(--font-ui, system-ui, sans-serif);
+	gap: 10px;
+	justify-content: space-between;
+	margin: 8px 0 12px;
+	padding: 9px 11px;
+}
+
+.awtsmoos-tanach-source-status.is-error {
+	border-color: rgba(251, 146, 60, .42);
+}
+
+.awtsmoos-tanach-source-status button {
+	background: rgba(125, 211, 252, .12);
+	border: 1px solid rgba(125, 211, 252, .42);
+	border-radius: 10px;
+	color: inherit;
+	cursor: pointer;
+	font: inherit;
+	font-weight: 800;
+	min-height: 44px;
+	padding: 7px 12px;
+}
+
+.awtsmoos-tanach-source-status button:focus-visible {
+	outline: 2px solid #7dd3fc;
+	outline-offset: 2px;
+}
+
+@media (max-width: 700px) {
+	.awtsmoos-tanach-source-status {
+		margin-inline: 6px;
+	}
+}

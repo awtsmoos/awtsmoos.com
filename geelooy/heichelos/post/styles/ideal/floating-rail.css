@@ -1,54 +1,60 @@
 /* B"H
-   Chapter 39: The rail of small moons remembers its letters.
-   The Awtsmoos reveals even through two small buttons: A for the typography
-   vessel, I for the insights chamber. This file keeps the dock reachable,
-   readable, and above the mobile drawer without hiding the glyphs in a pale
-   shell of silence.
-*/
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives two tiny tools a humble place where they can serve without stealing the page;
+ * Awtsmoos.com keeps A and I above the reading river, then hides their vessel when the commentary chamber takes the stage.
+ */
 
 .post-reader-localized-context .awtsmoos-floating-controls {
-    position: fixed !important;
-    z-index: 780 !important;
-    inset-block-start: calc(72px + env(safe-area-inset-top, 0px)) !important;
-    inset-inline-start: max(14px, env(safe-area-inset-left)) !important;
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 10px !important;
-    pointer-events: none !important;
+	position: fixed !important;
+	z-index: 780 !important;
+	inset-block-start: calc(72px + env(safe-area-inset-top, 0px)) !important;
+	inset-inline-start: max(14px, env(safe-area-inset-left)) !important;
+	display: flex !important;
+	flex-direction: column !important;
+	gap: 8px !important;
+	pointer-events: none !important;
 }
 
 .post-reader-localized-context .awtsmoos-floating-controls button {
-    width: 44px !important;
-    height: 44px !important;
-    border-radius: 14px !important;
-    border: 1px solid rgba(15, 23, 42, .14) !important;
-    background: rgba(255, 255, 255, .92) !important;
-    color: #14121a !important;
-    box-shadow: 0 12px 28px rgba(15, 23, 42, .13) !important;
-    backdrop-filter: blur(14px) !important;
-    pointer-events: auto !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    font-family: var(--font-heading), var(--font-ui), sans-serif !important;
-    font-size: 22px !important;
-    font-weight: 900 !important;
-    line-height: 1 !important;
-    text-indent: 0 !important;
-    text-shadow: none !important;
-    transition: transform 100ms linear, background 100ms linear, color 100ms linear !important;
+	align-items: center !important;
+	background: rgba(255, 255, 255, .94) !important;
+	border: 1px solid rgba(15, 23, 42, .14) !important;
+	border-radius: 13px !important;
+	box-shadow: 0 10px 24px rgba(15, 23, 42, .12) !important;
+	color: #14121a !important;
+	display: inline-flex !important;
+	font-family: var(--font-heading), var(--font-ui), sans-serif !important;
+	font-size: 20px !important;
+	font-weight: 900 !important;
+	height: 44px !important;
+	justify-content: center !important;
+	line-height: 1 !important;
+	pointer-events: auto !important;
+	text-indent: 0 !important;
+	text-shadow: none !important;
+	transition: transform 120ms ease, background 120ms ease, color 120ms ease !important;
+	width: 44px !important;
 }
 
 .post-reader-localized-context .awtsmoos-floating-controls button.pushed {
-    background: linear-gradient(135deg, var(--ideal-sidebar-deep), var(--ideal-purple)) !important;
-    color: white !important;
+	background: linear-gradient(135deg, var(--ideal-sidebar-deep), var(--ideal-purple)) !important;
+	color: white !important;
 }
 
 @media (max-width: 700px) {
-    .post-reader-localized-context .awtsmoos-floating-controls {
-        inset-block-start: auto !important;
-        inset-block-end: max(14px, env(safe-area-inset-bottom)) !important;
-        inset-inline-start: 14px !important;
-        flex-direction: row !important;
-    }
+	.post-reader-localized-context .awtsmoos-floating-controls {
+		inset-block-end: auto !important;
+		inset-block-start: calc(64px + env(safe-area-inset-top, 0px)) !important;
+		inset-inline-start: max(8px, env(safe-area-inset-left)) !important;
+		flex-direction: row !important;
+		gap: 6px !important;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.post-reader-localized-context .awtsmoos-floating-controls button {
+		transition: none !important;
+	}
 }

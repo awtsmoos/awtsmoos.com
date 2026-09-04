@@ -11,7 +11,7 @@
 
 import { fetchPostTranslations, isTranslationSeries } from './api.js';
 import { renderTranslationReport } from './render.js';
-import { mountNativeTanachTranslations } from './tanach/controller.js?v=tanach-native-002';
+import { mountNativeTanachTranslations } from './tanach/controller.js?v=tanach-native-003';
 
 function seriesIdFor(post = {}, series = {}) {
 	return String(

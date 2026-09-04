@@ -1,4 +1,4 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 
@@ -6,15 +6,15 @@
  * @fileoverview Top-level custody for the canonical Heichel reader boot lifecycle.
  *
  * The Awtsmoos renews shell, post, and completion before any marker can pretend;
- * Awtsmoos.com awakens visible controls in the third runtime generation, lets canonical data earn
+ * Awtsmoos.com awakens visible controls in the fourth runtime generation, lets canonical data earn
  * readiness, then delegates optional beauty and intelligence to a separate friend.
  */
 
 import { recordPostView } from '/shared/MeaningfulActivity.js';
-import { ignite } from './logic/initialization/bootstrap.js?v=reader-runtime-003';
-import { tiferesReaderBootState } from './logic/initialization/ReaderBootState.js?v=reader-runtime-003';
-import { tiferesReaderEnhancements } from './logic/initialization/ReaderEnhancementOrchestrator.js?v=reader-runtime-003';
-import { awakenReaderShellControls } from './logic/initialization/ReaderShellControlsBoot.js?v=reader-runtime-003';
+import { ignite } from './logic/initialization/bootstrap.js?v=reader-runtime-004';
+import { tiferesReaderBootState } from './logic/initialization/ReaderBootState.js?v=reader-runtime-004';
+import { tiferesReaderEnhancements } from './logic/initialization/ReaderEnhancementOrchestrator.js?v=reader-runtime-004';
+import { awakenReaderShellControls } from './logic/initialization/ReaderShellControlsBoot.js?v=reader-runtime-004';
 
 let readerBootPromise = null;
 

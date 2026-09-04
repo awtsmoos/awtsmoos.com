@@ -12,7 +12,7 @@ import { appendHTML, makeNavBars } from '/heichelos/post/postFunctions.js?v=cano
 import { interpretPostDayuh } from '/heichelos/post/logic/scribe.js';
 import { prepareStructuredPost } from '/heichelos/post/logic/scribe/PostSectionSource.js';
 import { renderRootDocument } from '/heichelos/post/ui/RichRootDocument.js?v=rich-social-document-001';
-import { renderChitasMasthead } from '../chitas/masthead.js?v=native-chitas-004';
+import { renderChitasMasthead } from '../chitas/masthead.js?v=native-chitas-005';
 
 function appendTitle(viewport, post) {
 	if (!post?.title || post?.dayuh?.meta?.chitas) {

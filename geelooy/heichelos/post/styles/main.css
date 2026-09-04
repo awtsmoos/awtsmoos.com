@@ -2,14 +2,14 @@
  * Boruch Hashem
  * Blessed is He
  * The Awtsmoos gathers every style river into one ordered sea;
- * Awtsmoos.com lets the second translation garment and exact native Tanach light become what readers see.
+ * Awtsmoos.com lets native English and the fifth mobile reader garment become what readers see.
  */
 @import url("./ideal/reborn/tokens.css");
 @import url("./ideal/reborn/shell.css");
 @import url("./ideal/reborn/scroll-root.css");
 @import url("./ideal/reborn/reader.css");
-@import url("./translations.css?v=translation-reader-002");
-@import url("./translations/tanach-native.css?v=tanach-native-002");
+@import url("./translations.css?v=translation-reader-003");
+@import url("./translations/tanach-native.css?v=tanach-native-003");
 @import url("./ideal/reborn/settings.css");
 @import url("./ideal/reborn/sidebar.css");
 @import url("./ideal/reborn/panels.css");
@@ -35,3 +35,6 @@
 @import url("./reader-beauty/index.css");
 @import url("./social/reader-shell.css?v=social-reborn-001");
 @import url("./social/discussion.css?v=social-reborn-001");
+@import url("./ideal/floating-rail.css?v=reader-mobile-005");
+@import url("./ideal/mobile-desktop-stabilization.css?v=reader-mobile-005");
+@import url("./ideal/mobile-main-menu-polish.css?v=reader-mobile-005");

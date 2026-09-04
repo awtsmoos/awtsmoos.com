@@ -5,8 +5,8 @@
 /**
  * @module ChitasReaderShellContractTest
  * @description
- * The Awtsmoos proves Daily Chitas enters the second calm server-manifested reader while day navigation keeps its native name;
- * Awtsmoos.com guards the live shell contract instead of preserving a retired cache generation from an earlier frame.
+ * The Awtsmoos proves Daily Chitas enters the current server-manifested reader while day navigation keeps its native name;
+ * Awtsmoos.com guards the fourth runtime and fifth reader garments so stale calm caches cannot veil the Torah flame.
  */
 
 import assert from 'node:assert/strict';
@@ -27,8 +27,10 @@ const sources = Object.fromEntries(await Promise.all(
 assert.match(sources.shell, /initialContentHtml/);
 assert.match(sources.shell, /postSemanticHead/);
 assert.match(sources.shell, /id="realPost"/);
-assert.match(sources.shell, /postLogic\.js\?v=reader-calm-002/);
-assert.doesNotMatch(sources.shell, /reader-calm-001/);
+assert.match(sources.shell, /postLogic\.js\?v=reader-runtime-004/);
+assert.match(sources.shell, /main\.css\?v=reader-chitas-005/);
+assert.match(sources.shell, /critical-shell\.css\?v=reader-mobile-005/);
+assert.doesNotMatch(sources.shell, /postLogic\.js\?v=reader-calm-00[12]/);
 assert.match(sources.nav, /chitasNav\.js\?v=native-chitas-nav-001/);
 assert.match(sources.nav, /isChitasNavigation/);
 assert.match(sources.nav, /chitasDateFromPostId/);

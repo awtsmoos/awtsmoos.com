@@ -10,7 +10,7 @@
  */
 
 import { makeInfoHTML } from "/heichelos/post/postFunctions.js";
-import { loadRootComments } from "/heichelos/post/comments/panel.js";
+import { loadRootComments } from "/heichelos/post/comments/panel.js?v=community-panel-003";
 import { renderBookmarksPanel, toggleSidebar } from "/heichelos/post/logic/listeners.js";
 import { renderFootnotesPanel } from "/heichelos/post/comments/panel/footnotes.js";
 import { renderApprovalsPanel } from "/heichelos/post/comments/panel/approvals.js";

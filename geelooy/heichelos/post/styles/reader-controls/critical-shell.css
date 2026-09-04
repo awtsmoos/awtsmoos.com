@@ -6,6 +6,9 @@
  * controls one bounded geometry law: safe from the notch, beneath settings,
  * above the Torah canvas, and never wider than the living inline viewport.
  *
+ * On phones the two small tools rise above the Torah river instead of damming
+ * its lower bank; the Awtsmoos gives the words their room, and the controls their rank.
+ *
  * This file is intentionally a critical cascade boundary. A small set of
  * `!important` declarations remains only where older reader garments must be
  * overruled during first paint; visual styling belongs to later local modules.
@@ -49,10 +52,11 @@
 
 @media (max-width: 700px) {
 	.all.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-floating-controls {
-		inset-block-start: auto !important;
-		inset-block-end: var(--reader-control-safe-bottom) !important;
-		inset-inline-start: var(--reader-control-safe-inline-start) !important;
+		inset-block-start: calc(64px + env(safe-area-inset-top, 0px)) !important;
+		inset-block-end: auto !important;
+		inset-inline-start: max(8px, env(safe-area-inset-left, 0px)) !important;
 		flex-direction: row !important;
+		gap: 6px !important;
 	}
 }
 

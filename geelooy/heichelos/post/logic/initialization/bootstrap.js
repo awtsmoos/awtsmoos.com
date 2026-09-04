@@ -1,4 +1,4 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 
@@ -6,22 +6,22 @@
  * @module ReaderBootstrap
  * @description
  * The Awtsmoos reveals canonical Torah first, then lets identity, translation, discussion, and settlement take their measured place;
- * Awtsmoos.com keeps this coordinator small so the third reader runtime can be audited from first source breath to ready state.
+ * Awtsmoos.com keeps this coordinator small so the fourth reader runtime can be audited from first source breath to ready state.
  */
 
-import { malchusBootstrapFailurePresenter } from '/heichelos/post/logic/initialization/BootstrapFailurePresenter.js?v=reader-runtime-003';
-import { loadInitial } from '/heichelos/post/logic/initialization/coordinates.js?v=social-reborn-003';
-import { manifestPost } from '/heichelos/post/logic/initialization/postManifest.js?v=social-reborn-003';
-import { createReaderPanels } from '/heichelos/post/logic/initialization/readerPanels.js';
-import { hydrateReaderIdentity } from '/heichelos/post/logic/initialization/ReaderIdentityHydrator.js?v=reader-runtime-003';
+import { malchusBootstrapFailurePresenter } from '/heichelos/post/logic/initialization/BootstrapFailurePresenter.js?v=reader-runtime-004';
+import { loadInitial } from '/heichelos/post/logic/initialization/coordinates.js?v=reader-runtime-004';
+import { manifestPost } from '/heichelos/post/logic/initialization/postManifest.js?v=reader-runtime-004';
+import { createReaderPanels } from '/heichelos/post/logic/initialization/readerPanels.js?v=reader-runtime-004';
+import { hydrateReaderIdentity } from '/heichelos/post/logic/initialization/ReaderIdentityHydrator.js?v=reader-runtime-004';
 import {
 	prepareReaderBehavior,
 	settleCoreReader
-} from '/heichelos/post/logic/initialization/ReaderCoreSettlement.js?v=reader-runtime-003';
+} from '/heichelos/post/logic/initialization/ReaderCoreSettlement.js?v=reader-runtime-004';
 import {
 	beginDiscussion,
 	beginTranslation
-} from '/heichelos/post/logic/initialization/ReaderOptionalStreams.js?v=reader-runtime-003';
+} from '/heichelos/post/logic/initialization/ReaderOptionalStreams.js?v=reader-runtime-004';
 
 /**
  * Manifests the authoritative post and returns the canonical context needed by optional streams.

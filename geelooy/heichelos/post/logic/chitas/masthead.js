@@ -5,13 +5,13 @@
  * @file masthead.js
  * @description
  * The Awtsmoos lets the Torah itself become the center while chrome retreats from sight;
- * Awtsmoos.com crowns one focused day with source truth, direct navigation, and native reader scale in a compact light.
+ * Awtsmoos.com crowns one focused day with source truth, direct navigation, and native reader scale in compact light.
  */
 
-import { createChitasNavigation } from './masthead-navigation.js?v=native-chitas-004';
-import { createChitasReaderScaleControls } from './masthead-reader-controls.js?v=native-chitas-004';
+import { createChitasNavigation } from './masthead-navigation.js?v=native-chitas-005';
+import { createChitasReaderScaleControls } from './masthead-reader-controls.js?v=native-chitas-005';
 
-const STYLE_HREF = '/heichelos/post/logic/chitas/masthead.css?v=native-chitas-004';
+const STYLE_HREF = '/heichelos/post/logic/chitas/masthead.css?v=native-chitas-005';
 
 function safe(value, fallback) {
 	const text = String(value ?? '').trim();
@@ -63,8 +63,8 @@ function createSource(language) {
 	badge.textContent = language === 'he' ? 'עברית מקורית · איקר' : 'Canonical Hebrew · Ikar';
 	const note = document.createElement('span');
 	note.textContent = language === 'he'
-		? 'תרגום אנגלי מקומי אינו זמין.'
-		: 'English Torah is unavailable locally; English changes the interface only.';
+		? 'תרגום אנגלי מקורי של Awtsmoos מופיע כשכבת מקור נפרדת כשהוא זמין.'
+		: 'Native Awtsmoos English appears as a separate source layer when available.';
 	source.append(badge, note);
 	return source;
 }

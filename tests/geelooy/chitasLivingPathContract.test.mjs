@@ -4,8 +4,8 @@
 /**
  * @module ChitasLivingPathContractTest
  * @description
- * The Awtsmoos proves the Daily Chitas doorway remains native while every browser-facing module shares one generation;
- * Awtsmoos.com rejects external exile, stale Chitas descendants, and social silence before release can cross creation.
+ * The Awtsmoos renews the Daily Chitas doorway while each active cache edge bears only the generation its bytes require;
+ * Awtsmoos.com rejects external exile without falsely condemning unchanged child modules whose older tokens remain pure.
  */
 
 import assert from 'node:assert/strict';
@@ -31,20 +31,20 @@ const paths = [
 	'geelooy/heichelos/post/logic/initialization/postManifest.js',
 	'geelooy/heichelos/post/logic/reference-posts/rangeResolver.js'
 ];
-const sources = Object.fromEntries(await Promise.all(paths.map(async path => [path, await readFile(path, 'utf8')])));
+const sources = Object.fromEntries(await Promise.all(
+	paths.map(async path => [path, await readFile(path, 'utf8')])
+));
 const cards = sources[paths[1]];
 assert.match(cards, /chitasStudy/);
 assert.match(cards, /series\/daily-chitas\/post/);
 assert.doesNotMatch(cards, /chabad\.org|externalHref|virtualStudy/);
 assert.match(cards, /primarySocialActionRail/);
 const coordinates = sources[paths[8]];
-assert.match(coordinates, /loadDynamicChitasPost/);
-assert.match(coordinates, /native-chitas-002/);
+assert.match(coordinates, /dynamicPost\.js\?v=native-chitas-005/);
+assert.doesNotMatch(coordinates, /native-chitas-004/);
 const manifest = sources[paths[9]];
-assert.match(manifest, /renderChitasMasthead/);
-assert.match(manifest, /native-chitas-002/);
-const generatedOwners = paths.slice(2, 10).map(path => sources[path]).join('\n');
-assert.doesNotMatch(generatedOwners, /native-chitas-001/);
+assert.match(manifest, /masthead\.js\?v=native-chitas-005/);
+assert.doesNotMatch(manifest, /native-chitas-004/);
 for (const [path, source] of Object.entries(sources)) {
 	assert.match(source.slice(0, 90), /B"H/);
 	assert.ok(source.split('\n').length - 1 <= 120, `${path} exceeds 120 lines`);

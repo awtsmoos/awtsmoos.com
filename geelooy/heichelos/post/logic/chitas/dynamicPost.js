@@ -4,25 +4,37 @@
 /**
  * @module DynamicChitasPost
  * @description
- * The Awtsmoos gives one date a native post body made only from Torah already living in Ikar;
- * Awtsmoos.com lets reader, discussion, insights, and source provenance share one identity without sending the learner afar.
+ * The Awtsmoos draws one day's Torah from Ikar and keeps its coordinates bright;
+ * Awtsmoos.com carries Hebrew and native English as separate vessels joined by source truth and light.
  */
 
-import { fetchHebcalCalendar, readIsraelMode } from '/heichelos/heichel/modules/chitas/hebcal-provider.js?v=native-chitas-002';
-import { buildStudyCards, findNextParsha } from '/heichelos/heichel/modules/chitas/schedule.js?v=native-chitas-002';
+import { fetchHebcalCalendar, readIsraelMode } from '/heichelos/heichel/modules/chitas/hebcal-provider.js?v=native-chitas-005';
+import { buildStudyCards, findNextParsha } from '/heichelos/heichel/modules/chitas/schedule.js?v=native-chitas-005';
 import { resolvePostRange } from '../reference-posts/rangeResolver.js?v=native-reference-post-001';
-import { parseChitasRange } from './rangeParser.js?v=native-chitas-002';
+import { parseChitasRange } from './rangeParser.js?v=native-chitas-005';
 
 const POST_PATTERN = /^chitas-(\d{4})-(\d{2})-(\d{2})$/;
 
 function dateFromPostId(postId) {
 	const match = POST_PATTERN.exec(String(postId || ''));
-	if (!match) throw new Error('INVALID_CHITAS_POST_ID');
+	if (!match) {
+		throw new Error('INVALID_CHITAS_POST_ID');
+	}
 	return new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]), 12);
 }
 
 function language() {
 	return new URLSearchParams(location.search).get('chitasLang') === 'he' ? 'he' : 'en';
+}
+
+function nativeTanachRange(reference) {
+	return {
+		book: reference.book.seriesId,
+		startChapter: reference.startChapter,
+		startVerse: reference.startVerse,
+		endChapter: reference.endChapter,
+		endVerse: reference.endVerse
+	};
 }
 
 function seriesFor(cards, parsha) {
@@ -50,7 +62,9 @@ export async function loadDynamicChitasPost(heichelId, postId) {
 	const parsha = findNextParsha(items, date);
 	const cards = buildStudyCards(date, parsha, items, { israel });
 	const card = cards.find(candidate => candidate.id === postId);
-	if (!card?.referenceText) throw new Error('CHITAS_NATIVE_RANGE_UNAVAILABLE');
+	if (!card?.referenceText) {
+		throw new Error('CHITAS_NATIVE_RANGE_UNAVAILABLE');
+	}
 	const reference = parseChitasRange(card.referenceText, heichelId);
 	const resolved = await resolvePostRange(reference);
 	const lang = language();
@@ -70,16 +84,21 @@ export async function loadDynamicChitasPost(heichelId, postId) {
 			meta: {
 				dynamicReferencePost: true,
 				referenceSources: resolved.sources,
+				nativeTanachRange: nativeTanachRange(reference),
 				chitas: {
 					...card,
 					parshaTitle: parsha?.title || '',
 					parshaHebrew: parsha?.hebrew || '',
 					lang,
 					israel,
-					translationStatus: 'canonical_hebrew_only'
+					translationStatus: 'native_translation_eligible'
 				}
 			}
 		}
 	};
-	return { post, series: seriesFor(cards, parsha), pIdx: Math.max(0, card.aliyah - 1) };
+	return {
+		post,
+		series: seriesFor(cards, parsha),
+		pIdx: Math.max(0, card.aliyah - 1)
+	};
 }

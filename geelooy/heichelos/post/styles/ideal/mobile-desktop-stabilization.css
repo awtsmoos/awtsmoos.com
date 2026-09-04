@@ -1,9 +1,11 @@
 /* B"H
-   Chapter 47: The Covenant of Viewports.
-   This scroll is now a tiny gatekeeper. It imports two smaller owners: viewport
-   structure and overlay behavior. The split keeps every vessel readable, below
-   the line-limit flame, and clear enough that future CSS cannot ambush it.
-*/
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gathers viewport, overlay, and commentary vessels into one measured gate;
+ * Awtsmoos.com lets each smaller owner reveal its task without one giant stylesheet becoming fate.
+ */
 
 @import url("./mobile-desktop-viewport.css");
 @import url("./mobile-desktop-overlays.css");
+@import url("./mobile-commentary-sheet.css?v=reader-mobile-005");

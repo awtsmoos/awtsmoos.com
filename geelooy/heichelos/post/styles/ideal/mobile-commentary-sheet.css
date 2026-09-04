@@ -1,0 +1,76 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos keeps Torah in the open sky while a small chamber rises below;
+ * Awtsmoos.com gives Community one header, one scroll, one close path, and room for every pasuk to glow.
+ */
+
+@media (max-width: 900px) {
+	.post-reader-localized-context .awtsmoos-sidebar-shell {
+		min-height: 0 !important;
+		overflow: hidden !important;
+	}
+
+	.post-reader-localized-context .awtsmoos-slide-viewport {
+		min-height: 0 !important;
+		overflow: hidden !important;
+	}
+
+	.post-reader-localized-context .awtsmoos-slide-view.active-view {
+		min-height: 0 !important;
+		overflow: hidden !important;
+	}
+
+	.post-reader-localized-context .awtsmoos-slide-view > .awtsmoos-view-header {
+		display: none !important;
+	}
+
+	.post-reader-localized-context .awtsmoos-slide-view.has-back > .awtsmoos-view-header {
+		align-items: center !important;
+		display: flex !important;
+		flex: 0 0 auto !important;
+		gap: 8px !important;
+		min-height: 52px !important;
+		padding: 4px 10px !important;
+		position: sticky !important;
+		top: 0 !important;
+		z-index: 3 !important;
+	}
+
+	.post-reader-localized-context .awtsmoos-view-header button,
+	.post-reader-localized-context .awtsmoos-sidebar-header-chrome button,
+	.post-reader-localized-context .awtsmoos-community-retry {
+		min-height: 44px !important;
+		min-width: 44px !important;
+	}
+
+	.post-reader-localized-context .awtsmoos-slide-view > .awtsmoos-view-content,
+	.post-reader-localized-context .awtsmoos-sidebar-panel:not([hidden]) {
+		flex: 1 1 auto !important;
+		min-height: 0 !important;
+		overflow-x: hidden !important;
+		overflow-y: auto !important;
+		overscroll-behavior: contain !important;
+		-webkit-overflow-scrolling: touch !important;
+	}
+
+	.post-reader-localized-context .awtsmoos-empty-placeholder {
+		margin: 8px !important;
+		min-height: 0 !important;
+		padding: 14px !important;
+	}
+
+	.post-reader-localized-context:has(.sidebar.awtsmoos-sidebar-open:not(.hidden-comments)) > .awtsmoos-floating-controls,
+	.post-reader-localized-context:has(.sidebar:not(.hidden-comments)) > .awtsmoos-floating-controls {
+		opacity: 0 !important;
+		pointer-events: none !important;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.post-reader-localized-context .awtsmoos-slide-view,
+	.post-reader-localized-context .sidebar {
+		transition-duration: 0ms !important;
+	}
+}
