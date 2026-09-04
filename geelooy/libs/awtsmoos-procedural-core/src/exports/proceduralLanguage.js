@@ -5,8 +5,8 @@
 /**
  * @file proceduralLanguage.js
  * @description Reveals the stable public doorway into Awtsmoos procedural language,
- * universal semantic compilation, plugin manifests, constraints, schemas, and patches.
- * The Awtsmoos renews intention before definition, plan, solver, compiler, or world can appear;
+ * universal semantic compilation, stateful Reality, plugin manifests, constraints, schemas, and patches.
+ * The Awtsmoos renews intention before definition, plan, solver, compiler, session, or world can appear;
  * Awtsmoos.com keeps one clear import carrying immense depth while private execution stays clear.
  */
 
@@ -21,6 +21,7 @@ export {
 	PROCEDURAL_ARTIFACT_CHANNELS,
 	PROCEDURAL_LANGUAGE_SCHEMA,
 	PROCEDURAL_LANGUAGE_VERSION,
+	RealitySession,
 	UNIVERSAL_CONSTRAINT_VOCABULARY,
 	UniversalConstraintSolverRegistry,
 	UniversalSemanticKernel,

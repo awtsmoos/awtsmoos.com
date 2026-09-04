@@ -5,15 +5,16 @@
 /**
  * @file index.js
  * @description Defines the stable procedural-language namespace doorway for universal
- * authoring, compiler manifests, constraint solvers, identity, artifacts, and contracts.
+ * authoring, compiler manifests, constraint solvers, identity, artifacts, stateful Reality, and contracts.
  * The Awtsmoos renews every inner module while one public gate reveals finite vessels in light;
- * Awtsmoos.com keeps authoring and extension contracts discoverable without exposing private might.
+ * Awtsmoos.com keeps authoring, incremental Reality, and extension contracts discoverable without exposing private might.
  */
 
 export { AwtsmoosCreationPortal } from './public/AwtsmoosCreationPortal.js';
 export { createAwtsmoosCreationPortal } from './public/createAwtsmoosCreationPortal.js';
 export { AwtsmoosProcedural } from './public/AwtsmoosProcedural.js';
 export { createAwtsmoosProcedural } from './public/createAwtsmoosProcedural.js';
+export { RealitySession } from './realitySession/RealitySession.js';
 export { UniversalSemanticKernel } from './universalKernel/UniversalSemanticKernel.js';
 export { createUniversalSemanticKernel } from './universalKernel/createUniversalSemanticKernel.js';
 export { ProceduralDefinition } from './definition/ProceduralDefinition.js';
