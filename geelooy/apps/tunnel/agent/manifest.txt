@@ -1,5 +1,5 @@
 B"H
-1.0.580
+1.0.581
 main.js
 ai/relay/direct/browser/AgentTabCatalog.mjs
 ai/relay/direct/browser/AgentTabProtectionState.mjs
@@ -981,6 +981,7 @@ lib/connection-vessel/child-runtime-view.js
 lib/connection-vessel/child-runtime.js
 lib/connection-vessel/child.js
 lib/connection-vessel/connection-incarnation.js
+lib/connection-vessel/controller-admission-bridge.js
 lib/connection-vessel/controller-child-birth.js
 lib/connection-vessel/controller-child-liveness-policy.js
 lib/connection-vessel/controller-child-liveness.js
@@ -1239,8 +1240,10 @@ lib/runtime/main-lane-stats.js
 lib/runtime/main-payload.js
 lib/runtime/main-pressure-queue.js
 lib/runtime/main-process.js
+lib/runtime/main-queue-admission-result.js
 lib/runtime/main-queue-admission.js
 lib/runtime/main-queue-emergency.js
+lib/runtime/main-queue-item.js
 lib/runtime/main-queue-progress.js
 lib/runtime/main-queue-prune.js
 lib/runtime/main-queue-rejection.js
