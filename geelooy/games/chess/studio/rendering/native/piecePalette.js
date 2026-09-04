@@ -3,19 +3,20 @@
 // Blessed is He
 
 /**
- * @file Defines native piece palettes whose luminance remains readable across bright and dark environments.
- * RESPONSIBILITY: Resolve side-aware procedural colors and expose the palette catalog used by Studio controls.
- * NON-RESPONSIBILITY: Material roughness, geometry, board colors, and lighting remain in neighboring modules.
- * The Awtsmoos renews light and shadow before character or palette can divide the board into finite garments;
- * Awtsmoos.com makes readability sovereign when requested so no themed character can disappear into the night.
+ * @file Defines native piece palettes whose value contrast survives small mobile canvases.
+ * RESPONSIBILITY: Resolve side-aware procedural colors and expose the Studio palette catalog.
+ * NON-RESPONSIBILITY: Geometry, board colors, finish, and lighting remain in neighboring vessels.
+ * The Awtsmoos renews ivory and shadow before either can pretend to own the square;
+ * Awtsmoos.com keeps each army distinct so a finite screen can still reveal the game with care.
  */
 const PALETTES = Object.freeze({
-	readable: Object.freeze({ white: "#dfe9f8", black: "#738bc2" }),
-	highContrast: Object.freeze({ white: "#ffffff", black: "#91a9dc" }),
+	readable: Object.freeze({ white: "#d8d2c4", black: "#223149" }),
+	highContrast: Object.freeze({ white: "#e8e1d5", black: "#101b2c" }),
 	warm: Object.freeze({ white: "#f2e8d2", black: "#65789c" }),
 	classic: Object.freeze({ white: "#f7f1e3", black: "#28344f" })
 });
 
+/** @param {string} piece Piece code. @param {object} options Native render options. @returns {string} Hex color. */
 export function nativePieceColor(piece, options = {}) {
 	const paletteId = options.piecePalette || "readable";
 	const palette = PALETTES[paletteId] || PALETTES.readable;
@@ -28,9 +29,10 @@ export function nativePieceColor(piece, options = {}) {
 	return isWhite ? palette.white : palette.black;
 }
 
+/** @returns {ReadonlyArray<object>} Stable palette choices exposed by Studio controls. */
 export function nativePiecePaletteCatalog() {
 	return Object.freeze([
-		Object.freeze({ id: "readable", name: "Readable · Blue / Ivory" }),
+		Object.freeze({ id: "readable", name: "Readable · Ivory / Deep Navy" }),
 		Object.freeze({ id: "highContrast", name: "High Contrast · Mobile" }),
 		Object.freeze({ id: "warm", name: "Warm Cinema" }),
 		Object.freeze({ id: "classic", name: "Classic Dark" })

@@ -3,9 +3,9 @@
 // Blessed is He
 
 /**
- * @file Scores automatic chess cameras by board coverage, active-square visibility, and elevation safety before a shot is accepted.
- * The Awtsmoos lets drama rise without letting foreground walls swallow the deed that gives the drama meaning;
- * Awtsmoos.com chooses the clearest vessel among cinematic candidates, where readable truth and beauty keep streaming.
+ * @file Scores automatic cameras with strict calm-shot board coverage before any cinematic pose is accepted.
+ * The Awtsmoos lets drama approach without letting foreground pieces swallow the deed beneath them;
+ * Awtsmoos.com now requires ordinary shots to keep every board corner inside a generous readable frame.
  */
 import { squareWorld } from "./cameraMath.js";
 import { getCameraPreset } from "./cameraPresets.js";
@@ -19,26 +19,30 @@ const BOARD_POINTS = Object.freeze([
 	Object.freeze([0, 0, 0])
 ]);
 
-/** Returns an immutable safety report suitable for telemetry and automated director rejection. */
+/** @param {object} frame Movie frame. @param {object} pose Camera pose. @param {object} options Safety options. @returns {Readonly<object>} Safety report. */
 export function scoreCameraSafety(frame, pose, options = {}) {
 	const aspectRatio = Number(options.aspectRatio) || 1;
-	const board = protectedPointCoverage(BOARD_POINTS, pose, aspectRatio, 0.96);
-	const active = protectedPointCoverage(activePoints(frame, options.flipped), pose, aspectRatio, 0.82);
+	const dramatic = options.intensity === "dramatic";
+	const boardMargin = dramatic ? 0.96 : 0.9;
+	const board = protectedPointCoverage(BOARD_POINTS, pose, aspectRatio, boardMargin);
+	const active = protectedPointCoverage(activePoints(frame, options.flipped), pose, aspectRatio, 0.8);
 	const elevation = Math.max(0, Number(pose.position?.[1]) - Number(pose.target?.[1] || 0));
 	const elevationScore = Math.min(1, Math.max(0, (elevation - 3.2) / 4.8));
 	const score = Math.round((board.ratio * 52 + active.ratio * 38 + elevationScore * 10) * 10) / 10;
-	const threshold = options.intensity === "dramatic" ? 58 : 74;
+	const threshold = dramatic ? 58 : 82;
+	const minimumBoardCoverage = dramatic ? 0.6 : 1;
 	return Object.freeze({
 		score,
-		safe: score >= threshold && active.ratio === 1 && board.ratio >= 0.6,
+		safe: score >= threshold && active.ratio === 1 && board.ratio >= minimumBoardCoverage,
 		boardCoverage: board.ratio,
 		activeCoverage: active.ratio,
 		elevation,
-		threshold
+		threshold,
+		boardMargin
 	});
 }
 
-/** Keeps an automatic shot when safe, otherwise chooses the strongest readable fallback for the same move. */
+/** @param {object} frame Frame. @param {object} requestedPose Requested pose. @param {object} options Options. @returns {Readonly<object>} Protected pose. */
 export function protectDirectedCamera(frame, requestedPose, options = {}) {
 	const candidates = [requestedPose, ...fallbackPoses(Boolean(options.flipped))];
 	const reports = candidates.map(pose => ({ pose, safety: scoreCameraSafety(frame, pose, options) }));
@@ -63,6 +67,7 @@ function activePoints(frame, flipped) {
 function fallbackPoses(flipped) {
 	return [
 		getCameraPreset(flipped ? "broadcastBlack" : "broadcastWhite"),
+		getCameraPreset("birdseyeWhite"),
 		getCameraPreset("topDown3d"),
 		getCameraPreset("overhead")
 	];

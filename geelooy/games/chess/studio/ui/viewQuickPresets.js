@@ -3,84 +3,72 @@
 // Blessed is He
 
 /**
- * @file Maps thumb-sized outcomes onto renderer, motion, 2D garment, and native-director preferences.
- * The Awtsmoos renews one lawful board before flatness, motion, character, broadcast height, or cinematic depth divide the scene;
- * Awtsmoos.com lets a player choose the visible result first and always shows which garment is presently seen.
+ * @file Maps thumb-sized outcomes onto stable 2D and intentionally distinct native 3D visual contracts.
+ * The Awtsmoos renews one lawful board before readability and cinema divide its finite garment;
+ * Awtsmoos.com lets calm views protect the pieces while dramatic views explicitly ask for motion.
  */
 export const VIEW_QUICK_PRESETS = Object.freeze({
-	instant2d: preset("instant2d", "Instant 2D", {
-		renderer: "canvas2d",
-		canvasStyle: "tournament",
-		canvasPieceStyle: "crisp",
-		characters: "staunton",
-		previewMotion: "instant"
-	}),
-	animated2d: preset("animated2d", "Animated 2D", {
-		renderer: "canvas2d",
-		canvasStyle: "tournament",
-		canvasPieceStyle: "crisp",
-		characters: "staunton",
-		previewMotion: "animated"
-	}),
-	crisp2d: preset("crisp2d", "Crisp 2D", {
-		renderer: "canvas2d",
-		canvasStyle: "contrast",
-		canvasPieceStyle: "bold",
-		characters: "staunton",
-		previewMotion: "animated"
-	}),
-	royal2d: preset("royal2d", "Royal 2D", {
-		renderer: "canvas2d",
-		canvasStyle: "parchment",
-		canvasPieceStyle: "soft",
-		characters: "royal",
-		previewMotion: "animated"
-	}),
+	instant2d: preset("instant2d", "Instant 2D", flat("tournament", "crisp", "staunton", "instant")),
+	animated2d: preset("animated2d", "Animated 2D", flat("tournament", "crisp", "staunton", "animated")),
+	crisp2d: preset("crisp2d", "Crisp 2D", flat("contrast", "bold", "staunton", "animated")),
+	royal2d: preset("royal2d", "Royal 2D", flat("parchment", "soft", "royal", "animated")),
 	framed2d: preset("framed2d", "Framed 2.5D", {
 		renderer: "canvas25d",
 		canvasStyle: "soft",
 		canvasPieceStyle: "soft",
 		previewMotion: "animated"
 	}),
-	topdown3d: preset("topdown3d", "Top-down 3D", native("topDown3d", "static", "calm")),
-	readable3d: preset("readable3d", "Readable 3D", native("auto", "director", "calm")),
-	broadcast3d: preset("broadcast3d", "Broadcast 3D", native("broadcastWhite", "static", "calm")),
-	cinema3d: preset("cinema3d", "Cinema 3D", native("auto", "director", "balanced"))
+	topdown3d: preset("topdown3d", "Top-down 3D", readableNative("topDown3d")),
+	readable3d: preset("readable3d", "Readable 3D", readableNative("birdseyeWhite")),
+	broadcast3d: preset("broadcast3d", "Broadcast 3D", readableNative("broadcastWhite")),
+	cinema3d: preset("cinema3d", "Cinema 3D", Object.freeze({
+		renderer: "procedural3d",
+		previewMotion: "animated",
+		camera: "auto",
+		cameraMotion: "director",
+		cameraIntensity: "balanced",
+		lighting: "studio",
+		environment: "clarity",
+		piecePalette: "readable",
+		pieceScale: 0.86,
+		fog: false
+	}))
 });
 
+/** @param {object} preferences Mutable preferences. @param {string} id Quick id. @returns {Readonly<object>} Selected preset. */
 export function applyViewQuickPreset(preferences, id) {
 	const selected = VIEW_QUICK_PRESETS[id] || VIEW_QUICK_PRESETS.animated2d;
 	Object.assign(preferences, selected.options);
 	return selected;
 }
 
+/** @param {object} [preferences={}] Preferences. @returns {string} Matching quick preset id. */
 export function activeViewQuickPreset(preferences = {}) {
-	for (const presetValue of Object.values(VIEW_QUICK_PRESETS)) {
-		const active = Object.entries(presetValue.options).every(([key, value]) => preferences[key] === value);
-		if (active) {
-			return presetValue.id;
-		}
+	for (const value of Object.values(VIEW_QUICK_PRESETS)) {
+		if (Object.entries(value.options).every(([key, option]) => preferences[key] === option)) return value.id;
 	}
 	return "";
 }
 
-function native(camera, cameraMotion, cameraIntensity) {
+function flat(canvasStyle, canvasPieceStyle, characters, previewMotion) {
+	return Object.freeze({ renderer: "canvas2d", canvasStyle, canvasPieceStyle, characters, previewMotion });
+}
+
+function readableNative(camera) {
 	return Object.freeze({
 		renderer: "procedural3d",
 		previewMotion: "animated",
 		camera,
-		cameraMotion,
-		cameraIntensity,
-		environment: "clarity",
+		cameraMotion: "static",
+		cameraIntensity: "calm",
+		lighting: "readability",
+		environment: "readability",
 		piecePalette: "readable",
+		pieceScale: 0.82,
 		fog: false
 	});
 }
 
 function preset(id, name, options) {
-	return Object.freeze({
-		id,
-		name,
-		options: Object.freeze(options)
-	});
+	return Object.freeze({ id, name, options: Object.freeze(options) });
 }

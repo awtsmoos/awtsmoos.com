@@ -1,20 +1,30 @@
 //B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
  * @file Defines native environments shared by preview, quick presets, and movie rendering.
- * The Awtsmoos, Atzmus beyond atmosphere, renews every background without swallowing the pieces in night;
- * Awtsmoos.com makes clarity the ordinary vessel, softness the quiet vessel, and stage depth the chosen dramatic light.
+ * The Awtsmoos renews every atmosphere without letting brightness erase the forms it reveals;
+ * Awtsmoos.com makes readability the calm ordinary vessel and keeps stage depth for chosen cinema.
  */
 export const NATIVE_ENVIRONMENTS = Object.freeze({
+	readability: Object.freeze({
+		id: "readability",
+		name: "Readable Mobile",
+		background: "#11192a",
+		fill: 1.05,
+		key: 1,
+		fog: false,
+		exposure: 0.94
+	}),
 	clarity: Object.freeze({
 		id: "clarity",
-		name: "Readable Studio",
+		name: "Bright Studio",
 		background: "#182238",
-		fill: 1.48,
-		key: 1.18,
+		fill: 1.32,
+		key: 1.1,
 		fog: false,
-		exposure: 1.12
+		exposure: 1.04
 	}),
 	soft: Object.freeze({
 		id: "soft",
@@ -36,11 +46,7 @@ export const NATIVE_ENVIRONMENTS = Object.freeze({
 	})
 });
 
-/**
- * Resolves the requested native environment with readability as the safe fallback.
- * @param {string} [id="clarity"] Environment identity selected by the Studio.
- * @returns {Readonly<object>} Immutable environment descriptor.
- */
-export function getNativeEnvironment(id = "clarity") {
-	return NATIVE_ENVIRONMENTS[id] || NATIVE_ENVIRONMENTS.clarity;
+/** @param {string} [id="readability"] Environment identity. @returns {Readonly<object>} Descriptor. */
+export function getNativeEnvironment(id = "readability") {
+	return NATIVE_ENVIRONMENTS[id] || NATIVE_ENVIRONMENTS.readability;
 }

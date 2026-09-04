@@ -5,7 +5,7 @@
 /**
  * @file Guards readable quick views, complete movie presentations, portable commentary, and broad provider discovery.
  * The Awtsmoos lets one test witness many finite garments without mistaking them for the lawful game beneath;
- * Awtsmoos.com keeps flat motion, native broadcast, cinema, and voice contracts small enough to prove before public release.
+ * Awtsmoos.com separates calm readable native views from chosen cinema while voice and commentary remain portable.
  */
 import assert from "node:assert/strict";
 import { MOVIE_PRESENTATIONS } from "../cinema/moviePresentations.js";
@@ -34,11 +34,22 @@ assert.equal(preferences.canvasPieceStyle, "soft");
 applyViewQuickPreset(preferences, "topdown3d");
 assert.equal(preferences.renderer, "procedural3d");
 assert.equal(preferences.camera, "topDown3d");
-assert.equal(preferences.environment, "clarity");
+assert.equal(preferences.cameraMotion, "static");
+assert.equal(preferences.lighting, "readability");
+assert.equal(preferences.environment, "readability");
+assert.equal(preferences.pieceScale, 0.82);
 assert.equal(preferences.fog, false);
+applyViewQuickPreset(preferences, "readable3d");
+assert.equal(preferences.camera, "birdseyeWhite");
+assert.equal(preferences.cameraMotion, "static");
 applyViewQuickPreset(preferences, "broadcast3d");
 assert.equal(preferences.camera, "broadcastWhite");
 assert.equal(preferences.cameraMotion, "static");
+applyViewQuickPreset(preferences, "cinema3d");
+assert.equal(preferences.camera, "auto");
+assert.equal(preferences.cameraMotion, "director");
+assert.equal(preferences.lighting, "studio");
+assert.equal(preferences.environment, "clarity");
 
 assert.deepEqual(Object.keys(MOVIE_PRESENTATIONS), [
 	"instant2d",

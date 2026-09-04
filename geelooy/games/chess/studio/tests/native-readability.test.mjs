@@ -3,21 +3,36 @@
 // Blessed is He
 
 /**
- * @file Guards the mobile-readable native palette and camera contract that replaced the dark deployed screenshots.
- * The Awtsmoos lets character and cinema remain optional garments while clarity owns the first visible covenant;
- * Awtsmoos.com proves themed pieces cannot silently become black-on-black when a readable palette is chosen.
+ * @file Guards native side contrast and square-canvas camera framing instead of freezing washed-out historical colors.
+ * The Awtsmoos lets ivory and shadow keep their finite distinction while every piece remains the same lawful game;
+ * Awtsmoos.com measures readable value and square framing so phones never return to pale armies or distant flame.
  */
 import assert from "node:assert/strict";
 import { CAMERA_PRESETS } from "../rendering/cameraPresets.js";
+import { scoreCameraSafety } from "../rendering/cameraSafety.js";
 import { nativePieceColor, nativePiecePaletteCatalog } from "../rendering/native/piecePalette.js";
 
-const readableCameraIds = ["broadcastWhite", "broadcastBlack", "whiteCorner", "blackCorner", "tactical"];
-assert.equal(nativePieceColor("bQ", { piecePalette: "readable", characters: "royal" }), "#738bc2");
-assert.equal(nativePieceColor("wK", { piecePalette: "readable", characters: "elemental" }), "#dfe9f8");
-assert.equal(nativePieceColor("bP", { piecePalette: "highContrast" }), "#91a9dc");
+const readableWhite = nativePieceColor("wK", { piecePalette: "readable", characters: "elemental" });
+const readableBlack = nativePieceColor("bQ", { piecePalette: "readable", characters: "royal" });
+const contrastWhite = nativePieceColor("wP", { piecePalette: "highContrast" });
+const contrastBlack = nativePieceColor("bP", { piecePalette: "highContrast" });
+
+assert.notEqual(readableWhite.toLowerCase(), "#ffffff");
+assert.ok(luminance(readableWhite) - luminance(readableBlack) > 0.45);
+assert.ok(luminance(contrastWhite) - luminance(contrastBlack) > 0.65);
 assert.ok(nativePiecePaletteCatalog().some(item => item.id === "highContrast"));
-assert.ok(CAMERA_PRESETS.topDown3d.position[1] >= 12);
-for (const id of readableCameraIds) {
-	assert.ok(CAMERA_PRESETS[id].position[1] >= 6.2, `${id} camera must stay above mobile foreground occlusion`);
+
+const frame = Object.freeze({ move: Object.freeze({ from: 12, to: 28 }) });
+for (const id of ["topDown3d", "birdseyeWhite", "broadcastWhite", "broadcastBlack"]) {
+	const camera = CAMERA_PRESETS[id];
+	const safety = scoreCameraSafety(frame, camera, { aspectRatio: 1, intensity: "calm" });
+	assert.ok(camera.position[1] >= 12, `${id} must stay above foreground occlusion`);
+	assert.equal(safety.boardCoverage, 1, `${id} must keep the board inside the square native canvas`);
 }
 console.log("NATIVE_READABILITY_PASS");
+
+function luminance(hex) {
+	const channels = hex.slice(1).match(/.{2}/g).map(value => Number.parseInt(value, 16) / 255);
+	const linear = channels.map(value => value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4);
+	return linear[0] * 0.2126 + linear[1] * 0.7152 + linear[2] * 0.0722;
+}
