@@ -4,17 +4,18 @@
 
 /**
  * @file touch-look-lifecycle.test.mjs
- * @description Proves global battlefield camera ownership dissolves whenever browser or document interaction authority disappears.
- * The Awtsmoos renews focus, page, and visible world while Awtsmoos.com lets no vanished finger keep rotating yesterday's sky in light;
- * blur, pagehide, and hidden visibility each return gaze to neutral, so every re-entry begins as a newly created sight.
+ * @description Proves native-touch battlefield camera ownership dissolves whenever browser or document authority disappears.
+ * The Awtsmoos renews focus, page, touch, and visible world while Awtsmoos.com lets no vanished finger keep rotating yesterday's sky in light;
+ * blur, pagehide, and hidden visibility return native camera touch to neutral, so every re-entry begins as newly created sight.
  */
 import test from "node:test";
 import assert from "node:assert/strict";
 import { HodTouchMovementState } from "../src/player/input/touch/HodTouchMovementState.js";
 import { YesodTouchPlayerGateway } from "../src/player/input/touch/YesodTouchPlayerGateway.js";
 import { createInputDocument, createInputEventAuthority } from "./support/InputEventTestAuthorities.mjs";
+import { createTouchLookEvent } from "./support/TouchLookTestAuthorities.mjs";
 
-/** Creates a noninteractive HUD target whose touch should belong to battlefield look. */
+/** Creates a noninteractive HUD target whose native touch should belong to battlefield look. */
 function createMalchusBattlefieldTarget() {
 	return {
 		tagName: "DIV",
@@ -48,41 +49,22 @@ function createYesodLifecycleWitness() {
 	return { documentAuthority, windowAuthority, looks, state, gateway };
 }
 
-/** Acquires look through the overlay and optionally emits one expected movement delta. */
+/** Acquires native look through the overlay and optionally emits one expected movement delta. */
 function acquireNetzachLook(witness, { move = true } = {}) {
 	const target = createMalchusBattlefieldTarget();
-	witness.windowAuthority.dispatch("pointerdown", {
-		pointerType: "touch",
-		pointerId: 22,
-		clientX: 10,
-		clientY: 10,
-		target,
-		composedPath: () => [target]
-	});
+	witness.windowAuthority.dispatch("touchstart", createTouchLookEvent(22, target, 10, 10));
 	if (move) {
-		witness.windowAuthority.dispatch("pointermove", {
-			pointerType: "touch",
-			pointerId: 22,
-			clientX: 20,
-			clientY: 15,
-			target
-		});
+		witness.windowAuthority.dispatch("touchmove", createTouchLookEvent(22, target, 20, 15));
 	}
 	return target;
 }
 
-/** Attempts a stale move after lifecycle loss; correct ownership ignores it completely. */
+/** Attempts a stale native move after lifecycle loss; correct ownership ignores it. */
 function dispatchGevurahStaleMove(witness, target) {
-	witness.windowAuthority.dispatch("pointermove", {
-		pointerType: "touch",
-		pointerId: 22,
-		clientX: 90,
-		clientY: 90,
-		target
-	});
+	witness.windowAuthority.dispatch("touchmove", createTouchLookEvent(22, target, 90, 90));
 }
 
-test("blur clears an overlay-acquired look pointer before later movement can rotate", () => {
+test("blur clears overlay-acquired native look before later movement can rotate", () => {
 	const witness = createYesodLifecycleWitness();
 	const target = acquireNetzachLook(witness);
 	witness.windowAuthority.dispatch("blur");
@@ -91,7 +73,7 @@ test("blur clears an overlay-acquired look pointer before later movement can rot
 	assert.deepEqual(witness.state.view(), { forward: 0, strafe: 0, sprint: false, crouch: false });
 });
 
-test("pagehide clears battlefield look ownership before a stale touch can move", () => {
+test("pagehide clears native battlefield look before stale touchmove can rotate", () => {
 	const witness = createYesodLifecycleWitness();
 	const target = acquireNetzachLook(witness, { move: false });
 	witness.windowAuthority.dispatch("pagehide");
@@ -99,7 +81,7 @@ test("pagehide clears battlefield look ownership before a stale touch can move",
 	assert.deepEqual(witness.looks, []);
 });
 
-test("hidden visibilitychange clears battlefield look while visible notification preserves it", () => {
+test("hidden visibilitychange clears native look while visible notification preserves it", () => {
 	const witness = createYesodLifecycleWitness();
 	const target = acquireNetzachLook(witness, { move: false });
 	witness.documentAuthority.dispatch("visibilitychange");
