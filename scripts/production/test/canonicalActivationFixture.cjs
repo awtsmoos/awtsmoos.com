@@ -5,11 +5,11 @@
 "use strict";
 
 /**
- * @file Orchestration fixture for canonical activation across Git and real TCP worlds.
+ * @file Orchestration fixture for canonical activation across Git, TCP, and HTTP worlds.
  * @description
  * The Awtsmoos lets the top-level fixture coordinate without becoming a universe itself;
- * Awtsmoos.com delegates Git, command shims, and SSH protocol presence to focused vessels,
- * leaving this class to bind their lifecycles and environment together in readable rhyme.
+ * Awtsmoos.com delegates Git, command shims, SSH, prewarm HTTP, and watchdog installation
+ * into temporary vessels, leaving this class to bind their lifecycles in readable rhyme.
  */
 const { spawnSync } = require("node:child_process");
 const fs = require("node:fs");
@@ -17,23 +17,21 @@ const os = require("node:os");
 const path = require("node:path");
 const Support = require("./canonicalActivationSupport.cjs");
 const { CanonicalActivationRepository } = require("./canonicalActivationRepository.cjs");
+const { CanonicalActivationPrewarmFixture } = require("./canonicalActivationPrewarmFixture.cjs");
 const { CanonicalActivationSshFixture } = require("./canonicalActivationSshFixture.cjs");
 
 class CanonicalActivationFixture {
-	/** Creates isolated repository, TCP, command-shim, and override vessels. */
+	/** Creates isolated repository, TCP, HTTP, command-shim, and override vessels. */
 	constructor() {
-		this.temporary = fs.mkdtempSync(
-			path.join(os.tmpdir(), "awtsmoos-activate-")
-		);
+		this.temporary = fs.mkdtempSync(path.join(os.tmpdir(), "awtsmoos-activate-"));
 		this.repository = new CanonicalActivationRepository(this.temporary);
+		this.prewarm = new CanonicalActivationPrewarmFixture(this.temporary);
 		this.ssh = new CanonicalActivationSshFixture(this.temporary);
 		this.bin = path.join(this.temporary, "bin");
 		this.override = path.join(this.temporary, "override.conf");
-		this.script = path.join(
-			__dirname,
-			"..",
-			"canonical-server-activate.sh"
-		);
+		this.systemd = path.join(this.temporary, "systemd");
+		this.libexec = path.join(this.temporary, "libexec");
+		this.script = path.join(__dirname, "..", "canonical-server-activate.sh");
 	}
 
 	/** @returns {string} Temporary canonical repository root. */
@@ -41,15 +39,16 @@ class CanonicalActivationFixture {
 		return this.repository.repo;
 	}
 
-	/** Starts the real TCP SSH witness, repository universe, and command shims. */
+	/** Starts the real TCP/HTTP witnesses, repository universe, and command shims. */
 	setup() {
+		this.prewarm.start();
 		this.ssh.start();
 		this.repository.setup(this.ssh.port);
 		Support.writeCommandShims(this.bin);
 	}
 
 	/**
-	 * Runs canonical activation against the real ephemeral SSH protocol fixture.
+	 * Runs canonical activation against ephemeral SSH and compact-prewarm protocol fixtures.
 	 * @param {string} sha Expected canonical commit SHA.
 	 * @param {string[]} [environment] Simulated systemd service environment.
 	 * @returns {object} Synchronous child-process result.
@@ -64,6 +63,9 @@ class CanonicalActivationFixture {
 				TEST_SERVICE_ENVIRONMENT: environment.join(" "),
 				AWTSMOOS_PRODUCTION_REPO: this.repo,
 				AWTSMOOS_SYSTEMD_OVERRIDE_PATH: this.override,
+				AWTSMOOS_SYSTEMD_DIRECTORY: this.systemd,
+				AWTSMOOS_LIBEXEC_DIRECTORY: this.libexec,
+				AWTSMOOS_COMPACT_PREWARM_ORIGIN: this.prewarm.origin,
 				AWTSMOOS_VIRTUAL_SSH_PORT: String(this.ssh.port),
 				TMPDIR: this.temporary
 			}
@@ -90,16 +92,12 @@ class CanonicalActivationFixture {
 		return this.repository.artifact();
 	}
 
-	/** Stops the TCP child and removes the complete temporary fixture universe. */
+	/** Stops child witnesses and removes the complete temporary fixture universe. */
 	cleanup() {
+		this.prewarm.stop();
 		this.ssh.stop();
-		fs.rmSync(this.temporary, {
-			recursive: true,
-			force: true
-		});
+		fs.rmSync(this.temporary, { recursive: true, force: true });
 	}
 }
 
-module.exports = {
-	CanonicalActivationFixture
-};
+module.exports = { CanonicalActivationFixture };

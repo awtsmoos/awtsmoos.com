@@ -14,13 +14,16 @@ const Eligibility = require("../../mission/autoContinuation/eligibility.js");
 const Prompt = require("../../mission/autoContinuation/prompt.js");
 const State = require("../../mission/autoContinuation/state.js");
 const Planner = require("../websiteAgents/planner.js");
+const Harness = require("./missionAutoContinuationHarness.js");
 
 /**
- * @file Proves unfinished mission continuation is deterministic, leased, candidate-safe, and browser-idempotent.
+ * @file Proves unfinished mission continuation is leased, custody-aware, and browser-idempotent.
  * @description
- * The Awtsmoos lets one silent checkpoint call one messenger. Awtsmoos.com proves
- * the same root, mission, plan, lease, and website identity survive restart without a duplicate prompt.
+ * The Awtsmoos lets one silent checkpoint call one declared successor, never a phantom guest;
+ * Awtsmoos.com preserves project, task lease, plan, and website identity through the recovery test.
  */
+const originalAuthority = process.env.AWTSMOOS_PROJECT_ROOT;
+delete process.env.AWTSMOOS_PROJECT_ROOT;
 const root = fs.mkdtempSync(path.join(os.tmpdir(), "awts-auto-continuation-"));
 const config = { root };
 const now = Date.now();
@@ -28,8 +31,9 @@ const oldAt = new Date(now - 10 * 60 * 1000).toISOString();
 const mission = {
 	id: "mission_continue_test",
 	goal: "finish the existing mission",
-	room: { id: "room_continue_test", agents: {} }
+	room: { id: "room_continue_test" }
 };
+const custody = Harness.attachRecoverableWork(mission, oldAt);
 const lock = {
 	missionId: mission.id,
 	startedAt: oldAt,
@@ -52,22 +56,14 @@ try {
 	}
 	assert.equal(Planner.plan(config, { continuationOnly: true, agentCount: 99 }).agentCount, 1);
 	assert.equal(Planner.plan(config, { agentCount: 1 }).agentCount, 3);
-	assert.equal(Eligibility.decide({ mission, lock, now }).eligible, true);
-	assert.equal(Eligibility.decide({ mission: { ...mission, completed: true }, lock, now }).eligible, false);
-
-	const firstLease = State.acquire(config, { missionId: mission.id, fingerprint, websiteMissionId: "web_a" }, {
-		owner: "owner_a",
-		now
-	});
-	const secondLease = State.acquire(config, { missionId: mission.id, fingerprint, websiteMissionId: "web_a" }, {
-		owner: "owner_b",
-		now
-	});
+	assert.equal(Eligibility.decide({ mission, lock, now, taskLease: custody.taskLease }).eligible, true);
+	assert.equal(Eligibility.decide({ mission: { ...mission, completed: true }, lock, now, taskLease: custody.taskLease }).eligible, false);
+	const firstLease = State.acquire(config, { missionId: mission.id, fingerprint, websiteMissionId: "web_a" }, { owner: "owner_a", now });
+	const secondLease = State.acquire(config, { missionId: mission.id, fingerprint, websiteMissionId: "web_a" }, { owner: "owner_b", now });
 	assert.equal(firstLease.ok, true);
 	assert.equal(secondLease.ok, false);
 	assert.equal(secondLease.reason, "continuation_lease_held");
-
-	const fake = fakeDependencies(mission, lock);
+	const fake = Harness.fakeDependencies(mission, lock, Eligibility);
 	const first = await Auto.run(config, { now, deps: fake.deps, owner: "coordinator" });
 	const second = await Auto.run(config, { now: now + 1, deps: fake.deps, owner: "coordinator" });
 	assert.equal(first.scheduled, true);
@@ -78,36 +74,22 @@ try {
 	const recovered = await Auto.run(config, { now: now + 2, deps: fake.deps });
 	assert.equal(recovered.reason, "existing_dispatch_recovered");
 	assert.equal(fake.dispatchCount(), 1);
-
+	const candidateLock = {
+		active() {
+			throw new Error("candidate_touched_mission");
+		}
+	};
 	const candidate = await Auto.run(config, {
 		env: { AWTSMOOS_REGISTRATION_MODE: "candidate-probe" },
-		deps: { Lock: { active() { throw new Error("candidate_touched_mission"); } } }
+		deps: { Lock: candidateLock }
 	});
 	assert.equal(candidate.reason, "candidate_probe_suppressed");
 	console.log(JSON.stringify({ ok: true, suite: "mission-auto-continuation", fingerprint, dispatches: 1 }));
 } finally {
 	fs.rmSync(root, { recursive: true, force: true });
-}
-
-function fakeDependencies(currentMission, currentLock) {
-	let record = null;
-	let website = null;
-	let dispatches = 0;
-	const state = {
-		read: () => record,
-		acquire: (_config, identity) => ({ ok: true, record: record = { ...identity, status: "dispatching", attempts: 1 } }),
-		mark: (_config, current, status, details) => record = { ...current, ...details, status }
-	};
-	return {
-		deps: {
-			Mission: { load: async () => currentMission },
-			Lock: { active: () => currentLock },
-			WebsiteStore: { read: () => website },
-			State: state,
-			Eligibility,
-			Dispatch: { dispatch: async () => { dispatches += 1; return { ok: true, recovered: false }; } }
-		},
-		dispatchCount: () => dispatches,
-		setWebsite: value => { website = value; }
-	};
+	if (originalAuthority === undefined) {
+		delete process.env.AWTSMOOS_PROJECT_ROOT;
+	} else {
+		process.env.AWTSMOOS_PROJECT_ROOT = originalAuthority;
+	}
 }

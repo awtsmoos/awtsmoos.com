@@ -5,31 +5,45 @@
 const fs = require("node:fs");
 const path = require("node:path");
 const PathGuard = require("../../pathGuard.js");
+const PlanningRoots = require("./planningRoots.js");
 
 const MAX_FILES = 12;
-const MAX_SCAN = 80;
 
 /**
- * @file Resolves bounded successor handoff and thought references into absolute safe paths.
+ * @file Resolves successor handoffs into bounded absolute paths without losing the living plan.
  * @description
- * The Awtsmoos remembers the exact vessel where a predecessor left its final light.
- * Awtsmoos.com follows only named handoffs and shallow known thought roots, then turns
- * every surviving reference into one canonical absolute path beneath immutable authority.
+ * The Awtsmoos remembers the exact vessel where a predecessor left its final light;
+ * Awtsmoos.com ranks explicit, project, mission, then legacy paths so the nearest truth stays bright.
  */
 function collect(config = {}, mission = {}, context = {}) {
 	const authority = path.resolve(process.env.AWTSMOOS_PROJECT_ROOT || config.root || process.cwd());
-	const projectRoot = path.resolve(context.projectRoot || mission.room?.projectRoot || mission.projectRoot || config.root || authority);
-	const explicit = explicitCandidates(mission, context);
-	const discovered = planningFiles(authority, projectRoot);
-	const records = [...explicit, ...discovered]
+	const projectRoot = path.resolve(
+		context.projectRoot || mission.room?.projectRoot || mission.projectRoot || config.root || authority
+	);
+	const discovered = PlanningRoots.discover(authority, projectRoot, mission);
+	const tiers = [
+		explicitCandidates(mission, context),
+		discovered.project,
+		discovered.mission,
+		discovered.legacy
+	];
+	const records = [];
+	for (const tier of tiers) {
+		records.push(...tierRecords(authority, projectRoot, tier));
+	}
+	return [...new Map(records.map(item => [item.path, item])).values()]
+		.slice(0, MAX_FILES)
+		.map(item => item.path);
+}
+
+/** Preserves tier precedence while allowing recent files to lead inside each discovery ring. */
+function tierRecords(authority, projectRoot, values) {
+	return values
 		.map(value => safeAbsolute(authority, projectRoot, value))
 		.filter(Boolean)
 		.map(fileRecord)
 		.filter(Boolean)
 		.sort((left, right) => right.mtimeMs - left.mtimeMs);
-	return [...new Map(records.map(item => [item.path, item])).values()]
-		.slice(0, MAX_FILES)
-		.map(item => item.path);
 }
 
 function explicitCandidates(mission, context) {
@@ -37,17 +51,22 @@ function explicitCandidates(mission, context) {
 	append(values, context.handoffPaths);
 	appendKnown(values, context.latestHandoff);
 	appendKnown(values, context.recoveryCheckpoint?.latestHandoff);
-	for (const agent of allAgents(mission)) appendKnown(values, agent.lastOutcome);
+	for (const agent of allAgents(mission)) {
+		appendKnown(values, agent.lastOutcome);
+	}
 	const events = Array.isArray(mission.events) ? mission.events.slice(-50) : [];
 	for (const event of events) {
-		if (!/handoff|complete/i.test(String(event.type || ""))) continue;
-		appendKnown(values, event.data);
+		if (/handoff|complete/i.test(String(event.type || ""))) {
+			appendKnown(values, event.data);
+		}
 	}
 	return values;
 }
 
 function appendKnown(values, source = {}) {
-	if (!source || typeof source !== "object") return;
+	if (!source || typeof source !== "object") {
+		return;
+	}
 	for (const key of ["handoffPaths", "planningFiles", "files", "references", "paths"]) {
 		append(values, source[key]);
 	}
@@ -55,38 +74,19 @@ function appendKnown(values, source = {}) {
 
 function append(values, candidate) {
 	if (Array.isArray(candidate)) {
-		for (const item of candidate) append(values, item);
+		for (const item of candidate) {
+			append(values, item);
+		}
 		return;
 	}
-	if (typeof candidate === "string" && candidate.trim()) values.push(candidate.trim());
+	if (typeof candidate === "string" && candidate.trim()) {
+		values.push(candidate.trim());
+	}
 }
 
-function planningFiles(authority, projectRoot) {
-	const roots = [
-		path.join(authority, ".awtsmoos-agent-thoughts"),
-		path.join(authority, "awtsmoos.com", "geelooy", "ai", "thoughts"),
-		path.join(projectRoot, ".awtsmoos-agent-thoughts"),
-		path.join(projectRoot, "geelooy", "ai", "thoughts")
-	];
-	const found = [];
-	for (const root of new Set(roots)) walk(root, found, 0);
-	return found.slice(0, MAX_SCAN);
-}
-
-function walk(root, found, depth) {
-	if (depth > 3 || found.length >= MAX_SCAN) return;
-	let entries = [];
-	try {
-		entries = fs.readdirSync(root, { withFileTypes: true });
-	} catch {
-		return;
-	}
-	for (const entry of entries) {
-		if (found.length >= MAX_SCAN) break;
-		const target = path.join(root, entry.name);
-		if (entry.isDirectory()) walk(target, found, depth + 1);
-		else if (entry.isFile() && /\.(md|txt)$/i.test(entry.name)) found.push(target);
-	}
+function planningFiles(authority, projectRoot, mission = {}) {
+	const discovered = PlanningRoots.discover(authority, projectRoot, mission);
+	return [...discovered.project, ...discovered.mission, ...discovered.legacy];
 }
 
 function safeAbsolute(authority, projectRoot, value) {

@@ -13,14 +13,14 @@ const { buildMissionBootActions } = require("../actionGroups/missionBootActions.
 const { buildMissionMetaActions } = require("../actionGroups/missionMetaActions.js");
 const { buildMissionImprovementActions } = require("../actionGroups/missionImprovementActions.js");
 const { buildContinuationActions } = require("../actionGroups/continuationActions.js");
+const { buildMissionContextActions } = require("../actionGroups/missionContextActions.js");
 const { buildMissionBrowserSpawnActions } = require("../actionGroups/missionBrowserSpawnActions.js");
 
 /**
- * @file Composes mission actions and lets physical browser manifestation override logical-only spawn.
+ * @file Composes mission actions so project consciousness overrides legacy ambiguity.
  * @description
- * The Awtsmoos lets many Shluchim share one mission without confusing intention with deed.
- * Awtsmoos.com preserves every historical mission layer, then places the browser bridge
- * last so missionSpawnNext may say success only when the proposed helper truly manifests.
+ * The Awtsmoos lets many Shluchim enter through one truthful project light;
+ * Awtsmoos.com layers old vessels first, then context and browser deeds make meaning right.
  */
 function buildMissionActionGroups(context, buildActions) {
 	const legacyActions = {
@@ -36,9 +36,13 @@ function buildMissionActionGroups(context, buildActions) {
 		...buildMissionImprovementActions(context),
 		...buildContinuationActions(context, buildActions)
 	};
-	return {
+	const consciousActions = {
 		...legacyActions,
-		...buildMissionBrowserSpawnActions(context, buildActions, legacyActions)
+		...buildMissionContextActions(context)
+	};
+	return {
+		...consciousActions,
+		...buildMissionBrowserSpawnActions(context, buildActions, consciousActions)
 	};
 }
 
