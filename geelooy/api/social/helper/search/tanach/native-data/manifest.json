@@ -1,0 +1,241 @@
+{
+	"generatedFrom": "Installed Tanach.json",
+	"chapters": 929,
+	"verses": 23204,
+	"books": [
+		{
+			"bookId": "bereishis",
+			"bookHebrew": "בראשית",
+			"chapters": 50,
+			"verses": 1533
+		},
+		{
+			"bookId": "shemos",
+			"bookHebrew": "שמות",
+			"chapters": 40,
+			"verses": 1210
+		},
+		{
+			"bookId": "vayikra",
+			"bookHebrew": "ויקרא",
+			"chapters": 27,
+			"verses": 859
+		},
+		{
+			"bookId": "bamidbar",
+			"bookHebrew": "במדבר",
+			"chapters": 36,
+			"verses": 1288
+		},
+		{
+			"bookId": "devarim",
+			"bookHebrew": "דברים",
+			"chapters": 34,
+			"verses": 956
+		},
+		{
+			"bookId": "yehoshua",
+			"bookHebrew": "יהושע",
+			"chapters": 24,
+			"verses": 656
+		},
+		{
+			"bookId": "shoftim",
+			"bookHebrew": "שופטים",
+			"chapters": 21,
+			"verses": 618
+		},
+		{
+			"bookId": "shmuel_1",
+			"bookHebrew": "שמואל א",
+			"chapters": 31,
+			"verses": 811
+		},
+		{
+			"bookId": "shmuel_2",
+			"bookHebrew": "שמואל ב",
+			"chapters": 24,
+			"verses": 695
+		},
+		{
+			"bookId": "melachim_1",
+			"bookHebrew": "מלכים א",
+			"chapters": 22,
+			"verses": 817
+		},
+		{
+			"bookId": "melachim_2",
+			"bookHebrew": "מלכים ב",
+			"chapters": 25,
+			"verses": 719
+		},
+		{
+			"bookId": "yeshayahu",
+			"bookHebrew": "ישעיהו",
+			"chapters": 66,
+			"verses": 1291
+		},
+		{
+			"bookId": "yirmiyahu",
+			"bookHebrew": "ירמיהו",
+			"chapters": 52,
+			"verses": 1364
+		},
+		{
+			"bookId": "yechezkel",
+			"bookHebrew": "יחזקאל",
+			"chapters": 48,
+			"verses": 1273
+		},
+		{
+			"bookId": "hoshea",
+			"bookHebrew": "הושע",
+			"chapters": 14,
+			"verses": 197
+		},
+		{
+			"bookId": "yoel",
+			"bookHebrew": "יואל",
+			"chapters": 4,
+			"verses": 73
+		},
+		{
+			"bookId": "amos",
+			"bookHebrew": "עמוס",
+			"chapters": 9,
+			"verses": 146
+		},
+		{
+			"bookId": "ovadiah",
+			"bookHebrew": "עובדיה",
+			"chapters": 1,
+			"verses": 21
+		},
+		{
+			"bookId": "yonah",
+			"bookHebrew": "יונה",
+			"chapters": 4,
+			"verses": 48
+		},
+		{
+			"bookId": "michah",
+			"bookHebrew": "מיכה",
+			"chapters": 7,
+			"verses": 105
+		},
+		{
+			"bookId": "nachum",
+			"bookHebrew": "נחום",
+			"chapters": 3,
+			"verses": 47
+		},
+		{
+			"bookId": "chavakuk",
+			"bookHebrew": "חבקוק",
+			"chapters": 3,
+			"verses": 56
+		},
+		{
+			"bookId": "tzefanyah",
+			"bookHebrew": "צפניה",
+			"chapters": 3,
+			"verses": 53
+		},
+		{
+			"bookId": "chagai",
+			"bookHebrew": "חגי",
+			"chapters": 2,
+			"verses": 38
+		},
+		{
+			"bookId": "zecharyah",
+			"bookHebrew": "זכריה",
+			"chapters": 14,
+			"verses": 211
+		},
+		{
+			"bookId": "malachi",
+			"bookHebrew": "מלאכי",
+			"chapters": 3,
+			"verses": 55
+		},
+		{
+			"bookId": "tehillim",
+			"bookHebrew": "תהילים",
+			"chapters": 150,
+			"verses": 2527
+		},
+		{
+			"bookId": "mishlei",
+			"bookHebrew": "משלי",
+			"chapters": 31,
+			"verses": 915
+		},
+		{
+			"bookId": "iyov",
+			"bookHebrew": "איוב",
+			"chapters": 42,
+			"verses": 1070
+		},
+		{
+			"bookId": "shir_hashirim",
+			"bookHebrew": "שיר השירים",
+			"chapters": 8,
+			"verses": 117
+		},
+		{
+			"bookId": "rus",
+			"bookHebrew": "רות",
+			"chapters": 4,
+			"verses": 85
+		},
+		{
+			"bookId": "eichah",
+			"bookHebrew": "איכה",
+			"chapters": 5,
+			"verses": 154
+		},
+		{
+			"bookId": "koheles",
+			"bookHebrew": "קוהלת",
+			"chapters": 12,
+			"verses": 222
+		},
+		{
+			"bookId": "esther",
+			"bookHebrew": "אסתר",
+			"chapters": 10,
+			"verses": 167
+		},
+		{
+			"bookId": "daniel",
+			"bookHebrew": "דניאל",
+			"chapters": 12,
+			"verses": 357
+		},
+		{
+			"bookId": "ezra",
+			"bookHebrew": "עזרא",
+			"chapters": 10,
+			"verses": 280
+		},
+		{
+			"bookId": "nechemyah",
+			"bookHebrew": "נחמיה",
+			"chapters": 13,
+			"verses": 406
+		},
+		{
+			"bookId": "divrei_hayamim_1",
+			"bookHebrew": "דברי הימים א",
+			"chapters": 29,
+			"verses": 942
+		},
+		{
+			"bookId": "divrei_hayamim_2",
+			"bookHebrew": "דברי הימים ב",
+			"chapters": 36,
+			"verses": 822
+		}
+	]
+}

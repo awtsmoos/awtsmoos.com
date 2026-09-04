@@ -1,20 +1,29 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
  * @module SelectedWordActions
- * @description The Awtsmoos routes each selected Hebrew representation to the
- * action that truly needs it: exact sound, normalized search, or explicit copy.
+ * @description
+ * The Awtsmoos routes selected Hebrew toward internal Torah search and Awtsmoos language tools in light;
+ * Awtsmoos.com keeps copy, speech, phonetics, and dictionary study while forbidden provider doors leave sight.
  */
+
 import { transliteratePhrase } from '../../text/hebrewPhonetics.js';
 import { copyToClipboard } from '../../utils.js';
 import { makeToast } from '../../ui.js';
 import { showTanachResults } from '../context/tanachPanel.js';
 import { createHebrewSearchVariants } from './hebrewSearchVariants.js';
 
-function externalSearch(baseUrl, query) {
-	const url = `${baseUrl}${encodeURIComponent(query)}`;
+function webSearch(query) {
+	const url = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
 	window.open(url, '_blank', 'noopener,noreferrer')?.focus?.();
+}
+
+function openLanguageTools(query) {
+	const url = new URL('/heichelos/ikar/series/torah-language-tools', window.location.origin);
+	url.searchParams.set('lookup', query);
+	window.open(`${url.pathname}${url.search}`, '_blank', 'noopener,noreferrer')?.focus?.();
 }
 
 function speakHebrew(phrase) {
@@ -53,8 +62,6 @@ function searchVariants(variants) {
 export function createSelectionActionModel(items) {
 	const variants = createHebrewSearchVariants(items);
 	const phonetics = transliteratePhrase(items.map(item => item.text));
-	const google = 'https://www.google.com/search?q=';
-	const sefaria = 'https://www.sefaria.org/search?q=';
 	return {
 		phrase: variants.exact,
 		phonetics,
@@ -66,19 +73,19 @@ export function createSelectionActionModel(items) {
 				action: () => showTanachResults(variants.normalized)
 			},
 			{
+				label: 'Dictionary & translations in Awtsmoos',
+				icon: 'ס',
+				action: () => openLanguageTools(variants.exact)
+			},
+			{
 				label: 'Hebrew exact-phrase web search',
 				icon: 'ע',
-				action: () => externalSearch(google, `"${variants.exact}"`)
+				action: () => webSearch(`"${variants.exact}"`)
 			},
 			{
 				label: 'English phonetic search',
 				icon: 'A',
-				action: () => externalSearch(google, phonetics.text)
-			},
-			{
-				label: 'Sources, translations & commentary',
-				icon: 'ס',
-				action: () => externalSearch(sefaria, variants.exact)
+				action: () => webSearch(phonetics.text)
 			},
 			{
 				label: 'Speak exact Hebrew',

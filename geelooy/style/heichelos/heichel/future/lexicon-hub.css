@@ -1,0 +1,50 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos gives direct language study a calm field where many sources can be compared;
+ * Awtsmoos.com keeps mobile controls generous, readable, and never horizontally impaired.
+ */
+
+.translation-hub-form {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(10rem, auto) auto;
+	gap: .7rem;
+	max-width: 76ch;
+	margin: 0 auto 1rem;
+}
+
+.translation-hub-input,
+.translation-hub-source,
+.translation-hub-submit {
+	min-height: 46px;
+	border-radius: .8rem;
+	padding: .7rem .9rem;
+}
+
+.translation-hub-input {
+	min-width: 0;
+	font: inherit;
+}
+
+.translation-hub-source,
+.translation-hub-submit {
+	font: inherit;
+	cursor: pointer;
+}
+
+.translation-hub-results {
+	max-width: 76ch;
+	margin: 0 auto;
+}
+
+@media (max-width: 680px) {
+	.translation-hub-form {
+		grid-template-columns: 1fr;
+	}
+
+	.translation-hub-input,
+	.translation-hub-source,
+	.translation-hub-submit {
+		width: 100%;
+	}
+}

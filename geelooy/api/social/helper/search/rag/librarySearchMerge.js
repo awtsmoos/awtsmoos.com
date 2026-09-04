@@ -5,36 +5,70 @@
 /**
  * @module MultiLaneSearchMerge
  * @description
- * Published lane answers are labeled and interleaved so every corpus remains
- * visible. Completeness metadata follows every lane and hit, while a failed lane
- * is reported explicitly without erasing healthy results.
+ * The Awtsmoos interleaves published Torah libraries so no single corpus swallows the seeker or leaks a hidden machine name;
+ * Awtsmoos.com preserves completeness, ranking, timing, and neutral lane identity while one failed lane remains honestly plain.
  */
 
 const {
 	annotateLaneHit,
 	laneMetadata
 } = require('./libraryLaneMetadata.js');
+const {
+	allLibrariesShard,
+	laneTimings,
+	roundRobinHits
+} = require('./librarySearchMergeHelpers.js');
 
-function mergeLaneSearches({ lanes, limit, query, settled, totalMs }) {
+/** Collects fulfilled lane answers and neutral failure metadata before ranking. */
+function collectLaneResults(lanes, settled) {
 	const successes = [];
 	const failures = [];
 	settled.forEach((entry, index) => {
 		const lane = lanes[index];
+		const metadata = laneMetadata(lane);
 		if (entry.status === 'fulfilled') {
-			successes.push(annotateLane(entry.value, lane));
+			successes.push(annotateLane(entry.value, lane, metadata));
 			return;
 		}
 		failures.push({
-			id: lane.id,
+			id: metadata.id,
 			message: entry.reason?.message || 'Lane search failed.'
 		});
 	});
+	return {
+		successes,
+		failures
+	};
+}
+
+/** Adds one lane's public metadata to every result hit without changing score order. */
+function annotateLane(result, lane, metadata) {
+	return {
+		...result,
+		libraryLane: metadata,
+		hits: (result.hits || [])
+			.map(hit => annotateLaneHit(hit, lane, metadata))
+	};
+}
+
+/** Merges concurrent lane results into one bounded, truthful public search response. */
+function mergeLaneSearches({ lanes, limit, query, settled, totalMs }) {
+	const {
+		successes,
+		failures
+	} = collectLaneResults(lanes, settled);
 	if (!successes.length) {
-		throw settled[0]?.reason || new Error('No library lane could be searched.');
+		throw settled[0]?.reason
+			|| new Error('No library lane could be searched.');
 	}
-	const hits = roundRobinHits(successes.map(result => result.hits), limit);
+	const hits = roundRobinHits(
+		successes.map(result => result.hits),
+		limit
+	);
 	const modes = [...new Set(successes.map(result => result.mode))];
-	const persisted = successes.every(result => result.index?.persisted === true);
+	const persisted = successes.every(
+		result => result.index?.persisted === true
+	);
 	return {
 		BH: 'B"H',
 		query,
@@ -42,9 +76,15 @@ function mergeLaneSearches({ lanes, limit, query, settled, totalMs }) {
 		mode: modes.length === 1 ? modes[0] : 'mixed',
 		strictIndexed: false,
 		indexed: persisted,
-		index: { persisted, responseCacheHit: false },
+		index: {
+			persisted,
+			responseCacheHit: false
+		},
 		message: `${hits.length} source segments matched across ${successes.length} published libraries.`,
-		totalRows: successes.reduce((sum, result) => sum + Number(result.totalRows || 0), 0),
+		totalRows: successes.reduce(
+			(sum, result) => sum + Number(result.totalRows || 0),
+			0
+		),
 		vectorSource: 'multi-lane-library',
 		engine: 'awtsmoos-multi-lane-search',
 		timings: laneTimings(successes, totalMs),
@@ -56,50 +96,8 @@ function mergeLaneSearches({ lanes, limit, query, settled, totalMs }) {
 	};
 }
 
-function annotateLane(result, lane) {
-	const metadata = laneMetadata(lane);
-	return {
-		...result,
-		libraryLane: metadata,
-		hits: (result.hits || []).map(hit => annotateLaneHit(hit, lane, metadata))
-	};
-}
-
-function roundRobinHits(groups, limit) {
-	const hits = [];
-	for (let index = 0; hits.length < limit; index += 1) {
-		let added = false;
-		for (const group of groups) {
-			if (!group[index]) continue;
-			hits.push({ ...group[index], rank: hits.length + 1 });
-			added = true;
-			if (hits.length >= limit) break;
-		}
-		if (!added) break;
-	}
-	return hits;
-}
-
-function allLibrariesShard(lanes) {
-	return {
-		id: 'all',
-		title: 'All published libraries',
-		count: lanes.reduce((sum, lane) => sum + Number(lane.count || 0), 0),
-		partial: lanes.some(lane => lane.partial === true)
-	};
-}
-
-function laneTimings(successes, totalMs) {
-	return {
-		totalMs,
-		lanes: successes.map(result => ({
-			id: result.libraryLane.id,
-			totalMs: result.timings?.totalMs || 0
-		}))
-	};
-}
-
 module.exports = {
+	collectLaneResults,
 	mergeLaneSearches,
 	roundRobinHits
 };

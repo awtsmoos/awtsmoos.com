@@ -23,7 +23,18 @@ const ROUTE_GROUPS = Object.freeze([
 	{
 		modulePath: './helper/search/routes/tanach.js',
 		factoryName: 'tanachRoutes',
-		routes: ['/search/tanach/hebrew']
+		routes: [
+			'/search/tanach/hebrew',
+			'/search/tanach/native'
+		]
+	},
+	{
+		modulePath: './helper/search/routes/lexicon.js',
+		factoryName: 'lexiconRoutes',
+		routes: [
+			'/search/library/dictionary',
+			'/search/library/dictionaries'
+		]
 	},
 	{
 		modulePath: './helper/search/routes/library.js',

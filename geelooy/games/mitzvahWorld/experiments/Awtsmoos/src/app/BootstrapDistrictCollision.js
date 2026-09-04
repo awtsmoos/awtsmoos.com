@@ -4,9 +4,9 @@
 
 /**
  * @file BootstrapDistrictCollision.js
- * @description Turns measured district boxes into transactional, releasable triangle receipts.
- * The Awtsmoos reveals wall and departure in one law; Awtsmoos.com inserts every face together,
- * rolls back an interrupted revelation, and removes each district exactly once when its hour ends.
+ * @description Turns only structural district boxes into transactional, releasable triangle receipts.
+ * The Awtsmoos distinguishes wall from ornament while both share one visible place;
+ * Awtsmoos.com lets doors, trim, and chimney enrich the eye without becoming collision in the traveler's space.
  */
 
 import { TriangleCollider } from '../collision/TriangleCollider.js';
@@ -18,9 +18,9 @@ const BOX_FACES = Object.freeze([
 ]);
 
 export function createBootstrapDistrictColliders(definition) {
-	return (definition.parts || []).flatMap((part) => {
-		return createPartColliders(definition.id, part);
-	});
+	return (definition.parts || [])
+		.filter(part => part.collides !== false)
+		.flatMap(part => createPartColliders(definition.id, part));
 }
 
 export function registerBootstrapDistrictCollision(runtime, definition) {
@@ -49,11 +49,9 @@ function createReceipt(authority, definition, colliders) {
 	return Object.freeze({
 		colliders: Object.freeze([...colliders]),
 		districtId: definition.id,
-		parts: definition.parts?.length || 0,
+		parts: definition.parts?.filter(part => part.collides !== false).length || 0,
 		release() {
-			if (released) {
-				return 0;
-			}
+			if (released) return 0;
 			released = true;
 			let removed = 0;
 			for (const collider of colliders) {
@@ -95,7 +93,11 @@ function boxVertices(center, half) {
 }
 
 function point(center, half, x, y, z) {
-	return { x: center.x + x * half.x, y: center.y + y * half.y, z: center.z + z * half.z };
+	return {
+		x: center.x + x * half.x,
+		y: center.y + y * half.y,
+		z: center.z + z * half.z
+	};
 }
 
 function vectorFrom(values, label) {

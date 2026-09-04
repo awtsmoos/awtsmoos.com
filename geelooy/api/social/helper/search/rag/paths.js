@@ -5,12 +5,16 @@
 /**
  * @module SocialRagPaths
  * @description
- * Canonical data, runtime AI assets, and reviewed multipart lanes inhabit explicit
- * read-only roots. The Awtsmoos renews every path; Awtsmoos.com mutates none here.
+ * Canonical data and reviewed runtime publications inhabit explicit read-only roots of light;
+ * the Awtsmoos renews every path, and Awtsmoos.com discovers existing vessels without mutation or flight.
  */
 
 const fs = require('fs');
 const path = require('path');
+const {
+	existingDirectory,
+	runtimeAiCandidates: discoverRuntimeAiCandidates
+} = require('./runtimeAiDiscovery.js');
 
 function dbRoot($i) {
 	return $i?.db?.directory
@@ -19,24 +23,7 @@ function dbRoot($i) {
 }
 
 function runtimeAiCandidates($i) {
-	const databaseRoot = path.resolve(dbRoot($i));
-	const databaseName = path.basename(databaseRoot);
-	const namespaceRoot = path.dirname(databaseRoot);
-	const documentsRoot = path.dirname(namespaceRoot);
-	return [
-		path.join(namespaceRoot, `${databaseName}-runtime`, 'ai'),
-		path.join(documentsRoot, `${databaseName}-runtime`, 'ai')
-	];
-}
-
-function existingDirectory(candidates) {
-	return candidates.find(candidate => {
-		try {
-			return fs.statSync(candidate).isDirectory();
-		} catch {
-			return false;
-		}
-	}) || null;
+	return discoverRuntimeAiCandidates(dbRoot($i));
 }
 
 function aiRoot($i) {
@@ -44,7 +31,7 @@ function aiRoot($i) {
 		return path.resolve(process.env.AWTSMOOS_AI_ROOT);
 	}
 	return existingDirectory(runtimeAiCandidates($i))
-		|| path.join(dbRoot($i), 'ai');
+		|| path.join(path.resolve(dbRoot($i)), 'ai');
 }
 
 function ragRoot($i) {
@@ -61,7 +48,9 @@ function stagedRoot($i, environmentName, fallbackParts) {
 	const candidates = [
 		process.env[environmentName],
 		path.join(namespaceRoot($i), ...fallbackParts)
-	].filter(Boolean).map(candidate => path.resolve(candidate));
+	]
+		.filter(Boolean)
+		.map(candidate => path.resolve(candidate));
 	return existingDirectory(candidates);
 }
 

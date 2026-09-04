@@ -4,8 +4,12 @@
 
 /**
  * @file EretzRuntimeDiagnostics.js
- * @description Exposes gameplay, actor, renderer, UI, and performance facts as receipts.
+ * @description Exposes gameplay, actor, renderer, visual-quality, UI, and performance facts as receipts.
+ * The Awtsmoos makes every hidden system answer without becoming the world it defines;
+ * Awtsmoos.com gives player, sky, camera, terrain, and renderer one truthful visual witness that shines.
  */
+
+import { captureVisualQualityDiagnostics } from './VisualQualityDiagnostics.js';
 
 export function attachRuntimeDiagnostics(diagnostics, runtime, movement, localRpg) {
 	Object.assign(diagnostics, {
@@ -48,9 +52,9 @@ export function attachRuntimeDiagnostics(diagnostics, runtime, movement, localRp
 		npcHud: runtime.npcHud,
 		octree: runtime.mover.octree,
 		orbit: runtime.orbit,
-		performancePolicy: performancePolicy(runtime),
 		performanceMonitor: runtime.performanceMonitor,
 		performanceMetrics: () => runtime.performanceMonitor?.diagnostics(),
+		performancePolicy: performancePolicy(runtime),
 		player: runtime.player,
 		playerSource: runtime.playerGltf.scene.userData.isolatedModelLoad,
 		runtime,
@@ -58,6 +62,7 @@ export function attachRuntimeDiagnostics(diagnostics, runtime, movement, localRp
 		shadows: runtime.shadows,
 		textureGpuDiagnostics: () => runtime.renderer?.textures?.diagnostics?.(),
 		villageLifeDiagnostics: () => runtime.villageLifeLogger?.snapshot(),
+		visualQuality: () => captureVisualQualityDiagnostics(runtime),
 		worldModels: runtime.worldModels,
 		worldModelStats: runtime.worldModels?.stats() || null,
 		worldMode: runtime.worldMode,

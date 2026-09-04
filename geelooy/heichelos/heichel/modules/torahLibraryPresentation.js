@@ -1,63 +1,60 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
- * @module TorahLibraryPresentation
- * @description The Awtsmoos clothes exact Torah source truth in a source-neutral public vessel;
- * Awtsmoos.com shows revision, license, hash, and source access without letting a provider become the label.
+ * @module TorahSourcePresentation
+ * @description
+ * The Awtsmoos clothes exact downloaded Torah truth in branches already rooted in Torah's own tree;
+ * Awtsmoos.com shows revision, hash, quality, and license while the source button opens only a neutral same-site doorway free.
  */
 
 import {
-	TORAH_LIBRARY_ROOT_ID,
 	domainSeriesId,
 	pageSeriesId,
 	workSeriesId
-} from './torahLibraryIds.js';
+} from './torahLibraryIds.js?v=torah-tree-005';
 
-const virtual = { type: 'series', virtual: true, torahLibrary: true };
+const virtual = {
+	type: 'series',
+	virtual: true,
+	torahLibrary: true
+};
 
-export function libraryCard() {
+export function domainCard(definition, count = 0) {
 	return {
 		...virtual,
-		id: TORAH_LIBRARY_ROOT_ID,
-		name: 'ספריית התורה',
-		description: '29,345 דפי תורה עם מקור, גרסה ורישיון.'
+		id: domainSeriesId(definition.view),
+		name: definition.title,
+		description: count
+			? `${Number(count).toLocaleString()} דפים`
+			: 'ספרי מקור מלאים'
 	};
 }
 
-export function domainCard(item) {
-	const domain = item.id || item.domain || '';
-	return {
-		...virtual,
-		id: domainSeriesId(domain),
-		name: item.title || item.label || domain,
-		description: `${Number(item.count || 0).toLocaleString()} דפים`
-	};
-}
-
-export function workCard(item, domain) {
+export function workCard(item, view) {
 	const work = item.id || item.work || item.title || '';
 	return {
 		...virtual,
-		id: workSeriesId(domain, work, 0),
+		id: workSeriesId(view, work, 0),
 		name: item.title || work,
 		description: `${Number(item.count || 0).toLocaleString()} דפים`
 	};
 }
 
-export function pageCard(item, domain, work) {
+export function pageCard(item, view, work) {
 	return {
 		...virtual,
-		id: pageSeriesId(item.pageId, domain, work),
+		id: pageSeriesId(item.pageId, view, work),
 		name: item.title || `דף ${item.pageId}`,
 		description: compactProvenance(item)
 	};
 }
 
-export function moreCard(domain, work, offset) {
+export function moreCard(view, work, offset) {
 	return {
 		...virtual,
-		id: workSeriesId(domain, work, offset),
+		id: workSeriesId(view, work, offset),
 		name: 'עוד דפים',
 		description: `המשך מן הדף ${Number(offset) + 1}`
 	};
@@ -67,28 +64,35 @@ export function pageSeriesData(page, fallbackTitle) {
 	return {
 		...virtual,
 		id: page.pageId || page.id,
-		name: page.title || fallbackTitle || 'ספריית התורה',
+		name: page.title || fallbackTitle || 'תורה',
 		exactSourceText: true,
 		sourceText: sourceText(page),
 		provenanceText: provenanceText(page),
-		sourceUrl: String(page.sourceUrl || '')
+		sourceHref: String(page.sourceHref || '')
 	};
 }
 
 export function provenanceText(page = {}) {
 	return [
-		`Revision ID: ${page.revisionId ?? '—'}`,
-		`Revision timestamp: ${page.revisionTimestamp ?? '—'}`,
-		`Quality: ${page.qualityState ?? '—'}`,
-		`License: ${page.license ?? '—'}`,
-		`Source hash: ${page.sourceHash ?? '—'}`
+		`גרסה: ${page.revisionId ?? '—'}`,
+		`זמן גרסה: ${page.revisionTimestamp ?? '—'}`,
+		`איכות: ${page.qualityState ?? '—'}`,
+		`רישיון: ${page.license ?? '—'}`,
+		`טביעת מקור: ${page.sourceHash ?? '—'}`
 	].join('\n');
 }
 
 function compactProvenance(page = {}) {
-	return `Revision ${page.revisionId ?? '—'} · ${page.license ?? 'מקור מאומת'}`;
+	return `גרסה ${page.revisionId ?? '—'} · ${page.license ?? 'מקור מאומת'}`;
 }
 
 function sourceText(page = {}) {
-	return String(page.sourceText ?? page.text ?? page.content ?? page.body ?? page.value ?? '');
+	return String(
+		page.sourceText
+		?? page.text
+		?? page.content
+		?? page.body
+		?? page.value
+		?? ''
+	);
 }

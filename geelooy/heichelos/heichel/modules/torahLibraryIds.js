@@ -1,51 +1,54 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
- * @module TorahLibraryIds
- * @description The Awtsmoos binds domain, work, page, and pagination into quiet stable names;
- * Awtsmoos.com keeps public paths source-neutral while every inner identity remains faithful in its frames.
+ * @module TorahSourceIds
+ * @description
+ * The Awtsmoos gives downloaded source leaves stable inner names while Torah's public branches remain one;
+ * Awtsmoos.com keeps legacy paths readable without restoring the separate library root that is done.
  */
 
-export const TORAH_LIBRARY_ROOT_ID = 'torah-library:source';
-const PREFIX = `${TORAH_LIBRARY_ROOT_ID}:`;
+export const LEGACY_TORAH_LIBRARY_ROOT_ID = 'torah-library:source';
+const PREFIX = `${LEGACY_TORAH_LIBRARY_ROOT_ID}:`;
 
 export function isTorahLibrarySeries(seriesId) {
-	return seriesId === TORAH_LIBRARY_ROOT_ID || String(seriesId || '').startsWith(PREFIX);
+	const value = String(seriesId || '');
+	return value === LEGACY_TORAH_LIBRARY_ROOT_ID || value.startsWith(PREFIX);
 }
 
-export function shouldOfferTorahLibrary(heichelId, seriesId) {
-	return heichelId === 'ikar' && seriesId === 'root';
+export function domainSeriesId(view) {
+	return `${PREFIX}domain:${encode(view)}`;
 }
 
-export function injectTorahLibrarySeries(series, heichelId, seriesId, card) {
-	if (!shouldOfferTorahLibrary(heichelId, seriesId)) return series;
-	if (series.some(item => item?.id === TORAH_LIBRARY_ROOT_ID)) return series;
-	return [...series, card];
+export function workSeriesId(view, work, offset = 0) {
+	return `${PREFIX}work:${encode(view)}:${encode(work)}:${Math.max(0, Number(offset) || 0)}`;
 }
 
-export function domainSeriesId(domain) {
-	return `${PREFIX}domain:${encode(domain)}`;
-}
-
-export function workSeriesId(domain, work, offset = 0) {
-	return `${PREFIX}work:${encode(domain)}:${encode(work)}:${Math.max(0, Number(offset) || 0)}`;
-}
-
-export function pageSeriesId(pageId, domain, work) {
-	return `${PREFIX}page:${encode(pageId)}:${encode(domain)}:${encode(work)}`;
+export function pageSeriesId(pageId, view, work) {
+	return `${PREFIX}page:${encode(pageId)}:${encode(view)}:${encode(work)}`;
 }
 
 export function parseTorahLibraryId(seriesId) {
-	if (seriesId === TORAH_LIBRARY_ROOT_ID) return { kind: 'root' };
+	if (seriesId === LEGACY_TORAH_LIBRARY_ROOT_ID) return { kind: 'legacy-root' };
 	if (!String(seriesId || '').startsWith(PREFIX)) return null;
 	const [kind, first, second, third] = String(seriesId).slice(PREFIX.length).split(':');
-	if (kind === 'domain' && first) return { kind, domain: decode(first) };
+	if (kind === 'domain' && first) return { kind, view: decode(first) };
 	if (kind === 'work' && first && second) {
-		return { kind, domain: decode(first), work: decode(second), offset: Math.max(0, Number(third) || 0) };
+		return {
+			kind,
+			view: decode(first),
+			work: decode(second),
+			offset: Math.max(0, Number(third) || 0)
+		};
 	}
 	if (kind === 'page' && first && second && third) {
-		return { kind, pageId: decode(first), domain: decode(second), work: decode(third) };
+		return {
+			kind,
+			pageId: decode(first),
+			view: decode(second),
+			work: decode(third)
+		};
 	}
 	return null;
 }

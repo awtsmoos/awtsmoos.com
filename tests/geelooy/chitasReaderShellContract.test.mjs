@@ -1,11 +1,12 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
  * @module ChitasReaderShellContractTest
  * @description
- * The Awtsmoos proves a native Chitas post can enter the reader and move day to day without borrowing persisted chapter disguise;
- * Awtsmoos.com guards initial manifestation and canonical date gates so dynamic Torah remains whole before every browser eye.
+ * The Awtsmoos proves Daily Chitas enters the second calm server-manifested reader while day navigation keeps its native name;
+ * Awtsmoos.com guards the live shell contract instead of preserving a retired cache generation from an earlier frame.
  */
 
 import assert from 'node:assert/strict';
@@ -17,12 +18,17 @@ const paths = {
 	shell: 'geelooy/heichelos/post/_awtsmoos.post.html'
 };
 const sources = Object.fromEntries(await Promise.all(
-	Object.entries(paths).map(async ([key, path]) => [key, await readFile(path, 'utf8')])
+	Object.entries(paths).map(async ([key, path]) => [
+		key,
+		await readFile(path, 'utf8')
+	])
 ));
 
-assert.match(sources.shell, /typeof \$\$sd !== ["']undefined["']/);
-assert.match(sources.shell, /initial-content\.html/);
-assert.match(sources.shell, /postLogic\.js/);
+assert.match(sources.shell, /initialContentHtml/);
+assert.match(sources.shell, /postSemanticHead/);
+assert.match(sources.shell, /id="realPost"/);
+assert.match(sources.shell, /postLogic\.js\?v=reader-calm-002/);
+assert.doesNotMatch(sources.shell, /reader-calm-001/);
 assert.match(sources.nav, /chitasNav\.js\?v=native-chitas-nav-001/);
 assert.match(sources.nav, /isChitasNavigation/);
 assert.match(sources.nav, /chitasDateFromPostId/);
@@ -34,13 +40,23 @@ assert.match(sources.chitasNav, /Daily Chitas navigation/);
 assert.match(sources.chitasNav, /ניווט חת״ת יומי/);
 
 for (const [name, source] of Object.entries(sources)) {
-	assert.match(source.slice(0, 100), /B"H/);
-	assert.ok(source.split('\n').length - 1 <= 120, `${name} exceeds 120 lines`);
+	assert.match(source.slice(0, 140), /B"H/);
+	assert.ok(
+		source.split('\n').length - 1 <= 120,
+		`${name} exceeds 120 lines`
+	);
 }
 
-globalThis.location = { search: '?chitasLang=en' };
-const helper = await import('../../geelooy/heichelos/post/functions/ui/chitasNav.js');
+globalThis.location = {
+	search: '?chitasLang=en'
+};
+const helper = await import(
+	'../../geelooy/heichelos/post/functions/ui/chitasNav.js'
+);
 assert.equal(helper.isChitasNavigation({ id: 'daily-chitas' }), true);
-assert.equal(helper.chitasDateFromPostId('chitas-2026-09-05'), '2026-09-05');
+assert.equal(
+	helper.chitasDateFromPostId('chitas-2026-09-05'),
+	'2026-09-05'
+);
 assert.match(helper.chitasDayLabel(6), /Shabbos/);
-console.log('B"H Daily Chitas native reader shell/navigation contract passed.');
+console.log('B"H Daily Chitas current reader shell/navigation contract passed.');

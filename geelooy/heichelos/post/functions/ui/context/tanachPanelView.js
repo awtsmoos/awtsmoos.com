@@ -1,14 +1,18 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
  * @module TanachPanelView
- * @description The Awtsmoos shapes each matched verse with an internal reader
- * door and an explicit outside path for translations and commentary exploration.
+ * @description
+ * The Awtsmoos lets every matched verse remain inside Awtsmoos, where Hebrew and its installed English may meet;
+ * Awtsmoos.com opens one internal reader path and never sends Torah study toward a forbidden outside street.
  */
-function commentaryUrl(result) {
-	const query = String(result?.text ?? '').trim();
-	return `https://www.sefaria.org/search?q=${encodeURIComponent(query)}`;
+
+function bilingualReaderUrl(result) {
+	const url = new URL(result.readerUrl, window.location.origin);
+	url.searchParams.set('tanachLanguage', 'both');
+	return `${url.pathname}${url.search}`;
 }
 
 export function resultRow(result) {
@@ -20,7 +24,9 @@ export function resultRow(result) {
 	const title = document.createElement('strong');
 	title.textContent = `${result.bookTitle} ${result.chapter}:${result.verse}`;
 	const count = document.createElement('small');
-	const occurrences = Number(result.occurrenceCount || result.matchOffsets?.length || 0);
+	const occurrences = Number(
+		result.occurrenceCount || result.matchOffsets?.length || 0
+	);
 	count.textContent = `${occurrences} occurrence${occurrences === 1 ? '' : 's'}`;
 	const text = document.createElement('span');
 	text.dir = 'rtl';
@@ -29,13 +35,11 @@ export function resultRow(result) {
 	const readerHint = document.createElement('b');
 	readerHint.textContent = 'Open verse in Awtsmoos →';
 	row.append(title, count, text, readerHint);
-	const commentary = document.createElement('a');
-	commentary.className = 'awtsmoos-tanach-commentary-link';
-	commentary.href = commentaryUrl(result);
-	commentary.target = '_blank';
-	commentary.rel = 'noopener noreferrer';
-	commentary.textContent = 'Explore translations & commentary ↗';
-	group.append(row, commentary);
+	const bilingual = document.createElement('a');
+	bilingual.className = 'awtsmoos-tanach-commentary-link';
+	bilingual.href = bilingualReaderUrl(result);
+	bilingual.textContent = 'Open Hebrew + English in Awtsmoos →';
+	group.append(row, bilingual);
 	return group;
 }
 

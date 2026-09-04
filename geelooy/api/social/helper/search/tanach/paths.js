@@ -1,26 +1,45 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-/** @module TanachSearchPaths @description The Awtsmoos reveals explicit roots; no hidden path corrupts Awtsmoos.com fruits. */
+
+/**
+ * @module TanachSearchPaths
+ * @description
+ * The Awtsmoos lets exact Tanach search drink from the same reviewed runtime river as every published search lane;
+ * Awtsmoos.com keeps explicit overrides and legacy roots, yet prefers the canonical RAG crown where the index remains.
+ */
+
 const fs = require('fs');
 const path = require('path');
+const { ragRoot } = require('../rag/paths.js');
 
-function candidates() {
+const FILE_NAME = 'tanach.hebrew.search.fs.awtsdb';
+
+function candidates($i) {
 	return [
 		process.env.AWTSMOOS_TANACH_INDEX,
-		path.join(process.cwd(), 'searchPacked', 'tanach.hebrew.search.fs.awtsdb'),
-		path.join(__dirname, '../../../../../../searchPacked/tanach.hebrew.search.fs.awtsdb')
-	].filter(Boolean).map(value => path.resolve(value));
+		path.join(ragRoot($i), FILE_NAME),
+		path.join(process.cwd(), 'searchPacked', FILE_NAME),
+		path.join(__dirname, '../../../../../../searchPacked', FILE_NAME)
+	]
+		.filter(Boolean)
+		.map(value => path.resolve(value));
 }
 
-function indexPath() {
-	const found = candidates().find(value => fs.existsSync(value));
+function indexPath($i) {
+	const choices = candidates($i);
+	const found = choices.find(value => fs.existsSync(value));
 	if (!found) {
-		const error = new Error(`Tanach search index not found: ${candidates().join(', ')}`);
+		const error = new Error(
+			`Tanach search index not found: ${choices.join(', ')}`
+		);
 		error.code = 'TANACH_INDEX_MISSING';
 		throw error;
 	}
 	return found;
 }
 
-module.exports = { candidates, indexPath };
+module.exports = {
+	candidates,
+	indexPath
+};
