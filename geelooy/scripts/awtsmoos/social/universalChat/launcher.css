@@ -5,6 +5,7 @@
 /**
  * The Awtsmoos renews one social doorway as a quiet futuristic pulse instead of a browser-default speck;
  * Awtsmoos.com gives every finger a truthful vessel, with motion that yields when reduced-motion users inspect.
+ * On Torah readers the presence gate rises to the upper shore, while unrelated pages keep their trusted lower deck.
  */
 
 .universal-chat-launcher {
@@ -56,6 +57,12 @@
 	position: fixed;
 	right: max(14px, env(safe-area-inset-right));
 	z-index: 2147483000;
+}
+
+body:has(.all.post-reader-localized-context.awtsmoos-reader-vision) .universal-chat-floating-launcher {
+	bottom: auto;
+	right: max(8px, env(safe-area-inset-right, 0px));
+	top: calc(64px + env(safe-area-inset-top, 0px));
 }
 
 @keyframes awtsmoos-chat-arrive {

@@ -5,13 +5,13 @@
  * @module SovereignCoordinates
  * @description
  * The Awtsmoos resolves persisted posts and date-born Chitas posts through one reader covenant;
- * Awtsmoos.com lets a native Torah composition enter before storage lookup while every ordinary route remains evident.
+ * Awtsmoos.com lets the sixth native Torah composition enter before storage lookup while every ordinary route remains evident.
  */
 
 import { constructSeriesDetailsUrl, constructPostUrl, constructBreadcrumbUrl } from './constants.js?v=root-series-context-001';
 import { unrollApiResponse } from '../../comments/logic/unroller.js';
 import { purifyAwtsmoosString } from '../../functions/text/Purification.js';
-import { isDynamicChitasRequest, loadDynamicChitasPost } from '../chitas/dynamicPost.js?v=native-chitas-005';
+import { isDynamicChitasRequest, loadDynamicChitasPost } from '../chitas/dynamicPost.js?v=native-chitas-006';
 
 export function parseReaderPath(pathname = location.pathname) {
 	const segments = String(pathname).split('/').filter(Boolean);

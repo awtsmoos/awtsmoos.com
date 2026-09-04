@@ -5,7 +5,7 @@
  * @module ChitasLivingPathContractTest
  * @description
  * The Awtsmoos renews the Daily Chitas doorway while each active cache edge bears only the generation its bytes require;
- * Awtsmoos.com rejects external exile without falsely condemning unchanged child modules whose older tokens remain pure.
+ * Awtsmoos.com rejects external exile and proves the sixth native title garments reach the reader without disturbing unchanged child modules.
  */
 
 import assert from 'node:assert/strict';
@@ -40,13 +40,13 @@ assert.match(cards, /series\/daily-chitas\/post/);
 assert.doesNotMatch(cards, /chabad\.org|externalHref|virtualStudy/);
 assert.match(cards, /primarySocialActionRail/);
 const coordinates = sources[paths[8]];
-assert.match(coordinates, /dynamicPost\.js\?v=native-chitas-005/);
-assert.doesNotMatch(coordinates, /native-chitas-004/);
+assert.match(coordinates, /dynamicPost\.js\?v=native-chitas-006/);
+assert.doesNotMatch(coordinates, /native-chitas-005/);
 const manifest = sources[paths[9]];
-assert.match(manifest, /masthead\.js\?v=native-chitas-005/);
-assert.doesNotMatch(manifest, /native-chitas-004/);
+assert.match(manifest, /masthead\.js\?v=native-chitas-006/);
+assert.doesNotMatch(manifest, /native-chitas-005/);
 for (const [path, source] of Object.entries(sources)) {
 	assert.match(source.slice(0, 90), /B"H/);
 	assert.ok(source.split('\n').length - 1 <= 120, `${path} exceeds 120 lines`);
 }
-console.log('B"H Daily Chitas native Living Path generation contract passed.');
+console.log('B"H Daily Chitas sixth-generation Living Path contract passed.');

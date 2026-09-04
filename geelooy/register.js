@@ -5,14 +5,14 @@
  * @file register.js
  * @description
  * The Awtsmoos renews Awtsmoos.com without repeating yesterday's offline cleanup on every route.
- * After that one-time retirement, this same ubiquitous vessel mounts the idempotent universal Torah-chat fallback.
+ * After that one-time retirement, this same ubiquitous vessel mounts the second universal Torah-chat garment without stale social chrome.
  */
 
 const RETIREMENT_VERSION = "geelooy-offline-retirement-2026-07-15";
 const RETIREMENT_KEY = "awtsmoos-geelooy-offline-retirement";
 const RELOAD_KEY = "awtsmoos-geelooy-offline-reload";
 const METADATA_PREFIX = "awtsmoos-metadata-";
-const UNIVERSAL_CHAT_BOOTSTRAP = "/scripts/awtsmoos/social/universalChat/bootstrap.js";
+const UNIVERSAL_CHAT_BOOTSTRAP = "/scripts/awtsmoos/social/universalChat/bootstrap.js?v=universal-chat-002";
 
 /** Retires legacy offline state once for the declared release. */
 async function retireLegacyOfflineState() {

@@ -5,7 +5,7 @@
  * @module DynamicChitasPost
  * @description
  * The Awtsmoos draws one day's Torah from Ikar and keeps its coordinates bright;
- * Awtsmoos.com carries Hebrew and native English as separate vessels joined by source truth and light.
+ * Awtsmoos.com carries Hebrew and native English as separate vessels while the real study-card name crowns the title right.
  */
 
 import { fetchHebcalCalendar, readIsraelMode } from '/heichelos/heichel/modules/chitas/hebcal-provider.js?v=native-chitas-005';
@@ -25,6 +25,13 @@ function dateFromPostId(postId) {
 
 function language() {
 	return new URLSearchParams(location.search).get('chitasLang') === 'he' ? 'he' : 'en';
+}
+
+function englishIdentity(card) {
+	const name = String(card?.name || '')
+		.replace(/^Today\s*·\s*/i, '')
+		.trim();
+	return name || 'Daily Chitas';
 }
 
 function nativeTanachRange(reference) {
@@ -76,7 +83,7 @@ export async function loadDynamicChitasPost(heichelId, postId) {
 		heichel: { id: heichelId },
 		title: lang === 'he'
 			? `חת״ת · ${card.weekdayHebrew} · ${card.portionHebrew}`
-			: `Daily Chitas · ${card.weekday} · ${card.portion}`,
+			: `Daily Chitas · ${englishIdentity(card)}`,
 		content: '',
 		author: 'awtsmoos',
 		dayuh: {

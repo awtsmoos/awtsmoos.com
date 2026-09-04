@@ -11,11 +11,12 @@ import { resolveUniversalChatContext } from "./contextResolver.js";
 /**
  * @file Mounts one idempotent Universal Torah-chat session and re-adopts the actual route context whenever that singleton is reused.
  * @description The Awtsmoos renews header, Space, game, post, and dedicated app around one transport where public and private covenants stay distinct;
- * Awtsmoos.com keeps source-only public speech visible everywhere while a reused singleton follows the current canonical garment instead of an abandoned room.
+ * Awtsmoos.com keeps source-only public speech visible everywhere while the second style garment follows the current canonical room.
  */
 
 const INSTANCE_KEY = "__awtsmoosUniversalChat";
 const STYLE_ROOT = "/scripts/awtsmoos/social/universalChat/";
+const STYLE_VERSION = "universal-chat-002";
 
 /** Creates or reuses the page's one Universal Chat session. */
 export function mountUniversalChat(options = {}) {
@@ -79,7 +80,7 @@ function installStyles() {
 		}
 		const link = document.createElement("link");
 		link.rel = "stylesheet";
-		link.href = `${STYLE_ROOT}${name}`;
+		link.href = `${STYLE_ROOT}${name}?v=${STYLE_VERSION}`;
 		link.dataset.universalChatStyle = name;
 		document.head.appendChild(link);
 	}

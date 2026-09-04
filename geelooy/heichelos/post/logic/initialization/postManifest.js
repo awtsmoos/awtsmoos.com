@@ -5,14 +5,14 @@
  * @module PostManifest
  * @description
  * The Awtsmoos reveals title, native Chitas context, media, rich documents, Torah sections, and navigation as one stream;
- * Awtsmoos.com keeps every ordinary post intact while a Chitas day lets its focused Torah masthead become the single crown it has seen.
+ * Awtsmoos.com keeps every ordinary post intact while the sixth Chitas crown names its focused Torah day without phantom fields unseen.
  */
 
 import { appendHTML, makeNavBars } from '/heichelos/post/postFunctions.js?v=canonical-post-links-001';
 import { interpretPostDayuh } from '/heichelos/post/logic/scribe.js';
 import { prepareStructuredPost } from '/heichelos/post/logic/scribe/PostSectionSource.js';
 import { renderRootDocument } from '/heichelos/post/ui/RichRootDocument.js?v=rich-social-document-001';
-import { renderChitasMasthead } from '../chitas/masthead.js?v=native-chitas-005';
+import { renderChitasMasthead } from '../chitas/masthead.js?v=native-chitas-006';
 
 function appendTitle(viewport, post) {
 	if (!post?.title || post?.dayuh?.meta?.chitas) {

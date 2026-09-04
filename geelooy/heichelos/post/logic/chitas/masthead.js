@@ -5,7 +5,7 @@
  * @file masthead.js
  * @description
  * The Awtsmoos lets the Torah itself become the center while chrome retreats from sight;
- * Awtsmoos.com crowns one focused day with source truth, direct navigation, and native reader scale in compact light.
+ * Awtsmoos.com crowns one focused day from the real study-card name, with source truth and compact reader light.
  */
 
 import { createChitasNavigation } from './masthead-navigation.js?v=native-chitas-005';
@@ -19,6 +19,13 @@ function safe(value, fallback) {
 		return fallback;
 	}
 	return text;
+}
+
+function englishIdentity(chitas) {
+	const name = safe(chitas?.name, 'Daily Chitas')
+		.replace(/^Today\s*·\s*/i, '')
+		.trim();
+	return name || 'Daily Chitas';
 }
 
 function ensureStyle() {
@@ -38,13 +45,9 @@ function createIdentity(chitas, language) {
 	eyebrow.className = 'chitas-reader-eyebrow';
 	eyebrow.textContent = language === 'he' ? 'חת״ת יומי · חומש' : 'DAILY CHITAS · CHUMASH';
 	const heading = document.createElement('h1');
-	const weekday = language === 'he'
-		? safe(chitas.weekdayHebrew, 'יום לימוד')
-		: safe(chitas.weekday, 'Daily Chitas');
-	const portion = language === 'he'
-		? safe(chitas.portionHebrew, 'חלק')
-		: safe(chitas.portion, 'Portion');
-	heading.textContent = `${weekday} · ${portion}`;
+	heading.textContent = language === 'he'
+		? `${safe(chitas.weekdayHebrew, 'יום לימוד')} · ${safe(chitas.portionHebrew, 'חלק')}`
+		: englishIdentity(chitas);
 	const meta = document.createElement('p');
 	meta.className = 'chitas-reader-meta';
 	meta.textContent = [
