@@ -1,5 +1,5 @@
 B"H
-1.0.579
+1.0.580
 main.js
 ai/relay/direct/browser/AgentTabCatalog.mjs
 ai/relay/direct/browser/AgentTabProtectionState.mjs
@@ -1012,6 +1012,7 @@ lib/connection-vessel/mailbox-emergency-registry.js
 lib/connection-vessel/mailbox-emergency-responses.js
 lib/connection-vessel/mailbox-emergency-settlement.js
 lib/connection-vessel/mailbox-emergency-telemetry.js
+lib/connection-vessel/mailbox-evidence-health.js
 lib/connection-vessel/mailbox-evidence.js
 lib/connection-vessel/mailbox-health-policy.js
 lib/connection-vessel/mailbox-health.js
@@ -1252,9 +1253,11 @@ lib/runtime/main-registration-watchdog.js
 lib/runtime/main-registration.js
 lib/runtime/main-response-socket.js
 lib/runtime/main-retry-control.js
+lib/runtime/main-run-error-fields.js
 lib/runtime/main-run-progress.js
 lib/runtime/main-run-request.js
 lib/runtime/main-run-result.js
+lib/runtime/main-run-settlement.js
 lib/runtime/main-startup-helpers.js
 lib/runtime/main-startup-history.js
 lib/runtime/main-startup.js
@@ -1688,14 +1691,18 @@ tools/fs/actionGroups/missionAwareActions.js
 tools/fs/actionGroups/missionBootActions.js
 tools/fs/actionGroups/missionBrowserSpawnActions.js
 tools/fs/actionGroups/missionBrowserSpawnIdentity.js
+tools/fs/actionGroups/missionContextActions.js
+tools/fs/actionGroups/missionContextProjection.js
 tools/fs/actionGroups/missionDaemonActions.js
 tools/fs/actionGroups/missionEightStepActions.js
 tools/fs/actionGroups/missionImprovementActions.js
 tools/fs/actionGroups/missionLedgerActions.js
 tools/fs/actionGroups/missionMetaActions.js
 tools/fs/actionGroups/missionOperatingActions.js
+tools/fs/actionGroups/missionProjectIdentity.js
 tools/fs/actionGroups/missionSelfImproveActions.js
 tools/fs/actionGroups/missionWatchdogActions.js
+tools/fs/actionGroups/missionWorkActions.js
 tools/fs/actionGroups/nativeGenerationActions.js
 tools/fs/actionGroups/nodeDomActions.js
 tools/fs/actionGroups/osSurfaceActions.js
@@ -1978,7 +1985,12 @@ tools/fs/fileOpsMoveDelete.js
 tools/fs/fileOpsPathPayload.js
 tools/fs/fileOpsPathResults.js
 tools/fs/fileOpsPaths.js
+tools/fs/filesystemDiagnostics.js
+tools/fs/filesystemError.js
 tools/fs/findFiles.js
+tools/fs/findFilesOptions.js
+tools/fs/findFilesResponse.js
+tools/fs/findFilesTraversal.js
 tools/fs/gitIgnoreHygiene.js
 tools/fs/hashWrite.js
 tools/fs/hashWriteBatch.js
@@ -1997,6 +2009,7 @@ tools/fs/jsonTools.js
 tools/fs/jsWriteVerifier.js
 tools/fs/lineBatch.js
 tools/fs/listing.js
+tools/fs/listingPage.js
 tools/fs/mission/activeGuard/block.js
 tools/fs/mission/activeGuard/discover.js
 tools/fs/mission/activeGuard/index.js
@@ -2012,6 +2025,7 @@ tools/fs/mission/autoContinuation/dispatch.js
 tools/fs/mission/autoContinuation/eligibility.js
 tools/fs/mission/autoContinuation/handoffPaths.js
 tools/fs/mission/autoContinuation/index.js
+tools/fs/mission/autoContinuation/planningRoots.js
 tools/fs/mission/autoContinuation/projectRoot.js
 tools/fs/mission/autoContinuation/prompt.js
 tools/fs/mission/autoContinuation/promptPlan.js
@@ -2176,8 +2190,10 @@ tools/fs/mission/missionOs/promptRenderer.js
 tools/fs/mission/missionOs/promptTemplates.js
 tools/fs/mission/missionOs/releaseCourt.js
 tools/fs/mission/missionPlanContext.js
+tools/fs/mission/nextActionRegistry.js
 tools/fs/mission/oath/index.js
 tools/fs/mission/oath/store.js
+tools/fs/mission/progressRegistry.js
 tools/fs/mission/projectRootRegistry.js
 tools/fs/mission/protocolArtifacts.js
 tools/fs/mission/protocolFinalizationGuard.js
@@ -2283,6 +2299,8 @@ tools/fs/mission/workQueue/fromGoal.js
 tools/fs/mission/workQueue/index.js
 tools/fs/mission/workQueue/progress.js
 tools/fs/mission/workQueue/reconcile.js
+tools/fs/mission/workRecord.js
+tools/fs/mission/workRegistry.js
 tools/fs/mission/writeAuth/create.js
 tools/fs/mission/writeAuth/index.js
 tools/fs/mission/writeAuth/store.js
@@ -2337,6 +2355,8 @@ tools/fs/nodeDomRuntime/values.js
 tools/fs/nodeDomRuntime/vmContext.js
 tools/fs/pagedSearch.js
 tools/fs/pagedTree.js
+tools/fs/pagedTreeResponse.js
+tools/fs/pagedTreeSupport.js
 tools/fs/pathGuard.js
 tools/fs/pathHints.js
 tools/fs/pathIdentity/GevurahRootDiscovery.js
