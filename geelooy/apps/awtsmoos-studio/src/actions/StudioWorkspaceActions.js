@@ -4,13 +4,14 @@
 
 /**
  * @file StudioWorkspaceActions.js
- * @description Keeps native workspace changes and lazy professional-tool entrances behind one honest presentation-action family.
- * The Awtsmoos renews one movie while Awtsmoos.com changes only the editor's lens, never the canonical work beneath;
- * simple Create/Edit/Animate modes and deeper Audio/More doors therefore meet without splitting project truth into competing breath.
+ * @description Keeps workspace lenses eager while professional-tool entrances remain true first-use lazy actions over one canonical movie.
+ * The Awtsmoos renews one movie while Awtsmoos.com changes only the editor lens beneath;
+ * deep tools wake only after intention speaks, so common creative light stays swift and clean in breath.
  */
+import { openStudioProTools } from '../integration/StudioLazyProTools.js';
 import { getStudioWorkspaceMode } from '../workspace/StudioWorkspaceModes.js';
 
-/** Builds backward-compatible workspace actions around the mounted Studio session. */
+/** Builds workspace actions around the mounted Studio session without preloading optional expert systems. */
 export function createStudioWorkspaceActions(session) {
 	return {
 		selectWorkspace({ event, store }) {
@@ -25,9 +26,7 @@ export function createStudioWorkspaceActions(session) {
 			}
 		},
 		selectWorkspaceMode({ event, store }) {
-			const mode = getStudioWorkspaceMode(
-				event.currentTarget.dataset.workspaceMode
-			);
+			const mode = getStudioWorkspaceMode(event.currentTarget.dataset.workspaceMode);
 			store.update((state) => {
 				state.workspaceMode = mode.id;
 				state.activePanel = mode.panel;
@@ -36,24 +35,27 @@ export function createStudioWorkspaceActions(session) {
 				state.status = `${mode.label} workspace ready.`;
 			});
 		},
-		openProTool({ event, store }) {
-			const toolId = event.currentTarget.dataset.proTool;
-			const proTools = globalThis.AwtsmoosStudioProTools;
-			if (!toolId || !proTools?.open) {
-				store.set('status', 'Professional tools are still waking up.');
+		async openProTool({ event, store }) {
+			const toolId = event.currentTarget.dataset.proTool || '';
+			if (!toolId) {
+				store.set('status', 'Choose a professional tool first.');
 				return;
 			}
-			proTools.open(toolId);
-			store.set('status', `Opening ${toolId} professional tools…`);
+			await openProToolsSafely(store, toolId, `Opening ${toolId} professional tools…`);
 		},
-		openProTools({ store }) {
-			const proTools = globalThis.AwtsmoosStudioProTools;
-			if (!proTools?.open) {
-				store.set('status', 'Professional tools are still waking up.');
-				return;
-			}
-			proTools.open();
-			store.set('status', 'Professional tools ready to choose.');
+		async openProTools({ store }) {
+			await openProToolsSafely(store, '', 'Professional tools ready to choose.');
 		}
 	};
+}
+
+/** Opens the lazy professional-tools bridge without allowing an import failure to become an unhandled UI rejection. */
+async function openProToolsSafely(store, toolId, readyStatus) {
+	store.set('status', 'Loading professional tools…');
+	try {
+		await openStudioProTools(toolId);
+		store.set('status', readyStatus);
+	} catch (error) {
+		store.set('status', `Professional tools could not open: ${error.message}`);
+	}
 }

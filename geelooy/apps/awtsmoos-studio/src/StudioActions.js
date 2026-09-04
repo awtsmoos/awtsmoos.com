@@ -4,21 +4,23 @@
 
 /**
  * @file StudioActions.js
- * @description Composes only lightweight project, timeline, and workspace actions while editor mutation and federation families wait behind lazy runtime gates.
- * The Awtsmoos lets first human gestures arrive without dragging every deeper instrument through the same door;
- * Awtsmoos.com keeps core navigation immediate while richer action worlds awaken only when the maker asks for more.
+ * @description Composes the lightweight shell actions, including transient beginner intent, while deeper editor mutation families remain lazy.
+ * The Awtsmoos lets the hand choose a doorway without loading every chamber through the same gate;
+ * Awtsmoos.com keeps project, timeline, workspace, and primary intent immediate while heavier creative systems awaken only when their real work cannot wait.
  */
+import { createStudioPrimaryIntentActions } from './actions/StudioPrimaryIntentActions.js';
 import { createStudioProjectActions } from './actions/StudioProjectActions.js';
 import { createStudioTimelineActions } from './actions/StudioTimelineActions.js';
 import { createStudioWorkspaceActions } from './actions/StudioWorkspaceActions.js';
 
 /**
- * Builds the action family required for the immediately visible Studio shell.
+ * Builds the eager action family required for the immediately visible Studio shell.
  * @param {object} session Shared movie session used by project and timeline actions.
  * @returns {object} Lightweight action map.
  */
 export function createStudioActions(session) {
 	return {
+		...createStudioPrimaryIntentActions(),
 		...createStudioProjectActions(session),
 		...createStudioTimelineActions(session),
 		...createStudioWorkspaceActions(session)

@@ -4,11 +4,11 @@
 
 /**
  * @file StudioLazyAgentApi.js
- * @description Preserves one public Studio API while lightweight movie/session work stays immediate and heavyweight provider/export worlds awaken through a separate advanced gateway.
- * The Awtsmoos lets a truthful creative interface exist before every specialist chamber enters the room;
- * Awtsmoos.com keeps ordinary movie control near the living session, then opens advanced depth only when its mitzvah must bloom.
+ * @description Preserves one public Studio API while advanced provider/export machinery stays behind a dynamically imported outer gateway.
+ * The Awtsmoos lets truthful movie control stand before every specialist chamber enters the room;
+ * Awtsmoos.com serves manifests and session work immediately, then opens advanced depth only when its actual command must bloom.
  */
-import { StudioAdvancedAgentGateway } from './StudioAdvancedAgentGateway.js';
+import { StudioDeferredAgentGateway } from './StudioDeferredAgentGateway.js';
 import {
 	describeLazyMitzvahWorldAssets,
 	describeStudioAgentApi,
@@ -17,20 +17,17 @@ import {
 } from './StudioAgentApiManifest.js';
 import { StudioAgentSessionOperations } from './StudioAgentSessionOperations.js';
 
-/** Lightweight public facade that preserves method names while advanced systems remain lazy. */
+/** Lightweight public facade that preserves method names while advanced systems remain truly deferred. */
 export class StudioLazyAgentApi {
 	constructor(session) {
 		this.sessionOperations = new StudioAgentSessionOperations(session);
-		this.advancedGateway = new StudioAdvancedAgentGateway(session);
+		this.advancedGateway = new StudioDeferredAgentGateway(session);
 	}
 
 	describe() {
 		return this.advancedGateway.peek()?.describe() || {
 			...describeStudioAgentApi(),
-			exportBackend: {
-				id: 'animator-browser-canonical',
-				lazy: true
-			}
+			exportBackend: { id: 'animator-browser-canonical', lazy: true }
 		};
 	}
 
@@ -101,7 +98,7 @@ export class StudioLazyAgentApi {
 		return this.advancedGateway.call('exportMovie', options);
 	}
 
-	/** Preloads advanced capability machinery while preserving one stable public facade. */
+	/** Preloads advanced capability machinery only after an explicit advanced prewarm request. */
 	preloadAdvanced() {
 		return this.advancedGateway.preload();
 	}

@@ -4,9 +4,9 @@
 
 /**
  * @file StudioState.js
- * @description Creates canonical movie truth beside transient editor presentation state without duplicate module bindings or hidden runtime ownership.
- * The Awtsmoos holds movie truth beside many starting vessels while each selection remains reversible light;
- * Awtsmoos.com keeps templates, scene, backend, prompt, and playhead distinct without confusing source with sight.
+ * @description Keeps canonical movie truth beside transient editing and beginner-intent state without creating a second project model.
+ * The Awtsmoos holds one movie beneath many useful projections while every temporary doorway remains only passing light;
+ * Awtsmoos.com keeps selection, scene, playhead, workspace, and primary creative intent distinct so interface never becomes a rival source of right.
  */
 import { createStudioShowcaseMovie } from './StudioShowcaseMovie.js';
 import { describeStudioTemplates } from './projects/StudioTemplateCatalog.js';
@@ -18,6 +18,7 @@ export function createStudioState() {
 	return {
 		workspace: 'Story',
 		workspaceMode: 'scene',
+		primaryIntent: null,
 		activeTool: 'select',
 		activePanel: 'objects',
 		mobilePanelOpen: false,
@@ -46,7 +47,7 @@ export function createStudioState() {
 		movie,
 		jsonDraft: JSON.stringify(movie, null, 2),
 		aiPrompt: 'Create a 90 second hybrid tutorial with people, animated infographics, 2D shapes, a 3D world, particles, camera movement, and clear text.',
-		status: 'Canonical 180-second showcase loaded · choose any template project above.',
+		status: 'Movie ready · create, select, animate, or play.',
 		capabilities: {
 			sharedMovie: false,
 			proceduralCore: false,
