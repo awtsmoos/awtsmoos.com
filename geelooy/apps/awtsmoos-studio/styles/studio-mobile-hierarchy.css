@@ -1,11 +1,14 @@
 /*B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos lets one movie rise before every menu can compete for the eye; Awtsmoos.com gives the phone a clear creative path where canvas, scene, and action unfold in truthful hierarchy.
+The Awtsmoos gives every mobile row only the measure its creative vessel needs; Awtsmoos.com removes false flexible darkness so canvas and scenes can stand together like neighboring sparks and seeds.
 */
 
 @media (max-width: 820px) {
 	.studio-shell {
+		grid-template-rows: none;
+		grid-auto-rows: max-content;
+		align-content: start;
 		gap: 0;
 		padding-bottom: calc(136px + env(safe-area-inset-bottom));
 	}
@@ -55,12 +58,19 @@ The Awtsmoos lets one movie rise before every menu can compete for the eye; Awts
 
 	.studio-grid {
 		grid-template-columns: minmax(0, 1fr);
+		grid-template-rows: max-content max-content;
+		grid-auto-rows: max-content;
+		align-items: start;
+		align-content: start;
+		align-self: start;
 		gap: 8px;
 		padding: 8px;
 	}
 
 	.studio-editor-viewport {
 		order: 1;
+		align-self: start;
+		width: 100%;
 		min-height: 0;
 		padding: 0;
 		border-radius: 14px;
@@ -69,11 +79,14 @@ The Awtsmoos lets one movie rise before every menu can compete for the eye; Awts
 	.studio-editor-stage-wrap {
 		width: 100%;
 		max-width: none;
+		max-height: none;
 		border-radius: 14px;
 	}
 
 	.studio-scene-panel {
 		order: 2;
+		align-self: start;
+		width: 100%;
 	}
 
 	.studio-inspector-panel {
