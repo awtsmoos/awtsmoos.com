@@ -2,21 +2,19 @@
 // Boruch Hashem
 // Blessed is He
 
+const AdmissionBridge = require("./controller-admission-bridge.js");
 const Incarnation = require("./connection-incarnation.js");
 const CustodyMetadata = require("./mailbox-custody-metadata.js");
 const Protocol = require("./protocol.js");
 const RecoveryTestimony = require("./controller-recovery-testimony.js");
 
 /**
- * @file Routes child IPC through exact incarnation, generation, custody, and recovery testimony.
+ * @file Routes child IPC through exact incarnation, generation, admission, and recovery testimony.
  * @description
  * The Awtsmoos binds each deed to the vessel that received its living flame;
- * Awtsmoos.com keeps generation and incarnation together so delayed shadows cannot claim its name.
- * Raw child state becomes trusted parent testimony only through the current incarnation's frame,
- * while ACK and queued progress cross one ordered bridge, each preserving the very same deed.
+ * Awtsmoos.com ACKs admitted work while rejected deeds return through their own sealed name.
  */
 function createMessageRouter(options = {}) {
-	/** Routes one valid child protocol message into its narrow parent responsibility. */
 	function handle(message) {
 		if (!Protocol.valid(message)) return false;
 		const childIncarnationId = Incarnation.clean(message.childIncarnationId);
@@ -38,19 +36,13 @@ function createMessageRouter(options = {}) {
 		return false;
 	}
 
-	/** Announces parent readiness, then publishes the first bounded stats witness. */
 	function handleReady() {
 		options.notify(Protocol.message(Protocol.TYPES.PARENT_READY));
 		options.publishStats(true);
 		return true;
 	}
 
-	/**
-	 * Accepts exact parent custody, ACKs that identity, then advances the same deed to queued work.
-	 * @param {object} envelope Original durable relay request.
-	 * @param {string} childIncarnationId Incarnation that accepted the request from the relay.
-	 * @returns {boolean} True unless the child notification explicitly rejects the ACK.
-	 */
+	/** Routes one child request and settles its inbox according to explicit queue admission. */
 	function handleRequest(envelope = {}, childIncarnationId = "") {
 		const receiptId = Protocol.requestId(envelope);
 		if (!receiptId) {
@@ -62,33 +54,17 @@ function createMessageRouter(options = {}) {
 			childIncarnationId: Incarnation.clean(childIncarnationId),
 			generation: CustodyMetadata.positiveGeneration(options.generation?.())
 		};
-		if (!identity.childIncarnationId || !identity.generation) return false;
 		const routedEnvelope = { ...envelope, connectionCustody: identity };
+		let admission;
 		try {
-			options.enqueueRequest(options.proxy, routedEnvelope, identity.childIncarnationId);
+			admission = options.enqueueRequest(options.proxy, routedEnvelope, identity.childIncarnationId);
 		} catch (error) {
 			options.log("error", `connection request enqueue failed: ${error.message}`);
 			return false;
 		}
-		const accepted = options.notify(Protocol.message(Protocol.TYPES.ACK, {
-			...identity,
-			id: receiptId,
-			transportReceiptId: identity.transportReceiptId || receiptId
-		}));
-		options.proxy.progressCustody?.(
-			receiptId,
-			identity.childIncarnationId,
-			{ phase: "queued" }
-		);
-		return accepted !== false;
+		return AdmissionBridge.settle(options, admission, identity, receiptId);
 	}
 
-	/**
-	 * Mirrors state with trusted source incarnation and delegates only fenced recovery testimony.
-	 * @param {object} next Current child state payload.
-	 * @param {string} childIncarnationId Incarnation carried by the IPC message boundary.
-	 * @returns {boolean} True after state, registration, recovery, and stats testimony are handled.
-	 */
 	function handleState(next = {}, childIncarnationId = "") {
 		const incarnation = Incarnation.clean(childIncarnationId);
 		const testimony = RecoveryTestimony.fromState(next, incarnation);

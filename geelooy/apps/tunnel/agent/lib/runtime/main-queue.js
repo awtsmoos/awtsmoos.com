@@ -2,6 +2,8 @@
 // Boruch Hashem
 // Blessed is He
 
+const AdmissionResult = require("./main-queue-admission-result.js");
+const QueueItem = require("./main-queue-item.js");
 const { admissionGate } = require("./main-queue-admission.js");
 const { registerQueueEmergencyController } = require("./main-queue-emergency.js");
 const { createPressureQueue } = require("./main-pressure-queue.js");
@@ -11,10 +13,10 @@ const { createQueueRejection } = require("./main-queue-rejection.js");
 const { createSchedulerIntegrity } = require("./priority/schedulerIntegrity.js");
 
 /**
- * @file Joins exact request identity, accepting-child provenance, admission telemetry, and dispatch.
+ * @file Joins exact request identity, admission testimony, provenance, and fair dispatch.
  * @description
- * The Awtsmoos receives each deed in one living vessel; Awtsmoos.com preserves which child first knew it,
- * so every later phase can refresh only that custody while fair lanes reveal the truth they carry through it.
+ * The Awtsmoos receives each deed in one living vessel; Awtsmoos.com now names whether
+ * that deed truly entered the queue, so a rejected shadow can never inherit custody anew.
  */
 function createQueueRuntime(dependencies) {
 	let scheduleDrain = () => {};
@@ -37,10 +39,12 @@ function createQueueRuntime(dependencies) {
 	function enqueueRequest(ws, raw, childIncarnationId = "") {
 		const data = dependencies.routedData(raw);
 		const payload = data.payload;
-		if (dependencies.retryControl.handleIngress(ws, data, payload)) return undefined;
+		if (dependencies.retryControl.handleIngress(ws, data, payload)) {
+			return AdmissionResult.rejected("ingress_resolved");
+		}
 		integrity.reconcile("before_enqueue");
 		pruner.prune();
-		const item = createItem(ws, data, childIncarnationId);
+		const item = QueueItem.createQueueItem(ws, data, childIncarnationId);
 		const lane = dependencies.Priority.laneOf(item);
 		const currentStats = dependencies.stats();
 		const circuitGate = dependencies.Circuit.canAccept(
@@ -48,12 +52,14 @@ function createQueueRuntime(dependencies) {
 		);
 		dependencies.streamEvent("action.received", payload, { lane });
 		if (!circuitGate.ok) {
-			return rejection.circuit(ws, data, payload, lane, circuitGate, currentStats);
+			rejection.circuit(ws, data, payload, lane, circuitGate, currentStats);
+			return AdmissionResult.rejected(circuitGate.reason || "circuit_rejected");
 		}
 		const queueGate = admissionGate(dependencies, rejection, ws, data, item, lane);
-		if (!queueGate) return undefined;
+		if (!queueGate) return AdmissionResult.rejected("identity_rejected");
 		if (!queueGate.ok) {
-			return rejection.full(ws, data, payload, lane, currentStats, queueGate);
+			rejection.full(ws, data, payload, lane, currentStats, queueGate);
+			return AdmissionResult.rejected(queueGate.reason || "queue_rejected");
 		}
 		item.requesterKey = queueGate.requesterKey;
 		progress.start(item, lane);
@@ -63,7 +69,7 @@ function createQueueRuntime(dependencies) {
 		integrity.reconcile("after_enqueue");
 		if (circuitGate.startAllowed === false) pressure.wake(circuitGate.retryAfterMs);
 		scheduleDrain();
-		return undefined;
+		return AdmissionResult.accepted(lane);
 	}
 
 	function nextLane() {
@@ -101,17 +107,6 @@ function createQueueRuntime(dependencies) {
 		sendProgress: progress.send,
 		setScheduleDrain,
 		takeNext
-	};
-}
-
-function createItem(ws, data, childIncarnationId) {
-	return {
-		ws,
-		data,
-		childIncarnationId: String(childIncarnationId || "").trim(),
-		enqueuedAt: Date.now(),
-		queueKeepalive: null,
-		queueExpiryTimer: null
 	};
 }
 

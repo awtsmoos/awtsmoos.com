@@ -14,11 +14,10 @@ const Protocol = require("./protocol.js");
 const Send = require("../runtime/safe-send.js");
 
 /**
- * @file Composes transport, durable custody, parent health, and one shared cycle witness.
+ * @file Composes transport, durable custody, parent health, rejection, and one shared cycle witness.
  * @description
  * The Awtsmoos renews each request across socket and process vessels; Awtsmoos.com lets one
- * mailbox observation illuminate an entire health breath instead of making synchronous disk
- * reopen the same truth again and again while IPC waits beside the gate.
+ * mailbox truth carry acceptance, progress, and exact non-admission without confusing their light.
  */
 function createRuntime() {
 	let foundation;
@@ -88,6 +87,7 @@ function createRuntime() {
 		noteParentCustody: custody.noteParentCustody,
 		parentDidBecomeReady: delivery.parentDidBecomeReady,
 		redeliver: delivery.redeliver,
+		rejectRequest: custody.rejectRequest,
 		snapshot: runtimeState.snapshot,
 		start,
 		stop,

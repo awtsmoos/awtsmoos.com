@@ -10,6 +10,7 @@ const TYPES = Object.freeze({
 	PARENT_READY: "connection.parent-ready",
 	PROGRESS: "connection.progress",
 	READY: "connection.ready",
+	REJECT: "connection.reject",
 	REQUEST: "connection.request",
 	SEND: "connection.send",
 	STATE: "connection.state",
@@ -21,16 +22,9 @@ const TYPES = Object.freeze({
 /**
  * @file Defines the closed IPC vocabulary between the native parent and connection child.
  * @description
- * The Awtsmoos gives each transition its own name; Awtsmoos.com therefore carries
- * custody progress as explicit testimony instead of pretending an ACK or heartbeat
- * also proves queue ownership, consumer start, execution, or settlement.
- *
- * STABILITY COVENANT — DO NOT SIMPLIFY WITHOUT RUNNING THE NAMED REGRESSION
- * Historical symptom: child custody froze while parent execution advanced.
- * Root cause: no parent-to-child progress message existed.
- * Identity: transport receipt, control request, generation, child incarnation.
- * Forbidden simplification: infer progress from heartbeat or aggregate counts.
- * Regression: connectionCustodyProgressIpc.test.cjs. Live proof: >60s custody chaos.
+ * The Awtsmoos gives each transition its own name; Awtsmoos.com keeps ACK for accepted
+ * custody, REJECT for terminal non-admission, and progress for later execution testimony.
+ * No heartbeat or aggregate count is permitted to impersonate one exact deed.
  */
 function message(type, payload = {}) {
 	if (!Object.values(TYPES).includes(type)) {

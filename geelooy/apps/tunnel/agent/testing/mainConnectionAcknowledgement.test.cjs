@@ -5,14 +5,15 @@
 const assert = require("node:assert/strict");
 const EventEmitter = require("node:events");
 const { createConnectionRuntime } = require("../lib/runtime/main-connection.js");
+const Reconnect = require("../lib/runtime/main-reconnect-policy.js");
 const Replacement = require("../lib/runtime/replacement-policy.js");
 
 /**
- * @file Proves socket-open cannot impersonate authenticated registration.
+ * @file Proves socket-open and registration ACK cannot impersonate action acceptance.
  * @description
- * The Awtsmoos renews transport, route ID, and recovery pressure independently.
- * Awtsmoos.com resets reconnect backoff only after an expected-name ACK and closes
- * mismatched registration before ordinary work can enter the queue.
+ * The Awtsmoos separates transport, registration, and executable acceptance.
+ * Awtsmoos.com preserves reconnect pressure through registration and resets it only
+ * after one real accepted deed proves the action road is alive.
  */
 class FakeSocket extends EventEmitter {
 	constructor(url) {
@@ -35,21 +36,18 @@ class FakeSocket extends EventEmitter {
 const receiptEvents = [];
 const state = {
 	activeWs: null,
-	reconnectTimer: null,
-	reconnectAttempt: 5,
-	wasEverConnected: false,
-	replacementRequested: false,
 	generation: 0,
+	lastRegisteredAt: 0,
+	reconnectAttempt: 5,
+	reconnectTimer: null,
+	replacementRequested: false,
 	tunnelId: "",
 	tunnelName: "",
-	lastRegisteredAt: 0
+	wasEverConnected: false
 };
 const runtime = createConnectionRuntime({
 	state,
-	loadConfig: () => ({
-		wsUrl: "ws://relay.test",
-		tunnelName: "awt-expected"
-	}),
+	loadConfig: () => ({ wsUrl: "ws://relay.test", tunnelName: "awt-expected" }),
 	log() {},
 	agentVersion: "test-agent",
 	TinyWebSocket: FakeSocket,
@@ -81,10 +79,11 @@ acceptedSocket.emit("message", JSON.stringify({
 }));
 assert.equal(state.registrationConfirmed, true);
 assert.equal(state.tunnelId, "tun_authoritative_test");
-assert.equal(state.reconnectAttempt, 0);
+assert.equal(state.reconnectAttempt, 5);
 assert.equal(state.lastRegisteredAt > 0, true);
 assert.equal(receiptEvents.at(-1).type, "registered");
-assert.equal(receiptEvents.at(-1).details.tunnelId, "tun_authoritative_test");
+Reconnect.markAccepted(state);
+assert.equal(state.reconnectAttempt, 0);
 
 state.reconnectAttempt = 3;
 const mismatchedSocket = runtime.connect();
@@ -99,10 +98,7 @@ assert.equal(state.registrationConfirmed, false);
 assert.equal(state.registrationRejected, true);
 assert.equal(state.reconnectAttempt > 0, true);
 assert.equal(state.registrationFailureReason, "acknowledged_tunnel_name_mismatch");
-assert.equal(
-	receiptEvents.some((event) => event.type === "registration_rejected"),
-	true
-);
+assert.equal(receiptEvents.some(event => event.type === "registration_rejected"), true);
 
 clearTimeout(state.reconnectTimer);
 state.reconnectTimer = null;
@@ -110,5 +106,6 @@ console.log(JSON.stringify({
 	ok: true,
 	suite: "main-connection-acknowledgement",
 	authoritativeTunnelId: true,
-	backoffResetsOnlyAfterAck: true
+	registrationPreservesBackoff: true,
+	acceptanceResetsBackoff: true
 }, null, 2));
