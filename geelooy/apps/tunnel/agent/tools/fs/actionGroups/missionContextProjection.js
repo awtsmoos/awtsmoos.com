@@ -3,12 +3,14 @@
 // Blessed is He
 
 const path = require("node:path");
+const Next = require("../mission/nextActionRegistry.js");
+const Work = require("../mission/workRegistry.js");
 
 /**
- * @file Projects many durable mission vessels into one current-work consciousness.
+ * @file Projects durable mission vessels into one zero-handoff current-work consciousness.
  * @description
  * The Awtsmoos renews each scattered record into one intelligible ray;
- * Awtsmoos.com lets a newborn agent see the work, the owners, and the way.
+ * Awtsmoos.com lets a newborn agent see durable work, owners, evidence, and the way.
  */
 function absolutePath(projectRoot, value) {
 	if (!value) {
@@ -19,7 +21,7 @@ function absolutePath(projectRoot, value) {
 		: path.resolve(projectRoot, String(value));
 }
 
-/** Collects canonical file references without making prose carry machine state. */
+/** Collects canonical file references from claims, work, delegations, and evidence. */
 function relevantFiles(mission, collaboration, projectRoot) {
 	const records = new Map();
 	const add = (value, purpose = "mission reference", status = "known", claimedBy = "") => {
@@ -32,6 +34,11 @@ function relevantFiles(mission, collaboration, projectRoot) {
 	for (const claim of collaboration.activeClaims || []) {
 		for (const file of claim.filesToTouch || []) {
 			add(file, claim.title || "active claim", "claimed", claim.agentId || "");
+		}
+	}
+	for (const item of mission.remainingWork || []) {
+		for (const file of item.absolutePaths || []) {
+			add(file, item.title || "remaining work", item.state || "known", item.owner || "");
 		}
 	}
 	for (const delegation of mission.collaboration?.delegations || []) {
@@ -47,7 +54,7 @@ function relevantFiles(mission, collaboration, projectRoot) {
 	return [...records.values()];
 }
 
-/** Separates living agents from stopped/stale vessels while preserving their records. */
+/** Separates living agents from stopped or stale vessels while preserving their records. */
 function agentState(collaboration) {
 	const agents = collaboration.agents || [];
 	return {
@@ -56,7 +63,19 @@ function agentState(collaboration) {
 	};
 }
 
-/** Builds the canonical zero-handoff read model from existing durable mission state. */
+/** Prefers first-class REMAINING_WORK while preserving legacy task and delegation compatibility. */
+function remainingWork(mission, completedStates) {
+	if ((mission.remainingWork || []).length) {
+		return Work.open(mission);
+	}
+	const tasks = (mission.tasks || []).filter(task => !completedStates.has(task.status));
+	const delegations = (mission.collaboration?.delegations || [])
+		.filter(item => !completedStates.has(item.status))
+		.map(item => ({ ...item, kind: item.kind || "delegation" }));
+	return [...tasks, ...delegations];
+}
+
+/** Builds the canonical zero-handoff read model from durable project state. */
 function project(mission, dependencies = {}) {
 	const { Mission, Collaboration, projectRoot, browserState = null } = dependencies;
 	const collaboration = Collaboration.status(mission);
@@ -66,11 +85,7 @@ function project(mission, dependencies = {}) {
 	const tasks = mission.tasks || [];
 	const activeTasks = tasks.filter(task => !completedStates.has(task.status));
 	const completedTasks = tasks.filter(task => completedStates.has(task.status));
-	const openDelegations = (mission.collaboration?.delegations || []).filter(item => !completedStates.has(item.status));
-	const remainingWork = [
-		...activeTasks,
-		...openDelegations.map(item => ({ ...item, kind: item.kind || "delegation" }))
-	];
+	const durableNext = Next.active(mission);
 	return {
 		project: { root: projectRoot },
 		mission: report,
@@ -80,13 +95,13 @@ function project(mission, dependencies = {}) {
 		claims: collaboration.activeClaims || [],
 		activeTasks,
 		completedTasks,
-		remainingWork,
+		remainingWork: remainingWork(mission, completedStates),
 		blockers: mission.blockers || tasks.filter(task => task.status === "blocked"),
 		discoveries: mission.discoveries || [],
-		nextActions: [Mission.nextRequiredAction(mission), Mission.nextStep(mission)].filter(Boolean),
+		nextActions: durableNext.length ? durableNext : [Mission.nextRequiredAction(mission), Mission.nextStep(mission)].filter(Boolean),
 		relevantFiles: relevantFiles(mission, collaboration, projectRoot),
 		planningArtifacts: mission.metadata?.planningArtifacts || [],
-		recentProgress: (mission.events || []).slice(-50),
+		recentProgress: (mission.progressEvents || mission.events || []).slice(-50),
 		tests: mission.tests || [],
 		deployments: mission.deployments || [],
 		browserState,
@@ -94,4 +109,4 @@ function project(mission, dependencies = {}) {
 	};
 }
 
-module.exports = { absolutePath, project, relevantFiles };
+module.exports = { absolutePath, project, relevantFiles, remainingWork };

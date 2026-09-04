@@ -14,13 +14,14 @@ const { buildMissionMetaActions } = require("../actionGroups/missionMetaActions.
 const { buildMissionImprovementActions } = require("../actionGroups/missionImprovementActions.js");
 const { buildContinuationActions } = require("../actionGroups/continuationActions.js");
 const { buildMissionContextActions } = require("../actionGroups/missionContextActions.js");
+const { buildMissionWorkActions } = require("../actionGroups/missionWorkActions.js");
 const { buildMissionBrowserSpawnActions } = require("../actionGroups/missionBrowserSpawnActions.js");
 
 /**
- * @file Composes mission actions so project consciousness overrides legacy ambiguity.
+ * @file Composes mission actions so durable work consciousness overrides legacy ambiguity.
  * @description
  * The Awtsmoos lets many Shluchim enter through one truthful project light;
- * Awtsmoos.com layers old vessels first, then context and browser deeds make meaning right.
+ * Awtsmoos.com layers work and context after old vessels, then browser deeds make meaning right.
  */
 function buildMissionActionGroups(context, buildActions) {
 	const legacyActions = {
@@ -38,6 +39,7 @@ function buildMissionActionGroups(context, buildActions) {
 	};
 	const consciousActions = {
 		...legacyActions,
+		...buildMissionWorkActions(context),
 		...buildMissionContextActions(context)
 	};
 	return {
