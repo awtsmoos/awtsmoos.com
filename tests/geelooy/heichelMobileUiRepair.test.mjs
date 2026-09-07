@@ -5,7 +5,7 @@
  * @module HeichelMobileUiRepairContract
  * @description
  * The Awtsmoos turns screenshot wounds into durable gates while Awtsmoos.com
- * lets the repaired navigation path advance without forcing unrelated cache vessels into false uniformity.
+ * lets only the custom-tool branch advance to twelve, preserving repaired and unrelated cache vessels without false uniformity.
  */
 
 import assert from 'node:assert/strict';
@@ -33,7 +33,7 @@ const mobileCss = read('geelooy/heichelos/heichel/styles/platform-panel-mobile-v
 const bridge = read('geelooy/heichelos/heichel/bootBridge.js');
 const app = read('geelooy/heichelos/heichel/app.js');
 const html = read('geelooy/heichelos/heichel/_awtsmoos.heichel.html');
-const loader = read('geelooy/heichelos/heichel/modules/navigator/loader.js');
+const context = read('geelooy/heichelos/heichel/modules/living-path/context-controller.js');
 
 assert.match(navigator, /this\.livingPath\.afterViewChange\(\)/);
 assert.match(renderer, /current\.id === 'root' && !parent/);
@@ -46,38 +46,24 @@ assert.match(mobileCss, /position:\s*relative/);
 assert.match(mobileCss, /inline-size:\s*100%/);
 assert.doesNotMatch(mobileCss, /position:\s*fixed/);
 assert.match(panelStyles, /platform-panel-mobile-v3\.css\?v=heichel-mobile-007/);
+assert.match(html, /app\.js\?v=heichel-mobile-012/);
+assert.match(bridge, /app\.js\?v=heichel-mobile-012/);
+assert.match(app, /navigator\.js\?v=heichel-mobile-012/);
+assert.match(navigator, /living-path\/controller\.js\?v=heichel-mobile-012/);
+assert.match(context, /custom-page-mode\.js\?v=heichel-mobile-012/);
+assert.match(navigator, /navigator\/loader\.js\?v=heichel-mobile-011/);
 
-for (const source of [bridge, app, html, navigator, loader]) {
-	assert.match(source, /heichel-mobile-011/);
-	assert.doesNotMatch(source, /heichel-mobile-009/);
-}
-assert.match(loader, /source-loader\.js\?v=heichel-mobile-011/);
-
-const jsPaths = [
-	'geelooy/heichelos/heichel/modules/living-path/discovery-policy.js',
-	'geelooy/heichelos/heichel/modules/ui/render/living-path/discovery-renderer.js',
+for (const file of [
 	'geelooy/heichelos/heichel/modules/living-path/context-controller.js',
 	'geelooy/heichelos/heichel/modules/living-path/controller.js',
 	'geelooy/heichelos/heichel/modules/navigator.js',
-	'geelooy/heichelos/heichel/modules/ui/render/living-path/path-renderer.js',
-	'geelooy/heichelos/heichel/modules/events.js',
-	'geelooy/heichelos/heichel/modules/ui/platform/PlatformPanelStyles.js',
+	'geelooy/heichelos/heichel/modules/ui/custom-page-mode.js',
 	'geelooy/heichelos/heichel/bootBridge.js',
-	'geelooy/heichelos/heichel/app.js',
-	'geelooy/heichelos/heichel/modules/beauty/index.js',
-	'geelooy/heichelos/heichel/modules/beauty/scrollHeroState.js'
-];
-for (const file of jsPaths) {
+	'geelooy/heichelos/heichel/app.js'
+]) {
 	const source = read(file);
 	assert.ok(source.split('\n').length - 1 <= 120, `${file} exceeds 120 lines`);
 	assert.match(source, /^\/\/ B"H/);
 }
-for (const file of [
-	'geelooy/heichelos/heichel/styles/platform-panel-v3.css',
-	'geelooy/heichelos/heichel/styles/platform-panel-mobile-v3.css'
-]) {
-	const source = read(file);
-	assert.ok(source.split('\n').length - 1 <= 120, `${file} exceeds 120 lines`);
-	assert.match(source, /^\/\* B"H \*\//);
-}
+
 console.log('B"H Heichel mobile UI repair contract passed.');

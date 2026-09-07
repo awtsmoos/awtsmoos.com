@@ -5,8 +5,8 @@
 /**
  * @module ChitasBootCacheGraphTest
  * @description
- * The Awtsmoos sends one fresh browser-fix path from document to source loader without a cached fracture in between;
- * Awtsmoos.com guards that eleventh edge while native-chitas-003 stays stable, so unrelated Daily Chitas vessels remain serene.
+ * The Awtsmoos carries a narrow twelfth custom-tool edge above the repaired eleventh source-loader river;
+ * Awtsmoos.com guards both while native-chitas-003 stays stable, so unrelated Daily Chitas vessels remain serene.
  */
 
 import assert from 'node:assert/strict';
@@ -22,27 +22,21 @@ const sourceLoader = read('geelooy/heichelos/heichel/modules/navigator/source-lo
 const virtualSeries = read('geelooy/heichelos/heichel/modules/chitas/virtual-series.js');
 const schedule = read('geelooy/heichelos/heichel/modules/chitas/schedule.js');
 
-for (const [name, source] of [
-	['bridge', bridge],
-	['app', app],
-	['navigator', navigator],
-	['loader', loader],
-	['sourceLoader', sourceLoader]
-]) {
-	assert.match(source, /heichel-mobile-011/, `${name} must participate in the browser-fix generation`);
-	assert.doesNotMatch(source, /heichel-mobile-009|heichel-mobile-008/);
-}
-assert.match(template, /bootBridge\.js\?v=heichel-mobile-011/);
-assert.match(template, /app\.js\?v=heichel-mobile-011/);
-assert.match(bridge, /app\.js\?v=heichel-mobile-011/);
-assert.match(app, /navigator\.js\?v=heichel-mobile-011/);
+assert.match(template, /bootBridge\.js\?v=heichel-mobile-012/);
+assert.match(template, /app\.js\?v=heichel-mobile-012/);
+assert.match(bridge, /app\.js\?v=heichel-mobile-012/);
+assert.match(app, /navigator\.js\?v=heichel-mobile-012/);
+assert.match(navigator, /living-path\/controller\.js\?v=heichel-mobile-012/);
 assert.match(navigator, /navigator\/loader\.js\?v=heichel-mobile-011/);
 assert.match(loader, /source-loader\.js\?v=heichel-mobile-011/);
 assert.match(sourceLoader, /translation-loader\.js\?v=heichel-mobile-011/);
 assert.match(sourceLoader, /virtual-series\.js\?v=native-chitas-003/);
 assert.match(virtualSeries, /schedule\.js\?v=native-chitas-003/);
 assert.match(schedule, /date-policy\.js\?v=native-chitas-003/);
-assert.doesNotMatch(sourceLoader + virtualSeries + schedule, /native-chitas-002|chabadStudyHref|chabad\.org|externalHref/);
+assert.doesNotMatch(
+	sourceLoader + virtualSeries + schedule,
+	/native-chitas-002|chabadStudyHref|chabad\.org|externalHref/
+);
 
 for (const [path, source] of [
 	['bootBridge.js', bridge],

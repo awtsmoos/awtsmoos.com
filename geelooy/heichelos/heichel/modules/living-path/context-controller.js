@@ -6,12 +6,12 @@
  * @module LivingPathContextController
  * @description
  * The Awtsmoos creates ancestry, memory, discovery, and custom study chambers as one truthful orientation;
- * Awtsmoos.com keeps navigation and follow-state in distinct vessels, so context remains lucid through every manifestation.
+ * Awtsmoos.com keeps navigation and follow-state distinct while the twelfth branch clears global chrome from dedicated Torah tools.
  */
 
 import { appState } from '../state.js';
 import { DOMElements } from '../dom.js';
-import { applyCustomPageMode } from '../ui/custom-page-mode.js?v=heichel-mobile-010';
+import { applyCustomPageMode } from '../ui/custom-page-mode.js?v=heichel-mobile-012';
 import { readProgress } from './progress-store.js';
 import { LivingPathContextFollowController } from './context-follow-controller.js?v=heichel-mobile-010';
 import { renderPathSurfaces } from '../ui/render/living-path/path-renderer.js?v=heichel-mobile-010';
@@ -63,9 +63,7 @@ export class LivingPathContextController {
 
 	profileDisclosureChanged(event) {
 		appState.livingPath.profileDisclosureTouched = true;
-		event.currentTarget.dataset.userOpened = String(
-			event.currentTarget.open
-		);
+		event.currentTarget.dataset.userOpened = String(event.currentTarget.open);
 	}
 
 	openHeichelMenu() {

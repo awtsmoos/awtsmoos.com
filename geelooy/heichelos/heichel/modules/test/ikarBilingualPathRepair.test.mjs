@@ -5,8 +5,8 @@
 /**
  * @file ikarBilingualPathRepair.test.mjs
  * @description
- * The Awtsmoos lets the exact broken phone screenshots become witnesses instead of memories lost in night;
- * Awtsmoos.com proves bilingual identity, truthful virtual depth, custom tool chrome, and the repaired browser generation reach one light.
+ * The Awtsmoos lets broken phone screenshots become durable witnesses instead of memories lost in night;
+ * Awtsmoos.com proves bilingual identity, truthful virtual depth, dedicated-tool chrome, and the narrow twelfth cache branch reach one light.
  */
 
 import assert from 'node:assert/strict';
@@ -29,40 +29,47 @@ test('canonical Torah nodes and legacy labels resolve bilingually', () => {
 });
 
 test('Oral Torah host card cannot report zero virtual sub-series', () => {
-	const records = annotateTorahHostSummaries([
-		{
-			prateem: {
-				id: 'theOralTorah',
-				name: 'The Oral Torah',
-				subSeries: []
-			}
-		}
-	], 'ikar');
+	const records = annotateTorahHostSummaries([{
+		prateem: { id: 'theOralTorah', name: 'The Oral Torah', subSeries: [] }
+	}], 'ikar');
 	const card = normalizeCardData(records[0], 'series');
 	assert.equal(card.subSeriesCount, 4);
 	assert.match(card.title, /תורה שבעל פה/);
 	assert.match(card.title, /The Oral Torah/);
 });
 
-test('translation tool is declared custom and wired into context lifecycle', () => {
+test('translation tool is custom and suppresses generic plus global chrome', () => {
 	const presentation = read(`${moduleRoot}/translationHubPresentation.js`);
 	const mode = read(`${moduleRoot}/ui/custom-page-mode.js`);
 	const context = read(`${moduleRoot}/living-path/context-controller.js`);
 	assert.match(presentation, /customToolPage:\s*true/);
-	assert.match(mode, /\.tab-gates/);
-	assert.match(mode, /\.grid-realms/);
+	for (const token of [
+		'.tab-gates',
+		'.grid-realms',
+		'.heichel-os-world-panel',
+		'.geelooy-bottom-nav button',
+		'Tree'
+	]) {
+		assert.ok(mode.includes(token), `${token} must be governed by custom tool mode`);
+	}
+	assert.match(context, /custom-page-mode\.js\?v=heichel-mobile-012/);
 	assert.match(context, /applyCustomPageMode\(appState\.currentSeriesData\)/);
 });
 
-test('Heichel public entry graph refreshes the repaired navigation path', () => {
+test('public entry reaches 012 while repaired source loading remains on 011', () => {
 	const template = read('geelooy/heichelos/heichel/_awtsmoos.heichel.html');
+	const bridge = read('geelooy/heichelos/heichel/bootBridge.js');
 	const app = read('geelooy/heichelos/heichel/app.js');
 	const navigator = read(`${moduleRoot}/navigator.js`);
 	const loader = read(`${moduleRoot}/navigator/loader.js`);
 	const sourceLoader = read(`${moduleRoot}/navigator/source-loader.js`);
-	for (const source of [template, app, navigator, loader, sourceLoader]) {
-		assert.match(source, /heichel-mobile-011/);
-		assert.doesNotMatch(source, /heichel-mobile-009/);
-	}
+	assert.match(template, /bootBridge\.js\?v=heichel-mobile-012/);
+	assert.match(template, /app\.js\?v=heichel-mobile-012/);
+	assert.match(bridge, /app\.js\?v=heichel-mobile-012/);
+	assert.match(app, /navigator\.js\?v=heichel-mobile-012/);
+	assert.match(navigator, /living-path\/controller\.js\?v=heichel-mobile-012/);
+	assert.match(navigator, /navigator\/loader\.js\?v=heichel-mobile-011/);
+	assert.match(loader, /source-loader\.js\?v=heichel-mobile-011/);
+	assert.match(sourceLoader, /translation-loader\.js\?v=heichel-mobile-011/);
 	assert.match(template, /index\.css\?v=ikar-mobile-ux-001/);
 });
