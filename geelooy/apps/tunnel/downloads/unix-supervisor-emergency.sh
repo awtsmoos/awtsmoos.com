@@ -4,21 +4,29 @@
 # Blessed is He
 
 # The Awtsmoos keeps the sealed ember until the renewed palace answers with ACK;
-# Awtsmoos.com retires emergency only after proven primary life comes back.
+# Awtsmoos.com watches the exact emergency child without calling an undefined road.
 source "$ROOT/awtsmoos-emergency-runtime.sh"
 
 start_supervisor_emergency() {
 	if start_emergency_runtime; then
-		supervisor_log "emergency_ready" 			"pid=$CHILD_PID root=$(emergency_root) tier=0"
+		supervisor_log "emergency_ready" \
+			"pid=$CHILD_PID root=$(emergency_root) tier=0"
 		return 0
 	fi
 	stop_emergency_runtime
-	supervisor_log "emergency_failed" 		"root=$(emergency_root) log=$(emergency_log_file)"
+	supervisor_log "emergency_failed" \
+		"root=$(emergency_root) log=$(emergency_log_file)"
 	return 1
 }
 
 monitor_supervisor_emergency() {
-	monitor_emergency_runtime
+	while emergency_process_matches "$CHILD_PID"; do
+		if [ -n "${STOP_FILE:-}" ] && [ -f "$STOP_FILE" ]; then
+			return 0
+		fi
+		sleep 1
+	done
+	return 0
 }
 
 stop_supervisor_emergency() {
@@ -35,7 +43,8 @@ retire_emergency_after_primary_registration() {
 	while supervisor_agent_command "$primary_pid"; do
 		if supervisor_receipt_matches "$primary_pid"; then
 			stop_emergency_runtime 2>/dev/null || true
-			supervisor_log "emergency_retired_after_primary_registration" 				"pid=$primary_pid"
+			supervisor_log "emergency_retired_after_primary_registration" \
+				"pid=$primary_pid"
 			return 0
 		fi
 		sleep 1

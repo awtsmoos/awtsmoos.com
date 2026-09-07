@@ -36,9 +36,10 @@ helpers=(
 	unix-agent-identity.cjs unix-supervisor-files.sh unix-supervisor-network-state.cjs
 	unix-supervisor-orphan-executors.cjs unix-supervisor-runtime.sh
 	unix-supervisor-agents.sh unix-supervisor-guard.sh unix-supervisor-health-memory.sh
-	unix-supervisor-receipt.sh unix-supervisor-health.sh unix-supervisor-recovery.sh
-	unix-supervisor-identity.sh unix-supervisor-emergency.sh unix-supervisor-legacy.sh
-	unix-supervisor.sh awtsmoos-tunnel-client.js emergency-auto.sh emergency-sealed.sh
+	unix-supervisor-receipt-state.cjs unix-supervisor-receipt.sh
+	unix-supervisor-health.sh unix-supervisor-recovery.sh unix-supervisor-identity.sh
+	unix-supervisor-emergency.sh unix-supervisor-legacy.sh unix-supervisor.sh
+	awtsmoos-tunnel-client.js emergency-auto.sh emergency-sealed.sh
 	emergency-supervisor.sh emergency-known-good.sh emergency-diagnose.sh emergency-repair.sh
 )
 

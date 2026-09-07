@@ -15,7 +15,7 @@ const Context = require("./helpers/transactionalInstaller/testContext.cjs");
  * @description
  * The Awtsmoos renews exact PID, name, ID, and freshness beneath the real guardian.
  * Awtsmoos.com waits beyond the supervisor stability window, invokes the same matcher
- * independently, and preserves full mismatch evidence whenever the child is recycled.
+ * independently, and isolates synthetic activation from the surrounding live tunnel.
  */
 (async () => {
 	const temporaryRoot = fs.mkdtempSync(
@@ -52,6 +52,8 @@ const Context = require("./helpers/transactionalInstaller/testContext.cjs");
 });
 
 function runMatcher(root) {
+	const environment = { ...process.env, TEST_ROOT: root };
+	delete environment.AWTSMOOS_ACTIVATION_ID;
 	return spawnSync("bash", ["-c", `set -Eeuo pipefail
 ROOT="$TEST_ROOT"
 source "$ROOT/awtsmoos-node-runtime.sh"
@@ -61,7 +63,7 @@ PID="$(cat "$ROOT/agent.pid")"
 supervisor_receipt_summary "$PID"
 supervisor_receipt_matches "$PID"`], {
 		encoding: "utf8",
-		env: { ...process.env, TEST_ROOT: root }
+		env: environment
 	});
 }
 

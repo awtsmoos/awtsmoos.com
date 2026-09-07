@@ -10,7 +10,9 @@ const { spawnSync } = require("node:child_process");
 
 /**
  * @file Proves supervisor recovery receives one stable scalar reason.
- * @description JSON receipt diagnostics remain available without becoming a reason.
+ * @description
+ * The Awtsmoos keeps synthetic testimony sealed from a live tunnel's activation.
+ * Awtsmoos.com preserves JSON diagnostics without letting ambient identity reorder errors.
  */
 const repositoryRoot = path.resolve(__dirname, "../../../../..");
 const receiptSource = path.join(
@@ -24,34 +26,25 @@ try {
 		tunnelName: "awt-test-device"
 	}));
 	fs.writeFileSync(path.join(root, "install-state.txt"), "1.0.500\n");
-
-	writeReceipt({
-		state: "registration_rejected",
-		reason: "invalid_device_credential",
-		pid: 4242
-	});
+	writeReceipt({ state: "registration_rejected", reason: "invalid_device_credential", pid: 4242 });
 	assert.equal(reason(), "registration_invalid_device_credential");
-
 	writeReceipt(registered({ pid: 9999 }));
 	assert.equal(reason(), "registration_receipt_pid_mismatch");
-
 	writeReceipt(registered({ runtimeVersion: "1.0.499" }));
 	assert.equal(reason(), "registration_runtime_version_mismatch");
-
 	writeReceipt(registered());
 	assert.equal(reason(), "registration_stability_timeout");
-
 	const diagnostic = state();
 	assert.equal(JSON.parse(diagnostic).state, "registered");
 	for (const value of [reason(), "registration_invalid_device_credential"]) {
 		assert.doesNotMatch(value, /[{}"\s]/);
 	}
-
 	console.log(JSON.stringify({
 		ok: true,
 		suite: "supervisor-receipt-failure-reason",
 		scalarReasons: true,
-		jsonDiagnosticPreserved: true
+		jsonDiagnosticPreserved: true,
+		ambientActivationIsolated: true
 	}, null, 2));
 } finally {
 	fs.rmSync(root, { recursive: true, force: true });
@@ -82,19 +75,14 @@ function state() {
 }
 
 function invoke(command) {
+	const environment = { ...process.env, TEST_ROOT: root, RECEIPT_SOURCE: receiptSource };
+	delete environment.AWTSMOOS_ACTIVATION_ID;
 	const result = spawnSync("bash", ["-c", [
-		'set -Eeuo pipefail',
+		"set -Eeuo pipefail",
 		'ROOT="$TEST_ROOT"',
 		'source "$RECEIPT_SOURCE"',
 		command
-	].join("\n")], {
-		encoding: "utf8",
-		env: {
-			...process.env,
-			TEST_ROOT: root,
-			RECEIPT_SOURCE: receiptSource
-		}
-	});
+	].join("\n")], { encoding: "utf8", env: environment });
 	assert.equal(result.status, 0, result.stderr || result.stdout);
 	return result.stdout.trim();
 }

@@ -4,8 +4,8 @@
 # Blessed is He
 
 # The Awtsmoos lets an exact living child heal network breath before replacement.
-# Awtsmoos.com keeps process/identity supervision strict while upstream DNS and socket
-# darkness receive bounded time inside the native reconnect covenant.
+# Awtsmoos.com requires fresh testimony to enter registered life, then trusts exact
+# registered identity until the connection process explicitly reports a state change.
 
 supervisor_network_grace_seconds() {
 	local value="${AWTSMOOS_NETWORK_RECONNECT_GRACE_SECONDS:-1800}"
@@ -79,7 +79,7 @@ monitor_registered_child() {
 	local last_network_log=0
 	while supervisor_alive "$CHILD_PID"; do
 		[ -f "$STOP_FILE" ] && finish_supervisor
-		if supervisor_receipt_matches "$CHILD_PID"; then
+		if supervisor_registered_receipt_matches "$CHILD_PID"; then
 			disconnected_at=0
 			last_network_log=0
 			mark_supervisor_healthy 0 || true

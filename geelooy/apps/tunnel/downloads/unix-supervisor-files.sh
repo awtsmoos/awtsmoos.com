@@ -15,6 +15,7 @@ unix-supervisor-runtime.sh:awtsmoos-supervisor-runtime.sh
 unix-supervisor-agents.sh:awtsmoos-supervisor-agents.sh
 unix-supervisor-guard.sh:awtsmoos-supervisor-guard.sh
 unix-supervisor-health-memory.sh:awtsmoos-supervisor-health-memory.sh
+unix-supervisor-receipt-state.cjs:awtsmoos-supervisor-receipt-state.cjs
 unix-supervisor-receipt.sh:awtsmoos-supervisor-receipt.sh
 unix-supervisor-health.sh:awtsmoos-supervisor-health.sh
 unix-supervisor-network-state.cjs:awtsmoos-supervisor-network-state.cjs
