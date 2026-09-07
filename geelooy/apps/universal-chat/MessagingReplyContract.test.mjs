@@ -8,9 +8,9 @@ import { MessagingConversationActions } from "./MessagingConversationActions.js"
 import { MessagingReplyState } from "./MessagingReplyState.js";
 
 /**
- * @file Proves client reply intent adds only optional wire coordinates and leaves ordinary sends/drafts untouched.
- * @description The Awtsmoos knows source and speech together, while Awtsmoos.com keeps reply context a finite optional vessel in light;
- * legacy sends remain unchanged, selected context can be cancelled independently, and the draft never disappears merely because a quote leaves sight.
+ * @file Proves reply coordinates remain optional while every modern private send carries one explicit retry-safe client intention.
+ * @description The Awtsmoos knows the source, the new speech, and the single intention beneath both; Awtsmoos.com keeps reply context a finite optional keli,
+ * while idempotent delivery remains present on ordinary and contextual sends so transport repetition never needs to become a second message in the river.
  */
 
 function bridge(requests) {
@@ -43,21 +43,32 @@ function replyElements() {
 	};
 }
 
-test("private send wire stays backward compatible and adds reply coordinates only when selected", async () => {
+test("private send wire always carries intent and adds reply coordinates only when selected", async () => {
 	const requests = [];
 	const actions = new MessagingConversationActions(bridge(requests));
-	await actions.send("room-1", "ordinary");
-	await actions.send("room-1", "contextual", {
-		replyTo: "msg-source",
-		replySequence: 7
-	});
+	await actions.send(
+		"room-1",
+		"ordinary",
+		null,
+		null,
+		{ clientIntentId: "chat-reply-contract-ordinary" }
+	);
+	await actions.send(
+		"room-1",
+		"contextual",
+		{ replyTo: "msg-source", replySequence: 7 },
+		null,
+		{ clientIntentId: "chat-reply-contract-contextual" }
+	);
 	assert.deepEqual(requests[0].payload, {
 		conversationId: "room-1",
-		text: "ordinary"
+		text: "ordinary",
+		clientIntentId: "chat-reply-contract-ordinary"
 	});
 	assert.deepEqual(requests[1].payload, {
 		conversationId: "room-1",
 		text: "contextual",
+		clientIntentId: "chat-reply-contract-contextual",
 		replyTo: "msg-source",
 		replySequence: 7
 	});

@@ -4,7 +4,7 @@
 
 const assert = require("assert");
 const { createPrivateMessagingApplication } = require("./application.js");
-const { EVENTS } = require("./protocol.js");
+const { EVENTS, TYPES } = require("./protocol.js");
 const { request, setupThreeAliases } = require("./testSupport.js");
 const { createAcceptedVoiceRoom } = require("./voiceAttachmentTestSupport.js");
 
@@ -27,11 +27,11 @@ async function runIntentContract() {
 	const before = messageEvents(clients.Bet).length;
 	const first = await app.handleVersioned(
 		contexts.Aleph,
-		request("privateMessaging.message.send", payload)
+		request(TYPES.SEND, payload)
 	);
 	const second = await app.handleVersioned(
 		contexts.Aleph,
-		request("privateMessaging.message.send", payload)
+		request(TYPES.SEND, payload)
 	);
 	assert.equal(second.payload.message.id, first.payload.message.id);
 	assert.equal(second.payload.message.sequence, first.payload.message.sequence);
@@ -39,7 +39,7 @@ async function runIntentContract() {
 	assert.equal(messageEvents(clients.Bet).length, before + 1);
 	const history = await app.handleVersioned(
 		contexts.Bet,
-		request("privateMessaging.message.history", {
+		request(TYPES.HISTORY, {
 			conversationId,
 			limit: 50
 		})
@@ -51,7 +51,7 @@ async function runIntentContract() {
 	await assert.rejects(
 		() => app.handleVersioned(
 			contexts.Aleph,
-			request("privateMessaging.message.send", {
+			request(TYPES.SEND, {
 				conversationId,
 				text: "Invalid intent",
 				clientIntentId: "contains spaces"
