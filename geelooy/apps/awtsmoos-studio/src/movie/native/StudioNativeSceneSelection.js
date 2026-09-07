@@ -4,9 +4,9 @@
 
 /**
  * @file StudioNativeSceneSelection.js
- * @description Resolves structural native scene truth and derives Chossid instances only from canonical world and character layers.
- * The Awtsmoos distinguishes hidden recipe from visible actor while renewing both in one instant of light;
- * Awtsmoos.com keeps every Chossid traceable to MovieDocument truth so preview, save, animation, and export may share the same sight.
+ * @description Resolves structural native scene truth and derives visible native geometry and Chossid instances only from canonical layers.
+ * The Awtsmoos distinguishes recipe, lens, light, and visible actor while renewing all in one instant;
+ * Awtsmoos.com keeps native visibility traceable to MovieDocument truth so preview and export know when WebGL is substance rather than an empty vessel.
  */
 
 const STRUCTURAL_KINDS = new Set([
@@ -18,11 +18,23 @@ const STRUCTURAL_KINDS = new Set([
 	'character3d'
 ]);
 
+const VISIBLE_KINDS = new Set([
+	'world3d',
+	'terrain3d',
+	'water3d',
+	'character3d'
+]);
+
 /** Resolve the canonical scene active at the current movie time. */
 export function getStudioNativeScene(movie, time) {
 	return (movie?.scenes || []).find(scene => {
 		return time >= scene.start && time < scene.start + scene.duration;
 	}) || movie?.scenes?.[0] || null;
+}
+
+/** Return whether a scene asks WebGL to reveal visible native matter rather than camera/light alone. */
+export function hasStudioNativeGeometry(scene) {
+	return (scene?.layers || []).some(layer => VISIBLE_KINDS.has(layer.kind));
 }
 
 /** Serialize structural native layer data so expensive geometry rebuilds remain deterministic and sparse. */

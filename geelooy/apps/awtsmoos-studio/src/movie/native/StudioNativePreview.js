@@ -4,9 +4,9 @@
 
 /**
  * @file StudioNativePreview.js
- * @description Owns native WebGL for 3D and Hybrid while canonical Studio layers remain the sole source of world truth.
- * The Awtsmoos renews depth beneath every optional sign, and Awtsmoos.com lets each real Chossid enter only from canonical scene law;
- * generated matter rebuilds when structural truth changes, while ordinary playback keeps flowing through the same movie draw.
+ * @description Owns the one native WebGL world runtime shared by interactive preview and exact-timestamp export capture.
+ * The Awtsmoos renews depth beneath every optional sign, and Awtsmoos.com lets real Chossid assets enter only from canonical scene law;
+ * preview may continue while assets descend, while export can await the same promise before it captures the finished native draw.
  */
 
 import { createNativeRenderer } from '../../../../../libs/awtsmoos-procedural-core/src/adapters/native/renderer.js';
@@ -14,11 +14,11 @@ import { loadStudioNativeChossid } from './StudioNativeCharacter.js';
 import {
 	getStudioChossidRecipes,
 	getStudioNativeScene,
-	getStudioNativeSceneSignature
+	getStudioNativeSceneSignature,
+	hasStudioNativeGeometry
 } from './StudioNativeSceneSelection.js';
 import { buildStudioNativeWorld } from './StudioNativeWorldBuilder.js';
 
-/** Native preview coordinator with sparse structural rebuilds and asynchronous real-character loading. */
 export class StudioNativePreview {
 	constructor(canvas, onInvalidate = () => {}) {
 		this.canvas = canvas;
@@ -27,26 +27,20 @@ export class StudioNativePreview {
 		this.signature = '';
 		this.world = null;
 		this.characterRequest = 0;
+		this.characterPromise = Promise.resolve();
+		this.characterError = null;
 	}
 
-	/** Render native depth for 3D/Hybrid and deliberately yield to portable Canvas2D in pure 2D. */
-	render(movie, time = 0, mode = '3d') {
-		if (mode === '2d') {
-			this.canvas.hidden = true;
-			return false;
-		}
+	/** Render native matter, optionally with explicit export pixels instead of CSS geometry. */
+	render(movie, time = 0, mode = '3d', size = null) {
+		if (mode === '2d') return this.hide();
 		try {
 			const studioScene = getStudioNativeScene(movie, time);
-			if (!studioScene) {
-				this.canvas.hidden = true;
-				return false;
-			}
+			if (!studioScene || !hasStudioNativeGeometry(studioScene)) return this.hide();
 			const signature = getStudioNativeSceneSignature(studioScene);
-			if (signature !== this.signature) {
-				this.rebuild(studioScene, signature);
-			}
+			if (signature !== this.signature) this.rebuild(studioScene, signature);
 			this.canvas.hidden = false;
-			this.resize();
+			this.resize(size);
 			this.renderer.setEnvironment(this.world.environment);
 			this.renderer.setInteractor({ x: 0, y: 0, z: 0 }, Number(time));
 			this.renderer.render(this.world.scene, this.world.camera);
@@ -59,39 +53,53 @@ export class StudioNativePreview {
 		}
 	}
 
-	/** Rebuild deterministic geometry, then repaint as each isolated Chossid GLB becomes available. */
+	/** Await the current scene's real character assets; export calls this before final capture. */
+	async settle() {
+		await this.characterPromise;
+		if (this.characterError) throw this.characterError;
+	}
+
 	rebuild(studioScene, signature) {
 		this.signature = signature;
 		this.world = buildStudioNativeWorld(studioScene);
+		this.characterError = null;
 		delete this.canvas.dataset.characterError;
 		const request = ++this.characterRequest;
-		const characters = getStudioChossidRecipes(studioScene, this.world.characterY);
-		for (const options of characters) {
-			void loadStudioNativeChossid(options).then(actor => {
-				if (request !== this.characterRequest || !this.world) return;
-				this.world.scene.add(actor);
-				delete this.canvas.dataset.characterError;
-				this.onInvalidate();
-			}).catch(error => {
-				if (request !== this.characterRequest) return;
-				this.canvas.dataset.characterError = error?.message || 'Chossid failed to load';
-			});
-		}
+		const recipes = getStudioChossidRecipes(studioScene, this.world.characterY);
+		this.characterPromise = Promise.all(recipes.map(options => loadStudioNativeChossid(options)))
+			.then(actors => this.acceptCharacters(request, actors))
+			.catch(error => this.rejectCharacters(request, error));
 	}
 
-	/** Match native render pixels to CSS geometry without allowing extreme mobile DPR to dominate frame cost. */
-	resize() {
-		const rect = this.canvas.getBoundingClientRect();
-		const dpr = Math.min(Number(globalThis.devicePixelRatio || 1), 1.75);
-		const width = Math.max(1, Math.round(rect.width * dpr));
-		const height = Math.max(1, Math.round(rect.height * dpr));
-		if (this.canvas.width !== width || this.canvas.height !== height) {
-			this.renderer.setSize(width, height);
-		}
+	acceptCharacters(request, actors) {
+		if (request !== this.characterRequest || !this.world) return;
+		for (const actor of actors) this.world.scene.add(actor);
+		delete this.canvas.dataset.characterError;
+		this.onInvalidate();
+	}
+
+	rejectCharacters(request, error) {
+		if (request !== this.characterRequest) return;
+		this.characterError = error;
+		this.canvas.dataset.characterError = error?.message || 'Chossid failed to load';
+	}
+
+	resize(size) {
+		const rect = this.canvas.getBoundingClientRect?.() || { width: 0, height: 0 };
+		const dpr = size ? Number(size.dpr || 1) : Math.min(Number(globalThis.devicePixelRatio || 1), 1.75);
+		const cssWidth = Number(size?.width || rect.width || this.canvas.width || 1);
+		const cssHeight = Number(size?.height || rect.height || this.canvas.height || 1);
+		const width = Math.max(1, Math.round(cssWidth * dpr));
+		const height = Math.max(1, Math.round(cssHeight * dpr));
+		if (this.canvas.width !== width || this.canvas.height !== height) this.renderer.setSize(width, height);
 		this.world.camera.aspect = width / height;
 	}
 
-	/** Release GPU resources and invalidate pending asynchronous character insertions. */
+	hide() {
+		this.canvas.hidden = true;
+		return false;
+	}
+
 	dispose() {
 		this.characterRequest += 1;
 		this.renderer?.dispose?.();
