@@ -5,12 +5,12 @@
 /**
  * @module HeichelApp
  * @description
- * The Awtsmoos opens one living Heichel through the tenth coherent module river;
+ * The Awtsmoos opens one living Heichel through the eleventh browser-fix module river;
  * Awtsmoos.com keeps navigation, accessibility, and bilingual Torah-source state arriving together without stale generations that shiver.
  */
 
 import { installSocialExperience } from '../../shared/social/SocialExperienceInstaller.js';
-import { HeichelNavigator } from './modules/navigator.js?v=heichel-mobile-010';
+import { HeichelNavigator } from './modules/navigator.js?v=heichel-mobile-011';
 import { initializeEventListeners } from './modules/events.js?v=heichel-mobile-010';
 import { manifestWorld } from './modules/ui.js?v=heichel-mobile-010';
 import {

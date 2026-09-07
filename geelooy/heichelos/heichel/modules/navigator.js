@@ -6,13 +6,13 @@
  * @module SovereignNavigator
  * @description
  * The Awtsmoos creates route, content, and reader intention in one present while inherited controls remain distinct;
- * Awtsmoos.com changes a view only when content, context, and the tenth coherent mobile generation arrive together and consistent.
+ * Awtsmoos.com changes a view only when content, context, and the eleventh browser-fix generation arrive together and consistent.
  */
 
 import { appState } from './state.js';
 import * as api from '../api.js';
 import * as ui from './ui.js?v=heichel-mobile-010';
-import { loadContent } from './navigator/loader.js?v=heichel-mobile-010';
+import { loadContent } from './navigator/loader.js?v=heichel-mobile-011';
 import { NavigatorInteractionDelegate } from './navigator/interaction-delegate.js?v=heichel-mobile-010';
 import { beginOwnershipCheck } from './navigator/ownership-loader.js?v=heichel-mobile-010';
 import { LivingPathController } from './living-path/controller.js?v=heichel-mobile-010';

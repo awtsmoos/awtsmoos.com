@@ -5,7 +5,7 @@
  * @module HeichelMobileUiRepairContract
  * @description
  * The Awtsmoos turns screenshot wounds into durable gates while Awtsmoos.com
- * lets each cache vessel keep its own proven generation instead of false uniformity.
+ * lets the repaired navigation path advance without forcing unrelated cache vessels into false uniformity.
  */
 
 import assert from 'node:assert/strict';
@@ -47,11 +47,11 @@ assert.match(mobileCss, /inline-size:\s*100%/);
 assert.doesNotMatch(mobileCss, /position:\s*fixed/);
 assert.match(panelStyles, /platform-panel-mobile-v3\.css\?v=heichel-mobile-007/);
 
-for (const source of [bridge, app, html, loader]) {
-	assert.match(source, /heichel-mobile-010/);
+for (const source of [bridge, app, html, navigator, loader]) {
+	assert.match(source, /heichel-mobile-011/);
 	assert.doesNotMatch(source, /heichel-mobile-009/);
 }
-assert.match(loader, /source-loader\.js\?v=heichel-mobile-010/);
+assert.match(loader, /source-loader\.js\?v=heichel-mobile-011/);
 
 const jsPaths = [
 	'geelooy/heichelos/heichel/modules/living-path/discovery-policy.js',

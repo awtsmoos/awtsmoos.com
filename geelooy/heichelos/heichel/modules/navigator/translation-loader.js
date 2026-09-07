@@ -6,10 +6,10 @@
  * @module NavigatorTranslationLoader
  * @description
  * The Awtsmoos lets translation metadata arrive as an optional ohr without blocking the source vessel beneath;
- * Awtsmoos.com contains transport failure in Gevurah, so unavailable English metadata never erases authoritative Torah breath.
+ * Awtsmoos.com draws from the modern module API in Yesod, so bilingual truth reaches the learner without a legacy-path breach.
  */
 
-import * as api from '../../api.js';
+import * as api from '../api.js';
 
 /**
  * Loads translation metadata only for series whose real architecture declares translation coverage.

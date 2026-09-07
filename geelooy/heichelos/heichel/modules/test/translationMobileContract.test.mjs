@@ -6,7 +6,7 @@
  * @file TranslationMobileContract
  * @description
  * The Awtsmoos lets translation metadata cross its own Yesod gateway while Living Path reveals coverage without clutter;
- * Awtsmoos.com proves bilingual language tools, mobile badges, result links, and optional loading remain aligned instead of utter.
+ * Awtsmoos.com proves bilingual language tools, modern API ownership, mobile badges, and optional loading remain aligned instead of utter.
  */
 
 import assert from 'node:assert/strict';
@@ -69,8 +69,10 @@ const css = read('geelooy/style/heichelos/heichel/cosmic-profile/mobile-series/l
 const apiSource = read('geelooy/heichelos/heichel/modules/api/translations.js');
 const hub = read('geelooy/heichelos/heichel/modules/ui/translation-hub-renderer.js');
 
-assert.match(sourceLoader, /loadOptionalTranslations/);
+assert.match(sourceLoader, /translation-loader\.js\?v=heichel-mobile-011/);
 assert.match(sourceLoader, /annotateTranslationState/);
+assert.match(translationLoader, /from '\.\.\/api\.js'/);
+assert.doesNotMatch(translationLoader, /from '\.\.\/\.\.\/api\.js'/);
 assert.match(translationLoader, /getSeriesTranslations/);
 assert.match(controller, /LivingPathTranslationSearch/);
 assert.match(layout, /translationSearchResults/);

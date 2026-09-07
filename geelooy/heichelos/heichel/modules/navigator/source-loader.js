@@ -6,7 +6,7 @@
  * @module NavigatorSourceLoader
  * @description
  * The Awtsmoos lets persisted Torah, native Chitas, source-backed leaves, and language tools share one truthful navigation breath;
- * Awtsmoos.com reveals virtual children before presentation, so a real Torah host never wears the false garment of an empty depth.
+ * Awtsmoos.com reveals virtual children before presentation, while the eleventh browser-fix vessel carries optional translation light.
  */
 
 import { appState } from '../state.js';
@@ -28,7 +28,7 @@ import {
 import { translationHubCard } from '../translationHubPresentation.js?v=language-tools-003';
 import { loadTranslationHubVirtualSeries } from '../translationHubVirtualSeries.js?v=language-tools-003';
 import { normalizeCollection } from './content-normalizer.js';
-import { loadOptionalTranslations } from './translation-loader.js?v=heichel-mobile-010';
+import { loadOptionalTranslations } from './translation-loader.js?v=heichel-mobile-011';
 
 /**
  * Loads the exact source vessel for a persisted or virtual series identity.

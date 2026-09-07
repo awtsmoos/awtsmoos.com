@@ -5,8 +5,8 @@
 /**
  * @module ChitasBootCacheGraphTest
  * @description
- * The Awtsmoos sends one fresh tenth Heichel generation from document to daily Torah leaf without a cached fracture in between;
- * Awtsmoos.com guards each import edge while native-chitas-003 stays stable, so yesterday's browser graph cannot masquerade again.
+ * The Awtsmoos sends one fresh browser-fix path from document to source loader without a cached fracture in between;
+ * Awtsmoos.com guards that eleventh edge while native-chitas-003 stays stable, so unrelated Daily Chitas vessels remain serene.
  */
 
 import assert from 'node:assert/strict';
@@ -23,37 +23,26 @@ const virtualSeries = read('geelooy/heichelos/heichel/modules/chitas/virtual-ser
 const schedule = read('geelooy/heichelos/heichel/modules/chitas/schedule.js');
 
 for (const [name, source] of [
-	['template', template],
 	['bridge', bridge],
 	['app', app],
 	['navigator', navigator],
-	['loader', loader]
+	['loader', loader],
+	['sourceLoader', sourceLoader]
 ]) {
-	assert.match(
-		source,
-		/heichel-mobile-010/,
-		`${name} must participate in generation 010`
-	);
-	assert.doesNotMatch(
-		source,
-		/heichel-mobile-009|heichel-mobile-008/,
-		`${name} must not retain an older Heichel generation`
-	);
+	assert.match(source, /heichel-mobile-011/, `${name} must participate in the browser-fix generation`);
+	assert.doesNotMatch(source, /heichel-mobile-009|heichel-mobile-008/);
 }
-
+assert.match(template, /bootBridge\.js\?v=heichel-mobile-011/);
+assert.match(template, /app\.js\?v=heichel-mobile-011/);
+assert.match(bridge, /app\.js\?v=heichel-mobile-011/);
+assert.match(app, /navigator\.js\?v=heichel-mobile-011/);
+assert.match(navigator, /navigator\/loader\.js\?v=heichel-mobile-011/);
+assert.match(loader, /source-loader\.js\?v=heichel-mobile-011/);
+assert.match(sourceLoader, /translation-loader\.js\?v=heichel-mobile-011/);
 assert.match(sourceLoader, /virtual-series\.js\?v=native-chitas-003/);
 assert.match(virtualSeries, /schedule\.js\?v=native-chitas-003/);
 assert.match(schedule, /date-policy\.js\?v=native-chitas-003/);
-assert.doesNotMatch(
-	sourceLoader + virtualSeries + schedule,
-	/native-chitas-002|chabadStudyHref|chabad\.org|externalHref/
-);
-assert.match(template, /bootBridge\.js\?v=heichel-mobile-010/);
-assert.match(template, /app\.js\?v=heichel-mobile-010/);
-assert.match(bridge, /app\.js\?v=heichel-mobile-010/);
-assert.match(app, /navigator\.js\?v=heichel-mobile-010/);
-assert.match(navigator, /navigator\/loader\.js\?v=heichel-mobile-010/);
-assert.match(loader, /source-loader\.js\?v=heichel-mobile-010/);
+assert.doesNotMatch(sourceLoader + virtualSeries + schedule, /native-chitas-002|chabadStudyHref|chabad\.org|externalHref/);
 
 for (const [path, source] of [
 	['bootBridge.js', bridge],
@@ -64,10 +53,7 @@ for (const [path, source] of [
 	['virtual-series.js', virtualSeries],
 	['schedule.js', schedule]
 ]) {
-	assert.ok(
-		source.split('\n').length - 1 <= 120,
-		`${path} exceeds the 120-line covenant`
-	);
+	assert.ok(source.split('\n').length - 1 <= 120, `${path} exceeds the 120-line covenant`);
 }
 
 console.log('B"H Chitas boot cache graph contract passed.');
