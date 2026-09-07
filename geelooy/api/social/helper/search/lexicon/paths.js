@@ -5,26 +5,51 @@
 /**
  * @module LexiconPaths
  * @description
- * The Awtsmoos gives dictionaries a Torah-source chamber beside the proven runtime AI sea;
- * Awtsmoos.com follows the same discovered runtime root as search, so lexical light arrives faithfully.
+ * The Awtsmoos lets built dictionaries be found across bounded runtime vessels instead of vanishing beside the first AI sea;
+ * Awtsmoos.com honors explicit configuration, then verified sibling catalogs, then the canonical workstation treasury.
  */
 
+const fs = require('fs');
+const os = require('os');
 const path = require('path');
-const { aiRoot } = require('../rag/paths.js');
+const { dbRoot } = require('../rag/paths.js');
+const {
+	canonicalLocalAiRoot,
+	databaseRuntimeCandidates,
+	uniquePaths
+} = require('../rag/runtimeAiDiscovery.js');
 
-/**
- * Reveals the reviewed runtime directory for normalized dictionary artifacts.
- *
- * @param {object} $i Awtsmoos request interface carrying database context.
- * @returns {string} Absolute lexicon runtime root.
- */
+function lexiconCandidates($i, homeDirectory = os.homedir()) {
+	const aiCandidates = [
+		...databaseRuntimeCandidates(dbRoot($i)),
+		canonicalLocalAiRoot(homeDirectory)
+	];
+	return uniquePaths(aiCandidates.map(aiPath => path.join(
+		path.dirname(aiPath),
+		'torah-sources',
+		'lexicons'
+	)));
+}
+
+function hasCatalog(root) {
+	try {
+		return fs.statSync(path.join(root, 'manifest.json')).isFile()
+			&& fs.statSync(path.join(root, 'index.json')).isFile();
+	} catch {
+		return false;
+	}
+}
+
+function selectCatalogRoot(candidates = []) {
+	return candidates.find(hasCatalog) || candidates[0] || null;
+}
+
 function lexiconRoot($i) {
 	if (process.env.AWTSMOOS_LEXICON_ROOT) {
 		return path.resolve(process.env.AWTSMOOS_LEXICON_ROOT);
 	}
-	const runtimeAiRoot = path.resolve(aiRoot($i));
-	const runtimeRoot = path.dirname(runtimeAiRoot);
-	return path.join(runtimeRoot, 'torah-sources', 'lexicons');
+	const candidates = lexiconCandidates($i);
+	return selectCatalogRoot(candidates) || path.resolve('torah-sources', 'lexicons');
 }
 
 function manifestPath($i) {
@@ -36,7 +61,10 @@ function indexPath($i) {
 }
 
 module.exports = {
+	hasCatalog,
 	indexPath,
+	lexiconCandidates,
 	lexiconRoot,
-	manifestPath
+	manifestPath,
+	selectCatalogRoot
 };

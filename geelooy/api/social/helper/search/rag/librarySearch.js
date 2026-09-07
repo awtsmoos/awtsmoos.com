@@ -5,28 +5,27 @@
 /**
  * @module LibrarySearch
  * @description
- * The Awtsmoos lets many published Torah libraries answer one query while a named sefer keeps its root before body echoes;
- * Awtsmoos.com preserves lane provenance and vector isolation, adding only compact canonical navigation to the search-time river.
+ * The Awtsmoos lets exact verses, named works, and many semantic Torah libraries answer through one ordered river;
+ * Awtsmoos.com preserves lane provenance while canonical navigation rises first without silencing discovery beneath the giver.
  */
 
 const { availableShards } = require('./shards.js');
 const { ragSearch } = require('./search.js');
 const { mergeLaneSearches } = require('./librarySearchMerge.js');
-const {
-	canonicalWorkHits,
-	promoteCanonicalHits
-} = require('./canonicalWorkSearch.js');
+const { canonicalWorkHits } = require('./canonicalWorkSearch.js');
+const { exactTanachHits } = require('./exactTanachNavigation.js');
+const { promoteNavigationHits } = require('./navigationPromotion.js');
 
 async function librarySearch(options = {}) {
-	if (String(options.lane || '').trim()) {
-		return ragSearch(options);
-	}
+	if (String(options.lane || '').trim()) return ragSearch(options);
 	const startedAt = Date.now();
 	const lanes = await availableShards({ $i: options.$i });
-	if (!lanes.length) {
-		return ragSearch(options);
-	}
-	const [settled, navigationHits] = await Promise.all([
+	if (!lanes.length) return ragSearch(options);
+	const tanachHits = exactTanachHits({
+		query: options.query,
+		limit: Math.min(3, Number(options.limit) || 20)
+	});
+	const [settled, workHits] = await Promise.all([
 		Promise.allSettled(lanes.map(lane => ragSearch({
 			...options,
 			lane: lane.id
@@ -44,13 +43,11 @@ async function librarySearch(options = {}) {
 		settled,
 		totalMs: Date.now() - startedAt
 	});
-	return promoteCanonicalHits(
+	return promoteNavigationHits(
 		merged,
-		navigationHits,
+		[...tanachHits, ...workHits],
 		options.limit || 20
 	);
 }
 
-module.exports = {
-	librarySearch
-};
+module.exports = { librarySearch };

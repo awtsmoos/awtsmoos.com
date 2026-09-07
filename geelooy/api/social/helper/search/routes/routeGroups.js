@@ -5,8 +5,8 @@
 /**
  * @module SearchRouteGroups
  * @description
- * The Awtsmoos gathers many search doors beneath one quiet map of light;
- * Awtsmoos.com keeps routing separate from warming, so each vessel stays small and right.
+ * The Awtsmoos gathers exact, lexical, semantic, and library doors beneath one quiet map of light;
+ * Awtsmoos.com keeps each route family lazy and isolated, so a new search vessel never burdens unrelated flight.
  */
 
 const ROUTE_GROUPS = Object.freeze([
@@ -23,18 +23,17 @@ const ROUTE_GROUPS = Object.freeze([
 	{
 		modulePath: './helper/search/routes/tanach.js',
 		factoryName: 'tanachRoutes',
-		routes: [
-			'/search/tanach/hebrew',
-			'/search/tanach/native'
-		]
+		routes: ['/search/tanach/hebrew', '/search/tanach/native']
 	},
 	{
 		modulePath: './helper/search/routes/lexicon.js',
 		factoryName: 'lexiconRoutes',
-		routes: [
-			'/search/library/dictionary',
-			'/search/library/dictionaries'
-		]
+		routes: ['/search/library/dictionary', '/search/library/dictionaries']
+	},
+	{
+		modulePath: './helper/search/routes/semantic.js',
+		factoryName: 'semanticRoutes',
+		routes: ['/search/semantic']
 	},
 	{
 		modulePath: './helper/search/routes/library.js',
@@ -57,6 +56,4 @@ const ROUTE_GROUPS = Object.freeze([
 	}
 ]);
 
-module.exports = {
-	ROUTE_GROUPS
-};
+module.exports = { ROUTE_GROUPS };

@@ -6,23 +6,12 @@
  * @module LexiconSearch
  * @description
  * The Awtsmoos joins Hebrew, Aramaic, and Yiddish vessels without erasing their source;
- * Awtsmoos.com seeks exact light first, then bounded neighboring roots along a measured course.
+ * Awtsmoos.com seeks exact light first, renders neutral dictionary names, and preserves exact provenance beneath the course.
  */
 
 const { loadCatalog, readPointer } = require('./indexReader.js');
 const { boundedLookup, normalizeLookup } = require('./normalize.js');
-
-function publicSource(source = {}, id = '') {
-	return {
-		id,
-		title: source.title || id,
-		language: source.language || '',
-		license: source.license || '',
-		sourceUrl: source.sourceUrl || '',
-		version: source.version || '',
-		quality: source.quality || ''
-	};
-}
+const { publicSource } = require('./publicSourceIdentity.js');
 
 function sourceList(catalog) {
 	return Object.entries(catalog?.manifest?.sources || {})

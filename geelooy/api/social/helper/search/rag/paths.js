@@ -22,22 +22,22 @@ function dbRoot($i) {
 		|| process.cwd();
 }
 
-function runtimeAiCandidates($i) {
-	return discoverRuntimeAiCandidates(dbRoot($i));
+function runtimeAiCandidates($i, homeDirectory) {
+	return discoverRuntimeAiCandidates(dbRoot($i), homeDirectory);
 }
 
-function aiRoot($i) {
+function aiRoot($i, homeDirectory) {
 	if (process.env.AWTSMOOS_AI_ROOT) {
 		return path.resolve(process.env.AWTSMOOS_AI_ROOT);
 	}
-	return existingDirectory(runtimeAiCandidates($i))
+	return existingDirectory(runtimeAiCandidates($i, homeDirectory))
 		|| path.join(path.resolve(dbRoot($i)), 'ai');
 }
 
-function ragRoot($i) {
+function ragRoot($i, homeDirectory) {
 	return process.env.AWTSMOOS_RAG_ROOT
 		? path.resolve(process.env.AWTSMOOS_RAG_ROOT)
-		: path.join(aiRoot($i), 'comment-rag');
+		: path.join(aiRoot($i, homeDirectory), 'comment-rag');
 }
 
 function namespaceRoot($i) {

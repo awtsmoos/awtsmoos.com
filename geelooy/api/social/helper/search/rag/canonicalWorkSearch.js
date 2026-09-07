@@ -6,45 +6,29 @@
  * @module CanonicalWorkSearch
  * @description
  * The Awtsmoos lets the named root of a Torah work arrive before scattered body echoes compete;
- * Awtsmoos.com promotes compact canonical navigation while leaving every semantic lane intact beneath its feet.
+ * Awtsmoos.com shapes stable work navigation and delegates de-duplication to the shared canonical promotion vessel.
  */
 
 const {
 	canonicalWorkSummaries,
 	rankWorkSummaries
 } = require('./canonicalWorkIndex.js');
+const { promoteNavigationHits } = require('./navigationPromotion.js');
 const { sourceHref } = require('./wikisourceBrowseShape.js');
 
-/** Finds canonical Torah works without invoking vector construction or scanning full page text. */
 async function canonicalWorkHits({ $i, query = '', limit = 5 } = {}) {
 	const summaries = await canonicalWorkSummaries({ $i });
 	return rankWorkSummaries(summaries, query, limit)
 		.map((summary, index) => workHit(summary, index + 1));
 }
 
-/** Places canonical work navigation first and de-duplicates its root page from semantic hits. */
+/** Preserves the historical work-specific promotion API for callers and tests. */
 function promoteCanonicalHits(result = {}, navigationHits = [], limit = 20) {
-	const boundedLimit = Math.max(1, Number(limit) || 20);
-	const canonicalPageIds = new Set(
-		navigationHits
-			.map(hit => String(hit.row?.pageId || ''))
-			.filter(Boolean)
-	);
-	const semanticHits = Array.isArray(result.hits) ? result.hits : [];
-	const combined = [
-		...navigationHits,
-		...semanticHits.filter(hit => !canonicalPageIds.has(String(hit.row?.pageId || '')))
-	]
-		.slice(0, boundedLimit)
-		.map((hit, index) => ({ ...hit, rank: index + 1 }));
-	return {
-		...result,
-		hits: combined,
-		navigationHits,
-		message: navigationHits.length
-			? `${navigationHits.length} canonical Torah work match(es), followed by ${result.message || 'library results'}.`
-			: result.message
-	};
+	const promoted = promoteNavigationHits(result, navigationHits, limit);
+	return navigationHits.length ? {
+		...promoted,
+		message: `${navigationHits.length} canonical Torah work match(es), followed by ${result.message || 'library results'}.`
+	} : promoted;
 }
 
 function workHit(summary, rank) {

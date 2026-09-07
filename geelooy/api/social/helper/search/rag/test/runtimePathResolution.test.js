@@ -1,10 +1,12 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @file runtimePathResolution.test.js
  * @description
- * Proves canonical data stays isolated while existing rebuildable AI storage is
- * discovered without creation, mutation, or machine-specific hard-coding.
+ * The Awtsmoos lets runtime discovery be tested inside a sealed temporary home instead of inheriting one developer machine;
+ * Awtsmoos.com proves canonical, fallback, and explicit roots deterministically while production discovery remains unchanged in line.
  */
 
 const test = require('node:test');
@@ -36,39 +38,47 @@ function withEnvironment(values, task) {
 }
 
 function fixture() {
-	const documents = fs.mkdtempSync(path.join(os.tmpdir(), 'awtsmoos-documents-'));
+	const home = fs.mkdtempSync(path.join(os.tmpdir(), 'awtsmoos-home-'));
+	const documents = path.join(home, 'Documents');
 	const database = path.join(documents, 'awtsmoos', 'dayuhChadash');
 	const runtime = path.join(documents, 'dayuhChadash-runtime', 'ai');
 	fs.mkdirSync(database, { recursive: true });
-	return { context: { db: { directory: database } }, database, documents, runtime };
+	return { context: { db: { directory: database } }, database, home, runtime };
+}
+
+function withoutOverrides(task) {
+	return withEnvironment({
+		AWTSMOOS_AI_ROOT: undefined,
+		AWTSMOOS_RAG_ROOT: undefined
+	}, task);
 }
 
 test('discovers an existing Documents-level runtime root', () => {
 	const value = fixture();
 	fs.mkdirSync(value.runtime, { recursive: true });
-	withEnvironment({ AWTSMOOS_AI_ROOT: undefined, AWTSMOOS_RAG_ROOT: undefined }, () => {
-		assert(runtimeAiCandidates(value.context).includes(value.runtime));
-		assert.equal(aiRoot(value.context), value.runtime);
-		assert.equal(ragRoot(value.context), path.join(value.runtime, 'comment-rag'));
+	withoutOverrides(() => {
+		assert(runtimeAiCandidates(value.context, value.home).includes(value.runtime));
+		assert.equal(aiRoot(value.context, value.home), value.runtime);
+		assert.equal(ragRoot(value.context, value.home), path.join(value.runtime, 'comment-rag'));
 	});
-	fs.rmSync(value.documents, { recursive: true, force: true });
+	fs.rmSync(value.home, { recursive: true, force: true });
 });
 
-test('falls back inside an isolated database root when no runtime exists', () => {
+test('falls back inside isolated database root when no runtime exists', () => {
 	const value = fixture();
-	withEnvironment({ AWTSMOOS_AI_ROOT: undefined, AWTSMOOS_RAG_ROOT: undefined }, () => {
-		assert.equal(aiRoot(value.context), path.join(value.database, 'ai'));
+	withoutOverrides(() => {
+		assert.equal(aiRoot(value.context, value.home), path.join(value.database, 'ai'));
 	});
-	fs.rmSync(value.documents, { recursive: true, force: true });
+	fs.rmSync(value.home, { recursive: true, force: true });
 });
 
 test('preserves explicit AI and RAG environment overrides', () => {
 	const value = fixture();
-	const explicitAi = path.join(value.documents, 'explicit-ai');
-	const explicitRag = path.join(value.documents, 'explicit-rag');
+	const explicitAi = path.join(value.home, 'explicit-ai');
+	const explicitRag = path.join(value.home, 'explicit-rag');
 	withEnvironment({ AWTSMOOS_AI_ROOT: explicitAi, AWTSMOOS_RAG_ROOT: explicitRag }, () => {
-		assert.equal(aiRoot(value.context), explicitAi);
-		assert.equal(ragRoot(value.context), explicitRag);
+		assert.equal(aiRoot(value.context, value.home), explicitAi);
+		assert.equal(ragRoot(value.context, value.home), explicitRag);
 	});
-	fs.rmSync(value.documents, { recursive: true, force: true });
+	fs.rmSync(value.home, { recursive: true, force: true });
 });
