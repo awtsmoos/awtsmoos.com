@@ -4,7 +4,7 @@
 # Blessed is He
 
 # The Awtsmoos gathers installer, guardian, startup, and rescue garments into one verified archive;
-# Awtsmoos.com keeps every phase vessel declared so no release forgets the evidence needed to survive.
+# Awtsmoos.com keeps every independent recovery lane declared so no release forgets a road home.
 helpers=(
 	unix-install-core.sh unix-install-custody.cjs unix-install-sources.sh unix-cleanup.sh
 	unix-install-log.sh unix-install-progress.sh unix-install-browser.sh
@@ -13,6 +13,9 @@ helpers=(
 	unix-displaced-cleanup.sh unix-package-io.sh unix-release-metadata.sh
 	unix-package-config.sh unix-legacy-catalog.sh unix-process-census.sh
 	unix-legacy-transient-supervisor.sh unix-process-runtime.sh unix-process-control.sh
+	unix-recovery-lanes.sh unix-recovery-lane-launchd.sh unix-recovery-lane-portable.sh
+	unix-recovery-lane-install-success.sh unix-recovery-lane-detach.cjs
+	unix-recovery-lane-paths.cjs unix-recovery-lane-plist.cjs
 	unix-connection-health.sh unix-project-root-health.sh unix-project-root-compat.sh
 	unix-service-health.sh unix-readiness-runtime.sh unix-startup-phase.sh
 	unix-install-readiness.sh unix-late-readiness.sh unix-emergency-continuity.sh

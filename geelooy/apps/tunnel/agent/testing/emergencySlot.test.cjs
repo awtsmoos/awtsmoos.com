@@ -15,46 +15,39 @@ const source = Fixture.create(path.join(sandbox, "live"));
 const recovery = path.join(sandbox, "recovery");
 
 /**
- * The Awtsmoos seals a fallback where nested code remains bright,
- * while transient root testimony dissolves before Awtsmoos.com takes flight.
+ * @file Proves sealed Tier-0 survives live-root destruction while keeping only bounded recovery power.
+ * @description
+ * The Awtsmoos seals the recovery flame beyond replaceable code; Awtsmoos.com preserves
+ * the single-process entry while root process testimony and arbitrary command authority erode.
  */
-test("verified live runtime becomes a sealed restricted fallback", () => {
-	const captured = Slot.capture(source, recovery, {
-		version: "9.9.9",
-		port: 3987
-	});
+test("verified live runtime becomes a sealed recovery-only fallback", () => {
+	const captured = Slot.capture(source, recovery, { version: "9.9.9" });
 	assert.equal(captured.ok, true);
-
 	const verified = Slot.verify(recovery);
 	assert.equal(verified.ok, true);
+	assert.equal(verified.config.recoveryOnly, true);
 	assert.equal(verified.config.allowSecrets, false);
-	assert.equal(verified.config.tools.command, true);
+	assert.equal(verified.config.allowWrite, false);
+	assert.equal(verified.config.allowCommands, false);
+	assert.equal(verified.config.tools.command, false);
+	assert.equal(verified.config.tools.fsWrite, false);
 	assert.equal(verified.config.tools.chrome, false);
-	assert.equal(verified.config.tools.browser, false);
-	assert.equal(verified.config.localApi.port, 3987);
 	assert.equal(verified.receipt.version, "9.9.9");
-
-	const nestedModule = path.join(verified.root, Fixture.NESTED_AGENT_MODULE);
-	const rootTestimony = path.join(verified.root, Fixture.ROOT_TESTIMONY_FILE);
-	assert.equal(fs.existsSync(nestedModule), true);
-	assert.equal(fs.existsSync(rootTestimony), false);
+	assert.equal(verified.receipt.topology, "single-process-bounded-recovery");
+	assert.equal(fs.existsSync(verified.runtime), true);
+	assert.equal(fs.existsSync(path.join(verified.root, Fixture.NESTED_AGENT_MODULE)), true);
+	assert.equal(fs.existsSync(path.join(verified.root, Fixture.ROOT_TESTIMONY_FILE)), false);
 });
 
 test("fallback survives destruction of the replaceable live runtime", () => {
-	fs.rmSync(source, {
-		recursive: true,
-		force: true
-	});
+	fs.rmSync(source, { recursive: true, force: true });
 	const verified = Slot.verify(recovery);
 	assert.equal(verified.ok, true);
+	assert.equal(fs.existsSync(verified.runtime), true);
 	assert.equal(fs.existsSync(path.join(verified.root, "main.js")), true);
-	assert.equal(fs.existsSync(path.join(
-		verified.root,
-		Fixture.NESTED_AGENT_MODULE
-	)), true);
 });
 
-test("tampering seals the fallback shut", () => {
+test("tampering sealed executable law closes the fallback", () => {
 	const verified = Slot.verify(recovery);
 	fs.appendFileSync(path.join(verified.root, "main.js"), "// tampered\n");
 	const rejected = Slot.verify(recovery);
@@ -63,8 +56,5 @@ test("tampering seals the fallback shut", () => {
 });
 
 test.after(() => {
-	fs.rmSync(sandbox, {
-		recursive: true,
-		force: true
-	});
+	fs.rmSync(sandbox, { recursive: true, force: true });
 });

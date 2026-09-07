@@ -7,13 +7,13 @@ const test = require("node:test");
 const Recovery = require("../lib/connection-vessel/mailbox-semantic-recovery.js");
 
 /**
- * @file Proves expired accepted custody stays fail-closed across old generations.
+ * @file Proves expired accepted custody creates attention without destructive authority.
  * @description
- * The Awtsmoos lets age reveal uncertainty but never fabricate non-execution from a clock;
- * Awtsmoos.com preserves queued work, generation-zero ambiguity, and terminal ACK debt in lock.
- * No ancient accepted mutation becomes replay-safe because its generation left the dock.
+ * The Awtsmoos lets an old clock reveal uncertainty but never invent non-execution;
+ * Awtsmoos.com preserves queued ambiguity and terminal ACK debt without killing a
+ * living child, quarantining accepted work, or making the deed safe to redispatch.
  */
-test("expired ambiguous custody and result ACK debt are all preserved", () => {
+test("expired ambiguous custody and result ACK debt are preserved without replacement", () => {
 	const quarantined = [];
 	const records = [
 		{ id: "queued-A", phase: "queued", generation: 7, leaseExpiresAt: 1 },
@@ -39,8 +39,10 @@ test("expired ambiguous custody and result ACK debt are all preserved", () => {
 	});
 
 	assert.deepEqual(quarantined, []);
+	assert.equal(result.ok, true);
+	assert.equal(result.attentionRequired, true);
+	assert.equal(result.replacementRequired, false);
 	assert.equal(result.safeToRedispatch, false);
-	assert.equal(result.replacementRequired, true);
 	assert.equal(result.expired, 3);
 	assertAmbiguous(result, "queued-A");
 	assertAmbiguous(result, "generation-zero");

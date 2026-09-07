@@ -5,22 +5,16 @@
 const Live = require("../../core/clientLiveness.js");
 
 /**
- * B"H
- *
- * A tunnel name is a throne, not a race won by the last packet. The Awtsmoos
- * renews incumbent and contender; Awtsmoos.com compares protocol generation
- * and client authority so a commandless fallback cannot impersonate modern v2.
+ * @file Orders registration contenders without letting a weak fallback seize a healthy route.
+ * @description
+ * The Awtsmoos renews incumbent and contender beneath one authenticated registry key;
+ * Awtsmoos.com grants split-equivalent authority only to an explicitly recovery-only emergency takeover.
  */
-
 function protocolGeneration(value) {
 	const text = String(value || "").trim().toLowerCase();
 	const match = text.match(/(?:^|[-_])v(\d+)(?:$|[-_])/);
-	if (match) {
-		return boundedGeneration(match[1]);
-	}
-	if (/^\d+$/.test(text)) {
-		return boundedGeneration(text);
-	}
+	if (match) return boundedGeneration(match[1]);
+	if (/^\d+$/.test(text)) return boundedGeneration(text);
 	return 0;
 }
 
@@ -31,17 +25,18 @@ function boundedGeneration(value) {
 		: 0;
 }
 
+function recoveryTakeover(value = {}) {
+	return String(value.registrationMode || "") === "emergency-takeover" &&
+		value.capabilities?.recoveryOnlyV1 === true &&
+		value.capabilities?.recoveryControlV1 === true;
+}
+
 function clientAuthority(value = {}) {
 	const version = String(value.agentVersion || "").trim().toLowerCase();
-	if (/^split-agent(?:-|$)/.test(version)) {
-		return 30;
-	}
-	if (value.browserAgent === true || value.vesselType === "browser-tunnel") {
-		return 20;
-	}
-	if (version && version !== "unknown" && version !== "native-local") {
-		return 10;
-	}
+	if (/^split-agent(?:-|$)/.test(version)) return 30;
+	if (recoveryTakeover(value)) return 30;
+	if (value.browserAgent === true || value.vesselType === "browser-tunnel") return 20;
+	if (version && version !== "unknown" && version !== "native-local") return 10;
 	return 0;
 }
 
@@ -53,9 +48,7 @@ function authority(value = {}) {
 }
 
 function compare(left, right) {
-	if (left.generation !== right.generation) {
-		return left.generation - right.generation;
-	}
+	if (left.generation !== right.generation) return left.generation - right.generation;
 	return left.client - right.client;
 }
 
@@ -74,26 +67,20 @@ function decide(previous, contender = {}, now = Date.now()) {
 		incumbentGeneration: incumbent.generation,
 		incumbentHealthy
 	};
-	if (!previous) {
-		return decision("accept", "unowned", details);
-	}
-	if (previous === contender.client) {
-		return decision("accept", "same_socket", details);
-	}
+	if (!previous) return decision("accept", "unowned", details);
+	if (previous === contender.client) return decision("accept", "same_socket", details);
 	if (incumbentHealthy && compare(incumbent, incoming) > 0) {
 		return decision("fence", "healthy_higher_authority_owner", details);
 	}
-	return decision("replace", incumbentHealthy
-		? "equal_or_higher_authority_contender"
-		: "incumbent_stale", details);
+	return decision(
+		"replace",
+		incumbentHealthy ? "equal_or_higher_authority_contender" : "incumbent_stale",
+		details
+	);
 }
 
 function decision(action, reason, details) {
-	return Object.freeze({
-		action,
-		reason,
-		...details
-	});
+	return Object.freeze({ action, reason, ...details });
 }
 
 module.exports = {
@@ -102,5 +89,6 @@ module.exports = {
 	compare,
 	decide,
 	ownerIsHealthy,
-	protocolGeneration
+	protocolGeneration,
+	recoveryTakeover
 };

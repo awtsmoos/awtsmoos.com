@@ -21,12 +21,18 @@ const Slots = require("../lib/deviceIdentity/identitySlots.js");
 const SlotStore = require("../lib/deviceIdentity/identitySlotStore.js");
 const Verification = require("../lib/deviceIdentity/identitySlotVerification.js");
 
+/**
+ * @file Proves standby identity capture and restore under explicit test provenance and reset authority.
+ * @description
+ * The Awtsmoos binds hidden key, credential, environment, and testimony as one covenant;
+ * Awtsmoos.com tests restoration without weakening the force gate that protects physical identity.
+ */
 test("verified standby survives complete active forget", () => {
 	const config = pairedConfig("happy", "credential-lkg");
 	const captured = Slots.capture(config, { version: "9.9.9", pid: 1234 });
 	assert.equal(captured.ok, true);
 	assert.equal(SlotStore.read(config).runtimeVersion, "9.9.9");
-	Forget.forget(config);
+	Forget.forget(config, { forceReset: true });
 	assert.equal(Slots.restore(config).state, "restored");
 	const metadata = Metadata.read(config);
 	assert.equal(SecureStore.read(metadata.deviceId, "credential"), "credential-lkg");
@@ -41,14 +47,14 @@ test("repeated capture of one verified generation is idempotent", () => {
 	assert.equal(repeated.state, "already_captured");
 	assert.equal(repeated.changed, false);
 	assert.deepEqual(SlotStore.read(config), testimony);
-	Forget.forget(config);
+	Forget.forget(config, { forceReset: true });
 });
 
 test("corrupted standby credential is rejected", () => {
 	const config = pairedConfig("corrupt", "credential-good");
 	Slots.capture(config);
 	const slot = SlotStore.read(config);
-	Forget.forget(config);
+	Forget.forget(config, { forceReset: true });
 	SecureStore.write(slot.deviceId, Slots.SLOT_CREDENTIAL, "tampered");
 	assert.equal(Slots.restore(config).state, "slot_credential_invalid");
 });
@@ -66,10 +72,7 @@ test("failed promotion rolls back the former proven generation", () => {
 		assert.equal(result.rollback.ok, true);
 		assert.equal(result.rollback.restoredPrevious, true);
 		assert.deepEqual(SlotStore.read(config), former);
-		assert.equal(
-			SecureStore.read(former.deviceId, Slots.SLOT_CREDENTIAL),
-			"credential-old"
-		);
+		assert.equal(SecureStore.read(former.deviceId, Slots.SLOT_CREDENTIAL), "credential-old");
 	} finally {
 		Verification.verify = originalVerify;
 	}
@@ -84,7 +87,9 @@ function pairedConfig(name, credential) {
 	Metadata.update(config, {
 		tunnelId: `tun_${name}`,
 		pairedAt: new Date().toISOString(),
-		credentialVersion: 1
+		credentialVersion: 1,
+		environment: "test",
+		identityEnvironment: "test"
 	});
 	return config;
 }

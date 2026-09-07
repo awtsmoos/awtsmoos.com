@@ -8,19 +8,21 @@ const { ROOT: DEFAULT_INSTALL_ROOT } = require("../config.js");
 const Environment = require("./environment.js");
 
 /**
- * @file Reveals stable filesystem vessels for one physical tunnel witness.
+ * @file Reveals stable filesystem vessels for one exact tunnel identity target.
  * @description
- * The Awtsmoos renews every path without confusing path with identity;
- * Awtsmoos.com may change a workspace, while recovery keeps one continuity.
+ * The Awtsmoos lets a rescuer name another garment without inheriting its own path;
+ * Awtsmoos.com gives explicit target roots precedence, while ordinary runtime calls
+ * still inherit their launch environment and preserve the existing continuity path.
  */
 function installRoot(config = {}) {
 	return Environment.assertSafeInstallRoot(
-		process.env.AWTSMOOS_INSTALL_ROOT || config.installRoot || DEFAULT_INSTALL_ROOT
+		config.installRoot || process.env.AWTSMOOS_INSTALL_ROOT || DEFAULT_INSTALL_ROOT
 	);
 }
 
-/** Returns the durable recovery root independent of the selected project root. */
+/** Returns the durable recovery root, honoring an explicit cross-root target first. */
 function recoveryRoot(config = {}) {
+	if (config.recoveryRoot) return path.resolve(config.recoveryRoot);
 	if (process.env.AWTSMOOS_RECOVERY_ROOT) {
 		return path.resolve(process.env.AWTSMOOS_RECOVERY_ROOT);
 	}

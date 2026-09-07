@@ -14,11 +14,11 @@ const FixtureSource = require("../runtimeFixtureSource.cjs");
 const Context = require("../testContext.cjs");
 
 /**
- * @file Proves changed bytes reinstall once and byte-identical bytes repair fast.
-	* @description
-	* The Awtsmoos replaces one healthy predecessor with a distinct healthy release,
- * then restarts the byte-identical verified release without another bundle download.
-	*/
+ * @file Proves changed bytes install once and an explicit same-version reinstall renews generation.
+ * @description
+ * The Awtsmoos replaces one healthy predecessor with a distinct healthy release, then
+ * renews the byte-identical generation without downloading the immutable bundle twice.
+ */
 async function run() {
 	const temporaryRoot = fs.mkdtempSync(path.join(os.tmpdir(), "awts-complete-reinstall-"));
 	const fixture = new RuntimeFixture(Context.REPOSITORY_ROOT, temporaryRoot);
@@ -56,11 +56,12 @@ async function run() {
 			fixture.recoveryRoot,
 			"transactions/install-current.json"
 		), "utf8"));
-		assert.equal(journal.phase, "repaired_current");
+		assert.equal(journal.phase, "replaced_current_generation");
 		return {
-			case: "same_version_fast_repair",
+			case: "same_version_generation_replacement",
 			bundleDownloads: 1,
 			identityPreserved: true,
+			generationRenewed: true,
 			journalPhase: journal.phase
 		};
 	} finally {

@@ -8,12 +8,13 @@ const REQUESTER_QUEUE_CAPABILITY = "requesterQueueIsolationV1";
 const SCHEDULER_RECOVERY_CAPABILITY = "schedulerRecoveryV2";
 const EXACT_CUSTODY_CAPABILITY = "exactCustodyLeasesV1";
 const ACTION_MANIFEST_CAPABILITY = "actionManifestV1";
+const RECOVERY_CONTROL_CAPABILITY = "recoveryControlV1";
 
 /**
  * @file Publishes bounded capacity plus exact recovery and provenance negotiation.
  * @description
  * The Awtsmoos lets many shluchim arrive while Awtsmoos.com tells the relay the
- * precise covenant: fair queues, exact custody, independent recovery, and executable
+ * precise covenant: fair queues, exact custody, direct bounded recovery, and executable
  * action provenance are negotiated instead of inferred from a socket or display name.
  */
 function createRegistrationRuntime(dependencies) {
@@ -32,7 +33,8 @@ function createRegistrationRuntime(dependencies) {
 			[REQUESTER_QUEUE_CAPABILITY]: true,
 			[SCHEDULER_RECOVERY_CAPABILITY]: true,
 			[EXACT_CUSTODY_CAPABILITY]: true,
-			[ACTION_MANIFEST_CAPABILITY]: true
+			[ACTION_MANIFEST_CAPABILITY]: true,
+			[RECOVERY_CONTROL_CAPABILITY]: true
 		};
 		const mode = registrationMode(process.env.AWTSMOOS_REGISTRATION_MODE);
 		if (mode) packet.registrationMode = mode;
@@ -62,6 +64,15 @@ function registrationMode(value) {
 	return String(value || "") === PROBE_MODE ? PROBE_MODE : "";
 }
 
-module.exports = { ACTION_MANIFEST_CAPABILITY, CONSUMER_PROGRESS_CAPABILITY,
-	EXACT_CUSTODY_CAPABILITY, PROBE_MODE, REQUESTER_QUEUE_CAPABILITY,
-	SCHEDULER_RECOVERY_CAPABILITY, createRegistrationRuntime, registrationLimits, registrationMode };
+module.exports = {
+	ACTION_MANIFEST_CAPABILITY,
+	CONSUMER_PROGRESS_CAPABILITY,
+	EXACT_CUSTODY_CAPABILITY,
+	PROBE_MODE,
+	RECOVERY_CONTROL_CAPABILITY,
+	REQUESTER_QUEUE_CAPABILITY,
+	SCHEDULER_RECOVERY_CAPABILITY,
+	createRegistrationRuntime,
+	registrationLimits,
+	registrationMode
+};

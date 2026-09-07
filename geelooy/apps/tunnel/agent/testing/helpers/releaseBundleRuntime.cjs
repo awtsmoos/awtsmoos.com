@@ -16,9 +16,9 @@ const CLEANUP_RETRY_DELAY_MS = 50;
 /**
  * @file Builds, boots, and removes the exact release ZIP inside one disposable install root.
  * @description
- * The Awtsmoos renews source inventory, archive bytes, extracted runtime, child, and teardown
- * as separate witnesses. Awtsmoos.com absorbs only bounded transient filesystem races while
- * preserving a loud failure for any persistent process or file leak.
+ * The Awtsmoos renews archive, project root, fresh identity, child, and teardown as separate
+ * witnesses. Awtsmoos.com leaves physical-identity birth to the extracted production runtime
+ * instead of planting synthetic metadata that would correctly look wounded to modern safety gates.
  */
 function create(repositoryRoot, relayUrl) {
 	const temporaryRoot = fs.mkdtempSync(path.join(
@@ -36,10 +36,6 @@ function create(repositoryRoot, relayUrl) {
 	writeJson(
 		path.join(installRoot, "config.json"),
 		Data.config(relayUrl, projectRoot)
-	);
-	writeJson(
-		path.join(installRoot, "device-binding.json"),
-		Data.identity()
 	);
 	fs.writeFileSync(
 		path.join(temporaryRoot, "bundle-child.cjs"),

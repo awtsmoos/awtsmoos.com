@@ -7,12 +7,15 @@ import fs from "node:fs";
 import path from "node:path";
 
 /**
- * The Awtsmoos orders every installer vessel without omission;
- * Awtsmoos.com keeps readiness evidence before orchestration and activation in transmission.
+ * @file Proves installer source order, bounded recovery lanes, and emergency refresh coverage.
+ * @description
+ * The Awtsmoos orders each sourced garment before execution; Awtsmoos.com keeps three
+ * ordinary refresh paths plus one metadata-outage recovery path visible in truthful tests.
  */
 const root = path.resolve(import.meta.dirname, "..");
-const sources = fs.readFileSync(path.join(root, "unix-install-sources.sh"), "utf8");
-const core = fs.readFileSync(path.join(root, "unix-install-core.sh"), "utf8");
+const sources = read("unix-install-sources.sh");
+const core = read("unix-install-core.sh");
+const metadataFallback = read("unix-metadata-fallback.sh");
 const required = [
 	"unix-install-lock.sh",
 	"unix-install-resume.sh",
@@ -27,6 +30,10 @@ const required = [
 	"unix-install-readiness.sh",
 	"unix-install-success.sh",
 	"unix-emergency-capture.sh",
+	"unix-recovery-lanes.sh",
+	"unix-recovery-lane-launchd.sh",
+	"unix-recovery-lane-portable.sh",
+	"unix-recovery-lane-install-success.sh",
 	"unix-candidate-probe-readiness-state.sh",
 	"unix-candidate-probe-readiness-evidence.sh",
 	"unix-candidate-probe-readiness.sh",
@@ -35,31 +42,34 @@ const required = [
 	"unix-install-lifecycle.sh"
 ];
 for (const file of required) {
-	assert.match(sources, new RegExp(file.replaceAll(".", "\\.")), file);
+	assert.ok(sources.includes(file), `installer sources omit ${file}`);
 }
 const sourced = [...sources.matchAll(/unix-[A-Za-z0-9-]+\.(?:sh|cjs)/g)]
 	.map(match => match[0]);
 assert.equal(new Set(sourced).size, sourced.length, "installer source list must be unique");
-assertOrdered(
-	"unix-candidate-probe-readiness-state.sh",
-	"unix-candidate-probe-readiness-evidence.sh"
-);
-assertOrdered(
-	"unix-candidate-probe-readiness-evidence.sh",
-	"unix-candidate-probe-readiness.sh"
-);
+assertOrdered("unix-candidate-probe-readiness-state.sh", "unix-candidate-probe-readiness-evidence.sh");
+assertOrdered("unix-candidate-probe-readiness-evidence.sh", "unix-candidate-probe-readiness.sh");
 assertOrdered("unix-candidate-probe.sh", "unix-activation.sh");
 assertOrdered("unix-emergency-capture.sh", "unix-activation.sh");
-assert.ok(sources.indexOf("unix-install-lifecycle.sh") > sources.indexOf("unix-activation.sh"));
+assertOrdered("unix-recovery-lanes.sh", "unix-install-lifecycle.sh");
+assertOrdered("unix-recovery-lane-install-success.sh", "unix-install-lifecycle.sh");
 assert.match(core, /source "\$AWTSMOOS_INSTALL_RUNTIME\/unix-install-sources\.sh"/);
 assert.ok(core.indexOf("unix-install-sources.sh") < core.indexOf("trap cleanup_install EXIT"));
-assert.equal((core.match(/refresh_emergency_runtime/g) || []).length, 4);
+const ordinaryRefreshes = (core.match(/refresh_emergency_runtime/g) || []).length;
+const metadataRefreshes = (metadataFallback.match(/refresh_emergency_runtime/g) || []).length;
+assert.equal(ordinaryRefreshes, 3);
+assert.equal(metadataRefreshes, 1);
 console.log(JSON.stringify({
 	ok: true,
 	suite: "unix-installer-source-parity",
 	requiredSources: required.length,
-	emergencyRefreshPaths: 4
+	emergencyRefreshPaths: ordinaryRefreshes + metadataRefreshes,
+	recoveryLaneSources: 4
 }));
+
+function read(name) {
+	return fs.readFileSync(path.join(root, name), "utf8");
+}
 
 function assertOrdered(first, second) {
 	assert.ok(sources.indexOf(first) < sources.indexOf(second), `${first} must precede ${second}`);

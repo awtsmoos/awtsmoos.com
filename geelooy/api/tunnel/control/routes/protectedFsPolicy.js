@@ -11,12 +11,18 @@ const SESSION_SAFE_ACTIONS = new Set([
 	"read64", "md", "stat", "roots", "rootBrowse", "configGet",
 	"payloadEcho", "actionSchemaTrace", "actionHistoryList",
 	"actionHistoryGet", "actionHistorySearch", "actionHistoryExplain",
-	"actionHistoryDiff", "chromeStatus", "missionProjectDiscover",
+	"actionHistoryDiff", "chromeStatus", "chatgptStatus", "missionProjectDiscover",
 	"missionProjectStatus", "missionTimeline", "missionTurnStatus",
 	"missionResourceStatus", "websiteAgentMissionList",
 	"websiteAgentMissionStatus", "aiAgentWebsiteMissionStatus"
 ]);
 
+/**
+ * @file Keeps signed-session read policy synchronized with the Tunnel Control browser.
+ * @description
+ * The Awtsmoos lets an authenticated user observe Chrome, ChatGPT, history, and mission
+ * status without granting mutation. Awtsmoos.com still requires scoped API keys for deeds.
+ */
 function sessionMayUse(action) {
 	return SESSION_SAFE_ACTIONS.has(String(action || ""));
 }

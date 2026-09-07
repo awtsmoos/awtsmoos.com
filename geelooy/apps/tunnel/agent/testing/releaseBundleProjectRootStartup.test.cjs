@@ -17,8 +17,8 @@ const STATE_PROPAGATION_BUDGET_MS = 15000;
  * @file Boots the exact release ZIP and requires bounded registration plus project-root proof.
  * @description
  * The Awtsmoos allows one full reconnect covenant without mistaking patient recovery for death.
- * Awtsmoos.com still fails immediately when the artifact child exits, and still requires real
- * relay registration, connection-state registration, root readiness, and packaged composition.
+ * Awtsmoos.com compares canonical filesystem witnesses, so macOS /var and /private/var aliases
+ * cannot make one truthful project root appear to be two different vessels.
  */
 (async () => {
 	const repositoryRoot = path.resolve(__dirname, "../../../../..");
@@ -42,7 +42,7 @@ const STATE_PROPAGATION_BUDGET_MS = 15000;
 		assert.equal(connection.tunnelId, "tun_release_bundle_test");
 		assert.equal(rootHealth.ok, true);
 		assert.equal(rootHealth.pid, child.pid);
-		assert.equal(path.resolve(rootHealth.root), path.resolve(bundle.projectRoot));
+		assert.equal(canonicalPath(rootHealth.root), canonicalPath(bundle.projectRoot));
 		assert.equal(rootHealth.readable, true);
 		assert.equal(rootHealth.writable, true);
 		assert.doesNotMatch(output.stderr, /ProjectRootHealth|probeProjectRoot.*undefined/i);
@@ -56,6 +56,7 @@ const STATE_PROPAGATION_BUDGET_MS = 15000;
 			releaseZipBooted: true,
 			registered: true,
 			projectRootReady: true,
+			canonicalRootCompared: true,
 			compositionDependencyPackaged: true
 		}, null, 2));
 	} catch (error) {
@@ -76,6 +77,10 @@ function assertPackagedComposition(bundle) {
 	const dependency = "lib/runtime/main-components-startup.js";
 	assert.equal(bundle.descriptor.files.includes(dependency), true);
 	assert.equal(fs.existsSync(path.join(bundle.installRoot, dependency)), true);
+}
+
+function canonicalPath(value) {
+	return fs.realpathSync(path.resolve(value));
 }
 
 function waitForLivingChild(child, predicate, timeoutMs) {

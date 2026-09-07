@@ -8,6 +8,7 @@ const { handleLivePreview } = require("./livePreview.js");
 const {
 	handleTunnelHealth,
 	handleTunnelProgress,
+	handleTunnelRecoveryResult,
 	handleTunnelRegister,
 	handleTunnelRequestAck,
 	handleTunnelResponse
@@ -18,6 +19,7 @@ const LEGACY_TYPES = Object.freeze([
 	"LOGIN",
 	"TUNNEL_HEALTH",
 	"TUNNEL_PROGRESS",
+	"TUNNEL_RECOVERY_RESULT",
 	"TUNNEL_REGISTER",
 	"TUNNEL_REQUEST_ACK",
 	"TUNNEL_RESPONSE"
@@ -26,9 +28,9 @@ const LEGACY_TYPES = Object.freeze([
 /**
  * @file Routes historical core messages while preserving socket identity and health.
  * @description
- * The Awtsmoos renews messenger and message together. Awtsmoos.com now receives
- * execution-health testimony beside registration and durable request progress, so
- * transport heartbeat can never silently substitute for a living consumer.
+ * The Awtsmoos renews messenger and message together. Awtsmoos.com receives bounded
+ * recovery testimony beside durable work so transport heartbeat can never impersonate
+ * a living consumer and an old socket can never answer for a new generation.
  */
 function createAwtsmoosCoreApplication() {
 	return {
@@ -56,6 +58,10 @@ function createAwtsmoosCoreApplication() {
 				handleTunnelProgress(server, client, data);
 				return;
 			}
+			if (data.type === "TUNNEL_RECOVERY_RESULT" && data.id) {
+				handleTunnelRecoveryResult(server, client, data);
+				return;
+			}
 			if (data.type === "TUNNEL_REQUEST_ACK" && data.id) {
 				handleTunnelRequestAck(server, client, data);
 				return;
@@ -81,12 +87,7 @@ function createAwtsmoosCoreApplication() {
 	};
 }
 
-/**
- * Preserves the historical unknown-message response shape.
- * @param {object} client Realtime client wrapper.
- * @param {string} messageType Unknown legacy type.
- * @returns {void}
- */
+/** Preserves the historical unknown-message response shape. */
 function sendLegacyUnknown(client, messageType) {
 	client.send({
 		at: Date.now(),
@@ -95,6 +96,4 @@ function sendLegacyUnknown(client, messageType) {
 	});
 }
 
-module.exports = {
-	createAwtsmoosCoreApplication
-};
+module.exports = { createAwtsmoosCoreApplication };

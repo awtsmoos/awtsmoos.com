@@ -56,6 +56,7 @@ function projectOne(mission, value, now, staleMs) {
 	const heartbeatAgeMs = age(value.lastSeenAt, now);
 	const stale = !end.ended && Boolean(value.lastSeenAt && heartbeatAgeMs >= staleMs);
 	const status = String(end.status || "").toLowerCase();
+	const rawStatus = String(end.rawStatus || "").toLowerCase();
 	return {
 		agentId: Plan.text(value.agentId, 120),
 		logicalAgentId: Plan.text(value.logicalAgentId || value.agentId, 120),
@@ -67,7 +68,7 @@ function projectOne(mission, value, now, staleMs) {
 		alive: !end.ended && !stale,
 		stale,
 		completed: COMPLETED.has(status),
-		stopped: status === "stopped",
+		stopped: rawStatus === "stopped",
 		ended: end.ended,
 		endReason: end.reason,
 		endedAt: end.endedAt

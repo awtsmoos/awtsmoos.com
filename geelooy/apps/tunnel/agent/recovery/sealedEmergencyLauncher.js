@@ -9,11 +9,10 @@ const Slot = require("./emergencySlot.js");
 const Paths = require("./emergencySlotPaths.js");
 
 /**
- * @file Launches the sealed emergency runtime without the normal supervisor/controller.
+ * @file Launches sealed Tier-0 as one bounded recovery process, never the split launcher.
  * @description
- * The Awtsmoos keeps one repair flame outside the replaceable palace. Awtsmoos.com
- * verifies its seal, prepares authenticated identity inside that sealed world, and
- * starts one bounded Tier-Zero child whose PID and log live only in the recovery root.
+ * The Awtsmoos keeps one repair flame outside the replaceable palace; Awtsmoos.com
+ * verifies its seal and identity, then starts a topology that cannot reproduce parent-consumer IPC failure.
  */
 function launch(recoveryRoot, options = {}) {
 	const verified = Slot.verify(recoveryRoot);
@@ -23,15 +22,21 @@ function launch(recoveryRoot, options = {}) {
 	const prepared = prepare(verified.root, recoveryRoot);
 	if (!prepared.ok) return failure("sealed_emergency_identity_unavailable", { prepared });
 	if (options.dryRun) {
-		return { ok: true, state: "sealed_emergency_ready", dryRun: true, root: verified.root, prepared };
+		return {
+			ok: true,
+			state: "sealed_emergency_ready",
+			dryRun: true,
+			root: verified.root,
+			runtime: verified.runtime,
+			prepared
+		};
 	}
 	fs.mkdirSync(path.dirname(Paths.log(recoveryRoot)), { recursive: true, mode: 0o700 });
 	const log = fs.openSync(Paths.log(recoveryRoot), "a", 0o600);
-	const config = readJson(path.join(verified.root, "config.json")) || {};
-	const child = spawn(process.execPath, [path.join(verified.root, "awtsmoos-agent-launcher.cjs"), verified.root], {
-		cwd: config.root || process.cwd(),
+	const child = spawn(process.execPath, [verified.runtime], {
+		cwd: verified.root,
 		detached: true,
-		env: emergencyEnvironment(verified.root, recoveryRoot, config.root),
+		env: emergencyEnvironment(verified.root, recoveryRoot),
 		stdio: ["ignore", log, log]
 	});
 	child.unref();
@@ -43,6 +48,7 @@ function launch(recoveryRoot, options = {}) {
 		root: verified.root,
 		pid: child.pid,
 		log: Paths.log(recoveryRoot),
+		runtime: verified.runtime,
 		prepared
 	};
 }
@@ -75,16 +81,13 @@ function prepare(slotRoot, recoveryRoot) {
 	});
 }
 
-function emergencyEnvironment(slotRoot, recoveryRoot, projectRoot) {
+function emergencyEnvironment(slotRoot, recoveryRoot) {
 	return {
 		...process.env,
 		AWTSMOOS_INSTALL_ROOT: slotRoot,
 		AWTSMOOS_RECOVERY_ROOT: recoveryRoot,
-		AWTSMOOS_PROJECT_ROOT: projectRoot || process.cwd(),
-		AWTSMOOS_COMMAND_TIER: "0",
-		AWTSMOOS_COMMAND_MAX_ACTIVE: "1",
 		AWTSMOOS_EMERGENCY_MODE: "1",
-		AWTSMOOS_MISSION_BOOT_RESUME: "0",
+		AWTSMOOS_RECOVERY_ONLY: "1",
 		AWTSMOOS_SELF_UPDATE_DISABLED: "1"
 	};
 }
@@ -95,14 +98,6 @@ function readPid(file) {
 		return Number.isInteger(value) && value > 1 ? value : 0;
 	} catch {
 		return 0;
-	}
-}
-
-function readJson(file) {
-	try {
-		return JSON.parse(fs.readFileSync(file, "utf8"));
-	} catch {
-		return null;
 	}
 }
 

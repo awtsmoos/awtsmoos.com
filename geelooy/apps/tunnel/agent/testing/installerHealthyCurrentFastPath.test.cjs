@@ -3,245 +3,40 @@
 // Blessed is He
 
 const assert = require("node:assert/strict");
-const fs = require("node:fs");
-const os = require("node:os");
-const path = require("node:path");
-const { spawnSync } = require("node:child_process");
+const Harness = require("./helpers/installerFastRepairHarness.cjs");
 
 /**
- * @file Proves a verified living release is not disrupted by a routine reinstall.
+ * @file Proves explicit reinstall replaces matching active generations with bounded custody.
  * @description
- * The Awtsmoos requires a fresh relay receipt, exact supervision, and a real local
- * executor probe. Failure of any witness falls back to the bounded restart path.
+ * The Awtsmoos may preserve release bytes while renewing the living process garment;
+ * Awtsmoos.com skips replacement only when the caller explicitly requests no runtime start.
  */
-const repositoryRoot = path.resolve(__dirname, "../../../../..");
-const fastRepair = path.join(
-	repositoryRoot,
-	"geelooy/apps/tunnel/downloads/unix-fast-repair.sh"
-);
-const projectRootHealth = path.join(
-	repositoryRoot,
-	"geelooy/apps/tunnel/downloads/unix-project-root-health.sh"
-);
-const sandbox = fs.mkdtempSync(path.join(os.tmpdir(), "awts-healthy-current-"));
-
 try {
-	const healthy = run({ AWTS_TEST_LOCAL_READY: "1" });
-	assert.equal(healthy.status, 0, `${healthy.stdout}\n${healthy.stderr}`);
-	assert.match(healthy.stdout, /journal:verified_current_healthy/);
-	assert.doesNotMatch(healthy.stdout, /stop_existing_runtime/);
-	assert.doesNotMatch(healthy.stdout, /start_supervisor/);
-	assert.match(healthy.stdout, /fast_repair_completed=1/);
-	assert.match(healthy.stdout, /root_receipt_activation_argument=empty/);
-
-	const stalledExecutor = run({ AWTS_TEST_LOCAL_READY: "0" });
-	assert.equal(
-		stalledExecutor.status,
-		0,
-		`${stalledExecutor.stdout}\n${stalledExecutor.stderr}`
-	);
-	assert.match(stalledExecutor.stdout, /stop_existing_runtime/);
-	assert.match(stalledExecutor.stdout, /start_supervisor/);
-	assert.match(stalledExecutor.stdout, /journal:repaired_current/);
-
-	const staleReceipt = run({
-		AWTS_TEST_LOCAL_READY: "1",
-		AWTS_TEST_RECEIPT_READY: "0"
-	});
-	assert.equal(staleReceipt.status, 0, `${staleReceipt.stdout}\n${staleReceipt.stderr}`);
-	assert.match(staleReceipt.stdout, /stop_existing_runtime/);
-
-	const transientReceipt = run({
-		AWTS_TEST_LOCAL_READY: "1",
-		AWTS_TEST_RECEIPT_READY: "0",
-		AWTS_TEST_RECEIPT_RECOVERS: "1"
-	});
-	assert.equal(transientReceipt.status, 0, `${transientReceipt.stdout}\n${transientReceipt.stderr}`);
-	assert.match(transientReceipt.stdout, /wait_for_registration/);
-	assert.doesNotMatch(transientReceipt.stdout, /stop_existing_runtime/);
-	assert.match(transientReceipt.stdout, /journal:verified_current_healthy/);
-
-	const changedWorkspace = run({
-		AWTS_TEST_LOCAL_READY: "1",
-		AWTS_TEST_ROOT_CURRENT: "0"
-	});
-	assert.equal(
-		changedWorkspace.status,
-		0,
-		`${changedWorkspace.stdout}\n${changedWorkspace.stderr}`
-	);
-	assert.match(changedWorkspace.stdout, /stop_existing_runtime/);
-	assert.match(changedWorkspace.stdout, /journal:repaired_current/);
-
-	const offlineHealthy = runOffline({ AWTS_TEST_LOCAL_READY: "1" });
-	assert.equal(
-		offlineHealthy.status,
-		0,
-		`${offlineHealthy.stdout}\n${offlineHealthy.stderr}`
-	);
-	assert.match(offlineHealthy.stdout, /journal:verified_current_healthy_offline/);
-	assert.doesNotMatch(offlineHealthy.stdout, /stop_existing_runtime/);
-	assert.match(offlineHealthy.stdout, /candidate_version=8\.8\.8/);
-
-	const offlineStalled = runOffline({ AWTS_TEST_LOCAL_READY: "0" });
-	assert.equal(
-		offlineStalled.status,
-		0,
-		`${offlineStalled.stdout}\n${offlineStalled.stderr}`
-	);
-	assert.match(offlineStalled.stdout, /stop_existing_runtime/);
-	assert.match(offlineStalled.stdout, /journal:repaired_current_offline/);
-
-	const explicitEmptyActivation = runProjectRootActivationContract();
-	assert.equal(
-		explicitEmptyActivation.status,
-		0,
-		`${explicitEmptyActivation.stdout}\n${explicitEmptyActivation.stderr}`
-	);
-	assert.match(explicitEmptyActivation.stdout, /explicit_empty=passed/);
-	assert.match(explicitEmptyActivation.stdout, /implicit_new_activation=rejected/);
-
+	for (const healthy of [true, false]) {
+		const result = Harness.runMatching({ healthy });
+		assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
+		assert.match(result.stdout, /stop_existing_runtime/);
+		assert.match(result.stdout, /start_supervisor/);
+		assert.match(result.stdout, /journal:replaced_current_generation/);
+		assert.match(result.stdout, /fast_repair_completed=1/);
+	}
+	const skipped = Harness.runMatching({ skip: true });
+	assert.equal(skipped.status, 0, `${skipped.stdout}\n${skipped.stderr}`);
+	assert.doesNotMatch(skipped.stdout, /stop_existing_runtime/);
+	assert.doesNotMatch(skipped.stdout, /start_supervisor/);
+	assert.match(skipped.stdout, /journal:verified_current_start_skipped/);
+	const offline = Harness.runOffline({ healthy: true });
+	assert.equal(offline.status, 0, `${offline.stdout}\n${offline.stderr}`);
+	assert.match(offline.stdout, /journal:replaced_current_generation_offline/);
+	assert.match(offline.stdout, /candidate_version=8\.8\.8/);
 	console.log(JSON.stringify({
 		ok: true,
 		suite: "installer-healthy-current-fast-path",
-		healthyCurrentPreservesPid: true,
-		newInstallActivationDoesNotInvalidateCurrentRuntime: true,
-		offlineHealthyCurrentPreservesPid: true,
-		offlineStalledCurrentSelfRepairs: true,
-		explicitEmptyActivationValidatesIncumbent: true,
-		executorStallRestarts: true,
-		staleReceiptRestarts: true,
-		transientReceiptAvoidsRestart: true,
-		changedWorkspaceRestarts: true
+		explicitRefreshReplacesGeneration: true,
+		healthDoesNotSuppressRequestedRefresh: true,
+		skipStartPreservesRuntime: true,
+		offlineSealedRefreshReplacesGeneration: true
 	}, null, 2));
 } finally {
-	fs.rmSync(sandbox, { recursive: true, force: true });
-}
-
-function run(environment) {
-	const root = path.join(sandbox, `root-${Math.random().toString(36).slice(2)}`);
-	fs.mkdirSync(root, { recursive: true });
-	fs.writeFileSync(path.join(root, "agent.pid"), "4242\n");
-	const script = `set -Eeuo pipefail
-ROOT=${shellQuote(root)}
-CANDIDATE_VERSION=9.9.9
-installed_release_matches_metadata(){ return 0; }
-install_progress(){ :; }
-install_event(){ printf 'event:%s:%s\\n' "$1" "$2"; }
-skip_start_requested(){ return 1; }
-runtime_pid_matches(){ return 0; }
-runtime_registered(){ [ "\${AWTS_TEST_RECEIPT_READY:-1}" = "1" ]; }
-wait_for_registration(){
-	printf 'wait_for_registration\n'
-	[ "\${AWTS_TEST_RECEIPT_RECOVERS:-0}" = "1" ]
-}
-service_supervision_ready(){ return 0; }
-local_runtime_action_ready(){ [ "\${AWTS_TEST_LOCAL_READY:-1}" = "1" ]; }
-project_root_receipt_matches_runtime(){
-	[ "\${AWTS_TEST_ROOT_CURRENT:-1}" = "1" ] || return 1
-	[ "$#" -ge 2 ] && [ -z "\${2:-}" ] || return 1
-	printf 'root_receipt_activation_argument=empty\\n'
-}
-service_supervision_stable(){ service_supervision_ready "$1"; }
-service_health_summary(){ printf 'supervisors=1 agents=1'; }
-write_activation_journal(){ printf 'journal:%s\\n' "$1"; }
-stop_existing_runtime(){ printf 'stop_existing_runtime\\n'; }
-migrate_runtime_device_state(){ :; }
-write_supervisor(){ :; }
-persist_node_runtime(){ :; }
-clear_runtime_coordination_state(){ :; }
-start_supervisor(){ printf 'start_supervisor\\n'; }
-candidate_is_stably_active(){ return 0; }
-connection_state_name(){ printf registered; }
-project_root_health_summary(){ printf root=ready; }
-source ${shellQuote(fastRepair)}
-repair_matching_release
-printf 'fast_repair_completed=%s\\n' "$FAST_REPAIR_COMPLETED"
-`;
-	return spawnSync("bash", ["-c", script], {
-		encoding: "utf8",
-		env: {
-			...process.env,
-			AWTSMOOS_ACTIVATION_ID: "activation-for-new-installer-transaction",
-			...environment
-		}
-	});
-}
-
-function runProjectRootActivationContract() {
-	const root = path.join(sandbox, `root-${Math.random().toString(36).slice(2)}`);
-	fs.mkdirSync(root, { recursive: true });
-	fs.writeFileSync(path.join(root, "config.json"), JSON.stringify({
-		root,
-		allowWrite: true
-	}));
-	fs.writeFileSync(path.join(root, "install-state.txt"), "8.8.8\n");
-	fs.writeFileSync(path.join(root, "project-root-state.json"), JSON.stringify({
-		activationId: "incumbent-activation",
-		canonicalRoot: root,
-		pid: 4242,
-		root,
-		runtimeVersion: "8.8.8"
-	}));
-	const script = `set -Eeuo pipefail
-ROOT=${shellQuote(root)}
-AWTSMOOS_ACTIVATION_ID=new-installer-activation
-source ${shellQuote(projectRootHealth)}
-project_root_receipt_matches_runtime 4242 "" &&
-	printf 'explicit_empty=passed\\n'
-if project_root_receipt_matches_runtime 4242; then
-	exit 71
-else
-	printf 'implicit_new_activation=rejected\\n'
-fi
-`;
-	return spawnSync("bash", ["-c", script], {
-		encoding: "utf8",
-		env: process.env
-	});
-}
-
-function runOffline(environment) {
-	const root = path.join(sandbox, `root-${Math.random().toString(36).slice(2)}`);
-	fs.mkdirSync(root, { recursive: true });
-	fs.writeFileSync(path.join(root, "agent.pid"), "4242\n");
-	fs.writeFileSync(path.join(root, "install-state.txt"), "8.8.8\n");
-	const script = `set -Eeuo pipefail
-ROOT=${shellQuote(root)}
-CANDIDATE_VERSION=
-installed_runtime_self_verified(){ return 0; }
-install_progress(){ :; }
-install_event(){ printf 'event:%s:%s\\n' "$1" "$2"; }
-skip_start_requested(){ return 1; }
-runtime_pid_matches(){ return 0; }
-runtime_registered(){ return 0; }
-local_runtime_action_ready(){ [ "\${AWTS_TEST_LOCAL_READY:-1}" = "1" ]; }
-project_root_receipt_matches_runtime(){ return 0; }
-service_supervision_stable(){ return 0; }
-service_health_summary(){ printf 'supervisors=1 agents=1'; }
-write_activation_journal(){ printf 'journal:%s\\n' "$1"; }
-stop_existing_runtime(){ printf 'stop_existing_runtime\\n'; }
-migrate_runtime_device_state(){ :; }
-write_supervisor(){ :; }
-persist_node_runtime(){ :; }
-clear_runtime_coordination_state(){ :; }
-start_supervisor(){ printf 'start_supervisor\\n'; }
-candidate_is_stably_active(){ return 0; }
-connection_state_name(){ printf registered; }
-project_root_health_summary(){ printf root=ready; }
-source ${shellQuote(fastRepair)}
-repair_self_verified_installed_release
-printf 'fast_repair_completed=%s candidate_version=%s\\n' "$FAST_REPAIR_COMPLETED" "$CANDIDATE_VERSION"
-`;
-	return spawnSync("bash", ["-c", script], {
-		encoding: "utf8",
-		env: {
-			...process.env,
-			...environment
-		}
-	});
-}
-
-function shellQuote(value) {
-	return `'${String(value).replace(/'/g, `'"'"'`)}'`;
+	Harness.cleanup();
 }

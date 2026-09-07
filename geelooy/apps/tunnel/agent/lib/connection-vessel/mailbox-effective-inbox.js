@@ -3,19 +3,22 @@
 // Blessed is He
 
 const Health = require("./mailbox-health.js");
+const UnownedIngress = require("./mailbox-unowned-ingress.js");
 
 /**
-	* @file Projects durable inbox age through fresh exact custody without erasing raw testimony.
-	* @description
-	* The Awtsmoos renews a deed when living custody advances, though its parchment may be old;
-	* Awtsmoos.com keeps the ancient timestamp visible while health follows the freshest proven hold.
-	*/
+ * @file Projects durable inbox age through fresh exact custody while exposing unowned ingress.
+ * @description
+ * The Awtsmoos renews a deed when living custody advances, though its parchment may be old;
+ * Awtsmoos.com preserves raw testimony and reveals every current unowned keli before silence grows cold.
+ */
 function snapshot(options = {}) {
 	const entries = Array.isArray(options.entries) ? options.entries : [];
 	const custodyRecords = Array.isArray(options.custodyRecords) ? options.custodyRecords : [];
 	const rawInbox = options.rawInbox || {};
-	const at = Number(options.at || Date.now());
-	const custodyById = new Map(custodyRecords.map(record => [String(record.id || ""), record]));
+	const observedAt = Number(options.at || Date.now());
+	const custodyById = new Map(
+		custodyRecords.map(record => [String(record.id || ""), record])
+	);
 	let custodyOwnedCount = 0;
 	let custodyRefreshedCount = 0;
 	const projectedEntries = entries.map(entry => {
@@ -33,16 +36,22 @@ function snapshot(options = {}) {
 		projectedEntries,
 		{ maxCount: rawInbox.maxCount, maxBytes: rawInbox.maxBytes },
 		"inbox",
-		at
+		observedAt
+	);
+	const unownedIngress = UnownedIngress.revealOhrUnownedIngress(
+		entries,
+		custodyRecords,
+		observedAt
 	);
 	return {
 		...effective,
+		...unownedIngress,
 		rawState: rawInbox.state || "healthy",
 		rawAgeState: rawInbox.ageState || "healthy",
 		rawOldestAt: rawInbox.oldestAt || null,
 		rawOldestAgeMs: Number(rawInbox.oldestAgeMs || 0),
 		custodyOwnedCount,
-		custodyUnownedCount: Math.max(0, entries.length - custodyOwnedCount),
+		custodyUnownedCount: unownedIngress.entryUnownedCount,
 		custodyRefreshedCount
 	};
 }

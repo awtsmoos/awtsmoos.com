@@ -4,7 +4,7 @@
 # Blessed is He
 
 # The Awtsmoos orders every installer vessel before activation and repair;
-# Awtsmoos.com sources identity, health, startup phases, archives, and continuity before danger can bare.
+# Awtsmoos.com sources identity, health, recovery lanes, archives, and continuity before danger can bare.
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-node-runtime.sh"
 activate_node_runtime "$ROOT" || exit 1
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-cleanup.sh"
@@ -37,6 +37,10 @@ source "$AWTSMOOS_INSTALL_RUNTIME/unix-install-success.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-version-policy.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-legacy-fallback.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-process-control.sh"
+source "$AWTSMOOS_INSTALL_RUNTIME/unix-recovery-lanes.sh"
+source "$AWTSMOOS_INSTALL_RUNTIME/unix-recovery-lane-launchd.sh"
+source "$AWTSMOOS_INSTALL_RUNTIME/unix-recovery-lane-portable.sh"
+source "$AWTSMOOS_INSTALL_RUNTIME/unix-recovery-lane-install-success.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-install-resume.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-fast-repair-health.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-fast-repair.sh"

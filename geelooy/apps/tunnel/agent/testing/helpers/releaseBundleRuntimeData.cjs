@@ -5,11 +5,10 @@
 const path = require("node:path");
 
 /**
- * @file Supplies disposable release-bundle configuration, identity, and child source.
+ * @file Supplies disposable release-bundle configuration and truthful fresh-identity bootstrap.
  * @description
- * The Awtsmoos renews test configuration and credential testimony outside the archive
- * builder. Awtsmoos.com keeps the executable fixture small while preserving a full,
- * explicit runtime contract for root readiness and immutable registration.
+ * The Awtsmoos lets the extracted runtime create its own coherent hidden and revealed key pair;
+ * Awtsmoos.com tests registration with the same root-bound creation covenant used by a fresh install.
  */
 function config(relay, root) {
 	return {
@@ -39,26 +38,34 @@ function config(relay, root) {
 	};
 }
 
-function identity() {
-	return {
-		schemaVersion: 1,
-		deviceId: "dev_release_bundle_test",
-		tunnelId: "tun_release_bundle_test",
-		publicKey: "release-bundle-public-key",
-		publicKeyFingerprint: "release-bundle-fingerprint",
-		credentialVersion: 1,
-		pairedAt: new Date().toISOString(),
-		createdAt: new Date().toISOString()
-	};
-}
-
+/**
+ * Boots one exact extracted bundle after creating a coherent disposable physical witness.
+ * The source is self-contained so no repository module leaks around the ZIP boundary.
+ */
 function childSource() {
 	return `// B"H
 const path = require("node:path");
 const root = process.env.AWTSMOOS_INSTALL_ROOT;
-const identity = require(path.join(root, "device-binding.json"));
-const store = require(path.join(root, "lib/deviceIdentity/secureStore.js"));
-store.write(identity.deviceId, "credential", "release-bundle-test-credential");
+const Creation = require(path.join(root, "lib/deviceIdentity/identityCreationAuthority.js"));
+const Keys = require(path.join(root, "lib/deviceIdentity/keyMaterial.js"));
+const Metadata = require(path.join(root, "lib/deviceIdentity/metadata.js"));
+const Store = require(path.join(root, "lib/deviceIdentity/secureStore.js"));
+Creation.grantFreshInstall({}, "release_bundle_fresh_install");
+const material = Keys.ensure({});
+const identity = Metadata.update({}, {
+\ttunnelId: "tun_release_bundle_test",
+\tcredentialVersion: 1,
+\tpairedAt: new Date().toISOString(),
+\tenvironment: "test",
+\tidentityEnvironment: "test"
+});
+Store.write(identity.deviceId, "credential", "release-bundle-test-credential");
+if (material.metadata.deviceId !== identity.deviceId) {
+\tthrow new Error("release_bundle_identity_device_mismatch");
+}
+if (!Creation.consume({})) {
+\tthrow new Error("release_bundle_creation_grant_not_consumed");
+}
 require(path.join(root, "main.js")).main().catch(error => {
 \tconsole.error(error.stack || error);
 \tprocess.exit(1);
@@ -82,6 +89,5 @@ function childEnvironment(temporaryRoot, installRoot) {
 module.exports = {
 	childEnvironment,
 	childSource,
-	config,
-	identity
+	config
 };

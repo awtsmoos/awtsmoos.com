@@ -13,14 +13,23 @@ const { COMPONENTS, buildInstallerComponents } = require(
 );
 
 /**
- * @file Proves the component archive and its pre-archive downloader form one covenant.
+ * @file Proves bootstrap runner, component archive, and recovery helpers form one covenant.
  * @description
- * The Awtsmoos keeps the downloader outside the archive it must itself fetch, while
- * Awtsmoos.com proves every post-bootstrap helper is checksum-bound inside that tar.
+ * The Awtsmoos lets a tiny first scroll fetch one trusted runner, while Awtsmoos.com
+ * proves every later installer and bounded-recovery vessel is checksum-bound in the archive.
  */
 const repositoryRoot = path.resolve(__dirname, "../../../../..");
 const downloadsRoot = path.join(repositoryRoot, "geelooy/apps/tunnel/downloads");
 const destination = fs.mkdtempSync(path.join(os.tmpdir(), "awtsmoos-installer-components-"));
+const recoveryHelpers = [
+	"unix-recovery-lanes.sh",
+	"unix-recovery-lane-launchd.sh",
+	"unix-recovery-lane-portable.sh",
+	"unix-recovery-lane-install-success.sh",
+	"unix-recovery-lane-detach.cjs",
+	"unix-recovery-lane-paths.cjs",
+	"unix-recovery-lane-plist.cjs"
+];
 
 try {
 	const first = buildInstallerComponents();
@@ -43,25 +52,35 @@ try {
 		assert.equal(hash(actual), hash(expected), `component bytes changed: ${name}`);
 	}
 	assert.deepEqual(fs.readdirSync(extracted).sort(), [...COMPONENTS].sort());
-
 	for (const required of [
-		"unix-install-sources.sh", "unix-candidate-probe.sh",
-		"unix-activation-promotion.sh", "unix-emergency-capture.sh",
-		"unix-supervisor-identity.sh", "unix-supervisor-emergency.sh",
-		"unix-supervisor-network-state.cjs", "unix-supervisor-orphan-executors.cjs",
-		"unix-service-cli.sh"
+		"unix-install-sources.sh",
+		"unix-candidate-probe.sh",
+		"unix-activation-promotion.sh",
+		"unix-emergency-capture.sh",
+		"unix-supervisor-identity.sh",
+		"unix-supervisor-emergency.sh",
+		"unix-supervisor-network-state.cjs",
+		"unix-supervisor-orphan-executors.cjs",
+		"unix-service-cli.sh",
+		...recoveryHelpers
 	]) assert.ok(COMPONENTS.includes(required), `missing required component: ${required}`);
 	assert.equal(COMPONENTS.includes("unix-bootstrap-components-download.sh"), false);
 
 	const bootstrap = read("unix.sh");
+	const runner = read("unix-bootstrap-run.sh");
 	const components = read("unix-bootstrap-components.sh");
 	const download = read("unix-bootstrap-components-download.sh");
-	assert.match(bootstrap, /__AWTSMOOS_INSTALLER_COMPONENTS_SHA256__/);
-	assert.match(bootstrap, /fetch_bootstrap_file unix-bootstrap-components-download\.sh/);
+	assert.match(bootstrap, /unix-bootstrap-run\.sh/);
+	assert.match(bootstrap, /exec \/bin\/bash "\$run_script"/);
+	for (const required of [
+		"unix-node-runtime.sh",
+		"unix-bootstrap-components.sh",
+		"unix-bootstrap-components-download.sh"
+	]) assert.match(runner, new RegExp(`fetch_bootstrap_file ${required.replaceAll(".", "\\.")}`));
 	assert.match(components, /source "\$runtime_root\/unix-bootstrap-components-download\.sh"/);
-	assert.match(components, /unix-service-cli\.sh/);
-	assert.match(components, /unix-supervisor-network-state\.cjs/);
-	assert.match(components, /unix-supervisor-orphan-executors\.cjs/);
+	for (const helper of recoveryHelpers) {
+		assert.ok(components.includes(helper), `bootstrap component list omits ${helper}`);
+	}
 	assert.match(download, /installer-components\.tar\.gz/);
 	assert.match(download, /Using cached verified installer components/);
 	assert.match(download, /Using compatible component download fallback/);
@@ -72,8 +91,8 @@ try {
 		files: first.files,
 		bytes: first.bytes,
 		sha256: first.sha256,
-		exactBytesVerified: true,
-		preArchiveDownloaderSeparate: true
+		recoveryHelpers: recoveryHelpers.length,
+		twoStageBootstrapVerified: true
 	}, null, 2));
 } finally {
 	fs.rmSync(destination, { recursive: true, force: true });

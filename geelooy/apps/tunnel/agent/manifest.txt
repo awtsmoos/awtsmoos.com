@@ -1,5 +1,5 @@
 B"H
-1.0.582
+1.0.584
 main.js
 ai/relay/direct/browser/AgentTabCatalog.mjs
 ai/relay/direct/browser/AgentTabProtectionState.mjs
@@ -1032,6 +1032,7 @@ lib/connection-vessel/mailbox-startup-reset.js
 lib/connection-vessel/mailbox-store-limits.js
 lib/connection-vessel/mailbox-store-reader.js
 lib/connection-vessel/mailbox-store.js
+lib/connection-vessel/mailbox-unowned-ingress.js
 lib/connection-vessel/mailbox-usage.js
 lib/connection-vessel/mailbox-writer.js
 lib/connection-vessel/mailbox.js
@@ -1156,6 +1157,13 @@ lib/public-action-emergency.js
 lib/public-action-families.js
 lib/public-action-help.js
 lib/public-action-surface.js
+lib/recovery-control/generation-control.js
+lib/recovery-control/index.js
+lib/recovery-control/lease.js
+lib/recovery-control/message.js
+lib/recovery-control/parent-control.js
+lib/recovery-control/protocol.js
+lib/recovery-control/receipts.js
 lib/registration-browser-compat.js
 lib/registration-capabilities.js
 lib/registration-digest.js
@@ -1462,6 +1470,7 @@ recovery/archiveRetention.js
 recovery/archiveSafety.js
 recovery/archiveStore.js
 recovery/archiveTransientPolicy.js
+recovery/boundedKernel.js
 recovery/candidateSelector.js
 recovery/controller.js
 recovery/crashPolicy.js
@@ -1476,6 +1485,17 @@ recovery/identityRepairController.js
 recovery/identitySalvage.js
 recovery/integrity.js
 recovery/integrityWitness.js
+recovery/lanes/catalog.js
+recovery/lanes/cli.js
+recovery/lanes/directRecoveryWire.js
+recovery/lanes/fileTrigger.js
+recovery/lanes/httpServer.js
+recovery/lanes/localAuth.js
+recovery/lanes/localRequest.js
+recovery/lanes/sealedTier0.js
+recovery/lanes/secondaryDirectTunnel.js
+recovery/lanes/serviceGuardian.js
+recovery/lanes/unixSocket.js
 recovery/manualArgs.js
 recovery/manualCli.js
 recovery/manualHelp.js
@@ -1490,6 +1510,7 @@ recovery/registrationFailureTransition.js
 recovery/sealedEmergencyLauncher.js
 recovery/stateStore.js
 recovery/stateTransitions.js
+recovery/targetGeneration.js
 recovery/tierCatalog.js
 recovery/versionCatalog.js
 release/manifestArguments.js

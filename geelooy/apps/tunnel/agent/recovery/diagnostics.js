@@ -4,7 +4,6 @@
 
 const path = require("node:path");
 const DeviceIdentity = require("../lib/deviceIdentity/index.js");
-const PrivateState = require("../lib/privateStateRoot.js");
 const Readiness = require("./archiveReadiness.js");
 const EmergencySlot = require("./emergencySlot.js");
 const IdentitySalvage = require("./identitySalvage.js");
@@ -14,17 +13,18 @@ const StateStore = require("./stateStore.js");
 const Catalog = require("./versionCatalog.js");
 
 /**
- * @file Produces bounded offline recovery evidence without mutating runtime state.
+ * @file Produces bounded offline recovery evidence for one explicit runtime target.
  * @description
- * The Awtsmoos reveals truth before repair. Awtsmoos.com inspects process ownership,
- * integrity, identity provenance, salvage viability, readiness, emergency slot, and
- * archives without opening a browser, touching the normal scheduler, or changing state.
+ * The Awtsmoos reveals the patient before the rescuer moves; Awtsmoos.com binds
+ * identity, recovery state, emergency slot, and archives to the named runtime root,
+ * even when diagnosis executes inside a different live rescue tunnel environment.
  */
 function inspect(root, options = {}) {
 	const runtimeRoot = path.resolve(root);
-	const recoveryRoot = path.resolve(options.recoveryRoot || PrivateState.recoveryRoot(runtimeRoot));
+	const recoveryRoot = targetRecoveryRoot(runtimeRoot, options);
 	const config = {
 		installRoot: runtimeRoot,
+		recoveryRoot,
 		root: options.projectRoot || process.env.AWTSMOOS_PROJECT_ROOT || process.cwd()
 	};
 	const identity = DeviceIdentity.publicStatus(config);
@@ -50,6 +50,11 @@ function inspect(root, options = {}) {
 	};
 }
 
+/** Derives the recovery sibling of the explicit runtime unless the caller names one. */
+function targetRecoveryRoot(runtimeRoot, options = {}) {
+	return path.resolve(options.recoveryRoot || `${runtimeRoot}-recovery`);
+}
+
 function archiveSummary(archives = []) {
 	return {
 		count: archives.length,
@@ -72,5 +77,6 @@ function recommend(result) {
 module.exports = {
 	archiveSummary,
 	inspect,
-	recommend
+	recommend,
+	targetRecoveryRoot
 };

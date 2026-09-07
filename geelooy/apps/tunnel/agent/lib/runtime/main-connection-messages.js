@@ -6,11 +6,11 @@ const Acknowledgement = require("./main-connection-acknowledgement.js");
 const Authorization = require("./main-connection-authorization.js");
 
 /**
- * @file Routes relay words into registration, settlement, liveness, and work.
+ * @file Routes relay words into registration, recovery, settlement, liveness, and work.
  * @description
- * The Awtsmoos preserves one physical vessel while credentials and sockets may
- * change. Awtsmoos.com removes durable request testimony only after settlement,
- * while terminal authorization events live in a separate identity-safe vessel.
+ * The Awtsmoos preserves one physical vessel while credentials and sockets may change.
+ * Awtsmoos.com lets bounded recovery pass beside the ordinary queue, while durable request
+ * testimony remains removable only after settlement and never through the emergency gate.
  */
 function createConnectionMessages(dependencies) {
 	function handle(raw, webSocket) {
@@ -32,6 +32,9 @@ function createConnectionMessages(dependencies) {
 		}
 		if (dependencies.Replacement.isReplacementMessage(data)) {
 			return Authorization.handleReplacement(dependencies, data, webSocket);
+		}
+		if (data.type === "TUNNEL_RECOVERY_CONTROL") {
+			return dependencies.RecoveryControl?.handle?.(data, webSocket) === true;
 		}
 		checkpoint(dependencies);
 		if (data.type === "TUNNEL_PING") {

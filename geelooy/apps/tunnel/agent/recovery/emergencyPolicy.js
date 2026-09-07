@@ -3,17 +3,19 @@
 // Blessed is He
 
 /**
- * @file Narrows a sealed fallback to authenticated diagnosis and explicit repair.
- * The Awtsmoos preserves one command hand while browser, preview, and missions sleep.
+ * @file Narrows sealed Tier-0 to authenticated bounded generation recovery only.
+ * @description
+ * The Awtsmoos keeps one sealed flame outside the replaceable palace; Awtsmoos.com
+ * gives it no shell, no write hand, no browser, and no secrets—only exact recovery grace.
  */
-function apply(config = {}, options = {}) {
-	const port = boundedPort(options.port || 3987);
+function apply(config = {}) {
 	return {
 		...config,
-		allowWrite: true,
+		allowWrite: false,
 		allowSecrets: false,
-		allowCommands: true,
+		allowCommands: false,
 		enableLocalHttpProxy: false,
+		recoveryOnly: true,
 		aiAgents: {
 			...(config.aiAgents || {}),
 			agents: [],
@@ -28,28 +30,26 @@ function apply(config = {}, options = {}) {
 			autoAttachReceipts: false
 		},
 		localApi: {
-			enabled: true,
+			enabled: false,
 			host: "127.0.0.1",
-			port
+			port: 0
 		},
 		tools: {
-			fsList: true,
-			fsTree: true,
-			fsRead: true,
-			fsWrite: true,
-			fsBulk: true,
+			fsList: false,
+			fsTree: false,
+			fsRead: false,
+			fsWrite: false,
+			fsBulk: false,
 			httpProxy: false,
-			command: true,
+			command: false,
 			nodeScript: false,
 			chrome: false,
 			browser: false
 		},
 		command: {
 			...(config.command || {}),
-			enabled: true,
-			allowNodeScript: false,
-			timeoutMs: Math.min(Number(config.command?.timeoutMs || 120000), 120000),
-			maxOutput: Math.min(Number(config.command?.maxOutput || 120000), 120000)
+			enabled: false,
+			allowNodeScript: false
 		},
 		chrome: {
 			...(config.chrome || {}),
@@ -59,18 +59,13 @@ function apply(config = {}, options = {}) {
 	};
 }
 
-function boundedPort(value) {
-	return Math.max(1, Math.min(65535, Number(value || 3987)));
-}
-
 function environment() {
 	return {
-		AWTSMOOS_COMMAND_TIER: "0",
-		AWTSMOOS_COMMAND_MAX_ACTIVE: "1",
 		AWTSMOOS_EMERGENCY_MODE: "1",
 		AWTSMOOS_MISSION_BOOT_RESUME: "0",
-		AWTSMOOS_SELF_UPDATE_DISABLED: "1"
+		AWTSMOOS_SELF_UPDATE_DISABLED: "1",
+		AWTSMOOS_RECOVERY_ONLY: "1"
 	};
 }
 
-module.exports = { apply, boundedPort, environment };
+module.exports = { apply, environment };

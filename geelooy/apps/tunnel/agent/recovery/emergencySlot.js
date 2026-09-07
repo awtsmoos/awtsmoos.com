@@ -11,8 +11,10 @@ const Paths = require("./emergencySlotPaths.js");
 const Policy = require("./emergencyPolicy.js");
 
 /**
- * @file Captures and verifies one sealed authenticated repair runtime atomically.
- * The Awtsmoos lets the predecessor sleep outside every replaceable live directory.
+ * @file Captures and verifies one sealed authenticated bounded-recovery runtime atomically.
+ * @description
+ * The Awtsmoos lets the predecessor sleep outside every replaceable live directory;
+ * Awtsmoos.com seals code and identity while proving Tier-0 owns no shell, write, browser, or secret authority.
  */
 function capture(sourceRoot, recoveryRoot, details = {}) {
 	const sourceHealth = Integrity.check(sourceRoot);
@@ -23,7 +25,7 @@ function capture(sourceRoot, recoveryRoot, details = {}) {
 	fs.mkdirSync(Paths.root(recoveryRoot), { recursive: true, mode: 0o700 });
 	Copy.remove(stage);
 	Copy.copy(sourceRoot, stage);
-	writeEmergencyConfig(stage, details.port);
+	writeEmergencyConfig(stage);
 	const sealed = Integrity.seal(stage);
 	if (!sealed.ok) {
 		Copy.remove(stage);
@@ -48,16 +50,19 @@ function verify(recoveryRoot) {
 	const receipt = readJson(path.join(current, "emergency-slot.json"));
 	const config = readJson(path.join(current, "config.json"));
 	const sealHash = digest(readText(path.join(current, "recovery-seal.json")));
+	const runtime = path.join(current, "recovery", "lanes", "sealedTier0.js");
 	const valid = health.ok && receipt?.schemaVersion === 1 &&
-		receipt.sealHash === sealHash && config?.allowSecrets === false &&
-		config?.tools?.chrome === false && config?.tools?.command === true;
-	return { ok: Boolean(valid), root: current, health, receipt, config };
+		receipt.sealHash === sealHash && fs.existsSync(runtime) &&
+		config?.recoveryOnly === true && config?.allowSecrets === false &&
+		config?.allowWrite === false && config?.allowCommands === false &&
+		config?.tools?.command === false && config?.tools?.fsWrite === false &&
+		config?.tools?.chrome === false;
+	return { ok: Boolean(valid), root: current, health, receipt, config, runtime };
 }
 
-function writeEmergencyConfig(root, port) {
+function writeEmergencyConfig(root) {
 	const file = path.join(root, "config.json");
-	const config = Policy.apply(readJson(file) || {}, { port });
-	writeJson(file, config);
+	writeJson(file, Policy.apply(readJson(file) || {}));
 }
 
 function writeReceipt(root, sourceRoot, details, sealed) {
@@ -70,7 +75,8 @@ function writeReceipt(root, sourceRoot, details, sealed) {
 			path.join(root, "install-manifest.sha256")
 		)).trim(),
 		sealHash: digest(readText(path.join(root, "recovery-seal.json"))),
-		entryCount: Number(sealed.files || 0)
+		entryCount: Number(sealed.files || 0),
+		topology: "single-process-bounded-recovery"
 	});
 }
 

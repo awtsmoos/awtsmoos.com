@@ -3,8 +3,8 @@
 # Boruch Hashem
 # Blessed is He
 
-# The Awtsmoos crowns a verified tunnel with one durable recovery doorway;
-# Awtsmoos.com shows only evidence that survived registration, guardian, and workspace law.
+# The Awtsmoos crowns a verified tunnel with durable recovery doorways beside its guardian;
+# Awtsmoos.com reports primary health honestly while local bounded lanes remain independently alive.
 workspace_status_label() {
 	local agent_pid="$1"
 	local activation_id="$(connection_receipt_value activationId)"
@@ -79,13 +79,15 @@ complete_install_experience() {
 	tunnel_id="$(connection_receipt_value tunnelId)"
 	if [ -z "$tunnel_id" ]; then
 		install_fail "complete" \
-			"Registration did not provide an authoritative tunnel ID." "pid=$agent_pid"
+			"Registration did not provide an authoritative tunnel ID." \
+			"pid=$agent_pid"
 	fi
 	if ! wait_for_service_supervision 5; then
 		install_fail "complete" \
 			"Durable guardian did not remain singular at final display." \
 			"pid=$agent_pid $(service_health_summary)"
 	fi
+	activate_local_recovery_lanes
 	workspace_status="$(workspace_status_label "$agent_pid")"
 	install_progress 100 "Awtsmoos Tunnel is fully verified and guarded"
 	finish_install_progress_line

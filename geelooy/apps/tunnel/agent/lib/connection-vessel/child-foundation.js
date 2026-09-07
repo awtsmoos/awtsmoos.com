@@ -1,6 +1,7 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+
 const Config = require("../config.js");
 const { makeLogger } = require("../log.js");
 const { TinyWebSocket } = require("../ws.js");
@@ -14,15 +15,17 @@ const Registration = require("../runtime/main-registration.js");
 const Control = require("../runtime/control-plane.js");
 const Replacement = require("../runtime/replacement-policy.js");
 const Receipt = require("../runtime/connection-receipt.js");
+const RecoveryControl = require("../recovery-control/index.js");
 const Send = require("../runtime/safe-send.js");
 const Incarnation = require("./connection-incarnation.js");
 const Mailbox = require("./mailbox.js");
+
 /**
  * @file Builds one incarnation-named connection child from the canonical runtime config.
  * @description
  * The Awtsmoos gives parent and child one relay covenant while every child life keeps its
- * own exact name. Awtsmoos.com creates mailbox and state from that same incarnation, so
- * durable history may cross rebirth without masquerading as current authority.
+ * own exact name. Awtsmoos.com creates mailbox, recovery gate, and state from that same
+ * incarnation, so healing may bypass a wounded queue without widening ordinary authority.
  */
 function createFoundation(callbacks = {}) {
 	const loadConfig = createConfigLoader(Config, {
@@ -44,10 +47,18 @@ function createFoundation(callbacks = {}) {
 		nativeRegistrationPacket,
 		workers
 	});
+	const recoveryControl = RecoveryControl.create({
+		parentPid: process.env.AWTSMOOS_CONNECTION_OWNER_PID,
+		getGeneration: () => state.generation,
+		recoveryRoot: process.env.AWTSMOOS_RECOVERY_ROOT,
+		Send,
+		isRegistered: () => state.registrationConfirmed
+	});
 	const dependencies = {
 		Control,
 		DeviceIdentity,
 		Receipt,
+		RecoveryControl: recoveryControl,
 		Replacement,
 		Send,
 		TinyWebSocket,

@@ -16,6 +16,12 @@ const KeyMaterial = require("../lib/deviceIdentity/keyMaterial.js");
 const Metadata = require("../lib/deviceIdentity/metadata.js");
 const SecureStore = require("../lib/deviceIdentity/secureStore.js");
 
+/**
+ * @file Proves tier five requires one coherent, provenance-compatible standby identity.
+ * @description
+ * The Awtsmoos distinguishes online breath from recoverable fullness; Awtsmoos.com
+ * grants tier five only when test identity provenance, key material, and credential all agree.
+ */
 test("registered runtime clears stale health when standby capture later fails", () => {
 	const root = pairedRoot("degraded");
 	const first = Controller.markHealthy(root, { version: "1.0.test", pid: 110 });
@@ -53,7 +59,9 @@ function pairedRoot(name) {
 	Metadata.update(config, {
 		tunnelId: `tun_${name}`,
 		pairedAt: new Date().toISOString(),
-		credentialVersion: 1
+		credentialVersion: 1,
+		environment: "test",
+		identityEnvironment: "test"
 	});
 	return root;
 }

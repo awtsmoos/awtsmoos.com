@@ -3,21 +3,33 @@
 // Blessed is He
 
 /**
- * @file Reads generation-local parent-admission silence from mailbox custody aggregates.
+ * @file Reads generation-local parent-admission silence from both attempt and inbox testimony.
  * @description
- * The Awtsmoos distinguishes an old preserved receipt from a handoff attempted now;
- * Awtsmoos.com calls ingress stalled only when this generation waited past its covenant somehow.
+ * The Awtsmoos distinguishes an old preserved receipt from a current deed awaiting a hand;
+ * Awtsmoos.com hears both delivery-attempt and entry-derived witnesses so pre-ready silence cannot stand.
  */
 function inspect(mailbox = {}, options = {}) {
 	const inbox = mailbox.inbox || {};
 	const staleMs = bounded(options.consumerStaleMs, 30000);
-	const unownedIngress = nonnegative(inbox.unownedCount);
-	const unownedIngressAgeMs = nonnegative(inbox.unownedOldestAgeMs);
+	const attemptCount = nonnegative(inbox.unownedCount);
+	const attemptAgeMs = nonnegative(inbox.unownedOldestAgeMs);
+	const entryCount = nonnegative(
+		inbox.entryUnownedCount ?? inbox.custodyUnownedCount
+	);
+	const entryAgeMs = nonnegative(inbox.entryUnownedOldestAgeMs);
+	const unownedIngress = Math.max(attemptCount, entryCount);
+	const unownedIngressAgeMs = Math.max(attemptAgeMs, entryAgeMs);
 	const ingressStalled = unownedIngress > 0 && unownedIngressAgeMs >= staleMs;
 	return {
 		ingressStalled,
 		unownedIngress,
-		unownedIngressAgeMs
+		unownedIngressAgeMs,
+		unownedIngressSources: {
+			attemptCount,
+			attemptAgeMs,
+			entryCount,
+			entryAgeMs
+		}
 	};
 }
 

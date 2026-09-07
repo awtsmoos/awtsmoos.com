@@ -15,11 +15,10 @@ const manifestPath = path.join(tunnelRoot, "agent/manifest.txt");
 const downloads = path.join(tunnelRoot, "downloads");
 
 /**
- * @file Proves exact release bytes and the current transactional bootstrap covenant.
+ * @file Proves exact release bytes and transactional bootstrap plus recovery-lane covenant.
  * @description
- * The Awtsmoos renews manifest, descriptor, ZIP, Unix metadata, component archive,
- * fallback inventory, and Windows helpers as one checksum oath. Awtsmoos.com verifies
- * current mismatch guards and the consolidated bootstrap runner rather than obsolete paths.
+ * The Awtsmoos renews manifest, ZIP, Unix metadata, component archive, and Windows helpers
+ * as one checksum oath; Awtsmoos.com also binds every independent local recovery lane therein.
  */
 const manifestBytes = fs.readFileSync(manifestPath);
 const bundle = buildAgentBundle(repositoryRoot);
@@ -68,10 +67,17 @@ for (const required of [
 	"unix-activation-promotion.sh",
 	"unix-install-lifecycle.sh",
 	"unix-supervisor-identity.sh",
-	"unix-supervisor-emergency.sh"
+	"unix-supervisor-emergency.sh",
+	"unix-recovery-lanes.sh",
+	"unix-recovery-lane-launchd.sh",
+	"unix-recovery-lane-portable.sh",
+	"unix-recovery-lane-install-success.sh",
+	"unix-recovery-lane-detach.cjs",
+	"unix-recovery-lane-paths.cjs",
+	"unix-recovery-lane-plist.cjs"
 ]) {
 	assert.ok(Components.COMPONENTS.includes(required), `missing component ${required}`);
-	assert.match(bootstrapComponents, new RegExp(required.replace(".", "\\.")));
+	assert.ok(bootstrapComponents.includes(required), `bootstrap manifest omits ${required}`);
 }
 assert.match(windows, /Hash = Get-Sha256Text \(\(\$lines -join "`n"\)\)/);
 assert.match(windows, /Write-Utf8NoBom \(Join-Path \$Root 'installed-manifest\.txt'\) \$Manifest\.Text/);
@@ -88,7 +94,7 @@ console.log(JSON.stringify({
 	bundleSha256: bundle.sha256,
 	componentFiles: Components.COMPONENTS.length,
 	exactByteHashing: true,
-	sharedBootstrapInventory: true,
+	recoveryLanePackaging: true,
 	unixTransactionalVerification: true,
 	windowsSplitHelperVerification: true
 }, null, 2));

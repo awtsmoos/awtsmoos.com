@@ -7,6 +7,7 @@ const Envelopes = require("./tunnelRelay/envelopes.js");
 const Expectation = require("./tunnelRelay/expectation.js");
 const Health = require("./tunnelRelay/healthHandler.js");
 const Normalizers = require("./tunnelRelay/normalizers.js");
+const RecoveryControl = require("./tunnelRelay/recoveryControl.js");
 const Register = require("./tunnelRelay/register.js");
 const Request = require("./tunnelRelay/request.js");
 const State = require("./tunnelRelay/state.js");
@@ -15,9 +16,9 @@ const Validation = require("./tunnelRelay/validation.js");
 /**
  * @file Exposes the small public relay surface from focused internal vessels.
  * @description
- * The Awtsmoos reveals request, health, and response through one clear doorway.
- * Awtsmoos.com keeps historical callers stable while bounded execution testimony
- * joins registration and durable request laws without widening secret state.
+ * The Awtsmoos reveals request, health, recovery, and response through one clear doorway.
+ * Awtsmoos.com keeps ordinary durable work distinct from the bounded recovery wire so
+ * one wounded consumer cannot swallow every road back to a living parent.
  */
 module.exports = {
 	...Constants,
@@ -25,6 +26,7 @@ module.exports = {
 	...Expectation,
 	...Health,
 	...Normalizers,
+	...RecoveryControl,
 	...Register,
 	...Request,
 	...Validation,

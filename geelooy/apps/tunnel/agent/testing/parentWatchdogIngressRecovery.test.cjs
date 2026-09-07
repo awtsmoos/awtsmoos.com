@@ -4,83 +4,77 @@
 
 const assert = require("node:assert/strict");
 const test = require("node:test");
-const Watchdog = require("../lib/connection-vessel/parent-watchdog.js");
+const Fixtures = require("./parent-watchdog-ingress-fixtures.cjs");
 
 /**
- * @file Proves ingress and stale excess custody recover without condemning living work.
+ * @file Proves exact ingress and orphan recovery survive pressure without killing living custody.
  * @description
- * The Awtsmoos grants every living deed its vessel while Awtsmoos.com refuses to let
- * one living execution hide abandoned custody behind it. Fresh handoffs receive time;
- * stale excess becomes generation repair evidence, never a command to delete by count.
+ * The Awtsmoos gives each deed its own lease and each parent its own birth-sign;
+ * Awtsmoos.com waits for sustained proof, then heals only the exact abandoned line.
  */
-test("stale unowned ingress triggers repair despite fresh pulse and pressure", () => {
-	const signals = [];
-	const watchdog = createWatchdog(() => 1_000_000, signals);
-	watchdog.pulse(pressureStats());
-	const result = watchdog.inspect({ registered: true }, {
-		inbox: custody({ unownedCount: 1, unownedOldestAgeMs: 31_000 })
-	});
-
-	assert.equal(result.execution.ingressStalled, true);
-	assert.equal(result.execution.consumerStalled, true);
-	assert.equal(result.shouldRepair, true);
-	assert.equal(result.repairDeferred, false);
-	assert.equal(result.repairReason, "execution_consumer_stalled");
-	assert.deepEqual(signals, [{ pid: 4242, signal: "SIGTERM" }]);
+test("stale unowned ingress heals after sustained proof despite pressure", () => {
+	const ohr = Fixtures.createOhrWatchdog(1_000_000, Fixtures.pressureStats());
+	const mailbox = { inbox: custody({ unownedCount: 1, unownedOldestAgeMs: 31_000 }) };
+	const first = ohr.observe(mailbox);
+	assert.equal(first.execution.ingressStalled, true);
+	assert.equal(first.shouldRepair, false);
+	const healed = ohr.authorize(mailbox);
+	assert.equal(healed.shouldRepair, true);
+	assert.equal(healed.repairDeferred, false);
+	assert.deepEqual(ohr.signals, [{ pid: 4242, signal: "SIGTERM" }]);
+	ohr.cleanup();
 });
 
-test("stale parent custody with no living execution becomes an orphan", () => {
-	const signals = [];
-	const watchdog = createWatchdog(() => 2_000_000, signals);
-	watchdog.pulse(quietStats());
-	const result = watchdog.inspect({ registered: true }, { inbox: custody() });
-
-	assert.equal(result.execution.orphanedCustody, true);
-	assert.equal(result.execution.orphanedCustodyCount, 7);
-	assert.equal(result.shouldRepair, true);
-	assert.deepEqual(signals, [{ pid: 4242, signal: "SIGTERM" }]);
+test("stale aggregate custody becomes orphan repair after sustained proof", () => {
+	const ohr = Fixtures.createOhrWatchdog(2_000_000);
+	const mailbox = { inbox: custody() };
+	assert.equal(ohr.observe(mailbox).execution.orphanedCustodyCount, 7);
+	assert.equal(ohr.authorize(mailbox).shouldRepair, true);
+	assert.deepEqual(ohr.signals, [{ pid: 4242, signal: "SIGTERM" }]);
+	ohr.cleanup();
 });
 
-test("one living execution cannot conceal six stale excess custody records", () => {
-	const signals = [];
-	const watchdog = createWatchdog(() => 3_000_000, signals);
-	watchdog.pulse(livingStats());
-	const result = watchdog.inspect({ registered: true }, { inbox: custody() });
-
-	assert.equal(result.execution.trackedExecution, 1);
-	assert.equal(result.execution.orphanedCustodyCount, 6);
-	assert.equal(result.execution.orphanedCustody, true);
-	assert.equal(result.shouldRepair, true);
-	assert.deepEqual(signals, [{ pid: 4242, signal: "SIGTERM" }]);
+test("living work cannot conceal six independently expired exact leases", () => {
+	const ohr = Fixtures.createOhrWatchdog(3_000_000, Fixtures.livingStats());
+	const records = [
+		...expiredRecords(6),
+		{ id: "live", leaseExpiresAt: Number.MAX_SAFE_INTEGER }
+	];
+	const mailbox = { inbox: custody({ parentCustodyRecords: records }) };
+	const first = ohr.observe(mailbox);
+	assert.equal(first.execution.orphanedCustodyCount, 6);
+	assert.equal(first.execution.orphanedCustody, true);
+	assert.equal(ohr.authorize(mailbox).shouldRepair, true);
+	ohr.cleanup();
 });
 
-test("living execution exactly matching stale custody remains protected", () => {
-	const signals = [];
-	const watchdog = createWatchdog(() => 4_000_000, signals);
-	watchdog.pulse(livingStats());
-	const result = watchdog.inspect({ registered: true }, {
-		inbox: custody({ count: 1, parentCustodyCount: 1 })
-	});
+test("exact non-expired custody stays protected even when aggregate age is old", () => {
+	const ohr = Fixtures.createOhrWatchdog(4_000_000, Fixtures.livingStats());
+	const mailbox = { inbox: custody({
+		count: 1,
+		parentCustodyCount: 1,
+		parentCustodyRecords: [{ id: "live", leaseExpiresAt: Number.MAX_SAFE_INTEGER }]
+	}) };
+	const result = ohr.observe(mailbox);
+	assert.equal(result.execution.orphanedCustody, false);
+	assert.equal(result.shouldRepair, false);
+	assert.deepEqual(ohr.signals, []);
+	ohr.cleanup();
+});
 
-	assert.equal(result.execution.trackedExecution, 1);
+test("fresh exact custody remains inside its handoff grace", () => {
+	const ohr = Fixtures.createOhrWatchdog(5_000_000, Fixtures.livingStats());
+	const records = Array.from({ length: 7 }, (_, index) => ({
+		id: `fresh-${index}`,
+		leaseExpiresAt: Number.MAX_SAFE_INTEGER
+	}));
+	const result = ohr.observe({ inbox: custody({
+		parentCustodyOldestAgeMs: 500,
+		parentCustodyRecords: records
+	}) });
 	assert.equal(result.execution.orphanedCustodyCount, 0);
-	assert.equal(result.execution.orphanedCustody, false);
 	assert.equal(result.shouldRepair, false);
-	assert.deepEqual(signals, []);
-});
-
-test("fresh excess custody remains inside the handoff grace window", () => {
-	const signals = [];
-	const watchdog = createWatchdog(() => 5_000_000, signals);
-	watchdog.pulse(livingStats());
-	const result = watchdog.inspect({ registered: true }, {
-		inbox: custody({ parentCustodyOldestAgeMs: 500 })
-	});
-
-	assert.equal(result.execution.orphanedCustodyCount, 6);
-	assert.equal(result.execution.orphanedCustody, false);
-	assert.equal(result.shouldRepair, false);
-	assert.deepEqual(signals, []);
+	ohr.cleanup();
 });
 
 function custody(overrides = {}) {
@@ -94,39 +88,9 @@ function custody(overrides = {}) {
 	};
 }
 
-function quietStats() {
-	return {
-		circuit: { level: "closed", representativeLagMs: 2 },
-		eventLoopLag: { lastMs: 2, p90Ms: 3, maxMs: 9_000 }
-	};
-}
-
-function pressureStats() {
-	return {
-		circuit: { level: "hard", representativeLagMs: 900 },
-		eventLoopLag: { lastMs: 800, p90Ms: 900, maxMs: 9_000 }
-	};
-}
-
-function livingStats() {
-	return {
-		...quietStats(),
-		inflight: 1,
-		executionStages: { active: 1, consumerStarted: 1, waitingForConsumer: 0 }
-	};
-}
-
-function createWatchdog(now, signals) {
-	return Watchdog.create({
-		parentPid: 4242,
-		parentStaleMs: 30_000,
-		backlogStaleMs: 10_000,
-		consumerStaleMs: 30_000,
-		pressureGraceMs: 600_000,
-		startedAt: now(),
-		now,
-		signal: (pid, signal) => signals.push({ pid, signal }),
-		recordLifecycle: () => true,
-		setTimer: () => ({ unref() {} })
-	});
+function expiredRecords(count) {
+	return Array.from({ length: count }, (_, index) => ({
+		id: `expired-${index}`,
+		leaseExpiresAt: 1
+	}));
 }

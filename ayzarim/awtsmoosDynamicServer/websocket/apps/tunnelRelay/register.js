@@ -12,26 +12,19 @@ const Security = require("./securityBridge.js");
 const Transfer = require("./registrationTransfer.js");
 
 /**
- * @file Admits account-bound devices while keeping probe and ownership distinct.
+ * @file Admits account-bound devices while keeping probe, emergency takeover, and ownership distinct.
  * @description
- * The Awtsmoos may let a staged vessel prove the same key beside its incumbent.
- * Awtsmoos.com authenticates both, yet only ordinary registration may enter the live
- * registry, receive user work, or close the generation that currently owns the route.
+ * The Awtsmoos may let a sealed recovery vessel prove the same credential beside its incumbent;
+ * Awtsmoos.com authenticates first, then authority may transfer only within that immutable registry key.
  */
 function handleTunnelRegister(server, client, data = {}) {
 	const identity = Security.authorizeRegistration(client, data);
-	if (!identity.ok) {
-		return Transfer.rejectSecurity(server, client, identity.error);
-	}
+	if (!identity.ok) return Transfer.rejectSecurity(server, client, identity.error);
 	const registrationKey = Security.registrationKey(identity);
-	if (!registrationKey) {
-		return Transfer.rejectSecurity(server, client, "invalid_registry_identity");
-	}
+	if (!registrationKey) return Transfer.rejectSecurity(server, client, "invalid_registry_identity");
 	const state = ensureServerState(server);
 	const previous = state.tunnels.get(registrationKey);
-	if (Probe.requested(data)) {
-		return Probe.acknowledge(client, identity, previous);
-	}
+	if (Probe.requested(data)) return Probe.acknowledge(client, identity, previous);
 	const decision = Authority.decide(previous, contenderDescriptor(client, data));
 	if (decision.action === "fence") {
 		return Transfer.reject(
@@ -43,12 +36,7 @@ function handleTunnelRegister(server, client, data = {}) {
 		);
 	}
 	const replaced = decision.action === "replace"
-		? Transfer.closePrevious(
-			server,
-			registrationKey,
-			client,
-			identity.tunnelName
-		)
+		? Transfer.closePrevious(server, registrationKey, client, identity.tunnelName)
 		: null;
 	const descriptor = Transfer.apply(
 		server,
@@ -67,13 +55,15 @@ function handleTunnelRegister(server, client, data = {}) {
 	return true;
 }
 
-/** Builds protocol precedence without granting security authority. */
-function contenderDescriptor(client, data) {
+/** Builds protocol precedence only after security has bound the immutable registry key. */
+function contenderDescriptor(client, data = {}) {
 	return {
 		client,
 		agentVersion: data.agentVersion,
 		browserAgent: data.browserAgent === true,
+		capabilities: data.capabilities,
 		protocolVersion: data.protocolVersion,
+		registrationMode: data.registrationMode,
 		vesselType: data.vesselType
 	};
 }

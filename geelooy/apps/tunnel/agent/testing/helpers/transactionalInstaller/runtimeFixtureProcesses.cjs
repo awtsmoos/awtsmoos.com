@@ -4,21 +4,22 @@
 
 const fs = require("node:fs");
 const path = require("node:path");
-const { execFileSync } = require("node:child_process");
+const Discovery = require("./runtimeFixtureProcessDiscovery.cjs");
 
 /**
  * @file Terminates only processes proven to belong to one disposable runtime root.
  * @description
- * The Awtsmoos renews test process and cleanup without trusting a recycled PID.
- * Awtsmoos.com reads receipts, confirms each command contains the isolated root,
- * requests graceful exit, then escalates only the same still-living test processes.
+ * The Awtsmoos renews test process and cleanup without trusting a recycled PID;
+ * Awtsmoos.com joins receipts with exact command-path discovery so independent recovery
+ * lanes cannot wander after their temporary world has already been folded away.
  */
 async function stopRuntimeProcesses(runtimeRoot, spawnedSupervisor, timeoutMs = 7000) {
 	writeStopReceipt(runtimeRoot);
-	const pids = processIds(runtimeRoot, spawnedSupervisor);
+	let pids = processIds(runtimeRoot, spawnedSupervisor);
 	for (const pid of pids) signalIfOwned(runtimeRoot, pid, "SIGTERM");
 	await waitUntil(() => pids.every(pid => !ownedAlive(runtimeRoot, pid)), timeoutMs)
 		.catch(() => {});
+	pids = mergePids(pids, processIds(runtimeRoot, spawnedSupervisor));
 	for (const pid of pids) signalIfOwned(runtimeRoot, pid, "SIGKILL");
 	await waitUntil(() => pids.every(pid => !ownedAlive(runtimeRoot, pid)), 3000)
 		.catch(() => {});
@@ -26,7 +27,7 @@ async function stopRuntimeProcesses(runtimeRoot, spawnedSupervisor, timeoutMs = 
 }
 
 function processIds(runtimeRoot, spawnedSupervisor) {
-	const pids = new Set();
+	const pids = new Set(Discovery.processIds(runtimeRoot));
 	addPid(pids, spawnedSupervisor?.pid);
 	for (const name of ["supervisor.pid", "agent.pid"]) {
 		addPid(pids, readNumber(path.join(runtimeRoot, name)));
@@ -68,14 +69,7 @@ function ownedAlive(runtimeRoot, pid) {
 }
 
 function processCommand(pid) {
-	try {
-		return execFileSync("ps", ["-p", String(pid), "-o", "command="], {
-			encoding: "utf8",
-			stdio: ["ignore", "pipe", "ignore"]
-		}).trim();
-	} catch {
-		return "";
-	}
+	return Discovery.processCommand(pid);
 }
 
 function readNumber(file) {
@@ -86,6 +80,10 @@ function readNumber(file) {
 function addPid(set, value) {
 	const pid = Number(value || 0);
 	if (pid > 1) set.add(pid);
+}
+
+function mergePids(left, right) {
+	return [...new Set([...left, ...right])];
 }
 
 async function waitUntil(predicate, timeoutMs) {

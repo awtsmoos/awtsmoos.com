@@ -6,32 +6,41 @@ const assert = require("node:assert/strict");
 const test = require("node:test");
 const Policy = require("../recovery/emergencyPolicy.js");
 
-/** The sealed emergency garment keeps only one authenticated repair hand alive. */
-test("emergency profile preserves one authenticated repair worker only", () => {
+/**
+ * @file Proves sealed Tier-0 carries recovery authority without command or filesystem authority.
+ * @description
+ * The Awtsmoos keeps medicine bright while every arbitrary hand sleeps; Awtsmoos.com
+ * disables shell, writes, browser, secrets, missions, and recursive agents before the seal keeps.
+ */
+test("emergency profile is recovery-only and commandless", () => {
 	const value = Policy.apply({
 		allowSecrets: true,
+		allowWrite: true,
+		allowCommands: true,
 		aiAgents: { agents: [{ id: "unsafe" }], allowRecursiveSpawn: true },
-		tools: { chrome: true, browser: true, httpProxy: true, command: true },
-		command: { enabled: true, allowNodeScript: true, timeoutMs: 999999 }
-	}, { port: 3987 });
+		tools: { chrome: true, browser: true, httpProxy: true, command: true, fsWrite: true },
+		command: { enabled: true, allowNodeScript: true }
+	});
+	assert.equal(value.recoveryOnly, true);
 	assert.equal(value.allowSecrets, false);
-	assert.equal(value.allowCommands, true);
+	assert.equal(value.allowWrite, false);
+	assert.equal(value.allowCommands, false);
 	assert.equal(value.enableLocalHttpProxy, false);
 	assert.deepEqual(value.aiAgents.agents, []);
 	assert.equal(value.aiAgents.allowRecursiveSpawn, false);
-	assert.equal(value.tools.command, true);
-	assert.equal(value.tools.fsRead, true);
-	assert.equal(value.tools.fsWrite, true);
+	assert.equal(value.tools.command, false);
+	assert.equal(value.tools.fsRead, false);
+	assert.equal(value.tools.fsWrite, false);
 	assert.equal(value.tools.chrome, false);
 	assert.equal(value.tools.browser, false);
 	assert.equal(value.tools.httpProxy, false);
+	assert.equal(value.command.enabled, false);
 	assert.equal(value.command.allowNodeScript, false);
-	assert.equal(value.localApi.port, 3987);
+	assert.equal(value.localApi.enabled, false);
 	assert.deepEqual(Policy.environment(), {
-		AWTSMOOS_COMMAND_TIER: "0",
-		AWTSMOOS_COMMAND_MAX_ACTIVE: "1",
 		AWTSMOOS_EMERGENCY_MODE: "1",
 		AWTSMOOS_MISSION_BOOT_RESUME: "0",
-		AWTSMOOS_SELF_UPDATE_DISABLED: "1"
+		AWTSMOOS_SELF_UPDATE_DISABLED: "1",
+		AWTSMOOS_RECOVERY_ONLY: "1"
 	});
 });

@@ -9,9 +9,11 @@ const path = require("node:path");
 const { spawnSync } = require("node:child_process");
 
 /**
-	* @file Proves workspace probe failure cannot reject or roll back a live runtime.
-	* @description The Awtsmoos guards supervision while optional project vessels move.
-	*/
+ * @file Proves workspace probe failure cannot reject or roll back a live runtime.
+ * @description
+ * The Awtsmoos requires registration, executor readiness, and guardianship while the
+ * optional project vessel may move. Awtsmoos.com never probes workspace during final gates.
+ */
 const repositoryRoot = path.resolve(__dirname, "../../../../..");
 const downloads = path.join(repositoryRoot, "geelooy/apps/tunnel/downloads");
 const sandbox = fs.mkdtempSync(path.join(os.tmpdir(), "awts-workspace-optional-"));
@@ -33,7 +35,8 @@ try {
 		ok: true,
 		suite: "installer-workspace-optional",
 		activationIgnoredWorkspaceFailure: true,
-		rollbackIgnoredWorkspaceFailure: true
+		rollbackIgnoredWorkspaceFailure: true,
+		executorStillRequired: true
 	}, null, 2));
 } finally {
 	fs.rmSync(sandbox, { recursive: true, force: true });
@@ -42,9 +45,10 @@ try {
 function script() {
 	return `set -Eeuo pipefail
 mkdir -p "$ROOT"
-printf '%s\n' "$$" > "$ROOT/agent.pid"
+printf '%s\\n' "$$" > "$ROOT/agent.pid"
 runtime_pid_matches(){ return 0; }
 runtime_registered(){ return 0; }
+local_runtime_action_ready(){ return 0; }
 service_supervision_ready(){ return 0; }
 project_root_ready(){ touch "$PROBE_MARKER"; return 1; }
 source "$DOWNLOADS/unix-install-readiness.sh"

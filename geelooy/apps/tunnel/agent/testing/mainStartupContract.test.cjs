@@ -5,7 +5,12 @@
 const assert = require("node:assert/strict");
 const { createStartupRuntime } = require("../lib/runtime/main-startup.js");
 
-/** Proves API and relay start before delegated owning history maintenance. */
+/**
+ * @file Proves API and relay start before scheduler-owned history maintenance.
+ * @description
+ * The Awtsmoos opens living control vessels before housekeeping; Awtsmoos.com delegates
+ * cleanup to one isolated periodic scheduler and keeps command reconciliation non-blocking.
+ */
 (async () => {
 	const config = {
 		tunnelName: "awt-startup-test",
@@ -56,22 +61,23 @@ const { createStartupRuntime } = require("../lib/runtime/main-startup.js");
 	});
 	const result = await runtime.main();
 	assert.equal(result.ok, true);
-	assert.equal(result.cleanup.pid, 4242);
+	assert.equal(result.cleanup.scheduled, true);
+	assert.equal(result.cleanup.maintenance.runs, 1);
 	assert.deepEqual(order, ["localApi", "connection", "cleanup"]);
 	assert.deepEqual(calls.rootProbe, { received: config, installRoot: "/install" });
 	assert.deepEqual(calls.cleanup, { installRoot: "/install", received: config });
 	assert.equal(calls.localApi.configLoader(), config);
 	assert.equal(calls.update.config, config);
-	assert.equal(calls.connected, true);
 	assert.equal(calls.websiteMissionRecovery, config);
 	assert.equal(calls.warming, true);
 	assert.equal(calls.opened, config);
 	console.log(JSON.stringify({
 		ok: true,
 		suite: "main-startup-contract",
-		startupOrder: order
+		startupOrder: order,
+		historyMaintenanceScheduled: true
 	}, null, 2));
-})().catch((error) => {
+})().catch(error => {
 	console.error(error);
 	process.exit(1);
 });

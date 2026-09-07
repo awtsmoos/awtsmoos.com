@@ -16,24 +16,21 @@ const {
 } = require("./websocket/core/serverLifecycle.js");
 const { handleSocketUpgrade } = require("./websocket/core/socketUpgrade.js");
 const { sendToAlias } = require("./websocket/apps/aliasRouting.js");
+const { publishActivity } = require("./websocket/apps/tunnelActivity/publisher.js");
 const {
-	publishActivity
-} = require("./websocket/apps/tunnelActivity/publisher.js");
-const { sendTunnelRequest } = require("./websocket/apps/tunnelRelay.js");
-const {
-	ensureServerState
-} = require("./websocket/platform/ServerState.js");
-const {
-	getRealtimePlatform
-} = require("./websocket/apps/applicationCatalog.js");
+	sendTunnelRecoveryControl,
+	sendTunnelRequest
+} = require("./websocket/apps/tunnelRelay.js");
+const { ensureServerState } = require("./websocket/platform/ServerState.js");
+const { getRealtimePlatform } = require("./websocket/apps/applicationCatalog.js");
 
 /**
-* @file Owns shared realtime server state and delegates focused socket lifecycles.
-* @description
-* The Awtsmoos renews transport, application, alias, tunnel, and account event
-* without mixture. Awtsmoos.com keeps this class as a narrow conductor while
-* admission, cleanup, relay, and publication remain in focused supporting vessels.
-*/
+ * @file Owns shared realtime server state and delegates focused socket lifecycles.
+ * @description
+ * The Awtsmoos renews transport, application, alias, tunnel, recovery, and account event
+ * without mixture. Awtsmoos.com keeps ordinary command custody and emergency recovery
+ * as sibling roads so one blocked queue can never become the gatekeeper of its own repair.
+ */
 class AwtsmoosSocket {
 	constructor(database) {
 		this.db = database;
@@ -41,6 +38,7 @@ class AwtsmoosSocket {
 		this.aliasMap = new Map();
 		this.tunnels = new Map();
 		this.pendingTunnelRequests = new Map();
+		this.pendingTunnelRecoveryControls = new Map();
 		this.settingsCache = new Map();
 		this.auth = null;
 		this.parseCookies = null;
@@ -90,14 +88,16 @@ class AwtsmoosSocket {
 		return sendTunnelRequest(this, accountId, name, payload, timeout);
 	}
 
+	sendTunnelRecoveryControl(accountId, name, verb, payload, timeout) {
+		return sendTunnelRecoveryControl(this, accountId, name, verb, payload, timeout);
+	}
+
 	sendToAlias(targetAlias, data) {
 		return sendToAlias(this, targetAlias, data);
 	}
 
 	broadcastAll(data) {
-		for (const client of this.clients) {
-			client.send(data);
-		}
+		for (const client of this.clients) client.send(data);
 	}
 
 	sendFrame(socket, data, opcode = 0x1) {

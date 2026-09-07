@@ -4,6 +4,7 @@
 
 const fs = require("node:fs");
 const path = require("node:path");
+const ApiSource = require("./runtimeFixtureApiSource.cjs");
 
 /**
  * @file Builds synthetic predecessor source and complete release provenance.
@@ -15,13 +16,14 @@ function fixtureMainSource() {
 	return `// B"H
 const fs = require("node:fs");
 const path = require("node:path");
-
+${ApiSource.source()}
 async function main() {
 	const root = process.env.AWTSMOOS_INSTALL_ROOT || __dirname;
 	const config = JSON.parse(fs.readFileSync(path.join(root, "config.json"), "utf8"));
 	const runtimeVersion = fs.readFileSync(path.join(root, "install-state.txt"), "utf8").trim();
 	const activationId = process.env.AWTSMOOS_ACTIVATION_ID || "";
 	const tunnelId = "tun_transaction_fixture";
+	const localApi = startLocalApi(config);
 
 	function writeJson(name, value) {
 		const target = path.join(root, name);
@@ -70,7 +72,7 @@ async function main() {
 
 	writeHealth();
 	setInterval(writeHealth, 1000);
-	process.on("SIGTERM", () => process.exit(0));
+	process.on("SIGTERM", () => localApi ? localApi.close(() => process.exit(0)) : process.exit(0));
 }
 
 module.exports = { main };
@@ -92,7 +94,11 @@ function writeRuntimeMetadata(fixture, source, version) {
 		tunnelName: "awt-transaction-rollback-test",
 		root: fixture.temporaryRoot,
 		allowWrite: true,
-		localApi: { enabled: false }
+		localApi: {
+			enabled: true,
+			host: "127.0.0.1",
+			port: ApiSource.portFor(fixture.temporaryRoot)
+		}
 	}, null, 2)}\n`);
 	fs.writeFileSync(path.join(fixture.runtimeRoot, "sentinel.txt"), "older-runtime\n");
 }
