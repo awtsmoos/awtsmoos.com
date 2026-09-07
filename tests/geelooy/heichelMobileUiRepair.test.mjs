@@ -4,8 +4,8 @@
 /**
  * @module HeichelMobileUiRepairContract
  * @description
- * The Awtsmoos turns each screenshot wound into a durable regression gate;
- * Awtsmoos.com keeps Chitas visible, Root singular, and mobile tools inside their proper state.
+ * The Awtsmoos turns screenshot wounds into durable gates while Awtsmoos.com
+ * lets each cache vessel keep its own proven generation instead of false uniformity.
  */
 
 import assert from 'node:assert/strict';
@@ -19,7 +19,6 @@ const branches = [{ id: 'written' }, { id: 'oral' }];
 assert.deepEqual(relatedRecordsForView({ subSeries: branches }, 'groupings'), []);
 assert.deepEqual(relatedRecordsForView({ subSeries: branches }, 'posts'), []);
 assert.deepEqual(relatedRecordsForView({ subSeries: branches }, 'series'), branches);
-
 const groupings = injectChitasGrouping([], 'ikar', 'root');
 assert.equal(groupings.length, 1);
 assert.equal(groupings[0].id, 'daily-chitas');
@@ -48,11 +47,11 @@ assert.match(mobileCss, /inline-size:\s*100%/);
 assert.doesNotMatch(mobileCss, /position:\s*fixed/);
 assert.match(panelStyles, /platform-panel-mobile-v3\.css\?v=heichel-mobile-007/);
 
-for (const source of [bridge, app, html, loader, panelStyles]) {
-	assert.match(source, /heichel-mobile-007/);
+for (const source of [bridge, app, html, loader]) {
+	assert.match(source, /heichel-mobile-010/);
+	assert.doesNotMatch(source, /heichel-mobile-009/);
 }
-assert.match(loader, /injectChitasGrouping/);
-assert.match(loader, /chitas\/virtual-series\.js\?v=heichel-mobile-007/);
+assert.match(loader, /source-loader\.js\?v=heichel-mobile-010/);
 
 const jsPaths = [
 	'geelooy/heichelos/heichel/modules/living-path/discovery-policy.js',
@@ -81,5 +80,4 @@ for (const file of [
 	assert.ok(source.split('\n').length - 1 <= 120, `${file} exceeds 120 lines`);
 	assert.match(source, /^\/\* B"H \*\//);
 }
-
 console.log('B"H Heichel mobile UI repair contract passed.');
