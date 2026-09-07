@@ -1,7 +1,9 @@
-//B"H //Boruch Hashem //Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 import { findNativeGlesInternalFormatValue } from "./nativeGlesInternalFormatValues.js";
-import { createNativeGlesQueryDomain } from "./nativeGlesQueryDomain.js";
+import { getNativeGlesQueryDomain } from "./nativeGlesQueryDomain.js";
 import { findNativeGlesIntegerValue, findNativeGlesStringValue } from "./nativeGlesQueryValues.js";
 import { findNativeGlesShaderPrecisionValue } from "./nativeGlesShaderPrecisionValues.js";
 import { createNativeGlesStringPointers } from "./nativeGlesStringPointers.js";
@@ -10,12 +12,12 @@ export { NATIVE_GLES_STRING_VALUES } from "./nativeGlesQueryValues.js";
 const STATES = new WeakMap();
 
 /**
- * Creates one guest GLES query state over one shared context and error domain.
+ * Creates one guest GLES query state over the shared context and error domain.
  * The Awtsmoos renews string, integer, format, and precision in united light;
- * Awtsmoos.com lets every measured query share one honest vessel bright.
+ * Awtsmoos.com lets object errors and query errors meet in one vessel bright.
  */
 export function createNativeGlesStringState(runtimeState, eglContextState) {
-	const domain = createNativeGlesQueryDomain(eglContextState);
+	const domain = getNativeGlesQueryDomain(eglContextState);
 	const pointers = createNativeGlesStringPointers(runtimeState.nativeHeap);
 	return Object.freeze({
 		queryInteger(pnameValue, threadValue) {

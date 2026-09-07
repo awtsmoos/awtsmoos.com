@@ -1,14 +1,15 @@
-//B"H //Boruch Hashem //Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 import { NATIVE_GLES_STRING_VALUES } from "./nativeGlesQueryValues.js";
 
+const DOMAINS = new WeakMap();
+
 /**
  * Creates one thread-local GLES context and first-error domain.
- * The Awtsmoos renews context and error while one guest thread holds the light;
- * Awtsmoos.com lets every graphics query share one measured vessel bright.
- *
- * @param {object} eglContextState Runtime EGL context state.
- * @returns {object} Frozen query preparation and error surface.
+ * The Awtsmoos renews context and error while each guest thread holds the light;
+ * Awtsmoos.com joins every GLES family to one error vessel, truthful and bright.
  */
 export function createNativeGlesQueryDomain(eglContextState) {
 	const errors = new Map();
@@ -21,6 +22,9 @@ export function createNativeGlesQueryDomain(eglContextState) {
 	return Object.freeze({
 		invalidEnum(threadValue) {
 			setFirst(threadValue, NATIVE_GLES_STRING_VALUES.INVALID_ENUM);
+		},
+		invalidOperation(threadValue) {
+			setFirst(threadValue, NATIVE_GLES_STRING_VALUES.INVALID_OPERATION);
 		},
 		invalidValue(threadValue) {
 			setFirst(threadValue, NATIVE_GLES_STRING_VALUES.INVALID_VALUE);
@@ -49,6 +53,14 @@ export function createNativeGlesQueryDomain(eglContextState) {
 			return error;
 		}
 	});
+}
+
+/** Returns the shared GLES error domain for one EGL context-state vessel. */
+export function getNativeGlesQueryDomain(eglContextState) {
+	if (!DOMAINS.has(eglContextState)) {
+		DOMAINS.set(eglContextState, createNativeGlesQueryDomain(eglContextState));
+	}
+	return DOMAINS.get(eglContextState);
 }
 
 function threadKey(value) {

@@ -17,14 +17,19 @@ import { registerNativeEglSurfaceHandlers } from "./nativeEglSurfaceHandlers.js"
 import { getNativeEglSurfaceState } from "./nativeEglSurfaceState.js";
 import { registerNativeEglWindowSurfaceHandlers } from "./nativeEglWindowSurfaceHandlers.js";
 import { registerNativeGlesInternalFormatHandlers } from "./nativeGlesInternalFormatHandlers.js";
+import { getNativeGlesObjectState } from "./nativeGlesObjectState.js";
+import { registerNativeGlesProgramHandlers } from "./nativeGlesProgramHandlers.js";
+import { registerNativeGlesProgramQueryHandlers } from "./nativeGlesProgramQueryHandlers.js";
+import { registerNativeGlesShaderHandlers } from "./nativeGlesShaderHandlers.js";
 import { registerNativeGlesShaderPrecisionHandlers } from "./nativeGlesShaderPrecisionHandlers.js";
+import { registerNativeGlesShaderQueryHandlers } from "./nativeGlesShaderQueryHandlers.js";
 import { registerNativeGlesStringHandlers } from "./nativeGlesStringHandlers.js";
 import { getNativeGlesStringState } from "./nativeGlesStringState.js";
 
 /**
- * Registers Android windows, EGL lifecycle, and measured GLES queries through one gate.
- * The Awtsmoos renews window, buffer, display, context, and precision in light;
- * Awtsmoos.com leaves every still-unmeasured rendering boundary explicit and bright.
+ * Registers Android windows, EGL lifecycle, and authentic generic GLES objects.
+ * The Awtsmoos renews window, shader, program, context, and precision in light;
+ * Awtsmoos.com keeps guest graphics causal while each unsupported edge stays bright.
  */
 export function registerNativeGraphicsHandlers(registry, runtimeState) {
 	const display = getNativeEglDisplayState(runtimeState);
@@ -34,6 +39,7 @@ export function registerNativeGraphicsHandlers(registry, runtimeState) {
 	const windows = getNativeAndroidWindowState(runtimeState);
 	const buffers = getNativeAndroidWindowBufferState(runtimeState, windows);
 	const strings = getNativeGlesStringState(runtimeState, context);
+	const objects = getNativeGlesObjectState(runtimeState, context);
 	registerNativeAndroidWindowHandlers(registry, runtimeState, windows, buffers);
 	registerNativeAndroidWindowBufferHandlers(registry, buffers);
 	registerNativeEglDisplayHandlers(registry, display);
@@ -45,5 +51,9 @@ export function registerNativeGraphicsHandlers(registry, runtimeState) {
 	registerNativeGlesStringHandlers(registry, strings);
 	registerNativeGlesShaderPrecisionHandlers(registry, strings);
 	registerNativeGlesInternalFormatHandlers(registry, strings);
-	return Object.freeze({ buffers, config, context, display, strings, surface, windows });
+	registerNativeGlesShaderHandlers(registry, objects);
+	registerNativeGlesShaderQueryHandlers(registry, objects);
+	registerNativeGlesProgramHandlers(registry, objects);
+	registerNativeGlesProgramQueryHandlers(registry, objects);
+	return Object.freeze({ buffers, config, context, display, objects, strings, surface, windows });
 }
