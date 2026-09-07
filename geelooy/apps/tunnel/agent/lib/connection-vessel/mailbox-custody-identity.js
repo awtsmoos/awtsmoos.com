@@ -4,16 +4,26 @@
 
 const Incarnation = require("./connection-incarnation.js");
 
+const CORE_KEYS = Object.freeze([
+	"requestId",
+	"requestKey",
+	"controlRequestId",
+	"childIncarnationId"
+]);
+const OPTIONAL_KEYS = Object.freeze([
+	"logicalAgentId",
+	"agentSessionId"
+]);
+
 /**
- * @file Preserves and compares exact identity dimensions for one durable custody deed.
+ * @file Preserves exact custody identity while allowing ordinary non-mission deeds.
  * @description
- * The Awtsmoos renews the world without exchanging one deed for another. Awtsmoos.com
- * likewise refuses progress whose request, control, session, generation, or incarnation
- * differs from the record that originally entered custody.
+ * The Awtsmoos gives every deed request, control, generation, and incarnation truth.
+ * Awtsmoos.com keeps mission shliach/session identity exact when it exists, yet never
+ * invents those optional dimensions for ordinary shell, file, browser, or status work.
  *
- * STABILITY COVENANT — DO NOT SIMPLIFY WITHOUT RUNNING THE NAMED REGRESSION
- * Never merge identity before validating it. Old-child or wrong-generation progress must
- * fail closed. Regression: mailboxCustodyIdentity.test.cjs and connectionCustodyProgressIpc.test.cjs.
+ * STABILITY COVENANT — CORE IDENTITY MUST NEVER BE RELAXED.
+ * Mission identity is optional only when absent on both accepted and progress testimony.
  */
 function initial(metadata = {}) {
 	return {
@@ -27,6 +37,13 @@ function initial(metadata = {}) {
 	};
 }
 
+/** Returns true only when the non-optional deed fence is complete. */
+function complete(metadata = {}) {
+	const identity = initial(metadata);
+	return identity.generation > 0 && CORE_KEYS.every(key => Boolean(identity[key]));
+}
+
+/** Merges testimony only after callers have separately proven its identity. */
 function progress(record = {}, metadata = {}) {
 	const existing = initial(record);
 	const incoming = initial(metadata);
@@ -41,19 +58,19 @@ function progress(record = {}, metadata = {}) {
 	};
 }
 
+/** Requires exact core identity and exact optional mission identity whenever present. */
 function matches(record = {}, metadata = {}) {
 	const existing = initial(record);
 	const incoming = initial(metadata);
-	const keys = [
-		"requestId",
-		"requestKey",
-		"logicalAgentId",
-		"agentSessionId",
-		"controlRequestId",
-		"childIncarnationId"
-	];
-	if (existing.generation <= 0 || existing.generation !== incoming.generation) return false;
-	return keys.every(key => Boolean(existing[key]) && existing[key] === incoming[key]);
+	if (!complete(existing) || !complete(incoming)) return false;
+	if (existing.generation !== incoming.generation) return false;
+	if (!CORE_KEYS.every(key => existing[key] === incoming[key])) return false;
+	return OPTIONAL_KEYS.every(key => optionalMatch(existing[key], incoming[key]));
+}
+
+function optionalMatch(existing, incoming) {
+	if (!existing && !incoming) return true;
+	return Boolean(existing) && existing === incoming;
 }
 
 function finiteGeneration(value) {
@@ -65,4 +82,13 @@ function clean(value) {
 	return String(value || "").trim();
 }
 
-module.exports = { clean, finiteGeneration, initial, matches, progress };
+module.exports = {
+	CORE_KEYS,
+	OPTIONAL_KEYS,
+	clean,
+	complete,
+	finiteGeneration,
+	initial,
+	matches,
+	progress
+};
