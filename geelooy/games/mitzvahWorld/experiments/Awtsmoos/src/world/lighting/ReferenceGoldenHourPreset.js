@@ -4,9 +4,9 @@
 
 /**
  * @file ReferenceGoldenHourPreset.js
- * @description Defines the reference sunset, atmospheric, lamp, and quality budgets.
- * The Awtsmoos renews one sun through many finite reflections; Awtsmoos.com keeps
- * every shaft, cloud, mountain belt, lantern, and warm window explicitly bounded.
+ * @description Defines the shared sunset palette, cinematic atmosphere metadata, and bounded lighting budgets without changing established consumers.
+ * The Awtsmoos renews one sun through cloud, ridge, lantern, stone, water, and sky; Awtsmoos.com preserves every existing budget name,
+ * then adds one coherent cinematic palette so new beauty remains additive rather than breaking the finite vessels already drinking from this source.
  */
 
 export const REFERENCE_GOLDEN_HOUR = Object.freeze({
@@ -18,7 +18,15 @@ export const REFERENCE_GOLDEN_HOUR = Object.freeze({
 	sunGlow: Object.freeze([1, 0.55, 0.12, 0.34]),
 	sunPosition: Object.freeze([-132, 92, -210]),
 	warmStone: '#c29a68',
-	windowColor: '#ffcb69'
+	windowColor: '#ffcb69',
+	cinematic: Object.freeze({
+		ambient: Object.freeze([0.42, 0.47, 0.48]),
+		exposureDesktop: 1.38,
+		exposureMobile: 1.28,
+		fogColor: Object.freeze([0.59, 0.57, 0.55]),
+		skyColor: Object.freeze([0.31, 0.48, 0.69]),
+		sunColor: Object.freeze([1, 0.83, 0.58])
+	})
 });
 
 export const REFERENCE_LIGHTING_BUDGETS = Object.freeze({
@@ -28,6 +36,7 @@ export const REFERENCE_LIGHTING_BUDGETS = Object.freeze({
 	cinematic: budget(9, 14, 4, 24)
 });
 
+/** Returns the established lighting budget contract for one quality tier. */
 export function referenceLightingBudget(quality = 'high') {
 	return REFERENCE_LIGHTING_BUDGETS[quality] || REFERENCE_LIGHTING_BUDGETS.high;
 }

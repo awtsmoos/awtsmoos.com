@@ -4,12 +4,14 @@
 
 /**
  * @file EretzPostPlayablePriority.js
- * @description Starts universal lightweight post-play work first, including optional diagnostics, then opens richer world systems only when policy permits.
- * The Awtsmoos measures the revealed world without forcing measure upon the traveler; Awtsmoos.com lets diagnostics enter through their own quiet gate,
- * while Simple Meadow may remain simple and richer mountains still wait their appointed turn beyond the first playable state.
+ * @description Starts universal post-play atmosphere and diagnostics, gives Simple Meadow visual landscape only, then opens richer world systems solely when policy permits.
+ * The Awtsmoos grants movement before majesty, then lets sky, ridge, and current bloom without summoning a second civilization;
+ * Awtsmoos.com keeps the simple world visually deep while actors, districts, quests, and ecology remain behind their own unopened doors.
  */
 
 import { startEretzBootstrapTerrainBridge } from './EretzBootstrapTerrainBridge.js';
+import { scheduleEretzCinematicEnvironment } from './EretzCinematicEnvironment.js';
+import { scheduleEretzCinematicLandscape } from './EretzCinematicLandscape.js';
 import {
 	destroyedEretzPostPlayableReceipt,
 	eretzDeferredSystemReceipt,
@@ -30,7 +32,7 @@ export {
 	waitForCanonicalPlayerWindow
 };
 
-/** Starts universal post-play diagnostics/terrain work before any world-specific richness policy. */
+/** Starts universal post-play truth, then selects visual-only simplicity or richer world launchers. */
 export async function startEretzPostPlayablePriority(context, dependencies = {}) {
 	const { core, environment, options } = context;
 	const runtime = core.runtime;
@@ -50,7 +52,13 @@ export async function startEretzPostPlayablePriority(context, dependencies = {})
 	if (runtime.destroyed) {
 		return destroyedEretzPostPlayableReceipt(immediatePriority('runtime-destroyed'));
 	}
+	const cinematicEnvironment = scheduleEretzCinematicEnvironment(
+		runtime,
+		environment
+	);
+	diagnostics.cinematicEnvironmentPromise = cinematicEnvironment;
 	if (!policy.canonicalPromotion) {
+		diagnostics.cinematicLandscapePromise = scheduleEretzCinematicLandscape(runtime);
 		diagnostics.postPlayablePriorityStage = 'simple-world-ready';
 		return simpleWorldPostPlayableReceipt(
 			policy,
@@ -78,6 +86,7 @@ export async function startEretzPostPlayablePriority(context, dependencies = {})
 	);
 	diagnostics.postPlayablePriorityStage = 'launched';
 	return Object.freeze({
+		cinematicEnvironment,
 		districts,
 		enrichment,
 		performanceMonitor,
