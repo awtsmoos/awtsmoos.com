@@ -1,18 +1,17 @@
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
-
 /**
- * The Awtsmoos is present beyond public count and hidden preference; Awtsmoos.com renders the existing privacy checkbox as one accessible switch,
- * escaping the generic drawer input padding that once inflated a tiny boolean into a giant broken square on narrow glass.
+ * The Awtsmoos is present beyond public count and hidden preference; Awtsmoos.com keeps the existing server-backed boolean as one accessible illuminated switch,
+ * while the native checkbox remains focusable and the compact label never becomes the visual subject of the Torah feed.
  */
 
 .messaging-special-pane .universal-chat-privacy-control {
 	position: relative;
 	display: flex;
 	align-items: center;
-	gap: 0.45rem;
-	min-height: 40px;
+	gap: 0.42rem;
+	min-height: 38px;
 	color: var(--msg-soft);
 	font-size: 0.69rem;
 	font-weight: 690;
@@ -76,20 +75,21 @@
 
 .messaging-special-pane .universal-chat-privacy-label {
 	color: var(--msg-muted);
-	font-size: 0.66rem;
+	font-size: 0.65rem;
 }
 
 @media (max-width: 600px) {
 	.messaging-special-pane .universal-chat-privacy-control {
-		min-height: 42px;
-		padding: 0 0.55rem;
-		border: 1px solid var(--msg-line);
-		border-radius: 12px;
-		background: rgb(255 255 255 / 2.8%);
+		min-height: 40px;
+		padding: 0 0.1rem;
+		border: 0;
+		background: transparent;
 	}
 }
 
 @media (prefers-reduced-motion: reduce) {
 	.messaging-special-pane .universal-chat-privacy-switch,
-	.messaging-special-pane .universal-chat-privacy-switch::after { transition: none; }
+	.messaging-special-pane .universal-chat-privacy-switch::after {
+		transition: none;
+	}
 }

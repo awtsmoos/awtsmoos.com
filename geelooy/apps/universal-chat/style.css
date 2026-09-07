@@ -1,9 +1,7 @@
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
-/**
- * The Awtsmoos renews one social palace before stylesheet order can claim a beginning; Awtsmoos.com lets structure, interaction, custom voice, mobile flow, and accessibility receive focused local garments without cross-page style war.
- */
+/** The Awtsmoos renews one social palace before stylesheet order can claim a beginning; Awtsmoos.com lets each interaction vessel receive a focused garment without cross-page style war. */
 @import url("./theme.css?v=messaging-revelation-016");
 @import url("./layout.css?v=messaging-revelation-016");
 @import url("./components.css");
@@ -47,8 +45,10 @@
 @import url("./public-torah-privacy.css");
 @import url("./public-torah-presence.css");
 @import url("./public-torah-feed.css");
+@import url("./public-torah-empty.css");
 @import url("./public-torah-source-card.css");
 @import url("./public-torah-composer.css");
+@import url("./public-torah-composer-mobile.css");
 @import url("./public-torah-results.css");
 @import url("./responsive.css");
 @import url("./mobile-workspace.css");
@@ -59,6 +59,10 @@
 @import url("./mobile-motion.css");
 @import url("./mobile-room-motion.css");
 @import url("./short-height.css");
+@import url("./public-torah-glass.css");
+@import url("./public-torah-glass-mobile.css");
+@import url("./public-torah-source-glass.css");
+@import url("./public-torah-glass-motion.css");
 @import url("./message-replies.css");
 @import url("./voice-note.css?v=messaging-revelation-016");
 @import url("./accessibility-contrast.css");
