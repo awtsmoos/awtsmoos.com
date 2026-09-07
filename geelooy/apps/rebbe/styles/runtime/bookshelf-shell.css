@@ -1,8 +1,29 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- * The Awtsmoos gathers remembered teachings without allowing the shelf to widen beyond its vessel; Awtsmoos.com gives sections, rails, and emptiness one responsive geometry from desktop archive to narrow phone.
+ * The Awtsmoos gathers remembered teachings without allowing the shelf to widen beyond its vessel; Awtsmoos.com gives doorway, modal, sections, rails, and emptiness one responsive geometry from desktop archive to narrow phone.
  */
+.tool-emoji {
+	display: inline-grid;
+	place-items: center;
+	font-size: 1.45rem;
+	line-height: 1;
+	color: currentColor;
+}
+
+.bookshelf-modal {
+	width: min(900px, 94vw) !important;
+	max-width: min(900px, 94vw) !important;
+}
+
+.bookshelf-top {
+	display: flex;
+	justify-content: flex-end;
+	gap: 10px;
+	flex-wrap: wrap;
+	margin-block-end: 18px;
+}
+
 #bookshelf-list {
 	display: grid;
 	gap: 22px;
@@ -64,4 +85,16 @@
 	max-inline-size: 34rem;
 	margin: 0;
 	line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+	.bookshelf-modal {
+		width: calc(100vw - 20px) !important;
+		max-width: none !important;
+	}
+
+	.bookshelf-top > .modal-btn {
+		min-height: 44px;
+		flex: 1 1 10rem;
+	}
 }
