@@ -1,18 +1,21 @@
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
-
-/** The Awtsmoos contains every word without clutter; Awtsmoos.com lets adjacent speech from one person gather into visual runs while date boundaries keep long private history readable in light. */
+/**
+ * The Awtsmoos contains every word without clutter; Awtsmoos.com gathers adjacent speech into soft visual runs,
+ * while date boundaries become quiet gold-threaded markers and long private history keeps a living, readable pulse.
+ */
 
 .messaging-date-divider {
 	display: flex;
 	align-items: center;
-	gap: 0.7rem;
-	margin: 1.05rem 0 0.85rem;
-	color: var(--msg-muted);
-	font-size: 0.66rem;
-	font-weight: 720;
-	letter-spacing: 0.03em;
+	gap: 0.72rem;
+	margin: 1.2rem auto 0.9rem;
+	color: rgb(240 214 155 / 58%);
+	font-size: 0.62rem;
+	font-weight: 760;
+	letter-spacing: 0.07em;
+	text-transform: uppercase;
 }
 
 .messaging-date-divider::before,
@@ -20,45 +23,29 @@
 	content: "";
 	flex: 1 1 auto;
 	height: 1px;
-	background: var(--msg-line);
+	background: linear-gradient(90deg, transparent, rgb(216 182 109 / 18%), transparent);
 }
 
-.messaging-date-divider time {
-	flex: 0 0 auto;
-}
+.messaging-date-divider time { flex: 0 0 auto; }
 
 .private-message.is-continuation {
-	margin-top: 0.16rem;
-	border-top-left-radius: 7px;
+	margin-top: 0.08rem;
+	border-top-left-radius: 9px;
 }
 
 .private-message.is-mine.is-continuation {
-	border-top-left-radius: 16px;
-	border-top-right-radius: 7px;
+	border-top-left-radius: 18px;
+	border-top-right-radius: 9px;
 }
 
-.private-message.is-continuation header {
-	display: none;
-}
+.private-message.is-continuation header { display: none; }
+.private-message:not(.is-continuation) { margin-top: 0.72rem; }
+.messaging-date-divider + .private-message { margin-top: 0; }
 
-.private-message:not(.is-continuation) {
-	margin-top: 0.65rem;
-}
-
-.messaging-date-divider + .private-message {
-	margin-top: 0;
-}
+.private-message + .private-message:not(.is-continuation) { margin-top: 0.9rem; }
 
 @media (max-width: 760px) {
-	.messaging-thread {
-		padding-inline: 0.72rem;
-	}
-
-	.private-message {
-		max-width: 88%;
-	}
-
-	.messaging-date-divider {
-		margin-block: 0.9rem 0.7rem;
-	}
+	.messaging-thread { padding-inline: 0.72rem; }
+	.private-message { max-width: 90%; }
+	.messaging-date-divider { margin-block: 0.95rem 0.72rem; }
 }

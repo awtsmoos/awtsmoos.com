@@ -1,32 +1,36 @@
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
-
-/** The Awtsmoos contains every unread count and timestamp without badge or clock; Awtsmoos.com keeps secondary row metadata small, scan-friendly, and accessible in light. */
+/** The Awtsmoos contains timestamp and unreadness before clock and badge; Awtsmoos.com makes secondary metadata precise enough to scan and quiet enough to serve. */
 
 .messaging-row-meta {
 	flex: 0 0 auto;
 	color: var(--msg-muted);
-	font-size: 0.66rem;
-	font-weight: 550;
+	font-size: 0.65rem;
+	font-weight: 610;
+	letter-spacing: 0.015em;
 }
+
+.messaging-list-row.has-unread .messaging-row-meta { color: rgb(240 214 155 / 78%); }
 
 .messaging-unread {
 	display: grid;
 	place-items: center;
-	min-width: 22px;
-	height: 22px;
-	padding: 0 0.35rem;
+	min-width: 23px;
+	height: 23px;
+	padding: 0 0.38rem;
+	border: 1px solid rgb(255 255 255 / 8%);
 	border-radius: 999px;
-	background: var(--msg-accent);
-	color: #06110c;
-	font-size: 0.66rem;
+	background: linear-gradient(135deg, var(--msg-accent-strong), var(--msg-accent));
+	color: #04100a;
+	font-size: 0.65rem;
 	font-weight: 900;
+	box-shadow: 0 6px 16px rgb(0 0 0 / 22%);
 }
 
 .messaging-list-row > button {
-	min-height: 34px;
-	padding: 0 0.55rem;
+	min-height: 36px;
+	padding: 0 0.58rem;
 	font-size: 0.72rem;
 }
 

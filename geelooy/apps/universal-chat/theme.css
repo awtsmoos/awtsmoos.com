@@ -1,33 +1,43 @@
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
-/** The Awtsmoos is beyond palette and shadow; Awtsmoos.com gives this messaging vessel a restrained local vocabulary so no neighboring page inherits its garments. */
+/**
+ * The Awtsmoos is beyond color, metal, depth, and glow; Awtsmoos.com receives a local emerald night
+ * where warm gold guides attention without becoming spectacle, and every surface remains a truthful vessel for communication.
+ */
 
 body[data-messaging-page] {
 	color-scheme: dark;
-	--msg-bg: #07100c;
-	--msg-panel: #0b1712;
-	--msg-panel-strong: #0e1c16;
-	--msg-surface: rgb(255 255 255 / 4.5%);
-	--msg-surface-strong: rgb(255 255 255 / 7.5%);
-	--msg-line: rgb(223 255 239 / 9%);
-	--msg-line-strong: rgb(223 255 239 / 16%);
-	--msg-text: #f2faf5;
-	--msg-muted: rgb(226 241 233 / 58%);
-	--msg-soft: rgb(226 241 233 / 72%);
-	--msg-accent: #79e0b7;
-	--msg-accent-soft: rgb(121 224 183 / 12%);
-	--msg-focus: #b9ffe2;
-	--msg-warning: #ffc875;
-	--msg-warning-soft: rgb(255 200 117 / 10%);
-	--msg-danger: #ffabab;
+	--msg-bg: #030a07;
+	--msg-bg-soft: #06100b;
+	--msg-panel: #08150f;
+	--msg-panel-strong: #0b1c14;
+	--msg-panel-elevated: #10261b;
+	--msg-surface: rgb(239 255 247 / 4.8%);
+	--msg-surface-strong: rgb(239 255 247 / 8.5%);
+	--msg-line: rgb(211 244 225 / 9%);
+	--msg-line-strong: rgb(211 244 225 / 16%);
+	--msg-text: #f4faf6;
+	--msg-muted: rgb(224 239 230 / 58%);
+	--msg-soft: rgb(229 243 235 / 76%);
+	--msg-accent: #72d8ae;
+	--msg-accent-strong: #96efc9;
+	--msg-accent-soft: rgb(114 216 174 / 11%);
+	--msg-gold: #d8b66d;
+	--msg-gold-bright: #f0d69b;
+	--msg-gold-soft: rgb(216 182 109 / 10%);
+	--msg-focus: #f0d69b;
+	--msg-warning: #efc171;
+	--msg-warning-soft: rgb(239 193 113 / 10%);
+	--msg-danger: #ffaaaa;
 	--msg-danger-soft: rgb(255 112 112 / 8%);
-	--msg-radius-sm: 10px;
-	--msg-radius-md: 14px;
-	--msg-radius-lg: 22px;
+	--msg-radius-sm: 11px;
+	--msg-radius-md: 16px;
+	--msg-radius-lg: 24px;
 	--msg-touch: 44px;
-	--msg-shadow: 0 24px 70px rgb(0 0 0 / 28%);
-	--msg-shadow-strong: 0 28px 90px rgb(0 0 0 / 50%);
+	--msg-shadow: 0 22px 64px rgb(0 0 0 / 32%);
+	--msg-shadow-strong: 0 34px 100px rgb(0 0 0 / 56%);
+	--msg-inset: inset 0 1px rgb(255 255 255 / 4%);
 	--msg-layer-base: 0;
 	--msg-layer-content: 2;
 	--msg-layer-details: 30;
@@ -69,6 +79,7 @@ body[data-messaging-page] .messaging-page-glow {
 	z-index: var(--msg-layer-base);
 	pointer-events: none;
 	background:
-		radial-gradient(circle at 82% 6%, rgb(121 224 183 / 8%), transparent 28rem),
-		radial-gradient(circle at 12% 100%, rgb(87 128 255 / 5.5%), transparent 34rem);
+		radial-gradient(circle at 78% -8%, rgb(114 216 174 / 11%), transparent 32rem),
+		radial-gradient(circle at 8% 112%, rgb(216 182 109 / 7%), transparent 30rem),
+		linear-gradient(145deg, #030a07, #06120c 58%, #020805);
 }

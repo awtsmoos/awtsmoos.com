@@ -1,12 +1,15 @@
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
-/** The Awtsmoos holds every chamber without collision; Awtsmoos.com fixes each messaging region to an explicit local track so drawers, modals, and panes remain bounded in light. */
+/**
+ * The Awtsmoos holds every chamber without collision; Awtsmoos.com lets navigation, inbox, thread, and real details
+ * keep deliberate proportions, with enough density for work and enough breathing room for a premium native rhythm.
+ */
 
 body[data-messaging-page] .messaging-app {
 	position: relative;
 	display: grid;
-	grid-template-columns: 148px minmax(300px, 356px) minmax(0, 1fr);
+	grid-template-columns: 132px minmax(320px, 382px) minmax(0, 1fr);
 	grid-template-rows: minmax(0, 1fr);
 	inline-size: 100%;
 	block-size: 100dvh;
@@ -14,18 +17,13 @@ body[data-messaging-page] .messaging-app {
 	min-block-size: 0;
 	overflow: hidden;
 	isolation: isolate;
-	background: linear-gradient(145deg, rgb(7 16 12 / 98%), rgb(5 12 9 / 99%));
+	background: linear-gradient(145deg, rgb(3 10 7 / 98%), rgb(5 14 10 / 99%));
 }
 
-body[data-messaging-page] :is(
-	.messaging-rail,
-	.messaging-list-pane,
-	.messaging-thread-pane
-) {
+body[data-messaging-page] :is(.messaging-rail, .messaging-list-pane, .messaging-thread-pane) {
 	min-inline-size: 0;
 	min-block-size: 0;
 	max-inline-size: 100%;
-	background: rgb(9 18 14 / 90%);
 }
 
 body[data-messaging-page] .messaging-rail {
@@ -33,6 +31,8 @@ body[data-messaging-page] .messaging-rail {
 	grid-template-rows: auto minmax(0, 1fr) auto;
 	overflow: hidden;
 	border-inline-end: 1px solid var(--msg-line);
+	background: linear-gradient(180deg, rgb(7 19 13 / 98%), rgb(4 12 8 / 98%));
+	box-shadow: 14px 0 38px rgb(0 0 0 / 14%);
 }
 
 body[data-messaging-page] .messaging-list-pane {
@@ -40,6 +40,8 @@ body[data-messaging-page] .messaging-list-pane {
 	grid-template-rows: auto auto auto auto auto minmax(0, 1fr);
 	overflow: hidden;
 	border-inline-end: 1px solid var(--msg-line);
+	background: linear-gradient(180deg, rgb(9 22 16 / 97%), rgb(6 16 11 / 98%));
+	box-shadow: 16px 0 44px rgb(0 0 0 / 12%);
 }
 
 body[data-messaging-page] .messaging-list-pane > .messaging-pane-header { grid-row: 1; }
@@ -47,18 +49,16 @@ body[data-messaging-page] .messaging-list-pane > .messaging-presence-summary { g
 body[data-messaging-page] .messaging-list-pane > .messaging-workspace-search { grid-row: 3; }
 body[data-messaging-page] .messaging-list-pane > .messaging-search-feedback { grid-row: 4; }
 body[data-messaging-page] .messaging-list-pane > .messaging-status { grid-row: 5; }
-
-body[data-messaging-page] .messaging-list-pane > .messaging-list {
-	grid-row: 6;
-	min-block-size: 0;
-}
+body[data-messaging-page] .messaging-list-pane > .messaging-list { grid-row: 6; min-block-size: 0; }
 
 body[data-messaging-page] .messaging-thread-pane {
 	position: relative;
 	display: grid;
 	grid-template-rows: auto minmax(0, 1fr) auto;
 	overflow: hidden;
-	background: linear-gradient(180deg, rgb(12 24 18 / 72%), rgb(7 15 11 / 90%));
+	background:
+		radial-gradient(circle at 70% 0%, rgb(114 216 174 / 5%), transparent 28rem),
+		linear-gradient(180deg, rgb(7 19 13 / 94%), rgb(3 10 7 / 98%));
 }
 
 body[data-messaging-page] .messaging-special-pane {
@@ -75,24 +75,21 @@ body[data-messaging-page] #messagingModalHost {
 	pointer-events: none;
 }
 
-body[data-messaging-page] #messagingModalHost > * {
-	pointer-events: auto;
-}
+body[data-messaging-page] #messagingModalHost > * { pointer-events: auto; }
 
 body[data-messaging-page] .messaging-details {
 	position: absolute;
 	z-index: var(--msg-layer-details);
 	inset-block: 0;
 	inset-inline-end: 0;
-	inline-size: min(360px, 88vw);
+	inline-size: min(388px, 90vw);
 	max-inline-size: 100%;
 	overflow: auto;
 	padding: 1.25rem;
 	border-inline-start: 1px solid var(--msg-line-strong);
-	background: rgb(10 20 15 / 98%);
-	box-shadow: var(--msg-shadow);
+	background: rgb(6 17 12 / 97%);
+	box-shadow: -24px 0 72px rgb(0 0 0 / 42%);
+	backdrop-filter: blur(24px);
 }
 
-body[data-messaging-page] [hidden] {
-	display: none !important;
-}
+body[data-messaging-page] [hidden] { display: none !important; }

@@ -1,8 +1,10 @@
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
-
-/** The Awtsmoos is beyond drawer, member, and role; Awtsmoos.com keeps accepted relationship truth visible while close, identity, and member responsibility remain reachable at every safe edge—roles stay clear, administration may fold, and the drawer never steals the whole world. */
+/**
+ * The Awtsmoos is beyond drawer, member, and role; Awtsmoos.com makes real conversation details feel like a quiet emerald inspector,
+ * where identity and current membership remain reachable, premium, and honest without fabricating calls, media counts, or administration that does not exist.
+ */
 
 .messaging-details > button:first-child {
 	position: sticky;
@@ -12,71 +14,83 @@
 	width: var(--msg-touch);
 	min-height: var(--msg-touch);
 	padding: 0;
-	border-radius: 12px;
-	background: #0a140f;
-	background: rgba(10, 20, 15, 0.94);
-	backdrop-filter: blur(12px);
+	border: 1px solid var(--msg-line-strong);
+	border-radius: 14px;
+	background: rgb(8 22 15 / 92%);
+	color: var(--msg-soft);
+	box-shadow: var(--msg-inset), 0 8px 20px rgb(0 0 0 / 18%);
+	backdrop-filter: blur(14px);
 }
 
 .messaging-details-header {
 	display: grid;
-	gap: 0.4rem;
-	padding: 0.4rem 3rem 1rem 0;
-	border-bottom: 1px solid var(--msg-line);
+	gap: 0.48rem;
+	padding: 0.42rem 3.15rem 1.15rem 0;
+	border-bottom: 1px solid var(--msg-line-strong);
 }
 
 .messaging-details-header h2 {
 	margin: 0;
-	font-size: 1.2rem;
-	line-height: 1.25;
+	color: #fff6df;
+	font-family: Georgia, "Times New Roman", serif;
+	font-size: 1.32rem;
+	line-height: 1.2;
 }
 
 .messaging-details-copy {
 	margin: 0;
 	color: var(--msg-soft);
 	font-size: 0.78rem;
-	line-height: 1.55;
+	line-height: 1.58;
 }
 
-.messaging-details-members {
-	padding-top: 1rem;
-}
+.messaging-details-members { padding-top: 1.1rem; }
 
 .messaging-details-members h3 {
-	margin: 0 0 0.45rem;
-	color: var(--msg-muted);
-	font-size: 0.67rem;
-	font-weight: 800;
-	letter-spacing: 0.08em;
+	margin: 0 0 0.58rem;
+	color: rgb(240 214 155 / 68%);
+	font-size: 0.64rem;
+	font-weight: 820;
+	letter-spacing: 0.1em;
 	text-transform: uppercase;
 }
 
 .messaging-member-row {
 	display: grid;
-	grid-template-columns: 38px minmax(0, 1fr) auto;
+	grid-template-columns: 42px minmax(0, 1fr) auto;
 	align-items: center;
-	gap: 0.6rem;
-	min-height: 54px;
-	padding: 0.5rem 0;
-	border-bottom: 1px solid var(--msg-line);
+	gap: 0.65rem;
+	min-height: 60px;
+	margin-top: 0.22rem;
+	padding: 0.52rem 0.58rem;
+	border: 1px solid transparent;
+	border-radius: 14px;
+	background: rgb(255 255 255 / 2.5%);
+}
+
+.messaging-member-row:hover {
+	border-color: var(--msg-line);
+	background: rgb(255 255 255 / 4%);
 }
 
 .messaging-member-avatar {
 	display: grid;
 	place-items: center;
-	width: 38px;
-	height: 38px;
-	border-radius: 12px;
-	background: var(--msg-accent-soft);
-	color: var(--msg-accent);
+	width: 42px;
+	height: 42px;
+	border: 1px solid rgb(216 182 109 / 16%);
+	border-radius: 14px;
+	background: linear-gradient(145deg, var(--msg-gold-soft), var(--msg-accent-soft));
+	color: #fff1cf;
 	font-size: 0.7rem;
-	font-weight: 820;
+	font-weight: 840;
+	box-shadow: var(--msg-inset);
 }
 
 .messaging-member-copy {
 	display: grid;
 	min-width: 0;
-	gap: 0.08rem;
+	gap: 0.1rem;
 }
 
 .messaging-member-copy strong {
@@ -86,10 +100,7 @@
 	white-space: nowrap;
 }
 
-.messaging-member-copy small {
-	color: var(--msg-muted);
-	font-size: 0.66rem;
-}
+.messaging-member-copy small { color: var(--msg-muted); font-size: 0.66rem; }
 
 @media (max-width: 760px) {
 	.messaging-details {
