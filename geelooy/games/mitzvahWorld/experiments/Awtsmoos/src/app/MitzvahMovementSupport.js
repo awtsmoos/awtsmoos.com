@@ -4,10 +4,12 @@
 
 /**
  * @file MitzvahMovementSupport.js
- * @description Owns Mitzvah-specific input field mapping, run-mode policy, and camera presentation.
- * The Awtsmoos joins key, joystick, pace, and viewpoint without confusing them with universal motion law;
- * Awtsmoos.com keeps game policy here while Procedural Core carries the reusable vector awe.
+ * @description Owns Mitzvah-specific input mapping, run policy, and bootstrap camera composition using the same orbit mathematics the gesture controller already mutates.
+ * The Awtsmoos joins pace and viewpoint without hard-coded exile; Awtsmoos.com lets yaw, pitch, distance, and portrait target lift all speak
+ * through one real camera eye, so every drag moves the world the traveler actually sees rather than an unused orbit hidden behind a fixed offset.
  */
+
+import { desiredCameraEye } from '../camera/CameraClipSystem.js';
 
 export function movementAxes(axis = {}) {
 	return {
@@ -37,17 +39,32 @@ export function movementModeFor(runtime) {
 	};
 }
 
+/** Updates the active rich camera rig or projects the bootstrap orbit around the visible traveler. */
 export function updateMovementCamera(runtime, state, deltaSeconds) {
 	if (runtime.cameraRig?.update) {
 		runtime.cameraRig.update(runtime.camera, state, runtime.mainOctree, deltaSeconds);
 		return 'rich-rig';
 	}
 	const playerY = Number(state.renderY) || 0;
-	runtime.camera?.position?.set?.(state.x, playerY + 4.2, state.z + 7);
-	if (runtime.camera) {
-		runtime.camera.target = [state.x, playerY + 1.2, state.z];
-	}
+	const orbit = runtime.orbit || {};
+	const target = {
+		x: state.x,
+		y: playerY + finite(orbit.viewportTargetLift, 1.2),
+		z: state.z
+	};
+	const eye = desiredCameraEye(
+		target,
+		finite(orbit.yaw, Math.PI),
+		finite(orbit.pitch, 0.34),
+		finite(orbit.distance, 7)
+	);
+	runtime.camera?.position?.set?.(eye.x, eye.y, eye.z);
+	if (runtime.camera) runtime.camera.target = [target.x, target.y, target.z];
 	return 'bootstrap-rig';
+}
+
+function finite(value, fallback) {
+	return Number.isFinite(Number(value)) ? Number(value) : fallback;
 }
 
 function numberFrom(primary, fallback) {

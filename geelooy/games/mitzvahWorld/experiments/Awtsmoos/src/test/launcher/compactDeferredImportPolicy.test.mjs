@@ -4,9 +4,9 @@
 
 /**
  * @file compactDeferredImportPolicy.test.mjs
- * @description Guards compact module doors while enforcing play-before-richness and explicit deferred runtime identities.
- * The Awtsmoos lets deferred abundance remain separate while first movement receives only the truth it needs;
- * Awtsmoos.com preserves compact identity without letting grass, canonical actors, or yesterday's cache become a gate before play.
+ * @description Guards compact module doors while enforcing a statically closed first-play foundation and explicit deferred identities for later abundance.
+ * The Awtsmoos gathers first movement into one generated vessel and lets later worlds open by named doors;
+ * Awtsmoos.com protects both truths at once: no cold foundation waterfall, and no accidental folding of distant richness into the first playable gate.
  */
 
 import assert from 'node:assert/strict';
@@ -34,6 +34,13 @@ const EXPECTED = Object.freeze({
 	'launcher/bootMitzvahWorldPage.js': ['MitzvahWorldLauncher.js?compact=true&v=']
 });
 
+const FOUNDATION_STATIC_OWNERS = Object.freeze([
+	'BootstrapWorldFoundation.js',
+	'EretzEssentialAssetLoader.js',
+	'EretzFoundationServices.js',
+	'EretzWebGlBootFrame.js'
+]);
+
 test('literal variable module doors explicitly request compact server graphs', async () => {
 	for (const [relativePath, markers] of Object.entries(EXPECTED)) {
 		const source = await readSource(relativePath);
@@ -49,12 +56,15 @@ test('canonical NPC seed contains no procedural-human compact doorway', async ()
 	assert.match(source, /EretzActorAssetLoader\.js\?compact=true/);
 });
 
-test('world foundation resolves only playable authored gates before core runtime', async () => {
+test('world foundation statically closes every first-play owner before core runtime', async () => {
 	const source = await readSource('app/EretzWorldFoundation.js');
-	assert.match(source, /EretzEssentialAssetLoader\.js\?v=/);
-	assert.match(source, /BootstrapWorldFoundation\.js\?v=/);
-	assert.doesNotMatch(source, /EretzEssentialVisualGate\.js\?v=/);
-	assert.match(source, /resolveResponsiveRuntimeModuleUrl/);
+	for (const fileName of FOUNDATION_STATIC_OWNERS) {
+		assert.match(source, new RegExp(`from ['"]\\./${escapeRegex(fileName)}`));
+		assert.doesNotMatch(source, new RegExp(`import\\([^)]*${escapeRegex(fileName)}`));
+	}
+	assert.doesNotMatch(source, /EretzEssentialVisualGate/);
+	assert.doesNotMatch(source, /ResponsiveRuntimeModuleUrl|resolveResponsiveRuntimeModuleUrl/);
+	assert.match(source, /reportFoundationStage/);
 });
 
 test('shared page launcher emits compact before its short recovery identity', async () => {
@@ -65,4 +75,8 @@ test('shared page launcher emits compact before its short recovery identity', as
 
 async function readSource(relativePath) {
 	return readFile(`${SOURCE_ROOT}${relativePath}`, 'utf8');
+}
+
+function escapeRegex(value) {
+	return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }

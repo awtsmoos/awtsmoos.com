@@ -1,12 +1,12 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file eretzSimpleWorldPostPlayable.test.mjs
- * @description Proves Simple Meadow textures its visible ground immediately without waiting for or importing rich-world launchers, while Mountain Village still opens them.
- * The Awtsmoos gives Gevurah power to call a simple meadow complete at its honest shore;
- * Awtsmoos.com lets richer mountains open later without making every traveler carry a forest through the door.
+ * @description Proves Simple Meadow starts visual-only landscape plus hero/HUD after play without waiting for canonical promotion or opening rich-world launchers.
+ * The Awtsmoos lets a simple world become beautiful without becoming another world;
+ * Awtsmoos.com opens ridge, water, authored traveler, and interface while districts, ecology, quests, and rich launchers remain sealed.
  */
 
 import assert from 'node:assert/strict';
@@ -35,7 +35,7 @@ function context(worldExperience) {
 	};
 }
 
-test('Simple Meadow hydrates terrain without waiting for or loading rich systems', async () => {
+test('B"H Simple Meadow schedules visual enrichment without rich-world launchers', async () => {
 	const harness = context({
 		canonicalPromotion: false,
 		districtStreaming: false,
@@ -44,10 +44,20 @@ test('Simple Meadow hydrates terrain without waiting for or loading rich systems
 	});
 	let waits = 0;
 	let launcherLoads = 0;
+	let landscapes = 0;
+	let heroes = 0;
 	const result = await startEretzPostPlayablePriority(harness.context, {
 		loadLaunchers: async () => {
 			launcherLoads += 1;
 			throw new Error('rich launchers must stay closed');
+		},
+		scheduleHeroPresentation: () => {
+			heroes += 1;
+			return Promise.resolve({ status: 'ready' });
+		},
+		scheduleLandscape: () => {
+			landscapes += 1;
+			return Promise.resolve({ status: 'ready' });
 		},
 		waitForPlayer: async () => {
 			waits += 1;
@@ -59,10 +69,12 @@ test('Simple Meadow hydrates terrain without waiting for or loading rich systems
 	assert.equal(result.priority.waitedMs, 0);
 	assert.equal(waits, 0);
 	assert.equal(launcherLoads, 0);
+	assert.equal(landscapes, 1);
+	assert.equal(heroes, 1);
 	assert.equal(harness.hydrationCalls(), 1);
 });
 
-test('Mountain Village still waits and launches district plus enrichment doors', async () => {
+test('B"H Mountain Village still waits and opens district plus enrichment', async () => {
 	const harness = context({
 		canonicalPromotion: true,
 		districtStreaming: true,
@@ -72,11 +84,14 @@ test('Mountain Village still waits and launches district plus enrichment doors',
 	let waits = 0;
 	let districts = 0;
 	let enrichment = 0;
+	let simpleVisuals = 0;
 	const result = await startEretzPostPlayablePriority(harness.context, {
 		loadLaunchers: async () => ({
 			startDeferred() { enrichment += 1; return 'enrichment'; },
 			startDistrict() { districts += 1; return 'district'; }
 		}),
+		scheduleHeroPresentation: () => { simpleVisuals += 1; },
+		scheduleLandscape: () => { simpleVisuals += 1; },
 		waitForPlayer: async () => {
 			waits += 1;
 			return { reason: 'test', waitedMs: 0 };
@@ -86,5 +101,6 @@ test('Mountain Village still waits and launches district plus enrichment doors',
 	assert.equal(waits, 1);
 	assert.equal(districts, 1);
 	assert.equal(enrichment, 1);
+	assert.equal(simpleVisuals, 0);
 	assert.equal(harness.hydrationCalls(), 1);
 });

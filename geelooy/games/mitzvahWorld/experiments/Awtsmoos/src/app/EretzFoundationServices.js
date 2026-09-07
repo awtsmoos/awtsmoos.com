@@ -1,16 +1,17 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file EretzFoundationServices.js
- * @description Composes the first playable Eretz services and explicitly carries visible jump intent into the movement-facing input contract.
- * The Awtsmoos gives camera, scene, hand, and leap their distinct vessels while one living world appears in stride;
- * Awtsmoos.com lets Yesod join the Jump button to movement without mixing renderer light, orbit measure, or later nature inside.
+ * @description Composes first-play services while giving the bootstrap orbit the same portrait framing policy later rich cameras already honor.
+ * The Awtsmoos joins scene, hand, leap, and gaze without confusing their vessels; Awtsmoos.com lets the first camera already know
+ * whether it stands in a narrow mobile window, so the traveler fills the frame before any richer camera garment arrives.
  */
 
 import { PerspectiveCamera, Scene } from '../../../light-three-gltf/tiny-runtime.js';
 import { CameraOrbitController } from '../camera/CameraOrbitController.js';
+import { minimalMeadowViewportCameraPolicy } from '../camera/MinimalMeadowViewportCameraPolicy.js';
 import { JumpButton } from '../input/JumpButton.js';
 import { MobileJoystick } from '../input/MobileJoystick.js';
 import { UiEventSystem } from '../input/UiEventSystem.js';
@@ -20,13 +21,7 @@ import { VILLAGE_ARRIVAL_CAMERA } from '../world/village/VillageArrivalSpatialCo
 import { createEretzFoundationRenderer } from './EretzFoundationRenderer.js';
 import { installEretzGameplayInputBridge } from './EretzGameplayInputBridge.js';
 
-/**
- * Creates the foundation services required before first playable control.
- * @param {object} hosts DOM hosts for canvas and mobile controls.
- * @param {object} qualityProfile Active quality and render-distance policy.
- * @param {object} environment Browser-like runtime environment.
- * @returns {object} Camera, input, controls, renderer, scene, and LOD services.
- */
+/** Creates camera, input, controls, renderer, scene, and LOD services required before first movement. */
 export function createEretzFoundationServices(
 	hosts,
 	qualityProfile,
@@ -51,21 +46,18 @@ export function createEretzFoundationServices(
 		input,
 		joystick: new MobileJoystick(hosts.joystickHost),
 		jumpButton,
-		orbit: createArrivalOrbit(hosts.canvas),
+		orbit: createArrivalOrbit(hosts.canvas, environment),
 		renderer: createEretzFoundationRenderer(hosts.canvas, qualityProfile),
 		scene,
 		sceneLod: new SceneLodRuntime({ scene })
 	};
 }
 
-/**
- * Creates the authored arrival orbit without starting later world scheduling.
- * @param {HTMLCanvasElement} canvas Runtime canvas.
- * @returns {CameraOrbitController} Arrival camera controller.
- */
-function createArrivalOrbit(canvas) {
-	return new CameraOrbitController(canvas, {
-		distance: VILLAGE_ARRIVAL_CAMERA.distance,
+/** Creates the authored orbit with viewport-aware distance and target lift but unchanged gesture bounds. */
+function createArrivalOrbit(canvas, environment) {
+	const viewport = minimalMeadowViewportCameraPolicy(environment);
+	const orbit = new CameraOrbitController(canvas, {
+		distance: viewport.distance,
 		eyeForward: 0.24,
 		max: VILLAGE_ARRIVAL_CAMERA.maxDistance,
 		min: VILLAGE_ARRIVAL_CAMERA.minDistance,
@@ -73,6 +65,9 @@ function createArrivalOrbit(canvas) {
 		pitch: VILLAGE_ARRIVAL_CAMERA.pitch,
 		yaw: VILLAGE_ARRIVAL_CAMERA.yaw
 	});
+	orbit.viewportMode = viewport.mode;
+	orbit.viewportTargetLift = viewport.targetLift;
+	return orbit;
 }
 
 export default createEretzFoundationServices;

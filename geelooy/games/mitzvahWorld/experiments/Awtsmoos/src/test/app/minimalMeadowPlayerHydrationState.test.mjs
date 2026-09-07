@@ -4,38 +4,66 @@
 
 /**
  * @file minimalMeadowPlayerHydrationState.test.mjs
- * @description Proves canonical-player failure becomes honest absence rather than restoration of a generated human fallback.
- * The Awtsmoos may conceal a garment when authored bytes fail to descend, but never asks a counterfeit face to shine;
- * Awtsmoos.com records canonical unavailability plainly while every predecessor leaves the visible line.
+ * @description Proves canonical-player failure preserves only the trusted local bootstrap traveler and still removes every unknown predecessor.
+ * The Awtsmoos lets the humble first garment remain when distant authored truth cannot arrive;
+ * Awtsmoos.com refuses unknown substitutes while protecting the already-visible traveler that made movement honest before the network spoke.
  */
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { Group } from '../../../../light-three-gltf/tiny-runtime.js';
 import { rejectNoncanonicalPlayerFallback } from '../../app/MinimalMeadowPlayerHydrationState.js';
 
-test('renderer-not-ready removes predecessor and leaves no visible player fallback', () => {
-	const predecessor = new Group();
-	const parent = new Group();
-	parent.add(predecessor);
-	const runtime = { model: predecessor, visiblePlayer: predecessor };
-	const result = rejectNoncanonicalPlayerFallback(runtime, predecessor, { console: { warn() {} } });
-	assert.equal(result, null);
-	assert.equal(predecessor.visible, false);
-	assert.equal(predecessor.parent, null);
-	assert.equal(runtime.model, null);
-	assert.equal(runtime.visiblePlayer, null);
-	assert.equal(runtime.canonicalPlayer.status, 'canonical-unavailable');
-	assert.equal(runtime.canonicalPlayer.reason, 'renderer-not-ready');
+function predecessor(userData = {}) {
+	const value = {
+		parent: {
+			removed: [],
+			remove(object) {
+				this.removed.push(object);
+				object.parent = null;
+			}
+		},
+		userData,
+		visible: true,
+		traverse(callback) {
+			callback(this);
+		}
+	};
+	return value;
+}
+
+test('B"H trusted bootstrap traveler remains visible when canonical hydration fails', () => {
+	const local = predecessor({ bootstrapPlayerVisual: true, fallbackVisible: true });
+	const runtime = { model: local, visiblePlayer: local };
+	const receipt = rejectNoncanonicalPlayerFallback(
+		runtime,
+		local,
+		{},
+		new Error('network unavailable')
+	);
+	assert.equal(receipt.status, 'bootstrap-preserved');
+	assert.equal(receipt.fallback, 'bootstrap-visible-player');
+	assert.equal(runtime.model, local);
+	assert.equal(runtime.visiblePlayer, local);
+	assert.equal(runtime.playerVisualGuard, 'bootstrap-visible-fallback');
+	assert.equal(local.visible, true);
+	assert.equal(local.parent.removed.length, 0);
 });
 
-test('load failure stays fail-closed and records the real error', () => {
-	const predecessor = new Group();
-	const runtime = { model: predecessor, visiblePlayer: predecessor };
-	rejectNoncanonicalPlayerFallback(runtime, predecessor, { console: { warn() {} } }, new Error('offline'));
-	assert.equal(predecessor.visible, false);
+test('B"H unknown predecessor is removed rather than promoted as canonical truth', () => {
+	const unknown = predecessor({ fallbackVisible: true });
+	const originalParent = unknown.parent;
+	const runtime = { model: unknown, visiblePlayer: unknown };
+	const receipt = rejectNoncanonicalPlayerFallback(
+		runtime,
+		unknown,
+		{},
+		new Error('invalid canonical model')
+	);
+	assert.equal(receipt, null);
+	assert.equal(runtime.canonicalPlayer.status, 'canonical-unavailable');
 	assert.equal(runtime.model, null);
 	assert.equal(runtime.visiblePlayer, null);
-	assert.equal(runtime.canonicalPlayer.reason, 'load-or-install-failed');
-	assert.equal(runtime.canonicalPlayer.error, 'offline');
+	assert.equal(runtime.playerVisualGuard, null);
+	assert.equal(unknown.visible, false);
+	assert.deepEqual(originalParent.removed, [unknown]);
 });

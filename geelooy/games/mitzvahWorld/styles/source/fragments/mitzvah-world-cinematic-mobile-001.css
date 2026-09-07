@@ -3,9 +3,9 @@ Boruch Hashem
 Blessed is He
 
 @file mitzvah-world-cinematic-mobile-001.css
-@description Gives the real post-play mobile HUD a warm translucent cinematic garment without changing control ownership or scene geometry.
-The Awtsmoos lets world and interface share one sunset without confusing their tasks; Awtsmoos.com keeps the center clear,
-the traveler visible, the left identity calm, the right deed rail reachable, and the fixed joystick grounded beneath every moving thumb.
+@description Gives the post-play mobile HUD a warm cinematic garment with explicit viewport-safe ownership of player shell, rail, minimap, and fixed joystick.
+The Awtsmoos lets world and interface share one sunset without confusing their tasks; Awtsmoos.com keeps the traveler visible,
+the identity shell honest, the deed rail reachable, and the fixed joystick grounded while the center remains open to the living world.
 */
 
 #mitzvah-world-root[data-awtsmoos-cinematic="ready"] {
@@ -51,13 +51,35 @@ the traveler visible, the left identity calm, the right deed rail reachable, and
 
 @media (max-width: 520px) and (orientation: portrait), (pointer: coarse) and (max-aspect-ratio: 4 / 5) {
 	#mitzvah-world-root[data-awtsmoos-cinematic="ready"] .Awtsmoos-player-hud-shell {
+		position: absolute;
+		left: max(12px, var(--safe-l, 8px));
+		top: max(12px, var(--safe-t, 8px));
 		width: min(192px, 48vw);
+		min-height: 89px;
 		max-height: min(132px, 16dvh);
+		overflow: visible;
+	}
+
+	#mitzvah-world-root[data-awtsmoos-cinematic="ready"] .Awtsmoos-player-hud-shell > .Awtsmoos-status-dock {
+		position: relative;
+		inset: auto;
+		width: 100%;
+		max-width: 100%;
+	}
+
+	#mitzvah-world-root[data-awtsmoos-cinematic="ready"] .Awtsmoos-player-hud-shell .status-card {
+		box-sizing: border-box;
+		width: 100%;
+		max-width: 100%;
 	}
 
 	#mitzvah-world-root[data-awtsmoos-cinematic="ready"] #gameRail {
-		top: max(86px, calc(var(--safe-t) + 74px));
-		right: max(10px, var(--safe-r));
+		position: absolute;
+		left: auto;
+		right: max(10px, var(--safe-r, 8px));
+		top: max(86px, calc(var(--safe-t, 8px) + 74px));
+		bottom: auto;
+		transform: none;
 	}
 
 	#mitzvah-world-root[data-awtsmoos-cinematic="ready"] #gameRail .Awtsmoos-game-rail {

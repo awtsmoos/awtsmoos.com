@@ -4,36 +4,40 @@
 
 /**
  * @file BootstrapTerrainRemoteBinding.js
- * @description Replaces bootstrap-generated ground pixels only with decoded remote-authoritative terrain imagery.
- * The Awtsmoos lets the first colored earth hold the foot without pretending it is the final garment;
- * Awtsmoos.com binds distant grass only when its HTTP provenance is real, so fallback light never blocks revealed texture.
+ * @description Binds decoded remote-authoritative grass across generated/source chunk boundaries without depending on chunk-local provenance WeakMaps.
+ * The Awtsmoos lets distant grass cross many vessels while remaining one truthful image; Awtsmoos.com requires decoded non-generated pixels,
+ * a successful loader record, and an explicit HTTP(S) catalog URL before the bootstrap earth may exchange its first colored garment.
  */
 
-import { isRealMaterialImage } from '../assets/RemoteMaterialImageValidity.js';
+import {
+	isDecodedMaterialImage
+} from '../assets/RemoteMaterialImageValidity.js';
+import {
+	isRemoteMaterialUrl
+} from '../assets/PublicMaterialRemoteProvenance.js';
 
-/** Binds the preferred successful remote record to the visible bootstrap grass material. */
+/** Binds the preferred successful remote record when that settled record carries its decoded image. */
 export function bindBootstrapTerrainRecord(group, record, preferredUrl) {
 	const url = String(record?.url || record?.primaryUrl || '');
-	if (!record?.ok || !record.image || !sameUrl(url, preferredUrl)) {
-		return false;
-	}
-	return bindRemoteImage(group, record.image, url);
+	if (!record?.ok || !record.image || !sameUrl(url, preferredUrl)) return false;
+	return bindVerifiedRemoteImage(group, record.image, url);
 }
 
-/** Binds the final preferred remote role after the complete terrain batch settles. */
+/** Binds one final canonical terrain role using explicit loader success plus decoded remote image evidence. */
 export function bindBootstrapTerrainRole(group, sources, role = 'grassFour') {
 	const image = sources?.images?.[role];
-	const url = sources?.records?.[role]?.url || '';
-	if (!image || !url) return false;
-	return bindRemoteImage(group, image, url);
+	const record = sources?.records?.[role];
+	const url = String(record?.url || '');
+	if (!record?.ok || !image || !url) return false;
+	return bindVerifiedRemoteImage(group, image, url);
 }
 
-function bindRemoteImage(group, image, url) {
+function bindVerifiedRemoteImage(group, image, url) {
 	const material = group?.children?.[0]?.material;
-	if (!material || !isRealMaterialImage(image)) return false;
-	if (material.textureUrl === url && isRealMaterialImage(material.mapImage)) {
-		return true;
+	if (!material || !isDecodedMaterialImage(image) || !isRemoteMaterialUrl(url)) {
+		return false;
 	}
+	if (material.textureUrl === url && material.mapImage === image) return true;
 	material.map = image;
 	material.mapImage = image;
 	material.mapImageFallback = false;

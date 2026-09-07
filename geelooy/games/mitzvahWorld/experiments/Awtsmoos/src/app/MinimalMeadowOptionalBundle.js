@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalMeadowOptionalBundle.js
- * @description Exposes every full-quality optional installer from one generated runtime chunk.
- * The Awtsmoos gathers canonical player, renderer, friendly Chossid, and visual proof into one vessel;
- * Awtsmoos.com preserves complete optional quality while eliminating the native module waterfall.
+ * @description Exposes every full-quality optional installer from one generated runtime chunk without adding first-play vegetation quantity.
+ * The Awtsmoos gathers canonical player, renderer, friendly Chossid, and visual proof into one later vessel;
+ * Awtsmoos.com preserves complete optional quality while the first playable gate and its measured grass population remain unchanged.
  */
 
 export {

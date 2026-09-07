@@ -4,9 +4,9 @@
 
 /**
  * @file bootstrapTerrainRemoteBinding.test.mjs
- * @description Proves generated bootstrap pixels can never block genuine remote grass from becoming the visible WebGL material.
- * The Awtsmoos lets a temporary colored field serve first play without claiming the throne of final texture;
- * Awtsmoos.com requires proven distant grass to replace the placeholder when its decoded light arrives.
+ * @description Proves genuine decoded grass crosses generated/source chunk boundaries without allowing generated pixels or unverified records onto terrain.
+ * The Awtsmoos lets a remote ImageBitmap lose local WeakMap identity without losing its truthful catalog origin;
+ * Awtsmoos.com requires successful HTTP(S) record evidence and decoded non-generated shape before the visible grass field may be clothed.
  */
 
 import assert from 'node:assert/strict';
@@ -27,6 +27,14 @@ function remoteImage(url = GRASS_URL) {
 	};
 }
 
+function imageBitmapShape() {
+	return {
+		constructor: { name: 'ImageBitmap' },
+		height: 1254,
+		width: 1254
+	};
+}
+
 function fixture() {
 	const generated = {
 		dataset: { generatedTexture: 'true' },
@@ -42,44 +50,50 @@ function fixture() {
 	return { generated, group: { children: [{ material }] }, material };
 }
 
-test('B"H preferred remote grass replaces an already-usable generated fallback', () => {
+test('B"H preferred remote record replaces the generated fallback when decoded image is present', () => {
 	const { generated, group, material } = fixture();
 	const image = remoteImage();
-	const bound = bindBootstrapTerrainRecord(group, {
-		image,
-		ok: true,
-		url: GRASS_URL
-	}, GRASS_URL);
-	assert.equal(bound, true);
+	assert.equal(bindBootstrapTerrainRecord(group, { image, ok: true, url: GRASS_URL }, GRASS_URL), true);
 	assert.notEqual(material.mapImage, generated);
 	assert.equal(material.mapImage, image);
-	assert.equal(material.map, image);
 	assert.equal(material.textureUrl, GRASS_URL);
 	assert.equal(material.texturePolicy.realMapImage, true);
-	assert.deepEqual(material.color, [1, 1, 1, 1]);
 });
 
-test('B"H nonpreferred arrival cannot dress the grass field with the wrong terrain role', () => {
+test('B"H nonpreferred or unsuccessful records cannot dress the field', () => {
 	const { generated, group, material } = fixture();
-	const bound = bindBootstrapTerrainRecord(group, {
+	assert.equal(bindBootstrapTerrainRecord(group, {
 		image: remoteImage('https://awtsmoos.com/drive/file/cobble'),
 		ok: true,
 		url: 'https://awtsmoos.com/drive/file/cobble'
-	}, GRASS_URL);
-	assert.equal(bound, false);
+	}, GRASS_URL), false);
+	assert.equal(bindBootstrapTerrainRole(group, {
+		images: { grassFour: remoteImage() },
+		records: { grassFour: { ok: false, url: GRASS_URL } }
+	}), false);
 	assert.equal(material.mapImage, generated);
 });
 
-test('B"H final role binding publishes genuine remote URL and strict policy', () => {
+test('B"H cross-chunk ImageBitmap binds from successful HTTPS record without local provenance marker', () => {
 	const { group, material } = fixture();
-	const image = remoteImage();
+	const image = imageBitmapShape();
 	const bound = bindBootstrapTerrainRole(group, {
 		images: { grassFour: image },
-		records: { grassFour: { url: GRASS_URL } }
+		records: { grassFour: { ok: true, url: GRASS_URL } }
 	});
 	assert.equal(bound, true);
 	assert.equal(material.textureUrl, GRASS_URL);
 	assert.equal(material.mapImage, image);
 	assert.equal(material.texturePolicy.realMapImage, true);
 	assert.equal(material.texturePolicy.remoteOnly, true);
+});
+
+test('B"H generated canvas-shaped image remains rejected even with remote URL text', () => {
+	const { generated, group, material } = fixture();
+	const canvas = { constructor: { name: 'HTMLCanvasElement' }, height: 256, tagName: 'CANVAS', width: 256 };
+	assert.equal(bindBootstrapTerrainRole(group, {
+		images: { grassFour: canvas },
+		records: { grassFour: { ok: true, url: GRASS_URL } }
+	}), false);
+	assert.equal(material.mapImage, generated);
 });

@@ -4,26 +4,43 @@
 
 /**
  * @file MinimalMeadowPlayerHydrationState.js
- * @description Fails canonical hydration closed: a noncanonical predecessor is removed rather than restored as a generated human.
- * The Awtsmoos may conceal a garment while truth is unavailable, yet never requires a counterfeit form;
- * Awtsmoos.com records the missing canonical player plainly so loading/error remains honest through every storm.
+ * @description Records canonical hydration failure while preserving only the known local bootstrap traveler that already made movement visibly truthful.
+ * The Awtsmoos does not demand that a distant garment erase the humble garment already carrying the traveler;
+ * Awtsmoos.com keeps the proven local Chossid visible when authored GLB truth is unavailable, while unknown counterfeit predecessors are still refused.
  */
 
 import { PLAYER_MODEL_URL } from './EretzConstants.js';
 
-export function rejectNoncanonicalPlayerFallback(runtime, predecessor, environment, error = null) {
-	removePredecessor(predecessor);
-	if (runtime.model === predecessor) runtime.model = null;
-	if (runtime.visiblePlayer === predecessor) runtime.visiblePlayer = null;
-	runtime.playerVisualGuard = null;
-	runtime.canonicalPlayer = unavailableReceipt(error);
+/** Keeps the known bootstrap traveler on failure, but rejects every unknown predecessor. */
+export function rejectNoncanonicalPlayerFallback(
+	runtime,
+	predecessor,
+	environment,
+	error = null
+) {
+	const preserved = isTrustedBootstrapPlayer(predecessor);
+	if (preserved) {
+		predecessor.traverse?.(object => {
+			object.visible = true;
+		});
+		runtime.model = predecessor;
+		runtime.visiblePlayer = predecessor;
+	} else {
+		removePredecessor(predecessor);
+		if (runtime.model === predecessor) runtime.model = null;
+		if (runtime.visiblePlayer === predecessor) runtime.visiblePlayer = null;
+	}
+	runtime.playerVisualGuard = preserved ? 'bootstrap-visible-fallback' : null;
+	runtime.canonicalPlayer = unavailableReceipt(error, preserved);
 	announcePlayerHydration(environment, {
 		error: runtime.canonicalPlayer.error,
-		phase: 'canonical-unavailable',
+		phase: preserved ? 'bootstrap-preserved' : 'canonical-unavailable',
 		progress: 1
 	});
-	if (error) environment.console?.warn?.('[MitzvahWorld] canonical Chossid unavailable.', error);
-	return null;
+	if (error) {
+		environment.console?.warn?.('[MitzvahWorld] canonical Chossid unavailable.', error);
+	}
+	return preserved ? runtime.canonicalPlayer : null;
 }
 
 export function announcePlayerHydration(environment, detail) {
@@ -34,6 +51,11 @@ export function announcePlayerHydration(environment, detail) {
 	));
 }
 
+function isTrustedBootstrapPlayer(predecessor) {
+	return predecessor?.userData?.bootstrapPlayerVisual === true
+		&& predecessor?.userData?.fallbackVisible === true;
+}
+
 function removePredecessor(predecessor) {
 	if (!predecessor) return;
 	predecessor.traverse?.(object => {
@@ -42,11 +64,12 @@ function removePredecessor(predecessor) {
 	predecessor.parent?.remove?.(predecessor);
 }
 
-function unavailableReceipt(error) {
+function unavailableReceipt(error, preserved) {
 	return Object.freeze({
 		error: error?.message || '',
+		fallback: preserved ? 'bootstrap-visible-player' : '',
 		reason: error ? 'load-or-install-failed' : 'renderer-not-ready',
 		source: PLAYER_MODEL_URL,
-		status: 'canonical-unavailable'
+		status: preserved ? 'bootstrap-preserved' : 'canonical-unavailable'
 	});
 }

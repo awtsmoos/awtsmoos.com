@@ -4,9 +4,9 @@
 
 /**
  * @file bootstrapEssentialTerrainReadiness.test.mjs
- * @description Proves only preferred verified grass may unlock first-frame terrain readiness, while failure degrades promptly.
- * The Awtsmoos distinguishes the essential ray from every optional garment that may later appear;
- * Awtsmoos.com opens gameplay only for authored grass truly bound to earth, and reports failure without a ninety-second snare.
+ * @description Proves preferred grass resolves immediately while its failure remains provisional until canonical remote fallbacks are known.
+ * The Awtsmoos distinguishes preference from truth itself; Awtsmoos.com accepts only decoded remote grass, yet does not condemn the field
+ * merely because one preferred URL timed out before its canonical siblings completed their journey.
  */
 
 import assert from 'node:assert/strict';
@@ -16,62 +16,46 @@ import {
 } from '../../app/BootstrapEssentialTerrainReadiness.js';
 
 const PREFERRED_URL = 'https://awtsmoos.com/authored/grass-four.jpg';
+const FALLBACK_URL = 'https://awtsmoos.com/authored/grass-one.jpg';
 
-/** Creates one minimal successful remote texture record for readiness decisions. */
 function successfulRecord(url) {
-	return {
-		error: null,
-		ok: true,
-		url
-	};
+	return { error: null, ok: true, url };
 }
 
-test('B"H optional texture settlement cannot unlock essential terrain readiness', async () => {
+test('B"H preferred verified grass still resolves immediately', async () => {
 	const receipts = [];
-	const readiness = createBootstrapEssentialTerrainReadiness(receipt => {
-		receipts.push(receipt);
-	});
-	const optionalAccepted = readiness.observe(
-		successfulRecord('https://awtsmoos.com/authored/soil.jpg'),
-		true,
-		PREFERRED_URL
-	);
-	assert.equal(optionalAccepted, false);
+	const readiness = createBootstrapEssentialTerrainReadiness(receipt => receipts.push(receipt));
+	assert.equal(readiness.observe(successfulRecord(FALLBACK_URL), true, PREFERRED_URL), false);
 	assert.equal(receipts.length, 0);
-
-	const preferredAccepted = readiness.observe(
-		successfulRecord(PREFERRED_URL),
-		true,
-		PREFERRED_URL
-	);
-	assert.equal(preferredAccepted, true);
+	assert.equal(readiness.observe(successfulRecord(PREFERRED_URL), true, PREFERRED_URL), true);
 	const receipt = await readiness.promise;
 	assert.equal(receipt.phase, 'essential-ready');
-	assert.equal(receipt.loaded, 1);
+	assert.equal(receipt.activeUrl, PREFERRED_URL);
+	assert.equal(receipt.preferred, true);
 	assert.equal(receipt.failed, 0);
-	assert.equal(receipt.preferredUrl, PREFERRED_URL);
-	assert.equal(receipts.length, 1);
 });
 
-test('B"H preferred authored grass failure settles degraded immediately', async () => {
+test('B"H preferred failure stays provisional until canonical fallback binds', async () => {
+	const receipts = [];
+	const readiness = createBootstrapEssentialTerrainReadiness(receipt => receipts.push(receipt));
+	assert.equal(readiness.observe({ error: 'decode-timeout', ok: false, url: PREFERRED_URL }, false, PREFERRED_URL), false);
+	assert.equal(receipts.length, 0);
+	assert.equal(readiness.finish(true, { loaded: 4 }, PREFERRED_URL, FALLBACK_URL), true);
+	const receipt = await readiness.promise;
+	assert.equal(receipt.phase, 'canonical-fallback-ready');
+	assert.equal(receipt.activeUrl, FALLBACK_URL);
+	assert.equal(receipt.preferred, false);
+	assert.equal(receipt.loaded, 4);
+	assert.equal(receipt.failed, 0);
+});
+
+test('B"H batch degrades only when no canonical remote grass binds', async () => {
 	const readiness = createBootstrapEssentialTerrainReadiness();
-	const accepted = readiness.observe({
-		error: 'decode-timeout',
-		ok: false,
-		url: PREFERRED_URL
-	}, false, PREFERRED_URL);
-	assert.equal(accepted, true);
+	readiness.observe({ error: 'timeout', ok: false, url: PREFERRED_URL }, false, PREFERRED_URL);
+	readiness.finish(false, { loaded: 3 }, PREFERRED_URL, '');
 	const receipt = await readiness.promise;
 	assert.equal(receipt.phase, 'degraded');
-	assert.equal(receipt.loaded, 0);
+	assert.equal(receipt.activeUrl, null);
 	assert.equal(receipt.failed, 1);
-	assert.equal(receipt.error, 'decode-timeout');
-});
-
-test('B"H a successful preferred record still degrades when visible binding rejects it', async () => {
-	const readiness = createBootstrapEssentialTerrainReadiness();
-	readiness.observe(successfulRecord(PREFERRED_URL), false, PREFERRED_URL);
-	const receipt = await readiness.promise;
-	assert.equal(receipt.phase, 'degraded');
-	assert.match(receipt.error, /could not bind/i);
+	assert.match(receipt.error, /No canonical remote grass/i);
 });

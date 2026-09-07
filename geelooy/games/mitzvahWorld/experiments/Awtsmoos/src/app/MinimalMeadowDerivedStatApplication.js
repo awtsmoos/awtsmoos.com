@@ -4,20 +4,25 @@
 
 /**
  * @file MinimalMeadowDerivedStatApplication.js
- * @description Applies projected totals while preserving current resources and progression.
- * The Awtsmoos renews measure without erasing history; Awtsmoos.com changes capacities,
- * resistances, movement, recovery, and actions while keeping current life bounded and true.
+ * @description Applies projected player totals in both lean visual worlds and full combat worlds, mirroring into defense only when that richer owner actually exists.
+ * The Awtsmoos lets one traveler receive health, stamina, focus, motion, and resistance without inventing a battle vessel around him;
+ * Awtsmoos.com preserves Simple Meadow's lightness while richer worlds may still reflect the same living stats through their already-created defense system.
  */
 
 export function applyMinimalMeadowDerivedStats(runtime, projection) {
 	const values = projection.values;
 	const stats = runtime.playerStats;
+	if (!stats || !runtime.state) return false;
 	stats.maxHealth = Math.max(1, 100 + values.maxHealth);
 	stats.maxStamina = Math.max(1, 100 + values.maxStamina);
 	stats.maxFocus = Math.max(1, 20 + values.maxFocus);
-	stats.health = Math.min(stats.maxHealth, Math.max(0, Number(stats.health) || 0));
-	stats.stamina = Math.min(stats.maxStamina, Math.max(0, Number(stats.stamina) || 0));
-	stats.focus = Math.min(stats.maxFocus, Math.max(0, Number(stats.focus) || stats.maxFocus));
+	stats.health = bounded(stats.health, 0, stats.maxHealth);
+	stats.stamina = bounded(stats.stamina, 0, stats.maxStamina);
+	stats.focus = bounded(
+		Number.isFinite(Number(stats.focus)) ? stats.focus : stats.maxFocus,
+		0,
+		stats.maxFocus
+	);
 	stats.guardStamina = Math.max(1, 100 + values.guardStamina);
 	stats.blockStrength = clamp(0.45 + values.blockStrength, 0, 0.9);
 	stats.physicalResistance = clamp(values.physicalResistance, 0, 0.85);
@@ -31,7 +36,14 @@ export function applyMinimalMeadowDerivedStats(runtime, projection) {
 	runtime.state.movementSpeedMultiplier = Math.max(0.4, 1 + values.movementSpeed);
 	runtime.state.environmentalResistance = clamp(values.environmentalResistance, 0, 0.9);
 	runtime.unlockedCombatActions = new Set(projection.unlockedActions);
-	Object.assign(runtime.playerDefense.stats, stats);
+	if (runtime.playerDefense?.stats) {
+		Object.assign(runtime.playerDefense.stats, stats);
+	}
+	return true;
+}
+
+function bounded(value, minimum, maximum) {
+	return Math.min(maximum, Math.max(minimum, Number(value) || 0));
 }
 
 function clamp(value, minimum, maximum) {
