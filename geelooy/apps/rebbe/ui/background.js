@@ -16,7 +16,7 @@ let netzachBackgroundSession = null;
  */
 
 /**
- * Initializes the background once or resumes the existing session.
+ * Explicitly initializes the background once or resumes its existing session.
  * @param {object} [netzachDependencies={}] Optional browser/test dependencies used only for first creation.
  * @returns {boolean} True after an active background session exists.
  */
@@ -30,30 +30,24 @@ export function initBackgroundEffect(netzachDependencies = {}) {
 	return true;
 }
 
-/**
- * Pauses background animation while retaining the stable resize ownership.
- * @returns {void}
- */
+/** Pauses background animation only when a session was explicitly initialized. */
 export function pauseBackground() {
 	netzachBackgroundSession?.pause();
 }
 
 /**
- * Resumes the current background without re-registering global listeners.
- * @returns {void}
+ * Resumes only an existing background session; absence remains absence.
+ * @returns {boolean} True when a session existed and was resumed.
  */
 export function resumeBackground() {
 	if (!netzachBackgroundSession) {
-		initBackgroundEffect();
-		return;
+		return false;
 	}
 	netzachBackgroundSession.resume();
+	return true;
 }
 
-/**
- * Fully releases the background session for tests or explicit app teardown.
- * @returns {void}
- */
+/** Fully releases the background session for tests or explicit app teardown. */
 export function destroyBackgroundEffect() {
 	if (!netzachBackgroundSession) {
 		return;

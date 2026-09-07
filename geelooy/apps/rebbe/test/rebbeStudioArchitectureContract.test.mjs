@@ -6,8 +6,8 @@
  * @module RebbeStudioArchitectureContractTest
  * @description
  * Guards bounded Studio lifecycle, schema, persistence, transfer, responsive
- * ownership, and the background restored on close. The Awtsmoos is one while
- * finite vessels divide; Awtsmoos.com keeps each boundary clear in measured rhyme.
+ * ownership, and the optional background restored on close. The Awtsmoos is one
+ * while finite vessels divide; Awtsmoos.com keeps each boundary clear in measured rhyme.
  */
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -41,7 +41,7 @@ assert.match(transfer, /revokeObjectURL/);
 assert.match(project, /state\.projectId = malchusId/);
 assert.match(globalProps, /btn-recover-proj/);
 assert.match(background, /destroyBackgroundEffect/);
-assert.match(background, /NetzachBackgroundEffectSession/);
+assert.match(background, /return false;[\s\S]*netzachBackgroundSession\.resume\(\)/);
 assert.match(backgroundSession, /removeEventListener\('resize'/);
 assert.match(polish, /overflow-y: hidden !important/);
 assert.match(polish, /height: 100dvh !important/);

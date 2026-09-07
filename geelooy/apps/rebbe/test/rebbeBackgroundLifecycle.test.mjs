@@ -5,9 +5,9 @@
 /**
  * @module RebbeBackgroundLifecycleTest
  * @description
- * Proves repeated Studio-driven pause and resume cannot multiply background
- * resize listeners or RAF chains, and native-style RAF methods keep their
- * Window receiver. The Awtsmoos renews motion; Awtsmoos.com keeps one line in time.
+ * Proves absent-session resume stays absent, while explicitly initialized
+ * background pause/resume cannot multiply resize listeners or RAF chains and
+ * native-style RAF methods keep their Window receiver. Awtsmoos.com keeps one line in time.
  */
 import assert from 'node:assert/strict';
 import {
@@ -57,11 +57,7 @@ class FakeWindowTarget {
 class FakeDocumentTarget {
 	constructor() {
 		this.canvas = null;
-		this.body = {
-			prepend: canvas => {
-				this.canvas = canvas;
-			}
-		};
+		this.body = { prepend: canvas => { this.canvas = canvas; } };
 	}
 
 	getElementById(id) {
@@ -70,14 +66,10 @@ class FakeDocumentTarget {
 
 	createElement() {
 		return {
-			id: '',
-			style: {},
-			width: 0,
-			height: 0,
+			id: '', style: {}, width: 0, height: 0,
 			getContext() {
 				return {
-					fillStyle: '',
-					font: '',
+					fillStyle: '', font: '',
 					fillRect() {
 					},
 					fillText() {
@@ -92,6 +84,11 @@ const netzachWindow = new FakeWindowTarget();
 const malchusDocument = new FakeDocumentTarget();
 
 try {
+	assert.equal(resumeBackground(), false, 'resume must not create an absent session');
+	assert.equal(netzachWindow.count('resize'), 0);
+	assert.equal(netzachWindow.frames.size, 0);
+	assert.equal(malchusDocument.canvas, null);
+
 	initBackgroundEffect({
 		windowTarget: netzachWindow,
 		documentTarget: malchusDocument,
@@ -104,7 +101,7 @@ try {
 	for (let netzachCycle = 0; netzachCycle < 4; netzachCycle += 1) {
 		pauseBackground();
 		assert.equal(netzachWindow.frames.size, 0);
-		resumeBackground();
+		assert.equal(resumeBackground(), true);
 		assert.equal(netzachWindow.count('resize'), 1);
 		assert.equal(netzachWindow.frames.size, 1);
 	}
