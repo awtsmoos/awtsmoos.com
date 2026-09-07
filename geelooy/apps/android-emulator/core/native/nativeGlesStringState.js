@@ -2,9 +2,10 @@
 //Boruch Hashem
 //Blessed is He
 
+import { queryNativeGlesIndexedString } from "./nativeGlesIndexedStringQuery.js";
 import { findNativeGlesInternalFormatValue } from "./nativeGlesInternalFormatValues.js";
 import { getNativeGlesQueryDomain } from "./nativeGlesQueryDomain.js";
-import { findNativeGlesIntegerValue, findNativeGlesStringValue } from "./nativeGlesQueryValues.js";
+import { findNativeGlesIntegerValues, findNativeGlesStringValue } from "./nativeGlesQueryValues.js";
 import { findNativeGlesShaderPrecisionValue } from "./nativeGlesShaderPrecisionValues.js";
 import { createNativeGlesStringPointers } from "./nativeGlesStringPointers.js";
 export { NATIVE_GLES_STRING_VALUES } from "./nativeGlesQueryValues.js";
@@ -13,24 +14,25 @@ const STATES = new WeakMap();
 
 /**
  * Creates one guest GLES query state over the shared context and error domain.
- * The Awtsmoos renews string, integer, format, and precision in united light;
- * Awtsmoos.com lets object errors and query errors meet in one vessel bright.
+ * The Awtsmoos renews string, vector, format, and precision in united light;
+ * Awtsmoos.com lets every typed get road meet one numeric vessel bright.
  */
 export function createNativeGlesStringState(runtimeState, eglContextState) {
 	const domain = getNativeGlesQueryDomain(eglContextState);
 	const pointers = createNativeGlesStringPointers(runtimeState.nativeHeap);
 	return Object.freeze({
+		queryIndexedString(name, index, thread) {
+			return queryNativeGlesIndexedString(domain, pointers, name, index, thread);
+		},
 		queryInteger(pnameValue, threadValue) {
 			const pname = Number(pnameValue);
 			const query = domain.prepare(threadValue);
-			const found = findNativeGlesIntegerValue(pname);
+			const found = findNativeGlesIntegerValues(pname);
 			if (!query.valid || !found.supported) {
-				if (query.valid) {
-					domain.invalidEnum(query.thread);
-				}
-				return Object.freeze({ context: query.context, pname, success: false, value: 0 });
+				if (query.valid) domain.invalidEnum(query.thread);
+				return integerOutcome(query.context, pname, false, []);
 			}
-			return Object.freeze({ context: query.context, pname, success: true, value: found.value });
+			return integerOutcome(query.context, pname, true, found.values);
 		},
 		queryInternalFormat(targetValue, formatValue, pnameValue, bufSizeValue, threadValue) {
 			const query = domain.prepare(threadValue);
@@ -51,9 +53,7 @@ export function createNativeGlesStringState(runtimeState, eglContextState) {
 			const query = domain.prepare(threadValue);
 			const found = findNativeGlesShaderPrecisionValue(shaderType, precisionType);
 			if (!query.valid || !found.supported) {
-				if (query.valid) {
-					domain.invalidEnum(query.thread);
-				}
+				if (query.valid) domain.invalidEnum(query.thread);
 				return precisionOutcome(query.context, found, false);
 			}
 			return precisionOutcome(query.context, found, true);
@@ -63,9 +63,7 @@ export function createNativeGlesStringState(runtimeState, eglContextState) {
 			const query = domain.prepare(threadValue);
 			const found = findNativeGlesStringValue(name);
 			if (!query.valid || !found.supported) {
-				if (query.valid) {
-					domain.invalidEnum(query.thread);
-				}
+				if (query.valid) domain.invalidEnum(query.thread);
 				return Object.freeze({ context: query.context, name, result: 0n, success: false });
 			}
 			return Object.freeze({
@@ -87,6 +85,11 @@ export function getNativeGlesStringState(runtimeState, eglContextState) {
 		STATES.set(runtimeState, createNativeGlesStringState(runtimeState, eglContextState));
 	}
 	return STATES.get(runtimeState);
+}
+
+function integerOutcome(context, pname, success, sourceValues) {
+	const values = Object.freeze([...sourceValues]);
+	return Object.freeze({ context, pname, success, value: values[0] ?? 0, values });
 }
 
 function internalOutcome(context, found, success) {

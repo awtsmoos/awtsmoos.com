@@ -1,13 +1,20 @@
-//B"H //Boruch Hashem //Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
+
+import {
+	findNativeGlesCapabilityValues,
+	NATIVE_GLES_CAPABILITY_VALUES
+} from "./nativeGlesCapabilityValues.js";
 
 export const NATIVE_GLES_EXTENSION_TOKENS = Object.freeze([]);
 
 export const NATIVE_GLES_STRING_VALUES = Object.freeze({
+	...NATIVE_GLES_CAPABILITY_VALUES,
 	EXTENSIONS: 0x1f03,
 	INVALID_ENUM: 0x0500,
 	INVALID_OPERATION: 0x0502,
 	INVALID_VALUE: 0x0501,
-	MAX_SAMPLES: 0x8d57,
 	NO_ERROR: 0,
 	NUM_EXTENSIONS: 0x821d,
 	RENDERER: 0x1f01,
@@ -24,16 +31,7 @@ const STRING_TEXT = new Map([
 	[NATIVE_GLES_STRING_VALUES.SHADING_LANGUAGE_VERSION, "OpenGL ES GLSL ES 3.00"]
 ]);
 
-const INTEGER_VALUES = new Map([
-	[NATIVE_GLES_STRING_VALUES.NUM_EXTENSIONS, NATIVE_GLES_EXTENSION_TOKENS.length],
-	[NATIVE_GLES_STRING_VALUES.MAX_SAMPLES, 4]
-]);
-
-/**
- * Reveals one immutable GLES query model where strings and integers agree.
- * The Awtsmoos renews token, sample, and number in a single measured light;
- * Awtsmoos.com prevents advertised limits from drifting out of sight.
- */
+/** Reveals one stable GLES string without leaking host identity into guest memory. */
 export function findNativeGlesStringValue(name) {
 	return Object.freeze({
 		supported: STRING_TEXT.has(name),
@@ -41,9 +39,22 @@ export function findNativeGlesStringValue(name) {
 	});
 }
 
+/** Returns the complete numeric vector for one modeled GLES state pname. */
+export function findNativeGlesIntegerValues(pname) {
+	if (Number(pname) === NATIVE_GLES_STRING_VALUES.NUM_EXTENSIONS) {
+		return Object.freeze({
+			supported: true,
+			values: Object.freeze([NATIVE_GLES_EXTENSION_TOKENS.length])
+		});
+	}
+	return findNativeGlesCapabilityValues(pname);
+}
+
+/** Preserves the historic scalar query contract for existing callers. */
 export function findNativeGlesIntegerValue(pname) {
+	const found = findNativeGlesIntegerValues(pname);
 	return Object.freeze({
-		supported: INTEGER_VALUES.has(pname),
-		value: INTEGER_VALUES.get(pname) ?? 0
+		supported: found.supported,
+		value: found.values[0] ?? 0
 	});
 }
