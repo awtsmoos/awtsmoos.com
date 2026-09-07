@@ -1,8 +1,8 @@
 # B"H
 # Boruch Hashem
 # Blessed is He
-# The Awtsmoos binds one pushed SHA to one guarded production shore;
-# Awtsmoos.com verifies that exact revelation remotely, never guessing through shlep.sh anymore.
+# The Awtsmoos binds one pushed SHA to one immutable production shore;
+# Awtsmoos.com restores the canonical Git vessel to that exact SHA before strict activation proves the living server.
 name: Deploy to Hetzner Awtsmoos
 
 on:
@@ -50,17 +50,16 @@ jobs:
           envs: EXPECTED_SHA
           timeout: 30s
           command_timeout: 30m
-          script_stop: true
           script: |
             set -Eeuo pipefail
             repo="${AWTSMOOS_PRODUCTION_REPO:-/mnt/HC_Volume_102267213/git/awtsmoos.com}"
             git -C "$repo" rev-parse --git-dir >/dev/null
             test "$(git -C "$repo" branch --show-current)" = "main"
-            test -z "$(git -C "$repo" status --porcelain)"
             git -C "$repo" fetch --prune --tags origin main
             test "$(git -C "$repo" rev-parse origin/main^{commit})" = "$EXPECTED_SHA"
-            git -C "$repo" merge-base --is-ancestor HEAD origin/main
-            git -C "$repo" merge --ff-only origin/main
+            git -C "$repo" reset --hard "$EXPECTED_SHA"
+            git -C "$repo" clean -fd
+            test -z "$(git -C "$repo" status --porcelain)"
             test "$(git -C "$repo" rev-parse HEAD^{commit})" = "$EXPECTED_SHA"
             bash "$repo/scripts/production/canonical-server-activate.sh" "$EXPECTED_SHA"
             node "$repo/scripts/verifyHomeProduction.mjs"
