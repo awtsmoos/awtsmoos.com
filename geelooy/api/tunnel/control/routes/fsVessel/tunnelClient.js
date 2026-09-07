@@ -16,10 +16,11 @@ const { nativeCapabilities } = require("./capabilities.js");
 const { VESSEL_TYPES } = require("./vesselTypes.js");
 
 /**
- * @file Projects route, execution, and acceptance testimony as separate native tunnel witnesses.
+ * @file Projects route, execution, acceptance, and independent recovery testimony.
  * @description
- * The Awtsmoos lets transport breathe, execution labor, and acceptance receive the deed;
- * Awtsmoos.com keeps each witness distinct, so a green heartbeat alone can never proclaim full readiness indeed.
+ * The Awtsmoos lets transport breathe, execution labor, acceptance receive, and medicine
+ * remain reachable. Awtsmoos.com exposes only the authenticated recovery boolean needed
+ * to choose that separate wire while keeping private registration detail bounded.
  */
 function publicNativeTunnel(client = {}, now = Date.now()) {
 	const transport = Live.livenessSnapshot(client, now);
@@ -73,7 +74,6 @@ function publicNativeTunnel(client = {}, now = Date.now()) {
 	};
 }
 
-/** Returns bounded public capabilities from the private native manifest. */
 function safeCapabilities(client) {
 	const capabilities = nativeCapabilities(client);
 	return {
@@ -81,22 +81,20 @@ function safeCapabilities(client) {
 		commandRun: Boolean(capabilities.commandRun),
 		fsRead: capabilities.fsRead !== false,
 		fsWrite: Boolean(capabilities.fsWrite),
+		recoveryControlV1: client.capabilities?.recoveryControlV1 === true,
 		runtime: Boolean(capabilities.runtime)
 	};
 }
 
-/** Returns a bounded version string or null when unavailable. */
 function safeVersion(value) {
 	const normalized = String(value || "").trim();
 	return normalized ? normalized.slice(0, 40) : null;
 }
 
-/** Projects all registered native clients for one account. */
 function listNativeTunnels($i, accountId) {
 	return listNativeTunnelClients($i, accountId).map(publicNativeTunnel);
 }
 
-/** Returns the exact authorized native client behind one ownership binding. */
 function findNativeTunnel($i, binding) {
 	return findExactNativeTunnelClient($i, binding);
 }

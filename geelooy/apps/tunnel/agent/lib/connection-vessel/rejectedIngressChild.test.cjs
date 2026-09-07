@@ -8,42 +8,39 @@ const { createChildMessageRouter } = require("./child-message-router.js");
 const { createCustody } = require("./child-runtime-custody.js");
 
 /**
- * @file Proves rejected durable inbox retirement is exact, fenced, and child-owned.
- * @description
- * The Awtsmoos preserves every witness until its true vessel settles it; Awtsmoos.com
- * rejects stale incarnation and generation shadows before removing one exact current deed.
+ * @file Proves rejected ingress retires exact inbox while terminal outbox survives relay ACK.
+ * @description The Awtsmoos preserves refusal after non-admission; Awtsmoos.com fences the
+ * current child and generation, removes only that inbox deed, and leaves response testimony
+ * untouched until the relay's separate acknowledgement boundary.
  */
 function createHarness() {
-	const records = [{
-		childIncarnationId: "child-current",
-		id: "receipt-one"
-	}];
-	const acknowledged = [];
+	const inbox = [{ childIncarnationId: "child-current", id: "receipt-one" }];
+	const outbox = [{ id: "receipt-one", type: "TUNNEL_RESPONSE" }];
+	const retired = [];
 	const mailbox = {
-		acknowledge: id => {
-			const index = records.findIndex(record => Protocol.requestId(record) === id);
-			if (index < 0) return { inbox: false, outbox: false };
-			records.splice(index, 1);
-			acknowledged.push(id);
-			return { inbox: true, outbox: false };
+		acknowledge() {
+			throw new Error("full relay acknowledgement is forbidden during REJECT");
 		},
-		inbox: () => [...records],
+		inbox: () => [...inbox],
 		noteCustodyProgress: () => true,
 		noteParentCustody: () => true,
+		outbox: () => [...outbox],
+		retireRejectedInbox(id) {
+			const index = inbox.findIndex(record => Protocol.requestId(record) === id);
+			if (index < 0) return false;
+			inbox.splice(index, 1);
+			retired.push(id);
+			return true;
+		},
 		snapshot: () => ({ inbox: { parentCustodyRecords: [] } })
 	};
 	const custody = createCustody({
 		mailbox,
 		parent: { noteCustody: () => true },
-		state: {
-			childIncarnationId: "child-current",
-			generation: 7
-		}
+		state: { childIncarnationId: "child-current", generation: 7 }
 	});
-	const router = createChildMessageRouter({
-		rejectRequest: custody.rejectRequest
-	});
-	return { acknowledged, records, router };
+	const router = createChildMessageRouter({ rejectRequest: custody.rejectRequest });
+	return { inbox, outbox, retired, router };
 }
 
 function rejection(overrides = {}) {
@@ -55,16 +52,16 @@ function rejection(overrides = {}) {
 	});
 }
 
-(function fencesAndSettlesExactCurrentRecord() {
-	const harness = createHarness();
-	assert.equal(harness.router.handle(rejection({ childIncarnationId: "child-old" })), false);
-	assert.equal(harness.router.handle(rejection({ generation: 6 })), false);
-	assert.deepEqual(harness.acknowledged, []);
-	assert.equal(harness.records.length, 1);
-	assert.equal(harness.router.handle(rejection()), true);
-	assert.deepEqual(harness.acknowledged, ["receipt-one"]);
-	assert.equal(harness.records.length, 0);
-	assert.equal(harness.router.handle(rejection()), false);
-})();
+const harness = createHarness();
+assert.equal(harness.router.handle(rejection({ childIncarnationId: "child-old" })), false);
+assert.equal(harness.router.handle(rejection({ generation: 6 })), false);
+assert.deepEqual(harness.retired, []);
+assert.equal(harness.inbox.length, 1);
+assert.equal(harness.outbox.length, 1);
+assert.equal(harness.router.handle(rejection()), true);
+assert.deepEqual(harness.retired, ["receipt-one"]);
+assert.equal(harness.inbox.length, 0);
+assert.equal(harness.outbox.length, 1);
+assert.equal(harness.router.handle(rejection()), false);
 
-console.log("B\"H rejected ingress child regression passed");
+console.log("B\"H rejected ingress preserves terminal outbox until relay ACK");

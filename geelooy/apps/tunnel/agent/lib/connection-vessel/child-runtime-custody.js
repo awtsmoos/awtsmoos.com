@@ -11,10 +11,11 @@ const Protocol = require("./protocol.js");
 const Reconnect = require("../runtime/main-reconnect-policy.js");
 
 /**
- * @file Owns child-side durable custody transitions, rejection retirement, and exact fencing.
+ * @file Owns child custody transitions while preserving terminal refusal until relay ACK.
  * @description
  * The Awtsmoos gives one deed continuity while processes change. Awtsmoos.com accepts
- * custody only under exact identity, and retires rejection only in the very child that owns it.
+ * custody only under exact identity and retires rejected inbox only in the owning child,
+ * leaving any terminal outbox untouched for the relay's separate settlement boundary.
  */
 function createCustody(options = {}) {
 	function noteParentCustody(receiptId, acknowledgement = {}) {
@@ -51,16 +52,13 @@ function createCustody(options = {}) {
 		return options.mailbox.noteCustodyProgress(receiptId, metadata);
 	}
 
-	/** Retires exactly one current-child inbox record that the parent explicitly did not admit. */
 	function rejectRequest(receiptId, testimony = {}) {
 		const expectedIncarnation = currentIncarnation();
 		if (!Incarnation.matches(expectedIncarnation, testimony.childIncarnationId)) return false;
 		const generation = CustodyMetadata.positiveGeneration(testimony.generation);
 		if (generation !== Number(options.state.generation || 0)) return false;
-		const record = exactInboxRecord(receiptId, expectedIncarnation);
-		if (!record) return false;
-		const settlement = options.mailbox.acknowledge(receiptId);
-		return Boolean(settlement?.inbox);
+		if (!exactInboxRecord(receiptId, expectedIncarnation)) return false;
+		return options.mailbox.retireRejectedInbox?.(receiptId) === true;
 	}
 
 	function currentIncarnation() {

@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file Returns explicit admission semantics for pressure, identity, and expiry.
+ * @file Returns explicit admission semantics and persists terminal refusal before retirement.
  * @description
- * The Awtsmoos knows each deed by its true name. Awtsmoos.com therefore never
- * invents an anonymous shliach, never hides whether custody was accepted, and
- * never turns an observation failure into permission to repeat a mutation.
+ * The Awtsmoos knows each deed by its true name. Awtsmoos.com stores NOT_ACCEPTED testimony
+ * before the child retires ingress, so a socket race cannot turn an explicit refusal into a
+ * false consumer stall. Plain sockets retain the historical safe-send fallback.
  */
 function createQueueRejection(dependencies) {
 	function circuit(ws, data, payload, lane, gate, currentStats) {
@@ -70,20 +70,26 @@ function createQueueRejection(dependencies) {
 	function finish(ws, data, payload, result) {
 		dependencies.retryControl.complete(data, payload, result);
 		dependencies.streamEvent("action.error", payload, result);
-		return dependencies.Send.safeSend(ws, {
+		const envelope = {
 			type: "TUNNEL_RESPONSE",
 			id: data.id,
 			...dependencies.Correlation.fields(payload),
 			...result
-		});
+		};
+		return sendResponse(dependencies, ws, envelope);
 	}
 
-	return {
-		circuit,
-		expired,
-		full,
-		identity
-	};
+	return { circuit, expired, full, identity };
+}
+
+function sendResponse(dependencies, ws, envelope) {
+	if (typeof ws?.durableSend === "function") {
+		try {
+			ws.durableSend(envelope);
+			return envelope;
+		} catch {}
+	}
+	return dependencies.Send.safeSend(ws, envelope);
 }
 
 function laneError(dependencies, lane) {
@@ -93,4 +99,4 @@ function laneError(dependencies, lane) {
 	return "agent_queue_full";
 }
 
-module.exports = { createQueueRejection };
+module.exports = { createQueueRejection, sendResponse };

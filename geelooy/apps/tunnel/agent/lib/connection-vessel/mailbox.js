@@ -11,36 +11,23 @@ const Store = require("./mailbox-store.js");
 const Writer = require("./mailbox-writer.js");
 
 /**
- * @file Joins durable mailbox truth to exact living custody and child-incarnation identity.
+ * @file Joins durable mailbox truth to exact living custody and rejection settlement.
  * @description
  * The Awtsmoos preserves each witness while authority changes from vessel unto vessel.
- * Awtsmoos.com keeps historical deeds in guarded quarantine instead of the living hot lane,
- * while one injected clock renews store, custody, and evidence in a single measured refrain.
+ * Awtsmoos.com retires rejected ingress without erasing its terminal outbox; only a relay
+ * response acknowledgement may destroy both halves of a completed transport testimony.
  */
 function createMailbox(config = {}, options = {}) {
 	let childIncarnationId = Incarnation.clean(options.childIncarnationId);
 	const store = Store.createStore(config, options);
 	const custody = Custody.create(options);
 	const getChildIncarnationId = () => childIncarnationId;
-	const evidence = Evidence.create({
-		custody,
-		getChildIncarnationId,
-		now: options.now,
-		store
-	});
-	const obsoleteQuarantine = ObsoleteQuarantine.create({
-		getChildIncarnationId,
-		store
-	});
+	const evidence = Evidence.create({ custody, getChildIncarnationId, now: options.now, store });
+	const obsoleteQuarantine = ObsoleteQuarantine.create({ getChildIncarnationId, store });
 	const quarantine = QuarantineGuard.create({ store });
-	const writer = Writer.create({
-		custody,
-		getChildIncarnationId,
-		store
-	});
+	const writer = Writer.create({ custody, getChildIncarnationId, store });
 	obsoleteQuarantine.sweep();
 
-	/** Changes current authority and immediately retires proven-obsolete hot-store history. */
 	function setCurrentIncarnation(value) {
 		childIncarnationId = Incarnation.clean(value);
 		obsoleteQuarantine.sweep();
@@ -63,7 +50,13 @@ function createMailbox(config = {}, options = {}) {
 		return custody.settle(id);
 	}
 
-	/** Relay response acknowledgement is the destructive settlement boundary. */
+	/** Retires only rejected ingress; terminal outbox survives until relay response ACK. */
+	function retireRejectedInbox(id) {
+		custody.settle(id);
+		return store.remove("inbox", id);
+	}
+
+	/** Relay response acknowledgement is the only full destructive settlement boundary. */
 	function acknowledge(id) {
 		custody.settle(id);
 		return {
@@ -72,7 +65,6 @@ function createMailbox(config = {}, options = {}) {
 		};
 	}
 
-	/** Valid executable testimony is preserved until durable retirement proof exists. */
 	function quarantineExact(id, reason = "semantic_stale_custody") {
 		return quarantine.quarantineExact(id, reason);
 	}
@@ -109,6 +101,7 @@ function createMailbox(config = {}, options = {}) {
 		putOutbox: writer.putOutbox,
 		quarantineExact,
 		quarantineInvalid,
+		retireRejectedInbox,
 		setCurrentIncarnation,
 		settleCustody,
 		snapshot: evidence.snapshot

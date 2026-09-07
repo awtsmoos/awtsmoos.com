@@ -11,12 +11,14 @@ const { resolveFsVessel } = require("./fsVessel/resolveFsVessel.js");
 const Authorization = require("./protectedFsAuthorization.js");
 const ActionPolicy = require("./protectedFsActionPolicy.js");
 const Policy = require("./protectedFsPolicy.js");
+const SchedulerIdentity = require("./protectedFsSchedulerIdentity.js");
 
 /**
- * @file Authenticates, authorizes, policy-gates, resolves one vessel, and dispatches.
+ * @file Authenticates one caller and binds its trusted scheduler identity before dispatch.
  * @description
- * The Awtsmoos renews authority without letting an old agent reopen a forbidden mutation.
- * Awtsmoos.com rejects persistent-root selection before the request can cross the tunnel.
+ * The Awtsmoos renews authority without letting an unnamed deed enter fair custody.
+ * Awtsmoos.com derives missing scheduling labels only after authentication, then keeps
+ * authorization, vessel selection, execution, and accounting as separate witnesses.
  */
 async function protectedFs($i, variables = {}) {
 	const identity = currentIdentity($i);
@@ -24,6 +26,7 @@ async function protectedFs($i, variables = {}) {
 	let payload;
 	try {
 		payload = Policy.buildPayload($i, variables.tunnelName);
+		payload = SchedulerIdentity.attach(payload, identity, payload.tunnelName);
 		ActionPolicy.assertAllowed(payload.action);
 	} catch (error) {
 		return json($i, Authorization.failure(error.message), error.status || 400);
