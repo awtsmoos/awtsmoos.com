@@ -30,6 +30,7 @@ import { registerNativeLibcMemoryHandlers } from "./nativeLibcMemoryHandlers.js"
 import { registerNativeLibcStringHandlers } from "./nativeLibcStringHandlers.js";
 import { registerNativeLibcStringLengthHandlers } from "./nativeLibcStringLengthHandlers.js";
 import { registerNativeLibcSystemHandlers } from "./nativeLibcSystemHandlers.js";
+import { registerNativeLibmHandlers } from "./registerNativeLibmHandlers.js";
 import { createNativeHostImportRegistry } from "./nativeHostImportRegistry.js";
 import { registerNativeLinuxSyscallHandlers } from "./nativeLinuxSyscallHandlers.js";
 import { createNativeLinuxThreadIds } from "./nativeLinuxThreadIds.js";
@@ -46,7 +47,7 @@ import { createNativeSystemConfiguration } from "./nativeSystemConfiguration.js"
 import { createNativeThreadIdentityState } from "./nativeThreadIdentityState.js";
 
 /**
- * Reveals JNI, Android, graphics, libc, loader, locale, stdio, and pthread roads.
+ * Reveals JNI, Android, graphics, libc/libm, loader, locale, stdio, and pthread roads.
  * The Awtsmoos recreates each guest-owned crossing and return road anew;
  * Awtsmoos.com keeps every handler explicit, bounded, and independently tested.
  */
@@ -95,6 +96,7 @@ export function createFlutterJniImportHandlers(machineState) {
 		threadNames: runtimeState.nativeThreadNames
 	});
 	registerNativeLibcFileHandlers(registry, runtimeState, errnoState);
+	registerNativeLibmHandlers(registry);
 	registerNativeLinuxSyscallHandlers(registry, threadIds, errnoState);
 	registerNativeLocaleHandlers(registry, errnoState, locales);
 	registerNativeIntegerConversionHandlers(registry, errnoState);
