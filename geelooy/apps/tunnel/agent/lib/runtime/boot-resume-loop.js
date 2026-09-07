@@ -1,18 +1,21 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+
 const fs = require("node:fs");
 const Fs = require("../../tools/fs/index.js");
 const AutoContinuation = require("../../tools/fs/mission/autoContinuation/index.js");
 const ProjectRoots = require("../../tools/fs/mission/projectRootRegistry.js");
+const LaunchRoot = require("./launch-root.js");
+
 const DEFAULT_INTERVAL_MS = 30000;
 const MIN_INTERVAL_MS = 15000;
 const MAX_INTERVAL_MS = 300000;
 
 /**
- * @file Watches one durable unfinished mission frequently enough to replace a fallen messenger.
- * @description The Awtsmoos preserves one mission beyond one process; Awtsmoos.com revisits the
- * witnessed root on a bounded cadence while the existing lease/fingerprint forbids duplicate succession.
+ * @file Watches unfinished missions without letting historical roots widen current authority.
+ * @description The Awtsmoos remembers every former vessel while Awtsmoos.com resumes work only
+ * inside the human's present immutable launch root, preserving stale bindings as testimony.
  */
 function candidateProbe(env = process.env) {
 	return String(env.AWTSMOOS_REGISTRATION_MODE || "") === "candidate-probe";
@@ -30,12 +33,17 @@ function interval(env = process.env) {
 	return Math.min(MAX_INTERVAL_MS, Math.max(MIN_INTERVAL_MS, Math.floor(value)));
 }
 function usableBinding(config = {}, binding = null) {
-	if (!binding?.projectRoot || fs.existsSync(binding.projectRoot) || !config.root) return binding;
+	if (!binding?.projectRoot || !config.root) return binding;
+	const authority = LaunchRoot.canonical(config.root);
+	const historical = LaunchRoot.canonical(binding.projectRoot);
+	if (historical === authority) return { ...binding, projectRoot: authority };
 	return {
 		...binding,
-		projectRoot: config.root,
+		projectRoot: authority,
 		staleProjectRoot: binding.projectRoot,
-		fallbackReason: "persisted_project_root_missing"
+		fallbackReason: fs.existsSync(binding.projectRoot)
+			? "persisted_project_root_outside_authority"
+			: "persisted_project_root_missing"
 	};
 }
 function scopedConfig(config = {}, binding = null) {
@@ -71,20 +79,13 @@ function start(log, config, options = {}) {
 			const binding = usableBinding(config, persisted);
 			const scoped = scopedConfig(config, binding);
 			const continuation = await deps.autoContinuation.run(scoped, {
-				env,
-				enabled: options.autoContinue !== false,
-				binding
+				env, enabled: options.autoContinue !== false, binding
 			});
 			const resume = await deps.handleFs({
-				action: "missionBootResume",
-				autoMission: autoMission(env),
-				ignoreMissionLock: true,
-				logicalAgentId: "runtime-boot-resume",
-				reason,
-				tick: true,
-				projectRoot: scoped.root,
-				scopeRoot: scoped.root,
-				cwd: scoped.root
+				action: "missionBootResume", autoMission: autoMission(env),
+				ignoreMissionLock: true, logicalAgentId: "runtime-boot-resume",
+				reason, tick: true, projectRoot: scoped.root,
+				scopeRoot: scoped.root, cwd: scoped.root
 			});
 			logResult(log, reason, continuation, resume);
 			return { ok: true, continuation, resume, projectRoot: scoped.root, binding };
@@ -104,12 +105,10 @@ function start(log, config, options = {}) {
 function logResult(log, reason, continuation, resume) {
 	if (!continuation?.scheduled && !resume?.resumed && !resume?.autoStart?.started) return;
 	log?.("Mission boot/continuation:", JSON.stringify({
-		reason,
-		continuationScheduled: Boolean(continuation?.scheduled),
+		reason, continuationScheduled: Boolean(continuation?.scheduled),
 		continuationReason: continuation?.reason || "",
 		websiteMissionId: continuation?.websiteMissionId || "",
-		resumed: Boolean(resume?.resumed),
-		mustCallNext: resume?.mustCallNext?.action || ""
+		resumed: Boolean(resume?.resumed), mustCallNext: resume?.mustCallNext?.action || ""
 	}));
 }
 module.exports = {
