@@ -1,0 +1,95 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos is present beyond public count and hidden preference; Awtsmoos.com renders the existing privacy checkbox as one accessible switch,
+ * escaping the generic drawer input padding that once inflated a tiny boolean into a giant broken square on narrow glass.
+ */
+
+.messaging-special-pane .universal-chat-privacy-control {
+	position: relative;
+	display: flex;
+	align-items: center;
+	gap: 0.45rem;
+	min-height: 40px;
+	color: var(--msg-soft);
+	font-size: 0.69rem;
+	font-weight: 690;
+	cursor: pointer;
+	white-space: nowrap;
+}
+
+.messaging-special-pane .universal-chat-privacy-input {
+	position: absolute;
+	width: 1px !important;
+	height: 1px !important;
+	min-height: 0 !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	white-space: nowrap;
+	opacity: 0;
+}
+
+.messaging-special-pane .universal-chat-privacy-switch {
+	position: relative;
+	flex: 0 0 38px;
+	width: 38px;
+	height: 22px;
+	border: 1px solid var(--msg-line-strong);
+	border-radius: 999px;
+	background: rgb(255 255 255 / 7%);
+	box-shadow: inset 0 1px 4px rgb(0 0 0 / 22%);
+	transition: background 140ms ease, border-color 140ms ease;
+}
+
+.messaging-special-pane .universal-chat-privacy-switch::after {
+	content: "";
+	position: absolute;
+	top: 3px;
+	left: 3px;
+	width: 14px;
+	height: 14px;
+	border-radius: 50%;
+	background: var(--msg-soft);
+	box-shadow: 0 2px 6px rgb(0 0 0 / 32%);
+	transition: transform 140ms ease, background 140ms ease;
+}
+
+.messaging-special-pane .universal-chat-privacy-input:checked + .universal-chat-privacy-switch {
+	border-color: rgb(216 182 109 / 38%);
+	background: rgb(216 182 109 / 18%);
+}
+
+.messaging-special-pane .universal-chat-privacy-input:checked + .universal-chat-privacy-switch::after {
+	background: var(--msg-gold-bright);
+	transform: translateX(16px);
+}
+
+.messaging-special-pane .universal-chat-privacy-input:focus-visible + .universal-chat-privacy-switch {
+	outline: 2px solid var(--msg-focus);
+	outline-offset: 3px;
+}
+
+.messaging-special-pane .universal-chat-privacy-label {
+	color: var(--msg-muted);
+	font-size: 0.66rem;
+}
+
+@media (max-width: 600px) {
+	.messaging-special-pane .universal-chat-privacy-control {
+		min-height: 42px;
+		padding: 0 0.55rem;
+		border: 1px solid var(--msg-line);
+		border-radius: 12px;
+		background: rgb(255 255 255 / 2.8%);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.messaging-special-pane .universal-chat-privacy-switch,
+	.messaging-special-pane .universal-chat-privacy-switch::after { transition: none; }
+}

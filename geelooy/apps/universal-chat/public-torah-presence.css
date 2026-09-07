@@ -2,75 +2,65 @@
 /* Boruch Hashem */
 /* Blessed is He */
 
-/** The Awtsmoos is one presence before visible roster or status line; Awtsmoos.com keeps server-projected aliases immediately visible while narrow glass turns a potentially tall wrap into one quiet horizontal roster in light. */
+/** The Awtsmoos is one presence before count and roster divide; Awtsmoos.com keeps status legible and the visible roster edge-safe on narrow glass, with no label clipped beyond the physical viewport in light. */
 
-.messaging-special-pane .universal-chat-status:empty {
-	display: none;
-}
+.messaging-special-pane .universal-chat-status:empty { display: none; }
 
 .messaging-special-pane .universal-chat-status:not(:empty) {
-	padding-block: 0.45rem;
+	padding-block: 0.35rem;
 	border-bottom: 1px solid var(--msg-line);
+	line-height: 1.35;
 }
 
 .messaging-special-pane .universal-chat-roster {
 	display: flex;
 	align-items: center;
 	flex-wrap: wrap;
-	gap: 0.3rem;
-	min-height: 34px;
+	gap: 0.35rem;
+	min-height: 38px;
+	padding-block: 0.32rem;
 	border-bottom: 1px solid var(--msg-line);
 }
 
 .messaging-special-pane .universal-chat-roster-label {
-	margin-right: 0.15rem;
+	flex: 0 0 auto;
+	margin-right: 0.1rem;
 	color: var(--msg-muted);
-	font-size: 0.6rem;
-	font-weight: 800;
-	letter-spacing: 0.05em;
+	font-size: 0.59rem;
+	font-weight: 820;
+	letter-spacing: 0.06em;
 	text-transform: uppercase;
 }
 
 .messaging-special-pane .universal-chat-roster-member {
 	display: inline-flex;
 	align-items: center;
-	min-height: 26px;
-	padding: 0 0.48rem;
+	min-height: 28px;
+	padding: 0 0.52rem;
 	border: 1px solid var(--msg-line);
 	border-radius: 999px;
-	background: rgba(255, 255, 255, 0.025);
+	background: rgb(255 255 255 / 2.8%);
 	color: var(--msg-soft);
 	font-size: 0.64rem;
-	font-weight: 680;
+	font-weight: 700;
 }
 
 @media (max-width: 600px) {
 	.messaging-special-pane .universal-chat-status:not(:empty) {
-		padding-block: 0.34rem;
-		font-size: 0.68rem;
+		padding: 0.28rem 0.72rem;
+		font-size: 0.64rem;
 	}
 
 	.messaging-special-pane .universal-chat-roster {
 		flex-wrap: nowrap;
-		min-height: 42px;
+		min-height: 40px;
 		overflow-x: auto;
 		overflow-y: hidden;
-		padding: 0.22rem 0;
+		padding: 0.26rem 0.72rem;
 		scrollbar-width: none;
 		overscroll-behavior-inline: contain;
 	}
 
-	.messaging-special-pane .universal-chat-roster::-webkit-scrollbar {
-		display: none;
-	}
-
-	.messaging-special-pane .universal-chat-roster-label,
-	.messaging-special-pane .universal-chat-roster-member {
-		flex: 0 0 auto;
-	}
-
-	.messaging-special-pane .universal-chat-roster-member {
-		min-height: 30px;
-		padding-inline: 0.52rem;
-	}
+	.messaging-special-pane .universal-chat-roster::-webkit-scrollbar { display: none; }
+	.messaging-special-pane .universal-chat-roster-member { flex: 0 0 auto; }
 }

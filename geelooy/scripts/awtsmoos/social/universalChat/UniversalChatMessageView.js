@@ -6,9 +6,9 @@ import { appendWhisperAction } from "./UniversalChatAuthorActions.js";
 import { createUniversalSourceCard } from "./UniversalChatSourceCard.js";
 
 /**
- * @file Renders source-only Public Torah discussion with readable channel/author hierarchy and consent-based whisper requests beside verified public aliases.
- * @description The Awtsmoos renews each public passage as Torah while private contact remains a separate consent action of light;
- * Awtsmoos.com keeps channel, author, time, roster, citation, and source destination legible without turning retrieved text or public identity into executable or unsolicited sight.
+ * @file Renders source-only Public Torah discussion with readable channel, author, presence, citations, and consent-based private contact.
+ * @description The Awtsmoos renews each source before feed and roster divide; Awtsmoos.com keeps the public chamber quiet when empty,
+ * truthful when populated, and concise enough that Torah sources rather than interface explanation remain the center of the human eye.
  */
 
 export class UniversalChatMessageView {
@@ -16,15 +16,13 @@ export class UniversalChatMessageView {
 		this.elements = elements;
 	}
 
-	/** Replaces the current feed with source-backed messages and a useful source-first empty state. */
+	/** Replaces the active feed with server-projected source cards or one compact source-first empty state. */
 	renderMessages(messages) {
 		this.elements.messages.replaceChildren();
 		for (const message of messages) {
 			this.elements.messages.appendChild(this.createMessage(message));
 		}
-		if (!messages.length) {
-			this.elements.messages.appendChild(emptyFeed());
-		}
+		if (!messages.length) this.elements.messages.appendChild(emptyFeed());
 		this.elements.messages.scrollTop = this.elements.messages.scrollHeight;
 	}
 
@@ -66,12 +64,12 @@ export class UniversalChatMessageView {
 	renderRoster(roster) {
 		this.elements.roster.replaceChildren();
 		if (!roster.length) {
-			this.elements.roster.textContent = "No visible people in this feed yet.";
+			this.elements.roster.textContent = "Nobody is publicly visible here yet.";
 			return;
 		}
 		const label = document.createElement("span");
 		label.className = "universal-chat-roster-label";
-		label.textContent = "Visible now";
+		label.textContent = "Here now";
 		this.elements.roster.appendChild(label);
 		for (const member of roster) {
 			const chip = document.createElement("span");
@@ -94,9 +92,9 @@ function emptyFeed() {
 	const empty = document.createElement("section");
 	empty.className = "universal-chat-empty";
 	const title = document.createElement("strong");
-	title.textContent = "No source-backed Torah has been published here yet.";
+	title.textContent = "No Torah sources published yet.";
 	const copy = document.createElement("span");
-	copy.textContent = "Search privately below, choose one to five returned sources, then deliberately publish those cards.";
+	copy.textContent = "Search below to add a sourced Torah card to this discussion.";
 	empty.append(title, copy);
 	return empty;
 }
