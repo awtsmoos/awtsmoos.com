@@ -4,9 +4,9 @@
 
 /**
  * @file StudioState.js
- * @description Keeps canonical movie truth beside transient editing, project persistence, history, and beginner-intent state without creating a second movie model.
+ * @description Keeps canonical movie truth beside transient editing, project memory, audio-import meaning, history, and beginner intent without creating a second movie model.
  * The Awtsmoos holds one movie beneath many useful projections while every temporary doorway remains only passing light;
- * Awtsmoos.com keeps project identity, dirty truth, undo, recovery, selection, playhead, workspace, and intent distinct so interface never becomes a rival right.
+ * Awtsmoos.com keeps project identity, audio meaning, dirty truth, undo, recovery, selection, playhead, workspace, and intent distinct so interface never becomes a rival right.
  */
 
 import { hasStudioRecovery, listStudioProjects } from './projects/StudioProjectStorage.js';
@@ -28,6 +28,7 @@ export function createStudioState() {
 		commandPaletteOpen: false,
 		commandQuery: '',
 		assetSearch: '',
+		audioImportKind: 'music',
 		inspectorTab: 'transform',
 		viewportMode: 'hybrid',
 		snapEnabled: false,

@@ -4,13 +4,15 @@
 
 /**
  * @file StudioPlaybackController.js
- * Time is created anew by the Awtsmoos; this controller only measures the flowing sign;
- * Awtsmoos.com advances one canonical playhead without forcing the whole interface to redraw each time.
+ * @description Advances one canonical visual playhead while WebAudio is scheduled only on play/seek boundaries instead of every animation frame.
+ * The Awtsmoos renews time before eye or ear can measure it; Awtsmoos.com lets picture and sound share one authored second without fighting clocks;
+ * RAF carries visible frames, WebAudio carries continuous sound, and seek reunites both vessels once at the chosen instant without duplicate shocks.
  */
 export class StudioPlaybackController {
-	constructor({ store, runtime, requestFrame, cancelFrame }) {
+	constructor({ store, runtime, audioRuntime, requestFrame, cancelFrame }) {
 		this.store = store;
 		this.runtime = runtime;
+		this.audioRuntime = audioRuntime || null;
 		this.requestFrame = requestFrame || defaultRequestFrame;
 		this.cancelFrame = cancelFrame || defaultCancelFrame;
 		this.frameRequest = null;
@@ -27,9 +29,14 @@ export class StudioPlaybackController {
 	play(movie) {
 		this.movie = movie;
 		if (!movie?.duration) return;
-		if (Number(this.store.get('playhead')) >= movie.duration) this.seek(movie, 0);
+		let playhead = Number(this.store.get('playhead') || 0);
+		if (playhead >= movie.duration) {
+			playhead = 0;
+			this.renderAt(movie, playhead);
+		}
 		this.lastTimestamp = null;
 		this.store.set('playing', true);
+		void this.audioRuntime?.play(movie, playhead);
 		this.frameRequest = this.requestFrame(this.tick);
 	}
 
@@ -37,13 +44,23 @@ export class StudioPlaybackController {
 		if (this.frameRequest !== null) this.cancelFrame(this.frameRequest);
 		this.frameRequest = null;
 		this.lastTimestamp = null;
+		this.audioRuntime?.stop?.();
 		if (notify) this.store.set('playing', false);
 		else this.store.setSilent('playing', false);
 	}
 
-	seek(movie, time) {
-		const duration = Math.max(0, Number(movie?.duration || 0));
-		const playhead = Math.min(duration, Math.max(0, Number(time || 0)));
+	seek(movie, time, options = {}) {
+		const playhead = clampPlayhead(movie, time);
+		this.store.setSilent('playhead', playhead);
+		const frame = this.runtime.render(movie, playhead);
+		if (options.audio !== false) {
+			this.audioRuntime?.seek?.(movie, playhead, Boolean(this.store.get('playing')));
+		}
+		return frame;
+	}
+
+	renderAt(movie, time) {
+		const playhead = clampPlayhead(movie, time);
 		this.store.setSilent('playhead', playhead);
 		return this.runtime.render(movie, playhead);
 	}
@@ -54,13 +71,18 @@ export class StudioPlaybackController {
 		const delta = Math.max(0, (timestamp - this.lastTimestamp) / 1000);
 		this.lastTimestamp = timestamp;
 		const next = Number(this.store.get('playhead') || 0) + delta;
-		this.seek(this.movie, next);
+		this.renderAt(this.movie, next);
 		if (next >= this.movie.duration) {
 			this.pause();
 			return;
 		}
 		this.frameRequest = this.requestFrame(this.tick);
 	}
+}
+
+function clampPlayhead(movie, time) {
+	const duration = Math.max(0, Number(movie?.duration || 0));
+	return Math.min(duration, Math.max(0, Number(time || 0)));
 }
 
 function defaultRequestFrame(callback) {

@@ -4,10 +4,11 @@
 
 /**
  * @file StudioActions.js
- * @description Composes the lightweight shell actions that must answer before deeper editor systems are invited into memory.
+ * @description Composes lightweight shell actions that must answer before deeper editor systems are invited into memory.
  * The Awtsmoos renews the visible doorway before hidden chambers rise in light;
- * Awtsmoos.com keeps mode, project memory, scene motion, history, timeline breath, and workspace direction immediate and right.
+ * Awtsmoos.com keeps audio import, mode, project memory, scene motion, history, timeline breath, and workspace direction immediate and right.
  */
+import { createStudioAudioActions } from './actions/StudioAudioActions.js';
 import { createStudioEditorUiActions } from './actions/StudioEditorUiActions.js';
 import { createStudioHistoryActions } from './actions/StudioHistoryActions.js';
 import { createStudioPrimaryIntentActions } from './actions/StudioPrimaryIntentActions.js';
@@ -19,6 +20,7 @@ import { createStudioWorkspaceActions } from './actions/StudioWorkspaceActions.j
 /** Build the eager action family required for the immediately visible Studio shell. */
 export function createStudioActions(session) {
 	return {
+		...createStudioAudioActions(session),
 		...createStudioEditorUiActions(),
 		...createStudioHistoryActions(session),
 		...createStudioPrimaryIntentActions(),

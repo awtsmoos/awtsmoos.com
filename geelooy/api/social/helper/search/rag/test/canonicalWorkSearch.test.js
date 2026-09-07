@@ -6,13 +6,14 @@
  * @file canonicalWorkSearch.test.js
  * @description
  * The Awtsmoos lets תורה אור answer as a sefer before incidental words steal the first place;
- * Awtsmoos.com proves stable keys, public aliases, neutral navigation, and semantic continuation share one faithful space.
+ * Awtsmoos.com proves the real catalog vessel, stable keys, public aliases, and semantic continuation share one faithful space.
  */
 
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const {
 	rankWorkSummaries,
+	summariesFromCatalog,
 	summariesFromRows
 } = require('../canonicalWorkIndex.js');
 const {
@@ -20,12 +21,17 @@ const {
 	workHit
 } = require('../canonicalWorkSearch.js');
 
-const rows = [
+const ROWS = [
 	row(346791, 'תורה אור (חב"ד)', 'chassidus_mussar', 'תורה אור'),
 	row(346792, 'תורה אור (חב"ד)/בראשית', 'chassidus_mussar', 'תורה אור'),
 	row(500, 'תניא', 'chassidus_mussar', 'תניא')
 ];
-const summaries = summariesFromRows(rows);
+const summaries = summariesFromRows(ROWS);
+
+test('adapts the real browse catalog container before indexing work identities', () => {
+	assert.deepEqual(summariesFromCatalog({ rows: ROWS }), summaries);
+	assert.deepEqual(summariesFromCatalog({ rows: null }), []);
+});
 
 test('stable Torah Ohr work query resolves to its canonical root page', () => {
 	const [match] = rankWorkSummaries(summaries, 'תורה אור', 5);
