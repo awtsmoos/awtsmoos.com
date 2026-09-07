@@ -33,13 +33,13 @@ helpers=(
 	unix-service-manager.sh unix-supervisor-start-gate.sh unix-service-project-root.sh
 	unix-service-cli.sh unix-supervisor-install.sh unix-launchd-family.sh
 	unix-agent-singleton.cjs unix-agent-receipt.cjs unix-agent-launcher.cjs
-	unix-agent-identity.cjs unix-supervisor-files.sh unix-supervisor-network-state.cjs
-	unix-supervisor-orphan-executors.cjs unix-supervisor-runtime.sh
-	unix-supervisor-agents.sh unix-supervisor-guard.sh unix-supervisor-health-memory.sh
-	unix-supervisor-receipt-state.cjs unix-supervisor-receipt.sh
-	unix-supervisor-health.sh unix-supervisor-recovery.sh unix-supervisor-identity.sh
-	unix-supervisor-emergency.sh unix-supervisor-legacy.sh unix-supervisor.sh
-	awtsmoos-tunnel-client.js emergency-auto.sh emergency-sealed.sh
+	unix-agent-identity.cjs unix-supervisor-files.sh unix-supervisor-network-evidence.cjs
+	unix-supervisor-network-state.cjs unix-supervisor-orphan-executors.cjs
+	unix-supervisor-runtime.sh unix-supervisor-agents.sh unix-supervisor-guard.sh
+	unix-supervisor-health-memory.sh unix-supervisor-receipt-state.cjs
+	unix-supervisor-receipt.sh unix-supervisor-health.sh unix-supervisor-recovery.sh
+	unix-supervisor-identity.sh unix-supervisor-emergency.sh unix-supervisor-legacy.sh
+	unix-supervisor.sh awtsmoos-tunnel-client.js emergency-auto.sh emergency-sealed.sh
 	emergency-supervisor.sh emergency-known-good.sh emergency-diagnose.sh emergency-repair.sh
 )
 

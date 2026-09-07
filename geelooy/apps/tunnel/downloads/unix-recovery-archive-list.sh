@@ -53,6 +53,7 @@ const guardians = [
 	"awtsmoos-supervisor-receipt-state.cjs",
 	"awtsmoos-supervisor-receipt.sh",
 	"awtsmoos-supervisor-health.sh",
+	"unix-supervisor-network-evidence.cjs",
 	"awtsmoos-supervisor-network-state.cjs",
 	"awtsmoos-supervisor-orphan-executors.cjs",
 	"awtsmoos-supervisor-recovery.sh",

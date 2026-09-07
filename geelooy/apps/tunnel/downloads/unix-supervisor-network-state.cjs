@@ -3,21 +3,26 @@
 // Blessed is He
 
 const fs = require("node:fs");
+const Evidence = require("./unix-supervisor-network-evidence.cjs");
 
 /**
- * @file Separates recoverable network breath from identity/process corruption.
- * @description The Awtsmoos lets an exact living agent heal its own socket; Awtsmoos.com
- * asks the outer supervisor to replace a process only when durable identity testimony
- * actually disagrees, never merely because DNS or a remote socket has gone dark.
+ * @file Classifies fresh network recovery without confusing it with identity corruption.
+ * @description
+ * The Awtsmoos lets one exact child survive the long network night. Awtsmoos.com keeps
+ * policy here while freshness and retry testimony live in their own evidence vessel.
  */
-function classify(receipt = {}, expected = {}) {
+function classify(receipt = {}, expected = {}, options = {}) {
 	const identity = identityState(receipt, expected);
 	if (identity !== "same_identity") return identity;
 	const state = token(receipt.state);
-	if (state === "registered") return "registered_stale";
-	if (["connecting", "reconnecting"].includes(state)) return "network_recovering";
-	if (networkFailure(receipt.lastFailure)) return "network_recovering";
-	return "hard_failure";
+	if (state === "registered") return registeredState(receipt);
+	if (!["connecting", "reconnecting"].includes(state)) return "hard_failure";
+	if (!Evidence.activityFresh(receipt, options)) return "activity_stale";
+	if (!Evidence.tunnelIdRecoverable(receipt)) return "tunnel_id_invalid";
+	if (hasFailure(receipt) && !Evidence.networkFailure(receipt.lastFailure)) {
+		return "hard_failure";
+	}
+	return "network_recovering";
 }
 
 function identityState(receipt, expected) {
@@ -26,7 +31,6 @@ function identityState(receipt, expected) {
 	if (String(receipt.tunnelName || "") !== String(expected.tunnelName || "")) {
 		return "tunnel_name_mismatch";
 	}
-	if (!String(receipt.tunnelId || "").startsWith("tun_")) return "tunnel_id_missing";
 	if (expected.activationId && receipt.activationId !== expected.activationId) {
 		return "activation_mismatch";
 	}
@@ -36,21 +40,14 @@ function identityState(receipt, expected) {
 	return "same_identity";
 }
 
-function networkFailure(failure = {}) {
-	if (!failure || failure.retryable !== true) return false;
-	const category = token(failure.category);
-	const code = token(failure.code);
-	if (["dns", "timeout", "network", "socket"].includes(category)) return true;
-	return [
-		"enotfound",
-		"eai_again",
-		"etimedout",
-		"eaddrnotavail",
-		"econnreset",
-		"econnrefused",
-		"websocket_connect_timeout",
-		"websocket_remote_close_4002"
-	].includes(code);
+function registeredState(receipt) {
+	return Evidence.validTunnelId(receipt.tunnelId)
+		? "registered_stale"
+		: "tunnel_id_missing";
+}
+
+function hasFailure(receipt = {}) {
+	return Boolean(receipt.lastFailure && typeof receipt.lastFailure === "object");
 }
 
 function readAndClassify(file, expected) {
@@ -75,4 +72,10 @@ if (require.main === module) {
 	}));
 }
 
-module.exports = { classify, identityState, networkFailure, readAndClassify };
+module.exports = {
+	activityFresh: Evidence.activityFresh,
+	classify,
+	identityState,
+	networkFailure: Evidence.networkFailure,
+	readAndClassify
+};

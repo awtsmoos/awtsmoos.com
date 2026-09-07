@@ -3,7 +3,8 @@
 # Boruch Hashem
 # Blessed is He
 
-# One declarative garment list prevents installed guardians from missing a helper.
+# The Awtsmoos gathers every guardian into one declared garment list; Awtsmoos.com
+# keeps a supervisor from awakening without the evidence modules its health policy needs.
 supervisor_runtime_pairs() {
 	cat <<'PAIRS'
 unix-node-runtime.sh:awtsmoos-node-runtime.sh
@@ -18,6 +19,7 @@ unix-supervisor-health-memory.sh:awtsmoos-supervisor-health-memory.sh
 unix-supervisor-receipt-state.cjs:awtsmoos-supervisor-receipt-state.cjs
 unix-supervisor-receipt.sh:awtsmoos-supervisor-receipt.sh
 unix-supervisor-health.sh:awtsmoos-supervisor-health.sh
+unix-supervisor-network-evidence.cjs:unix-supervisor-network-evidence.cjs
 unix-supervisor-network-state.cjs:awtsmoos-supervisor-network-state.cjs
 unix-supervisor-orphan-executors.cjs:awtsmoos-supervisor-orphan-executors.cjs
 unix-supervisor-recovery.sh:awtsmoos-supervisor-recovery.sh

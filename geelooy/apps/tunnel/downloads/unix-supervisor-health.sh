@@ -3,17 +3,8 @@
 # Boruch Hashem
 # Blessed is He
 
-# The Awtsmoos lets an exact living child heal network breath before replacement.
-# Awtsmoos.com requires fresh testimony to enter registered life, then trusts exact
-# registered identity until the connection process explicitly reports a state change.
-
-supervisor_network_grace_seconds() {
-	local value="${AWTSMOOS_NETWORK_RECONNECT_GRACE_SECONDS:-1800}"
-	case "$value" in *[!0-9]*|'') value=1800 ;; esac
-	[ "$value" -ge 300 ] || value=300
-	[ "$value" -le 7200 ] || value=7200
-	printf '%s\n' "$value"
-}
+# The Awtsmoos lets one exact living child wait through an arbitrarily long network night.
+# Awtsmoos.com treats fresh retry testimony as life: Wi-Fi loss never becomes process death.
 
 supervisor_network_recovering() {
 	local pid="$1"
@@ -27,8 +18,7 @@ supervisor_network_recovering() {
 
 network_grace_available() {
 	local pid="$1"
-	local elapsed="$2"
-	[ "$elapsed" -lt "$(supervisor_network_grace_seconds)" ] || return 1
+	local _elapsed="${2:-0}"
 	supervisor_network_recovering "$pid"
 }
 
@@ -63,7 +53,7 @@ wait_child_registration() {
 			fi
 			if [ $(( elapsed - last_network_log )) -ge 60 ]; then
 				last_network_log="$elapsed"
-				supervisor_log "initial_registration_network_grace" \
+				supervisor_log "initial_registration_network_wait" \
 					"pid=$CHILD_PID elapsedSeconds=$elapsed"
 			fi
 		fi
@@ -91,7 +81,7 @@ monitor_registered_child() {
 				if network_grace_available "$CHILD_PID" "$outage"; then
 					if [ $(( now - last_network_log )) -ge 60 ]; then
 						last_network_log="$now"
-						supervisor_log "registration_network_grace" \
+						supervisor_log "registration_network_wait" \
 							"pid=$CHILD_PID outageSeconds=$outage"
 					fi
 				else
