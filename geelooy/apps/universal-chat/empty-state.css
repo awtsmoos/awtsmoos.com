@@ -1,58 +1,57 @@
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
-
-/** The Awtsmoos is never empty; Awtsmoos.com gives quiet chambers enough explanation and one deliberate next action, while phone emptiness stays compact instead of consuming the screen merely to announce absence in light. */
+/**
+ * The Awtsmoos is never empty; Awtsmoos.com gives quiet and gated chambers a warm emerald sanctuary rather than a blank error field,
+ * keeping explanation, icon, and the one truthful next action visually coherent while phones reserve most of their height for useful movement in light.
+ */
 
 .messaging-empty-state {
 	display: grid;
 	justify-items: center;
 	align-content: center;
-	min-height: min(420px, 70%);
-	max-width: 520px;
+	min-height: min(430px, 70%);
+	max-width: 560px;
 	margin: auto;
 	padding: 2rem;
 	text-align: center;
 }
 
-.messaging-special-pane > .messaging-empty-state {
-	width: min(620px, 100%);
-	min-height: 100%;
-}
-
+.messaging-special-pane > .messaging-empty-state { width: min(650px, 100%); min-height: 100%; }
 .messaging-list > .messaging-empty-state,
-.messaging-thread > .messaging-empty-state {
-	min-height: 100%;
-}
+.messaging-thread > .messaging-empty-state { min-height: 100%; }
 
 .messaging-empty-mark {
 	display: grid;
 	place-items: center;
-	width: 62px;
-	height: 62px;
-	margin-bottom: 1rem;
-	border: 1px solid rgba(121, 224, 183, 0.16);
-	border-radius: 20px;
-	background: var(--msg-accent-soft);
-	color: var(--msg-accent);
+	width: 68px;
+	height: 68px;
+	margin-bottom: 1.05rem;
+	border: 1px solid rgb(216 182 109 / 24%);
+	border-radius: 23px;
+	background:
+		radial-gradient(circle at 30% 20%, rgb(240 214 155 / 18%), transparent 56%),
+		linear-gradient(145deg, rgb(216 182 109 / 10%), rgb(114 216 174 / 10%));
+	color: var(--msg-gold-bright);
+	box-shadow: var(--msg-inset), 0 18px 42px rgb(0 0 0 / 20%);
 }
 
-.messaging-empty-mark .messaging-icon {
-	width: 27px;
-	height: 27px;
-}
+.messaging-empty-mark .messaging-icon { width: 29px; height: 29px; }
 
 .messaging-empty-state h2 {
 	margin: 0;
-	font-size: clamp(1.05rem, 2vw, 1.3rem);
-	line-height: 1.3;
+	color: #fff8e7;
+	font-family: Georgia, "Times New Roman", serif;
+	font-size: clamp(1.15rem, 2vw, 1.46rem);
+	line-height: 1.28;
 }
 
 .messaging-empty-state p {
 	max-width: 52ch;
-	margin: 0.55rem 0 0;
+	margin: 0.58rem 0 0;
 	color: var(--msg-soft);
-	line-height: 1.6;
+	font-size: 0.82rem;
+	line-height: 1.62;
 }
 
 .messaging-empty-action,
@@ -60,58 +59,31 @@
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	min-height: 42px;
+	min-height: 44px;
 	margin-top: 1rem;
-	padding: 0 0.9rem;
-	border: 1px solid var(--msg-line-strong);
-	border-radius: 11px;
-	background: rgba(121, 224, 183, 0.08);
-	color: var(--msg-text);
+	padding: 0 0.95rem;
+	border: 1px solid rgb(216 182 109 / 20%);
+	border-radius: 13px;
+	background: linear-gradient(145deg, var(--msg-gold-soft), var(--msg-accent-soft));
+	color: #fff5dc;
 	font-size: 0.75rem;
-	font-weight: 730;
+	font-weight: 750;
 	text-decoration: none;
+	box-shadow: var(--msg-inset);
 }
 
 .messaging-empty-action:hover,
 .messaging-link-button:hover {
-	border-color: rgba(121, 224, 183, 0.28);
-	background: rgba(121, 224, 183, 0.13);
+	border-color: rgb(216 182 109 / 36%);
+	background: rgb(216 182 109 / 14%);
 }
 
 @media (max-width: 600px) {
-	.messaging-empty-state {
-		align-content: start;
-		min-height: 0;
-		width: 100%;
-		padding: clamp(1.4rem, 10vh, 4rem) 1rem 1.2rem;
-	}
-
-	.messaging-special-pane > .messaging-empty-state {
-		min-height: 0;
-	}
-
-	.messaging-empty-mark {
-		width: 52px;
-		height: 52px;
-		margin-bottom: 0.72rem;
-		border-radius: 17px;
-	}
-
-	.messaging-empty-mark .messaging-icon {
-		width: 23px;
-		height: 23px;
-	}
-
-	.messaging-empty-state p {
-		margin-top: 0.42rem;
-		font-size: 0.78rem;
-		line-height: 1.48;
-	}
-
+	.messaging-empty-state { align-content: start; min-height: 0; width: 100%; padding: clamp(1.5rem, 9vh, 3.7rem) 1rem 1.2rem; }
+	.messaging-special-pane > .messaging-empty-state { min-height: 0; }
+	.messaging-empty-mark { width: 58px; height: 58px; margin-bottom: 0.78rem; border-radius: 19px; }
+	.messaging-empty-mark .messaging-icon { width: 25px; height: 25px; }
+	.messaging-empty-state p { margin-top: 0.45rem; font-size: 0.78rem; line-height: 1.5; }
 	.messaging-empty-action,
-	.messaging-link-button {
-		width: 100%;
-		min-height: 46px;
-		margin-top: 0.78rem;
-	}
+	.messaging-link-button { width: 100%; min-height: 48px; margin-top: 0.8rem; }
 }

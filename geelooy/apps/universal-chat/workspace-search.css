@@ -1,30 +1,34 @@
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
-
-/** The Awtsmoos sees every vessel without searching; Awtsmoos.com keeps loaded-workspace search visibly bounded, compact on phones, and honest about its local scope while every clear doorway remains thumb-sized in light. */
+/**
+ * The Awtsmoos sees every vessel without searching; Awtsmoos.com keeps loaded-workspace search honest about its scope,
+ * while the field itself becomes a quiet emerald lens with warm focus, generous thumb targets, and no borrowed generic messenger blue.
+ */
 
 .messaging-workspace-search {
 	display: grid;
 	grid-template-columns: auto minmax(0, 1fr) auto;
 	align-items: center;
 	gap: 0.5rem;
-	height: 46px;
-	margin: 0.6rem 0.75rem 0;
-	padding: 0 0.2rem 0 0.65rem;
-	border: 1px solid var(--msg-line);
-	border-radius: 13px;
-	background: rgba(255, 255, 255, 0.035);
-	transition: border-color 120ms ease, background 120ms ease;
+	height: 48px;
+	margin: 0.65rem 0.75rem 0;
+	padding: 0 0.2rem 0 0.7rem;
+	border: 1px solid var(--msg-line-strong);
+	border-radius: 16px;
+	background: linear-gradient(145deg, rgb(2 10 6 / 68%), rgb(255 255 255 / 3.8%));
+	box-shadow: var(--msg-inset), 0 7px 20px rgb(0 0 0 / 13%);
+	transition: border-color 140ms ease, background 140ms ease, box-shadow 140ms ease;
 }
 
 .messaging-workspace-search:focus-within {
-	border-color: rgba(121, 224, 183, 0.3);
-	background: rgba(121, 224, 183, 0.045);
+	border-color: rgb(216 182 109 / 42%);
+	background: linear-gradient(145deg, rgb(4 15 10 / 78%), rgb(216 182 109 / 4%));
+	box-shadow: 0 0 0 3px rgb(216 182 109 / 6%), var(--msg-inset);
 }
 
 .messaging-search-mark {
-	color: var(--msg-muted);
+	color: rgb(240 214 155 / 60%);
 	font-size: 1.08rem;
 }
 
@@ -36,51 +40,44 @@
 	background: transparent;
 	color: var(--msg-text);
 	font-size: 0.78rem;
+	caret-color: var(--msg-gold-bright);
 }
+
+.messaging-workspace-search input::placeholder { color: var(--msg-muted); }
 
 .messaging-workspace-search button {
 	display: grid;
 	place-items: center;
-	width: 40px;
-	height: 40px;
-	min-width: 40px;
-	min-height: 40px;
+	width: 42px;
+	height: 42px;
+	min-width: 42px;
+	min-height: 42px;
 	padding: 0;
 	border: 0;
-	border-radius: 10px;
+	border-radius: 13px;
 	background: transparent;
 	color: var(--msg-muted);
 	font-size: 1rem;
 }
 
 .messaging-workspace-search button:hover {
-	background: rgba(255, 255, 255, 0.06);
-	color: var(--msg-text);
+	background: var(--msg-gold-soft);
+	color: var(--msg-gold-bright);
 }
 
 .messaging-search-feedback {
-	margin: 0.28rem 0.85rem 0;
+	margin: 0.3rem 0.85rem 0;
 	color: var(--msg-muted);
-	font-size: 0.64rem;
+	font-size: 0.63rem;
 	line-height: 1.35;
 }
 
 @media (max-width: 760px) {
-	.messaging-workspace-search {
-		height: 48px;
-		gap: 0.36rem;
-		margin: 0.48rem 0.6rem 0;
-		padding-left: 0.58rem;
-	}
+	.messaging-workspace-search { height: 50px; margin: 0.5rem 0.6rem 0; padding-left: 0.62rem; }
+	.messaging-workspace-search button { width: 44px; height: 44px; min-width: 44px; min-height: 44px; }
+	.messaging-search-feedback { margin-inline: 0.68rem; }
+}
 
-	.messaging-workspace-search button {
-		width: 44px;
-		height: 44px;
-		min-width: 44px;
-		min-height: 44px;
-	}
-
-	.messaging-search-feedback {
-		margin-inline: 0.68rem;
-	}
+@media (prefers-reduced-motion: reduce) {
+	.messaging-workspace-search { transition: none; }
 }

@@ -1,8 +1,10 @@
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
-
-/** The Awtsmoos is one beyond route and thumb; Awtsmoos.com keeps five stable phone doors in one glassy rail, where the chosen chamber becomes a quiet accent pill without changing width or making the thumb chase moving geometry in light. */
+/**
+ * The Awtsmoos is one beyond route and thumb; Awtsmoos.com gives phone navigation five stable emerald doors on one warm-edged dock,
+ * where the chosen destination gains shape, gold guidance, and an emerald icon without changing geometry or making the thumb chase moving light.
+ */
 
 @media (max-width: 760px) {
 	.messaging-rail {
@@ -11,25 +13,24 @@
 		grid-row: 2;
 		display: block;
 		min-width: 0;
-		padding: 0.3rem max(0.22rem, env(safe-area-inset-right)) max(0.32rem, env(safe-area-inset-bottom)) max(0.22rem, env(safe-area-inset-left));
+		padding: 0.34rem max(0.25rem, env(safe-area-inset-right)) max(0.38rem, env(safe-area-inset-bottom)) max(0.25rem, env(safe-area-inset-left));
 		overflow: hidden;
 		border: 0;
-		border-top: 1px solid var(--msg-line-strong);
-		background: rgba(7, 15, 11, 0.94);
-		backdrop-filter: blur(18px) saturate(1.1);
+		border-top: 1px solid rgb(216 182 109 / 12%);
+		background: linear-gradient(180deg, rgb(7 18 12 / 92%), rgb(3 10 6 / 98%));
+		box-shadow: 0 -12px 34px rgb(0 0 0 / 24%);
+		backdrop-filter: blur(22px) saturate(1.12);
 	}
 
 	.messaging-brand,
 	.messaging-identity,
 	.messaging-rail-divider,
-	.messaging-rail-button[data-mobile-primary="false"] {
-		display: none;
-	}
+	.messaging-rail-button[data-mobile-primary="false"] { display: none; }
 
 	.messaging-rail-buttons {
 		display: grid;
 		grid-template-columns: repeat(5, minmax(0, 1fr));
-		gap: 0.12rem;
+		gap: 0.16rem;
 		min-width: 0;
 		overflow: visible;
 		padding: 0;
@@ -44,10 +45,10 @@
 		align-content: center;
 		gap: 0.18rem;
 		min-width: 0;
-		min-height: 58px;
-		padding: 0.34rem 0.16rem;
+		min-height: 60px;
+		padding: 0.36rem 0.14rem;
 		border: 1px solid transparent;
-		border-radius: 14px;
+		border-radius: 16px;
 		background: transparent;
 		color: var(--msg-muted);
 		text-align: center;
@@ -63,10 +64,10 @@
 
 	.messaging-rail-button.is-active,
 	.messaging-mobile-more-button[aria-expanded="true"] {
-		border-color: rgba(121, 224, 183, 0.18);
-		background: rgba(121, 224, 183, 0.11);
-		color: #effff6;
-		box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.025);
+		border-color: rgb(216 182 109 / 18%);
+		background: linear-gradient(145deg, rgb(216 182 109 / 10%), rgb(114 216 174 / 10%));
+		color: #fff7e5;
+		box-shadow: var(--msg-inset);
 	}
 
 	.messaging-rail-button.is-active::before {
@@ -74,12 +75,12 @@
 		position: absolute;
 		top: 3px;
 		left: 50%;
-		width: 22px;
+		width: 24px;
 		height: 3px;
 		border-radius: 999px;
-		background: var(--msg-accent);
+		background: linear-gradient(90deg, var(--msg-gold-bright), var(--msg-accent));
 		transform: translateX(-50%);
-		box-shadow: 0 0 10px rgba(121, 224, 183, 0.22);
+		box-shadow: 0 0 11px rgb(216 182 109 / 22%);
 	}
 
 	.messaging-rail-button .messaging-rail-icon,
@@ -93,15 +94,15 @@
 	.messaging-rail-button.is-active > .messaging-icon,
 	.messaging-mobile-more-button[aria-expanded="true"] .messaging-rail-icon,
 	.messaging-mobile-more-button[aria-expanded="true"] > .messaging-icon {
-		color: var(--msg-accent);
+		color: var(--msg-gold-bright);
 		transform: translateY(-1px) scale(1.06);
 	}
 
 	.messaging-rail-label {
 		width: 100%;
 		overflow: hidden;
-		font-size: 0.58rem;
-		font-weight: 680;
+		font-size: 0.57rem;
+		font-weight: 700;
 		line-height: 1.05;
 		text-align: center;
 		text-overflow: ellipsis;
@@ -109,8 +110,10 @@
 	}
 
 	.messaging-rail-button.is-active .messaging-rail-label,
-	.messaging-mobile-more-button[aria-expanded="true"] .messaging-rail-label {
-		color: #effff6;
-		font-weight: 800;
-	}
+	.messaging-mobile-more-button[aria-expanded="true"] .messaging-rail-label { color: #fff7e5; font-weight: 820; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.messaging-rail-button,
+	.messaging-mobile-more-button { transition: none; }
 }
