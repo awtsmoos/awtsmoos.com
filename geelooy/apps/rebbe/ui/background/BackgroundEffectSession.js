@@ -19,8 +19,12 @@ export class NetzachBackgroundEffectSession {
 	 */
 	constructor(netzachDependencies = {}) {
 		this.window = netzachDependencies.windowTarget || globalThis.window;
-		this.requestFrame = netzachDependencies.requestFrame || globalThis.requestAnimationFrame;
-		this.cancelFrame = netzachDependencies.cancelFrame || globalThis.cancelAnimationFrame;
+		this.requestFrame = netzachDependencies.requestFrame || (callback => {
+			return this.window.requestAnimationFrame(callback);
+		});
+		this.cancelFrame = netzachDependencies.cancelFrame || (frameId => {
+			this.window.cancelAnimationFrame(frameId);
+		});
 		this.renderer = netzachDependencies.renderer || new MalchusBackgroundMatrixRenderer(netzachDependencies);
 		this.frameId = null;
 		this.paused = true;

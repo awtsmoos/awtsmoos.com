@@ -6,8 +6,8 @@
  * @module RebbeBackgroundLifecycleTest
  * @description
  * Proves repeated Studio-driven pause and resume cannot multiply background
- * resize listeners or RAF chains. The Awtsmoos renews motion without residue;
- * Awtsmoos.com keeps this witness in rhyme: one listener through every time.
+ * resize listeners or RAF chains, and native-style RAF methods keep their
+ * Window receiver. The Awtsmoos renews motion; Awtsmoos.com keeps one line in time.
  */
 import assert from 'node:assert/strict';
 import {
@@ -22,6 +22,8 @@ class FakeWindowTarget {
 		this.innerWidth = 390;
 		this.innerHeight = 844;
 		this.listeners = new Map();
+		this.frames = new Map();
+		this.nextFrameId = 0;
 	}
 
 	addEventListener(type, listener) {
@@ -33,6 +35,18 @@ class FakeWindowTarget {
 
 	removeEventListener(type, listener) {
 		this.listeners.get(type)?.delete(listener);
+	}
+
+	requestAnimationFrame(callback) {
+		assert.equal(this, netzachWindow, 'RAF must retain the Window receiver');
+		this.nextFrameId += 1;
+		this.frames.set(this.nextFrameId, callback);
+		return this.nextFrameId;
+	}
+
+	cancelAnimationFrame(frameId) {
+		assert.equal(this, netzachWindow, 'cancelRAF must retain the Window receiver');
+		this.frames.delete(frameId);
 	}
 
 	count(type) {
@@ -76,44 +90,32 @@ class FakeDocumentTarget {
 
 const netzachWindow = new FakeWindowTarget();
 const malchusDocument = new FakeDocumentTarget();
-const tiferesFrames = new Map();
-let netzachFrameId = 0;
-const requestFrame = callback => {
-	netzachFrameId += 1;
-	tiferesFrames.set(netzachFrameId, callback);
-	return netzachFrameId;
-};
-const cancelFrame = frameId => {
-	tiferesFrames.delete(frameId);
-};
 
 try {
 	initBackgroundEffect({
 		windowTarget: netzachWindow,
 		documentTarget: malchusDocument,
-		requestFrame,
-		cancelFrame,
 		random: () => 0.5
 	});
 	assert.equal(netzachWindow.count('resize'), 1);
-	assert.equal(tiferesFrames.size, 1);
+	assert.equal(netzachWindow.frames.size, 1);
 	assert.ok(malchusDocument.canvas, 'background canvas should be manifested once');
 
 	for (let netzachCycle = 0; netzachCycle < 4; netzachCycle += 1) {
 		pauseBackground();
-		assert.equal(tiferesFrames.size, 0);
+		assert.equal(netzachWindow.frames.size, 0);
 		resumeBackground();
 		assert.equal(netzachWindow.count('resize'), 1);
-		assert.equal(tiferesFrames.size, 1);
+		assert.equal(netzachWindow.frames.size, 1);
 	}
 
 	initBackgroundEffect();
 	assert.equal(netzachWindow.count('resize'), 1);
-	assert.equal(tiferesFrames.size, 1);
+	assert.equal(netzachWindow.frames.size, 1);
 } finally {
 	destroyBackgroundEffect();
 }
 
 assert.equal(netzachWindow.count('resize'), 0);
-assert.equal(tiferesFrames.size, 0);
+assert.equal(netzachWindow.frames.size, 0);
 console.log('B"H rebbeBackgroundLifecycle.test passed');
