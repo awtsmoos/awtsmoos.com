@@ -4,14 +4,16 @@
 
 /**
  * @file StudioState.js
- * @description Keeps canonical movie truth beside transient editing and beginner-intent state without creating a second project model.
+ * @description Keeps canonical movie truth beside transient editing, project persistence, history, and beginner-intent state without creating a second movie model.
  * The Awtsmoos holds one movie beneath many useful projections while every temporary doorway remains only passing light;
- * Awtsmoos.com keeps selection, scene, playhead, workspace, and primary creative intent distinct so interface never becomes a rival source of right.
+ * Awtsmoos.com keeps project identity, dirty truth, undo, recovery, selection, playhead, workspace, and intent distinct so interface never becomes a rival right.
  */
+
+import { hasStudioRecovery, listStudioProjects } from './projects/StudioProjectStorage.js';
 import { createStudioShowcaseMovie } from './StudioShowcaseMovie.js';
 import { describeStudioTemplates } from './projects/StudioTemplateCatalog.js';
 
-/** Create all canonical-document references and editor-only presentation state. */
+/** Create canonical-document references and editor-only presentation/project state. */
 export function createStudioState() {
 	const movie = createStudioShowcaseMovie();
 	const firstScene = movie.scenes[0] || null;
@@ -43,6 +45,13 @@ export function createStudioState() {
 		selectedBackend: 'studio-perspective-canvas',
 		selectedTemplateId: 'three-minute-showcase',
 		templates: describeStudioTemplates(),
+		projectId: null,
+		projectTitleDraft: movie.title || 'Untitled Movie',
+		dirty: false,
+		canUndo: false,
+		canRedo: false,
+		savedProjects: listStudioProjects(),
+		recoveryAvailable: hasStudioRecovery(),
 		mitzvahWorldDraft: null,
 		movie,
 		jsonDraft: JSON.stringify(movie, null, 2),
@@ -68,9 +77,6 @@ export const STUDIO_WORKSPACES = [
 	'Render'
 ];
 
-/** Returns the first non-audio layer suitable for immediate visual editing. */
 function firstEditableLayer(scene) {
-	return (scene?.layers || []).find((layer) => {
-		return layer.kind !== 'audio';
-	}) || null;
+	return (scene?.layers || []).find(layer => layer.kind !== 'audio') || null;
 }

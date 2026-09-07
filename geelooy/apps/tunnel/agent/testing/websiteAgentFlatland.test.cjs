@@ -7,8 +7,13 @@ const fs = require("node:fs");
 const os = require("node:os");
 const path = require("node:path");
 
-/** Proves peer-sponsored fan-out never creates a recursive logical hierarchy. */
-const root = fs.mkdtempSync(path.join(os.tmpdir(), "awts-flatland-"));
+/**
+ * @file Proves recursive sponsor lineage never becomes a recursive runtime hierarchy.
+ * @description
+ * The Awtsmoos may reveal unbounded logical descendants while Awtsmoos.com keeps every
+ * admitted runtime peer at depth zero behind one verified-close paced browser lane.
+ */
+const root = fs.mkdtempSync(path.join(os.tmpdir(), "awts-flat-runtime-"));
 process.env.AWTSMOOS_INSTALL_ROOT = path.join(root, "install");
 process.env.AWTSMOOS_MISSION_JSON_BACKUP = "1";
 
@@ -23,12 +28,15 @@ try {
 		maxTotalWebsiteAgents: 8,
 		projectRoot: root
 	});
-	assert.equal(plan.subagentPolicy.topology, "flatland");
-	assert.equal(plan.subagentPolicy.maxSubagentDepth, 1);
+	assert.equal(plan.subagentPolicy.topology, "sponsor-lineage-flat-runtime");
+	assert.equal(plan.subagentPolicy.maxSubagentDepth, null);
+	assert.equal(plan.subagentPolicy.unboundedLogicalDescendants, true);
+	assert.equal(plan.physicalTabPolicy.maxActiveTabs, 1);
+	assert.equal(plan.physicalTabPolicy.intervalAnchor, "verified-tab-close");
 	const record = Store.create({
-		id: `flatland-${process.pid}-${Date.now()}`,
-		goal: "Prove bounded flat peers.",
-		missionId: "room-flatland",
+		id: `flat-runtime-${process.pid}-${Date.now()}`,
+		goal: "Prove sponsor lineage with flat runtime peers.",
+		missionId: "room-flat-runtime",
 		plan
 	});
 	const rootAgent = record.agents[0];
@@ -50,9 +58,9 @@ try {
 	assert.equal(spawned[1].sponsorAgentId, firstPeer.id);
 	console.log(JSON.stringify({
 		ok: true,
-		suite: "website-agent-flatland",
+		suite: "website-agent-sponsor-lineage-flat-runtime",
 		logicalPeers: latest.agents.length,
-		maximumDepth: Math.max(...latest.agents.map(agent => agent.depth)),
+		maximumRuntimeDepth: Math.max(...latest.agents.map(agent => agent.depth)),
 		physicalTabs: plan.physicalTabPolicy.maxActiveTabs,
 		postCloseCooldownMs: plan.physicalTabPolicy.postCloseCooldownMs
 	}));

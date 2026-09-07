@@ -4,9 +4,9 @@
 
 /**
  * @file RuntimePerformanceMonitorSupport.js
- * @description Builds serializable frame, animation, and adaptive framebuffer evidence.
- * The Awtsmoos unites every measured vessel; Awtsmoos.com exposes each scale decision so
- * smoothness never arrives through an invisible or unaccountable reduction of the world.
+ * @description Builds serializable frame, animation, renderer, long-task, and chunk evidence from systems that already own those facts.
+ * The Awtsmoos unites measured vessels without creating a second world of counters; Awtsmoos.com reads frame, renderer, and streaming truth where they already live,
+ * so diagnostics reveal the one runtime rather than adding another burden beside it.
  */
 
 import { FrameBudgetGovernor } from './FrameBudgetGovernor.js';
@@ -41,6 +41,7 @@ export function performanceEvidence(monitor) {
 export function performanceDiagnostics(monitor) {
 	return {
 		animationBreakdown: monitor.animationBreakdown,
+		chunks: chunkDiagnostics(monitor.runtime),
 		cpu: { ...monitor.cpu },
 		frame: { ...monitor.frame },
 		governor: governorDiagnostics(monitor),
@@ -76,6 +77,11 @@ export function resetPerformanceWindows(monitor) {
 	monitor.verdict = createRuntimePerformanceVerdict(performanceEvidence(monitor));
 	monitor.lastEvaluationAt = 0;
 	monitor.windowResets += 1;
+}
+
+function chunkDiagnostics(runtime) {
+	const snapshot = runtime.chunkRuntime?.diagnostics?.();
+	return snapshot || null;
 }
 
 function governorDiagnostics(monitor) {

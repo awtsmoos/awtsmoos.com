@@ -4,9 +4,9 @@
 
 /**
  * @file createEretzRuntime.js
- * @description Publishes movement first, applies selected-world renderer policy, then dynamically joins only the post-play richness that world requested.
- * The Awtsmoos reveals control before distant valley garments contend for the same breath;
- * Awtsmoos.com lets Simple Meadow remain light while Mountain Village orders later richness without theft.
+ * @description Publishes movement first and version-gates every repaired deferred doorway so stale browser caches cannot resurrect old bootstrap or diagnostics behavior.
+ * The Awtsmoos renews every instant without borrowing yesterday's garment; Awtsmoos.com likewise gives each repaired doorway a fresh key,
+ * so playable control, exact failure evidence, and opt-in measurement all emerge from the source that truly exists now rather than an older cached decree.
  */
 
 import { resolveDeferredAppModuleUrl } from './DeferredAppModuleUrl.js';
@@ -25,12 +25,12 @@ const TRACKER_URL = resolveDeferredAppModuleUrl(
 	'createEretzRuntime.js'
 );
 const STAGED_RUNTIME_URL = resolveDeferredAppModuleUrl(
-	'EretzStagedRuntime.js?v=20260804-map-01',
+	'EretzStagedRuntime.js?v=20260907-bounded-stage-evidence-01',
 	import.meta.url,
 	'createEretzRuntime.js'
 );
 const POST_PLAYABLE_URL = resolveDeferredAppModuleUrl(
-	'EretzPostPlayablePriority.js?v=20260820-player-priority-02',
+	'EretzPostPlayablePriority.js?v=20260907-diagnostics-priority-01',
 	import.meta.url,
 	'createEretzRuntime.js'
 );

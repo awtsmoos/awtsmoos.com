@@ -1,14 +1,15 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file MitzvahWorldDeferredLaunchRuntime.js
- * @description Opens heavy route capabilities only after selection while preserving the chosen local or shared world identity through the deferred gate.
- * The Awtsmoos hides no truth yet reveals each vessel in its appointed hour; Awtsmoos.com keeps the menu swift and carries the chosen world into power.
+ * @description Opens heavy route capabilities only after selection while carrying the repaired cache identity into every deferred mode loader.
+ * The Awtsmoos reveals each vessel in its appointed hour yet never asks today to wear yesterday's key; Awtsmoos.com keeps menu intent swift,
+ * then hands the chosen world to the fresh recovery graph so playable truth cannot be hidden behind a stale deferred doorway.
  */
 
-import { createMitzvahWorldModeLoaders } from './MitzvahWorldModeLoaders.js?v=20260814-direct-audio-02';
+import { createMitzvahWorldModeLoaders } from './MitzvahWorldModeLoaders.js?v=20260907-playable-recovery-02';
 import { createMitzvahWorldRouteHandlers } from './MitzvahWorldRouteHandlers.js?v=20260803-tagged-nature-03';
 import { mitzvahWorldSessionMode } from './MitzvahWorldSessionMode.js';
 

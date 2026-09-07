@@ -4,9 +4,9 @@
 
 /**
  * @file productionBuild.test.cjs
- * @description Proves compact entry doors, tiny first control, bounded playable foundation/core, later quality chunks, compression, and complete cinema reachability.
+ * @description Proves versioned compact entry doors, tiny first control, bounded playable foundation/core, later quality chunks, compression, and complete cinema reachability.
  * The Awtsmoos grants first control through one almost weightless gate while the playable valley crosses two measured rays;
- * Awtsmoos.com keeps later world beauty deferred, and every generated garment carries verified identity, Brotli, and gzip on its way.
+ * Awtsmoos.com gives the repaired September entry a fresh public key, then keeps later world beauty deferred and every generated garment verified on its way.
  */
 
 const assert = require('node:assert/strict');
@@ -18,6 +18,7 @@ const {
 	verifyRepresentations
 } = require('./ProductionBuildProof.cjs');
 
+const RECOVERY_VERSION = '20260907-playable-recovery-02';
 const chunks = Object.freeze([
 	['foundation', 'createEretzWorldFoundation'],
 	['core', 'assembleBootstrapCoreRuntime'],
@@ -36,7 +37,7 @@ const firstControlForbidden = Object.freeze([
 	'WorldSpatialRealismApi'
 ]);
 
-test('B"H production page selects compact game and shell publications directly', () => {
+test('B"H production page selects fresh compact game and shell publications directly', () => {
 	const html = text('index.html');
 	const stylesheets = [...html.matchAll(/<link[^>]+rel="stylesheet"[^>]+href="([^"]+)"/g)]
 		.map(match => match[1]);
@@ -47,7 +48,7 @@ test('B"H production page selects compact game and shell publications directly',
 		'../styles/player-shell/index.css?compact=true'
 	]);
 	assert.deepEqual(modules, [
-		'./experiments/Awtsmoos/src/mitzvah-world.compact.js',
+		`./experiments/Awtsmoos/src/mitzvah-world.compact.js?v=${RECOVERY_VERSION}`,
 		'../scripts/player-shell/index.js?compact=true'
 	]);
 });
@@ -66,7 +67,11 @@ test('B"H first-control stays under eight kilobytes and contains no deferred wor
 	assert.equal(manifest.deterministic, true);
 	assert.deepEqual(manifest.optionalModulesBundled, []);
 	assert.ok(manifest.outputBytes >= 1000 && manifest.outputBytes <= 8192);
-	for (const marker of ['PAGE_BOOT_URL', 'RUNTIME_BOOT_URL', 'bootMinimalSharedMeadowPage']) {
+	for (const marker of [
+		'PAGE_BOOT_URL',
+		'MinimalSharedMeadowRuntimePage.js',
+		'bootMinimalSharedMeadowPage'
+	]) {
 		assert.match(compact, new RegExp(marker));
 	}
 	for (const forbidden of firstControlForbidden) {

@@ -4,44 +4,66 @@
 
 /**
  * @file StudioCreateIntent.js
- * @description Projects real canonical creation commands and project templates into a compact beginner-first Create surface through real AwtsmoosUI children.
- * The Awtsmoos brings many forms from one source, while Awtsmoos.com lets the maker call each vessel by a simple name;
- * every quick-add button crosses the existing command path, so touch and deeper command language kindle the same flame.
+ * @description Presents one truthful native-world grid and one compact 2D add-on grid without abusing AwtsmoosUI repetition semantics.
+ * The Awtsmoos calls mountain, water, Chossid, camera, and light into ordered vessels before a flat title joins their view;
+ * Awtsmoos.com keeps one grid as one grid, while every real button crosses the canonical command path so visible choice and movie truth stay true.
  */
+
 import { UI } from '../../../../../libs/AwtsmoosUI/src/index.js';
 
-const QUICK_CREATE_ITEMS = Object.freeze([
-	item('Text', 'T', 'text'),
-	item('Shape', '□', 'shape2d'),
-	item('Image', '▧', 'image'),
-	item('Video', '▶', 'video'),
-	item('Caption', 'CC', 'caption'),
-	item('Camera', '◉', 'camera')
+export const STUDIO_WORLD_CREATE_ITEMS = Object.freeze([
+	item('Terrain', '⛰', 'terrain3d'),
+	item('Water', '≋', 'water3d'),
+	item('World', '◎', 'world3d'),
+	item('Camera', '◉', 'camera'),
+	item('Chossid', '♙', 'character3d'),
+	item('Light', '☀', 'light3d')
 ]);
 
-/** Creates the phone Create intent with fast canonical additions and compact project starters. */
+export const STUDIO_TWO_D_ADDON_ITEMS = Object.freeze([
+	item('Text', 'T', 'text'),
+	item('Caption', 'CC', 'caption'),
+	item('Shape', '□', 'shape2d'),
+	item('Overlay', '▱', 'overlay')
+]);
+
+/** Create the contextual phone-first Create sheet from commands already backed by canonical movie state. */
 export function createStudioCreateIntent() {
 	return UI.section(
 		{
 			class: 'studio-intent-body studio-create-intent',
-			hidden: (context) => context.store.get('primaryIntent') !== 'create'
+			hidden: context => context.store.get('primaryIntent') !== 'create'
 		},
-		UI.div(
-			{ class: 'studio-intent-action-grid' },
-			...QUICK_CREATE_ITEMS.map(createQuickButton)
-		),
-		UI.div({ class: 'studio-intent-subheading', text: 'Start from a template' }),
+		UI.div({ class: 'studio-create-title', text: createTitle }),
 		UI.div(
 			{
-				class: 'studio-intent-template-track',
-				$each: (context) => context.store.get('templates')
+				class: 'studio-intent-action-grid studio-world-action-grid',
+				hidden: context => context.store.get('viewportMode') === '2d'
 			},
+			...STUDIO_WORLD_CREATE_ITEMS.map(createQuickButton)
+		),
+		UI.div({
+			class: 'studio-intent-subheading studio-two-d-addon-heading',
+			text: context => context.store.get('viewportMode') === '2d' ? 'Create in 2D' : '2D Add-ons'
+		}),
+		UI.div(
+			{ class: 'studio-intent-action-grid studio-two-d-addon-grid' },
+			...STUDIO_TWO_D_ADDON_ITEMS.map(createQuickButton)
+		),
+		UI.div({ class: 'studio-intent-subheading', text: 'Scene starters' }),
+		UI.div(
+			{ class: 'studio-intent-template-track' },
 			createTemplateButton()
 		)
 	);
 }
 
-/** Creates one canonical create-command button. */
+/** Name the creation context according to the dimensional view currently chosen. */
+function createTitle(context) {
+	return context.store.get('viewportMode') === '2d' ? 'Create in 2D' : 'Create in 3D';
+}
+
+/** Build one explicit canonical create-command button so the surrounding grid is never repeated. */
 function createQuickButton(ohrItem) {
 	return UI.button(
 		{
@@ -56,21 +78,22 @@ function createQuickButton(ohrItem) {
 	);
 }
 
-/** Creates one compact template action using the established project loader. */
+/** Repeat only the template button node, leaving one track container in the rendered DOM. */
 function createTemplateButton() {
 	return UI.button(
 		{
 			class: 'studio-intent-template-button',
 			type: 'button',
-			'data-template-id': (context) => context.data.item.id,
+			$each: { items: context => context.store.get('templates') },
+			'data-template-id': context => context.data.item.id,
 			$on: { click: 'loadTemplate' }
 		},
-		UI.strong({ text: (context) => context.data.item.title }),
-		UI.span({ text: (context) => context.data.item.category })
+		UI.strong({ text: context => context.data.item.title }),
+		UI.span({ text: context => context.data.item.category })
 	);
 }
 
-/** Creates one immutable quick-add descriptor. */
+/** Freeze one compact label/glyph/kind descriptor used only at definition time. */
 function item(label, glyph, kind) {
 	return Object.freeze({ label, glyph, kind });
 }

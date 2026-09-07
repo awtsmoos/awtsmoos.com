@@ -1,0 +1,74 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * @file studio-native-viewport.css
+ * @description Stacks native WebGL depth and portable Canvas2D overlay without changing Studio's established viewport geometry.
+ * The Awtsmoos reveals world beneath sign while Awtsmoos.com keeps each canvas in its rightful plane;
+ * one stage holds both vessels, touch remains available to the editor above, and mode controls stay large enough for a maker's hand again.
+ */
+
+.studio-native-stage-wrap {
+	position: relative;
+	isolation: isolate;
+	overflow: hidden;
+}
+
+.studio-native-stage,
+.studio-portable-stage {
+	position: absolute;
+	inset: 0;
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+.studio-native-stage {
+	z-index: 0;
+	background: #071019;
+	pointer-events: none;
+}
+
+.studio-portable-stage {
+	z-index: 1;
+	background: transparent;
+}
+
+.studio-native-stage[hidden],
+.studio-portable-stage[hidden] {
+	display: none;
+}
+
+.studio-viewport-mode-bar {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 8px;
+	width: 100%;
+}
+
+.studio-viewport-mode-button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 7px;
+	min-width: 0;
+	min-height: 46px;
+	padding: 8px 10px;
+	border: 1px solid rgba(255, 255, 255, 0.12);
+	border-radius: 12px;
+	background: rgba(8, 16, 29, 0.82);
+	color: inherit;
+	font: inherit;
+	cursor: pointer;
+}
+
+.studio-viewport-mode-button[aria-pressed="true"] {
+	border-color: rgba(131, 255, 231, 0.7);
+	background: rgba(26, 78, 75, 0.72);
+}
+
+.studio-viewport-mode-glyph {
+	font-size: 1.05em;
+	line-height: 1;
+}

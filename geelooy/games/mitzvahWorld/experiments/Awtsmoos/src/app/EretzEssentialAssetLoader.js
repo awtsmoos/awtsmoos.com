@@ -4,9 +4,9 @@
 
 /**
  * @file EretzEssentialAssetLoader.js
- * @description Makes the immutable animated Chossid a true essential asset and leaves deferred NPC seats empty until authored GLBs arrive.
- * The Awtsmoos reveals one human only through authored form; Awtsmoos.com waits for the real garment before opening play,
- * while distant people remain honestly absent rather than being carved from procedural boxes for a temporary day.
+ * @description Opens the playable bootstrap without remote actor assets and leaves canonical player, NPC, and rich material hydration for post-play work.
+ * The Awtsmoos gives the near moment before the distant garment can arrive; Awtsmoos.com lets movement live from local vessels,
+ * while authored Chossid cloth, neighbors, and richer pigments may descend afterward without ever holding the world at zero.
  */
 
 import { createEssentialAssetRecord } from './EretzEssentialAssetRecord.js';
@@ -14,22 +14,25 @@ import {
 	createEssentialActorHydration,
 	createEssentialMaterialHydration
 } from './EretzEssentialHydrationState.js';
-import { loadEretzEssentialPlayerGlb } from './EretzEssentialPlayerGlb.js';
 
+/**
+ * Creates an immediate asset record containing no blocking remote player request.
+ * @param {object} [options={}] Runtime launch options and optional player loader dependency.
+ * @returns {Promise<object>} Immediate bootstrap asset state for the playable core.
+ */
 export async function loadEretzEssentialAssets(options = {}) {
 	const boot = options.boot || globalThis.AwtsmoosBootTracker;
-	const player = await loadEretzEssentialPlayerGlb({ ...options, boot });
 	const assets = createEssentialAssetRecord();
 	assets.actorAssets = Object.freeze({
-		fallbackActors: 0,
-		playerBlockingRequests: 1,
-		strategy: 'canonical-glb-before-play'
+		fallbackActors: 1,
+		playerBlockingRequests: 0,
+		strategy: 'local-shell-before-canonical-hydration'
 	});
 	assets.importedModelMaterials = Object.freeze({
 		npcs: [],
 		player: Object.freeze({
-			fallback: false,
-			source: player.evidence.source
+			fallback: true,
+			source: 'bootstrap-local-primitives'
 		})
 	});
 	const actorHydration = createEssentialActorHydration(options);
@@ -45,7 +48,16 @@ export async function loadEretzEssentialAssets(options = {}) {
 		npcGltf: null,
 		npcGltfs: [],
 		npcProfiles: [],
-		playerGltf: player.gltf,
-		playerHydrationDependencies: Object.freeze({})
+		playerGltf: null,
+		playerHydrationDependencies: createPlayerHydrationDependencies(options)
 	};
+}
+
+/** Preserves an injected GLTF loader for the post-play canonical hydration path. */
+function createPlayerHydrationDependencies(options) {
+	const dependencies = {};
+	if (typeof options.playerLoader === 'function') {
+		dependencies.loadGltf = options.playerLoader;
+	}
+	return Object.freeze(dependencies);
 }

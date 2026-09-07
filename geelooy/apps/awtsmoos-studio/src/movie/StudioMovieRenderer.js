@@ -4,8 +4,9 @@
 
 /**
  * @file StudioMovieRenderer.js
- * The Awtsmoos renews screen and world while Awtsmoos.com lets 2D, 3D, compositing, and portable effects share one ordered render breath;
- * every layer receives isolated Canvas state, so filters and blending may glow without leaking their finite color into the next creative depth.
+ * @description Keeps portable Canvas2D as full 2D/fallback rendering while Hybrid may request only transparent screen overlays above native WebGL depth.
+ * The Awtsmoos renews depth and sign in one frame while Awtsmoos.com lets each vessel reveal only the light entrusted to its layer;
+ * portable paint remains export-ready and complete, yet Hybrid clears its ground so the native world can shine beneath without a counterfeit player.
  */
 
 import { MovieLayerKind } from '../../../shared/movie/MovieKinds.js';
@@ -18,7 +19,7 @@ import { isStudioWorldLayer, studioLayerDepth } from '../spatial/StudioLayerDept
 import { paintStudioProjectedLayer } from '../spatial/StudioProjectedLayerPainter.js';
 import { isStudioThreeLayer, paintStudioThreeLayer } from './StudioThreeEntityRenderer.js';
 
-/** Compose depth-ordered world layers and screen layers with isolated portable compositing state. */
+/** Compose the portable frame, optionally restricting Canvas2D to screen-space overlays for Hybrid. */
 export class StudioMovieRenderer {
 	constructor(canvas) {
 		if (!canvas?.getContext) throw new TypeError('StudioMovieRenderer requires a canvas element');
@@ -26,18 +27,18 @@ export class StudioMovieRenderer {
 		this.context = canvas.getContext('2d');
 	}
 
-	render(movie, time = 0) {
+	render(movie, time = 0, options = {}) {
 		const viewport = this.prepareViewport(movie);
 		const frame = sampleMovieFrame(movie, time);
-		this.paintBackground(viewport);
+		const overlayOnly = Boolean(options.overlayOnly);
+		this.paintBackground(viewport, overlayOnly);
 		if (!frame.scene) return frame;
-		const background = frame.layers.filter(layer => layer.kind === MovieLayerKind.WORLD_3D);
-		const world = frame.layers.filter(layer => layer.kind !== MovieLayerKind.WORLD_3D && isStudioWorldLayer(layer));
-		const screen = frame.layers.filter(layer => !isStudioWorldLayer(layer));
-		background.forEach(layer => this.paintWithEffects(layer, () => paintStudioThreeLayer(this.context, layer, frame, viewport)));
-		world.sort((left, right) => studioLayerDepth(right, frame, viewport) - studioLayerDepth(left, frame, viewport));
-		world.forEach(layer => this.paintWithEffects(layer, () => this.paintWorldLayer(layer, frame, viewport)));
-		screen.forEach(layer => this.paintWithEffects(layer, () => this.paintScreenLayer(layer, frame, viewport)));
+		if (overlayOnly) {
+			this.paintScreenLayers(frame, viewport);
+			paintTransition(this.context, frame, viewport);
+			return frame;
+		}
+		this.paintFullFrame(frame, viewport);
 		paintTransition(this.context, frame, viewport);
 		return frame;
 	}
@@ -50,10 +51,26 @@ export class StudioMovieRenderer {
 		return { width, height };
 	}
 
-	paintBackground(viewport) {
+	paintBackground(viewport, overlayOnly) {
 		this.context.clearRect(0, 0, viewport.width, viewport.height);
+		if (overlayOnly) return;
 		this.context.fillStyle = '#070b18';
 		this.context.fillRect(0, 0, viewport.width, viewport.height);
+	}
+
+	paintFullFrame(frame, viewport) {
+		const background = frame.layers.filter(layer => layer.kind === MovieLayerKind.WORLD_3D);
+		const world = frame.layers.filter(layer => layer.kind !== MovieLayerKind.WORLD_3D && isStudioWorldLayer(layer));
+		background.forEach(layer => this.paintWithEffects(layer, () => paintStudioThreeLayer(this.context, layer, frame, viewport)));
+		world.sort((left, right) => studioLayerDepth(right, frame, viewport) - studioLayerDepth(left, frame, viewport));
+		world.forEach(layer => this.paintWithEffects(layer, () => this.paintWorldLayer(layer, frame, viewport)));
+		this.paintScreenLayers(frame, viewport);
+	}
+
+	paintScreenLayers(frame, viewport) {
+		frame.layers
+			.filter(layer => !isStudioWorldLayer(layer))
+			.forEach(layer => this.paintWithEffects(layer, () => this.paintScreenLayer(layer, frame, viewport)));
 	}
 
 	paintWithEffects(layer, paint) {

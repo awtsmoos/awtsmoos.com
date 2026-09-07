@@ -1,12 +1,12 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @file MinimalMeadowAdaptiveEnvironment.test.js
- * @description Proves cosmetic shedding and ecological visibility change representation without rebuilding deterministic world truth.
- * The Awtsmoos keeps each planted vessel known though some distant light may hide from sight;
- * Awtsmoos.com restores the same forms on recovery, preserving identity while protecting frame-time flight.
+ * @description Proves cosmetic shedding and vegetation distance transitions change representation without rebuilding deterministic world truth.
+ * The Awtsmoos keeps every planted vessel known while distance lowers its visible height into earth;
+ * Awtsmoos.com restores the same pool and topology on return, protecting frame time without an abrupt grass horizon.
  */
 
 import assert from 'node:assert/strict';
@@ -46,21 +46,37 @@ test('reapplying the same ambient level does not touch existing visibility', () 
 	assert.equal(system.motes[0].mesh.visible, false);
 });
 
-test('vegetation visibility compares squared distance without changing topology', () => {
+test('vegetation fades vertically into terrain before final cull without changing topology', () => {
+	const scale = scaleFixture();
 	const cell = {
 		budget: { visibilityDistance: 10 },
-		group: { visible: true },
+		group: { scale, visible: true },
 		x: 6,
-		z: 8
+		z: 0
 	};
 	const group = cell.group;
 	updateMinimalMeadowVegetationVisibility(cell, { x: 0, z: 0 }, { visibilityDistance: 3 });
-	assert.equal(cell.distanceSquared, 100);
-	assert.equal(cell.group, group);
-	assert.equal(cell.group.visible, true);
-	cell.x = 7;
-	cell.z = 8;
+	assert.equal(cell.visibilityFade, 1);
+	assert.deepEqual(scale.values, [1, 1, 1]);
+	cell.x = 9;
 	updateMinimalMeadowVegetationVisibility(cell, { x: 0, z: 0 }, { visibilityDistance: 3 });
+	assert.ok(cell.visibilityFade > 0 && cell.visibilityFade < 1);
 	assert.equal(cell.group, group);
+	assert.equal(scale.values[0], 1);
+	assert.equal(scale.values[2], 1);
+	assert.equal(scale.values[1], cell.visibilityFade);
+	cell.x = 11;
+	updateMinimalMeadowVegetationVisibility(cell, { x: 0, z: 0 }, { visibilityDistance: 3 });
 	assert.equal(cell.group.visible, false);
+	assert.equal(cell.visibilityFade, 0);
+	assert.deepEqual(scale.values, [1, 0.04, 1]);
 });
+
+function scaleFixture() {
+	return {
+		values: [1, 1, 1],
+		set(x, y, z) {
+			this.values = [x, y, z];
+		}
+	};
+}

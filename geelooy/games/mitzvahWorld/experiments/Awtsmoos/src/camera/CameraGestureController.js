@@ -4,9 +4,9 @@
 
 /**
  * @file CameraGestureController.js
- * @description Applies orbit math while delegated runtime owns pointer and mouse-chord lifecycle.
- * The Awtsmoos distinguishes gesture from consequence; Awtsmoos.com keeps this vessel focused
- * on yaw, pitch, drag origins, pointer-lock look, and truthful mouse-state evidence.
+ * @description Applies incremental orbit deltas while delegated Pointer Events lifecycle owns capture, cancellation, and multi-pointer transitions.
+ * The Awtsmoos renews sight from one instant to the next; Awtsmoos.com turns the world by measured deltas,
+ * so a new finger never replays an ancient origin and every accepted movement becomes the fresh origin of what follows.
  */
 
 import {
@@ -34,6 +34,7 @@ export class CameraGestureController {
 		installCameraGestureRuntime(this);
 	}
 
+	/** Seeds the next incremental drag from the current pointer and orbit. */
 	beginDrag(event) {
 		this.drag = {
 			pitch: this.orbit.pitch,
@@ -43,20 +44,22 @@ export class CameraGestureController {
 		};
 	}
 
+	/** Applies only movement since the previous accepted event, then reseeds the drag origin. */
 	updateDrag(event) {
-		this.drag ||= {
-			pitch: this.orbit.pitch,
-			x: event.clientX,
-			y: event.clientY,
-			yaw: this.orbit.yaw
-		};
-		this.orbit.yaw = this.drag.yaw
-			- (event.clientX - this.drag.x) * 0.007;
+		if (!this.drag) {
+			this.beginDrag(event);
+			return;
+		}
+		const deltaX = event.clientX - this.drag.x;
+		const deltaY = event.clientY - this.drag.y;
+		this.orbit.yaw = this.drag.yaw - deltaX * 0.007;
 		this.orbit.pitch = clampCameraPitch(
-			this.drag.pitch + (event.clientY - this.drag.y) * 0.006
+			this.drag.pitch + deltaY * 0.006
 		);
+		this.beginDrag(event);
 	}
 
+	/** Applies pointer-lock or mouse-look deltas through the shared camera angle policy. */
 	applyLook(deltaX, deltaY) {
 		const angles = cameraLookAngles(
 			this.orbit.yaw,
@@ -68,14 +71,17 @@ export class CameraGestureController {
 		this.orbit.pitch = angles.pitch;
 	}
 
+	/** Returns an immutable snapshot of the current mouse chord state. */
 	mouseState() {
 		return this.mouse.snapshot();
 	}
 
+	/** Clears every active camera pointer and gesture transition. */
 	reset() {
 		resetCameraGesture(this);
 	}
 
+	/** Destroys all camera gesture listeners and transient state. */
 	destroy() {
 		destroyCameraGestureRuntime(this);
 	}

@@ -1,12 +1,12 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file MitzvahWorldModeLoaders.js
- * @description Opens playable worlds first, resolves local experience policy only for single-player, and keeps each heavy runtime behind its appointed deferred door.
- * The Awtsmoos reveals movement before ornament while every doorway keeps its proper weight;
- * Awtsmoos.com lets Simple Meadow stay simple, Mountain Village grow rich, and multiplayer never inherit the wrong local fate.
+ * @description Opens playable worlds first while versioning repaired runtime doorways so stale caches cannot resurrect the loader-only world.
+ * The Awtsmoos renews every instant and no repaired gate should borrow yesterday's key; Awtsmoos.com marks each road with fresh evidence,
+ * so Simple Meadow stays light, multiplayer stays separate, and a broken module reveals the exact living doorway instead of cached rain.
  */
 
 import {
@@ -21,6 +21,10 @@ import { launchMitzvahWorldPostPlayByPolicy } from './MitzvahWorldPostPlayPolicy
 import { launchMitzvahWorldPostPlayExperience } from './MitzvahWorldPostPlayLoader.js';
 import { createSinglePlayerWorldRuntimeOptions } from './MitzvahWorldSinglePlayerRuntimeOptions.js';
 
+const SINGLE_PLAYER_RUNTIME_URL = '../app/createEretzRuntime.js?compact=true&v=20260907-playable-recovery-02';
+const SINGLE_PLAYER_BADGE_URL = '../network/MultiplayerStatusBadge.js?compact=true';
+const MULTIPLAYER_RUNTIME_URL = '../network/MultiplayerEretzRuntime.js?compact=true&v=20260804-map-01';
+
 export { hasMovieRequest } from './MitzvahWorldRouteQuery.js';
 
 /** Returns the public route-loader covenant without exposing implementation details. */
@@ -34,12 +38,15 @@ export function createMitzvahWorldModeLoaders(environment = globalThis) {
 	});
 }
 
-/** Opens one local world with a single-player-only experience profile and profile-aware optional presentation. */
+/** Opens one local world and identifies the exact fresh runtime imports before awaiting them. */
 async function openSinglePlayer(hosts, options = {}, environment = globalThis) {
-	reportDirectWorldProgress(options, 'Preparing visible WebGL control and map…');
+	reportDirectWorldProgress(options, 'Preparing visible WebGL control and map…', {
+		stage: 'single-player-runtime-modules',
+		url: `${SINGLE_PLAYER_RUNTIME_URL} ; ${SINGLE_PLAYER_BADGE_URL}`
+	});
 	const [runtimeModule, badgeModule] = await Promise.all([
-		import('../app/createEretzRuntime.js?compact=true&v=20260804-map-01'),
-		import('../network/MultiplayerStatusBadge.js?compact=true')
+		import(SINGLE_PLAYER_RUNTIME_URL),
+		import(SINGLE_PLAYER_BADGE_URL)
 	]);
 	const runtimeOptions = createSinglePlayerWorldRuntimeOptions(options, environment);
 	const diagnostics = await runtimeModule.createEretzRuntime(hosts, runtimeOptions);
@@ -55,12 +62,13 @@ async function openSinglePlayer(hosts, options = {}, environment = globalThis) {
 	return diagnostics;
 }
 
-/** Opens the shared runtime with generic options so local fallback policy can never contaminate multiplayer. */
+/** Opens shared multiplayer through its distinct deferred module and reports that URL first. */
 async function openMultiplayer(hosts, options = {}, environment = globalThis) {
-	reportDirectWorldProgress(options, 'Preparing visible WebGL shared control and map…');
-	const { createMultiplayerEretzRuntime } = await import(
-		'../network/MultiplayerEretzRuntime.js?compact=true&v=20260804-map-01'
-	);
+	reportDirectWorldProgress(options, 'Preparing visible WebGL shared control and map…', {
+		stage: 'multiplayer-runtime-module',
+		url: MULTIPLAYER_RUNTIME_URL
+	});
+	const { createMultiplayerEretzRuntime } = await import(MULTIPLAYER_RUNTIME_URL);
 	const diagnostics = await createMultiplayerEretzRuntime(hosts, {
 		...createDirectWorldRuntimeOptions(options, environment),
 		WebSocketClass: environment.WebSocket,

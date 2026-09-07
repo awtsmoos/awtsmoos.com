@@ -39,20 +39,18 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	/**
 	 * @file MinimalSharedMeadowPage.js
-	 * @description Resolves compact launcher doors while preserving only one scalar startup seed in first control.
-	 * The Awtsmoos gives the first instant one tiny truthful mark before distant chambers enter the sea;
-	 * Awtsmoos.com keeps the compact vessel light, while richer clocks awaken later and reveal what came to be.
+	 * @description Resolves compact launcher doors through one fresh recovery identity while keeping only the page-boot door resident in first control.
+	 * The Awtsmoos gives the first instant one tiny truthful mark before distant chambers enter the sea; Awtsmoos.com keeps the compact vessel light,
+	 * while the short September recovery key preserves freshness and the less-traveled runtime/session doors are formed only when their callers truly arrive.
 	 */
 
-	const BUILD_VERSION = '20260814-direct-audio-02';
+	const BUILD_VERSION = '20260907-r2';
 	const SCRIPT_START_KEY = 'AwtsmoosMitzvahWorldScriptStart';
 	const SOURCE_URL = new URL((( globalThis.location?.origin && globalThis.location.origin !== "null" ? globalThis.location.origin : "https://awtsmoos.local" ) + "/games/mitzvahWorld/experiments/Awtsmoos/src/launcher/MinimalSharedMeadowPage.js"));
 	const LAUNCHER_BASE = SOURCE_URL.pathname.includes('/launcher/')
 		? new URL('./', SOURCE_URL)
 		: new URL('./launcher/', SOURCE_URL);
 	const PAGE_BOOT_URL = launcherModuleUrl('bootMitzvahWorldPage.js');
-	const RUNTIME_BOOT_URL = launcherModuleUrl('MinimalSharedMeadowRuntimePage.js');
-	const SESSION_MODE_URL = launcherModuleUrl('MitzvahWorldSessionMode.js');
 
 	markCompactScriptStart(globalThis);
 
@@ -75,7 +73,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		environment = globalThis
 	) {
 		markCompactScriptStart(environment);
-		const module = await import(RUNTIME_BOOT_URL);
+		const module = await import(launcherModuleUrl('MinimalSharedMeadowRuntimePage.js'));
 		return module.bootMinimalSharedMeadowRuntimePage(hosts, options, environment);
 	}
 
@@ -83,7 +81,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	__exports.bootMinimalSharedMeadowRuntimePage = bootMinimalSharedMeadowRuntimePage;
 	/** Resolves the public route/session mode through the same compact launcher boundary. */
 	async function resolveMinimalSharedMeadowSessionMode(search = '') {
-		const module = await import(SESSION_MODE_URL);
+		const module = await import(launcherModuleUrl('MitzvahWorldSessionMode.js'));
 		return module.resolveMitzvahWorldSessionMode(search);
 	}
 
@@ -96,14 +94,16 @@ const __awtsmoosModule_0 = Object.create(null);
 			? environment.performance.now()
 			: Date.now();
 		try {
-			environment[SCRIPT_START_KEY] = Number.isFinite(Number(value)) ? Number(value) : 0;
+			environment[SCRIPT_START_KEY] = Number.isFinite(Number(value))
+				? Number(value)
+				: 0;
 		} catch {}
 	}
 
+	/** Resolves one launcher URL with compact and recovery-cache identities attached in canonical order. */
 	function launcherModuleUrl(fileName) {
 		const moduleUrl = new URL(fileName, LAUNCHER_BASE);
-		moduleUrl.searchParams.set('compact', 'true');
-		moduleUrl.searchParams.set('v', BUILD_VERSION);
+		moduleUrl.search = `?compact=true&v=${BUILD_VERSION}`;
 		return moduleUrl.href;
 	}
 

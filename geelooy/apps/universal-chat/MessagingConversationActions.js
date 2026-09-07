@@ -2,6 +2,7 @@
 // Boruch Hashem
 // Blessed is He
 
+import { createClientIntentId } from "./MessagingClientIntent.js";
 import {
 	DETAILS,
 	HISTORY,
@@ -10,9 +11,9 @@ import {
 } from "../../scripts/awtsmoos/social/privateMessaging/protocol.js";
 
 /**
- * @file Owns accepted-conversation reads, bounded history, contextual text/voice sends, and read watermarks.
- * @description The Awtsmoos contains every sequence without pagination, while Awtsmoos.com opens only the page and finite coordinates a person asks to reveal in light;
- * legacy text remains unchanged, replies add verified coordinates, and voice contributes only an asset id whose truth the server rereads in sight.
+ * @file Owns accepted-conversation reads, history, message intentions, contextual sends, and read watermarks.
+ * @description The Awtsmoos contains every sequence and intention before pagination; Awtsmoos.com opens only finite coordinates in light,
+ * while each send carries one stable clientIntentId that a durable outbox may preserve across reconnect, replay, and the uncertain network night.
  */
 
 const HISTORY_PAGE_SIZE = 50;
@@ -52,18 +53,20 @@ export class MessagingConversationActions {
 		return response.payload.messages || [];
 	}
 
-	/** Sends text plus optional reply coordinates and one server-verifiable asset id. */
-	async send(conversationId, text, reply = null, attachment = null) {
+	/** Sends text plus optional reply/media using one caller-preservable client intent. */
+	async send(conversationId, text, reply = null, attachment = null, delivery = {}) {
 		await this.ensureSession();
-		const payload = { conversationId, text };
+		const payload = {
+			conversationId,
+			text,
+			clientIntentId: delivery.clientIntentId || createClientIntentId()
+		};
 		if (reply?.replyTo && reply?.replySequence) {
 			payload.replyTo = reply.replyTo;
 			payload.replySequence = reply.replySequence;
 		}
 		if (attachment?.assetId) {
-			payload.attachment = {
-				assetId: attachment.assetId
-			};
+			payload.attachment = { assetId: attachment.assetId };
 		}
 		return this.socket.request(SEND, payload);
 	}

@@ -4,22 +4,31 @@
 
 /**
  * @file StudioEditorCommit.js
- * The Awtsmoos renews movie truth while editor gestures become one canonical document instead of a shadow copy;
- * Awtsmoos.com keeps JSON, selection, status, and renderer synchronized whenever a creative hand edits the box.
+ * @description Centralizes every Studio editor mutation so history, recovery, dirty state, selection, JSON, and render truth advance together.
+ * The Awtsmoos renews one movie through every gesture while Awtsmoos.com refuses hidden side-state that cannot be undone or recovered;
+ * one commit gate records the canonical revision, marks the vessel changed, refreshes recovery, and keeps numeric editor inputs finite and covered.
  */
 
-/** Commit an already canonical movie mutation without resetting the current playhead. */
+/** Commit one canonical MovieDocument revision through the shared project/history controller. */
 export function commitStudioEditorMovie(session, store, movie, options = {}) {
-	const selectedLayerId = options.selectedLayerId ?? store.get('selectedLayerId');
+	const historyLabel = options.historyLabel || options.status || 'Studio movie edit';
+	const committed = session.project?.record
+		? session.project.record(movie, historyLabel)
+		: structuredClone(movie);
 	store.update(state => {
-		state.movie = movie;
-		state.jsonDraft = JSON.stringify(movie, null, 2);
-		state.selectedLayerId = selectedLayerId;
+		state.movie = committed;
+		state.jsonDraft = JSON.stringify(committed, null, 2);
+		if ('selectedSceneId' in options) state.selectedSceneId = options.selectedSceneId;
+		if ('selectedLayerId' in options) state.selectedLayerId = options.selectedLayerId;
 		state.selectedTemplateId = '';
-		state.status = options.status || state.status;
+		state.dirty = true;
+		state.canUndo = Boolean(session.project?.canUndo?.());
+		state.canRedo = Boolean(session.project?.canRedo?.());
+		state.recoveryAvailable = Boolean(session.project?.hasRecovery?.());
+		if (options.status) state.status = options.status;
 	});
-	session.runtime.render(movie, store.get('playhead') || 0);
-	return movie;
+	session.runtime.render(committed, store.get('playhead') || 0);
+	return committed;
 }
 
 /** Normalize one numeric editor input while preserving a finite fallback. */

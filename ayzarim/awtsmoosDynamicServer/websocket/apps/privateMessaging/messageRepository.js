@@ -2,43 +2,42 @@
 // Boruch Hashem
 // Blessed is He
 
-const { read, write } = require("./database.js");
+const { read } = require("./database.js");
+const { TiferesMessageAppendCoordinator } = require("./messageAppendCoordinator.js");
 const { paths } = require("./paths.js");
 const {
 	PAGE_SIZE,
-	createMessage,
 	pageFor,
 	publicMessage,
 	replySummary
 } = require("./messageShape.js");
 
 /**
- * @file Stores validated private content in bounded sequence pages and resolves lawful reply targets by exact coordinates.
- * @description The Awtsmoos keeps word and voice in one ordered river, while Awtsmoos.com reads only the page actually needed;
- * text, trusted media, reply source, and sequence remain one canonical record without a shadow index being seeded.
+ * @file Reads bounded private-message pages while delegating duplicate-safe canonical append to one dedicated transaction coordinator.
+ * @description The Awtsmoos keeps the ordered river whole even when finite workers fail; Awtsmoos.com separates reading from append ceremony,
+ * so history remains simple while intent receipt, page write, and sequence repair meet in one Tiferes vessel without architectural delirium.
  */
 
 class NetzachMessageRepository {
-	constructor(database, conversations, lock) {
+	constructor(database, conversations, lock, intents) {
 		this.database = database;
-		this.conversations = conversations;
-		this.lock = lock;
+		this.writer = new TiferesMessageAppendCoordinator(
+			database,
+			conversations,
+			lock,
+			intents
+		);
 	}
 
-	/** Appends one already-validated content vessel and advances the conversation sequence. */
-	append(conversationId, actor, content, reply = null) {
-		return this.lock.run(conversationId, async () => {
-			const conversation = await this.conversations.get(conversationId);
-			if (!conversation) return null;
-			const sequence = Number(conversation.nextSequence || 1);
-			const message = createMessage(conversationId, actor, content, reply, sequence);
-			const page = pageFor(sequence);
-			const stored = await this.readPage(conversationId, page);
-			stored.push(message);
-			await write(this.database, paths.messagePage(conversationId, page), stored);
-			await this.conversations.touchMessage(conversation, message);
-			return publicMessage(message);
-		});
+	/** Appends one already-validated content vessel and returns duplicate metadata for delivery control. */
+	append(conversationId, actor, content, reply = null, clientIntentId = "") {
+		return this.writer.append(
+			conversationId,
+			actor,
+			content,
+			reply,
+			clientIntentId
+		);
 	}
 
 	/** Resolves one same-conversation reply target without scanning unrelated history. */

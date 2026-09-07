@@ -4,15 +4,19 @@
 
 /**
  * @file MainMenuLaunchTask.js
- * @description Paints one visible transition task before invoking a bounded world launcher.
- * The Awtsmoos opens the doorway without depending on animation frames; Awtsmoos.com yields
- * one macrotask for paint, then advances even when the tab is hidden or rendering is throttled.
+ * @description Runs one finite world-entry transaction while preserving the last exact progress stage and URL for visible failure evidence.
+ * The Awtsmoos gives every doorway a measure and every fracture a name; Awtsmoos.com will not leave a traveler beside a silent promise,
+ * for the bounded gate either opens in time or reveals the stage and road where the waiting became pain.
  */
 
+const DEFAULT_WORLD_ENTRY_TIMEOUT_MS = 15000;
+
 export function runMainMenuLaunch(handler, selection, options = {}) {
+	const evidence = createLaunchEvidence();
+	const observedSelection = observeSelectionProgress(selection, evidence);
+	const bounded = () => runBoundedHandler(handler, observedSelection, options, evidence);
 	const paintTask = createLaunchPaintTask(options);
-	if (!paintTask) return runBoundedHandler(handler, selection, options);
-	return paintTask.then(() => runBoundedHandler(handler, selection, options));
+	return paintTask ? paintTask.then(bounded) : bounded();
 }
 
 export function createLaunchPaintTask(options = {}) {
@@ -28,8 +32,8 @@ export function createLaunchPaintTask(options = {}) {
 	return new Promise(resolve => schedule(resolve, delayMs));
 }
 
-function runBoundedHandler(handler, selection, options) {
-	const timeoutMs = options.timeoutMs ?? 60000;
+function runBoundedHandler(handler, selection, options, evidence) {
+	const timeoutMs = options.timeoutMs ?? DEFAULT_WORLD_ENTRY_TIMEOUT_MS;
 	const signal = options.signal;
 	const schedule = options.schedule || globalThis.setTimeout?.bind(globalThis);
 	const cancelSchedule = options.cancelSchedule || globalThis.clearTimeout?.bind(globalThis);
@@ -43,17 +47,17 @@ function runBoundedHandler(handler, selection, options) {
 			signal?.removeEventListener?.('abort', abort);
 			callback(value);
 		};
-		const abort = () => finish(reject)(abortError(signal?.reason));
-		if (signal?.aborted) {
-			abort();
-			return;
-		}
+		const rejectWithEvidence = error => finish(reject)(decorateLaunchError(error, evidence));
+		const abort = () => rejectWithEvidence(abortError(signal?.reason));
+		if (signal?.aborted) return abort();
 		signal?.addEventListener?.('abort', abort, { once: true });
 		if (schedule && timeoutMs > 0) {
 			timer = schedule(() => {
-				const error = Object.assign(
-					new Error('World entry timed out. Please try again.'),
-					{ code: 'WORLD_ENTRY_TIMEOUT' }
+				const error = decorateLaunchError(
+					Object.assign(new Error(`World entry timed out after ${timeoutMs} ms.`), {
+						code: 'WORLD_ENTRY_TIMEOUT'
+					}),
+					evidence
 				);
 				options.onTimeout?.(error);
 				finish(reject)(error);
@@ -62,14 +66,44 @@ function runBoundedHandler(handler, selection, options) {
 		}
 		Promise.resolve()
 			.then(() => handler(selection))
-			.then(finish(resolve), finish(reject));
+			.then(finish(resolve), rejectWithEvidence);
 	});
+}
+
+function createLaunchEvidence() {
+	return {
+		stage: 'world-entry-handler',
+		url: 'unreported'
+	};
+}
+
+function observeSelectionProgress(selection = {}, evidence) {
+	const forward = selection.onProgress;
+	return {
+		...selection,
+		onProgress(detail) {
+			if (detail && typeof detail === 'object') {
+				if (detail.stage) evidence.stage = String(detail.stage);
+				if (detail.url) evidence.url = String(detail.url);
+			}
+			forward?.(detail);
+		}
+	};
+}
+
+function decorateLaunchError(error, evidence) {
+	const value = error instanceof Error ? error : new Error(String(error));
+	if (value.launchEvidenceAttached) return value;
+	value.launchStage = evidence.stage;
+	value.launchUrl = evidence.url;
+	value.launchEvidenceAttached = true;
+	value.message = `${value.message} Stage: ${evidence.stage}. URL: ${evidence.url}`;
+	return value;
 }
 
 function abortError(reason) {
 	if (reason instanceof Error) return reason;
-	return Object.assign(
-		new Error('World entry was cancelled.'),
-		{ name: 'AbortError' }
-	);
+	return Object.assign(new Error('World entry was cancelled.'), {
+		name: 'AbortError'
+	});
 }

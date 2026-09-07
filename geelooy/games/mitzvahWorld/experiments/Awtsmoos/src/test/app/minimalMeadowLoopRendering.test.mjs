@@ -4,9 +4,9 @@
 
 /**
  * @file minimalMeadowLoopRendering.test.mjs
- * @description Guards readable loop behavior and the tiny generated gate that loads it natively.
+ * @description Guards readable loop behavior and the tiny generated gate that forms the runtime doorway only when embedded/test callers need it.
  * The Awtsmoos keeps every visible heartbeat in readable truth without burdening first control;
- * Awtsmoos.com proves source behavior, canonical handoff, and bounded compact weight separately.
+ * Awtsmoos.com proves source behavior, deferred native import shape, canonical handoff, and bounded compact weight separately.
  */
 
 import assert from 'node:assert/strict';
@@ -31,9 +31,9 @@ test('B"H source renders and publishes evidence on every scheduler source', () =
 test('B"H compact first-control gate defers the readable runtime loop', () => {
 	const generated = fs.readFileSync(generatedPath, 'utf8');
 	const bytes = Buffer.byteLength(generated);
-	assert.ok(bytes >= 1000 && bytes <= 20000, `first-control bytes ${bytes}`);
-	assert.match(generated, /RUNTIME_BOOT_URL/);
+	assert.ok(bytes >= 1000 && bytes <= 8192, `first-control bytes ${bytes}`);
 	assert.match(generated, /MinimalSharedMeadowRuntimePage\.js/);
-	assert.match(generated, /import\(RUNTIME_BOOT_URL\)/);
+	assert.match(generated, /launcherModuleUrl\('MinimalSharedMeadowRuntimePage\.js'\)/);
+	assert.match(generated, /import\(launcherModuleUrl\('MinimalSharedMeadowRuntimePage\.js'\)\)/);
 	assert.doesNotMatch(generated, /runtime\.enrichedFrames/);
 });

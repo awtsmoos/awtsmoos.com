@@ -5,9 +5,9 @@
 const crypto = require("crypto");
 
 /**
- * @file Shapes canonical private messages, safe public views, voice attachments, and bounded reply echoes.
- * @description The Awtsmoos holds word, breath, and source before any finite message can be named;
- * Awtsmoos.com persists only validated content and carries enough quote context forward without leaking private account keys into the flame.
+ * @file Shapes canonical private messages and projects attachments through message-bound private read coordinates rather than public URLs.
+ * @description The Awtsmoos holds word, breath, and source before any finite message can be named; Awtsmoos.com preserves the canonical vessel in storage,
+ * then reveals media only through conversation, sequence, message, and asset coordinates whose authority can be proven anew whenever private light is read.
  */
 
 const PAGE_SIZE = 50;
@@ -19,11 +19,12 @@ function pageFor(sequence) {
 }
 
 /** Creates one persisted private message from already validated content and reply coordinates. */
-function createMessage(conversationId, actor, content, reply, sequence) {
+function createMessage(conversationId, actor, content, reply, sequence, clientIntentId = "") {
 	return {
 		id: `msg-${crypto.randomBytes(12).toString("base64url")}`,
 		conversationId,
 		sequence,
+		clientIntentId,
 		authorKey: actor.accountKey,
 		alias: actor.alias,
 		text: content.text,
@@ -35,10 +36,35 @@ function createMessage(conversationId, actor, content, reply, sequence) {
 	};
 }
 
-/** Removes private account identity while preserving conversation-safe fields. */
+/** Removes private account identity and replaces any stored media path with an authorization-bound read route. */
 function publicMessage(message) {
-	const { authorKey, ...safe } = message;
-	return safe;
+	const { authorKey, attachment, ...safe } = message;
+	return {
+		...safe,
+		attachment: publicAttachment(message, attachment)
+	};
+}
+
+function publicAttachment(message, attachment) {
+	if (!attachment?.id) return null;
+	return {
+		id: String(attachment.id),
+		type: String(attachment.type || ""),
+		mime: String(attachment.mime || ""),
+		size: Number(attachment.size || 0),
+		role: String(attachment.role || ""),
+		privatePath: privateAttachmentPath(message, attachment.id)
+	};
+}
+
+function privateAttachmentPath(message, assetId) {
+	const parts = [
+		message.conversationId,
+		message.sequence,
+		message.id,
+		assetId
+	].map((value) => encodeURIComponent(String(value)));
+	return `/api/social/assets/private-message/${parts.join("/")}`;
 }
 
 /** Creates the bounded quote carried forward by a verified reply. */
@@ -58,6 +84,7 @@ module.exports = {
 	PAGE_SIZE,
 	createMessage,
 	pageFor,
+	privateAttachmentPath,
 	publicMessage,
 	replySummary
 };

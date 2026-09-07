@@ -4,52 +4,53 @@
 
 /**
  * @file MinimalMeadowPerformanceHydration.js
- * @description Installs steady-state instrumentation only after atomic world-authority handoff.
- * The Awtsmoos lets the world become whole before weighing its living pulse;
- * Awtsmoos.com preserves exact CPU evidence without measuring or obstructing construction itself.
+ * @description Installs the existing heavy monitor only when diagnostics were explicitly requested.
+ * The Awtsmoos measures without burdening the unmeasured path; Awtsmoos.com keeps ordinary movement light,
+ * while `diagnostics=true` invites frame windows, long-task observers, renderer counters, and the visible proof into sight.
  */
 
-import {
-	installRuntimePerformanceMonitor
-} from '../performance/RuntimePerformanceMonitor.js';
+import { runtimeDiagnosticsEnabled } from '../performance/RuntimeDiagnosticsGate.js';
 
+const MONITOR_URL = '../performance/RuntimePerformanceMonitor.js?v=20260907-diagnostics-gate-01';
+
+/** Schedules an optional performance monitor only for an explicit diagnostics session. */
 export function scheduleMinimalMeadowPerformanceMonitor(
 	runtime,
 	environment = globalThis
 ) {
-	if (runtime.performanceMonitor) {
-		return Promise.resolve(runtime.performanceMonitor);
-	}
-	if (runtime.performanceMonitorPromise) {
+	if (!runtimeDiagnosticsEnabled(environment)) {
+		runtime.performanceMonitor = null;
+		runtime.performanceMonitorStage = 'disabled';
+		runtime.performanceMonitorPromise = Promise.resolve(null);
 		return runtime.performanceMonitorPromise;
 	}
-	runtime.performanceMonitorStage = 'waiting';
-	runtime.performanceMonitorPromise = afterVisibleTurn(environment).then(() => {
-		if (runtime.performanceMonitor) return runtime.performanceMonitor;
-		runtime.performanceMonitorStage = 'installing';
-		const monitor = installRuntimePerformanceMonitor(runtime, {
-			PerformanceObserver: environment.PerformanceObserver
+	if (runtime.performanceMonitorPromise) return runtime.performanceMonitorPromise;
+	runtime.performanceMonitorStage = 'waiting-for-visible-turn';
+	runtime.performanceMonitorPromise = afterVisibleTurn(environment)
+		.then(async () => {
+			runtime.performanceMonitorStage = 'loading-module';
+			const module = await import(MONITOR_URL);
+			runtime.performanceMonitorStage = 'installing';
+			const monitor = module.installRuntimePerformanceMonitor(runtime, {
+				PerformanceObserver: environment.PerformanceObserver
+			});
+			runtime.performanceMonitorStage = 'ready';
+			return monitor;
+		})
+		.catch(error => {
+			runtime.performanceMonitorStage = 'degraded';
+			runtime.performanceMonitorError = error;
+			console.warn('[MitzvahWorld] Diagnostics monitor degraded.', error);
+			return null;
 		});
-		runtime.performanceMonitorStage = 'ready';
-		runtime.bus?.emit?.('world:performance-monitor-ready', {
-			ready: true
-		});
-		return monitor;
-	}).catch(error => {
-		runtime.performanceMonitorStage = 'failed';
-		runtime.performanceMonitorError = error?.message || String(error);
-		throw error;
-	});
 	return runtime.performanceMonitorPromise;
 }
 
+/** Gives the playable frame one task before optional monitor installation starts. */
 function afterVisibleTurn(environment) {
-	return new Promise(resolve => {
-		const schedule = environment.setTimeout?.bind(environment) || setTimeout;
-		if (typeof environment.requestAnimationFrame === 'function') {
-			environment.requestAnimationFrame(() => schedule(resolve, 0));
-			return;
-		}
-		schedule(resolve, 0);
-	});
+	const schedule = environment.setTimeout?.bind(environment)
+		|| globalThis.setTimeout?.bind(globalThis);
+	return schedule
+		? new Promise(resolve => schedule(resolve, 0))
+		: Promise.resolve();
 }

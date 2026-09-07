@@ -4,27 +4,29 @@
 
 /**
  * @file EretzWorldFoundation.js
- * @description Opens WebGL capability, canonical player assets, and the bootstrap valley while withholding gameplay until authored visuals are real.
- * The Awtsmoos reveals traveler, earth, and sky through one truthful threshold; Awtsmoos.com keeps loading visible while rich WebGL and texture arrive,
- * so no flat green field or generated human is published as gameplay merely because a faster placeholder can survive.
+ * @description Opens WebGL, local bootstrap assets, and a visible meadow while reporting the exact module gate currently awaited.
+ * The Awtsmoos gives earth beneath the foot before distant beauty descends; Awtsmoos.com reveals a playable valley first,
+ * and names each finite doorway so renderer, traveler, or meadow failure can never hide behind an eternal zero-percent night.
  */
 
 import { markMitzvahWorldStartupMilestone } from './MitzvahWorldStartupMilestones.js';
 import { resolveResponsiveRuntimeModuleUrl } from './ResponsiveRuntimeModuleUrl.js';
 import {
 	nextLaunchFrame,
-	nextLaunchTask,
 	reportLaunchProgress,
 	throwIfLaunchAborted
 } from './RuntimeLaunchProgress.js';
 
-/** Creates the visible world only after canonical player and authored visual prerequisites complete. */
+/** Creates the minimum visible world required for movement before optional remote enrichment. */
 export async function createEretzWorldFoundation(hosts, options = {}) {
 	const qualityProfile = options.qualityProfile;
 	if (!qualityProfile) throw new Error('Eretz foundation requires a quality profile.');
 	const environment = options.environment || globalThis;
 	options.boot?.begin('webgl-context');
-	reportLaunchProgress(options, 'Loading responsive WebGL controls…', 0.12);
+	reportLaunchProgress(options, 'Opening responsive WebGL controls…', 0.12, {
+		stage: 'foundation-renderer-modules',
+		url: rendererModuleEvidenceUrl()
+	});
 	const [servicesModule, bootFrameModule] = await Promise.all([
 		import(responsive('./EretzFoundationServices.js?v=20260827-responsive-services-01')),
 		import(responsive('./EretzWebGlBootFrame.js?v=20260827-responsive-frame-01'))
@@ -36,9 +38,12 @@ export async function createEretzWorldFoundation(hosts, options = {}) {
 	markMitzvahWorldStartupMilestone(environment, 'rendererReady');
 	throwIfLaunchAborted(options.signal);
 	options.boot?.begin('essential-assets');
-	reportLaunchProgress(options, 'Loading the authored Chossid…', 0.38);
+	reportLaunchProgress(options, 'Preparing the local traveler…', 0.38, {
+		stage: 'essential-local-assets',
+		url: responsive('./EretzEssentialAssetLoader.js?v=20260907-play-first-assets-01')
+	});
 	const assetModule = await import(responsive(
-		'./EretzEssentialAssetLoader.js?v=20260902-glb-only-player-01'
+		'./EretzEssentialAssetLoader.js?v=20260907-play-first-assets-01'
 	));
 	const loaded = await assetModule.loadEretzEssentialAssets({
 		...options,
@@ -46,23 +51,16 @@ export async function createEretzWorldFoundation(hosts, options = {}) {
 		environment,
 		quality: qualityProfile.quality
 	});
-	await nextLaunchTask(environment);
 	throwIfLaunchAborted(options.signal);
 	options.boot?.begin('bootstrap-visible-world');
-	reportLaunchProgress(options, 'Preparing authored meadow and sky…', 0.72);
+	reportLaunchProgress(options, 'Opening the playable meadow…', 0.72, {
+		stage: 'bootstrap-visible-world',
+		url: responsive('./BootstrapWorldFoundation.js?v=20260827-responsive-valley-01')
+	});
 	const worldModule = await import(responsive(
 		'./BootstrapWorldFoundation.js?v=20260827-responsive-valley-01'
 	));
 	const world = worldModule.createBootstrapWorldFoundation(services);
-	const visualModule = await import(responsive(
-		'./EretzEssentialVisualGate.js?v=20260902-authored-first-frame-01'
-	));
-	await visualModule.prepareEretzEssentialVisuals({
-		boot: options.boot,
-		renderer: services.renderer,
-		signal: options.signal,
-		terrain: world.terrain
-	});
 	markVisibleWorldReady(options);
 	return {
 		hosts,
@@ -70,21 +68,32 @@ export async function createEretzWorldFoundation(hosts, options = {}) {
 		...loaded,
 		...services,
 		...world,
+		environment,
 		qualityProfile,
 		webGlBootFrame
 	};
 }
 
+/** Resolves one responsive runtime import relative to this authored module. */
 function responsive(specifier) {
 	return resolveResponsiveRuntimeModuleUrl(specifier, import.meta.url);
 }
 
+/** Returns both renderer module URLs because the foundation awaits them together. */
+function rendererModuleEvidenceUrl() {
+	return [
+		responsive('./EretzFoundationServices.js?v=20260827-responsive-services-01'),
+		responsive('./EretzWebGlBootFrame.js?v=20260827-responsive-frame-01')
+	].join(' ; ');
+}
+
+/** Marks local playability without claiming remote visual enrichment is complete. */
 function markVisibleWorldReady(options) {
 	options.boot?.progress?.(
 		'bootstrap-visible-world',
 		1,
 		1,
-		'Authored Chossid, meadow textures, and WebGL sky ready.',
+		'Playable meadow and local traveler shell ready; rich visuals continue after movement.',
 		'ready'
 	);
 }

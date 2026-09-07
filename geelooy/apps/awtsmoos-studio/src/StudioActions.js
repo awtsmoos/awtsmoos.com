@@ -4,24 +4,26 @@
 
 /**
  * @file StudioActions.js
- * @description Composes the lightweight shell actions, including transient beginner intent, while deeper editor mutation families remain lazy.
- * The Awtsmoos lets the hand choose a doorway without loading every chamber through the same gate;
- * Awtsmoos.com keeps project, timeline, workspace, and primary intent immediate while heavier creative systems awaken only when their real work cannot wait.
+ * @description Composes the lightweight shell actions that must answer before deeper editor systems are invited into memory.
+ * The Awtsmoos renews the visible doorway before hidden chambers rise in light;
+ * Awtsmoos.com keeps mode, project memory, scene motion, history, timeline breath, and workspace direction immediate and right.
  */
+import { createStudioEditorUiActions } from './actions/StudioEditorUiActions.js';
+import { createStudioHistoryActions } from './actions/StudioHistoryActions.js';
 import { createStudioPrimaryIntentActions } from './actions/StudioPrimaryIntentActions.js';
 import { createStudioProjectActions } from './actions/StudioProjectActions.js';
+import { createStudioSceneActions } from './actions/StudioSceneActions.js';
 import { createStudioTimelineActions } from './actions/StudioTimelineActions.js';
 import { createStudioWorkspaceActions } from './actions/StudioWorkspaceActions.js';
 
-/**
- * Builds the eager action family required for the immediately visible Studio shell.
- * @param {object} session Shared movie session used by project and timeline actions.
- * @returns {object} Lightweight action map.
- */
+/** Build the eager action family required for the immediately visible Studio shell. */
 export function createStudioActions(session) {
 	return {
+		...createStudioEditorUiActions(),
+		...createStudioHistoryActions(session),
 		...createStudioPrimaryIntentActions(),
 		...createStudioProjectActions(session),
+		...createStudioSceneActions(session),
 		...createStudioTimelineActions(session),
 		...createStudioWorkspaceActions(session)
 	};

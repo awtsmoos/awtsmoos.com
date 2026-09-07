@@ -9,12 +9,13 @@ const path = require("node:path");
 const Planner = require("../tools/fs/actionGroups/websiteAgents/planner.js");
 
 /**
- * @file Proves a hundred requested website agents become one safe durable queue.
+ * @file Proves large logical swarms remain bounded at admission and physically serialized.
  * @description
- * The Awtsmoos multiplies shluchim without multiplying tabs; Awtsmoos.com keeps
- * one Chrome vessel and begins eighteen seconds only after verified disappearance.
+ * The Awtsmoos may reveal hundreds of logical shluchim while Awtsmoos.com keeps one
+ * browser vessel, a twenty-second start floor, and an eighteen-second verified-close rest.
  */
 const root = fs.mkdtempSync(path.join(os.tmpdir(), "awts-web-plan-"));
+
 try {
 	for (const name of ["api", "frontend", "runtime", "tests"]) {
 		fs.mkdirSync(path.join(root, name));
@@ -24,8 +25,8 @@ try {
 		projectRoot: root
 	});
 	assert.equal(ordinary.agentCount, 32);
-	assert.equal(ordinary.startSpacingMs, 18000);
-	assert.equal(ordinary.subagentPolicy.subagentStartSpacingMs, 18000);
+	assert.equal(ordinary.startSpacingMs, 20000);
+	assert.equal(ordinary.subagentPolicy.subagentStartSpacingMs, 20000);
 	assert.deepEqual(ordinary.physicalTabPolicy, {
 		maxActiveTabs: 1,
 		intervalAnchor: "verified-tab-close",
@@ -33,33 +34,34 @@ try {
 	});
 	assert.equal(new Set(ordinary.agents.map(agent => agent.id)).size, 32);
 	assert.equal(ordinary.subagentPolicy.allowRecursiveSubagents, true);
-	assert.equal(ordinary.subagentPolicy.maxTotalWebsiteAgents, 256);
+	assert.equal(ordinary.subagentPolicy.unboundedLogicalDescendants, true);
+	assert.equal(ordinary.subagentPolicy.logicalAgentLimit, null);
+	assert.equal(ordinary.subagentPolicy.maxSubagentDepth, null);
 
 	const hundred = Planner.plan({ root }, {
 		prompt: "Queue one hundred independent agents safely.",
 		agentCount: 100,
 		startSpacingMs: 1,
 		subagentStartSpacingMs: 1,
-		maxTotalWebsiteAgents: 100,
 		projectRoot: root
 	});
 	assert.equal(hundred.agentCount, 100);
 	assert.equal(hundred.agents.length, 100);
 	assert.equal(new Set(hundred.agents.map(agent => agent.id)).size, 100);
 	assert.equal(hundred.agents[0].id, "website_001_architect");
-	assert.equal(hundred.startSpacingMs, 18000);
-	assert.equal(hundred.subagentPolicy.subagentStartSpacingMs, 18000);
-	assert.equal(hundred.subagentPolicy.maxTotalWebsiteAgents, 100);
+	assert.equal(hundred.startSpacingMs, 20000);
+	assert.equal(hundred.subagentPolicy.subagentStartSpacingMs, 20000);
 	assert.equal(hundred.physicalTabPolicy.maxActiveTabs, 1);
+	assert.equal(hundred.subagentPolicy.logicalAgentLimit, null);
 
 	const maximum = Planner.plan({ root }, {
-		prompt: "Queue the maximum bounded swarm.",
+		prompt: "Queue the maximum admitted initial swarm.",
 		agentCount: 999,
-		maxTotalWebsiteAgents: 999,
 		projectRoot: root
 	});
 	assert.equal(maximum.agentCount, 512);
-	assert.equal(maximum.subagentPolicy.maxTotalWebsiteAgents, 512);
+	assert.equal(maximum.agents.length, 512);
+	assert.equal(maximum.subagentPolicy.unboundedLogicalDescendants, true);
 
 	const target = Planner.plan({ root }, {
 		prompt: "Inspect the configured custom GPT target.",
@@ -85,8 +87,9 @@ try {
 		ok: true,
 		suite: "website-agent-planner",
 		queuedAgents: hundred.agentCount,
-		maximumQueuedAgents: maximum.agentCount,
+		maximumInitialAgents: maximum.agentCount,
 		maxActiveTabs: hundred.physicalTabPolicy.maxActiveTabs,
+		startSpacingMs: hundred.startSpacingMs,
 		postCloseCooldownMs: hundred.physicalTabPolicy.postCloseCooldownMs
 	}, null, 2));
 } finally {

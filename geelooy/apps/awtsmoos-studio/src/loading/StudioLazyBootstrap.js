@@ -4,14 +4,15 @@
 
 /**
  * @file StudioLazyBootstrap.js
- * @description Paints first light as browser ESM, memoizes one deep-runtime crossing, and keeps retries recoverable without leaking unhandled startup rejections.
- * The Awtsmoos reveals the doorway before the palace descends, so no later chamber may erase the maker's visible ground;
- * Awtsmoos.com lets one guarded boot run at a time, names its revision, and returns failure to the recovery vessel instead of throwing darkness around.
+ * @description Paints first light as browser ESM, memoizes one deep-runtime crossing, and bounds the paint gate so throttled browsers can never imprison Studio startup.
+ * The Awtsmoos reveals the doorway before the palace descends, yet no withheld frame may halt the river of light;
+ * Awtsmoos.com offers paint its moment, then crosses the threshold by a measured fallback so the maker can always reach the creative night.
  */
 import { StudioCompactModuleCache } from './StudioCompactModuleCache.js';
 import { StudioLoadingScreen } from './StudioLoadingScreen.js';
 import { STUDIO_RELEASE_REVISION } from './StudioReleaseRevision.js';
 
+const FIRST_PAINT_FALLBACK_MS = 120;
 const ohrModuleCache = new StudioCompactModuleCache();
 
 /** Starts visible-first Studio boot and publishes an additive recovery facade immediately. */
@@ -51,7 +52,7 @@ function startBoot(root, loadingScreen, state) {
 	return state.ready;
 }
 
-/** Loads and mounts the established Studio only after the browser has painted first light. */
+/** Loads and mounts the established Studio only after first paint gets a bounded opportunity to occur. */
 async function awakenStudio(root, loadingScreen, state) {
 	try {
 		loadingScreen.phase('Opening creative workspace…');
@@ -81,13 +82,32 @@ function preloadRuntime() {
 	);
 }
 
-/** Lets the HTML-native Studio doorway reach a real paint before any deep request begins. */
+/** Lets normal paint win while guaranteeing headless, hidden, or throttled tabs continue within a small bound. */
 function nextPaint() {
 	return new Promise((resolve) => {
-		if (typeof window.requestAnimationFrame === 'function') {
-			window.requestAnimationFrame(() => resolve());
+		if (typeof window.requestAnimationFrame !== 'function') {
+			window.setTimeout(resolve, 0);
 			return;
 		}
-		window.setTimeout(resolve, 0);
+
+		let settled = false;
+		let frameId = null;
+		let timeoutId = null;
+		const finish = () => {
+			if (settled) {
+				return;
+			}
+			settled = true;
+			if (frameId !== null && typeof window.cancelAnimationFrame === 'function') {
+				window.cancelAnimationFrame(frameId);
+			}
+			if (timeoutId !== null) {
+				window.clearTimeout(timeoutId);
+			}
+			resolve();
+		};
+
+		frameId = window.requestAnimationFrame(finish);
+		timeoutId = window.setTimeout(finish, FIRST_PAINT_FALLBACK_MS);
 	});
 }

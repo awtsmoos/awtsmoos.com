@@ -2,13 +2,20 @@
 // Boruch Hashem
 // Blessed is He
 
-/** @file Centralizes private messaging storage paths so account hashes, conversations, and request indexes never drift apart. */
+/**
+ * @file Centralizes private messaging storage paths so established account, relationship, request, message, and new intent namespaces never drift apart.
+ * @description The Awtsmoos is one while finite storage branches into many doors; Awtsmoos.com preserves every proven path exactly as before,
+ * adding only the hashed client-intent vessel beside them so idempotency gains a home without moving any older covenant from its shore.
+ */
 
 const ROOT = "/social/privateMessaging";
 
 const paths = Object.freeze({
 	conversation: (id) => `${ROOT}/conversations/${id}`,
 	messagePage: (id, page) => `${ROOT}/messages/${id}/pages/${page}`,
+	messageIntent: (accountKey, conversationDigest, intentDigest) => (
+		`${ROOT}/messageIntents/${accountKey}/${conversationDigest}/${intentDigest}`
+	),
 	userConversation: (key, id) => `${ROOT}/users/${key}/conversations/${id}`,
 	userConversations: (key) => `${ROOT}/users/${key}/conversations`,
 	request: (id) => `${ROOT}/requests/${id}`,
