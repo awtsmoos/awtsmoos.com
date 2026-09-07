@@ -4,23 +4,24 @@
 
 /**
  * @file RuntimePerformanceProbe.js
- * @description Reveals frame validity, dominant systems, animation ownership, and resources.
- * The Awtsmoos renews observer and world; Awtsmoos.com makes every heavy servant readable
- * so an unfocused echo, render stall, or animated burden cannot masquerade as smooth play.
+ * @description Reveals opt-in frame, renderer, long-task, and streaming evidence without inventing parallel counters.
+ * The Awtsmoos renews observer and world; Awtsmoos.com lets `diagnostics=true` expose the measured vessels already alive,
+ * so p95 cadence, worst blockage, triangles, draws, active chunks, and queue pressure become readable without taxing ordinary play.
  */
 
-export function createRuntimePerformanceProbe() {
-	if (typeof document === 'undefined') {
-		return { dataset: {}, textContent: '' };
-	}
-	const existing = document.getElementById('AwtsmoosPerformance');
+import { runtimeDiagnosticsEnabled } from './RuntimeDiagnosticsGate.js';
+
+export function createRuntimePerformanceProbe(environment = globalThis) {
+	const browserDocument = environment.document || globalThis.document;
+	if (!browserDocument) return { dataset: {}, textContent: '' };
+	const existing = browserDocument.getElementById('AwtsmoosPerformance');
 	if (existing) return existing;
-	const element = document.createElement('output');
+	const element = browserDocument.createElement('output');
 	element.id = 'AwtsmoosPerformance';
-	element.setAttribute('aria-label', 'Live rendering and multiplayer performance');
-	element.hidden = new URLSearchParams(location.search).get('perf') !== '1';
+	element.setAttribute('aria-label', 'Live Mitzvah World performance diagnostics');
+	element.hidden = !runtimeDiagnosticsEnabled(environment);
 	Object.assign(element.style, probeStyle());
-	document.body.append(element);
+	browserDocument.body.append(element);
 	return element;
 }
 
@@ -28,63 +29,69 @@ export function publishRuntimePerformanceProbe(element, diagnostics) {
 	const animation = diagnostics.animationBreakdown;
 	const frame = diagnostics.frame;
 	const resources = diagnostics.resources;
-	const sampling = diagnostics.sampling;
-	const subsystems = diagnostics.subsystems;
-	const verdict = diagnostics.verdict;
+	const chunks = diagnostics.chunks;
 	const animationName = animation.dominantComponent || 'none';
-	const animationCost = animation[animationName]?.p95Milliseconds;
 	Object.assign(element.dataset, {
+		activeChunks: chunkValue(chunks, 'active'),
 		animationDominant: animationName,
-		animationP95Ms: fixed(animationCost),
-		context: sampling.kind,
-		cpuMs: fixed(diagnostics.cpu.averageMilliseconds),
-		dominant: subsystems.dominantSubsystem || 'none',
 		draws: String(resources.drawCalls),
 		fps: fixed(frame.averageFps),
-		gpuAvailable: String(resources.gpuFrameTime.available),
-		gpuMs: fixed(resources.gpuFrameTime.milliseconds),
+		frameP95Ms: fixed(frameP95Milliseconds(frame)),
+		generationQueue: chunkQueue(chunks),
 		longTasks: String(diagnostics.longTasks.count),
 		materials: String(resources.activeMaterials),
-		objects: String(resources.objectCount),
 		onePercentLow: fixed(frame.onePercentLowFps),
 		pressure: diagnostics.governor.pressureState,
-		qualityPreserved: 'true',
-		renderP95Ms: fixed(subsystems.render.p95Milliseconds),
-		target: '60',
 		textures: String(resources.textureCount),
 		triangles: String(resources.triangles),
-		verdict: verdict.status,
-		zeroPointOnePercentLow: fixed(frame.zeroPointOnePercentLowFps)
+		verdict: diagnostics.verdict.status,
+		worstLongTaskMs: fixed(diagnostics.longTasks.maximumMilliseconds)
 	});
 	element.textContent = probeLines(diagnostics).join('\n');
 }
 
 function probeLines(diagnostics) {
-	const animation = diagnostics.animationBreakdown;
 	const frame = diagnostics.frame;
-	const subsystems = diagnostics.subsystems;
-	const verdict = diagnostics.verdict;
-	const animationName = animation.dominantComponent || 'none';
+	const chunks = diagnostics.chunks;
 	return [
 		[
-			`${verdict.status.toUpperCase()} · ${diagnostics.sampling.kind}`,
+			`${diagnostics.verdict.status.toUpperCase()} · ${diagnostics.sampling.kind}`,
 			`FPS ${fixed(frame.averageFps, 0)}`,
-			`1% ${fixed(frame.onePercentLowFps, 0)}`,
-			`0.1% ${fixed(frame.zeroPointOnePercentLowFps, 0)}`
-		].join(' · '),
-		[
-			`CPU ${fixed(diagnostics.cpu.averageMilliseconds)}ms`,
-			`dominant ${subsystems.dominantSubsystem || 'none'}`,
-			`render p95 ${fixed(subsystems.render.p95Milliseconds)}ms`,
-			`animation ${animationName} p95 ${fixed(animation[animationName]?.p95Milliseconds)}ms`
+			`p95 ${fixed(frameP95Milliseconds(frame))}ms`,
+			`1% ${fixed(frame.onePercentLowFps, 0)}`
 		].join(' · '),
 		[
 			`${diagnostics.resources.drawCalls} draws`,
 			`${diagnostics.resources.triangles} triangles`,
-			`${diagnostics.longTasks.count} recent long tasks`
+			`worst long ${fixed(diagnostics.longTasks.maximumMilliseconds)}ms`
 		].join(' · '),
-		verdict.reasons.length ? verdict.reasons.join(', ') : 'all measured gates passed'
+		[
+			`chunks ${chunkValue(chunks, 'active')}`,
+			`queue ${chunkQueue(chunks)}`,
+			`pressure ${diagnostics.governor.pressureState}`
+		].join(' · '),
+		diagnostics.verdict.reasons.length
+			? diagnostics.verdict.reasons.join(', ')
+			: 'all measured gates passed'
 	];
+}
+
+function frameP95Milliseconds(frame) {
+	return frame.p95Ms
+		?? frame.p95Milliseconds
+		?? frame.p95IntervalMilliseconds;
+}
+
+function chunkValue(chunks, field) {
+	const lifecycle = chunks?.lifecycle;
+	const direct = chunks?.[field];
+	const value = lifecycle?.[field] ?? direct;
+	return Number.isFinite(value) ? String(value) : 'n/a';
+}
+
+function chunkQueue(chunks) {
+	const value = chunks?.queue?.pending;
+	return Number.isFinite(value) ? String(value) : 'n/a';
 }
 
 function probeStyle() {

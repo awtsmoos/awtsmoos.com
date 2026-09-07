@@ -4,9 +4,9 @@
 
 /**
  * @file MobileJoystickPointerSurface.js
- * @description Anchors joystick mathematics exactly beneath first contact while preserving isolated pointer ownership.
- * The Awtsmoos recreates the thumb where it truly lands, with no hidden inward decree;
- * Awtsmoos.com lets the first touch be perfect stillness before intentional movement sets the traveler free.
+ * @description Gives the fixed joystick ring exclusive ownership of the pointer that begins inside its visible hit region while moving only the inner thumb.
+ * The Awtsmoos fixes the vessel while the hand may wander in measured freedom; Awtsmoos.com keeps the base rooted,
+ * so one thumb moves the traveler and another may turn the camera without the controls chasing either hand across the screen.
  */
 
 import {
@@ -15,6 +15,7 @@ import {
 } from '../../../../../../libs/awtsmoos-procedural-core/src/core/input/joystick/JoystickVector.js';
 
 const RADIUS = 52;
+const POINTER_OPTIONS = Object.freeze({ passive: false });
 
 export class MobileJoystickPointerSurface {
 	constructor(host, ring, knob, onVector) {
@@ -24,76 +25,87 @@ export class MobileJoystickPointerSurface {
 		this.onVector = onVector;
 		this.pointerId = null;
 		this.center = null;
+		this.originalTouchAction = host.style.touchAction;
 		this.onDown = event => this.begin(event);
 		this.onMove = event => this.move(event);
 		this.onEnd = event => this.end(event);
 		this.bind();
 	}
 
-	/** Binds one removable pointer surface around the first-play movement vessel. */
+	/** Binds one non-passive Pointer Events surface and forbids browser gesture theft. */
 	bind() {
-		this.host.addEventListener('pointerdown', this.onDown);
-		this.host.addEventListener('pointermove', this.onMove);
-		this.host.addEventListener('pointerup', this.onEnd);
-		this.host.addEventListener('pointercancel', this.onEnd);
-		this.host.addEventListener('lostpointercapture', this.onEnd);
+		this.host.style.touchAction = 'none';
+		this.host.addEventListener('pointerdown', this.onDown, POINTER_OPTIONS);
+		this.host.addEventListener('pointermove', this.onMove, POINTER_OPTIONS);
+		this.host.addEventListener('pointerup', this.onEnd, POINTER_OPTIONS);
+		this.host.addEventListener('pointercancel', this.onEnd, POINTER_OPTIONS);
+		this.host.addEventListener('lostpointercapture', this.onEnd, POINTER_OPTIONS);
 	}
 
-	/** Begins exactly under the finger, publishing zero vector before any later displacement. */
+	/** Claims only a pointer whose first contact lands within the fixed rendered ring. */
 	begin(event) {
-		if (this.pointerId !== null) return;
+		if (this.pointerId !== null || !this.isInsideRing(event)) return;
 		event.preventDefault();
-		const yesodBounds = this.host.getBoundingClientRect();
-		const malchusLocalX = event.clientX - yesodBounds.left;
-		const malchusLocalY = event.clientY - yesodBounds.top;
+		const bounds = this.ring.getBoundingClientRect();
 		this.center = {
-			x: Number(event.clientX) || 0,
-			y: Number(event.clientY) || 0
+			x: bounds.left + bounds.width / 2,
+			y: bounds.top + bounds.height / 2
 		};
 		this.pointerId = event.pointerId;
-		this.ring.style.left = `${malchusLocalX}px`;
-		this.ring.style.top = `${malchusLocalY}px`;
 		this.ring.dataset.active = 'true';
 		this.host.setPointerCapture?.(event.pointerId);
 		this.onVector(zeroJoystickVector());
 		this.knob.style.transform = 'translate(0, 0)';
 	}
 
-	/** Converts only later owned-pointer displacement into bounded knob geometry and semantic movement. */
+	/** Converts owned-pointer displacement from the fixed base into movement and thumb geometry. */
 	move(event) {
 		if (this.pointerId !== event.pointerId || !this.center) return;
-		const tiferesResult = joystickVectorFromOffset(
+		event.preventDefault();
+		const result = joystickVectorFromOffset(
 			event.clientX - this.center.x,
 			event.clientY - this.center.y,
 			RADIUS
 		);
-		this.onVector(tiferesResult.vector);
-		this.knob.style.transform = `translate(${tiferesResult.knob.x}px, ${tiferesResult.knob.y}px)`;
+		this.onVector(result.vector);
+		this.knob.style.transform = `translate(${result.knob.x}px, ${result.knob.y}px)`;
 	}
 
-	/** Ends the active pointer gesture and returns movement to the recreated center. */
+	/** Ends only the pointer owned by this joystick and neutralizes movement. */
 	end(event) {
 		if (this.pointerId === event.pointerId) this.reset();
 	}
 
-	/** Clears pointer ownership, neutralizes movement, and restores the floating ring shell. */
+	/** Returns true only when the initial point lies inside the joystick's fixed hit rectangle. */
+	isInsideRing(event) {
+		const bounds = this.ring.getBoundingClientRect();
+		return event.clientX >= bounds.left
+			&& event.clientX <= bounds.right
+			&& event.clientY >= bounds.top
+			&& event.clientY <= bounds.bottom;
+	}
+
+	/** Clears pointer ownership while leaving the ring itself rooted in layout. */
 	reset() {
+		const pointerId = this.pointerId;
 		this.pointerId = null;
 		this.center = null;
+		if (pointerId !== null && this.host.hasPointerCapture?.(pointerId)) {
+			this.host.releasePointerCapture?.(pointerId);
+		}
 		this.onVector(zeroJoystickVector());
 		this.knob.style.transform = 'translate(0, 0)';
-		this.ring.style.removeProperty('left');
-		this.ring.style.removeProperty('top');
 		delete this.ring.dataset.active;
 	}
 
-	/** Releases every pointer listener without leaving a captured movement state behind. */
+	/** Releases every listener and restores the host's prior touch-action contract. */
 	destroy() {
 		this.reset();
-		this.host.removeEventListener('pointerdown', this.onDown);
-		this.host.removeEventListener('pointermove', this.onMove);
-		this.host.removeEventListener('pointerup', this.onEnd);
-		this.host.removeEventListener('pointercancel', this.onEnd);
-		this.host.removeEventListener('lostpointercapture', this.onEnd);
+		this.host.removeEventListener('pointerdown', this.onDown, POINTER_OPTIONS);
+		this.host.removeEventListener('pointermove', this.onMove, POINTER_OPTIONS);
+		this.host.removeEventListener('pointerup', this.onEnd, POINTER_OPTIONS);
+		this.host.removeEventListener('pointercancel', this.onEnd, POINTER_OPTIONS);
+		this.host.removeEventListener('lostpointercapture', this.onEnd, POINTER_OPTIONS);
+		this.host.style.touchAction = this.originalTouchAction;
 	}
 }

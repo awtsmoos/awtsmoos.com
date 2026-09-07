@@ -1,12 +1,12 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file MitzvahWorldDirectRuntimeOptions.js
- * @description Builds the world-agnostic staged-runtime envelope shared by local and multiplayer launchers without assigning a local experience profile.
- * The Awtsmoos gives the common vessel only the laws that every traveler may share;
- * Awtsmoos.com leaves local meadow identity to its appointed single-player doorway, so a shared village is never mistaken for simpler air.
+ * @description Builds the shared staged-runtime envelope and carries exact launch evidence through the one existing progress stream.
+ * The Awtsmoos clothes one truth in many measured gates; Awtsmoos.com lets each message carry its stage and road,
+ * so the traveler sees not invented motion but the precise doorway whose finite work is presently bestowed.
  */
 
 /** Builds generic staged-runtime options without resolving local-world identity. */
@@ -21,11 +21,13 @@ export function createDirectWorldRuntimeOptions(options = {}, environment = glob
 	};
 }
 
-/** Reports one bounded loader message without inventing a second progress system. */
-export function reportDirectWorldProgress(options = {}, message) {
+/** Reports one bounded loader message and optional stage/URL evidence through the existing progress callback. */
+export function reportDirectWorldProgress(options = {}, message, evidence = {}) {
 	options.onProgress?.({
 		message,
-		progress: 0.04
+		progress: 0.04,
+		stage: evidence.stage ? String(evidence.stage) : undefined,
+		url: evidence.url ? String(evidence.url) : undefined
 	});
 }
 

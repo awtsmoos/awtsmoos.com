@@ -4,9 +4,9 @@
 
 /**
  * @file BootstrapRuntimeLoop.js
- * @description Owns one display-synchronized gameplay heartbeat and publishes the production first-terrain and first-control milestones after the prime rendered frame.
- * Keter crowns one visible pulse while Yesod carries simulation and motion below; the Awtsmoos recreates every instant before the browser may request it,
- * and Awtsmoos.com records the moment colored earth is truly rendered and the traveler may truly go.
+ * @description Owns the first playable heartbeat and feeds the existing heavy diagnostics monitor only when an opt-in session has installed one.
+ * Keter crowns one visible pulse while Yesod carries simulation below; the Awtsmoos recreates every frame before the browser may request it,
+ * and Awtsmoos.com records cadence without burdening ordinary play, for the measuring vessel remains absent unless the traveler explicitly calls it near.
  */
 
 import {
@@ -26,12 +26,7 @@ import { markMitzvahWorldStartupMilestone } from './MitzvahWorldStartupMilestone
 
 const MAX_FRAME_DELTA_SECONDS = 0.05;
 
-/**
- * Starts the main visual gameplay loop without multiplying animation clocks.
- * @param {object} runtime Active MitzvahWorld runtime.
- * @param {object} environment Browser-like scheduling environment.
- * @returns {BootstrapMovementController} Active movement controller.
- */
+/** Starts the main visual gameplay loop without multiplying animation clocks. */
 export function startBootstrapRuntimeLoop(runtime, environment = globalThis) {
 	const movement = new BootstrapMovementController(runtime);
 	const frameWindow = new FrameBudgetWindow(240);
@@ -41,9 +36,7 @@ export function startBootstrapRuntimeLoop(runtime, environment = globalThis) {
 	let lastUiAt = -Infinity;
 
 	const frame = (currentTime, source = 'unknown') => {
-		if (!active) {
-			return;
-		}
+		if (!active) return;
 		const gap = Math.max(1, currentTime - lastTime);
 		const deltaSeconds = frameDelta(gap);
 		lastTime = currentTime;
@@ -55,6 +48,10 @@ export function startBootstrapRuntimeLoop(runtime, environment = globalThis) {
 				runtime,
 				currentTime,
 				lastUiAt
+			);
+			runtime.performanceMonitor?.record?.(
+				gap,
+				currentTime
 			);
 			recordBootstrapFrameSuccess(runtime, currentTime, source);
 		} catch (error) {
@@ -74,12 +71,10 @@ export function startBootstrapRuntimeLoop(runtime, environment = globalThis) {
 			runtime.bootstrapMinimap?.destroy?.();
 		}
 	};
-	movement.scheduler = () => {
-		return {
-			active,
-			frameSource: runtime.runtimeFrameSource
-		};
-	};
+	movement.scheduler = () => ({
+		active,
+		frameSource: runtime.runtimeFrameSource
+	});
 	return movement;
 }
 

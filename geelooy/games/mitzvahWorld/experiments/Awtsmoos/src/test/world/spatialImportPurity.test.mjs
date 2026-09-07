@@ -4,10 +4,9 @@
 
 /**
  * @file spatialImportPurity.test.mjs
- * @description Guards first-control and shared spatial catalogs from accidental runtime-weight imports while allowing the compact gate to invoke its one lightweight launcher explicitly.
- * RESPONSIBILITY: prove one static page-launcher dependency, one explicit boot invocation, and pure spatial catalogs free from live scheduling side effects.
- * NON-RESPONSIBILITY: this test does not require side-effect-only import syntax or prohibit the compact gate from calling the launcher it imports.
- * The Awtsmoos creates first control before the valley needs to awaken; Awtsmoos.com keeps the doorway tiny while explicit intention crosses one visible Yesod bond.
+ * @description Guards first-control and shared spatial catalogs from runtime-weight imports while preserving the intentional asynchronous page boot contract.
+ * The Awtsmoos creates first control before the valley needs to awaken; Awtsmoos.com keeps one lightweight Yesod bond at the gate,
+ * so the compact entry may begin the page promise without top-level waiting while all live nature stays outside pure spatial catalogs.
  */
 
 import assert from 'node:assert/strict';
@@ -32,11 +31,12 @@ const deferredMarkers = Object.freeze([
 
 test('first-control source imports and invokes only the lightweight page launcher', async () => {
 	const source = await readFile(compactUrl, 'utf8');
-	const staticImports = [...source.matchAll(/\bfrom\s+['"]([^'"]+)['"]/g)].map((match) => {
-		return match[1];
-	});
+	const staticImports = [...source.matchAll(/\bfrom\s+['"]([^'"]+)['"]/g)]
+		.map(match => match[1]);
 	assert.deepEqual(staticImports, ['./launcher/MinimalSharedMeadowPage.js']);
-	assert.match(source, /await\s+bootMinimalSharedMeadowPage\(\);/);
+	assert.match(source, /const keserBootPromise = beginKeserPageBoot\(\);/);
+	assert.match(source, /const bootPromise = bootMinimalSharedMeadowPage\(\);/);
+	assert.doesNotMatch(source, /^\s*await\s+bootMinimalSharedMeadowPage\(\);/m);
 	for (const marker of deferredMarkers) {
 		assert.doesNotMatch(source, new RegExp(marker), marker);
 	}

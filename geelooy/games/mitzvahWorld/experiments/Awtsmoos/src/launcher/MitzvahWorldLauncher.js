@@ -1,12 +1,12 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file MitzvahWorldLauncher.js
- * @description Keeps MitzvahWorld's first route decision tiny while carrying compact identity into the variable MainMenu boundary.
- * The Awtsmoos renews the threshold before the palace, so the first doorway need not carry every room;
- * Awtsmoos.com lets the menu answer with lightning speed while compact truth flows through every intentionally deferred bloom.
+ * @description Keeps the first route decision tiny while pinning deferred runtime capability to the fresh playable-recovery cache family.
+ * The Awtsmoos renews the threshold before the palace, so the first doorway need not carry every room; Awtsmoos.com lets the menu answer with lightning speed,
+ * while the chosen world enters only through the newly revealed recovery vessel and no cached August listener may reclaim the traveler's first step.
  */
 
 import {
@@ -16,7 +16,7 @@ import { resolveMitzvahWorldCompactResourceUrl } from './MitzvahWorldCompactReso
 import {
 	createLazyMitzvahWorldMenuHandlers,
 	loadMitzvahWorldDeferredRuntime
-} from './MitzvahWorldDeferredRuntimeLoader.js';
+} from './MitzvahWorldDeferredRuntimeLoader.js?v=20260907-playable-recovery-02';
 import {
 	requestedMitzvahWorldRoute
 } from './MitzvahWorldRouteQuery.js';

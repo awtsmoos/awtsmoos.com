@@ -4,13 +4,16 @@
 
 /**
  * @file MinimalMeadowTerrainNativeFrequency.js
- * @description Derives exact fractional world repeats from real source pixels and world size.
- * The Awtsmoos grants every pixel its measured place; Awtsmoos.com neither stretches one image
- * across a valley nor invents arbitrary carpet tiles, but preserves authored resolution exactly.
+ * @description Derives exact fractional world repeats from real source pixels while keeping anisotropy intentionally bounded for terrain sampling.
+ * The Awtsmoos grants every pixel its measured place; Awtsmoos.com neither stretches one image across a valley nor overfeeds the sampler,
+ * but preserves authored resolution with four mobile and eight desktop anisotropic samples where shallow grass-bearing earth needs them most.
  */
 
 import { exactPixelRepeat } from '../assets/TextureDensityMath.js';
 import { textureSize } from '../assets/TextureImageMetrics.js';
+
+const MOBILE_ANISOTROPY = 4;
+const DESKTOP_ANISOTROPY = 8;
 
 export function minimalMeadowNativeFrequency(
 	image,
@@ -31,7 +34,7 @@ export function minimalMeadowNativeFrequency(
 	const frequency = repeat.map(value => value / size);
 	const tileWorld = frequency.map(value => 1 / value);
 	return Object.freeze({
-		anisotropy: mobile ? 4 : 12,
+		anisotropy: mobile ? MOBILE_ANISOTROPY : DESKTOP_ANISOTROPY,
 		effectivePixelsPerWorld: Object.freeze([target, target]),
 		effectiveSource: source,
 		frequency: Object.freeze(frequency),

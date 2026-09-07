@@ -1,12 +1,12 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file EretzPostPlayablePriority.js
- * @description Textures visible ground first, completes Simple Meadow immediately, and opens richer launchers only after the Mountain Village player-priority window.
- * The Awtsmoos clothes the earth before abundance can contend and lets a simple world rest at its honest shore;
- * Awtsmoos.com asks richer mountains to wait for the traveler, while Simple Meadow carries no needless delay through the door.
+ * @description Starts universal lightweight post-play work first, including optional diagnostics, then opens richer world systems only when policy permits.
+ * The Awtsmoos measures the revealed world without forcing measure upon the traveler; Awtsmoos.com lets diagnostics enter through their own quiet gate,
+ * while Simple Meadow may remain simple and richer mountains still wait their appointed turn beyond the first playable state.
  */
 
 import { startEretzBootstrapTerrainBridge } from './EretzBootstrapTerrainBridge.js';
@@ -23,13 +23,14 @@ import {
 	resolveEretzPostPlayableWorldPolicy,
 	simpleWorldPostPlayableReceipt
 } from './EretzPostPlayableWorldPolicy.js';
+import { scheduleMinimalMeadowPerformanceMonitor } from './MinimalMeadowPerformanceHydration.js';
 
 export {
 	eretzPostPlayablePriorityPolicy,
 	waitForCanonicalPlayerWindow
 };
 
-/** Starts the selected world's post-play lane without waiting or importing rich launchers for Simple Meadow. */
+/** Starts universal post-play diagnostics/terrain work before any world-specific richness policy. */
 export async function startEretzPostPlayablePriority(context, dependencies = {}) {
 	const { core, environment, options } = context;
 	const runtime = core.runtime;
@@ -41,6 +42,11 @@ export async function startEretzPostPlayablePriority(context, dependencies = {})
 		core.foundation,
 		diagnostics
 	);
+	const performanceMonitor = scheduleMinimalMeadowPerformanceMonitor(
+		runtime,
+		environment
+	);
+	diagnostics.performanceMonitorPromise = performanceMonitor;
 	if (runtime.destroyed) {
 		return destroyedEretzPostPlayableReceipt(immediatePriority('runtime-destroyed'));
 	}
@@ -74,6 +80,7 @@ export async function startEretzPostPlayablePriority(context, dependencies = {})
 	return Object.freeze({
 		districts,
 		enrichment,
+		performanceMonitor,
 		policy,
 		priority,
 		status: 'launched',

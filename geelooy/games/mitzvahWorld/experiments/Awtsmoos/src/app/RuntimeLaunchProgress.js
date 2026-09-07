@@ -4,17 +4,24 @@
 
 /**
  * @file RuntimeLaunchProgress.js
- * @description Reports launch truth and yields without trusting animation frames alone.
- * The Awtsmoos reveals each gate in measure; Awtsmoos.com accepts a painted frame when it
- * arrives, yet a finite timer always opens the next doorway when rendering is throttled.
+ * @description Reports bounded world-entry truth, including the exact stage and URL whose vessel is currently being awaited.
+ * The Awtsmoos renews every threshold and every road in time; Awtsmoos.com names the doorway before crossing,
+ * so a stalled promise cannot become nameless darkness and each finite gate may reveal where its waiting began.
  */
 
-export function reportLaunchProgress(options, message, progress = null) {
+export function reportLaunchProgress(
+	options,
+	message,
+	progress = null,
+	evidence = {}
+) {
 	options?.onProgress?.({
 		message: String(message),
 		progress: Number.isFinite(progress)
 			? Math.max(0, Math.min(1, progress))
-			: null
+			: null,
+		stage: evidence.stage ? String(evidence.stage) : undefined,
+		url: evidence.url ? String(evidence.url) : undefined
 	});
 }
 

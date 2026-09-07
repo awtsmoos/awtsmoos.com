@@ -4,9 +4,9 @@
 
 /**
  * @file CameraGestureRuntime.js
- * @description Wires mouse/stylus PointerEvents beside a dedicated native TouchEvent camera stream.
- * The Awtsmoos gives each input family its faithful vessel instead of forcing every hand through one gate;
- * Awtsmoos.com lets mobile touch turn the world while mouse, wheel, pointer lock, and guarded controls keep their state.
+ * @description Gives camera gestures one Pointer Events path so touch, pen, and mouse cannot double-apply rotation through overlapping legacy listeners.
+ * The Awtsmoos is One while many hands may touch the world; Awtsmoos.com lets each pointer keep one identity,
+ * so the camera turns once per movement, the joystick keeps its own vessel, and cancellation restores the world without a jump.
  */
 
 import { applyLegacyWheelZoom } from './CameraLegacyZoom.js';
@@ -17,29 +17,31 @@ import {
 	resetCameraGesture as resetPointerCameraGesture
 } from './CameraGestureLifecycle.js';
 import { canBeginCameraGesture } from './CameraGestureSurface.js';
-import { installCameraTouchGestureRuntime } from './CameraTouchGestureRuntime.js';
 
 const CAPTURE_PHASE = true;
+const POINTER_CAPTURE_OPTIONS = Object.freeze({
+	capture: true,
+	passive: false
+});
 
-/** Installs one world-facing gesture system with native touch ownership on touch-capable devices. */
+/** Installs one Pointer Events gesture system for mouse, pen, and touch. */
 export function installCameraGestureRuntime(owner) {
 	const surface = owner.document || owner.canvas;
 	owner.canvas.style.touchAction = 'none';
-	owner.touchGestureRuntime = installCameraTouchGestureRuntime(owner, surface);
 	listen(owner, surface, 'contextmenu', preventWorldContextMenu, CAPTURE_PHASE);
 	listen(owner, owner.canvas, 'dblclick', () => owner.canvas.requestPointerLock?.());
 	listen(owner, surface, 'pointerdown', event => {
-		if (!owner.touchGestureRuntime.ownsPointer(event)) beginCameraGesture(owner, event);
-	}, CAPTURE_PHASE);
+		beginCameraGesture(owner, event);
+	}, POINTER_CAPTURE_OPTIONS);
 	listen(owner, surface, 'pointermove', event => {
-		if (!owner.touchGestureRuntime.ownsPointer(event)) moveCameraGesture(owner, event);
-	}, CAPTURE_PHASE);
+		moveCameraGesture(owner, event);
+	}, POINTER_CAPTURE_OPTIONS);
 	listen(owner, surface, 'pointerup', event => {
-		if (!owner.touchGestureRuntime.ownsPointer(event)) endCameraGesture(owner, event);
-	}, CAPTURE_PHASE);
+		endCameraGesture(owner, event);
+	}, POINTER_CAPTURE_OPTIONS);
 	listen(owner, surface, 'pointercancel', event => {
-		if (!owner.touchGestureRuntime.ownsPointer(event)) endCameraGesture(owner, event);
-	}, CAPTURE_PHASE);
+		endCameraGesture(owner, event);
+	}, POINTER_CAPTURE_OPTIONS);
 	listen(owner, owner.canvas, 'lostpointercapture', () => resetCameraGesture(owner));
 	listen(owner, owner.canvas, 'wheel', event => {
 		applyLegacyWheelZoom(owner.orbit, event);
@@ -51,25 +53,30 @@ export function installCameraGestureRuntime(owner) {
 	});
 }
 
-/** Releases mouse/stylus and native-touch gesture state together. */
+/** Releases every pointer and transient camera gesture token. */
 export function resetCameraGesture(owner) {
 	resetPointerCameraGesture(owner);
-	owner.touchGestureRuntime?.reset?.();
 }
 
-/** Removes every camera listener and transient gesture token owned by this controller. */
+/** Removes every camera listener and resets ownership before disposal. */
 export function destroyCameraGestureRuntime(owner) {
 	resetCameraGesture(owner);
-	for (const remove of owner.listeners.splice(0)) remove();
+	for (const remove of owner.listeners.splice(0)) {
+		remove();
+	}
 }
 
+/** Registers one removable listener while preserving its exact options object for cleanup. */
 function listen(owner, target, type, listener, options) {
 	target?.addEventListener?.(type, listener, options);
 	owner.listeners.push(() => target?.removeEventListener?.(type, listener, options));
 }
 
+/** Prevents context menus only when the same world surface is eligible to begin camera control. */
 function preventWorldContextMenu(event) {
-	if (canBeginCameraGesture(event)) event.preventDefault?.();
+	if (canBeginCameraGesture(event)) {
+		event.preventDefault?.();
+	}
 }
 
 export {

@@ -4,77 +4,69 @@
 
 /**
  * @file BootstrapPlayerRuntime.js
- * @description Installs only the canonical grounded GLB as the playable Chossid and starts its authored animation immediately.
- * The Awtsmoos joins bones, cloth, soles, collision, and motion within one honest traveler;
- * Awtsmoos.com forbids a generated underlay, so every visible human pixel belongs to the authored GLB revelator.
+ * @description Mounts an immediate local Chossid shell for movement and deliberately leaves the canonical GLB to existing post-play hydration.
+ * The Awtsmoos gives the hand a traveler before the network can answer; Awtsmoos.com keeps collision, camera, and movement alive,
+ * then lets the authored Chossid replace this small vessel without forcing first play to wait beside a distant river.
  */
 
-import { isFallbackPlayer } from './BootstrapPlayerPresentation.js';
+import { createBootstrapVisiblePlayer } from './BootstrapVisiblePlayer.js';
 import { createDeferredActorSystems } from './EretzDeferredActorPlaceholders.js';
-import { installCanonicalChossidAnimation } from './MinimalMeadowCanonicalAnimation.js';
-import { hydrateReadablePlayerMaterials } from './MinimalMeadowPlayerMaterialHydrator.js';
-import {
-	CANONICAL_PLAYER_SCALE,
-	createBootstrapPlayerVessels,
-	createGroundedCanonicalPlayer,
-	prepareCanonicalPlayerMeshes
-} from './EretzPlayerRuntimeFactories.js';
+import { createBootstrapPlayerVessels } from './EretzPlayerRuntimeFactories.js';
 import {
 	createBootstrapPlayerState,
 	createBootstrapPlayerStats
 } from './EretzPlayerStateFactory.js';
 
+/**
+ * Creates the minimum player runtime needed for movement before any canonical model request settles.
+ * @param {object} foundation Playable world foundation containing scene, terrain, renderer, and deferred asset state.
+ * @returns {object} Runtime with a disposable local player shell and canonical hydration marked deferred.
+ */
 export function createBootstrapPlayerRuntime(foundation) {
-	assertCanonicalGltf(foundation.playerGltf);
 	const state = createBootstrapPlayerState();
-	const prepared = createGroundedCanonicalPlayer(foundation.playerGltf.scene, state);
-	const meshCount = prepareCanonicalPlayerMeshes(prepared.visiblePlayer);
-	if (meshCount < 1) throw new Error('Canonical Chossid GLB contained no renderable meshes.');
-	if (!prepared.model.parent) foundation.scene.add(prepared.model);
-	const runtime = {
+	const model = createBootstrapVisiblePlayer();
+	model.position.set(state.x, state.y, state.z);
+	model.visible = true;
+	foundation.scene.add(model);
+	return {
 		...foundation,
 		...createBootstrapPlayerVessels(foundation),
 		...createDeferredActorSystems(),
-		feet: prepared.feet,
+		canonicalPlayer: null,
+		canonicalPlayerHydrationStage: 'deferred',
+		canonicalPlayerPromise: null,
+		feet: 0,
 		footOffset: 0,
-		model: prepared.model,
-		player: null,
+		model,
+		player: createBootstrapAnimationHandle(),
+		playerGltf: null,
 		playerStats: createBootstrapPlayerStats(),
 		state,
-		visiblePlayer: prepared.visiblePlayer,
+		visiblePlayer: model,
 		worldActorsReady: false
 	};
-	const materials = hydrateReadablePlayerMaterials(prepared.visiblePlayer);
-	const animation = installCanonicalChossidAnimation(
-		runtime,
-		foundation.playerGltf,
-		prepared.visiblePlayer
-	);
-	if (!animation.defaultClip) {
-		throw new Error('Canonical Chossid GLB did not expose a playable animation clip.');
-	}
-	runtime.canonicalPlayer = canonicalReceipt(foundation, animation, materials, meshCount);
-	runtime.canonicalPlayerHydrationStage = 'ready';
-	runtime.canonicalPlayerPromise = Promise.resolve(runtime.canonicalPlayer);
-	return runtime;
 }
 
-function assertCanonicalGltf(gltf) {
-	if (!gltf?.scene) throw new Error('Canonical Chossid GLB scene is required before player runtime.');
-	if (isFallbackPlayer(gltf)) throw new Error('Generated player fallbacks are forbidden.');
-	if ((gltf.animations?.length || 0) < 1) {
-		throw new Error('Canonical Chossid GLB animations are required before player runtime.');
-	}
-}
-
-function canonicalReceipt(foundation, animation, materials, meshCount) {
-	return Object.freeze({
-		animations: foundation.playerGltf.animations.length,
-		defaultClip: animation.defaultClip,
-		materials,
-		meshes: meshCount,
-		scale: CANONICAL_PLAYER_SCALE,
-		status: 'ready',
-		visualGuard: 'none-glb-only'
-	});
+/**
+ * Provides the tiny animation contract consumed by diagnostics and movement until canonical hydration replaces it.
+ * @returns {object} Safe no-op animation player with the same observable surface used by the runtime.
+ */
+function createBootstrapAnimationHandle() {
+	return {
+		current: null,
+		names: [],
+		diagnostics() {
+			return {
+				current: null,
+				names: [],
+				status: 'bootstrap-shell'
+			};
+		},
+		play() {
+			return false;
+		},
+		update() {
+			return false;
+		}
+	};
 }

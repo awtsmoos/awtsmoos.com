@@ -4,9 +4,9 @@
 
 /**
  * @file compactDeferredImportPolicy.test.mjs
- * @description Guards compact module doors while enforcing the new GLB-only human graph and authored-before-play visual gate.
- * The Awtsmoos lets deferred abundance remain separate while every human doorway stays authored and true;
- * Awtsmoos.com preserves compact identity without reopening a fallback actor or delayed generated-player route anew.
+ * @description Guards compact module doors while enforcing play-before-richness and explicit deferred runtime identities.
+ * The Awtsmoos lets deferred abundance remain separate while first movement receives only the truth it needs;
+ * Awtsmoos.com preserves compact identity without letting grass, canonical actors, or yesterday's cache become a gate before play.
  */
 
 import assert from 'node:assert/strict';
@@ -49,19 +49,18 @@ test('canonical NPC seed contains no procedural-human compact doorway', async ()
 	assert.match(source, /EretzActorAssetLoader\.js\?compact=true/);
 });
 
-test('world foundation resolves authored gates through responsive compact URLs', async () => {
+test('world foundation resolves only playable authored gates before core runtime', async () => {
 	const source = await readSource('app/EretzWorldFoundation.js');
 	assert.match(source, /EretzEssentialAssetLoader\.js\?v=/);
-	assert.match(source, /EretzEssentialVisualGate\.js\?v=/);
+	assert.match(source, /BootstrapWorldFoundation\.js\?v=/);
+	assert.doesNotMatch(source, /EretzEssentialVisualGate\.js\?v=/);
 	assert.match(source, /resolveResponsiveRuntimeModuleUrl/);
 });
 
-test('shared page launcher builder records compact before version identity', async () => {
+test('shared page launcher emits compact before its short recovery identity', async () => {
 	const source = await readSource('launcher/MinimalSharedMeadowPage.js');
-	const compactIndex = source.indexOf("searchParams.set('compact', 'true')");
-	const versionIndex = source.indexOf("searchParams.set('v', BUILD_VERSION)");
-	assert.ok(compactIndex >= 0);
-	assert.ok(versionIndex > compactIndex);
+	assert.match(source, /BUILD_VERSION = '20260907-r2'/);
+	assert.match(source, /moduleUrl\.search = `\?compact=true&v=\$\{BUILD_VERSION\}`/);
 });
 
 async function readSource(relativePath) {

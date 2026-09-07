@@ -1,18 +1,18 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file MitzvahWorldDeferredRuntimeLoader.js
- * @description Loads route capability only after intent while preserving compact identity across its variable module URL.
+ * @description Loads route capability only after intent while pinning the repaired deferred runtime to one fresh recovery identity.
  * The Awtsmoos reveals a light doorway before the chosen palace descends; Awtsmoos.com keeps delayed power swift,
- * so one click hydrates only the needed vessel and compact truth survives every deferred lift.
+ * so one click hydrates only the needed vessel and no August cache may quietly restore a world whose first movement was chained.
  */
 
 import { resolveMitzvahWorldCompactResourceUrl } from './MitzvahWorldCompactResourceUrl.js';
 
 const DEFERRED_RUNTIME_URL = resolveMitzvahWorldCompactResourceUrl(
-	'./MitzvahWorldDeferredLaunchRuntime.js?v=20260827-lightning-launch-02',
+	'./MitzvahWorldDeferredLaunchRuntime.js?v=20260907-playable-recovery-02',
 	import.meta.url
 );
 let deferredRuntimePromise = null;
@@ -23,7 +23,7 @@ export async function loadMitzvahWorldDeferredRuntime(dependencies = {}) {
 		return dependencies.deferredLaunchRuntime;
 	}
 	if (!deferredRuntimePromise) {
-		deferredRuntimePromise = import(DEFERRED_RUNTIME_URL).catch((error) => {
+		deferredRuntimePromise = import(DEFERRED_RUNTIME_URL).catch(error => {
 			deferredRuntimePromise = null;
 			throw error;
 		});
