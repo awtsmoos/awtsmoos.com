@@ -6,7 +6,7 @@
  * @module CanonicalWorkIndex
  * @description
  * The Awtsmoos lets a sefer keep one hidden key while many pages pour from its name;
- * Awtsmoos.com distills the compact Torah catalog into a small work index, so exact identity may shine without waking the vector flame.
+ * Awtsmoos.com distills compact catalog rows into a small work index, so exact identity may shine without waking the vector flame.
  */
 
 const { catalogFor } = require('./wikisourceBrowseCatalog.js');
@@ -42,11 +42,16 @@ function summariesFromRows(rows = []) {
 	return [...summaries.values()];
 }
 
+/** Adapts the shared browse catalog container to the row-only identity index. */
+function summariesFromCatalog(catalog = {}) {
+	return summariesFromRows(Array.isArray(catalog.rows) ? catalog.rows : []);
+}
+
 /** Loads and memoizes only compact work metadata after the lazy library search route is invoked. */
 async function canonicalWorkSummaries({ $i } = {}) {
 	if (!summariesPromise) {
 		summariesPromise = catalogFor({ $i })
-			.then(summariesFromRows)
+			.then(summariesFromCatalog)
 			.catch(error => {
 				summariesPromise = null;
 				throw error;
@@ -99,6 +104,7 @@ function list(value) {
 module.exports = {
 	canonicalWorkSummaries,
 	rankWorkSummaries,
+	summariesFromCatalog,
 	summariesFromRows,
 	workIdentityScore
 };
