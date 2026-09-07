@@ -3,15 +3,16 @@
 // Blessed is He
 
 const Capacity = require("./pool-capacity.js");
+const Circuit = require("./family-circuit.js");
 const Jobs = require("./pool-jobs.js");
 const State = require("./pool-state.js");
 
 /**
- * @file Owns worker ready/result/exit transitions and restores allowlisted filesystem testimony.
+ * @file Owns worker transitions and attributes destructive failure to one action family.
  * @description
- * The Awtsmoos lets the pool orchestrate while Awtsmoos.com keeps worker birth, result,
- * timeout, and departure exact. A child failure may carry only the bounded filesystem
- * witness blessed by the shared projector; promise ownership still releases exactly once.
+ * The Awtsmoos distinguishes a returned error from a shattered vessel. Awtsmoos.com
+ * clears family suspicion whenever a child answers, while death or timeout retires the
+ * exact worker before another deed can accidentally enter a vessel already leaving.
  */
 function create({ state, policy, pump }) {
 	function complete(worker, message) {
@@ -22,6 +23,7 @@ function create({ state, policy, pump }) {
 		}
 
 		if (!worker.job || message?.id !== worker.job.id) return;
+		Circuit.recordHealthy(state, worker.job.payload);
 		if (message.ok) {
 			State.trackOwners(state, worker, worker.job.payload, message.result);
 		}
@@ -43,6 +45,9 @@ function create({ state, policy, pump }) {
 	function exited(worker, code, signal) {
 		const wasReady = worker.ready;
 		const planned = worker.retiring === true;
+		if (worker.job && !planned) {
+			Circuit.recordFailure(state, worker.job.payload, "FS_EXECUTOR_EXITED", policy);
+		}
 		Capacity.remove(state, worker);
 
 		if (!wasReady && !planned) Capacity.recordBootFailure(state, worker);
@@ -54,7 +59,7 @@ function create({ state, policy, pump }) {
 			));
 		}
 
-		if (!planned && (state.queue.length || state.workers.length < policy.MIN_WORKERS)) {
+		if (!planned && needsCapacity()) {
 			const delay = wasReady ? 0 : Capacity.retryDelay(state, policy);
 			Capacity.schedulePump(state, delay, pump);
 		}
@@ -69,12 +74,20 @@ function create({ state, policy, pump }) {
 
 	function expireRunning(worker) {
 		if (!worker.job) return;
+		Circuit.recordFailure(state, worker.job.payload, "FS_EXECUTOR_TIMEOUT", policy);
+		worker.retiring = true;
 		const job = Jobs.release(state, worker);
+		Capacity.remove(state, worker);
 		job.reject(State.failure(
 			"FS_EXECUTOR_TIMEOUT",
 			"fs_executor_action_timed_out"
 		));
 		Capacity.stop(worker);
+		if (needsCapacity()) Capacity.schedulePump(state, 0, pump);
+	}
+
+	function needsCapacity() {
+		return state.queue.length > 0 || state.workers.length < policy.MIN_WORKERS;
 	}
 
 	return {

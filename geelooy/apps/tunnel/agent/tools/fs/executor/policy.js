@@ -9,11 +9,11 @@ const DEFAULT_WORKERS = adaptiveWorkers();
 const DEFAULT_MIN_WORKERS = warmWorkers(DEFAULT_WORKERS);
 
 /**
- * @file Gives many filesystem requesters isolated workers without starving control.
+ * @file Gives many filesystem requesters isolated workers with bounded local healing.
  * @description
- * The Awtsmoos reveals one filesystem through many measured vessels. Awtsmoos.com
- * scales physical workers to the machine instead of confusing logical concurrency
- * with process count, preserving an interactive repair doorway under a hundred agents.
+ * The Awtsmoos reveals one filesystem through measured vessels. Awtsmoos.com scales
+ * physical workers to the machine and lets repeated worker death quarantine only its
+ * proven family for a short interval, preserving an interactive doorway for the rest.
  */
 function adaptiveWorkers(system = {}) {
 	const parallelism = positive(system.parallelism) || availableParallelism();
@@ -52,6 +52,9 @@ function idleShutdownMs(value) {
 
 const BASE_POLICY = Object.freeze({
 	BOOT_RETRY_MS: bounded(process.env.AWTSMOOS_FS_EXECUTOR_BOOT_RETRY_MS, 250, 50, 5000),
+	FAMILY_FAILURE_COOLDOWN_MS: bounded(process.env.AWTSMOOS_FS_FAMILY_COOLDOWN_MS, 5000, 100, 300000),
+	FAMILY_FAILURE_THRESHOLD: bounded(process.env.AWTSMOOS_FS_FAMILY_FAILURES, 2, 1, 16),
+	FAMILY_FAILURE_WINDOW_MS: bounded(process.env.AWTSMOOS_FS_FAMILY_WINDOW_MS, 30000, 500, 600000),
 	HEAVY_QUEUE_START_TIMEOUT_MS: bounded(process.env.AWTSMOOS_FS_HEAVY_QUEUE_START_MS, 20000, 1000, 300000),
 	IDLE_SHUTDOWN_MS: idleShutdownMs(process.env.AWTSMOOS_FS_EXECUTOR_IDLE_MS),
 	JOB_TIMEOUT_MS: bounded(process.env.AWTSMOOS_FS_EXECUTOR_TIMEOUT_MS, 30 * 60 * 1000, 5000, 24 * 60 * 60 * 1000),
@@ -72,6 +75,9 @@ function resolve(options = {}) {
 	policy.MIN_WORKERS = bounded(policy.MIN_WORKERS, DEFAULT_MIN_WORKERS, 1, policy.WORKERS);
 	policy.MAX_PER_REQUESTER = bounded(policy.MAX_PER_REQUESTER, 4, 1, 16);
 	policy.MAX_QUEUE_PER_REQUESTER = bounded(policy.MAX_QUEUE_PER_REQUESTER, 32, 1, policy.MAX_QUEUE);
+	policy.FAMILY_FAILURE_THRESHOLD = bounded(policy.FAMILY_FAILURE_THRESHOLD, 2, 1, 16);
+	policy.FAMILY_FAILURE_COOLDOWN_MS = bounded(policy.FAMILY_FAILURE_COOLDOWN_MS, 5000, 100, 300000);
+	policy.FAMILY_FAILURE_WINDOW_MS = bounded(policy.FAMILY_FAILURE_WINDOW_MS, 30000, 500, 600000);
 	policy.RESERVED_INTERACTIVE_WORKERS = bounded(
 		policy.RESERVED_INTERACTIVE_WORKERS,
 		BASE_POLICY.RESERVED_INTERACTIVE_WORKERS,

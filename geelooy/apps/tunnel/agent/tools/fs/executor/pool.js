@@ -2,6 +2,7 @@
 // Boruch Hashem
 // Blessed is He
 
+const Admission = require("./pool-admission.js");
 const Capacity = require("./pool-capacity.js");
 const Lifecycle = require("./pool-lifecycle.js");
 const Observer = require("./executionObserver.js");
@@ -13,11 +14,11 @@ const Warm = require("./pool-warm.js");
 const WorkerEvents = require("./pool-worker-events.js");
 
 /**
- * @file Orchestrates requester-isolated filesystem execution over bounded workers.
+ * @file Orchestrates bounded execution while local admission guards family health.
  * @description
  * The Awtsmoos lets hundreds knock without multiplying children without measure.
- * Awtsmoos.com checks each requester's waiting share before machine pressure, then
- * gives same-rank peers alternating turns while preserving affinity and warm reserve.
+ * Awtsmoos.com keeps orchestration narrow: admission guards pressure and healing,
+ * while this vessel assigns workers, expires waiting deeds, and renews capacity.
  */
 function createPool(options = {}) {
 	const policy = Policy.resolve(options);
@@ -30,12 +31,9 @@ function createPool(options = {}) {
 		}
 		return new Promise((resolve, reject) => {
 			const job = State.createJob(payload, resolve, reject, metadata);
-			const gate = Queue.canEnqueue(state, job, policy);
-			if (!gate.ok) {
-				const error = State.failure(gate.code, gate.message);
-				error.requesterQueued = gate.requesterQueued;
-				error.requesterLimit = gate.requesterLimit;
-				reject(error);
+			const admissionError = Admission.errorFor(state, job, policy);
+			if (admissionError) {
+				reject(admissionError);
 				return;
 			}
 			Queue.enqueue(state, job, policy, expireQueued);
@@ -54,7 +52,13 @@ function createPool(options = {}) {
 			const job = Queue.take(state, index);
 			if (!job) continue;
 			Priority.remember(state, job);
-			require("./pool-jobs.js").assign(state, worker, job, policy, events.expireRunning);
+			require("./pool-jobs.js").assign(
+				state,
+				worker,
+				job,
+				policy,
+				events.expireRunning
+			);
 		}
 		Lifecycle.schedule(state, policy);
 	}
@@ -66,7 +70,10 @@ function createPool(options = {}) {
 			queued: false,
 			queueStartTimeoutMs: timeoutMs
 		});
-		job.reject(State.failure("FS_EXECUTOR_START_TIMEOUT", "fs_executor_consumer_start_timed_out"));
+		job.reject(State.failure(
+			"FS_EXECUTOR_START_TIMEOUT",
+			"fs_executor_consumer_start_timed_out"
+		));
 		pump();
 	}
 
@@ -89,7 +96,7 @@ function createPool(options = {}) {
 	events = WorkerEvents.create({ state, policy, pump });
 	const stats = () => State.stats(state, policy);
 	const warm = () => Warm.start(ensureWorkers, stats, policy.MIN_WORKERS);
-	const warmReady = optionsValue => Warm.untilReady(ensureWorkers, stats, state, policy, optionsValue);
+	const warmReady = value => Warm.untilReady(ensureWorkers, stats, state, policy, value);
 	return { execute, shutdown, state, stats, warm, warmReady };
 }
 

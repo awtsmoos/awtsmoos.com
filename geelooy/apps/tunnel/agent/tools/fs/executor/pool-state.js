@@ -5,21 +5,23 @@
 const crypto = require("node:crypto");
 const FsError = require("../filesystemError.js");
 const Affinity = require("./pool-affinity.js");
+const Circuit = require("./family-circuit.js");
 const Priority = require("./pool-priority.js");
 const Requester = require("./requester.js");
 
 /**
- * @file Owns filesystem pool state and restores only safe structured failure metadata.
+ * @file Owns filesystem pool state and bounded family-healing testimony.
  * @description
- * The Awtsmoos renews each requester without confusing waiting with possession; Awtsmoos.com
- * also rebuilds child errors without smuggling arbitrary properties across IPC. Code, stack,
- * and the allowlisted filesystem witness return together while queue accounting stays unchanged.
+ * The Awtsmoos renews each requester without confusing waiting with possession.
+ * Awtsmoos.com also keeps family crash evidence beside worker state, while restoring
+ * only allowlisted filesystem failure testimony across the isolated process boundary.
  */
 function create() {
 	return {
 		active: new Map(),
 		bootFailures: 0,
 		consecutiveBootFailures: 0,
+		familyFailures: new Map(),
 		idleTimer: null,
 		lastRequesterByRank: new Map(),
 		queue: [],
@@ -75,6 +77,7 @@ function stats(state, policy) {
 		bootFailures: state.bootFailures,
 		busy: state.workers.filter(worker => worker.busy).length,
 		consecutiveBootFailures: state.consecutiveBootFailures,
+		familyCircuit: Circuit.snapshot(state, policy),
 		maxPerRequester: policy.MAX_PER_REQUESTER,
 		maxQueue: policy.MAX_QUEUE,
 		maxQueuePerRequester: policy.MAX_QUEUE_PER_REQUESTER,
