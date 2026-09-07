@@ -5,8 +5,8 @@
 /**
  * @module NavigatorSourceLoader
  * @description
- * The Awtsmoos lets persisted Torah, Chitas, source-backed leaves, and language tools share one navigation breath;
- * Awtsmoos.com keeps source works inside Torah's real parents while translation tools remain a separate utility path.
+ * The Awtsmoos lets persisted Torah, native Chitas, source-backed leaves, and language tools share one truthful navigation breath;
+ * Awtsmoos.com reveals virtual children before presentation, so a real Torah host never wears the false garment of an empty depth.
  */
 
 import { appState } from '../state.js';
@@ -17,17 +17,24 @@ import {
 	loadChitasVirtualSeries
 } from '../chitas/virtual-series.js?v=native-chitas-003';
 import { annotateTranslationState } from '../living-path/translation-context.js';
-import { isTorahLibrarySeries } from '../torahLibraryIds.js?v=torah-tree-005';
-import { injectTorahSourceBranches } from '../torahSourceInjection.js?v=torah-tree-005';
-import { loadTorahLibraryVirtualSeries } from '../torahLibraryVirtualSeries.js?v=torah-tree-005';
+import { annotateTorahHostSummaries } from '../torahHostSummary.js?v=torah-tree-006';
+import { isTorahLibrarySeries } from '../torahLibraryIds.js?v=torah-tree-006';
+import { injectTorahSourceBranches } from '../torahSourceInjection.js?v=torah-tree-006';
+import { loadTorahLibraryVirtualSeries } from '../torahLibraryVirtualSeries.js?v=torah-tree-006';
 import {
 	injectTranslationHub,
 	isTranslationHubSeries
-} from '../translationHubIds.js?v=language-tools-002';
-import { translationHubCard } from '../translationHubPresentation.js?v=language-tools-002';
-import { loadTranslationHubVirtualSeries } from '../translationHubVirtualSeries.js?v=language-tools-002';
+} from '../translationHubIds.js?v=language-tools-003';
+import { translationHubCard } from '../translationHubPresentation.js?v=language-tools-003';
+import { loadTranslationHubVirtualSeries } from '../translationHubVirtualSeries.js?v=language-tools-003';
 import { normalizeCollection } from './content-normalizer.js';
+import { loadOptionalTranslations } from './translation-loader.js?v=heichel-mobile-010';
 
+/**
+ * Loads the exact source vessel for a persisted or virtual series identity.
+ * @param {string} seriesId Stable series or virtual Torah identity.
+ * @returns {Promise<object>} Breadcrumb, series data, and normalized content.
+ */
 export async function loadSource(seriesId) {
 	if (isChitasSeries(seriesId)) {
 		return loadChitasVirtualSeries();
@@ -58,8 +65,12 @@ async function loadIdentity(seriesId) {
 }
 
 function augmentSubSeries(series, seriesId) {
-	const sourceIntegrated = injectTorahSourceBranches(
+	const truthfulHosts = annotateTorahHostSummaries(
 		series,
+		appState.heichelId
+	);
+	const sourceIntegrated = injectTorahSourceBranches(
+		truthfulHosts,
 		appState.heichelId,
 		seriesId
 	);
@@ -76,39 +87,25 @@ async function loadCollections(seriesId) {
 		api.getPostDetails(appState.heichelId, seriesId),
 		api.getSubSeriesDetails(appState.heichelId, seriesId),
 		api.getAlternateGroupDetails(appState.heichelId, seriesId),
-		optionalTranslations(seriesId)
+		loadOptionalTranslations(appState.heichelId, seriesId)
 	]);
+	const posts = annotateTranslationState(
+		normalizeCollection(postsRaw),
+		translations
+	);
+	const subSeries = augmentSubSeries(
+		normalizeCollection(subSeriesRaw),
+		seriesId
+	);
+	const groupings = injectChitasGrouping(
+		normalizeCollection(groupingsRaw),
+		appState.heichelId,
+		seriesId
+	);
 	return {
-		posts: annotateTranslationState(
-			normalizeCollection(postsRaw),
-			translations
-		),
-		subSeries: augmentSubSeries(
-			normalizeCollection(subSeriesRaw),
-			seriesId
-		),
-		groupings: injectChitasGrouping(
-			normalizeCollection(groupingsRaw),
-			appState.heichelId,
-			seriesId
-		),
+		posts,
+		subSeries,
+		groupings,
 		translationMeta: translations?.meta || null
 	};
-}
-
-function optionalTranslations(seriesId) {
-	if (!api.isTranslationSeries(seriesId)) {
-		return Promise.resolve(null);
-	}
-	return api.getSeriesTranslations(
-		appState.heichelId,
-		seriesId,
-		250
-	).catch(error => {
-		console.warn(
-			'B"H translation metadata remained optional',
-			error
-		);
-		return null;
-	});
 }

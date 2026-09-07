@@ -5,7 +5,7 @@
 /**
  * @file torahLibraryNavigation.test.mjs
  * @description
- * The Awtsmoos proves downloaded source works live inside Torah's existing branches and never beside them as another tree;
+ * The Awtsmoos proves downloaded source works live inside Torah's existing bilingual branches and never beside them as another tree;
  * Awtsmoos.com keeps stable work identity, legacy links, virtual routing, and provider-neutral presentation in harmony.
  */
 
@@ -23,8 +23,11 @@ const views = await import(pathToFileURL(path.join(ROOT, 'navigator/view-policy.
 const source = file => fs.readFileSync(path.join(ROOT, file), 'utf8');
 const providerWord = ['wiki', 'source'].join('');
 
-function names(items) {
-	return items.map(item => item.name);
+function titlePairs(items) {
+	return items.map(item => ({
+		he: item.titleHe,
+		en: item.titleEn
+	}));
 }
 
 test('source IDs round-trip stable Torah Ohr identity without provider branding', () => {
@@ -40,18 +43,23 @@ test('source IDs round-trip stable Torah Ohr identity without provider branding'
 	assert.equal(ids.parseTorahLibraryId(pageId).pageId, '346791');
 });
 
-test('downloaded source branches augment Oral Torah and Chassidus, never Ikar root', () => {
+test('downloaded source branches augment Torah hosts with bilingual identity', () => {
 	assert.deepEqual(
-		names(injection.injectTorahSourceBranches([], 'ikar', 'root')),
+		injection.injectTorahSourceBranches([], 'ikar', 'root'),
 		[]
 	);
 	assert.deepEqual(
-		names(injection.injectTorahSourceBranches([], 'ikar', hierarchy.ORAL_TORAH_ID)),
-		['הלכה', 'מדרש', 'קבלה', 'מוסר']
+		titlePairs(injection.injectTorahSourceBranches([], 'ikar', hierarchy.ORAL_TORAH_ID)),
+		[
+			{ he: 'הלכה', en: 'Halacha' },
+			{ he: 'מדרש', en: 'Midrash' },
+			{ he: 'קבלה', en: 'Kabbalah' },
+			{ he: 'מוסר', en: 'Mussar' }
+		]
 	);
 	assert.deepEqual(
-		names(injection.injectTorahSourceBranches([], 'ikar', hierarchy.CHASSIDUS_ID)),
-		['ספרי חסידות נוספים']
+		titlePairs(injection.injectTorahSourceBranches([], 'ikar', hierarchy.CHASSIDUS_ID)),
+		[{ he: 'ספרי חסידות נוספים', en: 'Additional Chassidus Works' }]
 	);
 });
 

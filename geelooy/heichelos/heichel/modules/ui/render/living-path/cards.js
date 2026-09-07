@@ -1,16 +1,18 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
  * @module LivingPathCards
  * @description
- * The Awtsmoos lets every teaching open inside its own Awtsmoos vessel, including date-born Chitas windows;
- * Awtsmoos.com preserves progress and social action while refusing to exile native Torah through an external door.
+ * The Awtsmoos lets each teaching open through its stable route while bilingual identity is remembered in separate truthful fields;
+ * Awtsmoos.com preserves progress without storing raw parent keys as public labels, and native Chitas remains inside its own door.
  */
 
 import { getItemKey } from '../../../state.js';
 import { createStorageGateway } from '../../../living-path/storage-gateway.js';
-import { writeProgress } from '../../../living-path/progress-store.js';
+import { progressEntryForCard } from '../../../living-path/progress-identity.js?v=heichel-mobile-011';
+import { writeProgress } from '../../../living-path/progress-store.js?v=heichel-mobile-011';
 import { primarySocialActionRail } from '../PrimarySocialActionRail.js';
 import { cardMenuBlueprint } from './card-menu.js';
 import { bodyBlueprint, mediaBlueprint } from './card-content.js';
@@ -33,7 +35,9 @@ export function cardBlueprint(item, data, navigator, appState, options = {}) {
 			dir: data.direction,
 			'aria-label': `Open ${data.type}: ${data.title}`
 		},
-		events: { click: event => openCard(event, item, data, href, navigator, appState) },
+		events: {
+			click: event => openCard(event, item, data, href, navigator, appState)
+		},
 		children: [
 			mediaBlueprint(data),
 			bodyBlueprint(data),
@@ -50,10 +54,14 @@ export function cardHref(item, data, appState) {
 	if (data.raw?.chitasStudy) {
 		const params = new URLSearchParams(location.search);
 		params.set('chitasDate', data.raw.date);
-		if (!params.has('chitasLang')) params.set('chitasLang', 'en');
+		if (!params.has('chitasLang')) {
+			params.set('chitasLang', 'en');
+		}
 		return `/heichelos/${encodeURIComponent(appState.heichelId)}/series/daily-chitas/post/${encodeURIComponent(data.id)}?${params}`;
 	}
-	const postKey = item.indexInSeries !== undefined ? item.indexInSeries : data.id;
+	const postKey = item.indexInSeries !== undefined
+		? item.indexInSeries
+		: data.id;
 	return `/heichelos/${appState.heichelId}/series/${appState.currentSeries}/${postKey}`;
 }
 
@@ -66,26 +74,31 @@ function actionBlueprint(data, item, navigator, appState, options) {
 			data.type === 'post'
 				? primarySocialActionRail({ ...item, id: data.id, title: data.title, contentType: data.kind }, appState)
 				: null,
-			data.raw?.chitasStudy ? null : cardMenuBlueprint(data, item, navigator, appState)
+			data.raw?.chitasStudy
+				? null
+				: cardMenuBlueprint(data, item, navigator, appState)
 		].filter(Boolean)
 	};
 }
 
 function openCard(event, item, data, href, navigator, appState) {
-	if (event.target.closest('button, a, .card-menu-spark')) return;
-	if (appState.isSelectionMode) {
-		void import('../controls.js').then(module => module.toggleItemSelection({ id: data.id, type: data.type }, appState));
+	if (event.target.closest('button, a, .card-menu-spark')) {
 		return;
 	}
-	writeProgress(storage, appState.heichelId, {
-		href,
-		title: data.title,
-		type: data.type,
-		seriesId: ['series', 'grouping'].includes(data.type) ? data.id : appState.currentSeries,
-		postId: data.type === 'post' ? data.id : '',
-		parentLabel: appState.currentSeriesData?.name || appState.currentSeries,
-		openedAt: Date.now()
-	});
-	if (['series', 'grouping'].includes(data.type)) navigator.navigateTo(data.id);
-	else location.href = href;
+	if (appState.isSelectionMode) {
+		void import('../controls.js').then(module => {
+			module.toggleItemSelection({ id: data.id, type: data.type }, appState);
+		});
+		return;
+	}
+	writeProgress(
+		storage,
+		appState.heichelId,
+		progressEntryForCard(data, href, appState)
+	);
+	if (['series', 'grouping'].includes(data.type)) {
+		navigator.navigateTo(data.id);
+		return;
+	}
+	location.href = href;
 }

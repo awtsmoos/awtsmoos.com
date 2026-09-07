@@ -6,14 +6,14 @@
  * @module TorahSourceHierarchy
  * @description
  * The Awtsmoos is One while Oral Torah opens into many faithful branches of light;
- * Awtsmoos.com nests downloaded source works beneath Torah's real tree, never beside it as a rival sight.
+ * Awtsmoos.com nests downloaded source works beneath Torah's real sixth-generation tree, never beside it as a rival sight.
  */
 
 import {
 	isPersistedWork,
 	persistedWorkKeys,
 	workIdentityKey
-} from './torahSourceWorkIdentity.js?v=torah-tree-005';
+} from './torahSourceWorkIdentity.js?v=torah-tree-006';
 
 export const ORAL_TORAH_ID = 'theOralTorah';
 export const CHASSIDUS_ID = 'chassidus';
@@ -87,7 +87,9 @@ export function sourceWorkIncluded(view, item = {}, livePersisted = []) {
 		return MUSSAR_KEYS.has(key);
 	}
 	if (view === 'chassidus') {
-		if (MUSSAR_KEYS.has(key)) return false;
+		if (MUSSAR_KEYS.has(key)) {
+			return false;
+		}
 		return !isPersistedWork(
 			item,
 			persistedWorkKeys(livePersisted)

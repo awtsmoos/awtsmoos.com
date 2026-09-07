@@ -5,22 +5,22 @@
 /**
  * @module HeichelApp
  * @description
- * The Awtsmoos opens one living Heichel through the ninth coherent module river;
- * Awtsmoos.com keeps navigation, beauty, accessibility, and Torah-source state arriving together without stale generations that shiver.
+ * The Awtsmoos opens one living Heichel through the tenth coherent module river;
+ * Awtsmoos.com keeps navigation, accessibility, and bilingual Torah-source state arriving together without stale generations that shiver.
  */
 
 import { installSocialExperience } from '../../shared/social/SocialExperienceInstaller.js';
-import { HeichelNavigator } from './modules/navigator.js?v=heichel-mobile-009';
-import { initializeEventListeners } from './modules/events.js?v=heichel-mobile-009';
-import { manifestWorld } from './modules/ui.js?v=heichel-mobile-009';
+import { HeichelNavigator } from './modules/navigator.js?v=heichel-mobile-010';
+import { initializeEventListeners } from './modules/events.js?v=heichel-mobile-010';
+import { manifestWorld } from './modules/ui.js?v=heichel-mobile-010';
 import {
 	fatalStateCard,
 	renderFatalState
-} from './modules/app/fatal-state.js?v=heichel-mobile-009';
+} from './modules/app/fatal-state.js?v=heichel-mobile-010';
 import {
 	refreshVesselHealth,
 	runSafe
-} from './modules/app/visual-health.js?v=heichel-mobile-009';
+} from './modules/app/visual-health.js?v=heichel-mobile-010';
 
 const BOOT_KEY = '__awtsmoosHeichelBoot';
 

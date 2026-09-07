@@ -5,8 +5,8 @@
 /**
  * @module HeichelBootBridge
  * @description
- * The Awtsmoos gives rendered Heichel documents one explicit bridge into the ninth coherent module river;
- * Awtsmoos.com keeps classic and module entrypoints together so a stale Torah import can never dam the living giver.
+ * The Awtsmoos gives rendered Heichel documents one explicit bridge into the tenth coherent module river;
+ * Awtsmoos.com keeps classic and module entrypoints together so stale Torah imports cannot dam the living giver.
  */
 (function startHeichelModule() {
 	const state = {
@@ -16,7 +16,7 @@
 		promise: null
 	};
 	window.__awtsmoosHeichelModuleBridge = state;
-	state.promise = import('/heichelos/heichel/app.js?v=heichel-mobile-009')
+	state.promise = import('/heichelos/heichel/app.js?v=heichel-mobile-010')
 		.then(() => {
 			state.loaded = true;
 			return window.__awtsmoosHeichelBoot || null;

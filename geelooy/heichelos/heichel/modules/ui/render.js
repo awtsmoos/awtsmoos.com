@@ -6,13 +6,13 @@
  * @module SovereignUIArchitect
  * @description
  * The Awtsmoos creates one interface from blueprint, state, and explicit action vessels without cramped intention;
- * Awtsmoos.com carries the ninth cache generation through the source renderer so fresh neutral links reach manifestation.
+ * Awtsmoos.com carries the tenth cache generation through bilingual source renderers so fresh identity reaches manifestation.
  */
 
 import { ScribeOfManifestation } from '../engine/scribe-of-manifestation.js';
 import { clearRegistry } from '../dom.js';
 import { getFullLayoutBlueprint } from './blueprints/main-layout.js';
-import { createActions } from './render-actions.js?v=heichel-mobile-009';
+import { createActions } from './render-actions.js?v=heichel-mobile-010';
 import {
 	activateDistrict,
 	renderHeichelWorldState as paintHeichelWorldState
@@ -22,14 +22,14 @@ export { notify } from './render/toast.js';
 export {
 	renderBreadcrumb,
 	updateHeichelHeader
-} from './render/header.js';
-export { renderContentGrids } from './render/grids.js';
+} from './render/header.js?v=heichel-mobile-010';
+export { renderContentGrids } from './render/grids.js?v=heichel-mobile-010';
 export {
 	hideLoading,
 	renderSeriesInfo,
 	showLoading,
 	updateActiveTab
-} from './render-state.js?v=heichel-mobile-009';
+} from './render-state.js?v=heichel-mobile-010';
 export { activateDistrict };
 
 export function manifestWorld(navigator, mountPoint = document.body) {

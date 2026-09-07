@@ -6,13 +6,14 @@
  * @module TorahSourcePersistedBridge
  * @description
  * The Awtsmoos lets a downloaded Chassidus shelf learn which canonical works already dwell in the living Heichel;
- * Awtsmoos.com treats this metadata as optional light, so a temporary network shadow never closes the source vessel.
+ * Awtsmoos.com treats this metadata as optional light, so a temporary network shadow never closes the sixth-generation source vessel.
  */
 
 import { getSubSeriesDetails } from '../api/series.js';
-import { CHASSIDUS_ID } from '../torahSourceHierarchy.js?v=torah-tree-005';
+import { CHASSIDUS_ID } from '../torahSourceHierarchy.js?v=torah-tree-006';
 import { normalizeCollection } from '../navigator/content-normalizer.js';
 
+/** Loads persisted Chassidus children when reconciliation can improve source deduplication. */
 export async function optionalPersistedWorks(definition) {
 	if (definition?.hostSeriesId !== CHASSIDUS_ID) {
 		return [];

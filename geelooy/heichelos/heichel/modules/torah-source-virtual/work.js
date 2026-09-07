@@ -5,22 +5,22 @@
 /**
  * @module TorahSourceVirtualWork
  * @description
- * The Awtsmoos lets one sefer open page after page while its stable work identity never slips away;
- * Awtsmoos.com keeps pagination inside the true Torah breadcrumb and never exposes the provider as the way.
+ * The Awtsmoos lets one sefer open page after page while stable identity and bilingual presentation never slip away;
+ * Awtsmoos.com keeps pagination inside the true Torah breadcrumb and never exposes provider machinery as the way.
  */
 
 import { browseTorahLibrary } from '../api/torahLibrary.js';
-import { workSeriesId } from '../torahLibraryIds.js?v=torah-tree-005';
+import { workSeriesId } from '../torahLibraryIds.js?v=torah-tree-006';
 import {
 	moreCard,
 	pageCard,
 	workCard
-} from '../torahLibraryPresentation.js?v=torah-tree-005';
-import { sourceDefinition } from '../torahSourceHierarchy.js?v=torah-tree-005';
+} from '../torahLibraryPresentation.js?v=torah-tree-006';
+import { sourceDefinition } from '../torahSourceHierarchy.js?v=torah-tree-006';
 import {
 	domainBreadcrumb,
 	virtualVessel
-} from './shared.js?v=torah-tree-005';
+} from './shared.js?v=torah-tree-006';
 
 export async function loadSourceWork(identity) {
 	const definition = sourceDefinition(

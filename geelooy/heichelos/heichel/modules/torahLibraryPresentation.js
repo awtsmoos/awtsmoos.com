@@ -5,15 +5,16 @@
 /**
  * @module TorahSourcePresentation
  * @description
- * The Awtsmoos clothes exact downloaded Torah truth in branches already rooted in Torah's own tree;
- * Awtsmoos.com shows revision, hash, quality, and license while the source button opens only a neutral same-site doorway free.
+ * The Awtsmoos clothes exact Torah truth in Hebrew authority and an English companion while source identity stays one;
+ * Awtsmoos.com lets every domain, work, and page enter the living tree bilingually without altering where its data comes from.
  */
 
 import {
 	domainSeriesId,
 	pageSeriesId,
 	workSeriesId
-} from './torahLibraryIds.js?v=torah-tree-005';
+} from './torahLibraryIds.js?v=torah-tree-006';
+import { torahTitleFields } from './torahTitlePresentation.js?v=torah-bilingual-002';
 
 const virtual = {
 	type: 'series',
@@ -25,10 +26,12 @@ export function domainCard(definition, count = 0) {
 	return {
 		...virtual,
 		id: domainSeriesId(definition.view),
-		name: definition.title,
+		...torahTitleFields({
+			name: definition.title
+		}),
 		description: count
-			? `${Number(count).toLocaleString()} דפים`
-			: 'ספרי מקור מלאים'
+			? `${Number(count).toLocaleString()} דפים · pages`
+			: 'ספרי מקור מלאים · Full source works'
 	};
 }
 
@@ -37,8 +40,12 @@ export function workCard(item, view) {
 	return {
 		...virtual,
 		id: workSeriesId(view, work, 0),
-		name: item.title || work,
-		description: `${Number(item.count || 0).toLocaleString()} דפים`
+		...torahTitleFields({
+			...item,
+			id: work,
+			name: item.title || work
+		}),
+		description: `${Number(item.count || 0).toLocaleString()} דפים · pages`
 	};
 }
 
@@ -46,7 +53,10 @@ export function pageCard(item, view, work) {
 	return {
 		...virtual,
 		id: pageSeriesId(item.pageId, view, work),
-		name: item.title || `דף ${item.pageId}`,
+		...torahTitleFields({
+			...item,
+			name: item.title || `דף ${item.pageId}`
+		}),
 		description: compactProvenance(item)
 	};
 }
@@ -55,16 +65,17 @@ export function moreCard(view, work, offset) {
 	return {
 		...virtual,
 		id: workSeriesId(view, work, offset),
-		name: 'עוד דפים',
-		description: `המשך מן הדף ${Number(offset) + 1}`
+		...torahTitleFields({ name: 'עוד דפים' }),
+		description: `המשך מן הדף ${Number(offset) + 1} · Continue from page ${Number(offset) + 1}`
 	};
 }
 
 export function pageSeriesData(page, fallbackTitle) {
+	const name = page.title || fallbackTitle || 'תורה';
 	return {
 		...virtual,
 		id: page.pageId || page.id,
-		name: page.title || fallbackTitle || 'תורה',
+		...torahTitleFields({ ...page, name }),
 		exactSourceText: true,
 		sourceText: sourceText(page),
 		provenanceText: provenanceText(page),
@@ -74,16 +85,16 @@ export function pageSeriesData(page, fallbackTitle) {
 
 export function provenanceText(page = {}) {
 	return [
-		`גרסה: ${page.revisionId ?? '—'}`,
-		`זמן גרסה: ${page.revisionTimestamp ?? '—'}`,
-		`איכות: ${page.qualityState ?? '—'}`,
-		`רישיון: ${page.license ?? '—'}`,
-		`טביעת מקור: ${page.sourceHash ?? '—'}`
+		`גרסה · Revision: ${page.revisionId ?? '—'}`,
+		`זמן גרסה · Revision time: ${page.revisionTimestamp ?? '—'}`,
+		`איכות · Quality: ${page.qualityState ?? '—'}`,
+		`רישיון · License: ${page.license ?? '—'}`,
+		`טביעת מקור · Source hash: ${page.sourceHash ?? '—'}`
 	].join('\n');
 }
 
 function compactProvenance(page = {}) {
-	return `גרסה ${page.revisionId ?? '—'} · ${page.license ?? 'מקור מאומת'}`;
+	return `גרסה · Revision ${page.revisionId ?? '—'} · ${page.license ?? 'מקור מאומת · Verified source'}`;
 }
 
 function sourceText(page = {}) {

@@ -5,23 +5,24 @@
 /**
  * @module TorahSourceVirtualDomain
  * @description
- * The Awtsmoos lets downloaded source works enter their rightful Oral Torah hall while canonical siblings remain one;
- * Awtsmoos.com reconciles live persisted titles when available and keeps a proven fallback when the network is done.
+ * The Awtsmoos lets downloaded source works enter their rightful Torah hall while bilingual identity remains one;
+ * Awtsmoos.com reconciles persisted titles and source truth while the sixth Torah-tree generation keeps navigation done.
  */
 
 import { browseTorahLibrary } from '../api/torahLibrary.js';
 import {
 	domainCard,
 	workCard
-} from '../torahLibraryPresentation.js?v=torah-tree-005';
+} from '../torahLibraryPresentation.js?v=torah-tree-006';
 import {
 	sourceDefinition,
 	sourceHostBreadcrumb,
 	sourceWorkIncluded
-} from '../torahSourceHierarchy.js?v=torah-tree-005';
-import { optionalPersistedWorks } from './persisted.js?v=torah-tree-005';
-import { virtualVessel } from './shared.js?v=torah-tree-005';
+} from '../torahSourceHierarchy.js?v=torah-tree-006';
+import { optionalPersistedWorks } from './persisted.js?v=torah-tree-006';
+import { virtualVessel } from './shared.js?v=torah-tree-006';
 
+/** Loads one source-backed Torah domain and its real work children. */
 export async function loadSourceDomain(identity) {
 	const definition = sourceDefinition(identity.view);
 	if (!definition) {

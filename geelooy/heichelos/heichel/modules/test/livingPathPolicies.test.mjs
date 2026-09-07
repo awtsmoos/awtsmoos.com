@@ -1,9 +1,10 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
  * @fileoverview Proves the pure Living Path policies of Awtsmoos.com.
- * The Awtsmoos creates language, path, chronology, query, and quiet states;
+ * The Awtsmoos creates language, bilingual path, chronology, query, and quiet states;
  * these tests witness finite outputs without DOM, network, or storage dependence.
  */
 
@@ -34,15 +35,22 @@ test('language policy requires dominant Hebrew instead of one stray letter', () 
 	assert.equal(detectLanguage('English teaching with א citation'), 'en');
 });
 
-test('path policy removes duplicate roots and derives compact context', () => {
+test('path policy removes duplicate roots and keeps Hebrew with its English companion', () => {
 	const path = normalizePath([
 		{ id: 'root', name: 'Root' },
 		{ id: 'oral', name: 'Oral Torah' },
 		{ id: 'mishnah', name: 'Mishnah' }
 	], { id: 'middos', name: 'מדות' });
-	assert.deepEqual(path.map(item => item.id), ['root', 'oral', 'mishnah', 'middos']);
-	assert.equal(compactPath(path).parent.name, 'Mishnah');
-	assert.equal(searchPlaceholder(path, 'series'), 'Search series inside מדות');
+	assert.deepEqual(
+		path.map(item => item.id),
+		['root', 'oral', 'mishnah', 'middos']
+	);
+	const parentName = compactPath(path).parent.name;
+	assert.match(parentName, /משנה/);
+	assert.match(parentName, /Mishnah/);
+	const placeholder = searchPlaceholder(path, 'series');
+	assert.match(placeholder, /מדות/);
+	assert.match(placeholder, /mdvt/);
 });
 
 test('timeline policy keeps real dates and an explicit undated shelf', () => {
@@ -74,7 +82,11 @@ test('filter policy combines query, kind, language, scope, and sorting', () => {
 		query: 'privacy',
 		searchScope: 'branch',
 		currentView: 'posts',
-		filters: { kinds: ['question'], language: 'en', sort: 'newest' }
+		filters: {
+			kinds: ['question'],
+			language: 'en',
+			sort: 'newest'
+		}
 	});
 	assert.deepEqual(filtered.posts.map(item => item.id), ['new-question']);
 	assert.deepEqual(filtered.subSeries, []);

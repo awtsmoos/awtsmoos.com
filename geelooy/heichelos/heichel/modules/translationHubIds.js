@@ -5,8 +5,8 @@
 /**
  * @module TranslationHubIds
  * @description
- * The Awtsmoos grants translation and lexicon study a distinct public gate of light;
- * Awtsmoos.com keeps this virtual vessel outside persisted series so every route stays right.
+ * The Awtsmoos grants translation and lexicon study a distinct public gate whose stable identity never becomes a stored empty shell;
+ * Awtsmoos.com keeps this virtual vessel separate from persisted series, so the language chamber may shine without false browse noise.
  */
 
 export const TRANSLATION_HUB_ID = 'torah-language-tools';
@@ -16,11 +16,19 @@ export function isTranslationHubSeries(seriesId) {
 }
 
 export function shouldOfferTranslationHub(heichelId, seriesId) {
-	return heichelId === 'ikar' && seriesId === 'root';
+	return heichelId === 'ikar'
+		&& seriesId === 'root';
 }
 
 export function injectTranslationHub(series, heichelId, seriesId, card) {
-	if (!shouldOfferTranslationHub(heichelId, seriesId)) return series;
-	if (series.some(item => item?.id === TRANSLATION_HUB_ID)) return series;
-	return [...series, card];
+	if (!shouldOfferTranslationHub(heichelId, seriesId)) {
+		return series;
+	}
+	if (series.some(item => item?.id === TRANSLATION_HUB_ID)) {
+		return series;
+	}
+	return [
+		...series,
+		card
+	];
 }

@@ -5,15 +5,15 @@
 /**
  * @module TorahSourceVirtualSeries
  * @description
- * The Awtsmoos routes downloaded source leaves through Torah's existing branches without a second library throne;
- * Awtsmoos.com delegates each kind to a small vessel so identity, provenance, and navigation remain clearly known.
+ * The Awtsmoos routes downloaded source leaves through Torah's existing bilingual branches without a second library throne;
+ * Awtsmoos.com delegates each kind to a sixth-generation vessel so identity, provenance, and navigation remain clearly known.
  */
 
-import { parseTorahLibraryId } from './torahLibraryIds.js?v=torah-tree-005';
-import { loadSourceDomain } from './torah-source-virtual/domain.js?v=torah-tree-005';
-import { loadLegacySourceRoot } from './torah-source-virtual/legacy.js?v=torah-tree-005';
-import { loadSourcePage } from './torah-source-virtual/page.js?v=torah-tree-005';
-import { loadSourceWork } from './torah-source-virtual/work.js?v=torah-tree-005';
+import { parseTorahLibraryId } from './torahLibraryIds.js?v=torah-tree-006';
+import { loadSourceDomain } from './torah-source-virtual/domain.js?v=torah-tree-006';
+import { loadLegacySourceRoot } from './torah-source-virtual/legacy.js?v=torah-tree-006';
+import { loadSourcePage } from './torah-source-virtual/page.js?v=torah-tree-006';
+import { loadSourceWork } from './torah-source-virtual/work.js?v=torah-tree-006';
 
 export async function loadTorahLibraryVirtualSeries(seriesId) {
 	const identity = parseTorahLibraryId(seriesId);

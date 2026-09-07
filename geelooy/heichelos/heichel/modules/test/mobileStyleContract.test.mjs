@@ -1,12 +1,12 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @module MobileStyleContractTest
  * @description
  * The Awtsmoos creates every imported style and visible action in one present;
- * Awtsmoos.com follows split blueprint, action, renderer, CSS, and semantic trigger vessels without freezing yesterday's module shape.
+ * Awtsmoos.com follows split blueprint, action, renderer, CSS, and tenth-generation trigger vessels without freezing yesterday's shape.
  */
 
 import assert from 'node:assert/strict';
@@ -23,7 +23,9 @@ function cleanImport(target) {
 
 function cssGraph(entry, seen = new Set()) {
 	const normalized = path.normalize(cleanImport(entry)).replace(/\\/g, '/');
-	if (seen.has(normalized)) return '';
+	if (seen.has(normalized)) {
+		return '';
+	}
 	seen.add(normalized);
 	const source = read(normalized);
 	const directory = path.dirname(normalized);
@@ -51,9 +53,7 @@ const blueprintFiles = [
 const blueprints = blueprintFiles
 	.map(file => read(`geelooy/heichelos/heichel/modules/ui/blueprints/${file}`))
 	.join('\n');
-const filters = read(
-	'geelooy/heichelos/heichel/modules/ui/blueprints/living-path/filters.js'
-);
+const filters = read('geelooy/heichelos/heichel/modules/ui/blueprints/living-path/filters.js');
 const renderFiles = [
 	'render.js',
 	'render-actions.js',
@@ -96,11 +96,12 @@ for (const token of [
 	assert.ok(completeCss.includes(`.${token}`), `CSS graph must style .${token}`);
 }
 
-assert.match(filters, /['"]filterButton['"]/, 'filter trigger ref must remain addressable');
-assert.match(filters, /actions\.openFilterSheet/, 'filter trigger must open the refinement sheet');
-assert.match(filters, /aria-expanded['"]?:\s*['"]false['"]/, 'filter trigger must expose expanded state');
-assert.match(filters, /aria-controls['"]?:\s*['"]living-path-filter-sheet['"]/, 'filter trigger must own its sheet');
-assert.match(renderEntry, /render-actions\.js\?v=heichel-mobile-009/);
+assert.match(filters, /['"]filterButton['"]/);
+assert.match(filters, /actions\.openFilterSheet/);
+assert.match(filters, /aria-expanded['"]?:\s*['"]false['"]/);
+assert.match(filters, /aria-controls['"]?:\s*['"]living-path-filter-sheet['"]/);
+assert.match(renderEntry, /render-actions\.js\?v=heichel-mobile-010/);
+assert.doesNotMatch(renderEntry, /heichel-mobile-009/);
 assert.ok(renderGraph.includes("classList.toggle('sidebar-open')"));
 assert.ok(!renderGraph.includes("classList.toggle('sidebar-collapsed')"));
 assert.ok(completeCss.includes('.geelooy-mobile-drawer a'));

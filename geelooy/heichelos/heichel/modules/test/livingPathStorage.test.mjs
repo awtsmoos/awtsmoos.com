@@ -1,10 +1,11 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
  * @fileoverview Proves guarded Living Path persistence for Awtsmoos.com.
- * The Awtsmoos is beyond browser memory; these tests verify malformed values,
- * quota failures, versioned preferences, and small truthful progress records.
+ * The Awtsmoos is beyond browser memory, yet each remembered path may carry distinct vessels of Hebrew and English light;
+ * these tests keep storage small, stable-ID based, backward compatible, and truthful through every renewed browser night.
  */
 
 import assert from 'node:assert/strict';
@@ -60,25 +61,47 @@ test('preferences normalize durable density, scope, and filters', () => {
 	});
 });
 
-test('progress stores only a small real route record and can be cleared', () => {
+test('progress stores bilingual identity fields beside stable route ids', () => {
 	const gateway = createStorageGateway(memoryStorage());
 	assert.equal(writeProgress(gateway, 'ikar', {
 		href: '/heichelos/ikar/series/middos?view=posts',
-		title: 'מדות',
+		title: 'מדות · Middos',
+		titleHe: 'מדות',
+		titleEn: 'Middos',
 		type: 'series',
 		seriesId: 'middos',
-		parentLabel: 'Mishnah',
+		parentSeriesId: 'theOralTorah',
+		parentLabel: 'תורה שבעל פה · The Oral Torah',
 		openedAt: 123
 	}), true);
 	assert.deepEqual(readProgress(gateway, 'ikar'), {
 		href: '/heichelos/ikar/series/middos?view=posts',
-		title: 'מדות',
+		title: 'מדות · Middos',
+		titleHe: 'מדות',
+		titleEn: 'Middos',
 		type: 'series',
 		seriesId: 'middos',
 		postId: '',
-		parentLabel: 'Mishnah',
+		parentSeriesId: 'theOralTorah',
+		parentLabel: 'תורה שבעל פה · The Oral Torah',
 		openedAt: 123
 	});
 	assert.equal(clearProgress(gateway, 'ikar'), true);
 	assert.equal(readProgress(gateway, 'ikar'), null);
+});
+
+test('legacy progress with a rendered title remains readable without manual cache clearing', () => {
+	const key = 'BH_AWTSMOOS_LIVING_PATH_PROGRESS_V1:ikar';
+	const legacy = {
+		href: '/heichelos/ikar/series/shoftim',
+		title: 'שופטים · Judges',
+		type: 'series',
+		seriesId: 'shoftim',
+		parentLabel: 'נביאים · Prophets',
+		openedAt: 321
+	};
+	const gateway = createStorageGateway(memoryStorage({
+		[key]: JSON.stringify(legacy)
+	}));
+	assert.deepEqual(readProgress(gateway, 'ikar'), legacy);
 });

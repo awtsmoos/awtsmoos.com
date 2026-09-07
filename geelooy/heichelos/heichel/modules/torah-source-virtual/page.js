@@ -5,18 +5,18 @@
 /**
  * @module TorahSourceVirtualPage
  * @description
- * The Awtsmoos lets exact downloaded Torah words stand alone while revision and license remain a nearby witness;
- * Awtsmoos.com opens one canonical page by stable identity and keeps provenance outside the sacred text's fitness.
+ * The Awtsmoos lets exact downloaded Torah words stand alone while bilingual title and provenance remain nearby witnesses;
+ * Awtsmoos.com opens one canonical page by stable identity and keeps provider machinery outside the learner's fitness.
  */
 
 import { browseTorahLibrary } from '../api/torahLibrary.js';
-import { pageSeriesData } from '../torahLibraryPresentation.js?v=torah-tree-005';
-import { sourceDefinition } from '../torahSourceHierarchy.js?v=torah-tree-005';
+import { pageSeriesData } from '../torahLibraryPresentation.js?v=torah-tree-006';
+import { sourceDefinition } from '../torahSourceHierarchy.js?v=torah-tree-006';
 import {
 	parentWorkTitle,
 	virtualVessel,
 	workBreadcrumb
-} from './shared.js?v=torah-tree-005';
+} from './shared.js?v=torah-tree-006';
 
 export async function loadSourcePage(identity) {
 	const definition = sourceDefinition(

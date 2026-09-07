@@ -6,15 +6,16 @@
  * @module SovereignNavigator
  * @description
  * The Awtsmoos creates route, content, and reader intention in one present while inherited controls remain distinct;
- * Awtsmoos.com changes a view only when content, context, and the ninth coherent mobile generation arrive together and consistent.
+ * Awtsmoos.com changes a view only when content, context, and the tenth coherent mobile generation arrive together and consistent.
  */
 
 import { appState } from './state.js';
 import * as api from '../api.js';
-import * as ui from './ui.js?v=heichel-mobile-009';
-import { loadContent } from './navigator/loader.js?v=heichel-mobile-009';
-import { NavigatorInteractionDelegate } from './navigator/interaction-delegate.js?v=heichel-mobile-009';
-import { LivingPathController } from './living-path/controller.js?v=heichel-mobile-009';
+import * as ui from './ui.js?v=heichel-mobile-010';
+import { loadContent } from './navigator/loader.js?v=heichel-mobile-010';
+import { NavigatorInteractionDelegate } from './navigator/interaction-delegate.js?v=heichel-mobile-010';
+import { beginOwnershipCheck } from './navigator/ownership-loader.js?v=heichel-mobile-010';
+import { LivingPathController } from './living-path/controller.js?v=heichel-mobile-010';
 import {
 	normalizeBrowserRoute,
 	normalizeView,
@@ -40,7 +41,7 @@ export class HeichelNavigator extends NavigatorInteractionDelegate {
 			throw new Error('This Heichel is unavailable or could not be read.');
 		}
 		appState.heichelData.id = appState.heichelId;
-		this.beginOwnershipCheck();
+		this.ownershipPromise = beginOwnershipCheck(this);
 		ui.updateHeichelHeader(appState.heichelData);
 		this.livingPath.connect();
 		const route = readInitialRoute();
@@ -52,26 +53,6 @@ export class HeichelNavigator extends NavigatorInteractionDelegate {
 		setBootStage('content');
 		await this.loadContent(route.seriesId);
 		setBootStage('ready');
-	}
-
-	beginOwnershipCheck() {
-		this.ownershipPromise = api.checkOwnership(
-			window.curAlias,
-			appState.heichelId
-		)
-			.then(async ownsIt => {
-				if (!ownsIt || appState.ownsIt) return false;
-				appState.ownsIt = true;
-				await this.loadContent(appState.currentSeries || 'root');
-				return true;
-			})
-			.catch(error => {
-				console.warn(
-					'B"H — Ownership remains safely in visitor mode.',
-					error
-				);
-				return false;
-			});
 	}
 
 	loadContent(seriesId) {
@@ -86,7 +67,9 @@ export class HeichelNavigator extends NavigatorInteractionDelegate {
 
 	switchView(newView, force = false, render = true) {
 		const next = normalizeView(newView);
-		if (!force && this.currentView === next) return;
+		if (!force && this.currentView === next) {
+			return;
+		}
 		this.currentView = next;
 		appState.currentView = next;
 		ui.updateActiveTab(next);

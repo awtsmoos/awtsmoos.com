@@ -5,18 +5,22 @@
 /**
  * @module TorahSourceInjection
  * @description
- * The Awtsmoos lets source-backed sefarim enter existing Oral Torah halls without building another palace;
- * Awtsmoos.com adds only branches relevant to the current parent, preserving speed, meaning, and place.
+ * The Awtsmoos lets source-backed sefarim enter existing Torah halls with Hebrew and English beside each other in place;
+ * Awtsmoos.com adds only branches relevant to the current parent, preserving speed, meaning, and navigable grace.
  */
 
-import { domainCard } from './torahLibraryPresentation.js?v=torah-tree-005';
-import { sourceBranchDefinitions } from './torahSourceHierarchy.js?v=torah-tree-005';
+import { domainCard } from './torahLibraryPresentation.js?v=torah-tree-006';
+import { sourceBranchDefinitions } from './torahSourceHierarchy.js?v=torah-tree-006';
 
 export function injectTorahSourceBranches(series, heichelId, seriesId) {
-	if (heichelId !== 'ikar') return series;
+	if (heichelId !== 'ikar') {
+		return series;
+	}
 	const additions = sourceBranchDefinitions(seriesId)
 		.map(definition => domainCard(definition));
-	if (!additions.length) return series;
+	if (!additions.length) {
+		return series;
+	}
 	const existing = new Set(
 		series
 			.map(item => item?.id)

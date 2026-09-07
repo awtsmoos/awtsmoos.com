@@ -5,8 +5,8 @@
 /**
  * @module TranslationHubRenderer
  * @description
- * The Awtsmoos lets one written query call many faithful dictionaries without loading their ocean first;
- * Awtsmoos.com keeps the page shareable, source-filtered, accessible, and honest when data has not yet burst.
+ * The Awtsmoos lets one written query call every installed faithful dictionary without loading their ocean first;
+ * Awtsmoos.com keeps Hebrew and English together in the controls, while absence is named honestly and provenance is preserved in sight.
  */
 
 import { listDictionaries, lookupDictionary } from '../api.js';
@@ -39,7 +39,7 @@ function rememberQuery(word) {
 
 async function fillSources(select) {
 	const payload = await listDictionaries().catch(() => null);
-	select.replaceChildren(option('', 'כל המילונים'));
+	select.replaceChildren(option('', 'כל המילונים · All dictionaries'));
 	for (const source of payload?.sources || []) {
 		select.appendChild(option(source.id, source.title || source.id));
 	}
@@ -48,31 +48,34 @@ async function fillSources(select) {
 function renderResults(area, payload) {
 	area.replaceChildren();
 	if (!payload?.available) {
-		area.appendChild(stateMessage('המילונים טרם הותקנו בשרת.'));
+		area.appendChild(stateMessage(
+			'המילונים טרם הותקנו בשרת. · Dictionaries are not installed on this server yet.'
+		));
 		return;
 	}
 	const results = Array.isArray(payload.results) ? payload.results : [];
 	if (!results.length) {
-		area.appendChild(stateMessage('לא נמצאו תוצאות.'));
+		area.appendChild(stateMessage('לא נמצאו תוצאות. · No results found.'));
 		return;
 	}
 	results.forEach(entry => area.appendChild(lexiconResultCard(entry)));
 }
 
-/** Renders the direct translation and dictionary lookup surface. */
+/** Renders a shareable, source-filtered bilingual dictionary lookup surface. */
 export function renderTranslationHub(area) {
 	const form = element('form', 'translation-hub-form');
 	const input = document.createElement('input');
 	input.className = 'translation-hub-input';
 	input.name = 'lookup';
-	input.placeholder = 'חיפוש מילה בעברית, ארמית או יידיש';
+	input.placeholder = 'חיפוש מילה בעברית, ארמית או יידיש · Search Hebrew, Aramaic, or Yiddish';
+	input.setAttribute('aria-label', 'חיפוש מילה · Search word');
 	input.autocomplete = 'off';
 	input.dir = 'auto';
 	input.value = queryFromUrl();
 	const select = document.createElement('select');
 	select.className = 'translation-hub-source';
-	select.setAttribute('aria-label', 'מקור מילון');
-	const submit = element('button', 'translation-hub-submit', 'חיפוש');
+	select.setAttribute('aria-label', 'מקור מילון · Dictionary source');
+	const submit = element('button', 'translation-hub-submit', 'חיפוש · Search');
 	submit.type = 'submit';
 	const results = element('section', 'translation-hub-results');
 	results.setAttribute('aria-live', 'polite');
@@ -85,9 +88,12 @@ export function renderTranslationHub(area) {
 		if (!word) return renderResults(results, { available: true, results: [] });
 		rememberQuery(word);
 		submit.disabled = true;
-		results.replaceChildren(stateMessage('מחפש…'));
+		results.replaceChildren(stateMessage('מחפש… · Searching…'));
 		try {
-			renderResults(results, await lookupDictionary(word, { source: select.value, limit: 20 }));
+			renderResults(results, await lookupDictionary(word, {
+				source: select.value,
+				limit: 20
+			}));
 		} catch {
 			renderResults(results, { available: false, results: [] });
 		} finally {

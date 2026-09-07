@@ -5,7 +5,7 @@
 /**
  * @module ChitasBootCacheGraphTest
  * @description
- * The Awtsmoos sends one fresh ninth Heichel generation from document to daily Torah leaf without a cached fracture in between;
+ * The Awtsmoos sends one fresh tenth Heichel generation from document to daily Torah leaf without a cached fracture in between;
  * Awtsmoos.com guards each import edge while native-chitas-003 stays stable, so yesterday's browser graph cannot masquerade again.
  */
 
@@ -31,13 +31,13 @@ for (const [name, source] of [
 ]) {
 	assert.match(
 		source,
-		/heichel-mobile-009/,
-		`${name} must participate in generation 009`
+		/heichel-mobile-010/,
+		`${name} must participate in generation 010`
 	);
 	assert.doesNotMatch(
 		source,
-		/heichel-mobile-008/,
-		`${name} must not retain generation 008`
+		/heichel-mobile-009|heichel-mobile-008/,
+		`${name} must not retain an older Heichel generation`
 	);
 }
 
@@ -48,12 +48,12 @@ assert.doesNotMatch(
 	sourceLoader + virtualSeries + schedule,
 	/native-chitas-002|chabadStudyHref|chabad\.org|externalHref/
 );
-assert.match(template, /bootBridge\.js\?v=heichel-mobile-009/);
-assert.match(template, /app\.js\?v=heichel-mobile-009/);
-assert.match(bridge, /app\.js\?v=heichel-mobile-009/);
-assert.match(app, /navigator\.js\?v=heichel-mobile-009/);
-assert.match(navigator, /navigator\/loader\.js\?v=heichel-mobile-009/);
-assert.match(loader, /source-loader\.js\?v=heichel-mobile-009/);
+assert.match(template, /bootBridge\.js\?v=heichel-mobile-010/);
+assert.match(template, /app\.js\?v=heichel-mobile-010/);
+assert.match(bridge, /app\.js\?v=heichel-mobile-010/);
+assert.match(app, /navigator\.js\?v=heichel-mobile-010/);
+assert.match(navigator, /navigator\/loader\.js\?v=heichel-mobile-010/);
+assert.match(loader, /source-loader\.js\?v=heichel-mobile-010/);
 
 for (const [path, source] of [
 	['bootBridge.js', bridge],

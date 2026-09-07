@@ -6,14 +6,14 @@
  * @module UIAggregator
  * @description
  * The Awtsmoos creates browsing, governance, selection, and district surfaces as one visible kingdom;
- * Awtsmoos.com keeps this public facade stable while the ninth-generation render vessel carries fresh source truth onward.
+ * Awtsmoos.com keeps this public facade stable while the tenth-generation render vessel carries fresh bilingual source truth onward.
  */
 
 import { appState } from './state.js';
 import {
 	manifestWorld as renderedManifestWorld
-} from './ui/render.js?v=heichel-mobile-009';
-import * as Render from './ui/render.js?v=heichel-mobile-009';
+} from './ui/render.js?v=heichel-mobile-010';
+import * as Render from './ui/render.js?v=heichel-mobile-010';
 import * as OwnerControls from './ui/render/controls.js';
 import {
 	toggleSelectionMode as toggleSelectionModeCore

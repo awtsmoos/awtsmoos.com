@@ -6,17 +6,18 @@
  * @module ContentUnveiler
  * @description
  * The Awtsmoos creates stored and virtual branches through one measured coordinator;
- * Awtsmoos.com guards stale loads while the ninth coherent mobile generation reveals source and view without confusion.
+ * Awtsmoos.com guards stale loads while the tenth coherent mobile generation reveals source and view without confusion.
  */
 
 import { appState } from '../state.js';
-import * as ui from '../ui.js?v=heichel-mobile-009';
+import * as ui from '../ui.js?v=heichel-mobile-010';
 import * as DND from '../dragdrop.js';
-import { loadSource } from './source-loader.js?v=heichel-mobile-009';
+import { loadSource } from './source-loader.js?v=heichel-mobile-010';
 import { chooseContentView } from './view-policy.js?v=torah-library-001';
 
 let loadToken = 0;
 
+/** Loads one route, rejects stale races, adopts state, and manifests the chosen view. */
 export async function loadContent(navigator, seriesId) {
 	const token = ++loadToken;
 	ui.showLoading();
@@ -26,7 +27,9 @@ export async function loadContent(navigator, seriesId) {
 	appState.currentSeries = seriesId;
 	try {
 		const source = await loadSource(seriesId);
-		if (token !== loadToken) return;
+		if (token !== loadToken) {
+			return;
+		}
 		adoptSource(source, seriesId);
 		const view = chooseContentView(
 			source.content,
