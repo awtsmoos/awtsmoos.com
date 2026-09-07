@@ -1,5 +1,5 @@
 B"H
-1.0.584
+1.0.585
 main.js
 ai/relay/direct/browser/AgentTabCatalog.mjs
 ai/relay/direct/browser/AgentTabProtectionState.mjs
@@ -1988,8 +1988,11 @@ tools/fs/dependencyGraph.js
 tools/fs/deviceStateRoot.js
 tools/fs/diagnostics.js
 tools/fs/executor/executionObserver.js
+tools/fs/executor/failure-family.js
+tools/fs/executor/family-circuit.js
 tools/fs/executor/index.js
 tools/fs/executor/policy.js
+tools/fs/executor/pool-admission.js
 tools/fs/executor/pool-affinity.js
 tools/fs/executor/pool-capacity.js
 tools/fs/executor/pool-jobs.js
