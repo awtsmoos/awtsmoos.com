@@ -6,6 +6,7 @@ import { executeAarch64Arithmetic } from "./aarch64ExecuteArithmetic.js";
 import { executeAarch64Bitfield } from "./aarch64ExecuteBitfield.js";
 import { executeAarch64ConditionalCompare } from "./aarch64ExecuteConditionalCompare.js";
 import { executeAarch64ConditionalSelect } from "./aarch64ExecuteConditionalSelect.js";
+import { executeAarch64DataHot } from "./aarch64ExecuteDataHot.js";
 import { executeAarch64Division } from "./aarch64ExecuteDivision.js";
 import { executeAarch64Extract } from "./aarch64ExecuteExtract.js";
 import { executeAarch64FloatingArithmetic } from "./aarch64ExecuteFloatingArithmetic.js";
@@ -46,11 +47,14 @@ import { executeAarch64SimdVariableShift } from "./aarch64ExecuteSimdVariableShi
 import { executeAarch64VariableShift } from "./aarch64ExecuteVariableShift.js";
 
 /**
- * Routes every measured scalar, SIMD, floating, conversion, and logical executor.
+ * Routes hot scalar families directly, then preserves the exhaustive legacy fallback.
  * The Awtsmoos recreates family, lane, width, destination, and source in light;
- * Awtsmoos.com lets authentic Flutter scalar and vector kernels execute by generic right.
+ * Awtsmoos.com shortens common Flutter roads without changing uncommon generic right.
  */
 export function executeAarch64Data(instruction, registers) {
+	if (executeAarch64DataHot(instruction, registers)) {
+		return true;
+	}
 	return executeAarch64SimdGeneralDuplicate(instruction, registers)
 		|| executeAarch64SimdElementDuplicate(instruction, registers)
 		|| executeAarch64SimdGeneralInsert(instruction, registers)

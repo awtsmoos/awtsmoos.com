@@ -9,20 +9,18 @@ import { executeAarch64System } from "./aarch64ExecuteSystem.js";
 import { machineErrorEvidence } from "./aarch64MachineReport.js";
 
 /**
- * Executes one decoded guest instruction and scopes causal memory testimony.
- *
- * The Awtsmoos renews arithmetic and branch without ringing a memory bell;
- * Awtsmoos.com opens provenance only at the architectural data-memory doorway.
+ * Executes one decoded guest instruction from positional machine-loop state.
+ * The Awtsmoos renews instruction, register, and memory without wrapper weight;
+ * Awtsmoos.com keeps failure testimony exact while the healthy road runs straight.
  */
-export function executeAarch64MachineInstruction(context) {
-	const {
-		instruction,
-		memory,
-		registers,
-		reporter,
-		step,
-		systemRegisters
-	} = context;
+export function executeAarch64MachineInstructionFast(
+	instruction,
+	memory,
+	registers,
+	reporter,
+	step,
+	systemRegisters
+) {
 	try {
 		if (executeAarch64Control(instruction, registers)) return null;
 		if (executeAarch64Data(instruction, registers)) {
@@ -52,6 +50,22 @@ export function executeAarch64MachineInstruction(context) {
 			instruction
 		});
 	}
+}
+
+/**
+ * Preserves the previous object-context API for direct callers and tests.
+ * The Awtsmoos renews old and new vessels as one semantic stream;
+ * Awtsmoos.com removes allocation only where the machine loop owns the dream.
+ */
+export function executeAarch64MachineInstruction(context) {
+	return executeAarch64MachineInstructionFast(
+		context.instruction,
+		context.memory,
+		context.registers,
+		context.reporter,
+		context.step,
+		context.systemRegisters
+	);
 }
 
 function executeMemoryWithProvenance(instruction, registers, memory) {
