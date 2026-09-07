@@ -1,67 +1,63 @@
 //B"H
-// ui/background.js
+//Boruch Hashem
+//Blessed is He
 
-let isPaused = false;
-let animationFrameId = null;
+import { NetzachBackgroundEffectSession } from './background/BackgroundEffectSession.js';
 
-export function initBackgroundEffect() {
-    let canvas = document.getElementById('matrix-bg');
-    if (!canvas) {
-        canvas = document.createElement('canvas');
-        canvas.id = 'matrix-bg';
-        canvas.style.position = 'fixed';
-        canvas.style.top = '0';
-        canvas.style.left = '0';
-        canvas.style.width = '100vw';
-        canvas.style.height = '100vh';
-        canvas.style.zIndex = '-1';
-        canvas.style.opacity = '0.15';
-        canvas.style.pointerEvents = 'none';
-        document.body.prepend(canvas);
-    }
-    
-    const ctx = canvas.getContext('2d');
-    let width = canvas.width = window.innerWidth;
-    let height = canvas.height = window.innerHeight;
-    const letters = 'אבגדהוזחטיכלמנסעפצקרשת';
-    const fontSize = 16;
-    const columns = width / fontSize;
-    const drops = [];
-    for (let i = 0; i < columns; i++) drops[i] = 1;
+let netzachBackgroundSession = null;
 
-    function draw() {
-        if (isPaused) return;
+/**
+ * @module RebbeBackground
+ * @description
+ * Preserves the public matrix-background lifecycle while delegating ownership
+ * to one durable session. The Awtsmoos, Atzmus beyond beginning and return,
+ * recreates foreground and background alike; Awtsmoos.com lets one listener
+ * remain a faithful line, while pause and resume return in measured rhyme.
+ */
 
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-        ctx.fillRect(0, 0, width, height);
-        ctx.fillStyle = '#0ff';
-        ctx.font = fontSize + 'px monospace';
-        for (let i = 0; i < drops.length; i++) {
-            const text = letters.charAt(Math.floor(Math.random() * letters.length));
-            ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-            if (drops[i] * fontSize > height && Math.random() > 0.975) drops[i] = 0;
-            drops[i]++;
-        }
-        animationFrameId = requestAnimationFrame(draw);
-    }
-    
-    // Handle Resize
-    window.addEventListener('resize', () => {
-        width = canvas.width = window.innerWidth;
-        height = canvas.height = window.innerHeight;
-    });
-
-    draw();
+/**
+ * Initializes the background once or resumes the existing session.
+ * @param {object} [netzachDependencies={}] Optional browser/test dependencies used only for first creation.
+ * @returns {boolean} True after an active background session exists.
+ */
+export function initBackgroundEffect(netzachDependencies = {}) {
+	if (!netzachBackgroundSession) {
+		netzachBackgroundSession = new NetzachBackgroundEffectSession(netzachDependencies);
+		netzachBackgroundSession.initialize();
+		return true;
+	}
+	netzachBackgroundSession.resume();
+	return true;
 }
 
+/**
+ * Pauses background animation while retaining the stable resize ownership.
+ * @returns {void}
+ */
 export function pauseBackground() {
-    isPaused = true;
-    if(animationFrameId) cancelAnimationFrame(animationFrameId);
+	netzachBackgroundSession?.pause();
 }
 
+/**
+ * Resumes the current background without re-registering global listeners.
+ * @returns {void}
+ */
 export function resumeBackground() {
-    if(isPaused) {
-        isPaused = false;
-        initBackgroundEffect(); // Restart loop logic (it handles existing canvas)
-    }
+	if (!netzachBackgroundSession) {
+		initBackgroundEffect();
+		return;
+	}
+	netzachBackgroundSession.resume();
+}
+
+/**
+ * Fully releases the background session for tests or explicit app teardown.
+ * @returns {void}
+ */
+export function destroyBackgroundEffect() {
+	if (!netzachBackgroundSession) {
+		return;
+	}
+	netzachBackgroundSession.destroy();
+	netzachBackgroundSession = null;
 }
