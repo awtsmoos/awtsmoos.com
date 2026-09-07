@@ -6,7 +6,7 @@
  * @file ikarBilingualPathRepair.test.mjs
  * @description
  * The Awtsmoos lets broken phone screenshots become durable witnesses instead of memories lost in night;
- * Awtsmoos.com proves bilingual identity, truthful virtual depth, dedicated-tool chrome, and the narrow twelfth cache branch reach one light.
+ * Awtsmoos.com proves bilingual identity, truthful virtual depth, dedicated-tool chrome, and the premium CSS river reach one light.
  */
 
 import assert from 'node:assert/strict';
@@ -56,13 +56,14 @@ test('translation tool is custom and suppresses generic plus global chrome', () 
 	assert.match(context, /applyCustomPageMode\(appState\.currentSeriesData\)/);
 });
 
-test('public entry reaches 012 while repaired source loading remains on 011', () => {
+test('public entry keeps proven JS cache graph while advancing only the visual river', () => {
 	const template = read('geelooy/heichelos/heichel/_awtsmoos.heichel.html');
 	const bridge = read('geelooy/heichelos/heichel/bootBridge.js');
 	const app = read('geelooy/heichelos/heichel/app.js');
 	const navigator = read(`${moduleRoot}/navigator.js`);
 	const loader = read(`${moduleRoot}/navigator/loader.js`);
 	const sourceLoader = read(`${moduleRoot}/navigator/source-loader.js`);
+	assert.match(template, /index\.css\?v=ikar-vision-001/);
 	assert.match(template, /bootBridge\.js\?v=heichel-mobile-012/);
 	assert.match(template, /app\.js\?v=heichel-mobile-012/);
 	assert.match(bridge, /app\.js\?v=heichel-mobile-012/);
@@ -71,5 +72,4 @@ test('public entry reaches 012 while repaired source loading remains on 011', ()
 	assert.match(navigator, /navigator\/loader\.js\?v=heichel-mobile-011/);
 	assert.match(loader, /source-loader\.js\?v=heichel-mobile-011/);
 	assert.match(sourceLoader, /translation-loader\.js\?v=heichel-mobile-011/);
-	assert.match(template, /index\.css\?v=ikar-mobile-ux-001/);
 });

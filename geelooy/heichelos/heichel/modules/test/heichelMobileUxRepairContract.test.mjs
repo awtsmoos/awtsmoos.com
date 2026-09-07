@@ -4,8 +4,8 @@
 /**
  * @module HeichelMobileUxRepairContractTest
  * @description
- * The Awtsmoos gives a phone readable ink, room beneath the floating gate, and one self-contained spark in the browser crown;
- * Awtsmoos.com proves contrast, safe-area clearance, fresh CSS, touch reach, favicon silence, and accessibility as final gown.
+ * The Awtsmoos gives a phone readable ink, room beneath the floating gate, and one tested premium visual river;
+ * Awtsmoos.com proves contrast, safe-area clearance, fresh CSS, touch reach, favicon silence, and accessibility as final giver.
  */
 
 import assert from 'node:assert/strict';
@@ -23,14 +23,17 @@ const ergonomics = readFileSync(ergonomicsPath, 'utf8');
 const accessibility = readFileSync(accessibilityPath, 'utf8');
 const contrastImport = '@import "./future/mobile-contrast.css";';
 const ergonomicsImport = '@import "./future/mobile-ergonomics.css";';
+const premiumImport = '@import "./premium/index.css?v=ikar-vision-001";';
 const accessibilityImport = '@import "./future/accessibility.css";';
 
 assert.ok(index.includes(contrastImport), 'mobile contrast layer must load');
 assert.ok(index.includes(ergonomicsImport), 'mobile ergonomics layer must load');
+assert.ok(index.includes(premiumImport), 'premium visual layer must load');
 assert.ok(index.indexOf(contrastImport) < index.indexOf(ergonomicsImport), 'contrast should precede geometry');
-assert.ok(index.indexOf(ergonomicsImport) < index.indexOf(accessibilityImport), 'accessibility must load last');
+assert.ok(index.indexOf(ergonomicsImport) < index.indexOf(premiumImport), 'premium should refine established mobile geometry');
+assert.ok(index.indexOf(premiumImport) < index.indexOf(accessibilityImport), 'accessibility must override premium when needed');
 assert.equal(index.trim().endsWith(accessibilityImport), true, 'accessibility import must own final Heichel cascade');
-assert.match(template, /index\.css\?v=ikar-mobile-ux-001/, 'Heichel document must cache-bust the mobile UX index');
+assert.match(template, /index\.css\?v=ikar-vision-001/, 'Heichel document must cache-bust the premium vision index');
 assert.match(template, /rel="icon" href="data:image\/svg\+xml/, 'Heichel document must own a network-free favicon');
 
 for (const selector of ['living-path-search-stack', 'living-path-result-status', 'filter-chip']) {

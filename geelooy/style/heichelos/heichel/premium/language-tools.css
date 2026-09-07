@@ -1,0 +1,67 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives every word a doorway deeper than translation while truth still governs what sources actually exist;
+ * Awtsmoos.com turns the language chamber into a focused instrument, luminous when available and honest when the lexicon sleeps.
+ */
+.custom-tool-page-active {
+	background:
+		radial-gradient(circle at 80% 0%, rgba(240, 211, 139, 0.08), transparent 22rem),
+		linear-gradient(145deg, rgba(10, 22, 36, 0.95), rgba(4, 10, 17, 0.96));
+}
+
+.translation-hub-form {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(11rem, 0.32fr) auto;
+	gap: 0.7rem;
+	align-items: stretch;
+	padding: clamp(0.85rem, 2vw, 1.25rem);
+	border: 1px solid var(--ikar-line-bright);
+	border-radius: var(--ikar-radius-lg);
+	background: rgba(5, 13, 22, 0.76);
+	box-shadow: var(--ikar-shadow-panel);
+}
+
+.translation-hub-input,
+.translation-hub-source {
+	min-block-size: 3.25rem;
+	border: 1px solid var(--ikar-line);
+	border-radius: var(--ikar-radius-sm);
+	background: rgba(16, 31, 48, 0.86);
+	color: var(--ikar-ink);
+	padding-inline: 1rem;
+}
+
+.translation-hub-input::placeholder {
+	color: var(--ikar-ink-muted);
+}
+
+.translation-hub-submit {
+	min-block-size: 3.25rem;
+	padding-inline: 1.4rem;
+	border: 1px solid rgba(255, 230, 169, 0.58);
+	border-radius: var(--ikar-radius-sm, 0.9rem);
+	background: linear-gradient(135deg, #f3d995, #bd8e38);
+	box-shadow: 0 8px 28px rgba(198, 151, 61, 0.18);
+	color: #171006;
+	font-weight: 800;
+}
+
+.translation-hub-results {
+	display: grid;
+	gap: 0.8rem;
+	margin-block-start: 1rem;
+}
+
+.translation-hub-results > * {
+	border: 1px solid var(--ikar-line);
+	border-radius: var(--ikar-radius-md);
+	background: rgba(8, 19, 31, 0.84);
+	padding: clamp(0.9rem, 2vw, 1.35rem);
+}
+
+.custom-tool-page-active :where(.translation-hub-input, .translation-hub-source):focus {
+	border-color: var(--ikar-gold);
+	box-shadow: 0 0 0 3px var(--ikar-gold-soft);
+}

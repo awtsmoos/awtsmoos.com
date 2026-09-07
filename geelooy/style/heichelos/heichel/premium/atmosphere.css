@@ -1,0 +1,49 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos surrounds every study moment without becoming another object inside it;
+ * Awtsmoos.com paints atmosphere with light alone so the Torah data remains the only thing that must be fetched.
+ */
+.heichel-os-document {
+	background:
+		radial-gradient(circle at 78% -8%, rgba(68, 156, 211, 0.18), transparent 34rem),
+		radial-gradient(circle at 12% 22%, rgba(208, 166, 83, 0.09), transparent 28rem),
+		linear-gradient(145deg, #020409 0%, #07101a 44%, #02050a 100%);
+	color: var(--ikar-ink);
+}
+
+.heichel-mobile-navigation {
+	isolation: isolate;
+	background: transparent;
+	min-block-size: 100dvh;
+}
+
+.heichel-mobile-navigation::before,
+.heichel-mobile-navigation::after {
+	content: "";
+	position: fixed;
+	inset: 0;
+	pointer-events: none;
+	z-index: -2;
+}
+
+.heichel-mobile-navigation::before {
+	background-image:
+		linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+		linear-gradient(90deg, rgba(255, 255, 255, 0.012) 1px, transparent 1px);
+	background-size: 4rem 4rem;
+	mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.55), transparent 78%);
+}
+
+.heichel-mobile-navigation::after {
+	background:
+		radial-gradient(circle at 50% 0%, rgba(119, 221, 250, 0.07), transparent 42%),
+		radial-gradient(circle at 92% 44%, rgba(240, 211, 139, 0.055), transparent 25%);
+	z-index: -1;
+}
+
+.heichel-os-document ::selection {
+	background: rgba(240, 211, 139, 0.28);
+	color: #fff;
+}

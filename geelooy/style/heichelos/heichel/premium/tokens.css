@@ -1,29 +1,42 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- * Premium Heichel tokens align the old runtime with the refined Geelooy system.
- * The Awtsmoos remains beyond every token while Awtsmoos.com gains one visual law.
+ *
+ * The Awtsmoos is beyond color, yet color becomes a vessel for quiet hierarchy and luminous Torah attention;
+ * Awtsmoos.com names the palette once so every surface can reveal the same restrained intention.
  */
-.heichel-mobile-navigation,
-.heichel-os-document {
-	--heichel-bg: linear-gradient(145deg, #020308, #060912 48%, #0b0d14);
-	--heichel-panel: rgba(12, 16, 26, .82);
-	--heichel-panel-strong: rgba(8, 11, 19, .95);
-	--heichel-line: rgba(255, 255, 255, .1);
-	--heichel-line-strong: rgba(227, 205, 157, .34);
-	--heichel-ink: #f5f1e8;
-	--heichel-soft-ink: #a8afbd;
-	--heichel-muted-ink: #737c8d;
-	--heichel-gold: #e3cd9d;
-	--heichel-gold-soft: rgba(227, 205, 157, .13);
-	--heichel-cyan: #87d9e9;
-	--heichel-rust: #d79da9;
-	--heichel-night: #020308;
-	--heichel-radius: 1.15rem;
-	--heichel-radius-large: 1.8rem;
-	--heichel-gap: clamp(.85rem, 2vw, 1.3rem);
-	--heichel-shadow-soft: 0 1rem 3rem rgba(0, 0, 0, .25);
-	--heichel-shadow-lift: 0 2rem 6rem rgba(0, 0, 0, .42);
-	--heichel-focus: rgba(135, 217, 233, .7);
-	--floating-clearance: 7.2rem;
+:where(.heichel-os-document, .heichel-mobile-navigation) {
+	color-scheme: dark;
+	--ikar-night: #03050a;
+	--ikar-night-raised: #07101a;
+	--ikar-panel: rgba(8, 17, 29, 0.82);
+	--ikar-panel-strong: rgba(10, 23, 38, 0.94);
+	--ikar-panel-soft: rgba(14, 30, 48, 0.62);
+	--ikar-line: rgba(171, 205, 230, 0.13);
+	--ikar-line-bright: rgba(183, 221, 247, 0.25);
+	--ikar-ink: #f7f4ea;
+	--ikar-ink-soft: #ced9e5;
+	--ikar-ink-muted: #8fa2b6;
+	--ikar-gold: #f0d38b;
+	--ikar-gold-strong: #d6ad54;
+	--ikar-gold-soft: rgba(240, 211, 139, 0.14);
+	--ikar-cyan: #77ddfa;
+	--ikar-cyan-soft: rgba(119, 221, 250, 0.12);
+	--ikar-success: #8ee3b4;
+	--ikar-danger: #ff9d9d;
+	--ikar-radius-xs: 0.65rem;
+	--ikar-radius-sm: 0.9rem;
+	--ikar-radius-md: 1.2rem;
+	--ikar-radius-lg: 1.65rem;
+	--ikar-radius-xl: 2.2rem;
+	--ikar-space-1: 0.4rem;
+	--ikar-space-2: 0.7rem;
+	--ikar-space-3: 1rem;
+	--ikar-space-4: 1.35rem;
+	--ikar-space-5: 1.8rem;
+	--ikar-space-6: 2.5rem;
+	--ikar-shadow-panel: 0 24px 70px rgba(0, 0, 0, 0.36);
+	--ikar-shadow-focus: 0 0 0 1px rgba(240, 211, 139, 0.3), 0 14px 42px rgba(0, 0, 0, 0.3);
+	--ikar-dock-clearance: calc(7rem + env(safe-area-inset-bottom));
+	--ikar-reading-width: 76rem;
 }

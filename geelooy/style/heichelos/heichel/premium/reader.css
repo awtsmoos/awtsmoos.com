@@ -1,0 +1,52 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos lets ancient words feel immediate without making spectacle louder than the text;
+ * Awtsmoos.com gives reader surfaces quiet contrast, generous rhythm, and equal dignity to Hebrew and English context.
+ */
+.post-list,
+.living-timeline-list {
+	container-type: inline-size;
+}
+
+.post-card,
+.living-timeline-list > * {
+	padding: clamp(1rem, 2.4vw, 1.55rem);
+}
+
+.post-card :where(h2, h3, .post-title),
+.living-timeline-list :where(h2, h3) {
+	color: var(--ikar-ink);
+	font-family: Georgia, "Times New Roman", serif;
+	font-weight: 500;
+	line-height: 1.18;
+}
+
+.post-preview,
+.post-card :where(p, [dir="ltr"]) {
+	color: var(--ikar-ink-soft);
+	font-size: clamp(0.96rem, 1.2vw, 1.08rem);
+	line-height: 1.72;
+}
+
+.post-card [dir="rtl"],
+.post-preview[dir="rtl"] {
+	color: #fbf8ef;
+	font-size: clamp(1.08rem, 1.6vw, 1.3rem);
+	line-height: 1.85;
+	text-align: start;
+}
+
+.post-card :where(button, a) {
+	border-radius: var(--ikar-radius-xs);
+}
+
+@container (min-width: 42rem) {
+	.post-card[data-bilingual="true"],
+	.post-card .bilingual-text {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: clamp(1rem, 3vw, 2.25rem);
+	}
+}

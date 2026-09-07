@@ -1,97 +1,70 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- * Series, posts, and controls receive one premium content language. The Awtsmoos
- * gives every object its source while Awtsmoos.com improves scanning and reading.
+ *
+ * The Awtsmoos reveals a library as ordered possibility rather than an undifferentiated wall;
+ * Awtsmoos.com gives each real card enough depth to invite a touch while the text remains sovereign over all.
  */
-.heichel-mobile-navigation .series-list,
-.heichel-mobile-navigation .post-list,
-.heichel-mobile-navigation .cards-container,
-.heichel-mobile-navigation .geelooy-card-grid {
+.grid-realms,
+.series-list,
+.post-list {
+	gap: clamp(0.75rem, 1.6vw, 1.15rem);
+}
+
+.series-list,
+.post-list {
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
-	gap: clamp(.8rem, 2vw, 1.2rem);
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
 }
-.heichel-mobile-navigation .card-wrapper,
-.heichel-mobile-navigation .series-list > *,
-.heichel-mobile-navigation .post-card,
-.heichel-mobile-navigation .geelooy-card {
+
+:where(.nav-card, .card-wrapper, .post-card, .series-card, .geelooy-card) {
 	position: relative;
-	overflow: hidden;
-	min-height: 12rem;
-	padding: 1rem;
-	border: 1px solid var(--heichel-line);
-	border-radius: var(--heichel-radius);
-	background:
-		linear-gradient(145deg, rgba(255, 255, 255, .035), transparent 54%),
-		var(--heichel-panel);
-	box-shadow: var(--heichel-shadow-soft);
-	color: var(--heichel-ink);
+	border: 1px solid var(--ikar-line);
+	border-radius: var(--ikar-radius-md);
+	background: linear-gradient(145deg, rgba(15, 32, 50, 0.82), rgba(7, 15, 26, 0.9));
+	box-shadow: 0 12px 34px rgba(0, 0, 0, 0.22);
+	color: var(--ikar-ink);
+	overflow: clip;
 }
-.heichel-mobile-navigation .card-wrapper::after,
-.heichel-mobile-navigation .post-card::after {
-	position: absolute;
-	right: -4rem;
-	bottom: -5rem;
-	width: 11rem;
-	aspect-ratio: 1;
-	border: 1px solid rgba(135, 217, 233, .08);
-	border-radius: 50%;
+
+:where(.nav-card, .card-wrapper, .post-card, .series-card, .geelooy-card)::before {
 	content: "";
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(120deg, rgba(240, 211, 139, 0.06), transparent 35%, rgba(119, 221, 250, 0.045));
 	pointer-events: none;
 }
-.heichel-mobile-navigation .post-card h2,
-.heichel-mobile-navigation .series-list h2,
-.heichel-mobile-navigation .geelooy-card h2,
-.heichel-mobile-navigation .geelooy-card h3 {
+
+.nav-card-body {
 	position: relative;
+	padding: clamp(0.9rem, 1.7vw, 1.25rem);
 	z-index: 1;
-	margin: 0 0 .7rem;
-	font-size: clamp(1.3rem, 2vw, 1.8rem);
-	line-height: 1.08;
-	letter-spacing: -.035em;
 }
-.heichel-mobile-navigation .post-preview,
-.heichel-mobile-navigation .series-list p,
-.heichel-mobile-navigation .geelooy-card p {
-	position: relative;
-	z-index: 1;
-	color: var(--heichel-soft-ink);
-	line-height: 1.65;
+
+.nav-card-kicker,
+.card-kicker {
+	color: var(--ikar-gold);
+	font-size: 0.72rem;
+	font-weight: 700;
+	letter-spacing: 0.11em;
+	text-transform: uppercase;
 }
-.heichel-mobile-navigation .context-menu-icon {
-	position: absolute;
-	z-index: 8;
-	top: .7rem;
-	right: .7rem;
-	display: grid;
-	width: 2.35rem;
-	aspect-ratio: 1;
-	place-items: center;
-	border: 1px solid var(--heichel-line);
-	border-radius: 999px;
-	background: rgba(3, 5, 10, .72);
-	color: var(--heichel-muted-ink);
+
+.nav-card-meta,
+.nav-card-description,
+.post-preview,
+.card-description {
+	color: var(--ikar-ink-soft);
+	line-height: 1.55;
 }
-.heichel-mobile-navigation .empty-message,
-.heichel-mobile-navigation .empty-state {
-	grid-column: 1 / -1;
-	padding: 2rem;
-	border: 1px dashed var(--heichel-line);
-	border-radius: var(--heichel-radius);
-	background: rgba(255, 255, 255, .025);
-	color: var(--heichel-muted-ink);
-	text-align: center;
+
+.nav-card-media {
+	background:
+		radial-gradient(circle at 24% 20%, rgba(119, 221, 250, 0.18), transparent 35%),
+		linear-gradient(145deg, rgba(27, 52, 75, 0.8), rgba(5, 12, 20, 0.9));
 }
-.heichel-mobile-navigation .card-wrapper.selected {
-	border-color: var(--heichel-line-strong);
-	box-shadow: 0 0 0 .2rem rgba(227, 205, 157, .08), var(--heichel-shadow-soft);
-}
-@media (min-width: 1120px) {
-	.heichel-mobile-navigation .series-list {
-		grid-template-columns: repeat(3, minmax(0, 1fr));
-	}
-	.heichel-mobile-navigation .post-list {
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-	}
+
+:where(.nav-card, .post-card, .series-card):is(:hover, :focus-within) {
+	border-color: var(--ikar-line-bright);
+	box-shadow: var(--ikar-shadow-focus);
 }

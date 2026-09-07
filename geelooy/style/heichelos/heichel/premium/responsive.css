@@ -1,0 +1,74 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos is equally present in one thumb-width and in a wide desk of study;
+ * Awtsmoos.com lets the same real interface expand into a command center without turning mobile into a shrunken desktop body.
+ */
+@media (min-width: 74rem) {
+	.geelooy-main-stage {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) minmax(17rem, 20rem);
+		gap: 1.15rem;
+		align-items: start;
+	}
+
+	.geelooy-heichel-hero,
+	.heichel-nav-panel {
+		grid-column: 1;
+	}
+
+	.heichel-os-world-panel:not(.hidden) {
+		grid-column: 2;
+		grid-row: 1 / span 2;
+		position: sticky;
+		inset-block-start: 5.25rem;
+		max-block-size: calc(100dvh - 6.25rem);
+		overflow: auto;
+	}
+
+	.geelooy-bottom-nav {
+		max-inline-size: 36rem;
+		margin-inline: auto;
+	}
+}
+
+@media (max-width: 48rem) {
+	.geelooy-main-stage {
+		padding-inline: 0.65rem;
+	}
+
+	.geelooy-heichel-hero {
+		min-block-size: 11rem;
+		border-radius: 1.45rem;
+	}
+
+	.geelooy-heichel-hero::after {
+		display: none;
+	}
+
+	.heichel-nav-panel {
+		border-radius: 1.45rem;
+		padding: 0.72rem;
+	}
+
+	.translation-hub-form {
+		grid-template-columns: 1fr;
+	}
+
+	.translation-hub-submit {
+		inline-size: 100%;
+	}
+}
+
+@media (max-width: 30rem) {
+	.geelooy-bottom-nav {
+		inset-inline: 0.55rem;
+		inline-size: calc(100% - 1.1rem);
+	}
+
+	.series-list,
+	.post-list {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}

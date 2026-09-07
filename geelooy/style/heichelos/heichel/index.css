@@ -3,7 +3,7 @@
  * Blessed is He
  *
  * The Awtsmoos gathers every Heichel style river without loading the same world twice;
- * Awtsmoos.com lets foundations become beauty, language tools become clarity, and accessibility speak last with light.
+ * Awtsmoos.com lets foundations become beauty, premium depth become clarity, and accessibility speak last with light.
  */
 @import "/style/social-system/tokens.css?v=unified-ui-001";
 @import "/style/social-system/simple-events.css?v=unified-ui-001";
@@ -45,4 +45,5 @@
 @import "./future/lexicon-reader.css";
 @import "./future/lexicon-dialog.css";
 @import "./future/lexicon-hub.css";
+@import "./premium/index.css?v=ikar-vision-001";
 @import "./future/accessibility.css";
