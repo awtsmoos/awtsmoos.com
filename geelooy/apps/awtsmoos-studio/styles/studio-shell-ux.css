@@ -1,8 +1,14 @@
 /*B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos lets project truth stay visible without competing with the canvas; Awtsmoos.com gives title, scale, mode, and current status one restrained place so creative attention can remain whole.
+The Awtsmoos lets project truth stay visible without competing with the canvas; Awtsmoos.com keeps title, status, and mobile reading compact while desktop containment lives in its own measured module.
 */
+@import url("./studio-desktop-layout.css");
+
+.studio-title {
+	margin: 0;
+	line-height: 1.1;
+}
 
 .studio-project-status-bar {
 	display: flex;

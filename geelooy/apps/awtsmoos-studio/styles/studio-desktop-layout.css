@@ -1,0 +1,64 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives desktop Studio six explicit measures so world, panels, templates, and transport remain inside one visible creative vessel; Awtsmoos.com lets deep content scroll within its own chamber instead of stretching the whole page into exile.
+*/
+
+@media (min-width: 821px) {
+	.studio-shell {
+		box-sizing: border-box;
+		height: 100dvh;
+		min-height: 100dvh;
+		max-height: 100dvh;
+		grid-template-rows: auto auto auto minmax(0, 1fr) 150px auto;
+		overflow: hidden;
+	}
+
+	.studio-grid {
+		min-height: 0;
+		overflow: hidden;
+	}
+
+	.studio-editor-viewport {
+		grid-template-rows: minmax(0, 1fr) auto;
+		min-height: 0;
+	}
+
+	.studio-scene-panel,
+	.studio-inspector-panel {
+		display: grid;
+		grid-template-rows: auto minmax(0, 1fr);
+		min-height: 0;
+		height: 100%;
+	}
+
+	.studio-scene-panel > .aw-ui-panel__body,
+	.studio-inspector-panel > .aw-ui-panel__body {
+		min-height: 0;
+		overflow: auto;
+		overscroll-behavior: contain;
+	}
+
+	.studio-template-shelf {
+		box-sizing: border-box;
+		min-height: 0;
+		max-height: 150px;
+		overflow: hidden;
+	}
+
+	.studio-template-track {
+		min-height: 0;
+	}
+
+	.studio-template-card {
+		min-height: 94px;
+		padding: 0.55rem 0.65rem;
+	}
+
+	.studio-template-description {
+		display: -webkit-box;
+		overflow: hidden;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 2;
+	}
+}
