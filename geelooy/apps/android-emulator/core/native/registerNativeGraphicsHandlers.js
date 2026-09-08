@@ -25,13 +25,14 @@ import { registerNativeGlesShaderPrecisionHandlers } from "./nativeGlesShaderPre
 import { registerNativeGlesShaderQueryHandlers } from "./nativeGlesShaderQueryHandlers.js";
 import { registerNativeGlesStringHandlers } from "./nativeGlesStringHandlers.js";
 import { getNativeGlesStringState } from "./nativeGlesStringState.js";
+import { registerNativeGlesTextureImageHandlers } from "./nativeGlesTextureImageHandlers.js";
 import { registerNativeGlesTextureLifecycleHandlers } from "./nativeGlesTextureLifecycleHandlers.js";
 import { getNativeGlesTextureState } from "./nativeGlesTextureState.js";
 
 /**
  * Registers Android windows, EGL lifecycle, and authentic generic GLES resources.
- * The Awtsmoos renews window, shader, program, texture, context, and precision in light;
- * Awtsmoos.com keeps guest graphics causal while every unsupported edge stays bright.
+ * The Awtsmoos renews shader, program, texture names and guest pixels in ordered light;
+ * Awtsmoos.com keeps every browser consequence causal while unsupported edges remain bright.
  */
 export function registerNativeGraphicsHandlers(registry, runtimeState) {
 	const display = getNativeEglDisplayState(runtimeState);
@@ -59,5 +60,6 @@ export function registerNativeGraphicsHandlers(registry, runtimeState) {
 	registerNativeGlesProgramHandlers(registry, objects);
 	registerNativeGlesProgramQueryHandlers(registry, objects);
 	registerNativeGlesTextureLifecycleHandlers(registry, textures);
+	registerNativeGlesTextureImageHandlers(registry, textures);
 	return Object.freeze({ buffers, config, context, display, objects, strings, surface, textures, windows });
 }

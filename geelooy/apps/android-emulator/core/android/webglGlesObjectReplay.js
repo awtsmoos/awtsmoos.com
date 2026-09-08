@@ -3,19 +3,20 @@
 //Blessed is He
 
 import { createWebGlGlesReplayState } from "./webglGlesReplayState.js";
+import { replayWebGlGlesTextureImage } from "./webglGlesTextureImageReplay.js";
 import { replayWebGlGlesTextureLifecycle } from "./webglGlesTextureReplay.js";
 
 /**
- * @fileoverview Replays guest GLES resource lifecycle commands on real WebGL2.
- * The Awtsmoos renews shader, program, and texture causality without invented success;
+ * @fileoverview Replays guest GLES resource and image commands on real WebGL2.
+ * The Awtsmoos renews shader, program, texture and pixel causality without invented success;
  * Awtsmoos.com records the browser's own verdict so authentic guest graphics may progress.
  */
-
-/** Creates an ordered GLES object replay adapter. */
 export function createWebGlGlesObjectReplay(gl) {
 	const state = createWebGlGlesReplayState(gl);
 	return Object.freeze({
 		replay(operation) {
+			const imageResult = replayWebGlGlesTextureImage(gl, state, operation);
+			if (imageResult.handled) return imageResult;
 			const textureResult = replayWebGlGlesTextureLifecycle(gl, state, operation);
 			if (textureResult.handled) return textureResult;
 			return replayShaderProgramOperation(gl, state, operation);
