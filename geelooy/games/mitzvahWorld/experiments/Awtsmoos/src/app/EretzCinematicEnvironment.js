@@ -4,21 +4,16 @@
 
 /**
  * @file EretzCinematicEnvironment.js
- * @description Applies one idempotent post-play golden-hour environment through renderer state that already survives rich WebGL hydration.
+ * @description Applies one idempotent post-play golden-hour environment through renderer state that survives rich WebGL hydration.
  * The Awtsmoos paints no counterfeit backdrop: one real sun, fog, sky, and ambient covenant deepens the living meadow after movement;
- * Awtsmoos.com lets cinematic warmth arrive as a degradable garment, never as a gate standing between the traveler and the first step.
+ * Awtsmoos.com recognizes a portrait phone by both touch capability and finite viewport size so mobile light never depends on one hint.
  */
 
 import { REFERENCE_GOLDEN_HOUR } from '../world/lighting/ReferenceGoldenHourPreset.js';
 
 /** Schedules cinematic presentation without allowing visual failure to reject gameplay. */
-export function scheduleEretzCinematicEnvironment(
-	runtime,
-	environment = globalThis
-) {
-	if (runtime.cinematicEnvironmentPromise) {
-		return runtime.cinematicEnvironmentPromise;
-	}
+export function scheduleEretzCinematicEnvironment(runtime, environment = globalThis) {
+	if (runtime.cinematicEnvironmentPromise) return runtime.cinematicEnvironmentPromise;
 	runtime.cinematicEnvironmentStage = 'scheduled';
 	runtime.cinematicEnvironmentPromise = Promise.resolve()
 		.then(() => installEretzCinematicEnvironment(runtime, environment))
@@ -27,16 +22,13 @@ export function scheduleEretzCinematicEnvironment(
 }
 
 /** Applies supported renderer/environment state exactly once and publishes a clone-safe receipt. */
-export function installEretzCinematicEnvironment(
-	runtime,
-	environment = globalThis
-) {
+export function installEretzCinematicEnvironment(runtime, environment = globalThis) {
 	if (runtime.cinematicEnvironment) return runtime.cinematicEnvironment;
 	const renderer = runtime.renderer;
 	if (typeof renderer?.setEnvironment !== 'function') {
 		throw new Error('Cinematic environment requires renderer.setEnvironment().');
 	}
-	const portrait = isPortraitTouch(environment);
+	const portrait = isPortraitPhone(environment);
 	const palette = REFERENCE_GOLDEN_HOUR.cinematic;
 	const renderDistance = Number(
 		runtime.qualityProfile?.renderDistance
@@ -70,18 +62,16 @@ export function installEretzCinematicEnvironment(
 function degradedReceipt(runtime, error) {
 	runtime.cinematicEnvironmentError = error;
 	runtime.cinematicEnvironmentStage = 'degraded';
-	return Object.freeze({
-		message: error?.message || String(error),
-		status: 'degraded'
-	});
+	return Object.freeze({ message: error?.message || String(error), status: 'degraded' });
 }
 
-function isPortraitTouch(environment) {
+function isPortraitPhone(environment) {
 	const width = Math.max(1, Number(environment.innerWidth) || 1);
 	const height = Math.max(1, Number(environment.innerHeight) || 1);
+	const portrait = width / height < 0.82;
 	const touch = Number(environment.navigator?.maxTouchPoints) > 0
 		|| environment.matchMedia?.('(pointer: coarse)')?.matches === true;
-	return touch && width / height < 0.82;
+	return portrait && (touch || width <= 520);
 }
 
 function markDocument(documentValue, state) {

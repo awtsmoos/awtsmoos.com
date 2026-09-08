@@ -2,28 +2,41 @@
 // Boruch Hashem
 // Blessed is He
 
-export const REMOTE_MODEL_CACHE_NAME = 'awtsmoos-mitzvah-world-remote-models-v1';
-
 /**
  * @file RemoteModelResponseCache.js
- * @description Persists verified GLBs and retries bounded transient storage throttling.
- * The Awtsmoos sends one measured form and lets the browser remember its vessel;
- * Awtsmoos.com honors Retry-After without multiplying requests or disguising permanent failure.
+ * @description Fetches verified GLBs with bounded retry while delegating optional browser persistence to a non-authoritative cache vessel.
+ * The Awtsmoos gives the living form before its remembered vessel; Awtsmoos.com lets cache serve the download rather than judge it,
+ * so privacy mode, quota pressure, or rejected Cache.put calls can never erase a successfully fetched Chossid.
  */
 
+import {
+	openModelResponseCache,
+	persistModelResponse,
+	readModelResponseCache
+} from './RemoteModelCachePersistence.js';
+
+export const REMOTE_MODEL_CACHE_NAME = 'awtsmoos-mitzvah-world-remote-models-v1';
 const RETRYABLE_STATUS = new Set([429, 502, 503, 504]);
 
 export async function cachedModelResponse(url, options = {}) {
 	const fetchFunction = options.fetchFunction || globalThis.fetch;
-	if (typeof fetchFunction !== 'function') throw new Error('Remote model fetch is unavailable.');
+	if (typeof fetchFunction !== 'function') {
+		throw new Error('Remote model fetch is unavailable.');
+	}
 	const cacheStorage = Object.hasOwn(options, 'cacheStorage')
 		? options.cacheStorage
 		: globalThis.caches;
-	const cache = await openCache(cacheStorage, options.cacheName);
-	const cached = await cache?.match?.(url);
+	const cache = await openModelResponseCache(
+		cacheStorage,
+		options.cacheName || REMOTE_MODEL_CACHE_NAME
+	);
+	const reportCacheError = receipt => options.onCacheError?.(receipt);
+	const cached = await readModelResponseCache(cache, url, reportCacheError);
 	if (cached) return { response: cached, source: 'cache-storage' };
 	const response = await fetchWithRetry(url, fetchFunction, options);
-	if (response?.ok && isGlbResponse(response)) await cache?.put?.(url, response.clone());
+	if (response?.ok && isGlbResponse(response)) {
+		await persistModelResponse(cache, url, response, reportCacheError);
+	}
 	return { response, source: 'network' };
 }
 
@@ -37,9 +50,16 @@ async function fetchWithRetry(url, fetchFunction, options) {
 	for (let attempt = 0; attempt <= retries; attempt += 1) {
 		assertNotAborted(options.signal);
 		const response = await fetchFunction(url, fetchOptions(options.signal));
-		if (!RETRYABLE_STATUS.has(response?.status) || attempt === retries) return response;
+		if (!RETRYABLE_STATUS.has(response?.status) || attempt === retries) {
+			return response;
+		}
 		const delayMs = retryDelay(response, options, attempt);
-		options.onRetry?.({ attempt: attempt + 1, delayMs, status: response.status, url });
+		options.onRetry?.({
+			attempt: attempt + 1,
+			delayMs,
+			status: response.status,
+			url
+		});
 		await waitForRetry(delayMs, options);
 	}
 	throw new Error('Remote model retry loop ended unexpectedly.');
@@ -60,8 +80,10 @@ function retryDelay(response, options, attempt) {
 	const requested = Number.isFinite(seconds) && seconds >= 0
 		? seconds * 1000
 		: Math.min(30000, 1000 * (2 ** attempt));
-	const maximum = positive(options.maximumRetryAfterMs, 65000);
-	return Math.min(maximum, Math.max(0, Math.round(requested)));
+	return Math.min(
+		positive(options.maximumRetryAfterMs, 65000),
+		Math.max(0, Math.round(requested))
+	);
 }
 
 function waitForRetry(milliseconds, options) {
@@ -80,15 +102,8 @@ function defaultWait(milliseconds, signal) {
 }
 
 function assertNotAborted(signal) {
-	if (signal?.aborted) throw signal.reason || new DOMException('Aborted', 'AbortError');
-}
-
-async function openCache(cacheStorage, cacheName = REMOTE_MODEL_CACHE_NAME) {
-	if (!cacheStorage || typeof cacheStorage.open !== 'function') return null;
-	try {
-		return await cacheStorage.open(cacheName);
-	} catch {
-		return null;
+	if (signal?.aborted) {
+		throw signal.reason || new DOMException('Aborted', 'AbortError');
 	}
 }
 
