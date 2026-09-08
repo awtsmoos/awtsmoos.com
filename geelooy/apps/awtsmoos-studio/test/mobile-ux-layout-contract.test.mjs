@@ -1,12 +1,10 @@
 //B"H
 // Boruch Hashem
 // Blessed is He
-
 /**
  * @file mobile-ux-layout-contract.test.mjs
- * @description Guards overlay containment, content-sized creative rows, fixed-control clearance, and the dedicated one-viewport mobile shell vessel.
- * The Awtsmoos gives each creative chamber its truthful measure while Awtsmoos.com keeps canvas, scenes, transport, and thumb dock inside one mobile world;
- * these tests ensure short screens scroll internally without losing HUD, gizmo, hierarchy, or canonical movie beneath.
+ * @description Guards reference-release overlay containment, content-sized creative rows, fixed-control clearance, and the dedicated one-viewport mobile shell vessel.
+ * The Awtsmoos gives each creative chamber its truthful measure while Awtsmoos.com keeps canvas, scenes, transport, and thumb dock inside one mobile world; these tests protect current reference assets rather than retired cache tags.
  */
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
@@ -17,10 +15,10 @@ const shellUrl = new URL('../styles/studio-mobile-shell.css', import.meta.url);
 const viewportCssUrl = new URL('../styles/studio-editor-viewport.css', import.meta.url);
 const gizmoCssUrl = new URL('../styles/studio-editor-gizmo.css', import.meta.url);
 async function readSource(url) { return readFile(url, 'utf8'); }
-test('Studio activates current viewport and gizmo presentation without legacy editor mobile CSS', async () => {
+test('Studio activates reference viewport and gizmo presentation without legacy editor mobile CSS', async () => {
 	const index = await readSource(studioIndexUrl);
-	assert.match(index, /styles\/studio-editor-viewport\.css\?v=awtsmoos-studio-mobile-ux-/);
-	assert.match(index, /styles\/studio-editor-gizmo\.css\?v=awtsmoos-studio-mobile-ux-/);
+	assert.match(index, /styles\/studio-editor-viewport\.css\?v=awtsmoos-studio-reference-/);
+	assert.match(index, /styles\/studio-editor-gizmo\.css\?v=awtsmoos-studio-reference-/);
 	assert.doesNotMatch(index, /styles\/studio-editor-mobile\.css/);
 });
 test('viewport and gizmo modules preserve absolute stage overlays', async () => {

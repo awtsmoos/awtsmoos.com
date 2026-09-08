@@ -4,7 +4,7 @@
 /**
  * @file StudioEditTransformControls.js
  * @description Turns the reference Edit sheet into real canonical Position, Rotation, Scale, and Visibility controls bound to the selected layer.
- * The Awtsmoos renews coordinate and form while Awtsmoos.com lets every slider change the same transform consumed by preview, keyframes, save, history, and export.
+ * The Awtsmoos renews coordinate and form while Awtsmoos.com lets every slider change the same transform consumed by preview, keyframes, save, history, and export without invoking unsupported DOM helpers.
  */
 import { UI } from '../../../../../libs/AwtsmoosUI/src/index.js';
 const GROUPS = Object.freeze({
@@ -34,7 +34,7 @@ function createRange(item) {
 		UI.input({ type: 'range', min: String(item.min), max: String(item.max), step: String(item.step),
 			'data-transform-field': item.key, value: context => String(transformValue(context, item.key)), disabled: noSelection,
 			$on: { change: 'updateLayerTransform' } }),
-		UI.output({ text: context => formatValue(transformValue(context, item.key)) }));
+		UI.span({ class: 'studio-edit-range-value', text: context => formatValue(transformValue(context, item.key)) }));
 }
 function transformValue(context, key) {
 	const movie = context.store.get('movie');

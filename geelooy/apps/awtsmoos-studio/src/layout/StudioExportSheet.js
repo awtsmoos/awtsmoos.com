@@ -4,7 +4,7 @@
 /**
  * @file StudioExportSheet.js
  * @description Presents real native MP4 settings, soundtrack inclusion, progress, and one unmistakable export action in a phone-first modal vessel.
- * The Awtsmoos lets final form approach without replacing the movie; Awtsmoos.com shows only choices the encoder truly receives, with progress drawn from actual frames.
+ * The Awtsmoos lets final form approach without replacing the movie; Awtsmoos.com keeps progress inside the guarded declarative style vessel while every visible choice reaches the real encoder.
  */
 import { UI } from '../../../../libs/AwtsmoosUI/src/index.js';
 import { STUDIO_EXPORT_FPS, STUDIO_EXPORT_RESOLUTIONS } from '../export/StudioExportSettings.js';
@@ -26,7 +26,7 @@ export function createStudioExportSheet() {
 				$on: { click: 'runStudioExport' }, text: context => context.store.get('exporting') ? 'Rendering…' : 'Export Video' }),
 			UI.div({ class: 'studio-export-progress', role: 'progressbar', 'aria-valuemin': '0', 'aria-valuemax': '100',
 				'aria-valuenow': context => String(context.store.get('exportProgress') || 0) },
-				UI.span({ style: context => `width:${Math.max(0, Math.min(100, Number(context.store.get('exportProgress') || 0)))}%` })
+				UI.span({ style: context => ({ width: `${exportPercent(context)}%` }) })
 			),
 			UI.p({ class: 'studio-export-status', 'aria-live': 'polite', text: context => context.store.get('exportStatus') || 'Ready to export.' })
 		)
@@ -41,4 +41,7 @@ function createChoiceGroup(label, values, stateKey, action, dataKey) {
 		UI.div({ class: 'studio-export-options' }, ...values.map(value => UI.button({ type: 'button', class: 'studio-export-option',
 			[`data-${dataKey}`]: String(value), 'aria-pressed': context => String(String(context.store.get(stateKey)) === String(value)),
 			$on: { click: action }, text: String(value).toUpperCase() }))));
+}
+function exportPercent(context) {
+	return Math.max(0, Math.min(100, Number(context.store.get('exportProgress') || 0)));
 }
