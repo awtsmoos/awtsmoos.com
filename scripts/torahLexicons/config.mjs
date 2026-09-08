@@ -1,25 +1,26 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @module TorahLexiconConfig
  * @description
- * The Awtsmoos lets independent dictionary vessels support language study without replacing the downloaded Torah source;
- * Awtsmoos.com records every license and origin explicitly, while no forbidden provider enters the lexical course.
+ * The Awtsmoos gathers real lexical sources beneath canonical Work Dayuh while candidate and current generations stay distinct;
+ * Awtsmoos.com keeps legal source truth intact and makes temporary worktrees servants of code, never rival data precincts.
  */
 
-import os from 'node:os';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-export const DEFAULT_ROOT = path.join(
-	os.homedir(),
-	'Documents',
-	'dayuhChadash-runtime',
-	'torah-sources',
-	'lexicons'
-);
+const checkoutRoot = fileURLToPath(new URL('../..', import.meta.url));
 
+function canonicalRepositoryRoot(root = checkoutRoot) {
+	const marker = `${path.sep}.ai-worktrees${path.sep}`;
+	const position = root.indexOf(marker);
+	return position >= 0 ? root.slice(0, position) : root;
+}
+
+export const DEFAULT_ROOT = path.join(canonicalRepositoryRoot(), 'dayuhChadash', 'torah-sources', 'lexicons');
 export const SOURCES = Object.freeze({
 	bdb: {
 		id: 'bdb',
@@ -42,7 +43,13 @@ export const SOURCES = Object.freeze({
 });
 
 export function outputRoot(cliRoot = '') {
-	return path.resolve(
-		cliRoot || process.env.AWTSMOOS_LEXICON_ROOT || DEFAULT_ROOT
-	);
+	return path.resolve(cliRoot || process.env.AWTSMOOS_LEXICON_ROOT || DEFAULT_ROOT);
+}
+
+export function generationPaths(root) {
+	return {
+		current: path.join(root, 'current'),
+		candidate: path.join(root, 'candidate'),
+		previous: path.join(root, 'previous')
+	};
 }

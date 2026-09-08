@@ -1,30 +1,45 @@
-// B"H
-import { dirname, join, resolve } from 'node:path';
-import { homedir } from 'node:os';
+//B"H
+// Boruch Hashem
+// Blessed is He
 
-/** Resolves one explicit local/remote sync vessel without exposing credentials. */
+/**
+ * @module DayuhSyncConfig
+ * @description
+ * The Awtsmoos makes one Work-root Dayuh the local well while every remote vessel drinks from that spring;
+ * Awtsmoos.com strips temporary worktree chambers from authority so no development copy can become a second king.
+ */
+
+import { dirname, join, resolve, sep } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const checkoutRoot = fileURLToPath(new URL('../..', import.meta.url));
+
+function canonicalRepositoryRoot(root = checkoutRoot) {
+	const marker = `${sep}.ai-worktrees${sep}`;
+	const position = root.indexOf(marker);
+	return position >= 0 ? root.slice(0, position) : root;
+}
+
 export function dayuhSyncConfig(argv = process.argv.slice(2), env = process.env) {
-	const action = argv.find(value => !value.startsWith('-')) || 'status';
+	const action = argv.find(item => !item.startsWith('-')) || 'status';
+	const repository = canonicalRepositoryRoot();
 	const localRoot = resolve(value(argv, '--local-root')
 		|| env.AWTSMOOS_DAYUH_LOCAL_ROOT
-		|| join(homedir(), 'Documents', 'awtsmoos', 'dayuhChadash'));
+		|| join(repository, 'dayuhChadash'));
 	const host = value(argv, '--host') || env.AWTSMOOS_BH_HOST || 'awtsmoos.com';
-	const username = value(argv, '--user') || env.AWTSMOOS_BH_USER || 'root';
-	const port = Number(value(argv, '--port') || env.AWTSMOOS_BH_PORT || 22);
 	const remoteRoot = remotePath(value(argv, '--remote-root')
 		|| env.AWTSMOOS_DAYUH_REMOTE_ROOT
-		|| '/root/dayuhChadash');
-	const localState = resolve(value(argv, '--state-root')
-		|| join(dirname(localRoot), '.dayuh-sync', safeName(host)));
+		|| '/mnt/HC_Volume_102267213/dayuhChadash');
 	return {
 		action,
 		localRoot,
-		localState,
+		localState: resolve(value(argv, '--state-root')
+			|| join(dirname(localRoot), '.dayuh-sync', safeName(host))),
 		remoteRoot,
 		remoteState: `${remoteRoot}.awtsmoos-sync`,
 		host,
-		username,
-		port,
+		username: value(argv, '--user') || env.AWTSMOOS_BH_USER || 'root',
+		port: Number(value(argv, '--port') || env.AWTSMOOS_BH_PORT || 22),
 		deleteMissing: argv.includes('--delete'),
 		dryRun: argv.includes('--dry-run'),
 		force: argv.includes('--force')
@@ -37,12 +52,13 @@ function value(argv, name) {
 }
 
 function remotePath(input) {
-	const path = String(input || '').replace(/\/+$/, '');
-	if (!path.startsWith('/') || path === '/') throw new Error('unsafe_remote_root');
-	if (path.includes('/../') || path.endsWith('/..')) throw new Error('unsafe_remote_root');
-	return path;
+	const output = String(input || '').replace(/\/+$/, '');
+	if (!output.startsWith('/') || output === '/' || output.includes('/../') || output.endsWith('/..')) {
+		throw new Error('unsafe_remote_root');
+	}
+	return output;
 }
 
-function safeName(value) {
-	return String(value).replace(/[^A-Za-z0-9_.-]+/g, '_');
+function safeName(input) {
+	return String(input).replace(/[^A-Za-z0-9_.-]+/g, '_');
 }

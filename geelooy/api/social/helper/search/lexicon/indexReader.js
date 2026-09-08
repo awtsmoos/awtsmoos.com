@@ -1,84 +1,83 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @module LexiconIndexReader
  * @description
- * The Awtsmoos holds oceans of words while one requested spark alone enters the cup;
- * Awtsmoos.com reads indexed byte vessels lazily, so no dictionary ocean blocks startup.
+ * The Awtsmoos leaves the dictionary ocean on disk while a tiny catalog and one letter-shard enter the vessel;
+ * Awtsmoos.com opens strict read-only with a small page budget, yields only bounded ranges, then closes every level.
  */
 
 const fs = require('fs/promises');
 const path = require('path');
-const { indexPath, lexiconRoot, manifestPath } = require('./paths.js');
+const AwtsmoosDB = require(path.resolve(__dirname, '../../../../../../ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/index.js'));
+const { exactBounds, prefixBounds } = require('./keySpace.js');
+const { lexiconCatalogPath, lexiconRoot, lexiconShardPath } = require('./paths.js');
 
-const MAX_ENTRY_BYTES = 262144;
-const catalogCache = new Map();
+const READ_OPTIONS = Object.freeze({ readOnly: true, maxCachedPages: 8 });
 
-async function readJson(file) {
-	return JSON.parse(await fs.readFile(file, 'utf8'));
+function resolveValue(value) {
+	if (value && typeof value.__resolve__ === 'function') return value.__resolve__();
+	return value;
 }
 
-/** Loads manifest and key index only after a dictionary route is requested. */
-async function loadCatalog($i) {
+async function openCatalog($i) {
 	const root = lexiconRoot($i);
-	if (catalogCache.has(root)) return catalogCache.get(root);
+	const file = lexiconCatalogPath($i);
 	try {
-		const [manifest, index] = await Promise.all([
-			readJson(manifestPath($i)),
-			readJson(indexPath($i))
-		]);
-		const catalog = {
-			available: true,
-			root,
-			manifest,
-			index: {
-				entries: index?.entries || {},
-				keys: Array.isArray(index?.keys) ? index.keys : []
-			}
-		};
-		catalogCache.set(root, catalog);
-		return catalog;
+		await fs.access(file);
 	} catch (error) {
-		if (error?.code === 'ENOENT') return { available: false, root };
+		if (error?.code === 'ENOENT') return { available: false, root, file };
+		throw error;
+	}
+	const database = new AwtsmoosDB(file, READ_OPTIONS);
+	try {
+		await database.open();
+		const meta = resolveValue(database.root.meta);
+		if (!database.root.sources || !meta) throw new Error('lexicon_catalog_incomplete');
+		return { available: true, root, file, database, meta };
+	} catch (error) {
+		await database.close();
 		throw error;
 	}
 }
 
-function resolvedEntryPath(root, file) {
-	const resolvedRoot = path.resolve(root);
-	const resolved = path.resolve(root, String(file || ''));
-	if (!resolved.startsWith(`${resolvedRoot}${path.sep}`)) {
-		throw new Error('Lexicon entry path escaped the reviewed data root.');
-	}
-	return resolved;
+async function closeCatalog(catalog) {
+	if (catalog?.database) await catalog.database.close();
 }
 
-/** Reads one JSONL entry by reviewed byte offset without scanning its source file. */
-async function readPointer(root, pointer = {}) {
-	const offset = Number(pointer.offset);
-	const length = Number(pointer.length);
-	if (!Number.isInteger(offset) || offset < 0) throw new Error('Invalid lexicon offset.');
-	if (!Number.isInteger(length) || length < 1 || length > MAX_ENTRY_BYTES) {
-		throw new Error('Invalid lexicon entry length.');
-	}
-	const handle = await fs.open(resolvedEntryPath(root, pointer.file), 'r');
+function sourceMetadata(catalog, sourceId) {
+	return resolveValue(catalog.database.root.sources[sourceId]) || {};
+}
+
+async function readRange(catalog, sourceId, token, normalized, exact, maximum) {
+	const file = lexiconShardPath(catalog.root, sourceId, token);
 	try {
-		const buffer = Buffer.alloc(length);
-		const { bytesRead } = await handle.read(buffer, 0, length, offset);
-		return JSON.parse(buffer.subarray(0, bytesRead).toString('utf8').trim());
+		await fs.access(file);
+	} catch (error) {
+		if (error?.code === 'ENOENT') return [];
+		throw error;
+	}
+	const database = new AwtsmoosDB(file, READ_OPTIONS);
+	const results = [];
+	try {
+		await database.open();
+		const bounds = exact ? exactBounds(normalized) : prefixBounds(normalized);
+		for await (const row of database.range(database.root.entries, bounds[0], bounds[1])) {
+			const entry = resolveValue(row?.value);
+			if (!entry || (!exact && entry.normalized === normalized)) continue;
+			results.push(entry);
+			if (results.length >= maximum) break;
+		}
+		return results;
 	} finally {
-		await handle.close();
+		await database.close();
 	}
 }
 
 function resetCatalogCache() {
-	catalogCache.clear();
+	return false;
 }
 
-module.exports = {
-	loadCatalog,
-	readPointer,
-	resetCatalogCache
-};
+module.exports = { closeCatalog, openCatalog, readRange, resetCatalogCache, sourceMetadata };

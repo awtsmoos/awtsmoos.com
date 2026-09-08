@@ -1,47 +1,68 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
- * The Awtsmoos lets every imported word enter a durable line while checkpoints preserve the path;
- * Awtsmoos.com can resume after interruption without duplicating entries or losing provenance math.
+ * @module ShardedLexiconStore
+ * @description
+ * The Awtsmoos lets one worker hold one first-letter vessel, never the full dictionary sea;
+ * Awtsmoos.com scans one source line at a time, writes one small AwtsmoosDB shard, verifies, closes, and frees memory.
  */
 
-import fs from 'node:fs/promises';
+import fs from 'node:fs';
+import fsp from 'node:fs/promises';
 import path from 'node:path';
+import readline from 'node:readline';
+import { createRequire } from 'node:module';
+import AwtsmoosDB from '../../ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/index.js';
 
-export class OhrLexiconStore {
-	constructor(root, source) {
-		this.root = root;
-		this.source = source;
-		this.entriesPath = path.join(root, `${source.id}.jsonl`);
-		this.sourcePath = path.join(root, `${source.id}.source.json`);
-		this.checkpointPath = path.join(root, `${source.id}.checkpoint.json`);
-	}
+const require = createRequire(import.meta.url);
+const { entryKey, shardToken } = require('../../geelooy/api/social/helper/search/lexicon/keySpace.js');
+const WRITE_OPTIONS = Object.freeze({
+	compression: true,
+	reuseFreedSpace: 'verified',
+	maxCachedPages: 16,
+	dirtyPageFlushThreshold: 8
+});
 
-	async prepare({ reset = false } = {}) {
-		await fs.mkdir(this.root, { recursive: true });
-		await fs.writeFile(this.sourcePath, JSON.stringify(this.source, null, '\t') + '\n');
-		if (reset) {
-			await fs.rm(this.entriesPath, { force: true });
-			await fs.rm(this.checkpointPath, { force: true });
+export async function buildShard({ input, file, token, expected }) {
+	await fsp.mkdir(path.dirname(file), { recursive: true });
+	await fsp.rm(file, { force: true });
+	await fsp.rm(`${file}.wal`, { force: true });
+	const database = new AwtsmoosDB(file, WRITE_OPTIONS);
+	let count = 0;
+	let peakRss = process.memoryUsage().rss;
+	try {
+		await database.open();
+		database.root.entries = new database.Map();
+		const lines = readline.createInterface({ input: fs.createReadStream(input, 'utf8'), crlfDelay: Infinity });
+		for await (const line of lines) {
+			if (!line.trim()) continue;
+			const entry = JSON.parse(line);
+			if (shardToken(entry.normalized) !== token) continue;
+			await database.root.entries.set(entryKey(entry.normalized, count), entry);
+			count += 1;
+			if (count % 32 === 0) {
+				await database.waitForIdle();
+				peakRss = Math.max(peakRss, process.memoryUsage().rss);
+			}
 		}
+		if (count !== Number(expected)) throw new Error(`shard_count_mismatch:${token}:${count}:${expected}`);
+		await database.waitForIdle();
+		if (!database.verify().ok) throw new Error(`shard_verify_failed:${token}`);
+	} finally {
+		await database.close();
 	}
+	await verifyReadOnly(file, token);
+	return { count, peakRss: Math.max(peakRss, process.memoryUsage().rss) };
+}
 
-	async append(entry) {
-		await fs.appendFile(this.entriesPath, JSON.stringify(entry) + '\n');
-	}
-
-	async checkpoint(value) {
-		await fs.writeFile(this.checkpointPath, JSON.stringify(value, null, '\t') + '\n');
-	}
-
-	async readCheckpoint() {
-		try {
-			return JSON.parse(await fs.readFile(this.checkpointPath, 'utf8'));
-		} catch (error) {
-			if (error?.code === 'ENOENT') return null;
-			throw error;
-		}
+async function verifyReadOnly(file, token) {
+	const database = new AwtsmoosDB(file, { readOnly: true, maxCachedPages: 8 });
+	try {
+		await database.open();
+		if (!database.root.entries || !database.verify().ok) throw new Error(`shard_readonly_verify_failed:${token}`);
+	} finally {
+		await database.close();
 	}
 }
