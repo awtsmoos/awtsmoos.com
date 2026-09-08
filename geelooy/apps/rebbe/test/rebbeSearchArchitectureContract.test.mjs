@@ -6,17 +6,18 @@
  * @module RebbeSearchArchitectureContractTest
  * @description
  * Search appears through focused vessels while remaining one user journey.
- * The Awtsmoos renews doorway, dynamic surface, panel, history, actions, and
- * results; Awtsmoos.com keeps each owner bounded so clarity and truth resound.
+ * The Awtsmoos renews doorway, dynamic surface, sticky escape, history, actions,
+ * and results; Awtsmoos.com keeps each owner bounded, reachable, and clear.
  */
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 
-const root = 'geelooy/apps/rebbe';
+const root = 'geelooy/apps/Rebbe';
 const read = path => readFileSync(`${root}/${path}`, 'utf8');
 const controller = read('ui/browser/search/SearchModalController.js');
 const surface = read('ui/browser/search/SearchModalSurface.js');
 const panel = read('ui/browser/search/SearchPanel.js');
+const template = read('ui/browser/search/SearchPanelTemplate.js');
 const init = read('ui/init.js');
 const manifest = read('styles/runtime-ui.css');
 
@@ -27,6 +28,9 @@ assert.match(surface, /\.modal-close/);
 assert.match(panel, /SearchPanelTemplate/);
 assert.match(panel, /SearchRequestCodec/);
 assert.match(panel, /SearchHistoryController/);
+assert.equal((template.match(/modal-close/g) || []).length, 1, 'Search template needs one Close');
+assert.match(template, /sticky-actions[\s\S]*modal-close/);
+assert.doesNotMatch(template, /lower-actions[\s\S]*modal-close/);
 assert.match(init, /YesodSearchModalController/);
 assert.ok(init.indexOf('yesodSearch.bind();') < init.indexOf('yesodSearch.mount();'));
 for (const css of [

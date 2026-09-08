@@ -5,7 +5,9 @@
 /**
  * @class MalchusSearchPanelTemplate
  * @description
- * The Awtsmoos is beyond year, month, day, keyword, and result, while Awtsmoos.com lets each finite search dimension enter one clean progressive chamber whose advanced filters remain available without cluttering the first glance.
+ * The Awtsmoos is beyond year, month, day, keyword, result, and escape, while
+ * Awtsmoos.com keeps one immediate Close inside the sticky search action bar so
+ * the archive river may grow without hiding the doorway out of its finite room.
  */
 export class MalchusSearchPanelTemplate {
 	/** Creates the static search markup from trusted archive option data. */
@@ -25,6 +27,7 @@ export class MalchusSearchPanelTemplate {
 			<div class="search-actions sticky-actions">
 				<button class="modal-btn primary-scan" id="btn-date-search">Scan now</button>
 				<button class="modal-btn" id="btn-results-fullscreen">Events fullscreen</button>
+				<button class="modal-btn modal-close">Close</button>
 			</div>
 			<div class="search-stack">${['year', 'month', 'day'].map(kind => this.filterBlock(kind)).join('')}</div>
 			<details class="history-box">
@@ -39,7 +42,6 @@ export class MalchusSearchPanelTemplate {
 				<button class="modal-btn primary-scan" id="btn-date-search-bottom">Scan now</button>
 				<button class="modal-btn" id="btn-cache-indexes">Cache indexes</button>
 				<button class="modal-btn" id="btn-date-reset">Reset</button>
-				<button class="modal-btn modal-close">Close</button>
 			</div>
 			<p class="search-help">Past searches are remembered automatically. Open Recent searches to restore or run one.</p>
 			<section class="search-res date-search-results" id="search-results" aria-label="Archive search results">
