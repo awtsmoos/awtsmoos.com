@@ -15,6 +15,7 @@ import { decodeAarch64FloatingConditionalSelect } from "./aarch64DecodeFloatingC
 import { decodeAarch64FloatingConvert } from "./aarch64DecodeFloatingConvert.js";
 import { decodeAarch64FloatingImmediate } from "./aarch64DecodeFloatingImmediate.js";
 import { decodeAarch64FloatingMove } from "./aarch64DecodeFloatingMove.js";
+import { decodeAarch64FloatingRound } from "./aarch64DecodeFloatingRound.js";
 import { decodeAarch64FloatToInteger } from "./aarch64DecodeFloatToInteger.js";
 import { decodeAarch64GeneralSimdMove } from "./aarch64DecodeGeneralSimdMove.js";
 import { decodeAarch64IntegerToFloat } from "./aarch64DecodeIntegerToFloat.js";
@@ -77,6 +78,7 @@ export function decodeAarch64Data(word) {
 		|| decodeAarch64FloatingConvert(normalized)
 		|| decodeAarch64FloatingMove(normalized)
 		|| decodeAarch64FloatingImmediate(normalized)
+		|| decodeAarch64FloatingRound(normalized)
 		|| decodeAarch64FloatingArithmetic(normalized)
 		|| decodeAarch64FloatingConditionalSelect(normalized)
 		|| decodeAarch64FloatingConditionalCompare(normalized)

@@ -16,6 +16,7 @@ import { executeAarch64FloatingConditionalSelect } from "./aarch64ExecuteFloatin
 import { executeAarch64FloatingConvert } from "./aarch64ExecuteFloatingConvert.js";
 import { executeAarch64FloatingImmediate } from "./aarch64ExecuteFloatingImmediate.js";
 import { executeAarch64FloatingMove } from "./aarch64ExecuteFloatingMove.js";
+import { executeAarch64FloatingRound } from "./aarch64ExecuteFloatingRound.js";
 import { executeAarch64FloatToInteger } from "./aarch64ExecuteFloatToInteger.js";
 import { executeAarch64GeneralSimdMove } from "./aarch64ExecuteGeneralSimdMove.js";
 import { executeAarch64IntegerToFloat } from "./aarch64ExecuteIntegerToFloat.js";
@@ -80,6 +81,7 @@ export function executeAarch64Data(instruction, registers) {
 		|| executeAarch64FloatingConvert(instruction, registers)
 		|| executeAarch64FloatingMove(instruction, registers)
 		|| executeAarch64FloatingImmediate(instruction, registers)
+		|| executeAarch64FloatingRound(instruction, registers)
 		|| executeAarch64FloatingArithmetic(instruction, registers)
 		|| executeAarch64FloatingConditionalSelect(instruction, registers)
 		|| executeAarch64FloatingConditionalCompare(instruction, registers)
