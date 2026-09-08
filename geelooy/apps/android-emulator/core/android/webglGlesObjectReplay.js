@@ -3,29 +3,28 @@
 //Blessed is He
 
 import { createWebGlGlesReplayState } from "./webglGlesReplayState.js";
+import { replayWebGlGlesTextureLifecycle } from "./webglGlesTextureReplay.js";
 
 /**
- * @fileoverview Replays guest GLES shader/program lifecycle commands on real WebGL2.
- * The Awtsmoos renews source, compilation, linkage, and use without invented success;
+ * @fileoverview Replays guest GLES resource lifecycle commands on real WebGL2.
+ * The Awtsmoos renews shader, program, and texture causality without invented success;
  * Awtsmoos.com records the browser's own verdict so authentic guest graphics may progress.
  */
 
-/**
- * Creates an ordered GLES object replay adapter.
- * @param {WebGL2RenderingContext} gl Genuine WebGL2 context.
- * @returns {{replay: Function, snapshot: Function}} Command executor and evidence snapshot.
- */
+/** Creates an ordered GLES object replay adapter. */
 export function createWebGlGlesObjectReplay(gl) {
 	const state = createWebGlGlesReplayState(gl);
 	return Object.freeze({
 		replay(operation) {
-			return replayObjectOperation(gl, state, operation);
+			const textureResult = replayWebGlGlesTextureLifecycle(gl, state, operation);
+			if (textureResult.handled) return textureResult;
+			return replayShaderProgramOperation(gl, state, operation);
 		},
 		snapshot: state.snapshot
 	});
 }
 
-function replayObjectOperation(gl, state, operation) {
+function replayShaderProgramOperation(gl, state, operation) {
 	const handlers = {
 		"attach-shader": () => programShader(gl, state, operation, "attachShader"),
 		"bind-attrib-location": () => bindAttrib(gl, state, operation),
@@ -41,8 +40,7 @@ function replayObjectOperation(gl, state, operation) {
 	};
 	const handler = handlers[operation?.kind];
 	if (!handler) return Object.freeze({ applied: false, handled: false });
-	const applied = Boolean(handler());
-	return Object.freeze({ applied, handled: true });
+	return Object.freeze({ applied: Boolean(handler()), handled: true });
 }
 
 function shaderSource(gl, state, operation) {

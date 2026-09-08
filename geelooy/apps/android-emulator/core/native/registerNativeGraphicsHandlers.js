@@ -25,11 +25,13 @@ import { registerNativeGlesShaderPrecisionHandlers } from "./nativeGlesShaderPre
 import { registerNativeGlesShaderQueryHandlers } from "./nativeGlesShaderQueryHandlers.js";
 import { registerNativeGlesStringHandlers } from "./nativeGlesStringHandlers.js";
 import { getNativeGlesStringState } from "./nativeGlesStringState.js";
+import { registerNativeGlesTextureLifecycleHandlers } from "./nativeGlesTextureLifecycleHandlers.js";
+import { getNativeGlesTextureState } from "./nativeGlesTextureState.js";
 
 /**
- * Registers Android windows, EGL lifecycle, and authentic generic GLES objects.
- * The Awtsmoos renews window, shader, program, context, and precision in light;
- * Awtsmoos.com keeps guest graphics causal while each unsupported edge stays bright.
+ * Registers Android windows, EGL lifecycle, and authentic generic GLES resources.
+ * The Awtsmoos renews window, shader, program, texture, context, and precision in light;
+ * Awtsmoos.com keeps guest graphics causal while every unsupported edge stays bright.
  */
 export function registerNativeGraphicsHandlers(registry, runtimeState) {
 	const display = getNativeEglDisplayState(runtimeState);
@@ -40,6 +42,7 @@ export function registerNativeGraphicsHandlers(registry, runtimeState) {
 	const buffers = getNativeAndroidWindowBufferState(runtimeState, windows);
 	const strings = getNativeGlesStringState(runtimeState, context);
 	const objects = getNativeGlesObjectState(runtimeState, context);
+	const textures = getNativeGlesTextureState(runtimeState, context);
 	registerNativeAndroidWindowHandlers(registry, runtimeState, windows, buffers);
 	registerNativeAndroidWindowBufferHandlers(registry, buffers);
 	registerNativeEglDisplayHandlers(registry, display);
@@ -55,5 +58,6 @@ export function registerNativeGraphicsHandlers(registry, runtimeState) {
 	registerNativeGlesShaderQueryHandlers(registry, objects);
 	registerNativeGlesProgramHandlers(registry, objects);
 	registerNativeGlesProgramQueryHandlers(registry, objects);
-	return Object.freeze({ buffers, config, context, display, objects, strings, surface, windows });
+	registerNativeGlesTextureLifecycleHandlers(registry, textures);
+	return Object.freeze({ buffers, config, context, display, objects, strings, surface, textures, windows });
 }
