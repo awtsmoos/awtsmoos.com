@@ -1,0 +1,83 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gathers the finished movie toward one blue door; Awtsmoos.com surrounds real resolution, frame rate, sound, and progress with quiet navy glass so export feels final without becoming false.
+*/
+.studio-header-export {
+	min-height: 40px;
+	padding: 0 16px;
+	border: 1px solid rgb(74 157 255 / 78%);
+	border-radius: 12px;
+	background: linear-gradient(180deg, #2798ff, #087af2);
+	color: white;
+	font-weight: 760;
+}
+.studio-export-sheet { display: none; }
+.studio-export-sheet:not([hidden]) {
+	position: fixed;
+	inset: 0;
+	z-index: 9000;
+	display: grid;
+	place-items: center;
+	padding: 16px;
+	background: rgb(1 7 13 / 72%);
+	backdrop-filter: blur(16px);
+}
+.studio-export-card {
+	display: grid;
+	gap: 16px;
+	width: min(520px, 100%);
+	max-height: min(760px, calc(100dvh - 32px));
+	overflow: auto;
+	padding: 18px;
+	border: 1px solid rgb(117 153 184 / 28%);
+	border-radius: 22px;
+	background: linear-gradient(180deg, #101b27, #09121d);
+	box-shadow: 0 28px 80px rgb(0 0 0 / 52%);
+	color: #f5fbff;
+}
+.studio-export-header { display: flex; align-items: center; justify-content: space-between; font-size: 19px; }
+.studio-export-close { width: 44px; height: 44px; border: 0; background: transparent; color: #dfeaf3; font-size: 28px; }
+.studio-export-preview {
+	display: grid;
+	gap: 5px;
+	min-height: 110px;
+	align-content: end;
+	padding: 16px;
+	border: 1px solid rgb(255 255 255 / 9%);
+	border-radius: 16px;
+	background: radial-gradient(circle at 70% 20%, rgb(46 130 209 / 20%), transparent 45%), #0a1521;
+}
+.studio-export-preview span,
+.studio-export-status { color: #9db2c2; font-size: 12px; }
+.studio-export-group { display: grid; gap: 9px; }
+.studio-export-options { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 8px; }
+.studio-export-option,
+.studio-export-audio {
+	min-height: 46px;
+	border: 1px solid #31465a;
+	border-radius: 11px;
+	background: #152130;
+	color: #e6f0f8;
+}
+.studio-export-option[aria-pressed="true"],
+.studio-export-audio[aria-pressed="true"] { border-color: #158cff; box-shadow: inset 0 0 0 1px #158cff; color: white; }
+.studio-export-audio { padding: 0 14px; text-align: left; }
+.studio-export-submit {
+	min-height: 54px;
+	border: 0;
+	border-radius: 13px;
+	background: linear-gradient(180deg, #2196ff, #087cf4);
+	color: white;
+	font-size: 16px;
+	font-weight: 760;
+}
+.studio-export-submit:disabled { opacity: 0.55; }
+.studio-export-progress { height: 7px; overflow: hidden; border-radius: 999px; background: #223142; }
+.studio-export-progress span { display: block; height: 100%; border-radius: inherit; background: #168cff; transition: width 120ms linear; }
+.studio-export-status { margin: -7px 0 0; }
+@media (max-width: 520px) {
+	.studio-export-sheet:not([hidden]) { align-items: end; padding: 0; }
+	.studio-export-card { width: 100%; max-height: 92dvh; border-radius: 22px 22px 0 0; padding: 16px 14px calc(18px + env(safe-area-inset-bottom)); }
+	.studio-export-preview { min-height: 92px; }
+}

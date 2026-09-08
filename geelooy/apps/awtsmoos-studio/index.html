@@ -1,15 +1,15 @@
 <!--B"H-->
 <!-- Boruch Hashem -->
 <!-- Blessed is He -->
-<!-- The Awtsmoos gathers native world, portable overlay, scene, and action into one measured mobile vessel; Awtsmoos.com now loads the exact stacked viewport garments so real depth and cinematic control may share one frame of light. -->
+<!-- The Awtsmoos gathers native world, portable overlay, project chrome, export, filmstrip, canonical timeline, scene, and action into one measured mobile vessel; Awtsmoos.com loads only truthful garments around one movie. -->
 <!doctype html>
 <html lang="en">
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-	<meta name="theme-color" content="#071019">
+	<meta name="theme-color" content="#0d1723">
 	<title>Awtsmoos Studio</title>
-	<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2064%2064%27%3E%3Crect%20width=%2764%27%20height=%2764%27%20rx=%2716%27%20fill=%27%23071019%27/%3E%3Cpath%20d=%27M11%2035c8-1%2014-6%2020-15%202%207%204%2011%208%2014%205-4%209-9%2014-16-1%2013-7%2024-19%2031l-2%207-4-7c-8-3-14-8-17-14Z%27%20fill=%27%2383ffe7%27/%3E%3C/svg%3E">
+	<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2064%2064%27%3E%3Crect%20width=%2764%27%20height=%2764%27%20rx=%2716%27%20fill=%27%23071019%27/%3E%3Cpath%20d=%27M11%2035c8-1%2014-6%2020-15%202%207%204%2011%208%2014%205-4%209-9%2014-16-1%2013-7%2024-19%2031l-2%207-4-7c-8-3-14-8-17-14Z%27%20fill=%27%234ea4ff%27/%3E%3C/svg%3E">
 	<link rel="stylesheet" href="../../libs/AwtsmoosUI/styles/tokens.css">
 	<link rel="stylesheet" href="../../libs/AwtsmoosUI/styles/studio-layout.css">
 	<link rel="stylesheet" href="../../libs/AwtsmoosUI/styles/studio-controls.css">
@@ -17,15 +17,17 @@
 	<link rel="stylesheet" href="./styles/studio-project.css">
 	<link rel="stylesheet" href="./styles/studio-templates.css">
 	<link rel="stylesheet" href="./styles/studio-shell-ux.css">
-	<link rel="stylesheet" href="./styles/studio-editor-viewport.css?v=awtsmoos-studio-mobile-ux-20260904-0001">
-	<link rel="stylesheet" href="./styles/studio-native-viewport.css?v=awtsmoos-studio-native-world-20260907-0001">
-	<link rel="stylesheet" href="./styles/studio-editor-gizmo.css?v=awtsmoos-studio-mobile-ux-20260904-0001">
-	<link rel="stylesheet" href="./styles/studio-mobile-dock.css">
-	<link rel="stylesheet" href="./styles/studio-mobile-hierarchy.css?v=awtsmoos-studio-mobile-ux-20260904-0001">
-	<link rel="stylesheet" href="./styles/studio-mobile-scenes.css">
+	<link rel="stylesheet" href="./styles/studio-export-sheet.css?v=awtsmoos-studio-export-20260908-0002">
+	<link rel="stylesheet" href="./styles/studio-editor-viewport.css?v=awtsmoos-studio-reference-20260908-0001">
+	<link rel="stylesheet" href="./styles/studio-native-viewport.css?v=awtsmoos-studio-reference-20260908-0001">
+	<link rel="stylesheet" href="./styles/studio-editor-gizmo.css?v=awtsmoos-studio-reference-20260908-0001">
+	<link rel="stylesheet" href="./styles/studio-editor-timeline.css?v=awtsmoos-studio-reference-20260908-0001">
+	<link rel="stylesheet" href="./styles/studio-mobile-dock.css?v=awtsmoos-studio-reference-20260908-0001">
+	<link rel="stylesheet" href="./styles/studio-mobile-hierarchy.css?v=awtsmoos-studio-reference-20260908-0001">
+	<link rel="stylesheet" href="./styles/studio-mobile-scenes.css?v=awtsmoos-studio-reference-20260908-0001">
 	<link rel="stylesheet" href="./styles/studio-mobile-create.css?v=awtsmoos-studio-total-revelation-20260903-0302">
-	<link rel="stylesheet" href="./styles/studio-mobile-intent-shell.css?v=awtsmoos-studio-total-revelation-20260903-0302">
-	<link rel="stylesheet" href="./styles/studio-mobile-intent-actions.css?v=awtsmoos-studio-total-revelation-20260903-0302">
+	<link rel="stylesheet" href="./styles/studio-mobile-intent-shell.css?v=awtsmoos-studio-reference-20260908-0001">
+	<link rel="stylesheet" href="./styles/studio-mobile-intent-actions.css?v=awtsmoos-studio-reference-20260908-0001">
 	<link rel="stylesheet" href="./styles/studio-mobile-intent-collections.css?v=awtsmoos-studio-total-revelation-20260903-0302">
 	<link rel="stylesheet" href="./styles/studio-mobile-transport.css">
 	<link rel="stylesheet" href="./styles/studio-first-light.css">
@@ -34,27 +36,13 @@
 	<link rel="stylesheet" href="./styles/nesher-pro-tools-mobile.css">
 </head>
 <body>
-	<div class="studio-first-light" data-studio-loading role="status" aria-live="polite">
-		<div class="studio-first-light-card">
-			<div class="studio-first-light-mark" aria-hidden="true">🦅</div>
-			<h1>AWTSMOOS STUDIO</h1>
-			<p data-studio-loading-status>Opening creative workspace…</p>
-			<div class="studio-first-light-line" aria-hidden="true"></div>
-			<div class="studio-first-light-meta">
-				<span data-studio-loading-build>Build loading…</span>
-				<span>Advanced tools load on demand</span>
-			</div>
-			<div class="studio-first-light-actions">
-				<button type="button" data-studio-loading-retry hidden>Retry Studio</button>
-				<a href="../nesher-studio/">Open Pro Editor</a>
-			</div>
-			<details class="studio-first-light-details" data-studio-loading-details hidden>
-				<summary>Technical details</summary>
-				<code data-studio-loading-error></code>
-			</details>
-		</div>
-	</div>
+	<div class="studio-first-light" data-studio-loading role="status" aria-live="polite"><div class="studio-first-light-card">
+		<div class="studio-first-light-mark" aria-hidden="true">🦅</div><h1>AWTSMOOS STUDIO</h1><p data-studio-loading-status>Opening creative workspace…</p>
+		<div class="studio-first-light-line" aria-hidden="true"></div><div class="studio-first-light-meta"><span data-studio-loading-build>Build loading…</span><span>Advanced tools load on demand</span></div>
+		<div class="studio-first-light-actions"><button type="button" data-studio-loading-retry hidden>Retry Studio</button><a href="../nesher-studio/">Open Pro Editor</a></div>
+		<details class="studio-first-light-details" data-studio-loading-details hidden><summary>Technical details</summary><code data-studio-loading-error></code></details>
+	</div></div>
 	<div id="awtsmoos-studio-root"></div>
-	<script type="module" data-awtsmoos-no-compact src="./main.js?v=awtsmoos-studio-total-revelation-20260903-0302"></script>
+	<script type="module" data-awtsmoos-no-compact src="./main.js?v=awtsmoos-studio-reference-20260908-0001"></script>
 </body>
 </html>

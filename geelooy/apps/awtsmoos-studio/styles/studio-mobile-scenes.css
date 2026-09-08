@@ -1,61 +1,27 @@
 /*B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos lets many scenes become one navigable river instead of a tower of heavy cards; Awtsmoos.com keeps each cinematic moment near the thumb while the canvas remains the heart the maker guards.
+The Awtsmoos lets canonical scenes become a truthful filmstrip without counterfeit screenshots; Awtsmoos.com gives number, mode, duration, and selected light the compact proportions of a finished mobile movie editor.
 */
-
 @media (max-width: 820px) {
-	.studio-scene-panel {
-		border-radius: 12px;
-		box-shadow: none;
+	.studio-scene-panel { border: 0; border-radius: 14px; background: #0d1723; box-shadow: none; }
+	.studio-scene-panel .aw-ui-panel__head { display: none; }
+	.studio-scene-panel .aw-ui-panel__body { padding: 8px; }
+	.studio-scene-editor { display: grid; gap: 7px; }
+	.studio-scenes { display: flex; gap: 8px; overflow-x: auto; overflow-y: hidden; padding: 0 0 4px; scrollbar-width: none; scroll-snap-type: x proximity; }
+	.studio-scenes::-webkit-scrollbar { display: none; }
+	.studio-scene-card {
+		flex: 0 0 128px; display: grid; grid-template-columns: 40px minmax(0, 1fr); grid-template-rows: auto auto; gap: 2px 7px;
+		min-height: 76px; padding: 7px; overflow: hidden; border: 1px solid #31465c; border-radius: 12px; background: #152130; color: #eef5fb; text-align: left; scroll-snap-align: start;
 	}
-
-	.studio-scene-panel .aw-ui-panel__head {
-		min-height: 32px;
-		padding: 5px 9px;
-	}
-
-	.studio-scene-panel .studio-panel-title {
-		margin: 0;
-		font-size: 12px;
-		letter-spacing: 0.02em;
-	}
-
-	.studio-scene-panel .aw-ui-panel__body {
-		padding: 7px;
-	}
-
-	.studio-scenes {
-		display: flex;
-		gap: 6px;
-		max-height: none;
-		overflow-x: auto;
-		overflow-y: hidden;
-		padding: 1px 1px 5px;
-		scroll-snap-type: x proximity;
-		scrollbar-width: none;
-	}
-
-	.studio-scenes::-webkit-scrollbar {
-		display: none;
-	}
-
-	.studio-scene {
-		flex: 0 0 auto;
-		width: auto;
-		max-width: min(64vw, 220px);
-		min-height: 44px;
-		padding: 7px 10px;
-		overflow: hidden;
-		border-radius: 10px;
-		font-size: 12px;
-		line-height: 1.2;
-		text-overflow: ellipsis;
-		white-space: nowrap;
-		scroll-snap-align: start;
-	}
-
-	.studio-scene[aria-pressed="true"] {
-		box-shadow: inset 0 -3px var(--aw-ui-accent);
-	}
+	.studio-scene-card[aria-pressed="true"] { border-color: #258cff; box-shadow: inset 0 0 0 1px #258cff; background: #172b43; }
+	.studio-scene-card-preview { grid-row: 1 / 3; display: grid; place-items: center; min-height: 58px; border-radius: 9px; background: linear-gradient(150deg, #233b55, #101a27); color: #77b9ff; font-size: 24px; }
+	.studio-scene-card-copy { display: grid; min-width: 0; align-content: center; }
+	.studio-scene-card-copy strong, .studio-scene-card-copy span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+	.studio-scene-card-copy strong { font-size: 11px; }
+	.studio-scene-card-copy span, .studio-scene-card-mode { color: #8fa7ba; font-size: 9px; }
+	.studio-scene-card-mode { align-self: end; color: #55a8ff; font-weight: 750; letter-spacing: 0.04em; }
+	.studio-scene-controls { display: grid; grid-template-columns: minmax(0, 1fr) 72px repeat(5, 38px); gap: 5px; overflow-x: auto; }
+	.studio-scene-name-input, .studio-scene-duration-input, .studio-scene-control-button { min-height: 38px; border-radius: 9px; }
+	.studio-scene-control-button { min-width: 38px; padding: 0; }
 }

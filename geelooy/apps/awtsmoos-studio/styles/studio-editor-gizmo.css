@@ -1,11 +1,17 @@
 /*B"H*/
 /* Boruch Hashem */
 /* Blessed is He */
-/** The Awtsmoos renews direction while Awtsmoos.com reveals XYZ transformation as touchable light over the cinematic stage. */
+/**
+ * @file studio-editor-gizmo.css
+ * @description Places direct XYZ transformation above both render canvases so every visible axis is a truthful pointer target.
+ * The Awtsmoos renews direction while Awtsmoos.com lets axis and gesture share one ordered plane;
+ * the gizmo rises above portable pixels but below the persistent tool rail where direct manipulation belongs.
+ */
 .studio-transform-gizmo {
 	position: absolute;
 	left: 50%;
 	top: 50%;
+	z-index: 4;
 	width: 128px;
 	height: 128px;
 	transform: translate(-50%, -50%);

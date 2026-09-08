@@ -19,6 +19,8 @@ export const MovieLayerKind = Object.freeze({
 	PARTICLES_3D: "particles3d",
 	LIGHT_3D: "light3d",
 	WORLD_3D: "world3d",
+	TERRAIN_3D: "terrain3d",
+	WATER_3D: "water3d",
 	GROUP_3D: "group3d",
 	OVERLAY: "overlay",
 	IMAGE: "image",
@@ -74,30 +76,13 @@ export const MovieTransitionKinds = Object.freeze(Object.values(MovieTransitionK
 
 /** Returns the broad semantic family used for adapter capability negotiation. */
 export function binahLayerFamily(orKind) {
-	if (
-		[
-			MovieLayerKind.AUDIO,
-			MovieLayerKind.DIALOGUE,
-			MovieLayerKind.NARRATION,
-			MovieLayerKind.MUSIC,
-			MovieLayerKind.AMBIENCE,
-			MovieLayerKind.SFX
-		].includes(orKind)
-	) {
+	if ([MovieLayerKind.AUDIO, MovieLayerKind.DIALOGUE, MovieLayerKind.NARRATION,
+		MovieLayerKind.MUSIC, MovieLayerKind.AMBIENCE, MovieLayerKind.SFX].includes(orKind)) {
 		return "audio";
 	}
-	if (String(orKind || "").endsWith("3d")) {
-		return "3d";
-	}
-	if (
-		[
-			MovieLayerKind.DATA,
-			MovieLayerKind.CHART,
-			MovieLayerKind.DIAGRAM,
-			MovieLayerKind.FORMULA,
-			MovieLayerKind.CODE
-		].includes(orKind)
-	) {
+	if (String(orKind || "").endsWith("3d")) return "3d";
+	if ([MovieLayerKind.DATA, MovieLayerKind.CHART, MovieLayerKind.DIAGRAM,
+		MovieLayerKind.FORMULA, MovieLayerKind.CODE].includes(orKind)) {
 		return "data";
 	}
 	return "2d";

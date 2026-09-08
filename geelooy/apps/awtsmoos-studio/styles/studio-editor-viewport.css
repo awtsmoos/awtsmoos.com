@@ -1,7 +1,12 @@
 /*B"H*/
 /* Boruch Hashem */
 /* Blessed is He */
-/** The Awtsmoos renews frame and depth while Awtsmoos.com lets the stage remain larger than every surrounding control. */
+/**
+ * @file studio-editor-viewport.css
+ * @description Keeps the cinematic stage dominant while placing HUD truth above both render canvases.
+ * The Awtsmoos renews frame and depth while Awtsmoos.com makes visible controls physically reachable;
+ * native world and portable signs remain below readable stage chrome so image and interaction agree beneath the maker's hand.
+ */
 .studio-editor-viewport {
 	display: grid;
 	place-items: center;
@@ -41,6 +46,7 @@
 .studio-viewport-hud {
 	position: absolute;
 	inset: 10px 10px auto;
+	z-index: 3;
 	display: grid;
 	grid-template-columns: auto 1fr auto;
 	align-items: center;

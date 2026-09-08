@@ -2,74 +2,30 @@
 /* Boruch Hashem */
 /* Blessed is He */
 @import url("./studio-persistent-tools.css");
-
 /**
  * @file studio-native-viewport.css
- * @description Stacks native WebGL depth and portable Canvas2D overlay without changing Studio's established viewport geometry.
- * The Awtsmoos reveals world beneath sign while Awtsmoos.com keeps each canvas in its rightful plane;
- * one stage holds both vessels, direct transform tools stay above them, and mode controls remain large enough for a maker's hand again.
+ * @description Stacks native WebGL and portable overlay, then turns dimensional mode into a reference-grade stage pill on phones while preserving desktop layout.
+ * The Awtsmoos reveals depth beneath sign while Awtsmoos.com lets 3D, Hybrid, and 2D ride the image as one truthful choice in blue cinematic light.
  */
-
-.studio-native-stage-wrap {
-	position: relative;
-	isolation: isolate;
-	overflow: hidden;
-}
-
-.studio-native-stage,
-.studio-portable-stage {
-	position: absolute;
-	inset: 0;
-	display: block;
-	width: 100%;
-	height: 100%;
-}
-
-.studio-native-stage {
-	z-index: 0;
-	background: #071019;
-	pointer-events: none;
-}
-
-.studio-portable-stage {
-	z-index: 1;
-	background: transparent;
-}
-
-.studio-native-stage[hidden],
-.studio-portable-stage[hidden] {
-	display: none;
-}
-
-.studio-viewport-mode-bar {
-	display: grid;
-	grid-template-columns: repeat(3, minmax(0, 1fr));
-	gap: 8px;
-	width: 100%;
-}
-
+.studio-native-stage-wrap { position: relative; isolation: isolate; overflow: hidden; }
+.studio-native-stage, .studio-portable-stage { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
+.studio-native-stage { z-index: 0; background: #071019; pointer-events: none; }
+.studio-portable-stage { z-index: 1; background: transparent; }
+.studio-native-stage[hidden], .studio-portable-stage[hidden] { display: none; }
+.studio-viewport-mode-bar { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; width: 100%; }
 .studio-viewport-mode-button {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	gap: 7px;
-	min-width: 0;
-	min-height: 46px;
-	padding: 8px 10px;
-	border: 1px solid rgba(255, 255, 255, 0.12);
-	border-radius: 12px;
-	background: rgba(8, 16, 29, 0.82);
-	color: inherit;
-	font: inherit;
-	cursor: pointer;
+	display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-width: 0; min-height: 46px; padding: 8px 10px;
+	border: 1px solid rgb(255 255 255 / 12%); border-radius: 12px; background: rgb(8 16 29 / 82%); color: inherit; font: inherit; cursor: pointer;
 }
-
-.studio-viewport-mode-button[aria-pressed="true"] {
-	border-color: rgba(131, 255, 231, 0.7);
-	background: rgba(26, 78, 75, 0.72);
-}
-
-.studio-viewport-mode-glyph {
-	font-size: 1.05em;
-	line-height: 1;
+.studio-viewport-mode-button[aria-pressed="true"] { border-color: rgb(39 145 255 / 82%); background: #167ef0; color: white; }
+.studio-viewport-mode-glyph { font-size: 1.05em; line-height: 1; }
+@media (max-width: 820px) {
+	.studio-editor-viewport { position: relative; }
+	.studio-viewport-mode-bar {
+		position: absolute; top: 10px; left: 10px; z-index: 6; width: auto; gap: 2px; padding: 4px;
+		border: 1px solid rgb(255 255 255 / 10%); border-radius: 14px; background: rgb(10 20 31 / 84%); backdrop-filter: blur(14px);
+	}
+	.studio-viewport-mode-button { min-height: 40px; padding: 6px 11px; border: 0; border-radius: 10px; background: transparent; font-size: 11px; }
+	.studio-viewport-mode-button[aria-pressed="true"] { background: #237ff5; box-shadow: 0 5px 18px rgb(20 111 238 / 32%); }
+	.studio-viewport-mode-glyph { display: none; }
 }
