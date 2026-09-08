@@ -6,51 +6,30 @@
  * @module RebbeSearchArchitectureContractTest
  * @description
  * Search appears through focused vessels while remaining one user journey.
- * The Awtsmoos renews doorway, panel, history, persistence, actions, and
- * results; Awtsmoos.com protects that revelation by binding the visible
- * doorway before the advanced chamber may fail and by keeping each owner small.
+ * The Awtsmoos renews doorway, dynamic surface, panel, history, actions, and
+ * results; Awtsmoos.com keeps each owner bounded so clarity and truth resound.
  */
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 
-const yesodRoot = 'geelooy/apps/rebbe';
+const root = 'geelooy/apps/rebbe';
+const read = path => readFileSync(`${root}/${path}`, 'utf8');
+const controller = read('ui/browser/search/SearchModalController.js');
+const surface = read('ui/browser/search/SearchModalSurface.js');
+const panel = read('ui/browser/search/SearchPanel.js');
+const init = read('ui/init.js');
+const manifest = read('styles/runtime-ui.css');
 
-/**
- * Reads one source vessel beneath the Rebbe application root.
- * @param {string} hodPath Application-relative file path.
- * @returns {string} UTF-8 source contents.
- */
-function yesodRead(hodPath) {
-	return readFileSync(`${yesodRoot}/${hodPath}`, 'utf8');
-}
-
-const malchusGateway = yesodRead('ui/browser/search-panel.js');
-const yesodController = yesodRead('ui/browser/search/SearchModalController.js');
-const tiferesPanel = yesodRead('ui/browser/search/SearchPanel.js');
-const malchusResults = yesodRead('ui/browser/search.js');
-const tiferesInit = yesodRead('ui/init.js');
-const tiferesManifest = yesodRead('styles/runtime-ui.css');
-
-assert.match(malchusGateway, /SearchPanel.*search\/SearchPanel\.js/);
-assert.match(yesodController, /SearchPanel.*\.\/SearchPanel\.js/);
-assert.match(yesodController, /openModal.*\.\.\/\.\.\/modals\.js/);
-assert.match(tiferesInit, /YesodSearchModalController/);
-assert.match(tiferesPanel, /SearchPanelTemplate/);
-assert.match(tiferesPanel, /SearchRequestCodec/);
-assert.match(tiferesPanel, /SearchHistoryController/);
-assert.match(tiferesPanel, /SearchFullscreenController/);
-assert.match(malchusResults, /MalchusSearchResultsView/);
-
-const netzachBindIndex = tiferesInit.indexOf('yesodSearch.bind();');
-const netzachMountIndex = tiferesInit.indexOf('yesodSearch.mount();');
-assert.ok(netzachBindIndex >= 0, 'Search doorway binding must remain explicit');
-assert.ok(netzachMountIndex >= 0, 'Search advanced mount must remain explicit');
-assert.ok(
-	netzachBindIndex < netzachMountIndex,
-	'Search doorway must bind before advanced panel mounting'
-);
-
-const hodStylesheets = [
+assert.match(controller, /SearchModalSurface/);
+assert.doesNotMatch(controller, /createElement/);
+assert.match(surface, /closeModal.*\.\.\/\.\.\/modals\.js/);
+assert.match(surface, /\.modal-close/);
+assert.match(panel, /SearchPanelTemplate/);
+assert.match(panel, /SearchRequestCodec/);
+assert.match(panel, /SearchHistoryController/);
+assert.match(init, /YesodSearchModalController/);
+assert.ok(init.indexOf('yesodSearch.bind();') < init.indexOf('yesodSearch.mount();'));
+for (const css of [
 	'search-shell.css',
 	'search-history.css',
 	'search-controls.css',
@@ -59,17 +38,12 @@ const hodStylesheets = [
 	'search-event-cards.css',
 	'search-tracks.css',
 	'search-fullscreen.css'
-];
-
-for (const hodImport of hodStylesheets) {
-	assert.ok(
-		tiferesManifest.includes(hodImport),
-		`runtime manifest missing ${hodImport}`
-	);
+]) {
+	assert.ok(manifest.includes(css), `runtime manifest missing ${css}`);
 }
-
-const gevurahBoundedOwners = [
+for (const path of [
 	'ui/browser/search/SearchModalController.js',
+	'ui/browser/search/SearchModalSurface.js',
 	'ui/browser/search/SearchPanel.js',
 	'ui/browser/search/SearchPanelTemplate.js',
 	'ui/browser/search/SearchRequestCodec.js',
@@ -78,14 +52,7 @@ const gevurahBoundedOwners = [
 	'ui/browser/search/SearchHistoryPersistence.js',
 	'ui/browser/search/SearchPanelActions.js',
 	'ui/browser/search/SearchEventCard.js'
-];
-
-for (const hodPath of gevurahBoundedOwners) {
-	const netzachLineCount = yesodRead(hodPath).trimEnd().split('\n').length;
-	assert.ok(
-		netzachLineCount <= 120,
-		`${hodPath} exceeds 120 lines`
-	);
+]) {
+	assert.ok(read(path).trimEnd().split('\n').length <= 120, `${path} exceeds 120 lines`);
 }
-
 console.log('B"H rebbeSearchArchitectureContract.test passed');

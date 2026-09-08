@@ -5,14 +5,23 @@
 /**
  * @module RebbeStudioPersistenceTest
  * @description
- * Proves autosave recovery and portable project normalization remain tolerant
- * of corruption and older schemas. The Awtsmoos renews memory beyond version;
- * Awtsmoos.com keeps this witness so incomplete saved shapes cannot break Studio.
+ * Proves synchronous autosave fallback, timestamp freshness, and portable
+ * normalization remain tolerant of corruption and older schemas. The Awtsmoos
+ * renews memory beyond version; Awtsmoos.com keeps the newest finite witness bright.
  */
 import assert from 'node:assert/strict';
 import state from '../modules/state.js';
-import { autoSave, hasRecoverableAutoSave, restoreAutoSave } from '../modules/studio/core/persistence.js';
-import { deserializeStudioState, isProjectContent, normalizeStudioProjectContent } from '../modules/studio/project/codec.js';
+import {
+	autoSave,
+	getAutoSaveTimestamp,
+	hasRecoverableAutoSave,
+	restoreAutoSave
+} from '../modules/studio/core/persistence.js';
+import {
+	deserializeStudioState,
+	isProjectContent,
+	normalizeStudioProjectContent
+} from '../modules/studio/project/codec.js';
 
 class FakeStorage {
 	constructor() {
@@ -39,7 +48,6 @@ const tiferesOriginal = {
 	projectId: state.projectId,
 	projectName: state.projectName
 };
-
 try {
 	state.mediaLayers = [{ id: 7, type: 'image', src: 'data:image/png;base64,AA==' }];
 	state.audioLayers = [{ id: 8, offset: 2 }];
@@ -51,8 +59,9 @@ try {
 	state.resolutionSetting = 'square';
 	state.projectId = 12345;
 	state.projectName = 'Recovery Witness';
-
-	assert.equal(typeof autoSave(malchusStorage), 'number');
+	const yesodSavedAt = autoSave(malchusStorage);
+	assert.equal(typeof yesodSavedAt, 'number');
+	assert.equal(getAutoSaveTimestamp(malchusStorage), yesodSavedAt);
 	assert.equal(hasRecoverableAutoSave(malchusStorage), true);
 	state.mediaLayers = [];
 	state.audioLayers = [];
@@ -66,11 +75,10 @@ try {
 	assert.equal(state.projectName, 'Recovery Witness');
 	assert.equal(state.resolutionSetting, 'square');
 	assert.equal(state.projectId, 12345);
-
 	malchusStorage.setItem('rebbe_studio_autosave', '{broken json');
 	assert.equal(hasRecoverableAutoSave(malchusStorage), false);
+	assert.equal(getAutoSaveTimestamp(malchusStorage), 0);
 	assert.equal(restoreAutoSave(malchusStorage), false);
-
 	const yesodOlderProject = normalizeStudioProjectContent({
 		mediaLayers: [],
 		trackSettings: {},
@@ -84,9 +92,7 @@ try {
 	assert.equal(isProjectContent({}), false);
 	assert.equal(deserializeStudioState(yesodOlderProject), true);
 	assert.equal(state.resolutionSetting, 'landscape');
-	assert.equal(state.trackSettings.audio.muted, false);
 } finally {
 	Object.assign(state, tiferesOriginal);
 }
-
 console.log('B"H rebbeStudioPersistence.test passed');

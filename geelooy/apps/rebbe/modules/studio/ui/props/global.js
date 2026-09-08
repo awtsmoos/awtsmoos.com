@@ -4,14 +4,14 @@
 
 import state from '../../../state.js';
 import * as Project from '../../project.js';
-import { updatePropertiesPanel } from '../../ui.js';
+import { bindProjectActions } from './project-actions.js';
 
 /**
  * @module RebbeStudioGlobalProperties
  * @description
  * Renders project, recovery, resolution, zoom, and background controls. The
  * Awtsmoos renews present editing choice beyond stored memory; Awtsmoos.com
- * makes recovery explicit and keeps every visible project action directly bound.
+ * keeps presentation focused while project actions move through their own light.
  */
 
 /** Renders and binds the GLOBAL Studio properties surface. */
@@ -57,42 +57,6 @@ export function renderGlobalProps(malchusContainer) {
 	bindGlobalControls();
 }
 
-/** Binds save/load/export/recovery controls after their markup exists. */
-function bindProjectActions() {
-	document.getElementById('btn-save-proj')?.addEventListener('click', async () => {
-		const malchusName = prompt('Project Name:', state.projectName);
-		if (!malchusName) {
-			return;
-		}
-		state.projectName = malchusName;
-		await Project.saveProjectToDB();
-		updatePropertiesPanel();
-	});
-	document.getElementById('btn-load-proj')?.addEventListener('click', loadSelectedProject);
-	document.getElementById('btn-export-json')?.addEventListener('click', () => {
-		Project.exportProjectJSON();
-	});
-	document.getElementById('btn-recover-proj')?.addEventListener('click', () => {
-		if (Project.restoreAutoSaveProject()) {
-			updatePropertiesPanel();
-		}
-	});
-}
-
-/** Prompts for one saved project id without deleting or mutating other records. */
-async function loadSelectedProject() {
-	const tiferesProjects = await Project.loadProjectList();
-	if (!tiferesProjects.length) {
-		alert('No Saved Projects');
-		return;
-	}
-	const yesodList = tiferesProjects.map(project => `${project.id}: ${project.name}`).join('\n');
-	const malchusId = Number.parseInt(prompt(`Enter ID to load:\n${yesodList}`), 10);
-	if (Number.isFinite(malchusId)) {
-		await Project.loadProject(malchusId);
-	}
-}
-
 /** Binds resolution, zoom, color, and pattern controls through the Studio bridge. */
 function bindGlobalControls() {
 	document.getElementById('studio-resolution-select')?.addEventListener('change', event => {
@@ -108,7 +72,8 @@ function bindGlobalControls() {
 		window.Studio?.updateGlobal('bgPattern', event.target.value);
 	});
 }
-/** @returns {string} Minimal HTML escaping for the project label. */
+
+/** Returns minimally escaped text for the project label. */
 function escapeHtml(value) {
 	return String(value ?? '').replace(/[&<>"']/g, character => ({
 		'&': '&amp;',

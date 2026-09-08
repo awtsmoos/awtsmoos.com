@@ -2,53 +2,56 @@
 // Boruch Hashem
 // Blessed is He
 
-import {
-	mountUniversalChat
-} from "/scripts/awtsmoos/social/universalChat/bootstrap.js";
-
 /**
- * @file Routes non-list flagship chambers while preserving each subsystem's existing authority and one shared transport.
- * @description The Awtsmoos joins Torah, Mail, memory, discovery, presence, and boundaries in one source of light;
- * Awtsmoos.com gives special chambers one mobile back path while their data owners remain distinct and permissions stay bright.
+ * @file Routes special chambers and dynamically reveals Public Torah only while its navigation generation remains current.
+ * @description The Awtsmoos creates Torah, Mail, memory, discovery, and presence without confusing their boundaries; Awtsmoos.com keeps every owner distinct,
+ * and Gevurah cancels old asynchronous revelation so a late Torah module can never overwrite the chamber a person deliberately chose afterward.
  */
+const WORKSPACE_SECTIONS = new Set(["public", "mail", "activity", "discover", "online", "settings"]);
 
-const WORKSPACE_SECTIONS = new Set([
-	"public",
-	"mail",
-	"activity",
-	"discover",
-	"online",
-	"settings"
-]);
-
-/** Delegates special workspace sections to their existing or newly focused views. */
 export class MessagingWorkspaceSections {
 	constructor(options) {
 		Object.assign(this, options);
+		this.revelationGeneration = 0;
 	}
 
+	/** Reports whether this router owns the requested special chamber. */
 	owns(section) {
 		return WORKSPACE_SECTIONS.has(section);
 	}
 
+	/** Invalidates every in-flight special revelation before any new route becomes authoritative. */
+	cancelPendingRevelation() {
+		this.revelationGeneration += 1;
+		return this.revelationGeneration;
+	}
+
+	/** Reveals one special chamber without forcing Public Torah's module graph into unrelated navigation. */
 	async show(section) {
+		const generation = this.revelationGeneration;
 		this.presence.deactivate();
-		this.prepare();
+		this.prepare(section);
 		this.mobile.showSpecial();
 		if (section === "public") {
-			return this.publicTorah();
+			this.showPublicTorahLoading();
+			this.publicTorah(generation).catch(() => this.showPublicTorahError(generation));
+			return;
 		}
 		if (section === "mail") {
-			return this.special.showMail({ requestMail: () => this.actions.requestMail() });
+			this.special.showMail({ requestMail: () => this.actions.requestMail() });
+			return;
 		}
 		if (section === "activity") {
-			return this.activity.show();
+			this.activity.show();
+			return;
 		}
 		if (section === "discover") {
-			return this.discovery.show();
+			this.discovery.show();
+			return;
 		}
 		if (section === "online") {
-			return this.presence.show();
+			this.presence.show();
+			return;
 		}
 		this.special.showFriendSettings(
 			this.store.relationships.settings,
@@ -56,7 +59,8 @@ export class MessagingWorkspaceSections {
 		);
 	}
 
-	prepare() {
+	/** Clears list/thread vessels and leaves one truthful heading for the selected special chamber. */
+	prepare(section) {
 		this.shell.elements.list.hidden = true;
 		this.shell.elements.newAction.hidden = true;
 		this.shell.elements.threadHeader.hidden = false;
@@ -65,15 +69,31 @@ export class MessagingWorkspaceSections {
 		this.shell.elements.loadOlder.hidden = true;
 		this.shell.elements.details.hidden = true;
 		this.shell.elements.threadTitle.textContent = this.shell.elements.sectionTitle.textContent;
-		this.shell.elements.threadSubtitle.textContent = "One Awtsmoos social-learning workspace";
+		this.shell.elements.threadSubtitle.textContent = section === "public" ? "" : "One Awtsmoos social-learning workspace";
 		this.shell.elements.special.hidden = false;
 		this.shell.elements.special.replaceChildren();
 	}
 
-	publicTorah() {
-		mountUniversalChat({
-			expanded: true,
-			container: this.shell.elements.special
-		});
+	/** Shows a real loading state while Public Torah's optional runtime travels to the page. */
+	showPublicTorahLoading() {
+		this.shell.elements.special.textContent = "Opening Public Torah sources…";
+	}
+
+	/** Imports and mounts Public Torah only if this navigation generation is still current. */
+	async publicTorah(generation) {
+		const module = await import("/scripts/awtsmoos/social/universalChat/bootstrap.js");
+		if (generation !== this.revelationGeneration) {
+			return;
+		}
+		this.shell.elements.special.replaceChildren();
+		module.mountUniversalChat({ expanded: true, container: this.shell.elements.special });
+	}
+
+	/** Reveals a bounded nontechnical startup failure only if the user is still in the same navigation generation. */
+	showPublicTorahError(generation) {
+		if (generation !== this.revelationGeneration) {
+			return;
+		}
+		this.shell.elements.special.textContent = "Public Torah could not open. Check your connection and try again.";
 	}
 }

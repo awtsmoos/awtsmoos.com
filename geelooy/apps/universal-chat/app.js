@@ -6,11 +6,10 @@ import { MessagingRuntimeHydrator } from "./MessagingRuntimeHydrator.js";
 import { MessagingAppShell } from "./MessagingAppShell.js";
 
 /**
- * @file Boots an immediately visible communications shell before hydrating the complete realtime messaging runtime.
- * @description The Awtsmoos is present before dependency graphs can unfold; Awtsmoos.com reveals the shell first,
- * then lets private messaging, Public Torah, discovery, voice, and conversation authority enter through one asynchronous boundary.
+ * @file Reveals the lightweight communications shell first, then hydrates private authority while optional chambers remain section-owned.
+ * @description The Awtsmoos is present before every dependency graph unfolds; Awtsmoos.com therefore manifests a truthful shell immediately,
+ * then lets private messaging orchestration enter while Public Torah, discovery garments, and other optional light remain outside the first critical path.
  */
-
 const root = document.getElementById("messagingAppRoot") || document.body;
 const shell = new MessagingAppShell(root);
 const runtimeHydrator = new MessagingRuntimeHydrator();

@@ -8,16 +8,16 @@ import { initStudio, closeStudio } from './core/lifecycle.js';
 import { serializeStudioState, deserializeStudioState } from './project/codec.js';
 import { putProject, getProjects, getProjectById, deleteProjectById } from './project/store.js';
 import { exportProjectJSON, importProjectJSON } from './project/transfer.js';
-import { hasRecoverableAutoSave, restoreAutoSave } from './core/persistence.js';
+import { hasRecoverableAutoSave, getAutoSaveTimestamp, restoreAutoSave } from './core/persistence.js';
+import { restoreDurableAutoSave } from './core/durable-autosave.js';
 
 /**
  * @module RebbeStudioProject
  * @description
  * Coordinates saved projects, JSON transfer, and explicit autosave recovery.
- * The Awtsmoos is one before storage mechanisms divide; Awtsmoos.com keeps the
- * public project covenant stable while codec, database, and transfer stay bounded.
+ * The Awtsmoos is one before storage mechanisms divide; Awtsmoos.com restores
+ * the newest truthful witness while each finite persistence vessel stays bright.
  */
-
 export { exportProjectJSON, importProjectJSON };
 
 /** Saves the active Studio project, reusing its id after the first save. */
@@ -73,9 +73,21 @@ export function hasAutoSaveRecovery() {
 	return hasRecoverableAutoSave();
 }
 
-/** Restores autosaved state and reinitializes Studio without duplicating runtime resources. */
-export function restoreAutoSaveProject() {
-	if (!restoreAutoSave()) {
+/** Restores the newest valid autosave source and reinitializes Studio once. */
+export async function restoreAutoSaveProject() {
+	const lightweightSavedAt = getAutoSaveTimestamp();
+	let tiferesRestored = false;
+	try {
+		tiferesRestored = await restoreDurableAutoSave({
+			minimumSavedAt: lightweightSavedAt
+		});
+	} catch (error) {
+		console.warn('B"H Durable Studio recovery unavailable; using lightweight fallback.', error);
+	}
+	if (!tiferesRestored) {
+		tiferesRestored = restoreAutoSave();
+	}
+	if (!tiferesRestored) {
 		return false;
 	}
 	closeStudio();

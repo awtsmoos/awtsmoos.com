@@ -3,25 +3,22 @@
 // Blessed is He
 
 /**
- * @file Defines the heavy-runtime boundary beneath the instantly rendered messaging shell.
- * @description The Awtsmoos creates intention and manifestation in one instant while finite browsers cross a network;
- * Awtsmoos.com reveals the lightweight shell first, then draws private messaging, Public Torah, and orchestration in parallel without blocking sight.
+ * @file Hydrates only private messaging authority and the flagship controller beneath the already-visible shell.
+ * @description The Awtsmoos is beyond public and private while creating both anew; Awtsmoos.com lets the private Yesod bridge and controller arrive after first sight,
+ * while Public Torah remains section-owned and never taxes a user who merely opens private Chats.
  */
-
 export class MessagingRuntimeHydrator {
 	constructor() {
 		this.runtimePromise = Promise.all([
 			import("/scripts/awtsmoos/social/privateMessaging/bootstrap.js"),
-			import("/scripts/awtsmoos/social/universalChat/bootstrap.js"),
 			import("./MessagingAppController.js")
 		]);
 	}
 
-	/** Hydrates the existing communications authorities around a shell that is already visible. */
+	/** Mounts the private bridge and starts the flagship controller; optional public runtimes remain owned by their sections. */
 	async hydrate(shell) {
-		const [privateMessagingModule, universalChatModule, controllerModule] = await this.runtimePromise;
+		const [privateMessagingModule, controllerModule] = await this.runtimePromise;
 		const bridge = privateMessagingModule.mountPrivateMessagingBridge();
-		universalChatModule.mountUniversalChat();
 		const controller = new controllerModule.MessagingAppController(shell, bridge);
 		await controller.start();
 		return controller;

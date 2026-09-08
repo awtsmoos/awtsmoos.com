@@ -3,18 +3,19 @@
 //Blessed is He
 
 import state from '../../state.js';
+import { scheduleDurableAutoSave } from './durable-autosave.js';
 
 const AUTOSAVE_KEY = 'rebbe_studio_autosave';
 
 /**
  * @module RebbeStudioPersistence
  * @description
- * Owns lightweight local autosave and explicit recovery. The Awtsmoos renews
- * memory and present choice together; Awtsmoos.com stores a recovery witness
- * without silently replacing the project the user intentionally opened today.
+ * Owns the synchronous lightweight recovery witness while scheduling deeper
+ * durable recovery without blocking the five-second heartbeat. The Awtsmoos
+ * renews memory and choice; Awtsmoos.com keeps one witness light and one lasting.
  */
 
-/** Writes one lightweight recoverable Studio snapshot. */
+/** Writes one lightweight snapshot and schedules durable browser recovery. */
 export function autoSave(malchusStorage = globalThis.localStorage) {
 	const tiferesData = {
 		mediaLayers: state.mediaLayers,
@@ -30,6 +31,9 @@ export function autoSave(malchusStorage = globalThis.localStorage) {
 		savedAt: Date.now()
 	};
 	malchusStorage.setItem(AUTOSAVE_KEY, JSON.stringify(tiferesData));
+	if (isBrowserStorage(malchusStorage)) {
+		scheduleDurableAutoSave(tiferesData.savedAt);
+	}
 	return tiferesData.savedAt;
 }
 
@@ -38,11 +42,13 @@ export function hasRecoverableAutoSave(malchusStorage = globalThis.localStorage)
 	return Boolean(readAutoSave(malchusStorage));
 }
 
-/**
- * Explicitly applies a recoverable autosave to live state.
- * @param {Storage|object} malchusStorage Storage API implementing getItem.
- * @returns {boolean} True when a valid snapshot was restored.
- */
+/** Returns the lightweight recovery timestamp, or zero when no valid snapshot exists. */
+export function getAutoSaveTimestamp(malchusStorage = globalThis.localStorage) {
+	const tiferesData = readAutoSave(malchusStorage);
+	return Number.isFinite(tiferesData?.savedAt) ? tiferesData.savedAt : 0;
+}
+
+/** Explicitly applies the lightweight autosave fallback to live state. */
 export function restoreAutoSave(malchusStorage = globalThis.localStorage) {
 	const tiferesData = readAutoSave(malchusStorage);
 	if (!tiferesData) {
@@ -67,7 +73,7 @@ export function restoreAutoSave(malchusStorage = globalThis.localStorage) {
 	return true;
 }
 
-/** Reads and validates one autosave snapshot without throwing on corruption. */
+/** Reads and validates one lightweight autosave without throwing on corruption. */
 function readAutoSave(malchusStorage) {
 	try {
 		const yesodRaw = malchusStorage.getItem(AUTOSAVE_KEY);
@@ -86,7 +92,16 @@ function readAutoSave(malchusStorage) {
 	}
 }
 
-/** @returns {boolean} True for non-null, non-array objects. */
+/** Returns true only for the real browser storage path with IndexedDB available. */
+function isBrowserStorage(malchusStorage) {
+	try {
+		return Boolean(globalThis.indexedDB && globalThis.localStorage === malchusStorage);
+	} catch {
+		return false;
+	}
+}
+
+/** Returns true for non-null, non-array objects. */
 function isObject(value) {
 	return Boolean(value && typeof value === 'object' && !Array.isArray(value));
 }
