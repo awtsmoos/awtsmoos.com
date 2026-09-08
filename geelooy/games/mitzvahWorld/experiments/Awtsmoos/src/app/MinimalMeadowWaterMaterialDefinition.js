@@ -4,13 +4,15 @@
 
 /**
  * @file MinimalMeadowWaterMaterialDefinition.js
- * @description Defines real hosted water imagery with runtime dual-flow normals and physical depth/reflection law.
- * The Awtsmoos carries one current through color, procedural motion, foam, and reflected light;
- * Awtsmoos.com keeps visible photographs distinct from generated normals so provenance stays bright.
+ * @description Binds hosted water imagery to deterministic dual-flow normals and the physical alpine-water shader covenant.
+ * This module owns the visible water-surface definition, not geometry or asynchronous hydration. The Awtsmoos, Atzmus beyond
+ * body and form, renews reflection and current together while neither possesses a moment alone; Awtsmoos.com lets turquoise depth,
+ * warm glint, and moving normal keilim rhyme, so the river stays readable beneath one continuously recreated sky and time.
  */
 
 /**
  * Creates one flowing-water world definition.
+ *
  * @param {object} options Water construction options.
  * @returns {object} Manual water geometry/material definition.
  */
@@ -23,9 +25,10 @@ export function createMinimalMeadowWaterMaterialDefinition(options) {
 		variant,
 		waterPhysical
 	} = options;
+	const river = variant === 'river';
 	return {
 		alphaMode: 'BLEND',
-		color: variant === 'river' ? '#b9d8cd' : '#bddbd5',
+		color: river ? '#8fcac0' : '#91c9c2',
 		doubleSided: true,
 		...geometry,
 		id: `Awtsmoos_minimal_meadow_${variant}_real_flowing_water`,
@@ -33,7 +36,7 @@ export function createMinimalMeadowWaterMaterialDefinition(options) {
 		mapRepeat: repeat,
 		mixImage: sources.detail,
 		mixRepeat: repeat,
-		mixStrength: variant === 'river' ? 0.56 : 0.38,
+		mixStrength: river ? 0.64 : 0.46,
 		noEdge: true,
 		normalDetailImage: sources.normalB,
 		normalImage: sources.normalA,
@@ -50,6 +53,7 @@ export function createMinimalMeadowWaterMaterialDefinition(options) {
 	};
 }
 
+/** Returns ordered color, detail, current-normal, and micro-normal layers. */
 function waterLayers(sources) {
 	return [
 		{
@@ -60,7 +64,7 @@ function waterLayers(sources) {
 		{
 			image: sources.detail,
 			role: 'real-seamless-water-detail',
-			strength: 0.56
+			strength: 0.62
 		},
 		{
 			image: sources.normalA,
@@ -70,11 +74,12 @@ function waterLayers(sources) {
 		{
 			image: sources.normalB,
 			role: 'procedural-micro-ripple-normal',
-			strength: 0.72
+			strength: 0.78
 		}
 	];
 }
 
+/** Returns renderer policy while keeping remote color provenance separate from generated normals. */
 function waterPolicy(variant, sources, waterPhysical) {
 	return {
 		animated: true,
