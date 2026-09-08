@@ -1,0 +1,117 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos precedes every loaded module and painted pane; Awtsmoos.com gives the first visible instant a small emerald vessel,
+ * so slow networks reveal a coherent communications doorway while the complete glass interface hydrates without blocking sight.
+ */
+:root {
+	color-scheme: dark;
+	font-family: ui-sans-serif, system-ui, sans-serif;
+	background: #020a06;
+	color: #edf6f0;
+}
+* {
+	box-sizing: border-box;
+}
+html,
+body {
+	width: 100%;
+	min-height: 100%;
+	margin: 0;
+	background: #020a06;
+}
+body[data-messaging-page] {
+	min-height: 100dvh;
+	overflow: hidden;
+}
+.messaging-page-glow {
+	position: fixed;
+	inset: 0;
+	pointer-events: none;
+	background:
+		radial-gradient(circle at 18% 12%, rgb(91 197 151 / 11%), transparent 34rem),
+		radial-gradient(circle at 82% 78%, rgb(214 181 107 / 8%), transparent 30rem);
+}
+#messagingAppRoot,
+.messaging-loading-state,
+.messaging-app {
+	position: relative;
+	min-height: 100dvh;
+}
+.messaging-loading-state {
+	display: grid;
+	place-items: center;
+	gap: 1rem;
+	padding: 1.25rem;
+	text-align: center;
+}
+.messaging-loading-heading {
+	display: flex;
+	align-items: center;
+	gap: 0.65rem;
+	font-weight: 760;
+}
+.messaging-loading-mark {
+	width: 12px;
+	height: 12px;
+	border-radius: 50%;
+	background: #72d8ae;
+	box-shadow: 0 0 28px rgb(114 216 174 / 48%);
+}
+.messaging-empty-state {
+	max-width: 470px;
+	color: #a9baaf;
+}
+.messaging-empty-state h1 {
+	margin: 0.5rem 0;
+	color: #fff7e5;
+	font-family: Georgia, serif;
+}
+.messaging-empty-action {
+	display: inline-flex;
+	margin: 0.25rem;
+	padding: 0.65rem 0.9rem;
+	border: 1px solid rgb(114 216 174 / 24%);
+	border-radius: 999px;
+	color: #e9f6ee;
+	text-decoration: none;
+}
+.messaging-app {
+	display: grid;
+	grid-template-columns: minmax(250px, 32%) minmax(0, 1fr);
+	min-height: 100dvh;
+	background: linear-gradient(145deg, #06140d, #020905 68%);
+}
+.messaging-app[data-runtime="hydrating"] .messaging-rail,
+.messaging-app[data-runtime="hydrating"] .messaging-thread-pane,
+.messaging-app[data-runtime="hydrating"] .messaging-list-pane > :not(.messaging-status) {
+	display: none;
+}
+.messaging-app[data-runtime="hydrating"] .messaging-list-pane {
+	display: grid;
+	grid-column: 1 / -1;
+	place-items: center;
+	min-height: 100dvh;
+	padding: 1rem;
+}
+.messaging-app[data-runtime="hydrating"] .messaging-status {
+	max-width: 28rem;
+	padding: 0.85rem 1rem;
+	border: 1px solid rgb(114 216 174 / 20%);
+	border-radius: 18px;
+	background: rgb(8 28 18 / 82%);
+	color: #dcebe2;
+	box-shadow: 0 16px 48px rgb(0 0 0 / 24%);
+}
+.messaging-rail,
+.messaging-list-pane,
+.messaging-thread-pane {
+	min-width: 0;
+	min-height: 0;
+}
+@media (max-width: 760px) {
+	.messaging-app {
+		grid-template-columns: 1fr;
+	}
+}

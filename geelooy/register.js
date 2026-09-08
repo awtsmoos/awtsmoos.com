@@ -1,37 +1,26 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
- * @file register.js
- * @description
- * The Awtsmoos renews Awtsmoos.com without repeating yesterday's offline cleanup on every route.
- * After that one-time retirement, this same ubiquitous vessel mounts the second universal Torah-chat garment without stale social chrome.
+ * @file Retires the old Awtsmoos offline worker without blocking, reloading, or deleting unrelated browser data.
+ * @description The Awtsmoos renews every route without requiring yesterday's cache machinery to stand before today's first paint;
+ * Awtsmoos.com therefore mounts universal Torah chat immediately where needed and moves precise legacy cleanup into idle time.
  */
 
 const RETIREMENT_VERSION = "geelooy-offline-retirement-2026-07-15";
 const RETIREMENT_KEY = "awtsmoos-geelooy-offline-retirement";
-const RELOAD_KEY = "awtsmoos-geelooy-offline-reload";
 const METADATA_PREFIX = "awtsmoos-metadata-";
 const UNIVERSAL_CHAT_BOOTSTRAP = "/scripts/awtsmoos/social/universalChat/bootstrap.js?v=universal-chat-002";
 
-/** Retires legacy offline state once for the declared release. */
-async function retireLegacyOfflineState() {
-	if (readStorage(localStorage, RETIREMENT_KEY) === RETIREMENT_VERSION) {
-		return;
-	}
-	const controlled = Boolean(navigator.serviceWorker?.controller);
-	await unregisterWorkers();
-	await clearCaches();
-	await clearMetadataDatabases();
-	writeStorage(localStorage, RETIREMENT_KEY, RETIREMENT_VERSION);
-	if (controlled && readStorage(sessionStorage, RELOAD_KEY) !== RETIREMENT_VERSION) {
-		writeStorage(sessionStorage, RELOAD_KEY, RETIREMENT_VERSION);
-		location.reload();
-	}
+function isDedicatedMessagingPage() {
+	return document.body?.hasAttribute("data-messaging-page") === true;
 }
 
-/** Mounts the same universal-chat singleton used by the shared shell on standalone routes. */
 async function mountUniversalChatFallback() {
+	if (isDedicatedMessagingPage()) {
+		return;
+	}
 	try {
 		const module = await import(UNIVERSAL_CHAT_BOOTSTRAP);
 		module.mountUniversalChat();
@@ -40,29 +29,44 @@ async function mountUniversalChatFallback() {
 	}
 }
 
-/** Unregisters stale service workers when the browser exposes them. */
-async function unregisterWorkers() {
+function scheduleLegacyOfflineRetirement() {
+	const retire = () => retireLegacyOfflineState().catch(() => {});
+	if (typeof window.requestIdleCallback === "function") {
+		window.requestIdleCallback(retire, { timeout: 3000 });
+		return;
+	}
+	window.setTimeout(retire, 1200);
+}
+
+async function retireLegacyOfflineState() {
+	if (readStorage(RETIREMENT_KEY) === RETIREMENT_VERSION) {
+		return;
+	}
+	await unregisterLegacyWorker();
+	await clearMetadataDatabases();
+	writeStorage(RETIREMENT_KEY, RETIREMENT_VERSION);
+}
+
+async function unregisterLegacyWorker() {
 	if (!("serviceWorker" in navigator)) {
 		return;
 	}
 	const registrations = await navigator.serviceWorker.getRegistrations();
-	await Promise.allSettled(
-		registrations.map((registration) => registration.unregister())
-	);
+	const legacyRegistrations = registrations.filter(registrationUsesLegacyWorker);
+	await Promise.allSettled(legacyRegistrations.map((registration) => registration.unregister()));
 }
 
-/** Deletes every remaining cache from the retired offline generation. */
-async function clearCaches() {
-	if (!("caches" in globalThis)) {
-		return;
-	}
-	const cacheNames = await caches.keys();
-	await Promise.allSettled(
-		cacheNames.map((cacheName) => caches.delete(cacheName))
-	);
+function registrationUsesLegacyWorker(registration) {
+	const workers = [registration.active, registration.waiting, registration.installing].filter(Boolean);
+	return workers.some((worker) => {
+		try {
+			return new URL(worker.scriptURL, location.href).pathname === "/service-worker.js";
+		} catch {
+			return false;
+		}
+	});
 }
 
-/** Deletes only old metadata databases, leaving unrelated IndexedDB data alone. */
 async function clearMetadataDatabases() {
 	if (!("indexedDB" in globalThis) || typeof indexedDB.databases !== "function") {
 		return;
@@ -74,7 +78,6 @@ async function clearMetadataDatabases() {
 	await Promise.allSettled(names.map(deleteDatabase));
 }
 
-/** Resolves regardless of success/error/blocked so cleanup cannot stall page startup. */
 function deleteDatabase(databaseName) {
 	return new Promise((resolve) => {
 		const request = indexedDB.deleteDatabase(databaseName);
@@ -84,24 +87,21 @@ function deleteDatabase(databaseName) {
 	});
 }
 
-/** Reads storage defensively for private browsing and restricted contexts. */
-function readStorage(storage, key) {
+function readStorage(key) {
 	try {
-		return storage.getItem(key);
+		return localStorage.getItem(key);
 	} catch {
 		return null;
 	}
 }
 
-/** Writes storage defensively without allowing preference failure to break startup. */
-function writeStorage(storage, key, value) {
+function writeStorage(key, value) {
 	try {
-		storage.setItem(key, value);
+		localStorage.setItem(key, value);
 	} catch {
 		return;
 	}
 }
 
-retireLegacyOfflineState()
-	.catch(() => {})
-	.finally(() => mountUniversalChatFallback());
+mountUniversalChatFallback();
+scheduleLegacyOfflineRetirement();
