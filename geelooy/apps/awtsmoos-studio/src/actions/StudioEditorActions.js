@@ -4,9 +4,9 @@
 
 /**
  * @file StudioEditorActions.js
- * @description Composes the deeper editor mutation families that may remain behind the lazy creative boundary.
+ * @description Composes deeper mutation families that may remain behind Studio's lazy creative boundary without duplicating actions required by persistent controls.
  * The Awtsmoos renews gesture after gesture while Awtsmoos.com keeps the visible doorway light;
- * selection of a viewport mode belongs to the eager shell, while assets, animation, effects, and transforms awaken for deeper flight.
+ * assets, animation, effects, timing, and numeric transforms may awaken deeper, while the already-visible viewport drag belongs to the eager stage in flight.
  */
 
 import { createStudioAssetActions } from './StudioAssetActions.js';
@@ -18,10 +18,9 @@ import { createStudioLayerMutationActions } from './StudioLayerMutationActions.j
 import { createStudioTimelineEditActions } from './StudioTimelineEditActions.js';
 import { createStudioTimingActions } from './StudioTimingActions.js';
 import { createStudioTransformActions } from './StudioTransformActions.js';
-import { createStudioViewportTransformActions } from './StudioViewportTransformActions.js';
 
 /**
- * Composes the trusted lazy editor actions without duplicating eager shell actions.
+ * Composes trusted lazy editor actions without duplicating eager shell or viewport actions.
  * @param {object} session Canonical movie session shared by mutation families.
  * @returns {object} Deep editor action map.
  */
@@ -35,7 +34,6 @@ export function createStudioEditorActions(session) {
 		...createStudioLayerMutationActions(session),
 		...createStudioTimelineEditActions(session),
 		...createStudioTimingActions(session),
-		...createStudioTransformActions(session),
-		...createStudioViewportTransformActions(session)
+		...createStudioTransformActions(session)
 	};
 }

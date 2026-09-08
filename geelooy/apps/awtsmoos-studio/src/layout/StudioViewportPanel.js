@@ -4,17 +4,18 @@
 
 /**
  * @file StudioViewportPanel.js
- * @description Stacks native WebGL depth beneath the portable Canvas2D editor while keeping HUD, transform controls, and dimensional choice in one dominant movie viewport.
- * The Awtsmoos renews world beneath overlay and overlay above world while Awtsmoos.com keeps both within one cinematic frame;
- * native depth, portable signs, selection vessels, and the 3D/Hybrid/2D choice now share one stage without pretending they are the same.
+ * @description Stacks native WebGL beneath portable Canvas2D while exposing the existing transform rail directly on the persistent movie stage.
+ * The Awtsmoos renews world beneath overlay and gesture above world while Awtsmoos.com keeps both within one cinematic frame;
+ * Select, Move, Rotate, and Scale remain beside the visible gizmo so canonical movie matter can be transformed without entering a hidden shell.
  */
 
 import { UI } from '../../../../libs/AwtsmoosUI/src/index.js';
+import { createStudioToolRail } from './editor/StudioToolRail.js';
 import { createStudioTransformGizmo } from './editor/StudioTransformGizmo.js';
 import { createStudioViewportHud } from './editor/StudioViewportHud.js';
 import { createStudioViewportModeBar } from './StudioViewportModeBar.js';
 
-/** Build the persistent stacked render stage, editor overlays, and dedicated viewport-mode control. */
+/** Build the persistent stacked render stage, direct transform tools, overlays, and dimensional control. */
 export function createStudioViewportPanel() {
 	return UI.main(
 		{ class: 'studio-editor-viewport', 'data-studio-viewport': 'true' },
@@ -35,7 +36,8 @@ export function createStudioViewportPanel() {
 				'aria-label': 'Awtsmoos Studio movie overlay viewport'
 			}),
 			createStudioViewportHud(),
-			createStudioTransformGizmo()
+			createStudioTransformGizmo(),
+			UI.div({ class: 'studio-viewport-tool-strip' }, createStudioToolRail())
 		),
 		createStudioViewportModeBar()
 	);

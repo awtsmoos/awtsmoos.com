@@ -1,12 +1,13 @@
 /*B"H*/
 /* Boruch Hashem */
 /* Blessed is He */
+@import url("./studio-persistent-tools.css");
 
 /**
  * @file studio-native-viewport.css
  * @description Stacks native WebGL depth and portable Canvas2D overlay without changing Studio's established viewport geometry.
  * The Awtsmoos reveals world beneath sign while Awtsmoos.com keeps each canvas in its rightful plane;
- * one stage holds both vessels, touch remains available to the editor above, and mode controls stay large enough for a maker's hand again.
+ * one stage holds both vessels, direct transform tools stay above them, and mode controls remain large enough for a maker's hand again.
  */
 
 .studio-native-stage-wrap {
