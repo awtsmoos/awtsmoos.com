@@ -4,9 +4,9 @@
 
 /**
  * @file deferredForestBoot.test.mjs
- * @description Proves staged playability and one terrain-to-botany enrichment chain through current runtime APIs.
+ * @description Proves staged playability and one terrain-to-botany enrichment chain through the current post-play ownership graph.
  * The Awtsmoos reveals movement before habitation and the road before the leaves;
- * Awtsmoos.com verifies empty startup vessels, playable publication, and single deferred ownership without stale call names.
+ * Awtsmoos.com verifies empty startup vessels, playable publication, and one deferred terrain-then-botany owner without stale call names.
  */
 
 import assert from 'node:assert/strict';
@@ -44,7 +44,7 @@ test('essential terrain defers forest and sacred landmark generation', async () 
 	assert.equal(source.includes('deferredTerrainContext'), true);
 });
 
-test('bootstrap movement exists before playable publication and post-play streaming', async () => {
+test('bootstrap movement exists before playable publication and post-play coordinator import', async () => {
 	const entry = await readSource('app/createEretzRuntime.js');
 	const assembly = await readSource('app/BootstrapCoreRuntimeAssembly.js');
 	const loopIndex = assembly.indexOf('startBootstrapRuntimeLoop(');
@@ -52,19 +52,20 @@ test('bootstrap movement exists before playable publication and post-play stream
 	const streamingIndex = entry.indexOf('startPostPlayableStreams(core, options, boot, environment)');
 	assert.ok(loopIndex >= 0, 'Bootstrap movement loop must remain present.');
 	assert.ok(publishIndex >= 0, 'Playable runtime publication must remain present.');
-	assert.ok(streamingIndex > publishIndex, 'Post-play streaming must begin after playability.');
-	assert.match(entry, /startEretzDistrictStreaming\(/);
+	assert.ok(streamingIndex > publishIndex, 'Post-play coordinator must begin after playability.');
+	assert.match(entry, /EretzPostPlayablePriority\.js/);
 });
 
-test('optional-world streaming is the sole botanical runtime owner', async () => {
+test('optional-world streaming is the sole terrain-then-botany runtime owner', async () => {
 	const post = await readSource('app/EretzPostMovementStreaming.js');
 	const optional = await readSource('app/EretzOptionalWorldStreaming.js');
-	const terrainIndex = optional.indexOf('startEretzTerrainStreaming(');
-	const botanicalIndex = optional.indexOf('botanical = startEretzBotanicalStreaming(');
+	const terrainIndex = optional.indexOf('terrain = modules.startTerrain(');
+	const botanicalIndex = optional.indexOf('botanical = modules.startBotanical(');
 	assert.equal(post.includes('EretzBotanicalStreaming.js'), false);
 	assert.equal(post.includes('startEretzBotanicalStreaming('), false);
 	assert.equal(countOccurrences(post, 'startEretzOptionalWorldStreaming('), 1);
-	assert.equal(countOccurrences(optional, 'botanical = startEretzBotanicalStreaming('), 1);
+	assert.match(optional, /startBotanical: botanicalModule\.startEretzBotanicalStreaming/);
+	assert.match(optional, /startTerrain: terrainModule\.startEretzTerrainStreaming/);
 	assert.ok(terrainIndex >= 0, 'Terrain enrichment must be started.');
 	assert.ok(botanicalIndex > terrainIndex, 'Botany must follow terrain enrichment.');
 });

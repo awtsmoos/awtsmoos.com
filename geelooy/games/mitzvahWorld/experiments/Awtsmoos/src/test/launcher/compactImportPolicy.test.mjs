@@ -4,9 +4,9 @@
 
 /**
  * @file compactImportPolicy.test.mjs
- * @description Guards compact Dynamic Server entry doors across route, creative, presentation, and rich-world boundaries.
- * The Awtsmoos lets many local modules become one browser river while Awtsmoos.com keeps first play narrow and chosen depth deferred from sight;
- * source evidence follows every intentional doorway so future refactors preserve compact processing without flattening the architecture's light.
+ * @description Guards compact Dynamic Server doors while allowing optional mode aftercare to live beyond the playable boundary.
+ * The Awtsmoos lets many local modules become one browser river; Awtsmoos.com keeps first play narrow while every later doorway
+ * remains explicit, compact-processed, and discoverable in the owner that actually opens it.
  */
 
 import assert from 'node:assert/strict';
@@ -16,19 +16,20 @@ import { fileURLToPath } from 'node:url';
 
 const SOURCE_ROOT = fileURLToPath(new URL('../../', import.meta.url));
 const TARGETS = Object.freeze({
-	mode: 'launcher/MitzvahWorldModeLoaders.js',
+	aftercare: 'launcher/MitzvahWorldModeAftercare.js',
 	creativeRoute: 'launcher/MitzvahWorldCreativeRouteLoader.js',
 	direct: 'launcher/MitzvahWorldDirectExperience.js',
-	presentation: 'launcher/MitzvahWorldGameplayPresentation.js',
+	mode: 'launcher/MitzvahWorldModeLoaders.js',
 	postPlay: 'launcher/MitzvahWorldPostPlayExperience.js',
+	presentation: 'launcher/MitzvahWorldGameplayPresentation.js',
 	rich: 'app/MinimalMeadowWorldRichSchedule.js'
 });
 
 const REQUIRED_DOORS = Object.freeze({
-	mode: [
-		'createEretzRuntime.js?compact=true&v=',
+	aftercare: [
 		'MultiplayerStatusBadge.js?compact=true',
-		'MultiplayerEretzRuntime.js?compact=true&v='
+		'MitzvahWorldPostPlayPolicy.js?compact=true&v=',
+		'MitzvahWorldPostPlayLoader.js?compact=true&v='
 	],
 	creativeRoute: [
 		'MitzvahWorldCreativeModeLoaders.js?compact=true&v=',
@@ -38,11 +39,17 @@ const REQUIRED_DOORS = Object.freeze({
 		'MitzvahWorldGameplayPresentation.js?compact=true&v=',
 		'MinimalMeadowDirectWorldAudio.js?compact=true&v='
 	],
+	mode: [
+		'createEretzRuntime.js?compact=true&v=',
+		'MitzvahWorldCreativeRouteLoader.js?compact=true&v=',
+		'MitzvahWorldSinglePlayerRuntimeOptions.js?compact=true&v=',
+		'MultiplayerEretzRuntime.js?compact=true&v='
+	],
+	postPlay: ['MitzvahWorldDirectExperience.js?compact=true&v='],
 	presentation: [
 		'HudMinimizeController.js?compact=true',
 		'MitzvahWorldCreativeDock.js?compact=true&v='
 	],
-	postPlay: ['MitzvahWorldDirectExperience.js?compact=true&v='],
 	rich: ['MinimalMeadowRichWorld.js?compact=true']
 });
 
@@ -55,12 +62,16 @@ test('every independently requested raw MitzvahWorld entry uses compact server p
 	}
 });
 
-test('creative capability stays behind the dedicated creative route loader', async () => {
+test('creative and aftercare capability stay behind their dedicated dynamic owners', async () => {
 	const modeSource = await readSource(TARGETS.mode);
 	const creativeSource = await readSource(TARGETS.creativeRoute);
-	assert.match(modeSource, /MitzvahWorldCreativeRouteLoader\.js/);
+	const aftercareSource = await readSource(TARGETS.aftercare);
+	assert.match(modeSource, /MitzvahWorldCreativeRouteLoader\.js\?compact=true/);
+	assert.match(modeSource, /MitzvahWorldModeAftercare\.js\?compact=true/);
+	assert.doesNotMatch(modeSource, /MultiplayerStatusBadge\.js/);
 	assert.doesNotMatch(modeSource, /MitzvahWorldCreativeModeLoaders\.js\?compact=true/);
 	assert.match(creativeSource, /MitzvahWorldCreativeModeLoaders\.js\?compact=true&v=/);
+	assert.match(aftercareSource, /MultiplayerStatusBadge\.js\?compact=true/);
 });
 
 test('versioned raw local entries use compact before the cache version key', async () => {

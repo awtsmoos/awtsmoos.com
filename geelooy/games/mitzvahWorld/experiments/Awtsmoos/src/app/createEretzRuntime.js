@@ -4,38 +4,24 @@
 
 /**
  * @file createEretzRuntime.js
- * @description Publishes movement first and version-gates every repaired deferred doorway so stale browser caches cannot resurrect old bootstrap or diagnostics behavior.
- * The Awtsmoos renews every instant without borrowing yesterday's garment; Awtsmoos.com likewise gives each repaired doorway a fresh key,
- * so playable control, exact failure evidence, and opt-in measurement all emerge from the source that truly exists now rather than an older cached decree.
+ * @description Publishes movement through the staged runtime before renderer enrichment and every later optional stream.
+ * The Awtsmoos creates the living first frame before its ornaments; Awtsmoos.com keeps the hot graph narrow so quality, foundation,
+ * and core reach control without dragging tomorrow's texture, renderer, or presentation garments through today's doorway.
  */
 
 import { resolveDeferredAppModuleUrl } from './DeferredAppModuleUrl.js';
-import { startEretzRendererByWorldPolicy } from './EretzRendererWorldPolicy.js';
 import {
 	markRuntimeFailed,
 	markRuntimePlayable,
 	markRuntimeStarting
 } from './RuntimeStateMarker.js';
 
-export { startGameplayTextureStreaming } from './GameplayTextureStreamingGate.js';
+const TRACKER_URL = deferred('BootPhaseTracker.js?v=20260722-boot-text-01');
+const STAGED_RUNTIME_URL = deferred('EretzStagedRuntime.js?v=20260908-current-hot-path-03');
+const RENDERER_POLICY_URL = deferred('EretzRendererWorldPolicy.js?v=20260908-current-hot-path-03');
+const POST_PLAYABLE_URL = deferred('EretzPostPlayablePriority.js?v=20260908-current-hot-path-03');
 
-const TRACKER_URL = resolveDeferredAppModuleUrl(
-	'BootPhaseTracker.js?v=20260722-boot-text-01',
-	import.meta.url,
-	'createEretzRuntime.js'
-);
-const STAGED_RUNTIME_URL = resolveDeferredAppModuleUrl(
-	'EretzStagedRuntime.js?v=20260907-bounded-stage-evidence-01',
-	import.meta.url,
-	'createEretzRuntime.js'
-);
-const POST_PLAYABLE_URL = resolveDeferredAppModuleUrl(
-	'EretzPostPlayablePriority.js?v=20260907-diagnostics-priority-01',
-	import.meta.url,
-	'createEretzRuntime.js'
-);
-
-/** Creates first-play Eretz, publishes it, then starts profile-aware non-blocking post-play systems. */
+/** Creates first-play Eretz, publishes it, then starts every richer system without awaiting it. */
 export async function createEretzRuntime(hosts, options = {}) {
 	const environment = options.environment || globalThis;
 	markRuntimeStarting(environment.document);
@@ -48,12 +34,7 @@ export async function createEretzRuntime(hosts, options = {}) {
 		const core = await createStagedEretzRuntime(hosts, options, boot);
 		boot.complete();
 		publishRuntime(core.diagnostics, environment);
-		startEretzRendererByWorldPolicy(
-			core.diagnostics,
-			environment,
-			boot,
-			options
-		);
+		startRendererAfterPlay(core.diagnostics, environment, boot, options);
 		startPostPlayableStreams(core, options, boot, environment);
 		return core.diagnostics;
 	} catch (error) {
@@ -67,16 +48,30 @@ export async function createEretzRuntime(hosts, options = {}) {
 	}
 }
 
+/** Loads rich-renderer policy only after playable state has been published. */
+function startRendererAfterPlay(diagnostics, environment, boot, options) {
+	diagnostics.rendererHydrationStage = 'loading-policy';
+	const promise = import(RENDERER_POLICY_URL)
+		.then(module => module.startEretzRendererByWorldPolicy(
+			diagnostics,
+			environment,
+			boot,
+			options
+		))
+		.catch(error => {
+			diagnostics.rendererHydrationStage = 'degraded';
+			diagnostics.rendererHydrationError = error;
+			return null;
+		});
+	diagnostics.rendererHydrationPromise = promise;
+}
+
+/** Starts diagnostics, landscape, character, and enrichment policy after first playable publication. */
 function startPostPlayableStreams(core, options, boot, environment) {
 	const diagnostics = core.diagnostics;
 	diagnostics.postPlayablePriorityStage = 'loading-module';
 	const coordinator = import(POST_PLAYABLE_URL)
-		.then(module => module.startEretzPostPlayablePriority({
-			boot,
-			core,
-			environment,
-			options
-		}))
+		.then(module => module.startEretzPostPlayablePriority({ boot, core, environment, options }))
 		.catch(error => degradedPostPlayablePriority(diagnostics, error));
 	diagnostics.postPlayablePriorityPromise = coordinator;
 	diagnostics.enrichmentPromise = coordinator.then(receipt => receipt?.districts ?? null);
@@ -90,12 +85,14 @@ function degradedPostPlayablePriority(diagnostics, error) {
 	return null;
 }
 
+/** Makes the already-live runtime discoverable before any optional aftercare import. */
 function publishRuntime(diagnostics, environment) {
 	environment.AwtsmoosBootError = null;
 	environment.AwtsmoosDiagnostics = diagnostics;
 	markRuntimePlayable(diagnostics, environment.document);
 }
 
+/** Publishes a bounded failure receipt without hiding the exact original error. */
 function exposeBootFailure(error, hosts, environment) {
 	const failure = {
 		at: new Date().toISOString(),
@@ -110,6 +107,11 @@ function exposeBootFailure(error, hosts, environment) {
 		hosts.hud.textContent = `B"H world initialization failed: ${failure.message}`;
 	}
 	console.error('B"H Mitzvah World initialization failed.', error);
+}
+
+/** Resolves one deferred authored module relative to this hot-path owner. */
+function deferred(specifier) {
+	return resolveDeferredAppModuleUrl(specifier, import.meta.url, 'createEretzRuntime.js');
 }
 
 export default createEretzRuntime;

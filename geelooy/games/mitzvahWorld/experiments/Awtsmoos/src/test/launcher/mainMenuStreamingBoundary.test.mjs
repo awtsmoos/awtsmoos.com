@@ -4,9 +4,9 @@
 
 /**
  * @file mainMenuStreamingBoundary.test.mjs
- * @description Proves a tiny menu threshold, literal compact runtime doors, two bounded playable chunks, and later world/creative deferral.
- * The Awtsmoos reveals each doorway in its measure; Awtsmoos.com keeps first control tiny while movement crosses two compressed gates,
- * and districts, creative tools, shared worlds, and optional beauty remain asleep until the player's need creates their fate.
+ * @description Proves first control stays tiny and Simple Meadow reaches its runtime before badge, creative, renderer, and presentation graphs.
+ * The Awtsmoos reveals each doorway in its measure; Awtsmoos.com keeps movement on the narrow road while optional garments remain
+ * syntactically and temporally beyond the diagnostics boundary where a playable world already exists.
  */
 
 import assert from 'node:assert/strict';
@@ -32,11 +32,27 @@ test('boot opens the authored launcher only through explicit CompactJS', async (
 	assert.doesNotMatch(boot, /createEretzRuntime|HudMinimizeController/);
 });
 
-test('single-player loader keeps runtime behind a literal deferred CompactJS boundary', async () => {
+test('single-player awaits runtime before local policy and leaves badge until after diagnostics', async () => {
 	const loader = await source('experiments/Awtsmoos/src/launcher/MitzvahWorldModeLoaders.js');
-	assert.match(loader, /import\('\.\.\/app\/createEretzRuntime\.js\?compact=true&v=[^']+'\)/);
-	assert.match(loader, /await Promise\.all/);
-	assert.doesNotMatch(loader, /import\('\.\.\/app\/createEretzRuntime\.js'\)/);
+	const runtimeImport = loader.indexOf('await import(SINGLE_PLAYER_RUNTIME_URL)');
+	const policyImport = loader.indexOf('await import(SINGLE_PLAYER_OPTIONS_URL)');
+	const diagnostics = loader.indexOf('const diagnostics = await runtimeModule.createEretzRuntime');
+	const aftercare = loader.indexOf("startModeAftercare('singlePlayer'");
+	assert.ok(runtimeImport >= 0);
+	assert.ok(policyImport > runtimeImport);
+	assert.ok(diagnostics > policyImport);
+	assert.ok(aftercare > diagnostics);
+	assert.doesNotMatch(loader.slice(runtimeImport, diagnostics), /MultiplayerStatusBadge|PostPlay/);
+});
+
+test('createEretzRuntime publishes playable before rich renderer policy and has no texture re-export', async () => {
+	const runtime = await source('experiments/Awtsmoos/src/app/createEretzRuntime.js');
+	const publish = runtime.indexOf('publishRuntime(core.diagnostics, environment)');
+	const renderer = runtime.indexOf('startRendererAfterPlay(core.diagnostics');
+	assert.ok(publish >= 0);
+	assert.ok(renderer > publish);
+	assert.doesNotMatch(runtime, /from '\.\/EretzRendererWorldPolicy\.js'/);
+	assert.doesNotMatch(runtime, /export \{ startGameplayTextureStreaming \}/);
 });
 
 test('staged runtime opens generated foundation before generated map-ready core', async () => {
@@ -49,24 +65,16 @@ test('staged runtime opens generated foundation before generated map-ready core'
 	assert.doesNotMatch(staged, /resolveResponsiveRuntimeModuleUrl|PlayableRuntimeBundleEntry/);
 });
 
-test('foundation paints WebGL before awaited local assets and the visible valley module', async () => {
+test('foundation paints WebGL before local traveler and visible valley creation', async () => {
 	const foundation = await source('experiments/Awtsmoos/src/app/EretzWorldFoundation.js');
-	const paint = foundation.indexOf('paintEretzWebGlBootFrame');
-	const assetImport = foundation.indexOf('EretzEssentialAssetLoader.js');
-	const assetAwait = foundation.indexOf('await assetModule.loadEretzEssentialAssets');
-	const yieldAfterAssets = foundation.indexOf('await nextLaunchTask(environment)');
-	const worldImport = foundation.indexOf('BootstrapWorldFoundation.js');
-	assert.ok(paint >= 0);
-	assert.ok(assetImport > paint);
-	assert.ok(assetAwait > assetImport);
-	assert.ok(yieldAfterAssets > assetAwait);
-	assert.ok(worldImport > yieldAfterAssets);
-});
-
-test('multiplayer connection begins only after local runtime resolves', async () => {
-	const bootstrap = await source('experiments/Awtsmoos/src/network/MultiplayerEretzBootstrap.js');
-	const runtimeAwait = bootstrap.indexOf('await runtimeFactory(hosts, runtimeOptions)');
-	const connectionStart = bootstrap.indexOf('diagnostics.multiplayerReady = multiplayer.start()');
-	assert.ok(runtimeAwait >= 0);
-	assert.ok(connectionStart > runtimeAwait);
+	const services = foundation.indexOf('const services = createEretzFoundationServices');
+	const paint = foundation.indexOf('const webGlBootFrame = paintEretzWebGlBootFrame');
+	const frameYield = foundation.indexOf('await nextLaunchFrame(environment)');
+	const assets = foundation.indexOf('const loaded = await loadEretzEssentialAssets');
+	const world = foundation.indexOf('const world = createBootstrapWorldFoundation');
+	assert.ok(services >= 0);
+	assert.ok(paint > services);
+	assert.ok(frameYield > paint);
+	assert.ok(assets > frameYield);
+	assert.ok(world > assets);
 });

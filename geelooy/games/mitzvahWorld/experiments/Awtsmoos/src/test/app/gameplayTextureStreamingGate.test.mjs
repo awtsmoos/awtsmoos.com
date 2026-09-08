@@ -4,12 +4,14 @@
 
 /**
  * @file gameplayTextureStreamingGate.test.mjs
- * @description Proves texture enrichment waits through the first playable frame handoff.
+ * @description Proves texture enrichment waits through the first playable frame handoff while its real owner stays outside the hot runtime entry graph.
+ * The Awtsmoos gives texture after movement; Awtsmoos.com tests the stream at its actual source so the first-play doorway never imports
+ * an optional material gate merely to re-export a function used later in the world's life.
  */
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { startGameplayTextureStreaming } from '../../app/createEretzRuntime.js';
+import { startGameplayTextureStreaming } from '../../app/GameplayTextureStreamingGate.js';
 
 test('texture streaming starts only after two scheduled frame boundaries', () => {
 	const frames = [];

@@ -6,7 +6,7 @@
  * @file mitzvahWorldGameplayCreativeBridge.test.mjs
  * @description Proves playable world loading stays separate from retractable post-play creative and audio presentation through the current modular API.
  * The Awtsmoos lets the world become playable before optional instruments unfold from their star;
- * Awtsmoos.com verifies the route remains narrow while post-play gathers sound and Studio controls only after readiness from afar.
+ * Awtsmoos.com verifies the route stays narrow while aftercare gathers status, sound, and Studio controls only beyond readiness.
  */
 
 import assert from 'node:assert/strict';
@@ -29,12 +29,17 @@ test('gameplay presentation preserves base styles and defers creative dock styli
 	assert.match(source, /AwtsmoosCreativeDock/);
 });
 
-test('direct route starts playable runtime first and delegates optional controls to post-play', async () => {
-	const source = await sourceOf('launcher/MitzvahWorldModeLoaders.js');
-	assert.match(source, /createDirectWorldRuntimeOptions/);
-	assert.match(source, /launchMitzvahWorldPostPlayExperience/);
-	assert.match(source, /createEretzRuntime/);
-	assert.doesNotMatch(source, /prepareGameplayPresentation/);
+test('mode route reaches playable runtime first and delegates optional controls to aftercare', async () => {
+	const mode = await sourceOf('launcher/MitzvahWorldModeLoaders.js');
+	const aftercare = await sourceOf('launcher/MitzvahWorldModeAftercare.js');
+	const diagnostics = mode.indexOf('const diagnostics = await runtimeModule.createEretzRuntime');
+	const aftercareStart = mode.indexOf("startModeAftercare('singlePlayer'");
+	assert.match(mode, /createEretzRuntime/);
+	assert.match(mode, /MitzvahWorldModeAftercare\.js\?compact=true/);
+	assert.ok(diagnostics >= 0 && aftercareStart > diagnostics);
+	assert.match(aftercare, /launchMitzvahWorldPostPlayExperience/);
+	assert.match(aftercare, /launchMitzvahWorldPostPlayByPolicy/);
+	assert.doesNotMatch(mode, /prepareGameplayPresentation/);
 });
 
 test('direct post-play composes retractable dock before nesting the existing audio panel', async () => {
