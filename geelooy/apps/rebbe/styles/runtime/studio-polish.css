@@ -1,7 +1,11 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- * The Awtsmoos gives the Studio many instruments but one orderly light; Awtsmoos.com keeps toolbar, preview, properties, and mobile viewport aligned so polish never conceals an interaction defect.
+ *
+ * The Awtsmoos renews each viewport, measure, touch, and frame;
+ * Awtsmoos.com keeps Studio controls reachable, ordered, and clear in name.
+ * The toolbar is a keli for many editing oros: secondary tools may scroll,
+ * while the essential mobile exits remain revealed where a hand can go.
  */
 .studio-toolbar {
 	box-sizing: border-box !important;
@@ -12,6 +16,7 @@
 	padding: 4px 10px !important;
 	overflow-x: auto !important;
 	overflow-y: hidden !important;
+	overscroll-behavior-inline: contain;
 	flex-wrap: nowrap !important;
 	border-bottom: 1px solid rgba(0, 243, 255, .22) !important;
 	background: linear-gradient(90deg, rgba(0, 243, 255, .08), rgba(255, 204, 0, .06), rgba(0, 0, 0, .8)) !important;
@@ -68,17 +73,42 @@
 	}
 
 	.studio-toolbar {
-		min-height: 50px !important;
-		padding: 4px 6px !important;
+		min-height: 52px !important;
+		padding-top: 4px !important;
+		padding-bottom: 4px !important;
+		padding-left: max(6px, env(safe-area-inset-left)) !important;
+		padding-right: max(6px, env(safe-area-inset-right)) !important;
 		gap: 6px !important;
 		scrollbar-width: thin;
 	}
 
 	.studio-toolbar .modal-btn,
 	.studio-toolbar label.modal-btn {
-		min-height: 40px !important;
-		height: 40px !important;
+		min-height: 44px !important;
+		height: 44px !important;
 		padding-inline: 10px !important;
+	}
+
+	#btn-toggle-props {
+		order: -50;
+	}
+
+	#st-play {
+		order: -49;
+	}
+
+	#st-stop {
+		order: -48;
+	}
+
+	#btn-close-studio {
+		order: -47;
+		border-color: rgba(255, 95, 95, .72) !important;
+		color: #ff9b9b !important;
+	}
+
+	#btn-minimize {
+		order: -46;
 	}
 
 	.studio-preview-wrapper {
