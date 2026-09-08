@@ -1,104 +1,97 @@
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
-
 /**
- * The Awtsmoos is beyond search and publication; Awtsmoos.com keeps the private-query → selected-source → public-card covenant visible without making the phone read an instruction manual,
- * placing one compact search card at the bottom while wider glass may still reveal the full source-only publishing explanation in light.
+ * The Awtsmoos is beyond query and publication; Awtsmoos.com gives private source search one decisive luminous dock at the edge of the Torah stage,
+ * preserving the source-only covenant while removing instructional clutter from the phone until returned source cards make publishing relevant.
  */
 
 .messaging-special-pane .universal-chat-composer {
 	display: grid;
 	gap: 0.42rem;
-	max-height: min(46dvh, 390px);
+	max-height: min(44dvh, 380px);
 	overflow-y: auto;
-	padding: 0.65rem clamp(0.7rem, 2.5vw, 1.35rem) max(0.7rem, env(safe-area-inset-bottom));
-	border-top: 1px solid var(--msg-line-strong);
-	background: rgb(6 16 11 / 97%);
-	box-shadow: 0 -10px 28px rgb(0 0 0 / 14%);
+	padding: 0.72rem clamp(0.8rem, 3vw, 1.4rem) max(0.82rem, env(safe-area-inset-bottom));
 	overscroll-behavior: contain;
 }
 
 .messaging-special-pane .universal-chat-composer-intro {
-	display: grid;
-	gap: 0.25rem;
-	max-width: 760px;
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: 0.7rem;
 }
 
 .messaging-special-pane .universal-chat-composer-intro > strong {
 	color: #fff8e7;
-	font-size: 0.84rem;
-	line-height: 1.3;
+	font-size: 0.82rem;
+	font-weight: 820;
+	line-height: 1.25;
 }
 
 .messaging-special-pane .universal-chat-composer-guide {
-	border-color: var(--msg-line);
-	border-radius: 11px;
-	background: rgb(114 216 174 / 3%);
+	max-width: 360px;
+	border: 0;
+	background: transparent;
 }
 
 .messaging-special-pane .universal-chat-composer-guide summary {
-	min-height: 42px;
-	color: var(--msg-soft);
-	font-size: 0.66rem;
+	min-height: 32px;
+	color: rgb(215 232 221 / 45%);
+	font-size: 0.62rem;
 }
 
 .messaging-special-pane .universal-chat-composer-guide small {
-	padding-inline: 0.65rem;
+	padding: 0.35rem 0;
 	color: var(--msg-muted);
-	font-size: 0.65rem;
-	line-height: 1.42;
-	opacity: 1;
+	font-size: 0.64rem;
+	line-height: 1.4;
 }
 
 .messaging-special-pane .universal-chat-composer > label {
-	color: var(--msg-muted);
-	font-size: 0.66rem;
-	font-weight: 700;
+	color: rgb(218 235 224 / 48%);
+	font-size: 0.62rem;
+	font-weight: 680;
 }
 
-.messaging-special-pane .universal-chat-search-row,
-.messaging-special-pane .universal-chat-publish-row {
+.messaging-special-pane :is(.universal-chat-search-row, .universal-chat-publish-row) {
 	display: grid;
 	grid-template-columns: minmax(0, 1fr) auto;
-	align-items: stretch;
-	gap: 0.42rem;
+	gap: 0.45rem;
 }
 
 .messaging-special-pane .universal-chat-composer:not(:has(.universal-chat-result)) .universal-chat-publish-row { display: none; }
 
-.messaging-special-pane .universal-chat-drawer input,
-.messaging-special-pane .universal-chat-drawer select {
+.messaging-special-pane .universal-chat-drawer :is(input, select) {
 	min-width: 0;
 	width: 100%;
-	min-height: 44px;
-	border-color: var(--msg-line-strong);
+	min-height: 48px;
+	border: 1px solid rgb(190 231 207 / 12%);
+	border-radius: 16px;
 	background: rgb(255 255 255 / 4%);
 	color: var(--msg-text);
+	box-shadow: inset 0 1px rgb(255 255 255 / 5%);
 }
 
-.messaging-special-pane .universal-chat-search-row button,
-.messaging-special-pane .universal-chat-publish-row button {
-	min-height: 44px;
-	padding-inline: 0.85rem;
+.messaging-special-pane :is(.universal-chat-search-row, .universal-chat-publish-row) button {
+	min-height: 48px;
+	padding-inline: 1rem;
+	border-radius: 16px;
 	white-space: nowrap;
 	font-size: 0.72rem;
-	font-weight: 760;
+	font-weight: 820;
 }
 
 @media (max-width: 760px) {
 	.messaging-special-pane .universal-chat-composer {
-		gap: 0.34rem;
-		max-height: min(34dvh, 265px);
-		padding: 0.52rem 0.65rem max(0.55rem, env(safe-area-inset-bottom));
+		gap: 0.35rem;
+		max-height: min(35dvh, 280px);
+		padding: 0.62rem 0.72rem max(0.68rem, env(safe-area-inset-bottom));
 	}
-
 	.messaging-special-pane .universal-chat-composer-guide { display: none; }
 	.messaging-special-pane .universal-chat-composer-intro > strong { font-size: 0.78rem; }
-	.messaging-special-pane .universal-chat-composer > label { font-size: 0.63rem; }
 }
 
 @media (max-width: 340px) {
-	.messaging-special-pane .universal-chat-search-row,
-	.messaging-special-pane .universal-chat-publish-row { grid-template-columns: 1fr; }
+	.messaging-special-pane :is(.universal-chat-search-row, .universal-chat-publish-row) { grid-template-columns: 1fr; }
 }

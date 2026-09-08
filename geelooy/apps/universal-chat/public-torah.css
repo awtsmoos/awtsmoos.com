@@ -2,8 +2,8 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /**
- * The Awtsmoos is one Torah before drawer and workspace divide; Awtsmoos.com gives the embedded chamber five honest layers:
- * scope, presence, history when needed, living sources, and private source search without reserving permanent space for duplicate status speech.
+ * The Awtsmoos is one Torah before toolbar, presence, stage, and source-search divide; Awtsmoos.com gives the public chamber one continuous mobile workspace,
+ * where finite controls recede around the living source stage instead of multiplying rounded boxes until the Torah itself disappears beneath interface furniture.
  */
 
 .messaging-special-pane > .universal-chat-drawer,
@@ -11,13 +11,18 @@
 	position: relative;
 	inset: auto;
 	display: grid;
-	grid-template-rows: auto auto auto minmax(120px, 1fr) auto;
-	gap: 0;
+	grid-template-areas:
+		"controls"
+		"roster"
+		"status"
+		"older"
+		"messages"
+		"composer";
+	grid-template-rows: auto auto auto auto minmax(0, 1fr) auto;
 	width: 100%;
 	max-width: none;
 	height: 100%;
 	min-height: 0;
-	max-height: none;
 	margin: 0;
 	padding: 0;
 	border: 0;
@@ -25,66 +30,38 @@
 	background: transparent;
 	box-shadow: none;
 	color: var(--msg-text);
+	isolation: isolate;
 }
 
-.messaging-special-pane .universal-chat-header {
-	display: none;
-}
-
-.messaging-special-pane .universal-chat-controls {
-	grid-row: 1;
-	min-height: 48px;
-	border-bottom: 1px solid var(--msg-line);
-}
-
-.messaging-special-pane .universal-chat-roster {
-	grid-row: 2;
-}
-
-.messaging-special-pane .universal-chat-older {
-	grid-row: 3;
-}
+.messaging-special-pane .universal-chat-header { display: none; }
+.messaging-special-pane .universal-chat-controls { grid-area: controls; }
+.messaging-special-pane .universal-chat-roster { grid-area: roster; }
+.messaging-special-pane .universal-chat-status { grid-area: status; }
+.messaging-special-pane .universal-chat-older { grid-area: older; }
+.messaging-special-pane .universal-chat-messages { grid-area: messages; }
+.messaging-special-pane .universal-chat-composer { grid-area: composer; }
 
 .messaging-special-pane .universal-chat-messages {
-	grid-row: 4;
+	position: relative;
 	min-height: 0;
 	margin: 0;
+	overflow: auto;
+	border: 0;
 	border-radius: 0;
 	background: transparent;
-	scrollbar-gutter: stable;
-}
-
-.messaging-special-pane .universal-chat-composer {
-	grid-row: 5;
+	overscroll-behavior: contain;
 }
 
 .messaging-special-pane #universalChatClose,
-.messaging-special-pane .universal-chat-app-link {
-	display: none;
-}
+.messaging-special-pane .universal-chat-app-link { display: none; }
 
 .messaging-special-pane :is(.universal-chat-controls, .universal-chat-roster) {
-	margin: 0;
-	padding-inline: clamp(0.7rem, 2.5vw, 1.35rem);
+	padding-inline: clamp(0.8rem, 3vw, 1.45rem);
 }
 
-.messaging-special-pane .universal-chat-roster {
-	color: var(--msg-muted);
-	font-size: 0.7rem;
-	opacity: 1;
-}
-
-@media (max-width: 600px) {
+@media (max-width: 760px) {
 	.messaging-special-pane > .universal-chat-drawer,
 	.messaging-special-pane .universal-chat-drawer.is-expanded {
-		grid-template-rows: auto auto auto minmax(120px, 1fr) auto;
-	}
-
-	.messaging-special-pane .universal-chat-controls {
-		min-height: 46px;
-	}
-
-	.messaging-special-pane .universal-chat-messages {
-		scrollbar-gutter: auto;
+		grid-template-rows: auto auto auto auto minmax(0, 1fr) auto;
 	}
 }

@@ -2,42 +2,50 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /**
- * The Awtsmoos is one presence before count, roster, and reconnect speech divide; Awtsmoos.com gives persistent presence one compact strip,
- * while transient status appears only beside the source-search action that actually needs finite attention.
+ * The Awtsmoos is one presence before roster and count divide; Awtsmoos.com renders public visibility as a whisper at the edge of study,
+ * not as another card demanding the same visual weight as Torah, while transient status remains readable without permanently consuming a row of chrome.
  */
 
 .messaging-special-pane .universal-chat-roster {
 	display: flex;
 	align-items: center;
-	flex-wrap: wrap;
 	gap: 0.34rem;
-	min-height: 36px;
-	padding-block: 0.26rem;
-	border-bottom: 1px solid var(--msg-line);
+	min-height: 38px;
+	overflow-x: auto;
+	overflow-y: hidden;
+	padding-block: 0.2rem;
+	color: var(--msg-muted);
+	scrollbar-width: none;
+	overscroll-behavior-inline: contain;
 }
+
+.messaging-special-pane .universal-chat-roster::-webkit-scrollbar { display: none; }
 
 .messaging-special-pane .universal-chat-roster-label {
 	flex: 0 0 auto;
-	margin-right: 0.06rem;
-	color: rgb(240 214 155 / 62%);
-	font-size: 0.58rem;
-	font-weight: 820;
-	letter-spacing: 0.055em;
+	margin-right: 0.12rem;
+	color: rgb(240 214 155 / 54%);
+	font-size: 0.56rem;
+	font-weight: 860;
+	letter-spacing: 0.12em;
 	text-transform: uppercase;
 }
 
 .messaging-special-pane .universal-chat-roster-member {
+	position: relative;
+	flex: 0 0 auto;
 	display: inline-flex;
 	align-items: center;
 	gap: 0.34rem;
-	min-height: 27px;
-	padding: 0 0.48rem;
-	border: 1px solid var(--msg-line);
+	min-height: 28px;
+	padding: 0 0.52rem;
+	border: 0;
 	border-radius: 999px;
-	background: rgb(255 255 255 / 2.8%);
-	color: var(--msg-soft);
-	font-size: 0.63rem;
-	font-weight: 700;
+	background: rgb(255 255 255 / 3%);
+	color: rgb(235 245 239 / 72%);
+	box-shadow: inset 0 1px rgb(255 255 255 / 5%);
+	font-size: 0.62rem;
+	font-weight: 720;
 }
 
 .messaging-special-pane .universal-chat-roster-member::before {
@@ -45,40 +53,22 @@
 	width: 6px;
 	height: 6px;
 	border-radius: 50%;
-	background: var(--msg-accent-strong);
-	box-shadow: 0 0 0 3px rgb(114 216 174 / 7%);
+	background: #78e9b7;
+	box-shadow: 0 0 10px rgb(120 233 183 / 62%);
 }
 
-.messaging-special-pane .universal-chat-composer .universal-chat-status:empty {
-	display: none;
+.messaging-special-pane .universal-chat-status {
+	min-height: 0;
+	margin: 0;
+	padding: 0 1rem 0.2rem;
+	color: rgb(219 235 225 / 42%);
+	font-size: 0.61rem;
+	line-height: 1.2;
 }
 
-.messaging-special-pane .universal-chat-composer .universal-chat-status:not(:empty) {
-	padding: 0.38rem 0.5rem;
-	border: 1px solid rgb(216 182 109 / 12%);
-	border-radius: 10px;
-	background: rgb(216 182 109 / 5%);
-	color: var(--msg-soft);
-	font-size: 0.65rem;
-	line-height: 1.35;
-}
+.messaging-special-pane .universal-chat-status:empty { display: none; }
 
-@media (max-width: 600px) {
-	.messaging-special-pane .universal-chat-roster {
-		flex-wrap: nowrap;
-		min-height: 36px;
-		overflow-x: auto;
-		overflow-y: hidden;
-		padding: 0.22rem 0.7rem;
-		scrollbar-width: none;
-		overscroll-behavior-inline: contain;
-	}
-
-	.messaging-special-pane .universal-chat-roster::-webkit-scrollbar {
-		display: none;
-	}
-
-	.messaging-special-pane .universal-chat-roster-member {
-		flex: 0 0 auto;
-	}
+@media (max-width: 520px) {
+	.messaging-special-pane .universal-chat-roster { min-height: 34px; padding-inline: 0.72rem; }
+	.messaging-special-pane .universal-chat-status { padding-inline: 0.75rem; }
 }

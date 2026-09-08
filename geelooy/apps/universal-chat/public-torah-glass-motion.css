@@ -2,86 +2,44 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /**
- * The Awtsmoos is motionless beyond all change; Awtsmoos.com lets only decorative light drift slowly across the Public Torah chamber,
- * keeping interaction responsive and alive while every source, label, and control remains physically stable for reading, focus, and touch in light.
+ * The Awtsmoos is motionless beyond all change; Awtsmoos.com lets only ambient emerald light breathe through the Public Torah stage,
+ * keeping every control physically stable while focus, hover, and reduced-motion boundaries remain truthful to the human body touching this finite glass.
  */
 
 .messaging-app:has(.universal-chat-drawer) .messaging-special-pane::before {
-	animation: public-torah-aurora 18s ease-in-out infinite alternate;
+	animation: public-torah-aurora 22s ease-in-out infinite alternate;
 	transform-origin: center;
-}
-
-.messaging-app:has(.universal-chat-drawer) .messaging-thread-header,
-.messaging-special-pane .universal-chat-controls,
-.messaging-special-pane .universal-chat-composer,
-.messaging-special-pane .universal-chat-source,
-.messaging-special-pane .universal-chat-result {
-	transition:
-		transform 180ms ease,
-		box-shadow 220ms ease,
-		border-color 180ms ease,
-		background 220ms ease;
 }
 
 .messaging-app:has(.universal-chat-drawer) :is(button, select, input):focus-visible {
 	outline: 2px solid var(--msg-gold-bright);
 	outline-offset: 3px;
-	box-shadow: 0 0 0 5px rgb(216 182 109 / 8%), 0 0 28px rgb(114 216 174 / 10%);
+	box-shadow: 0 0 0 5px rgb(216 182 109 / 7%), 0 0 30px rgb(114 216 174 / 10%);
 }
 
-.messaging-app:has(.universal-chat-drawer) .messaging-rail-button.is-active::after {
-	content: "";
-	position: absolute;
-	inset: 8px 12%;
-	z-index: -1;
-	border-radius: 16px;
-	background: radial-gradient(circle, rgb(216 182 109 / 14%), rgb(114 216 174 / 7%) 48%, transparent 72%);
-	filter: blur(8px);
+.messaging-special-pane :is(.universal-chat-controls, .universal-chat-composer, .universal-chat-source, .universal-chat-result) {
+	transition: transform 180ms ease, box-shadow 220ms ease, border-color 180ms ease, background 220ms ease;
 }
 
 @media (hover: hover) and (pointer: fine) {
-	.messaging-special-pane .universal-chat-source:hover,
-	.messaging-special-pane .universal-chat-result:hover {
+	.messaging-special-pane :is(.universal-chat-source, .universal-chat-result):hover {
 		transform: translateY(-2px);
-		box-shadow:
-			inset 0 1px rgb(255 255 255 / 10%),
-			0 18px 44px rgb(0 0 0 / 28%),
-			0 0 26px rgb(114 216 174 / 7%);
+		box-shadow: inset 0 1px rgb(255 255 255 / 10%), 0 18px 44px rgb(0 0 0 / 28%), 0 0 26px rgb(114 216 174 / 7%);
 	}
 
-	.messaging-special-pane .universal-chat-search-row button:hover,
-	.messaging-special-pane .universal-chat-source-link:hover {
-		transform: translateY(-1px) scale(1.01);
+	.messaging-special-pane .universal-chat-search-row button:hover {
+		transform: translateY(-1px);
+		box-shadow: inset 0 1px rgb(255 255 255 / 14%), 0 14px 34px rgb(0 0 0 / 24%), 0 0 22px rgb(94 220 161 / 10%);
 	}
 }
 
 @keyframes public-torah-aurora {
-	0% {
-		transform: translate3d(-2%, -1%, 0) scale(1);
-		opacity: 0.68;
-	}
-
-	45% {
-		transform: translate3d(2%, 1%, 0) scale(1.04);
-		opacity: 0.86;
-	}
-
-	100% {
-		transform: translate3d(-1%, 2%, 0) scale(1.02);
-		opacity: 0.74;
-	}
+	0% { transform: translate3d(-2%, -1%, 0) scale(1); opacity: 0.66; }
+	50% { transform: translate3d(2%, 1%, 0) scale(1.035); opacity: 0.88; }
+	100% { transform: translate3d(-1%, 2%, 0) scale(1.015); opacity: 0.72; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.messaging-app:has(.universal-chat-drawer) .messaging-special-pane::before {
-		animation: none;
-	}
-
-	.messaging-app:has(.universal-chat-drawer) .messaging-thread-header,
-	.messaging-special-pane .universal-chat-controls,
-	.messaging-special-pane .universal-chat-composer,
-	.messaging-special-pane .universal-chat-source,
-	.messaging-special-pane .universal-chat-result {
-		transition: none;
-	}
+	.messaging-app:has(.universal-chat-drawer) .messaging-special-pane::before { animation: none; }
+	.messaging-special-pane :is(.universal-chat-controls, .universal-chat-composer, .universal-chat-source, .universal-chat-result) { transition: none; }
 }

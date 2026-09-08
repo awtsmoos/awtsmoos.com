@@ -1,41 +1,69 @@
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
-
 /**
- * The Awtsmoos is one Torah before post, author, or empty feed; Awtsmoos.com gives real sources the rhythm of a study journal and gives absence one short invitation,
- * so a phone never spends half its useful height on a paragraph announcing that nothing has happened yet.
+ * The Awtsmoos is one source before feed and emptiness divide; Awtsmoos.com turns an empty public chamber into an intentional Torah observatory,
+ * where luminous depth, restrained typography, and one clear invitation occupy the stage until real source cards arrive and replace the ornament with learning.
  */
 
 .messaging-special-pane .universal-chat-messages {
-	display: block;
-	min-height: 0;
-	padding: 0.8rem clamp(0.75rem, 3vw, 2rem) 1.2rem;
+	padding: 0.65rem clamp(0.8rem, 3vw, 2rem) 1rem;
+}
+
+.messaging-special-pane .universal-chat-messages:has(.universal-chat-empty) {
+	display: grid;
+	place-items: center;
+	min-height: 220px;
+	overflow: hidden;
 }
 
 .messaging-special-pane .universal-chat-empty {
+	position: relative;
 	display: grid;
-	align-content: center;
-	gap: 0.38rem;
-	max-width: 460px;
-	min-height: 100%;
+	justify-items: center;
+	gap: 0.45rem;
+	width: min(100%, 480px);
 	margin: 0 auto;
-	padding: 1rem;
-	color: var(--msg-soft);
-	opacity: 1;
+	padding: 7.4rem 1rem 1.2rem;
 	text-align: center;
+}
+
+.messaging-special-pane .universal-chat-empty::before {
+	content: "א";
+	position: absolute;
+	top: 0.6rem;
+	left: 50%;
+	display: grid;
+	place-items: center;
+	width: 86px;
+	height: 86px;
+	border: 1px solid rgb(157 239 199 / 16%);
+	border-radius: 30px;
+	background:
+		radial-gradient(circle at 32% 22%, rgb(255 245 200 / 18%), transparent 36%),
+		linear-gradient(145deg, rgb(29 84 58 / 54%), rgb(5 22 13 / 74%));
+	color: #f4df9d;
+	box-shadow:
+		inset 0 1px rgb(255 255 255 / 18%),
+		0 24px 64px rgb(0 0 0 / 32%),
+		0 0 48px rgb(91 222 163 / 16%);
+	font: 700 2.35rem/1 Georgia, serif;
+	transform: translateX(-50%) rotate(-3deg);
 }
 
 .messaging-special-pane .universal-chat-empty strong {
 	color: #fff8e7;
-	font-size: 0.94rem;
-	line-height: 1.3;
+	font-size: clamp(1rem, 3vw, 1.2rem);
+	font-weight: 820;
+	line-height: 1.22;
+	letter-spacing: -0.015em;
 }
 
 .messaging-special-pane .universal-chat-empty span {
-	color: var(--msg-muted);
-	font-size: 0.74rem;
-	line-height: 1.45;
+	max-width: 34ch;
+	color: rgb(221 235 226 / 54%);
+	font-size: 0.72rem;
+	line-height: 1.5;
 }
 
 .messaging-special-pane .universal-chat-message {
@@ -43,65 +71,19 @@
 	gap: 0.72rem;
 	max-width: 900px;
 	margin: 0 auto;
-	padding: 0.9rem 0 1.15rem;
-	border: 0;
-	border-bottom: 1px solid var(--msg-line);
-	border-radius: 0;
+	padding: 1rem 0 1.2rem;
+	border-bottom: 1px solid rgb(219 239 226 / 8%);
 	background: transparent;
 }
 
-.messaging-special-pane .universal-chat-message + .universal-chat-message { margin-top: 0.2rem; }
-
-.messaging-special-pane .universal-chat-message > header {
-	display: flex;
-	align-items: center;
-	gap: 0.65rem;
-}
-
-.messaging-special-pane .universal-chat-message-identity {
-	display: flex;
-	align-items: center;
-	flex-wrap: wrap;
-	gap: 0.36rem;
-	min-width: 0;
-}
-
-.messaging-special-pane .universal-chat-channel {
-	display: inline-flex;
-	align-items: center;
-	min-height: 24px;
-	padding: 0 0.45rem;
-	border: 1px solid var(--msg-line);
-	border-radius: 999px;
-	color: var(--msg-muted);
-	font-size: 0.59rem;
-	font-weight: 760;
-	letter-spacing: 0.04em;
-	text-transform: uppercase;
-}
-
+.messaging-special-pane .universal-chat-message > header { display: flex; align-items: center; gap: 0.65rem; }
+.messaging-special-pane .universal-chat-message-identity { display: flex; align-items: center; flex-wrap: wrap; gap: 0.36rem; min-width: 0; }
 .messaging-special-pane .universal-chat-author { font-size: 0.8rem; font-weight: 780; }
-
-.messaging-special-pane .universal-chat-message time {
-	flex: 0 0 auto;
-	margin-left: auto;
-	color: var(--msg-muted);
-	font-size: 0.66rem;
-}
-
-.messaging-special-pane :is(.universal-chat-whisper, .universal-chat-older) {
-	min-height: 40px;
-	padding: 0 0.62rem;
-	font-size: 0.65rem;
-	font-weight: 720;
-}
+.messaging-special-pane .universal-chat-message time { margin-left: auto; color: var(--msg-muted); font-size: 0.64rem; }
 
 @media (max-width: 600px) {
-	.messaging-special-pane .universal-chat-messages { padding: 0.45rem 0.7rem 0.8rem; }
-	.messaging-special-pane .universal-chat-empty { gap: 0.28rem; padding: 0.7rem 0.5rem; }
-	.messaging-special-pane .universal-chat-empty strong { font-size: 0.86rem; }
-	.messaging-special-pane .universal-chat-empty span { font-size: 0.7rem; line-height: 1.38; }
-	.messaging-special-pane .universal-chat-message { gap: 0.52rem; padding: 0.68rem 0 0.82rem; }
-	.messaging-special-pane .universal-chat-message > header { align-items: flex-start; gap: 0.45rem; }
-	.messaging-special-pane :is(.universal-chat-whisper, .universal-chat-older) { min-height: 44px; }
+	.messaging-special-pane .universal-chat-messages { padding: 0.35rem 0.72rem 0.7rem; }
+	.messaging-special-pane .universal-chat-empty { padding-top: 6.8rem; }
+	.messaging-special-pane .universal-chat-empty::before { width: 78px; height: 78px; border-radius: 26px; font-size: 2.1rem; }
+	.messaging-special-pane .universal-chat-message { gap: 0.5rem; padding: 0.72rem 0 0.86rem; }
 }
