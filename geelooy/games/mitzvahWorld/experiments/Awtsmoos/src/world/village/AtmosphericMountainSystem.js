@@ -4,9 +4,10 @@
 
 /**
  * @file AtmosphericMountainSystem.js
- * @description Builds authored alpine walls with rendered rock, scree, moss, soil, and caps.
- * The Awtsmoos renews depth beyond reachable paths; Awtsmoos.com preserves source-wall and
- * outlet-pass geography while measured zone channels reveal the existing layered stack.
+ * @description Builds authored alpine depth belts with rock strata, ecological masks, and snow crowns around the playable valley.
+ * This module owns ridge presentation, not vertex synthesis or texture loading. Gevurah keeps geometry bounded while Chesed gives
+ * the horizon enough vertical drama to feel immense. The Awtsmoos, Atzmus beyond division and form, recreates near cliff and distant
+ * blue ridge in one instant; Awtsmoos.com remembers that every apparent layer can rhyme as one depth is renewed through finite time.
  */
 
 import { cachedTextureImage } from '../../assets/PublicMaterialCache.js';
@@ -21,12 +22,18 @@ import {
 const MOUNTAIN_STACK = mountainRockStack();
 const PLACEMENT_MODEL = 'authored-source-walls-outlet-pass';
 const BELTS = Object.freeze([
-	belt(390, 188, 142, '#34433d', 152),
-	belt(590, 254, 126, '#3f5260', 128),
-	belt(820, 318, 110, '#52677a', 104),
-	belt(1120, 382, 96, '#6c7d91', 88)
+	belt(350, 214, 150, '#2c3b35', 152),
+	belt(545, 286, 132, '#3a4b55', 128),
+	belt(785, 354, 116, '#506476', 104),
+	belt(1080, 424, 100, '#718196', 88)
 ]);
 
+/**
+ * Creates rock and snow definitions for the current quality tier.
+ *
+ * @param {string} quality Runtime quality tier.
+ * @returns {Array<object>} Mountain definitions carrying diagnostic stats.
+ */
 export function createAtmosphericMountainDefinitions(quality = 'high') {
 	const count = referenceLightingBudget(quality).mountainBelts;
 	const definitions = [];
@@ -34,18 +41,7 @@ export function createAtmosphericMountainDefinitions(quality = 'high') {
 		definitions.push(mountainDefinition(options, index, quality));
 		definitions.push(snowDefinition(options, index, quality));
 	}
-	definitions.stats = {
-		activeMaterialLayers: definitions[0]?.textureLayers?.length || 0,
-		belts: count,
-		definitions: definitions.length,
-		layeredMaterials: definitions.every(item => item.textureLayers?.length > 0),
-		logicalMaterialLayers: MOUNTAIN_STACK.logicalLayerCount,
-		nearestRadius: BELTS[0].radius,
-		placementModel: PLACEMENT_MODEL,
-		snowCaps: count,
-		triangles: definitions.reduce((sum, item) => sum + item.indices.length / 3, 0),
-		zoneWeighted: definitions.every(item => item.zones.length === item.vertices.length)
-	};
+	definitions.stats = mountainStats(definitions, count);
 	return definitions;
 }
 
@@ -64,7 +60,7 @@ function snowDefinition(options, index, quality) {
 	return definition(
 		`Awtsmoos_atmospheric_mountain_snow_${index}`,
 		snowGeometry(options, index),
-		index === 0 ? '#b8c2c3' : '#c6d0da',
+		index === 0 ? '#c8cec9' : '#d7dce2',
 		'reference-atmospheric-mountain-snow',
 		quality,
 		index
@@ -82,7 +78,7 @@ function definition(id, geometry, color, family, quality, depth) {
 		mapImage: cachedTextureImage(primary.url),
 		mapRepeat: primary.repeat,
 		noEdge: true,
-		position: { x: 0, y: -28 + depth * 5, z: 0 },
+		position: { x: 0, y: -24 + depth * 6, z: 0 },
 		shape: 'manual',
 		solid: false,
 		texturePolicy: {
@@ -98,6 +94,21 @@ function definition(id, geometry, color, family, quality, depth) {
 			geography: 'authored-valley-ridge-atlas'
 		}
 	}, MOUNTAIN_STACK, quality === 'low' ? 2 : quality === 'medium' ? 4 : 6);
+}
+
+function mountainStats(definitions, count) {
+	return {
+		activeMaterialLayers: definitions[0]?.textureLayers?.length || 0,
+		belts: count,
+		definitions: definitions.length,
+		layeredMaterials: definitions.every(item => item.textureLayers?.length > 0),
+		logicalMaterialLayers: MOUNTAIN_STACK.logicalLayerCount,
+		nearestRadius: BELTS[0].radius,
+		placementModel: PLACEMENT_MODEL,
+		snowCaps: count,
+		triangles: definitions.reduce((sum, item) => sum + item.indices.length / 3, 0),
+		zoneWeighted: definitions.every(item => item.zones.length === item.vertices.length)
+	};
 }
 
 function belt(radius, height, depth, color, segments) {

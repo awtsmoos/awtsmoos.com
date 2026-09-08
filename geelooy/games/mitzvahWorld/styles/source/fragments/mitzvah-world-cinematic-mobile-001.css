@@ -3,71 +3,64 @@ Boruch Hashem
 Blessed is He
 
 @file mitzvah-world-cinematic-mobile-001.css
-@description Gives the post-play mobile HUD a warm cinematic garment with explicit viewport-safe ownership of player shell, rail, minimap, and fixed joystick.
-The Awtsmoos lets world and interface share one sunset without confusing their tasks; Awtsmoos.com keeps the traveler visible,
-the identity shell honest, the deed rail reachable, and the fixed joystick grounded while the center remains open to the living world.
+@description Frames the living mobile world with translucent cinematic controls while preserving the center for landscape and movement.
+The Awtsmoos, Atzmus beyond body and form, renews interface and valley without making either independent; Awtsmoos.com lets glass, gold,
+shadow, minimap, rail, and joystick rhyme as finite keilim around one open world, revealing utility without concealing the scene in time.
 */
 
 #mitzvah-world-root[data-awtsmoos-cinematic="ready"] {
-	--mw-surface-deep: rgba(7, 12, 11, 0.76);
-	--mw-surface-control: rgba(16, 22, 19, 0.72);
-	--mw-surface-control-hover: rgba(36, 38, 28, 0.82);
-	--mw-surface-control-active: rgba(54, 44, 25, 0.88);
-	--mw-border-soft: rgba(255, 224, 159, 0.24);
-	--mw-border-strong: rgba(255, 221, 142, 0.48);
-	--mw-accent-warm: #ffe2a0;
-	--mw-text-muted: rgba(245, 237, 215, 0.76);
+	--mw-surface-deep: rgba(5, 10, 10, 0.72);
+	--mw-surface-control: rgba(11, 17, 17, 0.7);
+	--mw-surface-control-hover: rgba(31, 31, 24, 0.8);
+	--mw-surface-control-active: rgba(58, 43, 22, 0.88);
+	--mw-border-soft: rgba(255, 225, 161, 0.24);
+	--mw-border-strong: rgba(255, 218, 132, 0.5);
+	--mw-accent-warm: #ffe0a0;
+	--mw-text-muted: rgba(246, 239, 220, 0.78);
 }
 
-#mitzvah-world-root[data-awtsmoos-cinematic="ready"] .Awtsmoos-status-card,
-#mitzvah-world-root[data-awtsmoos-cinematic="ready"] .Awtsmoos-game-rail,
-#mitzvah-world-root[data-awtsmoos-cinematic="ready"] .Awtsmoos-meadow-control-receipt,
-#mitzvah-world-root[data-awtsmoos-cinematic="ready"] .Awtsmoos-minimap {
+#mitzvah-world-root[data-awtsmoos-cinematic="ready"] :is(.Awtsmoos-status-card, .Awtsmoos-game-rail, .Awtsmoos-meadow-control-receipt, .Awtsmoos-minimap) {
 	border-color: var(--mw-border-soft);
-	background: linear-gradient(145deg, rgba(8, 13, 12, 0.82), rgba(27, 24, 16, 0.62));
-	box-shadow: 0 14px 38px rgba(0, 0, 0, 0.28), inset 0 1px rgba(255, 232, 177, 0.08);
-	backdrop-filter: blur(12px) saturate(1.16);
-	-webkit-backdrop-filter: blur(12px) saturate(1.16);
+	background: linear-gradient(145deg, rgba(5, 10, 10, 0.8), rgba(25, 21, 14, 0.54));
+	box-shadow: 0 12px 34px rgba(0, 0, 0, 0.26), inset 0 1px rgba(255, 235, 188, 0.08);
+	backdrop-filter: blur(10px) saturate(1.18);
+	-webkit-backdrop-filter: blur(10px) saturate(1.18);
 }
 
 #mitzvah-world-root[data-awtsmoos-cinematic="ready"] .Awtsmoos-game-rail button {
-	border-color: rgba(255, 224, 159, 0.22);
-	background: linear-gradient(145deg, rgba(28, 30, 23, 0.78), rgba(10, 14, 13, 0.8));
-	box-shadow: inset 0 1px rgba(255, 240, 200, 0.08), 0 8px 22px rgba(0, 0, 0, 0.22);
+	border-color: rgba(255, 224, 159, 0.2);
+	background: linear-gradient(145deg, rgba(24, 27, 23, 0.74), rgba(7, 12, 12, 0.78));
+	box-shadow: inset 0 1px rgba(255, 240, 200, 0.08), 0 7px 20px rgba(0, 0, 0, 0.2);
 }
 
 #mitzvah-world-root[data-awtsmoos-cinematic="ready"] .Awtsmoos-joystick-ring {
-	border-color: rgba(255, 235, 190, 0.42);
-	background: radial-gradient(circle, rgba(255, 232, 179, 0.11), rgba(8, 15, 13, 0.26) 64%, rgba(4, 8, 7, 0.46));
-	box-shadow: inset 0 0 30px rgba(255, 224, 151, 0.08), 0 10px 34px rgba(0, 0, 0, 0.24);
-	backdrop-filter: blur(5px);
+	border-color: rgba(255, 235, 190, 0.38);
+	background: radial-gradient(circle, rgba(255, 232, 179, 0.1), rgba(6, 13, 13, 0.22) 62%, rgba(3, 7, 7, 0.42));
+	box-shadow: inset 0 0 28px rgba(255, 224, 151, 0.07), 0 9px 30px rgba(0, 0, 0, 0.22);
+	backdrop-filter: blur(4px);
 }
 
 #mitzvah-world-root[data-awtsmoos-cinematic="ready"] .Awtsmoos-joystick-knob {
-	border-color: rgba(255, 236, 196, 0.48);
-	background: radial-gradient(circle at 35% 30%, rgba(255, 245, 220, 0.34), rgba(50, 55, 47, 0.72));
-	box-shadow: 0 7px 18px rgba(0, 0, 0, 0.32);
+	border-color: rgba(255, 236, 196, 0.46);
+	background: radial-gradient(circle at 35% 30%, rgba(255, 245, 220, 0.32), rgba(43, 51, 47, 0.68));
+	box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
 }
 
 @media (max-width: 520px) and (orientation: portrait), (pointer: coarse) and (max-aspect-ratio: 4 / 5) {
 	#mitzvah-world-root[data-awtsmoos-cinematic="ready"] .Awtsmoos-player-hud-shell {
 		position: absolute;
-		left: max(12px, var(--safe-l, 8px));
-		top: max(12px, var(--safe-t, 8px));
-		width: min(192px, 48vw);
-		min-height: 89px;
-		max-height: min(132px, 16dvh);
+		left: max(10px, var(--safe-l, 8px));
+		top: max(10px, var(--safe-t, 8px));
+		width: min(178px, 44vw);
+		min-height: 82px;
+		max-height: min(124px, 15dvh);
 		overflow: visible;
 	}
 
-	#mitzvah-world-root[data-awtsmoos-cinematic="ready"] .Awtsmoos-player-hud-shell > .Awtsmoos-status-dock {
+	#mitzvah-world-root[data-awtsmoos-cinematic="ready"] .Awtsmoos-player-hud-shell > .Awtsmoos-status-dock,
+	#mitzvah-world-root[data-awtsmoos-cinematic="ready"] .Awtsmoos-player-hud-shell .status-card {
 		position: relative;
 		inset: auto;
-		width: 100%;
-		max-width: 100%;
-	}
-
-	#mitzvah-world-root[data-awtsmoos-cinematic="ready"] .Awtsmoos-player-hud-shell .status-card {
 		box-sizing: border-box;
 		width: 100%;
 		max-width: 100%;
@@ -76,18 +69,18 @@ the identity shell honest, the deed rail reachable, and the fixed joystick groun
 	#mitzvah-world-root[data-awtsmoos-cinematic="ready"] #gameRail {
 		position: absolute;
 		left: auto;
-		right: max(10px, var(--safe-r, 8px));
-		top: max(86px, calc(var(--safe-t, 8px) + 74px));
+		right: max(9px, var(--safe-r, 8px));
+		top: max(98px, calc(var(--safe-t, 8px) + 86px));
 		bottom: auto;
 		transform: none;
 	}
 
 	#mitzvah-world-root[data-awtsmoos-cinematic="ready"] #gameRail .Awtsmoos-game-rail {
 		grid-template-columns: 48px;
-		gap: 8px;
-		padding: 7px;
+		gap: 6px;
+		padding: 5px;
 		border-radius: 24px;
-		max-height: 44dvh;
+		max-height: 42dvh;
 	}
 
 	#mitzvah-world-root[data-awtsmoos-cinematic="ready"] #gameRail .Awtsmoos-game-rail button {
@@ -101,10 +94,10 @@ the identity shell honest, the deed rail reachable, and the fixed joystick groun
 	#mitzvah-world-root[data-awtsmoos-cinematic="ready"] #gameRail .Awtsmoos-game-rail [data-rail-secondary] {
 		grid-column: 1;
 		grid-template-columns: 48px;
-		gap: 8px;
+		gap: 6px;
 	}
 
 	#mitzvah-world-root[data-awtsmoos-cinematic="ready"] #actions {
-		max-width: calc(100vw - 184px);
+		max-width: calc(100vw - 176px);
 	}
 }
