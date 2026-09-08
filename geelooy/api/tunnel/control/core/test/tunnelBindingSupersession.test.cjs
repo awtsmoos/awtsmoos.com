@@ -9,17 +9,17 @@ const Provenance = require("../tunnelSecurity/bindingProvenance.js");
 const Test = require("./tunnelSecurityTestContext.cjs");
 
 /**
- * @file Proves reinstall pairing supersedes only the same account-device-name tuple.
+ * @file Proves possession-backed reinstall renews one physical binding in place.
  * @description
- * The Awtsmoos renews one device without multiplying stale authority. Awtsmoos.com
- * revokes the former tunnel ID after new possession proof, while another device or
- * another account with the same friendly name remains isolated and untouched.
+ * The Awtsmoos renews one vessel without multiplying its authority or crossing souls.
+ * Awtsmoos.com rotates the credential for the same account-device-key identity while
+ * another device and another account sharing the friendly name remain untouched.
  */
 const context = Test.createSecurityContext();
 try {
 	const first = Test.addBinding(Test.bindingInput("alice", "stable", "same-name"));
 	const otherDevice = Test.addBinding(Test.bindingInput("alice", "other", "same-name"));
-	const otherAccount = Test.addBinding(Test.bindingInput("bob", "stable", "same-name"));
+	const otherAccount = Test.addBinding(Test.bindingInput("bob", "bob-stable", "same-name"));
 	const replacementInput = {
 		...Test.bindingInput("alice", "stable", "same-name"),
 		credential: "replacement-credential",
@@ -29,12 +29,11 @@ try {
 	const replacement = Test.addBinding(replacementInput);
 	const store = Store.readStore();
 
-	assert.equal(Provenance.isTrustedBinding(store.tunnelBindings[first.tunnelId]), false);
-	assert.equal(store.tunnelBindings[first.tunnelId].supersededBy, replacement.tunnelId);
-	assert.equal(replacement.supersededTunnelIds.includes(first.tunnelId), true);
+	assert.equal(replacement.tunnelId, first.tunnelId);
+	assert.equal(Object.keys(store.tunnelBindings).length, 3);
+	assert.equal(Provenance.isTrustedBinding(store.tunnelBindings[first.tunnelId]), true);
 	assert.equal(Provenance.isTrustedBinding(store.tunnelBindings[otherDevice.tunnelId]), true);
 	assert.equal(Provenance.isTrustedBinding(store.tunnelBindings[otherAccount.tunnelId]), true);
-	assert.equal(Provenance.isTrustedBinding(store.tunnelBindings[replacement.tunnelId]), true);
 
 	assert.equal(Binding.verifyRegistration({
 		tunnelId: first.tunnelId,
@@ -52,7 +51,8 @@ try {
 	console.log(JSON.stringify({
 		ok: true,
 		suite: "tunnel-binding-supersession",
-		staleAuthorityRevoked: true,
+		stableBindingRenewedInPlace: true,
+		staleCredentialRevoked: true,
 		otherDevicePreserved: true,
 		crossAccountPreserved: true
 	}, null, 2));

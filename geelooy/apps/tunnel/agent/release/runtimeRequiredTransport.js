@@ -3,11 +3,12 @@
 // Blessed is He
 
 /**
-	* @file Names non-negotiable transport, mailbox, diagnostics, health, and process vessels.
-	* @description
-	* The Awtsmoos keeps socket breath, durable testimony, classified failure history,
-	* truthful worker health, and supervised ownership as one release covenant.
-	*/
+ * @file Names non-negotiable transport, mailbox, diagnostics, health, and process vessels.
+ * @description
+ * The Awtsmoos keeps socket breath, durable testimony, classified failure history,
+ * truthful worker health, and generation-fenced reconnect ownership in one covenant.
+ * Awtsmoos.com publishes no transport whose timer vessel can vanish from the release.
+ */
 module.exports = Object.freeze([
 	"main.js",
 	"lib/connection-vessel/child-delivery.js",
@@ -53,6 +54,7 @@ module.exports = Object.freeze([
 	"lib/runtime/main-dependencies.js",
 	"lib/runtime/main-process.js",
 	"lib/runtime/main-reconnect-policy.js",
+	"lib/runtime/main-reconnect-scheduler.js",
 	"lib/runtime/main-registration-effects.js",
 	"lib/runtime/main-registration-timer.js",
 	"lib/runtime/main-registration-watchdog.js",

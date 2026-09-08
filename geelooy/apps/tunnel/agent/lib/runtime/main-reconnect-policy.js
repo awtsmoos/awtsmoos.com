@@ -3,36 +3,53 @@
 // Blessed is He
 
 const DEFAULT_MAXIMUM_DELAY_MS = 30000;
+const DEFAULT_NETWORK_MAXIMUM_DELAY_MS = 5000;
+const FAST_NETWORK_CATEGORIES = new Set([
+	"dns",
+	"network",
+	"reset",
+	"socket",
+	"timeout"
+]);
 
 /**
- * @file Calculates bounded reconnect delay without allowing synchronized storms.
+ * @file Calculates bounded reconnect delay while letting network return be noticed quickly.
  * @description
- * The Awtsmoos renews each attempt without worshipping either panic or delay.
- * Awtsmoos.com records registration as transport truth, yet resets retry pressure only after
- * a real accepted deed proves the action road is open, so heartbeat alone cannot erase the storm.
+ * The Awtsmoos grants a vanished road patient retry without making its return wait in exile.
+ * Awtsmoos.com keeps proxy storms restrained, yet physical network wounds revisit the gate
+ * frequently through the same single timer, never multiplying workers or sockets.
  */
 function delayForAttempt(attempt, options = {}) {
+	const env = options.env || process.env;
 	const baseMs = bounded(
-		options.baseMs ?? process.env.AWTSMOOS_RECONNECT_BASE_MS,
+		options.baseMs ?? env.AWTSMOOS_RECONNECT_BASE_MS,
 		100,
 		10000,
 		1000
 	);
 	const maximumMs = bounded(
-		options.maximumMs ?? process.env.AWTSMOOS_RECONNECT_MAX_MS,
+		options.maximumMs ?? env.AWTSMOOS_RECONNECT_MAX_MS,
 		baseMs,
 		300000,
-		DEFAULT_MAXIMUM_DELAY_MS
+		defaultMaximumForFailure(options.failure)
 	);
 	const exponent = Math.min(8, Math.max(0, Number(attempt) || 0));
 	const raw = Math.min(maximumMs, baseMs * 2 ** exponent);
 	const jitterRatio = boundedRatio(
-		options.jitterRatio ?? process.env.AWTSMOOS_RECONNECT_JITTER,
+		options.jitterRatio ?? env.AWTSMOOS_RECONNECT_JITTER,
 		0.2
 	);
 	const random = typeof options.random === "function" ? options.random() : Math.random();
 	const jitter = raw * jitterRatio * ((random * 2) - 1);
 	return Math.max(baseMs, Math.round(raw + jitter));
+}
+
+/** Returns the default raw retry ceiling for the current classified failure. */
+function defaultMaximumForFailure(failure = null) {
+	const category = String(failure?.category || "").trim().toLowerCase();
+	return FAST_NETWORK_CATEGORIES.has(category)
+		? DEFAULT_NETWORK_MAXIMUM_DELAY_MS
+		: DEFAULT_MAXIMUM_DELAY_MS;
 }
 
 /** Records authenticated registration without claiming that action acceptance recovered. */
@@ -66,8 +83,10 @@ function boundedRatio(value, fallback) {
 
 module.exports = {
 	DEFAULT_MAXIMUM_DELAY_MS,
+	DEFAULT_NETWORK_MAXIMUM_DELAY_MS,
 	bounded,
 	boundedRatio,
+	defaultMaximumForFailure,
 	delayForAttempt,
 	markAccepted,
 	markRegistered,

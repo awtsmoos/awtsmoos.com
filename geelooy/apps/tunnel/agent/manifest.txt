@@ -1,5 +1,5 @@
 B"H
-1.0.589
+1.0.590
 main.js
 ai/relay/direct/browser/AgentTabCatalog.mjs
 ai/relay/direct/browser/AgentTabProtectionState.mjs
@@ -1258,6 +1258,7 @@ lib/runtime/main-queue-prune.js
 lib/runtime/main-queue-rejection.js
 lib/runtime/main-queue.js
 lib/runtime/main-reconnect-policy.js
+lib/runtime/main-reconnect-scheduler.js
 lib/runtime/main-registration-effects.js
 lib/runtime/main-registration-recovery.js
 lib/runtime/main-registration-timer.js
@@ -1670,9 +1671,22 @@ tools/fs/actionGroups/aiAgents/novelPipeline.js
 tools/fs/actionGroups/aiAgents/providers.js
 tools/fs/actionGroups/aiAgents/registry.js
 tools/fs/actionGroups/aiAgents/sleep.js
+tools/fs/actionGroups/aiAgents/taskLease.js
+tools/fs/actionGroups/aiAgents/taskLeaseClaim.js
+tools/fs/actionGroups/aiAgents/taskLeaseEvents.js
+tools/fs/actionGroups/aiAgents/taskLeasePolicy.js
+tools/fs/actionGroups/aiAgents/taskLeaseSettlement.js
+tools/fs/actionGroups/aiAgents/taskLeaseTransitions.js
 tools/fs/actionGroups/aiAgents/taskLimits.js
 tools/fs/actionGroups/aiAgents/taskRunner.js
+tools/fs/actionGroups/aiAgents/taskRunnerExecution.js
+tools/fs/actionGroups/aiAgents/taskRunnerInput.js
+tools/fs/actionGroups/aiAgents/taskStorage.js
+tools/fs/actionGroups/aiAgents/taskStorageLock.js
+tools/fs/actionGroups/aiAgents/taskStoragePaths.js
 tools/fs/actionGroups/aiAgents/taskStore.js
+tools/fs/actionGroups/aiAgents/taskStoreRecord.js
+tools/fs/actionGroups/aiAgents/taskStoreRelations.js
 tools/fs/actionGroups/aiTemplateActions.js
 tools/fs/actionGroups/aiTemplateCatalog.js
 tools/fs/actionGroups/asyncTaskActions.js

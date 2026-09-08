@@ -6,11 +6,13 @@
  * @file Classifies transport endings by network phase and probable ownership.
  * @description
  * The Awtsmoos distinguishes DNS, TCP, TLS, proxy, protocol, reset, timeout, and
- * local liveness so Awtsmoos.com heals the correct layer instead of naming every
- * wound unknown. Explicit normalized transport_* causes remain stable testimony.
+ * remote socket silence so Awtsmoos.com heals the correct layer. A bare close is
+ * retryable transport testimony, never invented proof that auth or runtime failed.
  */
 function classify(input, phase = "unknown") {
-	if (input?.transportFailure) return input.transportFailure;
+	if (input?.transportFailure) {
+		return input.transportFailure;
+	}
 	const code = String(input?.code || "").trim();
 	const message = String(input?.message || input || "transport_failure").trim();
 	const normalized = `${code} ${message}`.toLowerCase();
@@ -22,7 +24,7 @@ function classify(input, phase = "unknown") {
 		code: code || codeFor(category, normalized),
 		message: message.slice(0, 500),
 		retryable: !["configuration", "certificate", "protocol"].includes(category),
-		upstreamLikely: ["dns", "network", "proxy", "reset", "timeout"].includes(category),
+		upstreamLikely: ["dns", "network", "proxy", "reset", "socket", "timeout"].includes(category),
 		localLikely: ["liveness", "configuration"].includes(category)
 	};
 }
@@ -34,6 +36,7 @@ function categoryFor(value, phase) {
 	if (/502|503|504|bad gateway|service unavailable|gateway timeout/.test(value)) return "proxy";
 	if (/ehostunreach|enetunreach|econnrefused/.test(value)) return "network";
 	if (/econnreset|epipe|socket hang up|transport_reset/.test(value)) return "reset";
+	if (/socket_closed|websocket_closed|remote close|connection closed/.test(value)) return "socket";
 	if (/etimedout|timeout|idle_timeout/.test(value)) return "timeout";
 	if (/handshake_rejected|accept_mismatch|frame|protocol/.test(value)) return "protocol";
 	if (/unsupported_websocket_protocol|invalid url/.test(value)) return "configuration";
@@ -48,7 +51,7 @@ function phaseFor(category, fallback) {
 	if (category === "dns") return "dns";
 	if (category === "certificate") return "tls";
 	if (category === "proxy" || category === "protocol") return "websocket_handshake";
-	if (["network", "reset", "timeout"].includes(category)) {
+	if (["network", "reset", "socket", "timeout"].includes(category)) {
 		return fallback === "unknown" ? "socket" : fallback;
 	}
 	if (category === "liveness") return "liveness";
