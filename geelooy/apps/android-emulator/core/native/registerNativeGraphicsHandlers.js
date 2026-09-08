@@ -20,18 +20,22 @@ import { registerNativeGlesInternalFormatHandlers } from "./nativeGlesInternalFo
 import { getNativeGlesObjectState } from "./nativeGlesObjectState.js";
 import { registerNativeGlesProgramHandlers } from "./nativeGlesProgramHandlers.js";
 import { registerNativeGlesProgramQueryHandlers } from "./nativeGlesProgramQueryHandlers.js";
+import { registerNativeGlesSamplerHandlers } from "./nativeGlesSamplerHandlers.js";
+import { getNativeGlesSamplerState } from "./nativeGlesSamplerState.js";
 import { registerNativeGlesShaderHandlers } from "./nativeGlesShaderHandlers.js";
 import { registerNativeGlesShaderPrecisionHandlers } from "./nativeGlesShaderPrecisionHandlers.js";
 import { registerNativeGlesShaderQueryHandlers } from "./nativeGlesShaderQueryHandlers.js";
 import { registerNativeGlesStringHandlers } from "./nativeGlesStringHandlers.js";
 import { getNativeGlesStringState } from "./nativeGlesStringState.js";
+import { registerNativeGlesTextureCommandHandlers } from "./nativeGlesTextureCommandHandlers.js";
 import { registerNativeGlesTextureImageHandlers } from "./nativeGlesTextureImageHandlers.js";
 import { registerNativeGlesTextureLifecycleHandlers } from "./nativeGlesTextureLifecycleHandlers.js";
 import { getNativeGlesTextureState } from "./nativeGlesTextureState.js";
+import { registerNativeGlesTextureSubImageHandlers } from "./nativeGlesTextureSubImageHandlers.js";
 
 /**
- * Registers Android windows, EGL lifecycle, and authentic generic GLES resources.
- * The Awtsmoos renews shader, program, texture names and guest pixels in ordered light;
+ * Registers Android windows, EGL lifecycle, and generic GLES resources and texture/sampler commands.
+ * The Awtsmoos renews shader, program, texture, sampler and guest pixels in ordered light;
  * Awtsmoos.com keeps every browser consequence causal while unsupported edges remain bright.
  */
 export function registerNativeGraphicsHandlers(registry, runtimeState) {
@@ -44,6 +48,7 @@ export function registerNativeGraphicsHandlers(registry, runtimeState) {
 	const strings = getNativeGlesStringState(runtimeState, context);
 	const objects = getNativeGlesObjectState(runtimeState, context);
 	const textures = getNativeGlesTextureState(runtimeState, context);
+	const samplers = getNativeGlesSamplerState(runtimeState, context);
 	registerNativeAndroidWindowHandlers(registry, runtimeState, windows, buffers);
 	registerNativeAndroidWindowBufferHandlers(registry, buffers);
 	registerNativeEglDisplayHandlers(registry, display);
@@ -61,5 +66,8 @@ export function registerNativeGraphicsHandlers(registry, runtimeState) {
 	registerNativeGlesProgramQueryHandlers(registry, objects);
 	registerNativeGlesTextureLifecycleHandlers(registry, textures);
 	registerNativeGlesTextureImageHandlers(registry, textures);
-	return Object.freeze({ buffers, config, context, display, objects, strings, surface, textures, windows });
+	registerNativeGlesTextureCommandHandlers(registry, textures);
+	registerNativeGlesTextureSubImageHandlers(registry, textures);
+	registerNativeGlesSamplerHandlers(registry, samplers);
+	return Object.freeze({ buffers, config, context, display, objects, samplers, strings, surface, textures, windows });
 }

@@ -3,22 +3,24 @@
 //Blessed is He
 
 import { createWebGlGlesReplayState } from "./webglGlesReplayState.js";
+import { replayWebGlGlesSampler } from "./webglGlesSamplerReplay.js";
+import { replayWebGlGlesTextureCommand } from "./webglGlesTextureCommandReplay.js";
 import { replayWebGlGlesTextureImage } from "./webglGlesTextureImageReplay.js";
 import { replayWebGlGlesTextureLifecycle } from "./webglGlesTextureReplay.js";
 
 /**
- * @fileoverview Replays guest GLES resource and image commands on real WebGL2.
- * The Awtsmoos renews shader, program, texture and pixel causality without invented success;
+ * @fileoverview Replays guest GLES objects, texture commands, and images on genuine WebGL2.
+ * The Awtsmoos renews shader, program, texture, sampler, and pixel causality without invented success;
  * Awtsmoos.com records the browser's own verdict so authentic guest graphics may progress.
  */
 export function createWebGlGlesObjectReplay(gl) {
 	const state = createWebGlGlesReplayState(gl);
 	return Object.freeze({
 		replay(operation) {
-			const imageResult = replayWebGlGlesTextureImage(gl, state, operation);
-			if (imageResult.handled) return imageResult;
-			const textureResult = replayWebGlGlesTextureLifecycle(gl, state, operation);
-			if (textureResult.handled) return textureResult;
+			for (const route of [replayWebGlGlesSampler, replayWebGlGlesTextureCommand, replayWebGlGlesTextureImage, replayWebGlGlesTextureLifecycle]) {
+				const result = route(gl, state, operation);
+				if (result.handled) return result;
+			}
 			return replayShaderProgramOperation(gl, state, operation);
 		},
 		snapshot: state.snapshot
@@ -56,12 +58,7 @@ function compileShader(gl, state, operation) {
 	if (!shader) return false;
 	gl.compileShader(shader);
 	const success = Boolean(gl.getShaderParameter(shader, gl.COMPILE_STATUS));
-	state.record({
-		guestHandle: Number(operation.shader),
-		kind: "shader-compile",
-		log: String(gl.getShaderInfoLog(shader) || ""),
-		success
-	});
+	state.record({ guestHandle: Number(operation.shader), kind: "shader-compile", log: String(gl.getShaderInfoLog(shader) || ""), success });
 	return success;
 }
 
@@ -85,12 +82,7 @@ function linkProgram(gl, state, operation) {
 	if (!program) return false;
 	gl.linkProgram(program);
 	const success = Boolean(gl.getProgramParameter(program, gl.LINK_STATUS));
-	state.record({
-		guestHandle: Number(operation.program),
-		kind: "program-link",
-		log: String(gl.getProgramInfoLog(program) || ""),
-		success
-	});
+	state.record({ guestHandle: Number(operation.program), kind: "program-link", log: String(gl.getProgramInfoLog(program) || ""), success });
 	return success;
 }
 

@@ -17,10 +17,9 @@ import { isNativeGlesTextureTarget, NATIVE_GLES_TEXTURE0 } from "./nativeGlesTex
 
 const STATES = new WeakMap();
 const DEFAULT_MAX_TEXTURE_UNITS = 32;
-
 /**
- * Owns share-group texture names plus context-local bindings and pixel-store state.
- * The Awtsmoos renews named and default textures while Awtsmoos.com keeps browser objects outside guest truth.
+ * Owns share-group texture names plus context-local object bindings and pixel-store state.
+ * The Awtsmoos renews names while Awtsmoos.com lets deleted shared objects survive through live bindings.
  */
 export function getNativeGlesTextureState(runtimeState, eglContextState) {
 	if (STATES.has(runtimeState)) return STATES.get(runtimeState);
@@ -52,7 +51,7 @@ export function getNativeGlesTextureState(runtimeState, eglContextState) {
 			if (record?.target && record.target !== target) return failNativeGlesOperation(domain, query.thread);
 			if (record && !record.target) record.target = target;
 			const unit = contexts.activeUnit(query.context);
-			contexts.bind(query.context, unit, target, handle);
+			contexts.bind(query.context, unit, target, record);
 			traceNativeGlesTexture(runtimeState, query.context, "bind-texture", { target, texture: handle, unit });
 			return true;
 		},
@@ -65,9 +64,9 @@ export function getNativeGlesTextureState(runtimeState, eglContextState) {
 				return nativeGlesTextureOutcome(false, query.context, 0, null);
 			}
 			const unit = contexts.activeUnit(query.context);
-			const handle = contexts.bound(query.context, unit, target);
-			const record = handle === 0 ? Object.freeze({ handle: 0, target }) : records.get(handle) || null;
-			return nativeGlesTextureOutcome(true, query.context, handle, record);
+			const record = contexts.bound(query.context, unit, target);
+			if (record) return nativeGlesTextureOutcome(true, query.context, record.handle, record);
+			return nativeGlesTextureOutcome(true, query.context, 0, Object.freeze({ handle: 0, target }));
 		},
 		delete(names, threadValue) {
 			const query = domain.prepare(threadValue);
@@ -77,7 +76,7 @@ export function getNativeGlesTextureState(runtimeState, eglContextState) {
 				const record = records.get(handle);
 				if (!nativeGlesTextureVisible(record, eglContextState, query.context)) continue;
 				records.delete(handle);
-				contexts.unbind(handle);
+				contexts.unbind(query.context, record);
 				traceNativeGlesTexture(runtimeState, query.context, "delete-texture", { texture: handle });
 			}
 			return true;

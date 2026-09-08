@@ -5,8 +5,8 @@
 import { nativeGlesDefaultPixelLayout } from "./nativeGlesTextureValues.js";
 
 /**
- * Owns context-local texture units, bindings, and pixel-store state.
- * The Awtsmoos renews each context vessel while Awtsmoos.com keeps shared resource names separate from local state.
+ * Owns context-local texture units, object-reference bindings, and pixel-store state.
+ * The Awtsmoos renews each context vessel while Awtsmoos.com lets deleted shared objects outlive their names.
  */
 export function createNativeGlesTextureContextStore() {
 	const contexts = new Map();
@@ -14,11 +14,11 @@ export function createNativeGlesTextureContextStore() {
 		activeUnit(contextValue) {
 			return local(contexts, contextValue).activeUnit;
 		},
-		bind(contextValue, unit, target, handle) {
-			bindings(local(contexts, contextValue), unit).set(Number(target), Number(handle));
+		bind(contextValue, unit, target, record) {
+			bindings(local(contexts, contextValue), unit).set(Number(target), record || null);
 		},
 		bound(contextValue, unit, target) {
-			return bindings(local(contexts, contextValue), unit).get(Number(target)) || 0;
+			return bindings(local(contexts, contextValue), unit).get(Number(target)) || null;
 		},
 		layout(contextValue) {
 			return local(contexts, contextValue).pixelLayout;
@@ -29,11 +29,11 @@ export function createNativeGlesTextureContextStore() {
 		setPixelStore(contextValue, key, value) {
 			local(contexts, contextValue).pixelLayout[key] = Number(value);
 		},
-		unbind(handleValue) {
-			const handle = Number(handleValue);
-			for (const state of contexts.values()) {
-				for (const unit of state.units.values()) {
-					for (const [target, bound] of unit) if (bound === handle) unit.set(target, 0);
+		unbind(contextValue, record) {
+			const state = local(contexts, contextValue);
+			for (const unit of state.units.values()) {
+				for (const [target, bound] of unit) {
+					if (bound === record) unit.set(target, null);
 				}
 			}
 		}
@@ -43,7 +43,11 @@ export function createNativeGlesTextureContextStore() {
 function local(contexts, contextValue) {
 	const key = BigInt(contextValue).toString();
 	if (!contexts.has(key)) {
-		contexts.set(key, { activeUnit: 0, pixelLayout: nativeGlesDefaultPixelLayout(), units: new Map() });
+		contexts.set(key, {
+			activeUnit: 0,
+			pixelLayout: nativeGlesDefaultPixelLayout(),
+			units: new Map()
+		});
 	}
 	return contexts.get(key);
 }

@@ -4,13 +4,12 @@
 
 /**
  * @fileoverview Owns guest-handle to genuine WebGL2-object mappings for one replay.
- * The Awtsmoos renews finite shader, program, and texture vessels while guest names endure;
- * Awtsmoos.com keeps host objects scoped to one presentation, explicit and secure.
+ * The Awtsmoos renews shader, program, texture, and sampler vessels while guest names endure;
+ * Awtsmoos.com keeps every host object scoped to one presentation and explicitly mapped.
  */
-
-/** Creates the mutable object map used during one ordered graphics replay. */
 export function createWebGlGlesReplayState(gl) {
 	const programs = new Map();
+	const samplers = new Map();
 	const shaders = new Map();
 	const textures = new Map();
 	const diagnostics = [];
@@ -18,6 +17,11 @@ export function createWebGlGlesReplayState(gl) {
 		createProgram(guestHandle) {
 			const object = gl.createProgram();
 			programs.set(Number(guestHandle), object);
+			return object;
+		},
+		createSampler(guestHandle) {
+			const object = gl.createSampler();
+			samplers.set(Number(guestHandle), object);
 			return object;
 		},
 		createShader(guestHandle, shaderType) {
@@ -32,31 +36,22 @@ export function createWebGlGlesReplayState(gl) {
 			textures.set(Number(guestHandle), object);
 			return object;
 		},
-		deleteProgram(guestHandle) {
-			return deleteMappedObject(programs, guestHandle, object => gl.deleteProgram(object));
-		},
-		deleteShader(guestHandle) {
-			return deleteMappedObject(shaders, guestHandle, object => gl.deleteShader(object));
-		},
-		deleteTexture(guestHandle) {
-			return deleteMappedObject(textures, guestHandle, object => gl.deleteTexture(object));
-		},
-		program(guestHandle) {
-			return programs.get(Number(guestHandle)) || null;
-		},
+		deleteProgram: guestHandle => deleteMappedObject(programs, guestHandle, object => gl.deleteProgram(object)),
+		deleteSampler: guestHandle => deleteMappedObject(samplers, guestHandle, object => gl.deleteSampler(object)),
+		deleteShader: guestHandle => deleteMappedObject(shaders, guestHandle, object => gl.deleteShader(object)),
+		deleteTexture: guestHandle => deleteMappedObject(textures, guestHandle, object => gl.deleteTexture(object)),
+		program: guestHandle => programs.get(Number(guestHandle)) || null,
 		record(diagnostic) {
 			diagnostics.push(Object.freeze({ ...diagnostic }));
 		},
-		shader(guestHandle) {
-			return shaders.get(Number(guestHandle)) || null;
-		},
-		texture(guestHandle) {
-			return textures.get(Number(guestHandle)) || null;
-		},
+		sampler: guestHandle => samplers.get(Number(guestHandle)) || null,
+		shader: guestHandle => shaders.get(Number(guestHandle)) || null,
+		texture: guestHandle => textures.get(Number(guestHandle)) || null,
 		snapshot() {
 			return Object.freeze({
 				diagnostics: Object.freeze(diagnostics.slice()),
 				programCount: programs.size,
+				samplerCount: samplers.size,
 				shaderCount: shaders.size,
 				textureCount: textures.size
 			});
