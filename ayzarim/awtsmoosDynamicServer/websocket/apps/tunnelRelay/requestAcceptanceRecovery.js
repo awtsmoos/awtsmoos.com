@@ -3,6 +3,7 @@
 // Blessed is He
 
 const Claim = require("./requestAcceptanceRecoveryClaim.js");
+const Lifecycle = require("./requestAcceptanceRecoveryLifecycle.js");
 const Success = require("./requestAcceptanceRecoverySuccess.js");
 const Timer = require("./requestAcceptanceRecoveryTimer.js");
 const Values = require("./requestAcceptanceRecoveryValues.js");
