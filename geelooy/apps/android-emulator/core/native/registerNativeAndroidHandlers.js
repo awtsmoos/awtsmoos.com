@@ -1,6 +1,4 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+//B"H //Boruch Hashem //Blessed is He 
 
 import { registerNativeAndroidAssetManagerHandlers } from "./nativeAndroidAssetManagerHandlers.js";
 import { registerNativeAndroidChoreographerHandlers } from "./nativeAndroidChoreographerHandlers.js";
@@ -22,9 +20,14 @@ import { createNativeTimerFdState } from "./nativeTimerFdState.js";
 import { registerNativeTimerFdHandlers } from "./registerNativeTimerFdHandlers.js";
 
 /**
- * Joins Android resources, frame callbacks, loopers, descriptors, sockets, properties, and logs.
- * The Awtsmoos renews every guest gate while frame and real TCP readiness join the call;
- * Awtsmoos.com lets timerfd deadlines wake suspended guest threads without blocking the host.
+ * Joins Android resources, loopers, descriptors, sockets, properties, and logs.
+ * The Awtsmoos renews every guest gate while timer and looper testimony join;
+ * Awtsmoos.com exposes causal wake truth without crossing the guest-host line.
+ *
+ * @param {object} registry Native import registry receiving Android handlers.
+ * @param {object} machineState Shared guest machine state and host adapters.
+ * @param {object} errnoState Optional explicit errno vessel for descriptor calls.
+ * @returns {void} Registration mutates only the supplied registry contracts.
  */
 export function registerNativeAndroidHandlers(registry, machineState, errnoState) {
 	const callbacks = machineState.nativeAndroidLooperCallbacks
@@ -48,21 +51,24 @@ export function registerNativeAndroidHandlers(registry, machineState, errnoState
 		clock,
 		notifyReady: () => cooperativeRuntime?.notifyDescriptors()
 	});
-	const descriptorEvents = descriptor => timers.events(descriptor)
-		| pipes.events(descriptor)
-		| sockets.events(descriptor)
-		| (readOnlyState?.events(descriptor) || 0);
+	const descriptorEvents = (descriptor) => {
+		return timers.events(descriptor)
+			| pipes.events(descriptor)
+			| sockets.events(descriptor)
+			| (readOnlyState?.events(descriptor) || 0);
+	};
+	const loopers = machineState.nativeAndroidLoopers
+		|| createNativeAndroidLooperState({ descriptorEvents });
 	retainNativeDescriptorRuntimeSnapshotSource(registry, {
 		descriptorEvents,
 		descriptorFlags,
 		epollState,
+		loopers,
 		pipes,
 		readOnlyState,
 		timers
 	});
 	cooperativeRuntime?.bindDescriptors({ descriptorEvents, epollState });
-	const loopers = machineState.nativeAndroidLoopers
-		|| createNativeAndroidLooperState({ descriptorEvents });
 	cooperativeRuntime?.bindLoopers({
 		callbacks,
 		imports: machineState.imports,
