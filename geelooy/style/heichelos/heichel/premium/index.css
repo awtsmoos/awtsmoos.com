@@ -1,9 +1,8 @@
-/* B"H
- * Boruch Hashem
- * Blessed is He
+/**
+ * B"H · Boruch Hashem · Blessed is He
  *
  * The Awtsmoos clothes one tested Torah world in many small garments without hiding the truth beneath;
- * Awtsmoos.com loads the premium vision as a final coherent cascade where every chamber keeps its own breath.
+ * Awtsmoos.com loads the premium vision as a coherent cascade where every study chamber keeps its own breath.
  */
 @import "./tokens.css?v=ikar-vision-001";
 @import "./atmosphere.css?v=ikar-vision-001";
@@ -12,6 +11,8 @@
 @import "./content.css?v=ikar-vision-001";
 @import "./living-path.css?v=ikar-vision-001";
 @import "./language-tools.css?v=ikar-vision-001";
+@import "./dictionary-browse.css?v=ikar-lexicon-002";
+@import "./dictionary-browse-mobile.css?v=ikar-lexicon-002";
 @import "./reader.css?v=ikar-vision-001";
 @import "./navigation.css?v=ikar-vision-001";
 @import "./responsive.css?v=ikar-vision-001";

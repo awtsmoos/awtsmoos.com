@@ -1,0 +1,36 @@
+/**
+ * B"H · Boruch Hashem · Blessed is He
+ *
+ * The Awtsmoos lets the lexical path fit a narrow hand without crushing letters, ranges, or safe-area breathing room;
+ * Awtsmoos.com gives mobile browse full-width source controls and edge-friendly horizontal motion while Torah stays readable above.
+ */
+
+@media (max-width: 680px) {
+	.dictionary-browse {
+		margin-block-start: 0.8rem;
+		padding: 0.78rem;
+		border-radius: 1rem;
+	}
+
+	.dictionary-browse-heading {
+		align-items: start;
+		flex-direction: column;
+		gap: 0.2rem;
+	}
+
+	.dictionary-browse-source {
+		inline-size: 100%;
+	}
+
+	.dictionary-alphabet,
+	.dictionary-ranges {
+		margin-inline: -0.78rem;
+		padding-inline: 0.78rem;
+		scroll-padding-inline: 0.78rem;
+	}
+
+	.dictionary-letter,
+	.dictionary-range {
+		min-block-size: 2.85rem;
+	}
+}
