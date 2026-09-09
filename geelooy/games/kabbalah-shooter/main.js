@@ -1,6 +1,6 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 import { KabbalahResultReporter } from './js/runtime/result-reporter.js';
 import { KabbalahSession } from './js/runtime/KabbalahSession.js';
@@ -8,14 +8,14 @@ import { KabbalahRuntimeView } from './js/runtime/view.js';
 
 /**
  * @file main.js
- * @description Composes restartable Kabbalah Shooter sessions, result reporting, and lifecycle UI without owning simulation rules.
- * The Awtsmoos renews every run and visible state; Awtsmoos.com keeps boot readiness, pause, background suspension, retry, and Party reporting explicit.
+ * @description Composes one restartable Kabbalah Shooter session around explicit boot, lifecycle, result, and failure boundaries.
+ * The Awtsmoos renews every run and visible state; Awtsmoos.com keeps renderer capability failure from escaping as an uncaught page crash.
  *
- * Architectural intent:
- * - One session owns one disposable generation of Game/render/input systems.
- * - One reporter persists across retries so a run identity can never be double-reported.
- * - The view owns DOM state; simulation modules never manipulate overlays.
- * - Markup remains inert until this module explicitly marks boot ready.
+ * Architectural invariants:
+ * - Session construction is the only boundary allowed to encounter renderer capability failure.
+ * - A failed boot leaves controls inert and exposes one player-facing recovery message.
+ * - Retry always disposes the old generation before constructing another.
+ * - Simulation rules remain inside the Game/session modules rather than DOM event handlers.
  */
 
 const dom = Object.freeze({
@@ -28,12 +28,26 @@ const dom = Object.freeze({
 	shieldButton: document.getElementById('shield-action'),
 	timeButton: document.getElementById('time-action')
 });
-
 const reporter = new KabbalahResultReporter(globalThis);
 const view = new KabbalahRuntimeView(document);
-let session = createSession();
-view.showStart();
-requestAnimationFrame(loop);
+let session = bootSession();
+
+/**
+ * Construct the first generation behind a capability boundary so unsupported WebGL remains a recoverable UI state.
+ * @returns {KabbalahSession|null} Live session or null when the rendering platform cannot initialize.
+ */
+function bootSession() {
+	try {
+		const nextSession = createSession();
+		view.showStart();
+		view.markReady();
+		return nextSession;
+	} catch (error) {
+		console.error('[Kabbalah Shooter] startup failed', error);
+		view.showBootFailure(error);
+		return null;
+	}
+}
 
 /** Construct one isolated run generation and inject shared reporting plus terminal presentation. */
 function createSession() {
@@ -45,17 +59,16 @@ function createSession() {
 		onFinish: showResult
 	});
 }
-
 /** Start only through the Game-owned run-state contract, then reveal gameplay controls. */
 function startRun() {
-	if (!session.start()) return false;
+	if (!session || !session.start()) return false;
 	view.showPlaying();
 	return true;
 }
 
 /** Toggle pause only for an active unfinished run and let the view mirror the accepted state. */
 function togglePause(forcePaused = null) {
-	if (!session.game.isPlaying || session.finished) return false;
+	if (!session?.game.isPlaying || session.finished) return false;
 	const paused = forcePaused === null ? !session.game.isPaused : Boolean(forcePaused);
 	if (!session.setPaused(paused)) return false;
 	view.setPaused(paused);
@@ -64,29 +77,32 @@ function togglePause(forcePaused = null) {
 
 /** Dispose the terminal generation before constructing and starting a clean retry. */
 function retryRun() {
-	session.dispose();
-	session = createSession();
-	startRun();
+	session?.dispose();
+	session = bootSession();
+	if (session) startRun();
 }
 
 /** Reveal the Game-owned terminal summary after the shared reporter has already received it. */
 function showResult() {
+	if (!session) return;
 	view.showGameOver(session.game);
-	dom.retryButton.focus();
+	dom.retryButton?.focus();
 }
 
+/** Advance only when a render-capable session exists; the outer clock remains lightweight after boot failure. */
 function loop(timestamp) {
-	session.frame(timestamp);
+	session?.frame(timestamp);
 	requestAnimationFrame(loop);
 }
 
-dom.startButton.addEventListener('click', startRun);
-dom.pauseButton.addEventListener('click', () => togglePause());
-dom.resumeButton.addEventListener('click', () => togglePause(false));
-dom.retryButton.addEventListener('click', retryRun);
-window.addEventListener('resize', () => session.resize(), { passive: true });
+requestAnimationFrame(loop);
+dom.startButton?.addEventListener('click', startRun);
+dom.pauseButton?.addEventListener('click', () => togglePause());
+dom.resumeButton?.addEventListener('click', () => togglePause(false));
+dom.retryButton?.addEventListener('click', retryRun);
+window.addEventListener('resize', () => session?.resize(), { passive: true });
 document.addEventListener('visibilitychange', () => {
-	if (document.hidden && session.game.isPlaying && !session.finished) togglePause(true);
+	if (document.hidden && session?.game.isPlaying && !session.finished) togglePause(true);
 });
 window.addEventListener('keydown', event => {
 	if (!['Escape', 'KeyP'].includes(event.code) || event.repeat) return;
@@ -94,5 +110,3 @@ window.addEventListener('keydown', event => {
 	event.preventDefault();
 	togglePause();
 });
-
-view.markReady();
