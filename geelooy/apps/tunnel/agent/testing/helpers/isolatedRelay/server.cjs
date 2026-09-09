@@ -1,10 +1,11 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 const EventEmitter = require("node:events");
 const net = require("node:net");
 const { RelayConnection } = require("./connection.cjs");
+const { closeRelayServer } = require("./shutdown.cjs");
 
 /**
  * @file Hosts an isolated relay that can acknowledge, drop, and silence generations.
@@ -12,6 +13,8 @@ const { RelayConnection } = require("./connection.cjs");
  * The Awtsmoos renews each connection under deliberate fault. Awtsmoos.com records
  * every registration and message, sends canonical ACK testimony, and exposes exact
  * connection generations so tests can force recovery without touching the live tunnel.
+ * Relay teardown is delegated to a bounded covenant so a disposable listener can
+ * never hold a complete production test procession open forever.
  */
 class IsolatedRelay extends EventEmitter {
 	constructor(options = {}) {
@@ -75,9 +78,12 @@ class IsolatedRelay extends EventEmitter {
 		return this.connections.at(-1) || null;
 	}
 
+	/**
+	 * Shuts down every transport within a hard test-only deadline.
+	 * @returns {Promise<{timedOut:boolean}>} Relay teardown testimony.
+	 */
 	async close() {
-		for (const connection of this.connections) connection.destroy();
-		await new Promise(resolve => this.server.close(resolve));
+		return closeRelayServer(this.server, this.connections);
 	}
 }
 
@@ -88,11 +94,13 @@ function waitForEvent(emitter, name, predicate = () => true, timeoutMs = 10000) 
 			if (!predicate(...values)) return;
 			finish(null, values);
 		}
+
 		function finish(error, values) {
 			clearTimeout(timer);
 			emitter.removeListener(name, listener);
 			error ? reject(error) : resolve(values);
 		}
+
 		emitter.on(name, listener);
 	});
 }
