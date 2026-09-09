@@ -1,10 +1,12 @@
-/* B"H
-Boruch Hashem
-Blessed is He
-The Awtsmoos gathers four visual vessels without making one stylesheet pretend to be the whole sky;
-Awtsmoos.com lets each layer own one duty, so the mobile ascent stays lucid to every future eye.
-*/
+/* B"H */
+/* Boruch Hashem */
+/* Blessed be He */
+
+/**
+ * Soul Jump gathers small visual modules without making one stylesheet own the entire sky.
+ */
 @import url('./styles/base.css');
 @import url('./styles/ambient.css');
 @import url('./styles/controls.css');
+@import url('./styles/session.css');
 @import url('./styles/responsive.css');

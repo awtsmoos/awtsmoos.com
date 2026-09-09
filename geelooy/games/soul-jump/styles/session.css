@@ -1,0 +1,106 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed be He */
+
+/**
+ * Soul Jump session chrome stays visually secondary to the canvas while keeping pause,
+ * retry, and navigation reachable by touch, keyboard, and assistive technology.
+ */
+.soul-session-button {
+	position: fixed;
+	top: max(12px, env(safe-area-inset-top));
+	left: max(12px, env(safe-area-inset-left));
+	z-index: 6;
+	min-width: 88px;
+	min-height: 48px;
+	padding: 10px 16px;
+	border: 1px solid rgba(142, 233, 255, 0.48);
+	border-radius: 999px;
+	background: rgba(4, 15, 31, 0.9);
+	color: #eefbff;
+	font: 800 14px/1 system-ui, sans-serif;
+}
+
+.soul-result {
+	position: fixed;
+	z-index: 7;
+	inset: 50% auto auto 50%;
+	width: min(92vw, 390px);
+	padding: 24px;
+	transform: translate(-50%, -50%);
+	border: 1px solid rgba(142, 233, 255, 0.42);
+	border-radius: 24px;
+	background: rgba(3, 12, 26, 0.96);
+	box-shadow: 0 30px 90px rgba(0, 0, 0, 0.56);
+	color: #f4fcff;
+	text-align: center;
+}
+
+.soul-result__eyebrow {
+	margin: 0 0 6px;
+	color: #8ee9ff;
+	font-size: 12px;
+	font-weight: 900;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+}
+
+.soul-result h1 {
+	margin: 0;
+	font-size: clamp(24px, 7vw, 34px);
+}
+
+.soul-result__score {
+	margin: 12px 0 20px;
+	color: #d7f7ff;
+	font-weight: 750;
+}
+
+.soul-result__actions {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 10px;
+}
+
+.soul-result button,
+.soul-result a {
+	display: grid;
+	place-items: center;
+	min-height: 50px;
+	padding: 10px 14px;
+	border: 1px solid rgba(142, 233, 255, 0.5);
+	border-radius: 14px;
+	background: #0e4f68;
+	color: #fff;
+	font-weight: 850;
+	text-decoration: none;
+}
+
+.soul-result a {
+	background: #101b2c;
+}
+
+.soul-session-button:focus-visible,
+.soul-result button:focus-visible,
+.soul-result a:focus-visible {
+	outline: 3px solid #fff3a6;
+	outline-offset: 3px;
+}
+
+@media (max-height: 520px) and (orientation: landscape) {
+	.soul-result {
+		width: min(72vw, 520px);
+		padding: 16px 20px;
+	}
+
+	.soul-result__score {
+		margin-bottom: 12px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.soul-result,
+	.soul-session-button {
+		scroll-behavior: auto;
+	}
+}
