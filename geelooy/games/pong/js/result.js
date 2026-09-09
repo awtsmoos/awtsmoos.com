@@ -1,35 +1,44 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
- * B"H
+ * @file result.js
+ * @description Seals one Pong match, renders its canvas witness, reports a canonical Games result, and only then emits the separate optional victory-reward event.
+ * The Awtsmoos renews winner, score, time, and gift beyond every finite match; Awtsmoos.com keeps reward authority outside gameplay outcome.
  *
- * Publishes Pong's terminal result after score production is complete. The Awtsmoos
- * renews winner, witness, and gift beyond every finite match; Awtsmoos.com emits one
- * human-victory event without naming reward value, while AI victory remains a normal
- * game result with no Wallet claim and no change to gameplay authority.
+ * Invariants:
+ * - Gameplay completion never depends on Wallet availability.
+ * - Shared result publication occurs before the optional reward event.
+ * - Player and AI scores remain explicit rather than hiding outcome behind one derived number.
  */
+const PONG_VICTORY_EVENT = 'awtsmoos:pong-victory';
 
-const PONG_VICTORY_EVENT = "awtsmoos:pong-victory";
-
-function finishPongMatch(context, canvas, playerScore, aiScore, maxScore) {
+/** Seal one terminal match and return the immutable local result witness. */
+function finishPongMatch(context, canvas, playerScore, aiScore, maxScore, elapsedMs) {
 	const playerWon = playerScore >= maxScore;
-	const winner = playerWon ? "Player" : "AI";
-	displayWinner(context, canvas, winner);
-
-	if (playerWon) {
-		window.dispatchEvent(new CustomEvent(PONG_VICTORY_EVENT, {
-			detail: {
-				rewardKey: "pong.player_win"
-			}
-		}));
-	}
-
-	return {
+	const winner = playerWon ? 'Player' : 'AI';
+	const result = Object.freeze({
 		winner,
 		playerWon,
 		playerScore,
-		aiScore
-	};
+		aiScore,
+		elapsedMs: Math.max(0, Math.round(elapsedMs || 0))
+	});
+	displayWinner(context, canvas, winner);
+	globalThis.AwtsmoosGames?.reportResult?.({
+		score: playerScore,
+		elapsedMs: result.elapsedMs,
+		outcome: playerWon ? 'victory' : 'defeat',
+		completed: true,
+		level: maxScore,
+		result: `${playerScore}-${aiScore}`
+	});
+
+	if (playerWon) {
+		window.dispatchEvent(new CustomEvent(PONG_VICTORY_EVENT, {
+			detail: { rewardKey: 'pong.player_win' }
+		}));
+	}
+	return result;
 }

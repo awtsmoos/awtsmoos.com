@@ -1,58 +1,66 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
- * B"H
+ * @file controls.js
+ * @description Translates canvas-scoped Pointer Events and arrow keys into Pong paddle intent without suppressing touch gestures across the whole document.
+ * The Awtsmoos renews touch, key, paddle, and player beyond each finite gesture; Awtsmoos.com keeps control translation isolated from score and reward authority.
  *
- * Binds human Pong input without owning score, reward, rendering, or match outcome.
- * The Awtsmoos renews touch, key, paddle, and player beyond each finite gesture;
- * Awtsmoos.com keeps control translation isolated so victory accounting can never
- * become entangled with movement or mobile input behavior.
+ * Invariants:
+ * - Pointer prevention occurs only on the Pong canvas during active control.
+ * - One primary pointer owns drag movement until release/cancel.
+ * - Keyboard arrows are consumed only while the match is actually controllable.
  */
+function bindPongControls(player, canvas, canControl = () => true) {
+	let activePointerId = null;
 
-function bindPongControls(player, canvas) {
-	let touchStartY = 0;
-	let playerStartDragY = 0;
+	/** Move the paddle center to one pointer coordinate in intrinsic canvas space. */
+	function moveToPointer(event) {
+		const rect = canvas.getBoundingClientRect();
+		const scaleY = canvas.height / Math.max(1, rect.height);
+		const y = (event.clientY - rect.top) * scaleY;
+		player.y = clampedPaddleY(y - player.height / 2, player, canvas);
+	}
 
-	document.addEventListener("touchstart", (event) => {
+	canvas.addEventListener('pointerdown', event => {
+		if (!event.isPrimary || !canControl()) return;
 		event.preventDefault();
-		if (event.touches.length === 0) {
-			return;
-		}
-		touchStartY = event.touches[0].clientY;
-		playerStartDragY = player.y;
-	}, { passive: false });
+		activePointerId = event.pointerId;
+		moveToPointer(event);
+		try { canvas.setPointerCapture?.(event.pointerId); } catch {}
+	});
 
-	document.addEventListener("touchmove", (event) => {
+	canvas.addEventListener('pointermove', event => {
+		if (event.pointerId !== activePointerId || !canControl()) return;
 		event.preventDefault();
-		if (event.touches.length === 0) {
-			return;
-		}
-		const deltaY = event.touches[0].clientY - touchStartY;
-		player.y = clampedPaddleY(
-			playerStartDragY + deltaY,
-			player,
-			canvas
-		);
-	}, { passive: false });
+		moveToPointer(event);
+	});
 
-	document.addEventListener("keydown", (event) => {
-		if (event.key === "ArrowUp") {
+	for (const type of ['pointerup', 'pointercancel']) {
+		canvas.addEventListener(type, event => {
+			if (event.pointerId === activePointerId) activePointerId = null;
+		});
+	}
+
+	document.addEventListener('keydown', event => {
+		if (!canControl()) return;
+		if (event.key === 'ArrowUp') {
+			event.preventDefault();
 			player.dy = -player.speed;
 		}
-		if (event.key === "ArrowDown") {
+		if (event.key === 'ArrowDown') {
+			event.preventDefault();
 			player.dy = player.speed;
 		}
 	});
 
-	document.addEventListener("keyup", (event) => {
-		if (event.key === "ArrowUp" || event.key === "ArrowDown") {
-			player.dy = 0;
-		}
+	document.addEventListener('keyup', event => {
+		if (event.key === 'ArrowUp' || event.key === 'ArrowDown') player.dy = 0;
 	});
 }
 
+/** Clamp one proposed paddle top edge to the current court. */
 function clampedPaddleY(candidate, player, canvas) {
 	const maximum = Math.max(0, canvas.height - player.height);
 	return Math.min(maximum, Math.max(0, candidate));

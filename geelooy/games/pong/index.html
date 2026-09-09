@@ -1,22 +1,38 @@
-<!-- B"H
-Boruch Hashem
-Blessed is He
-The Awtsmoos renews player, ball, victory, and gift beyond every finite rally.
-Awtsmoos.com keeps Pong itself simple while an optional module may record one tiny
-promotional victory reward after the human result is already complete.
--->
+<!-- B"H -->
+<!-- Boruch Hashem -->
+<!-- Blessed be He -->
+<!-- Pong stays intentionally tiny: deliberate Play, one court, one pause control, one result, one rematch. -->
 <!doctype html>
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 	<meta name="theme-color" content="#000000">
+	<meta name="description" content="A fast local Pong match against the AI with touch, keyboard, pause, rematch, and Party result support.">
 	<title>Pong · Awtsmoos Games</title>
-	<link rel="stylesheet" href="./style.css?v=pong-reward-001&compact=true">
-	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=player-shell-002&compact=true">
+	<link rel="stylesheet" href="./style.css?v=pong-production-002&compact=true">
+	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=player-shell-003&compact=true">
 </head>
 <body>
-	<canvas id="pongCanvas" aria-label="Pong game canvas"></canvas>
+	<main class="pong-stage" aria-label="Pong match">
+		<canvas id="pongCanvas" tabindex="0" aria-label="Pong court. Drag on the court or use Up and Down arrow keys."></canvas>
+		<button id="pongPauseButton" class="pong-pause" type="button" aria-pressed="false" hidden>Pause</button>
+
+		<section id="pongReady" class="pong-panel" aria-labelledby="pongTitle">
+			<p class="pong-kicker">B"H · Quick Play</p>
+			<h1 id="pongTitle">Pong</h1>
+			<p>Drag the left paddle or use ↑ ↓. First to 10 wins.</p>
+			<button id="pongStartButton" type="button">Play vs AI</button>
+		</section>
+
+		<section id="pongResult" class="pong-panel" aria-labelledby="pongResultTitle" hidden>
+			<h2 id="pongResultTitle">Match complete</h2>
+			<p id="pongResultScore" aria-live="polite">0–0</p>
+			<button id="pongRematchButton" type="button">Rematch</button>
+			<a href="/games/">All Games</a>
+		</section>
+	</main>
+
 	<script src="./js/particles.js"></script>
 	<script src="./js/ball.js"></script>
 	<script src="./js/paddle.js"></script>
@@ -24,9 +40,12 @@ promotional victory reward after the human result is already complete.
 	<script src="./js/controls.js"></script>
 	<script src="./js/match-update.js"></script>
 	<script src="./js/result.js"></script>
+	<script src="./js/court.js"></script>
+	<script src="./js/lifecycle.js"></script>
+	<script src="./js/session-ui.js"></script>
 	<script src="./js/main.js"></script>
 	<script type="module" src="/games/scripts/runtime/index.js?compact=true&v=runtime-001"></script>
 	<script type="module" src="./js/wallet-reward.js?compact=true"></script>
-	<script type="module" async src="/games/scripts/player-shell/index.js?v=player-shell-001&compact=true"></script>
+	<script type="module" async src="/games/scripts/player-shell/index.js?v=player-shell-003&compact=true"></script>
 </body>
 </html>
