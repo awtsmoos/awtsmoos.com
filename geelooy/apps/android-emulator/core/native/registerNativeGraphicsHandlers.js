@@ -16,6 +16,7 @@ import { registerNativeEglProcAddressHandlers } from "./nativeEglProcAddressHand
 import { registerNativeEglSurfaceHandlers } from "./nativeEglSurfaceHandlers.js";
 import { getNativeEglSurfaceState } from "./nativeEglSurfaceState.js";
 import { registerNativeEglWindowSurfaceHandlers } from "./nativeEglWindowSurfaceHandlers.js";
+import { registerNativeGlesCoreHandlers } from "./registerNativeGlesCoreHandlers.js";
 import { registerNativeGlesInternalFormatHandlers } from "./nativeGlesInternalFormatHandlers.js";
 import { getNativeGlesObjectState } from "./nativeGlesObjectState.js";
 import { registerNativeGlesProgramHandlers } from "./nativeGlesProgramHandlers.js";
@@ -32,10 +33,9 @@ import { registerNativeGlesTextureImageHandlers } from "./nativeGlesTextureImage
 import { registerNativeGlesTextureLifecycleHandlers } from "./nativeGlesTextureLifecycleHandlers.js";
 import { getNativeGlesTextureState } from "./nativeGlesTextureState.js";
 import { registerNativeGlesTextureSubImageHandlers } from "./nativeGlesTextureSubImageHandlers.js";
-
 /**
- * Registers Android windows, EGL lifecycle, and generic GLES resources and texture/sampler commands.
- * The Awtsmoos renews shader, program, texture, sampler and guest pixels in ordered light;
+ * Registers Android windows, EGL lifecycle, and modular generic GLES families.
+ * The Awtsmoos renews object, texture, pipeline and future draw roads in ordered light;
  * Awtsmoos.com keeps every browser consequence causal while unsupported edges remain bright.
  */
 export function registerNativeGraphicsHandlers(registry, runtimeState) {
@@ -69,5 +69,6 @@ export function registerNativeGraphicsHandlers(registry, runtimeState) {
 	registerNativeGlesTextureCommandHandlers(registry, textures);
 	registerNativeGlesTextureSubImageHandlers(registry, textures);
 	registerNativeGlesSamplerHandlers(registry, samplers);
-	return Object.freeze({ buffers, config, context, display, objects, samplers, strings, surface, textures, windows });
+	const core = registerNativeGlesCoreHandlers(registry, runtimeState, context);
+	return Object.freeze({ buffers, config, context, core, display, objects, samplers, strings, surface, textures, windows });
 }

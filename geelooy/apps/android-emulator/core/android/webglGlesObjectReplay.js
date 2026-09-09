@@ -2,22 +2,22 @@
 //Boruch Hashem
 //Blessed is He
 
+import { replayWebGlGlesCore } from "./webglGlesCoreReplay.js";
 import { createWebGlGlesReplayState } from "./webglGlesReplayState.js";
 import { replayWebGlGlesSampler } from "./webglGlesSamplerReplay.js";
 import { replayWebGlGlesTextureCommand } from "./webglGlesTextureCommandReplay.js";
 import { replayWebGlGlesTextureImage } from "./webglGlesTextureImageReplay.js";
 import { replayWebGlGlesTextureLifecycle } from "./webglGlesTextureReplay.js";
-
 /**
- * @fileoverview Replays guest GLES objects, texture commands, and images on genuine WebGL2.
- * The Awtsmoos renews shader, program, texture, sampler, and pixel causality without invented success;
+ * @fileoverview Replays guest GLES core, objects, textures and images on genuine WebGL2.
+ * The Awtsmoos renews pipeline, shader, texture, sampler and pixel causality without invented success;
  * Awtsmoos.com records the browser's own verdict so authentic guest graphics may progress.
  */
 export function createWebGlGlesObjectReplay(gl) {
 	const state = createWebGlGlesReplayState(gl);
 	return Object.freeze({
 		replay(operation) {
-			for (const route of [replayWebGlGlesSampler, replayWebGlGlesTextureCommand, replayWebGlGlesTextureImage, replayWebGlGlesTextureLifecycle]) {
+			for (const route of [replayWebGlGlesCore, replayWebGlGlesSampler, replayWebGlGlesTextureCommand, replayWebGlGlesTextureImage, replayWebGlGlesTextureLifecycle]) {
 				const result = route(gl, state, operation);
 				if (result.handled) return result;
 			}
@@ -26,7 +26,6 @@ export function createWebGlGlesObjectReplay(gl) {
 		snapshot: state.snapshot
 	});
 }
-
 function replayShaderProgramOperation(gl, state, operation) {
 	const handlers = {
 		"attach-shader": () => programShader(gl, state, operation, "attachShader"),
@@ -45,14 +44,12 @@ function replayShaderProgramOperation(gl, state, operation) {
 	if (!handler) return Object.freeze({ applied: false, handled: false });
 	return Object.freeze({ applied: Boolean(handler()), handled: true });
 }
-
 function shaderSource(gl, state, operation) {
 	const shader = state.shader(operation.shader);
 	if (!shader) return false;
 	gl.shaderSource(shader, String(operation.source ?? ""));
 	return true;
 }
-
 function compileShader(gl, state, operation) {
 	const shader = state.shader(operation.shader);
 	if (!shader) return false;
@@ -61,7 +58,6 @@ function compileShader(gl, state, operation) {
 	state.record({ guestHandle: Number(operation.shader), kind: "shader-compile", log: String(gl.getShaderInfoLog(shader) || ""), success });
 	return success;
 }
-
 function programShader(gl, state, operation, method) {
 	const program = state.program(operation.program);
 	const shader = state.shader(operation.shader);
@@ -69,14 +65,12 @@ function programShader(gl, state, operation, method) {
 	gl[method](program, shader);
 	return true;
 }
-
 function bindAttrib(gl, state, operation) {
 	const program = state.program(operation.program);
 	if (!program) return false;
 	gl.bindAttribLocation(program, Number(operation.index), String(operation.name ?? ""));
 	return true;
 }
-
 function linkProgram(gl, state, operation) {
 	const program = state.program(operation.program);
 	if (!program) return false;
@@ -85,12 +79,8 @@ function linkProgram(gl, state, operation) {
 	state.record({ guestHandle: Number(operation.program), kind: "program-link", log: String(gl.getProgramInfoLog(program) || ""), success });
 	return success;
 }
-
 function useProgram(gl, state, operation) {
-	if (Number(operation.program) === 0) {
-		gl.useProgram(null);
-		return true;
-	}
+	if (Number(operation.program) === 0) { gl.useProgram(null); return true; }
 	const program = state.program(operation.program);
 	if (!program) return false;
 	gl.useProgram(program);
