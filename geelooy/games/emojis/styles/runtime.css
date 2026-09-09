@@ -1,0 +1,55 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed be He */
+
+/**
+ * Emoji War runtime chrome.
+ * Keeps lifecycle controls reachable without competing with Arcade play.
+ */
+.game-pause-button {
+	position: fixed;
+	inset-block-start: max(12px, env(safe-area-inset-top));
+	inset-inline-end: max(12px, env(safe-area-inset-right));
+	z-index: 45;
+	min-inline-size: 86px;
+	min-block-size: 46px;
+	padding: 10px 16px;
+	border: 1px solid rgba(255, 255, 255, 0.35);
+	border-radius: 999px;
+	background: rgba(7, 10, 18, 0.82);
+	color: #ffffff;
+	font: 700 0.95rem/1 system-ui, sans-serif;
+	backdrop-filter: blur(10px);
+	cursor: pointer;
+}
+
+.game-pause-button[hidden] {
+	display: none;
+}
+.game-pause-button:hover {
+	background: rgba(21, 30, 48, 0.94);
+}
+
+.game-pause-button:focus-visible {
+	outline: 3px solid #67e8f9;
+	outline-offset: 3px;
+}
+
+.game-pause-button[aria-pressed="true"] {
+	border-color: #67e8f9;
+	box-shadow: 0 0 0 2px rgba(103, 232, 249, 0.18);
+}
+
+@media (max-width: 520px) {
+	.game-pause-button {
+		min-inline-size: 78px;
+		min-block-size: 48px;
+		padding-inline: 14px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.game-pause-button {
+		transition: none;
+	}
+}
