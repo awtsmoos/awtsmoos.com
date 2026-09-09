@@ -64,3 +64,33 @@ test('append-only native text index survives reopen', async t => {
 	assert.equal(database.verify().ok, true);
 	await database.close();
 });
+
+/** Proves bounded query seeds from the rarest posting rather than corpus order. */
+test('bounded indexed query preserves rare matches under a tiny candidate cap', async t => {
+	const folder = fs.mkdtempSync(path.join(os.tmpdir(), 'awts-search-bounded-'));
+	const file = path.join(folder, 'bounded.awtsdb');
+	t.after(() => fs.rmSync(folder, { recursive: true, force: true }));
+	const database = new AwtsmoosDB(file, { wal: false, compression: false });
+	await database.open();
+	await database.createList(database.root, 'records');
+	database.search.enable(database.root.records);
+	database.search.appendOnlyBuild = true;
+	for (let index = 0; index < 100; index++) {
+		database.root.records.push({
+			id: `row-${index}`,
+			text: index === 99 ? 'common hidden-needle' : 'common ordinary'
+		});
+		if (index % 16 === 0) await database.waitForIdle();
+	}
+	await database.waitForIdle();
+	database.search.appendOnlyBuild = false;
+	const bounded = require('../api/search/strictQuery.js').bounded;
+	const result = bounded(database.search, database.root.records, 'common hidden needle', {
+		maxCandidates: 7,
+		resultLimit: 5
+	});
+	assert.deepEqual(result.rows.map(row => row.id), ['row-99']);
+	assert.equal(result.seedPostingCount, 1);
+	assert.equal(result.truncated, false);
+	await database.close();
+});

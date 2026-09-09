@@ -1,65 +1,32 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
- * @file api/search/strictQuery.js
- * @chapter Indexed Search Must Answer From Its Ledger Or Admit No Match
+ * @file strictQuery.js
+ * @module StrictIndexedSearchCompatibility
  * @description
- * Executes only against persisted token postings. Missing configuration throws;
- * missing tokens return an empty indexed result and never trigger a full scan.
+ * The Awtsmoos preserves the historical complete indexed-query API while the
+ * bounded engine beneath it also serves latency-sensitive callers. Awtsmoos.com
+ * never falls back to scanning source collections when persisted postings are
+ * missing or a token has no indexed witness.
  */
 
-const constants = require('../../constants.js');
-const tokenizer = require('./indexer/tokenizer.js');
-const Sequence = require('../../structure/sequence/index.js');
+const { runBoundedIndexed } = require('./boundedQuery.js');
 
+/**
+ * Preserves the legacy complete-result contract for existing database callers.
+ * @param {object} manager SearchManager attached to an open database.
+ * @param {object|string} handleOrPath Indexed collection or path.
+ * @param {string} query Human query text.
+ * @returns {Array} All indexed matches under the historical contract.
+ */
 function runIndexed(manager, handleOrPath, query) {
-	manager.db.waitForIdle();
-	const path = resolvePath(handleOrPath);
-	if (!manager.isIndexed(path)) throw searchError(`path is not indexed: ${path}`);
-	const tokens = [...tokenizer.tokenize(query)];
-	if (!tokens.length) return [];
-	const indexMap = manager.db.root.__sys_search__?.[path];
-	if (!indexMap) throw searchError(`persisted index map is missing: ${path}`);
-	let pointers = postings(manager, indexMap, tokens[0]);
-	if (pointers === null) return [];
-
-	for (let index = 1; index < tokens.length; index++) {
-		const next = postings(manager, indexMap, tokens[index]);
-		if (next === null) return [];
-		const identities = new Set(next.map(pointer => manager._getPhysId(pointer)));
-		pointers = pointers.filter(pointer => identities.has(manager._getPhysId(pointer)));
-		if (!pointers.length) return [];
-	}
-	return pointers.map(pointer => manager._resolveForIndex(pointer));
-}
-
-function postings(manager, indexMap, token) {
-	if (!manager.db.has(indexMap, token)) return null;
-	const list = indexMap[token];
-	const soul = list?.[constants.SYMBOLS.INTERNALS];
-	if (!soul) throw searchError(`posting list has no soul: ${token}`);
-	soul.ensureResolved();
-	const pointer = soul.nav.resolveStructPtr();
-	if (!pointer) throw searchError(`posting list has no structure: ${token}`);
-	const sequence = new Sequence(manager.db.allocator, pointer);
-	const output = [];
-	for (let index = 0; index < sequence.length(); index++) {
-		const item = sequence.getPtr(index);
-		if (item) output.push(item);
-	}
-	return output;
-}
-
-function resolvePath(handleOrPath) {
-	if (typeof handleOrPath === 'string') return handleOrPath;
-	const soul = handleOrPath?.[constants.SYMBOLS.INTERNALS] || handleOrPath;
-	return soul?.getPath?.() || '';
-}
-
-function searchError(message) {
-	const error = new Error(`B"H indexed search error: ${message}`);
-	error.code = 'AWTSMOOS_DB_SEARCH_INDEX_INVALID';
-	return error;
+	return runBoundedIndexed(manager, handleOrPath, query, {
+		maxCandidates: Infinity,
+		resultLimit: Infinity
+	}).rows;
 }
 
 module.exports = runIndexed;
+module.exports.bounded = runBoundedIndexed;

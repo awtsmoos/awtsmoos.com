@@ -3,28 +3,34 @@
 // Blessed is He
 
 /**
+ * @file textRelevance.js
  * @module TextRelevance
  * @description
- * The Awtsmoos gives a sefer its revealed name before scattered words may compete;
- * Awtsmoos.com lets exact titles blaze first, stable work aliases shine next,
- * while ordinary text still flows through the familiar lexical river beneath.
+ * The Awtsmoos ranks canonical Torah identity before scattered lexical sparks.
+ * Awtsmoos.com shares the native Unicode tokenizer's normalization law so
+ * pointed and unpointed Hebrew remain one searchable word without transliteration.
  */
 
+const {
+	normalizeSearchText,
+	tokenize
+} = require('../../../../../../ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/search/indexer/tokenizer.js');
 const { aliasesForRow } = require('./sourceWorkIdentity.js');
 
 const EXACT_TITLE_SCORE = 4;
 const EXACT_IDENTITY_SCORE = 3;
+const WORD_BOUNDARIES = /[^\p{L}\p{N}]+/gu;
 
+/** Canonicalizes display/search text with the exact native index normalization. */
 function normalize(value) {
-	return String(value ?? '')
-		.normalize('NFKC')
-		.toLocaleLowerCase()
-		.replace(/[^\p{L}\p{N}]+/gu, ' ')
+	return normalizeSearchText(value)
+		.replace(WORD_BOUNDARIES, ' ')
 		.trim();
 }
 
+/** Returns stable unique query tokens in native index form. */
 function tokens(query) {
-	return [...new Set(normalize(query).split(/\s+/).filter(Boolean))];
+	return [...tokenize(query)];
 }
 
 function directTitles(row = {}) {
@@ -55,6 +61,7 @@ function searchableText(row = {}) {
 	].filter(Boolean).join(' '));
 }
 
+/** Ranks exact identity first, then phrase and token evidence inside candidate rows. */
 function relevance(row, queryText, queryTokens) {
 	if (!queryText) return 0;
 	if (directTitles(row).includes(queryText)) return EXACT_TITLE_SCORE;
@@ -82,5 +89,6 @@ module.exports = {
 	normalize,
 	relevance,
 	searchableText,
-	tokens
+	tokens,
+	uniqueNormalized
 };
