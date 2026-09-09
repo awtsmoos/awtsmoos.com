@@ -3,33 +3,22 @@
 // Blessed is He
 
 /**
- * @module TextSearchFallback
+ * @file textSearch.js
+ * @module BoundedRagTextSearch
  * @description
- * The Awtsmoos lets a known sefer answer by identity before the broad mirror is read;
- * Awtsmoos.com keeps ordinary lexical search unchanged for every other thread.
+ * One logical Torah search receives one finite candidate, row, part, and time
+ * budget. Native AwtsmoosDB postings answer first; legacy mirrors exist only as
+ * migration fallback until each immutable corpus generation is republished.
  */
 
 const { publicHit } = require('./resultShape.js');
-const { searchSidecar } = require('./sidecarSearch.js');
 const { mergeTextParts } = require('./textSearchParts.js');
+const { runTextParts } = require('./textSearchRunner.js');
 const { exactWorkIdentityForQuery } = require('./sourceWorkIdentity.js');
 const { normalize, relevance, searchableText, tokens } = require('./textRelevance.js');
+const { selectTextParts, textSearchBudgets } = require('./textSearchBudget.js');
 
-async function textSearchShard(shard, query, limit = 10, options = {}) {
-	const available = (shard.parts || [shard]).filter(part => part.textFile);
-	if (!available.length) {
-		throw codedError('TEXT_MIRROR_UNAVAILABLE', `Shard ${shard.id} has no readable text mirror.`);
-	}
-	const identity = exactWorkIdentityForQuery(query);
-	if (identity) return exactIdentityResult(shard, identity);
-	const parts = selectTextParts(available, query, options.textPartLimit);
-	const queryText = normalize(query);
-	const queryTokens = tokens(query);
-	const searchLimit = Math.max(1, Number(limit) || 10);
-	const results = await runParts(parts, shard, queryText, queryTokens, searchLimit, options);
-	return mergeTextParts(results, searchLimit, shard);
-}
-
+/** Preserves canonical work identity as the cheapest and strongest exact result. */
 function exactIdentityResult(shard, identity) {
 	const hit = publicHit({
 		rank: 1,
@@ -52,45 +41,40 @@ function exactIdentityResult(shard, identity) {
 		truncated: false,
 		source: 'canonical-work-identity',
 		partsSearched: 0,
+		partsExpected: 0,
 		identityMatch: true
 	};
 }
 
-function runParts(parts, shard, queryText, queryTokens, limit, options) {
-	return Promise.all(parts.map(part => searchSidecar({
-		file: part.textFile,
+/**
+ * Searches one logical RAG shard through native indexed retrieval with bounded fallback.
+ * @param {object} shard Logical corpus description.
+ * @param {string} query User query.
+ * @param {number} limit Maximum public hits.
+ * @param {object} options Shared request-budget policy.
+ */
+async function textSearchShard(shard, query, limit = 10, options = {}) {
+	const available = (shard.parts || [shard])
+		.filter(part => part.file || part.textFile);
+	if (!available.length) {
+		throw codedError('TEXT_SEARCH_UNAVAILABLE', `Shard ${shard.id} has no searchable publication.`);
+	}
+	const identity = exactWorkIdentityForQuery(query);
+	if (identity) return exactIdentityResult(shard, identity);
+	const selected = selectTextParts(available, query, options.textPartLimit);
+	const budgets = textSearchBudgets(selected, options);
+	const queryText = normalize(query);
+	const queryTokens = tokens(query);
+	const searchLimit = Math.max(1, Number(limit) || 10);
+	const results = await runTextParts(selected, shard, {
 		queryText,
 		queryTokens,
-		relevance,
-		limit,
-		shard: { ...shard, ...part },
-		maxRows: options.textMaxRows,
-		maxMs: options.textMaxMs,
-		minRows: options.textMinRows
-	})));
-}
-
-function selectTextParts(parts, query, requestedLimit) {
-	const limit = boundedPartLimit(requestedLimit, parts.length);
-	if (limit >= parts.length) return [...parts];
-	const offset = queryHash(query) % parts.length;
-	const rotated = [...parts.slice(offset), ...parts.slice(0, offset)];
-	return Array.from({ length: limit }, (_, index) => rotated[Math.floor(index * rotated.length / limit)]);
-}
-
-function boundedPartLimit(value, maximum) {
-	const number = Number(value);
-	if (!Number.isFinite(number) || number <= 0) return maximum;
-	return Math.min(maximum, Math.max(1, Math.floor(number)));
-}
-
-function queryHash(value) {
-	let hash = 2166136261;
-	for (const character of normalize(value)) {
-		hash ^= character.charCodeAt(0);
-		hash = Math.imul(hash, 16777619);
+		limit: searchLimit
+	}, budgets, options);
+	if (!results.length) {
+		throw codedError('TEXT_SEARCH_UNAVAILABLE', `Shard ${shard.id} has no usable text index or migration mirror.`);
 	}
-	return hash >>> 0;
+	return mergeTextParts(results, searchLimit, shard, selected.length);
 }
 
 function codedError(code, message) {
