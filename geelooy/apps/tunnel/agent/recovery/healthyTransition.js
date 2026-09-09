@@ -2,13 +2,18 @@
 // Boruch Hashem
 // Blessed is He
 
+const RegistrationPolicy = require("./registrationFailurePolicy.js");
 const State = require("./stateStore.js");
 
 /**
- * @file Separates online service from fully recoverable identity health.
- * The Awtsmoos shines through a live vessel, yet Awtsmoos.com names fullness only
- * when a coherent standby covenant has also been sealed and read back.
+ * @file Separates online service from identity health while reconciling obsolete transport latches.
+ * @description
+ * The Awtsmoos shines through a living vessel without calling every old wound healed.
+ * Awtsmoos.com preserves genuine software/archive restore covenants, yet a healthy runtime
+ * may release a latch whose recorded reason is now proven to be transient DNS or transport weather.
  */
+
+/** Marks a fully healthy runtime after its standby identity witness has been captured. */
 function markHealthy(current, details = {}) {
 	const at = new Date().toISOString();
 	return State.append(clearTransient(current, details, at), {
@@ -19,6 +24,7 @@ function markHealthy(current, details = {}) {
 	});
 }
 
+/** Marks a process online without claiming identity resilience when standby capture failed. */
 function markIdentityDegraded(current, details = {}) {
 	const at = new Date().toISOString();
 	return State.append({
@@ -51,6 +57,7 @@ function markIdentityDegraded(current, details = {}) {
 	});
 }
 
+/** Clears transient counters while preserving only a still-valid restore covenant. */
 function clearTransient(current, details, at) {
 	return {
 		...current,
@@ -75,11 +82,15 @@ function clearTransient(current, details, at) {
 	};
 }
 
+/** Keeps software/crash restoration explicit, but releases obsolete transport-only latches. */
 function restoration(current) {
-	const restoreRequired = Boolean(current.restoreRequired);
+	const requested = current.restoreRequired === true;
+	const restoreReason = String(current.restoreReason || "");
+	const transient = requested &&
+		RegistrationPolicy.classify(restoreReason).kind === "transport";
 	return {
-		restoreRequired,
-		restoreReason: restoreRequired ? String(current.restoreReason || "") : ""
+		restoreRequired: requested && !transient,
+		restoreReason: requested && !transient ? restoreReason : ""
 	};
 }
 
@@ -95,4 +106,4 @@ function version(details) {
 	return String(details.version || "");
 }
 
-module.exports = { markHealthy, markIdentityDegraded };
+module.exports = { markHealthy, markIdentityDegraded, restoration };

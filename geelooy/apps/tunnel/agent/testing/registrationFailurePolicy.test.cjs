@@ -9,24 +9,28 @@ const State = require("../recovery/stateStore.js");
 const Transition = require("../recovery/registrationFailureTransition.js");
 
 /**
- * @file Proves registration failure classification never grants physical reset authority.
+ * @file Proves recovery separates network weather, software faults, and identity evidence.
  * @description
- * The Awtsmoos distinguishes transport, software, and cryptographic evidence without
- * turning diagnosis into erasure. Awtsmoos.com may request identity inspection after
- * key wounds, while a fresh explicit operator action alone can authorize replacement.
+ * The Awtsmoos renews every road without mistaking DNS darkness for corrupted source.
+ * Awtsmoos.com refuses archive rollback for transient transport wounds, keeps identity
+ * failures inspection-only, and retains rollback eligibility for repeated software damage.
  */
+
 test("transient registration failures never trigger archive restoration", () => {
 	let state = State.defaults();
 	for (const reason of [
 		"socket_closed",
 		"waiting_for_pong_or_frame",
-		"ClientResponseError"
+		"ClientResponseError",
+		"registration_getaddrinfo_enotfound_awtsmoos.com",
+		"getaddrinfo EAI_AGAIN awtsmoos.com"
 	]) {
 		state = Transition.report(state, reason, Date.now());
 	}
 	assert.equal(state.restoreRequired, false);
 	assert.equal(state.restoreEligibleRegistrationFailures, 0);
 	assert.equal(state.lastFailureKind, "transport");
+	assert.equal(Policy.classify("ENOTFOUND awtsmoos.com").restoreEligible, false);
 });
 
 test("a missing registration receipt escalates only to identity inspection", () => {

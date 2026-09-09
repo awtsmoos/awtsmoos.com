@@ -1,18 +1,21 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-
 const CrashPolicy = require("./crashPolicy.js");
+const RestoreLatch = require("./recoveryRestoreLatch.js");
 const State = require("./stateStore.js");
 const Tiers = require("./tierCatalog.js");
 
 /**
- * B"H — Pure transitions keep software restoration separate from capacity
- * reduction. No broken world repeats merely because its tier became smaller.
+ * @file Keeps recovery transitions pure while stale healing testimony can reconcile.
+ * @description
+ * The Awtsmoos remembers true corruption without worshipping yesterday's failure.
+ * Awtsmoos.com reconciles obsolete transport and quiet crash latches before startup,
+ * while current integrity failures and recent crash evidence remain restoration gates.
  */
 function beforeStart(current, health) {
 	let next = {
-		...current,
+		...RestoreLatch.reconcile(current, health),
 		lastStartAt: new Date().toISOString()
 	};
 	if (!health.ok) {
@@ -26,6 +29,7 @@ function beforeStart(current, health) {
 	});
 }
 
+/** Records a process exit and requests archive restoration only for bounded crash loops. */
 function afterExit(current, runtimeMs, exitCode) {
 	const rapidCrash = CrashPolicy.isRapidCrash(runtimeMs, exitCode);
 	let next = { ...current };
@@ -49,6 +53,7 @@ function afterExit(current, runtimeMs, exitCode) {
 	});
 }
 
+/** Applies an explicit reported failure without conflating capacity reduction and rollback. */
 function reportFailure(current, reason, restoreRequired) {
 	const next = restoreRequired
 		? requestRestore(current, reason)
@@ -61,18 +66,16 @@ function reportFailure(current, reason, restoreRequired) {
 	});
 }
 
+/** Changes only the execution tier and resets the transient crash counter. */
 function setTier(current, tier) {
 	const normalized = Tiers.normalize(tier);
-	return State.append({
-		...current,
-		tier: normalized,
-		consecutiveFailures: 0
-	}, {
+	return State.append({ ...current, tier: normalized, consecutiveFailures: 0 }, {
 		type: "set_tier",
 		tier: normalized
 	});
 }
 
+/** Clears a restore covenant only after an independently verified archive promotion. */
 function markRestored(current, details = {}) {
 	return State.append({
 		...current,
@@ -89,6 +92,7 @@ function markRestored(current, details = {}) {
 	});
 }
 
+/** Creates one explicit rollback covenant while also reducing optional capacity. */
 function requestRestore(state, reason) {
 	return {
 		...lowerCapacity(state, reason),
@@ -97,6 +101,7 @@ function requestRestore(state, reason) {
 	};
 }
 
+/** Reduces optional execution capacity while preserving the current runtime bytes. */
 function lowerCapacity(state, reason) {
 	return {
 		...state,
@@ -105,7 +110,6 @@ function lowerCapacity(state, reason) {
 		lastDowngradeAt: new Date().toISOString()
 	};
 }
-
 module.exports = {
 	afterExit,
 	beforeStart,

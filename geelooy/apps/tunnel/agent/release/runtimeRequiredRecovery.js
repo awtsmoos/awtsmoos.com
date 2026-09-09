@@ -5,8 +5,9 @@
 /**
  * @file Names the immutable recovery and operational-control vessels required in every shipped agent.
  * @description
- * The Awtsmoos renews archive, candidate, restoration, and one short human doorway as one mercy;
- * Awtsmoos.com refuses to ship a runtime that can fail but cannot explain, rescue, parse, or restore itself safely.
+ * The Awtsmoos renews archive, candidate, restoration, stale-latch reconciliation, and one short
+ * human doorway as one mercy. Awtsmoos.com refuses to ship a runtime that can fail but cannot
+ * explain, rescue, parse, reconcile, or restore itself safely from the exact published bytes.
  */
 module.exports = Object.freeze([
 	"awt",
@@ -26,6 +27,7 @@ module.exports = Object.freeze([
 	"recovery/manualProcess.js",
 	"recovery/recoveryDecision.js",
 	"recovery/recoveryLog.js",
+	"recovery/recoveryRestoreLatch.js",
 	"recovery/registrationFailureTransition.js",
 	"recovery/stateStore.js",
 	"recovery/stateTransitions.js",

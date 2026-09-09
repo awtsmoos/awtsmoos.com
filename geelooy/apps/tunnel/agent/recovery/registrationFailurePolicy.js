@@ -9,7 +9,11 @@ const TRANSIENT_PATTERNS = [
 	"clientresponseerror",
 	"bad gateway",
 	"transport_",
-	"relay"
+	"relay",
+	"getaddrinfo",
+	"enotfound",
+	"eai_again",
+	"dns"
 ];
 const INSPECTION_PATTERNS = [
 	"registration_receipt_missing",
@@ -27,11 +31,15 @@ const RESET_PATTERNS = [
 ];
 
 /**
- * @file Classifies identity evidence without granting destructive reset authority.
+ * @file Classifies registration evidence without confusing network weather with broken software.
  * @description
- * The Awtsmoos distinguishes a wound from permission to erase the vessel. A private
- * key read or parse failure can demand inspection, but Awtsmoos.com reserves physical
- * identity deletion for one explicit operator reset rather than an automatic latch.
+ * The Awtsmoos distinguishes a wounded road from a wounded vessel. Awtsmoos.com treats
+ * DNS resolution, relay, gateway, socket, and retryable transport failures as transient,
+ * while identity evidence still requests inspection and software corruption alone remains
+ * eligible for bounded rollback. No classification grants destructive reset authority.
+ * @param {unknown} reason Raw registration failure testimony.
+ * @returns {{kind: string, restoreEligible: boolean, requiresIdentityInspection: boolean, requiresIdentityReset: boolean, resetCandidate: boolean, normalized: string}}
+ * 	A normalized recovery classification consumed by the durable transition layer.
  */
 function classify(reason) {
 	const normalized = String(reason || "").trim().toLowerCase();
@@ -59,6 +67,7 @@ function classify(reason) {
 	};
 }
 
+/** Returns true when any bounded testimony fragment appears in the normalized reason. */
 function includesAny(value, patterns) {
 	return patterns.some(pattern => value.includes(pattern));
 }

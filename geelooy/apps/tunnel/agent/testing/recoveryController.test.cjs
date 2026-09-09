@@ -12,10 +12,11 @@ const Integrity = require("../recovery/integrity.js");
 const State = require("../recovery/stateStore.js");
 
 /**
- * B"H
- * Temporary worlds fall and are recreated without touching production. The
- * Awtsmoos lets Awtsmoos.com preserve identity config while immutable source,
- * atomic memory, downgrade, sealing, and corruption detection remain strict.
+ * @file Proves recovery integrity, sealing, capacity downgrade, and corruption restoration together.
+ * @description
+ * The Awtsmoos builds a temporary runtime carrying the same provenance witness demanded
+ * by production. Awtsmoos.com may mutate identity configuration, yet executable law,
+ * manifest checksum, source ancestry, crash policy, and sealed corruption stay strict.
  */
 const root = fs.mkdtempSync(path.join(os.tmpdir(), "awts-recovery-"));
 
@@ -23,7 +24,7 @@ try {
 	createRuntime(root);
 	assert.equal(Integrity.check(root).ok, true);
 	const sealed = Integrity.seal(root);
-	assert.equal(sealed.files >= 6, true);
+	assert.equal(sealed.files >= 7, true);
 	assert.deepEqual(sealed.mutableIdentityFiles, ["config.json"]);
 	assert.equal(Integrity.check(root).ok, true);
 
@@ -60,23 +61,27 @@ try {
 	fs.rmSync(root, { recursive: true, force: true });
 }
 
+/** Creates one hermetic production-shaped runtime including canonical source provenance. */
 function createRuntime(target) {
 	const files = [
 		"main.js",
 		"config.json",
+		"release-source-sha.txt",
 		"tools/fs/commandJob/schedulerState.js",
 		"tools/fs/commandJob/concurrencyProfile.js"
 	];
 	for (const relative of files) {
 		const file = path.join(target, relative);
 		fs.mkdirSync(path.dirname(file), { recursive: true });
-		const content = relative.endsWith("concurrencyProfile.js")
-			? "module.exports={resolve:()=>({tier:5})};\n"
-			: "module.exports={};\n";
+		const content = relative === "release-source-sha.txt"
+			? `${"a".repeat(40)}\n`
+			: relative.endsWith("concurrencyProfile.js")
+				? "module.exports={resolve:()=>({tier:5})};\n"
+				: "module.exports={};\n";
 		fs.writeFileSync(file, content);
 	}
 	fs.writeFileSync(path.join(target, "install-state.txt"), "9.9.9\n");
-	const manifest = ["9.9.9", "main.js", ...files.slice(1)].join("\n") + "\n";
+	const manifest = ["9.9.9", "fixture-sha", ...files].join("\n") + "\n";
 	fs.writeFileSync(path.join(target, "installed-manifest.txt"), manifest);
 	const hash = crypto.createHash("sha256").update(manifest).digest("hex");
 	fs.writeFileSync(path.join(target, "install-manifest.sha256"), `${hash}  installed-manifest.txt\n`);
