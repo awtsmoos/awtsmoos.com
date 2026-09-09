@@ -1,0 +1,7 @@
+{
+	"name": "@awtsmoos/heichel-browser-modules",
+	"private": true,
+	"type": "module",
+	"description": "B\"H. Declares the Heichel browser module tree as ESM for Node 18 semantic rendering as well as browsers.",
+	"awtsmoosBoundary": "Every JavaScript file in this package uses import/export; server CommonJS remains outside this directory."
+}

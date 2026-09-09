@@ -17,6 +17,8 @@ import { registerNativeEglSurfaceHandlers } from "./nativeEglSurfaceHandlers.js"
 import { getNativeEglSurfaceState } from "./nativeEglSurfaceState.js";
 import { registerNativeEglWindowSurfaceHandlers } from "./nativeEglWindowSurfaceHandlers.js";
 import { registerNativeGlesCoreHandlers } from "./registerNativeGlesCoreHandlers.js";
+import { registerNativeGlesFramebufferHandlers } from "./registerNativeGlesFramebufferHandlers.js";
+import { getNativeGlesFramebufferState } from "./nativeGlesFramebufferState.js";
 import { registerNativeGlesInternalFormatHandlers } from "./nativeGlesInternalFormatHandlers.js";
 import { getNativeGlesObjectState } from "./nativeGlesObjectState.js";
 import { registerNativeGlesProgramHandlers } from "./nativeGlesProgramHandlers.js";
@@ -57,6 +59,7 @@ export function registerNativeGraphicsHandlers(registry, runtimeState) {
 	const uniforms = getNativeGlesUniformState(runtimeState, objects);
 	const textures = getNativeGlesTextureState(runtimeState, context);
 	const samplers = getNativeGlesSamplerState(runtimeState, context);
+	const framebuffers = getNativeGlesFramebufferState(runtimeState, context);
 	registerNativeAndroidWindowHandlers(registry, runtimeState, windows, buffers);
 	registerNativeAndroidWindowBufferHandlers(registry, buffers);
 	registerNativeEglDisplayHandlers(registry, display);
@@ -73,11 +76,12 @@ export function registerNativeGraphicsHandlers(registry, runtimeState) {
 	registerNativeGlesProgramHandlers(registry, objects);
 	registerNativeGlesProgramQueryHandlers(registry, objects);
 	registerNativeGlesUniformHandlers(registry, uniforms);
+	registerNativeGlesFramebufferHandlers(registry, framebuffers);
 	registerNativeGlesTextureLifecycleHandlers(registry, textures);
 	registerNativeGlesTextureImageHandlers(registry, textures);
 	registerNativeGlesTextureCommandHandlers(registry, textures);
 	registerNativeGlesTextureSubImageHandlers(registry, textures);
 	registerNativeGlesSamplerHandlers(registry, samplers);
 	const core = registerNativeGlesCoreHandlers(registry, runtimeState, context);
-	return Object.freeze({ buffers, config, context, core, display, objects, samplers, strings, surface, textures, uniforms, windows });
+	return Object.freeze({ buffers, config, context, core, display, framebuffers, objects, samplers, strings, surface, textures, uniforms, windows });
 }
