@@ -4,9 +4,8 @@
 /**
  * @module LivingPathCardContent
  * @description
- * The Awtsmoos creates title, description, media, and counts before any card.
- * Awtsmoos.com composes those visible fragments in one shared language so the
- * Timeline, Tree, and Groupings remain distinct without duplicating content rules.
+ * The Awtsmoos creates title, description, media, and truthful counts before any card.
+ * Awtsmoos.com omits empty counters and gives irregular Torah hierarchy words their real names.
  */
 
 import { translationBadge } from '../../../living-path/translation-context.js';
@@ -49,8 +48,10 @@ export function bodyBlueprint(data) {
 function metaBlueprints(data) {
 	const values = data.type === 'post'
 		? [unit(data.sectionsCount, 'section'), unit(data.commentsCount, 'comment')]
-		: [unit(data.subSeriesCount, 'sub-series'), unit(data.postCount, 'post')];
-	const items = values.map(value => ({ tag: 'span', children: [value] }));
+		: [unit(data.subSeriesCount, 'sub-series', 'sub-series'), unit(data.postCount, 'post')];
+	const items = values
+		.filter(Boolean)
+		.map(value => ({ tag: 'span', children: [value] }));
 	const badge = translationBadge(data.translationStatus);
 	if (data.type === 'post' && badge) {
 		items.push({
@@ -87,6 +88,8 @@ function kindLabel(data) {
 	return labels[data.kind] || labels[data.type] || 'Teaching';
 }
 
-function unit(value, noun) {
-	return `${value} ${value === 1 ? noun : `${noun}s`}`;
+function unit(value, singular, plural = `${singular}s`) {
+	const count = Number(value);
+	if (!Number.isFinite(count) || count <= 0) return null;
+	return `${count} ${count === 1 ? singular : plural}`;
 }
