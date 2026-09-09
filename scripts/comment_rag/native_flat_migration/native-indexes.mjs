@@ -6,20 +6,25 @@
  * @file native-indexes.mjs
  * @module NativeRagIndexes
  * @description
- * The Awtsmoos awakens vector and lexical indexes while a candidate list is
- * still empty, then lets one immutable row flow through both indexes exactly
- * once. Awtsmoos.com therefore avoids corpus-wide backfill ledgers and keeps
- * generation memory proportional to a tiny write batch rather than corpus size.
+ * The Awtsmoos builds immutable vector and lexical indexes with bounded dirty
+ * graph memory. HNSW node mutations commit in small chunks while the build-only
+ * key ledger stays open until final sealing, avoiding per-row key-ledger rewrites.
  */
+
+const DEFAULT_GRAPH_CHUNK = 128;
+
+/** Normalizes a finite graph mutation chunk without allowing zero-sized batches. */
+function graphChunkSize(value) {
+	const number = Number(value);
+	if (!Number.isFinite(number) || number <= 0) return DEFAULT_GRAPH_CHUNK;
+	return Math.max(1, Math.floor(number));
+}
 
 /**
  * Enables native text and vector indexes before the first candidate row exists.
- * @param {object} database Writable AwtsmoosDB candidate.
- * @param {object} list Empty native source list.
- * @param {number} dimensions Vector dimensionality.
- * @returns {void}
+ * @returns {object} Build session controlling bounded HNSW registry commits.
  */
-export function beginNativeIndexes(database, list, dimensions) {
+export function beginNativeIndexes(database, list, dimensions, options = {}) {
 	if (Number(list.length || 0) !== 0) {
 		throw new Error('native_indexes_require_empty_list');
 	}
@@ -30,24 +35,63 @@ export function beginNativeIndexes(database, list, dimensions) {
 		metric: 'cosine',
 		reindex: false
 	});
+	const status = database.vector.indexStatus(list);
+	if (!status.index) throw new Error('native_vector_index_missing');
+	status.index.keys.beginBulk({ replace: true });
+	status.index.registry.beginBulk();
+	return {
+		index: status.index,
+		path: status.path,
+		chunkSize: graphChunkSize(options.graphChunkSize),
+		rowsInChunk: 0,
+		graphChunks: 0
+	};
 }
 
 /**
- * Flushes bounded pending text postings and leaves ordinary mutation safeguards on.
- * @param {object} database Writable candidate database.
- * @returns {Promise<void>}
+ * Notes one inserted row and commits graph mutations whenever the chunk fills.
+ * @returns {Promise<boolean>} True when a graph chunk was durably sealed.
  */
-export async function finishNativeIndexes(database) {
+export async function noteNativeIndexRow(database, state) {
+	state.rowsInChunk += 1;
+	if (state.rowsInChunk < state.chunkSize) return false;
+	await commitGraphChunk(database, state, true);
+	return true;
+}
+
+/** Commits only dirty HNSW nodes; the build-only key ledger stays open. */
+async function commitGraphChunk(database, state, continueBuild) {
+	if (!state.rowsInChunk && continueBuild) return;
+	state.index.registry.commitBulk();
+	database.vector.persistIndex(state.path, state.index);
+	state.graphChunks += state.rowsInChunk ? 1 : 0;
+	state.rowsInChunk = 0;
+	await database.waitForIdle();
+	if (continueBuild) state.index.registry.beginBulk();
+}
+
+/** Flushes final graph state, one packed key ledger, and bounded text postings. */
+export async function finishNativeIndexes(database, state) {
+	await commitGraphChunk(database, state, false);
+	state.index.keys.commitBulk();
+	database.vector.persistIndex(state.path, state.index);
 	database.search.appendOnlyBuild = false;
 	database.search.flush();
 	await database.waitForIdle();
+	return {
+		graphChunks: state.graphChunks,
+		graphChunkSize: state.chunkSize
+	};
 }
 
-/**
- * Restores ordinary index policy after an interrupted candidate build.
- * @param {object} database Candidate database being abandoned or closed.
- * @returns {void}
- */
-export function releaseNativeIndexMode(database) {
+/** Abandons an unpublished candidate without preserving partial build caches. */
+export function releaseNativeIndexMode(database, state) {
 	if (database?.search) database.search.appendOnlyBuild = false;
+	try { state?.index?.registry?.abortBulk?.(); } catch (_error) {}
+	try { state?.index?.keys?.abortBulk?.(); } catch (_error) {}
 }
+
+export {
+	DEFAULT_GRAPH_CHUNK,
+	graphChunkSize
+};

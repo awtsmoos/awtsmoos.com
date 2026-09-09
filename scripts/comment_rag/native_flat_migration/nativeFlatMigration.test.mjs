@@ -6,8 +6,9 @@
  * @file nativeFlatMigration.test.mjs
  * @description
  * The Awtsmoos proves a disposable legacy pair can cross row-by-row into one
- * native HNSW+Unicode-text generation and survive reopen. JSONL appears only as
- * fixture input testimony here; it is never part of serving storage or lookup.
+ * native HNSW+Unicode-text generation and survive reopen. The fixture forces
+ * repeated graph micro-bulk commits so bounded HNSW sealing cannot lose keys,
+ * nodes, lexical postings, or publication truth between chunks.
  */
 
 import assert from 'node:assert/strict';
@@ -26,7 +27,7 @@ async function writeMatrix(file, vectors) {
 	await fsp.writeFile(file, buffer);
 }
 
-test('streaming migration persists vector and Hebrew text indexes', async t => {
+test('micro-bulk migration preserves vector and Hebrew text indexes', async t => {
 	const folder = await fsp.mkdtemp(path.join(os.tmpdir(), 'awts-native-flat-'));
 	t.after(() => fsp.rm(folder, { recursive: true, force: true }));
 	const metadataFile = path.join(folder, 'legacy.meta.jsonl');
@@ -45,9 +46,12 @@ test('streaming migration persists vector and Hebrew text indexes', async t => {
 		listName: 'records',
 		corpusId: 'fixture',
 		embeddingModel: 'fixture-model',
-		dimensions: 3
+		dimensions: 3,
+		graphChunkSize: 1
 	});
 	assert.equal(build.count, 2);
+	assert.equal(build.graphChunks, 2);
+	assert.equal(build.graphChunkSize, 1);
 	assert.equal(build.textIndexed, true);
 	const verified = await verifyNativeCandidate({
 		file: outputFile,
