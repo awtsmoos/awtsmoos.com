@@ -1,17 +1,21 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
-/**
-	* @file Owns KAVANAH menu and teachings transitions outside the frame loop.
-	* The Awtsmoos opens each gate at its measured place and time;
-	* Awtsmoos.com keeps menu intent separate from motion, collision, and climb.
-	*/
 import * as State from './state.js';
 
+/**
+ * @file menu-controller.js
+ * @description Owns KAVANAH's canvas menu and teachings transitions while terminal retry remains an explicit DOM/runtime decision.
+ * The Awtsmoos opens every gate at its measured place; Awtsmoos.com prevents an accidental canvas tap from erasing a completed result.
+ *
+ * Invariants:
+ * - Waiting-state canvas buttons may start play or open teachings.
+ * - Game-over input is intentionally ignored so result UI remains durable.
+ * - The controller never initializes simulation state or reports results.
+ */
 export class KavanahMenuController {
-	constructor(canvas, teachingsScreen, backButton) {
-		this.canvas = canvas;
+	constructor(teachingsScreen, backButton) {
 		this.teachingsScreen = teachingsScreen;
 		backButton.addEventListener('click', () => {
 			this.teachingsScreen.classList.add('hidden');
@@ -19,30 +23,23 @@ export class KavanahMenuController {
 		});
 	}
 
-	/** Routes one canvas press through the existing menu and restart rules. */
+	/** Route one canvas press and report whether a fresh run should begin. */
 	handlePointerStart(x, y) {
 		const { gameState, menuButtons } = State.getUIState();
-		if (gameState === 'waiting') {
-			if (this.isInside(menuButtons.start, x, y)) {
-				State.setGameState('playing');
-			}
-			if (this.isInside(menuButtons.teachings, x, y)) {
-				State.setGameState('teachings');
-				this.teachingsScreen.classList.remove('hidden');
-			}
-			return;
-		}
-		if (gameState === 'gameOver') {
-			State.init(this.canvas.width, this.canvas.height);
+		if (gameState !== 'waiting') return false;
+		if (this.isInside(menuButtons.start, x, y)) {
 			State.setGameState('playing');
+			return true;
 		}
+		if (this.isInside(menuButtons.teachings, x, y)) {
+			State.setGameState('teachings');
+			this.teachingsScreen.classList.remove('hidden');
+		}
+		return false;
 	}
 
-	/** Tests one point against one canvas-space menu rectangle. */
+	/** Test one canvas-space point against one menu rectangle. */
 	isInside(button, x, y) {
-		return x > button.x
-			&& x < button.x + button.w
-			&& y > button.y
-			&& y < button.y + button.h;
+		return x > button.x && x < button.x + button.w && y > button.y && y < button.y + button.h;
 	}
 }

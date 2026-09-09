@@ -1,40 +1,42 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
+
+import * as Entities from './entities.js';
+import * as State from './state.js';
 
 /**
-	* @file Owns KAVANAH's charged Tikkun and game-over transitions.
-	* The Awtsmoos separates decisive moments from the endless frame-by-frame river;
-	* Awtsmoos.com keeps transitions small and named so the coordinator stays clear forever.
-	*/
-import * as State from './state.js';
-import * as Entities from './entities.js';
+ * @file game-actions.js
+ * @description Owns KAVANAH's charged Tikkun and durable terminal transition without scheduling an implicit restart.
+ * The Awtsmoos renews decisive moments from beyond the frame loop; Awtsmoos.com keeps completion visible until the player explicitly chooses Retry or Menu.
+ *
+ * Invariants:
+ * - Tikkun activates only from a fully charged vessel.
+ * - Game completion transitions from playing exactly once.
+ * - Best ascension persistence updates before terminal presentation.
+ * - No timer silently erases a completed result.
+ */
 
-/** Activates Tikkun only when the player's vessel is fully charged. */
+/** Activate Tikkun only when the player's vessel is fully charged. */
 export function activateTikkun() {
 	const player = State.getPlayer();
-	if (player.tikkun < player.maxTikkun) {
-		return;
-	}
+	if (!player || player.tikkun < player.maxTikkun) return false;
 	player.tikkun = 0;
 	player.isTikkun = true;
 	player.tikkunTimer = 250;
+	return true;
 }
 
-/** Records the run, reveals the existing burst, then prepares the next waiting state. */
-export function finishGame(canvas) {
-	if (State.getGameState() !== 'playing') {
-		return;
-	}
+/** Seal one defeat and return immutable result facts for the runtime/session layer. */
+export function finishGame() {
+	if (State.getGameState() !== 'playing') return null;
 	State.setGameState('gameOver');
 	const ascension = State.getAscension();
-	if (ascension > State.getBestAscension()) {
-		localStorage.setItem('kavanahBestAscension', ascension);
+	if (ascension > Number(State.getBestAscension())) {
+		localStorage.setItem('kavanahBestAscension', String(ascension));
 		State.setBestAscension(ascension);
 	}
 	const player = State.getPlayer();
 	Entities.createGameOverParticles(player.x, player.y);
-	setTimeout(() => {
-		State.init(canvas.width, canvas.height);
-	}, 750);
+	return Object.freeze({ ascension, bestAscension: Number(State.getBestAscension()) || ascension });
 }

@@ -1,0 +1,116 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed be He */
+
+/**
+ * KAVANAH runtime presentation layer.
+ * The canvas remains the world; this file owns only readable HUD, pause, and terminal recovery surfaces.
+ * All controls remain bounded to safe-area-aware phone geometry and honor reduced-motion preferences.
+ */
+.kavanah-hud {
+	position: fixed;
+	inset: max(10px, env(safe-area-inset-top)) 72px auto 10px;
+	z-index: 12;
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 12px;
+	max-width: 760px;
+	padding: 10px 12px;
+	border: 1px solid rgba(255, 255, 255, .28);
+	border-radius: 14px;
+	background: rgba(0, 0, 0, .72);
+	backdrop-filter: blur(10px);
+	box-sizing: border-box;
+	color: #fff;
+	pointer-events: none;
+}
+
+.kavanah-hud[hidden],
+.kavanah-overlay[hidden] {
+	display: none !important;
+}
+
+.kavanah-hud > div {
+	min-width: 0;
+}
+
+.kavanah-hud strong,
+.kavanah-hud span,
+.kavanah-hud p {
+	display: block;
+	margin: 0;
+}
+
+.kavanah-hud span {
+	margin-top: 2px;
+	font-size: .78rem;
+	opacity: .82;
+}
+
+.kavanah-hud p {
+	margin-top: 4px;
+	max-width: 52ch;
+	font-size: clamp(.72rem, 2.7vw, .9rem);
+	line-height: 1.28;
+}
+
+#pause-button,
+.kavanah-actions button {
+	min-width: 48px;
+	min-height: 48px;
+	border: 1px solid rgba(255, 255, 255, .4);
+	border-radius: 999px;
+	background: #111827;
+	color: #fff;
+	font: inherit;
+	font-weight: 800;
+	pointer-events: auto;
+	touch-action: manipulation;
+}
+
+.kavanah-overlay {
+	position: fixed;
+	inset: 0;
+	z-index: 14;
+	display: grid;
+	place-items: center;
+	padding: max(20px, env(safe-area-inset-top)) 20px max(20px, env(safe-area-inset-bottom));
+	background: rgba(0, 0, 0, .68);
+	box-sizing: border-box;
+}
+
+.kavanah-card {
+	width: min(100%, 520px);
+	padding: 22px;
+	border: 1px solid rgba(255, 255, 255, .3);
+	border-radius: 20px;
+	background: rgba(9, 9, 17, .94);
+	box-shadow: 0 24px 80px rgba(0, 0, 0, .45);
+	text-align: center;
+}
+
+.kavanah-actions {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 10px;
+	margin-top: 16px;
+}
+
+.kavanah-actions button {
+	padding: 10px 18px;
+}
+
+@media (max-width: 520px) {
+	.kavanah-hud {
+		inset-inline: 8px 68px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.kavanah-card,
+	.kavanah-hud {
+		transition: none;
+	}
+}
