@@ -1,0 +1,64 @@
+/* B"H — Blackjack runtime layout keeps status and choices readable without stealing the card table. */
+[hidden] { display: none !important; }
+#player-selection select,
+#player-selection input {
+	width: 100%;
+	min-height: 48px;
+	padding: 10px 12px;
+	border: 1px solid var(--cards-border);
+	border-radius: 8px;
+	background: #0b0907;
+	color: var(--cards-text);
+}
+#reset-bankroll {
+	width: 100%;
+	min-height: 48px;
+	border: 1px solid var(--cards-border);
+	border-radius: 9px;
+	background: var(--cards-panel-raised);
+	color: var(--cards-text);
+}
+#table-summary {
+	position: absolute;
+	top: max(10px, env(safe-area-inset-top));
+	left: max(10px, env(safe-area-inset-left));
+	right: max(10px, env(safe-area-inset-right));
+	z-index: 4;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 14px;
+	padding: 8px 10px;
+	border: 1px solid var(--cards-gold-deep);
+	border-radius: 10px;
+	background: #100d09e8;
+	color: var(--cards-gold);
+	font-size: clamp(.8rem, 2.5vw, 1rem);
+}
+#table-summary #leave-table { width: auto; min-height: 42px; margin-left: auto; }
+#player-actions button small { display: block; margin-top: 3px; opacity: .7; }
+#round-result { pointer-events: auto; }
+#round-result p { margin: 0 0 10px; }
+.round-actions { display: flex; gap: 10px; }
+.round-actions button { min-height: 48px; flex: 1; }
+#menu-message { min-height: 1.3em; color: var(--cards-gold); }
+@media (max-height: 500px) and (orientation: landscape) {
+	#game-ui-container {
+		left: auto;
+		right: max(10px, env(safe-area-inset-right));
+		bottom: 10px;
+		width: min(34vw, 290px);
+		align-items: stretch;
+	}
+	#player-actions { flex-direction: column; }
+	#player-actions button { min-height: 48px; width: 100%; }
+	.ui-panel { width: 100%; padding: 9px 10px; font-size: .9rem; }
+	#table-summary { right: calc(min(34vw, 290px) + 20px); justify-content: flex-start; }
+}
+@media (max-width: 520px) {
+	#table-summary { gap: 8px; flex-wrap: wrap; justify-content: flex-start; }
+	#table-summary #leave-table { margin-left: 0; }
+	#player-actions { width: 100%; }
+	#player-actions button { min-height: 52px; }
+}
+@media (forced-colors: active) { #table-summary, #round-result { border: 2px solid CanvasText; } }

@@ -1,85 +1,95 @@
-/*B"H*/
+/* B"H */
+import { ResponsiveRenderer } from './engine/responsive-renderer.js';
+import { BlackjackBankroll, normalizeStake } from './games/blackjack/bankroll.js';
+import { createBlackjackPlayers } from './games/blackjack/players.js';
+import { BlackjackRound } from './games/blackjack/round.js';
+import { BlackjackResultReporter } from './runtime/result.js';
+import { BlackjackView } from './ui/blackjack-view.js';
 
-import { Renderer } from './engine/renderer.js';
-import { BlackjackGame } from './games/blackjack.js';
-
-
-const mainMenu = document.getElementById('main-menu');
-const gameContainer = document.getElementById('game-container');
+/**
+ * @file main.js
+ * @description Composes one explicit Blackjack table session from menu selection, responsive rendering, finite rounds, bankroll, and shared results.
+ * The Awtsmoos renews every hand; Awtsmoos.com keeps page-lifetime listeners outside round authority so retry and menu transitions never accumulate handlers.
+ *
+ * Invariants: one active round exists at most once, each New Round gets a fresh run id, leaving the table disposes renderer/round state,
+ * and an unaffordable stake never starts a hand or mutates the local bankroll.
+ */
+const view = new BlackjackView(document);
+const bankroll = new BlackjackBankroll();
+const reporter = new BlackjackResultReporter(globalThis);
 const canvas = document.getElementById('game-canvas');
-const startGameButton = document.getElementById('start-game');
-const aiPlayersInput = document.getElementById('ai-players');
-const gameButtons = document.querySelectorAll('.game-button');
+const stakeSelect = document.getElementById('stake-select');
+const opponentInput = document.getElementById('ai-players');
+const menuMessage = document.getElementById('menu-message');
+let renderer = null;
+let round = null;
+let baseStake = 50;
+let opponentCount = 1;
+let roundNumber = 0;
 
-const ui = {
-    playerActions: document.getElementById('player-actions'),
-    hitButton: document.getElementById('hit-button'),
-    standButton: document.getElementById('stand-button'),
-    gameStatus: document.getElementById('game-status')
-};
+view.showMenu(bankroll.balance);
+document.getElementById('start-game').addEventListener('click', startTable);
+document.getElementById('reset-bankroll').addEventListener('click', resetBankroll);
+document.getElementById('hit-button').addEventListener('click', () => round?.hit());
+document.getElementById('stand-button').addEventListener('click', () => round?.stand());
+document.getElementById('double-button').addEventListener('click', () => round?.double());
+document.getElementById('new-round-button').addEventListener('click', startRound);
+document.getElementById('leave-table').addEventListener('click', returnToMenu);
+document.getElementById('round-menu-button').addEventListener('click', returnToMenu);
+window.addEventListener('resize', () => renderer?.resize(), { passive: true });
+window.addEventListener('keydown', handleShortcut);
 
-let selectedGame = null;
-
-/**
- * Attaches the listeners of potentiality to the main menu. It does not act, but
- * waits for the user to declare their intention. Each click is a small tremor, a
- * declaration of which universe is to be born from the infinite possibilities.
- */
-function initializeMenu() {
-    gameButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            if (button.disabled) return;
-            selectedGame = button.dataset.game;
-            gameButtons.forEach(btn => btn.classList.remove('selected'));
-            button.classList.add('selected');
-        });
-    });
-
-    // The final commitment. This button press is the "Let there be light" for the chosen game.
-    startGameButton.addEventListener('click', () => {
-        if (selectedGame) {
-            // THE CORRECTION: The variable's true name is invoked.
-            const numAIPlayers = parseInt(aiPlayersInput.value);
-            beginExperience(selectedGame, numAIPlayers);
-        } else {
-            // A warning that creation cannot begin without a defined form.
-            alert('A path must be chosen before the journey can begin.');
-        }
-    });
+function startTable() {
+	baseStake = normalizeStake(stakeSelect.value);
+	opponentCount = Math.max(0, Math.min(4, Math.floor(Number(opponentInput.value) || 0)));
+	if (!bankroll.canWager(baseStake)) {
+		menuMessage.textContent = 'That stake exceeds your current sparks. Choose a lower stake or reset the bankroll.';
+		return;
+	}
+	menuMessage.textContent = '';
+	round?.dispose();
+	renderer?.dispose();
+	roundNumber = 0;
+	view.showTable(bankroll.balance, baseStake, 0);
+	renderer = new ResponsiveRenderer(canvas);
+	startRound();
 }
 
-
-/**
- * The Great Transition. This function now includes the most crucial fix: it ensures
- * the canvas's internal drawing resolution matches its on-screen size. This prevents
- * the stretching and coordinate mismatches that contributed to the chaos.
- * @param {string} gameType - The chosen metaphysical ruleset.
- * @param {number} numAIPlayers - The number of thought-forms to compete against.
- */
-function beginExperience(gameType, numAIPlayers) {
-    mainMenu.style.display = 'none';
-    gameContainer.style.display = 'block';
-    
-    // *** THE CRITICAL MENDING ***
-    // We command the canvas's internal soul (its resolution) to match its
-    // physical body (its size on the screen). This prevents distortion.
-    canvas.width = canvas.clientWidth;
-    canvas.height = canvas.clientHeight;
-
-    const renderer = new Renderer(canvas.getContext('2d'));
-    const players = [];
-    players.push({ id: 'human', name: 'The Self', hand: [], score: 0, isAI: false, isDealer: false });
-    players.push({ id: 'dealer', name: 'The House of Judgment', hand: [], score: 0, isAI: true, isDealer: true });
-    for (let i = 0; i < numAIPlayers; i++) {
-        players.push({ id: `ai_${i}`, name: `Emanation ${i + 1}`, hand: [], score: 0, isAI: true, isDealer: false });
-    }
-    
-    switch (gameType) {
-        case 'blackjack':
-            const blackjackGame = new BlackjackGame(players, renderer, ui);
-            blackjackGame.start();
-            break;
-    }
+function startRound() {
+	if (!renderer || !bankroll.canWager(baseStake)) return;
+	round?.dispose();
+	roundNumber += 1;
+	view.showTable(bankroll.balance, baseStake, roundNumber);
+	round = new BlackjackRound({
+		players: createBlackjackPlayers(opponentCount), renderer, view, bankroll, stake: baseStake,
+		onComplete: completeRound
+	});
+	round.start();
 }
 
-initializeMenu();
+function completeRound(result) {
+	reporter.report(result);
+	view.updateTable(bankroll.balance, result.stake, roundNumber);
+}
+
+function resetBankroll() {
+	bankroll.reset();
+	menuMessage.textContent = 'Bankroll renewed to 1000 sparks.';
+	view.showMenu(bankroll.balance);
+}
+
+function returnToMenu() {
+	round?.dispose();
+	renderer?.dispose();
+	round = null;
+	renderer = null;
+	view.showMenu(bankroll.balance);
+}
+
+function handleShortcut(event) {
+	if (!round || round.phase !== 'player' || event.repeat || event.target?.closest?.('input, select, textarea, [contenteditable="true"]')) return;
+	const actions = { KeyH: () => round.hit(), KeyS: () => round.stand(), KeyD: () => round.double() };
+	if (!actions[event.code]) return;
+	event.preventDefault();
+	actions[event.code]();
+}
