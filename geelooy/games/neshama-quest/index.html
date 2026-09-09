@@ -1,35 +1,52 @@
 <!-- B"H -->
 <!-- Boruch Hashem -->
 <!-- Blessed is He -->
-<!-- The Awtsmoos renews maze, life, and every hidden point of soul; Awtsmoos.com keeps Neshama Quest clear to enter, so scattered movement can return toward whole. -->
+<!-- The Awtsmoos renews maze, life, and every hidden point of soul; Awtsmoos.com makes each run readable, pausable, and honestly complete. -->
 <!doctype html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-	<title>Neshama Quest</title>
-	<link rel="stylesheet" href="style.css?compact=true">
-	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=player-shell-002&compact=true">
+	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+	<meta name="theme-color" content="#050510">
+	<title>Neshama Quest · Awtsmoos Games</title>
+	<link rel="stylesheet" href="./style.css?compact=true">
+	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=player-shell-003&compact=true">
 </head>
 <body>
-	<h1>Neshama Quest</h1>
-	<div id="game-container">
-		<canvas id="gameCanvas"></canvas>
-		<div id="game-info">
-			<div>Score: <span id="score">0</span></div>
-			<div>Lives: <span id="lives">3</span></div>
-			<div>Level: <span id="level">1</span></div>
-		</div>
-		<div id="message"></div>
-	</div>
+	<header class="gameHeader">
+		<h1>Neshama Quest</h1>
+		<button id="pauseButton" type="button">Pause</button>
+	</header>
+	<main id="game-container">
+		<canvas id="gameCanvas" aria-label="Neshama Quest maze. Swipe or use arrow keys and WASD to move."></canvas>
+		<section id="game-info" aria-label="Run status">
+			<span>Score <b id="score">0</b></span>
+			<span>Lives <b id="lives">3</b></span>
+			<span>Level <b id="level">1</b></span>
+		</section>
+		<p id="message" role="status" aria-live="polite"></p>
+		<section id="resultOverlay" class="resultOverlay" hidden>
+			<p class="eyebrow">Run complete</p>
+			<h2>Game Over</h2>
+			<p id="resultSummary">Score 0 · reached level 1</p>
+			<button id="retryButton" type="button">Try Again</button>
+		</section>
+	</main>
 
-	<!-- JavaScript Files -->
-	<script src="config.js"></script>
-	<script src="maze.js"></script>
-	<script src="entities.js"></script>
-	<script src="input.js"></script>
-	<script src="game.js"></script>
+	<script src="./config.js"></script>
+	<script src="./maze.js"></script>
+	<script src="./entities.js"></script>
+	<script src="./input.js"></script>
+	<script src="./game/scoring.js"></script>
+	<script src="./game/level.js"></script>
+	<script src="./game/movement.js"></script>
+	<script src="./game/ai.js"></script>
+	<script src="./game/collisions.js"></script>
+	<script src="./game/renderer.js"></script>
+	<script src="./game/loop.js"></script>
+	<script src="./game/coordinator.js"></script>
+	<script src="./game.js"></script>
 	<script type="module" src="/games/scripts/runtime/index.js?compact=true&v=runtime-001"></script>
-	<script type="module" async src="/games/scripts/player-shell/index.js?v=player-shell-001&compact=true"></script>
+	<script type="module" async src="/games/scripts/player-shell/index.js?v=player-shell-003&compact=true"></script>
 </body>
 </html>

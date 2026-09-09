@@ -1,48 +1,107 @@
-/*B"H*/
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * @file style.css
+ * @description Keeps Neshama Quest's maze dominant while score, pause, messages, and terminal result remain readable on phones.
+ * The Awtsmoos renews soul and chamber; Awtsmoos.com lets the HUD serve play instead of covering it.
+ */
+* {
+	box-sizing: border-box;
+}
+
+html,
 body {
-    background-color: #000;
-    color: #fff;
-    font-family: 'Arial', sans-serif;
-    text-align: center;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
+	margin: 0;
+	min-height: 100%;
+	background: #050510;
+	color: #fff;
+	font-family: system-ui, sans-serif;
+}
+
+body {
+	display: grid;
+	grid-template-rows: auto 1fr;
+	height: 100dvh;
+	overflow: hidden;
+}
+
+.gameHeader {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	min-height: 58px;
+	padding: max(8px, env(safe-area-inset-top)) 14px 8px;
+}
+
+.gameHeader h1 {
+	margin: 0;
+	font-size: clamp(1rem, 4vw, 1.45rem);
+}
+
+button {
+	min-height: 44px;
+	padding: 9px 16px;
+	border: 0;
+	border-radius: 999px;
+	font: inherit;
+	font-weight: 800;
+	cursor: pointer;
 }
 
 #game-container {
-    position: relative; /* Needed for message positioning */
-    border: 2px solid #fff;
-    border-radius: 10px;
-    padding: 10px;
-    background-color: #111;
+	position: relative;
+	display: grid;
+	place-items: center;
+	min-height: 0;
+	overflow: hidden;
 }
 
-canvas {
-    background-color: #000033;
-    display: block;
-    margin: 0 auto;
-    max-width: 100%;
+#gameCanvas {
+	display: block;
+	width: min(100vw, calc((100dvh - 112px) * 1.45));
+	height: auto;
+	max-height: calc(100dvh - 112px);
+	touch-action: none;
+	image-rendering: auto;
 }
 
 #game-info {
-    display: flex;
-    justify-content: space-around;
-    padding: 10px 0;
-    font-size: 1.2em;
+	position: absolute;
+	top: 8px;
+	left: 50%;
+	display: flex;
+	gap: 6px;
+	transform: translateX(-50%);
+}
+
+#game-info span,
+#message {
+	padding: 6px 9px;
+	border-radius: 999px;
+	background: rgba(0, 0, 0, 0.7);
+	font-size: 0.78rem;
+	white-space: nowrap;
 }
 
 #message {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: yellow;
-    font-size: 2em;
-    font-weight: bold;
-    text-shadow: 2px 2px 4px #000;
-    display: none; /* Hidden by default */
+	position: absolute;
+	bottom: 14px;
+	left: 50%;
+	z-index: 4;
+	margin: 0;
+	transform: translateX(-50%);
+}
+
+.resultOverlay {
+	position: absolute;
+	inset: 0;
+	z-index: 5;
+	display: grid;
+	place-content: center;
+	gap: 12px;
+	padding: 24px;
+	background: rgba(3, 4, 16, 0.86);
+	text-align: center;
 }

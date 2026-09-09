@@ -1,43 +1,53 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 
+/**
+ * @file input.js
+ * @description Owns Neshama Quest directional intent through keyboard and canvas-scoped Pointer Events.
+ * The Awtsmoos renews intention before movement; Awtsmoos.com avoids suppressing unrelated browser gestures outside the playfield.
+ */
 class InputHandler {
-    constructor() {
-        this.direction = { x: 1, y: 0 }; // Start moving right
-        this.nextDirection = { x: 1, y: 0 };
-        this.touchStartX = 0;
-        this.touchStartY = 0;
+	/** Binds directional input only to the keyboard and the actual maze canvas. */
+	constructor(target = document.getElementById('gameCanvas')) {
+		this.direction = { x: 1, y: 0 };
+		this.nextDirection = { x: 1, y: 0 };
+		this.pointerStart = null;
+		this.target = target;
+		window.addEventListener('keydown', event => this.handleKey(event));
+		target?.addEventListener('pointerdown', event => this.handlePointerStart(event));
+		target?.addEventListener('pointerup', event => this.handlePointerEnd(event));
+	}
 
-        window.addEventListener('keydown', (e) => this.handleKey(e));
-        window.addEventListener('touchstart', (e) => this.handleTouchStart(e), { passive: false });
-        window.addEventListener('touchend', (e) => this.handleTouchEnd(e), { passive: false });
-    }
+	/** Converts Arrow/WASD keys into a queued cardinal heading and prevents page scrolling only when handled. */
+	handleKey(event) {
+		const directions = {
+			ArrowUp: { x: 0, y: -1 }, w: { x: 0, y: -1 },
+			ArrowDown: { x: 0, y: 1 }, s: { x: 0, y: 1 },
+			ArrowLeft: { x: -1, y: 0 }, a: { x: -1, y: 0 },
+			ArrowRight: { x: 1, y: 0 }, d: { x: 1, y: 0 }
+		};
+		const direction = directions[event.key];
+		if (!direction) return;
+		event.preventDefault();
+		this.nextDirection = direction;
+	}
 
-    handleKey(e) {
-        switch (e.key) {
-            case 'ArrowUp': case 'w': this.nextDirection = { x: 0, y: -1 }; break;
-            case 'ArrowDown': case 's': this.nextDirection = { x: 0, y: 1 }; break;
-            case 'ArrowLeft': case 'a': this.nextDirection = { x: -1, y: 0 }; break;
-            case 'ArrowRight': case 'd': this.nextDirection = { x: 1, y: 0 }; break;
-        }
-    }
+	/** Captures the beginning of one intentional swipe inside the game surface. */
+	handlePointerStart(event) {
+		this.pointerStart = { x: event.clientX, y: event.clientY };
+		this.target?.setPointerCapture?.(event.pointerId);
+	}
 
-    handleTouchStart(e) {
-        e.preventDefault();
-        this.touchStartX = e.changedTouches[0].screenX;
-        this.touchStartY = e.changedTouches[0].screenY;
-    }
-
-    handleTouchEnd(e) {
-        e.preventDefault();
-        const touchEndX = e.changedTouches[0].screenX;
-        const touchEndY = e.changedTouches[0].screenY;
-        const xDiff = touchEndX - this.touchStartX;
-        const yDiff = touchEndY - this.touchStartY;
-
-        if (Math.abs(xDiff) > Math.abs(yDiff)) {
-            this.nextDirection = { x: xDiff > 0 ? 1 : -1, y: 0 };
-        } else {
-            this.nextDirection = { x: 0, y: yDiff > 0 ? 1 : -1 };
-        }
-    }
+	/** Converts a completed swipe into the dominant horizontal or vertical direction. */
+	handlePointerEnd(event) {
+		if (!this.pointerStart) return;
+		const deltaX = event.clientX - this.pointerStart.x;
+		const deltaY = event.clientY - this.pointerStart.y;
+		this.pointerStart = null;
+		if (Math.max(Math.abs(deltaX), Math.abs(deltaY)) < 18) return;
+		this.nextDirection = Math.abs(deltaX) > Math.abs(deltaY)
+			? { x: deltaX > 0 ? 1 : -1, y: 0 }
+			: { x: 0, y: deltaY > 0 ? 1 : -1 };
+	}
 }

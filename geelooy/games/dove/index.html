@@ -1,32 +1,38 @@
 <!-- B"H -->
 <!-- Boruch Hashem -->
 <!-- Blessed is He -->
-<!-- The Awtsmoos renews wing, wave, and every search for shalom above the flood; Awtsmoos.com keeps the Dove's quest approachable, so one small flight can carry a world of good. -->
+<!-- The Awtsmoos renews wing, wave, pause, return, and every search for shalom; Awtsmoos.com keeps one small flight readable on every screen. -->
 <!doctype html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Noah's Dove's 🕊️ Quest ❓ for Shalom</title>
-	<link rel="stylesheet" href="style.css?compact=true">
-	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=player-shell-002&compact=true">
+	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+	<meta name="theme-color" content="#87CEEB">
+	<title>Noah's Dove · Quest for Shalom</title>
+	<link rel="stylesheet" href="./style.css?compact=true">
+	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=player-shell-003&compact=true">
 </head>
 <body>
-	<div id="game-container">
-		<canvas id="gameCanvas" width="400" height="600"></canvas>
-		<div id="startMenu">
+	<main id="game-container" aria-label="Noah's Dove flight game">
+		<canvas id="gameCanvas" width="400" height="600" aria-label="Dove flight field"></canvas>
+		<button id="pauseButton" class="pauseButton" type="button" hidden>Pause</button>
+		<p id="pauseStatus" class="pauseStatus" role="status" hidden>Paused</p>
+		<section id="startMenu" class="gameOverlay">
+			<p class="eyebrow">One-touch flight</p>
 			<h1>Noah's Dove's Quest for Shalom</h1>
-			<button id="playButton">Play</button>
-		</div>
-		<div id="gameOverMenu">
-			<h1>שוב</h1>
-			<p>Return and try again.</p>
-			<button id="replayButton">Replay</button>
-		</div>
-		<div id="powerupExplanation"></div>
-	</div>
+			<p>Tap, click, Space, or ↑ to rise. Pass the gates and keep flying.</p>
+			<button id="playButton" type="button">Play</button>
+		</section>
+		<section id="gameOverMenu" class="gameOverlay" hidden>
+			<p class="eyebrow">Flight complete</p>
+			<h2>שוב</h2>
+			<p id="resultText">Score: 0</p>
+			<button id="replayButton" type="button">Replay</button>
+		</section>
+		<div id="powerupExplanation" hidden></div>
+	</main>
 	<script type="module" src="/games/scripts/runtime/index.js?compact=true&v=runtime-001"></script>
 	<script type="module" src="./game.js?compact=true"></script>
-	<script type="module" async src="/games/scripts/player-shell/index.js?v=player-shell-001&compact=true"></script>
+	<script type="module" async src="/games/scripts/player-shell/index.js?v=player-shell-003&compact=true"></script>
 </body>
 </html>
