@@ -1,79 +1,57 @@
-//B"H //Boruch Hashem //Blessed is He 
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 import { registerNativeAndroidAssetManagerHandlers } from "./nativeAndroidAssetManagerHandlers.js";
 import { registerNativeAndroidChoreographerHandlers } from "./nativeAndroidChoreographerHandlers.js";
+import { createNativeAndroidDescriptorEnvironment } from "./nativeAndroidDescriptorEnvironment.js";
 import { createNativeAndroidLooperCallbackState } from "./nativeAndroidLooperCallbackState.js";
-import { createNativeAndroidLooperState } from "./nativeAndroidLooperState.js";
+import { createNativeAndroidPlatformLooperPump } from "./nativeAndroidPlatformLooperPump.js";
 import { registerNativeAndroidLogHandlers } from "./nativeAndroidLogHandlers.js";
 import { registerNativeAndroidLooperHandlers } from "./registerNativeAndroidLooperHandlers.js";
 import { registerNativeAndroidPropertyHandlers } from "./nativeAndroidPropertyHandlers.js";
 import { createNativeAndroidPropertyState } from "./nativeAndroidPropertyState.js";
 import { registerNativeAndroidTraceHandlers } from "./nativeAndroidTraceHandlers.js";
-import { createNativeDescriptorFlagState } from "./nativeDescriptorFlagState.js";
 import { retainNativeDescriptorRuntimeSnapshotSource } from "./nativeDescriptorRuntimeSnapshot.js";
-import { createNativeEpollState } from "./nativeEpollState.js";
-import { createNativeLinuxClock } from "./nativeLinuxClock.js";
-import { createNativePipeState } from "./nativePipeState.js";
 import { registerNativeSocketHandlers } from "./registerNativeSocketHandlers.js";
-import { createNativeSocketState } from "./nativeSocketState.js";
-import { createNativeTimerFdState } from "./nativeTimerFdState.js";
 import { registerNativeTimerFdHandlers } from "./registerNativeTimerFdHandlers.js";
 
 /**
- * Joins Android resources, loopers, descriptors, sockets, properties, and logs.
- * The Awtsmoos renews every guest gate while timer and looper testimony join;
- * Awtsmoos.com exposes causal wake truth without crossing the guest-host line.
+ * Registers Android resources, platform looping, descriptors, sockets, and logs.
+ *
+ * Root-platform ALooper service is explicitly distinct from child pthread waits.
+ * Every Linux readiness path shares one descriptor environment, so timers, sockets,
+ * epoll, and loopers observe the same guest truth without host-side fake success.
  *
  * @param {object} registry Native import registry receiving Android handlers.
- * @param {object} machineState Shared guest machine state and host adapters.
- * @param {object} errnoState Optional explicit errno vessel for descriptor calls.
- * @returns {void} Registration mutates only the supplied registry contracts.
+ * @param {object} machineState Persistent guest machine and explicit host adapters.
+ * @param {?object} errnoState Optional thread-local errno vessel.
+ * @returns {void} Registration mutates only the supplied runtime registries.
  */
 export function registerNativeAndroidHandlers(registry, machineState, errnoState) {
 	const callbacks = machineState.nativeAndroidLooperCallbacks
 		|| createNativeAndroidLooperCallbackState();
-	const clock = machineState.nativeLinuxClock
-		|| createNativeLinuxClock(machineState.nativeLinuxClockOptions);
 	const cooperativeRuntime = machineState.nativeCooperativeRuntime;
-	const descriptorFlags = machineState.nativeDescriptorFlags
-		|| createNativeDescriptorFlagState();
-	const epollState = machineState.nativeEpollState || createNativeEpollState();
-	const pipes = machineState.nativePipes || createNativePipeState();
-	const readOnlyState = machineState.nativeReadOnlyDescriptors || null;
-	const sockets = machineState.nativeSockets || createNativeSocketState({
-		adapter: machineState.nativeSocketAdapter,
-		cooperativeRuntime,
-		processId: machineState.nativeSocketProcessId,
-		receiveCapacity: machineState.nativeSocketReceiveCapacity,
-		trace: machineState.nativeSocketTrace
+	const environment = createNativeAndroidDescriptorEnvironment(
+		machineState,
+		cooperativeRuntime
+	);
+	const platformLooperPump = createNativeAndroidPlatformLooperPump({
+		machineState,
+		registry,
+		state: environment.loopers
 	});
-	const timers = machineState.nativeTimerFds || createNativeTimerFdState({
-		clock,
-		notifyReady: () => cooperativeRuntime?.notifyDescriptors()
+	retainNativeDescriptorRuntimeSnapshotSource(registry, environment);
+	cooperativeRuntime?.bindDescriptors({
+		descriptorEvents: environment.descriptorEvents,
+		epollState: environment.epollState
 	});
-	const descriptorEvents = (descriptor) => {
-		return timers.events(descriptor)
-			| pipes.events(descriptor)
-			| sockets.events(descriptor)
-			| (readOnlyState?.events(descriptor) || 0);
-	};
-	const loopers = machineState.nativeAndroidLoopers
-		|| createNativeAndroidLooperState({ descriptorEvents });
-	retainNativeDescriptorRuntimeSnapshotSource(registry, {
-		descriptorEvents,
-		descriptorFlags,
-		epollState,
-		loopers,
-		pipes,
-		readOnlyState,
-		timers
-	});
-	cooperativeRuntime?.bindDescriptors({ descriptorEvents, epollState });
 	cooperativeRuntime?.bindLoopers({
 		callbacks,
 		imports: machineState.imports,
-		state: loopers
+		state: environment.loopers
 	});
+	cooperativeRuntime?.bindPlatformLooperPump(platformLooperPump);
 	const properties = machineState.nativeAndroidProperties
 		|| createNativeAndroidPropertyState({
 			apiLevel: machineState.androidApiLevel ?? 35,
@@ -86,19 +64,19 @@ export function registerNativeAndroidHandlers(registry, machineState, errnoState
 		callbacks,
 		cooperativeRuntime,
 		imports: machineState.imports,
-		state: loopers
+		state: environment.loopers
 	});
 	const descriptorOptions = {
-		clock,
+		clock: environment.clock,
 		cooperativeRuntime,
-		descriptorEvents,
-		descriptorFlags,
-		epollState,
+		descriptorEvents: environment.descriptorEvents,
+		descriptorFlags: environment.descriptorFlags,
+		epollState: environment.epollState,
 		errnoState: errnoState || machineState.nativeErrno,
-		pipeState: pipes,
-		readOnlyState,
-		socketState: sockets,
-		state: timers
+		pipeState: environment.pipes,
+		readOnlyState: environment.readOnlyState,
+		socketState: environment.sockets,
+		state: environment.timers
 	};
 	registerNativeTimerFdHandlers(registry, descriptorOptions);
 	registerNativeSocketHandlers(registry, {

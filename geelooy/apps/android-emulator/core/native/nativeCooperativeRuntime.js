@@ -1,15 +1,23 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
+//Blessed be He
+
+const EMPTY = Object.freeze([]);
 
 /**
- * Joins suspended guest threads with descriptor and looper readiness.
- * The Awtsmoos renews waiter, event, scheduler, callback, and awakening shore;
- * Awtsmoos.com scans guest-owned truth and blocks no host lane evermore.
+ * Coordinates descriptor readiness across child pthreads and the root platform loop.
+ *
+ * Child epoll/ALooper waits resume through the pthread scheduler. Flutter's original
+ * JNI platform thread is not a `pthread_create` child, so callback-bearing ALooper
+ * readiness is delegated to a separately bound platform pump after the same measured
+ * descriptor notification. The pump owns reentrancy protection for nested guest I/O.
+ *
+ * @returns {object} Frozen binding, notification, tracking, and diagnostic API.
  */
 export function createNativeCooperativeRuntime() {
 	let descriptorEnvironment = null;
 	let looperEnvironment = null;
+	let platformLooperPump = null;
 	let scheduler = null;
 	const waits = new Map();
 	return Object.freeze({
@@ -19,25 +27,37 @@ export function createNativeCooperativeRuntime() {
 		bindLoopers(environment) {
 			looperEnvironment = environment;
 		},
+		bindPlatformLooperPump(candidate) {
+			platformLooperPump = candidate || null;
+		},
 		bindScheduler(candidate) {
 			scheduler = candidate;
 		},
 		notifyDescriptors() {
-			return notifyReadyWaiters(
+			const resumed = notifyReadyWaiters(
 				waits,
 				descriptorEnvironment,
 				looperEnvironment,
 				scheduler
 			);
+			platformLooperPump?.drain?.();
+			return resumed;
+		},
+		platformLooperSnapshot() {
+			return platformLooperPump?.snapshot?.() || null;
 		},
 		snapshot() {
-			return Object.freeze([...waits.entries()].map(([handle, wait]) => Object.freeze({
-				handle,
-				wait
-			})));
+			return Object.freeze([...waits.entries()].map(([handle, wait]) => {
+				return Object.freeze({
+					handle,
+					wait
+				});
+			}));
 		},
 		track(handle, suspension) {
-			if (!suspension || !["epoll", "looper"].includes(suspension.type)) return false;
+			if (!suspension || !["epoll", "looper"].includes(suspension.type)) {
+				return false;
+			}
 			waits.set(BigInt(handle).toString(), Object.freeze({ ...suspension }));
 			return true;
 		},
@@ -47,14 +67,19 @@ export function createNativeCooperativeRuntime() {
 	});
 }
 
+/** Resumes only child-thread waits whose current descriptor truth is ready. */
 function notifyReadyWaiters(waits, descriptors, loopers, scheduler) {
-	if (!scheduler) return Object.freeze([]);
+	if (!scheduler) {
+		return EMPTY;
+	}
 	const resumed = [];
 	for (const [handle, wait] of [...waits.entries()]) {
 		const ready = wait.type === "epoll"
 			? readyEpoll(wait, descriptors)
 			: readyLooper(wait, loopers);
-		if (!ready) continue;
+		if (!ready) {
+			continue;
+		}
 		waits.delete(handle);
 		const result = wait.type === "epoll"
 			? scheduler.wakeEpoll(BigInt(handle), ready.events)
@@ -64,8 +89,11 @@ function notifyReadyWaiters(waits, descriptors, loopers, scheduler) {
 	return Object.freeze(resumed);
 }
 
+/** Returns non-consuming epoll readiness for one tracked child wait. */
 function readyEpoll(wait, environment) {
-	if (!environment) return null;
+	if (!environment) {
+		return null;
+	}
 	const ready = environment.epollState.ready(
 		wait.epollDescriptor,
 		environment.descriptorEvents,
@@ -74,8 +102,11 @@ function readyEpoll(wait, environment) {
 	return ready.ok && ready.events.length > 0 ? ready : null;
 }
 
+/** Polls one tracked child looper using its ordinary guest-visible semantics. */
 function readyLooper(wait, environment) {
-	if (!environment) return null;
+	if (!environment) {
+		return null;
+	}
 	const polled = environment.state.poll(BigInt(wait.thread));
 	return ["event", "wake"].includes(polled.kind) ? polled : null;
 }

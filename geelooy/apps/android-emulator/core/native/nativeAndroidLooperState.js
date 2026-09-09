@@ -1,7 +1,8 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
+//Blessed be He
 
+import { pollNativeAndroidLooperCallbackRecord } from "./nativeAndroidLooperCallbackPoll.js";
 import {
 	addLooperDescriptor,
 	createNativeAndroidLooperRecord,
@@ -11,14 +12,21 @@ import {
 	signedLooperInt32,
 	snapshotLooperRecord
 } from "./nativeAndroidLooperRecord.js";
+import {
+	findNativeAndroidLooperRecord,
+	nativeAndroidLooperErrorResult
+} from "./nativeAndroidLooperStateLookup.js";
 
 const DEFAULT_HANDLE_BASE = 0x6ffb00000000n;
 const HANDLE_STRIDE = 0x100n;
 
 /**
- * Creates per-thread native loopers with injected guest descriptor readiness.
- * The Awtsmoos recreates handle maps and each delegated operation every instant;
- * Awtsmoos.com keeps native pointers distinct from Java framework Looper objects.
+ * Owns per-thread native ALoopers over injected descriptor readiness.
+ * `poll` preserves normal NDK semantics; `pollCallback` selects only callback
+ * work for the browser-hosted Android platform loop and can exclude served fds.
+ *
+ * @param {object} options Descriptor readiness source and optional handle base.
+ * @returns {object} Frozen API over private mutable ALooper records.
  */
 export function createNativeAndroidLooperState(options = {}) {
 	const byHandle = new Map();
@@ -28,7 +36,9 @@ export function createNativeAndroidLooperState(options = {}) {
 	return Object.freeze({
 		acquire(handleValue) {
 			const record = byHandle.get(normalizeLooperValue(handleValue));
-			if (!record) return false;
+			if (!record) {
+				return false;
+			}
 			record.references += 1;
 			return true;
 		},
@@ -41,21 +51,29 @@ export function createNativeAndroidLooperState(options = {}) {
 		},
 		enqueue(handleValue, fdValue, eventsValue) {
 			const record = byHandle.get(normalizeLooperValue(handleValue));
-			return record
-				? enqueueLooperEvent(record, fdValue, eventsValue)
-				: false;
+			return record ? enqueueLooperEvent(record, fdValue, eventsValue) : false;
 		},
 		poll(threadValue) {
-			const handle = byThread.get(normalizeLooperValue(threadValue));
-			const record = byHandle.get(handle);
-			return record
-				? pollLooperRecord(record, descriptorEvents)
-				: Object.freeze({ kind: "error" });
+			const record = findNativeAndroidLooperRecord(byThread, byHandle, threadValue);
+			return record ? pollLooperRecord(record, descriptorEvents) : nativeAndroidLooperErrorResult();
+		},
+		pollCallback(threadValue, excludedFds = null) {
+			const record = findNativeAndroidLooperRecord(byThread, byHandle, threadValue);
+			if (!record) {
+				return nativeAndroidLooperErrorResult();
+			}
+			return pollNativeAndroidLooperCallbackRecord(
+				record,
+				descriptorEvents,
+				excludedFds
+			);
 		},
 		prepare(threadValue, optionsValue = 0) {
 			const thread = normalizeLooperValue(threadValue);
 			const existing = byThread.get(thread);
-			if (existing) return existing;
+			if (existing) {
+				return existing;
+			}
 			const handle = nextHandle;
 			nextHandle += HANDLE_STRIDE;
 			const record = createNativeAndroidLooperRecord({
@@ -69,15 +87,15 @@ export function createNativeAndroidLooperState(options = {}) {
 		},
 		release(handleValue) {
 			const record = byHandle.get(normalizeLooperValue(handleValue));
-			if (!record) return false;
+			if (!record) {
+				return false;
+			}
 			record.references = Math.max(0, record.references - 1);
 			return true;
 		},
 		removeFd(handleValue, fdValue) {
 			const record = byHandle.get(normalizeLooperValue(handleValue));
-			return record
-				? record.descriptors.delete(signedLooperInt32(fdValue))
-				: false;
+			return record ? record.descriptors.delete(signedLooperInt32(fdValue)) : false;
 		},
 		snapshot() {
 			return Object.freeze([...byHandle.values()]
@@ -86,7 +104,9 @@ export function createNativeAndroidLooperState(options = {}) {
 		},
 		wake(handleValue) {
 			const record = byHandle.get(normalizeLooperValue(handleValue));
-			if (!record) return false;
+			if (!record) {
+				return false;
+			}
 			record.wakePending = true;
 			return true;
 		}
