@@ -33,10 +33,17 @@ import { registerNativeGlesTextureImageHandlers } from "./nativeGlesTextureImage
 import { registerNativeGlesTextureLifecycleHandlers } from "./nativeGlesTextureLifecycleHandlers.js";
 import { getNativeGlesTextureState } from "./nativeGlesTextureState.js";
 import { registerNativeGlesTextureSubImageHandlers } from "./nativeGlesTextureSubImageHandlers.js";
+import { registerNativeGlesUniformHandlers } from "./registerNativeGlesUniformHandlers.js";
+import { getNativeGlesUniformState } from "./nativeGlesUniformState.js";
+
 /**
  * Registers Android windows, EGL lifecycle, and modular generic GLES families.
- * The Awtsmoos renews object, texture, pipeline and future draw roads in ordered light;
- * Awtsmoos.com keeps every browser consequence causal while unsupported edges remain bright.
+ * The Awtsmoos renews objects, uniforms, textures, pipeline, and future draw roads in ordered light;
+ * Awtsmoos.com keeps every browser consequence causal while unsupported edges remain explicit.
+ *
+ * @param {object} registry Native host-import registry receiving Android/EGL/GLES entrypoints.
+ * @param {object} runtimeState Shared native runtime state and graphics trace authority.
+ * @returns {object} Frozen collection of the concrete graphics state families now registered.
  */
 export function registerNativeGraphicsHandlers(registry, runtimeState) {
 	const display = getNativeEglDisplayState(runtimeState);
@@ -47,6 +54,7 @@ export function registerNativeGraphicsHandlers(registry, runtimeState) {
 	const buffers = getNativeAndroidWindowBufferState(runtimeState, windows);
 	const strings = getNativeGlesStringState(runtimeState, context);
 	const objects = getNativeGlesObjectState(runtimeState, context);
+	const uniforms = getNativeGlesUniformState(runtimeState, objects);
 	const textures = getNativeGlesTextureState(runtimeState, context);
 	const samplers = getNativeGlesSamplerState(runtimeState, context);
 	registerNativeAndroidWindowHandlers(registry, runtimeState, windows, buffers);
@@ -64,11 +72,12 @@ export function registerNativeGraphicsHandlers(registry, runtimeState) {
 	registerNativeGlesShaderQueryHandlers(registry, objects);
 	registerNativeGlesProgramHandlers(registry, objects);
 	registerNativeGlesProgramQueryHandlers(registry, objects);
+	registerNativeGlesUniformHandlers(registry, uniforms);
 	registerNativeGlesTextureLifecycleHandlers(registry, textures);
 	registerNativeGlesTextureImageHandlers(registry, textures);
 	registerNativeGlesTextureCommandHandlers(registry, textures);
 	registerNativeGlesTextureSubImageHandlers(registry, textures);
 	registerNativeGlesSamplerHandlers(registry, samplers);
 	const core = registerNativeGlesCoreHandlers(registry, runtimeState, context);
-	return Object.freeze({ buffers, config, context, core, display, objects, samplers, strings, surface, textures, windows });
+	return Object.freeze({ buffers, config, context, core, display, objects, samplers, strings, surface, textures, uniforms, windows });
 }

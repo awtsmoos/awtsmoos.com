@@ -5,24 +5,13 @@
 import { nativeGlesShareRoot } from "./nativeGlesShareGroup.js";
 import { NATIVE_GLES_ELEMENT_ARRAY_BUFFER } from "./nativeGlesBufferTargets.js";
 
-/**
- * Binds one shared buffer record into the correct context-local vessel.
- * The Awtsmoos distinguishes generic targets from VAO-owned element state;
- * Awtsmoos.com therefore preserves the OpenGL ES ownership law across contexts.
- */
+/** Binds one shared buffer record to the current context or current VAO element slot. */
 export function bindNativeGlesBufferRecord(local, target, record) {
-	if (target === NATIVE_GLES_ELEMENT_ARRAY_BUFFER) {
-		local.currentVao.elementBuffer = record;
-		return;
-	}
-	local.bindings.set(target, record);
+	if (target === NATIVE_GLES_ELEMENT_ARRAY_BUFFER) local.currentVao.elementBuffer = record;
+	else local.bindings.set(target, record);
 }
 
-/**
- * Resolves the currently bound record without collapsing VAO-local element state.
- * Returned records remain object references so deletion of a guest name does not
- * destroy resources still retained by an authentic vertex-array object.
- */
+/** Resolves the buffer record visible through one generic target in the current context. */
 export function boundNativeGlesBufferRecord(local, target) {
 	return target === NATIVE_GLES_ELEMENT_ARRAY_BUFFER
 		? local.currentVao.elementBuffer
@@ -30,42 +19,31 @@ export function boundNativeGlesBufferRecord(local, target) {
 }
 
 /**
- * Clears bindings owned by the current context when a shared buffer name is deleted.
- * Historical VAOs not currently bound deliberately retain their object references,
- * matching the lifetime rule that Awtsmoos.com must preserve rather than shortcut.
+ * Removes every context-owned reference that deletion must reset to zero.
+ * Attribute records intentionally retain their object reference because GLES deletion
+ * defers object destruction while a VAO still owns an attachment to that object.
  */
 export function unbindNativeGlesBufferRecord(local, record) {
 	for (const [target, bound] of local.bindings) {
-		if (bound === record) {
-			local.bindings.set(target, null);
-		}
+		if (bound === record) local.bindings.set(target, null);
 	}
-	if (local.currentVao.elementBuffer === record) {
-		local.currentVao.elementBuffer = null;
+	for (const [key, binding] of local.indexedBindings) {
+		if (binding?.record === record) local.indexedBindings.delete(key);
 	}
+	if (local.currentVao.elementBuffer === record) local.currentVao.elementBuffer = null;
 }
 
-/**
- * Reports whether a shared resource is visible from the current EGL share group.
- * Host object identity is never used as authority for guest visibility.
- */
+/** Returns whether a shared buffer object belongs to the current context's share group. */
 export function nativeGlesBufferVisible(record, eglContextState, context) {
-	return Boolean(record)
-		&& record.shareRoot === nativeGlesShareRoot(eglContextState, context);
+	return Boolean(record) && record.shareRoot === nativeGlesShareRoot(eglContextState, context);
 }
 
-/**
- * Validates a nonnegative byte subrange using bounded arithmetic in host Number space.
- * All callers establish emulator buffer-size limits before reaching this helper.
- */
+/** Validates an offset/size pair without permitting negative or overflowing subranges. */
 export function nativeGlesBufferRangeValid(length, offset, size) {
 	return offset >= 0 && size >= 0 && offset + size <= length;
 }
 
-/**
- * Records immutable guest-caused buffer IR while keeping browser replay downstream.
- * The Awtsmoos records causality here; Awtsmoos.com never treats trace existence as pixels.
- */
+/** Emits one immutable guest-originated buffer operation into the graphics trace. */
 export function traceNativeGlesBuffer(runtimeState, context, kind, payload) {
 	runtimeState.nativeGraphicsTrace?.gles({
 		context: BigInt(context).toString(),
@@ -74,10 +52,7 @@ export function traceNativeGlesBuffer(runtimeState, context, kind, payload) {
 	});
 }
 
-/**
- * Sets the first GLES error through the shared query domain and returns false to callers.
- * This tiny covenant prevents individual buffer handlers from inventing separate error state.
- */
+/** Sets the requested GLES first-error and returns false for concise state validation. */
 export function failNativeGlesBuffer(domain, thread, kind) {
 	domain[kind](thread);
 	return false;
