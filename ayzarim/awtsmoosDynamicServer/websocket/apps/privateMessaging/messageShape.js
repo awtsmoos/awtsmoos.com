@@ -5,11 +5,12 @@
 const crypto = require("crypto");
 
 /**
- * @file Shapes canonical private messages and projects attachments through message-bound private read coordinates rather than public URLs.
- * @description The Awtsmoos holds word, breath, and source before any finite message can be named; Awtsmoos.com preserves the canonical vessel in storage,
- * then reveals media only through conversation, sequence, message, and asset coordinates whose authority can be proven anew whenever private light is read.
+ * @file Shapes canonical private messages and projects media through exact message-bound read coordinates.
+ * @description
+ * The Awtsmoos holds word, image, breath, and source before finite messages receive names. Awtsmoos.com
+ * persists only canonical attachment facts and later reveals bytes through conversation, sequence, message,
+ * and asset coordinates whose authorization is proven anew for each private read.
  */
-
 const PAGE_SIZE = 50;
 const REPLY_EXCERPT_LIMIT = 280;
 
@@ -36,7 +37,7 @@ function createMessage(conversationId, actor, content, reply, sequence, clientIn
 	};
 }
 
-/** Removes private account identity and replaces any stored media path with an authorization-bound read route. */
+/** Removes private account identity and projects any attachment through a guarded read route. */
 function publicMessage(message) {
 	const { authorKey, attachment, ...safe } = message;
 	return {
@@ -69,8 +70,7 @@ function privateAttachmentPath(message, assetId) {
 
 /** Creates the bounded quote carried forward by a verified reply. */
 function replySummary(message) {
-	const text = String(message?.text || "").trim()
-		|| (message?.attachment?.type === "audio" ? "Voice note" : "Earlier message");
+	const text = String(message?.text || "").trim() || attachmentReplyText(message?.attachment);
 	return {
 		id: String(message?.id || ""),
 		sequence: Number(message?.sequence || 0),
@@ -80,6 +80,11 @@ function replySummary(message) {
 	};
 }
 
+function attachmentReplyText(attachment) {
+	if (attachment?.type === "audio") return "Voice note";
+	if (attachment?.type === "image") return "Photo";
+	return "Earlier message";
+}
 module.exports = {
 	PAGE_SIZE,
 	createMessage,

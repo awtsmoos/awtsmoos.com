@@ -12,30 +12,30 @@ const {
 } = require("./voiceAttachmentTestSupport.js");
 
 /**
- * @file Proves private voice notes remain sender-owned, canonical, bounded, and privately projected.
+ * @file Proves allowlisted private images share voice's exact sender-ownership and guarded-read covenant.
  * @description
- * The Awtsmoos renews sound and secrecy together. Awtsmoos.com accepts only a sender-owned private
- * audio manifest, projects no public URL, and carries a truthful voice summary into verified replies.
+ * The Awtsmoos contains image and caption before transport divides them. Awtsmoos.com accepts only
+ * sender-owned PNG/JPEG/WebP/GIF manifests within the Social limit and projects no public asset URL.
  */
-async function runVoiceContract() {
+async function runImageContract() {
 	const { app, database, contexts } = await setupThreeAliases(createPrivateMessagingApplication);
 	const conversationId = await createAcceptedVoiceRoom(app, contexts);
-	const manifest = voiceManifest("asset-voice-1");
+	const manifest = imageManifest("asset-image-1");
 	await seedVoiceAsset(database, "Aleph", manifest);
 	const sent = await sendVoiceTestMessage(
 		app,
 		contexts.Aleph,
 		conversationId,
-		"",
+		"Mountain sunrise",
 		{ assetId: manifest.id }
 	);
 	const message = sent.payload.message;
 	assert.deepEqual(message.attachment, {
 		id: manifest.id,
-		type: "audio",
+		type: "image",
 		mime: manifest.mime,
 		size: manifest.size,
-		role: "voice-note",
+		role: "image",
 		privatePath: privatePath(message, manifest.id)
 	});
 	assert.equal("publicPath" in message.attachment, false);
@@ -43,46 +43,55 @@ async function runVoiceContract() {
 		app,
 		contexts.Bet,
 		conversationId,
-		"Heard clearly",
+		"Beautiful",
 		null,
 		message
 	);
-	assert.equal(reply.payload.message.reply.text, "Voice note");
-	await assert.rejects(
-		() => sendVoiceTestMessage(
-			app,
-			contexts.Bet,
-			conversationId,
-			"",
-			{ assetId: manifest.id }
-		),
-		(error) => error.code === "PRIVATE_MESSAGING_ATTACHMENT_INVALID"
+	assert.equal(reply.payload.message.reply.text, "Mountain sunrise");
+	const bare = await sendVoiceTestMessage(
+		app,
+		contexts.Aleph,
+		conversationId,
+		"",
+		{ assetId: manifest.id }
 	);
-	const invalid = voiceManifest("asset-not-private");
-	invalid.attachedTo = { kind: "post" };
-	await seedVoiceAsset(database, "Aleph", invalid);
-	await assert.rejects(
-		() => sendVoiceTestMessage(
-			app,
-			contexts.Aleph,
-			conversationId,
-			"",
-			{ assetId: invalid.id }
-		),
-		(error) => error.code === "PRIVATE_MESSAGING_ATTACHMENT_INVALID"
+	const bareReply = await sendVoiceTestMessage(
+		app,
+		contexts.Bet,
+		conversationId,
+		"Seen",
+		null,
+		bare.payload.message
 	);
+	assert.equal(bareReply.payload.message.reply.text, "Photo");
+	for (const [id, patch] of [
+		["asset-svg", { mime: "image/svg+xml" }],
+		["asset-large", { size: 8 * 1024 * 1024 + 1 }]
+	]) {
+		await seedVoiceAsset(database, "Aleph", { ...manifest, id, ...patch });
+		await assert.rejects(
+			() => sendVoiceTestMessage(
+				app,
+				contexts.Aleph,
+				conversationId,
+				"",
+				{ assetId: id }
+			),
+			(error) => error.code === "PRIVATE_MESSAGING_ATTACHMENT_INVALID"
+		);
+	}
 }
 
-function voiceManifest(id) {
+function imageManifest(id) {
 	return {
 		id,
 		aliasId: "Aleph",
 		ownerAlias: "Aleph",
-		type: "audio",
-		mime: "audio/webm",
-		size: 2048,
+		type: "image",
+		mime: "image/png",
+		size: 4096,
 		storagePath: __filename,
-		publicPath: `/social/assets/${id}.webm`,
+		publicPath: `/social/assets/${id}.png`,
 		attachedTo: { kind: "private-message" }
 	};
 }
@@ -95,8 +104,8 @@ function privatePath(message, assetId) {
 	].map((value) => encodeURIComponent(String(value))).join("/")}`;
 }
 
-runVoiceContract().then(() => {
-	console.log("Private messaging voice attachment contract: PASS");
+runImageContract().then(() => {
+	console.log("Private messaging image attachment contract: PASS");
 }).catch((error) => {
 	console.error(error);
 	process.exitCode = 1;

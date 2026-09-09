@@ -5,18 +5,23 @@
 const fs = require("fs");
 const { RealtimeError } = require("../../platform/RealtimeError.js");
 const { read } = require("./database.js");
+const { attachmentFacts } = require("./messageAttachmentKinds.js");
 
 /**
- * @file Converts a client-supplied asset id into canonical private voice metadata only after ownership, private intent, MIME, and file existence are proven.
- * @description The Awtsmoos hears every breath before storage has a name; Awtsmoos.com accepts no browser URL as authority in light,
- * retaining only verified asset identity and media facts so the later read must prove the exact message relationship anew in sight.
+ * @file Resolves one client asset id into canonical private image or voice metadata.
+ * @description
+ * The Awtsmoos gives an asset id no authority by itself. Awtsmoos.com proves the exact sender alias,
+ * canonical manifest, private-message binding, allowlisted media facts, size covenant, and real file
+ * before the message may retain that attachment identity for later member-bound private reading.
  */
+const SAFE_ASSET_ID = /^[A-Za-z0-9._:-]{1,160}$/;
 
+/** Returns canonical attachment facts or null when no attachment was requested. */
 async function resolveAttachment(services, actor, payload = {}) {
 	const requested = payload?.attachment;
 	if (!requested) return null;
 	const assetId = String(requested.assetId || "").trim();
-	if (!/^[A-Za-z0-9._:-]{1,160}$/.test(assetId)) {
+	if (!SAFE_ASSET_ID.test(assetId)) {
 		throw invalidAttachment("A valid uploaded asset id is required.");
 	}
 	const manifest = await read(
@@ -24,32 +29,25 @@ async function resolveAttachment(services, actor, payload = {}) {
 		`/social/aliases/${actor.alias}/assets/${assetId}`,
 		null
 	);
-	if (!trustedPrivateAudio(manifest, actor, assetId)) {
-		throw invalidAttachment("Voice attachment ownership or media metadata is invalid.");
+	const facts = trustedPrivateAttachment(manifest, actor, assetId);
+	if (!facts) {
+		throw invalidAttachment("Private attachment ownership or media metadata is invalid.");
 	}
 	return {
-		id: manifest.id,
-		type: "audio",
-		mime: manifest.mime,
-		size: Number(manifest.size || 0),
-		role: "voice-note"
+		id: String(manifest.id),
+		...facts
 	};
 }
 
-function trustedPrivateAudio(manifest, actor, assetId) {
-	return Boolean(
-		manifest
-		&& String(manifest.id || "") === assetId
-		&& String(manifest.aliasId || "") === actor.alias
-		&& String(manifest.ownerAlias || "") === actor.alias
-		&& manifest.type === "audio"
-		&& /^audio\/[A-Za-z0-9.+-]+$/i.test(String(manifest.mime || ""))
-		&& manifest.attachedTo?.kind === "private-message"
-		&& typeof manifest.storagePath === "string"
-		&& fs.existsSync(manifest.storagePath)
-	);
+/** Proves sender ownership, private binding, allowlisted media facts, and physical storage. */
+function trustedPrivateAttachment(manifest, actor, assetId) {
+	if (!manifest || String(manifest.id || "") !== assetId) return null;
+	if (String(manifest.aliasId || "") !== actor.alias) return null;
+	if (String(manifest.ownerAlias || "") !== actor.alias) return null;
+	if (manifest.attachedTo?.kind !== "private-message") return null;
+	if (typeof manifest.storagePath !== "string" || !fs.existsSync(manifest.storagePath)) return null;
+	return attachmentFacts(manifest);
 }
-
 function invalidAttachment(message) {
 	return new RealtimeError(
 		"PRIVATE_MESSAGING_ATTACHMENT_INVALID",
@@ -61,5 +59,5 @@ function invalidAttachment(message) {
 
 module.exports = {
 	resolveAttachment,
-	trustedPrivateAudio
+	trustedPrivateAttachment
 };
