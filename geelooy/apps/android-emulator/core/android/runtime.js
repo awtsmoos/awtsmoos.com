@@ -14,6 +14,7 @@ import { createAndroidProviderDriver } from "./providerDriver.js";
 import { createAndroidRenderer } from "./renderer.js";
 import { createAndroidExecutorEnvironment } from "./runtimeExecutorEnvironment.js";
 import { createAndroidLaunchReport } from "./runtimeLaunchReport.js";
+import { notifyAndroidRuntimeObserver } from "./runtimeObserver.js";
 import { createAndroidRuntimeState, synchronizeAndroidFilesystem } from "./runtimeState.js";
 import { dispatchSurfaceHolderLifecycle } from "./surfaceHolderLifecycle.js";
 
@@ -34,6 +35,7 @@ export async function launchAndroidPackageSet(packageSet, options = {}) {
 	const staticFields = options.staticFields || new Map();
 	const sharedOptions = { ...options, registry, resources, staticFields };
 	const runtime = createAndroidRuntimeState(packageSet, heap, sharedOptions);
+	notifyAndroidRuntimeObserver(runtime, options);
 	seedFrameworkStaticFields(runtime, staticFields);
 	const environment = createAndroidExecutorEnvironment(heap, registry, sharedOptions);
 	const executor = createDalvikExecutor(environment, {
