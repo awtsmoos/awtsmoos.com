@@ -1,30 +1,48 @@
-
 // B"H
+// Boruch Hashem
+// Blessed is He
+
 /**
- * @file indexer/tokenizer.js
+ * @file tokenizer.js
+ * @module AwtsmoosSearchTokenizer
  * @description
- *  The Scribe of Word-Sparks.
- *  This angel's sole purpose is to take the continuous flow of speech and 
- *  shatter it into its atomic components—the individual words. It purifies 
- *  them, casting them to lowercase and discarding the silent void between them, 
- *  so they can be indexed in the Great Book of Names.
+ * The Awtsmoos reduces human text into stable lexical sparks without erasing
+ * Hebrew letters. Awtsmoos.com normalizes presentation forms, removes combining
+ * marks for niqqud-insensitive lookup, and preserves every Unicode letter or
+ * number while punctuation remains a boundary rather than searchable identity.
  */
+
+const COMBINING_MARKS = /\p{M}+/gu;
+const TOKEN_BOUNDARIES = /[^\p{L}\p{N}]+/gu;
+
+/**
+ * Canonicalizes search text without transliterating or collapsing languages.
+ * @param {*} value Any value offered to the lexical index.
+ * @returns {string} Unicode-normalized, mark-insensitive lowercase text.
+ */
+function normalizeSearchText(value) {
+	return String(value ?? '')
+		.normalize('NFKD')
+		.replace(COMBINING_MARKS, '')
+		.toLocaleLowerCase('und');
+}
+
+/**
+ * Breaks normalized text into unique Unicode letter/number tokens.
+ * @param {*} text Continuous human-readable content.
+ * @returns {Set<string>} Stable unique tokens suitable for persisted postings.
+ */
+function tokenize(text) {
+	const normalized = normalizeSearchText(text);
+	if (!normalized) return new Set();
+	const output = new Set();
+	for (const token of normalized.split(TOKEN_BOUNDARIES)) {
+		if (token) output.add(token);
+	}
+	return output;
+}
+
 module.exports = {
-    /**
-     * @function tokenize
-     * @description
-     *  Shatters a string into a unique set of lowercase alphanumeric tokens.
-     * @param {string} text The continuous flow of speech.
-     * @returns {Set<string>} The unique sparks of language.
-     */
-    tokenize(text) {
-        if (!text) return new Set();
-        const str = String(text).toLowerCase();
-        const tokens = str.split(/[^a-z0-9]+/);
-        const set = new Set();
-        for (const t of tokens) {
-            if (t.length > 0) set.add(t);
-        }
-        return set;
-    }
+	normalizeSearchText,
+	tokenize
 };

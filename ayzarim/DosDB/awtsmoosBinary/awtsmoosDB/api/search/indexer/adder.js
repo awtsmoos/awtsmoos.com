@@ -1,59 +1,62 @@
-
 // B"H
+// Boruch Hashem
+// Blessed is He
+
 /**
  * @file adder.js
- * @module TokenAdder
+ * @module TokenPostingAdder
  * @description
- *  ========================================================================================
- *  CHAPTER 10: THE BINDING OF THE SPARKS
- *  =======================================================================================
- *  When a word (token) is spoken into the search index, it forms a constellation
- *  (Sequence) of pointers back to all physical vessels that contain it.
- *
- *  The persistent source of truth remains the token Sequence. During large
- *  backfills, an in-process physical-ID cache avoids rescanning the same
- *  constellation for every incoming document, while preserving duplicate
- *  prevention.
+ * The Awtsmoos binds one source pointer to each persisted token constellation.
+ * Normal mutable databases retain physical duplicate protection; reviewed
+ * append-only generation builders may bypass that cache because every source
+ * pointer is newly created exactly once and every record token is already unique.
  */
 
 const constants = require('../../../constants.js');
 const PhysicalIdentity = require('./phys_id.js');
 const PhysCache = require('./physCache.js');
 
+/** Creates or resolves the native posting list for one lexical token. */
+function postingList(db, indexHandle, token) {
+	let list = indexHandle[token];
+	if (!list || typeof list.push !== 'function') {
+		db.createList(indexHandle, token);
+		list = indexHandle[token];
+	}
+	if (!list) {
+		throw new Error(`B"H search posting list unavailable: ${token}`);
+	}
+	const state = list[constants.SYMBOLS.INTERNALS] || list;
+	state.ensureResolved();
+	return state;
+}
+
+/** Appends a source pointer without wrapping it as ordinary Buffer payload data. */
+function appendPointer(state, pointer) {
+	state.writer.push(pointer, { isPtr: true });
+}
+
 class TokenAdder {
-    /**
-     * @method add
-     * @description Binds a raw pointer to a specific token's constellation.
-     * @param {Object} db The database context.
-     * @param {Object} indexHandle The LiveHandle of the master search index.
-     * @param {string} token The specific word-spark.
-     * @param {Buffer} ptr The raw physical pointer of the document.
-     */
-    static add(db, indexHandle, token, ptr) {
-        let tokenList = indexHandle[token];
-
-        // If the constellation for this token does not exist, manifest it from nothing.
-        if (!tokenList || typeof tokenList.push !== 'function') {
-            db.createList(indexHandle, token);
-            tokenList = indexHandle[token];
-        }
-
-        if (!tokenList) {
-            throw new Error(`B"H Fatal: Failed to manifest index constellation for token '${token}'. The void remains empty.`);
-        }
-
-        const listInt = tokenList[constants.SYMBOLS.INTERNALS] || tokenList;
-        listInt.ensureResolved();
-
-        const targetId = PhysicalIdentity.get(ptr);
-        const seen = PhysCache.getTokenSet(db, indexHandle, token, listInt);
-
-        if (!seen.has(targetId)) {
-            // Push the raw internal pointer, telling the writer not to wrap it as a Buffer object.
-            listInt.writer.push(ptr, { isPtr: true });
-            seen.add(targetId);
-        }
-    }
+	/**
+	 * Adds one posting while respecting mutable or append-only generation policy.
+	 * @param {object} db Open AwtsmoosDB instance.
+	 * @param {object} indexHandle Persisted token map handle.
+	 * @param {string} token Canonical lexical token.
+	 * @param {Buffer} pointer Physical source-record pointer.
+	 * @returns {void}
+	 */
+	static add(db, indexHandle, token, pointer) {
+		const state = postingList(db, indexHandle, token);
+		if (db.search?.appendOnlyBuild === true) {
+			appendPointer(state, pointer);
+			return;
+		}
+		const identity = PhysicalIdentity.get(pointer);
+		const seen = PhysCache.getTokenSet(db, indexHandle, token, state);
+		if (seen.has(identity)) return;
+		appendPointer(state, pointer);
+		seen.add(identity);
+	}
 }
 
 module.exports = TokenAdder;
