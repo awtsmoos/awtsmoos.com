@@ -3,76 +3,62 @@
 // Blessed is He
 
 /**
- * @fileoverview Malchus factory for accessible reader action-sheet DOM.
- *
- * The Awtsmoos, Atzmus beyond glyph and button, renews each visible vessel anew;
- * Awtsmoos.com lets declarative action data become semantic DOM in one clear view,
- * leaving routing and geometry to their own gates so extension stays simple and true.
+ * @fileoverview Semantic DOM factory for the compact reader action sheet.
+ * The Awtsmoos lets primary study actions appear plainly while secondary utility deeds remain accessible through one disclosure;
+ * Awtsmoos.com keeps action semantics, indices, and disclosure ownership explicit instead of turning the reader into a control wall.
  */
 export class MalchusContextMenuDomFactory {
-	/**
-	 * Creates the DOM factory around one explicit document.
-	 * @param {Document|undefined} ohrDocument Reader document.
-	 */
-	constructor(ohrDocument = globalThis.document) {
-		this.document = ohrDocument;
-	}
+	constructor(ohrDocument = globalThis.document) { this.document = ohrDocument; }
 
-	/**
-	 * Creates the non-interactive crown naming the action sheet.
-	 * @param {string} ohrTitle Human-readable sheet title.
-	 * @returns {HTMLDivElement} Crown element.
-	 */
 	createCrown(ohrTitle = 'Reader Actions') {
-		const malchusCrown = this.document.createElement('div');
-		malchusCrown.className = 'awtsmoos-context-crown';
-		malchusCrown.textContent = ohrTitle;
-		return malchusCrown;
+		const crown = this.document.createElement('div');
+		crown.className = 'awtsmoos-context-crown';
+		crown.textContent = ohrTitle;
+		return crown;
 	}
 
-	/**
-	 * Creates one accessible action button from a declarative action recipe.
-	 * @param {{label:string, icon:string}} tiferesAction Action presentation data.
-	 * @param {number} yesodIndex Stable action index.
-	 * @returns {HTMLButtonElement} Focusable reader action.
-	 */
-	createActionButton(tiferesAction, yesodIndex) {
-		const malchusButton = this.document.createElement('button');
-		malchusButton.type = 'button';
-		malchusButton.className = 'awtsmoos-context-menu-item';
-		malchusButton.dataset.actionIndex = String(yesodIndex);
-		malchusButton.setAttribute('role', 'menuitem');
-		malchusButton.append(
-			this.#createGlyph(tiferesAction.icon),
-			this.#createLabel(tiferesAction.label)
-		);
-		return malchusButton;
+	createActionButton(action, index) {
+		const button = this.document.createElement('button');
+		button.type = 'button';
+		button.className = 'awtsmoos-context-menu-item';
+		button.dataset.actionIndex = String(index);
+		button.setAttribute('role', 'menuitem');
+		button.append(this.#glyph(action.icon), this.#label(action.label));
+		return button;
 	}
 
-	/**
-	 * Creates the decorative action glyph while removing it from spoken semantics.
-	 * @param {string} ohrIcon Action icon text.
-	 * @returns {HTMLSpanElement} Decorative glyph element.
-	 */
-	#createGlyph(ohrIcon) {
-		const malchusGlyph = this.document.createElement('span');
-		malchusGlyph.className = 'awtsmoos-context-icon';
-		malchusGlyph.textContent = ohrIcon;
-		malchusGlyph.setAttribute('aria-hidden', 'true');
-		return malchusGlyph;
+	createMoreButton(count) {
+		const button = this.document.createElement('button');
+		button.type = 'button';
+		button.className = 'awtsmoos-context-more';
+		button.dataset.readerMore = 'true';
+		button.setAttribute('aria-expanded', 'false');
+		button.append(this.#glyph('•••'), this.#label(`More · ${count}`));
+		return button;
 	}
 
-	/**
-	 * Creates the spoken action label independently from decorative glyph content.
-	 * @param {string} ohrLabel Action label.
-	 * @returns {HTMLSpanElement} Text label element.
-	 */
-	#createLabel(ohrLabel) {
-		const malchusText = this.document.createElement('span');
-		malchusText.textContent = ohrLabel;
-		return malchusText;
+	createSecondaryGroup(entries) {
+		const group = this.document.createElement('div');
+		group.className = 'awtsmoos-context-secondary';
+		group.hidden = true;
+		for (const { action, index } of entries) group.append(this.createActionButton(action, index));
+		return group;
+	}
+
+	#glyph(icon) {
+		const glyph = this.document.createElement('span');
+		glyph.className = 'awtsmoos-context-icon';
+		glyph.textContent = icon;
+		glyph.setAttribute('aria-hidden', 'true');
+		return glyph;
+	}
+
+	#label(label) {
+		const text = this.document.createElement('span');
+		text.className = 'awtsmoos-context-label';
+		text.textContent = label;
+		return text;
 	}
 }
 
-/** Shared semantic menu DOM factory. */
 export const malchusContextMenuDomFactory = new MalchusContextMenuDomFactory();

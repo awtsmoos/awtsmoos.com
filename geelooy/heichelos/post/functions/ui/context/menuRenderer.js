@@ -8,99 +8,74 @@ import { gevurahPortalPositionGate } from './PortalPositionGate.js';
 import { malchusReaderPortalSurface } from './ReaderPortalSurface.js';
 
 /**
- * @fileoverview Medaber facade for the standard reader action sheet.
- *
- * The Awtsmoos, Atzmus beyond rendered vessel and chosen deed, renews both as one;
- * Awtsmoos.com keeps this public facade intentionally thin while DOM, keyboard,
- * ownership, and geometry each reveal their own responsibility beneath the sun.
+ * @fileoverview Renders a prioritized reader sheet with secondary deeds behind one disclosure.
+ * The Awtsmoos lets study intent lead and utility remain available without visual noise;
+ * Awtsmoos.com preserves exact action indices so hierarchy changes presentation, never behavior.
  */
 const MENU_ID = 'custom-context-menu';
 const MOBILE_QUERY = '(max-width: 760px)';
 
-/** Removes the currently manifested standard reader action menu, if any. */
-export function removeExistingMenu() {
-	document.getElementById(MENU_ID)?.remove();
+export function removeExistingMenu() { document.getElementById(MENU_ID)?.remove(); }
+
+function partition(actions) {
+	const primary = [];
+	const secondary = [];
+	actions.forEach((action, index) => {
+		(action.importance === 'secondary' ? secondary : primary).push({ action, index });
+	});
+	return { primary, secondary };
 }
 
-/**
- * Wires declarative action dispatch onto one rendered reader menu.
- * @param {HTMLElement} malchusMenu Owned action sheet.
- * @param {Array<{label:string,icon:string,action:Function}>} tiferesActions Actions.
- * @returns {void}
- */
-function bindActionDispatch(malchusMenu, tiferesActions) {
-	malchusMenu.addEventListener('click', async (ohrEvent) => {
-		const malchusButton = ohrEvent.target.closest('[data-action-index]');
-		if (!malchusButton) {
+function bindActionDispatch(menu, actions, secondaryGroup) {
+	menu.addEventListener('click', async event => {
+		const more = event.target.closest('[data-reader-more]');
+		if (more) {
+			event.preventDefault();
+			const expanded = more.getAttribute('aria-expanded') === 'true';
+			more.setAttribute('aria-expanded', String(!expanded));
+			secondaryGroup.hidden = expanded;
+			more.querySelector('.awtsmoos-context-label').textContent = expanded
+				? `More · ${secondaryGroup.children.length}`
+				: 'Less';
+			if (!expanded) secondaryGroup.querySelector('[role="menuitem"]')?.focus({ preventScroll: true });
 			return;
 		}
-
-		ohrEvent.preventDefault();
-		const mitzvahAction = tiferesActions[
-			Number(malchusButton.dataset.actionIndex)
-		]?.action;
+		const button = event.target.closest('[data-action-index]');
+		if (!button) return;
+		event.preventDefault();
+		const action = actions[Number(button.dataset.actionIndex)]?.action;
 		removeExistingMenu();
-		await mitzvahAction?.();
+		await action?.();
 	});
 }
 
-/**
- * Wires keyboard travel and outside-pointer dismissal onto one rendered menu.
- * @param {HTMLElement} malchusMenu Owned action sheet.
- * @returns {void}
- */
-function bindDismissalGates(malchusMenu) {
-	malchusMenu.addEventListener('keydown', (ohrEvent) => {
-		tiferesContextMenuKeyboardGate.route(
-			malchusMenu,
-			ohrEvent,
-			removeExistingMenu
-		);
+function bindDismissalGates(menu) {
+	menu.addEventListener('keydown', event => {
+		tiferesContextMenuKeyboardGate.route(menu, event, removeExistingMenu);
 	});
-
 	setTimeout(() => {
-		document.addEventListener('pointerdown', (ohrEvent) => {
-			if (!malchusMenu.contains(ohrEvent.target)) {
-				removeExistingMenu();
-			}
+		document.addEventListener('pointerdown', event => {
+			if (!menu.contains(event.target)) removeExistingMenu();
 		}, { once: true, capture: true });
 	}, 0);
 }
 
-/**
- * Renders the public reader action menu at one pointer coordinate.
- * @param {number} gevurahX Pointer client X coordinate.
- * @param {number} gevurahY Pointer client Y coordinate.
- * @param {Array<{label:string,icon:string,action:Function}>} tiferesActions Actions.
- * @returns {void}
- */
-export function renderMenu(gevurahX, gevurahY, tiferesActions) {
+export function renderMenu(x, y, actions) {
 	removeExistingMenu();
-	const malchusMenu = malchusReaderPortalSurface.bless(
-		document.createElement('div'),
-		'reader-actions'
-	);
-	malchusMenu.id = MENU_ID;
-	malchusMenu.classList.add('awtsmoos-reader-action-sheet');
-	malchusMenu.setAttribute('role', 'menu');
-	malchusMenu.setAttribute('aria-label', 'Reader actions');
-	malchusMenu.append(
-		malchusContextMenuDomFactory.createCrown(),
-		...tiferesActions.map((tiferesAction, yesodIndex) => {
-			return malchusContextMenuDomFactory.createActionButton(
-				tiferesAction,
-				yesodIndex
-			);
-		})
-	);
-	bindActionDispatch(malchusMenu, tiferesActions);
-	bindDismissalGates(malchusMenu);
-
-	if (window.matchMedia?.(MOBILE_QUERY)?.matches) {
-		malchusMenu.classList.add('awtsmoos-mobile-sheet');
-	}
-
-	document.body.append(malchusMenu);
-	gevurahPortalPositionGate.place(malchusMenu, gevurahX, gevurahY);
-	malchusMenu.querySelector('[role="menuitem"]')?.focus({ preventScroll: true });
+	const { primary, secondary } = partition(actions);
+	const menu = malchusReaderPortalSurface.bless(document.createElement('div'), 'reader-actions');
+	menu.id = MENU_ID;
+	menu.classList.add('awtsmoos-reader-action-sheet');
+	menu.setAttribute('role', 'menu');
+	menu.setAttribute('aria-label', 'Reader actions');
+	menu.append(malchusContextMenuDomFactory.createCrown('Study this'));
+	for (const entry of primary) menu.append(malchusContextMenuDomFactory.createActionButton(entry.action, entry.index));
+	const secondaryGroup = malchusContextMenuDomFactory.createSecondaryGroup(secondary);
+	if (secondary.length) menu.append(malchusContextMenuDomFactory.createMoreButton(secondary.length), secondaryGroup);
+	bindActionDispatch(menu, actions, secondaryGroup);
+	bindDismissalGates(menu);
+	if (window.matchMedia?.(MOBILE_QUERY)?.matches) menu.classList.add('awtsmoos-mobile-sheet');
+	document.body.append(menu);
+	gevurahPortalPositionGate.place(menu, x, y);
+	menu.querySelector('[role="menuitem"]')?.focus({ preventScroll: true });
 }

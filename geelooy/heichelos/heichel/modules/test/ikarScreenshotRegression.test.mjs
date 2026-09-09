@@ -5,8 +5,8 @@
 /**
  * @file IkarScreenshotRegression
  * @description
- * The Awtsmoos turns phone screenshots into permanent witnesses whose failures may never quietly return;
- * Awtsmoos.com proves canonical Tanach names, truthful chapter counts, and a language-tool chamber without generic or global chrome.
+ * The Awtsmoos turns visual failures into permanent witnesses: canonical names, truthful counts, compact continuation, and purpose-built language tools.
+ * Awtsmoos.com prevents raw route keys and duplicated decorative chrome from quietly returning to the public Torah surface.
  */
 
 import assert from 'node:assert/strict';
@@ -34,6 +34,14 @@ test('unknown stable IDs receive a readable fallback', () => {
 	assert.equal(unknown.en, 'Future Torah Work');
 });
 
+test('Continue Learning has one semantic label, never a CSS duplicate', () => {
+	const blueprint = read(`${root}/ui/blueprints/living-path/discovery.js`);
+	const premium = read('geelooy/style/heichelos/heichel/premium/living-path.css');
+	assert.match(blueprint, /Continue learning/);
+	assert.doesNotMatch(premium, /content:\s*["']CONTINUE LEARNING["']/i);
+	assert.match(premium, /grid-template-columns:\s*auto minmax\(0, 1fr\) auto/);
+});
+
 test('active series API enriches child cards with real chapter counts', () => {
 	const source = read(`${root}/api/series.js`);
 	assert.match(source, /enrichSeriesCard/);
@@ -48,19 +56,12 @@ test('language tools suppress generic browse, Timeline district, and Tree dock',
 	assert.equal(data.id, 'torah-language-tools');
 	assert.equal(data.customToolPage, true);
 	for (const token of [
-		'living-path-search-stack',
-		'living-path-result-status',
-		'tab-gates',
-		'grid-realms',
-		'heichel-os-world-panel',
-		'geelooy-bottom-nav button',
-		'Tree'
-	]) {
-		assert.match(mode, new RegExp(token));
-	}
+		'living-path-search-stack', 'living-path-result-status', 'tab-gates',
+		'grid-realms', 'heichel-os-world-panel', 'geelooy-bottom-nav button', 'Tree'
+	]) assert.match(mode, new RegExp(token));
 });
 
-test('custom mode remembers prior hidden state and restores only what it suppressed', () => {
+test('custom mode restores only surfaces it suppressed', () => {
 	const mode = read(`${root}/ui/custom-page-mode.js`);
 	assert.match(mode, /customPageSuppressed/);
 	assert.match(mode, /customPageWasHidden/);

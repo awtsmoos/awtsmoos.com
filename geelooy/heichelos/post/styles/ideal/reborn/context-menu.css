@@ -1,23 +1,20 @@
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
-/**
- * The Awtsmoos lets detached reader actions carry their own scope into body space;
- * Awtsmoos.com styles only stamped reader portals, never naked global IDs or race.
- */
+/** The Awtsmoos lets a touched Torah coordinate open a compact study vessel; Awtsmoos.com keeps secondary utilities present without making them visually equal to learning. */
 .awtsmoos-reader-portal-surface {
 	position: fixed;
 	z-index: var(--awtsmoos-reader-portal-layer, 440);
 	box-sizing: border-box;
-	inline-size: min(92dvi, 390px);
+	inline-size: min(92dvi, 380px);
 	max-inline-size: calc(100dvi - 24px);
-	max-block-size: min(78dvh, 34rem);
-	padding: 10px;
-	border: 1px solid rgba(244, 197, 107, .22);
+	max-block-size: min(76dvh, 32rem);
+	padding: 9px;
+	border: 1px solid rgba(244, 197, 107, .2);
 	border-radius: 18px;
 	color: #f7f1df;
 	background: rgba(7, 11, 24, .97);
-	box-shadow: 0 24px 80px rgba(0, 0, 0, .48);
+	box-shadow: 0 22px 72px rgba(0, 0, 0, .46);
 	backdrop-filter: blur(20px) saturate(1.15);
 	-webkit-backdrop-filter: blur(20px) saturate(1.15);
 	font-family: var(--awtsmoos-reader-portal-font, system-ui, sans-serif);
@@ -25,23 +22,22 @@
 	overflow-y: auto;
 	overscroll-behavior: contain;
 }
-
-.awtsmoos-reader-portal-surface .awtsmoos-context-crown,
-.awtsmoos-reader-portal-surface .insane-verse-menu-header {
-	padding: 8px 10px 10px;
+.awtsmoos-reader-portal-surface .awtsmoos-context-crown {
+	padding: 7px 10px 9px;
 	color: #f6c96c;
+	font-size: .72rem;
 	font-weight: 850;
-	letter-spacing: .02em;
+	letter-spacing: .08em;
+	text-transform: uppercase;
 }
-
 .awtsmoos-reader-portal-surface .awtsmoos-context-menu-item,
-.awtsmoos-reader-portal-surface .insane-verse-menu-item {
+.awtsmoos-reader-portal-surface .awtsmoos-context-more {
 	display: flex;
 	align-items: center;
 	gap: 10px;
 	inline-size: 100%;
 	min-block-size: 44px;
-	padding: 10px 11px;
+	padding: 9px 10px;
 	border: 1px solid transparent;
 	border-radius: 12px;
 	color: inherit;
@@ -51,50 +47,26 @@
 	cursor: pointer;
 	transition: background 150ms ease, border-color 150ms ease, transform 120ms ease;
 }
-
-.awtsmoos-reader-portal-surface .awtsmoos-context-icon {
-	flex: 0 0 auto;
-	inline-size: 1.4em;
-	text-align: center;
+.awtsmoos-reader-portal-surface .awtsmoos-context-menu-item + .awtsmoos-context-menu-item { margin-block-start: 2px; }
+.awtsmoos-reader-portal-surface .awtsmoos-context-icon { flex: 0 0 auto; inline-size: 1.4em; color: #7ddcff; text-align: center; }
+.awtsmoos-reader-portal-surface .awtsmoos-context-label { min-inline-size: 0; line-height: 1.25; }
+.awtsmoos-reader-portal-surface .awtsmoos-context-more {
+	margin-block-start: 5px;
+	border-top-color: rgba(255,255,255,.07);
+	border-radius: 8px;
+	color: rgba(247,241,223,.7);
+	font-size: .84rem;
 }
-
+.awtsmoos-reader-portal-surface .awtsmoos-context-more .awtsmoos-context-icon { color: currentColor; }
+.awtsmoos-reader-portal-surface .awtsmoos-context-secondary { padding-block-start: 3px; }
+.awtsmoos-reader-portal-surface .awtsmoos-context-secondary .awtsmoos-context-menu-item { min-block-size: 40px; color: rgba(247,241,223,.82); font-size: .9rem; }
 @media (hover: hover) {
 	.awtsmoos-reader-portal-surface .awtsmoos-context-menu-item:hover,
-	.awtsmoos-reader-portal-surface .insane-verse-menu-item:hover {
-		border-color: rgba(244, 197, 107, .22);
-		background: rgba(244, 197, 107, .09);
-	}
+	.awtsmoos-reader-portal-surface .awtsmoos-context-more:hover { border-color: rgba(244,197,107,.2); background: rgba(244,197,107,.08); }
 }
-
-.awtsmoos-reader-portal-surface .awtsmoos-context-menu-item:active,
-.awtsmoos-reader-portal-surface .insane-verse-menu-item:active {
-	transform: scale(.98);
-}
-
-.awtsmoos-reader-portal-surface .awtsmoos-context-menu-item:focus-visible,
-.awtsmoos-reader-portal-surface .insane-verse-menu-item:focus-visible {
-	outline: 3px solid rgba(91, 209, 255, .55);
-	outline-offset: 1px;
-}
-
-.awtsmoos-reader-portal-surface .awtsmoos-context-menu-item:disabled,
-.awtsmoos-reader-portal-surface .insane-verse-menu-item:disabled {
-	opacity: .4;
-	cursor: not-allowed;
-	transform: none;
-}
-
+.awtsmoos-reader-portal-surface button:active { transform: scale(.985); }
+.awtsmoos-reader-portal-surface button:focus-visible { outline: 3px solid rgba(91,209,255,.5); outline-offset: 1px; }
 @media (max-width: 700px) {
-	.awtsmoos-reader-portal-surface {
-		inline-size: min(94dvi, 390px);
-		max-inline-size: calc(100dvi - 20px);
-	}
+	.awtsmoos-reader-portal-surface { inline-size: calc(100dvi - 16px); max-inline-size: none; max-block-size: min(70dvh, 30rem); border-radius: 20px; }
 }
-
-@media (prefers-reduced-motion: reduce) {
-	.awtsmoos-reader-portal-surface,
-	.awtsmoos-reader-portal-surface * {
-		scroll-behavior: auto;
-		transition: none;
-	}
-}
+@media (prefers-reduced-motion: reduce) { .awtsmoos-reader-portal-surface, .awtsmoos-reader-portal-surface * { transition: none; } }
