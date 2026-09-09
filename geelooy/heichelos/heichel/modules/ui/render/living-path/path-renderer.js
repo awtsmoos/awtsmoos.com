@@ -6,8 +6,8 @@
  * @module LivingPathPathRenderer
  * @description
  * The Awtsmoos gathers every ancestor and present Torah branch into one useful
- * path. Awtsmoos.com hides redundant root-only disclosure chrome while preserving
- * complete ancestry, sticky parent navigation, and search context deeper inside.
+ * path. Awtsmoos.com removes root-only chrome and exposes a separate Full Path
+ * disclosure only when compact breadcrumbs actually omit middle ancestry.
  */
 
 import { DOMElements } from '../../../dom.js';
@@ -23,7 +23,12 @@ import {
 	pathSeparatorBlueprint
 } from './path-blueprints.js?v=heichel-mobile-010';
 
-/** Paints every path-dependent surface and returns the normalized canonical path. */
+/**
+ * Paints every path-dependent surface and returns the normalized canonical path.
+ * @param {Object} navigator Living-path navigator used by breadcrumb controls.
+ * @param {Object} appState Current Heichel application state.
+ * @returns {Array<Object>} Normalized breadcrumb records.
+ */
 export function renderPathSurfaces(navigator, appState) {
 	const path = normalizePath(appState.breadcrumb, currentPathCrumb(appState));
 	paintBreadcrumb(path, navigator);
@@ -33,10 +38,20 @@ export function renderPathSurfaces(navigator, appState) {
 	return path;
 }
 
-/** Paints the compact breadcrumb river, preserving only useful distant context. */
+/** Paints compact ancestry and removes the entire path vessel at the root. */
 function paintBreadcrumb(path, navigator) {
 	if (!DOMElements.breadcrumb) return;
-	const visible = path.length > 4 ? [path[0], ...path.slice(-3)] : path;
+	const rootOnly = path.length <= 1;
+	const context = DOMElements.breadcrumb.closest('.living-path-context');
+	context?.classList.toggle('hidden', rootOnly);
+	context?.toggleAttribute('hidden', rootOnly);
+	if (rootOnly) {
+		DOMElements.breadcrumb.replaceChildren();
+		return;
+	}
+	const visible = path.length > 4
+		? [path[0], ...path.slice(-3)]
+		: path;
 	const plans = [];
 	visible.forEach((crumb, index) => {
 		if (index) plans.push(pathSeparatorBlueprint());
@@ -49,15 +64,15 @@ function paintBreadcrumb(path, navigator) {
 	DOMElements.breadcrumb.replaceChildren(...manifestPathBlueprints(plans));
 }
 
-/** Paints full ancestry and suppresses the disclosure when Root is all it contains. */
+/** Shows Full Path only when compact breadcrumbs intentionally omit middle levels. */
 function paintFullPath(path, navigator) {
 	if (!DOMElements.fullPathList) return;
 	const details = DOMElements.pathDetails
 		|| DOMElements.fullPathList.closest('.living-path-full-path');
-	const rootOnly = path.length <= 1;
-	details?.classList.toggle('hidden', rootOnly);
-	details?.toggleAttribute('hidden', rootOnly);
-	if (rootOnly) {
+	const needsDisclosure = path.length > 4;
+	details?.classList.toggle('hidden', !needsDisclosure);
+	details?.toggleAttribute('hidden', !needsDisclosure);
+	if (!needsDisclosure) {
 		DOMElements.fullPathList.replaceChildren();
 		return;
 	}
@@ -73,7 +88,7 @@ function paintFullPath(path, navigator) {
 	DOMElements.fullPathList.replaceChildren(...manifestPathBlueprints(plans));
 }
 
-/** Keeps the parent control available only when there is somewhere meaningful to go. */
+/** Keeps parent navigation available only when there is somewhere useful to go. */
 function paintSticky(path) {
 	const { parent, current } = compactPath(path);
 	const sticky = DOMElements.stickyPathTitle?.closest('.living-path-sticky');
@@ -88,7 +103,7 @@ function paintSticky(path) {
 	DOMElements.stickyParentButton.dataset.seriesId = parent?.id || '';
 }
 
-/** Updates the search prompt from the current canonical path and active view. */
+/** Updates the search prompt from canonical path and active view. */
 function paintSearch(path, view) {
 	if (!DOMElements.searchInput) return;
 	const placeholder = searchPlaceholder(path, view);

@@ -5,10 +5,10 @@
  * @file Torah reader control authority.
  * @description
  * The Awtsmoos keeps typography and source tools reachable without allowing old
- * physical top-left offsets to cover Torah. Awtsmoos.com deliberately resets both
- * logical and physical insets because historical reader layers used both systems.
+ * physical or logical top-left offsets to cover Torah. Awtsmoos.com intentionally
+ * outranks historical mobile selectors while preserving safe-area placement.
  */
-.all.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-floating-controls {
+html body .all.post-reader-localized-context.awtsmoos-reader-vision > .awtsmoos-floating-controls {
 	position: fixed !important;
 	top: auto !important;
 	left: auto !important;
@@ -18,46 +18,65 @@
 	inset-block-end: max(.8rem, env(safe-area-inset-bottom)) !important;
 	inset-inline-start: auto !important;
 	inset-inline-end: max(.8rem, env(safe-area-inset-right)) !important;
+	translate: none !important;
+	transform: none !important;
 	z-index: var(--reader-layer-floating-controls, 3010) !important;
 	display: flex !important;
 	flex-direction: row !important;
+	align-items: center !important;
+	justify-content: flex-end !important;
 	gap: .35rem !important;
+	inline-size: auto !important;
+	min-inline-size: 0 !important;
 	max-inline-size: calc(100dvi - 1.6rem) !important;
+	block-size: auto !important;
+	margin: 0 !important;
 	padding: .3rem !important;
+	overflow: visible !important;
 	border: 1px solid rgba(112, 225, 255, .2) !important;
 	border-radius: .9rem !important;
 	background: rgba(6, 13, 25, .92) !important;
 	box-shadow: 0 .8rem 1.8rem rgba(0, 0, 0, .28) !important;
 	backdrop-filter: blur(14px) saturate(125%);
 	pointer-events: none !important;
-	transform: none !important;
 }
 
-.all.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-floating-controls > * {
+html body .all.post-reader-localized-context.awtsmoos-reader-vision > .awtsmoos-floating-controls > * {
 	pointer-events: auto !important;
 }
 
-.all.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-floating-controls button {
+html body .all.post-reader-localized-context.awtsmoos-reader-vision > .awtsmoos-floating-controls > button {
+	position: static !important;
+	flex: 0 0 auto !important;
 	inline-size: auto !important;
+	width: auto !important;
 	min-inline-size: 42px !important;
+	min-width: 42px !important;
+	max-inline-size: none !important;
+	max-width: none !important;
 	block-size: 42px !important;
+	height: 42px !important;
 	min-block-size: 42px !important;
+	max-block-size: 42px !important;
+	max-height: 42px !important;
 	padding-inline: .72rem !important;
 	border-radius: .7rem !important;
 	white-space: nowrap !important;
 }
 
 @media (max-width: 48rem) {
-	.all.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-floating-controls {
+	html body .all.post-reader-localized-context.awtsmoos-reader-vision > .awtsmoos-floating-controls {
 		right: max(.65rem, env(safe-area-inset-right)) !important;
 		bottom: max(.65rem, env(safe-area-inset-bottom)) !important;
+		inset-block-start: auto !important;
 		inset-block-end: max(.65rem, env(safe-area-inset-bottom)) !important;
+		inset-inline-start: auto !important;
 		inset-inline-end: max(.65rem, env(safe-area-inset-right)) !important;
 	}
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.all.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-floating-controls {
+	html body .all.post-reader-localized-context.awtsmoos-reader-vision > .awtsmoos-floating-controls {
 		transition: none !important;
 	}
 }

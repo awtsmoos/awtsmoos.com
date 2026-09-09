@@ -10,5 +10,9 @@
  */
 @import "./authority/shell.css?v=ikar-authority-005";
 @import "./authority/browser.css?v=ikar-authority-005";
+@import "./authority/context.css?v=ikar-authority-005";
+@import "./authority/search.css?v=ikar-authority-005";
+@import "./authority/cards.css?v=ikar-authority-005";
 @import "./authority/focus.css?v=ikar-authority-005";
+@import "./authority/workspaces.css?v=ikar-authority-005";
 @import "./authority/mobile.css?v=ikar-authority-005";

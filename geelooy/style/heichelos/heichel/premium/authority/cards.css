@@ -1,0 +1,96 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * @file Ikar Torah card authority.
+ * @description
+ * The Awtsmoos removes generic social-card ornament from Torah branches while
+ * Awtsmoos.com preserves meaningful media on actual teachings. Branch cards
+ * become compact, readable doors whose hierarchy comes from text, not spectacle.
+ */
+body.heichel-os-document[data-heichel-id="ikar"] .nav-card {
+	clip-path: none !important;
+	border-radius: 1rem !important;
+	box-shadow: 0 .45rem 1.1rem rgba(0, 0, 0, .24) !important;
+	transition:
+		border-color 140ms ease,
+		background 140ms ease,
+		transform 140ms ease;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"] .nav-card::before,
+body.heichel-os-document[data-heichel-id="ikar"] .nav-card::after {
+	display: none !important;
+	content: none !important;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"] :is(
+	.series-nav-card,
+	.grouping-nav-card
+) {
+	grid-template-columns: minmax(0, 1fr) auto !important;
+	gap: .7rem !important;
+	min-block-size: 0 !important;
+	padding: .9rem !important;
+	contain-intrinsic-size: auto 7rem !important;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"] :is(
+	.series-nav-card,
+	.grouping-nav-card
+) > .nav-card-media {
+	display: none !important;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"] :is(
+	.series-nav-card,
+	.grouping-nav-card
+) .nav-card-body {
+	grid-column: 1 !important;
+	min-inline-size: 0 !important;
+	padding: 0 !important;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"] :is(
+	.series-nav-card,
+	.grouping-nav-card
+) .nav-card-kicker {
+	display: none !important;
+}
+body.heichel-os-document[data-heichel-id="ikar"] :is(
+	.series-nav-card,
+	.grouping-nav-card
+) .nav-card-description {
+	margin-block: .35rem .45rem !important;
+	line-height: 1.45 !important;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"] :is(
+	.series-nav-card,
+	.grouping-nav-card
+) .nav-card-actions {
+	grid-column: 2 !important;
+	align-self: center !important;
+	gap: .35rem !important;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"] :is(
+	.series-nav-card,
+	.grouping-nav-card
+):hover,
+body.heichel-os-document[data-heichel-id="ikar"] :is(
+	.series-nav-card,
+	.grouping-nav-card
+):focus-within {
+	transform: translateY(-1px);
+	box-shadow: 0 .65rem 1.45rem rgba(0, 0, 0, .3) !important;
+}
+
+@media (max-width: 48rem) {
+	body.heichel-os-document[data-heichel-id="ikar"] :is(
+		.series-nav-card,
+		.grouping-nav-card
+	) {
+		padding: .75rem !important;
+	}
+}
