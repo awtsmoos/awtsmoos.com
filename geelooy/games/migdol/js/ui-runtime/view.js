@@ -46,7 +46,9 @@ export class MigdolView {
 		this.currency.textContent = Math.floor(state.currency);
 		this.health.textContent = state.health;
 		this.pause.textContent = state.paused ? 'Resume' : 'Pause';
+		this.pause.setAttribute('aria-pressed', String(state.paused));
 		this.speed.textContent = `${state.speed}×`;
+		this.speed.setAttribute('aria-label', `Simulation speed ${state.speed} times`);
 	}
 
 	showSheet(title, detail, choices) {

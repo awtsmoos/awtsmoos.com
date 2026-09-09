@@ -91,3 +91,12 @@ function returnToMenu() {
 	session = null;
 	view.showMenu();
 }
+
+/**
+ * Exposes the currently owned session to diagnostics and automated browser probes without creating a global hook.
+ * Production UI never calls this function; importing tests can verify run identity, lifecycle, and canonical transitions.
+ * @returns {MigdolSession|null} The active session generation, or null while the menu owns the page.
+ */
+export function getActiveMigdolSession() {
+	return session;
+}

@@ -1,36 +1,47 @@
 <!-- B"H -->
 <!-- Boruch Hashem -->
 <!-- Blessed is He -->
-<!-- The Awtsmoos renews every guarded gate; Awtsmoos.com keeps Migdol battlefield-first, contextual, resilient, and clear. -->
+<!--
+ @file index.html
+ @description Owns Migdol's semantic document shell while runtime modules own simulation, input, economy, and rendering.
+ Awtsmoos.com keeps the battlefield dominant, zoom-friendly, safe-area aware, and explicit about difficulty and controls.
+ Architectural invariants:
+ - The page exposes no permanent tower chooser; tower choices are contextual to battlefield taps.
+ - Required controls remain ordinary semantic buttons with readable accessible state.
+ - The canvas is focusable and described without becoming the source of gameplay truth.
+ - Runtime, player shell, and focused stylesheet modules load independently so presentation cannot reconverge into a monolith.
+-->
 <!doctype html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+	<meta name="theme-color" content="#17212b">
+	<meta name="description" content="Migdol is a battlefield-first tower defense game with contextual building, upgrades, bosses, difficulty, pause, and safe fast-forward.">
 	<title>Migdol — Tower Defense</title>
 	<link rel="stylesheet" href="styles/base.css?compact=true">
 	<link rel="stylesheet" href="styles/battlefield.css?compact=true">
 	<link rel="stylesheet" href="styles/sheet.css?compact=true">
-	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=player-shell-002&compact=true">
+	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=player-shell-003&compact=true">
 </head>
 <body>
 	<main id="main-menu">
 		<h1>Migdol 🗼</h1>
-		<p>Build on open ground. Stop every wave before it reaches the gate.</p>
+		<p>Tap open ground to build. Tap a tower for upgrades, range, stats, or selling.</p>
 		<label for="map-select">Map</label>
 		<select id="map-select"></select>
 		<label for="difficulty-select">Difficulty</label>
 		<select id="difficulty-select">
-			<option value="casual">Casual</option>
-			<option value="standard" selected>Standard</option>
-			<option value="hard">Hard</option>
+			<option value="casual">Casual · 30 health</option>
+			<option value="standard" selected>Standard · 20 health</option>
+			<option value="hard">Hard · 15 health</option>
 		</select>
 		<button id="start-game" type="button">Defend the Gate</button>
 	</main>
 
 	<main id="game-wrapper" class="hidden">
 		<section id="game-container" aria-label="Migdol battlefield">
-			<canvas id="gameCanvas" aria-label="Tower defense battlefield"></canvas>
+			<canvas id="gameCanvas" tabindex="0" aria-label="Tower defense battlefield. Tap open ground to build or a tower to manage it."></canvas>
 			<div id="status-bar" role="status" aria-live="polite">
 				<span>🌊 <strong id="wave">0</strong></span>
 				<span>💰 <strong id="perutas">0</strong></span>
@@ -38,20 +49,20 @@
 			</div>
 			<div id="play-controls" aria-label="Battle controls">
 				<button id="start-wave" type="button">Start Wave</button>
-				<button id="pause-button" type="button">Pause</button>
-				<button id="speed-button" type="button" aria-label="Simulation speed">1×</button>
+				<button id="pause-button" type="button" aria-pressed="false">Pause</button>
+				<button id="speed-button" type="button" aria-label="Simulation speed 1 times">1×</button>
 			</div>
 		</section>
 
-		<section id="context-sheet" class="hidden" aria-label="Tower actions">
+		<section id="context-sheet" class="hidden" role="dialog" aria-modal="false" aria-labelledby="sheet-title">
 			<button id="sheet-close" type="button" aria-label="Close tower actions">×</button>
 			<h2 id="sheet-title"></h2>
 			<p id="sheet-detail"></p>
 			<div id="sheet-actions"></div>
 		</section>
 
-		<section id="game-over-screen" class="hidden" role="dialog" aria-modal="true">
-			<h2>The Gate Fell</h2>
+		<section id="game-over-screen" class="hidden" role="dialog" aria-modal="true" aria-labelledby="game-over-title">
+			<h2 id="game-over-title">The Gate Fell</h2>
 			<p id="final-summary"></p>
 			<button id="restart-button" type="button">Try Again</button>
 			<button id="main-menu-button" type="button">Choose Map</button>
@@ -59,7 +70,7 @@
 	</main>
 
 	<script type="module" src="/games/scripts/runtime/index.js?compact=true&v=runtime-001"></script>
-	<script type="module" src="js/script.js?compact=true&v=migdol-runtime-001"></script>
-	<script type="module" async src="/games/scripts/player-shell/index.js?v=player-shell-001&compact=true"></script>
+	<script type="module" src="js/script.js?compact=true&v=migdol-runtime-002"></script>
+	<script type="module" async src="/games/scripts/player-shell/index.js?v=player-shell-003&compact=true"></script>
 </body>
 </html>

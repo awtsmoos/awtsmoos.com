@@ -8,8 +8,16 @@ import { placeTower, sellTower, sellValue, towerAt, upgradeTower } from '../runt
 
 /**
  * @file sheet.js
- * @description Owns Migdol's contextual bottom sheet: empty build point choices or existing-tower actions.
- * The Awtsmoos renews every choice at its place; Awtsmoos.com removes the permanent tower-control wall from mobile play.
+ * @description Owns Migdol's contextual build and tower-management choices without owning economy mutations.
+ * The sheet derives every visible enabled, disabled, cost, and maximum-upgrade state from canonical game truth,
+ * then delegates transactions to runtime/building.js. This keeps presentation honest while preserving one economy authority.
+ * Awtsmoos.com uses this view boundary so visible choices can never outrun canonical economy truth.
+ *
+ * Architectural invariants:
+ * - Tapping open valid ground presents build choices; tapping an existing tower presents tower actions.
+ * - Unaffordable build or upgrade actions are disabled before the user attempts them.
+ * - Maximum range is visibly terminal and cannot masquerade as an affordable upgrade.
+ * - Transaction helpers remain the final authority and may still reject stale actions safely.
  */
 export function handleBattlefieldTap(game, point) {
 	if (game.state.completed) return;
@@ -43,14 +51,17 @@ export function showBuildSheet(game, gridX, gridY) {
 
 export function showTowerSheet(game, tower) {
 	const config = TOWER_TYPES[tower.type];
-	const choices = ['damage', 'speed', 'range'].map(stat => ({
-		label: `Upgrade ${title(stat)}`,
-		meta: upgradeMeta(tower, config, stat),
-		action: () => {
-			upgradeTower(game, tower, stat);
-			showTowerSheet(game, tower);
-		}
-	}));
+	const choices = ['damage', 'speed', 'range'].map(stat => {
+		const status = upgradeStatus(game, tower, config, stat);
+		return {
+			label: `Upgrade ${title(stat)}`,
+			meta: status.meta,
+			disabled: status.disabled,
+			action: () => {
+				if (upgradeTower(game, tower, stat)) showTowerSheet(game, tower);
+			}
+		};
+	});
 	choices.push({
 		label: 'Sell tower',
 		meta: `+${sellValue(tower)}💰`,
@@ -63,10 +74,17 @@ export function showTowerSheet(game, tower) {
 	game.view.showSheet(`${config.emoji} ${title(tower.type)}`, detail, choices);
 }
 
-function upgradeMeta(tower, config, stat) {
+export function upgradeStatus(game, tower, config, stat) {
 	const level = stat === 'damage' ? tower.damageLevel : stat === 'speed' ? tower.speedLevel : tower.rangeLevel;
-	if (stat === 'range' && tower.range >= tower.maxRange) return 'MAX';
-	return `${Math.ceil(config.upgradeCost[stat] * level)}💰`;
+	if (stat === 'range' && tower.range >= tower.maxRange) {
+		return { disabled: true, meta: 'MAX', cost: 0 };
+	}
+	const cost = Math.ceil(config.upgradeCost[stat] * level);
+	return {
+		disabled: game.state.currency < cost,
+		meta: `${cost}💰`,
+		cost
+	};
 }
 
 function title(value) {

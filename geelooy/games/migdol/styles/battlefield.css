@@ -3,22 +3,28 @@
 /* Blessed is He */
 /**
  * @file battlefield.css
- * @description Gives Migdol's live canvas first claim on mobile and desktop space while status and transport controls float compactly above it.
- * The Awtsmoos renews path and gate without clutter; Awtsmoos.com protects a large playable battlefield in portrait and short landscape.
+ * @description Gives Migdol's intrinsic canvas first claim on mobile and desktop space while compact status and controls remain safe-area bounded.
+ * The Awtsmoos renews path and gate without clutter; Awtsmoos.com preserves every map's real aspect ratio in portrait and short landscape.
+ * Layout invariants:
+ * - CSS never imposes a fake universal aspect ratio; intrinsic canvas geometry remains authoritative.
+ * - The battlefield yields only the space required by the compact HUD and transport controls.
+ * - Short landscape relocates controls beside the battlefield without horizontal overflow or clipped interaction targets.
+ * - Touch suppression belongs only to the actual gameplay canvas, never the surrounding document.
  */
 #game-wrapper { position: fixed; inset: 0; width: 100%; height: 100dvh; background: #101820; overflow: hidden; }
 #game-container { position: absolute; inset: 0; display: grid; place-items: center; padding: 62px 8px 76px; }
 #gameCanvas {
 	display: block;
-	width: min(calc(100vw - 16px), calc((100dvh - 146px) * 4 / 3));
+	width: auto;
 	height: auto;
+	max-width: calc(100vw - 16px);
 	max-height: calc(100dvh - 146px);
-	aspect-ratio: 4 / 3;
 	border: 2px solid rgba(255,255,255,.72);
 	border-radius: 14px;
 	background: #789969;
 	touch-action: none;
 	box-shadow: 0 18px 50px rgba(0,0,0,.42);
+	user-select: none;
 }
 #status-bar {
 	position: absolute;
@@ -47,15 +53,13 @@
 #play-controls button { min-width: 96px; }
 #start-wave { background: var(--good); }
 #speed-button { min-width: 58px !important; }
-
 @media (max-width: 520px) {
 	#status-bar span { min-width: 58px; }
 	#play-controls button { min-width: 86px; padding-inline: 12px; }
 }
-
 @media (max-height: 520px) and (orientation: landscape) {
 	#game-container { padding: 8px 86px 8px 8px; }
-	#gameCanvas { width: auto; height: calc(100dvh - 16px); max-height: none; }
+	#gameCanvas { max-width: calc(100vw - 102px); max-height: calc(100dvh - 16px); }
 	#status-bar { left: 10px; top: 8px; transform: none; flex-direction: column; gap: 2px; }
 	#status-bar span { min-width: 62px; }
 	#play-controls { left: auto; right: 8px; bottom: 8px; transform: none; flex-direction: column; }

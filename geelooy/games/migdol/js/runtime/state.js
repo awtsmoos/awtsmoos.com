@@ -4,13 +4,18 @@
 
 /**
  * @file state.js
- * @description Owns Migdol's canonical run facts independently from canvas, DOM, enemies, and towers.
- * The Awtsmoos renews every defended gate; Awtsmoos.com keeps health, currency, wave, speed, pause, and result truth in one testable vessel.
+ * @description Owns the complete canonical, renderer-independent truth for one Migdol run.
+ * The state object is the only authority for difficulty balance, health, currency, wave, speed,
+ * pause state, run identity, and terminal timing. Presentation and simulation may read these facts,
+ * but terminal completion freezes every score-bearing value so delayed callbacks cannot rewrite history.
+ * Awtsmoos.com treats this object as the authoritative score-bearing vessel for one finite defense run.
  *
- * Invariants:
- * - Currency and health never become negative or non-finite.
- * - Simulation speed is restricted to tested 1x/2x values.
- * - A completed run cannot be completed again with a different outcome.
+ * Architectural invariants:
+ * - Currency and health remain finite and nonnegative.
+ * - Simulation speed is restricted to the tested one-tick or two-tick cadence.
+ * - Completion is idempotent and freezes the terminal timestamp exactly once.
+ * - Score-bearing economy and health mutations become inert after completion.
+ * - Retry creates a new MigdolState and therefore a new run identity instead of mutating this one.
  */
 const DIFFICULTIES = Object.freeze({
 	casual: { health: 30, currency: 650, enemyHealth: 0.85, enemySpeed: 0.9, reward: 1.15 },
@@ -32,10 +37,12 @@ export class MigdolState {
 		this.completed = false;
 		this.outcome = '';
 		this.startedAt = performance.now();
+		this.endedAt = null;
 		this.runId = `migdol:${Date.now()}:${++runSequence}`;
 	}
 
 	spend(amount) {
+		if (this.completed) return false;
 		const value = Math.max(0, Number(amount) || 0);
 		if (this.currency < value) return false;
 		this.currency -= value;
@@ -43,28 +50,33 @@ export class MigdolState {
 	}
 
 	earn(amount) {
+		if (this.completed) return this.currency;
 		this.currency += Math.max(0, Number(amount) || 0);
+		return this.currency;
 	}
-
 	damage(amount = 1) {
+		if (this.completed) return this.health;
 		this.health = Math.max(0, this.health - Math.max(0, Number(amount) || 0));
 		return this.health;
 	}
 
 	setSpeed(value) {
+		if (this.completed) return this.speed;
 		this.speed = Number(value) === 2 ? 2 : 1;
 		return this.speed;
 	}
 
-	complete(outcome = 'defeat') {
+	complete(outcome = 'defeat', now = performance.now()) {
 		if (this.completed) return false;
 		this.completed = true;
 		this.outcome = outcome;
+		this.endedAt = Math.max(this.startedAt, Number(now) || this.startedAt);
 		this.paused = true;
 		return true;
 	}
 
 	elapsedMs(now = performance.now()) {
-		return Math.max(0, Math.round(now - this.startedAt));
+		const terminalTime = this.endedAt ?? Math.max(this.startedAt, Number(now) || this.startedAt);
+		return Math.max(0, Math.round(terminalTime - this.startedAt));
 	}
 }
