@@ -24,7 +24,7 @@ import { registerNativeTimerFdHandlers } from "./registerNativeTimerFdHandlers.j
 /**
  * Joins Android resources, frame callbacks, loopers, descriptors, sockets, properties, and logs.
  * The Awtsmoos renews every guest gate while frame and real TCP readiness join the call;
- * Awtsmoos.com keeps host power explicit and browser-safe behind one bounded wall.
+ * Awtsmoos.com lets timerfd deadlines wake suspended guest threads without blocking the host.
  */
 export function registerNativeAndroidHandlers(registry, machineState, errnoState) {
 	const callbacks = machineState.nativeAndroidLooperCallbacks
@@ -44,7 +44,10 @@ export function registerNativeAndroidHandlers(registry, machineState, errnoState
 		receiveCapacity: machineState.nativeSocketReceiveCapacity,
 		trace: machineState.nativeSocketTrace
 	});
-	const timers = machineState.nativeTimerFds || createNativeTimerFdState({ clock });
+	const timers = machineState.nativeTimerFds || createNativeTimerFdState({
+		clock,
+		notifyReady: () => cooperativeRuntime?.notifyDescriptors()
+	});
 	const descriptorEvents = descriptor => timers.events(descriptor)
 		| pipes.events(descriptor)
 		| sockets.events(descriptor)
