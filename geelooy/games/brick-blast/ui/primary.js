@@ -1,9 +1,17 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
+
 /**
- * The Awtsmoos renews menu, choice, and doorway before the first brick can fall;
- * Awtsmoos.com keeps the primary screens in one small vessel so the player can read the journey, not a wall.
+ * @file primary.js
+ * @description Defines Brick Blast's play-first menu, level browser, Creator library, and secondary shop without exposing provider configuration.
+ * The Awtsmoos renews every doorway before the first brick can fall; Awtsmoos.com keeps immediate arcade choices dominant while deeper tools wait for deliberate discovery.
+ *
+ * Product invariants:
+ * - Campaign and Infinite Mode are the only immediate main-menu actions.
+ * - Creator and Shop remain fully available behind one native disclosure.
+ * - Provider/API-key controls never appear in this ordinary play surface.
+ * - Existing element IDs remain stable for the legacy event orchestration beneath this markup.
  */
 export const chesedPrimaryMarkup = `
 <div class="persistent-holy-text left">B"H</div>
@@ -21,8 +29,13 @@ export const chesedPrimaryMarkup = `
 	<div class="main-menu-buttons">
 		<button id="play-button" class="btn btn-primary">Campaign</button>
 		<button id="infinite-mode-button" class="btn btn-secondary">Infinite Mode</button>
-		<button id="custom-levels-button" class="btn btn-secondary">Custom Levels</button>
-		<button id="shop-button" class="btn btn-tertiary">Shop</button>
+		<details class="main-menu-more">
+			<summary>More modes &amp; tools</summary>
+			<div class="main-menu-more__actions">
+				<button id="custom-levels-button" class="btn btn-secondary">Creator · Custom Levels</button>
+				<button id="shop-button" class="btn btn-tertiary">Upgrades &amp; Powers</button>
+			</div>
+		</details>
 	</div>
 	<footer class="footer-text">Built with Native JS</footer>
 </div>
@@ -31,7 +44,8 @@ export const chesedPrimaryMarkup = `
 	<div id="level-grid" class="level-grid"></div>
 </div>
 <div id="custom-levels-screen" class="screen">
-	<div class="header"><button id="custom-levels-back-button" class="btn-back">&lt;</button><h2>Custom Levels</h2></div>
+	<div class="header"><button id="custom-levels-back-button" class="btn-back">&lt;</button><h2>Creator · Custom Levels</h2></div>
+	<p class="creator-intro">Build locally, import a level, or open the editor. AI generation is optional and stays inside Creator.</p>
 	<div id="custom-level-list" class="custom-level-list"></div>
 	<div class="custom-levels-actions">
 		<button id="new-level-button" class="btn btn-primary">Create New</button>
@@ -42,7 +56,7 @@ export const chesedPrimaryMarkup = `
 <div id="store-screen" class="screen">
 	<div id="store-header" class="header">
 		<button id="store-back-button" class="btn-back">&lt;</button>
-		<h2>Shop</h2>
+		<div><h2>Upgrades &amp; Powers</h2><small>Gameplay items only</small></div>
 		<div id="store-perutas" class="peruta-display">0 ¤</div>
 	</div>
 	<div id="store-grid" class="store-grid"></div>
