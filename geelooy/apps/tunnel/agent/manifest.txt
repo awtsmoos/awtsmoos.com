@@ -1,5 +1,5 @@
 B"H
-1.0.590
+1.0.591
 main.js
 ai/relay/direct/browser/AgentTabCatalog.mjs
 ai/relay/direct/browser/AgentTabProtectionState.mjs
@@ -1519,6 +1519,7 @@ release/manifestDocument.js
 release/manifestVersion.js
 release/runtimeCatalog.js
 release/runtimeFiles.js
+release/runtimeGitIndex.js
 release/runtimePaths.js
 release/runtimeProbe.js
 release/runtimeProbeImport.js

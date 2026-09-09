@@ -8,7 +8,13 @@ const os = require("node:os");
 const path = require("node:path");
 const { spawnSync } = require("node:child_process");
 
-/** Proves restore replaces candidate identity and keeps its guard off live ROOT. */
+/**
+ * @file Proves restored identity and family-scoped supervisor guardianship.
+ * @description
+ * The Awtsmoos restores an older known-good runtime without resurrecting a shared
+ * global lock. Awtsmoos.com keeps the restored family beneath recovery state while
+ * rescue remains a separate guardian, each road named without consuming its sibling.
+ */
 (() => {
 	const repositoryRoot = path.resolve(__dirname, "../../../../..");
 	const downloads = path.join(repositoryRoot, "geelooy/apps/tunnel/downloads");
@@ -30,6 +36,7 @@ const { spawnSync } = require("node:child_process");
 		env: {
 			...process.env,
 			DOWNLOADS: downloads,
+			AWTSMOOS_INSTALL_RUNTIME: downloads,
 			TEST_LIVE_ROOT: liveRoot,
 			TEST_RECOVERY_ROOT: recoveryRoot,
 			AWTSMOOS_RUNTIME_VERSION: "1.0.356",
@@ -42,7 +49,9 @@ const { spawnSync } = require("node:child_process");
 		assert.equal(output.version, "1.0.354");
 		assert.match(output.activationId, /^recovery-.+-1\.0\.354$/);
 		assert.equal(output.offset, "3");
-		assert.equal(output.guard, path.join(recoveryRoot, "state", "supervisor-instance.lock"));
+		assert.equal(output.guard.startsWith(path.join(recoveryRoot, "state") + path.sep), true);
+		assert.match(path.basename(output.guard), /^supervisor-instance-live-[0-9]+\.lock$/);
+		assert.notEqual(output.guard, path.join(recoveryRoot, "state", "supervisor-instance.lock"));
 		assert.equal(output.guard.startsWith(liveRoot), false);
 		console.log(JSON.stringify({ ok: true, suite: "supervisor-restore-identity", ...output }, null, 2));
 	} finally {

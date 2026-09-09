@@ -11,7 +11,7 @@ helpers=(
 	unix-install-lock.sh unix-install-lock-owner.cjs unix-log-retention.sh
 	unix-device-identity-state.sh unix-state-migration.sh unix-chrome-profile-process.cjs
 	unix-displaced-cleanup.sh unix-package-io.sh unix-release-metadata.sh
-	unix-package-config.sh unix-legacy-catalog.sh unix-process-census.sh
+	unix-package-config.sh unix-legacy-catalog.sh unix-runtime-family.sh unix-process-census.sh
 	unix-legacy-transient-supervisor.sh unix-process-runtime.sh unix-process-control.sh
 	unix-recovery-lanes.sh unix-recovery-lane-launchd.sh unix-recovery-lane-portable.sh
 	unix-recovery-lane-install-success.sh unix-recovery-lane-detach.cjs

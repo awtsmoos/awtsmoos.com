@@ -9,6 +9,7 @@ supervisor_runtime_pairs() {
 	cat <<'PAIRS'
 unix-node-runtime.sh:awtsmoos-node-runtime.sh
 unix-legacy-catalog.sh:awtsmoos-legacy-catalog.sh
+unix-runtime-family.sh:awtsmoos-runtime-family.sh
 unix-emergency-runtime.sh:awtsmoos-emergency-runtime.sh
 unix-service-cli.sh:awtsmoos-tunnel-service.sh
 unix-supervisor.sh:awtsmoos-supervisor.sh

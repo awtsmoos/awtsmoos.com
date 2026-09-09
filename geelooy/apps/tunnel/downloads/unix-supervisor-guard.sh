@@ -3,12 +3,21 @@
 # Boruch Hashem
 # Blessed is He
 
-# The singleton guard lives outside the replaceable runtime tree. The Awtsmoos
-# renews one supervisor across atomic restore; Awtsmoos.com rematerializes the
-# guardian PID inside each newly activated root before a contender exits.
-supervisor_guard_directory() {
-	printf '%s\n' "$RECOVERY_ROOT/state/supervisor-instance.lock"
-}
+# The Awtsmoos grants one singleton guardian to each exact runtime family. Primary
+# and rescue coexist; candidate and rollback garments still share primary authority.
+if ! command -v runtime_family_guard_directory >/dev/null 2>&1; then
+	if [ -f "$ROOT/awtsmoos-runtime-family.sh" ]; then
+		source "$ROOT/awtsmoos-runtime-family.sh"
+	elif [ -n "${AWTSMOOS_INSTALL_RUNTIME:-}" ] &&
+		[ -f "$AWTSMOOS_INSTALL_RUNTIME/unix-runtime-family.sh" ]; then
+		source "$AWTSMOOS_INSTALL_RUNTIME/unix-runtime-family.sh"
+	else
+		printf '%s\n' "runtime_family_helper_missing root=$ROOT" >&2
+		exit 78
+	fi
+fi
+
+supervisor_guard_directory() { runtime_family_guard_directory; }
 
 publish_supervisor_pid() {
 	local pid="$1"
@@ -18,8 +27,7 @@ publish_supervisor_pid() {
 }
 
 acquire_supervisor_guard() {
-	local guard="$(supervisor_guard_directory)"
-	local attempt=0
+	local guard="$(supervisor_guard_directory)" attempt=0 existing=""
 	mkdir -p "$(dirname "$guard")"
 	while [ "$attempt" -lt 6 ]; do
 		attempt=$(( attempt + 1 ))
@@ -29,17 +37,10 @@ acquire_supervisor_guard() {
 			supervisor_log "supervisor_guard_acquired" "pid=$$ guard=$guard"
 			return 0
 		fi
-		local existing="$(cat "$guard/owner.pid" 2>/dev/null || true)"
-		if [ "$existing" = "$$" ]; then
-			publish_supervisor_pid "$$"
-			return 0
-		fi
-		if [ -z "$existing" ] && [ "$attempt" -lt 3 ]; then
-			sleep 1
-			continue
-		fi
-		if supervisor_command_contains \
-			"$existing" "$ROOT/awtsmoos-supervisor.sh"; then
+		existing="$(cat "$guard/owner.pid" 2>/dev/null || true)"
+		if [ "$existing" = "$$" ]; then publish_supervisor_pid "$$"; return 0; fi
+		if [ -z "$existing" ] && [ "$attempt" -lt 3 ]; then sleep 1; continue; fi
+		if supervisor_command_contains "$existing" "$ROOT/awtsmoos-supervisor.sh"; then
 			publish_supervisor_pid "$existing"
 			supervisor_log "supervisor_guard_adopted" \
 				"existingPid=$existing contenderPid=$$ guard=$guard"
@@ -52,9 +53,7 @@ acquire_supervisor_guard() {
 }
 
 quarantine_supervisor_guard() {
-	local guard="$1"
-	local attempt="$2"
-	local stale="${guard}.stale-$$-${attempt}-$(date +%s)"
+	local guard="$1" attempt="$2" stale="${1}.stale-$$-${2}-$(date +%s)"
 	if mv "$guard" "$stale" 2>/dev/null; then
 		rm -rf "$stale"
 		supervisor_log "stale_supervisor_guard_removed" "pid=$$ guard=$guard"
@@ -63,10 +62,7 @@ quarantine_supervisor_guard() {
 
 cleanup_supervisor() {
 	local guard="$(supervisor_guard_directory)"
-	if [ "$(cat "$guard/owner.pid" 2>/dev/null || true)" = "$$" ]; then
-		rm -rf "$guard"
-	fi
-	if [ "$(cat "$SUPERVISOR_PID_FILE" 2>/dev/null || true)" = "$$" ]; then
-		rm -f "$SUPERVISOR_PID_FILE"
-	fi
+	[ "$(cat "$guard/owner.pid" 2>/dev/null || true)" = "$$" ] && rm -rf "$guard"
+	[ "$(cat "$SUPERVISOR_PID_FILE" 2>/dev/null || true)" = "$$" ] && rm -f "$SUPERVISOR_PID_FILE"
+	return 0
 }

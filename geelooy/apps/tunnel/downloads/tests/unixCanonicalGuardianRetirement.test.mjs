@@ -7,20 +7,22 @@ import fs from "node:fs";
 import path from "node:path";
 
 /**
- * @file Proves old recovery guardians cannot overwrite a newly activated candidate.
+ * @file Proves activation retires only the owned runtime-family guardian.
  * @description
- * The Awtsmoos ends every old process, proves the census empty, retires the canonical
- * guard, and only then clears replaceable coordination state for the next supervisor.
+ * The Awtsmoos empties the exact family census before its guardian is retired,
+ * while a living foreign rescue guardian remains testimony rather than collateral.
  */
 const root = path.resolve(import.meta.dirname, "..");
 const source = fs.readFileSync(path.join(root, "unix-process-runtime.sh"), "utf8");
 const stop = source.slice(source.indexOf("stop_existing_runtime()"));
 
-assert.match(source, /retire_canonical_supervisor_guard\(\)/);
-assert.match(source, /supervisor-instance\.lock/);
-assert.match(source, /Canonical supervisor guard remained owned by a living process/);
+assert.match(source, /retire_supervisor_guard_path\(\)/);
+assert.match(source, /runtime_family_guard_directory/);
+assert.match(source, /legacy_supervisor_guard_directory/);
+assert.match(source, /Preserved foreign live supervisor guard/);
+assert.match(stop, /owned_runtime_process_count/);
 assert.ok(
-	stop.indexOf("exact_root_process_count") <
+	stop.indexOf("owned_runtime_process_count") <
 	stop.indexOf("retire_canonical_supervisor_guard")
 );
 assert.ok(
@@ -31,5 +33,6 @@ assert.ok(
 console.log(JSON.stringify({
 	ok: true,
 	suite: "unix-canonical-guardian-retirement",
-	oldRecoveryCannotOverwriteCandidate: true
+	ownedFamilyRetired: true,
+	foreignGuardianPreserved: true
 }, null, 2));
