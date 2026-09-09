@@ -1,0 +1,38 @@
+/* B"H — Nachash page foundation keeps browser chrome, typography, focus, and ordinary UI interaction accessible. */
+:root {
+	font-family: Georgia, "Times New Roman", serif;
+	color: #edfafa;
+	background: #07120f;
+	color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; width: 100%; min-height: 100%; background: #07120f; }
+body { min-height: 100dvh; overflow: hidden; }
+button, input { font: inherit; }
+button {
+	min-height: 48px;
+	border: 1px solid #70e8dc;
+	border-radius: 12px;
+	padding: 10px 16px;
+	background: #0c2c28;
+	color: #fff;
+	font-weight: 700;
+	touch-action: manipulation;
+}
+button:focus-visible, input:focus-visible { outline: 3px solid #fff176; outline-offset: 3px; }
+button:disabled { opacity: .55; }
+.hidden { display: none !important; }
+#menu-container { min-height: 100dvh; display: grid; place-items: center; padding: 24px; overflow: auto; }
+.card {
+	width: min(560px, 100%);
+	padding: clamp(22px, 6vw, 42px);
+	border: 1px solid #4ac6ba;
+	border-radius: 20px;
+	background: #0a1d1a;
+	text-align: center;
+	box-shadow: 0 20px 70px #0008;
+}
+.card h1 { margin-top: 0; font-size: clamp(2rem, 8vw, 4rem); }
+.card .hint { color: #b4d8d4; line-height: 1.45; }
+.card button { width: 100%; margin-top: 12px; }
+@media (forced-colors: active) { button, .card { border: 2px solid ButtonText; } }

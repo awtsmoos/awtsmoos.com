@@ -1,0 +1,39 @@
+/* B"H — Blocking Nachash states share one bounded overlay grammar with large recovery controls and safe-area clearance. */
+.overlay {
+	position: fixed;
+	z-index: 30;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	width: min(92vw, 480px);
+	max-height: min(88dvh, 650px);
+	overflow: auto;
+	padding: 24px;
+	border: 1px solid #65ded3;
+	border-radius: 18px;
+	background: #071b19f5;
+	box-shadow: 0 24px 80px #000b;
+	text-align: center;
+}
+.overlay::before {
+	content: "";
+	position: fixed;
+	inset: -100vmax;
+	z-index: -1;
+	background: #0009;
+}
+.overlay h2 { margin: 0 0 14px; font-size: clamp(1.7rem, 7vw, 2.6rem); }
+.overlay button { width: 100%; margin-top: 10px; }
+#settings-panel label {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	min-height: 50px;
+	padding: 8px 2px;
+	text-align: left;
+}
+#settings-panel input { width: 22px; height: 22px; }
+#fault-panel { border-color: #ffb86b; }
+@media (prefers-reduced-motion: reduce) {
+	*, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0s !important; animation-duration: 0s !important; }
+}

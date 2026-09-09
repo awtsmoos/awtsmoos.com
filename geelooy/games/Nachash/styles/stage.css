@@ -1,0 +1,42 @@
+/* B"H — The playfield owns only gameplay touch suppression; surrounding controls remain normal browser UI. */
+#game-stage { position: fixed; inset: 0; overflow: hidden; background: #07120f; }
+#gameCanvas {
+	position: absolute;
+	inset: 0;
+	display: block;
+	width: 100%;
+	height: 100%;
+	touch-action: none;
+}
+#zone-status {
+	position: absolute;
+	top: max(10px, env(safe-area-inset-top));
+	left: max(10px, env(safe-area-inset-left));
+	z-index: 10;
+	padding: 7px 12px;
+	border-radius: 999px;
+	background: #001b18d9;
+	font-weight: 700;
+	pointer-events: none;
+}
+#game-controls {
+	position: absolute;
+	right: max(12px, env(safe-area-inset-right));
+	bottom: max(12px, env(safe-area-inset-bottom));
+	z-index: 12;
+	display: flex;
+	gap: 10px;
+	align-items: end;
+}
+#game-controls button { min-width: 64px; min-height: 56px; backdrop-filter: blur(8px); }
+#boost-button { background: #724200e8; border-color: #ffd166; }
+#boost-button[aria-pressed="true"] { outline: 3px solid #fff176; background: #a25d00; }
+#boost-button small { display: block; font-size: .7em; opacity: .85; }
+@media (max-width: 460px) {
+	#game-controls { left: 10px; right: 10px; justify-content: flex-end; gap: 7px; }
+	#game-controls button { min-width: 0; flex: 0 1 92px; padding-inline: 10px; }
+}
+@media (max-height: 430px) and (orientation: landscape) {
+	#game-controls { bottom: 7px; right: max(68px, env(safe-area-inset-right)); }
+	#game-controls button { min-height: 50px; }
+}
