@@ -14,24 +14,25 @@
 	<meta name="description" content="Awtsmoos Bounce: Orbit Run — a mobile-first physics campaign with tactical portal powers, mastery contracts, sectors, medals, and unlocks.">
 	<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23050715'/%3E%3Ccircle cx='32' cy='32' r='19' fill='none' stroke='%2391fff0' stroke-width='5'/%3E%3Ccircle cx='32' cy='32' r='7' fill='%2376a9ff'/%3E%3Ccircle cx='48' cy='20' r='4' fill='%23c58cff'/%3E%3C/svg%3E">
 	<title>Awtsmoos Bounce: Orbit Run</title>
-	<link rel="stylesheet" href="styles/base.css">
-	<link rel="stylesheet" href="styles/arena.css">
-	<link rel="stylesheet" href="styles/particles.css">
-	<link rel="stylesheet" href="styles/hud.css">
-	<link rel="stylesheet" href="styles/brand.css">
-	<link rel="stylesheet" href="styles/hud-mobile.css">
-	<link rel="stylesheet" href="styles/hud-desktop.css">
-	<link rel="stylesheet" href="styles/score.css">
-	<link rel="stylesheet" href="styles/campaign.css">
-	<link rel="stylesheet" href="styles/mastery.css">
-	<link rel="stylesheet" href="styles/portal-economy.css">
-	<link rel="stylesheet" href="styles/portal-powers.css">
-	<link rel="stylesheet" href="styles/advanced-sheet.css">
-	<link rel="stylesheet" href="styles/sheet-content.css">
-	<link rel="stylesheet" href="styles/scroll-surfaces.css">
-	<link rel="stylesheet" href="styles/interaction-states.css">
-	<link rel="stylesheet" href="styles/motion-system.css">
-	<link rel="stylesheet" href="styles/accessibility.css">
+	<link rel="stylesheet" href="styles/base.css?compact=true">
+	<link rel="stylesheet" href="styles/arena.css?compact=true">
+	<link rel="stylesheet" href="styles/particles.css?compact=true">
+	<link rel="stylesheet" href="styles/hud.css?compact=true">
+	<link rel="stylesheet" href="styles/brand.css?compact=true">
+	<link rel="stylesheet" href="styles/hud-mobile.css?compact=true">
+	<link rel="stylesheet" href="styles/hud-desktop.css?compact=true">
+	<link rel="stylesheet" href="styles/score.css?compact=true">
+	<link rel="stylesheet" href="styles/campaign.css?compact=true">
+	<link rel="stylesheet" href="styles/mastery.css?compact=true">
+	<link rel="stylesheet" href="styles/portal-economy.css?compact=true">
+	<link rel="stylesheet" href="styles/portal-powers.css?compact=true">
+	<link rel="stylesheet" href="styles/advanced-sheet.css?compact=true">
+	<link rel="stylesheet" href="styles/sheet-content.css?compact=true">
+	<link rel="stylesheet" href="styles/scroll-surfaces.css?compact=true">
+	<link rel="stylesheet" href="styles/interaction-states.css?compact=true">
+	<link rel="stylesheet" href="styles/motion-system.css?compact=true">
+	<link rel="stylesheet" href="styles/accessibility.css?compact=true">
+	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=player-shell-003&compact=true">
 </head>
 <body>
 	<main id="game" class="game-shell" aria-label="Awtsmoos Bounce campaign">
@@ -106,6 +107,8 @@
 
 		<p id="liveStatus" class="sr-only" aria-live="polite"></p>
 	</main>
-	<script type="module" src="scripts/main.js"></script>
+	<script type="module" src="/games/scripts/runtime/index.js?compact=true&v=runtime-001"></script>
+	<script type="module" src="scripts/main.js?compact=true"></script>
+	<script type="module" async src="/games/scripts/player-shell/index.js?v=player-shell-003&compact=true"></script>
 </body>
 </html>

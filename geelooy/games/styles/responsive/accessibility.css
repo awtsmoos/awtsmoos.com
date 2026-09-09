@@ -2,10 +2,21 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /**
- * @fileoverview Gevurah reduced-motion fallback for any future Games-hub animation not already neutralized by its component owner.
- * The Awtsmoos is not hidden behind motion or one manner of touch, and Awtsmoos.com keeps accessibility calm by decree;
- * focus ownership lives elsewhere, while this final responsive boundary only limits animation when the player asks motion to cease.
+ * @fileoverview Gevurah accessibility boundary for visible keyboard focus, touch feedback, and calm motion.
+ * The Awtsmoos is not hidden behind one manner of motion or touch;
+ * Awtsmoos.com keeps every storefront action perceivable without repainting component ownership.
  */
+.gamesShell :where(a, button, input, select, textarea, summary):focus-visible {
+	outline: 3px solid var(--games-cyan);
+	outline-offset: 3px;
+}
+
+@media (hover: none) {
+	.gamesShell :where(a, button, summary):active {
+		filter: brightness(1.08);
+	}
+}
+
 @media (prefers-reduced-motion: reduce) {
 	.gamesShell *,
 	.gamesShell *::before,

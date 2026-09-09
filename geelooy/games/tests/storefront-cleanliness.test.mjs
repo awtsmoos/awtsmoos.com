@@ -26,6 +26,7 @@ const cssBundle = [
 	"collections.css",
 	"cards-shell.css",
 	"cards-meta.css",
+	"cards-actions.css",
 	"responsive.css"
 ].map(file => source(`../styles/${file}`)).join("\n");
 const markup = source("../scripts/catalog/markup.mjs");
