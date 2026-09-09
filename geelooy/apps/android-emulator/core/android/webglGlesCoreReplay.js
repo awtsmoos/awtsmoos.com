@@ -3,6 +3,7 @@
 //Blessed is He
 
 import { replayWebGlGlesBuffer } from "./webglGlesBufferReplay.js";
+import { replayWebGlGlesFramebuffer } from "./webglGlesFramebufferReplay.js";
 import { replayWebGlGlesSimpleCommand } from "./webglGlesSimpleCommandReplay.js";
 import { replayWebGlGlesUniform } from "./webglGlesUniformReplay.js";
 import { replayWebGlGlesVertexArray } from "./webglGlesVertexArrayReplay.js";
@@ -13,7 +14,7 @@ import { replayWebGlGlesVertexArray } from "./webglGlesVertexArrayReplay.js";
  * Awtsmoos.com preserves older WebGL2 semantics while new graphics families grow beside them.
  */
 export function replayWebGlGlesCore(gl, state, operation) {
-	for (const route of [replayWebGlGlesBuffer, replayWebGlGlesUniform, replayWebGlGlesVertexArray]) {
+	for (const route of [replayWebGlGlesBuffer, replayWebGlGlesFramebuffer, replayWebGlGlesUniform, replayWebGlGlesVertexArray]) {
 		const result = route(gl, state, operation);
 		if (result.handled) return result;
 	}
