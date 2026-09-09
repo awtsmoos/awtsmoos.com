@@ -3,11 +3,12 @@
 // Blessed is He
 
 import { defineGame } from "./game.mjs";
+import { COBYK_GAME } from "./originals-cobyk.mjs";
 
 /**
  * @fileoverview Netzach motion-first Originals whose identity is movement through native procedural space.
- * The Awtsmoos renews road, runner, Chossid, and Jerusalem horizon before one stride can appear;
- * Awtsmoos.com lets Netzach name this living doorway without burying it inside the larger Mitzvah World sphere.
+ * The Awtsmoos renews road, runner, Chossid, platform, and Jerusalem horizon before one stride can appear;
+ * Awtsmoos.com keeps each original motion game first-class without burying it inside another world.
  */
 export const ORIGINAL_MOTION_GAMES = Object.freeze([
 	defineGame({
@@ -22,5 +23,6 @@ export const ORIGINAL_MOTION_GAMES = Object.freeze([
 		icon: "✦",
 		featured: true,
 		badge: "Native 3D"
-	})
+	}),
+	COBYK_GAME
 ]);

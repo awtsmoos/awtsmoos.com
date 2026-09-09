@@ -16,16 +16,16 @@ export {
 	MeshStandardMaterial,
 	PerspectiveCamera,
 	Scene
-} from "/geelooy/libs/awtsmoos-procedural-core/src/adapters/native/runtime.js?compact=true";
+} from "/libs/awtsmoos-procedural-core/src/adapters/native/runtime.js?compact=true";
 
 export {
 	createNativeRenderer
-} from "/geelooy/libs/awtsmoos-procedural-core/src/adapters/native/renderer.js?compact=true";
+} from "/libs/awtsmoos-procedural-core/src/adapters/native/renderer.js?compact=true";
 
 export {
 	NativeRemoteTextureLoader
-} from "/geelooy/libs/awtsmoos-procedural-core/src/adapters/native/textures.js?compact=true";
+} from "/libs/awtsmoos-procedural-core/src/adapters/native/textures.js?compact=true";
 
 export {
 	generatePrimitiveGeometry
-} from "/geelooy/libs/awtsmoos-procedural-core/src/exports/primitiveGeometry.js?compact=true";
+} from "/libs/awtsmoos-procedural-core/src/exports/primitiveGeometry.js?compact=true";

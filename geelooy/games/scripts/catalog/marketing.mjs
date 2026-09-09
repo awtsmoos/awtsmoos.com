@@ -9,6 +9,7 @@
  */
 const GAME_HOOKS = Object.freeze({
 	"temple-runner": "Sprint the Jerusalem road with native 3D Chossid motion and procedural hazards.",
+	cobyk: "Recover six original CobyK platform chambers with coins, hazards, elevators, and force tiles.",
 	merkava: "Command an army across five worlds.",
 	ohrfront: "Secure three beacons across a tactical procedural warfront.",
 	"sefira-clash": "Enter mystical arenas built for repeated combat.",

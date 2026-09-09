@@ -4,7 +4,7 @@
 
 import {
 	Group
-} from "/geelooy/libs/awtsmoos-procedural-core/src/adapters/native/runtime.js?compact=true";
+} from "/libs/awtsmoos-procedural-core/src/adapters/native/runtime.js?compact=true";
 import { COBYK_CHOSSID_IDENTITY } from "../assets/CobyKChossidIdentity.js";
 import { BinaChossidFitCache } from "./BinaChossidFitCache.js";
 import { TiferesChossidPosePolicy } from "./TiferesChossidPosePolicy.js";

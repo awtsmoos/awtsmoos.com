@@ -4,15 +4,15 @@
 
 import {
 	remoteModelRecord
-} from "/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteModelCatalog.js?compact=true";
+} from "/games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteModelCatalog.js?compact=true";
 import {
 	remoteFullResolutionTextureUrl,
 	remoteTextureCatalogEvidence,
 	remoteTextureRecords
-} from "/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteTextureCatalog.js?compact=true";
+} from "/games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteTextureCatalog.js?compact=true";
 import {
 	resolvePublicMaterial
-} from "/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/PublicMaterialCatalog.js?compact=true";
+} from "/games/mitzvahWorld/experiments/Awtsmoos/src/assets/PublicMaterialCatalog.js?compact=true";
 import {
 	assertCobyKChossidIdentity,
 	COBYK_CHOSSID_IDENTITY

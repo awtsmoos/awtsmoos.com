@@ -4,7 +4,7 @@
 
 import {
 	createNativeModelAssetService
-} from "/geelooy/libs/awtsmoos-procedural-core/src/adapters/native/modelAssets.js?compact=true";
+} from "/libs/awtsmoos-procedural-core/src/adapters/native/modelAssets.js?compact=true";
 import { YesodCobyKRemoteAssetGateway } from "../assets/CobyKRemoteAssetGateway.js";
 
 /**
