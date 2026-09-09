@@ -3,16 +3,17 @@
 // Blessed is He
 
 /**
- * @module SearchDatabase
- * @chapter The Read-Only Search Vessel Opens Only The Roads It Actually Travels
+ * @file searchDatabase.js
+ * @module ReadOnlyRagDatabase
  * @description
- * Strict RAG uses the base AwtsmoosDB directly because it reads persisted vector
- * metadata and HNSW nodes, not the public facade's general index-cache hydrator.
- * The database remains physically read-only, WAL-free, shared-locked, and unable
- * to allocate or reclaim bytes while cold startup avoids unrelated cache scans.
+ * Strict RAG opens persisted vector and lexical indexes through a physically
+ * read-only AwtsmoosDB with a deliberately tiny page cache. Immutable search
+ * therefore cannot allocate/free corpus bytes or let many shards multiply RAM.
  */
 
 const BaseAwtsmoosDB = require('../../../../../../ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/database.js');
+
+const MAX_CACHED_PAGES = 8;
 
 class SearchDatabase extends BaseAwtsmoosDB {
 	constructor(filePath) {
@@ -20,16 +21,13 @@ class SearchDatabase extends BaseAwtsmoosDB {
 			debug: false,
 			wal: false,
 			readOnly: true,
+			maxCachedPages: MAX_CACHED_PAGES,
 			processLockMode: 'shared',
 			lockMode: 'shared'
 		});
 	}
 
-	/**
-	 * @description
-	 * Read-only search never allocates or frees bytes, so persisted free-space
-	 * metadata cannot affect correctness and need not be decoded for a query.
-	 */
+	/** Read-only search never needs persisted free-space bookkeeping. */
 	_loadFreeListSeal() {
 		this.freeListPtrRaw = null;
 		this.allocator.freeList = [];
@@ -37,3 +35,4 @@ class SearchDatabase extends BaseAwtsmoosDB {
 }
 
 module.exports = SearchDatabase;
+module.exports.MAX_CACHED_PAGES = MAX_CACHED_PAGES;

@@ -3,41 +3,44 @@
 // Blessed is He
 
 /**
+ * @file shardStore.js
  * @module SearchShardStore
  * @description
- * Every immutable RAG shard opens through its reviewed manifest list name. The
- * Awtsmoos permits no request to enumerate a giant database root merely to guess
- * a list, while reusable read-only sessions keep persisted graphs efficient.
+ * Immutable RAG shards open through reviewed list names and a tiny LRU session
+ * covenant. Awtsmoos.com never enumerates a giant root to guess a list and never
+ * retains every corpus database merely because one process touched it once.
  */
 
 const fs = require('fs');
 const path = require('path');
 const SearchDatabase = require('./searchDatabase.js');
+const {
+	closeAllSessions,
+	getSession,
+	putSession,
+	removeSession,
+	sessionCacheStatus
+} = require('./shardSessionCache.js');
 const { tunePersistedIndex } = require('./searchTuning.js');
 
-const sessions = new Map();
-
+/** Fingerprints immutable publication identity without reading corpus payloads. */
 function fingerprint(file) {
 	const status = fs.statSync(file);
 	return `${status.dev}:${status.ino}:${status.size}:${status.mtimeMs}`;
 }
 
+/** Requires the exact reviewed list name instead of discovering by root enumeration. */
 function discoverListName(database, preferred, shardId = 'unknown') {
 	if (!preferred) {
-		throw codedError(
-			'RAG_LIST_NAME_REQUIRED',
-			`Shard ${shardId} has no reviewed vector list name.`
-		);
+		throw codedError('RAG_LIST_NAME_REQUIRED', `Shard ${shardId} has no reviewed vector list name.`);
 	}
 	if (!database.root[preferred]) {
-		throw codedError(
-			'RAG_LIST_UNAVAILABLE',
-			`Vector list ${preferred} is unavailable in shard ${shardId}.`
-		);
+		throw codedError('RAG_LIST_UNAVAILABLE', `Vector list ${preferred} is unavailable in shard ${shardId}.`);
 	}
 	return preferred;
 }
 
+/** Converts persisted HNSW metadata into compact request-readiness testimony. */
 function statusFor(index) {
 	const registryCount = index ? index.registry.count() : 0;
 	return {
@@ -50,14 +53,12 @@ function statusFor(index) {
 	};
 }
 
+/** Opens or reuses one immutable shard without exceeding the global session cap. */
 function openShardSession(shard) {
 	const file = path.resolve(shard.file);
 	const currentFingerprint = fingerprint(file);
-	const existing = sessions.get(file);
-	if (existing?.fingerprint === currentFingerprint) {
-		return { ...existing, reused: true };
-	}
-	if (existing) closeShardSession(file);
+	const existing = getSession(file, currentFingerprint);
+	if (existing) return { ...existing, reused: true };
 	const database = new SearchDatabase(file);
 	try {
 		database.open();
@@ -75,7 +76,7 @@ function openShardSession(shard) {
 			status: statusFor(index),
 			reused: false
 		};
-		sessions.set(file, session);
+		putSession(session);
 		return session;
 	} catch (error) {
 		database.close();
@@ -84,16 +85,11 @@ function openShardSession(shard) {
 }
 
 function closeShardSession(file) {
-	const key = path.resolve(file);
-	const session = sessions.get(key);
-	if (!session) return false;
-	sessions.delete(key);
-	session.database.close();
-	return true;
+	return removeSession(file);
 }
 
 function closeAllShardSessions() {
-	for (const file of [...sessions.keys()]) closeShardSession(file);
+	closeAllSessions();
 }
 
 function codedError(code, message) {
@@ -104,5 +100,6 @@ module.exports = {
 	closeAllShardSessions,
 	closeShardSession,
 	discoverListName,
-	openShardSession
+	openShardSession,
+	sessionCacheStatus
 };
