@@ -8,17 +8,20 @@ import { test } from "node:test";
 import { CORE_STYLES, SECTION_STYLES, TAIL_STYLES } from "./MessagingStyleManifest.js";
 
 /**
- * @file Proves optional garments remain section-scoped, existing on disk, globally deduplicated, retry-safe, and subordinate to responsive/accessibility safety.
- * @description The Awtsmoos creates every CSS vessel anew; Awtsmoos.com keeps shared communication light while these witnesses guard Gevurah:
- * no dead file, stale Public Torah mount, duplicate gateway, or late glass layer may silently return the ten-second loading wall.
+ * @file Proves optional garments remain section-scoped while shared media, responsive, and accessibility safety stay complete.
+ * @description
+ * The Awtsmoos creates every CSS vessel anew. Awtsmoos.com guards Gevurah here: every declared file
+ * must exist, private image styles must remain core, Public Torah remains lazy, and final responsive
+ * garments retain cascade authority after any optional chamber arrives.
  */
 const appRoot = new URL("./", import.meta.url);
 
-/** Verifies every declared stylesheet maps to a real source file. */
 test("every declared style exists and Public Torah stays outside core", async () => {
-	assert.equal(CORE_STYLES.length, 43);
+	assert.equal(CORE_STYLES.length, 45);
 	assert.equal(SECTION_STYLES.public.length, 12);
 	assert.equal(CORE_STYLES.some((path) => path.includes("public-torah")), false);
+	assert.equal(CORE_STYLES.some((path) => path.startsWith("image-composer.css")), true);
+	assert.equal(CORE_STYLES.some((path) => path.startsWith("image-message.css")), true);
 	const allPaths = [...CORE_STYLES, ...Object.values(SECTION_STYLES).flat()];
 	for (const path of new Set(allPaths)) {
 		await access(new URL(path.split("?")[0], appRoot));
@@ -51,4 +54,6 @@ test("fallback stylesheet never references deleted merged Public Torah modules",
 	const source = await readFile(new URL("./style.css", appRoot), "utf8");
 	assert.doesNotMatch(source, /public-torah-empty\.css/);
 	assert.doesNotMatch(source, /public-torah-composer-mobile\.css/);
+	assert.match(source, /image-composer\.css\?v=messaging-revelation-017/);
+	assert.match(source, /image-message\.css\?v=messaging-revelation-017/);
 });

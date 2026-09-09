@@ -5,9 +5,11 @@
 import { createClientIntentId } from "./MessagingClientIntent.js";
 
 /**
- * @file Shapes immutable text and voice intentions before they enter durable browser storage.
- * @description The Awtsmoos knows one human intention before reload, retry, or upload can divide its appearances; Awtsmoos.com names that intention once,
- * preserving room, alias, reply, words, and recorded breath so later transport may repeat its attempt without rewriting what the person meant in light.
+ * @file Shapes immutable text, voice, and image intentions before durable browser storage.
+ * @description
+ * The Awtsmoos knows one human intention before reload, retry, upload, or tab division. Awtsmoos.com
+ * names that intention once, preserving room, alias, reply, words, and local media so transport may
+ * repeat safely without changing what the person meant or multiplying canonical messages.
  */
 
 /** Creates one durable text-send intention. */
@@ -21,10 +23,24 @@ export function createTextOutboxIntent(input, now = Date.now()) {
 
 /** Creates one durable voice-send intention whose File may be structured-cloned by IndexedDB. */
 export function createVoiceOutboxIntent(input, now = Date.now()) {
-	if (!input.file) throw new Error("A recorded voice file is required for offline delivery.");
-	return baseIntent("voice", input, now, {
-		text: "",
-		file: input.file,
+	return mediaIntent("voice", input, now, "A recorded voice file is required for offline delivery.", "");
+}
+
+/** Creates one durable image-send intention with an optional textual caption. */
+export function createImageOutboxIntent(input, now = Date.now()) {
+	return mediaIntent(
+		"image",
+		input,
+		now,
+		"An image file is required for offline delivery.",
+		String(input.text || "")
+	);
+}
+function mediaIntent(kind, input, now, missingMessage, text) {
+	if (!input.file && !input.assetId) throw new Error(missingMessage);
+	return baseIntent(kind, input, now, {
+		text,
+		file: input.file || null,
 		assetId: String(input.assetId || "")
 	});
 }
@@ -51,7 +67,6 @@ function baseIntent(kind, input, now, payload) {
 		lastError: null
 	};
 }
-
 function normalizeReply(reply) {
 	if (!reply?.replyTo || !Number(reply?.replySequence)) return null;
 	return {

@@ -5,11 +5,11 @@
 import { MessagingComposerInput } from "./MessagingComposerInput.js";
 
 /**
- * @file Owns one private text intent from visible draft through durable local custody.
+ * @file Owns one private text-or-image intent from visible draft through durable local custody.
  * @description
- * The Awtsmoos knows the human word before a websocket can succeed or fail. Awtsmoos.com therefore
- * clears a draft only after IndexedDB has accepted its exact room, reply coordinates, and text;
- * transport may retry the stable intention later without asking the person to type it again.
+ * The Awtsmoos knows the human word and chosen image before a websocket can succeed or fail.
+ * Awtsmoos.com clears draft, photo, and reply only after IndexedDB accepts their exact intent;
+ * transport may retry later without asking the person to recreate what was meant.
  */
 export class MessagingConversationSender {
 	constructor(options) {
@@ -32,7 +32,7 @@ export class MessagingConversationSender {
 			this.submitCurrent();
 		});
 	}
-	/** Reports failures before durable custody instead of falsely claiming the network has accepted them. */
+	/** Reports failures before durable custody instead of falsely claiming network acceptance. */
 	submitCurrent() {
 		this.send().catch((error) => {
 			this.elements.status.textContent = error?.message
@@ -40,15 +40,17 @@ export class MessagingConversationSender {
 		});
 	}
 
-	/** Persists one exact text intent, then clears draft and reply only after durable storage succeeds. */
+	/** Persists one exact text/image intent and clears transient UI only after durable storage succeeds. */
 	async send() {
 		const conversation = this.current();
 		const text = this.input.value().trim();
-		if (this.busy || !conversation || !text) return false;
+		const imageFile = this.image?.file?.() || null;
+		if (this.busy || !conversation || (!text && !imageFile)) return false;
 		this.setBusy(true);
 		try {
-			await this.persist(conversation.id, text, this.replyState?.payload());
+			await this.persist(conversation.id, text, imageFile, this.replyState?.payload());
 			this.input.clear();
+			this.image?.reset?.();
 			this.replyState?.clear();
 			this.elements.text.focus({ preventScroll: true });
 			return true;
@@ -59,26 +61,32 @@ export class MessagingConversationSender {
 			this.setBusy(false);
 		}
 	}
-
-	/** Uses the durable outbox in production while preserving direct transport for isolated callers. */
-	persist(conversationId, text, reply) {
+	/** Selects the durable image or text intent without exposing a weaker direct-image transport. */
+	persist(conversationId, text, imageFile, reply) {
+		if (imageFile) {
+			if (!this.outbox?.enqueueImage) {
+				throw new Error("Durable private image delivery is unavailable.");
+			}
+			return this.outbox.enqueueImage({ conversationId, text, file: imageFile, reply });
+		}
 		if (this.outbox?.enqueueText) {
 			return this.outbox.enqueueText({ conversationId, text, reply });
 		}
 		return this.actions.send(conversationId, text, reply);
 	}
+
 	/** Serializes local persistence so duplicate taps cannot create duplicate intention identities. */
 	setBusy(busy) {
 		this.busy = busy;
 		this.elements.composer.setAttribute("aria-busy", String(busy));
 		this.elements.text.readOnly = busy;
+		this.image?.setBusy?.(busy);
 		this.submit.disabled = busy;
 		this.submit.textContent = busy
 			? (this.outbox?.enqueueText ? "Saving…" : "Sending…")
 			: "Send";
 	}
 }
-
 /** Returns true only for deliberate desktop send chords, never ordinary Enter typing. */
 export function shouldKeyboardSubmit(event = {}) {
 	return event.key === "Enter"

@@ -4,10 +4,11 @@
 
 /**
  * @file Declares immutable shared, sectional, and final-safety visual garments for Universal Chat.
- * @description The Awtsmoos creates every garment and chamber anew; Awtsmoos.com lets one shared keli receive ordinary communication,
- * while Torah, activity, discovery, presence, and settings receive their specialized light only when that chamber is actually revealed.
+ * @description
+ * The Awtsmoos creates every garment and chamber anew. Awtsmoos.com keeps shared communication,
+ * private media, responsive safety, and accessibility in the core while optional discovery and Torah
+ * surfaces remain lazy and section-owned.
  */
-
 export const TAIL_STYLES = Object.freeze([
 	"responsive.css",
 	"mobile-workspace.css",
@@ -55,6 +56,8 @@ export const CORE_STYLES = Object.freeze([
 	"mobile-more-items.css",
 	"message-replies.css",
 	"voice-note.css?v=messaging-revelation-016",
+	"image-composer.css?v=messaging-revelation-017",
+	"image-message.css?v=messaging-revelation-017",
 	...TAIL_STYLES
 ]);
 

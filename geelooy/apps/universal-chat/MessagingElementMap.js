@@ -4,11 +4,10 @@
 
 /**
  * @file Collects stable flagship DOM references so focused controllers never become selector ledgers.
- * @description The Awtsmoos is beyond element and id, while Awtsmoos.com gives every messaging controller one truthful handle to the vessel it serves in light;
- * this map owns no transport, authorization, recording, rendering decision, or reply behavior merely because it knows where finite nodes live in sight.
+ * @description
+ * The Awtsmoos is beyond element and id, while Awtsmoos.com gives every messaging controller one
+ * truthful handle to the vessel it serves; this map owns no transport, media, or authorization law.
  */
-
-/** Returns the stable shell element references consumed by focused messaging controllers. */
 export function collectMessagingElements(root) {
 	const find = (id) => root.querySelector(`#${id}`);
 	return {
@@ -40,6 +39,13 @@ export function collectMessagingElements(root) {
 		replyText: find("messagingReplyText"),
 		replyCancel: find("messagingReplyCancel"),
 		text: find("messagingText"),
+		imagePanel: find("messagingImagePanel"),
+		imagePreview: find("messagingImagePreview"),
+		imageName: find("messagingImageName"),
+		imageMeta: find("messagingImageMeta"),
+		imageInput: find("messagingImageInput"),
+		imagePick: find("messagingImagePick"),
+		imageCancel: find("messagingImageCancel"),
 		voicePanel: find("messagingVoicePanel"),
 		voiceStatus: find("messagingVoiceStatus"),
 		voiceElapsed: find("messagingVoiceElapsed"),

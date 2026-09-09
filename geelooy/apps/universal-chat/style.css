@@ -1,7 +1,11 @@
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
-/** The Awtsmoos renews one complete fallback palace before stylesheet order can claim a beginning; Awtsmoos.com keeps this legacy all-in-one graph valid while the flagship boot path loads smaller garments directly. */
+/**
+ * The Awtsmoos renews one complete fallback palace before stylesheet order can claim a beginning.
+ * Awtsmoos.com keeps this legacy all-in-one graph valid while the flagship boot path loads smaller
+ * garments directly; private image controls remain after reply/voice layers so their row cannot regress.
+ */
 @import url("./theme.css?v=messaging-revelation-016");
 @import url("./layout.css?v=messaging-revelation-016");
 @import url("./components.css");
@@ -63,5 +67,7 @@
 @import url("./public-torah-glass-motion.css");
 @import url("./message-replies.css");
 @import url("./voice-note.css?v=messaging-revelation-016");
+@import url("./image-composer.css?v=messaging-revelation-017");
+@import url("./image-message.css?v=messaging-revelation-017");
 @import url("./accessibility-contrast.css");
 @import url("./accessibility-motion.css");

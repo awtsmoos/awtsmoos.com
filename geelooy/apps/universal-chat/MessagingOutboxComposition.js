@@ -6,15 +6,21 @@ import { MessagingAssetApi } from "./MessagingAssetApi.js";
 import { MessagingOutboxCoordinator } from "./MessagingOutboxCoordinator.js";
 import { MessagingOutboxDatabase } from "./MessagingOutboxDatabase.js";
 import { MessagingOutboxDeliverer } from "./MessagingOutboxDeliverer.js";
-import { createTextOutboxIntent, createVoiceOutboxIntent } from "./MessagingOutboxIntent.js";
+import {
+	createImageOutboxIntent,
+	createTextOutboxIntent,
+	createVoiceOutboxIntent
+} from "./MessagingOutboxIntent.js";
 import { MessagingOutboxLease } from "./MessagingOutboxLease.js";
 import { MessagingOutboxRepository } from "./MessagingOutboxRepository.js";
 import { MessagingOutboxWakeup } from "./MessagingOutboxWakeup.js";
 
 /**
- * @file Composes Universal Chat's durable browser delivery graph behind a tiny text/voice enqueue facade.
- * @description The Awtsmoos unites persistence, alias, asset, retry, lease, socket, and human status before they become separate modules;
- * Awtsmoos.com lets composition join their finite covenants once, then closes every wake and timer vessel together when this lifecycle returns to stillness in light.
+ * @file Composes durable browser delivery behind text, voice, and image enqueue gates.
+ * @description
+ * The Awtsmoos unites persistence, alias, asset, retry, lease, socket, and status before their
+ * separate vessels arise. Awtsmoos.com gives every private media form the same durable custody law,
+ * while one renewable multi-tab lease keeps replay singular across browser tabs.
  */
 export function composeMessagingOutbox(bridge, actions, status, options = {}) {
 	const database = options.database || new MessagingOutboxDatabase(options.databaseOptions);
@@ -40,20 +46,21 @@ export function composeMessagingOutbox(bridge, actions, status, options = {}) {
 	});
 	coordinator.broadcast = () => wakeup.announce();
 	wakeup.start();
+	const withAlias = (factory, input) => factory({
+		...input,
+		aliasId: bridge.store.actor?.alias
+	});
 	return {
 		repository,
 		coordinator,
-		async enqueueText(input) {
-			return coordinator.enqueue(createTextOutboxIntent({
-				...input,
-				aliasId: bridge.store.actor?.alias
-			}));
+		enqueueText(input) {
+			return coordinator.enqueue(withAlias(createTextOutboxIntent, input));
 		},
-		async enqueueVoice(input) {
-			return coordinator.enqueue(createVoiceOutboxIntent({
-				...input,
-				aliasId: bridge.store.actor?.alias
-			}));
+		enqueueVoice(input) {
+			return coordinator.enqueue(withAlias(createVoiceOutboxIntent, input));
+		},
+		enqueueImage(input) {
+			return coordinator.enqueue(withAlias(createImageOutboxIntent, input));
 		},
 		flush: () => coordinator.requestFlush(),
 		stop() {

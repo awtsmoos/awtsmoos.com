@@ -1,0 +1,90 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos contains image and enlargement before bubble and viewport divide. Awtsmoos.com keeps
+ * authenticated private imagery bounded inside the conversation and gives expansion one accessible
+ * modal vessel without exposing a public asset path.
+ */
+body[data-messaging-page] .private-image-message {
+	display: block;
+	inline-size: min(360px, 72vw);
+	max-inline-size: 100%;
+	margin-block: 0.15rem 0.4rem;
+	padding: 0;
+	border: 1px solid rgb(114 216 174 / 18%);
+	border-radius: 16px;
+	overflow: hidden;
+	background: rgb(0 0 0 / 24%);
+	cursor: zoom-in;
+	box-shadow: var(--msg-inset), 0 10px 28px rgb(0 0 0 / 18%);
+}
+
+body[data-messaging-page] .private-image-message img {
+	display: block;
+	inline-size: 100%;
+	max-block-size: 420px;
+	object-fit: cover;
+	background: rgb(0 0 0 / 26%);
+}
+
+body[data-messaging-page] .private-image-message:focus-visible {
+	outline: 2px solid var(--msg-focus);
+	outline-offset: 3px;
+}
+
+body[data-messaging-page] .messaging-image-viewer {
+	box-sizing: border-box;
+	max-inline-size: 94vw;
+	max-block-size: 94dvh;
+	padding: 2.8rem 0.8rem 0.8rem;
+	border: 1px solid rgb(216 182 109 / 22%);
+	border-radius: 20px;
+	background: rgb(3 11 8 / 96%);
+	box-shadow: 0 30px 90px rgb(0 0 0 / 55%);
+}
+
+body[data-messaging-page] .messaging-image-viewer::backdrop {
+	background: rgb(0 0 0 / 78%);
+	backdrop-filter: blur(8px);
+}
+
+body[data-messaging-page] .messaging-image-viewer img {
+	display: block;
+	max-inline-size: min(88vw, 1200px);
+	max-block-size: 84dvh;
+	border-radius: 14px;
+	object-fit: contain;
+}
+
+body[data-messaging-page] .messaging-image-viewer-close {
+	position: absolute;
+	inset-block-start: 0.5rem;
+	inset-inline-end: 0.5rem;
+	inline-size: 44px;
+	block-size: 44px;
+	padding: 0;
+	border: 1px solid rgb(216 182 109 / 24%);
+	border-radius: 50%;
+	background: rgb(10 24 17 / 92%);
+	color: #fff7e8;
+	font: inherit;
+	font-size: 1.3rem;
+	cursor: pointer;
+}
+
+body[data-messaging-page] .messaging-image-viewer-close:focus-visible {
+	outline: 2px solid var(--msg-focus);
+	outline-offset: 3px;
+}
+
+@media (max-width: 430px) {
+	body[data-messaging-page] .private-image-message {
+		inline-size: min(78vw, 320px);
+	}
+
+	body[data-messaging-page] .messaging-image-viewer {
+		max-inline-size: 96vw;
+		padding-inline: 0.45rem;
+	}
+}

@@ -5,11 +5,12 @@
 import { createMessagingConversationFeatures } from "./MessagingConversationFeatures.js";
 
 /**
- * @file Coordinates one accepted private room while focused vessels own send, voice, reply, details, repaint, and history behavior.
- * @description The Awtsmoos renews private speech only inside the room consent has opened, while Awtsmoos.com lets word and breath carry lawful context in light;
- * this controller chooses the current room and its lifecycle without becoming transport, persistence, media, authorization, or presentation authority in sight.
+ * @file Coordinates one accepted private room while focused vessels own text, image, voice, reply, details, repaint, and history behavior.
+ * @description
+ * The Awtsmoos renews private speech only inside the room consent has opened. Awtsmoos.com chooses
+ * the current room and resets every transient local intention at room boundaries without becoming
+ * persistence, media, transport, authorization, or presentation authority itself.
  */
-
 export class MessagingConversationController {
 	constructor(options) {
 		Object.assign(this, options);
@@ -59,8 +60,10 @@ export class MessagingConversationController {
 		this.threadView.hideConversation();
 	}
 
+	/** Clears room-scoped reply, image, and voice state before another room may appear. */
 	resetTransientIntent() {
 		this.reply.reset();
+		this.image?.reset?.();
 		this.voice.reset();
 	}
 

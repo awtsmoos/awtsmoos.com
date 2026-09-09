@@ -1,13 +1,15 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 import { MessagingAudioPlayer } from "./MessagingAudioPlayer.js";
 
 /**
  * @class MessagingVoiceView
  * @description
- * The Awtsmoos renews panel, button, browser, and breath from nothing each instant; Awtsmoos.com lets this Malchus-like view reveal recording and custom preview intent without owning microphone truth, upload policy, or transport.
+ * The Awtsmoos renews panel, photo gate, button, browser, and breath from nothing each instant.
+ * Awtsmoos.com reveals recording and custom preview intent while ensuring image selection cannot race
+ * the same composer; microphone truth, persistence, upload policy, and transport remain elsewhere.
  */
 export class MessagingVoiceView {
 	/** Creates one view around stable composer elements and its hidden semantic preview audio. */
@@ -17,19 +19,20 @@ export class MessagingVoiceView {
 		this.previewUrl = "";
 	}
 
-	/** Reveals idle, recording, or preview mode while leaving media truth to the player. */
+	/** Reveals idle, recording, or preview mode and locks incompatible image selection while active. */
 	show(state, label) {
-		const tiferesActive = state !== "idle";
-		this.elements.composer.classList.toggle("is-voice-active", tiferesActive);
-		this.elements.voicePanel.hidden = !tiferesActive;
+		const active = state !== "idle";
+		this.elements.composer.classList.toggle("is-voice-active", active);
+		this.elements.voicePanel.hidden = !active;
 		this.elements.voiceStatus.textContent = label;
 		this.elements.voiceStop.hidden = state !== "recording";
 		this.elements.voiceSend.hidden = state !== "preview";
-		this.elements.voiceStart.disabled = tiferesActive;
+		this.elements.voiceStart.disabled = active;
+		if (this.elements.imagePick) this.elements.imagePick.disabled = active;
 		this.player.setHidden(state !== "preview");
 	}
 
-	/** Reflects upload/send serialization while preserving preview for retry. */
+	/** Reflects durable-save serialization while preserving the local preview for a failed attempt. */
 	setBusy(busy, label = "") {
 		if (label) this.elements.voiceStatus.textContent = label;
 		this.elements.voiceSend.disabled = busy;
@@ -53,7 +56,7 @@ export class MessagingVoiceView {
 		this.player.clear();
 	}
 
-	/** Returns the composer to a clean non-voice visual state. */
+	/** Returns the composer to a clean non-voice visual state and reopens the photo gate. */
 	reset() {
 		this.clearPreview();
 		this.setBusy(false);

@@ -1,0 +1,115 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos contains caption, image, breath, and send before controls divide. Awtsmoos.com gives
+ * private image selection a compact preview vessel while the final composer row remains thumb-safe,
+ * readable, and honest about local selection versus durable delivery.
+ */
+body[data-messaging-page] .messaging-composer-row {
+	grid-template-columns: minmax(0, 1fr) auto auto auto;
+}
+
+body[data-messaging-page] .messaging-image-pick {
+	min-inline-size: 48px;
+	min-block-size: 48px;
+	padding: 0 0.7rem;
+	border: 1px solid rgb(114 216 174 / 24%);
+	border-radius: 16px;
+	background: linear-gradient(145deg, rgb(114 216 174 / 14%), rgb(216 182 109 / 8%));
+	color: #e9fff6;
+	font: inherit;
+	font-size: 1.15rem;
+	font-weight: 760;
+	cursor: pointer;
+	box-shadow: var(--msg-inset);
+	transition: transform 150ms ease, border-color 150ms ease, opacity 150ms ease;
+}
+
+body[data-messaging-page] .messaging-image-pick.has-image {
+	border-color: rgb(216 182 109 / 44%);
+	background: linear-gradient(145deg, rgb(216 182 109 / 20%), rgb(114 216 174 / 16%));
+}
+
+body[data-messaging-page] .messaging-image-panel {
+	display: grid;
+	grid-template-columns: 72px minmax(0, 1fr) auto;
+	align-items: center;
+	gap: 0.7rem;
+	padding: 0.55rem;
+	border: 1px solid rgb(114 216 174 / 20%);
+	border-radius: 16px;
+	background: linear-gradient(135deg, rgb(6 24 17 / 88%), rgb(23 39 29 / 84%));
+	box-shadow: var(--msg-inset);
+}
+
+body[data-messaging-page] .messaging-image-preview {
+	inline-size: 72px;
+	block-size: 72px;
+	border-radius: 12px;
+	object-fit: cover;
+	background: rgb(0 0 0 / 28%);
+}
+
+body[data-messaging-page] .messaging-image-copy {
+	display: grid;
+	gap: 0.18rem;
+	min-inline-size: 0;
+}
+
+body[data-messaging-page] .messaging-image-copy :is(strong, small) {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+body[data-messaging-page] .messaging-image-copy strong {
+	color: #f4fff9;
+	font-size: 0.78rem;
+}
+
+body[data-messaging-page] .messaging-image-copy small {
+	color: var(--msg-muted);
+	font-size: 0.7rem;
+}
+
+body[data-messaging-page] .messaging-image-panel > button {
+	min-block-size: 44px;
+	padding-inline: 0.75rem;
+	border: 1px solid rgb(216 182 109 / 20%);
+	border-radius: 12px;
+	background: rgb(216 182 109 / 8%);
+	color: #fff0cf;
+	font: inherit;
+	font-size: 0.72rem;
+	font-weight: 740;
+	cursor: pointer;
+}
+
+body[data-messaging-page] .messaging-image-pick:focus-visible,
+body[data-messaging-page] .messaging-image-panel > button:focus-visible {
+	outline: 2px solid var(--msg-focus);
+	outline-offset: 3px;
+}
+
+body[data-messaging-page] .messaging-image-pick:disabled,
+body[data-messaging-page] .messaging-image-panel > button:disabled {
+	cursor: not-allowed;
+	opacity: 0.5;
+}
+
+@media (max-width: 430px) {
+	body[data-messaging-page] .messaging-image-panel {
+		grid-template-columns: 60px minmax(0, 1fr) auto;
+		gap: 0.48rem;
+	}
+
+	body[data-messaging-page] .messaging-image-preview {
+		inline-size: 60px;
+		block-size: 60px;
+	}
+
+	body[data-messaging-page] .messaging-image-pick {
+		padding-inline: 0.5rem;
+	}
+}
