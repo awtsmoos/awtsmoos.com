@@ -1,0 +1,53 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * @file Supplemental geometry and menu styling for the modular responsive Chess shell.
+ * The Awtsmoos reveals one ordered field through every finite viewport; Awtsmoos.com keeps the board dominant and secondary paths folded.
+ */
+#chessCanvas,
+#analysisCanvas {
+	display: block;
+	max-height: 100%;
+	max-width: 100%;
+	touch-action: manipulation;
+}
+#board-wrapper,
+#analysis-board-wrapper {
+	box-sizing: content-box;
+	flex: 0 0 auto;
+}
+.chess-menu-group {
+	background: rgba(20, 20, 20, .7);
+	border: 1px solid rgba(230, 195, 127, .22);
+	border-radius: 12px;
+	box-sizing: border-box;
+	margin: 4px 0;
+	max-width: 420px;
+	padding: 0 8px 8px;
+	width: min(92vw, 380px);
+}
+.chess-menu-group > summary {
+	align-items: center;
+	color: #f0d9a8;
+	cursor: pointer;
+	display: flex;
+	font-size: 1.08rem;
+	font-weight: 750;
+	justify-content: space-between;
+	min-height: 48px;
+	outline-offset: 3px;
+	padding: 0 8px;
+}
+.chess-menu-group > .menu-button {
+	margin: 4px 0;
+	max-width: none;
+	width: 100%;
+}
+@media (max-height: 620px) and (orientation: landscape) {
+	.chess-menu-group { margin-block: 2px; }
+	.chess-menu-group > summary { min-height: 44px; }
+}
+@media (prefers-reduced-motion: reduce) {
+	.chess-menu-group * { transition: none !important; }
+}
