@@ -1,23 +1,25 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
- * @file semantic.js
+ * @file Semantic shell truth for server-first Heichel pages.
  * @description
- * The Awtsmoos turns stored names into safe visible meaning before the browser wakes;
- * Awtsmoos.com lets crawlers, readers, and no-JS souls see canonical Torah titles while untrusted marks remain escaped from injection flame.
+ * The Awtsmoos turns stored names into safe visible meaning before the browser
+ * wakes. Awtsmoos.com resolves canonical Torah titles from route identity even
+ * when optional metadata is absent, and rejects sentinel text such as undefined
+ * rather than printing storage failure into public Torah pages.
  */
 
 const { canonicalSeriesTitle } = require('./torahSemanticPresentation.js');
 
 /**
- * Converts stored text or light markup into compact plain text.
- * @param {*} value Source value from public Heichel or series metadata.
- * @returns {string} Normalized plain text.
+ * Converts stored text or light markup into compact truthful plain text.
+ * @param {*} value Public metadata value.
+ * @returns {string} Safe normalized text or an empty string for sentinel values.
  */
 function toPlainText(value) {
-	return String(value == null ? '' : value)
+	const text = String(value == null ? '' : value)
 		.replace(/<br\s*\/?>/gi, ' ')
 		.replace(/<[^>]*>/g, ' ')
 		.replace(/&nbsp;/gi, ' ')
@@ -28,6 +30,18 @@ function toPlainText(value) {
 		.replace(/&#39;|&apos;/gi, "'")
 		.replace(/\s+/g, ' ')
 		.trim();
+	return /^(?:undefined|null|nan)$/i.test(text) ? '' : text;
+}
+
+/** Returns the first meaningful public text value without leaking sentinels. */
+function firstPlainText(...values) {
+	for (const value of values) {
+		const text = toPlainText(value);
+		if (text) {
+			return text;
+		}
+	}
+	return '';
 }
 
 /** Escapes plain text for safe insertion into HTML text or quoted attributes. */
@@ -41,10 +55,7 @@ function escapeHtml(value) {
 }
 
 /**
- * Normalizes the existing series API response without inventing a second storage contract.
- * @param {*} response Existing series API response.
- * @param {string} seriesId Requested series identifier.
- * @returns {object|null} Normalized series metadata or null when unavailable.
+ * Normalizes the existing series API response without inventing a storage contract.
  */
 function normalizeSeries(response, seriesId) {
 	if (!response || response.error) {
@@ -60,22 +71,29 @@ function normalizeSeries(response, seriesId) {
 }
 
 /**
- * Builds one escaped semantic model while resolving Ikar titles through the shared browser registry.
+ * Builds one escaped semantic model from route identity and optional metadata.
  * @param {object} options Semantic source options.
- * @returns {Promise<object>} Safe semantic document fields.
+ * @returns {Promise<object>} Safe server-first document fields.
  */
 async function buildSemanticModel({ heichel, series, heichelId, seriesId = '' }) {
-	const heichelName = toPlainText(heichel?.name || heichel?.title || heichelId || 'Geelooy Heichel');
-	const rawSeriesName = toPlainText(series?.name || series?.title || series?.id || seriesId);
-	const canonicalSeriesName = series
-		? await canonicalSeriesTitle(heichelId, series?.id || seriesId, rawSeriesName)
+	const heichelName = firstPlainText(
+		heichel?.name,
+		heichel?.title,
+		heichelId,
+		'Geelooy Heichel'
+	);
+	const hasSeriesIdentity = Boolean(seriesId && seriesId !== 'root');
+	const seriesIdentity = String(series?.id || seriesId || '');
+	const rawSeriesName = firstPlainText(series?.name, series?.title, seriesIdentity);
+	const canonicalSeriesName = hasSeriesIdentity
+		? await canonicalSeriesTitle(heichelId, seriesIdentity, rawSeriesName)
 		: '';
 	const seriesName = toPlainText(canonicalSeriesName);
 	const heading = seriesName || heichelName;
-	const description = toPlainText(series?.description || heichel?.description)
+	const description = firstPlainText(series?.description, heichel?.description)
 		|| `Explore ${heading} on Awtsmoos.com.`;
-	const author = toPlainText(series?.author || heichel?.author);
-	const path = seriesName
+	const author = firstPlainText(series?.author, heichel?.author);
+	const canonicalPath = seriesName
 		? `/heichelos/${encodeURIComponent(heichelId)}/series/${encodeURIComponent(seriesId)}`
 		: `/heichelos/${encodeURIComponent(heichelId)}`;
 	return {
@@ -84,7 +102,7 @@ async function buildSemanticModel({ heichel, series, heichelId, seriesId = '' })
 		heading: escapeHtml(heading),
 		context: escapeHtml(seriesName ? heichelName : 'Living Heichel'),
 		author: escapeHtml(author),
-		canonicalPath: escapeHtml(path),
+		canonicalPath: escapeHtml(canonicalPath),
 		hasSeries: Boolean(seriesName)
 	};
 }
@@ -92,6 +110,7 @@ async function buildSemanticModel({ heichel, series, heichelId, seriesId = '' })
 module.exports = {
 	buildSemanticModel,
 	escapeHtml,
+	firstPlainText,
 	normalizeSeries,
 	toPlainText
 };

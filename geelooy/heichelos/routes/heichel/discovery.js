@@ -1,15 +1,18 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
- * @file discovery.js
+ * @file Server-first discovery links for Heichel and Torah series pages.
  * @description
- * The Awtsmoos joins teaching to teaching through visible doors before JavaScript wakes;
- * Awtsmoos.com now gives semantic discovery the same canonical Torah names and root branches as the living browser tree.
+ * The Awtsmoos joins teaching to teaching through visible doors before JavaScript
+ * wakes. Awtsmoos.com uses the same canonical Torah presentation as the browser,
+ * preserves stored hierarchy, and naturally orders only teachings whose own titles
+ * explicitly declare page numbers.
  */
 
 const { escapeHtml, cleanText } = require('./postSemantic.js');
+const { orderTorahPosts } = require('./torahSemanticPolicy.js');
 const { prepareTorahSeriesItems } = require('./torahSemanticPresentation.js');
 
 /** Encodes one route segment for a crawlable public path. */
@@ -17,7 +20,7 @@ function encodeSegment(value) {
 	return encodeURIComponent(String(value ?? ''));
 }
 
-/** Normalizes API wrappers into a plain list. */
+/** Normalizes API wrappers into a plain bounded list. */
 function normalizeList(value, keys = []) {
 	if (Array.isArray(value)) {
 		return value;
@@ -48,7 +51,7 @@ function makeLink(kind, title, path) {
  * @returns {{getDiscovery:Function}} Bound discovery resolver.
  */
 function createDiscovery($i) {
-	/** Fetches one public API path without allowing an unavailable branch to erase the shell. */
+	/** Fetches one public API path without erasing the shell when unavailable. */
 	async function safeFetch(path) {
 		try {
 			const response = await $i.fetchAwtsmoos(path);
@@ -69,7 +72,8 @@ function createDiscovery($i) {
 		]);
 		const rawSubSeries = normalizeList(subSeriesResponse, ['series', 'subSeries']);
 		const subSeries = await prepareTorahSeriesItems(heichelId, activeSeries, rawSubSeries);
-		const posts = normalizeList(postsResponse, ['posts']);
+		const rawPosts = normalizeList(postsResponse, ['posts']);
+		const posts = orderTorahPosts(heichelId, rawPosts);
 		const seriesLinks = subSeries.map(item => makeLink(
 			'series',
 			item.title || item.name || item.id,
