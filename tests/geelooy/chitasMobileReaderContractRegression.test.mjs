@@ -60,7 +60,7 @@ assert.match(sources.register, /universalChat\/bootstrap\.js\?v=universal-chat-0
 
 assert.match(sources.template, /main\.css\?v=reader-chitas-007/);
 assert.match(sources.template, /register\.js\?v=reader-social-002/);
-assert.match(sources.template, /postLogic\.js\?v=reader-runtime-006/);
+assert.match(sources.template, /postLogic\.js\?v=reader-runtime-007/);
 
 for (const [name, source] of Object.entries(sources)) {
 	assert.match(source.slice(0, 180), /B"H/, `${name} must keep its B"H header`);

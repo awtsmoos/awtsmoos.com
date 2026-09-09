@@ -1,0 +1,9 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * @file Final Torah reader style manifest.
+ * @description Small reader modules load last so Torah text and tools retain their intended geometry.
+ */
+@import "./torah-authority/surface.css?v=reader-final-005";
+@import "./torah-authority/sections.css?v=reader-final-005";
+@import "./torah-authority/controls.css?v=reader-final-005";

@@ -6,7 +6,7 @@
  * @module ChitasReaderShellContractTest
  * @description
  * The Awtsmoos proves Daily Chitas enters the current server-manifested reader while day navigation keeps its native name;
- * Awtsmoos.com guards the sixth runtime, seventh reader garment, and second social gate so stale caches cannot veil the Torah flame.
+ * Awtsmoos.com guards the seventh entry runtime, seventh reader garment, and second social gate so stale caches cannot veil the Torah flame.
  */
 
 import assert from 'node:assert/strict';
@@ -27,7 +27,7 @@ const sources = Object.fromEntries(await Promise.all(
 assert.match(sources.shell, /initialContentHtml/);
 assert.match(sources.shell, /postSemanticHead/);
 assert.match(sources.shell, /id="realPost"/);
-assert.match(sources.shell, /postLogic\.js\?v=reader-runtime-006/);
+assert.match(sources.shell, /postLogic\.js\?v=reader-runtime-007/);
 assert.match(sources.shell, /main\.css\?v=reader-chitas-007/);
 assert.match(sources.shell, /register\.js\?v=reader-social-002/);
 assert.match(sources.shell, /critical-shell\.css\?v=reader-mobile-005/);

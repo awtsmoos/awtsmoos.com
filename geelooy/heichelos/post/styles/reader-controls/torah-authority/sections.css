@@ -1,0 +1,57 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * @file Torah reader section authority.
+ * @description
+ * The Awtsmoos lets verses and teaching sections remain distinct without turning
+ * every paragraph into a heavy card. Awtsmoos.com keeps Hebrew rhythm generous,
+ * subsection hierarchy quiet, and verse coordinates visible but secondary.
+ */
+.all.post-reader-localized-context.awtsmoos-reader-vision #realPost .section,
+.all.post-reader-localized-context.awtsmoos-reader-vision #realPost .awtsmoos-reader-section {
+	margin: 0 0 .45rem !important;
+	padding: .62rem .72rem !important;
+	border: 1px solid transparent !important;
+	border-radius: .8rem !important;
+	background: transparent !important;
+	box-shadow: none !important;
+}
+
+.all.post-reader-localized-context.awtsmoos-reader-vision #realPost .section:hover,
+.all.post-reader-localized-context.awtsmoos-reader-vision #realPost .awtsmoos-reader-section:hover {
+	border-color: rgba(126, 218, 255, .08) !important;
+	background: rgba(255, 255, 255, .018) !important;
+}
+
+.all.post-reader-localized-context.awtsmoos-reader-vision #realPost .toichen,
+.all.post-reader-localized-context.awtsmoos-reader-vision #realPost .sub-awtsmoos {
+	min-inline-size: 0 !important;
+}
+
+.all.post-reader-localized-context.awtsmoos-reader-vision #realPost .sub-awtsmoos,
+.all.post-reader-localized-context.awtsmoos-reader-vision #realPost .awtsmoos-modern-subsection {
+	margin-block: .35rem !important;
+	padding: .5rem .58rem !important;
+	border-radius: .65rem !important;
+	background: rgba(255, 255, 255, .018) !important;
+}
+
+.all.post-reader-localized-context.awtsmoos-reader-vision #realPost :is(.heb, [dir="rtl"]) {
+	direction: rtl;
+	text-align: start;
+	line-height: 1.78 !important;
+}
+
+.all.post-reader-localized-context.awtsmoos-reader-vision #realPost .awtsmoos-verse-number {
+	min-inline-size: 2rem !important;
+	min-block-size: 2rem !important;
+	padding: .2rem .42rem !important;
+	font-size: .75rem !important;
+	opacity: .7;
+}
+
+.all.post-reader-localized-context.awtsmoos-reader-vision #realPost .awtsmoos-section-header {
+	min-block-size: 0 !important;
+	margin-block-end: .2rem !important;
+}

@@ -38,7 +38,7 @@ assert.match(source.modern, /initialContentHtml/);
 assert.doesNotMatch(source.modern, /\$a\("initial-content\.html"\)/);
 assert.match(source.modern, /main\.css\?v=reader-chitas-007/);
 assert.match(source.modern, /register\.js\?v=reader-social-002/);
-assert.match(source.modern, /postLogic\.js\?v=reader-runtime-006/);
+assert.match(source.modern, /postLogic\.js\?v=reader-runtime-007/);
 assert.match(source.modern, /mobile-reading\.css\?v=reader-calm-002/);
 assert.doesNotMatch(source.modern, /main\.css\?v=reader-chitas-006/);
 assert.doesNotMatch(source.modern, /postLogic\.js\?v=reader-runtime-005/);

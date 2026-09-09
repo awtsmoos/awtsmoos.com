@@ -1,7 +1,11 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-
+/**
+ * @file readerActionHierarchy.test.mjs
+ * @description Guards the split reader-action hierarchy so study deeds lead
+ * while global utilities remain secondary and selection actions stay conditional.
+ */
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
@@ -17,10 +21,13 @@ test('word study actions lead while utility actions are explicitly secondary', (
 	assert.match(actions, /torah-language-tools/);
 });
 
-test('empty selection no longer produces a dead Copy Selection action', () => {
+test('selection utility remains conditional after modular split', () => {
 	const preserved = read('./preservedActions.js');
-	assert.match(preserved, /if \(selection\).*Copy selection/s);
-	assert.doesNotMatch(preserved, /const actions = \[\s*\{ label: 'Fullscreen'/);
+	const utility = read('./preservedUtilityActions.js');
+	assert.match(preserved, /utilityReaderActions/);
+	assert.match(utility, /if \(selection\).*copySelectionAction/s);
+	assert.match(utility, /label: 'Copy selection'/);
+	assert.doesNotMatch(preserved, /label: 'Copy selection'/);
 });
 
 test('reader renderer owns a real More disclosure for secondary actions', () => {

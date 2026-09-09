@@ -5,7 +5,7 @@
  * @module ChitasDynamicTitleRegressionTest
  * @description
  * The Awtsmoos gives one Daily Chitas card a real composed name rather than phantom English fields;
- * Awtsmoos.com proves title, canonical fifth boot, and sixth optional enhancement keep that real identity through the public vessel.
+ * Awtsmoos.com proves title, canonical fifth boot, seventh entry runtime, and sixth optional enhancement keep that real identity through the public vessel.
  */
 
 import assert from 'node:assert/strict';
@@ -53,7 +53,7 @@ assert.match(bootstrapSource, /coordinates\.js\?v=reader-runtime-005/);
 assert.match(bootstrapSource, /postManifest\.js\?v=reader-runtime-005/);
 assert.match(postLogicSource, /bootstrap\.js\?v=reader-runtime-005/);
 assert.match(postLogicSource, /ReaderEnhancementOrchestrator\.js\?v=reader-runtime-006/);
-assert.match(templateSource, /postLogic\.js\?v=reader-runtime-006/);
+assert.match(templateSource, /postLogic\.js\?v=reader-runtime-007/);
 
 for (const [path, source] of Object.entries({
 	[dynamicPath]: dynamicSource,
@@ -67,4 +67,4 @@ for (const [path, source] of Object.entries({
 	assert.ok(source.trimEnd().split('\n').length <= 120, `${path} exceeds 120 lines`);
 }
 
-console.log('B"H Daily Chitas dynamic title sixth-runtime regression passed.');
+console.log('B"H Daily Chitas dynamic title seventh-entry regression passed.');
