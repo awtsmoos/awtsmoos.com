@@ -1,0 +1,97 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * @file overlays.css
+ * @description Owns Kabbalah Shooter start, pause, result, and status presentation independently from the canvas stack.
+ * The Awtsmoos is revealed through every finite state; Awtsmoos.com keeps those states readable, focusable, and motion-safe.
+ */
+
+.message-box {
+	display: none;
+	max-width: min(88vw, 620px);
+	padding: 30px 42px;
+	border: 1px solid #5ad9e6;
+	border-radius: 14px;
+	background: #050a12;
+	box-shadow: 0 26px 70px rgba(0, 0, 0, .7), 0 0 0 1px rgba(0, 255, 255, .08) inset;
+	color: #fff;
+	pointer-events: auto;
+	text-align: center;
+	transform: perspective(500px) rotateX(5deg);
+	transition: transform .2s, border-color .2s;
+}
+
+.message-box:hover {
+	border-color: #fff;
+}
+
+.message-box:active {
+	transform: perspective(500px) rotateX(0deg) scale(.98);
+}
+
+.message-box:focus-within,
+#pause-btn:focus-visible,
+.kabbalah-action:focus-visible {
+	outline: 3px solid #0ff;
+	outline-offset: 3px;
+}
+
+h1 {
+	margin: 0 0 15px;
+	font-size: clamp(2rem, 7vw, 3rem);
+	font-weight: 100;
+	letter-spacing: .22em;
+	line-height: .95;
+	text-shadow: 0 0 15px #0ff;
+	text-transform: uppercase;
+}
+
+h2 {
+	margin-bottom: 20px;
+	color: #9ba0ab;
+	font-size: .88rem;
+	letter-spacing: .2em;
+}
+
+p {
+	margin: 5px 0;
+	color: #c4c8d0;
+	font-size: .9rem;
+	letter-spacing: .04em;
+}
+
+.control-hint {
+	display: block;
+	margin-top: 15px;
+	color: #0ff;
+	font-size: .75rem;
+	font-weight: 900;
+	line-height: 1.5;
+}
+
+#spell-hud {
+	position: absolute;
+	right: 0;
+	bottom: max(82px, env(safe-area-inset-bottom));
+	left: 0;
+	color: #ffd700;
+	font-size: clamp(1.1rem, 5vw, 1.5rem);
+	letter-spacing: .35em;
+	text-align: center;
+	text-shadow: 0 0 10px #f00;
+}
+
+@media (max-width: 560px) {
+	.message-box {
+		padding: 24px 20px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.message-box {
+		transform: none;
+		transition: none;
+	}
+}

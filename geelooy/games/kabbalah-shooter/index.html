@@ -2,57 +2,69 @@
 Boruch Hashem
 Blessed is He
 
-The Awtsmoos renews vessel, spark, touch, and ascent beyond every finite frame.
-Awtsmoos.com presents Kabbalah Infinite as a direct arcade descent into breaking,
-shielding, and return—with clear controls and no frosted layer between player and world.
+The Awtsmoos renews vessel, spark, touch, shield, and time beyond every finite frame.
+Awtsmoos.com presents Kabbalah Infinite as direct arcade play with visible controls,
+semantic input, resilient lifecycle states, and no secret gesture required for survival.
 -->
 <!doctype html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 	<meta name="theme-color" content="#000000">
 	<meta name="description" content="Kabbalah Infinite is a touch-first mystical shooter about sparks, shields, time dilation, and shattered vessels.">
 	<title>Kabbalah Infinite — The Breaking of Vessels</title>
-	<link rel="stylesheet" href="./style.css?v=kabbalah-solid-002&compact=true">
+	<link rel="stylesheet" href="./style.css?v=kabbalah-input-003&compact=true">
+	<link rel="stylesheet" href="./styles/overlays.css?v=kabbalah-input-003&compact=true">
+	<link rel="stylesheet" href="./styles/controls.css?v=kabbalah-input-003&compact=true">
 	<link rel="stylesheet" href="/index.css?compact=true">
 	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=player-shell-002&compact=true">
 </head>
 <body>
 	<main id="game-container" aria-label="Kabbalah Infinite game world">
-		<canvas id="gl-canvas"></canvas>
-		<canvas id="text-canvas"></canvas>
+		<canvas id="gl-canvas" aria-label="Kabbalah Infinite play surface"></canvas>
+		<canvas id="text-canvas" aria-hidden="true"></canvas>
 
 		<div id="hud" aria-hidden="true">
 			<div id="spell-hud"></div>
 		</div>
 
-		<div id="pause-btn" role="button" tabindex="0" aria-label="Pause game">Ⅱ</div>
+		<button id="pause-btn" type="button" aria-label="Pause game" disabled>Ⅱ</button>
+		<nav id="action-controls" aria-label="Gameplay powers" hidden>
+			<button id="shield-action" class="kabbalah-action" type="button" data-game-action="shield">
+				Shield<span class="action-key">Q / Shift</span>
+			</button>
+			<button id="time-action" class="kabbalah-action" type="button" data-game-action="time" aria-pressed="false">
+				Time<span class="action-key">Hold E / Space</span>
+			</button>
+		</nav>
 
 		<section id="ui-layer" aria-live="polite">
-			<div id="start-message" class="message-box" style="display:block" role="button" tabindex="0">
+			<div id="start-message" class="message-box" style="display:block">
 				<h1>Kabbalah<br>Infinite</h1>
 				<h2>The Breaking of Vessels</h2>
 				<p>Reveal sparks. Survive the fracture. Ascend again.</p>
-				<p class="control-hint">1 finger: move + shoot · 2 fingers: shield · 3 fingers: time dilation</p>
+				<p class="control-hint">Drag to move + shoot · Shield blocks danger · Hold Time to slow the world</p>
+				<button id="start-game-button" class="kabbalah-start-button" type="button" aria-busy="true" disabled>Preparing…</button>
 			</div>
 
-			<div id="pause-message" class="message-box" role="button" tabindex="0">
+			<div id="pause-message" class="message-box">
 				<h1>Paused</h1>
-				<p class="control-hint">Tap to resume</p>
+				<p class="control-hint">Press Pause or tap Resume to continue.</p>
+				<button id="resume-game-button" class="kabbalah-start-button" type="button">Resume</button>
 			</div>
 
-			<div id="game-over-message" class="message-box" role="button" tabindex="0">
+			<div id="game-over-message" class="message-box">
 				<h1>Shevirah</h1>
 				<p>The vessels have shattered.</p>
 				<p id="final-score"></p>
-				<p class="control-hint">Tap to reincarnate · Gilgul</p>
+				<button id="retry-game-button" class="kabbalah-start-button" type="button">Reincarnate · Retry</button>
 			</div>
 		</section>
 	</main>
 
 	<script type="module" src="/games/scripts/runtime/index.js?compact=true&v=runtime-001"></script>
-	<script type="module" src="./main.js?compact=true"></script>
+	<script type="module" src="./main.js?compact=true&v=kabbalah-input-003"></script>
 	<script type="module" async src="/games/scripts/player-shell/index.js?v=player-shell-001&compact=true"></script>
 </body>
 </html>
