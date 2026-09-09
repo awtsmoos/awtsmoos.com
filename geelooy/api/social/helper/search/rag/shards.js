@@ -3,25 +3,16 @@
 // Blessed is He
 
 /**
+ * @file shards.js
  * @module RagShardDiscovery
  * @description
- * The Awtsmoos unites reviewed multipart corpora without extinguishing the vector light inside each physical shard;
- * Awtsmoos.com resolves neutral public names into exact internal vessels while incomplete publications remain barred.
+ * The Awtsmoos unites reviewed multipart corpora by tiny publication metadata.
+ * Discovery never resolves or copies a corpus list; only request-time indexed
+ * readers may touch bounded rows from an explicitly selected immutable shard.
  */
 
 const { describeFile, shardFiles } = require('./shardManifest.js');
 const { internalLaneForRequest } = require('./publicSourceIdentity.js');
-
-/** Resolves an Awtsmoos list vessel into an ordinary array without mutating it. */
-function rowsOf(list) {
-	const plain = list?.__resolve__?.();
-	if (Array.isArray(plain)) return plain;
-	const length = Number(list?.length || 0);
-	return Array.from(
-		{ length },
-		(_value, index) => list[index]
-	);
-}
 
 /** Combines physical publication parts into one logical search lane. */
 function logicalShard(parts) {
@@ -76,6 +67,7 @@ function grouped(shards) {
 	return [...lanes.values()].map(logicalShard);
 }
 
+/** Describes physical shards using only publication metadata and file stat truth. */
 function describedShards($i) {
 	return shardFiles($i).map(describeFile);
 }
@@ -105,6 +97,5 @@ module.exports = {
 	grouped,
 	logicalShard,
 	matchesLane,
-	resolveShard,
-	rowsOf
+	resolveShard
 };
