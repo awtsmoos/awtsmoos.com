@@ -1,6 +1,6 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @module VesselArchitect
@@ -70,6 +70,7 @@ export class VesselArchitect {
 		const { flatText, dynamicContent } = UniversalInterpreter.decipher(data);
 		const section = document.createElement("div");
 		section.className = "section";
+		section.id = `pasuk-${index + 1}`;
 		section.dataset.idx = String(index);
 		section.dataset.awtsmoosIdx = String(index);
 		section.append(this.forgeHeader(data, index));

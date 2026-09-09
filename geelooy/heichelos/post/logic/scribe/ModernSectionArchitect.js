@@ -1,6 +1,6 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file Builds modern composer sections inside the canonical verse coordinate system.
@@ -26,6 +26,7 @@ export function isModernSection(section = {}) {
 export function manifestModernSection({ data, index }) {
 	const section = document.createElement("div");
 	section.className = "section awtsmoos-modern-section";
+	section.id = `pasuk-${index + 1}`;
 	section.dataset.idx = String(index);
 	section.dataset.awtsmoosIdx = String(index);
 	section.dataset.verse = String(data.verseSection ?? index);

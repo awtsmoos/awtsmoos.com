@@ -1,8 +1,8 @@
-<!-- B"H
+<!--B"H
 Boruch Hashem
-Blessed is He
-The Awtsmoos guards each word before it enters the visible vessel;
-Awtsmoos.com reveals Torah immediately while untrusted markup remains bounded, escaped, and level.
+Blessed be He
+The Awtsmoos gives every canonical Torah section its own stable visible address;
+Awtsmoos.com reveals exact pasuk identity before JavaScript while generic teachings remain calm and readable.
 -->
 <?<script>
 	function escapeHtml(value) {
@@ -18,21 +18,14 @@ Awtsmoos.com reveals Torah immediately while untrusted markup remains bounded, e
 		});
 	}
 
-	function decodeCommonEntities(value) {
-		return String(value || "")
+	function toPlainText(value) {
+		return String(value == null ? "" : value)
 			.replace(/&nbsp;/gi, " ")
 			.replace(/&amp;/gi, "&")
 			.replace(/&lt;/gi, "<")
 			.replace(/&gt;/gi, ">")
 			.replace(/&quot;/gi, '"')
-			.replace(/&#39;|&apos;/gi, "'");
-	}
-
-	function toPlainText(value) {
-		if (value == null) {
-			return "";
-		}
-		return decodeCommonEntities(value)
+			.replace(/&#39;|&apos;/gi, "'")
 			.replace(/<br[^>]*>/gi, "\n")
 			.replace(/<\/(p|div|li|h[1-6]|blockquote|section|article)>/gi, "\n\n")
 			.replace(/<[^>]*>/g, " ")
@@ -57,15 +50,21 @@ Awtsmoos.com reveals Torah immediately while untrusted markup remains bounded, e
 		}
 		if (typeof value !== "object") {
 			return "";
-		}
-		var preferred = ["text", "content", "body", "paragraph", "html", "value", "description"];
+		}		var preferred = ["text", "content", "body", "paragraph", "html", "value", "description"];
 		for (var index = 0; index < preferred.length; index++) {
 			var preferredText = collectReadableText(value[preferred[index]], depth + 1);
 			if (preferredText) {
 				return preferredText;
 			}
 		}
-		var ignored = { id: true, author: true, aliasId: true, timestamp: true, createdAt: true, updatedAt: true };
+		var ignored = {
+			id: true,
+			author: true,
+			aliasId: true,
+			timestamp: true,
+			createdAt: true,
+			updatedAt: true
+		};
 		return Object.keys(value).filter(function(key) {
 			return !ignored[key];
 		}).map(function(key) {
@@ -75,32 +74,46 @@ Awtsmoos.com reveals Torah immediately while untrusted markup remains bounded, e
 
 	function renderParagraphs(text) {
 		return String(text || "").split(/\n{2,}/).map(function(paragraph) {
-			var safeParagraph = escapeHtml(paragraph.trim()).replace(/\n/g, "<br>");
-			return safeParagraph ? "<p>" + safeParagraph + "</p>" : "";
+			var safe = escapeHtml(paragraph.trim()).replace(/\n/g, "<br>");
+			return safe ? "<p>" + safe + "</p>" : "";
+		}).filter(Boolean).join("\n");
+	}
+	function renderCanonicalSections(sections, meta) {
+		if (!Array.isArray(sections) || meta?.canonicalHebrew !== true) {
+			return "";
+		}
+		var chapter = Number(meta.sourceChapter) || 0;
+		return sections.map(function(section, index) {
+			var number = index + 1;
+			var text = collectReadableText(section, 0);
+			if (!text) {
+				return "";
+			}
+			var anchor = "pasuk-" + number;
+			return "<section class=\"awtsmoos-initial-pasuk awtsmoos-reader-section\" id=\"" + anchor + "\" data-awtsmoos-pasuk data-pasuk=\"" + number + "\" data-source-chapter=\"" + chapter + "\" dir=\"rtl\">"
+				+ "<a class=\"awtsmoos-verse-number\" href=\"#" + anchor + "\" aria-label=\"Pasuk " + number + "\">" + number + "</a>"
+				+ "<p class=\"awtsmoos-initial-pasuk-text\">" + escapeHtml(text).replace(/\n/g, "<br>") + "</p>"
+				+ "</section>";
 		}).filter(Boolean).join("\n");
 	}
 
 	var resolvedPost = typeof post === "object" && post ? post : null;
 	if (!resolvedPost) {
 		return "<article class=\"awtsmoos-initial-post awtsmoos-initial-post-missing\" data-awtsmoos-initial-post dir=\"auto\">"
-			+ "<h1>Torah teaching unavailable</h1>"
-			+ "<p>This public teaching could not be resolved.</p>"
-			+ "</article>";
+			+ "<h1>Torah teaching unavailable</h1><p>This public teaching could not be resolved.</p></article>";
 	}
 	var resolvedHeichel = typeof heichel === "object" && heichel ? heichel : {};
 	var resolvedAlias = typeof alias === "object" && alias ? alias : {};
 	var dayuh = typeof resolvedPost.dayuh === "object" && resolvedPost.dayuh ? resolvedPost.dayuh : {};
-	var bodySource = resolvedPost.content || dayuh.sections || dayuh.content || dayuh;
+	var structuredMarkup = renderCanonicalSections(dayuh.sections, dayuh.meta || {});	var bodySource = resolvedPost.content || dayuh.content || dayuh;
+	var body = structuredMarkup ? "" : collectReadableText(bodySource, 0);
 	var title = toPlainText(resolvedPost.title) || "Torah Revelation";
-	var body = collectReadableText(bodySource, 0);
 	var heichelName = toPlainText(resolvedHeichel.name || resolvedHeichel.title);
 	var authorName = toPlainText(resolvedAlias.name || resolvedAlias.aliasId);
 	var context = [heichelName, authorName ? "By " + authorName : ""].filter(Boolean).join(" · ");
-	var bodyMarkup = renderParagraphs(body) || "<p>The Torah text is preparing for the interactive reader.</p>";
+	var bodyMarkup = structuredMarkup || renderParagraphs(body) || "<p>The Torah text is preparing for the interactive reader.</p>";
 	return "<article class=\"awtsmoos-initial-post\" data-awtsmoos-initial-post dir=\"auto\">"
 		+ (context ? "<p class=\"awtsmoos-initial-post-context\">" + escapeHtml(context) + "</p>" : "")
-		+ "<h1>" + escapeHtml(title) + "</h1>"
-		+ "<div class=\"awtsmoos-initial-post-body\">" + bodyMarkup + "</div>"
-		+ "<p class=\"awtsmoos-reader-enhancement-status\" role=\"status\">Reader controls and commentary are loading.</p>"
-		+ "</article>";
+		+ "<h1>" + escapeHtml(title) + "</h1><div class=\"awtsmoos-initial-post-body\">" + bodyMarkup + "</div>"
+		+ "<p class=\"awtsmoos-reader-enhancement-status\" role=\"status\">Interactive reader tools are loading; the Torah text above is ready now.</p></article>";
 </script>?>

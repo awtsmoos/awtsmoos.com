@@ -1,0 +1,44 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed be He*/
+/**
+ * @file Server-first pasuk geometry.
+ * @description
+ * The Awtsmoos keeps each canonical verse addressable before hydration while
+ * Awtsmoos.com lets Torah text remain visually primary and its coordinate remain
+ * compact, selectable, keyboard reachable, and obvious when opened by deep link.
+ */
+
+.all.post-reader-localized-context.awtsmoos-reader-vision #realPost .awtsmoos-initial-pasuk {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr);
+	align-items: start;
+	gap: .55rem;
+	scroll-margin-block-start: 5rem;
+}
+
+.all.post-reader-localized-context.awtsmoos-reader-vision #realPost .awtsmoos-initial-pasuk-text {
+	min-inline-size: 0;
+	margin: 0;
+	font-size: 1.08em;
+	line-height: 1.78;
+}
+.all.post-reader-localized-context.awtsmoos-reader-vision #realPost .awtsmoos-initial-pasuk .awtsmoos-verse-number {
+	align-self: start;
+	text-decoration: none;
+	font-variant-numeric: tabular-nums;
+}
+
+.all.post-reader-localized-context.awtsmoos-reader-vision #realPost .awtsmoos-initial-pasuk:target {
+	border-color: rgba(126, 218, 255, .22) !important;
+	background: rgba(126, 218, 255, .055) !important;
+	outline: 2px solid rgba(126, 218, 255, .12);
+	outline-offset: 2px;
+}
+
+@media (max-width: 32rem) {
+	.all.post-reader-localized-context.awtsmoos-reader-vision #realPost .awtsmoos-initial-pasuk {
+		gap: .4rem;
+		padding-inline: .45rem !important;
+	}
+}

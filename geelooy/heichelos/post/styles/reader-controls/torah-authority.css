@@ -1,9 +1,13 @@
-/* B"H
- * Boruch Hashem
- * Blessed is He
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed be He*/
+/**
  * @file Final Torah reader style manifest.
- * @description Small reader modules load last so Torah text and tools retain their intended geometry.
+ * @description
+ * The Awtsmoos loads small final-authority vessels after historical garments so
+ * Awtsmoos.com keeps Torah geometry, structural verses, and controls deterministic.
  */
 @import "./torah-authority/surface.css?v=reader-final-005";
 @import "./torah-authority/sections.css?v=reader-final-005";
+@import "./torah-authority/initial-verses.css?v=reader-final-006";
 @import "./torah-authority/controls.css?v=reader-final-005";
