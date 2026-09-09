@@ -1,65 +1,65 @@
 <!-- B"H -->
 <!-- Boruch Hashem -->
 <!-- Blessed is He -->
-<!-- The Awtsmoos renews tower, path, and every guarded gate; Awtsmoos.com keeps Migdol's defense legible, so choice can rise before the next wave meets its fate. -->
+<!-- The Awtsmoos renews every guarded gate; Awtsmoos.com keeps Migdol battlefield-first, contextual, resilient, and clear. -->
 <!doctype html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-	<title>Migdol - Kabbalah Tower Defense</title>
-	<link rel="stylesheet" href="style.css?compact=true">
+	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+	<title>Migdol — Tower Defense</title>
+	<link rel="stylesheet" href="styles/base.css?compact=true">
+	<link rel="stylesheet" href="styles/battlefield.css?compact=true">
+	<link rel="stylesheet" href="styles/sheet.css?compact=true">
 	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=player-shell-002&compact=true">
 </head>
 <body>
-	<div id="main-menu">
+	<main id="main-menu">
 		<h1>Migdol 🗼</h1>
+		<p>Build on open ground. Stop every wave before it reaches the gate.</p>
+		<label for="map-select">Map</label>
+		<select id="map-select"></select>
+		<label for="difficulty-select">Difficulty</label>
+		<select id="difficulty-select">
+			<option value="casual">Casual</option>
+			<option value="standard" selected>Standard</option>
+			<option value="hard">Hard</option>
+		</select>
+		<button id="start-game" type="button">Defend the Gate</button>
+	</main>
 
-		<h2>Choose a Map</h2>
-		<div id="map-selection-container">
-			<!-- Map buttons will be dynamically added here by JS -->
-		</div>
-	</div>
+	<main id="game-wrapper" class="hidden">
+		<section id="game-container" aria-label="Migdol battlefield">
+			<canvas id="gameCanvas" aria-label="Tower defense battlefield"></canvas>
+			<div id="status-bar" role="status" aria-live="polite">
+				<span>🌊 <strong id="wave">0</strong></span>
+				<span>💰 <strong id="perutas">0</strong></span>
+				<span>❤️ <strong id="health">0</strong></span>
+			</div>
+			<div id="play-controls" aria-label="Battle controls">
+				<button id="start-wave" type="button">Start Wave</button>
+				<button id="pause-button" type="button">Pause</button>
+				<button id="speed-button" type="button" aria-label="Simulation speed">1×</button>
+			</div>
+		</section>
 
-	<div id="game-wrapper" class="hidden">
-		<div id="game-container">
-			<canvas id="gameCanvas"></canvas>
-			<div id="in-game-modal" class="hidden">
-				 <div id="modal-content"></div>
-			</div>
-			<div id="game-over-screen" class="hidden">
-				<h2>Game Over</h2>
-				<p>You reached wave <span id="final-wave">0</span></p>
-				<button id="restart-button">Play Again</button>
-				<button id="main-menu-button">Main Menu</button>
-			</div>
-		</div>
-		<div id="ui-panel">
-			<div id="stats" class="collapsible">
-				<div class="collapsible-header">
-					<h3>Stats</h3>
-					<span class="collapse-icon">▾</span>
-				</div>
-				<div class="collapsible-content">
-					<p>🌊 Wave: <span id="wave">0</span></p>
-					<p>💰 Perutas: <span id="perutas">200</span></p>
-					<p>❤️ Health: <span id="health">20</span></p>
-				</div>
-			</div>
-			<div id="tower-selection" class="collapsible">
-				<div class="collapsible-header">
-					<h4>Buy Towers 🗼</h4>
-					<span class="collapse-icon">▾</span>
-				</div>
-				<div id="tower-options-content" class="collapsible-content">
-					<!-- Tower options will be dynamically added here by JS -->
-				</div>
-			</div>
-			<button id="start-wave">Start Next Wave ▶️</button>
-		</div>
-	</div>
+		<section id="context-sheet" class="hidden" aria-label="Tower actions">
+			<button id="sheet-close" type="button" aria-label="Close tower actions">×</button>
+			<h2 id="sheet-title"></h2>
+			<p id="sheet-detail"></p>
+			<div id="sheet-actions"></div>
+		</section>
+
+		<section id="game-over-screen" class="hidden" role="dialog" aria-modal="true">
+			<h2>The Gate Fell</h2>
+			<p id="final-summary"></p>
+			<button id="restart-button" type="button">Try Again</button>
+			<button id="main-menu-button" type="button">Choose Map</button>
+		</section>
+	</main>
+
 	<script type="module" src="/games/scripts/runtime/index.js?compact=true&v=runtime-001"></script>
-	<script type="module" src="js/script.js?compact=true"></script>
+	<script type="module" src="js/script.js?compact=true&v=migdol-runtime-001"></script>
 	<script type="module" async src="/games/scripts/player-shell/index.js?v=player-shell-001&compact=true"></script>
 </body>
 </html>
