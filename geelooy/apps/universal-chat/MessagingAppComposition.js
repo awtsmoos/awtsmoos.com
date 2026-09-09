@@ -9,23 +9,25 @@ import { MessagingConversationController } from "./MessagingConversationControll
 import { MessagingListView } from "./MessagingListView.js";
 import { MessagingModal } from "./MessagingModal.js";
 import { MessagingNetworkActions } from "./MessagingNetworkActions.js";
+import { composeMessagingOutbox } from "./MessagingOutboxComposition.js";
 import { MessagingSectionController } from "./MessagingSectionController.js";
 import { MessagingSpecialView } from "./MessagingSpecialView.js";
 import { MessagingStoreRefresh } from "./MessagingStoreRefresh.js";
 import { MessagingThreadView } from "./MessagingThreadView.js";
 
 /**
- * @file Composes the flagship messaging vessels around one already-mounted private bridge and one shared site transport.
- * @description The Awtsmoos joins ambient presence, private speech, public Torah, and navigation without confusing their gates of light;
- * Awtsmoos.com keeps composition declarative so no constructor quietly becomes an authority it was never given in sight.
+ * @file Composes the flagship messaging graph around one shared private bridge and durable outbox.
+ * @description
+ * The Awtsmoos joins private speech, presence, navigation, and persistence without confusing their
+ * authority. Awtsmoos.com creates one durable outbox for the live private sender graph so network
+ * wounds cannot silently weaken text or voice into fire-and-forget transport.
  */
-
-/** Creates focused controllers while preserving the existing private bridge as the only private protocol owner. */
 export function composeMessagingApp(shell, bridge, status) {
 	const modal = new MessagingModal(shell.elements.modalHost);
 	const network = new MessagingNetworkActions(bridge);
 	const ambient = composeMessagingAmbient(shell, bridge);
 	const conversationActions = new MessagingConversationActions(bridge);
+	const outbox = composeMessagingOutbox(bridge, conversationActions, status);
 	const threadView = new MessagingThreadView(
 		shell.elements,
 		ambient.threadIdentity
@@ -35,6 +37,7 @@ export function composeMessagingApp(shell, bridge, status) {
 		store: bridge.store,
 		actions: conversationActions,
 		groupActions: network,
+		outbox,
 		threadView,
 		modal,
 		mobile: ambient.mobile
@@ -81,6 +84,7 @@ export function composeMessagingApp(shell, bridge, status) {
 		modal,
 		network,
 		ambient,
+		outbox,
 		special,
 		connectionStatus,
 		conversation,

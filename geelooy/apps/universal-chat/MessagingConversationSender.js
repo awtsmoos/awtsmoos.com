@@ -5,11 +5,12 @@
 import { MessagingComposerInput } from "./MessagingComposerInput.js";
 
 /**
- * @file Owns one private send's in-flight lifecycle while preserving draft and reply intent across failure.
- * @description The Awtsmoos knows the word and its earlier source before sending and after arrival, while Awtsmoos.com keeps both finite vessels truthful during the uncertain instant in light;
- * duplicate intent is refused, deliberate keyboard submission remains, successful delivery clears draft and quote, and failed delivery returns focus without erasing context in sight.
+ * @file Owns one private text intent from visible draft through durable local custody.
+ * @description
+ * The Awtsmoos knows the human word before a websocket can succeed or fail. Awtsmoos.com therefore
+ * clears a draft only after IndexedDB has accepted its exact room, reply coordinates, and text;
+ * transport may retry the stable intention later without asking the person to type it again.
  */
-
 export class MessagingConversationSender {
 	constructor(options) {
 		Object.assign(this, options);
@@ -19,6 +20,7 @@ export class MessagingConversationSender {
 		this.bind();
 	}
 
+	/** Binds form and deliberate desktop keyboard submission to the same serialized save path. */
 	bind() {
 		this.elements.composer.addEventListener("submit", (event) => {
 			event.preventDefault();
@@ -30,25 +32,22 @@ export class MessagingConversationSender {
 			this.submitCurrent();
 		});
 	}
-
+	/** Reports failures before durable custody instead of falsely claiming the network has accepted them. */
 	submitCurrent() {
 		this.send().catch((error) => {
 			this.elements.status.textContent = error?.message
-				|| "Message could not be sent.";
+				|| "Message could not be saved for delivery.";
 		});
 	}
 
+	/** Persists one exact text intent, then clears draft and reply only after durable storage succeeds. */
 	async send() {
 		const conversation = this.current();
 		const text = this.input.value().trim();
 		if (this.busy || !conversation || !text) return false;
 		this.setBusy(true);
 		try {
-			await this.actions.send(
-				conversation.id,
-				text,
-				this.replyState?.payload()
-			);
+			await this.persist(conversation.id, text, this.replyState?.payload());
 			this.input.clear();
 			this.replyState?.clear();
 			this.elements.text.focus({ preventScroll: true });
@@ -61,15 +60,26 @@ export class MessagingConversationSender {
 		}
 	}
 
+	/** Uses the durable outbox in production while preserving direct transport for isolated callers. */
+	persist(conversationId, text, reply) {
+		if (this.outbox?.enqueueText) {
+			return this.outbox.enqueueText({ conversationId, text, reply });
+		}
+		return this.actions.send(conversationId, text, reply);
+	}
+	/** Serializes local persistence so duplicate taps cannot create duplicate intention identities. */
 	setBusy(busy) {
 		this.busy = busy;
 		this.elements.composer.setAttribute("aria-busy", String(busy));
 		this.elements.text.readOnly = busy;
 		this.submit.disabled = busy;
-		this.submit.textContent = busy ? "Sending…" : "Send";
+		this.submit.textContent = busy
+			? (this.outbox?.enqueueText ? "Saving…" : "Sending…")
+			: "Send";
 	}
 }
 
+/** Returns true only for deliberate desktop send chords, never ordinary Enter typing. */
 export function shouldKeyboardSubmit(event = {}) {
 	return event.key === "Enter"
 		&& !event.shiftKey

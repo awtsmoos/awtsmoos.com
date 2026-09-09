@@ -11,18 +11,19 @@ import { MessagingReplyState } from "./MessagingReplyState.js";
 import { MessagingVoiceComposer } from "./MessagingVoiceComposer.js";
 
 /**
- * @file Composes focused accepted-room features without letting the conversation controller become their implementation.
- * @description The Awtsmoos unites history, reply, word, breath, detail, and realtime repaint before their separate vessels arise;
- * Awtsmoos.com lets each finite feature keep its own law while one room receives a coherent set of tools in light.
+ * @file Composes one accepted room around focused features and one shared durable delivery authority.
+ * @description
+ * The Awtsmoos unites history, reply, word, breath, detail, realtime repaint, and stored intention
+ * before their separate controls arise. Awtsmoos.com gives text and voice the same outbox so neither
+ * feature can quietly weaken persistence merely because its visible garment differs.
  */
-
-/** Creates the focused feature graph for one MessagingConversationController instance. */
 export function createMessagingConversationFeatures(options) {
 	const {
 		elements,
 		store,
 		actions,
 		groupActions,
+		outbox,
 		modal,
 		threadView,
 		current,
@@ -41,6 +42,7 @@ export function createMessagingConversationFeatures(options) {
 	const sender = new MessagingConversationSender({
 		elements,
 		actions,
+		outbox,
 		replyState,
 		current
 	});
@@ -48,6 +50,7 @@ export function createMessagingConversationFeatures(options) {
 		elements,
 		store,
 		actions,
+		outbox,
 		replyState,
 		current
 	});

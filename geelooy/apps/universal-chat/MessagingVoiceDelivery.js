@@ -5,38 +5,48 @@
 import { MessagingAssetApi } from "./MessagingAssetApi.js";
 
 /**
- * @file Delivers one previewed private voice note through canonical asset upload and accepted private-message transport.
- * @description The Awtsmoos, Atzmus beyond path and packet, renews sender, asset, socket, and source from nothing in every instant;
- * Awtsmoos.com lets this Netzach-like vessel carry a verified finite voice outward while reply truth clears only after accepted light.
+ * @file Places one private voice note into durable custody before upload or websocket delivery.
+ * @description
+ * The Awtsmoos knows recorded breath before network and asset ids divide its later appearances.
+ * Awtsmoos.com therefore stores the File, room, alias, reply, and stable intent first; the outbox
+ * uploads once later and remembers the canonical asset id across retries. Direct delivery remains
+ * only as a compatibility path for isolated callers not composed with the durable outbox.
  */
-
 export class MessagingVoiceDelivery {
-	/**
-	 * Creates the remote delivery coordinator from explicit room dependencies.
-	 * @param {object} options Store, transport, reply state, stage callback, and optional asset API.
-	 */
 	constructor(options) {
 		Object.assign(this, options);
 		this.assetApi = options.assetApi || new MessagingAssetApi();
 	}
 
-	/**
-	 * Uploads one recorded File, sends only the canonical asset id, and clears reply context after acceptance.
-	 * @param {{file: File}} recording Local previewed recording.
-	 * @returns {Promise<boolean>} True only after the websocket accepts the private message.
-	 * @throws {Error} Upload or message-send failure; caller preserves local preview for retry.
-	 */
+	/** Persists one recording before clearing reply context or claiming it is queued. */
 	async send(recording) {
 		const conversation = this.current();
 		const alias = this.store.actor?.alias;
 		if (!conversation || !alias || !recording?.file) return false;
+		const reply = this.replyState?.payload();
+		if (this.outbox?.enqueueVoice) {
+			this.onStage?.("Saving…");
+			await this.outbox.enqueueVoice({
+				conversationId: conversation.id,
+				file: recording.file,
+				reply
+			});
+			this.replyState?.clear();
+			this.onStage?.("Queued · saved");
+			return true;
+		}
+		return this.sendDirect(conversation.id, alias, recording.file, reply);
+	}
+
+	/** Compatibility path: canonicalizes then sends when no durable outbox was supplied. */
+	async sendDirect(conversationId, alias, file, reply) {
 		this.onStage?.("Uploading…");
-		const manifest = await this.assetApi.uploadVoice(alias, recording.file);
+		const manifest = await this.assetApi.uploadVoice(alias, file);
 		this.onStage?.("Sending…");
 		await this.actions.send(
-			conversation.id,
+			conversationId,
 			"",
-			this.replyState?.payload(),
+			reply,
 			{ assetId: manifest.id }
 		);
 		this.replyState?.clear();

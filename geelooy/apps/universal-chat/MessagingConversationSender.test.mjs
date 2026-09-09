@@ -3,17 +3,14 @@
 // Blessed is He
 
 import assert from "node:assert/strict";
-import {
-	MessagingConversationSender,
-	shouldKeyboardSubmit
-} from "./MessagingConversationSender.js";
+import { MessagingConversationSender, shouldKeyboardSubmit } from "./MessagingConversationSender.js";
 
 /**
- * @file Guards the accepted-room send lifecycle so one human submit becomes one protocol intent and an in-flight failure never erases the visible draft.
- * @description The Awtsmoos is one before request and response, while Awtsmoos.com proves the finite crossing in light;
- * the draft remains visible and read-only while sending, duplicate submissions vanish at the boundary, deliberate keyboard chords submit, and failure returns focus without rewriting the words.
+ * @file Proves live text intent is saved before draft clearing and duplicate submissions stay serialized.
+ * @description
+ * The Awtsmoos holds a person's words through network uncertainty. Awtsmoos.com therefore witnesses
+ * truthful Saving state, durable outbox custody, reply preservation on failure, and deliberate keyboard send.
  */
-
 class FakeTextarea extends EventTarget {
 	constructor() {
 		super();
@@ -35,7 +32,6 @@ class FakeComposer extends EventTarget {
 		this.submit = submit;
 		this.attributes = new Map();
 	}
-
 	querySelector() {
 		return this.submit;
 	}
@@ -67,42 +63,50 @@ const composer = new FakeComposer(submit);
 const status = { textContent: "" };
 const first = deferred();
 const calls = [];
-let sendImplementation = () => first.promise;
+let enqueueImplementation = () => first.promise;
 const sender = new MessagingConversationSender({
 	elements: { composer, text, status },
-	actions: {
-		send(id, value) {
-			calls.push({ id, value });
-			return sendImplementation();
+	outbox: {
+		enqueueText(input) {
+			calls.push(input);
+			return enqueueImplementation();
 		}
+	},
+	replyState: {
+		payload: () => ({ replyTo: "source-1", replySequence: 3 }),
+		clear() {}
 	},
 	current: () => ({ id: "conversation-1" })
 });
 
 text.value = "A private message";
-const sending = sender.send();
+const saving = sender.send();
 assert.equal(sender.busy, true);
 assert.equal(text.readOnly, true);
 assert.equal(text.value, "A private message");
 assert.equal(submit.disabled, true);
-assert.equal(submit.textContent, "Sending…");
-assert.deepEqual(calls, [{ id: "conversation-1", value: "A private message" }]);
+assert.equal(submit.textContent, "Saving…");
+assert.deepEqual(calls, [{
+	conversationId: "conversation-1",
+	text: "A private message",
+	reply: { replyTo: "source-1", replySequence: 3 }
+}]);
 assert.equal(await sender.send(), false);
 assert.equal(calls.length, 1);
 first.resolve({ ok: true });
-assert.equal(await sending, true);
+assert.equal(await saving, true);
 assert.equal(text.value, "");
 assert.equal(text.readOnly, false);
 assert.equal(submit.disabled, false);
 assert.equal(submit.textContent, "Send");
 assert.equal(text.focusCount, 1);
 
-text.value = "Keep this if sending fails";
-sendImplementation = () => Promise.reject(new Error("offline"));
-await assert.rejects(() => sender.send(), /offline/);
-assert.equal(text.value, "Keep this if sending fails");
+text.value = "Keep this if saving fails";
+enqueueImplementation = () => Promise.reject(new Error("storage unavailable"));
+await assert.rejects(() => sender.send(), /storage unavailable/);
+assert.equal(text.value, "Keep this if saving fails");
 assert.equal(text.readOnly, false);
 assert.equal(submit.disabled, false);
 assert.equal(text.focusCount, 2);
 
-console.log("Messaging serialized send/draft/keyboard contract: PASS");
+console.log("Messaging durable send/draft/keyboard contract: PASS");
