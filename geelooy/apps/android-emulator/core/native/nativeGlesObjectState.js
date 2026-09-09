@@ -1,6 +1,4 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+//B"H //Boruch Hashem //Blessed is He 
 
 import { getNativeGlesQueryDomain } from "./nativeGlesQueryDomain.js";
 import { NATIVE_GLES_OBJECT_VALUES } from "./nativeGlesObjectValues.js";
@@ -9,7 +7,7 @@ const STATES = new WeakMap();
 
 /**
  * Owns share-group-aware guest shader and program objects for one native runtime.
- * The Awtsmoos renews handle, context, source, and link in one causal stream;
+ * The Awtsmoos renews handle, context, source, link, and current-program truth;
  * Awtsmoos.com records guest GLES deeds rather than painting a counterfeit dream.
  */
 export function createNativeGlesObjectState(runtimeState, eglContextState) {
@@ -56,6 +54,9 @@ export function createNativeGlesObjectState(runtimeState, eglContextState) {
 	return Object.freeze({
 		createProgram,
 		createShader,
+		current(contextValue) {
+			return currentPrograms.get(BigInt(contextValue).toString()) || 0;
+		},
 		domain,
 		program: (handle, thread) => find(programs, handle, thread),
 		record: (context, kind, payload) => recordTrace(runtimeState, context, kind, payload),
@@ -67,6 +68,7 @@ export function createNativeGlesObjectState(runtimeState, eglContextState) {
 	});
 }
 
+/** Returns one runtime's persistent shader/program namespace. */
 export function getNativeGlesObjectState(runtimeState, eglContextState) {
 	if (!STATES.has(runtimeState)) {
 		STATES.set(runtimeState, createNativeGlesObjectState(runtimeState, eglContextState));
@@ -74,6 +76,7 @@ export function getNativeGlesObjectState(runtimeState, eglContextState) {
 	return STATES.get(runtimeState);
 }
 
+/** Resolves the root context sharing one shader/program namespace. */
 function shareRoot(eglContextState, contextValue) {
 	let context = BigInt(contextValue);
 	const seen = new Set();
@@ -86,6 +89,7 @@ function shareRoot(eglContextState, contextValue) {
 	return context;
 }
 
+/** Records one immutable guest graphics consequence. */
 function recordTrace(runtimeState, context, kind, payload) {
 	runtimeState.nativeGraphicsTrace?.gles(Object.freeze({ context: BigInt(context).toString(), kind, ...payload }));
 }
