@@ -1,133 +1,93 @@
-// B"H
-// gameInstance.js
+//B"H
+//Boruch Hashem
+//Blessed be He
 
-class Starfield {
-    constructor(ctx, dpr, width, height, numStars) { this.ctx = ctx; this.dpr = dpr; this.width = width; this.height = height; this.stars = []; for (let i = 0; i < numStars; i++) { this.stars.push(this.createStar(true)); } }
-    createStar(isInitial = false) { const isChar = Math.random() < 0.05; return { x: Math.random() * this.width, y: isInitial ? Math.random() * this.height : -10, z: Math.random() * 0.8 + 0.2, char: isChar ? HEBREW_CHARS[Math.floor(Math.random() * HEBREW_CHARS.length)] : null, opacity: Math.random() * 0.5 + 0.3, }; }
-    update(speedMultiplier) { const speed = 0.5 * speedMultiplier; for (let i = this.stars.length - 1; i >= 0; i--) { const star = this.stars[i]; star.y += speed * star.z; if (star.y > this.height) { this.stars[i] = this.createStar(); } } }
-    draw() { this.stars.forEach(star => { if (star.char) { this.ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity * 0.5})`; this.ctx.font = `${14 * star.z * this.dpr}px Arial`; this.ctx.fillText(star.char, star.x, star.y); } else { this.ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`; const size = 2 * star.z * this.dpr; this.ctx.fillRect(star.x, star.y, size, size); } }); }
-}
+import { AIEngine } from './aiEngine.js';
+import { EffectsEngine } from './effects.js';
+import { advanceGravity, spawnNext } from './game/actions.js';
+import { createBoard } from './game/board.js';
+import { PieceBag } from './game/piece-bag.js';
+import { PieceQueue } from './game/piece-queue.js';
+import { TetrisRenderer } from './game/render.js';
+import { TetrisRunState } from './game/run-state.js';
+import { TetrisInstanceHost } from './game/instance-host.js';
 
-class SeededRandom {
-    constructor(seedStr) { let h = 1779033703; for (let i = 0; i < seedStr.length; i++) { h = Math.imul(h ^ seedStr.charCodeAt(i), 3432918353); h = (h << 13) | (h >>> 19); } this.seed = h >>> 0; if (this.seed === 0) this.seed = 1; }
-    random() { let t = this.seed += 0x6D2B79F5; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); t = ((t ^ (t >>> 14)) >>> 0); this.seed = t; return this.seed / 4294967296; }
-}
+/**
+ * @file gameInstance.js
+ * @description Composes one independent Tetris board from canonical state, deterministic previews, authoritative actions, optional AI, effects, and rendering.
+ * Awtsmoos.com keeps construction, simulation, projection, and Worker ownership separate so no constructor callback can complete a match before the Worker owns every board.
+ *
+ * Architectural invariants:
+ * - Construction allocates state only; `start()` performs the first spawn after Worker ownership is complete.
+ * - Rendering never determines score, board, Hold, queue, lock, or completion truth.
+ * - Pause/resume resets frame and grounded clocks without reconstructing gameplay state.
+ * - Top-out completes once, and disposal never emits a second gameplay result.
+ */
+export class GameInstance extends TetrisInstanceHost {
+	constructor(options) {
+		super();
+		Object.assign(this, options);
+		this.board = createBoard();
+		this.state = new TetrisRunState();
+		this.bag = new PieceBag(options.seed);
+		this.queue = new PieceQueue(this.bag, 5);
+		this.effects = new EffectsEngine(options.canvas.getContext('2d'));
+		this.renderer = new TetrisRenderer(options.canvas, this.effects);
+		this.pieceSequence = 0;
+		this.holdTypeId = null;
+		this.holdUsed = false;
+		this.isSoftDropping = false;
+		this.dropCounter = 0;
+		this.groundedAt = 0;
+		this.lockResets = 0;
+		this.lastTime = 0;
+		this.piece = null;
+		this.started = false;
+		this.ai = options.isAI ? new AIEngine(this, options.difficulty) : null;
+		this.resize(options.dimensions, options.dpr);
+	}
 
-class GameInstance {
-    constructor(id, isAI, canvas, dimensions, dpr) {
-        this.id = id; this.isAI = isAI; this.canvas = canvas; this.ctx = canvas.getContext('2d'); this.dpr = dpr;
-        this.pieceGenerator = new SeededRandom(id.toString());
-        this.effectsEngine = new EffectsEngine(this.ctx, this.dpr);
-        this.starfield = new Starfield(this.ctx, this.dpr, this.canvas.width, this.canvas.height, 200);
-        if (isAI) this.ai = new AIEngine(this); // AI is constructed here, but difficulty is set from worker
-    }
+	start() {
+		if (this.started || this.state.completed) {
+			return false;
+		}
+		this.started = true;
+		spawnNext(this);
+		return true;
+	}
 
-    init() { this.board = Array.from({ length: LOGICAL_ROWS }, () => Array(COLS).fill(0)); this.score = 0; this.lines = 0; this.level = 1; this.gameOver = false; this.dropCounter = 0; this.dropInterval = 1000; this.lastTime = 0; this.isSoftDropping = false; this.piece = null; this.blockSize = this.canvas.width / COLS; const visibleRows = this.canvas.height / this.blockSize; this.viewportTopY = LOGICAL_ROWS - visibleRows; this.nextPiece = this.createNewPiece(); this.spawnNewPiece(); }
+	update(timestamp) {
+		if (!this.started || this.state.completed || !timestamp) {
+			return;
+		}
+		if (!this.lastTime) {
+			this.lastTime = timestamp;
+		}
+		const delta = Math.min(100, Math.max(0, timestamp - this.lastTime));
+		this.lastTime = timestamp;
+		this.ai?.update(timestamp);
+		this.dropCounter += delta;
+		const interval = this.isSoftDropping ? 45 : this.state.dropInterval;
+		advanceGravity(
+			this,
+			timestamp,
+			this.isSoftDropping,
+			interval
+		);
+		this.renderer.updateDecoration(this.state.level);
+	}
 
-    update(timestamp) {
-        if (this.gameOver || !timestamp) return;
-        if (!this.lastTime) this.lastTime = timestamp;
-        const deltaTime = timestamp - this.lastTime;
-        this.lastTime = timestamp;
+	draw() {
+		this.renderer.draw(this);
+	}
 
-        if (this.isAI) { this.ai.update(timestamp); }
+	resize(dimensions, dpr) {
+		this.renderer.resize(dimensions, dpr);
+	}
 
-        // The drop logic now applies to both player and AI pieces equally
-        this.dropCounter += deltaTime;
-        const interval = this.isSoftDropping ? 50 : this.dropInterval;
-        if (this.dropCounter > interval) { this.drop(); }
-
-        this.effectsEngine.update();
-        this.starfield.update(this.level);
-    }
-
-    draw() { if (!this.ctx) return; this.ctx.fillStyle = '#000'; this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height); this.starfield.draw(); for (let y = 0; y < LOGICAL_ROWS; y++) { for (let x = 0; x < COLS; x++) { if (this.board[y][x] !== 0) { this.drawBrick(x, y, this.board[y][x]); } } } if (this.piece) { this.piece.matrix.forEach((row, y) => { row.forEach((val, x) => { if (val !== 0) { this.drawBrick(this.piece.x + x, this.piece.y + y, this.piece.typeId); } }); }); } this.effectsEngine.draw(); }
-    drawBrick(lX, lY, tId) { const sX = lX * this.blockSize; const sY = (lY - this.viewportTopY) * this.blockSize; if (sY < -this.blockSize || sY > this.canvas.height) return; const c = COLORS[tId], p = this.blockSize * 0.1, bs = this.blockSize; this.ctx.fillStyle = 'black'; this.ctx.fillRect(sX, sY, bs, bs); this.ctx.fillStyle = c; this.ctx.fillRect(sX + p, sY + p, bs - p * 2, bs - p * 2); }
-
-    spawnNewPiece() {
-    this.isSoftDropping = false;
-      if (this.gameOver) return; this.piece = this.nextPiece; this.nextPiece = this.createNewPiece(); this.piece.x = Math.floor(COLS / 2) - Math.floor(this.piece.matrix[0].length / 2); this.piece.y = Math.floor(this.viewportTopY) - this.piece.matrix.length; while ((this.piece.y + this.piece.matrix.length) < Math.floor(this.viewportTopY)) { this.piece.y++; } if (this.collides(this.piece, {})) { this.setGameOver(); } }
-    lockPiece() { if (!this.piece) return; this.effectsEngine.triggerImpact(this.piece, this.blockSize, this.viewportTopY); this.piece.matrix.forEach((row, y) => { row.forEach((val, x) => { if (val !== 0) { const bY = this.piece.y + y; if (bY >= 0) { this.board[bY][this.piece.x + x] = this.piece.typeId; } } }); }); this.piece = null; this.sweepLines(); if (!this.gameOver) { this.spawnNewPiece(); } }
-    
-    /**
-     * MODIFIED FUNCTION
-     * This function now handles line clearing and block gravity.
-     * It will repeatedly clear lines and apply gravity until no new lines are formed.
-     */
-    sweepLines() {
-        let totalClearedLines = 0;
-        let completedLinesInPass;
-
-        // Loop to handle chain reactions (lines clear, blocks fall, new lines clear).
-        while (true) {
-            completedLinesInPass = [];
-            // Find all completed lines in the current board state.
-            for (let y = this.board.length - 1; y >= 0; y--) {
-                // A line is complete if no cell in the row is 0.
-                if (this.board[y].every(cell => cell !== 0)) {
-                    completedLinesInPass.push(y);
-                }
-            }
-
-            // If no lines were completed in this pass, the chain reaction is over.
-            if (completedLinesInPass.length === 0) {
-                break;
-            }
-
-            totalClearedLines += completedLinesInPass.length;
-
-            // Trigger the visual effect for the cleared lines.
-            this.effectsEngine.triggerLineClear(completedLinesInPass, this.blockSize, this.viewportTopY, this.canvas.width);
-
-            // Remove the completed lines by setting their cells to 0, creating empty space.
-            for (const y of completedLinesInPass) {
-                for (let x = 0; x < COLS; x++) {
-                    this.board[y][x] = 0;
-                }
-            }
-
-            // Apply gravity to each column individually to make blocks fall into the empty spaces.
-            for (let x = 0; x < COLS; x++) {
-                let emptyCellY = this.board.length - 1;
-                // Iterate from the bottom of the column upwards.
-                for (let y = this.board.length - 1; y >= 0; y--) {
-                    if (this.board[y][x] !== 0) {
-                        // If there is a block, move it to the lowest available empty cell in its column.
-                        if (y !== emptyCellY) {
-                            this.board[emptyCellY][x] = this.board[y][x];
-                            this.board[y][x] = 0;
-                        }
-                        emptyCellY--;
-                    }
-                }
-            }
-        }
-
-        // Update score and level based on the total lines cleared in the entire chain reaction.
-        if (totalClearedLines > 0) {
-            this.lines += totalClearedLines;
-            this.score += (10 * totalClearedLines * totalClearedLines) * this.level;
-            this.level = Math.floor(this.lines / 10) + 1;
-            this.dropInterval = 1000 * Math.pow(0.85, this.level - 1);
-            postMessage({ type: 'ui_update', payload: { id: this.id, score: this.score, level: this.level, lines: this.lines } });
-        }
-    }
-
-    move(dir) { if (!this.piece) return; if (!this.collides(this.piece, { x: dir })) { this.piece.x += dir; } else { this.effectsEngine.triggerWallSlide(this.piece, dir, this.blockSize, this.viewportTopY); } }
-    rotate() { if (!this.piece) return; const newMatrix = this.piece.matrix[0].map((_, i) => this.piece.matrix.map(row => row[i]).reverse()); const tempPiece = { ...this.piece, matrix: newMatrix }; let offset = 0; if (this.collides(tempPiece, {})) { offset = tempPiece.x < COLS / 2 ? 1 : -1; if (this.collides(tempPiece, { x: offset })) offset = 0; } if (offset !== 0 || !this.collides(tempPiece, {})) { this.piece.x += offset; this.piece.matrix = newMatrix; } }
-    drop() { if (!this.piece) return; if (!this.collides(this.piece, { y: 1 })) { this.piece.y++; } else { this.lockPiece(); } this.dropCounter = 0; }
-    hardDrop() { if (!this.piece) return; while (!this.collides(this.piece, { y: 1 })) { this.piece.y++; } this.lockPiece(); }
-    collides(piece, offset) { const pM = piece.matrix, pX = piece.x + (offset.x || 0), pY = piece.y + (offset.y || 0); for (let y = 0; y < pM.length; y++) { for (let x = 0; x < pM[y].length; x++) { if (pM[y][x] !== 0) { const bX = pX + x, bY = pY + y; const row = this.board[bY]; if (bX < 0 || bX >= COLS || bY >= LOGICAL_ROWS || (row && row[bX] !== 0)) return true; } } } return false; }
-    createNewPiece() { const typeId = Math.floor(this.pieceGenerator.random() * 7) + 1; return { x: 0, y: 0, matrix: SHAPES[typeId], typeId: typeId }; }
-    setGameOver() { if (!this.gameOver) { this.gameOver = true; postMessage({ type: 'game_over', payload: { id: this.id } }); } }
-
-    // --- NEW: Function for the AI to set its piece state without dropping ---
-    setAIPieceState(move) {
-        if (!this.piece || !move) return;
-        this.piece.matrix = move.matrix;
-        this.piece.x = move.x;
-        // That's it. The main game loop will now handle the dropping animation.
-    }
-
-    // --- REMOVED: The old applyAIMove function is now obsolete ---
+	resetFrameClock() {
+		this.lastTime = 0;
+		this.dropCounter = 0;
+		this.groundedAt = 0;
+	}
 }

@@ -1,0 +1,77 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed be He*/
+/**
+ * @file controls.css
+ * @description Owns the explicit mobile action strip for Tikkun and its short-landscape compression policy.
+ * Awtsmoos.com makes movement, rotation, hold, soft drop, and hard drop visible without requiring hidden gestures.
+ *
+ * Invariants:
+ * - Every control remains at least 48 CSS pixels tall in ordinary portrait layouts.
+ * - Held Soft Drop exposes pressed state through the semantic button, not only visual styling.
+ * - The strip never blocks the board; it occupies its own grid row and may wrap when space is narrow.
+ */
+.touch-controls {
+	display: grid;
+	grid-template-columns: repeat(6, minmax(48px, 1fr));
+	gap: 7px;
+	max-width: 760px;
+	width: 100%;
+	margin: 0 auto;
+}
+.touch-controls button {
+	min-width: 0;
+	min-height: 52px;
+	padding: 8px 6px;
+	border: 1px solid rgba(255, 255, 255, .14);
+	border-radius: 13px;
+	background: #151b26;
+	color: white;
+	font-weight: 900;
+	cursor: pointer;
+	touch-action: manipulation;
+	user-select: none;
+}
+.touch-controls button:hover,
+.touch-controls button[aria-pressed="true"] {
+	border-color: var(--gold);
+	background: #262115;
+	color: var(--gold);
+}
+#hard-drop {
+	border-color: rgba(88, 221, 255, .5);
+}
+#hold-button {
+	border-color: rgba(255, 216, 74, .42);
+}
+#game-screen[data-paused="true"] .game-board-container {
+	filter: saturate(.4) brightness(.68);
+}
+@media (max-width: 560px) {
+	.touch-controls {
+		grid-template-columns: repeat(3, 1fr);
+	}
+}
+@media (max-height: 520px) and (orientation: landscape) {
+	#game-screen {
+		grid-template-columns: minmax(0, 1fr) auto;
+		grid-template-rows: auto minmax(0, 1fr);
+	}
+	.match-bar {
+		grid-column: 1 / -1;
+	}
+	.boards {
+		grid-column: 1;
+		grid-row: 2;
+	}
+	.touch-controls {
+		grid-column: 2;
+		grid-row: 2;
+		width: 180px;
+		grid-template-columns: repeat(2, 1fr);
+		align-content: center;
+	}
+	.touch-controls button {
+		min-height: 46px;
+	}
+}

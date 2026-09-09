@@ -1,67 +1,83 @@
 <!-- B"H -->
 <!-- Boruch Hashem -->
-<!-- Blessed is He -->
-<!-- The Awtsmoos renews every falling vessel before one line can meet another in time; Awtsmoos.com keeps Tikkun's choices clear, so descent becomes rectification through rhythm and rhyme. -->
+<!-- Blessed be He -->
+<!--
+ @file index.html
+ @description Semantic, mobile-first shell for Tikkun HaOlam Tetris.
+ Awtsmoos.com keeps mode choice, battlefield, controls, pause, and result recovery explicit while Worker modules own gameplay truth.
+ Architectural invariants:
+ - Required mechanics are visible buttons; gestures are never required knowledge.
+ - Browser zoom remains available and safe-area layout is delegated to focused CSS modules.
+ - Fresh canvas generations are created by the page runtime before every OffscreenCanvas transfer.
+ - Result and recovery controls are ordinary semantic buttons with deterministic focus targets.
+-->
 <!doctype html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-	<title>Tikkun HaOlam - The Final Rectification</title>
-	<link rel="stylesheet" href="style.css?compact=true">
+	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+	<meta name="theme-color" content="#05060a">
+	<meta name="description" content="Tikkun HaOlam: deterministic modern Tetris with solo, player-vs-Golem, and Golem-vs-Golem modes.">
+	<title>Tikkun HaOlam — Tetris</title>
+	<link rel="stylesheet" href="style.css?compact=true&v=tikkun-004">
 	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=player-shell-003&compact=true">
 </head>
 <body>
-	<canvas id="background-canvas"></canvas>
+	<main id="main-menu" class="menu-shell">
+		<p class="kicker">B"H · AWTSMOOS ARCADE</p>
+		<h1>TIKKUN</h1>
+		<p class="lede">Fit the vessels, clear complete rows, and keep the light descending.</p>
+		<div class="mode-grid" aria-label="Choose Tetris mode">
+			<button type="button" data-mode="single">Solo Tikkun <span>Classic score run</span></button>
+			<button type="button" data-mode="pvai">Tikkun vs Golem <span>Race an adaptive rival</span></button>
+			<button type="button" data-mode="aivai">Witness Golems <span>Spectate deterministic rivals</span></button>
+		</div>
+		<p class="key-help">Keys: ←/→ move · ↑ rotate · ↓ soft drop · Space hard drop · C hold · P pause</p>
+	</main>
 
-	<div id="main-menu">
-		<div id="menu-title">TIKKUN</div>
-		<button class="menu-button" id="play-single">Begin Tikkun</button>
-		<button class="menu-button" id="play-pvai">Tikkun vs Golem</button>
-		<button class="menu-button" id="play-aivai">Witness Golems</button>
-	</div>
+	<main id="game-screen" hidden>
+		<header class="match-bar">
+			<div><strong>Next</strong> <span id="next-piece">—</span></div>
+			<div><strong>Hold</strong> <span id="hold-piece">—</span></div>
+			<button id="pause-button" type="button" aria-pressed="false" aria-keyshortcuts="P Escape">Pause</button>
+			<button id="menu-button" type="button">Modes</button>
+		</header>
 
-	<div id="game-screen" class="hidden">
-		<!-- Player 1 Container -->
-		<div class="player-container" id="p1-container">
-			<div class="game-board-container">
-				<!-- CHANGE: Title is now INSIDE the board container -->
-				<div class="player-title" id="p1-title">PLAYER 1</div>
-				<canvas id="p1-canvas"></canvas>
-				<div class="hud">
-					<div class="hud-stats">
-						<div>Score:<span id="p1-score">0</span></div>
-						<div>Level:<span id="p1-level">1</span></div>
-						<div>Lines:<span id="p1-lines">0</span></div>
-					</div>
-				</div>
+		<section class="boards" aria-label="Tetris boards">
+			<article class="player-container" id="p1-container">
+				<div class="board-heading"><strong id="p1-title">PLAYER</strong><span>Score <b id="p1-score">0</b> · Lv <b id="p1-level">1</b> · Lines <b id="p1-lines">0</b></span></div>
+				<div class="game-board-container"><canvas id="p1-canvas" aria-label="Player Tetris board"></canvas></div>
+			</article>
+			<article class="player-container" id="p2-container" hidden>
+				<div class="board-heading"><strong id="p2-title">GOLEM</strong><span>Score <b id="p2-score">0</b> · Lv <b id="p2-level">1</b> · Lines <b id="p2-lines">0</b></span></div>
+				<div class="game-board-container"><canvas id="p2-canvas" aria-label="Golem Tetris board"></canvas></div>
+			</article>
+		</section>
+
+		<nav id="touch-controls" class="touch-controls" aria-label="Tetris controls">
+			<button id="move-left" type="button" aria-label="Move left">←</button>
+			<button id="rotate" type="button" aria-label="Rotate clockwise">↻</button>
+			<button id="move-right" type="button" aria-label="Move right">→</button>
+			<button id="hold-button" type="button" aria-keyshortcuts="C Shift">Hold</button>
+			<button id="soft-drop" type="button" aria-pressed="false" aria-label="Hold to soft drop">Soft ↓</button>
+			<button id="hard-drop" type="button" aria-keyshortcuts="Space">Drop ⇩</button>
+		</nav>
+	</main>
+
+	<section id="result-panel" class="result-panel" hidden role="dialog" aria-modal="true" aria-labelledby="result-title">
+		<div class="result-card">
+			<p class="kicker">RUN COMPLETE</p>
+			<h2 id="result-title">Tikkun Complete</h2>
+			<p id="result-summary"></p>
+			<div class="result-actions">
+				<button id="retry-button" type="button">Retry</button>
+				<button id="result-menu-button" type="button">Choose Mode</button>
 			</div>
 		</div>
+	</section>
 
-		<!-- CHANGE: New shared controls area for the Descend button -->
-		<div id="shared-controls" class="hidden">
-			<button class="action-button" id="descend-button">Descend</button>
-		</div>
-
-		<!-- Player 2 Container -->
-		<div class="player-container" id="p2-container">
-			<div class="game-board-container">
-				<!-- CHANGE: Title is now INSIDE the board container -->
-				<div class="player-title" id="p2-title">GOLEM</div>
-				<canvas id="p2-canvas"></canvas>
-				<div class="hud">
-					<div class="hud-stats">
-						<div>Score:<span id="p2-score">0</span></div>
-						<div>Level:<span id="p2-level">1</span></div>
-						<div>Lines:<span id="p2-lines">0</span></div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<script src="main.js" defer></script>
 	<script type="module" src="/games/scripts/runtime/index.js?compact=true&v=runtime-001"></script>
+	<script type="module" src="main.js?compact=true&v=tikkun-004"></script>
 	<script type="module" async src="/games/scripts/player-shell/index.js?v=player-shell-003&compact=true"></script>
 </body>
 </html>

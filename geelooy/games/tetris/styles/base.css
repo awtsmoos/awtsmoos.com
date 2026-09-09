@@ -1,0 +1,64 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed be He*/
+/**
+ * @file base.css
+ * @description Defines Tikkun's durable visual foundation, typography, focus, sizing, and reduced-motion behavior.
+ * Awtsmoos.com keeps global rules intentionally small so gameplay surfaces can evolve without reintroducing layout coupling.
+ *
+ * Invariants:
+ * - Browser zoom remains usable and no page-wide touch suppression is applied.
+ * - Focus-visible state is unmistakable on every interactive control.
+ * - Safe-area padding is added by the component that owns the relevant screen edge.
+ */
+:root {
+	color-scheme: dark;
+	font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+	background: #05060a;
+	color: #f7f8ff;
+	--gold: #ffd84a;
+	--cyan: #58ddff;
+	--panel: #10141d;
+	--panel-strong: #171d29;
+	--border: rgba(255, 216, 74, .55);
+	--muted: #aeb7ca;
+}
+* {
+	box-sizing: border-box;
+}
+html,
+body {
+	margin: 0;
+	min-width: 100%;
+	min-height: 100%;
+	background: #05060a;
+}
+body {
+	min-height: 100dvh;
+	overflow-x: hidden;
+}
+button {
+	min-height: 48px;
+	font: inherit;
+}
+button:focus-visible {
+	outline: 3px solid var(--cyan);
+	outline-offset: 3px;
+}
+button:disabled {
+	cursor: not-allowed;
+	opacity: .46;
+}
+[hidden] {
+	display: none !important;
+}
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		scroll-behavior: auto !important;
+		transition-duration: .001ms !important;
+		animation-duration: .001ms !important;
+		animation-iteration-count: 1 !important;
+	}
+}

@@ -1,88 +1,96 @@
-// B'H
-// aiEngine.js
+//B"H
+//Boruch Hashem
+//Blessed be He
 
-class AIEngine {
-    constructor(game, difficulty = 'unbeatable') {
-        this.game = game;
-        this.difficulty = difficulty;
-        this.isThinking = false;
+import { COLS } from './constants.js';
+import { evaluateBoard, landingCandidate } from './ai/board-evaluation.js';
+import { rotateClockwise } from './game/board.js';
 
-        if (this.difficulty === 'adaptive') {
-            this.maxThinkDelay = 1500;
-            this.minThinkDelay = 200;
-            this.rampingFactor = 0.98;
-        } else {
-            // Unbeatable AI for AI vs AI
-            this.thinkDelay = 50; // Still thinks instantly
-        }
-        this.lastThinkTime = 0;
-    }
+/**
+ * @file aiEngine.js
+ * @description Chooses bounded deterministic Golem placements without owning Worker cadence, rendering, board settlement, scoring, or terminal truth.
+ * Awtsmoos.com keeps AI advisory: it may request an active-piece placement, but the same GameInstance rules still authorize gravity and locking.
+ *
+ * Architectural invariants:
+ * - Search examines at most four orientations across a bounded horizontal range.
+ * - One plan is produced per active piece serial unless that piece generation changes.
+ * - Adaptive mode reacts more slowly than witness-mode Golems without introducing randomness.
+ * - AI never writes canonical board cells directly.
+ */
+export class AIEngine {
+	constructor(game, difficulty = 'adaptive') {
+		this.game = game;
+		this.difficulty = difficulty;
+		this.lastThinkTime = 0;
+		this.plannedSerial = 0;
+	}
 
-    update(timestamp) {
-        if (this.game.gameOver || !this.game.piece || this.isThinking) return;
+	update(timestamp) {
+		const piece = this.game.piece;
+		if (
+			!piece ||
+			this.game.state.completed ||
+			piece.serial === this.plannedSerial
+		) {
+			return;
+		}
+		const delay = this.thinkDelay();
+		if (timestamp - this.lastThinkTime < delay) {
+			return;
+		}
+		this.lastThinkTime = timestamp;
+		const move = this.findBestMove(piece);
+		if (!move) {
+			return;
+		}
+		this.game.setAIPieceState(move);
+		this.plannedSerial = piece.serial;
+		if (this.difficulty === 'unbeatable') {
+			this.game.hardDrop();
+		} else {
+			this.game.setSoftDrop(true);
+		}
+	}
 
-        let currentThinkDelay = this.difficulty === 'adaptive' ?
-            Math.max(this.minThinkDelay, this.maxThinkDelay * Math.pow(this.rampingFactor, this.game.lines)) :
-            this.thinkDelay;
+	thinkDelay() {
+		if (this.difficulty === 'unbeatable') {
+			return 45;
+		}
+		return Math.max(180, 900 - this.game.state.lines * 18);
+	}
 
-        if (this.difficulty === 'adaptive' && this.game.lines > 5 && Math.random() < 0.15) {
-            currentThinkDelay *= 0.5;
-        }
+	findBestMove(piece) {
+		let best = null;
+		let matrix = piece.matrix.map(row => [...row]);
+		for (let rotation = 0; rotation < 4; rotation += 1) {
+			if (rotation > 0) {
+				matrix = rotateClockwise(matrix);
+			}
+			for (let x = -2; x < COLS; x += 1) {
+				const board = landingCandidate(
+					this.game.board,
+					piece.typeId,
+					matrix,
+					x
+				);
+				if (!board) {
+					continue;
+				}
+				const score = evaluateBoard(board);
+				if (!best || score > best.score) {
+					best = {
+						score,
+						x,
+						rotationIndex: rotation,
+						matrix: matrix.map(row => [...row])
+					};
+				}
+			}
+		}
+		return best;
+	}
 
-        if (timestamp - this.lastThinkTime > currentThinkDelay) {
-            this.isThinking = true;
-            this.lastThinkTime = timestamp;
-
-            const bestMove = this.findBestMove();
-
-            if (bestMove) {
-                this.game.setAIPieceState(bestMove);
-
-                // --- CHANGE: Aggressive dropping for AI vs AI mode ---
-                // If this is an 'unbeatable' Golem, give it a high chance to immediately soft drop.
-                if (this.difficulty === 'unbeatable' && Math.random() < 0.75) { // 75% chance
-                    this.game.isSoftDropping = true;
-                }
-            }
-            this.isThinking = false;
-        }
-    }
-
-    findBestMove() {
-        if (!this.game.piece || !this.game.piece.matrix) return null;
-        let bestScore = -Infinity, bestMove = null;
-        let originalMatrix = this.game.piece.matrix;
-
-        for (let rot = 0; rot < 4; rot++) {
-            let currentMatrix = originalMatrix;
-            for (let i = 0; i < rot; i++) {
-                currentMatrix = currentMatrix[0].map((_, c) => currentMatrix.map(row => row[c]).reverse());
-            }
-
-            for (let x = -2; x < COLS; x++) {
-                const moveCandidate = { x, y: 0, matrix: currentMatrix };
-                if (this._collides(moveCandidate, this.game.board, {})) continue;
-
-                let tempBoard = this.game.board.map(r => [...r]);
-                let finalY = 0;
-                while (!this._collides({ ...moveCandidate, y: finalY + 1 }, tempBoard, {})) {
-                    finalY++;
-                }
-
-                moveCandidate.matrix.forEach((r, my) => r.forEach((v, mx) => {
-                    if (v !== 0) { const bY = finalY + my, bX = moveCandidate.x + mx; if (bY >= 0 && bX >= 0 && bY < LOGICAL_ROWS && bX < COLS) { tempBoard[bY][bX] = 1; } }
-                }));
-
-                const score = this.scoreBoard(tempBoard);
-                if (score > bestScore) {
-                    bestScore = score;
-                    bestMove = { x: moveCandidate.x, matrix: currentMatrix };
-                }
-            }
-        }
-        return bestMove;
-    }
-
-    _collides(piece, board, offset) { const pM = piece.matrix, pX = piece.x + (offset.x || 0), pY = piece.y + (offset.y || 0); for (let y = 0; y < pM.length; y++) { for (let x = 0; x < pM[y].length; x++) { if (pM[y][x] !== 0) { const bX = pX + x, bY = pY + y; if (bX < 0 || bX >= COLS || bY >= LOGICAL_ROWS || (board[bY] && board[bY][bX] !== 0)) return true; } } } return false; }
-    scoreBoard(board) { let h = 0, aH = 0, cL = 0, b = 0; const cH = Array(COLS).fill(0); for (let x = 0; x < COLS; x++) { for (let y = 0; y < LOGICAL_ROWS; y++) { if (board[y][x] !== 0) { cH[x] = LOGICAL_ROWS - y; break; } } } aH = cH.reduce((s, h) => s + h, 0); for (let x = 0; x < COLS; x++) { for (let y = LOGICAL_ROWS - cH[x] + 1; y < LOGICAL_ROWS; y++) { if (board[y][x] === 0) h++; } } for (let i = 0; i < COLS - 1; i++) { b += Math.abs(cH[i] - cH[i + 1]); } for (let y = 0; y < LOGICAL_ROWS; y++) { if (board[y].every(c => c !== 0)) cL++; } return (cL * 0.76) - (aH * 0.51) - (h * 0.35) - (b * 0.18); }
+	dispose() {
+		this.plannedSerial = Number.MAX_SAFE_INTEGER;
+	}
 }

@@ -1,0 +1,67 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed be He*/
+/**
+ * @file result.css
+ * @description Owns Tikkun's terminal and recoverable-failure surface without hiding lifecycle recovery behind browser dialogs.
+ * Awtsmoos.com keeps completion summary, Retry, and mode return obvious on phones, desktops, and assistive navigation.
+ *
+ * Invariants:
+ * - The result surface is visually dominant only after canonical completion or a page-side runtime failure.
+ * - Retry and Choose Mode remain ordinary focusable buttons with safe-area clearance.
+ * - Result layout never computes or mutates score; it only presents facts supplied by the runtime/view.
+ */
+.result-panel {
+	position: fixed;
+	inset: 0;
+	z-index: 40;
+	display: grid;
+	place-items: center;
+	padding: max(24px, env(safe-area-inset-top)) 18px max(24px, env(safe-area-inset-bottom));
+	background: rgba(2, 3, 6, .88);
+}
+.result-card {
+	display: grid;
+	width: min(100%, 460px);
+	gap: 16px;
+	padding: 26px;
+	border: 1px solid var(--border);
+	border-radius: 20px;
+	background: #10141d;
+	box-shadow: 0 28px 80px rgba(0, 0, 0, .6);
+	text-align: center;
+}
+.result-card h2,
+.result-card p {
+	margin: 0;
+}
+.result-card h2 {
+	font-size: clamp(1.8rem, 8vw, 3rem);
+}
+#result-summary {
+	color: var(--muted);
+	line-height: 1.5;
+}
+.result-actions {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 10px;
+}
+.result-actions button {
+	padding: 12px;
+	border: 1px solid var(--border);
+	border-radius: 12px;
+	background: #171d29;
+	color: white;
+	font-weight: 900;
+	cursor: pointer;
+}
+#retry-button {
+	background: #2b2412;
+	color: var(--gold);
+}
+@media (max-width: 390px) {
+	.result-actions {
+		grid-template-columns: 1fr;
+	}
+}

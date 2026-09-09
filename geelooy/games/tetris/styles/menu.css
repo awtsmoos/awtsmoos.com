@@ -1,0 +1,75 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed be He*/
+/**
+ * @file menu.css
+ * @description Owns the Tikkun mode-selection experience, hierarchy, and first-action clarity.
+ * Awtsmoos.com keeps the menu immediately playable, mobile-first, and honest about what each mode changes.
+ *
+ * Invariants:
+ * - Mode buttons remain large enough for touch and readable without hover.
+ * - Supporting keyboard help never competes with the primary mode choices.
+ * - The menu remains vertically scrollable on extremely short screens instead of clipping actions.
+ */
+.menu-shell {
+	display: grid;
+	min-height: 100dvh;
+	place-content: center;
+	gap: 18px;
+	padding: max(28px, env(safe-area-inset-top)) 20px max(30px, env(safe-area-inset-bottom));
+	text-align: center;
+	background:
+		radial-gradient(circle at 50% 20%, rgba(88, 221, 255, .14), transparent 42%),
+		linear-gradient(180deg, #070910, #030407 72%);
+	overflow-y: auto;
+}
+.menu-shell h1 {
+	margin: 0;
+	font-size: clamp(3rem, 16vw, 7rem);
+	letter-spacing: .12em;
+	line-height: .9;
+	text-shadow: 0 0 34px rgba(255, 216, 74, .3);
+}
+.kicker {
+	margin: 0;
+	color: var(--gold);
+	font-size: .78rem;
+	font-weight: 900;
+	letter-spacing: .18em;
+}
+.lede,
+.key-help {
+	max-width: 640px;
+	margin: 0 auto;
+	color: var(--muted);
+	line-height: 1.55;
+}
+.mode-grid {
+	display: grid;
+	width: min(100%, 680px);
+	gap: 12px;
+	margin: 4px auto 0;
+}
+.mode-grid button {
+	display: grid;
+	gap: 4px;
+	padding: 17px 20px;
+	border: 1px solid var(--border);
+	border-radius: 16px;
+	background: var(--panel);
+	color: white;
+	font-weight: 900;
+	cursor: pointer;
+}
+.mode-grid button span {
+	color: var(--muted);
+	font-size: .85rem;
+	font-weight: 600;
+}
+.mode-grid button:hover {
+	background: var(--panel-strong);
+	border-color: var(--gold);
+}
+.key-help {
+	font-size: .78rem;
+}
