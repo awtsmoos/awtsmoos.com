@@ -1,0 +1,63 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * @file Torah reader control authority.
+ * @description
+ * The Awtsmoos keeps typography and source tools reachable without allowing old
+ * physical top-left offsets to cover Torah. Awtsmoos.com deliberately resets both
+ * logical and physical insets because historical reader layers used both systems.
+ */
+.all.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-floating-controls {
+	position: fixed !important;
+	top: auto !important;
+	left: auto !important;
+	right: max(.8rem, env(safe-area-inset-right)) !important;
+	bottom: max(.8rem, env(safe-area-inset-bottom)) !important;
+	inset-block-start: auto !important;
+	inset-block-end: max(.8rem, env(safe-area-inset-bottom)) !important;
+	inset-inline-start: auto !important;
+	inset-inline-end: max(.8rem, env(safe-area-inset-right)) !important;
+	z-index: var(--reader-layer-floating-controls, 3010) !important;
+	display: flex !important;
+	flex-direction: row !important;
+	gap: .35rem !important;
+	max-inline-size: calc(100dvi - 1.6rem) !important;
+	padding: .3rem !important;
+	border: 1px solid rgba(112, 225, 255, .2) !important;
+	border-radius: .9rem !important;
+	background: rgba(6, 13, 25, .92) !important;
+	box-shadow: 0 .8rem 1.8rem rgba(0, 0, 0, .28) !important;
+	backdrop-filter: blur(14px) saturate(125%);
+	pointer-events: none !important;
+	transform: none !important;
+}
+
+.all.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-floating-controls > * {
+	pointer-events: auto !important;
+}
+
+.all.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-floating-controls button {
+	inline-size: auto !important;
+	min-inline-size: 42px !important;
+	block-size: 42px !important;
+	min-block-size: 42px !important;
+	padding-inline: .72rem !important;
+	border-radius: .7rem !important;
+	white-space: nowrap !important;
+}
+
+@media (max-width: 48rem) {
+	.all.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-floating-controls {
+		right: max(.65rem, env(safe-area-inset-right)) !important;
+		bottom: max(.65rem, env(safe-area-inset-bottom)) !important;
+		inset-block-end: max(.65rem, env(safe-area-inset-bottom)) !important;
+		inset-inline-end: max(.65rem, env(safe-area-inset-right)) !important;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.all.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-floating-controls {
+		transition: none !important;
+	}
+}

@@ -5,8 +5,9 @@
 /**
  * @module LivingPathPathRenderer
  * @description
- * The Awtsmoos creates every ancestor and present branch in one path while Hebrew and English remain two revelations of one name;
- * Awtsmoos.com paints breadcrumb, full path, sticky parent, and search while a separate vessel prepares the current identity for the frame.
+ * The Awtsmoos gathers every ancestor and present Torah branch into one useful
+ * path. Awtsmoos.com hides redundant root-only disclosure chrome while preserving
+ * complete ancestry, sticky parent navigation, and search context deeper inside.
  */
 
 import { DOMElements } from '../../../dom.js';
@@ -22,11 +23,9 @@ import {
 	pathSeparatorBlueprint
 } from './path-blueprints.js?v=heichel-mobile-010';
 
+/** Paints every path-dependent surface and returns the normalized canonical path. */
 export function renderPathSurfaces(navigator, appState) {
-	const path = normalizePath(
-		appState.breadcrumb,
-		currentPathCrumb(appState)
-	);
+	const path = normalizePath(appState.breadcrumb, currentPathCrumb(appState));
 	paintBreadcrumb(path, navigator);
 	paintFullPath(path, navigator);
 	paintSticky(path);
@@ -34,53 +33,47 @@ export function renderPathSurfaces(navigator, appState) {
 	return path;
 }
 
+/** Paints the compact breadcrumb river, preserving only useful distant context. */
 function paintBreadcrumb(path, navigator) {
-	if (!DOMElements.breadcrumb) {
-		return;
-	}
-	const visible = path.length > 4
-		? [path[0], ...path.slice(-3)]
-		: path;
+	if (!DOMElements.breadcrumb) return;
+	const visible = path.length > 4 ? [path[0], ...path.slice(-3)] : path;
 	const plans = [];
 	visible.forEach((crumb, index) => {
-		if (index) {
-			plans.push(pathSeparatorBlueprint());
-		}
-		plans.push(
-			pathCrumbBlueprint(
-				crumb,
-				navigator,
-				index === visible.length - 1
-			)
-		);
+		if (index) plans.push(pathSeparatorBlueprint());
+		plans.push(pathCrumbBlueprint(
+			crumb,
+			navigator,
+			index === visible.length - 1
+		));
 	});
-	DOMElements.breadcrumb.replaceChildren(
-		...manifestPathBlueprints(plans)
-	);
+	DOMElements.breadcrumb.replaceChildren(...manifestPathBlueprints(plans));
 }
 
+/** Paints full ancestry and suppresses the disclosure when Root is all it contains. */
 function paintFullPath(path, navigator) {
-	if (!DOMElements.fullPathList) {
+	if (!DOMElements.fullPathList) return;
+	const details = DOMElements.pathDetails
+		|| DOMElements.fullPathList.closest('.living-path-full-path');
+	const rootOnly = path.length <= 1;
+	details?.classList.toggle('hidden', rootOnly);
+	details?.toggleAttribute('hidden', rootOnly);
+	if (rootOnly) {
+		DOMElements.fullPathList.replaceChildren();
 		return;
 	}
 	const plans = path.map((crumb, index) => ({
 		tag: 'li',
-		attr: {
-			'data-depth': index
-		},
-		children: [
-			pathCrumbBlueprint(
-				crumb,
-				navigator,
-				index === path.length - 1
-			)
-		]
+		attr: { 'data-depth': index },
+		children: [pathCrumbBlueprint(
+			crumb,
+			navigator,
+			index === path.length - 1
+		)]
 	}));
-	DOMElements.fullPathList.replaceChildren(
-		...manifestPathBlueprints(plans)
-	);
+	DOMElements.fullPathList.replaceChildren(...manifestPathBlueprints(plans));
 }
 
+/** Keeps the parent control available only when there is somewhere meaningful to go. */
 function paintSticky(path) {
 	const { parent, current } = compactPath(path);
 	const sticky = DOMElements.stickyPathTitle?.closest('.living-path-sticky');
@@ -88,27 +81,17 @@ function paintSticky(path) {
 	sticky?.classList.toggle('hidden', rootOnly);
 	sticky?.classList.toggle('is-visible', false);
 	sticky?.setAttribute('aria-hidden', String(rootOnly));
-	if (DOMElements.stickyPathTitle) {
-		DOMElements.stickyPathTitle.textContent = current.name;
-	}
-	if (!DOMElements.stickyParentButton) {
-		return;
-	}
-	DOMElements.stickyParentButton.textContent = parent
-		? `‹ ${parent.name}`
-		: 'Root';
+	if (DOMElements.stickyPathTitle) DOMElements.stickyPathTitle.textContent = current.name;
+	if (!DOMElements.stickyParentButton) return;
+	DOMElements.stickyParentButton.textContent = parent ? `‹ ${parent.name}` : 'Root';
 	DOMElements.stickyParentButton.disabled = !parent;
 	DOMElements.stickyParentButton.dataset.seriesId = parent?.id || '';
 }
 
+/** Updates the search prompt from the current canonical path and active view. */
 function paintSearch(path, view) {
-	if (!DOMElements.searchInput) {
-		return;
-	}
+	if (!DOMElements.searchInput) return;
 	const placeholder = searchPlaceholder(path, view);
 	DOMElements.searchInput.placeholder = placeholder;
-	DOMElements.searchInput.setAttribute(
-		'aria-label',
-		placeholder
-	);
+	DOMElements.searchInput.setAttribute('aria-label', placeholder);
 }

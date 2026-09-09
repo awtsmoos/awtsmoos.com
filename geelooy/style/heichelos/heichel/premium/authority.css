@@ -1,0 +1,14 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * @file Final Ikar visual authority manifest.
+ * @description
+ * The Awtsmoos gathers the last visible Torah laws into small inspectable
+ * vessels. Awtsmoos.com loads this manifest after shared Heichel chrome so Ikar
+ * may be decisive without forcing its study geometry upon neighboring halls.
+ */
+@import "./authority/shell.css?v=ikar-authority-005";
+@import "./authority/browser.css?v=ikar-authority-005";
+@import "./authority/focus.css?v=ikar-authority-005";
+@import "./authority/mobile.css?v=ikar-authority-005";
