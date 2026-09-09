@@ -3,41 +3,50 @@
 // Blessed is He
 
 const crypto = require("crypto");
-const fs = require("fs");
-const { readAssetManifest } = require("./assetManifest.js");
+const {
+	readPrivateAssetManifest,
+	storageMatches
+} = require("./privateMessageAssetManifestSource.js");
 
 /**
- * @file Proves that authenticated private-message media belongs to the exact canonical message requested by a current conversation member.
- * @description The Awtsmoos knows every vessel without guessing its road; Awtsmoos.com therefore walks identity, membership, sequence, message, attachment,
- * and canonical manifest one gate at a time, so possession of an asset id never becomes permission and private light remains bound to its true relation.
+ * @file Proves exact membership, message coordinates, attachment identity, and canonical storage before private media bytes may leave.
+ * @description The Awtsmoos knows the private relation before metadata stores divide. Awtsmoos.com walks identity, membership, sequence, message,
+ * attachment, manifest, and bytes as separate gates so possession of an asset id never becomes permission and storage fallback never weakens proof.
  */
-
 const PAGE_SIZE = 50;
 const SAFE_ID = /^[A-Za-z0-9._:-]{1,180}$/;
 
-/** Returns a fully proven private-message asset record or null without revealing which gate failed. */
+/** Returns a proven private-message asset or null without revealing which authorization gate failed. */
 async function provePrivateMessageAsset({ $i, userid, coordinates }) {
 	const parsed = parseCoordinates(coordinates);
 	if (!userid || !parsed) return null;
 	const accountKey = hashAccount(userid);
 	const conversation = await safeGet($i, `/social/privateMessaging/conversations/${parsed.conversationId}`);
 	if (!conversation?.members?.[accountKey]) return null;
+	const message = await findMessage($i, parsed);
+	if (!message || String(message.attachment?.id || "") !== parsed.assetId) return null;
+	const aliasId = String(message.alias || "");
+	if (!SAFE_ID.test(aliasId)) return null;
+	const manifest = await readPrivateAssetManifest({
+		$i,
+		aliasId,
+		assetId: parsed.assetId
+	});
+	if (!exactManifest(manifest, message, aliasId, parsed.assetId)) return null;
+	return { conversation, message, manifest };
+}
+
+/** Finds only the message at the exact canonical sequence page and coordinate. */
+async function findMessage($i, parsed) {
 	const page = Math.floor((parsed.sequence - 1) / PAGE_SIZE);
 	const messages = await safeGet(
 		$i,
 		`/social/privateMessaging/messages/${parsed.conversationId}/pages/${page}`,
 		[]
 	);
-	const message = Array.isArray(messages)
-		? messages.find((row) => exactMessage(row, parsed))
+	return Array.isArray(messages)
+		? messages.find((row) => exactMessage(row, parsed)) || null
 		: null;
-	if (!message || String(message.attachment?.id || "") !== parsed.assetId) return null;
-	const aliasId = String(message.alias || "");
-	if (!SAFE_ID.test(aliasId)) return null;
-	const manifest = readAssetManifest({ aliasId, assetId: parsed.assetId })
-		|| await safeGet($i, `/social/aliases/${aliasId}/assets/${parsed.assetId}`);
-	if (!exactManifest(manifest, message, aliasId, parsed.assetId)) return null;
-	return { conversation, message, manifest };
 }
 
 function parseCoordinates(value = {}) {
@@ -56,6 +65,7 @@ function exactMessage(message, parsed) {
 		&& Number(message?.sequence) === parsed.sequence;
 }
 
+/** Requires the canonical manifest to describe exactly the projected attachment and the bytes currently on disk. */
 function exactManifest(manifest, message, aliasId, assetId) {
 	const attachment = message?.attachment;
 	return Boolean(
@@ -68,8 +78,7 @@ function exactManifest(manifest, message, aliasId, assetId) {
 		&& String(manifest.type || "") === String(attachment.type || "")
 		&& String(manifest.mime || "") === String(attachment.mime || "")
 		&& Number(manifest.size || 0) === Number(attachment.size || 0)
-		&& typeof manifest.storagePath === "string"
-		&& fs.existsSync(manifest.storagePath)
+		&& storageMatches(manifest.storagePath, manifest.size)
 	);
 }
 
