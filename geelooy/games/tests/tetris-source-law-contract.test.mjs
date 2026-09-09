@@ -83,3 +83,14 @@ test('HTML and CSS keep blessing comments and browser zoom remains available', (
 	assert.doesNotMatch(html, /user-scalable\s*=\s*no/i);
 	assert.doesNotMatch(html, /maximum-scale\s*=\s*1/i);
 });
+
+
+test('initial controls cannot accept input before application ownership exists', () => {
+	const html = readFileSync(path.join(ROOT, 'index.html'), 'utf8');
+	for (const mode of ['single', 'pvai', 'aivai']) {
+		assert.match(html, new RegExp(`data-mode=\"${mode}\" disabled`));
+	}
+	for (const id of ['pause-button', 'move-left', 'move-right', 'hard-drop']) {
+		assert.match(html, new RegExp(`id=\"${id}\"[^>]*disabled`));
+	}
+});

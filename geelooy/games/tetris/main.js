@@ -32,6 +32,7 @@ view.showMenu();
 function bindApplication() {
 	for (const button of document.querySelectorAll('[data-mode]')) {
 		button.addEventListener('click', () => startMode(button.dataset.mode));
+		button.disabled = false;
 	}
 	view.pause.addEventListener('click', () => session?.togglePause());
 	document.getElementById('menu-button').addEventListener('click', returnToMenu);

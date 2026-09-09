@@ -2,6 +2,7 @@
 //Boruch Hashem
 //Blessed be He
 
+import { createTetrisWorkerUrl } from './build.js';
 import { deviceDpr, dimensions } from './session-lifecycle.js';
 
 const WORKER_STARTUP_TIMEOUT_MS = 5000;
@@ -19,7 +20,7 @@ const WORKER_STARTUP_TIMEOUT_MS = 5000;
  */
 export function startSessionWorker(session, canvases) {
 	const worker = new Worker(
-		new URL('../worker.js', import.meta.url),
+		createTetrisWorkerUrl(import.meta.url),
 		{ type: 'module' }
 	);
 	const onMessage = event => session.handleMessage(event.data || {});

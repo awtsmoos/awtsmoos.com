@@ -2,22 +2,28 @@
 //Boruch Hashem
 //Blessed be He
 
+import { tryCapturePointer } from './pointer-capture.js';
+
+import { bindHorizontalControls } from './horizontal-controls.js';
+
 /**
  * @file controls.js
  * @description Binds explicit pointer-accessible Tetris buttons to semantic actions and exposes deterministic held-action release for lifecycle transitions.
  * Awtsmoos.com keeps required mobile mechanics visible as ordinary buttons rather than hidden multi-touch gestures, while pointer capture prevents lost release events.
  *
  * Architectural invariants:
- * - Soft Drop is the only held control in this base binding and has one matching release for each successful press.
- * - Pause/background/failure/disposal may call `release()` without waiting for pointerup.
+ * - Left/Right and Soft Drop are explicit held controls; every successful press owns a matching deterministic release.
+ * - Pause/background/failure/disposal may call `release()` without waiting for pointerup, keyup, or pointer-capture recovery.
  * - One-shot controls remain native buttons, preserving keyboard activation and accessibility semantics.
  * - Binding owns no gameplay state and can be recreated safely for every page generation.
  */
 export function bindTetrisControls(root, options) {
 	const disposers = [];
 	const releasers = [];
-	bindPress(root, 'move-left', () => options.onAction('move', -1), disposers);
-	bindPress(root, 'move-right', () => options.onAction('move', 1), disposers);
+	const horizontal = bindHorizontalControls(
+		root,
+		options.horizontalRepeat
+	);
 	bindPress(root, 'rotate', () => options.onAction('rotate'), disposers);
 	bindPress(root, 'hard-drop', () => options.onAction('hard_drop'), disposers);
 	bindPress(root, 'hold-button', () => options.onAction('hold'), disposers);
@@ -29,12 +35,14 @@ export function bindTetrisControls(root, options) {
 		releasers
 	);
 	const release = () => {
+		horizontal.release();
 		for (const releaseHeld of releasers) {
 			releaseHeld();
 		}
 	};
 	const dispose = () => {
 		release();
+		horizontal.dispose();
 		for (const removeListener of disposers.splice(0)) {
 			removeListener();
 		}
@@ -77,7 +85,7 @@ function bindHold(root, id, callback, disposers, releasers) {
 			return;
 		}
 		held = true;
-		button.setPointerCapture?.(event.pointerId);
+		tryCapturePointer(button, event.pointerId);
 		button.setAttribute('aria-pressed', 'true');
 		callback(true);
 	};

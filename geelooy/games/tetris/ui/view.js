@@ -3,7 +3,8 @@
 //Blessed be He
 
 import { TETRIS_DOM_IDS } from './dom-ids.js';
-import { describePiece, describePieces, replaceCanvas, resultTitle } from './presentation.js';
+import { resetHud, updateHud } from './hud.js';
+import { replaceCanvas, resultTitle } from './presentation.js';
 
 /**
  * @file view.js
@@ -62,16 +63,7 @@ export class TetrisView {
 	}
 
 	updateSnapshot(snapshot) {
-		const prefix = snapshot.id === 2 ? 'p2' : 'p1';
-		this[`${prefix}Score`].textContent = String(snapshot.score);
-		this[`${prefix}Level`].textContent = String(snapshot.level);
-		this[`${prefix}Lines`].textContent = String(snapshot.lines);
-		if (snapshot.id !== 1) {
-			return;
-		}
-		this.next.textContent = describePieces(snapshot.nextTypeIds);
-		this.hold.textContent = snapshot.holdTypeId ? describePiece(snapshot.holdTypeId) : '—';
-		this.holdButton.disabled = !snapshot.holdAvailable || snapshot.completed;
+		updateHud(this, snapshot);
 	}
 
 	setPaused(paused) {
@@ -102,12 +94,6 @@ export class TetrisView {
 	}
 
 	resetHud() {
-		for (const prefix of ['p1', 'p2']) {
-			this[`${prefix}Score`].textContent = '0';
-			this[`${prefix}Level`].textContent = '1';
-			this[`${prefix}Lines`].textContent = '0';
-		}
-		this.next.textContent = '—';
-		this.hold.textContent = '—';
+		resetHud(this);
 	}
 }

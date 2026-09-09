@@ -1,0 +1,84 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed be He*/
+/**
+ * @file previews.css
+ * @description Renders compact Hold and five-piece Next tetromino previews without stealing board space or hiding accessible text.
+ * Awtsmoos.com treats previews as lightweight HUD evidence: clear enough to read instantly, bounded enough to fit phones, and presentation-only.
+ *
+ * Invariants:
+ * - Preview geometry is driven by canonical piece matrices through CSS custom properties.
+ * - Visual cells are aria-hidden while a visually-hidden textual sequence remains available to assistive technology.
+ * - Preview sizing contracts in short viewports before board geometry is sacrificed.
+ */
+#next-piece,
+#hold-piece {
+	display: inline-flex;
+	min-width: 0;
+	align-items: center;
+	gap: 5px;
+	vertical-align: middle;
+}
+
+.piece-preview {
+	display: inline-grid;
+	grid-template-columns: repeat(var(--preview-columns), 7px);
+	grid-template-rows: repeat(var(--preview-rows), 7px);
+	gap: 1px;
+	padding: 2px;
+	border: 1px solid rgba(255, 255, 255, .08);
+	border-radius: 5px;
+	background: rgba(255, 255, 255, .025);
+}
+
+.piece-preview__cell {
+	width: 7px;
+	height: 7px;
+	border-radius: 2px;
+	background: var(--preview-color, #fff);
+	box-shadow: 0 0 7px color-mix(in srgb, var(--preview-color, #fff) 58%, transparent);
+}
+
+.piece-preview__cell--empty {
+	visibility: hidden;
+}
+
+.piece-preview[data-piece="1"] {
+	--preview-color: #ee3377;
+}
+
+.piece-preview[data-piece="2"] {
+	--preview-color: #00ccff;
+}
+
+.piece-preview[data-piece="3"] {
+	--preview-color: #00ff99;
+}
+
+.piece-preview[data-piece="4"] {
+	--preview-color: #ff8800;
+}
+
+.piece-preview[data-piece="5"] {
+	--preview-color: #ffdd00;
+}
+
+.piece-preview[data-piece="6"] {
+	--preview-color: #9933ff;
+}
+
+.piece-preview[data-piece="7"] {
+	--preview-color: #ffffff;
+}
+
+.piece-preview__text {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	white-space: nowrap;
+	border: 0;
+}

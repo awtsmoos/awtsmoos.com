@@ -3,7 +3,9 @@
 //Blessed be He
 
 import { bindTetrisControls } from '../input/controls.js';
+import { isCompatibleTetrisReady } from './build.js';
 import { bindTetrisKeyboard } from '../input/keyboard.js';
+import { HorizontalRepeatController } from '../input/horizontal-repeat.js';
 import { bindSessionLifecycle } from './session-lifecycle.js';
 import { TetrisSessionHost } from './session-host.js';
 import { clearSessionStartupTimer, startSessionWorker } from './session-worker.js';
@@ -50,13 +52,24 @@ export class TetrisSession extends TetrisSessionHost {
 
 	bindInput() {
 		const onAction = (action, value) => this.sendAction(action, value);
-		const controls = bindTetrisControls(this.view.controls, { onAction });
+		const horizontalRepeat = new HorizontalRepeatController(
+			direction => onAction('move', direction)
+		);
+		const controls = bindTetrisControls(this.view.controls, {
+			onAction,
+			horizontalRepeat
+		});
 		const keyboard = bindTetrisKeyboard({
 			onAction,
+			horizontalRepeat,
 			onPause: () => this.togglePause()
 		});
 		this.inputBindings.push(controls, keyboard);
-		this.disposers.push(controls.dispose, keyboard.dispose);
+		this.disposers.push(
+			controls.dispose,
+			keyboard.dispose,
+			() => horizontalRepeat.dispose()
+		);
 	}
 
 	handleMessage(message) {
@@ -68,6 +81,10 @@ export class TetrisSession extends TetrisSessionHost {
 		}
 		if (message.type === 'ready') {
 			clearSessionStartupTimer(this);
+			if (!isCompatibleTetrisReady(message)) {
+				this.fail('The Tikkun engine version does not match this page.');
+				return;
+			}
 			this.ready = true;
 			this.view.setReady(true);
 			return;

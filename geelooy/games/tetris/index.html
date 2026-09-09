@@ -17,9 +17,10 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 	<meta name="theme-color" content="#05060a">
+	<meta name="awtsmoos-game-build" content="tikkun-006">
 	<meta name="description" content="Tikkun HaOlam: deterministic modern Tetris with solo, player-vs-Golem, and Golem-vs-Golem modes.">
 	<title>Tikkun HaOlam — Tetris</title>
-	<link rel="stylesheet" href="style.css?compact=true&v=tikkun-004">
+	<link rel="stylesheet" href="style.css?compact=true&v=tikkun-006">
 	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=player-shell-003&compact=true">
 </head>
 <body>
@@ -28,9 +29,9 @@
 		<h1>TIKKUN</h1>
 		<p class="lede">Fit the vessels, clear complete rows, and keep the light descending.</p>
 		<div class="mode-grid" aria-label="Choose Tetris mode">
-			<button type="button" data-mode="single">Solo Tikkun <span>Classic score run</span></button>
-			<button type="button" data-mode="pvai">Tikkun vs Golem <span>Race an adaptive rival</span></button>
-			<button type="button" data-mode="aivai">Witness Golems <span>Spectate deterministic rivals</span></button>
+			<button type="button" data-mode="single" disabled>Solo Tikkun <span>Classic score run</span></button>
+			<button type="button" data-mode="pvai" disabled>Tikkun vs Golem <span>Race an adaptive rival</span></button>
+			<button type="button" data-mode="aivai" disabled>Witness Golems <span>Spectate deterministic rivals</span></button>
 		</div>
 		<p class="key-help">Keys: ←/→ move · ↑ rotate · ↓ soft drop · Space hard drop · C hold · P pause</p>
 	</main>
@@ -39,7 +40,7 @@
 		<header class="match-bar">
 			<div><strong>Next</strong> <span id="next-piece">—</span></div>
 			<div><strong>Hold</strong> <span id="hold-piece">—</span></div>
-			<button id="pause-button" type="button" aria-pressed="false" aria-keyshortcuts="P Escape">Pause</button>
+			<button id="pause-button" type="button" disabled aria-pressed="false" aria-keyshortcuts="P Escape">Pause</button>
 			<button id="menu-button" type="button">Modes</button>
 		</header>
 
@@ -55,12 +56,12 @@
 		</section>
 
 		<nav id="touch-controls" class="touch-controls" aria-label="Tetris controls">
-			<button id="move-left" type="button" aria-label="Move left">←</button>
-			<button id="rotate" type="button" aria-label="Rotate clockwise">↻</button>
-			<button id="move-right" type="button" aria-label="Move right">→</button>
-			<button id="hold-button" type="button" aria-keyshortcuts="C Shift">Hold</button>
-			<button id="soft-drop" type="button" aria-pressed="false" aria-label="Hold to soft drop">Soft ↓</button>
-			<button id="hard-drop" type="button" aria-keyshortcuts="Space">Drop ⇩</button>
+			<button id="move-left" type="button" disabled aria-label="Move left">←</button>
+			<button id="rotate" type="button" disabled aria-label="Rotate clockwise">↻</button>
+			<button id="move-right" type="button" disabled aria-label="Move right">→</button>
+			<button id="hold-button" type="button" disabled aria-keyshortcuts="C Shift">Hold</button>
+			<button id="soft-drop" type="button" disabled aria-pressed="false" aria-label="Hold to soft drop">Soft ↓</button>
+			<button id="hard-drop" type="button" disabled aria-keyshortcuts="Space">Drop ⇩</button>
 		</nav>
 	</main>
 
@@ -77,7 +78,7 @@
 	</section>
 
 	<script type="module" src="/games/scripts/runtime/index.js?compact=true&v=runtime-001"></script>
-	<script type="module" src="main.js?compact=true&v=tikkun-004"></script>
+	<script type="module" src="main.js?compact=true&v=tikkun-006"></script>
 	<script type="module" async src="/games/scripts/player-shell/index.js?v=player-shell-003&compact=true"></script>
 </body>
 </html>

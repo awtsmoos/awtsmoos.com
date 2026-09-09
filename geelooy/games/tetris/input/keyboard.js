@@ -2,60 +2,90 @@
 //Boruch Hashem
 //Blessed be He
 
+import { editable, horizontalDirection, isSoftDropCode, oneShotAction } from './keyboard-map.js';
+
 /**
  * @file keyboard.js
- * @description Maps discoverable keyboard shortcuts into semantic Tetris actions while guarding editable targets and exposing deterministic held Soft Drop release.
- * Awtsmoos.com keeps keyboard ownership independent from Worker transport so blur, pause, backgrounding, failure, and disposal can release held intent without stale key state.
+ * @description Maps discoverable keyboard controls into semantic Tetris actions while delegating horizontal hold timing to one deterministic DAS/ARR controller.
+ * Awtsmoos.com ignores browser repeat for movement so operating-system keyboard settings cannot alter gameplay cadence, while blur/pause/disposal release every owned intent.
  *
  * Architectural invariants:
- * - Down/S begins Soft Drop once and emits one matching release.
- * - Space hard-drops, C/Shift holds, P/Escape pauses, arrows/A-D move, and Up/W/X rotates.
- * - Browser repeat is allowed only for horizontal movement in this base implementation.
- * - One-shot commands ignore repeated keydown events.
+ * - Left/Right and A/D register stable physical tokens with the shared horizontal repeat controller exactly once per press.
+ * - Browser-generated repeated keydown events never create additional horizontal timers or one-shot actions.
+ * - Down/S begins Soft Drop once and always receives a matching release.
+ * - Space, C/Shift, P/Escape, and rotation keys remain finite one-shot semantic actions.
+ * - Editable targets are never captured by gameplay keyboard handling.
  */
 export function bindTetrisKeyboard(options) {
 	let softDropActive = false;
-	const release = () => {
+	const ownedHorizontalTokens = new Set();
+	const releaseSoftDrop = () => {
 		if (!softDropActive) {
 			return;
 		}
 		softDropActive = false;
 		options.onAction('soft_drop_end');
 	};
+	const releaseHorizontal = () => {
+		for (const token of ownedHorizontalTokens) {
+			options.horizontalRepeat.release(token);
+		}
+		ownedHorizontalTokens.clear();
+	};
+	const release = () => {
+		releaseSoftDrop();
+		releaseHorizontal();
+	};
 	const down = event => {
 		if (editable(event.target)) {
 			return;
 		}
-		const binding = keyBinding(event.code);
-		if (!binding) {
+		const direction = horizontalDirection(event.code);
+		if (direction) {
+			event.preventDefault();
+			if (!event.repeat) {
+				const token = `keyboard:${event.code}`;
+				ownedHorizontalTokens.add(token);
+				options.horizontalRepeat.press(token, direction);
+			}
+			return;
+		}
+		const action = oneShotAction(event.code);
+		if (!action) {
 			return;
 		}
 		event.preventDefault();
-		if (binding.action === 'pause') {
+		if (action === 'pause') {
 			if (!event.repeat) {
 				release();
 				options.onPause();
 			}
 			return;
 		}
-		if (binding.action === 'soft_drop_start') {
+		if (action === 'soft_drop_start') {
 			if (!softDropActive) {
 				softDropActive = true;
 				options.onAction('soft_drop_start');
 			}
 			return;
 		}
-		if (event.repeat && !binding.repeat) {
-			return;
+		if (!event.repeat) {
+			options.onAction(action);
 		}
-		options.onAction(binding.action, binding.value);
 	};
 	const up = event => {
-		if (!isSoftDropCode(event.code)) {
+		const direction = horizontalDirection(event.code);
+		if (direction) {
+			event.preventDefault();
+			const token = `keyboard:${event.code}`;
+			ownedHorizontalTokens.delete(token);
+			options.horizontalRepeat.release(token);
 			return;
 		}
-		event.preventDefault();
-		release();
+		if (isSoftDropCode(event.code)) {
+			event.preventDefault();
+			releaseSoftDrop();
+		}
 	};
 	window.addEventListener('keydown', down);
 	window.addEventListener('keyup', up);
@@ -66,40 +96,8 @@ export function bindTetrisKeyboard(options) {
 		window.removeEventListener('keyup', up);
 		window.removeEventListener('blur', release);
 	};
-	return Object.freeze({ release, dispose });
-}
-
-function keyBinding(code) {
-	if (code === 'ArrowLeft' || code === 'KeyA') {
-		return { action: 'move', value: -1, repeat: true };
-	}
-	if (code === 'ArrowRight' || code === 'KeyD') {
-		return { action: 'move', value: 1, repeat: true };
-	}
-	if (code === 'ArrowUp' || code === 'KeyW' || code === 'KeyX') {
-		return { action: 'rotate', repeat: false };
-	}
-	if (isSoftDropCode(code)) {
-		return { action: 'soft_drop_start', repeat: false };
-	}
-	if (code === 'Space') {
-		return { action: 'hard_drop', repeat: false };
-	}
-	if (code === 'KeyC' || code === 'ShiftLeft' || code === 'ShiftRight') {
-		return { action: 'hold', repeat: false };
-	}
-	if (code === 'KeyP' || code === 'Escape') {
-		return { action: 'pause', repeat: false };
-	}
-	return null;
-}
-
-function isSoftDropCode(code) {
-	return code === 'ArrowDown' || code === 'KeyS';
-}
-
-function editable(target) {
-	return Boolean(
-		target?.closest?.('input, textarea, select, [contenteditable="true"]')
-	);
+	return Object.freeze({
+		release,
+		dispose
+	});
 }
