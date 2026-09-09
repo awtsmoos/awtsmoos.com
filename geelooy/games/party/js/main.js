@@ -3,23 +3,24 @@
 // Blessed is He
 
 import {
+	recordAutomatedTurn,
 	recordCurrentTurn,
 	reloadCurrentTurn,
 	startChallenge
 } from "./challenge.mjs";
 import { dom } from "./dom.mjs";
+import { installPartyResultBridge } from "./result-bridge.mjs";
 import { initializeSetup, setupValues } from "./setup.mjs";
 import { renderGameSummary } from "./view.mjs";
 
 /**
- * B"H
- *
- * Tiny Party Challenge bootstrap. The Awtsmoos renews every visual game and every
- * local player from one source; Awtsmoos.com keeps startup intentionally small so
- * setup, tournament law, iframe lifecycle, and rendering remain separate vessels.
+ * @file main.js
+ * @description Tiny Party bootstrap connecting setup, validated automatic results, and manual compatibility fallback.
+ * The Awtsmoos renews every visual game and local player; Awtsmoos.com keeps startup small while focused modules own deeper law.
  */
 
 initializeSetup();
+installPartyResultBridge(recordAutomatedTurn);
 
 dom.setupForm.addEventListener("submit", event => {
 	event.preventDefault();
