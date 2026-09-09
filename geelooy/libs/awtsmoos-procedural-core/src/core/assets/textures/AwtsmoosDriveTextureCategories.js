@@ -4,57 +4,50 @@
 
 /**
  * @file AwtsmoosDriveTextureCategories.js
- * @description Gives every remote surface an AI-readable category and subcategory using stable semantic vocabulary.
- * The Awtsmoos is beyond every category while stone, bark, river, cloth, and soil each reveal a useful finite address inside Awtsmoos.com.
+ * @description Exposes an exhaustive AI-facing taxonomy while actual classification remains overlapping and facet-rich.
+ * The Awtsmoos is beyond every category; Awtsmoos.com documents every semantic domain the classifier may emit so agents never encounter an unnamed drawer.
  */
 
-const RULES = Object.freeze([
-	rule('vegetation', 'bark', 'Tree bark and trunk surfaces', ['bark']),
-	rule('vegetation', 'foliage', 'Leaves, needles, fronds, sprays, and canopy', ['leaf', 'foliage', 'canopy', 'needle', 'frond', 'cedar spray']),
-	rule('vegetation', 'flowers', 'Flowers, petals, gardens, and flowering ground', ['flower', 'petal', 'rose', 'hydrangea']),
-	rule('creatures', 'fur', 'Animal fur and hide references', ['cow fur', 'deer fur', 'fox fur', 'horse fur']),
-	rule('water', 'shoreline', 'Wet banks, marsh edges, riverbeds, and saturated shore ground', ['riverbank', 'riverbed', 'stream bed', 'stream-bed', 'lake edge', 'marsh ground', 'water-saturated']),
-	rule('water', 'surface', 'Water surfaces, river flow, pools, and reflective water', ['seamless water', 'shallow river water', 'water not seamless', 'water surface']),
-	rule('architecture', 'roofing', 'Roof tiles, slate, shingles, and ceramic coverings', ['roof', 'shingle', 'tile']),
-	rule('architecture', 'plaster', 'Plaster, stucco, whitewash, and wall finish', ['plaster', 'stucco', 'whitewash']),
-	rule('architecture', 'masonry', 'Walls, bricks, cobbles, paving, stairs, foundations, and cut stone', ['brick', 'masonry', 'cobble', 'paving', 'flagstone', 'retaining wall', 'foundation', 'limestone block', 'stone floor', 'cottage wall']),
-	rule('architecture', 'timber', 'Structural wood, boards, planks, decking, and aged timber', ['wood', 'timber', 'plank', 'decking', 'board']),
-	rule('architecture', 'metal', 'Copper, iron, silver, gold, and architectural metal', ['copper', 'iron', 'silver', 'gold ', 'metal']),
-	rule('architecture', 'glass', 'Glass and transparent architectural surfaces', ['glass']),
-	rule('terrain', 'snow', 'Snow, snowmelt, and high-altitude frozen ground', ['snow']),
-	rule('terrain', 'grassland', 'Grass, meadow, turf, and grassy transitions', ['grass', 'meadow', 'turf']),
-	rule('terrain', 'soil', 'Dirt, earth, clay, humus, compost, mud, and cultivated soil', ['dirt', 'soil', 'earth', 'clay', 'humus', 'compost', 'mud']),
-	rule('terrain', 'gravel', 'Gravel, scree, pebbles, talus, aggregate, and moraine', ['gravel', 'scree', 'pebble', 'talus', 'aggregate', 'moraine']),
-	rule('terrain', 'rock', 'Cliff, bedrock, boulder, granite, slate, limestone, and exposed rock', ['rock', 'bedrock', 'cliff', 'boulder', 'granite', 'slate', 'limestone', 'stone']),
-	rule('craft', 'fabric', 'Cloth, fabric, and textile surfaces', ['cloth', 'fabric']),
-	rule('craft', 'rope', 'Rope and cordage', ['rope']),
-	rule('craft', 'paper', 'Parchment and paper-like surfaces', ['parchment']),
-	rule('craft', 'leather', 'Leather and worked hide', ['leather'])
-]);
+import { classifyAwtsmoosDriveTextureSemantics } from './AwtsmoosDriveTextureSemantics.js';
 
-export const AWTSMOOS_DRIVE_TEXTURE_TAXONOMY = Object.freeze(RULES.map(entry => Object.freeze({
-	category: entry.category,
-	description: entry.description,
-	subcategory: entry.subcategory
-})));
+const TREE = Object.freeze({
+	'animal-derived': group({ leather: 'Leather, suede, hide, and other animal-derived materials' }),
+	architecture: group({ glass: 'Architectural glass', masonry: 'Brick, stone, mortar, paving, and walls', metal: 'Architectural metals', roofing: 'Roof coverings and shingles', timber: 'Structural wood and timber' }),
+	biology: group({ 'animal-surface': 'Animal-derived surfaces', biomineral: 'Shell, nacre, and related biominerals', bone: 'Bone materials', flower: 'Flowers and petals', foliage: 'Plant foliage and ground growth' }),
+	carbon: group({ 'carbon-material': 'Coal, charcoal, graphite, soot, and carbon-rich surfaces' }),
+	ceramic: group({ 'fired-mineral': 'Ceramic, terracotta, and porcelain surfaces' }),
+	coating: group({ paint: 'Paint and applied pigmented films' }),
+	composite: group({ 'carbon-composite': 'Carbon-fiber composites', 'fiber-composite': 'Fiberglass and fiber composites' }),
+	construction: group({ concrete: 'Concrete and cementitious surfaces', masonry: 'Masonry and earth construction', 'mineral-fiber': 'Mineral insulation fibers', paving: 'Road and paving materials', 'sheet-metal': 'Formed sheet metal' }),
+	craft: group({ 'cellulose-sheet': 'Paper and parchment', fabric: 'General fabric surfaces', leather: 'Leather and suede', resin: 'Resins used in craft', rope: 'Rope and cordage', wax: 'Wax materials' }),
+	creatures: group({ 'animal-surface': 'Fur, hide, scales, horn, feather, and related surfaces', bone: 'Bone materials' }),
+	cryosphere: group({ 'frozen-water': 'Snow and ice' }),
+	electronics: group({ 'circuit-board': 'Printed circuit board surfaces' }),
+	geology: group({ crystal: 'Crystalline minerals', rock: 'General rock and stone', 'sedimentary-rock': 'Sedimentary materials', stone: 'Stone materials', 'volcanic-rock': 'Volcanic materials' }),
+	glass: group({ glass: 'Transparent and translucent glass materials' }),
+	industrial: group({ elastomer: 'Rubber and elastomers', metal: 'Industrial metals', oil: 'Industrial oils', plastic: 'Industrial polymers' }),
+	insulation: group({ 'mineral-fiber': 'Mineral wool and related insulation' }),
+	liquid: group({ oil: 'Oil and lubricant liquids', 'water-surface': 'Water surfaces' }),
+	mask: group({ 'procedural-mask': 'Reusable isolated surface-detail masks' }),
+	metal: group({ 'coated-metal': 'Coated metals', 'ferrous-metal': 'Iron and steel', 'nonferrous-metal': 'Aluminum and other nonferrous metals', 'sheet-metal': 'Formed sheet metal' }),
+	mineral: group({ biomineral: 'Biological mineral surfaces', crystal: 'Crystalline minerals', mineral: 'Mineral substances' }),
+	organic: group({ resin: 'Resin and amber', sponge: 'Natural sponge', wax: 'Natural wax materials' }),
+	paper: group({ 'cellulose-sheet': 'Paper, cardboard, and parchment' }),
+	particulate: group({ 'fine-particles': 'Powders, dusts, ash, and granular fines' }),
+	'plant-derived': group({ 'coarse-fabric': 'Jute, burlap, hemp, and plant fibers', 'wood-surface': 'Wood and timber' }),
+	polymer: group({ elastomer: 'Rubber and flexible polymers', foam: 'Polymer foams', plastic: 'Rigid and molded polymers' }),
+	'surface-detail': group({ 'procedural-mask': 'Scratch, fracture, and other isolated detail masks' }),
+	terrain: group({ aggregate: 'Gravel and pebbles', 'frozen-water': 'Snow and ice', paving: 'Paving and asphalt', rock: 'Rock and bedrock', soil: 'Soils, earth, clay, and mud' }),
+	textile: group({ carpet: 'Carpet pile', 'coarse-fabric': 'Jute, burlap, and hemp', fabric: 'Woven and knitted textiles', leather: 'Leather and suede', rope: 'Rope and cordage' }),
+	vegetation: group({ bark: 'Bark and cork', flower: 'Flowers and petals', foliage: 'Leaves, grass, moss, fern, and algae' }),
+	water: group({ 'frozen-water': 'Ice and snow', surface: 'Water surfaces', 'water-surface': 'Water surfaces' }),
+	wood: group({ bark: 'Bark and cork', 'wood-surface': 'Wood, timber, and plywood' })
+});
 
-/** @param {object} record Texture record. @returns {object} Category classification. */
-export function classifyAwtsmoosDriveTexture(record = {}) {
-	const text = normalize([record.name, record.path, ...(record.tags || [])].join(' '));
-	const match = RULES.find(entry => entry.keywords.some(keyword => text.includes(keyword)));
-	return Object.freeze(match
-		? { category: match.category, subcategory: match.subcategory }
-		: { category: 'other', subcategory: 'uncategorized' });
-}
+export const AWTSMOOS_DRIVE_TEXTURE_TAXONOMY = Object.freeze(Object.entries(TREE).flatMap(([category, children]) => Object.keys(children).map(subcategory => Object.freeze({ category, subcategory }))));
 
-/** @returns {object} Compact AI-facing category tree. */
-export function awtsmoosDriveTextureCategoryTree() {
-	const tree = {};
-	for (const entry of RULES) (tree[entry.category] ||= {})[entry.subcategory] = entry.description;
-	return Object.freeze(Object.fromEntries(Object.entries(tree).map(([category, children]) => [category, Object.freeze(children)])));
-}
-
-function rule(category, subcategory, description, keywords) {
-	return Object.freeze({ category, description, keywords: Object.freeze(keywords.map(normalize)), subcategory });
-}
-function normalize(value) { return String(value || '').trim().toLowerCase().replace(/[^a-z0-9]+/g, ' ').replace(/\s+/g, ' ').trim(); }
+/** Returns overlapping semantics while preserving legacy primary category fields. */
+export function classifyAwtsmoosDriveTexture(record = {}) { return classifyAwtsmoosDriveTextureSemantics(record); }
+/** Returns the complete category map for AI planning and inspection. */
+export function awtsmoosDriveTextureCategoryTree() { return TREE; }
+function group(children) { return Object.freeze(children); }

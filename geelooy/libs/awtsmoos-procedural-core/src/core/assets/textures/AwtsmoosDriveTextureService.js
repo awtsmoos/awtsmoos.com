@@ -4,12 +4,13 @@
 
 /**
  * @file AwtsmoosDriveTextureService.js
- * @description Provides one lazy renderer-neutral doorway for the complete remote texture library, AI taxonomy, PBR families, and bounded mix plans.
+ * @description Provides one lazy renderer-neutral doorway for complete remote textures, semantic AI discovery, PBR families, bounded mixing, and taxonomy evidence.
  * The Awtsmoos renews every finite remote garment; Awtsmoos.com lets games, studios, agents, and renderers ask one reusable service instead of rebuilding catalog law.
  */
 
 import { loadAwtsmoosDriveCatalog } from './AwtsmoosDriveCatalogLoader.js';
 import { awtsmoosDriveTextureCategoryTree } from './AwtsmoosDriveTextureCategories.js';
+import { discoverAwtsmoosDriveTextures } from './AwtsmoosDriveTextureDiscovery.js';
 import { compileAwtsmoosDriveTextureLibrary, searchAwtsmoosDriveTextureLibrary } from './AwtsmoosDriveTextureLibrary.js';
 import { compileAwtsmoosDrivePbrFamilies, searchAwtsmoosDrivePbrFamilies } from './AwtsmoosDrivePbrFamilies.js';
 import { createAwtsmoosDriveTextureMixPlan } from './AwtsmoosDriveTextureMixPlan.js';
@@ -20,7 +21,7 @@ export class AwtsmoosDriveTextureService {
 		this.statePromise = null;
 	}
 
-	/** Loads catalog metadata once; image bytes remain demand-loaded elsewhere. */
+	/** Loads metadata once while image bytes remain demand-loaded elsewhere. */
 	load() {
 		this.statePromise ||= loadAwtsmoosDriveCatalog(this.fetchFunction)
 			.then(({ materials, inventory }) => {
@@ -32,6 +33,11 @@ export class AwtsmoosDriveTextureService {
 				throw error;
 			});
 		return this.statePromise;
+	}
+
+	async discover(intent = '', options = {}) {
+		const { library } = await this.load();
+		return discoverAwtsmoosDriveTextures(library, intent, options);
 	}
 
 	async searchTextures(query = '', options = {}) {
@@ -63,7 +69,7 @@ export class AwtsmoosDriveTextureService {
 	}
 }
 
-/** @param {object} options Service dependencies. @returns {AwtsmoosDriveTextureService} */
+/** Creates a lazy complete remote texture service. */
 export function createAwtsmoosDriveTextureService(options = {}) {
 	return new AwtsmoosDriveTextureService(options);
 }

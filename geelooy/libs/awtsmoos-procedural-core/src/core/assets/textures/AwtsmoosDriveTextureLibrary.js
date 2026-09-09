@@ -4,16 +4,13 @@
 
 /**
  * @file AwtsmoosDriveTextureLibrary.js
- * @description Collapses the complete Drive catalog into unique hash identities enriched with PBR, taxonomy, aliases, and quality variants.
- * The Awtsmoos is One while finite paths multiply; Awtsmoos.com keeps one runtime identity per pictured garment and gives AI a truthful semantic address for every surface.
+ * @description Collapses complete Drive catalogs into unique hash identities enriched with PBR channels, overlapping semantics, aliases, and quality variants.
+ * The Awtsmoos is One while finite paths multiply; Awtsmoos.com gives AI one truthful searchable identity beneath every alias and resolution.
  */
 
 import { awtsmoosDriveTexturePathUrl } from './AwtsmoosDriveTextureTransport.js';
-import { classifyAwtsmoosDriveTexture } from './AwtsmoosDriveTextureCategories.js';
-import {
-	awtsmoosDrivePbrFamilyKey,
-	awtsmoosDriveTextureChannel
-} from './AwtsmoosDriveTextureChannels.js';
+import { classifyAwtsmoosDriveTextureSemantics } from './AwtsmoosDriveTextureSemantics.js';
+import { awtsmoosDrivePbrFamilyKey, awtsmoosDriveTextureChannel } from './AwtsmoosDriveTextureChannels.js';
 
 /** Compiles all image records into one no-repeat semantic texture library. */
 export function compileAwtsmoosDriveTextureLibrary(materialCatalog, assetInventory) {
@@ -38,16 +35,18 @@ export function compileAwtsmoosDriveTextureLibrary(materialCatalog, assetInvento
 	});
 }
 
-/** Searches unique textures by text plus optional category, subcategory, channel, and tags. */
+/** Searches unique textures with text and strict optional semantic facets. */
 export function searchAwtsmoosDriveTextureLibrary(library, query = '', options = {}) {
 	const needle = normalize(query);
-	const tags = new Set((options.tags || []).map(normalize).filter(Boolean));
+	const requiredTags = normalizedSet(options.tags || []);
 	return Object.freeze((library?.textures || []).filter(texture => {
-		if (options.category && texture.category !== options.category) return false;
-		if (options.subcategory && texture.subcategory !== options.subcategory) return false;
+		if (options.category && !texture.categories.includes(options.category)) return false;
+		if (options.subcategory && !texture.subcategories.includes(options.subcategory)) return false;
 		if (options.channel && texture.channel !== options.channel) return false;
-		const tagSet = new Set(texture.tags.map(normalize));
-		if ([...tags].some(tag => !tagSet.has(tag))) return false;
+		if (options.categories?.some(value => !texture.categories.includes(value))) return false;
+		if (options.labels?.some(value => !texture.labels.includes(value))) return false;
+		const tagSet = normalizedSet(texture.tags);
+		if ([...requiredTags].some(tag => !tagSet.has(tag))) return false;
 		return !needle || searchable(texture).includes(needle);
 	}));
 }
@@ -64,6 +63,7 @@ function logicalTexture(records, inventoryByPath) {
 		name: primary.name,
 		path: primary.path,
 		sha256: inventory.sha256 || null,
+		sourceDescription: primary.sourceDescription || '',
 		tags: unique(ordered.flatMap(record => record.tags || [])),
 		variantKey: primary.variantKey || primary.path,
 		variants: Object.assign({}, ...ordered.map(record => record.variants || {})),
@@ -72,15 +72,14 @@ function logicalTexture(records, inventoryByPath) {
 }
 
 function mergeContentIdentity(records) {
-	const primary = [...records].sort((a, b) => pathRank(a.path) - pathRank(b.path))[0];
+	const primary = [...records].sort((left, right) => pathRank(left.path) - pathRank(right.path))[0];
 	const variants = Object.assign({}, ...records.map(record => record.variants || {}));
-	const classification = classifyAwtsmoosDriveTexture(primary);
-	const channel = awtsmoosDriveTextureChannel(primary);
+	const semantics = classifyAwtsmoosDriveTextureSemantics(primary);
 	return Object.freeze({
 		...primary,
-		...classification,
+		...semantics,
 		aliases: Object.freeze(unique(records.flatMap(record => record.aliases))),
-		channel,
+		channel: awtsmoosDriveTextureChannel(primary),
 		id: primary.sha256 ? `sha256:${primary.sha256}` : `texture:${primary.variantKey}`,
 		pbrFamily: awtsmoosDrivePbrFamilyKey(primary),
 		tags: Object.freeze(unique(records.flatMap(record => record.tags))),
@@ -94,10 +93,19 @@ function materialRank(record, inventoryByPath) {
 	const role = asset.role === 'canonical-source' ? 0 : asset.legacy ? 30 : 10;
 	return role + ({ source: 0, full: 1, half: 2, quarter: 3 }[record.resolution] ?? 8) + pathRank(record.path) / 10000;
 }
-function categoryCounts(textures) { const counts = {}; for (const texture of textures) counts[texture.category] = (counts[texture.category] || 0) + 1; return Object.freeze(counts); }
+
+function categoryCounts(textures) {
+	const counts = {};
+	for (const texture of textures) for (const category of texture.categories) counts[category] = (counts[category] || 0) + 1;
+	return Object.freeze(counts);
+}
+
+function searchable(texture) {
+	return normalize([texture.name, texture.path, ...texture.categories, ...texture.subcategories, ...texture.labels, ...texture.aliases, ...texture.tags].join(' '));
+}
+function normalizedSet(values) { return new Set(values.map(normalize).filter(Boolean)); }
 function pathRank(path = '') { return path.startsWith('full-resolution/') || path.startsWith('awtsmoos-nature/') ? path.length : 1000 + path.length; }
 function compareTexture(left, right) { return left.path.localeCompare(right.path); }
 function normalize(value) { return String(value || '').trim().toLowerCase(); }
-function searchable(texture) { return normalize([texture.name, texture.path, texture.category, texture.subcategory, texture.channel, ...texture.aliases, ...texture.tags].join(' ')); }
 function unique(values) { return [...new Set(values.filter(Boolean))]; }
 function groupBy(values, keyFor) { const groups = new Map(); for (const value of values) { const key = keyFor(value); if (!groups.has(key)) groups.set(key, []); groups.get(key).push(value); } return groups; }
