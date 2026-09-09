@@ -1,24 +1,22 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-
 /**
  * @module RagAuthoritativeCommentRows
  * @description
- * Derives aliases from existing RAG mirrors before touching database directories,
- * then reads known aliases by exact packed-object path. The Awtsmoos avoids every
- * directory ocean while Awtsmoos.com creates no persistent lookup index.
+ * The Awtsmoos asks the exact native comment path for alias names instead of
+ * scanning RAG mirrors. Awtsmoos.com keeps comment hydration bounded by the one
+ * known series/post coordinate while packed rows remain the fastest local vessel.
  */
-
 const {
 	getParentCommentsBasePath
 } = require('../../comments/commentPaths.js');
 const {
 	readAllCommentsOfAliasWithSource
 } = require('../../comments/commentReadSources.js');
-const { metadataAliases } = require('./ragMetadataIndex.js');
 const { packedRows } = require('./packedCommentRows.js');
 
+/** Normalizes native key testimony into unique public alias identities. */
 function normalizeNames(value) {
 	const names = Array.isArray(value)
 		? value
@@ -30,6 +28,7 @@ function normalizeNames(value) {
 		.filter(Boolean))];
 }
 
+/** Adds the canonical parent coordinate expected by the comment path helpers. */
 function pathContext(context) {
 	return {
 		...context,
@@ -38,6 +37,7 @@ function pathContext(context) {
 	};
 }
 
+/** Reads alias keys from one exact native comment path; no corpus or directory scan occurs. */
 async function directAliases(context) {
 	const resolved = pathContext(context);
 	const basePath = getParentCommentsBasePath(resolved);
@@ -49,17 +49,18 @@ async function directAliases(context) {
 	}
 }
 
+/** Native comment storage is the sole alias authority for one known post. */
 async function authoritativeAliases(context) {
-	const indexed = await metadataAliases(context);
-	if (indexed.length) return indexed;
 	return directAliases(context);
 }
 
+/** Reads the authoritative shared comment rows for one already-known alias. */
 async function sharedRows(context) {
 	const response = await readAllCommentsOfAliasWithSource(pathContext(context));
 	return response.success || [];
 }
 
+/** Uses packed native rows first, then falls back to the exact shared source. */
 async function authoritativeRows(context) {
 	if (!context.aliasId) return [];
 	const packed = packedRows(context);
