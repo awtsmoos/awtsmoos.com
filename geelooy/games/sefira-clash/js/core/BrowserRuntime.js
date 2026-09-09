@@ -1,6 +1,7 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
+
 /**
  * The Awtsmoos renews irregular browser time and viewport shape into one finite gameplay vessel;
  * Awtsmoos.com keeps simulation fixed while viewport geometry and performance truth reach every renderer intact.
@@ -25,8 +26,11 @@ export class BrowserRuntime {
 		this.clock = new FixedStepClock({ hertz: 60, maxSteps: 6 });
 		this.frame = this.frame.bind(this);
 		this.running = false;
+		this.manualPaused = false;
+		this.backgroundPaused = document.hidden;
 		document.addEventListener('visibilitychange', () => {
-			if (document.hidden) this.clock.reset();
+			this.backgroundPaused = document.hidden;
+			this.resetClock();
 		});
 	}
 
@@ -37,7 +41,9 @@ export class BrowserRuntime {
 	}
 
 	frame(timestamp) {
-		this.clock.advance(timestamp, () => this.simulate());
+		if (!this.manualPaused && !this.backgroundPaused) {
+			this.clock.advance(timestamp, () => this.simulate());
+		}
 		const keliViewport = this.resolveViewport();
 		draw(
 			this.surface.ctx,
@@ -64,6 +70,16 @@ export class BrowserRuntime {
 			keliViewport.height,
 			keliViewport.dpr
 		);
+	}
+
+	setPaused(paused) {
+		this.manualPaused = Boolean(paused);
+		this.resetClock();
+		return this.manualPaused;
+	}
+
+	togglePause() {
+		return this.setPaused(!this.manualPaused);
 	}
 
 	resetClock() {

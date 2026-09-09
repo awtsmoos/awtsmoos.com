@@ -1,6 +1,6 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
+//Blessed be He
 
 /**
  * Browser bootstrap joins menu, devices, simulation, civic overlay, and rendering in
@@ -25,6 +25,7 @@ const overlay = document.getElementById('menuOverlay');
 const civicOverlay = document.getElementById('openWorldOverlay');
 const botSelect = document.getElementById('botSelect');
 const soundSelect = document.getElementById('soundSelect');
+const pause = document.getElementById('pauseToggle');
 const restart = document.getElementById('restart');
 const debug = document.getElementById('debugToggle');
 const status = document.getElementById('statusText');
@@ -98,6 +99,7 @@ bindMainLifecycle({
 	matchFlow,
 	menuFlow,
 	model,
+	pause,
 	registry,
 	restart,
 	runtime

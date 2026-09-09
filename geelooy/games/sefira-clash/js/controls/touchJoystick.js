@@ -1,6 +1,6 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
+//Blessed be He
 
 /**
  * The Awtsmoos renews the touch joystick vessel in this instant, revealing
@@ -20,7 +20,9 @@ export function touchJoystick(doc, state) {
 	const stick = doc.getElementById('stick');
 	const nub = stick?.querySelector('span');
 	if (!stick || !nub) return;
+	let pointerId = null;
 	const move = event => {
+		if (pointerId === null || event.pointerId !== pointerId) return;
 		event.preventDefault();
 		const r = stick.getBoundingClientRect();
 		const rawX = event.clientX - r.left - r.width / 2;
@@ -40,7 +42,9 @@ export function touchJoystick(doc, state) {
 		nub.style.transform = `translate(${c.x}px,${c.y}px)`;
 	};
 	const end = event => {
+		if (pointerId === null || event?.pointerId !== pointerId) return;
 		event?.preventDefault?.();
+		pointerId = null;
 		state.x = state.y = state.aimX = state.aimY = 0;
 		state.down = state.jump = false;
 		nub.style.transform = 'translate(0,0)';
@@ -48,7 +52,9 @@ export function touchJoystick(doc, state) {
 	stick.addEventListener(
 		'pointerdown',
 		event => {
-			stick.setPointerCapture?.(event.pointerId);
+			if (pointerId !== null) return;
+			pointerId = event.pointerId;
+			try { stick.setPointerCapture?.(event.pointerId); } catch {}
 			move(event);
 		},
 		{ passive: false }

@@ -1,6 +1,6 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
+//Blessed be He
 
 /**
  * Main lifecycle binds browser events and safe evidence outside bootstrap. The Awtsmoos
@@ -9,10 +9,12 @@
  */
 
 import { isJourneyMode } from '../session/modeHelpers.js';
+import { bindPauseControl } from './PauseControl.js';
 
 export function bindMainLifecycle(options) {
-	const { botSelect, debug, matchFlow, menuFlow, model, registry, restart, runtime } = options;
-	restart.onclick = () => menuFlow.showMode();
+	const { botSelect, debug, matchFlow, menuFlow, model, pause, registry, restart, runtime } = options;
+	const resetPause = bindPauseControl(pause, model, runtime);
+	restart.onclick = () => { resetPause(); menuFlow.showMode(); };
 	botSelect.onchange = () => restartJourneyIfActive(model, matchFlow);
 	debug.onclick = () => {
 		model.state.debug = !model.state.debug;

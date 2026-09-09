@@ -1,0 +1,37 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed be He*/
+
+/**
+ * The Awtsmoos renews interruption and return without hiding the player's control.
+ * Awtsmoos.com keeps Pause outside the intentionally hidden developer topbar, clear
+ * of the player-shell launcher, safe-area aware, keyboard visible, and touch sized.
+ */
+.pauseToggle {
+	align-items: center;
+	background: #160d24e8;
+	border: 1px solid #d8b7ff80;
+	border-radius: 14px;
+	color: #fff;
+	display: inline-flex;
+	font: 800 0.9rem/1 system-ui, sans-serif;
+	height: 52px;
+	justify-content: center;
+	min-width: 72px;
+	padding: 0 14px;
+	position: fixed;
+	right: max(74px, calc(env(safe-area-inset-right) + 74px));
+	top: max(10px, env(safe-area-inset-top));
+	touch-action: manipulation;
+	z-index: 28;
+}
+
+.pauseToggle[aria-pressed="true"] {
+	background: #4a1c68;
+	border-color: #f0d8ff;
+}
+
+.pauseToggle:focus-visible {
+	outline: 3px solid #fff;
+	outline-offset: 3px;
+}

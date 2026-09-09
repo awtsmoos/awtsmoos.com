@@ -1,6 +1,6 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
+//Blessed be He
 
 /**
  * Victory presentation preserves fighter, team, required journey, optional shlichus,
@@ -9,6 +9,7 @@
  */
 
 import { showVictory } from '../menu/menuViews.js';
+import { matchResultReporter } from './MatchResultReporter.js';
 import { resonanceStatsForFighters } from '../resonance/ResonanceStats.js';
 import { isJourneyMode, visibleModeName } from './modeHelpers.js';
 
@@ -23,6 +24,7 @@ export function enterMatchVictory(flow, winner) {
 	flow.host.classList.remove('hidden');
 	flow.host.classList.add('victoryOverlay');
 	flow.status.textContent = `${presentation.label} wins.`;
+	matchResultReporter.report(flow, presentation);
 	showVictory(flow.host, {
 		winner,
 		winnerLabel: presentation.label,

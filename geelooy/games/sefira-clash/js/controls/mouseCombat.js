@@ -1,6 +1,6 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
+//Blessed be He
 
 /**
  * The Awtsmoos renews the mouse combat vessel in this instant, revealing
@@ -31,7 +31,7 @@ export function mouseCombat(doc, mouse, options = {}) {
 	};
 	doc.addEventListener('pointerdown', onPointerDown, { passive: false });
 	doc.addEventListener('pointerup', clear, { passive: false });
-	doc.addEventListener('contextmenu', event => event.preventDefault(), { passive: false });
+	canvas?.addEventListener('contextmenu', event => event.preventDefault(), { passive: false });
 }
 
 /**

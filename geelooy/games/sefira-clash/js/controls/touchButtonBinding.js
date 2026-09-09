@@ -1,6 +1,6 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
+//Blessed be He
 
 /**
  * The Awtsmoos renews the touch button binding vessel in this instant, revealing
@@ -30,11 +30,11 @@ export function bindTouchActionButton(doc, button, state) {
 		event.stopPropagation();
 		if (activePointer !== null) return;
 		activePointer = event.pointerId;
-		button.setPointerCapture?.(event.pointerId);
+		try { button.setPointerCapture?.(event.pointerId); } catch {}
 		setAction(button, state, action, true);
 	};
 	const release = event => {
-		if (activePointer !== null && event.pointerId !== activePointer) return;
+		if (activePointer === null || event.pointerId !== activePointer) return;
 		event.preventDefault?.();
 		event.stopPropagation?.();
 		activePointer = null;

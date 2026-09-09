@@ -1,6 +1,6 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
+//Blessed be He
 
 /**
  * Keyboard intent carries combat and lived-world interaction through held state plus one
@@ -29,7 +29,9 @@ const LATCHED_ACTION_KEYS = Object.freeze({
 export function keyboard(doc) {
 	const keys = new Set();
 	const latched = new Set();
+	const reset = () => { keys.clear(); latched.clear(); };
 	doc.addEventListener('keydown', event => {
+		if (editable(event.target)) return;
 		if (isGameKey(event.code)) event.preventDefault();
 		if (!event.repeat && LATCHED_ACTION_KEYS[event.code]) {
 			latched.add(LATCHED_ACTION_KEYS[event.code]);
@@ -37,6 +39,8 @@ export function keyboard(doc) {
 		keys.add(event.code);
 	});
 	doc.addEventListener('keyup', event => keys.delete(event.code));
+	doc.addEventListener('visibilitychange', reset);
+	doc.defaultView?.addEventListener('blur', reset);
 	return () => readKeyboard(keys, latched);
 }
 
@@ -95,4 +99,8 @@ function isGameKey(code) {
 		'ShiftLeft',
 		'ShiftRight'
 	].includes(code);
+}
+
+function editable(target) {
+	return Boolean(target?.closest?.('input, select, textarea, [contenteditable="true"]'));
 }

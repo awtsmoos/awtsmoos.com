@@ -1,6 +1,6 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
+//Blessed be He
 
 /**
  * One input gateway serves solo and local multiplayer without duplicate listeners.
@@ -24,7 +24,7 @@ import { touchJoystick } from './touchJoystick.js';
  * @returns {{read:Function, clear:Function}} Semantic input gateway.
  */
 export function createInput(doc, options = {}) {
-	preventMobileSelection(doc);
+	preventGameplaySelection(doc, options.canvas);
 	const touch = blankInputState();
 	const mouse = blankInputState();
 	const readKeyboard = keyboard(doc);
@@ -55,13 +55,28 @@ export function createInput(doc, options = {}) {
 		clear() {
 			legacyBuffer.clear();
 			slotRouter?.clear();
+			Object.assign(touch, blankInputState());
+			Object.assign(mouse, blankInputState());
+			clearTouchVisuals(doc);
 		}
 	};
 }
 
-function preventMobileSelection(doc) {
+function preventGameplaySelection(doc, canvas) {
 	const block = event => event.preventDefault();
-	doc.addEventListener('selectstart', block, { passive: false });
-	doc.addEventListener('contextmenu', block, { passive: false });
-	doc.addEventListener('dragstart', block, { passive: false });
+	const surfaces = [canvas, doc.getElementById('touchControls')].filter(Boolean);
+	for (const surface of surfaces) {
+		for (const type of ['selectstart', 'contextmenu', 'dragstart']) {
+			surface.addEventListener(type, block, { passive: false });
+		}
+	}
+}
+
+function clearTouchVisuals(doc) {
+	for (const button of doc.querySelectorAll('[data-act].held')) {
+		button.classList.remove('held');
+		button.setAttribute('aria-pressed', 'false');
+	}
+	const nub = doc.querySelector('#stick span');
+	if (nub) nub.style.transform = 'translate(0,0)';
 }
