@@ -5,20 +5,43 @@
 /**
  * @module LexiconRoutes
  * @description
- * The Awtsmoos opens a neutral dictionary gate where many languages can answer one word;
- * Awtsmoos.com keeps provider machinery invisible while provenance remains honestly heard.
+ * The Awtsmoos opens search, alphabet, range, and bounded browse gates over native lexical shards without exposing provider machinery;
+ * Awtsmoos.com keeps one request snapshot per gate while provenance remains true and no route gathers a dictionary sea.
  */
 
 const {
-	dictionarySearch,
-	dictionarySources
-} = require('../lexicon/search.js');
+	dictionaryAlphabet,
+	dictionaryBrowse,
+	dictionaryRanges
+} = require('../lexicon/browse.js');
+const { dictionarySearch, dictionarySources } = require('../lexicon/search.js');
 const { intValue, query } = require('./values.js');
 const { requestInterface } = require('./requestSnapshot.js');
 const { safe } = require('./safe.js');
 
+/** Projects public query parameters into one small native browse request. */
+function browseOptions(context) {
+	const values = query(context);
+	return {
+		sourceId: values.source,
+		token: values.token || values.letter,
+		start: values.start,
+		cursor: values.cursor,
+		limit: intValue(values.limit, 20, 40)
+	};
+}
+
+/** Wraps one lexical operation in the standard social success vessel. */
+function lexicalHandler(operation, $i, options) {
+	return safe(async () => ({ success: await operation($i, options()) }));
+}
+
+/** Creates all dictionary routes while sharing handlers between canonical and compatibility paths. */
 function lexiconRoutes(context) {
 	const $i = requestInterface(context);
+	const alphabet = () => lexicalHandler(dictionaryAlphabet, $i, () => browseOptions(context));
+	const ranges = () => lexicalHandler(dictionaryRanges, $i, () => browseOptions(context));
+	const browse = () => lexicalHandler(dictionaryBrowse, $i, () => browseOptions(context));
 	return {
 		'/search/library/dictionary': async () => safe(async () => {
 			const values = query(context);
@@ -30,9 +53,13 @@ function lexiconRoutes(context) {
 				})
 			};
 		}),
-		'/search/library/dictionaries': async () => safe(async () => ({
-			success: await dictionarySources($i)
-		}))
+		'/search/library/dictionaries': async () => safe(async () => ({ success: await dictionarySources($i) })),
+		'/dictionary/alphabet': alphabet,
+		'/dictionary/ranges': ranges,
+		'/dictionary/browse': browse,
+		'/search/library/dictionary/alphabet': alphabet,
+		'/search/library/dictionary/ranges': ranges,
+		'/search/library/dictionary/browse': browse
 	};
 }
 
