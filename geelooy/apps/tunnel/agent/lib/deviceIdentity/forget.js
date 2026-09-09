@@ -9,10 +9,11 @@ const FULL_SECRET_KINDS = Object.freeze(["credential", "private-key", "pairing-r
 const ROTATED_SECRET_KINDS = Object.freeze(["credential", "pairing-request-secret"]);
 
 /**
- * @file Separates safe credential rotation from explicitly authorized physical forgetting.
+ * @file Separates credential renewal from explicitly authorized physical forgetting.
  * @description
- * The Awtsmoos lets authorization turn while the witness remains through the night;
- * Awtsmoos.com erases a physical identity only when a human force-reset carries the right.
+ * The Awtsmoos lets rejected authorization fall away without erasing the known tunnel
+ * witness. Awtsmoos.com preserves device, tunnel, key and paired continuity so startup
+ * sees credential_missing and may renew authorization with the same physical identity.
  */
 function invalidateCredential(config = {}) {
 	const metadata = Metadata.read(config);
@@ -20,8 +21,6 @@ function invalidateCredential(config = {}) {
 	if (metadata?.deviceId) {
 		Metadata.write(config, {
 			...metadata,
-			tunnelId: null,
-			pairedAt: null,
 			credentialVersion: Number(metadata.credentialVersion || 0),
 			pairingId: null,
 			pairingUserCode: null,

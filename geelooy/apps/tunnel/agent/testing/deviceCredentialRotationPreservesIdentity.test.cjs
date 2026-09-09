@@ -23,6 +23,8 @@ const metadata = Identity.Metadata.write({}, {
 	publicKeyFingerprint: "fingerprint",
 	pairedAt: "2026-08-04T08:00:00.000Z",
 	credentialVersion: 3,
+	environment: "test",
+	identityEnvironment: "test",
 	createdAt: "2026-07-16T17:48:44.391Z"
 });
 Identity.SecureStore.write(metadata.deviceId, "private-key", "private-key");
@@ -30,18 +32,24 @@ Identity.SecureStore.write(metadata.deviceId, "credential", "rejected-secret");
 Identity.SecureStore.write(metadata.deviceId, "pairing-request-secret", "pending");
 const result = Identity.invalidateCredential({ installRoot });
 const after = Identity.Metadata.read({ installRoot });
+const load = Identity.load({ installRoot });
 
 assert.equal(result.state, "credential_invalidated");
 assert.equal(after.deviceId, "dev_physical");
+assert.equal(after.tunnelId, "tun_rejected");
+assert.equal(after.pairedAt, "2026-08-04T08:00:00.000Z");
 assert.equal(after.publicKeyFingerprint, "fingerprint");
 assert.equal(Identity.SecureStore.read(after.deviceId, "private-key"), "private-key");
 assert.equal(Identity.SecureStore.read(after.deviceId, "credential"), null);
 assert.equal(Identity.SecureStore.read(after.deviceId, "pairing-request-secret"), null);
-assert.equal(after.tunnelId, null);
+assert.equal(load.state, "credential_missing");
+assert.equal(load.error, "device_credential_unavailable");
 
 console.log(JSON.stringify({
 	ok: true,
 	suite: "device-credential-rotation-preserves-identity",
 	deviceIdPreserved: true,
-	privateKeyPreserved: true
+	tunnelIdPreserved: true,
+	privateKeyPreserved: true,
+	renewalState: load.state
 }, null, 2));
