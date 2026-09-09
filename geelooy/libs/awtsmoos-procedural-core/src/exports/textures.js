@@ -1,10 +1,11 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
  * @file textures.js
- * @description Public doorway for complete Awtsmoos Drive discovery, AI taxonomy, PBR families, no-repeat mixing, lazy service access, and trusted transport.
- * The Awtsmoos renews every remote image while Awtsmoos.com preserves one content identity beneath aliases, categories, channels, and resolutions.
+ * @description Public doorway for complete Awtsmoos Drive discovery, overlapping AI semantics, PBR families, no-repeat mixing, lazy service access, and trusted transport.
+ * The Awtsmoos renews every remote image while Awtsmoos.com preserves one content identity beneath aliases, categories, channels, labels, and resolutions.
  */
 
 export {
@@ -17,6 +18,11 @@ export {
 	awtsmoosDriveTextureCategoryTree,
 	classifyAwtsmoosDriveTexture
 } from '../core/assets/textures/AwtsmoosDriveTextureCategories.js';
+export {
+	awtsmoosDriveTextureSemanticText,
+	classifyAwtsmoosDriveTextureSemantics
+} from '../core/assets/textures/AwtsmoosDriveTextureSemantics.js';
+export { discoverAwtsmoosDriveTextures } from '../core/assets/textures/AwtsmoosDriveTextureDiscovery.js';
 export {
 	awtsmoosDrivePbrFamilyKey,
 	awtsmoosDriveTextureChannel,
