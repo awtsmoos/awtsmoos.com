@@ -48,6 +48,7 @@ function validate(messageEvent = event()) {
 
 test('Party validates exact frame origin route turn and completion state', () => {
 	assert.equal(validate(), record);
+	assert.equal(validate(event({ data: { ...record, type: 'wrong-type' } })), null);
 	assert.equal(validate(event({ origin: 'https://evil.test' })), null);
 	assert.equal(validate(event({ source: {} })), null);
 	assert.equal(validate(event({ data: { ...record, pathname: '/games/pong/' } })), null);
@@ -59,6 +60,13 @@ test('Party chooses score for higher mode and elapsed time for lower mode', () =
 	assert.equal(partyResultValue(record, 'higher'), 90);
 	assert.equal(partyResultValue(record, 'lower'), 1250);
 	assert.equal(partyResultValue({ score: null, elapsedMs: null }, 'higher'), null);
+});
+
+test('Party keeps manual score entry visibly secondary to automatic completed results', () => {
+	const html = readFileSync(new URL('../party/index.html', import.meta.url), 'utf8');
+	assert.match(html, /Completed results report automatically\./);
+	assert.match(html, /Manual fallback result/);
+	assert.doesNotMatch(html, /id="recordTurn" class="partyButton partyButton--primary"/);
 });
 
 test('Party result modules remain documented and below the 120-line law', () => {

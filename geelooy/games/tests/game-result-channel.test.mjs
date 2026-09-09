@@ -46,9 +46,15 @@ test('result channel publishes one normalized same-origin Party record', () => {
 	});
 	const record = channel.reportResult({ score: 42, elapsedMs: 1234, completed: true, outcome: 'game-over' });
 	assert.equal(record.type, GAME_RESULT_MESSAGE);
+	assert.equal(record.gameId, 'dove');
+	assert.equal(record.pathname, '/games/dove/');
 	assert.equal(record.partyTurn, '7');
+	assert.match(record.runId, /^dove:\d+:1$/);
 	assert.equal(record.score, 42);
 	assert.equal(record.elapsedMs, 1234);
+	assert.equal(record.outcome, 'game-over');
+	assert.equal(record.completed, true);
+	assert.equal(record.sequence, 1);
 	assert.equal(host.messages.length, 1);
 	assert.equal(host.messages[0].origin, 'https://awtsmoos.test');
 	assert.equal(host.events[0].detail, record);
