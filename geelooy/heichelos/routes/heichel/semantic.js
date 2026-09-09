@@ -5,12 +5,14 @@
 /**
  * @file semantic.js
  * @description
- * The Awtsmoos turns stored names into safe visible meaning before the browser wakes; Awtsmoos.com lets crawlers, readers, and no-JS souls know the room by name,
- * while every untrusted mark is stripped and escaped so revelation never becomes an injection flame.
+ * The Awtsmoos turns stored names into safe visible meaning before the browser wakes;
+ * Awtsmoos.com lets crawlers, readers, and no-JS souls see canonical Torah titles while untrusted marks remain escaped from injection flame.
  */
 
+const { canonicalSeriesTitle } = require('./torahSemanticPresentation.js');
+
 /**
- * @description Converts stored text or light markup into compact plain text.
+ * Converts stored text or light markup into compact plain text.
  * @param {*} value Source value from public Heichel or series metadata.
  * @returns {string} Normalized plain text.
  */
@@ -28,11 +30,7 @@ function toPlainText(value) {
 		.trim();
 }
 
-/**
- * @description Escapes plain text for safe insertion into HTML text or quoted attributes.
- * @param {*} value Plain source value.
- * @returns {string} HTML-escaped value.
- */
+/** Escapes plain text for safe insertion into HTML text or quoted attributes. */
 function escapeHtml(value) {
 	return String(value == null ? '' : value)
 		.replaceAll('&', '&amp;')
@@ -43,7 +41,7 @@ function escapeHtml(value) {
 }
 
 /**
- * @description Normalizes the existing series API response without inventing a second storage contract.
+ * Normalizes the existing series API response without inventing a second storage contract.
  * @param {*} response Existing series API response.
  * @param {string} seriesId Requested series identifier.
  * @returns {object|null} Normalized series metadata or null when unavailable.
@@ -62,17 +60,17 @@ function normalizeSeries(response, seriesId) {
 }
 
 /**
- * @description Builds one already-escaped semantic model for the Heichel document shell.
+ * Builds one escaped semantic model while resolving Ikar titles through the shared browser registry.
  * @param {object} options Semantic source options.
- * @param {object} options.heichel Public Heichel metadata.
- * @param {object|null} options.series Optional series metadata.
- * @param {string} options.heichelId Heichel identifier.
- * @param {string} [options.seriesId] Optional series identifier.
- * @returns {object} Safe semantic document fields.
+ * @returns {Promise<object>} Safe semantic document fields.
  */
-function buildSemanticModel({ heichel, series, heichelId, seriesId = '' }) {
+async function buildSemanticModel({ heichel, series, heichelId, seriesId = '' }) {
 	const heichelName = toPlainText(heichel?.name || heichel?.title || heichelId || 'Geelooy Heichel');
-	const seriesName = toPlainText(series?.name || series?.title);
+	const rawSeriesName = toPlainText(series?.name || series?.title || series?.id || seriesId);
+	const canonicalSeriesName = series
+		? await canonicalSeriesTitle(heichelId, series?.id || seriesId, rawSeriesName)
+		: '';
+	const seriesName = toPlainText(canonicalSeriesName);
 	const heading = seriesName || heichelName;
 	const description = toPlainText(series?.description || heichel?.description)
 		|| `Explore ${heading} on Awtsmoos.com.`;
