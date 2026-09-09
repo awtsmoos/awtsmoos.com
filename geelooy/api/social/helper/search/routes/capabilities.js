@@ -3,10 +3,12 @@
 // Blessed is He
 
 /**
+ * @file capabilities.js
  * @module SearchCapabilitiesRoute
  * @description
- * The Awtsmoos reveals what each search vessel can honestly do before a seeker chooses a way;
- * Awtsmoos.com reports indexed and stored-vector truth from the public shard contract, never from vanished field names today.
+ * The Awtsmoos reveals exact, lexical, and semantic capability truth before a
+ * seeker chooses a path. Physical legacy vectors remain diagnostic testimony,
+ * while only English publications count as semantic lanes on Awtsmoos.com.
  */
 
 const { EXACT_EXCLUSIONS } = require('../corpusSearchPolicy.js');
@@ -17,6 +19,7 @@ const { workerStatus } = require('../rag/ragStartupWarmup.js');
 const { requestInterface } = require('./requestSnapshot.js');
 const { safe } = require('./safe.js');
 
+/** Reports deterministic exact-search scope independently from semantic readiness. */
 function exactCapabilities() {
 	return {
 		prebuiltCorpora: Object.keys(ROOTS),
@@ -29,9 +32,11 @@ function exactCapabilities() {
 	};
 }
 
+/** Counts only English publications as semantic capability, never legacy Hebrew vectors. */
 function semanticSnapshot(shards) {
-	const indexed = shards.filter(shard => shard.indexed === true);
-	const stored = shards.filter(shard => shard.storedVectors === true);
+	const eligible = shards.filter(shard => shard.semanticEligible === true);
+	const indexed = eligible.filter(shard => shard.indexed === true);
+	const stored = eligible.filter(shard => shard.storedVectors === true);
 	return {
 		worker: workerStatus(),
 		indexedLanes: indexed,
@@ -41,16 +46,20 @@ function semanticSnapshot(shards) {
 	};
 }
 
+/** Builds one public capability snapshot from bounded published shard testimony. */
 async function capabilitySnapshot(context) {
 	const $i = requestInterface(context);
 	const shards = (await availableShards({ $i })).map(publicShard);
 	const semantic = semanticSnapshot(shards);
 	return {
-		version: 2,
+		version: 3,
 		defaultMode: 'library',
 		modes: {
-			library: { text: true, semantic: semantic.indexedCount > 0 },
-			tanach: { phrase: true },
+			library: {
+				lexical: true,
+				semanticEnglish: semantic.indexedCount > 0
+			},
+			tanach: { phrase: true, semantic: false },
 			exact: exactCapabilities()
 		},
 		semantic,
@@ -58,6 +67,7 @@ async function capabilitySnapshot(context) {
 	};
 }
 
+/** Exposes one lazy, failure-contained capability route. */
 function capabilityRoutes(context) {
 	return {
 		'/search/capabilities': async () => safe(async () => ({
@@ -66,4 +76,9 @@ function capabilityRoutes(context) {
 	};
 }
 
-module.exports = { capabilityRoutes, capabilitySnapshot, exactCapabilities, semanticSnapshot };
+module.exports = {
+	capabilityRoutes,
+	capabilitySnapshot,
+	exactCapabilities,
+	semanticSnapshot
+};

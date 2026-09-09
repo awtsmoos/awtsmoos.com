@@ -3,10 +3,13 @@
 // Blessed is He
 
 /**
+ * @file resultShardShape.js
  * @module PublicShardShape
  * @description
- * The Awtsmoos lets corpus capability truth appear without leaking backend-shaped provider names into learner sight;
- * Awtsmoos.com exposes counts, modes, index state, and a neutral query key while private publication machinery remains wrapped in night.
+ * The Awtsmoos exposes corpus capability truth without leaking provider-shaped
+ * storage details. Physical vectors remain observable for operators, but only an
+ * English publication may advertise semantic search; Hebrew source generations
+ * remain lexical even while obsolete vector artifacts await retirement.
  */
 
 const {
@@ -14,22 +17,25 @@ const {
 	publicCorpusTitle,
 	publicLaneId
 } = require('./publicSourceIdentity.js');
+const { isEnglishSemanticCorpus } = require('./semanticCorpusPolicy.js');
 const { firstText } = require('./resultText.js');
 
+/** Names only product search modes the shard is actually permitted to serve. */
 function searchModes(shard) {
 	const modes = [];
 	if (shard.textFile || shard.parts?.some(part => part.textFile)) {
 		modes.push('text');
 	}
-	if (!shard.textOnly && shard.storedVectors) {
-		modes.push('vector-exact');
+	if (shard.semanticEligible && shard.storedVectors) {
+		modes.push('semantic-vector-exact');
 	}
-	if (!shard.textOnly && shard.indexed) {
-		modes.push('vector-indexed');
+	if (shard.semanticEligible && shard.indexed) {
+		modes.push('semantic-vector-indexed');
 	}
 	return modes;
 }
 
+/** Shapes one storage shard into a learner-safe, language-honest capability record. */
 function publicShard(shard = {}) {
 	const partial = shard.partial === true;
 	const storedVectors = Boolean(
@@ -37,6 +43,7 @@ function publicShard(shard = {}) {
 		&& Number(shard.dimensions || 0) > 0
 	) || shard.indexType === 'flat-f32';
 	const indexed = shard.vectorEnabled === true;
+	const semanticEligible = isEnglishSemanticCorpus(shard);
 	const rawTitle = firstText(
 		shard.title,
 		shard.label,
@@ -52,11 +59,14 @@ function publicShard(shard = {}) {
 		bytes: Number(shard.bytes || 0),
 		storedVectors,
 		indexed,
+		semanticEligible,
+		semanticLanguage: semanticEligible ? 'en' : null,
 		indexType: shard.indexType || (indexed ? 'hnsw' : null),
 		modes: searchModes({
 			...shard,
 			storedVectors,
-			indexed
+			indexed,
+			semanticEligible
 		}),
 		available: !shard.error,
 		partial,

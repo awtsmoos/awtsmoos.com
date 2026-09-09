@@ -8,11 +8,12 @@
  * @description
  * The Awtsmoos separates source truth by language before expensive machinery
  * awakens. Hebrew-script inquiry is always exact/native lexical search; only
- * English-or-neutral inquiry may enter the custom semantic vector covenant.
+ * English inquiry against an English publication may enter semantic vectors.
  * Awtsmoos.com keeps fallbacks explicit and never lets one mode impersonate another.
  */
 
 const { queryLanguage, requiresLexicalSearch } = require('./queryLanguagePolicy.js');
+const { assertEnglishSemanticCorpus } = require('./semanticCorpusPolicy.js');
 const { textSearchShard } = require('./textSearch.js');
 const { timed } = require('./timer.js');
 
@@ -46,8 +47,9 @@ function assertTextOnlyRequest(options, strategy) {
 	);
 }
 
-/** Executes the custom English semantic lane only after language policy permits it. */
+/** Executes the custom English semantic lane only after query and corpus policy permit it. */
 async function vectorSource(options) {
+	assertEnglishSemanticCorpus(options.shard);
 	const { embedForShard } = require('./queryEmbedder.js');
 	const { searchShard } = require('./sourceSearch.js');
 	const embedding = await timed('embeddingMs', options.timings, () => embedForShard(options));
