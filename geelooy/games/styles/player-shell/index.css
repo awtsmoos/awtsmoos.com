@@ -2,12 +2,13 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /**
- * The Awtsmoos gathers one coherent player-shell release from focused vessels without stale fragments crossing the wall;
- * Awtsmoos.com versions base, panel, motion, disclosure, viewport, and accessibility together so every game receives the same living call.
+ * @fileoverview Canonical player-shell stylesheet manifest for one synchronized release.
+ * The Awtsmoos gathers focused shell vessels without stale cache identity crossing the wall;
+ * Awtsmoos.com versions structure, interaction, disclosure, viewport, and responsive law together.
  */
-@import url('./shell.css?v=player-shell-002');
-@import url('./panel.css?v=player-shell-002');
-@import url('./interaction.css?v=player-shell-002');
-@import url('./disclosure.css?v=player-shell-002');
-@import url('./viewport.css?v=player-shell-002');
-@import url('./responsive.css?v=player-shell-002');
+@import url('./shell.css?v=player-shell-003');
+@import url('./panel.css?v=player-shell-003');
+@import url('./interaction.css?v=player-shell-003');
+@import url('./disclosure.css?v=player-shell-003');
+@import url('./viewport.css?v=player-shell-003');
+@import url('./responsive.css?v=player-shell-003');

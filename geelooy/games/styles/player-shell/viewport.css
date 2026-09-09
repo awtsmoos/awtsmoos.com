@@ -2,11 +2,13 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /**
- * The Awtsmoos gives even the narrowest phone a complete measured doorway with no edge lost beyond sight;
- * Awtsmoos.com makes the menu retractable, safe-area aware, internally scrollable, and grants every coarse-pointer gate at least forty-eight pixels of light.
+ * @fileoverview Mobile-safe viewport geometry for the shared Games player shell.
+ * The Awtsmoos gives every narrow phone a complete doorway without intrinsic-width escape;
+ * Awtsmoos.com keeps the shell safe-area aware, internally scrollable, and generous to coarse pointers.
  */
 .awt-game-shell__panel {
 	max-block-size: calc(100vh - 82px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+	max-inline-size: 100%;
 	overflow-x: hidden;
 	overflow-y: auto;
 	overscroll-behavior: contain;
@@ -39,9 +41,11 @@
 @media (max-width: 520px) {
 	.awt-game-shell {
 		align-items: stretch;
-		left: max(8px, env(safe-area-inset-left));
+		inline-size: auto;
+		inset-inline-end: max(8px, env(safe-area-inset-right));
+		inset-inline-start: max(8px, env(safe-area-inset-left));
 		max-inline-size: none;
-		right: max(8px, env(safe-area-inset-right));
+		min-inline-size: 0;
 	}
 
 	.awt-game-shell__launcher {
@@ -51,6 +55,7 @@
 	.awt-game-shell__panel {
 		border-radius: 18px;
 		inline-size: 100%;
+		max-inline-size: 100%;
 		padding: 12px;
 	}
 
@@ -67,9 +72,9 @@
 
 @media (max-width: 340px) {
 	.awt-game-shell {
-		left: max(6px, env(safe-area-inset-left));
-		right: max(6px, env(safe-area-inset-right));
-		top: max(6px, env(safe-area-inset-top));
+		inset-inline-end: max(6px, env(safe-area-inset-right));
+		inset-inline-start: max(6px, env(safe-area-inset-left));
+		inset-block-start: max(6px, env(safe-area-inset-top));
 	}
 
 	.awt-game-shell__panel {
