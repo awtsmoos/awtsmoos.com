@@ -6,16 +6,17 @@
  * @file native-builder.mjs
  * @module NativeFlatBuilder
  * @description
- * The Awtsmoos streams one legacy row into one immutable native generation.
- * Awtsmoos.com bounds source memory, HNSW dirty graph memory, lexical posting
- * memory, and progress testimony while publication truth stays inside AwtsmoosDB.
+ * Awtsmoos.com streams legacy semantic rows into one immutable native generation.
+ * Source memory, DB transaction size, HNSW dirty graph memory, and lexical posting
+ * memory are all bounded by the same small build chunk rather than corpus size.
  */
 
 import { legacyFlatRows } from './legacy-flat-reader.mjs';
+import { boundedChunks, writeNativeChunk } from './native-chunks.mjs';
 import {
 	beginNativeIndexes,
 	finishNativeIndexes,
-	noteNativeIndexRow,
+	noteNativeIndexRows,
 	releaseNativeIndexMode
 } from './native-indexes.mjs';
 import {
@@ -28,7 +29,7 @@ import {
 } from './native-build-support.mjs';
 
 /**
- * Builds one native vector+text candidate with corpus-independent source memory.
+ * Builds one native vector+text candidate with memory proportional to chunk size.
  * @param {object} options Migration configuration and graph chunk policy.
  * @returns {Promise<object>} Evidence suitable for fresh-process verification.
  */
@@ -46,11 +47,11 @@ export async function buildNativeCandidate(options) {
 		state = beginNativeIndexes(database, list, options.dimensions, {
 			graphChunkSize: options.graphChunkSize
 		});
-		for await (const row of legacyFlatRows(options)) {
-			list.push({ ...row.metadata, vec: row.vector });
-			count += 1;
-			const graphCommitted = await noteNativeIndexRow(database, state);
-			if (count % 32 !== 0 && !graphCommitted) continue;
+		const source = legacyFlatRows(options);
+		for await (const chunk of boundedChunks(source, state.chunkSize)) {
+			const written = writeNativeChunk(database, list, chunk);
+			count += written;
+			const graphCommitted = await noteNativeIndexRows(database, state, written);
 			peakRss = Math.max(peakRss, process.memoryUsage().rss);
 			reportProgress(options, count, peakRss, state, graphCommitted);
 		}

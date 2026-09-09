@@ -6,9 +6,9 @@
  * @file native-indexes.mjs
  * @module NativeRagIndexes
  * @description
- * The Awtsmoos builds immutable vector and lexical indexes with bounded dirty
- * graph memory. HNSW node mutations commit in small chunks while the build-only
- * key ledger stays open until final sealing, avoiding per-row key-ledger rewrites.
+ * Awtsmoos.com owns immutable HNSW and lexical build generations here. Source
+ * rows arrive in bounded chunks; graph mutations seal only at chunk boundaries,
+ * while the build-only key ledger remains open until final publication.
  */
 
 const DEFAULT_GRAPH_CHUNK = 128;
@@ -22,7 +22,7 @@ function graphChunkSize(value) {
 
 /**
  * Enables native text and vector indexes before the first candidate row exists.
- * @returns {object} Build session controlling bounded HNSW registry commits.
+ * @returns {object} Build state controlling bounded HNSW registry generations.
  */
 export function beginNativeIndexes(database, list, dimensions, options = {}) {
 	if (Number(list.length || 0) !== 0) {
@@ -49,14 +49,24 @@ export function beginNativeIndexes(database, list, dimensions, options = {}) {
 }
 
 /**
- * Notes one inserted row and commits graph mutations whenever the chunk fills.
- * @returns {Promise<boolean>} True when a graph chunk was durably sealed.
+ * Records a bounded source chunk and seals graph state when its covenant fills.
+ * @param {object} database Open candidate database owning the graph generation.
+ * @param {object} state Build state returned by beginNativeIndexes.
+ * @param {number} addedRows Number of rows already written in one DB batch.
+ * @returns {Promise<boolean>} True when graph mutations were durably sealed.
  */
-export async function noteNativeIndexRow(database, state) {
-	state.rowsInChunk += 1;
+export async function noteNativeIndexRows(database, state, addedRows = 1) {
+	const rows = Math.max(0, Math.floor(Number(addedRows) || 0));
+	if (!rows) return false;
+	state.rowsInChunk += rows;
 	if (state.rowsInChunk < state.chunkSize) return false;
 	await commitGraphChunk(database, state, true);
 	return true;
+}
+
+/** Backward-compatible single-row testimony for tiny tests and older callers. */
+export function noteNativeIndexRow(database, state) {
+	return noteNativeIndexRows(database, state, 1);
 }
 
 /** Commits only dirty HNSW nodes; the build-only key ledger stays open. */
