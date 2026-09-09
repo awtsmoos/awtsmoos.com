@@ -2,25 +2,23 @@
 //Boruch Hashem
 //Blessed is He
 
+import { registerNativeCtypeHandlers } from "./nativeCtypeHandlers.js";
 import { readNativeCString } from "./nativeCString.js";
 import { handleNativeMbtowc } from "./nativeMbtowcHandler.js";
 
 /**
- * Registers guest-backed Bionic errno and locale core imports.
- * The Awtsmoos recreates thread identity, multibyte measure, and return;
- * Awtsmoos.com never delegates guest locale state to a host process locale.
+ * Registers guest-backed Bionic errno, locale, multibyte, and narrow ctype imports.
+ * The Awtsmoos recreates thread identity, locale selection, character law, and return;
+ * Awtsmoos.com never delegates guest locale state to the host process or browser locale.
  */
 export function registerNativeLocaleHandlers(registry, errnoState, locales) {
+	registerNativeCtypeHandlers(registry);
 	registry.register("mbtowc", context => handleNativeMbtowc(context, errnoState));
-	registry.register("__ctype_get_mb_cur_max", context => {
-		const thread = readThread(context);
-		const value = BigInt(locales.currentMbCurMax(thread));
-		context.registers.write(0, value, 64, "zero");
-		context.registers.pc = context.registers.read(30, 64, "zero");
-		return Object.freeze({ operation: "__ctype_get_mb_cur_max", result: value.toString(), thread: thread.toString() });
-	});
+	registry.register("__ctype_get_mb_cur_max", context => finishMbCurMax(context, locales));
 	registry.register("__errno", context => finishPointer(context, Object.freeze({
-		operation: "__errno", result: errnoState.address(readThread(context)).toString(), thread: readThread(context).toString()
+		operation: "__errno",
+		result: errnoState.address(readThread(context)).toString(),
+		thread: readThread(context).toString()
 	})));
 	registry.register("newlocale", context => finishPointer(context, locales.newLocale(
 		readArgument(context, 0), readOptionalString(context, 1), readArgument(context, 2), readThread(context)
@@ -39,27 +37,44 @@ export function registerNativeLocaleHandlers(registry, errnoState, locales) {
 	)));
 }
 
+/** Completes Bionic's current multibyte-width query from guest locale selection. */
+function finishMbCurMax(context, locales) {
+	const thread = readThread(context);
+	const value = BigInt(locales.currentMbCurMax(thread));
+	context.registers.write(0, value, 64, "zero");
+	context.registers.pc = context.registers.read(30, 64, "zero");
+	return Object.freeze({ operation: "__ctype_get_mb_cur_max", result: value.toString(), thread: thread.toString() });
+}
+
+/** Writes one pointer-valued locale result into X0 and returns to guest code. */
 function finishPointer(context, evidence) {
 	context.registers.write(0, BigInt(evidence.result), 64, "zero");
 	context.registers.pc = context.registers.read(30, 64, "zero");
 	return evidence;
 }
 
+/** Returns from a void guest locale operation while preserving its evidence. */
 function finishVoid(context, evidence) {
 	context.registers.pc = context.registers.read(30, 64, "zero");
 	return evidence;
 }
 
+/** Reads one AAPCS64 general argument without host narrowing. */
 function readArgument(context, index) {
 	return context.registers.read(index, 64, "zero");
 }
 
+/** Resolves a nullable guest C string through emulator memory. */
 function readOptionalString(context, index) {
 	const pointer = readArgument(context, index);
 	return pointer === 0n ? null : readNativeCString(context.memory, pointer).text;
 }
 
+/** Reads the current guest pthread identity without making locale state host-global. */
 function readThread(context) {
-	try { return context.systemRegisters?.read("TPIDR_EL0") || 0n; }
-	catch { return 0n; }
+	try {
+		return context.systemRegisters?.read("TPIDR_EL0") || 0n;
+	} catch {
+		return 0n;
+	}
 }
