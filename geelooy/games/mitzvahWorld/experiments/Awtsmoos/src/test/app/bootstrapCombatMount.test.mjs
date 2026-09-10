@@ -1,6 +1,6 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file bootstrapCombatMount.test.mjs
@@ -25,23 +25,29 @@ const loop = fs.readFileSync(
 	path.resolve(directory, '../../app/BootstrapRuntimeLoop.js'),
 	'utf8'
 );
+const frameExecution = fs.readFileSync(
+	path.resolve(directory, '../../app/BootstrapFrameExecution.js'),
+	'utf8'
+);
 
-test('bootstrap assembly mounts combat before loop and real minimap after HUD', () => {
-	const combatMount = assembly.indexOf('runtime.combat = new MinimalMeadowBootstrapCombat(runtime)');
-	const loopCall = assembly.indexOf(': startBootstrapRuntimeLoop(runtime, environment)');
-	const mapMount = assembly.indexOf('runtime.bootstrapMinimap = createMinimalMeadowBootstrapMinimap(');
-	assert.ok(combatMount >= 0);
+test('bootstrap assembly feature-gates combat before loop and minimap after HUD', () => {
+	const combatGate = assembly.indexOf("eretzWorldFeatureEnabled(options, 'bootstrapCombat')");
+	const combatMount = assembly.indexOf('runtime.combat = new Combat(runtime)');
+	const loopCall = assembly.indexOf(': startLoop(runtime, environment)');
+	const mapGate = assembly.indexOf("eretzWorldFeatureEnabled(options, 'bootstrapMinimap')");
+	const mapMount = assembly.indexOf('runtime.bootstrapMinimap = createMinimap(');
+	assert.ok(combatGate >= 0 && combatMount > combatGate);
 	assert.ok(loopCall > combatMount);
-	assert.ok(mapMount > loopCall);
+	assert.ok(mapGate > loopCall && mapMount > mapGate);
 });
 
-test('bootstrap loop refreshes combat and real minimap at bounded cadence', () => {
-	assert.match(loop, /runtime\.combat\?\.update\?\.\(deltaSeconds\)/);
-	assert.match(loop, /runtime\.bootstrapMinimap\?\.refresh\?\.\(\)/);
+test('bootstrap frame execution refreshes combat and real minimap at bounded cadence', () => {
+	assert.match(frameExecution, /runtime\.combat\?\.update\?\.\(deltaSeconds\)/);
+	assert.match(frameExecution, /runtime\.bootstrapMinimap\?\.refresh\?\.\(\)/);
 	assert.match(loop, /runtime\.bootstrapMinimap\?\.destroy\?\.\(\)/);
 	assert.ok(
-		loop.indexOf('runtime.combat?.update?.(deltaSeconds)')
-		< loop.indexOf('runtime.updateWorldSystems?.(deltaSeconds)')
+		frameExecution.indexOf('runtime.updateWorldSystems(deltaSeconds)')
+		< frameExecution.indexOf('runtime.combat?.update?.(deltaSeconds)')
 	);
 });
 

@@ -1,18 +1,13 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file EretzPostPlayablePriority.js
- * @description Starts universal post-play atmosphere/diagnostics, gives Simple Meadow visual landscape plus authored hero/HUD, and opens richer world systems only when policy permits.
- * The Awtsmoos grants movement before majesty, then lets ridge, current, traveler, and interface bloom without summoning a second civilization;
- * Awtsmoos.com keeps actors, districts, quests, and ecology behind their own doors while the simple world becomes visually complete around the already-moving soul.
+ * @description Opens only the post-control systems permitted by the selected immutable world policy.
+ * Blank Meadow stops intentionally after first-play essentials, while richer worlds progress through canonical and regional gates.
  */
 
-import { startEretzBootstrapTerrainBridge } from './EretzBootstrapTerrainBridge.js';
-import { scheduleEretzCinematicEnvironment } from './EretzCinematicEnvironment.js';
-import { scheduleEretzCinematicHeroPresentation } from './EretzCinematicHeroPresentation.js';
-import { scheduleEretzCinematicLandscape } from './EretzCinematicLandscape.js';
 import {
 	destroyedEretzPostPlayableReceipt,
 	eretzDeferredSystemReceipt,
@@ -23,63 +18,70 @@ import {
 	waitForCanonicalPlayerWindow
 } from './EretzPostPlayablePriorityClock.js';
 import {
+	disabledEretzWorldTask,
+	createEretzPostPlayableTasks
+} from './EretzPostPlayableTasks.js';
+import {
 	resolveEretzPostPlayableWorldPolicy,
 	simpleWorldPostPlayableReceipt
 } from './EretzPostPlayableWorldPolicy.js';
-import { scheduleMinimalMeadowPerformanceMonitor } from './MinimalMeadowPerformanceHydration.js';
 
 export { eretzPostPlayablePriorityPolicy, waitForCanonicalPlayerWindow };
 
-/** Starts universal post-play truth, then selects visual-only simplicity or the richer world launch path. */
+/**
+ * Starts post-control work without allowing disabled optional systems to execute.
+ * @param {object} context Live runtime context.
+ * @param {object} dependencies Optional test/runtime substitutions.
+ * @returns {Promise<Readonly<object>>} Post-play scheduling receipt.
+ */
 export async function startEretzPostPlayablePriority(context, dependencies = {}) {
 	const { core, environment, options } = context;
-	const runtime = core.runtime;
-	const diagnostics = core.diagnostics;
+	const { diagnostics, runtime } = core;
 	const policy = resolveEretzPostPlayableWorldPolicy(options);
+	const tasks = createEretzPostPlayableTasks(context, policy, dependencies);
+
 	diagnostics.worldExperience = policy;
 	diagnostics.deferredSystems = eretzDeferredSystemReceipt(policy);
-	const terrainHydration = startEretzBootstrapTerrainBridge(core.foundation, diagnostics);
-	const performanceMonitor = scheduleMinimalMeadowPerformanceMonitor(runtime, environment);
-	const cinematicEnvironment = scheduleEretzCinematicEnvironment(runtime, environment);
-	diagnostics.performanceMonitorPromise = performanceMonitor;
-	diagnostics.cinematicEnvironmentPromise = cinematicEnvironment;
+	Object.assign(diagnostics, tasks.diagnostics);
+
 	if (runtime.destroyed) {
 		return destroyedEretzPostPlayableReceipt(immediatePriority('runtime-destroyed'));
 	}
 	if (!policy.canonicalPromotion) {
-		const scheduleLandscape = dependencies.scheduleLandscape || scheduleEretzCinematicLandscape;
-		const scheduleHero = dependencies.scheduleHeroPresentation || scheduleEretzCinematicHeroPresentation;
-		diagnostics.cinematicLandscapePromise = scheduleLandscape(runtime);
-		diagnostics.cinematicHeroPresentationPromise = scheduleHero(runtime, environment);
 		diagnostics.postPlayablePriorityStage = 'simple-world-ready';
 		return simpleWorldPostPlayableReceipt(
 			policy,
 			immediatePriority('world-profile-simple'),
-			terrainHydration
+			tasks.terrainHydration,
+			tasks.receipts
 		);
 	}
+
 	diagnostics.postPlayablePriorityStage = 'waiting-for-canonical-player';
 	const waitForPlayer = dependencies.waitForPlayer || waitForCanonicalPlayerWindow;
 	const priority = await waitForPlayer(runtime, environment, options);
 	if (runtime.destroyed) return destroyedEretzPostPlayableReceipt(priority);
+
 	diagnostics.postPlayablePriorityStage = 'loading-world-launchers';
 	const loadLaunchers = dependencies.loadLaunchers || loadEretzPostPlayableLaunchers;
 	const launchers = await loadLaunchers();
 	diagnostics.postPlayablePriorityStage = 'launching-world-streams';
 	const districts = policy.districtStreaming
 		? Promise.resolve(launchers.startDistrict(runtime, environment))
-		: Promise.resolve(Object.freeze({ status: 'disabled-by-world-profile' }));
-	const enrichment = Promise.resolve(launchers.startDeferred(core, options, context.boot));
+		: disabledEretzWorldTask('district-streaming');
+	const enrichment = Promise.resolve(
+		launchers.startDeferred(core, options, context.boot)
+	);
+
 	diagnostics.postPlayablePriorityStage = 'launched';
 	return Object.freeze({
-		cinematicEnvironment,
+		...tasks.receipts,
 		districts,
 		enrichment,
-		performanceMonitor,
 		policy,
 		priority,
 		status: 'launched',
-		terrainHydration
+		terrainHydration: tasks.terrainHydration
 	});
 }
 

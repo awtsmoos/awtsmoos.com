@@ -1,6 +1,6 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file deferredRuntimeTerrainBridge.test.mjs
@@ -10,22 +10,38 @@
  */
 
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 import { startEretzBootstrapTerrainBridge } from '../../app/EretzBootstrapTerrainBridge.js';
-
-const PRIORITY_URL = new URL('../../app/EretzPostPlayablePriority.js', import.meta.url);
+import { startEretzPostPlayablePriority } from '../../app/EretzPostPlayablePriority.js';
 
 test('post-play priority starts terrain hydration before richer world resolution', async () => {
-	const source = await readFile(PRIORITY_URL, 'utf8');
-	const bridge = source.indexOf('startEretzBootstrapTerrainBridge(');
-	const richBoundary = source.indexOf('const loadLaunchers = dependencies.loadLaunchers');
-	const richExecution = source.indexOf('const launchers = await loadLaunchers();');
-	assert.ok(bridge >= 0);
-	assert.ok(richBoundary >= 0);
-	assert.ok(richExecution >= 0);
-	assert.ok(bridge < richBoundary);
-	assert.ok(bridge < richExecution);
+	const order = [];
+	const context = {
+		boot: {},
+		core: { diagnostics: {}, foundation: {}, runtime: { destroyed: false } },
+		environment: globalThis,
+		options: {
+			worldExperience: Object.freeze({
+				canonicalPromotion: true,
+				cinematicEnvironment: false,
+				cinematicHero: false,
+				cinematicLandscape: false,
+				districtStreaming: false,
+				performanceMonitor: false,
+				postPlayTerrainHydration: true
+			})
+		}
+	};
+	await startEretzPostPlayablePriority(context, {
+		loadLaunchers: async () => {
+			order.push('launchers');
+			return { startDeferred: () => null, startDistrict: () => null };
+		},
+		startTerrainHydration: () => { order.push('terrain'); return Promise.resolve(null); },
+		waitForPlayer: async () => { order.push('player'); return { waitedMs: 0 }; }
+	});
+	assert.ok(order.indexOf('terrain') < order.indexOf('player'));
+	assert.ok(order.indexOf('terrain') < order.indexOf('launchers'));
 });
 
 test('terrain bridge publishes loading then ready on one durable promise', async () => {
