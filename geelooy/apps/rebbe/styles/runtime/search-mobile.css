@@ -1,0 +1,88 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * Mobile Search must breathe: large thumb targets, no sticky action slab covering fields, full-width controls, and a clear vertical path from filters into live results.
+ */
+@media (max-width: 720px) {
+	.search-modal {
+		inline-size: calc(100vw - 10px);
+		max-block-size: calc(100dvh - 10px);
+		padding: 12px;
+		scroll-padding-block: 12px;
+	}
+
+	.search-modal > h2 {
+		margin-bottom: 10px;
+		font-size: 1.35rem;
+	}
+
+	.search-stack,
+	.zman-range {
+		grid-template-columns: 1fr;
+	}
+
+	.search-stack {
+		gap: 10px;
+		margin-block: 12px;
+	}
+
+	.sticky-actions {
+		position: static;
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 8px;
+		margin: 10px 0 12px;
+		padding: 8px;
+	}
+
+	.sticky-actions .primary-scan {
+		grid-column: 1 / -1;
+	}
+
+	.sticky-actions .modal-btn,
+	.lower-actions .modal-btn {
+		min-inline-size: 0;
+		min-block-size: 50px;
+		padding: 10px 8px;
+		font-size: .78rem;
+		line-height: 1.15;
+	}
+
+	.lower-actions {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 8px;
+	}
+
+	.zman-filter {
+		gap: 9px;
+		padding: 12px;
+	}
+
+	.zman-filter-head {
+		display: grid;
+		grid-template-columns: auto minmax(0, 1fr);
+		align-items: center;
+	}
+
+	.zman-filter .cyber-input,
+	.keyword-row .cyber-input,
+	.mode-input {
+		width: 100%;
+		min-width: 0;
+		max-width: 100%;
+	}
+
+	.suggest-row {
+		gap: 6px;
+	}
+
+	.date-search-results {
+		margin-top: 12px;
+		border-radius: 16px;
+	}
+
+	.search-results-content {
+		padding: 9px;
+	}
+}

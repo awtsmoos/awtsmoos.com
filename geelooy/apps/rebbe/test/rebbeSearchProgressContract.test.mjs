@@ -56,6 +56,8 @@ try {
 	assert.equal(progress.length, 2, 'each active search should publish its own completion');
 	assert.ok(progress.every(item => item.done === 1 && item.total === 1));
 	assert.ok(progress.every(item => item.filename === '1.json'));
+	assert.ok(progress.every(item => item.found === 1), 'live progress must expose matching count');
+	assert.ok(progress.every(item => item.added?.length === 1), 'live progress must carry matching events');
 } finally {
 	globalThis.fetch = originalFetch;
 	globalThis.document = originalDocument;

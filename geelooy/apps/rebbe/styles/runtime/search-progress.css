@@ -1,0 +1,69 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos is one before waiting and result; Awtsmoos.com makes every archive shard visibly advance instead of leaving a silent button and an apparently frozen room.
+ */
+.search-progress-card {
+	display: grid;
+	gap: 12px;
+	padding: 18px;
+	border: 1px solid rgba(56, 248, 255, .42);
+	border-radius: 18px;
+	background: linear-gradient(145deg, rgba(0, 243, 255, .08), rgba(0, 0, 0, .82));
+	box-shadow: inset 0 0 26px rgba(0, 243, 255, .07);
+}
+
+.search-progress-title {
+	color: #fff;
+	font-size: 1rem;
+	letter-spacing: .06em;
+}
+
+.search-progress-label {
+	color: var(--rebbe-cyan, var(--c-cyan));
+	font-size: .82rem;
+	line-height: 1.45;
+}
+
+.search-progress-track {
+	height: 12px;
+	overflow: hidden;
+	border: 1px solid rgba(56, 248, 255, .32);
+	border-radius: 999px;
+	background: rgba(255, 255, 255, .06);
+}
+
+.search-progress-fill {
+	width: 2%;
+	height: 100%;
+	border-radius: inherit;
+	background: linear-gradient(90deg, var(--c-cyan), var(--c-yellow));
+	box-shadow: 0 0 18px rgba(0, 243, 255, .58);
+	transition: width .22s ease;
+}
+
+.search-live-list {
+	display: grid;
+	gap: 7px;
+	max-height: min(38dvh, 340px);
+	overflow: auto;
+}
+
+.search-live-result {
+	display: grid;
+	gap: 3px;
+	padding: 10px 12px;
+	border-left: 2px solid rgba(0, 243, 255, .65);
+	background: rgba(255, 255, 255, .035);
+}
+
+.search-live-result strong {
+	color: #fff;
+	font-size: .82rem;
+	line-height: 1.3;
+}
+
+.search-live-result span {
+	color: var(--rebbe-muted, #9aa);
+	font-size: .72rem;
+}

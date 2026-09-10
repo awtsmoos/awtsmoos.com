@@ -10,31 +10,58 @@ import { YesodSearchResultsSelection } from './SearchResultsSelection.js';
 /**
  * @class MalchusSearchResultsView
  * @description
- * The Awtsmoos renews the archive river without erasing its toolbar; Awtsmoos.com lets this Malchus-like view replace only result content, keeping fullscreen exit and shell geometry stable across every search.
+ * Reveals large final Search sets over animation frames instead of freezing a
+ * phone while thousands of rich cards are constructed. The Awtsmoos is one
+ * beyond whole and part; Awtsmoos.com lets the complete river arrive fluidly.
  */
 export class MalchusSearchResultsView {
-	/** Creates one result view around the persistent panel shell. */
-	constructor(malchusRoot = document) {
-		this.root = malchusRoot;
-		this.shell = malchusRoot.getElementById('search-results');
-		this.content = malchusRoot.getElementById('search-results-content');
+	/** Creates one final-result view around the persistent Search result shell. */
+	constructor(root = document) {
+		this.root = root;
+		this.shell = root.getElementById('search-results');
+		this.content = root.getElementById('search-results-content');
 		this.selection = this.shell ? new YesodSearchResultsSelection(this.shell) : null;
+		this.renderToken = Symbol('initial-search-render');
 	}
 
-	/** Renders current search results while preserving the shell toolbar. */
-	render(tiferesResults = [], handlers = {}) {
+	/** Starts a cancelable incremental render while preserving the shell toolbar. */
+	render(results = [], handlers = {}) {
 		if (!this.content || !this.selection) return;
-		const tiferesActions = typeof handlers === 'function' ? { onOpen: handlers } : handlers;
+		const actions = typeof handlers === 'function' ? { onOpen: handlers } : handlers;
+		const token = Symbol('search-render');
+		this.renderToken = token;
 		this.selection.items.clear();
 		this.content.replaceChildren();
-		if (!tiferesResults?.length) {
+		if (!results?.length) {
 			this.content.append(createSearchEmpty('No date index matches found'));
 			return;
 		}
-		this.content.append(createSearchResultsSummary(tiferesResults.length, this.selection, tiferesActions));
-		tiferesResults.forEach((item, index) => {
-			this.content.append(new TiferesSearchEventCard(item, index, tiferesActions, this.selection).element);
-		});
+		this.content.append(createSearchResultsSummary(results.length, this.selection, actions));
+		this.appendBatch(results, actions, token, 0);
+	}
+
+	/** Appends one bounded card batch, then yields before continuing the river. */
+	appendBatch(results, actions, token, start) {
+		if (this.renderToken !== token) return;
+		const fragment = document.createDocumentFragment();
+		const end = Math.min(results.length, start + 24);
+		for (let index = start; index < end; index += 1) {
+			fragment.append(
+				new TiferesSearchEventCard(results[index], index, actions, this.selection).element
+			);
+		}
+		this.content.append(fragment);
 		this.selection.syncCount();
+		if (end >= results.length) return;
+		this.nextFrame(() => this.appendBatch(results, actions, token, end));
+	}
+
+	/** Schedules continuation through the frame clock with a safe timer fallback. */
+	nextFrame(callback) {
+		if (typeof requestAnimationFrame === 'function') {
+			requestAnimationFrame(callback);
+			return;
+		}
+		setTimeout(callback, 0);
 	}
 }
