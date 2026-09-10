@@ -77,6 +77,7 @@ if [ -f "$override" ]; then
 fi
 armed=1
 install -D -m 0644 "$source_override" "$override"
+printf '\nEnvironment=AWTSMOOS_RELEASE_SHA=%s\n' "$expected" >> "$override"
 bash "$watchdog_installer"
 systemctl restart "$service"
 
@@ -105,6 +106,7 @@ require_environment "VIRTUAL_SSH_MAX_CONNECTIONS=64"
 require_environment "VIRTUAL_SSH_CONNECTIONS_PER_MINUTE=60"
 require_environment "VIRTUAL_SSH_IDLE_MS=1800000"
 require_environment "VIRTUAL_SSH_TOKEN_TTL_MS=900000"
+require_environment "AWTSMOOS_RELEASE_SHA=$expected"
 bash "$virtual_ssh_probe" "$virtual_ssh_port" >/dev/null || fail virtual_ssh_protocol_probe_failed
 [ "$(git -C "$repo" rev-parse HEAD)" = "$expected" ] || fail post_restart_head_mismatch
 [ -z "$(git -C "$repo" status --porcelain)" ] || fail post_restart_repo_dirty

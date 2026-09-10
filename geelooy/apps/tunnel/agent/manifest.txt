@@ -1,5 +1,5 @@
 B"H
-1.0.593
+1.0.594
 main.js
 ai/relay/direct/browser/AgentTabCatalog.mjs
 ai/relay/direct/browser/AgentTabProtectionState.mjs
@@ -391,6 +391,7 @@ ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/query/projector.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/replication/index.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/schema/index.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/search/batchedFlush.js
+ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/search/boundedQuery.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/search/index.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/search/indexer.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/search/indexer/adder.js
@@ -402,6 +403,7 @@ ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/search/indexer/remover.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/search/indexer/replacer.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/search/indexer/tokenDelta.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/search/indexer/tokenizer.js
+ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/search/postingReader.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/search/reindex/index.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/search/reindex/indexBuilder.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/search/reindex/postingLedger.js
