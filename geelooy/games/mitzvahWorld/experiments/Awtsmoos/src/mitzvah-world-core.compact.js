@@ -88,129 +88,127 @@ const __awtsmoosModule_33 = Object.create(null);
 
 const __awtsmoosModule_22 = Object.create(null);
 
-const __awtsmoosModule_34 = Object.create(null);
-
-const __awtsmoosModule_35 = Object.create(null);
-
 const __awtsmoosModule_21 = Object.create(null);
+
+const __awtsmoosModule_38 = Object.create(null);
+
+const __awtsmoosModule_37 = Object.create(null);
+
+const __awtsmoosModule_40 = Object.create(null);
+
+const __awtsmoosModule_39 = Object.create(null);
 
 const __awtsmoosModule_36 = Object.create(null);
 
 const __awtsmoosModule_41 = Object.create(null);
 
-const __awtsmoosModule_40 = Object.create(null);
-
-const __awtsmoosModule_43 = Object.create(null);
+const __awtsmoosModule_35 = Object.create(null);
 
 const __awtsmoosModule_42 = Object.create(null);
 
-const __awtsmoosModule_39 = Object.create(null);
-
-const __awtsmoosModule_44 = Object.create(null);
-
-const __awtsmoosModule_38 = Object.create(null);
-
-const __awtsmoosModule_45 = Object.create(null);
+const __awtsmoosModule_43 = Object.create(null);
 
 const __awtsmoosModule_46 = Object.create(null);
 
-const __awtsmoosModule_49 = Object.create(null);
+const __awtsmoosModule_45 = Object.create(null);
+
+const __awtsmoosModule_44 = Object.create(null);
 
 const __awtsmoosModule_48 = Object.create(null);
 
 const __awtsmoosModule_47 = Object.create(null);
 
-const __awtsmoosModule_51 = Object.create(null);
-
-const __awtsmoosModule_50 = Object.create(null);
-
-const __awtsmoosModule_37 = Object.create(null);
-
-const __awtsmoosModule_20 = Object.create(null);
+const __awtsmoosModule_34 = Object.create(null);
 
 const __awtsmoosModule_53 = Object.create(null);
 
+const __awtsmoosModule_52 = Object.create(null);
+
 const __awtsmoosModule_55 = Object.create(null);
+
+const __awtsmoosModule_57 = Object.create(null);
 
 const __awtsmoosModule_56 = Object.create(null);
 
 const __awtsmoosModule_54 = Object.create(null);
 
-const __awtsmoosModule_52 = Object.create(null);
+const __awtsmoosModule_51 = Object.create(null);
 
 const __awtsmoosModule_58 = Object.create(null);
 
-const __awtsmoosModule_61 = Object.create(null);
+const __awtsmoosModule_50 = Object.create(null);
 
-const __awtsmoosModule_65 = Object.create(null);
+const __awtsmoosModule_49 = Object.create(null);
 
-const __awtsmoosModule_64 = Object.create(null);
-
-const __awtsmoosModule_67 = Object.create(null);
-
-const __awtsmoosModule_69 = Object.create(null);
-
-const __awtsmoosModule_68 = Object.create(null);
-
-const __awtsmoosModule_66 = Object.create(null);
-
-const __awtsmoosModule_63 = Object.create(null);
-
-const __awtsmoosModule_62 = Object.create(null);
+const __awtsmoosModule_20 = Object.create(null);
 
 const __awtsmoosModule_60 = Object.create(null);
 
+const __awtsmoosModule_62 = Object.create(null);
+
+const __awtsmoosModule_63 = Object.create(null);
+
+const __awtsmoosModule_61 = Object.create(null);
+
 const __awtsmoosModule_59 = Object.create(null);
 
-const __awtsmoosModule_70 = Object.create(null);
+const __awtsmoosModule_65 = Object.create(null);
 
-const __awtsmoosModule_73 = Object.create(null);
+const __awtsmoosModule_68 = Object.create(null);
+
+const __awtsmoosModule_67 = Object.create(null);
+
+const __awtsmoosModule_66 = Object.create(null);
+
+const __awtsmoosModule_69 = Object.create(null);
 
 const __awtsmoosModule_72 = Object.create(null);
 
-const __awtsmoosModule_74 = Object.create(null);
+const __awtsmoosModule_71 = Object.create(null);
+
+const __awtsmoosModule_73 = Object.create(null);
+
+const __awtsmoosModule_75 = Object.create(null);
 
 const __awtsmoosModule_76 = Object.create(null);
 
 const __awtsmoosModule_77 = Object.create(null);
 
-const __awtsmoosModule_78 = Object.create(null);
+const __awtsmoosModule_79 = Object.create(null);
 
 const __awtsmoosModule_80 = Object.create(null);
 
-const __awtsmoosModule_81 = Object.create(null);
-
-const __awtsmoosModule_79 = Object.create(null);
-
-const __awtsmoosModule_83 = Object.create(null);
+const __awtsmoosModule_78 = Object.create(null);
 
 const __awtsmoosModule_82 = Object.create(null);
 
+const __awtsmoosModule_81 = Object.create(null);
+
+const __awtsmoosModule_84 = Object.create(null);
+
 const __awtsmoosModule_85 = Object.create(null);
-
-const __awtsmoosModule_86 = Object.create(null);
-
-const __awtsmoosModule_88 = Object.create(null);
 
 const __awtsmoosModule_87 = Object.create(null);
 
-const __awtsmoosModule_91 = Object.create(null);
+const __awtsmoosModule_86 = Object.create(null);
 
 const __awtsmoosModule_90 = Object.create(null);
 
 const __awtsmoosModule_89 = Object.create(null);
 
-const __awtsmoosModule_84 = Object.create(null);
+const __awtsmoosModule_88 = Object.create(null);
 
-const __awtsmoosModule_75 = Object.create(null);
+const __awtsmoosModule_83 = Object.create(null);
 
-const __awtsmoosModule_71 = Object.create(null);
+const __awtsmoosModule_74 = Object.create(null);
+
+const __awtsmoosModule_70 = Object.create(null);
+
+const __awtsmoosModule_91 = Object.create(null);
+
+const __awtsmoosModule_64 = Object.create(null);
 
 const __awtsmoosModule_92 = Object.create(null);
-
-const __awtsmoosModule_57 = Object.create(null);
-
-const __awtsmoosModule_93 = Object.create(null);
 
 const __awtsmoosModule_0 = Object.create(null);
 
@@ -2702,221 +2700,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	__exports.default = __awtsmoosDefault_ebrwhz;
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapCubeGeometry.js ----
-{
-	const __exports = __awtsmoosModule_34;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
-
-	/**
-	 * @file BootstrapCubeGeometry.js
-	 * @description Shares one face-aware cube with positions, normals, and UVs across first-play terrain, landmarks, and traveler parts.
-	 * The Awtsmoos gives each face a direction and each texture a measured place; Awtsmoos.com reuses one complete vessel,
-	 * so grass may repeat across the earth and simple forms may catch light without an allocation race.
-	 */
-
-	const BufferAttribute = __awtsmoosModule_22.BufferAttribute;
-	const BufferGeometry = __awtsmoosModule_22.BufferGeometry;
-
-	const FACE_UVS = [
-		0, 0,
-		1, 0,
-		1, 1,
-		0, 1
-	];
-
-	const POSITIONS = [
-		-0.5, -0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5,
-		0.5, -0.5, -0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5,
-		-0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5,
-		0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5,
-		-0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5,
-		-0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5
-	];
-
-	const NORMALS = [
-		0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1,
-		0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1,
-		-1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0,
-		1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0,
-		0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0,
-		0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0
-	];
-
-	const INDICES = [
-		0, 1, 2, 0, 2, 3,
-		4, 5, 6, 4, 6, 7,
-		8, 9, 10, 8, 10, 11,
-		12, 13, 14, 12, 14, 15,
-		16, 17, 18, 16, 18, 19,
-		20, 21, 22, 20, 22, 23
-	];
-
-	let sharedGeometry = null;
-
-	/**
-	 * Returns the one cached bootstrap cube used by every lightweight visible object.
-	 * @returns {BufferGeometry} Shared geometry with 24 positions, normals, UVs, and 36 indices.
-	 */
-	function bootstrapCubeGeometry() {
-		sharedGeometry ||= createCubeGeometry();
-		return sharedGeometry;
-	}
-
-
-	__exports.bootstrapCubeGeometry = bootstrapCubeGeometry;
-	/** Creates the face-separated cube so each face owns truthful lighting and texture coordinates. */
-	function createCubeGeometry() {
-		const geometry = new BufferGeometry();
-		const uvs = Array.from({ length: 6 }, () => FACE_UVS).flat();
-		geometry.setAttribute('position', new BufferAttribute(new Float32Array(POSITIONS), 3));
-		geometry.setAttribute('normal', new BufferAttribute(new Float32Array(NORMALS), 3));
-		geometry.setAttribute('uv', new BufferAttribute(new Float32Array(uvs), 2));
-		geometry.setIndex(new BufferAttribute(new Uint16Array(INDICES), 1));
-		geometry.userData.bootstrapPrimitive = 'shared-cube-face-aware';
-		return geometry;
-	}
-
-}
-
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapImmediateMaterial.js ----
-{
-	const __exports = __awtsmoosModule_35;
-	//B"H
-	// Boruch Hashem
-	// Blessed is He
-
-	/**
-	 * @file BootstrapImmediateMaterial.js
-	 * @description Creates a tiny remote-pending first-play material without importing catalog, cache, resolver, or image machinery.
-	 * The Awtsmoos is beyond color and photograph while Awtsmoos.com keeps this first keli hidden from sight;
-	 * only after a real remote image descends may the later hydration covenant reveal the material in light.
-	 */
-
-	const MeshStandardMaterial = __awtsmoosModule_22.MeshStandardMaterial;
-
-	/**
-	 * Creates one remote-only bootstrap material whose mesh must remain hidden until
-	 * the shared hydration system binds a genuine decoded image.
-	 *
-	 * @param {string} name Stable material identity.
-	 * @param {number[]} color Non-visible lighting/base-factor hint while pending.
-	 * @param {object} [options={}] Remote semantic identity and repeat metadata.
-	 * @returns {MeshStandardMaterial} Remote-pending material record.
-	 */
-	function createBootstrapImmediateMaterial(name, color, options = {}) {
-		const resolvedColor = Object.freeze([...color]);
-		const semanticRole = options.semanticRole || null;
-		const textureUrl = options.textureUrl || null;
-		const material = new MeshStandardMaterial({
-			alphaMode: 'OPAQUE',
-			color: resolvedColor,
-			mapImage: null,
-			name,
-			opacity: 1,
-			textureUrl
-		});
-		material.baseColorFactor = [...resolvedColor];
-		material.map = null;
-		material.mapImage = null;
-		material.mapImageFallback = false;
-		material.mapRepeat = [...(options.mapRepeat || [1, 1])];
-		material.textureUrl = textureUrl;
-		material.texturePolicy = {
-			realMapImage: false,
-			remoteOnly: true,
-			semanticRole,
-			tags: [...(options.tags || [])]
-		};
-		material.vertexColors = false;
-		material.userData = {
-			bootstrapImmediate: true,
-			bootstrapMaterialRecord: {
-				label: name,
-				remoteOnly: true,
-				semanticRole,
-				textureUrl,
-				vertexColors: false
-			}
-		};
-		return material;
-	}
-
-	__exports.createBootstrapImmediateMaterial = createBootstrapImmediateMaterial;
-
-}
-
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapVisiblePlayer.js ----
-{
-	const __exports = __awtsmoosModule_21;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
-
-	/**
-	 * @file BootstrapVisiblePlayer.js
-	 * @description Creates the tiny local Chossid whose only mission is to make first movement visible before the canonical GLB arrives.
-	 * The Awtsmoos gives motion a humble garment before the distant garment may descend;
-	 * Awtsmoos.com keeps body, face, and hat alive at first play, then lets richer authored form replace this temporary friend.
-	 */
-
-	const Group = __awtsmoosModule_22.Group;
-	const Mesh = __awtsmoosModule_22.Mesh;
-	const bootstrapCubeGeometry = __awtsmoosModule_34.bootstrapCubeGeometry;
-	const createBootstrapImmediateMaterial = __awtsmoosModule_35.createBootstrapImmediateMaterial;
-
-	const PARTS = Object.freeze([
-		['body', [0, 0.9, 0], [0.75, 1.8, 0.55], [0.08, 0.1, 0.13, 1], 'fabric.cloth'],
-		['face', [0, 2.05, -0.02], [0.62, 0.52, 0.54], [0.88, 0.68, 0.5, 1], 'character.skin'],
-		['hat', [0, 2.52, -0.02], [0.86, 0.3, 0.72], [0.025, 0.03, 0.04, 1], 'fabric.cloth']
-	]);
-
-	/**
-	 * Creates one disposable visible traveler from already-loaded bootstrap primitives.
-	 * @returns {Group} A local model safe to replace atomically when canonical hydration succeeds.
-	 */
-	function createBootstrapVisiblePlayer() {
-		const group = new Group();
-		group.name = 'Awtsmoos_bootstrap_visible_chossid';
-		for (const part of PARTS) {
-			addPart(group, ...part);
-		}
-		group.userData = {
-			bootstrapPlayerVisual: true,
-			fallbackVisible: true,
-			meshCount: PARTS.length,
-			remoteOnly: false
-		};
-		return group;
-	}
-
-
-	__exports.createBootstrapVisiblePlayer = createBootstrapVisiblePlayer;
-	/** Adds one readable local body part without starting any network work. */
-	function addPart(group, name, position, scale, color, semanticRole) {
-		const mesh = new Mesh(
-			bootstrapCubeGeometry(),
-			createBootstrapImmediateMaterial(`bootstrap-player-${name}`, color, {
-				mapRepeat: [3, 3],
-				semanticRole
-			})
-		);
-		mesh.name = `Awtsmoos_player_${name}`;
-		mesh.position.set(...position);
-		mesh.scale.set(...scale);
-		mesh.visible = true;
-		mesh.userData.bootstrapVisual = true;
-		mesh.userData.bootstrapFallbackVisible = true;
-		mesh.userData.semanticMaterialRole = semanticRole;
-		group.add(mesh);
-	}
-
-}
-
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzDeferredActorPlaceholders.js ----
 {
-	const __exports = __awtsmoosModule_36;
+	const __exports = __awtsmoosModule_21;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -3034,7 +2820,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/math/Vec3.js ----
 {
-	const __exports = __awtsmoosModule_41;
+	const __exports = __awtsmoosModule_38;
 	// B"H // Boruch Hashem // Blessed is He
 
 	/**
@@ -3122,7 +2908,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/math/Aabb.js ----
 {
-	const __exports = __awtsmoosModule_40;
+	const __exports = __awtsmoosModule_37;
 	// B"H // Boruch Hashem // Blessed is He
 
 	/**
@@ -3131,7 +2917,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos surrounds every finite form without being bounded by it;
 	 * Awtsmoos.com reveals exact containment and contact through readable planes.
 	 */
-	const Vec3 = __awtsmoosModule_41.Vec3;
+	const Vec3 = __awtsmoosModule_38.Vec3;
 
 	class Aabb {
 		constructor(min = new Vec3(), max = new Vec3()) {
@@ -3205,7 +2991,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/math/Geometry3D.js ----
 {
-	const __exports = __awtsmoosModule_43;
+	const __exports = __awtsmoosModule_40;
 	// B"H
 	/** Geometry helpers: normals, barycentric tests, and raw capsule math vessels. */
 	function v(x = 0, y = 0, z = 0) { return { x, y, z }; }
@@ -3302,19 +3088,19 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/collision/CapsuleTriangle.js ----
 {
-	const __exports = __awtsmoosModule_42;
+	const __exports = __awtsmoosModule_39;
 	// B"H
-	const add = __awtsmoosModule_43.add;
-	const closestPointsSegmentSegment = __awtsmoosModule_43.closestPointsSegmentSegment;
-	const dot = __awtsmoosModule_43.dot;
-	const length = __awtsmoosModule_43.length;
-	const negate = __awtsmoosModule_43.negate;
-	const normalize = __awtsmoosModule_43.normalize;
-	const planeDistance = __awtsmoosModule_43.planeDistance;
-	const projectToPlane = __awtsmoosModule_43.projectToPlane;
-	const scale = __awtsmoosModule_43.scale;
-	const sub = __awtsmoosModule_43.sub;
-	const triangleContainsPoint = __awtsmoosModule_43.triangleContainsPoint;
+	const add = __awtsmoosModule_40.add;
+	const closestPointsSegmentSegment = __awtsmoosModule_40.closestPointsSegmentSegment;
+	const dot = __awtsmoosModule_40.dot;
+	const length = __awtsmoosModule_40.length;
+	const negate = __awtsmoosModule_40.negate;
+	const normalize = __awtsmoosModule_40.normalize;
+	const planeDistance = __awtsmoosModule_40.planeDistance;
+	const projectToPlane = __awtsmoosModule_40.projectToPlane;
+	const scale = __awtsmoosModule_40.scale;
+	const sub = __awtsmoosModule_40.sub;
+	const triangleContainsPoint = __awtsmoosModule_40.triangleContainsPoint;
 
 	/** Capsule-triangle contact: copied as an idea from Octree.js, reborn raw. */
 	function capsuleTriangleContact(capsule, tri) {
@@ -3353,10 +3139,10 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/collision/CapsuleCollisionQuery.js ----
 {
-	const __exports = __awtsmoosModule_39;
+	const __exports = __awtsmoosModule_36;
 	// B"H
-	const Aabb = __awtsmoosModule_40.Aabb;
-	const capsuleTriangleContact = __awtsmoosModule_42.capsuleTriangleContact;
+	const Aabb = __awtsmoosModule_37.Aabb;
+	const capsuleTriangleContact = __awtsmoosModule_39.capsuleTriangleContact;
 
 	function capsuleFor(position, radius, height, footOffset) {
 		const base = position.y - footOffset;
@@ -3409,7 +3195,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/collision/CollisionMovePlan.js ----
 {
-	const __exports = __awtsmoosModule_44;
+	const __exports = __awtsmoosModule_41;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -3469,7 +3255,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/collision/AwtsmoosCollisionMover.js ----
 {
-	const __exports = __awtsmoosModule_38;
+	const __exports = __awtsmoosModule_35;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -3481,10 +3267,10 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * rejects impossible numbers, honors visible risers, and records the contact truth that remains.
 	 */
 
-	const capsuleFor = __awtsmoosModule_39.capsuleFor;
-	const deepestContact = __awtsmoosModule_39.deepestContact;
-	const collisionMoveReceipt = __awtsmoosModule_44.collisionMoveReceipt;
-	const createCollisionMovePlan = __awtsmoosModule_44.createCollisionMovePlan;
+	const capsuleFor = __awtsmoosModule_36.capsuleFor;
+	const deepestContact = __awtsmoosModule_36.deepestContact;
+	const collisionMoveReceipt = __awtsmoosModule_41.collisionMoveReceipt;
+	const createCollisionMovePlan = __awtsmoosModule_41.createCollisionMovePlan;
 
 	class AwtsmoosCollisionMover {
 		constructor({ octree, radius = 0.38, height = 1.72, footOffset = 0 }) {
@@ -3592,7 +3378,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/motion/JumpPhysics.js ----
 {
-	const __exports = __awtsmoosModule_45;
+	const __exports = __awtsmoosModule_42;
 	// B"H
 	/** Jump physics samples only floors reachable from the current feet height. */
 	class JumpPhysics{
@@ -3630,7 +3416,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/GroundRay.js ----
 {
-	const __exports = __awtsmoosModule_46;
+	const __exports = __awtsmoosModule_43;
 	// B"H
 	/** GroundRay: one beginning ray, so the soles kiss Eretz and do not float. */
 	function alignModelFeetToGround(model, groundY = 0) {
@@ -3666,7 +3452,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteModelRecords.js ----
 {
-	const __exports = __awtsmoosModule_49;
+	const __exports = __awtsmoosModule_46;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -3708,7 +3494,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteModelCatalog.js ----
 {
-	const __exports = __awtsmoosModule_48;
+	const __exports = __awtsmoosModule_45;
 	//B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -3720,7 +3506,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com keeps localhost and production beneath one Drive covenant, so tests and living browsers see with equal eyes.
 	 */
 
-	const REMOTE_MODEL_RECORDS = __awtsmoosModule_49.REMOTE_MODEL_RECORDS;
+	const REMOTE_MODEL_RECORDS = __awtsmoosModule_46.REMOTE_MODEL_RECORDS;
 
 	const REMOTE_MODEL_ROOT = 'https://awtsmoos.com/sites/firebase_drive_migration/assets/mitzvah-world/models/';
 
@@ -3823,7 +3609,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzConstants.js ----
 {
-	const __exports = __awtsmoosModule_47;
+	const __exports = __awtsmoosModule_44;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -3835,7 +3621,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com preserves sharp CSS-pixel clarity without surplus Retina work in youth.
 	 */
 
-	const remoteModelUrl = __awtsmoosModule_48.remoteModelUrl;
+	const remoteModelUrl = __awtsmoosModule_45.remoteModelUrl;
 
 	const PLAYER_MODEL_URL = remoteModelUrl('player/chossid.glb');
 
@@ -3875,7 +3661,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/village/VillageArrivalSpatialContract.js ----
 {
-	const __exports = __awtsmoosModule_51;
+	const __exports = __awtsmoosModule_48;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -3953,7 +3739,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzPlayerStateFactory.js ----
 {
-	const __exports = __awtsmoosModule_50;
+	const __exports = __awtsmoosModule_47;
 	//B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -3965,8 +3751,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * spawn truth arrives without distant forests entering the gate, then richer worlds may bloom after the traveler takes flight.
 	 */
 
-	const VILLAGE_ARRIVAL_PLAYER = __awtsmoosModule_51.VILLAGE_ARRIVAL_PLAYER;
-	const FACE_HEIGHT = __awtsmoosModule_47.FACE_HEIGHT;
+	const VILLAGE_ARRIVAL_PLAYER = __awtsmoosModule_48.VILLAGE_ARRIVAL_PLAYER;
+	const FACE_HEIGHT = __awtsmoosModule_44.FACE_HEIGHT;
 
 	const PLAYER_SPAWN = VILLAGE_ARRIVAL_PLAYER;
 
@@ -4061,7 +3847,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzPlayerRuntimeFactories.js ----
 {
-	const __exports = __awtsmoosModule_37;
+	const __exports = __awtsmoosModule_34;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -4074,14 +3860,14 @@ const __awtsmoosModule_0 = Object.create(null);
 	 */
 
 	const Group = __awtsmoosModule_22.Group;
-	const AwtsmoosCollisionMover = __awtsmoosModule_38.AwtsmoosCollisionMover;
-	const JumpPhysics = __awtsmoosModule_45.JumpPhysics;
-	const findMinWorldY = __awtsmoosModule_46.findMinWorldY;
-	const MAX_SLOPE_NORMAL = __awtsmoosModule_47.MAX_SLOPE_NORMAL;
-	const PLAYER_HEIGHT = __awtsmoosModule_47.PLAYER_HEIGHT;
-	const PLAYER_RADIUS = __awtsmoosModule_47.PLAYER_RADIUS;
-	const createEretzPlayerState = __awtsmoosModule_50.createEretzPlayerState;
-	const createEretzPlayerStats = __awtsmoosModule_50.createEretzPlayerStats;
+	const AwtsmoosCollisionMover = __awtsmoosModule_35.AwtsmoosCollisionMover;
+	const JumpPhysics = __awtsmoosModule_42.JumpPhysics;
+	const findMinWorldY = __awtsmoosModule_43.findMinWorldY;
+	const MAX_SLOPE_NORMAL = __awtsmoosModule_44.MAX_SLOPE_NORMAL;
+	const PLAYER_HEIGHT = __awtsmoosModule_44.PLAYER_HEIGHT;
+	const PLAYER_RADIUS = __awtsmoosModule_44.PLAYER_RADIUS;
+	const createEretzPlayerState = __awtsmoosModule_47.createEretzPlayerState;
+	const createEretzPlayerStats = __awtsmoosModule_47.createEretzPlayerStats;
 
 	__exports.createEretzPlayerState = createEretzPlayerState;
 	__exports.createEretzPlayerStats = createEretzPlayerStats;
@@ -4185,87 +3971,926 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapPlayerRuntime.js ----
+// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-gltf-accessors.js ----
 {
-	const __exports = __awtsmoosModule_20;
+	const __exports = __awtsmoosModule_53;
+	// B"H
+	const BufferAttribute = __awtsmoosModule_22.BufferAttribute;
+
+	/** Accessors: the hidden letters of GLTF made exact before the body moves. */
+	const COMPONENTS={5120:Int8Array,5121:Uint8Array,5122:Int16Array,5123:Uint16Array,5125:Uint32Array,5126:Float32Array};
+
+	__exports.COMPONENTS = COMPONENTS;
+	const TYPE_SIZES={SCALAR:1,VEC2:2,VEC3:3,VEC4:4,MAT2:4,MAT3:9,MAT4:16};
+
+	__exports.TYPE_SIZES = TYPE_SIZES;
+	function componentName(t){return ({5120:'BYTE',5121:'UNSIGNED_BYTE',5122:'SHORT',5123:'UNSIGNED_SHORT',5125:'UNSIGNED_INT',5126:'FLOAT'})[t]||String(t);}
+
+	__exports.componentName = componentName;
+	function normalizedScale(Ctor){if(Ctor===Int8Array)return 1/127;if(Ctor===Uint8Array)return 1/255;if(Ctor===Int16Array)return 1/32767;if(Ctor===Uint16Array)return 1/65535;return 1;}
+
+
+	__exports.normalizedScale = normalizedScale;
+	function scalar(view,off,Ctor){if(Ctor===Float32Array)return view.getFloat32(off,true);if(Ctor===Uint32Array)return view.getUint32(off,true);if(Ctor===Uint16Array)return view.getUint16(off,true);if(Ctor===Uint8Array)return view.getUint8(off);if(Ctor===Int16Array)return view.getInt16(off,true);return view.getInt8(off);}
+	function writeTuple(target,index,values,itemSize){for(let k=0;k<itemSize;k++)target[index*itemSize+k]=values[k]??0;}
+
+	function readAccessor(doc,buffers,index){
+	  const a=doc.accessors[index],Ctor=COMPONENTS[a?.componentType],itemSize=TYPE_SIZES[a?.type]||1;if(!a||!Ctor)throw new Error(`Unsupported accessor ${index}`);
+	  const normalized=a.normalized===true;let array;
+	  if(a.bufferView===undefined){array=new Ctor(a.count*itemSize);}else{
+	    const bv=doc.bufferViews[a.bufferView],buffer=buffers[bv.buffer],base=(bv.byteOffset||0)+(a.byteOffset||0),stride=bv.byteStride||Ctor.BYTES_PER_ELEMENT*itemSize;
+	    if(stride===Ctor.BYTES_PER_ELEMENT*itemSize){array=new Ctor(buffer,base,a.count*itemSize);}else{array=new Ctor(a.count*itemSize);const view=new DataView(buffer);for(let i=0;i<a.count;i++)for(let k=0;k<itemSize;k++)array[i*itemSize+k]=scalar(view,base+i*stride+k*Ctor.BYTES_PER_ELEMENT,Ctor);}
+	  }
+	  if(a.sparse){array=new Ctor(array);applySparse(doc,buffers,a,array,itemSize,Ctor);}
+	  const attr=new BufferAttribute(array,itemSize,normalized,a.componentType);attr.accessorIndex=index;attr.min=a.min;attr.max=a.max;return attr;
+	}
+
+
+	__exports.readAccessor = readAccessor;
+	function applySparse(doc,buffers,a,array,itemSize,Ctor){
+	  const s=a.sparse,iv=doc.bufferViews[s.indices.bufferView],vv=doc.bufferViews[s.values.bufferView],ICtor=COMPONENTS[s.indices.componentType];
+	  const ib=buffers[iv.buffer],vb=buffers[vv.buffer],iBase=(iv.byteOffset||0)+(s.indices.byteOffset||0),vBase=(vv.byteOffset||0)+(s.values.byteOffset||0);
+	  const iView=new DataView(ib),vView=new DataView(vb);for(let n=0;n<s.count;n++){const idx=scalar(iView,iBase+n*ICtor.BYTES_PER_ELEMENT,ICtor),vals=[];for(let k=0;k<itemSize;k++)vals[k]=scalar(vView,vBase+(n*itemSize+k)*Ctor.BYTES_PER_ELEMENT,Ctor);writeTuple(array,idx,vals,itemSize);}
+	}
+
+	function accessorFloatArray(attr){
+	  const src=attr.array;if(src instanceof Float32Array&&!attr.normalized)return src;const out=new Float32Array(src.length),scale=attr.normalized?normalizedScale(src.constructor):1;
+	  for(let i=0;i<src.length;i++){let v=src[i]*scale;if(attr.normalized&&(src instanceof Int8Array||src instanceof Int16Array))v=Math.max(-1,v);out[i]=v;}return out;
+	}
+
+
+	__exports.accessorFloatArray = accessorFloatArray;
+	function normalizeWeightsAttribute(attr){
+	  const src=accessorFloatArray(attr),out=new Float32Array(src.length),size=attr.itemSize;for(let i=0;i<attr.count;i++){let sum=0;for(let k=0;k<size;k++)sum+=Math.abs(src[i*size+k]||0);if(sum>0){for(let k=0;k<size;k++)out[i*size+k]=(src[i*size+k]||0)/sum;}else out[i*size]=1;}return new BufferAttribute(out,size,false,5126);
+	}
+
+
+	__exports.normalizeWeightsAttribute = normalizeWeightsAttribute;
+	function accessorSummary(doc,index){const a=doc.accessors[index];return `${index} ${a.type} ${componentName(a.componentType)} norm=${!!a.normalized} count=${a.count}`;}
+
+	__exports.accessorSummary = accessorSummary;
+
+}
+
+// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-animation-parser.js ----
+{
+	const __exports = __awtsmoosModule_52;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
 
 	/**
-	 * @file BootstrapPlayerRuntime.js
-	 * @description Mounts an immediate local Chossid shell for movement and deliberately leaves the canonical GLB to existing post-play hydration.
-	 * The Awtsmoos gives the hand a traveler before the network can answer; Awtsmoos.com keeps collision, camera, and movement alive,
-	 * then lets the authored Chossid replace this small vessel without forcing first play to wait beside a distant river.
+	 * @file tiny-animation-parser.js
+	 * @description Decodes GLTF animation channels into stable scalar sampling vessels.
+	 * The Awtsmoos speaks every motion through measured times and values; Awtsmoos.com
+	 * preserves each source channel exactly while separating parsing from living playback.
 	 */
 
-	const createBootstrapVisiblePlayer = __awtsmoosModule_21.createBootstrapVisiblePlayer;
-	const createDeferredActorSystems = __awtsmoosModule_36.createDeferredActorSystems;
-	const createBootstrapPlayerVessels = __awtsmoosModule_37.createBootstrapPlayerVessels;
-	const createBootstrapPlayerState = __awtsmoosModule_50.createBootstrapPlayerState;
-	const createBootstrapPlayerStats = __awtsmoosModule_50.createBootstrapPlayerStats;
+	const accessorFloatArray = __awtsmoosModule_53.accessorFloatArray;
+
+	const TARGET_SIZE = {
+		rotation: 4,
+		scale: 3,
+		translation: 3,
+		weights: 1
+	};
+
+	function summarizeAnimations(document) {
+		return (document.animations || []).map((animation, index) => ({
+			channels: (animation.channels || []).length,
+			index,
+			name: animation.name || `animation_${index}`,
+			paths: [...new Set(
+				(animation.channels || [])
+					.map(channel => channel.target?.path)
+					.filter(Boolean)
+			)],
+			samplers: (animation.samplers || []).length
+		}));
+	}
+
+
+	__exports.summarizeAnimations = summarizeAnimations;
+	function parseTinyAnimations(document, accessors, nodeMap) {
+		return (document.animations || []).map((animation, index) => (
+			parseAnimation(animation, index, accessors, nodeMap)
+		));
+	}
+
+
+	__exports.parseTinyAnimations = parseTinyAnimations;
+	function parseAnimation(animation, index, accessors, nodeMap) {
+		const channels = [];
+		let duration = 0;
+		for (const sourceChannel of animation.channels || []) {
+			const channel = parseChannel(
+				sourceChannel,
+				animation.samplers || [],
+				accessors,
+				nodeMap
+			);
+			if (!channel) {
+				continue;
+			}
+			channels.push(channel);
+			duration = Math.max(duration, channel.input[channel.input.length - 1] || 0);
+		}
+		return {
+			channels,
+			duration,
+			index,
+			name: animation.name || `animation_${index}`
+		};
+	}
+
+	function parseChannel(sourceChannel, samplers, accessors, nodeMap) {
+		const sampler = samplers[sourceChannel.sampler];
+		const target = sourceChannel.target || {};
+		const node = nodeMap.get(target.node);
+		const size = TARGET_SIZE[target.path];
+		if (!sampler || !node || !size) {
+			return null;
+		}
+		return {
+			input: accessorFloatArray(accessors[sampler.input]),
+			interpolation: sampler.interpolation || 'LINEAR',
+			node,
+			nodeIndex: target.node,
+			output: accessorFloatArray(accessors[sampler.output]),
+			path: target.path,
+			size
+		};
+	}
+
+}
+
+// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-animation-bindings.js ----
+{
+	const __exports = __awtsmoosModule_55;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
 
 	/**
-	 * Creates the minimum player runtime needed for movement before any canonical model request settles.
-	 * @param {object} foundation Playable world foundation containing scene, terrain, renderer, and deferred asset state.
-	 * @returns {object} Runtime with a disposable local player shell and canonical hydration marked deferred.
+	 * @file tiny-animation-bindings.js
+	 * @description Remembers only properties truly governed by imported animation channels.
+	 * The Awtsmoos renews the whole tree, yet Awtsmoos.com restores only the animated vessels,
+	 * preserving exact bind values without traversing unrelated cottages, garments, or helpers.
+	 */
+
+	function createAnimationBindings(clips) {
+		const bindingByNode = new Map();
+		const bindings = [];
+		for (const clip of clips) {
+			for (const channel of clip.channels || []) {
+				let paths = bindingByNode.get(channel.node);
+				if (!paths) {
+					paths = new Map();
+					bindingByNode.set(channel.node, paths);
+				}
+				if (paths.has(channel.path)) {
+					continue;
+				}
+				const binding = {
+					base: readBaseValue(channel.node, channel.path),
+					node: channel.node,
+					path: channel.path
+				};
+				paths.set(channel.path, binding);
+				bindings.push(binding);
+			}
+		}
+		return bindings;
+	}
+
+
+	__exports.createAnimationBindings = createAnimationBindings;
+	function captureClipPose(clip) {
+		const pose = new Map();
+		for (const channel of clip?.channels || []) {
+			pose.set(channel, readNodeValue(channel.node, channel.path));
+		}
+		return pose;
+	}
+
+
+	__exports.captureClipPose = captureClipPose;
+	function resetAnimationBindings(bindings) {
+		for (const binding of bindings) {
+			writeNodeValue(binding.node, binding.path, binding.base);
+		}
+	}
+
+
+	__exports.resetAnimationBindings = resetAnimationBindings;
+	function writeNodeValue(node, path, values) {
+		if (path === 'translation') {
+			node.position.set(values[0], values[1], values[2]);
+			return;
+		}
+		if (path === 'rotation') {
+			node.quaternion.set(values[0], values[1], values[2], values[3]);
+			return;
+		}
+		if (path === 'scale') {
+			node.scale.set(values[0], values[1], values[2]);
+		}
+	}
+
+
+	__exports.writeNodeValue = writeNodeValue;
+	function readBaseValue(node, path) {
+		const base = node._base;
+		if (path === 'translation') {
+			const value = base?.position || node.position;
+			return [value.x, value.y, value.z];
+		}
+		if (path === 'rotation') {
+			const value = base?.quaternion || node.quaternion;
+			return [value.x, value.y, value.z, value.w];
+		}
+		if (path === 'scale') {
+			const value = base?.scale || node.scale;
+			return [value.x, value.y, value.z];
+		}
+		return [0];
+	}
+
+	function readNodeValue(node, path) {
+		if (path === 'translation') {
+			return [node.position.x, node.position.y, node.position.z];
+		}
+		if (path === 'rotation') {
+			return [node.quaternion.x, node.quaternion.y, node.quaternion.z, node.quaternion.w];
+		}
+		if (path === 'scale') {
+			return [node.scale.x, node.scale.y, node.scale.z];
+		}
+		return [0];
+	}
+
+}
+
+// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-animation-quaternion.js ----
+{
+	const __exports = __awtsmoosModule_57;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file tiny-animation-quaternion.js
+	 * @description Writes one normalized quaternion interpolation into a reusable vessel.
+	 * The Awtsmoos turns without division; Awtsmoos.com reveals that rotation through a
+	 * stable destination whose identity survives every sampled instant.
+	 */
+
+	function slerpQuaternionInto(
+		output,
+		ax,
+		ay,
+		az,
+		aw,
+		bx,
+		by,
+		bz,
+		bw,
+		amount
+	) {
+		let cosine = ax * bx + ay * by + az * bz + aw * bw;
+		if (cosine < 0) {
+			bx = -bx;
+			by = -by;
+			bz = -bz;
+			bw = -bw;
+			cosine = -cosine;
+		}
+		if (cosine > 0.9995) {
+			return normalizeInto(
+				output,
+				ax + (bx - ax) * amount,
+				ay + (by - ay) * amount,
+				az + (bz - az) * amount,
+				aw + (bw - aw) * amount
+			);
+		}
+		const angle = Math.acos(Math.min(1, Math.max(-1, cosine)));
+		const sine = Math.sin(angle);
+		const leftWeight = Math.sin((1 - amount) * angle) / sine;
+		const rightWeight = Math.sin(amount * angle) / sine;
+		return normalizeInto(
+			output,
+			ax * leftWeight + bx * rightWeight,
+			ay * leftWeight + by * rightWeight,
+			az * leftWeight + bz * rightWeight,
+			aw * leftWeight + bw * rightWeight
+		);
+	}
+
+
+	__exports.slerpQuaternionInto = slerpQuaternionInto;
+	function normalizeInto(output, x, y, z, w) {
+		const scale = 1 / Math.max(1e-12, Math.hypot(x, y, z, w));
+		output[0] = x * scale;
+		output[1] = y * scale;
+		output[2] = z * scale;
+		output[3] = w * scale;
+		return output;
+	}
+
+}
+
+// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-animation-sampler.js ----
+{
+	const __exports = __awtsmoosModule_56;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file tiny-animation-sampler.js
+	 * @description Samples scalar animation channels without transient per-frame arrays.
+	 * The Awtsmoos joins keyframes without waste; Awtsmoos.com lets each bone receive the
+	 * same measured pose while temporary numbers pass through stable, reusable vessels.
+	 */
+
+	const slerpQuaternionInto = __awtsmoosModule_57.slerpQuaternionInto;
+
+	function applyChannelSample(channel, time, fadeFrom, fadeAmount = 1) {
+		const span = resolveSpan(channel, time);
+		if (channel.path === 'rotation') {
+			applyRotation(channel, span, fadeFrom, fadeAmount);
+			return;
+		}
+		if (channel.path === 'translation' || channel.path === 'scale') {
+			applyVector(channel, span, fadeFrom, fadeAmount);
+		}
+	}
+
+
+	__exports.applyChannelSample = applyChannelSample;
+	function applyVector(channel, span, fadeFrom, fadeAmount) {
+		const values = channel._sampleScratch || (channel._sampleScratch = new Float64Array(3));
+		for (let index = 0; index < 3; index += 1) {
+			const sampled = sampleComponent(channel, span, index);
+			values[index] = fadeFrom
+				? fadeFrom[index] + (sampled - fadeFrom[index]) * fadeAmount
+				: sampled;
+		}
+		const target = channel.path === 'translation'
+			? channel.node.position
+			: channel.node.scale;
+		target.set(values[0], values[1], values[2]);
+	}
+
+	function applyRotation(channel, span, fadeFrom, fadeAmount) {
+		const output = channel._sampleScratch || (channel._sampleScratch = new Float64Array(4));
+		const left = span.left * channel.size;
+		const right = span.right * channel.size;
+		const source = channel.output;
+		if (span.step) {
+			for (let index = 0; index < 4; index += 1) {
+				output[index] = source[left + index] ?? (index === 3 ? 1 : 0);
+			}
+		} else {
+			slerpQuaternionInto(output,
+				source[left] || 0, source[left + 1] || 0,
+				source[left + 2] || 0, source[left + 3] ?? 1,
+				source[right] || 0, source[right + 1] || 0,
+				source[right + 2] || 0, source[right + 3] ?? 1,
+				span.amount);
+		}
+		if (fadeFrom) {
+			slerpQuaternionInto(output, ...fadeFrom, ...output, fadeAmount);
+		}
+		channel.node.quaternion.set(output[0], output[1], output[2], output[3]);
+	}
+
+	function sampleComponent(channel, span, componentIndex) {
+		const left = span.left * channel.size + componentIndex;
+		const valueA = channel.output[left] ?? 0;
+		if (span.step) return valueA;
+		const right = span.right * channel.size + componentIndex;
+		const valueB = channel.output[right] ?? valueA;
+		return valueA + (valueB - valueA) * span.amount;
+	}
+
+	function resolveSpan(channel, time) {
+		const times = channel.input;
+		const span = channel._sampleSpan || (channel._sampleSpan = {});
+		const last = times.length - 1;
+		if (last <= 0 || time <= times[0]) return assignSpan(span, 0, 0, 0, true);
+		if (time >= times[last]) return assignSpan(span, last, last, 0, true);
+		let low = 0;
+		let high = last;
+		while (high - low > 1) {
+			const middle = (low + high) >> 1;
+			if (times[middle] <= time) low = middle;
+			else high = middle;
+		}
+		const amount = (time - times[low]) / Math.max(1e-8, times[high] - times[low]);
+		return assignSpan(span, low, high, amount, channel.interpolation === 'STEP');
+	}
+
+	function assignSpan(span, left, right, amount, step) {
+		span.left = left;
+		span.right = right;
+		span.amount = amount;
+		span.step = step || left === right;
+		return span;
+	}
+
+}
+
+// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-animation-player.js ----
+{
+	const __exports = __awtsmoosModule_54;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file tiny-animation-player.js
+	 * @description Advances imported clips through exact first-play, looping, and crossfade laws.
+	 * The Awtsmoos renews a living pose from the first instant; Awtsmoos.com never blends the first
+	 * idle from bind pose with zero weight, yet preserves gentle transitions after motion is alive.
+	 */
+
+	const captureClipPose = __awtsmoosModule_55.captureClipPose;
+	const createAnimationBindings = __awtsmoosModule_55.createAnimationBindings;
+	const resetAnimationBindings = __awtsmoosModule_55.resetAnimationBindings;
+	const applyChannelSample = __awtsmoosModule_56.applyChannelSample;
+
+	class TinyAnimationPlayer {
+		constructor(root, clips = []) {
+			this.root = root;
+			this.clips = clips;
+			this.bindings = createAnimationBindings(clips);
+			this.currentIndex = clips.length ? 0 : -1;
+			this.time = 0;
+			this.playing = true;
+			this.bindPose = false;
+			this.lastApplied = null;
+			this.fadeDuration = 0.18;
+			this.fadeTime = 0;
+			this.fadePose = null;
+		}
+
+		get current() {
+			return this.clips[this.currentIndex] || null;
+		}
+
+		get names() {
+			return this.clips.map(clip => clip.name);
+		}
+
+		play(indexOrName) {
+			const index = resolveClipIndex(this.clips, indexOrName);
+			if (index < 0) return this.current;
+			const target = this.clips[index];
+			const alreadyApplied = this.lastApplied === target?.name;
+			if (index === this.currentIndex && !this.bindPose && alreadyApplied) {
+				this.playing = true;
+				return this.current;
+			}
+			const hasAppliedPose = this.lastApplied !== null && this.lastApplied !== 'bind';
+			this.fadePose = hasAppliedPose ? captureClipPose(target) : null;
+			this.fadeTime = hasAppliedPose ? 0 : this.fadeDuration;
+			this.currentIndex = index;
+			this.time = 0;
+			this.bindPose = false;
+			this.playing = true;
+			this.apply(0);
+			return this.current;
+		}
+
+		next() {
+			return this.play((this.currentIndex + 1) % Math.max(1, this.clips.length));
+		}
+
+		setBindPose(enabled) {
+			this.bindPose = Boolean(enabled);
+			this.time = 0;
+			this.fadePose = null;
+			resetAnimationBindings(this.bindings);
+			this.lastApplied = this.bindPose ? 'bind' : null;
+		}
+
+		update(deltaTime) {
+			if (this.bindPose || !this.current) return;
+			const delta = Math.max(0, Number(deltaTime) || 0);
+			if (this.playing) this.time += delta;
+			if (this.fadePose) this.fadeTime += delta;
+			const duration = this.current.duration || 1;
+			this.apply(duration ? this.time % duration : 0);
+		}
+
+		apply(time) {
+			const clip = this.current;
+			if (!clip) return;
+			resetAnimationBindings(this.bindings);
+			const fadeAmount = this.fadePose
+				? smooth(Math.min(1, this.fadeTime / Math.max(0.001, this.fadeDuration)))
+				: 1;
+			for (const channel of clip.channels) {
+				applyChannelSample(channel, time, this.fadePose?.get(channel), fadeAmount);
+			}
+			if (this.fadePose && this.fadeTime >= this.fadeDuration) this.fadePose = null;
+			this.lastApplied = clip.name;
+		}
+
+		diagnostics() {
+			const clip = this.current;
+			return {
+				bindPose: this.bindPose,
+				channels: clip?.channels.length || 0,
+				clipCount: this.clips.length,
+				currentAnimation: clip?.name || null,
+				currentIndex: this.currentIndex,
+				duration: Number((clip?.duration || 0).toFixed(3)),
+				fade: this.fadePose
+					? Number((1 - this.fadeTime / this.fadeDuration).toFixed(3))
+					: 0,
+				playing: this.playing,
+				time: Number(this.time.toFixed(3))
+			};
+		}
+	}
+
+
+	__exports.TinyAnimationPlayer = TinyAnimationPlayer;
+	function resolveClipIndex(clips, indexOrName) {
+		return typeof indexOrName === 'number'
+			? indexOrName
+			: clips.findIndex(clip => clip.name === indexOrName);
+	}
+
+	function smooth(amount) {
+		return amount * amount * (3 - 2 * amount);
+	}
+
+}
+
+// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-animation.js ----
+{
+	const __exports = __awtsmoosModule_51;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file tiny-animation.js
+	 * @description Stable public doorway to parsed clips and allocation-free playback.
+	 * The Awtsmoos unites source time with visible motion; Awtsmoos.com keeps parsing,
+	 * sampling, bindings, and playback in small vessels behind one familiar import.
+	 */
+
+	__exports.parseTinyAnimations = __awtsmoosModule_52.parseTinyAnimations;
+	__exports.summarizeAnimations = __awtsmoosModule_52.summarizeAnimations;
+	__exports.TinyAnimationPlayer = __awtsmoosModule_54.TinyAnimationPlayer;
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzPlayerModel.js ----
+{
+	const __exports = __awtsmoosModule_58;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file EretzPlayerModel.js
+	 * @description Mounts only an authored animated Chossid GLB and exposes shared placement, equipment, and clip contracts.
+	 * The Awtsmoos gives one traveler a measured body, authored bones, and living motion beneath the sky;
+	 * Awtsmoos.com rejects fallback humanity at this final doorway, so every accepted player source remains truthful to the eye.
+	 */
+
+	const TinyAnimationPlayer = __awtsmoosModule_51.TinyAnimationPlayer;
+	const alignModelFeetToGround = __awtsmoosModule_43.alignModelFeetToGround;
+
+	/** Creates one grounded canonical animated player or throws when a fallback identity enters this boundary. */
+	function createPlayerModel(playerGltf, scene) {
+		assertCanonicalPlayer(playerGltf);
+		const model = playerGltf.scene;
+		model.name = 'Awtsmoos_visible_player_isolated_chossid';
+		model.visible = true;
+		model.scale.set(1.52, 1.52, 1.52);
+		model.position.set(0, 0, 4);
+		model.setBaseTransform();
+		scene.add(model);
+		const feet = alignModelFeetToGround(model, 0);
+		const footOffset = model.position.y;
+		const player = new TinyAnimationPlayer(model, playerGltf.animations);
+		const clips = createClipMap(playerGltf.animations);
+		const defaultClip = clips.stand || player.names[0] || '';
+		if (!defaultClip) throw new Error('Canonical Chossid GLB did not expose a playable animation clip.');
+		player.play(defaultClip);
+		model.userData.AwtsmoosCanonicalPlayer = playerEvidence(player, defaultClip);
+		return { clips, defaultClip, feet, footOffset, model, player };
+	}
+
+
+	__exports.createPlayerModel = createPlayerModel;
+	/** Collects authored equipment meshes and their current visibility. */
+	function createEquipment(model) {
+		const materials = new Set();
+		const meshes = [];
+		const visible = {};
+		model.traverse(object => {
+			if (!object.isMesh && !object.isSkinnedMesh) return;
+			const material = object.material?.name || 'material';
+			materials.add(material);
+			visible[material] = object.visible !== false;
+			meshes.push({ name: object.name, material, object });
+		});
+		return { materials: [...materials], meshes, visible };
+	}
+
+
+	__exports.createEquipment = createEquipment;
+	/** Toggles every authored mesh sharing one material name. */
+	function toggleEquipmentMaterial(model, name, enabled) {
+		model.traverse(object => {
+			if ((object.isMesh || object.isSkinnedMesh) && object.material?.name === name) {
+				object.visible = Boolean(enabled);
+			}
+		});
+	}
+
+
+	__exports.toggleEquipmentMaterial = toggleEquipmentMaterial;
+	/** Places the canonical player root from authoritative runtime state. */
+	function placePlayerModel(model, state) {
+		model.position.set(state.x, state.renderY, state.z);
+		model.quaternion.set(0, Math.sin(state.facing / 2), 0, Math.cos(state.facing / 2));
+	}
+
+
+	__exports.placePlayerModel = placePlayerModel;
+	function faceTarget(state) {
+		return { x: state.x, y: state.renderY + state.faceHeight, z: state.z };
+	}
+
+
+	__exports.faceTarget = faceTarget;
+	function createClipMap(animations) {
+		const clips = animations.map(clip => ({ duration: Number(clip.duration || 0), name: clip.name || '' }));
+		const names = clips.map(clip => clip.name);
+		const animated = expression => clips.find(clip => expression.test(clip.name) && clip.duration > 0)?.name;
+		const named = expression => names.find(name => expression.test(name));
+		const stand = animated(/^stand_Armature$/i)
+			|| animated(/^stand 2_Armature$/i)
+			|| animated(/stand|idle/i)
+			|| named(/neutral/i)
+			|| names[0]
+			|| '';
+		const walk = animated(/walk|step|stroll/i) || stand;
+		const run = animated(/run|jog/i) || walk;
+		const jump = animated(/jump|leap/i) || stand;
+		return { fall: animated(/fall|air|drop/i) || jump, jump, run, stand, walk };
+	}
+
+
+	__exports.createClipMap = createClipMap;
+	function assertCanonicalPlayer(gltf) {
+		if (!gltf?.scene) throw new Error('Canonical Chossid GLB scene is required.');
+		const userData = gltf.scene.userData || {};
+		if (gltf.userData?.fallback || userData.fallback || userData.modelAssetFallback || userData.isolatedModelLoad?.fallback) {
+			throw new Error('Generated player fallbacks are forbidden.');
+		}
+		if ((gltf.animations?.length || 0) < 1) throw new Error('Canonical Chossid GLB animations are required.');
+	}
+
+	function playerEvidence(player, defaultClip) {
+		return Object.freeze({
+			animationCount: player.names.length,
+			defaultClip,
+			measuredAnimatedIdle: Boolean(defaultClip),
+			modelSource: 'chossid.glb',
+			optionalAnimationsDeferred: false,
+			visualGuard: 'none-glb-only'
+		});
+	}
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowCanonicalAnimation.js ----
+{
+	const __exports = __awtsmoosModule_50;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file MinimalMeadowCanonicalAnimation.js
+	 * @description Binds every imported Chossid clip to the hydrated skeleton and preserves the authoritative controller explicitly.
+	 * The Awtsmoos gives motion and stillness one living vessel; Awtsmoos.com keeps that exact controller reachable across bootstrap,
+	 * gameplay composition, Movie Studio, diagnostics, and reproduction so a later compatibility player cannot erase fourteen authored clips.
+	 */
+
+	const TinyAnimationPlayer = __awtsmoosModule_51.TinyAnimationPlayer;
+	const createClipMap = __awtsmoosModule_58.createClipMap;
+
+	function installCanonicalChossidAnimation(runtime, gltf, visiblePlayer) {
+		const animations = gltf.animations || [];
+		const player = new TinyAnimationPlayer(visiblePlayer, animations);
+		const clips = createClipMap(animations);
+		const catalog = createCanonicalChossidAnimationCatalog(animations);
+		const defaultClip = clips.stand || player.names[0] || '';
+		if (defaultClip) player.play(defaultClip);
+		player.update(0);
+		runtime.canonicalAnimationPlayer = player;
+		runtime.player = player;
+		runtime.clips = clips;
+		runtime.animationCatalog = catalog;
+		runtime.state.clip = defaultClip;
+		return { catalog, clips, defaultClip, player };
+	}
+
+
+	__exports.installCanonicalChossidAnimation = installCanonicalChossidAnimation;
+	/**
+	 * Returns immutable evidence for every animation exported by canonical `chossid.glb`.
+	 *
+	 * @param {Array<object>} animations Parsed GLB clips.
+	 * @returns {ReadonlyArray<object>} Exact-name animation catalog.
+	 */
+	function createCanonicalChossidAnimationCatalog(animations = []) {
+		return Object.freeze(animations.map((clip, index) => Object.freeze({
+			channels: Array.isArray(clip?.channels) ? clip.channels.length : 0,
+			duration: Number(clip?.duration || 0),
+			index,
+			name: String(clip?.name || `animation-${index}`),
+			pose: Number(clip?.duration || 0) <= 0.0005
+		})));
+	}
+
+	__exports.createCanonicalChossidAnimationCatalog = createCanonicalChossidAnimationCatalog;
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowCanonicalPlayerInstall.js ----
+{
+	const __exports = __awtsmoosModule_49;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file MinimalMeadowCanonicalPlayerInstall.js
+	 * @description Atomically installs the authored Chossid and removes every predecessor instead of preserving a rigid human underlay.
+	 * The Awtsmoos lets richer manifestation replace lesser vessels without double form; Awtsmoos.com keeps one traveler in sight,
+	 * so bones may visibly animate without a generated silhouette covering the authored motion and light.
+	 */
+
+	const installCanonicalChossidAnimation = __awtsmoosModule_50.installCanonicalChossidAnimation;
+
+	function installCanonicalPlayer(runtime, predecessor, gltf, prepared) {
+		runtime.scene.add(prepared.model);
+		runtime.model = prepared.model;
+		runtime.visiblePlayer = prepared.visiblePlayer;
+		runtime.canonicalPlayerScene = prepared.visiblePlayer;
+		runtime.playerGltf = { ...gltf, scene: prepared.visiblePlayer };
+		runtime.feet = prepared.feet;
+		runtime.footOffset = 0;
+		runtime.state.feet = prepared.feet;
+		for (const vessel of [runtime.collisionMover, runtime.mover, runtime.jumpPhysics]) {
+			if (vessel) vessel.footOffset = 0;
+		}
+		const animation = installCanonicalChossidAnimation(
+			runtime,
+			gltf,
+			prepared.visiblePlayer
+		);
+		runtime.equipment?.bindModel?.(prepared.model);
+		const evidence = canonicalEvidence(animation, gltf);
+		markCanonical(prepared.model, evidence);
+		markCanonical(prepared.visiblePlayer, evidence);
+		removePredecessor(predecessor, prepared.model);
+		runtime.playerVisualGuard = null;
+		return Object.freeze({ animation, evidence, visualGuard: null });
+	}
+
+
+	__exports.installCanonicalPlayer = installCanonicalPlayer;
+	function canonicalEvidence(animation, gltf) {
+		return Object.freeze({
+			animationCount: gltf.animations?.length || 0,
+			defaultClip: animation.defaultClip,
+			modelSource: 'chossid.glb',
+			measuredAnimatedIdle: Boolean(animation.defaultClip),
+			visualGuard: 'none-glb-only'
+		});
+	}
+
+	function markCanonical(model, evidence) {
+		model.userData ||= {};
+		model.userData.AwtsmoosCanonicalPlayer = evidence;
+	}
+
+	function removePredecessor(predecessor, canonicalRoot) {
+		if (!predecessor || predecessor === canonicalRoot) return;
+		predecessor.traverse?.(object => {
+			object.visible = false;
+		});
+		predecessor.parent?.remove?.(predecessor);
+	}
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapPlayerRuntime.js ----
+{
+	const __exports = __awtsmoosModule_20;
+	//B"H
+	//Boruch Hashem
+	//Blessed be He
+
+	/**
+	 * @file BootstrapPlayerRuntime.js
+	 * @description Creates first-control runtime only from the already-loaded authored Chossid GLB.
+	 * Generated human geometry is forbidden: the canonical GLB either exists before play or launch fails visibly.
+	 */
+
+	const createDeferredActorSystems = __awtsmoosModule_21.createDeferredActorSystems;
+	const createBootstrapPlayerVessels = __awtsmoosModule_34.createBootstrapPlayerVessels;
+	const createGroundedCanonicalPlayer = __awtsmoosModule_34.createGroundedCanonicalPlayer;
+	const prepareCanonicalPlayerMeshes = __awtsmoosModule_34.prepareCanonicalPlayerMeshes;
+	const createBootstrapPlayerState = __awtsmoosModule_47.createBootstrapPlayerState;
+	const createBootstrapPlayerStats = __awtsmoosModule_47.createBootstrapPlayerStats;
+	const installCanonicalPlayer = __awtsmoosModule_49.installCanonicalPlayer;
+
+	/**
+	 * Creates the movement runtime around the canonical authored model already loaded by the essential-asset gate.
+	 * @param {object} foundation World foundation containing `playerGltf` and the live scene.
+	 * @returns {object} Runtime whose only visible human is the canonical Chossid.
 	 */
 	function createBootstrapPlayerRuntime(foundation) {
+		const gltf = foundation.playerGltf;
+		if (!gltf?.scene) {
+			throw new Error('Canonical chossid.glb must be loaded before player runtime creation.');
+		}
 		const state = createBootstrapPlayerState();
-		const model = createBootstrapVisiblePlayer();
-		model.position.set(state.x, state.y, state.z);
-		model.visible = true;
-		foundation.scene.add(model);
+		const runtime = createRuntimeVessel(foundation, state, gltf);
+		const prepared = createGroundedCanonicalPlayer(gltf.scene, state);
+		const meshCount = prepareCanonicalPlayerMeshes(prepared.visiblePlayer);
+		const animationCount = gltf.animations?.length || 0;
+		if (meshCount < 1) throw new Error('Canonical chossid.glb has no renderable meshes.');
+		if (animationCount < 1) throw new Error('Canonical chossid.glb has no authored animations.');
+		const installed = installCanonicalPlayer(runtime, null, gltf, prepared);
+		const receipt = canonicalReceipt(
+			foundation.playerGlbEvidence,
+			installed,
+			meshCount,
+			animationCount
+		);
+		runtime.canonicalPlayer = receipt;
+		runtime.canonicalPlayerHydrationStage = 'ready';
+		runtime.canonicalPlayerPromise = Promise.resolve(receipt);
+		runtime.canonicalPlayerLaunchPromise = runtime.canonicalPlayerPromise;
+		runtime.worldActorsReady = false;
+		return runtime;
+	}
+
+
+	__exports.createBootstrapPlayerRuntime = createBootstrapPlayerRuntime;
+	/** Creates the runtime vessel before the canonical model is atomically installed. */
+	function createRuntimeVessel(foundation, state, gltf) {
 		return {
 			...foundation,
 			...createBootstrapPlayerVessels(foundation),
 			...createDeferredActorSystems(),
 			canonicalPlayer: null,
-			canonicalPlayerHydrationStage: 'deferred',
 			canonicalPlayerPromise: null,
 			feet: 0,
 			footOffset: 0,
-			model,
-			player: createBootstrapAnimationHandle(),
-			playerGltf: null,
+			model: null,
+			player: null,
+			playerGltf: gltf,
 			playerStats: createBootstrapPlayerStats(),
 			state,
-			visiblePlayer: model,
+			visiblePlayer: null,
 			worldActorsReady: false
 		};
 	}
 
-
-	__exports.createBootstrapPlayerRuntime = createBootstrapPlayerRuntime;
-	/**
-	 * Provides the tiny animation contract consumed by diagnostics and movement until canonical hydration replaces it.
-	 * @returns {object} Safe no-op animation player with the same observable surface used by the runtime.
-	 */
-	function createBootstrapAnimationHandle() {
-		return {
-			current: null,
-			names: [],
-			diagnostics() {
-				return {
-					current: null,
-					names: [],
-					status: 'bootstrap-shell'
-				};
-			},
-			play() {
-				return false;
-			},
-			update() {
-				return false;
-			}
-		};
+	/** Returns immutable evidence that first control already owns the authored human. */
+	function canonicalReceipt(evidence, installed, meshes, animations) {
+		return Object.freeze({
+			animations,
+			defaultClip: installed.animation.defaultClip,
+			fallback: false,
+			meshes,
+			source: evidence?.source || 'player/chossid.glb',
+			status: 'ready',
+			visualGuard: 'none-glb-only'
+		});
 	}
 
 }
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapRuntimeDiagnosticSnapshots.js ----
 {
-	const __exports = __awtsmoosModule_53;
+	const __exports = __awtsmoosModule_60;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -4370,7 +4995,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/VisualQualityPlayerDiagnostics.js ----
 {
-	const __exports = __awtsmoosModule_55;
+	const __exports = __awtsmoosModule_62;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -4459,7 +5084,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/VisualQualitySceneDiagnostics.js ----
 {
-	const __exports = __awtsmoosModule_56;
+	const __exports = __awtsmoosModule_63;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -4584,7 +5209,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/VisualQualityDiagnostics.js ----
 {
-	const __exports = __awtsmoosModule_54;
+	const __exports = __awtsmoosModule_61;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -4596,8 +5221,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com exposes their joined testimony only when asked, so frame-time remains fine.
 	 */
 
-	const capturePlayerVisualDiagnostics = __awtsmoosModule_55.capturePlayerVisualDiagnostics;
-	const captureSceneVisualDiagnostics = __awtsmoosModule_56.captureSceneVisualDiagnostics;
+	const capturePlayerVisualDiagnostics = __awtsmoosModule_62.capturePlayerVisualDiagnostics;
+	const captureSceneVisualDiagnostics = __awtsmoosModule_63.captureSceneVisualDiagnostics;
 
 	const VISUAL_QUALITY_DIAGNOSTICS_VERSION = 'visual-quality-diagnostics-01';
 
@@ -4627,7 +5252,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapRuntimeDiagnostics.js ----
 {
-	const __exports = __awtsmoosModule_52;
+	const __exports = __awtsmoosModule_59;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -4639,12 +5264,12 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com joins movement, nature, rendering, districts, and visible quality without a monolithic line.
 	 */
 
-	const bootstrapDistrictSnapshot = __awtsmoosModule_53.bootstrapDistrictSnapshot;
-	const bootstrapHydrationSnapshot = __awtsmoosModule_53.bootstrapHydrationSnapshot;
-	const bootstrapRealNatureSnapshot = __awtsmoosModule_53.bootstrapRealNatureSnapshot;
-	const bootstrapRendererSnapshot = __awtsmoosModule_53.bootstrapRendererSnapshot;
-	const bootstrapWorldSnapshot = __awtsmoosModule_53.bootstrapWorldSnapshot;
-	const captureVisualQualityDiagnostics = __awtsmoosModule_54.captureVisualQualityDiagnostics;
+	const bootstrapDistrictSnapshot = __awtsmoosModule_60.bootstrapDistrictSnapshot;
+	const bootstrapHydrationSnapshot = __awtsmoosModule_60.bootstrapHydrationSnapshot;
+	const bootstrapRealNatureSnapshot = __awtsmoosModule_60.bootstrapRealNatureSnapshot;
+	const bootstrapRendererSnapshot = __awtsmoosModule_60.bootstrapRendererSnapshot;
+	const bootstrapWorldSnapshot = __awtsmoosModule_60.bootstrapWorldSnapshot;
+	const captureVisualQualityDiagnostics = __awtsmoosModule_61.captureVisualQualityDiagnostics;
 
 	function createBootstrapRuntimeDiagnostics(
 		runtime,
@@ -4687,7 +5312,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/performance/FrameBudgetWindow.js ----
 {
-	const __exports = __awtsmoosModule_58;
+	const __exports = __awtsmoosModule_65;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -4797,7 +5422,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzLocomotionPlayback.js ----
 {
-	const __exports = __awtsmoosModule_61;
+	const __exports = __awtsmoosModule_68;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -4809,8 +5434,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * against a wall, across a teleport, or at a speed unrelated to the world distance traversed beneath them.
 	 */
 
-	const RUN_SPEED = __awtsmoosModule_47.RUN_SPEED;
-	const WALK_SPEED = __awtsmoosModule_47.WALK_SPEED;
+	const RUN_SPEED = __awtsmoosModule_44.RUN_SPEED;
+	const WALK_SPEED = __awtsmoosModule_44.WALK_SPEED;
 
 	const MAX_FRAME_SECONDS = 0.2;
 	const MAX_VALID_SPEED = RUN_SPEED * 2.2;
@@ -4898,712 +5523,9 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-gltf-accessors.js ----
-{
-	const __exports = __awtsmoosModule_65;
-	// B"H
-	const BufferAttribute = __awtsmoosModule_22.BufferAttribute;
-
-	/** Accessors: the hidden letters of GLTF made exact before the body moves. */
-	const COMPONENTS={5120:Int8Array,5121:Uint8Array,5122:Int16Array,5123:Uint16Array,5125:Uint32Array,5126:Float32Array};
-
-	__exports.COMPONENTS = COMPONENTS;
-	const TYPE_SIZES={SCALAR:1,VEC2:2,VEC3:3,VEC4:4,MAT2:4,MAT3:9,MAT4:16};
-
-	__exports.TYPE_SIZES = TYPE_SIZES;
-	function componentName(t){return ({5120:'BYTE',5121:'UNSIGNED_BYTE',5122:'SHORT',5123:'UNSIGNED_SHORT',5125:'UNSIGNED_INT',5126:'FLOAT'})[t]||String(t);}
-
-	__exports.componentName = componentName;
-	function normalizedScale(Ctor){if(Ctor===Int8Array)return 1/127;if(Ctor===Uint8Array)return 1/255;if(Ctor===Int16Array)return 1/32767;if(Ctor===Uint16Array)return 1/65535;return 1;}
-
-
-	__exports.normalizedScale = normalizedScale;
-	function scalar(view,off,Ctor){if(Ctor===Float32Array)return view.getFloat32(off,true);if(Ctor===Uint32Array)return view.getUint32(off,true);if(Ctor===Uint16Array)return view.getUint16(off,true);if(Ctor===Uint8Array)return view.getUint8(off);if(Ctor===Int16Array)return view.getInt16(off,true);return view.getInt8(off);}
-	function writeTuple(target,index,values,itemSize){for(let k=0;k<itemSize;k++)target[index*itemSize+k]=values[k]??0;}
-
-	function readAccessor(doc,buffers,index){
-	  const a=doc.accessors[index],Ctor=COMPONENTS[a?.componentType],itemSize=TYPE_SIZES[a?.type]||1;if(!a||!Ctor)throw new Error(`Unsupported accessor ${index}`);
-	  const normalized=a.normalized===true;let array;
-	  if(a.bufferView===undefined){array=new Ctor(a.count*itemSize);}else{
-	    const bv=doc.bufferViews[a.bufferView],buffer=buffers[bv.buffer],base=(bv.byteOffset||0)+(a.byteOffset||0),stride=bv.byteStride||Ctor.BYTES_PER_ELEMENT*itemSize;
-	    if(stride===Ctor.BYTES_PER_ELEMENT*itemSize){array=new Ctor(buffer,base,a.count*itemSize);}else{array=new Ctor(a.count*itemSize);const view=new DataView(buffer);for(let i=0;i<a.count;i++)for(let k=0;k<itemSize;k++)array[i*itemSize+k]=scalar(view,base+i*stride+k*Ctor.BYTES_PER_ELEMENT,Ctor);}
-	  }
-	  if(a.sparse){array=new Ctor(array);applySparse(doc,buffers,a,array,itemSize,Ctor);}
-	  const attr=new BufferAttribute(array,itemSize,normalized,a.componentType);attr.accessorIndex=index;attr.min=a.min;attr.max=a.max;return attr;
-	}
-
-
-	__exports.readAccessor = readAccessor;
-	function applySparse(doc,buffers,a,array,itemSize,Ctor){
-	  const s=a.sparse,iv=doc.bufferViews[s.indices.bufferView],vv=doc.bufferViews[s.values.bufferView],ICtor=COMPONENTS[s.indices.componentType];
-	  const ib=buffers[iv.buffer],vb=buffers[vv.buffer],iBase=(iv.byteOffset||0)+(s.indices.byteOffset||0),vBase=(vv.byteOffset||0)+(s.values.byteOffset||0);
-	  const iView=new DataView(ib),vView=new DataView(vb);for(let n=0;n<s.count;n++){const idx=scalar(iView,iBase+n*ICtor.BYTES_PER_ELEMENT,ICtor),vals=[];for(let k=0;k<itemSize;k++)vals[k]=scalar(vView,vBase+(n*itemSize+k)*Ctor.BYTES_PER_ELEMENT,Ctor);writeTuple(array,idx,vals,itemSize);}
-	}
-
-	function accessorFloatArray(attr){
-	  const src=attr.array;if(src instanceof Float32Array&&!attr.normalized)return src;const out=new Float32Array(src.length),scale=attr.normalized?normalizedScale(src.constructor):1;
-	  for(let i=0;i<src.length;i++){let v=src[i]*scale;if(attr.normalized&&(src instanceof Int8Array||src instanceof Int16Array))v=Math.max(-1,v);out[i]=v;}return out;
-	}
-
-
-	__exports.accessorFloatArray = accessorFloatArray;
-	function normalizeWeightsAttribute(attr){
-	  const src=accessorFloatArray(attr),out=new Float32Array(src.length),size=attr.itemSize;for(let i=0;i<attr.count;i++){let sum=0;for(let k=0;k<size;k++)sum+=Math.abs(src[i*size+k]||0);if(sum>0){for(let k=0;k<size;k++)out[i*size+k]=(src[i*size+k]||0)/sum;}else out[i*size]=1;}return new BufferAttribute(out,size,false,5126);
-	}
-
-
-	__exports.normalizeWeightsAttribute = normalizeWeightsAttribute;
-	function accessorSummary(doc,index){const a=doc.accessors[index];return `${index} ${a.type} ${componentName(a.componentType)} norm=${!!a.normalized} count=${a.count}`;}
-
-	__exports.accessorSummary = accessorSummary;
-
-}
-
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-animation-parser.js ----
-{
-	const __exports = __awtsmoosModule_64;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
-
-	/**
-	 * @file tiny-animation-parser.js
-	 * @description Decodes GLTF animation channels into stable scalar sampling vessels.
-	 * The Awtsmoos speaks every motion through measured times and values; Awtsmoos.com
-	 * preserves each source channel exactly while separating parsing from living playback.
-	 */
-
-	const accessorFloatArray = __awtsmoosModule_65.accessorFloatArray;
-
-	const TARGET_SIZE = {
-		rotation: 4,
-		scale: 3,
-		translation: 3,
-		weights: 1
-	};
-
-	function summarizeAnimations(document) {
-		return (document.animations || []).map((animation, index) => ({
-			channels: (animation.channels || []).length,
-			index,
-			name: animation.name || `animation_${index}`,
-			paths: [...new Set(
-				(animation.channels || [])
-					.map(channel => channel.target?.path)
-					.filter(Boolean)
-			)],
-			samplers: (animation.samplers || []).length
-		}));
-	}
-
-
-	__exports.summarizeAnimations = summarizeAnimations;
-	function parseTinyAnimations(document, accessors, nodeMap) {
-		return (document.animations || []).map((animation, index) => (
-			parseAnimation(animation, index, accessors, nodeMap)
-		));
-	}
-
-
-	__exports.parseTinyAnimations = parseTinyAnimations;
-	function parseAnimation(animation, index, accessors, nodeMap) {
-		const channels = [];
-		let duration = 0;
-		for (const sourceChannel of animation.channels || []) {
-			const channel = parseChannel(
-				sourceChannel,
-				animation.samplers || [],
-				accessors,
-				nodeMap
-			);
-			if (!channel) {
-				continue;
-			}
-			channels.push(channel);
-			duration = Math.max(duration, channel.input[channel.input.length - 1] || 0);
-		}
-		return {
-			channels,
-			duration,
-			index,
-			name: animation.name || `animation_${index}`
-		};
-	}
-
-	function parseChannel(sourceChannel, samplers, accessors, nodeMap) {
-		const sampler = samplers[sourceChannel.sampler];
-		const target = sourceChannel.target || {};
-		const node = nodeMap.get(target.node);
-		const size = TARGET_SIZE[target.path];
-		if (!sampler || !node || !size) {
-			return null;
-		}
-		return {
-			input: accessorFloatArray(accessors[sampler.input]),
-			interpolation: sampler.interpolation || 'LINEAR',
-			node,
-			nodeIndex: target.node,
-			output: accessorFloatArray(accessors[sampler.output]),
-			path: target.path,
-			size
-		};
-	}
-
-}
-
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-animation-bindings.js ----
-{
-	const __exports = __awtsmoosModule_67;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
-
-	/**
-	 * @file tiny-animation-bindings.js
-	 * @description Remembers only properties truly governed by imported animation channels.
-	 * The Awtsmoos renews the whole tree, yet Awtsmoos.com restores only the animated vessels,
-	 * preserving exact bind values without traversing unrelated cottages, garments, or helpers.
-	 */
-
-	function createAnimationBindings(clips) {
-		const bindingByNode = new Map();
-		const bindings = [];
-		for (const clip of clips) {
-			for (const channel of clip.channels || []) {
-				let paths = bindingByNode.get(channel.node);
-				if (!paths) {
-					paths = new Map();
-					bindingByNode.set(channel.node, paths);
-				}
-				if (paths.has(channel.path)) {
-					continue;
-				}
-				const binding = {
-					base: readBaseValue(channel.node, channel.path),
-					node: channel.node,
-					path: channel.path
-				};
-				paths.set(channel.path, binding);
-				bindings.push(binding);
-			}
-		}
-		return bindings;
-	}
-
-
-	__exports.createAnimationBindings = createAnimationBindings;
-	function captureClipPose(clip) {
-		const pose = new Map();
-		for (const channel of clip?.channels || []) {
-			pose.set(channel, readNodeValue(channel.node, channel.path));
-		}
-		return pose;
-	}
-
-
-	__exports.captureClipPose = captureClipPose;
-	function resetAnimationBindings(bindings) {
-		for (const binding of bindings) {
-			writeNodeValue(binding.node, binding.path, binding.base);
-		}
-	}
-
-
-	__exports.resetAnimationBindings = resetAnimationBindings;
-	function writeNodeValue(node, path, values) {
-		if (path === 'translation') {
-			node.position.set(values[0], values[1], values[2]);
-			return;
-		}
-		if (path === 'rotation') {
-			node.quaternion.set(values[0], values[1], values[2], values[3]);
-			return;
-		}
-		if (path === 'scale') {
-			node.scale.set(values[0], values[1], values[2]);
-		}
-	}
-
-
-	__exports.writeNodeValue = writeNodeValue;
-	function readBaseValue(node, path) {
-		const base = node._base;
-		if (path === 'translation') {
-			const value = base?.position || node.position;
-			return [value.x, value.y, value.z];
-		}
-		if (path === 'rotation') {
-			const value = base?.quaternion || node.quaternion;
-			return [value.x, value.y, value.z, value.w];
-		}
-		if (path === 'scale') {
-			const value = base?.scale || node.scale;
-			return [value.x, value.y, value.z];
-		}
-		return [0];
-	}
-
-	function readNodeValue(node, path) {
-		if (path === 'translation') {
-			return [node.position.x, node.position.y, node.position.z];
-		}
-		if (path === 'rotation') {
-			return [node.quaternion.x, node.quaternion.y, node.quaternion.z, node.quaternion.w];
-		}
-		if (path === 'scale') {
-			return [node.scale.x, node.scale.y, node.scale.z];
-		}
-		return [0];
-	}
-
-}
-
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-animation-quaternion.js ----
-{
-	const __exports = __awtsmoosModule_69;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
-
-	/**
-	 * @file tiny-animation-quaternion.js
-	 * @description Writes one normalized quaternion interpolation into a reusable vessel.
-	 * The Awtsmoos turns without division; Awtsmoos.com reveals that rotation through a
-	 * stable destination whose identity survives every sampled instant.
-	 */
-
-	function slerpQuaternionInto(
-		output,
-		ax,
-		ay,
-		az,
-		aw,
-		bx,
-		by,
-		bz,
-		bw,
-		amount
-	) {
-		let cosine = ax * bx + ay * by + az * bz + aw * bw;
-		if (cosine < 0) {
-			bx = -bx;
-			by = -by;
-			bz = -bz;
-			bw = -bw;
-			cosine = -cosine;
-		}
-		if (cosine > 0.9995) {
-			return normalizeInto(
-				output,
-				ax + (bx - ax) * amount,
-				ay + (by - ay) * amount,
-				az + (bz - az) * amount,
-				aw + (bw - aw) * amount
-			);
-		}
-		const angle = Math.acos(Math.min(1, Math.max(-1, cosine)));
-		const sine = Math.sin(angle);
-		const leftWeight = Math.sin((1 - amount) * angle) / sine;
-		const rightWeight = Math.sin(amount * angle) / sine;
-		return normalizeInto(
-			output,
-			ax * leftWeight + bx * rightWeight,
-			ay * leftWeight + by * rightWeight,
-			az * leftWeight + bz * rightWeight,
-			aw * leftWeight + bw * rightWeight
-		);
-	}
-
-
-	__exports.slerpQuaternionInto = slerpQuaternionInto;
-	function normalizeInto(output, x, y, z, w) {
-		const scale = 1 / Math.max(1e-12, Math.hypot(x, y, z, w));
-		output[0] = x * scale;
-		output[1] = y * scale;
-		output[2] = z * scale;
-		output[3] = w * scale;
-		return output;
-	}
-
-}
-
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-animation-sampler.js ----
-{
-	const __exports = __awtsmoosModule_68;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
-
-	/**
-	 * @file tiny-animation-sampler.js
-	 * @description Samples scalar animation channels without transient per-frame arrays.
-	 * The Awtsmoos joins keyframes without waste; Awtsmoos.com lets each bone receive the
-	 * same measured pose while temporary numbers pass through stable, reusable vessels.
-	 */
-
-	const slerpQuaternionInto = __awtsmoosModule_69.slerpQuaternionInto;
-
-	function applyChannelSample(channel, time, fadeFrom, fadeAmount = 1) {
-		const span = resolveSpan(channel, time);
-		if (channel.path === 'rotation') {
-			applyRotation(channel, span, fadeFrom, fadeAmount);
-			return;
-		}
-		if (channel.path === 'translation' || channel.path === 'scale') {
-			applyVector(channel, span, fadeFrom, fadeAmount);
-		}
-	}
-
-
-	__exports.applyChannelSample = applyChannelSample;
-	function applyVector(channel, span, fadeFrom, fadeAmount) {
-		const values = channel._sampleScratch || (channel._sampleScratch = new Float64Array(3));
-		for (let index = 0; index < 3; index += 1) {
-			const sampled = sampleComponent(channel, span, index);
-			values[index] = fadeFrom
-				? fadeFrom[index] + (sampled - fadeFrom[index]) * fadeAmount
-				: sampled;
-		}
-		const target = channel.path === 'translation'
-			? channel.node.position
-			: channel.node.scale;
-		target.set(values[0], values[1], values[2]);
-	}
-
-	function applyRotation(channel, span, fadeFrom, fadeAmount) {
-		const output = channel._sampleScratch || (channel._sampleScratch = new Float64Array(4));
-		const left = span.left * channel.size;
-		const right = span.right * channel.size;
-		const source = channel.output;
-		if (span.step) {
-			for (let index = 0; index < 4; index += 1) {
-				output[index] = source[left + index] ?? (index === 3 ? 1 : 0);
-			}
-		} else {
-			slerpQuaternionInto(output,
-				source[left] || 0, source[left + 1] || 0,
-				source[left + 2] || 0, source[left + 3] ?? 1,
-				source[right] || 0, source[right + 1] || 0,
-				source[right + 2] || 0, source[right + 3] ?? 1,
-				span.amount);
-		}
-		if (fadeFrom) {
-			slerpQuaternionInto(output, ...fadeFrom, ...output, fadeAmount);
-		}
-		channel.node.quaternion.set(output[0], output[1], output[2], output[3]);
-	}
-
-	function sampleComponent(channel, span, componentIndex) {
-		const left = span.left * channel.size + componentIndex;
-		const valueA = channel.output[left] ?? 0;
-		if (span.step) return valueA;
-		const right = span.right * channel.size + componentIndex;
-		const valueB = channel.output[right] ?? valueA;
-		return valueA + (valueB - valueA) * span.amount;
-	}
-
-	function resolveSpan(channel, time) {
-		const times = channel.input;
-		const span = channel._sampleSpan || (channel._sampleSpan = {});
-		const last = times.length - 1;
-		if (last <= 0 || time <= times[0]) return assignSpan(span, 0, 0, 0, true);
-		if (time >= times[last]) return assignSpan(span, last, last, 0, true);
-		let low = 0;
-		let high = last;
-		while (high - low > 1) {
-			const middle = (low + high) >> 1;
-			if (times[middle] <= time) low = middle;
-			else high = middle;
-		}
-		const amount = (time - times[low]) / Math.max(1e-8, times[high] - times[low]);
-		return assignSpan(span, low, high, amount, channel.interpolation === 'STEP');
-	}
-
-	function assignSpan(span, left, right, amount, step) {
-		span.left = left;
-		span.right = right;
-		span.amount = amount;
-		span.step = step || left === right;
-		return span;
-	}
-
-}
-
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-animation-player.js ----
-{
-	const __exports = __awtsmoosModule_66;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
-
-	/**
-	 * @file tiny-animation-player.js
-	 * @description Advances imported clips through exact first-play, looping, and crossfade laws.
-	 * The Awtsmoos renews a living pose from the first instant; Awtsmoos.com never blends the first
-	 * idle from bind pose with zero weight, yet preserves gentle transitions after motion is alive.
-	 */
-
-	const captureClipPose = __awtsmoosModule_67.captureClipPose;
-	const createAnimationBindings = __awtsmoosModule_67.createAnimationBindings;
-	const resetAnimationBindings = __awtsmoosModule_67.resetAnimationBindings;
-	const applyChannelSample = __awtsmoosModule_68.applyChannelSample;
-
-	class TinyAnimationPlayer {
-		constructor(root, clips = []) {
-			this.root = root;
-			this.clips = clips;
-			this.bindings = createAnimationBindings(clips);
-			this.currentIndex = clips.length ? 0 : -1;
-			this.time = 0;
-			this.playing = true;
-			this.bindPose = false;
-			this.lastApplied = null;
-			this.fadeDuration = 0.18;
-			this.fadeTime = 0;
-			this.fadePose = null;
-		}
-
-		get current() {
-			return this.clips[this.currentIndex] || null;
-		}
-
-		get names() {
-			return this.clips.map(clip => clip.name);
-		}
-
-		play(indexOrName) {
-			const index = resolveClipIndex(this.clips, indexOrName);
-			if (index < 0) return this.current;
-			const target = this.clips[index];
-			const alreadyApplied = this.lastApplied === target?.name;
-			if (index === this.currentIndex && !this.bindPose && alreadyApplied) {
-				this.playing = true;
-				return this.current;
-			}
-			const hasAppliedPose = this.lastApplied !== null && this.lastApplied !== 'bind';
-			this.fadePose = hasAppliedPose ? captureClipPose(target) : null;
-			this.fadeTime = hasAppliedPose ? 0 : this.fadeDuration;
-			this.currentIndex = index;
-			this.time = 0;
-			this.bindPose = false;
-			this.playing = true;
-			this.apply(0);
-			return this.current;
-		}
-
-		next() {
-			return this.play((this.currentIndex + 1) % Math.max(1, this.clips.length));
-		}
-
-		setBindPose(enabled) {
-			this.bindPose = Boolean(enabled);
-			this.time = 0;
-			this.fadePose = null;
-			resetAnimationBindings(this.bindings);
-			this.lastApplied = this.bindPose ? 'bind' : null;
-		}
-
-		update(deltaTime) {
-			if (this.bindPose || !this.current) return;
-			const delta = Math.max(0, Number(deltaTime) || 0);
-			if (this.playing) this.time += delta;
-			if (this.fadePose) this.fadeTime += delta;
-			const duration = this.current.duration || 1;
-			this.apply(duration ? this.time % duration : 0);
-		}
-
-		apply(time) {
-			const clip = this.current;
-			if (!clip) return;
-			resetAnimationBindings(this.bindings);
-			const fadeAmount = this.fadePose
-				? smooth(Math.min(1, this.fadeTime / Math.max(0.001, this.fadeDuration)))
-				: 1;
-			for (const channel of clip.channels) {
-				applyChannelSample(channel, time, this.fadePose?.get(channel), fadeAmount);
-			}
-			if (this.fadePose && this.fadeTime >= this.fadeDuration) this.fadePose = null;
-			this.lastApplied = clip.name;
-		}
-
-		diagnostics() {
-			const clip = this.current;
-			return {
-				bindPose: this.bindPose,
-				channels: clip?.channels.length || 0,
-				clipCount: this.clips.length,
-				currentAnimation: clip?.name || null,
-				currentIndex: this.currentIndex,
-				duration: Number((clip?.duration || 0).toFixed(3)),
-				fade: this.fadePose
-					? Number((1 - this.fadeTime / this.fadeDuration).toFixed(3))
-					: 0,
-				playing: this.playing,
-				time: Number(this.time.toFixed(3))
-			};
-		}
-	}
-
-
-	__exports.TinyAnimationPlayer = TinyAnimationPlayer;
-	function resolveClipIndex(clips, indexOrName) {
-		return typeof indexOrName === 'number'
-			? indexOrName
-			: clips.findIndex(clip => clip.name === indexOrName);
-	}
-
-	function smooth(amount) {
-		return amount * amount * (3 - 2 * amount);
-	}
-
-}
-
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-animation.js ----
-{
-	const __exports = __awtsmoosModule_63;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
-
-	/**
-	 * @file tiny-animation.js
-	 * @description Stable public doorway to parsed clips and allocation-free playback.
-	 * The Awtsmoos unites source time with visible motion; Awtsmoos.com keeps parsing,
-	 * sampling, bindings, and playback in small vessels behind one familiar import.
-	 */
-
-	__exports.parseTinyAnimations = __awtsmoosModule_64.parseTinyAnimations;
-	__exports.summarizeAnimations = __awtsmoosModule_64.summarizeAnimations;
-	__exports.TinyAnimationPlayer = __awtsmoosModule_66.TinyAnimationPlayer;
-
-}
-
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzPlayerModel.js ----
-{
-	const __exports = __awtsmoosModule_62;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
-
-	/**
-	 * @file EretzPlayerModel.js
-	 * @description Mounts only an authored animated Chossid GLB and exposes shared placement, equipment, and clip contracts.
-	 * The Awtsmoos gives one traveler a measured body, authored bones, and living motion beneath the sky;
-	 * Awtsmoos.com rejects fallback humanity at this final doorway, so every accepted player source remains truthful to the eye.
-	 */
-
-	const TinyAnimationPlayer = __awtsmoosModule_63.TinyAnimationPlayer;
-	const alignModelFeetToGround = __awtsmoosModule_46.alignModelFeetToGround;
-
-	/** Creates one grounded canonical animated player or throws when a fallback identity enters this boundary. */
-	function createPlayerModel(playerGltf, scene) {
-		assertCanonicalPlayer(playerGltf);
-		const model = playerGltf.scene;
-		model.name = 'Awtsmoos_visible_player_isolated_chossid';
-		model.visible = true;
-		model.scale.set(1.52, 1.52, 1.52);
-		model.position.set(0, 0, 4);
-		model.setBaseTransform();
-		scene.add(model);
-		const feet = alignModelFeetToGround(model, 0);
-		const footOffset = model.position.y;
-		const player = new TinyAnimationPlayer(model, playerGltf.animations);
-		const clips = createClipMap(playerGltf.animations);
-		const defaultClip = clips.stand || player.names[0] || '';
-		if (!defaultClip) throw new Error('Canonical Chossid GLB did not expose a playable animation clip.');
-		player.play(defaultClip);
-		model.userData.AwtsmoosCanonicalPlayer = playerEvidence(player, defaultClip);
-		return { clips, defaultClip, feet, footOffset, model, player };
-	}
-
-
-	__exports.createPlayerModel = createPlayerModel;
-	/** Collects authored equipment meshes and their current visibility. */
-	function createEquipment(model) {
-		const materials = new Set();
-		const meshes = [];
-		const visible = {};
-		model.traverse(object => {
-			if (!object.isMesh && !object.isSkinnedMesh) return;
-			const material = object.material?.name || 'material';
-			materials.add(material);
-			visible[material] = object.visible !== false;
-			meshes.push({ name: object.name, material, object });
-		});
-		return { materials: [...materials], meshes, visible };
-	}
-
-
-	__exports.createEquipment = createEquipment;
-	/** Toggles every authored mesh sharing one material name. */
-	function toggleEquipmentMaterial(model, name, enabled) {
-		model.traverse(object => {
-			if ((object.isMesh || object.isSkinnedMesh) && object.material?.name === name) {
-				object.visible = Boolean(enabled);
-			}
-		});
-	}
-
-
-	__exports.toggleEquipmentMaterial = toggleEquipmentMaterial;
-	/** Places the canonical player root from authoritative runtime state. */
-	function placePlayerModel(model, state) {
-		model.position.set(state.x, state.renderY, state.z);
-		model.quaternion.set(0, Math.sin(state.facing / 2), 0, Math.cos(state.facing / 2));
-	}
-
-
-	__exports.placePlayerModel = placePlayerModel;
-	function faceTarget(state) {
-		return { x: state.x, y: state.renderY + state.faceHeight, z: state.z };
-	}
-
-
-	__exports.faceTarget = faceTarget;
-	function createClipMap(animations) {
-		const clips = animations.map(clip => ({ duration: Number(clip.duration || 0), name: clip.name || '' }));
-		const names = clips.map(clip => clip.name);
-		const animated = expression => clips.find(clip => expression.test(clip.name) && clip.duration > 0)?.name;
-		const named = expression => names.find(name => expression.test(name));
-		const stand = animated(/^stand_Armature$/i)
-			|| animated(/^stand 2_Armature$/i)
-			|| animated(/stand|idle/i)
-			|| named(/neutral/i)
-			|| names[0]
-			|| '';
-		const walk = animated(/walk|step|stroll/i) || stand;
-		const run = animated(/run|jog/i) || walk;
-		const jump = animated(/jump|leap/i) || stand;
-		return { fall: animated(/fall|air|drop/i) || jump, jump, run, stand, walk };
-	}
-
-
-	__exports.createClipMap = createClipMap;
-	function assertCanonicalPlayer(gltf) {
-		if (!gltf?.scene) throw new Error('Canonical Chossid GLB scene is required.');
-		const userData = gltf.scene.userData || {};
-		if (gltf.userData?.fallback || userData.fallback || userData.modelAssetFallback || userData.isolatedModelLoad?.fallback) {
-			throw new Error('Generated player fallbacks are forbidden.');
-		}
-		if ((gltf.animations?.length || 0) < 1) throw new Error('Canonical Chossid GLB animations are required.');
-	}
-
-	function playerEvidence(player, defaultClip) {
-		return Object.freeze({
-			animationCount: player.names.length,
-			defaultClip,
-			measuredAnimatedIdle: Boolean(defaultClip),
-			modelSource: 'chossid.glb',
-			optionalAnimationsDeferred: false,
-			visualGuard: 'none-glb-only'
-		});
-	}
-
-}
-
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzAnimationMotion.js ----
 {
-	const __exports = __awtsmoosModule_60;
+	const __exports = __awtsmoosModule_67;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -5615,8 +5537,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com keeps the visible traveler moving through mountain promotion until the canonical clip-map enters the frame.
 	 */
 
-	const measureLocomotionPlayback = __awtsmoosModule_61.measureLocomotionPlayback;
-	const placePlayerModel = __awtsmoosModule_62.placePlayerModel;
+	const measureLocomotionPlayback = __awtsmoosModule_68.measureLocomotionPlayback;
+	const placePlayerModel = __awtsmoosModule_58.placePlayerModel;
 
 	/** Advances animation when its naming contract exists while always preserving visible model placement. */
 	function updatePlayerPresentation(runtime, deltaTime) {
@@ -5670,7 +5592,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapFrameExecution.js ----
 {
-	const __exports = __awtsmoosModule_59;
+	const __exports = __awtsmoosModule_66;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -5682,7 +5604,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * the Awtsmoos recreates motion and image each instant, and Awtsmoos.com lets the bootstrap path breathe the same living GLB through every walk.
 	 */
 
-	const updatePlayerPresentation = __awtsmoosModule_60.updatePlayerPresentation;
+	const updatePlayerPresentation = __awtsmoosModule_67.updatePlayerPresentation;
 
 	const UI_REFRESH_INTERVAL_MS = 100;
 
@@ -5767,7 +5689,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapFrameScheduler.js ----
 {
-	const __exports = __awtsmoosModule_70;
+	const __exports = __awtsmoosModule_69;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -5871,7 +5793,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/movement/MovementVelocityMath.js ----
 {
-	const __exports = __awtsmoosModule_73;
+	const __exports = __awtsmoosModule_72;
 	//B"H
 	//Boruch Hashem
 	//Blessed is He
@@ -5972,7 +5894,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/movement/MovementVelocity.js ----
 {
-	const __exports = __awtsmoosModule_72;
+	const __exports = __awtsmoosModule_71;
 	//B"H
 	//Boruch Hashem
 	//Blessed is He
@@ -5984,10 +5906,10 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * the Awtsmoos renews motion without diagonal excess, and Awtsmoos.com lets many worlds share the same measured ride.
 	 */
 
-	const boundedMovementUnit = __awtsmoosModule_73.boundedMovementUnit;
-	const finiteMovementNumber = __awtsmoosModule_73.finiteMovementNumber;
-	const moveMovementVectorToward = __awtsmoosModule_73.moveMovementVectorToward;
-	const positiveMovementNumber = __awtsmoosModule_73.positiveMovementNumber;
+	const boundedMovementUnit = __awtsmoosModule_72.boundedMovementUnit;
+	const finiteMovementNumber = __awtsmoosModule_72.finiteMovementNumber;
+	const moveMovementVectorToward = __awtsmoosModule_72.moveMovementVectorToward;
+	const positiveMovementNumber = __awtsmoosModule_72.positiveMovementNumber;
 
 	/**
 	 * @description Creates a fresh horizontal velocity record.
@@ -6057,7 +5979,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapMovementControllerSupport.js ----
 {
-	const __exports = __awtsmoosModule_74;
+	const __exports = __awtsmoosModule_73;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -6111,7 +6033,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/movement/MovementIntent.js ----
 {
-	const __exports = __awtsmoosModule_76;
+	const __exports = __awtsmoosModule_75;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -6174,7 +6096,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/movement/MovementStep.js ----
 {
-	const __exports = __awtsmoosModule_77;
+	const __exports = __awtsmoosModule_76;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -6293,7 +6215,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapInputAxis.js ----
 {
-	const __exports = __awtsmoosModule_78;
+	const __exports = __awtsmoosModule_77;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -6375,7 +6297,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapMovementPace.js ----
 {
-	const __exports = __awtsmoosModule_80;
+	const __exports = __awtsmoosModule_79;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -6419,7 +6341,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTravelFacingPolicy.js ----
 {
-	const __exports = __awtsmoosModule_81;
+	const __exports = __awtsmoosModule_80;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -6460,7 +6382,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapMovementFacing.js ----
 {
-	const __exports = __awtsmoosModule_79;
+	const __exports = __awtsmoosModule_78;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -6472,10 +6394,10 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com keeps travel memory and rendered heading united so a later presentation cannot undo what movement made right.
 	 */
 
-	const bootstrapMovementAction = __awtsmoosModule_74.bootstrapMovementAction;
-	const bootstrapTravelFacingLocked = __awtsmoosModule_80.bootstrapTravelFacingLocked;
-	const isMinimalMeadowMovementStep = __awtsmoosModule_81.isMinimalMeadowMovementStep;
-	const retainedMinimalMeadowTravelFacing = __awtsmoosModule_81.retainedMinimalMeadowTravelFacing;
+	const bootstrapMovementAction = __awtsmoosModule_73.bootstrapMovementAction;
+	const bootstrapTravelFacingLocked = __awtsmoosModule_79.bootstrapTravelFacingLocked;
+	const isMinimalMeadowMovementStep = __awtsmoosModule_80.isMinimalMeadowMovementStep;
+	const retainedMinimalMeadowTravelFacing = __awtsmoosModule_80.retainedMinimalMeadowTravelFacing;
 
 	/**
 	 * Settles movement state and promotes unlocked travel direction into the canonical visible facing.
@@ -6512,7 +6434,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahMovementProfile.js ----
 {
-	const __exports = __awtsmoosModule_83;
+	const __exports = __awtsmoosModule_82;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -6544,7 +6466,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapMovementVelocity.js ----
 {
-	const __exports = __awtsmoosModule_82;
+	const __exports = __awtsmoosModule_81;
 	//B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -6556,11 +6478,11 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * the Awtsmoos recreates direction before any vector is born, and Awtsmoos.com keeps first play narrow while universal motion is carried on.
 	 */
 
-	const actorMovementBasis = __awtsmoosModule_77.actorMovementBasis;
-	const cameraMovementBasis = __awtsmoosModule_77.cameraMovementBasis;
-	const combineMovementVectors = __awtsmoosModule_77.combineMovementVectors;
-	const movementVectorFromBasis = __awtsmoosModule_77.movementVectorFromBasis;
-	const MITZVAH_MOVEMENT_PROFILE = __awtsmoosModule_83.MITZVAH_MOVEMENT_PROFILE;
+	const actorMovementBasis = __awtsmoosModule_76.actorMovementBasis;
+	const cameraMovementBasis = __awtsmoosModule_76.cameraMovementBasis;
+	const combineMovementVectors = __awtsmoosModule_76.combineMovementVectors;
+	const movementVectorFromBasis = __awtsmoosModule_76.movementVectorFromBasis;
+	const MITZVAH_MOVEMENT_PROFILE = __awtsmoosModule_82.MITZVAH_MOVEMENT_PROFILE;
 
 	/**
 	 * Builds the desired horizontal velocity while calculating the camera basis only once.
@@ -6613,7 +6535,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/movement/VerticalKinematics.js ----
 {
-	const __exports = __awtsmoosModule_85;
+	const __exports = __awtsmoosModule_84;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -6715,7 +6637,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowGroundSupport.js ----
 {
-	const __exports = __awtsmoosModule_86;
+	const __exports = __awtsmoosModule_85;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -6765,7 +6687,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/movement/JumpWindowState.js ----
 {
-	const __exports = __awtsmoosModule_88;
+	const __exports = __awtsmoosModule_87;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -6856,7 +6778,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahJumpPolicy.js ----
 {
-	const __exports = __awtsmoosModule_87;
+	const __exports = __awtsmoosModule_86;
 	//B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -6868,17 +6790,17 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com keeps double-jump meaning in the game while narrow canonical kinematics carry universal names.
 	 */
 
-	const advanceJumpWindowState = __awtsmoosModule_88.advanceJumpWindowState;
-	const consumeBufferedJump = __awtsmoosModule_88.consumeBufferedJump;
-	const hasBufferedJump = __awtsmoosModule_88.hasBufferedJump;
-	const hasCoyoteGrace = __awtsmoosModule_88.hasCoyoteGrace;
-	const captureVerticalPosition = __awtsmoosModule_85.captureVerticalPosition;
-	const integrateVerticalMotion = __awtsmoosModule_85.integrateVerticalMotion;
-	const isBodyAboveGround = __awtsmoosModule_85.isBodyAboveGround;
-	const landVerticalMotion = __awtsmoosModule_85.landVerticalMotion;
-	const launchVerticalMotion = __awtsmoosModule_85.launchVerticalMotion;
-	const minimalMeadowGroundHeight = __awtsmoosModule_86.minimalMeadowGroundHeight;
-	const MITZVAH_MOVEMENT_PROFILE = __awtsmoosModule_83.MITZVAH_MOVEMENT_PROFILE;
+	const advanceJumpWindowState = __awtsmoosModule_87.advanceJumpWindowState;
+	const consumeBufferedJump = __awtsmoosModule_87.consumeBufferedJump;
+	const hasBufferedJump = __awtsmoosModule_87.hasBufferedJump;
+	const hasCoyoteGrace = __awtsmoosModule_87.hasCoyoteGrace;
+	const captureVerticalPosition = __awtsmoosModule_84.captureVerticalPosition;
+	const integrateVerticalMotion = __awtsmoosModule_84.integrateVerticalMotion;
+	const isBodyAboveGround = __awtsmoosModule_84.isBodyAboveGround;
+	const landVerticalMotion = __awtsmoosModule_84.landVerticalMotion;
+	const launchVerticalMotion = __awtsmoosModule_84.launchVerticalMotion;
+	const minimalMeadowGroundHeight = __awtsmoosModule_85.minimalMeadowGroundHeight;
+	const MITZVAH_MOVEMENT_PROFILE = __awtsmoosModule_82.MITZVAH_MOVEMENT_PROFILE;
 
 	function prepareMitzvahVertical(runtime, state, deltaSeconds) {
 		captureVerticalPosition(state);
@@ -6946,7 +6868,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/math/Ray.js ----
 {
-	const __exports = __awtsmoosModule_91;
+	const __exports = __awtsmoosModule_90;
 	// B"H // Boruch Hashem // Blessed is He
 
 	/**
@@ -6955,7 +6877,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos sends a line from origin toward revelation; Awtsmoos.com lets
 	 * distance become a clear point without borrowing an outside geometry engine.
 	 */
-	const Vec3 = __awtsmoosModule_41.Vec3;
+	const Vec3 = __awtsmoosModule_38.Vec3;
 
 	class Ray {
 		constructor(
@@ -6980,9 +6902,9 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/camera/CameraClipSystem.js ----
 {
-	const __exports = __awtsmoosModule_90;
+	const __exports = __awtsmoosModule_89;
 	// B"H
-	const Ray = __awtsmoosModule_91.Ray;
+	const Ray = __awtsmoosModule_90.Ray;
 
 	function desiredCameraEye(target, yaw, pitch, distanceValue) {
 		const cosine = Math.cos(pitch);
@@ -7043,7 +6965,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahMovementSupport.js ----
 {
-	const __exports = __awtsmoosModule_89;
+	const __exports = __awtsmoosModule_88;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -7055,7 +6977,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * through one real camera eye, so every drag moves the world the traveler actually sees rather than an unused orbit hidden behind a fixed offset.
 	 */
 
-	const desiredCameraEye = __awtsmoosModule_90.desiredCameraEye;
+	const desiredCameraEye = __awtsmoosModule_89.desiredCameraEye;
 
 	function movementAxes(axis = {}) {
 		return {
@@ -7131,7 +7053,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahMovementRuntime.js ----
 {
-	const __exports = __awtsmoosModule_84;
+	const __exports = __awtsmoosModule_83;
 	//B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -7143,14 +7065,14 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com keeps this adapter small so collision truth stays local and first play awakens only the motion law it has picked.
 	 */
 
-	const landVerticalMotion = __awtsmoosModule_85.landVerticalMotion;
-	const minimalMeadowGroundHeight = __awtsmoosModule_86.minimalMeadowGroundHeight;
-	const finishMitzvahVertical = __awtsmoosModule_87.finishMitzvahVertical;
-	const prepareMitzvahVertical = __awtsmoosModule_87.prepareMitzvahVertical;
+	const landVerticalMotion = __awtsmoosModule_84.landVerticalMotion;
+	const minimalMeadowGroundHeight = __awtsmoosModule_85.minimalMeadowGroundHeight;
+	const finishMitzvahVertical = __awtsmoosModule_86.finishMitzvahVertical;
+	const prepareMitzvahVertical = __awtsmoosModule_86.prepareMitzvahVertical;
 
-	__exports.movementAxes = __awtsmoosModule_89.movementAxes;
-	__exports.movementModeFor = __awtsmoosModule_89.movementModeFor;
-	__exports.updateMovementCamera = __awtsmoosModule_89.updateMovementCamera;
+	__exports.movementAxes = __awtsmoosModule_88.movementAxes;
+	__exports.movementModeFor = __awtsmoosModule_88.movementModeFor;
+	__exports.updateMovementCamera = __awtsmoosModule_88.updateMovementCamera;
 
 	function prepareMovementVertical(runtime, state, deltaSeconds) {
 		runtime.movementRecovery?.beforeStep(state);
@@ -7216,7 +7138,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapMovementFrame.js ----
 {
-	const __exports = __awtsmoosModule_75;
+	const __exports = __awtsmoosModule_74;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -7228,22 +7150,22 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * the Awtsmoos renews traveler and direction each instant, and Awtsmoos.com keeps later presentation from undoing the path made right.
 	 */
 
-	const normalizeMovementIntent = __awtsmoosModule_76.normalizeMovementIntent;
-	const movementStepFromVelocity = __awtsmoosModule_77.movementStepFromVelocity;
-	const advanceMovementVelocity = __awtsmoosModule_72.advanceMovementVelocity;
-	const bootstrapInputAxis = __awtsmoosModule_78.bootstrapInputAxis;
-	const settleBootstrapMovementFacing = __awtsmoosModule_79.settleBootstrapMovementFacing;
-	const bootstrapMovementSpeed = __awtsmoosModule_80.bootstrapMovementSpeed;
-	const setBootstrapMovementYaw = __awtsmoosModule_74.setBootstrapMovementYaw;
-	const bootstrapDesiredVelocity = __awtsmoosModule_82.bootstrapDesiredVelocity;
-	const bootstrapVelocityOptions = __awtsmoosModule_82.bootstrapVelocityOptions;
-	const MITZVAH_MOVEMENT_PROFILE = __awtsmoosModule_83.MITZVAH_MOVEMENT_PROFILE;
-	const applyMovementCollision = __awtsmoosModule_84.applyMovementCollision;
-	const finishMovementVertical = __awtsmoosModule_84.finishMovementVertical;
-	const movementAxes = __awtsmoosModule_84.movementAxes;
-	const movementModeFor = __awtsmoosModule_84.movementModeFor;
-	const prepareMovementVertical = __awtsmoosModule_84.prepareMovementVertical;
-	const updateMovementCamera = __awtsmoosModule_84.updateMovementCamera;
+	const normalizeMovementIntent = __awtsmoosModule_75.normalizeMovementIntent;
+	const movementStepFromVelocity = __awtsmoosModule_76.movementStepFromVelocity;
+	const advanceMovementVelocity = __awtsmoosModule_71.advanceMovementVelocity;
+	const bootstrapInputAxis = __awtsmoosModule_77.bootstrapInputAxis;
+	const settleBootstrapMovementFacing = __awtsmoosModule_78.settleBootstrapMovementFacing;
+	const bootstrapMovementSpeed = __awtsmoosModule_79.bootstrapMovementSpeed;
+	const setBootstrapMovementYaw = __awtsmoosModule_73.setBootstrapMovementYaw;
+	const bootstrapDesiredVelocity = __awtsmoosModule_81.bootstrapDesiredVelocity;
+	const bootstrapVelocityOptions = __awtsmoosModule_81.bootstrapVelocityOptions;
+	const MITZVAH_MOVEMENT_PROFILE = __awtsmoosModule_82.MITZVAH_MOVEMENT_PROFILE;
+	const applyMovementCollision = __awtsmoosModule_83.applyMovementCollision;
+	const finishMovementVertical = __awtsmoosModule_83.finishMovementVertical;
+	const movementAxes = __awtsmoosModule_83.movementAxes;
+	const movementModeFor = __awtsmoosModule_83.movementModeFor;
+	const prepareMovementVertical = __awtsmoosModule_83.prepareMovementVertical;
+	const updateMovementCamera = __awtsmoosModule_83.updateMovementCamera;
 
 	/**
 	 * Advances one complete player-control frame from fresh input through settled camera presentation.
@@ -7322,7 +7244,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapMovementController.js ----
 {
-	const __exports = __awtsmoosModule_71;
+	const __exports = __awtsmoosModule_70;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -7334,9 +7256,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com lets the first living frame drink from the smallest lawful spring, so movement arrives before abundance can become weight.
 	 */
 
-	const createMovementVelocity = __awtsmoosModule_72.createMovementVelocity;
-	const bootstrapMovementSnapshot = __awtsmoosModule_74.bootstrapMovementSnapshot;
-	const advanceBootstrapMovement = __awtsmoosModule_75.advanceBootstrapMovement;
+	const createMovementVelocity = __awtsmoosModule_71.createMovementVelocity;
+	const bootstrapMovementSnapshot = __awtsmoosModule_73.bootstrapMovementSnapshot;
+	const advanceBootstrapMovement = __awtsmoosModule_74.advanceBootstrapMovement;
 
 	class BootstrapMovementController {
 		/** @param {object} runtime Immediate Mitzvah World runtime. */
@@ -7365,7 +7287,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldStartupMilestones.js ----
 {
-	const __exports = __awtsmoosModule_92;
+	const __exports = __awtsmoosModule_91;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -7491,7 +7413,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapRuntimeLoop.js ----
 {
-	const __exports = __awtsmoosModule_57;
+	const __exports = __awtsmoosModule_64;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -7503,16 +7425,16 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * and Awtsmoos.com records cadence without burdening ordinary play, for the measuring vessel remains absent unless the traveler explicitly calls it near.
 	 */
 
-	const FrameBudgetWindow = __awtsmoosModule_58.FrameBudgetWindow;
-	const advanceBootstrapGameplay = __awtsmoosModule_59.advanceBootstrapGameplay;
-	const primeBootstrapGameplay = __awtsmoosModule_59.primeBootstrapGameplay;
-	const recordBootstrapFrameFailure = __awtsmoosModule_59.recordBootstrapFrameFailure;
-	const recordBootstrapFrameSuccess = __awtsmoosModule_59.recordBootstrapFrameSuccess;
-	const refreshBootstrapPresentation = __awtsmoosModule_59.refreshBootstrapPresentation;
-	const renderBootstrapGameplay = __awtsmoosModule_59.renderBootstrapGameplay;
-	const createBootstrapFrameScheduler = __awtsmoosModule_70.createBootstrapFrameScheduler;
-	const BootstrapMovementController = __awtsmoosModule_71.BootstrapMovementController;
-	const markMitzvahWorldStartupMilestone = __awtsmoosModule_92.markMitzvahWorldStartupMilestone;
+	const FrameBudgetWindow = __awtsmoosModule_65.FrameBudgetWindow;
+	const advanceBootstrapGameplay = __awtsmoosModule_66.advanceBootstrapGameplay;
+	const primeBootstrapGameplay = __awtsmoosModule_66.primeBootstrapGameplay;
+	const recordBootstrapFrameFailure = __awtsmoosModule_66.recordBootstrapFrameFailure;
+	const recordBootstrapFrameSuccess = __awtsmoosModule_66.recordBootstrapFrameSuccess;
+	const refreshBootstrapPresentation = __awtsmoosModule_66.refreshBootstrapPresentation;
+	const renderBootstrapGameplay = __awtsmoosModule_66.renderBootstrapGameplay;
+	const createBootstrapFrameScheduler = __awtsmoosModule_69.createBootstrapFrameScheduler;
+	const BootstrapMovementController = __awtsmoosModule_70.BootstrapMovementController;
+	const markMitzvahWorldStartupMilestone = __awtsmoosModule_91.markMitzvahWorldStartupMilestone;
 
 	const MAX_FRAME_DELTA_SECONDS = 0.05;
 
@@ -7605,7 +7527,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzWorldFeaturePolicy.js ----
 {
-	const __exports = __awtsmoosModule_93;
+	const __exports = __awtsmoosModule_92;
 	//B"H
 	//Boruch Hashem
 	//Blessed be He
@@ -7661,10 +7583,10 @@ const __awtsmoosModule_0 = Object.create(null);
 	const MinimalMeadowBootstrapCombat = __awtsmoosModule_9.MinimalMeadowBootstrapCombat;
 	const createMinimalMeadowBootstrapMinimap = __awtsmoosModule_10.createMinimalMeadowBootstrapMinimap;
 	const createBootstrapPlayerRuntime = __awtsmoosModule_20.createBootstrapPlayerRuntime;
-	const createBootstrapRuntimeDiagnostics = __awtsmoosModule_52.createBootstrapRuntimeDiagnostics;
-	const startBootstrapRuntimeLoop = __awtsmoosModule_57.startBootstrapRuntimeLoop;
-	const attachEretzWorldExperience = __awtsmoosModule_93.attachEretzWorldExperience;
-	const eretzWorldFeatureEnabled = __awtsmoosModule_93.eretzWorldFeatureEnabled;
+	const createBootstrapRuntimeDiagnostics = __awtsmoosModule_59.createBootstrapRuntimeDiagnostics;
+	const startBootstrapRuntimeLoop = __awtsmoosModule_64.startBootstrapRuntimeLoop;
+	const attachEretzWorldExperience = __awtsmoosModule_92.attachEretzWorldExperience;
+	const eretzWorldFeatureEnabled = __awtsmoosModule_92.eretzWorldFeatureEnabled;
 
 	/**
 	 * Builds immediate player control while respecting the selected world's immutable feature contract.

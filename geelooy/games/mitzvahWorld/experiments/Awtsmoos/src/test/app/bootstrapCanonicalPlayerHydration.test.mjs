@@ -1,35 +1,42 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file bootstrapCanonicalPlayerHydration.test.mjs
- * @description Proves canonical humanity is installed before play and no generated-player promotion or rigid visual guard survives in runtime source.
- * The Awtsmoos reveals the authored Chossid once, with animation already owned before controls awake;
- * Awtsmoos.com keeps this witness against double bodies so no deferred promotion can reopen the old mistake.
+ * @description Proves first control owns the authored GLB and the historic generated-human doorway can only fail closed.
+ * The test follows behavior and authority rather than requiring one obsolete internal helper name.
  */
 
 import assert from 'node:assert/strict';
-import { access, readFile } from 'node:fs/promises';
+import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
 const APP_URL = new URL('../../app/', import.meta.url);
 
-test('bootstrap runtime owns canonical animation immediately with no deferred promotion', async () => {
-	const source = await readFile(new URL('BootstrapPlayerRuntime.js', APP_URL), 'utf8');
-	assert.match(source, /installCanonicalChossidAnimation/);
-	assert.match(source, /canonicalPlayerHydrationStage = 'ready'/);
-	assert.match(source, /canonicalPlayerPromise = Promise\.resolve/);
-	assert.match(source, /none-glb-only/);
-	assert.doesNotMatch(source, /canonicalPlayerLaunchPromise|createBootstrapVisiblePlayer|playerVisualGuard/);
+/** Reads one authored application module for architectural contract checks. */
+function source(name) {
+	return readFile(new URL(name, APP_URL), 'utf8');
+}
+
+test('bootstrap runtime installs canonical GLB identity before control', async () => {
+	const runtime = await source('BootstrapPlayerRuntime.js');
+	assert.match(runtime, /installCanonicalPlayer/);
+	assert.match(runtime, /canonicalPlayerHydrationStage = 'ready'/);
+	assert.match(runtime, /canonicalPlayerPromise = Promise\.resolve/);
+	assert.match(runtime, /none-glb-only/);
+	assert.doesNotMatch(runtime, /createBootstrapVisiblePlayer/);
 });
 
-test('generated-player promotion modules remain absent', async () => {
-	for (const name of [
+test('historic generated-human API is a hard guard rather than a model factory', async () => {
+	const guard = await source('BootstrapVisiblePlayer.js');
+	assert.match(guard, /Generated human (?:models|geometry) are forbidden/);
+	assert.match(guard, /throw new Error/);
+	assert.doesNotMatch(guard, /BoxGeometry|MeshBasicMaterial|new Mesh/);
+	for (const deleted of [
 		'BootstrapCanonicalPlayerHydration.js',
-		'BootstrapVisiblePlayer.js',
 		'PlayerVisualGuard.js'
 	]) {
-		await assert.rejects(access(new URL(name, APP_URL)));
+		await assert.rejects(readFile(new URL(deleted, APP_URL), 'utf8'));
 	}
 });
