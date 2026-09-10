@@ -1,11 +1,12 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 const Constants = require("./tunnelRelay/constants.js");
 const Envelopes = require("./tunnelRelay/envelopes.js");
 const Expectation = require("./tunnelRelay/expectation.js");
 const Health = require("./tunnelRelay/healthHandler.js");
+const Instructions = require("./tunnelRelay/instructionHandler.js");
 const Normalizers = require("./tunnelRelay/normalizers.js");
 const RecoveryControl = require("./tunnelRelay/recoveryControl.js");
 const Register = require("./tunnelRelay/register.js");
@@ -25,6 +26,7 @@ module.exports = {
 	...Envelopes,
 	...Expectation,
 	...Health,
+	...Instructions,
 	...Normalizers,
 	...RecoveryControl,
 	...Register,

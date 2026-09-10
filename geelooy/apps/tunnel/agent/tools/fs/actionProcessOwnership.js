@@ -1,6 +1,6 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file Declares actions that must remain beside parent-owned live runtime objects.
@@ -25,7 +25,10 @@ const PROCESS_OWNED_ACTIONS = new Set([
 	"websiteAgentMissionMessage",
 	"websiteAgentMissionStop",
 	"websiteAgentMissionForget",
-	"chatgptWebsiteLogout"
+	"chatgptWebsiteLogout",
+	"instructionCatalog",
+	"instructionResolve",
+	"instructionGet"
 ]);
 
 const PROCESS_OWNED_RECOVERY_ACTIONS = new Set([

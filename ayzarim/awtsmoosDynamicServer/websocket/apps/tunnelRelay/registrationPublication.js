@@ -1,8 +1,9 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 const { publishConnection } = require("../tunnelActivity/publisher.js");
+const Instructions = require("./instructionCatalog.js");
 const { sendJson } = require("../wsUtilities.js");
 
 /**
@@ -23,6 +24,7 @@ function acknowledge(client, identity, descriptor, replaced) {
 		vesselType: descriptor.vesselType,
 		protocolVersion: descriptor.protocolVersion,
 		registrationGeneration: client.registrationGeneration,
+		instructionIndex: Instructions.index(),
 		serverTime: new Date().toISOString()
 	});
 }

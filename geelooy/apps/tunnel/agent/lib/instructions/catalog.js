@@ -1,6 +1,6 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 const { coreInstructions } = require("./catalogCore.js");
 const { uiLayoutInstructions } = require("./catalogUiLayout.js");
@@ -9,6 +9,9 @@ const { codeArchitectureInstructions } = require("./catalogCodeArchitecture.js")
 const { codeContractInstructions } = require("./catalogCodeContracts.js");
 const { documentationInstructions } = require("./catalogDocs.js");
 const { workModeInstructions } = require("./catalogWorkModes.js");
+const { missionDiscoveryInstructions } = require("./catalogMissionDiscovery.js");
+const { missionContinuityInstructions } = require("./catalogMissionContinuity.js");
+const { executionDoctrine } = require("./catalogExecutionDoctrine.js");
 
 /**
  * @file Unites every instruction chapter behind one immutable stable-ID catalog.
@@ -21,7 +24,7 @@ class InstructionKeter {
 		this.records = Object.freeze(
 			[...records].sort((left, right) => left.id.localeCompare(right.id))
 		);
-		this.byId = new Map(this.records.map((record) => [record.id, record]));
+		this.byId = new Map(this.records.map(record => [record.id, record]));
 		if (this.byId.size !== this.records.length) {
 			throw new Error("instruction_catalog_duplicate_id");
 		}
@@ -29,7 +32,7 @@ class InstructionKeter {
 
 	/** Returns compact discovery metadata without full instruction bodies. */
 	summaries() {
-		return this.records.map((record) => ({
+		return this.records.map(record => ({
 			id: record.id,
 			version: record.version,
 			summary: record.summary,
@@ -54,7 +57,10 @@ function allRecords() {
 		...codeArchitectureInstructions,
 		...codeContractInstructions,
 		...documentationInstructions,
-		...workModeInstructions
+		...workModeInstructions,
+		...missionDiscoveryInstructions,
+		...missionContinuityInstructions,
+		...executionDoctrine
 	];
 }
 

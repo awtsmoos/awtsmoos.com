@@ -1,10 +1,10 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 const Acknowledgement = require("./main-connection-acknowledgement.js");
 const Authorization = require("./main-connection-authorization.js");
-
+const InstructionMessages = require("./main-instruction-messages.js");
 /**
  * @file Routes relay words into registration, recovery, settlement, liveness, and work.
  * @description
@@ -17,6 +17,7 @@ function createConnectionMessages(dependencies) {
 		dependencies.Control.markSeen?.(webSocket);
 		const data = parse(raw, dependencies.log);
 		if (!data) return false;
+		if (InstructionMessages.observe(dependencies, data, webSocket)) return true;
 		if (data.type === "TUNNEL_ACK") {
 			return Acknowledgement.handleAcknowledgement(
 				dependencies,

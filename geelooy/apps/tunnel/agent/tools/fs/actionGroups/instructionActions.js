@@ -1,8 +1,8 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
-const { instructionService } = require("../../../lib/instructions/service.js");
+const { hybridInstructionService } = require("../../../lib/instructions/hybridService.js");
 
 /**
  * @file Exposes instruction discovery, resolution, and full-body retrieval as native actions.
@@ -13,13 +13,13 @@ const { instructionService } = require("../../../lib/instructions/service.js");
 function buildInstructionActions({ payload }) {
 	return {
 		async instructionCatalog() {
-			return instructionService.catalog();
+			return hybridInstructionService.catalog();
 		},
 		async instructionResolve() {
-			return instructionService.resolve(payload);
+			return hybridInstructionService.resolve(payload);
 		},
 		async instructionGet() {
-			return instructionService.get(payload);
+			return hybridInstructionService.get(payload);
 		}
 	};
 }
@@ -35,17 +35,17 @@ function buildInstructionActions({ payload }) {
 function buildInstructionCompatibility(payload, fallback) {
 	return async function instructionAwareContextPack() {
 		if (payload.instructionIds || payload.instructionId || payload.ids) {
-			return instructionService.get(payload);
+			return hybridInstructionService.get(payload);
 		}
 		if (payload.instructionTask || payload.instructionTags) {
-			return instructionService.resolve(payload);
+			return hybridInstructionService.resolve(payload);
 		}
 		const compatibility = compatibilityQuery(payload.query);
 		if (compatibility?.action === "get") {
-			return instructionService.get({ instructionIds: compatibility.value });
+			return hybridInstructionService.get({ instructionIds: compatibility.value });
 		}
 		if (compatibility?.action === "resolve") {
-			return instructionService.resolve({ instructionTask: compatibility.value });
+			return hybridInstructionService.resolve({ instructionTask: compatibility.value });
 		}
 		return fallback();
 	};
