@@ -30,6 +30,20 @@ const LOCAL_EXPERIENCES = Object.freeze([
 		title: 'Blank Meadow'
 	}),
 	worldExperience({
+		actionLabel: 'Create in Sandbox',
+		description: 'Instant local world creation with unlimited materials, live physics, undo, and portable world state.',
+		id: 'sandbox-world',
+		performance: 'Fastest · creator sandbox',
+		recommended: false,
+		runtime: createMitzvahWorldFeaturePolicy({
+			bootstrapMinimap: false,
+			postPlayTerrainHydration: false,
+			sandboxCreator: true
+		}),
+		tags: ['sandbox', 'creator', 'unlimited', 'offline'],
+		title: 'Sandbox World'
+	}),
+	worldExperience({
 		actionLabel: 'Enter Living Village',
 		description: 'A focused inhabited village with houses, roads, water, trees, and residents after first control.',
 		id: 'living-village',

@@ -1,6 +1,6 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
+//Blessed be He
 
 /**
  * @file MitzvahWorldCreatorStreamingAdapter.js
@@ -11,6 +11,11 @@
 
 import { MitzvahWorldCreatorCellIndex } from './MitzvahWorldCreatorCellIndex.js';
 import { MitzvahWorldCreatorRuntimeAdapter } from './MitzvahWorldCreatorRuntimeAdapter.js';
+import {
+	creatorStreamingPoint,
+	replaceCreatorStreamingDefinition,
+	sameCreatorCellSet
+} from './MitzvahWorldCreatorStreamingHelpers.js';
 
 const ACTIVE_CELL_RADIUS = 1;
 
@@ -54,7 +59,7 @@ export class MitzvahWorldCreatorStreamingAdapter {
 
 	update(positionOhr = this.runtime.model?.position || this.runtime.state, forceOhr = false) {
 		const wantedCells = this.index.nearbyCellKeys(positionOhr, ACTIVE_CELL_RADIUS);
-		if (!forceOhr && sameSet(wantedCells, this.activeCells)) return this.diagnostics();
+		if (!forceOhr && sameCreatorCellSet(wantedCells, this.activeCells)) return this.diagnostics();
 		const wantedIds = this.index.idsInCells(wantedCells);
 		for (const idOhr of this.live.diagnostics().ids) {
 			if (!wantedIds.has(idOhr)) this.live.remove(idOhr);
@@ -64,7 +69,7 @@ export class MitzvahWorldCreatorStreamingAdapter {
 			this.mountIndexed(idOhr);
 		}
 		this.activeCells = wantedCells;
-		this.lastPosition = point(positionOhr);
+		this.lastPosition = creatorStreamingPoint(positionOhr);
 		return this.diagnostics();
 	}
 
@@ -80,6 +85,11 @@ export class MitzvahWorldCreatorStreamingAdapter {
 			this.runtime.bus?.emit?.('world:creator-cell-error', { id: idOhr, message: this.failures.get(idOhr) });
 			return null;
 		}
+	}
+
+	/** Replaces one semantic definition while preserving stable runtime identity or rolling back fully. */
+	updateDefinition(definitionTiferes) {
+		return replaceCreatorStreamingDefinition(this, definitionTiferes);
 	}
 
 	clear() {
@@ -103,17 +113,4 @@ export class MitzvahWorldCreatorStreamingAdapter {
 			mountedIds: live.ids
 		});
 	}
-}
-
-function sameSet(leftOros, rightOros) {
-	if (leftOros.size !== rightOros.size) return false;
-	for (const valueOhr of leftOros) if (!rightOros.has(valueOhr)) return false;
-	return true;
-}
-
-function point(positionOhr) {
-	return {
-		x: Number(positionOhr?.x || 0),
-		z: Number(positionOhr?.z || 0)
-	};
 }

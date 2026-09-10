@@ -1,6 +1,6 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file MitzvahWorldModeAftercare.js
@@ -12,6 +12,7 @@
 const SINGLE_PLAYER_BADGE_URL = '../network/MultiplayerStatusBadge.js?compact=true';
 const SINGLE_PLAYER_POST_PLAY_URL = './MitzvahWorldPostPlayPolicy.js?compact=true&v=20260908-current-hot-path-03';
 const MULTIPLAYER_POST_PLAY_URL = './MitzvahWorldPostPlayLoader.js?compact=true&v=20260908-current-hot-path-03';
+const SANDBOX_AFTERCARE_URL = './MitzvahWorldSandboxAftercare.js?compact=true&v=20260910-sandbox-world-02';
 
 /** Starts the selected mode's non-blocking presentation and status work. */
 export function startMitzvahWorldModeAftercare(
@@ -48,7 +49,23 @@ async function startSinglePlayerAftercare(diagnostics, environment, runtimeOptio
 		environment,
 		runtimeOptions
 	);
-	return Object.freeze({ mode: 'singleplayer', status: 'ready' });
+	const sandbox = runtimeOptions.worldExperience?.sandboxCreator === true
+		? await startSandboxAftercare(diagnostics, environment)
+		: null;
+	return Object.freeze({
+		mode: 'singleplayer',
+		sandbox: Boolean(sandbox),
+		status: 'ready'
+	});
+}
+
+/** Loads the Sandbox creator graph only after first play is already available. */
+async function startSandboxAftercare(diagnostics, environment) {
+	const moduleMalchus = await import(SANDBOX_AFTERCARE_URL);
+	return moduleMalchus.installMitzvahWorldSandboxAftercare(
+		diagnostics,
+		environment
+	);
 }
 
 /** Starts multiplayer's richer presentation only after the shared runtime has resolved. */
