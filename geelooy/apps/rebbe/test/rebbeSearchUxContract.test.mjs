@@ -15,6 +15,8 @@ const yesodRead = path => readFileSync(`${yesodRoot}/${path}`, 'utf8');
 const malchusCore = yesodRead('styles/core.css');
 const tiferesShell = yesodRead('styles/runtime/search-shell.css');
 const gevurahControls = yesodRead('styles/runtime/search-controls.css');
+const malchusResults = yesodRead('styles/runtime/search-results.css');
+const chesedMobile = yesodRead('styles/runtime/search-mobile.css');
 const hodInteraction = yesodRead('styles/runtime/search-control-interaction.css');
 const netzachFullscreen = yesodRead('styles/runtime/search-fullscreen.css');
 const yesodTracks = yesodRead('styles/runtime/search-tracks.css');
@@ -27,6 +29,11 @@ assert.match(netzachFullscreen, /overscroll-behavior:\s*contain/);
 assert.match(tiferesShell, /max-block-size:\s*min\(92dvh/);
 assert.match(gevurahControls, /min-block-size:\s*44px/);
 assert.match(yesodTracks, /inline-size:\s*44px/);
+assert.match(malchusResults, /flex:\s*0 0 min\(48dvh, 420px\)/);
+assert.match(malchusResults, /min-block-size:\s*260px/);
+assert.match(malchusResults, /overflow-y:\s*auto/);
+assert.match(chesedMobile, /max-width:\s*calc\(100vw - 10px\) !important/);
+assert.match(chesedMobile, /padding:\s*12px !important/);
 for (const hodToken of [':hover', ':active', ':focus-visible', ':disabled', 'prefers-reduced-motion']) {
 	assert.ok(hodInteraction.includes(hodToken), `search interaction missing ${hodToken}`);
 }

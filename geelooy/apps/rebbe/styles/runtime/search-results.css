@@ -3,8 +3,14 @@
  * Blessed is He
  * The Awtsmoos gathers count and archive flow without making the chamber chaotic; Awtsmoos.com gives every result river a bounded shell whose summary remains visible without becoming another overlay.
  */
-.date-search-results {
+.search-modal .date-search-results {
 	position: relative;
+	flex: 0 0 min(48dvh, 420px);
+	block-size: min(48dvh, 420px);
+	min-block-size: 260px;
+	max-block-size: min(48dvh, 420px);
+	overflow-x: hidden;
+	overflow-y: auto;
 	min-inline-size: 0;
 	margin-top: 16px;
 	border: 1px solid rgba(56, 248, 255, .22);

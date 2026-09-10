@@ -5,9 +5,13 @@
  */
 @media (max-width: 720px) {
 	.search-modal {
-		inline-size: calc(100vw - 10px);
+		inline-size: calc(100vw - 10px) !important;
+		width: calc(100vw - 10px) !important;
+		max-inline-size: calc(100vw - 10px) !important;
+		max-width: calc(100vw - 10px) !important;
 		max-block-size: calc(100dvh - 10px);
-		padding: 12px;
+		padding: 12px !important;
+		gap: 12px !important;
 		scroll-padding-block: 12px;
 	}
 

@@ -56,12 +56,23 @@ export class MalchusSearchResultsView {
 		this.nextFrame(() => this.appendBatch(results, actions, token, end));
 	}
 
-	/** Schedules continuation through the frame clock with a safe timer fallback. */
+	/**
+	 * Schedules continuation through the frame clock while guaranteeing progress
+	 * when a browser throttles animation frames in a backgrounded or constrained
+	 * mobile renderer. The first scheduler to fire wins, so batches never double.
+	 */
 	nextFrame(callback) {
-		if (typeof requestAnimationFrame === 'function') {
-			requestAnimationFrame(callback);
-			return;
-		}
-		setTimeout(callback, 0);
+		let completed = false;
+		const run = () => {
+			if (completed) return;
+			completed = true;
+			callback();
+		};
+		const timer = setTimeout(run, 80);
+		if (typeof requestAnimationFrame !== 'function') return;
+		requestAnimationFrame(() => {
+			clearTimeout(timer);
+			run();
+		});
 	}
 }
