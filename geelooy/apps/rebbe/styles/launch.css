@@ -1,0 +1,118 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/* Launch-critical polish stays dependency-free so recovery UI remains visible. */
+.rebbe-runtime-gate {
+	position: fixed;
+	top: max(10px, env(safe-area-inset-top));
+	left: 50%;
+	z-index: 10000;
+	max-width: min(92vw, 560px);
+	padding: 10px 16px;
+	border: 1px solid rgba(38, 235, 255, 0.55);
+	border-radius: 999px;
+	background: rgba(0, 12, 16, 0.94);
+	box-shadow: 0 0 24px rgba(0, 229, 255, 0.2);
+	color: #dffcff;
+	font: 700 12px/1.3 monospace;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	transform: translateX(-50%);
+	transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.rebbe-runtime-gate[data-state="ready"] {
+	opacity: 0;
+	transform: translateX(-50%) translateY(-6px);
+}
+
+.rebbe-runtime-gate[data-state="failed"] {
+	border-color: rgba(255, 102, 102, 0.8);
+	border-radius: 18px;
+	color: #fff;
+	text-transform: none;
+}
+
+.rebbe-runtime-gate button {
+	min-width: 76px;
+	min-height: 40px;
+	margin-left: 12px;
+	border: 1px solid currentColor;
+	border-radius: 999px;
+	background: transparent;
+	color: inherit;
+	font: inherit;
+	cursor: pointer;
+}
+
+.archive-list-status {
+	display: grid;
+	min-height: 96px;
+	place-items: center;
+	padding: 20px;
+	color: rgba(220, 249, 255, 0.72);
+	font: 700 12px/1.5 monospace;
+	letter-spacing: 0.08em;
+	text-align: center;
+	text-transform: uppercase;
+}
+
+.item.is-loading,
+.col-list[aria-busy="true"] .item {
+	cursor: progress;
+}
+
+.item.is-loading {
+	outline: 1px solid rgba(38, 235, 255, 0.5);
+	box-shadow: inset 0 0 18px rgba(0, 229, 255, 0.08);
+}
+
+.search-live-status {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	min-height: 36px;
+	margin: 8px 0 12px;
+	padding: 8px 12px;
+	border: 1px solid rgba(38, 235, 255, 0.2);
+	border-radius: 12px;
+	color: rgba(220, 249, 255, 0.8);
+	font: 700 11px/1.4 monospace;
+	letter-spacing: 0.06em;
+}
+
+.search-live-status progress {
+	width: min(42%, 180px);
+	height: 6px;
+	accent-color: #26ebff;
+}
+
+@media (max-width: 768px) {
+	.tool-btn,
+	.btn-back,
+	.modal-btn,
+	.mini-btn {
+		min-width: 44px;
+		min-height: 44px;
+	}
+
+	.search-actions {
+		gap: 10px;
+	}
+
+	.search-actions .modal-btn {
+		font-size: 13px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.rebbe-runtime-gate,
+	#boot-sequence,
+	.boot-bar-fill,
+	.item {
+		transition: none !important;
+		animation: none !important;
+	}
+}

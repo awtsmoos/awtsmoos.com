@@ -1,55 +1,76 @@
 //B"H
-// ui/boot.js
-import { el } from './utils.js';
+//Boruch Hashem
+//Blessed is He
 
+/**
+ * @module RebbeBootSequence
+ * @description
+ * Presents the cinematic archive ignition without ever blocking real controls.
+ * The Awtsmoos is one beyond animation and readiness; Awtsmoos.com therefore
+ * lets the visible archive initialize immediately while this decorative vessel
+ * completes independently in less than a second and disappears automatically.
+ */
+
+const STAGES = [
+	['INIT CORE', 18],
+	['MOUNT ARCHIVE', 42],
+	['BIND CONTROLS', 68],
+	['CONNECT SEARCH', 88],
+	['READY', 100]
+];
+
+/**
+ * Starts a non-blocking boot animation and resolves immediately.
+ * @returns {Promise<void>} Already-resolved promise for historic callers.
+ */
 export async function runBootSequence() {
-    const bootOverlay = document.createElement('div');
-    bootOverlay.id = 'boot-sequence';
-    bootOverlay.innerHTML = `
-        <div class="boot-center">
-            <div class="boot-logo">AWTSMOOS<br><span class="glitch" data-text="SYSTEMS">SYSTEMS</span></div>
-            <div class="boot-log" id="boot-log"></div>
-            <div class="boot-bar-container">
-                <div class="boot-bar-fill" id="boot-fill"></div>
-            </div>
-        </div>
-        <div class="boot-version">OMEGA KERNEL v9.0</div>
-    `;
-    document.body.appendChild(bootOverlay);
+	const overlay = createOverlay();
+	queueMicrotask(() => animate(overlay));
+}
 
-    const log = (msg, speed=50) => new Promise(r => {
-        const l = document.getElementById('boot-log');
-        const div = document.createElement('div');
-        div.className = 'boot-line';
-        div.innerHTML = `<span style="color:#0f0;">></span> ${msg}`;
-        l.appendChild(div);
-        l.scrollTop = l.scrollHeight;
-        setTimeout(r, speed);
-    });
+/** Builds the standalone decorative overlay using safe static markup. */
+function createOverlay() {
+	const overlay = document.createElement('div');
+	overlay.id = 'boot-sequence';
+	overlay.innerHTML = `
+		<div class="boot-center">
+			<div class="boot-logo">AWTSMOOS<br><span class="glitch" data-text="ARCHIVE">ARCHIVE</span></div>
+			<div class="boot-log" id="boot-log"></div>
+			<div class="boot-bar-container"><div class="boot-bar-fill" id="boot-fill"></div></div>
+		</div>
+		<div class="boot-version">REBBE ARCHIVE // LIVE</div>`;
+	document.body.appendChild(overlay);
+	return overlay;
+}
 
-    const setProgress = (pct) => {
-        document.getElementById('boot-fill').style.width = `${pct}%`;
-    };
+/** Advances visual-only stages without delaying application initialization. */
+function animate(overlay) {
+	const log = overlay.querySelector('#boot-log');
+	const fill = overlay.querySelector('#boot-fill');
+	STAGES.forEach(([message, progress], index) => {
+		setTimeout(() => {
+			if (!overlay.isConnected) return;
+			appendLine(log, message);
+			if (fill) fill.style.width = `${progress}%`;
+		}, index * 110);
+	});
+	setTimeout(() => dismiss(overlay), STAGES.length * 110 + 120);
+}
 
-    await new Promise(r => setTimeout(r, 200));
-    await log("INIT BIOS...", 150);
-    await log("CHECKING MEMORY INTEGRITY...", 100);
-    setProgress(15);
-    await log("MEMORY OK. 64TB ALLOCATED.", 100);
-    await log("LOADING KERNEL MODULES...", 200);
-    setProgress(40);
-    await log("MOUNTING VIRTUAL FILESYSTEM...", 150);
-    await log("INITIALIZING NEURAL NET...", 150);
-    setProgress(65);
-    await log("ESTABLISHING UPLINK TO ARCHIVE...", 300);
-    await log("UPLINK SECURE.", 100);
-    setProgress(90);
-    await log("SYSTEM READY.", 200);
-    setProgress(100);
-    
-    await new Promise(r => setTimeout(r, 400));
-    
-    bootOverlay.style.opacity = '0';
-    bootOverlay.style.transform = 'scale(1.1)';
-    setTimeout(() => bootOverlay.remove(), 1000);
+/** Appends one compact boot line without interpolating runtime HTML. */
+function appendLine(container, message) {
+	if (!container) return;
+	const line = document.createElement('div');
+	line.className = 'boot-line';
+	line.textContent = `> ${message}`;
+	container.appendChild(line);
+	container.scrollTop = container.scrollHeight;
+}
+
+/** Fades and removes the decorative overlay without owning application state. */
+function dismiss(overlay) {
+	if (!overlay?.isConnected) return;
+	overlay.style.opacity = '0';
+	overlay.style.transform = 'scale(1.02)';
+	setTimeout(() => overlay.remove(), 220);
 }

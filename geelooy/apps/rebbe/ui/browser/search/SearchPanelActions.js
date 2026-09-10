@@ -3,6 +3,7 @@
 //Blessed is He
 
 import { NetzachSearchHistoryPersistence } from './SearchHistoryPersistence.js';
+import { NetzachSearchRunStatus } from './SearchRunStatus.js';
 
 /**
  * @class ChesedSearchPanelActions
@@ -33,6 +34,7 @@ export class ChesedSearchPanelActions {
 		this.callbacks = tiferesCallbacks;
 		this.fullscreen = netzachFullscreen;
 		this.persistence = netzachPersistence;
+		this.runStatus = new NetzachSearchRunStatus(malchusPanel);
 	}
 
 	/** Connects Recent Searches to the persistence boundary. */
@@ -48,10 +50,11 @@ export class ChesedSearchPanelActions {
 		const tiferesRequest = this.codec.read(this.panel);
 
 		const yesodBroadSearch = !this.codec.hasFilter(tiferesRequest);
-		this.setEmpty(yesodBroadSearch
-			? 'Scanning the complete archive…'
-			: 'Accessing archive indexes…');
-		await this.callbacks.onSearch?.(tiferesRequest);
+		const hodStarted = await this.runStatus.execute(
+			() => this.callbacks.onSearch?.(tiferesRequest),
+			yesodBroadSearch ? 'Scanning the complete archive…' : 'Accessing archive indexes…'
+		);
+		if (!hodStarted) return;
 		const hodLabel = this.codec.describe(tiferesRequest);
 		void this.persistence.remember(tiferesRequest, hodLabel);
 	}

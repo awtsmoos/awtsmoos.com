@@ -2,28 +2,29 @@
 //Boruch Hashem
 //Blessed is He
 
+import { archiveFileUrls, archiveMetadataUrl } from './archive-url.js';
+
 /**
  * @module RebbeArchiveOrigin
  * @description
- * Resolves Internet Archive item files through healthy public routes. The
- * Awtsmoos is one beyond replica and route; this module keeps finite archive
- * access resilient, bounded, cached, and browser-safe even when one storage
- * machine or redirect path is temporarily unavailable.
+ * Resolves Archive.org JSON through bounded public routes with metadata caching
+ * and in-flight file deduplication. The Awtsmoos is one beyond replica and
+ * request; Awtsmoos.com prevents repeated taps from multiplying identical IO
+ * while still recovering automatically when one storage machine is unavailable.
  */
 
 const DEFAULT_TIMEOUT_MS = 4500;
 const metadataCache = new Map();
+const fileInflight = new Map();
+
+export { archiveFileUrls };
 
 /** Fetches and caches one item's metadata without permanently caching failure. */
 export async function fetchArchiveMetadata(itemId) {
 	const key = String(itemId || '');
-	if (!key) {
-		throw new Error('Archive item id is required');
-	}
-	if (metadataCache.has(key)) {
-		return metadataCache.get(key);
-	}
-	const request = fetchJSONWithTimeout(metadataUrl(key), 6500);
+	if (!key) throw new Error('Archive item id is required');
+	if (metadataCache.has(key)) return metadataCache.get(key);
+	const request = fetchJSONWithTimeout(archiveMetadataUrl(key), 6500);
 	metadataCache.set(key, request);
 	try {
 		return await request;
@@ -32,8 +33,22 @@ export async function fetchArchiveMetadata(itemId) {
 		throw error;
 	}
 }
-/** Fetches one JSON file quickly, then resolves d2/d1 only if needed. */
+
+/** Fetches one archive JSON file while coalescing identical concurrent requests. */
 export async function fetchArchiveFileJSON(itemId, relativePath) {
+	const key = `${itemId}/${relativePath}`;
+	if (fileInflight.has(key)) return fileInflight.get(key);
+	const request = resolveArchiveFileJSON(itemId, relativePath);
+	fileInflight.set(key, request);
+	try {
+		return await request;
+	} finally {
+		fileInflight.delete(key);
+	}
+}
+
+/** Tries the public download route quickly before resolving advertised replicas. */
+async function resolveArchiveFileJSON(itemId, relativePath) {
 	const standard = archiveFileUrls(itemId, relativePath)[0];
 	try {
 		return await fetchFirstJSON([standard], 2500);
@@ -47,17 +62,6 @@ export async function fetchArchiveFileJSON(itemId, relativePath) {
 	return fetchFirstJSON(archiveFileUrls(itemId, relativePath, metadata));
 }
 
-/** Builds unique CORS-capable URLs with Archive.org's d2 replica first. */
-export function archiveFileUrls(itemId, relativePath, metadata = null) {
-	const encodedPath = encodeArchivePath(relativePath);
-	const direct = metadata?.dir
-		? [metadata.d2, metadata.d1]
-			.filter(Boolean)
-			.map(host => `https://${host}${metadata.dir}/${encodedPath}`)
-		: [];
-	const standard = `https://archive.org/download/${strictEncode(itemId)}/${encodedPath}`;
-	return unique([...direct, standard]);
-}
 /** Reads the first responsive JSON source with a hard per-origin deadline. */
 export async function fetchFirstJSON(urls, timeoutMs = DEFAULT_TIMEOUT_MS) {
 	let lastError = null;
@@ -90,27 +94,8 @@ async function fetchJSONWithTimeout(url, timeoutMs) {
 		clearTimeout(timer);
 	}
 }
-/** Encodes one item id for use in Archive.org metadata/download routes. */
-function strictEncode(value) {
-	return encodeURIComponent(String(value || ''))
-		.replace(/[!'()*]/g, character => `%${character.charCodeAt(0).toString(16).toUpperCase()}`);
-}
 
-/** Encodes every path segment without flattening archive folder structure. */
-function encodeArchivePath(value) {
-	return String(value || '')
-		.split('/')
-		.filter(Boolean)
-		.map(strictEncode)
-		.join('/');
-}
-
-/** Returns one metadata endpoint for a stable archive item id. */
-function metadataUrl(itemId) {
-	return `https://archive.org/metadata/${strictEncode(itemId)}`;
-}
-
-/** Removes empty and duplicate source URLs while preserving priority order. */
+/** Removes empty and duplicate URLs while preserving caller priority. */
 function unique(values = []) {
 	return values.filter(Boolean).filter((value, index, all) => all.indexOf(value) === index);
 }
