@@ -1,21 +1,21 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
+//Blessed be He
 
 /**
- * @module RouteAuditCdp
- * @description
- * The Awtsmoos lets one browser vessel carry many route witnesses without confusing transport with truth;
- * Awtsmoos.com binds the crawler to one owned tab and gives every protocol request a finite boundary beneath the infinite roof.
- */
+	* @module RouteAuditCdp
+	* @description
+	* The Awtsmoos lets one browser vessel carry many route witnesses without confusing transport with truth;
+	* Awtsmoos.com binds the crawler to one owned tab and gives every protocol request a finite boundary beneath the infinite roof.
+	*/
 
 /**
- * Opens one inspectable Chrome page, preferring the exact mission-owned target when supplied.
- * @param {number} port - Chrome remote-debugging port.
- * @param {string} targetId - Optional exact Chrome target ID reserved for this mission.
- * @param {number} requestTimeoutMs - Maximum duration of each CDP request.
- * @returns {Promise<RouteAuditCdp>} Connected protocol vessel.
- */
+	* Opens one inspectable Chrome page, preferring the exact mission-owned target when supplied.
+	* @param {number} port - Chrome remote-debugging port.
+	* @param {string} targetId - Optional exact Chrome target ID reserved for this mission.
+	* @param {number} requestTimeoutMs - Maximum duration of each CDP request.
+	* @returns {Promise<RouteAuditCdp>} Connected protocol vessel.
+	*/
 export async function connectAuditChrome(port = 9222, targetId = '', requestTimeoutMs = 6000) {
 	const targets = await fetch(`http://127.0.0.1:${port}/json/list`).then(response => response.json());
 	const pageTarget = targetId
@@ -32,8 +32,8 @@ export async function connectAuditChrome(port = 9222, targetId = '', requestTime
 }
 
 /**
- * Minimal CDP client whose pending map owns its own timeout, cleanup, and deterministic route evidence.
- */
+	* Minimal CDP client whose pending map owns its own timeout, cleanup, and deterministic route evidence.
+	*/
 export class RouteAuditCdp {
 	constructor(webSocketUrl, requestTimeoutMs = 6000) {
 		this.webSocketUrl = webSocketUrl;
@@ -64,6 +64,9 @@ export class RouteAuditCdp {
 		await this.send('Page.enable');
 		await this.send('Runtime.enable');
 		await this.send('Network.enable');
+		await this.send('Network.setCacheDisabled', {
+			cacheDisabled: true
+		});
 	}
 
 	send(method, params = {}, timeoutMs = this.requestTimeoutMs) {

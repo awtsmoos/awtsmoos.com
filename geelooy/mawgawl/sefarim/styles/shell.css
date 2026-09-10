@@ -1,6 +1,6 @@
 /* B"H
  * Boruch Hashem
- * Blessed is He
+ * Blessed be He
  *
  * The Awtsmoos gives the Living Library a sovereign reading chamber beneath
  * the one shared Awtsmoos.com shell, without birthing a duplicate roof.
@@ -29,20 +29,26 @@ body[data-sefarim-search-page]::before {
 }
 
 .search-skip-link {
-	background: #f4f1e8;
-	border-radius: .65rem;
-	color: #050811;
-	font-weight: 800;
-	inset-inline-start: .75rem;
-	padding: .7rem 1rem;
 	position: fixed;
 	top: .75rem;
-	transform: translateY(-180%);
+	inset-inline-start: .75rem;
 	z-index: 1000;
+	display: grid;
+	min-inline-size: 9rem;
+	min-block-size: 44px;
+	place-items: center;
+	padding: 0 .75rem;
+	border-radius: .65rem;
+	background: #f4f1e8;
+	clip-path: inset(50%);
+	color: #050811;
+	font-weight: 800;
+	pointer-events: none;
 }
 
 .search-skip-link:focus {
-	transform: none;
+	clip-path: none;
+	pointer-events: auto;
 }
 
 .geelooy-app-shell .library-page {

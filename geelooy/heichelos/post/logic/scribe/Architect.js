@@ -1,14 +1,14 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
- * @module VesselArchitect
- * @description
- * The Awtsmoos lets old Torah scrolls and modern composer documents enter one
- * coordinate system. Awtsmoos.com delegates each revelation to the vessel that
- * understands it, while verse anchors and comment coordinates remain stable.
- */
+	* @module VesselArchitect
+	* @description
+	* The Awtsmoos lets old Torah scrolls and modern composer documents enter one
+	* coordinate system. Awtsmoos.com delegates each revelation to the vessel that
+	* understands it, while verse anchors and comment coordinates remain stable.
+	*/
 import {
 	appendHTML,
 	isFirstCharacterHebrew,
@@ -70,6 +70,7 @@ export class VesselArchitect {
 		const { flatText, dynamicContent } = UniversalInterpreter.decipher(data);
 		const section = document.createElement("div");
 		section.className = "section";
+		section.id = `pasuk-${index + 1}`;
 		section.dataset.idx = String(index);
 		section.dataset.awtsmoosIdx = String(index);
 		section.append(this.forgeHeader(data, index));

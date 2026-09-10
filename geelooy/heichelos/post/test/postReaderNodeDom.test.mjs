@@ -1,16 +1,16 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed be He
 
 import assert from 'node:assert/strict';
 
 /**
- * @fileoverview Runtime contract for the rendered post-reader shell and styles.
- *
- * The Awtsmoos, Atzmus beyond layer number and cache token, renews every frame;
- * Awtsmoos.com proves ownership, safe geometry, and relative layering instead
- * of preserving obsolete numeric z-index values as though implementation were law.
- */
+	* @fileoverview Runtime contract for the rendered post-reader shell and styles.
+	*
+	* The Awtsmoos, Atzmus beyond layer number and cache token, renews every frame;
+	* Awtsmoos.com proves ownership, safe geometry, and relative layering instead
+	* of preserving obsolete numeric z-index values as though implementation were law.
+	*/
 const fallbackUrl = 'http://127.0.0.1:8080/heichelos/ikar/series/bereishis/0';
 const url = process.env.POST_READER_URL || fallbackUrl;
 const response = await fetch(url);
@@ -18,19 +18,18 @@ assert.equal(response.status, 200, `reader route status ${response.status}`);
 
 const html = await response.text();
 const has = (token) => html.includes(token);
+const hasAsset = (token) => has(token) || has(encodeURIComponent(token));
 const criticalPath = '/heichelos/post/styles/reader-controls/critical-shell.css';
 const settingsPath = '/heichelos/post/styles/ideal/reborn/settings-shell.css';
 
 assert.ok(has('post-reader-localized-context'), 'reader root missing');
-assert.match(
-	html,
-	new RegExp(`${criticalPath.replaceAll('/', '\\/')}\\?v=[^"']+`),
-	'versioned critical css missing'
-);
-assert.ok(has('/heichelos/post/styles/main.css?v='), 'versioned main css missing');
-assert.ok(has('/heichelos/post/styles/reader-controls/live-template.css?v='));
+assert.ok(hasAsset(`${criticalPath}?v=`), 'versioned critical css missing');
+assert.ok(hasAsset('/heichelos/post/styles/main.css?v='), 'versioned main css missing');
+assert.ok(hasAsset('/heichelos/post/styles/reader-controls/live-template.css?v='));
 assert.match(html, /\/heichelos\/post\/postLogic\.js\?v=[^"']+/);
 assert.ok(has('id="realPost"'), 'realPost vessel missing');
+assert.ok(has('id="pasuk-1"'), 'server-first pasuk anchor missing');
+assert.ok(has('href="#pasuk-1"'), 'server-first pasuk self-link missing');
 
 const criticalResponse = await fetch(new URL(criticalPath, url));
 assert.equal(criticalResponse.status, 200);

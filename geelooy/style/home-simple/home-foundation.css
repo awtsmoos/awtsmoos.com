@@ -1,9 +1,8 @@
 /* B"H
  * Boruch Hashem
- * Blessed is He
+ * Blessed be He
  *
- * The Awtsmoos renews the Home document before card, search, or constellation can appear; Awtsmoos.com
- * keeps box sizing, focus, typography inheritance, selection, and motion preference explicitly route-bound.
+ * The Awtsmoos renews the Home document before card, search, or constellation can appear; Awtsmoos.com keeps box sizing, focus, skip travel, typography, selection, and motion explicitly route-bound.
  */
 body[data-geelooy-route="home"],
 body[data-geelooy-route="home"] *,
@@ -36,6 +35,37 @@ body[data-geelooy-route="home"] {
 body[data-geelooy-route="home"].explore-open,
 body[data-geelooy-route="home"][data-awtsmoos-profile-open="true"] {
 	overflow: hidden;
+}
+
+body[data-geelooy-route="home"] .home-skip-link {
+	position: fixed;
+	z-index: calc(var(--home-layer-header) + 10);
+	inset-block-start: max(.5rem, env(safe-area-inset-top));
+	inset-inline-start: .5rem;
+	inline-size: 44px;
+	block-size: 44px;
+	padding: 0;
+	overflow: hidden;
+	clip-path: inset(50%);
+	opacity: 0;
+	pointer-events: none;
+	white-space: nowrap;
+}
+
+body[data-geelooy-route="home"] .home-skip-link:focus-visible {
+	inline-size: auto;
+	block-size: auto;
+	padding: .72rem 1rem;
+	overflow: visible;
+	clip-path: none;
+	opacity: 1;
+	pointer-events: auto;
+	border: 2px solid #bce7ff;
+	border-radius: .75rem;
+	background: #071221;
+	color: #fff;
+	font-weight: 850;
+	white-space: normal;
 }
 
 body[data-geelooy-route="home"] a {
