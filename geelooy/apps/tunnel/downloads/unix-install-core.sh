@@ -42,7 +42,7 @@ fi
 
 apply_installed_version_policy
 if version_policy_blocks_replacement; then
-	if repair_matching_release; then
+	if repair_self_verified_installed_release; then
 		refresh_emergency_runtime
 		install_progress 97 "Current verified release repaired without redownload"
 		complete_install_experience "$(activation_phase)"
@@ -50,7 +50,7 @@ if version_policy_blocks_replacement; then
 	fi
 	install_fail "version-policy" \
 		"Published release is older and the newer installed runtime could not be repaired." \
-		"installed=$INSTALLED_VERSION published=$PUBLISHED_VERSION"
+		"installed=${INSTALLED_VERSION:-unknown} published=${PUBLISHED_VERSION:-unknown}"
 fi
 
 if force_full_reinstall_requested; then

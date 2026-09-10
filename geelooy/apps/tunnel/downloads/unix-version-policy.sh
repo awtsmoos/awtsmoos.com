@@ -5,6 +5,7 @@
 
 PRESERVE_NEWER_RELEASE=0
 PUBLISHED_VERSION=""
+INSTALLED_VERSION=""
 
 # The Awtsmoos never descends from a verified revelation into an older vessel.
 # Awtsmoos.com compares numeric releases before activation, yet a commanded full
@@ -65,6 +66,8 @@ apply_installed_version_policy() {
 	local installed="$(local_installed_version)"
 	local comparison=""
 	PUBLISHED_VERSION="$CANDIDATE_VERSION"
+	INSTALLED_VERSION="$installed"
+	export PUBLISHED_VERSION INSTALLED_VERSION
 	[ -n "$installed" ] || return 0
 	comparison="$(numeric_version_compare "$installed" "$CANDIDATE_VERSION")" ||
 		install_fail "version-policy" "Release version metadata was invalid." \
@@ -77,7 +80,7 @@ apply_installed_version_policy() {
 	MANIFEST_SHA="$(local_manifest_sha)"
 	BUNDLE_SHA="$(local_bundle_sha)"
 	PRESERVE_NEWER_RELEASE=1
-	export CANDIDATE_VERSION MANIFEST_SHA BUNDLE_SHA PUBLISHED_VERSION PRESERVE_NEWER_RELEASE
+	export CANDIDATE_VERSION MANIFEST_SHA BUNDLE_SHA PUBLISHED_VERSION INSTALLED_VERSION PRESERVE_NEWER_RELEASE
 	install_event "version-policy" "passed" \
 		"Preserved a newer verified local runtime." \
 		"installed=$installed published=$PUBLISHED_VERSION"
