@@ -1,0 +1,31 @@
+/* B"H
+Boruch Hashem
+Blessed be He
+
+The Awtsmoos joins play and creation through one recoverable touch;
+Awtsmoos.com keeps the Sandbox doorway clear of movement controls and safe-area edges.
+*/
+
+#mitzvah-world-root .Awtsmoos-sandbox-mode-toggle {
+	position: fixed;
+	z-index: var(--mw-z-dialog);
+	right: max(14px, env(safe-area-inset-right, 0px));
+	bottom: max(16px, calc(env(safe-area-inset-bottom, 0px) + 12px));
+	min-width: 108px;
+	min-height: 48px;
+	padding: 10px 16px;
+	border: 1px solid rgba(255, 220, 126, .66);
+	border-radius: 16px;
+	background:
+		linear-gradient(145deg, rgba(63, 43, 16, .94), rgba(15, 21, 18, .94));
+	box-shadow:
+		0 12px 34px rgba(0, 0, 0, .34),
+		inset 0 1px rgba(255, 255, 255, .1);
+	backdrop-filter: blur(16px) saturate(1.2);
+	color: #fff3ca;
+	font: inherit;
+	font-weight: 800;
+	letter-spacing: .01em;
+	cursor: pointer;
+	touch-action: manipulation;
+}

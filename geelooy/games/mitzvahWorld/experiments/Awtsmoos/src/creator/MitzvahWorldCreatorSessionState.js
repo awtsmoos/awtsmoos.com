@@ -1,6 +1,6 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
+//Blessed be He
 
 /**
  * @file MitzvahWorldCreatorSessionState.js
@@ -34,6 +34,7 @@ export class MitzvahWorldCreatorSessionState {
 		this.controlState = optionsChesed.controlState || new MitzvahWorldCreatorControlState(optionsChesed.controls);
 		this.listeners = new Set();
 		this.sequence = 0;
+		this.selectedObjectId = null;
 		this.runtime.creatorWorldStreaming = this.runtimeAdapter;
 		this.refreshPreview();
 	}
@@ -73,6 +74,7 @@ export class MitzvahWorldCreatorSessionState {
 			materialQuantity: this.inventory?.quantity?.(catalogBinah.itemId) || 0,
 			mounted: streamingBinah.mounted,
 			selectedId: controlBinah.selectedId,
+			selectedObjectId: this.selectedObjectId,
 			worldId: this.documentStore.document?.metadata?.mitzvahWorldCreator?.worldId || null
 		});
 	}

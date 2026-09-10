@@ -1,6 +1,6 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
+//Blessed be He
 
 /**
  * @file MitzvahWorldCreatorRailActionMap.js
@@ -17,6 +17,20 @@ export function createCreatorRailActionMap(sessionTiferes, controllerMalchus) {
 		far: () => sessionTiferes.adjustDistance(1),
 		forward: () => sessionTiferes.nudge('forward', 1),
 		left: () => sessionTiferes.nudge('right', -1),
+		'object-prev': () => sessionTiferes.cycleObject(-1),
+		'object-next': () => sessionTiferes.cycleObject(1),
+		'object-x-minus': () => objectMutation(controllerMalchus, 'Moving…', () => sessionTiferes.nudgeObject('x', -1)),
+		'object-x-plus': () => objectMutation(controllerMalchus, 'Moving…', () => sessionTiferes.nudgeObject('x', 1)),
+		'object-y-minus': () => objectMutation(controllerMalchus, 'Moving…', () => sessionTiferes.nudgeObject('y', -1)),
+		'object-y-plus': () => objectMutation(controllerMalchus, 'Moving…', () => sessionTiferes.nudgeObject('y', 1)),
+		'object-z-minus': () => objectMutation(controllerMalchus, 'Moving…', () => sessionTiferes.nudgeObject('z', -1)),
+		'object-z-plus': () => objectMutation(controllerMalchus, 'Moving…', () => sessionTiferes.nudgeObject('z', 1)),
+		'object-rotate-left': () => objectMutation(controllerMalchus, 'Rotating…', () => sessionTiferes.rotateObject(-1)),
+		'object-rotate-right': () => objectMutation(controllerMalchus, 'Rotating…', () => sessionTiferes.rotateObject(1)),
+		'object-scale-down': () => objectMutation(controllerMalchus, 'Scaling…', () => sessionTiferes.scaleObject(-1)),
+		'object-scale-up': () => objectMutation(controllerMalchus, 'Scaling…', () => sessionTiferes.scaleObject(1)),
+		'object-duplicate': () => objectMutation(controllerMalchus, 'Duplicating…', () => sessionTiferes.duplicateObject()),
+		'object-delete': () => objectMutation(controllerMalchus, 'Deleting…', () => sessionTiferes.deleteObject()),
 		near: () => sessionTiferes.adjustDistance(-1),
 		place: () => controllerMalchus.place(),
 		redo: () => controllerMalchus.redo(),
@@ -30,4 +44,9 @@ export function createCreatorRailActionMap(sessionTiferes, controllerMalchus) {
 		undo: () => controllerMalchus.undo(),
 		up: () => sessionTiferes.adjustElevation(1)
 	});
+}
+
+/** Routes one async world-object mutation through the controller's shared busy/error boundary. */
+function objectMutation(controllerMalchus, pendingOhr, mutationDaas) {
+	return controllerMalchus.mutate(pendingOhr, 'World object updated.', mutationDaas);
 }

@@ -1,6 +1,6 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
+//Blessed be He
 
 /**
  * @file MitzvahWorldCreatorRailControlCatalog.js
@@ -22,6 +22,23 @@ const MOVEMENT_OROS = freezeControls([
 	control('rotate-right', '↻', 'Rotate right')
 ]);
 
+const OBJECT_OROS = freezeControls([
+	control('object-prev', 'Previous', 'Select previous world object'),
+	control('object-next', 'Next', 'Select next world object'),
+	control('object-x-minus', 'X−', 'Move selected object left on world X'),
+	control('object-x-plus', 'X+', 'Move selected object right on world X'),
+	control('object-y-minus', 'Y−', 'Lower selected object'),
+	control('object-y-plus', 'Y+', 'Raise selected object'),
+	control('object-z-minus', 'Z−', 'Move selected object backward on world Z'),
+	control('object-z-plus', 'Z+', 'Move selected object forward on world Z'),
+	control('object-rotate-left', '↺', 'Rotate selected object left'),
+	control('object-rotate-right', '↻', 'Rotate selected object right'),
+	control('object-scale-down', 'Scale −', 'Scale selected object down'),
+	control('object-scale-up', 'Scale +', 'Scale selected object up'),
+	control('object-duplicate', 'Duplicate', 'Duplicate selected object'),
+	control('object-delete', 'Delete', 'Delete selected object')
+]);
+
 const HISTORY_OROS = freezeControls([
 	control('undo', 'Undo', 'Undo last placement'),
 	control('redo', 'Redo', 'Redo last placement')
@@ -37,6 +54,10 @@ const ADVANCED_OROS = freezeControls([
 
 export function creatorMovementControls() {
 	return MOVEMENT_OROS;
+}
+
+export function creatorObjectControls() {
+	return OBJECT_OROS;
 }
 
 export function creatorHistoryControls() {
