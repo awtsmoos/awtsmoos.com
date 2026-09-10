@@ -1,12 +1,19 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 import { directorSummary } from '../director/director.js';
 import { expansionSample } from './expansionSample.js';
 
 /**
- * The Awtsmoos gathers one bounded evidence snapshot from the living arena.
- * Firebase readiness, Adventure, combat, peers, performance, and WebGL remain visible.
+ * @file sample.js
+ * @description Produces bounded read-only diagnostic evidence from the live Nitzotz
+ * world without assuming a particular renderer implementation or mutating gameplay.
+ *
+ * Architectural invariants:
+ * - Diagnostics remain valid in WebGL and Canvas2D compatibility modes.
+ * - Renderer degradation is explicit and never inferred from missing fields.
+ * - Object counting skips consumed objects without changing collection ownership.
+ * - Snapshot creation cannot advance time, input, progression, rendering, or saves.
  */
 export function sampleWorld(world, renderer) {
 	const counts = countObjects(world.level.objects);
@@ -45,14 +52,17 @@ export function sampleWorld(world, renderer) {
 		director: directorSummary(world),
 		achievements: Object.keys(world.save.achievements).length,
 		performance: performanceSnapshot(world.performance),
+		renderer: renderer.kind || 'unknown',
+		compatibilityReason: renderer.compatibilityReason || null,
 		textures: renderer.textures?.status() || null,
 		expansion: expansionSample(world),
 		stats: world.stats ? { ...world.stats } : null,
-		webglError: renderer.gl.getError(),
+		webglError: renderer.gl?.getError?.() ?? null,
 		message: world.message
 	};
 }
 
+/** Project bounded performance counters without exposing mutable runtime state. */
 function performanceSnapshot(performance) {
 	return {
 		fps: performance.fps,
@@ -67,6 +77,7 @@ function performanceSnapshot(performance) {
 	};
 }
 
+/** Count visible semantic object families for diagnostics and fallback verification. */
 function countObjects(objects) {
 	const counts = {
 		remaining: 0,
@@ -77,7 +88,9 @@ function countObjects(objects) {
 		powerCircuit: 0
 	};
 	for (const object of objects) {
-		if (object.taken) continue;
+		if (object.taken) {
+			continue;
+		}
 		counts.remaining += 1;
 		counts.traffic += Number(Boolean(object.traffic));
 		counts.pedestrians += Number(Boolean(object.pedestrian));
