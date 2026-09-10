@@ -1,6 +1,6 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
+//Blessed be He
 
 /**
  * @file EretzCanonicalWorldHandoff.js
@@ -13,8 +13,10 @@ import { canonicalizeSceneMaterials } from '../assets/SceneMaterialCanonicalizer
 import { createEretzJumpPhysics, createEretzMover } from './EretzPlayerRuntimeFactories.js';
 import { OpenWorldRegionStreamingRuntime } from './OpenWorldRegionStreamingRuntime.js';
 
-export function applyCanonicalWorldPromotion(context, promotion) {
+/** Applies canonical world authority while allowing tests to substitute the regional streaming vessel. */
+export function applyCanonicalWorldPromotion(context, promotion, dependencies = {}) {
 	const { foundation, runtime } = context;
+	const StreamingRuntime = dependencies.StreamingRuntime || OpenWorldRegionStreamingRuntime;
 	const diagnostics = context.diagnostics || null;
 	const scene = runtime.scene || foundation.scene;
 	const bootstrapGroup = runtime.terrain?.group;
@@ -30,15 +32,25 @@ export function applyCanonicalWorldPromotion(context, promotion) {
 	foundation.sceneLod?.refresh?.();
 	promotion.materialCanonicalization = canonicalizeSceneMaterials(scene);
 	runtime.bootstrapRetirement = retirement;
-	runtime.openWorldStreaming?.destroy?.();
-	runtime.openWorldStreaming = new OpenWorldRegionStreamingRuntime(runtime);
-	runtime.openWorldStreaming.update(runtime.model?.position || runtime.state);
-	foundation.openWorldStreaming = runtime.openWorldStreaming;
-	if (diagnostics) {
-		diagnostics.openWorldStreaming = runtime.openWorldStreaming.diagnostics();
-	}
+	configureOpenWorldStreaming(runtime, foundation, diagnostics, StreamingRuntime);
 	runtime.canonicalWorldPromotion = promotionReceipt(promotion, retirement, runtime);
 	return runtime.canonicalWorldPromotion;
+}
+
+/** Starts regional streaming only for world profiles that explicitly request the deeper seamless region. */
+function configureOpenWorldStreaming(runtime, foundation, diagnostics, StreamingRuntime) {
+	runtime.openWorldStreaming?.destroy?.();
+	const enabled = runtime.worldExperience?.deepWorldStreaming !== false;
+	runtime.openWorldStreaming = enabled
+		? new StreamingRuntime(runtime)
+		: null;
+	foundation.openWorldStreaming = runtime.openWorldStreaming;
+	if (!runtime.openWorldStreaming) {
+		if (diagnostics) diagnostics.openWorldStreaming = Object.freeze({ status: 'disabled-by-world-profile' });
+		return;
+	}
+	runtime.openWorldStreaming.update(runtime.model?.position || runtime.state);
+	if (diagnostics) diagnostics.openWorldStreaming = runtime.openWorldStreaming.diagnostics();
 }
 
 function promotionReceipt(promotion, retirement, runtime) {
@@ -47,7 +59,7 @@ function promotionReceipt(promotion, retirement, runtime) {
 		bootstrapTrianglesRemoved: retirement.trianglesRemoved,
 		colliders: promotion.terrain.colliders.length,
 		friendlyProfiles: promotion.npcProfiles?.length || 0,
-		openWorldId: runtime.openWorldStreaming.worldId,
+		openWorldId: runtime.openWorldStreaming?.worldId || null,
 		quality: promotion.terrain.stats.quality,
 		status: 'ready',
 		villageDefinitions: promotion.terrain.village?.definitions?.length || 0

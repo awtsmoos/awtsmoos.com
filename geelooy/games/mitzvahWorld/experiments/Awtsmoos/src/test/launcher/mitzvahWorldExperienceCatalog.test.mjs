@@ -1,12 +1,11 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file mitzvahWorldExperienceCatalog.test.mjs
- * @description Proves both local worlds can render textured visible form while only Mountain Village carries heavy streaming and promotion.
- * The Awtsmoos reveals a fast meadow and a deep village beneath one luminous sky;
- * Awtsmoos.com keeps Simple Meadow light in simulation without making its earth or traveler visually dry.
+ * @description Proves the official three-world ladder, immutable feature policies, and compatibility aliases.
+ * The launcher may evolve its names without changing the meaning of old saved or linked world IDs.
  */
 
 import assert from 'node:assert/strict';
@@ -18,38 +17,46 @@ import {
 	resolveMitzvahWorldRuntimeExperience
 } from '../../world/experience/MitzvahWorldExperienceCatalog.js';
 
-function verifySimpleMeadow() {
+test('B"H official catalog exposes Blank Meadow, Living Village, and Great Valley', () => {
 	const worlds = localMitzvahWorldExperiences();
-	const meadow = worlds[0];
-	assert.equal(worlds.length, 2);
-	assert.equal(DEFAULT_LOCAL_WORLD_ID, 'simple-meadow');
-	assert.equal(meadow.id, 'simple-meadow');
-	assert.equal(meadow.recommended, true);
-	assert.equal(meadow.runtime.canonicalPromotion, false);
-	assert.equal(meadow.runtime.districtStreaming, false);
-	assert.equal(meadow.runtime.deepWorldStreaming, false);
-	assert.equal(meadow.runtime.postPlayPresentation, false);
-	assert.equal(meadow.runtime.richRenderer, true);
-	assert.equal(Object.isFrozen(meadow), true);
-	assert.equal(Object.isFrozen(meadow.runtime), true);
-}
+	assert.equal(DEFAULT_LOCAL_WORLD_ID, 'blank-meadow');
+	assert.deepEqual(
+		worlds.map(world => world.id),
+		['blank-meadow', 'living-village', 'great-valley']
+	);
+	assert.equal(worlds.every(world => Object.isFrozen(world)), true);
+	assert.equal(worlds.every(world => Object.isFrozen(world.runtime)), true);
+});
 
-function verifyMountainVillage() {
-	const village = resolveMitzvahWorldRuntimeExperience('local-reference-village');
-	assert.equal(village.id, 'local-reference-village');
-	assert.equal(village.title, 'Mountain Village');
+test('B"H Blank Meadow closes every heavy first-control and enrichment gate', () => {
+	const meadow = resolveMitzvahWorldRuntimeExperience('blank-meadow');
+	assert.equal(meadow.bootstrapCombat, false);
+	assert.equal(meadow.bootstrapMinimap, false);
+	assert.equal(meadow.canonicalPromotion, false);
+	assert.equal(meadow.cinematicEnvironment, false);
+	assert.equal(meadow.cinematicHero, false);
+	assert.equal(meadow.cinematicLandscape, false);
+	assert.equal(meadow.deepWorldStreaming, false);
+	assert.equal(meadow.districtStreaming, false);
+	assert.equal(meadow.richRenderer, true);
+});
+
+test('B"H richer worlds progressively opt into civilization and regional streaming', () => {
+	const village = resolveMitzvahWorldRuntimeExperience('living-village');
+	const valley = resolveMitzvahWorldRuntimeExperience('great-valley');
 	assert.equal(village.canonicalPromotion, true);
 	assert.equal(village.districtStreaming, true);
-	assert.equal(village.deepWorldStreaming, true);
-	assert.equal(village.richRenderer, true);
-	assert.equal(Object.isFrozen(village), true);
-}
+	assert.equal(village.deepWorldStreaming, false);
+	assert.equal(valley.canonicalPromotion, true);
+	assert.equal(valley.districtStreaming, true);
+	assert.equal(valley.deepWorldStreaming, true);
+	assert.equal(valley.cinematicLandscape, true);
+	assert.equal(valley.cinematicHero, true);
+});
 
-function verifySafeFallback() {
-	assert.equal(resolveMitzvahWorldExperience('missing-world').id, 'simple-meadow');
-	assert.equal(resolveMitzvahWorldRuntimeExperience('').id, 'simple-meadow');
-}
-
-test('Simple Meadow stays lightweight while preserving rich visual rendering', verifySimpleMeadow);
-test('Mountain Village preserves the historical rich-world identity', verifyMountainVillage);
-test('unknown local world IDs resolve to Simple Meadow', verifySafeFallback);
+test('B"H legacy world IDs resolve forward without becoming separate launcher cards', () => {
+	assert.equal(resolveMitzvahWorldExperience('simple-meadow').id, 'blank-meadow');
+	assert.equal(resolveMitzvahWorldExperience('local-reference-village').id, 'great-valley');
+	assert.equal(resolveMitzvahWorldRuntimeExperience('missing-world').id, 'blank-meadow');
+	assert.equal(resolveMitzvahWorldRuntimeExperience('').id, 'blank-meadow');
+});

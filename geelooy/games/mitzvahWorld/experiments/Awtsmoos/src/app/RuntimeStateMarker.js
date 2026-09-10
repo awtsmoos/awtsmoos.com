@@ -1,12 +1,12 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file RuntimeStateMarker.js
- * @description Publishes runtime and renderer truth while forbidding any non-WebGL vessel from receiving playable state.
- * The Awtsmoos joins inward readiness with outward revelation through one real graphics gate;
- * Awtsmoos.com clears stale shadows at boot and never lets Canvas masquerade as gameplay fate.
+ * @description Publishes one runtime truth to both the document diagnostics root and the public game shell.
+ * The shell historically exposed data-awtsmoos-runtime while diagnostics exposed data-awtsmoos-runtime-state;
+ * this module keeps both names synchronized so automation, accessibility, and users never see stale readiness.
  */
 
 import {
@@ -15,32 +15,32 @@ import {
 } from './RendererRuntimeEvidence.js';
 import { requireWebGlRuntime } from './WebGlRuntimeRequirement.js';
 
-/** Marks a new runtime boot and clears stale renderer evidence from earlier worlds. */
+/** Marks a new runtime boot and clears renderer evidence from an earlier world. */
 export function markRuntimeStarting(documentValue = globalThis.document) {
-	const root = documentValue?.documentElement;
-	if (!root) return;
-	root.dataset.awtsmoosGameplay = 'false';
-	root.dataset.awtsmoosRendererHydration = 'idle';
-	clearRendererRuntimeEvidence(root);
+	const documentRoot = documentValue?.documentElement;
+	if (!documentRoot) return;
+	clearRendererRuntimeEvidence(documentRoot);
+	for (const root of runtimeRoots(documentValue)) {
+		root.dataset.awtsmoosGameplay = 'false';
+		root.dataset.awtsmoosRendererHydration = 'idle';
+	}
 	setRuntimeState(documentValue, 'starting');
 }
 
-/**
- * Publishes playable state only after the renderer satisfies the WebGL runtime covenant.
- * @param {object} diagnostics Runtime diagnostics object.
- * @param {Document} documentValue Runtime document.
- */
+/** Publishes playable state only after the renderer satisfies the WebGL covenant. */
 export function markRuntimePlayable(
 	diagnostics,
 	documentValue = globalThis.document
 ) {
 	const renderer = requireWebGlRuntime(diagnostics?.runtime?.renderer);
-	const root = documentValue?.documentElement;
-	if (!root) return;
-	root.dataset.awtsmoosGameplay = 'true';
-	root.dataset.awtsmoosRendererHydration = renderer.hydrationState || 'ready';
-	root.dataset.awtsmoosRuntimeError = '';
-	publishRendererRuntimeEvidence(renderer, root);
+	const documentRoot = documentValue?.documentElement;
+	if (!documentRoot) return;
+	for (const root of runtimeRoots(documentValue)) {
+		root.dataset.awtsmoosGameplay = 'true';
+		root.dataset.awtsmoosRendererHydration = renderer.hydrationState || 'ready';
+		root.dataset.awtsmoosRuntimeError = '';
+	}
+	publishRendererRuntimeEvidence(renderer, documentRoot);
 	setRuntimeState(documentValue, 'playable');
 }
 
@@ -49,24 +49,32 @@ export function markRendererHydration(
 	state,
 	documentValue = globalThis.document
 ) {
-	const root = documentValue?.documentElement;
-	if (root) {
+	for (const root of runtimeRoots(documentValue)) {
 		root.dataset.awtsmoosRendererHydration = String(state || 'unknown');
 	}
 }
 
-/** Marks runtime startup failure while preserving the original error message. */
+/** Marks startup failure while preserving the original error on every public runtime root. */
 export function markRuntimeFailed(error, documentValue = globalThis.document) {
-	const root = documentValue?.documentElement;
-	if (!root) return;
-	root.dataset.awtsmoosGameplay = 'false';
-	root.dataset.awtsmoosRuntimeError = error?.message || String(error);
+	for (const root of runtimeRoots(documentValue)) {
+		root.dataset.awtsmoosGameplay = 'false';
+		root.dataset.awtsmoosRuntimeError = error?.message || String(error);
+	}
 	setRuntimeState(documentValue, 'failed');
 }
 
+/** Synchronizes both historical runtime attributes and accessibility busy state. */
 function setRuntimeState(documentValue, state) {
-	const root = documentValue?.documentElement;
-	if (!root) return;
-	root.dataset.awtsmoosRuntimeState = state;
-	root.setAttribute('aria-busy', state === 'starting' ? 'true' : 'false');
+	for (const root of runtimeRoots(documentValue)) {
+		root.dataset.awtsmoosRuntime = state;
+		root.dataset.awtsmoosRuntimeState = state;
+		root.setAttribute('aria-busy', state === 'starting' ? 'true' : 'false');
+	}
+}
+
+/** Returns the diagnostic HTML root and public Mitzvah World host without duplicates. */
+function runtimeRoots(documentValue) {
+	const documentRoot = documentValue?.documentElement || null;
+	const shellRoot = documentValue?.getElementById?.('mitzvah-world-root') || null;
+	return [...new Set([documentRoot, shellRoot].filter(Boolean))];
 }

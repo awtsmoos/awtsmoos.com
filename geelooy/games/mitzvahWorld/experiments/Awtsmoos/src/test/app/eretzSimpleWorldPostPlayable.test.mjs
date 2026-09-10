@@ -1,106 +1,91 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file eretzSimpleWorldPostPlayable.test.mjs
- * @description Proves Simple Meadow starts visual-only landscape plus hero/HUD after play without waiting for canonical promotion or opening rich-world launchers.
- * The Awtsmoos lets a simple world become beautiful without becoming another world;
- * Awtsmoos.com opens ridge, water, authored traveler, and interface while districts, ecology, quests, and rich launchers remain sealed.
+ * @description Proves Blank Meadow opens only permitted post-play tasks while richer profiles open progressively more systems.
+ * Constructor and scheduler counts ensure disabled world features are never invoked behind a cosmetic profile.
  */
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { startEretzPostPlayablePriority } from '../../app/EretzPostPlayablePriority.js';
+import { resolveMitzvahWorldRuntimeExperience } from '../../world/experience/MitzvahWorldExperienceCatalog.js';
 
-function context(worldExperience) {
-	let hydrationCalls = 0;
+function harness(worldId) {
 	const diagnostics = {};
+	const calls = {
+		districts: 0,
+		enrichment: 0,
+		environment: 0,
+		hero: 0,
+		landscape: 0,
+		monitor: 0,
+		terrain: 0,
+		waits: 0
+	};
 	return {
+		calls,
 		context: {
 			boot: {},
-			core: {
-				diagnostics,
-				foundation: { terrain: { startTextureHydration() {
-					hydrationCalls += 1;
-					return { status: 'ready' };
-				} } },
-				runtime: { destroyed: false }
-			},
+			core: { diagnostics, foundation: {}, runtime: { destroyed: false } },
 			environment: globalThis,
-			options: { worldExperience }
-		},
-		diagnostics,
-		hydrationCalls: () => hydrationCalls
+			options: { worldExperience: resolveMitzvahWorldRuntimeExperience(worldId) }
+		}
 	};
 }
 
-test('B"H Simple Meadow schedules visual enrichment without rich-world launchers', async () => {
-	const harness = context({
-		canonicalPromotion: false,
-		districtStreaming: false,
-		id: 'simple-meadow',
-		title: 'Simple Meadow'
-	});
-	let waits = 0;
-	let launcherLoads = 0;
-	let landscapes = 0;
-	let heroes = 0;
-	const result = await startEretzPostPlayablePriority(harness.context, {
-		loadLaunchers: async () => {
-			launcherLoads += 1;
-			throw new Error('rich launchers must stay closed');
-		},
-		scheduleHeroPresentation: () => {
-			heroes += 1;
-			return Promise.resolve({ status: 'ready' });
-		},
-		scheduleLandscape: () => {
-			landscapes += 1;
-			return Promise.resolve({ status: 'ready' });
-		},
-		waitForPlayer: async () => {
-			waits += 1;
-			return { reason: 'test', waitedMs: 1 };
-		}
-	});
-	await result.terrainHydration;
-	assert.equal(result.status, 'simple-world-ready');
-	assert.equal(result.priority.waitedMs, 0);
-	assert.equal(waits, 0);
-	assert.equal(launcherLoads, 0);
-	assert.equal(landscapes, 1);
-	assert.equal(heroes, 1);
-	assert.equal(harness.hydrationCalls(), 1);
-});
-
-test('B"H Mountain Village still waits and opens district plus enrichment', async () => {
-	const harness = context({
-		canonicalPromotion: true,
-		districtStreaming: true,
-		id: 'local-reference-village',
-		title: 'Mountain Village'
-	});
-	let waits = 0;
-	let districts = 0;
-	let enrichment = 0;
-	let simpleVisuals = 0;
-	const result = await startEretzPostPlayablePriority(harness.context, {
+function dependencies(calls) {
+	return {
 		loadLaunchers: async () => ({
-			startDeferred() { enrichment += 1; return 'enrichment'; },
-			startDistrict() { districts += 1; return 'district'; }
+			startDeferred() { calls.enrichment += 1; return 'enrichment'; },
+			startDistrict() { calls.districts += 1; return 'district'; }
 		}),
-		scheduleHeroPresentation: () => { simpleVisuals += 1; },
-		scheduleLandscape: () => { simpleVisuals += 1; },
+		scheduleEnvironment: () => { calls.environment += 1; return Promise.resolve({}); },
+		scheduleHeroPresentation: () => { calls.hero += 1; return Promise.resolve({}); },
+		scheduleLandscape: () => { calls.landscape += 1; return Promise.resolve({}); },
+		schedulePerformanceMonitor: () => { calls.monitor += 1; return Promise.resolve({}); },
+		startTerrainHydration: () => { calls.terrain += 1; return Promise.resolve({}); },
 		waitForPlayer: async () => {
-			waits += 1;
+			calls.waits += 1;
 			return { reason: 'test', waitedMs: 0 };
 		}
+	};
+}
+
+test('B"H Blank Meadow never opens cinematic, district, or enrichment systems', async () => {
+	const state = harness('blank-meadow');
+	const result = await startEretzPostPlayablePriority(
+		state.context,
+		dependencies(state.calls)
+	);
+	assert.equal(result.status, 'simple-world-ready');
+	assert.deepEqual(state.calls, {
+		districts: 0,
+		enrichment: 0,
+		environment: 0,
+		hero: 0,
+		landscape: 0,
+		monitor: 1,
+		terrain: 1,
+		waits: 0
 	});
+});
+
+test('B"H Living Village opens focused civilization without Great Valley cinema', async () => {
+	const state = harness('living-village');
+	const result = await startEretzPostPlayablePriority(
+		state.context,
+		dependencies(state.calls)
+	);
 	assert.equal(result.status, 'launched');
-	assert.equal(waits, 1);
-	assert.equal(districts, 1);
-	assert.equal(enrichment, 1);
-	assert.equal(simpleVisuals, 0);
-	assert.equal(harness.hydrationCalls(), 1);
+	assert.equal(state.calls.waits, 1);
+	assert.equal(state.calls.districts, 1);
+	assert.equal(state.calls.enrichment, 1);
+	assert.equal(state.calls.environment, 1);
+	assert.equal(state.calls.landscape, 0);
+	assert.equal(state.calls.hero, 0);
+	assert.equal(state.calls.terrain, 1);
+	assert.equal(state.calls.monitor, 1);
 });
