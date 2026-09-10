@@ -194,6 +194,10 @@ const __awtsmoosModule_88 = Object.create(null);
 
 const __awtsmoosModule_87 = Object.create(null);
 
+const __awtsmoosModule_91 = Object.create(null);
+
+const __awtsmoosModule_90 = Object.create(null);
+
 const __awtsmoosModule_89 = Object.create(null);
 
 const __awtsmoosModule_84 = Object.create(null);
@@ -202,9 +206,11 @@ const __awtsmoosModule_75 = Object.create(null);
 
 const __awtsmoosModule_71 = Object.create(null);
 
-const __awtsmoosModule_90 = Object.create(null);
+const __awtsmoosModule_92 = Object.create(null);
 
 const __awtsmoosModule_57 = Object.create(null);
+
+const __awtsmoosModule_93 = Object.create(null);
 
 const __awtsmoosModule_0 = Object.create(null);
 
@@ -2680,7 +2686,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.resetTreeToBase = resetTreeToBase;
-	const __awtsmoosDefault_1w2urep = {
+	const __awtsmoosDefault_ebrwhz = {
 		Bone,
 		BufferAttribute,
 		BufferGeometry,
@@ -2693,7 +2699,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		Scene,
 		Vector3
 	};
-	__exports.default = __awtsmoosDefault_1w2urep;
+	__exports.default = __awtsmoosDefault_ebrwhz;
 }
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapCubeGeometry.js ----
@@ -6938,6 +6944,103 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/math/Ray.js ----
+{
+	const __exports = __awtsmoosModule_91;
+	// B"H // Boruch Hashem // Blessed is He
+
+	/**
+	 * @file Ray.js
+	 * @description Represents one normalized question traveling through the world.
+	 * The Awtsmoos sends a line from origin toward revelation; Awtsmoos.com lets
+	 * distance become a clear point without borrowing an outside geometry engine.
+	 */
+	const Vec3 = __awtsmoosModule_41.Vec3;
+
+	class Ray {
+		constructor(
+			origin = new Vec3(),
+			direction = new Vec3(0, 0, 1)
+		) {
+			this.origin = Vec3.from(origin);
+			this.direction = Vec3.from(direction).normalize();
+		}
+
+		/** Returns the point reached at one scalar distance. */
+		at(distance) {
+			return this.origin.clone().add(
+				this.direction.clone().scale(distance)
+			);
+		}
+	}
+
+	__exports.Ray = Ray;
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/camera/CameraClipSystem.js ----
+{
+	const __exports = __awtsmoosModule_90;
+	// B"H
+	const Ray = __awtsmoosModule_91.Ray;
+
+	function desiredCameraEye(target, yaw, pitch, distanceValue) {
+		const cosine = Math.cos(pitch);
+		return {
+			x: target.x - Math.sin(yaw) * distanceValue * cosine,
+			y: target.y + Math.sin(pitch) * distanceValue,
+			z: target.z - Math.cos(yaw) * distanceValue * cosine
+		};
+	}
+
+
+	__exports.desiredCameraEye = desiredCameraEye;
+	function clipCameraEye(target, desired, octree, minimumSafe) {
+		if (!octree) {
+			return { eye: desired, hit: null };
+		}
+		const direction = {
+			x: desired.x - target.x,
+			y: desired.y - target.y,
+			z: desired.z - target.z
+		};
+		const length = Math.hypot(direction.x, direction.y, direction.z) || 1;
+		const hit = octree.raycast(new Ray(target, direction), length);
+		if (!hit) {
+			return { eye: desired, hit: null };
+		}
+		const safe = Math.max(minimumSafe, hit.distance - 0.42);
+		return {
+			eye: {
+				x: target.x + direction.x / length * safe,
+				y: target.y + direction.y / length * safe,
+				z: target.z + direction.z / length * safe
+			},
+			hit
+		};
+	}
+
+
+	__exports.clipCameraEye = clipCameraEye;
+	function buildCameraStats(context, target, clipped, distanceValue) {
+		return {
+			mode: context.mode,
+			target,
+			position: clipped.eye,
+			distance: distanceValue,
+			hitKind: clipped.hit?.item?.kind || clipped.hit?.kind || null,
+			ceilingHit: (clipped.hit?.item?.kind || clipped.hit?.kind || '').includes('ceiling'),
+			wallHit: !!clipped.hit,
+			activeHouse: context.activeHouse,
+			activeFloor: context.activeFloor,
+			stairId: context.stairId
+		};
+	}
+
+	__exports.buildCameraStats = buildCameraStats;
+
+}
+
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahMovementSupport.js ----
 {
 	const __exports = __awtsmoosModule_89;
@@ -6947,10 +7050,12 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	/**
 	 * @file MitzvahMovementSupport.js
-	 * @description Owns Mitzvah-specific input field mapping, run-mode policy, and camera presentation.
-	 * The Awtsmoos joins key, joystick, pace, and viewpoint without confusing them with universal motion law;
-	 * Awtsmoos.com keeps game policy here while Procedural Core carries the reusable vector awe.
+	 * @description Owns Mitzvah-specific input mapping, run policy, and bootstrap camera composition using the same orbit mathematics the gesture controller already mutates.
+	 * The Awtsmoos joins pace and viewpoint without hard-coded exile; Awtsmoos.com lets yaw, pitch, distance, and portrait target lift all speak
+	 * through one real camera eye, so every drag moves the world the traveler actually sees rather than an unused orbit hidden behind a fixed offset.
 	 */
+
+	const desiredCameraEye = __awtsmoosModule_90.desiredCameraEye;
 
 	function movementAxes(axis = {}) {
 		return {
@@ -6984,21 +7089,36 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.movementModeFor = movementModeFor;
+	/** Updates the active rich camera rig or projects the bootstrap orbit around the visible traveler. */
 	function updateMovementCamera(runtime, state, deltaSeconds) {
 		if (runtime.cameraRig?.update) {
 			runtime.cameraRig.update(runtime.camera, state, runtime.mainOctree, deltaSeconds);
 			return 'rich-rig';
 		}
 		const playerY = Number(state.renderY) || 0;
-		runtime.camera?.position?.set?.(state.x, playerY + 4.2, state.z + 7);
-		if (runtime.camera) {
-			runtime.camera.target = [state.x, playerY + 1.2, state.z];
-		}
+		const orbit = runtime.orbit || {};
+		const target = {
+			x: state.x,
+			y: playerY + finite(orbit.viewportTargetLift, 1.2),
+			z: state.z
+		};
+		const eye = desiredCameraEye(
+			target,
+			finite(orbit.yaw, Math.PI),
+			finite(orbit.pitch, 0.34),
+			finite(orbit.distance, 7)
+		);
+		runtime.camera?.position?.set?.(eye.x, eye.y, eye.z);
+		if (runtime.camera) runtime.camera.target = [target.x, target.y, target.z];
 		return 'bootstrap-rig';
 	}
 
 
 	__exports.updateMovementCamera = updateMovementCamera;
+	function finite(value, fallback) {
+		return Number.isFinite(Number(value)) ? Number(value) : fallback;
+	}
+
 	function numberFrom(primary, fallback) {
 		return Number.isFinite(Number(primary)) ? Number(primary) : Number(fallback) || 0;
 	}
@@ -7245,7 +7365,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldStartupMilestones.js ----
 {
-	const __exports = __awtsmoosModule_90;
+	const __exports = __awtsmoosModule_92;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -7392,7 +7512,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	const renderBootstrapGameplay = __awtsmoosModule_59.renderBootstrapGameplay;
 	const createBootstrapFrameScheduler = __awtsmoosModule_70.createBootstrapFrameScheduler;
 	const BootstrapMovementController = __awtsmoosModule_71.BootstrapMovementController;
-	const markMitzvahWorldStartupMilestone = __awtsmoosModule_90.markMitzvahWorldStartupMilestone;
+	const markMitzvahWorldStartupMilestone = __awtsmoosModule_92.markMitzvahWorldStartupMilestone;
 
 	const MAX_FRAME_DELTA_SECONDS = 0.05;
 
@@ -7483,18 +7603,58 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzWorldFeaturePolicy.js ----
+{
+	const __exports = __awtsmoosModule_93;
+	//B"H
+	//Boruch Hashem
+	//Blessed be He
+
+	/**
+	 * @file EretzWorldFeaturePolicy.js
+	 * @description Gives runtime code one doorway for immutable selected-world feature decisions.
+	 * Legacy callers remain rich by default, while official manifests can explicitly disable any optional system.
+	 */
+
+	/**
+	 * Resolves whether a named feature is enabled for the selected world.
+	 * @param {object} options Runtime options carrying worldExperience.
+	 * @param {string} feature Boolean feature key.
+	 * @param {boolean} legacyDefault Behavior for callers without an official manifest.
+	 * @returns {boolean} The authoritative feature decision.
+	 */
+	function eretzWorldFeatureEnabled(options, feature, legacyDefault = true) {
+		const experience = options?.worldExperience;
+		if (experience && typeof experience[feature] === 'boolean') {
+			return experience[feature];
+		}
+		return legacyDefault;
+	}
+
+
+	__exports.eretzWorldFeatureEnabled = eretzWorldFeatureEnabled;
+	/** Publishes the immutable selected experience on the live runtime for diagnostics and consumers. */
+	function attachEretzWorldExperience(runtime, options) {
+		runtime.worldExperience = options?.worldExperience || null;
+		return runtime.worldExperience;
+	}
+
+	__exports.attachEretzWorldExperience = attachEretzWorldExperience;
+
+}
+
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapCoreRuntimeAssembly.js ----
 {
 	const __exports = __awtsmoosModule_0;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
+	//B"H
+	//Boruch Hashem
+	//Blessed be He
 
 	/**
 	 * @file BootstrapCoreRuntimeAssembly.js
-	 * @description Assembles immediate control, combat, WebGL frames, HUD, real minimap, and diagnostics.
-	 * The Awtsmoos joins traveler, deed, direction, and witness before distant ornament descends;
-	 * Awtsmoos.com keeps movement, battle, light, and the full map doorway alive in the first vessel.
+	 * @description Assembles only the first-control systems authorized by the selected world.
+	 * Blank Meadow can therefore remain a true bare reliability vessel while richer worlds retain combat and map affordances.
+	 * Every optional constructor is injectable so tests can prove a disabled feature is never instantiated.
 	 */
 
 	const installBootstrapControlsHud = __awtsmoosModule_1.installBootstrapControlsHud;
@@ -7503,35 +7663,65 @@ const __awtsmoosModule_0 = Object.create(null);
 	const createBootstrapPlayerRuntime = __awtsmoosModule_20.createBootstrapPlayerRuntime;
 	const createBootstrapRuntimeDiagnostics = __awtsmoosModule_52.createBootstrapRuntimeDiagnostics;
 	const startBootstrapRuntimeLoop = __awtsmoosModule_57.startBootstrapRuntimeLoop;
+	const attachEretzWorldExperience = __awtsmoosModule_93.attachEretzWorldExperience;
+	const eretzWorldFeatureEnabled = __awtsmoosModule_93.eretzWorldFeatureEnabled;
 
+	/**
+	 * Builds immediate player control while respecting the selected world's immutable feature contract.
+	 * @param {object} foundation First-frame world foundation.
+	 * @param {object} options Runtime and selected-world options.
+	 * @param {object} qualityProfile Resolved device quality policy.
+	 * @param {object} boot Boot-phase recorder.
+	 * @param {object} dependencies Optional test substitutions for side-effecting bootstrap systems.
+	 * @returns {object} Runtime, movement handle, and public diagnostics.
+	 */
 	function assembleBootstrapCoreRuntime(
 		foundation,
 		options,
 		qualityProfile,
-		boot
+		boot,
+		dependencies = {}
 	) {
 		const environment = options.environment || globalThis;
+		const createPlayer = dependencies.createPlayerRuntime || createBootstrapPlayerRuntime;
+		const createDiagnostics = dependencies.createDiagnostics || createBootstrapRuntimeDiagnostics;
+		const installControls = dependencies.installControlsHud || installBootstrapControlsHud;
+		const startLoop = dependencies.startRuntimeLoop || startBootstrapRuntimeLoop;
+		const createMinimap = dependencies.createMinimap || createMinimalMeadowBootstrapMinimap;
+		const Combat = dependencies.Combat || MinimalMeadowBootstrapCombat;
+
 		boot.begin('bootstrap-player-state');
-		const runtime = createBootstrapPlayerRuntime(foundation);
-		boot.begin('bootstrap-combat');
-		runtime.combat = new MinimalMeadowBootstrapCombat(runtime);
+		const runtime = createPlayer(foundation);
+		attachEretzWorldExperience(runtime, options);
+
+		if (eretzWorldFeatureEnabled(options, 'bootstrapCombat')) {
+			boot.begin('bootstrap-combat');
+			runtime.combat = new Combat(runtime);
+		} else {
+			runtime.combat = null;
+		}
+
 		boot.begin('bootstrap-control-loop');
 		const movement = options.startLoop === false
 			? null
-			: startBootstrapRuntimeLoop(runtime, environment);
+			: startLoop(runtime, environment);
+
 		boot.begin('bootstrap-controls-hud');
-		installBootstrapControlsHud(runtime, environment.document);
-		boot.begin('bootstrap-minimap');
-		runtime.bootstrapMinimap = createMinimalMeadowBootstrapMinimap(
-			runtime,
-			environment.document
-		);
-		const diagnostics = createBootstrapRuntimeDiagnostics(
+		installControls(runtime, environment.document);
+		if (eretzWorldFeatureEnabled(options, 'bootstrapMinimap')) {
+			boot.begin('bootstrap-minimap');
+			runtime.bootstrapMinimap = createMinimap(runtime, environment.document);
+		} else {
+			runtime.bootstrapMinimap = null;
+		}
+
+		const diagnostics = createDiagnostics(
 			runtime,
 			movement,
 			qualityProfile,
 			boot
 		);
+		diagnostics.worldExperience = runtime.worldExperience;
 		return { diagnostics, movement, runtime };
 	}
 
