@@ -1,0 +1,162 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * @file Ikar first-light library authority.
+ * @description
+ * The Awtsmoos lets server-rendered Torah look complete before any large client
+ * graph exists. Awtsmoos.com gives direct links, search, and bilingual titles a
+ * calm professional reading surface with native focus and thumb-sized geometry.
+ */
+.heichel-semantic-fallback {
+	display: block;
+	margin-inline: auto;
+	max-width: 72rem;
+	min-height: 0;
+	padding: clamp(1rem, 3vw, 2.4rem);
+	width: 100%;
+}
+
+.heichel-semantic-fallback > .civilization-kicker {
+	color: var(--civil-gold);
+	font-size: .76rem;
+	font-weight: 800;
+	letter-spacing: .12em;
+	margin: 1.1rem 0 .35rem;
+	text-transform: uppercase;
+}
+
+.heichel-semantic-fallback #heichel-boot-title {
+	font-size: clamp(2rem, 7vw, 4.5rem);
+	letter-spacing: -.045em;
+	line-height: 1;
+	margin: 0;
+}
+
+.heichel-semantic-fallback .heichel-semantic-description {
+	color: var(--civil-text-soft);
+	font-size: clamp(1rem, 2vw, 1.12rem);
+	line-height: 1.65;
+	margin: .8rem 0 0;
+	max-width: 48rem;
+}
+
+.heichel-semantic-fallback .heichel-semantic-author {
+	color: var(--civil-text-soft);
+	font-size: .82rem;
+	margin: .45rem 0 0;
+	opacity: .72;
+}
+
+.ikar-first-actions {
+	display: flex;
+	gap: .5rem;
+}
+
+.ikar-first-actions a {
+	align-items: center;
+	border: 1px solid var(--civil-line);
+	border-radius: .7rem;
+	color: var(--civil-text);
+	display: inline-flex;
+	font-weight: 750;
+	min-height: 2.75rem;
+	padding: .55rem .85rem;
+	text-decoration: none;
+}
+
+.ikar-first-actions a:hover,
+.ikar-first-actions a:focus-visible {
+	border-color: var(--civil-gold);
+	color: var(--civil-gold);
+	outline: none;
+}
+
+.ikar-first-search {
+	display: grid;
+	gap: .4rem;
+	margin: 1.5rem 0 1rem;
+}
+
+.ikar-first-search span {
+	font-size: .84rem;
+	font-weight: 800;
+}
+
+.ikar-first-search input {
+	background: rgba(7, 17, 29, .88);
+	border: 1px solid var(--civil-line);
+	border-radius: .8rem;
+	color: var(--civil-text);
+	font: inherit;
+	min-height: 3rem;
+	padding: .7rem .9rem;
+	width: 100%;
+}
+
+.ikar-first-search input:focus-visible {
+	border-color: var(--civil-gold);
+	outline: 2px solid color-mix(in srgb, var(--civil-gold) 40%, transparent);
+	outline-offset: 2px;
+}
+
+.heichel-semantic-fallback .heichel-semantic-discovery {
+	margin-top: 1.5rem;
+}
+
+.heichel-semantic-fallback .heichel-semantic-discovery h2 {
+	font-size: clamp(1.25rem, 3vw, 1.7rem);
+	margin: 0 0 .85rem;
+}
+
+.heichel-semantic-fallback .heichel-semantic-discovery ul {
+	display: grid;
+	gap: .65rem;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.heichel-semantic-fallback .heichel-semantic-discovery a {
+	align-items: center;
+	background: linear-gradient(145deg, rgba(17, 29, 45, .94), rgba(8, 18, 31, .94));
+	border: 1px solid rgba(213, 174, 100, .22);
+	border-radius: .9rem;
+	color: var(--civil-text);
+	display: flex;
+	font-size: 1rem;
+	font-weight: 760;
+	line-height: 1.4;
+	min-height: 3.6rem;
+	padding: .85rem 1rem;
+	text-decoration: none;
+}
+
+.heichel-semantic-fallback .heichel-semantic-discovery a:hover,
+.heichel-semantic-fallback .heichel-semantic-discovery a:focus-visible {
+	border-color: var(--civil-gold);
+	box-shadow: 0 .7rem 2rem rgba(0, 0, 0, .2);
+	outline: none;
+	transform: translateY(-1px);
+}
+
+.heichel-semantic-fallback [role="status"] {
+	color: var(--civil-text-soft);
+	font-size: .82rem;
+	margin: 1rem 0 0;
+}
+
+@media (max-width: 32rem) {
+	.heichel-semantic-fallback {
+		padding: .85rem;
+	}
+
+	.heichel-semantic-fallback .heichel-semantic-discovery ul {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.heichel-semantic-fallback .heichel-semantic-discovery a {
+		min-height: 3.25rem;
+	}
+}

@@ -12,6 +12,7 @@
  * internal ruptures, while a measured 413 may answer plainly at the body's shore in rhyme.
  */
 const http = require("http");
+const { applyHttpTransportPolicy } = require("./httpTransportPolicy.js");
 
 function createHttpApplicationServer(options) {
 	const requestHandlers = Array.isArray(options.requestHandlers)
@@ -25,6 +26,7 @@ function createHttpApplicationServer(options) {
 			dynamicServer: options.dynamicServer
 		}).catch(error => handleUnhandledHttpError(response, error));
 	});
+	applyHttpTransportPolicy(httpServer, options.environment || process.env);
 	if (options.wsServer) {
 		httpServer.on("upgrade", (request, socket, head) => {
 			options.wsServer.handleUpgrade(request, socket, head);

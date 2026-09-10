@@ -50,6 +50,7 @@ export function bindProfileMenus(elements) {
 	};
 	const onKeydown = event => handleProfileKeydown(event, elements, controller);
 	controllers.add(controller);
+	closePanels(elements, true);
 	bindTriggers(elements, trigger => {
 		returnFocusTarget = trigger;
 		isOpen = true;

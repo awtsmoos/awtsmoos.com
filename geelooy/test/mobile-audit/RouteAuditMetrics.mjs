@@ -46,7 +46,7 @@ function collectRouteMetrics() {
 		return rect.width < 40 || rect.height < 40;
 	});
 	const hiddenTabbables = [...document.querySelectorAll('a[href],button,input,select,textarea,summary,[tabindex]')]
-		.filter(element => !isVisible(element) && element.tabIndex >= 0);
+		.filter(element => !isVisible(element) && element.tabIndex >= 0 && !element.closest('[inert]'));
 	const bodyStyle = getComputedStyle(document.body);
 	const defaultishControls = controls.filter(element => {
 		const style = getComputedStyle(element);

@@ -33,7 +33,9 @@ export function miniMail(actions) {
 				tag: 'iframe',
 				attr: {
 					title: 'Awtsmoos Mail',
-					src: '/email?embedded=1'
+					src: 'about:blank',
+					loading: 'lazy',
+					'data-mail-src': '/email?embedded=1'
 				}
 			},
 			{

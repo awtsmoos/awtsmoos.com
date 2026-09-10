@@ -11,6 +11,8 @@
 import { translationBadge } from '../../../living-path/translation-context.js';
 
 export function mediaBlueprint(data) {
+	const isBranch = ['series', 'grouping'].includes(data.type);
+	if (isBranch && !data.thumbnail) return null;
 	return {
 		tag: 'div',
 		attr: {
@@ -25,23 +27,24 @@ export function mediaBlueprint(data) {
 }
 
 export function bodyBlueprint(data) {
+	const summary = description(data);
 	return {
 		tag: 'div',
 		attr: { class: 'nav-card-body' },
 		children: [
 			{ tag: 'p', attr: { class: 'nav-card-kicker' }, children: [kindLabel(data)] },
 			{ tag: 'h3', children: [data.title] },
-			{
+			summary ? {
 				tag: 'p',
 				attr: { class: 'nav-card-description' },
-				children: [description(data)]
-			},
+				children: [summary]
+			} : null,
 			{
 				tag: 'footer',
 				attr: { class: 'nav-card-meta' },
 				children: metaBlueprints(data)
 			}
-		]
+		].filter(Boolean)
 	};
 }
 
@@ -65,9 +68,10 @@ function metaBlueprints(data) {
 
 function description(data) {
 	if (data.description) return data.description;
+	if (['series', 'grouping'].includes(data.type)) return null;
 	return data.type === 'post'
 		? 'Open this teaching in the reader.'
-		: 'Open this branch or expand its children.';
+		: null;
 }
 
 function symbol(data) {

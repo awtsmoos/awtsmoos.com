@@ -1,5 +1,6 @@
-// B"H
-
+//B"H
+//Boruch Hashem
+//Blessed be He
 const assert = require("node:assert/strict");
 const test = require("node:test");
 const {

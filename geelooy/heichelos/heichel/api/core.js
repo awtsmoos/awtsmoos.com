@@ -1,49 +1,73 @@
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
- * B"H
  * @module APICore
  * @description
- * In the beginning, there was only the Infinite. Then, the Kav (Line) 
- * of light was projected to allow communication. This module 
- * contains the core logic for fetching and posting data, the 
- * essential lifeblood (Dam) of the library.
+ * The Awtsmoos gives read requests a small bounded recovery path so one
+ * transient origin rupture does not erase already-rendered Torah. Mutating
+ * requests remain single-shot to prevent accidental duplicate side effects.
  */
 
-export const BASE_API_URL = "/api/social/";
+export const BASE_API_URL = '/api/social/';
+
+const GET_ATTEMPTS = 2;
+const RETRY_DELAY_MS = 120;
+const RETRYABLE_STATUS = new Set([408, 425, 429, 500, 502, 503, 504]);
 
 /**
- * @function fetchData
- * @description Retrieves sparks of data from a divine endpoint.
+ * Retrieves JSON with one bounded retry for transient read failures.
+ * @param {string} url Absolute or same-origin API URL.
+ * @returns {Promise<unknown|null>} Parsed JSON, or null after bounded failure.
  */
 export async function fetchData(url) {
-    try {
-        const response = await fetch(url);
-        if (!response.ok) {
-            throw new Error(`API Gateway Rupture: ${response.status} ${response.statusText}`);
-        }
-        return await response.json();
-    } catch (e) {
-        console.error("B\"H - Fetch failure at path:", url, e);
-        return null;
-    }
+	let finalError = null;
+	for (let attempt = 1; attempt <= GET_ATTEMPTS; attempt += 1) {
+		try {
+			const response = await fetch(url);
+			if (response.ok) return await response.json();
+			finalError = responseError('API Gateway Rupture', response);
+			if (!RETRYABLE_STATUS.has(response.status)) break;
+		} catch (error) {
+			finalError = error;
+		}
+		if (attempt < GET_ATTEMPTS) await retryDelay(attempt);
+	}
+	console.error('B"H - Fetch failure at path:', url, finalError);
+	return null;
 }
 
 /**
- * @function postData
- * @description Sends a vessel of data outward to be processed.
+ * Sends one mutation exactly once so retry cannot duplicate a side effect.
+ * @param {string} url Absolute or same-origin API URL.
+ * @param {BodyInit} body Request body accepted by fetch.
+ * @returns {Promise<unknown|null>} Parsed JSON, or null on failure.
  */
 export async function postData(url, body) {
-    try {
-        const response = await fetch(url, {
-            method: "POST",
-            body
-        });
-        if (!response.ok) {
-            throw new Error(`API Submission Rupture: ${response.status} ${response.statusText}`);
-        }
-        return await response.json();
-    } catch (e) {
-        console.error("B\"H - Posting failure at path:", url, e);
-        return null;
-    }
+	try {
+		const response = await fetch(url, {
+			method: 'POST',
+			body
+		});
+		if (!response.ok) {
+			throw responseError('API Submission Rupture', response);
+		}
+		return await response.json();
+	} catch (error) {
+		console.error('B"H - Posting failure at path:', url, error);
+		return null;
+	}
+}
+
+/** Builds one compact transport error without leaking response bodies. */
+function responseError(prefix, response) {
+	return new Error(`${prefix}: ${response.status} ${response.statusText}`);
+}
+
+/** Applies a tiny increasing delay before the final read attempt. */
+function retryDelay(attempt) {
+	return new Promise(resolve => {
+		setTimeout(resolve, RETRY_DELAY_MS * attempt);
+	});
 }

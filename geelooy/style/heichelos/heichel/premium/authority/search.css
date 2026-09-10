@@ -2,101 +2,99 @@
  * Boruch Hashem
  * Blessed is He
  *
- * @file Ikar search instrument authority.
+ * @file Ikar search authority.
  * @description
- * The Awtsmoos gives scope, query, and filters one coherent study instrument.
- * Awtsmoos.com lets the query consume available width while concise visible copy
- * and explicit ARIA labels keep phones clear without sacrificing accessibility.
+ * The Awtsmoos gives a learner one obvious search river instead of a cramped
+ * control cluster. Awtsmoos.com explicitly owns grid placement so older desktop
+ * feed rules cannot trap the query inside the compact scope column.
  */
 body.heichel-os-document[data-heichel-id="ikar"] .living-path-search-stack {
-	grid-template-columns: minmax(10rem, 14rem) minmax(0, 1fr) !important;
-	inline-size: 100% !important;
-	max-inline-size: none !important;
+	display: grid !important;
+	grid-template-columns: minmax(8rem, 10rem) minmax(0, 1fr) !important;
+	gap: .6rem !important;
+	align-items: end !important;
 }
 
-body.heichel-os-document[data-heichel-id="ikar"] .living-path-field,
-body.heichel-os-document[data-heichel-id="ikar"] .series-search-row {
-	inline-size: 100% !important;
-	max-inline-size: none !important;
-}
-
-body.heichel-os-document[data-heichel-id="ikar"] .living-path-field {
+body.heichel-os-document[data-heichel-id="ikar"] .living-path-search-stack > .living-path-field {
 	grid-column: 1 !important;
+	grid-row: 1 !important;
+	display: grid !important;
+	grid-template-columns: minmax(0, 1fr) !important;
+	justify-content: stretch !important;
+	align-self: end !important;
+	min-inline-size: 0 !important;
 }
 
-body.heichel-os-document[data-heichel-id="ikar"] .series-search-row {
+body.heichel-os-document[data-heichel-id="ikar"] .living-path-field label {
+	display: block;
+	margin: 0 0 .3rem !important;
+	font-size: .72rem !important;
+	font-weight: 700;
+	letter-spacing: .02em;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"] .living-path-field select {
+	inline-size: 100% !important;
+	min-inline-size: 0 !important;
+	min-block-size: 2.75rem !important;
+	padding-inline: .72rem 2rem !important;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"] .living-path-search-stack > .series-search-row {
 	grid-column: 2 !important;
 	grid-row: 1 !important;
+	display: grid !important;
 	grid-template-columns: minmax(0, 1fr) auto !important;
+	align-self: end !important;
+	gap: .5rem !important;
+	min-inline-size: 0 !important;
+	margin: 0 !important;
 }
 
 body.heichel-os-document[data-heichel-id="ikar"] .series-search-row input {
 	inline-size: 100% !important;
 	min-inline-size: 0 !important;
-	max-inline-size: none !important;
+	min-block-size: 2.75rem !important;
 }
 
 body.heichel-os-document[data-heichel-id="ikar"] .filter-chip {
-	white-space: nowrap;
-}
-
-body.heichel-os-document[data-heichel-id="ikar"] .filter-chip::before {
-	content: none !important;
+	inline-size: auto !important;
+	min-inline-size: max-content !important;
+	min-block-size: 2.75rem !important;
+	padding-inline: .85rem !important;
 }
 
 @media (max-width: 48rem) {
 	body.heichel-os-document[data-heichel-id="ikar"] .living-path-search-stack {
-		grid-template-columns: 6.75rem minmax(0, 1fr) !important;
-		gap: .5rem !important;
-		align-items: stretch !important;
+		grid-template-columns: minmax(0, 1fr) !important;
+		gap: .42rem !important;
+		padding: .48rem !important;
 	}
 
-	body.heichel-os-document[data-heichel-id="ikar"] .living-path-field {
-		display: block !important;
-		position: relative;
+	body.heichel-os-document[data-heichel-id="ikar"] .living-path-search-stack > .living-path-field {
+		grid-column: 1 !important;
+		grid-row: 1 !important;
+		inline-size: min(100%, 8rem) !important;
+	}
+
+	body.heichel-os-document[data-heichel-id="ikar"] .living-path-search-stack > .series-search-row {
+		grid-column: 1 !important;
+		grid-row: 2 !important;
 	}
 
 	body.heichel-os-document[data-heichel-id="ikar"] .living-path-field label {
 		position: absolute !important;
 		inline-size: 1px !important;
 		block-size: 1px !important;
-		padding: 0 !important;
 		margin: -1px !important;
 		overflow: hidden !important;
 		clip: rect(0 0 0 0) !important;
+		clip-path: inset(50%) !important;
 		white-space: nowrap !important;
-		border: 0 !important;
-	}
-
-	body.heichel-os-document[data-heichel-id="ikar"] .living-path-field select {
-		inline-size: 100% !important;
-		min-inline-size: 100% !important;
-		max-inline-size: 100% !important;
-		block-size: 100% !important;
-		min-block-size: 2.75rem !important;
-	}
-
-	body.heichel-os-document[data-heichel-id="ikar"] .series-search-row {
-		gap: .4rem !important;
-	}
-
-	body.heichel-os-document[data-heichel-id="ikar"] .series-search-row input {
-		padding-inline: .65rem !important;
 	}
 
 	body.heichel-os-document[data-heichel-id="ikar"] .filter-chip {
-		min-inline-size: 3.25rem !important;
-		padding-inline: .58rem !important;
-	}
-}
-
-@media (max-width: 23rem) {
-	body.heichel-os-document[data-heichel-id="ikar"] .living-path-search-stack {
-		grid-template-columns: minmax(0, 1fr) !important;
-	}
-	body.heichel-os-document[data-heichel-id="ikar"] .living-path-field,
-	body.heichel-os-document[data-heichel-id="ikar"] .series-search-row {
-		grid-column: 1 !important;
-		grid-row: auto !important;
+		min-inline-size: 2.75rem !important;
+		padding-inline: .7rem !important;
 	}
 }

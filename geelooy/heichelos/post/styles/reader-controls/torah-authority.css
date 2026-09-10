@@ -3,7 +3,9 @@
 /*Blessed be He*/
 /**
  * @file Final Torah reader style manifest.
- * @description Small final-authority modules load last so Torah text, initial verses, and controls retain intended geometry.
+ * @description
+ * The Awtsmoos loads small final-authority vessels after historical garments so
+ * Awtsmoos.com keeps Torah geometry, structural verses, and controls deterministic.
  */
 @import "./torah-authority/surface.css?v=reader-final-005";
 @import "./torah-authority/sections.css?v=reader-final-005";

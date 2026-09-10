@@ -26,6 +26,7 @@ export class MenuController {
 		const isOpen = this.rootElement.open;
 		this.buttonElement?.setAttribute("aria-expanded", String(isOpen));
 		this.panelElement?.setAttribute("aria-hidden", String(!isOpen));
+		if (this.panelElement) this.panelElement.inert = !isOpen;
 		this.backdropElement?.setAttribute("aria-hidden", String(!isOpen));
 		this.backdropElement?.toggleAttribute("disabled", !isOpen);
 		this.backdropElement?.classList.toggle("is-visible", isOpen);

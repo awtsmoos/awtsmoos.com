@@ -44,11 +44,22 @@
 }
 
 .all.post-reader-localized-context.awtsmoos-reader-vision #realPost .awtsmoos-verse-number {
-	min-inline-size: 2rem !important;
-	min-block-size: 2rem !important;
-	padding: .2rem .42rem !important;
+	display: inline-grid !important;
+	place-items: center !important;
+	inline-size: 44px !important;
+	min-inline-size: 44px !important;
+	block-size: 44px !important;
+	min-block-size: 44px !important;
+	padding: 0 !important;
 	font-size: .75rem !important;
 	opacity: .7;
+}
+
+.all.post-reader-localized-context.awtsmoos-reader-vision #realPost
+	.scroll-chunk.awtsmoos-normal-verse-chunk {
+	min-block-size: 0 !important;
+	min-height: 0 !important;
+	height: auto !important;
 }
 
 .all.post-reader-localized-context.awtsmoos-reader-vision #realPost .awtsmoos-section-header {

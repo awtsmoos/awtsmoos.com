@@ -5,8 +5,8 @@
  * @file Ikar authority shell geometry.
  * @description
  * The Awtsmoos removes duplicate roof-space and lets the actual Torah hierarchy
- * occupy the useful viewport. Short routes remain content-sized rather than
- * stretching grid rows merely to fill the screen.
+ * occupy the useful viewport. These rules intentionally outrank historical
+ * cosmic-profile geometry while remaining scoped to Ikar alone.
  */
 body.heichel-os-document[data-heichel-id="ikar"] {
 	--ikar-authority-surface: rgba(6, 16, 28, .97);
@@ -34,7 +34,6 @@ body.heichel-os-document[data-heichel-id="ikar"] .heichel-mobile-navigation {
 body.heichel-os-document[data-heichel-id="ikar"] .geelooy-main-stage {
 	display: grid !important;
 	grid-template-columns: minmax(0, 1fr) !important;
-	align-content: start !important;
 	inline-size: min(100%, 84rem) !important;
 	max-inline-size: 84rem !important;
 	margin-inline: auto !important;

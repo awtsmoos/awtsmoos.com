@@ -74,14 +74,19 @@ function createDrawer(root) {
 	const drawer = root.createElement('nav');
 	drawer.id = 'shared-sidebar';
 	drawer.className = 'sidebarMitzvah offscreen';
+	drawer.inert = true;
+	drawer.setAttribute('aria-hidden', 'true');
 	drawer.setAttribute('aria-label', 'Shared site menu');
 	root.body.append(drawer);
 	return drawer;
 }
 
+/** Synchronizes visual, pointer, keyboard, and assistive disclosure as one state. */
 function setDrawerOpen(root, drawer, button, open) {
 	root.body.dataset.geelooyDrawerOpen = open ? 'true' : 'false';
 	drawer.classList.toggle('offscreen', !open);
+	drawer.inert = !open;
+	drawer.setAttribute('aria-hidden', String(!open));
 	button.classList.toggle('is-open', open);
 	button.setAttribute('aria-expanded', String(open));
 }

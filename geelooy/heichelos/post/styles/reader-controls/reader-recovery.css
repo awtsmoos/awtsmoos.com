@@ -1,0 +1,60 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * @file Reader recovery boundary.
+ * @description The Awtsmoos keeps closed UI truly absent and gives Torah a readable mobile measure without changing non-reader pages on Awtsmoos.com.
+ */
+body {
+	font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.all.post-reader-localized-context.awtsmoos-reader-vision {
+	font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.all.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-dropdown-backdrop[hidden] {
+	display: none !important;
+	visibility: hidden !important;
+	pointer-events: none !important;
+}
+
+.all.post-reader-localized-context.awtsmoos-reader-vision .sidebar.hidden-comments,
+.all.post-reader-localized-context.awtsmoos-reader-vision .sidebar.hidden-comments .awtsmoos-sidebar-shell {
+	visibility: hidden !important;
+	pointer-events: none !important;
+}
+
+.all.post-reader-localized-context.awtsmoos-reader-vision .sidebar:not(.hidden-comments),
+.all.post-reader-localized-context.awtsmoos-reader-vision .sidebar:not(.hidden-comments) .awtsmoos-sidebar-shell {
+	visibility: visible !important;
+}
+
+.all.post-reader-localized-context.awtsmoos-reader-vision #realPost {
+	font-family: "Frank Ruhl Libre", Cardo, Georgia, serif !important;
+	font-size: clamp(1.08rem, 1.2vw + .75rem, 1.34rem) !important;
+	line-height: 1.7 !important;
+}
+
+.all.post-reader-localized-context.awtsmoos-reader-vision #realPost :is(.heb, [dir="rtl"]) {
+	font-family: "Frank Ruhl Libre", Cardo, Georgia, serif !important;
+	font-size: 1.08em;
+	line-height: 1.78 !important;
+}
+
+.all.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-sidebar-shell :is(.awtsmoos-chrome-btn, button) {
+	min-inline-size: 44px;
+	min-block-size: 44px;
+}
+
+@media (max-width: 48rem) {
+	.all.post-reader-localized-context.awtsmoos-reader-vision #realPost {
+		padding-inline: clamp(.82rem, 4vw, 1.15rem) !important;
+		font-size: clamp(1.15rem, 4.7vw, 1.34rem) !important;
+	}
+
+	.all.post-reader-localized-context.awtsmoos-reader-vision #realPost .section,
+	.all.post-reader-localized-context.awtsmoos-reader-vision #realPost .awtsmoos-reader-section {
+		padding-inline: .2rem !important;
+	}
+}

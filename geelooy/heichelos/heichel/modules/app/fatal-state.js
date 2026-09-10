@@ -36,10 +36,26 @@ export function fatalStateCard(error) {
 	return section;
 }
 
-/** Replaces the current render root with a truthful accessible failure vessel. */
+/**
+ * Reveals a truthful failure without destroying server-rendered Torah fallback.
+ * @param {Error|unknown} error Failure reported by application boot.
+ * @returns {void}
+ */
 export function renderFatalState(error) {
 	console.error('B"H - Fatal failure in the Great Manifestation:', error);
 	const root = document.querySelector('[data-heichel-render-root]')
 		|| document.body;
-	root.replaceChildren(fatalStateCard(error));
+	const fallback = root.querySelector('[data-heichel-semantic-fallback]');
+	const existing = root.querySelector('.heichel-runtime-state--error');
+	if (existing) existing.remove();
+	const card = fatalStateCard(error);
+	if (!fallback) {
+		root.replaceChildren(card);
+		return;
+	}
+	fallback.hidden = false;
+	fallback.inert = false;
+	fallback.setAttribute('aria-hidden', 'false');
+	root.querySelector('[data-heichel-client-shell]')?.remove();
+	fallback.insertAdjacentElement('afterend', card);
 }

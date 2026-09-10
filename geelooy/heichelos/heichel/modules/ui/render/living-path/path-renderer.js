@@ -6,8 +6,8 @@
  * @module LivingPathPathRenderer
  * @description
  * The Awtsmoos gathers every ancestor and present Torah branch into one useful
- * path. Awtsmoos.com removes root-only chrome and exposes a separate Full Path
- * disclosure only when compact breadcrumbs actually omit middle ancestry.
+ * path. Awtsmoos.com removes root-only path chrome while preserving complete
+ * ancestry, sticky parent navigation, and search context deeper inside.
  */
 
 import { DOMElements } from '../../../dom.js';
@@ -23,12 +23,7 @@ import {
 	pathSeparatorBlueprint
 } from './path-blueprints.js?v=heichel-mobile-010';
 
-/**
- * Paints every path-dependent surface and returns the normalized canonical path.
- * @param {Object} navigator Living-path navigator used by breadcrumb controls.
- * @param {Object} appState Current Heichel application state.
- * @returns {Array<Object>} Normalized breadcrumb records.
- */
+/** Paints every path-dependent surface and returns the normalized canonical path. */
 export function renderPathSurfaces(navigator, appState) {
 	const path = normalizePath(appState.breadcrumb, currentPathCrumb(appState));
 	paintBreadcrumb(path, navigator);
@@ -49,9 +44,7 @@ function paintBreadcrumb(path, navigator) {
 		DOMElements.breadcrumb.replaceChildren();
 		return;
 	}
-	const visible = path.length > 4
-		? [path[0], ...path.slice(-3)]
-		: path;
+	const visible = path.length > 4 ? [path[0], ...path.slice(-3)] : path;
 	const plans = [];
 	visible.forEach((crumb, index) => {
 		if (index) plans.push(pathSeparatorBlueprint());
@@ -64,15 +57,15 @@ function paintBreadcrumb(path, navigator) {
 	DOMElements.breadcrumb.replaceChildren(...manifestPathBlueprints(plans));
 }
 
-/** Shows Full Path only when compact breadcrumbs intentionally omit middle levels. */
+/** Paints full ancestry and suppresses disclosure when Root is all it contains. */
 function paintFullPath(path, navigator) {
 	if (!DOMElements.fullPathList) return;
 	const details = DOMElements.pathDetails
 		|| DOMElements.fullPathList.closest('.living-path-full-path');
-	const needsDisclosure = path.length > 4;
-	details?.classList.toggle('hidden', !needsDisclosure);
-	details?.toggleAttribute('hidden', !needsDisclosure);
-	if (!needsDisclosure) {
+	const rootOnly = path.length <= 1;
+	details?.classList.toggle('hidden', rootOnly);
+	details?.toggleAttribute('hidden', rootOnly);
+	if (rootOnly) {
 		DOMElements.fullPathList.replaceChildren();
 		return;
 	}

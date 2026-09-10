@@ -6,7 +6,7 @@
  * @description
  * The Awtsmoos keeps bilingual Torah identity, truthful virtual depth, and
  * dedicated-tool chrome stable while Awtsmoos.com advances one coherent Ikar
- * application generation through both direct and bridge startup paths.
+ * generation through the server-first critical boot and tiny progressive enhancer.
  */
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -49,17 +49,17 @@ test('translation tool suppresses generic and global chrome', () => {
 	assert.match(context, /applyCustomPageMode\(appState\.currentSeriesData\)/);
 });
 
-test('public entry uses one coherent generation through both boot paths', () => {
+test('public entry uses one coherent server-first Ikar generation', () => {
 	const template = read('geelooy/heichelos/heichel/_awtsmoos.heichel.html');
-	const bridge = read('geelooy/heichelos/heichel/bootBridge.js');
+	const criticalBoot = read('geelooy/heichelos/heichel/critical-boot.js');
 	const app = read('geelooy/heichelos/heichel/app.js');
 	const navigator = read(`${moduleRoot}/navigator.js`);
 	const loader = read(`${moduleRoot}/navigator/loader.js`);
 	const sourceLoader = read(`${moduleRoot}/navigator/source-loader.js`);
-	assert.match(template, /index\.css\?v=ikar-vision-001/);
-	assert.match(template, /bootBridge\.js\?v=ikar-authority-005/);
-	assert.match(template, /app\.js\?v=ikar-authority-005/);
-	assert.match(bridge, /app\.js\?v=ikar-authority-005/);
+	assert.match(template, /critical-boot\.js\?v=critical-path-002/);
+	assert.doesNotMatch(template, /bootBridge\.js/);
+	assert.match(criticalBoot, /ikar-first\.js\?v=ikar-first-001&compact=true/);
+	assert.match(criticalBoot, /app\.js\?v=ikar-authority-006&compact=true/);
 	assert.match(app, /navigator\.js\?v=heichel-mobile-012/);
 	assert.match(navigator, /living-path\/controller\.js\?v=heichel-mobile-012/);
 	assert.match(navigator, /navigator\/loader\.js\?v=heichel-mobile-011/);
