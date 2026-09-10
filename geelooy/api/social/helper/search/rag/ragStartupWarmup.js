@@ -1,37 +1,32 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
- * @module RagStartupWarmup
+ * @file ragStartupWarmup.js
  * @description
- * The Awtsmoos warms immutable semantic truth before any optional comment chamber, while Awtsmoos.com keeps corpus readiness and hydration free to shine apart;
- * one measured publication proves the vessel, one reusable multilingual worker kindles search, and neither must counterfeit the other's part.
+ * The Awtsmoos warms one native publication generation without touching legacy
+ * comment mirrors. Awtsmoos.com keeps semantic model warmup independent, so an
+ * optional intelligence failure can never counterfeit storage failure.
  */
 
-const { performance } = require('perf_hooks');
+const { performance } = require('node:perf_hooks');
 const { warmImmutableRagCorpus } = require('./immutableRagWarmup.js');
 const { startWorker, workerStatus } = require('./multilingualWorkerClient.js');
 const {
 	CONFIGURATION_FILE,
 	REPOSITORY_ROOT,
 	configuredRoot,
-	firstJsonLine,
-	rootFromInterface,
-	warmupContext
+	rootFromInterface
 } = require('./warmupRoot.js');
 
 let startupState = null;
 let semanticWarmup = null;
 
-/** Starts the reusable multilingual worker once without turning model warmup failure into storage failure. */
+/** Starts the reusable multilingual worker once without coupling it to storage readiness. */
 function beginSemanticWarmup() {
-	if (process.env.AWTS_RAG_SEMANTIC_WARMUP === '0') {
-		return null;
-	}
-	if (semanticWarmup) {
-		return semanticWarmup;
-	}
+	if (process.env.AWTS_RAG_SEMANTIC_WARMUP === '0') return null;
+	if (semanticWarmup) return semanticWarmup;
 	semanticWarmup = startWorker()
 		.then(status => {
 			console.error(`B"H semantic worker warm model=${status.model} dimension=${status.dimension}`);
@@ -45,7 +40,7 @@ function beginSemanticWarmup() {
 	return semanticWarmup;
 }
 
-/** Proves immutable corpus geometry from the real request root and begins semantic model warmup independently. */
+/** Proves native corpus readiness and then begins optional semantic model warmup. */
 function warmRagCorpus($i = null) {
 	if (process.env.AWTS_RAG_STARTUP_WARMUP === '0') {
 		return {
@@ -54,9 +49,7 @@ function warmRagCorpus($i = null) {
 			semantic: workerStatus()
 		};
 	}
-	if (startupState) {
-		return { ...startupState, semantic: workerStatus() };
-	}
+	if (startupState) return { ...startupState, semantic: workerStatus() };
 	const started = performance.now();
 	startupState = {
 		...warmImmutableRagCorpus($i),
@@ -66,12 +59,12 @@ function warmRagCorpus($i = null) {
 	return { ...startupState, semantic: workerStatus() };
 }
 
-/** Preserves the historic caller name while deliberately warming corpus storage rather than comment hydration. */
+/** Preserves the historic caller name while warming native publication truth. */
 function warmRagCommentSource($i = null) {
 	return warmRagCorpus($i);
 }
 
-/** Clears only warmup-local state so tests and explicit operator refreshes can start from current truth. */
+/** Clears only warmup-local state for explicit operator refreshes and tests. */
 function resetRagStartupWarmup() {
 	startupState = null;
 	semanticWarmup = null;
@@ -82,11 +75,9 @@ module.exports = {
 	REPOSITORY_ROOT,
 	beginSemanticWarmup,
 	configuredRoot,
-	firstJsonLine,
 	resetRagStartupWarmup,
 	rootFromInterface,
 	warmRagCommentSource,
 	warmRagCorpus,
-	warmupContext,
 	workerStatus
 };

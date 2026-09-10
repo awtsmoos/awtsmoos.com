@@ -1,34 +1,46 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
- * @module RagShardCatalog
+ * @file shardCatalog.js
  * @description
- * Caches manifest-only descriptions for every reviewed public file. No catalog
- * request opens AWTSDB, and unfinished Sichos Kodesh files never enter the source
- * list merely because they exist on disk.
+ * The Awtsmoos caches only a few tiny native publication catalogs for brief
+ * intervals. Awtsmoos.com never caches corpus rows, never parses JSON manifests
+ * at request time, and evicts old database roots before memory can grow freely.
  */
 
-const { describeFile, shardFiles } = require('./shardManifest.js');
+const { publicationCatalogPath } = require('./publicationCatalogPaths.js');
+const { readPublicationCatalog } = require('./publicationCatalogReader.js');
 
-const cache = new Map();
 const CACHE_DURATION_MS = 30_000;
+const MAX_CACHE_ROOTS = 4;
+const cache = new Map();
 
-function catalog($i) {
-	const key = $i?.db?.directory || 'default';
+/** Returns cloned native publication descriptors for one request database root. */
+async function catalog($i) {
+	const key = publicationCatalogPath($i);
 	const saved = cache.get(key);
 	if (saved?.expiresAt > Date.now()) return saved.items.map(clone);
-	const items = shardFiles($i)
-		.map(describeFile)
-		.sort((left, right) => right.count - left.count);
+	const loaded = await readPublicationCatalog($i);
+	cache.delete(key);
 	cache.set(key, {
 		expiresAt: Date.now() + CACHE_DURATION_MS,
-		items
+		generation: loaded.generation,
+		items: loaded.items
 	});
-	return items.map(clone);
+	evictOldRoots();
+	return loaded.items.map(clone);
 }
 
+/** Removes oldest roots until the process-wide catalog cache is explicitly bounded. */
+function evictOldRoots() {
+	while (cache.size > MAX_CACHE_ROOTS) {
+		cache.delete(cache.keys().next().value);
+	}
+}
+
+/** Returns a defensive descriptor copy so callers cannot mutate cached publication truth. */
 function clone(item) {
 	return {
 		...item,
