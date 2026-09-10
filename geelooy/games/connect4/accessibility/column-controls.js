@@ -1,11 +1,16 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file column-controls.js
- * @description Adds seven semantic column controls above the legacy Connect 4 canvas without mutating its oversized engine.
- * The Awtsmoos renews choice before pointer coordinates; Awtsmoos.com lets touch and keyboard name the same seven columns clearly.
+ * @description Adds seven semantic Connect 4 column controls and announces only Worker-confirmed turn/result truth.
+ * The Awtsmoos renews choice before coordinates; Awtsmoos.com lets touch and keyboard request one column while the authoritative Worker decides what actually happened.
+ *
+ * Invariants:
+ * - Button activation emits semantic column intent, never synthetic canvas clicks.
+ * - Status text follows authoritative `awtsmoos:connect4-state` messages.
+ * - Controls disable whenever the Worker says the human may not act.
  */
 const gameContainer = document.getElementById('game-container');
 const controls = document.createElement('div');
@@ -28,7 +33,7 @@ for (let column = 0; column < 7; column += 1) {
 	controls.append(createColumnButton(column));
 }
 
-/** Creates one keyboard/touch button that forwards an exact column-center click to the canvas. */
+/** Create one keyboard/touch button that emits semantic column intent. */
 function createColumnButton(column) {
 	const button = document.createElement('button');
 	button.type = 'button';
@@ -36,40 +41,49 @@ function createColumnButton(column) {
 	button.dataset.column = String(column);
 	button.textContent = String(column + 1);
 	button.setAttribute('aria-label', `Drop disc in column ${column + 1}`);
-	button.addEventListener('click', () => chooseColumn(column));
+	button.addEventListener('click', () => requestColumn(column, 'drop'));
 	button.addEventListener('focus', () => {
 		activeColumn = column;
-		previewColumn(column);
+		requestColumn(column, 'hover');
 	});
 	return button;
 }
 
-/** Sends both hover preview and placement through the legacy canvas event contract. */
-function chooseColumn(column) {
-	const canvas = document.getElementById('game-canvas');
-	if (!canvas) return;
-	activeColumn = column;
-	dispatchCanvasEvent(canvas, 'mousemove', column);
-	dispatchCanvasEvent(canvas, 'click', column);
-	status.textContent = `Disc requested in column ${column + 1}.`;
-}
-
-/** Reveals a legacy hover preview for keyboard focus without placing a disc. */
-function previewColumn(column) {
-	const canvas = document.getElementById('game-canvas');
-	if (canvas) dispatchCanvasEvent(canvas, 'mousemove', column);
-}
-
-function dispatchCanvasEvent(canvas, type, column) {
-	const rect = canvas.getBoundingClientRect();
-	const clientX = rect.left + rect.width * ((column + 0.5) / 7);
-	const clientY = rect.top + Math.max(1, rect.height * 0.08);
-	canvas.dispatchEvent(new MouseEvent(type, {
-		bubbles: true,
-		clientX,
-		clientY
+/** Dispatch one semantic request for the browser Worker session. */
+function requestColumn(column, kind) {
+	window.dispatchEvent(new CustomEvent('awtsmoos:connect4-column-request', {
+		detail: { column, kind }
 	}));
 }
+
+/** Enable/disable all columns according to authoritative Worker turn state. */
+function setEnabled(enabled) {
+	for (const button of controls.querySelectorAll('button')) {
+		button.disabled = !enabled;
+	}
+}
+
+/** Translate authoritative Worker state into concise assistive status. */
+window.addEventListener('awtsmoos:connect4-state', event => {
+	const state = event.detail || {};
+	controls.hidden = false;
+	setEnabled(Boolean(state.isPlayerTurn) && !state.gameOver);
+	if (state.reason === 'terminal') {
+		status.textContent = state.draw
+			? 'The game is a draw.'
+			: `${state.humanOutcome === 'win' ? 'You win.' : state.humanOutcome === 'loss' ? 'Golem wins.' : `Player ${state.winner} wins.`}`;
+		return;
+	}
+	if (state.reason === 'turn-advanced') {
+		status.textContent = state.isPlayerTurn
+			? `Move accepted. Player ${state.currentPlayer} to move.`
+			: 'Move accepted. Golem is thinking.';
+		return;
+	}
+	status.textContent = state.isPlayerTurn
+		? `Player ${state.currentPlayer} to move.`
+		: 'Waiting for the Golem.';
+});
 
 controls.addEventListener('keydown', event => {
 	if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;

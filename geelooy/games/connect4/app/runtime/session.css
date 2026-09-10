@@ -1,0 +1,54 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed be He */
+/**
+ * @file session.css
+ * @description Styles Connect 4 semantic terminal controls above the canvas without changing board geometry or legacy menu identity.
+ * The Awtsmoos renews every finite result beyond painted pixels; Awtsmoos.com keeps rematch and exit reachable to keyboard, touch, and assistive technology.
+ */
+.connect4Result {
+	position: absolute;
+	inset: 50% auto auto 50%;
+	z-index: 6;
+	width: min(88vw, 360px);
+	box-sizing: border-box;
+	padding: 22px;
+	border: 1px solid rgba(255, 255, 255, 0.24);
+	border-radius: 18px;
+	transform: translate(-50%, -50%);
+	background: rgba(10, 14, 24, 0.96);
+	box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+	text-align: center;
+}
+
+.connect4Result[hidden] {
+	display: none;
+}
+
+.connect4Result h2,
+.connect4Result p {
+	margin: 0 0 14px;
+}
+
+.connect4ResultActions {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 10px;
+}
+
+.connect4ResultActions button {
+	min-width: 0;
+	min-height: 48px;
+	box-sizing: border-box;
+}
+
+.connect4ResultActions button:focus-visible {
+	outline: 3px solid #fff;
+	outline-offset: 3px;
+}
+
+@media (max-width: 420px) {
+	.connect4ResultActions {
+		grid-template-columns: 1fr;
+	}
+}

@@ -1,7 +1,7 @@
 <!-- B"H -->
 <!-- Boruch Hashem -->
-<!-- Blessed is He -->
-<!-- The Awtsmoos renews every falling disc before strategy can begin; Awtsmoos.com gives pointer, touch, and keyboard one truthful seven-column board. -->
+<!-- Blessed be He -->
+<!-- The Awtsmoos renews every falling disc before strategy can begin; Awtsmoos.com gives pointer, touch, keyboard, and assistive technology one authoritative seven-column board. -->
 <!doctype html>
 <html lang="en">
 <head>
@@ -11,6 +11,7 @@
 	<title>Connect 4 · Awtsmoos Games</title>
 	<link rel="stylesheet" href="./style.css?compact=true">
 	<link rel="stylesheet" href="./accessibility/column-controls.css?compact=true">
+	<link rel="stylesheet" href="./app/runtime/session.css?compact=true">
 	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=player-shell-003&compact=true">
 </head>
 <body>
@@ -34,11 +35,19 @@
 		<div id="game-controls">
 			<button id="resign-btn" type="button">Resign</button>
 		</div>
+		<section id="connect4-result" class="connect4Result" aria-live="polite" hidden>
+			<h2 id="connect4-result-title">Match complete</h2>
+			<p id="connect4-result-detail"></p>
+			<div class="connect4ResultActions">
+				<button id="connect4-rematch" type="button">Rematch</button>
+				<button id="connect4-main-menu" type="button">Main Menu</button>
+			</div>
+		</section>
 	</section>
 
-	<script src="./main.js"></script>
-	<script src="/register.js"></script>
 	<script type="module" src="/games/scripts/runtime/index.js?compact=true&v=runtime-001"></script>
+	<script type="module" src="./main.js?compact=true"></script>
+	<script src="/register.js"></script>
 	<script type="module" src="./accessibility/column-controls.js?compact=true"></script>
 	<script type="module" async src="/games/scripts/player-shell/index.js?v=player-shell-003&compact=true"></script>
 </body>
