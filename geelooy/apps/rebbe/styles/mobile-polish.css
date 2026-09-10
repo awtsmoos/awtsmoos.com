@@ -1,0 +1,193 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * Mobile is a complete surface, not a clipped desktop: every archive control,
+ * result, player action, and navigation doorway remains visible and thumb-ready.
+ */
+@media (max-width: 768px) {
+	html,
+	body {
+		inline-size: 100%;
+		max-inline-size: 100%;
+		overflow: hidden;
+	}
+
+	header {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr);
+		gap: 8px;
+		block-size: auto;
+		min-block-size: 96px;
+		padding: 8px;
+		overflow: hidden;
+	}
+
+	.logo {
+		min-inline-size: 0;
+		padding-inline: 4px;
+		font-size: 16px;
+		line-height: 1.1;
+		white-space: nowrap;
+	}
+
+	header .tools {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(46px, 1fr));
+		gap: 6px;
+		inline-size: 100%;
+		min-inline-size: 0;
+		overflow: visible;
+		padding: 0;
+	}
+
+	header .tool-btn {
+		inline-size: 100%;
+		min-inline-size: 0;
+		block-size: 46px;
+		border-radius: 12px;
+	}
+
+	main {
+		min-block-size: 0;
+		inline-size: 100%;
+		max-inline-size: 100%;
+	}
+
+	.col {
+		inline-size: 100% !important;
+		max-inline-size: 100%;
+		min-inline-size: 0;
+	}
+
+	.item {
+		min-inline-size: 0;
+		padding: 14px 12px;
+		gap: 10px;
+	}
+
+	.mini-btn {
+		flex: 0 0 44px;
+		inline-size: 44px;
+		block-size: 44px;
+	}
+
+	footer {
+		inline-size: 100%;
+		max-inline-size: 100%;
+		max-block-size: 170px;
+		padding: 8px 10px max(8px, env(safe-area-inset-bottom));
+		gap: 7px;
+	}
+
+	footer .info {
+		gap: 7px;
+	}
+
+	footer .track-title {
+		font-size: 14px;
+	}
+
+	footer .progress-container {
+		block-size: 10px;
+	}
+
+	footer .time-display {
+		font-size: 12px;
+	}
+
+	footer .controls {
+		display: grid;
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+		gap: 10px;
+		inline-size: min(330px, 100%);
+		margin-inline: auto;
+	}
+
+	footer .ctrl-btn,
+	footer #btn-play {
+		inline-size: 52px;
+		block-size: 52px;
+		margin-inline: auto;
+	}
+
+	.date-search-results.is-results-fullscreen {
+		inset: max(6px, env(safe-area-inset-top)) max(6px, env(safe-area-inset-right)) max(6px, env(safe-area-inset-bottom)) max(6px, env(safe-area-inset-left));
+		inline-size: auto !important;
+		block-size: auto !important;
+		min-block-size: 0 !important;
+		max-block-size: none !important;
+		border-radius: 16px;
+	}
+
+	.date-search-results.is-results-fullscreen .search-results-toolbar {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto;
+		align-items: center;
+		gap: 8px;
+		min-block-size: 58px;
+		padding: 8px 10px;
+	}
+
+	.date-search-results.is-results-fullscreen .search-results-exit {
+		inline-size: auto !important;
+		min-inline-size: 132px;
+		min-block-size: 44px;
+		padding: 8px 12px;
+		font-size: .72rem;
+	}
+
+	.date-search-results.is-results-fullscreen .search-results-content {
+		min-block-size: 0;
+		padding: 8px;
+		overflow-y: auto;
+		overscroll-behavior: contain;
+		touch-action: pan-y;
+		-webkit-overflow-scrolling: touch;
+	}
+
+	.search-summary {
+		position: static !important;
+		display: grid !important;
+		grid-template-columns: 1fr !important;
+		gap: 8px;
+		margin: 0 0 10px;
+		padding: 10px;
+	}
+
+	.bulk-selection-actions,
+	.event-action-grid {
+		display: grid !important;
+		grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+		gap: 6px !important;
+	}
+
+	.bulk-selection-actions button,
+	.event-action-grid button,
+	.premium-event-card > button {
+		min-inline-size: 0;
+		min-block-size: 44px;
+		padding: 8px 6px;
+		font-size: .7rem;
+		line-height: 1.15;
+		white-space: normal;
+	}
+
+	.premium-event-card {
+		gap: 8px;
+		margin: 8px 0;
+		padding: 10px;
+		border-radius: 14px;
+	}
+
+	.result-title {
+		font-size: 1rem;
+		line-height: 1.25;
+	}
+}
+
+@media (max-width: 350px) {
+	.bulk-selection-actions,
+	.event-action-grid {
+		grid-template-columns: 1fr !important;
+	}
+}

@@ -26,7 +26,7 @@ export class HodSearchLivePreview {
 		this.seen.clear();
 		this.card = this.build(message);
 		content.replaceChildren(this.card);
-		this.panel.querySelector?.('#search-results')?.scrollIntoView?.({ block: 'nearest' });
+		this.resultShell()?.scrollIntoView?.({ block: 'nearest' });
 	}
 
 	/** Applies one completed shard and appends newly matching event previews. */
@@ -83,7 +83,14 @@ export class HodSearchLivePreview {
 
 	/** Returns the durable Search result content vessel when mounted. */
 	content() {
-		return this.panel?.querySelector?.('#search-results-content');
+		return this.panel?.querySelector?.('#search-results-content')
+			|| this.panel?.ownerDocument?.getElementById?.('search-results-content');
+	}
+
+	/** Finds the result shell even while fullscreen has moved it to document root. */
+	resultShell() {
+		return this.panel?.querySelector?.('#search-results')
+			|| this.panel?.ownerDocument?.getElementById?.('search-results');
 	}
 }
 
