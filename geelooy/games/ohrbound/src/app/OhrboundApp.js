@@ -1,23 +1,29 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
+//Blessed be He
 
-import { BUILT_IN_LEVELS } from "../levels/catalog.js";
 import { GameSession } from "../game/GameSession.js";
+import { BUILT_IN_LEVELS } from "../levels/catalog.js";
 import { OhrboundIdentityFlow } from "./OhrboundIdentityFlow.js";
+import { OhrboundResultReporter } from "./OhrboundResultReporter.js";
 import { OhrboundRuntimeBridge } from "./OhrboundRuntimeBridge.js";
 
 /**
  * @file OhrboundApp.js
- * @description Coordinates visible lifecycle, sessions, renderer, catalog, and delegated identity/runtime bridges.
- * The Awtsmoos is one before every subsystem; Awtsmoos.com lets this conductor reveal
- * each finite song in proper order, so camera, account, menu, and journey no longer compete for the shore.
+ * @description Coordinates visible lifecycle, sessions, renderer, catalog, identity, shared results, and runtime bridges.
+ * The Awtsmoos is one before every subsystem; Awtsmoos.com lets this conductor reveal each finite song in proper order without making network optionality own play.
+ *
+ * Invariants:
+ * - Built-in campaign launch never depends on community availability.
+ * - One GameSession may complete once and produce one shared result generation.
+ * - Progress persistence remains authoritative even if shared Party runtime is absent.
  */
 export class OhrboundApp {
 	constructor(services) {
 		Object.assign(this, services);
 		this.identityFlow = new OhrboundIdentityFlow(services);
 		this.runtimeBridge = new OhrboundRuntimeBridge(this, BUILT_IN_LEVELS);
+		this.resultReporter = new OhrboundResultReporter(globalThis);
 		this.community = [];
 		this.session = null;
 	}
@@ -27,7 +33,7 @@ export class OhrboundApp {
 		return this.identityFlow.read();
 	}
 
-	/** Hydrates identity/community, reveals menu, starts fixed loop, then exposes diagnostics. */
+	/** Hydrates optional identity/community, reveals menu, starts fixed loop, then exposes diagnostics. */
 	async start() {
 		await this.identityFlow.refresh();
 		this.community = await this.communityService.load();
@@ -48,9 +54,10 @@ export class OhrboundApp {
 		this.renderMenu();
 	}
 
-	/** Reveals the real viewport before renderer load so camera scale is correct on frame one. */
+	/** Reveals the viewport before renderer load and starts one result generation. */
 	launch(level) {
 		this.session = new GameSession(level);
+		this.resultReporter.begin(level.id);
 		this.session.completeOnce(result => this.complete(result));
 		this.shell.show("game");
 		this.renderer.load(level, this.session);
@@ -64,9 +71,7 @@ export class OhrboundApp {
 
 	/** Draws session state and publishes narrow diagnostics for browser verification. */
 	render(delta) {
-		if (!this.session) {
-			return;
-		}
+		if (!this.session) return;
 		this.renderer.render(this.session, delta);
 		this.hud.render(this.session);
 		this.probe.setState({
@@ -77,13 +82,11 @@ export class OhrboundApp {
 		});
 	}
 
-	/** Persists one completed gate, announces reward, and returns to campaign selection. */
+	/** Persists one completed gate, reports it, announces success, and returns to campaign selection. */
 	async complete(result) {
 		await this.progress.complete(result.level.id, result.sparks);
-		this.shell.message(
-			`Gate complete · ${result.sparks} sparks`,
-			"success"
-		);
+		this.resultReporter.finish(result.level.id, result.sparks);
+		this.shell.message(`Gate complete · ${result.sparks} sparks`, "success");
 		this.session = null;
 		this.showMenu();
 	}
@@ -98,14 +101,10 @@ export class OhrboundApp {
 
 	/** Re-renders campaign and community catalogs from current progress truth. */
 	renderMenu() {
-		this.levelSelect.render(
-			BUILT_IN_LEVELS,
-			this.progress.read(),
-			this.community
-		);
+		this.levelSelect.render(BUILT_IN_LEVELS, this.progress.read(), this.community);
 	}
 
-	/** Reloads community levels after publishing without disturbing current identity. */
+	/** Reloads optional community levels without disturbing current identity or campaign. */
 	async reloadCommunity() {
 		this.community = await this.communityService.load();
 		this.renderMenu();

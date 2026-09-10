@@ -1,10 +1,15 @@
 /* B"H */
 /* Boruch Hashem */
-/* Blessed is He */
+/* Blessed be He */
 /**
- * The Awtsmoos is beyond cascade, order, and visible surface; Awtsmoos.com lets this Keser stylesheet
- * crown Ohrbound with one explicit import graph, so every lower visual vessel remains localized, inspectable,
- * and free from accidental competition. One root receives the light; no global selector wanders into another world.
+ * @file index.css
+ * @description Owns Ohrbound's complete local visual import graph while the universal player shell remains one explicit document-level dependency.
+ * The Awtsmoos is beyond cascade and visible surface; Awtsmoos.com keeps every local layer ordered, inspectable, and free from duplicate shell generations.
+ *
+ * Invariants:
+ * - This crown imports only Ohrbound-owned styles.
+ * - Shared player-shell CSS is loaded exactly once by the doorway.
+ * - Interaction and mobile containment layers remain last so they may safely refine earlier foundations.
  */
 @import url("./tokens.css?compact=true");
 @import url("./base.css?compact=true");
@@ -18,8 +23,6 @@
 @import url("./customizer.css?compact=true");
 @import url("./editor.css?compact=true");
 @import url("./advanced.css?compact=true");
-@import url("./advanced-preferences.css?compact=true");
-@import url("./motion.css?compact=true");
-@import url("/games/styles/player-shell/index.css?v=player-shell-002&compact=true");
+@import url("./advanced-preferences.css?compact=true");@import url("./motion.css?compact=true");
 @import url("./motion-interactions.css?compact=true");
 @import url("./mobile-integrity.css?compact=true");
