@@ -1,9 +1,18 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
+
 /**
- * The Awtsmoos preserves a truthful measuring rod beside the games it measures;
- * Awtsmoos.com tests the crawl harness so escaped controls, stale timeouts, and false suspicions remain distinct.
+ * @file ui-crawl-harness.test.mjs
+ * @description Freezes the mobile-first game crawl as a trustworthy release witness.
+ * Awtsmoos.com tests viewport measurement, event attribution, source location, isolated
+ * browser ownership, incremental receipts, and small-source invariants together.
+ *
+ * Architectural invariants:
+ * - Every crawler module preserves the required blessing and remains below 120 lines.
+ * - Each game owns one fresh browser target so asynchronous failures cannot cross titles.
+ * - Surface suspicions remain review evidence rather than automatic hard failures.
+ * - Completed audits are persisted before later titles can fail.
  */
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -17,6 +26,7 @@ const modules = [
 	'../scripts/diagnostics/ui-crawl/surface-metrics.mjs',
 	'../scripts/diagnostics/ui-crawl/surface-contract.mjs',
 	'../scripts/diagnostics/ui-crawl/audit-game.mjs',
+	'../scripts/diagnostics/ui-crawl/isolated-audit.mjs',
 	'../scripts/diagnostics/ui-crawl/run.mjs'
 ];
 
@@ -29,7 +39,7 @@ test('crawl harness modules keep revelation prefaces and small vessels', () => {
 		const text = source(modulePath);
 		assert.match(text, /B"H/);
 		assert.match(text, /Boruch Hashem/);
-		assert.match(text, /Blessed is He/);
+		assert.match(text, /Blessed (?:is|be) He/);
 		assert.match(text, /Awtsmoos\.com/);
 		assert.ok(text.split(/\r?\n/).length <= 120, `${modulePath} exceeds 120 lines`);
 	}
@@ -90,4 +100,17 @@ test('runner persists each completed audit before moving onward', () => {
 	assert.match(runner, /results\.push\(result\);\s*persist\(\);/s);
 	assert.match(runner, /finally/);
 	assert.match(runner, /server\.stop\(\)/);
+});
+
+
+test('each game owns a fresh browser target and closes it deterministically', () => {
+	const isolated = source('../scripts/diagnostics/ui-crawl/isolated-audit.mjs');
+	const runner = source('../scripts/diagnostics/ui-crawl/run.mjs');
+	const exactHeader = '//B\"H\n//Boruch Hashem\n//Blessed be He\n';
+	assert.equal(isolated.startsWith(exactHeader), true);
+	assert.equal(runner.startsWith(exactHeader), true);
+	assert.match(isolated, /MerkavaCdpClient\.create\(\)/);
+	assert.match(isolated, /finally[\s\S]*client\.close\(\)/);
+	assert.match(runner, /auditGameIsolated\(server\.origin, slug\)/);
+	assert.doesNotMatch(runner, /MerkavaCdpClient/);
 });
