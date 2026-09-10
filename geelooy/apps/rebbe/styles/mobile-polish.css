@@ -117,6 +117,11 @@
 		min-block-size: 0 !important;
 		max-block-size: none !important;
 		border-radius: 16px;
+		overflow-x: hidden !important;
+		overflow-y: auto !important;
+		overscroll-behavior: contain;
+		touch-action: pan-y;
+		-webkit-overflow-scrolling: touch;
 	}
 
 	.date-search-results.is-results-fullscreen .search-results-toolbar {
@@ -139,10 +144,7 @@
 	.date-search-results.is-results-fullscreen .search-results-content {
 		min-block-size: 0;
 		padding: 8px;
-		overflow-y: auto;
-		overscroll-behavior: contain;
-		touch-action: pan-y;
-		-webkit-overflow-scrolling: touch;
+		overflow: visible !important;
 	}
 
 	.search-summary {

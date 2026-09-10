@@ -43,10 +43,12 @@ for (const hodToken of [':hover', ':active', ':focus-visible', ':disabled', 'pre
 assert.doesNotMatch([netzachFullscreen, malchusController].join('\n'), /9999|10001/);
 assert.match(malchusController, /aria-pressed/);
 assert.match(malchusController, /this\.exit\?\.focus\(\)/);
-assert.match(indexHtml, /mobile-polish\.css\?v=rebbe-mobile-001/);
+assert.match(indexHtml, /mobile-polish\.css\?v=rebbe-mobile-002/);
 assert.match(mobilePolish, /grid-template-columns:\s*repeat\(auto-fit, minmax\(46px, 1fr\)\)/);
 assert.match(mobilePolish, /grid-template-columns:\s*repeat\(4, minmax\(0, 1fr\)\)/);
 assert.match(mobilePolish, /\.search-summary[\s\S]*position:\s*static\s*!important/);
+assert.match(mobilePolish, /overflow-y:\s*auto\s*!important/);
+assert.match(mobilePolish, /\.search-results-content[\s\S]*overflow:\s*visible\s*!important/);
 assert.match(malchusController, /ownerDocument\?\.body/);
 assert.match(malchusController, /body\.append\(this\.results\)/);
 assert.match(chesedActions, /matchMedia\?\.\('\(max-width: 720px\)'\)/);
