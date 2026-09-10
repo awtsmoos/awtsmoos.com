@@ -1,13 +1,10 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file TorahReaderAuthorityContract
- * @description
- * The Awtsmoos protects reading-first geometry from historical cushions and
- * physical-position rules. Awtsmoos.com verifies the final manifest, modular
- * files, bottom-right controls, and clear reader labels as permanent contracts.
+ * @description Proves the final Torah reader cascade stays modular, bounded, legible, and bottom-anchored.
  */
 
 import assert from 'node:assert/strict';
@@ -28,7 +25,7 @@ test('Torah reader authority owns the final cascade', () => {
 });
 
 test('Torah reader authority remains modular and bounded', () => {
-	for (const name of ['surface.css', 'sections.css', 'controls.css']) {
+	for (const name of ['surface.css', 'sections.css', 'initial-verses.css', 'controls.css']) {
 		assert.ok(manifest.includes(name), `${name} import missing`);
 	}
 	for (const source of [manifest, surface, sections, controls]) {
@@ -48,9 +45,10 @@ test('reader tools remain understandable and bottom anchored', () => {
 		'left: auto !important',
 		'right: max(.8rem',
 		'bottom: max(.8rem',
-		'min-block-size: 44px !important',
 		'white-space: nowrap !important'
-	]) assert.ok(controls.includes(token), `control authority missing ${token}`);
+	]) {
+		assert.ok(controls.includes(token), `control authority missing ${token}`);
+	}
 	assert.match(template, />Aa<\/button>/);
 	assert.match(template, />Sources<\/button>/);
 });

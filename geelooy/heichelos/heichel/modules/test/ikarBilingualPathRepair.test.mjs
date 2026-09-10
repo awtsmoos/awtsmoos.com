@@ -1,14 +1,13 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-
 /**
- * @file ikarBilingualPathRepair.test.mjs
+ * @file IkarBilingualPathRepairContract
  * @description
- * The Awtsmoos lets broken phone screenshots become durable witnesses instead of memories lost in night;
- * Awtsmoos.com proves bilingual identity, truthful virtual depth, dedicated-tool chrome, and the premium CSS river reach one light.
+ * The Awtsmoos keeps bilingual Torah identity, truthful virtual depth, and
+ * dedicated-tool chrome stable while Awtsmoos.com advances one coherent Ikar
+ * application generation through both direct and bridge startup paths.
  */
-
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
@@ -38,25 +37,19 @@ test('Oral Torah host card cannot report zero virtual sub-series', () => {
 	assert.match(card.title, /The Oral Torah/);
 });
 
-test('translation tool is custom and suppresses generic plus global chrome', () => {
+test('translation tool suppresses generic and global chrome', () => {
 	const presentation = read(`${moduleRoot}/translationHubPresentation.js`);
 	const mode = read(`${moduleRoot}/ui/custom-page-mode.js`);
 	const context = read(`${moduleRoot}/living-path/context-controller.js`);
 	assert.match(presentation, /customToolPage:\s*true/);
-	for (const token of [
-		'.tab-gates',
-		'.grid-realms',
-		'.heichel-os-world-panel',
-		'.geelooy-bottom-nav button',
-		'Tree'
-	]) {
+	for (const token of ['.tab-gates', '.grid-realms', '.heichel-os-world-panel', '.geelooy-bottom-nav button', 'Tree']) {
 		assert.ok(mode.includes(token), `${token} must be governed by custom tool mode`);
 	}
 	assert.match(context, /custom-page-mode\.js\?v=heichel-mobile-012/);
 	assert.match(context, /applyCustomPageMode\(appState\.currentSeriesData\)/);
 });
 
-test('public entry keeps proven JS cache graph while advancing only the visual river', () => {
+test('public entry uses one coherent generation through both boot paths', () => {
 	const template = read('geelooy/heichelos/heichel/_awtsmoos.heichel.html');
 	const bridge = read('geelooy/heichelos/heichel/bootBridge.js');
 	const app = read('geelooy/heichelos/heichel/app.js');
@@ -64,9 +57,9 @@ test('public entry keeps proven JS cache graph while advancing only the visual r
 	const loader = read(`${moduleRoot}/navigator/loader.js`);
 	const sourceLoader = read(`${moduleRoot}/navigator/source-loader.js`);
 	assert.match(template, /index\.css\?v=ikar-vision-001/);
-	assert.match(template, /bootBridge\.js\?v=heichel-mobile-012/);
-	assert.match(template, /app\.js\?v=heichel-mobile-012/);
-	assert.match(bridge, /app\.js\?v=heichel-mobile-012/);
+	assert.match(template, /bootBridge\.js\?v=ikar-authority-005/);
+	assert.match(template, /app\.js\?v=ikar-authority-005/);
+	assert.match(bridge, /app\.js\?v=ikar-authority-005/);
 	assert.match(app, /navigator\.js\?v=heichel-mobile-012/);
 	assert.match(navigator, /living-path\/controller\.js\?v=heichel-mobile-012/);
 	assert.match(navigator, /navigator\/loader\.js\?v=heichel-mobile-011/);

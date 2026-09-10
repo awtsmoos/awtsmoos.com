@@ -1,22 +1,44 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
+//Blessed be He
 
 import assert from "node:assert/strict";
 import test from "node:test";
-import { retainNativePthreadRuntimeSnapshotSource, snapshotNativePthreadRuntime } from "../core/native/nativePthreadRuntimeSnapshot.js";
+import {
+	retainNativePthreadRuntimeSnapshotSource,
+	snapshotNativePthreadRuntime
+} from "../core/native/nativePthreadRuntimeSnapshot.js";
 
-test("missing registries return eight frozen empty synchronization arrays", () => {
+/**
+ * Proves a missing registry returns the complete stable diagnostic schema.
+ * The platform-loop field is intentionally nullable because no root pump exists yet.
+ */
+test("missing registries expose the complete frozen pthread schema", () => {
 	const snapshot = snapshotNativePthreadRuntime({});
 	assert.equal(Object.isFrozen(snapshot), true);
 	assert.deepEqual(Object.keys(snapshot).sort(), [
-		"conditions", "cooperativeWaits", "externalWakes", "mutexWaitQueue",
-		"mutexes", "reacquireQueue", "runnableThreads", "threads"
+		"conditions",
+		"cooperativeWaits",
+		"externalWakes",
+		"mutexWaitQueue",
+		"mutexes",
+		"platformLooper",
+		"reacquireQueue",
+		"runnableThreads",
+		"threads"
 	]);
-	for (const value of Object.values(snapshot)) assert.deepEqual(value, []);
+	assert.equal(snapshot.platformLooper, null);
+	for (const [key, value] of Object.entries(snapshot)) {
+		if (key === "platformLooper") continue;
+		assert.deepEqual(value, []);
+	}
 });
 
-test("retained registries expose direct and condition mutex queues separately", () => {
+/**
+ * Proves retained sources expose child-thread queues and root-platform testimony.
+ * Each diagnostic lane remains separate so one queue cannot masquerade as another.
+ */
+test("retained registries expose pthread and platform diagnostics separately", () => {
 	const registry = {};
 	retainNativePthreadRuntimeSnapshotSource(registry, createSource("alpha"));
 	assert.deepEqual(snapshotNativePthreadRuntime(registry), {
@@ -25,12 +47,16 @@ test("retained registries expose direct and condition mutex queues separately", 
 		externalWakes: ["alpha-external"],
 		mutexes: ["alpha-mutex"],
 		mutexWaitQueue: ["alpha-direct"],
+		platformLooper: {
+			thread: "alpha-platform"
+		},
 		reacquireQueue: ["alpha-reacquire"],
 		runnableThreads: ["alpha-runnable"],
 		threads: ["alpha-thread"]
 	});
 });
 
+/** Proves registry identity keeps diagnostics isolated between independent runtimes. */
 test("registry identity prevents pthread evidence leakage", () => {
 	const first = {};
 	const second = {};
@@ -40,10 +66,16 @@ test("registry identity prevents pthread evidence leakage", () => {
 	assert.deepEqual(snapshotNativePthreadRuntime(second).threads, ["second-thread"]);
 });
 
+/** Builds one fully populated diagnostic source used by snapshot schema tests. */
 function createSource(prefix) {
 	return {
 		conditions: snap(`${prefix}-condition`),
-		cooperativeRuntime: snap(`${prefix}-cooperative`),
+		cooperativeRuntime: {
+			platformLooperSnapshot: () => Object.freeze({
+				thread: `${prefix}-platform`
+			}),
+			snapshot: () => Object.freeze([`${prefix}-cooperative`])
+		},
 		mutexes: snap(`${prefix}-mutex`),
 		scheduler: {
 			externalWakeSnapshot: () => Object.freeze([`${prefix}-external`]),
@@ -54,4 +86,10 @@ function createSource(prefix) {
 		threads: snap(`${prefix}-thread`)
 	};
 }
-function snap(value) { return Object.freeze({ snapshot: () => Object.freeze([value]) }); }
+
+/** Wraps one immutable array-valued snapshot source. */
+function snap(value) {
+	return Object.freeze({
+		snapshot: () => Object.freeze([value])
+	});
+}

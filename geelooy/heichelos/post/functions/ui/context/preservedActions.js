@@ -1,28 +1,36 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
+
 /**
  * @module PreservedReaderActions
  * @description
- * The Awtsmoos keeps verse and paragraph deeds close to their source while
- * Awtsmoos.com lets global utilities live in a separate, quieter vessel.
+ * The Awtsmoos keeps verse-local Torah actions close to their source while
+ * shared utility deeds remain in their own small authority. Text normalization
+ * is delegated to one helper so this menu stays readable, testable, and bounded.
  */
-import { copyToClipboard, stripTags, updateQueryStringParameter } from '../../utils.js';
+
+import { copyToClipboard, updateQueryStringParameter } from '../../utils.js';
 import { makeToast } from '../../ui.js';
+import {
+	completeReaderText,
+	flattenSection,
+	readerSections,
+	selectedReaderText
+} from './preservedActionText.js';
 import { utilityReaderActions } from './preservedUtilityActions.js';
 
+/** @param {Object} action Action definition. @returns {Object} Secondary action copy. */
 const secondary = action => ({ ...action, importance: 'secondary' });
-const primary = action => ({ ...action, importance: 'primary' });
-const asText = value => stripTags(String(value ?? '')).replace(/\n{3,}/g, '\n\n').trim();
-const sections = () => Array.isArray(window.sectionDayuh)
-	? window.sectionDayuh
-	: window.post?.dayuh?.sections || window.post?.sections || [];
-const flatten = section => Array.isArray(section)
-	? section.flat(Infinity).map(asText).filter(Boolean)
-	: [asText(section?.text ?? section?.content ?? section)].filter(Boolean);
-const selectedText = () => String(window.getSelection?.().toString?.() || '').trim();
 
-/** Resolves the verse and optional paragraph coordinate beneath an event target. */
+/** @param {Object} action Action definition. @returns {Object} Primary action copy. */
+const primary = action => ({ ...action, importance: 'primary' });
+
+/**
+ * Resolves verse and optional paragraph coordinates beneath one event target.
+ * @param {Event|undefined} event Reader pointer or context event.
+ * @returns {{index: string|null, subIndex: string|null, container: Element|null}}
+ */
 function targetCoordinates(event) {
 	const target = event?.target || document.body;
 	const paragraph = target.closest?.('.sub-awtsmoos') || null;
@@ -34,18 +42,7 @@ function targetCoordinates(event) {
 	};
 }
 
-/** Returns the complete readable post while preserving structural newlines. */
-function completePostText() {
-	const heading = [
-		asText(window.series?.prateem?.name || window.series?.name),
-		asText(window.post?.title || window.post?.name)
-	].filter(Boolean).join('\n');
-	const body = sections().flatMap(flatten).join('\n\n')
-		|| asText(document.getElementById('realPost')?.innerText || '');
-	return [heading, body].filter(Boolean).join('\n\n');
-}
-
-/** Opens the contextual comment chamber at the selected reader coordinate. */
+/** Opens the canonical comment panel for one verse or paragraph coordinate. */
 async function openComment(index, subIndex) {
 	updateQueryStringParameter('idx', index);
 	updateQueryStringParameter('sub', subIndex !== null ? subIndex : null);
@@ -53,18 +50,21 @@ async function openComment(index, subIndex) {
 	await window.commentLogic?.reloadRoot?.();
 }
 
-/** Builds the study deeds that truly belong to the tapped verse or paragraph. */
+/** Builds verse-local commentary and copy actions only for a real reader coordinate. */
 function contextualActions(event) {
 	const { index, subIndex, container } = targetCoordinates(event);
 	if (index === null) return [];
 	const type = subIndex !== null ? 'Paragraph' : 'Verse';
-	const source = flatten(sections()[index]);
+	const source = flattenSection(readerSections()[index]);
+	const selectedSource = subIndex !== null ? source[subIndex] : source.join('\n');
 	return [
 		primary({
 			label: 'View Commentary',
 			icon: '☷',
-			action: async () => (await import('/heichelos/post/comments/inline.js'))
-				.showSectionCommentaryInline(index, subIndex, container)
+			action: async () => {
+				const module = await import('/heichelos/post/comments/inline.js');
+				return module.showSectionCommentaryInline(index, subIndex, container);
+			}
 		}),
 		secondary({
 			label: `Comment on ${type}`,
@@ -75,23 +75,19 @@ function contextualActions(event) {
 			label: `Copy ${type}`,
 			icon: '✧',
 			action: () => copyToClipboard({
-				text: subIndex !== null ? source[subIndex] : source.join('\n'),
+				text: selectedSource,
 				successMsg: `Copied ${type}!`
 			}, makeToast)
 		})
 	];
 }
 
-/**
- * Returns reader deeds ordered by immediate study relevance.
- * @param {Event} event - Context-menu or reader interaction event.
- * @returns {Array<Object>} Declarative reader action recipes.
- */
+/** Returns contextual study deeds surrounded by stable global reader utilities. */
 export function preservedReaderActions(event) {
 	return utilityReaderActions({
 		event,
-		selection: selectedText(),
-		postText: completePostText(),
+		selection: selectedReaderText(),
+		postText: completeReaderText(),
 		contextual: contextualActions(event)
 	});
 }

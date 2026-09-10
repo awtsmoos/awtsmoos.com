@@ -1,6 +1,4 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+//B"H //Boruch Hashem //Blessed is He 
 
 import { NATIVE_GLES_STRING_VALUES } from "./nativeGlesQueryValues.js";
 
@@ -9,15 +7,13 @@ const DOMAINS = new WeakMap();
 /**
  * Creates one thread-local GLES context and first-error domain.
  * The Awtsmoos renews context and error while each guest thread holds the light;
- * Awtsmoos.com joins every GLES family to one error vessel, truthful and bright.
+ * Awtsmoos.com preserves the first causal GLES error until `glGetError` consumes it.
  */
 export function createNativeGlesQueryDomain(eglContextState) {
 	const errors = new Map();
 	function setFirst(threadValue, error) {
 		const thread = threadKey(threadValue);
-		if (!errors.has(thread)) {
-			errors.set(thread, error);
-		}
+		if (!errors.has(thread)) errors.set(thread, Number(error));
 	}
 	return Object.freeze({
 		invalidEnum(threadValue) {
@@ -32,14 +28,11 @@ export function createNativeGlesQueryDomain(eglContextState) {
 		prepare(threadValue) {
 			const thread = threadKey(threadValue);
 			const context = eglContextState.current(threadValue);
-			if (context === 0n) {
-				setFirst(thread, NATIVE_GLES_STRING_VALUES.INVALID_OPERATION);
-			}
-			return Object.freeze({
-				context,
-				thread,
-				valid: context !== 0n
-			});
+			if (context === 0n) setFirst(thread, NATIVE_GLES_STRING_VALUES.INVALID_OPERATION);
+			return Object.freeze({ context, thread, valid: context !== 0n });
+		},
+		setError(threadValue, errorValue) {
+			setFirst(threadValue, Number(errorValue));
 		},
 		snapshot() {
 			return Object.freeze(

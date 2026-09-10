@@ -1,19 +1,18 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
-
+/**
+ * @file ReaderPreferenceLocalizationContract
+ * @description
+ * The Awtsmoos keeps reader scale, preferences, and layer ownership local.
+ * Awtsmoos.com verifies the real settings vessel rather than demanding controls
+ * from the outer post template that only injects that vessel at runtime.
+ */
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 
-/**
- * @fileoverview Localization contract for reader preferences, scale, and layers.
- *
- * The Awtsmoos, Atzmus beyond style and state, renews both inside one measured shore;
- * Awtsmoos.com guards root ownership, relative layering, and modular scale law
- * without freezing yesterday's source spelling or arbitrary layer numbers anymore.
- */
 const root = new URL('../', import.meta.url);
-const read = (path) => readFile(new URL(path, root), 'utf8');
+const read = path => readFile(new URL(path, root), 'utf8');
 const [
 	scale,
 	scalePolicy,
@@ -24,6 +23,7 @@ const [
 	themeController,
 	preferencesFacade,
 	template,
+	readerSettings,
 	settingsEntry,
 	settingsShell,
 	readerShell,
@@ -32,12 +32,12 @@ const [
 	read('functions/ReaderScale.js'),
 	read('functions/ReaderScalePolicy.js'),
 	read('functions/ui/ReaderScaleDisplay.js'),
-	read('functions/ui/Dimensionality.js'),
-	read('logic/KliReaderPreferenceController.js'),
+	read('functions/ui/Dimensionality.js'),	read('logic/KliReaderPreferenceController.js'),
 	read('logic/YesodReaderFontController.js'),
 	read('logic/TiferesReaderThemeController.js'),
 	read('logic/preferences.js'),
 	read('_awtsmoos.post.html'),
+	read('reader-settings.html'),
 	read('styles/ideal/reborn/settings.css'),
 	read('styles/ideal/reborn/settings-shell.css'),
 	read('styles/social/reader-shell.css'),
@@ -57,13 +57,13 @@ assert.ok(display.includes('Number.isFinite'));
 assert.ok(display.includes('Math.round'));
 assert.ok(fontController.includes('extends KliReaderPreferenceController'));
 assert.ok(themeController.includes('extends KliReaderPreferenceController'));
-assert.ok(!preferencesFacade.includes('loadFontSize('));
-assert.ok(!template.includes('id="themeToggleBtn"'));
-assert.ok(template.includes('id="themeSelector"'));
-assert.ok(template.includes('class="reader-advanced-settings settings-group"'));
+assert.ok(!preferencesFacade.includes('loadFontSize('));assert.ok(!template.includes('id="themeToggleBtn"'));
 assert.ok(template.includes('aria-controls="typographyDetails"'));
+assert.ok(readerSettings.includes('id="themeSelector"'));
+assert.ok(readerSettings.includes('class="reader-advanced-settings settings-group"'));
 for (const retiredFont of ['Crimson+Pro', 'EB+Garamond', 'Lora']) {
 	assert.ok(!template.includes(retiredFont));
+	assert.ok(!readerSettings.includes(retiredFont));
 }
 assert.match(readerShell, /--post-text-size:\s*clamp\([^;]+\);/);
 assert.doesNotMatch(readerShell, /--post-text-size:[^;]+!important/);
@@ -77,8 +77,7 @@ assert.match(
 	/--reader-layer-settings:\s*calc\(var\(--z-sidebar,\s*3000\)\s*\+\s*20\)/
 );
 assert.match(criticalShell, /100dvi/);
-assert.doesNotMatch(criticalShell, /100vw|100vh/);
-for (const moduleName of [
+assert.doesNotMatch(criticalShell, /100vw|100vh/);for (const moduleName of [
 	'settings-shell.css',
 	'settings-groups.css',
 	'settings-controls.css',

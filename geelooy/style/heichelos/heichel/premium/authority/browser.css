@@ -1,0 +1,94 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * @file Ikar browsing and search authority.
+ * @description
+ * The Awtsmoos lets path, scope, search, filters, and Torah cards form one
+ * readable sequence. Awtsmoos.com protects every min-width boundary so Hebrew,
+ * English, and touch controls wrap intentionally rather than pierce the viewport.
+ */
+body.heichel-os-document[data-heichel-id="ikar"] .heichel-nav-panel {
+	grid-column: 1 / -1 !important;
+	min-inline-size: 0 !important;
+	margin-block-start: 0 !important;
+	padding: .85rem !important;
+	border-radius: 1.25rem !important;
+	background: linear-gradient(
+		155deg,
+		var(--ikar-authority-surface),
+		rgba(4, 11, 20, .97)
+	) !important;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"] .living-path-context,
+body.heichel-os-document[data-heichel-id="ikar"] .living-path-search-stack {
+	min-inline-size: 0 !important;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"] .breadcrumb-river,
+body.heichel-os-document[data-heichel-id="ikar"] .living-path-full-path,
+body.heichel-os-document[data-heichel-id="ikar"] .living-path-search-stack {
+	border-color: var(--ikar-authority-line) !important;
+	background: var(--ikar-authority-soft) !important;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"] .living-path-search-stack {
+	display: grid !important;
+	grid-template-columns: minmax(10rem, .4fr) minmax(0, 1fr) !important;
+	gap: .62rem !important;
+	align-items: end !important;
+	padding: .62rem !important;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"] .living-path-field,
+body.heichel-os-document[data-heichel-id="ikar"] .series-search-row,
+body.heichel-os-document[data-heichel-id="ikar"] .series-search-row input {
+	min-inline-size: 0 !important;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"] .living-path-field select,
+body.heichel-os-document[data-heichel-id="ikar"] .series-search-row input {
+	inline-size: 100% !important;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"] .series-search-row {
+	display: grid !important;
+	grid-template-columns: minmax(0, 1fr) auto !important;
+	gap: .55rem !important;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"] .filter-chip {
+	min-block-size: 2.75rem !important;
+	padding-inline: .85rem !important;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"] .series-heading,
+body.heichel-os-document[data-heichel-id="ikar"] .tab-gates,
+body.heichel-os-document[data-heichel-id="ikar"] .nav-card {
+	min-inline-size: 0 !important;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"] .series-heading {
+	overflow: hidden !important;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"] .series-heading h2,
+body.heichel-os-document[data-heichel-id="ikar"] .nav-card h3 {
+	overflow-wrap: anywhere !important;
+	text-wrap: balance;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"] .tab-gates {
+	overflow-x: auto !important;
+	overflow-y: hidden !important;
+	scrollbar-width: none;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"] .nav-card {
+	border-radius: 1rem !important;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"] .nav-card-meta {
+	flex-wrap: wrap !important;
+}

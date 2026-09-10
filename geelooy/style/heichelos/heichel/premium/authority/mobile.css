@@ -1,0 +1,45 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * @file Ikar phone geometry authority.
+ * @description
+ * The Awtsmoos gives the shared Ikar shell compact phone geometry while leaving
+ * search ownership to search.css and branch-card ownership to cards.css.
+ * Awtsmoos.com keeps each final authority module responsible for one concern.
+ */
+@media (max-width: 48rem) {
+	body.heichel-os-document[data-heichel-id="ikar"] .all {
+		padding-inline: 0 !important;
+	}
+
+	body.heichel-os-document[data-heichel-id="ikar"] .geelooy-main-stage {
+		padding: .55rem .6rem max(1rem, env(safe-area-inset-bottom)) !important;
+		gap: .58rem !important;
+	}
+
+	body.heichel-os-document[data-heichel-id="ikar"] .geelooy-heichel-hero.cosmic-heichel-profile {
+		padding: .72rem !important;
+		gap: .48rem !important;
+		border-radius: 1rem !important;
+	}
+
+	body.heichel-os-document[data-heichel-id="ikar"] .heichel-nav-panel {
+		padding: .62rem !important;
+		border-radius: 1rem !important;
+	}
+
+	body.heichel-os-document[data-heichel-id="ikar"] .tab-gates .tab {
+		min-inline-size: max-content !important;
+		min-block-size: 2.7rem !important;
+		padding-inline: .72rem !important;
+	}
+
+	body.heichel-os-document[data-heichel-id="ikar"] .nav-card {
+		padding: .8rem !important;
+	}
+
+	body.heichel-os-document[data-heichel-id="ikar"] .heichel-profile-details summary {
+		min-block-size: 2.35rem !important;
+	}
+}

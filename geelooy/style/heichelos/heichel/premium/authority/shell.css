@@ -1,0 +1,87 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * @file Ikar authority shell geometry.
+ * @description
+ * The Awtsmoos removes duplicate roof-space and lets the actual Torah hierarchy
+ * occupy the useful viewport. Short routes remain content-sized rather than
+ * stretching grid rows merely to fill the screen.
+ */
+body.heichel-os-document[data-heichel-id="ikar"] {
+	--ikar-authority-surface: rgba(6, 16, 28, .97);
+	--ikar-authority-soft: rgba(9, 23, 39, .82);
+	--ikar-authority-line: rgba(91, 215, 255, .17);
+	--ikar-authority-gap: .65rem;
+	background: #030912;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"] .all {
+	inline-size: 100% !important;
+	max-inline-size: none !important;
+	margin-inline: 0 !important;
+	padding-inline: clamp(.55rem, 2vw, 2rem) !important;
+	background: transparent !important;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"] .main,
+body.heichel-os-document[data-heichel-id="ikar"] .heichel-mobile-navigation {
+	inline-size: 100% !important;
+	max-inline-size: none !important;
+	min-inline-size: 0 !important;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"] .geelooy-main-stage {
+	display: grid !important;
+	grid-template-columns: minmax(0, 1fr) !important;
+	align-content: start !important;
+	inline-size: min(100%, 84rem) !important;
+	max-inline-size: 84rem !important;
+	margin-inline: auto !important;
+	padding: 1rem 0 max(2rem, var(--ikar-dock-clearance, 1rem)) !important;
+	gap: 1rem !important;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"] .geelooy-heichel-hero.cosmic-heichel-profile {
+	grid-column: 1 / -1 !important;
+	min-block-size: 0 !important;
+	padding: 1rem !important;
+	gap: .7rem !important;
+	border-radius: 1.3rem !important;
+	background:
+		radial-gradient(circle at 88% 0%, rgba(91, 215, 255, .14), transparent 34%),
+		linear-gradient(140deg, rgba(9, 26, 44, .98), rgba(5, 12, 23, .96)) !important;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"] .geelooy-heichel-hero .heichel-profile-cover {
+	opacity: .22 !important;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"] .geelooy-heichel-hero .heichel-profile-identity {
+	min-inline-size: 0 !important;
+	gap: .72rem !important;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"] .geelooy-heichel-hero .heichel-profile-copy {
+	min-inline-size: 0 !important;
+	padding-block-start: 0 !important;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"] .geelooy-heichel-hero #heichel-main-title {
+	font-size: clamp(1.55rem, 4vw, 2.45rem) !important;
+	line-height: 1.05 !important;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"] .heichel-profile-compact-context {
+	margin: .15rem 0 0 !important;
+	color: var(--ikar-ink-soft, rgba(235, 246, 255, .72)) !important;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"] .heichel-profile-details {
+	margin: 0 !important;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"] .heichel-profile-details summary {
+	min-block-size: 2.45rem !important;
+	padding: .52rem .78rem !important;
+}

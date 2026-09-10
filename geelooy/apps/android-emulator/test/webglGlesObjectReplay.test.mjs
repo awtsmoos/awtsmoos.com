@@ -1,6 +1,4 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+//B"H //Boruch Hashem //Blessed is He 
 
 import assert from "node:assert/strict";
 import test from "node:test";
@@ -56,7 +54,7 @@ test("records real shader compiler rejection as handled failure", () => {
 test("leaves unknown GLES operations explicitly unsupported", () => {
 	const fixture = createWebGlGlesReplayFixture();
 	const replay = createWebGlGlesObjectReplay(fixture.gl);
-	assert.deepEqual(replay.replay({ kind: "draw-arrays" }), {
+	assert.deepEqual(replay.replay({ kind: "draw-indirect" }), {
 		applied: false,
 		handled: false
 	});
