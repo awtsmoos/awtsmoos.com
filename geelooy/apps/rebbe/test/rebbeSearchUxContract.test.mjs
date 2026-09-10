@@ -21,6 +21,7 @@ const hodInteraction = yesodRead('styles/runtime/search-control-interaction.css'
 const netzachFullscreen = yesodRead('styles/runtime/search-fullscreen.css');
 const yesodTracks = yesodRead('styles/runtime/search-tracks.css');
 const malchusController = yesodRead('ui/browser/search/SearchFullscreenController.js');
+const chesedActions = yesodRead('ui/browser/search/SearchPanelActions.js');
 
 assert.match(malchusCore, /--rebbe-layer-fullscreen/);
 assert.match(netzachFullscreen, /z-index:\s*var\(--rebbe-layer-fullscreen\)/);
@@ -40,4 +41,7 @@ for (const hodToken of [':hover', ':active', ':focus-visible', ':disabled', 'pre
 assert.doesNotMatch([netzachFullscreen, malchusController].join('\n'), /9999|10001/);
 assert.match(malchusController, /aria-pressed/);
 assert.match(malchusController, /this\.exit\?\.focus\(\)/);
+assert.match(chesedActions, /matchMedia\?\.\('\(max-width: 720px\)'\)/);
+assert.match(yesodRead('styles/runtime/search-results.css'), /touch-action:\s*pan-y/);
+assert.doesNotMatch(yesodRead('styles/runtime/search-results.css'), /overflow:\s*clip/);
 console.log('B"H rebbeSearchUxContract.test passed');

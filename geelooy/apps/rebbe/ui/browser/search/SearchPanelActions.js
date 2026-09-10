@@ -50,6 +50,8 @@ export class ChesedSearchPanelActions {
 		const tiferesRequest = this.codec.read(this.panel);
 
 		const yesodBroadSearch = !this.codec.hasFilter(tiferesRequest);
+		const yesodMobileResults = globalThis.matchMedia?.('(max-width: 720px)')?.matches;
+		if (yesodMobileResults) this.fullscreen.set(true);
 		const hodStarted = await this.runStatus.execute(
 			() => this.callbacks.onSearch?.(tiferesRequest),
 			yesodBroadSearch ? 'Scanning the complete archive…' : 'Accessing archive indexes…'

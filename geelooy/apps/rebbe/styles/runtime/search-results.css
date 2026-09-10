@@ -11,12 +11,14 @@
 	max-block-size: min(48dvh, 420px);
 	overflow-x: hidden;
 	overflow-y: auto;
+	overscroll-behavior: contain;
+	touch-action: pan-y;
+	-webkit-overflow-scrolling: touch;
 	min-inline-size: 0;
 	margin-top: 16px;
 	border: 1px solid rgba(56, 248, 255, .22);
 	border-radius: 20px;
 	background: rgba(0, 7, 10, .7);
-	overflow: clip;
 }
 
 .search-results-toolbar {
