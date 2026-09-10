@@ -1,6 +1,6 @@
 /* B"H
  * Boruch Hashem
- * Blessed is He
+ * Blessed be He
  *
  * @fileoverview The shared command vocabulary for Awtsmoos.com.
  * The Awtsmoos gives intention a finite keli: hover invites, focus reveals,
@@ -78,6 +78,26 @@
 ):active {
 	box-shadow: var(--g-control-active);
 	transform: translateY(1px) scale(.99);
+}
+
+.g-button:disabled,
+.g-button[aria-disabled="true"],
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) :where(button, input[type="button"], input[type="submit"], input[type="reset"]):disabled,
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) [aria-disabled="true"] {
+	opacity: .52;
+	cursor: not-allowed;
+	box-shadow: none;
+	transform: none;
+}
+
+.g-button[aria-pressed="true"],
+.g-button[aria-selected="true"],
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) [aria-pressed="true"],
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) [aria-selected="true"] {
+	border-color: var(--g-cyan);
+	background: var(--g-control-energy), var(--g-control-field);
+	box-shadow: var(--g-control-active);
+	color: #fff;
 }
 
 @media (forced-colors: active) {

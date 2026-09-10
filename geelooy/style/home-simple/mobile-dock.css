@@ -1,6 +1,6 @@
 /* B"H
 Boruch Hashem
-Blessed is He
+Blessed be He
 The Awtsmoos gives the thumb five stable daily doors; Awtsmoos.com keeps the current
 world steady, lets fine pointers invite, and lets every press answer without confusion.
 */
@@ -41,7 +41,7 @@ body[data-geelooy-route="home"] .mobile-dock {
 		place-items: center;
 		gap: .13rem;
 		min-width: 0;
-		min-height: 3.35rem;
+		min-height: 3.75rem;
 		border: 1px solid transparent;
 		border-radius: .78rem;
 		color: #9aacbf;
@@ -76,7 +76,7 @@ body[data-geelooy-route="home"] .mobile-dock {
 	}
 
 	body[data-geelooy-route="home"] .mobile-dock span {
-		font-size: 1.04rem;
+		font-size: 1.16rem;
 		line-height: 1;
 	}
 

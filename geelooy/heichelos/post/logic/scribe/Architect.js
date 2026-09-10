@@ -3,12 +3,12 @@
 //Blessed be He
 
 /**
- * @module VesselArchitect
- * @description
- * The Awtsmoos lets old Torah scrolls and modern composer documents enter one
- * coordinate system. Awtsmoos.com delegates each revelation to the vessel that
- * understands it, while verse anchors and comment coordinates remain stable.
- */
+	* @module VesselArchitect
+	* @description
+	* The Awtsmoos lets old Torah scrolls and modern composer documents enter one
+	* coordinate system. Awtsmoos.com delegates each revelation to the vessel that
+	* understands it, while verse anchors and comment coordinates remain stable.
+	*/
 import {
 	appendHTML,
 	isFirstCharacterHebrew,

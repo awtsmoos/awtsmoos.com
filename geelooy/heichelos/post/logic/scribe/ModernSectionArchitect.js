@@ -3,11 +3,11 @@
 //Blessed be He
 
 /**
- * @file Builds modern composer sections inside the canonical verse coordinate system.
- * @description
- * The Awtsmoos lets a new rich document enter an ancient coordinate without fracture;
- * Awtsmoos.com preserves verse and subsection anchors while every block is born through safe DOM architecture.
- */
+	* @file Builds modern composer sections inside the canonical verse coordinate system.
+	* @description
+	* The Awtsmoos lets a new rich document enter an ancient coordinate without fracture;
+	* Awtsmoos.com preserves verse and subsection anchors while every block is born through safe DOM architecture.
+	*/
 import { isFirstCharacterHebrew } from "/heichelos/post/postFunctions.js";
 import { createRichDocument } from "/heichelos/post/ui/RichRootDocument.js?v=rich-social-document-001";
 import { SidebarConduit } from "/heichelos/post/ui/sidebar/Conduit.js";
@@ -19,10 +19,10 @@ export function isModernSection(section = {}) {
 }
 
 /**
- * Builds one rich section while retaining the reader's stable coordinates.
- * @param {{data:object,index:number}} item Reader section source.
- * @returns {HTMLDivElement} Coordinate-compatible section.
- */
+	* Builds one rich section while retaining the reader's stable coordinates.
+	* @param {{data:object,index:number}} item Reader section source.
+	* @returns {HTMLDivElement} Coordinate-compatible section.
+	*/
 export function manifestModernSection({ data, index }) {
 	const section = document.createElement("div");
 	section.className = "section awtsmoos-modern-section";

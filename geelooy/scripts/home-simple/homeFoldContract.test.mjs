@@ -1,76 +1,58 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
- * @file homeFoldContract.test.mjs
- * @description
- * The Awtsmoos measures the visible fold without multiplying doors beyond their need;
- * Awtsmoos.com keeps one primary path, touch-sized action, calm motion, and readable seed.
- */
+	* @module HomeFoldContractTest
+	* @description
+	* Verifies the current Awtsmoos.com first fold rather than an archived Home generation.
+	* The Awtsmoos keeps the original living-world picture complete while semantic copy owns
+	* a separate chamber, touch actions stay usable, and the mobile vessel stacks without overlap.
+	*/
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import test from 'node:test';
 
-import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
-import test from "node:test";
+const HERO_URL = 'https://awtsmoos.com/api/social/aliases/abarbanel/fileSystem/readFile?path=awtsmoosImages%2Fhomepage%2Fawtsmoos-home-hero.jpg';
 
 /**
- * Reveals one Home source vessel for a stable static contract.
- *
- * @param {string} ohrRelativePath - Path relative to this test module.
- * @returns {string} Exact UTF-8 source content.
- */
-function revealSourceFromOhr(ohrRelativePath) {
-	return readFileSync(new URL(ohrRelativePath, import.meta.url), "utf8");
+	* Reads one Home source relative to this test module.
+	* @param {string} relativePath Exact module-relative source path.
+	* @returns {string} UTF-8 source testimony.
+	*/
+function readHomeSource(relativePath) {
+	return readFileSync(new URL(relativePath, import.meta.url), 'utf8');
 }
 
-const ohrHeroImage = revealSourceFromOhr("../../style/home-simple/hero-image.css");
-const ohrHeroActions = revealSourceFromOhr("../../style/home-simple/hero-actions.css");
-const ohrSearchSurface = revealSourceFromOhr("../../style/home-simple/search-surface.css");
-const ohrSearchAction = revealSourceFromOhr("../../style/home-simple/search-action.css");
-const ohrMainBrandMobile = revealSourceFromOhr("../../style/home-simple/main-brand-mobile.css");
-const ohrRevealMotion = revealSourceFromOhr("../../style/home-simple/reveal-motion.css");
-const ohrComponents = revealSourceFromOhr("../../style/home-simple/components.css");
-const ohrHomepage = revealSourceFromOhr("../../index.html");
+const html = readHomeSource('../../index.html');
+const imageCss = readHomeSource('../../style/home-simple/hero-image.css');
+const copyCss = readHomeSource('../../style/home-simple/hero-copy.css');
+const actionsCss = readHomeSource('../../style/home-simple/hero-actions.css');
+const components = readHomeSource('../../style/home-simple/components.css');
 
-test("desktop hero remains bounded instead of becoming a wall", () => {
-	assert.match(ohrHeroImage, /min-height:\s*clamp\(320px,\s*min\(30vw,\s*50vh\),\s*430px\)/);
-	assert.doesNotMatch(ohrHeroImage, /58vw,\s*780px/);
+test('original hero picture is restored and eagerly discoverable', () => {
+	assert.equal(html.split(HERO_URL).length - 1, 2);
+	assert.match(html, /rel="preload" as="image"/);
+	assert.match(html, /class="hero-image"[^>]*width="1024"[^>]*height="1024"/);
+	assert.doesNotMatch(components, /hero-art\.css/);
 });
 
-test("scroll discovery presents one shortcut layer before featured worlds", () => {
-	const shortcutsIndex = ohrHomepage.indexOf("class=\"portal-shortcuts\"");
-	const featuredIndex = ohrHomepage.indexOf("class=\"featured-worlds\"");
-
-	assert.ok(shortcutsIndex >= 0, "primary shortcut grid must remain present");
-	assert.ok(featuredIndex > shortcutsIndex, "featured discovery must follow primary shortcuts");
-	assert.equal(ohrHomepage.split("class=\"featured-card ").length - 1, 4);
-	assert.doesNotMatch(ohrHomepage, /class="direct-navigation"/);
-	assert.doesNotMatch(ohrHomepage, /class="portal-status"/);
+test('picture and live copy occupy separate layout chambers', () => {
+	assert.match(html, /class="hero-media">[\s\S]*?<img class="hero-image"/);
+	assert.match(html, /<\/div>\s*<div class="banner-copy">/);
+	assert.match(imageCss, /grid-template-columns:\s*minmax\(0,\s*\.92fr\)\s*minmax\(20rem,\s*1\.08fr\)/);
+	assert.match(imageCss, /object-fit:\s*contain/);
+	assert.match(copyCss, /grid-column:\s*2/);
 });
 
-test("hero and search controls remain touch-sized", () => {
-	assert.match(ohrHeroActions, /\.hero-actions a\s*\{[^}]*min-height:\s*44px/s);
-	assert.match(ohrSearchSurface, /\.search input\s*\{[^}]*min-height:\s*44px/s);
-	assert.match(ohrSearchAction, /\.search button\s*\{[^}]*height:\s*3rem/s);
+test('phone stacks the complete square artwork above copy', () => {
+	assert.match(imageCss, /@media \(max-width:\s*760px\)[\s\S]*grid-template-rows:\s*auto auto/);
+	assert.match(imageCss, /aspect-ratio:\s*1/);
+	assert.match(copyCss, /grid-row:\s*2/);
 });
 
-test("mobile shortcuts become a fitted two-column grid", () => {
-	assert.match(ohrMainBrandMobile, /grid-template-columns:\s*repeat\(2,\s*minmax\(0,\s*1fr\)\)/);
-	assert.match(ohrMainBrandMobile, /overflow:\s*visible/);
-	assert.match(ohrMainBrandMobile, /\.portal-shortcuts a[^}]*\{[^}]*min-width:\s*0;/s);
-	assert.match(ohrMainBrandMobile, /body\[data-geelooy-route="home"\][^}]*\{[^}]*overflow-x:\s*clip;/s);
-});
-
-test("reveal motion fails visible and semantic cache tokens remain", () => {
-	assert.doesNotMatch(ohrRevealMotion, /\[data-reveal\]\s*\{[^}]*opacity:\s*0\s*;/s);
-	assert.match(ohrRevealMotion, /\[data-reveal\]\s*\{[^}]*opacity:\s*\.76\s*;/s);
-	assert.match(ohrRevealMotion, /prefers-reduced-motion:[\s\S]*opacity:\s*1;/);
-	assert.match(ohrComponents, /reveal-motion\.css\?v=main-brand-001/);
-	assert.match(ohrHomepage, /components\.css\?v=main-brand-001/);
-});
-
-test("hero uses external Awtsmoos storage and never repository image copies", () => {
-	const externalAsset = "https://awtsmoos.com/api/social/aliases/abarbanel/fileSystem/readFile?path=awtsmoosImages%2Fhomepage%2Fawtsmoos-home-hero.jpg";
-	assert.equal(ohrHomepage.split(externalAsset).length - 1, 2);
-	assert.doesNotMatch(ohrHomepage, /resources\/home\/(?:dance|restored-awtsmoos|awtsmoos-home-hero)/);
+test('primary hero actions remain real touch targets', () => {
+	assert.match(actionsCss, /\.hero-actions a\s*\{[^}]*min-height:\s*44px/s);
+	assert.match(html, /href="\/heichelos\/ikar">Enter Torah/);
+	assert.match(html, /href="\/apps\/">Open Apps/);
 });

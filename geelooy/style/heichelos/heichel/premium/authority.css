@@ -1,6 +1,6 @@
 /* B"H
  * Boruch Hashem
- * Blessed is He
+ * Blessed be He
  *
  * @file Final Ikar visual authority manifest.
  * @description
@@ -16,3 +16,4 @@
 @import "./authority/focus.css?v=ikar-authority-005";
 @import "./authority/workspaces.css?v=ikar-authority-005";
 @import "./authority/mobile.css?v=ikar-authority-005";
+@import "./authority/touch-recovery.css?v=ikar-authority-006";
