@@ -4,7 +4,7 @@
 
 /**
  * @file mitzvahWorldExperienceCatalog.test.mjs
- * @description Proves the official three-world ladder, immutable feature policies, and compatibility aliases.
+ * @description Proves the official local-world ladder, immutable feature policies, Sandbox coexistence, and compatibility aliases.
  * The launcher may evolve its names without changing the meaning of old saved or linked world IDs.
  */
 
@@ -17,12 +17,12 @@ import {
 	resolveMitzvahWorldRuntimeExperience
 } from '../../world/experience/MitzvahWorldExperienceCatalog.js';
 
-test('B"H official catalog exposes Blank Meadow, Living Village, and Great Valley', () => {
+test('B"H official catalog exposes Blank Meadow, Sandbox, Living Village, and Great Valley', () => {
 	const worlds = localMitzvahWorldExperiences();
 	assert.equal(DEFAULT_LOCAL_WORLD_ID, 'blank-meadow');
 	assert.deepEqual(
 		worlds.map(world => world.id),
-		['blank-meadow', 'living-village', 'great-valley']
+		['blank-meadow', 'sandbox-world', 'living-village', 'great-valley']
 	);
 	assert.equal(worlds.every(world => Object.isFrozen(world)), true);
 	assert.equal(worlds.every(world => Object.isFrozen(world.runtime)), true);

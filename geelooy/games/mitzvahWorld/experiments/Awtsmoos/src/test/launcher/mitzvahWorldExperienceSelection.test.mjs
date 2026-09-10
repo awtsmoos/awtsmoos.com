@@ -4,7 +4,7 @@
 
 /**
  * @file mitzvahWorldExperienceSelection.test.mjs
- * @description Proves the three official local worlds, legacy aliases, and single-player normalization contract.
+ * @description Proves the official local worlds, Sandbox coexistence, legacy aliases, and single-player normalization contract.
  * Generic and multiplayer runtime options remain free of local-world policy while old bookmarks resolve to current canonical IDs.
  */
 
@@ -18,10 +18,10 @@ import {
 	resolveMitzvahWorldRuntimeExperience
 } from '../../world/experience/MitzvahWorldExperienceCatalog.js';
 
-test('B"H launcher exposes exactly the three official local profiles', () => {
+test('B"H launcher exposes every official local profile in stable order', () => {
 	assert.deepEqual(
 		localMitzvahWorldExperiences().map(world => world.id),
-		['blank-meadow', 'living-village', 'great-valley']
+		['blank-meadow', 'sandbox-world', 'living-village', 'great-valley']
 	);
 	assert.equal(resolveMitzvahWorldRuntimeExperience('unknown').id, 'blank-meadow');
 	assert.equal(resolveMitzvahWorldRuntimeExperience('simple-meadow').id, 'blank-meadow');
