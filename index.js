@@ -1,13 +1,13 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file Canonical Awtsmoos.com process composition root.
  * @description
- * The Awtsmoos gathers mail, realtime breath, HTTP ingress, tenant worlds, and the
- * guarded virtual-SSH doorway into one measured awakening. Awtsmoos.com keeps each
- * protocol behind its own module while this root reveals only deterministic boot order.
+ * The Awtsmoos gathers mail, realtime breath, HTTP ingress, tenant worlds, and
+ * the guarded virtual-SSH doorway into one measured awakening. Awtsmoos.com
+ * announces a living runtime only after its required HTTP doorway truly binds.
  */
 const AwtsMail = require("./ayzarim/email/email.js");
 const AwtsServer = require("./ayzarim/awtsmoosDynamicServer/index.js");
@@ -16,8 +16,14 @@ const {
 	createHttpApplicationServer
 } = require("./ayzarim/awtsmoosDynamicServer/server/httpApplicationServer.js");
 const {
+	createRuntimeHealth
+} = require("./ayzarim/awtsmoosDynamicServer/server/runtimeHealth.js");
+const {
+	createHttpAdmission
+} = require("./ayzarim/awtsmoosDynamicServer/server/httpAdmission.js");
+const {
 	getNumberEnv,
-	listenSafely,
+	listenRequired,
 	startMailSafely
 } = require("./ayzarim/awtsmoosDynamicServer/server/listenerLifecycle.js");
 const {
@@ -36,14 +42,16 @@ const DEFAULT_MAIL_PORT = 25;
 /**
  * Starts every configured process-level vessel in dependency order.
  *
- * The Awtsmoos lets configuration become a living doorway before HTTP readiness may
- * be announced. Awtsmoos.com therefore fails startup when a configured SSH bind fails,
- * rather than advertising a world whose guarded entrance never truly appeared.
+ * The Awtsmoos lets configuration become a living doorway before HTTP readiness
+ * may be announced. Awtsmoos.com therefore fails startup when configured SSH or
+ * required HTTP binding fails instead of advertising a partially living world.
  *
- * @returns {Promise<void>} Resolves after SSH, HTTP, and mail listeners are alive.
- * @throws {Error} Propagates initialization and configured-listener failures.
+ * @returns {Promise<void>} Resolves after SSH, HTTP, and optional mail startup.
+ * @throws {Error} Propagates initialization and required-listener failures.
  */
 async function revealAwtsmoosRuntime() {
+	const runtimeHealth = createRuntimeHealth();
+	const httpAdmission = createHttpAdmission();
 	const malchusMail = new AwtsMail();
 	const binahDynamicServer = new AwtsServer(__dirname, malchusMail);
 	const yesodSocketServer = new AwtsSocket();
@@ -54,15 +62,18 @@ async function revealAwtsmoosRuntime() {
 		dynamicServer: binahDynamicServer,
 		wsServer: yesodSocketServer,
 		requestHandlers: [
+			runtimeHealth.handle,
+			httpAdmission.handle,
 			createCustomDomainHttpIngress({ dynamicServer: binahDynamicServer }),
 			createAutoplayReportIngress(__dirname)
 		]
 	});
-	await listenSafely(
+	await listenRequired(
 		tiferesHttpServer,
 		getNumberEnv("PORT", DEFAULT_HTTP_PORT),
 		"HTTP"
 	);
+	runtimeHealth.markReady();
 	await startMailSafely(malchusMail, { defaultPort: DEFAULT_MAIL_PORT });
 }
 
