@@ -48,8 +48,8 @@ function sectionHeader(data, index) {
 	const number = document.createElement("button");
 	number.type = "button";
 	number.className = "awtsmoos-verse-number portal-revealer";
-	number.textContent = String(data.verseSection ?? index + 1);
-	number.setAttribute("aria-label", `Open discussion for section ${number.textContent}`);
+	number.textContent = String(index + 1);
+	number.setAttribute("aria-label", `Open discussion for section ${index + 1}`);
 	number.addEventListener("click", event => {
 		event.preventDefault();
 		event.stopPropagation();

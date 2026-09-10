@@ -3,12 +3,12 @@
 // Blessed is He
 
 /**
- * @module ReaderCoreSettlement
- * @description
- * The Awtsmoos lets preference, navigation, comments, coordinates, and inline sparks settle after canonical Torah appears;
- * Awtsmoos.com gives each reader behavior its ordered moment so visual convenience never outruns the source it steers.
- */
-
+	* @module ReaderCoreSettlement
+	* @description
+	* The Awtsmoos settles preference, navigation, comments, coordinates, and inline sparks
+	* only after canonical Torah exists. Awtsmoos.com never opens a side chamber merely
+	* because a post loaded; panel state belongs to an explicit route or a learner action.
+	*/
 import {
 	loadFontSize,
 	scrollToActiveEl
@@ -23,9 +23,9 @@ import { setupViewEffects } from '/heichelos/post/logic/viewEffects.js';
 import { awakenInlineSparks } from '/heichelos/post/logic/initialization/autoInline.js';
 
 /**
- * Awakens preferences, interaction, visual effects, and remembered scale before final settlement.
- * @returns {void}
- */
+	* Awakens preferences, interaction, visual effects, and remembered scale.
+	* @returns {void} Reader behavior is registered synchronously.
+	*/
 export function prepareReaderBehavior() {
 	applyUserPreferences();
 	setupUIListeners();
@@ -34,11 +34,25 @@ export function prepareReaderBehavior() {
 }
 
 /**
- * Completes post-ready navigation, comments, coordinates, and inline sparks.
- * @returns {Promise<void>} Resolves after the core reader is settled.
- */
+	* Restores only the panel explicitly encoded by the incoming URL.
+	* Unknown or absent panel names intentionally leave the Torah surface unobstructed.
+	* @returns {Promise<void>} Resolves after an explicitly requested panel finishes opening.
+	*/
+async function restoreRequestedPanel() {
+	const panelName = new URLSearchParams(location.search).get('panel');
+	const requestedPanel = panelName ? window.tabRefs?.[panelName] : null;
+
+	if (requestedPanel?.open) {
+		await requestedPanel.open();
+	}
+}
+
+/**
+	* Completes post-ready navigation, comments, coordinates, and inline enhancement.
+	* @returns {Promise<void>} Resolves after the core reader is settled.
+	*/
 export async function settleCoreReader() {
-	window.tabRefs.rootMenu.open();
+	await restoreRequestedPanel();
 	await updateCommentHeader();
 	await scrollToActiveEl({
 		settle: true

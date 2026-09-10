@@ -1,20 +1,20 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file compact-prewarm-catalog.mjs
- * @description Declares critical served HTML routes plus first-control and first-rich-world CompactJS doors that must be warm before production activation commits.
- * The Awtsmoos renews visible gates and hidden valley roads before the first visitor can become the compiler by surprise;
- * Awtsmoos.com lets Kesser name only measured critical routes, so control and canonical earth awaken beneath already-warmed skies.
+ * @description
+ * Release-critical HTML routes and generated CompactJS doors that must be hot
+ * before public traffic can make a visitor pay compilation cost.
  */
 
 /**
- * Freezes one release-critical route and any compact assets that live beyond its static HTML.
- * @param {string} name Human-readable route identity for release logs.
- * @param {string} path Same-origin HTML path served by the new production process.
- * @param {string[]} [assets] Same-origin compact assets required before first control or canonical world promotion.
- * @returns {Readonly<object>} Immutable route descriptor.
+ * Freezes one critical route and every deferred compact asset it owns.
+ * @param {string} name Human-readable release identity.
+ * @param {string} path Same-origin HTML path.
+ * @param {string[]} [assets] Compact assets not guaranteed to appear in HTML.
+ * @returns {Readonly<object>} Immutable route declaration.
  */
 function criticalRoute(name, path, assets = []) {
 	return Object.freeze({
@@ -24,9 +24,26 @@ function criticalRoute(name, path, assets = []) {
 	});
 }
 
+const IKAR_APP = "/heichelos/heichel/app.js?v=ikar-authority-008&compact=true";
+const IKAR_SHELL = "/scripts/awtsmoos/social/shell/boot.js?v=heichel-mobile-010&compact=true";
+const IKAR_SOCIAL = "/shared/social/SocialExperienceInstaller.js?compact=true";
+const IKAR_NAVIGATION = "/scripts/awtsmoos/social/navigation/appNavigation.js?v=heichel-mobile-010&compact=true";
+const IKAR_COSMOS = "/heichelos/heichel/modules/cosmic/boot.js?v=heichel-mobile-010&compact=true";
+const READER_POST = "/heichelos/ikar/series/bereishis/post/BH_POST_1749198302925_awtsmoos_520";
+const READER_RUNTIME = "/heichelos/post/postLogic.js?v=reader-runtime-008&compact=true";
+const HOME_RUNTIME = "/scripts/home-simple/index.js?v=main-brand-002&compact=true";
 const MITZVAH_WORLD_ROOT = "/games/mitzvahWorld/experiments/Awtsmoos/src/";
 
 export const COMPACT_PREWARM_ROUTES = Object.freeze([
+	criticalRoute("Awtsmoos Home", "/", [HOME_RUNTIME]),
+	criticalRoute("Ikar Torah Library", "/heichelos/ikar", [
+		IKAR_APP,
+		IKAR_SHELL,
+		IKAR_SOCIAL,
+		IKAR_NAVIGATION,
+		IKAR_COSMOS
+	]),
+	criticalRoute("Torah Reader", READER_POST, [READER_RUNTIME]),
 	criticalRoute(
 		"Mitzvah World",
 		"/games/mitzvahWorld/",

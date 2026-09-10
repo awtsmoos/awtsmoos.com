@@ -3,12 +3,12 @@
 // Blessed is He
 
 /**
- * @file IkarAuthorityContract
- * @description
- * The Awtsmoos turns final Ikar visual ownership into permanent release laws.
- * Awtsmoos.com proves late load order, bounded modules, isolated scope, one owner
- * per concern, compact context, focused workspaces, cards, and search geometry.
- */
+	* @file IkarAuthorityContract
+	* @description
+	* The Awtsmoos turns final Ikar visual ownership into permanent release laws.
+	* Awtsmoos.com proves late load order, bounded modules, isolated scope, one owner
+	* per concern, compact context, focused workspaces, cards, and search geometry.
+	*/
 
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -25,17 +25,21 @@ const names = [
 	'context.css',
 	'focus.css',
 	'workspaces.css',
-	'mobile.css'
+	'mobile.css',
+	'touch-recovery.css'
 ];
 const manifest = read(`${base}.css`);
 const sources = Object.fromEntries(names.map(name => [name, read(`${base}/${name}`)]));
 
-test('Ikar authority loads after shared cosmic chrome', () => {
+test('Ikar authority and progressive boot preserve critical-path order', () => {
 	const cosmic = template.indexOf('/cosmic-profile/index.css');
 	const authority = template.indexOf('/premium/authority.css');
 	assert.ok(cosmic >= 0);
 	assert.ok(authority > cosmic);
-	assert.match(template, /ikar-authority-005/);
+	assert.match(template, /authority\.css\?v=ikar-authority-006/);
+	assert.match(template, /bootBridge\.js\?v=ikar-authority-008/);
+	assert.match(template, /progressiveEnhancements\.js\?v=ikar-authority-008/);
+	assert.doesNotMatch(template, /<script\s+type="module"/);
 });
 
 test('Ikar authority remains modular and bounded', () => {
@@ -51,6 +55,16 @@ test('authority scope cannot leak into neighboring Heichelos', () => {
 		assert.match(source, /data-heichel-id="ikar"/);
 	}
 	assert.doesNotMatch(sources['focus.css'], /^\s*\.geelooy-main-stage/m);
+});
+
+
+
+test('touch recovery protects pending and mobile interaction boundaries', () => {
+	const touch = sources['touch-recovery.css'];
+	assert.match(touch, /data-heichel-ready="false"/);
+	assert.match(touch, /heichel-profile-details summary[\s\S]*min-block-size:\s*44px/);
+	assert.match(touch, /heichel-profile-action[\s\S]*min-block-size:\s*44px/);
+	assert.match(touch, /max-width:\s*30rem/);
 });
 
 test('Ikar shell owns a compact non-stretching study stage', () => {

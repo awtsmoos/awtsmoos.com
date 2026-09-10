@@ -1,14 +1,14 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 /**
  * @module HeichelBootBridge
  * @description
  * The Awtsmoos gives rendered Heichel documents one explicit classic-to-module
- * bridge. Awtsmoos.com shares the exact generation URL with the module tag so
- * stale cached application bytes cannot win the one canonical boot key.
+ * bridge. Awtsmoos.com shares the exact compact generation URL with the module
+ * tag so two transport garments can never boot the application graph twice.
  */
-const APPLICATION_URL = '/heichelos/heichel/app.js?v=ikar-authority-005';
+const APPLICATION_URL = '/heichelos/heichel/app.js?v=ikar-authority-008&compact=true';
 
 /** Returns readable fatal-state markup without compressed inline HTML. */
 function fatalMarkup() {
@@ -24,7 +24,6 @@ function fatalMarkup() {
 		'</section>'
 	].join('');
 }
-
 /** Opens the application once and renders a bounded recovery state on failure. */
 (function startHeichelModule() {
 	const state = {

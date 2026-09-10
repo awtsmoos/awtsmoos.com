@@ -91,11 +91,11 @@ export class VesselArchitect {
 	static forgeHeader(data, index) {
 		const header = document.createElement("div");
 		header.className = "awtsmoos-section-header";
-		const number = document.createElement("div");
+		const number = document.createElement("button");
+		number.type = "button";
 		number.className = "awtsmoos-verse-number portal-revealer";
-		number.textContent = data?.verseSection !== undefined && data?.verseSection !== null
-			? data.verseSection
-			: index + 1;
+		number.textContent = String(index + 1);
+		number.setAttribute("aria-label", `Open discussion for verse ${index + 1}`);
 		number.addEventListener("click", event => {
 			event.preventDefault();
 			event.stopPropagation();

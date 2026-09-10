@@ -1,0 +1,96 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * @file Reader recovery boundary.
+ * @description The Awtsmoos keeps closed chrome absent, Torah readable, and
+ * verse vessels content-sized instead of wasting an entire screen per verse.
+ */
+body {
+	font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.all.post-reader-localized-context.awtsmoos-reader-vision {
+	font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.all.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-dropdown-backdrop[hidden] {
+	display: none !important;
+	visibility: hidden !important;
+	pointer-events: none !important;
+}
+
+.all.post-reader-localized-context.awtsmoos-reader-vision .sidebar.hidden-comments,
+.all.post-reader-localized-context.awtsmoos-reader-vision .sidebar.hidden-comments .awtsmoos-sidebar-shell {
+	visibility: hidden !important;
+	pointer-events: none !important;
+}
+
+.all.post-reader-localized-context.awtsmoos-reader-vision .sidebar:not(.hidden-comments),
+.all.post-reader-localized-context.awtsmoos-reader-vision .sidebar:not(.hidden-comments) .awtsmoos-sidebar-shell {
+	visibility: visible !important;
+}
+
+.all.post-reader-localized-context.awtsmoos-reader-vision #realPost {
+	font-family: "Frank Ruhl Libre", Cardo, Georgia, serif !important;
+	font-size: clamp(1.08rem, 1.2vw + .75rem, 1.34rem) !important;
+	line-height: 1.7 !important;
+}
+
+.all.post-reader-localized-context.awtsmoos-reader-vision #realPost :is(.heb, [dir="rtl"]) {
+	font-family: "Frank Ruhl Libre", Cardo, Georgia, serif !important;
+	font-size: 1.08em;
+	line-height: 1.78 !important;
+}
+
+.all.post-reader-localized-context.awtsmoos-reader-vision :is(#virtual-scroll-container, .awtsmoos-virtual-scroll) {
+	min-height: 0 !important;
+	height: auto !important;
+}
+
+.all.post-reader-localized-context.awtsmoos-reader-vision #virtual-scroll-container > .scroll-chunk {
+	min-height: 0 !important;
+	height: auto !important;
+	margin-block: 0 clamp(.55rem, 1.6vw, .9rem) !important;
+	overflow: visible !important;
+}
+
+.all.post-reader-localized-context.awtsmoos-reader-vision #virtual-scroll-container > .scroll-chunk:not(.is-current-section) {
+	content-visibility: auto !important;
+	contain-intrinsic-size: auto 220px;
+}
+
+.all.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-post-title-crown [data-tanach-language] {
+	min-block-size: 44px !important;
+	color: #f8fbff !important;
+	background: rgba(23, 31, 45, .96) !important;
+	border-color: rgba(255, 255, 255, .28) !important;
+}
+
+.all.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-post-title-crown [data-tanach-language][aria-pressed="true"] {
+	color: #241706 !important;
+	background: linear-gradient(135deg, #fff0b5, #dfa020) !important;
+	border-color: rgba(246, 201, 108, .92) !important;
+}
+
+.all.post-reader-localized-context.awtsmoos-reader-vision #realPost .awtsmoos-verse-number {
+	min-block-size: 44px !important;
+	cursor: pointer;
+}
+
+.all.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-sidebar-shell :is(.awtsmoos-chrome-btn, button) {
+	min-inline-size: 44px;
+	min-block-size: 44px;
+}
+
+@media (max-width: 48rem) {
+	.all.post-reader-localized-context.awtsmoos-reader-vision #realPost {
+		padding-inline: clamp(.82rem, 4vw, 1.15rem) !important;
+		font-size: clamp(1.15rem, 4.7vw, 1.34rem) !important;
+	}
+
+	.all.post-reader-localized-context.awtsmoos-reader-vision #realPost .section,
+	.all.post-reader-localized-context.awtsmoos-reader-vision #realPost .awtsmoos-reader-section {
+		padding-inline: .2rem !important;
+	}
+}
