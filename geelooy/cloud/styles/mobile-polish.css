@@ -1,0 +1,118 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed be He */
+
+@media (max-width: 620px) {
+	.cloud-nav,
+	.cloud-main,
+	.cloud-footer {
+		width: calc(100% - 20px);
+	}
+
+	.cloud-nav {
+		min-height: 0;
+		gap: 7px;
+		padding-block: max(10px, env(safe-area-inset-top)) 7px;
+	}
+
+	.cloud-brand {
+		font-size: 17px;
+	}
+
+	.cloud-nav nav {
+		gap: 3px;
+		justify-content: space-between;
+		overflow: visible;
+		padding: 0;
+	}
+
+	.cloud-nav nav a {
+		padding: 6px 5px;
+		font-size: 12px;
+	}
+
+	.cloud-main {
+		gap: 12px;
+		padding-block: 10px 36px;
+	}
+
+	.cloud-hero {
+		padding: 18px 16px 16px;
+		border-radius: 22px;
+	}
+
+	.cloud-hero h1 {
+		font-size: clamp(34px, 10vw, 44px);
+		line-height: 0.98;
+		letter-spacing: -0.055em;
+	}
+
+	.cloud-lead {
+		margin: 14px 0 18px;
+		font-size: 15px;
+		line-height: 1.45;
+	}
+
+	.cloud-value-strip {
+		gap: 5px;
+		margin: -2px 0 15px;
+	}
+
+	.cloud-value-strip span {
+		padding: 5px 7px;
+		font-size: 9px;
+	}
+
+	.cloud-brief {
+		gap: 9px;
+	}
+
+	.cloud-brief textarea {
+		min-height: 96px;
+		padding: 13px;
+		border-radius: 15px;
+	}
+
+	.cloud-primary {
+		min-height: 54px;
+		font-size: 16px;
+	}
+
+	.cloud-secondary {
+		min-height: 44px;
+	}
+
+	.cloud-status {
+		min-height: 18px;
+		margin-top: 10px;
+		font-size: 12px;
+	}
+
+	.cloud-proof {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 7px;
+	}
+
+	.cloud-proof article {
+		padding: 10px 8px;
+	}
+
+	.cloud-proof b {
+		width: 26px;
+		height: 26px;
+		margin-bottom: 8px;
+	}
+
+	.cloud-proof span {
+		font-size: 12px;
+	}
+
+	.cloud-proof p {
+		display: none;
+	}
+
+	.cloud-offers,
+	.cloud-trust {
+		padding: 16px;
+	}
+}

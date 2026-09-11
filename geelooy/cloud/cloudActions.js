@@ -49,7 +49,8 @@ function handleBrief(event, options) {
 		goal: brief,
 		path: "awtsmoos://cloud/new-project",
 		projectId: "new Awtsmoos Cloud project",
-		surface: "Awtsmoos Cloud"
+		surface: "Awtsmoos Cloud",
+		sameTab: true
 	});
 	setCloudStatus(
 		options.status,

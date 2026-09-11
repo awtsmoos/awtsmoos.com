@@ -1,0 +1,55 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed be He */
+
+body::before {
+	position: fixed;
+	inset: 0;
+	z-index: -1;
+	content: "";
+	pointer-events: none;
+	background-image:
+		linear-gradient(rgba(139, 233, 255, 0.025) 1px, transparent 1px),
+		linear-gradient(90deg, rgba(139, 233, 255, 0.025) 1px, transparent 1px);
+	background-size: 32px 32px;
+	mask-image: linear-gradient(to bottom, black, transparent 75%);
+}
+
+.cloud-hero {
+	position: relative;
+	overflow: hidden;
+	background:
+		radial-gradient(circle at 88% 4%, rgba(150, 118, 255, 0.18), transparent 28rem),
+		radial-gradient(circle at 2% 86%, rgba(91, 215, 255, 0.12), transparent 26rem),
+		var(--cloud-panel);
+}
+
+.cloud-hero::before {
+	position: absolute;
+	inset: 0 14% auto;
+	height: 1px;
+	content: "";
+	background: linear-gradient(90deg, transparent, var(--cloud-accent), transparent);
+	box-shadow: 0 0 24px var(--cloud-accent);
+}
+
+.cloud-value-strip {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin: -8px 0 22px;
+}
+
+.cloud-value-strip span {
+	padding: 7px 10px;
+	border: 1px solid rgba(139, 233, 255, 0.16);
+	border-radius: 999px;
+	color: #d9f7ff;
+	background: rgba(91, 215, 255, 0.055);
+	font-size: 11px;
+	font-weight: 750;
+}
+
+.cloud-status[data-state="busy"] {
+	color: #dbe7ff;
+}
