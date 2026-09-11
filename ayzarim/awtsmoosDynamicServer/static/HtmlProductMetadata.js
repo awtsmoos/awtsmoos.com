@@ -10,9 +10,14 @@
  */
 
 const path = require("path");
-const {
-	isInstallableProductRoute
-} = require("../../../geelooy/api/platform/installableProductDirectory.js");
+let isInstallableProductRoute = () => false;
+try {
+	({ isInstallableProductRoute } = require(
+		"../../../geelooy/api/platform/installableProductDirectory.js"
+	));
+} catch (error) {
+	if (error?.code !== "MODULE_NOT_FOUND") throw error;
+}
 const DEFAULT_THEME = "#050914";
 const DEFAULT_ICON = "/favicon.svg";
 
