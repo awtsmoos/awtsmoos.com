@@ -23,6 +23,7 @@ for (const hodToken of [
 	'--rebbe-layer-player',
 	'--rebbe-layer-popover',
 	'--rebbe-layer-floating',
+	'--rebbe-layer-download',
 	'--rebbe-player-mobile-clearance',
 	'--rebbe-selection-clearance'
 ]) {
@@ -31,7 +32,7 @@ for (const hodToken of [
 
 assert.match(tiferesResponsive, /z-index:\s*var\(--rebbe-layer-player\)/);
 assert.match(yesodSelection, /z-index:\s*var\(--rebbe-layer-popover\)/);
-assert.match(hodDownload, /z-index:\s*var\(--rebbe-layer-floating\)/);
+assert.match(hodDownload, /z-index:\s*var\(--rebbe-layer-download\)/);
 assert.match(yesodSelection, /var\(--rebbe-player-mobile-clearance\)/);
 assert.match(netzachDownload, /var\(--rebbe-player-mobile-clearance\)/);
 assert.match(netzachDownload, /var\(--rebbe-selection-clearance\)/);
