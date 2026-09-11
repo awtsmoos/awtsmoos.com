@@ -22,22 +22,28 @@ export class NetzachReaderClipboard {
 	 * @returns {Promise<"rich"|"plain"|"legacy">} Clipboard path that succeeded.
 	 */
 	async write(htmlMarkup, plainText) {
-		if (navigator.clipboard?.write && typeof ClipboardItem !== "undefined") {
-			const richBlob = new Blob([htmlMarkup], { type: "text/html" });
-			const plainBlob = new Blob([plainText], { type: "text/plain" });
-			await navigator.clipboard.write([
-				new ClipboardItem({ "text/html": richBlob, "text/plain": plainBlob })
-			]);
-			return "rich";
+		const clipboard = globalThis.navigator?.clipboard;
+		const failures = [];
+		if (clipboard?.writeText) {
+			try {
+				await clipboard.writeText(plainText);
+				return "plain";
+			} catch (error) {
+				failures.push(error);
+			}
 		}
-		if (navigator.clipboard?.writeText) {
-			await navigator.clipboard.writeText(plainText);
-			return "plain";
+		if (clipboard?.write && typeof ClipboardItem !== "undefined") {
+			try {
+				const richBlob = new Blob([htmlMarkup], { type: "text/html" });
+				const plainBlob = new Blob([plainText], { type: "text/plain" });
+				await clipboard.write([new ClipboardItem({ "text/html": richBlob, "text/plain": plainBlob })]);
+				return "rich";
+			} catch (error) {
+				failures.push(error);
+			}
 		}
-		if (this.writeWithLegacyKli(plainText)) {
-			return "legacy";
-		}
-		throw new Error("No clipboard writing vessel is available in this browser context.");
+		if (this.writeWithLegacyKli(plainText)) return "legacy";
+		throw new AggregateError(failures, "No clipboard writing vessel succeeded in this browser context.");
 	}
 
 	/**
@@ -78,7 +84,7 @@ export class NetzachReaderClipboard {
 		const plainText = stripTags(htmlMarkup) || htmlMarkup;
 		try {
 			await this.write(htmlMarkup, plainText);
-			makeToast?.(payload.successMsg || "Copied with formatting!");
+			makeToast?.(payload.successMsg || "Copied!");
 			return true;
 		} catch (error) {
 			console.error('B"H - Clipboard error:', error);
