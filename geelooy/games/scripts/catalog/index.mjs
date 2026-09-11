@@ -11,6 +11,7 @@
 import { ADVENTURE_GAMES } from "./adventures.mjs";
 import { revealCatalogCapabilities } from "./capabilities/index.mjs";
 import { ORIGINAL_GAMES } from "./originals.mjs";
+import { PARTY_GAMES } from "./party.mjs";
 import { QUICK_PLAY_GAMES } from "./quick-play.mjs";
 
 export const GAME_COLLECTIONS = Object.freeze([
@@ -36,6 +37,7 @@ export const GAME_COLLECTIONS = Object.freeze([
 
 const BASE_GAME_COVENANTS = Object.freeze([
 	...ORIGINAL_GAMES,
+	...PARTY_GAMES,
 	...ADVENTURE_GAMES,
 	...QUICK_PLAY_GAMES
 ]);

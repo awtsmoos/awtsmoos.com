@@ -1,16 +1,20 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed be He
 /**
  * @file TiferesStorefrontProjectionService.js
- * @description Owns the data-to-view projection flow for query and tag changes without owning browser event lifetime.
- * The Awtsmoos is beyond every filtered appearance while Awtsmoos.com lets Tiferes harmonize data into visible order;
- * Gevurah remembers the request, Binah groups the worlds, and Malchus reveals only what the present doorway should afford.
+ * @description
+ * Harmonizes game filtering, route-only recent priority, grouping, and manifestation.
+ * The Awtsmoos is beyond every sequence while Awtsmoos.com lets Tiferes remember
+ * chosen doorways without changing filter truth: Gevurah selects, continuity orders,
+ * Binah groups, and Malchus reveals the resulting playable worlds.
  */
 
-/**
- * Application service that projects discovery state into retractable filters and grouped catalog manifestation.
- */
+import {
+	prioritizeRecentRecords
+} from "../../../../scripts/awtsmoos/ui/productMemoryCatalog.js";
+
+/** Application service projecting discovery state into grouped catalog manifestation. */
 export class TiferesStorefrontProjectionService {
 	/**
 	 * @param {object} tiferesDependencies Projection collaborators.
@@ -38,7 +42,8 @@ export class TiferesStorefrontProjectionService {
 	}
 
 	/**
-	 * Reveals initial totals, optional filter controls, and the complete catalog projection.
+	 * Reveals totals, filter controls, and the complete recent-aware catalog projection.
+	 *
 	 * @returns {void}
 	 */
 	revealInitialProjection() {
@@ -47,21 +52,13 @@ export class TiferesStorefrontProjectionService {
 		this.revealCatalogProjection();
 	}
 
-	/**
-	 * Replaces Gevurah search truth and reprojects only catalog results.
-	 * @param {string} hodQuery Current user-entered search language.
-	 * @returns {void}
-	 */
+	/** @param {string} hodQuery Current search language. @returns {void} */
 	revealQueryProjection(hodQuery) {
 		this.gevurahQueryModel.setQuery(hodQuery);
 		this.revealCatalogProjection();
 	}
 
-	/**
-	 * Replaces Gevurah tag truth and synchronizes both optional filters and visible catalog.
-	 * @param {string} gevurahActiveTag Selected optional filter tag.
-	 * @returns {void}
-	 */
+	/** @param {string} gevurahActiveTag Selected optional filter tag. @returns {void} */
 	revealActiveTagProjection(gevurahActiveTag) {
 		this.gevurahQueryModel.setActiveTag(gevurahActiveTag);
 		this.revealTagProjection();
@@ -69,32 +66,45 @@ export class TiferesStorefrontProjectionService {
 	}
 
 	/**
-	 * Manifests the current tag vocabulary and selected state from immutable catalog/query data.
+	 * Manifests the current tag vocabulary and selected state from immutable data.
+	 *
 	 * @returns {void}
 	 */
 	revealTagProjection() {
 		const gevurahSnapshot = this.gevurahQueryModel.snapshot();
-		const hodCatalogTags = this.gevurahStateApi.collectTags(this.chochmahCatalog.GAMES);
-		this.malchusFilterView.renderTags(hodCatalogTags, gevurahSnapshot.activeTag);
+		const hodCatalogTags = this.gevurahStateApi.collectTags(
+			this.chochmahCatalog.GAMES
+		);
+		this.malchusFilterView.renderTags(
+			hodCatalogTags,
+			gevurahSnapshot.activeTag
+		);
 	}
 
 	/**
-	 * Filters, groups, and manifests one catalog projection without consulting DOM state.
+	 * Filters, recent-orders, groups, and manifests one catalog projection.
+	 *
 	 * @returns {void}
 	 */
 	revealCatalogProjection() {
 		const gevurahSnapshot = this.gevurahQueryModel.snapshot();
-		const gevurahVisibleGames = this.gevurahStateApi.filterGames(
+		const netzachFilteredGames = this.gevurahStateApi.filterGames(
 			this.chochmahCatalog.GAMES,
 			gevurahSnapshot.query,
 			gevurahSnapshot.activeTag
 		);
+		const yesodBaseHref = globalThis.location?.href
+			|| "https://awtsmoos.com/games/";
+		const tiferesVisibleGames = prioritizeRecentRecords(
+			netzachFilteredGames,
+			yesodBaseHref
+		);
 		const binahCollectionSections = this.gevurahStateApi.groupGames(
-			gevurahVisibleGames,
+			tiferesVisibleGames,
 			this.chochmahCatalog.GAME_COLLECTIONS
 		);
 		this.malchusCatalogView.renderCatalog({
-			visibleGames: gevurahVisibleGames,
+			visibleGames: tiferesVisibleGames,
 			totalGames: this.chochmahCatalog.GAMES.length,
 			sections: binahCollectionSections,
 			sectionMarkup: this.malchusMarkupApi.gameSectionMarkup

@@ -61,6 +61,13 @@ export function renderAppCard(app) {
 		card.append(commerce);
 	}
 
+	const support = textElement(
+		"span",
+		app.supportLabel,
+		"g-app-commerce g-app-commerce--support"
+	);
+	card.append(support);
+
 	return card;
 }
 

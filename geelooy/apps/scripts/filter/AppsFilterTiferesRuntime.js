@@ -1,8 +1,14 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 import { PUBLIC_APPS } from "../catalog/index.mjs";
+import {
+	prioritizeRecentRecords
+} from "../../../scripts/awtsmoos/ui/productMemoryCatalog.js";
+import {
+	decorateProductMemoryCards
+} from "../../../scripts/awtsmoos/ui/productMemoryCards.js";
 import { AppsFilterMalchusView } from "./AppsFilterMalchusView.js";
 import { ChochmahAppsFilterStateRuntime } from "./ChochmahAppsFilterStateRuntime.js";
 import { HodAppFilterPolicy } from "./HodAppFilterPolicy.js";
@@ -11,9 +17,10 @@ import { NetzachAppsFilterBindings } from "./NetzachAppsFilterBindings.js";
 /**
  * @file AppsFilterTiferesRuntime.js
  * @description
- * Tiferes joins catalog, policy, view, and event endurance without absorbing their work.
- * The Awtsmoos recreates every intention and manifestation anew; Awtsmoos.com lets
- * Chochmah remember state while Malchus writes DOM, Hod normalizes, and Netzach listens.
+ * Harmonizes catalog truth, filtering, DOM manifestation, and route-only continuity.
+ * The Awtsmoos is beyond order and recollection; Awtsmoos.com lets recent doorways
+ * rise gently without changing search truth, while Favorite and Recent badges remain
+ * noninteractive reflections over the same canonical catalog records.
  */
 export class AppsFilterTiferesRuntime extends ChochmahAppsFilterStateRuntime {
 	/**
@@ -31,7 +38,7 @@ export class AppsFilterTiferesRuntime extends ChochmahAppsFilterStateRuntime {
 	}
 
 	/**
-	 * Mounts the catalog, connects event lifetime, and manifests initial state once.
+	 * Mounts recent-first catalog truth, continuity badges, and event lifetime once.
 	 *
 	 * @returns {AppsFilterTiferesRuntime} This connected runtime.
 	 * @sideEffects Renders catalog cards and connects route-owned listeners.
@@ -40,8 +47,17 @@ export class AppsFilterTiferesRuntime extends ChochmahAppsFilterStateRuntime {
 		if (this.isConnected) {
 			return this;
 		}
-
-		this.malchusView.mountCatalog(PUBLIC_APPS);
+		const yesodBaseHref = globalThis.location?.href
+			|| "https://awtsmoos.com/apps/";
+		const tiferesCatalog = prioritizeRecentRecords(
+			PUBLIC_APPS,
+			yesodBaseHref
+		);
+		this.malchusView.mountCatalog(tiferesCatalog);
+		decorateProductMemoryCards(
+			this.malchusView.grid,
+			yesodBaseHref
+		);
 		this.netzachBindings.connect();
 		this.isConnected = true;
 		this.apply();
@@ -49,7 +65,7 @@ export class AppsFilterTiferesRuntime extends ChochmahAppsFilterStateRuntime {
 	}
 
 	/**
-	 * Re-derives policy from current controls and manifests it across current cards.
+	 * Re-derives filter policy and manifests it across the memory-decorated cards.
 	 *
 	 * @returns {number} Number of visible apps after filtering.
 	 * @sideEffects Updates card visibility, empty-state visibility, and result text.

@@ -1,10 +1,13 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 const { ACTION_SKUS } = require("./flagship-action.js");
 const { WORLD_SKUS } = require("./flagship-worlds.js");
 const { APP_SERVICE_SKUS } = require("./app-services.js");
+const { SUPPORTER_SKUS } = require("./supporterCatalog.js");
+const { CREDIT_PACK_SKUS } = require("./creditPackCatalog.js");
+const { BUILDER_TEMPLATE_SKUS } = require("./builderTemplateSkus.js");
 
 /**
  * B"H
@@ -18,7 +21,10 @@ const { APP_SERVICE_SKUS } = require("./app-services.js");
 const CATALOG = Object.freeze([
 	...ACTION_SKUS,
 	...WORLD_SKUS,
-	...APP_SERVICE_SKUS
+	...APP_SERVICE_SKUS,
+	...SUPPORTER_SKUS,
+	...CREDIT_PACK_SKUS,
+	...BUILDER_TEMPLATE_SKUS
 ]);
 
 const CATALOG_BY_ID = new Map(CATALOG.map(sku => [sku.id, sku]));
@@ -36,6 +42,8 @@ function listSkus() {
 		kind: sku.kind,
 		pricePerutahs: sku.pricePerutahs,
 		spendPolicy: sku.spendPolicy,
+		creditUnits: sku.creditUnits,
+		creditLabel: sku.creditLabel,
 		available: sku.available,
 		status: sku.status
 	}));

@@ -12,12 +12,16 @@ const dataDir = path.join(os.tmpdir(), `awtsmoos-commerce-live-${process.pid}`);
 process.env.AWTSMOOS_WALLET_DATA_DIR = dataDir;
 
 const { CATALOG, getSku } = require("../core/commerce/catalog.js");
+const { SUPPORTER_SKUS } = require("../core/commerce/supporterCatalog.js");
+const { CREDIT_PACK_SKUS } = require("../core/commerce/creditPackCatalog.js");
+const { BUILDER_TEMPLATE_SKUS } = require("../core/commerce/builderTemplateSkus.js");
 const { purchaseSku } = require("../core/commerce/purchaseEngine.js");
 const { getCommerceAccount } = require("../core/commerce/access.js");
 const { creditOnce, getWallet } = require("../core/store.js");
 
 /**
- * B"H
+ * @file commerceMonetization.test.js
+ * @description
  * Proves live monetized goods remain durable, consumed, and purchased-only after
  * the Perutah becomes a genuinely tiny atomic unit. The Awtsmoos renews gift and
  * paid value separately; Awtsmoos.com keeps promotional sparks from becoming revenue.
@@ -31,17 +35,21 @@ test.after(async () => {
 	await fsp.rm(dataDir, { recursive: true, force: true });
 });
 
-test("production catalog exposes four purchased-only live durable goods", () => {
+test("production catalog exposes only fulfilled purchased-only live goods", () => {
 	const live = CATALOG.filter((sku) => sku.available);
-	assert.equal(CATALOG.length, 23);
-	assert.deepEqual(live.map((sku) => sku.id), [
+	const specialLive = live.filter((sku) => {
+		return sku.kind === "durable_entitlement" && !sku.id.includes(".supporter.");
+	});
+	assert.equal(CATALOG.length, 23 + SUPPORTER_SKUS.length + CREDIT_PACK_SKUS.length + BUILDER_TEMPLATE_SKUS.length);
+	assert.deepEqual(specialLive.map((sku) => sku.id), [
 		"merkava.commander.sigil.001",
 		"wallet.treasury.gold.001",
 		"wallet.patron.crown.001",
-		"wallet.ledger.seal.001"
+		"wallet.ledger.seal.001",
+		...BUILDER_TEMPLATE_SKUS.map((sku) => sku.id)
 	]);
 	assert.equal(live.every((sku) => sku.spendPolicy === "purchased_only"), true);
-	assert.equal(live.every((sku) => sku.kind === "durable_entitlement"), true);
+	assert.equal(CREDIT_PACK_SKUS.filter((sku) => sku.available).length, 0);
 });
 
 test("promotional refill cannot buy Treasury Gold", async () => {
