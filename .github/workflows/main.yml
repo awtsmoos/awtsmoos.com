@@ -1,10 +1,9 @@
 # B"H
 # Boruch Hashem
-# Blessed is He
-# The Awtsmoos binds one pushed SHA to one immutable production shore;
-# Awtsmoos.com restores the canonical Git vessel to that exact SHA before strict activation proves the living server.
+# Blessed be He
+# The Awtsmoos sends one tested SHA through named gates; Awtsmoos.com keeps secrets
+# veiled while every finite production failure reveals the vessel that stopped it.
 name: Deploy to Hetzner Awtsmoos
-
 on:
   push:
     branches:
@@ -13,32 +12,71 @@ on:
 concurrency:
   group: awtsmoos-production-main
   cancel-in-progress: false
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    env:
-      EXPECTED_SHA: ${{ github.sha }}
-      DEPLOY_HOST: ${{ secrets.SERVER_IP }}
-      DEPLOY_USER: ${{ secrets.SERVER_USER }}
-      DEPLOY_PASSWORD: ${{ secrets.AWTSMOOS_PASSWORD }}
     steps:
-      - name: Verify deployment inputs
-        shell: bash
-        run: |
-          set -Eeuo pipefail
-          for name in EXPECTED_SHA DEPLOY_HOST DEPLOY_USER DEPLOY_PASSWORD; do
-            if [ -z "${!name:-}" ]; then
-              echo "::error::Missing required deployment input: $name"
-              exit 1
-            fi
-          done
-          case "$EXPECTED_SHA" in
-            *[!0-9a-f]*|'') echo "::error::Invalid GitHub source SHA"; exit 1 ;;
-          esac
-          test "${#EXPECTED_SHA}" -eq 40
+      - name: Probe production SSH reachability
+        uses: appleboy/ssh-action@v1.2.5
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USER }}
+          password: ${{ secrets.AWTSMOOS_PASSWORD }}
+          port: 22
+          timeout: 30s
+          command_timeout: 1m
+          script: |
+            set -Eeuo pipefail
+            printf 'B"H PRODUCTION_SSH_REACHABLE host=%s\n' "$(hostname)"
 
-      - name: Execute canonical production deployment over SSH
+      - name: Prepare exact production checkout
+        uses: appleboy/ssh-action@v1.2.5
+        env:
+          EXPECTED_SHA: ${{ github.sha }}
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USER }}
+          password: ${{ secrets.AWTSMOOS_PASSWORD }}
+          port: 22
+          envs: EXPECTED_SHA
+          timeout: 30s
+          command_timeout: 10m
+          script: |
+            set -Eeuo pipefail
+            repo="${AWTSMOOS_PRODUCTION_REPO:-/mnt/HC_Volume_102267213/git/awtsmoos.com}"
+            phase="repo-preflight"
+            fail() {
+              code="$1"
+              set +e
+              printf 'B"H DEPLOY_PREPARE_FAIL phase=%s exit=%s branch=%s head=%s origin=%s\n' "$phase" "$code" "$(git -C "$repo" branch --show-current 2>/dev/null)" "$(git -C "$repo" rev-parse HEAD 2>/dev/null)" "$(git -C "$repo" rev-parse origin/main 2>/dev/null)" >&2
+              exit "$code"
+            }
+            trap 'fail $?' ERR
+            [[ "$EXPECTED_SHA" =~ ^[0-9a-f]{40}$ ]]
+            git -C "$repo" rev-parse --git-dir >/dev/null
+            phase="fetch-origin-main"
+            fetched=0
+            for attempt in 1 2 3; do
+              if git -C "$repo" fetch --prune --tags origin main; then
+                fetched=1
+                break
+              fi
+              sleep "$((attempt * 2))"
+            done
+            [ "$fetched" -eq 1 ]
+            phase="verify-expected-sha"
+            git -C "$repo" cat-file -e "$EXPECTED_SHA^{commit}"
+            [ "$(git -C "$repo" rev-parse origin/main^{commit})" = "$EXPECTED_SHA" ]
+            phase="repair-main-branch"
+            git -C "$repo" reset --hard
+            git -C "$repo" checkout -B main "$EXPECTED_SHA"
+            phase="clean-checkout"
+            git -C "$repo" clean -fd
+            [ -z "$(git -C "$repo" status --porcelain)" ]
+            [ "$(git -C "$repo" rev-parse HEAD^{commit})" = "$EXPECTED_SHA" ]
+            printf 'B"H PRODUCTION_CHECKOUT_READY sha=%s\n' "$EXPECTED_SHA"
+
+      - name: Activate canonical production server
         uses: appleboy/ssh-action@v1.2.5
         env:
           EXPECTED_SHA: ${{ github.sha }}
@@ -53,15 +91,29 @@ jobs:
           script: |
             set -Eeuo pipefail
             repo="${AWTSMOOS_PRODUCTION_REPO:-/mnt/HC_Volume_102267213/git/awtsmoos.com}"
-            git -C "$repo" rev-parse --git-dir >/dev/null
-            test "$(git -C "$repo" branch --show-current)" = "main"
-            git -C "$repo" fetch --prune --tags origin main
-            test "$(git -C "$repo" rev-parse origin/main^{commit})" = "$EXPECTED_SHA"
-            git -C "$repo" reset --hard "$EXPECTED_SHA"
-            git -C "$repo" clean -fd
-            test -z "$(git -C "$repo" status --porcelain)"
-            test "$(git -C "$repo" rev-parse HEAD^{commit})" = "$EXPECTED_SHA"
+            [ "$(git -C "$repo" rev-parse HEAD^{commit})" = "$EXPECTED_SHA" ]
             bash "$repo/scripts/production/canonical-server-activate.sh" "$EXPECTED_SHA"
+
+      - name: Verify canonical public release
+        uses: appleboy/ssh-action@v1.2.5
+        env:
+          EXPECTED_SHA: ${{ github.sha }}
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USER }}
+          password: ${{ secrets.AWTSMOOS_PASSWORD }}
+          port: 22
+          envs: EXPECTED_SHA
+          timeout: 30s
+          command_timeout: 10m
+          script: |
+            set -Eeuo pipefail
+            repo="${AWTSMOOS_PRODUCTION_REPO:-/mnt/HC_Volume_102267213/git/awtsmoos.com}"
             node "$repo/scripts/verifyHomeProduction.mjs"
             node "$repo/scripts/verifyTunnelPublicRelease.mjs"
-            test "$(git -C "$repo" rev-parse HEAD^{commit})" = "$EXPECTED_SHA"
+            canary="$(curl -sS --max-time 20 https://awtsmoos.com/api/wallet/commerce/reconciliation/health)"
+            case "$canary" in
+              *INVALID_ROUTE*) exit 1 ;;
+            esac
+            [ "$(git -C "$repo" rev-parse HEAD^{commit})" = "$EXPECTED_SHA" ]
+            printf 'B"H PRODUCTION_RELEASE_VERIFIED sha=%s\n' "$EXPECTED_SHA"
