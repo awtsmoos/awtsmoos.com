@@ -58,7 +58,7 @@ test('public entry uses one coherent server-first Ikar generation', () => {
 	const sourceLoader = read(`${moduleRoot}/navigator/source-loader.js`);
 	assert.match(template, /critical-boot\.js\?v=critical-path-002/);
 	assert.doesNotMatch(template, /bootBridge\.js/);
-	assert.match(criticalBoot, /ikar-first\.js\?v=ikar-first-001&compact=true/);
+	assert.match(criticalBoot, /ikar-first\.js\?v=ikar-first-002&compact=true/);
 	assert.match(criticalBoot, /app\.js\?v=ikar-authority-006&compact=true/);
 	assert.match(app, /navigator\.js\?v=heichel-mobile-012/);
 	assert.match(navigator, /living-path\/controller\.js\?v=heichel-mobile-012/);

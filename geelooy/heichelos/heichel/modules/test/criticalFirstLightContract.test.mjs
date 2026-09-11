@@ -35,7 +35,7 @@ test('critical boot delays and bounds interactive hydration', () => {
 	assert.match(boot, /window\.addEventListener\('load', scheduleHydration/);
 	assert.match(boot, /requestIdleCallback/);
 	assert.match(boot, /HYDRATION_DELAY_MS/);
-	assert.match(boot, /ikar-first\.js\?v=ikar-first-001&compact=true/);
+	assert.match(boot, /ikar-first\.js\?v=ikar-first-002&compact=true/);
 	assert.match(boot, /return isIkarRoute\(\) \? IKAR_SOURCE : APP_SOURCE/);
 	assert.match(boot, /await module\.boot\(\)/);
 	assert.match(boot, /if \(!isIkarRoute\(\)\) schedulePostReady\(\)/);

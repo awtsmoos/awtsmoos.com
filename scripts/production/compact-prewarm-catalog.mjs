@@ -35,7 +35,7 @@ export const COMPACT_PREWARM_ROUTES = Object.freeze([
 		"Ikar Torah Library",
 		"/heichelos/ikar",
 		[
-			"/heichelos/heichel/ikar-first.js?v=ikar-first-001&compact=true"
+			"/heichelos/heichel/ikar-first.js?v=ikar-first-002&compact=true"
 		]
 	),
 	criticalRoute(
