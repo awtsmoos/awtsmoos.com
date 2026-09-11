@@ -1,6 +1,6 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 const { me } = require("./me.js");
 const { balance } = require("./balance.js");
@@ -13,6 +13,11 @@ const { commerceCatalog } = require("./commerceCatalog.js");
 const { commerceEntitlements } = require("./commerceEntitlements.js");
 const { commercePurchase } = require("./commercePurchase.js");
 const { gameRewardClaim } = require("./gameRewardClaim.js");
+const { marketplace } = require("./marketplace.js");
+const { marketplaceAction } = require("./marketplaceAction.js");
+const { organizationAction } = require("./organizationAction.js");
+const { organizations } = require("./organizations.js");
+const { resourceQuote } = require("./resourceQuote.js");
 
 /**
  * B"H
@@ -31,6 +36,11 @@ const routeTable = {
 	"buy/mock": buyMock,
 	"paypal/create": paypalCreate,
 	"paypal/capture": paypalCapture,
+	"resource/quote": resourceQuote,
+	marketplace,
+	"marketplace/action": marketplaceAction,
+	organizations,
+	"organizations/action": organizationAction,
 	"commerce/catalog": commerceCatalog,
 	"commerce/entitlements": commerceEntitlements,
 	"commerce/purchase": commercePurchase,

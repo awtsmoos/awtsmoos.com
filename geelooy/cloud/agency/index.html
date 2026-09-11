@@ -1,0 +1,106 @@
+<!-- B"H -->
+<!-- Boruch Hashem -->
+<!-- Blessed be He -->
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+	<title>Awtsmoos Agency Control Center</title>
+	<meta name="description" content="Fund organizations with Perutas, allocate client budgets, manage teams, price execution, and trade reusable Awtsmoos systems.">
+	<link rel="stylesheet" href="/cloud/agency/styles/style.css?v=agency-001">
+	<script type="module" src="/cloud/agency/main.js?v=agency-001"></script>
+</head>
+<body>
+	<header class="agency-nav">
+		<a class="brand" href="/cloud/">Awtsmoos Cloud</a>
+		<nav aria-label="Agency navigation">
+			<a href="/os">Geelooy OS</a>
+			<a href="/apps/wallet/">Wallet</a>
+			<a href="/apps/drive/">Projects</a>
+		</nav>
+	</header>
+	<main class="agency-main">
+		<section class="hero">
+			<p class="eyebrow">Awtsmoos Agency · Peruta operating system</p>
+			<h1>One treasury. Every client. Pay only for real usage.</h1>
+			<p>Create funded organizations, give each client a hard Peruta budget, route eligible compute through Tunnel for zero compute Perutas, and use Awtsmoos resources only when they add value.</p>
+			<p id="agencyStatus" class="status" role="status">Loading your business control plane…</p>
+		</section>
+		<section class="panel-grid" aria-label="Agency treasury controls">
+			<article class="panel">
+				<p class="eyebrow">Organization</p>
+				<h2>Create a client treasury</h2>
+				<form id="createOrganizationForm" class="stack-form">
+					<label>Name<input name="name" maxlength="100" required placeholder="Crown Heights Studio"></label>
+					<button type="submit">Create organization</button>
+				</form>
+			</article>
+			<article class="panel">
+				<p class="eyebrow">Purchased Perutas</p>
+				<h2>Fund an organization</h2>
+				<form id="fundOrganizationForm" class="stack-form">
+					<label>Organization<select name="organizationId" data-organization-select required></select></label>
+					<label>Perutas<input name="amountPerutahs" type="number" min="1" step="1" required></label>
+					<button type="submit">Move purchased Perutas</button>
+				</form>
+			</article>
+			<article class="panel">
+				<p class="eyebrow">Client budget</p>
+				<h2>Allocate project capacity</h2>
+				<form id="allocateBudgetForm" class="stack-form">
+					<label>Organization<select name="organizationId" data-organization-select required></select></label>
+					<label>Project key<input name="projectKey" maxlength="120" required placeholder="client-acme"></label>
+					<label>Label<input name="label" maxlength="120" required placeholder="Acme production"></label>
+					<label>Budget Perutas<input name="limitPerutahs" type="number" min="1" step="1" required></label>
+					<button type="submit">Set client budget</button>
+				</form>
+			</article>
+			<article class="panel">
+				<p class="eyebrow">Team</p>
+				<h2>Add an operator</h2>
+				<form id="memberForm" class="stack-form">
+					<label>Organization<select name="organizationId" data-organization-select required></select></label>
+					<label>Awtsmoos alias<input name="alias" maxlength="100" required placeholder="client-manager"></label>
+					<label>Role<select name="role"><option value="member">Member</option><option value="admin">Admin</option></select></label>
+					<button type="submit">Add team member</button>
+				</form>
+			</article>
+		</section>
+		<section class="wide-panel" aria-labelledby="organizationsTitle">
+			<div class="section-head"><p class="eyebrow">Live treasury</p><h2 id="organizationsTitle">Organizations and client budgets</h2></div>
+			<div id="organizationGrid" class="organization-grid"></div>
+		</section>
+		<section class="panel-grid">
+			<article class="panel">
+				<p class="eyebrow">Execution economics</p>
+				<h2>Compare Tunnel and Awtsmoos</h2>
+				<form id="quoteForm" class="stack-form">
+					<label>Resource<select name="resourceId"><option value="compute.minute">Compute minutes</option><option value="browser.minute">Browser minutes</option><option value="relay.minute">Relay minutes</option><option value="bandwidth.mib">Bandwidth MiB</option><option value="storage.gib-day">Storage GiB-day</option><option value="database.1000-ops">Database 1,000 ops</option></select></label>
+					<label>Units<input name="units" type="number" min="1" max="1000000" value="60" required></label>
+					<label>Execution<select name="executionMode"><option value="tunnel">My Tunnel first</option><option value="hosted">Awtsmoos hosted</option></select></label>
+					<button type="submit">Get live quote</button>
+				</form>
+				<div id="quoteResult" class="quote-result">Choose a resource and get a server-authored quote.</div>
+			</article>
+			<article class="panel marketplace-create">
+				<p class="eyebrow">Marketplace</p>
+				<h2>Sell a reusable system</h2>
+				<form id="marketplaceCreateForm" class="stack-form">
+					<label>Title<input name="title" maxlength="100" required></label>
+					<label>Description<textarea name="description" maxlength="1000" required></textarea></label>
+					<label>Kind<select name="kind"><option value="business-system">Business system</option><option value="blueprint">Blueprint</option><option value="workflow">Workflow</option><option value="component">Component</option></select></label>
+					<label>Price Perutas<input name="pricePerutahs" type="number" min="100" step="1" required></label>
+					<label>Private delivery reference<input name="deliveryRef" maxlength="240" required placeholder="awtsmoos://drive/marketplace/my-system"></label>
+					<button type="submit">Publish listing</button>
+				</form>
+			</article>
+		</section>
+		<section class="wide-panel" aria-labelledby="marketplaceTitle">
+			<div class="section-head"><p class="eyebrow">Reusable value</p><h2 id="marketplaceTitle">Awtsmoos Marketplace</h2></div>
+			<div id="marketplaceGrid" class="marketplace-grid"></div>
+		</section>
+	</main>
+	<footer><a href="/cloud/">Build with Shliach</a><a href="/apps/wallet/#buy">Buy Perutas</a><a href="/os">Open Geelooy OS</a></footer>
+</body>
+</html>

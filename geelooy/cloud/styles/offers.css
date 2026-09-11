@@ -1,0 +1,93 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed be He */
+
+.cloud-proof article,
+.cloud-offer-card {
+	border: 1px solid var(--cloud-border);
+	border-radius: 18px;
+	background: rgba(255, 255, 255, 0.045);
+}
+
+.cloud-proof article {
+	padding: 20px;
+}
+
+.cloud-proof b {
+	display: grid;
+	place-items: center;
+	width: 32px;
+	height: 32px;
+	margin-bottom: 18px;
+	border-radius: 10px;
+	color: #06131b;
+	background: var(--cloud-gold);
+}
+
+.cloud-proof span {
+	font-size: 16px;
+	font-weight: 850;
+}
+.cloud-offer-card {
+	display: grid;
+	align-content: start;
+	gap: 14px;
+	padding: 22px;
+}
+
+.cloud-offer-kicker {
+	margin: 0;
+	color: var(--cloud-accent);
+	font-size: 11px;
+	font-weight: 850;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+}
+
+.cloud-offer-card h3,
+.cloud-section-head h2,
+.cloud-trust h2 {
+	margin: 0;
+	letter-spacing: -0.035em;
+}
+
+.cloud-offer-short,
+.cloud-offer-terms,
+.cloud-section-head > p:last-child,
+.cloud-trust > p {
+	color: var(--cloud-muted);
+	line-height: 1.6;
+}
+.cloud-offer-price {
+	display: grid;
+	gap: 4px;
+	padding: 14px 0;
+	border-block: 1px solid var(--cloud-border);
+}
+
+.cloud-offer-price strong {
+	font-size: 34px;
+	letter-spacing: -0.04em;
+}
+
+.cloud-offer-price span {
+	color: var(--cloud-muted);
+	font-size: 12px;
+}
+
+.cloud-offer-button {
+	width: 100%;
+	margin-top: auto;
+}
+
+.cloud-offer-button:disabled {
+	cursor: default;
+	opacity: 0.55;
+	box-shadow: none;
+}
+
+.cloud-section-head {
+	display: grid;
+	gap: 10px;
+	margin-bottom: 24px;
+}
