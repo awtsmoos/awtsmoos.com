@@ -14,8 +14,14 @@ import { malchusReaderPortalSurface } from './ReaderPortalSurface.js';
  */
 const MENU_ID = 'custom-context-menu';
 const MOBILE_QUERY = '(max-width: 760px)';
+let dismissalAbortController = null;
 
-export function removeExistingMenu() { document.getElementById(MENU_ID)?.remove(); }
+/** Removes the current menu and every document-level dismissal gate owned by it. */
+export function removeExistingMenu() {
+	dismissalAbortController?.abort();
+	dismissalAbortController = null;
+	document.getElementById(MENU_ID)?.remove();
+}
 
 function partition(actions) {
 	const primary = [];
@@ -44,19 +50,24 @@ function bindActionDispatch(menu, actions, secondaryGroup) {
 		if (!button) return;
 		event.preventDefault();
 		const action = actions[Number(button.dataset.actionIndex)]?.action;
+		const result = action?.();
 		removeExistingMenu();
-		await action?.();
+		await result;
 	});
 }
 
 function bindDismissalGates(menu) {
+	dismissalAbortController?.abort();
+	dismissalAbortController = new AbortController();
+	const { signal } = dismissalAbortController;
 	menu.addEventListener('keydown', event => {
 		tiferesContextMenuKeyboardGate.route(menu, event, removeExistingMenu);
-	});
+	}, { signal });
 	setTimeout(() => {
+		if (signal.aborted || !menu.isConnected) return;
 		document.addEventListener('pointerdown', event => {
 			if (!menu.contains(event.target)) removeExistingMenu();
-		}, { once: true, capture: true });
+		}, { capture: true, signal });
 	}, 0);
 }
 
