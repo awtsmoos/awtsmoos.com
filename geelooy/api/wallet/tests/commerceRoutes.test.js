@@ -4,6 +4,9 @@
 
 const test = require("node:test");
 const assert = require("node:assert/strict");
+const { SUPPORTER_SKUS } = require("../core/commerce/supporterCatalog.js");
+const { CREDIT_PACK_SKUS } = require("../core/commerce/creditPackCatalog.js");
+const { BUILDER_TEMPLATE_SKUS } = require("../core/commerce/builderTemplateSkus.js");
 const { commerceCatalog } = require("../routes/commerceCatalog.js");
 const { commerceEntitlements } = require("../routes/commerceEntitlements.js");
 const { commercePurchase } = require("../routes/commercePurchase.js");
@@ -13,22 +16,27 @@ const {
 } = require("./commerceRouteFixture.js");
 
 /**
- * B"H
+ * @file commerceRoutes.test.js
+ * @description
  * Witnesses the HTTP commerce boundary after the tiny-Perutah migration. The
  * Awtsmoos renews request, price, account, and ownership beyond every finite route;
  * Awtsmoos.com proves browser payloads cannot shrink server prices or bypass the
  * purchased-only rule while planned products remain outside checkout.
  */
 
-test("catalog exposes four live goods and nineteen planned goods", () => {
+test("catalog keeps roadmap credit packs planned until fulfillment exists", () => {
 	const result = payload(commerceCatalog(routeContext()));
 	const live = result.skus.filter((sku) => sku.available);
 	const planned = result.skus.filter((sku) => !sku.available);
-	assert.equal(result.skus.length, 23);
-	assert.equal(live.length, 4);
-	assert.equal(planned.length, 19);
-	assert.equal(live.filter((sku) => sku.productId === "wallet").length, 3);
-	assert.equal(live.filter((sku) => sku.productId === "merkava").length, 1);
+	assert.equal(result.skus.length, 23 + SUPPORTER_SKUS.length + CREDIT_PACK_SKUS.length + BUILDER_TEMPLATE_SKUS.length);
+	assert.equal(live.length, 4 + SUPPORTER_SKUS.length + BUILDER_TEMPLATE_SKUS.length);
+	assert.equal(planned.length, 19 + CREDIT_PACK_SKUS.length);
+	const specialLive = live.filter((sku) => {
+		return !sku.id.includes(".supporter.") && sku.kind !== "consumable_credit_pack";
+	});
+	assert.equal(specialLive.filter((sku) => sku.productId === "wallet").length, 3);
+	assert.equal(specialLive.filter((sku) => sku.productId === "merkava").length, 1);
+	assert.equal(specialLive.filter((sku) => sku.productId === "drive").length, BUILDER_TEMPLATE_SKUS.length);
 	assert.equal(live.every((sku) => sku.spendPolicy === "purchased_only"), true);
 });
 

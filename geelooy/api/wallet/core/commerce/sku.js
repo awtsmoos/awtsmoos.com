@@ -26,6 +26,8 @@ function defineSku(definition) {
 		productId: definition.productId,
 		kind: definition.kind || "durable_entitlement",
 		entitlementKey: definition.entitlementKey || definition.id,
+		creditUnits: Math.max(0, Math.floor(Number(definition.creditUnits || 0))),
+		creditLabel: String(definition.creditLabel || "Credits"),
 		pricePerutahs,
 		spendPolicy: normalizeSpendPolicy(definition.spendPolicy),
 		available: definition.available === true,

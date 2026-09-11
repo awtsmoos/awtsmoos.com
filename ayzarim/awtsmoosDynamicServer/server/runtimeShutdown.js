@@ -27,6 +27,7 @@ function bindRuntimeShutdown(options) {
 		if (draining) return;
 		draining = true;
 		options.health?.markDraining?.();
+		await options.beforeClose?.();
 		console.log(`B"H - Runtime draining after ${signal || "shutdown"}.`);
 		closeRealtime(options.wsServer);
 		await closeHttpServer(options.httpServer, graceMs);

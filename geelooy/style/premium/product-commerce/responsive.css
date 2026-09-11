@@ -1,0 +1,55 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed be He */
+/*
+ * Mobile is the first vessel: safe-area aware, thumb-reachable, and calm.
+ * Wider screens receive a side sheet only after the narrow experience is whole.
+ */
+@media (min-width: 760px) {
+	.awts-commerce__dialog {
+		width: min(480px, calc(100vw - 32px));
+		max-height: calc(100dvh - 32px);
+		margin:
+			16px max(16px, env(safe-area-inset-right))
+			16px auto;
+		border-radius: 24px;
+	}
+}
+
+@media (max-width: 420px) {
+	.awts-commerce__launcher {
+		min-height: 44px;
+		padding-inline: 12px;
+	}
+
+	.awts-commerce__offer {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.awts-commerce__offer button {
+		grid-column: 1;
+		grid-row: auto;
+		width: 100%;
+		min-height: 44px;
+		margin-block-start: 8px;
+	}
+
+	.awts-commerce__offer p {
+		grid-column: 1;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.awts-commerce__launcher,
+	.awts-commerce__dialog,
+	.awts-commerce__offer {
+		scroll-behavior: auto;
+		transition: none;
+	}
+}
+
+@media print {
+	.awts-commerce {
+		display: none !important;
+	}
+}

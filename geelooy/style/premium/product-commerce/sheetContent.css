@@ -1,0 +1,87 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed be He */
+/*
+ * The Awtsmoos is beyond balance, message, footer, and link. Awtsmoos.com lets the
+ * Peruta sheet's content remain readable and touchable on mobile while the full-width
+ * Favorite control and account doorways wrap together instead of forcing overflow.
+ */
+.awts-commerce__balance {
+	display: flex;
+	justify-content: space-between;
+	gap: 12px;
+	padding: 14px 20px;
+	background: linear-gradient(
+		90deg,
+		rgba(243, 201, 107, 0.08),
+		rgba(117, 213, 255, 0.05)
+	);
+	border-bottom: 1px solid var(--awts-commerce-line);
+}
+
+.awts-commerce__balance span {
+	color: var(--awts-commerce-muted);
+	font-size: 0.76rem;
+}
+
+.awts-commerce__balance strong {
+	color: #fff3c4;
+	font-size: 0.84rem;
+	text-align: right;
+	overflow-wrap: anywhere;
+}
+
+.awts-commerce__status {
+	margin: 0;
+	padding: 14px 20px 0;
+	color: var(--awts-commerce-muted);
+	font-size: 0.82rem;
+	line-height: 1.45;
+	overflow-wrap: anywhere;
+}
+
+.awts-commerce__status[data-tone="success"] {
+	color: #a9f5c8;
+}
+
+.awts-commerce__status[data-tone="error"] {
+	color: #ffb9b9;
+}
+
+.awts-commerce__footer {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 10px;
+	justify-content: space-between;
+	padding: 16px 20px calc(18px + env(safe-area-inset-bottom));
+	border-top: 1px solid var(--awts-commerce-line);
+}
+
+.awts-commerce__link {
+	display: inline-flex;
+	align-items: center;
+	min-height: 44px;
+	padding: 4px 0;
+	color: #d9e9ff;
+	font-size: 0.8rem;
+	font-weight: 750;
+	text-decoration: none;
+}
+
+.awts-commerce__link:focus-visible {
+	outline: 3px solid #7dd3fc;
+	outline-offset: 3px;
+	border-radius: 8px;
+}
+
+@media (max-width: 420px) {
+	.awts-commerce__footer {
+		justify-content: flex-start;
+	}
+
+	.awts-commerce__link {
+		flex: 1 1 auto;
+		justify-content: center;
+	}
+}

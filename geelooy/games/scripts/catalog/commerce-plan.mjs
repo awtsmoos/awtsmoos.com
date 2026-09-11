@@ -20,34 +20,15 @@ const LIVE_COMMERCE = Object.freeze({
 	})
 });
 
-const PLANNED_COMMERCE_GAMES = new Set([
-	"sefira-clash",
-	"nitzotz-io",
-	"shema-strike",
-	"seven-mitzvos",
-	"city-of-light",
-	"ohr-hagnuz",
-	"scribe-journey",
-	"mitzvah-world"
-]);
-
 export function commercePlanFor(game) {
 	const live = LIVE_COMMERCE[game.id];
 	if (live) {
 		return live;
 	}
-	if (PLANNED_COMMERCE_GAMES.has(game.id)) {
-		return Object.freeze({
-			state: "planned",
-			label: "Perutah goods planned",
-			href: "",
-			skuId: ""
-		});
-	}
 	return Object.freeze({
-		state: "none",
-		label: "",
-		href: "",
-		skuId: ""
+		state: "live",
+		label: "Supporter tiers · from 50,000 purchased Perutas",
+		href: game.href,
+		skuId: `${game.id}.supporter.spark.001`
 	});
 }

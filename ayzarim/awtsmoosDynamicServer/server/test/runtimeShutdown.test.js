@@ -52,6 +52,7 @@ test("shutdown marks draining, closes HTTP, and exits once", async () => {
 	const shutdown = bindRuntimeShutdown({
 		processRef,
 		health,
+		beforeClose() { events.push("background-stop"); },
 		httpServer,
 		wsServer: { clients: [] },
 		graceMs: 25
@@ -59,6 +60,7 @@ test("shutdown marks draining, closes HTTP, and exits once", async () => {
 	await shutdown("test");
 	await shutdown("again");
 	assert.equal(events[0], "draining");
+	assert.ok(events.indexOf("background-stop") < events.indexOf("http-close"));
 	assert.equal(events.filter(value => value === "http-close").length, 1);
 	assert.deepEqual(processRef.exitCodes, [0]);
 });
