@@ -26,7 +26,7 @@ test("all visible Geelooy apps resolve to canonical program registrations", asyn
 		[...source.matchAll(/^\t([a-zA-Z0-9]+): program\(/gm)]
 			.map(match => match[1])
 	);
-	assert.equal(APP_CATALOG.length, 17);
+	assert.equal(APP_CATALOG.length, 18);
 	for (const app of APP_CATALOG) {
 		assert.equal(names.has(app.programName), true, app.programName);
 		assert.ok(app.title && app.description && app.icon, app.id);
@@ -51,6 +51,7 @@ test("flagships lead pinned products with Drive Sites beside Command Center", ()
 			"wallet",
 			"peruta-usage",
 			"files",
+			"media",
 			"code",
 			"preview",
 			"browser",

@@ -1,0 +1,102 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed be He */
+.mediaLibrary {
+	--ml-blue: #20bfff;
+	--ml-violet: #8b4dff;
+	--ml-panel: rgba(6, 25, 58, .78);
+	position: relative;
+	min-height: 100%;
+	padding: 24px;
+	color: #f4f8ff;
+	background:
+		radial-gradient(circle at 85% 0%, rgba(102, 44, 255, .24), transparent 34%),
+		radial-gradient(circle at 10% 8%, rgba(0, 174, 255, .18), transparent 32%),
+		linear-gradient(145deg, #020918, #06142c 54%, #020713);
+	font: 500 14px/1.45 system-ui, sans-serif;
+	overflow: auto;
+}
+.mediaLibrary::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	background-image: radial-gradient(circle, rgba(120, 190, 255, .28) 1px, transparent 1px);
+	background-size: 34px 34px;
+	opacity: .18;
+}
+
+.mediaLibrary__hero,
+.mediaLibrary__toolbar,
+.mediaLibrary__uploadPanel,
+.mediaLibrary__provider,
+.mediaLibrary__card,
+.mediaLibrary__status {
+	position: relative;
+	z-index: 1;
+	border: 1px solid rgba(53, 174, 255, .38);
+	background: linear-gradient(155deg, rgba(8, 31, 72, .9), rgba(3, 12, 31, .86));
+	box-shadow: inset 0 1px rgba(255, 255, 255, .05), 0 16px 40px rgba(0, 0, 0, .24);
+	backdrop-filter: blur(18px);
+}
+.mediaLibrary__hero {
+	display: flex;
+	justify-content: space-between;
+	gap: 20px;
+	align-items: end;
+	padding: 24px;
+	border-radius: 24px;
+	background: linear-gradient(120deg, rgba(5, 25, 60, .9), rgba(24, 22, 92, .84));
+}
+.mediaLibrary__hero h1 {
+	margin: 2px 0 4px;
+	font-size: clamp(30px, 4vw, 52px);
+	letter-spacing: -.04em;
+}
+.mediaLibrary__eyebrow { color: #6fd8ff; text-transform: uppercase; letter-spacing: .15em; font-size: 11px; }
+.mediaLibrary__lead { margin: 0; color: #bdd4ff; font-size: 16px; }
+.mediaLibrary__heroBadge { color: #e5dcff; }
+
+.mediaLibrary__toolbar { display: flex; gap: 10px; margin: 14px 0; padding: 10px; border-radius: 18px; }
+.mediaLibrary__input,
+.mediaLibrary__select,
+.mediaLibrary__button,
+.mediaLibrary__cardButton {
+	border: 1px solid rgba(76, 177, 255, .45);
+	border-radius: 14px;
+	color: #edf6ff;
+	background: rgba(5, 20, 48, .9);
+}
+.mediaLibrary__input,
+.mediaLibrary__select { min-height: 44px; padding: 0 14px; }
+.mediaLibrary__toolbar .mediaLibrary__input { flex: 1; }
+.mediaLibrary__button,
+.mediaLibrary__cardButton { min-height: 40px; padding: 8px 14px; cursor: pointer; }
+.mediaLibrary__button:hover,
+.mediaLibrary__cardButton:hover { border-color: #7c7cff; box-shadow: 0 0 20px rgba(72, 120, 255, .35); }
+.mediaLibrary__uploadPanel,
+.mediaLibrary__provider { border-radius: 22px; padding: 20px; margin-bottom: 14px; }
+.mediaLibrary__uploadPanel { text-align: center; border-style: dashed; }
+.mediaLibrary__uploadIcon { font-size: 38px; color: #6bd7ff; }
+.mediaLibrary__uploadActions,
+.mediaLibrary__providerActions,
+.mediaLibrary__cardActions { display: flex; flex-wrap: wrap; gap: 8px; }
+.mediaLibrary__providerLabel { margin: 16px 0 6px; color: #9db8df; }
+.mediaLibrary__apiLink { color: #67d8ff; align-self: center; }
+.mediaLibrary__grid { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 14px; }
+.mediaLibrary__card { overflow: hidden; border-radius: 18px; }
+.mediaLibrary__thumb { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; background: #020713; }
+.mediaLibrary__cardBody { display: grid; gap: 7px; padding: 12px; }
+.mediaLibrary__meta { color: #8eb2df; font-size: 12px; text-transform: capitalize; }
+.mediaLibrary__cardButton { min-height: 34px; padding: 5px 9px; font-size: 12px; }
+.mediaLibrary__status { margin: 0 0 12px; padding: 10px 14px; border-radius: 14px; color: #9df4d2; }
+.mediaLibrary__status:empty { display: none; }
+.mediaLibrary__status[data-error="true"] { color: #ffb7c5; border-color: rgba(255, 79, 115, .55); }
+.mediaLibrary__empty { grid-column: 1 / -1; padding: 36px; text-align: center; color: #8da8d0; }
+@media (max-width: 720px) {
+	.mediaLibrary { padding: 12px; }
+	.mediaLibrary__hero { align-items: start; flex-direction: column; padding: 18px; }
+	.mediaLibrary__toolbar { flex-direction: column; }
+	.mediaLibrary__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+	.mediaLibrary__uploadActions .mediaLibrary__button { flex: 1 1 140px; }
+}

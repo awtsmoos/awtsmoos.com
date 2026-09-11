@@ -23,6 +23,7 @@ import awtsmoosPresenter from "./programs/awtsmoos-presenter/index.js";
 import awtsmoosSheets from "./programs/awtsmoos-sheets/index.js";
 import awtsmoosTaskManager from "./programs/awtsmoos-task-manager/index.js";
 import awtsmoosTextEdit from "./programs/awtsmoos-text/index.js";
+import mediaLibrary from "./programs/media-library/index.js";
 import connectedNodeServer from "./programs/connected-node-server/index.js";
 import driveWorkspace from "./programs/drive-workspace/index.js";
 import openWithSelector from "./programs/open-with-selector/index.js";
@@ -46,6 +47,7 @@ export const programs = Object.freeze({
 	awtsmoosSheets: program("Awtsmoos Sheets", awtsmoosSheets),
 	awtsmoosTaskManager: program("Task Manager", awtsmoosTaskManager),
 	awtsmoosTextEdit: program("Text Editor", awtsmoosTextEdit),
+	mediaLibrary: program("Media Library", mediaLibrary),
 	connectedNodeServer: program("Connected Node Server", connectedNodeServer),
 	driveWorkspace: program("Drive & Sites", driveWorkspace),
 	openWithSelector: program("Open With…", openWithSelector),

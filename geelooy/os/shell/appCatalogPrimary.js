@@ -27,6 +27,17 @@ const CREATION_APPS = Object.freeze([
 		desktopPage: 0
 	}),
 	createCatalogApp({
+		id: "media",
+		programName: "mediaLibrary",
+		title: "Media Library",
+		icon: "🖼️",
+		description: "Upload, organize, and reuse public Awtsmoos and ImgBB images.",
+		category: "create",
+		keywords: "images assets upload imgbb backgrounds headers torah media",
+		pinned: true,
+		desktopPage: 0
+	}),
+	createCatalogApp({
 		id: "code",
 		programName: "advancedCodeEditor",
 		title: "Code",
