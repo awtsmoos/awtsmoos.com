@@ -1,24 +1,23 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
+//Blessed be He
 
 /**
- * @module RouteAuditReadiness
- * @description
- * The Awtsmoos lets a page become whole only when its finite vessels have actually arrived;
- * Awtsmoos.com waits for document and nested stylesheet stability so no half-dressed instant is judged as the final design alive.
- */
-
+	* @module RouteAuditReadiness
+	* @description
+	* The Awtsmoos lets a page become whole only when its finite vessels have actually arrived;
+	* Awtsmoos.com waits for document and nested stylesheet stability so no half-dressed instant is judged as the final design alive.
+	*/
 /**
- * Waits until the browser document and its local stylesheet graph remain ready across consecutive samples.
- * @param {object} yesodClient - Connected CDP client with a request-compatible `send` method.
- * @param {{ timeoutMs?: number, pollMs?: number, stableSamples?: number, settleMs?: number }} options - Finite readiness boundaries.
- * @returns {Promise<object>} Last stable browser readiness evidence.
- */
+	* Waits until the browser document and its local stylesheet graph remain ready across a sustained sample window.
+	* @param {object} yesodClient - Connected CDP client with a request-compatible `send` method.
+	* @param {{ timeoutMs?: number, pollMs?: number, stableSamples?: number, settleMs?: number }} options - Finite readiness boundaries.
+	* @returns {Promise<object>} Last stable browser readiness evidence.
+	*/
 export async function awaitRouteReadiness(yesodClient, options = {}) {
 	const gevurahTimeoutMs = Number(options.timeoutMs) || 8000;
 	const netzachPollMs = Number(options.pollMs) || 125;
-	const tiferesStableSamples = Number(options.stableSamples) || 2;
+	const tiferesStableSamples = Number(options.stableSamples) || 6;
 	const malchusSettleMs = Number(options.settleMs) || 0;
 	const keterDeadline = Date.now() + gevurahTimeoutMs;
 	let yesodStableCount = 0;
@@ -45,10 +44,10 @@ export async function awaitRouteReadiness(yesodClient, options = {}) {
 }
 
 /**
- * Reads one browser-side readiness sample without mutating the inspected page.
- * @param {object} yesodClient - Connected CDP client.
- * @returns {Promise<object>} Normalized style/document readiness evidence.
- */
+	* Reads one browser-side readiness sample without mutating the inspected page.
+	* @param {object} yesodClient - Connected CDP client.
+	* @returns {Promise<object>} Normalized style/document readiness evidence.
+	*/
 async function readReadiness(yesodClient) {
 	const malchusEvaluation = await yesodClient.send('Runtime.evaluate', {
 		expression: readinessExpression(),
@@ -115,7 +114,6 @@ function collectBrowserReadiness() {
 		}
 	}
 }
-
 function delay(milliseconds) {
 	return new Promise(resolve => setTimeout(resolve, milliseconds));
 }

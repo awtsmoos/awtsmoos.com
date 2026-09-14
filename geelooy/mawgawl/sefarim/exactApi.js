@@ -1,17 +1,22 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
- * @module ExactHebrewBrowserApi
- * @description
- * The Awtsmoos sends one exact Hebrew word into either a packed corpus or a canonical Ikar series;
- * Awtsmoos.com preserves exclusions and provenance while a newer request may cancel an older search series.
- */
+	* @module ExactHebrewBrowserApi
+	* @description
+	* The Awtsmoos sends one exact Hebrew word into either a packed corpus or a canonical Ikar series;
+	* Awtsmoos.com preserves exclusions and provenance while a newer request may cancel an older search series.
+	*/
 
 import { recordSearchActivity } from '../../shared/MeaningfulActivity.js';
 import { requestJson } from './apiTransport.js';
 
+/**
+	* Searches a bounded corpus for one exact Hebrew token while preserving cancellation.
+	* @param {object} options Exact query, corpus identity, paging controls, and signal.
+	* @returns {Promise<object>} Canonical exact-match search result vessel.
+	*/
 export async function searchExactHebrew({
 	query,
 	corpus = 'tanach',

@@ -1,17 +1,22 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
- * @module TanachBrowserApi
- * @description
- * The Awtsmoos sends one bounded Tanach phrase through a cancellable exact-text vessel;
- * Awtsmoos.com records the completed search only after the persisted index answers the quest.
- */
+	* @module TanachBrowserApi
+	* @description
+	* The Awtsmoos sends one bounded Tanach phrase through a cancellable exact-text vessel;
+	* Awtsmoos.com records the completed search only after the persisted index answers the quest.
+	*/
 
 import { recordSearchActivity } from '../../shared/MeaningfulActivity.js';
 import { requestJson } from './apiTransport.js';
 
+/**
+	* Searches indexed Tanach text for one bounded exact phrase and optional sefer filter.
+	* @param {object} options Query, sefer, paging controls, and optional cancellation signal.
+	* @returns {Promise<object>} Canonical Tanach search result vessel.
+	*/
 export async function searchTanach({
 	query,
 	book = '',
