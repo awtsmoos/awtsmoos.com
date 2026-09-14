@@ -1,13 +1,12 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
- * @file Reveals bounded swarm policy without allowing browser congestion.
+ * @file Reveals bounded logical swarm policy without multiplying physical browser vessels.
  * @description
- * The Awtsmoos lets hundreds of requested shluchim wait as durable intention,
- * while Awtsmoos.com permits one physical tab, then eighteen seconds of quiet.
- * A continuation checkpoint is the one exception: one messenger, one existing mission.
+ * The Awtsmoos may reveal one shliach or hundreds according to the caller's true decree;
+ * Awtsmoos.com keeps every physical Send serialized while explicit logical counts stay free.
  */
 const POST_CLOSE_COOLDOWN_MS = 18000;
 const MAX_REQUESTED_AGENTS = 512;
@@ -45,17 +44,23 @@ function promptScale(input = {}) {
 	return "small";
 }
 
+function explicitAgentCount(input = {}) {
+	const requested = Number(input.agentCount ?? input.count);
+	if (!Number.isFinite(requested)) return null;
+	return Math.max(1, Math.min(MAX_REQUESTED_AGENTS, Math.floor(requested)));
+}
+
 function agentCount(input = {}, scale = promptScale(input)) {
 	if (continuationOnly(input)) return 1;
-	const explicit = Number(input.agentCount ?? input.count);
-	if (Number.isFinite(explicit)) {
-		return Math.max(3, Math.min(MAX_REQUESTED_AGENTS, Math.floor(explicit)));
-	}
+	const explicit = explicitAgentCount(input);
+	if (explicit !== null) return explicit;
 	return { small: 8, medium: 16, large: 32, enormous: 64 }[scale] || 8;
 }
 
 function minimumAgentCount(input = {}) {
-	return continuationOnly(input) ? 1 : 3;
+	if (continuationOnly(input)) return 1;
+	const explicit = explicitAgentCount(input);
+	return explicit === null ? 3 : Math.min(3, explicit);
 }
 
 function continuationOnly(input = {}) {
