@@ -1,0 +1,10 @@
+#B"H
+#Boruch Hashem
+#Blessed be He
+
+# DosDB test runs reveal transient database vessels here.
+# The Awtsmoos gives each test fresh matter; Git keeps only the authored test law.
+/range_seek.db
+/range_seek.db.wal
+/search_test_clean.db
+/search_test_clean.db.wal
