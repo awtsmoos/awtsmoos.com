@@ -8,61 +8,77 @@ import { ConversationRouteWaiter } from "./ConversationRouteWaiter.mjs";
 
 const start = "https://chatgpt.com/g/g-6a03feea8398819192067ae3dbfa449c-awtsmoos-shliach-agent";
 const uuid = "12345678-1234-4234-8234-123456789abc";
+const canonical = `https://chatgpt.com/c/${uuid}`;
+const nested = `${start}/c/${uuid}`;
 
-/**
- * @file Proves only the canonical saved ChatGPT account route can complete creation.
- * @description The Awtsmoos rejects local aliases and nested shadows; /c/<uuid> alone bears testimony.
- */
-test("canonical account route yields the upstream UUID", () => {
+/** Proves one custom-GPT thread is canonicalized in-place without a second Send. */
+test("canonical route yields the upstream UUID", () => {
 	const waiter = new ConversationRouteWaiter();
-	assert.deepEqual(waiter.extract(`https://chatgpt.com/c/${uuid}`, "https://chatgpt.com"), {
+	assert.deepEqual(waiter.canonical(canonical, "https://chatgpt.com"), {
 		conversationId: uuid,
-		conversationUrl: `https://chatgpt.com/c/${uuid}`
+		conversationUrl: canonical
 	});
 });
 
-test("local relay keys, nested GPT routes, and foreign origins are rejected", () => {
+test("nested configured GPT route is a candidate, not final success", () => {
 	const waiter = new ConversationRouteWaiter();
-	assert.equal(waiter.extract("https://chatgpt.com/c/BH_DIRECT_fake", "https://chatgpt.com"), null);
-	assert.equal(waiter.extract(`https://chatgpt.com/g/example/c/${uuid}`, "https://chatgpt.com"), null);
-	assert.equal(waiter.extract(`https://example.com/c/${uuid}`, "https://chatgpt.com"), null);
+	assert.deepEqual(waiter.customGptCandidate(nested, new URL(start)), {
+		conversationId: uuid,
+		conversationUrl: canonical
+	});
+	assert.equal(waiter.canonical(nested, "https://chatgpt.com"), null);
+	assert.equal(waiter.canonical("https://chatgpt.com/c/BH_DIRECT_fake", "https://chatgpt.com"), null);
 });
 
-test("wait observes the same tab until it becomes canonical /c/<uuid>", async () => {
+test("wait canonicalizes nested route and verifies exact prompt", async () => {
 	let clock = 0;
-	const urls = [
-		`${start}?prompt=exact`,
-		`${start}?prompt=exact`,
-		`https://chatgpt.com/c/${uuid}`
-	];
+	let url = `${start}?prompt=exact`;
+	let promptVisible = false;
+	const navigations = [];
+	const waiter = new ConversationRouteWaiter({
+		now: () => clock,
+		intervalMs: 10,
+		sleep: async milliseconds => {
+			clock += milliseconds;
+			if (clock === 10) url = nested;
+			if (clock >= 30) promptVisible = true;
+		}
+	});
+	const controller = {
+		inspector: { inspect: async () => ({ url }) },
+		cdpClient: {
+			async send(method, params) {
+				if (method === "Page.navigate") {
+					navigations.push(params.url);
+					url = params.url;
+					return {};
+				}
+				return { result: { result: { value: promptVisible } } };
+			}
+		}
+	};
+	assert.deepEqual(await waiter.wait(controller, {
+		agentStartUrl: start,
+		prompt: "exact prompt",
+		timeoutMs: 100
+	}), { conversationId: uuid, conversationUrl: canonical });
+	assert.deepEqual(navigations, [canonical]);
+});
+
+test("missing route fails without navigation or retry semantics", async () => {
+	let clock = 0;
 	const waiter = new ConversationRouteWaiter({
 		now: () => clock,
 		intervalMs: 10,
 		sleep: async milliseconds => { clock += milliseconds; }
 	});
 	const controller = {
-		inspector: {
-			async inspect() {
-				return { url: urls.shift() || `https://chatgpt.com/c/${uuid}` };
-			}
-		}
+		inspector: { inspect: async () => ({ url: `${start}?prompt=exact` }) },
+		cdpClient: { send: async () => { throw new Error("unexpected_navigation"); } }
 	};
-	assert.deepEqual(await waiter.wait(controller, { agentStartUrl: start, timeoutMs: 100 }), {
-		conversationId: uuid,
-		conversationUrl: `https://chatgpt.com/c/${uuid}`
-	});
-});
-
-test("missing saved route fails with a non-retry success-boundary error", async () => {
-	let clock = 0;
-	const waiter = new ConversationRouteWaiter({
-		now: () => clock,
-		intervalMs: 10,
-		sleep: async milliseconds => { clock += milliseconds; }
-	});
-	const controller = { inspector: { inspect: async () => ({ url: `${start}?prompt=exact` }) } };
-	await assert.rejects(
-		() => waiter.wait(controller, { agentStartUrl: start, timeoutMs: 30 }),
-		error => error.code === "chatgpt_saved_conversation_route_missing"
-	);
+	await assert.rejects(() => waiter.wait(controller, {
+		agentStartUrl: start,
+		prompt: "exact prompt",
+		timeoutMs: 30
+	}), error => error.code === "chatgpt_saved_conversation_route_missing");
 });

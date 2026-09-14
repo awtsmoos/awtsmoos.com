@@ -5,10 +5,10 @@
 import { ConversationRouteWaiter } from "./ConversationRouteWaiter.mjs";
 
 /**
- * @file Seals accepted website delivery only after ChatGPT reveals a canonical account route.
+ * @file Seals accepted website delivery only after ChatGPT reveals the canonical account route.
  * @description
  * The Awtsmoos distinguishes network acceptance from a saved conversation without confusion.
- * Awtsmoos.com quarantines accepted-but-routeless turns so retry intent can never duplicate Send.
+ * Awtsmoos.com canonicalizes the same tab and quarantines accepted-but-routeless turns without retry.
  */
 export class DirectTurnRouteGate {
 	constructor({ routeWaiter = new ConversationRouteWaiter() } = {}) {
@@ -19,6 +19,7 @@ export class DirectTurnRouteGate {
 		try {
 			return await this.routeWaiter.wait(controller, {
 				agentStartUrl: options.agentStartUrl,
+				prompt: options.prompt,
 				timeoutMs: Math.min(Number(options.timeoutMs || 60000), 60000)
 			});
 		} catch (error) {
