@@ -1,6 +1,6 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 const assert = require("node:assert/strict");
 const Catalog = require("../release/runtimeCatalog.js");
@@ -8,16 +8,18 @@ const Manifest = require("../rebuild-manifest.cjs");
 const SourcePaths = require("../release/sourcePaths.js");
 
 /**
- * @file Proves the committed public manifest exactly matches production source.
+ * @file Proves the committed public manifest exactly matches production source closure.
  * @description
- * The Awtsmoos gathers every runtime spark into one published scroll.
- * Awtsmoos.com rejects a release when the committed manifest is stale, duplicated,
- * forbidden, or missing any queue, browser, mission, relay, or database dependency.
+ * The Awtsmoos gathers every runtime spark into one published scroll that can truly run;
+ * Awtsmoos.com rejects a release missing browser, mission, broker, queue, or database sun.
  */
 const roots = SourcePaths.resolveRoots();
 const committed = Manifest.readCurrent(Manifest.OUT);
 const built = Manifest.buildManifest({ version: committed.version });
 const critical = [
+	"lib/instructions/hybridService.js",
+	"lib/instructions/serverBroker.js",
+	"lib/instructions/serverBrokerSupport.js",
 	"ai/relay/direct/chatgpt/DirectServiceTurnLifecycle.mjs",
 	"ai/relay/direct/chatgpt/DirectServiceTurnPresentation.mjs",
 	"ai/relay/direct/chatgpt/DirectServiceTurnRecovery.mjs",
@@ -41,13 +43,19 @@ const critical = [
 ];
 
 Catalog.assertManifestCoverage(committed.files, roots);
-assert.deepEqual(committed.files, built.files,
-	"committed manifest must equal the authoritative source inventory");
+assert.deepEqual(
+	committed.files,
+	built.files,
+	"committed manifest must equal the authoritative source inventory"
+);
 for (const file of critical) {
 	assert.ok(committed.files.includes(file), `committed manifest omitted ${file}`);
 }
-assert.equal(committed.files.length, new Set(committed.files).size,
-	"committed manifest paths remain unique");
+assert.equal(
+	committed.files.length,
+	new Set(committed.files).size,
+	"committed manifest paths remain unique"
+);
 assert.throws(
 	() => Catalog.assertManifestCoverage(
 		committed.files.filter(file => file !== critical[0]),

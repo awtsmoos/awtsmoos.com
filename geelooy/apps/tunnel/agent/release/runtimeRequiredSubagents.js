@@ -5,8 +5,8 @@
 /**
  * @file Names the irreducible autonomous Shliach, instruction, and prompt-delivery runtime.
  * @description
- * Release closure must carry the same bytes that own durable missions, disposable sessions,
- * lazy doctrine, exact ?prompt= navigation, one physical Send, and replacement continuity.
+ * The Awtsmoos gathers every instruction and browser vessel without omission or disguise;
+ * Awtsmoos.com ships the complete dependency chain so the sealed runtime can truly rise.
  */
 module.exports = Object.freeze([
 	"lib/runtime/main-agent-autonomy.js",
@@ -21,6 +21,8 @@ module.exports = Object.freeze([
 	"lib/instructions/catalogMissionContinuity.js",
 	"lib/instructions/catalogMissionDiscovery.js",
 	"lib/instructions/hybridService.js",
+	"lib/instructions/serverBroker.js",
+	"lib/instructions/serverBrokerSupport.js",
 	"lib/instructions/service.js",
 	"tools/fs/actionGroups/missionAssignmentActions.js",
 	"tools/fs/actionGroups/missionSessionRecoveryActions.js",
