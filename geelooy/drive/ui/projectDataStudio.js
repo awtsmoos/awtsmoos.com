@@ -1,109 +1,109 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
-
-import { actionButton, createElement } from "./dom.js";
-import { createProjectDataStudioController } from "./projectDataStudioController.js";
-import { ensureProjectDataStudioTheme } from "./projectDataStudioTheme.js";
-
+//Boruch Hashem
+//Blessed be He
 /**
- * @file Visual admin surface for one alias-owned project database.
+ * @module ProjectDataStudio
  * @description
- * The Awtsmoos lets creator, alias, project, path, key, and JSON meet in a visible vessel;
- * Awtsmoos.com turns the bounded API into a Studio where authority is explicit and every mutation is level.
+ * Presents the project-scoped DosDB/AwtsmoosDB API as a visual database console with
+ * document browsing, JSON editing, schema inference, table preview, and copyable API.
  */
 
+import { createElement } from "./dom.js";
+import { copyStudioApi, createStudioHeader, createStudioJsonEditor } from "./projectDataStudioChrome.js";
+import { createProjectDataTransfer } from "./projectDataTransfer.js";
+import { createProjectDataStudioController } from "./projectDataStudioController.js";
+import { createProjectDataQueryBuilder } from "./projectDataQueryBuilder.js";
+import { createProjectDataStudioFields } from "./projectDataStudioFields.js";
+import { createProjectDataEngineBadge } from "./projectDataEngineBadge.js";
+import { createProjectDataHealth } from "./projectDataHealth.js";
+import { createProjectDataPager } from "./projectDataPager.js";
+import { studioApiSnippet } from "./projectDataStudioModel.js";
+import { renderStudioApi, renderStudioDocuments, renderStudioSchema, renderStudioTable } from "./projectDataStudioRender.js";
+import { ensureProjectDataStudioTheme } from "./projectDataStudioTheme.js";
+import { createStudioPanels, createStudioToolbar, createStudioWorkspace, setStudioIdentity, setStudioStatus, studioIdentity } from "./projectDataStudioShell.js";
+
+/** @param {Function} platformProvider Stable platform API provider. @returns {HTMLElement} Database Studio surface. */
 export function createProjectDataStudio(platformProvider = () => globalThis.GeelooyPlatform) {
 	ensureProjectDataStudioTheme();
-	const fields = createFields();
-	const editor = createElement("textarea", {
-		className: "project-data-editor",
-		attributes: { spellcheck: "false", "aria-label": "Project data JSON value" }
-	});
-	const keys = createElement("div", { className: "project-data-keys" });
-	const status = createElement("p", {
-		className: "project-data-status",
-		attributes: { "aria-live": "polite" }
-	});
+	const fields = createProjectDataStudioFields();
+	const health = createProjectDataHealth();
+	const engine = createProjectDataEngineBadge({ fields, platformProvider, onEvidence: health.setEngine });
+	const editor = createStudioJsonEditor();
+	const documents = createElement("div", { className: "project-data-documents" });
+	const table = createElement("div", { className: "project-data-table-wrap" });
+	const schema = createElement("div", { className: "project-data-schema" });
+	const api = createElement("pre", { className: "project-data-api" });
+	const status = createElement("p", { className: "project-data-status", attributes: { "aria-live": "polite" } });
+	const meta = createElement("span", { className: "project-data-meta", text: "No collection loaded" });
+	let loaded = [];
 	const controller = createProjectDataStudioController({
 		fields,
 		editor,
 		platformProvider,
-		renderKeys: (items, select) => renderKeys(keys, items, select),
-		setStatus: (message, tone) => setStatus(status, message, tone)
+		renderDocuments: (items, evidence) => renderLoaded(items, evidence),
+		selectDocument: item => selectLoaded(item),
+		setStatus: (message, tone) => setStudioStatus(status, message, tone)
 	});
-	const section = createElement("section", { className: "project-data-studio" });
-	section.append(header(), fields.grid, actionBar(controller, status), keys, editor, status);
-	return section;
-}
-
-function actionBar(controller, status) {
-	const bar = createElement("div", { className: "project-data-actions" });
-	const actions = [
-		["List keys", controller.listKeys],
-		["Read key", controller.readKey],
-		["Save JSON", controller.saveKey],
-		["Delete key", controller.deleteKey]
-	];
-	for (const [label, task] of actions) {
-		bar.append(actionButton(label, () => run(task, status)));
-	}
-	return bar;
-}
-
-function createFields() {
-	const alias = inputField("Alias", "Your owning alias");
-	const project = inputField("Project", "friend-site");
-	const path = inputField("Path", "profiles");
-	const key = inputField("Key", "me");
-	const grid = createElement("div", {
-		className: "project-data-grid",
-		children: [alias.label, project.label, path.label, key.label]
+	const panels = createStudioPanels({ document: editor, table, schema, health: health.element, api });
+	const queryBuilder = createProjectDataQueryBuilder({
+		fields,
+		platformProvider,
+		onResults: (items, evidence) => renderLoaded(items, evidence),
+		setStatus: (message, tone) => setStudioStatus(status, message, tone)
 	});
-	return { alias, project, path, key, grid };
-}
-
-function inputField(name, placeholder) {
-	const input = createElement("input", { attributes: { placeholder, autocomplete: "off" } });
-	const label = createElement("label", {
-		className: "project-data-field",
-		children: [createElement("span", { text: name }), input]
+	let pageMode = "collection";
+	const pager = createProjectDataPager({
+		onNavigate: offset => pageMode === "query" ? queryBuilder.runAtOffset(offset) : controller.listDocuments(offset)
 	});
-	return {
-		input,
-		label,
-		get value() { return input.value.trim(); },
-		set value(next) { input.value = next; }
+	const transfer = createProjectDataTransfer({
+		fields,
+		platformProvider,
+		getDocuments: () => loaded,
+		refresh: controller.listDocuments,
+		setStatus: (message, tone) => setStudioStatus(status, message, tone)
+	});
+	const section = createElement("section", {
+		className: "project-data-studio project-database-studio",
+		attributes: { id: "awtsmoos-database-studio" }
+	});
+	section.append(createStudioHeader(meta, engine.element), fields.grid, queryBuilder, createStudioToolbar({
+		controller,
+		fields,
+		editor,
+		onCopy: () => copyStudioApi(fields, status)
+	}), transfer, pager.element, fields.search.label, createStudioWorkspace(documents, panels), status);
+	fields.search.input.addEventListener("input", () => renderExplorer());
+	fields.alias.input.addEventListener("change", () => void engine.refresh());
+	fields.project.input.addEventListener("change", () => void engine.refresh());
+	fields.path.input.addEventListener("change", () => pager.setEvidence({}));
+	section.setIdentity = identity => {
+		setStudioIdentity(fields, identity);
+		void engine.refresh();
 	};
-}
+	renderStudioApi(api, studioApiSnippet(studioIdentity(fields)));
+	return section;
 
-function renderKeys(container, items, select) {
-	container.replaceChildren(...items.map(item => actionButton(item, () => run(() => select(item), null), {
-		className: "project-data-key"
-	})));
-	if (!items.length) container.append(createElement("span", { text: "No keys at this path yet." }));
-}
-
-async function run(task, status) {
-	if (status) setStatus(status, "Working…", "");
-	try {
-		await task();
-	} catch (error) {
-		if (status) setStatus(status, error?.message || "Project data request failed.", "error");
+	function renderLoaded(items, evidence) {
+		loaded = items;
+		pageMode = evidence.query ? "query" : "collection";
+		pager.setEvidence(evidence);
+		meta.textContent = evidence.matched === undefined
+			? `${evidence.returned ?? items.length} loaded · ${evidence.total ?? items.length} total`
+			: `${evidence.matched} matched · ${evidence.total ?? items.length} source · ${evidence.execution || "bounded"}`;
+		renderExplorer();
+		renderStudioTable(table, loaded, controller.chooseDocument);
+		renderStudioSchema(schema, loaded);
+		health.setLoad(evidence);
+		renderStudioApi(api, studioApiSnippet(studioIdentity(fields)));
 	}
-}
 
-function setStatus(element, message, tone) {
-	element.textContent = message;
-	element.dataset.tone = tone;
-}
+	function renderExplorer() {
+		renderStudioDocuments(documents, loaded, fields.search.value, controller.chooseDocument);
+	}
 
-function header() {
-	return createElement("div", { className: "project-data-head", children: [
-		createElement("div", { children: [
-			createElement("h3", { text: "Project Data Studio" }),
-			createElement("p", { text: "Browse and edit the authenticated project namespace. Values are JSON; listings and payloads are server-bounded." })
-		] }),
-		createElement("span", { className: "platform-badge", text: "API ready · Studio beta" })
-	] });
+	function selectLoaded(item) {
+		if (!item) return;
+		panels.show("document");
+		renderStudioApi(api, studioApiSnippet(studioIdentity(fields)));
+	}
 }

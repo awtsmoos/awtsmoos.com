@@ -1,6 +1,6 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file RealMobileGameplayProof.mjs
@@ -21,6 +21,7 @@ import { readMobileGameplayState } from './MobileGameplayState.mjs';
 
 const CDP_PORT = Number(process.env.MITZVAH_WORLD_CDP_PORT || 9999);
 const BASE_URL = process.env.MITZVAH_WORLD_PROOF_BASE || 'http://127.0.0.1:8910';
+const WORLD_ID = process.env.MITZVAH_WORLD_PROOF_WORLD || 'simple-meadow';
 const GAME_URL = `${BASE_URL}/games/mitzvahWorld/index.html?mobile-proof=${Date.now()}`;
 const session = await createCdpProofSession(CDP_PORT);
 
@@ -28,28 +29,28 @@ try {
 	const command = session.command;
 	await configureMobileBrowser(command);
 	await command('Page.navigate', { url: GAME_URL });
-	const clickedAt = await enterSinglePlayer(command);
+	const clickedAt = await enterSinglePlayer(command, WORLD_ID);
 	const firstControl = await waitForFirstMobileControl(command);
 	assertVisibleJoystick(firstControl.joystick);
 	const beforeTouch = firstControl.state;
 	await dragVisibleJoystick(command, firstControl.joystick.ring);
 	const afterTouch = await readMobileGameplayState(command);
 	const touchDisplacement = distance(beforeTouch, afterTouch.state);
-	const canonical = await waitForCanonicalTerrain(command);
-	const readyAt = Math.max(
-		firstControl.milestones.firstTerrainVisible,
-		firstControl.milestones.playerControllable
-	);
+	const completed = WORLD_ID === 'simple-meadow'
+		? afterTouch
+		: await waitForCanonicalTerrain(command);
 	const result = {
 		gameUrl: GAME_URL,
-		clickToControlMilliseconds: readyAt - clickedAt,
+		clickToControlMilliseconds: firstControl.now - clickedAt,
 		scriptToTerrainMilliseconds: firstControl.milestones.firstTerrainVisible,
 		touchDisplacement,
-		joystick: canonical.joystick,
-		canonical: canonical.canonical,
-		terrain: canonical.terrain,
-		viewport: canonical.viewport,
-		lastFrameError: canonical.lastFrameError,
+		worldId: WORLD_ID,
+		joystick: completed.joystick,
+		canonical: completed.canonical,
+		terrain: completed.terrain,
+		scheduler: completed.scheduler,
+		viewport: completed.viewport,
+		lastFrameError: completed.lastFrameError,
 		evidence: session.evidence
 	};
 	console.log(JSON.stringify(result, null, 2));
@@ -79,16 +80,31 @@ function assertReleaseReady(result) {
 	if (!(result.scriptToTerrainMilliseconds < 2000)) throw new Error('first terrain exceeded two seconds');
 	if (!(result.clickToControlMilliseconds < 2000)) throw new Error('mobile control exceeded two seconds after click');
 	if (!(result.touchDisplacement > 0.25)) throw new Error(`touch did not move player: ${result.touchDisplacement}`);
+	if (result.worldId === 'simple-meadow') assertSimpleWorldReady(result);
+	else assertCanonicalWorldReady(result, terrain);
+	if (result.lastFrameError) throw new Error(`frame error: ${result.lastFrameError}`);
+	for (const [kind, rows] of Object.entries(evidence)) {
+		if (rows.length) throw new Error(`${kind}: ${JSON.stringify(rows)}`);
+	}
+}
+
+
+/** Requires the fast local meadow to remain intentionally bootstrap-light after control begins. */
+function assertSimpleWorldReady(result) {
+	if (result.scheduler.postPlayablePriorityStage !== 'simple-world-ready') {
+		throw new Error(`simple world stage unexpected: ${JSON.stringify(result.scheduler)}`);
+	}
+	if (!result.terrain.bootstrap) throw new Error('simple meadow unexpectedly lost bootstrap terrain');
+}
+
+/** Requires richer worlds to promote into decoded canonical remote terrain. */
+function assertCanonicalWorldReady(result, terrain) {
 	if (result.canonical.status !== 'ready') throw new Error(`canonical world not ready: ${JSON.stringify(result.canonical)}`);
 	if (result.canonical.textureEvidence?.status !== 'ready') throw new Error('canonical terrain texture evidence not ready');
 	if (terrain.bootstrap || !terrain.meshFound || !terrain.meshVisible) throw new Error(`canonical terrain not visible: ${JSON.stringify(terrain)}`);
 	if (!terrain.realBaseImage || !terrain.realMixImage) throw new Error(`canonical terrain maps are not real: ${JSON.stringify(terrain)}`);
 	if (!(terrain.mapImage?.width > 0 && terrain.mapImage?.height > 0)) throw new Error('canonical grass image is not decoded');
 	if (!(terrain.mixImage?.width > 0 && terrain.mixImage?.height > 0)) throw new Error('canonical dirt image is not decoded');
-	if (result.lastFrameError) throw new Error(`frame error: ${result.lastFrameError}`);
-	for (const [kind, rows] of Object.entries(evidence)) {
-		if (rows.length) throw new Error(`${kind}: ${JSON.stringify(rows)}`);
-	}
 }
 
 function distance(before, after) {

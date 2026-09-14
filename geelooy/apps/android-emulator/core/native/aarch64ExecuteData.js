@@ -1,6 +1,6 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
+//Blessed be He
 
 import { executeAarch64Arithmetic } from "./aarch64ExecuteArithmetic.js";
 import { executeAarch64Bitfield } from "./aarch64ExecuteBitfield.js";
@@ -43,6 +43,7 @@ import { executeAarch64SimdIntegerMinMax } from "./aarch64ExecuteSimdIntegerMinM
 import { executeAarch64SimdLogical } from "./aarch64ExecuteSimdLogical.js";
 import { executeAarch64SimdModifiedImmediate } from "./aarch64ExecuteSimdModifiedImmediate.js";
 import { executeAarch64SimdScalarIntegerToFloat } from "./aarch64ExecuteSimdScalarIntegerToFloat.js";
+import { executeAarch64SimdScalarPairwiseAdd } from "./aarch64ExecuteSimdScalarPairwiseAdd.js";
 import { executeAarch64SimdShiftLong } from "./aarch64ExecuteSimdShiftLong.js";
 import { executeAarch64SimdVariableShift } from "./aarch64ExecuteSimdVariableShift.js";
 import { executeAarch64VariableShift } from "./aarch64ExecuteVariableShift.js";
@@ -71,6 +72,7 @@ export function executeAarch64Data(instruction, registers) {
 		|| executeAarch64SimdFloatToInteger(instruction, registers)
 		|| executeAarch64SimdVariableShift(instruction, registers)
 		|| executeAarch64SimdIntegerAdd(instruction, registers)
+		|| executeAarch64SimdScalarPairwiseAdd(instruction, registers)
 		|| executeAarch64SimdIntegerMinMax(instruction, registers)
 		|| executeAarch64SimdAddLongReduction(instruction, registers)
 		|| executeAarch64SimdShiftLong(instruction, registers)

@@ -1,0 +1,93 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * Category organization stays compact, readable, keyboard-visible, and
+ * subordinate to the Torah results themselves on every viewport.
+ */
+
+.library-result-mode {
+	align-items: center;
+	background: rgba(8, 17, 27, .74);
+	border: 1px solid rgba(117, 209, 231, .18);
+	border-radius: .8rem;
+	display: inline-flex;
+	gap: .25rem;
+	margin: 0 0 .9rem;
+	padding: .25rem;
+}
+
+.library-result-mode-button {
+	background: transparent;
+	border: 0;
+	border-radius: .58rem;
+	color: #88a1b5;
+	cursor: pointer;
+	font: inherit;
+	font-size: .86rem;
+	font-weight: 800;
+	min-height: 2.55rem;
+	padding: .55rem .85rem;
+}
+
+.library-result-mode-button[aria-pressed="true"] {
+	background: linear-gradient(135deg, #17394f, #102838);
+	box-shadow: inset 0 0 0 1px rgba(111, 225, 244, .3);
+	color: #c9f8ff;
+}
+
+.library-result-mode-button:is(:hover, :focus-visible) {
+	color: #e5fbff;
+	outline: 2px solid rgba(105, 218, 237, .4);
+	outline-offset: 1px;
+}
+
+.library-result-surface {
+	display: grid;
+	gap: .9rem;
+}
+
+.library-result-group {
+	display: grid;
+	gap: .75rem;
+}
+
+.library-result-group-heading {
+	align-items: center;
+	display: flex;
+	gap: .7rem;
+	justify-content: space-between;
+	padding: .15rem .1rem 0;
+}
+
+.library-result-group-heading h3 {
+	color: #d8f8ff;
+	font-size: 1rem;
+	margin: 0;
+}
+
+.library-result-group-heading span {
+	align-items: center;
+	background: rgba(94, 198, 220, .12);
+	border: 1px solid rgba(94, 198, 220, .2);
+	border-radius: 999px;
+	color: #8fddec;
+	display: inline-flex;
+	font-size: .76rem;
+	font-weight: 850;
+	justify-content: center;
+	min-height: 1.8rem;
+	min-width: 1.8rem;
+	padding: 0 .45rem;
+}
+
+@media (max-width: 640px) {
+	.library-result-mode {
+		display: flex;
+		width: 100%;
+	}
+
+	.library-result-mode-button {
+		flex: 1 1 0;
+	}
+}

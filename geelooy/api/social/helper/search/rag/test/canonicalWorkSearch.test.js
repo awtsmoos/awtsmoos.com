@@ -5,8 +5,9 @@
 /**
  * @file canonicalWorkSearch.test.js
  * @description
- * The Awtsmoos lets תורה אור answer as a sefer before incidental words steal the first place;
- * Awtsmoos.com proves the real catalog vessel, stable keys, public aliases, and semantic continuation share one faithful space.
+ * The Awtsmoos lets תורה אור answer as a sefer before incidental words or a
+ * corpus scan steal the first place. Registered identity, catalog discovery,
+ * canonical root promotion, and semantic continuation remain distinct contracts.
  */
 
 const test = require('node:test');
@@ -17,7 +18,9 @@ const {
 	summariesFromRows
 } = require('../canonicalWorkIndex.js');
 const {
+	canonicalWorkHits,
 	promoteCanonicalHits,
+	registeredSummary,
 	workHit
 } = require('../canonicalWorkSearch.js');
 
@@ -41,14 +44,24 @@ test('stable Torah Ohr work query resolves to its canonical root page', () => {
 	assert.equal(match.count, 2);
 });
 
-test('public Torah Ohr alias resolves to the same stable work identity', () => {
-	const [match] = rankWorkSummaries(summaries, 'תורה אור (חב״ד)', 5);
-	assert.equal(match.work, 'תורה אור');
+test('registered Torah Ohr resolves without opening any corpus catalog', async () => {
+	const [hit] = await canonicalWorkHits({
+		$i: { db: { directory: '/definitely/missing/awtsmoos-db' } },
+		query: 'תורה אור',
+		limit: 5
+	});
+	assert.equal(hit.row.pageId, 346791);
+	assert.equal(hit.row.domain, 'chassidus_mussar');
+	assert.equal(hit.score, 95);
+});
+
+test('public Torah Ohr alias receives exact registered identity score', () => {
+	const match = registeredSummary('תורה אור (חב״ד)');
 	assert.equal(match.pageId, 346791);
 	assert.equal(match.score, 100);
 });
 
-test('canonical root is promoted before body results without losing semantic discovery', () => {
+test('canonical root is promoted before body results without duplicate root', () => {
 	const navigation = [workHit(rankWorkSummaries(summaries, 'תורה אור', 1)[0], 1)];
 	const result = promoteCanonicalHits({
 		hits: [
@@ -65,13 +78,9 @@ test('canonical root is promoted before body results without losing semantic dis
 
 test('unrelated query creates no canonical navigation match', () => {
 	assert.deepEqual(rankWorkSummaries(summaries, 'בראשית ברא', 5), []);
+	assert.equal(registeredSummary('בראשית ברא'), null);
 });
 
 function row(pageId, title, domain, work) {
-	return {
-		pageId,
-		title,
-		domains: [domain],
-		seeds: [work]
-	};
+	return { pageId, title, domains: [domain], seeds: [work] };
 }

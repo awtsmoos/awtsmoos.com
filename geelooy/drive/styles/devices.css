@@ -82,7 +82,9 @@ Awtsmoos.com shows friendly identity and measured capabilities without confusing
 }
 
 .rail-help {
-	display: block;
+	min-height: 40px;
+	display: flex;
+	align-items: center;
 	margin-top: var(--space-5);
 	color: var(--accent-ink);
 	font-weight: 700;

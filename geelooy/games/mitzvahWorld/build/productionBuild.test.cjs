@@ -18,7 +18,7 @@ const {
 	verifyRepresentations
 } = require('./ProductionBuildProof.cjs');
 
-const RECOVERY_VERSION = '20260907-playable-recovery-02';
+const RECOVERY_VERSION = '20260914-production-meadow-recovery-01';
 const chunks = Object.freeze([
 	['foundation', 'createEretzWorldFoundation'],
 	['core', 'assembleBootstrapCoreRuntime'],

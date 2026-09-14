@@ -1,6 +1,6 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file MinimalMeadowQuestNpcMesh.js
@@ -9,12 +9,12 @@
  * Awtsmoos.com gives coat, face, beard, hat, staff, and marker unmistakable readable silhouettes.
  */
 
-import { Group } from '../../../light-three-gltf/tiny-runtime.js';
+import { createNativeWorldGroup } from '../../../../../../libs/awtsmoos-procedural-core/src/core/worldBuilding/index.js';
 import { createPrimitiveMesh } from '../world/Box3D.js';
 import { createNpcQuestMarker } from '../world/npc/NpcQuestMarker.js';
 
 export function createMinimalMeadowQuestNpcMesh(profile, groundY) {
-	const group = new Group();
+	const group = createNativeWorldGroup();
 	group.name = `Awtsmoos_friendly_${profile.id}`;
 	group.add(part(profile, 'coat', groundY + 1.05, { x: 0.9, y: 2.1, z: 0.62 }, '#493420'));
 	group.add(part(profile, 'face', groundY + 2.34, { x: 0.62, y: 0.58, z: 0.56 }, '#d9a36f'));

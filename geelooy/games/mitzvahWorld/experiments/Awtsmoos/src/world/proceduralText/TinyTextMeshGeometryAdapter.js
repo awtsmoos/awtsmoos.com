@@ -1,24 +1,23 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file TinyTextMeshGeometryAdapter.js
- * @description Adapts procedural text geometry to TinyWebGL while requiring a real remote material before any glyph mesh may appear.
- * The Awtsmoos is beyond every letter and color while Awtsmoos.com joins recipe to geometry in Yesod;
- * Malchus reveals the text only when truthful remote image light fills its material, never from naked vertex color alone.
+ * @description Adapts deterministic procedural text artifacts into Core-owned native meshes while preserving strict remote-material visibility.
+ * RESPONSIBILITY: validate artifact arrays, normalize optional vertex color, preserve landmark metadata, and participate in shared hydration readiness.
+ * NON-RESPONSIBILITY: this module does not construct BufferGeometry, BufferAttribute, Mesh, MeshStandardMaterial, or synthesize material imagery.
  */
 
 import {
-	BufferAttribute,
-	BufferGeometry,
-	Mesh,
-	MeshStandardMaterial
-} from '../../../../light-three-gltf/tiny-runtime.js';
+	createNativeGeometryMesh,
+	createNativeWorldMaterial
+} from '../../../../../../../libs/awtsmoos-procedural-core/src/core/worldBuilding/index.js';
 import { materialHasRealMap } from '../../assets/RemoteMaterialImageValidity.js';
 import { prepareRemoteMaterialForHydration } from '../../assets/RemoteMaterialReadiness.js';
 import { validateTextMeshWorldPosition } from './TextMeshWorldTransform.js';
 
+/** Validate renderer-independent geometry invariants before native materialization. */
 function requireRenderData(artifact) {
 	const renderData = artifact?.renderData;
 	const positions = renderData?.positions;
@@ -36,6 +35,7 @@ function requireRenderData(artifact) {
 	return renderData;
 }
 
+/** Expand optional RGB vertex color to explicit RGBA without modifying the artifact. */
 function normalizedColors(colors, vertexCount) {
 	if (!colors || colors.length === 0) {
 		return new Float32Array(vertexCount * 4).fill(1);
@@ -55,34 +55,38 @@ function normalizedColors(colors, vertexCount) {
 }
 
 export class YesodTinyTextMeshAdapter {
-	/** Creates one remote-only TinyWebGL text mesh while preserving local artifact geometry. */
+	/**
+	 * Create one remote-only native text mesh while retaining deterministic artifact geometry.
+	 * @param {object} artifact Procedural text artifact with packed renderer-independent arrays.
+	 * @param {object} options Stable id, world position, semantic material role, and user metadata.
+	 * @returns {object} Core-owned native mesh hidden until a genuine remote material image is resident.
+	 */
 	createMesh(artifact, options) {
 		const renderData = requireRenderData(artifact);
 		const position = validateTextMeshWorldPosition(options.position);
-		const vertexCount = renderData.positions.length / 3;
-		const geometry = new BufferGeometry();
-		geometry.setAttribute('position', new BufferAttribute(renderData.positions, 3));
-		geometry.setAttribute('normal', new BufferAttribute(renderData.normals, 3));
-		geometry.setAttribute('color', new BufferAttribute(normalizedColors(renderData.colors, vertexCount), 4));
-		geometry.setIndex(new BufferAttribute(renderData.indices, 1));
-		geometry.userData = { recipeHash: artifact.hash, generator: artifact.generator };
 		const semanticRole = options.semanticMaterialRole || 'metal.gold';
-		const material = new MeshStandardMaterial({ name: `${options.id}_material`, color: [1, 1, 1, 1] });
-		Object.assign(material, {
-			mapImage: null,
-			mapRepeat: [1, 1],
-			texturePolicy: { realMapImage: false, remoteOnly: true, semanticRole },
-			textureUrl: null
+		const material = createNativeWorldMaterial({
+			color: [1, 1, 1, 1],
+			name: `${options.id}_material`,
+			semanticRole,
+			texturePolicy: { realMapImage: false, remoteOnly: true, semanticRole }
 		});
-		const mesh = new Mesh(geometry, material);
-		mesh.name = options.id;
-		mesh.position.set(position.x, position.y, position.z);
-		mesh.userData = {
-			...(options.userData || {}),
-			recipeHash: artifact.hash,
-			semanticMaterialRole: semanticRole,
-			sourceText: artifact.recipe.metadata.sourceText
-		};
+		const mesh = createNativeGeometryMesh({
+			colors: normalizedColors(renderData.colors, renderData.positions.length / 3),
+			indices: renderData.indices,
+			normals: renderData.normals,
+			positions: renderData.positions
+		}, material, {
+			geometryUserData: { generator: artifact.generator, recipeHash: artifact.hash },
+			name: options.id,
+			position,
+			userData: {
+				...(options.userData || {}),
+				recipeHash: artifact.hash,
+				semanticMaterialRole: semanticRole,
+				sourceText: artifact.recipe.metadata.sourceText
+			}
+		});
 		prepareRemoteMaterialForHydration(mesh, material);
 		mesh.visible = materialHasRealMap(material);
 		if (!mesh.visible) {

@@ -1,0 +1,65 @@
+//B"H
+//Boruch Hashem
+//Blessed be He
+
+/**
+ * @file Names the irreducible autonomous Shliach, instruction, and prompt-delivery runtime.
+ * @description
+ * Release closure must carry the same bytes that own durable missions, disposable sessions,
+ * lazy doctrine, exact ?prompt= navigation, one physical Send, and replacement continuity.
+ */
+module.exports = Object.freeze([
+	"lib/runtime/main-agent-autonomy.js",
+	"lib/runtime/main-startup.js",
+	"tools/fs/actionGlobalMissionPolicy.js",
+	"tools/fs/actionMissionRuntime.js",
+	"tools/fs/actionProcessOwnership.js",
+	"lib/instructions/catalog.js",
+	"lib/instructions/catalogContinuationOverride.js",
+	"lib/instructions/catalogExecutionDoctrine.js",
+	"lib/instructions/catalogExecutionMomentum.js",
+	"lib/instructions/catalogMissionContinuity.js",
+	"lib/instructions/catalogMissionDiscovery.js",
+	"lib/instructions/hybridService.js",
+	"lib/instructions/service.js",
+	"tools/fs/actionGroups/missionAssignmentActions.js",
+	"tools/fs/actionGroups/missionSessionRecoveryActions.js",
+	"tools/fs/actionGroups/missionSessionSpawner.js",
+	"tools/fs/actionGroups/websiteAgents/runner/dispatchRunTurn.js",
+	"tools/fs/actionGroups/websiteAgents/runner/promptUrl.js",
+	"tools/fs/actionGroups/websiteAgents/runner/status.js",
+	"tools/fs/actionGroups/websiteAgents/runner/dispatcherSessionLifecycle.js",
+	"tools/fs/mission/agentAutonomy.js",
+	"tools/fs/mission/agentAutonomyView.js",
+	"tools/fs/mission/agentSessionLaunch.js",
+	"tools/fs/mission/agentSessionRecovery.js",
+	"tools/fs/mission/agentSessionRegistry.js",
+	"tools/fs/mission/agentSessionStore.js",
+	"tools/fs/mission/assignment/briefing.js",
+	"tools/fs/mission/assignment/candidates.js",
+	"tools/fs/mission/assignment/claims.js",
+	"tools/fs/mission/assignment/lock.js",
+	"tools/fs/mission/assignment/discovery.js",
+	"tools/fs/mission/assignment/dispatcher.js",
+	"tools/fs/mission/assignment/paths.js",
+	"tools/fs/mission/assignment/reconcile.js",
+	"tools/fs/mission/assignment/report.js",
+	"tools/fs/mission/assignment/status.js",
+	"ai/relay/direct/browser/ChatGptTargetSelector.mjs",
+	"ai/relay/direct/browser/ChromeDiscovery.mjs",
+	"ai/relay/direct/browser/ChromeHttpDeadline.mjs",
+	"ai/relay/direct/browser/ChromeTargetCreator.mjs",
+	"ai/relay/direct/browser/DeviceBrowserPortResolver.mjs",
+	"ai/relay/direct/browser/WebsitePromptInteractor.mjs",
+	"ai/relay/direct/chatgpt/DirectClient.mjs",
+	"ai/relay/direct/chatgpt/DirectService.mjs",
+	"ai/relay/direct/chatgpt/DirectServiceAuthentication.mjs",
+	"ai/relay/direct/chatgpt/DirectServiceDependencies.mjs",
+	"ai/relay/direct/chatgpt/DirectServiceLoginProtection.mjs",
+	"ai/relay/direct/chatgpt/DirectServiceTurnLifecycle.mjs",
+	"ai/relay/direct/chatgpt/DirectTurnExecutor.mjs",
+	"ai/relay/direct/chatgpt/FallbackConversationService.mjs",
+	"ai/relay/direct/chatgpt/PhysicalTabCapacity.mjs",
+	"ai/relay/direct/chatgpt/WebsiteLoginCoordinator.mjs",
+	"ai/relay/direct/chatgpt/WebsiteLoginStatus.mjs"
+]);

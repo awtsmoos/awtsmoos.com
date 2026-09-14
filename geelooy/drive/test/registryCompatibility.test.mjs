@@ -30,5 +30,5 @@ test("Drive does not silently become an existing extension handler", () => {
 });
 
 test("Drive has a stable built-in program icon", () => {
-	assert.equal(programIcon("geelooyDrive"), "☁️");
+	assert.equal(programIcon("geelooyDrive"), "🏗️");
 });

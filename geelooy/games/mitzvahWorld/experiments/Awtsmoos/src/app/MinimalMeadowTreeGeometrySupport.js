@@ -1,18 +1,17 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file MinimalMeadowTreeGeometrySupport.js
- * @description Builds stable bark and authored-alpha leaves through six shared botanical color families.
- * The Awtsmoos clothes branch and canopy through bounded helpers; Awtsmoos.com lets uploaded
- * species pixels keep their own hue while bark age, leaf warmth, depth, and winding remain explicit.
+ * @description Converts procedural tree streams into shared bark/canopy templates through Procedural Core.
+ * MitzvahWorld retains botanical color-family and material semantics; Core owns indexed BufferGeometry creation,
+ * index-width selection, and renderer-native attribute materialization so dense vegetation never duplicates engine law.
  */
 
 import {
-	BufferAttribute,
-	BufferGeometry
-} from '../../../light-three-gltf/tiny-runtime.js';
+	createNativeIndexedGeometry
+} from '../../../../../../libs/awtsmoos-procedural-core/src/core/worldBuilding/index.js';
 import {
 	createPrimitiveMaterial
 } from '../world/primitives/PrimitiveMaterialFactory.js';
@@ -34,19 +33,37 @@ const LEAF_COLORS = Object.freeze([
 	'#fff4db'
 ]);
 
+/**
+ * Builds one reusable tree-part template from portable procedural streams.
+ * @param {object} data Position, normal, UV, optional color, and index streams.
+ * @param {object} definition Semantic primitive material recipe.
+ * @param {string} partName Stable evidence name for bark or canopy identity.
+ * @returns {Readonly<object>} Frozen geometry/material template record.
+ */
 export function minimalMeadowTreePart(data, definition, partName) {
-	const geometry = new BufferGeometry();
-	geometry.setAttribute('position', attribute(data.positions, 3));
-	geometry.setAttribute('normal', attribute(data.normals, 3));
-	geometry.setAttribute('uv', attribute(data.uvs, 2));
-	if (data.colors?.length) geometry.setAttribute('color', attribute(data.colors, 4));
-	geometry.setIndex(new BufferAttribute(indexArray(data.indices), 1));
+	const geometry = createNativeIndexedGeometry({
+		colors: data.colors,
+		indices: data.indices,
+		normals: data.normals,
+		positions: data.positions,
+		uvs: data.uvs
+	}, {
+		geometryUserData: {
+			botanicalTemplate: true,
+			part: partName
+		}
+	});
 	const material = createPrimitiveMaterial(definition, [1, 1]);
 	material.vertexColors = Boolean(data.colors?.length);
 	material.depthWrite = true;
-	return Object.freeze({ geometry, material, part: partName });
+	return Object.freeze({
+		geometry,
+		material,
+		part: partName
+	});
 }
 
+/** Creates a stable bark surface definition while preserving caller remote-material evidence. */
 export function minimalMeadowBarkDefinition(material, variant) {
 	const index = normalizedVariant(variant);
 	return {
@@ -61,6 +78,7 @@ export function minimalMeadowBarkDefinition(material, variant) {
 	};
 }
 
+/** Creates a stable authored-alpha canopy definition with near-neutral species-preserving tint. */
 export function minimalMeadowLeafDefinition(material, variant) {
 	const index = normalizedVariant(variant);
 	return {
@@ -83,16 +101,7 @@ export function minimalMeadowLeafDefinition(material, variant) {
 	};
 }
 
-function attribute(values, itemSize) {
-	return new BufferAttribute(new Float32Array(values), itemSize);
-}
-
-function indexArray(values) {
-	let maximum = 0;
-	for (const value of values) maximum = Math.max(maximum, value);
-	return maximum > 65535 ? new Uint32Array(values) : new Uint16Array(values);
-}
-
+/** Normalizes arbitrary variant values into the fixed six-family botanical palette. */
 function normalizedVariant(value) {
 	return Math.abs(Number(value) || 0) % BARK_COLORS.length;
 }

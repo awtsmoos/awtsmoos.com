@@ -1,34 +1,38 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 const assert = require("node:assert/strict");
 const Fixtures = require("./websiteAgentSubmitOnlyFixtures.cjs");
+const { waitFor } = require("./websiteAgentLifecycleWait.cjs");
 
 /**
- * @file Holds isolated submit-only mission lifecycle cases.
+ * @file Proves the submit-only mission lifecycle without granting status mutation power.
  * @description
- * The Awtsmoos reveals each lifecycle proof as a separate bounded vessel.
- * Awtsmoos.com tests authentication resume, safe pre-submit recovery, and durable
- * room life without reintroducing conversational answer polling.
+ * The Awtsmoos renews every instant, yet a status glance must only reveal and never create;
+ * Awtsmoos.com lets the scheduled wake carry login continuation, so one browser stays straight.
  */
 function createCases({ Runner, Store, root }) {
 	function testConfig(directService) {
-		return { root, tunnelName: "website-lifecycle-test",
-			websiteMissionSleep: async () => undefined, directService };
+		return {
+			root,
+			tunnelName: "website-lifecycle-test",
+			websiteMissionSleep: async () => undefined,
+			directService
+		};
 	}
+
 	function missionInput(id, prompt) {
-		return { websiteMissionId: id, prompt, agentCount: 3,
-			collaborationRounds: 1, projectRoot: root };
+		return {
+			websiteMissionId: id,
+			prompt,
+			agentCount: 3,
+			collaborationRounds: 1,
+			authPollMs: 1000,
+			projectRoot: root
+		};
 	}
-	async function waitForActive(id) {
-		for (let index = 0; index < 200; index += 1) {
-			const active = Runner.active.get(id);
-			if (active) return active;
-			await new Promise(resolve => setTimeout(resolve, 5));
-		}
-		throw new Error("wait_for_active_timeout");
-	}
+
 	async function loginPauseAndResume() {
 		let authenticated = false;
 		let loginOpens = 0;
@@ -51,13 +55,16 @@ function createCases({ Runner, Store, root }) {
 		assert.equal(calls.length, 0);
 		assert.equal(loginOpens, 1);
 		authenticated = true;
-		await Runner.status(config, { websiteMissionId: id, refreshAuthentication: true });
-		await waitForActive(id);
+		status = await Runner.status(config, { websiteMissionId: id, refreshAuthentication: true });
+		assert.equal(status.mission.status, "waiting_for_login");
+		assert.equal(calls.length, 0);
+		await waitFor(() => calls.length === 3, "automatic_login_resume");
 		status = await Runner.status(config, { websiteMissionId: id });
 		assert.equal(status.mission.status, "running");
 		assert.equal(calls.length, 3);
 		await Runner.forget(config, { websiteMissionId: id });
 	}
+
 	async function orphanedPreSubmitRecovery() {
 		const calls = [];
 		const config = testConfig(Fixtures.authenticatedService(calls));
@@ -76,15 +83,14 @@ function createCases({ Runner, Store, root }) {
 			record.phase = "launching_agents";
 			return record;
 		});
-		await Runner.status(config, { websiteMissionId: id });
-		await waitForActive(id);
+		Runner.schedule(config, id);
+		await waitFor(() => calls.length === 4, "orphaned_pre_submit_recovery");
 		const status = await Runner.status(config, { websiteMissionId: id });
-		assert.equal(calls.length, 4);
 		assert.equal(status.mission.status, "running");
-		assert.ok(status.mission.events.some(item =>
-			item.type === "orphaned_pre_submit_turn_requeued"));
+		assert.ok(status.mission.events.some(item => item.type === "orphaned_pre_submit_turn_requeued"));
 		await Runner.forget(config, { websiteMissionId: id });
 	}
+
 	async function roomMessagePersistsForWorkingAgents() {
 		const calls = [];
 		const config = testConfig(Fixtures.authenticatedService(calls));
@@ -100,12 +106,11 @@ function createCases({ Runner, Store, root }) {
 		const status = await Runner.status(config, { websiteMissionId: id });
 		assert.equal(status.mission.status, "running");
 		assert.equal(calls.length, 3);
-		assert.ok(status.room.messages.some(item =>
-			item.body?.includes("Publish verified PROGRESS")));
+		assert.ok(status.room.messages.some(item => item.body?.includes("Publish verified PROGRESS")));
 		await Runner.forget(config, { websiteMissionId: id });
 	}
-	return { loginPauseAndResume, orphanedPreSubmitRecovery,
-		roomMessagePersistsForWorkingAgents };
+
+	return { loginPauseAndResume, orphanedPreSubmitRecovery, roomMessagePersistsForWorkingAgents };
 }
 
 module.exports = { createCases };

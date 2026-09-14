@@ -36,13 +36,13 @@ export function createDeviceRailView(actions) {
 	return {
 		element,
 		render(state) {
-			const embedded = state.transportMode === "os";
-			eyebrow.textContent = embedded ? "Virtual computer" : "Your computer";
-			title.textContent = embedded ? "Workspace" : "Devices";
-			reconnect.hidden = embedded;
-			help.hidden = embedded;
+			const mode = workspaceMode(state.transportMode);
+			eyebrow.textContent = mode.eyebrow;
+			title.textContent = mode.title;
+			reconnect.hidden = !mode.tunnel;
+			help.hidden = !mode.tunnel;
 			if (!state.devices.length) {
-				replaceChildren(list, emptyDeviceState(embedded));
+				replaceChildren(list, emptyDeviceState(mode));
 				return;
 			}
 			replaceChildren(list, state.devices.map(device => deviceButton(device, state.currentRoute, actions)));
@@ -81,11 +81,18 @@ function badge(label) {
 	return createElement("span", { className: "device-capability", text: label });
 }
 
-function emptyDeviceState(embedded) {
+function emptyDeviceState(mode) {
 	return createElement("div", { className: "empty-rail", children: [
-		createElement("strong", { text: embedded ? "OS bridge unavailable" : "No device connected" }),
-		createElement("p", { text: embedded ? "Reopen Drive from Geelooy OS." : "Start the Awtsmoos Tunnel and reconnect. Your files remain on your machine." })
+		createElement("strong", { text: mode.emptyTitle }),
+		createElement("p", { text: mode.emptyText })
 	] });
+}
+
+function workspaceMode(mode) {
+	if (mode === "os") return { eyebrow: "Virtual computer", title: "Workspace", tunnel: false, emptyTitle: "OS bridge unavailable", emptyText: "Reopen Drive from Geelooy OS." };
+	if (mode === "browser") return { eyebrow: "Private browser", title: "Browser Workspace", tunnel: false, emptyTitle: "Browser workspace unavailable", emptyText: "Reload this Builder tab to reopen local IndexedDB source." };
+	if (mode === "cloud") return { eyebrow: "Your account", title: "Awtsmoos Cloud", tunnel: false, emptyTitle: "No cloud alias available", emptyText: "Sign in and create an Awtsmoos alias to use cloud source storage." };
+	return { eyebrow: "Your computer", title: "Devices", tunnel: true, emptyTitle: "No device connected", emptyText: "Start the Awtsmoos Tunnel and reconnect. Your files remain on your machine." };
 }
 
 function shortenRoute(route) {

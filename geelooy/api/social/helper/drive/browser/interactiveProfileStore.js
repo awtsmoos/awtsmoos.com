@@ -1,6 +1,6 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file Prepares private persistent Chromium profiles for interactive browsing.
@@ -12,6 +12,7 @@ const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
 const { interactiveOwnerKey, normalizeInteractiveJarId } = require('./interactiveSessionIds.js');
+const { normalizeInteractiveEngineMode } = require('./interactiveEngineMode.js');
 
 class InteractiveProfileStore {
 	constructor(options = {}) {
@@ -19,13 +20,15 @@ class InteractiveProfileStore {
 			|| path.join(os.homedir(), '.awtsmoos-browser-profiles');
 	}
 
-	prepare(userId, jarId) {
+	prepare(userId, jarId, engineMode = 'headless') {
 		const normalizedJarId = normalizeInteractiveJarId(jarId);
 		const ownerKey = interactiveOwnerKey(userId, normalizedJarId);
+		const normalizedEngineMode = normalizeInteractiveEngineMode(engineMode);
 		ensurePrivateDirectory(this.root);
-		const profilePath = path.join(this.root, ownerKey);
+		const profilePath = path.join(this.root, ownerKey + '-' + normalizedEngineMode);
 		ensurePrivateDirectory(profilePath);
 		return {
+			engineMode: normalizedEngineMode,
 			jarId: normalizedJarId,
 			ownerKey,
 			profilePath

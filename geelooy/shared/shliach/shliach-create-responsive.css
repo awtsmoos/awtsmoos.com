@@ -1,0 +1,77 @@
+/* B"H
+Boruch Hashem
+Blessed be He */
+
+/** Mobile dialog geometry, reduced motion, and directory launch-button polish. */
+@media (max-width: 680px) {
+	.shliach-create-dialog {
+		width: 100vw;
+		max-width: none;
+		max-height: min(88dvh, 860px);
+		margin: auto 0 0;
+		border-radius: 26px 26px 0 0;
+		border-bottom: 0;
+	}
+
+	.shliach-create-presets {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.shliach-create-header,
+	.shliach-create-presets,
+	.shliach-create-goal,
+	.shliach-create-status,
+	.shliach-create-actions {
+		margin-inline: 18px;
+	}
+
+	.shliach-create-goal {
+		width: calc(100% - 36px);
+	}
+
+	.shliach-create-actions {
+		position: sticky;
+		bottom: 0;
+		padding: 12px 0 max(18px, env(safe-area-inset-bottom));
+		background: linear-gradient(
+			180deg,
+			rgba(8, 17, 36, 0),
+			rgba(8, 17, 36, 0.98) 22%
+		);
+	}
+
+	.shliach-create-actions > button {
+		flex: 1;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.shliach-create-dialog,
+	.shliach-create-dialog * {
+		scroll-behavior: auto !important;
+		transition: none !important;
+	}
+}
+
+.shliach-directory-button {
+	min-height: 44px;
+	padding-inline: 14px;
+	border-color: rgba(147, 193, 255, 0.62) !important;
+	background: linear-gradient(
+		135deg,
+		rgba(127, 173, 255, 0.22),
+		rgba(137, 101, 255, 0.15)
+	) !important;
+	color: inherit;
+	font-weight: 800;
+	white-space: nowrap;
+	box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+
+.shliach-directory-button:hover,
+.shliach-directory-button:focus-visible {
+	border-color: rgba(187, 220, 255, 0.9) !important;
+	box-shadow:
+		0 0 0 3px rgba(111, 165, 255, 0.13),
+		0 8px 24px rgba(42, 91, 194, 0.18);
+}

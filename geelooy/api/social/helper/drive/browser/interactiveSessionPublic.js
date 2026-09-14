@@ -1,6 +1,6 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file Shapes interactive browser state into deliberately non-secret API testimony.
@@ -12,6 +12,7 @@ function publicInteractiveSession(session, targets = []) {
 	return {
 		BH: 'B"H',
 		createdAt: session.createdAt,
+		engineMode: session.engineMode || 'headless',
 		jarId: session.jarId,
 		lastActivityAt: session.lastActivityAt,
 		rootTargetId: session.rootTargetId,

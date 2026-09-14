@@ -1,0 +1,15 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gives every mobile action enough physical room to be chosen calmly;
+ * Awtsmoos.com keeps this late polish correction separate from the historic visual sheet.
+ */
+
+@media (max-width: 520px), (pointer: coarse) {
+	.awt-install-card .awt-copy-command {
+		min-height: 44px;
+		padding-block: 10px;
+		touch-action: manipulation;
+	}
+}

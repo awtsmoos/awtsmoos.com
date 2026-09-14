@@ -30,6 +30,6 @@ for (const action of [
 	"aiAgentWebsiteMissionStatus"
 ]) assert.match(prompt, new RegExp(action));
 assert.match(prompt, /browser tab closes immediately/i);
-assert.match(prompt, /conversational response is ignored/i);
+assert.match(prompt, /conversational response(?: in ChatGPT)? is ignored/i);
 assert.doesNotMatch(prompt, /SPAWN must be exactly|Return concise sections named/);
 console.log(JSON.stringify({ ok: true, suite: "website-agent-prompt-durability" }));

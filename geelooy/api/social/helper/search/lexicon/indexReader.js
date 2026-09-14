@@ -1,27 +1,41 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @module LexiconIndexReader
  * @description
- * The Awtsmoos leaves the dictionary ocean on disk while a tiny catalog and one letter-shard enter the vessel;
- * Awtsmoos.com opens strict read-only with a small page budget, yields only bounded ranges, then closes every level.
+ * Keeps the dictionary ocean on disk while opening only bounded catalog and
+ * letter-shard ranges. New compact binary rows decode one-at-a-time; legacy
+ * object-backed rows remain readable until their generation is replaced.
  */
 
 const fs = require('fs/promises');
 const path = require('path');
-const AwtsmoosDB = require(path.resolve(__dirname, '../../../../../../ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/index.js'));
+const AwtsmoosDB = require(path.resolve(
+	__dirname,
+	'../../../../../../ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/index.js'
+));
 const { exactBounds, prefixBounds } = require('./keySpace.js');
 const { lexiconCatalogPath, lexiconRoot, lexiconShardPath } = require('./paths.js');
+const {
+	decodeLexiconRecord,
+	isCompactLexiconRecord
+} = require('./binary/recordReader.js');
 
 const READ_OPTIONS = Object.freeze({ readOnly: true, maxCachedPages: 8 });
 
+/** Resolves lazy DB values and decodes compact records one row at a time. */
 function resolveValue(value) {
-	if (value && typeof value.__resolve__ === 'function') return value.__resolve__();
-	return value;
+	const resolved = value && typeof value.__resolve__ === 'function'
+		? value.__resolve__()
+		: value;
+	return isCompactLexiconRecord(resolved)
+		? decodeLexiconRecord(resolved)
+		: resolved;
 }
 
+/** Opens the native catalog while keeping strict read-only semantics. */
 async function openCatalog($i) {
 	const root = lexiconRoot($i);
 	const file = lexiconCatalogPath($i);
@@ -43,14 +57,17 @@ async function openCatalog($i) {
 	}
 }
 
+/** Closes the catalog database when one was opened. */
 async function closeCatalog(catalog) {
 	if (catalog?.database) await catalog.database.close();
 }
 
+/** Returns one source's native metadata record. */
 function sourceMetadata(catalog, sourceId) {
 	return resolveValue(catalog.database.root.sources[sourceId]) || {};
 }
 
+/** Reads only the requested exact/prefix range from one source letter shard. */
 async function readRange(catalog, sourceId, token, normalized, exact, maximum) {
 	const file = lexiconShardPath(catalog.root, sourceId, token);
 	try {
@@ -76,8 +93,15 @@ async function readRange(catalog, sourceId, token, normalized, exact, maximum) {
 	}
 }
 
+/** Compatibility hook retained for callers; the reader has no global cache. */
 function resetCatalogCache() {
 	return false;
 }
 
-module.exports = { closeCatalog, openCatalog, readRange, resetCatalogCache, sourceMetadata };
+module.exports = {
+	closeCatalog,
+	openCatalog,
+	readRange,
+	resetCatalogCache,
+	sourceMetadata
+};

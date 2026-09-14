@@ -50,6 +50,8 @@ export const FRAMEWORK_BOOTSTRAP_ANDROID_CLASSES = Object.freeze([
 	"Landroid/util/LongSparseArray;",
 	"Landroid/util/SparseArray;",
 	"Landroid/util/TypedValue;",
+	"Landroid/view/Choreographer;",
+	"Landroid/view/Choreographer$FrameCallback;",
 	"Landroid/view/ContextThemeWrapper;",
 	"Landroid/view/Display;",
 	"Landroid/view/inputmethod/InputMethodManager;",

@@ -1,0 +1,60 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives the Shliach actions full touch, focus, and responsive testimony.
+*/
+
+.shliach-spotlight-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.7rem;
+	margin-top: 1.2rem;
+}
+
+.shliach-spotlight-actions a {
+	align-items: center;
+	border-radius: 999px;
+	display: inline-flex;
+	font-size: 0.92rem;
+	font-weight: 800;
+	justify-content: center;
+	min-height: 48px;
+	padding: 0.72rem 1.15rem;
+	text-decoration: none;
+	transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+
+.shliach-spotlight-primary {
+	background: linear-gradient(135deg, #f4f8ff, #a9caff);
+	color: #06101f;
+}
+.shliach-spotlight-secondary {
+	background: rgba(255, 255, 255, 0.045);
+	border: 1px solid rgba(170, 202, 255, 0.24);
+	color: #e9f2ff;
+}
+
+.shliach-spotlight-actions a:hover {
+	transform: translateY(-1px);
+}
+
+.shliach-spotlight-actions a:focus-visible,
+.shliach-spotlight-image-link:focus-visible {
+	outline: 3px solid #8db7ff;
+	outline-offset: 4px;
+}
+
+@media (max-width: 720px) {
+	.shliach-spotlight-card {
+		grid-template-columns: 1fr;
+	}
+
+	.shliach-spotlight-image-link {
+		justify-self: center;
+		max-width: min(72vw, 280px);
+	}
+
+	.shliach-spotlight-actions a {
+		flex: 1 1 100%;
+	}
+}

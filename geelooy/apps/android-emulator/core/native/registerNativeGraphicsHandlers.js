@@ -16,6 +16,8 @@ import { registerNativeEglProcAddressHandlers } from "./nativeEglProcAddressHand
 import { registerNativeEglSurfaceHandlers } from "./nativeEglSurfaceHandlers.js";
 import { getNativeEglSurfaceState } from "./nativeEglSurfaceState.js";
 import { registerNativeEglWindowSurfaceHandlers } from "./nativeEglWindowSurfaceHandlers.js";
+import { registerNativeGles2Handlers } from "./registerNativeGles2Handlers.js";
+import { registerNativeGles3Handlers } from "./registerNativeGles3Handlers.js";
 import { registerNativeGlesCoreHandlers } from "./registerNativeGlesCoreHandlers.js";
 import { registerNativeGlesFramebufferHandlers } from "./registerNativeGlesFramebufferHandlers.js";
 import { getNativeGlesFramebufferState } from "./nativeGlesFramebufferState.js";
@@ -83,5 +85,21 @@ export function registerNativeGraphicsHandlers(registry, runtimeState) {
 	registerNativeGlesTextureSubImageHandlers(registry, textures);
 	registerNativeGlesSamplerHandlers(registry, samplers);
 	const core = registerNativeGlesCoreHandlers(registry, runtimeState, context);
+	registerNativeGles2Handlers(registry, {
+		framebuffers,
+		objects,
+		pipeline: core.pipeline,
+		textures,
+		uniforms,
+		vertexInput: core.vertexInput
+	}, runtimeState);
+	registerNativeGles3Handlers(registry, {
+		framebuffers,
+		pipeline: core.pipeline,
+		samplers,
+		strings,
+		uniforms,
+		vertexInput: core.vertexInput
+	}, runtimeState);
 	return Object.freeze({ buffers, config, context, core, display, framebuffers, objects, samplers, strings, surface, textures, uniforms, windows });
 }

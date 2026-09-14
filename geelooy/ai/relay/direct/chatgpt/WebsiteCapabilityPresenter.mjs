@@ -1,11 +1,13 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
- * Website capability reports only authentication and transport facts. The
- * Awtsmoos reveals neither cookies, headers, session values, challenge material,
- * account identity, conversation ids, nor page contents.
+ * @file Presents safe ChatGPT website capability facts for the submit-only agent lane.
+ * @description
+ * The Awtsmoos reveals neither cookies, headers, session values, account identity,
+ * target IDs, nor page contents. Awtsmoos.com states plainly that browser answers are
+ * not polled after Send; agents continue through durable Tunnel and Mission Room tools.
  */
 export class WebsiteCapabilityPresenter {
 	ready(capability) {
@@ -15,7 +17,8 @@ export class WebsiteCapabilityPresenter {
 			websiteOnly: true,
 			loginRequired: !capability.authenticated,
 			submissionTransport: "chatgpt-website-composer",
-			completionTransport: "authenticated-conversation-get"
+			completionTransport: "durable-tools-after-submit",
+			waitsForBrowserAnswer: false
 		};
 	}
 
@@ -27,7 +30,8 @@ export class WebsiteCapabilityPresenter {
 			authenticated: false,
 			loginRequired: true,
 			submissionTransport: "chatgpt-website-composer",
-			completionTransport: "authenticated-conversation-get"
+			completionTransport: "durable-tools-after-submit",
+			waitsForBrowserAnswer: false
 		};
 	}
 }

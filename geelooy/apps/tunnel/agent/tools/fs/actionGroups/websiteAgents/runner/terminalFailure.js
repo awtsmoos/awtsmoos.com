@@ -1,22 +1,23 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
+const SessionLifecycle = require("./dispatcherSessionLifecycle.js");
 const Context = require("./context.js");
 const { Store } = Context.shared;
 const event = Context.reference("event");
 
 /**
- * @file Records website-runner failure as error termination, never intentional completion.
+ * @file Records website-runner failure as recoverable session failure, never mission completion.
  * @description
- * The Awtsmoos distinguishes a messenger choosing to hand off from a browser vessel
- * breaking beneath its feet. Awtsmoos.com marks unfinished agents failed and recoverable,
- * preserving exact error testimony so continuation can inherit truth instead of false success.
+ * A browser vessel may break while durable work remains truthful. Awtsmoos.com preserves
+ * error testimony, marks unfinished website agents failed, then asks only that disposable
+ * dispatcher session to be replaced by the independent autonomy maintenance lane.
  */
-function terminalFailure(id, error) {
+async function terminalFailure(config, id, error) {
 	const record = Store.read(id);
 	if (!record) return null;
-	return Store.update(id, current => {
+	const failed = Store.update(id, current => {
 		const failure = String(error?.stack || error?.message || error).slice(0, 8000);
 		const finishedAt = new Date().toISOString();
 		current.status = "failed";
@@ -31,14 +32,7 @@ function terminalFailure(id, error) {
 			agent.lifecycle = "failed";
 			agent.intentionalFinish = false;
 			agent.failedAt = finishedAt;
-			agent.lastOutcome = {
-				...(agent.lastOutcome || {}),
-				complete: false,
-				intentional: false,
-				lifecycle: "failed",
-				status: "FAILED",
-				error: failure
-			};
+			agent.lastOutcome = failureOutcome(agent, failure);
 		}
 		current.events.push(event("mission_failed", {
 			error: failure,
@@ -47,6 +41,19 @@ function terminalFailure(id, error) {
 		}));
 		return current;
 	});
+	await SessionLifecycle.settle(config, failed);
+	return failed;
+}
+
+function failureOutcome(agent, failure) {
+	return {
+		...(agent.lastOutcome || {}),
+		complete: false,
+		intentional: false,
+		lifecycle: "failed",
+		status: "FAILED",
+		error: failure
+	};
 }
 
 Context.register("terminalFailure", terminalFailure);

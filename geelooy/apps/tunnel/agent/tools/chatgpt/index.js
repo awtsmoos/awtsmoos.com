@@ -1,52 +1,64 @@
-// B"H
+//B"H
+//Boruch Hashem
+//Blessed be He
+
+const PortAuthority = require("./chrome/portAuthority.js");
+const { chatgptEnsureChrome } = require("./actions/ensureChrome.js");
 const { chatgptLogin } = require("./actions/login.js");
 const { chatgptStatus } = require("./actions/status.js");
 const { chatgptMessage } = require("./actions/message.js");
 const { chatgptOptimizeDom } = require("./actions/optimizer.js");
-const Sessions = require("./actions/sessions.js");
-const C = require("./actions/continuation.js");
+const Conversations = require("./actions/conversations.js");
+const { buildPublicSessionActions } = require("./actions/publicSessionActions.js");
+const { buildPublicContinuationActions } = require("./actions/publicContinuationActions.js");
 const HourLoop = require("./hourLoop/index.js");
-const { chatgptNewConversation, chatgptCurrentConversation, chatgptListConversations } = require("./actions/conversations.js");
 
 /**
- * B"H
- * The public ChatGPT council. URL sessions, short continuation ticks, and the
- * hour-loop all return compact resumable packets instead of holding one giant
- * gateway breath.
+ * @file Publishes ChatGPT actions through one device-owned browser authority.
+ * @description
+ * Bootstrap and status actions may repair or observe a missing browser. Every operation that
+ * can touch an existing ChatGPT session remains fail-closed on the current registered endpoint.
  */
 function buildChatGptActions(ctx = {}) {
-  const payload = ctx.payload || {};
-  return {
-    async chatgptLogin() { return await chatgptLogin(payload); },
-    async chatgptOpenLogin() { return await chatgptLogin({ ...payload, wait:false }); },
-    async chatgptStatus() { return await chatgptStatus(payload); },
-    async chatgptMessage() { return await chatgptMessage(payload); },
-    async chatgptSendMessage() { return await chatgptMessage(payload); },
-    async chatgptOptimizeDom() { return await chatgptOptimizeDom(payload); },
-    async chatgptNewConversation() { return await chatgptNewConversation(payload); },
-    async chatgptCurrentConversation() { return await chatgptCurrentConversation(payload); },
-    async chatgptListConversations() { return await chatgptListConversations(payload); },
-    async chatgptListSessions() { return await Sessions.chatgptListSessions(payload); },
-    async chatgptRegisterSession() { return await Sessions.chatgptRegisterSession(payload); },
-    async chatgptSaveCurrentSeason() { return await Sessions.chatgptRegisterSession(payload); },
-    async chatgptRegisterConversationUrl() { return await Sessions.chatgptRegisterSession(payload); },
-    async chatgptSessionStatus() { return await Sessions.chatgptSessionStatus(payload); },
-    async chatgptSessionContinue() { return await Sessions.chatgptSessionContinue(payload); },
-    async chatgptSessionAuto() { return await Sessions.chatgptSessionAuto(payload); },
-    async chatgptAutoContinueWhenIdle() { return await Sessions.chatgptSessionAuto(payload); },
-    async chatgptSeasonSaveAndContinue() { return await Sessions.chatgptSessionAuto(payload); },
-    async chatgptAutoPilotSession() { return await Sessions.chatgptSessionAuto(payload); },
-    async chatgptSessionStop() { return await Sessions.chatgptSessionStop(payload); },
-    async chatgptSessionConclusion() { return await Sessions.chatgptSessionConclusion(payload); },
-    async chatgptSessionDoctor() { return await Sessions.chatgptSessionDoctor(payload); },
-    async chatgptContinueConversation() { return await Sessions.chatgptSessionAuto(payload); },
-    async chatgptContinuationStart() { return await C.chatgptContinuationStart(payload); },
-    async chatgptContinuationStatus() { return await C.chatgptContinuationStatus(payload); },
-    async chatgptContinuationStop() { return await C.chatgptContinuationStop(payload); },
-    async chatgptContinuationTick() { return await C.chatgptContinuationTick(payload); },
-    async chatgptContinuationAuto() { return await C.chatgptContinuationAuto(payload); },
-    async chatgptContinuationConclusion() { return await C.chatgptContinuationConclusion(payload); },
-    ...HourLoop.buildHourLoopActions(payload)
-  };
+	const input = ctx.payload || {};
+	const payload = PortAuthority.bindRequired(input);
+	return {
+		async chatgptEnsureChrome() {
+			return await chatgptEnsureChrome(input);
+		},
+		async chatgptLogin() {
+			return await chatgptLogin(input);
+		},
+		async chatgptOpenLogin() {
+			return await chatgptLogin({ ...input, wait: false });
+		},
+		async chatgptStatus() {
+			return await chatgptStatus(input);
+		},
+		async chatgptMessage() {
+			return await chatgptMessage(payload);
+		},
+		async chatgptSendMessage() {
+			return await chatgptMessage(payload);
+		},
+		async chatgptOptimizeDom() {
+			return await chatgptOptimizeDom(payload);
+		},
+		async chatgptNewConversation() {
+			return await Conversations.chatgptNewConversation(payload);
+		},
+		async chatgptCurrentConversation() {
+			return await Conversations.chatgptCurrentConversation(payload);
+		},
+		async chatgptListConversations() {
+			return await Conversations.chatgptListConversations(payload);
+		},
+		...buildPublicSessionActions(payload),
+		...buildPublicContinuationActions(payload),
+		...HourLoop.buildHourLoopActions(payload)
+	};
 }
-module.exports = { buildChatGptActions };
+
+module.exports = {
+	buildChatGptActions
+};

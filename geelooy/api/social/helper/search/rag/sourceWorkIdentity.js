@@ -5,13 +5,15 @@
 /**
  * @module SourceWorkIdentity
  * @description
- * The Awtsmoos keeps the hidden key and revealed name in their proper place;
- * Awtsmoos.com lets a canonical root answer an exact name without scanning space.
+ * Stable Torah works keep one hidden key, revealed title, canonical root, domain,
+ * and aliases together. Exact navigation may resolve this tiny registry without
+ * scanning corpus metadata, while lexical search keeps its broader matching law.
  */
 
 const WORK_IDENTITIES = Object.freeze({
 	'תורה אור': Object.freeze({
 		displayTitle: 'תורה אור (חב"ד)',
+		domain: 'chassidus_mussar',
 		rootPageId: 346791,
 		aliases: Object.freeze([
 			'תורה אור',
@@ -41,20 +43,30 @@ function aliasesForRow(row = {}) {
 	return [...new Set(values.flatMap(aliasesForWork).filter(Boolean))];
 }
 
-function exactWorkIdentityForQuery(value) {
+/** Resolves every registered canonical work name without consulting corpus data. */
+function registeredWorkIdentityForQuery(value) {
 	const queryKey = identityKey(value);
 	if (!queryKey) return null;
 	for (const [work, identity] of Object.entries(WORK_IDENTITIES)) {
-		if (queryKey === identityKey(work)) continue;
-		if (!identity.aliases.some(alias => identityKey(alias) === queryKey)) continue;
+		const names = [work, identity.displayTitle, ...identity.aliases];
+		if (!names.some(name => identityKey(name) === queryKey)) continue;
 		return {
 			work,
 			title: identity.displayTitle,
+			domain: identity.domain,
 			pageId: identity.rootPageId,
 			aliases: [...identity.aliases]
 		};
 	}
 	return null;
+}
+
+/** Preserves the lexical fast-path rule that excludes the bare internal work key. */
+function exactWorkIdentityForQuery(value) {
+	const found = registeredWorkIdentityForQuery(value);
+	if (!found) return null;
+	if (identityKey(value) === identityKey(found.work)) return null;
+	return found;
 }
 
 function exactPublicTitleForQuery(value) {
@@ -81,5 +93,6 @@ module.exports = {
 	displayWorkTitle,
 	exactPublicTitleForQuery,
 	exactWorkIdentityForQuery,
-	identityKey
+	identityKey,
+	registeredWorkIdentityForQuery
 };

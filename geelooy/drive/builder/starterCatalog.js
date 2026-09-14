@@ -18,11 +18,22 @@ const STARTERS = Object.freeze([
 	starter("docs", "Documentation", "A readable guide with navigation-ready sections.", "Documentation", "Explain the work clearly, one real page at a time.")
 ]);
 
+const PREMIUM_STARTERS = Object.freeze([
+	premium("launch-pro", "Launch Pro", "Conversion-focused product launch with proof, pricing, FAQ, and strong calls to action.", "drive.template.launch.001"),
+	premium("agency-pro", "Agency Pro", "Premium services, case-study framing, process, testimonials, and contact conversion.", "drive.template.agency.001"),
+	premium("saas-pro", "SaaS Pro", "Polished SaaS positioning, feature hierarchy, pricing, FAQ, and conversion structure.", "drive.template.saas.001")
+]);
+
 export function websiteStarters() {
-	return STARTERS.map(({ files, ...metadata }) => Object.freeze({
+	return [...STARTERS, ...PREMIUM_STARTERS].map(({ files, ...metadata }) => Object.freeze({
 		...metadata,
-		fileNames: Object.keys(files)
+		fileNames: files ? Object.keys(files) : ["index.html", "styles.css", "site.js"]
 	}));
+}
+
+/** @param {string} starterId Starter identity. @returns {object|null} Public starter metadata. */
+export function starterMetadata(starterId) {
+	return [...STARTERS, ...PREMIUM_STARTERS].find(item => item.id === starterId) || null;
 }
 
 export function starterFiles(starterId, projectName = "My website") {
@@ -49,6 +60,10 @@ function starter(id, label, description, heading, lead) {
 			"site.js": starterScript()
 		})
 	});
+}
+
+function premium(id, label, description, skuId) {
+	return Object.freeze({ id, label, description, premium: true, skuId, pricePerutahs: 1000000, files: null });
 }
 
 function escapeHtml(value) {

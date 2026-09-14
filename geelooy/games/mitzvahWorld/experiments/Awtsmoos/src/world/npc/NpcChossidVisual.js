@@ -1,6 +1,6 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file NpcChossidVisual.js
@@ -9,14 +9,14 @@
  * preserves animated human detail nearby while a named silhouette carries identity afar.
  */
 
-import { Group } from '../../../../light-three-gltf/tiny-runtime.js';
+import { createNativeWorldGroup } from '../../../../../../../libs/awtsmoos-procedural-core/src/core/worldBuilding/index.js';
 import { TinyAnimationPlayer } from '../../../../light-three-gltf/tiny-animation.js';
 import { alignModelFeetToGround } from '../GroundRay.js';
 import { createNpcFarProxy } from './NpcFarProxy.js';
 import { createNpcQuestMarker } from './NpcQuestMarker.js';
 
 export function createNpcChossidVisual(profile, gltf, ground) {
-	const group = new Group();
+	const group = createNativeWorldGroup();
 	group.name = `Awtsmoos_friendly_npc_${profile.id}`;
 	group.userData.family = 'animated-chossid-npc';
 	group.userData.renderDistance = profile.primary ? 170 : 155;

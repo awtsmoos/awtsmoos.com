@@ -22,6 +22,8 @@ const uploadsSource = readClient('uploads.js');
 const streamSource = readClient('streamUpload.js');
 const apiSource = readClient('api.js');
 const transportSource = readClient('apiTransport.js');
+const transportCoreSource = readClient('api/KeterDriveTransport.js');
+const siteResourceSource = readClient('api/AsiyahSitesResource.js');
 const stateSource = readClient('state.js');
 
 function allClientSource() {
@@ -44,15 +46,15 @@ test('session identity is default while explicit credentials remain in memory', 
 	assert.match(indexSource, /value="session"/);
 	assert.match(stateSource, /credentialType:\s*'session'/);
 	assert.match(apiSource, /apiTransport\.js/);
-	assert.match(transportSource, /credentials:\s*'same-origin'/);
-	assert.match(transportSource, /x-awtsmoos-api-key/);
-	assert.match(transportSource, /Bearer/);
+	assert.match(transportCoreSource, /credentials:\s*'same-origin'/);
+	assert.match(transportCoreSource, /x-awtsmoos-api-key/);
+	assert.match(transportCoreSource, /Bearer/);
 	assert.doesNotMatch(allClientSource(), /localStorage|sessionStorage|indexedDB/);
 });
 
 test('site publication and modular visual system are first class', () => {
-	assert.match(apiSource, /\/site/);
-	assert.match(apiSource, /\/sites\//);
+	assert.match(siteResourceSource, /\/site/);
+	assert.match(siteResourceSource, /\/sites/);
 	assert.match(indexSource, /id="site-url"/);
 	assert.match(indexSource, /id="website-mode"/);
 	for (const name of ['tokens', 'base', 'layout', 'components', 'responsive', 'accessibility']) {
@@ -62,7 +64,7 @@ test('site publication and modular visual system are first class', () => {
 });
 
 test('canonical folder, move, copy, and streaming contracts agree', () => {
-	const entryRoute = readDrive('routes/entryRoutes.js');
+	const entryRoute = readDrive('routes/entryCollectionOperation.js');
 	const actionRoute = readDrive('routes/actionRoutes.js');
 	assert.match(actionsSource, /type:\s*'folder'/);
 	assert.match(actionsSource, /entry\.type\s*===\s*'folder'/);

@@ -1,38 +1,50 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file MinimalMeadowCreaturePart.js
- * @description Creates articulated creature/effect parts whose visible surface must be a genuine decoded image.
- * The Awtsmoos joins limb and light beyond every finite garment; Awtsmoos.com lets real remote texture descend,
- * while generated canvases and flat color remain rejected and the waiting mesh stays hidden from the field.
+ * @description Materializes remote-only creature parts through shared Procedural Core renderer authority.
+ * The Awtsmoos joins limb, light, hierarchy, and physical surface without duplicating renderer law;
+ * Awtsmoos.com keeps product code semantic while genuine remote imagery alone may reveal visible parts.
  */
 
-import { Group, Mesh, MeshStandardMaterial } from '../../../light-three-gltf/tiny-runtime.js';
+import {
+	createNativeMeshFromGeometry,
+	createNativeWorldGroup,
+	createNativeWorldMaterial
+} from '../../../../../../libs/awtsmoos-procedural-core/src/core/worldBuilding/index.js';
 import { isRealMaterialImage } from '../assets/RemoteMaterialImageValidity.js';
 
-/** Creates one remote-only material while preserving the historic call signature. */
-export function creatureMaterial(name, color, image = null, emissive = false, semanticRole = null) {
+/**
+ * Creates one remote-only physical surface while retaining the historical call signature.
+ * @param {string} name Stable material identity.
+ * @param {number[]} color RGBA fallback metadata; never permission to reveal the surface.
+ * @param {object|null} image Candidate decoded image.
+ * @param {boolean} emissive Whether this is a practical light accent.
+ * @param {string|null} semanticRole Optional material taxonomy role.
+ * @returns {object} Core-owned native material.
+ */export function creatureMaterial(name, color, image = null, emissive = false, semanticRole = null) {
 	const realImage = isRealMaterialImage(image) ? image : null;
 	const role = semanticRole || inferredCreatureRole(name, emissive);
-	const material = new MeshStandardMaterial({ color, name });
-	Object.assign(material, {
+	const material = createNativeWorldMaterial({
 		anisotropy: 6,
-		baseColorFactor: [...color],
+		color,
 		emissiveStrength: emissive ? 0.32 : 0,
-		map: null,
 		mapImage: realImage,
 		mapRepeat: [2.4, 2.4],
+		name,
+		remoteOnly: true,
 		roughness: emissive ? 0.5 : 0.78,
-		roughnessFactor: emissive ? 0.5 : 0.78,
+		semanticRole: role,
 		texturePolicy: {
 			practicalLightProxy: emissive,
-			realMapImage: Boolean(realImage),
-			remoteOnly: true,
-			semanticRole: role,
 			shader: emissive ? 'shadow-creature-accent' : 'shadow-creature-textured-hide'
-		},
+		}
+	});
+	Object.assign(material, {
+		baseColorFactor: [...color],
+		map: null,
 		vertexColors: false
 	});
 	material.userData = {
@@ -44,10 +56,20 @@ export function creatureMaterial(name, color, image = null, emissive = false, se
 	return material;
 }
 
-/** Creates one part, hiding it until its base map is a genuine image. */
+/**
+ * Creates one articulated part and hides it until a genuine remote base map is resident.
+ * @param {string} name Stable mesh identity.
+ * @param {object} geometry Already-materialized geometry, typically Core-owned.
+ * @param {object} material Core-owned native material.
+ * @param {number[]} position XYZ placement.
+ * @param {number[]} scale XYZ scale.
+ * @returns {object} Native mesh created by Core.
+ */
 export function creaturePart(name, geometry, material, position, scale) {
-	const mesh = new Mesh(geometry, material);
-	mesh.name = name;
+	const mesh = createNativeMeshFromGeometry(geometry, material, {
+		family: 'minimal-meadow-creature-part',
+		name
+	});
 	mesh.position.set(...position);
 	mesh.scale.set(...scale);
 	mesh.visible = isRealMaterialImage(material?.mapImage);
@@ -61,10 +83,9 @@ export function creaturePart(name, geometry, material, position, scale) {
 	return mesh;
 }
 
-/** Creates one non-rendering hierarchy pivot. */
+/** Creates one Core-owned non-rendering hierarchy pivot. */
 export function creaturePivot(name, position = [0, 0, 0]) {
-	const pivot = new Group();
-	pivot.name = name;
+	const pivot = createNativeWorldGroup({ name });
 	pivot.position.set(...position);
 	pivot.setBaseTransform();
 	return pivot;

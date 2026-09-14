@@ -4,11 +4,12 @@
 
 /**
  * @file AwtsmoosDriveTextureSemanticRulesMade.js
- * @description Declares overlapping semantic evidence for manufactured, architectural, textile, polymer, and industrial materials.
- * Awtsmoos.com lets one finite surface answer many truthful questions without forcing AI to guess a single folder from a complicated human-made world.
+ * @description Declares overlapping evidence for manufactured, architectural, textile, polymer, and industrial materials.
+ * Awtsmoos.com distinguishes material substance from practical use while excluding known phrase collisions such as volcanic glass and rock wool.
  */
 
 export const AWTSMOOS_MADE_TEXTURE_RULES = Object.freeze([
+	rule(['cast iron'], ['metal', 'industrial', 'construction'], ['cast-ferrous-metal'], ['cast-iron', 'ferrous', 'metal', 'cast-metal']),
 	rule(['aluminum', 'aluminium'], ['metal', 'industrial', 'construction'], ['nonferrous-metal'], ['aluminum', 'metal']),
 	rule(['steel', 'iron'], ['metal', 'industrial', 'construction'], ['ferrous-metal'], ['ferrous', 'metal']),
 	rule(['brass', 'bronze', 'copper'], ['metal', 'industrial', 'craft', 'construction'], ['copper-alloy'], ['metal', 'nonferrous']),
@@ -16,7 +17,7 @@ export const AWTSMOOS_MADE_TEXTURE_RULES = Object.freeze([
 	rule(['galvanized'], ['metal', 'industrial', 'construction'], ['coated-metal'], ['zinc-coated', 'metallic']),
 	rule(['corrugated sheet'], ['metal', 'construction', 'industrial'], ['sheet-metal'], ['corrugated', 'formed-metal']),
 	rule(['metal mesh', 'woven metal mesh'], ['metal', 'industrial'], ['mesh'], ['woven-metal', 'perforated']),
-	rule(['glass'], ['glass', 'architecture', 'construction'], ['glass'], ['transparent-material', 'silicate']),
+	rule(['glass'], ['glass', 'architecture', 'construction'], ['glass'], ['transparent-material', 'silicate'], ['obsidian', 'volcanic glass']),
 	rule(['ceramic', 'terracotta', 'porcelain'], ['ceramic', 'construction', 'craft'], ['fired-mineral'], ['ceramic', 'mineral-based']),
 	rule(['brick', 'masonry', 'mortar', 'adobe', 'rammed earth'], ['construction', 'architecture'], ['masonry'], ['building-material', 'wall-material']),
 	rule(['concrete', 'cement'], ['construction', 'architecture', 'industrial'], ['concrete'], ['cementitious', 'mineral-based']),
@@ -26,7 +27,8 @@ export const AWTSMOOS_MADE_TEXTURE_RULES = Object.freeze([
 	rule(['fiberglass'], ['composite', 'industrial', 'construction'], ['fiber-composite'], ['glass-fiber', 'composite']),
 	rule(['carbon fiber'], ['composite', 'industrial'], ['carbon-composite'], ['woven-fiber', 'composite']),
 	rule(['foam'], ['polymer', 'industrial'], ['foam'], ['porous', 'cellular', 'lightweight']),
-	rule(['canvas', 'cotton', 'linen', 'wool', 'denim', 'velvet', 'silk', 'felt'], ['textile', 'craft'], ['fabric'], ['woven', 'fiber', 'cloth']),
+	rule(['canvas', 'cotton', 'linen', 'wool', 'denim', 'velvet', 'silk', 'felt'], ['textile', 'craft'], ['fabric'], ['woven', 'fiber', 'cloth'], ['rock wool', 'mineral wool']),
+	rule(['knit', 'knitted'], ['textile', 'craft'], ['knit-fabric'], ['knitted', 'looped-fiber', 'fabric', 'textile']),
 	rule(['jute', 'burlap', 'hemp'], ['textile', 'craft', 'plant-derived'], ['coarse-fabric'], ['woven', 'fiber', 'natural-fiber']),
 	rule(['suede', 'leather'], ['textile', 'craft', 'animal-derived'], ['leather'], ['hide', 'organic', 'flexible']),
 	rule(['paper', 'cardboard', 'parchment'], ['paper', 'craft'], ['cellulose-sheet'], ['cellulose', 'fiber', 'sheet']),
@@ -35,13 +37,14 @@ export const AWTSMOOS_MADE_TEXTURE_RULES = Object.freeze([
 	rule(['paint'], ['coating', 'construction', 'craft'], ['paint'], ['pigmented', 'coating']),
 	rule(['printed circuit', 'circuit board', 'pcb'], ['electronics', 'industrial'], ['circuit-board'], ['electronics', 'manufactured']),
 	rule(['scratch', 'fracture network'], ['mask', 'surface-detail'], ['procedural-mask'], ['mask', 'detail-map']),
-	rule(['mineral wool', 'rock wool'], ['insulation', 'construction', 'industrial'], ['mineral-fiber'], ['fibrous', 'insulation'])
+	rule(['mineral wool', 'rock wool'], ['insulation', 'construction', 'industrial'], ['mineral-fiber'], ['fibrous', 'insulation', 'mineral-fiber', 'thermal-insulation'])
 ]);
 
-/** Builds one immutable semantic rule from simple filename evidence. */
-function rule(keywords, categories, subcategories, labels) {
+/** Builds one immutable semantic rule with optional whole-phrase exclusions. */
+function rule(keywords, categories, subcategories, labels, excludes = []) {
 	return Object.freeze({
 		categories: Object.freeze(categories),
+		excludes: Object.freeze(excludes),
 		keywords: Object.freeze(keywords),
 		labels: Object.freeze(labels),
 		subcategories: Object.freeze(subcategories)

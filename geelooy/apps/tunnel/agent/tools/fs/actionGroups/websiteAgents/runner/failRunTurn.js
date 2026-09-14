@@ -1,9 +1,10 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 const Context = require("./context.js");
 const { Authentication, Store } = Context.shared;
+const AcceptedTurn = require("./acceptedTurnRecovery.js");
 const authError = Context.reference("authError");
 const event = Context.reference("event");
 
@@ -15,6 +16,8 @@ const event = Context.reference("event");
  * exact status so reconnect cannot manufacture a second website submission.
  */
 async function failRunTurn(config, id, agentId, round, service, error) {
+	if (AcceptedTurn.existing(id, agentId, round)) return;
+	if (AcceptedTurn.fromError(id, agentId, round, error)) return;
 	Store.update(id, current => {
 		const target = current.agents.find(item => item.id === agentId);
 		const accepted = Boolean(target.submissionAcceptedAt);

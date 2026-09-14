@@ -22,7 +22,7 @@ function action(name) {
 
 test("publish capability now tells preview plus canonical truth", () => {
 	assert.equal(driveCapability("publish").status, CAPABILITY_STATUS.AVAILABLE);
-	assert.equal(driveCapability("domains").status, CAPABILITY_STATUS.PLANNED);
+	assert.equal(driveCapability("domains").status, CAPABILITY_STATUS.PREVIEW);
 	assert.match(driveCapability("publish").description, /canonical Awtsmoos sites/i);
 });
 

@@ -60,6 +60,9 @@ export const PLATFORM_LAYOUT_CSS = `
 	opacity: .64;
 }
 .platform-action {
+	min-height: 44px;
+	display: inline-flex;
+	align-items: center;
 	padding: 9px 13px;
 	border: 1px solid rgba(127, 127, 180, .28);
 	border-radius: 999px;

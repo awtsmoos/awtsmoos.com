@@ -1,31 +1,48 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file MinimalMeadowGarmentMaterialIsolation.js
- * @description Clones actor garment materials once before color or fabric mutation.
- * The Awtsmoos is one without shared mutation; Awtsmoos.com lets player, quest Chossid,
- * and tailor wear different appearances without altering the canonical GLB source.
+ * @description Isolates mutable actor garment materials while Procedural Core owns native cloning.
+ * Canonical GLB surfaces may be shared across player, quest Chossid, tailor, or other actors; this adapter
+ * discovers those surfaces and requests independent Core-owned copies before any game-specific tint or fabric
+ * mutation, preventing one character's appearance from leaking into another character or the source asset.
  */
 
-import { MeshStandardMaterial } from '../../../light-three-gltf/tiny-runtime.js';
+import {
+	cloneNativeWorldMaterial
+} from '../../../../../../libs/awtsmoos-procedural-core/src/core/worldBuilding/index.js';
 
+/**
+ * Replaces every discovered actor material with an independent native clone exactly once per mesh.
+ * @param {Map<unknown,{roots:Iterable<object>,meshes:Iterable<object>}>} visuals Actor visual records.
+ * @returns {void}
+ */
 export function isolateMinimalGarmentMaterials(visuals) {
 	const visited = new Set();
 	for (const record of visuals.values()) {
 		for (const root of record.roots) {
-			root.traverse?.(object => isolateMesh(object, visited));
+			root.traverse?.((object) => isolateMesh(object, visited));
 		}
-		for (const mesh of record.meshes) isolateMesh(mesh, visited);
+		for (const mesh of record.meshes) {
+			isolateMesh(mesh, visited);
+		}
 	}
 }
 
+/**
+ * Discovers mesh surfaces beneath every actor root and records unique material identities for later styling.
+ * @param {Map<unknown,{roots:Iterable<object>,meshes:Set<object>,materials?:object[]}>} visuals Actor visual records.
+ * @returns {void}
+ */
 export function collectMinimalGarmentMaterials(visuals) {
 	for (const record of visuals.values()) {
 		for (const root of record.roots) {
-			root.traverse?.(object => {
-				if (isMesh(object)) record.meshes.add(object);
+			root.traverse?.((object) => {
+				if (isMesh(object)) {
+					record.meshes.add(object);
+				}
 			});
 		}
 		record.materials = [...new Set(
@@ -34,36 +51,34 @@ export function collectMinimalGarmentMaterials(visuals) {
 	}
 }
 
+/** Clones one mesh material vessel exactly once while preserving original remote-map evidence. */
 function isolateMesh(object, visited) {
-	if (!isMesh(object) || visited.has(object)) return;
+	if (!isMesh(object) || visited.has(object)) {
+		return;
+	}
 	visited.add(object);
 	object.material = Array.isArray(object.material)
 		? object.material.map(cloneMaterial)
 		: cloneMaterial(object.material);
 }
 
+/** Requests a Core-owned native clone and remembers the canonical map reference for later resets. */
 function cloneMaterial(material) {
-	if (!material) return material;
-	const clone = Object.assign(new MeshStandardMaterial(material), material);
-	clone.color = Array.isArray(material.color)
-		? [...material.color]
-		: material.color;
-	clone.baseColorFactor = Array.isArray(material.baseColorFactor)
-		? [...material.baseColorFactor]
-		: material.baseColorFactor;
-	clone.userData = {
-		...(material.userData || {}),
-		originalMapImage: material.mapImage || null
-	};
-	return clone;
+	return cloneNativeWorldMaterial(material, {
+		userData: {
+			originalMapImage: material?.mapImage || null
+		}
+	});
 }
 
+/** Returns every non-null material attached to one renderable. */
 function materialsFor(object) {
 	return (Array.isArray(object.material)
 		? object.material
 		: [object.material]).filter(Boolean);
 }
 
+/** Recognizes renderer mesh vessels without importing their constructors. */
 function isMesh(object) {
 	return Boolean(object?.isMesh || object?.isSkinnedMesh);
 }

@@ -47,13 +47,11 @@ export class ChesedSearchPanelActions {
 	async run() {
 		const tiferesRequest = this.codec.read(this.panel);
 
-		if (!this.codec.hasFilter(tiferesRequest)) {
-			this.setEmpty('Choose date filters or a keyword');
-			return;
-		}
-
-		this.setEmpty('Accessing archive indexes…');
-		this.callbacks.onSearch?.(tiferesRequest);
+		const yesodBroadSearch = !this.codec.hasFilter(tiferesRequest);
+		this.setEmpty(yesodBroadSearch
+			? 'Scanning the complete archive…'
+			: 'Accessing archive indexes…');
+		await this.callbacks.onSearch?.(tiferesRequest);
 		const hodLabel = this.codec.describe(tiferesRequest);
 		void this.persistence.remember(tiferesRequest, hodLabel);
 	}

@@ -1,6 +1,14 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
+//Blessed be He
+
+/**
+ * @module BrowserRuntime
+ * @description
+ * Owns the bounded local Merkava developer runtime used only as a secondary Browser tool.
+ * Real external browsing remains in isolated server-side Chromium; this module never
+ * receives cookies, debugger sockets, or ambient network authority.
+ */
 
 import { paintMerkavaFrame } from "./canvasRenderer.js";
 import { loadMerkavaBrowserRuntime } from "./merkavaLoader.js";

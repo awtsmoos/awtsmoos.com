@@ -93,6 +93,7 @@ export function classifyAuditSeverity(binahMetrics, hodSignals = []) {
 	const gevurahNeedsReview = binahMetrics.escapedCount > 0
 		|| binahMetrics.defaultishControlCount > 0
 		|| binahMetrics.undersizedControlCount > 0
+		|| binahMetrics.hiddenTabbableCount > 0
 		|| binahMetrics.bodyDefaultSignals?.defaultFont
 		|| binahMetrics.bodyDefaultSignals?.defaultMargin
 		|| hodSignals.length > 0;

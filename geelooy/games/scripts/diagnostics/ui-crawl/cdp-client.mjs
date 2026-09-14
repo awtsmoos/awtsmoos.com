@@ -1,34 +1,46 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
-/**
- * The Awtsmoos lets measured sight travel through a narrow Chrome vessel;
- * Awtsmoos.com keeps this DevTools client small so browser evidence stays explicit, reusable, and graceful.
- */
-import { createRequire } from 'node:module';
+//B"H
+//Boruch Hashem
+//Blessed be He
+
 import { chromeDebugOrigin } from './config.mjs';
+import { CdpPendingRequests } from './cdp-pending.mjs';
+import { evaluateCdp, waitForCdp } from './cdp-runtime.mjs';
+import { waitForSocketOpen } from './native-websocket.mjs';
 
-const require = createRequire(import.meta.url);
-const WebSocket = require('ws');
-
+/**
+ * @file cdp-client.mjs
+ * Awtsmoos.com keeps release evidence native, bounded, and inspectable.
+ * @description Dependency-free Chrome DevTools Protocol client built on native
+ * fetch/WebSocket with bounded request ownership for Games release verification.
+ *
+ * Architectural invariants:
+ * - One client owns one fresh target, one socket, one pending-request vessel.
+ * - No npm/external transport participates in browser evidence.
+ * - Every protocol request settles through response, timeout, or transport failure.
+ * - Closing releases target, socket, and outstanding promises deterministically.
+ */
 export class MerkavaCdpClient {
 	constructor(socket) {
 		this.socket = socket;
-		this.sequence = 0;
-		this.pending = new Map();
+		this.pending = new CdpPendingRequests();
 		this.eventSink = null;
-		this.socket.on('message', raw => this.#receive(raw));
+		this.closed = false;
+		this.socket.addEventListener('message', event => this.#receive(event.data));
+		this.socket.addEventListener('close', () => this.#transportClosed());
+		this.socket.addEventListener('error', () => this.#transportClosed());
 	}
 
+	/** Create one isolated Chrome target using only platform networking primitives. */
 	static async create() {
-		const response = await fetch(`${chromeDebugOrigin}/json/new?about%3Ablank`, { method: 'PUT' });
-		if (!response.ok) throw new Error(`Chrome target creation failed: ${response.status}`);
+		const response = await fetch(`${chromeDebugOrigin}/json/new?about%3Ablank`, {
+			method: 'PUT'
+		});
+		if (!response.ok) {
+			throw new Error(`Chrome target creation failed: ${response.status}`);
+		}
 		const target = await response.json();
 		const socket = new WebSocket(target.webSocketDebuggerUrl);
-		await new Promise((resolve, reject) => {
-			socket.once('open', resolve);
-			socket.once('error', reject);
-		});
+		await waitForSocketOpen(socket);
 		const client = new MerkavaCdpClient(socket);
 		await client.send('Runtime.enable');
 		await client.send('Page.enable');
@@ -37,53 +49,61 @@ export class MerkavaCdpClient {
 		return client;
 	}
 
+	/** Route raw protocol events to one current audit sink. */
 	setEventSink(sink) {
 		this.eventSink = sink;
 	}
 
+	/** Send one bounded request and return its matching response. */
 	send(method, params = {}) {
-		return new Promise((resolve, reject) => {
-			const id = ++this.sequence;
-			this.pending.set(id, { resolve, reject });
-			this.socket.send(JSON.stringify({ id, method, params }));
-		});
-	}
-
-	async evaluate(expression) {
-		const response = await this.send('Runtime.evaluate', {
-			expression,
-			awaitPromise: true,
-			returnByValue: true
-		});
-		if (response.exceptionDetails) throw new Error(response.exceptionDetails.text || 'Evaluation failed');
-		return response.result?.value;
-	}
-
-	async waitFor(predicate, timeoutMs) {
-		const startedAt = Date.now();
-		while (Date.now() - startedAt < timeoutMs) {
-			try {
-				if (await this.evaluate(`Boolean(${predicate})`)) return true;
-			} catch {}
-			await new Promise(resolve => setTimeout(resolve, 120));
+		if (this.closed || this.socket.readyState !== WebSocket.OPEN) {
+			return Promise.reject(new Error(`CDP transport unavailable: ${method}`));
 		}
-		return false;
+		const task = this.pending.create(method);
+		this.socket.send(JSON.stringify({ id: task.id, method, params }));
+		return task.promise;
 	}
 
+	/** Evaluate one browser expression and return its by-value result. */
+	evaluate(expression) {
+		return evaluateCdp(this, expression);
+	}
+
+	/** Poll one browser predicate until success or finite timeout. */
+	waitFor(predicate, timeoutMs) {
+		return waitForCdp(this, predicate, timeoutMs);
+	}
+
+	/** Close target and native transport while settling outstanding work. */
 	async close() {
-		try { await this.send('Page.close'); } catch {}
+		if (this.closed) {
+			return;
+		}
+		try {
+			await this.send('Page.close');
+		} catch {
+			// Chrome may close the target before acknowledging Page.close.
+		}
+		this.closed = true;
+		this.pending.rejectAll(new Error('CDP client closed'));
 		this.socket.close();
 	}
 
+	/** Resolve one response or forward one unsolicited protocol event. */
 	#receive(raw) {
 		const message = JSON.parse(String(raw));
-		if (message.id && this.pending.has(message.id)) {
-			const task = this.pending.get(message.id);
-			this.pending.delete(message.id);
-			if (message.error) task.reject(new Error(message.error.message));
-			else task.resolve(message.result || {});
+		if (message.id && this.pending.settle(message)) {
 			return;
 		}
 		this.eventSink?.(message);
+	}
+
+	/** Reject every request when Chrome or the native socket disappears. */
+	#transportClosed() {
+		if (this.closed) {
+			return;
+		}
+		this.closed = true;
+		this.pending.rejectAll(new Error('CDP transport closed'));
 	}
 }

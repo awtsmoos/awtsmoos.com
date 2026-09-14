@@ -1,6 +1,6 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
+//Blessed be He
 
 import { createAarch64Registers } from "./aarch64Registers.js";
 import { createAarch64SystemRegisters } from "./aarch64SystemRegisters.js";
@@ -36,6 +36,8 @@ export function createFlutterJniMachineState(imageMemory, entryPoint, options = 
 	const jniPendingException = options.jniPendingException || createJniPendingException();
 	const nativeFileState = createFlutterJniFileState(nativeMemory.nativeHeap, options);
 	const hostState = createFlutterJniMachineHostState(options);
+	const createDirectByteBuffer = optionalResolver(options.createDirectByteBuffer);
+	const jniArrayCapabilities = options.jniArrayCapabilities || null;
 	const resolveArrayLength = optionalResolver(options.resolveArrayLength);
 	const resolveObjectArrayElement = optionalResolver(options.resolveObjectArrayElement);
 	const resolveStringValue = optionalResolver(options.resolveStringValue);
@@ -67,9 +69,11 @@ export function createFlutterJniMachineState(imageMemory, entryPoint, options = 
 	return Object.freeze({
 		...hostState,
 		...nativeFileState,
+		createDirectByteBuffer,
 		imports,
 		javaVm,
 		javaVmAddress: nativeMemory.jniStart,
+		jniArrayCapabilities,
 		jniEnvironment,
 		jniFieldIds,
 		jniMethodIds,

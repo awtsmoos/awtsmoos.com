@@ -1,17 +1,27 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 import { DirectServiceAuthentication } from "./DirectServiceAuthentication.mjs";
 import { buildDirectServiceDependencies } from "./DirectServiceDependencies.mjs";
-import { codedError, queueMetadata, requestFor, validateMode, validatePrompt } from "./DirectServiceRequest.mjs";
+import {
+	ensureProtectedLoginSurface,
+	withProtectedLogin
+} from "./DirectServiceLoginProtection.mjs";
+import {
+	codedError,
+	queueMetadata,
+	requestFor,
+	validateMode,
+	validatePrompt
+} from "./DirectServiceRequest.mjs";
 
 /**
- * @file Coordinates website turns through one coherent authentication and protection contract.
+ * @file Coordinates website turns through one protected Shared AI Shliach doorway.
  * @description
- * The Awtsmoos does not let the healer devour the doorway through which healing enters.
- * Awtsmoos.com suspends every automatic closer before browser readiness, leases the exact
- * login target, then resumes cleanup only after all browser layers can see that same lease.
+ * Every physical turn protects the exact configured Shliach target before automatic
+ * cleanup starts. Authentication, exactly-once Send custody, and tab cleanup therefore
+ * share one browser identity without sacrificing the persistent account/login sentinel.
  */
 export class DirectService {
 	constructor(options = {}) {
@@ -19,14 +29,20 @@ export class DirectService {
 		this.authentication = options.authentication || new DirectServiceAuthentication(this);
 	}
 
+	/** Sends one turn only after the Shliach sentinel is durably protected. */
 	async send(options = {}) {
 		validatePrompt(options.prompt);
 		validateMode(options.mode ?? "chatgpt-website");
+		await ensureProtectedLoginSurface(this);
 		this.activateProtection();
 		const request = requestFor(this, options);
 		return this.turnCoordinator.run(queueMetadata(options, "send"), callbacks =>
-			this.authentication.send({ ...request, onSubmissionStarted: callbacks.onSubmissionStarted,
-				onSubmissionAccepted: callbacks.onSubmissionAccepted, onTabClosed: callbacks.onTabClosed }, options));
+			this.authentication.send({
+				...request,
+				onSubmissionStarted: callbacks.onSubmissionStarted,
+				onSubmissionAccepted: callbacks.onSubmissionAccepted,
+				onTabClosed: callbacks.onTabClosed
+			}, options));
 	}
 
 	async recover() {
@@ -34,39 +50,37 @@ export class DirectService {
 	}
 
 	requestLogin() {
-		return this.withProtectedLogin(() => this.authentication.requestLogin());
+		return withProtectedLogin(this, () => this.authentication.requestLogin());
 	}
 
 	authenticateLogin(options = {}) {
-		return this.withProtectedLogin(() => this.authentication.authenticate(options));
+		return withProtectedLogin(this, () => this.authentication.authenticate(options));
 	}
 
-	async withProtectedLogin(operation) {
-		this.tabWatchdog?.stop?.();
-		this.tabProtector?.suspendClosures?.();
+	activateProtection() {
+		this.tabWatchdog?.start?.();
+	}
+
+	authenticationStatus() {
+		return this.loginCoordinator.status();
+	}
+
+	async capability(options = {}) {
 		try {
-			const result = await operation();
-			if (result?.targetId) {
-				this.tabProtector?.protectTarget?.(result.targetId, {
-					kind: "human_login", port: result.debugPort, ttlMs: 15 * 60 * 1000
-				});
-			}
-			return result;
-		} finally {
-			this.tabProtector?.resumeClosures?.();
-			this.activateProtection();
+			return this.capabilityPresenter.ready(
+				await this.capabilityService.inspect(options)
+			);
+		} catch {
+			return this.capabilityPresenter.loginRequired();
 		}
 	}
 
-	activateProtection() { this.tabWatchdog?.start?.(); }
-	authenticationStatus() { return this.loginCoordinator.status(); }
-
-	async capability(options = {}) {
-		try { return this.capabilityPresenter.ready(await this.capabilityService.inspect(options)); }
-		catch { return this.capabilityPresenter.loginRequired(); }
+	reset(conversationKey) {
+		return this.reporter.reset({
+			conversationKey,
+			store: this.store
+		});
 	}
-
-	reset(conversationKey) { return this.reporter.reset({ conversationKey, store: this.store }); }
 
 	async close() {
 		this.tabWatchdog?.stop?.();
@@ -75,9 +89,14 @@ export class DirectService {
 	}
 
 	status() {
-		return this.reporter.status({ preferredPort: this.preferredPort, websiteService: this.websiteService,
-			store: this.store, turnCoordinator: this.turnCoordinator, tabProtector: this.tabProtector,
-			tabWatchdog: this.tabWatchdog });
+		return this.reporter.status({
+			preferredPort: this.preferredPort,
+			websiteService: this.websiteService,
+			store: this.store,
+			turnCoordinator: this.turnCoordinator,
+			tabProtector: this.tabProtector,
+			tabWatchdog: this.tabWatchdog
+		});
 	}
 }
 

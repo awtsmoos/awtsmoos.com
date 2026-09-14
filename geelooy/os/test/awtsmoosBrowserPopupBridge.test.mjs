@@ -29,6 +29,7 @@ test("popup bridge opens one awtsmoosBrowser window carrying the shared session 
 	const bridge = createInteractivePopupBridge({
 		aliasId: "asdf",
 		jarId: "main",
+		engineMode: "compatibility",
 		sessionId: "ibs_session",
 		currentTargetId: "root",
 		initialTargetIds: ["root"],
@@ -49,6 +50,7 @@ test("popup bridge opens one awtsmoosBrowser window carrying the shared session 
 	assert.equal(windows[0].programName, "awtsmoosBrowser");
 	assert.deepEqual(windows[0].content, {
 		interactiveAliasId: "asdf",
+		interactiveEngineMode: "compatibility",
 		interactiveJarId: "main",
 		interactiveSessionId: "ibs_session",
 		interactiveTargetId: "child"

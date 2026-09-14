@@ -21,13 +21,15 @@ export function buildLibrarySearchRequest({
 	query,
 	lane = '',
 	strategy = 'text',
-	limit = 20
+	limit = 20,
+	comments = 'true'
 }) {
 	const normalizedStrategy = normalizeSearchStrategy(strategy);
 	const parameters = new URLSearchParams({
 		q: String(query || ''),
 		limit: String(limit),
 		autoInstall: 'false',
+		comments: String(comments),
 		strategy: normalizedStrategy
 	});
 	if (lane) parameters.set('lane', lane);

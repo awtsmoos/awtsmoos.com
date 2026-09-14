@@ -1,18 +1,19 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file BootstrapVisiblePlayer.js
- * @description Creates the tiny local Chossid whose only mission is to make first movement visible before the canonical GLB arrives.
- * The Awtsmoos gives motion a humble garment before the distant garment may descend;
- * Awtsmoos.com keeps body, face, and hat alive at first play, then lets richer authored form replace this temporary friend.
+ * @description Builds the tiny first-play Chossid from Core-owned hierarchy and mesh materialization.
+ * MitzvahWorld owns only the semantic body-part recipe and fallback visibility contract; reusable
+ * native Group and Mesh construction stays in Procedural Core so richer canonical hydration can
+ * replace this temporary traveler without growing a second rendering engine in the game layer.
  */
 
 import {
-	Group,
-	Mesh
-} from '../../../light-three-gltf/tiny-runtime.js';
+	createNativeMeshFromGeometry,
+	createNativeWorldGroup
+} from '../../../../../../libs/awtsmoos-procedural-core/src/core/worldBuilding/index.js';
 import { bootstrapCubeGeometry } from './BootstrapCubeGeometry.js';
 import { createBootstrapImmediateMaterial } from './BootstrapImmediateMaterial.js';
 
@@ -23,12 +24,13 @@ const PARTS = Object.freeze([
 ]);
 
 /**
- * Creates one disposable visible traveler from already-loaded bootstrap primitives.
- * @returns {Group} A local model safe to replace atomically when canonical hydration succeeds.
+ * Creates one disposable visible traveler using already-loaded bootstrap primitives.
+ * @returns {object} Core-owned group that can be replaced atomically by canonical hydration.
  */
 export function createBootstrapVisiblePlayer() {
-	const group = new Group();
-	group.name = 'Awtsmoos_bootstrap_visible_chossid';
+	const group = createNativeWorldGroup({
+		name: 'Awtsmoos_bootstrap_visible_chossid'
+	});
 	for (const part of PARTS) {
 		addPart(group, ...part);
 	}
@@ -41,21 +43,35 @@ export function createBootstrapVisiblePlayer() {
 	return group;
 }
 
-/** Adds one readable local body part without starting any network work. */
+/**
+ * Adds one lightweight body part without starting network work.
+ * @param {object} group Core-owned parent hierarchy.
+ * @param {string} name Stable semantic part name.
+ * @param {number[]} position Local XYZ translation.
+ * @param {number[]} scale Local XYZ scale.
+ * @param {number[]} color Non-visible material factor while remote imagery is pending.
+ * @param {string} semanticRole Remote material role used by later hydration.
+ * @returns {void}
+ */
 function addPart(group, name, position, scale, color, semanticRole) {
-	const mesh = new Mesh(
+	const material = createBootstrapImmediateMaterial(`bootstrap-player-${name}`, color, {
+		mapRepeat: [3, 3],
+		semanticRole
+	});
+	const mesh = createNativeMeshFromGeometry(
 		bootstrapCubeGeometry(),
-		createBootstrapImmediateMaterial(`bootstrap-player-${name}`, color, {
-			mapRepeat: [3, 3],
-			semanticRole
-		})
+		material,
+		{
+			name: `Awtsmoos_player_${name}`,
+			userData: {
+				bootstrapFallbackVisible: true,
+				bootstrapVisual: true,
+				semanticMaterialRole: semanticRole
+			}
+		}
 	);
-	mesh.name = `Awtsmoos_player_${name}`;
 	mesh.position.set(...position);
 	mesh.scale.set(...scale);
 	mesh.visible = true;
-	mesh.userData.bootstrapVisual = true;
-	mesh.userData.bootstrapFallbackVisible = true;
-	mesh.userData.semanticMaterialRole = semanticRole;
 	group.add(mesh);
 }

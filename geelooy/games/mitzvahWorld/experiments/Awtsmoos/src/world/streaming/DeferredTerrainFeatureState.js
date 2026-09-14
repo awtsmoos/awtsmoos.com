@@ -1,20 +1,23 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file DeferredTerrainFeatureState.js
- * @description Creates stable empty vessels for forest and sacred-landmark enrichment.
- * The Awtsmoos grants identity before abundance; Awtsmoos.com keeps diagnostics and scene
- * references truthful while optional procedural geometry waits beyond first movement.
+ * @description Creates stable empty vessels for forest and sacred-landmark enrichment before post-movement hydration.
+ * Identity exists immediately while optional procedural geometry remains deferred and native hierarchy allocation stays in Core.
  */
 
-import { Group } from '../../../../light-three-gltf/tiny-runtime.js';
+import { createNativeWorldGroup } from '../../../../../../../libs/awtsmoos-procedural-core/src/core/worldBuilding/index.js';
 
-/** Creates a diagnostics-compatible forest facade with stable identity. */
+/**
+ * Creates a diagnostics-compatible forest facade with stable identity and zero early rendering cost.
+ * @returns {object} Deferred forest state consumed by streaming/hydration code.
+ */
 export function createDeferredForestState() {
-	const group = new Group();
-	group.name = 'Awtsmoos_deferred_forest_vessel';
+	const group = createNativeWorldGroup({
+		name: 'Awtsmoos_deferred_forest_vessel'
+	});
 	return {
 		colliders: [],
 		group,
@@ -24,18 +27,27 @@ export function createDeferredForestState() {
 			generationMilliseconds: 0,
 			generatorAuthority: 'deferred-after-movement',
 			mobilePolicy: 'stream-after-first-movement',
-			rendering: { drawCalls: 0, triangles: 0 },
+			rendering: {
+				drawCalls: 0,
+				triangles: 0
+			},
 			state: 'deferred',
 			treeCount: 0,
-			unsupported: { wind: 'disabled-before-enrichment' }
+			unsupported: {
+				wind: 'disabled-before-enrichment'
+			}
 		}
 	};
 }
 
-/** Creates a stable group facade for one deferred procedural text landmark. */
+/**
+ * Creates a stable group facade for one deferred procedural text landmark.
+ * @returns {object} Deferred text-landmark state consumed by hydration code.
+ */
 export function createDeferredTextLandmarkState() {
-	const mesh = new Group();
-	mesh.name = 'Awtsmoos_deferred_text_landmark_vessel';
+	const mesh = createNativeWorldGroup({
+		name: 'Awtsmoos_deferred_text_landmark_vessel'
+	});
 	return {
 		artifact: null,
 		colliders: [],

@@ -16,6 +16,7 @@ import { PanelPreferences } from "./services/panelPreferences.js";
 import { TiferesProjectDeploymentService } from "./services/projectDeploymentService.js";
 import { NetzachRuntimeService } from "./services/runtimeService.js";
 import { TiferesWorkspaceService } from "./services/workspaceService.js";
+import { maybeImportSiteRemix } from "./services/siteRemixBootstrap.js";
 import { DomainClaimClient } from "./transport/domainClaimClient.js";
 import { SiteMappingClient } from "./transport/siteMappingClient.js";
 import { createWorkspaceTransport } from "./transport/transportFactory.js";
@@ -83,6 +84,7 @@ initializeBuilder();
 
 async function initializeBuilder() {
 	await workspace.initialize();
+	await maybeImportSiteRemix({ browserWindow: window, workspace, state, panels });
 	await runtime.refreshExisting();
 }
 

@@ -6,7 +6,8 @@
  * @module MultilingualWorkerClient
  * @description
  * The Awtsmoos keeps one warmed semantic child beyond the HTTP event-loop wall;
- * Awtsmoos.com lets cold callers join the same awakening promise, then bounds only live inference calls.
+ * cold callers share one awakening while finite deadline policy lives separately,
+ * leaving lifecycle, message routing, and inference ownership explicit and small.
  */
 
 const { spawn } = require('node:child_process');
@@ -14,9 +15,14 @@ const path = require('node:path');
 const readline = require('node:readline');
 const { pythonPath } = require('./multilingualRuntime.js');
 const { semanticWorkerEnvironment } = require('./workerEnvironment.js');
+const {
+	QUERY_TIMEOUT_MS,
+	READY_TIMEOUT_MS,
+	codedError,
+	waitForWorker
+} = require('./multilingualWorkerDeadline.js');
 
 const SCRIPT = path.join(__dirname, 'multilingualWorker.py');
-const QUERY_TIMEOUT_MS = 15000;
 const pending = new Map();
 let child = null;
 let readyPromise = null;
@@ -24,10 +30,6 @@ let readyResolve = null;
 let readyReject = null;
 let sequence = 0;
 let state = { state: 'idle' };
-
-function codedError(code, message) {
-	return Object.assign(new Error(message), { code });
-}
 
 function workerStatus() {
 	return { ...state, pid: child?.pid || null };
@@ -87,22 +89,12 @@ function startWorker() {
 	return readyPromise;
 }
 
-async function waitForReady(timeoutMs = 5000) {
-	let timer = null;
-	try {
-		return await Promise.race([
-			startWorker(),
-			new Promise((_, reject) => {
-				timer = setTimeout(() => reject(codedError('MULTILINGUAL_WORKER_WARMING', 'Semantic search is warming. Retry shortly.')), timeoutMs);
-			})
-		]);
-	} finally {
-		if (timer) clearTimeout(timer);
-	}
+async function waitForReady(timeoutMs = READY_TIMEOUT_MS) {
+	return waitForWorker(startWorker, timeoutMs);
 }
 
 async function requestVector(query, timeoutMs = QUERY_TIMEOUT_MS) {
-	await startWorker();
+	await waitForReady();
 	const id = String(++sequence);
 	return new Promise((resolve, reject) => {
 		const timer = setTimeout(() => {
@@ -116,4 +108,10 @@ async function requestVector(query, timeoutMs = QUERY_TIMEOUT_MS) {
 
 const warmMultilingualWorker = startWorker;
 process.once('exit', () => child?.kill());
-module.exports = { requestVector, startWorker, waitForReady, warmMultilingualWorker, workerStatus };
+module.exports = {
+	requestVector,
+	startWorker,
+	waitForReady,
+	warmMultilingualWorker,
+	workerStatus
+};

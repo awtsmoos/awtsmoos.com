@@ -1,0 +1,65 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives the homepage a text-free living world made entirely from
+ * native CSS light, so real interface copy never fights letters baked into art.
+ */
+body[data-geelooy-route="home"] .hero-art {
+	overflow: hidden;
+	background:
+		radial-gradient(circle at 73% 22%, rgba(124, 230, 255, .38), transparent 14%),
+		radial-gradient(circle at 28% 32%, rgba(162, 105, 255, .35), transparent 19%),
+		radial-gradient(circle at 55% 68%, rgba(255, 191, 77, .19), transparent 22%),
+		linear-gradient(145deg, #09182c 0%, #09243d 38%, #170d32 72%, #07101d 100%);
+}
+
+body[data-geelooy-route="home"] .hero-art::before {
+	position: absolute;
+	inset: 9% 5% 4% 33%;
+	border: 1px solid rgba(174, 236, 255, .22);
+	border-radius: 50%;
+	background:
+		radial-gradient(circle at 32% 27%, rgba(255, 255, 255, .85) 0 1px, transparent 2px),
+		radial-gradient(circle at 67% 42%, rgba(255, 223, 125, .7) 0 1px, transparent 2px),
+		radial-gradient(circle at 53% 72%, rgba(126, 218, 255, .8) 0 1px, transparent 2px),
+		radial-gradient(circle at 50% 50%, rgba(45, 180, 154, .82) 0 24%, rgba(28, 105, 118, .72) 25% 36%, rgba(10, 26, 52, .94) 37% 58%, transparent 59%);
+	box-shadow: 0 0 5rem rgba(76, 199, 255, .18), inset 0 0 4rem rgba(116, 85, 255, .18);
+	content: "";
+	transform: rotate(-9deg);
+}
+
+body[data-geelooy-route="home"] .hero-art::after {
+	position: absolute;
+	inset: -12% -9%;
+	background:
+		repeating-radial-gradient(circle at 62% 52%, transparent 0 3.8rem, rgba(104, 206, 255, .08) 3.86rem 3.92rem),
+		conic-gradient(from 215deg at 62% 52%, transparent 0 18%, rgba(98, 214, 255, .12) 22%, transparent 27% 54%, rgba(210, 112, 255, .11) 58%, transparent 65%);
+	content: "";
+	filter: blur(.2px);
+	transform: rotate(8deg);
+}
+
+body[data-geelooy-route="home"] .hero-art > i {
+	position: absolute;
+	z-index: 2;
+	inline-size: clamp(.42rem, 1vw, .72rem);
+	block-size: clamp(.42rem, 1vw, .72rem);
+	border-radius: 50%;
+	background: #bcecff;
+	box-shadow: 0 0 1rem .2rem rgba(115, 218, 255, .52);
+}
+
+body[data-geelooy-route="home"] .hero-art > i:nth-child(1) { inset: 18% auto auto 18%; }
+body[data-geelooy-route="home"] .hero-art > i:nth-child(2) { inset: 28% 19% auto auto; background: #ffd77d; }
+body[data-geelooy-route="home"] .hero-art > i:nth-child(3) { inset: auto 31% 18% auto; background: #d394ff; }
+
+@media (max-width: 680px) {
+	body[data-geelooy-route="home"] .hero-art::before {
+		inset: 6% -8% 18% 22%;
+	}
+
+	body[data-geelooy-route="home"] .hero-art::after {
+		inset: -18% -35% -8% -10%;
+	}
+}

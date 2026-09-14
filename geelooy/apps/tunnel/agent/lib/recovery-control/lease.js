@@ -1,6 +1,6 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 const crypto = require("node:crypto");
 const fs = require("node:fs");
@@ -15,6 +15,7 @@ const path = require("node:path");
 function create(options = {}) {
 	const now = options.now || Date.now;
 	const leaseMs = bounded(options.leaseMs, 15000);
+	const initializationGraceMs = boundedGrace(options.initializationGraceMs, 2000);
 	const lockDir = path.join(options.recoveryRoot, "state", "recovery-control.lock");
 
 	function claim(details = {}) {
@@ -23,8 +24,13 @@ function create(options = {}) {
 		if (existing && Number(existing.expiresAt || 0) > now()) {
 			return { ok: false, error: "recovery_control_busy", lease: publicLease(existing) };
 		}
-		if (fs.existsSync(lockDir) && !retireStale(lockDir, now)) {
-			return { ok: false, error: "recovery_control_busy" };
+		if (fs.existsSync(lockDir)) {
+			if (!existing && lockIsFresh(lockDir, now(), initializationGraceMs)) {
+				return { ok: false, error: "recovery_control_initializing" };
+			}
+			if (!retireStale(lockDir, now)) {
+				return { ok: false, error: "recovery_control_busy" };
+			}
 		}
 		try {
 			fs.mkdirSync(lockDir, { mode: 0o700 });
@@ -45,6 +51,15 @@ function create(options = {}) {
 	}
 
 	return { claim, lockDir };
+}
+
+/** Protects the winner while its atomic directory is receiving lease testimony. */
+function lockIsFresh(lockDir, now, graceMs) {
+	try {
+		return now - fs.statSync(lockDir).mtimeMs < graceMs;
+	} catch {
+		return false;
+	}
 }
 
 function retireStale(lockDir, now) {
@@ -84,6 +99,11 @@ function publicLease(value = {}) {
 function bounded(value, fallback) {
 	const number = Number(value);
 	return Number.isFinite(number) ? Math.max(5000, Math.min(60000, number)) : fallback;
+}
+
+function boundedGrace(value, fallback) {
+	const number = Number(value);
+	return Number.isFinite(number) ? Math.max(250, Math.min(5000, number)) : fallback;
 }
 
 function positive(value) {

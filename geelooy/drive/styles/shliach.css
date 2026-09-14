@@ -1,0 +1,109 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed be He */
+/**
+ * Awtsmoos Shliach launcher surfaces for Geelooy Sites.
+ * The Builder retains a calm professional hierarchy while the external agent remains
+ * unmistakably available, touch-safe, and visibly distinct from local project actions.
+ */
+
+.shliach-launcher {
+	display: grid;
+	gap: 14px;
+	margin: 18px 0;
+	padding: clamp(16px, 3vw, 24px);
+	border: 1px solid color-mix(in srgb, #6d5dfc 30%, var(--border, #cad3df));
+	border-radius: 22px;
+	background:
+		radial-gradient(circle at 100% 0, rgba(109, 93, 252, .16), transparent 42%),
+		var(--panel, #fff);
+	box-shadow: 0 14px 40px rgba(24, 28, 52, .08);
+}
+
+.shliach-head {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.shliach-head > div {
+	display: grid;
+	gap: 3px;
+}
+
+.shliach-head strong {
+	font-size: 1rem;
+}
+
+.shliach-head span {
+	font-size: .82rem;
+	line-height: 1.45;
+	opacity: .7;
+}
+
+.shliach-logo,
+.shliach-menu-logo {
+	flex: 0 0 auto;
+	object-fit: cover;
+	border-radius: 16px;
+	box-shadow: 0 6px 18px rgba(41, 34, 92, .18);
+}
+
+.shliach-menu-logo {
+	border-radius: 9px;
+}
+
+.ecosystem-link-shliach {
+	display: flex;
+	align-items: center;
+	gap: 9px;
+}
+
+.shliach-prompt {
+	width: 100%;
+	min-height: 92px;
+	box-sizing: border-box;
+	padding: 13px 14px;
+	border: 1px solid var(--border, #cad3df);
+	border-radius: 15px;
+	background: var(--input-bg, #fff);
+	color: inherit;
+	font: inherit;
+	line-height: 1.5;
+	resize: vertical;
+}
+
+.shliach-prompt:focus {
+	outline: 3px solid rgba(109, 93, 252, .18);
+	border-color: #6d5dfc;
+}
+
+.shliach-starters,
+.shliach-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+.shliach-chip {
+	min-height: 40px;
+	padding: 8px 11px;
+	border: 1px solid var(--border, #cad3df);
+	border-radius: 999px;
+	background: transparent;
+	color: inherit;
+	cursor: pointer;
+	font: inherit;
+	font-size: .76rem;
+}
+
+.shliach-actions > * {
+	min-height: 44px;
+}
+
+.shliach-direct {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-decoration: none;
+}

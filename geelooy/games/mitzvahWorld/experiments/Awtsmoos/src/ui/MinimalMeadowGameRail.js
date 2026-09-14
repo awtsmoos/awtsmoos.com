@@ -1,6 +1,6 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file MinimalMeadowGameRail.js
@@ -11,10 +11,8 @@
 
 import { MobileInputBoundary } from './MobileInputBoundary.js';
 import { YesodGameRailInteraction } from './MinimalMeadowGameRailInteraction.js';
-import {
-	movementModePresentation,
-	shouldCollapseRail
-} from './MinimalMeadowMovementMode.js';
+import { movementModePresentation, shouldCollapseRail } from './MinimalMeadowMovementMode.js';
+export { shouldCollapseRail } from './MinimalMeadowMovementMode.js';
 import {
 	railMarkup,
 	SECONDARY_RAIL_ITEMS

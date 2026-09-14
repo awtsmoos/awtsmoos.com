@@ -78,8 +78,10 @@ function exactTitleNeedle(title) {
 
 function shouldStop({ scanned, startedAt, top, limits }) {
 	if (scanned >= limits.maxRows) return true;
-	if (scanned < limits.minRows || !top.length) return false;
-	return performance.now() - startedAt >= limits.maxMs;
+	if (scanned < limits.minRows) return false;
+	const elapsedMs = performance.now() - startedAt;
+	if (elapsedMs < limits.maxMs) return false;
+	return true;
 }
 
 function positive(value, fallback) {
@@ -93,5 +95,6 @@ module.exports = {
 	exactTitleNeedle,
 	rawMayMatch,
 	safeRawTokens,
-	scanSidecar
+	scanSidecar,
+	shouldStop
 };

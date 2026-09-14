@@ -1,8 +1,9 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 const Audit = require("./browserTargetAudit.cjs");
+const BrowserRegistry = require("./deviceBrowserRegistry.cjs");
 const { closeStaleDebugProcesses } = require("./debugChromeProcessRecovery.cjs");
 const { createRestoredAgentTabCatalog } = require("./restoredAgentTabCatalog.cjs");
 const Registry = require("./targetProtectionRegistry.cjs");
@@ -68,8 +69,11 @@ async function guardRestoredAgentTabs(options = {}) {
 }
 
 function candidatePorts(options = {}) {
-	return [...new Set([...(options.ports || []), Number(options.port),
-		Number(process.env.AWTSMOOS_CHROME_DEBUG_PORT), 9224, 9223].filter(Number.isFinite))];
+	const explicit = [...(options.ports || []), Number(options.port)]
+		.filter(port => Number.isInteger(port) && port > 0);
+	if (explicit.length) return [...new Set(explicit)];
+	const authority = BrowserRegistry.observe();
+	return authority.ok ? [authority.port] : [];
 }
 
 async function safeList(catalog, port) {

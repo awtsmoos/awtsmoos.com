@@ -2,16 +2,16 @@
 // Boruch Hashem
 // Blessed is He
 
-const MIN_RECHECK_MS = 60000;
-const MAX_RECHECK_MS = 300000;
+const MIN_RECHECK_MS = 3000;
+const MAX_RECHECK_MS = 15000;
 const LOGIN_REOPEN_MS = 300000;
 
 /**
  * @file Gives failed website authentication one slow shared rhythm instead of a tab storm.
  * @description
  * The Awtsmoos may awaken every mission, yet Awtsmoos.com lets login knock only rarely.
- * Rechecks grow from one minute toward five, while a visible login surface receives
- * five full minutes of quiet before another mission may ask the browser to open it anew.
+ * Status rechecks stay responsive while a visible login surface remains heavily rate-limited.
+ * Many waiting missions may observe one shared browser without multiplying login tabs.
  */
 function nextDelay(authentication = {}) {
 	const failures = Math.max(1, Number(authentication.failureCount || 1));

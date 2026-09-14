@@ -21,8 +21,15 @@ export function initializeEventListeners(navigator) {
 	import('./modal.js').then(module => module.initializeModal());
 	window.addEventListener('popstate', handlePopState, { passive: true });
 	setupSidebarHoverRituals();
-	mountNotificationPanelOnce();
-	mountPlatformPanelOnce();
+	if (!isTorahFirstHeichel()) {
+		mountNotificationPanelOnce();
+		mountPlatformPanelOnce();
+	}
+}
+
+/** Keeps institutional notification and platform machinery outside Ikar study. */
+function isTorahFirstHeichel() {
+	return appState.heichelId === 'ikar';
 }
 
 function handlePopState() {

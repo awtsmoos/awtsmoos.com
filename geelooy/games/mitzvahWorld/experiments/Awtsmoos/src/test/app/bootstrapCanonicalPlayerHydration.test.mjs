@@ -1,12 +1,12 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file bootstrapCanonicalPlayerHydration.test.mjs
- * @description Proves canonical humanity is installed before play and no generated-player promotion or rigid visual guard survives in runtime source.
- * The Awtsmoos reveals the authored Chossid once, with animation already owned before controls awake;
- * Awtsmoos.com keeps this witness against double bodies so no deferred promotion can reopen the old mistake.
+ * @description Protects instant first play followed by atomic canonical Chossid hydration.
+ * The lightweight traveler exists before network completion, while the authored GLB later replaces
+ * that one trusted predecessor without leaving two visible bodies or restoring generated imagery.
  */
 
 import assert from 'node:assert/strict';
@@ -15,21 +15,27 @@ import test from 'node:test';
 
 const APP_URL = new URL('../../app/', import.meta.url);
 
-test('bootstrap runtime owns canonical animation immediately with no deferred promotion', async () => {
+/** Proves first play never blocks on the canonical model request. */
+test('bootstrap runtime publishes one visible traveler while canonical hydration stays deferred', async () => {
 	const source = await readFile(new URL('BootstrapPlayerRuntime.js', APP_URL), 'utf8');
-	assert.match(source, /installCanonicalChossidAnimation/);
-	assert.match(source, /canonicalPlayerHydrationStage = 'ready'/);
-	assert.match(source, /canonicalPlayerPromise = Promise\.resolve/);
-	assert.match(source, /none-glb-only/);
-	assert.doesNotMatch(source, /canonicalPlayerLaunchPromise|createBootstrapVisiblePlayer|playerVisualGuard/);
+	assert.match(source, /createBootstrapVisiblePlayer/);
+	assert.match(source, /canonicalPlayerHydrationStage: 'deferred'/);
+	assert.match(source, /canonicalPlayerPromise: null/);
+	assert.doesNotMatch(source, /installCanonicalChossidAnimation/);
+});
+/** Proves the obsolete second bootstrap-hydrator module remains absent. */
+test('legacy bootstrap canonical launcher remains deleted', async () => {
+	await assert.rejects(access(new URL('BootstrapCanonicalPlayerHydration.js', APP_URL)));
 });
 
-test('generated-player promotion modules remain absent', async () => {
-	for (const name of [
-		'BootstrapCanonicalPlayerHydration.js',
-		'BootstrapVisiblePlayer.js',
-		'PlayerVisualGuard.js'
-	]) {
-		await assert.rejects(access(new URL(name, APP_URL)));
-	}
+/** Proves canonical installation removes the trusted bootstrap predecessor atomically. */
+test('post-play hydration installs canonical animation and removes its predecessor', async () => {
+	const hydration = await readFile(new URL('MinimalMeadowPlayerHydration.js', APP_URL), 'utf8');
+	const install = await readFile(new URL('MinimalMeadowCanonicalPlayerInstall.js', APP_URL), 'utf8');
+	const failure = await readFile(new URL('MinimalMeadowPlayerHydrationState.js', APP_URL), 'utf8');
+	assert.match(hydration, /installCanonicalPlayer/);
+	assert.match(hydration, /runtime\.canonicalPlayerPromise/);
+	assert.match(install, /installCanonicalChossidAnimation/);
+	assert.match(install, /removePredecessor\(predecessor, prepared\.model\)/);
+	assert.match(failure, /bootstrap-visible-fallback/);
 });

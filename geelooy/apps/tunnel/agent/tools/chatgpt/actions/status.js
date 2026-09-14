@@ -1,12 +1,13 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 const SharedBrowser = require("../chrome/sharedProfile.js");
 const { ensureProfileChrome } = require("../chrome/ensureProfileChrome.js");
 const { sessionCheck } = require("../auth/sessionCheck.js");
 const { readRegistry, currentConversation } = require("../conversations/registry.js");
 const BrowserSummary = require("./sharedBrowserSummary.js");
+const { readShliachPageStatus } = require("./shliachPageStatus.js");
 
 /**
  * @file Reports Shared AI Browser and ChatGPT authentication independently and without secrets.
@@ -19,13 +20,18 @@ async function chatgptStatus(payload = {}) {
 		? await ensureProfileChrome({ ...payload, navigate: false })
 		: await SharedBrowser.status(payload);
 	const browser = BrowserSummary.summarize(opened);
+	const port = opened.port || opened.debugPort;
+	const shliach = browser.ready
+		? await readShliachPageStatus(port)
+		: { known: false, shliachOpen: false, conversationOpen: false };
 	const session = browser.ready
-		? await safeSession(payload, opened.port || opened.debugPort)
+		? await safeSession(payload, port)
 		: { authenticated: false, known: false };
 	return {
 		ok: true,
 		action: "chatgptStatus",
 		browser,
+		shliach,
 		session,
 		registry: await readRegistry(),
 		currentConversation: await currentConversation()

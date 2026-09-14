@@ -17,9 +17,11 @@ export class DirectTurnExecutor {
 		ledger.record("hostOpenMs", lease.acquireMs);
 		this.assertNotAborted(options.signal);
 		this.progress(options.onProgress, "host", lease.source);
+		this.progress(options.onProgress, "composer", "verifying");
 		const page = await ledger.measure("composerVerificationMs", () =>
 			controller.inspector.inspect());
 		this.assertReady(page);
+		this.progress(options.onProgress, "composer", "ready");
 		const startedAt = Date.now();
 		const request = await ledger.measure("websiteSubmissionMs", () =>
 			this.observeSubmission(options, controller));
@@ -45,7 +47,10 @@ export class DirectTurnExecutor {
 		});
 		const interactor = new WebsitePromptInteractor(controller.cdpClient);
 		return observer.observe(() => interactor.submit(options.prompt, {
-			onBeforeActivate: options.onSubmissionStarted
+			onBeforeActivate: async receipt => {
+				this.progress(options.onProgress, "website-submit", "send-activation-started");
+				return options.onSubmissionStarted?.(receipt);
+			}
 		}));
 	}
 

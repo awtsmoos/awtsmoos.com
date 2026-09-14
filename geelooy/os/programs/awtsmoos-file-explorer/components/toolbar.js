@@ -16,6 +16,7 @@ import { updateButtonState } from "./toolbar/buttonState.js";
 import { searchBox } from "./toolbar/searchBox.js";
 import { statusStrip } from "./toolbar/statusStrip.js";
 import { bindToolbarKeyboard } from "./toolbar/keyboard.js";
+import { shliachDirectoryButton } from "./toolbar/shliachButton.js";
 
 /**
  * Builds the complete toolbar while preserving one audited action inventory.
@@ -43,6 +44,7 @@ export default function createToolbar(options = {}) {
 	toolbar.append(
 		createSidebarButton(onToggleSidebar),
 		...createGroups(run),
+		shliachDirectoryButton({ state, controller, os }),
 		searchBox({ state, controller, onRefresh }),
 		createSpacer(),
 		statusStrip({ controller, os })

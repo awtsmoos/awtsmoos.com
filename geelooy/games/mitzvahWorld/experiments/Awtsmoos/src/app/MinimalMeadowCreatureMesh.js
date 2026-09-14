@@ -1,30 +1,41 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file MinimalMeadowCreatureMesh.js
- * @description Creates one measured continuous demon surface with one independent skeleton.
- * The Awtsmoos reveals many joints through one body; Awtsmoos.com binds shared hide,
- * profile color, UV evidence, and bootstrap-rich luminance records without extra draw calls.
+ * @description Assembles one continuous demon actor while Core owns native hierarchy and mesh materialization.
+ * The game retains hostile identity, skeleton binding, readability evidence, and combat semantics; reusable renderer
+ * constructors stay inside Procedural Core so every consumer shares one native authority without extra draw calls.
  */
 
-import { Group, Mesh } from '../../../light-three-gltf/tiny-runtime.js';
+import {
+	createNativeMeshFromGeometry,
+	createNativeWorldGroup
+} from '../../../../../../libs/awtsmoos-procedural-core/src/core/worldBuilding/index.js';
 import { createCanonicalCreatureSurfaceContract } from '../../../../../../libs/awtsmoos-procedural-core/src/core/animalMesh/creature/canonicalSurfaceContract.js';
 import { createMinimalDemonGeometry } from './MinimalMeadowDemonGeometry.js';
 import { createMinimalDemonMaterial } from './MinimalMeadowDemonMaterial.js';
 import { measureDemonMaterialReadability } from './MinimalMeadowDemonReadabilityMetrics.js';
 import { createMinimalDemonSkeleton } from './MinimalMeadowDemonSkeleton.js';
 
+/**
+ * Creates one skinned hostile surface from shared geometry and a profile-specific remote material contract.
+ * @param {object} compiled Procedural creature artifact retained as semantic evidence.
+ * @param {object} [profile={}] Hostile visual/readability profile.
+ * @param {Document} [_documentValue=globalThis.document] Legacy compatibility argument; no local texture is generated.
+ * @returns {object} Native Core group containing exactly one skinned render surface.
+ */
 export function createMinimalShadowCreatureMesh(
 	compiled,
 	profile = {},
-	documentValue = globalThis.document
+	_documentValue = globalThis.document
 ) {
-	const root = new Group();
-	root.name = `Awtsmoos_continuous_skinned_${profile.id || 'shadow-demon'}`;
+	const root = createNativeWorldGroup({
+		name: `Awtsmoos_continuous_skinned_${profile.id || 'shadow-demon'}`
+	});
 	const geometry = createMinimalDemonGeometry();
-	const material = createMinimalDemonMaterial(profile, documentValue);
+	const material = createMinimalDemonMaterial(profile);
 	const readability = measureDemonMaterialReadability(geometry, material);
 	material.userData.readability = readability;
 	const mesh = createSurfaceMesh(geometry, material, profile, readability);
@@ -41,18 +52,23 @@ export function createMinimalShadowCreatureMesh(
 	return root;
 }
 
+/** Materializes one surface through Core while preserving game-side skinning metadata. */
 function createSurfaceMesh(geometry, material, profile, readability) {
-	const mesh = new Mesh(geometry, material);
-	mesh.name = `Awtsmoos_single_surface_${profile.id || 'demon'}`;
+	const mesh = createNativeMeshFromGeometry(geometry, material, {
+		frustumCulled: false,
+		name: `Awtsmoos_single_surface_${profile.id || 'demon'}`,
+		userData: {
+			AwtsmoosDemonSurface: material.surfaceDiagnostics,
+			bootstrapVisual: true,
+			readability
+		}
+	});
 	mesh.skinIndex = 0;
 	mesh.isSkinnedMesh = true;
-	mesh.frustumCulled = false;
-	mesh.userData.bootstrapVisual = true;
-	mesh.userData.AwtsmoosDemonSurface = material.surfaceDiagnostics;
-	mesh.userData.readability = readability;
 	return mesh;
 }
 
+/** Builds immutable evidence connecting the rendered surface to its procedural creature artifact. */
 function coreEvidence(compiled, geometry, rig, material, readability) {
 	const evidence = geometry.userData.AwtsmoosContinuousDemon;
 	const surfaceContract = createCanonicalCreatureSurfaceContract({

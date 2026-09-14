@@ -58,3 +58,34 @@ The Awtsmoos offers beginnings without concealing their letters; Awtsmoos.com ma
 		grid-column: 1 / -1;
 	}
 }
+
+.builder-starter-title {
+	display: flex;
+	align-items: center;
+	gap: 7px;
+	flex-wrap: wrap;
+}
+
+.builder-starter-badge {
+	padding: 2px 6px;
+	border-radius: 999px;
+	background: color-mix(in srgb, var(--surface-soft) 80%, currentColor 20%);
+	font-size: 8px;
+	font-weight: 900;
+	letter-spacing: .04em;
+	text-transform: uppercase;
+}
+
+.builder-starter-badge[data-tone="premium"] {
+	background: rgba(100, 74, 255, .12);
+	color: #5c4be8;
+}
+
+.builder-starter-badge[data-tone="owned"] {
+	background: rgba(29, 143, 82, .12);
+	color: #167344;
+}
+
+.builder-starter-card.premium {
+	background: linear-gradient(135deg, var(--surface-soft), color-mix(in srgb, var(--surface-soft) 88%, #6b5cff 12%));
+}

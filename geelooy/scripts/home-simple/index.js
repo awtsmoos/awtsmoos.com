@@ -10,6 +10,7 @@
  */
 
 import { HomeTiferesRuntime } from "./HomeTiferesRuntime.js";
+import { installShliachSpotlight } from "./ShliachSpotlight.js";
 
 /**
  * Boots the Home route against the current document.
@@ -21,3 +22,4 @@ function revealHomeTiferes() {
 }
 
 revealHomeTiferes();
+installShliachSpotlight(document);

@@ -69,7 +69,8 @@ test('bootstrap publishes source before project, site and testimony composition'
 	});
 	assert.deepEqual(calls.map(call => call[0]), ['source', 'project', 'site', 'plan']);
 	assert.equal(calls[0][1].rootPath, 'sites/website-starter');
-	assert.equal(calls[0][1].files, files);
+	assert.deepEqual(calls[0][1].files, files);
+	assert.notEqual(calls[0][1].files, files);
 	assert.equal(calls[3][1].actor, actor);
 	assert.equal(result.sourcePublication.fileCount, 1);
 	assert.equal(result.receipt.source.canonicalVessel, 'awtsmoos-drive');

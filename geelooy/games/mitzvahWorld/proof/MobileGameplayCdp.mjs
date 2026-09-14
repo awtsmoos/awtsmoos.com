@@ -1,6 +1,6 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file MobileGameplayCdp.mjs
@@ -10,6 +10,7 @@
  */
 
 import { evaluate, readMobileGameplayState } from './MobileGameplayState.mjs';
+import { prepareProofCache } from './ProofCachePolicy.mjs';
 
 const PHONE_WIDTH = 412;
 const PHONE_HEIGHT = 915;
@@ -34,16 +35,16 @@ export async function configureMobileBrowser(command) {
 		maxTouchPoints: 5
 	});
 	await command('Network.setUserAgentOverride', { userAgent: PHONE_USER_AGENT });
-	await command('Network.setCacheDisabled', { cacheDisabled: true });
-	await command('Network.clearBrowserCache');
+	await prepareProofCache(command);
 	await command('Page.bringToFront');
 }
 
 /** Waits for the rendered single-player launcher and clicks the same control a phone user sees. */
-export async function enterSinglePlayer(command) {
-	await waitFor(command, async () => evaluate(command, `Boolean([...document.querySelectorAll('[data-world-id]')].find(button => button.textContent.trim() === 'Study this world'))`), 'launcher');
+export async function enterSinglePlayer(command, worldId = 'simple-meadow') {
+	const selector = `[data-world-id="${worldId}"]`;
+	await waitFor(command, async () => evaluate(command, `Boolean(document.querySelector(${JSON.stringify(selector)}))`), 'launcher');
 	return evaluate(command, `(() => {
-		const button = [...document.querySelectorAll('[data-world-id]')].find(value => value.textContent.trim() === 'Study this world');
+		const button = document.querySelector(${JSON.stringify(selector)});
 		const clickedAt = performance.now();
 		button.click();
 		return clickedAt;

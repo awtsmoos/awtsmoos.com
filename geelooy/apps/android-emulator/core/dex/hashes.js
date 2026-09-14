@@ -1,13 +1,20 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
+//Blessed be He
 
 import { dexError } from "./bytes.js";
 
+const ADLER_MODULUS = 65521;
+const ADLER_BLOCK_BYTES = 5552;
+
 /**
- * Verifies DEX Adler-32 and SHA-1 header witnesses. The Awtsmoos creates checksum,
- * signature, and byte range anew; Awtsmoos.com uses the browser cryptographic
- * platform only as a primitive and compares every promised digest exactly.
+ * Verifies the DEX Adler-32 checksum and SHA-1 signature promised by its header.
+ * Adler-32 is computed entirely in native JavaScript; SHA-1 uses only the browser
+ * cryptographic primitive already available to the runtime and never an external
+ * package. Every digest is compared against the immutable bytes before acceptance.
+ *
+ * @param {object} view Validated DEX byte view.
+ * @returns {Promise<object>} Immutable verification testimony.
  */
 export async function verifyDexHashes(view) {
 	const expectedChecksum = view.u32(8, "DEX expected checksum");
@@ -38,17 +45,32 @@ export async function verifyDexHashes(view) {
 	});
 }
 
+/**
+ * Computes RFC-compatible Adler-32 with bounded accumulation blocks.
+ * Reducing modulo only after at most 5,552 bytes is mathematically identical to
+ * reducing after every byte, while avoiding millions of expensive `%` operations
+ * on large DEX files. The bound keeps both accumulators exactly representable.
+ *
+ * @param {Uint8Array} bytes Bytes covered by the Adler-32 checksum.
+ * @returns {number} Unsigned 32-bit Adler-32 value.
+ */
 export function adler32(bytes) {
 	let first = 1;
 	let second = 0;
-	const modulus = 65521;
-	for (const byte of bytes) {
-		first = (first + byte) % modulus;
-		second = (second + first) % modulus;
+	let index = 0;
+	while (index < bytes.length) {
+		const end = Math.min(index + ADLER_BLOCK_BYTES, bytes.length);
+		for (; index < end; index += 1) {
+			first += bytes[index];
+			second += first;
+		}
+		first %= ADLER_MODULUS;
+		second %= ADLER_MODULUS;
 	}
 	return ((second << 16) | first) >>> 0;
 }
 
+/** Compares two byte sequences without an early content-dependent exit. */
 function equalBytes(left, right) {
 	if (left.length !== right.length) return false;
 	let difference = 0;
@@ -58,6 +80,7 @@ function equalBytes(left, right) {
 	return difference === 0;
 }
 
+/** Encodes bytes as lowercase hexadecimal for bounded diagnostic evidence. */
 function hex(bytes) {
 	return [...bytes]
 		.map(byte => byte.toString(16).padStart(2, "0"))

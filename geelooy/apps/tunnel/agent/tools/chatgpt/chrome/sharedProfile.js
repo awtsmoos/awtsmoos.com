@@ -1,38 +1,52 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 const { requireSplitBrowser } = require("../../../lib/split-browser-require.js");
 
+const Registry = requireSplitBrowser("deviceBrowserRegistry.cjs");
 const SharedProfile = requireSplitBrowser("sharedChromeProfile.cjs");
 const Chrome = requireSplitBrowser("cdpChrome.cjs");
 
 /**
- * @file Bridges native ChatGPT actions into the one packaged Shared AI Browser.
+ * @file Bridges every packaged ChatGPT action into one device-owned AI browser.
  * @description
- * The Awtsmoos lets ChatGPT and every sub-agent meet inside one persistent Chrome flame;
- * Awtsmoos.com resolves installed and source layouts alike while the physical profile stays the same.
+ * The physical profile is durable identity; host, port, PID, and browser
+ * incarnation are replaceable transport discovered from the live device.
+ * Callers never need to guess a debug port or invent a second profile.
  */
 
 /** Returns the canonical physical profile path for internal native use. */
 function profilePath() {
-	return SharedProfile.profilePath();
+	return Registry.selectedProfile();
 }
 
+/** Returns the current device browser authority without launching Chrome. */
+function authority() {
+	return Registry.observe();
+}
 /** Returns safe browser identity for UI and action responses. */
 function identity() {
 	return SharedProfile.publicIdentity();
 }
 
-/** Returns canonical shared-browser config while preserving caller launch options. */
+/** Returns canonical shared-browser config from the live device authority. */
 function config(options = {}) {
+	const current = authority();
+	const debugPort = current.ok
+		? current.port
+		: SharedProfile.requestedPort(options);
 	return {
 		...options,
-		debugPort: SharedProfile.requestedPort(options)
+		debugPort
 	};
 }
+/** Returns the live authority port, or a compatible fallback while offline. */
+function port(options = {}) {
+	return config(options).debugPort;
+}
 
-/** Opens or reuses the canonical browser and waits for CDP readiness. */
+/** Opens or reuses the selected browser and waits for CDP readiness. */
 async function open(options = {}) {
 	return Chrome.openDebugChrome(config(options));
 }
@@ -42,4 +56,12 @@ async function status(options = {}) {
 	return Chrome.statusDebugChrome(config(options));
 }
 
-module.exports = { config, identity, open, profilePath, status };
+module.exports = {
+	authority,
+	config,
+	identity,
+	open,
+	port,
+	profilePath,
+	status
+};

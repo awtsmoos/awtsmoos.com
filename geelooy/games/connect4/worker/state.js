@@ -68,7 +68,8 @@ const Connect4WorkerState = {
 			humanPlayer: this.humanPlayer,
 			isPlayerTurn: this.isPlayerTurn,
 			gameOver: this.gameOver,
-			generation: this.generation
+			generation: this.generation,
+			board: this.board.map(row => [...row])
 		};
 	}
 };

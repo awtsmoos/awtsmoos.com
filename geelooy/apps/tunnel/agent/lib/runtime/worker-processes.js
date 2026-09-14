@@ -1,6 +1,10 @@
-// B"H
+//B"H
+//Boruch Hashem
+//Blessed be He
+
 const { publicProcess } = require('./worker-public.js');
 const Control = require('./worker-process-control.js');
+const RestartPolicy = require('./worker-restart-policy.js');
 
 /**
  * B"H — Named helper vessels restart only while their covenant permits it.
@@ -10,6 +14,7 @@ const Control = require('./worker-process-control.js');
 function createProcessSupervisor(options = {}) {
 	const processes = new Map();
 	const log = typeof options.log === 'function' ? options.log : () => {};
+	const now = options.now || Date.now;
 
 	function define(name, spec = {}) {
 		const current = processes.get(name) || {
@@ -30,11 +35,11 @@ function createProcessSupervisor(options = {}) {
 			child,
 			pid: child.pid,
 			status: 'running',
-			startedAt: Date.now(),
-			lastSeenAt: Date.now()
+			startedAt: now(),
+			lastSeenAt: now()
 		});
 		child.on('message', message => {
-			record.lastSeenAt = Date.now();
+			record.lastSeenAt = now();
 			record.lastMessage = message;
 		});
 		child.on('exit', (code, signal) => onExit(name, record, code, signal));
@@ -70,28 +75,39 @@ function createProcessSupervisor(options = {}) {
 	}
 
 	function onExit(name, record, code, signal) {
+		const decision = RestartPolicy.decide(record, { code, signal }, { now: now() });
 		Object.assign(record, {
-			status: 'exited',
-			exitCode: code,
-			signal,
-			exitedAt: Date.now(),
-			child: null
+			status: 'exited', exitCode: code, signal, exitedAt: now(), child: null,
+			restartClass: decision.classification,
+			consecutiveFailures: decision.consecutiveFailures,
+			lastUptimeMs: decision.uptimeMs,
+			restartDelayMs: decision.delayMs
 		});
-		if (record.spec.restart !== false) scheduleRestart(name, record);
+		if (record.spec.restart !== false) scheduleRestart(name, record, decision.delayMs);
 	}
 
-	function scheduleRestart(name, record) {
+	function scheduleRestart(name, record, delayMs) {
 		if (record.restartTimer) return;
 		record.restartCount = Number(record.restartCount || 0) + 1;
-		const delay = Math.min(30000, 500 * record.restartCount);
-		record.restartTimer = setTimeout(() => restart(name, record), delay);
+		record.restartTimer = setTimeout(() => restart(name, record), delayMs);
 		record.restartTimer.unref?.();
 	}
 
 	function restart(name, record) {
 		record.restartTimer = null;
-		try { start(name); }
-		catch (error) { log('worker restart failed', name, error.message); }
+		try {
+			start(name);
+		} catch (error) {
+			record.status = 'restart_failed';
+			record.error = error.message;
+			record.consecutiveFailures = Number(record.consecutiveFailures || 0) + 1;
+			record.restartDelayMs = RestartPolicy.decide(
+				{ consecutiveFailures: record.consecutiveFailures, startedAt: now() },
+				{ code: 1 }, { now: now() }
+			).delayMs;
+			log('worker restart failed', name, error.message);
+			if (record.spec.restart !== false) scheduleRestart(name, record, record.restartDelayMs);
+		}
 	}
 
 	return { define, snapshot, start, stop, stopAll };

@@ -1,6 +1,6 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file NpcFarProxy.js
@@ -9,12 +9,12 @@
  * identity, place, coat, head, hat, arms, and legs in one quiet renderer vessel.
  */
 
-import { Group } from '../../../../light-three-gltf/tiny-runtime.js';
+import { createNativeWorldGroup } from '../../../../../../../libs/awtsmoos-procedural-core/src/core/worldBuilding/index.js';
 import { createPrimitiveMesh } from '../Box3D.js';
 import { createVillageBoxBatch } from '../village/VillageBoxBatch.js';
 
 export function createNpcFarProxy(profile, ground) {
-	const group = new Group();
+	const group = createNativeWorldGroup();
 	const definition = createVillageBoxBatch(
 		`npc-proxy-${profile.id}`,
 		proxyBoxes(),

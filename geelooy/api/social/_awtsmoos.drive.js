@@ -14,7 +14,10 @@ const browserRoutes = require('./helper/drive/routes/browserRoutes.js');
 const credentialRoutes = require('./helper/drive/routes/credentialRoutes.js');
 const domainPlanRoutes = require('./helper/drive/routes/domainPlanRoutes.js');
 const domainRoutes = require('./helper/drive/routes/domainRoutes.js');
+const deploymentRoutes = require('./helper/drive/routes/deploymentRoutes.js');
+const deploymentPreviewRoutes = require('./helper/drive/routes/deploymentPreviewRoutes.js');
 const entryRoutes = require('./helper/drive/routes/entryRoutes.js');
+const jobRoutes = require('./helper/drive/routes/jobRoutes.js');
 const managerRoutes = require('./helper/drive/routes/managerRoutes.js');
 const projectHostingRoutes = require('./helper/drive/routes/projectHostingRoutes.js');
 const projectPlanRoutes = require('./helper/drive/routes/projectPlanRoutes.js');
@@ -32,7 +35,10 @@ module.exports = vessel => ({
 	...publicRoutes(vessel),
 	...streamingRoutes(vessel),
 	...entryRoutes(vessel),
+	...jobRoutes(vessel),
 	...siteRoutes(vessel),
+	...deploymentRoutes(vessel),
+	...deploymentPreviewRoutes(vessel),
 	...siteRuntimeRoutes(vessel),
 	...domainRoutes(vessel),
 	...domainPlanRoutes(vessel),

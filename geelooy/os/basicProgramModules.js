@@ -1,62 +1,48 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
+//Blessed be He
+
+import { lazyProgram } from "./lazyProgramLauncher.js";
 
 /**
- * @file Canonical built-in Geelooy OS program modules.
+ * @module BasicProgramModules
  * @description
- * The Awtsmoos renews every program before a window receives its name;
- * Awtsmoos.com gathers every launch vessel here while extension policy, icons, and facade exports remain separate and clear.
+ * The Awtsmoos keeps every Geelooy program available without forcing every module
+ * into first paint; Awtsmoos.com downloads each implementation only when launched.
  */
 
-import advancedCodeEditor from "./programs/advanced-code-editor/index.js";
-import awtsmoosBinaryViewer from "./programs/awtsmoos-binary-viewer/index.js";
-import awtsmoosBrowser from "./programs/awtsmoos-browser/index.js";
-import awtsmoosCommand from "./programs/awtsmoos-command/index.js";
-import awtsmoosCompiler from "./programs/awtsmoos-compiler/index.js";
-import awtsmoosDbExplorer from "./programs/awtsmoosdb-explorer/index.js";
-import awtsmoosDiagnostics from "./programs/awtsmoos-diagnostics/index.js";
-import awtsmoosDocs from "./programs/awtsmoos-docs/index.js";
-import awtsmoosExecutable from "./programs/awtsmoos-executable/index.js";
-import awtsmoosFileExplorer from "./programs/awtsmoos-file-explorer/index.js";
-import awtsmoosPresenter from "./programs/awtsmoos-presenter/index.js";
-import awtsmoosSheets from "./programs/awtsmoos-sheets/index.js";
-import awtsmoosTaskManager from "./programs/awtsmoos-task-manager/index.js";
-import awtsmoosTextEdit from "./programs/awtsmoos-text/index.js";
-import mediaLibrary from "./programs/media-library/index.js";
-import connectedNodeServer from "./programs/connected-node-server/index.js";
-import driveWorkspace from "./programs/drive-workspace/index.js";
-import openWithSelector from "./programs/open-with-selector/index.js";
-import perutaUsage from "./programs/peruta-usage/index.js";
-import projectCommandCenter from "./programs/project-command-center/index.js";
-import walletPortal from "./programs/wallet-portal/index.js";
-import workspacePreview from "./programs/workspace-preview/index.js";
-
 export const programs = Object.freeze({
-	advancedCodeEditor: program("Advanced Code Editor", advancedCodeEditor),
-	awtsmoosBinaryViewer: program("Binary Viewer", awtsmoosBinaryViewer),
-	awtsmoosBrowser: program("Awtsmoos Browser", awtsmoosBrowser),
-	awtsmoosCommand: program("Command", awtsmoosCommand),
-	awtsmoosCompiler: program("Awtsmoos Compiler", awtsmoosCompiler),
-	awtsmoosDbExplorer: program("AwtsmoosDB Explorer", awtsmoosDbExplorer),
-	awtsmoosDiagnostics: program("Developer Diagnostics", awtsmoosDiagnostics),
-	awtsmoosDocs: program("Awtsmoos Docs", awtsmoosDocs),
-	awtsmoosExecutable: program("Executable Host", awtsmoosExecutable),
-	awtsmoosFileExplorer: program("File Explorer", awtsmoosFileExplorer),
-	awtsmoosPresenter: program("Awtsmoos Slides", awtsmoosPresenter),
-	awtsmoosSheets: program("Awtsmoos Sheets", awtsmoosSheets),
-	awtsmoosTaskManager: program("Task Manager", awtsmoosTaskManager),
-	awtsmoosTextEdit: program("Text Editor", awtsmoosTextEdit),
-	mediaLibrary: program("Media Library", mediaLibrary),
-	connectedNodeServer: program("Connected Node Server", connectedNodeServer),
-	driveWorkspace: program("Drive & Sites", driveWorkspace),
-	openWithSelector: program("Open With…", openWithSelector),
-	perutaUsage: program("Peruta Usage", perutaUsage),
-	projectCommandCenter: program("Project Command Center", projectCommandCenter),
-	walletPortal: program("Wallet", walletPortal),
-	workspacePreview: program("Workspace Preview", workspacePreview)
+	advancedCodeEditor: program("Advanced Code Editor", "./programs/advanced-code-editor/index.js"),
+	awtsmoosBinaryViewer: program("Binary Viewer", "./programs/awtsmoos-binary-viewer/index.js"),
+	awtsmoosBrowser: program("Awtsmoos Browser", "./programs/awtsmoos-browser/index.js"),
+	awtsmoosCommand: program("Command", "./programs/awtsmoos-command/index.js"),
+	awtsmoosCompiler: program("Awtsmoos Compiler", "./programs/awtsmoos-compiler/index.js"),
+	awtsmoosDbExplorer: program("AwtsmoosDB Explorer", "./programs/awtsmoosdb-explorer/index.js"),
+	awtsmoosDiagnostics: program("Developer Diagnostics", "./programs/awtsmoos-diagnostics/index.js"),
+	awtsmoosDocs: program("Awtsmoos Docs", "./programs/awtsmoos-docs/index.js"),
+	awtsmoosExecutable: program("Executable Host", "./programs/awtsmoos-executable/index.js"),
+	awtsmoosFileExplorer: program("File Explorer", "./programs/awtsmoos-file-explorer/index.js"),
+	awtsmoosPresenter: program("Awtsmoos Slides", "./programs/awtsmoos-presenter/index.js"),
+	awtsmoosSheets: program("Awtsmoos Sheets", "./programs/awtsmoos-sheets/index.js"),
+	awtsmoosTaskManager: program("Task Manager", "./programs/awtsmoos-task-manager/index.js"),
+	awtsmoosTextEdit: program("Text Editor", "./programs/awtsmoos-text/index.js"),
+	mediaLibrary: program("Media Library", "./programs/media-library/index.js"),
+	awtsmoosWebProduct: program("Awtsmoos Product", "./programs/awtsmoos-web-product/index.js"),
+	connectedNodeServer: program("Connected Node Server", "./programs/connected-node-server/index.js"),
+	driveWorkspace: program("Drive & Sites", "./programs/drive-workspace/index.js"),
+	openWithSelector: program("Open With…", "./programs/open-with-selector/index.js"),
+	perutaUsage: program("Peruta Usage", "./programs/peruta-usage/index.js"),
+	projectCommandCenter: program("Project Command Center", "./programs/project-command-center/index.js"),
+	walletPortal: program("Wallet", "./programs/wallet-portal/index.js"),
+	workspacePreview: program("Workspace Preview", "./programs/workspace-preview/index.js")
 });
 
-function program(name, launch) {
-	return Object.freeze({ launch, name });
+/**
+ * Creates one lazy record whose module URL is resolved relative to the OS root.
+ * @param {string} name Human-facing program title.
+ * @param {string} modulePath Deferred implementation module path.
+ * @returns {Readonly<{name:string,launch:Function}>} Lazy launcher record.
+ */
+function program(name, modulePath) {
+	return lazyProgram(name, modulePath);
 }

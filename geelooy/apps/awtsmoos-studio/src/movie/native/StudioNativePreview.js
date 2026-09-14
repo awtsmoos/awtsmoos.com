@@ -1,6 +1,6 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file StudioNativePreview.js
@@ -28,6 +28,7 @@ export class StudioNativePreview {
 		this.world = null;
 		this.characterRequest = 0;
 		this.characterPromise = Promise.resolve();
+		this.worldPromise = Promise.resolve();
 		this.characterError = null;
 	}
 
@@ -55,13 +56,14 @@ export class StudioNativePreview {
 
 	/** Await the current scene's real character assets; export calls this before final capture. */
 	async settle() {
-		await this.characterPromise;
+		await Promise.all([this.worldPromise, this.characterPromise]);
 		if (this.characterError) throw this.characterError;
 	}
 
 	rebuild(studioScene, signature) {
 		this.signature = signature;
 		this.world = buildStudioNativeWorld(studioScene);
+		this.worldPromise = Promise.resolve(this.world.ready);
 		this.characterError = null;
 		delete this.canvas.dataset.characterError;
 		const request = ++this.characterRequest;

@@ -2,9 +2,11 @@
 // Boruch Hashem
 // Blessed is He
 /**
- * @fileoverview Guards the complete Living Path blueprint contract.
- * The Awtsmoos creates identity, context, filters, and three browse modes as one;
- * Awtsmoos.com records truthful semantic vessels without fabricated route data.
+ * @file LivingPathBlueprintContract
+ * @description
+ * The Awtsmoos creates identity, context, filters, and browse modes as one.
+ * Awtsmoos.com records truthful semantic vessels while Ikar's initial route
+ * language names the Torah library before remote identity arrives.
  */
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -18,22 +20,13 @@ globalThis.location = {
 	pathname: '/heichelos/ikar',
 	search: '?view=series'
 };
-
 const noop = () => {};
 const actions = new Proxy({}, { get: () => noop });
 const source = JSON.stringify(getFullLayoutBlueprint(actions));
-const pendingRoute = readFileSync(
-	'geelooy/heichelos/heichel/modules/ui/blueprints/pending-route-context.js',
-	'utf8'
-);
-const pendingProfile = readFileSync(
-	'geelooy/heichelos/heichel/modules/ui/blueprints/pending-profile-context.js',
-	'utf8'
-);
-const roof = readFileSync(
-	'geelooy/heichelos/heichel/modules/ui/blueprints/layout-roof.js',
-	'utf8'
-);
+const read = path => readFileSync(path, 'utf8');
+const pendingRoute = read('geelooy/heichelos/heichel/modules/ui/blueprints/pending-route-context.js');
+const pendingProfile = read('geelooy/heichelos/heichel/modules/ui/blueprints/pending-profile-context.js');
+const roof = read('geelooy/heichelos/heichel/modules/ui/blueprints/layout-roof.js');
 
 test('layout preserves every declared public class contract', () => {
 	for (const className of LAYOUT_CLASS_CONTRACT) {
@@ -41,16 +34,17 @@ test('layout preserves every declared public class contract', () => {
 	}
 });
 
-test('profile identity is compact and details remain natively disclosable', () => {
+test('profile identity is compact and details remain disclosable', () => {
 	assert.match(source, /heichel-profile-compact-context/);
 	assert.match(source, /heichel-profile-details/);
 	assert.match(source, /View Heichel details/);
 	assert.match(source, /heichelFollowButton/);
 });
 
-test('route identity is visible before remote Heichel data arrives', () => {
-	assert.match(source, /Heichel ikar/);
-	assert.match(source, /Opening ikar/);
+test('Ikar route identity is useful before remote data arrives', () => {
+	assert.match(source, /Ikar/);
+	assert.match(source, /Preparing Torah library/);
+	assert.doesNotMatch(source, /Heichel ikar|Opening ikar/);
 	assert.match(pendingRoute, /decodeURIComponent/);
 });
 
@@ -73,12 +67,10 @@ test('path, continue, search, filter, and result surfaces are present', () => {
 		'living-path-filter-sheet',
 		'living-path-result-status',
 		'living-path-related'
-	]) {
-		assert.ok(source.includes(token), `layout missing ${token}`);
-	}
+	]) assert.ok(source.includes(token), `layout missing ${token}`);
 });
 
-test('Timeline, Tree, and Groupings are real ARIA tabs with distinct wells', () => {
+test('browse modes keep stable internal ARIA wells', () => {
 	for (const token of ['Timeline', 'Tree', 'Groupings', 'postsViewport', 'seriesViewport', 'groupingsViewport']) {
 		assert.ok(source.includes(token), `browse contract missing ${token}`);
 	}
@@ -86,7 +78,7 @@ test('Timeline, Tree, and Groupings are real ARIA tabs with distinct wells', () 
 	assert.match(source, /"aria-selected":"true"/);
 });
 
-test('loading uses card-shaped skeleton plans instead of one decorative orb', () => {
+test('loading uses card-shaped skeleton plans', () => {
 	assert.match(source, /living-path-skeleton/);
 	assert.match(source, /skeleton-lines/);
 });

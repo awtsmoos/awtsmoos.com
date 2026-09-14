@@ -3,6 +3,11 @@
 // Blessed is He
 
 const { ProjectDatabaseScope } = require('../../../../../ayzarim/awtsmoosDynamicServer/projectHosting/ProjectDatabaseScope.js');
+const { listProjectDocuments: readDocuments } = require('./projectDatabaseDocuments.js');
+const { queryProjectDocuments: runQuery } = require('./projectDatabaseQuery.js');
+const { inspectProjectDatabase } = require('./projectDatabaseCapabilities.js');
+const { importProjectDocuments: applyImport } = require('./projectDatabaseBatch.js');
+const { MAX_VALUE_BYTES, normalizeDatabaseKey, assertValueSize, projectDbError } = require('./projectDatabaseValuePolicy.js');
 
 /**
  * @module DriveProjectDatabaseService
@@ -13,7 +18,6 @@ const { ProjectDatabaseScope } = require('../../../../../ayzarim/awtsmoosDynamic
 
 const DEFAULT_KEY_LIMIT = 200;
 const MAX_KEY_LIMIT = 500;
-const MAX_VALUE_BYTES = 262144;
 
 function createProjectScope({ $i, aliasId, projectId }) {
 	if (!$i?.db) throw projectDbError('PROJECT_DATABASE_UNAVAILABLE', 503);
@@ -22,10 +26,33 @@ function createProjectScope({ $i, aliasId, projectId }) {
 
 async function listProjectKeys(options) {
 	const scope = createProjectScope(options);
-	const keys = await scope.list(options.path || '');
-	const list = Array.isArray(keys) ? keys : Object.keys(keys || {});
 	const limit = boundedLimit(options.limit);
-	return { keys: list.slice(0, limit), truncated: list.length > limit, total: list.length };
+	const page = await scope.listBounded(options.path || '', limit, options.offset || 0);
+	return { ...page, keys: page.keys };
+}
+
+function boundedLimit(value) {
+	const number = Number(value || DEFAULT_KEY_LIMIT);
+	if (!Number.isFinite(number) || number < 1) return DEFAULT_KEY_LIMIT;
+	return Math.min(MAX_KEY_LIMIT, Math.floor(number));
+}
+
+async function listProjectDocuments(options) {
+	const scope = createProjectScope(options);
+	return readDocuments(scope, options);
+}
+
+function projectDatabaseCapabilities(options) {
+	return inspectProjectDatabase(createProjectScope(options));
+}
+
+async function queryProjectDocuments(options) {
+	const scope = createProjectScope(options);
+	return runQuery(scope, options);
+}
+
+async function importProjectDocuments(options) {
+	return applyImport(createProjectScope(options), options);
 }
 
 async function readProjectKey(options) {
@@ -51,35 +78,13 @@ async function deleteProjectKey(options) {
 	return { key, deleted: true };
 }
 
-function normalizeDatabaseKey(value) {
-	const key = String(value || '').trim();
-	if (!key || key.length > 160 || key === '.' || key === '..' || /[\\/\0]/.test(key)) {
-		throw projectDbError('INVALID_PROJECT_DB_KEY', 400);
-	}
-	return key;
-}
-
-function boundedLimit(value) {
-	const number = Number(value || DEFAULT_KEY_LIMIT);
-	if (!Number.isFinite(number) || number < 1) return DEFAULT_KEY_LIMIT;
-	return Math.min(MAX_KEY_LIMIT, Math.floor(number));
-}
-
-function assertValueSize(value, code) {
-	const bytes = Buffer.byteLength(JSON.stringify(value === undefined ? null : value), 'utf8');
-	if (bytes > MAX_VALUE_BYTES) throw projectDbError(code, 413);
-}
-
-function projectDbError(code, statusCode) {
-	const error = new Error(code);
-	error.code = code;
-	error.statusCode = statusCode;
-	return error;
-}
-
 module.exports = {
 	MAX_VALUE_BYTES,
 	listProjectKeys,
+	listProjectDocuments,
+	queryProjectDocuments,
+	importProjectDocuments,
+	projectDatabaseCapabilities,
 	readProjectKey,
 	setProjectKey,
 	deleteProjectKey,

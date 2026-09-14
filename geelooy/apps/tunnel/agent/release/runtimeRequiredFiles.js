@@ -1,21 +1,24 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
+const BROWSER = require("./runtimeRequiredBrowser.js");
 const CORE = require("./runtimeRequiredCore.js");
 const RECOVERY = require("./runtimeRequiredRecovery.js");
+const SUBAGENTS = require("./runtimeRequiredSubagents.js");
 const TRANSPORT = require("./runtimeRequiredTransport.js");
 
 /**
  * @file Unifies every non-negotiable runtime vessel into one deterministic catalog.
  * @description
- * The Awtsmoos renews core, recovery, and transport without blending their duties.
- * Awtsmoos.com exports one frozen de-duplicated list so manifest generation, ZIP
- * verification, and installed probes enforce the same self-preservation covenant.
+ * The Awtsmoos renews transport, browser custody, autonomous Shliach work, core startup,
+ * and recovery as one release closure without blending their responsibilities.
  */
 module.exports = Object.freeze([
 	...new Set([
 		...TRANSPORT,
+		...BROWSER,
+		...SUBAGENTS,
 		...CORE,
 		...RECOVERY
 	])

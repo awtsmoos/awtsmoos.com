@@ -1,0 +1,49 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * First-party icon vocabulary for the PDF converter. Existing class names stay
+ * stable while simple Unicode glyphs replace the removed Font Awesome dependency.
+ */
+
+.fa-regular,
+.fa-solid {
+	display: inline-block;
+	min-width: 1em;
+	font-family: system-ui, sans-serif;
+	font-style: normal;
+	font-weight: 800;
+	line-height: 1;
+	text-align: center;
+}
+
+.fa-regular::before,
+.fa-solid::before {
+	content: "✦";
+}
+
+.fa-file-pdf::before {
+	content: "▤";
+}
+
+.fa-bolt::before {
+	content: "ϟ";
+}
+
+.fa-spinner::before {
+	content: "◌";
+}
+
+.fa-spinner {
+	animation: native-pdf-spin .8s linear infinite;
+}
+
+.fa-check::before {
+	content: "✓";
+}
+
+@keyframes native-pdf-spin {
+	to {
+		transform: rotate(360deg);
+	}
+}

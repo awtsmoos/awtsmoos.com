@@ -1,12 +1,12 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file BootstrapCanonicalPlayerHydration.test.js
- * @description Proves deferred bootstrap-player promotion has been removed because the canonical GLB is now essential before play.
- * The Awtsmoos joins loading and authored humanity before the playable threshold is crossed;
- * Awtsmoos.com keeps no second launch promise where an old generated body could wait to be embossed.
+ * @description Guards the staged first-play player contract from inside the app test boundary.
+ * A trusted local Chossid keeps movement visible immediately; canonical GLB hydration may arrive
+ * afterward and must replace that predecessor atomically rather than blocking first interaction.
  */
 
 import assert from 'node:assert/strict';
@@ -15,13 +15,15 @@ import test from 'node:test';
 
 const APP_URL = new URL('./', import.meta.url);
 
-test('deferred canonical player launcher stays deleted', async () => {
+/** Keeps the obsolete dedicated bootstrap launcher deleted. */
+test('legacy bootstrap canonical launcher stays deleted', async () => {
 	await assert.rejects(access(new URL('BootstrapCanonicalPlayerHydration.js', APP_URL)));
 });
 
-test('bootstrap runtime owns a ready canonical promise immediately', async () => {
+/** Protects the deliberate non-blocking first-play state. */
+test('bootstrap runtime starts with trusted visible shell and deferred canonical hydration', async () => {
 	const source = await readFile(new URL('BootstrapPlayerRuntime.js', APP_URL), 'utf8');
-	assert.match(source, /canonicalPlayerHydrationStage = 'ready'/);
-	assert.match(source, /canonicalPlayerPromise = Promise\.resolve/);
-	assert.doesNotMatch(source, /canonicalPlayerLaunchPromise|waiting-for-playable-frame/);
+	assert.match(source, /createBootstrapVisiblePlayer/);
+	assert.match(source, /canonicalPlayerHydrationStage: 'deferred'/);
+	assert.match(source, /canonicalPlayerPromise: null/);
 });

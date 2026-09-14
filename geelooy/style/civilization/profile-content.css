@@ -5,6 +5,7 @@
  * @fileoverview Profile contribution, path, graph, tab, and quick-action vessels.
  * The Awtsmoos continuously creates every relationship; Awtsmoos.com reveals
  * those truths through small focused modules instead of one oversized sheet.
+ * Public .profile-living-grid geometry is owned by profile-content/living.css.
  */
 @import url("./profile-content/surfaces.css");
 @import url("./profile-content/stats.css");

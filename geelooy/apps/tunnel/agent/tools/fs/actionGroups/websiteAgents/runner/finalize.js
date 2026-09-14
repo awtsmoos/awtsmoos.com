@@ -1,8 +1,9 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 const ContinuationRequests = require("../../../mission/roomContinuationRequests.js");
+const SessionLifecycle = require("./dispatcherSessionLifecycle.js");
 const Context = require("./context.js");
 const { Dispatch, Store } = Context.shared;
 const event = Context.reference("event");
@@ -10,11 +11,10 @@ const scheduleWake = Context.reference("scheduleWake");
 const withMission = Context.reference("withMission");
 
 /**
- * @file Finalizes website-agent state and settles continuity for completed work.
+ * @file Finalizes website-agent state, mission continuity, and disposable dispatcher sessions.
  * @description
- * The Awtsmoos lets an unfinished deed ask for another shliach, yet completion closes
- * that doorway. Awtsmoos.com fulfills each completed agent's pre-step continuation
- * request so a later recovery tick cannot resurrect work whose own agent finished it.
+ * Durable work survives browser-chat completion. Awtsmoos.com settles mission receipts first,
+ * then releases or replaces only the temporary session vessel that carried the Shliach turn.
  */
 async function finalize(config, id) {
 	const record = Store.update(id, current => {
@@ -28,24 +28,7 @@ async function finalize(config, id) {
 			}));
 			return current;
 		}
-		const waiting = current.agents.some(agent => agent.status === "waiting_for_login");
-		const ambiguous = current.agents.some(agent => agent.status === "awaiting_recovery");
-		const failed = current.agents.some(agent =>
-			["failed", "claim_conflict"].includes(agent.status)
-		);
-		const unfinished = current.agents.some(agent =>
-			agent.status !== "complete" || agent.roomDirty || !agent.lastOutcome?.complete
-		);
-		current.status = waiting
-			? "waiting_for_login"
-			: ambiguous || failed || unfinished
-				? "needs_attention"
-				: "complete";
-		current.phase = current.status === "complete" ? "finished" : "unfinished_work";
-		current.finishedAt = current.status === "complete" ? new Date().toISOString() : null;
-		current.lead.status = current.status === "complete"
-			? "coordination_complete"
-			: "working_locally";
+		applyTerminalState(current);
 		current.events.push(event("mission_finished", {
 			status: current.status,
 			completedAgents: current.agents.filter(agent => agent.status === "complete").length,
@@ -55,32 +38,39 @@ async function finalize(config, id) {
 	});
 
 	await settleCompletedContinuations(config, record);
+	await SessionLifecycle.settle(config, record);
 	if (record.status === "waiting_for_login") {
 		scheduleWake(config, id, record.plan.authPollMs);
 	}
 	return record;
 }
 
-/**
- * Fulfills only the continuation requests whose own agents have verified completion.
- * @param {object} config Tunnel configuration.
- * @param {object} record Durable website mission record.
- * @returns {Promise<void>} Completion after mission persistence.
- */
+function applyTerminalState(current) {
+	const waiting = current.agents.some(agent => agent.status === "waiting_for_login");
+	const ambiguous = current.agents.some(agent => agent.status === "awaiting_recovery");
+	const failed = current.agents.some(agent => ["failed", "claim_conflict"].includes(agent.status));
+	const unfinished = current.agents.some(agent =>
+		agent.status !== "complete" || agent.roomDirty || !agent.lastOutcome?.complete
+	);
+	current.status = waiting
+		? "waiting_for_login"
+		: ambiguous || failed || unfinished
+			? "needs_attention"
+			: "complete";
+	current.phase = current.status === "complete" ? "finished" : "unfinished_work";
+	current.finishedAt = current.status === "complete" ? new Date().toISOString() : null;
+	current.lead.status = current.status === "complete" ? "coordination_complete" : "working_locally";
+}
+
+/** Fulfills continuation claims only for agents whose own completion is verified. */
 async function settleCompletedContinuations(config, record) {
 	const completed = record.agents.filter(agent =>
 		agent.status === "complete" && agent.lastOutcome?.complete && agent.continuationRequestId
 	);
-	if (!completed.length) {
-		return;
-	}
+	if (!completed.length) return;
 	await withMission(config, record.missionId, mission => {
 		for (const agent of completed) {
-			ContinuationRequests.fulfill(
-				mission,
-				agent.continuationRequestId,
-				"agent_verified_complete"
-			);
+			ContinuationRequests.fulfill(mission, agent.continuationRequestId, "agent_verified_complete");
 		}
 		return mission;
 	});

@@ -5,6 +5,8 @@
 import { buildPublishPlan } from "../builder/publishPlan.js";
 import { actionButton, createElement } from "./dom.js";
 import { createCanonicalPublishView } from "./canonicalPublishView.js";
+import { createCloudDraftView } from "./cloudDraftView.js";
+import { createCloudPublishView } from "./cloudPublishView.js";
 import { renderPublishStages } from "./publishStagesView.js";
 
 /**
@@ -17,6 +19,8 @@ export function createPublishPanelView(actions) {
 	const stages = createElement("div", { className: "site-publish-stage-host" });
 	const previews = createElement("div", { className: "site-published-list" });
 	const canonical = createCanonicalPublishView(actions);
+	const draft = createCloudDraftView(actions);
+	const cloud = createCloudPublishView(actions);
 	const publishButton = actionButton("Publish owned preview", actions.publish, { className: "button primary" });
 	const domainButton = actionButton("Open Domain", actions.builderDomain, { className: "button" });
 	const domainStatus = createElement("p", { className: "publish-domain-status" });
@@ -29,6 +33,8 @@ export function createPublishPanelView(actions) {
 			previewControls(publishButton),
 			previewListHeading(),
 			previews,
+			draft.element,
+			cloud.element,
 			canonical.element,
 			domainCard(domainButton, domainStatus)
 		]
@@ -44,6 +50,8 @@ export function createPublishPanelView(actions) {
 			stages.replaceChildren(renderPublishStages(plan.stages));
 			readiness.replaceChildren(readinessCard(plan));
 			previews.replaceChildren(...previewCards(state.previews, actions));
+			draft.render(plan);
+			cloud.render(state, plan);
 			canonical.render(plan);
 			domainStatus.textContent = plan.customDomain.description;
 		}

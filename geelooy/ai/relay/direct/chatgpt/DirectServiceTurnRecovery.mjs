@@ -1,6 +1,8 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
+
+import { physicalTabCapacityRestored } from "./PhysicalTabCapacity.mjs";
 
 /**
  * @file Reconciles abandoned or ambiguous website delivery before queue progress.
@@ -60,7 +62,7 @@ export class DirectServiceTurnRecovery {
 		const snapshot = this.protector
 			? await this.protector.afterTurn()
 			: { total: 0, withinLimit: true };
-		if (snapshot.total !== 0 || snapshot.withinLimit === false) {
+		if (!physicalTabCapacityRestored(snapshot)) {
 			const error = new Error("physical_tab_cap_not_restored");
 			error.code = "physical_tab_cap_not_restored";
 			throw error;

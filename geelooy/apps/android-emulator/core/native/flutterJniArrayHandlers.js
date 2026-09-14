@@ -1,8 +1,11 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
+//Blessed be He
 
 import { elf64Error } from "./elf64Errors.js";
+import {
+	registerFlutterJniPrimitiveArrayHandlers
+} from "./flutterJniPrimitiveArrayHandlers.js";
 
 const MAX_JSIZE = 0x7fffffff;
 
@@ -15,6 +18,7 @@ export function registerFlutterJniArrayHandlers(registry, machineState) {
 	registry.register("JNINativeInterface.GetArrayLength", context => {
 		return handleFlutterJniGetArrayLength(context, machineState);
 	});
+	registerFlutterJniPrimitiveArrayHandlers(registry, machineState);
 	return registry;
 }
 

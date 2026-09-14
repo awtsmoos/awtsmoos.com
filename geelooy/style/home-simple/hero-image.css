@@ -1,18 +1,18 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos lets the historical world glow without becoming a wall; Awtsmoos.com
-keeps wonder visible while search and navigation arrive within the first human glance.
+The Awtsmoos restores the original picture as a complete square vessel; Awtsmoos.com keeps all live copy in a neighboring chamber so no interface text covers the artwork.
 */
 body[data-geelooy-route="home"] .dance-frame {
 	position: relative;
 	isolation: isolate;
-	width: 100%;
+	display: grid;
+	grid-template-columns: minmax(0, .92fr) minmax(20rem, 1.08fr);
 	min-height: clamp(320px, min(30vw, 50vh), 430px);
 	overflow: hidden;
 	border: 1px solid #2c5879;
 	border-radius: 1.65rem;
-	background: #07101d;
+	background: #050914;
 	box-shadow: 0 28px 72px rgba(0, 0, 0, .42);
 }
 
@@ -22,79 +22,56 @@ body[data-geelooy-route="home"] .dance-frame::after {
 	z-index: var(--home-local-overlay);
 	border: 1px solid rgba(255, 255, 255, .05);
 	border-radius: inherit;
-	box-shadow: inset 0 -84px 110px rgba(2, 5, 12, .2);
+	box-shadow: inset 0 0 70px rgba(2, 5, 12, .16);
 	content: "";
 	pointer-events: none;
 }
 
-body[data-geelooy-route="home"] .hero-image {
-	position: absolute;
-	inset: 0;
+body[data-geelooy-route="home"] .hero-media {
+	position: relative;
 	z-index: 0;
+	display: grid;
+	place-items: center;
+	min-inline-size: 0;
+	min-block-size: 0;
+	overflow: hidden;
+	background: #050914;
+}
+
+body[data-geelooy-route="home"] .hero-image {
 	display: block;
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-	object-position: 50% 48%;
-	filter: saturate(1.06) contrast(1.03);
+	inline-size: 100%;
+	block-size: 100%;
+	max-block-size: 430px;
+	object-fit: contain;
+	object-position: center;
+	background: #050914;
 }
 
-body[data-geelooy-route="home"] .banner-shade {
-	position: absolute;
-	inset: 0;
-	z-index: var(--home-local-content);
-	background:
-		linear-gradient(90deg, rgba(2, 6, 14, .86) 0%, rgba(3, 8, 18, .54) 38%, rgba(3, 8, 18, .04) 78%),
-		linear-gradient(0deg, rgba(1, 4, 10, .46), transparent 52%);
-}
-
-body[data-geelooy-route="home"] .hero-orbit {
-	position: absolute;
-	top: 1rem;
-	right: 1rem;
-	z-index: var(--home-local-control);
-	display: flex;
-	gap: .38rem;
-	padding: .48rem .64rem;
-	border: 1px solid #3a607f;
-	border-radius: 999px;
-	background: rgba(8, 19, 32, .9);
-	box-shadow: 0 10px 24px rgba(0, 0, 0, .3);
-}
-
-body[data-geelooy-route="home"] .hero-orbit i {
-	width: .36rem;
-	height: .36rem;
-	border-radius: 50%;
-	background: #dbefff;
-	box-shadow: 0 0 .7rem rgba(120, 202, 255, .42);
-}
-
-body[data-geelooy-route="home"] .hero-orbit i:nth-child(2) {
-	opacity: .58;
-}
-
-body[data-geelooy-route="home"] .hero-orbit i:nth-child(3) {
-	opacity: .32;
-}
-
-@media (max-width: 850px) {
+@media (max-width: 960px) {
 	body[data-geelooy-route="home"] .dance-frame {
-		min-height: clamp(340px, min(58vw, 54vh), 430px);
+		grid-template-columns: minmax(0, 1fr) minmax(18rem, .9fr);
 	}
 }
 
-@media (max-width: 680px) {
+@media (max-width: 760px) {
 	body[data-geelooy-route="home"] .dance-frame {
-		min-height: clamp(350px, min(92vw, 52vh), 430px);
-		border-radius: 1.25rem;
+		grid-template-columns: minmax(0, 1fr);
+		grid-template-rows: auto auto;
+		min-height: 0;
+		border-radius: 1.2rem;
+	}
+
+	body[data-geelooy-route="home"] .hero-media {
+		grid-column: 1;
+		grid-row: 1;
+		aspect-ratio: 1;
 	}
 
 	body[data-geelooy-route="home"] .hero-image {
-		object-position: 50% 45%;
-	}
-
-	body[data-geelooy-route="home"] .banner-shade {
-		background: linear-gradient(0deg, rgba(2, 5, 12, .92) 0%, rgba(2, 6, 14, .46) 54%, rgba(2, 6, 14, .04) 86%);
+		inline-size: 100%;
+		block-size: 100%;
+		max-block-size: none;
+		object-fit: contain;
 	}
 }

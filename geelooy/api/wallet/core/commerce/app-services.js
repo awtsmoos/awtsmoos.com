@@ -1,10 +1,11 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 const { APP_CREATOR_SERVICE_SKUS } = require("./app-creator-services.js");
 const { APP_UTILITY_SERVICE_SKUS } = require("./app-utility-services.js");
 const { APP_SYSTEM_SERVICE_SKUS } = require("./app-system-services.js");
+const { FOUNDING_SERVICE_SKUS } = require("./foundingServiceCatalog.js");
 
 /**
  * B"H
@@ -20,7 +21,8 @@ const { APP_SYSTEM_SERVICE_SKUS } = require("./app-system-services.js");
 const APP_SERVICE_SKUS = Object.freeze([
 	...APP_CREATOR_SERVICE_SKUS,
 	...APP_UTILITY_SERVICE_SKUS,
-	...APP_SYSTEM_SERVICE_SKUS
+	...APP_SYSTEM_SERVICE_SKUS,
+	...FOUNDING_SERVICE_SKUS
 ]);
 
 module.exports = {

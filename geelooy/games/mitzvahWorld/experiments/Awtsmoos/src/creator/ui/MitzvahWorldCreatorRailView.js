@@ -1,6 +1,6 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
+//Blessed be He
 
 /**
  * @file MitzvahWorldCreatorRailView.js
@@ -54,7 +54,8 @@ export class MitzvahWorldCreatorRailView {
 		const materialOhr = creatorMaterialQuantityLabel(snapshotBinah.materialQuantity);
 		const totalOhr = Number(snapshotBinah.indexed ?? snapshotBinah.mounted ?? 0);
 		const nearbyOhr = Number(snapshotBinah.mounted ?? 0);
-		this.summary.textContent = `${materialOhr} materials · ${totalOhr} objects · ${nearbyOhr} nearby`;
+		const selectionOhr = snapshotBinah.selectedObjectId || 'none';
+		this.summary.textContent = `${materialOhr} materials · ${totalOhr} objects · ${nearbyOhr} nearby · selected ${selectionOhr}`;
 		this.root.dataset.hasMaterial = String(snapshotBinah.materialQuantity > 0);
 		this.applyActionState();
 	}

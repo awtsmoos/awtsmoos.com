@@ -1,8 +1,9 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
+//Blessed be He
 
 import { launchInitialActivity } from "./activityLifecycle.js";
+import { notifyActivityLifecycleProgress } from "./activityLifecycleProgress.js";
 import { resolveLauncherMethods } from "./activityMethods.js";
 
 /**
@@ -20,6 +21,7 @@ import { resolveLauncherMethods } from "./activityMethods.js";
 export function createAndroidLifecycleDriver(input) {
 	const {
 		executor,
+		progress,
 		registry,
 		runtime
 	} = input;
@@ -35,14 +37,19 @@ export function createAndroidLifecycleDriver(input) {
 			}
 			status = "creating";
 			try {
+				notifyActivityLifecycleProgress(progress, "resolve-launcher:start");
 				const launcher = resolveLauncherMethods(
 					runtime.identity,
 					registry
 				);
+				notifyActivityLifecycleProgress(progress, "resolve-launcher:complete", {
+					type: launcher.type
+				});
 				launchResult = await launchInitialActivity(
 					executor,
 					launcher,
-					runtime
+					runtime,
+					progress
 				);
 				status = "created";
 				return launchResult.activity;

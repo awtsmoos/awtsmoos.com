@@ -83,8 +83,13 @@ service_health_summary() {
 		"${agent_pid:-missing}" "$supervisor_count" "$agent_count"
 }
 
+# Waits for one complete service family without letting nounset arithmetic observe
+# a variable that shares the same declaration statement. The separate assignments
+# keep installer post-promotion proof deterministic under `set -u` on macOS Bash.
 wait_for_service_supervision() {
-	local timeout_seconds="${1:-30}" maximum_samples=$(( timeout_seconds * 4 )) sample=0
+	local timeout_seconds="${1:-30}"
+	local maximum_samples=$(( timeout_seconds * 4 ))
+	local sample=0
 	while [ "$sample" -lt "$maximum_samples" ]; do
 		service_supervision_ready && return 0
 		sleep 0.25

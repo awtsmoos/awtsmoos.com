@@ -15,16 +15,12 @@ import { loadMainMenuPopulation } from './MainMenuPopulation.js';
 import { publishMainMenuRuntime } from './MainMenuRuntimePublication.js';
 import { renderActionSection } from './MainMenuSectionView.js';
 import { bindMainMenuNavigation, createMainMenuShell } from './MainMenuShell.js';
+import { setGameHostsVisible } from './MitzvahWorldLaunchContext.js';
 import { installMainMenuStyle } from './MainMenuStyle.js';
 import { createWorldBrowserModel } from './WorldBrowserModel.js';
 import { renderWorldBrowser } from './WorldBrowserView.js';
 
-export function setGameHostsVisible(hosts, visible) {
-	for (const host of Object.values(hosts || {})) {
-		if (host?.style) host.style.visibility = visible ? '' : 'hidden';
-	}
-}
-
+/** @description Opens the world browser while game hosts remain inaccessible behind it. */
 export function showMainMenu(hosts, handlers = {}, options = {}) {
 	installMainMenuStyle();
 	setGameHostsVisible(hosts, false);
@@ -57,6 +53,7 @@ export function showMainMenu(hosts, handlers = {}, options = {}) {
 	return menu;
 }
 
+/** @description Runs one cancellable world launch and restores the menu after failure. */
 async function chooseMode(context) {
 	const { handlers, hosts, menu, options, render, selection, state } = context;
 	const handler = handlers[selection.mode];
@@ -100,6 +97,7 @@ async function chooseMode(context) {
 	}
 }
 
+/** @description Cancels one launch attempt and restores interactive menu state safely. */
 function restoreMenu(context) {
 	const { controller, hosts, launchSerial, menu, render, state } = context;
 	if (launchSerial !== state.launchSerial) return;
@@ -111,6 +109,7 @@ function restoreMenu(context) {
 	render();
 }
 
+/** @description Renders the selected world-browser section into the shared content vessel. */
 function renderSection(content, state, choose) {
 	if (state.section === 'worlds') renderWorldBrowser(content, state.model, choose);
 	else renderActionSection(content, state.section, choose);

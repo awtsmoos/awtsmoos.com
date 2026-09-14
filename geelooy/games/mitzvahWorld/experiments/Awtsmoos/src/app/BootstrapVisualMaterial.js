@@ -1,22 +1,22 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file BootstrapVisualMaterial.js
- * @description Creates remote-only bootstrap materials while preserving tagged semantic roles and demon readability metadata.
- * The Awtsmoos shines beyond tint and image while Awtsmoos.com refuses a painted placeholder in sight;
- * only a genuine cached remote picture may fill the map, and every missing garment remains a doorway awaiting light.
+ * @description Resolves bootstrap semantic evidence while Procedural Core owns native material creation.
+ * The bootstrap path may reuse a genuinely cached remote image, but never paints a placeholder; absent imagery stays
+ * remote-pending while demon vertex modulation and semantic provenance remain available to hydration and diagnostics.
  */
 
-import { MeshStandardMaterial } from '../../../light-three-gltf/tiny-runtime.js';
+import { createNativeWorldMaterial } from '../../../../../../libs/awtsmoos-procedural-core/src/core/worldBuilding/index.js';
 import { cachedTextureImage } from '../assets/PublicMaterialCache.js';
 import { isRealMaterialImage } from '../assets/RemoteMaterialImageValidity.js';
 import { bootstrapMaterialEvidence } from './BootstrapMaterialTags.js';
 import { normalizeMinimalDemonTint } from './MinimalMeadowDemonMaterial.js';
 import { relativeLuminance } from './MinimalMeadowDemonReadabilityMetrics.js';
 
-/** Creates one semantic material whose base map is either a real decoded image or pending null. */
+/** Creates one semantic bootstrap material with a verified cached map or a remote-pending null map. */
 export function createBootstrapVisualMaterial(name, color, options = {}) {
 	const demon = Boolean(options.demon || isDemonName(name));
 	const resolvedColor = demon
@@ -27,20 +27,22 @@ export function createBootstrapVisualMaterial(name, color, options = {}) {
 		: null;
 	const cached = evidence ? cachedTextureImage(evidence.primaryUrl) : null;
 	const mapImage = isRealMaterialImage(cached) ? cached : null;
-	const material = new MeshStandardMaterial({
+	const texturePolicy = remoteTexturePolicy(evidence, mapImage);
+	const material = createNativeWorldMaterial({
 		alphaMode: 'OPAQUE',
-		color: Object.freeze(resolvedColor),
+		color: resolvedColor,
 		mapImage,
+		mapImageFallback: false,
+		mapRepeat: evidence?.repeat || [1, 1],
 		name,
 		opacity: 1,
+		remoteOnly: true,
+		semanticRole: evidence?.role || null,
+		texturePolicy,
 		textureUrl: evidence?.primaryUrl || null
 	});
 	material.baseColorFactor = [...resolvedColor];
-	material.mapImage = mapImage;
 	material.mapImageFallback = false;
-	material.mapRepeat = evidence?.repeat || [1, 1];
-	material.textureUrl = evidence?.primaryUrl || null;
-	material.texturePolicy = remoteTexturePolicy(evidence, mapImage);
 	material.vertexColors = demon;
 	material.userData = {
 		bootstrapMaterialRecord: {

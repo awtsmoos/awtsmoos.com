@@ -1,6 +1,6 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file TerrainRealismProfile.test.mjs
@@ -45,5 +45,6 @@ test('high terrain material publishes the canonical mixing vectors', () => {
 	assert.deepEqual(material.terrainMixingB, expected.b);
 	assert.deepEqual(material.terrainMixingC, expected.c);
 	assert.deepEqual(material.texturePolicy.macroMixing, expected);
-	assert.match(material.texturePolicy.mix, /three-octave/);
+	assert.match(material.texturePolicy.mix, /zone-slope-height-wetness/);
+	assert.equal(material.texturePolicy.generatedTextureAllowed, false);
 });

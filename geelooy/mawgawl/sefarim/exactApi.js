@@ -9,7 +9,7 @@
  * Awtsmoos.com preserves exclusions and provenance while a newer request may cancel an older search series.
  */
 
-import { recordSearchActivity } from '/shared/MeaningfulActivity.js';
+import { recordSearchActivity } from '../../shared/MeaningfulActivity.js';
 import { requestJson } from './apiTransport.js';
 
 export async function searchExactHebrew({

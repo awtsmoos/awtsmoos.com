@@ -4,7 +4,7 @@
 
 import { getWebGlGlesFramebufferReplayState } from "./webglGlesFramebufferReplayState.js";
 
-const KINDS = new Set(["bind-framebuffer", "bind-renderbuffer", "create-framebuffer", "create-renderbuffer", "delete-framebuffer", "delete-renderbuffer", "framebuffer-renderbuffer", "framebuffer-status", "framebuffer-texture2d", "renderbuffer-storage"]);
+const KINDS = new Set(["bind-framebuffer", "bind-renderbuffer", "create-framebuffer", "create-renderbuffer", "delete-framebuffer", "delete-renderbuffer", "framebuffer-renderbuffer", "framebuffer-status", "framebuffer-texture2d", "framebuffer-texture-layer", "renderbuffer-storage"]);
 
 /**
  * Replays guest FBO/RBO lifecycle, storage, and attachments onto genuine WebGL2 containers.
@@ -25,6 +25,7 @@ export function replayWebGlGlesFramebuffer(gl, state, operation) {
 		"framebuffer-renderbuffer": () => attachRenderbuffer(gl, containers, operation),
 		"framebuffer-status": () => checkStatus(gl, state, operation),
 		"framebuffer-texture2d": () => attachTexture(gl, state, operation),
+		"framebuffer-texture-layer": () => attachTextureLayer(gl, state, operation),
 		"renderbuffer-storage": () => storeRenderbuffer(gl, operation)
 	};
 	return result(Boolean(handlers[operation.kind]()), true);
@@ -70,6 +71,14 @@ function attachTexture(gl, state, operation) {
 	const texture = mapped(state.texture, operation.texture);
 	if (texture === undefined || Number(operation.samples) > 0) return false;
 	gl.framebufferTexture2D(Number(operation.target), Number(operation.attachment), Number(operation.textureTarget), texture, Number(operation.level));
+	return true;
+}
+
+/** Attaches one mapped 3D/array texture layer through genuine WebGL2. */
+function attachTextureLayer(gl, state, operation) {
+	const texture = mapped(state.texture, operation.texture);
+	if (texture === undefined || typeof gl.framebufferTextureLayer !== "function") return false;
+	gl.framebufferTextureLayer(Number(operation.target), Number(operation.attachment), texture, Number(operation.level), Number(operation.layer));
 	return true;
 }
 

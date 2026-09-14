@@ -1,0 +1,26 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed be He */
+/** Mobile Database Studio collapses the navigator above the active data view. */
+
+@media (max-width: 760px) {
+	.project-data-workspace {
+		grid-template-columns: 1fr;
+	}
+
+	.project-data-explorer {
+		max-height: 190px;
+		border-right: 0;
+		border-bottom: 1px solid var(--border, #cad3df);
+		overflow: auto;
+	}
+
+	.project-data-documents {
+		grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+	}
+
+	.project-data-schema-row {
+		grid-template-columns: 1fr;
+		gap: 3px;
+	}
+}

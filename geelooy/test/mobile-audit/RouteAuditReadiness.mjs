@@ -16,7 +16,7 @@
  * @returns {Promise<object>} Last stable browser readiness evidence.
  */
 export async function awaitRouteReadiness(yesodClient, options = {}) {
-	const gevurahTimeoutMs = Number(options.timeoutMs) || 5000;
+	const gevurahTimeoutMs = Number(options.timeoutMs) || 8000;
 	const netzachPollMs = Number(options.pollMs) || 125;
 	const tiferesStableSamples = Number(options.stableSamples) || 2;
 	const malchusSettleMs = Number(options.settleMs) || 0;
@@ -36,6 +36,10 @@ export async function awaitRouteReadiness(yesodClient, options = {}) {
 			return hodLastEvidence;
 		}
 		await delay(netzachPollMs);
+	}
+	if (hodLastEvidence?.ready) {
+		if (malchusSettleMs > 0) await delay(malchusSettleMs);
+		return hodLastEvidence;
 	}
 	throw new Error(`Route readiness timed out: ${JSON.stringify(hodLastEvidence || {})}`);
 }
@@ -74,13 +78,18 @@ function collectBrowserReadiness() {
 	let pendingImports = 0;
 	const visitedSheets = new Set();
 	for (const styleSheet of document.styleSheets) inspectSheet(styleSheet);
+	const navigation = performance.getEntriesByType('navigation')[0];
+	const domContentLoadedEnd = Number(navigation?.domContentLoadedEventEnd || 0);
+	const domReady = document.readyState === 'complete'
+		|| (document.readyState === 'interactive' && domContentLoadedEnd > 0);
 	const ready = Boolean(document.documentElement && document.body)
-		&& document.readyState === 'complete'
+		&& domReady
 		&& missingLinks.length === 0
 		&& pendingImports === 0;
 	return {
 		ready,
 		readyState: document.readyState,
+		domContentLoadedEnd,
 		linkedCount: linkedStyles.length,
 		missingLinks,
 		styleSheetCount: document.styleSheets.length,

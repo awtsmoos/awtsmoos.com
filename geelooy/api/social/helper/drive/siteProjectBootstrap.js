@@ -17,6 +17,7 @@ const { upsertSiteMapping } = require('./siteMappingService.js');
 const { buildDriveProjectPlan } = require('./projectPlanService.js');
 const { publishSiteSource } = require('./siteSourcePublisher.js');
 const { buildSiteWorkspaceReceipt } = require('./siteWorkspaceReceipt.js');
+const { prepareBootstrapSource } = require('./siteProjectLineage.js');
 
 const DEFAULT_SERVICES = Object.freeze({
 	publishSiteSource,
@@ -35,7 +36,7 @@ async function bootstrapSiteProject(options) {
 	const sourcePublication = await services.publishSiteSource({
 		aliasId: options.aliasId,
 		rootPath: projectInput.rootPath,
-		files: options.files || [],
+		files: prepareBootstrapSource(options),
 		actorUserId: options.actorUserId,
 		credentialId: options.credentialId,
 		requestId: options.requestId,

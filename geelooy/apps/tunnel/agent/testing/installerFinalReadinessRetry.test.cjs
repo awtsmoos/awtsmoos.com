@@ -1,6 +1,6 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
@@ -42,6 +42,7 @@ try {
 	fs.rmSync(sandbox, { recursive: true, force: true });
 }
 
+/** Runs one isolated final-readiness convergence scenario with a fully controlled witness environment. */
 function runCase(mode) {
 	return spawnSync("bash", ["-c", shellScript()], {
 		encoding: "utf8",
@@ -56,10 +57,12 @@ function runCase(mode) {
 	});
 }
 
+/** Returns the isolated attempt-counter path shared only by this disposable fixture. */
 function counterPath() {
 	return path.join(sandbox, "attempts.txt");
 }
 
+/** Builds the Bash witness harness while keeping production readiness logic unmodified. */
 function shellScript() {
 	const readiness = quote(path.join(downloads, "unix-install-readiness.sh"));
 	return `set -euo pipefail
@@ -76,6 +79,9 @@ runtime_registered() {
 project_root_ready() {
 	return 0
 }
+local_runtime_action_ready() {
+	return 0
+}
 service_supervision_ready() {
 	return 0
 }
@@ -86,6 +92,7 @@ source ${readiness}
 verified_agent_pid`;
 }
 
+/** Quotes one filesystem path for literal use inside the generated Bash harness. */
 function quote(value) {
 	return `'${String(value).replace(/'/g, `'"'"'`)}'`;
 }

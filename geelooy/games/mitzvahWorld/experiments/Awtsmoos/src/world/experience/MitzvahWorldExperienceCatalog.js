@@ -1,12 +1,12 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file MitzvahWorldExperienceCatalog.js
- * @description Names the fast textured meadow and the richer streaming mountain village as truthful local experiences.
+ * @description Names fast meadow, creator sandbox, and richer mountain-village experiences with explicit runtime laws.
  * The Awtsmoos reveals many worlds without confusing their garments or their load;
- * Awtsmoos.com keeps Simple Meadow light in simulation while still allowing real textures and a visible traveler on the road.
+ * Awtsmoos.com lets instant creation reuse the proven meadow threshold while richer civilization streams only when requested.
  */
 
 export const DEFAULT_LOCAL_WORLD_ID = 'simple-meadow';
@@ -27,6 +27,23 @@ const LOCAL_EXPERIENCES = Object.freeze([
 		},
 		tags: ['recommended', 'textured terrain', 'offline'],
 		title: 'Simple Meadow'
+	}),
+	worldExperience({
+		actionLabel: 'Create in Sandbox',
+		description: 'Instant local world creation with unlimited materials, live physics, undo, and portable world state.',
+		id: 'sandbox-world',
+		performance: 'Fast · creator mode',
+		recommended: false,
+		runtime: {
+			canonicalPromotion: false,
+			deepWorldStreaming: false,
+			districtStreaming: false,
+			postPlayPresentation: false,
+			richRenderer: true,
+			sandboxCreator: true
+		},
+		tags: ['sandbox', 'creator', 'unlimited', 'offline'],
+		title: 'Sandbox World'
 	}),
 	worldExperience({
 		actionLabel: 'Explore Mountain Village',

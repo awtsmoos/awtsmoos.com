@@ -1,41 +1,43 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file Sky3D.js
- * @description Creates the visible local procedural atmosphere and publishes its bounded quality receipt.
- * The Awtsmoos reveals daylight, cloud, radiance, and horizon from one continuous law;
- * Awtsmoos.com lets the living WebGL sky shine without waiting for a remote painted draw.
+ * @description Adapts MitzvahWorld quality intent to the shared Core cinematic atmosphere API.
+ * Reusable sky geometry, material, shader, and hierarchy allocation remain owned by Awtsmoos Procedural Core.
  */
 
-import { Group } from '../../../light-three-gltf/tiny-runtime.js';
+import {
+	createCinematicWorldBuildingApi,
+	createNativeWorldGroup
+} from '../../../../../../libs/awtsmoos-procedural-core/src/core/worldBuilding/index.js';
 import { referenceLightingBudget } from './lighting/ReferenceGoldenHourPreset.js';
-import { createSkyDome } from './sky/SkyDome.js';
-import { PROCEDURAL_SKY_VISUAL_VERSION } from './sky/ProceduralSkyMeshFactory.js';
+
+const WORLD = createCinematicWorldBuildingApi();
 
 /**
- * Creates the local atmosphere group used by Meadow and village worlds.
- * @param {string} quality Requested sky quality tier.
- * @returns {Group} Visible procedural sky group.
+ * Creates the game atmosphere vessel around one Core-authored sky.
+ * @param {string} [quality='high'] Runtime quality tier.
+ * @returns {object} Core-owned sky hierarchy with MitzvahWorld diagnostics.
  */
 export function createSky3D(quality = 'high') {
-	const group = new Group();
-	const dome = createSkyDome(quality === 'high' ? 420 : 320);
-	group.name = `Awtsmoos_seamless_daylight_sky_${quality}`;
-	group.add(dome);
+	const group = createNativeWorldGroup({
+		name: `Awtsmoos_shared_core_sky_${quality}`
+	});
+	const sky = WORLD.sky({
+		quality,
+		radius: quality === 'high' ? 420 : 320
+	});
+	group.add(sky);
 	group.userData.AwtsmoosSky = {
 		budget: referenceLightingBudget(quality),
 		cameraCentered: true,
-		clouds: 'three-octave-directional-procedural-noise',
-		lensFlare: 'shader-sun-disc-inner-halo-outer-bloom',
+		coreAuthority: 'awtsmoos-procedural-core',
 		quality,
-		realSunDirection: true,
 		requiresRemoteImage: false,
-		source: 'local-procedural-webgl',
-		style: 'realistic-daylight-atmospheric-scattering',
-		technique: 'single-full-sphere-procedural-fragment-shader',
-		version: PROCEDURAL_SKY_VISUAL_VERSION,
+		source: 'core-procedural-physical-atmosphere',
+		technique: 'shared-core-atmosphere-shader',
 		visibleGeometryArtifacts: false
 	};
 	return group;

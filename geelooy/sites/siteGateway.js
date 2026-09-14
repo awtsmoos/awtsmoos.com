@@ -10,6 +10,7 @@ const {
 const { readDriveState } = require('../api/social/helper/drive/stateRepository.js');
 const { resolveSiteRequest } = require('./siteResolution.js');
 const { buildMappedSourceResponse } = require('./siteGatewaySource.js');
+const { buildSiteRemixResponse, isRemixManifestPath } = require('./siteRemixResponse.js');
 
 /**
  * @module PublicSiteGateway
@@ -28,6 +29,10 @@ async function buildSiteResponse(options = {}) {
 	});
 	if (!resolution || resolution.blocked) {
 		return brandedResponse(siteNotFound(), options.aliasId);
+	}
+	if (isRemixManifestPath(resolution.relativePath)) {
+		const remix = await buildSiteRemixResponse({ ...options, resolution, state, method });
+		return brandedResponse(remix, options.aliasId, publicSiteId(resolution));
 	}
 	const source = effectiveSiteSource(resolution.site);
 	if (!methodAllowed(method, source.kind)) {
@@ -79,7 +84,7 @@ function requiresNamedRootRedirect(resolution, url, method) {
 }
 
 function publicSiteId(resolution) {
-	return resolution.named ? resolution.site?.id : '';
+	return resolution.named || resolution.bound ? resolution.site?.id : '';
 }
 
 function siteNotFound() {

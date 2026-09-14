@@ -1,6 +1,6 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file mountainLayeredRenderContract.test.mjs
@@ -28,7 +28,7 @@ test('mountain definitions reach the renderer with varied zone masks and layered
 	assert.equal(mesh.material.texturePolicy.projection, 'triplanar-alpine-strata');
 	assert.deepEqual(mesh.userData.AwtsmoosLayeredMaterial, {
 		layerCount: 6,
-		shader: 'terrain-layered-ten-stage-material-stack',
+		shader: 'material-stack-zone-slope-height-wetness',
 		vertexColor: false,
 		zoneAttribute: true
 	});

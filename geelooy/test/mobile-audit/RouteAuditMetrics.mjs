@@ -1,24 +1,27 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
-
+//Blessed be He
 /**
  * @module RouteAuditMetrics
  * @description
- * The Awtsmoos gives every pixel a place without being bounded by any measured line;
- * Awtsmoos.com turns escaping edges, hidden focus, and unfinished native controls into browser evidence we can refine.
+ * The Awtsmoos gives every pixel a place without being bounded by measurement;
+ * Awtsmoos.com turns real escaping edges, hidden focus, and unfinished controls into
+ * reproducible browser evidence while ignoring deliberately closed UI vessels.
  */
 
-/** Returns a self-contained browser expression for one loaded page. */
+import { browserMetricHelpers } from "./RouteAuditMetricHelpers.mjs";
+
+/** @returns {string} Self-contained browser expression for one settled page. */
 export function auditMetricsExpression() {
-	return `(${collectRouteMetrics.toString()})()`;
+	return `(${collectRouteMetrics.toString()})(${browserMetricHelpers.toString()}())`;
 }
 
 /**
- * Collects finite geometry and style signals inside the inspected browser document.
- * This function intentionally depends only on browser globals because its source is evaluated through CDP.
+ * Collects geometry and interaction evidence using helpers instantiated in-browser.
+ * @param {object} helpers Serializable browser helper collection.
+ * @returns {object} Structured viewport evidence consumed by severity policy.
  */
-function collectRouteMetrics() {
+function collectRouteMetrics(helpers) {
 	if (!document.documentElement || !document.body) {
 		return {
 			pageUnavailable: true,
@@ -29,87 +32,56 @@ function collectRouteMetrics() {
 	}
 	const viewportWidth = document.documentElement.clientWidth;
 	const viewportHeight = window.innerHeight;
-	const elements = [...document.body.querySelectorAll('*')];
-	const visibleElements = elements.filter(isVisible);
-	const escaped = visibleElements.filter(element => {
+	const elements = [...document.body.querySelectorAll("*")];
+	const visible = elements.filter(helpers.isVisible);
+	const escaped = visible.filter(element => {
 		const rect = element.getBoundingClientRect();
-		if (rect.width <= 0 || hasIntentionalHorizontalScroller(element)) return false;
+		if (rect.width <= 0 || helpers.hasIntentionalHorizontalScroller(element)) return false;
+		if (helpers.isInsideIntentionallyClosedSurface(element, viewportWidth)) return false;
 		return rect.left < -3 || rect.right > viewportWidth + 3;
 	});
-	const overlays = visibleElements.filter(isOverlay).filter(element => {
+	const overlays = visible.filter(helpers.isOverlay).filter(element => {
+		if (helpers.isInsideIntentionallyClosedSurface(element, viewportWidth)) return false;
 		const rect = element.getBoundingClientRect();
 		return rect.left < -3 || rect.right > viewportWidth + 3 || rect.top < -3 || rect.bottom > viewportHeight + 3;
 	});
-	const controls = visibleElements.filter(isInteractive);
+	const controls = visible.filter(helpers.isInteractive);
 	const undersized = controls.filter(element => {
+		if (element.matches('.visually-hidden,[aria-hidden="true"]')) return false;
 		const rect = element.getBoundingClientRect();
 		return rect.width < 40 || rect.height < 40;
 	});
 	const hiddenTabbables = [...document.querySelectorAll('a[href],button,input,select,textarea,summary,[tabindex]')]
-		.filter(element => !isVisible(element) && element.tabIndex >= 0);
+		.filter(element => !element.closest('dialog:not([open]),details:not([open]),[inert],[hidden]'))
+		.filter(element => !helpers.isCssRemovedFromTabOrder(element))
+		.filter(element => !helpers.isFocusRevealLink(element))
+		.filter(element => !helpers.isVisible(element) && element.tabIndex >= 0);
 	const bodyStyle = getComputedStyle(document.body);
 	const defaultishControls = controls.filter(element => {
 		const style = getComputedStyle(element);
-		return style.borderStyle === 'outset' || style.fontFamily.includes('Times New Roman');
+		return style.borderStyle === "outset" || helpers.usesBrowserDefaultTimes(style.fontFamily);
 	});
 	return {
 		href: location.href,
 		title: document.title,
 		viewport: { width: viewportWidth, height: viewportHeight },
-		viewportMeta: document.querySelector('meta[name="viewport"]')?.content || '',
-		document: {
-			scrollWidth: document.documentElement.scrollWidth,
-			horizontalOverflow: document.documentElement.scrollWidth > viewportWidth + 2
-		},
+		viewportMeta: document.querySelector('meta[name="viewport"]')?.content || "",
+		document: { scrollWidth: document.documentElement.scrollWidth, horizontalOverflow: document.documentElement.scrollWidth > viewportWidth + 2 },
 		escapedCount: escaped.length,
-		escaped: escaped.slice(0, 12).map(describeElement),
+		escaped: escaped.slice(0, 12).map(helpers.describeElement),
 		overlayEscapeCount: overlays.length,
-		overlayEscapes: overlays.slice(0, 12).map(describeElement),
+		overlayEscapes: overlays.slice(0, 12).map(helpers.describeElement),
 		undersizedControlCount: undersized.length,
-		undersizedControls: undersized.slice(0, 12).map(describeElement),
+		undersizedControls: undersized.slice(0, 12).map(helpers.describeElement),
 		hiddenTabbableCount: hiddenTabbables.length,
-		hiddenTabbables: hiddenTabbables.slice(0, 12).map(describeElement),
+		hiddenTabbables: hiddenTabbables.slice(0, 12).map(helpers.describeElement),
 		defaultishControlCount: defaultishControls.length,
-		defaultishControls: defaultishControls.slice(0, 12).map(describeElement),
+		defaultishControls: defaultishControls.slice(0, 12).map(helpers.describeElement),
 		bodyDefaultSignals: {
 			margin: bodyStyle.margin,
 			fontFamily: bodyStyle.fontFamily,
-			defaultMargin: bodyStyle.margin === '8px',
-			defaultFont: bodyStyle.fontFamily.includes('Times New Roman')
+			defaultMargin: bodyStyle.margin === "8px",
+			defaultFont: helpers.usesBrowserDefaultTimes(bodyStyle.fontFamily)
 		}
 	};
-
-	function isVisible(element) {
-		const style = getComputedStyle(element);
-		const rect = element.getBoundingClientRect();
-		return style.display !== 'none' && style.visibility !== 'hidden' && Number(style.opacity) > .01 && rect.width > 0 && rect.height > 0;
-	}
-
-	function isInteractive(element) {
-		return element.matches('button,input:not([type="hidden"]),select,textarea,summary,[role="button"],[role="menuitem"],a[class]');
-	}
-
-	function isOverlay(element) {
-		const style = getComputedStyle(element);
-		const name = `${element.id} ${element.className}`;
-		return style.position === 'fixed' || /menu|sheet|drawer|dialog|popover|dropdown|toast|overlay/i.test(name);
-	}
-
-	function hasIntentionalHorizontalScroller(element) {
-		for (let ancestor = element.parentElement; ancestor; ancestor = ancestor.parentElement) {
-			const style = getComputedStyle(ancestor);
-			if (/(auto|scroll)/.test(style.overflowX) && ancestor.scrollWidth > ancestor.clientWidth + 2) return true;
-		}
-		return false;
-	}
-
-	function describeElement(element) {
-		const rect = element.getBoundingClientRect();
-		return {
-			tag: element.tagName.toLowerCase(),
-			id: element.id || '',
-			className: typeof element.className === 'string' ? element.className.slice(0, 160) : '',
-			rect: [Math.round(rect.left), Math.round(rect.top), Math.round(rect.width), Math.round(rect.height)]
-		};
-	}
 }

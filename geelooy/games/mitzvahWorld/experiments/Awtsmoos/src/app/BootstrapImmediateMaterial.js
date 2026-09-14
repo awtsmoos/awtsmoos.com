@@ -1,51 +1,49 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file BootstrapImmediateMaterial.js
- * @description Creates a tiny remote-pending first-play material without importing catalog, cache, resolver, or image machinery.
- * The Awtsmoos is beyond color and photograph while Awtsmoos.com keeps this first keli hidden from sight;
- * only after a real remote image descends may the later hydration covenant reveal the material in light.
+ * @description Creates a tiny remote-pending first-play material through Procedural Core.
+ * Bootstrap code supplies semantic identity only; Core owns the native physical material while the shared hydration
+ * system keeps the surface hidden until a verified remote image exists. No local/generated image substitute is made.
  */
 
 import {
-	MeshStandardMaterial
-} from '../../../light-three-gltf/tiny-runtime.js';
+	createNativeWorldMaterial
+} from '../../../../../../libs/awtsmoos-procedural-core/src/core/worldBuilding/index.js';
 
 /**
- * Creates one remote-only bootstrap material whose mesh must remain hidden until
- * the shared hydration system binds a genuine decoded image.
- *
+ * Creates one remote-only bootstrap material whose mesh remains pending until hydration.
  * @param {string} name Stable material identity.
- * @param {number[]} color Non-visible lighting/base-factor hint while pending.
- * @param {object} [options={}] Remote semantic identity and repeat metadata.
- * @returns {MeshStandardMaterial} Remote-pending material record.
+ * @param {number[]} color Non-visible base-factor hint while pending.
+ * @param {object} [options={}] Semantic role, repeat, tags, and optional trusted URL.
+ * @returns {object} Core-owned native remote-pending material.
  */
 export function createBootstrapImmediateMaterial(name, color, options = {}) {
 	const resolvedColor = Object.freeze([...color]);
 	const semanticRole = options.semanticRole || null;
 	const textureUrl = options.textureUrl || null;
-	const material = new MeshStandardMaterial({
+	const mapRepeat = [...(options.mapRepeat || [1, 1])];
+	const material = createNativeWorldMaterial({
 		alphaMode: 'OPAQUE',
 		color: resolvedColor,
 		mapImage: null,
+		mapImageFallback: false,
+		mapRepeat,
 		name,
 		opacity: 1,
+		remoteOnly: true,
+		semanticRole,
+		texturePolicy: { tags: [...(options.tags || [])] },
 		textureUrl
 	});
 	material.baseColorFactor = [...resolvedColor];
 	material.map = null;
 	material.mapImage = null;
 	material.mapImageFallback = false;
-	material.mapRepeat = [...(options.mapRepeat || [1, 1])];
+	material.mapRepeat = mapRepeat;
 	material.textureUrl = textureUrl;
-	material.texturePolicy = {
-		realMapImage: false,
-		remoteOnly: true,
-		semanticRole,
-		tags: [...(options.tags || [])]
-	};
 	material.vertexColors = false;
 	material.userData = {
 		bootstrapImmediate: true,

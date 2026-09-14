@@ -1,6 +1,6 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * B"H
@@ -66,6 +66,10 @@ function publicProcess(record = {}) {
 		status: record.status,
 		pid: record.pid || null,
 		restartCount: record.restartCount || 0,
+		restartClass: record.restartClass,
+		consecutiveFailures: record.consecutiveFailures || 0,
+		restartDelayMs: record.restartDelayMs || 0,
+		lastUptimeMs: record.lastUptimeMs || null,
 		startedAt: record.startedAt || null,
 		lastSeenAt: record.lastSeenAt || null,
 		exitCode: record.exitCode ?? null,

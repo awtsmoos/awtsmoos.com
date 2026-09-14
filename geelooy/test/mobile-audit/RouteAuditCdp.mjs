@@ -64,6 +64,9 @@ export class RouteAuditCdp {
 		await this.send('Page.enable');
 		await this.send('Runtime.enable');
 		await this.send('Network.enable');
+		await this.send('Network.setCacheDisabled', {
+			cacheDisabled: true
+		});
 	}
 
 	send(method, params = {}, timeoutMs = this.requestTimeoutMs) {

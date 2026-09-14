@@ -4,24 +4,22 @@
 
 /**
  * @file VillageStoneBridgeSystem.js
- * @description Creates BRIDGE01 as a restrained fieldstone crossing with one real arch opening and human-scale rails.
- * The Awtsmoos joins divided banks while the river remains visibly free beneath them; Awtsmoos.com keeps the finite bridge sturdy,
- * traversable, textured, and quiet enough that water and traveler remain the living subject instead of a fortress silhouette.
+ * @description Creates BRIDGE01 as a restrained fieldstone crossing whose center deck span is genuinely missing until restored.
+ * The Awtsmoos joins divided banks while leaving one earned place for repair; Awtsmoos.com keeps arch, abutments,
+ * parapets, native deck segments, and later Creator restoration free of duplicate geometry or overlapping deck collision.
  */
 
 import { TEXTURE_URLS } from '../../assets/TextureCatalog.js';
 import { villageGroundHeight } from './VillageGroundSampling.js';
-import {
-	STONE_BRIDGE_DIMENSIONS,
-	stoneBridgeDeckCenterY,
-	stoneBridgeDeckTopY
-} from './VillageStoneBridgeContract.js';
+import { stoneBridgeDeckCenterY } from './VillageStoneBridgeContract.js';
+import { createStoneBridgeDeckSegments } from './VillageStoneBridgeDeck.js';
 import { createStoneBridgeArchGeometry } from './VillageStoneBridgeGeometry.js';
 import {
 	createStoneBridgeAbutments,
 	createStoneBridgeParapets
 } from './VillageStoneBridgeMasonry.js';
 
+/** Returns complete native bridge geometry while intentionally omitting the repair span. */
 export function createStoneBridgeDefinitions(center, groundSampler) {
 	const groundY = villageGroundHeight(groundSampler, center.x, center.z);
 	const deckY = stoneBridgeDeckCenterY(groundY);
@@ -29,12 +27,13 @@ export function createStoneBridgeDefinitions(center, groundSampler) {
 	return [
 		archDefinition('front', center, springY, -2.12),
 		archDefinition('rear', center, springY, 2.12),
-		bridgeDeck(center, groundY, deckY),
+		...createStoneBridgeDeckSegments(center, deckY),
 		createStoneBridgeParapets(center, deckY),
 		createStoneBridgeAbutments(center, groundY, deckY)
 	];
 }
 
+/** Creates one textured arch ring definition while preserving the river opening. */
 function archDefinition(side, center, springY, zOffset) {
 	return {
 		...createStoneBridgeArchGeometry(center, springY, zOffset),
@@ -55,38 +54,6 @@ function archDefinition(side, center, springY, zOffset) {
 			family: 'canonical-stone-bridge',
 			landmarkId: 'BRIDGE01',
 			part: 'arch-ring'
-		}
-	};
-}
-
-function bridgeDeck(center, groundY, deckY) {
-	return {
-		color: '#8b8275',
-		id: 'Awtsmoos_BRIDGE01_deck',
-		mapRepeat: [8, 3],
-		position: { x: center.x, y: deckY, z: center.z },
-		shape: 'box',
-		size: {
-			x: STONE_BRIDGE_DIMENSIONS.halfSpan * 2,
-			y: STONE_BRIDGE_DIMENSIONS.deckThickness,
-			z: STONE_BRIDGE_DIMENSIONS.width
-		},
-		solid: true,
-		texturePolicy: {
-			publicFirebase: true,
-			role: 'bridge-crowned-stone-deck',
-			shader: 'rough-stone-detail'
-		},
-		textureUrl: TEXTURE_URLS.stone.cobblestone,
-		userData: {
-			canonicalId: 'BRIDGE01',
-			family: 'canonical-stone-bridge',
-			landmarkId: 'BRIDGE01',
-			part: 'deck',
-			traversal: {
-				approachAuthority: 'canonical-grade-solved-road',
-				walkableSurfaceY: stoneBridgeDeckTopY(groundY)
-			}
 		}
 	};
 }

@@ -1,6 +1,6 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file MinimalMeadowWaterSystem.js
@@ -9,7 +9,7 @@
  * so richer shimmer answers available frame-time without multiplying geometry, draw calls, or hidden fear.
  */
 
-import { Group } from '../../../light-three-gltf/tiny-runtime.js';
+import { createNativeWorldGroup } from '../../../../../../libs/awtsmoos-procedural-core/src/core/worldBuilding/index.js';
 import { createPrimitiveMesh } from '../world/Box3D.js';
 import {
 	animateMinimalMeadowWaterMaterials,
@@ -50,7 +50,7 @@ export class MinimalMeadowWaterSystem {
 	constructor(runtime, sources) {
 		this.runtime = runtime;
 		this.sources = sources;
-		this.group = new Group();
+		this.group = createNativeWorldGroup();
 		this.group.name = 'Awtsmoos_flowing_river_banks_and_lake';
 		this.meshes = createMinimalMeadowWaterDefinitions(sources).map(definition => {
 			const mesh = createPrimitiveMesh(definition);

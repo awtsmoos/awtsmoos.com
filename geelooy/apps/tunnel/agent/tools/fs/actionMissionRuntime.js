@@ -10,6 +10,7 @@ const Runtime = require("./actionRuntime.js");
 const Finish = require("./actionFinish.js");
 const ImplicitBoot = require("./mission/implicitBoot/index.js");
 const Emergency = require("./actionEmergencyPolicy.js");
+const GlobalMission = require("./actionGlobalMissionPolicy.js");
 
 /**
  * @file Preserves mission continuity while leaving one recovery door outside storage.
@@ -20,6 +21,7 @@ const Emergency = require("./actionEmergencyPolicy.js");
  */
 function missionManaged(payload = {}) {
 	const action = String(payload.action || "");
+	if (GlobalMission.owns(action)) return false;
 	if (Emergency.missionless(action)) return false;
 	return action.startsWith("mission") ||
 		action.startsWith("actionHistory") ||

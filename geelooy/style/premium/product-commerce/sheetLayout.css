@@ -1,0 +1,83 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed be He */
+/*
+ * The Awtsmoos is beyond viewport and edge. Awtsmoos.com lets the universal Peruta
+ * vessel fit narrow screens, respect safe areas, keep its heading visible, and give
+ * the close doorway a dependable finger-sized form without changing store semantics.
+ */
+.awts-commerce__dialog {
+	box-sizing: border-box;
+	width: min(
+		560px,
+		calc(
+			100vw - max(18px, env(safe-area-inset-left))
+			- max(18px, env(safe-area-inset-right))
+		)
+	);
+	max-width: 100%;
+	max-height: min(88dvh, 760px);
+	margin: auto auto max(9px, env(safe-area-inset-bottom));
+	padding: 0;
+	border: 1px solid rgba(255, 255, 255, 0.14);
+	border-radius: 24px;
+	background: var(--awts-commerce-bg);
+	box-shadow: 0 34px 90px rgba(0, 0, 0, 0.56);
+	color: var(--awts-commerce-text);
+	overflow-x: hidden;
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	backdrop-filter: blur(24px) saturate(1.2);
+}
+
+.awts-commerce__dialog::backdrop {
+	background: rgba(0, 0, 0, 0.58);
+	backdrop-filter: blur(5px);
+}
+
+.awts-commerce__header {
+	position: sticky;
+	top: 0;
+	z-index: 2;
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	gap: 16px;
+	padding: 20px 20px 14px;
+	background: linear-gradient(
+		180deg,
+		rgba(8, 11, 20, 0.99),
+		rgba(8, 11, 20, 0.88)
+	);
+	border-bottom: 1px solid var(--awts-commerce-line);
+}
+
+.awts-commerce__eyebrow {
+	color: var(--awts-commerce-gold);
+	font-size: 0.68rem;
+	font-weight: 900;
+	letter-spacing: 0.11em;
+	text-transform: uppercase;
+}
+
+.awts-commerce__title {
+	margin: 5px 0 0;
+	color: #fff;
+	font-size: clamp(1.2rem, 5vw, 1.6rem);
+	line-height: 1.1;
+	overflow-wrap: anywhere;
+}
+
+.awts-commerce__close {
+	width: 44px;
+	height: 44px;
+	min-width: 44px;
+	min-height: 44px;
+	flex: 0 0 auto;
+	border: 1px solid var(--awts-commerce-line);
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.06);
+	color: #fff;
+	font: 400 1.55rem/1 system-ui;
+	cursor: pointer;
+}

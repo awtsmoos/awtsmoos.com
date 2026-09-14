@@ -13,6 +13,7 @@ import {
 	manifestBrokenAuditResult
 } from './RouteAuditEvidencePolicy.mjs';
 import { auditMetricsExpression } from './RouteAuditMetrics.mjs';
+import { navigateForAudit } from './RouteAuditNavigation.mjs';
 import { awaitRouteReadiness } from './RouteAuditReadiness.mjs';
 
 /**
@@ -40,12 +41,12 @@ export async function auditRouteCase(options) {
 		signals: hodSignals
 	} = options;
 	const malchusUrl = new URL(keterRoute.path, binahBaseUrl).href;
-	hodSignals.begin(keterRoute, gevurahViewport);
+	let hodScoped = false;
 	try {
 		await applyViewportVessel(yesodClient, gevurahViewport);
-		await yesodClient.send('Page.navigate', {
-			url: malchusUrl
-		});
+		hodSignals.begin(keterRoute, gevurahViewport);
+		hodScoped = true;
+		await navigateForAudit(yesodClient, malchusUrl);
 		const tiferesReadiness = await awaitRouteReadiness(yesodClient, {
 			settleMs: netzachWaitMs
 		});
@@ -73,7 +74,7 @@ export async function auditRouteCase(options) {
 			hodRuntimeSignals
 		);
 	} catch (netzachFailure) {
-		const hodRuntimeSignals = hodSignals.finish();
+		const hodRuntimeSignals = hodScoped ? hodSignals.finish() : [];
 		await yesodClient.send('Page.stopLoading', {}, 1500).catch(() => {});
 		return manifestBrokenAuditResult(
 			keterRoute,

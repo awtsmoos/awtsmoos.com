@@ -12,6 +12,8 @@ import { createWebGlGlesPixelData } from "./webglGlesPixelData.js";
 export function replayWebGlGlesTextureImage(gl, state, operation) {
 	if (operation?.kind === "pixel-store") return handled(pixelStore(gl, operation));
 	if (operation?.kind === "tex-image-2d") return handled(texImage2d(gl, state, operation));
+	if (operation?.kind === "copy-tex-image-2d") return handled(copyImage2d(gl, state, operation, false));
+	if (operation?.kind === "copy-tex-sub-image-2d") return handled(copyImage2d(gl, state, operation, true));
 	return Object.freeze({ applied: false, handled: false });
 }
 
@@ -37,6 +39,19 @@ function texImage2d(gl, state, operation) {
 		Number(operation.type),
 		pixels
 	);
+	return true;
+}
+
+/** Replays framebuffer-to-texture copies against the exact guest-bound texture. */
+function copyImage2d(gl, state, operation, subImage) {
+	const texture = resolveWebGlGlesTexture(gl, state, operation.texture, operation.bindingTarget);
+	if (!texture) return false;
+	gl.bindTexture(Number(operation.bindingTarget), texture);
+	if (subImage) {
+		gl.copyTexSubImage2D(Number(operation.target), Number(operation.level), Number(operation.xoffset), Number(operation.yoffset), Number(operation.x), Number(operation.y), Number(operation.width), Number(operation.height));
+	} else {
+		gl.copyTexImage2D(Number(operation.target), Number(operation.level), Number(operation.internalFormat), Number(operation.x), Number(operation.y), Number(operation.width), Number(operation.height), Number(operation.border));
+	}
 	return true;
 }
 

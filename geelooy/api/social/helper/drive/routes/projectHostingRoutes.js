@@ -50,8 +50,28 @@ async function databaseRoute({ $i, userid, variables }) {
 		if (method === 'GET' && input.key !== undefined) {
 			return { database: await db.readProjectKey({ ...base, key: input.key }) };
 		}
+		if (method === 'GET' && input.view === 'capabilities') {
+			return { database: db.projectDatabaseCapabilities(base) };
+		}
+		if (method === 'GET' && input.view === 'query') {
+			return { database: await db.queryProjectDocuments({
+				...base,
+				limit: input.limit,
+				offset: input.offset,
+				field: input.field,
+				operator: input.operator,
+				value: input.value,
+				sort: input.sort
+			}) };
+		}
+		if (method === 'GET' && input.view === 'documents') {
+			return { database: await db.listProjectDocuments({ ...base, limit: input.limit, offset: input.offset }) };
+		}
 		if (method === 'GET') {
-			return { database: await db.listProjectKeys({ ...base, limit: input.limit }) };
+			return { database: await db.listProjectKeys({ ...base, limit: input.limit, offset: input.offset }) };
+		}
+		if (method === 'POST' && input.view === 'import') {
+			return { database: await db.importProjectDocuments({ ...base, documents: input.documents }) };
 		}
 		if (method === 'POST') {
 			return { database: await db.setProjectKey({ ...base, key: input.key, value: input.value }) };

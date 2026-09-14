@@ -5,9 +5,10 @@
 /**
  * @file TorahReaderAuthorityContract
  * @description
- * The Awtsmoos protects reading-first geometry from historical cushions and
- * physical-position rules. Awtsmoos.com verifies the final manifest, modular
- * files, bottom-right controls, and clear reader labels as permanent contracts.
+ * The Awtsmoos protects reading-first geometry from historical cushions,
+ * logical-inset collisions, and fixed legacy button widths. Awtsmoos.com proves
+ * the final direct-child authority owns bottom-right placement, full labels,
+ * touch targets, and a quiet Torah-first section hierarchy on every viewport.
  */
 
 import assert from 'node:assert/strict';
@@ -42,13 +43,18 @@ test('Torah text begins without the historical giant entry cushion', () => {
 	assert.doesNotMatch(surface, /9rem|17rem|24vh/);
 });
 
-test('reader tools remain understandable and bottom anchored', () => {
+test('reader controls defeat legacy top-left and fixed-width rules', () => {
+	assert.match(controls, /body \.all\.post-reader-localized-context\.awtsmoos-reader-vision/);
+	assert.match(controls, /> \.awtsmoos-floating-controls/);
 	for (const token of [
+		'inset-block-start: auto !important',
+		'inset-inline-start: auto !important',
 		'top: auto !important',
 		'left: auto !important',
 		'right: max(.8rem',
 		'bottom: max(.8rem',
-		'min-block-size: 44px !important',
+		'width: auto !important',
+		'height: 44px !important',
 		'white-space: nowrap !important'
 	]) assert.ok(controls.includes(token), `control authority missing ${token}`);
 	assert.match(template, />Aa<\/button>/);

@@ -1,0 +1,43 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed be He */
+/** Runtime-proven Database Studio engine capabilities. */
+
+.project-engine-badge {
+	display: grid;
+	gap: 5px;
+	min-width: min(100%, 230px);
+	padding: 10px 12px;
+	border: 1px solid var(--border, #cad3df);
+	border-radius: 14px;
+	background: color-mix(in srgb, var(--panel, #fff) 94%, #5c6cff 6%);
+}
+
+.project-engine-badge > strong {
+	font-size: .76rem;
+}
+
+.project-engine-badge > span {
+	font-size: .68rem;
+	opacity: .7;
+}
+
+.project-engine-features {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px;
+}
+
+.project-engine-feature {
+	padding: 3px 6px;
+	border-radius: 999px;
+	background: rgba(55, 165, 112, .12);
+	color: #16704a;
+	font-size: .62rem;
+	font-weight: 800;
+}
+
+.project-engine-compat {
+	background: rgba(91, 84, 214, .1);
+	color: #4652c4;
+}

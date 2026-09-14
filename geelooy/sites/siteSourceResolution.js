@@ -23,7 +23,20 @@ function resolveSiteSource(site = {}, relativePath = '') {
 	if (source.kind === SOURCE_KINDS.HOSTED_PROJECT) {
 		return resolveHostedProjectSource(source, requestedPath);
 	}
+	if (source.kind === SOURCE_KINDS.DRIVE_DEPLOYMENT) {
+		return resolveDriveDeploymentSource(source, requestedPath);
+	}
 	return resolveDriveSource(source, requestedPath);
+}
+
+function resolveDriveDeploymentSource(source, relativePath) {
+	return {
+		kind: SOURCE_KINDS.DRIVE_DEPLOYMENT,
+		mode: source.mode,
+		deploymentId: source.deploymentId,
+		relativePath,
+		entryRelativePath: joinRelative(relativePath, 'index.html')
+	};
 }
 
 function resolveHostedProjectSource(source, relativePath) {

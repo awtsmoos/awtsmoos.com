@@ -5,8 +5,10 @@
 /**
  * @file catalogAndSidecar.test.js
  * @description
- * The Awtsmoos names six complete corpora by persisted truth, while Awtsmoos.com keeps
- * Wikisource text-only and the published Likkutei HNSW lane shining in reviewed proof.
+ * The Awtsmoos names six complete corpora by persisted publication truth while
+ * Awtsmoos.com keeps request execution bounded. Publication completeness and
+ * per-request scan completeness are tested separately so a slower runtime may
+ * truncate honestly without pretending that physical shards are missing.
  */
 
 const test = require('node:test');
@@ -32,7 +34,12 @@ const EXPECTED = Object.freeze({
 
 const databaseRoot = configuredRoot();
 
-test('publishes six complete independent RAG lanes', {
+/**
+ * Proves corpus publication completeness separately from one bounded request.
+ * Every immutable lane must be fully published, while a request that exhausts
+ * its shared deadline must report truncation rather than falsifying completeness.
+ */
+test('publishes six complete independent RAG lanes with bounded query truth', {
 	skip: databaseRoot ? false : 'No installed local corpus was found.'
 }, async () => {
 	const $i = { db: { directory: databaseRoot } };
@@ -70,7 +77,13 @@ test('publishes six complete independent RAG lanes', {
 	const searchMs = performance.now() - searchStart;
 	assert(result.hits.length);
 	assert(searchMs < COLD_STREAM_LIMIT_MS, `Cold search took ${searchMs.toFixed(1)}ms.`);
-	assert.equal(result.partsSearched, 28);
+	assert.equal(result.partsExpected, 28);
+	assert(result.partsSearched > 0);
+	assert(result.partsSearched <= result.partsExpected);
+	if (result.partsSearched < result.partsExpected) {
+		assert.equal(result.truncated, true);
+		assert.equal(result.scanComplete, false);
+	}
 	for (const hit of result.hits) {
 		assert(String(hit.row.displayText || hit.row.text || '').trim());
 		assert.equal(hit.row.vec, undefined);
@@ -84,6 +97,7 @@ test('strips vector payloads from sidecar rows', () => {
 	);
 });
 
+/** Finds the first installed canonical corpus root without creating data. */
 function configuredRoot() {
 	const configFile = path.resolve('ayzarim/awtsmoos.config.json');
 	const config = JSON.parse(fs.readFileSync(configFile, 'utf8'));

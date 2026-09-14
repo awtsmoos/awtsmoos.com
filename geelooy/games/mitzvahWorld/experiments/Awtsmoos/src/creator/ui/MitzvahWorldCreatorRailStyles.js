@@ -1,6 +1,6 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file MitzvahWorldCreatorRailStyles.js
@@ -12,7 +12,7 @@
 import { YesodStylesheetInstaller } from '../../ui/YesodStylesheetInstaller.js';
 
 const CREATOR_RAIL_STYLE_ID = 'Mitzvah-world-creator-rail-styles';
-const CREATOR_RAIL_STYLE_URL = new URL('./styles/creator-rail.css', import.meta.url).href;
+const CREATOR_RAIL_STYLE_URL = new URL('./styles/creator-rail.css?v=20260910-sandbox-world-01', import.meta.url).href;
 
 /** Specialized localized stylesheet vessel for the creator rail family. */
 class YesodCreatorRailStylesheet extends YesodStylesheetInstaller {

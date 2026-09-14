@@ -1,6 +1,6 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 import { delay } from '../CdpClient.mjs';
 
 const DIRECTIONS = Object.freeze(['↑', '↓', '←', '→']);
@@ -13,7 +13,7 @@ export const AdventureContract = Object.freeze({
 	name: 'adventure',
 
 	async observe(client) {
-		return client.evaluate(`import('./js/app.js?v=adventure-002').then(module => module.adventureRuntime.snapshot())`);
+		return client.evaluate(`globalThis.__ADVENTURE__?.read?.()`);
 	},
 
 	async exercise({ client, interaction, pageBefore }) {

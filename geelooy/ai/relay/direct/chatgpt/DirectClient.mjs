@@ -1,43 +1,48 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 import { AuthenticatedHostLease } from "../browser/AuthenticatedHostLease.mjs";
 import { AuthenticatedSocketController } from "../browser/AuthenticatedSocketController.mjs";
 import { StageTimingLedger } from "../core/StageTimingLedger.mjs";
 import { DirectClientResultPresenter } from "./DirectClientResultPresenter.mjs";
+import { emitDirectProgress } from "./DirectClientProgress.mjs";
 import { DirectTurnExecutor } from "./DirectTurnExecutor.mjs";
 import { VerifiedSendHold } from "./VerifiedSendHold.mjs";
 
 /**
- * @file Verifies one prompt, one accepted POST, one twenty-second witness, then one close.
+ * @file Verifies one prompt, one accepted POST, one witnessed hold, and one close.
  * @description
- * The Awtsmoos gives the browser one bounded shlichus and Awtsmoos.com refuses haste:
- * exact composer letters and accepted network testimony come first; the same target then
- * remains alive for twenty seconds, while ambiguous Send boundaries stay open for inspection.
+ * The Awtsmoos gives one visible Shliach turn a single physical Send boundary.
+ * Awtsmoos.com never mistakes focus for delivery, never repeats an uncertain Send,
+ * and releases the global turn only after verified target closure is witnessed.
  */
 export class DirectClient {
 	constructor(options = {}) {
 		this.port = options.port || 9224;
 		this.forceNewTarget = options.forceNewTarget !== false;
+		this.agentStartUrl = options.agentStartUrl;
 		const openHost = options.controllerFactory || (() =>
 			new AuthenticatedSocketController({
 				port: this.port,
+				agentStartUrl: this.agentStartUrl,
 				replaceChatGptTabs: false,
 				forceNewTarget: this.forceNewTarget
 			}).open());
 		this.hostLease = options.hostLease || new AuthenticatedHostLease({ openHost });
 		this.turnExecutor = options.turnExecutor || new DirectTurnExecutor();
 		this.presenter = options.presenter || new DirectClientResultPresenter();
-		this.sendHold = options.sendHold || new VerifiedSendHold({ minimumMs: options.verifiedSendHoldMs });
+		this.sendHold = options.sendHold || new VerifiedSendHold({
+			minimumMs: options.verifiedSendHoldMs
+		});
 	}
-
 	async send(options = {}) {
 		this.assertNotAborted(options.signal);
 		const ledger = new StageTimingLedger();
 		const boundary = { started: false, accepted: false, acceptedAt: 0 };
 		const guarded = this.guardCallbacks(options, boundary);
 		let submitted = null;
+		emitDirectProgress(options.onProgress, "browser-target", "opening");
 		try {
 			submitted = await this.hostLease.run(async (controller, lease) => {
 				const result = await this.turnExecutor.execute(guarded, controller, lease, ledger);
@@ -51,9 +56,14 @@ export class DirectClient {
 			error.submissionStarted ||= boundary.started;
 			error.submissionAccepted ||= boundary.accepted;
 			error.acceptedAt ||= boundary.acceptedAt || undefined;
+			if (error.tabClose?.verified === true && (error.submissionStarted || error.submissionAccepted)) {
+				try { await this.notifyClosed(options, error.tabClose, Date.now(), true); }
+				catch (closeError) { error.closeReceiptError = closeError.code || closeError.message; }
+			}
 			throw error;
 		}
 		if (!submitted.tabClose?.verified) throw closeError(submitted.tabClose);
+		emitDirectProgress(options.onProgress, "browser-target", "closed");
 		const closedAt = Date.now();
 		await this.notifyClosed(options, submitted.tabClose, closedAt, false);
 		return this.presenter.dispatch(submitted, ledger, closedAt);
@@ -75,13 +85,11 @@ export class DirectClient {
 	}
 
 	async recover() { throw codedError("response_recovery_disabled_submit_only"); }
-
 	notifyClosed(options, tabClose, closedAt, submissionUncertain) {
 		return options.onTabClosed?.({ tabClose, closedAt, verified: true, submissionUncertain });
 	}
 
 	close() { return this.hostLease.close(); }
-
 	status() {
 		return {
 			port: this.port,

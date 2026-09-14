@@ -29,11 +29,15 @@ async function evaluateMetricsWitness(client, expression, label, url) {
 	const findings = [];
 
 	if (evaluation.exceptionDetails) {
+		const details = evaluation.exceptionDetails;
+		const text = details.exception?.description ||
+			details.text ||
+			`${label} metrics evaluation failed`;
 		findings.push({
 			type: 'metrics-exception',
 			severity: 'error',
 			url,
-			text: evaluation.exceptionDetails.text || `${label} metrics evaluation failed`
+			text
 		});
 	}
 

@@ -22,6 +22,9 @@ const {
 	createHttpAdmission
 } = require("./ayzarim/awtsmoosDynamicServer/server/httpAdmission.js");
 const {
+	bindRuntimeShutdown
+} = require("./ayzarim/awtsmoosDynamicServer/server/runtimeShutdown.js");
+const {
 	getNumberEnv,
 	listenRequired,
 	startMailSafely
@@ -35,6 +38,9 @@ const {
 const {
 	createCustomDomainHttpIngress
 } = require("./geelooy/sites/customDomainHttpIngress.js");
+const {
+	startSiteDiscoveryRuntime
+} = require("./geelooy/api/social/helper/drive/siteDiscoveryRuntime.js");
 
 const DEFAULT_HTTP_PORT = 8080;
 const DEFAULT_MAIL_PORT = 25;
@@ -52,7 +58,8 @@ const DEFAULT_MAIL_PORT = 25;
 async function revealAwtsmoosRuntime() {
 	const runtimeHealth = createRuntimeHealth();
 	const httpAdmission = createHttpAdmission();
-	const malchusMail = new AwtsMail();
+	const mailDisabled = process.env.AWTSMOOS_DISABLE_MAIL === "true";
+	const malchusMail = mailDisabled ? null : new AwtsMail();
 	const binahDynamicServer = new AwtsServer(__dirname, malchusMail);
 	const yesodSocketServer = new AwtsSocket();
 	binahDynamicServer.ws = yesodSocketServer;
@@ -67,6 +74,13 @@ async function revealAwtsmoosRuntime() {
 			createCustomDomainHttpIngress({ dynamicServer: binahDynamicServer }),
 			createAutoplayReportIngress(__dirname)
 		]
+	});
+	const siteDiscoveryRuntime = startSiteDiscoveryRuntime({ db: binahDynamicServer.db });
+	bindRuntimeShutdown({
+		health: runtimeHealth,
+		beforeClose: () => siteDiscoveryRuntime.stop(),
+		httpServer: tiferesHttpServer,
+		wsServer: yesodSocketServer
 	});
 	await listenRequired(
 		tiferesHttpServer,

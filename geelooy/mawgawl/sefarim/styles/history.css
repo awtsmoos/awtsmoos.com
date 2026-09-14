@@ -8,7 +8,7 @@
 }
 .library-history-controls select,
 .library-history-controls button {
-	min-height: 2rem;
+	min-height: 2.75rem;
 	padding: .32rem .48rem;
 	border: 1px solid rgba(151, 178, 205, .14);
 	border-radius: .48rem;

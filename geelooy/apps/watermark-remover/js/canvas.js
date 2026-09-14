@@ -2,10 +2,13 @@
 //Boruch Hashem
 //Blessed is He
 /**
+ * @file canvas.js
+ * @description
  * Canvas revelation for Awtsmoos.com: display pixels may shrink for a phone,
  * yet the Awtsmoos keeps intrinsic coordinates exact beneath the visible form.
  */
 import { imageState } from './state.js';
+import { decodeSvgImage } from './nativeSvgImage.js';
 
 /** Translate a pointer coordinate from responsive CSS pixels into canvas pixels. */
 function canvasPoint(canvas, event) {
@@ -28,10 +31,9 @@ export async function renderCanvas(canvas) {
 	const overlay = document.createElement('canvas');
 	overlay.width = canvas.width;
 	overlay.height = canvas.height;
-	await canvg.Canvg.fromString(overlay.getContext('2d'), imageState.svgText, {
-		ignoreMouse: true,
-		ignoreAnimation: true
-	}).render();
+	const overlayContext = overlay.getContext('2d');
+	const svgImage = await decodeSvgImage(imageState.svgText);
+	overlayContext.drawImage(svgImage, 0, 0, overlay.width, overlay.height);
 	if (token !== imageState.renderToken) return;
 	context.save();
 	context.translate(imageState.svgPosition.x, imageState.svgPosition.y);

@@ -11,10 +11,12 @@ import { openFolderDialog } from './dialogs.js';
 import { parentPath } from './path.js';
 import { driveState, nextPage, previousPage } from './state.js';
 import { installDropZone } from './uploads.js';
+import { installDriveShliachControl } from './driveShliachControl.js';
 
 export function installControls(refresh, handleUploads, openDirectory) {
 	document.querySelector('#refresh').addEventListener('click', refresh);
 	document.querySelector('#new-folder').addEventListener('click', openFolderDialog);
+	installDriveShliachControl();
 	const fileInput = document.querySelector('#file-input');
 	const folderInput = document.querySelector('#folder-input');
 	document.querySelector('#choose-files').addEventListener('click', () => {

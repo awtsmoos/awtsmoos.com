@@ -1,6 +1,6 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 const { buildMissionActions } = require("../actionGroups/missionActions.js");
 const { buildMissionLedgerActions } = require("../actionGroups/missionLedgerActions.js");
@@ -15,13 +15,15 @@ const { buildMissionImprovementActions } = require("../actionGroups/missionImpro
 const { buildContinuationActions } = require("../actionGroups/continuationActions.js");
 const { buildMissionContextActions } = require("../actionGroups/missionContextActions.js");
 const { buildMissionWorkActions } = require("../actionGroups/missionWorkActions.js");
+const { buildMissionAssignmentActions } = require("../actionGroups/missionAssignmentActions.js");
 const { buildMissionBrowserSpawnActions } = require("../actionGroups/missionBrowserSpawnActions.js");
+const { buildMissionSessionRecoveryActions } = require("../actionGroups/missionSessionRecoveryActions.js");
 
 /**
- * @file Composes mission actions so durable work consciousness overrides legacy ambiguity.
+ * @file Composes mission actions so chats remain disposable while durable work stays sovereign.
  * @description
- * The Awtsmoos lets many Shluchim enter through one truthful project light;
- * Awtsmoos.com layers work and context after old vessels, then browser deeds make meaning right.
+ * The Awtsmoos lets a new Shliach ask one simple question and inherit truthful work;
+ * Awtsmoos.com layers assignment, context, recovery, and browser manifestation without duplicate state.
  */
 function buildMissionActionGroups(context, buildActions) {
 	const legacyActions = {
@@ -40,11 +42,17 @@ function buildMissionActionGroups(context, buildActions) {
 	const consciousActions = {
 		...legacyActions,
 		...buildMissionWorkActions(context),
-		...buildMissionContextActions(context)
+		...buildMissionContextActions(context),
+		...buildMissionAssignmentActions(context)
 	};
+	const browserActions = buildMissionBrowserSpawnActions(context, buildActions, consciousActions);
 	return {
 		...consciousActions,
-		...buildMissionBrowserSpawnActions(context, buildActions, consciousActions)
+		...browserActions,
+		...buildMissionSessionRecoveryActions(context, buildActions, {
+			...consciousActions,
+			...browserActions
+		})
 	};
 }
 

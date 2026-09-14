@@ -1,6 +1,6 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file localTerrainTextureBoot.test.mjs
@@ -18,6 +18,7 @@ import {
 	localTerrainTextureUrls
 } from '../../world/terrain/LocalTerrainTextureCatalog.js';
 import { terrainLayerRecipe } from '../../world/terrain/TerrainLayerRecipe.js';
+import { mainRiverVillageBudget } from '../../world/village/MainRiverVillageProfile.js';
 
 const REMOTE_ROOT = /^https:\/\/awtsmoos\.com\/sites\/firebase_drive_migration\/full-resolution\//;
 
@@ -40,7 +41,7 @@ test('high terrain recipe preserves six optional maps for explicit experiments',
 	assert.ok(recipe.layers.every(layer => REMOTE_ROOT.test(layer.url)));
 });
 
-test('canonical terrain construction owns zero resident bitmap images', () => {
+test('canonical terrain construction keeps remote layer metadata without resident bitmap images', () => {
 	const material = createTerrainMaterial({
 		dirtImage: image('dirt 2.png'),
 		grassImage: image('grass 1.png'),
@@ -49,11 +50,13 @@ test('canonical terrain construction owns zero resident bitmap images', () => {
 	});
 	assert.equal(material.mapImage, null);
 	assert.equal(material.mixImage, null);
-	assert.deepEqual(material.textureLayers, []);
+	assert.equal(material.textureLayers.length, mainRiverVillageBudget('high').textureLayers);
+	assert.equal(material.textureLayers.every(layer => !layer.image), true);
 	assert.equal(material.texturePolicy.realBaseImage, false);
 	assert.equal(material.texturePolicy.realMixImage, false);
-	assert.equal(material.texturePolicy.hydration, 'procedural-only-default');
-	assert.equal(material.texturePolicy.proceduralEarth, true);
+	assert.equal(material.texturePolicy.hydration, 'shared-cache-bounded-real-remote-page');
+	assert.equal(material.texturePolicy.generatedTextureAllowed, false);
+	assert.equal(material.texturePolicy.remoteOnly, true);
 });
 
 function image(src) {

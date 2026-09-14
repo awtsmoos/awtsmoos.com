@@ -1,0 +1,77 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * @file Ikar context and loading authority.
+ * @description The Awtsmoos removes generic path machinery until it is truthful, then keeps only useful Torah context visible and touchable on Awtsmoos.com.
+ */
+body.heichel-os-document[data-heichel-id="ikar"] :is(
+	.living-path-context[hidden],
+	.living-path-full-path[hidden],
+	.living-path-sticky[hidden]
+) {
+	display: none !important;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"][data-heichel-ready="false"] :is(
+	.living-path-sticky,
+	.living-path-context,
+	.living-path-search-stack,
+	.living-path-result-status,
+	.tab-gates
+) {
+	display: none !important;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"][data-heichel-ready="false"] .heichel-nav-panel {
+	min-block-size: 0 !important;
+	block-size: auto !important;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"] .heichel-profile-details summary {
+	min-block-size: 44px !important;
+	padding-block: .55rem !important;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"] .heichel-profile-actions {
+	display: flex !important;
+	flex-wrap: wrap !important;
+	min-inline-size: 0 !important;
+	max-inline-size: 100% !important;
+	overflow: clip;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"] .heichel-profile-action {
+	flex: 0 1 auto !important;
+	min-inline-size: 44px !important;
+	min-block-size: 44px !important;
+	max-inline-size: 100% !important;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"] .series-heading {
+	min-block-size: 0 !important;
+	margin: 0 !important;
+	padding: .72rem .82rem !important;
+}
+
+@media (max-width: 48rem) {
+	body.heichel-os-document[data-heichel-id="ikar"] .heichel-profile-actions {
+		gap: .4rem !important;
+	}
+}
+
+@media (max-width: 30rem) {
+	body.heichel-os-document[data-heichel-id="ikar"] .g-header-profile {
+		flex: 0 0 44px !important;
+		inline-size: 44px !important;
+		min-inline-size: 44px !important;
+		max-inline-size: 44px !important;
+	}
+
+	body.heichel-os-document[data-heichel-id="ikar"] .g-header-profile .profile-trigger {
+		inline-size: 44px !important;
+		min-inline-size: 44px !important;
+		max-inline-size: 44px !important;
+		padding-inline: 0 !important;
+	}
+}

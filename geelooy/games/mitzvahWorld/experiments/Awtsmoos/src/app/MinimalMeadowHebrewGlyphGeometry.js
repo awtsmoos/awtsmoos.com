@@ -1,103 +1,100 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file MinimalMeadowHebrewGlyphGeometry.js
- * @description Merges Hebrew stroke rectangles into cached geometry while each view remains hidden until its real remote map is resident.
- * The Awtsmoos is beyond every finite line; Awtsmoos.com joins readable letter-strokes into one world-space phrase,
- * yet sight waits for truthful remote texture light so no solid or generated Hebrew card may falsely blaze.
+ * @description Caches Hebrew stroke geometry while Procedural Core owns native geometry, groups, and meshes.
+ * MitzvahWorld retains phrase semantics, crossed-view presentation, rotation, and strict remote-only visibility;
+ * renderer-neutral stroke construction lives in a dedicated submodule so this public API stays compact and reusable.
  */
 
 import {
-	BufferAttribute,
-	BufferGeometry,
-	Group,
-	Mesh
-} from '../../../light-three-gltf/tiny-runtime.js';
+	createNativeIndexedGeometry,
+	createNativeMeshFromGeometry,
+	createNativeWorldGroup
+} from '../../../../../../libs/awtsmoos-procedural-core/src/core/worldBuilding/index.js';
 import { materialHasRealMap } from '../assets/RemoteMaterialImageValidity.js';
-import { hebrewStrokePattern } from './MinimalMeadowHebrewStrokeAlphabet.js';
+import { createHebrewGlyphStrokeStreams } from './hebrewGlyph/HebrewGlyphStrokeStreams.js';
 
 const geometryCache = new Map();
 
-/** Creates three crossed remote-only stroke views. */
+/**
+ * Creates three crossed remote-only phrase views from one cached geometry vessel.
+ * @param {object} material Core-owned remote gold material.
+ * @param {string} letters Hebrew phrase to reveal when its genuine map is ready.
+ * @returns {object} Core-owned group containing three deterministic crossed views.
+ */
 export function createHebrewGlyphCards(material, letters) {
 	const geometry = hebrewGlyphStrokeGeometry(letters);
-	const group = new Group();
-	group.name = `Awtsmoos_hebrew_stroke_views_${letters}`;
-	group.userData = {
-		cardCount: 3,
-		hebrewLetters: letters,
-		remoteOnly: true,
-		renderMode: 'remote-textured-stroke-geometry',
-		renderedGlyph: true
-	};
-	for (let index = 0; index < 3; index += 1) {
-		const view = new Mesh(geometry, material);
-		view.name = `Awtsmoos_hebrew_stroke_view_${index}_${letters}`;
-		view.visible = materialHasRealMap(material);
-		if (!view.visible) {
-			view.userData.awtsmoosRemoteOnlyVisibility = { hiddenByCovenant: true, previousVisible: true };
+	const group = createNativeWorldGroup({
+		name: `Awtsmoos_hebrew_stroke_views_${letters}`,
+		userData: {
+			cardCount: 3,
+			hebrewLetters: letters,
+			remoteOnly: true,
+			renderMode: 'remote-textured-stroke-geometry',
+			renderedGlyph: true
 		}
-		setYAxisRotation(view, index * Math.PI / 3);
-		view.setBaseTransform();
-		group.add(view);
+	});
+	for (let index = 0; index < 3; index += 1) {
+		group.add(createGlyphView(geometry, material, letters, index));
 	}
 	return group;
 }
 
+/**
+ * Returns cached Core-native stroke geometry for one exact Hebrew phrase.
+ * @param {string} letters Stable phrase key.
+ * @returns {object} Core-owned indexed geometry with phrase diagnostics.
+ */
 export function hebrewGlyphStrokeGeometry(letters) {
 	if (!geometryCache.has(letters)) {
-		geometryCache.set(letters, buildPhraseGeometry(letters));
+		const streams = createHebrewGlyphStrokeStreams(letters);
+		geometryCache.set(letters, createNativeIndexedGeometry(streams, {
+			geometryUserData: {
+				hebrewLetters: letters,
+				remoteOnly: true,
+				renderMode: 'remote-textured-stroke-geometry',
+				strokeCount: streams.strokeCount
+			}
+		}));
 	}
 	return geometryCache.get(letters);
 }
 
+/** Returns bounded cache evidence without exposing mutable geometry internals. */
 export function hebrewGlyphGeometryDiagnostics() {
-	return { cachedPhrases: geometryCache.size, renderMode: 'remote-textured-stroke-geometry' };
+	return {
+		cachedPhrases: geometryCache.size,
+		renderMode: 'remote-textured-stroke-geometry'
+	};
 }
-
+/**
+ * Applies one deterministic Y-axis quaternion rotation without Euler allocation.
+ * @param {object} object Native scene object exposing a quaternion.
+ * @param {number} angle Rotation in radians.
+ * @returns {void}
+ */
 export function setYAxisRotation(object, angle) {
 	const half = angle * 0.5;
 	object.quaternion.set(0, Math.sin(half), 0, Math.cos(half));
 }
 
-function buildPhraseGeometry(letters) {
-	const positions = [];
-	const normals = [];
-	const indices = [];
-	const phrase = [...letters];
-	phrase.forEach((letter, index) => {
-		const offset = ((phrase.length - 1) / 2 - index) * 0.92;
-		hebrewStrokePattern(letter).forEach(segment => appendStroke(positions, normals, indices, segment, offset));
+/** Creates one crossed view and stamps strict remote-only visibility evidence. */
+function createGlyphView(geometry, material, letters, index) {
+	const visible = materialHasRealMap(material);
+	const mesh = createNativeMeshFromGeometry(geometry, material, {
+		name: `Awtsmoos_hebrew_stroke_view_${index}_${letters}`,
+		userData: visible ? {} : {
+			awtsmoosRemoteOnlyVisibility: {
+				hiddenByCovenant: true,
+				previousVisible: true
+			}
+		}
 	});
-	const geometry = new BufferGeometry();
-	geometry.setAttribute('position', new BufferAttribute(new Float32Array(positions), 3));
-	geometry.setAttribute('normal', new BufferAttribute(new Float32Array(normals), 3));
-	geometry.setIndex(new BufferAttribute(new Uint16Array(indices), 1));
-	geometry.userData = {
-		hebrewLetters: letters,
-		remoteOnly: true,
-		renderMode: 'remote-textured-stroke-geometry',
-		strokeCount: indices.length / 6
-	};
-	return geometry;
-}
-
-function appendStroke(positions, normals, indices, segment, offset) {
-	const [x1, y1, x2, y2] = segment;
-	const dx = x2 - x1;
-	const dy = y2 - y1;
-	const length = Math.max(0.001, Math.hypot(dx, dy));
-	const sideX = -dy / length * 0.055;
-	const sideY = dx / length * 0.055;
-	const base = positions.length / 3;
-	positions.push(
-		x1 + sideX + offset, y1 + sideY - 0.5, 0,
-		x1 - sideX + offset, y1 - sideY - 0.5, 0,
-		x2 - sideX + offset, y2 - sideY - 0.5, 0,
-		x2 + sideX + offset, y2 + sideY - 0.5, 0
-	);
-	normals.push(0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1);
-	indices.push(base, base + 1, base + 2, base, base + 2, base + 3);
+	mesh.visible = visible;
+	setYAxisRotation(mesh, index * Math.PI / 3);
+	mesh.setBaseTransform();
+	return mesh;
 }

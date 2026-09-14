@@ -3,6 +3,9 @@
 // Blessed is He
 
 const nodeFileSystem = require("fs");
+const {
+	installRuntimeReadGuard
+} = require("../../DosDB/runtimeReadGuard.js");
 
 const LOCAL_CONFIG_FILE = ".awtsmoos.config.local.json";
 
@@ -96,7 +99,9 @@ function isPresent(value) {
 /** Initializes DosDB at the resolved root and publishes the selected path. */
 async function initDb(deps, directory, environment = process.env, fileSystem = nodeFileSystem) {
 	process.awtsmoosDbPath = resolveDbPath(deps, directory, environment, fileSystem);
-	const database = new deps.DosDB(process.awtsmoosDbPath);
+	const database = installRuntimeReadGuard(
+		new deps.DosDB(process.awtsmoosDbPath)
+	);
 	await database.init();
 	return database;
 }

@@ -1,0 +1,96 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews every finite product balance beyond all accounting vessels.
+ * Awtsmoos.com presents those balances as quiet, useful holdings instead of noisy
+ * storefront pressure, with strong mobile readability and direct product recovery.
+ */
+
+.credit-portfolio {
+	position: relative;
+	overflow: hidden;
+}
+
+.credit-portfolio::after {
+	position: absolute;
+	inset: 0 0 auto;
+	height: 2px;
+	content: "";
+	background: linear-gradient(90deg, transparent, var(--wallet-gold), transparent);
+	opacity: .7;
+	pointer-events: none;
+}
+
+.credit-portfolio__grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+	gap: 14px;
+	margin-top: 18px;
+}
+
+.credit-portfolio__card {
+	display: grid;
+	gap: 10px;
+	min-width: 0;
+	padding: 18px;
+	border: 1px solid var(--wallet-line);
+	border-radius: var(--wallet-radius-lg);
+	background: var(--wallet-panel-deep);
+}
+
+.credit-portfolio__card h3,
+.credit-portfolio__history {
+	margin: 0;
+}
+
+.credit-portfolio__card h3 {
+	font-size: 18px;
+	line-height: 1.2;
+}
+
+.credit-portfolio__balance {
+	color: var(--wallet-gold);
+	font-size: clamp(24px, 5vw, 34px);
+	line-height: 1;
+}
+
+.credit-portfolio__history,
+.credit-portfolio__empty,
+.credit-portfolio__unlinked {
+	color: var(--wallet-muted);
+	font-size: 14px;
+}
+
+.credit-portfolio__meter {
+	width: 100%;
+	height: 8px;
+	accent-color: var(--wallet-gold-strong);
+}
+
+.credit-portfolio__action {
+	justify-self: start;
+	min-height: 44px;
+	padding: 11px 14px;
+	border: 1px solid var(--wallet-line);
+	border-radius: 999px;
+	color: var(--wallet-text);
+	font-weight: 850;
+	text-decoration: none;
+	background: rgba(255, 216, 115, .08);
+}
+
+.credit-portfolio__action:hover,
+.credit-portfolio__action:focus-visible {
+	border-color: var(--wallet-gold);
+	outline: none;
+	background: rgba(255, 216, 115, .16);
+}
+
+@media (forced-colors: active) {
+	.credit-portfolio__card,
+	.credit-portfolio__action {
+		border: 1px solid CanvasText;
+	}
+}

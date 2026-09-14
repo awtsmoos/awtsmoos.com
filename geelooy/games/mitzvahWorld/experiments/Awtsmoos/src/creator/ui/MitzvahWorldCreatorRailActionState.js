@@ -9,6 +9,8 @@
  * Awtsmoos.com lets Gevurah derive every boundary from current material, history, placement, and busy state, so no transient mutation becomes a permanent lock.
  */
 
+const OBJECT_ACTION_PREFIX = 'object-';
+
 /**
  * Applies the complete derived disabled policy to creator action buttons.
  * @param {HTMLElement} rootMalchus Scoped creator rail root.
@@ -36,6 +38,12 @@ export function creatorActionDisabled(actionOhr, snapshotBinah, busyGevurah) {
 	}
 	if (!snapshotBinah) {
 		return false;
+	}
+	if (actionOhr.startsWith(OBJECT_ACTION_PREFIX)) {
+		const cycling = actionOhr === 'object-prev' || actionOhr === 'object-next';
+		return cycling
+			? Number(snapshotBinah.indexed ?? 0) <= 0
+			: !snapshotBinah.selectedObjectId;
 	}
 	if (actionOhr === 'place') {
 		return snapshotBinah.materialQuantity <= 0;

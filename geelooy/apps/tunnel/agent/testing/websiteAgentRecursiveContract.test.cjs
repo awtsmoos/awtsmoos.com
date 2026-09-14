@@ -34,7 +34,7 @@ assert.match(productionSource, /missionRoomJoin/);
 assert.match(productionSource, /missionRoomInbox/);
 assert.match(productionSource, /missionRoomMessage/);
 assert.match(productionSource, /browser tab closes immediately/i);
-assert.match(productionSource, /conversational response is ignored/i);
+assert.match(productionSource, /conversational response(?: in ChatGPT)? is ignored/i);
 assert.doesNotMatch(productionSource, /result\.answer/);
 assert.doesNotMatch(productionSource, /Outcome\.analyze/);
 assert.doesNotMatch(productionSource, /service\.recover\(/);

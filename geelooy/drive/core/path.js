@@ -31,7 +31,7 @@ export function joinWorkspacePath(basePath, childPath) {
 	if (base.startsWith(REMOTE_PREFIX)) {
 		return normalizeWorkspacePath(`${base}/${child}`);
 	}
-	return normalizeWorkspacePath(`${base === "." ? "" : base}/${child}`);
+	return normalizeWorkspacePath(base === "." ? child : `${base}/${child}`);
 }
 
 export function parentWorkspacePath(input) {

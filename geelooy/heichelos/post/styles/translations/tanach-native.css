@@ -16,14 +16,20 @@
 .awtsmoos-tanach-language-controls button {
 	min-height: 44px;
 	padding: .55rem .9rem;
+	border: 1px solid rgb(255 255 255 / 24%);
 	border-radius: 999px;
+	background: rgb(18 31 49 / 94%);
+	color: rgb(241 248 255);
 	font: inherit;
 	cursor: pointer;
 }
 
 .awtsmoos-tanach-language-controls button[aria-pressed="true"] {
+	border-color: rgb(246 201 108 / 72%);
+	background: rgb(246 201 108 / 16%);
+	color: rgb(255 232 170);
 	font-weight: 800;
-	box-shadow: 0 0 0 2px currentColor inset;
+	box-shadow: 0 0 0 2px rgb(246 201 108 / 18%) inset;
 }
 
 .awtsmoos-tanach-native-translation {

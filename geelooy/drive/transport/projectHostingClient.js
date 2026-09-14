@@ -24,8 +24,22 @@ export class ProjectHostingClient {
 		return this.request("hosting", { query });
 	}
 
-	listKeys(path = "", limit = 200) {
-		return this.request("database", { query: params({ path, limit }) });
+	listKeys(path = "", limit = 200, offset = 0) {
+		return this.request("database", { query: params({ path, limit, offset }) });
+	}
+
+	listDocuments(path = "", limit = 50, offset = 0) {
+		return this.request("database", { query: params({ path, limit, offset, view: "documents" }) });
+	}
+
+	queryDocuments(query = {}) {
+		return this.request("database", {
+			query: params({ ...query, view: "query" })
+		});
+	}
+
+	databaseCapabilities() {
+		return this.request("database", { query: params({ view: "capabilities" }) });
 	}
 
 	readKey(key, path = "") {
@@ -34,6 +48,10 @@ export class ProjectHostingClient {
 
 	setKey(key, value, path = "") {
 		return this.request("database", { method: "POST", body: { path, key, value } });
+	}
+
+	importDocuments(documents, path = "") {
+		return this.request("database", { method: "POST", body: { view: "import", path, documents } });
 	}
 
 	deleteKey(key, path = "") {

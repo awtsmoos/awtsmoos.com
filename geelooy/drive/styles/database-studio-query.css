@@ -1,0 +1,69 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed be He */
+/** Visual Query Builder for owner-scoped DosDB/AwtsmoosDB project data. */
+
+.project-query-builder {
+	display: grid;
+	gap: 10px;
+	margin: 12px 0;
+	padding: 12px;
+	border: 1px solid var(--border, #cad3df);
+	border-radius: 15px;
+	background: color-mix(in srgb, var(--panel, #fff) 96%, #5c6cff 4%);
+}
+
+.project-query-heading {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 10px;
+}
+
+.project-query-mode {
+	padding: 4px 8px;
+	border-radius: 999px;
+	background: rgba(91, 84, 214, .1);
+	color: #4652c4;
+	font-size: .68rem;
+	font-weight: 800;
+}
+
+.project-query-grid {
+	display: grid;
+	grid-template-columns: minmax(130px, 1.2fr) minmax(90px, .6fr) minmax(130px, 1fr) minmax(110px, .7fr);
+	gap: 8px;
+}
+
+.project-query-grid input,
+.project-query-grid select {
+	width: 100%;
+	min-height: 42px;
+	box-sizing: border-box;
+	padding: 8px 10px;
+	border: 1px solid var(--border, #cad3df);
+	border-radius: 10px;
+	background: var(--input-bg, #fff);
+	color: inherit;
+	font: inherit;
+}
+
+.project-query-run {
+	justify-self: start;
+}
+
+@media (max-width: 760px) {
+	.project-query-grid {
+		grid-template-columns: 1fr 1fr;
+	}
+}
+
+@media (max-width: 460px) {
+	.project-query-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.project-query-run {
+		width: 100%;
+	}
+}

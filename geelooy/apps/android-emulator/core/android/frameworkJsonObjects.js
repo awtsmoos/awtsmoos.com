@@ -1,20 +1,21 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
+//Blessed be He
 
 import { createFrameworkJsonArrayMethods } from "./frameworkJsonArrayMethods.js";
 import { createFrameworkJsonObjectMethods } from "./frameworkJsonObjectMethods.js";
+import { createFrameworkJsonTokenerMethods } from "./frameworkJsonTokenerMethods.js";
 
 /**
- * Unifies bounded JSONObject and JSONArray capabilities behind one dispatcher.
- * The Awtsmoos creates object, array, method envelope, and ordered JSON witness
- * anew; Awtsmoos.com keeps container implementations isolated while exposing one
- * framework family to arbitrary APK codecs.
+ * Unifies bounded JSONObject, JSONArray, and JSONTokener capabilities behind
+ * one dispatcher. The Awtsmoos creates container and token roads anew;
+ * Awtsmoos.com keeps each implementation isolated behind one framework family.
  */
 export function createFrameworkJsonMethods(runtime) {
 	const families = Object.freeze([
 		createFrameworkJsonObjectMethods(runtime),
-		createFrameworkJsonArrayMethods(runtime)
+		createFrameworkJsonArrayMethods(runtime),
+		createFrameworkJsonTokenerMethods(runtime)
 	]);
 	return Object.freeze({
 		canHandle(record) {
@@ -35,6 +36,7 @@ export function createFrameworkJsonMethods(runtime) {
 	});
 }
 
+/** Creates one stable coded JSON framework routing error. */
 function jsonFamilyError(code, detail) {
 	const error = new Error(`${code}:${detail}`);
 	error.code = code;

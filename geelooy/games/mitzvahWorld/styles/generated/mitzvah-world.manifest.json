@@ -63,8 +63,8 @@
 		"styles/mitzvah-world-creative-dock.css",
 		"styles/source/mitzvah-world.css"
 	],
-	"inputBytes": 109535,
-	"outputBytes": 84623,
+	"inputBytes": 109906,
+	"outputBytes": 84920,
 	"sourcePolicy": {
 		"errors": [],
 		"files": [
@@ -239,8 +239,8 @@
 				"path": "styles/source/fragments/mitzvah-world-direct-layout-001.css"
 			},
 			{
-				"bytes": 3507,
-				"lines": 89,
+				"bytes": 3878,
+				"lines": 104,
 				"path": "styles/source/fragments/mitzvah-world-cinematic-mobile-001.css"
 			},
 			{
@@ -346,19 +346,19 @@
 	},
 	"representations": {
 		"brotli": {
-			"bytes": 12004,
+			"bytes": 12058,
 			"encoding": "br",
-			"sha256": "cce97d06e3b08263d0d6fa4365087ad02a0f1a88de2deb8f051581dd5e326e2e"
+			"sha256": "783d351b47c73c729220b8ca2eab0a8c1b95ca0c15441f09636a0bf723a5d599"
 		},
 		"gzip": {
-			"bytes": 14178,
+			"bytes": 14257,
 			"encoding": "gzip",
-			"sha256": "0c23da570c57befa68bf0e04071a03565c23848ac7619d2001c7d6af319a0a79"
+			"sha256": "6547302b42640677e2cb8e1b06ccf338a3e1d24708bfed959d02354157efa685"
 		},
 		"identity": {
-			"bytes": 84624,
+			"bytes": 84921,
 			"encoding": "identity",
-			"sha256": "e37264816b3c929372cb6923a46f006499736ab5df643ed6693aadd98ace3005"
+			"sha256": "22395409e6c7d0fbf131e8f5cba9c58c6e91f74626d686683af8438ef7201a40"
 		}
 	}
 }

@@ -1,6 +1,6 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file minimalMeadowChangedOnlyWorld.test.mjs
@@ -15,9 +15,8 @@ import {
 	createMinimalMeadowHouseMaintenanceState,
 	updateMinimalMeadowHouseMaintenance
 } from '../../app/MinimalMeadowHouseMaintenance.js';
-import {
-	MinimalMeadowVegetationSystem
-} from '../../app/MinimalMeadowVegetationSystem.js';
+import { prepareMinimalMeadowVegetationDynamics, updateMinimalMeadowVegetationDynamics } from '../../app/MinimalMeadowVegetationDynamics.js';
+import { createMinimalMeadowVegetationMotionState, updateMinimalMeadowVegetationMotionState } from '../../app/MinimalMeadowVegetationMotionState.js';
 import {
 	integrityVegetationCell
 } from '../app/interactionCollisionVisualIntegrityFixture.mjs';
@@ -68,14 +67,18 @@ test('B"H door change marks maintenance dirty until its bounded refresh', () => 
 });
 
 test('B"H vegetation reuses metadata objects across living wind frames', () => {
-	const owner = Object.create(MinimalMeadowVegetationSystem.prototype);
-	owner.clock = 1;
-	const cell = integrityVegetationCell();
-	owner.updateCell(cell, { x: 2, z: 2 }, 0);
+	const player = { x: 2, z: 2 };
+	const cell = prepareMinimalMeadowVegetationDynamics(integrityVegetationCell());
+	cell.distanceSquared = 2;
+	const motion = createMinimalMeadowVegetationMotionState(player);
+	updateMinimalMeadowVegetationDynamics(
+		cell, updateMinimalMeadowVegetationMotionState(motion, player, 0.016, 1)
+	);
 	const identities = [...cell.windMetadata];
 	const firstStrengths = identities.map(value => value.windStrength);
-	owner.clock = 2;
-	owner.updateCell(cell, { x: 2, z: 2 }, 0);
+	updateMinimalMeadowVegetationDynamics(
+		cell, updateMinimalMeadowVegetationMotionState(motion, player, 0.016, 2)
+	);
 	assert.deepEqual(cell.windMetadata, identities);
 	assert.ok(cell.windMetadata.every((value, index) => {
 		return value === identities[index]

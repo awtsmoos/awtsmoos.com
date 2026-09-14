@@ -19,7 +19,10 @@ export function launchApp(os, appOrId, overrides = {}) {
 		? appById(appOrId)
 		: appOrId;
 	assertLaunchable(os, app);
-	const defaults = starterPayload(app.id);
+	const defaults = {
+		...starterPayload(app.id),
+		...(app.webUrl ? { url: app.webUrl, webUrl: app.webUrl } : {})
+	};
 	return os.addWindow({
 		...defaults,
 		...overrides,

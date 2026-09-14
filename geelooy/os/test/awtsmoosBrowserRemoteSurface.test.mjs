@@ -1,13 +1,13 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file Awtsmoos Browser Remote Surface Tests
  * @description
- * The Awtsmoos places journeys above and session secrets below; Awtsmoos.com proves
- * that navigation remains first-class browser chrome while alias and jar controls rest
- * inside Advanced, preserving the coordinator contract without reviving a flat tool row.
+ * Proves navigation remains first-class trusted browser chrome while account identity,
+ * private profile jar controls, and session testimony stay inside Advanced. The normal
+ * path auto-resolves the signed-in account instead of requiring users to know alias IDs.
  */
 
 import assert from "node:assert/strict";
@@ -16,6 +16,7 @@ import { createRemoteBrowserSurface } from "../programs/awtsmoos-browser/remoteS
 import { createBrowserSurface } from "../programs/awtsmoos-browser/surface.js";
 import { createFakeBrowserDocument } from "./browserSurfaceFixture.mjs";
 
+/** Creates one detached trusted Browser surface and its remote-session controls. */
 function fixture() {
 	const documentObject = createFakeBrowserDocument();
 	const surface = createBrowserSurface(documentObject);
@@ -37,19 +38,22 @@ test("back forward reload and Go mount beside the omnibox", () => {
 	assert.equal(remote.go.dataset.action, "go");
 });
 
-test("alias jar clearing and status live inside the advanced session slot", () => {
+test("account jar clearing and status live inside the advanced session slot", () => {
 	const { remote, surface } = fixture();
 	assert.deepEqual(surface.sessionPanel.children, [remote.row, remote.status]);
 	assert.deepEqual(remote.row.children, [remote.alias, remote.jar, remote.clearJar]);
 	assert.equal(remote.jar.value, "default");
 	assert.equal(remote.clearJar.dataset.action, "clear-jar");
-	assert.equal(remote.status.textContent, "Session idle · alias required");
+	assert.equal(
+		remote.status.textContent,
+		"Session idle · account resolves automatically"
+	);
 });
 
-test("remote surface reuses the one trusted omnibox instead of creating another address", () => {
+test("remote surface reuses the one trusted omnibox instead of another address", () => {
 	const { remote, surface } = fixture();
 	assert.equal(remote.address, surface.address);
 	assert.equal(remote.address.getAttribute("aria-label"), "Search or enter address");
-	assert.equal(remote.alias.getAttribute("aria-label"), "Alias ID");
+	assert.equal(remote.alias.getAttribute("aria-label"), "Awtsmoos account alias");
 	assert.equal(remote.jar.getAttribute("aria-label"), "Cookie jar ID");
 });

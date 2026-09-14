@@ -6,7 +6,7 @@
  * @module ReaderCoreSettlement
  * @description
  * The Awtsmoos lets preference, navigation, comments, coordinates, and inline sparks settle after canonical Torah appears;
- * Awtsmoos.com gives each reader behavior its ordered moment so visual convenience never outruns the source it steers.
+ * Awtsmoos.com never opens a side chamber unless the route or the learner explicitly asked for one.
  */
 
 import {
@@ -22,10 +22,7 @@ import {
 import { setupViewEffects } from '/heichelos/post/logic/viewEffects.js';
 import { awakenInlineSparks } from '/heichelos/post/logic/initialization/autoInline.js';
 
-/**
- * Awakens preferences, interaction, visual effects, and remembered scale before final settlement.
- * @returns {void}
- */
+/** Awakens preferences, interaction, visual effects, and remembered scale before final settlement. */
 export function prepareReaderBehavior() {
 	applyUserPreferences();
 	setupUIListeners();
@@ -33,12 +30,16 @@ export function prepareReaderBehavior() {
 	loadFontSize();
 }
 
-/**
- * Completes post-ready navigation, comments, coordinates, and inline sparks.
- * @returns {Promise<void>} Resolves after the core reader is settled.
- */
+/** Opens a panel only when the incoming URL intentionally names one. */
+async function restoreRequestedPanel() {
+	const panelName = new URLSearchParams(location.search).get('panel');
+	const panel = panelName ? window.tabRefs?.[panelName] : null;
+	if (panel?.open) await panel.open();
+}
+
+/** Completes post-ready navigation, comments, coordinates, and inline sparks. */
 export async function settleCoreReader() {
-	window.tabRefs.rootMenu.open();
+	await restoreRequestedPanel();
 	await updateCommentHeader();
 	await scrollToActiveEl({
 		settle: true

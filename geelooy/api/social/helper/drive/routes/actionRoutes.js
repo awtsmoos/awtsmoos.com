@@ -84,6 +84,7 @@ function bootstrapFields(body) {
 		primary: body.primary,
 		subdomainRequested: body.subdomainRequested,
 		sourceVessel: body.sourceVessel,
+		remixReceipt: body.remixReceipt,
 		files: body.files
 	};
 }

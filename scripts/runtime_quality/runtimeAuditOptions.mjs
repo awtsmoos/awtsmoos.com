@@ -16,7 +16,9 @@ const NUMERIC_OPTIONS = new Set([
 	'quietMs',
 	'width',
 	'height',
-	'minimumTargetSize'
+	'minimumTargetSize',
+	'shardIndex',
+	'shardCount'
 ]);
 
 /**
@@ -36,6 +38,8 @@ function defaultRuntimeAuditOptions() {
 		width: 1440,
 		height: 900,
 		minimumTargetSize: 44,
+		shardIndex: 0,
+		shardCount: 1,
 		output: ''
 	};
 }

@@ -4,111 +4,56 @@
 
 /**
  * @file DirectWorldContextAction.js
- * @description Projects canonical NPC and quest truth into the one meaningful action direct play needs now.
- * The Awtsmoos gathers hidden systems into a single deed instead of a permanent rail of choice;
- * Awtsmoos.com lets Talk, Begin, and Return appear only when the living road gives that action a truthful voice.
+ * @description Resolves many contextual-action providers into one truthful direct-play deed by explicit priority.
+ * The Awtsmoos contains every possible action without crowding the traveler with every button; Awtsmoos.com lets
+ * Build, Talk, Begin, Return, Learn, Collect, Open, and future providers compete through one tiny stable contract.
  */
 
-import {
-	directActionState,
-	HIDDEN_DIRECT_ACTION
-} from './DirectWorldContextActionState.js';
+import { HIDDEN_DIRECT_ACTION } from './DirectWorldContextActionState.js';
+import { DirectWorldContextQuestAction } from './DirectWorldContextQuestAction.js';
 
-/** Coordinates existing friendly-NPC interaction and canonical quest transitions. */
+/** Generic direct-world resolver; external providers live in runtime.contextActionProviders. */
 export class DirectWorldContextAction {
-	/** @param {object} runtime Staged Mitzvah World runtime. */
+	/** @param {object} runtime Staged MitzvahWorld runtime. */
 	constructor(runtime) {
 		this.runtime = runtime;
-		this.offeredQuestId = null;
-		this.unsubscribeOffer = runtime.bus?.on?.('quest:offer', event => {
-			this.captureOffer(event);
-		}) || null;
+		this.questProvider = new DirectWorldContextQuestAction(runtime);
 	}
 
-	/** @returns {object} The one action currently meaningful to direct play. */
+	/** Returns the highest-priority visible provider state. */
 	state() {
-		const quest = this.runtime.quest;
-		const snapshot = quest?.snapshot?.();
-		if (!quest || !snapshot) {
-			return HIDDEN_DIRECT_ACTION;
-		}
-		if (snapshot.status === 'available') {
-			return this.availableState(quest);
-		}
-		if (snapshot.status === 'ready' && this.primaryNpcReady()) {
-			return directActionState(
-				'return',
-				'Return',
-				`Return to ${quest.definition.giver.name}`
-			);
-		}
-		return HIDDEN_DIRECT_ACTION;
+		return this.resolve()?.state || HIDDEN_DIRECT_ACTION;
 	}
 
-	/** Activates exactly the currently resolved action. */
+	/** Activates the same provider/state pair used for presentation. */
 	activate() {
-		const actions = {
-			begin: () => this.beginQuest(),
-			return: () => this.returnQuest(),
-			talk: () => this.talkToPrimary()
-		};
-		return actions[this.state().kind]?.() ?? false;
+		const resolved = this.resolve();
+		return resolved?.provider?.activate?.(resolved.state) ?? false;
 	}
 
-	/** Returns whether the canonical giver made the currently remembered offer. */
-	hasOffer() {
-		return Boolean(
-			this.offeredQuestId
-			&& this.offeredQuestId === this.runtime.quest?.definition?.id
-		);
-	}
-
-	/** Removes event ownership without mutating quest or NPC truth. */
+	/** Releases only providers owned by this resolver. */
 	destroy() {
-		this.unsubscribeOffer?.();
-		this.unsubscribeOffer = null;
+		this.questProvider.destroy();
 	}
 
-	availableState(quest) {
-		if (this.hasOffer()) {
-			return directActionState(
-				'begin',
-				'Begin',
-				`Begin ${quest.definition.name}`
-			);
+	/** Finds the first visible provider after deterministic priority ordering. */
+	resolve() {
+		for (const provider of this.providers()) {
+			const state = provider?.state?.() || HIDDEN_DIRECT_ACTION;
+			if (state.visible && state.enabled !== false) {
+				return Object.freeze({ provider, state });
+			}
 		}
-		return this.primaryNpcReady()
-			? directActionState(
-				'talk',
-				'Talk',
-				`Talk to ${quest.definition.giver.name}`
-			)
-			: HIDDEN_DIRECT_ACTION;
+		return null;
 	}
 
-	captureOffer(event = {}) {
-		this.offeredQuestId = event.questId || event.definition?.id || event.id || null;
-	}
-
-	primaryNpcReady() {
-		return Boolean(this.runtime.friendlyNpcs?.primary?.interactionDecision?.().ok);
-	}
-
-	talkToPrimary() {
-		const population = this.runtime.friendlyNpcs;
-		return population?.interactCandidate?.(population.primary) ?? false;
-	}
-
-	beginQuest() {
-		if (!this.hasOffer()) {
-			return false;
-		}
-		this.offeredQuestId = null;
-		return this.runtime.quest.accept();
-	}
-
-	returnQuest() {
-		this.talkToPrimary();
-		return this.runtime.quest.complete();
+	/** Returns external contextual providers plus the dedicated quest fallback. */
+	providers() {
+		return [
+			...(this.runtime.contextActionProviders || []),
+			this.questProvider
+		].filter(Boolean).sort((left, right) => {
+			return Number(right.priority || 0) - Number(left.priority || 0);
+		});
 	}
 }

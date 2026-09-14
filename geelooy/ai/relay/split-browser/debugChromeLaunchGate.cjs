@@ -2,6 +2,8 @@
 // Boruch Hashem
 // Blessed is He
 
+const Lease = require("./debugChromeLaunchLease.cjs");
+
 let activeLaunch = null;
 
 /**
@@ -19,7 +21,7 @@ let activeLaunch = null;
 function converge(factory) {
 	if (activeLaunch) return activeLaunch;
 	activeLaunch = Promise.resolve()
-		.then(factory)
+		.then(() => Lease.withLease(factory))
 		.finally(() => {
 			activeLaunch = null;
 		});

@@ -1,62 +1,86 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file MinimalMeadowDemonGeometry.js
- * @description Caches one closed weighted geometry with measured UV and vertex-color evidence.
- * The Awtsmoos joins position, normal, color, UV, joint, and weight in one garment;
- * Awtsmoos.com proves the texture coordinates and internal contrast exist before any draw.
+ * @description Caches one renderer-neutral demon surface materialized by shared Procedural Core.
+ * The Awtsmoos joins position, normal, color, UV, joints, and weights without product renderer law;
+ * Awtsmoos.com measures contrast and texture evidence in bounded loops before one native geometry is cached.
  */
 
-import { BufferAttribute, BufferGeometry } from '../../../light-three-gltf/tiny-runtime.js';
+import {
+	createNativeGeometry
+} from '../../../../../../libs/awtsmoos-procedural-core/src/core/worldBuilding/index.js';
 import { demonSurfaceRegionContrast } from './MinimalMeadowCreatureSurfaceRegions.js';
 import { createMinimalDemonSkinAttributes } from './MinimalMeadowDemonSkinWeights.js?v=20260724-meadow-13';
 import { createMinimalDemonSurface } from './MinimalMeadowMarchingTetrahedra.js?v=20260724-meadow-13';
 
 let cachedGeometry = null;
 
+/**
+ * Builds the closed procedural hostile once and gives Core sole native BufferGeometry authority.
+ * @returns {object} Shared native geometry containing all skinning and material-coordinate streams.
+ */
 export function createMinimalDemonGeometry() {
 	if (cachedGeometry) return cachedGeometry;
 	const surface = createMinimalDemonSurface();
 	const skin = createMinimalDemonSkinAttributes(surface.positions);
-	const geometry = new BufferGeometry();
-	geometry.setAttribute('position', attribute(surface.positions, 3));
-	geometry.setAttribute('normal', attribute(surface.normals, 3));
-	geometry.setAttribute('color', attribute(surface.colors, 4));
-	geometry.setAttribute('uv', attribute(surface.uvs, 2));
-	geometry.setAttribute('joints', attribute(skin.joints, 4));
-	geometry.setAttribute('weights', attribute(skin.weights, 4));
-	geometry.userData.AwtsmoosContinuousDemon = geometryEvidence(surface);
-	cachedGeometry = geometry;
-	return geometry;
+	cachedGeometry = createNativeGeometry({
+		colors: surface.colors,
+		joints: skin.joints,
+		normals: surface.normals,
+		positions: surface.positions,
+		uvs: surface.uvs,
+		weights: skin.weights
+	}, {
+		geometryUserData: {
+			AwtsmoosContinuousDemon: geometryEvidence(surface)
+		}
+	});
+	return cachedGeometry;
 }
 
+/**
+ * Summarizes visual evidence without spreading potentially large geometry arrays onto the JS stack.
+ * @param {object} surface Portable marching-tetrahedra streams.
+ * @returns {Readonly<object>} Stable diagnostics for tests and runtime inspection.
+ */
 function geometryEvidence(surface) {
-	const luminances = [];
+	let luminanceSum = 0;
+	let luminanceMinimum = Infinity;
+	let luminanceMaximum = -Infinity;
+	let uvMinimum = Infinity;
+	let uvMaximum = -Infinity;
 	for (let index = 0; index < surface.colors.length; index += 4) {
-		luminances.push(luminance(surface.colors.slice(index, index + 3)));
+		const value = luminance(surface.colors, index);
+		luminanceSum += value;
+		luminanceMinimum = Math.min(luminanceMinimum, value);
+		luminanceMaximum = Math.max(luminanceMaximum, value);
 	}
+	for (const value of surface.uvs) {
+		uvMinimum = Math.min(uvMinimum, value);
+		uvMaximum = Math.max(uvMaximum, value);
+	}
+	const vertexCount = surface.positions.length / 3;
 	return Object.freeze({
 		closedImplicitSurface: true,
 		jointCount: 19,
 		mapCoordinatesBound: surface.uvs.length > 0,
 		regionContrast: demonSurfaceRegionContrast(),
 		triangleCount: surface.positions.length / 9,
-		uvRange: Object.freeze([Math.min(...surface.uvs), Math.max(...surface.uvs)]),
-		vertexCount: surface.positions.length / 3,
+		uvRange: Object.freeze([uvMinimum, uvMaximum]),
+		vertexCount,
 		vertexLuminance: Object.freeze({
-			average: luminances.reduce((sum, value) => sum + value, 0) / luminances.length,
-			maximum: Math.max(...luminances),
-			minimum: Math.min(...luminances)
+			average: luminanceSum / vertexCount,
+			maximum: luminanceMaximum,
+			minimum: luminanceMinimum
 		})
 	});
 }
 
-function attribute(values, itemSize) {
-	return new BufferAttribute(new Float32Array(values), itemSize);
-}
-
-function luminance(color) {
-	return color[0] * 0.2126 + color[1] * 0.7152 + color[2] * 0.0722;
+function luminance(colors, offset) {
+	return colors[offset] * 0.2126
+		+ colors[offset + 1] * 0.7152
+		+ colors[offset + 2] * 0.0722;
 }

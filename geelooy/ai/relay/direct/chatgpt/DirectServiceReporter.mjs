@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file Reports the one-tab, post-close-cooldown tunnel policy without secrets.
+ * @file Reports the submit-only browser lane and its verified-close policy without secrets.
  * @description
- * The Awtsmoos reveals queue timing, physical sweeps, and watchdog health while
- * prompts, answers, cookies, target ids, and upstream conversation identity remain
- * concealed. Operators can prove the timer is anchored to verified tab closure.
+ * The Awtsmoos reveals queue timing, physical sweeps, and watchdog health while prompts,
+ * cookies, target IDs, and upstream conversation identity remain concealed. Diagnostics
+ * describe the current runtime contract instead of preserving obsolete detached-session names.
  */
 export class DirectServiceReporter {
 	reset({ conversationKey, store }) {
@@ -17,21 +17,29 @@ export class DirectServiceReporter {
 
 	status(context) {
 		const turnQueue = context.turnCoordinator?.status?.() || null;
+		const minimumIntervalMs = turnQueue?.minimumIntervalMs ?? 0;
 		return {
 			ok: true,
 			mode: "chatgpt-website",
 			websiteOnly: true,
 			defaultChatMode: "chatgpt-website",
 			preferredDebugPort: context.preferredPort,
-			minimumIntervalMs: turnQueue?.minimumIntervalMs ?? 18000,
+			minimumIntervalMs,
 			turnQueue,
 			physicalTabProtector: context.tabProtector?.status?.() || null,
 			tabWatchdog: context.tabWatchdog?.status?.() || null,
 			submissionTransport: "chatgpt-website-composer",
-			completionTransport: "detached-authenticated-conversation-get",
-			tabPolicy: "one-tab-close-then-18-second-cooldown",
+			completionTransport: "durable-tools-after-submit",
+			tabPolicy: tabPolicy(minimumIntervalMs),
 			...context.websiteService.status(),
 			...context.store.status()
 		};
 	}
+}
+
+function tabPolicy(minimumIntervalMs) {
+	if (minimumIntervalMs > 0) {
+		return `one-tab-verified-close-then-${minimumIntervalMs}ms-cooldown`;
+	}
+	return "one-tab-verified-close-no-extra-cooldown";
 }

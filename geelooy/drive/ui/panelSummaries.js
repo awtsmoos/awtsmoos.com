@@ -72,18 +72,19 @@ function filesSummary(state) {
 function deviceSummary(state) {
 	const device = selectedDevice(state);
 	if (device) return summary(device.label, state.devices.length > 1 ? String(state.devices.length) : "");
-	return summary(state.transportMode === "os" ? "OS workspace" : "No device");
+	return summary(state.transportMode === "os" ? "OS workspace" : state.transportMode === "browser" ? "Browser workspace" : "No device");
 }
 
 function accessSummary(state) {
 	if (state.transportMode === "os") return summary("OS VFS", "SAFE");
+	if (state.transportMode === "browser") return summary("Browser local", "LOCAL");
 	if (state.mutationCredentialConfigured) return summary("Scoped key loaded", "KEY");
 	return summary("Read session");
 }
 
 function runtimeSummary(state) {
 	if (state.runtimeServer) return summary(`Port ${state.runtimeServer.port}`, "LIVE");
-	return summary(state.transportMode === "os" ? "Tunnel only" : "Managed static");
+	return summary(["os", "browser"].includes(state.transportMode) ? "Tunnel only" : "Managed static");
 }
 
 function summary(text, badge = "") {

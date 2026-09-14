@@ -52,7 +52,7 @@ export const PROJECT_HOSTING_CSS = `
 }
 .hosting-card__select,
 .hosting-card__refresh {
-	min-height: 38px;
+	min-height: 44px;
 	border: 1px solid color-mix(in srgb, currentColor 18%, transparent);
 	border-radius: 10px;
 	background: Canvas;

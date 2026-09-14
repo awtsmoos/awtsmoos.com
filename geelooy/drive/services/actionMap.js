@@ -4,6 +4,7 @@
 
 import { parentPathForBrowser } from "../ui/fileBrowser.js";
 import { createBuilderActions } from "./builderActions.js";
+import { createCloudPublishActions } from "./cloudPublishActions.js";
 import { createDomainActions } from "./domainActions.js";
 
 /**
@@ -26,6 +27,7 @@ export function createDriveActions(options) {
 	} = options;
 	return {
 		...createBuilderActions({ workspace, state, panels, canonicalSite }),
+		...createCloudPublishActions({ transport, state, canonicalSite }),
 		...createDomainActions({ domainClaims, panels }),
 		navigate: path => workspace.navigate(path),
 		navigateUp: () => workspace.navigate(parentPathForBrowser(state.snapshot().currentPath)),

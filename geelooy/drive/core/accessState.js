@@ -10,6 +10,6 @@
  */
 
 export function canMutateWorkspace(state = {}) {
-	return state.transportMode === "os"
+	return ["os", "browser", "cloud"].includes(state.transportMode)
 		|| Boolean(state.mutationCredentialConfigured);
 }

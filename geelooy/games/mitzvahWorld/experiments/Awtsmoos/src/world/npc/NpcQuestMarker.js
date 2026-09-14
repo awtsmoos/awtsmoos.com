@@ -1,6 +1,6 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file NpcQuestMarker.js
@@ -9,11 +9,11 @@
  * invitation visible without requiring the full actor skeleton to remain active.
  */
 
-import { Group } from '../../../../light-three-gltf/tiny-runtime.js';
+import { createNativeWorldGroup } from '../../../../../../../libs/awtsmoos-procedural-core/src/core/worldBuilding/index.js';
 import { createPrimitiveMesh } from '../Box3D.js';
 
 export function createNpcQuestMarker(profile, groundY) {
-	const group = new Group();
+	const group = createNativeWorldGroup();
 	group.name = `Awtsmoos_npc_marker_${profile.id}`;
 	group.add(primitive(
 		`${profile.id}-ring`,

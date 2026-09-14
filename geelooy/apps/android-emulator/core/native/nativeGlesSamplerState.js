@@ -3,6 +3,7 @@
 //Blessed is He
 
 import { getNativeGlesQueryDomain } from "./nativeGlesQueryDomain.js";
+import { createNativeGlesSamplerQueryMethods } from "./nativeGlesSamplerQueryMethods.js";
 import { nativeGlesShareRoot } from "./nativeGlesShareGroup.js";
 import { isNativeGlesScalarSamplerParameter } from "./nativeGlesSamplerParameterValues.js";
 import { validateNativeGlesSamplerParameterValue } from "./nativeGlesTextureParameterValidation.js";
@@ -74,6 +75,7 @@ export function getNativeGlesSamplerState(runtimeState, eglContextState) {
 			}
 			return Object.freeze({ names: Object.freeze(names), success: true });
 		},
+		...createNativeGlesSamplerQueryMethods(records, domain, eglContextState),
 		parameter(handleValue, pnameValue, value, valueType, threadValue) {
 			const query = domain.prepare(threadValue);
 			if (!query.valid) return false;

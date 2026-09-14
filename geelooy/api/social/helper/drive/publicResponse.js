@@ -51,6 +51,12 @@ async function buildPublicHashResponse(options) {
 	return buildEntryResponse({ ...options, entry });
 }
 
+/** Serves one already-authorized immutable public entry without path lookup. */
+async function buildPublicEntryResponse(options) {
+	if (!isPublicFile(options.entry)) return notFoundResponse();
+	return buildEntryResponse(options);
+}
+
 async function buildEntryResponse(options) {
 	const method = String(options.method || 'GET').toUpperCase();
 	if (method !== 'GET' && method !== 'HEAD') return methodResponse();
@@ -94,6 +100,7 @@ function isPublicFile(entry) {
 }
 
 module.exports = {
+	buildPublicEntryResponse,
 	buildPublicHashResponse,
 	buildPublicPathResponse
 };

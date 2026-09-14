@@ -1,51 +1,49 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-
 /**
  * @file worldRealismMaterialProfiles.test.mjs
- * @description Locks the shared realism pass to readable water, real terrain sources, and restrained waterfall presentation.
- * The Awtsmoos gives depth without darkness and light without glare; Awtsmoos.com tests the bounded garment without replacing its source.
+ * @description Locks readable physical water and remote-first layered terrain to the shared Procedural Core authority.
+ * The Awtsmoos gives depth without black crushing and texture without false generation; Awtsmoos.com
+ * tests the actual current visual contract rather than preserving stale private-renderer thresholds.
  */
-
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
-import {
-	createTerrainMaterial,
-	TERRAIN_CINEMATIC_MIX_STRENGTH,
-	TERRAIN_CINEMATIC_PATCH_SCALE
-} from '../../world/terrain/TerrainMaterialFactory.js';
+import { createCinematicTerrainMaterial } from '../../../../../../../libs/awtsmoos-procedural-core/src/core/worldBuilding/CinematicTerrainMaterial.js';
 import { waterShaderRecipe } from '../../world/proceduralApi/WaterShaderRecipe.js';
 
-const image = src => ({ height: 1024, naturalHeight: 1024, naturalWidth: 1024, src, width: 1024 });
+const image = Object.freeze({
+	height: 1024,
+	naturalHeight: 1024,
+	naturalWidth: 1024,
+	src: 'https://awtsmoos.com/remote-real-material.png',
+	width: 1024
+});
+const textureLoader = async () => ({ image, ok: true });
+const textureService = { searchTextures: async () => [] };
 
-test('water profiles preserve depth without black crushing or mirror glare', () => {
+test('shared water stays readable, reflective, and bounded rather than black or mirror-like', () => {
 	for (const kind of ['lake', 'stream', 'cascade']) {
 		const recipe = waterShaderRecipe(kind);
-		assert.ok(recipe.depth.strength <= 0.56, `${kind} depth strength`);
-		assert.ok(recipe.reflection.fresnel <= 0.48, `${kind} fresnel`);
-		assert.ok(recipe.reflection.goldenSunGlint <= 0.82, `${kind} sun glint`);
-		assert.ok(recipe.reflection.skyStrength <= 0.46, `${kind} sky strength`);
+		assert.ok(recipe.depth.strength >= 0.35 && recipe.depth.strength <= 0.7, `${kind} depth`);
+		assert.ok(recipe.reflection.fresnel >= 0.4 && recipe.reflection.fresnel <= 0.6, `${kind} fresnel`);
+		assert.ok(recipe.reflection.skyStrength >= 0.3 && recipe.reflection.skyStrength <= 0.55, `${kind} sky`);
+		assert.ok(recipe.reflection.goldenSunGlint <= 1, `${kind} sun glint`);
 	}
 });
 
-test('terrain keeps real source pixels while increasing cinematic macro separation', () => {
-	const material = createTerrainMaterial({
-		dirtImage: image('https://awtsmoos.com/dirt.png'),
-		grassImage: image('https://awtsmoos.com/grass.png'),
-		quality: 'cinematic',
-		size: 220
-	});
-	assert.equal(material.mixStrength, TERRAIN_CINEMATIC_MIX_STRENGTH);
-	assert.equal(material.mixPatchScale, TERRAIN_CINEMATIC_PATCH_SCALE);
-	assert.ok(material.mixStrength >= 0.75);
-	assert.equal(material.texturePolicy.realBaseImage, true);
-	assert.equal(material.texturePolicy.realMixImage, true);
-	assert.equal(material.texturePolicy.cinematicMacroContrast, true);
+test('shared terrain hydrates six real remote layers and never enables generated texture images', async () => {
+	const state = createCinematicTerrainMaterial({ textureLoader, textureService });
+	await state.ready;
+	assert.equal(state.material.textureLayers.length, 6);
+	assert.equal(state.material.texturePolicy.remoteOnly, true);
+	assert.equal(state.material.texturePolicy.generatedTextureAllowed, false);
+	assert.equal(state.material.textureLayers.every(layer => layer.image === image), true);
+	assert.equal(state.material.terrainMixingC.length, 4);
 });
 
-test('waterfall source remains translucent rather than cyan-white opaque cards', async () => {
+test('waterfall presentation remains translucent rather than cyan-white opaque cards', async () => {
 	const source = await readFile(new URL('../../world/village/VillageWaterfallSystem.js', import.meta.url), 'utf8');
 	assert.match(source, /opacity: 0\.58/);
 	assert.match(source, /opacity: 0\.46/);

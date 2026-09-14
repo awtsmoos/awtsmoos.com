@@ -51,7 +51,8 @@ async function closePage(port, page, requestJson) {
 
 async function ensureKeeper(port, requestJson) {
 	let pages = await listPages(port, requestJson);
-	let keeper = pages.find(page => page.url === BOOTSTRAP_URL);
+	let keeper = pages.find(page => Registry.isProtected(port, page.id)) ||
+		pages.find(page => page.url === BOOTSTRAP_URL);
 	if (keeper) return keeper;
 	await requestJson(`http://127.0.0.1:${port}/json/new?${encodeURIComponent(BOOTSTRAP_URL)}`, "PUT");
 	pages = await listPages(port, requestJson);

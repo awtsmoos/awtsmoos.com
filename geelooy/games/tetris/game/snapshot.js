@@ -2,6 +2,8 @@
 //Boruch Hashem
 //Blessed be He
 
+import { createTetrisVisualGrid } from './visual-grid.js';
+
 /**
  * @file snapshot.js
  * @description Projects one Tetris board into a frozen transport-friendly gameplay snapshot.
@@ -24,6 +26,7 @@ export function createGameSnapshot(game) {
 		holdTypeId: game.holdTypeId,
 		holdAvailable: !game.holdUsed,
 		elapsedMs: game.state.elapsedMs(),
-		pieceSerial: game.piece?.serial ?? null
+		pieceSerial: game.piece?.serial ?? null,
+		visualGrid: createTetrisVisualGrid(game)
 	};
 }

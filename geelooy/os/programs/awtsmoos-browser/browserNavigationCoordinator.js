@@ -1,6 +1,6 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @module BrowserNavigationCoordinator
@@ -11,6 +11,7 @@
 import { clearRemoteJar } from "./proxyClient.js";
 import { createInteractiveBrowserController } from "./interactiveController.js";
 import { createRemoteNavigationController } from "./remoteNavigationController.js";
+import { ensureBrowserSessionAlias } from "./browserSessionIdentity.js";
 
 export function createBrowserNavigationCoordinator(options) {
 	const remote = options.remoteSurface;
@@ -20,6 +21,7 @@ export function createBrowserNavigationCoordinator(options) {
 	fallback.destroy();
 	const interactive = createInteractiveBrowserController({
 		aliasId: () => remote.alias.value.trim(),
+		engineMode: () => options.engineMode || "headless",
 		jarId: () => remote.jar.value.trim() || "default",
 		browserSurface: options.browserSurface,
 		os: options.os,
@@ -38,14 +40,14 @@ export function createBrowserNavigationCoordinator(options) {
 	attachChild(options.content).catch(showError);
 	return { destroy, interactive, navigate };
 
-	async function navigate(value) {
-		if (!remote.alias.value.trim()) {
-			options.renderLocal();
-			return null;
-		}
+	async function navigate(value, behavior = {}) {
+		await ensureBrowserSessionAlias(
+			remote,
+			message => remote.status.textContent = message
+		);
 		remote.status.textContent = `Opening ${value}…`;
 		try {
-			const result = await interactive.navigate(value);
+			const result = await interactive.navigate(value, behavior);
 			remote.status.textContent = "Interactive Chromium connected";
 			return result;
 		} catch (error) {
@@ -87,6 +89,7 @@ export function createBrowserNavigationCoordinator(options) {
 		remote.jar.value = content.interactiveJarId || remote.jar.value || "default";
 		await interactive.attachExisting({
 			aliasId: remote.alias.value,
+			engineMode: content.interactiveEngineMode || options.engineMode || "headless",
 			jarId: remote.jar.value,
 			sessionId: content.interactiveSessionId,
 			targetId: content.interactiveTargetId
@@ -107,7 +110,6 @@ export function createBrowserNavigationCoordinator(options) {
 		remote.status.textContent = error?.code || error?.message || "Browser navigation failed";
 	}
 }
-
 function isUnavailable(error) {
 	return error?.status === 503 || [
 		"INTERACTIVE_BROWSER_UNAVAILABLE",

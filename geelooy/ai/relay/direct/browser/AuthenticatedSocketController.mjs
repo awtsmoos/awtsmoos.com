@@ -13,11 +13,11 @@ const require = createRequire(import.meta.url);
 const { configuredAgentStartUrl } = require("../../split-browser/config.cjs");
 
 /**
- * @file Binds one exact owned target and proves final custom-GPT navigation.
+ * @file Binds and leases one exact authenticated Shliach target before CDP work begins.
  * @description
- * The Awtsmoos never composes inside about:blank or another tab. Awtsmoos.com binds
- * the target id returned by Chrome, verifies the configured GPT route on that socket,
- * verifies authenticated composer readiness, then exposes one bounded send vessel.
+ * The Awtsmoos never composes inside about:blank or another tab. Awtsmoos.com protects
+ * the acquired target before connect/navigation, verifies the configured GPT route on
+ * that same socket, and releases ownership only through the target lifecycle close.
  */
 export class AuthenticatedSocketController {
 	constructor(options = {}) {
@@ -48,6 +48,7 @@ export class AuthenticatedSocketController {
 			forceNewTarget: this.forceNewTarget
 		});
 		const { target, owned } = acquisition;
+		this.lifecycle.protect(target.id);
 		const cdpClient = this.clientFactory(target);
 		try {
 			await cdpClient.connect();

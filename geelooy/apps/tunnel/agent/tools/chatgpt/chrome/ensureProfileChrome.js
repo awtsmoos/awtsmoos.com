@@ -1,10 +1,13 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 const { chromeNavigate, chromeCloseTabs } = require("../../chrome/actions.js");
+const { requireSplitBrowser } = require("../../../lib/split-browser-require.js");
 const SharedBrowser = require("./sharedProfile.js");
 const { currentProfile, saveProfileState } = require("../storage/profileState.js");
+
+const LoginPage = requireSplitBrowser("humanLoginPage.cjs");
 
 /**
  * @file Opens ChatGPT inside the same Shared AI Browser used by every website sub-agent.
@@ -32,13 +35,15 @@ async function ensureProfileChrome(payload = {}) {
 	}
 	let navigation = null;
 	if (payload.navigate !== false) {
-		navigation = await chromeNavigate({
-			...payload,
-			port,
-			url,
-			newTab: payload.newTab !== false,
-			autoLaunch: false
-		});
+		navigation = LoginPage.isShliach(url)
+			? await LoginPage.ensureHumanLoginPage({ debugPort: port, url })
+			: await chromeNavigate({
+				...payload,
+				port,
+				url,
+				newTab: payload.newTab !== false,
+				autoLaunch: false
+			});
 	}
 	const saved = await saveProfileState(name, {
 		port,

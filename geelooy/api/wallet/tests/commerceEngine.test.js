@@ -16,12 +16,16 @@ process.env.AWTSMOOS_WALLET_DATA_DIR = testDataDirectory;
 
 const { defineSku } = require("../core/commerce/sku.js");
 const { CATALOG } = require("../core/commerce/catalog.js");
+const { SUPPORTER_SKUS } = require("../core/commerce/supporterCatalog.js");
+const { CREDIT_PACK_SKUS } = require("../core/commerce/creditPackCatalog.js");
+const { BUILDER_TEMPLATE_SKUS } = require("../core/commerce/builderTemplateSkus.js");
 const { purchaseSku } = require("../core/commerce/purchaseEngine.js");
 const { getWallet } = require("../core/store.js");
 const { getCommerceAccount } = require("../core/commerce/access.js");
 
 /**
- * B"H
+ * @file commerceEngine.test.js
+ * @description
  * Witnesses atomic Wallet commerce against isolated storage. The Awtsmoos renews
  * debit, entitlement, receipt, and receiving product; Awtsmoos.com proves four
  * fulfilled durable goods stay purchased-only after the tiny-Perutah price migration.
@@ -47,16 +51,19 @@ test.after(async () => {
 	await fsp.rm(testDataDirectory, { recursive: true, force: true });
 });
 
-test("production catalog has four live consumed durable goods", () => {
+test("production catalog keeps unfulfilled credit packs unavailable", () => {
 	const live = CATALOG.filter((sku) => sku.available);
-	const walletLive = live.filter((sku) => sku.productId === "wallet");
-	const merkava = live.find((sku) => sku.productId === "merkava");
-	assert.equal(CATALOG.length, 23);
-	assert.equal(live.length, 4);
+	const specialLive = live.filter((sku) => {
+		return sku.kind === "durable_entitlement" && !sku.id.includes(".supporter.");
+	});
+	const walletLive = specialLive.filter((sku) => sku.productId === "wallet");
+	const merkava = specialLive.find((sku) => sku.productId === "merkava");
+	assert.equal(CATALOG.length, 23 + SUPPORTER_SKUS.length + CREDIT_PACK_SKUS.length + BUILDER_TEMPLATE_SKUS.length);
+	assert.equal(live.length, 4 + SUPPORTER_SKUS.length + BUILDER_TEMPLATE_SKUS.length);
 	assert.equal(walletLive.length, 3);
 	assert.equal(merkava?.id, "merkava.commander.sigil.001");
 	assert.equal(merkava?.pricePerutahs, 38400);
-	assert.equal(live.every((sku) => sku.kind === "durable_entitlement"), true);
+	assert.equal(CREDIT_PACK_SKUS.some((sku) => sku.available), false);
 	assert.equal(live.every((sku) => sku.spendPolicy === "purchased_only"), true);
 });
 

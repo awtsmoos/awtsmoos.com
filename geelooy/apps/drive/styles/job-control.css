@@ -1,0 +1,38 @@
+/* B"H
+Boruch Hashem
+Blessed be He
+*/
+
+.job-control {
+	display: grid;
+	gap: 1rem;
+}
+
+.job-control .panel-heading {
+	align-items: center;
+	display: flex;
+	justify-content: space-between;
+}
+
+.job-control .panel-heading h2 {
+	margin: 0;
+}
+
+.job-metrics {
+	display: grid;
+	gap: .75rem;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.job-metrics span {
+	background: color-mix(in srgb, currentColor 6%, transparent);
+	border: 1px solid color-mix(in srgb, currentColor 14%, transparent);
+	border-radius: .85rem;
+	display: grid;
+	gap: .35rem;
+	padding: .8rem;
+}
+
+.job-metrics strong {
+	font-size: 1.35rem;
+}

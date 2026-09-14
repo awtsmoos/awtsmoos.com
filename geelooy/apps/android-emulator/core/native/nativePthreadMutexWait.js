@@ -1,38 +1,78 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
+//Blessed be He
 
 const EBUSY = 16;
 
 /**
- * Acquires one truly unlocked guest mutex for its retained direct waiter.
- * The Awtsmoos renews owner, continuation, FIFO, and returning ray;
- * Awtsmoos.com resumes no pthread before real mutex truth opens the way.
+ * Transfers one truly released mutex to the earliest valid managed waiter.
+ *
+ * Queue membership is diagnostic state, not authority over thread existence. A
+ * terminated, externally-owned, or already-resumed identity can therefore become
+ * stale if an earlier execution boundary is abandoned. Such entries are removed
+ * with explicit evidence and the search continues; a live matching suspension is
+ * the only record allowed to receive mutex ownership and resume guest execution.
+ *
+ * @param {bigint|number|string} mutexValue Guest mutex address being released.
+ * @param {object} options Mutex queue, thread state, and continuation executor.
+ * @returns {ReadonlyArray<object>} Stale/waiting/resumed evidence in FIFO order.
  */
 export function resumeNativePthreadLock(mutexValue, options) {
 	const mutex = BigInt(mutexValue);
-	const handle = options.mutexWaitQueue.shift(mutex);
-	if (handle === null) return Object.freeze([]);
-	const suspended = requireSuspension(handle, mutex, options);
-	const acquired = options.mutexes.tryLock(mutex, handle);
-	if (acquired.result === EBUSY) {
-		options.mutexWaitQueue.enqueue(mutex, handle);
-		return Object.freeze([waitingEvidence(handle, mutex, acquired)]);
+	const results = [];
+	while (true) {
+		const handle = options.mutexWaitQueue.shift(mutex);
+		if (handle === null) {
+			return Object.freeze(results);
+		}
+		const suspended = options.threads.suspension(handle);
+		const stale = staleReason(suspended, mutex);
+		if (stale) {
+			results.push(staleEvidence(handle, mutex, suspended, stale));
+			continue;
+		}
+		const acquired = options.mutexes.tryLock(mutex, handle);
+		if (acquired.result === EBUSY) {
+			options.mutexWaitQueue.enqueue(mutex, handle);
+			results.push(waitingEvidence(handle, mutex, acquired));
+			return Object.freeze(results);
+		}
+		if (acquired.result !== 0) {
+			throw resumeError(handle, mutex, acquired);
+		}
+		suspended.continuation.registers.write(0, 0n, 32, "zero");
+		results.push(options.runContinuation(handle, suspended));
+		return Object.freeze(results);
 	}
-	if (acquired.result !== 0) throw resumeError(handle, mutex, acquired);
-	suspended.continuation.registers.write(0, 0n, 32, "zero");
-	return Object.freeze([options.runContinuation(handle, suspended)]);
 }
 
-function requireSuspension(handle, mutex, options) {
-	const suspended = options.threads.suspension(handle);
-	if (suspended.code !== 0) throw resumeError(handle, mutex, suspended);
-	if (suspended.wait.type !== "mutex" || BigInt(suspended.wait.mutex) !== mutex) {
-		throw resumeError(handle, mutex, suspended.wait);
+/** Classifies queue membership that no longer points at this mutex suspension. */
+function staleReason(suspended, mutex) {
+	if (suspended.code !== 0) {
+		return "missing-suspension";
 	}
-	return suspended;
+	if (suspended.wait?.type !== "mutex") {
+		return "wait-type-mismatch";
+	}
+	return BigInt(suspended.wait.mutex) === mutex
+		? null
+		: "mutex-address-mismatch";
 }
 
+/** Records discarded queue membership without fabricating a resumed guest thread. */
+function staleEvidence(handle, mutex, suspended, reason) {
+	return Object.freeze({
+		code: Number(suspended.code || 0),
+		handle: handle.toString(),
+		mutex: mutex.toString(),
+		operation: "pthread-mutex-resume",
+		reason,
+		result: 0,
+		status: "stale-mutex-waiter"
+	});
+}
+
+/** Preserves a valid waiter when another owner still holds the mutex. */
 function waitingEvidence(handle, mutex, acquired) {
 	return Object.freeze({
 		acquired,
@@ -44,6 +84,7 @@ function waitingEvidence(handle, mutex, acquired) {
 	});
 }
 
+/** Creates a coded failure when a live waiter cannot acquire an unlocked mutex. */
 function resumeError(handle, mutex, evidence) {
 	const error = new Error(`NATIVE_PTHREAD_MUTEX_RESUME:${handle}:${mutex}`);
 	error.code = "NATIVE_PTHREAD_MUTEX_RESUME";

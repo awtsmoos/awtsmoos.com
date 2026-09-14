@@ -1,51 +1,78 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed be He
 
 import { websiteStarters } from "../builder/starterCatalog.js";
 import { canMutateWorkspace } from "../core/accessState.js";
 import { actionButton, createElement } from "./dom.js";
+import { canUseBuilderStarter, loadBuilderStarterAccess } from "./builderStarterAccess.js";
+import { openBuilderCommerce } from "./builderCommerceBridge.js";
 
-/** The Awtsmoos offers transparent beginnings only when the current workspace truthfully permits real file writes. */
+/**
+ * @module BuilderStarterView
+ * @description Shows free source starters and entitlement-protected premium source without leaking premium files into the client bundle.
+ */
 export function createBuilderStarterView(actions) {
-	const buttons = [];
+	const starters = websiteStarters();
+	const cards = starters.map(starter => starterCard(starter, actions));
 	const element = createElement("div", {
 		className: "builder-starters",
-		children: [
-			heading(),
-			...websiteStarters().map(starter => starterCard(starter, actions, buttons))
-		]
+		children: [heading(), ...cards.map(card => card.element)]
 	});
+	let access = { loaded: false, authenticated: false, owned: new Set() };
+	let lastState = {};
+	void refreshAccess();
+	window.addEventListener("awtsmoos:commerce:purchase", () => void refreshAccess());
 	return {
 		element,
 		render(state) {
-			const allowed = canMutateWorkspace(state) && !state.busyAction;
-			for (const button of buttons) {
-				button.disabled = !allowed;
-				button.title = allowed ? "Create readable HTML, CSS, and JavaScript" : "Write authority is required to create starter files";
-			}
+			lastState = state;
+			const writable = canMutateWorkspace(state) && !state.busyAction;
+			for (const card of cards) card.render(writable, access);
 		}
 	};
+
+	async function refreshAccess() {
+		access = await loadBuilderStarterAccess();
+		const writable = canMutateWorkspace(lastState) && !lastState.busyAction;
+		for (const card of cards) card.render(writable, access);
+	}
 }
 
 function heading() {
 	return createElement("div", { className: "builder-starter-heading", children: [
 		createElement("strong", { text: "Start from real source" }),
-		createElement("span", { text: "Creates index.html, styles.css, and site.js only when those names are free." })
+		createElement("span", { text: "Free starters stay open. Pro templates are protected digital goods; the 2,500,000 P pack unlocks all three." })
 	] });
 }
 
-function starterCard(starter, actions, buttons) {
-	const button = actionButton("Use", () => actions.createStarter(starter.id), { className: "button quiet" });
-	buttons.push(button);
-	return createElement("article", {
-		className: "builder-starter-card",
+function starterCard(starter, actions) {
+	let owned = !starter.premium;
+	const badge = createElement("span", { className: "builder-starter-badge" });
+	const button = actionButton("Use", () => {
+		if (starter.premium && !owned) return openBuilderCommerce();
+		return actions.createStarter(starter.id);
+	}, { className: "button quiet" });
+	const element = createElement("article", {
+		className: `builder-starter-card${starter.premium ? " premium" : ""}`,
 		children: [
 			createElement("div", { children: [
-				createElement("strong", { text: starter.label }),
+				createElement("div", { className: "builder-starter-title", children: [createElement("strong", { text: starter.label }), badge] }),
 				createElement("p", { text: starter.description })
 			] }),
 			button
 		]
 	});
+	return { element, render };
+
+	function render(writable, access) {
+		owned = canUseBuilderStarter(starter, access);
+		button.textContent = starter.premium && !owned ? "Unlock" : "Use";
+		button.disabled = owned && !writable;
+		badge.textContent = starter.premium ? (owned ? "Owned" : `${Number(starter.pricePerutahs).toLocaleString()} P`) : "Free";
+		badge.dataset.tone = owned ? "owned" : starter.premium ? "premium" : "free";
+		button.title = starter.premium && !owned
+			? "Open the Peruta store to unlock this protected source template"
+			: writable ? "Create editable HTML, CSS, and JavaScript" : "Write authority is required to create starter files";
+	}
 }

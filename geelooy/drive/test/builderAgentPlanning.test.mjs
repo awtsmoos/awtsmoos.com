@@ -62,15 +62,15 @@ test("preview status is read-only and returns the stable envelope", async () => 
 	assert.deepEqual(calls, []);
 });
 
-test("domain planning exposes server-token truth without mutating workspace", async () => {
+test("domain planning mutates only local plan state while exposing server-token truth", async () => {
 	const { api, calls } = harness();
 	const result = await api.run("site.domain.plan", {
 		hostname: "Example.org"
 	});
 	assert.equal(result.ok, true);
-	assert.equal(result.mutates, false);
-	assert.equal(result.requiredScope, "read");
-	assert.equal(result.availability, "planning-only");
+	assert.equal(result.mutates, true);
+	assert.equal(result.requiredScope, "none");
+	assert.equal(result.availability, "available");
 	assert.equal(result.data.hostname, "example.org");
 	assert.equal(result.data.ownership.status, "server-token-required");
 	assert.deepEqual(calls, []);

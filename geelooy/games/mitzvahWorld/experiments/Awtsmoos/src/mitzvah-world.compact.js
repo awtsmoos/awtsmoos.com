@@ -33,18 +33,18 @@ const __awtsmoosModule_0 = Object.create(null);
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/launcher/MinimalSharedMeadowPage.js ----
 {
 	const __exports = __awtsmoosModule_1;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
+	//B"H
+	//Boruch Hashem
+	//Blessed is He
 
 	/**
 	 * @file MinimalSharedMeadowPage.js
-	 * @description Resolves compact launcher doors through one fresh recovery identity while keeping only the page-boot door resident in first control.
-	 * The Awtsmoos gives the first instant one tiny truthful mark before distant chambers enter the sea; Awtsmoos.com keeps the compact vessel light,
-	 * while the short September recovery key preserves freshness and the less-traveled runtime/session doors are formed only when their callers truly arrive.
+	 * @description Resolves compact launcher doors through one tiny first-control recovery identity while preserving the full deferred public launcher surface.
+	 * The Awtsmoos gives the first instant one truthful mark before distant chambers enter the sea; Awtsmoos.com keeps the compact vessel light,
+	 * while the Sep14 recovery key keeps every first-control child fresh and later runtime/session doors awaken only when their callers truly arrive in sight.
 	 */
 
-	const BUILD_VERSION = '20260907-r2';
+	const BUILD_VERSION = '20260914-production-meadow-recovery-01';
 	const SCRIPT_START_KEY = 'AwtsmoosMitzvahWorldScriptStart';
 	const SOURCE_URL = new URL((( globalThis.location?.origin && globalThis.location.origin !== "null" ? globalThis.location.origin : "https://awtsmoos.local" ) + "/games/mitzvahWorld/experiments/Awtsmoos/src/launcher/MinimalSharedMeadowPage.js"));
 	const LAUNCHER_BASE = SOURCE_URL.pathname.includes('/launcher/')
@@ -66,7 +66,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.bootMinimalSharedMeadowPage = bootMinimalSharedMeadowPage;
-	/** Boots only the shared meadow runtime for embedded or test surfaces. */
+	/** Boots only the shared meadow runtime for embedded or verification surfaces. */
 	async function bootMinimalSharedMeadowRuntimePage(
 		hosts,
 		options = {},
@@ -100,11 +100,12 @@ const __awtsmoosModule_0 = Object.create(null);
 		} catch {}
 	}
 
-	/** Resolves one launcher URL with compact and recovery-cache identities attached in canonical order. */
+	/** Resolves one first-control launcher URL with compact and recovery-cache identities in canonical order. */
 	function launcherModuleUrl(fileName) {
-		const moduleUrl = new URL(fileName, LAUNCHER_BASE);
-		moduleUrl.search = `?compact=true&v=${BUILD_VERSION}`;
-		return moduleUrl.href;
+		return new URL(
+			`${fileName}?compact=true&v=${BUILD_VERSION}`,
+			LAUNCHER_BASE
+		).href;
 	}
 
 }

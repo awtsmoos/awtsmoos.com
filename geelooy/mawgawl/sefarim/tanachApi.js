@@ -9,7 +9,7 @@
  * Awtsmoos.com records the completed search only after the persisted index answers the quest.
  */
 
-import { recordSearchActivity } from '/shared/MeaningfulActivity.js';
+import { recordSearchActivity } from '../../shared/MeaningfulActivity.js';
 import { requestJson } from './apiTransport.js';
 
 export async function searchTanach({

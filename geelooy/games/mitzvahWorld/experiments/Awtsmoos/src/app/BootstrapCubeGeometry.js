@@ -1,18 +1,18 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file BootstrapCubeGeometry.js
- * @description Shares one face-aware cube with positions, normals, and UVs across first-play terrain, landmarks, and traveler parts.
- * The Awtsmoos gives each face a direction and each texture a measured place; Awtsmoos.com reuses one complete vessel,
- * so grass may repeat across the earth and simple forms may catch light without an allocation race.
+ * @description Owns portable face-aware cube streams for the first-play bootstrap world.
+ * Procedural Core alone materializes renderer geometry; MitzvahWorld retains only this tiny,
+ * deterministic primitive recipe so terrain, landmarks, fallback buildings, and actor parts
+ * can share one cached cube without duplicating native BufferGeometry construction.
  */
 
 import {
-	BufferAttribute,
-	BufferGeometry
-} from '../../../light-three-gltf/tiny-runtime.js';
+	createNativeIndexedGeometry
+} from '../../../../../../libs/awtsmoos-procedural-core/src/core/worldBuilding/index.js';
 
 const FACE_UVS = [
 	0, 0,
@@ -49,24 +49,31 @@ const INDICES = [
 ];
 
 let sharedGeometry = null;
-
 /**
- * Returns the one cached bootstrap cube used by every lightweight visible object.
- * @returns {BufferGeometry} Shared geometry with 24 positions, normals, UVs, and 36 indices.
+ * Returns the single shared face-aware bootstrap cube.
+ * The geometry contains distinct vertices per face so lighting normals and UV orientation stay
+ * deterministic, while all native allocation remains inside Procedural Core.
+ * @returns {object} Shared native geometry with positions, normals, UVs, and 36 indices.
  */
 export function bootstrapCubeGeometry() {
 	sharedGeometry ||= createCubeGeometry();
 	return sharedGeometry;
 }
 
-/** Creates the face-separated cube so each face owns truthful lighting and texture coordinates. */
+/**
+ * Materializes the immutable portable cube recipe exactly once through Core.
+ * @returns {object} Core-owned native indexed geometry.
+ */
 function createCubeGeometry() {
-	const geometry = new BufferGeometry();
 	const uvs = Array.from({ length: 6 }, () => FACE_UVS).flat();
-	geometry.setAttribute('position', new BufferAttribute(new Float32Array(POSITIONS), 3));
-	geometry.setAttribute('normal', new BufferAttribute(new Float32Array(NORMALS), 3));
-	geometry.setAttribute('uv', new BufferAttribute(new Float32Array(uvs), 2));
-	geometry.setIndex(new BufferAttribute(new Uint16Array(INDICES), 1));
-	geometry.userData.bootstrapPrimitive = 'shared-cube-face-aware';
-	return geometry;
+	return createNativeIndexedGeometry({
+		indices: INDICES,
+		normals: NORMALS,
+		positions: POSITIONS,
+		uvs
+	}, {
+		geometryUserData: {
+			bootstrapPrimitive: 'shared-cube-face-aware'
+		}
+	});
 }

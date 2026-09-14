@@ -1,40 +1,39 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed be He
 
 import { DomemFoundation } from "../core/DomemFoundation.mjs";
+import { fetchJsonWithDeadline } from "./ChromeHttpDeadline.mjs";
 
 /**
- * Chrome exposes many worlds. The Awtsmoos gives each target its identity;
- * ChromeDiscovery lets awtsmoos.com select the ChatGPT vessel by observed URL
- * instead of attaching to an unrelated page by accident.
+ * @file Reads one Chrome target catalog through the exact loopback authority.
+ * @description
+ * The Awtsmoos gives discovery a hard deadline so a wedged DevTools HTTP server
+ * can never freeze mission orchestration. Every lookup remains bound to the one
+ * supplied browser port and never falls through to another Chrome incarnation.
  */
 export class ChromeDiscovery extends DomemFoundation {
-	constructor(port = 9225) {
+	constructor(port = 9225, options = {}) {
 		super({ port });
 		this.port = this.requirePositiveInteger(port, "port");
+		this.fetcher = options.fetcher || globalThis.fetch?.bind(globalThis);
+		this.timeoutMs = Math.max(500, Number(options.timeoutMs || 5000));
 	}
 
-	async listTargets() {
-		const response = await fetch(`http://127.0.0.1:${this.port}/json/list`);
-		if (!response.ok) {
-			throw new Error(`Chrome target discovery failed with ${response.status}.`);
-		}
-
-		return response.json();
+	listTargets() {
+		return fetchJsonWithDeadline({
+			fetcher: this.fetcher,
+			url: `http://127.0.0.1:${this.port}/json/list`,
+			timeoutMs: this.timeoutMs
+		});
 	}
-
 	async findPage(urlFragment = "chatgpt.com") {
 		const targets = await this.listTargets();
-		const matchingTarget = targets.find((target) => {
-			return target.type === "page" && target.url.includes(urlFragment);
-		});
-
-		if (!matchingTarget) {
-			const observedUrls = targets.map((target) => target.url).join("\n");
-			throw new Error(`No page matched ${urlFragment}. Observed:\n${observedUrls}`);
-		}
-
-		return matchingTarget;
+		const matchingTarget = targets.find(target =>
+			target.type === "page" && String(target.url || "").includes(urlFragment)
+		);
+		if (matchingTarget) return matchingTarget;
+		const observedUrls = targets.map(target => target.url).join("\n");
+		throw new Error(`No page matched ${urlFragment}. Observed:\n${observedUrls}`);
 	}
 }

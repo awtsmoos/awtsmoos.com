@@ -1,10 +1,10 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
+//Blessed be He
 
 import { apkError } from "../apk/bytes.js";
 import { assembleApkPackageSet } from "../apk/packageSet.js";
-import { openDexModel } from "../dex/model.js";
+import { openCachedApkDexModel } from "../apk/dexModelCache.js";
 
 /**
  * Wraps the historic single-APK vessel in the package graph used by split sets.
@@ -33,8 +33,9 @@ export async function loadPackageDexModels(packageSet, options = {}) {
 	const sources = [];
 	for (const record of packageSet.records) {
 		for (const dexFile of record.identity.dexFiles || []) {
-			models.push(await openDexModel(
-				await record.archive.read(dexFile.name),
+			models.push(await openCachedApkDexModel(
+				record.archive,
+				dexFile.name,
 				options
 			));
 			sources.push(Object.freeze({

@@ -3,6 +3,7 @@
 // Blessed is He
 
 const { SOURCE_KINDS } = require('../api/social/helper/drive/siteSourcePolicy.js');
+const { buildDeploymentResponse } = require('./deploymentSiteResponse.js');
 const { buildHostedProjectResponse } = require('./hostedProjectProxy.js');
 const {
 	mappedNotFound,
@@ -26,6 +27,10 @@ async function buildMappedSourceResponse(options, resolution, method, state) {
 		const direct = await buildVirtualOsResponse(options, source, method);
 		return { ...direct, source };
 	}
+	if (source.kind === SOURCE_KINDS.DRIVE_DEPLOYMENT) {
+		const deployed = await buildDeploymentResponse(options, source, method, state);
+		return { ...deployed, source };
+	}
 	return driveSourceResponse(options, resolution, method, state, source);
 }
 
@@ -45,13 +50,15 @@ async function hostedSourceResponse(options, resolution, method, source) {
 }
 
 async function driveSourceResponse(options, resolution, method, state, source) {
+	const requestedEntry = state.entries?.[source.drivePath];
+	const directoryIndex = source.relativePath === "" || requestedEntry?.type === "folder";
 	let result = await publicSiteResponse(options, source.drivePath, method);
 	if (result.statusCode === 404 && resolution.fallbackPath) {
 		result = await mappedNotFound(options, method, result, resolution.fallbackPath);
 	}
 	return {
 		result,
-		directoryIndex: source.relativePath === '' && result.statusCode === 200,
+		directoryIndex: directoryIndex && result.statusCode === 200,
 		source,
 		state
 	};

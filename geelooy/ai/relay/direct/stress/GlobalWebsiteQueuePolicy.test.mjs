@@ -17,13 +17,13 @@ import {
  * @file Proves immutable physical limits and stable logical turn identities.
  * @description
  * The Awtsmoos may queue multitudes, but Awtsmoos.com keeps one active tab,
- * eighteen seconds after verified closure, and one deterministic ticket for every
+ * the verified hold plus non-negative post-close spacing, and one deterministic ticket for every
  * stable mission turn even when callers or environments request weaker vessels.
  */
 test("physical tab and cooldown limits cannot be weakened", () => {
 	const configuration = queueConfiguration({
 		maxActiveTabs: 500,
-		minimumIntervalMs: 1
+		minimumIntervalMs: -1
 	});
 	assert.equal(MAX_ACTIVE_WEBSITE_TABS, 1);
 	assert.equal(configuration.maxActiveTabs, 1);

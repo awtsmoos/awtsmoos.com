@@ -58,7 +58,7 @@ test("platform testimony remains secret-free and shares canonical project identi
 
 	assert.equal(result.data.capabilities.find(item => item.id === "static-publish")?.projectCapabilityId, "publish");
 	assert.equal(result.data.capabilities.find(item => item.id === "node-runtime")?.projectCapabilityId, "runtime");
-	assert.equal(result.data.capabilities.find(item => item.id === "project-data-api")?.projectStage, "run");
+	assert.equal(result.data.capabilities.find(item => item.id === "project-data-api")?.projectStage, "data");
 	assert.equal(serialized.includes("apikey"), false);
 	assert.equal(serialized.includes("credentialvalue"), false);
 	assert.equal(serialized.includes("tokenvalue"), false);

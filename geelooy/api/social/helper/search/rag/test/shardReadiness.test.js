@@ -5,8 +5,9 @@
 /**
  * @file shardReadiness.test.js
  * @description
- * Proves public inventory never confuses stored vectors with a usable persisted
- * graph, so supervisors and callers warm only strict indexed publication lanes.
+ * Public inventory distinguishes physical vector storage from product semantic
+ * eligibility. English corpora may advertise semantic vectors; Hebrew/non-English
+ * generations never do, even while obsolete vector artifacts remain on disk.
  */
 
 const assert = require('node:assert/strict');
@@ -17,6 +18,7 @@ const {
 
 const storedOnly = publicShard({
 	id: 'stored-only',
+	title: 'Fixture English corpus',
 	listName: 'vectors',
 	count: 12,
 	dimensions: 384,
@@ -24,10 +26,12 @@ const storedOnly = publicShard({
 });
 assert.equal(storedOnly.storedVectors, true);
 assert.equal(storedOnly.indexed, false);
-assert.deepEqual(storedOnly.modes, ['vector-exact']);
+assert.equal(storedOnly.semanticEligible, true);
+assert.deepEqual(storedOnly.modes, ['semantic-vector-exact']);
 
 const indexed = publicShard({
 	id: 'indexed',
+	contentLanguage: 'en',
 	listName: 'vectors',
 	count: 12,
 	dimensions: 384,
@@ -36,20 +40,33 @@ const indexed = publicShard({
 assert.equal(indexed.storedVectors, true);
 assert.equal(indexed.indexed, true);
 assert.deepEqual(indexed.modes, [
-	'vector-exact',
-	'vector-indexed'
+	'semantic-vector-exact',
+	'semantic-vector-indexed'
 ]);
 
 const textAndIndex = searchModes({
 	textFile: '/private/source.jsonl',
 	storedVectors: true,
-	indexed: true
+	indexed: true,
+	semanticEligible: true
 });
 assert.deepEqual(textAndIndex, [
 	'text',
-	'vector-exact',
-	'vector-indexed'
+	'semantic-vector-exact',
+	'semantic-vector-indexed'
 ]);
+
+const hebrew = publicShard({
+	id: 'tanach-hebrew',
+	contentLanguage: 'he',
+	listName: 'vectors',
+	count: 12,
+	dimensions: 384,
+	vectorEnabled: true
+});
+assert.equal(hebrew.storedVectors, true);
+assert.equal(hebrew.semanticEligible, false);
+assert.deepEqual(hebrew.modes, []);
 
 const empty = publicShard({ id: 'empty' });
 assert.equal(empty.storedVectors, false);

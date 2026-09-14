@@ -34,7 +34,8 @@ test("browser shell production files obey source and isolation law", async () =>
 	for (const relativePath of CORE_FILES) {
 		const source = await sourceText(relativePath);
 		assert.ok(source.split(/\r?\n/).length <= 120, `${relativePath} exceeds 120 lines`);
-		assert.match(source, /Awtsmoos/);
+		assert.match(source, /^\/\/B"H\n\/\/Boruch Hashem\n\/\/Blessed be He/);
+		assert.match(source, /@(module|file)/);
 		assert.doesNotMatch(source, /contentWindow\.eval/);
 		assert.doesNotMatch(source, /\beval\s*\(/);
 		assert.doesNotMatch(source, /new Function|AsyncFunction/);
@@ -45,8 +46,8 @@ test("browser shell production files obey source and isolation law", async () =>
 test("registry exposes Awtsmoos Browser without replacing HTML preview defaults", async () => {
 	const modules = await sourceText("basicProgramModules.js");
 	const registry = await sourceText("basicProgramRegistry.js");
-	assert.match(modules, /import awtsmoosBrowser/);
-	assert.match(modules, /awtsmoosBrowser:\s*program\("Awtsmoos Browser",\s*awtsmoosBrowser\)/);
+	assert.match(modules, /awtsmoosBrowser:\s*program\("Awtsmoos Browser",\s*"\.\/programs\/awtsmoos-browser\/index\.js"\)/);
+	assert.match(modules, /lazyProgram/);
 	assert.match(registry, /"\.merkava":\s*\["awtsmoosBrowser",\s*"advancedCodeEditor"\]/);
 	assert.match(registry, /"\.html":\s*"workspacePreview"/);
 	assert.match(registry, /"\.htm":\s*"workspacePreview"/);
@@ -75,26 +76,29 @@ test("Merkava loader keeps nested-window dependencies in order", async () => {
 test("browser garments are modular, responsive, and browser-first", async () => {
 	const base = await sourceText(`${BROWSER}/style.css`);
 	const chrome = await sourceText(`${BROWSER}/chrome.css`);
+	const tabs = await sourceText(`${BROWSER}/tabs.css`);
 	const viewport = await sourceText(`${BROWSER}/viewport.css`);
 	const advanced = await sourceText(`${BROWSER}/advanced.css`);
 	const responsive = await sourceText(`${BROWSER}/responsive.css`);
 	const loader = await sourceText(`${BROWSER}/browserStyleLoader.js`);
-	assert.match(base, /prefers-reduced-motion/);
-	assert.match(chrome, /awtsmoos-browser-tab-strip/);
-	assert.match(chrome, /awtsmoos-browser-new-tab[\s\S]*display:\s*none/);
+	assert.match(responsive, /prefers-reduced-motion/);
+	assert.match(tabs, /awtsmoos-browser-tab-strip/);
+	assert.match(tabs, /awtsmoos-browser-new-tab[\s\S]*display:\s*none/);
 	assert.match(viewport, /awtsmoos-browser-embedded-frame/);
 	assert.match(advanced, /awtsmoos-browser-advanced-panel/);
-	assert.match(responsive, /@media \(max-width:\s*560px\)/);
-	for (const name of ["style", "chrome", "omnibox", "viewport", "advanced", "developer", "remote", "responsive"]) {
-		assert.match(loader, new RegExp(`${name}\\.css`));
+	assert.match(responsive, /@media \(pointer:\s*coarse\)/);
+	assert.match(loader, /fileName:\s*"style\.css"/);
+	for (const name of ["tabs", "chrome", "viewport", "advanced", "remote", "interactive", "shliach"]) {
+		assert.match(base, new RegExp(`${name}\\.css`));
 	}
 });
 
 test("entrypoint loads modular styles and no longer claims Chromium-first UI", async () => {
 	const entry = await sourceText(`${BROWSER}/index.js`);
-	assert.match(entry, /ensureBrowserStyles/);
-	assert.match(entry, /createBrowserNavigationCoordinator/);
-	assert.match(entry, /modeBadge\.textContent = "Standby"/);
+	const startup = await sourceText(`${BROWSER}/browserProgramStartup.js`);
+	assert.match(startup, /ensureBrowserStyles/);
+	assert.match(startup, /createBrowserNavigationCoordinator/);
+	assert.match(entry, /modeBadge\.textContent = "Starting"/);
 	assert.doesNotMatch(entry, /living Chromium faces/);
 });
 

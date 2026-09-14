@@ -18,24 +18,29 @@ import { fileURLToPath } from 'node:url';
 const testDirectory = path.dirname(fileURLToPath(import.meta.url));
 const repositoryRoot = path.resolve(testDirectory, '..');
 
+/** Reads one repository source as UTF-8 for a deterministic static contract. */
 function readSource(relativePath) {
 	return fs.readFileSync(path.join(repositoryRoot, relativePath), 'utf8');
 }
 
-test('home keeps live feed contracts inside the richer social hierarchy', () => {
+test('home preserves the original hero art beside live interface copy', () => {
 	const index = readSource('geelooy/index.html');
+	const imageCss = readSource('geelooy/style/home-simple/hero-image.css');
+	const copyCss = readSource('geelooy/style/home-simple/hero-copy.css');
 	for (const contract of [
-		'data-home-dashboard-page',
-		'data-home-feed-section',
-		'id="home-feed"',
-		'data-home-feed',
-		'data-feed-mode="forYou"'
+		'data-geelooy-route="home"',
+		'class="hero-media"',
+		'class="hero-image"',
+		'class="banner-copy"',
+		'id="hero-title"',
+		'href="/heichelos/ikar"',
+		'href="/games/"'
 	]) {
 		assert.ok(index.includes(contract), contract);
 	}
-	assert.ok(index.includes('class="home-stream-tabs"'));
-	assert.ok(index.includes('class="home-circle-rail"'));
-	assert.ok(index.includes('href="/games"'));
+	assert.ok(index.indexOf('class="hero-media"') < index.indexOf('class="banner-copy"'));
+	assert.ok(imageCss.includes('grid-row: 1'));
+	assert.ok(copyCss.includes('grid-row: 2'));
 });
 
 test('home loads the focused redesign after the existing feed system', () => {

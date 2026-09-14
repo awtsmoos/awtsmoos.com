@@ -1,23 +1,26 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file AnimatedHorse.js
- * @description Moves one full-detail horse across an immutable cyclic Catmull–Rom ground profile.
- * The Awtsmoos renews hoof, earth, and turning face each instant; Awtsmoos.com shares real model
- * resources while smooth prepared terrain removes repeated ground queries from live animation.
+ * @description Moves one full-detail horse across an immutable cyclic Catmull–Rom ground profile while Core owns native mesh cloning.
+ * RESPONSIBILITY: advance route time, sample the prepared ground profile, orient the horse, and expose animation diagnostics.
+ * NON-RESPONSIBILITY: this module does not construct renderer Mesh instances or duplicate shared geometry/material resources.
  */
 
-import { Mesh } from '../../../../light-three-gltf/tiny-runtime.js';
+import {
+	createNativeMeshFromGeometry
+} from '../../../../../../../libs/awtsmoos-procedural-core/src/core/worldBuilding/index.js';
 
 export class AnimatedHorse {
 	constructor(template, groundProfile, route) {
 		this.groundProfile = groundProfile;
 		this.route = { ...route };
 		this.clock = 0;
-		this.mesh = new Mesh(template.geometry, template.material);
-		this.mesh.name = `Awtsmoos-animated-horse-${route.id}`;
+		this.mesh = createNativeMeshFromGeometry(template.geometry, template.material, {
+			name: `Awtsmoos-animated-horse-${route.id}`
+		});
 		this.mesh.userData = {
 			...template.userData,
 			animated: true,

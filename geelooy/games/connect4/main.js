@@ -9,12 +9,15 @@
  */
 import { BoardCanvas } from './app/runtime/BoardCanvas.js';
 import { Connect4Ui } from './app/runtime/Connect4Ui.js';
+import { Connect4Native3DPresentation } from './app/runtime/Native3DPresentation.js';
 import { WorkerSession } from './app/runtime/WorkerSession.js';
 
 const ui = new Connect4Ui();
 const resignButton = document.getElementById('resign-btn');
+const native3d = new Connect4Native3DPresentation();
 const workerSession = new WorkerSession({
 	onResult: message => ui.showResult(message),
+	onState: message => native3d.update(message.board),
 	onError: () => returnToMenu()
 });
 const board = new BoardCanvas(ui.screens.game, resignButton, {
@@ -32,6 +35,7 @@ function startGame(mode, playerGoesFirst = true) {
 	ui.hideResult();
 	ui.show(ui.screens.game);
 	const size = board.mount();
+	native3d.mount(board.canvas);
 	const offscreen = board.transfer();
 	workerSession.start({
 		mode,
@@ -44,6 +48,7 @@ function startGame(mode, playerGoesFirst = true) {
 /** Stop active rendering/Worker state and return to the main mode menu. */
 function returnToMenu() {
 	workerSession.stop();
+	native3d.unmount();
 	board.unmount();
 	ui.hideResult();
 	ui.show(ui.screens.main);
@@ -70,5 +75,7 @@ window.addEventListener('awtsmoos:connect4-column-request', event => {
 	else if (kind === 'leave') workerSession.leave();
 	else workerSession.drop(column);
 });
+
+globalThis.addEventListener('pagehide', () => native3d.dispose(), { once: true });
 
 ui.show(ui.screens.main);

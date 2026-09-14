@@ -1,6 +1,6 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file Owns interactive Chromium lifecycle while target actions remain modular.
@@ -12,6 +12,7 @@ const { InteractiveProfileStore } = require('./interactiveProfileStore.js');
 const { InteractiveSessionActions } = require('./interactiveSessionActions.js');
 const { InteractiveSessionStore } = require('./interactiveSessionStore.js');
 const { normalizeInteractiveJarId } = require('./interactiveSessionIds.js');
+const { normalizeInteractiveEngineMode } = require('./interactiveEngineMode.js');
 const { normalizeProxyUrl } = require('./proxyUrlPolicy.js');
 const { startInteractiveRuntime, stopInteractiveRuntime } = require('./interactiveSessionRuntime.js');
 
@@ -30,19 +31,22 @@ class InteractiveSessionService {
 		this.startSweeper();
 	}
 
-	async create({ userId, jarId, url }) {
+	async create({ userId, jarId, url, engineMode }) {
 		const normalizedJarId = normalizeInteractiveJarId(jarId);
 		const normalizedUrl = normalizeProxyUrl(url).href;
-		const existing = this.sessionStore.findReusable(userId, normalizedJarId);
+		const normalizedEngineMode = normalizeInteractiveEngineMode(engineMode);
+		const existing = this.sessionStore.findReusable(userId, normalizedJarId, normalizedEngineMode);
 		if (existing) return this.createTargetInSession(existing, normalizedUrl);
-		const profile = this.profileStore.prepare(userId, normalizedJarId);
+		const profile = this.profileStore.prepare(userId, normalizedJarId, normalizedEngineMode);
 		const runtime = await this.startRuntime({
 			profilePath: profile.profilePath,
+			engineMode: normalizedEngineMode,
 			resolver: this.resolver,
 			url: normalizedUrl
 		});
 		const session = this.sessionStore.create({
 			jarId: normalizedJarId,
+			engineMode: normalizedEngineMode,
 			profile,
 			runtime,
 			userId

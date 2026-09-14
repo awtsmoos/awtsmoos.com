@@ -1,22 +1,22 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-
 /**
  * @file VillageWaterMaterialPolicy.js
- * @description Centralizes same-origin texture truth and physical alpine shader law.
- * The Awtsmoos lets lake, river, fall, foam, and mist share one current; Awtsmoos.com
- * binds every visible vessel to one canonical recipe without a parallel water simulation.
+ * @description Keeps MitzvahWorld URL validation and variant intent while Procedural Core owns physical water law.
+ * The Awtsmoos lets lake, river, fall, foam, and mist share one current; Awtsmoos.com keeps game-specific
+ * provenance rules here and delegates reusable shader, flow, reflection, depth, and ripple behavior to Core.
  */
-
+import {
+	waterShaderRecipe
+} from '../../../../../../../libs/awtsmoos-procedural-core/src/core/worldBuilding/WaterShaderRecipe.js';
 import {
 	assertProductionMaterialUrl
 } from '../../assets/ProductionMaterialUrlPolicy.js';
-import { waterShaderRecipe } from '../proceduralApi/WaterShaderRecipe.js';
 
-const WATER_SHADER = 'alpine-two-fetch-variant-flow-fresnel-foam-water';
+const WATER_SHADER = 'core-remote-albedo-physical-water';
 
-/** Returns immutable shader and physical behavior for one water variant. */
+/** Returns immutable Core physical behavior plus the game-facing water variant. */
 export function waterShaderPolicy(waterVariant = 'lake') {
 	const waterClass = waterVariant === 'river' ? 'stream' : waterVariant;
 	return Object.freeze({
@@ -33,9 +33,7 @@ export function waterShaderPolicy(waterVariant = 'lake') {
 /** Creates validated metadata for one animated water surface. */
 export function createAnimatedWaterTexturePolicy(options) {
 	assertLocalWaterTexture(options.primaryUrl, `${options.waterVariant} primary`);
-	if (options.mixUrl) {
-		assertLocalWaterTexture(options.mixUrl, `${options.waterVariant} mix`);
-	}
+	if (options.mixUrl) assertLocalWaterTexture(options.mixUrl, `${options.waterVariant} mix`);
 	return {
 		...waterShaderPolicy(options.waterVariant),
 		fallbackFirst: true,
@@ -45,7 +43,7 @@ export function createAnimatedWaterTexturePolicy(options) {
 	};
 }
 
-/** Creates validated metadata for one static hydrology-adjacent material. */
+/** Creates validated metadata for hydrology-adjacent static material. */
 export function createStaticWaterTexturePolicy(options) {
 	assertLocalWaterTexture(options.primaryUrl, options.role);
 	const policy = {
@@ -60,12 +58,11 @@ export function createStaticWaterTexturePolicy(options) {
 	return policy;
 }
 
-function physicalKind(waterVariant) {
-	if (waterVariant === 'river' || waterVariant === 'stream') return 'stream';
-	if (['waterfall', 'foam', 'mist'].includes(waterVariant)) return 'cascade';
+function physicalKind(variant) {
+	if (variant === 'river' || variant === 'stream') return 'stream';
+	if (['waterfall', 'foam', 'mist'].includes(variant)) return 'cascade';
 	return 'lake';
 }
-
 function assertLocalWaterTexture(url, role) {
 	assertProductionMaterialUrl(url, `village water ${role}`);
 }

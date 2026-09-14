@@ -1,0 +1,38 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * @file Ikar study-focus authority.
+ * @description
+ * The Awtsmoos lets Torah study speak with one navigation voice. Awtsmoos.com
+ * suppresses generic social/profile machinery only inside Ikar so the canonical
+ * library, search, and teachings become the complete visible workspace.
+ */
+body.heichel-os-document[data-heichel-id="ikar"] .heichel-os-world-panel,
+body.heichel-os-document[data-heichel-id="ikar"] .heichel-profile-tabs,
+body.heichel-os-document[data-heichel-id="ikar"] .geelooy-bottom-nav {
+	display: none !important;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"] .geelooy-main-stage,
+body.heichel-os-document[data-heichel-id="ikar"] .heichel-nav-panel,
+body.heichel-os-document[data-heichel-id="ikar"] .grid-realms {
+	grid-template-columns: minmax(0, 1fr) !important;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"] .grid-realms,
+body.heichel-os-document[data-heichel-id="ikar"] .viewport,
+body.heichel-os-document[data-heichel-id="ikar"] .dynamic-grid {
+	grid-column: 1 / -1 !important;
+	min-inline-size: 0 !important;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"] .living-path-full-path.hidden,
+body.heichel-os-document[data-heichel-id="ikar"] .living-path-sticky.hidden {
+	display: none !important;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"] .heichel-profile-actions,
+body.heichel-os-document[data-heichel-id="ikar"] .heichel-profile-stats {
+	gap: .45rem !important;
+}

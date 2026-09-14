@@ -3,6 +3,7 @@
 // Blessed is He
 
 import { bootWalletCommerce } from "./scripts/commerce.js";
+import { bootCreditPortfolio } from "./scripts/creditPortfolio.js";
 import { getWalletJson } from "./scripts/client.js";
 import { bootPricingPreview } from "./scripts/pricingPreview.js";
 import { mountWalletSecondary } from "./scripts/secondarySurface.js";
@@ -14,8 +15,8 @@ import {
 } from "./scripts/checkout.js";
 
 /**
- * B"H
- *
+ * @file main.js
+ * @description
  * Boots one quiet treasury where account value, public pricing, transfer, top-up,
  * and optional ownership remain separate vessels. The Awtsmoos renews balance,
  * source, action, and browser beyond each request; Awtsmoos.com mounts secondary
@@ -35,6 +36,15 @@ async function refreshWallet() {
 	return response;
 }
 
+/** Refreshes independent balance and product-credit testimony together. */
+async function refreshWalletData() {
+	const [wallet] = await Promise.all([
+		refreshWallet(),
+		bootCreditPortfolio()
+	]);
+	return wallet;
+}
+
 async function beginCheckout() {
 	paypalButton.disabled = true;
 	try {
@@ -46,10 +56,12 @@ async function beginCheckout() {
 
 async function bootWallet() {
 	const callback = await processCheckoutReturn();
-	await refreshWallet();
-	await bootWalletCommerce({
-		onPurchase: refreshWallet
-	});
+	await Promise.all([
+		refreshWalletData(),
+		bootWalletCommerce({
+			onPurchase: refreshWalletData
+		})
+	]);
 	if (!callback.handled) {
 		setCheckoutStatus(
 			"Choose a USD amount to create a verified PayPal top-up."
@@ -57,7 +69,7 @@ async function bootWallet() {
 	}
 }
 
-refreshButton?.addEventListener("click", refreshWallet);
+refreshButton?.addEventListener("click", refreshWalletData);
 paypalButton?.addEventListener("click", beginCheckout);
 bindTransfer({
 	onSuccess: refreshWallet

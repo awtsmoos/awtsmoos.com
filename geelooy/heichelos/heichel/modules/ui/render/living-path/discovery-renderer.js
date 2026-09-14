@@ -45,8 +45,10 @@ export function renderRelated(content, navigator, currentView) {
 		return;
 	}
 	const records = relatedRecordsForView(content, currentView);
-	section.classList.toggle('hidden', !records.length);
+	const suppressRootIkar = location.pathname.replace(/\/$/, '') === '/heichelos/ikar';
+	section.classList.toggle('hidden', suppressRootIkar || !records.length);
 	list.replaceChildren();
+	if (suppressRootIkar) return;
 	for (const item of records) {
 		const data = normalizeCardData(item, 'series');
 		list.appendChild(
@@ -87,7 +89,10 @@ function relatedCard(data, navigator) {
 export function updateResultStatus(counts, appState) {
 	const count = counts?.[appState.currentView] || 0;
 	if (DOMElements.resultCount) {
-		DOMElements.resultCount.textContent = `${count} ${count === 1 ? 'result' : 'results'}`;
+		const ikarSeries = appState.heichelId === 'ikar' && appState.currentView === 'series';
+		DOMElements.resultCount.textContent = ikarSeries
+			? `${count} Torah ${count === 1 ? 'section' : 'sections'}`
+			: `${count} ${count === 1 ? 'result' : 'results'}`;
 	}
 	if (DOMElements.searchScopeStatus) {
 		DOMElements.searchScopeStatus.textContent = appState.livingPath.searchScope === 'currentView'
@@ -102,5 +107,9 @@ export function updateProfileContext(appState) {
 	}
 	const posts = appState.currentContent?.posts?.length || 0;
 	const series = appState.currentContent?.subSeries?.length || 0;
+	if (appState.heichelId === 'ikar') {
+		DOMElements.profileCompactContext.textContent = `${series} Torah ${series === 1 ? 'section' : 'sections'}`;
+		return;
+	}
 	DOMElements.profileCompactContext.textContent = `${posts} teachings · ${series} series`;
 }

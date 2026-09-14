@@ -1,109 +1,106 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file CdpProofSession.mjs
- * @description Owns one finite Chrome DevTools Protocol witness and records every browser-level failure that can invalidate a real release.
- * The Awtsmoos opens one measured doorway and closes it when the testimony is won;
- * Awtsmoos.com leaves no hidden exception, failed request, or console cry outside the witness beneath the same sun.
+ * @description Owns one finite Chrome DevTools witness for MitzvahWorld release proofs.
+ * Target creation, websocket opening, commands, evidence routing, and cleanup are all bounded so diagnostics cannot hang forever.
  */
 
-/** Creates one CDP target with command, failure evidence, compatibility surfaces, and deterministic cleanup. */
+import { createCdpProofCommandChannel } from './CdpProofCommandChannel.mjs';
+import {
+	createCdpProofEvidence,
+	recordCdpProofEvidence
+} from './CdpProofEvidence.mjs';
+
+const SESSION_TIMEOUT_MS = 12000;
+
+/**
+ * Creates one isolated DevTools page with bounded commands and browser-failure evidence.
+ * @param {number} port Local Chrome remote-debugging port.
+ * @returns {Promise<object>} Command API, target identity, evidence ledger, and close operation.
+ */
 export async function createCdpProofSession(port) {
-	const target = await fetch(
-		`http://127.0.0.1:${port}/json/new?about%3Ablank`,
-		{ method: 'PUT' }
-	).then(response => response.json());
+	const target = await createTarget(port);
 	const socket = new WebSocket(target.webSocketDebuggerUrl);
-	const pending = new Map();
-	const evidence = {
-		consoleErrors: [],
-		loadingFailures: [],
-		networkErrors: [],
-		runtimeExceptions: []
-	};
-	let sequence = 1;
-	await new Promise((resolve, reject) => {
-		socket.onopen = resolve;
-		socket.onerror = reject;
+	await waitForSocketOpen(socket);
+	const channel = createCdpProofCommandChannel(socket, {
+		timeoutMs: SESSION_TIMEOUT_MS
 	});
-	socket.onmessage = event => handleMessage(
-		JSON.parse(event.data),
-		pending,
-		evidence
-	);
-	const command = (method, params = {}) => sendCommand(
-		socket,
-		pending,
-		sequence++,
-		method,
-		params
-	);
+	const evidence = createCdpProofEvidence();
+	socket.onmessage = event => {
+		const message = JSON.parse(event.data);
+		recordCdpProofEvidence(message, evidence);
+		channel.resolve(message);
+	};
+
 	return {
-		command,
+		command: channel.command,
 		evidence,
 		networkErrors: evidence.networkErrors,
 		target,
 		async close() {
-			pending.clear();
+			channel.close();
 			socket.close();
-			await fetch(`http://127.0.0.1:${port}/json/close/${target.id}`)
-				.catch(() => null);
+			await closeTarget(port, target.id);
 		}
 	};
 }
 
-/** Routes one browser event into the release evidence ledger or command resolver. */
-function handleMessage(message, pending, evidence) {
-	if (message.method === 'Network.responseReceived' && message.params.response.status >= 400) {
-		evidence.networkErrors.push({
-			status: message.params.response.status,
-			url: message.params.response.url
-		});
+/**
+ * Creates one fresh about:blank page through Chrome's HTTP debugging endpoint.
+ * @param {number} port Local Chrome remote-debugging port.
+ * @returns {Promise<object>} Chrome target descriptor.
+ */
+async function createTarget(port) {
+	const response = await fetch(
+		`http://127.0.0.1:${port}/json/new?about%3Ablank`,
+		{
+			method: 'PUT',
+			signal: AbortSignal.timeout(SESSION_TIMEOUT_MS)
+		}
+	);
+
+	if (!response.ok) {
+		throw new Error(`CDP_TARGET_CREATE_FAILED:${response.status}`);
 	}
-	if (message.method === 'Network.loadingFailed' && !message.params.canceled) {
-		evidence.loadingFailures.push({
-			errorText: message.params.errorText,
-			type: message.params.type
-		});
-	}
-	if (message.method === 'Runtime.exceptionThrown') {
-		const details = message.params.exceptionDetails;
-		evidence.runtimeExceptions.push(
-			details.exception?.description || details.text || 'Runtime exception'
-		);
-	}
-	if (message.method === 'Runtime.consoleAPICalled' && message.params.type === 'error') {
-		evidence.consoleErrors.push(consoleMessage(message.params.args));
-	}
-	if (message.method === 'Log.entryAdded' && message.params.entry?.level === 'error') {
-		evidence.consoleErrors.push(message.params.entry.text || 'Browser log error');
-	}
-	if (!message.id) return;
-	const resolver = pending.get(message.id);
-	if (!resolver) return;
-	pending.delete(message.id);
-	resolver(message);
+
+	return response.json();
 }
 
-/** Sends one CDP command without leaking shell or browser ownership. */
-function sendCommand(socket, pending, id, method, params) {
+/**
+ * Waits for the DevTools websocket to open or fail within the release-proof deadline.
+ * @param {WebSocket} socket Fresh target websocket.
+ * @returns {Promise<void>} Resolves only when Chrome accepts the connection.
+ */
+function waitForSocketOpen(socket) {
 	return new Promise((resolve, reject) => {
-		pending.set(id, message => {
-			if (message.error) {
-				reject(new Error(JSON.stringify(message.error)));
-				return;
-			}
-			resolve(message.result);
-		});
-		socket.send(JSON.stringify({ id, method, params }));
+		const timer = setTimeout(() => {
+			reject(new Error('CDP_SOCKET_OPEN_TIMEOUT'));
+		}, SESSION_TIMEOUT_MS);
+		socket.onopen = () => {
+			clearTimeout(timer);
+			resolve();
+		};
+		socket.onerror = error => {
+			clearTimeout(timer);
+			reject(error);
+		};
 	});
 }
 
-/** Converts console remote objects into one bounded diagnostic sentence. */
-function consoleMessage(args = []) {
-	return args.map(argument => {
-		return String(argument.value ?? argument.description ?? argument.type ?? 'unknown');
-	}).join(' ');
+/**
+ * Closes one temporary DevTools page without letting browser cleanup stall the proof.
+ * @param {number} port Local Chrome remote-debugging port.
+ * @param {string} targetId Temporary target identifier.
+ * @returns {Promise<void>} Resolves after close succeeds or the cleanup request is abandoned.
+ */
+async function closeTarget(port, targetId) {
+	await fetch(
+		`http://127.0.0.1:${port}/json/close/${targetId}`,
+		{
+			signal: AbortSignal.timeout(SESSION_TIMEOUT_MS)
+		}
+	).catch(() => null);
 }

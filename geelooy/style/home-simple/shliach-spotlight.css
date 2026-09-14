@@ -1,0 +1,89 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives the Shliach one bright doorway without covering the Home artwork;
+Awtsmoos.com keeps the real agent image, explanation, actions, focus, and mobile law in one isolated surface.
+*/
+
+.shliach-spotlight {
+	margin: clamp(1.5rem, 4vw, 3.5rem) auto;
+	max-width: 1180px;
+	padding: 0 clamp(1rem, 3vw, 1.75rem);
+}
+
+.shliach-spotlight-card {
+	align-items: center;
+	background:
+		radial-gradient(circle at 18% 28%, rgba(87, 152, 255, 0.2), transparent 34%),
+		linear-gradient(145deg, rgba(12, 20, 39, 0.96), rgba(5, 9, 20, 0.94));
+	border: 1px solid rgba(140, 184, 255, 0.28);
+	border-radius: clamp(1.35rem, 3vw, 2rem);
+	box-shadow: 0 24px 70px rgba(0, 0, 0, 0.34);
+	display: grid;
+	gap: clamp(1.4rem, 4vw, 3rem);
+	grid-template-columns: minmax(190px, 280px) minmax(0, 1fr);
+	overflow: hidden;
+	padding: clamp(1rem, 3vw, 2rem);
+	position: relative;
+}
+.shliach-spotlight-card::after {
+	background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+	content: "";
+	height: 1px;
+	left: 8%;
+	position: absolute;
+	right: 8%;
+	top: 0;
+}
+
+.shliach-spotlight-image-link {
+	border-radius: 1.45rem;
+	display: block;
+	isolation: isolate;
+	overflow: hidden;
+	position: relative;
+}
+
+.shliach-spotlight-image {
+	aspect-ratio: 1;
+	display: block;
+	height: auto;
+	object-fit: cover;
+	transition: transform 180ms ease, filter 180ms ease;
+	width: 100%;
+}
+
+.shliach-spotlight-image-link:hover .shliach-spotlight-image {
+	filter: brightness(1.05);
+	transform: scale(1.018);
+}
+.shliach-spotlight-copy h2 {
+	font-size: clamp(1.75rem, 4vw, 3.2rem);
+	letter-spacing: -0.035em;
+	line-height: 1;
+	margin: 0;
+}
+
+.shliach-spotlight-eyebrow {
+	color: #8db7ff;
+	font-size: 0.78rem;
+	font-weight: 800;
+	letter-spacing: 0.14em;
+	margin: 0 0 0.7rem;
+	text-transform: uppercase;
+}
+
+.shliach-spotlight-description {
+	color: rgba(236, 243, 255, 0.88);
+	font-size: clamp(1rem, 1.8vw, 1.12rem);
+	line-height: 1.65;
+	margin: 1rem 0 0;
+	max-width: 72ch;
+}
+
+.shliach-spotlight-trust {
+	color: rgba(189, 205, 231, 0.74);
+	font-size: 0.9rem;
+	line-height: 1.5;
+	margin: 0.75rem 0 0;
+}

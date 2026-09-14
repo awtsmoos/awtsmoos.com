@@ -4,7 +4,9 @@
 
 /**
  * @file EretzUiSystem.js
- * @description Composes visible panels, navigation controls, combat actions, and camera choice.
+ * @description Composes visible gameplay UI while publishing its canonical domain authorities onto the world runtime.
+ * The Awtsmoos joins inventory, Shlichus, action, camera, and visible panels without creating duplicate ledgers;
+ * Awtsmoos.com gives later world systems one AdventureStore, one inventory, and one reward coordinator to reuse.
  */
 
 import { InventoryStore } from '../gameplay/InventoryStore.js';
@@ -17,6 +19,12 @@ import { InventoryPanel } from '../ui/InventoryPanel.js';
 import { NpcHud } from '../ui/NpcHud.js';
 import { createEquipment } from './EretzPlayerModel.js';
 
+/**
+ * Creates visible Eretz UI and exposes the same gameplay stores to later world enrichment.
+ * @param {object} runtime Live MitzvahWorld runtime.
+ * @param {object} [options={}] Optional injected stores, clocks, actions, and hosts.
+ * @returns {object} The same runtime with canonical UI and gameplay authorities attached.
+ */
 export function createEretzUi(runtime, options = {}) {
 	const equipment = createEquipment(runtime.model);
 	const gameplayClock = options.clock || (() => performance.now());
@@ -56,17 +64,22 @@ export function createEretzUi(runtime, options = {}) {
 	const cameraModeToggle = createCameraModeToggle(runtime, options);
 	return Object.assign(runtime, {
 		actionBar,
+		adventures: gameplayUi.adventures,
 		cameraModeToggle,
+		catalogAdventures: gameplayUi.adventures,
 		combatActionBar,
 		equipment,
 		gameplayUi,
+		inventory: gameplayUi.inventory,
 		inventoryPanel,
 		inventoryStore,
 		npcHud,
-		profileStore: gameplayUi.profile
+		profileStore: gameplayUi.profile,
+		shlichus: gameplayUi.shlichus
 	});
 }
 
+/** Creates the optional camera-mode toggle against the first viable host. */
 function createCameraModeToggle(runtime, options) {
 	const root = options.cameraModeHost
 		|| runtime.cameraModeHost
@@ -76,6 +89,7 @@ function createCameraModeToggle(runtime, options) {
 		: null;
 }
 
+/** Binds world-wide toggles without creating alternate gameplay state. */
 function wireWorldEvents(runtime) {
 	runtime.bus.on('mode:toggle-run', () => {
 		runtime.state.runMode = !runtime.state.runMode;

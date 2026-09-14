@@ -2,10 +2,13 @@
 //Boruch Hashem
 //Blessed is He
 /**
+ * @file reconstruction.js
+ * @description
  * Reconstruction math for Awtsmoos.com: the Awtsmoos reveals what lies beneath
  * a mask while the tool keeps full-resolution work separate from tiny previews.
  */
 import { imageState } from './state.js';
+import { decodeSvgImage } from './nativeSvgImage.js';
 
 /** Build full-resolution original and transparent-mask pixel sources once. */
 export async function buildReconstructionSource() {
@@ -23,7 +26,9 @@ export async function buildReconstructionSource() {
 	const svgCanvas = document.createElement('canvas');
 	svgCanvas.width = width;
 	svgCanvas.height = height;
-	await canvg.Canvg.fromString(svgCanvas.getContext('2d'), imageState.svgText).render();
+	const svgContext = svgCanvas.getContext('2d');
+	const svgImage = await decodeSvgImage(imageState.svgText);
+	svgContext.drawImage(svgImage, 0, 0, width, height);
 	const maskContext = maskCanvas.getContext('2d');
 	maskContext.translate(imageState.svgPosition.x, imageState.svgPosition.y);
 	maskContext.scale(imageState.svgPosition.scale, imageState.svgPosition.scale);

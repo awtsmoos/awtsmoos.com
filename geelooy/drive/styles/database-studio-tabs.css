@@ -1,0 +1,40 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed be He */
+/** Database Studio tab strip and view containers. */
+
+.project-data-tabs {
+	display: flex;
+	gap: 4px;
+	padding: 8px;
+	border-bottom: 1px solid var(--border, #cad3df);
+	overflow-x: auto;
+}
+
+.project-data-tab {
+	min-height: 44px;
+	padding: 7px 12px;
+	border: 0;
+	border-radius: 9px;
+	background: transparent;
+	color: inherit;
+	font: inherit;
+	font-size: .78rem;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.project-data-tab.active {
+	background: color-mix(in srgb, #5c6cff 14%, var(--panel, #fff));
+	color: #3d4bd3;
+}
+
+.project-data-content,
+.project-data-view {
+	min-width: 0;
+	min-height: 0;
+}
+
+.project-data-view {
+	padding: 14px;
+}

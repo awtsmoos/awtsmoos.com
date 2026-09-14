@@ -2,6 +2,8 @@
 // Boruch Hashem
 // Blessed is He
 
+import { buildSubAgentProgressIndex, normalizeSubAgentDelivery } from "./deliveryShape.js";
+
 /**
  * @file Defensive mission shapes for a bounded, readable sub-agent constellation.
  * @description The Awtsmoos renews every agent without limit, while Awtsmoos.com reveals only bounded UI vessels so one swarm cannot drown the page in spirit.
@@ -30,6 +32,7 @@ export function boundedSubAgentText(value, limit = MAX_TEXT) {
  */
 export function normalizeSubAgentMission(rawMission = {}) {
 	const agents = Array.isArray(rawMission.agents) ? rawMission.agents.slice(0, MAX_AGENTS) : [];
+	const progressByAgent = buildSubAgentProgressIndex(rawMission.events);
 	const status = boundedSubAgentText(rawMission.status || rawMission.state || rawMission.phase || "unknown", 80);
 	const id = boundedSubAgentText(rawMission.id || rawMission.websiteMissionId || rawMission.missionId || "unknown", 180);
 	const active = Boolean(rawMission.activeInProcess) || /run|active|working|queued|starting/i.test(status);
@@ -41,7 +44,10 @@ export function normalizeSubAgentMission(rawMission = {}) {
 		goal: boundedSubAgentText(rawMission.goal || rawMission.prompt || rawMission.description || "No goal text reported."),
 		status,
 		active,
-		agents: agents.map(normalizeSubAgentRosterEntry),
+		agents: agents.map(agent => normalizeSubAgentRosterEntry(
+			agent,
+			progressByAgent.get(String(agent.id || agent.agentId || "")) || null
+		)),
 		agentCount: Number(rawMission.agentCount || agents.length || 0) || 0,
 		backlog,
 		updatedAt: boundedSubAgentText(rawMission.updatedAt || rawMission.lastUpdate || rawMission.at || "", 120)
@@ -54,13 +60,15 @@ export function normalizeSubAgentMission(rawMission = {}) {
  * @returns {object} Stable roster entry.
  * @sideEffects None.
  */
-export function normalizeSubAgentRosterEntry(rawAgent = {}) {
+export function normalizeSubAgentRosterEntry(rawAgent = {}, progressEvent = null) {
 	return {
 		id: boundedSubAgentText(rawAgent.id || rawAgent.agentId || "agent", 180),
 		name: boundedSubAgentText(rawAgent.name || rawAgent.displayName || rawAgent.id || "Sub-agent", 180),
 		status: boundedSubAgentText(rawAgent.status || rawAgent.stage || rawAgent.state || "observed", 80),
 		depth: Math.max(0, Math.min(32, Number(rawAgent.depth || 0) || 0)),
-		parentAgentId: boundedSubAgentText(rawAgent.parentAgentId || "", 180)
+		parentAgentId: boundedSubAgentText(rawAgent.parentAgentId || "", 180),
+		lastUpdate: boundedSubAgentText(rawAgent.lastUpdate || "", 360),
+		delivery: normalizeSubAgentDelivery(rawAgent, progressEvent)
 	};
 }
 

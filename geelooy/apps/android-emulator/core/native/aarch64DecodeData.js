@@ -1,6 +1,6 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
+//Blessed be He
 
 import { decodeAarch64Arithmetic } from "./aarch64DecodeArithmetic.js";
 import { decodeAarch64Bitfield } from "./aarch64DecodeBitfield.js";
@@ -42,6 +42,7 @@ import { decodeAarch64SimdIntegerMinMax } from "./aarch64DecodeSimdIntegerMinMax
 import { decodeAarch64SimdLogical } from "./aarch64DecodeSimdLogical.js";
 import { decodeAarch64SimdModifiedImmediate } from "./aarch64DecodeSimdModifiedImmediate.js";
 import { decodeAarch64SimdScalarIntegerToFloat } from "./aarch64DecodeSimdScalarIntegerToFloat.js";
+import { decodeAarch64SimdScalarPairwiseAdd } from "./aarch64DecodeSimdScalarPairwiseAdd.js";
 import { decodeAarch64SimdShiftLong } from "./aarch64DecodeSimdShiftLong.js";
 import { decodeAarch64SimdVariableShift } from "./aarch64DecodeSimdVariableShift.js";
 import { decodeAarch64VariableShift } from "./aarch64DecodeVariableShift.js";
@@ -68,6 +69,7 @@ export function decodeAarch64Data(word) {
 		|| decodeAarch64SimdFloatToInteger(normalized)
 		|| decodeAarch64SimdVariableShift(normalized)
 		|| decodeAarch64SimdIntegerAdd(normalized)
+		|| decodeAarch64SimdScalarPairwiseAdd(normalized)
 		|| decodeAarch64SimdIntegerMinMax(normalized)
 		|| decodeAarch64SimdAddLongReduction(normalized)
 		|| decodeAarch64SimdShiftLong(normalized)

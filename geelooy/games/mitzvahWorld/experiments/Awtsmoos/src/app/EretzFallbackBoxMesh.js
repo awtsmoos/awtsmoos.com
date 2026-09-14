@@ -1,19 +1,18 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file EretzFallbackBoxMesh.js
- * @description Creates one UV-ready fallback cuboid that remains hidden until a genuine remote image is resident.
- * The Awtsmoos gives geometry without demanding a painted lie; Awtsmoos.com keeps every cuboid concealed
- * until a real remote garment reaches its material, so no vertex color or flat pigment becomes the world revealed.
+ * @description Builds UV-ready fallback cuboids from portable streams while Procedural Core owns native geometry and meshes.
+ * MitzvahWorld retains only semantic size, placement, and remote-material identity; every cuboid remains hidden until
+ * genuine remote imagery is hydrated, so no flat color or generated substitute can masquerade as the intended world surface.
  */
 
 import {
-	BufferAttribute,
-	BufferGeometry,
-	Mesh
-} from '../../../light-three-gltf/tiny-runtime.js';
+	createNativeIndexedGeometry,
+	createNativeMeshFromGeometry
+} from '../../../../../../libs/awtsmoos-procedural-core/src/core/worldBuilding/index.js';
 import { createBootstrapImmediateMaterial } from './BootstrapImmediateMaterial.js';
 
 const FACES = Object.freeze([
@@ -25,28 +24,38 @@ const FACES = Object.freeze([
 	face([0, -1, 0], [[-1, -1, -1], [1, -1, -1], [1, -1, 1], [-1, -1, 1]])
 ]);
 
-/** Creates one hidden UV cuboid whose optional semantic role may hydrate later. */
+/**
+ * Creates one hidden UV cuboid whose semantic material can hydrate later.
+ * @returns {object} Core-owned mesh with remote-only visibility evidence.
+ */
 export function createFallbackBoxMesh(name, size, position, color, semanticRole = null) {
 	const geometry = boxGeometry(size);
 	const material = createBootstrapImmediateMaterial(`${name}-material`, color, {
 		mapRepeat: [3, 3],
 		semanticRole
 	});
-	const mesh = new Mesh(geometry, material);
-	mesh.name = name;
+	const mesh = createNativeMeshFromGeometry(geometry, material, {
+		name,
+		userData: {
+			awtsmoosRemoteOnlyVisibility: {
+				hiddenByCovenant: true,
+				previousVisible: true
+			},
+			semanticMaterialRole: semanticRole
+		}
+	});
 	mesh.position.set(position[0], position[1], position[2]);
 	mesh.visible = false;
-	mesh.userData.semanticMaterialRole = semanticRole;
-	mesh.userData.awtsmoosRemoteOnlyVisibility = {
-		hiddenByCovenant: true,
-		previousVisible: true
-	};
 	mesh.setBaseTransform();
 	return mesh;
 }
 
+/**
+ * Produces one portable face-separated cuboid and asks Core to materialize it.
+ * @param {number[]} size Full XYZ dimensions.
+ * @returns {object} Core-owned indexed geometry with truthful normals and UVs.
+ */
 function boxGeometry(size) {
-	const geometry = new BufferGeometry();
 	const positions = [];
 	const normals = [];
 	const uvs = [];
@@ -61,20 +70,21 @@ function boxGeometry(size) {
 		uvs.push(0, 0, 1, 0, 1, 1, 0, 1);
 		indices.push(offset, offset + 1, offset + 2, offset, offset + 2, offset + 3);
 	}
-	geometry.setAttribute('position', attribute(positions, 3));
-	geometry.setAttribute('normal', attribute(normals, 3));
-	geometry.setAttribute('uv', attribute(uvs, 2));
-	geometry.setIndex(new BufferAttribute(new Uint16Array(indices), 1));
-	return geometry;
+	return createNativeIndexedGeometry({
+		indices,
+		normals,
+		positions,
+		uvs
+	});
 }
 
+/**
+ * Freezes one reusable face recipe so geometry generation cannot mutate shared topology.
+ * @returns {object} Immutable face normal and corner list.
+ */
 function face(normal, corners) {
 	return Object.freeze({
 		corners: Object.freeze(corners.map(corner => Object.freeze(corner))),
 		normal: Object.freeze(normal)
 	});
-}
-
-function attribute(values, itemSize) {
-	return new BufferAttribute(new Float32Array(values), itemSize);
 }

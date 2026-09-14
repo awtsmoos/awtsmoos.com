@@ -52,6 +52,7 @@ export function search(onInput) {
 	return {
 		tag: 'input',
 		attr: {
+			id: 'living-path-search',
 			type: 'search',
 			placeholder: 'Search this branch',
 			'aria-label': 'Search the current Heichel branch',

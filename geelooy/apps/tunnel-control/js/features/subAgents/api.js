@@ -1,6 +1,6 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 import { callFs } from "../../api/tunnel.js";
 
@@ -28,36 +28,12 @@ function revealResult(response, action) {
 	return response?.result ?? response?.data ?? response ?? {};
 }
 
-/**
- * @description Reads safe login status for the persisted default ChatGPT browser profile.
- * @param {string} tunnelName - Current tunnel route.
- * @returns {Promise<object>} Safe session metadata.
- * @throws {Error} When the filesystem action reports failure.
- * @sideEffects Performs a read-only network request.
- */
-export async function readSubAgentChatGptStatus(tunnelName) {
-	const response = await callFs(tunnelName, {
-		action: "chatgptStatus",
-		profile: "default"
-	});
-	return revealResult(response, "chatgptStatus");
-}
-
-/**
- * @description Opens visible ChatGPT Chrome using the persisted default native browser profile.
- * @param {string} tunnelName - Current tunnel route.
- * @returns {Promise<object>} Safe launch and login metadata.
- * @throws {Error} When browser launch or filesystem action execution fails.
- * @sideEffects May launch or focus a native Chrome process.
- */
-export async function openSubAgentChatGptLogin(tunnelName) {
-	const response = await callFs(tunnelName, {
-		action: "chatgptLogin",
-		profile: "default",
-		url: "https://chatgpt.com/"
-	});
-	return revealResult(response, "chatgptLogin");
-}
+export {
+	ensureSubAgentChrome,
+	openSubAgentChatGptLogin,
+	prepareSubAgentChatGpt,
+	readSubAgentChatGptStatus
+} from "./browserAuthApi.js";
 
 /**
  * @description Lists website-agent missions visible through the current tunnel.

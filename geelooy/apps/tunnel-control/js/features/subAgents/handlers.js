@@ -1,6 +1,6 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 import { createSubAgentActionRunner } from "./actionRunner.js";
 import { createSubAgentAuthHandlers } from "./authHandlers.js";
@@ -33,6 +33,7 @@ export function bindSubAgentHandlers(options) {
 		render,
 		navigate
 	});
+	root.querySelector("#subAgentEnsureChromeBtn")?.addEventListener("click", auth.ensureChrome, { signal });
 	root.querySelector("#subAgentOpenAuthChromeBtn")?.addEventListener("click", auth.openAuthChrome, { signal });
 	root.querySelector("#subAgentVerifyLoginBtn")?.addEventListener("click", auth.verifyLogin, { signal });
 	root.querySelector("#subAgentLaunchBtn")?.addEventListener("click", missions.launchTeam, { signal });

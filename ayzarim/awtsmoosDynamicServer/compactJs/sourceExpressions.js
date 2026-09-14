@@ -8,6 +8,7 @@ const {
 	skipQuotedString,
 	skipWhitespace
 } = require('./sourceLexing.js');
+const { findArrowFunctionEnd } = require('./sourceArrowExpressions.js');
 const {
 	findBalancedExpressionEnd,
 	findStatementEnd,
@@ -54,6 +55,8 @@ function findFunctionLikeEnd(source, start) {
  */
 function findDefaultExportExpressionEnd(source, start) {
 	const index = skipWhitespace(source, start);
+	const arrowEnd = findArrowFunctionEnd(source, index);
+	if (arrowEnd > index) return arrowEnd;
 	if (source[index] === '`') return findTemplateLiteralEnd(source, index);
 	if ('{[('.includes(source[index])) return findBalancedExpressionEnd(source, index);
 	if (/^(async\s+)?function\b/.test(source.slice(index)) || /^class\b/.test(source.slice(index))) return findFunctionLikeEnd(source, index);

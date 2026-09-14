@@ -1,8 +1,24 @@
-// B"H
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 import assert from "node:assert/strict";
 import test from "node:test";
 import { AgentTabProtector } from "./AgentTabProtector.mjs";
+
+
+/** Returns deterministic unit-test protection without reading live host leases. */
+function isolatedProtection() {
+	return {
+		filter: snapshot => ({ ...snapshot }),
+		isSuspended: () => false,
+		protect: () => true,
+		release: () => 0,
+		resume: () => true,
+		status: () => ({ protectedTargets: 0, suspended: false }),
+		suspend: () => true
+	};
+}
 
 function fixture(rootIds, conversationIds) {
 	const state = { roots: [...rootIds], conversations: [...conversationIds] };
@@ -28,7 +44,7 @@ function fixture(rootIds, conversationIds) {
 
 test("beforeTurn closes every existing agent tab before opening the only tab", async () => {
 	const state = fixture(["root"], ["conversation"]);
-	const protector = new AgentTabProtector({ catalog: state.catalog, closerFactory: state.closerFactory });
+	const protector = new AgentTabProtector({ catalog: state.catalog, closerFactory: state.closerFactory, protection: isolatedProtection() });
 	const result = await protector.beforeTurn();
 	assert.equal(result.total, 0);
 	assert.deepEqual(state.state.roots, []);
@@ -39,7 +55,7 @@ test("beforeTurn closes every existing agent tab before opening the only tab", a
 
 test("watchdog permits one in-flight tab but eliminates every excess tab", async () => {
 	const state = fixture(["root-one", "root-two"], ["conversation"]);
-	const protector = new AgentTabProtector({ catalog: state.catalog, closerFactory: state.closerFactory });
+	const protector = new AgentTabProtector({ catalog: state.catalog, closerFactory: state.closerFactory, protection: isolatedProtection() });
 	const result = await protector.watchdogSweep();
 	assert.equal(result.total, 1);
 	assert.equal(state.state.roots.length + state.state.conversations.length, 1);

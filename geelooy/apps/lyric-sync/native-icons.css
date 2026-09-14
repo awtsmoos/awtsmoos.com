@@ -1,0 +1,63 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed be He */
+/**
+ * Native icon vocabulary for Lyric Sync.
+ * Existing engine class names remain stable while browser text replaces the
+ * removed Font Awesome dependency with zero-network Unicode symbols.
+ */
+
+.fas,
+.fa-regular,
+.fa-solid {
+	display: inline-block;
+	min-width: 1em;
+	font-family: system-ui, sans-serif;
+	font-style: normal;
+	font-weight: 700;
+	line-height: 1;
+	text-align: center;
+}
+
+.fas::before,
+.fa-regular::before,
+.fa-solid::before {
+	content: "✦";
+}
+
+.fa-image::before {
+	content: "▣";
+}
+
+.fa-music::before {
+	content: "♫";
+}
+
+.fa-file-alt::before {
+	content: "▤";
+}
+
+.fa-play::before {
+	content: "▶";
+}
+
+.fa-pause::before {
+	content: "⏸";
+}
+
+.fa-cog::before,
+.fa-cogs::before {
+	content: "⚙";
+}
+
+.fa-video::before {
+	content: "▰";
+}
+
+.fa-spinner::before {
+	content: "◌";
+}
+
+.fa-check::before {
+	content: "✓";
+}

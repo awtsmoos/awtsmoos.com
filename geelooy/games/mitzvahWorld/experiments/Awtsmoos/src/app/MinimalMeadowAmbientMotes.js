@@ -1,6 +1,6 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
+//Blessed be He
 
 /**
  * @file MinimalMeadowAmbientMotes.js
@@ -9,7 +9,7 @@
  * Awtsmoos.com lets distant shimmer yield with grace when Gevurah guards the frame-time goal.
  */
 
-import { Group } from '../../../light-three-gltf/tiny-runtime.js';
+import { createNativeWorldGroup } from '../../../../../../libs/awtsmoos-procedural-core/src/core/worldBuilding/index.js';
 import { advanceAmbientMote } from './MinimalMeadowAmbientMoteLayout.js';
 import { buildMinimalMeadowAmbientMotePool } from './MinimalMeadowAmbientMotePool.js';
 import { ambientMoteQualityProfile } from './MinimalMeadowAmbientMoteQuality.js';
@@ -25,7 +25,7 @@ export class MinimalMeadowAmbientMotes {
 		this.runtime = runtime;
 		this.profile = ambientMoteQualityProfile(environment);
 		this.anchor = { x: 0, y: 0, z: 0 };
-		this.group = new Group();
+		this.group = createNativeWorldGroup();
 		this.group.name = 'AwtsmoosAmbientMotes';
 		this.motes = [];
 		this.destroyed = false;

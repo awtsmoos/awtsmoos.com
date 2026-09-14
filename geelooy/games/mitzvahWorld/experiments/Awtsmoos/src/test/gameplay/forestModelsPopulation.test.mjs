@@ -1,12 +1,12 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file forestModelsPopulation.test.mjs
- * @description Proves deterministic forest budgets and authoritative remote world assets.
- * The Awtsmoos renews visible abundance through measured instances; Awtsmoos.com keeps
- * world pigment and curated non-player models on Drive while primitive people remain absent.
+ * @description Proves deterministic forest budgets, canonical Chossid population
+ * ownership, and a bounded remote model pack that deliberately excludes imported
+ * structural trees now owned by the shared procedural core.
  */
 
 import assert from 'node:assert/strict';
@@ -16,7 +16,8 @@ import { assertProductionMaterialUrl } from '../../assets/ProductionMaterialUrlP
 import { isTrustedRemoteModelUrl } from '../../assets/RemoteModelCatalog.js';
 import {
 	WORLD_MODEL_MANIFEST,
-	WORLD_MODEL_PLACEMENTS
+	WORLD_MODEL_PLACEMENTS,
+	worldModelManifestEvidence
 } from '../../assets/WorldModelManifest.js';
 import { createForestEdgeDefinitions } from '../../world/forest/ForestEdgeSystem.js';
 import { createVillageNpcPopulationDefinitions } from '../../world/village/VillageNpcPopulationSystem.js';
@@ -60,8 +61,11 @@ test('village people remain canonical Chossid runtime actors', () => {
 	assert.equal(population.length, 0);
 });
 
-test('curated Drive model pack stays bounded and content-addressed', () => {
-	assert.equal(WORLD_MODEL_PLACEMENTS.length, 11);
+test('curated Drive model pack stays bounded and excludes structural tree GLBs', () => {
+	const evidence = worldModelManifestEvidence();
+	assert.equal(WORLD_MODEL_PLACEMENTS.length, 9);
+	assert.equal(evidence.structuralTreeModels, 0);
+	assert.equal(evidence.structuralTreeAuthority, 'awtsmoos-procedural-core');
 	assert.ok(Object.keys(WORLD_MODEL_MANIFEST).length <= 20);
 	for (const [modelId, definition] of Object.entries(WORLD_MODEL_MANIFEST)) {
 		assert.ok(definition.maximumInstances <= 4, modelId);

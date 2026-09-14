@@ -16,6 +16,8 @@ import { classifyRuntimeRoute } from './routeClassification.mjs';
 const SKIPPED_DIRECTORIES = new Set([
 	'node_modules',
 	'.ai-thoughts',
+	'ai_thoughts',
+	'ai-thoughts',
 	'.awtsmoos-agent-thoughts'
 ]);
 

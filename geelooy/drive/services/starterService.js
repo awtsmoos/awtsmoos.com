@@ -2,7 +2,8 @@
 // Boruch Hashem
 // Blessed is He
 
-import { starterFiles } from "../builder/starterCatalog.js";
+import { starterFiles, starterMetadata } from "../builder/starterCatalog.js";
+import { fetchPremiumStarter } from "./premiumStarterClient.js";
 
 /**
  * @file Collision-safe real-source starter creation through the human workspace path.
@@ -11,7 +12,11 @@ import { starterFiles } from "../builder/starterCatalog.js";
 
 export async function createWebsiteStarter({ workspace, state }, starterId) {
 	const snapshot = state.snapshot();
-	const files = starterFiles(starterId, snapshot.builderBrief?.name);
+	const metadata = starterMetadata(starterId);
+	if (!metadata) throw starterError("UNKNOWN_STARTER");
+	const files = metadata.premium
+		? await fetchPremiumStarter(starterId, snapshot.builderBrief?.name)
+		: starterFiles(starterId, snapshot.builderBrief?.name);
 	const collisions = existingNames(snapshot.entries, Object.keys(files));
 	if (collisions.length > 0) {
 		throw starterError("STARTER_FILES_EXIST", { collisions });

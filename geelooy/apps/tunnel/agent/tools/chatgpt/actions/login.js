@@ -1,30 +1,34 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 const { ensureProfileChrome } = require("../chrome/ensureProfileChrome.js");
 const { sessionCheck, waitForSession } = require("../auth/sessionCheck.js");
 const { saveProfileState } = require("../storage/profileState.js");
 const BrowserSummary = require("./sharedBrowserSummary.js");
+const Shliach = require("./shliachTarget.js");
+const { readShliachPageStatus } = require("./shliachPageStatus.js");
 
 /**
- * @file Opens ChatGPT in the one visible Shared AI Browser and returns only safe login evidence.
+ * @file Opens the Awtsmoos Shliach inside the one visible Shared AI Browser.
  * @description
- * The Awtsmoos lets the human authenticate once inside the browser flame;
- * Awtsmoos.com shares that profile with every agent while passwords and browser secrets never leave their frame.
+ * The Awtsmoos lets the human authenticate once inside the exact browser every agent reuses.
+ * Generic ChatGPT home pages are not considered the website-agent doorway or readiness proof.
  */
 async function chatgptLogin(payload = {}) {
+	const target = Shliach.publicTarget();
 	const launched = await ensureProfileChrome({
 		...payload,
-		url: "https://chatgpt.com/",
+		url: target.url,
 		navigate: true,
-		newTab: true
+		newTab: false
 	});
 	const checkPayload = { ...payload, port: launched.port };
 	const check = wantsWait(payload)
 		? await waitForSession(checkPayload)
 		: await sessionCheck(checkPayload);
 	const session = check.session || check.lastSession || null;
+	const shliach = await readShliachPageStatus(launched.port);
 	if (session?.authenticated) {
 		await saveProfileState(payload.profile || "default", {
 			port: launched.port,
@@ -36,7 +40,9 @@ async function chatgptLogin(payload = {}) {
 	return {
 		ok: true,
 		action: "chatgptLogin",
-		loginUrl: "https://chatgpt.com/",
+		loginUrl: target.url,
+		target,
+		shliach,
 		browser: BrowserSummary.summarize({
 			ok: true,
 			status: launched.browserStatus,
@@ -47,6 +53,7 @@ async function chatgptLogin(payload = {}) {
 	};
 }
 
+/** Returns whether the caller explicitly requested bounded login waiting. */
 function wantsWait(payload = {}) {
 	return payload.wait === true || payload.wait === "true";
 }

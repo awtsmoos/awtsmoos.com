@@ -1,22 +1,23 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file MitzvahWorldModeLoaders.js
- * @description Keeps Simple Meadow's pre-play graph narrow while deferring creative, badge, renderer-adjacent, and presentation systems until chosen or playable.
- * The Awtsmoos gives the first living step before ornament; Awtsmoos.com lets one tiny runtime doorway reach movement first,
- * while cinema, shared-world tools, and status adornments arrive only after their finite purpose is actually requested.
+ * @description Keeps the first playable graph narrow while every optional or selected capability inherits one production release identity.
+ * The Awtsmoos gives the first living step before ornament; Awtsmoos.com lets movement bloom before cinema, badges, or shared-world adornment appear,
+ * and every later doorway drinks from the same release spring so stale cache fragments cannot divide the meadow's present year.
  */
 
 import { reportDirectWorldProgress } from './MitzvahWorldDirectRuntimeOptions.js';
+import { resolveMitzvahWorldReleaseResourceUrl } from './MitzvahWorldReleaseResourceUrl.js';
 
-const CREATIVE_ROUTE_URL = './MitzvahWorldCreativeRouteLoader.js?compact=true&v=20260908-current-hot-path-03';
-const MODE_AFTERCARE_URL = './MitzvahWorldModeAftercare.js?compact=true&v=20260908-current-hot-path-03';
-const SINGLE_PLAYER_RUNTIME_URL = '../app/createEretzRuntime.js?compact=true&v=20260908-current-hot-path-03';
-const SINGLE_PLAYER_OPTIONS_URL = './MitzvahWorldSinglePlayerRuntimeOptions.js?compact=true&v=20260908-current-hot-path-03';
-const MULTIPLAYER_RUNTIME_URL = '../network/MultiplayerEretzRuntime.js?compact=true&v=20260804-map-01';
-const DIRECT_OPTIONS_URL = './MitzvahWorldDirectRuntimeOptions.js?compact=true&v=20260908-current-hot-path-03';
+const CREATIVE_ROUTE_URL = releaseUrl('./MitzvahWorldCreativeRouteLoader.js');
+const MODE_AFTERCARE_URL = releaseUrl('./MitzvahWorldModeAftercare.js');
+const SINGLE_PLAYER_RUNTIME_URL = releaseUrl('../app/createEretzRuntime.js');
+const SINGLE_PLAYER_OPTIONS_URL = releaseUrl('./MitzvahWorldSinglePlayerRuntimeOptions.js');
+const MULTIPLAYER_RUNTIME_URL = releaseUrl('../network/MultiplayerEretzRuntime.js');
+const DIRECT_OPTIONS_URL = releaseUrl('./MitzvahWorldDirectRuntimeOptions.js');
 
 export { hasMovieRequest } from './MitzvahWorldRouteQuery.js';
 
@@ -31,7 +32,7 @@ export function createMitzvahWorldModeLoaders(environment = globalThis) {
 	});
 }
 
-/** Opens local play through the runtime doorway before loading policy and every optional aftercare system. */
+/** Opens local play through the runtime doorway before loading policy and optional aftercare. */
 async function openSinglePlayer(hosts, options = {}, environment = globalThis) {
 	reportDirectWorldProgress(options, 'Opening the playable WebGL runtime…', {
 		stage: 'single-player-runtime-module',
@@ -73,9 +74,7 @@ async function openMultiplayer(hosts, options = {}, environment = globalThis) {
 /** Loads creative capability only after its explicit route is chosen. */
 async function openCreative(kind, hosts, options, environment) {
 	const module = await import(CREATIVE_ROUTE_URL);
-	if (kind === 'movie') {
-		return module.openMitzvahWorldMovieCreative(hosts, options);
-	}
+	if (kind === 'movie') return module.openMitzvahWorldMovieCreative(hosts, options);
 	const method = kind === 'materials' ? 'openMaterialsMode' : 'openPlatformMode';
 	return module.openPresentedMitzvahWorldCreative(method, hosts, '', environment);
 }
@@ -84,12 +83,7 @@ async function openCreative(kind, hosts, options, environment) {
 function startModeAftercare(mode, diagnostics, environment, runtimeOptions) {
 	diagnostics.modeAftercareStage = 'loading-module';
 	diagnostics.modeAftercarePromise = import(MODE_AFTERCARE_URL)
-		.then(module => module.startMitzvahWorldModeAftercare(
-			mode,
-			diagnostics,
-			environment,
-			runtimeOptions
-		))
+		.then(module => module.startMitzvahWorldModeAftercare(mode, diagnostics, environment, runtimeOptions))
 		.catch(error => {
 			diagnostics.modeAftercareStage = 'degraded';
 			diagnostics.modeAftercareError = error;
@@ -107,4 +101,9 @@ function markSinglePlayerSession(diagnostics) {
 		state: 'singleplayer',
 		transport: 'none'
 	});
+}
+
+/** Resolves one lazy capability through the active release and inherited compact mode. */
+function releaseUrl(specifier) {
+	return resolveMitzvahWorldReleaseResourceUrl(specifier, import.meta.url);
 }

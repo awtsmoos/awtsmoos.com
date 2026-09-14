@@ -15,27 +15,27 @@ import { YesodProjectBundleService } from "../services/projectBundleService.js";
 test("bundle skips dependency and tool-state directories before traversal", async () => {
 	const transport = fakeTransport({
 		".": [dir("node_modules"), dir(".git"), dir("src"), file("index.html")],
-		"/src": [file("app.js")],
-		"/node_modules": [file("huge.js")],
-		"/.git": [file("config")]
+		"src": [file("app.js")],
+		"node_modules": [file("huge.js")],
+		".git": [file("config")]
 	}, {
-		"/index.html": "<main>B\"H</main>",
-		"/src/app.js": "console.log('B\\\"H');"
+		"index.html": "<main>B\"H</main>",
+		"src/app.js": "console.log('B\\\"H');"
 	});
 	const bundle = await new YesodProjectBundleService(transport).build({
 		routeReference: "device-1"
 	});
 	assert.deepEqual(bundle.files.map(item => item.path), ["src/app.js", "index.html"]);
-	assert.deepEqual(transport.listCalls, [".", "/src"]);
-	assert.deepEqual(transport.readCalls, ["/src/app.js", "/index.html"]);
+	assert.deepEqual(transport.listCalls, [".", "src"]);
+	assert.deepEqual(transport.readCalls, ["src/app.js", "index.html"]);
 });
 
 test("bundle enforces maximum traversal depth", async () => {
 	const transport = fakeTransport({
 		".": [dir("a")],
-		"/a": [dir("b")],
-		"/a/b": [file("deep.js")]
-	}, { "/a/b/deep.js": "deep" });
+		"a": [dir("b")],
+		"a/b": [file("deep.js")]
+	}, { "a/b/deep.js": "deep" });
 	const service = new YesodProjectBundleService(transport, { maxDepth: 1 });
 	await assert.rejects(
 		service.build({ routeReference: "device-1" }),
@@ -47,17 +47,17 @@ test("bundle enforces maximum traversal depth", async () => {
 test("bundle enforces maximum discovered entries before extra reads", async () => {
 	const transport = fakeTransport({
 		".": [file("a.js"), file("b.js"), file("c.js")]
-	}, { "/a.js": "a", "/b.js": "b", "/c.js": "c" });
+	}, { "a.js": "a", "b.js": "b", "c.js": "c" });
 	const service = new YesodProjectBundleService(transport, { maxEntries: 2 });
 	await assert.rejects(
 		service.build({ routeReference: "device-1" }),
 		error => error.code === "PROJECT_BUNDLE_TOO_MANY_ENTRIES"
 	);
-	assert.deepEqual(transport.readCalls, ["/a.js", "/b.js"]);
+	assert.deepEqual(transport.readCalls, ["a.js", "b.js"]);
 });
 
 test("bundle keeps existing file and total-character limits", async () => {
-	const transport = fakeTransport({ ".": [file("large.js")] }, { "/large.js": "12345" });
+	const transport = fakeTransport({ ".": [file("large.js")] }, { "large.js": "12345" });
 	const service = new YesodProjectBundleService(transport, { maxFileChars: 4 });
 	await assert.rejects(
 		service.build({ routeReference: "device-1" }),

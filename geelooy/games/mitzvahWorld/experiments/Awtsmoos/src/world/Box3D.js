@@ -1,15 +1,14 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file Box3D.js
- * @description Orchestrates primitive geometry, vertex color, material, collision, UV, and ecology masks.
- * The Awtsmoos reveals one world through focused vessels; Awtsmoos.com keeps original pixels
- * and authored botanical hues while measured surfaces carry only the meaning they need.
+ * @description Converts MitzvahWorld primitive semantics into portable geometry, UV, ecology, collision, and Core mesh intent.
+ * The game keeps authored shape meaning and collision truth; Procedural Core owns native BufferGeometry and Mesh
+ * materialization so cottages, roads, rocks, props, and future products share one renderer-facing geometry authority.
  */
-
-import { BufferAttribute, BufferGeometry, Mesh } from '../../../light-three-gltf/tiny-runtime.js';
+import { createNativeGeometryMesh } from '../../../../../../libs/awtsmoos-procedural-core/src/core/worldBuilding/index.js';
 import { trianglesFromIndexed } from '../collision/TriangleCollider.js';
 import { createPrimitiveGeometryData, isProceduralShape } from './primitives/PrimitiveGeometryFactory.js';
 import {
@@ -29,6 +28,7 @@ import {
 
 const WORLD_UV_BASIS = Object.freeze([1, 1]);
 
+/** Materialize one game-authored primitive through the shared Core native geometry doorway. */
 export function createPrimitiveMesh(definition) {
 	const sourceData = createPrimitiveGeometryData(definition);
 	const normals = createPrimitiveVertexNormals(sourceData);
@@ -39,21 +39,45 @@ export function createPrimitiveMesh(definition) {
 	const uvs = physical ? normalizePrimitiveUvsToWorld(authoredUvs, measuredUnits) : authoredUvs;
 	const data = { ...sourceData, uvs };
 	const textureBasis = physical ? WORLD_UV_BASIS : measuredUnits;
-	const geometry = createBufferGeometry(data, normals, definition);
 	const material = createPrimitiveMaterial(definition, textureBasis);
-	const mesh = new Mesh(geometry, material);
-	mesh.name = definition.id;
+	const mesh = createNativeGeometryMesh(
+		portableGeometry(data, normals, definition),
+		material,
+		{ name: definition.id, family: definition.userData?.family || 'mitzvah-world-primitive' }
+	);
 	mesh.visible = definition.visible !== false;
-	mesh.userData = primitiveUserData(definition, material, measuredUnits, textureBasis, geometry);
+	mesh.userData = primitiveUserData(definition, material, measuredUnits, textureBasis, mesh.geometry);
 	mesh.setBaseTransform();
 	return mesh;
 }
 
+/** Preserve game collision semantics independently from renderer materialization. */
 export function primitiveColliders(definition) {
 	if (definition.solid === false) return [];
 	const data = createPrimitiveGeometryData(definition);
 	const floor = definition.walkable === true ? undefined : false;
-	return trianglesFromIndexed(data.vertices, data.indices, { floor, kind: definition.id, solid: true });
+	return trianglesFromIndexed(data.vertices, data.indices, {
+		floor,
+		kind: definition.id,
+		solid: true
+	});
+}
+
+function portableGeometry(data, normals, definition) {
+	const colors = primitiveColorArray(data.colors, data.vertices.length);
+	const zones = primitiveZoneWeights(
+		data.zones,
+		data.vertices.length,
+		Boolean(definition.textureLayers?.length)
+	);
+	return {
+		colors,
+		indices: primitiveIndexArray(data.indices),
+		normals: new Float32Array(normals),
+		positions: new Float32Array(flattenPrimitiveVertices(data.vertices)),
+		uvs: new Float32Array(data.uvs),
+		zoneWeights: zones ? new Float32Array(zones) : null
+	};
 }
 
 function primitiveUserData(definition, material, measuredUnits, textureBasis, geometry) {
@@ -65,7 +89,9 @@ function primitiveUserData(definition, material, measuredUnits, textureBasis, ge
 			vertexColor: Boolean(geometry.attributes.color),
 			zoneAttribute: Boolean(geometry.attributes.zone)
 		},
-		AwtsmoosMaterialEnforcement: material.mapImage ? 'real-mapImage-bound' : 'url-only-not-yet-loaded',
+		AwtsmoosMaterialEnforcement: material.mapImage
+			? 'real-mapImage-bound'
+			: 'url-only-not-yet-loaded',
 		AwtsmoosTextureDensity: {
 			bakedWorldUv: material.texturePolicy.nativeTexelDensity,
 			measuredUnits,
@@ -76,17 +102,4 @@ function primitiveUserData(definition, material, measuredUnits, textureBasis, ge
 		AwtsmoosTextureUrl: material.textureUrl,
 		procedural: isProceduralShape(definition.shape)
 	};
-}
-
-function createBufferGeometry(data, normals, definition) {
-	const geometry = new BufferGeometry();
-	geometry.setAttribute('position', new BufferAttribute(new Float32Array(flattenPrimitiveVertices(data.vertices)), 3));
-	geometry.setAttribute('normal', new BufferAttribute(new Float32Array(normals), 3));
-	geometry.setAttribute('uv', new BufferAttribute(new Float32Array(data.uvs), 2));
-	const colors = primitiveColorArray(data.colors, data.vertices.length);
-	if (colors) geometry.setAttribute('color', new BufferAttribute(colors, 4));
-	const zones = primitiveZoneWeights(data.zones, data.vertices.length, Boolean(definition.textureLayers?.length));
-	if (zones) geometry.setAttribute('zone', new BufferAttribute(new Float32Array(zones), 4));
-	geometry.setIndex(new BufferAttribute(primitiveIndexArray(data.indices), 1));
-	return geometry;
 }

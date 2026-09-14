@@ -1,4 +1,4 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 
@@ -13,6 +13,7 @@ import { GameplayRecoveryCoordinator } from './GameplayRecoveryCoordinator.js';
 import { MinimalMeadowAdaptiveQuality } from './MinimalMeadowAdaptiveQuality.js';
 import { MinimalMeadowAmbientMotes } from './MinimalMeadowAmbientMotes.js';
 import { MinimalMeadowCombat } from './MinimalMeadowCombat.js';
+import { installMinimalMeadowBridgeGameplay } from './MinimalMeadowBridgeGameplayMount.js';
 import { installImmediateMinimalMeadowEnemies } from './MinimalMeadowCreatureHydration.js';
 import { MinimalMeadowRegionRuntime } from './MinimalMeadowRegionRuntime.js';
 import { mountMinimalMeadowQuest } from './MinimalMeadowQuestMount.js';
@@ -41,6 +42,7 @@ export async function installMinimalMeadowWorldSystems(runtime, environment = gl
 	runtime.recovery = new GameplayRecoveryCoordinator(runtime);
 	runtime.verticalSlice = new MinimalMeadowVerticalSliceRuntime(runtime, environment);
 	runtime.questMountReceipt = mountMinimalMeadowQuest(runtime, environment);
+	runtime.bridgeGameplay = installMinimalMeadowBridgeGameplay(runtime, environment);
 	bindWorldLifecycle(runtime);
 	const receipt = minimalMeadowWorldDiagnostics(runtime);
 	runtime.bus.emit('world:combat-ready', receipt);

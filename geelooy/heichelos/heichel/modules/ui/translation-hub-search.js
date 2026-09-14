@@ -5,8 +5,9 @@
 /**
  * @module TranslationHubSearch
  * @description
- * The Awtsmoos lets one written word enter a fast direct-lookup chamber while browse remains a separate bounded path;
- * Awtsmoos.com remembers only the shareable query in the URL and never caches a dictionary ocean in the browser.
+ * The Awtsmoos lets one written word enter a fast direct-lookup chamber while
+ * browse remains a separate bounded path. Awtsmoos.com keeps the learner's query
+ * shareable without caching a dictionary ocean or exposing provider branding.
  */
 
 import { lookupDictionary } from '../api.js';
@@ -29,7 +30,7 @@ function rememberQuery(word) {
 	history.replaceState(history.state, '', url);
 }
 
-/** Creates one accessible dictionary source selector shared with direct search. */
+/** Creates one accessible source selector shared with direct search. */
 function sourceSelect() {
 	const select = document.createElement('select');
 	select.className = 'translation-hub-source';
@@ -38,15 +39,25 @@ function sourceSelect() {
 	return select;
 }
 
-/** Builds the direct dictionary search form and its independently updated result vessel. */
+/** Builds the learner-facing purpose heading for the dedicated workspace. */
+function searchHeading() {
+	const heading = element('header', 'translation-hub-search-heading');
+	heading.append(
+		element('h2', '', 'חיפוש מילים · Word lookup'),
+		element('p', '', 'Hebrew, Aramaic, and Yiddish lookup across the available Awtsmoos dictionaries.')
+	);
+	return heading;
+}
+
+/** Builds direct dictionary search and its independently updated result vessel. */
 export function createDictionarySearchSurface() {
 	const section = element('section', 'translation-hub-search');
 	const form = element('form', 'translation-hub-form');
 	const input = document.createElement('input');
 	input.className = 'translation-hub-input';
 	input.name = 'lookup';
-	input.placeholder = 'חיפוש מילה בעברית, ארמית או יידיש · Search Hebrew, Aramaic, or Yiddish';
-	input.setAttribute('aria-label', 'חיפוש מילה · Search word');
+	input.placeholder = 'חיפוש מילה · Search a word';
+	input.setAttribute('aria-label', 'Search Hebrew, Aramaic, or Yiddish word');
 	input.autocomplete = 'off';
 	input.dir = 'auto';
 	input.value = queryFromUrl();
@@ -56,13 +67,13 @@ export function createDictionarySearchSurface() {
 	const results = element('section', 'translation-hub-results');
 	results.setAttribute('aria-live', 'polite');
 	form.append(input, select, submit);
-	section.append(form, results);
+	section.append(searchHeading(), form, results);
 	form.addEventListener('submit', event => submitLookup(event, { input, select, submit, results }));
 	if (input.value) queueMicrotask(() => form.requestSubmit());
 	return section;
 }
 
-/** Executes one direct lookup while preserving the search controls and reporting failure honestly. */
+/** Executes one lookup while preserving controls and reporting failure honestly. */
 async function submitLookup(event, controls) {
 	event.preventDefault();
 	const word = controls.input.value.trim();

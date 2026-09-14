@@ -31,6 +31,10 @@ export class AgentTabProtectionState {
 		return Registry.resume(port);
 	}
 
+	isSuspended(port = 0) {
+		return Registry.isSuspended(port);
+	}
+
 	filter(snapshot = {}) {
 		const rootTabs = Registry.filter(snapshot.port, snapshot.rootTabs || []);
 		const conversationTabs = Registry.filter(snapshot.port, snapshot.conversationTabs || []);

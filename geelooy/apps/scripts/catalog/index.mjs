@@ -6,6 +6,7 @@ import { CREATION_APPS } from "./creation.mjs";
 import { DEVELOPER_APPS } from "./developer.mjs";
 import { GAME_APPS } from "./games.mjs";
 import { MEDIA_APPS } from "./media.mjs";
+import { PLATFORM_STUDIOS } from "./platform-studios.mjs";
 import { PRODUCTIVITY_APPS } from "./productivity.mjs";
 import { STANDALONE_MEDIA_APPS } from "./standalone-media.mjs";
 import { STANDALONE_SOCIAL_APPS } from "./standalone-social.mjs";
@@ -20,6 +21,7 @@ import { WORK_APPS } from "./work.mjs";
  * Awtsmoos.com composes source catalogs so a finished public vessel cannot silently disappear from sight.
  */
 export const PUBLIC_APPS = Object.freeze([
+	...PLATFORM_STUDIOS,
 	...CREATION_APPS,
 	...MEDIA_APPS,
 	...STANDALONE_MEDIA_APPS,

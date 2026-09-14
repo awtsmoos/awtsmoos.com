@@ -1,6 +1,6 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @module InteractiveBrowserController
@@ -13,12 +13,10 @@ import {
 	closeInteractiveTarget,
 	createInteractiveSession,
 	historyInteractiveTarget,
-	inputInteractiveTarget,
 	navigateInteractiveTarget
 } from "./interactiveClient.js";
-import { bindInteractiveInput } from "./interactiveInput.js";
-import { createInteractivePopupBridge } from "./interactivePopupBridge.js";
 import { createInteractiveBrowserSurface } from "./interactiveSurface.js";
+import { activateInteractiveController } from "./interactiveControllerActivation.js";
 import { normalizedInteractiveState } from "./interactiveState.js";
 import { createInteractiveViewSync } from "./interactiveViewSync.js";
 
@@ -52,15 +50,23 @@ export function createInteractiveBrowserController(options) {
 		return state;
 	}
 
-	async function navigate(url) {
-		if (state) return navigateInteractiveTarget({ ...state, url });
+	async function navigate(url, behavior = {}) {
+		const requestedMode = behavior.engineMode || options.engineMode?.() || "headless";
+		if (state?.engineMode === requestedMode) {
+			return navigateInteractiveTarget({ ...state, url });
+		}
+		if (state) {
+			await detachCurrentTarget();
+		}
 		const created = await createInteractiveSession({
 			aliasId: options.aliasId(),
+			engineMode: requestedMode,
 			jarId: options.jarId(),
 			url
 		});
 		state = normalizedInteractiveState({
 			aliasId: options.aliasId(),
+			engineMode: created.engineMode || requestedMode,
 			jarId: created.jarId || options.jarId(),
 			sessionId: created.sessionId,
 			targetId: created.targetId || created.rootTargetId
@@ -79,24 +85,25 @@ export function createInteractiveBrowserController(options) {
 		return clearInteractiveCookies(state);
 	}
 
-	function activate() {
-		surface.setVisible(true);
-		popupBridge = createInteractivePopupBridge({
-			aliasId: state.aliasId,
-			currentTargetId: state.targetId,
-			initialTargetIds: [state.targetId],
-			jarId: state.jarId,
-			os: options.os,
-			sessionId: state.sessionId
-		});
+	async function detachCurrentTarget() {
+		viewSync.stop();
 		inputDispose?.();
-		inputDispose = bindInteractiveInput({
-			frame: surface.frame,
-			getViewport: surface.getViewport,
-			send: event => inputInteractiveTarget({ ...state, event })
+		inputDispose = null;
+		await closeInteractiveTarget(state).catch(() => {});
+		state = null;
+		popupBridge = null;
+	}
+
+	function activate() {
+		const activated = activateInteractiveController({
+			inputDispose,
+			options,
+			state,
+			surface,
+			viewSync
 		});
-		viewSync.start();
-		options.setStatus?.("Interactive Chromium connected");
+		inputDispose = activated.inputDispose;
+		popupBridge = activated.popupBridge;
 	}
 
 	function destroy() {

@@ -1,6 +1,6 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file MinimalMeadowRoadRibbon.js
@@ -9,7 +9,9 @@
  * the Bézier path aligned while no narrow road crops less than one complete cobblestone garment.
  */
 
-import { Mesh } from '../../../light-three-gltf/tiny-runtime.js';
+import {
+	createNativeMeshFromGeometry
+} from '../../../../../../libs/awtsmoos-procedural-core/src/core/worldBuilding/index.js';
 import { textureDensityPlan } from '../assets/TextureRepeat.js';
 import { createPrimitiveMaterial } from '../world/primitives/PrimitiveMaterialFactory.js';
 import { MINIMAL_MEADOW_ROAD_LENGTH } from './MinimalMeadowBezierPath.js';
@@ -47,18 +49,25 @@ export function createMinimalMeadowRoadRibbon(input, heightAtValue, optionsValue
 			roadAuthority: 'MinimalMeadowBezierPath'
 		}
 	}, repeat);
-	const mesh = new Mesh(createMinimalMeadowRoadGeometry(data), material);
-	mesh.name = 'Awtsmoos_continuous_cobblestone_bezier_road';
-	mesh.frustumCulled = false;
+	const mesh = createNativeMeshFromGeometry(
+		createMinimalMeadowRoadGeometry(data),
+		material,
+		{
+			frustumCulled: false,
+			name: 'Awtsmoos_continuous_cobblestone_bezier_road',
+			userData: {
+				AwtsmoosRoad: {
+					...data.evidence,
+					density,
+					length: MINIMAL_MEADOW_ROAD_LENGTH,
+					repeat,
+					sourceCount: layers.length,
+					width: data.width
+				}
+			}
+		}
+	);
 	mesh.visible = config.options.visible ?? true;
-	mesh.userData.AwtsmoosRoad = {
-		...data.evidence,
-		density,
-		length: MINIMAL_MEADOW_ROAD_LENGTH,
-		repeat,
-		sourceCount: layers.length,
-		width: data.width
-	};
 	mesh.setBaseTransform();
 	return mesh;
 }

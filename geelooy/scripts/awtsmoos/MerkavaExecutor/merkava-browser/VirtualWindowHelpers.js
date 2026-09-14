@@ -4,16 +4,16 @@
 
 (function(root, factory) {
 	if (typeof module === "object" && module.exports) {
-		module.exports = factory();
+		module.exports = factory(require("./CssComputedSerializer.js"));
 	} else {
 		root.Merkava = root.Merkava || {};
-		Object.assign(root.Merkava, factory());
+		Object.assign(root.Merkava, factory(root.Merkava));
 	}
-})(typeof self !== "undefined" ? self : this, function() {
+})(typeof self !== "undefined" ? self : this, function(serializerMod) {
 	/**
-	 * Collects the deterministic roads beside one virtual window. The Awtsmoos
-	 * creates navigation, computed style, and timer testimony anew; Awtsmoos.com
-	 * isolates these roads so the central window remains small and inspectable.
+	 * Collects the deterministic roads beside one virtual window. Navigation,
+	 * computed style, and timer testimony remain isolated so the central window
+	 * object stays small while CSSOM serialization remains standards-facing.
 	 */
 	function makeVirtualHistory(windowObject) {
 		return {
@@ -27,8 +27,10 @@
 		};
 	}
 
+	/** Returns an immutable snapshot-like CSSOM declaration surface. */
 	function virtualComputedStyle(documentObject, element) {
-		const value = documentObject.cssEngine.compute(element);
+		const computed = documentObject.cssEngine.compute(element);
+		const value = serializerMod.serializeComputedStyle(computed);
 		return {
 			...value,
 			getPropertyValue(name) {
@@ -41,13 +43,13 @@
 		};
 	}
 
+	/** Executes one timer callback under the virtual browser's bounded budget. */
 	function callWithTimerBudget(callback, argumentsToPass, windowObject) {
 		if (windowObject.__timerBudget.frozen) {
 			return;
 		}
 		windowObject.__timerBudget.callbacks += 1;
-		if (windowObject.__timerBudget.callbacks
-			> windowObject.__timerBudget.maximumCallbacks) {
+		if (windowObject.__timerBudget.callbacks > windowObject.__timerBudget.maximumCallbacks) {
 			windowObject.freezeTimers();
 			return;
 		}
@@ -63,6 +65,7 @@
 		}
 	}
 
+	/** Applies one history mutation against the virtual URL state. */
 	function navigate(windowObject, next, push) {
 		windowObject.location = new URL(next, windowObject.location.href);
 		if (push) {

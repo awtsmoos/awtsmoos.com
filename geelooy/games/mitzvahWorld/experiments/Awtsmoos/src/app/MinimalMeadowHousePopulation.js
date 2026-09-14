@@ -1,6 +1,6 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file MinimalMeadowHousePopulation.js
@@ -9,7 +9,7 @@
  * one cached support authority while static house proofs no longer repeat every frame.
  */
 
-import { Group } from '../../../light-three-gltf/tiny-runtime.js';
+import { createNativeWorldGroup } from '../../../../../../libs/awtsmoos-procedural-core/src/core/worldBuilding/index.js';
 import { createMinimalMeadowHouseAssembly } from './MinimalMeadowHouseAssembly.js';
 import { enforceMinimalMeadowCollisionOnlyVisibility } from './MinimalMeadowHouseCollisionVisibility.js';
 import { installMinimalMeadowHouseGeometryContract } from './MinimalMeadowHouseGeometryContract.js';
@@ -45,7 +45,7 @@ export class MinimalMeadowHousePopulation {
 		this.materials = materials;
 		this.camera = runtime.camera;
 		this.canvas = runtime.hosts.canvas;
-		this.group = new Group();
+		this.group = createNativeWorldGroup();
 		this.group.name = 'Awtsmoos_minimal_meadow_houses';
 		this.houses = MINIMAL_MEADOW_HOUSE_PROFILES.map(profile => {
 			return createMinimalMeadowHouseAssembly(profile, materials, runtime);

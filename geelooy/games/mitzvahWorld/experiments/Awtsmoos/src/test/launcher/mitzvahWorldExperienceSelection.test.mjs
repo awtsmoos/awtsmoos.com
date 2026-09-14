@@ -1,12 +1,12 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file mitzvahWorldExperienceSelection.test.mjs
- * @description Proves local world identity resolves only inside the single-player boundary while generic runtime options remain safe for multiplayer.
- * The Awtsmoos gives each local world one truthful name without placing that garment on every shared soul;
- * Awtsmoos.com keeps Simple Meadow light, Mountain Village rich, and multiplayer free to preserve its separate role.
+ * @description Proves local world identity and Sandbox creator policy stay explicit inside single-player routing.
+ * The Awtsmoos gives each local world one truthful name while Awtsmoos.com keeps fast play, free creation,
+ * rich village streaming, and multiplayer transport in their appointed boundaries without silent fallback.
  */
 
 import assert from 'node:assert/strict';
@@ -19,21 +19,29 @@ import {
 	resolveMitzvahWorldRuntimeExperience
 } from '../../world/experience/MitzvahWorldExperienceCatalog.js';
 
-test('experience catalog exposes two distinct truthful local profiles', () => {
+test('experience catalog exposes play, sandbox, and rich local worlds', () => {
 	const worlds = localMitzvahWorldExperiences();
-	assert.deepEqual(worlds.map(world => world.id), ['simple-meadow', 'local-reference-village']);
-	assert.equal(worlds[0].runtime.canonicalPromotion, false);
-	assert.equal(worlds[1].runtime.canonicalPromotion, true);
+	assert.deepEqual(worlds.map(world => world.id), [
+		'simple-meadow',
+		'sandbox-world',
+		'local-reference-village'
+	]);	assert.equal(worlds[0].runtime.canonicalPromotion, false);
+	assert.equal(worlds[1].runtime.canonicalPromotion, false);
+	assert.equal(worlds[1].runtime.sandboxCreator, true);
+	assert.equal(worlds[1].runtime.deepWorldStreaming, false);
+	assert.equal(worlds[2].runtime.canonicalPromotion, true);
 	assert.equal(resolveMitzvahWorldRuntimeExperience('unknown').id, 'simple-meadow');
 });
 
-test('single-player options carry Mountain Village while generic options remain profile-free', () => {
-	const local = createSinglePlayerWorldRuntimeOptions({ worldId: 'local-reference-village' }, {});
+test('single-player options preserve Sandbox and Mountain Village policy', () => {
+	const sandbox = createSinglePlayerWorldRuntimeOptions({ worldId: 'sandbox-world' }, {});
+	const village = createSinglePlayerWorldRuntimeOptions({ worldId: 'local-reference-village' }, {});
 	const generic = createDirectWorldRuntimeOptions({ worldId: 'main-village' }, {});
-	assert.equal(local.worldId, 'local-reference-village');
-	assert.equal(local.worldExperience.id, 'local-reference-village');
-	assert.equal(local.worldExperience.canonicalPromotion, true);
-	assert.equal(local.worldExperience.districtStreaming, true);
+	assert.equal(sandbox.worldId, 'sandbox-world');
+	assert.equal(sandbox.worldExperience.sandboxCreator, true);
+	assert.equal(village.worldId, 'local-reference-village');
+	assert.equal(village.worldExperience.canonicalPromotion, true);
+	assert.equal(village.worldExperience.districtStreaming, true);
 	assert.equal(generic.worldId, undefined);
 	assert.equal(generic.worldExperience, undefined);
 });
@@ -43,10 +51,9 @@ test('single-player route forwards the selected local world id', async () => {
 		environment: {},
 		hosts: {},
 		modes: { singlePlayer: async (_hosts, options) => options },
-		parameters: new URLSearchParams(),
-		realtimeUrl: null,
+		parameters: new URLSearchParams(),		realtimeUrl: null,
 		revealHosts() {}
 	});
-	const options = await handlers.openSinglePlayer({ worldId: 'simple-meadow' });
-	assert.equal(options.worldId, 'simple-meadow');
+	const options = await handlers.openSinglePlayer({ worldId: 'sandbox-world' });
+	assert.equal(options.worldId, 'sandbox-world');
 });

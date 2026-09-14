@@ -28,6 +28,21 @@ const MITZVAH_WORLD_ROOT = "/games/mitzvahWorld/experiments/Awtsmoos/src/";
 
 export const COMPACT_PREWARM_ROUTES = Object.freeze([
 	criticalRoute(
+		"Awtsmoos Home",
+		"/"
+	),
+	criticalRoute(
+		"Ikar Torah Library",
+		"/heichelos/ikar",
+		[
+			"/heichelos/heichel/ikar-first.js?v=ikar-first-001&compact=true"
+		]
+	),
+	criticalRoute(
+		"Torah Reader",
+		"/heichelos/ikar/series/bereishis/0"
+	),
+	criticalRoute(
 		"Mitzvah World",
 		"/games/mitzvahWorld/",
 		[

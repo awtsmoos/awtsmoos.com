@@ -48,7 +48,12 @@ function receipt(result = {}) {
 		answerPreview: "",
 		dispatched: true,
 		acceptedAt: result.acceptedAt || null,
-		responseStatus: result.responseStatus || null
+		responseStatus: result.responseStatus || null,
+		promptVerified: result.promptVerified === true,
+		tabCloseVerified: result.tabClose?.verified === true,
+		tabClosedAt: result.tabClosedAt || null,
+		submissionTransport: result.submissionTransport || null,
+		requestLatencyMs: Number(result.requestLatencyMs || 0) || null
 	};
 }
 

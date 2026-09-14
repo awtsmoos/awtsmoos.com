@@ -1,0 +1,99 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed be He */
+/** Database Studio table, schema, API, and responsive presentation. */
+
+.project-data-editor {
+	min-height: 340px;
+	margin: 0;
+	padding: 14px;
+	border-radius: 12px;
+	line-height: 1.55;
+	tab-size: 2;
+}
+
+.project-data-table-wrap {
+	max-width: 100%;
+	overflow: auto;
+}
+
+.project-data-table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: .78rem;
+}
+
+.project-data-table th,
+.project-data-table td {
+	max-width: 260px;
+	padding: 10px 11px;
+	border-bottom: 1px solid var(--border, #cad3df);
+	text-align: left;
+	vertical-align: top;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.project-data-table th {
+	position: sticky;
+	top: 0;
+	z-index: 1;
+	background: var(--panel, #fff);
+	font-size: .7rem;
+	letter-spacing: .04em;
+	text-transform: uppercase;
+}
+
+.project-data-table tbody tr {
+	cursor: pointer;
+}
+
+.project-data-table tbody tr:hover,
+.project-data-table tbody tr:focus-visible {
+	background: color-mix(in srgb, #5c6cff 7%, transparent);
+	outline: none;
+}
+
+.project-data-schema {
+	display: grid;
+	gap: 8px;
+}
+
+.project-data-schema-row {
+	display: grid;
+	grid-template-columns: minmax(120px, 1fr) minmax(100px, .7fr) auto;
+	gap: 12px;
+	align-items: center;
+	padding: 10px 12px;
+	border: 1px solid var(--border, #cad3df);
+	border-radius: 11px;
+}
+
+.project-data-schema-row span {
+	font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+	font-size: .76rem;
+	color: #4a56c8;
+}
+
+.project-data-schema-row small {
+	opacity: .62;
+}
+
+.project-data-api {
+	min-height: 260px;
+	margin: 0;
+	padding: 16px;
+	border-radius: 13px;
+	background: #101522;
+	color: #dce7ff;
+	font: .78rem/1.6 ui-monospace, SFMono-Regular, Menlo, monospace;
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.project-data-empty {
+	margin: 8px;
+	font-size: .78rem;
+	opacity: .62;
+}

@@ -1,0 +1,55 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+Database Studio health remains compact, factual, touch-readable, and responsive.
+*/
+
+.project-data-health {
+	display: grid;
+	gap: 16px;
+}
+
+.project-data-health-note {
+	margin: 0;
+	max-width: 74ch;
+	line-height: 1.55;
+	opacity: .74;
+}
+
+.project-health-grid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 10px;
+}
+
+.project-health-card {
+	display: grid;
+	gap: 6px;
+	min-height: 78px;
+	padding: 13px;
+	border: 1px solid color-mix(in srgb, currentColor 14%, transparent);
+	border-radius: 14px;
+	background: color-mix(in srgb, Canvas 94%, currentColor 6%);
+}
+
+.project-health-card span {
+	font-size: .72rem;
+	opacity: .62;
+}
+
+.project-health-card strong {
+	font-size: .88rem;
+	line-height: 1.35;
+}
+
+.project-health-features {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 7px;
+}
+
+@media (max-width: 760px) {
+	.project-health-grid {
+		grid-template-columns: 1fr;
+	}
+}

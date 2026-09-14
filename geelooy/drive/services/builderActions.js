@@ -91,6 +91,9 @@ function unavailableCanonical(state) {
 
 function starterMessage(error) {
 	if (error?.code === "STARTER_FILES_EXIST") return `Starter stopped: ${error.details.collisions.join(", ")} already exist.`;
+	if (error?.code === "PREMIUM_STARTER_SIGN_IN_REQUIRED") return "Sign in to use an owned premium template.";
+	if (error?.code === "PREMIUM_STARTER_PURCHASE_REQUIRED") return "Unlock this premium template in the Peruta store first.";
+	if (error?.code === "PREMIUM_STARTER_DELIVERY_FAILED") return "Premium template delivery is temporarily unavailable. No files were changed.";
 	return "The starter could not be created completely. Existing source was not overwritten.";
 }
 

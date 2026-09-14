@@ -61,14 +61,36 @@ export function bottomNav(actions) {
 			class: 'geelooy-bottom-nav',
 			'aria-label': 'Primary mobile navigation'
 		},
-		children: [
-			link('/', '🏡 Home'),
-			button('🌳 Tree', null, actions.openTree),
-			link(createHref(), '✍️ Create', 'is-create'),
-			button('✉️ Inbox', null, actions.openMiniMail),
-			link('/profile', '👤 Profile')
-		]
+		children: isIkarRoute()
+			? ikarBottomNav(actions)
+			: standardBottomNav(actions)
 	};
+}
+
+/** Keeps Ikar mobile navigation centered on learning rather than publishing. */
+function ikarBottomNav(actions) {
+	return [
+		link('/', '🏡 Home'),
+		button('📚 Torah', null, actions.openTree),
+		link('#living-path-search', '🔎 Search'),
+		link('/profile', '👤 Profile')
+	];
+}
+
+/** Preserves the full creator dock for ordinary Heichelos. */
+function standardBottomNav(actions) {
+	return [
+		link('/', '🏡 Home'),
+		button('🌳 Tree', null, actions.openTree),
+		link(createHref(), '✍️ Create', 'is-create'),
+		button('✉️ Inbox', null, actions.openMiniMail),
+		link('/profile', '👤 Profile')
+	];
+}
+
+function isIkarRoute() {
+	return location.pathname === '/heichelos/ikar'
+		|| location.pathname.startsWith('/heichelos/ikar/');
 }
 
 function createHref() {

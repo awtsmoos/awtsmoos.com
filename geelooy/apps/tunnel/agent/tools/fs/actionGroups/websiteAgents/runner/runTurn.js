@@ -1,11 +1,12 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 const Context = require("./context.js");
 const prepareRunTurn = require("./prepareRunTurn.js");
 const dispatchRunTurn = require("./dispatchRunTurn.js");
 const failRunTurn = require("./failRunTurn.js");
+const AcceptedTurn = require("./acceptedTurnRecovery.js");
 
 /**
  * @file Orchestrates one submit-only website-agent turn through focused vessels.
@@ -15,6 +16,7 @@ const failRunTurn = require("./failRunTurn.js");
  * exact owned tab, while the awakened agent continues through filesystem and tunnel.
  */
 async function runTurn(config, id, agentId, round, service, continuation) {
+	if (AcceptedTurn.existing(id, agentId, round)) return;
 	const prepared = await prepareRunTurn(
 		config,
 		id,

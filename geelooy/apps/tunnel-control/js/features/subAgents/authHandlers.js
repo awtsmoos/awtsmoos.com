@@ -1,17 +1,30 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 import { normalizeSubAgentAuth } from "./authShape.js";
 
 /**
- * @file Human-owned ChatGPT authentication handlers for the Shared AI Browser.
+ * @file Human-owned Shared AI Browser repair and ChatGPT authentication handlers.
  * @description
- * The Awtsmoos lets the user meet ChatGPT directly inside the visible browser flame;
- * Awtsmoos.com records only safe readiness and login evidence, while every sub-agent reuses the same.
+ * The Awtsmoos lets Tunnel Control restore Chrome and Shliach independently from login.
+ * Every action records only safe readiness evidence while credentials stay inside Chrome.
  */
 export function createSubAgentAuthHandlers(options) {
 	const { state, api, getTunnelName, runAction } = options;
+
+	async function ensureSharedBrowser() {
+		const raw = await api.ensureSubAgentChrome(getTunnelName());
+		state.auth = normalizeSubAgentAuth(raw);
+	}
+
+	async function ensureChrome() {
+		return runAction(
+			"auth",
+			ensureSharedBrowser,
+			"Shared AI Browser repaired and the Awtsmoos Shliach doorway restored."
+		);
+	}
 
 	async function openSharedBrowser() {
 		const raw = await api.openSubAgentChatGptLogin(getTunnelName());
@@ -22,7 +35,7 @@ export function createSubAgentAuthHandlers(options) {
 		return runAction(
 			"auth",
 			openSharedBrowser,
-			"Shared AI Browser opened at ChatGPT. Sign in directly there, then choose Verify login."
+			"Awtsmoos Shliach opened in the Shared AI Browser. Sign in there if requested."
 		);
 	}
 
@@ -35,9 +48,13 @@ export function createSubAgentAuthHandlers(options) {
 		return runAction(
 			"auth",
 			verifySharedBrowser,
-			"Shared AI Browser and ChatGPT login status verified."
+			"Shared AI Browser, Shliach doorway, and ChatGPT login status verified."
 		);
 	}
 
-	return { openAuthChrome, verifyLogin };
+	return {
+		ensureChrome,
+		openAuthChrome,
+		verifyLogin
+	};
 }

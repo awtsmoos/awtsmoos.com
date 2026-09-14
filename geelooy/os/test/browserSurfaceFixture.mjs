@@ -1,15 +1,19 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file Browser Surface Fixture
  * @description
- * The Awtsmoos gives tests a small host-DOM vessel without pretending to be a browser.
- * Awtsmoos.com records children, attributes, classes, and trusted click listeners only,
- * so the shell may be proven by behavior while guest execution remains completely absent.
+ * Minimal deterministic host-DOM vessel for Geelooy Browser tests. It implements only
+ * the DOM powers production host rendering consumes: children, attributes, classes,
+ * trusted listeners, dataset, properties, and explicit event dispatch.
  */
 
+/**
+ * Creates a document-like fixture whose elements preserve renderer-observable state.
+ * @returns {{createElement(tagName:string):Object}} Deterministic fake document.
+ */
 export function createFakeBrowserDocument() {
 	return {
 		createElement(tagName) {
@@ -18,13 +22,16 @@ export function createFakeBrowserDocument() {
 	};
 }
 
+/**
+ * Creates one fake browser-owned host node.
+ * @param {string} tagName Requested tag name.
+ * @returns {Object} Node-like test record implementing the trusted renderer contract.
+ */
 export function createFakeElement(tagName) {
 	const classes = new Set();
-	const listeners = new Map();
-	const element = {
+	const listeners = new Map();	const element = {
 		attributes: {},
 		children: [],
-		className: "",
 		dataset: {},
 		hidden: false,
 		tagName: String(tagName).toUpperCase(),
@@ -44,19 +51,19 @@ export function createFakeElement(tagName) {
 			return this.attributes[name] ?? null;
 		},
 		addEventListener(type, listener) {
-			if (!listeners.has(type)) listeners.set(type, new Set());
+			if (!listeners.has(type)) {
+				listeners.set(type, new Set());
+			}
 			listeners.get(type).add(listener);
 		},
 		removeEventListener(type, listener) {
 			listeners.get(type)?.delete(listener);
-		},
-		dispatch(type, event = {}) {
+		},		dispatch(type, event = {}) {
 			for (const listener of listeners.get(type) || []) {
 				listener({ target: this, ...event });
 			}
 		}
 	};
-
 	Object.defineProperty(element, "className", {
 		get() {
 			return Array.from(classes).join(" ");
@@ -68,8 +75,12 @@ export function createFakeElement(tagName) {
 			}
 		}
 	});
-
 	element.classList = {
+		add(...names) {
+			for (const name of names) {
+				classes.add(name);
+			}
+		},
 		contains(name) {
 			return classes.has(name);
 		},

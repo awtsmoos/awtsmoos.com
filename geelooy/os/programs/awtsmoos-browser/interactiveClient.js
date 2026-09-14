@@ -1,6 +1,6 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @module InteractiveBrowserClient
@@ -12,6 +12,7 @@ export function createInteractiveSession(input, fetchImpl = globalThis.fetch) {
 	return request(input.aliasId, "browser/sessions", {
 		method: "POST",
 		body: {
+			engineMode: input.engineMode || "headless",
 			jarId: input.jarId || "default",
 			url: input.url
 		}

@@ -5,9 +5,11 @@
 import { CarrierDomActivator } from "./CarrierDomActivator.mjs";
 
 /**
- * @file Focuses and activates renewed ChatGPT controls through bounded retries.
- * @description The Awtsmoos first seeks native focus, then living DOM activation,
- * and only then screen geometry. Awtsmoos.com never trusts a stale React node.
+ * @file Focuses composers and physically activates renewed ChatGPT controls.
+ * @description
+ * The Awtsmoos distinguishes attention from action: focusing a Send button never
+ * counts as sending. Awtsmoos.com renews React nodes before each attempt, prefers
+ * the living DOM click, then uses visible pointer geometry as the physical fallback.
  */
 export class CarrierPointerController {
 	constructor(cdpClient, textController, {
@@ -41,21 +43,22 @@ export class CarrierPointerController {
 	}
 
 	async activate(locator) {
+		let lastError = null;
 		for (let attempt = 0; attempt < 4; attempt += 1) {
 			const current = await this.dom.currentLocator(locator);
-			try {
-				await this.focus(current);
-				return { mode: "focused", locator: current };
-			} catch (error) {
-				if (!this.dom.transient(error)) throw error;
-			}
 			if (await this.dom.activate(current)) {
 				return { mode: "clicked", locator: current };
 			}
-			await this.sleep(200);
+			try {
+				await this.clickVisibleCenter(current);
+				return { mode: "clicked", locator: current };
+			} catch (error) {
+				lastError = error;
+				if (!this.dom.transient(error)) throw error;
+				await this.sleep(200);
+			}
 		}
-		const current = await this.clickVisibleCenterRenewed(locator);
-		return { mode: "clicked", locator: current };
+		throw lastError || new Error("The renewed control could not be physically activated.");
 	}
 
 	async focus(locator) {

@@ -1,6 +1,6 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file forestInvariants.test.mjs
@@ -17,6 +17,7 @@ import {
 	assertGevurotHaCollision,
 	collectMeshes,
 	createOlamHaForest,
+	materialFamilies,
 	placementSignature
 } from './ForestInvariantVessels.js';
 
@@ -43,7 +44,10 @@ test('all procedural presets and twelve reference species remain present', () =>
 	assert.equal(forest.stats.referenceSpeciesCount, 12);
 	assert.equal(forest.stats.presetsUsed.length, 24);
 	assert.equal(forest.stats.referenceSpeciesUsed.length, 12);
-	assert.ok(forest.stats.rendering.barkMaterialTypes.length >= 20);
-	assert.ok(forest.stats.rendering.leafMaterialTypes.length >= 20);
+	const barkFamilies = materialFamilies(forest.records, 'branches', false);
+	const leafFamilies = materialFamilies(forest.records, 'leaves', false);
+	assert.deepEqual(forest.stats.rendering.barkMaterialTypes, barkFamilies);
+	assert.deepEqual(forest.stats.rendering.leafMaterialTypes, leafFamilies);
+	assert.equal(forest.stats.rendering.drawCalls, barkFamilies.length + leafFamilies.length);
 	assert.equal(forest.stats.rendering.publicFirebaseMaterials, true);
 });

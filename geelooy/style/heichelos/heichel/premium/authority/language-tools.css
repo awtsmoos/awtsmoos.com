@@ -1,0 +1,85 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * @file Ikar Language Tools authority.
+ * @description
+ * The Awtsmoos lets a dedicated lexical instrument look and behave like itself.
+ * Awtsmoos.com removes residual browse-status chrome in tool mode, makes direct
+ * lookup dominant, and keeps source choice and bounded dictionary browse clear.
+ */
+body.heichel-os-document[data-heichel-id="ikar"] .custom-tool-page-active :is(
+	.living-path-continue,
+	.living-path-search-stack,
+	.living-path-result-status,
+	.living-path-translation-search,
+	.tab-gates,
+	.grid-realms,
+	.living-path-related,
+	.living-path-filter-sheet
+) {
+	display: none !important;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"] .custom-tool-page-active {
+	display: grid;
+	gap: .9rem;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"] .translation-hub-search {
+	display: grid;
+	gap: .55rem;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"] .translation-hub-search-heading {
+	display: grid;
+	gap: .22rem;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"] .translation-hub-search-heading :is(h2, p) {
+	margin: 0;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"] .translation-hub-search-heading h2 {
+	font-size: clamp(1.15rem, 2vw, 1.45rem);
+}
+
+body.heichel-os-document[data-heichel-id="ikar"] .translation-hub-search-heading p {
+	max-inline-size: 65ch;
+	color: var(--ikar-ink-soft);
+	font-size: .84rem;
+	line-height: 1.45;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"] .translation-hub-form {
+	grid-template-columns: minmax(0, 1fr) minmax(10rem, 13rem) auto !important;
+	gap: .6rem !important;
+	padding: .8rem !important;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"] .translation-hub-input {
+	font-size: 1rem;
+	font-weight: 650;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"] .dictionary-browse {
+	margin-block-start: .2rem;
+	border-block-start: 1px solid var(--ikar-authority-line);
+	padding-block-start: .85rem;
+}
+
+@media (max-width: 48rem) {
+	body.heichel-os-document[data-heichel-id="ikar"] .translation-hub-form {
+		grid-template-columns: minmax(0, 1fr) auto !important;
+	}
+
+	body.heichel-os-document[data-heichel-id="ikar"] .translation-hub-input {
+		grid-column: 1 / -1;
+		min-block-size: 3rem;
+	}
+
+	body.heichel-os-document[data-heichel-id="ikar"] .translation-hub-source {
+		min-inline-size: 0;
+		inline-size: 100%;
+	}
+}

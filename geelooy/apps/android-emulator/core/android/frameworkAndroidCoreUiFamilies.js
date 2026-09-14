@@ -1,8 +1,9 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
+//Blessed be He
 
 import { createFrameworkAndroidAccessibilityMethods } from "./frameworkAndroidAccessibility.js";
+import { createFrameworkAndroidChoreographerMethods } from "./frameworkAndroidChoreographer.js";
 import { createFrameworkAndroidDisplayMethods } from "./frameworkAndroidDisplays.js";
 import { createFrameworkAndroidFragmentMethods } from "./frameworkAndroidFragments.js";
 import { createFrameworkAndroidGraphicsMethods } from "./frameworkAndroidGraphics.js";
@@ -27,6 +28,7 @@ import { createFrameworkViewMethods } from "./frameworkViews.js";
 export function createFrameworkAndroidCoreUiFamilies(olamRuntime) {
 	return [
 		createFrameworkAndroidAccessibilityMethods(olamRuntime),
+		createFrameworkAndroidChoreographerMethods(olamRuntime),
 		createFrameworkAndroidGraphicsMethods(olamRuntime),
 		createFrameworkAndroidMediaMethods(olamRuntime),
 		createFrameworkAndroidDisplayMethods(olamRuntime),

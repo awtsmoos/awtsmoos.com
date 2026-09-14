@@ -23,7 +23,22 @@ export function defineApp(definition) {
 		chip: definition.chip || "Tool",
 		categories: Object.freeze([...(definition.categories || [])]),
 		aliases: Object.freeze([...(definition.aliases || [])]),
-		commerceLabel: definition.commerceLabel || "",
-		commerceState: definition.commerceState || "planned"
+		commerceLabel: commerceLabelFor(definition),
+		commerceState: definition.commerceState || "planned",
+		supportLabel: definition.supportLabel
+			|| "Optional supporter tiers · purchased Perutas"
 	});
+}
+
+/**
+ * Normalizes legacy catalog copy without hiding the fact that core app access is free.
+ *
+ * @param {object} definition Raw catalog definition.
+ * @returns {string} Stable static access label; live pricing hydrates separately.
+ */
+function commerceLabelFor(definition) {
+	if (definition.commerceState === "free" || definition.commerceLabel === "Open tool") {
+		return "Free core access";
+	}
+	return definition.commerceLabel || "";
 }

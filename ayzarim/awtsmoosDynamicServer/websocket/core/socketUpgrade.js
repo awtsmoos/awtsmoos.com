@@ -4,6 +4,10 @@
 
 const { writeHandshake } = require("./handshake.js");
 const {
+	admitSocket,
+	releaseSocketAdmission
+} = require("./socketAdmission.js");
+const {
 	attachSocketClient
 } = require("./clientSession.js");
 const {
@@ -30,16 +34,21 @@ const {
 
 /** Admits one socket or writes a complete pre-handshake denial. */
 function handleSocketUpgrade(server, request, socket, head) {
+	const admissionTicket = admitSocket(server, request, socket);
+	if (!admissionTicket) return;
 	const identity = resolveUpgradeIdentity(server, request);
 	const decision = authorizeMissionRoomUpgrade(request, identity);
 	if (decision.handled && !decision.ok) {
+		releaseSocketAdmission(server, admissionTicket);
 		rejectMissionRoomUpgrade(socket, decision);
 		return;
 	}
 	if (!writeHandshake(request, socket)) {
+		releaseSocketAdmission(server, admissionTicket);
 		return;
 	}
 	const client = server.makeClient(socket, { identity });
+	client.socketAdmissionTicket = admissionTicket;
 	server.clients.add(client);
 	attachSocketClient(server, client, head);
 	publishOpening(server, client, decision);

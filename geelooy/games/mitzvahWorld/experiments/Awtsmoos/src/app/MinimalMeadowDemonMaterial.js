@@ -1,6 +1,6 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file MinimalMeadowDemonMaterial.js
@@ -9,7 +9,7 @@
  * yet once clothed, finite vertex variation may deepen anatomy without ever becoming a naked solid-color disguise.
  */
 
-import { MeshStandardMaterial } from '../../../light-three-gltf/tiny-runtime.js';
+import { createNativeWorldMaterial } from '../../../../../../libs/awtsmoos-procedural-core/src/core/worldBuilding/index.js';
 import { createDemonSurfaceDiagnostics } from './MinimalMeadowDemonReadabilityMaterialRecord.js';
 import { minimalDemonReadabilityProfile } from './MinimalMeadowDemonReadabilityProfile.js';
 import {
@@ -24,11 +24,13 @@ export const MINIMAL_DEMON_EMISSIVE_STRENGTH = 0.06;
 export function createMinimalDemonMaterial(profile = {}) {
 	const readability = minimalDemonReadabilityProfile(profile);
 	const color = normalizeMinimalDemonTint(profile.tint || readability.tint, readability.tint);
-	const material = new MeshStandardMaterial({
+	const material = createNativeWorldMaterial({
 		color,
 		doubleSided: true,
 		name: `Awtsmoos_remote_shadow_skin_${profile.id || readability.id}`,
-		opacity: color[3]
+		opacity: color[3],
+		remoteOnly: true,
+		semanticRole: 'creature.fur'
 	});
 	const diagnostics = createDemonSurfaceDiagnostics(readability, color, null, MINIMAL_DEMON_EMISSIVE_STRENGTH);
 	Object.assign(material, {

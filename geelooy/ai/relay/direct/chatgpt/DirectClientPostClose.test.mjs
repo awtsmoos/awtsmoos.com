@@ -5,85 +5,76 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { DirectClient } from "./DirectClient.mjs";
-import {
-	hostLease,
-	pollResult,
-	submitted
-} from "./DirectClientPostCloseFixtures.mjs";
 
 /**
- * @file Proves encrypted continuation persistence precedes verified target closure.
+ * @file Proves accepted Send, verified hold, close, cooldown, and dispatch ordering.
  * @description
- * The Awtsmoos carries accepted work beyond the visible browser vessel.
- * Awtsmoos.com seals the detached session before close, starts cooldown after close,
- * and only then performs authenticated GET polling without exposing private data.
+ * The Awtsmoos never fabricates a model answer after closing an owned worker tab.
+ * Awtsmoos.com returns only durable acceptance testimony after closure succeeds.
  */
-test("encrypted persistence, close, cooldown, and GET occur in exact order", async () => {
-	const order = [];
-	const session = { cookieHeader: "private", userAgent: "Fixture", headers: {} };
-	const client = new DirectClient({
-		hostLease: hostLease(order),
-		turnExecutor: {
-			async execute(options) {
-				order.push("accepted-post");
-				await options.onDetachedSessionCaptured({
-					conversationId: "conversation-one",
-					session
-				});
-				return submitted(session);
+function acceptedTurn(order, verified = true) {
+	return new DirectClient({
+		hostLease: {
+			async run(operation) {
+				const value = await operation({}, { source: "fresh", acquireMs: 0 });
+				order.push("verified-close");
+				return { ...value, tabClose: { closed: verified, verified, attempts: 1 } };
+			},
+			close: async () => undefined,
+			status: () => ({})
+		},
+		sendHold: {
+			async wait(acceptedAt) {
+				order.push("verified-hold");
+				return { acceptedAt, heldMs: 20000, minimumMs: 20000, verified: true };
 			}
 		},
-		sessionVault: {
-			set: () => order.push("encrypted-session-persisted"),
-			delete: () => true,
-			status: () => ({ persisted: true, encrypted: true })
-		},
-		detachedPoller: {
-			async poll(options) {
-				order.push("detached-get");
-				assert.equal(options.session, session);
-				return pollResult();
+		turnExecutor: {
+			async execute() {
+				order.push("accepted-post");
+				return {
+					submission: {
+						conversationId: "conversation-one",
+						userMessageId: "user-one",
+						acceptedAt: 123456789
+					},
+					responseStatus: 200,
+					requestLatencyMs: 1,
+					hostReuseSource: "fresh",
+					composerTouched: true,
+					promptVerified: true,
+					dispatched: true,
+					submissionTransport: "chatgpt-website-composer"
+				};
 			}
 		}
 	});
-	const result = await client.send({
+}
+
+test("accepted POST holds, closes, starts cooldown, and returns a dispatch receipt", async () => {
+	const order = [];
+	const result = await acceptedTurn(order).send({
 		prompt: "prompt",
 		onTabClosed: async () => order.push("cooldown-started")
 	});
+	order.push("returned");
 	assert.deepEqual(order, [
-		"accepted-post",
-		"encrypted-session-persisted",
-		"verified-close",
-		"cooldown-started",
-		"detached-get"
+		"accepted-post", "verified-hold", "verified-close", "cooldown-started", "returned"
 	]);
-	assert.equal(result.answer, "answer");
-	assert.equal(JSON.stringify(result).includes("private"), false);
+	assert.equal(result.answer, "");
+	assert.equal(result.done, false);
+	assert.equal(result.dispatched, true);
+	assert.equal(result.accepted, true);
+	assert.equal(result.pacing.verified, true);
+	assert.equal(result.completionSource, "not-awaited-agent-continues-through-tunnel");
 });
 
-test("unverified close prevents cooldown and detached polling", async () => {
-	let callbackCalls = 0;
-	let pollCalls = 0;
-	const session = { cookieHeader: "x" };
-	const client = new DirectClient({
-		hostLease: hostLease([], false),
-		turnExecutor: {
-			async execute(options) {
-				await options.onDetachedSessionCaptured({ conversationId: "one", session });
-				return submitted(session);
-			}
-		},
-		sessionVault: {
-			set: () => true,
-			delete: () => true,
-			status: () => ({})
-		},
-		detachedPoller: { async poll() { pollCalls += 1; } }
-	});
-	await assert.rejects(() => client.send({
+test("unverified close prevents cooldown and dispatch receipt", async () => {
+	const order = [];
+	let callbacks = 0;
+	await assert.rejects(() => acceptedTurn(order, false).send({
 		prompt: "prompt",
-		onTabClosed: async () => { callbackCalls += 1; }
+		onTabClosed: async () => { callbacks += 1; }
 	}), error => error.code === "owned_target_close_unverified");
-	assert.equal(callbackCalls, 0);
-	assert.equal(pollCalls, 0);
+	assert.equal(callbacks, 0);
 });

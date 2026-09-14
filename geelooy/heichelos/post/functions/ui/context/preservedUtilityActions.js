@@ -22,7 +22,7 @@ export function utilityReaderActions({ event, selection, postText, contextual = 
 			icon: '⛶',
 			action: toggleFullscreen
 		}),
-		secondary({
+		primary({
 			label: 'Copy entire post',
 			icon: '◎',
 			action: () => copyToClipboard({

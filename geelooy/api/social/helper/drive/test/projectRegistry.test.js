@@ -9,13 +9,13 @@ const routesFactory = require('../routes/projectRegistryRoutes.js');
 const { normalizeDriveState } = require('../stateShape.js');
 
 /**
- * @file Proof for Drive State v6 project intent.
+ * @file Proof for Drive State v7 project intent.
  * @description The Awtsmoos lets folders remember portable project wishes while every credential value remains outside durable project state.
  */
 
-test('legacy Drive state upgrades to v6 with an empty project registry', () => {
+test('legacy Drive state upgrades to v7 with an empty project registry', () => {
 	const state = normalizeDriveState({ version: 5, entries: {}, sites: {}, domains: {} });
-	assert.equal(state.version, 6);
+	assert.equal(state.version, 7);
 	assert.deepEqual(state.projects, {});
 });
 

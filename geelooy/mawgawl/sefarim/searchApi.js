@@ -9,7 +9,7 @@
  * Awtsmoos.com records only completed searches, while stale requests dissolve along the way.
  */
 
-import { recordSearchActivity } from '/shared/MeaningfulActivity.js';
+import { recordSearchActivity } from '../../shared/MeaningfulActivity.js';
 import { requestJson } from './apiTransport.js';
 import { buildLibrarySearchRequest } from './searchLibraryRequest.js';
 
@@ -32,7 +32,12 @@ export async function fetchLibraryLanes({ signal } = {}) {
 }
 
 export async function searchLibrary({ query, lane, strategy, signal }) {
-	const request = buildLibrarySearchRequest({ query, lane, strategy });
+	const request = buildLibrarySearchRequest({
+		query,
+		lane,
+		strategy,
+		comments: 'true'
+	});
 	const payload = await requestJson(request.url, {
 		timeoutMs: request.timeoutMs,
 		signal

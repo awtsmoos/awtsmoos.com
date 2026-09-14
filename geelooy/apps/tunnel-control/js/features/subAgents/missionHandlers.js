@@ -1,6 +1,8 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
+
+import { normalizeSubAgentAuth } from "./authShape.js";
 
 /**
  * @file Mission launch, selection, and navigation handlers for Sub-agents.
@@ -43,11 +45,25 @@ export function createSubAgentMissionHandlers(options) {
 			render();
 			return false;
 		}
+		const ready = await runAction(
+			"auth",
+			prepareBrowserForLaunch,
+			"Shared AI Browser and ChatGPT authentication verified."
+		);
+		if (!ready) return false;
 		return runAction(
 			"launch",
 			startValidatedTeam,
 			"Sub-agent team launch accepted by the tunnel."
 		);
+	}
+
+	/** Repairs Shared Chrome and opens Shliach before any browser-backed mission is admitted. */
+	async function prepareBrowserForLaunch() {
+		const raw = await api.prepareSubAgentChatGpt(getTunnelName());
+		state.auth = normalizeSubAgentAuth(raw);
+		if (state.auth.authenticated) return true;
+		throw new Error("Awtsmoos Shliach is open. Sign in to ChatGPT there, then launch the team again.");
 	}
 
 	/** @description Opens Mission control through canonical shell navigation. @returns {boolean} Whether navigation occurred. @sideEffects May activate another pane. */

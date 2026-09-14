@@ -5,6 +5,10 @@
 import { ChromeTargetCloser } from "./ChromeTargetCloser.mjs";
 import { AgentTabProtectionState } from "./AgentTabProtectionState.mjs";
 import { selectAgentTabs } from "./AgentTabSelection.mjs";
+import { createRequire } from "node:module";
+
+const require = createRequire(import.meta.url);
+const SharedProfile = require("../../split-browser/sharedChromeProfile.cjs");
 
 /**
  * @file Enforces browser capacity without destroying leased human login surfaces.
@@ -59,7 +63,7 @@ export class AgentTabProtector {
 	}
 
 	watchdogSweep() {
-		return this.reconcile({ targetLimit: 1, hard: true });
+		return this.reconcile({ targetLimit: SharedProfile.MAX_AGENT_TABS, hard: true });
 	}
 
 	reconcile(options) {
@@ -72,7 +76,7 @@ export class AgentTabProtector {
 		this.metrics.sweeps += 1;
 		let snapshot = await this.catalog.snapshot({ refresh: true });
 		let actionable = this.protection.filter(snapshot);
-		if (this.protection.suspensions > 0) {
+		if (this.protection.isSuspended(snapshot.port)) {
 			return this.remember(snapshot, actionable, targetLimit, 0);
 		}
 		const targets = selectAgentTabs(actionable, { targetLimit, rootAllowance: 0, hard });
@@ -101,7 +105,7 @@ export class AgentTabProtector {
 	}
 
 	status() {
-		return { maxTabs: 1, rootAllowance: 0, ...this.protection.status(),
+		return { maxTabs: SharedProfile.MAX_AGENT_TABS, rootAllowance: 0, ...this.protection.status(),
 			...this.metrics, last: this.last };
 	}
 }

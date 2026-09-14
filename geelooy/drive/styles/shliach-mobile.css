@@ -1,0 +1,20 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed be He */
+/** Mobile-only Shliach controls keep prompt actions thumb-safe without bloating the core surface. */
+
+@media (max-width: 560px) {
+	.shliach-actions > * {
+		flex: 1 1 100%;
+	}
+
+	.shliach-starters {
+		flex-wrap: nowrap;
+		overflow-x: auto;
+		padding-bottom: 3px;
+	}
+
+	.shliach-chip {
+		flex: 0 0 auto;
+	}
+}

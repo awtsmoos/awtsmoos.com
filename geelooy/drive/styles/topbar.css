@@ -28,6 +28,7 @@ turning a crowded desktop strip into a compact crown whose controls remain nativ
 
 .brand {
 	min-width: 0;
+	min-height: 44px;
 	display: flex;
 	align-items: center;
 	gap: 9px;

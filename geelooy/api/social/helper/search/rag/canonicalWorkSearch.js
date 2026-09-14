@@ -5,18 +5,42 @@
 /**
  * @module CanonicalWorkSearch
  * @description
- * The Awtsmoos lets the named root of a Torah work arrive before scattered body echoes compete;
- * Awtsmoos.com shapes stable work navigation and delegates de-duplication to the shared canonical promotion vessel.
+ * Registered Torah works resolve from a tiny identity registry before any corpus
+ * catalog opens. Unknown or partial names may still enter compact catalog ranking,
+ * preserving broad discovery without charging exact navigation the scan cost.
  */
 
 const {
 	canonicalWorkSummaries,
-	rankWorkSummaries
+	rankWorkSummaries,
+	workIdentityScore
 } = require('./canonicalWorkIndex.js');
 const { promoteNavigationHits } = require('./navigationPromotion.js');
+const {
+	registeredWorkIdentityForQuery
+} = require('./sourceWorkIdentity.js');
 const { sourceHref } = require('./wikisourceBrowseShape.js');
 
+/** Converts a stable registry identity into the summary shape shared by ranking. */
+function registeredSummary(query) {
+	const identity = registeredWorkIdentityForQuery(query);
+	if (!identity) return null;
+	const summary = {
+		domain: identity.domain,
+		work: identity.work,
+		title: identity.title,
+		pageId: identity.pageId,
+		count: 0
+	};
+	return {
+		...summary,
+		score: workIdentityScore(summary, query)
+	};
+}
+
 async function canonicalWorkHits({ $i, query = '', limit = 5 } = {}) {
+	const registered = registeredSummary(query);
+	if (registered) return [workHit(registered, 1)];
 	const summaries = await canonicalWorkSummaries({ $i });
 	return rankWorkSummaries(summaries, query, limit)
 		.map((summary, index) => workHit(summary, index + 1));
@@ -62,5 +86,6 @@ function workHit(summary, rank) {
 module.exports = {
 	canonicalWorkHits,
 	promoteCanonicalHits,
+	registeredSummary,
 	workHit
 };

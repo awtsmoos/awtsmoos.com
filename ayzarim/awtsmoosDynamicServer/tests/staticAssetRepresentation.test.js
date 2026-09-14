@@ -88,6 +88,15 @@ test('B"H HEAD preserves MIME and length while suppressing body', async () => {
 	assert.equal(context.response.getHeader('Content-Encoding'), 'gzip');
 });
 
+test('B"H ordinary static assets allow bounded shared-edge absorption', async () => {
+	const context = staticAssetContext(assetPath);
+	await readStaticAsset(context);
+	assert.equal(
+		context.response.getHeader('Cache-Control'),
+		'public, max-age=0, s-maxage=60, stale-while-revalidate=30, stale-if-error=86400'
+	);
+});
+
 test('B"H content-addressed assets receive immutable cache memory', async () => {
 	const hashedFolder = path.join(temporaryRoot, 'a'.repeat(64));
 	fs.mkdirSync(hashedFolder);

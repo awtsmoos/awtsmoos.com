@@ -1,8 +1,7 @@
 # B"H
 # Boruch Hashem
 # Blessed is He
-# The Awtsmoos binds one pushed SHA to one immutable production shore;
-# Awtsmoos.com restores the canonical Git vessel to that exact SHA before strict activation proves the living server.
+# The Awtsmoos binds one tested pushed SHA to one immutable production shore.
 name: Deploy to Hetzner Awtsmoos
 
 on:
@@ -15,7 +14,55 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  quality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Check out exact pushed SHA
+        uses: actions/checkout@v4
+
+      - name: Use production Node generation
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+
+      - name: Install locked dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: Run release-critical contracts
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          node --check scripts/verifyHomeProduction.mjs
+          node --test scripts/runtime_quality/*.test.mjs
+          node --test scripts/production/*.test.cjs scripts/production/*.test.mjs scripts/production/test/*.test.mjs
+          node --test geelooy/games/city-of-light/tests/releaseSurface.test.mjs
+          node --test ayzarim/awtsmoosDynamicServer/tests/staticAssetRepresentation.test.js ayzarim/awtsmoosDynamicServer/static/HtmlProductMetadata.test.js
+          npm run test:routes
+          npm run test:css-quality
+          npm run repo:hygiene
+          npm run test:concurrency-failure
+          node --test geelooy/apps/rebbe/test/*.test.mjs
+          node --test \
+            geelooy/heichelos/post/test/postReaderNodeDom.test.mjs \
+            geelooy/heichelos/post/test/torahReaderAuthority.test.mjs \
+            geelooy/heichelos/post/test/readerPreferenceLocalization.test.mjs \
+            geelooy/heichelos/post/test/initialContentSemanticVerses.test.mjs \
+            tests/livingLibraryShellContract.test.mjs \
+            tests/basicUiUxRegression.test.mjs
+          node --test \
+            geelooy/heichelos/heichel/modules/test/heichelDesktopCollapseContract.test.mjs \
+            geelooy/heichelos/heichel/modules/test/heichelSemanticFallbackPolicy.test.mjs \
+            geelooy/heichelos/heichel/modules/test/ikarBilingualPathRepair.test.mjs \
+            geelooy/heichelos/heichel/modules/test/ikarCardGeometryRegression.test.mjs \
+            geelooy/heichelos/heichel/modules/test/ikarTanachTitleRegistry.test.mjs \
+            geelooy/heichelos/heichel/modules/test/livingPathBlueprintContract.test.mjs \
+            tests/geelooy/ikarPerformanceContract.test.mjs \
+            tests/geelooy/ikarPremiumVisionContract.test.mjs
+
   deploy:
+    needs: quality
     runs-on: ubuntu-latest
     env:
       EXPECTED_SHA: ${{ github.sha }}

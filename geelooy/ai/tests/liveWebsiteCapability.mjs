@@ -38,7 +38,7 @@ function validate(value) {
 		&& value.mode === "chatgpt-website"
 		&& value.websiteOnly === true
 		&& value.submissionTransport === "chatgpt-website-composer"
-		&& value.completionTransport === "authenticated-conversation-get";
+		&& value.completionTransport === "durable-tools-after-submit";
 	if (!valid) throw new Error("Website-only capability contract failed.");
 	const serialized = JSON.stringify(value);
 	if (/Bearer\s|\bsk-[A-Za-z0-9_-]+|BH_DIRECT_|responseId|accessToken/i.test(serialized)) {

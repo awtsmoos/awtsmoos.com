@@ -1,8 +1,9 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
+//Blessed be He
 
 import { registerFlutterJniArrayHandlers } from "./flutterJniArrayHandlers.js";
+import { registerFlutterJniCallMethodHandlers } from "./flutterJniCallMethodHandlers.js";
 import { registerFlutterJniExceptionHandlers } from "./flutterJniExceptionHandlers.js";
 import { handleFlutterJniFindClass } from "./flutterJniFindClass.js";
 import { registerFlutterJniFieldIdHandlers } from "./flutterJniGetFieldId.js";
@@ -71,13 +72,17 @@ export function createFlutterJniImportHandlers(machineState) {
 		|| createNativeSystemConfiguration(runtimeState.nativeSystemConfigurationOptions);
 	registry.register("JNIInvokeInterface.GetEnv", context => handleFlutterJniGetEnv(context, runtimeState));
 	registry.register("JNINativeInterface.FindClass", context => handleFlutterJniFindClass(context, runtimeState));
-	registry.register("JNINativeInterface.RegisterNatives", context => handleFlutterJniRegisterNatives(context, runtimeState));
+	registry.register(
+		"JNINativeInterface.RegisterNatives",
+		context => handleFlutterJniRegisterNatives(context, runtimeState)
+	);
 	registerFlutterJniGetObjectClass(registry, runtimeState);
 	registerFlutterJniArrayHandlers(registry, runtimeState);
 	registerFlutterJniObjectArrayHandlers(registry, runtimeState);
 	registerFlutterJniStringHandlers(registry, runtimeState);
 	registerFlutterJniFieldIdHandlers(registry, runtimeState);
 	registerFlutterJniMethodIdHandlers(registry, runtimeState);
+	registerFlutterJniCallMethodHandlers(registry, runtimeState);
 	registerFlutterJniExceptionHandlers(registry, runtimeState);
 	registerFlutterJniReferenceHandlers(registry, runtimeState);
 	registerNativeAndroidHandlers(registry, runtimeState, errnoState);

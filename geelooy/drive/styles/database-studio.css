@@ -1,0 +1,102 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed be He */
+/**
+ * Primary Awtsmoos Database Studio layout.
+ * The database feels like a first-class Builder workspace while retaining the
+ * existing guarded project API and native HTML interaction semantics.
+ */
+
+.project-database-studio {
+	padding: clamp(16px, 2.4vw, 24px);
+	border-radius: 24px;
+	background:
+		radial-gradient(circle at 0 0, rgba(33, 120, 255, .1), transparent 34%),
+		var(--panel, #fff);
+	box-shadow: 0 18px 50px rgba(25, 35, 60, .08);
+}
+
+.project-data-identity-grid {
+	margin-top: 16px;
+}
+
+.project-data-meta {
+	display: inline-flex;
+	align-items: center;
+	min-height: 34px;
+	padding: 5px 10px;
+	border: 1px solid var(--border, #cad3df);
+	border-radius: 999px;
+	font-size: .76rem;
+	font-weight: 700;
+	opacity: .72;
+}
+
+.project-data-toolbar {
+	padding: 4px 0;
+}
+
+.project-data-toolbar .button {
+	min-height: 42px;
+}
+
+.project-data-field:has(input[type="search"]) {
+	margin: 10px 0 12px;
+}
+
+.project-data-workspace {
+	display: grid;
+	grid-template-columns: minmax(190px, 260px) minmax(0, 1fr);
+	min-height: 430px;
+	border: 1px solid var(--border, #cad3df);
+	border-radius: 18px;
+	overflow: hidden;
+	background: var(--input-bg, #fff);
+}
+
+.project-data-explorer {
+	min-width: 0;
+	padding: 10px;
+	border-right: 1px solid var(--border, #cad3df);
+	background: color-mix(in srgb, var(--panel, #fff) 92%, #6077ff 8%);
+}
+
+.project-data-documents {
+	display: grid;
+	gap: 6px;
+	align-content: start;
+}
+
+.project-data-document {
+	display: grid;
+	gap: 3px;
+	width: 100%;
+	min-height: 48px;
+	padding: 9px 10px;
+	border: 1px solid transparent;
+	border-radius: 11px;
+	background: transparent;
+	color: inherit;
+	text-align: left;
+	cursor: pointer;
+}
+
+.project-data-document:hover,
+.project-data-document:focus-visible {
+	border-color: var(--border, #cad3df);
+	background: var(--panel, #fff);
+}
+
+.project-data-document > span {
+	overflow: hidden;
+	font-size: .72rem;
+	opacity: .62;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.project-data-main {
+	min-width: 0;
+	display: grid;
+	grid-template-rows: auto 1fr;
+}

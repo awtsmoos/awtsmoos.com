@@ -5,10 +5,12 @@
 /**
  * @file AwtsmoosDriveTextureSemantics.js
  * @description Produces multi-category, multi-label, facet-rich semantic metadata for remote material discovery.
- * The Awtsmoos is One while a finite surface can truthfully serve geology, architecture, craft, ecology, and rendering together inside Awtsmoos.com.
+ * The Awtsmoos is One while a finite surface can truthfully serve geology, architecture, craft,
+ * ecology, and rendering together inside Awtsmoos.com without accidental substring classifications.
  */
 
 import { AWTSMOOS_MADE_TEXTURE_RULES } from './AwtsmoosDriveTextureSemanticRulesMade.js';
+import { semanticTextureRuleMatches, normalizeSemanticPhrase } from './AwtsmoosDriveTextureSemanticMatching.js';
 import { AWTSMOOS_NATURAL_TEXTURE_RULES } from './AwtsmoosDriveTextureSemanticRulesNatural.js';
 import { awtsmoosDriveTextureTraits } from './AwtsmoosDriveTextureSemanticTraits.js';
 
@@ -27,7 +29,7 @@ const STOPWORDS = new Set([
 /** Returns overlapping semantic metadata instead of forcing one exclusive folder. */
 export function classifyAwtsmoosDriveTextureSemantics(record = {}) {
 	const text = semanticText(record);
-	const matches = RULES.filter(entry => entry.keywords.some(keyword => text.includes(keyword)));
+	const matches = RULES.filter(entry => semanticTextureRuleMatches(text, entry));
 	const categories = unique(matches.flatMap(entry => entry.categories));
 	const subcategories = unique(matches.flatMap(entry => entry.subcategories));
 	const traits = awtsmoosDriveTextureTraits(text);
@@ -74,13 +76,12 @@ function primaryAddress(categories, subcategories) {
 }
 
 function semanticText(record) {
-	return [record.name, record.path, record.sourceDescription, ...(record.tags || [])]
-		.filter(Boolean)
-		.join(' ')
-		.toLowerCase()
-		.replace(/[^a-z0-9]+/g, ' ')
-		.replace(/\s+/g, ' ')
-		.trim();
+	return normalizeSemanticPhrase([
+		record.name,
+		record.path,
+		record.sourceDescription,
+		...(record.tags || [])
+	].filter(Boolean).join(' '));
 }
 
 function meaningfulTokens(text) {

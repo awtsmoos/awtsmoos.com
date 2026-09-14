@@ -1,0 +1,29 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed be He*/
+/**
+ * @file native-3d.css
+ * @description Layers optional native 3D Connect 4 pixels above the still-live
+ * authoritative Worker canvas without changing board sizing or pointer geometry.
+ */
+.connect4RenderStack {
+	display: grid;
+	place-items: stretch;
+	width: fit-content;
+	max-width: 100%;
+	margin-inline: auto;
+}
+
+.connect4RenderStack > canvas {
+	grid-area: 1 / 1;
+}
+
+.connect4Native3DCanvas {
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+}
+
+.connect4Native3DCanvas[hidden] {
+	display: none;
+}

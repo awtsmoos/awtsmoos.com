@@ -43,6 +43,8 @@ module.exports = Object.freeze([
 	"release/runtimeProbe.js",
 	"release/runtimeRequiredCore.js",
 	"release/runtimeRequiredFiles.js",
+	"release/runtimeRequiredBrowser.js",
+	"release/runtimeRequiredSubagents.js",
 	"release/runtimeRequiredRecovery.js",
 	"release/runtimeRequiredTransport.js",
 	"release/runtimeWorkerPaths.js",

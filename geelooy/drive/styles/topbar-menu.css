@@ -64,3 +64,12 @@ so the phone keeps breathing room while every ecosystem doorway remains keyboard
 .ecosystem-link:focus-visible {
 	background: var(--surface-soft);
 }
+
+.ecosystem-store-link {
+	width: 100%;
+	border: 0;
+	background: linear-gradient(135deg, rgba(94, 77, 235, .12), rgba(94, 77, 235, .04));
+	font: inherit;
+	text-align: left;
+	cursor: pointer;
+}

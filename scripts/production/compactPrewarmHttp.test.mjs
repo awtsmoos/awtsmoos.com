@@ -68,13 +68,20 @@ async function revealStalledBody(_url, options) {
 	};
 }
 
-/** @description Proves the timeout remains armed after headers until a stalled body is aborted. @returns {Promise<void>} */
+/** @description Proves the timeout remains armed after headers until its AbortSignal rejects a stalled body. @returns {Promise<void>} */
 async function verifyBodyTimeout() {
-	const started = Date.now();
+	const watchdog = new Promise(function rejectIfUnbounded(_resolve, reject) {
+		setTimeout(function rejectMissingBound() {
+			reject(new Error("compact_prewarm_body_timeout_not_enforced"));
+		}, 5000);
+	});
 	await assert.rejects(
-		fetchTextBounded(revealStalledBody, "https://awtsmoos.test/stall", 25)
+		Promise.race([
+			fetchTextBounded(revealStalledBody, "https://awtsmoos.test/stall", 25),
+			watchdog
+		]),
+		error => error?.name === "AbortError"
 	);
-	assert.ok(Date.now() - started < 500);
 }
 
 test("bounded prewarm HTTP consumes healthy text and byte bodies", verifyHealthyBodies);

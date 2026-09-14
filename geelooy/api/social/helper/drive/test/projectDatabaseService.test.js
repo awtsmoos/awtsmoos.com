@@ -33,6 +33,16 @@ test('list results are bounded and owner scoped', async () => {
 	assert.match(calls[0][1], /^\/_projects\/owner-[a-f0-9]{24}\/site$/);
 });
 
+
+test('later key pages preserve server continuation evidence', async () => {
+	const { $i } = fakeContext();
+	const result = await service.listProjectKeys({ $i, aliasId: 'alpha', projectId: 'site', limit: 3, offset: 3 });
+	assert.deepEqual(result.keys, ['k3', 'k4', 'k5']);
+	assert.equal(result.offset, 3);
+	assert.equal(result.previousOffset, 0);
+	assert.equal(result.nextOffset, 6);
+	assert.equal(result.truncated, true);
+});
 test('set and delete operate on a named safe key only', async () => {
 	const { calls, $i } = fakeContext();
 	await service.setProjectKey({ $i, aliasId: 'alpha', projectId: 'site', path: 'profiles', key: 'me', value: { name: 'A' } });

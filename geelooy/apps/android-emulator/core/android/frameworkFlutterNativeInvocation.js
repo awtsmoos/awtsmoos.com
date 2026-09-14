@@ -1,29 +1,33 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
+//Blessed be He
 
 import { createAarch64Registers } from "../native/aarch64Registers.js";
-import { runAarch64MachineWithImports } from "../native/aarch64MachineWithImports.js";
 import { jniGuestThreadKey } from "../native/jniGuestThreadKey.js";
 import { placeFlutterNativeArguments } from "./frameworkFlutterNativeArguments.js";
-import { createFrameworkFlutterNativeCheckpointObserver } from "./frameworkFlutterNativeCheckpoint.js";
+import { completeFrameworkFlutterNativeInvocation } from "./frameworkFlutterNativeCompletion.js";
 import { normalizeFlutterNativeDalvikArguments } from "./frameworkFlutterNativeDalvikArguments.js";
 import { parseFlutterNativeDescriptor } from "./frameworkFlutterNativeDescriptors.js";
-import {
-	createFlutterNativeBoundaryError,
-	createFlutterNativeInvocationEvidence,
-	preserveFlutterNativeEvidence
-} from "./frameworkFlutterNativeEvidence.js";
+import { runFrameworkFlutterNativeMachine } from "./frameworkFlutterNativeMachineRunner.js";
+import { createFrameworkFlutterNativeCallMachineOptions } from "./frameworkFlutterNativeCallMachineOptions.js";
 import { isFlutterNativeStaticRecord } from "./frameworkFlutterNativeMethodMetadata.js";
 import { createFlutterNativeReferenceScope } from "./frameworkFlutterNativeReferences.js";
-import { convertFlutterNativeReturn } from "./frameworkFlutterNativeReturns.js";
 
 /**
- * Executes one registered FlutterJNI method on persistent engine memory.
- * The Awtsmoos renews CPU, receiver, pthread-local references, and return shore;
- * Awtsmoos.com preserves engine memory while every Java-to-native local belongs evermore.
+ * Executes one registered FlutterJNI method on persistent ARM64 engine state.
+ * The Awtsmoos renews CPU, receiver, JNI locals, nested Java re-entry, and return;
+ * Awtsmoos.com stays synchronous until an authentic native-to-Java call must await.
+ *
+ * @returns {object|Promise<object>} Native evidence and Java-visible result.
  */
-export function invokeFrameworkFlutterNative(runtime, session, record, args, binding) {
+export function invokeFrameworkFlutterNative(
+	runtime,
+	session,
+	record,
+	args,
+	binding,
+	javaContext
+) {
 	const descriptor = parseFlutterNativeDescriptor(record.method.descriptor);
 	const staticMethod = isFlutterNativeStaticRecord(record);
 	const threadKey = jniGuestThreadKey({
@@ -38,7 +42,10 @@ export function invokeFrameworkFlutterNative(runtime, session, record, args, bin
 		? scope.marshalClass(record.method.classType)
 		: scope.marshal(args[0], record.method.classType);
 	const rawValues = staticMethod ? args : args.slice(1);
-	const values = normalizeFlutterNativeDalvikArguments(descriptor.parameters, rawValues);
+	const values = normalizeFlutterNativeDalvikArguments(
+		descriptor.parameters,
+		rawValues
+	);
 	const address = bindingAddress(binding);
 	const registers = createAarch64Registers({
 		programCounter: address,
@@ -58,44 +65,37 @@ export function invokeFrameworkFlutterNative(runtime, session, record, args, bin
 		values
 	});
 	const callNumber = session.nextCallNumber();
-	const report = runAarch64MachineWithImports({
-		checkpointInstructionLimit: runtime.nativeMachineCheckpointInstructions,
-		hostCallLimit: 131072,
-		hostImports: session.hostImports,
-		imports: session.imports,
-		instructionLimit: 60000000,
-		memory: session.state.memory,
-		onCheckpoint: createFrameworkFlutterNativeCheckpointObserver(
-			runtime,
-			callNumber,
-			record,
-			address
-		),
-		registers,
-		returnAddress: session.state.returnAddress,
-		systemRegisters: session.state.systemRegisters,
-		traceLimit: 16384
-	});
-	const runtimeSnapshot = typeof session.snapshot === "function"
-		? session.snapshot()
-		: null;
-	const evidence = createFlutterNativeInvocationEvidence(
-		callNumber,
+	const machine = createFrameworkFlutterNativeCallMachineOptions(
+		runtime,
+		session,
 		record,
+		callNumber,
 		address,
-		placement,
-		report,
-		runtimeSnapshot,
-		scope
+		registers
 	);
-	preserveFlutterNativeEvidence(runtime, evidence);
-	if (report.reason !== "return") {
-		throw createFlutterNativeBoundaryError(evidence, report);
-	}
-	return Object.freeze({
-		evidence,
-		value: convertFlutterNativeReturn(descriptor.returnType, registers, scope)
+	const report = runFrameworkFlutterNativeMachine({
+		javaContext,
+		machine,
+		referenceScope: scope,
+		runtime,
+		session
 	});
+	const complete = completedReport => completeFrameworkFlutterNativeInvocation({
+		address,
+		callNumber,
+		placement,
+		record,
+		registers,
+		report: completedReport,
+		returnType: descriptor.returnType,
+		runtime,
+		scope,
+		session
+	});
+	if (report && typeof report.then === "function") {
+		return report.then(complete);
+	}
+	return complete(report);
 }
 
 function bindingAddress(binding) {

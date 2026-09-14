@@ -1,4 +1,6 @@
-// B"H
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 import assert from "node:assert/strict";
 import test from "node:test";
@@ -6,7 +8,8 @@ import { ChatGptTargetSelector } from "./ChatGptTargetSelector.mjs";
 
 const AGENT_URL = "https://chatgpt.com/g/g-6a03feea8398819192067ae3dbfa449c-awtsmoos-shliach-agent";
 
-test("forceNewTarget never borrows an existing ChatGPT tab", async () => {
+/** Strict owned turns snapshot browser identity but never reuse the sentinel. */
+test("forceNewTarget creates one owned target without borrowing Shliach", async () => {
 	let listed = 0;
 	let created = 0;
 	const selector = new ChatGptTargetSelector({
@@ -38,7 +41,7 @@ test("forceNewTarget never borrows an existing ChatGPT tab", async () => {
 		}
 	});
 	const result = await selector.acquire({ forceNewTarget: true });
-	assert.equal(listed, 0);
+	assert.equal(listed, 1);
 	assert.equal(created, 1);
 	assert.equal(result.owned, true);
 	assert.equal(result.source, "created-owned-turn");

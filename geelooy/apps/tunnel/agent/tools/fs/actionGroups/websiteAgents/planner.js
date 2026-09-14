@@ -1,17 +1,16 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 const Policy = require("./plannerPolicy.js");
 const Scopes = require("./plannerScopes.js");
 const Target = require("./plannerTarget.js");
 
 /**
- * @file Plans optional unbounded logical fan-out above one strictly paced physical browser.
+ * @file Plans logical website-agent work above one strictly paced physical Shliach browser.
  * @description
- * The Awtsmoos may reveal as many helpful shluchim as the work asks for; Awtsmoos.com
- * imposes no arbitrary descendant count. Pressure may delay activation, while one durable
- * twenty-second clock and one verified-close browser lane prevent physical stampedes.
+ * The Awtsmoos separates durable mission identity from disposable browser sessions. Awtsmoos.com
+ * preserves dispatcher session testimony in the plan while pressure and verified close govern Chrome.
  */
 function plan(config = {}, input = {}) {
 	const projectRoot = Scopes.canonicalProjectRoot(input.projectRoot || config.root || process.cwd());
@@ -22,12 +21,20 @@ function plan(config = {}, input = {}) {
 	const startSpacingMs = Math.max(20000, Policy.spacing(input.startSpacingMs));
 	const subagentStartSpacingMs = Math.max(20000, Policy.spacing(input.subagentStartSpacingMs, startSpacingMs));
 	return {
-		projectRoot, agentStartUrl: target.url, customGptName: target.name,
-		requestedCount: input.agentCount ?? input.count ?? null, agentCount: count,
-		minimumAgentCount: Policy.minimumAgentCount(input), continuationOnly: Policy.continuationOnly(input),
+		projectRoot,
+		agentStartUrl: target.url,
+		customGptName: target.name,
+		dispatcherSession: dispatcherSession(input),
+		requestedCount: input.agentCount ?? input.count ?? null,
+		agentCount: count,
+		minimumAgentCount: Policy.minimumAgentCount(input),
+		continuationOnly: Policy.continuationOnly(input),
 		fanOutTier: scale,
-		physicalTabPolicy: { maxActiveTabs: 1, intervalAnchor: "verified-tab-close",
-			postCloseCooldownMs: Policy.POST_CLOSE_COOLDOWN_MS },
+		physicalTabPolicy: {
+			maxActiveTabs: 1,
+			intervalAnchor: "verified-tab-close",
+			postCloseCooldownMs: Policy.POST_CLOSE_COOLDOWN_MS
+		},
 		subagentPolicy: {
 			mode: "optional-unbounded-spaced",
 			topology: "sponsor-lineage-flat-runtime",
@@ -46,12 +53,23 @@ function plan(config = {}, input = {}) {
 			hardPressureWakeMs: Policy.bounded(input.hardPressureWakeMs, 3000, 3000, 60000),
 			panicPressureWakeMs: Policy.bounded(input.panicPressureWakeMs, 5000, 5000, 60000),
 			recursiveFanOut: "optional-unbounded-logical-fan-out-with-stable-sponsor-keys",
-			handoffRequired: true, roomUpdates: ["plan", "progress", "handoff", "completion"]
+			handoffRequired: true,
+			roomUpdates: ["plan", "progress", "handoff", "completion"]
 		},
-		startSpacingMs, collaborationRounds: Policy.bounded(input.collaborationRounds, 2, 1, 8),
+		startSpacingMs,
+		collaborationRounds: Policy.bounded(input.collaborationRounds, 2, 1, 8),
 		maxContinuationTurns: Policy.bounded(input.maxContinuationTurns, 6, 1, 12),
 		authPollMs: Policy.bounded(input.authPollMs, 3000, 1000, 30000),
 		agents: createAgents(count, scopes, projectRoot)
+	};
+}
+
+function dispatcherSession(input = {}) {
+	if (!input.agentSessionId && !input.dispatcherAutonomous) return null;
+	return {
+		agentSessionId: String(input.agentSessionId || ""),
+		replacementOf: String(input.replacementOf || ""),
+		autonomous: input.dispatcherAutonomous === true || input.dispatcherAutonomous === "true"
 	};
 }
 
@@ -61,14 +79,31 @@ function createAgents(count, scopes, projectRoot) {
 		const [role, focus, claimMode] = Policy.ROLES[index % Policy.ROLES.length];
 		const ordinal = String(index + 1).padStart(width, "0");
 		const scope = scopes[index % scopes.length];
-		return { id: `website_${ordinal}_${role}`, name: `Website ${capitalize(role)} ${ordinal}`,
-			role, focus, claimMode, scope, absoluteScope: Scopes.absoluteScope(projectRoot, scope), ordinal: index + 1 };
+		return {
+			id: `website_${ordinal}_${role}`,
+			name: `Website ${capitalize(role)} ${ordinal}`,
+			role,
+			focus,
+			claimMode,
+			scope,
+			absoluteScope: Scopes.absoluteScope(projectRoot, scope),
+			ordinal: index + 1
+		};
 	});
 }
 
-function capitalize(value) { return value.charAt(0).toUpperCase() + value.slice(1); }
+function capitalize(value) {
+	return value.charAt(0).toUpperCase() + value.slice(1);
+}
 
-module.exports = { AWTSMOOS_SHLIACH_NAME: Target.AWTSMOOS_SHLIACH_NAME,
-	AWTSMOOS_SHLIACH_URL: Target.AWTSMOOS_SHLIACH_URL, ROLES: Policy.ROLES,
-	agentCount: Policy.agentCount, customGptTarget: Target.customGptTarget, plan,
-	promptScale: Policy.promptScale, scopeCandidates: Scopes.scopeCandidates };
+module.exports = {
+	AWTSMOOS_SHLIACH_NAME: Target.AWTSMOOS_SHLIACH_NAME,
+	AWTSMOOS_SHLIACH_URL: Target.AWTSMOOS_SHLIACH_URL,
+	ROLES: Policy.ROLES,
+	agentCount: Policy.agentCount,
+	customGptTarget: Target.customGptTarget,
+	dispatcherSession,
+	plan,
+	promptScale: Policy.promptScale,
+	scopeCandidates: Scopes.scopeCandidates
+};

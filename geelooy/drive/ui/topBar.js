@@ -4,9 +4,9 @@
 
 import {
 	actionButton,
-	createElement,
-	ecosystemLink
+	createElement
 } from "./dom.js";
+import { createEcosystemMenu } from "./ecosystemMenu.js";
 
 /**
  * @file Mobile-first Keser crown for Geelooy Sites.
@@ -84,32 +84,13 @@ function createLocationForm(pathInput, actions) {
 function createBrand() {
 	return createElement("a", {
 		className: "brand",
-		attributes: { href: "/geelooy/drive/", "aria-label": "Geelooy Sites builder home" },
+		attributes: { href: "/drive/", "aria-label": "Geelooy Sites builder home" },
 		children: [
 			createElement("span", { className: "brand-mark", text: "א" }),
 			createElement("span", { className: "brand-copy", children: [
 				createElement("strong", { text: "Geelooy Sites" }),
 				createElement("small", { text: "Build · preview · code · publish" })
 			] })
-		]
-	});
-}
-
-function createEcosystemMenu() {
-	return createElement("details", {
-		className: "ecosystem-menu",
-		children: [
-			createElement("summary", { text: "More" }),
-			createElement("nav", {
-				className: "ecosystem-links",
-				attributes: { "aria-label": "Awtsmoos ecosystem" },
-				children: [
-					ecosystemLink("OS", "/os"),
-					ecosystemLink("Code", "/apps/code"),
-					ecosystemLink("Tunnel", "/apps/tunnel-control/"),
-					ecosystemLink("Social", "/geelooy/node-os/")
-				]
-			})
 		]
 	});
 }

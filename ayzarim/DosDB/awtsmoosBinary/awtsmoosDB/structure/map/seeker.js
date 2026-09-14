@@ -1,68 +1,75 @@
+//B"H
+//Boruch Hashem
+//Blessed be He
 
-// B"H
 /**
- * @file seeker.js
- * @description Navigates B-Tree levels within physical blocks.
+ * @module AwtsmoosBTreeExactSeeker
+ * @description
+ * Resolves one exact map key by reading only the physical B-tree nodes on its
+ * root-to-leaf path. Each persisted node is decoded independently and its sorted
+ * separator keys are binary-searched, so database size never becomes request RAM
+ * and unrelated branches never enter memory or storage I/O.
  */
 
 const Scribe = require('../../utils/leb128/scribe.js');
 const Pointer = require('../../utils/pointer/crown.js');
 const constants = require('../../constants.js');
+const Search = require('./ops/search.js');
 
-class MapSeeker {
-    /**
-     * @method get
-     * @description Descends the B-Tree based on sorted binary keys.
-     */
-    static get(db, ptr, key) {
-        let currentPtr = ptr;
-        const target = Buffer.from(String(key), 'utf8');
-
-        while (currentPtr && currentPtr.offset !== undefined) {
-            const buf = db.pager.readExact(currentPtr.offset, currentPtr.length);
-            if (!buf || buf.length < 5) return null;
-
-            if (buf.subarray(0, 4).toString() !== constants.MAGIC_MAP) return null;
-
-            const isLeaf = buf[4] === 1;
-            const countRes = Scribe.read(buf, 5);
-            let pos = 5 + countRes.bytesRead;
-
-            const keys = [];
-            const ptrBufs = [];
-
-            for (let i = 0; i < countRes.value; i++) {
-                if (pos >= buf.length) break;
-                const kLenRes = Scribe.read(buf, pos); pos += kLenRes.bytesRead;
-                keys.push(buf.subarray(pos, pos + kLenRes.value)); pos += kLenRes.value;
-                const vDec = Pointer.decode(buf, pos);
-                if (!vDec) break;
-                ptrBufs.push(buf.subarray(pos, pos + vDec.byteSize));
-                pos += vDec.byteSize;
-            }
-
-            if (!isLeaf && pos < buf.length) {
-                const lastDec = Pointer.decode(buf, pos);
-                if (lastDec) ptrBufs.push(buf.subarray(pos, pos + lastDec.byteSize));
-            }
-
-            let foundIdx = -1;
-            let nextChildIdx = 0;
-            for (let i = 0; i < keys.length; i++) {
-                const cmp = target.compare(keys[i]);
-                if (cmp === 0) { foundIdx = i; nextChildIdx = i + 1; break; }
-                else if (target.compare(keys[i]) < 0) { nextChildIdx = i; break; }
-                nextChildIdx = i + 1;
-            }
-
-            if (isLeaf) return foundIdx !== -1 ? ptrBufs[foundIdx] : null;
-            else {
-                if (nextChildIdx < ptrBufs.length) currentPtr = Pointer.decode(ptrBufs[nextChildIdx]);
-                else return null;
-            }
-        }
-        return null;
-    }
+/** Decodes the bounded keys and pointer seals contained in one physical map node. */
+function decodeNode(buffer) {
+	if (!buffer || buffer.length < 5) return null;
+	if (buffer.subarray(0, 4).toString() !== constants.MAGIC_MAP) return null;
+	const isLeaf = buffer[4] === 1;
+	const count = Scribe.read(buffer, 5);
+	let position = 5 + count.bytesRead;
+	const keys = [];
+	const pointers = [];
+	for (let index = 0; index < count.value; index += 1) {
+		const keyLength = Scribe.read(buffer, position);
+		position += keyLength.bytesRead;
+		keys.push(buffer.subarray(position, position + keyLength.value));
+		position += keyLength.value;
+		const pointer = Pointer.decode(buffer, position);
+		if (!pointer) return null;
+		pointers.push(buffer.subarray(position, position + pointer.byteSize));
+		position += pointer.byteSize;
+	}
+	if (!isLeaf && position < buffer.length) {
+		const pointer = Pointer.decode(buffer, position);
+		if (pointer) pointers.push(buffer.subarray(position, position + pointer.byteSize));
+	}
+	return { isLeaf, keys, pointers };
+}
+/** Chooses the child pointer whose persisted interval can contain the target. */
+function childPointer(node, search) {
+	const index = search.found ? search.index + 1 : search.index;
+	return index < node.pointers.length ? Pointer.decode(node.pointers[index]) : null;
 }
 
-module.exports = MapSeeker;
+/**
+ * Descends the persisted B-tree to find one exact key.
+ * @param {object} database Open AwtsmoosDB instance.
+ * @param {{offset:number,length:number}} rootPointer Physical map root pointer.
+ * @param {string|Buffer} key Exact map key.
+ * @returns {Buffer|null} Persisted value pointer seal, or null when absent.
+ */
+function get(database, rootPointer, key) {
+	let currentPointer = rootPointer;
+	const target = Buffer.isBuffer(key) ? key : Buffer.from(String(key), 'utf8');
+	while (currentPointer && currentPointer.offset !== undefined) {
+		const raw = database.pager.readExact(currentPointer.offset, currentPointer.length);
+		const node = decodeNode(raw);
+		if (!node) return null;
+		const search = Search.findKey(node, target);
+		if (node.isLeaf) {
+			return search.found ? node.pointers[search.index] : null;
+		}
+		currentPointer = childPointer(node, search);
+	}
+	return null;
+}
+
+module.exports = { get };
+module.exports.decodeNode = decodeNode;
+module.exports.childPointer = childPointer;

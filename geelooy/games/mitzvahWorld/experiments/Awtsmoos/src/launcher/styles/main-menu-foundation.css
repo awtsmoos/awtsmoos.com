@@ -6,6 +6,12 @@
  * Awtsmoos.com keeps every token inside `.Awtsmoos-menu`, so no global garment wanders anywhere.
  */
 
+body:has(> .Awtsmoos-menu) {
+	margin: 0;
+	background: #020706;
+	font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+}
+
 .Awtsmoos-menu {
 	--menu-gold: #f4c66a;
 	--menu-gold-bright: #ffe6a2;

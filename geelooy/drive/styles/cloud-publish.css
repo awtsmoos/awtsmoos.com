@@ -1,0 +1,84 @@
+/*B"H
+Boruch Hashem
+Blessed be He
+*/
+
+.cloud-publish-card {
+	display: grid;
+	gap: 14px;
+	padding: 20px;
+	border: 1px solid color-mix(in srgb, var(--accent, #5b4ff7) 34%, var(--line));
+	border-radius: 20px;
+	background: linear-gradient(135deg, color-mix(in srgb, var(--accent, #5b4ff7) 8%, var(--panel)), var(--panel));
+}
+
+.cloud-publish-card h3,
+.cloud-publish-card p {
+	margin: 0;
+}
+
+.cloud-publish-card > p,
+.cloud-publish-card small,
+.cloud-publish-status {
+	color: var(--muted);
+}
+
+.cloud-publish-grid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 10px;
+}
+
+.cloud-publish-field {
+	display: grid;
+	gap: 6px;
+	font-size: .78rem;
+	font-weight: 800;
+}
+
+.cloud-publish-input {
+	width: 100%;
+	min-height: 44px;
+	padding: 0 12px;
+	border: 1px solid var(--line);
+	border-radius: 12px;
+	background: var(--panel);
+	color: inherit;
+	font: inherit;
+}
+
+.cloud-publish-actions {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 9px;
+}
+
+.cloud-publish-live {
+	min-height: 44px;
+	display: inline-flex;
+	align-items: center;
+	font-weight: 850;
+}
+
+.cloud-publish-status {
+	min-height: 1.4em;
+	font-size: .9rem;
+}
+
+@media (max-width: 760px) {
+	.cloud-publish-grid {
+		grid-template-columns: 1fr;
+	}
+}
+
+.cloud-publish-growth {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 9px;
+}
+
+.cloud-publish-growth[hidden] {
+	display: none;
+}

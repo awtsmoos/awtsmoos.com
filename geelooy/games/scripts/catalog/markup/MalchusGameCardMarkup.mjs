@@ -1,31 +1,35 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed be He
 /**
  * @file MalchusGameCardMarkup.mjs
- * @description Manifests one quiet playable card from escaped data, finite palette, and proven optional capability fragments.
- * The Awtsmoos is beyond every card while Malchus gives one world a clear doorway, title, hook, and play;
- * Awtsmoos.com keeps advanced mode and commerce beneath the primary action so discovery never becomes a cluttered display.
+ * @description
+ * Manifests one quiet playable card from escaped catalog truth and exposes the
+ * canonical game id so shared Wallet merchandising can hydrate after rendering.
+ * The Awtsmoos is beyond every card; Awtsmoos.com lets Malchus reveal one clear
+ * doorway where free play remains primary and commerce remains truthful metadata.
  */
-import { renderHodNativeCapabilityMarkup } from './HodCapabilityMarkup.mjs';
-import { renderHodLiveCommerceMarkup } from './HodCommerceMarkup.mjs';
-import { escapeHodHtml } from './HodHtmlEscaper.mjs';
-import { resolveHodCatalogPaletteClass } from './HodCatalogPalette.mjs';
+
+import { renderHodNativeCapabilityMarkup } from "./HodCapabilityMarkup.mjs";
+import { renderHodLiveCommerceMarkup } from "./HodCommerceMarkup.mjs";
+import { escapeHodHtml } from "./HodHtmlEscaper.mjs";
+import { resolveHodCatalogPaletteClass } from "./HodCatalogPalette.mjs";
 
 /**
- * Renders one catalog card while leaving all visual styling in localized CSS classes.
+ * Renders one semantic game card with explicit identity for shared commerce hydration.
  *
  * @param {object} chochmahGameRecord Complete marketed game record.
- * @returns {string} Escaped semantic card markup with no inline style or handler attributes.
+ * @returns {string} Escaped semantic card markup without inline handlers or prices.
  */
 export function renderMalchusGameCardMarkup(chochmahGameRecord) {
-	const hodFeaturedClass = chochmahGameRecord.featured ? ' gameCard--featured' : '';
+	const hodFeaturedClass = chochmahGameRecord.featured ? " gameCard--featured" : "";
 	const hodPaletteClass = resolveHodCatalogPaletteClass(chochmahGameRecord.hue);
 	const hodBadgeMarkup = renderHodBadge(chochmahGameRecord);
-	const hodPrimaryLabel = escapeHodHtml(chochmahGameRecord.primaryActionLabel || 'Play Solo');
+	const hodPrimaryLabel = escapeHodHtml(chochmahGameRecord.primaryActionLabel || "Play Solo");
+	const yesodGameId = escapeHodHtml(chochmahGameRecord.id);
 
 	return `
-		<article class="gameCard${hodFeaturedClass} ${hodPaletteClass}">
+		<article class="gameCard${hodFeaturedClass} ${hodPaletteClass}" data-game-id="${yesodGameId}">
 			<span class="gameAura" aria-hidden="true"></span>
 			<header class="gameCard__header">
 				<span class="gameIcon" aria-hidden="true">${escapeHodHtml(chochmahGameRecord.icon)}</span>
@@ -49,14 +53,13 @@ export function renderMalchusGameCardMarkup(chochmahGameRecord) {
 function renderHodBadge(chochmahGameRecord) {
 	return chochmahGameRecord.badge
 		? `<span class="gameBadge">${escapeHodHtml(chochmahGameRecord.badge)}</span>`
-		: '';
+		: "";
 }
 
 /** @param {object} chochmahGameRecord Game record. @returns {string} Optional Party Challenge action. */
 function renderHodPartyAction(chochmahGameRecord) {
 	if (!chochmahGameRecord.partyHref) {
-		return '';
+		return "";
 	}
-
 	return `<a class="partyCta" href="${escapeHodHtml(chochmahGameRecord.partyHref)}">Party Challenge</a>`;
 }

@@ -6,6 +6,7 @@ import { readNativeGlesArgument, readNativeGlesSigned32 } from "./nativeGlesArgu
 import { finishNativeGlesVoid, nativeGlesThreadValue } from "./nativeGlesHandlerSupport.js";
 import { readNativeGlesFloat32Pointer, readNativeGlesInt32Pointer } from "./nativeGlesParameterPointer.js";
 import { validateNativeGlesTextureParameterValue } from "./nativeGlesTextureParameterValidation.js";
+import { getNativeGlesTextureParameterState } from "./nativeGlesTextureParameterState.js";
 import { isNativeGlesScalarTextureParameter, isNativeGlesTextureStorage2dTarget } from "./nativeGlesTextureParameterValues.js";
 
 /**
@@ -61,6 +62,13 @@ function textureParameter(context, state, values) {
 	}
 	const bound = state.bound(values.target, thread);
 	if (!bound.success) return finish(context, "texture-parameter", false, values);
+	getNativeGlesTextureParameterState(state).set(
+		bound.context,
+		bound.handle,
+		values.target,
+		values.pname,
+		values.value
+	);
 	state.record(bound.context, "texture-parameter", { ...values, texture: bound.handle });
 	return finish(context, "texture-parameter", true, values);
 }

@@ -17,6 +17,7 @@ The Awtsmoos makes each guarded alias a vessel for files, projects, living websi
 	<link rel="stylesheet" href="./styles/projects.css">
 	<link rel="stylesheet" href="./styles/project-platform.css">
 	<link rel="stylesheet" href="./styles/project-platform-responsive.css">
+	<link rel="stylesheet" href="./styles/job-control.css">
 	<link rel="stylesheet" href="./styles/project-settings.css">
 	<link rel="stylesheet" href="./styles/project-dns-settings.css">
 	<link rel="stylesheet" href="./styles/site-builder.css">
@@ -48,6 +49,13 @@ The Awtsmoos makes each guarded alias a vessel for files, projects, living websi
 		</section>
 		<section id="site-builder-root" class="panel site-builder-root" aria-label="Website Maker" aria-live="polite"></section>
 		<section id="project-platform" class="panel project-platform" aria-label="Project control plane" aria-live="polite"></section>
+		<section id="job-control" class="panel job-control" aria-label="Deferred work mission control">
+			<div class="panel-heading"><div><p class="kicker">Deferred work</p><h2>Mission Control</h2></div><span id="job-health-badge" class="badge">Connect an alias</span></div>
+			<p id="job-summary">Queue health and owner controls appear after you connect.</p>
+			<div class="job-metrics"><span>Active<strong id="job-active">—</strong></span><span>Queued<strong id="job-queued">—</strong></span><span>Running<strong id="job-running">—</strong></span><span>Oldest ready<strong id="job-oldest">—</strong></span></div>
+			<div class="job-actions"><button id="job-refresh" type="button">Refresh jobs</button><label>Exact job ID<input id="job-id" placeholder="job-…" spellcheck="false"></label><button id="job-inspect" type="button">Inspect</button><button id="job-retry" type="button">Retry dead/cancelled</button></div>
+			<div class="table-scroll"><table><thead><tr><th>Type</th><th>Queue</th><th>Status</th><th>Subject</th><th>Available</th><th>Actions</th></tr></thead><tbody id="job-rows"><tr><td colspan="6">Connect an alias to load jobs.</td></tr></tbody></table></div>
+		</section>
 		<section class="panel toolbar" aria-label="Drive controls">
 			<div class="panel-heading"><p class="kicker">Workspace</p><h2>Browse and upload</h2></div>
 			<form id="filter-form" class="filter-grid"><label>Folder<input id="current-path" name="path" placeholder="root"></label><label>Search<input id="search" name="search" type="search"></label><label>Type<select id="type-filter"><option value="">All</option><option>file</option><option>folder</option></select></label><label>Visibility<select id="visibility-filter"><option value="">All</option><option>public</option><option>private</option></select></label><label>Sort<select id="sort"><option value="path">Path</option><option value="updatedAt">Updated</option><option value="size">Size</option></select></label><label>Direction<select id="direction"><option value="asc">Ascending</option><option value="desc">Descending</option></select></label><label class="checkbox-label"><input id="include-trash" type="checkbox"> Include trash</label><button type="submit">Apply filters</button></form>

@@ -7,6 +7,8 @@ const { buildWalletView } = require("../ledger.js");
 const { findEntitlement } = require("./entitlement.js");
 const { findCommerceReceipt } = require("./receipt.js");
 const { commitPurchase } = require("./purchaseCommit.js");
+const { commitCreditPackPurchase } = require("./purchaseCreditCommit.js");
+const { ensureProductCredit } = require("./productCredits.js");
 const { debitForSku } = require("./purchaseDebit.js");
 
 /**
@@ -21,14 +23,29 @@ const { debitForSku } = require("./purchaseDebit.js");
 function purchaseInsideTransaction(database, userId, sku, idempotencyKey) {
 	const wallet = ensureWallet(database, userId);
 	const priorReceipt = findCommerceReceipt(database, userId, idempotencyKey);
-	if (priorReceipt) {
+	if (priorReceipt && priorReceipt.skuId !== sku.id) {
 		return {
+			ok: false,
+			error: "idempotency_conflict",
+			priorSkuId: priorReceipt.skuId
+		};
+	}
+	if (priorReceipt) {
+		const result = {
 			ok: true,
 			deduplicated: true,
 			receipt: priorReceipt,
-			entitlement: findEntitlement(database, userId, sku),
 			wallet: buildWalletView(database, userId)
 		};
+		if (sku.kind === "consumable_credit_pack") {
+			result.productCredit = { ...ensureProductCredit(database, userId, sku.productId) };
+		} else {
+			result.entitlement = findEntitlement(database, userId, sku);
+		}
+		return result;
+	}
+	if (sku.kind === "consumable_credit_pack") {
+		return commitCreditPackPurchase(database, userId, sku, idempotencyKey, wallet);
 	}
 	const existingEntitlement = findEntitlement(database, userId, sku);
 	if (existingEntitlement) {

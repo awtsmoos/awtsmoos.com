@@ -39,7 +39,33 @@ export function manifestWorld(navigator, mountPoint = document.body) {
 	);
 	const target = mountPoint.querySelector('.main')
 		|| mountPoint;
-	target.replaceChildren(rootVessel);
+	const fallback = target.querySelector('[data-heichel-semantic-fallback]');
+	if (!fallback) {
+		target.replaceChildren(rootVessel);
+		return rootVessel;
+	}
+	rootVessel.hidden = true;
+	rootVessel.inert = true;
+	rootVessel.setAttribute('aria-hidden', 'true');
+	rootVessel.dataset.heichelClientShell = 'loading';
+	target.append(rootVessel);
+	return rootVessel;
+}
+
+/** Reveals hydrated interaction only after required Heichel data is trustworthy. */
+export function revealManifestedWorld(mountPoint = document) {
+	const fallback = mountPoint.querySelector('[data-heichel-semantic-fallback]');
+	const rootVessel = mountPoint.querySelector('[data-heichel-client-shell]');
+	if (!rootVessel) return;
+	if (fallback) {
+		fallback.hidden = true;
+		fallback.inert = true;
+		fallback.setAttribute('aria-hidden', 'true');
+	}
+	rootVessel.hidden = false;
+	rootVessel.inert = false;
+	rootVessel.setAttribute('aria-hidden', 'false');
+	rootVessel.dataset.heichelClientShell = 'ready';
 }
 
 export function renderHeichelWorldState(state) {

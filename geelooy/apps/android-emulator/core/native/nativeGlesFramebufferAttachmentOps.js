@@ -18,6 +18,17 @@ export function attachNativeGlesFramebufferTexture(runtimeState, domain, context
 	return true;
 }
 
+/** Stores one layered texture attachment record for GLES3 3D/array targets. */
+export function attachNativeGlesFramebufferTextureLayer(runtimeState, domain, contexts, target, attachment, texture, level, layer, thread) {
+	const query = preparedFramebuffer(domain, contexts, target, attachment, thread);
+	if (!query.valid) return false;
+	if (Number(level) < 0 || Number(layer) < 0) return fail(domain, query.thread, "invalidValue");
+	if (Number(texture) === 0) query.framebuffer.attachments.delete(Number(attachment));
+	else query.framebuffer.attachments.set(Number(attachment), Object.freeze({ handle: Number(texture), kind: "texture", layer: Number(layer), level: Number(level), samples: 0, target: 0 }));
+	traceNativeGlesFramebuffer(runtimeState, query.context, "framebuffer-texture-layer", { attachment: Number(attachment), framebuffer: query.framebuffer.handle, layer: Number(layer), level: Number(level), target: Number(target), texture: Number(texture) });
+	return true;
+}
+
 /** Stores one validated renderbuffer attachment reference on the selected framebuffer. */
 export function attachNativeGlesFramebufferRenderbuffer(runtimeState, domain, contexts, renderbuffers, target, attachment, renderbufferTarget, renderbuffer, thread) {
 	const query = preparedFramebuffer(domain, contexts, target, attachment, thread);

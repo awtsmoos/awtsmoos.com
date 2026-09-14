@@ -4,6 +4,7 @@
 
 import { PRIMARY_APPS } from "./appCatalogPrimary.js";
 import { SECONDARY_APPS } from "./appCatalogSecondary.js";
+import { publicProductApps } from "./appCatalogPublicProducts.js";
 
 /**
  * Composes every public Geelooy application identity in stable launcher order.
@@ -17,9 +18,16 @@ export const APP_CATEGORIES = Object.freeze([
 	Object.freeze({ id: "system", title: "System" })
 ]);
 
-export const APP_CATALOG = Object.freeze([
+const NATIVE_APPS = Object.freeze([
 	...PRIMARY_APPS,
 	...SECONDARY_APPS
+]);
+
+const NATIVE_IDS = new Set(NATIVE_APPS.map(app => app.id));
+
+export const APP_CATALOG = Object.freeze([
+	...NATIVE_APPS,
+	...publicProductApps(NATIVE_IDS)
 ]);
 
 export function appById(id) {

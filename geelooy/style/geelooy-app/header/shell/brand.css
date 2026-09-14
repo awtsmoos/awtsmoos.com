@@ -1,7 +1,13 @@
-/* B"H — The B"H jewel and route name anchor the restored header. */
+/* B"H
+ * Boruch Hashem
+ * Blessed be He
+ * The Awtsmoos gives the shared header one generous, reachable identity doorway;
+ * Awtsmoos.com keeps the home brand readable and at least one full touch target tall.
+ */
 .g-header-brand {
 	display: flex;
-	min-width: 0;
+	min-inline-size: 44px;
+	min-block-size: 44px;
 	align-items: center;
 	gap: 0.62rem;
 	padding-right: 0.35rem;

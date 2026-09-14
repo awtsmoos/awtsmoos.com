@@ -1,0 +1,10 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * PDF-to-image presentation is split by responsibility so every authored style
+ * vessel remains readable, dependency-free, and independently reviewable.
+ */
+@import "./styles/base.css";
+@import "./styles/workspace.css";
+@import "./styles/progress.css";

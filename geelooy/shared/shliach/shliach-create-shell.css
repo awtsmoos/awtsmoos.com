@@ -1,0 +1,68 @@
+/* B"H
+Boruch Hashem
+Blessed be He */
+
+/** Trusted dialog shell, heading, path testimony, and shared spacing. */
+.shliach-create-dialog {
+	width: min(760px, calc(100vw - 32px));
+	max-height: min(820px, calc(100dvh - 32px));
+	margin: auto;
+	padding: 0;
+	border: 1px solid rgba(140, 176, 255, 0.28);
+	border-radius: 28px;
+	background:
+		radial-gradient(circle at 14% 0%, rgba(73, 113, 255, 0.22), transparent 38%),
+		linear-gradient(155deg, rgba(7, 14, 31, 0.99), rgba(10, 20, 43, 0.99));
+	box-shadow: 0 32px 100px rgba(0, 0, 0, 0.55);
+	color: #f7faff;
+	overflow: auto;
+}
+
+.shliach-create-dialog::backdrop {
+	background: rgba(1, 5, 16, 0.74);
+	backdrop-filter: blur(14px);
+}
+
+.shliach-create-header,
+.shliach-create-presets,
+.shliach-create-goal,
+.shliach-create-status,
+.shliach-create-actions {
+	margin-inline: 28px;
+}
+
+.shliach-create-header {
+	padding-top: 28px;
+}
+
+.shliach-create-kicker {
+	margin: 0 0 8px;
+	font-size: 0.78rem;
+	font-weight: 800;
+	letter-spacing: 0.13em;
+	color: #a9c8ff;
+}
+
+.shliach-create-title {
+	margin: 0;
+	font-size: clamp(1.7rem, 4vw, 2.65rem);
+	line-height: 1.04;
+	letter-spacing: -0.035em;
+}
+
+.shliach-create-description {
+	max-width: 62ch;
+	margin: 12px 0 16px;
+	color: rgba(236, 243, 255, 0.78);
+	line-height: 1.55;
+}
+
+.shliach-create-path {
+	display: block;
+	padding: 11px 13px;
+	border: 1px solid rgba(133, 172, 255, 0.24);
+	border-radius: 13px;
+	background: rgba(255, 255, 255, 0.055);
+	color: #dce9ff;
+	overflow-wrap: anywhere;
+}

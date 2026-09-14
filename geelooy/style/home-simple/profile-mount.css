@@ -22,9 +22,9 @@ body[data-geelooy-route="home"] .profile-mount .notLoggedIn {
 
 body[data-geelooy-route="home"] .profile-mount .profile-trigger {
 	width: auto;
-	min-width: 42px;
+	min-width: 44px;
 	max-width: 190px;
-	min-height: 42px;
+	min-height: 44px;
 	padding-block: 4px;
 }
 
@@ -62,17 +62,17 @@ body[data-geelooy-route="home"][data-awtsmoos-profile-open="true"] {
 body[data-geelooy-route="home"] .profile-mount .awtsmoosDrop,
 body[data-geelooy-route="home"] .profile-mount .loggedIn,
 body[data-geelooy-route="home"] .profile-mount .notLoggedIn {
-		width: 42px;
-		min-width: 42px;
-		max-width: 42px;
+		width: 44px;
+		min-width: 44px;
+		max-width: 44px;
 	}
 
 	body[data-geelooy-route="home"] .profile-mount .profile-trigger {
-		width: 42px;
-		min-width: 42px;
-		max-width: 42px;
-		height: 42px;
-		min-height: 42px;
+		width: 44px;
+		min-width: 44px;
+		max-width: 44px;
+		height: 44px;
+		min-height: 44px;
 		padding: 4px;
 	}
 

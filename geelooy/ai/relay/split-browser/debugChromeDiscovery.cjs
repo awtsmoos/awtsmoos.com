@@ -1,8 +1,10 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed be He
 
 const http = require("node:http");
+const Registry = require("./deviceBrowserRegistry.cjs");
+const EndpointOwner = require("./debugChromeEndpointOwner.cjs");
 
 const DEFAULT_PROBE_MS = 650;
 
@@ -13,7 +15,14 @@ const DEFAULT_PROBE_MS = 650;
  */
 async function findPageTarget(options = {}) {
 	const checks = [];
+	const acceptsPage = typeof options.pagePredicate === "function"
+		? options.pagePredicate : () => true;
 	for (const port of candidatePorts(options)) {
+		const endpoint = EndpointOwner.verify({ host: "127.0.0.1", port, pid: options.expectedPid });
+		if (endpoint.known && !endpoint.ok) {
+			checks.push(`${port}:owner:${endpoint.reason}`);
+			continue;
+		}
 		const pages = await getJson(
 			`http://127.0.0.1:${port}/json/list`,
 			options.probeMs
@@ -22,8 +31,8 @@ async function findPageTarget(options = {}) {
 			return null;
 		});
 		const page = Array.isArray(pages)
-			? pages.find(item => item.type === "page" && item.webSocketDebuggerUrl)
-				|| pages.find(item => item.webSocketDebuggerUrl)
+			? pages.find(item => item.type === "page" && item.webSocketDebuggerUrl && acceptsPage(item))
+				|| pages.find(item => item.webSocketDebuggerUrl && acceptsPage(item))
 			: null;
 		if (page) {
 			return {
@@ -42,6 +51,11 @@ async function findPageTarget(options = {}) {
 async function findBrowserTarget(options = {}) {
 	const checks = [];
 	for (const port of candidatePorts(options)) {
+		const endpoint = EndpointOwner.verify({ host: "127.0.0.1", port, pid: options.expectedPid });
+		if (endpoint.known && !endpoint.ok) {
+			checks.push(`${port}:owner:${endpoint.reason}`);
+			continue;
+		}
 		const version = await getJson(
 			`http://127.0.0.1:${port}/json/version`,
 			options.probeMs
@@ -62,18 +76,11 @@ async function findBrowserTarget(options = {}) {
 	return unavailable(checks);
 }
 
-function candidatePorts({ preferredPort = null, onlyPreferred = false } = {}) {
+function candidatePorts({ preferredPort = null } = {}) {
 	const preferred = Number(preferredPort);
-	if (onlyPreferred && Number.isFinite(preferred)) {
-		return [preferred];
-	}
-	return [...new Set([
-		preferred,
-		Number(process.env.AWTSMOOS_CHROME_DEBUG_PORT),
-		9223,
-		9222,
-		9224
-	].filter(Number.isFinite))];
+	if (Number.isInteger(preferred) && preferred > 0) return [preferred];
+	const authority = Registry.observe();
+	return authority.ok ? [authority.port] : [];
 }
 
 function getJson(url, probeMs = DEFAULT_PROBE_MS) {

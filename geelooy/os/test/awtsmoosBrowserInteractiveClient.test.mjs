@@ -1,6 +1,6 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file Proves the Geelooy interactive client sends only narrow same-origin browser commands.
@@ -33,9 +33,22 @@ test("session creation encodes alias exactly once and uses same-origin credentia
 	assert.equal(calls[0].options.credentials, "same-origin");
 	assert.equal(calls[0].options.method, "POST");
 	assert.deepEqual(JSON.parse(calls[0].options.body), {
+		engineMode: "headless",
 		jarId: "main",
 		url: "https://example.com/"
 	});
+});
+
+test("compatibility session is explicit and contains no browser secrets", async () => {
+	const calls = [];
+	await createInteractiveSession({
+		aliasId: "asdf",
+		engineMode: "compatibility",
+		url: "https://chatgpt.com/"
+	}, fakeFetch(calls, { engineMode: "compatibility" }));
+	const body = JSON.parse(calls[0].options.body);
+	assert.equal(body.engineMode, "compatibility");
+	assert.doesNotMatch(JSON.stringify(body), /debugPort|profilePath|webSocketDebuggerUrl/);
 });
 
 test("target navigation sends only the owned session target and URL", async () => {

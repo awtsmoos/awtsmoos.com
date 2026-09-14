@@ -1,6 +1,6 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file index.js
@@ -10,6 +10,7 @@
 
 import { gevurahRuntimePolicy, revealMalchusIdentity, yesodRuntimeEvents } from './data/runtimeConfig.js';
 import { MedaberGameRuntime } from './MedaberGameRuntime.js';
+import { installOptionalNative3DMode } from './native-3d/index.js';
 import { createGameResultChannel } from './results/HodGameResultChannel.js';
 
 const RUNTIME_KEY = '__awtsmoosGameRuntime';
@@ -72,5 +73,7 @@ function revealAlias(key, value) {
 	});
 	return true;
 }
+
+installOptionalNative3DMode();
 
 export const awtsmoosGameRuntime = revealMedaberRuntime();

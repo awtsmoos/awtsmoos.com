@@ -31,6 +31,10 @@ Blessed is He
 			<p>Edit this HTML, its CSS, and its JavaScript whenever the next idea arrives.</p>
 		</section>
 	</main>
+	<footer>
+		<span>{{SITE_NAME}}</span>
+		<a data-awtsmoos-remix hidden>Built with Awtsmoos · Remix this</a>
+	</footer>
 	<script src="site.js"></script>
 </body>
 </html>

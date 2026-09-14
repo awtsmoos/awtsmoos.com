@@ -3,6 +3,7 @@
 // Blessed is He
 
 import { renderProgressPanel } from "./progressPanel.js";
+import { mountRecipientPicker } from "./recipientPicker.js";
 import {
 	renderActivity,
 	renderAll,
@@ -34,6 +35,7 @@ export function createRoomView(state, chat, renderers = DEFAULT_RENDERERS) {
 		renderers.all(state, callbacks);
 		progress();
 		chat.render(true);
+		mountRecipientPicker(state);
 	}
 
 	function selected() {
@@ -42,18 +44,21 @@ export function createRoomView(state, chat, renderers = DEFAULT_RENDERERS) {
 		renderers.output(state.selected);
 		progress();
 		chat.render(true);
+		mountRecipientPicker(state);
 	}
 
 	function room(force = false) {
 		renderers.room(state);
 		progress();
 		chat.render(force);
+		mountRecipientPicker(state);
 	}
 
 	function activity(force = false) {
 		renderers.activity(state);
 		progress();
 		chat.render(force);
+		mountRecipientPicker(state);
 	}
 
 	function list(callbacks = {}) {

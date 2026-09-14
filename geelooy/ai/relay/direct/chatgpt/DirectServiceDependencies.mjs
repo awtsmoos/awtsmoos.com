@@ -1,11 +1,11 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 import { AgentTabCatalog } from "../browser/AgentTabCatalog.mjs";
 import { AgentTabProtector } from "../browser/AgentTabProtector.mjs";
 import { AgentTabWatchdog } from "../browser/AgentTabWatchdog.mjs";
-import { DebugPortResolver } from "../browser/DebugPortResolver.mjs";
+import { DeviceBrowserPortResolver } from "../browser/DeviceBrowserPortResolver.mjs";
 import { GlobalWebsiteTurnQueue } from "../stress/GlobalWebsiteTurnQueue.mjs";
 import { ImmediateTurnQueue } from "../stress/ImmediateTurnQueue.mjs";
 import { POST_CLOSE_COOLDOWN_MS } from "../stress/GlobalWebsiteQueuePolicy.mjs";
@@ -27,8 +27,7 @@ import { WebsiteLoginCoordinator } from "./WebsiteLoginCoordinator.mjs";
  * verified disappearance of the previous tab.
  */
 export function buildDirectServiceDependencies(options = {}) {
-	const preferredPort = options.preferredPort ??
-		(Number(process.env.AWTSMOOS_CHROME_DEBUG_PORT || 0) || null);
+	const preferredPort = Number(options.preferredPort || 0) || null;
 	const interval = Math.max(POST_CLOSE_COOLDOWN_MS, Number(
 		options.minimumIntervalMs ??
 		process.env.AWTSMOOS_WEBSITE_AGENT_LAUNCH_INTERVAL_MS ??
@@ -37,13 +36,14 @@ export function buildDirectServiceDependencies(options = {}) {
 	const fixtureBoundary = Boolean(options.websiteService || options.clientFactory);
 	const protectPhysicalTabs = options.protectPhysicalTabs ?? !fixtureBoundary;
 	const store = options.store ?? new ConversationStore();
-	const portResolver = options.portResolver ?? new DebugPortResolver({ preferredPort });
+	const portResolver = options.portResolver ?? new DeviceBrowserPortResolver();
 	const loginCoordinator = options.loginCoordinator ?? new WebsiteLoginCoordinator();
 	const reporter = options.reporter ?? new DirectServiceReporter();
 	const capabilityPresenter = options.capabilityPresenter ?? new WebsiteCapabilityPresenter();
 	const conversationModePolicy = options.conversationModePolicy ?? new ConversationModePolicy();
-	const clientFactory = options.clientFactory ?? (port => new DirectClient({
+	const clientFactory = options.clientFactory ?? ((port, agentStartUrl) => new DirectClient({
 		port,
+		agentStartUrl,
 		forceNewTarget: true
 	}));
 	const websiteService = options.websiteService ?? new FallbackConversationService({

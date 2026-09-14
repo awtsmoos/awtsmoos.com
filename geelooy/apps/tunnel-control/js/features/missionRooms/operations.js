@@ -94,7 +94,7 @@ export function createRoomOperations(context) {
 		discover,
 		join,
 		refresh,
-		send: allow => send(state, api, allow),
+		send: allow => send(state, api, store, allow),
 		suspend: activation.suspend,
 		visibility: runtime.visibility
 	};

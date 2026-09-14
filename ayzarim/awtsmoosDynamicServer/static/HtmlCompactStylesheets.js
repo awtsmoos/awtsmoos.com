@@ -7,20 +7,21 @@ const { localStylesheetDescriptor, replaceStylesheetHref } = require("./HtmlStyl
 
 /**
  * @module HtmlCompactStylesheets
- * @description The Awtsmoos gathers contiguous local stylesheet garments into one ordered transport river; Awtsmoos.com preserves every semantic boundary,
- * letting root-absolute sheets unite from public-root truth while unresolved relative paths remain separate and alive.
+ * @description
+ * Compacts neighboring local stylesheets without creating one enormous request URL.
+ * The Awtsmoos preserves cascade order while Awtsmoos.com bounds every transport
+ * vessel so a large design system cannot make page load depend on one fragile query.
  */
 
 const LINK_RUN = /(?:<link\b[^>]*>\s*)+/gi;
 const LINK_TOKEN = /<link\b[^>]*>\s*/gi;
+const MAX_BUNDLE_SOURCES = 8;
 
 /**
- * @description Collapses safe contiguous stylesheet runs when a trustworthy public root exists.
+ * Collapses safe contiguous stylesheet runs when a trustworthy public root exists.
  * @param {string} html Complete HTML source.
  * @param {object|null} context HTML path context.
- * @param {string} context.rootDir Absolute public root.
- * @param {string} [context.filePath] Optional actual HTML source path for relative CSS.
- * @returns {string} HTML with safe stylesheet runs compacted.
+ * @returns {string} HTML with bounded ordered stylesheet bundles.
  */
 function compactHtmlStylesheets(html, context) {
 	if (!context?.rootDir) return html;
@@ -28,7 +29,7 @@ function compactHtmlStylesheets(html, context) {
 }
 
 /**
- * @description Compacts one contiguous sequence while flushing at every unbundlable or semantic boundary.
+ * Compacts one contiguous sequence while flushing at semantic or external boundaries.
  * @param {string} run Contiguous link-tag source.
  * @param {object} context HTML path context.
  * @returns {string} Rewritten link run.
@@ -55,19 +56,30 @@ function compactLinkRun(run, context) {
 }
 
 /**
- * @description Emits one compact flag or ordered bundle URL for a collected local stylesheet run.
+ * Emits compact requests in bounded chunks while preserving source and whitespace order.
  * @param {string[]} output Destination token array.
  * @param {Array<{descriptor:object,trailing:string}>} run Safe local stylesheet run.
  * @returns {void}
  */
 function flushLocalRun(output, run) {
-	if (!run.length) return;
-	const sources = run.map(item => item.descriptor.publicHref);
-	const href = run.length === 1
-		? withCompactCssFlag(sources[0])
-		: createStylesheetBundleUrl(sources[0], sources);
-	output.push(replaceStylesheetHref(run[0].descriptor.tag, href));
-	output.push(run[run.length - 1].trailing);
+	for (let offset = 0; offset < run.length; offset += MAX_BUNDLE_SOURCES) {
+		flushBundleChunk(output, run.slice(offset, offset + MAX_BUNDLE_SOURCES));
+	}
 }
 
-module.exports = { compactHtmlStylesheets, compactLinkRun };
+/** @param {string[]} output Destination array. @param {Array<object>} chunk Bounded local run. */
+function flushBundleChunk(output, chunk) {
+	if (!chunk.length) return;
+	const sources = chunk.map(item => item.descriptor.publicHref);
+	const href = chunk.length === 1
+		? withCompactCssFlag(sources[0])
+		: createStylesheetBundleUrl(sources[0], sources);
+	output.push(replaceStylesheetHref(chunk[0].descriptor.tag, href));
+	output.push(chunk[chunk.length - 1].trailing);
+}
+
+module.exports = {
+	MAX_BUNDLE_SOURCES,
+	compactHtmlStylesheets,
+	compactLinkRun
+};

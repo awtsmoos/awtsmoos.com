@@ -2,6 +2,7 @@
 // Boruch Hashem
 // Blessed is He
 
+const { normalizeDeploymentId } = require('./deploymentPolicy.js');
 const { normalizeDrivePath } = require('./pathPolicy.js');
 const { normalizeProjectId } = require('../../../../../ayzarim/awtsmoosDynamicServer/projectHosting/projectIdentity.js');
 
@@ -13,6 +14,7 @@ const { normalizeProjectId } = require('../../../../../ayzarim/awtsmoosDynamicSe
  */
 const SOURCE_KINDS = Object.freeze({
 	DRIVE: 'drive',
+	DRIVE_DEPLOYMENT: 'drive-deployment',
 	VIRTUAL_OS: 'virtual-os',
 	HOSTED_PROJECT: 'hosted-project'
 });
@@ -38,6 +40,13 @@ function normalizeSiteSource(input, fallbackRootPath = '') {
 	if (kind === SOURCE_KINDS.HOSTED_PROJECT) {
 		return normalizeHostedProjectSource(input, kind, mode);
 	}
+	if (kind === SOURCE_KINDS.DRIVE_DEPLOYMENT) {
+		return {
+			kind,
+			mode,
+			deploymentId: normalizeDeploymentId(input.deploymentId)
+		};
+	}
 	return {
 		kind,
 		mode,
@@ -62,7 +71,9 @@ function normalizeHostedProjectSource(input, kind, mode) {
 }
 
 function modeForKind(kind) {
-	if (kind === SOURCE_KINDS.DRIVE) return SOURCE_MODES.SNAPSHOT;
+	if ([SOURCE_KINDS.DRIVE, SOURCE_KINDS.DRIVE_DEPLOYMENT].includes(kind)) {
+		return SOURCE_MODES.SNAPSHOT;
+	}
 	if (kind === SOURCE_KINDS.VIRTUAL_OS) return SOURCE_MODES.DIRECT;
 	if (kind === SOURCE_KINDS.HOSTED_PROJECT) return SOURCE_MODES.PROXY;
 	return '';

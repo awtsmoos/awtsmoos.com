@@ -25,7 +25,8 @@ body {
 }
 
 header,
-main {
+main,
+footer {
 	width: min(100% - 32px, 760px);
 	margin: auto;
 }
@@ -84,6 +85,23 @@ section {
 	margin-top: 24vh;
 	padding-top: 2rem;
 	border-top: 1px solid #d8d3c7;
+}
+
+footer {
+	min-height: 84px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	border-top: 1px solid #d8d3c7;
+}
+
+footer a {
+	min-height: 44px;
+	display: inline-flex;
+	align-items: center;
+	color: var(--accent);
+	font-weight: 800;
 }
 `;
 }

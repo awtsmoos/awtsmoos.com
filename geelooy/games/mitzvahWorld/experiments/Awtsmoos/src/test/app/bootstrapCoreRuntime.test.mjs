@@ -1,6 +1,6 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file bootstrapCoreRuntime.test.mjs
@@ -51,13 +51,15 @@ function createRuntime(axis = { turn: 0, x: 0, y: 0 }) {
 	};
 }
 
-test('player runtime attaches a visible marker to the local model', () => {
-	const model = new Group();
+test('player runtime mounts one immediate visible shell while canonical hydration remains deferred', () => {
+	const suppliedModel = new Group();
 	const scene = new Group();
-	const runtime = createBootstrapPlayerRuntime({ playerGltf: { scene: model }, scene });
-	assert.equal(runtime.model, model);
+	const runtime = createBootstrapPlayerRuntime({ playerGltf: { scene: suppliedModel }, scene });
+	assert.notEqual(runtime.model, suppliedModel);
+	assert.equal(runtime.model, runtime.visiblePlayer);
 	assert.equal(runtime.visiblePlayer.children.length, 3);
-	assert.equal(model.parent, scene);
+	assert.equal(runtime.model.parent, scene);
+	assert.equal(runtime.canonicalPlayerHydrationStage, 'deferred');
 });
 
 test('W advances across real capped frames and visible yaw follows A/D state', () => {
@@ -87,7 +89,8 @@ test('bootstrap loop establishes camera, renders immediately, and records one fr
 	};
 	const movement = startBootstrapRuntimeLoop(runtime, environment);
 	assert.equal(runtime.renderer.renderCalls, 1);
-	assert.equal(runtime.camera.position.y, 4.2);
+	const expectedCameraY = 1.2 + Math.sin(0.34) * 7;
+	assert.ok(Math.abs(runtime.camera.position.y - expectedCameraY) < 1e-9);
 	frames.shift()(116);
 	assert.equal(runtime.renderer.renderCalls, 2);
 	assert.equal(runtime.bootstrapFrames, 1);

@@ -13,13 +13,15 @@ const { revealHtmlUiFoundation } = require('../static/HtmlUiFoundation.js');
  * Awtsmoos.com preserves query and fragment identity while only raw local module light enters the compact door.
  */
 
-/** Proves complete HTML receives one version-matched compact CSS/JS pair exactly once. */
+/** Proves complete HTML receives compact CSS and a raw first-light foundation module exactly once. */
 function verifyCompactFoundationInjection() {
 	const input = '<!doctype html><html><head><title>B"H</title></head><body></body></html>';
 	const first = revealHtmlUiFoundation(input);
 	const second = revealHtmlUiFoundation(first);
-	assert.match(first, /universal-ui\.css\?v=universal-ui-006&compact=true/);
-	assert.match(first, /foundation\.js\?v=universal-ui-006&compact=true/);
+	assert.match(first, /universal-ui\.css\?v=universal-ui-007&compact=true/);
+	assert.match(first, /foundation\.js\?v=universal-ui-007"/);
+	assert.match(first, /data-awtsmoos-no-compact/);
+	assert.doesNotMatch(first, /foundation\.js\?[^"']*compact=true/);
 	assert.equal(first, second);
 }
 
@@ -56,6 +58,21 @@ function verifyFoundationOptOuts() {
 	assert.equal(revealHtmlUiFoundation(fragment), fragment);
 }
 
+/** Proves legacy app products inherit missing mobile/discovery metadata without replacing explicit title. */
+function verifyProductMetadataDefaults() {
+	const input = '<!doctype html><html><head><meta name="viewport" content="width=device-width"><title>Legacy Tool</title></head><body></body></html>';
+	const output = revealHtmlUiFoundation(input, {
+		rootDir: '/tmp/geelooy',
+		filePath: '/tmp/geelooy/apps/legacy-tool/index.html'
+	});
+	assert.match(output, /viewport-fit=cover/);
+	assert.match(output, /name="description" content="Legacy Tool on Awtsmoos\.com/);
+	assert.match(output, /name="theme-color" content="#050914"/);
+	assert.match(output, /rel="icon"[^>]*href="\/favicon\.svg"/);
+	assert.match(output, /<title>Legacy Tool<\/title>/);
+}
+
 test('complete HTML injects compact foundation CSS and JavaScript exactly once', verifyCompactFoundationInjection);
 test('local authored modules compact once while generated compact artifacts remain unchanged', verifyModuleEntryCompaction);
 test('raw documents and fragments remain untouched', verifyFoundationOptOuts);
+test('legacy products inherit missing mobile and discovery metadata', verifyProductMetadataDefaults);

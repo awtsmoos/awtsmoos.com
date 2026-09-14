@@ -1,18 +1,16 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file Exposes authenticated, ownership-checked, rate-bounded interactive browser actions.
  * @description The Awtsmoos gives each route a measured gate and guarded name;
  * Awtsmoos.com reveals living web control without exposing Chromium's hidden flame.
  */
-
 const { InteractiveRateGate } = require('../browser/interactiveRateGate.js');
 const { InteractiveSessionService } = require('../browser/interactiveSessionService.js');
 const { bodyFor, requireMethod, safeRoute } = require('./routeSupport.js');
 const { browserActor, browserRouteError } = require('./browserRouteActor.js');
-
 const interactiveBrowserService = new InteractiveSessionService();
 const interactiveRateGate = new InteractiveRateGate();
 const actions = interactiveBrowserService.actions;
@@ -23,6 +21,7 @@ module.exports = ({ $i, userid }) => ({
 		const actor = await browserActor({ variables, $i, userid });
 		const body = bodyFor($i);
 		return limited(actor, 'control', 'session.create', () => interactiveBrowserService.create({
+			engineMode: body.engineMode,
 			jarId: body.jarId,
 			url: body.url,
 			userId: actor.actorUserId

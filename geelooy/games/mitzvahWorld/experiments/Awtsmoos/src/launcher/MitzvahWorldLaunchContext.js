@@ -40,8 +40,14 @@ export function createMitzvahWorldLaunchContext(hosts, search, dependencies = {}
  */
 export function setGameHostsVisible(hosts, visible) {
 	for (const host of Object.values(hosts || {})) {
-		if (host?.style) {
-			host.style.visibility = visible ? '' : 'hidden';
+		if (!host?.style) {
+			continue;
+		}
+		host.style.visibility = visible ? '' : 'hidden';
+		host.inert = !visible;
+		host.setAttribute?.('aria-hidden', String(!visible));
+		if (host.id === 'mitzvah-world-root') {
+			host.hidden = !visible;
 		}
 	}
 }

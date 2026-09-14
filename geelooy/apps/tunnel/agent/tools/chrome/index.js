@@ -1,4 +1,6 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 
 const chromeActions = require("./actions.js");
 const chromeExtras = require("./extras.js");
@@ -54,7 +56,14 @@ const ACTIONS = Object.freeze({
 	chromeUseHttpCookies: chromeSession.chromeUseHttpCookies
 });
 
-/** Serializes mutating CDP actions and attaches observable queue evidence. */
+/**
+ * Dispatches one Chrome action while protecting the single mutable CDP lane.
+ * Read-only inspection may execute immediately, while navigation, typing, clicking,
+ * session mutation, and composite browser checks are serialized through ActionQueue.
+ * Every object result receives a queue snapshot so callers can prove the lane drained.
+ * @param {object} payload Chrome action envelope containing at least an action name.
+ * @returns {Promise<object|*>} Action result enriched with queue evidence when possible.
+ */
 async function handleChrome(payload = {}) {
 	const action = String(payload.action || "");
 	const worker = ACTIONS[action];
@@ -77,13 +86,24 @@ async function handleChrome(payload = {}) {
 		: ActionQueue.run(execute, { timeoutMs: actionQueueTimeout(payload) });
 }
 
+/**
+ * Gives the serialized Chrome lane enough time to outlive its inner stage budgets.
+ * Composite browser checks may launch Chrome, reconnect CDP, navigate, wait for DOM,
+ * inspect logs, and snapshot in sequence; the queue must never pre-empt those stages.
+ * Explicit queue/action timeouts remain authoritative for callers needing a tighter bound.
+ * @param {object} payload Chrome action request.
+ * @returns {number|undefined} Outer queue timeout in milliseconds.
+ */
 function actionQueueTimeout(payload = {}) {
 	const explicit = Number(payload.actionTimeoutMs || payload.queueTimeoutMs);
 	if (Number.isFinite(explicit) && explicit > 0) return explicit;
 	const operation = Number(payload.timeoutMs);
-	return Number.isFinite(operation) && operation > 0
-		? operation + 10000
-		: undefined;
+	if (!Number.isFinite(operation) || operation <= 0) return undefined;
+	const action = String(payload.action || "");
+	const composite = /^(?:chromeTestUrl|chromeDoctor|browserDoctor|browserTrace|browserInspect)$/.test(action);
+	return composite
+		? Math.max(60000, operation * 4 + 20000)
+		: operation + 15000;
 }
 
 module.exports = { ACTIONS, READ_ONLY_ACTIONS, actionQueueTimeout, handleChrome };

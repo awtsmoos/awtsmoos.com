@@ -51,17 +51,22 @@ export function createAccessPanelView(actions) {
 		element,
 		render(state) {
 			const embedded = state.transportMode === "os";
-			controls.hidden = embedded;
-			status.textContent = embedded
-				? "OS VFS authority"
-				: state.mutationCredentialConfigured ? "Scoped key loaded" : "Read session";
-			explanation.textContent = accessExplanation(state, embedded);
-			clear.hidden = embedded || !state.mutationCredentialConfigured;
+			const browser = state.transportMode === "browser";
+			controls.hidden = embedded || browser;
+			status.textContent = browser
+				? "Browser-local workspace"
+				: embedded ? "OS VFS authority"
+					: state.mutationCredentialConfigured ? "Scoped key loaded" : "Read session";
+			explanation.textContent = accessExplanation(state, embedded, browser);
+			clear.hidden = embedded || browser || !state.mutationCredentialConfigured;
 		}
 	};
 }
 
-function accessExplanation(state, embedded) {
+function accessExplanation(state, embedded, browser) {
+	if (browser) {
+		return "This project lives privately in this browser. Connect cloud or Tunnel later when you want hosting or machine access.";
+	}
 	if (embedded) {
 		return "Editing is confined to this launched OS workspace. No Tunnel API key enters the iframe.";
 	}

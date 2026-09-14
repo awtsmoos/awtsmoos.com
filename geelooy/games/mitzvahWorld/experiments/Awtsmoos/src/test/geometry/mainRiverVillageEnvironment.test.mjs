@@ -1,6 +1,6 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file mainRiverVillageEnvironment.test.mjs
@@ -27,7 +27,7 @@ test('medium terrain selects four distinct ecological real-image families', () =
 		]
 	);
 	assert.equal(new Set(material.textureLayers.map(layer => layer.url)).size, 4);
-	assert.equal(material.texturePolicy.hydration, 'shared-cache-bounded-ecological-page');
+	assert.equal(material.texturePolicy.hydration, 'shared-cache-bounded-real-remote-page');
 });
 
 test('lower river is broad and keeps one reach-aware channel profile', () => {

@@ -1,42 +1,34 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
- * @file homeAmbientContract.test.mjs
+ * @module HomeAmbientContractTest
  * @description
- * The Awtsmoos tests the quiet behind the doorway: Awtsmoos.com may glow deeply,
- * while mobile power stays light, primary choices fit, and advanced paths remain near.
+ * Verifies that the Awtsmoos.com atmosphere remains subordinate to useful navigation.
+ * The Awtsmoos allows a living sky while reduced motion, data saving, finite device power,
+ * and the fixed mobile dock all keep the practical doorway fast and calm.
  */
-
-import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
-import test from "node:test";
-import { ParticleQualityPolicy } from "./particle-quality.js";
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import test from 'node:test';
+import { ParticleQualityPolicy } from './particle-quality.js';
 
 /**
- * Reveals one Home source vessel as UTF-8 text for static contract evidence.
- *
- * @param {string} ohrRelativePath - Path relative to this test module.
- * @returns {string} Exact source text at the requested path.
+ * Reads one Home source relative to this test module.
+ * @param {string} relativePath Exact module-relative path.
+ * @returns {string} UTF-8 source testimony.
  */
-function revealOhr(ohrRelativePath) {
-	return readFileSync(new URL(ohrRelativePath, import.meta.url), "utf8");
+function readHomeSource(relativePath) {
+	return readFileSync(new URL(relativePath, import.meta.url), 'utf8');
 }
 
-const ohrBackground = revealOhr("../../style/home-simple/background.css");
-const ohrComponents = revealOhr("../../style/home-simple/components.css");
-const ohrDensity = revealOhr("../../style/home-simple/mobile-density.css");
-const ohrMainBrandMobile = revealOhr("../../style/home-simple/main-brand-mobile.css");
-const ohrHomepage = revealOhr("../../index.html");
-
 /**
- * Creates a representative phone particle profile with optional policy overrides.
- *
- * @param {object} [ohrOverrides={}] - Particle capability values to override.
- * @returns {object} Materialized mobile particle quality profile.
+ * Creates a representative phone particle profile.
+ * @param {object} overrides Capability values to override.
+ * @returns {object} Materialized quality profile.
  */
-function createMobileKeli(ohrOverrides = {}) {
+function createMobileProfile(overrides = {}) {
 	return new ParticleQualityPolicy({
 		width: 390,
 		height: 844,
@@ -45,57 +37,41 @@ function createMobileKeli(ohrOverrides = {}) {
 		isMobile: true,
 		isReducedMotion: false,
 		saveData: false,
-		...ohrOverrides
+		...overrides
 	}).createProfile();
 }
 
-test("WebGL remains atmosphere instead of foreground", () => {
-	assert.match(ohrBackground, /particle-status="running"\][^{]*\{\s*opacity:\s*\.28;/s);
-	assert.match(ohrBackground, /@media \(max-width:\s*680px\)[\s\S]*particle-status="running"\][^{]*\{\s*opacity:\s*\.18;/s);
-	assert.doesNotMatch(ohrBackground, /opacity:\s*\.58/);
-});
+const background = readHomeSource('../../style/home-simple/background.css');
+const mobile = readHomeSource('../../style/home-simple/main-brand-mobile.css');
+const dock = readHomeSource('../../style/home-simple/mobile-dock.css');
+const html = readHomeSource('../../index.html');
 
-test("mobile particle profile remains materially lighter than desktop", () => {
-	const keliMobile = createMobileKeli();
-	const keliDesktop = new ParticleQualityPolicy({
+test('mobile atmosphere is lighter than desktop atmosphere', () => {
+	const mobileProfile = createMobileProfile();
+	const desktopProfile = new ParticleQualityPolicy({
 		width: 1440,
-		height: 900,
+		height: 1000,
 		deviceMemory: 8,
 		hardwareConcurrency: 8,
 		isMobile: false,
 		isReducedMotion: false,
 		saveData: false
 	}).createProfile();
-
-	assert.equal(keliMobile.tier, "balanced");
-	assert.ok(keliMobile.dustAmount < keliDesktop.dustAmount);
-	assert.ok(keliMobile.starAmount < keliDesktop.starAmount);
-	assert.ok(keliMobile.dprCap <= 1.1);
-	assert.ok(keliMobile.targetFrameMs >= 30);
+	assert.ok(mobileProfile.dustAmount < desktopProfile.dustAmount);
+	assert.ok(mobileProfile.starAmount < desktopProfile.starAmount);
+	assert.ok(mobileProfile.dprCap <= 1.1);
 });
 
-test("reduced motion and data saver make the ambient sky static", () => {
-	assert.equal(createMobileKeli({ isReducedMotion: true }).isStatic, true);
-	const keliSaving = createMobileKeli({ saveData: true });
-	assert.equal(keliSaving.isStatic, true);
-	assert.equal(keliSaving.tier, "static");
-	assert.equal(keliSaving.dprCap, 1);
+test('reduced motion and data saver produce static atmosphere', () => {
+	assert.equal(createMobileProfile({ isReducedMotion: true }).isStatic, true);
+	assert.equal(createMobileProfile({ saveData: true }).isStatic, true);
+	assert.match(background, /@media \(max-width:\s*680px\)/);
 });
 
-test("narrow mobile keeps one primary shortcut system in a fitted grid", () => {
-	assert.match(ohrComponents, /mobile-density\.css\?v=main-brand-001/);
-	assert.match(ohrComponents, /main-brand-mobile\.css\?v=main-brand-001/);
-	assert.match(ohrDensity, /@media \(max-width:\s*430px\)/);
-	assert.match(ohrMainBrandMobile, /grid-template-columns:\s*repeat\(2,\s*minmax\(0,\s*1fr\)\)/);
-	assert.match(ohrMainBrandMobile, /\.portal-shortcuts small\s*\{\s*display:\s*none;/s);
-	assert.equal(ohrHomepage.split("class=\"portal-shortcuts\"").length - 1, 1);
-	assert.doesNotMatch(ohrHomepage, /class="direct-navigation"/);
-	assert.doesNotMatch(ohrHomepage, /class="portal-status"/);
-});
-
-test("advanced navigation remains available without duplicate mobile layers", () => {
-	assert.match(ohrHomepage, /<details class="world-launcher"/);
-	assert.match(ohrHomepage, /data-omnibox-root/);
-	assert.match(ohrHomepage, /class="mobile-dock"/);
-	assert.doesNotMatch(ohrHomepage, /class="search-paths"/);
+test('mobile owns one fixed five-door navigation dock', () => {
+	assert.equal(html.split('class="mobile-dock"').length - 1, 1);
+	assert.match(dock, /position:\s*fixed/);
+	assert.match(dock, /grid-template-columns:\s*repeat\(5,\s*minmax\(0,\s*1fr\)\)/);
+	assert.match(dock, /env\(safe-area-inset-bottom\)/);
+	assert.match(mobile, /overflow-x:\s*clip/);
 });

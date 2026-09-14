@@ -11,7 +11,9 @@ const { documentationInstructions } = require("./catalogDocs.js");
 const { workModeInstructions } = require("./catalogWorkModes.js");
 const { missionDiscoveryInstructions } = require("./catalogMissionDiscovery.js");
 const { missionContinuityInstructions } = require("./catalogMissionContinuity.js");
+const { continuationOverrideInstructions } = require("./catalogContinuationOverride.js");
 const { executionDoctrine } = require("./catalogExecutionDoctrine.js");
+const { executionMomentumInstructions } = require("./catalogExecutionMomentum.js");
 
 /**
  * @file Unites every instruction chapter behind one immutable stable-ID catalog.
@@ -60,7 +62,9 @@ function allRecords() {
 		...workModeInstructions,
 		...missionDiscoveryInstructions,
 		...missionContinuityInstructions,
-		...executionDoctrine
+		...continuationOverrideInstructions,
+		...executionDoctrine,
+		...executionMomentumInstructions
 	];
 }
 

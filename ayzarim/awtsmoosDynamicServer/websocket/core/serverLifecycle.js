@@ -8,6 +8,7 @@ const { disconnectApplicationClient } = require("../apps/applicationCatalog.js")
 const { forgetClient } = require("../apps/socialLive.js");
 const { publishConnection } = require("../apps/tunnelActivity/publisher.js");
 const { ensureServerState } = require("../platform/ServerState.js");
+const { releaseSocketAdmission } = require("./socketAdmission.js");
 
 /**
  * @file Enforces heartbeat failure as a terminal transport transition, never a zombie route.
@@ -20,6 +21,7 @@ const { ensureServerState } = require("../platform/ServerState.js");
  * An unroutable tunnel must not remain open and later resurrect on the same generation.
  */
 function removeSocketClient(server, client) {
+	releaseSocketAdmission(server, client.socketAdmissionTicket);
 	const state = ensureServerState(server);
 	publishDeparture(server, client);
 	disconnectApplicationClient(server, client);

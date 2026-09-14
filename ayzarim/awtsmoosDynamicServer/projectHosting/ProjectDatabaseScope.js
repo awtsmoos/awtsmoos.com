@@ -3,6 +3,7 @@
 // Blessed is He
 
 const { normalizeProjectPath, projectDatabaseRoot } = require("./projectIdentity.js");
+const { listBoundedDatabaseKeys } = require("./ProjectDatabaseBoundedKeys.js");
 
 /**
  * @file Namespaced DosDB facade for hosted projects.
@@ -42,6 +43,16 @@ class ProjectDatabaseScope {
 
 	list(relativePath = "") {
 		return this.database.getObjectKeys(this.path(relativePath));
+	}
+
+	/**
+	 * Reads a bounded key prefix without forcing DosDB to materialize every key.
+	 * @param {string} relativePath Project-relative collection path.
+	 * @param {number} limit Maximum requested keys.
+	 * @returns {Promise<object>} Keys, total, truncation, and storage-bound evidence.
+	 */
+	listBounded(relativePath = "", limit = 500, offset = 0) {
+		return listBoundedDatabaseKeys(this.database, this.path(relativePath), limit, offset);
 	}
 
 	getKey(relativePath, key) {

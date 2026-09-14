@@ -9,6 +9,7 @@ const {
 	requireWalletAction
 } = require("../core/request.js");
 const { createOrder } = require("../core/paypal.js");
+const { providerReturnUrls } = require("../core/paypalReturnPath.js");
 const {
 	normalizeTopUpDollars
 } = require("../core/currency.js");
@@ -41,9 +42,8 @@ async function paypalCreate(requestContext) {
 		}, 401);
 	}
 
-	const dollars = normalizeTopUpDollars(
-		postBody(requestContext).dollars
-	);
+	const body = postBody(requestContext);
+	const dollars = normalizeTopUpDollars(body.dollars);
 	if (dollars === null) {
 		return json(
 			requestContext,
@@ -55,16 +55,18 @@ async function paypalCreate(requestContext) {
 	try {
 		const publicOrigin = process.env.AWTSMOOS_PUBLIC_ORIGIN
 			|| "https://awtsmoos.com";
+		const travel = providerReturnUrls(publicOrigin, body.returnPath);
 		const order = await createOrder({
 			dollars,
 			userId: user.userId,
-			returnUrl: `${publicOrigin}/apps/wallet/?paypalReturn=1`,
-			cancelUrl: `${publicOrigin}/apps/wallet/?paypalCancel=1`
+			returnUrl: travel.returnUrl,
+			cancelUrl: travel.cancelUrl
 		});
 		return json(requestContext, {
 			BH: "B\"H",
 			ok: true,
 			dollars,
+			returnPath: travel.returnPath,
 			order
 		});
 	} catch (error) {

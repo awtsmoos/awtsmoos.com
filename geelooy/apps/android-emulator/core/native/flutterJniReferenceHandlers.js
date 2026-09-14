@@ -1,7 +1,9 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
+//Blessed be He
 
+import { registerFlutterJniCoreHandlers } from "./flutterJniCoreHandlers.js";
+import { registerFlutterJniDirectByteBufferHandlers } from "./flutterJniDirectByteBufferHandlers.js";
 import { jniGuestThreadKey } from "./jniGuestThreadKey.js";
 import { registerFlutterJniLocalFrameHandlers } from "./flutterJniLocalFrameHandlers.js";
 import { registerFlutterJniWeakReferenceHandlers } from "./flutterJniWeakReferenceHandlers.js";
@@ -27,6 +29,8 @@ export function registerFlutterJniReferenceHandlers(registry, machineState) {
 	registry.register("JNINativeInterface.NewLocalRef", context => {
 		return handleNewReference(context, machineState, "local");
 	});
+	registerFlutterJniCoreHandlers(registry, machineState);
+	registerFlutterJniDirectByteBufferHandlers(registry, machineState);
 	registerFlutterJniLocalFrameHandlers(registry, machineState);
 	registerFlutterJniWeakReferenceHandlers(registry, machineState);
 }

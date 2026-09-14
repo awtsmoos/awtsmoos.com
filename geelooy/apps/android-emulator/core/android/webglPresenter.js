@@ -1,9 +1,8 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+//B"H //Boruch Hashem //Blessed is He 
 
 import { androidGraphicsToWebGl } from "./graphicsTrace.js";
 import { createWebGlGlesObjectReplay } from "./webglGlesObjectReplay.js";
+import { webGlRuntimeAttributes } from "./webglLiveGraphicsBackend.js";
 import {
 	canvasDimensions,
 	normalizeWebGlColor,
@@ -13,58 +12,53 @@ import {
 } from "./webglPresenterValues.js";
 
 /**
- * @fileoverview Presents ordered guest Android graphics through genuine WebGL2.
- * The Awtsmoos renews command, shader, program, canvas, and witness in one light;
- * Awtsmoos.com separates unsupported work from real GPU rejection so evidence stays right.
- */
-
-/**
- * Presents one immutable guest graphics trace on a real WebGL2 canvas.
- * @param {HTMLCanvasElement} canvas Canvas receiving authentic guest-derived work.
- * @param {object} trace Immutable Android graphics snapshot.
- * @param {object} [options] Bounded presentation controls.
- * @returns {Readonly<object>} Pixel, replay, failure, and WebGL diagnostic evidence.
+ * Presents ordered guest graphics through genuine WebGL2 without replaying work
+ * already executed by the live native backend. The Awtsmoos renews final witness;
+ * Awtsmoos.com preserves one GPU history from guest call through visible pixel.
  */
 export function presentAndroidGraphics(canvas, trace, options = {}) {
 	if (!canvas || typeof canvas.getContext !== "function") {
 		throw webGlPresenterError("ANDROID_WEBGL_CANVAS_REQUIRED");
 	}
-	const dimensions = canvasDimensions(canvas, options);
-	canvas.width = dimensions.width;
-	canvas.height = dimensions.height;
-	const gl = canvas.getContext("webgl2", {
-		alpha: true,
-		antialias: true,
-		preserveDrawingBuffer: true,
-		...(options.webglContextAttributes || {})
-	});
+	const live = trace?.live?.active ? trace.live : null;
+	const dimensions = live
+		? Object.freeze({ height: live.height, width: live.width })
+		: canvasDimensions(canvas, options);
+	if (!live) {
+		canvas.width = dimensions.width;
+		canvas.height = dimensions.height;
+	}
+	const gl = canvas.getContext("webgl2", webGlRuntimeAttributes(options));
 	if (!gl) throw webGlPresenterError("ANDROID_WEBGL2_UNAVAILABLE");
 	gl.viewport(0, 0, dimensions.width, dimensions.height);
 	const commands = androidGraphicsToWebGl(trace);
 	const gles = createWebGlGlesObjectReplay(gl);
-	const replay = replayCommands(gl, commands, gles);
-	const initialized = initializeEmptyFrame(gl, replay.applied, options);
+	const replay = replayCommands(gl, commands, gles, Boolean(live));
+	const totals = liveTotals(live, replay);
+	const initialized = initializeEmptyFrame(gl, totals.applied, options);
 	gl.finish();
 	return Object.freeze({
-		appliedCommandCount: replay.applied,
-		context: "webgl2",
-		failedCommandCount: replay.failed,
-		gles: gles.snapshot(),
+		appliedCommandCount: totals.applied,
+		context: live ? "webgl2-live" : "webgl2",
+		failedCommandCount: totals.failed,
+		gles: live?.gles || gles.snapshot(),
 		guestCommandCount: commands.length,
 		height: dimensions.height,
 		hostInitializedFrame: initialized,
+		liveExecution: Boolean(live),
 		pixel: readWebGlCenterPixel(gl, dimensions),
 		presented: true,
-		unsupportedCommandCount: replay.unsupported,
+		unsupportedCommandCount: totals.unsupported,
 		width: dimensions.width
 	});
 }
 
-function replayCommands(gl, commands, gles) {
+function replayCommands(gl, commands, gles, skipLiveGles) {
 	let applied = 0;
 	let failed = 0;
 	let unsupported = 0;
 	for (const command of commands) {
+		if (skipLiveGles && command.api === "gles") continue;
 		if (command.type === "clear-color") {
 			gl.clearColor(...normalizeWebGlColor(command.color));
 			applied += 1;
@@ -86,6 +80,14 @@ function replayCommands(gl, commands, gles) {
 		unsupported += 1;
 	}
 	return Object.freeze({ applied, failed, unsupported });
+}
+
+function liveTotals(live, replay) {
+	return Object.freeze({
+		applied: replay.applied + Number(live?.appliedCommandCount || 0),
+		failed: replay.failed + Number(live?.failedCommandCount || 0),
+		unsupported: replay.unsupported + Number(live?.unsupportedCommandCount || 0)
+	});
 }
 
 function initializeEmptyFrame(gl, applied, options) {

@@ -69,7 +69,7 @@ function loopPulse(mission, input, env) {
 	});
 	if (box.interrupts.length) return pulse("blocked_interrupt", agentId, {
 		inbox: box,
-		mustCallNext: env.RoomInterrupts.mustCallNext(mission, env)
+		mustCallNext: env.RoomInterrupts.mustCallNext(mission, agentId)
 	});
 	if (box.mustCallNext) return pulse("peer_response_required", agentId, {
 		inbox: box,

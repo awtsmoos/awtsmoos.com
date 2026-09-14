@@ -1,6 +1,6 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @module RemoteBrowserSurface
@@ -49,7 +49,7 @@ export function createRemoteBrowserSurface(browserSurface, documentObject = docu
 		"div",
 		"awtsmoos-browser-remote-session"
 	);
-	const alias = createRemoteInput(documentObject, "Alias", "Alias ID");
+	const alias = createRemoteInput(documentObject, "Auto account alias", "Awtsmoos account alias");
 	const jar = createRemoteInput(documentObject, "Jar", "Cookie jar ID");
 	jar.value = "default";
 	const clearJar = createRemoteAction(
@@ -62,7 +62,7 @@ export function createRemoteBrowserSurface(browserSurface, documentObject = docu
 		documentObject,
 		"div",
 		"awtsmoos-browser-remote-status",
-		"Session idle · alias required"
+		"Session idle · account resolves automatically"
 	);
 	sessionRow.append(alias, jar, clearJar);
 	sessionPanel.append(sessionRow, status);

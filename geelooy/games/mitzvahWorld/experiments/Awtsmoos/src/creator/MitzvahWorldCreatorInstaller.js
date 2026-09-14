@@ -1,6 +1,6 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
+//Blessed be He
 
 /**
  * @file MitzvahWorldCreatorInstaller.js
@@ -13,7 +13,7 @@ import { MitzvahWorldCreatorSession } from './MitzvahWorldCreatorSession.js';
 import { MitzvahWorldCreatorSharing } from './MitzvahWorldCreatorSharing.js';
 import { MitzvahWorldCreatorRailBindings } from './ui/MitzvahWorldCreatorRailBindings.js';
 import { MitzvahWorldCreatorRailController } from './ui/MitzvahWorldCreatorRailController.js';
-import { installMitzvahWorldCreatorRailStyles } from './ui/MitzvahWorldCreatorRailStyles.js';
+import { installMitzvahWorldCreatorRailStyles } from './ui/MitzvahWorldCreatorRailStyles.js?v=20260910-sandbox-world-01';
 import { MitzvahWorldCreatorRailView } from './ui/MitzvahWorldCreatorRailView.js';
 
 export function installMitzvahWorldCreator(optionsChesed = {}) {

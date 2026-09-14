@@ -2,6 +2,9 @@
 // Boruch Hashem
 // Blessed is He
 
+const { deploymentReadinessFromState } = require('./deploymentReadiness.js');
+const { SOURCE_KINDS, effectiveSiteSource } = require('./siteSourcePolicy.js');
+
 /**
  * @module DriveSiteReadiness
  * @description
@@ -10,6 +13,10 @@
  */
 
 function siteReadinessFromState(state, site) {
+	const source = effectiveSiteSource(site || {});
+	if (source.kind === SOURCE_KINDS.DRIVE_DEPLOYMENT) {
+		return deploymentReadinessFromState(state, site, source);
+	}
 	const rootPath = normalizeRoot(site?.rootPath);
 	const publicEntries = Object.entries(state?.entries || {})
 		.filter(([path, entry]) => isPathInsideRoot(path, rootPath) && isPublicFile(entry));

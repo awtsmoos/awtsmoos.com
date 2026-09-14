@@ -1,0 +1,83 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed be He */
+
+@media (max-width: 820px) {
+	.cloud-proof,
+	.cloud-offer-grid,
+	.cloud-trust {
+		grid-template-columns: 1fr;
+	}
+
+	.cloud-main {
+		padding-top: 24px;
+	}
+
+	.cloud-hero h1 {
+		font-size: clamp(38px, 11vw, 62px);
+	}
+}
+
+@media (max-width: 620px) {
+	.cloud-nav,
+	.cloud-main,
+	.cloud-footer {
+		width: min(100% - 22px, 1180px);
+	}
+
+	.cloud-nav {
+		align-items: flex-start;
+		flex-direction: column;
+	}
+
+	.cloud-nav nav {
+		width: 100%;
+		overflow-x: auto;
+		padding-bottom: 4px;
+	}
+	.cloud-nav nav a {
+		white-space: nowrap;
+	}
+
+	.cloud-main {
+		gap: 18px;
+		padding-bottom: 48px;
+	}
+
+	.cloud-hero,
+	.cloud-offers,
+	.cloud-trust {
+		border-radius: 20px;
+	}
+
+	.cloud-hero {
+		padding: 26px 20px;
+	}
+
+	.cloud-offers,
+	.cloud-trust {
+		padding: 20px;
+	}
+
+	.cloud-brief-actions,
+	.cloud-footer {
+		align-items: stretch;
+		flex-direction: column;
+	}
+
+	.cloud-primary,
+	.cloud-secondary {
+		width: 100%;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		scroll-behavior: auto !important;
+		transition-duration: 1ms !important;
+		animation-duration: 1ms !important;
+		animation-iteration-count: 1 !important;
+	}
+}

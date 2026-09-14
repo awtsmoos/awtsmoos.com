@@ -13,8 +13,10 @@ const directory = "geelooy/mawgawl/sefarim";
 const entry = `${directory}/renderer-integration.html`;
 const files = [
 	`${directory}/commentMerge.js`,
+	`${directory}/exactDestination.js`,
 	`${directory}/rangeComments.js`,
 	`${directory}/rangeResults.js`,
+	`${directory}/resultSourceActions.js`,
 	`${directory}/safeMarkup.js`,
 	`${directory}/searchView.js`
 ];

@@ -1,20 +1,17 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file SkyMeshFactory.js
- * @description Manifests sky geometry only when its material owns a genuine decoded remote image; geometry helpers live separately.
- * The Awtsmoos surrounds every horizon beyond texture and sphere; Awtsmoos.com lets geometry wait in concealment,
- * revealing no sky card, disc, or ray until truthful remote image light can inhabit the material vessel in fulfillment.
+ * @description Preserves legacy MitzvahWorld remote-sky-card signatures while Procedural Core owns native mesh and material creation.
+ * MitzvahWorld may still describe a semantic card, disc, or ray, but it no longer constructs renderer geometry or materials;
+ * trusted remote-image visibility remains a game provenance decision until every legacy caller has migrated to Core atmosphere APIs.
  */
-
 import {
-	BufferAttribute,
-	BufferGeometry,
-	Mesh,
-	MeshStandardMaterial
-} from '../../../../light-three-gltf/tiny-runtime.js';
+	createNativeGeometryMesh,
+	createNativeWorldMaterial
+} from '../../../../../../../libs/awtsmoos-procedural-core/src/core/worldBuilding/index.js';
 import { cachedTextureImage } from '../../assets/PublicMaterialCache.js';
 import { isRealMaterialImage, materialHasRealMap } from '../../assets/RemoteMaterialImageValidity.js';
 import { prepareRemoteMaterialForHydration } from '../../assets/RemoteMaterialReadiness.js';
@@ -24,42 +21,46 @@ import {
 	skyRayGeometry
 } from './SkyGeometryFactory.js';
 
-/** Creates one remote-only sky mesh and hides it until a real image is bound. */
+/**
+ * Create one legacy semantic sky surface through Core-owned native materialization.
+ * @param {string} name Stable compatibility identity.
+ * @param {object} geometryData Portable indexed geometry.
+ * @param {object} materialData Trusted remote-image and appearance metadata.
+ * @returns {object} Core-created mesh hidden until real remote imagery is bound.
+ */
 export function createSkyMesh(name, geometryData, materialData = {}) {
-	const geometry = createGeometry(geometryData);
 	const textureUrl = materialData.textureUrl || null;
 	const cached = textureUrl ? cachedTextureImage(textureUrl) : null;
-	const mapImage = realImage(materialData.mapImage) || realImage(cached);
-	const material = new MeshStandardMaterial({
+	const mapImage = realImage(materialData.mapImage) || realImage(cached);	const material = createNativeWorldMaterial({
 		alphaMode: materialData.alphaMode || (materialData.transparent ? 'BLEND' : 'OPAQUE'),
 		color: materialData.color || [1, 1, 1, 1],
 		doubleSided: materialData.doubleSided !== false,
-		name: `${name}_material`,
-		opacity: materialData.opacity ?? 1,
-		transparent: Boolean(materialData.transparent)
-	});
-	Object.assign(material, {
 		mapImage,
 		mapRepeat: materialData.mapRepeat || [1, 1],
-		texturePolicy: {
-			...(materialData.texturePolicy || {}),
-			realMapImage: Boolean(mapImage),
-			remoteOnly: true,
-			semanticRole: materialData.semanticRole || materialData.texturePolicy?.semanticRole || null
-		},
-		textureUrl
+		name: `${name}_material`,
+		opacity: materialData.opacity ?? 1,
+		remoteOnly: true,
+		semanticRole: materialData.semanticRole || materialData.texturePolicy?.semanticRole || null,
+		texturePolicy: materialData.texturePolicy,
+		textureUrl,
+		transparent: Boolean(materialData.transparent)
 	});
-	const mesh = new Mesh(geometry, material);
-	mesh.name = name;
+	const mesh = createNativeGeometryMesh(geometryData, material, {
+		family: 'legacy-remote-sky-surface',
+		name
+	});
 	prepareRemoteMaterialForHydration(mesh, material);
 	mesh.visible = materialHasRealMap(material);
 	if (!mesh.visible) {
-		mesh.userData.awtsmoosRemoteOnlyVisibility = { hiddenByCovenant: true, previousVisible: true };
+		mesh.userData.awtsmoosRemoteOnlyVisibility = {
+			hiddenByCovenant: true,
+			previousVisible: true
+		};
 	}
 	return mesh;
 }
 
-/** Creates one remote-only sky quad. */
+/** Creates one compatibility sky quad from renderer-neutral geometry data. */
 export function createSkyQuad(name, center, size, color, textureUrl = null, mapImage = null) {
 	return createSkyMesh(name, skyQuadGeometry(center, size), {
 		color,
@@ -68,8 +69,7 @@ export function createSkyQuad(name, center, size, color, textureUrl = null, mapI
 		transparent: true
 	});
 }
-
-/** Creates one remote-only sky disc. */
+/** Creates one compatibility sky disc from renderer-neutral geometry data. */
 export function createSkyDisc(name, center, radius, color, options = {}) {
 	return createSkyMesh(name, skyDiscGeometry(center, radius, options.segments || 32), {
 		...options,
@@ -77,7 +77,7 @@ export function createSkyDisc(name, center, radius, color, options = {}) {
 	});
 }
 
-/** Creates one remote-only sky ray. */
+/** Creates one compatibility sky ray from renderer-neutral geometry data. */
 export function createSkyRay(name, center, angle, length, width, color) {
 	return createSkyMesh(name, skyRayGeometry(center, angle, length, width), {
 		color,
@@ -85,15 +85,7 @@ export function createSkyRay(name, center, angle, length, width, color) {
 	});
 }
 
-function createGeometry(data) {
-	const geometry = new BufferGeometry();
-	geometry.setAttribute('position', new BufferAttribute(new Float32Array(data.positions), 3));
-	geometry.setAttribute('normal', new BufferAttribute(new Float32Array(data.normals), 3));
-	geometry.setAttribute('uv', new BufferAttribute(new Float32Array(data.uvs), 2));
-	geometry.setIndex(new BufferAttribute(new Uint16Array(data.indices), 1));
-	return geometry;
-}
-
+/** Apply the same remote-material validity gate used by every other MitzvahWorld surface. */
 function realImage(image) {
 	return isRealMaterialImage(image) ? image : null;
 }

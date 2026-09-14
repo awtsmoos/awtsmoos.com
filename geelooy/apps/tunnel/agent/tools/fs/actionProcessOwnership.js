@@ -10,6 +10,8 @@
  * they own, while ordinary filesystem deeds may safely cross into isolated workers.
  */
 
+const GlobalMission = require("./actionGlobalMissionPolicy.js");
+
 const SOCKET_ACTIONS = new Set([
 	"configSet",
 	"rootSelect"
@@ -17,6 +19,10 @@ const SOCKET_ACTIONS = new Set([
 
 const PROCESS_OWNED_ACTIONS = new Set([
 	"agent",
+	"chatgptEnsureChrome",
+	"chatgptLogin",
+	"chatgptOpenLogin",
+	"chatgptStatus",
 	"aiAgentSpawnWebsiteMission",
 	"aiAgentWebsiteMissionStatus",
 	"websiteAgentMissionStart",
@@ -48,7 +54,8 @@ function isParentResidentAction(action) {
 	const normalized = String(action || "");
 	return SOCKET_ACTIONS.has(normalized) ||
 		PROCESS_OWNED_ACTIONS.has(normalized) ||
-		PROCESS_OWNED_RECOVERY_ACTIONS.has(normalized);
+		PROCESS_OWNED_RECOVERY_ACTIONS.has(normalized) ||
+		GlobalMission.owns(normalized);
 }
 
 module.exports = {

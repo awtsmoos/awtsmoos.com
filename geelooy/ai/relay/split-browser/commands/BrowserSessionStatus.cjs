@@ -11,7 +11,10 @@ const { createCdpClient } = require("../debugChromeWebSocket.cjs");
  * Awtsmoos.com never carries credentials, page text, cookies, or hidden tokens.
  */
 async function browserSessionStatus(config = {}) {
-	const target = await findPageTarget(discoveryOptions(config));
+	const target = await findPageTarget({
+		...discoveryOptions(config),
+		pagePredicate: isChatGptPage
+	});
 	if (!target.ok) return { ok: false, status: "debug_chrome_unavailable" };
 	const client = await createCdpClient(target.webSocketDebuggerUrl);
 	try {
@@ -41,6 +44,14 @@ async function browserSessionStatus(config = {}) {
 		return { ok: false, status: "session_status_failed", detail: String(error?.message || error) };
 	} finally {
 		client.close();
+	}
+}
+
+function isChatGptPage(target = {}) {
+	try {
+		return new URL(String(target.url || "")).hostname === "chatgpt.com";
+	} catch {
+		return false;
 	}
 }
 

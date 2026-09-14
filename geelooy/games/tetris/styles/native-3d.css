@@ -1,0 +1,25 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed be He*/
+
+/**
+ * @file native-3d.css
+ * @description Positions optional native Procedural Core 3D canvases over the
+ * Worker-owned 2D canvases without changing layout, input, or board geometry.
+ */
+.game-board-container {
+	position: relative;
+}
+
+.tetrisNative3DCanvas {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+	border-radius: inherit;
+}
+
+.tetrisNative3DCanvas[hidden] {
+	display: none;
+}

@@ -1,26 +1,32 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file BootstrapDistrictBuilder.js
- * @description Builds fallback district geometry but reveals each mesh only after its semantic real remote map is resident.
- * The Awtsmoos renews house and stone beyond every colored cube; Awtsmoos.com lets tagged pixels descend,
- * while an untextured building remains concealed so no solid wall may pretend the remote garment has arrived in the end.
+ * @description Builds semantic district fallback geometry through Procedural Core-owned hierarchy and meshes.
+ * District definitions keep placement, identity, texture role, and strict remote-only visibility in MitzvahWorld;
+ * reusable native Group and Mesh allocation stays centralized so the bootstrap layer cannot become a parallel
+ * rendering engine while real Awtsmoos Drive materials hydrate these structures later.
  */
 
 import {
-	Group,
-	Mesh
-} from '../../../light-three-gltf/tiny-runtime.js';
+	createNativeMeshFromGeometry,
+	createNativeWorldGroup
+} from '../../../../../../libs/awtsmoos-procedural-core/src/core/worldBuilding/index.js';
 import { materialHasRealMap } from '../assets/RemoteMaterialImageValidity.js';
 import { bootstrapCubeGeometry } from './BootstrapCubeGeometry.js?v=20260803-tagged-nature-01';
 import { createBootstrapVisualMaterial } from './BootstrapVisualMaterial.js?v=20260803-tagged-nature-01';
 
-/** Creates one district hierarchy whose pending surfaces begin hidden. */
+/**
+ * Creates one district hierarchy whose remote-only surfaces begin hidden until verified imagery exists.
+ * @param {object} definition Semantic district definition containing parts, models, label, and identity.
+ * @returns {object} Core-owned hierarchy with district diagnostics and texture-role evidence.
+ */
 export function buildBootstrapDistrict(definition) {
-	const group = new Group();
-	group.name = `Awtsmoos_district_${definition.id}`;
+	const group = createNativeWorldGroup({
+		name: `Awtsmoos_district_${definition.id}`
+	});
 	for (const part of definition.parts) {
 		group.add(buildPart(definition.id, part));
 	}
@@ -35,22 +41,32 @@ export function buildBootstrapDistrict(definition) {
 	return group;
 }
 
+/**
+ * Builds one district part while keeping the shared scene covenant authoritative.
+ * @param {string} districtId Stable district identity.
+ * @param {object} part Semantic position, scale, color, role, and name recipe.
+ * @returns {object} Core-owned mesh hidden until a genuine remote map is bound.
+ */
 function buildPart(districtId, part) {
 	const material = createBootstrapVisualMaterial(
 		`bootstrap-${districtId}-${part.name}`,
 		part.color,
 		{ materialRole: part.materialRole }
 	);
-	const mesh = new Mesh(bootstrapCubeGeometry(), material);
-	mesh.name = `Awtsmoos_${districtId}_${part.name}`;
+	const visible = materialHasRealMap(material);
+	const mesh = createNativeMeshFromGeometry(bootstrapCubeGeometry(), material, {
+		name: `Awtsmoos_${districtId}_${part.name}`,
+		userData: {
+			bootstrapVisual: true,
+			districtId,
+			semanticMaterialRole: part.materialRole,
+			textureTags: material.userData.bootstrapMaterialRecord.tags
+		}
+	});
 	mesh.position.set(...part.position);
 	mesh.scale.set(...part.scale);
-	mesh.visible = materialHasRealMap(material);
-	mesh.userData.bootstrapVisual = true;
-	mesh.userData.districtId = districtId;
-	mesh.userData.semanticMaterialRole = part.materialRole;
-	mesh.userData.textureTags = material.userData.bootstrapMaterialRecord.tags;
-	if (!mesh.visible) {
+	mesh.visible = visible;
+	if (!visible) {
 		mesh.userData.awtsmoosRemoteOnlyVisibility = {
 			hiddenByCovenant: true,
 			previousVisible: true

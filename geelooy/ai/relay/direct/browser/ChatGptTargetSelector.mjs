@@ -1,8 +1,9 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed be He
 
 import { ChromeDiscovery } from "./ChromeDiscovery.mjs";
+import { ChromeTargetCreator } from "./ChromeTargetCreator.mjs";
 import { createRequire } from "node:module";
 
 const require = createRequire(import.meta.url);
@@ -12,28 +13,33 @@ const {
 } = require("../../split-browser/config.cjs");
 
 /**
- * @file Selects either a reusable human tab or a disposable agent-owned target.
+ * @file Selects a reusable page or one conclusively owned disposable agent target.
  * @description
- * The Awtsmoos assigns every website agent a private temporary vessel. When strict
- * ownership is requested, Awtsmoos.com never borrows an existing ChatGPT tab and
- * therefore can close the exact created target immediately after the result.
+ * The Awtsmoos never lets Chrome target creation become an infinite waiting room.
+ * Strict turns snapshot browser identity, issue one bounded creation request, and
+ * reconcile an ambiguous HTTP timeout without ever blindly creating a second tab.
  */
 export class ChatGptTargetSelector {
-	constructor({
-		port,
-		agentStartUrl = configuredAgentStartUrl(),
-		discovery = new ChromeDiscovery(port),
-		fetcher = globalThis.fetch?.bind(globalThis)
-	} = {}) {
-		this.port = port;
-		this.agentStartUrl = requireConfiguredAgentStartUrl(agentStartUrl);
-		this.discovery = discovery;
-		this.fetcher = fetcher;
+	constructor(options = {}) {
+		this.port = options.port;
+		this.agentStartUrl = requireConfiguredAgentStartUrl(
+			options.agentStartUrl || configuredAgentStartUrl()
+		);
+		this.fetcher = options.fetcher || globalThis.fetch?.bind(globalThis);
+		this.discovery = options.discovery || new ChromeDiscovery(this.port, {
+			fetcher: this.fetcher,
+			timeoutMs: options.discoveryTimeoutMs
+		});
+		this.creator = options.targetCreator || new ChromeTargetCreator({
+			port: this.port,
+			discovery: this.discovery,
+			fetcher: this.fetcher,
+			timeoutMs: options.creationTimeoutMs
+		});
 	}
-
 	async acquire({ replaceChatGptTabs = false, forceNewTarget = false } = {}) {
 		if (forceNewTarget) {
-			return this.describe(await this.createTarget(), true, "created-owned-turn");
+			return this.describe(await this.creator.create(), true, "created-owned-turn");
 		}
 		let targets = await this.discovery.listTargets();
 		if (replaceChatGptTabs) {
@@ -45,17 +51,19 @@ export class ChatGptTargetSelector {
 		if (chatGpt) return this.describe(chatGpt, false, "existing-chatgpt");
 		const blank = targets.find(target => this.isReusableBlank(target));
 		if (blank) return this.describe(blank, false, "existing-blank");
-		return this.describe(await this.createTarget(), true, "created");
+		return this.describe(await this.creator.create(), true, "created");
 	}
 
 	isChatGptPage(target) {
 		if (target?.type !== "page" || typeof target.webSocketDebuggerUrl !== "string") {
 			return false;
 		}
-		try { return new URL(target.url).hostname === "chatgpt.com"; }
-		catch { return false; }
+		try {
+			return new URL(target.url).hostname === "chatgpt.com";
+		} catch {
+			return false;
+		}
 	}
-
 	isMissionPage(target) {
 		if (!this.isChatGptPage(target)) return false;
 		try {
@@ -69,27 +77,19 @@ export class ChatGptTargetSelector {
 	}
 
 	isReusableBlank(target) {
-		if (target?.type !== "page" || typeof target.webSocketDebuggerUrl !== "string") {
-			return false;
-		}
-		return ["about:blank", "chrome://newtab/"].includes(String(target.url || ""));
+		return target?.type === "page" &&
+			typeof target.webSocketDebuggerUrl === "string" &&
+			["about:blank", "chrome://newtab/"].includes(String(target.url || ""));
 	}
 
-	describe(target, owned, source) { return { target, owned, source }; }
+	describe(target, owned, source) {
+		return { target, owned, source };
+	}
 
 	async closeChatGptTargets(targets) {
 		const chatTargets = targets.filter(target => this.isChatGptPage(target));
 		await Promise.all(chatTargets.map(target => this.fetcher(
 			`http://127.0.0.1:${this.port}/json/close/${target.id}`
 		).catch(() => null)));
-	}
-
-	async createTarget() {
-		const endpoint = `http://127.0.0.1:${this.port}/json/new?${encodeURIComponent("about:blank")}`;
-		const response = await this.fetcher(endpoint, { method: "PUT" });
-		if (!response.ok) {
-			throw new Error(`Could not create authenticated controller: ${response.status}.`);
-		}
-		return response.json();
 	}
 }

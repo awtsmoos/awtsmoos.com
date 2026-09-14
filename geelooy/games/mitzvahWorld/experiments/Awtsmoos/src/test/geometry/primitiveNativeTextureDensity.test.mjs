@@ -1,6 +1,6 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file primitiveNativeTextureDensity.test.mjs
@@ -79,7 +79,12 @@ test('sign cards remain whole unless explicitly declared physical', () => {
 });
 
 function image(width, height) {
-	return { complete: true, height, width };
+	return {
+		complete: true,
+		height,
+		src: 'https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/test-material.png',
+		width
+	};
 }
 
 function assertPair(actual, expected) {

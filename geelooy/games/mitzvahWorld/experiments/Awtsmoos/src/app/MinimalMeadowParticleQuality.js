@@ -1,6 +1,6 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
+//Blessed be He
 
 /**
  * @file MinimalMeadowParticleQuality.js
@@ -33,7 +33,7 @@ export function particleQualityProfile(requestedCount) {
 	const limits = QUALITY_COUNTS[reducedMotion ? 'minimal' : quality];
 	const allocations = allocateWorldParticleBudget([
 		{
-			count: requestedCount ?? limits.impact,
+			count: boundedImpactCount(requestedCount, limits.impact),
 			id: 'impact',
 			importance: WORLD_PARTICLE_IMPORTANCE.CRITICAL
 		},
@@ -64,4 +64,16 @@ export function particleQualityProfile(requestedCount) {
  */
 function normalizeQuality(value) {
 	return Object.hasOwn(QUALITY_COUNTS, value) ? value : 'medium';
+}
+/**
+ * @description Caps caller-requested impact density to the active quality tier before global allocation.
+ * @param {number|undefined} requestedCount Optional caller count.
+ * @param {number} tierLimit Maximum impact count for the active quality tier.
+ * @returns {number} Finite non-negative count that cannot exceed the tier.
+ */
+function boundedImpactCount(requestedCount, tierLimit) {
+	const requested = Number.isFinite(Number(requestedCount))
+		? Math.max(0, Math.round(Number(requestedCount)))
+		: tierLimit;
+	return Math.min(tierLimit, requested);
 }

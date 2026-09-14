@@ -86,3 +86,19 @@
 .awt-subagents__empty p { margin: 7px auto 0; max-width: 520px; opacity: .62; line-height: 1.55; }
 .awt-subagents__footer { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 6px 2px 0; }
 .awt-subagents__notice { margin: 0; font-size: .82rem; line-height: 1.5; opacity: .7; max-width: 760px; }
+
+.awt-subagents__agent-body { min-width: 0; display: grid; gap: 5px; }
+.awt-subagents__agent-evidence { min-width: 0; display: grid; gap: 4px; }
+.awt-subagents__agent-stage { font-size: .72rem; line-height: 1.35; opacity: .72; overflow-wrap: anywhere; }
+.awt-subagents__agent-stage.is-proven { opacity: .95; font-weight: 750; }
+.awt-subagents__agent-proofs { display: flex; flex-wrap: wrap; gap: 4px; }
+.awt-subagents__proof {
+	padding: 2px 6px;
+	border-radius: 999px;
+	border: 1px solid color-mix(in srgb, currentColor 10%, transparent);
+	font-size: .62rem;
+	line-height: 1.4;
+}
+.awt-subagents__proof.is-proven { background: color-mix(in srgb, #5eead4 12%, transparent); opacity: .92; }
+.awt-subagents__proof.is-pending { background: color-mix(in srgb, #fff 3%, transparent); opacity: .48; }
+.awt-subagents__agent-update { font-size: .66rem; line-height: 1.35; opacity: .48; overflow-wrap: anywhere; }

@@ -1,71 +1,52 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
-
+//Boruch Hashem
+//Blessed be He
 /**
  * @file TerrainMesh.js
- * @description Carries ecological road weights through one terrain mesh and enforces immediate remote-only visibility.
- * The Awtsmoos reveals one earth through many garments; Awtsmoos.com carries meadow, road, moisture, soil, and rock in one vessel,
- * while geometry may exist before its remote garment yet cannot flash a naked color into the world as if the texture were settled.
+ * @description Adapts MitzvahWorld terrain semantics to the shared Awtsmoos Procedural Core world-building API.
+ * The Awtsmoos reveals one earth through many game meanings; Awtsmoos.com keeps village-road ecology here
+ * while Core alone owns reusable native geometry, remote photographic materials, shader law, and hydration.
  */
+import { createCinematicWorldBuildingApi } from '../../../../../../libs/awtsmoos-procedural-core/src/core/worldBuilding/index.js';
 
-import {
-	BufferAttribute,
-	BufferGeometry,
-	Mesh
-} from '../../../light-three-gltf/tiny-runtime.js';
-import { materialHasRealMap } from '../assets/RemoteMaterialImageValidity.js';
-import { createTerrainMaterial } from './terrain/TerrainMaterialFactory.js';
+const WORLD = createCinematicWorldBuildingApi();
 
-/** Creates one terrain mesh and hides it until its base material owns a real remote map. */
-export function createTerrainMesh(data, grassImage, pathImage, fallbackUrl, quality = 'high') {
-	const geometry = new BufferGeometry();
-	geometry.setAttribute('position', attribute(data.vertices.flatMap(point => [point.x, point.y, point.z]), 3));
-	geometry.setAttribute('normal', attribute(data.normals, 3));
-	geometry.setAttribute('uv', attribute(data.uvs, 2));
-	geometry.setAttribute('zone', attribute(
-		data.zones.flatMap((zone, index) => minimalMeadowZoneWeight(zone, data.roadMasks?.[index] || 0)),
-		4
-	));
-	geometry.setIndex(new BufferAttribute(indexArray(data.indices), 1));
-	const material = createTerrainMaterial({
-		dirtImage: pathImage,
-		fallbackUrl,
-		grassImage,
+/** Creates one Core-rendered terrain mesh from game-authored portable valley evidence. */
+export function createTerrainMesh(data, _grassImage, _pathImage, _fallbackUrl, quality = 'high') {
+	const positions = new Float32Array(data.vertices.flatMap(point => [point.x, point.y, point.z]));
+	const zoneWeights = new Float32Array(data.zones.flatMap((zone, index) => (
+		minimalMeadowZoneWeight(zone, data.roadMasks?.[index] || 0)
+	)));
+	const mesh = WORLD.terrainGeometry({
+		positions,
+		normals: data.normals,
+		uvs: data.uvs,
+		indices: data.indices
+	}, {
+		frustumCulled: false,
+		name: 'Awtsmoos high detail village terrain',
 		quality,
-		size: data.size
+		remoteOnly: true,
+		seed: Number(data.seed || data.AwtsmoosTerrainValley?.seed || 613),
+		waterLevel: Number(data.AwtsmoosTerrainValley?.waterLevel || 0),
+		zoneWeights
 	});
-	const mesh = new Mesh(geometry, material);
-	mesh.name = 'Awtsmoos_high_detail_bezier_road_terrain';
-	mesh.frustumCulled = false;
-	mesh.visible = materialHasRealMap(material);
 	mesh.userData.AwtsmoosTerrainValley = {
 		...data.AwtsmoosTerrainValley,
-		ecologicalWeightPolicy: 'strong-six-source-mobile-blend',
+		coreAuthority: 'awtsmoos-procedural-core',
+		ecologicalWeightPolicy: 'game-semantics-core-rendering',
 		indexCount: data.indices.length,
-		layerCount: material.textureLayers.length,
-		roadMaskMaximum: Math.max(0, ...(data.roadMasks || [])),
-		roadMaskTransport: 'ecological-zone-y',
 		remoteOnly: true,
-		shader: material.texturePolicy.shader,
 		vertexCount: data.vertices.length
 	};
-	if (!mesh.visible) {
-		mesh.userData.awtsmoosRemoteOnlyVisibility = {
-			hiddenByCovenant: true,
-			previousVisible: true
-		};
-	}
-	mesh.setBaseTransform();
+	mesh.setBaseTransform?.();
 	return mesh;
 }
 
-/** Returns one normalized ecological weight quartet for a terrain zone and road mask. */
+/** Converts MitzvahWorld-specific terrain labels into the Core four-channel ecology contract. */
 export function minimalMeadowZoneWeight(zone, rawRoad = 0) {
 	const road = clamp(rawRoad);
-	if (road > 0) {
-		return [0.18 * (1 - road), road, 0.08 * (1 - road), 0.02];
-	}
+	if (road > 0) return [0.18 * (1 - road), road, 0.08 * (1 - road), 0.02];
 	if (zone === 'lake-basin') return [0.06, 0, 0.92, 0.02];
 	if (zone === 'river-bank') return [0.12, 0, 0.86, 0.02];
 	if (zone === 'wet-meadow') return [0.3, 0, 0.66, 0.04];
@@ -74,17 +55,4 @@ export function minimalMeadowZoneWeight(zone, rawRoad = 0) {
 	if (zone === 'alpine-rock') return [0.05, 0, 0.04, 0.91];
 	return [0.8, 0, 0.14, 0.06];
 }
-
-function attribute(values, itemSize) {
-	return new BufferAttribute(new Float32Array(values), itemSize);
-}
-
-function indexArray(indices) {
-	return Math.max(0, ...indices) > 65535
-		? new Uint32Array(indices)
-		: new Uint16Array(indices);
-}
-
-function clamp(value) {
-	return Math.max(0, Math.min(1, Number(value) || 0));
-}
+function clamp(value) { return Math.max(0, Math.min(1, Number(value) || 0)); }

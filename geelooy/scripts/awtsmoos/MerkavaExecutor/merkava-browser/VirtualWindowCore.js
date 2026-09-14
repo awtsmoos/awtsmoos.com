@@ -9,7 +9,7 @@
 			require("./VirtualConsole.js"), require("./VirtualFetch.js"),
 			require("./VirtualEvents.js"), require("./VirtualMouse.js"),
 			require("./VirtualKeyboard.js"), require("./VirtualInteractions.js"),
-			require("./RuntimeProbe.js"), require("./VirtualWebGLBoxRenderer.js"),
+			require("./RuntimeProbe.js"), require("./VirtualWebGLBoxRendererV2.js"),
 			require("./BrowserRenderPipeline.js"), require("./VirtualWindowPlatform.js"),
 			require("./VirtualWindowHelpers.js")
 		);
@@ -75,7 +75,7 @@
 			this.keyboard = new keyboardMod.VirtualKeyboard(this);
 			this.interactions = new interactionMod.VirtualInteractions(this);
 			this.probe = new probeMod.RuntimeProbe();
-			this.webglRenderer = new boxRendererMod.VirtualWebGLBoxRenderer(
+			this.webglRenderer = new boxRendererMod.VirtualWebGLBoxRendererV2(
 				this.document.textureArena
 			);
 			this.renderPipeline = new pipelineMod.BrowserRenderPipeline(this, {

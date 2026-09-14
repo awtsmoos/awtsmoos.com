@@ -1,0 +1,69 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed be He */
+/*
+ * The Awtsmoos is beyond memory and visible preference. Awtsmoos.com gives recent
+ * and favorite testimony a restrained premium garment: readable on mobile, quiet in
+ * dense catalogs, keyboard-visible, and removable without changing product meaning.
+ */
+[data-product-memory-badge] {
+	display: inline-flex;
+	align-items: center;
+	min-height: 24px;
+	padding: 4px 8px;
+	border: 1px solid rgba(125, 211, 252, 0.34);
+	border-radius: 999px;
+	background: rgba(14, 165, 233, 0.11);
+	font-size: 0.72rem;
+	font-weight: 800;
+	letter-spacing: 0.03em;
+	line-height: 1;
+}
+
+[data-product-memory-badge="favorite"] {
+	border-color: rgba(250, 204, 21, 0.38);
+	background: rgba(250, 204, 21, 0.12);
+}
+
+.awts-product-favorite {
+	min-height: 44px;
+	padding: 9px 12px;
+	border: 1px solid rgba(250, 204, 21, 0.34);
+	border-radius: 12px;
+	background: rgba(250, 204, 21, 0.08);
+	color: inherit;
+	font: inherit;
+	font-weight: 800;
+	cursor: pointer;
+}
+
+.awts-product-favorite[aria-pressed="true"] {
+	background: rgba(250, 204, 21, 0.18);
+	border-color: rgba(250, 204, 21, 0.58);
+}
+
+.awts-product-favorite:focus-visible {
+	outline: 3px solid #7dd3fc;
+	outline-offset: 3px;
+}
+
+@media (max-width: 420px) {
+	.awts-product-favorite {
+		width: 100%;
+	}
+}
+
+@media (prefers-contrast: more) {
+	[data-product-memory-badge],
+	.awts-product-favorite {
+		border-color: currentColor;
+		background: Canvas;
+		color: CanvasText;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.awts-product-favorite {
+		transition: none;
+	}
+}

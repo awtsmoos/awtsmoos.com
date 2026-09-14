@@ -1,28 +1,20 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @module BrowserChromeNavigationSpec
  * @description
- * The Awtsmoos gives movement a trusted host-owned vessel before any guest page may
- * request a journey. Awtsmoos.com composes primary navigation actions, the imported
- * omnibox Keter, and the Advanced gate as declarative data. Each responsibility remains
- * separate enough to grow without crowding its neighbors or confusing trusted testimony.
+ * Declares the trusted Geelooy Browser navigation row as host-owned data. Movement,
+ * omnibox identity, Shliach launch, and Advanced controls stay outside guest content,
+ * so remote pages cannot counterfeit or mutate browser authority.
  */
 
 import { chochmahCreateOmniboxSpec } from "./browserChromeOmniboxSpec.js";
 
 /**
- * Creates the declarative trusted navigation row for Awtsmoos Browser.
- *
- * @returns {Object}
- * 	A raw HostDomSpec subtree exposing semantic refs for navigation actions and the
- * 	Advanced toggle while composing the omnibox declaration as its own child vessel.
- * @sideEffects None. The function returns plain declarative data only.
- * @architecture
- * 	Back/forward/reload controls mount later into `yesodNavigationActions`; navigation
- * 	structure therefore remains decoupled from controller/session implementation.
+ * Creates the complete trusted navigation-row HostDomSpec.
+ * @returns {Object} Raw declarative subtree consumed by HostDomRender.
  */
 export function chochmahCreateNavigationSpec() {
 	return {
@@ -32,18 +24,13 @@ export function chochmahCreateNavigationSpec() {
 		children: [
 			chochmahCreateNavigationActionMountSpec(),
 			chochmahCreateOmniboxSpec(),
+			chochmahCreateShliachActionSpec(),
 			chochmahCreateAdvancedToggleSpec()
 		]
 	};
 }
 
-/**
- * Declares the host mount point into which navigation controller buttons are manifested.
- *
- * @returns {Object}
- * 	An empty HostDomSpec div carrying the stable `yesodNavigationActions` semantic ref.
- * @sideEffects None.
- */
+/** Declares the mount receiving Back, Forward, Reload, and Go controls. */
 function chochmahCreateNavigationActionMountSpec() {
 	return {
 		tag: "div",
@@ -53,14 +40,26 @@ function chochmahCreateNavigationActionMountSpec() {
 }
 
 /**
- * Declares the trusted Advanced drawer gate without binding its behavioral listener.
- *
- * @returns {Object}
- * 	A button HostDomSpec carrying semantic state and action testimony for later binding.
- * @sideEffects None. BrowserSurface owns the click behavior and drawer state transition.
- * @security
- * 	The toggle lives outside guest content and is manifested only through HostDomRender,
- * 	so remote pages cannot replace its aria state, action identity, or visible control.
+ * Declares the host-owned Shliach launcher beside the omnibox.
+ * @returns {Object} Button specification with stable semantic/action testimony.
+ */
+function chochmahCreateShliachActionSpec() {
+	return {
+		tag: "button",
+		ref: "tiferesShliach",
+		classes: "awtsmoos-browser-shliach",
+		text: "✦ Shliach",
+		attributes: {
+			"aria-label": "Open Awtsmoos Shliach in this browser"
+		},
+		properties: { type: "button" },
+		dataset: { action: "shliach" }
+	};
+}
+
+/**
+ * Declares the trusted Advanced-drawer gate without binding behavior here.
+ * @returns {Object} Button specification with explicit initial expanded state.
  */
 function chochmahCreateAdvancedToggleSpec() {
 	return {

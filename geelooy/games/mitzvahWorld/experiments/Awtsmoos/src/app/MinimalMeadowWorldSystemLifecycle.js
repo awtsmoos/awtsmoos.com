@@ -1,4 +1,4 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 
@@ -27,11 +27,13 @@ export function updateMinimalMeadowWorldSystems(runtime, deltaSeconds) {
 	runtime.enemies?.update?.(combatDelta);
 	runtime.combat?.update?.(combatDelta);
 	runtime.verticalSlice?.update?.(deltaSeconds);
+	runtime.bridgeGameplay?.update?.(deltaSeconds);
 }
 
 /** Destroys every owned world-system vessel and clears retained public handles. */
 export function destroyMinimalMeadowWorldSystems(runtime) {
 	runtime.coreMechanics?.destroy?.();
+	runtime.bridgeGameplay?.destroy?.();
 	runtime.verticalSlice?.destroy?.();
 	runtime.localCombatMastery?.destroy?.();
 	runtime.recovery?.destroy?.();
@@ -76,6 +78,9 @@ function enrichmentSystems(runtime) {
 /** Clears retained handles after subsystem destruction. */
 function clearWorldHandles(runtime) {
 	runtime.ambientMotes = null;
+	runtime.bridgeGameplay = null;
+	runtime.bridgeRestoration = null;
+	runtime.obstacleCourse = null;
 	runtime.localCombatMastery = null;
 	runtime.presentationCadence = null;
 	runtime.questHud = null;

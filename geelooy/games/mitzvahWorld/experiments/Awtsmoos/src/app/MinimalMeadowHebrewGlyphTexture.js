@@ -1,22 +1,30 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file MinimalMeadowHebrewGlyphTexture.js
- * @description Preserves Hebrew projectile material APIs while replacing generated/solid glyph surfaces with real remote gold material readiness.
- * The Awtsmoos speaks every Hebrew letter before shape and pigment; Awtsmoos.com lets the phrase remain concealed
- * until genuine remote metal imagery arrives, so sacred geometry never borrows a generated canvas or naked color revealed.
+ * @description Resolves Hebrew projectile material identity while Procedural Core owns physical material creation.
+ * Sacred stroke geometry never receives a generated canvas or naked placeholder texture: the material remains
+ * remote-pending until verified Awtsmoos Drive gold imagery exists, while semantic identity and cache diagnostics
+ * stay deterministic for pooling, tests, and later hydration.
  */
 
-import { MeshStandardMaterial } from '../../../light-three-gltf/tiny-runtime.js';
+import {
+	createNativeWorldMaterial
+} from '../../../../../../libs/awtsmoos-procedural-core/src/core/worldBuilding/index.js';
 import { cachedTextureImage } from '../assets/PublicMaterialCache.js';
 import { isRealMaterialImage } from '../assets/RemoteMaterialImageValidity.js';
 import { runtimeMaterialByRole } from '../assets/RuntimeMaterialManifest.js';
 
 const materialCache = new Map();
 
-/** Creates or reuses one real-remote gold material for Hebrew stroke geometry. */
+/**
+ * Creates or reuses one remote-only gold material for Hebrew stroke geometry.
+ * @param {string} letters Hebrew phrase used for stable pooling identity.
+ * @param {number[]} color Requested RGBA modulation factor.
+ * @returns {object} Core-owned physical material with verified map or pending null map.
+ */
 export function createHebrewGlyphMaterial(letters, color) {
 	const key = hebrewGlyphVisualKey(letters, color);
 	if (materialCache.has(key)) {
@@ -25,44 +33,58 @@ export function createHebrewGlyphMaterial(letters, color) {
 	const identity = runtimeMaterialByRole('metal.gold');
 	const cached = identity ? cachedTextureImage(identity.primaryUrl) : null;
 	const mapImage = isRealMaterialImage(cached) ? cached : null;
-	const material = new MeshStandardMaterial({
+	const material = createNativeWorldMaterial({
 		color,
-		name: `Awtsmoos_hebrew_remote_gold_${key}`
-	});
-	Object.assign(material, {
 		mapImage,
 		mapRepeat: identity?.repeat || [1, 1],
-		metallicFactor: 0.35,
 		metalness: 0.35,
+		name: `Awtsmoos_hebrew_remote_gold_${key}`,
+		remoteOnly: true,
 		roughness: 0.44,
-		roughnessFactor: 0.44,
+		semanticRole: 'metal.gold',
 		texturePolicy: {
+			hideUntilHydrated: true,
 			realMapImage: Boolean(mapImage),
 			remoteOnly: true,
 			semanticRole: 'metal.gold'
 		},
-		textureUrl: identity?.primaryUrl || null,
-		vertexColors: false
+		textureUrl: identity?.primaryUrl || null
 	});
+	material.vertexColors = false;
 	materialCache.set(key, material);
 	return material;
 }
 
-/** Stable pool/cache key for phrase plus requested tint. */
+/**
+ * Creates the stable cache key for phrase plus requested tint.
+ * @returns {string} Deterministic glyph-material cache key.
+ */
 export function hebrewGlyphVisualKey(letters, color) {
 	return `${normalizeHebrewPhrase(letters)}|${Array.from(color || []).join(',')}`;
 }
-
-/** Normalizes the projectile phrase while preserving Hebrew content. */
+/**
+ * Normalizes projectile text while preserving the actual Hebrew phrase.
+ * @returns {string} Non-empty phrase suitable for cache identity and geometry lookup.
+ */
 export function normalizeHebrewPhrase(value) {
 	return String(value || 'אור').trim() || 'אור';
 }
 
-/** Returns bounded material-cache evidence for diagnostics. */
-export function hebrewGlyphMaterialDiagnostics() {
+/**
+ * Returns bounded remote-material cache evidence without allocating generated canvases.
+ * @returns {{canvases:number,materials:number,remoteOnly:boolean,renderMode:string,semanticRole:string}} Diagnostics.
+ */
+export function hebrewGlyphTextureDiagnostics() {
 	return {
-		cachedMaterials: materialCache.size,
+		canvases: 0,
+		materials: materialCache.size,
 		remoteOnly: true,
+		renderMode: 'remote-textured-stroke-geometry',
 		semanticRole: 'metal.gold'
 	};
+}
+
+/** Compatibility name retained for callers that refer specifically to material diagnostics. */
+export function hebrewGlyphMaterialDiagnostics() {
+	return hebrewGlyphTextureDiagnostics();
 }

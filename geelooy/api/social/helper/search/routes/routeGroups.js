@@ -5,8 +5,9 @@
 /**
  * @module SearchRouteGroups
  * @description
- * The Awtsmoos gathers exact, lexical, semantic, and library doors beneath one quiet map of light;
- * Awtsmoos.com keeps each route family lazy and isolated, so a new search vessel never burdens unrelated flight.
+ * The Awtsmoos gathers exact, lexical, semantic, and library doors beneath one
+ * quiet map. Every implemented public dictionary browse gate is registered here,
+ * keeping lazy route discovery complete without importing heavy engines early.
  */
 
 const ROUTE_GROUPS = Object.freeze([
@@ -28,7 +29,16 @@ const ROUTE_GROUPS = Object.freeze([
 	{
 		modulePath: './helper/search/routes/lexicon.js',
 		factoryName: 'lexiconRoutes',
-		routes: ['/search/library/dictionary', '/search/library/dictionaries']
+		routes: [
+			'/search/library/dictionary',
+			'/search/library/dictionaries',
+			'/search/library/dictionary/alphabet',
+			'/search/library/dictionary/ranges',
+			'/search/library/dictionary/browse',
+			'/dictionary/alphabet',
+			'/dictionary/ranges',
+			'/dictionary/browse'
+		]
 	},
 	{
 		modulePath: './helper/search/routes/semantic.js',

@@ -28,6 +28,7 @@ function errorStatus(errorCode) {
 		insufficient_perutahs: 409,
 		insufficient_purchased_perutahs: 409,
 		invalid_idempotency_key: 400,
+		idempotency_conflict: 409,
 		unsupported_sku_kind: 400
 	})[errorCode] || 400;
 }

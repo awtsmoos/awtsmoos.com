@@ -1,8 +1,11 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
+//Blessed be He
 
 import { isDalvikReference } from "../dalvik/objectHeap.js";
+import {
+	createFrameworkFlutterNativeArrayCapabilities
+} from "./frameworkFlutterNativeArrayCapabilities.js";
 import { isFlutterNativeReferenceType } from "./frameworkFlutterNativeDescriptors.js";
 
 const JAVA_STRING = "Ljava/lang/String;";
@@ -14,6 +17,7 @@ const JAVA_STRING = "Ljava/lang/String;";
  */
 export function createFrameworkFlutterNativeArrayResolver(runtime) {
 	return Object.freeze({
+		...createFrameworkFlutterNativeArrayCapabilities(runtime),
 		resolveArrayLength(reference) {
 			return runtime.heap.arrayLength(reference);
 		},
@@ -42,7 +46,13 @@ function resolveObjectArrayElement(runtime, arrayReference, index) {
 			typeof target
 		);
 	}
-	return describeDalvikReference(runtime, arrayReference, index, target, descriptor);
+	return describeDalvikReference(
+		runtime,
+		arrayReference,
+		index,
+		target,
+		descriptor
+	);
 }
 
 function describeHostString(arrayReference, index, target, descriptor) {
@@ -76,7 +86,10 @@ function describeDalvikReference(runtime, arrayReference, index, target, descrip
 
 function arrayComponentDescriptor(type) {
 	if (typeof type !== "string" || !type.startsWith("[")) {
-		throw resolverError("ANDROID_FLUTTER_JNI_OBJECT_ARRAY_DESCRIPTOR", type);
+		throw resolverError(
+			"ANDROID_FLUTTER_JNI_OBJECT_ARRAY_DESCRIPTOR",
+			type
+		);
 	}
 	return type.slice(1);
 }

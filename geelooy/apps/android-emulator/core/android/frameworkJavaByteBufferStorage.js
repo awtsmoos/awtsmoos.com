@@ -1,6 +1,6 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
+//Blessed be He
 
 export const JAVA_BYTE_BUFFER = "Ljava/nio/ByteBuffer;";
 const STORAGE_FIELD = "java:nio:byte-buffer:storage";
@@ -8,9 +8,15 @@ const STATE_FIELD = "java:nio:byte-buffer:state";
 const MAXIMUM_CAPACITY = 100000000;
 
 /**
- * Allocates one bounded ByteBuffer over direct bytes or a guest byte array. The
- * Awtsmoos creates capacity, backing shore, offset, and mutable cursor anew;
- * Awtsmoos.com keeps storage opaque while preserving shared view identity.
+ * Allocates one bounded ByteBuffer over Java arrays, owned direct bytes, or native memory.
+ *
+ * Native-backed storage deliberately keeps the composite guest-memory vessel and base
+ * address instead of copying bytes. Every Java view therefore observes writes performed
+ * by Flutter C++ and every Java put remains immediately visible to guest native code.
+ *
+ * @param {object} runtime Android runtime containing the Dalvik heap.
+ * @param {object} options Capacity, state, and optional backing storage.
+ * @returns {object} Dalvik reference for the allocated java.nio.ByteBuffer.
  */
 export function createJavaByteBuffer(runtime, options) {
 	const capacity = boundedCapacity(options.capacity);
@@ -35,6 +41,9 @@ export function createJavaByteBuffer(runtime, options) {
 
 /**
  * Returns validated mutable state and shared opaque storage for one buffer.
+ * @param {object} runtime Android runtime containing the Dalvik heap.
+ * @param {object} reference Dalvik ByteBuffer reference.
+ * @returns {{state: object, storage: object}} Shared state and backing storage.
  */
 export function javaByteBufferRecord(runtime, reference) {
 	const object = runtime.heap.get(reference);
@@ -58,9 +67,7 @@ function createStorage(runtime, capacity, direct) {
 }
 
 function validateJavaByteBufferView(runtime, storage, state) {
-	const length = storage.arrayReference
-		? runtime.heap.arrayLength(storage.arrayReference)
-		: storage.bytes?.length;
+	const length = byteBufferStorageLength(runtime, storage);
 	const invalid = !Number.isInteger(length)
 		|| state.offset < 0
 		|| state.capacity < 0
@@ -74,6 +81,16 @@ function validateJavaByteBufferView(runtime, storage, state) {
 			JSON.stringify({ backingLength: length, ...state })
 		);
 	}
+}
+
+function byteBufferStorageLength(runtime, storage) {
+	if (storage.arrayReference) {
+		return runtime.heap.arrayLength(storage.arrayReference);
+	}
+	if (storage.nativeMemory) {
+		return Number(storage.byteLength);
+	}
+	return storage.bytes?.length;
 }
 
 function boundedCapacity(value) {

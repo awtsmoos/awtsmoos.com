@@ -4,6 +4,7 @@
 
 const { readWalletDb } = require("../persistence.js");
 const { listEntitlements } = require("./entitlement.js");
+const { listProductCredits } = require("./productCredits.js");
 
 /**
  * B"H
@@ -30,6 +31,7 @@ async function getCommerceAccount(userId) {
 
 	return {
 		entitlements: listEntitlements(database, userId),
+		productCredits: listProductCredits(database, userId),
 		receipts
 	};
 }

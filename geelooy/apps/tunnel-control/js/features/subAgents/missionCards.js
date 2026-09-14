@@ -3,6 +3,7 @@
 // Blessed is He
 
 import { createSubAgentElement as h } from "./dom.js";
+import { createSubAgentDeliveryEvidence } from "./deliveryView.js";
 
 /**
  * @file Mission cards and roster rendering for the Sub-agents constellation.
@@ -72,7 +73,10 @@ export function renderSubAgentMissionDetail(detailNode, mission) {
 		className: "awt-subagents__agent-row"
 	},
 		h("span", { className: "awt-subagents__agent-depth", text: `D${agent.depth}` }),
-		h("span", { className: "awt-subagents__agent-name", text: agent.name }),
+		h("span", { className: "awt-subagents__agent-body" },
+			h("span", { className: "awt-subagents__agent-name", text: agent.name }),
+			createSubAgentDeliveryEvidence(agent)
+		),
 		h("span", { className: "awt-subagents__agent-status", text: agent.status })
 	));
 	const heading = h("div", { className: "awt-subagents__detail-head" },

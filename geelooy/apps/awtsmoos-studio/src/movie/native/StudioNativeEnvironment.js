@@ -1,42 +1,41 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file StudioNativeEnvironment.js
- * @description Interprets canonical Studio light and world layers into the exact compact environment contract consumed by procedural-core's WebGL renderer.
- * The Awtsmoos shines before sun or fog receives a name, while Awtsmoos.com gives those cinematic vessels measured strength and hue;
- * light remains movie data, and the renderer merely reveals supported ambient, sun, fog, and exposure law so preview and export may share one view.
+ * @description Converts MovieDocument lighting semantics into Procedural Core environment intent.
+ * Studio owns authored light values and time-of-day meaning; Core owns the actual ambient, sun, fog,
+ * exposure, and cinematic preset law so preview and export cannot become a second lighting engine.
  */
+import { createCinematicWorldBuildingApi } from '../../../../../libs/awtsmoos-procedural-core/src/core/worldBuilding/index.js';
 
-/** Build supported native renderer environment values from canonical scene layers. */
-export function createStudioNativeEnvironment(scene) {
-	const lightLayer = lastLayer(scene, 'light3d');
+const WORLD = createCinematicWorldBuildingApi();
+
+/** Return pure semantic environment intent suitable for CinematicWorldBuildingApi.world(). */
+export function createStudioEnvironmentIntent(scene = {}) {
+	const light = lastLayer(scene, 'light3d');
 	const worldLayer = lastLayer(scene, 'world3d');
-	const intensity = Math.max(0.1, Number(lightLayer?.data?.intensity ?? 1.8));
 	const world = worldLayer?.content?.procedural || {};
 	return {
-		ambient: scaleColor([0.3, 0.36, 0.44], 0.7 + intensity * 0.08),
-		sunDirection: normalizeDirection(lightLayer?.data?.direction),
-		sunColor: scaleColor([1, 0.78, 0.54], 0.72 + intensity * 0.12),
-		fogColor: [0.08, 0.14, 0.19],
-		fogNear: Number(world.fogNear ?? 28),
-		fogFar: Number(world.fogFar ?? 150),
-		exposure: Number(world.exposure ?? 0.9 + intensity * 0.1)
+		exposure: optionalNumber(world.exposure),
+		fogFar: optionalNumber(world.fogFar),
+		fogNear: optionalNumber(world.fogNear),
+		intensity: Math.max(0.05, Number(light?.data?.intensity ?? 1)),
+		sunDirection: light?.data?.direction,
+		timeOfDay: world.timeOfDay || world.lighting || 'golden'
 	};
+}
+
+/** Resolve the renderer contract through Core; this compatibility surface owns no color law. */
+export function createStudioNativeEnvironment(scene = {}, worldApi = WORLD) {
+	return worldApi.environment(createStudioEnvironmentIntent(scene));
 }
 
 function lastLayer(scene, kind) {
 	return [...(scene?.layers || [])].reverse().find(layer => layer.kind === kind) || null;
 }
 
-function scaleColor(color, amount) {
-	return color.map(value => Math.min(1, Math.max(0, value * amount)));
-}
-
-function normalizeDirection(direction) {
-	if (!Array.isArray(direction) || direction.length < 3) {
-		return [-0.38, 0.76, 0.34];
-	}
-	return direction.slice(0, 3).map(value => Number(value || 0));
+function optionalNumber(value) {
+	return value == null ? undefined : Number(value);
 }

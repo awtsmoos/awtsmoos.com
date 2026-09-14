@@ -1,6 +1,6 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @module MultiLaneSearchMerge
@@ -18,6 +18,7 @@ const {
 	laneTimings,
 	roundRobinHits
 } = require('./librarySearchMergeHelpers.js');
+const { withSearchCategories } = require('./searchResultCategories.js');
 
 /** Collects fulfilled lane answers and neutral failure metadata before ranking. */
 function collectLaneResults(lanes, settled) {
@@ -69,7 +70,7 @@ function mergeLaneSearches({ lanes, limit, query, settled, totalMs }) {
 	const persisted = successes.every(
 		result => result.index?.persisted === true
 	);
-	return {
+	return withSearchCategories({
 		BH: 'B"H',
 		query,
 		shard: allLibrariesShard(lanes),
@@ -93,7 +94,7 @@ function mergeLaneSearches({ lanes, limit, query, settled, totalMs }) {
 		commentHits: successes.flatMap(result => result.commentHits || []),
 		lanes: successes.map(result => result.libraryLane),
 		laneErrors: failures
-	};
+	});
 }
 
 module.exports = {

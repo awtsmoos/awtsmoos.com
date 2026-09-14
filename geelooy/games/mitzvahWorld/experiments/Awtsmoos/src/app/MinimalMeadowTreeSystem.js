@@ -1,6 +1,6 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
+//Blessed be He
 
 /**
  * @file MinimalMeadowTreeSystem.js
@@ -9,7 +9,7 @@
  * Awtsmoos.com keeps the nearby forest alive, clear, and responsive through measured devotion.
  */
 
-import { Group } from '../../../light-three-gltf/tiny-runtime.js';
+import { createNativeWorldGroup } from '../../../../../../libs/awtsmoos-procedural-core/src/core/worldBuilding/index.js';
 import { createMinimalMeadowTreeMaterials } from './MinimalMeadowTreeMaterialSources.js';
 import { createMinimalMeadowTreePlacements } from './MinimalMeadowTreePlacements.js';
 import { createMinimalMeadowTreeRecord } from './MinimalMeadowTreeRecordFactory.js';
@@ -47,7 +47,7 @@ export class MinimalMeadowTreeSystem {
 	 */
 	constructor(runtime) {
 		this.runtime = runtime;
-		this.group = new Group();
+		this.group = createNativeWorldGroup();
 		this.group.name = FOREST_AUTHORITY;
 		this.mobile = mobileProfile(runtime);
 		this.policy = minimalMeadowTreeUpdatePolicy(this.mobile);

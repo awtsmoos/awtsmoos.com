@@ -1,6 +1,6 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file minimalMeadowHebrewProjectileVisual.test.mjs
@@ -27,24 +27,28 @@ import {
 } from '../../app/MinimalMeadowParticleEffects.js';
 import { hebrewGlyphTextureDiagnostics } from '../../app/MinimalMeadowHebrewGlyphTexture.js';
 import { hebrewStrokeAlphabetDiagnostics } from '../../app/MinimalMeadowHebrewStrokeAlphabet.js';
+import { particleQualityProfile } from '../../app/MinimalMeadowParticleQuality.js';
 
 const action = Object.freeze({ color: [1, 0.2, 0.04, 1], damage: 28, letters: 'אש', speed: 8 });
 const target = { alive: true, targetHint: () => ({ x: 4, y: 1, z: 0 }) };
 
-test('projectile renders solid Hebrew in three crossed cached views', () => {
+test('projectile renders remote-authored Hebrew in three crossed cached views', () => {
 	const projectile = createHebrewProjectile({ x: 0, y: 1, z: 0 }, target, action);
 	const view = projectile.glyphCards.children[0];
 	assert.equal(projectile.glyphCards.children.length, 3);
 	assert.equal(view.geometry.userData.hebrewLetters, 'אש');
-	assert.equal(view.geometry.userData.renderMode, 'solid-stroke-geometry');
+	assert.equal(view.geometry.userData.renderMode, 'remote-textured-stroke-geometry');
 	assert.ok(view.geometry.userData.strokeCount >= 8);
-	assert.equal(view.material.mapImage, undefined);
+	assert.equal(view.material.texturePolicy.remoteOnly, true);
+	assert.equal(view.material.texturePolicy.generatedTextureAllowed, false);
 	assert.equal(view.material.transparent, false);
-	assert.equal(projectile.group.userData.primaryVisual, 'solid-hebrew-geometry');
+	assert.equal(projectile.group.userData.primaryVisual, 'remote-textured-stroke-geometry');
 	assert.deepEqual(hebrewGlyphTextureDiagnostics(), {
 		canvases: 0,
 		materials: 1,
-		renderMode: 'solid-stroke-geometry'
+		remoteOnly: true,
+		renderMode: 'remote-textured-stroke-geometry',
+		semanticRole: 'metal.gold'
 	});
 	releaseHebrewProjectile(projectile);
 });
@@ -74,8 +78,8 @@ test('projectile tracks target, impacts, and reuses its visual vessel', () => {
 test('supporting particles remain bounded and reusable', () => {
 	const trail = createProjectileTrail({ x: 1, y: 2, z: 3 }, action.color);
 	const impact = createImpactExplosion({ x: 1, y: 2, z: 3 }, action.color, 99);
-	assert.equal(trail.particles.length, 3);
-	assert.equal(impact.particles.length, 12);
+	assert.equal(trail.particles.length, particleQualityProfile().trailCount);
+	assert.equal(impact.particles.length, particleQualityProfile(99).impactCount);
 	assert.equal(advanceEffect(trail), true);
 	assert.equal(advanceEffect(impact), true);
 	releaseParticleEffect(trail);

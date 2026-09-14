@@ -1,6 +1,6 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file MinimalMeadowQuestChossidVisual.js
@@ -9,7 +9,7 @@
  * substitute while preserving marker, staff, isolated skeleton, and imported standing motion.
  */
 
-import { Group } from '../../../light-three-gltf/tiny-runtime.js';
+import { createNativeWorldGroup } from '../../../../../../libs/awtsmoos-procedural-core/src/core/worldBuilding/index.js';
 import { createNpcQuestMarker } from '../world/npc/NpcQuestMarker.js';
 import { createFriendlyChossidActor } from './MinimalMeadowFriendlyChossidActor.js';
 
@@ -21,7 +21,7 @@ export async function createMinimalMeadowQuestChossidVisual(runtime, profile) {
 	});
 	actor.model.name = `Awtsmoos_quest_chossid_glb_${profile.id}`;
 	const marker = createNpcQuestMarker(profile, profile.groundY);
-	const group = new Group();
+	const group = createNativeWorldGroup();
 	group.name = `Awtsmoos_quest_marker_group_${profile.id}`;
 	group.add(marker);
 	return {

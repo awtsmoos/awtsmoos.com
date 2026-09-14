@@ -1,0 +1,60 @@
+/* B"H
+Boruch Hashem
+Blessed be He
+*/
+
+.awtsmoos-browser-host .awtsmoos-browser-shliach {
+	min-height: 42px;
+	padding: 0 14px;
+	border: 1px solid rgba(183, 247, 255, 0.3);
+	border-radius: 12px;
+	color: #f8fdff;
+	background:
+		linear-gradient(135deg, rgba(48, 157, 255, 0.26), rgba(162, 88, 255, 0.22)),
+		rgba(255, 255, 255, 0.06);
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+	font-weight: 750;
+	letter-spacing: -0.01em;
+	white-space: nowrap;
+	cursor: pointer;
+	transition:
+		transform 140ms ease,
+		border-color 140ms ease,
+		background 140ms ease;
+}
+
+.awtsmoos-browser-host .awtsmoos-browser-shliach:hover {
+	border-color: rgba(183, 247, 255, 0.66);
+	background:
+		linear-gradient(135deg, rgba(48, 157, 255, 0.38), rgba(162, 88, 255, 0.32)),
+		rgba(255, 255, 255, 0.08);
+	transform: translateY(-1px);
+}
+
+.awtsmoos-browser-host .awtsmoos-browser-shliach:focus-visible {
+	outline: 3px solid rgba(124, 236, 255, 0.48);
+	outline-offset: 2px;
+}
+
+.awtsmoos-browser-host .awtsmoos-browser-shliach:active {
+	transform: translateY(0);
+}
+
+@media (max-width: 640px) {
+	.awtsmoos-browser-host .awtsmoos-browser-shliach {
+		min-width: 44px;
+		padding: 0 10px;
+		font-size: 0;
+	}
+
+	.awtsmoos-browser-host .awtsmoos-browser-shliach::before {
+		content: "✦";
+		font-size: 18px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.awtsmoos-browser-host .awtsmoos-browser-shliach {
+		transition: none;
+	}
+}

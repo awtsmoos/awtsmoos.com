@@ -1,6 +1,6 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file MinimalMeadowTerrainPackage.js
@@ -9,7 +9,7 @@
  * collision authoritative while Awtsmoos Drive enrichment remains truthful and deferred.
  */
 
-import { Group } from '../../../light-three-gltf/tiny-runtime.js';
+import { createNativeWorldGroup } from '../../../../../../libs/awtsmoos-procedural-core/src/core/worldBuilding/index.js';
 import { createTerrainMesh } from '../world/TerrainMesh.js';
 import {
 	createMinimalMeadowTerrainComposites
@@ -71,7 +71,7 @@ export async function createMinimalMeadowTerrainPackage(options = {}) {
 		road,
 		size: data.size
 	});
-	const group = new Group();
+	const group = createNativeWorldGroup();
 	group.name = 'Awtsmoos_minimal_meadow_terrain_package';
 	group.add(mesh);
 	const roadMount = mountMinimalMeadowTerrainRoad(group, road);

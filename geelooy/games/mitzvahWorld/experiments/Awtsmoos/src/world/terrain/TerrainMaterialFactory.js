@@ -1,15 +1,14 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file TerrainMaterialFactory.js
- * @description Builds remote-only alpine terrain while preserving constructor-time remote imagery and ecological mixing metadata.
- * The Awtsmoos renews earth beneath every foot beyond photograph and pigment; Awtsmoos.com lets true distant grass shine neutral,
- * while an unhydrated valley stays concealed until the remote image arrives and fills the material vessel actual.
+ * @description Preserves legacy MitzvahWorld alpine layer selection while Procedural Core owns native layered-terrain materialization.
+ * Game compatibility code may still choose its historical ecological recipe, quality vectors, and trusted remote images,
+ * but it no longer constructs renderer materials; active terrain already uses Core's higher-level cinematic terrain API directly.
  */
-
-import { MeshStandardMaterial } from '../../../../light-three-gltf/tiny-runtime.js';
+import { createLayeredTerrainMaterial } from '../../../../../../../libs/awtsmoos-procedural-core/src/core/worldBuilding/index.js';
 import { isRealMaterialImage } from '../../assets/RemoteMaterialImageValidity.js';
 import { isRemoteMaterialUrl } from '../../assets/PublicMaterialRemoteProvenance.js';
 import { mainRiverVillageSurfaceMix } from '../materials/MainRiverVillageSurfaceMix.js';
@@ -22,29 +21,22 @@ const TERRAIN_UV_UNITS_PER_WORLD = Object.freeze([0.035, 0.035]);
 export const TERRAIN_CINEMATIC_MIX_STRENGTH = 0;
 export const TERRAIN_CINEMATIC_PATCH_SCALE = 0.024;
 
-/** Creates one terrain material whose immediate maps qualify only with real remote provenance. */
+/**
+ * Create the historical MitzvahWorld terrain recipe through Core's shared layered material vessel.
+ * @param {object} options Quality plus optional already-decoded remote grass/dirt images.
+ * @returns {object} Core-created native terrain material carrying the legacy semantic recipe.
+ */
 export function createTerrainMaterial(options = {}) {
 	const quality = options.quality || 'medium';
 	const recipe = terrainLayerRecipe(quality);
 	const realism = terrainRealismProfile(quality);
-	const surfaceMix = mainRiverVillageSurfaceMix(recipe.layers, quality);
-	const mapImage = remoteImage(options.grassImage);
+	const surfaceMix = mainRiverVillageSurfaceMix(recipe.layers, quality);	const mapImage = remoteImage(options.grassImage);
 	const mixImage = remoteImage(options.dirtImage);
 	const textureUrl = remoteUrl(options.fallbackUrl, mapImage);
 	const mixTextureUrl = remoteUrl(null, mixImage);
-	const material = new MeshStandardMaterial({
-		color: TERRAIN_NEUTRAL_TINT,
-		metalness: 0,
-		name: 'Awtsmoos_canonical_remote_alpine_valley',
-		roughness: 0.92
-	});
-	Object.assign(material, terrainFields(recipe, realism, surfaceMix, mapImage, mixImage, textureUrl, mixTextureUrl));
-	return material;
-}
-
-function terrainFields(recipe, realism, surfaceMix, mapImage, mixImage, textureUrl, mixTextureUrl) {
-	return {
+	return createLayeredTerrainMaterial({
 		anisotropy: false,
+		color: TERRAIN_NEUTRAL_TINT,
 		mapImage,
 		mapRepeat: [10, 10],
 		materialStack: recipe.stack,
@@ -54,19 +46,20 @@ function terrainFields(recipe, realism, surfaceMix, mapImage, mixImage, textureU
 		mixRepeat: [1, 1],
 		mixStrength: TERRAIN_CINEMATIC_MIX_STRENGTH,
 		mixTextureUrl,
-		opacity: 1,
+		name: 'Awtsmoos_canonical_remote_alpine_valley',
+		roughness: 0.92,
+		semanticRole: 'terrain.grass',
 		terrainMixingA: realism.a,
 		terrainMixingB: realism.b,
 		terrainMixingC: realism.c,
-		textureLayers: [...surfaceMix.layers],
+		textureLayers: surfaceMix.layers,
 		texturePolicy: terrainPolicy(recipe, realism, surfaceMix, mapImage, mixImage),
-		textureUrl,
-		transparent: false
-	};
+		textureUrl
+	});
 }
 
-function terrainPolicy(recipe, realism, surfaceMix, mapImage, mixImage) {
-	return {
+/** Preserve the legacy ecology diagnostics while Core owns the material object that carries them. */
+function terrainPolicy(recipe, realism, surfaceMix, mapImage, mixImage) {	return {
 		baseSource: mapImage ? 'verified-remote-image-at-construction' : 'remote-only-semantic-terrain',
 		fullResolutionEcologicalLayers: true,
 		hydration: mapImage ? 'ready-at-construction' : 'shared-cache-bounded-real-remote-page',
@@ -88,14 +81,14 @@ function terrainPolicy(recipe, realism, surfaceMix, mapImage, mixImage) {
 	};
 }
 
+/** Accept decoded images only when their provenance passes the MitzvahWorld remote-material covenant. */
 function remoteImage(image) {
 	return isRealMaterialImage(image) ? image : null;
 }
 
+/** Resolve only genuine remote URLs; local paths never become production material authority. */
 function remoteUrl(explicitUrl, image) {
-	if (isRemoteMaterialUrl(explicitUrl)) {
-		return explicitUrl;
-	}
+	if (isRemoteMaterialUrl(explicitUrl)) return explicitUrl;
 	const source = image?.currentSrc || image?.src || image?.dataset?.publicUrl || null;
 	return isRemoteMaterialUrl(source) ? source : null;
 }

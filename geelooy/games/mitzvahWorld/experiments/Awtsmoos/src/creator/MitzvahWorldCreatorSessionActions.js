@@ -1,6 +1,6 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
+//Blessed be He
 
 /**
  * @file MitzvahWorldCreatorSessionActions.js
@@ -10,10 +10,11 @@
  */
 
 import { hydrateCreatorSession, remixCreatorSession } from './MitzvahWorldCreatorHydration.js';
-import { commitCreatorPlacement, redoCreatorPlacement, undoCreatorPlacement } from './MitzvahWorldCreatorTransactions.js';
-import { MitzvahWorldCreatorSessionState } from './MitzvahWorldCreatorSessionState.js';
+import { redoCreatorAction, undoCreatorAction } from './MitzvahWorldCreatorHistoryActions.js';
+import { MitzvahWorldCreatorObjectActions } from './MitzvahWorldCreatorObjectActions.js';
+import { commitCreatorPlacement } from './MitzvahWorldCreatorTransactions.js';
 
-export class MitzvahWorldCreatorSessionActions extends MitzvahWorldCreatorSessionState {
+export class MitzvahWorldCreatorSessionActions extends MitzvahWorldCreatorObjectActions {
 	select(idOhr) {
 		this.controlState.select(idOhr);
 		return this.publish();
@@ -43,18 +44,19 @@ export class MitzvahWorldCreatorSessionActions extends MitzvahWorldCreatorSessio
 		const catalogBinah = this.controlState.selectedPart();
 		const definitionMalchus = this.placement(this.nextId(catalogBinah.id));
 		const receiptYesod = await commitCreatorPlacement(this, catalogBinah, definitionMalchus);
+		this.selectedObjectId = definitionMalchus.id;
 		this.publish();
 		return receiptYesod;
 	}
 
 	async undo() {
-		const receiptYesod = await undoCreatorPlacement(this);
+		const receiptYesod = await undoCreatorAction(this);
 		this.publish();
 		return receiptYesod;
 	}
 
 	async redo() {
-		const receiptYesod = await redoCreatorPlacement(this);
+		const receiptYesod = await redoCreatorAction(this);
 		this.publish();
 		return receiptYesod;
 	}

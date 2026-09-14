@@ -1,8 +1,9 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 const Context = require("./context.js");
+const PromptUrl = require("./promptUrl.js");
 const { C, Dispatch, Store } = Context.shared;
 const progress = Context.reference("progress");
 const heartbeat = Context.reference("heartbeat");
@@ -29,7 +30,10 @@ async function dispatchRunTurn(
 	const result = await service.send({
 		prompt: prepared.prompt,
 		conversationKey: prepared.agent.conversationKey,
-		agentStartUrl: prepared.record.plan.agentStartUrl,
+		agentStartUrl: PromptUrl.buildPromptUrl(
+			prepared.record.plan.agentStartUrl,
+			prepared.prompt
+		),
 		mode: "chatgpt-website",
 		loginPolicy: "defer",
 		timeoutMs: 240000,

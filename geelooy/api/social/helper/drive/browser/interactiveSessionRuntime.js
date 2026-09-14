@@ -1,6 +1,6 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file Starts and stops every trusted resource behind one interactive browser session.
@@ -13,14 +13,15 @@ const { launchInteractiveChrome } = require('./interactiveChromeLauncher.js');
 const { startInteractiveLoopbackProxy } = require('./interactiveLoopbackProxy.js');
 const { InteractiveTargetController } = require('./interactiveTargetController.js');
 
-async function startInteractiveRuntime({ profilePath, url, resolver }) {
+async function startInteractiveRuntime({ profilePath, url, resolver, engineMode }) {
 	const proxy = await startInteractiveLoopbackProxy({ resolver });
 	let chrome = null;
 	let devtools = null;
 	try {
 		chrome = await launchInteractiveChrome({
 			profilePath,
-			proxyPort: proxy.port
+			proxyPort: proxy.port,
+			engineMode
 		});
 		devtools = new InteractiveDevtoolsHttp(chrome.debugPort);
 		const target = await ensureRootTarget(devtools);
@@ -63,7 +64,8 @@ async function stopInteractiveRuntime(runtime) {
 
 async function ensureRootTarget(devtools) {
 	const targets = await devtools.listTargets();
-	if (targets.length) return targets[0];
+	const pageTarget = targets.find(target => target?.type === 'page' && target?.id);
+	if (pageTarget) return pageTarget;
 	return devtools.createTarget('about:blank');
 }
 

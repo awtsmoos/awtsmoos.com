@@ -1,24 +1,33 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @module ShardedLexiconStore
  * @description
- * The Awtsmoos lets one short-lived worker carry one first-letter vessel, writing entries and sparse anchors into one AwtsmoosDB;
- * Awtsmoos.com streams legacy migration input line by line, verifies native truth, closes the shard, and never gathers the dictionary sea.
+ * One short-lived worker copies one native source letter-range into a compact
+ * serving shard. Every lexical entry becomes one exact-length schema-coded
+ * binary value while sparse browse anchors retain their bounded navigation role.
  */
 
-import fs from 'node:fs';
-import fsp from 'node:fs/promises';
+import fs from 'node:fs/promises';
 import path from 'node:path';
-import readline from 'node:readline';
 import { createRequire } from 'node:module';
 import AwtsmoosDB from '../../ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/index.js';
 import { anchorValue, shouldAnchor } from './anchors.mjs';
+import { createStreamingEntryMap } from './streaming-entry-map.mjs';
 
 const require = createRequire(import.meta.url);
-const { entryKey, shardToken } = require('../../geelooy/api/social/helper/search/lexicon/keySpace.js');
+const {
+	entryKey,
+	prefixBounds,
+	shardToken
+} = require('../../geelooy/api/social/helper/search/lexicon/keySpace.js');
+const { encodeLexiconRecord } = require(
+	'../../geelooy/api/social/helper/search/lexicon/binary/recordWriter.js'
+);
+
+const READ_OPTIONS = Object.freeze({ readOnly: true, maxCachedPages: 8 });
 const WRITE_OPTIONS = Object.freeze({
 	compression: true,
 	reuseFreedSpace: 'verified',
@@ -26,55 +35,79 @@ const WRITE_OPTIONS = Object.freeze({
 	dirtyPageFlushThreshold: 8
 });
 
-/** Removes a prior candidate shard and its journal before one deterministic rebuild. */
+/** Converts one hexadecimal first-codepoint token into its lexical range prefix. */
+function tokenLetter(token) {
+	const codePoint = Number.parseInt(String(token), 16);
+	if (!Number.isFinite(codePoint)) throw new Error(`invalid_lexicon_token:${token}`);
+	return String.fromCodePoint(codePoint);
+}
+
+/** Resolves one lazy source value without retaining storage proxies. */
+function resolveValue(value) {
+	return value && typeof value.__resolve__ === 'function'
+		? value.__resolve__()
+		: value;
+}
+
+/** Removes a prior candidate shard and its write-ahead journal before rebuild. */
 async function prepareShard(file) {
-	await fsp.mkdir(path.dirname(file), { recursive: true });
-	await fsp.rm(file, { force: true });
-	await fsp.rm(`${file}.wal`, { force: true });
+	await fs.mkdir(path.dirname(file), { recursive: true });
+	await fs.rm(file, { force: true });
+	await fs.rm(`${file}.wal`, { force: true });
 }
 
-/** Persists one matching entry and, at the shared stride, one sparse lexical anchor. */
-async function writeEntry(database, entry, count) {
+/** Persists one compact lexical row and one sparse browse anchor. */
+function writeEntry(entryMap, anchorMap, entry, count) {
 	const key = entryKey(entry.normalized, count);
-	await database.root.entries.set(key, entry);
-	if (shouldAnchor(count)) await database.root.anchors.set(key, anchorValue(entry, key));
+	entryMap.append(key, encodeLexiconRecord(entry));
+	if (shouldAnchor(count)) anchorMap.append(key, anchorValue(entry, key));
 }
 
-/** Builds one first-letter native shard from bounded migration input and returns worker memory evidence. */
-export async function buildShard({ input, file, token, expected }) {
+/** Builds one serving shard from exactly one bounded native source range. */
+export async function buildShard({ sourceDatabase, file, token, expected }) {
 	await prepareShard(file);
-	const database = new AwtsmoosDB(file, WRITE_OPTIONS);
+	const source = new AwtsmoosDB(sourceDatabase, READ_OPTIONS);
+	const target = new AwtsmoosDB(file, WRITE_OPTIONS);
 	let count = 0;
 	let peakRss = process.memoryUsage().rss;
 	try {
-		await database.open();
-		database.root.entries = new database.Map();
-		database.root.anchors = new database.Map();
-		const lines = readline.createInterface({ input: fs.createReadStream(input, 'utf8'), crlfDelay: Infinity });
-		for await (const line of lines) {
-			if (!line.trim()) continue;
-			const entry = JSON.parse(line);
-			if (shardToken(entry.normalized) !== token) continue;
-			await writeEntry(database, entry, count);
+		await source.open();
+		await target.open();
+		if (!source.root.entries) throw new Error(`source_entries_missing:${token}`);
+		const entryMap = createStreamingEntryMap(target, 'entries');
+		const anchorMap = createStreamingEntryMap(target, 'anchors');
+		const bounds = prefixBounds(tokenLetter(token));
+		for await (const row of source.range(source.root.entries, bounds[0], bounds[1])) {
+			const entry = resolveValue(row?.value);
+			if (!entry || shardToken(entry.normalized) !== token) continue;
+			writeEntry(entryMap, anchorMap, entry, count);
 			count += 1;
 			if (count % 32 === 0) {
-				await database.waitForIdle();
 				peakRss = Math.max(peakRss, process.memoryUsage().rss);
 			}
 		}
-		if (count !== Number(expected)) throw new Error(`shard_count_mismatch:${token}:${count}:${expected}`);
-		await database.waitForIdle();
-		if (!database.verify().ok) throw new Error(`shard_verify_failed:${token}`);
+		let publishedCount = 0;
+		target.batch(() => {
+			publishedCount = entryMap.publish();
+			anchorMap.publish();
+		});
+		if (publishedCount !== count) throw new Error(`shard_publish_count_mismatch:${token}`);
+		if (count !== Number(expected)) {
+			throw new Error(`shard_count_mismatch:${token}:${count}:${expected}`);
+		}
+		await target.waitForIdle();
+		if (!target.verify().ok) throw new Error(`shard_verify_failed:${token}`);
 	} finally {
-		await database.close();
+		await target.close();
+		await source.close();
 	}
 	await verifyReadOnly(file, token);
 	return { count, peakRss: Math.max(peakRss, process.memoryUsage().rss) };
 }
 
-/** Reopens the finished shard read-only and requires both lexical and sparse-anchor maps to verify. */
+/** Reopens the finished shard read-only and verifies both serving maps. */
 async function verifyReadOnly(file, token) {
-	const database = new AwtsmoosDB(file, { readOnly: true, maxCachedPages: 8 });
+	const database = new AwtsmoosDB(file, READ_OPTIONS);
 	try {
 		await database.open();
 		if (!database.root.entries || !database.root.anchors || !database.verify().ok) {

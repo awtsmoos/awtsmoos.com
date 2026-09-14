@@ -1,7 +1,8 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
+const AgentAutonomyStartup = require("./main-agent-autonomy.js");
 const CandidateIdentity = require("./main-candidate-identity.js");
 const Helpers = require("./main-startup-helpers.js");
 
@@ -9,7 +10,8 @@ const Helpers = require("./main-startup-helpers.js");
  * @file Coordinates startup without confusing connectivity with workspace health.
  * @description
  * The Awtsmoos opens latency-critical vessels before owning maintenance begins.
- * Awtsmoos.com keeps history traversal outside the registered runtime event loop.
+ * Awtsmoos.com keeps history traversal outside the registered runtime event loop and
+ * starts disposable-Shliach recovery independently from any foreground mission lock.
  */
 function createStartupRuntime(dependencies) {
 	async function main() {
@@ -35,10 +37,14 @@ function createStartupRuntime(dependencies) {
 			: Helpers.skipped("project_root_unavailable");
 		logOperation(dependencies, "command reconciliation", commandReconciliation);
 		const websiteMissionsRecovered = recoverWebsiteMissions(dependencies, config);
+		const agentAutonomy = projectRootHealth.ok
+			? AgentAutonomyStartup.start(config, dependencies.log)
+			: Helpers.skipped("project_root_unavailable");
 		const openedControl = dependencies.shouldOpenControl?.()
 			? Boolean(dependencies.openHostedControl(config))
 			: false;
 		return startupReceipt({
+			agentAutonomy,
 			boot,
 			cleanup,
 			commandReconciliation,
@@ -56,6 +62,12 @@ function createStartupRuntime(dependencies) {
 	return { main };
 }
 
+/**
+ * Projects startup evidence without treating optional autonomous spawning as Tunnel death.
+ *
+ * @param {object} state Collected startup operations and dependency evidence.
+ * @returns {object} Stable public startup receipt.
+ */
 function startupReceipt(state) {
 	return {
 		ok: state.projectRootHealth.ok && state.cleanup.ok !== false &&
@@ -68,6 +80,7 @@ function startupReceipt(state) {
 		localApiStarted: Boolean(state.localApiServer),
 		bootResumeEnabled: Boolean(state.boot),
 		websiteMissionsRecovered: state.websiteMissionsRecovered,
+		agentAutonomy: state.agentAutonomy,
 		updateScheduled: state.update !== false,
 		deviceIdentity: state.dependencies.DeviceIdentity.publicStatus(state.config),
 		filesystemExecutor: state.filesystemExecutor,
@@ -76,6 +89,7 @@ function startupReceipt(state) {
 	};
 }
 
+/** Recovers durable website missions without making a failed recovery fatal to startup. */
 function recoverWebsiteMissions(dependencies, config) {
 	try {
 		const recovered = dependencies.WebsiteMissionRecovery?.recover?.(config);
@@ -86,6 +100,7 @@ function recoverWebsiteMissions(dependencies, config) {
 	}
 }
 
+/** Emits one bounded startup-operation result using the parent logger. */
 function logOperation(dependencies, label, result) {
 	dependencies.log(
 		result.ok === false ? "warn" : "info",

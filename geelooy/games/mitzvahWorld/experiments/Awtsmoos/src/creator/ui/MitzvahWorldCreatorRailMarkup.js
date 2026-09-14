@@ -1,6 +1,6 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
+//Blessed be He
 
 /**
  * @file MitzvahWorldCreatorRailMarkup.js
@@ -12,7 +12,8 @@
 import {
 	creatorAdvancedControls,
 	creatorHistoryControls,
-	creatorMovementControls
+	creatorMovementControls,
+	creatorObjectControls
 } from './MitzvahWorldCreatorRailControlCatalog.js';
 
 export function createMitzvahWorldCreatorRailMarkup() {
@@ -26,7 +27,14 @@ export function createMitzvahWorldCreatorRailMarkup() {
 				</div>
 			</div>
 			<div class="Awtsmoos-creator-rail__window-actions">
-				<button class="Awtsmoos-creator-rail__icon-button" type="button" data-creator-collapse aria-controls="Awtsmoos-creator-rail-body" aria-expanded="true" aria-label="Collapse creator controls">−</button>
+				<button
+					class="Awtsmoos-creator-rail__icon-button"
+					type="button"
+					data-creator-collapse
+					aria-controls="Awtsmoos-creator-rail-body"
+					aria-expanded="true"
+					aria-label="Collapse creator controls"
+				>−</button>
 				<button class="Awtsmoos-creator-rail__icon-button Awtsmoos-creator-rail__button--danger" type="button" data-creator-close aria-label="Close creator controls">×</button>
 			</div>
 		</header>
@@ -38,6 +46,10 @@ export function createMitzvahWorldCreatorRailMarkup() {
 			<section class="Awtsmoos-creator-rail__section" aria-labelledby="Awtsmoos-creator-position-title">
 				<div class="Awtsmoos-creator-rail__section-heading"><span class="Awtsmoos-creator-rail__section-title" id="Awtsmoos-creator-position-title">Position</span></div>
 				<div class="Awtsmoos-creator-rail__motion-grid">${renderCreatorControls(creatorMovementControls())}</div>
+			</section>
+			<section class="Awtsmoos-creator-rail__section" aria-labelledby="Awtsmoos-creator-object-title">
+				<div class="Awtsmoos-creator-rail__section-heading"><span class="Awtsmoos-creator-rail__section-title" id="Awtsmoos-creator-object-title">World Objects</span></div>
+				<div class="Awtsmoos-creator-rail__motion-grid" data-creator-object-controls>${renderCreatorControls(creatorObjectControls())}</div>
 			</section>
 			<section class="Awtsmoos-creator-rail__section" aria-label="Placement and history">
 				<div class="Awtsmoos-creator-rail__commit-grid">
@@ -63,5 +75,12 @@ function renderCreatorControls(orosControls) {
 
 function renderCreatorButton(control, isPrimary = false) {
 	const primaryClass = isPrimary ? ' Awtsmoos-creator-rail__button--primary' : '';
-	return `<button class="Awtsmoos-creator-rail__button${primaryClass}" type="button" data-creator-action="${control.action}" aria-label="${control.accessibleLabel}">${control.label}</button>`;
+	return `
+		<button
+			class="Awtsmoos-creator-rail__button${primaryClass}"
+			type="button"
+			data-creator-action="${control.action}"
+			aria-label="${control.accessibleLabel}"
+		>${control.label}</button>
+	`;
 }

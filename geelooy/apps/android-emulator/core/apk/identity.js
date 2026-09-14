@@ -1,8 +1,9 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
+//Blessed be He
 
-import { dexSummary, openDexModel } from "../dex/model.js";
+import { dexSummary } from "../dex/model.js";
+import { openCachedApkDexModel } from "./dexModelCache.js";
 import { readApkManifest } from "./manifest.js";
 
 /**
@@ -18,7 +19,7 @@ export async function inspectApkIdentity(archive, options = {}) {
 	const dexEntries = archive.entries.filter(entry => /^classes\d*\.dex$/.test(entry.name));
 	const dexFiles = [];
 	for (const entry of dexEntries) {
-		const model = await openDexModel(await archive.read(entry.name), options);
+		const model = await openCachedApkDexModel(archive, entry.name, options);
 		dexFiles.push(Object.freeze({
 			classes: Object.freeze(model.classes.map(item => item.type)),
 			name: entry.name,

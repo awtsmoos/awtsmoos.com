@@ -2,51 +2,37 @@
 // Boruch Hashem
 // Blessed is He
 
+const Journal = require("./roomInterruptJournal.js");
+const Recipients = require("./roomRecipients.js");
+const Recovery = require("./roomInterruptRecovery.js");
+
 /**
- * @file Preserves blocking room interrupts with direct or spawn-group routing.
+ * @file Preserves blocking interrupts with one/some/all/team recipient metadata.
  * @description
- * The Awtsmoos lets urgency interrupt only the vessel that truly owns the call.
- * Awtsmoos.com carries group identity beside direct identity, so a sibling warning
- * can awaken one fan-out without turning every unrelated agent's work into a pause.
+ * The Awtsmoos lets urgency interrupt only the shliach actually addressed. Selected
+ * recipients acknowledge one shared interrupt independently without duplicating speech.
  */
 function create(mission, input = {}, env) {
 	const room = env.RoomState.ensure(mission, input);
 	room.interrupts ||= [];
-	const toSpawnGroup = env.RoomState.text(input.toSpawnGroup || input.spawnGroupTarget || "");
+	const route = Recipients.normalize(input, env.RoomState.text);
 	const interrupt = {
 		id: input.interruptId || env.RoomState.id("room_interrupt"),
 		at: env.RoomState.now(),
 		fromAgent: env.RoomState.text(input.fromAgent || input.agentId || "user"),
-		toAgent: env.RoomState.text(input.toAgent || input.to || (toSpawnGroup ? "spawn_group" : "all")),
-		toSpawnGroup,
+		...route,
 		messageId: env.RoomState.text(input.messageId || ""),
 		reason: env.RoomState.text(input.reason || "room_message_interrupt"),
 		status: "blocking",
+		recoveredByAgents: [],
 		suspendedWorkQuoted: quote(
 			input.currentWork || input.suspendedWork || input.currentAction || room.currentWork || ""
 		),
-		recoveryRequiredBy: env.RoomState.text(
-			input.recoveryRequiredBy || input.toAgent || (toSpawnGroup ? "spawn_group" : "any_agent")
-		)
+		recoveryRequiredBy: route.toAgent
 	};
 	room.interrupts.push(interrupt);
 	room.currentWork = "";
-	meta(env, input, mission, "room_interrupt", {
-		agentId: interrupt.fromAgent,
-		message: interrupt.reason,
-		payload: {
-			interruptId: interrupt.id,
-			messageId: interrupt.messageId,
-			toSpawnGroup,
-			suspendedWorkQuoted: interrupt.suspendedWorkQuoted
-		}
-	});
-	env.event(mission, "mission_room_interrupt", interrupt.reason, {
-		roomId: room.id,
-		interruptId: interrupt.id,
-		messageId: interrupt.messageId,
-		toSpawnGroup: toSpawnGroup || undefined
-	});
+	Journal.created(mission, input, interrupt, env);
 	return interrupt;
 }
 
@@ -55,53 +41,44 @@ function quote(value) {
 	return text.split("\n").map(line => `> ${line}`).join("\n");
 }
 
-function blocking(mission) {
+function blocking(mission, recipient = null) {
 	if (!mission.room || !Array.isArray(mission.room.interrupts)) return [];
-	return mission.room.interrupts.filter(item => item.status === "blocking");
+	const recipientId = Recipients.recipientRecord(recipient).agentId;
+	return mission.room.interrupts.filter(item =>
+		Recovery.stillBlocks(item, recipientId)
+		&& (!recipient || Recipients.addressedTo(item, recipient))
+	);
 }
 
 function recover(mission, input = {}, env) {
 	const room = env.RoomState.ensure(mission, input);
 	room.interrupts ||= [];
-	const target = room.interrupts.find(item => item.id === input.interruptId) || blocking(mission)[0];
+	const agentId = env.RoomState.agentId(input);
+	const recipient = room.agents?.[agentId] || agentId;
+	const target = room.interrupts.find(item => item.id === input.interruptId)
+		|| blocking(mission, recipient)[0];
 	if (!target) return { ok: false, error: "no_blocking_interrupt" };
-	target.status = "recovered";
-	target.recoveredAt = env.RoomState.now();
-	target.recoveredBy = env.RoomState.agentId(input);
-	target.recoveryNote = env.RoomState.text(
-		input.note || input.message || "Recovered interrupt and resumed room protocol."
-	);
-	meta(env, input, mission, "room_interrupt_recovered", {
-		agentId: target.recoveredBy,
-		message: target.recoveryNote,
-		payload: { interruptId: target.id }
-	});
-	env.event(mission, "mission_room_interrupt_recovered", target.recoveryNote, {
-		roomId: room.id,
-		interruptId: target.id,
-		agentId: target.recoveredBy
-	});
-	return { ok: true, interrupt: target };
+	if (!Recipients.addressedTo(target, recipient)) {
+		return { ok: false, error: "interrupt_not_addressed_to_agent" };
+	}
+	Recovery.recover(target, agentId, input, env);
+	const remainingAgents = Recovery.remaining(target);
+	Journal.recovered(mission, input, target, remainingAgents, env);
+	return { ok: true, interrupt: target, remainingAgents };
 }
 
-function mustCallNext(mission) {
-	const hit = blocking(mission)[0];
+function mustCallNext(mission, recipient = null) {
+	const hit = blocking(mission, recipient)[0];
 	if (!hit) return null;
+	const agent = Recipients.recipientRecord(recipient).agentId;
 	return {
 		action: "missionRoomRecoverInterrupt",
 		missionId: mission.id,
 		interruptId: hit.id,
-		agentId: hit.recoveryRequiredBy === "any_agent" ? "agent" : hit.recoveryRequiredBy,
+		agentId: agent || hit.toAgents?.[0] ||
+			(hit.recoveryRequiredBy === "any_agent" ? "agent" : hit.recoveryRequiredBy),
 		toSpawnGroup: hit.toSpawnGroup || undefined
 	};
-}
-
-function meta(env, input, mission, kind, data) {
-	if (!env.MetadataStore || input.disableCentralMetadata === true) return null;
-	return env.MetadataStore.record({
-		root: input.__configRoot || input.projectRoot,
-		metadataRoot: input.__metadataRoot
-	}, mission, kind, data);
 }
 
 module.exports = { blocking, create, mustCallNext, quote, recover };

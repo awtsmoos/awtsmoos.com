@@ -48,8 +48,12 @@ function validatePurchaseRequest(sku, rawIdempotencyKey) {
 		return { ok: false, error: "sku_unavailable", skuId: sku.id };
 	}
 
-	if (sku.kind !== "durable_entitlement") {
+	const supportedKinds = new Set(["durable_entitlement", "consumable_credit_pack"]);
+	if (!supportedKinds.has(sku.kind)) {
 		return { ok: false, error: "unsupported_sku_kind", skuId: sku.id };
+	}
+	if (sku.kind === "consumable_credit_pack" && sku.creditUnits <= 0) {
+		return { ok: false, error: "invalid_credit_grant", skuId: sku.id };
 	}
 
 	return {

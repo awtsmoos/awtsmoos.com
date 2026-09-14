@@ -9,6 +9,7 @@
  * project intents, credentials, usage, and audit beneath a normalized versioned covenant rather than hidden drift.
  */
 
+const { normalizeDeploymentRegistry } = require('./deploymentPolicy.js');
 const { normalizeDomainRegistry } = require('./domainPolicy.js');
 const { normalizeProjectRegistry } = require('./projectConfigPolicy.js');
 const { DEFAULT_QUOTA, mergedQuota } = require('./quotaPolicy.js');
@@ -16,7 +17,7 @@ const { normalizeSiteRegistry } = require('./siteMappingPolicy.js');
 
 function freshDriveState(overrides = {}) {
 	return normalizeDriveState({
-		version: 6,
+		version: 7,
 		quotaProfile: 'default',
 		quota: { ...DEFAULT_QUOTA },
 		usage: emptyUsage(),
@@ -24,6 +25,7 @@ function freshDriveState(overrides = {}) {
 		sites: {},
 		domains: {},
 		projects: {},
+		deployments: {},
 		reservations: {},
 		transferLeases: {},
 		rateWindows: {},
@@ -38,7 +40,7 @@ function freshDriveState(overrides = {}) {
 function normalizeDriveState(value = {}) {
 	const usage = value.usage && typeof value.usage === 'object' ? value.usage : {};
 	return {
-		version: 6,
+		version: 7,
 		quotaProfile: String(value.quotaProfile || 'default'),
 		quota: mergedQuota(value.quota),
 		usage: normalizeUsage(usage),
@@ -46,6 +48,7 @@ function normalizeDriveState(value = {}) {
 		sites: normalizeSiteRegistry(value.sites),
 		domains: normalizeDomainRegistry(value.domains),
 		projects: normalizeProjectRegistry(value.projects),
+		deployments: normalizeDeploymentRegistry(value.deployments),
 		reservations: objectOrEmpty(value.reservations),
 		transferLeases: objectOrEmpty(value.transferLeases),
 		rateWindows: objectOrEmpty(value.rateWindows),

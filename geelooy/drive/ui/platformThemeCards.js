@@ -64,7 +64,10 @@ export const PLATFORM_CARD_CSS = `
 	border-style: dashed;
 }
 .platform-card-action {
+	min-height: 44px;
 	justify-self: start;
+	display: inline-flex;
+	align-items: center;
 	margin-top: auto;
 	padding: 8px 11px;
 	border: 1px solid rgba(127, 127, 180, .28);

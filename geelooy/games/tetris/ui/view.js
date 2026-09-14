@@ -4,6 +4,7 @@
 
 import { TETRIS_DOM_IDS } from './dom-ids.js';
 import { resetHud, updateHud } from './hud.js';
+import { TetrisNative3DPresentation } from './native-3d.js';
 import { replaceCanvas, resultTitle } from './presentation.js';
 
 /**
@@ -31,6 +32,8 @@ export class TetrisView {
 			}
 			this[key] = element;
 		}
+		this.native3d = new TetrisNative3DPresentation(documentObject);
+		globalThis.addEventListener('pagehide', () => this.native3d.dispose(), { once: true });
 	}
 
 	showMenu() {
@@ -56,6 +59,10 @@ export class TetrisView {
 		if (mode !== 'single') {
 			this.p2Canvas = replaceCanvas(this.p2Canvas);
 		}
+		this.native3d.reset({
+			p1: this.p1Canvas,
+			p2: mode === 'single' ? null : this.p2Canvas
+		});
 		return {
 			p1: this.p1Canvas,
 			p2: mode === 'single' ? null : this.p2Canvas
@@ -64,6 +71,7 @@ export class TetrisView {
 
 	updateSnapshot(snapshot) {
 		updateHud(this, snapshot);
+		this.native3d.update(snapshot);
 	}
 
 	setPaused(paused) {

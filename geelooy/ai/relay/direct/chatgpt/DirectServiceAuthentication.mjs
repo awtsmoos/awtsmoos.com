@@ -1,20 +1,22 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 import { codedError } from "./DirectServiceRequest.mjs";
 
 /**
- * @file Keeps one coherent authentication API between DirectService and browser login.
+ * @file Keeps authentication retry separate from persistent Shliach-target protection.
  * @description
- * The Awtsmoos joins caller and callee in one covenant. Awtsmoos.com never mixes two
- * refactor generations: this adapter owns one DirectService, and every send, login,
- * retry, invalidation, and reset flows through that single dependency shape.
+ * Rebinding the website transport may invalidate cached ports and clients, but it must
+ * never release the human-login sentinel lease. That protected target is device-level
+ * account infrastructure, not disposable state belonging to one send attempt.
  */
 export class DirectServiceAuthentication {
 	constructor(service) {
 		if (!service?.websiteService || !service?.loginCoordinator) {
-			throw new TypeError("direct service with websiteService and loginCoordinator is required.");
+			throw new TypeError(
+				"direct service with websiteService and loginCoordinator is required."
+			);
 		}
 		this.service = service;
 	}
@@ -31,7 +33,9 @@ export class DirectServiceAuthentication {
 		try {
 			return await this.service.websiteService[method](request);
 		} catch (error) {
-			if (!this.service.loginCoordinator.shouldAuthenticate(error)) throw error;
+			if (!this.service.loginCoordinator.shouldAuthenticate(error)) {
+				throw error;
+			}
 			if (options.loginPolicy === "defer") {
 				await this.service.requestLogin();
 				throw codedError("chatgpt_login_pending");
@@ -55,8 +59,11 @@ export class DirectServiceAuthentication {
 		return opened;
 	}
 
+	/**
+	 * Rebinds transport caches while deliberately preserving the human-login lease.
+	 * @returns {Promise<void>} Completion after website transport reset.
+	 */
 	async resetBrowserBinding() {
-		this.service.tabProtector?.releaseProtections?.("human_login");
 		this.invalidate();
 		await this.service.websiteService.close();
 	}

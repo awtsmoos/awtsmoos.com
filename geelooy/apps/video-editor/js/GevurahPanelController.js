@@ -15,24 +15,44 @@ export class GevurahPanelController {
 
 	bind() {
 		this.dom.mobileBinBtn.addEventListener("click", () => this.openMobileBin());
-		this.dom.mediaBackdrop.addEventListener("click", () => this.closeMobileBin());
+		this.dom.mediaBackdrop.addEventListener("click", () => this.closeMobileBin(true));
 		this.dom.toggleBin.addEventListener("click", () => this.toggleBin());
 		this.dom.minimizeBin.addEventListener("click", () => this.minimizeBin());
 		this.dom.toggleTimeline.addEventListener("click", () => this.toggleTimeline());
 		this.dom.minimizeTimeline.addEventListener("click", () => this.minimizeTimeline());
 		this.mobileQuery.addEventListener("change", () => this.syncViewport());
+		document.addEventListener("keydown", event => this.handleEscape(event));
 	}
 
 	openMobileBin() {
 		this.dom.binContainer.classList.add("is-open");
+		this.dom.binContainer.inert = false;
+		this.dom.binContainer.setAttribute("aria-hidden", "false");
 		this.dom.mediaBackdrop.hidden = false;
 		this.dom.mobileBinBtn.setAttribute("aria-expanded", "true");
 	}
 
-	closeMobileBin() {
+	closeMobileBin(restoreFocus = false) {
 		this.dom.binContainer.classList.remove("is-open");
 		this.dom.mediaBackdrop.hidden = true;
 		this.dom.mobileBinBtn.setAttribute("aria-expanded", "false");
+		const closedOnMobile = this.mobileQuery.matches;
+		this.dom.binContainer.inert = closedOnMobile;
+		this.dom.binContainer.setAttribute("aria-hidden", String(closedOnMobile));
+		if (restoreFocus && closedOnMobile) {
+			this.dom.mobileBinBtn.focus();
+		}
+	}
+
+	handleEscape(event) {
+		if (event.key !== "Escape" || !this.mobileQuery.matches) {
+			return;
+		}
+		if (!this.dom.binContainer.classList.contains("is-open")) {
+			return;
+		}
+		event.preventDefault();
+		this.closeMobileBin(true);
 	}
 
 	toggleBin() {

@@ -10,9 +10,11 @@
  */
 
 import { RIVER_CROSSING_SHLICHUS } from './RiverCrossingShlichus.js';
+import { VILLAGE_BRIDGE_ADVENTURES } from './VillageBridgeAdventures.js';
 
 export const ADVENTURE_CATALOG = Object.freeze([
 	RIVER_CROSSING_SHLICHUS,
+	...VILLAGE_BRIDGE_ADVENTURES,
 	quest('sparks-at-east-gate', 'Sparks at the East Gate', 'Rabbi Dov Ber', 4, -44, [
 		objective('defeat', 'dybbuk-shade', 3, 'Disperse three shades.', 0, -140)
 	], reward(120, 3), true),

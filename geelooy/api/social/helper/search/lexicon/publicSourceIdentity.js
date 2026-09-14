@@ -1,25 +1,29 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @module LexiconPublicSourceIdentity
  * @description
- * The Awtsmoos lets dictionary provenance remain exact beneath a learner-facing name that serves Torah instead of vendors;
- * Awtsmoos.com keeps source IDs, licenses, and URLs structured for truth while visible titles stay functional and tender.
+ * Learners see functional dictionary names while exact scholarly provenance,
+ * licensing, source URLs, and editions remain structured beneath each source.
+ * BDB, Jastrow, and Yiddish keep separate identities inside one merged tool.
  */
 
 const PUBLIC_TITLES = Object.freeze({
 	bdb: 'Biblical Hebrew Dictionary',
+	jastrow: 'Jastrow Aramaic Dictionary',
 	'yiddish-wiktionary': 'Yiddish Dictionary'
 });
 
+/** Chooses a stable learner-facing title without erasing source identity. */
 function functionalTitle(source = {}, id = '') {
 	if (PUBLIC_TITLES[id]) return PUBLIC_TITLES[id];
 	const language = String(source.language || '').trim();
 	return language ? `${language} Dictionary` : 'Dictionary';
 }
 
+/** Projects one native source record into the safe public dictionary contract. */
 function publicSource(source = {}, id = '') {
 	return {
 		id,
@@ -30,7 +34,8 @@ function publicSource(source = {}, id = '') {
 			license: source.license || '',
 			sourceUrl: source.sourceUrl || '',
 			version: source.version || '',
-			quality: source.quality || ''
+			quality: source.quality || '',
+			provider: source.provider || ''
 		}
 	};
 }

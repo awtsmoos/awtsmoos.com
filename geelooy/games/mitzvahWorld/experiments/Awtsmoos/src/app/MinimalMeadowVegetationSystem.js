@@ -1,6 +1,6 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
+//Blessed be He
 
 /**
  * @file MinimalMeadowVegetationSystem.js
@@ -9,7 +9,7 @@
  * Awtsmoos.com keeps the meadow dense and clear as Gevurah staggers distant wind without moving sacred ground.
  */
 
-import { Group } from '../../../light-three-gltf/tiny-runtime.js';
+import { createNativeWorldGroup } from '../../../../../../libs/awtsmoos-procedural-core/src/core/worldBuilding/index.js';
 import { createMinimalMeadowVegetationCells } from './MinimalMeadowVegetationCells.js';
 import { createMinimalMeadowVegetationCell } from './MinimalMeadowVegetationDistributionCellFactory.js';
 import {
@@ -37,7 +37,7 @@ export class MinimalMeadowVegetationSystem {
 			return runtime.vegetation;
 		}
 		this.runtime = runtime;
-		this.group = new Group();
+		this.group = createNativeWorldGroup();
 		this.group.name = 'Awtsmoos_seeded_ecological_vegetation';
 		this.clock = 0;
 		this.mobile = minimalMeadowVegetationUsesMobileProfile(runtime);

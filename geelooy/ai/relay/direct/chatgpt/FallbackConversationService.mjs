@@ -1,6 +1,6 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 import { createRequire } from "node:module";
 import { publicConversationResult } from "./FallbackConversationResult.mjs";
@@ -23,18 +23,20 @@ export class FallbackConversationService {
 			clientFactory,
 			lastResolvedPort: null,
 			clientPort: null,
+			clientUrl: "",
 			client: null
 		});
 	}
 
 	async send(options = {}) {
-		const client = await this.resolveClient();
+		const agentStartUrl = options.agentStartUrl ?? configuredAgentStartUrl();
+		const client = await this.resolveClient(agentStartUrl);
 		const result = await client.send({
 			prompt: options.prompt,
 			model: options.model ?? null,
 			thinkingEffort: options.thinkingEffort ?? null,
 			conversationMode: options.conversationMode ?? null,
-			agentStartUrl: options.agentStartUrl ?? configuredAgentStartUrl(),
+			agentStartUrl,
 			signal: options.signal ?? null,
 			onProgress: options.onProgress ?? null,
 			onSubmissionStarted: options.onSubmissionStarted ?? null,
@@ -52,13 +54,16 @@ export class FallbackConversationService {
 		throw error;
 	}
 
-	async resolveClient() {
+	async resolveClient(agentStartUrl = configuredAgentStartUrl()) {
 		const port = await this.portResolver.resolve();
 		this.lastResolvedPort = port;
-		if (this.client && this.clientPort === port) return this.client;
+		if (this.client && this.clientPort === port && this.clientUrl === agentStartUrl) {
+			return this.client;
+		}
 		await this.close();
-		this.client = this.clientFactory(port);
+		this.client = this.clientFactory(port, agentStartUrl);
 		this.clientPort = port;
+		this.clientUrl = agentStartUrl;
 		return this.client;
 	}
 
@@ -66,6 +71,7 @@ export class FallbackConversationService {
 		const client = this.client;
 		this.client = null;
 		this.clientPort = null;
+		this.clientUrl = "";
 		await client?.close?.();
 	}
 

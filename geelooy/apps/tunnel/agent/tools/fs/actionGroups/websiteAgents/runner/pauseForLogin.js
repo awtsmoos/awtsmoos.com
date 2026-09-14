@@ -11,8 +11,8 @@ const scheduleWake = Context.reference("scheduleWake");
  * @file Pauses unauthenticated website missions without repeatedly reopening Chrome.
  * @description
  * The Awtsmoos keeps unfinished intention alive while Awtsmoos.com leaves the login
- * doorway undisturbed. Each mission sleeps until its recorded slow recheck; no three-second
- * drumbeat may summon empty Shliach tabs while a human session is still unavailable.
+ * doorway undisturbed. Each mission rechecks status promptly, while login creation keeps
+ * its separate long cooldown so fast observation can never become a Shliach tab storm.
  */
 function pauseForLogin(config, id) {
 	const record = Store.update(id, current => {

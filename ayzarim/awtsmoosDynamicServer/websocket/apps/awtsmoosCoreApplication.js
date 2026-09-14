@@ -1,12 +1,14 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 const { RealtimeError } = require("../platform/RealtimeError.js");
 const { handleAliasLogin } = require("./aliasRouting.js");
 const { handleLivePreview } = require("./livePreview.js");
 const {
 	handleTunnelHealth,
+	handleInstructionGet,
+	handleInstructionResolve,
 	handleTunnelProgress,
 	handleTunnelRecoveryResult,
 	handleTunnelRegister,
@@ -18,6 +20,8 @@ const LEGACY_TYPES = Object.freeze([
 	"LIVE_PREVIEW",
 	"LOGIN",
 	"TUNNEL_HEALTH",
+	"TUNNEL_INSTRUCTION_GET",
+	"TUNNEL_INSTRUCTION_RESOLVE",
 	"TUNNEL_PROGRESS",
 	"TUNNEL_RECOVERY_RESULT",
 	"TUNNEL_REGISTER",
@@ -48,6 +52,14 @@ function createAwtsmoosCoreApplication() {
 			}
 			if (data.type === "TUNNEL_REGISTER" && data.name) {
 				handleTunnelRegister(server, client, data);
+				return;
+			}
+			if (data.type === "TUNNEL_INSTRUCTION_RESOLVE") {
+				handleInstructionResolve(server, client, data);
+				return;
+			}
+			if (data.type === "TUNNEL_INSTRUCTION_GET") {
+				handleInstructionGet(server, client, data);
 				return;
 			}
 			if (data.type === "TUNNEL_HEALTH" && data.health) {

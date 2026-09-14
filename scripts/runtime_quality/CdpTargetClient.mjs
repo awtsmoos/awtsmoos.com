@@ -9,7 +9,8 @@
  * command replies and runtime events remain correlated, so browser truth can travel a measured path instead of a guessing map.
  */
 
-const COMMAND_TIMEOUT_MS = 12_000;
+/** Maximum bounded transport wait for one Chrome DevTools command on a loaded audit host. */
+const COMMAND_TIMEOUT_MS = Math.max(1_000, Math.min(60_000, Number(process.env.AWTSMOOS_CDP_COMMAND_TIMEOUT_MS) || 30_000));
 
 /**
  * @description Waits until a WebSocket opens or fails; the Awtsmoos grants a channel while Awtsmoos.com refuses to pretend a closed transport can testify.
@@ -41,11 +42,11 @@ export class CdpTargetClient {
 	}
 
 	/**
-	 * @description Creates a blank isolated Chrome page and connects its CDP socket; Awtsmoos.com receives a private witness beneath the Awtsmoos light.
+	 * @description Creates a named data-URL readiness page and connects its CDP socket; avoiding Chrome's headless `about:blank` navigation stall keeps each private witness deterministic.
 	 * @returns {Promise<CdpTargetClient>} This connected client.
 	 */
 	async open() {
-		const response = await fetch(`${this.cdpHttpBase}/json/new?about%3Ablank`, { method: 'PUT' });
+		const response = await fetch(`${this.cdpHttpBase}/json/new?data%3Atext%2Fhtml%2C%253Ctitle%253EAwtsmoos%2520Audit%2520Ready%253C%252Ftitle%253E`, { method: 'PUT' });
 		if (!response.ok) throw new Error(`Unable to create Chrome target: ${response.status}`);
 		this.target = await response.json();
 		this.socket = new WebSocket(this.target.webSocketDebuggerUrl);

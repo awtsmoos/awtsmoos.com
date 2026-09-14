@@ -1,6 +1,6 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file MobileGameplayState.mjs
@@ -15,7 +15,8 @@ export async function readMobileGameplayState(command) {
 		const candidates = Object.keys(window).map(key => {
 			try { return window[key]; } catch { return null; }
 		}).filter(value => value && typeof value === 'object' && value.state && value.bus && value.input);
-		const runtime = candidates.find(value => value.terrain?.group) || candidates[0] || null;
+		const authoritative = window.AwtsmoosMitzvahWorld?.runtime || null;
+		const runtime = authoritative || candidates.find(value => value.terrain?.group) || candidates[0] || null;
 		const diagnostics = window.AwtsmoosDiagnostics || null;
 		const ring = document.querySelector('.Awtsmoos-joystick-ring');
 		const knob = document.querySelector('.Awtsmoos-joystick-knob');
@@ -26,7 +27,7 @@ export async function readMobileGameplayState(command) {
 		let terrainMesh = null;
 		const visit = node => {
 			if (!node || terrainMesh) return;
-			if (node.name === 'Awtsmoos_high_detail_bezier_road_terrain') terrainMesh = node;
+			if (node.userData?.AwtsmoosTerrainValley) terrainMesh = node;
 			for (const child of node.children || []) visit(child);
 		};
 		visit(runtime?.terrain?.group);
@@ -48,6 +49,7 @@ export async function readMobileGameplayState(command) {
 			state: runtime?.state ? { x: runtime.state.x, y: runtime.state.y, z: runtime.state.z } : null,
 			lastFrameError: runtime?.lastFrameError || null,
 			milestones: Object.fromEntries(Object.entries(milestones).map(([name, value]) => [name, value.elapsedMilliseconds])),
+			now: performance.now(),
 			scheduler: {
 				postPlayablePriorityStage: diagnostics?.postPlayablePriorityStage || null,
 				postPlayablePriorityError: message(diagnostics?.postPlayablePriorityError),

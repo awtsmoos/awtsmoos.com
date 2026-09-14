@@ -1,6 +1,6 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file MinimalMeadowParticleEffects.js
@@ -9,7 +9,7 @@
  * through pulse, spiral, stretch, and fading rings while every borrowed spark returns before night.
  */
 
-import { Group } from '../../../light-three-gltf/tiny-runtime.js';
+import { createNativeWorldGroup } from '../../../../../../libs/awtsmoos-procedural-core/src/core/worldBuilding/index.js';
 import { fillParticleEffectVessel, particleMaterialCount } from './MinimalMeadowParticleFactory.js';
 import { coreEnvelope, particleEnvelope, particleMotion } from './MinimalMeadowParticleMotion.js';
 import { particleQualityProfile } from './MinimalMeadowParticleQuality.js';
@@ -58,7 +58,7 @@ export function particleEffectDiagnostics() {
 }
 
 function createEffect(kind, color, count) {
-	return fillParticleEffectVessel(new Group(), kind, color, count);
+	return fillParticleEffectVessel(createNativeWorldGroup(), kind, color, count);
 }
 
 function resetEffect(effect, position, duration) {

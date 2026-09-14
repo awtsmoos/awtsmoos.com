@@ -11,7 +11,8 @@
 
 import { appState } from './state.js';
 import {
-	manifestWorld as renderedManifestWorld
+	manifestWorld as renderedManifestWorld,
+	revealManifestedWorld as revealRenderedWorld
 } from './ui/render.js?v=heichel-mobile-010';
 import * as Render from './ui/render.js?v=heichel-mobile-010';
 import * as OwnerControls from './ui/render/controls.js';
@@ -20,6 +21,7 @@ import {
 } from './ui/controls.js';
 
 export const manifestWorld = renderedManifestWorld;
+export const revealManifestedWorld = revealRenderedWorld;
 export { notify } from './ui/render/toast.js';
 export { showContextMenu } from './ui/contextmenu.js';
 

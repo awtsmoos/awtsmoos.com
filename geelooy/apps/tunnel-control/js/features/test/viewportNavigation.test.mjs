@@ -24,7 +24,7 @@ const here = dirname(fileURLToPath(import.meta.url));
 const appRoot = resolve(here, "../../..");
 const source = relative => readFileSync(resolve(appRoot, relative), "utf8");
 
-assert.equal(PAGE_ORDER.length, 17);
+assert.equal(PAGE_ORDER.length, 18);
 assert.equal(new Set(PAGE_ORDER).size, PAGE_ORDER.length);
 for (const key of PAGE_ORDER) {
 	assert.ok(PANE_META[key]?.title, `Missing title for ${key}`);
@@ -52,8 +52,12 @@ assert.ok(!launcher.includes("ADVANCED_KEYS"));
 
 const navigation = source("js/shell/navigation.js");
 assert.match(navigation, /PAGE_ORDER\.map/);
-assert.match(navigation, /activatePane\(key\)/);
-assert.match(navigation, /showHome\(\)/);
+assert.match(navigation, /destinationButton\(key, navigation\)/);
+assert.match(navigation, /homeButton\(navigation\)/);
+
+const navigationControls = source("js/shell/navigationControls.js");
+assert.match(navigationControls, /activatePane\(key\)/);
+assert.match(navigationControls, /showHome\(\)/);
 
 const workspaceMode = source("js/shell/workspaceMode.js");
 assert.match(workspaceMode, /showHome\(\)/);

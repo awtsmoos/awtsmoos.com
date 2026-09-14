@@ -17,7 +17,8 @@ const HOST_IDS_BINAH = Object.freeze({
 	inventoryHost: 'inventory',
 	joystickHost: 'joy',
 	jumpHost: 'jump',
-	npcHost: 'npcTarget'
+	npcHost: 'npcTarget',
+	root: 'mitzvah-world-root'
 });
 
 /** Resolves the immutable host vocabulary into a validated object map. */

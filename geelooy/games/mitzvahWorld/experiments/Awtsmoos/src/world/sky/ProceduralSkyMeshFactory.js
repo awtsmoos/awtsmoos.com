@@ -1,59 +1,46 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file ProceduralSkyMeshFactory.js
- * @description Gives the existing WebGL atmosphere shader visible local geometry without adding any network dependency.
- * The Awtsmoos renews horizon, cloud, sun, and blue in one boundless rhyme;
- * Awtsmoos.com gives that hidden shader a truthful vessel, bright in every frame and time.
+ * @description Keeps a legacy portable-geometry doorway while Procedural Core owns atmosphere material and native mesh construction.
+ * Procedural atmosphere remains permitted because it models dynamic physical light rather than fabricating replacement material imagery;
+ * MitzvahWorld therefore carries compatibility identity only, while renderer-facing geometry and shader-selection policy stay in Core.
  */
-
 import {
-	BufferAttribute,
-	BufferGeometry,
-	Mesh,
-	MeshStandardMaterial
-} from '../../../../light-three-gltf/tiny-runtime.js';
+	createNativeGeometryMesh,
+	createNativeWorldMaterial
+} from '../../../../../../../libs/awtsmoos-procedural-core/src/core/worldBuilding/index.js';
 
 export const PROCEDURAL_SKY_VISUAL_VERSION = 'procedural-daylight-sky-01';
 
 /**
- * Creates one visible atmosphere mesh whose material selects TinyWebGL material mode four.
- * @param {string} name Stable scene identity.
- * @param {object} geometryData Indexed sphere geometry data.
- * @returns {Mesh} Camera-surrounding local procedural sky vessel.
+ * Materialize legacy indexed atmosphere geometry through Core's native rendering boundary.
+ * @param {string} name Stable scene identity retained for old callers.
+ * @param {object} geometryData Portable indexed positions, normals, UVs, and indices.
+ * @returns {object} Core-created camera-surrounding procedural atmosphere mesh.
  */
 export function createProceduralSkyMesh(name, geometryData) {
-	const geometry = createGeometry(geometryData);
-	const material = new MeshStandardMaterial({
+	const material = createNativeWorldMaterial({
 		color: [1, 1, 1, 1],
 		doubleSided: true,
-		name: `${name}_material`
-	});
-	material.texturePolicy = {
-		cameraCentered: true,
-		proceduralSky: true,
+		name: `${name}_material`,
 		remoteOnly: false,
-		semanticRole: 'world-sky-atmosphere'
-	};
-	const mesh = new Mesh(geometry, material);
-	mesh.name = name;
-	mesh.frustumCulled = false;
+		semanticRole: 'world-sky-atmosphere',
+		texturePolicy: {
+			cameraCentered: true,
+			proceduralShaderAllowed: true,
+			proceduralSky: true
+		}
+	});	const mesh = createNativeGeometryMesh(geometryData, material, {
+		family: 'world-sky-atmosphere',
+		frustumCulled: false,
+		name
+	});
 	mesh.visible = true;
-	mesh.userData.family = 'world-sky-atmosphere';
 	mesh.userData.proceduralSky = true;
 	mesh.userData.renderDistance = Infinity;
 	mesh.userData.visualQualityVersion = PROCEDURAL_SKY_VISUAL_VERSION;
 	return mesh;
-}
-
-/** Builds the bounded indexed geometry expected by the tiny renderer. */
-function createGeometry(data) {
-	const geometry = new BufferGeometry();
-	geometry.setAttribute('position', new BufferAttribute(new Float32Array(data.positions), 3));
-	geometry.setAttribute('normal', new BufferAttribute(new Float32Array(data.normals), 3));
-	geometry.setAttribute('uv', new BufferAttribute(new Float32Array(data.uvs), 2));
-	geometry.setIndex(new BufferAttribute(new Uint16Array(data.indices), 1));
-	return geometry;
 }

@@ -8,6 +8,7 @@ import { createPlatformJourney } from "./platformJourney.js";
 import { createProjectDataStudio } from "./projectDataStudio.js";
 import { createProjectHostingCard } from "./projectHostingCard.js";
 import { createProjectSiteRuntimeCard } from "./projectSiteRuntimeCard.js";
+import { createShliachLauncher } from "./shliachLauncher.js";
 import { ensurePlatformTheme } from "./platformTheme.js";
 
 /**
@@ -20,6 +21,7 @@ export function createPlatformPanelView(openPanel, options = {}) {
 	ensurePlatformTheme();
 	const element = document.createElement("section");
 	const dataStudio = createProjectDataStudio();
+	const shliach = createShliachLauncher();
 	const hostingCard = createProjectHostingCard({
 		deploymentService: options.deploymentService,
 		confirmRuntimeCleanup: options.confirmRuntimeCleanup
@@ -33,9 +35,12 @@ export function createPlatformPanelView(openPanel, options = {}) {
 		render(state) {
 			const project = describeWebsiteProject(state);
 			const capabilities = getPlatformCapabilities(state);
+			dataStudio.setIdentity?.({ alias: project.canonicalAliasId, project: project.canonicalSiteId });
+			shliach.setSuggestedPrompt?.(project.name ? `Help me improve ${project.name}` : "Build my website");
 			element.replaceChildren(
 				hero(project),
-				quickActions(openPanel),
+				shliach,
+				quickActions(openPanel, dataStudio),
 				createPlatformJourney(capabilities, openPanel),
 				hostingCard.render(project, { routeReference: state.currentRoute || "" }),
 				siteRuntimeCard.render(project),
@@ -72,7 +77,7 @@ function facts(project) {
 	return container;
 }
 
-function quickActions(openPanel) {
+function quickActions(openPanel, dataStudio) {
 	const container = node("div", "platform-actions");
 	const actions = [
 		["Files", "files"],
@@ -88,6 +93,10 @@ function quickActions(openPanel) {
 		button.addEventListener("click", () => openPanel(panelId));
 		container.append(button);
 	}
+	const database = node("button", "platform-action", "Database");
+	database.type = "button";
+	database.addEventListener("click", () => dataStudio.scrollIntoView({ behavior: "smooth", block: "start" }));
+	container.append(database);
 	return container;
 }
 

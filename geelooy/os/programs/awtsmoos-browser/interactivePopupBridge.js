@@ -1,6 +1,6 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @module InteractivePopupBridge
@@ -41,6 +41,7 @@ function openPopup(options, target) {
 		title: target.title || "Browser popup",
 		content: {
 			interactiveAliasId: options.aliasId,
+			interactiveEngineMode: options.engineMode || "headless",
 			interactiveJarId: options.jarId,
 			interactiveSessionId: options.sessionId,
 			interactiveTargetId: target.targetId

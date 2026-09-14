@@ -12,12 +12,12 @@
 		overflow: hidden !important;
 	}
 
-	.post-reader-localized-context .awtsmoos-slide-viewport {
+	.post-reader-localized-context .sidebar .awtsmoos-slide-viewport {
 		min-height: 0 !important;
 		overflow: hidden !important;
 	}
 
-	.post-reader-localized-context .awtsmoos-slide-view.active-view {
+	.post-reader-localized-context .sidebar .awtsmoos-slide-view.active-view {
 		min-height: 0 !important;
 		overflow: hidden !important;
 	}
@@ -62,7 +62,7 @@
 		-webkit-overflow-scrolling: touch !important;
 	}
 
-	.post-reader-localized-context .awtsmoos-empty-placeholder {
+	.post-reader-localized-context .sidebar .awtsmoos-empty-placeholder {
 		margin: 8px !important;
 		min-height: 0 !important;
 		padding: 14px !important;

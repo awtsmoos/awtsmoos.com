@@ -7,6 +7,7 @@
  */
 import { mergeCommentHits } from './commentMerge.js';
 import { rangeCard } from './rangeResults.js';
+import { renderSearchPresentation } from './searchGroupingView.js';
 
 const initialResultCount = 6;
 const resultIncrement = 6;
@@ -23,10 +24,15 @@ export function renderSearch({ search, results, status, query }) {
 		Array.isArray(search.hits) ? search.hits : [],
 		Array.isArray(search.commentHits) ? search.commentHits : []
 	);
-	results.replaceChildren();
 	updateQueryContext(query, hits.length);
-	if (!hits.length) results.append(emptyCard(query, search.message));
-	else renderResultWindow(results, hits, initialResultCount);
+	renderSearchPresentation({
+		container: results,
+		search,
+		hits,
+		renderRelevance: surface => renderResultWindow(surface, hits, initialResultCount),
+		cardFactory: rangeCard,
+		emptyCard: () => emptyCard(query, search.message)
+	});
 	status.textContent = statusMessage(search, hits);
 }
 
@@ -76,10 +82,16 @@ function hasComments(hit) {
 	return Array.isArray(hit?.comments) && hit.comments.length > 0;
 }
 
+/** Describes result count, search mode, and truthful linked-comment availability. */
 function statusMessage(search, hits) {
 	const count = hits.length;
+	const commentCount = hits.reduce((total, hit) => {
+		return total + (Array.isArray(hit?.comments) ? hit.comments.length : 0);
+	}, 0);
 	const mode = search.mode === 'vector' ? 'vector ranked' : search.mode === 'text' ? 'stored text' : 'library';
-	return `${count} source${count === 1 ? '' : 's'} found · ${mode}`;
+	const comments = `${commentCount} linked comment${commentCount === 1 ? '' : 's'} available`;
+	const openState = commentCount > 0 ? ' · The first source window is open.' : '';
+	return `${count} source${count === 1 ? '' : 's'} found · ${mode} · ${comments}${openState}`;
 }
 
 function emptyCard(query, message) {

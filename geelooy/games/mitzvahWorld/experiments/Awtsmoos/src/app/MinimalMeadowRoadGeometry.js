@@ -1,6 +1,6 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file MinimalMeadowRoadGeometry.js
@@ -9,7 +9,9 @@
  * only the rendered garment by six centimeters so cobblestone, dirt shoulder, and grass never fight.
  */
 
-import { BufferAttribute, BufferGeometry } from '../../../light-three-gltf/tiny-runtime.js';
+import {
+	createNativeIndexedGeometry
+} from '../../../../../../libs/awtsmoos-procedural-core/src/core/worldBuilding/index.js';
 import {
 	minimalMeadowRoadSamples,
 	minimalMeadowRoadWeights
@@ -29,13 +31,13 @@ export function createMinimalMeadowRoadGeometryData(heightAt, options = {}) {
 }
 
 export function createMinimalMeadowRoadGeometry(data) {
-	const geometry = new BufferGeometry();
-	geometry.setAttribute('position', new BufferAttribute(data.positions, 3));
-	geometry.setAttribute('normal', new BufferAttribute(data.normals, 3));
-	geometry.setAttribute('uv', new BufferAttribute(data.uvs, 2));
-	geometry.setAttribute('zone', new BufferAttribute(data.zones, 4));
-	geometry.setIndex(new BufferAttribute(data.indices, 1));
-	return geometry;
+	return createNativeIndexedGeometry({
+		indices: data.indices,
+		normals: data.normals,
+		positions: data.positions,
+		uvs: data.uvs,
+		zoneWeights: data.zones
+	});
 }
 
 function appendCrossSection(sample, heightAt, arrays) {

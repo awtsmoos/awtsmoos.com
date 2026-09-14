@@ -1,6 +1,6 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file interactionCollisionVisualIntegrity.test.mjs
@@ -21,9 +21,8 @@ import {
 	minimalMeadowTerrainDensityProfile
 } from '../../app/MinimalMeadowTerrainMaterialDensity.js';
 import { minimalMeadowTreeTemplate } from '../../app/MinimalMeadowTreeGeometry.js';
-import {
-	MinimalMeadowVegetationSystem
-} from '../../app/MinimalMeadowVegetationSystem.js';
+import { prepareMinimalMeadowVegetationDynamics, updateMinimalMeadowVegetationDynamics } from '../../app/MinimalMeadowVegetationDynamics.js';
+import { createMinimalMeadowVegetationMotionState, updateMinimalMeadowVegetationMotionState } from '../../app/MinimalMeadowVegetationMotionState.js';
 import {
 	integrityTreeMaterials,
 	integrityVegetationCell
@@ -44,10 +43,12 @@ test('B"H terrain profile preserves bounded mobile and richer desktop density', 
 });
 
 test('B"H vegetation cell stays level while wind remains reactive', () => {
-	const owner = Object.create(MinimalMeadowVegetationSystem.prototype);
-	owner.clock = 2;
-	const cell = integrityVegetationCell();
-	owner.updateCell(cell, { x: 1.5, z: 1.5 }, 2);
+	const player = { x: 1.5, z: 1.5 };
+	const cell = prepareMinimalMeadowVegetationDynamics(integrityVegetationCell());
+	cell.distanceSquared = 0.5;
+	const motion = createMinimalMeadowVegetationMotionState(player);
+	const context = updateMinimalMeadowVegetationMotionState(motion, player, 0.016, 2);
+	updateMinimalMeadowVegetationDynamics(cell, context);
 	assert.deepEqual([
 		cell.group.quaternion.x,
 		cell.group.quaternion.y,

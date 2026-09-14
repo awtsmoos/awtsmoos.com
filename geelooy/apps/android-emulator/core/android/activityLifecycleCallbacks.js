@@ -1,8 +1,9 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
+//Blessed be He
 
 import { snapshotActivityLifecycleCallbacks } from "./applicationLifecycleState.js";
+import { notifyActivityLifecycleProgress } from "./activityLifecycleProgress.js";
 import { resolveGuestTaskMethod } from "./frameworkJavaTaskResolution.js";
 
 const CALLBACKS = Object.freeze({
@@ -31,7 +32,8 @@ export async function dispatchActivityLifecycleCallbacks(
 	executor,
 	phase,
 	activity,
-	bundle
+	bundle,
+	progress
 ) {
 	const callback = CALLBACKS[phase];
 	if (!callback) return 0;
@@ -44,6 +46,10 @@ export async function dispatchActivityLifecycleCallbacks(
 			callback.name,
 			callback.descriptor
 		);
+		notifyActivityLifecycleProgress(progress, "callback:start", {
+			phase,
+			signature: record.signature
+		});
 		if (!record.code) {
 			throw callbackError(
 				"ANDROID_ACTIVITY_LIFECYCLE_CALLBACK_CODE_REQUIRED",
@@ -51,6 +57,10 @@ export async function dispatchActivityLifecycleCallbacks(
 			);
 		}
 		await executor.invoke(record, [receiver, ...parameters]);
+		notifyActivityLifecycleProgress(progress, "callback:complete", {
+			phase,
+			signature: record.signature
+		});
 		invoked += 1;
 	}
 	return invoked;

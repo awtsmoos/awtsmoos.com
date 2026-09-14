@@ -63,6 +63,7 @@ export function createActions(navigator) {
 			openTree(navigator);
 		},
 		openMiniMail() {
+			loadMiniMail();
 			DOMElements.miniMailPanel?.classList.remove('hidden');
 		},
 		closeMiniMail() {
@@ -82,6 +83,14 @@ export function createActions(navigator) {
 			event.preventDefault();
 		}
 	};
+}
+
+/** Loads optional mail only after explicit user intent, never on Torah boot. */
+function loadMiniMail() {
+	const frame = DOMElements.miniMailPanel?.querySelector('iframe[data-mail-src]');
+	if (!frame || frame.dataset.mailLoaded === 'true') return;
+	frame.dataset.mailLoaded = 'true';
+	frame.src = frame.dataset.mailSrc;
 }
 
 function openTree(navigator) {

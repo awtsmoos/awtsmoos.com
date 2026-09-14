@@ -62,8 +62,8 @@ test("purge and keeper both preserve one protected login target", async () => {
 			return {};
 		}
 	});
-	assert.deepEqual(keeperClosed, ["OLD2"]);
-	assert.equal(keeperPages.some(item => item.id === "LOGIN"), true);
+	assert.deepEqual(keeperClosed, ["KEEPER", "OLD2"]);
+	assert.deepEqual(keeperPages.map(item => item.id), ["LOGIN"]);
 });
 
 function pages(ids) {

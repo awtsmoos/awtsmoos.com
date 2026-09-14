@@ -46,6 +46,7 @@ test("keeps remote traversal at the remote vocabulary root", () => {
 });
 
 test("joins local child paths without changing path kind", () => {
+	assert.equal(joinWorkspacePath(".", "index.html"), "index.html");
 	assert.equal(joinWorkspacePath("projects/site", "index.html"), "projects/site/index.html");
 	assert.equal(joinWorkspacePath("/Users/me", "../shared"), "/Users/shared");
 	assert.equal(joinWorkspacePath("projects/site", "/tmp/file"), "/tmp/file");

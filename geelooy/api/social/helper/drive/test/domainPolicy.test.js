@@ -61,13 +61,13 @@ test('changing DNS mode resets delegation evidence without resetting ownership',
 	assert.equal(custom.delegationVerifiedAt, null);
 });
 
-test('legacy Drive state upgrades to version 6 with domain and project registries', () => {
+test('legacy Drive state upgrades to version 7 with domain, project, and deployment registries', () => {
 	const state = normalizeDriveState({
 		version: 4,
 		entries: { 'index.html': { visibility: 'public' } },
 		sites: { home: { id: 'home', rootPath: '' } }
 	});
-	assert.equal(state.version, 6);
+	assert.equal(state.version, 7);
 	assert.deepEqual(state.domains, {});
 	assert.deepEqual(state.projects, {});
 	assert.ok(state.entries['index.html']);

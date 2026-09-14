@@ -1,6 +1,6 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file Keeps interactive browser sessions bound to their authenticated owner.
@@ -13,6 +13,7 @@ const {
 	createInteractiveSessionId,
 	interactiveOwnerKey
 } = require('./interactiveSessionIds.js');
+const { normalizeInteractiveEngineMode } = require('./interactiveEngineMode.js');
 
 class InteractiveSessionStore {
 	constructor(options = {}) {
@@ -20,15 +21,20 @@ class InteractiveSessionStore {
 		this.sessions = new Map();
 	}
 
-	findReusable(userId, jarId) {
+	findReusable(userId, jarId, engineMode = 'headless') {
 		const ownerKey = interactiveOwnerKey(userId, jarId);
-		return [...this.sessions.values()].find(session => session.ownerKey === ownerKey) || null;
+		const normalizedEngineMode = normalizeInteractiveEngineMode(engineMode);
+		return [...this.sessions.values()].find(session => (
+			session.ownerKey === ownerKey
+			&& session.engineMode === normalizedEngineMode
+		)) || null;
 	}
 
-	create({ userId, jarId, runtime, profile }) {
+	create({ userId, jarId, engineMode, runtime, profile }) {
 		this.assertUserCapacity(userId);
 		const session = {
 			createdAt: Date.now(),
+			engineMode: normalizeInteractiveEngineMode(engineMode),
 			jarId,
 			lastActivityAt: Date.now(),
 			ownerKey: interactiveOwnerKey(userId, jarId),

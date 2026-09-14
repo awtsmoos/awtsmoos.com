@@ -1,6 +1,6 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 /**
  * @file minimalMeadowHousePopulationCompatibility.test.mjs
  * @description Proves selection, doors, mezuzahs, bounds, role-specific sides, and cleanup survive.
@@ -36,10 +36,12 @@ test('house population preserves interaction and collision lifecycle', () => {
 	assertHouseContract(population.group);
 	const door = population.houses[0].doors[0];
 	const previousPanel = door.group.children[0];
+	const previousWorldMatrix = [...previousPanel.matrixWorld];
 	door.toggle();
 	population.update(0.2);
 	const currentPanel = door.group.children[0];
-	assert.notStrictEqual(currentPanel, previousPanel);
+	assert.strictEqual(currentPanel, previousPanel);
+	assert.notDeepEqual([...currentPanel.matrixWorld], previousWorldMatrix);
 	assert.ok(currentPanel.geometry.boundingBox);
 	assert.ok(currentPanel.geometry.boundingSphere);
 	assert.strictEqual(

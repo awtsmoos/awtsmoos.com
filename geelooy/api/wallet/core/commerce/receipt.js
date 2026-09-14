@@ -40,7 +40,8 @@ function createCommerceReceipt(input) {
 		skuId: input.sku.id,
 		productId: input.sku.productId,
 		pricePerutahs: input.sku.pricePerutahs,
-		entitlementId: input.entitlement.id,
+		entitlementId: input.entitlement?.id || null,
+		creditUnits: Math.max(0, Math.floor(Number(input.creditGrant?.transaction?.delta || 0))),
 		transactionId: input.transaction.id,
 		idempotencyKey: input.idempotencyKey,
 		at: input.now ?? Date.now()

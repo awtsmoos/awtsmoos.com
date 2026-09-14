@@ -1,47 +1,37 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file TinyWorldGeometryAdapter.js
- * @description Manifests procedural geometry through Tiny runtime while every material obeys remote-only image readiness.
- * The Awtsmoos gives form, UV, and collision before visual garment; Awtsmoos.com keeps each mesh hidden
- * until a genuine authored or remote image enters its material, so vertex color cannot become a counterfeit skin.
+ * @description Adapts MitzvahWorld portable geometry and material intent into Procedural Core native world vessels.
+ * Game code keeps semantic roles and remote-provenance readiness; Core owns BufferGeometry, Mesh, Group,
+ * standard material construction, and renderer-facing attribute materialization for every reusable world part.
  */
-
 import {
-	BufferAttribute,
-	BufferGeometry,
-	Group,
-	Mesh,
-	MeshStandardMaterial
-} from '../../../../light-three-gltf/tiny-runtime.js';
+	createNativeGeometryMesh,
+	createNativeWorldGroup,
+	createNativeWorldMaterial
+} from '../../../../../../../libs/awtsmoos-procedural-core/src/core/worldBuilding/index.js';
 import { isRealMaterialImage, materialHasRealMap } from '../../assets/RemoteMaterialImageValidity.js';
 import { prepareRemoteMaterialForHydration } from '../../assets/RemoteMaterialReadiness.js';
 import { packTinyGeometry } from './TinyGeometryPacking.js';
 
+/** Materialize one semantic game part through Core without constructing renderer objects locally. */
 export function createTinyWorldMesh(geometryData, options = {}) {
 	const packed = packTinyGeometry(geometryData);
-	const geometry = new BufferGeometry();
-	geometry.setAttribute('position', new BufferAttribute(packed.positions, 3));
-	geometry.setAttribute('normal', new BufferAttribute(packed.normals, 3));
-	geometry.setAttribute('uv', new BufferAttribute(packed.uvs, 2));
-	geometry.setAttribute('color', new BufferAttribute(packed.colors, 4));
-	geometry.setIndex(new BufferAttribute(packed.indices, 1));
-	geometry.userData = {
-		role: geometryData.role || options.role || 'world-part',
-		triangles: packed.indices.length / 3
-	};
-	const material = createWorldMaterial(options);
-	const mesh = new Mesh(geometry, material);
-	mesh.name = options.name || geometry.userData.role;
-	const position = options.position || { x: 0, y: 0, z: 0 };
-	mesh.position.set(position.x || 0, position.y || 0, position.z || 0);
-	mesh.userData = {
-		...(options.userData || {}),
-		role: geometry.userData.role,
-		semanticMaterialRole: material.texturePolicy.semanticRole
-	};
+	const role = geometryData.role || options.role || 'world-part';
+	const material = createWorldMaterial(options, role);
+	const mesh = createNativeGeometryMesh(packed, material, {
+		geometryUserData: { role, triangles: packed.indices.length / 3 },
+		name: options.name || role,
+		position: options.position,
+		userData: {
+			...(options.userData || {}),
+			role,
+			semanticMaterialRole: material.texturePolicy.semanticRole
+		}
+	});
 	prepareRemoteMaterialForHydration(mesh, material);
 	mesh.visible = materialHasRealMap(material);
 	if (!mesh.visible) {
@@ -51,9 +41,13 @@ export function createTinyWorldMesh(geometryData, options = {}) {
 	return mesh;
 }
 
+/** Build a semantic collection while Core owns the native hierarchy vessel. */
 export function createTinyWorldPartGroup(parts, options = {}) {
-	const group = new Group();
-	group.name = options.name || 'AwtsmoosProceduralParts';
+	const group = createNativeWorldGroup({
+		name: options.name || 'AwtsmoosProceduralParts',
+		position: options.position,
+		userData: { ...(options.userData || {}), proceduralParts: parts.length, remoteOnly: true }
+	});
 	for (const [index, part] of parts.entries()) {
 		const style = options.styleFor?.(part, index) || {};
 		group.add(createTinyWorldMesh(part.geometry || part, {
@@ -62,39 +56,19 @@ export function createTinyWorldPartGroup(parts, options = {}) {
 			role: part.role || style.role
 		}));
 	}
-	const position = options.position || { x: 0, y: 0, z: 0 };
-	group.position.set(position.x || 0, position.y || 0, position.z || 0);
-	group.userData = { ...(options.userData || {}), proceduralParts: parts.length, remoteOnly: true };
 	group.setBaseTransform();
 	return group;
 }
 
-function createWorldMaterial(options) {
-	const color = colorArray(options.color || '#ffffff', options.opacity ?? 1);
+function createWorldMaterial(options, role) {
 	const mapImage = isRealMaterialImage(options.mapImage) ? options.mapImage : null;
-	const semanticRole = options.semanticMaterialRole || options.materialRole || options.role || null;
-	const material = new MeshStandardMaterial({
-		alphaMode: options.transparent ? 'BLEND' : 'OPAQUE',
-		color,
-		doubleSided: options.doubleSided !== false,
-		name: options.materialName || `${options.name || 'procedural'}_material`,
-		opacity: options.opacity ?? color[3],
-		transparent: Boolean(options.transparent)
-	});
-	Object.assign(material, {
+	const semanticRole = options.semanticMaterialRole || options.materialRole || role || null;
+	return createNativeWorldMaterial({
+		...options,
 		mapImage,
-		mapRepeat: options.mapRepeat || [1, 1],
-		metallicFactor: options.metalness ?? 0,
-		roughnessFactor: options.roughness ?? 0.72,
-		texturePolicy: { realMapImage: Boolean(mapImage), remoteOnly: true, semanticRole },
-		textureUrl: options.textureUrl || null
+		name: options.materialName || `${options.name || 'procedural'}_material`,
+		remoteOnly: true,
+		semanticRole,
+		texturePolicy: { realMapImage: Boolean(mapImage), remoteOnly: true, semanticRole }
 	});
-	return material;
-}
-
-function colorArray(value, alpha) {
-	if (Array.isArray(value)) return [value[0] ?? 1, value[1] ?? 1, value[2] ?? 1, alpha];
-	const hex = String(value).replace('#', '');
-	if (!/^[0-9a-f]{6}$/i.test(hex)) return [1, 1, 1, alpha];
-	return [0, 2, 4].map(index => parseInt(hex.slice(index, index + 2), 16) / 255).concat(alpha);
 }

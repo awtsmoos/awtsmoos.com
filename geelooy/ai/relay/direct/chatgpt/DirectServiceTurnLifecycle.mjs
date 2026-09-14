@@ -1,9 +1,9 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
+import { physicalTabCapacityRestored } from "./PhysicalTabCapacity.mjs";
 import { codedError } from "./DirectServiceTurnPresentation.mjs";
-
 /**
  * @file Owns one direct website turn from claim through terminal browser cleanup.
  * @description
@@ -54,7 +54,7 @@ export class DirectServiceTurnLifecycle {
 			total: 0,
 			withinLimit: true
 		};
-		if (this.physicalTabs.total !== 0 || this.physicalTabs.withinLimit === false) {
+		if (!physicalTabCapacityRestored(this.physicalTabs)) {
 			throw codedError("physical_tab_cap_not_restored");
 		}
 		this.uncertain = receipt.submissionUncertain === true;

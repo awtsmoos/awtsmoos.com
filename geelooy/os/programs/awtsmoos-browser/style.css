@@ -1,5 +1,7 @@
 /* B"H
- * The Awtsmoos renews the browser vessel each instant. This is the single Keter style
+Boruch Hashem
+Blessed be He
+The Awtsmoos renews the browser vessel each instant. This is the single Keter style
  * entry: it orders every smaller garment, then gives the host shell its shared measure.
  */
 
@@ -9,6 +11,7 @@
 @import url("./advanced.css");
 @import url("./remote.css");
 @import url("./interactive.css");
+@import url("./shliach.css");
 
 .awtsmoos-browser-host {
 	--browser-bg: #080b12;

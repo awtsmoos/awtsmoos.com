@@ -32,6 +32,11 @@ function selectAuditRoutes(discovered, options) {
 	if (options.match) {
 		routes = routes.filter((route) => route.urlPath.includes(options.match) || route.file.includes(options.match));
 	}
+	const shardCount = Math.max(1, Math.floor(options.shardCount || 1));
+	const shardIndex = Math.max(0, Math.min(shardCount - 1, Math.floor(options.shardIndex || 0)));
+	if (shardCount > 1) {
+		routes = routes.filter((route, index) => index % shardCount === shardIndex);
+	}
 	if (Number.isFinite(options.limit)) {
 		routes = routes.slice(0, Math.max(0, options.limit));
 	}
