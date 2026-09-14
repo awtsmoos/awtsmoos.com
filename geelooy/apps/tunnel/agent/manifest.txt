@@ -1,5 +1,5 @@
 B"H
-1.0.599
+1.0.600
 main.js
 ai/relay/direct/browser/ActiveTargetLease.mjs
 ai/relay/direct/browser/AgentTabCatalog.mjs
@@ -65,6 +65,7 @@ ai/relay/direct/chatgpt/DirectServiceTurnLifecycle.mjs
 ai/relay/direct/chatgpt/DirectServiceTurnPresentation.mjs
 ai/relay/direct/chatgpt/DirectServiceTurnRecovery.mjs
 ai/relay/direct/chatgpt/DirectTurnExecutor.mjs
+ai/relay/direct/chatgpt/DirectTurnRouteGate.mjs
 ai/relay/direct/chatgpt/FallbackConversationConnection.mjs
 ai/relay/direct/chatgpt/FallbackConversationResult.mjs
 ai/relay/direct/chatgpt/FallbackConversationService.mjs
@@ -1843,6 +1844,7 @@ tools/fs/actionGroups/websiteAgents/runner/cancel.js
 tools/fs/actionGroups/websiteAgents/runner/clearWake.js
 tools/fs/actionGroups/websiteAgents/runner/commitSeededChild.js
 tools/fs/actionGroups/websiteAgents/runner/context.js
+tools/fs/actionGroups/websiteAgents/runner/conversationRouteEvidence.js
 tools/fs/actionGroups/websiteAgents/runner/createMission.js
 tools/fs/actionGroups/websiteAgents/runner/delegateChildRoom.js
 tools/fs/actionGroups/websiteAgents/runner/dispatcherSessionLifecycle.js

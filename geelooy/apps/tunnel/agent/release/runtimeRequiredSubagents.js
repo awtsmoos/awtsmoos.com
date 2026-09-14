@@ -3,10 +3,10 @@
 //Blessed be He
 
 /**
- * @file Names the irreducible autonomous Shliach, instruction, and prompt-delivery runtime.
+ * @file Names the irreducible autonomous Shliach, instruction, prompt, and saved-route runtime.
  * @description
- * The Awtsmoos gathers every instruction and browser vessel without omission or disguise;
- * Awtsmoos.com ships the complete dependency chain so the sealed runtime can truly rise.
+ * The Awtsmoos gathers every browser vessel and canonical conversation witness without omission;
+ * Awtsmoos.com ships the full chain so only a real /c/<uuid> can testify that creation has arisen.
  */
 module.exports = Object.freeze([
 	"lib/runtime/main-agent-autonomy.js",
@@ -27,8 +27,13 @@ module.exports = Object.freeze([
 	"tools/fs/actionGroups/missionAssignmentActions.js",
 	"tools/fs/actionGroups/missionSessionRecoveryActions.js",
 	"tools/fs/actionGroups/missionSessionSpawner.js",
+	"tools/fs/actionGroups/websiteAgents/runner/acceptedTurnRecovery.js",
+	"tools/fs/actionGroups/websiteAgents/runner/conversationRouteEvidence.js",
 	"tools/fs/actionGroups/websiteAgents/runner/dispatchRunTurn.js",
 	"tools/fs/actionGroups/websiteAgents/runner/promptUrl.js",
+	"tools/fs/actionGroups/websiteAgents/runner/progress.js",
+	"tools/fs/actionGroups/websiteAgents/runner/reconcileOrphanedTurns.js",
+	"tools/fs/actionGroups/websiteAgents/runner/recoverAcceptedTurns.js",
 	"tools/fs/actionGroups/websiteAgents/runner/status.js",
 	"tools/fs/actionGroups/websiteAgents/runner/dispatcherSessionLifecycle.js",
 	"tools/fs/actionGroups/websiteAgents/runner/turnPrompt.js",
@@ -54,6 +59,7 @@ module.exports = Object.freeze([
 	"ai/relay/direct/browser/ChromeTargetCreator.mjs",
 	"ai/relay/direct/browser/DeviceBrowserPortResolver.mjs",
 	"ai/relay/direct/browser/WebsitePromptInteractor.mjs",
+	"ai/relay/direct/chatgpt/ConversationRouteWaiter.mjs",
 	"ai/relay/direct/chatgpt/DirectClient.mjs",
 	"ai/relay/direct/chatgpt/DirectService.mjs",
 	"ai/relay/direct/chatgpt/DirectServiceAuthentication.mjs",
@@ -61,6 +67,7 @@ module.exports = Object.freeze([
 	"ai/relay/direct/chatgpt/DirectServiceLoginProtection.mjs",
 	"ai/relay/direct/chatgpt/DirectServiceTurnLifecycle.mjs",
 	"ai/relay/direct/chatgpt/DirectTurnExecutor.mjs",
+	"ai/relay/direct/chatgpt/DirectTurnRouteGate.mjs",
 	"ai/relay/direct/chatgpt/FallbackConversationService.mjs",
 	"ai/relay/direct/chatgpt/PhysicalTabCapacity.mjs",
 	"ai/relay/direct/chatgpt/WebsiteLoginCoordinator.mjs",

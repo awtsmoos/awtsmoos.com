@@ -11,7 +11,7 @@ const SourcePaths = require("../release/sourcePaths.js");
  * @file Proves the committed public manifest exactly matches production source closure.
  * @description
  * The Awtsmoos gathers every runtime spark into one published scroll that can truly run;
- * Awtsmoos.com rejects a release missing prompt, browser, mission, broker, queue, or database sun.
+ * Awtsmoos.com rejects releases missing saved-route proof, browser, mission, broker, queue, or database sun.
  */
 const roots = SourcePaths.resolveRoots();
 const committed = Manifest.readCurrent(Manifest.OUT);
@@ -20,7 +20,11 @@ const critical = [
 	"lib/instructions/hybridService.js",
 	"lib/instructions/serverBroker.js",
 	"lib/instructions/serverBrokerSupport.js",
+	"tools/fs/actionGroups/websiteAgents/runner/acceptedTurnRecovery.js",
+	"tools/fs/actionGroups/websiteAgents/runner/conversationRouteEvidence.js",
 	"tools/fs/actionGroups/websiteAgents/runner/turnPrompt.js",
+	"ai/relay/direct/chatgpt/ConversationRouteWaiter.mjs",
+	"ai/relay/direct/chatgpt/DirectTurnRouteGate.mjs",
 	"ai/relay/direct/chatgpt/DirectServiceTurnLifecycle.mjs",
 	"ai/relay/direct/chatgpt/DirectServiceTurnPresentation.mjs",
 	"ai/relay/direct/chatgpt/DirectServiceTurnRecovery.mjs",
@@ -44,24 +48,16 @@ const critical = [
 ];
 
 Catalog.assertManifestCoverage(committed.files, roots);
-assert.deepEqual(
-	committed.files,
-	built.files,
-	"committed manifest must equal the authoritative source inventory"
-);
+assert.deepEqual(committed.files, built.files,
+	"committed manifest must equal the authoritative source inventory");
 for (const file of critical) {
 	assert.ok(committed.files.includes(file), `committed manifest omitted ${file}`);
 }
-assert.equal(
-	committed.files.length,
-	new Set(committed.files).size,
-	"committed manifest paths remain unique"
-);
+assert.equal(committed.files.length, new Set(committed.files).size,
+	"committed manifest paths remain unique");
 assert.throws(
 	() => Catalog.assertManifestCoverage(
-		committed.files.filter(file => file !== critical[0]),
-		roots
-	),
+		committed.files.filter(file => file !== critical[0]), roots),
 	/manifest_dependency_omission:/
 );
 assert.throws(
