@@ -1,18 +1,19 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
+//Blessed be He
 
 /**
  * @module DriveWorkspaceCommands
  * @description
- * The Awtsmoos lets Drive ask its exact Geelooy OS parent for one bounded deed;
- * Awtsmoos.com fixes channel, direction, event type, and native recipe shape so no arbitrary command may grow from the seed.
+ * The Awtsmoos lets Drive ask its exact Geelooy OS parent for bounded deeds;
+ * Awtsmoos.com fixes channel, direction, and command names against arbitrary power.
  */
 
 export const DRIVE_WORKSPACE_CHANNEL = 'drive-workspace-runtime-v1';
 export const DRIVE_WORKSPACE_CHILD = 'apps-drive';
 export const DRIVE_WORKSPACE_HOST = 'geelooy-os-drive-workspace';
 export const OPEN_CONNECTED_NODE_SERVER = 'open-connected-node-server';
+export const OPEN_DRIVE_FILE = 'open-drive-file';
 
 const MAX_CWD_LENGTH = 1024;
 const MAX_ENTRY_LENGTH = 512;
@@ -33,15 +34,12 @@ export function normalizeDriveRuntimeRecipe(value) {
 	});
 }
 
-/** Requires a canonical project-relative Node entry path. */
 function relativeEntry(value) {
 	const entry = boundedText(value, MAX_ENTRY_LENGTH, 'drive_runtime_entry_invalid');
 	if (entry.includes('\\') || entry.startsWith('/') || entry.startsWith('-')) {
 		throw commandError('drive_runtime_entry_invalid');
 	}
-	if (/^[A-Za-z]:\//.test(entry)) {
-		throw commandError('drive_runtime_entry_invalid');
-	}
+	if (/^[A-Za-z]:\//.test(entry)) throw commandError('drive_runtime_entry_invalid');
 	const segments = entry.split('/');
 	if (segments.some(segment => !segment || segment === '.' || segment === '..')) {
 		throw commandError('drive_runtime_entry_invalid');
@@ -49,12 +47,9 @@ function relativeEntry(value) {
 	return entry;
 }
 
-/** Allows inert public scalar arguments while refusing secret-shaped names. */
 function normalizeArgs(value) {
 	const values = Array.isArray(value) ? value : [];
-	if (values.length > MAX_ARGS) {
-		throw commandError('drive_runtime_args_invalid');
-	}
+	if (values.length > MAX_ARGS) throw commandError('drive_runtime_args_invalid');
 	return values.map(argument => {
 		if (!['string', 'number', 'boolean'].includes(typeof argument)) {
 			throw commandError('drive_runtime_args_invalid');
@@ -77,9 +72,7 @@ function boundedPort(value) {
 
 function boundedText(value, maximum, code) {
 	const text = String(value || '').trim();
-	if (!text || text.length > maximum || text.includes('\0')) {
-		throw commandError(code);
-	}
+	if (!text || text.length > maximum || text.includes('\0')) throw commandError(code);
 	return text;
 }
 

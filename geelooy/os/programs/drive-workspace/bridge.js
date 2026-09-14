@@ -1,6 +1,6 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed be He
 
 import { trustMessageEvent } from '../../../shared/embed/origin.js';
 import { EMBED_KINDS, validateEmbedEnvelope } from '../../../shared/embed/protocol.js';
@@ -9,21 +9,20 @@ import {
 	DRIVE_WORKSPACE_CHILD,
 	DRIVE_WORKSPACE_HOST,
 	normalizeDriveRuntimeRecipe,
-	OPEN_CONNECTED_NODE_SERVER
+	OPEN_CONNECTED_NODE_SERVER,
+	OPEN_DRIVE_FILE
 } from '../../../shared/embed/driveWorkspaceCommands.js';
+import { normalizeDriveWorkspaceFile } from '../../../shared/embed/driveWorkspaceFile.js';
+import { launchDriveWorkspaceFile } from './fileLauncher.js';
 
 /**
  * @module DriveWorkspaceBridge
  * @description
- * The Awtsmoos lets one iframe event become one OS window only after source, origin, protocol, direction, and recipe all testify;
- * Awtsmoos.com keeps launch mechanics outside this pure boundary, so the bridge can guard messages without dragging the entire OS into every test or import.
+ * The Awtsmoos lets one iframe event become one OS deed only after every
+ * boundary testifies; Awtsmoos.com admits two named capabilities and no others.
  */
 
-/**
- * Installs the exact Drive iframe → OS runtime-launch boundary.
- * @param {object} options Host window, frame, origin, OS, and injected launcher.
- * @returns {Function} Listener-removal function.
- */
+/** Installs the exact Drive iframe → OS workspace boundary. */
 export function installDriveWorkspaceBridge(options = {}) {
 	const listenWindow = options.listenWindow || globalThis.window;
 	const launch = requireLauncher(options.launch);
@@ -33,45 +32,61 @@ export function installDriveWorkspaceBridge(options = {}) {
 			sourceWindow: options.frame?.contentWindow,
 			origin: options.targetOrigin
 		});
-		if (!trust.ok) {
-			onRejected(trust.reason);
-			return;
-		}
+		if (!trust.ok) return onRejected(trust.reason);
 		const validation = validateEmbedEnvelope(event.data, {
 			channelId: DRIVE_WORKSPACE_CHANNEL,
 			source: DRIVE_WORKSPACE_CHILD,
 			target: DRIVE_WORKSPACE_HOST,
 			kind: EMBED_KINDS.EVENT
 		});
-		if (!validation.ok || validation.envelope.type !== OPEN_CONNECTED_NODE_SERVER) {
-			onRejected(validation.reason || 'unsupported_drive_workspace_event');
-			return;
-		}
-		launchConnectedNode(options, launch, validation.envelope, onRejected);
+		if (!validation.ok) return onRejected(validation.reason);
+		return guardedDispatch(options, launch, validation.envelope, onRejected);
 	};
 	listenWindow.addEventListener('message', handleMessage);
-	return () => {
-		listenWindow.removeEventListener('message', handleMessage);
-	};
+	return () => listenWindow.removeEventListener('message', handleMessage);
 }
 
-/** Revalidates the recipe and invokes only the host-supplied launcher. */
-function launchConnectedNode(options, launch, envelope, onRejected) {
+function guardedDispatch(options, launch, envelope, onRejected) {
 	try {
-		const runtimeRecipe = normalizeDriveRuntimeRecipe(envelope.payload?.runtimeRecipe);
-		launch(options.os, 'node-server', {
-			title: 'Connected Node Server',
-			programOptions: { runtimeRecipe }
-		});
+		return Promise.resolve(dispatchEvent(options, launch, envelope))
+			.catch(error => onRejected(rejectionReason(error)));
 	} catch (error) {
-		onRejected(error?.code || error?.message || 'drive_runtime_launch_rejected');
+		return onRejected(rejectionReason(error));
 	}
 }
 
-/** Requires an explicit launcher so protocol tests stay independent of the full OS graph. */
+function dispatchEvent(options, launch, envelope) {
+	if (envelope.type === OPEN_CONNECTED_NODE_SERVER) {
+		return launchConnectedNode(options, launch, envelope);
+	}
+	if (envelope.type === OPEN_DRIVE_FILE) {
+		const file = normalizeDriveWorkspaceFile(envelope.payload?.file);
+		return launchDriveWorkspaceFile(options.os, file);
+	}
+	throw workspaceError('unsupported_drive_workspace_event');
+}
+
+function launchConnectedNode(options, launch, envelope) {
+	const runtimeRecipe = normalizeDriveRuntimeRecipe(envelope.payload?.runtimeRecipe);
+	return launch(options.os, 'node-server', {
+		title: 'Connected Node Server',
+		programOptions: { runtimeRecipe }
+	});
+}
+
 function requireLauncher(value) {
 	if (typeof value !== 'function') {
 		throw new TypeError('Drive workspace launch capability is required.');
 	}
 	return value;
+}
+
+function rejectionReason(error) {
+	return error?.code || error?.message || 'drive_workspace_event_rejected';
+}
+
+function workspaceError(code) {
+	const error = new Error(code);
+	error.code = code;
+	return error;
 }

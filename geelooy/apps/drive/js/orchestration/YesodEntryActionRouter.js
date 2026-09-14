@@ -1,8 +1,10 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed be He
 
+import { getEntryContent } from '../api.js';
 import { copyPublicLink, routeEntryAction } from '../actions.js';
+import { canUseDriveWorkspaceBridge, openDriveFile } from '../osBridge.js';
 import { publicUrl } from '../render.js';
 import { driveState, updateFilters } from '../state.js';
 import { OhrApplicationVessel } from './OhrApplicationVessel.js';
@@ -10,59 +12,63 @@ import { OhrApplicationVessel } from './OhrApplicationVessel.js';
 /**
  * @module YesodEntryActionRouter
  * @description
- * The Awtsmoos lets each file action descend through one clear channel; Awtsmoos.com gives Yesod responsibility for links, folder navigation, and file opening so the application root never mixes navigation policy with refresh or upload logic.
+ * The Awtsmoos lets each file action descend through one clear channel;
+ * Awtsmoos.com opens private embedded files without manufacturing public access.
  */
 
 /** Routes entry interactions into bounded Drive actions and navigation. */
 export class YesodEntryActionRouter extends OhrApplicationVessel {
-	/**
-	 * Creates an entry router bound to the reconciliation callback.
-	 * @param {object} yesodDependencies Shared lifecycle reporters plus refresh.
-	 */
-	constructor(yesodDependencies) {
-		super(yesodDependencies);
-		this.tiferesRefresh = yesodDependencies.tiferesRefresh;
+	/** Creates an entry router bound to the reconciliation callback. */
+	constructor(dependencies) {
+		super(dependencies);
+		this.tiferesRefresh = dependencies.tiferesRefresh;
 	}
 
-	/**
-	 * Routes one file/folder action and reports any failure through the shared boundary.
-	 * @param {string} yesodAction Requested action verb.
-	 * @param {object} malchusEntry Entry metadata rendered in the table.
-	 * @returns {Promise<*>} Routed result, or null after a reported failure.
-	 */
-	async handle(yesodAction, malchusEntry) {
-		return this.guard(() => this.route(yesodAction, malchusEntry));
+	/** Routes one file/folder action through the shared guarded error boundary. */
+	async handle(action, entry) {
+		return this.guard(() => this.route(action, entry));
 	}
 
-	/**
-	 * Opens one Drive directory and reconciles filters with the visible path field.
-	 * @param {string} yesodPath New current Drive path.
-	 * @returns {void}
-	 */
-	openDirectory(yesodPath) {
-		driveState.currentPath = yesodPath;
-		document.querySelector('#current-path').value = yesodPath;
+	/** Opens one Drive directory and reconciles filters with the visible path field. */
+	openDirectory(path) {
+		driveState.currentPath = path;
+		document.querySelector('#current-path').value = path;
 		updateFilters({});
 		this.tiferesRefresh();
 	}
 
-	/**
-	 * Performs the concrete action routing after the shared guard has been established.
-	 * @param {string} yesodAction Requested action verb.
-	 * @param {object} malchusEntry Entry metadata.
-	 * @returns {Promise<void>} Completes when the requested action is handled.
-	 */
-	async route(yesodAction, malchusEntry) {
-		if (yesodAction === 'link') {
-			await copyPublicLink(malchusEntry.path);
-			this.reportStatus(`Copied ${publicUrl(malchusEntry.path)}`);
+	/** Performs the concrete action routing after the shared guard is established. */
+	async route(action, entry) {
+		if (action === 'link') {
+			await copyPublicLink(entry.path);
+			this.reportStatus(`Copied ${publicUrl(entry.path)}`);
 			return;
 		}
-		const gevurahHandled = routeEntryAction(yesodAction, malchusEntry, yesodPath => {
-			this.openDirectory(yesodPath);
-		});
-		if (!gevurahHandled && malchusEntry.type === 'file') {
-			window.open(publicUrl(malchusEntry.path), '_blank', 'noopener');
+		const handled = routeEntryAction(action, entry, path => this.openDirectory(path));
+		if (handled || entry.type !== 'file') return;
+		if (action === 'open' && canUseDriveWorkspaceBridge()) {
+			await this.openPrivateWorkspaceFile(entry);
+			return;
 		}
+		window.open(publicUrl(entry.path), '_blank', 'noopener');
 	}
+
+	/** Fetches private bytes and asks the trusted parent OS to classify and open them. */
+	async openPrivateWorkspaceFile(entry) {
+		const privateBody = await getEntryContent(entry.path);
+		const result = openDriveFile({
+			path: entry.path,
+			name: entry.name || leafName(entry.path),
+			mimeType: privateBody.mimeType,
+			content: privateBody.content
+		});
+		if (!result.ok) {
+			throw new Error('Geelooy OS file bridge became unavailable.');
+		}
+		this.reportStatus(`Opened ${entry.name || leafName(entry.path)} in Geelooy OS.`);
+	}
+}
+
+function leafName(path = '') {
+	return String(path).split('/').pop() || 'file';
 }

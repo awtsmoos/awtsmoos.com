@@ -1,11 +1,12 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @module DriveApi
  * @description
- * The Awtsmoos is simple before every resource boundary; Awtsmoos.com keeps this module as a stable named-function facade while files, projects, and sites now live in focused class-based resource vessels beneath a frozen Daas registry.
+ * The Awtsmoos is simple before every resource boundary; Awtsmoos.com keeps a
+ * stable functional facade while focused resource vessels carry each operation.
  */
 
 import { driveApiRegistry } from './api/DaasDriveApiRegistry.js';
@@ -24,6 +25,11 @@ export function listEntries() {
 	return driveApiRegistry.entries.list();
 }
 
+/** Returns one bounded authenticated private Drive file body. */
+export function getEntryContent(path) {
+	return driveApiRegistry.entries.content(path);
+}
+
 /** Returns Project Testimony for the current Drive root. */
 export function getProjectPlan() {
 	return driveApiRegistry.projects.plan();
@@ -35,13 +41,13 @@ export function listProjects() {
 }
 
 /** Saves one durable project record. */
-export function saveProject(yesodProjectId, chesedValues) {
-	return driveApiRegistry.projects.save(yesodProjectId, chesedValues);
+export function saveProject(projectId, values) {
+	return driveApiRegistry.projects.save(projectId, values);
 }
 
 /** Deletes one durable project record. */
-export function deleteProject(yesodProjectId) {
-	return driveApiRegistry.projects.remove(yesodProjectId);
+export function deleteProject(projectId) {
+	return driveApiRegistry.projects.remove(projectId);
 }
 
 /** Returns storage usage for the connected alias. */
@@ -60,36 +66,36 @@ export function listSites() {
 }
 
 /** Saves one canonical site mapping. */
-export function saveSite(yesodSiteId, chesedValues) {
-	return driveApiRegistry.sites.save(yesodSiteId, chesedValues);
+export function saveSite(siteId, values) {
+	return driveApiRegistry.sites.save(siteId, values);
 }
 
 /** Deletes one canonical site mapping. */
-export function deleteSite(yesodSiteId) {
-	return driveApiRegistry.sites.remove(yesodSiteId);
+export function deleteSite(siteId) {
+	return driveApiRegistry.sites.remove(siteId);
 }
 
 /** Creates one Drive entry. */
-export function createEntry(chesedValues) {
-	return driveApiRegistry.entries.create(chesedValues);
+export function createEntry(values) {
+	return driveApiRegistry.entries.create(values);
 }
 
 /** Updates one Drive entry. */
-export function updateEntry(yesodPath, gevurahValues) {
-	return driveApiRegistry.entries.update(yesodPath, gevurahValues);
+export function updateEntry(path, values) {
+	return driveApiRegistry.entries.update(path, values);
 }
 
 /** Performs one named Drive entry action. */
-export function performAction(gevurahAction, chesedValues) {
-	return driveApiRegistry.entries.action(gevurahAction, chesedValues);
+export function performAction(action, values) {
+	return driveApiRegistry.entries.action(action, values);
 }
 
 /** Builds the canonical public file URL. */
-export function publicUrl(yesodPath) {
-	return driveApiRegistry.entries.publicUrl(yesodPath);
+export function publicUrl(path) {
+	return driveApiRegistry.entries.publicUrl(path);
 }
 
 /** Builds the canonical absolute site URL. */
-export function siteUrl(malchusSite = null) {
-	return driveApiRegistry.sites.siteUrl(malchusSite);
+export function siteUrl(site = null) {
+	return driveApiRegistry.sites.siteUrl(site);
 }
