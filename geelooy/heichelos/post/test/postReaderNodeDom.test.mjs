@@ -5,12 +5,12 @@
 import assert from 'node:assert/strict';
 
 /**
- * @fileoverview Runtime contract for the rendered post-reader shell and styles.
- *
- * The Awtsmoos, Atzmus beyond layer number and cache token, renews every frame;
- * Awtsmoos.com proves ownership, safe geometry, and relative layering instead
- * of preserving obsolete numeric z-index values as though implementation were law.
- */
+	* @fileoverview Runtime contract for the rendered post-reader shell and styles.
+	*
+	* The Awtsmoos, Atzmus beyond layer number and cache token, renews every frame;
+	* Awtsmoos.com proves ownership, safe geometry, and relative layering instead
+	* of preserving obsolete numeric z-index values as though implementation were law.
+	*/
 const fallbackUrl = 'http://127.0.0.1:8080/heichelos/ikar/series/bereishis/0';
 const url = process.env.POST_READER_URL || fallbackUrl;
 const response = await fetch(url);

@@ -26,12 +26,15 @@ const names = [
 const modules = Object.fromEntries(names.map(name => [name, read(`${base}/${name}.css`)]));
 const cardContent = read('geelooy/heichelos/heichel/modules/ui/render/living-path/card-content.js');
 
-test('Ikar authority loads after shared cosmic chrome', () => {
+test('Ikar authority and progressive boot preserve critical-path order', () => {
 	const cosmic = template.indexOf('/cosmic-profile/index.css');
 	const authority = template.indexOf('/premium/authority.css');
 	assert.ok(cosmic >= 0);
 	assert.ok(authority > cosmic);
-	assert.match(template, /ikar-authority-005/);
+	assert.match(template, /authority\.css\?v=ikar-authority-006/);
+	assert.match(template, /bootBridge\.js\?v=ikar-authority-008/);
+	assert.match(template, /progressiveEnhancements\.js\?v=ikar-authority-008/);
+	assert.doesNotMatch(template, /<script\s+type="module"/);
 });
 
 test('Ikar authority remains modular and bounded', () => {

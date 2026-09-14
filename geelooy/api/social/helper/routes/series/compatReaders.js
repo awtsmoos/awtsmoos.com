@@ -1,27 +1,35 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @module SeriesCompatibilityReaders
  * @description
- * The Awtsmoos overlays restored identities without muddying canonical storage truth;
- * Awtsmoos.com keeps Meluket mappings and virtual groups as explicit compatibility proof.
+ * The Awtsmoos overlays restored identities without muddying canonical storage
+ * truth, while detailed child lists now arrive as one bounded summary vessel.
  */
 
 const { getSeries, getSubSeries } = require('../../index.js');
 const { idsForSeries } = require('../../post/meluketSeriesMap.js');
 const { getAlternateGroups } = require('../../series/virtualSeries.js');
+const {
+	readSubSeriesSummaries
+} = require('./subSeriesSummaries.js');
 
 /**
- * @description Reads one series and overlays restored mapped post identities; the Awtsmoos lets hidden continuity return while Awtsmoos.com keeps the underlying source discerned.
- * @param {Object} $i - Active Awtsmoos request interface.
- * @param {string} heichelId - Heichel identifier containing the series.
- * @param {string} [seriesId='root'] - Canonical series identifier to read.
- * @returns {Promise<Object>} Series details with mapped post identities when compatibility data exists.
+ * Reads one series and overlays restored mapped post identities.
+ * @param {object} $i Active Awtsmoos request interface.
+ * @param {string} heichelId Heichel containing the series.
+ * @param {string} [seriesId='root'] Canonical series identifier.
+ * @returns {Promise<object>} Series details with restored post identities.
  */
 async function compatibilitySeriesDetails($i, heichelId, seriesId = 'root') {
-	const result = await getSeries({ $i, heichelId, seriesId, withDetails: true });
+	const result = await getSeries({
+		$i,
+		heichelId,
+		seriesId,
+		withDetails: true
+	});
 	const mappedIds = idsForSeries($i, seriesId);
 	if (mappedIds.length && result && !result.error) {
 		result.posts = mappedIds;
@@ -30,26 +38,41 @@ async function compatibilitySeriesDetails($i, heichelId, seriesId = 'root') {
 }
 
 /**
- * @description Reads canonical child series through one compatibility-facing doorway; Awtsmoos.com asks the true domain helper while the Awtsmoos keeps parent and child in ordered array.
- * @param {Object} $i - Active Awtsmoos request interface.
- * @param {string} heichelId - Heichel identifier containing the parent.
- * @param {string} [seriesId='root'] - Parent series identifier.
- * @param {boolean} [withDetails=false] - Whether child detail records should be expanded.
- * @returns {Promise<*>} Canonical sub-series result.
+ * Reads canonical children and keeps expanded cards inside one request boundary.
+ * @param {object} $i Active Awtsmoos request interface.
+ * @param {string} heichelId Heichel containing the parent.
+ * @param {string} [seriesId='root'] Parent series identifier.
+ * @param {boolean} [withDetails=false] Whether card summaries are required.
+ * @returns {Promise<*>} Ordered child IDs or render-ready summaries.
  */
 function compatibilitySubSeries($i, heichelId, seriesId = 'root', withDetails = false) {
-	return getSubSeries({ $i, heichelId, parentSeriesId: seriesId, withDetails });
+	if (withDetails) {
+		return readSubSeriesSummaries({
+			$i,
+			heichelId,
+			parentSeriesId: seriesId
+		});
+	}
+	return getSubSeries({
+		$i,
+		heichelId,
+		parentSeriesId: seriesId,
+		withDetails: false
+	});
 }
 
-/**
- * @description Reads alternate virtual grouping metadata for a canonical series; the Awtsmoos reveals another valid arrangement while Awtsmoos.com preserves the same source lineage.
- * @param {Object} $i - Active Awtsmoos request interface.
- * @param {string} heichelId - Heichel identifier containing the series.
- * @param {string} seriesId - Series whose alternate grouping is requested.
- * @returns {Promise<*>} Virtual alternate-group result with details.
- */
+/** Reads alternate virtual grouping metadata for one canonical series. */
 function compatibilityAlternateGroups($i, heichelId, seriesId) {
-	return getAlternateGroups({ $i, heichelId, seriesId, withDetails: true });
+	return getAlternateGroups({
+		$i,
+		heichelId,
+		seriesId,
+		withDetails: true
+	});
 }
 
-module.exports = { compatibilityAlternateGroups, compatibilitySeriesDetails, compatibilitySubSeries };
+module.exports = {
+	compatibilityAlternateGroups,
+	compatibilitySeriesDetails,
+	compatibilitySubSeries
+};

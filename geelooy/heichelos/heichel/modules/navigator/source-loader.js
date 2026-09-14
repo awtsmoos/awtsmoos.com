@@ -1,12 +1,13 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @module NavigatorSourceLoader
  * @description
- * The Awtsmoos lets persisted Torah, native Chitas, source-backed leaves, and language tools share one truthful navigation breath;
- * Awtsmoos.com reveals virtual children before presentation, while the eleventh browser-fix vessel carries optional translation light.
+ * The Awtsmoos lets persisted Torah, native Chitas, source-backed leaves, and
+ * language tools share one truthful navigation breath. Persisted identity and
+ * collections now travel concurrently instead of forming a serial waterfall.
  */
 
 import { appState } from '../state.js';
@@ -32,27 +33,27 @@ import { loadOptionalTranslations } from './translation-loader.js?v=heichel-mobi
 
 /**
  * Loads the exact source vessel for a persisted or virtual series identity.
+ * Persisted identity and collections begin together because neither depends on
+ * the other's result; this removes one full network round from cold navigation.
  * @param {string} seriesId Stable series or virtual Torah identity.
  * @returns {Promise<object>} Breadcrumb, series data, and normalized content.
  */
 export async function loadSource(seriesId) {
-	if (isChitasSeries(seriesId)) {
-		return loadChitasVirtualSeries();
-	}
-	if (isTorahLibrarySeries(seriesId)) {
-		return loadTorahLibraryVirtualSeries(seriesId);
-	}
-	if (isTranslationHubSeries(seriesId)) {
-		return loadTranslationHubVirtualSeries();
-	}
-	const [breadcrumb, seriesData] = await loadIdentity(seriesId);
+	if (isChitasSeries(seriesId)) return loadChitasVirtualSeries();
+	if (isTorahLibrarySeries(seriesId)) return loadTorahLibraryVirtualSeries(seriesId);
+	if (isTranslationHubSeries(seriesId)) return loadTranslationHubVirtualSeries();
+	const [identity, content] = await Promise.all([
+		loadIdentity(seriesId),
+		loadCollections(seriesId)
+	]);
 	return {
-		breadcrumb,
-		seriesData,
-		content: await loadCollections(seriesId)
+		breadcrumb: identity.breadcrumb,
+		seriesData: identity.seriesData,
+		content
 	};
 }
 
+/** Loads breadcrumb and series metadata concurrently. */
 async function loadIdentity(seriesId) {
 	const [breadcrumb, seriesData] = await Promise.all([
 		api.getBreadcrumb(appState.heichelId, seriesId),
@@ -61,7 +62,7 @@ async function loadIdentity(seriesId) {
 	if (!seriesData) {
 		throw new Error(`The series “${seriesId}” is unavailable.`);
 	}
-	return [breadcrumb, seriesData];
+	return { breadcrumb, seriesData };
 }
 
 function augmentSubSeries(series, seriesId) {
@@ -82,6 +83,7 @@ function augmentSubSeries(series, seriesId) {
 	);
 }
 
+/** Loads the independent persisted collections in one bounded parallel wave. */
 async function loadCollections(seriesId) {
 	const [postsRaw, subSeriesRaw, groupingsRaw, translations] = await Promise.all([
 		api.getPostDetails(appState.heichelId, seriesId),

@@ -55,6 +55,12 @@ async function readPostsRoute({
 		seriesId,
 		withDetails,
 		properties,
+		postReader: postId => getPostFromSeries({
+			$i,
+			heichelId,
+			seriesId,
+			postId
+		}),
 		standardReader: () => getPostsInSeries({
 			$i,
 			heichelId,
