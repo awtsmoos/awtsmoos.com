@@ -1,16 +1,16 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 import assert from "node:assert/strict";
 import test from "node:test";
 import { DirectClient } from "./DirectClient.mjs";
 
 /**
- * @file Proves accepted Send, verified hold, close, cooldown, and dispatch ordering.
+ * @file Proves one accepted Send returns durable conversation, hold, close, and cooldown evidence.
  * @description
- * The Awtsmoos never fabricates a model answer after closing an owned worker tab.
- * Awtsmoos.com returns only durable acceptance testimony after closure succeeds.
+ * The Awtsmoos never fabricates an answer, yet never forgets the conversation born from the Send;
+ * Awtsmoos.com returns its canonical thread together with verified closure so recovery knows where to mend.
  */
 function acceptedTurn(order, verified = true) {
 	return new DirectClient({
@@ -51,7 +51,7 @@ function acceptedTurn(order, verified = true) {
 	});
 }
 
-test("accepted POST holds, closes, starts cooldown, and returns a dispatch receipt", async () => {
+test("accepted POST holds, closes, and returns the canonical conversation receipt", async () => {
 	const order = [];
 	const result = await acceptedTurn(order).send({
 		prompt: "prompt",
@@ -65,6 +65,9 @@ test("accepted POST holds, closes, starts cooldown, and returns a dispatch recei
 	assert.equal(result.done, false);
 	assert.equal(result.dispatched, true);
 	assert.equal(result.accepted, true);
+	assert.equal(result.conversationId, "conversation-one");
+	assert.equal(result.conversationKey, "conversation-one");
+	assert.equal(result.conversationUrl, "https://chatgpt.com/c/conversation-one");
 	assert.equal(result.pacing.verified, true);
 	assert.equal(result.completionSource, "not-awaited-agent-continues-through-tunnel");
 });

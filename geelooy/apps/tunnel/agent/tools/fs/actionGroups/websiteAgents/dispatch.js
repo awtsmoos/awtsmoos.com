@@ -1,19 +1,21 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file Translates one accepted browser delivery into durable agent-working state.
  * @description
- * The Awtsmoos distinguishes dispatch from completion. Awtsmoos.com records that the
- * prompt crossed the website and the tab vanished, then leaves the agent alive to
- * publish progress, files, commands, handoffs, and completion through tunnel tools.
+ * The Awtsmoos distinguishes dispatch from completion and remembers the thread born from one Send;
+ * Awtsmoos.com stores its id and route so replacement Shluchim can inherit instead of starting again.
  */
 function apply(current, agentId, round, continuation, result, event) {
 	const target = current.agents.find(item => item.id === agentId);
 	if (!target) return current;
 	const acceptedAt = result.acceptedAt || new Date().toISOString();
-	target.conversationKey = result.conversationKey || null;
+	const conversationId = result.conversationId || result.conversationKey || null;
+	target.conversationKey = conversationId;
+	target.conversationId = conversationId;
+	target.conversationUrl = result.conversationUrl || canonicalConversationUrl(conversationId);
 	target.round = Math.max(target.round, Number(round || 0));
 	target.continuationTurns += continuation ? 1 : 0;
 	target.status = "dispatched";
@@ -27,6 +29,7 @@ function apply(current, agentId, round, continuation, result, event) {
 		round,
 		continuation,
 		acceptedAt,
+		conversationId,
 		responseStatus: result.responseStatus,
 		promptVerified: result.promptVerified === true,
 		tabCloseVerified: result.tabClose?.verified === true
@@ -35,6 +38,7 @@ function apply(current, agentId, round, continuation, result, event) {
 }
 
 function receipt(result = {}) {
+	const conversationId = result.conversationId || result.conversationKey || null;
 	return {
 		complete: false,
 		status: "DISPATCHED",
@@ -47,6 +51,8 @@ function receipt(result = {}) {
 		hasStructuredStatus: true,
 		answerPreview: "",
 		dispatched: true,
+		conversationId,
+		conversationUrl: result.conversationUrl || canonicalConversationUrl(conversationId),
 		acceptedAt: result.acceptedAt || null,
 		responseStatus: result.responseStatus || null,
 		promptVerified: result.promptVerified === true,
@@ -55,6 +61,12 @@ function receipt(result = {}) {
 		submissionTransport: result.submissionTransport || null,
 		requestLatencyMs: Number(result.requestLatencyMs || 0) || null
 	};
+}
+
+function canonicalConversationUrl(conversationId) {
+	return conversationId
+		? `https://chatgpt.com/c/${encodeURIComponent(conversationId)}`
+		: null;
 }
 
 function isTerminalForBrowser(agent = {}) {
