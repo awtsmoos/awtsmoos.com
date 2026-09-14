@@ -1,12 +1,12 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file MainMenu.js
- * @description Orchestrates a small world browser and one cancellable launch transaction.
- * The Awtsmoos turns selection into passage without silence; Awtsmoos.com separates shell,
- * census, transition, and bounded launch so each threshold remains observable and reversible.
+ * @description Orchestrates a small world browser, one cancellable launch transaction, and the measured real-WebGL menu warmup.
+ * The Awtsmoos turns selection into passage without silence; Awtsmoos.com overlaps population and genuine GPU awakening,
+ * so each threshold stays observable while the chosen meadow reuses the same already-living canvas instead of paying creation twice.
  */
 
 import { createLaunchTransition } from './LaunchTransitionView.js';
@@ -15,6 +15,7 @@ import { loadMainMenuPopulation } from './MainMenuPopulation.js';
 import { publishMainMenuRuntime } from './MainMenuRuntimePublication.js';
 import { renderActionSection } from './MainMenuSectionView.js';
 import { bindMainMenuNavigation, createMainMenuShell } from './MainMenuShell.js';
+import { scheduleMainMenuWebGlPrewarm } from './MainMenuWebGlPrewarm.js';
 import { setGameHostsVisible } from './MitzvahWorldLaunchContext.js';
 import { installMainMenuStyle } from './MainMenuStyle.js';
 import { createWorldBrowserModel } from './WorldBrowserModel.js';
@@ -50,6 +51,7 @@ export function showMainMenu(hosts, handlers = {}, options = {}) {
 	document.body.appendChild(menu);
 	render();
 	void loadMainMenuPopulation(menu, state, options, render);
+	scheduleMainMenuWebGlPrewarm(hosts.canvas, options.environment || globalThis);
 	return menu;
 }
 
