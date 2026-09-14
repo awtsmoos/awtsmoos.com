@@ -1,33 +1,56 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
+
+import { APP_CATALOG } from "../shell/appCatalog.js";
+import { surfaceApps } from "../shell/surfacePolicy.js";
+import {
+	appIcon,
+	folderIcon,
+	liveDriveIcons,
+	shortcutIcons
+} from "./iconRecords.js";
+import { explainFailure, notifyDesktop } from "./notifications.js";
 
 /**
- * @file Desktop icon catalog including live account tunnels as direct drives.
- * @description The Awtsmoos lets every connected vessel stand visibly on the desktop; Awtsmoos.com keeps the network overview while each living machine opens in one direct motion.
+ * @file icons.js
+ * @description
+ * Coordinates a quiet personal desktop without erasing Geelooy OS depth.
+ * The Awtsmoos reveals unity before multiplicity; Awtsmoos.com greets the user
+ * with four useful doors while connected and knowledge vessels live deeper in.
  */
-import { APP_CATALOG } from "../shell/appCatalog.js";
-import { launchApp } from "../shell/appLauncher.js";
-import { explainFailure, notifyDesktop } from "./notifications.js";
-import { loadShortcuts } from "./shortcuts.js";
 
 export const USER_HOME_PATH = "/desktop.folder";
 
+/**
+ * Returns desktop icons partitioned into simple home and deeper workspace pages.
+ *
+ * @param {object} os Active Geelooy OS runtime.
+ * @returns {object[]} Ordered immutable desktop records.
+ */
 export function desktopIcons(os) {
 	return [
-		...APP_CATALOG.filter(app => app.desktopPage !== null).map(appIcon),
-		folder("connected-tunnels", "Connected Computers", "🌐", "/network", 1, "network"),
+		...surfaceApps(APP_CATALOG).map(appIcon),
+		folderIcon("connected-tunnels", "Connected Computers", "🌐", "/network", 1, "network"),
 		...liveDriveIcons(os),
-		folder("virtual-os", "Awtsmoos Virtual OS", "☁️", "/network/awtsmoos-virtual-os", 1, "remote"),
-		folder("previews", "Preview Artifacts", "🔭", "/system/previews", 1, "artifacts"),
-		folder("inbox", "Inbox", "✉️", "/inbox", 2, "social"),
-		folder("memory", "Memory", "🧠", "/memory", 2, "knowledge"),
-		folder("objects", "Objects", "◇", "/objects", 2, "data"),
-		folder("reputation", "Reputation", "✦", "/reputation", 2, "identity"),
+		folderIcon("virtual-os", "Awtsmoos Virtual OS", "☁️", "/network/awtsmoos-virtual-os", 1, "remote"),
+		folderIcon("previews", "Preview Artifacts", "🔭", "/system/previews", 1, "artifacts"),
+		folderIcon("inbox", "Inbox", "✉️", "/inbox", 2, "social"),
+		folderIcon("memory", "Memory", "🧠", "/memory", 2, "knowledge"),
+		folderIcon("objects", "Objects", "◇", "/objects", 2, "data"),
+		folderIcon("reputation", "Reputation", "✦", "/reputation", 2, "identity"),
 		...shortcutIcons()
 	];
 }
 
+/**
+ * Opens one desktop record and translates failures into visible OS feedback.
+ *
+ * @param {object} os Active Geelooy OS runtime.
+ * @param {object} item Desktop record selected by the user.
+ * @returns {*} Result returned by the selected record's opener.
+ * @throws {Error} Re-throws the original open failure after visible testimony.
+ */
 export function openDesktopIcon(os, item) {
 	try {
 		const result = item?.open?.(os);
@@ -37,65 +60,4 @@ export function openDesktopIcon(os, item) {
 		explainFailure(os, `Open ${item?.title || "desktop item"}`, error);
 		throw error;
 	}
-}
-
-function liveDriveIcons(os) {
-	return (os?.drives?.list?.() || [])
-		.filter(drive => drive.dynamicTunnelDrive === true)
-		.map(drive => Object.freeze({
-			id: `drive-${drive.id}`,
-			title: drive.title,
-			icon: drive.icon || "💻",
-			kind: "drive",
-			path: drive.root,
-			page: 1,
-			badge: drive.canWrite ? "connected · read/write" : "connected · read-only",
-			subtitle: drive.subtitle || "Live tunnel",
-			open: currentOs => openFolder(currentOs, drive.title, drive.root)
-		}));
-}
-
-function appIcon(app) {
-	return Object.freeze({
-		id: `app-${app.id}`,
-		title: app.title,
-		icon: app.icon,
-		kind: "app",
-		page: app.desktopPage,
-		badge: app.category,
-		path: "",
-		open: os => launchApp(os, app)
-	});
-}
-
-function folder(id, title, glyph, path, page, badge) {
-	return Object.freeze({
-		id,
-		title,
-		icon: glyph,
-		kind: "folder",
-		path,
-		page,
-		badge,
-		open: os => openFolder(os, title, path)
-	});
-}
-
-function openFolder(os, title, path) {
-	return os.addWindow({
-		title,
-		path,
-		os,
-		programName: "awtsmoosFileExplorer"
-	});
-}
-
-function shortcutIcons() {
-	return loadShortcuts().map(shortcut => Object.freeze({
-		...shortcut,
-		icon: shortcut.icon || "🔗",
-		kind: shortcut.kind || "shortcut",
-		badge: shortcut.badge || "link",
-		open: os => openFolder(os, shortcut.title || "Shortcut", shortcut.path || "/")
-	}));
 }

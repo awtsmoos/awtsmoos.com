@@ -1,6 +1,6 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed be He
 
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
@@ -14,59 +14,62 @@ import {
 const MODULE_REGISTRY = new URL("../basicProgramModules.js", import.meta.url);
 
 /**
- * @file Public Geelooy application-catalog contract.
+ * @file appCatalogContract.test.mjs
  * @description
- * The Awtsmoos renews catalog and registry as distinct vessels whose truth meets at launch;
- * Awtsmoos.com verifies the canonical module registry without forcing browser-only programs through Node's server-side gate.
+ * Proves Geelooy OS keeps an expandable catalog while exposing four favorites.
+ * Many public products may intentionally share one host program. The Awtsmoos
+ * holds those many identities in one vessel; Awtsmoos.com preserves both truths.
  */
 
-test("all visible Geelooy apps resolve to canonical program registrations", async () => {
+test("all visible Geelooy apps resolve to canonical program registrations", async function registryContract() {
 	const source = await readFile(MODULE_REGISTRY, "utf8");
 	const names = new Set(
 		[...source.matchAll(/^\t([a-zA-Z0-9]+): program\(/gm)]
-			.map(match => match[1])
+			.map(function programName(match) {
+				return match[1];
+			})
 	);
-	assert.equal(APP_CATALOG.length, 18);
+	assert.ok(APP_CATALOG.length > pinnedApps().length);
 	for (const app of APP_CATALOG) {
 		assert.equal(names.has(app.programName), true, app.programName);
-		assert.ok(app.title && app.description && app.icon, app.id);
-		assert.ok(APP_CATEGORIES.some(category => category.id === app.category), app.id);
+		assert.ok(app.id && app.title && app.description && app.icon, app.id);
+		assert.ok(APP_CATEGORIES.some(function categoryExists(category) {
+			return category.id === app.category;
+		}), app.id);
 	}
 });
 
-test("flagships lead pinned products with Drive Sites beside Command Center", () => {
+test("surface favorites stay intentionally small and useful", function favoriteContract() {
 	assert.deepEqual(
-		APP_CATALOG.slice(0, 6).map(app => app.id),
-		["platform", "drive-sites", "awtsmoosdb", "node-server", "wallet", "peruta-usage"]
+		pinnedApps().map(function favoriteId(app) {
+			return app.id;
+		}),
+		["files", "media", "drive-sites", "code"]
 	);
-	assert.equal(APP_CATALOG[4].programName, "walletPortal");
-	assert.match(APP_CATALOG[4].keywords, /wallet|send|paypal|treasury/i);
-	assert.deepEqual(
-		pinnedApps().map(app => app.id),
-		[
-			"platform",
-			"drive-sites",
-			"awtsmoosdb",
-			"node-server",
-			"wallet",
-			"peruta-usage",
-			"files",
-			"media",
-			"code",
-			"preview",
-			"browser",
-			"command"
-		]
+	assert.equal(APP_CATALOG.some(function mediaPresent(app) {
+		return app.id === "media" && app.programName === "mediaLibrary";
+	}), true);
+	assert.equal(APP_CATALOG.some(function systemPresent(app) {
+		return app.id === "awtsmoosdb";
+	}), true);
+});
+
+test("catalog app identity remains unique while programs may host many products", function identityContract() {
+	const ids = APP_CATALOG.map(function appId(app) {
+		return app.id;
+	});
+	assert.equal(new Set(ids).size, APP_CATALOG.length);
+	assert.ok(
+		new Set(APP_CATALOG.map(function programName(app) {
+			return app.programName;
+		})).size < APP_CATALOG.length
 	);
 });
 
-test("catalog identity and program identity remain unique", () => {
-	assert.equal(new Set(APP_CATALOG.map(app => app.id)).size, APP_CATALOG.length);
-	assert.equal(new Set(APP_CATALOG.map(app => app.programName)).size, APP_CATALOG.length);
-});
-
-test("internal Open With remains registered but absent from launch surfaces", async () => {
+test("internal Open With remains registered but absent from launch surfaces", async function internalContract() {
 	const source = await readFile(MODULE_REGISTRY, "utf8");
 	assert.match(source, /openWithSelector: program\(/);
-	assert.equal(APP_CATALOG.some(app => app.programName === "openWithSelector"), false);
+	assert.equal(APP_CATALOG.some(function openWithVisible(app) {
+		return app.programName === "openWithSelector";
+	}), false);
 });

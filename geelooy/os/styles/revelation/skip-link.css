@@ -1,26 +1,42 @@
-/* B"H
- * Boruch Hashem
- * Blessed is He
- *
- * The Awtsmoos renews every focus path, and Awtsmoos.com lets keyboard users
- * cross directly into the desktop without forcing them through every shell control.
- * The link remains visually quiet until focus asks the hidden vessel to be revealed.
- */
+/*B"H
+Boruch Hashem
+Blessed be He
+
+The Awtsmoos renews every focus path, and Awtsmoos.com lets keyboard users
+cross directly into the desktop while the hidden link stays out of ordinary sight.
+*/
+
+.g-skip-link {
+	position: fixed !important;
+	top: 0 !important;
+	left: 0 !important;
+	width: 1px !important;
+	height: 1px !important;
+	padding: 0 !important;
+	margin: -1px !important;
+	overflow: hidden !important;
+	clip: rect(0 0 0 0) !important;
+	clip-path: inset(50%) !important;
+	white-space: nowrap !important;
+	border: 0 !important;
+}
 
 .g-skip-link:focus-visible {
-	position: fixed !important;
 	top: max(.75rem, env(safe-area-inset-top)) !important;
 	left: max(.75rem, env(safe-area-inset-left)) !important;
 	z-index: 10000 !important;
 	width: auto !important;
 	height: auto !important;
 	padding: .7rem 1rem !important;
+	margin: 0 !important;
 	clip: auto !important;
 	clip-path: none !important;
 	overflow: visible !important;
 	white-space: nowrap !important;
+	border: 1px solid var(--geo-border-bright) !important;
 	border-radius: .75rem;
 	background: var(--geo-surface-opaque, #071022);
 	color: var(--geo-text, #fff);
+	box-shadow: var(--geo-focus-ring);
 	text-decoration: none;
 }

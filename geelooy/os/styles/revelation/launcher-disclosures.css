@@ -1,0 +1,81 @@
+/*B"H
+Boruch Hashem
+Blessed be He
+
+The Awtsmoos holds hidden depth without removing it. Awtsmoos.com reveals
+advanced apps through quiet native disclosures only when the user asks.
+*/
+
+.start-menu-results[data-mode="home"] {
+	grid-template-columns: 1fr;
+	gap: var(--geo-space-3);
+}
+
+.start-menu-results[data-mode="home"] .start-menu-app-section {
+	grid-row: auto;
+}
+
+.start-menu-results[data-mode="home"] .start-app-grid {
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.start-menu-disclosure {
+	min-width: 0;
+	overflow: hidden;
+	border: 1px solid var(--geo-border-soft);
+	border-radius: var(--geo-radius-md);
+	background: rgb(255 255 255 / 3%);
+}
+
+.start-menu-disclosure:not([open]) > .start-menu-disclosure-body {
+	display: none !important;
+}
+
+.start-menu-disclosure > summary {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--geo-space-3);
+	min-height: 52px;
+	padding: 0 var(--geo-space-4);
+	color: var(--geo-text);
+	cursor: pointer;
+	list-style: none;
+	font-weight: 760;
+}
+
+.start-menu-disclosure > summary::-webkit-details-marker {
+	display: none;
+}
+
+.start-menu-disclosure > summary small {
+	margin-left: auto;
+	color: var(--geo-text-subtle);
+	font-weight: 600;
+}
+
+.start-menu-disclosure > summary::after {
+	content: "+";
+	display: grid;
+	place-items: center;
+	width: 28px;
+	height: 28px;
+	border-radius: 999px;
+	background: rgb(255 255 255 / 7%);
+	color: var(--geo-cyan);
+	font-size: 19px;
+}
+
+.start-menu-disclosure[open] > summary::after {
+	content: "−";
+}
+
+.start-menu-disclosure > summary:focus-visible {
+	outline: 2px solid var(--geo-cyan);
+	outline-offset: -3px;
+}
+
+.start-menu-disclosure-body {
+	padding: var(--geo-space-3);
+	border-top: 1px solid var(--geo-border-soft);
+}

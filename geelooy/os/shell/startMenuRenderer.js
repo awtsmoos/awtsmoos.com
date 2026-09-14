@@ -1,27 +1,38 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
+//Blessed be He
 
 import { matchingShellActions } from "./actionCatalog.js";
 import { createShellActionRunner } from "./actionRunner.js";
 import { bindResultNavigation } from "./resultNavigation.js";
 import {
-	createActionSections,
-	createAppSection,
-	createEmptyState
-} from "./startMenuSections.js";
+	createLauncherHeader,
+	renderLauncherHome,
+	renderLauncherSearch
+} from "./startMenuViews.js";
 
 /**
  * @file startMenuRenderer.js
  * @description
- * The Awtsmoos arranges searchable apps with guarded action and keyboard law.
- * Awtsmoos.com distinguishes launch closure from focus-restoring Escape closure.
+ * Coordinates a simple launcher without owning the visual construction itself.
+ * The Awtsmoos gathers hidden depth into one quiet intention; Awtsmoos.com lets
+ * search reveal everything while the home view remains calm enough to enter.
  */
 
+/**
+ * Renders the Apps launcher with progressive disclosure and complete search.
+ *
+ * @param {object} options Launcher dependencies and lifecycle callbacks.
+ * @param {HTMLElement} options.root Launcher root element.
+ * @param {ReadonlyArray<object>} options.records Complete normalized shell actions.
+ * @param {Function} options.close Callback that closes the launcher.
+ * @param {Function} [options.onEscape=options.close] Escape-key callback.
+ * @returns {{focus: Function, dispose: Function}} Launcher lifecycle handle.
+ */
 export function renderStartMenu({ root, records, close, onEscape = close }) {
 	root.replaceChildren();
 	root.className = "start-menu-content";
-	const header = createHeader();
+	const header = createLauncherHeader();
 	const results = document.createElement("div");
 	results.className = "start-menu-results";
 	root.append(header.element, results);
@@ -32,15 +43,23 @@ export function renderStartMenu({ root, records, close, onEscape = close }) {
 		selector: "[data-action-id]",
 		onEscape
 	});
-	const draw = () => {
-		const matches = matchingShellActions(records, header.input.value);
-		renderResults(results, matches, run);
-		header.summary.textContent = resultSummary(matches.length);
+
+	function draw() {
+		const query = header.input.value.trim();
+		if (query) {
+			const matches = matchingShellActions(records, query);
+			renderLauncherSearch(results, matches, run);
+			header.summary.textContent = resultSummary(matches.length);
+		} else {
+			renderLauncherHome(results, records, run, navigation.refresh);
+			header.summary.textContent = "Favorites first · expand or search for more";
+		}
 		navigation.refresh();
-	};
+	}
+
 	header.input.addEventListener("input", draw);
 	draw();
-	return {
+	return Object.freeze({
 		focus() {
 			header.input.focus();
 		},
@@ -48,40 +67,10 @@ export function renderStartMenu({ root, records, close, onEscape = close }) {
 			header.input.removeEventListener("input", draw);
 			navigation.dispose();
 		}
-	};
+	});
 }
 
-function createHeader() {
-	const element = document.createElement("header");
-	element.className = "start-menu-header";
-	const copy = document.createElement("div");
-	const eyebrow = document.createElement("span");
-	eyebrow.className = "start-menu-eyebrow";
-	eyebrow.textContent = "Geelooy OS";
-	const title = document.createElement("strong");
-	title.textContent = "Apps and actions";
-	const summary = document.createElement("span");
-	summary.className = "start-menu-summary";
-	copy.append(eyebrow, title, summary);
-	const input = document.createElement("input");
-	input.className = "start-menu-search";
-	input.type = "search";
-	input.placeholder = "Search apps, files, social, and tools";
-	input.setAttribute("aria-label", "Search Geelooy apps and actions");
-	input.setAttribute("aria-keyshortcuts", "ArrowDown ArrowUp Enter Escape");
-	element.append(copy, input);
-	return { element, input, summary };
-}
-
-function renderResults(root, records, run) {
-	root.replaceChildren();
-	const apps = records.filter(record => record.kind === "app");
-	const actions = records.filter(record => record.kind !== "app");
-	if (apps.length) root.append(createAppSection(apps, run));
-	root.append(...createActionSections(actions, run));
-	if (!records.length) root.append(createEmptyState());
-}
-
+/** Returns a concise result-count phrase for assistive and visual feedback. */
 function resultSummary(count) {
-	return `${count} result${count === 1 ? "" : "s"} · arrows move · Enter opens`;
+	return `${count} result${count === 1 ? "" : "s"}`;
 }
