@@ -5307,38 +5307,58 @@ const __awtsmoosModule_0 = Object.create(null);
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzEssentialVisualGate.js ----
 {
 	const __exports = __awtsmoosModule_62;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
+	//B"H
+	//Boruch Hashem
+	//Blessed is He
 
 	/**
 	 * @file EretzEssentialVisualGate.js
-	 * @description Makes rich WebGL and authored terrain prerequisites of gameplay presentation instead of post-play decoration.
-	 * The Awtsmoos clothes earth and renderer before control enters sight; Awtsmoos.com lets the loader carry waiting,
-	 * so no flat green meadow impersonates the finished world while genuine texture and shader light are still creating.
+	 * @description Keeps WebGL essential everywhere while allowing only the Blank Meadow reliability baseline to defer remote terrain textures until after first control.
+	 * The Awtsmoos gives earth its form before every distant garment is sewn; Awtsmoos.com lets the measured meadow open with true renderer and true player,
+	 * while richer worlds still wait for authored texture truth and no baseline pretends deferred beauty has already arrived beneath the sun.
 	 */
 
-	/** Hydrates and validates the rich renderer plus at least one authored terrain texture. */
+	const RELIABILITY_WORLD_ID = 'blank-meadow';
+
+	/** Hydrates the renderer and enforces authored terrain textures only for worlds whose policy requires them before control. */
 	async function prepareEretzEssentialVisuals(options = {}) {
-		const { boot, renderer, signal, terrain } = options;
+		const { boot, renderer, signal, terrain, worldExperience } = options;
 		throwIfAborted(signal);
 		boot?.begin?.('essential-visuals');
 		boot?.progress?.('essential-visuals', 0, 2, 'Preparing authored sky and WebGL detail…', 'loading');
 		const delegate = await hydrateRenderer(renderer);
 		throwIfAborted(signal);
+		if (isReliabilityBaseline(worldExperience)) {
+			boot?.progress?.(
+				'essential-visuals',
+				2,
+				2,
+				'WebGL and bootstrap terrain ready; authored textures deferred.',
+				'ready'
+			);
+			return visualReceipt(delegate, renderer, 0, 'deferred-by-world-profile');
+		}
 		boot?.progress?.('essential-visuals', 1, 2, 'Binding authored meadow textures…', 'loading');
 		const terrainReceipt = await hydrateTerrain(terrain);
 		throwIfAborted(signal);
 		boot?.progress?.('essential-visuals', 2, 2, 'Authored world ready.', 'ready');
-		return Object.freeze({
-			renderer: delegate?.backend || renderer?.backend || 'webgl',
-			terrainLoaded: terrainReceipt.loaded,
-			terrainPhase: terrainReceipt.phase
-		});
+		return visualReceipt(delegate, renderer, terrainReceipt.loaded, terrainReceipt.phase);
 	}
 
 
 	__exports.prepareEretzEssentialVisuals = prepareEretzEssentialVisuals;
+	function isReliabilityBaseline(worldExperience) {
+		return worldExperience?.id === RELIABILITY_WORLD_ID;
+	}
+
+	function visualReceipt(delegate, renderer, terrainLoaded, terrainPhase) {
+		return Object.freeze({
+			renderer: delegate?.backend || renderer?.backend || 'webgl',
+			terrainLoaded,
+			terrainPhase
+		});
+	}
+
 	async function hydrateRenderer(renderer) {
 		if (!renderer) throw new Error('Essential visual gate requires a renderer.');
 		const delegate = typeof renderer.hydrate === 'function'
@@ -16959,12 +16979,13 @@ const __awtsmoosModule_0 = Object.create(null);
 	const __exports = __awtsmoosModule_0;
 	//B"H
 	//Boruch Hashem
-	//Blessed be He
+	//Blessed is He
 
 	/**
 	 * @file EretzWorldFoundation.js
-	 * @description Builds first play only after canonical humanity, rich WebGL, and real terrain texture truth are ready.
-	 * The initial WebGL clear may appear immediately, but `playable` is impossible until authored visual essentials succeed.
+	 * @description Builds first play from canonical humanity, WebGL, and bootstrap terrain while allowing only Blank Meadow to defer remote terrain texture richness.
+	 * The Awtsmoos gives the true traveler and visible earth before distant garments crowd the threshold;
+	 * Awtsmoos.com keeps rich worlds strict, yet lets the reliability meadow become honestly controllable before decorative texture streams consume the road.
 	 */
 
 	const createBootstrapWorldFoundation = __awtsmoosModule_1.createBootstrapWorldFoundation;
@@ -16978,8 +16999,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	const throwIfLaunchAborted = __awtsmoosModule_204.throwIfLaunchAborted;
 
 	/**
-	 * Creates foundation geometry immediately, then loads the real Chossid and essential visuals concurrently.
-	 * @returns {Promise<object>} Foundation visually canonical enough for honest first control.
+	 * Creates foundation geometry immediately, then loads the real Chossid and policy-approved essential visuals concurrently.
+	 * @returns {Promise<object>} Foundation honest enough for first control under the selected immutable world policy.
 	 */
 	async function createEretzWorldFoundation(hosts, options = {}) {
 		const qualityProfile = options.qualityProfile;
@@ -16995,7 +17016,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 		options.boot?.begin('bootstrap-visible-world');
 		const world = createBootstrapWorldFoundation(services);
-		reportFoundationStage(options, 'Loading authored player and textures…', 0.42, 'essential-authored-assets');
+		reportFoundationStage(options, 'Loading authored player and essential visuals…', 0.42, 'essential-authored-assets');
 		const [loaded, visualEvidence] = await Promise.all([
 			loadEretzEssentialAssets({
 				...options,
@@ -17007,11 +17028,12 @@ const __awtsmoosModule_0 = Object.create(null);
 				boot: options.boot,
 				renderer: services.renderer,
 				signal: options.signal,
-				terrain: world.terrain
+				terrain: world.terrain,
+				worldExperience: options.worldExperience
 			})
 		]);
 		throwIfLaunchAborted(options.signal);
-		markVisibleWorldReady(options);
+		markVisibleWorldReady(options, visualEvidence);
 		return {
 			hosts,
 			...hosts,
@@ -17035,12 +17057,15 @@ const __awtsmoosModule_0 = Object.create(null);
 		});
 	}
 
-	function markVisibleWorldReady(options) {
+	function markVisibleWorldReady(options, visualEvidence) {
+		const deferredTerrain = visualEvidence?.terrainPhase === 'deferred-by-world-profile';
 		options.boot?.progress?.(
 			'bootstrap-visible-world',
 			1,
 			1,
-			'Canonical Chossid, rich WebGL, and authored terrain are ready.',
+			deferredTerrain
+				? 'Canonical Chossid, WebGL, and bootstrap terrain are ready; authored textures are deferred.'
+				: 'Canonical Chossid, rich WebGL, and authored terrain are ready.',
 			'ready'
 		);
 	}

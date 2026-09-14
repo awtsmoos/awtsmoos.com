@@ -1,11 +1,12 @@
 //B"H
 //Boruch Hashem
-//Blessed be He
+//Blessed is He
 
 /**
  * @file EretzWorldFoundation.js
- * @description Builds first play only after canonical humanity, rich WebGL, and real terrain texture truth are ready.
- * The initial WebGL clear may appear immediately, but `playable` is impossible until authored visual essentials succeed.
+ * @description Builds first play from canonical humanity, WebGL, and bootstrap terrain while allowing only Blank Meadow to defer remote terrain texture richness.
+ * The Awtsmoos gives the true traveler and visible earth before distant garments crowd the threshold;
+ * Awtsmoos.com keeps rich worlds strict, yet lets the reliability meadow become honestly controllable before decorative texture streams consume the road.
  */
 
 import { createBootstrapWorldFoundation } from './BootstrapWorldFoundation.js';
@@ -21,8 +22,8 @@ import {
 } from './RuntimeLaunchProgress.js';
 
 /**
- * Creates foundation geometry immediately, then loads the real Chossid and essential visuals concurrently.
- * @returns {Promise<object>} Foundation visually canonical enough for honest first control.
+ * Creates foundation geometry immediately, then loads the real Chossid and policy-approved essential visuals concurrently.
+ * @returns {Promise<object>} Foundation honest enough for first control under the selected immutable world policy.
  */
 export async function createEretzWorldFoundation(hosts, options = {}) {
 	const qualityProfile = options.qualityProfile;
@@ -38,7 +39,7 @@ export async function createEretzWorldFoundation(hosts, options = {}) {
 
 	options.boot?.begin('bootstrap-visible-world');
 	const world = createBootstrapWorldFoundation(services);
-	reportFoundationStage(options, 'Loading authored player and textures…', 0.42, 'essential-authored-assets');
+	reportFoundationStage(options, 'Loading authored player and essential visuals…', 0.42, 'essential-authored-assets');
 	const [loaded, visualEvidence] = await Promise.all([
 		loadEretzEssentialAssets({
 			...options,
@@ -50,11 +51,12 @@ export async function createEretzWorldFoundation(hosts, options = {}) {
 			boot: options.boot,
 			renderer: services.renderer,
 			signal: options.signal,
-			terrain: world.terrain
+			terrain: world.terrain,
+			worldExperience: options.worldExperience
 		})
 	]);
 	throwIfLaunchAborted(options.signal);
-	markVisibleWorldReady(options);
+	markVisibleWorldReady(options, visualEvidence);
 	return {
 		hosts,
 		...hosts,
@@ -76,12 +78,15 @@ function reportFoundationStage(options, message, progress, stage) {
 	});
 }
 
-function markVisibleWorldReady(options) {
+function markVisibleWorldReady(options, visualEvidence) {
+	const deferredTerrain = visualEvidence?.terrainPhase === 'deferred-by-world-profile';
 	options.boot?.progress?.(
 		'bootstrap-visible-world',
 		1,
 		1,
-		'Canonical Chossid, rich WebGL, and authored terrain are ready.',
+		deferredTerrain
+			? 'Canonical Chossid, WebGL, and bootstrap terrain are ready; authored textures are deferred.'
+			: 'Canonical Chossid, rich WebGL, and authored terrain are ready.',
 		'ready'
 	);
 }
