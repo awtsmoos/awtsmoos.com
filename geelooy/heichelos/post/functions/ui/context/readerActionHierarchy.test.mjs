@@ -30,12 +30,13 @@ test('selection utility remains conditional after modular split', () => {
 	assert.doesNotMatch(preserved, /label: 'Copy selection'/);
 });
 
-test('reader renderer owns a real More disclosure for secondary actions', () => {
+test('reader keeps whole-post copy direct and avoids mobile More dependence', () => {
 	const renderer = read('./menuRenderer.js');
+	const utility = read('./preservedUtilityActions.js');
 	const factory = read('./MenuDomFactory.js');
-	assert.match(renderer, /partition\(actions\)/);
-	assert.match(renderer, /createMoreButton/);
-	assert.match(renderer, /secondaryGroup\.hidden/);
+	assert.match(utility, /primary\(\{[\s\S]*label: 'Copy entire post'/);
+	assert.match(renderer, /isMobile[\s\S]*secondaryGroup\.hidden = false/);
+	assert.match(renderer, /else if \(secondary\.length\)[\s\S]*createMoreButton/);
 	assert.match(factory, /aria-expanded/);
 	assert.match(factory, /More ·/);
 });

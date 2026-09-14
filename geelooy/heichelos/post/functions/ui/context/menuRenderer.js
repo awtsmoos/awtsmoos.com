@@ -82,10 +82,16 @@ export function renderMenu(x, y, actions) {
 	menu.append(malchusContextMenuDomFactory.createCrown('Study this'));
 	for (const entry of primary) menu.append(malchusContextMenuDomFactory.createActionButton(entry.action, entry.index));
 	const secondaryGroup = malchusContextMenuDomFactory.createSecondaryGroup(secondary);
-	if (secondary.length) menu.append(malchusContextMenuDomFactory.createMoreButton(secondary.length), secondaryGroup);
+	const isMobile = Boolean(window.matchMedia?.(MOBILE_QUERY)?.matches);
+	if (secondary.length && isMobile) {
+		secondaryGroup.hidden = false;
+		menu.append(secondaryGroup);
+	} else if (secondary.length) {
+		menu.append(malchusContextMenuDomFactory.createMoreButton(secondary.length), secondaryGroup);
+	}
 	bindActionDispatch(menu, actions, secondaryGroup);
 	bindDismissalGates(menu);
-	if (window.matchMedia?.(MOBILE_QUERY)?.matches) menu.classList.add('awtsmoos-mobile-sheet');
+	if (isMobile) menu.classList.add('awtsmoos-mobile-sheet');
 	document.body.append(menu);
 	gevurahPortalPositionGate.place(menu, x, y);
 	menu.querySelector('[role="menuitem"]')?.focus({ preventScroll: true });

@@ -42,6 +42,42 @@ body {
 	line-height: 1.78 !important;
 }
 
+.all.post-reader-localized-context.awtsmoos-reader-vision :is(#virtual-scroll-container, .awtsmoos-virtual-scroll) {
+	min-height: 0 !important;
+	height: auto !important;
+}
+
+.all.post-reader-localized-context.awtsmoos-reader-vision #virtual-scroll-container > .scroll-chunk {
+	min-height: 0 !important;
+	height: auto !important;
+	margin-block: 0 clamp(.55rem, 1.6vw, .9rem) !important;
+	overflow: visible !important;
+}
+
+.all.post-reader-localized-context.awtsmoos-reader-vision #virtual-scroll-container > .scroll-chunk:not(.is-current-section) {
+	content-visibility: auto !important;
+	contain-intrinsic-size: auto 220px;
+}
+
+.all.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-post-title-crown [data-tanach-language] {
+	min-block-size: 44px !important;
+	color: #f8fbff !important;
+	background: rgba(23, 31, 45, .96) !important;
+	border-color: rgba(255, 255, 255, .28) !important;
+}
+
+.all.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-post-title-crown [data-tanach-language][aria-pressed="true"] {
+	color: #241706 !important;
+	background: linear-gradient(135deg, #fff0b5, #dfa020) !important;
+	border-color: rgba(246, 201, 108, .92) !important;
+}
+
+.all.post-reader-localized-context.awtsmoos-reader-vision #realPost .awtsmoos-verse-number {
+	min-inline-size: 44px !important;
+	min-block-size: 44px !important;
+	cursor: pointer;
+}
+
 .all.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-sidebar-shell :is(.awtsmoos-chrome-btn, button) {
 	min-inline-size: 44px;
 	min-block-size: 44px;

@@ -1,11 +1,11 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 /**
  * @module PreservedReaderUtilityActions
  * @description
  * The Awtsmoos keeps global reader deeds available without letting them eclipse
- * Torah-specific actions. Selection and links may rise; utility deeds remain secondary.
+ * Torah-specific actions. Whole-post copy remains directly reachable while rarer utilities stay secondary.
  */
 import { copyToClipboard } from '../../utils.js';
 import { makeToast } from '../../ui.js';

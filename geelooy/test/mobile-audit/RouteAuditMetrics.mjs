@@ -83,4 +83,41 @@ function collectRouteMetrics(helpers) {
 			defaultFont: helpers.usesBrowserDefaultTimes(bodyStyle.fontFamily)
 		}
 	};
+
+	function isVisible(element) {
+		const style = getComputedStyle(element);
+		const rect = element.getBoundingClientRect();
+		return style.display !== 'none' && style.visibility !== 'hidden' && Number(style.opacity) > .01 && rect.width > 0 && rect.height > 0;
+	}
+
+	function isInteractive(element) {
+		return element.matches('button,input:not([type="hidden"]),select,textarea,summary,[role="button"],[role="menuitem"],a[class]');
+	}
+
+	function isOverlay(element) {
+		const style = getComputedStyle(element);
+		if (style.position === 'fixed' || style.position === 'sticky') return true;
+		if (style.position !== 'absolute') return false;
+		return element.matches(
+			'dialog[open],[popover],[role="dialog"],[aria-modal="true"],[role="menu"],[role="listbox"]'
+		);
+	}
+
+	function hasIntentionalHorizontalScroller(element) {
+		for (let ancestor = element.parentElement; ancestor; ancestor = ancestor.parentElement) {
+			const style = getComputedStyle(ancestor);
+			if (/(auto|scroll)/.test(style.overflowX) && ancestor.scrollWidth > ancestor.clientWidth + 2) return true;
+		}
+		return false;
+	}
+
+	function describeElement(element) {
+		const rect = element.getBoundingClientRect();
+		return {
+			tag: element.tagName.toLowerCase(),
+			id: element.id || '',
+			className: typeof element.className === 'string' ? element.className.slice(0, 160) : '',
+			rect: [Math.round(rect.left), Math.round(rect.top), Math.round(rect.width), Math.round(rect.height)]
+		};
+	}
 }

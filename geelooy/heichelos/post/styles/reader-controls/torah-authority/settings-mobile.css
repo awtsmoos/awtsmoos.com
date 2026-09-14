@@ -1,0 +1,59 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed be He*/
+/**
+ * @file Final mobile reader-settings authority.
+ * @description Keeps the Aa sheet compact, opaque, legible, and scrollable so settings never swallow the Torah surface.
+ */
+body .all.post-reader-localized-context.awtsmoos-reader-vision
+	> .typography-details:not(.hidden-details) {
+	inline-size: min(38rem, calc(100dvi - 1rem)) !important;
+	max-inline-size: calc(100dvi - 1rem) !important;
+	max-block-size: min(58dvh, 31rem) !important;
+	inset-inline: .5rem !important;
+	bottom: calc(4.25rem + env(safe-area-inset-bottom)) !important;
+	margin-inline: auto !important;
+	border: 1px solid rgba(87, 206, 255, .34) !important;
+	border-radius: 1.15rem !important;
+	background: #07111f !important;
+	box-shadow: 0 1.25rem 4rem rgba(0, 0, 0, .72) !important;
+	backdrop-filter: none !important;
+	-webkit-backdrop-filter: none !important;
+}
+
+body .all.post-reader-localized-context.awtsmoos-reader-vision
+	> .typography-details .typography-content {
+	gap: .55rem !important;
+	padding: .65rem !important;
+	background: #07111f !important;
+}
+body .all.post-reader-localized-context.awtsmoos-reader-vision
+	> .typography-details .typography-content > .settings-group {
+	gap: .55rem !important;
+	padding: .65rem !important;
+	border-color: rgba(123, 213, 255, .16) !important;
+	border-radius: .85rem !important;
+	background: #0a1727 !important;
+	box-shadow: none !important;
+}
+
+body .all.post-reader-localized-context.awtsmoos-reader-vision
+	> .typography-details :is(button, select, input, output) {
+	color: #f8fbff !important;
+}
+
+body .all.post-reader-localized-context.awtsmoos-reader-vision
+	> .typography-details :is(.auto-scroll-unit-switch button, .auto-scroll-presets button) {
+	min-block-size: 44px !important;
+	border-color: rgba(112, 225, 255, .22) !important;
+	background: #0d1d30 !important;
+	color: #eaf7ff !important;
+	font-size: .78rem !important;
+}
+
+body .all.post-reader-localized-context.awtsmoos-reader-vision
+	> .typography-details .auto-scroll-semantic-summary {
+	border-color: rgba(112, 225, 255, .18) !important;
+	background: #0b1a2b !important;
+	color: #eaf7ff !important;
+}

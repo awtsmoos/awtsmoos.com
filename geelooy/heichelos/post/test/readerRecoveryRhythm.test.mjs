@@ -33,9 +33,14 @@ test('offscreen chunks may optimize without inventing giant layout vessels', () 
 	assert.match(css, /contain-intrinsic-size:\s*auto\s*220px/);
 });
 
+test('server-first and hydrated verse controls keep a full touch target', () => {
+	assert.match(css, /\.awtsmoos-verse-number\s*\{[^}]*min-inline-size:\s*44px\s*!important/s);
+	assert.match(css, /\.awtsmoos-verse-number\s*\{[^}]*min-block-size:\s*44px\s*!important/s);
+});
+
 test('reader document loads the current recovery generation last', () => {
 	const authority = template.indexOf('torah-authority.css');
-	const recovery = template.indexOf('reader-recovery.css?v=reader-recovery-003');
+	const recovery = template.indexOf('reader-recovery.css?v=reader-recovery-004');
 	assert.ok(authority >= 0);
 	assert.ok(recovery > authority);
 });
