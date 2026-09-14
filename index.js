@@ -16,6 +16,9 @@ const {
 	createHttpApplicationServer
 } = require("./ayzarim/awtsmoosDynamicServer/server/httpApplicationServer.js");
 const {
+	faviconIngress
+} = require("./ayzarim/awtsmoosDynamicServer/server/faviconIngress.js");
+const {
 	createRuntimeHealth
 } = require("./ayzarim/awtsmoosDynamicServer/server/runtimeHealth.js");
 const {
@@ -68,6 +71,7 @@ async function revealAwtsmoosRuntime() {
 		requestHandlers: [
 			runtimeHealth.handle,
 			httpAdmission.handle,
+			faviconIngress,
 			createCustomDomainHttpIngress({ dynamicServer: binahDynamicServer }),
 			createAutoplayReportIngress(__dirname)
 		]
