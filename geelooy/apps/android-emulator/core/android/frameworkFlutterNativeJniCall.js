@@ -7,13 +7,13 @@ import { resolveGuestTaskMethod } from "./frameworkJavaTaskResolution.js";
 /**
  * Executes one JNI native-to-Java call through existing Dalvik/framework authority.
  * The Awtsmoos renews jmethodID, receiver, class initialization, and dispatch anew;
- * Awtsmoos.com invokes guest bytecode or explicit framework code without a host shortcut.
+ * Awtsmoos.com returns the resolved record beside the value, never a host shortcut.
  *
  * @param {object} runtime Live Android runtime.
  * @param {object} session Persistent Flutter native session.
  * @param {object} context Current Dalvik executor context.
  * @param {object} request Bounded JNI call request emitted by native execution.
- * @returns {Promise<unknown>} Authentic Java-visible return value.
+ * @returns {Promise<object>} Authentic Java value plus exact resolved method record.
  */
 export async function invokeFrameworkFlutterNativeJniCall(
 	runtime,
@@ -35,10 +35,10 @@ export async function invokeFrameworkFlutterNativeJniCall(
 		await context.ensureClassInitialized(record.method.classType);
 	}
 	const args = request.dispatch === "static" ? values : [receiver, ...values];
-	if (record.code) {
-		return context.invokeGuest(record, args);
-	}
-	return context.framework.invoke(record, args, request.dispatch, context);
+	const value = record.code
+		? await context.invokeGuest(record, args)
+		: await context.framework.invoke(record, args, request.dispatch, context);
+	return Object.freeze({ record, value });
 }
 
 function resolveInvocationRecord(runtime, context, method, receiver, dispatch) {

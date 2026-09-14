@@ -2,16 +2,11 @@
 //Boruch Hashem
 //Blessed be He
 
-/**
- * @fileoverview Controls Flutter ARM64 execution across authentic JNI Java re-entry.
- * The Awtsmoos renews one machine state through every suspension and resumes only
- * after real Java/framework execution has restored the guest-visible JNI return ABI.
- */
-
 import {
 	aggregateFrameworkFlutterNativeReport,
 	assertFrameworkFlutterNativeResumeBudget,
 	createFrameworkFlutterNativeRunState,
+	recordFrameworkFlutterNativeJniWitness,
 	runFrameworkFlutterNativeSegment
 } from "./frameworkFlutterNativeMachineAccounting.js";
 import { completeFrameworkFlutterNativeJniCall } from "./frameworkFlutterNativeJniTransition.js";
@@ -19,7 +14,10 @@ import { completeFrameworkFlutterNativeJniCall } from "./frameworkFlutterNativeJ
 const JNI_JAVA_CALL_STOP = "jni-java-call";
 
 /**
- * Runs one native call synchronously unless guest ARM64 genuinely invokes Java.
+ * Runs one Flutter ARM64 machine continuously across authentic Java re-entry.
+ * The Awtsmoos renews one register vessel through every native and Dalvik shore;
+ * Awtsmoos.com records each crossing while preserving the machine forevermore.
+ *
  * @param {object} options Native machine, runtime, session, scope, and Java context.
  * @returns {object|Promise<object>} Complete cumulative native execution testimony.
  */
@@ -36,12 +34,10 @@ async function resumeAcrossJava(options, state, firstSegment) {
 	let segment = firstSegment;
 	while (segment.reason === JNI_JAVA_CALL_STOP) {
 		const request = readJniCallRequest(segment);
-		const transition = await completeFrameworkFlutterNativeJniCall(
-			options,
-			request
-		);
+		const transition = await completeFrameworkFlutterNativeJniCall(options, request);
 		state.transitions += 1;
 		if (transition.exception) state.exceptions += 1;
+		recordFrameworkFlutterNativeJniWitness(state, transition.witness);
 		assertFrameworkFlutterNativeResumeBudget(state);
 		segment = runFrameworkFlutterNativeSegment(options, state);
 	}
@@ -51,9 +47,7 @@ async function resumeAcrossJava(options, state, firstSegment) {
 function readJniCallRequest(segment) {
 	const request = segment.hostCalls.at(-1)?.result?.jniCall;
 	if (request) return request;
-	const error = new Error(
-		`ANDROID_FLUTTER_JNI_STOP_REQUEST:${segment.reason}`
-	);
+	const error = new Error(`ANDROID_FLUTTER_JNI_STOP_REQUEST:${segment.reason}`);
 	error.code = "ANDROID_FLUTTER_JNI_STOP_REQUEST";
 	throw error;
 }

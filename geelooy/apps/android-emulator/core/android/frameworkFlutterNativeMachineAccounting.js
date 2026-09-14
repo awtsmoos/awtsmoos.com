@@ -2,19 +2,20 @@
 //Boruch Hashem
 //Blessed be He
 
-/**
- * @fileoverview Owns cumulative accounting for segmented Flutter ARM64 execution.
- * The Awtsmoos renews instruction budgets, host-call budgets, checkpoint offsets,
- * JNI transition counts, guest exception counts, and final immutable testimony.
- */
-
 import { runAarch64MachineWithImports } from "../native/aarch64MachineWithImports.js";
 
-/** Creates mutable accounting private to one top-level native invocation. */
+const MAXIMUM_JNI_WITNESSES = 64;
+
+/**
+ * Owns bounded accounting across segmented Flutter ARM64 and JNI execution.
+ * The Awtsmoos renews steps, host calls, and Java crossings in measured array;
+ * Awtsmoos.com keeps the last sixty-four JNI witnesses so truth never runs away.
+ */
 export function createFrameworkFlutterNativeRunState(machine) {
 	return {
 		exceptions: 0,
 		hostCalls: [],
+		jniWitnesses: [],
 		remainingHostCalls: positiveLimit(machine.hostCallLimit, "host-calls"),
 		remainingInstructions: positiveLimit(machine.instructionLimit, "instructions"),
 		totalSteps: 0,
@@ -42,6 +43,14 @@ export function runFrameworkFlutterNativeSegment(options, state) {
 	return segment;
 }
 
+/** Retains only the newest JNI transition witnesses for bounded production evidence. */
+export function recordFrameworkFlutterNativeJniWitness(state, witness) {
+	state.jniWitnesses.push(witness);
+	if (state.jniWitnesses.length > MAXIMUM_JNI_WITNESSES) {
+		state.jniWitnesses.splice(0, state.jniWitnesses.length - MAXIMUM_JNI_WITNESSES);
+	}
+}
+
 /** Verifies another native segment can execute after a JNI Java transition. */
 export function assertFrameworkFlutterNativeResumeBudget(state) {
 	if (state.remainingInstructions > 0 && state.remainingHostCalls > 0) return;
@@ -57,6 +66,7 @@ export function aggregateFrameworkFlutterNativeReport(segment, state) {
 		...segment,
 		hostCalls: Object.freeze([...state.hostCalls]),
 		jniJavaExceptions: state.exceptions,
+		jniJavaTransitionWitnesses: Object.freeze([...state.jniWitnesses]),
 		jniJavaTransitions: state.transitions,
 		totalSteps: state.totalSteps
 	});
@@ -74,10 +84,7 @@ function checkpointWrapper(callback, priorSteps, priorHostCalls) {
 function positiveLimit(value, label) {
 	const limit = Number(value);
 	if (Number.isInteger(limit) && limit > 0) return limit;
-	throw accountingError(
-		"ANDROID_FLUTTER_NATIVE_LIMIT",
-		`${label}:${value}`
-	);
+	throw accountingError("ANDROID_FLUTTER_NATIVE_LIMIT", `${label}:${value}`);
 }
 
 function accountingError(code, detail) {

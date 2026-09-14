@@ -2,24 +2,19 @@
 //Boruch Hashem
 //Blessed be He
 
-/**
- * @fileoverview Completes one suspended ARM64 JNI native-to-Java transition.
- * The Awtsmoos renews Java return, guest throwable, local JNI handle, pending
- * exception state, and AArch64 ABI return without confusing guest and host errors.
- */
-
 import { isDalvikGuestException } from "../dalvik/guestExceptions.js";
 import { invokeFrameworkFlutterNativeJniCall } from "./frameworkFlutterNativeJniCall.js";
 import { writeFrameworkFlutterNativeJniReturn } from "./frameworkFlutterNativeJniReturn.js";
+import { createFrameworkFlutterNativeJniWitness } from "./frameworkFlutterNativeJniWitness.js";
 
 /**
- * Invokes real Java/framework code and restores the suspended native ABI state.
- * Guest Java throws become JNI pending exceptions and default return values;
- * emulator failures remain host exceptions so compatibility bugs stay visible.
+ * Completes one suspended ARM64 JNI crossing through authentic Java execution.
+ * The Awtsmoos renews return ABI, guest throwable, and resolved method testimony;
+ * Awtsmoos.com preserves exceptions as guest state while host defects remain plainly.
  *
  * @param {object} options Native runner capabilities and live JNI state.
  * @param {object} request Bounded JNI call request emitted by ARM64 execution.
- * @returns {Promise<object>} Frozen transition evidence for the machine report.
+ * @returns {Promise<object>} Frozen transition result carrying bounded evidence.
  */
 export async function completeFrameworkFlutterNativeJniCall(options, request) {
 	const pending = requirePendingExceptionState(options.session, request.source);
@@ -30,7 +25,7 @@ export async function completeFrameworkFlutterNativeJniCall(options, request) {
 		);
 	}
 	try {
-		const value = await invokeFrameworkFlutterNativeJniCall(
+		const invocation = await invokeFrameworkFlutterNativeJniCall(
 			options.runtime,
 			options.session,
 			options.javaContext,
@@ -38,11 +33,14 @@ export async function completeFrameworkFlutterNativeJniCall(options, request) {
 		);
 		writeFrameworkFlutterNativeJniReturn(
 			request.returnType,
-			value,
+			invocation.value,
 			options.machine.registers,
 			options.referenceScope
 		);
-		return Object.freeze({ exception: false });
+		return transitionResult(options.session, request, {
+			exception: false,
+			resolvedSignature: invocation.record.signature
+		});
 	} catch (error) {
 		return completeGuestException(options, request, pending, error);
 	}
@@ -52,11 +50,7 @@ function completeGuestException(options, request, pending, error) {
 	if (!isDalvikGuestException(error)) throw error;
 	const throwable = error.guestReference;
 	const throwableType = options.runtime.heap.get(throwable).type;
-	const handle = options.referenceScope.marshal(
-		throwable,
-		throwableType,
-		"throwable"
-	);
+	const handle = options.referenceScope.marshal(throwable, throwableType, "throwable");
 	pending.set(handle);
 	writeFrameworkFlutterNativeJniReturn(
 		request.returnType,
@@ -64,10 +58,17 @@ function completeGuestException(options, request, pending, error) {
 		options.machine.registers,
 		options.referenceScope
 	);
-	return Object.freeze({
+	return transitionResult(options.session, request, {
 		exception: true,
 		handle: handle.toString(),
 		throwableType
+	});
+}
+
+function transitionResult(session, request, result) {
+	return Object.freeze({
+		...result,
+		witness: createFrameworkFlutterNativeJniWitness(session, request, result)
 	});
 }
 
