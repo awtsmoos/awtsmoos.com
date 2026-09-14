@@ -31,6 +31,7 @@ module.exports = Object.freeze([
 	"tools/fs/actionGroups/websiteAgents/runner/promptUrl.js",
 	"tools/fs/actionGroups/websiteAgents/runner/status.js",
 	"tools/fs/actionGroups/websiteAgents/runner/dispatcherSessionLifecycle.js",
+	"tools/fs/actionGroups/websiteAgents/runner/turnPrompt.js",
 	"tools/fs/mission/agentAutonomy.js",
 	"tools/fs/mission/agentAutonomyView.js",
 	"tools/fs/mission/agentSessionLaunch.js",

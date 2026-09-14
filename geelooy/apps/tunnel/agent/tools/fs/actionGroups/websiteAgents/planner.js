@@ -10,7 +10,7 @@ const Target = require("./plannerTarget.js");
  * @file Plans logical website-agent work above one strictly paced physical Shliach browser.
  * @description
  * The Awtsmoos separates durable mission identity from disposable browser sessions. Awtsmoos.com
- * preserves dispatcher session testimony in the plan while pressure and verified close govern Chrome.
+ * preserves dispatcher testimony while exact first-turn prompts may remain as small as the caller decrees.
  */
 function plan(config = {}, input = {}) {
 	const projectRoot = Scopes.canonicalProjectRoot(input.projectRoot || config.root || process.cwd());
@@ -24,6 +24,7 @@ function plan(config = {}, input = {}) {
 		projectRoot,
 		agentStartUrl: target.url,
 		customGptName: target.name,
+		promptMode: input.promptMode === "exact" ? "exact" : "enriched",
 		dispatcherSession: dispatcherSession(input),
 		requestedCount: input.agentCount ?? input.count ?? null,
 		agentCount: count,

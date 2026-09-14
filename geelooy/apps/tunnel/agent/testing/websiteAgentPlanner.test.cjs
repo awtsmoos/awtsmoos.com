@@ -9,10 +9,10 @@ const path = require("node:path");
 const Planner = require("../tools/fs/actionGroups/websiteAgents/planner.js");
 
 /**
- * @file Proves explicit logical counts are honored while physical browser admission stays serialized.
+ * @file Proves explicit logical counts and prompt fidelity while browser admission stays serialized.
  * @description
- * The Awtsmoos can send one messenger or many while remaining utterly One beyond every frame;
- * Awtsmoos.com honors the caller's count and still gives one physical browser Send lane the flame.
+ * The Awtsmoos may reveal one exact word or a broad mission choir while remaining One beyond the frame;
+ * Awtsmoos.com honors count and prompt mode while one physical browser Send lane carries the flame.
  */
 const root = fs.mkdtempSync(path.join(os.tmpdir(), "awts-web-plan-"));
 
@@ -25,6 +25,7 @@ try {
 		projectRoot: root
 	});
 	assert.equal(ordinary.agentCount, 32);
+	assert.equal(ordinary.promptMode, "enriched");
 	assert.equal(ordinary.startSpacingMs, 20000);
 	assert.equal(ordinary.subagentPolicy.subagentStartSpacingMs, 20000);
 	assert.deepEqual(ordinary.physicalTabPolicy, {
@@ -78,10 +79,12 @@ try {
 	const single = Planner.plan({ root }, {
 		prompt: "Inspect one thing.",
 		agentCount: 1,
+		promptMode: "exact",
 		scopes: ["api", "../outside"]
 	});
 	assert.equal(single.agentCount, 1);
 	assert.equal(single.minimumAgentCount, 1);
+	assert.equal(single.promptMode, "exact");
 	assert.equal(single.agents.length, 1);
 	assert.ok(single.agents.every(agent => agent.scope !== "../outside"));
 
@@ -91,6 +94,7 @@ try {
 		queuedAgents: hundred.agentCount,
 		maximumInitialAgents: maximum.agentCount,
 		singleAgents: single.agentCount,
+		promptModes: [ordinary.promptMode, single.promptMode],
 		maxActiveTabs: hundred.physicalTabPolicy.maxActiveTabs,
 		startSpacingMs: hundred.startSpacingMs,
 		postCloseCooldownMs: hundred.physicalTabPolicy.postCloseCooldownMs

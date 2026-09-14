@@ -1,10 +1,11 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 const ContinuationRequests = require("../../../mission/roomContinuationRequests.js");
 const Context = require("./context.js");
-const { C, Prompt, Store } = Context.shared;
+const TurnPrompt = require("./turnPrompt.js");
+const { C, Store } = Context.shared;
 const paceWebsiteStart = Context.reference("paceWebsiteStart");
 const turnPlanMessage = Context.reference("turnPlanMessage");
 const heartbeat = Context.reference("heartbeat");
@@ -14,9 +15,8 @@ const withMission = Context.reference("withMission");
 /**
  * @file Records successor intent before the first substantive website-agent step.
  * @description
- * The Awtsmoos lets a shliach declare continuity before entering the browser doorway.
- * Awtsmoos.com persists that request beside task custody before plan publication or prompt
- * dispatch, so an unexpected ending may continue only through previously declared intent.
+ * The Awtsmoos stores continuity before the browser doorway, so an exact short first prompt
+ * can remain pure while Awtsmoos.com preserves the larger mission, claim, room, and successor truth.
  */
 async function prepareRunTurn(config, id, agentId, round, continuation) {
 	let record = beginTurn(id, agentId, round, continuation);
@@ -40,8 +40,7 @@ async function prepareRunTurn(config, id, agentId, round, continuation) {
 	const latestMessage = room.messages?.[room.messages.length - 1];
 	record = Store.read(id);
 	agent = record.agents.find(item => item.id === agentId);
-	const prompt = continuation ? Prompt.unfinishedTurn(record, agent, room) :
-		round === 1 ? Prompt.firstTurn(record, agent, room) : Prompt.collaborationTurn(record, agent, room);
+	const prompt = TurnPrompt.turnPrompt(record, agent, room, round, continuation);
 	Store.update(id, current => {
 		const target = current.agents.find(item => item.id === agentId);
 		if (target) {

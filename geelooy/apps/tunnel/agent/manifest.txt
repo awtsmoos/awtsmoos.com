@@ -1,5 +1,5 @@
 B"H
-1.0.596
+1.0.598
 main.js
 ai/relay/direct/browser/ActiveTargetLease.mjs
 ai/relay/direct/browser/AgentTabCatalog.mjs
@@ -1897,6 +1897,7 @@ tools/fs/actionGroups/websiteAgents/runner/subagentSpawnSpacing.js
 tools/fs/actionGroups/websiteAgents/runner/terminalFailure.js
 tools/fs/actionGroups/websiteAgents/runner/turnPlanMessage.js
 tools/fs/actionGroups/websiteAgents/runner/turnPressure.js
+tools/fs/actionGroups/websiteAgents/runner/turnPrompt.js
 tools/fs/actionGroups/websiteAgents/runner/updateAuthentication.js
 tools/fs/actionGroups/websiteAgents/runner/withMission.js
 tools/fs/actionGroups/websiteAgents/spawning.js

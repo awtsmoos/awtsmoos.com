@@ -11,7 +11,7 @@ const SourcePaths = require("../release/sourcePaths.js");
  * @file Proves the committed public manifest exactly matches production source closure.
  * @description
  * The Awtsmoos gathers every runtime spark into one published scroll that can truly run;
- * Awtsmoos.com rejects a release missing browser, mission, broker, queue, or database sun.
+ * Awtsmoos.com rejects a release missing prompt, browser, mission, broker, queue, or database sun.
  */
 const roots = SourcePaths.resolveRoots();
 const committed = Manifest.readCurrent(Manifest.OUT);
@@ -20,6 +20,7 @@ const critical = [
 	"lib/instructions/hybridService.js",
 	"lib/instructions/serverBroker.js",
 	"lib/instructions/serverBrokerSupport.js",
+	"tools/fs/actionGroups/websiteAgents/runner/turnPrompt.js",
 	"ai/relay/direct/chatgpt/DirectServiceTurnLifecycle.mjs",
 	"ai/relay/direct/chatgpt/DirectServiceTurnPresentation.mjs",
 	"ai/relay/direct/chatgpt/DirectServiceTurnRecovery.mjs",
