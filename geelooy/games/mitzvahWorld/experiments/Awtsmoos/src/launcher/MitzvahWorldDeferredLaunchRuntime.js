@@ -1,21 +1,30 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file MitzvahWorldDeferredLaunchRuntime.js
- * @description Opens heavy route capabilities only after selection while carrying the repaired cache identity into every deferred mode loader.
- * The Awtsmoos reveals each vessel in its appointed hour yet never asks today to wear yesterday's key; Awtsmoos.com keeps menu intent swift,
- * then hands the chosen world to the fresh recovery graph so playable truth cannot be hidden behind a stale deferred doorway.
+ * @description Opens heavy route capabilities only after selection while every deferred doorway inherits the one active production release identity.
+ * The Awtsmoos reveals each vessel in its appointed instant and never asks today's light to wear yesterday's key; Awtsmoos.com keeps the menu swift,
+ * then sends the chosen world through one measured release river so no stale route handler can divide the meadow from the player's living gift.
  */
 
-import { createMitzvahWorldModeLoaders } from './MitzvahWorldModeLoaders.js?v=20260907-playable-recovery-02';
-import { createMitzvahWorldRouteHandlers } from './MitzvahWorldRouteHandlers.js?v=20260803-tagged-nature-03';
+import { resolveMitzvahWorldReleaseResourceUrl } from './MitzvahWorldReleaseResourceUrl.js';
 import { mitzvahWorldSessionMode } from './MitzvahWorldSessionMode.js';
 
-/** Launches one non-menu route after this deferred capability module has intentionally loaded. */
+const MODE_LOADERS_URL = resolveMitzvahWorldReleaseResourceUrl(
+	'./MitzvahWorldModeLoaders.js',
+	import.meta.url
+);
+const ROUTE_HANDLERS_URL = resolveMitzvahWorldReleaseResourceUrl(
+	'./MitzvahWorldRouteHandlers.js',
+	import.meta.url
+);
+let deferredAuthoritiesPromise = null;
+
+/** Launches one non-menu route after this deferred capability boundary has intentionally loaded. */
 export async function launchDeferredMitzvahWorldRoute(context, route) {
-	const routes = createDeferredRoutes(context);
+	const routes = await createDeferredRoutes(context);
 	if (route === 'materials') {
 		context.revealHosts(context.hosts, false);
 		return routes.modes.materials(context.hosts);
@@ -35,9 +44,9 @@ export async function launchDeferredMitzvahWorldRoute(context, route) {
 	throw new Error(`Unsupported MitzvahWorld route: ${route}`);
 }
 
-/** Launches one real menu selection through the matching deferred route handler. */
+/** Launches one menu selection through the matching deferred route handler. */
 export async function launchDeferredMitzvahWorldMenuSelection(context, selection = {}) {
-	const routes = createDeferredRoutes(context);
+	const routes = await createDeferredRoutes(context);
 	const handler = routes.handlers.menu?.[selection.mode];
 	if (typeof handler !== 'function') {
 		throw new Error(`No ${selection.mode || 'unknown'} launcher is installed.`);
@@ -45,11 +54,12 @@ export async function launchDeferredMitzvahWorldMenuSelection(context, selection
 	return handler(selection);
 }
 
-/** Constructs mode and route authorities only inside the deferred capability boundary. */
-function createDeferredRoutes(context) {
+/** Constructs mode and route authorities only inside the versioned deferred capability boundary. */
+async function createDeferredRoutes(context) {
+	const authorities = await loadDeferredAuthorities();
 	const modes = context.dependencies.modeLoaders
-		|| createMitzvahWorldModeLoaders(context.environment);
-	const handlers = createMitzvahWorldRouteHandlers({
+		|| authorities.createMitzvahWorldModeLoaders(context.environment);
+	const handlers = authorities.createMitzvahWorldRouteHandlers({
 		environment: context.environment,
 		hosts: context.hosts,
 		modes,
@@ -58,4 +68,21 @@ function createDeferredRoutes(context) {
 		revealHosts: context.revealHosts
 	});
 	return { handlers, modes };
+}
+
+/** Loads both deferred authorities once so they share one release identity and one retryable promise. */
+async function loadDeferredAuthorities() {
+	if (!deferredAuthoritiesPromise) {
+		deferredAuthoritiesPromise = Promise.all([
+			import(MODE_LOADERS_URL),
+			import(ROUTE_HANDLERS_URL)
+		]).then(([modeModule, routeModule]) => ({
+			createMitzvahWorldModeLoaders: modeModule.createMitzvahWorldModeLoaders,
+			createMitzvahWorldRouteHandlers: routeModule.createMitzvahWorldRouteHandlers
+		})).catch(error => {
+			deferredAuthoritiesPromise = null;
+			throw error;
+		});
+	}
+	return deferredAuthoritiesPromise;
 }

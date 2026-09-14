@@ -2684,7 +2684,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.resetTreeToBase = resetTreeToBase;
-	const __awtsmoosDefault_ebrwhz = {
+	const __awtsmoosDefault_1z0z8a3 = {
 		Bone,
 		BufferAttribute,
 		BufferGeometry,
@@ -2697,7 +2697,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		Scene,
 		Vector3
 	};
-	__exports.default = __awtsmoosDefault_ebrwhz;
+	__exports.default = __awtsmoosDefault_1z0z8a3;
 }
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzDeferredActorPlaceholders.js ----

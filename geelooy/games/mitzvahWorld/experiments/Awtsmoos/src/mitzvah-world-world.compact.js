@@ -3483,7 +3483,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.resetTreeToBase = resetTreeToBase;
-	const __awtsmoosDefault_ebrwhz = {
+	const __awtsmoosDefault_1z0z8a3 = {
 		Bone,
 		BufferAttribute,
 		BufferGeometry,
@@ -3496,7 +3496,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		Scene,
 		Vector3
 	};
-	__exports.default = __awtsmoosDefault_ebrwhz;
+	__exports.default = __awtsmoosDefault_1z0z8a3;
 }
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapImmediateMaterial.js ----
@@ -21458,8 +21458,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	const loadTinyGlb = loadTinyGltf;
 
 	__exports.loadTinyGlb = loadTinyGlb;
-	const __awtsmoosDefault_1mkal86 = { loadTinyGltf, loadTinyGlb };
-	__exports.default = __awtsmoosDefault_1mkal86;
+	const __awtsmoosDefault_iqel3u = { loadTinyGltf, loadTinyGlb };
+	__exports.default = __awtsmoosDefault_iqel3u;
 }
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteModelCachePersistence.js ----

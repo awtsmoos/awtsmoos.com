@@ -1,30 +1,23 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file MitzvahWorldLauncher.js
- * @description Keeps the first route decision tiny while pinning deferred runtime capability to the fresh playable-recovery cache family.
- * The Awtsmoos renews the threshold before the palace, so the first doorway need not carry every room; Awtsmoos.com lets the menu answer with lightning speed,
- * while the chosen world enters only through the newly revealed recovery vessel and no cached August listener may reclaim the traveler's first step.
+ * @description Keeps route choice tiny while every deferred doorway inherits one production recovery identity and reports what it is opening.
+ * The Awtsmoos renews menu and meadow in one present light; Awtsmoos.com lets no stale query split the road before the player's sight,
+ * so the chooser arrives quickly, the selected world wakes only by intent, and every dynamic door belongs to this release tonight.
  */
 
-import {
-	createMitzvahWorldLaunchContext
-} from './MitzvahWorldLaunchContext.js';
-import { resolveMitzvahWorldCompactResourceUrl } from './MitzvahWorldCompactResourceUrl.js';
+import { createMitzvahWorldLaunchContext } from './MitzvahWorldLaunchContext.js';
 import {
 	createLazyMitzvahWorldMenuHandlers,
 	loadMitzvahWorldDeferredRuntime
-} from './MitzvahWorldDeferredRuntimeLoader.js?v=20260907-playable-recovery-02';
-import {
-	requestedMitzvahWorldRoute
-} from './MitzvahWorldRouteQuery.js';
+} from './MitzvahWorldDeferredRuntimeLoader.js';
+import { resolveMitzvahWorldReleaseResourceUrl } from './MitzvahWorldReleaseResourceUrl.js';
+import { requestedMitzvahWorldRoute } from './MitzvahWorldRouteQuery.js';
 
-const MAIN_MENU_URL = resolveMitzvahWorldCompactResourceUrl(
-	'./MainMenu.js?v=20260813-local-population-01',
-	import.meta.url
-);
+const MAIN_MENU_URL = resolveMitzvahWorldReleaseResourceUrl('./MainMenu.js', import.meta.url);
 
 /** Launches one requested route while keeping menu bootstrap free of heavyweight capability. */
 export async function launchMitzvahWorld(
@@ -35,9 +28,11 @@ export async function launchMitzvahWorld(
 	const context = createMitzvahWorldLaunchContext(hosts, search, dependencies);
 	const route = requestedMitzvahWorldRoute(context.parameters);
 	if (route !== 'menu') {
+		reportLauncherProgress(dependencies, 'Opening the selected world route…', 'deferred-runtime');
 		const runtime = await loadMitzvahWorldDeferredRuntime(dependencies);
 		return runtime.launchDeferredMitzvahWorldRoute(context, route);
 	}
+	reportLauncherProgress(dependencies, 'Opening the world chooser…', 'menu-module', MAIN_MENU_URL);
 	const menuModule = dependencies.showMainMenu
 		? null
 		: await import(MAIN_MENU_URL);
@@ -46,6 +41,16 @@ export async function launchMitzvahWorld(
 		WebSocketClass: context.environment.WebSocket,
 		environment: context.environment,
 		realtimeUrl: context.realtimeUrl
+	});
+}
+
+/** Reports a low-cost essential launcher milestone through the existing loading contract. */
+function reportLauncherProgress(dependencies, message, stage, url = '') {
+	dependencies.onProgress?.({
+		message,
+		progress: 0.02,
+		stage,
+		url
 	});
 }
 

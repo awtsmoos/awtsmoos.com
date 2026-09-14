@@ -1,27 +1,32 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file MitzvahWorldDeferredRuntimeLoader.js
- * @description Loads route capability only after intent while pinning the repaired deferred runtime to one fresh recovery identity.
- * The Awtsmoos reveals a light doorway before the chosen palace descends; Awtsmoos.com keeps delayed power swift,
- * so one click hydrates only the needed vessel and no August cache may quietly restore a world whose first movement was chained.
+ * @description Loads selected-route capability only after intent while every lazy doorway inherits the one active production recovery identity.
+ * The Awtsmoos reveals each chamber only when its purpose is chosen; Awtsmoos.com keeps the first threshold light and the later vessel bright,
+ * so menu speed remains swift while no deferred import may wander backward into an older cache family or hide its work from measured sight.
  */
 
-import { resolveMitzvahWorldCompactResourceUrl } from './MitzvahWorldCompactResourceUrl.js';
+import { resolveMitzvahWorldReleaseResourceUrl } from './MitzvahWorldReleaseResourceUrl.js';
 
-const DEFERRED_RUNTIME_URL = resolveMitzvahWorldCompactResourceUrl(
-	'./MitzvahWorldDeferredLaunchRuntime.js?v=20260907-playable-recovery-02',
+const DEFERRED_RUNTIME_URL = resolveMitzvahWorldReleaseResourceUrl(
+	'./MitzvahWorldDeferredLaunchRuntime.js',
 	import.meta.url
 );
 let deferredRuntimePromise = null;
 
-/** Loads and caches the deferred route shell while allowing deterministic injection. */
+/**
+ * Loads and caches the deferred route shell while allowing deterministic dependency injection.
+ * @param {object} dependencies Launcher dependencies and optional injected deferred runtime.
+ * @returns {Promise<object>} Deferred route runtime module.
+ */
 export async function loadMitzvahWorldDeferredRuntime(dependencies = {}) {
 	if (dependencies.deferredLaunchRuntime) {
 		return dependencies.deferredLaunchRuntime;
 	}
+	reportDeferredProgress(dependencies);
 	if (!deferredRuntimePromise) {
 		deferredRuntimePromise = import(DEFERRED_RUNTIME_URL).catch(error => {
 			deferredRuntimePromise = null;
@@ -31,7 +36,11 @@ export async function loadMitzvahWorldDeferredRuntime(dependencies = {}) {
 	return deferredRuntimePromise;
 }
 
-/** Creates menu handlers that hydrate route capability only after an intentional selection. */
+/**
+ * Creates menu handlers that hydrate route capability only after intentional selection.
+ * @param {object} context Prepared launch context.
+ * @returns {Readonly<object>} Lazy menu-handler map.
+ */
 export function createLazyMitzvahWorldMenuHandlers(context) {
 	const launchSelection = async (selection = {}) => {
 		const runtime = await loadMitzvahWorldDeferredRuntime(context.dependencies);
@@ -44,5 +53,15 @@ export function createLazyMitzvahWorldMenuHandlers(context) {
 		multiplayer: launchSelection,
 		platform: launchSelection,
 		singlePlayer: launchSelection
+	});
+}
+
+/** Reports the lazy capability door before the network import begins. */
+function reportDeferredProgress(dependencies) {
+	dependencies.onProgress?.({
+		message: 'Loading the selected gameplay capability…',
+		progress: 0.04,
+		stage: 'deferred-runtime-module',
+		url: DEFERRED_RUNTIME_URL
 	});
 }

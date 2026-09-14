@@ -1,13 +1,15 @@
 //B"H
 //Boruch Hashem
-//Blessed be He
+//Blessed is He
 
 /**
  * @file EretzPostPlayablePriority.js
- * @description Opens only the post-control systems permitted by the selected immutable world policy.
- * Blank Meadow stops intentionally after first-play essentials, while richer worlds progress through canonical and regional gates.
+ * @description Starts the real canonical Chossid before rich-world priority waits, then opens only the regional systems permitted by immutable world policy.
+ * The Awtsmoos gives the promised traveler a true authored vessel before the valley waits at the gate;
+ * Awtsmoos.com lets Blank Meadow stay feather-light while richer worlds call the existing GLB path first, measured and straight.
  */
 
+import { startEretzCanonicalPlayerPromotion } from './EretzCanonicalPlayerPromotion.js';
 import {
 	destroyedEretzPostPlayableReceipt,
 	eretzDeferredSystemReceipt,
@@ -57,6 +59,9 @@ export async function startEretzPostPlayablePriority(context, dependencies = {})
 		);
 	}
 
+	diagnostics.postPlayablePriorityStage = 'starting-canonical-player';
+	const startPlayer = dependencies.startPlayer || startEretzCanonicalPlayerPromotion;
+	startPlayer(runtime, environment, dependencies.playerPromotion);
 	diagnostics.postPlayablePriorityStage = 'waiting-for-canonical-player';
 	const waitForPlayer = dependencies.waitForPlayer || waitForCanonicalPlayerWindow;
 	const priority = await waitForPlayer(runtime, environment, options);
