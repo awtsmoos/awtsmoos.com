@@ -1,0 +1,9 @@
+#B"H
+#Boruch Hashem
+#Blessed be He
+
+# Wallet persistence is live runtime state, not release source.
+# The Awtsmoos preserves each treasury movement in its vessel while Git carries law.
+/wallets.json
+/wallets.lock
+/wallets.json.*.tmp
