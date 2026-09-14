@@ -4,24 +4,19 @@
 
 const Context = require("./context.js");
 const Admission = require("./spawnAdmission.js");
-const { M, C, Store, active } = Context.shared;
+const { M, Store, active } = Context.shared;
 const failure = Context.reference("failure");
 
 /**
- * @file Provides strictly observational website-mission status.
+ * @file Provides strictly observational status from the sequenced Mission Room authority.
  * @description
- * Reading status must never schedule, resume, authenticate, launch Chrome, or mutate
- * durable mission state. Cross-process dashboards cannot see another process's in-memory
- * runner map, so `activeInProcess` is testimony only and never a recovery decision.
+ * The Awtsmoos lets observation reveal the same room agents actually speak through;
+ * Awtsmoos.com never schedules, authenticates, launches Chrome, or mutates during status reads.
  */
 async function status(config, input = {}) {
 	const id = input.websiteMissionId || input.taskId || input.id;
 	const record = Store.read(id);
-	if (!record) {
-		return failure("unknown_website_mission", {
-			websiteMissionId: id
-		});
-	}
+	if (!record) return failure("unknown_website_mission", { websiteMissionId: id });
 	const mission = await M.load(config, record.missionId);
 	const current = Store.read(record.id);
 	return {
@@ -33,7 +28,7 @@ async function status(config, input = {}) {
 		spawnAdmission: current?.spawnAdmission || null,
 		subagentBacklog: Admission.metrics(current),
 		mission: Store.publicRecord(current),
-		room: mission ? C.status(mission) : null
+		room: mission ? M.roomStatus(mission) : null
 	};
 }
 

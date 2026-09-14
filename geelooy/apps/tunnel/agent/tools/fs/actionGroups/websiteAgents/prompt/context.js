@@ -1,13 +1,12 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
- * @file Renders bounded durable context without relying on conversational continuity.
+ * @file Renders bounded durable peer context from the sequenced Mission Room inbox.
  * @description
- * The Awtsmoos carries peers, claims, handoffs, and prior evidence into one prompt.
- * This snapshot is only a starting map; agents must refresh it through room and file
- * tools after the browser vessel closes.
+ * The Awtsmoos carries only speech addressed to this Shliach while preserving sender and route;
+ * Awtsmoos.com keeps raw room chronology durable, but the prompt receives the exact unread note.
  */
 function durableContext(agent = {}) {
 	const outcome = agent.lastOutcome || {};
@@ -20,42 +19,38 @@ function durableContext(agent = {}) {
 }
 
 function teamHandoffContext(record = {}, currentAgent = {}) {
-	const entries = (record.agents || [])
-		.filter(agent => agent.id !== currentAgent.id)
-		.map(agent => {
-			const outcome = agent.lastOutcome || {};
-			return [
-				`${agent.id} [${agent.status || "unknown"}] scope=${agent.scope || "."}`,
-				`NEXT=${clip(outcome.next || "none recorded", 600)}`,
-				`FINDINGS=${clip(outcome.findings || agent.lastUpdate || "none recorded", 600)}`
-			].join(" | ");
-		});
+	const entries = (record.agents || []).filter(agent => agent.id !== currentAgent.id).map(agent => {
+		const outcome = agent.lastOutcome || {};
+		return `${agent.id} [${agent.status || "unknown"}] scope=${agent.scope || "."} | ` +
+			`NEXT=${clip(outcome.next || "none recorded", 600)} | ` +
+			`FINDINGS=${clip(outcome.findings || agent.lastUpdate || "none recorded", 600)}`;
+	});
 	return entries.length ? entries.join("\n") : "(no peer handoffs recorded yet)";
 }
 
 function snapshot(room = {}, agent = {}) {
 	const agents = (room.agents || []).map(item =>
-		`${item.agentId}: ${item.status || "active"} (${item.role || "collaborator"})`
-	);
-	const cursor = Date.parse(agent.roomCursorAt || 0);
-	const messages = (room.messages || [])
-		.filter(item => addressed(item, agent) && Date.parse(item.at || 0) > cursor)
-		.slice(-50)
-		.map(item =>
-			`${item.fromAgent || "agent"} -> ${item.toAgent || "all"} [${item.kind || "chat"}]: ${clip(item.body, 1200)}`
-		);
-	const claims = (room.activeClaims || []).slice(-30).map(item =>
-		`${item.agentId}: ${(item.filesToTouch || []).join(", ") || item.title}`
-	);
+		`${item.agentId}: ${item.status || "active"} (${item.role || "collaborator"})`);
+	const messages = (room.turnInbox?.messages || []).slice(-50).map(renderMessage);
+	const claims = (room.claims || room.activeClaims || []).filter(item => item.status !== "released")
+		.slice(-30).map(item => `${item.agentId}: ${(item.files || item.filesToTouch || []).join(", ") || item.title}`);
+	const next = room.turnInbox?.mustCallNext;
 	return [
+		`Inbox cursor: ${room.turnInbox?.cursorBefore || 0} -> ${room.turnInbox?.cursorAfter || 0}.`,
 		"Agents:", ...(agents.length ? agents : ["(none yet)"]),
 		"Active claims:", ...(claims.length ? claims : ["(none)"]),
-		"New messages:", ...(messages.length ? messages : ["(none; call missionRoomInbox after joining)"])
+		"Unread messages:", ...(messages.length ? messages : ["(none)"]),
+		...(next ? ["Required room response:", JSON.stringify(next)] : [])
 	].join("\n");
 }
 
-function addressed(item, agent) {
-	return !item.toAgent || ["all", "any_agent", agent.id].includes(item.toAgent);
+function renderMessage(item = {}) {
+	const route = item.toAgents?.length
+		? item.toAgents.join(",")
+		: item.toSpawnGroup ? `spawn:${item.toSpawnGroup}` : item.toAgent || "all";
+	const response = item.requiresResponse ? " REPLY_REQUIRED" : "";
+	return `${item.fromAgent || "agent"} -> ${route} [${item.kind || "chat"}]${response} ` +
+		`${item.subject ? `${clip(item.subject, 180)}: ` : ""}${clip(item.body, 1600)}`;
 }
 
 function clip(value, maximum) {

@@ -4,7 +4,7 @@
 
 const Context = require("./context.js");
 const PromptUrl = require("./promptUrl.js");
-const { C, Dispatch, Store } = Context.shared;
+const { M, Dispatch, Store } = Context.shared;
 const progress = Context.reference("progress");
 const heartbeat = Context.reference("heartbeat");
 const event = Context.reference("event");
@@ -12,33 +12,20 @@ const emit = Context.reference("emit");
 const withMission = Context.reference("withMission");
 
 /**
- * @file Dispatches one prompt and records the verified-close receipt.
+ * @file Dispatches one prompt and publishes its canonical conversation receipt to the shared room.
  * @description
- * The Awtsmoos enters one final GPT route, verifies accepted delivery, and withdraws
- * the browser vessel at once. Awtsmoos.com records only durable evidence, never an
- * awaited conversational answer or hidden continuation key.
+ * The Awtsmoos lets one verified website turn become peer-visible testimony without another Send;
+ * Awtsmoos.com carries the canonical conversation route into the same room agents use to coordinate.
  */
-async function dispatchRunTurn(
-	config,
-	id,
-	agentId,
-	round,
-	service,
-	continuation,
-	prepared
-) {
+async function dispatchRunTurn(config, id, agentId, round, service, continuation, prepared) {
 	const result = await service.send({
 		prompt: prepared.prompt,
 		conversationKey: prepared.agent.conversationKey,
-		agentStartUrl: PromptUrl.buildPromptUrl(
-			prepared.record.plan.agentStartUrl,
-			prepared.prompt
-		),
+		agentStartUrl: PromptUrl.buildPromptUrl(prepared.record.plan.agentStartUrl, prepared.prompt),
 		mode: "chatgpt-website",
 		loginPolicy: "defer",
 		timeoutMs: 240000,
-		onProgress: progressEvent =>
-			progress(config, id, agentId, round, progressEvent)
+		onProgress: progressEvent => progress(config, id, agentId, round, progressEvent)
 	});
 	const record = Store.update(id, current =>
 		Dispatch.apply(current, agentId, round, continuation, result, event));
@@ -46,25 +33,22 @@ async function dispatchRunTurn(
 	emit(config, record, agent, "website-agent.dispatched", {
 		round,
 		status: agent.status,
-		acceptedAt: result.acceptedAt
+		acceptedAt: result.acceptedAt,
+		conversationId: result.conversationId || null
 	});
 	await withMission(config, record.missionId, mission => {
-		C.message(mission, {
+		M.roomMessage(mission, {
 			agentId: agent.id,
-			agentName: agent.name,
-			role: agent.role,
+			fromAgent: agent.id,
 			toAgent: "all",
-			kind: "website-agent-dispatched",
-			subject: "Prompt delivered: " + agent.scope,
+			kind: "progress",
+			subject: `Prompt delivered: ${agent.scope}`,
 			body: agent.lastOutcome.roomMessage,
-			references: [agent.scope]
+			references: [agent.scope, agent.conversationUrl].filter(Boolean),
+			interrupt: false
 		});
-		heartbeat(
-			mission,
-			agent,
-			"working",
-			"Prompt accepted and tab closed; agent continues through durable tools."
-		);
+		heartbeat(mission, agent, "working",
+			"Prompt accepted and canonical route verified; agent continues through durable tools.");
 	});
 }
 

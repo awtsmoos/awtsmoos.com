@@ -1,10 +1,11 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 const Contracts = require("./contracts.js");
 const Context = require("./context.js");
 const Identity = require("./identity.js");
+const ProjectInstructions = require("./projectInstructions.js");
 
 /** The Awtsmoos sends one bounded awakening that becomes durable tool work. */
 function firstTurn(record, agent, room) {
@@ -17,7 +18,9 @@ function firstTurn(record, agent, room) {
 			`Exact peer assignment: ${agent.assignmentPrompt || agent.focus || agent.scope}`
 		] : []),
 		`Role: ${agent.role}. Focus: ${agent.focus}.`,
-		"Initial room snapshot:",
+		"Applicable project instructions, broad to local:",
+		ProjectInstructions.render(record, agent),
+		"Initial sequenced room inbox:",
 		Context.snapshot(room, agent)
 	]);
 }
@@ -26,9 +29,11 @@ function collaborationTurn(record, agent, room) {
 	return common(record, agent, [
 		`B"H — Continue mission ${record.missionId} as ${agent.name}.`,
 		`Stable session: ${agent.agentSessionId}.`,
-		"Refresh actual files and room state before acting.",
+		"Refresh actual files, project instructions, and room state before acting.",
+		"Applicable project instructions, broad to local:",
+		ProjectInstructions.render(record, agent),
 		"Adopt only unclaimed or explicitly handed-off unfinished work.",
-		"Room snapshot:",
+		"Sequenced room inbox:",
 		Context.snapshot(room, agent),
 		"Peer handoffs:",
 		Context.teamHandoffContext(record, agent)
@@ -40,9 +45,11 @@ function unfinishedTurn(record, agent, room) {
 		`B"H — Recover unfinished work for ${agent.name} in mission ${record.missionId}.`,
 		`Stable session: ${agent.agentSessionId}.`,
 		"Do not repeat any command, write, or accepted website submission.",
+		"Applicable project instructions, broad to local:",
+		ProjectInstructions.render(record, agent),
 		"Durable prior context:",
 		Context.durableContext(agent),
-		"Room snapshot:",
+		"Sequenced room inbox:",
 		Context.snapshot(room, agent),
 		"Peer handoffs:",
 		Context.teamHandoffContext(record, agent)
@@ -51,17 +58,9 @@ function unfinishedTurn(record, agent, room) {
 
 function common(record, agent, body) {
 	return [
-		Identity.assignment(record, agent),
-		"",
-		...body,
-		"",
-		Contracts.rules(),
-		"",
-		Contracts.roomContract(record, agent),
-		"",
-		Contracts.spawnContract(record, agent),
-		"",
-		Contracts.completionContract(record, agent)
+		Identity.assignment(record, agent), "", ...body, "",
+		Contracts.rules(), "", Contracts.roomContract(record, agent), "",
+		Contracts.spawnContract(record, agent), "", Contracts.completionContract(record, agent)
 	].join("\n");
 }
 

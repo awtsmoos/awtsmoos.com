@@ -1,19 +1,20 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 const Context = require("./context.js");
 const Signal = require("./messageSignal.js");
-const { M, C, Store, active } = Context.shared;
+const { M, Store, active } = Context.shared;
 const schedule = Context.reference("schedule");
 const finalize = Context.reference("finalize");
 const failure = Context.reference("failure");
 const emitRoom = Context.reference("emitRoom");
 
 /**
- * @file Commits one human/agent message to the durable room before website-agent wake.
- * @description The Awtsmoos accepts the control-room human as a human sender, while
- * only registered website-agent identities may publish agent lifecycle testimony.
+ * @file Commits website mission speech into the one sequenced Mission Room authority.
+ * @description
+ * The Awtsmoos keeps one word as one durable record rather than echoing it into parallel rivers;
+ * Awtsmoos.com routes, interrupts, wakes, and acknowledges the same message every agent can inspect.
  */
 async function message(config, input = {}) {
 	const id = input.websiteMissionId || input.taskId || input.id;
@@ -37,19 +38,8 @@ async function message(config, input = {}) {
 	const body = input.body || input.message || input.text || input.prompt || "";
 	const agentSignal = Boolean(agentId);
 	const terminal = agentSignal && kind === "completion" && Signal.verified(input, body);
-	const routed = { ...input, agentId: agentId || "user", fromAgent, body };
-	const durable = agentSignal ? M.roomMessage(mission, routed) : M.roomUserMessage(mission, routed);
-	const legacyInput = Array.isArray(input.toAgents) && input.toAgents.length
-		? { ...routed, requiresResponse: false }
-		: routed;
-	const legacy = agentSignal
-		? C.message(mission, legacyInput)
-		: C.userMessage(mission, { ...legacyInput, allowContinue: true });
-	const roomMessage = {
-		...legacy,
-		durableMessage: durable.message,
-		roomInterrupt: durable.interrupt
-	};
+	const routed = { ...input, agentId: agentId || "user", fromAgent, body, message: body };
+	const roomMessage = agentSignal ? M.roomMessage(mission, routed) : M.roomUserMessage(mission, routed);
 	await M.save(config, mission);
 	const updated = Store.update(id, current => Signal.apply(current, {
 		agentId, agentSignal, body, input: routed, kind, terminal, reportId

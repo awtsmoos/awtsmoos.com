@@ -1,43 +1,32 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 const Context = require("./context.js");
-const {
-	C,
-	Store
-} = Context.shared;
-const progress = Context.reference("progress");
-const status = Context.reference("status");
-const message = Context.reference("message");
+const { M, Store } = Context.shared;
 const heartbeat = Context.reference("heartbeat");
 const event = Context.reference("event");
 const withMission = Context.reference("withMission");
 
 /**
- * @file Reveals the publishProgressToRoom stage of website-agent orchestration.
- * @description
- * The Awtsmoos gives this stage one bounded responsibility while sibling stages are
- * resolved lazily through durable shared context after the browser vessel closes.
+ * @file Publishes browser progress into the sequenced room that peers actually consume.
+ * @description The Awtsmoos joins liveness and speech in one durable chronology; Awtsmoos.com
+ * lets every peer see accepted-response progress without maintaining a shadow collaboration feed.
  */
 function publishProgressToRoom(config, record, agent, round, stage, status) {
 	void withMission(config, record.missionId, mission => {
-		heartbeat(
-			mission,
-			agent,
-			"working",
-			`Website turn ${round}: ${stage || "progress"} ${status || "observed"}.`
-		);
+		heartbeat(mission, agent, "working",
+			`Website turn ${round}: ${stage || "progress"} ${status || "observed"}.`);
 		if (stage === "website-submit" && ["accepted", "accepted-response"].includes(status)) {
-			C.message(mission, {
+			M.roomMessage(mission, {
 				agentId: agent.id,
-				agentName: agent.name,
-				role: agent.role,
+				fromAgent: agent.id,
 				toAgent: "all",
-				kind: "website-agent-progress",
-				subject: `Website turn ${round} accepted`,
-				body: "The ordinary ChatGPT website composer accepted this agent turn. Completion will be read through authenticated GET without resubmitting.",
-				references: [agent.scope]
+				kind: "progress",
+				subject: `Website turn ${round} ${status}`,
+				body: "ChatGPT accepted this physical turn; canonical conversation proof and durable tool work remain authoritative.",
+				references: [agent.scope],
+				interrupt: false
 			});
 		}
 	}).catch(error => {

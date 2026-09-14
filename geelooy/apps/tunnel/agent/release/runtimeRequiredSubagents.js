@@ -3,10 +3,10 @@
 //Blessed be He
 
 /**
- * @file Names the irreducible autonomous Shliach, instruction, prompt, and saved-route runtime.
+ * @file Names the irreducible autonomous Shliach, shared-room, instruction, prompt, and saved-route runtime.
  * @description
- * The Awtsmoos gathers every browser vessel and canonical conversation witness without omission;
- * Awtsmoos.com ships the full chain so only a real /c/<uuid> can testify that creation has arisen.
+ * The Awtsmoos gathers browser vessel, peer speech, scoped covenant, and canonical conversation witness;
+ * Awtsmoos.com ships the full chain so agents can discover, coordinate, delegate, and prove saved work.
  */
 module.exports = Object.freeze([
 	"lib/runtime/main-agent-autonomy.js",
@@ -21,19 +21,32 @@ module.exports = Object.freeze([
 	"lib/instructions/catalogMissionContinuity.js",
 	"lib/instructions/catalogMissionDiscovery.js",
 	"lib/instructions/hybridService.js",
+	"lib/instructions/projectInstructionDiscovery.js",
+	"lib/instructions/projectInstructionPaths.js",
 	"lib/instructions/serverBroker.js",
 	"lib/instructions/serverBrokerSupport.js",
 	"lib/instructions/service.js",
 	"tools/fs/actionGroups/missionAssignmentActions.js",
 	"tools/fs/actionGroups/missionSessionRecoveryActions.js",
 	"tools/fs/actionGroups/missionSessionSpawner.js",
+	"tools/fs/actionGroups/websiteAgents/prompt/projectInstructions.js",
 	"tools/fs/actionGroups/websiteAgents/runner/acceptedTurnRecovery.js",
+	"tools/fs/actionGroups/websiteAgents/runner/announceChildRoom.js",
 	"tools/fs/actionGroups/websiteAgents/runner/conversationRouteEvidence.js",
+	"tools/fs/actionGroups/websiteAgents/runner/delegateChildRoom.js",
 	"tools/fs/actionGroups/websiteAgents/runner/dispatchRunTurn.js",
+	"tools/fs/actionGroups/websiteAgents/runner/heartbeat.js",
+	"tools/fs/actionGroups/websiteAgents/runner/joinChildRoom.js",
+	"tools/fs/actionGroups/websiteAgents/runner/message.js",
+	"tools/fs/actionGroups/websiteAgents/runner/prepareRunTurn.js",
+	"tools/fs/actionGroups/websiteAgents/runner/processSpawnOutcome.js",
 	"tools/fs/actionGroups/websiteAgents/runner/promptUrl.js",
 	"tools/fs/actionGroups/websiteAgents/runner/progress.js",
+	"tools/fs/actionGroups/websiteAgents/runner/publishProgressToRoom.js",
 	"tools/fs/actionGroups/websiteAgents/runner/reconcileOrphanedTurns.js",
 	"tools/fs/actionGroups/websiteAgents/runner/recoverAcceptedTurns.js",
+	"tools/fs/actionGroups/websiteAgents/runner/roomTurnContext.js",
+	"tools/fs/actionGroups/websiteAgents/runner/seedRoom.js",
 	"tools/fs/actionGroups/websiteAgents/runner/status.js",
 	"tools/fs/actionGroups/websiteAgents/runner/dispatcherSessionLifecycle.js",
 	"tools/fs/actionGroups/websiteAgents/runner/turnPrompt.js",

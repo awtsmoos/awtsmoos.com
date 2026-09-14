@@ -1,5 +1,5 @@
 B"H
-1.0.601
+1.0.602
 main.js
 ai/relay/direct/browser/ActiveTargetLease.mjs
 ai/relay/direct/browser/AgentTabCatalog.mjs
@@ -1158,6 +1158,8 @@ lib/instructions/catalogUiLayout.js
 lib/instructions/catalogWorkModes.js
 lib/instructions/hybridService.js
 lib/instructions/pack.js
+lib/instructions/projectInstructionDiscovery.js
+lib/instructions/projectInstructionPaths.js
 lib/instructions/resolver.js
 lib/instructions/resolverMatch.js
 lib/instructions/resolverRules.js
@@ -1833,6 +1835,7 @@ tools/fs/actionGroups/websiteAgents/prompt.js
 tools/fs/actionGroups/websiteAgents/prompt/context.js
 tools/fs/actionGroups/websiteAgents/prompt/contracts.js
 tools/fs/actionGroups/websiteAgents/prompt/identity.js
+tools/fs/actionGroups/websiteAgents/prompt/projectInstructions.js
 tools/fs/actionGroups/websiteAgents/prompt/turns.js
 tools/fs/actionGroups/websiteAgents/runner.js
 tools/fs/actionGroups/websiteAgents/runner/acceptedTurnRecovery.js
@@ -1879,6 +1882,7 @@ tools/fs/actionGroups/websiteAgents/runner/reconcileOrphanedTurns.js
 tools/fs/actionGroups/websiteAgents/runner/recover.js
 tools/fs/actionGroups/websiteAgents/runner/recoverAcceptedTurns.js
 tools/fs/actionGroups/websiteAgents/runner/resumable.js
+tools/fs/actionGroups/websiteAgents/runner/roomTurnContext.js
 tools/fs/actionGroups/websiteAgents/runner/run.js
 tools/fs/actionGroups/websiteAgents/runner/runPacedBatch.js
 tools/fs/actionGroups/websiteAgents/runner/runTurn.js

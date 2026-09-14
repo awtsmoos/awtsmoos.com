@@ -3,13 +3,14 @@
 //Blessed be He
 
 const Local = require("./service.js");
+const Project = require("./projectInstructionDiscovery.js");
 const { broker } = require("./serverBroker.js");
 
 /**
- * @file Merges immutable local instruction law with verified dynamic server additions.
+ * @file Merges immutable doctrine, verified server additions, and scoped repository instruction layers.
  * @description
- * The Awtsmoos always retains its local safety floor. Awtsmoos.com may add current
- * server doctrine when the parent websocket answers, but network failure never blocks it.
+ * The Awtsmoos keeps the safety floor while revealing the local covenant nearest each file;
+ * Awtsmoos.com names provenance and hashes so agents understand which layer governs which scope.
  */
 class HybridInstructionService {
 	async catalog() {
@@ -23,22 +24,20 @@ class HybridInstructionService {
 
 	async resolve(payload = {}) {
 		const local = Local.instructionService.resolve(payload);
+		const projectInstructionLayers = Project.discover(payload);
 		const remote = await broker.resolve(payload);
-		if (!remote) return {
-			...local,
-			serverAvailable: false
-		};
-		const summaries = mergeSummaries(
-			local.instructionSummaries,
-			remote.headlines
-		);
+		const summaries = remote
+			? mergeSummaries(local.instructionSummaries, remote.headlines)
+			: local.instructionSummaries;
 		return {
 			...local,
-			serverAvailable: true,
-			serverInstructionGeneration: remote.generation,
+			serverAvailable: Boolean(remote),
+			serverInstructionGeneration: remote?.generation || "",
 			requiredInstructionIds: summaries.map(item => item.id),
 			instructionSummaries: summaries,
-			mustFetchBeforeWrite: summaries.length > 0
+			projectInstructionLayers,
+			projectInstructionSummary: Project.summarize(projectInstructionLayers),
+			mustFetchBeforeWrite: summaries.length > 0 || projectInstructionLayers.length > 0
 		};
 	}
 
@@ -46,10 +45,7 @@ class HybridInstructionService {
 		const ids = Local.normalizeIds(payload);
 		const local = Local.instructionService.get(payload);
 		const remote = await broker.get(ids);
-		const instructions = mergeInstructions(
-			local.instructions,
-			remote?.instructions
-		);
+		const instructions = mergeInstructions(local.instructions, remote?.instructions);
 		const present = new Set(instructions.map(item => item.id));
 		const missingInstructionIds = ids.filter(id => !present.has(id));
 		return {
@@ -63,30 +59,22 @@ class HybridInstructionService {
 	}
 }
 
-/** Preserves local summary authority while adding unique verified server headlines. */
 function mergeSummaries(local = [], remote = []) {
 	const byId = new Map();
 	for (const item of local || []) byId.set(item.id, item);
 	for (const item of remote || []) {
 		if (!item?.id || byId.has(item.id)) continue;
-		byId.set(item.id, {
-			...item,
-			source: "server"
-		});
+		byId.set(item.id, { ...item, source: "server" });
 	}
 	return [...byId.values()].sort((a, b) => a.id.localeCompare(b.id));
 }
 
-/** Preserves immutable local bodies while adding server-only verified instruction IDs. */
 function mergeInstructions(local = [], remote = []) {
 	const byId = new Map();
 	for (const item of local || []) byId.set(item.id, item);
 	for (const item of remote || []) {
 		if (!item?.id || byId.has(item.id)) continue;
-		byId.set(item.id, {
-			...item,
-			source: "server"
-		});
+		byId.set(item.id, { ...item, source: "server" });
 	}
 	return [...byId.values()].sort((a, b) => a.id.localeCompare(b.id));
 }

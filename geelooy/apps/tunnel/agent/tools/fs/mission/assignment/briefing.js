@@ -7,31 +7,23 @@ const Work = require("../workRegistry.js");
 const Paths = require("./paths.js");
 
 const BASELINE_INSTRUCTION_IDS = Object.freeze([
-	"mission.bootstrap",
-	"mission.continuation",
-	"mission.next-action-obligation",
-	"execution.lightning-throughput",
-	"execution.ready-work-conveyor",
-	"execution.resource-aware-seven",
-	"execution.accuracy-proof",
-	"execution.control-plane-reserve"
+	"mission.bootstrap", "mission.continuation", "mission.next-action-obligation",
+	"execution.lightning-throughput", "execution.ready-work-conveyor",
+	"execution.resource-aware-seven", "execution.accuracy-proof", "execution.control-plane-reserve"
 ]);
 
 /**
- * @file Builds the small continuation capsule handed to a newly arrived agent session.
- * @description
- * The capsule carries durable mission truth, peer findings, absolute paths, and next work.
- * Baseline doctrine is named immediately while full instruction bodies stay lazily fetchable.
+ * @file Builds the continuation capsule with real sequenced peer speech and scoped instruction discovery.
+ * @description The Awtsmoos preserves a predecessor's world without flattening messages into silence;
+ * Awtsmoos.com hands the next Shliach body, routing, evidence, and local instruction ancestry in sequence.
  */
 function build(config, mission, input = {}) {
 	const anchors = Paths.ensure(config, mission, input);
 	const collaboration = Collaboration.status(mission);
 	const openWork = Work.open(mission).slice(0, Number(input.workLimit || 20));
-	const requestedWork = Object.prototype.hasOwnProperty.call(input, "workId");
-	const requestedWorkId = String(input.workId || "");
-	const active = requestedWork
-		? openWork.find(item => item.id === requestedWorkId) || null
-		: openWork[0] || null;
+	const requested = Object.prototype.hasOwnProperty.call(input, "workId");
+	const requestedId = String(input.workId || "");
+	const active = requested ? openWork.find(item => item.id === requestedId) || null : openWork[0] || null;
 	return {
 		missionId: mission.id,
 		goal: mission.goal || "",
@@ -54,17 +46,13 @@ function build(config, mission, input = {}) {
 	};
 }
 
-/** Collects durable improvement/debt signals without inventing new completion claims. */
 function improvements(mission) {
 	const explicit = mission.improvements || mission.improvementBacklog || [];
-	const work = (mission.remainingWork || []).filter(item => {
-		const text = `${item.origin || ""} ${item.title || ""}`.toLowerCase();
-		return /(improv|debt|performance|future|research|polish)/.test(text);
-	});
+	const work = (mission.remainingWork || []).filter(item =>
+		/(improv|debt|performance|future|research|polish)/.test(`${item.origin || ""} ${item.title || ""}`.toLowerCase()));
 	return [...explicit, ...work].slice(0, 20);
 }
 
-/** Returns living peer roles and current activity without binding the new chat to them. */
 function peers(collaboration = {}) {
 	return (collaboration.agents || []).slice(0, 20).map(agent => ({
 		agentId: agent.agentId || agent.id || "",
@@ -75,34 +63,37 @@ function peers(collaboration = {}) {
 	}));
 }
 
-/** Preserves the latest peer brainstorm/messages/discoveries as compact shared context. */
 function findings(mission) {
 	const room = mission.room || {};
-	const messages = (room.messages || []).slice(-8).map(message => ({
+	const messages = (room.messages || []).slice(-12).map(message => ({
 		from: message.fromAgent || message.agentId || "",
-		text: message.text || message.message || "",
+		to: message.toAgent || "",
+		toAgents: message.toAgents || [],
+		toSpawnGroup: message.toSpawnGroup || "",
+		kind: message.kind || "chat",
+		subject: message.subject || "",
+		text: message.body || message.text || message.message || "",
+		references: message.references || [],
+		requiresResponse: message.requiresResponse === true,
+		sequence: Number(message.sequence || 0),
 		at: message.at || message.createdAt || ""
 	}));
-	const brainstorms = (room.brainstorms || mission.brainstorms || []).slice(-5);
-	const discoveries = (mission.discoveries || []).slice(-5);
-	return { messages, brainstorms, discoveries };
-}
-
-/** Supplies resolver evidence while full doctrine remains a lazy Tunnel request. */
-function instructionRequest(mission, work, anchors) {
 	return {
-		action: "instructionResolve",
-		task: work?.description || work?.title || mission.goal || "Continue mission",
-		paths: work?.absolutePaths?.length ? work.absolutePaths : anchors.absolutePaths,
-		tags: ["mission", "continuation", work?.origin || "durable-work"].filter(Boolean)
+		messages,
+		brainstorms: (room.brainstorms || mission.brainstorms || []).slice(-5),
+		discoveries: (room.discoveries || mission.discoveries || []).slice(-5)
 	};
 }
 
-module.exports = {
-	BASELINE_INSTRUCTION_IDS,
-	build,
-	findings,
-	improvements,
-	instructionRequest,
-	peers
-};
+function instructionRequest(mission, work, anchors) {
+	return {
+		action: "instructionResolve",
+		projectRoot: anchors.projectRoot,
+		task: work?.description || work?.title || mission.goal || "Continue mission",
+		paths: work?.absolutePaths?.length ? work.absolutePaths : anchors.absolutePaths,
+		tags: ["mission", "continuation", work?.origin || "durable-work"].filter(Boolean),
+		includeProjectInstructionBodies: true
+	};
+}
+
+module.exports = { BASELINE_INSTRUCTION_IDS, build, findings, improvements, instructionRequest, peers };

@@ -8,20 +8,29 @@ const Manifest = require("../rebuild-manifest.cjs");
 const SourcePaths = require("../release/sourcePaths.js");
 
 /**
- * @file Proves the committed public manifest exactly matches production source closure.
+ * @file Proves the committed public manifest exactly matches the production collaboration/runtime closure.
  * @description
- * The Awtsmoos gathers every runtime spark into one published scroll that can truly run;
- * Awtsmoos.com rejects releases missing saved-route proof, browser, mission, broker, queue, or database sun.
+ * The Awtsmoos gathers every saved-route, room, instruction, browser, mission, broker, queue, and database spark;
+ * Awtsmoos.com rejects a release if any required vessel is absent, duplicated, or outside the authoritative inventory.
  */
 const roots = SourcePaths.resolveRoots();
 const committed = Manifest.readCurrent(Manifest.OUT);
 const built = Manifest.buildManifest({ version: committed.version });
 const critical = [
 	"lib/instructions/hybridService.js",
+	"lib/instructions/projectInstructionDiscovery.js",
+	"lib/instructions/projectInstructionPaths.js",
 	"lib/instructions/serverBroker.js",
 	"lib/instructions/serverBrokerSupport.js",
+	"tools/fs/actionGroups/websiteAgents/prompt/projectInstructions.js",
 	"tools/fs/actionGroups/websiteAgents/runner/acceptedTurnRecovery.js",
 	"tools/fs/actionGroups/websiteAgents/runner/conversationRouteEvidence.js",
+	"tools/fs/actionGroups/websiteAgents/runner/delegateChildRoom.js",
+	"tools/fs/actionGroups/websiteAgents/runner/message.js",
+	"tools/fs/actionGroups/websiteAgents/runner/prepareRunTurn.js",
+	"tools/fs/actionGroups/websiteAgents/runner/processSpawnOutcome.js",
+	"tools/fs/actionGroups/websiteAgents/runner/roomTurnContext.js",
+	"tools/fs/actionGroups/websiteAgents/runner/seedRoom.js",
 	"tools/fs/actionGroups/websiteAgents/runner/turnPrompt.js",
 	"ai/relay/direct/chatgpt/ConversationRouteWaiter.mjs",
 	"ai/relay/direct/chatgpt/DirectTurnRouteGate.mjs",

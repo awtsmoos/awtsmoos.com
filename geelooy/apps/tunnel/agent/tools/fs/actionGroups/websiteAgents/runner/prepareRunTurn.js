@@ -4,53 +4,59 @@
 
 const ContinuationRequests = require("../../../mission/roomContinuationRequests.js");
 const Context = require("./context.js");
+const RoomTurnContext = require("./roomTurnContext.js");
 const TurnPrompt = require("./turnPrompt.js");
-const { C, Store } = Context.shared;
+const { Store } = Context.shared;
 const paceWebsiteStart = Context.reference("paceWebsiteStart");
-const turnPlanMessage = Context.reference("turnPlanMessage");
-const heartbeat = Context.reference("heartbeat");
 const event = Context.reference("event");
 const withMission = Context.reference("withMission");
 
 /**
- * @file Records successor intent before the first substantive website-agent step.
+ * @file Reads each agent's sequenced inbox before composing its next physical website turn.
  * @description
- * The Awtsmoos stores continuity before the browser doorway, so an exact short first prompt
- * can remain pure while Awtsmoos.com preserves the larger mission, claim, room, and successor truth.
+ * The Awtsmoos refuses to let addressed peer speech vanish between durable room and browser vessel;
+ * Awtsmoos.com acknowledges the exact inbox first, then records this agent's plan in the same river.
  */
 async function prepareRunTurn(config, id, agentId, round, continuation) {
 	let record = beginTurn(id, agentId, round, continuation);
 	let agent = record.agents.find(item => item.id === agentId);
 	let continuationRequest = null;
 	const room = await withMission(config, record.missionId, mission => {
-		continuationRequest = ContinuationRequests.ensure(mission, {
-			agentId: agent.id, logicalAgentId: agent.logicalAgentId || agent.id,
-			agentSessionId: agent.agentSessionId, generation: agent.generation,
-			spawnGroupId: agent.spawnGroupId, parentAgentId: agent.parentAgentId,
-			predecessorAgentId: agent.predecessorAgentId, claimId: agent.claimId,
-			delegationId: agent.delegationId, scope: agent.scope
-		});
-		heartbeat(mission, agent, "working", `Starting website turn ${round}.`);
-		C.message(mission, { agentId: agent.id, agentName: agent.name, role: agent.role, toAgent: "all",
-			kind: continuation ? "website-agent-handoff-resume" : "website-agent-plan",
-			subject: continuation ? `Resuming unfinished work: ${agent.scope}` : `Plan for turn ${round}: ${agent.scope}`,
-			body: turnPlanMessage(agent, round, continuation), references: [agent.scope, ...(agent.lastOutcome?.files || [])] });
-		return C.status(mission);
+		continuationRequest = ContinuationRequests.ensure(mission, continuationIdentity(agent));
+		RoomTurnContext.heartbeat(mission, agent, "working", `Starting website turn ${round}.`);
+		const view = RoomTurnContext.open(mission, agent);
+		RoomTurnContext.plan(mission, agent, round, continuation);
+		return view;
 	});
-	const latestMessage = room.messages?.[room.messages.length - 1];
 	record = Store.read(id);
 	agent = record.agents.find(item => item.id === agentId);
 	const prompt = TurnPrompt.turnPrompt(record, agent, room, round, continuation);
 	Store.update(id, current => {
 		const target = current.agents.find(item => item.id === agentId);
 		if (target) {
-			target.roomCursorAt = latestMessage?.at || target.roomCursorAt;
+			target.roomMessageCursor = room.turnInbox?.cursorAfter || target.roomMessageCursor || 0;
+			target.roomCursorAt = room.turnInbox?.messages?.at(-1)?.at || target.roomCursorAt;
 			target.continuationRequestId = continuationRequest?.id || target.continuationRequestId;
 		}
 		return current;
 	});
 	await paceWebsiteStart(config, id, agent);
-	return { agent, prompt, record, continuationRequest };
+	return { agent, prompt, record, continuationRequest, room };
+}
+
+function continuationIdentity(agent) {
+	return {
+		agentId: agent.id,
+		logicalAgentId: agent.logicalAgentId || agent.id,
+		agentSessionId: agent.agentSessionId,
+		generation: agent.generation,
+		spawnGroupId: agent.spawnGroupId,
+		parentAgentId: agent.parentAgentId,
+		predecessorAgentId: agent.predecessorAgentId,
+		claimId: agent.claimId,
+		delegationId: agent.delegationId,
+		scope: agent.scope
+	};
 }
 
 function beginTurn(id, agentId, round, continuation) {
