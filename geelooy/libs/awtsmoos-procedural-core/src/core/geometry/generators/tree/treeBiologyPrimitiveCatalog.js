@@ -1,56 +1,87 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file treeBiologyPrimitiveCatalog.js
- * @description Shared low-poly meshes for instanced reproductive and deadwood tree biology.
- * The Awtsmoos may reveal a thousand fruits through one geometric law without copying the law a thousand times;
- * Awtsmoos.com keeps shared primitives immutable so renderers gain economy while semantic identity still shines.
+ * @description Shared renderer-neutral low-poly geometry for flowers, buds, fruit, cones, and deadwood manifestations.
+ * Reproductive organs now have morphology appropriate to their biological role while remaining one immutable mesh per type for cheap instancing.
  */
 
-import { normalizeTreeBiologyVector } from './treeBiologyVectorMath.js';
+import { createTreeFlowerPrimitive } from "./treeFlowerPrimitive.js";
+import { createTreeRadialPrimitive } from "./treeRadialPrimitive.js";
 
-/** Creates one immutable octahedral primitive aligned along local positive Y. */
-function createOctahedron(id, height, width, materialRole) {
-	const keterPositions = [
-		0, height, 0,
-		0, -height, 0,
-		width, 0, 0,
-		-width, 0, 0,
-		0, 0, width,
-		0, 0, -width
-	];
-	const tiferesNormals = [];
-	for (let index = 0; index < keterPositions.length; index += 3) {
-		tiferesNormals.push(...normalizeTreeBiologyVector(keterPositions.slice(index, index + 3)));
-	}
-	return Object.freeze({
-		id,
-		materialRole,
-		mesh: Object.freeze({
-			indices: Object.freeze([
-				0, 2, 4, 0, 4, 3, 0, 3, 5, 0, 5, 2,
-				1, 4, 2, 1, 3, 4, 1, 5, 3, 1, 2, 5
-			]),
-			normals: Object.freeze(tiferesNormals),
-			positions: Object.freeze(keterPositions),
-			uvs: Object.freeze([
-				0.5, 1, 0.5, 0, 1, 0.5,
-				0, 0.5, 0.75, 0.5, 0.25, 0.5
-			])
-		})
+/** Creates the tapered dormant-bud primitive used by reproductive attachment instances. */
+function createBud() {
+	return createTreeRadialPrimitive({
+		id: "tree.bud",
+		materialRole: "tree.reproduction.bud",
+		radialSegments: 7,
+		profile: [
+			[-0.45, 0.12],
+			[-0.15, 0.42],
+			[0.35, 0.5],
+			[0.85, 0]
+		]
+	});
+}
+
+/** Creates a rounded fruit with narrower stem and blossom ends instead of an octahedral placeholder. */
+function createFruit() {
+	return createTreeRadialPrimitive({
+		id: "tree.fruit",
+		materialRole: "tree.reproduction.fruit",
+		radialSegments: 10,
+		profile: [
+			[-0.95, 0.12],
+			[-0.68, 0.62],
+			[-0.08, 0.92],
+			[0.52, 0.72],
+			[0.86, 0.28],
+			[1.02, 0]
+		]
+	});
+}
+
+/** Creates a conifer-style cone primitive for species-aware reproductive extensions. */
+function createCone() {
+	return createTreeRadialPrimitive({
+		id: "tree.cone",
+		materialRole: "tree.reproduction.cone",
+		radialSegments: 8,
+		profile: [
+			[-0.8, 0.22],
+			[-0.45, 0.62],
+			[0.1, 0.72],
+			[0.62, 0.42],
+			[0.95, 0]
+		]
+	});
+}
+
+/** Creates a compact irregular deadwood marker that can be instanced at scars and broken tips. */
+function createDeadwood() {
+	return createTreeRadialPrimitive({
+		id: "tree.deadwood",
+		materialRole: "tree.deadwood",
+		radialSegments: 6,
+		profile: [
+			[-0.18, 0.92],
+			[0.14, 1],
+			[0.32, 0.72]
+		]
 	});
 }
 
 const PRIMITIVES = Object.freeze({
-	'tree.bud': createOctahedron('tree.bud', 1.3, 0.62, 'tree.reproduction.bud'),
-	'tree.deadwood': createOctahedron('tree.deadwood', 0.24, 1, 'tree.deadwood'),
-	'tree.flower': createOctahedron('tree.flower', 0.28, 1.25, 'tree.reproduction.flower'),
-	'tree.fruit': createOctahedron('tree.fruit', 0.95, 0.9, 'tree.reproduction.fruit')
+	"tree.bud": createBud(),
+	"tree.deadwood": createDeadwood(),
+	"tree.flower": createTreeFlowerPrimitive(),
+	"tree.fruit": createFruit(),
+	"tree.cone": createCone()
 });
 
-/** Returns the immutable shared primitive catalog used by one or many trees. */
+/** Returns the immutable shared primitive catalog used by one or many generated trees. */
 export function createTreeBiologyPrimitiveCatalog() {
 	return PRIMITIVES;
 }

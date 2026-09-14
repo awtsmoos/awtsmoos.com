@@ -1,6 +1,6 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * One botanical structure may be clothed at many densities while remaining one
@@ -11,9 +11,18 @@
 import { normalizeTreeDetailProfile } from "./treeDetailProfiles.js";
 
 const DIRECT_PROFILES = Object.freeze({
-	high: Object.freeze({ id: "high", radialScale: 1, longitudinalScale: 1, leafDensity: 1 }),
-	medium: Object.freeze({ id: "medium", radialScale: 0.65, longitudinalScale: 0.65, leafDensity: 0.5 }),
-	low: Object.freeze({ id: "low", radialScale: 0.35, longitudinalScale: 0.35, leafDensity: 0.2 })
+	high: Object.freeze({
+		id: "high", radialScale: 1, longitudinalScale: 1,
+		leafDensity: 1, leafSizeScale: 1, twigDensity: 1, billboard: null
+	}),
+	medium: Object.freeze({
+		id: "medium", radialScale: 0.65, longitudinalScale: 0.65,
+		leafDensity: 0.5, leafSizeScale: 1.08, twigDensity: 0.5, billboard: "double"
+	}),
+	low: Object.freeze({
+		id: "low", radialScale: 0.35, longitudinalScale: 0.35,
+		leafDensity: 0.2, leafSizeScale: 1.25, twigDensity: 0, billboard: "single"
+	})
 });
 
 function finite(value, fallback) {
@@ -73,6 +82,8 @@ export function normalizeTreeGeometryProfile(input = "high") {
 			legacy?.leafScale ?? base.leafSizeScale,
 			1
 		)),
+		twigDensity: clamp(finite(base.twigDensity, 1), 0, 1),
+		billboard: base.billboard === undefined ? null : base.billboard,
 		distance: Math.max(0, finite(legacy?.distance ?? base.distance, 0)),
 		hysteresis: Math.max(0, finite(legacy?.hysteresis ?? base.hysteresis, 0))
 	});

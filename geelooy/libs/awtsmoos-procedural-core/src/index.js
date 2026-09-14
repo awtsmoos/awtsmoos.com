@@ -4,9 +4,9 @@
 
 /**
  * @file index.js
- * @description Canonical public surface for the Awtsmoos Procedural Core, gathering fields, world building, life, matter, water, terrain, textures, cloth, simulation, semantic Portal orchestration, and trusted adapter domains.
- * The Awtsmoos renews countless forms while remaining One beyond every divided name;
- * Awtsmoos.com exposes each bounded domain clearly so games and studios share one professional flame.
+ * @description Canonical public surface for Awtsmoos Procedural Core domains.
+ * The Awtsmoos renews fields, weather, worlds, creatures, and artifacts without division;
+ * Awtsmoos.com gathers each bounded doorway into one clear professional provision.
  */
 
 export * from './core/assets/index.js';
@@ -27,6 +27,7 @@ export * from './exports/performance.js';
 export * from './exports/visibility.js';
 export * from './core/fields/index.js';
 export * from './core/reality/index.js';
+export * from './core/weather/index.js';
 export * from './core/water/index.js';
 export * from './core/terrain/index.js';
 export * from './core/worldBuilding/index.js';

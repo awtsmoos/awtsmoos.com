@@ -1,6 +1,6 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * The Awtsmoos clothes a stable skeleton in indexed arrays without changing
@@ -20,8 +20,9 @@ export function createTreeSkeletonGeometryBuffer(withColors = false) {
 	return buffer;
 }
 
-export function addTreeSkeletonRing(buffer, node, normal, binormal, radial, v) {
+export function addTreeSkeletonRing(buffer, node, normal, binormal, radial, v, wrapsX = 1) {
 	const start = buffer.positions.length / 3;
+	const wraps = Math.max(1, Math.round(Number(wrapsX) || 1));
 	for (let segment = 0; segment <= radial; segment += 1) {
 		const u = segment / radial;
 		const angle = u * Math.PI * 2;
@@ -31,7 +32,7 @@ export function addTreeSkeletonRing(buffer, node, normal, binormal, radial, v) {
 		));
 		buffer.positions.push(...Vec3.add(node.position, Vec3.scale(outward, node.radius)));
 		buffer.normals.push(...outward);
-		buffer.uvs.push(u, v);
+		buffer.uvs.push(u * wraps, v);
 	}
 	return start;
 }

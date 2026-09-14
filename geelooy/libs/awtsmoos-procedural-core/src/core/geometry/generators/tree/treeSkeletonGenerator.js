@@ -1,6 +1,6 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * The Awtsmoos renews one canonical tree structure before any mesh is chosen.
@@ -13,6 +13,7 @@ import { TreeSkeletonArtifact } from "./treeSkeletonArtifact.js";
 import { growTreeSkeletonBranch } from "./treeSkeletonBranchPlanner.js";
 import {
 	enqueueTreeSkeletonChildren,
+	enqueueTreeSkeletonFoliageTwigs,
 	placeTreeSkeletonLeaves
 } from "./treeSkeletonCanopyPlanner.js";
 import { treeSkeletonValue } from "./treeSkeletonMath.js";
@@ -24,18 +25,21 @@ export class TreeSkeletonGenerator {
 		this.streams = null;
 		this.branches = [];
 		this.leaves = [];
+		this.foliageTwigParents = new Set();
 	}
 
 	generate() {
 		this.streams = createTreeRandomStreams(this.config.seed);
 		this.branches = [];
 		this.leaves = [];
+		this.foliageTwigParents = new Set();
 		const queue = [this.createRoot()];
 		while (queue.length > 0 && this.branches.length < this.maximumBranches) {
 			const request = queue.shift();
 			const branch = growTreeSkeletonBranch(this, request, this.branches.length);
 			this.branches.push(branch);
 			enqueueTreeSkeletonChildren(this, branch, queue);
+			enqueueTreeSkeletonFoliageTwigs(this, branch, queue);
 			placeTreeSkeletonLeaves(this, branch);
 		}
 		return new TreeSkeletonArtifact({

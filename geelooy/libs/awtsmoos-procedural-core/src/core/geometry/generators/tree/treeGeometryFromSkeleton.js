@@ -1,6 +1,6 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * The Awtsmoos clothes one canonical skeleton in every level of detail. This
@@ -40,7 +40,8 @@ function buildBranch(buffer, branch, profile) {
 			ringNormal,
 			binormal,
 			radial,
-			index / Math.max(1, nodes.length - 1)
+			index / Math.max(1, nodes.length - 1),
+			branch.barkWraps || 1
 		);
 		firstRing ??= ring;
 		if (previousRing !== null) {
@@ -53,15 +54,24 @@ function buildBranch(buffer, branch, profile) {
 	addTreeSkeletonCap(buffer, last, last.direction, previousRing, radial, false);
 }
 
-function buildStats(branches, leaves, branchCount) {
+function shouldRenderBranch(branch, index, profile) {
+	if (branch.role !== "foliage-twig") return true;
+	if (!(profile.twigDensity > 0)) return false;
+	const stride = Math.max(1, Math.round(1 / profile.twigDensity));
+	return index % stride === 0;
+}
+
+function buildStats(branches, leaves, structuralCount, renderedCount) {
 	return Object.freeze({
 		branchVertices: branches.positions.length / 3,
 		leafVertices: leaves.positions.length / 3,
 		branchTriangles: branches.indices.length / 3,
 		leafTriangles: leaves.indices.length / 3,
-		generatedBranches: branchCount,
-		closedBranchComponents: branchCount,
-		branchCaps: branchCount * 2,
+		generatedBranches: structuralCount,
+		renderedBranches: renderedCount,
+		closedBranchComponents: structuralCount,
+		branchCaps: structuralCount * 2,
+		renderedBranchCaps: renderedCount * 2,
 		drawCalls: 2
 	});
 }
@@ -70,14 +80,28 @@ export function buildTreeGeometryFromSkeleton(skeleton, profileInput = "high", b
 	const profile = normalizeTreeGeometryProfile(profileInput);
 	const branches = createTreeSkeletonGeometryBuffer();
 	const leaves = createTreeSkeletonGeometryBuffer(true);
-	for (const branch of skeleton.branches) {
+	let renderedBranches = 0;
+	for (let index = 0; index < skeleton.branches.length; index += 1) {
+		const branch = skeleton.branches[index];
+		if (!shouldRenderBranch(branch, index, profile)) continue;
 		buildBranch(branches, branch, profile);
+		renderedBranches += 1;
 	}
 	const stride = Math.max(1, Math.round(1 / profile.leafDensity));
 	for (let index = 0; index < skeleton.leaves.length; index += stride) {
-		addTreeSkeletonLeaf(leaves, skeleton.leaves[index], profile.leafSizeScale);
+		addTreeSkeletonLeaf(
+			leaves,
+			skeleton.leaves[index],
+			profile.leafSizeScale,
+			profile.billboard
+		);
 	}
-	const stats = buildStats(branches, leaves, skeleton.branches.length);
+	const stats = buildStats(
+		branches,
+		leaves,
+		skeleton.branches.length,
+		renderedBranches
+	);
 	enforceTreeSkeletonBudget(stats, budget);
 	return { branches, leaves, stats, detail: profile, skeletonHash: skeleton.contentHash };
 }

@@ -1,6 +1,6 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * The Awtsmoos sketches each stable branch before mesh density enters the
@@ -52,10 +52,10 @@ function nextDirection(context, position, direction, level, radius) {
 export function growTreeSkeletonBranch(context, request, branchIndex) {
 	const id = `branch_${String(branchIndex).padStart(6, "0")}`;
 	const sections = Math.max(2, Math.floor(
-		treeSkeletonValue(context.config, "sections", request.level, 8)
+		request.sections ?? treeSkeletonValue(context.config, "sections", request.level, 8)
 	));
 	const radialSegments = Math.max(3, Math.floor(
-		treeSkeletonValue(context.config, "segments", request.level, 8)
+		request.radialSegments ?? treeSkeletonValue(context.config, "segments", request.level, 8)
 	));
 	const taper = clampTreeSkeletonValue(
 		treeSkeletonValue(context.config, "taper", request.level, 0.75),
@@ -89,11 +89,16 @@ export function growTreeSkeletonBranch(context, request, branchIndex) {
 			position = Vec3.add(position, Vec3.scale(direction, request.length / sections));
 		}
 	}
+	const textureScale = Math.max(0.01, Number(context.config.bark?.textureScale?.x || 1));
 	return Object.freeze({
 		id,
 		parentId: request.parentId || null,
 		parentNodeId: request.parentNodeId || null,
 		level: request.level,
+		role: String(request.role || "structural"),
+		barkWraps: Math.max(1, Math.round(
+			Math.PI * 2 * Math.max(0.001, request.radius) * textureScale
+		)),
 		radialSegments,
 		nodes: Object.freeze(nodes)
 	});
