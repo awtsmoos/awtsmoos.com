@@ -1,6 +1,6 @@
 //B"H
 //Boruch Hashem
-//Blessed be He
+//Blessed is He
 
 import { createDalvikExecutor } from "../dalvik/executor.js";
 import { createDalvikMethodRegistry } from "../dalvik/methodRegistry.js";
@@ -14,31 +14,22 @@ import { createAndroidProviderDriver } from "./providerDriver.js";
 import { createAndroidRenderer } from "./renderer.js";
 import { createAndroidExecutorEnvironment } from "./runtimeExecutorEnvironment.js";
 import { createAndroidLaunchReport } from "./runtimeLaunchReport.js";
-import { notifyAndroidLaunchProgress } from "./runtimeLaunchProgress.js";
 import { notifyAndroidRuntimeObserver } from "./runtimeObserver.js";
 import { createAndroidRuntimeState, synchronizeAndroidFilesystem } from "./runtimeState.js";
 import { dispatchSurfaceHolderLifecycle } from "./surfaceHolderLifecycle.js";
 
 /**
  * Launches one package through providers, Activity, surfaces, renderer, and files.
- * Every major awaited boundary emits synchronous truthful progress when requested.
- * Missing Android layers remain explicit rather than borrowed from a host runtime.
- *
- * @param {object} packageSet Inspected Android package set.
- * @param {object} options Runtime, diagnostics, and resource options.
- * @returns {Promise<object>} Authentic Android launch report.
+ * The Awtsmoos renews every ordered Android garment from nothing into light;
+ * Awtsmoos.com lets guest callbacks attach surfaces before pixels take flight.
+ * This remains deliberately bounded emulation, not Complete ART; missing layers
+ * stay explicit rather than being borrowed from a host Android implementation.
  */
 export async function launchAndroidPackageSet(packageSet, options = {}) {
-	notifyAndroidLaunchProgress(options, "load-package-models", {
-		packageName: packageSet.packageName
-	});
 	const [dex, resources] = await Promise.all([
 		loadPackageDexModels(packageSet, options),
 		loadAndroidPackageResources(packageSet, options)
 	]);
-	notifyAndroidLaunchProgress(options, "package-models-ready", {
-		dexSources: dex.sources.length
-	});
 	const registry = createDalvikMethodRegistry(dex.models);
 	const heap = options.heap || createDalvikObjectHeap(options);
 	const staticFields = options.staticFields || new Map();
@@ -53,35 +44,16 @@ export async function launchAndroidPackageSet(packageSet, options = {}) {
 	});
 	const framework = createAndroidFrameworkHost(runtime);
 	environment.framework = framework;
-	notifyAndroidLaunchProgress(options, "start-providers");
-	const providers = createAndroidProviderDriver({
-		executor,
-		framework,
-		registry,
-		runtime
-	});
+	const providers = createAndroidProviderDriver({ executor, framework, registry, runtime });
 	await providers.start();
-	notifyAndroidLaunchProgress(options, "providers-ready");
-	const lifecycle = createAndroidLifecycleDriver({
-		executor,
-		progress(stage, details) {
-			notifyAndroidLaunchProgress(options, `activity:${stage}`, details);
-		},
-		registry,
-		runtime
-	});
-	notifyAndroidLaunchProgress(options, "create-activity");
+	const lifecycle = createAndroidLifecycleDriver({ executor, registry, runtime });
 	const activity = await lifecycle.create();
-	notifyAndroidLaunchProgress(options, "activity-ready");
-	notifyAndroidLaunchProgress(options, "dispatch-surface");
 	const surfaceLifecycle = await dispatchSurfaceHolderLifecycle({
 		executor,
 		options,
 		registry,
 		runtime
 	});
-	notifyAndroidLaunchProgress(options, "surface-ready");
-	notifyAndroidLaunchProgress(options, "render");
 	const rendering = await createAndroidRenderer({
 		executor,
 		framework,
@@ -89,10 +61,7 @@ export async function launchAndroidPackageSet(packageSet, options = {}) {
 		registry,
 		runtime
 	}).render();
-	notifyAndroidLaunchProgress(options, "render-ready");
-	notifyAndroidLaunchProgress(options, "sync-filesystem");
 	const filesystemSynchronized = await synchronizeAndroidFilesystem(runtime, options);
-	notifyAndroidLaunchProgress(options, "complete");
 	return createAndroidLaunchReport({
 		activity,
 		dexSources: dex.sources,
@@ -107,13 +76,7 @@ export async function launchAndroidPackageSet(packageSet, options = {}) {
 	});
 }
 
-/**
- * Preserves the historic single-APK doorway through the ordered package graph.
- * @param {object} archive Single APK archive.
- * @param {object} identity Parsed package identity.
- * @param {object} options Runtime launch options.
- * @returns {Promise<object>} Authentic Android launch report.
- */
+/** Preserves the historic single-APK doorway through the same ordered package graph. */
 export function launchAndroidPackage(archive, identity, options = {}) {
 	return launchAndroidPackageSet(createSingleApkPackageSet(archive, identity), options);
 }

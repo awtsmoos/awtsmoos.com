@@ -11,7 +11,7 @@
  */
 
 const APP_SOURCE = '/heichelos/heichel/app.js?v=ikar-authority-006&compact=true';
-const IKAR_SOURCE = '/heichelos/heichel/ikar-first.js?v=ikar-first-001&compact=true';
+const IKAR_SOURCE = '/heichelos/heichel/ikar-first.js?v=ikar-first-002&compact=true';
 const POST_READY_SOURCE = './modules/app/post-ready-experience.js?v=critical-path-001';
 const IDLE_TIMEOUT_MS = 900;
 const HYDRATION_DELAY_MS = 500;

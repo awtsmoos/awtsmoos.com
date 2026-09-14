@@ -4,15 +4,15 @@
 
 /**
  * @file MitzvahWorldModeAftercare.js
- * @description Loads status, optional presentation, and Sandbox creation only after the selected world is already playable.
- * The Awtsmoos clothes a living world after life is revealed; Awtsmoos.com keeps badges, cinema, and creation behind movement,
- * so even the deepest authoring surface can never become the price of the traveler's first step.
+ * @description Loads status and presentation only after the selected world has already produced runtime diagnostics and movement.
+ * The Awtsmoos clothes a living world after life is revealed; Awtsmoos.com keeps badge, cinema, and policy behind the playable gate,
+ * so optional beauty may enrich the traveler without becoming the condition for the traveler's first step.
  */
 
 const SINGLE_PLAYER_BADGE_URL = '../network/MultiplayerStatusBadge.js?compact=true';
 const SINGLE_PLAYER_POST_PLAY_URL = './MitzvahWorldPostPlayPolicy.js?compact=true&v=20260908-current-hot-path-03';
 const MULTIPLAYER_POST_PLAY_URL = './MitzvahWorldPostPlayLoader.js?compact=true&v=20260908-current-hot-path-03';
-const SANDBOX_AFTERCARE_URL = './MitzvahWorldSandboxAftercare.js?compact=true&v=20260910-sandbox-world-01';
+const SANDBOX_AFTERCARE_URL = './MitzvahWorldSandboxAftercare.js?compact=true&v=20260910-sandbox-world-02';
 
 /** Starts the selected mode's non-blocking presentation and status work. */
 export function startMitzvahWorldModeAftercare(
@@ -37,7 +37,7 @@ export function startMitzvahWorldModeAftercare(
 		});
 }
 
-/** Installs local badge/presentation policy and, only for Sandbox, the live creator surface. */
+/** Installs the local badge and profile-aware post-play presentation after movement exists. */
 async function startSinglePlayerAftercare(diagnostics, environment, runtimeOptions) {
 	const [badgeModule, policyModule] = await Promise.all([
 		import(SINGLE_PLAYER_BADGE_URL),
@@ -59,7 +59,7 @@ async function startSinglePlayerAftercare(diagnostics, environment, runtimeOptio
 	});
 }
 
-/** Loads the Sandbox-only creator graph after first play so ordinary worlds never pay for it. */
+/** Loads the Sandbox creator graph only after first play is already available. */
 async function startSandboxAftercare(diagnostics, environment) {
 	const moduleMalchus = await import(SANDBOX_AFTERCARE_URL);
 	return moduleMalchus.installMitzvahWorldSandboxAftercare(
@@ -70,7 +70,7 @@ async function startSandboxAftercare(diagnostics, environment) {
 
 /** Starts multiplayer's richer presentation only after the shared runtime has resolved. */
 async function startMultiplayerAftercare(diagnostics, environment) {
-	const moduleMalchus = await import(MULTIPLAYER_POST_PLAY_URL);
-	moduleMalchus.launchMitzvahWorldPostPlayExperience(diagnostics, environment);
+	const module = await import(MULTIPLAYER_POST_PLAY_URL);
+	module.launchMitzvahWorldPostPlayExperience(diagnostics, environment);
 	return Object.freeze({ mode: 'multiplayer', status: 'ready' });
 }

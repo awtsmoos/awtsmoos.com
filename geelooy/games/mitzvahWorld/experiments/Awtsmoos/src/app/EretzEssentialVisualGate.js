@@ -1,30 +1,50 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file EretzEssentialVisualGate.js
- * @description Makes rich WebGL and authored terrain prerequisites of gameplay presentation instead of post-play decoration.
- * The Awtsmoos clothes earth and renderer before control enters sight; Awtsmoos.com lets the loader carry waiting,
- * so no flat green meadow impersonates the finished world while genuine texture and shader light are still creating.
+ * @description Keeps WebGL essential everywhere while allowing only the Blank Meadow reliability baseline to defer remote terrain textures until after first control.
+ * The Awtsmoos gives earth its form before every distant garment is sewn; Awtsmoos.com lets the measured meadow open with true renderer and true player,
+ * while richer worlds still wait for authored texture truth and no baseline pretends deferred beauty has already arrived beneath the sun.
  */
 
-/** Hydrates and validates the rich renderer plus at least one authored terrain texture. */
+const RELIABILITY_WORLD_ID = 'blank-meadow';
+
+/** Hydrates the renderer and enforces authored terrain textures only for worlds whose policy requires them before control. */
 export async function prepareEretzEssentialVisuals(options = {}) {
-	const { boot, renderer, signal, terrain } = options;
+	const { boot, renderer, signal, terrain, worldExperience } = options;
 	throwIfAborted(signal);
 	boot?.begin?.('essential-visuals');
 	boot?.progress?.('essential-visuals', 0, 2, 'Preparing authored sky and WebGL detail…', 'loading');
 	const delegate = await hydrateRenderer(renderer);
 	throwIfAborted(signal);
+	if (isReliabilityBaseline(worldExperience)) {
+		boot?.progress?.(
+			'essential-visuals',
+			2,
+			2,
+			'WebGL and bootstrap terrain ready; authored textures deferred.',
+			'ready'
+		);
+		return visualReceipt(delegate, renderer, 0, 'deferred-by-world-profile');
+	}
 	boot?.progress?.('essential-visuals', 1, 2, 'Binding authored meadow textures…', 'loading');
 	const terrainReceipt = await hydrateTerrain(terrain);
 	throwIfAborted(signal);
 	boot?.progress?.('essential-visuals', 2, 2, 'Authored world ready.', 'ready');
+	return visualReceipt(delegate, renderer, terrainReceipt.loaded, terrainReceipt.phase);
+}
+
+function isReliabilityBaseline(worldExperience) {
+	return worldExperience?.id === RELIABILITY_WORLD_ID;
+}
+
+function visualReceipt(delegate, renderer, terrainLoaded, terrainPhase) {
 	return Object.freeze({
 		renderer: delegate?.backend || renderer?.backend || 'webgl',
-		terrainLoaded: terrainReceipt.loaded,
-		terrainPhase: terrainReceipt.phase
+		terrainLoaded,
+		terrainPhase
 	});
 }
 

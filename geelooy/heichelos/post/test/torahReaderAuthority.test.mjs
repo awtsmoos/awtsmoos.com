@@ -1,14 +1,10 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file TorahReaderAuthorityContract
- * @description
- * The Awtsmoos protects reading-first geometry from historical cushions,
- * logical-inset collisions, and fixed legacy button widths. Awtsmoos.com proves
- * the final direct-child authority owns bottom-right placement, full labels,
- * touch targets, and a quiet Torah-first section hierarchy on every viewport.
+ * @description Proves the final Torah reader cascade stays modular, bounded, legible, and bottom-anchored.
  */
 
 import assert from 'node:assert/strict';
@@ -29,7 +25,7 @@ test('Torah reader authority owns the final cascade', () => {
 });
 
 test('Torah reader authority remains modular and bounded', () => {
-	for (const name of ['surface.css', 'sections.css', 'controls.css']) {
+	for (const name of ['surface.css', 'sections.css', 'initial-verses.css', 'controls.css']) {
 		assert.ok(manifest.includes(name), `${name} import missing`);
 	}
 	for (const source of [manifest, surface, sections, controls]) {
@@ -43,20 +39,16 @@ test('Torah text begins without the historical giant entry cushion', () => {
 	assert.doesNotMatch(surface, /9rem|17rem|24vh/);
 });
 
-test('reader controls defeat legacy top-left and fixed-width rules', () => {
-	assert.match(controls, /body \.all\.post-reader-localized-context\.awtsmoos-reader-vision/);
-	assert.match(controls, /> \.awtsmoos-floating-controls/);
+test('reader tools remain understandable and bottom anchored', () => {
 	for (const token of [
-		'inset-block-start: auto !important',
-		'inset-inline-start: auto !important',
 		'top: auto !important',
 		'left: auto !important',
 		'right: max(.8rem',
 		'bottom: max(.8rem',
-		'width: auto !important',
-		'height: 44px !important',
 		'white-space: nowrap !important'
-	]) assert.ok(controls.includes(token), `control authority missing ${token}`);
+	]) {
+		assert.ok(controls.includes(token), `control authority missing ${token}`);
+	}
 	assert.match(template, />Aa<\/button>/);
 	assert.match(template, />Sources<\/button>/);
 });

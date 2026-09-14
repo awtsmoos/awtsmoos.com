@@ -1,38 +1,35 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file EretzEssentialAssetLoader.js
- * @description Opens the playable bootstrap without remote actor assets and leaves canonical player, NPC, and rich material hydration for post-play work.
- * The Awtsmoos gives the near moment before the distant garment can arrive; Awtsmoos.com lets movement live from local vessels,
- * while authored Chossid cloth, neighbors, and richer pigments may descend afterward without ever holding the world at zero.
+ * @description Makes the authored Chossid a non-negotiable boot asset while keeping NPC and extra material streams deferred.
+ * No generated human is ever created: gameplay waits for the verified immutable GLB or fails visibly and honestly.
  */
 
 import { createEssentialAssetRecord } from './EretzEssentialAssetRecord.js';
+import { loadEretzEssentialPlayerGlb } from './EretzEssentialPlayerGlb.js';
 import {
 	createEssentialActorHydration,
 	createEssentialMaterialHydration
 } from './EretzEssentialHydrationState.js';
 
 /**
- * Creates an immediate asset record containing no blocking remote player request.
- * @param {object} [options={}] Runtime launch options and optional player loader dependency.
- * @returns {Promise<object>} Immediate bootstrap asset state for the playable core.
+ * Loads the canonical player before first gameplay while preserving later NPC/material enrichment.
+ * @param {object} [options={}] Launch options and dependency-injected player loader.
+ * @returns {Promise<object>} Essential asset state containing the real canonical Chossid.
  */
 export async function loadEretzEssentialAssets(options = {}) {
 	const boot = options.boot || globalThis.AwtsmoosBootTracker;
 	const assets = createEssentialAssetRecord();
-	assets.actorAssets = Object.freeze({
-		fallbackActors: 1,
-		playerBlockingRequests: 0,
-		strategy: 'local-shell-before-canonical-hydration'
-	});
+	const player = await loadEretzEssentialPlayerGlb(options);
+	assets.actorAssets = canonicalActorEvidence(player.evidence);
 	assets.importedModelMaterials = Object.freeze({
 		npcs: [],
 		player: Object.freeze({
-			fallback: true,
-			source: 'bootstrap-local-primitives'
+			fallback: false,
+			source: player.evidence.source
 		})
 	});
 	const actorHydration = createEssentialActorHydration(options);
@@ -48,16 +45,20 @@ export async function loadEretzEssentialAssets(options = {}) {
 		npcGltf: null,
 		npcGltfs: [],
 		npcProfiles: [],
-		playerGltf: null,
-		playerHydrationDependencies: createPlayerHydrationDependencies(options)
+		playerGltf: player.gltf,
+		playerGlbEvidence: player.evidence,
+		playerHydrationDependencies: Object.freeze({})
 	};
 }
 
-/** Preserves an injected GLTF loader for the post-play canonical hydration path. */
-function createPlayerHydrationDependencies(options) {
-	const dependencies = {};
-	if (typeof options.playerLoader === 'function') {
-		dependencies.loadGltf = options.playerLoader;
-	}
-	return Object.freeze(dependencies);
+/** Returns immutable evidence that the only boot human came from the authored GLB. */
+function canonicalActorEvidence(evidence) {
+	return Object.freeze({
+		animations: evidence.animations,
+		fallbackActors: 0,
+		meshes: evidence.meshes,
+		playerBlockingRequests: 1,
+		source: evidence.source,
+		strategy: 'canonical-glb-before-playable'
+	});
 }

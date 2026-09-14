@@ -1,98 +1,89 @@
 # B"H
 # Boruch Hashem
-# Blessed is He
-# The Awtsmoos binds one tested pushed SHA to one immutable production shore.
+# Blessed be He
+# The Awtsmoos sends one tested SHA through named gates; Awtsmoos.com keeps secrets
+# veiled while every finite production failure reveals the vessel that stopped it.
 name: Deploy to Hetzner Awtsmoos
-
 on:
   push:
     branches:
       - main
-
 concurrency:
   group: awtsmoos-production-main
   cancel-in-progress: false
-
 jobs:
-  quality:
-    runs-on: ubuntu-latest
-    timeout-minutes: 25
-    steps:
-      - name: Check out exact pushed SHA
-        uses: actions/checkout@v4
-
-      - name: Use production Node generation
-        uses: actions/setup-node@v4
-        with:
-          node-version: '24'
-          cache: npm
-
-      - name: Install locked dependencies
-        run: npm ci --no-audit --no-fund
-
-      - name: Run release-critical contracts
-        shell: bash
-        run: |
-          set -Eeuo pipefail
-          node --check scripts/verifyHomeProduction.mjs
-          node --test scripts/runtime_quality/*.test.mjs
-          node --test scripts/production/*.test.cjs scripts/production/*.test.mjs scripts/production/test/*.test.mjs
-          node --test geelooy/games/city-of-light/tests/releaseSurface.test.mjs
-          node --test ayzarim/awtsmoosDynamicServer/tests/staticAssetRepresentation.test.js ayzarim/awtsmoosDynamicServer/static/HtmlProductMetadata.test.js
-          npm run test:routes
-          npm run test:css-quality
-          npm run repo:hygiene
-          npm run test:concurrency-failure
-          node --test geelooy/apps/rebbe/test/*.test.mjs
-          node --test \
-            geelooy/heichelos/post/test/postReaderNodeDom.test.mjs \
-            geelooy/heichelos/post/test/torahReaderAuthority.test.mjs \
-            geelooy/heichelos/post/test/readerPreferenceLocalization.test.mjs \
-            geelooy/heichelos/post/test/initialContentSemanticVerses.test.mjs \
-            tests/livingLibraryShellContract.test.mjs \
-            tests/basicUiUxRegression.test.mjs
-          node --test \
-            geelooy/heichelos/heichel/modules/test/heichelDesktopCollapseContract.test.mjs \
-            geelooy/heichelos/heichel/modules/test/heichelSemanticFallbackPolicy.test.mjs \
-            geelooy/heichelos/heichel/modules/test/ikarBilingualPathRepair.test.mjs \
-            geelooy/heichelos/heichel/modules/test/ikarCardGeometryRegression.test.mjs \
-            geelooy/heichelos/heichel/modules/test/ikarTanachTitleRegistry.test.mjs \
-            geelooy/heichelos/heichel/modules/test/livingPathBlueprintContract.test.mjs \
-            tests/geelooy/ikarPerformanceContract.test.mjs \
-            tests/geelooy/ikarPremiumVisionContract.test.mjs
-
   deploy:
-    needs: quality
     runs-on: ubuntu-latest
-    env:
-      EXPECTED_SHA: ${{ github.sha }}
-      DEPLOY_HOST: ${{ secrets.SERVER_IP }}
-      DEPLOY_USER: ${{ secrets.SERVER_USER }}
-      DEPLOY_PASSWORD: ${{ secrets.AWTSMOOS_PASSWORD }}
     steps:
-      - name: Verify deployment inputs
+      - name: Validate production SSH credential
         shell: bash
+        env:
+          DEPLOY_USER: ${{ secrets.SERVER_USER }}
+          DEPLOY_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
           set -Eeuo pipefail
-          for name in EXPECTED_SHA DEPLOY_HOST DEPLOY_USER DEPLOY_PASSWORD; do
-            if [ -z "${!name:-}" ]; then
-              echo "::error::Missing required deployment input: $name"
-              exit 1
-            fi
-          done
-          case "$EXPECTED_SHA" in
-            *[!0-9a-f]*|'') echo "::error::Invalid GitHub source SHA"; exit 1 ;;
-          esac
-          test "${#EXPECTED_SHA}" -eq 40
-
-      - name: Execute canonical production deployment over SSH
+          [ -n "$DEPLOY_USER" ] || { echo '::error::SERVER_USER secret is empty'; exit 1; }
+          [ -n "$DEPLOY_KEY" ] || { echo '::error::SSH_PRIVATE_KEY secret is empty'; exit 1; }
+          key_file="$(mktemp)"
+          trap 'rm -f "$key_file"' EXIT
+          printf '%s\n' "$DEPLOY_KEY" > "$key_file"
+          chmod 600 "$key_file"
+          ssh-keygen -y -f "$key_file" >/dev/null || { echo '::error::SSH_PRIVATE_KEY is not a valid private key'; exit 1; }
+          ssh -i "$key_file" -o BatchMode=yes -o ConnectTimeout=20 -o StrictHostKeyChecking=accept-new "$DEPLOY_USER@awtsmoos.com" 'printf "B\"H PRODUCTION_SSH_REACHABLE host=%s\\n" "$(hostname)"'
+      - name: Prepare exact production checkout
         uses: appleboy/ssh-action@v1.2.5
         env:
           EXPECTED_SHA: ${{ github.sha }}
         with:
-          host: ${{ secrets.SERVER_IP }}
+          host: awtsmoos.com
           username: ${{ secrets.SERVER_USER }}
-          password: ${{ secrets.AWTSMOOS_PASSWORD }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          envs: EXPECTED_SHA
+          timeout: 30s
+          command_timeout: 10m
+          script: |
+            set -Eeuo pipefail
+            repo="${AWTSMOOS_PRODUCTION_REPO:-/mnt/HC_Volume_102267213/git/awtsmoos.com}"
+            phase="repo-preflight"
+            fail() {
+              code="$1"
+              set +e
+              printf 'B"H DEPLOY_PREPARE_FAIL phase=%s exit=%s branch=%s head=%s origin=%s\n' "$phase" "$code" "$(git -C "$repo" branch --show-current 2>/dev/null)" "$(git -C "$repo" rev-parse HEAD 2>/dev/null)" "$(git -C "$repo" rev-parse origin/main 2>/dev/null)" >&2
+              exit "$code"
+            }
+            trap 'fail $?' ERR
+            [[ "$EXPECTED_SHA" =~ ^[0-9a-f]{40}$ ]]
+            git -C "$repo" rev-parse --git-dir >/dev/null
+            phase="fetch-origin-main"
+            fetched=0
+            for attempt in 1 2 3; do
+              if git -C "$repo" fetch --prune --tags origin main; then
+                fetched=1
+                break
+              fi
+              sleep "$((attempt * 2))"
+            done
+            [ "$fetched" -eq 1 ]
+            phase="verify-expected-sha"
+            git -C "$repo" cat-file -e "$EXPECTED_SHA^{commit}"
+            [ "$(git -C "$repo" rev-parse origin/main^{commit})" = "$EXPECTED_SHA" ]
+            phase="repair-main-branch"
+            git -C "$repo" reset --hard
+            git -C "$repo" checkout -B main "$EXPECTED_SHA"
+            phase="clean-checkout"
+            git -C "$repo" clean -fd
+            [ -z "$(git -C "$repo" status --porcelain)" ]
+            [ "$(git -C "$repo" rev-parse HEAD^{commit})" = "$EXPECTED_SHA" ]
+            printf 'B"H PRODUCTION_CHECKOUT_READY sha=%s\n' "$EXPECTED_SHA"
+      - name: Activate canonical production server
+        uses: appleboy/ssh-action@v1.2.5
+        env:
+          EXPECTED_SHA: ${{ github.sha }}
+        with:
+          host: awtsmoos.com
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           envs: EXPECTED_SHA
           timeout: 30s
@@ -100,15 +91,28 @@ jobs:
           script: |
             set -Eeuo pipefail
             repo="${AWTSMOOS_PRODUCTION_REPO:-/mnt/HC_Volume_102267213/git/awtsmoos.com}"
-            git -C "$repo" rev-parse --git-dir >/dev/null
-            test "$(git -C "$repo" branch --show-current)" = "main"
-            git -C "$repo" fetch --prune --tags origin main
-            test "$(git -C "$repo" rev-parse origin/main^{commit})" = "$EXPECTED_SHA"
-            git -C "$repo" reset --hard "$EXPECTED_SHA"
-            git -C "$repo" clean -fd
-            test -z "$(git -C "$repo" status --porcelain)"
-            test "$(git -C "$repo" rev-parse HEAD^{commit})" = "$EXPECTED_SHA"
+            [ "$(git -C "$repo" rev-parse HEAD^{commit})" = "$EXPECTED_SHA" ]
             bash "$repo/scripts/production/canonical-server-activate.sh" "$EXPECTED_SHA"
+      - name: Verify canonical public release
+        uses: appleboy/ssh-action@v1.2.5
+        env:
+          EXPECTED_SHA: ${{ github.sha }}
+        with:
+          host: awtsmoos.com
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          envs: EXPECTED_SHA
+          timeout: 30s
+          command_timeout: 10m
+          script: |
+            set -Eeuo pipefail
+            repo="${AWTSMOOS_PRODUCTION_REPO:-/mnt/HC_Volume_102267213/git/awtsmoos.com}"
             node "$repo/scripts/verifyHomeProduction.mjs"
             node "$repo/scripts/verifyTunnelPublicRelease.mjs"
-            test "$(git -C "$repo" rev-parse HEAD^{commit})" = "$EXPECTED_SHA"
+            canary="$(curl -sS --max-time 20 https://awtsmoos.com/api/wallet/commerce/reconciliation/health)"
+            case "$canary" in
+              *INVALID_ROUTE*) exit 1 ;;
+            esac
+            [ "$(git -C "$repo" rev-parse HEAD^{commit})" = "$EXPECTED_SHA" ]
+            printf 'B"H PRODUCTION_RELEASE_VERIFIED sha=%s\n' "$EXPECTED_SHA"

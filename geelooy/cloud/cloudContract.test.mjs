@@ -56,3 +56,11 @@ test("Cloud mutation transport submits identity and retry key, never browser pri
 	assert.match(actions, /await purchaseOffer\(button, offer, options\)/);
 	assert.match(actions, /button\.dataset\.cloudAction === "fund"/);
 });
+
+test("Cloud keeps a native exact-GPT fallback and committed Shliach dependency", async () => {
+	const html = await source("index.html");
+	const shliach = await readFile(new URL("../shared/shliach/ShliachUrl.js", ROOT), "utf8");
+	assert.match(html, /action="https:\/\/chatgpt\.com\/g\/g-6a03feea8398819192067ae3dbfa449c-awtsmoos-shliach-agent"/);
+	assert.match(html, /name="prompt"/);
+	assert.match(shliach, /window\.location\.assign\(target\.url\)/);
+});

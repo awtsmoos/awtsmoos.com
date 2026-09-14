@@ -19,8 +19,7 @@ import { callNativeGuestFunction } from "./nativeGuestFunctionCall.js";
  */
 export function deliverNativeAndroidPlatformLooperCallback(event, options, thread) {
 	const machineState = options.machineState;
-	const invoke = machineState.runPlatformGuestFunction || callNativeGuestFunction;
-	const result = invoke({
+	const result = callNativeGuestFunction({
 		arguments: [BigInt(event.fd), BigInt(event.events), event.data],
 		functionAddress: event.callback,
 		hostCallLimit: options.hostCallLimit ?? 65536,
@@ -31,14 +30,6 @@ export function deliverNativeAndroidPlatformLooperCallback(event, options, threa
 		stackPointer: nativeAndroidPlatformStackPointer(machineState),
 		systemRegisters: machineState.systemRegisters
 	});
-	if (result && typeof result.then === "function") {
-		return result.then(value => completeDelivery(value, event, options, thread));
-	}
-	return completeDelivery(result, event, options, thread);
-}
-
-/** Applies the Android callback keep/remove contract after authentic execution. */
-function completeDelivery(result, event, options, thread) {
 	const keep = result.signedInt32 !== 0;
 	if (!keep && typeof options.state.removeFd === "function") {
 		options.state.removeFd(event.handle, event.fd);

@@ -53,14 +53,18 @@ class CanonicalActivationFixture {
 	 * @param {string[]} [environment] Simulated systemd service environment.
 	 * @returns {object} Synchronous child-process result.
 	 */
-	run(sha, environment = this.virtualSshEnvironment()) {
+	run(sha, environment) {
+		const serviceEnvironment = environment || [
+			...this.virtualSshEnvironment(),
+			`AWTSMOOS_RELEASE_SHA=${sha}`
+		];
 		return spawnSync("bash", [this.script, sha], {
 			encoding: "utf8",
 			env: {
 				...process.env,
 				PATH: `${this.bin}:${process.env.PATH}`,
 				TEST_REPO: this.repo,
-				TEST_SERVICE_ENVIRONMENT: environment.join(" "),
+				TEST_SERVICE_ENVIRONMENT: serviceEnvironment.join(" "),
 				AWTSMOOS_PRODUCTION_REPO: this.repo,
 				AWTSMOOS_SYSTEMD_OVERRIDE_PATH: this.override,
 				AWTSMOOS_SYSTEMD_DIRECTORY: this.systemd,

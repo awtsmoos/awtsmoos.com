@@ -1,0 +1,114 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * @file Ikar focused-workspace authority.
+ * @description
+ * The Awtsmoos lets specialized Torah tools own their page without generic
+ * platform controls competing for attention. Awtsmoos.com gives Language Tools
+ * a dedicated workspace vessel while neutralizing legacy text-only clamping.
+ */
+body.heichel-os-document[data-heichel-id="ikar"] .awtsmoos-platform-panel {
+	display: none !important;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"] .heichel-nav-panel:has(
+	.translation-hub-search
+) :is(
+	.living-path-search-stack,
+	.living-path-result-status,
+	.tab-gates,
+	.grid-realms
+) {
+	display: none !important;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"] .heichel-nav-panel:has(
+	.translation-hub-search
+) .series-heading {
+	grid-template-columns: minmax(0, 1fr) !important;
+	align-items: start !important;
+	padding: .8rem !important;
+	overflow: visible !important;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"] .series-heading:has(
+	.translation-hub-form
+) > :is(.series-label, h2),
+body.heichel-os-document[data-heichel-id="ikar"] .series-heading:has(
+	.translation-hub-form
+)::before {
+	display: none !important;
+	content: none !important;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"] .series-heading:has(
+	.translation-hub-form
+) > p:not(.series-label) {
+	display: block !important;
+	inline-size: 100% !important;
+	max-inline-size: none !important;
+	block-size: auto !important;
+	min-block-size: 0 !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	overflow: visible !important;
+	white-space: normal !important;
+	-webkit-line-clamp: unset !important;
+	-webkit-box-orient: initial !important;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"] .translation-hub-intro {
+	inline-size: min(100%, 76ch);
+	margin: 0 auto .85rem;
+	text-align: start;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"] .translation-hub-kicker {
+	margin: 0 0 .2rem !important;
+	padding: 0 !important;
+	color: #74e6ff !important;
+	font-size: .7rem !important;
+	font-weight: 850;
+	letter-spacing: .12em;
+	text-transform: uppercase;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"] .translation-hub-title {
+	margin: 0 !important;
+	padding: 0 !important;
+	font-size: clamp(1.45rem, 3vw, 2rem) !important;
+	line-height: 1.05 !important;
+	text-wrap: balance;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"] .translation-hub-intro-copy {
+	margin: .4rem 0 0 !important;
+	padding: 0 !important;
+	color: rgba(231, 241, 255, .72) !important;
+	line-height: 1.45 !important;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"] .translation-hub-search,
+body.heichel-os-document[data-heichel-id="ikar"] .translation-hub-browse {
+	inline-size: 100%;
+	max-inline-size: none;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"] .translation-hub-source {
+	background: rgba(16, 31, 48, .96) !important;
+	color: #eef7ff !important;
+}
+
+body.heichel-os-document[data-heichel-id="ikar"] .translation-hub-source option {
+	background: #102033;
+	color: #eef7ff;
+}
+
+@media (max-width: 48rem) {
+	body.heichel-os-document[data-heichel-id="ikar"] .heichel-nav-panel:has(
+		.translation-hub-search
+	) .series-heading {
+		padding: .7rem !important;
+	}
+}

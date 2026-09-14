@@ -43,16 +43,17 @@ function installNavigation(root) {
 	navigation.setAttribute('aria-label', 'Torah navigation');
 	navigation.append(
 		createLink('/', 'Home'),
-		createLink(IKAR_ROOT, 'Ikar')
+		createLink(IKAR_ROOT, 'Torah Library', location.pathname === IKAR_ROOT)
 	);
 	root.prepend(navigation);
 }
 
-/** Builds one ordinary same-origin anchor so navigation survives JavaScript loss. */
-function createLink(href, label) {
+/** Builds one same-origin anchor and marks the exact active Torah surface. */
+function createLink(href, label, isCurrent = false) {
 	const link = document.createElement('a');
 	link.href = href;
 	link.textContent = label;
+	if (isCurrent) link.setAttribute('aria-current', 'page');
 	return link;
 }
 
@@ -74,7 +75,7 @@ function enhanceDiscovery(root, discovery) {
 function updateReadyStatus(root, count) {
 	const status = root.querySelector('[role="status"]');
 	if (!status) return;
-	status.textContent = `${count} Torah ${count === 1 ? 'section' : 'sections'} ready.`;
+	status.textContent = `${count} Torah ${count === 1 ? 'pathway' : 'pathways'} ready.`;
 }
 
 /** Installs instant nekudos-insensitive filtering over already-rendered links. */

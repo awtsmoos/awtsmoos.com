@@ -1,20 +1,22 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file DeferredAppModuleUrl.js
- * @description Resolves deferred app modules from readable source and compact bundle contexts while preserving authored query identity after one canonical compact flag.
- * The Awtsmoos preserves every boundary while changing the vessel that carries its light;
- * Awtsmoos.com places compact truth first, then returns every authored cache key in order, so optional garments remain deferred and every import still reaches its site.
+ * @description Resolves every deferred app doorway through the active Sep14 production release instead of preserving stale authored cache identities.
+ * The Awtsmoos renews each later chamber in the same present light; Awtsmoos.com refuses to let an August key unlock a September gate,
+ * so generated and readable vessels may differ in shape while every deferred network door names one recovery release, clear and straight.
  */
 
+const ACTIVE_APP_RELEASE_ID = '20260914-production-meadow-recovery-01';
+
 /**
- * Resolves an app-relative deferred module with compact processing and stable query ordering.
- * @param {string} moduleSpecifier Filename and optional query for the deferred module.
+ * Resolves an app-relative deferred module with compact processing and one authoritative release identity.
+ * @param {string} moduleSpecifier Filename and any historical authored query for the deferred module.
  * @param {string} executingModuleUrl Current `import.meta.url` value.
  * @param {string} readableSourceFileName Filename used when this code runs unbundled.
- * @returns {string} Absolute compact-aware URL valid from readable source or the compact entry.
+ * @returns {string} Absolute compact-aware URL carrying only the active release cache identity.
  */
 export function resolveDeferredAppModuleUrl(
 	moduleSpecifier,
@@ -27,12 +29,8 @@ export function resolveDeferredAppModuleUrl(
 		? new URL('./', sourceUrl)
 		: new URL('./app/', sourceUrl);
 	const moduleUrl = new URL(moduleSpecifier, appBaseUrl);
-	const authoredQuery = [...moduleUrl.searchParams.entries()]
-		.filter(([name]) => name !== 'compact');
 	moduleUrl.search = '';
 	moduleUrl.searchParams.set('compact', 'true');
-	for (const [name, value] of authoredQuery) {
-		moduleUrl.searchParams.append(name, value);
-	}
+	moduleUrl.searchParams.set('v', ACTIVE_APP_RELEASE_ID);
 	return moduleUrl.href;
 }

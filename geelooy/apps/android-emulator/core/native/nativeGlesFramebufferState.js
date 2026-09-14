@@ -1,13 +1,9 @@
-//B"H
-//Boruch Hashem
-//Blessed be He
+//B"H //Boruch Hashem //Blessed is He 
 
 import { createNativeGlesFramebufferContextStore } from "./nativeGlesFramebufferContextStore.js";
-import { createNativeGlesFramebufferQueryMethods } from "./nativeGlesFramebufferQueryMethods.js";
 import {
 	attachNativeGlesFramebufferRenderbuffer,
 	attachNativeGlesFramebufferTexture,
-	attachNativeGlesFramebufferTextureLayer,
 	nativeGlesFramebufferStatus,
 	storeNativeGlesRenderbuffer
 } from "./nativeGlesFramebufferAttachmentOps.js";
@@ -38,14 +34,11 @@ export function getNativeGlesFramebufferState(runtimeState, eglContextState) {
 	const contexts = createNativeGlesFramebufferContextStore();
 	const framebuffers = new Map();
 	const renderbuffers = new Map();
-	const queries = createNativeGlesFramebufferQueryMethods(domain, contexts);
 	let nextFramebuffer = 1;
 	let nextRenderbuffer = 1;
 	const state = Object.freeze({
-		attachment: queries.attachment,
 		attachRenderbuffer: (...args) => attachNativeGlesFramebufferRenderbuffer(runtimeState, domain, contexts, renderbuffers, ...args),
 		attachTexture: (...args) => attachNativeGlesFramebufferTexture(runtimeState, domain, contexts, ...args),
-		attachTextureLayer: (...args) => attachNativeGlesFramebufferTextureLayer(runtimeState, domain, contexts, ...args),
 		bindFramebuffer: (...args) => bindNativeGlesFramebuffer(runtimeState, domain, contexts, framebuffers, ...args),
 		bindRenderbuffer: (...args) => bindNativeGlesRenderbuffer(runtimeState, domain, contexts, renderbuffers, ...args),
 		blit: (command, thread) => blitNativeGlesFramebuffer(runtimeState, domain, contexts, command, thread),
@@ -66,7 +59,6 @@ export function getNativeGlesFramebufferState(runtimeState, eglContextState) {
 		invalidate: (target, attachments, thread) => invalidateNativeGlesFramebuffer(runtimeState, domain, contexts, target, attachments, thread),
 		isFramebuffer: (handle, thread) => isNativeGlesFramebufferObject(domain, framebuffers, handle, thread),
 		isRenderbuffer: (handle, thread) => isNativeGlesFramebufferObject(domain, renderbuffers, handle, thread),
-		renderbuffer: queries.renderbuffer,
 		status: (...args) => nativeGlesFramebufferStatus(runtimeState, domain, contexts, ...args),
 		storage: (...args) => storeNativeGlesRenderbuffer(runtimeState, domain, contexts, ...args)
 	});

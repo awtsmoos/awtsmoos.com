@@ -1,12 +1,11 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file createEretzRuntime.js
- * @description Publishes movement through the staged runtime before renderer enrichment and every later optional stream.
- * The Awtsmoos creates the living first frame before its ornaments; Awtsmoos.com keeps the hot graph narrow so quality, foundation,
- * and core reach control without dragging tomorrow's texture, renderer, or presentation garments through today's doorway.
+ * @description Publishes gameplay only after staged canonical essentials complete, then starts nonessential enrichment without blocking control.
+ * Renderer policy has its own promise identity so it can never masquerade as the renderer's actual hydration promise.
  */
 
 import { resolveDeferredAppModuleUrl } from './DeferredAppModuleUrl.js';
@@ -18,10 +17,10 @@ import {
 
 const TRACKER_URL = deferred('BootPhaseTracker.js?v=20260722-boot-text-01');
 const STAGED_RUNTIME_URL = deferred('EretzStagedRuntime.js?v=20260908-current-hot-path-03');
-const RENDERER_POLICY_URL = deferred('EretzRendererWorldPolicy.js?v=20260908-current-hot-path-03');
+const RENDERER_POLICY_URL = deferred('EretzRendererWorldPolicy.js?v=20260910-canonical-visuals-01');
 const POST_PLAYABLE_URL = deferred('EretzPostPlayablePriority.js?v=20260908-current-hot-path-03');
 
-/** Creates first-play Eretz, publishes it, then starts every richer system without awaiting it. */
+/** Creates canonical first play, publishes it, then starts optional world aftercare. */
 export async function createEretzRuntime(hosts, options = {}) {
 	const environment = options.environment || globalThis;
 	markRuntimeStarting(environment.document);
@@ -34,7 +33,7 @@ export async function createEretzRuntime(hosts, options = {}) {
 		const core = await createStagedEretzRuntime(hosts, options, boot);
 		boot.complete();
 		publishRuntime(core.diagnostics, environment);
-		startRendererAfterPlay(core.diagnostics, environment, boot, options);
+		startRendererPolicyAfterPlay(core.diagnostics, environment, boot, options);
 		startPostPlayableStreams(core, options, boot, environment);
 		return core.diagnostics;
 	} catch (error) {
@@ -42,31 +41,30 @@ export async function createEretzRuntime(hosts, options = {}) {
 		exposeBootFailure(error, hosts, environment);
 		throw error;
 	} finally {
-		if (globalThis.AwtsmoosBootTracker === boot) {
-			globalThis.AwtsmoosBootTracker = null;
-		}
+		if (globalThis.AwtsmoosBootTracker === boot) globalThis.AwtsmoosBootTracker = null;
 	}
 }
-
-/** Loads rich-renderer policy only after playable state has been published. */
-function startRendererAfterPlay(diagnostics, environment, boot, options) {
-	diagnostics.rendererHydrationStage = 'loading-policy';
-	const promise = import(RENDERER_POLICY_URL)
+function startRendererPolicyAfterPlay(diagnostics, environment, boot, options) {
+	diagnostics.rendererPolicyStage = 'loading-policy';
+	const policyPromise = import(RENDERER_POLICY_URL)
 		.then(module => module.startEretzRendererByWorldPolicy(
 			diagnostics,
 			environment,
 			boot,
 			options
 		))
+		.then(result => {
+			diagnostics.rendererPolicyStage = 'ready';
+			return result;
+		})
 		.catch(error => {
-			diagnostics.rendererHydrationStage = 'degraded';
-			diagnostics.rendererHydrationError = error;
+			diagnostics.rendererPolicyStage = 'degraded';
+			diagnostics.rendererPolicyError = error;
 			return null;
 		});
-	diagnostics.rendererHydrationPromise = promise;
+	diagnostics.rendererPolicyPromise = policyPromise;
 }
 
-/** Starts diagnostics, landscape, character, and enrichment policy after first playable publication. */
 function startPostPlayableStreams(core, options, boot, environment) {
 	const diagnostics = core.diagnostics;
 	diagnostics.postPlayablePriorityStage = 'loading-module';
@@ -84,15 +82,12 @@ function degradedPostPlayablePriority(diagnostics, error) {
 	console.warn('[MitzvahWorld] Post-play priority coordinator degraded.', error);
 	return null;
 }
-
-/** Makes the already-live runtime discoverable before any optional aftercare import. */
 function publishRuntime(diagnostics, environment) {
 	environment.AwtsmoosBootError = null;
 	environment.AwtsmoosDiagnostics = diagnostics;
 	markRuntimePlayable(diagnostics, environment.document);
 }
 
-/** Publishes a bounded failure receipt without hiding the exact original error. */
 function exposeBootFailure(error, hosts, environment) {
 	const failure = {
 		at: new Date().toISOString(),
@@ -109,7 +104,6 @@ function exposeBootFailure(error, hosts, environment) {
 	console.error('B"H Mitzvah World initialization failed.', error);
 }
 
-/** Resolves one deferred authored module relative to this hot-path owner. */
 function deferred(specifier) {
 	return resolveDeferredAppModuleUrl(specifier, import.meta.url, 'createEretzRuntime.js');
 }

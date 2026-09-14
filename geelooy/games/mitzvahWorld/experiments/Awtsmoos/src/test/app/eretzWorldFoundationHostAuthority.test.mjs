@@ -1,6 +1,6 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file eretzWorldFoundationHostAuthority.test.mjs
@@ -22,8 +22,9 @@ test('foundation publishes grouped hosts beside existing flattened host properti
 	assert.match(FOUNDATION, /return\s*\{\s*hosts,\s*\.\.\.hosts,/s);
 });
 
-test('bootstrap player runtime carries the complete foundation into the runtime', () => {
-	assert.match(PLAYER_RUNTIME, /runtime\s*=\s*\{\s*\.\.\.foundation,/s);
+test('bootstrap player runtime carries the complete foundation through its runtime vessel', () => {
+	assert.match(PLAYER_RUNTIME, /createRuntimeVessel\(foundation/);
+	assert.match(PLAYER_RUNTIME, /\.\.\.foundation,/);
 });
 
 test('rich-world targeting consumes the grouped canonical canvas authority', () => {

@@ -7,7 +7,7 @@
 	position: fixed;
 	right: 16px;
 	bottom: calc(18px + env(safe-area-inset-bottom));
-	z-index: var(--rebbe-layer-floating);
+	z-index: var(--rebbe-layer-download);
 	display: grid;
 	gap: 12px;
 	width: min(430px, calc(100vw - 28px));

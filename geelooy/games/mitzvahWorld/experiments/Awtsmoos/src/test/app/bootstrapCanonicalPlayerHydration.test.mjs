@@ -4,38 +4,39 @@
 
 /**
  * @file bootstrapCanonicalPlayerHydration.test.mjs
- * @description Protects instant first play followed by atomic canonical Chossid hydration.
- * The lightweight traveler exists before network completion, while the authored GLB later replaces
- * that one trusted predecessor without leaving two visible bodies or restoring generated imagery.
+ * @description Proves first control owns the authored GLB and the historic generated-human doorway can only fail closed.
+ * The test follows behavior and authority rather than requiring one obsolete internal helper name.
  */
 
 import assert from 'node:assert/strict';
-import { access, readFile } from 'node:fs/promises';
+import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
 const APP_URL = new URL('../../app/', import.meta.url);
 
-/** Proves first play never blocks on the canonical model request. */
-test('bootstrap runtime publishes one visible traveler while canonical hydration stays deferred', async () => {
-	const source = await readFile(new URL('BootstrapPlayerRuntime.js', APP_URL), 'utf8');
-	assert.match(source, /createBootstrapVisiblePlayer/);
-	assert.match(source, /canonicalPlayerHydrationStage: 'deferred'/);
-	assert.match(source, /canonicalPlayerPromise: null/);
-	assert.doesNotMatch(source, /installCanonicalChossidAnimation/);
-});
-/** Proves the obsolete second bootstrap-hydrator module remains absent. */
-test('legacy bootstrap canonical launcher remains deleted', async () => {
-	await assert.rejects(access(new URL('BootstrapCanonicalPlayerHydration.js', APP_URL)));
+/** Reads one authored application module for architectural contract checks. */
+function source(name) {
+	return readFile(new URL(name, APP_URL), 'utf8');
+}
+
+test('bootstrap runtime installs canonical GLB identity before control', async () => {
+	const runtime = await source('BootstrapPlayerRuntime.js');
+	assert.match(runtime, /installCanonicalPlayer/);
+	assert.match(runtime, /canonicalPlayerHydrationStage = 'ready'/);
+	assert.match(runtime, /canonicalPlayerPromise = Promise\.resolve/);
+	assert.match(runtime, /none-glb-only/);
+	assert.doesNotMatch(runtime, /createBootstrapVisiblePlayer/);
 });
 
-/** Proves canonical installation removes the trusted bootstrap predecessor atomically. */
-test('post-play hydration installs canonical animation and removes its predecessor', async () => {
-	const hydration = await readFile(new URL('MinimalMeadowPlayerHydration.js', APP_URL), 'utf8');
-	const install = await readFile(new URL('MinimalMeadowCanonicalPlayerInstall.js', APP_URL), 'utf8');
-	const failure = await readFile(new URL('MinimalMeadowPlayerHydrationState.js', APP_URL), 'utf8');
-	assert.match(hydration, /installCanonicalPlayer/);
-	assert.match(hydration, /runtime\.canonicalPlayerPromise/);
-	assert.match(install, /installCanonicalChossidAnimation/);
-	assert.match(install, /removePredecessor\(predecessor, prepared\.model\)/);
-	assert.match(failure, /bootstrap-visible-fallback/);
+test('historic generated-human API is a hard guard rather than a model factory', async () => {
+	const guard = await source('BootstrapVisiblePlayer.js');
+	assert.match(guard, /Generated human (?:models|geometry) are forbidden/);
+	assert.match(guard, /throw new Error/);
+	assert.doesNotMatch(guard, /BoxGeometry|MeshBasicMaterial|new Mesh/);
+	for (const deleted of [
+		'BootstrapCanonicalPlayerHydration.js',
+		'PlayerVisualGuard.js'
+	]) {
+		await assert.rejects(readFile(new URL(deleted, APP_URL), 'utf8'));
+	}
 });

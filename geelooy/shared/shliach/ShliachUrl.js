@@ -11,7 +11,7 @@ import { buildShliachPrompt } from "./ShliachPrompt.js";
  * Awtsmoos.com encodes only the bounded human-visible prompt, never account secrets.
  */
 
-export const AWTSMOOS_SHLIACH_URL = "https://chatgpt.com/g/g-6a03feea8398819192067ae3dbfa449c-awtsmoos-shliach-agent/";
+export const AWTSMOOS_SHLIACH_URL = "https://chatgpt.com/g/g-6a03feea8398819192067ae3dbfa449c-awtsmoos-shliach-agent";
 
 /**
  * Builds the external ChatGPT URL with the current prompt-prefill query convention.
@@ -36,13 +36,15 @@ export function buildShliachUrl(context = {}) {
 export function openShliach(context = {}) {
 	const target = buildShliachUrl(context);
 	const openedInOs = openInGeelooyBrowser(target, context);
-	const opened = openedInOs
-		|| Boolean(window.open(target.url, "_blank", "noopener,noreferrer"));
+	const copyPromise = copyPrompt(target.prompt);
+	if (!openedInOs) {
+		window.location.assign(target.url);
+	}
 	return {
 		...target,
-		opened,
+		opened: true,
 		openedInOs,
-		copyPromise: copyPrompt(target.prompt)
+		copyPromise
 	};
 }
 

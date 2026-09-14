@@ -29,6 +29,10 @@ export class MalchusSearchPanelTemplate {
 				<button class="modal-btn" id="btn-results-fullscreen">Events fullscreen</button>
 				<button class="modal-btn modal-close">Close</button>
 			</div>
+			<div class="search-live-status" id="search-live-status" role="status" aria-live="polite">
+				<span data-search-message>Ready</span>
+				<progress data-search-progress max="1" value="0" hidden></progress>
+			</div>
 			<div class="search-stack">${['year', 'month', 'day'].map(kind => this.filterBlock(kind)).join('')}</div>
 			<details class="history-box">
 				<summary>Recent searches</summary>

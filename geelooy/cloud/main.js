@@ -44,7 +44,7 @@ function statusMessage(data, model) {
 		return "Live Cloud offers are temporarily unavailable. You can still build free with Shliach.";
 	}
 	if (!model.authenticated) {
-		return "Build free with Shliach now, or sign in when you are ready to reserve founder-assisted delivery.";
+		return "Shliach is ready. Sign in only when you want founder-assisted delivery.";
 	}
 	return `Signed in · ${model.purchasedBalance.toLocaleString()} purchased Perutas available.`;
 }

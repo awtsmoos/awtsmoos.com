@@ -9,7 +9,7 @@
  * Awtsmoos.com keeps Sandbox local-first, optional to ordinary worlds, and rooted in the canonical creator document.
  */
 
-import { installMitzvahWorldCreator } from '../creator/MitzvahWorldCreatorInstaller.js?v=20260910-sandbox-world-01';
+import { installMitzvahWorldCreator } from '../creator/MitzvahWorldCreatorInstaller.js';
 import { MitzvahWorldCreatorSandboxInventory } from '../creator/MitzvahWorldCreatorSandboxInventory.js';
 import { createMitzvahWorldSandboxModeController } from './MitzvahWorldSandboxModeController.js';
 

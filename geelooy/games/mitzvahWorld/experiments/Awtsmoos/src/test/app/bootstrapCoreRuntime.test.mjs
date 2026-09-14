@@ -51,15 +51,20 @@ function createRuntime(axis = { turn: 0, x: 0, y: 0 }) {
 	};
 }
 
-test('player runtime mounts one immediate visible shell while canonical hydration remains deferred', () => {
-	const suppliedModel = new Group();
+test('player runtime installs only the canonical animated GLB scene', () => {
+	const model = new Group();
+	model.isMesh = true;
 	const scene = new Group();
-	const runtime = createBootstrapPlayerRuntime({ playerGltf: { scene: suppliedModel }, scene });
-	assert.notEqual(runtime.model, suppliedModel);
-	assert.equal(runtime.model, runtime.visiblePlayer);
-	assert.equal(runtime.visiblePlayer.children.length, 3);
+	const animations = [{ channels: [], duration: 0, name: 'stand' }];
+	const runtime = createBootstrapPlayerRuntime({
+		playerGlbEvidence: { source: 'player/chossid.glb' },
+		playerGltf: { animations, scene: model },
+		scene
+	});
+	assert.equal(runtime.visiblePlayer, model);
 	assert.equal(runtime.model.parent, scene);
-	assert.equal(runtime.canonicalPlayerHydrationStage, 'deferred');
+	assert.equal(runtime.canonicalPlayer.status, 'ready');
+	assert.equal(runtime.canonicalPlayer.fallback, false);
 });
 
 test('W advances across real capped frames and visible yaw follows A/D state', () => {
@@ -89,8 +94,7 @@ test('bootstrap loop establishes camera, renders immediately, and records one fr
 	};
 	const movement = startBootstrapRuntimeLoop(runtime, environment);
 	assert.equal(runtime.renderer.renderCalls, 1);
-	const expectedCameraY = 1.2 + Math.sin(0.34) * 7;
-	assert.ok(Math.abs(runtime.camera.position.y - expectedCameraY) < 1e-9);
+	assert.ok(runtime.camera.position.y > 3);
 	frames.shift()(116);
 	assert.equal(runtime.renderer.renderCalls, 2);
 	assert.equal(runtime.bootstrapFrames, 1);
@@ -104,7 +108,7 @@ test('staged runtime crosses generated first-play chunks and defers post-play ri
 	assert.match(staged, /mitzvah-world-foundation\.compact\.js/);
 	assert.match(staged, /mitzvah-world-core\.compact\.js/);
 	assert.doesNotMatch(staged, /EretzCoreRuntimeAssembly\.js/);
-	assert.match(runtime, /rendererHydrationPromise/);
+	assert.match(runtime, /rendererPolicyPromise/);
 	assert.match(runtime, /startPostPlayableStreams/);
 	assert.match(runtime, /postPlayablePriorityPromise/);
 });

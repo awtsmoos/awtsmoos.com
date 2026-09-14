@@ -26,6 +26,7 @@ const message = valueArg("--message") || 'B"H';
 
 run(process.execPath, ["scripts/verifyHomeSource.mjs"]);
 run(process.execPath, ["scripts/repository-hygiene/check.cjs"]);
+run(process.execPath, ["geelooy/apps/tunnel/agent/scripts/verify-manifest.cjs"]);
 
 const branch = capture("git", ["branch", "--show-current"]);
 if (!branch) {

@@ -1,30 +1,36 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file bootstrapCanonicalPlayerHydrationUrl.test.mjs
- * @description Replaces the deleted deferred-player URL contract with the authored-before-play foundation import contract.
- * The Awtsmoos no longer sends a second human through a delayed module door after control has begun;
- * Awtsmoos.com now resolves canonical player and essential visuals inside foundation loading before gameplay sees the sun.
+ * @description Proves canonical player and rich visual gates execute inside foundation loading before `playable` may be published.
  */
 
 import assert from 'node:assert/strict';
-import { access, readFile } from 'node:fs/promises';
+import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
 const APP_URL = new URL('../../app/', import.meta.url);
 
-test('deferred canonical-player hydrator module remains deleted', async () => {
-	await assert.rejects(access(new URL('BootstrapCanonicalPlayerHydration.js', APP_URL)));
+/** Reads the current authored foundation source. */
+function readFoundation() {
+	return readFile(new URL('EretzWorldFoundation.js', APP_URL), 'utf8');
+}
+
+test('deferred canonical-player hydrator remains absent', async () => {
+	await assert.rejects(
+		readFile(new URL('BootstrapCanonicalPlayerHydration.js', APP_URL), 'utf8')
+	);
 });
 
-test('world foundation imports essential player and authored visual gates before ready', async () => {
-	const source = await readFile(new URL('EretzWorldFoundation.js', APP_URL), 'utf8');
-	assert.match(source, /EretzEssentialAssetLoader\.js\?v=20260902-glb-only-player-01/);
-	assert.match(source, /EretzEssentialVisualGate\.js\?v=20260902-authored-first-frame-01/);
-	const assets = source.indexOf('await assetModule.loadEretzEssentialAssets');
-	const visuals = source.indexOf('await visualModule.prepareEretzEssentialVisuals');
+test('foundation awaits authored player and visual truth before ready', async () => {
+	const source = await readFoundation();
+	assert.match(source, /loadEretzEssentialAssets/);
+	assert.match(source, /prepareEretzEssentialVisuals/);
+	assert.match(source, /Promise\.all/);
+	const assets = source.indexOf('loadEretzEssentialAssets({');
+	const visuals = source.indexOf('prepareEretzEssentialVisuals({');
 	const ready = source.indexOf('markVisibleWorldReady(options)');
 	assert.ok(assets >= 0);
 	assert.ok(visuals > assets);

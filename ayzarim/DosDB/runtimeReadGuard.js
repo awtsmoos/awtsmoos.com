@@ -1,5 +1,6 @@
-// B"H
-
+//B"H
+//Boruch Hashem
+//Blessed be He
 /**
  * @file runtimeReadGuard.js
  * @chapter The Empty Vessel Is Still a Vessel

@@ -26,6 +26,13 @@ function functionBody(name) {
 	return source.slice(start, next < 0 ? source.length : next);
 }
 
+test('release refuses a stale tunnel manifest before publication logic', () => {
+	const manifestGate = source.indexOf('verify-manifest.cjs');
+	const branchResolution = source.indexOf('const branch =');
+	assert(manifestGate >= 0, 'release must verify the tunnel manifest');
+	assert(manifestGate < branchResolution, 'manifest verification must precede publication logic');
+});
+
 test('prepare proves fresh Torah boot before fetch or push', () => {
 	const body = functionBody('prepareRelease');
 	const commit = body.indexOf('git\", [\"commit');

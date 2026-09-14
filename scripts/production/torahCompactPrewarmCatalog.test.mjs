@@ -34,7 +34,7 @@ test('production prewarms home, Ikar, and a real Torah reader', () => {
 test('Ikar activation warms its compact first-light enhancer', () => {
 	const route = requiredRoute('Ikar Torah Library');
 	assert.deepEqual(route.assets, [
-		'/heichelos/heichel/ikar-first.js?v=ikar-first-001&compact=true'
+		'/heichelos/heichel/ikar-first.js?v=ikar-first-002&compact=true'
 	]);
 	const asset = new URL(route.assets[0], 'https://awtsmoos.test');
 	assert.equal(asset.origin, 'https://awtsmoos.test');

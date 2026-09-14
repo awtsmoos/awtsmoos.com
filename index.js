@@ -38,9 +38,6 @@ const {
 const {
 	createCustomDomainHttpIngress
 } = require("./geelooy/sites/customDomainHttpIngress.js");
-const {
-	startSiteDiscoveryRuntime
-} = require("./geelooy/api/social/helper/drive/siteDiscoveryRuntime.js");
 
 const DEFAULT_HTTP_PORT = 8080;
 const DEFAULT_MAIL_PORT = 25;
@@ -75,10 +72,8 @@ async function revealAwtsmoosRuntime() {
 			createAutoplayReportIngress(__dirname)
 		]
 	});
-	const siteDiscoveryRuntime = startSiteDiscoveryRuntime({ db: binahDynamicServer.db });
 	bindRuntimeShutdown({
 		health: runtimeHealth,
-		beforeClose: () => siteDiscoveryRuntime.stop(),
 		httpServer: tiferesHttpServer,
 		wsServer: yesodSocketServer
 	});
