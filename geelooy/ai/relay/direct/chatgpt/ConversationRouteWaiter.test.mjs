@@ -11,7 +11,7 @@ const uuid = "12345678-1234-4234-8234-123456789abc";
 const canonical = `https://chatgpt.com/c/${uuid}`;
 const nested = `${start}/c/${uuid}`;
 
-/** Proves one custom-GPT thread is canonicalized in-place without a second Send. */
+/** Proves one custom-GPT thread is canonicalized and verified without a second Send. */
 test("canonical route yields the upstream UUID", () => {
 	const waiter = new ConversationRouteWaiter();
 	assert.deepEqual(waiter.canonical(canonical, "https://chatgpt.com"), {
@@ -30,10 +30,10 @@ test("nested configured GPT route is a candidate, not final success", () => {
 	assert.equal(waiter.canonical("https://chatgpt.com/c/BH_DIRECT_fake", "https://chatgpt.com"), null);
 });
 
-test("wait canonicalizes nested route and verifies exact prompt", async () => {
+test("wait canonicalizes once and trusts native evidence instead of Runtime.evaluate", async () => {
 	let clock = 0;
 	let url = `${start}?prompt=exact`;
-	let promptVisible = false;
+	let visible = false;
 	const navigations = [];
 	const waiter = new ConversationRouteWaiter({
 		now: () => clock,
@@ -41,21 +41,18 @@ test("wait canonicalizes nested route and verifies exact prompt", async () => {
 		sleep: async milliseconds => {
 			clock += milliseconds;
 			if (clock === 10) url = nested;
-			if (clock >= 30) promptVisible = true;
-		}
+			if (clock >= 30) visible = true;
+		},
+		evidenceFactory: () => ({ matches: async () => visible })
 	});
 	const controller = {
 		inspector: { inspect: async () => ({ url }) },
-		cdpClient: {
-			async send(method, params) {
-				if (method === "Page.navigate") {
-					navigations.push(params.url);
-					url = params.url;
-					return {};
-				}
-				return { result: { result: { value: promptVisible } } };
-			}
-		}
+		cdpClient: { send: async (method, params) => {
+			assert.equal(method, "Page.navigate");
+			navigations.push(params.url);
+			url = params.url;
+			return {};
+		} }
 	};
 	assert.deepEqual(await waiter.wait(controller, {
 		agentStartUrl: start,
@@ -65,15 +62,16 @@ test("wait canonicalizes nested route and verifies exact prompt", async () => {
 	assert.deepEqual(navigations, [canonical]);
 });
 
-test("missing route fails without navigation or retry semantics", async () => {
+test("canonical URL without matching prompt times out instead of false success", async () => {
 	let clock = 0;
 	const waiter = new ConversationRouteWaiter({
 		now: () => clock,
 		intervalMs: 10,
-		sleep: async milliseconds => { clock += milliseconds; }
+		sleep: async milliseconds => { clock += milliseconds; },
+		evidenceFactory: () => ({ matches: async () => false })
 	});
 	const controller = {
-		inspector: { inspect: async () => ({ url: `${start}?prompt=exact` }) },
+		inspector: { inspect: async () => ({ url: canonical }) },
 		cdpClient: { send: async () => { throw new Error("unexpected_navigation"); } }
 	};
 	await assert.rejects(() => waiter.wait(controller, {

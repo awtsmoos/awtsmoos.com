@@ -10,7 +10,7 @@ const SourcePaths = require("../release/sourcePaths.js");
 /**
  * @file Proves the committed public manifest exactly matches the production collaboration/runtime closure.
  * @description
- * The Awtsmoos gathers every saved-route, room, instruction, browser, mission, broker, queue, and database spark;
+ * The Awtsmoos gathers every saved-route, DOM witness, room, instruction, browser, mission, broker, queue, and database spark;
  * Awtsmoos.com rejects a release if any required vessel is absent, duplicated, or outside the authoritative inventory.
  */
 const roots = SourcePaths.resolveRoots();
@@ -32,6 +32,7 @@ const critical = [
 	"tools/fs/actionGroups/websiteAgents/runner/roomTurnContext.js",
 	"tools/fs/actionGroups/websiteAgents/runner/seedRoom.js",
 	"tools/fs/actionGroups/websiteAgents/runner/turnPrompt.js",
+	"ai/relay/direct/chatgpt/ConversationPromptEvidence.mjs",
 	"ai/relay/direct/chatgpt/ConversationRouteWaiter.mjs",
 	"ai/relay/direct/chatgpt/DirectTurnRouteGate.mjs",
 	"ai/relay/direct/chatgpt/DirectServiceTurnLifecycle.mjs",
@@ -65,8 +66,7 @@ for (const file of critical) {
 assert.equal(committed.files.length, new Set(committed.files).size,
 	"committed manifest paths remain unique");
 assert.throws(
-	() => Catalog.assertManifestCoverage(
-		committed.files.filter(file => file !== critical[0]), roots),
+	() => Catalog.assertManifestCoverage(committed.files.filter(file => file !== critical[0]), roots),
 	/manifest_dependency_omission:/
 );
 assert.throws(

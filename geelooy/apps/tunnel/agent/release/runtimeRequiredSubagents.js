@@ -72,6 +72,7 @@ module.exports = Object.freeze([
 	"ai/relay/direct/browser/ChromeTargetCreator.mjs",
 	"ai/relay/direct/browser/DeviceBrowserPortResolver.mjs",
 	"ai/relay/direct/browser/WebsitePromptInteractor.mjs",
+	"ai/relay/direct/chatgpt/ConversationPromptEvidence.mjs",
 	"ai/relay/direct/chatgpt/ConversationRouteWaiter.mjs",
 	"ai/relay/direct/chatgpt/DirectClient.mjs",
 	"ai/relay/direct/chatgpt/DirectService.mjs",
