@@ -1,58 +1,65 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed be He
 
 import { createRequire } from "node:module";
 
 const require = createRequire(import.meta.url);
-const {
-	configuredAgentStartUrl,
-	requireConfiguredAgentStartUrl
-} = require("../../split-browser/config.cjs");
+const { configuredAgentStartUrl, requireConfiguredAgentStartUrl } = require("../../split-browser/config.cjs");
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 /**
- * A normal website send reveals its conversation through the route chosen by
- * ChatGPT. The Awtsmoos observes only that route id and never scrapes message text,
- * account data, hidden controls, or unrelated page state.
+ * @file Waits for ChatGPT itself to reveal the saved account conversation route.
+ * @description
+ * The Awtsmoos permits no local relay key to impersonate an upstream conversation.
+ * Awtsmoos.com accepts creation only when the same logged-in tab becomes /c/<uuid>.
  */
 export class ConversationRouteWaiter {
 	constructor({
 		sleep = milliseconds => new Promise(resolve => setTimeout(resolve, milliseconds)),
-		intervalMs = 250
+		intervalMs = 250,
+		now = () => Date.now()
 	} = {}) {
 		this.sleep = sleep;
 		this.intervalMs = intervalMs;
+		this.now = now;
 	}
 
 	async wait(controller, {
-		expectedId = null,
 		agentStartUrl = configuredAgentStartUrl(),
-		timeoutMs = 30000
+		timeoutMs = 60000
 	} = {}) {
-		const deadline = Date.now() + timeoutMs;
-		while (Date.now() < deadline) {
+		const origin = this.origin(agentStartUrl);
+		const deadline = this.now() + timeoutMs;
+		while (this.now() < deadline) {
 			const page = await controller.inspector.inspect();
-			const conversationId = this.extract(page.url, agentStartUrl);
-			if (conversationId && (!expectedId || conversationId === expectedId)) {
-				return conversationId;
-			}
+			const route = this.extract(page.url, origin);
+			if (route) return route;
 			await this.sleep(this.intervalMs);
 		}
-		throw new Error("ChatGPT did not expose the new conversation route.");
+		const error = new Error("ChatGPT did not expose a saved /c/<conversation-id> route.");
+		error.code = "chatgpt_saved_conversation_route_missing";
+		throw error;
 	}
 
-	extract(url, agentStartUrl = configuredAgentStartUrl()) {
+	extract(url, expectedOrigin) {
 		try {
 			const actual = new URL(url);
-			const start = new URL(requireConfiguredAgentStartUrl(agentStartUrl));
-			if (actual.origin !== start.origin) return null;
-			const prefix = `${start.pathname.replace(/\/+$/, "")}/c/`;
-			if (!actual.pathname.startsWith(prefix)) return null;
-			const suffix = actual.pathname.slice(prefix.length);
-			if (!suffix || suffix.includes("/")) return null;
-			return decodeURIComponent(suffix);
+			if (actual.origin !== (expectedOrigin || actual.origin)) return null;
+			const match = actual.pathname.match(/^\/c\/([^/]+)\/?$/);
+			if (!match) return null;
+			const conversationId = decodeURIComponent(match[1]);
+			if (!UUID.test(conversationId)) return null;
+			return {
+				conversationId,
+				conversationUrl: `${actual.origin}/c/${conversationId}`
+			};
 		} catch {
 			return null;
 		}
+	}
+
+	origin(agentStartUrl) {
+		return new URL(requireConfiguredAgentStartUrl(agentStartUrl)).origin;
 	}
 }

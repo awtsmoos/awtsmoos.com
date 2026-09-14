@@ -1,40 +1,42 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 const Context = require("./context.js");
-const {
-	Dispatch,
-	Store
-} = Context.shared;
-const status = Context.reference("status");
+const RouteEvidence = require("./conversationRouteEvidence.js");
+const { Dispatch, Store } = Context.shared;
 const event = Context.reference("event");
 
 /**
- * @file Reveals the recoverAcceptedTurns stage of website-agent orchestration.
+ * @file Restores only accepted turns whose real ChatGPT account route was already verified.
  * @description
- * The Awtsmoos gives this stage one bounded responsibility while sibling stages are
- * resolved lazily through durable shared context after the browser vessel closes.
+ * The Awtsmoos does not let a 200 response masquerade as a saved thread after restart.
+ * Awtsmoos.com preserves route-less acceptance as recovery debt and never silently resubmits it.
  */
 async function recoverAcceptedTurns(config, id) {
 	const record = Store.read(id);
 	if (!record) return;
-	const accepted = record.agents.filter(agent =>
-		agent.status === "awaiting_recovery" ||
-		(agent.status === "submitting" && agent.submissionAcceptedAt)
-	);
-	for (const agent of accepted) {
+	for (const agent of record.agents.filter(item => item.status === "awaiting_recovery" || item.status === "submitting")) {
 		Store.update(id, current => {
 			const target = current.agents.find(item => item.id === agent.id);
 			if (!target) return current;
+			if (!RouteEvidence.complete(target)) {
+				target.status = "awaiting_recovery";
+				target.error = "accepted_response_without_verified_conversation_route";
+				return current;
+			}
 			target.status = "dispatched";
 			target.error = null;
 			target.pendingRound = null;
-			target.lastUpdate = "Accepted prompt preserved without response recovery or resubmission.";
-			target.lastOutcome = Dispatch.receipt({ acceptedAt: target.submissionAcceptedAt });
-			current.events.push(event("accepted_turn_preserved_as_dispatch", {
+			target.lastUpdate = "Accepted prompt restored from verified ChatGPT /c/<uuid> testimony.";
+			target.lastOutcome = Dispatch.receipt({
+				acceptedAt: target.submissionAcceptedAt,
+				conversationId: RouteEvidence.conversationId(target),
+				conversationUrl: target.conversationUrl
+			});
+			current.events.push(event("route_verified_turn_restored", {
 				agentId: target.id,
-				acceptedAt: target.submissionAcceptedAt
+				conversationId: RouteEvidence.conversationId(target)
 			}));
 			return current;
 		});
