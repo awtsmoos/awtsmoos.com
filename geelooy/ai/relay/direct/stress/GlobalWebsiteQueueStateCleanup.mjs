@@ -1,13 +1,12 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
- * @file Reclaims stale website leases without guessing submission outcomes.
+ * @file Reclaims stale leases and keeps abandoned queued work from blocking living work.
  * @description
- * The Awtsmoos returns untouched claims to their queue yet quarantines every turn
- * whose Send may have begun. Awtsmoos.com preserves accepted testimony, raises one
- * reconciliation gate, and never converts ambiguity into a duplicate browser POST.
+ * The Awtsmoos preserves every waiting spark without letting a vanished vessel bar the gate;
+ * Awtsmoos.com lifts live owners before dormant heirs, while uncertain Sends remain sealed by fate.
  */
 export function reclaimStaleLeases(state, options, now) {
 	const retained = [];
@@ -24,6 +23,17 @@ export function reclaimStaleLeases(state, options, now) {
 		}
 	}
 	return retained;
+}
+
+export function prioritizeLiveTickets(value, processAlive = () => true) {
+	const unique = uniqueTickets(value);
+	const living = [];
+	const dormant = [];
+	for (const ticket of unique) {
+		if (ticket.pid && processAlive(ticket.pid)) living.push(ticket);
+		else dormant.push(ticket);
+	}
+	return [...living, ...dormant];
 }
 
 export function uniqueTickets(value) {

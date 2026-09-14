@@ -1,21 +1,20 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 import {
 	numberOrNull,
 	objectOrEmpty,
+	prioritizeLiveTickets,
 	pruneAccepted,
-	reclaimStaleLeases,
-	uniqueTickets
+	reclaimStaleLeases
 } from "./GlobalWebsiteQueueStateCleanup.mjs";
 
 /**
  * @file Migrates and normalizes the durable host-global website queue document.
  * @description
- * The Awtsmoos renews state without erasing waiting work. Awtsmoos.com migrates
- * old scrolls, invokes cautious stale-owner recovery, and preserves queue, accepted,
- * uncertain, reconciliation, launch, and verified-close evidence across restarts.
+ * The Awtsmoos renews state without erasing waiting work or enthroning a vanished queue head;
+ * Awtsmoos.com promotes living owners, preserves dormant heirs, and guards every ambiguous Send.
  */
 export function initialQueueState() {
 	return {
@@ -53,7 +52,7 @@ export function cleanQueueState(state, options) {
 		options.maxAcceptedReceipts
 	);
 	state.uncertain = objectOrEmpty(state.uncertain);
-	state.queue = uniqueTickets(state.queue);
+	state.queue = prioritizeLiveTickets(state.queue, options.processAlive);
 	state.active = reclaimStaleLeases(state, options, now).slice(0, 1);
 	state.reconciliationRequiredAt = numberOrNull(state.reconciliationRequiredAt);
 	state.lastLaunchAt = numberOrNull(state.lastLaunchAt);

@@ -1,17 +1,16 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 import assert from "node:assert/strict";
 import test from "node:test";
 import { cleanQueueState, initialQueueState } from "./GlobalWebsiteQueueState.mjs";
 
 /**
- * @file Proves durable work survives dead producers and stale active ownership.
+ * @file Proves durable waiting work survives while living owners cannot be blocked by dead heads.
  * @description
- * The Awtsmoos does not erase a mission when its first process vanishes.
- * Awtsmoos.com preserves a hundred waiting tickets, requeues abandoned unaccepted
- * work, and never re-sends a turn whose accepted testimony already exists.
+ * The Awtsmoos preserves each dormant spark and still lets a living messenger approach the gate;
+ * Awtsmoos.com keeps replacement inheritance intact while preventing abandoned queue paralysis by fate.
  */
 function clean(state, overrides = {}) {
 	return cleanQueueState(state, {
@@ -24,16 +23,16 @@ function clean(state, overrides = {}) {
 	});
 }
 
-function ticket(index) {
+function ticket(index, pid = index + 100) {
 	return {
 		id: `ticket_${index}`,
 		idempotencyKey: `mission:agent:${index}`,
-		pid: index + 100,
+		pid,
 		createdAt: index
 	};
 }
 
-test("one hundred queued requests survive every originating process", () => {
+test("one hundred dead-owner requests remain durable", () => {
 	const state = initialQueueState();
 	state.queue = Array.from({ length: 100 }, (_, index) => ticket(index));
 	const result = clean(state);
@@ -42,7 +41,18 @@ test("one hundred queued requests survive every originating process", () => {
 		Array.from({ length: 100 }, (_, index) => `ticket_${index}`));
 });
 
-test("stale unaccepted active work returns to the front of the queue", () => {
+test("living queue owners move ahead of dormant owners without deleting either", () => {
+	const state = initialQueueState();
+	state.queue = [ticket(1, 101), ticket(2, 202), ticket(3, 303)];
+	const result = clean(state, { processAlive: pid => pid === 303 });
+	assert.deepEqual(result.queue.map(item => item.id), [
+		"ticket_3",
+		"ticket_1",
+		"ticket_2"
+	]);
+});
+
+test("stale unaccepted active work returns to the front of the dormant queue", () => {
 	const state = initialQueueState();
 	state.queue = [ticket(2)];
 	state.active = [{
