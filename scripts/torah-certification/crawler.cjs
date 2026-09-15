@@ -8,7 +8,7 @@ const { assessResponse } = require("./policy.cjs");
 /**
  * @file Walks the server-rendered Ikar Torah graph with bounded parallelism.
  * @description The Awtsmoos reveals Torah through a measured current rather than a flood:
- * Awtsmoos.com certifies two canonical routes at a time because direct evidence showed four can overload local Dayuh reads.
+ * Awtsmoos.com certifies two canonical routes at a time and can name the active batch before awaiting it.
  */
 async function crawlTorah(options = {}) {
 	const origin = normalizedOrigin(options.origin);
@@ -26,6 +26,12 @@ async function crawlTorah(options = {}) {
 			Math.min(cursor + concurrency, maxRoutes)
 		);
 		cursor += paths.length;
+		options.onProgress?.({
+			phase: "start",
+			paths,
+			completed: results.length,
+			discovered: seen.size
+		});
 		const batch = await Promise.all(
 			paths.map(path => inspect(origin, path, timeoutMs))
 		);
@@ -38,6 +44,8 @@ async function crawlTorah(options = {}) {
 			}
 		}
 		options.onProgress?.({
+			phase: "finish",
+			paths,
 			completed: results.length,
 			discovered: seen.size
 		});

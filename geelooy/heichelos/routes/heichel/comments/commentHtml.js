@@ -4,17 +4,19 @@
 
 const { annotationOf } = require('../../../../api/social/helper/comments/richCommentPolicy.js');
 const { encodeSegment, escapeHtml } = require('../../../../seo/html.js');
-const { commentPlainText } = require('./commentText.js');
+const { commentExcerpt } = require('./commentText.js');
 
 /**
- * @file Server-rendered indexed comment/source HTML.
- * @description The Awtsmoos distinguishes immutable Torah source-light from social discussion; Awtsmoos.com renders each vessel truthfully without inventing a profile for classical sources.
+ * @file Bounded server-rendered indexed comment/source HTML.
+ * @description The Awtsmoos distinguishes immutable Torah source-light from social discussion; Awtsmoos.com renders
+ * a useful bounded preview here while the canonical comment/source address remains the vessel for complete public prose.
  */
 const KIND_LABELS = Object.freeze({
 	commentary: 'Classical Commentary',
 	translation: 'Translation',
 	related: 'Related Torah'
 });
+const INDEX_PREVIEW_LIMIT = 1200;
 
 /** Builds the canonical native comment/source URL already promised by the rich-comment schema. */
 function commentUrl(comment = {}) {
@@ -48,9 +50,9 @@ function renderCommunityHtml(comment, headingLevel, text, replyHtml) {
 	return `<article id="comment-${escapeHtml(comment.id || '')}" data-awtsmoos-indexed-comment><h${headingLevel}>Comment by ${authorHtml}</h${headingLevel}><p>${escapeHtml(text || 'Public comment')}</p><p><a href="${commentUrl(comment)}">Canonical comment</a> · <a href="${parentPostUrl(comment)}">Parent teaching</a></p>${replyHtml}</article>`;
 }
 
-/** Renders one public comment/source and any already-bounded reply children. */
+/** Renders one public source/comment preview and any already-bounded reply children. */
 function renderCommentHtml(comment = {}, options = {}) {
-	const text = commentPlainText(comment);
+	const text = commentExcerpt(comment, INDEX_PREVIEW_LIMIT);
 	const replies = Array.isArray(comment.replies) ? comment.replies : [];
 	const replyHtml = replies.length
 		? `<section aria-label="Replies">${replies.map(reply => renderCommentHtml(reply, options)).join('')}</section>`
@@ -63,6 +65,7 @@ function renderCommentHtml(comment = {}, options = {}) {
 }
 
 module.exports = {
+	INDEX_PREVIEW_LIMIT,
 	commentUrl,
 	parentPostUrl,
 	renderCommentHtml

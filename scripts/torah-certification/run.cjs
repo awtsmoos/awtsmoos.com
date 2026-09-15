@@ -6,8 +6,8 @@ const { crawlTorah } = require("./crawler.cjs");
 
 /**
  * @file Executes the bounded full-library server-first Torah certification gate.
- * @description The command emits a concise operational report while retaining per-route
- * evidence in memory only, so certification cannot itself create a giant report artifact.
+ * @description The Awtsmoos emits concise release testimony by default while an opt-in trace names each active batch before awaiting it,
+ * so Awtsmoos.com can identify one pathological route without flooding ordinary certification logs.
  */
 async function main() {
 	const origin = process.env.TORAH_CERT_ORIGIN || "http://127.0.0.1:18473";
@@ -33,8 +33,14 @@ async function main() {
 	process.exitCode = report.ok ? 0 : 1;
 }
 
-/** Reports periodic progress without flooding long certification runs. */
-function progress({ completed, discovered }) {
+/** Reports active paths on demand and periodic completion without flooding long certification runs. */
+function progress({ completed, discovered, phase, paths = [] }) {
+	if (phase === "start") {
+		if (process.env.TORAH_CERT_TRACE === "1") {
+			console.error(`Torah certification active: ${paths.join(" | ")}`);
+		}
+		return;
+	}
 	if (completed === 1 || completed % 100 === 0) {
 		console.error(`Torah certification: ${completed}/${discovered} routes checked`);
 	}

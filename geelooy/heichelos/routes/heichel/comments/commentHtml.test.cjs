@@ -4,11 +4,14 @@
 
 const assert = require('node:assert/strict');
 const test = require('node:test');
-const { renderCommentHtml } = require('./commentHtml.js');
+const {
+	INDEX_PREVIEW_LIMIT,
+	renderCommentHtml
+} = require('./commentHtml.js');
 
 /**
- * @file Server-rendered community/source identity regression tests.
- * @description The Awtsmoos lets classical Torah appear as source-light rather than a social profile, while ordinary community discussion keeps its human vessel.
+ * @file Bounded server-rendered community/source identity regression tests.
+ * @description The Awtsmoos lets classical Torah appear as source-light rather than a social profile, while Awtsmoos.com refuses to regex-render an entire ocean merely to reveal one indexed preview.
  */
 function baseComment() {
 	return {
@@ -20,14 +23,11 @@ function baseComment() {
 	};
 }
 
-test('canonical Torah source renders source identity without fake social profile', () => {
-	const html = renderCommentHtml({
+function canonicalContent(text) {
+	return {
 		...baseComment(),
 		aliasId: 'baalHaturim',
-		content: {
-			title: 'Baal HaTurim',
-			text: ['A structured Torah teaching']
-		},
+		content: text,
 		dayuh: {
 			torahAnnotation: {
 				kind: 'commentary',
@@ -36,15 +36,31 @@ test('canonical Torah source renders source identity without fake social profile
 				language: 'Hebrew'
 			}
 		}
-	});
+	};
+}
+
+test('canonical Torah source renders source identity without fake social profile', () => {
+	const html = renderCommentHtml(canonicalContent({
+		title: 'Baal HaTurim',
+		text: ['A structured Torah teaching']
+	}));
 	assert.match(html, /data-awtsmoos-torah-source/u);
-	assert.match(html, /Baal HaTurim/u);
 	assert.match(html, /Classical Commentary · Hebrew/u);
 	assert.match(html, /A structured Torah teaching/u);
 	assert.match(html, />Canonical source</u);
 	assert.doesNotMatch(html, /href="\/@\/baalHaturim"/u);
 	assert.doesNotMatch(html, /Comment by/u);
 	assert.doesNotMatch(html, /\[object Object\]/u);
+});
+
+test('indexed Torah source HTML stays bounded before a huge tail', () => {
+	const html = renderCommentHtml(canonicalContent({
+		text: ['Aleph '.repeat(5000), 'TAIL_SENTINEL_SHOULD_NOT_APPEAR']
+	}));
+	assert.match(html, /Aleph/u);
+	assert.match(html, /…/u);
+	assert.doesNotMatch(html, /TAIL_SENTINEL/u);
+	assert.ok(html.length < INDEX_PREVIEW_LIMIT * 3, `indexed HTML too large: ${html.length}`);
 });
 
 test('ordinary community comment keeps profile and discussion semantics', () => {

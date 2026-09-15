@@ -2,11 +2,12 @@
 //Boruch Hashem
 //Blessed be He
 
-const { cleanPlain, excerpt } = require('../../../../seo/html.js');
+const { cleanPlain } = require('../../../../seo/html.js');
 
 /**
- * @file Server-visible prose extraction for indexed comment and Torah-source records.
- * @description The Awtsmoos reveals words through many vessels; Awtsmoos.com therefore walks structured public text without ever stringifying an object into false prose.
+ * @file Bounded server-visible prose extraction for indexed comments and Torah sources.
+ * @description The Awtsmoos reveals nested words through one measured current: Awtsmoos.com gathers raw scalars once,
+ * normalizes once, and stops gathering when the requested public-text vessel is already full.
  */
 const TEXT_KEYS = Object.freeze([
 	'title',
@@ -18,49 +19,67 @@ const TEXT_KEYS = Object.freeze([
 	'sections'
 ]);
 
-/** Collects readable scalar text recursively from one bounded structured public value. */
-function structuredText(value, seen = new Set()) {
+/** Appends one bounded raw scalar without repeatedly regex-normalizing recursive fragments. */
+function appendScalar(state, value) {
+	if (state.remaining <= 0) return;
+	const text = String(value ?? '');
+	if (!text) return;
+	const piece = text.slice(0, state.remaining);
+	state.parts.push(piece);
+	state.remaining -= piece.length + 1;
+}
+
+/** Walks one structured public value with cycle protection and a shared raw-character budget. */
+function collectStructured(value, state, seen) {
+	if (state.remaining <= 0 || value == null) return;
 	if (typeof value === 'string' || typeof value === 'number') {
-		return cleanPlain(value, 50000);
+		appendScalar(state, value);
+		return;
 	}
-	if (!value) return '';
 	if (Array.isArray(value)) {
-		return cleanPlain(value.map(item => structuredText(item, seen)).filter(Boolean).join(' '), 50000);
+		for (const item of value) collectStructured(item, state, seen);
+		return;
 	}
-	if (typeof value !== 'object' || seen.has(value)) return '';
+	if (typeof value !== 'object' || seen.has(value)) return;
 	seen.add(value);
-	const parts = TEXT_KEYS
-		.map(key => structuredText(value[key], seen))
-		.filter(Boolean);
-	return cleanPlain(parts.join(' '), 50000);
+	for (const key of TEXT_KEYS) collectStructured(value[key], state, seen);
+}
+
+/** Collects readable normalized prose from one structured public value. */
+function structuredText(value, maximum = 50000) {
+	const limit = Math.max(1, Number(maximum) || 50000);
+	const state = { parts: [], remaining: limit * 2 };
+	collectStructured(value, state, new Set());
+	return cleanPlain(state.parts.join(' '), limit);
 }
 
 /** Collects readable text from one structured section value. */
-function sectionText(section) {
-	return structuredText(section);
+function sectionText(section, maximum = 50000) {
+	return structuredText(section, maximum);
 }
 
-/** Produces complete normalized public text carried by one comment or source record. */
-function commentPlainText(comment = {}) {
+/** Produces normalized public text carried by one comment/source within one explicit output budget. */
+function commentPlainText(comment = {}, maximum = 50000) {
+	const limit = Math.max(1, Number(maximum) || 50000);
 	const dayuh = comment.dayuh || {};
 	const audio = comment.audio || dayuh.audio || {};
 	const sections = Array.isArray(comment.sections)
 		? comment.sections
 		: Array.isArray(dayuh.sections) ? dayuh.sections : [];
-	const pieces = [
-		structuredText(comment.content),
-		structuredText(comment.text),
-		structuredText(dayuh.content),
-		structuredText(audio.transcript),
-		structuredText(comment.audioTranscript),
-		...sections.map(sectionText)
-	];
-	return cleanPlain(pieces.filter(Boolean).join('\n\n'), 50000);
+	const state = { parts: [], remaining: limit * 2 };
+	const seen = new Set();
+	for (const value of [comment.content, comment.text, dayuh.content, audio.transcript, comment.audioTranscript, sections]) {
+		collectStructured(value, state, seen);
+	}
+	return cleanPlain(state.parts.join(' '), limit);
 }
 
-/** Creates a bounded search snippet from the full visible prose. */
-function commentExcerpt(comment, maximum = 220) {
-	return excerpt(commentPlainText(comment), maximum);
+/** Creates one bounded indexed-search preview without first materializing full source prose. */
+function commentExcerpt(comment, maximum = 1200) {
+	const limit = Math.max(1, Number(maximum) || 1200);
+	const text = commentPlainText(comment, limit + 1);
+	if (text.length <= limit) return text;
+	return `${text.slice(0, Math.max(0, limit - 1)).trim()}…`;
 }
 
 module.exports = {
