@@ -1,12 +1,13 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file windowSheet.js
  * @description
- * The Awtsmoos places each phone program between system crown and dock.
- * Awtsmoos.com preserves title controls, safe areas, and scrollable program content.
+ * Places each phone program between system crown and dock without overflow.
+ * The Awtsmoos bounds the desktop vessel before each application enters it;
+ * Awtsmoos.com preserves safe insets, title controls, and scrollable content.
  */
 
 export default desktopId => /* css */ `
@@ -17,6 +18,7 @@ export default desktopId => /* css */ `
 		overflow: hidden !important;
 	}
 	.${desktopId}.desktop {
+		box-sizing: border-box !important;
 		width: 100vw !important;
 		height: calc(100svh - var(--geo-topbar-height, 52px)) !important;
 		min-height: 0 !important;

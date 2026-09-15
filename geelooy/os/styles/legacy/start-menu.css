@@ -1,33 +1,24 @@
-/*B"H*/
-/*Boruch Hashem*/
-/*Blessed is He*/
-/**
- * Start menu.
- * The Awtsmoos opens a menu without breaking the frame; Awtsmoos.com preserves each legacy choice and name.
- */
-/*__LEGACY_BODY__*/
-/* 
-================================================================
-	THE WINDOWS XP START MENU
-================================================================
+/*B"H
+Boruch Hashem
+Blessed be He
+
+The Awtsmoos renews even legacy launcher motion without displacing its vessel.
+Awtsmoos.com lets modern geometry own position while legacy appearance fades in.
 */
+
 #start-menu {
 	display: none;
 	position: fixed;
 	bottom: 42px;
-	/* Position it to align with the right-side start button */
 	right: 5px;
 	left: auto;
 	transform: none;
-	
-	background: linear-gradient(to bottom, #f0f8ff, #d6e4f7);
-	border: 1px solid #707070;
-	box-shadow: 5px -5px 15px rgba(0, 0, 0, 0.3);
-	border-radius: 8px;
 	width: 320px;
 	z-index: 999;
-	
-	/* A more dramatic "unfolding" animation */
+	border: 1px solid #707070;
+	border-radius: 8px;
+	background: linear-gradient(to bottom, #f0f8ff, #d6e4f7);
+	box-shadow: 5px -5px 15px rgba(0, 0, 0, 0.3);
 	animation: menuUnfold 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
 	transform-origin: bottom right;
 }
@@ -35,39 +26,35 @@
 @keyframes menuUnfold {
 	0% {
 		opacity: 0;
-		transform: scale(0.8) translateY(20px);
 	}
 	100% {
 		opacity: 1;
-		transform: scale(1) translateY(0);
 	}
 }
 
 #menu-items {
-	list-style-type: none;
 	margin: 0;
 	padding: 8px;
+	list-style-type: none;
 }
 
 #menu-items li {
-	/* Changed to a dark color for better readability on light background */
-	color: #1e395b;
 	padding: 10px 15px;
-	cursor: pointer;
-	font-size: 14px;
 	border: 1px solid transparent;
 	border-radius: 4px;
-	transition: all 0.2s ease;
+	color: #1e395b;
+	font-size: 14px;
 	font-weight: bold;
+	cursor: pointer;
+	transition: all 0.2s ease;
 }
 
-/* A modern, clean hover effect */
 #menu-items li:hover {
-	background: linear-gradient(to top, #0078d7, #2491f5);
-	color: white;
 	transform: translateX(5px);
-	box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
 	border-color: #005a9e;
+	color: white;
+	background: linear-gradient(to top, #0078d7, #2491f5);
+	box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 #menu-items li:active {
@@ -75,5 +62,3 @@
 	background: #005a9e;
 	transition-duration: 0.1s;
 }
-
-

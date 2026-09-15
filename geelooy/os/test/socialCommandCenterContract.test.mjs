@@ -1,6 +1,6 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
+//Blessed be He
 
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
@@ -11,8 +11,9 @@ const ROOT = new URL("../../", import.meta.url);
 /**
  * @file socialCommandCenterContract.test.mjs
  * @description
- * The Awtsmoos proves Start, social windows, profile actions, and thanks remain local.
- * Awtsmoos.com binds the actual static export instead of a vanished dynamic path.
+ * Proves social commands remain locally owned across their current small modules.
+ * The Awtsmoos joins route, panel, and message without forcing them into one file;
+ * Awtsmoos.com tests the living boundaries instead of resurrecting old coupling.
  */
 
 test("Start exposes every social command through openSocialWindow", async () => {
@@ -34,20 +35,25 @@ test("Start exposes every social command through openSocialWindow", async () => 
 	assert.doesNotMatch(start, /openSocialPanel/);
 });
 
-test("social panel retains the required local routes", async () => {
+test("social panel and shell retain the required local routes", async () => {
 	const panel = await source("os/social/socialPanel.js");
+	const shell = await source("os/social/socialPanelShell.js");
 	assert.match(panel, /export async function openSocialWindow/);
-	for (const route of ["/email", "/profile", "/notifications", "/heichelos"]) {
-		assert.match(panel, new RegExp(route));
+	assert.match(panel, /\/email\?alias=/);
+	for (const route of ["/profile", "/notifications", "/heichelos"]) {
+		assert.match(shell, new RegExp(route));
 	}
 });
 
 test("inline messaging stays linked and thanks has no unconfirmed fallback", async () => {
 	const home = await source("scripts/awtsmoos/social/home/inline-actions/index.js");
-	const profile = await source("profile/modules/inlineActions.js");
+	const profile = await source("profile/modules/profile-actions/content.js");
+	const widgets = await source("os/social/localSocialWidgets.js");
 	const thanks = await source("scripts/awtsmoos/social/shared/thanksActions.js");
 	assert.match(home, /inlineMessaging/);
 	assert.match(profile, /inlineMessaging/);
+	assert.match(profile, /social\/shared\/inlineMessaging\.js/);
+	assert.match(widgets, /inlineMessaging/);
 	assert.doesNotMatch(thanks, /fetch\(/);
 });
 

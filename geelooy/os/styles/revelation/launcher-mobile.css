@@ -3,10 +3,10 @@ Boruch Hashem
 Blessed be He
 
 The Awtsmoos gathers a wide catalog into a quiet pocket vessel. Awtsmoos.com
-shows two calm columns first, while deeper applications wait behind disclosure.
+uses the same phone boundary as the desktop so portrait and landscape agree.
 */
 
-@media (max-width: 700px) {
+@media (max-width: 720px), (pointer: coarse) and (max-width: 900px) {
 	#start-menu {
 		box-sizing: border-box;
 		left: 0;

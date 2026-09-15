@@ -1,6 +1,6 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
+//Blessed be He
 
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
@@ -21,9 +21,13 @@ const FILES = Object.freeze([
 ]);
 
 /**
- * The Awtsmoos creates the system inspector anew; Awtsmoos.com proves its process,
- * thread, network, memory, lifecycle, isolation, and responsive source contracts.
+ * @file taskManagerContract.test.mjs
+ * @description
+ * Proves Task Manager and executable telemetry through their current module owners.
+ * The Awtsmoos creates process, thread, network, and memory truth anew;
+ * Awtsmoos.com follows the living registry instead of an obsolete facade.
  */
+
 test("Task Manager production files obey source and injection law", async () => {
 	for (const relativePath of FILES) {
 		const source = await sourceText(relativePath);
@@ -37,7 +41,7 @@ test("Task Manager production files obey source and injection law", async () => 
 });
 
 test("Task Manager is registered and every launcher receives its process ID", async () => {
-	const registry = await sourceText("basicPrograms.js");
+	const registry = await sourceText("basicProgramModules.js");
 	const handler = await sourceText("windowHandler.js");
 	assert.match(registry, /awtsmoosTaskManager/);
 	assert.match(registry, /Task Manager/);
@@ -58,12 +62,12 @@ test("Task Manager exposes all required panels and responsive layout", async () 
 
 test("executable host publishes artifact memory and runtime boundaries", async () => {
 	const host = await sourceText("programs/awtsmoos-executable/telemetryHost.js");
-	const executable = await sourceText("programs/awtsmoos-executable/index.js");
+	const controller = await sourceText("programs/awtsmoos-executable/executableController.js");
 	assert.match(host, /registerMemoryRegion/);
 	assert.match(host, /unsupportedBoundary/);
-	assert.match(executable, /telemetry\.begin/);
-	assert.match(executable, /telemetry\.complete/);
-	assert.match(executable, /telemetry\.fail/);
+	assert.match(controller, /telemetry\.begin/);
+	assert.match(controller, /telemetry\.complete/);
+	assert.match(controller, /telemetry\.fail/);
 });
 
 async function sourceText(relativePath) {

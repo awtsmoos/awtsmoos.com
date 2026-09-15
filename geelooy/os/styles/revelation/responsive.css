@@ -1,31 +1,38 @@
 /*B"H
 Boruch Hashem
-Blessed is He
-The Awtsmoos creates every tablet boundary anew. Awtsmoos.com contracts crown,
-dock, apps, and settings without hiding any registered program entrance.
+Blessed be He
+
+The Awtsmoos creates every tablet boundary anew. Awtsmoos.com keeps launcher,
+dock, crown, and settings contained before the phone-specific vessel takes over.
 */
+
 @media (max-width: 900px) {
 	:root {
 		--geo-topbar-height: 52px;
 		--geo-dock-height: 66px;
 	}
+
 	#awtsmoos-shell-topbar {
 		gap: 8px;
 		padding-inline:
 			max(10px, env(safe-area-inset-left))
 			max(10px, env(safe-area-inset-right));
 	}
+
 	.shell-brand-copy,
 	#shell-status {
 		display: none;
 	}
+
 	.shell-chip {
 		padding-inline: 10px;
 		font-size: 12px;
 	}
+
 	.desktop {
 		padding: 8px 8px calc(var(--geo-dock-height) + 26px);
 	}
+
 	#start-bar {
 		bottom: max(8px, env(safe-area-inset-bottom));
 		width: calc(
@@ -34,24 +41,38 @@ dock, apps, and settings without hiding any registered program entrance.
 		height: var(--geo-dock-height);
 		border-radius: 20px;
 	}
+
 	#start-button {
 		width: 48px;
 		height: 48px;
 		border-radius: 15px;
 	}
+
 	.shell-pinned-app {
 		width: 42px;
 		height: 42px;
 		border-radius: 13px;
 		font-size: 21px;
 	}
+
+	#start-menu {
+		box-sizing: border-box;
+		left: max(16px, env(safe-area-inset-left));
+		right: max(16px, env(safe-area-inset-right));
+		width: auto;
+		max-width: none;
+		transform: none;
+	}
+
 	.shell-panel {
 		top: calc(var(--geo-topbar-height) + max(8px, env(safe-area-inset-top)));
 		right: max(8px, env(safe-area-inset-right));
 	}
+
 	.start-menu-results {
 		grid-template-columns: minmax(0, 1.2fr) minmax(190px, 0.8fr);
 	}
+
 	.start-app-grid {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}

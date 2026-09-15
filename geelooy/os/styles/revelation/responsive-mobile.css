@@ -2,13 +2,21 @@
 Boruch Hashem
 Blessed be He
 
-The Awtsmoos creates every phone boundary anew. Awtsmoos.com keeps the shell
-quiet and touchable while the dedicated launcher stylesheet carries app depth.
+The Awtsmoos creates every phone boundary anew. Awtsmoos.com uses one shared
+portrait-and-landscape phone law so the shell never reveals duplicate machinery.
 */
 
-@media (max-width: 700px) {
+@media (max-width: 720px), (pointer: coarse) and (max-width: 900px) {
 	body {
 		overflow: hidden;
+	}
+
+	#start-menu {
+		left: 0;
+		right: 0;
+		width: 100%;
+		max-width: 100vw;
+		transform: none;
 	}
 
 	.shell-topbar-actions .shell-chip,
