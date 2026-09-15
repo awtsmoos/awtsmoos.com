@@ -11,26 +11,28 @@ const Continuation = require("../mission/autoContinuation/status.js");
 const Shared = require("../mission/autoContinuation/sharedShliachTransport.js");
 
 /**
- * @file Projects one inspectable health/skew snapshot without becoming a second runtime authority.
- * @description The Awtsmoos reveals release, repository, continuation, browser and velocity vessels
- * together so operators see drift quickly while every underlying store remains the source of truth.
+ * @file Projects one inspectable health/skew snapshot through canonical and compatibility names.
+ * @description The Awtsmoos reveals one health truth through stable Tunnel vocabularies; both
+ * names execute the same bounded implementation and inherit the same `system` capability family.
  */
 function buildSystemHealthActions(context) {
-	const { config, payload = {} } = context;
+	async function health() {
+		const { config, payload = {} } = context;
+		const continuation = await Continuation.status(config, payload);
+		return {
+			ok: true,
+			projectRoot: config.root || "",
+			release: releaseIdentity(config),
+			repository: repositoryIdentity(config.root),
+			velocity: Velocity.guidance(),
+			continuation,
+			control: await Control.read(config),
+			sharedBrowser: await sharedBrowser(payload.registryFile)
+		};
+	}
 	return {
-		async tunnelSystemHealth() {
-			const continuation = await Continuation.status(config, payload);
-			return {
-				ok: true,
-				projectRoot: config.root || "",
-				release: releaseIdentity(config),
-				repository: repositoryIdentity(config.root),
-				velocity: Velocity.guidance(),
-				continuation,
-				control: await Control.read(config),
-				sharedBrowser: await sharedBrowser(payload.registryFile)
-			};
-		}
+		tunnelSystemHealth: health,
+		systemHealthControls: health
 	};
 }
 
