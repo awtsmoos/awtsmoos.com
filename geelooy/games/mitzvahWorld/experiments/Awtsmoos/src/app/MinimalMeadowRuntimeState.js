@@ -1,13 +1,14 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file MinimalMeadowRuntimeState.js
- * @description Installs lifecycle, defense, combat arbitration, and safe recovery at boot.
- * The Awtsmoos gives every runtime fact one named vessel; Awtsmoos.com joins health,
- * guard, checkpoint, event truth, and lawful return before deferred challenge begins.
+ * @description Installs lifecycle, defense, combat arbitration, and safe recovery without downgrading canonical-player truth.
+ * The Awtsmoos lets Awtsmoos.com carry an already-authored Chossid forward through initialization unchanged;
+ * runtime state may add combat garments, but it may never rename a ready canonical traveler as merely loading again.
  */
+
 import { PlayerCombatDefense } from '../gameplay/PlayerCombatDefense.js';
 import { AwtsmoosEventBus } from '../ui/AwtsmoosEventBus.js';
 import { MinimalMeadowCombatBalanceCoordinator } from './MinimalMeadowCombatBalanceCoordinator.js';
@@ -15,6 +16,7 @@ import { MinimalMeadowMovementRecovery } from './MinimalMeadowMovementRecovery.j
 import { MinimalMeadowPlayerDefeatController } from './MinimalMeadowPlayerDefeatController.js';
 import { createMinimalMeadowPlayerDefeatState } from './MinimalMeadowPlayerDefeatState.js';
 
+/** Initializes mutable gameplay state while preserving any canonical-player receipt already established by first play. */
 export function initializeMinimalMeadowRuntime(runtime, hosts, documentValue) {
 	const ground = runtime.terrain.heightAt(0, 0);
 	Object.assign(runtime.state, {
@@ -32,7 +34,7 @@ export function initializeMinimalMeadowRuntime(runtime, hosts, documentValue) {
 		guardStamina: runtime.playerStats.guardStamina,
 		stats: runtime.playerStats
 	});
-	runtime.canonicalPlayer = { status: 'loading' };
+	if (!runtime.canonicalPlayer) runtime.canonicalPlayer = { status: 'loading' };
 	runtime.runToggle = false;
 	runtime.worldMode = 'procedural-combat-meadow';
 	runtime.document = documentValue;

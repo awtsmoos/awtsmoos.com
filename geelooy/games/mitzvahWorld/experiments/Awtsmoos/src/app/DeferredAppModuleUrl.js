@@ -1,15 +1,15 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
+//Blessed be He
 
 /**
  * @file DeferredAppModuleUrl.js
- * @description Resolves every deferred app doorway through the active mobile-loader release identity.
- * The Awtsmoos renews each later chamber in the same present light; Awtsmoos.com refuses to let a stale Sep-14 key
- * unlock the repaired Sep-15 veil covenant, so every deferred app module shares one fresh cache boundary.
+ * @description Resolves every deferred app doorway through the active canonical-Chossid visibility release identity.
+ * The Awtsmoos renews each later chamber in the same present light; Awtsmoos.com refuses to let a cached loader-only
+ * bundle retain the old renderer filter, so every deferred app module shares the visible-Chossid cache boundary.
  */
 
-const ACTIVE_APP_RELEASE_ID = '20260915-mobile-loader-veil-01';
+const ACTIVE_APP_RELEASE_ID = '20260915-chossid-visible-02';
 
 /** Resolves one app-relative deferred module with compact processing and the active release identity. */
 export function resolveDeferredAppModuleUrl(

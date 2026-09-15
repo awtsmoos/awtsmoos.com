@@ -1,19 +1,19 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
+//Blessed be He
 
 /**
  * @file MitzvahWorldProductionPrewarm.test.mjs
  * @description Locks the production shell to the smallest version-matched first-control preload set and one immutable authored Chossid.
- * The Awtsmoos lets Awtsmoos.com prewarm only foundation, core, and the real traveler under one Sep-15 cache covenant,
- * so Android cannot combine a repaired entry with stale first-play modules while optional richness remains outside the first journey.
+ * The Awtsmoos lets Awtsmoos.com prewarm only foundation, core, and the real traveler under one visible-Chossid cache covenant,
+ * so Android cannot combine a repaired renderer with stale first-play modules while optional richness remains outside the first journey.
  */
 
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
-const RELEASE_ID = '20260915-mobile-loader-veil-01';
+const RELEASE_ID = '20260915-chossid-visible-02';
 const INDEX_URL = new URL('../index.html', import.meta.url);
 const FOUNDATION_URL = `./experiments/Awtsmoos/src/mitzvah-world-foundation.compact.js?v=${RELEASE_ID}`;
 const CORE_URL = `./experiments/Awtsmoos/src/mitzvah-world-core.compact.js?v=${RELEASE_ID}`;
@@ -44,12 +44,12 @@ test('production shell preloads the exact immutable authored Chossid', async () 
 	assert.equal((html.match(new RegExp(escapeRegExp(CHOSSID_URL), 'g')) || []).length, 1);
 });
 
-test('entry, foundation, and core share the active mobile-loader release identity', async () => {
+test('entry, foundation, and core share the active visible-Chossid release identity', async () => {
 	const html = await productionShell();
 	for (const url of [ENTRY_URL, FOUNDATION_URL, CORE_URL]) {
 		assert.ok(html.includes(url), url);
 	}
-	assert.doesNotMatch(html, /20260914-production-meadow-recovery-01/);
+	assert.doesNotMatch(html, /20260915-mobile-loader-veil-01/);
 });
 
 function modulePreloadPattern(url) {

@@ -1,12 +1,12 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file BootstrapColorRenderer.js
- * @description Draws first-playable meshes while honoring material color contracts.
- * The Awtsmoos reveals shadow and garment before rich hydration; Awtsmoos.com keeps
- * demons readable and staff or sword visible without opening another request graph.
+ * @description Draws the bounded survival world together with the real authored Chossid before any rich renderer exists.
+ * The Awtsmoos lets earth and traveler appear in the same first light; Awtsmoos.com keeps the low-mode renderer tiny
+ * while refusing to filter the canonical Chossid out merely because he is authored reality rather than bootstrap scenery.
  */
 
 import { lookAt, perspective } from '../../../light-three-gltf/tiny-camera-math.js';
@@ -53,10 +53,7 @@ export class BootstrapColorRenderer {
 		gl.vertexAttribPointer(locations.position, 3, gl.FLOAT, false, 0, 0);
 		bindBootstrapMeshColor(this.buffers, gl, entry, locations, mesh.material);
 		gl.uniformMatrix4fv(locations.model, false, mesh.matrixWorld);
-		gl.uniform4fv(
-			locations.color,
-			writeBootstrapMaterialColor(mesh.material, this.materialColor)
-		);
+		gl.uniform4fv(locations.color, writeBootstrapMaterialColor(mesh.material, this.materialColor));
 		if (entry.indexBuffer) {
 			gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, entry.indexBuffer);
 			gl.drawElements(gl.TRIANGLES, entry.count, entry.indexType, 0);
@@ -80,15 +77,19 @@ export class BootstrapColorRenderer {
 	}
 }
 
-function collectBootstrapMeshes(scene) {
+/** Collects only intentional survival visuals: bounded world geometry and the canonical authored Chossid. */
+export function collectBootstrapMeshes(scene) {
 	const meshes = [];
 	scene?.traverse?.(object => {
-		const isMesh = object.isMesh || object.isSkinnedMesh;
-		if (isMesh && object.visible !== false && object.userData?.bootstrapVisual) {
-			meshes.push(object);
-		}
+		if (bootstrapRenderable(object)) meshes.push(object);
 	});
 	return meshes;
+}
+
+function bootstrapRenderable(object) {
+	const isMesh = object?.isMesh || object?.isSkinnedMesh;
+	const intended = object?.userData?.bootstrapVisual || object?.userData?.realChossid;
+	return Boolean(isMesh && object.visible !== false && intended);
 }
 
 function cameraProjectionView(camera) {

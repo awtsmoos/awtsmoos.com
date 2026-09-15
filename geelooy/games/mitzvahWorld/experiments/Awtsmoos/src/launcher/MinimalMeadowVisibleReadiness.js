@@ -1,6 +1,6 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
+//Blessed be He
 
 /**
  * @file MinimalMeadowVisibleReadiness.js
@@ -39,19 +39,17 @@ export function inspectMinimalMeadowVisibleReadiness(runtime) {
 		missing.push('canonical-player-receipt');
 	}
 	const model = runtime?.model;
-	if (!attachedVisibleRoot(model, runtime?.scene) || !model?.userData?.AwtsmoosCanonicalPlayer) {
+	if (!attachedVisibleRoot(model, runtime?.scene)) {
 		missing.push('canonical-player-visible');
 	}
-	if (visibleRenderableCount(runtime?.visiblePlayer || model) < 1) {
-		missing.push('canonical-player-mesh');
-	}
+	const playerMeshes = visibleRenderableCount(runtime?.visiblePlayer || model);
+	if (playerMeshes < 1) missing.push('canonical-player-mesh');
 	const terrainGroup = runtime?.terrain?.group;
 	if (!attachedVisibleRoot(terrainGroup, runtime?.scene)) {
 		missing.push('bootstrap-terrain-visible');
 	}
-	if (visibleRenderableCount(terrainGroup) < 1) {
-		missing.push('bootstrap-terrain-mesh');
-	}
+	const terrainMeshes = visibleRenderableCount(terrainGroup);
+	if (terrainMeshes < 1) missing.push('bootstrap-terrain-mesh');
 	if (!runtime?.movement) missing.push('movement-loop');
 	if (!(Number(runtime?.bootstrapFrames) > 0) || !Number.isFinite(runtime?.lastFrameAt)) {
 		missing.push('painted-gameplay-frame');
@@ -60,9 +58,9 @@ export function inspectMinimalMeadowVisibleReadiness(runtime) {
 	return Object.freeze({
 		frames: Number(runtime?.bootstrapFrames) || 0,
 		missing: Object.freeze(missing),
-		playerMeshes: visibleRenderableCount(runtime?.visiblePlayer || model),
+		playerMeshes,
 		ready: missing.length === 0,
-		terrainMeshes: visibleRenderableCount(terrainGroup)
+		terrainMeshes
 	});
 }
 

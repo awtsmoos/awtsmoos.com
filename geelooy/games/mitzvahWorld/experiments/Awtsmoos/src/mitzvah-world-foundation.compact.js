@@ -11601,12 +11601,12 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	/**
 	 * @file DeferredAppModuleUrl.js
-	 * @description Resolves every deferred app doorway through the active mobile-loader release identity.
-	 * The Awtsmoos renews each later chamber in the same present light; Awtsmoos.com refuses to let a stale Sep-14 key
-	 * unlock the repaired Sep-15 veil covenant, so every deferred app module shares one fresh cache boundary.
+	 * @description Resolves every deferred app doorway through the active canonical-Chossid visibility release identity.
+	 * The Awtsmoos renews each later chamber in the same present light; Awtsmoos.com refuses to let a cached loader-only
+	 * bundle retain the old renderer filter, so every deferred app module shares the visible-Chossid cache boundary.
 	 */
 
-	const ACTIVE_APP_RELEASE_ID = '20260915-mobile-loader-veil-01';
+	const ACTIVE_APP_RELEASE_ID = '20260915-chossid-visible-02';
 
 	/** Resolves one app-relative deferred module with compact processing and the active release identity. */
 	function resolveDeferredAppModuleUrl(
@@ -16425,15 +16425,15 @@ const __awtsmoosModule_0 = Object.create(null);
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapColorRenderer.js ----
 {
 	const __exports = __awtsmoosModule_200;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
+	//B"H
+	//Boruch Hashem
+	//Blessed is He
 
 	/**
 	 * @file BootstrapColorRenderer.js
-	 * @description Draws first-playable meshes while honoring material color contracts.
-	 * The Awtsmoos reveals shadow and garment before rich hydration; Awtsmoos.com keeps
-	 * demons readable and staff or sword visible without opening another request graph.
+	 * @description Draws the bounded survival world together with the real authored Chossid before any rich renderer exists.
+	 * The Awtsmoos lets earth and traveler appear in the same first light; Awtsmoos.com keeps the low-mode renderer tiny
+	 * while refusing to filter the canonical Chossid out merely because he is authored reality rather than bootstrap scenery.
 	 */
 
 	const lookAt = __awtsmoosModule_112.lookAt;
@@ -16479,10 +16479,7 @@ const __awtsmoosModule_0 = Object.create(null);
 			gl.vertexAttribPointer(locations.position, 3, gl.FLOAT, false, 0, 0);
 			bindBootstrapMeshColor(this.buffers, gl, entry, locations, mesh.material);
 			gl.uniformMatrix4fv(locations.model, false, mesh.matrixWorld);
-			gl.uniform4fv(
-				locations.color,
-				writeBootstrapMaterialColor(mesh.material, this.materialColor)
-			);
+			gl.uniform4fv(locations.color, writeBootstrapMaterialColor(mesh.material, this.materialColor));
 			if (entry.indexBuffer) {
 				gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, entry.indexBuffer);
 				gl.drawElements(gl.TRIANGLES, entry.count, entry.indexType, 0);
@@ -16508,15 +16505,21 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.BootstrapColorRenderer = BootstrapColorRenderer;
+	/** Collects only intentional survival visuals: bounded world geometry and the canonical authored Chossid. */
 	function collectBootstrapMeshes(scene) {
 		const meshes = [];
 		scene?.traverse?.(object => {
-			const isMesh = object.isMesh || object.isSkinnedMesh;
-			if (isMesh && object.visible !== false && object.userData?.bootstrapVisual) {
-				meshes.push(object);
-			}
+			if (bootstrapRenderable(object)) meshes.push(object);
 		});
 		return meshes;
+	}
+
+
+	__exports.collectBootstrapMeshes = collectBootstrapMeshes;
+	function bootstrapRenderable(object) {
+		const isMesh = object?.isMesh || object?.isSkinnedMesh;
+		const intended = object?.userData?.bootstrapVisual || object?.userData?.realChossid;
+		return Boolean(isMesh && object.visible !== false && intended);
 	}
 
 	function cameraProjectionView(camera) {

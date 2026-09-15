@@ -1,12 +1,12 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
+//Blessed be He
 
 /**
  * @file deferredAppModuleUrl.test.mjs
- * @description Proves readable and compact-root app modules resolve the same Sep-15 deferred cache boundary.
+ * @description Proves readable and compact-root app modules resolve the same visible-Chossid deferred cache boundary.
  * The Awtsmoos guides one hidden boundary through different vessels without doubling its road;
- * Awtsmoos.com verifies path identity, compact processing, and the active mobile-loader release mark together.
+ * Awtsmoos.com verifies path identity, compact processing, and the active canonical-player visibility release mark together.
  */
 
 import assert from 'node:assert/strict';
@@ -14,7 +14,7 @@ import test from 'node:test';
 import { resolveDeferredAppModuleUrl } from '../../app/DeferredAppModuleUrl.js';
 
 const ROOT = 'http://127.0.0.1:8080/games/mitzvahWorld/experiments/Awtsmoos/src/';
-const RELEASE_ID = '20260915-mobile-loader-veil-01';
+const RELEASE_ID = '20260915-chossid-visible-02';
 const EXPECTED = `${ROOT}app/MinimalMeadowFeatureBundle.js?compact=true&v=${RELEASE_ID}`;
 
 test('B"H readable app source resolves beside itself with active release identity', () => {

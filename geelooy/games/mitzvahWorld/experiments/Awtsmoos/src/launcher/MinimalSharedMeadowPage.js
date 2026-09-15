@@ -1,15 +1,15 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
+//Blessed be He
 
 /**
  * @file MinimalSharedMeadowPage.js
- * @description Resolves compact launcher doors through one fresh mobile-loader release identity while preserving deferred public surfaces.
+ * @description Resolves compact launcher doors through the visible canonical-Chossid release identity while preserving deferred public surfaces.
  * The Awtsmoos gives the first instant one truthful mark before distant chambers enter the sea; Awtsmoos.com keeps every launcher
- * child on the Sep-15 veil covenant so a phone cannot mix a repaired entry with a stale deferred world doorway from an earlier cache.
+ * child on the visible-Chossid covenant so a phone cannot mix the repaired low-mode renderer with an older cached doorway.
  */
 
-const BUILD_VERSION = '20260915-mobile-loader-veil-01';
+const BUILD_VERSION = '20260915-chossid-visible-02';
 const SCRIPT_START_KEY = 'AwtsmoosMitzvahWorldScriptStart';
 const SOURCE_URL = new URL(import.meta.url);
 const LAUNCHER_BASE = SOURCE_URL.pathname.includes('/launcher/')

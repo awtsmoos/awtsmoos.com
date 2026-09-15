@@ -4,8 +4,9 @@
 
 /**
  * @file bootstrapCanonicalPlayerHydration.test.mjs
- * @description Proves first control owns the authored GLB and the historic generated-human doorway can only fail closed.
- * The test follows behavior and authority rather than requiring one obsolete internal helper name.
+ * @description Proves first control owns the authored GLB and later initialization cannot downgrade that canonical receipt.
+ * The Awtsmoos lets Awtsmoos.com name the real traveler once and carry that truth forward; bootstrap state may grow,
+ * but it may never reset a ready Chossid to loading or reopen the generated-human doorway behind him.
  */
 
 import assert from 'node:assert/strict';
@@ -14,7 +15,6 @@ import test from 'node:test';
 
 const APP_URL = new URL('../../app/', import.meta.url);
 
-/** Reads one authored application module for architectural contract checks. */
 function source(name) {
 	return readFile(new URL(name, APP_URL), 'utf8');
 }
@@ -26,6 +26,18 @@ test('bootstrap runtime installs canonical GLB identity before control', async (
 	assert.match(runtime, /canonicalPlayerPromise = Promise\.resolve/);
 	assert.match(runtime, /none-glb-only/);
 	assert.doesNotMatch(runtime, /createBootstrapVisiblePlayer/);
+});
+
+test('runtime initialization preserves an already-ready canonical receipt', async () => {
+	const state = await source('MinimalMeadowRuntimeState.js');
+	assert.match(
+		state,
+		/if \(!runtime\.canonicalPlayer\) runtime\.canonicalPlayer = \{ status: 'loading' \};/
+	);
+	assert.doesNotMatch(
+		state,
+		/\n\truntime\.canonicalPlayer = \{ status: 'loading' \};/
+	);
 });
 
 test('historic generated-human API is a hard guard rather than a model factory', async () => {
