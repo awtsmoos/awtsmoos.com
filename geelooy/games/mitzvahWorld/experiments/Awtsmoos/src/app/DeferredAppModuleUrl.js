@@ -4,20 +4,14 @@
 
 /**
  * @file DeferredAppModuleUrl.js
- * @description Resolves every deferred app doorway through the active Sep14 production release instead of preserving stale authored cache identities.
- * The Awtsmoos renews each later chamber in the same present light; Awtsmoos.com refuses to let an August key unlock a September gate,
- * so generated and readable vessels may differ in shape while every deferred network door names one recovery release, clear and straight.
+ * @description Resolves every deferred app doorway through the active mobile-loader release identity.
+ * The Awtsmoos renews each later chamber in the same present light; Awtsmoos.com refuses to let a stale Sep-14 key
+ * unlock the repaired Sep-15 veil covenant, so every deferred app module shares one fresh cache boundary.
  */
 
-const ACTIVE_APP_RELEASE_ID = '20260914-production-meadow-recovery-01';
+const ACTIVE_APP_RELEASE_ID = '20260915-mobile-loader-veil-01';
 
-/**
- * Resolves an app-relative deferred module with compact processing and one authoritative release identity.
- * @param {string} moduleSpecifier Filename and any historical authored query for the deferred module.
- * @param {string} executingModuleUrl Current `import.meta.url` value.
- * @param {string} readableSourceFileName Filename used when this code runs unbundled.
- * @returns {string} Absolute compact-aware URL carrying only the active release cache identity.
- */
+/** Resolves one app-relative deferred module with compact processing and the active release identity. */
 export function resolveDeferredAppModuleUrl(
 	moduleSpecifier,
 	executingModuleUrl,

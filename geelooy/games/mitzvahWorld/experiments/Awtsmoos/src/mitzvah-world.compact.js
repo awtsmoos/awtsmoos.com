@@ -39,12 +39,12 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	/**
 	 * @file MinimalSharedMeadowPage.js
-	 * @description Resolves compact launcher doors through one tiny first-control recovery identity while preserving the full deferred public launcher surface.
-	 * The Awtsmoos gives the first instant one truthful mark before distant chambers enter the sea; Awtsmoos.com keeps the compact vessel light,
-	 * while the Sep14 recovery key keeps every first-control child fresh and later runtime/session doors awaken only when their callers truly arrive in sight.
+	 * @description Resolves compact launcher doors through one fresh mobile-loader release identity while preserving deferred public surfaces.
+	 * The Awtsmoos gives the first instant one truthful mark before distant chambers enter the sea; Awtsmoos.com keeps every launcher
+	 * child on the Sep-15 veil covenant so a phone cannot mix a repaired entry with a stale deferred world doorway from an earlier cache.
 	 */
 
-	const BUILD_VERSION = '20260914-production-meadow-recovery-01';
+	const BUILD_VERSION = '20260915-mobile-loader-veil-01';
 	const SCRIPT_START_KEY = 'AwtsmoosMitzvahWorldScriptStart';
 	const SOURCE_URL = new URL((( globalThis.location?.origin && globalThis.location.origin !== "null" ? globalThis.location.origin : "https://awtsmoos.local" ) + "/games/mitzvahWorld/experiments/Awtsmoos/src/launcher/MinimalSharedMeadowPage.js"));
 	const LAUNCHER_BASE = SOURCE_URL.pathname.includes('/launcher/')
@@ -54,11 +54,8 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	markCompactScriptStart(globalThis);
 
-	/** Boots the canonical MitzvahWorld page once through the compact page launcher. */
-	async function bootMinimalSharedMeadowPage(
-		documentValue = document,
-		environment = globalThis
-	) {
+	/** Boots the canonical Mitzvah World page once through the compact page launcher. */
+	async function bootMinimalSharedMeadowPage(documentValue = document, environment = globalThis) {
 		markCompactScriptStart(environment);
 		const module = await import(PAGE_BOOT_URL);
 		return module.ensureMitzvahWorldPageBoot(documentValue, environment);
@@ -67,11 +64,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	__exports.bootMinimalSharedMeadowPage = bootMinimalSharedMeadowPage;
 	/** Boots only the shared meadow runtime for embedded or verification surfaces. */
-	async function bootMinimalSharedMeadowRuntimePage(
-		hosts,
-		options = {},
-		environment = globalThis
-	) {
+	async function bootMinimalSharedMeadowRuntimePage(hosts, options = {}, environment = globalThis) {
 		markCompactScriptStart(environment);
 		const module = await import(launcherModuleUrl('MinimalSharedMeadowRuntimePage.js'));
 		return module.bootMinimalSharedMeadowRuntimePage(hosts, options, environment);
@@ -94,18 +87,13 @@ const __awtsmoosModule_0 = Object.create(null);
 			? environment.performance.now()
 			: Date.now();
 		try {
-			environment[SCRIPT_START_KEY] = Number.isFinite(Number(value))
-				? Number(value)
-				: 0;
+			environment[SCRIPT_START_KEY] = Number.isFinite(Number(value)) ? Number(value) : 0;
 		} catch {}
 	}
 
-	/** Resolves one first-control launcher URL with compact and recovery-cache identities in canonical order. */
+	/** Resolves one first-control launcher URL with compact and release-cache identities in canonical order. */
 	function launcherModuleUrl(fileName) {
-		return new URL(
-			`${fileName}?compact=true&v=${BUILD_VERSION}`,
-			LAUNCHER_BASE
-		).href;
+		return new URL(`${fileName}?compact=true&v=${BUILD_VERSION}`, LAUNCHER_BASE).href;
 	}
 
 }

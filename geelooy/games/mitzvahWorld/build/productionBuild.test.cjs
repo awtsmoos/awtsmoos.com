@@ -4,9 +4,9 @@
 
 /**
  * @file productionBuild.test.cjs
- * @description Proves versioned compact entry doors, tiny first control, bounded playable foundation/core, later quality chunks, compression, and complete cinema reachability.
- * The Awtsmoos grants first control through one almost weightless gate while the playable valley crosses two measured rays;
- * Awtsmoos.com gives the repaired September entry a fresh public key, then keeps later world beauty deferred and every generated garment verified on its way.
+ * @description Proves fresh compact entry identity, tiny first control, deterministic chunks, compression, and deferred cinema reachability.
+ * The Awtsmoos gives Awtsmoos.com one Sep-15 mobile-loader cache family from first threshold through later chambers,
+ * while the playable valley remains measured, generated only by its builders, and free of deferred world systems before control.
  */
 
 const assert = require('node:assert/strict');
@@ -18,7 +18,7 @@ const {
 	verifyRepresentations
 } = require('./ProductionBuildProof.cjs');
 
-const RECOVERY_VERSION = '20260914-production-meadow-recovery-01';
+const RELEASE_VERSION = '20260915-mobile-loader-veil-01';
 const chunks = Object.freeze([
 	['foundation', 'createEretzWorldFoundation'],
 	['core', 'assembleBootstrapCoreRuntime'],
@@ -37,7 +37,7 @@ const firstControlForbidden = Object.freeze([
 	'WorldSpatialRealismApi'
 ]);
 
-test('B"H production page selects fresh compact game and shell publications directly', () => {
+test('production page selects the fresh compact game beside shared shell infrastructure', () => {
 	const html = text('index.html');
 	const stylesheets = [...html.matchAll(/<link[^>]+rel="stylesheet"[^>]+href="([^"]+)"/g)]
 		.map(match => match[1]);
@@ -48,12 +48,14 @@ test('B"H production page selects fresh compact game and shell publications dire
 		'../styles/player-shell/index.css?compact=true'
 	]);
 	assert.deepEqual(modules, [
-		`./experiments/Awtsmoos/src/mitzvah-world.compact.js?v=${RECOVERY_VERSION}`,
+		`./experiments/Awtsmoos/src/mitzvah-world.compact.js?v=${RELEASE_VERSION}`,
 		'../scripts/player-shell/index.js?compact=true'
 	]);
+	assert.match(html, new RegExp(`mitzvah-world-foundation\\.compact\\.js\\?v=${RELEASE_VERSION}`));
+	assert.match(html, new RegExp(`mitzvah-world-core\\.compact\\.js\\?v=${RELEASE_VERSION}`));
 });
 
-test('B"H production CSS is complete and every representation is verified', () => {
+test('production CSS is complete and every representation is verified', () => {
 	const manifest = json('styles/generated/mitzvah-world.manifest.json');
 	assert.equal(manifest.blocking.length, 0);
 	assert.equal(manifest.stateCoverage.ready, true);
@@ -61,17 +63,13 @@ test('B"H production CSS is complete and every representation is verified', () =
 	verifyRepresentations('styles/generated/mitzvah-world.production.css', manifest.representations);
 });
 
-test('B"H first-control stays under eight kilobytes and contains no deferred world systems', () => {
+test('first-control stays under eight kilobytes and contains no deferred world systems', () => {
 	const manifest = json('build/generated/mitzvah-world-js.json');
 	const compact = text('experiments/Awtsmoos/src/mitzvah-world.compact.js');
 	assert.equal(manifest.deterministic, true);
 	assert.deepEqual(manifest.optionalModulesBundled, []);
 	assert.ok(manifest.outputBytes >= 1000 && manifest.outputBytes <= 8192);
-	for (const marker of [
-		'PAGE_BOOT_URL',
-		'MinimalSharedMeadowRuntimePage.js',
-		'bootMinimalSharedMeadowPage'
-	]) {
+	for (const marker of ['PAGE_BOOT_URL', 'MinimalSharedMeadowRuntimePage.js', 'bootMinimalSharedMeadowPage']) {
 		assert.match(compact, new RegExp(marker));
 	}
 	for (const forbidden of firstControlForbidden) {
@@ -81,7 +79,7 @@ test('B"H first-control stays under eight kilobytes and contains no deferred wor
 });
 
 for (const [name, exportedName] of chunks) {
-	test(`B"H ${name} chunk is deterministic and complete`, () => {
+	test(`${name} chunk is deterministic and complete`, () => {
 		const relative = `experiments/Awtsmoos/src/mitzvah-world-${name}.compact.js`;
 		const manifest = json(`build/generated/mitzvah-world-${name}.json`);
 		assert.equal(manifest.deterministic, true);
@@ -91,7 +89,7 @@ for (const [name, exportedName] of chunks) {
 	});
 }
 
-test('B"H deferred creative mode preserves the complete served cinema graph', () => {
+test('deferred creative mode preserves the complete served cinema graph', () => {
 	const loader = text('experiments/Awtsmoos/src/launcher/MitzvahWorldCreativeModeLoaders.js');
 	const api = text('experiments/Awtsmoos/src/movie/MovieStudioApi.js');
 	const cinema = cinemaSources();

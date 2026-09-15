@@ -4,9 +4,9 @@
 
 /**
  * @file MitzvahWorldDeferredRuntimeLoader.js
- * @description Loads selected-route capability only after intent while every lazy doorway inherits the one active production recovery identity.
- * The Awtsmoos reveals each chamber only when its purpose is chosen; Awtsmoos.com keeps the first threshold light and the later vessel bright,
- * so menu speed remains swift while no deferred import may wander backward into an older cache family or hide its work from measured sight.
+ * @description Reopens the blocking veil synchronously before selected-route capability crosses the network.
+ * The Awtsmoos lets Awtsmoos.com hide the veil while a world is merely being chosen, then raises it in the very instant
+ * of committed intent so no deferred import can expose an unfinished HUD shell behind a message the player cannot see.
  */
 
 import { resolveMitzvahWorldReleaseResourceUrl } from './MitzvahWorldReleaseResourceUrl.js';
@@ -17,15 +17,9 @@ const DEFERRED_RUNTIME_URL = resolveMitzvahWorldReleaseResourceUrl(
 );
 let deferredRuntimePromise = null;
 
-/**
- * Loads and caches the deferred route shell while allowing deterministic dependency injection.
- * @param {object} dependencies Launcher dependencies and optional injected deferred runtime.
- * @returns {Promise<object>} Deferred route runtime module.
- */
+/** Loads and caches the deferred route shell after synchronously publishing blocking progress. */
 export async function loadMitzvahWorldDeferredRuntime(dependencies = {}) {
-	if (dependencies.deferredLaunchRuntime) {
-		return dependencies.deferredLaunchRuntime;
-	}
+	if (dependencies.deferredLaunchRuntime) return dependencies.deferredLaunchRuntime;
 	reportDeferredProgress(dependencies);
 	if (!deferredRuntimePromise) {
 		deferredRuntimePromise = import(DEFERRED_RUNTIME_URL).catch(error => {
@@ -36,11 +30,7 @@ export async function loadMitzvahWorldDeferredRuntime(dependencies = {}) {
 	return deferredRuntimePromise;
 }
 
-/**
- * Creates menu handlers that hydrate route capability only after intentional selection.
- * @param {object} context Prepared launch context.
- * @returns {Readonly<object>} Lazy menu-handler map.
- */
+/** Creates menu handlers that hydrate route capability only after intentional selection. */
 export function createLazyMitzvahWorldMenuHandlers(context) {
 	const launchSelection = async (selection = {}) => {
 		const runtime = await loadMitzvahWorldDeferredRuntime(context.dependencies);
@@ -56,9 +46,10 @@ export function createLazyMitzvahWorldMenuHandlers(context) {
 	});
 }
 
-/** Reports the lazy capability door before the network import begins. */
+/** Reopens the loading veil before the dynamic import begins. */
 function reportDeferredProgress(dependencies) {
 	dependencies.onProgress?.({
+		blocking: true,
 		message: 'Loading the selected gameplay capability…',
 		progress: 0.04,
 		stage: 'deferred-runtime-module',

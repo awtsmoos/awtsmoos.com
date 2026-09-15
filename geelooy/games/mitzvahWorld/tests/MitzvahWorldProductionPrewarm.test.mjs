@@ -4,18 +4,20 @@
 
 /**
  * @file MitzvahWorldProductionPrewarm.test.mjs
- * @description Locks the production shell to the smallest measured preload set: foundation, core, and the one immutable authored Chossid.
- * The Awtsmoos lets Awtsmoos.com prepare only the vessels that first control truly needs,
- * so the chooser stays light while no optional world, presentation, or richness chunk steals the first journey's breath.
+ * @description Locks the production shell to the smallest version-matched first-control preload set and one immutable authored Chossid.
+ * The Awtsmoos lets Awtsmoos.com prewarm only foundation, core, and the real traveler under one Sep-15 cache covenant,
+ * so Android cannot combine a repaired entry with stale first-play modules while optional richness remains outside the first journey.
  */
 
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
+const RELEASE_ID = '20260915-mobile-loader-veil-01';
 const INDEX_URL = new URL('../index.html', import.meta.url);
-const FOUNDATION_URL = './experiments/Awtsmoos/src/mitzvah-world-foundation.compact.js';
-const CORE_URL = './experiments/Awtsmoos/src/mitzvah-world-core.compact.js';
+const FOUNDATION_URL = `./experiments/Awtsmoos/src/mitzvah-world-foundation.compact.js?v=${RELEASE_ID}`;
+const CORE_URL = `./experiments/Awtsmoos/src/mitzvah-world-core.compact.js?v=${RELEASE_ID}`;
+const ENTRY_URL = `./experiments/Awtsmoos/src/mitzvah-world.compact.js?v=${RELEASE_ID}`;
 const CHOSSID_URL = 'https://awtsmoos.com/sites/firebase_drive_migration/assets/mitzvah-world/models/player/d86fd3289c3d12ac566fe8aa7bed37244e352043ee821a0c43b47055ce8ebe48/chossid.glb';
 const FORBIDDEN_PRELOADS = [
 	'mitzvah-world-optional.compact.js',
@@ -27,7 +29,7 @@ async function productionShell() {
 	return readFile(INDEX_URL, 'utf8');
 }
 
-test('production shell prewarms only the measured first-control modules', async () => {
+test('production shell prewarms only the version-matched first-control modules', async () => {
 	const html = await productionShell();
 	assert.match(html, modulePreloadPattern(FOUNDATION_URL));
 	assert.match(html, modulePreloadPattern(CORE_URL));
@@ -42,12 +44,12 @@ test('production shell preloads the exact immutable authored Chossid', async () 
 	assert.equal((html.match(new RegExp(escapeRegExp(CHOSSID_URL), 'g')) || []).length, 1);
 });
 
-test('production entry keeps the active recovery identity', async () => {
+test('entry, foundation, and core share the active mobile-loader release identity', async () => {
 	const html = await productionShell();
-	assert.match(
-		html,
-		/mitzvah-world\.compact\.js\?v=20260914-production-meadow-recovery-01/
-	);
+	for (const url of [ENTRY_URL, FOUNDATION_URL, CORE_URL]) {
+		assert.ok(html.includes(url), url);
+	}
+	assert.doesNotMatch(html, /20260914-production-meadow-recovery-01/);
 });
 
 function modulePreloadPattern(url) {

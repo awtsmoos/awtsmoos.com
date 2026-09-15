@@ -1,19 +1,18 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file meadowLoadingScreenCanonicalUnavailable.test.mjs
- * @description Proves the loading veil reports canonical GLB absence honestly and never invents a visible fallback.
- * The Awtsmoos may conceal an authored garment while bytes refuse to descend in line;
- * Awtsmoos.com tells that absence plainly and never paints a counterfeit human sign.
+ * @description Proves canonical Chossid absence remains visible and blocking world work can reopen a veil hidden for menu choice.
+ * The Awtsmoos lets Awtsmoos.com lower the curtain only for deliberate selection; once chosen work begins, the same veil rises
+ * before the network crossing and stays truthful through authored-player failure instead of exposing an unfinished HUD shell.
  */
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { MeadowLoadingScreen } from '../../launcher/MeadowLoadingScreen.js';
 
-/** Proves canonical failure leaves truthful copy in the actual loading-screen behavior. */
 test('canonical-unavailable says gameplay is held for the authored Chossid', () => {
 	const vessel = fixture();
 	const screen = new MeadowLoadingScreen(vessel.document, vessel.environment);
@@ -26,16 +25,42 @@ test('canonical-unavailable says gameplay is held for the authored Chossid', () 
 	screen.dispose();
 });
 
+test('blocking selected-world progress reopens a veil previously finished for the menu', () => {
+	const vessel = fixture();
+	const screen = new MeadowLoadingScreen(vessel.document, vessel.environment);
+	screen.finish();
+	assert.equal(vessel.elements.menuBoot.hidden, true);
+	assert.equal(vessel.elements.menuBoot.dataset.loadingComplete, 'true');
+	screen.world({
+		blocking: true,
+		message: 'Loading the selected gameplay capability…',
+		progress: 0.04
+	});
+	assert.equal(vessel.elements.menuBoot.hidden, false);
+	assert.equal(vessel.elements.menuBoot.dataset.loadingComplete, undefined);
+	assert.equal(vessel.elements.menuBoot.dataset.loadingFailure, undefined);
+	assert.equal(vessel.elements.menuBoot['aria-hidden'], 'false');
+	assert.equal(vessel.elements.menuBoot['aria-busy'], 'true');
+	assert.equal(vessel.elements.loadingMessage.textContent, 'Loading the selected gameplay capability…');
+	screen.dispose();
+});
+
+test('failure keeps the blocking veil visible instead of exposing the world shell', () => {
+	const vessel = fixture();
+	const screen = new MeadowLoadingScreen(vessel.document, vessel.environment);
+	screen.finish();
+	screen.fail(new Error('Authored Chossid unavailable'));
+	assert.equal(vessel.elements.menuBoot.hidden, false);
+	assert.equal(vessel.elements.menuBoot.dataset.loadingFailure, 'true');
+	assert.equal(vessel.elements.menuBoot['aria-busy'], 'true');
+	assert.equal(vessel.elements.loadingMessage.textContent, 'Authored Chossid unavailable');
+	screen.dispose();
+});
+
 function fixture() {
 	const ids = [
-		'mitzvah-world-root',
-		'menuBoot',
-		'loadingMessage',
-		'worldProgress',
-		'worldProgressValue',
-		'modelProgress',
-		'modelProgressValue',
-		'modelProgressDetail'
+		'mitzvah-world-root', 'menuBoot', 'loadingMessage', 'worldProgress',
+		'worldProgressValue', 'modelProgress', 'modelProgressValue', 'modelProgressDetail'
 	];
 	const elements = Object.fromEntries(ids.map(id => [id, element()]));
 	return {
@@ -51,15 +76,8 @@ function fixture() {
 
 function element() {
 	return {
-		dataset: {},
-		hidden: false,
-		removeAttribute(name) {
-			delete this[name];
-		},
-		setAttribute(name, value) {
-			this[name] = String(value);
-		},
-		textContent: '',
-		value: 0
+		dataset: {}, hidden: false, textContent: '', value: 0,
+		removeAttribute(name) { delete this[name]; },
+		setAttribute(name, value) { this[name] = String(value); }
 	};
 }

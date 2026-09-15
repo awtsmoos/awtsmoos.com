@@ -1,12 +1,12 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file MeadowLoadingScreen.js
- * @description Presents measured milestones and truthful GLB-only player readiness.
- * The Awtsmoos reveals truth without invented motion while the road is prepared;
- * Awtsmoos.com keeps the veil until the authored Chossid and visible meadow are genuinely declared.
+ * @description Owns one reusable blocking veil for menu boot, deferred world selection, canonical Chossid progress, and finite failure.
+ * The Awtsmoos lets Awtsmoos.com hide the veil for deliberate choice yet raise it again before the chosen world crosses the network;
+ * no message may whisper "loading" behind a hidden screen while an unfinished meadow and HUD are exposed as though play had begun.
  */
 
 import { markMitzvahWorldStartupMilestone } from '../app/MitzvahWorldStartupMilestones.js';
@@ -26,10 +26,6 @@ const MODEL_PHASE_LABELS_BINAH = Object.freeze({
 
 /** Owns the static loading veil and its measured world/model progress. */
 export class MeadowLoadingScreen {
-	/**
-	 * @param {Document} documentKli Active document.
-	 * @param {object} [environmentKli=globalThis] Event environment.
-	 */
 	constructor(documentKli, environmentKli = globalThis) {
 		this.document = documentKli;
 		this.environment = environmentKli;
@@ -43,25 +39,31 @@ export class MeadowLoadingScreen {
 		this.modelDetail = documentKli.getElementById('modelProgressDetail');
 		this.handleModelYesod = eventOhr => this.model(eventOhr.detail || {});
 		environmentKli.addEventListener?.('awtsmoos:model-progress', this.handleModelYesod);
-		this.rootStateMalchus.setFlag('menuReady', false);
-		delete this.root.dataset.loadingFailure;
-		this.root.hidden = false;
-		this.root.setAttribute('aria-hidden', 'false');
-		markMitzvahWorldStartupMilestone(environmentKli, 'loadingUiVisible');
+		this.block();
 		this.world({ message: 'Preparing the visible meadow…', progress: 0 });
 		this.model({ phase: 'waiting', progress: 0 });
 	}
 
-	/** @param {object} [updateChesed={}] World-load message and unit progress. */
-	world(updateChesed = {}) {
-		const progressTiferes = normalizeTiferesProgress(updateChesed.progress ?? 0);
-		presentYesodMeasuredBar(this.worldBar, this.worldValue, progressTiferes);
-		if (updateChesed.message) {
-			this.message.textContent = updateChesed.message;
-		}
+	/** Reopens the blocking veil before any selected-world network or module work begins. */
+	block() {
+		this.rootStateMalchus.setFlag('menuReady', false);
+		delete this.root.dataset.loadingComplete;
+		delete this.root.dataset.loadingFailure;
+		this.root.hidden = false;
+		this.root.setAttribute('aria-hidden', 'false');
+		this.root.setAttribute('aria-busy', 'true');
+		markMitzvahWorldStartupMilestone(this.environment, 'loadingUiVisible');
 	}
 
-	/** @param {object} [updateChesed={}] Model hydration phase and measured byte/progress evidence. */
+	/** Presents world progress and reopens the veil when the update begins blocking work. */
+	world(updateChesed = {}) {
+		if (updateChesed.blocking === true) this.block();
+		const progressTiferes = normalizeTiferesProgress(updateChesed.progress ?? 0);
+		presentYesodMeasuredBar(this.worldBar, this.worldValue, progressTiferes);
+		if (updateChesed.message) this.message.textContent = updateChesed.message;
+	}
+
+	/** Presents canonical authored-player hydration evidence. */
 	model(updateChesed = {}) {
 		const phaseBinah = updateChesed.phase || 'waiting';
 		const progressTiferes = Number.isFinite(updateChesed.progress)
@@ -79,32 +81,28 @@ export class MeadowLoadingScreen {
 			: MODEL_PHASE_LABELS_BINAH[phaseBinah] || phaseBinah;
 	}
 
-	/** Marks menu readiness and removes the blocking loading vessel from layout and accessibility trees. */
+	/** Hides the veil only after the caller has proven the relevant readiness covenant. */
 	finish() {
 		this.world({ message: 'Meadow ready.', progress: 1 });
 		this.rootStateMalchus.setFlag('menuReady', true);
 		this.root.dataset.loadingComplete = 'true';
 		this.root.hidden = true;
 		this.root.setAttribute('aria-hidden', 'true');
+		this.root.setAttribute('aria-busy', 'false');
 		markMitzvahWorldStartupMilestone(this.environment, 'loadingUiDismissed');
 		this.dispose();
 	}
 
-	/** @param {unknown} errorOhr Visible loading failure value. */
+	/** Keeps the veil visible and turns it into a finite visible failure state. */
 	fail(errorOhr) {
+		this.block();
 		this.rootStateMalchus.setBootStage('failed');
-		this.root.hidden = false;
-		this.root.setAttribute('aria-hidden', 'false');
 		this.root.dataset.loadingFailure = 'true';
 		this.message.textContent = errorOhr?.message || String(errorOhr);
 	}
 
-	/** Releases the model-progress listener after readiness or controller retirement. */
 	dispose() {
-		this.environment.removeEventListener?.(
-			'awtsmoos:model-progress',
-			this.handleModelYesod
-		);
+		this.environment.removeEventListener?.('awtsmoos:model-progress', this.handleModelYesod);
 	}
 }
 

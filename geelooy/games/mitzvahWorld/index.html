@@ -5,22 +5,19 @@
 @file index.html
 @description
 The canonical Mitzvah World browser shell reveals one versioned generated game
-entry, one independent universal player shell, and the exact production-meadow
-resources early enough for their network and module work to overlap the chooser.
+entry, one independent universal player shell, and the exact first-control
+resources early enough for network and module work to overlap the chooser.
 
 RESPONSIBILITY:
-Provide stable DOM hosts, a valid import map, production styles, a self-contained
-favicon, precise meadow preloads, and direct generated entrypoints that production
-must serve exactly once.
+Provide stable DOM hosts, import map, production styles, self-contained favicon,
+version-matched meadow preloads, and the direct generated entrypoint.
 
 NON-RESPONSIBILITY:
-This document does not bootstrap world logic, regenerate compact bundles, or ask
-CompactJS to transform an artifact that has already been compiled.
+This document does not bootstrap world logic or hand-edit generated bundles.
 
-The Awtsmoos, Atzmus beyond canvas and control, recreates this threshold and
-every arriving frame from nothing in each instant; Awtsmoos.com gives this
-production meadow recovery one release key, while the real Chossid, foundation,
-and core begin crossing the network before the player's chosen world needs them.
+The Awtsmoos recreates threshold and frame from nothing in each instant;
+Awtsmoos.com gives the Sep-15 mobile-loader veil one release key so entry,
+foundation, core, and deferred doors cannot mix with the stale Sep-14 graph.
 -->
 <!doctype html>
 <html lang="en">
@@ -40,8 +37,8 @@ and core begin crossing the network before the player's chosen world needs them.
 		}
 	}
 	</script>
-	<link rel="modulepreload" href="./experiments/Awtsmoos/src/mitzvah-world-foundation.compact.js">
-	<link rel="modulepreload" href="./experiments/Awtsmoos/src/mitzvah-world-core.compact.js">
+	<link rel="modulepreload" href="./experiments/Awtsmoos/src/mitzvah-world-foundation.compact.js?v=20260915-mobile-loader-veil-01">
+	<link rel="modulepreload" href="./experiments/Awtsmoos/src/mitzvah-world-core.compact.js?v=20260915-mobile-loader-veil-01">
 	<link
 		rel="preload"
 		as="fetch"
@@ -62,17 +59,11 @@ and core begin crossing the network before the player's chosen world needs them.
 				<h1>Entering the meadow</h1>
 				<p id="loadingMessage">Preparing essential world capability…</p>
 				<div class="Awtsmoos-progress-group">
-					<div class="Awtsmoos-progress-heading">
-						<span>World</span>
-						<output id="worldProgressValue">0%</output>
-					</div>
+					<div class="Awtsmoos-progress-heading"><span>World</span><output id="worldProgressValue">0%</output></div>
 					<progress id="worldProgress" max="100" value="0"></progress>
 				</div>
 				<div class="Awtsmoos-progress-group">
-					<div class="Awtsmoos-progress-heading">
-						<span>Character model</span>
-						<output id="modelProgressValue">0%</output>
-					</div>
+					<div class="Awtsmoos-progress-heading"><span>Character model</span><output id="modelProgressValue">0%</output></div>
 					<progress id="modelProgress" max="100" value="0"></progress>
 					<small id="modelProgressDetail">Waiting for essential boot milestones…</small>
 				</div>
@@ -97,7 +88,7 @@ and core begin crossing the network before the player's chosen world needs them.
 		<div id="inventory"></div>
 		<div id="meadowMenu"></div>
 	</main>
-	<script type="module" src="./experiments/Awtsmoos/src/mitzvah-world.compact.js?v=20260914-production-meadow-recovery-01"></script>
+	<script type="module" src="./experiments/Awtsmoos/src/mitzvah-world.compact.js?v=20260915-mobile-loader-veil-01"></script>
 	<script type="module" async src="../scripts/player-shell/index.js?compact=true"></script>
 </body>
 </html>
