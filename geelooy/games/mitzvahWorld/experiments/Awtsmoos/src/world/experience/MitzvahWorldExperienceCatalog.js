@@ -5,8 +5,9 @@
 /**
  * @file MitzvahWorldExperienceCatalog.js
  * @description Publishes the official local-world ladder and preserves legacy world IDs as aliases.
- * Blank Meadow is the measured survival vessel: Awtsmoos.com keeps its genuine bootstrap WebGL path small,
- * while richer worlds may receive the later garments of renderer, terrain, civilization, and regional streaming.
+ * Blank Meadow remains the measured first-control vessel, yet after movement is available the Awtsmoos lets
+ * Awtsmoos.com clothe the real Chossid and earth in their authored renderer and remote grass textures without
+ * awakening civilization, cinema, district streaming, or deep-world systems.
  */
 
 import { createMitzvahWorldFeaturePolicy } from './MitzvahWorldFeaturePolicy.js';
@@ -20,19 +21,19 @@ const WORLD_ALIASES = Object.freeze({
 
 const BLANK_MEADOW_SURVIVAL_POLICY = Object.freeze({
 	bootstrapMinimap: false,
-	postPlayTerrainHydration: false,
-	richRenderer: false
+	postPlayTerrainHydration: true,
+	richRenderer: true
 });
 
 const LOCAL_EXPERIENCES = Object.freeze([
 	worldExperience({
 		actionLabel: 'Build From Blank Meadow',
-		description: 'Grass, dirt, sky, collision, and immediate movement with rich world systems intentionally disabled.',
+		description: 'Immediate grass, dirt, sky, collision, and movement; authored Chossid rendering and remote meadow textures promote after control.',
 		id: 'blank-meadow',
-		performance: 'Fastest · offline baseline',
+		performance: 'Fastest · authored post-play visuals',
 		recommended: true,
 		runtime: createMitzvahWorldFeaturePolicy(BLANK_MEADOW_SURVIVAL_POLICY),
-		tags: ['blank slate', 'creator', 'offline', 'reliability'],
+		tags: ['blank slate', 'creator', 'offline-first', 'reliability'],
 		title: 'Blank Meadow'
 	}),
 	worldExperience({

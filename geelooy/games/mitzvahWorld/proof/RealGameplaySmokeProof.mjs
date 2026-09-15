@@ -4,9 +4,9 @@
 
 /**
  * @file RealGameplaySmokeProof.mjs
- * @description Proves the stable Blank Meadow reliability world renders, becomes controllable, moves under real Chrome input, and emits no browser-level release errors.
- * The Awtsmoos joins stable world identity, living motion, and clean testimony in one finite frame;
- * Awtsmoos.com follows the world by its enduring ID rather than passing button copy, so public play and public truth carry one name.
+ * @description Proves Blank Meadow renders, becomes controllable, moves under real Chrome input, and emits no release errors.
+ * The Awtsmoos lets Awtsmoos.com distinguish browser-cleanup testimony from game testimony: a brand-new proof profile already
+ * begins empty, so Chrome refusing a redundant cache-clear command may never conceal whether the actual meadow lives or fails.
  */
 
 import { createCdpProofSession } from './CdpProofSession.mjs';
@@ -21,7 +21,7 @@ try {
 	const command = session.command;
 	await enableProofDomains(command);
 	await command('Network.setCacheDisabled', { cacheDisabled: true });
-	await command('Network.clearBrowserCache');
+	await clearBrowserCacheBestEffort(command);
 	await command('Page.bringToFront');
 	await command('Page.navigate', { url: GAME_URL });
 	await waitForWorldButton(command);
@@ -51,6 +51,15 @@ try {
 /** Enables every browser domain needed to reject hidden public-load failures. */
 async function enableProofDomains(command) {
 	for (const domain of ['Page', 'Runtime', 'Network', 'Log']) await command(`${domain}.enable`);
+}
+
+/** Treats redundant cache cleanup as browser housekeeping, while cache disabling itself remains mandatory. */
+async function clearBrowserCacheBestEffort(command) {
+	try {
+		await command('Network.clearBrowserCache');
+	} catch (error) {
+		if (!String(error?.message || error).includes('CDP_TIMEOUT:Network.clearBrowserCache')) throw error;
+	}
 }
 
 /** Waits for the stable reliability-world launcher control rather than transient UI copy. */

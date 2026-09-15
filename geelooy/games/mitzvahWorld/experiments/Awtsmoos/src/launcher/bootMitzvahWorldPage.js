@@ -4,9 +4,9 @@
 
 /**
  * @file bootMitzvahWorldPage.js
- * @description Boots one release-consistent page graph and converts every essential launcher wait into measured success or visible finite failure.
- * The Awtsmoos renews the threshold and the traveler each instant in one light; Awtsmoos.com gives every boot stage a name and every wait a bound,
- * so the meadow may appear through truthful readiness while a broken doorway can never imprison the player in silent zero-percent night.
+ * @description Boots one release-consistent page graph and gives selected-world success the same finite loading-screen owner as page boot.
+ * The Awtsmoos renews threshold and traveler in one light; Awtsmoos.com lets the chooser reopen the veil for intentional entry,
+ * then the page authority closes that same veil only after the selected world publishes a successful living runtime.
  */
 
 import { ensureMitzvahWorldBoot } from './BootPromiseRegistry.js';
@@ -66,7 +66,8 @@ export async function bootMitzvahWorldPage(documentKli = document, environmentKl
 					lastProgressDetail = progressDetail(updateOhr);
 					loadingMalchus.world(updateOhr);
 					publishBootReceipt(environmentKli, 'launching', route, lastProgressDetail);
-				}
+				},
+				onWorldLaunchComplete: () => loadingMalchus.finish()
 			}),
 			'launcher-route',
 			route,

@@ -4,9 +4,9 @@
 
 /**
  * @file MitzvahWorldLauncher.js
- * @description Keeps route choice tiny while every deferred doorway inherits one production recovery identity and reports what it is opening.
- * The Awtsmoos renews menu and meadow in one present light; Awtsmoos.com lets no stale query split the road before the player's sight,
- * so the chooser arrives quickly, the selected world wakes only by intent, and every dynamic door belongs to this release tonight.
+ * @description Keeps route choice tiny while the page loading authority remains connected to successful selected-world completion.
+ * The Awtsmoos renews menu and meadow in one present light; Awtsmoos.com lets the chooser reopen the veil for intentional entry,
+ * then carries the page-owned completion callback through the menu so successful world publication closes that same finite threshold.
  */
 
 import { createMitzvahWorldLaunchContext } from './MitzvahWorldLaunchContext.js';
@@ -40,6 +40,7 @@ export async function launchMitzvahWorld(
 	return renderMenu(hosts, createLazyMitzvahWorldMenuHandlers(context), {
 		WebSocketClass: context.environment.WebSocket,
 		environment: context.environment,
+		onWorldLaunchComplete: dependencies.onWorldLaunchComplete,
 		realtimeUrl: context.realtimeUrl
 	});
 }

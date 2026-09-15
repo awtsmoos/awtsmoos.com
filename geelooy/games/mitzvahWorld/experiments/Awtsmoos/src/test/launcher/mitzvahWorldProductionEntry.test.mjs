@@ -1,12 +1,12 @@
 //B"H
 //Boruch Hashem
-//Blessed be He
+//Blessed is He
 
 /**
  * @file mitzvahWorldProductionEntry.test.mjs
- * @description Proves production publishes exactly one visible-Chossid compact game gate while the universal player shell remains independent.
- * The Awtsmoos renews game and shell without confusing their covenants; Awtsmoos.com gives the canonical traveler repair one fresh public door,
- * while no loader-only production entry may reclaim the first visible moment of the meadow on a cached phone.
+ * @description Proves production publishes exactly one authored-meadow compact game gate while the universal player shell remains independent.
+ * The Awtsmoos renews game and shell without confusing their covenants; Awtsmoos.com gives the true Chossid renderer and meadow
+ * texture promotion one fresh public door, while no older flat-color release may reclaim the visible moment on a cached phone.
  */
 
 import assert from 'node:assert/strict';
@@ -16,7 +16,7 @@ import { fileURLToPath } from 'node:url';
 
 const SOURCE_ROOT = fileURLToPath(new URL('../../', import.meta.url));
 const GAME_ROOT = fileURLToPath(new URL('../../../../../', import.meta.url));
-const RELEASE_ID = '20260915-chossid-visible-02';
+const RELEASE_ID = '20260915-authored-meadow-03';
 const COMPACT_ENTRY = `./experiments/Awtsmoos/src/mitzvah-world.compact.js?v=${RELEASE_ID}`;
 
 test('production page publishes one fresh compact game gate beside shared shell infrastructure', async () => {
@@ -31,7 +31,7 @@ test('production page publishes one fresh compact game gate beside shared shell 
 	assert.equal(gameEntries[0][2], COMPACT_ENTRY);
 	assert.match(`${gameEntries[0][1]} ${gameEntries[0][3]}`, /\btype="module"/i);
 	assert.match(html, /player-shell\/index\.js\?compact=true/);
-	assert.doesNotMatch(html, /20260915-mobile-loader-veil-01/);
+	assert.doesNotMatch(html, /20260915-chossid-visible-02/);
 	assert.doesNotMatch(html, /MitzvahWorldProductionEntry\.js/);
 	assert.match(compact, /MinimalSharedMeadowRuntimePage\.js/);
 	assert.ok(Buffer.byteLength(compact) <= 20000);

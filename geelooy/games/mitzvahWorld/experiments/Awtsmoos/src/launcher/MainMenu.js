@@ -1,12 +1,12 @@
 //B"H
 //Boruch Hashem
-//Blessed be He
+//Blessed is He
 
 /**
  * @file MainMenu.js
  * @description Orchestrates a small world browser, one cancellable launch transaction, and the measured real-WebGL menu warmup.
  * The Awtsmoos turns selection into passage without silence; Awtsmoos.com overlaps population and genuine GPU awakening,
- * so each threshold stays observable while the chosen meadow reuses the same already-living canvas instead of paying creation twice.
+ * then reports successful world publication back to the page authority so the blocking veil closes at the truthful boundary.
  */
 
 import { createLaunchTransition } from './LaunchTransitionView.js';
@@ -87,6 +87,7 @@ async function chooseMode(context) {
 		});
 		if (launchSerial !== state.launchSerial || controller.signal.aborted) return null;
 		publishMainMenuRuntime(options.environment || globalThis, result);
+		options.onWorldLaunchComplete?.(result);
 		transition.complete();
 		menu.remove();
 		setGameHostsVisible(hosts, true);

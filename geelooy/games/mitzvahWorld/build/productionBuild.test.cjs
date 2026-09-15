@@ -1,12 +1,12 @@
 //B"H
 //Boruch Hashem
-//Blessed be He
+//Blessed is He
 
 /**
  * @file productionBuild.test.cjs
- * @description Proves fresh compact entry identity, tiny first control, deterministic chunks, compression, and deferred cinema reachability.
- * The Awtsmoos gives Awtsmoos.com one visible-Chossid cache family from first threshold through later chambers,
- * while the playable valley remains measured, generated only by its builders, and free of deferred world systems before control.
+ * @description Proves authored-meadow entry identity, tiny first control, deterministic chunks, compression, and deferred cinema reachability.
+ * The Awtsmoos gives Awtsmoos.com one cache family from first threshold through the proper Chossid renderer and textured meadow,
+ * while the playable valley remains measured, generated only by builders, and free of deferred rich-world systems before control.
  */
 
 const assert = require('node:assert/strict');
@@ -18,7 +18,7 @@ const {
 	verifyRepresentations
 } = require('./ProductionBuildProof.cjs');
 
-const RELEASE_VERSION = '20260915-chossid-visible-02';
+const RELEASE_VERSION = '20260915-authored-meadow-03';
 const chunks = Object.freeze([
 	['foundation', 'createEretzWorldFoundation'],
 	['core', 'assembleBootstrapCoreRuntime'],

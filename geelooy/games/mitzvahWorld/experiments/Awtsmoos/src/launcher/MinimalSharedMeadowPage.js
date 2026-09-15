@@ -1,15 +1,15 @@
 //B"H
 //Boruch Hashem
-//Blessed be He
+//Blessed is He
 
 /**
  * @file MinimalSharedMeadowPage.js
- * @description Resolves compact launcher doors through the visible canonical-Chossid release identity while preserving deferred public surfaces.
+ * @description Resolves compact launcher doors through the authored-meadow release identity while preserving deferred public surfaces.
  * The Awtsmoos gives the first instant one truthful mark before distant chambers enter the sea; Awtsmoos.com keeps every launcher
- * child on the visible-Chossid covenant so a phone cannot mix the repaired low-mode renderer with an older cached doorway.
+ * child on one authored-visual covenant so a phone cannot mix the repaired GLTF and meadow policy with older cached modules.
  */
 
-const BUILD_VERSION = '20260915-chossid-visible-02';
+const BUILD_VERSION = '20260915-authored-meadow-03';
 const SCRIPT_START_KEY = 'AwtsmoosMitzvahWorldScriptStart';
 const SOURCE_URL = new URL(import.meta.url);
 const LAUNCHER_BASE = SOURCE_URL.pathname.includes('/launcher/')

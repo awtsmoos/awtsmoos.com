@@ -4,9 +4,9 @@
 
 /**
  * @file mitzvahWorldExperienceCatalog.test.mjs
- * @description Proves the official world ladder and locks Blank Meadow to its measured survival contract.
- * The Awtsmoos keeps Awtsmoos.com truthful: the reliability meadow receives only the bootstrap vessel,
- * while village and valley worlds may still clothe themselves in richer post-play rendering and terrain detail.
+ * @description Proves the official world ladder and locks Blank Meadow to minimal first control followed by authored visual promotion.
+ * The Awtsmoos keeps Awtsmoos.com truthful: the reliability meadow refuses civilization and cinema during survival boot,
+ * yet after control the same earth receives real renderer light and remote grass texture garments instead of remaining a flat placeholder.
  */
 
 import assert from 'node:assert/strict';
@@ -29,7 +29,7 @@ test('official catalog exposes the four canonical local worlds', () => {
 	assert.equal(worlds.every(world => Object.isFrozen(world.runtime)), true);
 });
 
-test('Blank Meadow disables every rich survival-profile enrichment gate', () => {
+test('Blank Meadow keeps rich systems closed but restores authored post-play visuals', () => {
 	const meadow = resolveMitzvahWorldRuntimeExperience('blank-meadow');
 	assert.equal(meadow.bootstrapCombat, false);
 	assert.equal(meadow.bootstrapMinimap, false);
@@ -39,11 +39,11 @@ test('Blank Meadow disables every rich survival-profile enrichment gate', () => 
 	assert.equal(meadow.cinematicLandscape, false);
 	assert.equal(meadow.deepWorldStreaming, false);
 	assert.equal(meadow.districtStreaming, false);
-	assert.equal(meadow.postPlayTerrainHydration, false);
-	assert.equal(meadow.richRenderer, false);
+	assert.equal(meadow.postPlayTerrainHydration, true);
+	assert.equal(meadow.richRenderer, true);
 });
 
-test('richer worlds keep rich renderer and authored post-play terrain detail', () => {
+test('richer worlds keep authored renderer and terrain detail plus their own optional systems', () => {
 	const village = resolveMitzvahWorldRuntimeExperience('living-village');
 	const valley = resolveMitzvahWorldRuntimeExperience('great-valley');
 	for (const world of [village, valley]) {

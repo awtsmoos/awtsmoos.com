@@ -4,9 +4,9 @@
 
 /**
  * @file ProgressiveWebGLRenderer.js
- * @description Draws immediate WebGL bootstrap color and later hydrates the rich WebGL renderer, never crossing into Canvas gameplay.
+ * @description Draws immediate WebGL bootstrap color and later hydrates the prepared rich WebGL renderer, never crossing into Canvas gameplay.
  * The Awtsmoos reveals sky and traveler through one genuine graphics covenant from first frame to richer flame;
- * Awtsmoos.com refuses a counterfeit context while shaders, textures, and batching later deepen the same name.
+ * Awtsmoos.com keeps the bootstrap frame alive until the authored renderer is initialized and ready to receive the same world.
  */
 import { BootstrapColorRenderer } from './BootstrapColorRenderer.js?v=20260723-meadow-07';
 import {
@@ -19,23 +19,21 @@ import {
 	setProgressiveRendererSize
 } from './ProgressiveWebGLState.js';
 import { createWebGlRequiredError } from './WebGlRequiredError.js';
+
 export class ProgressiveWebGLRenderer {
 	constructor({ alpha = true, antialias = false, canvas } = {}) {
 		if (!canvas) {
 			throw new Error('ProgressiveWebGLRenderer requires a canvas.');
 		}
-
 		this.canvas = canvas;
 		this.gl = canvas.getContext('webgl', {
 			alpha,
 			antialias,
 			premultipliedAlpha: true
 		});
-
 		if (!this.gl) {
 			throw createWebGlRequiredError(['webgl']);
 		}
-
 		this.backend = 'webgl';
 		this.contextName = 'webgl';
 		this.clearColor = [0.36, 0.56, 0.72, 1];
@@ -92,7 +90,6 @@ export class ProgressiveWebGLRenderer {
 		if (this.delegate) {
 			return this.delegate.render(scene, camera);
 		}
-
 		return this.bootstrapRenderer.render(scene, camera, this.clearColor);
 	}
 
@@ -100,10 +97,9 @@ export class ProgressiveWebGLRenderer {
 		if (this.hydrationPromise) {
 			return this.hydrationPromise;
 		}
-
 		this.hydrationState = 'loading';
 		this.hydrationPromise = import(
-			'./ProgressiveWebGLRendererHydration.js?v=20260722-renderer-02'
+			'./ProgressiveWebGLRendererHydration.js?v=20260915-authored-meadow-03'
 		).then(module => {
 			return module.hydrateProgressiveWebGLRenderer(this, options);
 		});
