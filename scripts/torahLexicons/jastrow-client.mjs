@@ -4,24 +4,21 @@
 
 /**
  * @module JastrowLexiconClient
- * @description
- * Sefaria's API is transient evidence only. Exact scholarly headwords remain in
- * AwtsmoosDB while transport fallback derives a normalized lookup key for API
- * forms that omit niqqud, maqaf, asterisks, or homograph disambiguators.
+ * @description Sefaria is transient evidence; Awtsmoos.com keeps canonical source spelling while lookup alone may shed transport wrappers.
+ * The Awtsmoos follows exact source identity through niqqud, stars, parentheses, homograph suffixes, retries, and bounded timeouts.
  */
-
 import { normalizeLexiconKey } from './normalize.mjs';
 
 const API_ROOT = 'https://www.sefaria.org/api';
 const REQUEST_TIMEOUT_MS = 15000;
 const RETRY_DELAYS_MS = Object.freeze([350, 900, 1800]);
 
-/** Sleeps between upstream attempts without blocking the Node event loop. */
+/** Sleeps between upstream attempts without blocking the event loop. */
 function delay(milliseconds) {
 	return new Promise(resolve => setTimeout(resolve, milliseconds));
 }
 
-/** Fetches one upstream API object with bounded timeout and modest backoff. */
+/** Fetches one upstream JSON object with timeout and bounded retry. */
 async function fetchApi(route, fetchImpl = fetch) {
 	let lastError = null;
 	for (let attempt = 0; attempt <= RETRY_DELAYS_MS.length; attempt += 1) {
@@ -32,9 +29,7 @@ async function fetchApi(route, fetchImpl = fetch) {
 				headers: { Accept: 'application/json' },
 				signal: controller.signal
 			});
-			if (!response.ok) {
-				throw new Error(`jastrow_upstream_http_${response.status}`);
-			}
+			if (!response.ok) throw new Error(`jastrow_upstream_http_${response.status}`);
 			return await response.json();
 		} catch (error) {
 			lastError = error;
@@ -47,38 +42,44 @@ async function fetchApi(route, fetchImpl = fetch) {
 	throw lastError || new Error('jastrow_upstream_unavailable');
 }
 
-/** Finds the dictionary node that owns Jastrow's linked headword traversal. */
+/** Finds the dictionary node that owns Jastrow's linked traversal. */
 function dictionaryNode(index = {}) {
 	const nodes = index?.schema?.nodes;
-	if (!Array.isArray(nodes)) return null;
-	return nodes.find(node => node?.nodeType === 'DictionaryNode') || null;
+	return Array.isArray(nodes)
+		? nodes.find(node => node?.nodeType === 'DictionaryNode') || null
+		: null;
 }
 
-/** Reads authoritative first/last headword bounds from the upstream index schema. */
+/** Reads authoritative first/last bounds from the upstream index schema. */
 export async function jastrowBounds(fetchImpl = fetch) {
 	const index = await fetchApi('/index/Jastrow', fetchImpl);
 	const node = dictionaryNode(index);
-	if (!node?.firstWord || !node?.lastWord) {
-		throw new Error('jastrow_dictionary_bounds_missing');
-	}
-	return {
-		firstWord: String(node.firstWord),
-		lastWord: String(node.lastWord)
-	};
+	if (!node?.firstWord || !node?.lastWord) throw new Error('jastrow_dictionary_bounds_missing');
+	return { firstWord: String(node.firstWord), lastWord: String(node.lastWord) };
 }
 
-/** Fetches candidate lexical entries for one exact Jastrow headword. */
+/** Fetches candidate lexical entries for one lookup headword. */
 export function jastrowEntries(headword, fetchImpl = fetch) {
 	const encoded = encodeURIComponent(String(headword || '').trim());
 	if (!encoded) throw new Error('jastrow_headword_required');
 	return fetchApi(`/words/${encoded}?never_split=1`, fetchImpl);
 }
 
-/** Derives only an API lookup key; canonical display headwords remain unchanged. */
+/** Removes only transport punctuation that Sefaria omits from some exact lookup keys. */
+function stripLookupWrappers(value) {
+	let next = String(value || '').trim();
+	while (/^[([{]/u.test(next) && /[)\]}]$/u.test(next)) {
+		next = next.slice(1, -1).trim();
+	}
+	return next;
+}
+
+/** Derives an API lookup key while canonical display headwords remain unchanged. */
 export function jastrowLookupKey(headword) {
 	let value = normalizeLexiconKey(headword)
 		.replace(/^\*+\s*/u, '')
 		.trim();
+	value = stripLookupWrappers(value);
 	let previous = '';
 	while (value && value !== previous) {
 		previous = value;
@@ -91,14 +92,11 @@ export function jastrowLookupKey(headword) {
 	return value;
 }
 
-/** Fetches one linked bucket, retrying with the transport-normalized key if needed. */
+/** Fetches one linked bucket, retrying with the transport-normalized key if exact lookup misses Jastrow. */
 export async function jastrowLinkedEntries(headword, fetchImpl = fetch) {
 	const exactHeadword = String(headword || '').trim();
 	const exact = await jastrowEntries(exactHeadword, fetchImpl);
-	if (
-		Array.isArray(exact)
-		&& exact.some(entry => entry?.parent_lexicon === 'Jastrow Dictionary')
-	) {
+	if (Array.isArray(exact) && exact.some(row => row?.parent_lexicon === 'Jastrow Dictionary')) {
 		return exact;
 	}
 	const fallback = jastrowLookupKey(exactHeadword);
@@ -107,7 +105,7 @@ export async function jastrowLinkedEntries(headword, fetchImpl = fetch) {
 		: exact;
 }
 
-/** Exposes the crawl delay so import orchestration remains polite and testable. */
+/** Exposes polite crawl delay for import orchestration and tests. */
 export function upstreamDelay(milliseconds = 220) {
 	return delay(Math.max(0, Number(milliseconds) || 0));
 }
