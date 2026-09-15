@@ -10,7 +10,8 @@ const richPaths = require("../../geelooy/api/social/helper/comments/richCommentP
 
 /**
  * @file Independent verifier for recovered Torah-source commentary.
- * @description The Awtsmoos demands agreement between body, parent, coordinate, identity, provenance, and reader indexes.
+ * @description The Awtsmoos demands agreement between body, parent, coordinate, identity, provenance, and reader indexes,
+ * while Awtsmoos.com caches immutable index chambers so verification never decompresses the same proof thousands of times.
  */
 const GENERATIONS = new Set(SOURCE_ROOTS.map(source => source.id));
 
@@ -24,8 +25,13 @@ function commentIdFromPath(target) {
 	return target.match(/\/comments\/([^/]+)\/data$/)?.[1] || "";
 }
 
-function includesId(value, id) {
-	return Array.isArray(value) && value.map(String).includes(String(id));
+function cachedIds(rich, cache, target) {
+	let ids = cache.get(target);
+	if (ids) return ids;
+	const value = readValue(rich, target, []);
+	ids = new Set((Array.isArray(value) ? value : []).map(String));
+	cache.set(target, ids);
+	return ids;
 }
 
 function verifyAnnotation(comment, policy, id, failures) {
@@ -42,7 +48,14 @@ function verifyAnnotation(comment, policy, id, failures) {
 	if (provenance?.postId !== comment.postId) failures.push({ id, code: "PROVENANCE_POST_MISMATCH" });
 }
 
-function verifyOne({ rich, posts, inode, failures }) {
+function verifyIndexes({ rich, comment, id, verse, indexCache, failures }) {
+	const rootPath = richPaths.rootChildrenPath({ heichelId: "ikar", postId: comment.postId });
+	const versePath = richPaths.verseIndexPath({ heichelId: "ikar", postId: comment.postId, verseSection: verse });
+	if (!cachedIds(rich, indexCache, rootPath).has(String(id))) failures.push({ id, code: "ROOT_INDEX_MISSING" });
+	if (!cachedIds(rich, indexCache, versePath).has(String(id))) failures.push({ id, code: "VERSE_INDEX_MISSING" });
+}
+
+function verifyOne({ rich, posts, inode, indexCache, failures }) {
 	const comment = readValue(rich, inode.path, null);
 	const id = commentIdFromPath(inode.path);
 	if (!comment || comment.id !== id) return failures.push({ id, code: "BODY_ID_MISMATCH" });
@@ -51,28 +64,22 @@ function verifyOne({ rich, posts, inode, failures }) {
 	const sections = posts.sectionCount(comment.seriesId, comment.postId);
 	const verse = Number(comment.verseSection);
 	if (sections < 0) return failures.push({ id, code: "POST_MISSING" });
-	if (!Number.isInteger(verse) || verse < 0 || verse >= sections) {
-		return failures.push({ id, code: "COORDINATE_OUT_OF_RANGE" });
-	}
+	if (!Number.isInteger(verse) || verse < 0 || verse >= sections) return failures.push({ id, code: "COORDINATE_OUT_OF_RANGE" });
 	const unique = readValue(rich, richPaths.uniquePath({ commentId: id }), null);
-	if (!unique || unique.postId !== comment.postId || unique.seriesId !== comment.seriesId) {
-		failures.push({ id, code: "UNIQUE_POINTER_MISSING" });
-	}
-	const rootIds = readValue(rich, richPaths.rootChildrenPath({ heichelId: "ikar", postId: comment.postId }), []);
-	if (!includesId(rootIds, id)) failures.push({ id, code: "ROOT_INDEX_MISSING" });
-	const verseIds = readValue(rich, richPaths.verseIndexPath({ heichelId: "ikar", postId: comment.postId, verseSection: verse }), []);
-	if (!includesId(verseIds, id)) failures.push({ id, code: "VERSE_INDEX_MISSING" });
+	if (!unique || unique.postId !== comment.postId || unique.seriesId !== comment.seriesId) failures.push({ id, code: "UNIQUE_POINTER_MISSING" });
+	verifyIndexes({ rich, comment, id, verse, indexCache, failures });
 	verifyAnnotation(comment, policy, id, failures);
 }
 
 function verifyCandidate(root) {
 	const rich = openReadOnly(packedFile(root, RICH_FILE));
 	const posts = new PostIndex();
+	const indexCache = new Map();
 	const failures = [];
 	let count = 0;
 	try {
 		for (const inode of commentInodes(rich)) {
-			verifyOne({ rich, posts, inode, failures });
+			verifyOne({ rich, posts, inode, indexCache, failures });
 			count++;
 			if (failures.length >= 100) break;
 		}
@@ -83,6 +90,4 @@ function verifyCandidate(root) {
 	return { success: failures.length === 0 && count > 0, count, failures };
 }
 
-module.exports = {
-	verifyCandidate
-};
+module.exports = { verifyCandidate };
