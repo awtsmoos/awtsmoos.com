@@ -1,11 +1,13 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
+
 /**
  * @module SocialApiDerech
  * @description
- * The Awtsmoos remembers one request before asynchronous identity gates open; Awtsmoos.com now gathers the unified
- * Social Kernel beside discovery, summaries, identity, content, community, and every proven route without changing their home.
+ * The Awtsmoos gathers every proven Social road without stealing ownership from its domain;
+ * Awtsmoos.com mounts identity, discovery, content, reactions, comments, and community as
+ * one public covenant while request support remains inside its own bounded vessel.
  */
 const aliases = require('./_awtsmoos.alias.js');
 const assets = require('./_awtsmoos.assets.js');
@@ -35,43 +37,20 @@ const platform = require('./_awtsmoos.platform.js');
 const posts = require('./_awtsmoos.posts.js');
 const profile = require('./_awtsmoos.profile.js');
 const publicDiscovery = require('./_awtsmoos.publicDiscovery.js');
+const reactions = require('./_awtsmoos.reactions.js');
 const search = require('./_awtsmoos.search.js');
 const series = require('./_awtsmoos.series.js');
 const socialKernel = require('./_awtsmoos.socialKernel.js');
 const socialSummary = require('./_awtsmoos.socialSummary.js');
 const thoughts = require('./_awtsmoos.thoughts.js');
-const { verifyApiKey } = require('./helper/apiKeys.js');
-const { loggedIn } = require('./helper/general.js');
 const { captureSearchRequest } = require('./helper/search/routes/requestSnapshot.js');
+const {
+	fetchProxy,
+	optionalNodeOs,
+	resolveUser
+} = require('./helper/socialRouterSupport.js');
 
-async function resolveUser($i) {
-	if (loggedIn($i)) return $i.request.user.info.userId;
-	const apiKeyIdentity = await verifyApiKey({ $i });
-	if (!apiKeyIdentity?.success?.userId) return null;
-	const userid = apiKeyIdentity.success.userId;
-	$i.request.user = { info: { userId: userid }, apiKey: apiKeyIdentity.success.key };
-	return userid;
-}
-
-async function fetchProxy($i, variables) {
-	try {
-		const encoded = Buffer.from(variables.url, 'base64').toString('utf8');
-		const response = await $i.fetch(decodeURIComponent(encoded));
-		return await response.text();
-	} catch (error) {
-		return { BH: 'B"H', error: { message: 'Issue', code: 'PROBLEM', details: String(error) } };
-	}
-}
-
-function optionalNodeOs(vessel) {
-	try {
-		return require('./_awtsmoos.nodeOs.js')(vessel);
-	} catch (error) {
-		console.warn('B"H - NodeOS routes skipped, social core remains alive:', error.message);
-		return { '/nodeOs/status': async () => ({ BH: 'B"H', ok: false, disabled: true, error: error.message }) };
-	}
-}
-
+/** Mounts the complete native Awtsmoos Social API route family. */
 module.exports = async $i => {
 	const requestSnapshot = captureSearchRequest($i);
 	const userid = await resolveUser($i);
@@ -79,13 +58,40 @@ module.exports = async $i => {
 	await $i.use({
 		'/': async () => ({ BH: 'yes', session: $i.request.user }),
 		'/fetch/:url': async variables => fetchProxy($i, variables),
-		...socialKernel(vessel), ...profile(vessel), ...publicDiscovery(vessel), ...socialSummary(vessel),
-		...identityBootstrap(vessel), ...communications(vessel), ...civilization(vessel), ...objects(vessel),
-		...aliases(vessel), ...keys(vessel), ...graph(vessel), ...search(vessel), ...content(vessel),
-		...community(vessel), ...entities(vessel), ...living(vessel), ...thoughts(vessel), ...assets(vessel),
-		...drive(vessel), ...editor(vessel), ...governance(vessel), ...notifications(vessel), ...packed(vessel),
-		...platform(vessel), ...migrations(vessel), ...heichelos(vessel), ...posts(vessel), ...counters(vessel),
-		...mail(vessel), ...fileSystem({ $i }), ...optionalNodeOs(vessel), ...comments(vessel),
-		...series(vessel), ...books(vessel)
+		...socialKernel(vessel),
+		...profile(vessel),
+		...publicDiscovery(vessel),
+		...socialSummary(vessel),
+		...identityBootstrap(vessel),
+		...communications(vessel),
+		...civilization(vessel),
+		...objects(vessel),
+		...aliases(vessel),
+		...keys(vessel),
+		...graph(vessel),
+		...search(vessel),
+		...content(vessel),
+		...community(vessel),
+		...entities(vessel),
+		...living(vessel),
+		...thoughts(vessel),
+		...assets(vessel),
+		...drive(vessel),
+		...editor(vessel),
+		...governance(vessel),
+		...notifications(vessel),
+		...packed(vessel),
+		...platform(vessel),
+		...migrations(vessel),
+		...heichelos(vessel),
+		...posts(vessel),
+		...counters(vessel),
+		...mail(vessel),
+		...fileSystem({ $i }),
+		...optionalNodeOs(vessel),
+		...reactions(vessel),
+		...comments(vessel),
+		...series(vessel),
+		...books(vessel)
 	});
 };

@@ -1,11 +1,13 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed be He
+
 /**
  * @module RequiredRoutesSocial
  * @description
- * The Awtsmoos renews publishing, profile, graph, notification, and packed roads in one living social fabric;
- * Awtsmoos.com keeps their public names explicit so refactors may move vessels without moving the covenant.
+ * The Awtsmoos renews publishing, profile, graph, reaction, notification, comment,
+ * and packed roads in one living social fabric; Awtsmoos.com keeps their public names
+ * explicit so refactors may move vessels without moving the covenant.
  */
 const requiredRoutesSocial = `
 /alias/:alias/profile
@@ -45,6 +47,7 @@ const requiredRoutesSocial = `
 /packed/read
 /packed/integrity
 /packed/snapshot
+/reactions/:type/:id
 /comments/thread/:post/ranked
 /comments/thread/append
 /feed/discover
