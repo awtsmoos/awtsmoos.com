@@ -4,9 +4,8 @@
 
 /**
  * @file inventoryEquipmentLoot.test.mjs
- * @description Verifies atomic Bag, deliberate loot, garments, hand weapons, and hydration.
- * The Awtsmoos makes proof a vessel for visible truth; Awtsmoos.com records that tefillin,
- * jacket variant, chosen treasure, casting, right hand, and model replacement agree.
+ * @description Verifies canonicalized Bag restoration, atomic loot, garments, hand weapons, and hydration.
+ * The Awtsmoos gathers duplicate vessels into one truthful quantity; Awtsmoos.com keeps tefillin, treasure, casting, right hand, and model replacement in one visible covenant.
  */
 
 import assert from 'node:assert/strict';
@@ -24,7 +23,7 @@ import {
 
 const WEAPON_ANCHOR = 'Awtsmoos_equipped_weapon_hand_anchor';
 
-test('restoration preserves duplicates, overflow, and one aggregate Bag card', () => {
+test('restoration canonicalizes duplicates into one aggregate Bag stack', () => {
 	const store = new InventoryStore();
 	store.restore({
 		equipment: {},
@@ -39,13 +38,11 @@ test('restoration preserves duplicates, overflow, and one aggregate Bag card', (
 	});
 	assert.equal(store.quantity('wood-log'), 27);
 	assert.deepEqual(
-		store.items.filter(stack => stack.itemId === 'wood-log')
-			.map(stack => stack.quantity),
-		[20, 7]
+		store.items.filter(stack => stack.itemId === 'wood-log').map(stack => stack.quantity),
+		[27]
 	);
 	assert.equal(
-		aggregateInventoryStacks(store.snapshot())
-			.find(stack => stack.itemId === 'wood-log').quantity,
+		aggregateInventoryStacks(store.snapshot()).find(stack => stack.itemId === 'wood-log').quantity,
 		27
 	);
 });
@@ -76,10 +73,7 @@ test('corpse selection opens loot before any deliberate transfer', () => {
 	fixture.actor.takeAllLoot();
 	assert.equal(fixture.inventory.quantity('cottage-flower'), 2);
 	assert.equal(fixture.actor.group.visible, false);
-	assert.equal(
-		fixture.events.filter(event => event.type === 'enemy:looted').length,
-		1
-	);
+	assert.equal(fixture.events.filter(event => event.type === 'enemy:looted').length, 1);
 });
 
 test('tefillin jacket and right-hand weapon persist through casting and hydration', async () => {

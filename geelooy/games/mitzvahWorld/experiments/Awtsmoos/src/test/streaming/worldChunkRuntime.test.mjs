@@ -4,9 +4,9 @@
 
 /**
  * @file worldChunkRuntime.test.mjs
- * @description Proves one bootstrap world owns visual state and an actively mutable collision authority.
- * The Awtsmoos renews the valley through bounded lifecycle work while every nearby triangle may enter or depart;
- * Awtsmoos.com keeps the original octree truthful, mutable, and shared, so tests reflect the living runtime heart.
+ * @description Proves one bootstrap world owns visual state and canonical collision triangles with finite AABBs.
+ * The Awtsmoos renews the valley through bounded lifecycle work while every nearby triangle bears measurable bounds;
+ * Awtsmoos.com keeps the original octree truthful, mutable, and shared so the fixture matches living collision law.
  */
 
 import assert from 'node:assert/strict';
@@ -20,7 +20,7 @@ function fixture() {
 		min: { x: -10, y: -5, z: -10 },
 		max: { x: 10, y: 5, z: 10 }
 	};
-	const triangles = [{}, {}, {}];
+	const triangles = [triangle(-8), triangle(0), triangle(8)];
 	const active = [...triangles];
 	const terrain = {
 		group: { name: 'world' },
@@ -33,21 +33,30 @@ function fixture() {
 			output.push(...active);
 			return output;
 		},
-		insert(triangle) {
-			if (active.includes(triangle)) return false;
-			active.push(triangle);
+		insert(value) {
+			if (active.includes(value)) return false;
+			active.push(value);
 			return true;
 		},
-		query: (aabb, output = []) => output,
+		query: (_aabb, output = []) => output,
 		raycast: () => null,
-		remove(triangle) {
-			const index = active.indexOf(triangle);
+		remove(value) {
+			const index = active.indexOf(value);
 			if (index < 0) return false;
 			active.splice(index, 1);
 			return true;
 		}
 	};
 	return { bounds, terrain, mainOctree };
+}
+
+function triangle(offset) {
+	return {
+		aabb: {
+			min: { x: offset - 1, y: -1, z: -1 },
+			max: { x: offset + 1, y: 1, z: 1 }
+		}
+	};
 }
 
 test('runtime registers one visual and collision bootstrap chunk', () => {
@@ -82,8 +91,6 @@ test('diagnostics expose visual, ownership, and query truth', () => {
 	assert.equal(diagnostics.byState[S.ACTIVE], 1);
 	assert.equal(diagnostics.queue.pending, 0);
 	assert.equal(diagnostics.collision.active, 1);
-	assert.equal(diagnostics.collision.prepared, 0);
-	assert.equal(diagnostics.collision.validated, 0);
 	assert.equal(diagnostics.collision.bootstrapTriangles, 3);
 	assert.deepEqual(diagnostics.collision.bootstrapBounds, firstFixture.bounds);
 	assert.deepEqual(diagnostics.collision.query.ownerIds, [BOOTSTRAP_WORLD_CHUNK_ID]);

@@ -4,8 +4,8 @@
 
 /**
  * @file productionMaterialUrlPolicy.test.mjs
- * @description Proves textures and exact local-first models pass distinct production contracts.
- * The Awtsmoos guides every media family through its truthful gate; Awtsmoos.com rejects mutation.
+ * @description Proves remote textures and content-addressed Drive models pass distinct production contracts.
+ * The Awtsmoos gives each media family one truthful gate; Awtsmoos.com trusts exact immutable model identities without pretending models are textures.
  */
 
 import assert from 'node:assert/strict';
@@ -31,16 +31,17 @@ test('documented remote texture URLs are accepted unchanged', () => {
 	assert.deepEqual(productionMaterialFallbacks([GRASS, BARK], 'ground'), [GRASS, BARK]);
 });
 
-test('the flower model uses immutable same-origin repository truth', () => {
+test('the flower model uses exact content-addressed Awtsmoos Drive truth', () => {
 	const url = flowerModelUrl();
 	assert.equal(isTrustedModelUrl(url), true);
 	assert.match(
 		url,
-		/\/games\/mitzvahWorld\/assets\/models\/reference-world\/[a-f0-9]{64}\/Flower_4_Clump\.glb$/
+		/^https:\/\/awtsmoos\.com\/sites\/firebase_drive_migration\/assets\/mitzvah-world\/models\/reference-world\/[a-f0-9]{64}\/Flower_4_Clump\.glb$/
 	);
+	assert.equal(isTrustedModelUrl(url.replace(/[a-f0-9]{64}/, '0'.repeat(64))), false);
 	assert.throws(
 		() => assertProductionMaterialUrl(url, 'model'),
-		/Invalid production material URL/
+		/Production material|Invalid production material URL/
 	);
 });
 

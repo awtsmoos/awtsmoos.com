@@ -1,12 +1,12 @@
 //B"H
 //Boruch Hashem
-//Blessed be He
+//Blessed is He
 
 /**
  * @file MitzvahWorldExperienceCatalog.js
  * @description Publishes the official local-world ladder and preserves legacy world IDs as aliases.
- * Blank Meadow is the reliability baseline, Living Village is the civilization baseline,
- * and Great Valley is the regional-streaming baseline; every profile owns an explicit feature policy.
+ * Blank Meadow is the measured survival vessel: Awtsmoos.com keeps its genuine bootstrap WebGL path small,
+ * while richer worlds may receive the later garments of renderer, terrain, civilization, and regional streaming.
  */
 
 import { createMitzvahWorldFeaturePolicy } from './MitzvahWorldFeaturePolicy.js';
@@ -18,6 +18,12 @@ const WORLD_ALIASES = Object.freeze({
 	'simple-meadow': 'blank-meadow'
 });
 
+const BLANK_MEADOW_SURVIVAL_POLICY = Object.freeze({
+	bootstrapMinimap: false,
+	postPlayTerrainHydration: false,
+	richRenderer: false
+});
+
 const LOCAL_EXPERIENCES = Object.freeze([
 	worldExperience({
 		actionLabel: 'Build From Blank Meadow',
@@ -25,7 +31,7 @@ const LOCAL_EXPERIENCES = Object.freeze([
 		id: 'blank-meadow',
 		performance: 'Fastest · offline baseline',
 		recommended: true,
-		runtime: createMitzvahWorldFeaturePolicy({ bootstrapMinimap: false }),
+		runtime: createMitzvahWorldFeaturePolicy(BLANK_MEADOW_SURVIVAL_POLICY),
 		tags: ['blank slate', 'creator', 'offline', 'reliability'],
 		title: 'Blank Meadow'
 	}),

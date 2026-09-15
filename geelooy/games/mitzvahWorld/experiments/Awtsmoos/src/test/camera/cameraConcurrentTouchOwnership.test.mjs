@@ -4,13 +4,12 @@
 
 /**
  * @file cameraConcurrentTouchOwnership.test.mjs
- * @description Proves joystick and world touches retain separate identities while either order still permits camera look.
- * The Awtsmoos gives two fingers two missions without confusion or theft;
- * Awtsmoos.com lets one thumb walk while another turns the horizon with breath.
+ * @description Proves Pointer Events keep protected joystick touches separate from world-facing camera touches in either contact order.
+ * The Awtsmoos gives two fingers two missions without confusion; Awtsmoos.com lets one thumb walk while another turns the horizon through one pointer covenant.
  */
 
-import test from 'node:test';
 import assert from 'node:assert/strict';
+import test from 'node:test';
 import { CameraGestureController } from '../../camera/CameraGestureController.js';
 
 class ListenerVessel {
@@ -24,24 +23,25 @@ function node(id = '') {
 	return { matches: selector => Boolean(id && selector.includes(`#${id}`)) };
 }
 
-function touch(identifier, x, y, target) {
-	return { identifier, clientX: x, clientY: y, target };
-}
-
-function event(changedTouches, pathNode, prevented) {
+function pointer(pointerId, x, y, target, prevented) {
 	return {
-		changedTouches,
-		composedPath: () => [pathNode],
-		preventDefault: () => prevented.count += 1
+		buttons: 1,
+		clientX: x,
+		clientY: y,
+		composedPath: () => [target],
+		pointerId,
+		pointerType: 'touch',
+		preventDefault: () => prevented.count += 1,
+		target
 	};
 }
 
 function harness() {
 	const view = new ListenerVessel();
-	view.navigator = { maxTouchPoints: 5 };
 	const document = new ListenerVessel();
 	document.defaultView = view;
 	document.hidden = false;
+	document.pointerLockElement = null;
 	const canvas = new ListenerVessel();
 	canvas.ownerDocument = document;
 	canvas.style = {};
@@ -57,23 +57,26 @@ test('joystick first then world second rotates camera without stealing joystick'
 	const guarded = node('joy');
 	const world = node();
 	const prevented = { count: 0 };
-	document.emit('touchstart', event([touch(1, 30, 820, guarded)], guarded, prevented));
-	document.emit('touchstart', event([touch(2, 300, 400, world)], world, prevented));
-	document.emit('touchmove', event([touch(2, 350, 400, world)], world, prevented));
+	document.emit('pointerdown', pointer(1, 30, 820, guarded, prevented));
+	document.emit('pointerdown', pointer(2, 300, 400, world, prevented));
+	document.emit('pointermove', pointer(2, 350, 400, world, prevented));
 	assert.ok(Math.abs(orbit.yaw) > 0.2);
+	assert.equal(controller.pointers.has(1), false);
+	assert.equal(controller.pointers.has(2), true);
 	assert.equal(prevented.count, 2);
 	controller.destroy();
 });
 
-test('world first keeps rotating after a later joystick touch begins', () => {
+test('world first keeps rotating after a later joystick pointer begins', () => {
 	const { controller, document, orbit } = harness();
 	const guarded = node('joy');
 	const world = node();
 	const prevented = { count: 0 };
-	document.emit('touchstart', event([touch(7, 280, 420, world)], world, prevented));
-	document.emit('touchstart', event([touch(8, 32, 820, guarded)], guarded, prevented));
-	document.emit('touchmove', event([touch(7, 330, 420, world)], world, prevented));
+	document.emit('pointerdown', pointer(7, 280, 420, world, prevented));
+	document.emit('pointerdown', pointer(8, 32, 820, guarded, prevented));
+	document.emit('pointermove', pointer(7, 330, 420, world, prevented));
 	assert.ok(Math.abs(orbit.yaw) > 0.2);
+	assert.deepEqual([...controller.pointers.keys()], [7]);
 	assert.equal(prevented.count, 2);
 	controller.destroy();
 });
