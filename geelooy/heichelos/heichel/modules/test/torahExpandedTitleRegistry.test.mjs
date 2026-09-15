@@ -1,20 +1,17 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
-
-/**
- * @file TorahExpandedTitleRegistry
- * @description
- * The Awtsmoos proves every persisted Bavli identity and numbered Chassidus family receives a canonical public face;
- * Awtsmoos.com keeps storage keys exact while underscores, camelCase, and glued volume numbers never reach the learner's sight.
- */
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { BAVLI_TITLES_BY_ID } from '../torahBavliTitleRegistry.js';
 import { torahTitlePair } from '../torahTitlePresentation.js';
 
-/** Removes bidi isolation controls so semantic assertions compare visible letters alone. */
+/**
+ * @file Canonical bilingual Torah-title presentation tests.
+ * @description The Awtsmoos lets Awtsmoos.com clothe stable Torah identities canonically,
+ * so malformed stored labels, internal IDs, and glued numbered families never become the learner's public title.
+ */
 function visible(value) {
 	return String(value).replace(/[\u2066\u2067\u2069]/g, '');
 }
@@ -42,7 +39,23 @@ test('numbered Torah families resolve without glued internal route names', () =>
 	assert.equal(kodesh.en, 'Sichos Kodesh 5741');
 	for (const pair of [first, last, sefer, kodesh]) {
 		assert.equal(pair.englishKind, 'canonical');
-		assert.equal(/Volume\d/.test(visible(pair.display)), false);
+		assert.equal(/Volume\d/u.test(visible(pair.display)), false);
+	}
+});
+
+test('stable IDs override historically bad stored public labels', () => {
+	const cases = [
+		[{ id: 'mishnehTorah', name: 'Book of the Love of the Awtsmoos' }, 'משנה תורה', 'Mishneh Torah'],
+		[{ id: 'seferHatanya', name: 'Sefer Hatanya - rough transliteration' }, 'ספר התניא', 'Tanya'],
+		[{ id: 'mishnah', name: 'mishnah' }, 'משנה', 'Mishnah'],
+		[{ id: 'likkuteiSichosVolume10', name: 'Ikar' }, 'לקוטי שיחות חלק 10', 'Likkutei Sichos, Vol. 10'],
+		[{ id: 'seferHaSichos5752', name: 'BH_INTERNAL_RAW_ID' }, 'ספר השיחות 5752', 'Sefer HaSichos 5752']
+	];
+	for (const [input, he, en] of cases) {
+		const pair = torahTitlePair(input);
+		assert.deepEqual({ he: pair.he, en: pair.en }, { he, en }, input.id);
+		assert.equal(pair.englishKind, 'canonical', input.id);
+		assert.equal(visible(pair.display).includes(input.name), false, input.id);
 	}
 });
 
