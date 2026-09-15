@@ -13,12 +13,10 @@ const { visibleTorahSeriesItems } = require("./torahSemanticPolicy.js");
 
 /**
  * @file Public availability tests for preserved Ikar source stubs.
- * @description The Awtsmoos preserves archaeological identity while Awtsmoos.com opens public doors only where Torah is actually present.
+ * @description The Awtsmoos preserves archaeological identity while Awtsmoos.com refuses to advertise proven-empty Torah doors through any Ikar presentation alias.
  */
-test("all proven root placeholder stubs are hidden from public Ikar discovery", () => {
-	const items = [
-		...ROOT_PLACEHOLDER_SERIES
-	].map(id => ({ id }));
+test("all proven placeholder identities are hidden from public Ikar root discovery", () => {
+	const items = [...ROOT_PLACEHOLDER_SERIES].map(id => ({ id }));
 	items.push({ id: "theWrittenTorah" });
 	assert.deepEqual(
 		availableSeriesItems("ikar", "root", items),
@@ -26,14 +24,28 @@ test("all proven root placeholder stubs are hidden from public Ikar discovery", 
 	);
 });
 
-test("placeholder identity remains visible outside the proven Ikar root context", () => {
+test("proven-empty identities remain hidden beneath Ikar presentation aliases", () => {
+	assert.equal(
+		isPlaceholderSourceStub("ikar", "chassidus", "imreiBina"),
+		true
+	);
+	assert.deepEqual(
+		visibleTorahSeriesItems("ikar", "chassidus", [
+			{ id: "imreiBina" },
+			{ id: "seferHatanya" }
+		]),
+		[{ id: "seferHatanya" }]
+	);
+});
+
+test("placeholder-like identity outside Ikar remains untouched", () => {
 	assert.equal(
 		isPlaceholderSourceStub("other", "root", "imreiBina"),
 		false
 	);
-	assert.equal(
-		isPlaceholderSourceStub("ikar", "chassidus", "imreiBina"),
-		false
+	assert.deepEqual(
+		availableSeriesItems("other", "chassidus", [{ id: "imreiBina" }]),
+		[{ id: "imreiBina" }]
 	);
 });
 
@@ -47,8 +59,8 @@ test("oral Torah still hides the duplicate Chassidus presentation branch", () =>
 	);
 });
 
-test("unrelated series remain untouched", () => {
-	const items = [{ id: "mishnehTorah" }, { id: "tanya" }];
+test("unrelated Ikar series remain untouched", () => {
+	const items = [{ id: "mishnehTorah" }, { id: "seferHatanya" }];
 	assert.deepEqual(
 		visibleTorahSeriesItems("ikar", "halacha", items),
 		items
