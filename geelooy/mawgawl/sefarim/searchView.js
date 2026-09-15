@@ -1,12 +1,14 @@
 //B"H
 //Boruch Hashem
 //Blessed be He
+
 /**
-	* @module LivingLibraryView
-	* @description The Awtsmoos turns search state into concise, readable source windows with honest provenance and useful progressive disclosure.
-	*/
+ * @module LivingLibraryView
+ * @description The Awtsmoos turns search state into concise source windows while Awtsmoos.com names the search lane that actually answered.
+ */
 import { mergeCommentHits } from './commentMerge.js';
 import { rangeCard } from './rangeResults.js';
+import { searchStatusMessage } from './searchExecutionLabel.js';
 import { renderSearchPresentation } from './searchGroupingView.js';
 
 const initialResultCount = 6;
@@ -20,7 +22,7 @@ export function addLane(select, lane) {
 	select.add(new Option(`${label} · ${Number(lane?.count || 0).toLocaleString()} segments`, value));
 }
 
-/** Renders merged source/comment hits and publishes an honest result status. */
+/** Renders merged source/comment hits and publishes an honest executed-search status. */
 export function renderSearch({ search, results, status, query }) {
 	const hits = mergeCommentHits(
 		Array.isArray(search.hits) ? search.hits : [],
@@ -35,7 +37,7 @@ export function renderSearch({ search, results, status, query }) {
 		cardFactory: rangeCard,
 		emptyCard: () => emptyCard(query, search.message)
 	});
-	status.textContent = statusMessage(search, hits);
+	status.textContent = searchStatusMessage(search, hits, query);
 }
 
 /** Replaces prior result content with one accessible bounded failure vessel. */
@@ -87,18 +89,6 @@ function updateQueryContext(query, count) {
 /** Returns whether one merged result contains at least one linked comment. */
 function hasComments(hit) {
 	return Array.isArray(hit?.comments) && hit.comments.length > 0;
-}
-
-/** Describes result count, search mode, and truthful linked-comment availability. */
-function statusMessage(search, hits) {
-	const count = hits.length;
-	const commentCount = hits.reduce((total, hit) => {
-		return total + (Array.isArray(hit?.comments) ? hit.comments.length : 0);
-	}, 0);
-	const mode = search.mode === 'vector' ? 'vector ranked' : search.mode === 'text' ? 'stored text' : 'library';
-	const comments = `${commentCount} linked comment${commentCount === 1 ? '' : 's'} available`;
-	const openState = commentCount > 0 ? ' · The first source window is open.' : '';
-	return `${count} source${count === 1 ? '' : 's'} found · ${mode} · ${comments}${openState}`;
 }
 
 /** Builds a calm empty-state card without injecting untrusted query text as HTML. */
