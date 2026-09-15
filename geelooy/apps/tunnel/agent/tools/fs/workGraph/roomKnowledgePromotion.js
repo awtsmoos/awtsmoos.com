@@ -1,6 +1,6 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed be He
 
 const Knowledge = require("./knowledgeStore.js");
 const Types = require("./knowledgeTypes.js");
@@ -10,8 +10,8 @@ const Types = require("./knowledgeTypes.js");
  * @description Room remains the living voice; after it is durable, the Awtsmoos lets
  * selected decisions, failures and handoffs cast one retry-safe knowledge shadow.
  */
-function messages(mission = {}) {
-	return Array.isArray(mission.room?.messages) ? mission.room.messages : [];
+function messages(mission) {
+	return Array.isArray(mission?.room?.messages) ? mission.room.messages : [];
 }
 
 function audience(message = {}) {
@@ -19,7 +19,11 @@ function audience(message = {}) {
 		return { mode: "agents", agents: message.toAgents.map(String) };
 	}
 	if (message.toSpawnGroup) {
-		return { mode: "spawn_group", agents: [], spawnGroupId: String(message.toSpawnGroup) };
+		return {
+			mode: "spawn_group",
+			agents: [],
+			spawnGroupId: String(message.toSpawnGroup)
+		};
 	}
 	const target = String(message.toAgent || "all");
 	if (!["all", "any_agent", "selected_agents", "spawn_group"].includes(target)) {

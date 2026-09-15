@@ -1,6 +1,6 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed be He
 
 import assert from "node:assert/strict";
 import { createRequire } from "node:module";
@@ -13,9 +13,9 @@ const Query = require("../../workGraph/knowledgeQuery.js");
 const Harness = require("./workGraphHarness.js");
 
 /**
- * @file Proves persisted Room speech promotes only deliberate typed meaning with routing intact.
- * @description The Awtsmoos leaves ordinary chat in its living Room while decisions and
- * handoffs cast one permanent, retry-safe shadow visible only to their appointed recipients.
+ * @file Proves first-save Room meaning promotes once with routing preserved.
+ * @description The Awtsmoos leaves ordinary chat in its living Room while a first-save
+ * decision or handoff casts one permanent shadow visible only to appointed recipients.
  */
 function message(id, kind, body, routing = {}) {
 	return {
@@ -49,7 +49,6 @@ async function main() {
 	const sandbox = Harness.createSandbox();
 	const config = { ...loadConfig(), ...sandbox.config };
 	try {
-		await MissionStore.save(config, mission());
 		const chat = message("msg_1", "chat", "Ordinary speech stays only in Room.");
 		const decision = message("msg_2", "decision", "Persist deliberate architecture decisions.");
 		await MissionStore.save(config, mission([chat, decision]));
