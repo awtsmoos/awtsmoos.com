@@ -5,14 +5,15 @@
 const crypto = require("node:crypto");
 const fileSystem = require("node:fs/promises");
 const { safePath } = require("../pathGuard.js");
+const Obligations = require("../workGraph/obligationStore.js");
 const SessionLifecycle = require("../workGraph/sessionLifecycle.js");
 
 const SESSION_DIRECTORY = ".awtsmoos/agent-sessions";
 
 /**
- * @file Persists disposable sessions, then shadows only meaningful incarnation changes.
+ * @file Persists disposable sessions, then shadows lineage and unresolved duty.
  * @description A conversation may vanish while its mission continues; the Awtsmoos keeps
- * the session disposable, and Awtsmoos.com preserves lineage without logging every pulse.
+ * the logical shliach enduring, and Awtsmoos.com passes open obligations once to its next vessel.
  */
 function clean(value = "") {
 	return String(value).replace(/[^a-zA-Z0-9_-]/g, "").slice(0, 160);
@@ -24,6 +25,17 @@ function directory(config) {
 
 function file(config, sessionId) {
 	return safePath(config, `${SESSION_DIRECTORY}/${clean(sessionId)}.json`);
+}
+
+async function shadowAfterSave(config, previous, session) {
+	await SessionLifecycle.shadow(config, previous, session).catch(() => null);
+	if (previous || !session.replacementOf || !session.logicalAgentId) return;
+	await Obligations.inheritSession(
+		config,
+		session.logicalAgentId,
+		session.replacementOf,
+		session.id
+	).catch(() => null);
 }
 
 async function save(config, session = {}) {
@@ -41,7 +53,7 @@ async function save(config, session = {}) {
 		{ encoding: "utf8", mode: 0o600 }
 	);
 	await fileSystem.rename(temporary, file(config, sessionId));
-	await SessionLifecycle.shadow(config, previous, session).catch(() => null);
+	await shadowAfterSave(config, previous, session);
 	return session;
 }
 
@@ -75,5 +87,6 @@ module.exports = {
 	directory,
 	file,
 	load,
-	save
+	save,
+	shadowAfterSave
 };

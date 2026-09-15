@@ -1,5 +1,5 @@
 B"H
-1.0.604
+1.0.605
 main.js
 ai/relay/direct/browser/ActiveTargetLease.mjs
 ai/relay/direct/browser/AgentTabCatalog.mjs
@@ -1771,6 +1771,7 @@ tools/fs/actionGroups/httpActionsGroup.js
 tools/fs/actionGroups/imageActions.js
 tools/fs/actionGroups/instructionActions.js
 tools/fs/actionGroups/isolatedActions.js
+tools/fs/actionGroups/knowledgeActions.js
 tools/fs/actionGroups/missionActionPayload.js
 tools/fs/actionGroups/missionActions.js
 tools/fs/actionGroups/missionAssignmentActions.js
@@ -1924,6 +1925,7 @@ tools/fs/actionLedgerReceiptStore.js
 tools/fs/actionLedgerRedact.js
 tools/fs/actionLedgerRetentionStore.js
 tools/fs/actionLedgerStore.js
+tools/fs/actionMissionPolicy.js
 tools/fs/actionMissionRuntime.js
 tools/fs/actionOffload.js
 tools/fs/actionProcessOwnership.js
@@ -2564,11 +2566,16 @@ tools/fs/workGraph/eventRecord.js
 tools/fs/workGraph/fileWitness.js
 tools/fs/workGraph/ids.js
 tools/fs/workGraph/index.js
+tools/fs/workGraph/knowledgeQuery.js
+tools/fs/workGraph/knowledgeRelations.js
+tools/fs/workGraph/knowledgeStore.js
+tools/fs/workGraph/knowledgeTypes.js
 tools/fs/workGraph/lifecycleEvent.js
 tools/fs/workGraph/mutationAliases.js
 tools/fs/workGraph/mutationEvent.js
 tools/fs/workGraph/mutationResult.js
 tools/fs/workGraph/mutationTargets.js
+tools/fs/workGraph/obligationStore.js
 tools/fs/workGraph/operationStore.js
 tools/fs/workGraph/outbox.js
 tools/fs/workGraph/paths.js
@@ -2579,6 +2586,7 @@ tools/fs/workGraph/recordLock.js
 tools/fs/workGraph/recordStore.js
 tools/fs/workGraph/redaction.js
 tools/fs/workGraph/relationStore.js
+tools/fs/workGraph/roomKnowledgePromotion.js
 tools/fs/workGraph/runtime.js
 tools/fs/workGraph/sequenceStore.js
 tools/fs/workGraph/sessionLifecycle.js

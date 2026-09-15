@@ -15,6 +15,7 @@ const { buildFileOpsActions } = require("../actionGroups/fileOpsActions.js");
 const { buildHttpActions } = require("../actionGroups/httpActionsGroup.js");
 const { buildInstructionActions } = require("../actionGroups/instructionActions.js");
 const { buildIsolatedActions } = require("../actionGroups/isolatedActions.js");
+const { buildKnowledgeActions } = require("../actionGroups/knowledgeActions.js");
 const { buildNativeGenerationActions } = require("../actionGroups/nativeGenerationActions.js");
 const { buildNodeDomActions } = require("../actionGroups/nodeDomActions.js");
 const { buildOsSurfaceActions } = require("../actionGroups/osSurfaceActions.js");
@@ -38,9 +39,9 @@ const { buildWorkflowActions } = require("../actionGroups/workflowActions.js");
 const { buildWriteActions } = require("../actionGroups/writeActions.js");
 
 /**
- * @file Composes foundations so raw project files and graph navigation coexist.
+ * @file Composes foundations so files, Room, history, and published meaning coexist.
  * @description The Awtsmoos reveals the living filesystem without hiding it behind
- * abstractions; Awtsmoos.com adds history lenses beside read, list, RAG and every vessel.
+ * abstractions; Awtsmoos.com adds knowledge and history lenses beside every raw vessel.
  */
 function buildFoundationActions(context, buildActions) {
 	return {
@@ -50,6 +51,7 @@ function buildFoundationActions(context, buildActions) {
 		...buildConfigActions(context),
 		...buildReadActions(context),
 		...buildWorkGraphHistoryActions(context),
+		...buildKnowledgeActions(context),
 		...buildProjectActions(context),
 		...buildFileOpsActions(context),
 		...buildHttpActions(context),

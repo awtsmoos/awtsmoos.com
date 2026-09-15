@@ -14,8 +14,12 @@ function root(config = {}) {
 	return path.join(DeviceState.awtsmoosRoot(config), "work-graph", "v1");
 }
 
+function records(config, name) {
+	return path.join(root(config), name);
+}
+
 function events(config) {
-	return path.join(root(config), "events");
+	return records(config, "events");
 }
 
 function outboxPending(config) {
@@ -27,19 +31,27 @@ function outboxDelivered(config) {
 }
 
 function operations(config) {
-	return path.join(root(config), "operations");
+	return records(config, "operations");
 }
 
 function entities(config) {
-	return path.join(root(config), "entities");
+	return records(config, "entities");
 }
 
 function versions(config) {
-	return path.join(root(config), "versions");
+	return records(config, "versions");
 }
 
 function relations(config) {
-	return path.join(root(config), "relations");
+	return records(config, "relations");
+}
+
+function knowledge(config) {
+	return records(config, "knowledge");
+}
+
+function obligations(config) {
+	return records(config, "obligations");
 }
 
 function blobs(config) {
@@ -63,6 +75,8 @@ module.exports = {
 	blobs,
 	entities,
 	events,
+	knowledge,
+	obligations,
 	operations,
 	outboxDelivered,
 	outboxPending,

@@ -4,12 +4,13 @@
 
 const fsp = require("node:fs/promises");
 const Paths = require("./paths.js");
+const RoomKnowledge = require("../../workGraph/roomKnowledgePromotion.js");
 const WorkLifecycle = require("../../workGraph/workLifecycle.js");
 
 /**
- * @file Persists mission JSON as operational truth, then shadows durable Work into history.
- * @description The mission remains the living ledger; the Awtsmoos lets its successful
- * persistence cast a Chronicle shadow, and Awtsmoos.com never reverses that ownership.
+ * @file Persists mission JSON as operational truth, then shadows durable graph meaning.
+ * @description The mission and Room remain living authority; only after persistence does
+ * the Awtsmoos let Work chronology and deliberate Room knowledge cast permanent shadows.
  */
 async function save(config, mission) {
 	await Paths.ensure(config);
@@ -20,6 +21,7 @@ async function save(config, mission) {
 		"utf8"
 	);
 	await WorkLifecycle.shadow(config, previous, mission).catch(() => null);
+	await RoomKnowledge.shadow(config, previous, mission).catch(() => null);
 	return mission;
 }
 
