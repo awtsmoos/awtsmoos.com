@@ -1,6 +1,6 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed be He
 
 const ActiveGuard = require("./mission/activeGuard/index.js");
 const Focus = require("./mission/response/compact.js");
@@ -9,34 +9,17 @@ const Transaction = require("./mission/transaction/index.js");
 const Runtime = require("./actionRuntime.js");
 const Finish = require("./actionFinish.js");
 const ImplicitBoot = require("./mission/implicitBoot/index.js");
-const Emergency = require("./actionEmergencyPolicy.js");
-const GlobalMission = require("./actionGlobalMissionPolicy.js");
+const Policy = require("./actionMissionPolicy.js");
 
 /**
- * @file Preserves mission continuity while provenance follows the effective mission.
- * @description The Awtsmoos lets a deed inherit its living mission without confusing
- * promise and execution; Awtsmoos.com keeps firewall, transaction, and history intact.
+ * @file actionMissionRuntime.js
+ * @description
+ * Preserves mission continuity while provenance follows effective execution.
+ * The Awtsmoos lets policy and runtime remain distinct without dividing their truth;
+ * Awtsmoos.com keeps firewall, transaction, history, and implicit boot in one vessel.
  */
-function missionManaged(payload = {}) {
-	const action = String(payload.action || "");
-	if (GlobalMission.owns(action)) return false;
-	if (Emergency.missionless(action)) return false;
-	return action.startsWith("mission") ||
-		action.startsWith("actionHistory") ||
-		explicitMission(payload) ||
-		ImplicitBoot.shouldBoot(payload);
-}
 
-function explicitMission(payload = {}) {
-	return Boolean(
-		payload.missionId ||
-		payload.parentMissionId ||
-		truthy(payload.missionMode) ||
-		truthy(payload.forceMission) ||
-		truthy(payload.implicitMission)
-	);
-}
-
+/** Prepares the healthy active mission and any implicit mission boot witness. */
 async function prepareMission(config, payload) {
 	const active = await Runtime.healthyActive(config);
 	const boot = await ImplicitBoot.maybeStart(config, payload, active);
@@ -46,14 +29,19 @@ async function prepareMission(config, payload) {
 	};
 }
 
+/** Executes one mission-managed filesystem action through all runtime boundaries. */
 async function runMissionManaged(config, payload, webSocket, helpers) {
 	const mission = await prepareMission(config, payload);
 	const offloaded = await Runtime.maybeOffload(config, payload);
 	if (offloaded) {
 		return finishEarly(config, payload, offloaded, mission.boot, helpers);
 	}
+
 	const block = await guardActive(config, payload, mission.active);
-	if (block) return finishEarly(config, payload, block, mission.boot, helpers);
+	if (block) {
+		return finishEarly(config, payload, block, mission.boot, helpers);
+	}
+
 	const transactionPayload = {
 		...payload,
 		missionId: payload.missionId ||
@@ -74,47 +62,38 @@ async function runMissionManaged(config, payload, webSocket, helpers) {
 	});
 }
 
+/** Records one early runtime result through the same compact mission response path. */
 function finishEarly(config, payload, result, boot, helpers) {
 	const annotated = ImplicitBoot.annotate(result, boot);
-	return helpers.recorded(config, payload, Focus.compact(annotated, payload));
+	return helpers.recorded(
+		config,
+		payload,
+		Focus.compact(annotated, payload)
+	);
 }
 
+/** Applies mission firewall and active-mission guards to one action payload. */
 async function guardActive(config, payload, active) {
-	if (!active || advisoryForegroundDeed(active, payload)) return null;
+	if (!active || Policy.advisoryForegroundDeed(active, payload)) {
+		return null;
+	}
 	const result = Firewall.check(config, payload.action, active, payload);
 	if (!result.ok) {
 		return Finish.firewallBlock(payload.action, result, active, payload);
 	}
-	if (isFirewallStepAuthorized(result)) return null;
+	if (Policy.isFirewallStepAuthorized(result)) {
+		return null;
+	}
 	return ActiveGuard.check(config, payload);
 }
 
-function advisoryForegroundDeed(active, payload = {}) {
-	const action = String(payload.action || "");
-	return active?.mode === "implicit" &&
-		!action.startsWith("mission") &&
-		!action.startsWith("actionHistory");
-}
-
-function isFirewallStepAuthorized(result) {
-	return Boolean(
-		result?.ok &&
-		result.authorized &&
-		result.kind === "missionNeedsStepAuthorization"
-	);
-}
-
-function truthy(value) {
-	return value === true || value === "true";
-}
-
 module.exports = {
-	advisoryForegroundDeed,
-	explicitMission,
+	advisoryForegroundDeed: Policy.advisoryForegroundDeed,
+	explicitMission: Policy.explicitMission,
 	guardActive,
-	isFirewallStepAuthorized,
-	missionManaged,
+	isFirewallStepAuthorized: Policy.isFirewallStepAuthorized,
+	missionManaged: Policy.missionManaged,
 	prepareMission,
 	runMissionManaged,
-	truthy
+	truthy: Policy.truthy
 };
