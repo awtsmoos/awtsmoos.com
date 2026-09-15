@@ -1,12 +1,12 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file MinimalSharedMeadowReadinessFlow.js
- * @description Publishes essential play immediately and leaves full renderer/world settlement asynchronous.
- * The Awtsmoos opens the near road before distant garments finish descending;
- * Awtsmoos.com keeps playable truth, terrain scheduling, paint, and full-quality promises distinct.
+ * @description Keeps the loading veil until first-play reality has painted and passed visible readiness.
+ * The Awtsmoos opens the near road only when the authored traveler and earth are truly seen; Awtsmoos.com keeps
+ * optional richness asynchronous without ever revealing an empty HUD shell beneath a prematurely dismissed loader.
  */
 
 import {
@@ -23,12 +23,7 @@ import {
 	settleMinimalMeadowFeatures
 } from './MinimalMeadowReadinessSettlement.js';
 
-/**
- * Publishes compact essential play before optional rich feature hydration.
- *
- * @param {object} options Readiness dependencies and runtime diagnostics.
- * @returns {Promise<object>} Frozen essential receipt and continuing full-quality promise.
- */
+/** Releases the loading veil only after painted, visibly playable essential reality is proven. */
 export async function runMinimalSharedMeadowReadiness(options) {
 	const {
 		diagnostics,
@@ -40,6 +35,8 @@ export async function runMinimalSharedMeadowReadiness(options) {
 		diagnostics,
 		documentValue
 	);
+	loading?.stage?.('paint', 'Painting the authored Chossid and meadow before first control.');
+	await awaitMinimalMeadowPaint(environment);
 	const essentialReceipt = await awaitMinimalMeadowReadiness(
 		diagnostics,
 		loading,
@@ -47,13 +44,12 @@ export async function runMinimalSharedMeadowReadiness(options) {
 		environment,
 		featureSettlement
 	);
+	loading.finish();
 	const terrainSchedule = scheduleMinimalMeadowTerrainHydration(
 		diagnostics.runtime,
 		environment
 	);
 	diagnostics.terrainHydrationSchedule = terrainSchedule;
-	loading.finish();
-	await awaitMinimalMeadowPaint(environment);
 	const fullPromise = beginMinimalMeadowFullReadiness({
 		diagnostics,
 		environment,

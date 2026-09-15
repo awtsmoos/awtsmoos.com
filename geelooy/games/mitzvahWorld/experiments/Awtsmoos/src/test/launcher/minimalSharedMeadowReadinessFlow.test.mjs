@@ -1,104 +1,82 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file minimalSharedMeadowReadinessFlow.test.mjs
- * @description Proves playable readiness returns while full renderer and optional beauty remain pending.
- * The Awtsmoos opens the near road before distant garments finish descending;
- * Awtsmoos.com verifies essential mechanics, loading release, paint, and continuing full-quality truth.
+ * @description Proves the loading veil survives until painted visible play is true while optional richness remains asynchronous.
+ * The Awtsmoos keeps Awtsmoos.com veiled through the paint threshold; only attached Chossid, terrain, movement,
+ * WebGL, and successful frame evidence may let the loader depart while distant beauty continues afterward.
  */
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import { runMinimalSharedMeadowReadiness } from '../../launcher/MinimalSharedMeadowReadinessFlow.js';
 import {
-	runMinimalSharedMeadowReadiness
-} from '../../launcher/MinimalSharedMeadowReadinessFlow.js';
+	readyFeatureReceipt,
+	readyRuntime,
+	webGlRenderer
+} from '../app/RendererReadinessTestHarness.mjs';
 
-test('B"H readiness publishes play without awaiting full renderer settlement', async () => {
+test('loader finishes only after two paint opportunities and visible readiness', async () => {
 	const order = [];
 	const optionalPromise = new Promise(() => {});
 	const rendererPromise = new Promise(() => {});
-	const runtime = coreRuntime();
+	const runtime = readyRuntime(webGlRenderer());
 	const diagnostics = {
+		featuresPromise: Promise.resolve().then(() => {
+			order.push('features-ready');
+			return readyFeatureReceipt(optionalPromise);
+		}),
 		rendererHydrationPromise: rendererPromise,
 		runtime
 	};
-	diagnostics.featuresPromise = Promise.resolve().then(() => {
-		installBootstrap(runtime);
-		order.push('bootstrap-settled');
-		return readyFeatureReceipt(optionalPromise);
-	});
 	const root = { dataset: {}, setAttribute() {} };
 	const receipt = await runMinimalSharedMeadowReadiness({
 		diagnostics,
 		documentValue: { documentElement: root },
-		environment: immediatePaintEnvironment(),
+		environment: immediatePaintEnvironment(order),
 		loading: loadingLedger(order)
 	});
-	assert.deepEqual(order.slice(0, 2), [
-		'bootstrap-settled',
-		'loading-finished'
+	assert.deepEqual(order.slice(0, 4), [
+		'features-ready', 'paint', 'paint', 'loading-finished'
 	]);
 	assert.equal(receipt.essential.ready, true);
-	assert.equal(receipt.essential.optionalPending, true);
+	assert.equal(receipt.essential.visible.ready, true);
+	assert.equal(receipt.essential.optionalPending, false);
 	assert.ok(receipt.fullPromise instanceof Promise);
 	assert.equal(diagnostics.fullReadinessPromise, receipt.fullPromise);
 	assert.equal(root.dataset.awtsmoosRuntimeState, 'playable');
-	assert.equal(
-		diagnostics.featureSettlement.receipt.optionalPromise,
-		optionalPromise
-	);
 });
 
-function coreRuntime() {
-	return {
-		camera: {},
-		expansion: {},
-		ground: {},
-		input: {},
-		model: {},
-		renderer: null,
-		terrain: {
-			textureHydration: {
-				diagnostics: () => ({ phase: 'deferred' })
-			}
-		}
+test('structural failure never dismisses the loader', async () => {
+	const order = [];
+	const runtime = readyRuntime(webGlRenderer());
+	runtime.model = null;
+	const diagnostics = {
+		featuresPromise: Promise.resolve(readyFeatureReceipt()),
+		rendererHydrationPromise: Promise.resolve(null),
+		runtime
 	};
-}
+	await assert.rejects(
+		runMinimalSharedMeadowReadiness({
+			diagnostics,
+			documentValue: { documentElement: { dataset: {}, setAttribute() {} } },
+			environment: immediatePaintEnvironment(order),
+			loading: loadingLedger(order)
+		}),
+		/MINIMAL_MEADOW_NOT_PLAYABLE:bootstrap-player/
+	);
+	assert.equal(order.includes('loading-finished'), false);
+});
 
-function installBootstrap(runtime) {
-	Object.assign(runtime, {
-		combat: {},
-		equipment: {},
-		inventoryStore: {},
-		optionalFeaturePromise: Promise.resolve(null),
-		questStore: {},
-		recovery: {}
-	});
-	runtime.expansion.streaming = {};
-}
-
-function readyFeatureReceipt(optionalPromise) {
-	const ready = Object.freeze({ status: 'ready' });
-	return Object.freeze({
-		combat: ready,
-		equipment: ready,
-		inventory: ready,
-		optionalPromise,
-		quest: ready,
-		ready: true,
-		recovery: ready,
-		streaming: ready,
-		ui: ready
-	});
-}
-
-function immediatePaintEnvironment() {
+function immediatePaintEnvironment(order) {
 	return {
 		clearTimeout,
+		performance: { now: () => Date.now() },
 		requestAnimationFrame(callback) {
-			callback();
+			order.push('paint');
+			callback(Date.now());
 			return 1;
 		},
 		setTimeout
