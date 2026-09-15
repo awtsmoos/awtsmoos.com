@@ -1,5 +1,5 @@
 B"H
-1.0.605
+1.0.607
 main.js
 ai/relay/direct/browser/ActiveTargetLease.mjs
 ai/relay/direct/browser/AgentTabCatalog.mjs
@@ -1745,6 +1745,7 @@ tools/fs/actionGroups/asyncTaskStore.js
 tools/fs/actionGroups/batchAliasActions.js
 tools/fs/actionGroups/chromeActions.js
 tools/fs/actionGroups/cognition/actionAliasResolver.js
+tools/fs/actionGroups/cognition/contextCompilerAdapter.js
 tools/fs/actionGroups/cognition/genericCognitionProject.js
 tools/fs/actionGroups/cognition/genericCognitionReport.js
 tools/fs/actionGroups/cognition/safePathExplain.js
@@ -1759,6 +1760,7 @@ tools/fs/actionGroups/configActions.js
 tools/fs/actionGroups/configPublic.js
 tools/fs/actionGroups/configRootPolicy.js
 tools/fs/actionGroups/connectionMailboxActions.js
+tools/fs/actionGroups/contextCompilerActions.js
 tools/fs/actionGroups/continuationActions.js
 tools/fs/actionGroups/ephemeralActions.js
 tools/fs/actionGroups/fakeSsh/introspectionActions.js
@@ -2053,6 +2055,14 @@ tools/fs/commandOutputStore.js
 tools/fs/connectedFiles.js
 tools/fs/connectedRefs.js
 tools/fs/constants.js
+tools/fs/contextCompiler/budget.js
+tools/fs/contextCompiler/compiler.js
+tools/fs/contextCompiler/fileSources.js
+tools/fs/contextCompiler/graphSources.js
+tools/fs/contextCompiler/ranking.js
+tools/fs/contextCompiler/search.js
+tools/fs/contextCompiler/sourceModel.js
+tools/fs/contextCompiler/sources.js
 tools/fs/continuation/extractNext.js
 tools/fs/continuation/guard.js
 tools/fs/continuation/lease.js
