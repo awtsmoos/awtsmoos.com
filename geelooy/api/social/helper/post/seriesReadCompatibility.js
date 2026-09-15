@@ -1,14 +1,11 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
+//Blessed be He
 
 /**
  * @module SeriesReadCompatibility
- * @description
- * The Awtsmoos reconciles mapped, routed, and legacy series identities without
- * bulk-reading one fragile historical collection when detailed records are needed.
+ * @description The Awtsmoos reconciles mapped, routed, and legacy series identities without bulk-reading one fragile historical collection when one narrow record already exists.
  */
-
 const { idsForSeries, isMappedSeries } = require("./meluketSeriesMap.js");
 const { completeSeriesKeys } = require("./seriesKeyCompleteness.js");
 const {
@@ -17,20 +14,12 @@ const {
 	readSeriesPost
 } = require("./seriesRecordReader.js");
 
-/**
- * Reads a mapped Meluket post through the narrow record pipeline.
- * @param {object} context Canonical route reader context.
- * @returns {Promise<object|null>} Projected post record or null.
- */
+/** Reads one mapped Meluket post through the narrow record pipeline. */
 async function readMappedPost(context) {
 	return readSeriesPost(context, context.postId);
 }
 
-/**
- * Resolves a sealed mapped series as ids or ordered details.
- * @param {object} context Canonical route reader context.
- * @returns {Promise<string[]|object[]|null>} Mapped result.
- */
+/** Resolves a sealed mapped series as ids or ordered details. */
 async function readMappedPosts(context) {
 	const postIds = idsForSeries(context.$i, context.seriesId);
 	if (!postIds.length) return null;
@@ -38,11 +27,7 @@ async function readMappedPosts(context) {
 	return readRecordsByIds(context, postIds);
 }
 
-/**
- * Reads stable series identities without deserializing the full posts object.
- * @param {object} context Canonical route reader context.
- * @returns {Promise<string[]>} Ordered identities or an empty list.
- */
+/** Reads stable ordinary-series identities without deserializing the full posts object. */
 async function readLegacyIds(context) {
 	const result = await context.$i.db
 		.getObjectKeys(postsPath(context.heichelId, context.seriesId))
@@ -50,11 +35,7 @@ async function readLegacyIds(context) {
 	return Array.isArray(result) ? result : [];
 }
 
-/**
- * Reconciles ordinary series keys and resolves details through bounded child reads.
- * @param {object} context Canonical route reader context.
- * @returns {Promise<string[]|object[]>} Stable identities or ordered details.
- */
+/** Reconciles ordinary series keys and resolves details through bounded child reads. */
 async function readUnmappedPosts(context) {
 	const legacyIds = await readLegacyIds(context);
 	const complete = await completeSeriesKeys({ ...context, legacyIds });
@@ -63,20 +44,18 @@ async function readUnmappedPosts(context) {
 	return readRecordsByIds(context, postIds);
 }
 
-/** Chooses mapped or ordinary compatibility without exposing storage history. */
+/** Chooses mapped or ordinary collection compatibility without exposing storage history. */
 async function readPostsCompatible(context) {
 	if (isMappedSeries(context.$i, context.seriesId)) return readMappedPosts(context);
 	return readUnmappedPosts(context);
 }
 
 /**
- * Resolves one post while retaining the proven ordinary reader as final fallback.
- * @param {object} context Canonical route reader context.
- * @returns {Promise<object>} Resolved post result.
+ * Resolves one post narrow-first for every ordinary/mapped series, preserving the proven legacy reader only as fallback.
+ * Virtual series remain outside this function and retain route-level precedence.
  */
 async function readPostCompatible(context) {
-	if (!isMappedSeries(context.$i, context.seriesId)) return context.standardReader();
-	const record = await readMappedPost(context);
+	const record = await readSeriesPost(context, context.postId);
 	return record || context.standardReader();
 }
 
