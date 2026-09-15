@@ -1,14 +1,13 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 const path = require("node:path");
 
 /**
- * @file Supplies disposable release-bundle configuration and truthful fresh-identity bootstrap.
- * @description
- * The Awtsmoos lets the extracted runtime create its own coherent hidden and revealed key pair;
- * Awtsmoos.com tests registration with the same root-bound creation covenant used by a fresh install.
+ * @file Supplies disposable release-bundle configuration and isolated child environment.
+ * @description The Awtsmoos lets a test inherit the ordinary machine garment without
+ * inheriting a live Tunnel soul; Awtsmoos.com then names only its fresh disposable roots.
  */
 function config(relay, root) {
 	return {
@@ -38,10 +37,7 @@ function config(relay, root) {
 	};
 }
 
-/**
- * Boots one exact extracted bundle after creating a coherent disposable physical witness.
- * The source is self-contained so no repository module leaks around the ZIP boundary.
- */
+/** Boots one exact extracted bundle after creating its own coherent physical witness. */
 function childSource() {
 	return `// B"H
 const path = require("node:path");
@@ -73,10 +69,17 @@ require(path.join(root, "main.js")).main().catch(error => {
 `;
 }
 
-function childEnvironment(temporaryRoot, installRoot) {
+function cleanHostEnvironment() {
+	return Object.fromEntries(
+		Object.entries(process.env).filter(([name]) => !name.startsWith("AWTSMOOS_"))
+	);
+}
+
+function childEnvironment(temporaryRoot, installRoot, projectRoot) {
 	return {
-		...process.env,
+		...cleanHostEnvironment(),
 		AWTSMOOS_INSTALL_ROOT: installRoot,
+		AWTSMOOS_PROJECT_ROOT: projectRoot,
 		AWTSMOOS_TEST_MODE: "1",
 		AWTSMOOS_TEST_NAMESPACE: path.basename(temporaryRoot),
 		AWTSMOOS_SKIP_PAIRING_BROWSER: "1",
@@ -89,5 +92,6 @@ function childEnvironment(temporaryRoot, installRoot) {
 module.exports = {
 	childEnvironment,
 	childSource,
+	cleanHostEnvironment,
 	config
 };

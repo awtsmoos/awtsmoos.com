@@ -1,28 +1,33 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 const { loadConfig } = require("../../lib/config.js");
+const Recovery = require("../../lib/runtime/recovery-envelope.js");
 const Scope = require("../../lib/runtime/request-scope.js");
+const { buildActions: makeActions } = require("./actionBuilders.js");
 const { publicConfig } = require("./actionGroups/configActions.js");
 const Payload = require("./actionGroups/missionActionPayload.js");
-const { buildActions: makeActions } = require("./actionBuilders.js");
 const Ledger = require("./actionLedger.js");
 const Mission = require("./actionMissionRuntime.js");
+const Provenance = require("./actionProvenanceRuntime.js");
 const Replay = require("./actionReplayGuard.js");
 const Runtime = require("./actionRuntime.js");
-const Recovery = require("../../lib/runtime/recovery-envelope.js");
 
 const AGENT_VERSION = "split-agent-2.0.0";
 
 /**
-	* @file Executes every filesystem deed inside its immutable request root.
-	* @description
-	* The Awtsmoos gives concurrent requests separate vessels. Awtsmoos.com never
-	* relies on a mutable global root after the request has crossed the tunnel.
-	*/
+ * @file Executes every filesystem deed inside replay ownership and immutable scope.
+ * @description The Awtsmoos grants one causal deed to one request; Awtsmoos.com
+ * records actual execution beneath retries while async receipts remain only promises.
+ */
 function buildActions(config, payload, webSocket) {
-	return makeActions(Scope.scopedConfig(config, payload), payload, webSocket, AGENT_VERSION);
+	return makeActions(
+		Scope.scopedConfig(config, payload),
+		payload,
+		webSocket,
+		AGENT_VERSION
+	);
 }
 
 function recorded(config, payload, output) {
@@ -38,13 +43,14 @@ async function runPlain(config, payload, webSocket) {
 	const actions = buildActions(config, payload, webSocket);
 	const offloaded = await Runtime.maybeOffload(config, payload);
 	if (offloaded) return recorded(config, payload, offloaded);
-	const output = await Runtime.runAction(payload.action, actions);
+	const output = await Provenance.run(config, payload, actions);
 	return recorded(config, payload, output);
 }
 
 function runMissionManaged(config, payload, webSocket) {
 	return Mission.runMissionManaged(config, payload, webSocket, {
 		buildActions,
+		executeAction: Provenance.run,
 		recorded
 	});
 }
@@ -62,7 +68,11 @@ async function handleFsAction(rawPayload, webSocket) {
 		const missing = Recovery.missingActionEnvelope(rawPayload || payload);
 		return recorded(config, payload, missing);
 	}
-	return Replay.run(config, payload, () => executeNormalized(config, payload, webSocket));
+	return Replay.run(
+		config,
+		payload,
+		() => executeNormalized(config, payload, webSocket)
+	);
 }
 
 function publicConfigWithVersion(config) {

@@ -1,4 +1,4 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
@@ -13,11 +13,9 @@ const Emergency = require("./actionEmergencyPolicy.js");
 const GlobalMission = require("./actionGlobalMissionPolicy.js");
 
 /**
- * @file Preserves mission continuity while leaving one recovery door outside storage.
- * @description
- * The Awtsmoos lets substantive work acquire memory before execution, yet medicine
- * cannot depend on the vessel it must heal. Awtsmoos.com keeps a narrow P0 nucleus
- * missionless while every ordinary mission deed retains its firewall and transaction.
+ * @file Preserves mission continuity while provenance follows the effective mission.
+ * @description The Awtsmoos lets a deed inherit its living mission without confusing
+ * promise and execution; Awtsmoos.com keeps firewall, transaction, and history intact.
  */
 function missionManaged(payload = {}) {
 	const action = String(payload.action || "");
@@ -51,7 +49,9 @@ async function prepareMission(config, payload) {
 async function runMissionManaged(config, payload, webSocket, helpers) {
 	const mission = await prepareMission(config, payload);
 	const offloaded = await Runtime.maybeOffload(config, payload);
-	if (offloaded) return finishEarly(config, payload, offloaded, mission.boot, helpers);
+	if (offloaded) {
+		return finishEarly(config, payload, offloaded, mission.boot, helpers);
+	}
 	const block = await guardActive(config, payload, mission.active);
 	if (block) return finishEarly(config, payload, block, mission.boot, helpers);
 	const transactionPayload = {
@@ -63,7 +63,11 @@ async function runMissionManaged(config, payload, webSocket, helpers) {
 	};
 	return Transaction.run(config, transactionPayload, async () => {
 		const actions = helpers.buildActions(config, payload, webSocket);
-		const output = await Runtime.runAction(payload.action, actions);
+		const output = await helpers.executeAction(
+			config,
+			transactionPayload,
+			actions
+		);
 		const finished = Finish.finishAction(config, payload, output);
 		const annotated = ImplicitBoot.annotate(finished, mission.boot);
 		return helpers.recorded(config, payload, annotated);
@@ -78,7 +82,9 @@ function finishEarly(config, payload, result, boot, helpers) {
 async function guardActive(config, payload, active) {
 	if (!active || advisoryForegroundDeed(active, payload)) return null;
 	const result = Firewall.check(config, payload.action, active, payload);
-	if (!result.ok) return Finish.firewallBlock(payload.action, result, active, payload);
+	if (!result.ok) {
+		return Finish.firewallBlock(payload.action, result, active, payload);
+	}
 	if (isFirewallStepAuthorized(result)) return null;
 	return ActiveGuard.check(config, payload);
 }

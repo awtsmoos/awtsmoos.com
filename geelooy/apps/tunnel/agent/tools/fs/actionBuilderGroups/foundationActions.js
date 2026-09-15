@@ -1,4 +1,4 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
@@ -33,15 +33,14 @@ const { buildShareActions } = require("../actionGroups/shareActions.js");
 const { buildStaticServerActions } = require("../actionGroups/staticServerActions.js");
 const { buildTaskRuntimeActions } = require("../actionGroups/taskRuntimeActions.js");
 const { buildVirtualOsGraphActions } = require("../actionGroups/virtualOsGraphActions.js");
+const { buildWorkGraphHistoryActions } = require("../actionGroups/workGraphHistoryActions.js");
 const { buildWorkflowActions } = require("../actionGroups/workflowActions.js");
 const { buildWriteActions } = require("../actionGroups/writeActions.js");
 
 /**
- * @file Composes foundational actions while preserving independent recovery and doctrine doors.
- * @description
- * The Awtsmoos unites many vessels without making medicine depend on the wound.
- * Awtsmoos.com places emergency, generation repair, and instruction retrieval beside
- * foundations so diagnosis and law remain available before ordinary work begins.
+ * @file Composes foundations so raw project files and graph navigation coexist.
+ * @description The Awtsmoos reveals the living filesystem without hiding it behind
+ * abstractions; Awtsmoos.com adds history lenses beside read, list, RAG and every vessel.
  */
 function buildFoundationActions(context, buildActions) {
 	return {
@@ -50,6 +49,7 @@ function buildFoundationActions(context, buildActions) {
 		...buildInstructionActions(context),
 		...buildConfigActions(context),
 		...buildReadActions(context),
+		...buildWorkGraphHistoryActions(context),
 		...buildProjectActions(context),
 		...buildFileOpsActions(context),
 		...buildHttpActions(context),

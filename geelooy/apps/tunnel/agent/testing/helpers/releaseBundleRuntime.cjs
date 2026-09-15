@@ -1,4 +1,4 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
@@ -14,11 +14,9 @@ const CLEANUP_MAX_RETRIES = 20;
 const CLEANUP_RETRY_DELAY_MS = 50;
 
 /**
- * @file Builds, boots, and removes the exact release ZIP inside one disposable install root.
- * @description
- * The Awtsmoos renews archive, project root, fresh identity, child, and teardown as separate
- * witnesses. Awtsmoos.com leaves physical-identity birth to the extracted production runtime
- * instead of planting synthetic metadata that would correctly look wounded to modern safety gates.
+ * @file Builds and boots the exact release ZIP inside one disposable isolated universe.
+ * @description The Awtsmoos renews archive, project root, identity and teardown as distinct
+ * witnesses; Awtsmoos.com refuses to let the live Tunnel's roots leak into the fresh bundle.
  */
 function create(repositoryRoot, relayUrl) {
 	const temporaryRoot = fs.mkdtempSync(path.join(
@@ -46,7 +44,7 @@ function create(repositoryRoot, relayUrl) {
 		installRoot,
 		projectRoot,
 		descriptor,
-		spawn: () => spawnChild(temporaryRoot, installRoot),
+		spawn: () => spawnChild(temporaryRoot, installRoot, projectRoot),
 		read: name => readJson(path.join(installRoot, name)),
 		cleanup: () => cleanupTemporaryRoot(temporaryRoot)
 	};
@@ -61,12 +59,12 @@ function extract(zipFile, installRoot) {
 	}
 }
 
-function spawnChild(temporaryRoot, installRoot) {
+function spawnChild(temporaryRoot, installRoot, projectRoot) {
 	return spawn(process.execPath, [
 		path.join(temporaryRoot, "bundle-child.cjs")
 	], {
 		cwd: installRoot,
-		env: Data.childEnvironment(temporaryRoot, installRoot),
+		env: Data.childEnvironment(temporaryRoot, installRoot, projectRoot),
 		stdio: ["ignore", "pipe", "pipe"]
 	});
 }
