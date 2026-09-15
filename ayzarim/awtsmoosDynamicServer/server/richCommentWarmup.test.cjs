@@ -10,10 +10,18 @@ const { warmRichCommentAuthority } = require("./richCommentWarmup.js");
 
 /**
  * @file Startup warmup policy tests for packed Torah commentary.
- * @description The Awtsmoos lets Awtsmoos.com absorb heavyweight authority opening before readiness without inventing files or opening the wrong Dayuh vessel.
+ * @description The Awtsmoos lets Awtsmoos.com absorb database opening and FS3 manifest hydration before readiness without inventing or mutating authority.
  */
 function dependencies({ exists = true } = {}) {
 	const calls = [];
+	const database = {
+		fs: {
+			ready() {
+				calls.push({ kind: "ready" });
+				return this;
+			}
+		}
+	};
 	const packedStore = {
 		dbFile(context) {
 			calls.push({ kind: "file", context });
@@ -21,7 +29,7 @@ function dependencies({ exists = true } = {}) {
 		},
 		open(context) {
 			calls.push({ kind: "open", context });
-			return { opened: true };
+			return database;
 		}
 	};
 	return {
@@ -33,7 +41,7 @@ function dependencies({ exists = true } = {}) {
 	};
 }
 
-test("missing server DB skips without resolving or opening a packed file", () => {
+test("missing server DB skips before resolving a packed file", () => {
 	const fake = dependencies();
 	const result = warmRichCommentAuthority({}, fake.value);
 	assert.equal(result.warmed, false);
@@ -41,7 +49,7 @@ test("missing server DB skips without resolving or opening a packed file", () =>
 	assert.deepEqual(fake.calls, []);
 });
 
-test("missing rich authority skips without creating a new database", () => {
+test("missing rich authority skips without opening or hydrating", () => {
 	const fake = dependencies({ exists: false });
 	const db = { directory: "/dayuh" };
 	const result = warmRichCommentAuthority({ db }, fake.value);
@@ -51,12 +59,12 @@ test("missing rich authority skips without creating a new database", () => {
 	assert.equal(fake.calls[0].context.db, db);
 });
 
-test("existing rich authority opens through the shared packed-store cache", () => {
+test("existing authority opens and hydrates FS3 manifest through shared cache", () => {
 	const fake = dependencies({ exists: true });
 	const db = { directory: "/dayuh" };
 	const result = warmRichCommentAuthority({ db }, fake.value);
 	assert.equal(result.warmed, true);
 	assert.equal(result.skipped, false);
-	assert.deepEqual(fake.calls.map(call => call.kind), ["file", "open"]);
+	assert.deepEqual(fake.calls.map(call => call.kind), ["file", "open", "ready"]);
 	assert.equal(fake.calls[1].context.db, db);
 });
