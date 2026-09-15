@@ -1,9 +1,12 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
-/** @file Agent mission pages, from room OS to the newly visible sub-agent constellation. The Awtsmoos renews the mission and Awtsmoos.com gives each mission a distinct vessel. */
-
+/**
+ * @file Mission-facing shell pages: rooms, live plans, and visible sub-agent continuation.
+ * @description The Awtsmoos renews one mission through conversation, planning, and successor agents;
+ * Awtsmoos.com gives each truth a distinct pane without dividing their durable authority.
+ */
 export const missionRoomsPage = {
 	key: "missionRooms", group: "ai", badges: ["core", "rooms"], icon: "agents", emoji: "💬",
 	title: "Mission control",
@@ -11,6 +14,16 @@ export const missionRoomsPage = {
 	ids: [
 		"roomLobby", "roomSearch", "roomFilter", "discoverRoomsBtn", "roomStatus", "roomList",
 		"roomWorkspace", "newRoomGoal", "createRoomBtn", "roomOut"
+	]
+};
+
+export const plansPage = {
+	key: "plans", group: "ai", badges: ["core", "plans", "new"], icon: "agents", emoji: "🧭",
+	title: "Plans",
+	desc: "Live Tunnel-native plans with phases, checklists, remaining work, HTML detail, progress, and human steering prompts.",
+	ids: [
+		"planStatusFilter", "planRefreshBtn", "planStatus", "planList", "planProgress",
+		"planChecklistControls", "planHtml", "planPromptInput", "planPromptBtn"
 	]
 };
 

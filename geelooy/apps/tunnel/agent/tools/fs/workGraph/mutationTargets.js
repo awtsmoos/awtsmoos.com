@@ -6,15 +6,16 @@ const WritePayload = require("../writePayload.js");
 
 const WRITE_ACTIONS = new Set([
 	"write", "bulkWrite", "writeIfHash", "bulkWriteIfHashes",
-	"replaceRange", "applyPatch", "ensureFile", "touch"
+	"replaceRange", "applyPatch", "ensureFile", "touch",
+	"projectContributionApply"
 ]);
 const FILE_ACTIONS = new Set(["copyFile", "moveFile", "deleteFile"]);
 const TREE_ACTIONS = new Set(["mkdirp", "copyTree", "moveTree", "deleteTree", "emptyDir"]);
 
 /**
- * @file Converts public mutation requests into a small canonical target vocabulary.
+ * @file Converts public mutation requests into one canonical target vocabulary.
  * @description The Awtsmoos lets many request garments reveal one underlying deed;
- * Awtsmoos.com names source, destination, file and tree without duplicating parsers.
+ * Awtsmoos.com names source, destination, file and tree without duplicating mutation parsers.
  */
 function requestedPath(payload = {}) {
 	return String(payload.path || payload.p || payload.file || payload.filePath || "");
@@ -30,7 +31,9 @@ function pair(payload = {}) {
 function forAction(action, payload = {}) {
 	if (WRITE_ACTIONS.has(action)) {
 		const writes = WritePayload.normalizeWriteSpecifications(payload);
-		if (writes.length) return writes.map(item => ({ kind: "file", role: "target", path: item.path }));
+		if (writes.length) {
+			return writes.map(item => ({ kind: "file", role: "target", path: item.path }));
+		}
 		const value = requestedPath(payload);
 		return value ? [{ kind: "file", role: "target", path: value }] : [];
 	}
@@ -63,4 +66,4 @@ function isMutation(action) {
 	return WRITE_ACTIONS.has(action) || FILE_ACTIONS.has(action) || TREE_ACTIONS.has(action);
 }
 
-module.exports = { forAction, isMutation };
+module.exports = { FILE_ACTIONS, TREE_ACTIONS, WRITE_ACTIONS, forAction, isMutation };

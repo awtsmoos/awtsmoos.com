@@ -2,7 +2,22 @@ B"H
 
 # Awtsmoos Tunnel — AI Agent Instructions
 
-These instructions govern agents operating through the Awtsmoos Tunnel tree. Inspect live reality first; never infer a tunnel, mission, lock, job, receipt, or server state from stale memory.
+These instructions govern agents operating through the Awtsmoos Tunnel tree. Inspect live reality first; never infer a tunnel, mission, lock, job, receipt, browser, repository, or server state from stale memory.
+
+## Lightning execution discipline
+
+The default operating goal is **maximum safe throughput**.
+
+- Parallelize every independent read, test, research task, and non-overlapping file/workstream that can safely proceed together.
+- Never wait idly while another independent safe task can advance.
+- Use bounded jobs, short critical paths, batched compatible reads, and parallel verification lanes.
+- An accepted durable request is already owned: observe its receipt/job instead of redispatching because a wait expired.
+- Freeze shared mutable gates before concurrency touches them: the same source file, Git index, release manifest, package artifact, deployment transaction, or browser target.
+- Under resource pressure preserve executor work first, checkpoint/scout work second, optional auditing third.
+- Publish Work, Failure, Decision, Obligation, evidence, and handoff facts so parallel/successor agents do not repeat completed work.
+- Search for hidden work after the visible checklist empties: tests, docs, failures, risks, stale assumptions, future-user confusion, and recovery gaps.
+- Speed never authorizes bypassing correctness, security, user stop/cancel, replay ownership, capability checks, mission policy, hash guards, transaction gates, or live verification.
+- The installed action `tunnelVelocityGuidance` returns the canonical machine-readable lightning covenant. Successor Shliach prompts inherit it automatically.
 
 ## Connection flow
 
@@ -22,21 +37,9 @@ Prefer the packaged `awt` command over manual PID commands when it exists.
 
 ```bash
 ~/.awtsmoos-tunnel/awt status
-```
-
-```bash
 ~/.awtsmoos-tunnel/awt check
-```
-
-```bash
 ~/.awtsmoos-tunnel/awt rescue --dry-run
-```
-
-```bash
 ~/.awtsmoos-tunnel/awt rescue
-```
-
-```bash
 ~/.awtsmoos-tunnel/awt normal
 ```
 
@@ -44,9 +47,6 @@ Prefer the packaged `awt` command over manual PID commands when it exists.
 
 ```powershell
 %USERPROFILE%\.awtsmoos-tunnel\awt.cmd status
-```
-
-```powershell
 %USERPROFILE%\.awtsmoos-tunnel\awt.cmd rescue
 ```
 
@@ -83,12 +83,11 @@ The installer preserves an existing runtime configuration and tunnel identity. D
 
 ## Required operating discipline
 
-- Read actual files and runtime state before claims.
-- Prefer read-only evidence first.
+- Read actual files and runtime state before claims; prefer read-only evidence first.
 - Never read secrets without authorization.
 - Preserve executable/production backups and rollback evidence.
 - Rewrite complete files; never use fragile partial replacements.
-- Keep modules small, descriptive, and testable.
+- Keep modules small, descriptive, testable, and normally under 120 physical lines.
 - Test syntax, focused behavior, integration behavior, packaging, and live behavior.
 - Preserve the user's tunnel identity and project root.
 - If mission write policy requires authorization, use the documented mission step/token path; never defeat the firewall with shell writes.
@@ -96,9 +95,7 @@ The installer preserves an existing runtime configuration and tunnel identity. D
 
 ## Durable command protocol
 
-`commandStart` and promoted heavy actions may be asynchronous. Preserve returned `jobId`, worker/receipt IDs, command, and cwd. Follow with status/wait/output actions. A relay timeout does not prove command failure; inspect durable action/job history and never duplicate work merely because an HTTP wait ended.
-
-Treat response correlation mismatches as quarantined evidence, not permission to weaken validation.
+`commandStart` and promoted heavy actions may be asynchronous. Preserve returned `jobId`, worker/receipt IDs, command, and cwd. Follow with status/wait/output actions. A relay timeout does not prove command failure; inspect durable action/job history and never duplicate work merely because an HTTP wait ended. Treat response correlation mismatches as quarantined evidence, not permission to weaken validation.
 
 ## Recovery levels
 
@@ -115,9 +112,7 @@ Logical admission and physical worker count are separate. After emergency verifi
 
 ## Mission/watchdog recovery discipline
 
-A multiple-choice watchdog reference must resolve to its original durable prompt/choices. Never invent A–E choices for a missing payload. If recovery reports `question_payload_missing`, preserve mission evidence and use the suggested mission inspection/manual recovery path; unrelated filesystem authority should not remain permanently locked.
-
-If a refrigerated/terminal mission appears to own an exclusive project-root lock, reconcile mission lifecycle and lock authority rather than deleting mission history.
+A multiple-choice watchdog reference must resolve to its original durable prompt/choices. Never invent A–E choices for a missing payload. If recovery reports `question_payload_missing`, preserve mission evidence and use the suggested mission inspection/manual recovery path; unrelated filesystem authority should not remain permanently locked. If a refrigerated/terminal mission appears to own an exclusive project-root lock, reconcile mission lifecycle and lock authority rather than deleting mission history.
 
 ## Offline restore protocol
 

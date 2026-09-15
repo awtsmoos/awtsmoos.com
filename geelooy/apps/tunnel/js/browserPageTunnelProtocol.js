@@ -1,59 +1,56 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
-/**
- * @file Owns browser-tunnel identity and registration protocol metadata.
- * @description The Awtsmoos renews name, socket, and capability beyond each packet;
- * Awtsmoos.com keeps protocol declaration outside runtime dispatch so browser account
- * authority can grow without compressing transport, UI, and action law together.
- */
+import { browserMissionSurface } from "./missionSurfaceIdentity.js";
 
 const NAME_KEY = "awtsmoos.tunnel.browserWorkspace.name";
-const VERSION = "browser-tunnel-page-0.2.0";
+const VERSION = "browser-tunnel-page-0.3.0";
 
-/** Returns the stable browser-workspace tunnel name persisted for this profile. */
-export function browserTunnelName(storage = localStorage) {
-	const existing = storage.getItem(NAME_KEY);
+/**
+ * @file Owns regular browser-tunnel registration with the same Mission identity used by OS/Code.
+ * @description The Awtsmoos renews one Mission through every surface; Awtsmoos.com lets this page
+ * announce its disposable incarnation while Mission, Room, Work and context remain server authority.
+ */
+export function browserTunnelName(storage = globalThis.localStorage) {
+	const existing = storage?.getItem?.(NAME_KEY);
 	if (existing) return existing;
 	const suffix = Math.floor(1000 + Math.random() * 9000);
 	const created = `awt-browser-tunnel-${suffix}`;
-	storage.setItem(NAME_KEY, created);
+	storage?.setItem?.(NAME_KEY, created);
 	return created;
 }
 
-/** Returns the authenticated page's matching WebSocket endpoint. */
-export function browserTunnelWsUrl(locationObject = location) {
-	const protocol = locationObject.protocol === "https:" ? "wss:" : "ws:";
-	return `${protocol}//${locationObject.host}`;
+export function browserTunnelWsUrl(locationObject = globalThis.location) {
+	const protocol = locationObject?.protocol === "https:" ? "wss:" : "ws:";
+	return `${protocol}//${locationObject?.host || "localhost"}`;
 }
 
-/** Builds one truthful browser-vessel registration packet including account scope. */
-export function browserTunnelRegistration(tunnelName, accountCapabilities) {
+export function browserTunnelRegistration(tunnelName, accountCapabilities, options = {}) {
+	const locationObject = options.location || globalThis.location || {};
+	const mission = browserMissionSurface({ ...options, location: locationObject, surface: "browser-tunnel" });
 	return {
 		type: "TUNNEL_REGISTER",
-		protocolVersion: "awtsmoos-tunnel-v2",
+		protocolVersion: "awtsmoos-tunnel-v3",
 		name: tunnelName,
 		tunnelName,
 		vesselType: "browser-tab",
 		browserAgent: true,
+		virtualOs: false,
 		deviceName: "Tunnel Page Browser Workspace",
 		root: "browser://apps/tunnel/localStorage",
 		allowWrite: true,
 		allowSecrets: false,
 		allowCommands: false,
 		agentVersion: VERSION,
+		...mission,
+		runtime: { missionSurface: mission, location: locationObject.pathname || "/apps/tunnel" },
 		capabilities: capabilityRecord(accountCapabilities),
-		tools: toolRecord(accountCapabilities)
+		tools: toolRecord(accountCapabilities),
+		safety: { missionAuthority: "tunnel-server", preserveCorrelation: true }
 	};
 }
 
-/**
- * Projects transport and account authority into a truthful capability record.
- *
- * @param {object} accountCapabilities Exact account action declaration.
- * @returns {object} Registration capabilities safe to reveal to tunnel clients.
- */
 function capabilityRecord(accountCapabilities = {}) {
 	return Object.freeze({
 		browserTab: true,
@@ -61,22 +58,19 @@ function capabilityRecord(accountCapabilities = {}) {
 		fsWrite: true,
 		commandRun: "simulated",
 		storage: "localStorage",
+		missionAware: true,
+		missionParticipant: true,
 		account: accountCapabilities
 	});
 }
 
-/**
- * Projects callable browser-vessel tool families without exposing session material.
- *
- * @param {object} accountCapabilities Exact account action declaration.
- * @returns {object} Tool-family declaration for discovery and orchestration.
- */
 function toolRecord(accountCapabilities = {}) {
 	return Object.freeze({
 		browserTab: true,
 		fsRead: true,
 		fsWrite: true,
 		command: "simulated",
+		missionParticipant: true,
 		account: true,
 		accountActions: accountCapabilities.actions || []
 	});

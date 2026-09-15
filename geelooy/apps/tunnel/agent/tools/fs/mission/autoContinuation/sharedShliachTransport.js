@@ -12,9 +12,9 @@ const SHARED_PROFILE = path.join(os.homedir(), ".awtsmoos-split-debug-chrome");
 const SHLIACH_URL = "https://chatgpt.com/g/g-6a03feea8398819192067ae3dbfa449c-awtsmoos-shliach-agent";
 
 /**
- * @file Opens one successor chat inside the already-running shared Shliach Chrome profile.
- * @description The URL carries the prompt, the page itself fills the composer, Send is clicked
- * once, submission is witnessed, and the leased tab closes. No textarea mutation occurs here.
+ * @file Creates one persistent successor conversation in the registered shared Shliach profile.
+ * @description The URL carries the prompt. Success means a real /c/ conversation contains that
+ * user message and the exact leased tab is closed; no textarea content is read, typed, or rewritten.
  */
 async function registry(file = REGISTRY) {
 	const parsed = JSON.parse(await fs.readFile(file, "utf8"));
@@ -40,13 +40,13 @@ async function dispatch(context = {}, deps = {}) {
 	const result = await submit({
 		port: registered.port,
 		url,
-		timeoutMs: context.sendTimeoutMs || 30000,
+		timeoutMs: context.sendTimeoutMs || 45000,
 		closeOnFailure: true
 	}, deps.submitDeps || {});
-	if (!result?.ok || !result.sent) {
+	if (!result?.ok || !result.sent || !result.persisted || !result.conversationId) {
 		return {
 			ok: false,
-			error: result?.error || "shared_shliach_query_send_failed",
+			error: result?.error || "shared_shliach_persistence_failed",
 			result
 		};
 	}
@@ -59,7 +59,10 @@ async function dispatch(context = {}, deps = {}) {
 		url,
 		chromeTargetId: result.chromeTargetId,
 		sent: true,
-		closed: true
+		persisted: true,
+		closed: result.closed === true,
+		conversationId: result.conversationId,
+		conversationHref: result.href
 	};
 }
 

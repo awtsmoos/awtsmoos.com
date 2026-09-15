@@ -3,32 +3,46 @@
 // Blessed is He
 
 const PRESETS = {
-	viewer: ["project.read", "snapshot.read", "publication.read"],
+	viewer: [
+		"project.read",
+		"snapshot.read",
+		"publication.read",
+		"contribution.read"
+	],
 	contributor: [
 		"project.read",
 		"snapshot.read",
 		"publication.read",
+		"contribution.read",
 		"contribution.create",
-		"contribution.read"
+		"subscription.manage",
+		"remote_work.request"
 	],
 	maintainer: [
 		"project.read",
 		"snapshot.read",
 		"snapshot.create",
 		"fork.create",
-		"contribution.create",
 		"contribution.read",
+		"contribution.create",
 		"contribution.verify",
 		"contribution.accept",
+		"contribution.apply",
+		"publication.read",
 		"publication.create",
-		"publication.read"
+		"publication.protect",
+		"grant.manage",
+		"subscription.manage",
+		"remote_work.request",
+		"remote_work.accept",
+		"release.protect"
 	]
 };
 
 /**
- * @file Defines human-readable collaboration roles as presets over granular capabilities.
- * @description The Awtsmoos grants no mystical title authority; Awtsmoos.com expands each role
- * into explicit verbs so Viewer, Contributor, and Maintainer remain inspectable policy bundles.
+ * @file Defines collaboration roles as readable presets over granular capability verbs.
+ * @description The Awtsmoos grants explicit deeds rather than mystical titles; Awtsmoos.com
+ * expands Viewer, Contributor, and Maintainer into inspectable, deny-by-default permission sets.
  */
 function normalize(name = "viewer") {
 	return String(name || "viewer").trim().toLowerCase();

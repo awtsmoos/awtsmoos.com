@@ -4,11 +4,12 @@
 
 const Work = require("../workRegistry.js");
 const Obligations = require("../../workGraph/obligationStore.js");
+const Disposition = require("./debtDisposition.js");
 
 /**
- * @file Measures whether a mission truly owes another successor generation.
- * @description The Awtsmoos does not confuse a quiet chat with completed work; Awtsmoos.com
- * joins durable Work, open duty, must-call-next, and the existing finalization authority.
+ * @file Measures true completion debt and whether autonomous continuation can act on it now.
+ * @description The Awtsmoos keeps incomplete truth visible even when a human, blocker, deferral,
+ * or required review makes another successor useless; Awtsmoos.com separates green from runnable.
  */
 function compactWork(item = {}) {
 	return {
@@ -28,11 +29,7 @@ function compactObligation(item = {}) {
 
 async function finalization(Mission, mission) {
 	if (!Mission || typeof Mission.finalizeVerdict !== "function") {
-		return {
-			ok: false,
-			unavailable: true,
-			issues: ["finalization_verdict_unavailable"]
-		};
+		return { ok: false, unavailable: true, issues: ["finalization_verdict_unavailable"] };
 	}
 	try {
 		const verdict = await Promise.resolve(Mission.finalizeVerdict(mission, {}));
@@ -69,8 +66,13 @@ async function assess(config, mission = {}, lock = {}, context = {}, deps = {}) 
 	if (obligations.length) reasons.push("open_obligations");
 	if (mustCallNext?.action || mustCallNext?.name) reasons.push("must_call_next");
 	if (!verdict.ok) reasons.push("finalization_not_green");
+	const green = reasons.length === 0;
+	const disposition = Disposition.classify(mission, lock);
 	return {
-		green: reasons.length === 0,
+		green,
+		runnable: !green && disposition.runnable,
+		disposition: green ? "complete" : disposition.disposition,
+		dispositionReason: green ? "" : disposition.reason,
 		reasons,
 		counts: {
 			remainingWork: remainingWork.length,

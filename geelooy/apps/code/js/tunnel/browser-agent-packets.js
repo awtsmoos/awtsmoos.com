@@ -1,16 +1,16 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
-export const CODE_BROWSER_TUNNEL_VERSION = "browser-agent-4.0.0";
+import { registrationFields } from "./mission-surface-identity.js";
+
+export const CODE_BROWSER_TUNNEL_VERSION = "browser-agent-4.1.0";
 export const CODE_BROWSER_COMMAND_MODE = "merkava-virtual-or-remote";
 
 /**
- * B"H
- *
- * One registration oath preserves deployed v2 and workspace-aware v3 fields while
- * revealing new multi-agent and custom-browser truth. The Awtsmoos renews old and
- * new covenants together; Awtsmoos.com never breaks a server to improve a client.
+ * @file Builds one Code browser registration oath with durable Mission surface identity.
+ * @description The Awtsmoos renews old and new covenants together; Awtsmoos.com announces the
+ * same Mission, Room and logical/session incarnation used by OS instead of inventing browser truth.
  */
 export function codeBrowserRegistrationPacket(options = {}) {
 	const tunnelName = String(options.tunnelName || "").trim();
@@ -20,6 +20,7 @@ export function codeBrowserRegistrationPacket(options = {}) {
 	const previewActions = unique(options.previewActions);
 	const chromeActions = previewActions.filter(action => action.startsWith("chrome"));
 	const workspaceAware = Boolean(options.workspaceId);
+	const mission = registrationFields({ ...options, surface: options.surface || "apps-code-browser-tunnel" });
 	const legacyTools = codeBrowserTunnelTools({
 		...options,
 		fsActions,
@@ -38,31 +39,26 @@ export function codeBrowserRegistrationPacket(options = {}) {
 		virtualOs: false,
 		agentVersion: CODE_BROWSER_TUNNEL_VERSION,
 		workspaceId: options.workspaceId || "",
+		...mission,
 		runtime: {
 			workspaceId: options.workspaceId || "",
 			userAgent: options.userAgent || "browser",
 			node: "web-worker-commonjs",
-			npm: "virtual-registry-installer"
+			npm: "virtual-registry-installer",
+			missionSurface: mission
 		},
 		allowWrite: true,
 		allowSecrets: false,
 		allowCommands: "limited",
 		capabilityProfile: capabilityProfile(chromeActions),
 		capabilities: capabilities(fsActions, previewActions, chromeActions),
-		command: {
-			mode: CODE_BROWSER_COMMAND_MODE,
-			actions: commandActions
-		},
-		tools: {
-			...legacyTools,
-			fs: fsActions,
-			preview: previewActions,
-			chromeActions
-		},
+		command: { mode: CODE_BROWSER_COMMAND_MODE, actions: commandActions },
+		tools: { ...legacyTools, fs: fsActions, preview: previewActions, chromeActions },
 		safety: {
 			denyUnsupportedNative: true,
 			denySecrets: true,
-			preserveCorrelation: true
+			preserveCorrelation: true,
+			missionAuthority: "tunnel-server"
 		}
 	};
 }
@@ -86,7 +82,8 @@ function capabilityProfile(chromeActions) {
 			"command.run": { state: "simulated" },
 			"native.access": { state: "delegated" },
 			"browser.chrome": { state: chromeActions.length ? "custom-code-browser" : "unavailable" },
-			"agent.multiple": { state: "supported" }
+			"agent.multiple": { state: "supported" },
+			"mission.participant": { state: "tunnel-authoritative" }
 		}
 	};
 }
@@ -100,6 +97,7 @@ function capabilities(fsActions, previewActions, chromeActions) {
 		correlationSafe: true,
 		multiAgentSessions: true,
 		missionAware: true,
+		missionParticipant: true,
 		actionLedger: true,
 		customBrowser: true,
 		htmlPreview: true,

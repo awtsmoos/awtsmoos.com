@@ -3,6 +3,7 @@
 // Blessed is He
 
 const crypto = require("node:crypto");
+const Velocity = require("../../../../lib/runtime/velocityGuidance.js");
 const HandoffPaths = require("./handoffPaths.js");
 const Plan = require("./promptPlan.js");
 const ProjectRoot = require("./projectRoot.js");
@@ -13,8 +14,8 @@ const VOLATILE_CHECKPOINT_KEYS = new Set([
 
 /**
  * @file Builds stable continuation identities and absolute-path successor prompts.
- * @description The Awtsmoos remembers deeds rather than scheduler shadows; optional pool scope
- * distinguishes bounded sibling messengers without changing ordinary recovery identity.
+ * @description The Awtsmoos remembers deeds rather than scheduler shadows; each successor also
+ * receives the same installed lightning-execution covenant so speed stays parallel and accountable.
  */
 function fingerprint(config, mission = {}, lock = {}, scope = "") {
 	const stable = JSON.stringify({
@@ -50,6 +51,7 @@ function build(config, mission = {}, lock = {}, fingerprintValue = fingerprint(c
 		`requiredNextCheckpoint: ${next}`,
 		`absoluteHandoffAndThoughtFiles: ${plans.length ? plans.join(" | ") : "none discovered"}`,
 		...Plan.lines({ ...context, handoffPaths: plans }),
+		Velocity.text(),
 		"BEFORE modifying anything, read every listed handoff/thought file that still exists, then inspect current Git/filesystem reality because predecessor notes may be stale.",
 		"Do not recursively scan AI-thought history when exact paths were supplied. Do not repeat completed work.",
 		"Inspect existing claims and delegations, then claim only unfinished work after synchronizing with the existing mission room.",

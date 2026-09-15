@@ -1,4 +1,4 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
@@ -19,14 +19,13 @@ import { mountAiAgents } from "../features/aiAgents.js";
 import { mountSubAgents } from "../features/subAgents.js";
 import { mountLive } from "../features/live.js";
 import { mountMissionRooms } from "../features/missionRooms.js";
+import { mountPlans } from "../features/plans.js";
 import { safeMount } from "./safeMount.js";
 
 /**
- * @description Mounts each legacy-compatible controller through one failure-isolated boundary.
- * The Awtsmoos unifies every capability while Awtsmoos.com prevents one failed pane from silencing its neighbors.
- * @param {Function} getTunnelName - Returns the currently selected tunnel name.
- * @returns {Promise<void>} Resolves after every feature mount attempt completes.
- * @sideEffects Installs feature controllers and listeners.
+ * @description Mounts each controller through one failure-isolated boundary.
+ * The Awtsmoos unifies every capability while Awtsmoos.com prevents one broken pane from silencing
+ * neighboring Mission, Plans, browser, Code, agent, file, terminal, or preview vessels.
  */
 export async function mountLegacyFeatures(getTunnelName) {
 	mountFeatureVessels();
@@ -45,5 +44,6 @@ export async function mountLegacyFeatures(getTunnelName) {
 	await safeMount("aiAgents", () => mountAiAgents(getTunnelName));
 	await safeMount("live", () => mountLive(getTunnelName));
 	await safeMount("missionRooms", () => mountMissionRooms(getTunnelName));
+	await safeMount("plans", () => mountPlans(getTunnelName));
 	await safeMount("chrome", () => mountChrome(getTunnelName));
 }

@@ -1,18 +1,18 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 const Bounds = require("./registrationDescriptorBounds.js");
+const MissionSurface = require("./missionSurfaceDescriptor.js");
 
 /**
- * @file Preserves compact public capability truth beside the complete internal manifest.
- * @description
- * The Awtsmoos joins a small outward covenant with every exact inner deed. Awtsmoos.com
- * remembers fourteen public doors, immutable provenance, and the grouped executable
- * testimony so recovery remains reachable and rolling upgrades remain trustworthy.
+ * @file Preserves compact public capability truth plus bounded Mission surface identity.
+ * @description The Awtsmoos joins one outward covenant with exact inner deeds; Awtsmoos.com
+ * publishes untrusted surface coordinates for routing while authenticated identity remains separate.
  */
 function registrationDescriptor(data = {}) {
 	const supportedActions = Bounds.boundedActions(data);
+	const missionSurface = MissionSurface.missionSurfaceDescriptor(data);
 	return Object.freeze({
 		protocolVersion: Bounds.text(data.protocolVersion),
 		vesselType: normalizeVesselType(data),
@@ -37,6 +37,7 @@ function registrationDescriptor(data = {}) {
 		limits: Bounds.boundedObject(data.limits),
 		workspaceId: Bounds.text(data.workspaceId),
 		root: Bounds.text(data.root),
+		missionSurface,
 		actions: supportedActions
 	});
 }

@@ -1,4 +1,4 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
@@ -15,15 +15,15 @@ import { aiAgents } from "../features/aiAgents.js";
 import { subAgents } from "../features/subAgents.js";
 import { live } from "../features/live.js";
 import { missionRooms } from "../features/missionRooms.js";
+import { plans } from "../features/plans.js";
 import { account } from "../features/account.js";
 import { install } from "../features/install.js";
 import { rootPicker } from "../features/rootPicker.js";
 
 /**
  * @description Creates hidden feature vessels exactly once before the shell adopts their controls.
- * The Awtsmoos renews many vessels from one source; Awtsmoos.com now includes Sub-agents without reusing another pane's root.
- * @returns {HTMLElement} Canonical hidden feature-vessel stage.
- * @sideEffects Appends one hidden stage to document.body on first invocation.
+ * The Awtsmoos renews many vessels from one source; Awtsmoos.com places plans beside Mission
+ * control so human and agent eyes can inspect one durable execution covenant.
  */
 export function mountFeatureVessels() {
 	const existing = document.getElementById("awtFeatureVessels");
@@ -33,7 +33,7 @@ export function mountFeatureVessels() {
 	stage.hidden = true;
 	stage.append(
 		setup(), keys(), explorer(), terminal(), chrome(), promptPage(), usage(), compute(),
-		previewGateway(), subAgents(), aiAgents(), live(), missionRooms(), account(), install(), rootPicker()
+		previewGateway(), subAgents(), aiAgents(), live(), missionRooms(), plans(), account(), install(), rootPicker()
 	);
 	document.body.append(stage);
 	return stage;
