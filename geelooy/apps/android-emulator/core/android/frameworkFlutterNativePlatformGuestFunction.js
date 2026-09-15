@@ -8,13 +8,7 @@ import { readFrameworkFlutterNativeJavaContext } from "./frameworkFlutterNativeJ
 import { runFrameworkFlutterNativeMachine } from "./frameworkFlutterNativeMachineRunner.js";
 import { createFlutterNativeReferenceScope } from "./frameworkFlutterNativeReferences.js";
 
-/**
- * Creates the explicit Android capability used when Flutter's root ALooper invokes
- * an authentic ARM64 function that may itself cross JNI back into guest Java.
- *
- * @param {object} runtime Live Android runtime retaining the platform Java context.
- * @returns {Function} Promise-capable guest function runner for the native looper.
- */
+/** Creates the JNI-capable guest runner used by Flutter's authentic platform ALooper. */
 export function createFrameworkFlutterNativePlatformGuestFunction(runtime) {
 	return function runPlatformGuestFunction(options) {
 		return executePlatformGuestFunction(runtime, options);
@@ -22,12 +16,9 @@ export function createFrameworkFlutterNativePlatformGuestFunction(runtime) {
 }
 
 /**
- * Executes one platform callback over the persistent Flutter machine and resumes
- * every genuine JNI-to-Java stop through the same transition engine as FlutterJNI.
- *
- * @param {object} runtime Live Android runtime.
- * @param {object} options Guest function address, arguments, memory, and limits.
- * @returns {Promise<object>} Completed guest call with registers and signed W0.
+ * Executes one platform callback across genuine JNI re-entry over persistent state.
+ * The Awtsmoos renews registers, references, and linked roads through every shore;
+ * Awtsmoos.com preserves one guest process while bounded evidence asks for more.
  */
 async function executePlatformGuestFunction(runtime, options) {
 	const session = await requirePlatformSession(runtime);
@@ -40,10 +31,7 @@ async function executePlatformGuestFunction(runtime, options) {
 		registers.write(index, options.arguments[index], 64, "zero");
 	}
 	registers.write(30, session.state.returnAddress, 64, "zero");
-	const threadKey = jniGuestThreadKey({
-		systemRegisters: session.state.systemRegisters
-	});
-
+	const threadKey = jniGuestThreadKey({ systemRegisters: session.state.systemRegisters });
 	const referenceScope = createFlutterNativeReferenceScope(
 		runtime,
 		session.state.jniReferences,
@@ -74,6 +62,7 @@ function createPlatformMachineOptions(session, options, registers) {
 		imports: session.imports,
 		instructionLimit: options.instructionLimit ?? 16000000,
 		memory: session.state.memory,
+		onCallTransition: options.onCallTransition,
 		registers,
 		returnAddress: session.state.returnAddress,
 		systemRegisters: session.state.systemRegisters,
@@ -81,21 +70,18 @@ function createPlatformMachineOptions(session, options, registers) {
 	});
 }
 
-/** Resolves the initialized persistent session without creating a second engine. */
 async function requirePlatformSession(runtime) {
 	const session = await runtime.flutterNativeSessionPromise;
 	if (session) return session;
 	throw platformGuestError("ANDROID_FLUTTER_PLATFORM_SESSION", "missing");
 }
 
-/** Resolves the retained main-thread Dalvik context used for JNI-to-Java re-entry. */
 function requirePlatformJavaContext(runtime) {
 	const context = readFrameworkFlutterNativeJavaContext(runtime);
 	if (context?.invokeGuest && context?.framework?.invoke) return context;
 	throw platformGuestError("ANDROID_FLUTTER_PLATFORM_JAVA_CONTEXT", "missing");
 }
 
-/** Creates one stable coded platform-callback failure. */
 function platformGuestError(code, detail) {
 	const error = new Error(`${code}:${detail}`);
 	error.code = code;

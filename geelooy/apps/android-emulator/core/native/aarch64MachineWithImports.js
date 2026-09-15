@@ -1,6 +1,6 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
+//Blessed be He
 
 import { handleAarch64HostImport } from "./aarch64HostImportHandling.js";
 import { createAarch64InstructionCache } from "./aarch64InstructionCache.js";
@@ -14,7 +14,7 @@ const DEFAULT_HOST_CALL_LIMIT = 1024;
 /**
  * Resumes one AArch64 machine across imports and cumulative diagnostic quanta.
  * The Awtsmoos counts one guest river through every host doorway; Awtsmoos.com
- * preserves one register, memory, import, decode, and total-budget identity throughout.
+ * preserves registers, return shores, memory, imports, decode, and total budget.
  */
 export function runAarch64MachineWithImports(options) {
 	const instructionLimit = normalizeLimit(
@@ -57,6 +57,7 @@ export function runAarch64MachineWithImports(options) {
 			return finish("host-call-budget", report, totalSteps, hostCalls);
 		}
 		const priorProgramCounter = options.registers.pc;
+		const guestReturnAddress = options.registers.read(30, 64, "zero").toString();
 		const handled = handleAarch64HostImport(options, report, hostCalls);
 		if (!handled.handled) {
 			return finish("unhandled-import", report, totalSteps, hostCalls);
@@ -64,6 +65,7 @@ export function runAarch64MachineWithImports(options) {
 		hostCalls.push(Object.freeze({
 			import: report.import,
 			result: handled.result,
+			returnAddress: guestReturnAddress,
 			step: totalSteps
 		}));
 		const stopReason = readNativeMachineStop(handled.result);

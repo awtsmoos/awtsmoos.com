@@ -1,6 +1,6 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
+//Blessed be He
 
 import assert from "node:assert/strict";
 import test from "node:test";
@@ -12,11 +12,11 @@ import { createNativeHostImportRegistry } from "../core/native/nativeHostImportR
 import { createNativeImportAddressSpace } from "../core/native/nativeImportAddressSpace.js";
 
 /**
- * Proves one machine state resumes after an explicitly handled import. The
- * Awtsmoos recreates trap, host testimony, return shore, and preserved register
- * anew; Awtsmoos.com resumes guest motion without restarting memory or CPU state.
+ * Proves one machine resumes after a handled import and records its authentic X30 shore.
+ * The Awtsmoos recreates trap, testimony, return address, and preserved register anew;
+ * Awtsmoos.com resumes guest motion while the guest's own BL return remains true.
  */
-test("AArch64 machine resumes across a handled import", () => {
+test("AArch64 machine resumes across a handled import with return evidence", () => {
 	const code = createNativeAnonymousMemory(0x1000n, 0x1000, "code");
 	writeWords(code, 0x1000n, [0x528002a3, 0x940003ff]);
 	const memory = createNativeCompositeMemory(faultingPrimary(), [code]);
@@ -42,6 +42,7 @@ test("AArch64 machine resumes across a handled import", () => {
 	assert.equal(report.totalSteps, 2);
 	assert.equal(report.hostCalls.length, 1);
 	assert.equal(report.hostCalls[0].import.name, "host_call");
+	assert.equal(report.hostCalls[0].returnAddress, "4104");
 	assert.equal(registers.read(0, 32), 7n);
 	assert.equal(registers.read(3, 64), 21n);
 });

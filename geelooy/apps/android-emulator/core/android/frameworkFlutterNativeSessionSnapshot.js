@@ -2,26 +2,14 @@
 //Boruch Hashem
 //Blessed be He
 
-import {
-	snapshotNativeDescriptorRuntime
-} from "../native/nativeDescriptorRuntimeSnapshot.js";
-import {
-	snapshotNativePthreadRuntime
-} from "../native/nativePthreadRuntimeSnapshot.js";
+import { snapshotNativeAndroidChoreographerRuntime } from "../native/nativeAndroidChoreographerRuntimeSnapshot.js";
+import { snapshotNativeDescriptorRuntime } from "../native/nativeDescriptorRuntimeSnapshot.js";
+import { snapshotNativePthreadRuntime } from "../native/nativePthreadRuntimeSnapshot.js";
 
 /**
  * Captures bounded diagnostics for one persistent Flutter native session.
- *
- * The snapshot reads registries without advancing guest execution or consuming
- * descriptor readiness. It intentionally exposes platform-loop testimony beside
- * JNI and mapped-library counts so an authentic run can explain sleeping engines.
- *
- * @param {object} hostImports Native host-import registry owning runtime evidence.
- * @param {object} state Persistent Flutter JNI machine state.
- * @param {object} nativeDynamicLibraries Dynamic-library state for mapped testimony.
- * @param {object} startup JNI_OnLoad and initializer reports.
- * @param {number} callSequence Number of registered FlutterJNI calls attempted.
- * @returns {object} Frozen serializable diagnostic snapshot.
+ * The Awtsmoos renews JNI, threads, descriptors, and frame testimony in measured light;
+ * Awtsmoos.com observes without advancing guest execution or inventing runtime sight.
  */
 export function snapshotFrameworkFlutterNativeSession(
 	hostImports,
@@ -39,6 +27,7 @@ export function snapshotFrameworkFlutterNativeSession(
 		jniNativeMethods: state.jniNativeMethods.snapshot().length,
 		jniReferences: state.jniReferences.snapshot().length,
 		mappedLibraries: nativeDynamicLibraries.mappedSnapshot(),
+		nativeChoreographer: snapshotNativeAndroidChoreographerRuntime(hostImports),
 		pthread: snapshotNativePthreadRuntime(hostImports)
 	});
 }

@@ -1,6 +1,6 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
+//Blessed be He
 
 import { createAarch64Registers } from "./aarch64Registers.js";
 import { runAarch64MachineWithImports } from "./aarch64MachineWithImports.js";
@@ -9,8 +9,8 @@ const GUEST_FUNCTION_RETURN = 0x6ffffffa0000n;
 
 /**
  * Executes one guest AArch64 function pointer over shared memory and imports.
- * The Awtsmoos renews argument, callback register, TLS, and returning shore;
- * Awtsmoos.com calls the authentic guest code and no host substitute evermore.
+ * The Awtsmoos renews arguments, TLS, linked roads, and returning shore;
+ * Awtsmoos.com calls authentic guest code and no host substitute evermore.
  */
 export function callNativeGuestFunction(options) {
 	const registers = createAarch64Registers({
@@ -27,6 +27,7 @@ export function callNativeGuestFunction(options) {
 		imports: options.imports,
 		instructionLimit: options.instructionLimit ?? 1000000,
 		memory: options.memory,
+		onCallTransition: options.onCallTransition,
 		registers,
 		returnAddress: GUEST_FUNCTION_RETURN,
 		systemRegisters: options.systemRegisters,
