@@ -1,5 +1,5 @@
 B"H
-1.0.607
+1.0.608
 main.js
 ai/relay/direct/browser/ActiveTargetLease.mjs
 ai/relay/direct/browser/AgentTabCatalog.mjs
@@ -2149,9 +2149,12 @@ tools/fs/mission/assignment/reconcile.js
 tools/fs/mission/assignment/report.js
 tools/fs/mission/assignment/status.js
 tools/fs/mission/autoContinuation/agentEndState.js
+tools/fs/mission/autoContinuation/completionDebt.js
+tools/fs/mission/autoContinuation/continuationCapsule.js
 tools/fs/mission/autoContinuation/coordinatorDispatch.js
 tools/fs/mission/autoContinuation/coordinatorHelpers.js
 tools/fs/mission/autoContinuation/coordinatorIdentity.js
+tools/fs/mission/autoContinuation/debtRecoveryLease.js
 tools/fs/mission/autoContinuation/dispatch.js
 tools/fs/mission/autoContinuation/eligibility.js
 tools/fs/mission/autoContinuation/handoffPaths.js
@@ -2162,6 +2165,7 @@ tools/fs/mission/autoContinuation/prompt.js
 tools/fs/mission/autoContinuation/promptPlan.js
 tools/fs/mission/autoContinuation/recoveryAgents.js
 tools/fs/mission/autoContinuation/recoveryContext.js
+tools/fs/mission/autoContinuation/sharedShliachTransport.js
 tools/fs/mission/autoContinuation/state.js
 tools/fs/mission/autoContinuation/successorAdmission.js
 tools/fs/mission/autoContinuation/successorIdentity.js

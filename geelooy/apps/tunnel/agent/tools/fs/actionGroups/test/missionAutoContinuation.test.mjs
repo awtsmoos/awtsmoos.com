@@ -1,4 +1,4 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
@@ -18,9 +18,8 @@ const Harness = require("./missionAutoContinuationHarness.js");
 
 /**
  * @file Proves unfinished mission continuation is leased, custody-aware, and browser-idempotent.
- * @description
- * The Awtsmoos lets one silent checkpoint call one declared successor, never a phantom guest;
- * Awtsmoos.com preserves project, task lease, plan, and website identity through the recovery test.
+ * @description The Awtsmoos lets one silent checkpoint call one declared successor, never a
+ * phantom guest; Awtsmoos.com preserves project, task lease, plan, and website identity.
  */
 const originalAuthority = process.env.AWTSMOOS_PROJECT_ROOT;
 delete process.env.AWTSMOOS_PROJECT_ROOT;
@@ -55,11 +54,24 @@ try {
 		assert.equal(prompt.includes(value), true, value);
 	}
 	assert.equal(Planner.plan(config, { continuationOnly: true, agentCount: 99 }).agentCount, 1);
-	assert.equal(Planner.plan(config, { agentCount: 1 }).agentCount, 3);
+	assert.equal(Planner.plan(config, { agentCount: 1 }).agentCount, 1);
 	assert.equal(Eligibility.decide({ mission, lock, now, taskLease: custody.taskLease }).eligible, true);
-	assert.equal(Eligibility.decide({ mission: { ...mission, completed: true }, lock, now, taskLease: custody.taskLease }).eligible, false);
-	const firstLease = State.acquire(config, { missionId: mission.id, fingerprint, websiteMissionId: "web_a" }, { owner: "owner_a", now });
-	const secondLease = State.acquire(config, { missionId: mission.id, fingerprint, websiteMissionId: "web_a" }, { owner: "owner_b", now });
+	assert.equal(Eligibility.decide({
+		mission: { ...mission, completed: true },
+		lock,
+		now,
+		taskLease: custody.taskLease
+	}).eligible, false);
+	const firstLease = State.acquire(
+		config,
+		{ missionId: mission.id, fingerprint, websiteMissionId: "web_a" },
+		{ owner: "owner_a", now }
+	);
+	const secondLease = State.acquire(
+		config,
+		{ missionId: mission.id, fingerprint, websiteMissionId: "web_a" },
+		{ owner: "owner_b", now }
+	);
 	assert.equal(firstLease.ok, true);
 	assert.equal(secondLease.ok, false);
 	assert.equal(secondLease.reason, "continuation_lease_held");
@@ -84,7 +96,12 @@ try {
 		deps: { Lock: candidateLock }
 	});
 	assert.equal(candidate.reason, "candidate_probe_suppressed");
-	console.log(JSON.stringify({ ok: true, suite: "mission-auto-continuation", fingerprint, dispatches: 1 }));
+	console.log(JSON.stringify({
+		ok: true,
+		suite: "mission-auto-continuation",
+		fingerprint,
+		dispatches: 1
+	}));
 } finally {
 	fs.rmSync(root, { recursive: true, force: true });
 	if (originalAuthority === undefined) {

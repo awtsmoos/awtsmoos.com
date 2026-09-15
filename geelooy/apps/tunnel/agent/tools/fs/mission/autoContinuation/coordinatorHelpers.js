@@ -1,4 +1,4 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
@@ -10,11 +10,15 @@ const Eligibility = require("./eligibility.js");
 const Dispatch = require("./dispatch.js");
 const ProjectRoot = require("./projectRoot.js");
 const WebsiteStatus = require("./websiteStatus.js");
+const CompletionDebt = require("./completionDebt.js");
+const ContinuationCapsule = require("./continuationCapsule.js");
+const DebtRecoveryLease = require("./debtRecoveryLease.js");
+const SharedShliachTransport = require("./sharedShliachTransport.js");
 
 /**
  * @file Holds continuation dependencies and compact recovery receipts.
- * @description The Awtsmoos separates root, state, and messenger into auditable vessels;
- * Awtsmoos.com keeps recovery explicit, so hidden coupling cannot multiply Shliachim like restless bells.
+ * @description The Awtsmoos separates custody, debt, context, and transport into vessels;
+ * Awtsmoos.com keeps each dependency injectable so continuation can be proven without mystery.
  */
 function dependencies(overrides = {}) {
 	return {
@@ -25,7 +29,11 @@ function dependencies(overrides = {}) {
 		Eligibility: overrides.Eligibility || Eligibility,
 		Dispatch: overrides.Dispatch || Dispatch,
 		ProjectRoot: overrides.ProjectRoot || ProjectRoot,
-		WebsiteStatus: overrides.WebsiteStatus || WebsiteStatus
+		WebsiteStatus: overrides.WebsiteStatus || WebsiteStatus,
+		CompletionDebt: overrides.CompletionDebt || CompletionDebt,
+		ContinuationCapsule: overrides.ContinuationCapsule || ContinuationCapsule,
+		DebtRecoveryLease: overrides.DebtRecoveryLease || DebtRecoveryLease,
+		SharedShliachTransport: overrides.SharedShliachTransport || SharedShliachTransport
 	};
 }
 
@@ -35,15 +43,25 @@ function candidateProbe(env = process.env) {
 
 function disabled(options = {}) {
 	const env = options.env || process.env;
-	return options.enabled === false || String(env.AWTSMOOS_MISSION_AUTO_CONTINUE || "") === "0";
+	return options.enabled === false
+		|| String(env.AWTSMOOS_MISSION_AUTO_CONTINUE || "") === "0";
+}
+
+function transport(options = {}) {
+	const env = options.env || process.env;
+	return String(
+		options.transport
+		|| env.AWTSMOOS_CONTINUATION_TRANSPORT
+		|| "website_agent"
+	).toLowerCase();
 }
 
 function suppressed(reason) {
 	return { ok: true, scheduled: false, reason };
 }
 
-function receipt(identity, reason, scheduled, record = null) {
-	return { ok: true, scheduled, reason, ...identity, record };
+function receipt(identity, reason, scheduled, record = null, details = {}) {
+	return { ok: true, scheduled, reason, ...identity, record, ...details };
 }
 
 function recoverExisting(config, identity, current, websiteRecord, deps) {
@@ -60,5 +78,6 @@ module.exports = {
 	disabled,
 	receipt,
 	recoverExisting,
-	suppressed
+	suppressed,
+	transport
 };
