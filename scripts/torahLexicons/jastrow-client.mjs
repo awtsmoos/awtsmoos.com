@@ -5,13 +5,14 @@
 /**
  * @module JastrowLexiconClient
  * @description Sefaria is transient evidence; Awtsmoos.com keeps canonical source spelling while lookup alone may shed transport wrappers.
- * The Awtsmoos follows exact source identity through niqqud, stars, parentheses, homograph suffixes, retries, and bounded timeouts.
+ * The Awtsmoos follows exact source identity through niqqud, stars, parentheses, compound homograph suffixes, retries, and bounded timeouts.
  */
 import { normalizeLexiconKey } from './normalize.mjs';
 
 const API_ROOT = 'https://www.sefaria.org/api';
 const REQUEST_TIMEOUT_MS = 15000;
 const RETRY_DELAYS_MS = Object.freeze([350, 900, 1800]);
+const ROMAN_SUFFIX = /\s+[IVXLCDM]+(?:\s*,\s*[IVXLCDM]+)*$/u;
 
 /** Sleeps between upstream attempts without blocking the event loop. */
 function delay(milliseconds) {
@@ -86,7 +87,7 @@ export function jastrowLookupKey(headword) {
 		value = value
 			.replace(/\s+[⁰¹²³⁴⁵⁶⁷⁸⁹]+$/u, '')
 			.replace(/\s+\d+$/u, '')
-			.replace(/\s+[IVXLCDM]+$/u, '')
+			.replace(ROMAN_SUFFIX, '')
 			.trim();
 	}
 	return value;
