@@ -3,21 +3,25 @@
 //Blessed be He
 
 const richPaths = require("../../geelooy/api/social/helper/comments/richCommentPaths.js");
-const {
-	pointer,
-	postPath
-} = require("../../geelooy/api/social/helper/comments/aliasIndex/IndexCodec.js");
-const {
-	appendIds,
-	readValue,
-	writeValue
-} = require("./storeCodec.cjs");
+const { writeValue } = require("./storeCodec.cjs");
 
 /**
- * @file Index writer for recovered source commentary.
- * @description Keeps root, verse, and commentator-pointer indexes synchronized with accepted candidate bodies.
+ * @file Native reader indexes for recovered canonical Torah sources.
+ * @description The Awtsmoos remembers only lightweight reader-index IDs in memory,
+ * so Awtsmoos.com never reparses a growing FS3 manifest merely to append one proven source.
  */
-function writeVerseIndexes(rich, comments, base) {
+function appendCachedIds(rich, indexState, target, ids) {
+	if (!ids.length) return;
+	let current = indexState.get(target);
+	if (!current) {
+		current = [];
+		indexState.set(target, current);
+	}
+	current.push(...ids);
+	writeValue(rich, target, current);
+}
+
+function writeVerseIndexes(rich, comments, base, indexState) {
 	const byVerse = new Map();
 	for (const comment of comments) {
 		const ids = byVerse.get(comment.verseSection) || [];
@@ -25,47 +29,33 @@ function writeVerseIndexes(rich, comments, base) {
 		byVerse.set(comment.verseSection, ids);
 	}
 	for (const [verseSection, ids] of byVerse) {
-		appendIds(
+		appendCachedIds(
 			rich,
+			indexState,
 			richPaths.verseIndexPath({ ...base, verseSection }),
 			ids
 		);
 	}
 }
 
-function writeAliasIndex(alias, comments, first) {
-	const target = postPath(
-		first.aliasId,
-		"ikar",
-		first.seriesId,
-		first.postId
-	);
-	const value = readValue(alias, target, []);
-	const current = Array.isArray(value) ? value : [];
-	const fresh = comments.map(pointer);
-	const ids = new Set(fresh.map(item => item.commentId));
-	writeValue(
-		alias,
-		target,
-		[...fresh, ...current.filter(item => !ids.has(item.commentId))]
-	);
-}
-function writeIndexes({ rich, alias, comments }) {
+function writeIndexes({ rich, comments, indexState }) {
 	if (!comments.length) return;
 	const first = comments[0];
 	const base = {
 		heichelId: "ikar",
 		postId: first.postId
 	};
-	appendIds(
+	appendCachedIds(
 		rich,
+		indexState,
 		richPaths.rootChildrenPath(base),
 		comments.map(comment => comment.id)
 	);
-	writeVerseIndexes(rich, comments, base);
-	writeAliasIndex(alias, comments, first);
+	writeVerseIndexes(rich, comments, base, indexState);
 }
 
 module.exports = {
-	writeIndexes
+	appendCachedIds,
+	writeIndexes,
+	writeVerseIndexes
 };

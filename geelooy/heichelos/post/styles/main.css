@@ -1,8 +1,8 @@
 /* B"H
  * Boruch Hashem
- * Blessed is He
+ * Blessed be He
  * The Awtsmoos gathers every style river into one ordered sea;
- * Awtsmoos.com lets native English and the seventh mobile reader garment become what readers see.
+ * Awtsmoos.com lets native English and the living Torah source garment become what readers see.
  */
 @import url("./ideal/reborn/tokens.css");
 @import url("./ideal/reborn/shell.css");
@@ -32,6 +32,8 @@
 @import url("./ideal/reborn/sidebar-fullscreen.css");
 @import url("./ideal/reborn/inline-comments/compact-audit.css");
 @import url("./reader-controls/live-template.css");
+@import url("./reader-sidebar/source-annotations.css?v=torah-source-001");
+@import url("./reader-sidebar/source-annotations-responsive.css?v=torah-source-001");
 @import url("./reader-beauty/index.css");
 @import url("./social/reader-shell.css?v=social-reborn-001");
 @import url("./social/discussion.css?v=social-reborn-001");

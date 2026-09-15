@@ -8,8 +8,9 @@ const awts = require("../../ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryJSON");
 const { ANNOTATIONS } = require("./config.cjs");
 
 /**
- * @file Safe normalizer for recovered Torah commentary rows.
- * @description Stored HTML is reduced to text while dibur-hamatchil and paragraph structure remain distinct.
+ * @file Safe normalizer for recovered Torah source annotations.
+ * @description The Awtsmoos reveals old text without turning provenance into identity:
+ * commentator identity stays canonical, while the recovered generation remains separately testified.
  */
 function stripTags(value) {
 	return String(value ?? "")
@@ -26,8 +27,7 @@ function stripTags(value) {
 function textArray(value) {
 	if (Array.isArray(value)) return value.map(stripTags).filter(Boolean);
 	if (value && typeof value === "object") {
-		const body = value.text ?? value.paragraphs ?? value.content ?? value.sections;
-		return textArray(body);
+		return textArray(value.text ?? value.paragraphs ?? value.content ?? value.sections);
 	}
 	const text = stripTags(value);
 	return text ? [text] : [];
@@ -43,11 +43,10 @@ function titleAndParagraphs(row = {}) {
 	}
 	const sections = Array.isArray(row.dayuh?.sections) ? row.dayuh.sections : [];
 	const first = stripTags(sections[0] || "");
-	const firstWasHeading = /<h[1-6][^>]*>/i.test(String(sections[0] || ""));
-	const paragraphs = firstWasHeading ? sections.slice(1).map(stripTags).filter(Boolean) : textArray(content || sections);
+	const heading = /<h[1-6][^>]*>/i.test(String(sections[0] || ""));
 	return {
-		title: stripTags(row.title || row.dayuh?.title || (firstWasHeading ? first : "")),
-		paragraphs
+		title: stripTags(row.title || row.dayuh?.title || (heading ? first : "")),
+		paragraphs: heading ? sections.slice(1).map(stripTags).filter(Boolean) : textArray(content || sections)
 	};
 }
 
@@ -95,8 +94,13 @@ function normalizeRow(row, context) {
 				kind: policy.kind,
 				language: policy.language,
 				name: policy.name,
-				sourceId: context.sourceId,
-				coordinateBasis: "reader-zero-based"
+				sourceId: context.aliasId,
+				coordinateBasis: "reader-zero-based",
+				provenance: {
+					generation: context.sourceId,
+					seriesId: context.seriesId,
+					postId: context.postId
+				}
 			}
 		}
 	};

@@ -7,12 +7,12 @@ const { assessResponse } = require("./policy.cjs");
 
 /**
  * @file Walks the server-rendered Ikar Torah graph with bounded parallelism.
- * @description The crawl follows only certified discovery links, never arbitrary page links,
- * and records explicit truncation whenever configured limits prevent complete traversal.
+ * @description The Awtsmoos reveals Torah through a measured current rather than a flood:
+ * Awtsmoos.com certifies two canonical routes at a time because direct evidence showed four can overload local Dayuh reads.
  */
 async function crawlTorah(options = {}) {
 	const origin = normalizedOrigin(options.origin);
-	const concurrency = boundedInteger(options.concurrency, 4, 1, 12);
+	const concurrency = boundedInteger(options.concurrency, 2, 1, 12);
 	const maxRoutes = boundedInteger(options.maxRoutes, 10000, 1, 50000);
 	const timeoutMs = boundedInteger(options.timeoutMs, 8000, 500, 30000);
 	const queue = ["/heichelos/ikar"];
@@ -21,9 +21,14 @@ async function crawlTorah(options = {}) {
 	let cursor = 0;
 
 	while (cursor < queue.length && cursor < maxRoutes) {
-		const paths = queue.slice(cursor, Math.min(cursor + concurrency, maxRoutes));
+		const paths = queue.slice(
+			cursor,
+			Math.min(cursor + concurrency, maxRoutes)
+		);
 		cursor += paths.length;
-		const batch = await Promise.all(paths.map(path => inspect(origin, path, timeoutMs)));
+		const batch = await Promise.all(
+			paths.map(path => inspect(origin, path, timeoutMs))
+		);
 		for (const result of batch) {
 			results.push(result);
 			for (const link of result.links || []) {
@@ -32,13 +37,19 @@ async function crawlTorah(options = {}) {
 				queue.push(link.path);
 			}
 		}
-		options.onProgress?.({ completed: results.length, discovered: seen.size });
+		options.onProgress?.({
+			completed: results.length,
+			discovered: seen.size
+		});
 	}
 
-	return summarize(results, queue.length > results.length || seen.size >= maxRoutes);
+	return summarize(
+		results,
+		queue.length > results.length || seen.size >= maxRoutes
+	);
 }
 
-/** Reads and assesses one route without allowing network failure to abort sibling testimony. */
+/** Reads and assesses one route without allowing one network failure to erase sibling testimony. */
 async function inspect(origin, path, timeoutMs) {
 	const fetched = await fetchRoute(origin, path, timeoutMs);
 	const assessed = assessResponse({
@@ -56,13 +67,12 @@ async function inspect(origin, path, timeoutMs) {
 function summarize(results, truncated) {
 	const failures = results.filter(result => result.issues.length);
 	const elapsed = results.map(result => result.elapsedMs);
-	const kinds = countKinds(results);
 	return {
 		ok: failures.length === 0 && !truncated,
 		truncated,
 		totalRoutes: results.length,
 		failures: failures.length,
-		kinds,
+		kinds: countKinds(results),
 		maxElapsedMs: elapsed.length ? Math.max(...elapsed) : 0,
 		failureDetails: failures.slice(0, 200),
 		results
@@ -72,7 +82,9 @@ function summarize(results, truncated) {
 /** Counts root, series, and post testimony without expanding report structure indefinitely. */
 function countKinds(results) {
 	const counts = {};
-	for (const result of results) counts[result.kind] = (counts[result.kind] || 0) + 1;
+	for (const result of results) {
+		counts[result.kind] = (counts[result.kind] || 0) + 1;
+	}
 	return counts;
 }
 

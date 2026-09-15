@@ -1,58 +1,115 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
-/**
- * @module RichCommentDelete
- * @description
- * Deletion turns rich comments into bounded tombstones inside the dedicated store
- * and repairs verse/subsection indexes without consulting historical comments.
- */
-const { indexAliasComment } = require('./aliasCommentIndex.js');
-const paths = require('./richCommentPaths.js');
-const access = require('./richCommentAccess.js');
+//B"H
+//Boruch Hashem
+//Blessed be He
 
-async function deleteOne({ $i, heichelId, postId, commentId, reason = 'deleted' }) {
+const { indexAliasComment } = require("./aliasCommentIndex.js");
+const { isCanonicalSource, immutableSourceError } = require("./richCommentPolicy.js");
+const paths = require("./richCommentPaths.js");
+const access = require("./richCommentAccess.js");
+
+/**
+ * @file Bounded deletion for native community discussion.
+ * @description The Awtsmoos lets social words be removed while recovered Torah remains fixed in its canonical vessel.
+ * Awtsmoos.com preserves canonical source IDs inside verse and subsection indexes even during bulk community cleanup.
+ */
+async function deleteOne({ $i, heichelId, postId, commentId, reason = "deleted" }) {
 	const got = access.getComment({ $i, heichelId, postId, commentId });
-	if (!got.success) return { deleted: 0, missing: [commentId] };
+	if (!got.success) {
+		return { deleted: 0, protected: [], missing: [commentId] };
+	}
 	const comment = got.success;
-	let count = comment.deleted ? 0 : 1;
-	const children = access.array(access.read($i, paths.childIndexPath(access.context(heichelId, postId, { commentId })), []));
+	if (isCanonicalSource(comment)) {
+		return {
+			deleted: 0,
+			protected: [commentId],
+			missing: [],
+			error: immutableSourceError(comment)
+		};
+	}
+	let deleted = comment.deleted ? 0 : 1;
+	const protectedIds = [];
+	const children = access.array(
+		access.read(
+			$i,
+			paths.childIndexPath(access.context(heichelId, postId, { commentId })),
+			[]
+		)
+	);
 	for (const childId of children) {
-		count += (await deleteOne({ $i, heichelId, postId, commentId: childId, reason })).deleted;
+		const child = await deleteOne({ $i, heichelId, postId, commentId: childId, reason });
+		deleted += child.deleted;
+		protectedIds.push(...(child.protected || []));
 	}
 	const tombstone = {
-		...comment, deleted: true, deletedAt: Date.now(), deleteReason: reason,
-		content: '', audioNoteText: '', assets: [], sections: [], links: [], previews: []
+		...comment,
+		deleted: true,
+		deletedAt: Date.now(),
+		deleteReason: reason,
+		content: "",
+		audioNoteText: "",
+		assets: [],
+		sections: [],
+		links: [],
+		previews: []
 	};
-	access.write($i, paths.commentPath(access.context(heichelId, postId, { commentId })), tombstone);
+	access.write(
+		$i,
+		paths.commentPath(access.context(heichelId, postId, { commentId })),
+		tombstone
+	);
 	await indexAliasComment({ $i, comment: tombstone });
-	access.removeIndex($i, paths.verseIndexPath(access.context(heichelId, postId, { verseSection: comment.verseSection })), commentId);
+	access.removeIndex(
+		$i,
+		paths.verseIndexPath(access.context(heichelId, postId, { verseSection: comment.verseSection })),
+		commentId
+	);
 	if (comment.subsectionId) {
-		access.removeIndex($i, paths.subsectionIndexPath(access.context(heichelId, postId, { subsectionId: comment.subsectionId })), commentId);
+		access.removeIndex(
+			$i,
+			paths.subsectionIndexPath(access.context(heichelId, postId, { subsectionId: comment.subsectionId })),
+			commentId
+		);
 	}
-	return { deleted: count, missing: [] };
+	return { deleted, protected: protectedIds, missing: [] };
+}
+
+async function deleteIndexedComments({ $i, heichelId, postId, target, reason }) {
+	const ids = access.array(access.read($i, target, []));
+	let deleted = 0;
+	const protectedIds = [];
+	const missing = [];
+	for (const commentId of ids) {
+		const result = await deleteOne({ $i, heichelId, postId, commentId, reason });
+		deleted += result.deleted;
+		protectedIds.push(...(result.protected || []));
+		missing.push(...(result.missing || []));
+	}
+	access.write($i, target, [...new Set(protectedIds)]);
+	return { deleted, protected: [...new Set(protectedIds)], missing };
 }
 
 async function deleteVerseComments({ $i, heichelId, postId, verseSection }) {
 	const target = paths.verseIndexPath(access.context(heichelId, postId, { verseSection }));
-	const list = access.array(access.read($i, target, []));
-	let deleted = 0;
-	for (const commentId of [...list]) {
-		deleted += (await deleteOne({ $i, heichelId, postId, commentId, reason: `verse:${verseSection}` })).deleted;
-	}
-	access.write($i, target, []);
-	return { success: { verseSection, deleted } };
+	const result = await deleteIndexedComments({
+		$i,
+		heichelId,
+		postId,
+		target,
+		reason: `verse:${verseSection}`
+	});
+	return { success: { verseSection, ...result } };
 }
 
 async function deleteSubsectionComments({ $i, heichelId, postId, subsectionId }) {
 	const target = paths.subsectionIndexPath(access.context(heichelId, postId, { subsectionId }));
-	const list = access.array(access.read($i, target, []));
-	let deleted = 0;
-	for (const commentId of [...list]) {
-		deleted += (await deleteOne({ $i, heichelId, postId, commentId, reason: `subsection:${subsectionId}` })).deleted;
-	}
-	access.write($i, target, []);
-	return { success: { subsectionId, deleted } };
+	const result = await deleteIndexedComments({
+		$i,
+		heichelId,
+		postId,
+		target,
+		reason: `subsection:${subsectionId}`
+	});
+	return { success: { subsectionId, ...result } };
 }
 
 module.exports = { deleteOne, deleteSubsectionComments, deleteVerseComments };

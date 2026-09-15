@@ -4,20 +4,22 @@
 
 const fs = require("fs");
 const path = require("path");
+const { recoverPostGroup } = require("./buildGroup.cjs");
 const { CANDIDATE_ROOT, SOURCE_ROOTS } = require("./config.cjs");
 const { prepareCandidate } = require("./candidate.cjs");
 const { PostIndex } = require("./postIndex.cjs");
-const { compactReport, createReport, recordFile } = require("./report.cjs");
-const { fileRows } = require("./rows.cjs");
-const { commentaryFiles } = require("./sourceFiles.cjs");
+const { QuarantineLedger } = require("./quarantine.cjs");
+const { compactReport, createReport } = require("./report.cjs");
+const { commentaryPostGroups } = require("./sourceFiles.cjs");
 const { CandidateWriter } = require("./writer.cjs");
 
 /**
- * @file Streaming candidate builder for recovered canonical Torah commentary.
- * @description Each source file is decoded, validated, written, and released before the next file begins.
+ * @file Streaming post-group candidate builder for proven canonical Torah sources.
+ * @description The Awtsmoos gathers only one post's reviewed sources at a time,
+ * so Awtsmoos.com remains bounded while reader indexes are written once per proven post generation.
  */
 function progress(report) {
-	if (report.filesSeen % 250 !== 0) return;
+	if (report.filesSeen === 0 || report.filesSeen % 250 !== 0) return;
 	process.stderr.write(
 		`commentary recovery ${report.filesSeen} files, ${report.commentsWritten} comments, `
 		+ `${report.outOfRange} out-of-range, ${report.missingPosts} missing posts\n`
@@ -25,9 +27,22 @@ function progress(report) {
 }
 
 function saveReport(report) {
-	const file = path.join(CANDIDATE_ROOT, "recovery-report.txt");
+	const file = path.join(CANDIDATE_ROOT, "recovery-report.json");
 	fs.writeFileSync(file, `${JSON.stringify(compactReport(report), null, 2)}\n`);
 	return file;
+}
+
+function recoverSourceRoot({ sourceRoot, posts, writer, quarantine, report }) {
+	for (const files of commentaryPostGroups(sourceRoot)) {
+		recoverPostGroup({
+			files,
+			posts,
+			writer,
+			quarantine,
+			report,
+			onProgress: progress
+		});
+	}
 }
 
 function build() {
@@ -35,26 +50,25 @@ function build() {
 	const report = createReport();
 	const posts = new PostIndex();
 	const writer = new CandidateWriter(CANDIDATE_ROOT);
+	const quarantine = new QuarantineLedger(CANDIDATE_ROOT);
 	try {
 		for (const sourceRoot of SOURCE_ROOTS) {
-			for (const source of commentaryFiles(sourceRoot)) {
-				const result = fileRows(source, posts);
-				const written = writer.writeBatch(result.accepted);
-				recordFile(report, result, written);
-				progress(report);
-			}
+			recoverSourceRoot({ sourceRoot, posts, writer, quarantine, report });
 		}
 	} finally {
 		writer.close();
 		posts.close();
+		quarantine.close();
 	}
+	report.quarantine = quarantine.summary();
 	const reportFile = saveReport(report);
-	console.log(JSON.stringify({
+	const result = {
 		success: true,
 		candidateRoot: CANDIDATE_ROOT,
 		reportFile,
 		...compactReport(report)
-	}, null, 2));
+	};
+	console.log(JSON.stringify(result, null, 2));
 	return report;
 }
 
@@ -68,5 +82,6 @@ if (require.main === module) {
 }
 
 module.exports = {
-	build
+	build,
+	recoverSourceRoot
 };

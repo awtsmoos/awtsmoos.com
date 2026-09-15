@@ -2,31 +2,30 @@
 //Boruch Hashem
 //Blessed be He
 
+const { availableSeriesItems } = require("./sourceAvailability.js");
+
 /**
  * @file Torah semantic visibility and ordering policy.
- * @description
- * The Awtsmoos keeps storage lineage separate from public study presentation.
- * Awtsmoos.com may feature one persisted branch at the root without repeating it
- * under a secondary doorway, and may order explicit page-number teachings by the
- * number printed in their own canonical title without disturbing Torah hierarchy.
+ * @description The Awtsmoos keeps storage lineage separate from public study presentation.
+ * Awtsmoos.com hides only proven placeholder shells and presentation duplicates, while preserving every source identity in Dayuh.
  */
-
-const IKAR_ID = 'ikar';
-const ORAL_TORAH_ID = 'theOralTorah';
-const CHASSIDUS_ID = 'chassidus';
+const IKAR_ID = "ikar";
+const ORAL_TORAH_ID = "theOralTorah";
+const CHASSIDUS_ID = "chassidus";
 
 /**
- * Removes presentation duplicates while preserving every persisted source identity.
+ * Removes unavailable source stubs and presentation duplicates without mutating persistent authority.
  * @param {string} heichelId Active Heichel identity.
  * @param {string} seriesId Current parent series.
  * @param {Array<object>} items Persisted child series records.
  * @returns {Array<object>} Publicly visible child series records.
  */
 function visibleTorahSeriesItems(heichelId, seriesId, items = []) {
-	if (heichelId !== IKAR_ID || seriesId !== ORAL_TORAH_ID) {
-		return [...items];
+	let visible = availableSeriesItems(heichelId, seriesId || "root", items);
+	if (heichelId === IKAR_ID && seriesId === ORAL_TORAH_ID) {
+		visible = visible.filter(item => String(item?.id || "") !== CHASSIDUS_ID);
 	}
-	return items.filter(item => String(item?.id || '') !== CHASSIDUS_ID);
+	return visible;
 }
 
 /**
@@ -54,7 +53,7 @@ function orderTorahPosts(heichelId, items = []) {
 
 /** Returns an explicit page number without inferring meaning from storage IDs. */
 function pageNumber(item) {
-	const title = String(item?.title || item?.name || '').trim();
+	const title = String(item?.title || item?.name || "").trim();
 	const match = title.match(/(?:\bpage\b|עמוד)\s*(\d+)/iu);
 	return match ? Number(match[1]) : null;
 }
