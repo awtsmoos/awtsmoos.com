@@ -3,9 +3,9 @@
 // Blessed is He
 
 /**
- * @file Opens one exact-target CDP channel using Node's bundled WebSocket implementation.
- * @description The Awtsmoos keeps the installed Tunnel dependency-free: target identity remains
- * exact, while Runtime and Input commands are sent directly without domain-enable handshakes.
+ * @file Opens one exact-target CDP channel with acknowledged reads and one-way pointer custody.
+ * @description The Awtsmoos keeps evaluation retryable while Send input is written once; a missing
+ * Chrome acknowledgement can never cause Awtsmoos.com to duplicate a mouse press or release.
  */
 async function open(port, targetId, timeoutMs) {
 	const target = await findTarget(port, targetId, timeoutMs);
@@ -16,6 +16,11 @@ async function open(port, targetId, timeoutMs) {
 	socket.onmessage = event => settle(pending, JSON.parse(String(event.data)));
 	socket.onclose = () => rejectAll(pending, "query_prompt_socket_closed");
 	socket.onerror = () => rejectAll(pending, "query_prompt_socket_failed");
+	function fire(method, params = {}) {
+		const id = ++sequence;
+		socket.send(JSON.stringify({ id, method, params }));
+		return id;
+	}
 	async function call(method, params = {}, callTimeoutMs = timeoutMs) {
 		const id = ++sequence;
 		return new Promise((resolve, reject) => {
@@ -36,10 +41,10 @@ async function open(port, targetId, timeoutMs) {
 			}
 		});
 	}
-	return channel(socket, call);
+	return channel(socket, call, fire);
 }
 
-function channel(socket, call) {
+function channel(socket, call, fire) {
 	return {
 		async evaluate(expression) {
 			const result = await call("Runtime.evaluate", {
@@ -54,10 +59,10 @@ function channel(socket, call) {
 			const x = rect.x + rect.width / 2;
 			const y = rect.y + rect.height / 2;
 			await call("Page.bringToFront", {});
-			await call("Input.dispatchMouseEvent", { type: "mouseMoved", x, y });
-			await call("Input.dispatchMouseEvent", { type: "mousePressed", x, y, button: "left", clickCount: 1 });
-			await call("Input.dispatchMouseEvent", { type: "mouseReleased", x, y, button: "left", clickCount: 1 });
-			return { ok: true, x, y };
+			fire("Input.dispatchMouseEvent", { type: "mouseMoved", x, y });
+			fire("Input.dispatchMouseEvent", { type: "mousePressed", x, y, button: "left", clickCount: 1 });
+			fire("Input.dispatchMouseEvent", { type: "mouseReleased", x, y, button: "left", clickCount: 1 });
+			return { ok: true, x, y, acknowledged: false };
 		},
 		close() {
 			try { socket.close(); } catch {}

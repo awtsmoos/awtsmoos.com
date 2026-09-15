@@ -7,9 +7,9 @@ const { SEND_SELECTORS } = require("./selectors.js");
 const SEND_SELECTOR = SEND_SELECTORS.join(",");
 
 /**
- * @file Defines query-prompt hydration and persistent-conversation truth.
- * @description The Awtsmoos trusts the living client, not document.readyState: the exact URL prompt,
- * hydrated ProseMirror vessel and enabled visible Send button are sufficient to perform one click.
+ * @file Defines current and legacy ChatGPT query-prompt readiness plus persistence truth.
+ * @description The Awtsmoos accepts the living textarea or legacy editable DIV without touching
+ * its value; exact query identity, app-shell presence and a visible enabled Send button gate input.
  */
 function promptFromUrl(url) {
 	return new URL(String(url || "")).searchParams.get("prompt") || "";
@@ -21,11 +21,19 @@ function readyExpression(expectedPrompt) {
 		const send = document.querySelector(${JSON.stringify(SEND_SELECTOR)});
 		const rect = send?.getBoundingClientRect();
 		const query = new URL(location.href).searchParams.get('prompt');
+		const tag = String(composer?.tagName || '').toUpperCase();
+		const legacyEditable = tag === 'DIV' && (
+			composer?.getAttribute('role') === 'textbox'
+			|| composer?.getAttribute('contenteditable') === 'true'
+		);
 		return {
 			readyState: document.readyState,
 			href: location.href,
 			queryMatches: query === ${JSON.stringify(String(expectedPrompt || ""))},
-			hydrated: !!composer && composer.tagName === 'DIV' && composer.getAttribute('role') === 'textbox',
+			composerFound: !!composer,
+			composerKind: tag,
+			composerReady: tag === 'TEXTAREA' || legacyEditable,
+			appShell: !!document.querySelector('main'),
 			sendFound: !!send,
 			sendDisabled: !!send?.disabled,
 			rect: rect ? { x:rect.x, y:rect.y, width:rect.width, height:rect.height } : null,
@@ -52,7 +60,8 @@ function persistenceExpression(expectedPrompt) {
 
 function ready(state = {}) {
 	return state.queryMatches === true
-		&& state.hydrated === true
+		&& state.composerReady === true
+		&& state.appShell === true
 		&& state.sendFound === true
 		&& state.sendDisabled === false
 		&& Number(state.rect?.width || 0) > 0

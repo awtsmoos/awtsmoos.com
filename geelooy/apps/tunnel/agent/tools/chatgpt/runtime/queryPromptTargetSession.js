@@ -5,12 +5,14 @@
 const Channel = require("./queryPromptCdpChannel.js");
 
 /**
- * @file Owns one reconnecting target-local Shliach session.
- * @description The Awtsmoos binds every successor to one exact browser vessel; navigation may
- * renew its socket or execution context, but never its target identity, so agents cannot cross-wire.
+ * @file Owns one reconnecting target-local Shliach session with non-replayable Send custody.
+ * @description The Awtsmoos permits observation to reconnect across navigation churn, while one
+ * Send gesture belongs to one socket incarnation and is never replayed after its bytes are written.
  */
-async function connect(port, targetId, timeoutMs = 15000) {
-	let channel = await Channel.open(port, targetId, timeoutMs);
+async function connect(port, targetId, timeoutMs = 15000, overrides = {}) {
+	const open = overrides.open || Channel.open;
+	const sleep = overrides.sleep || Channel.sleep;
+	let channel = await open(port, targetId, timeoutMs);
 	let closed = false;
 	async function withReconnect(operation) {
 		try {
@@ -18,8 +20,8 @@ async function connect(port, targetId, timeoutMs = 15000) {
 		} catch (error) {
 			if (closed || !retryable(error)) throw error;
 			channel.close();
-			await Channel.sleep(150);
-			channel = await Channel.open(port, targetId, timeoutMs);
+			await sleep(150);
+			channel = await open(port, targetId, timeoutMs);
 			return operation(channel);
 		}
 	}
@@ -29,7 +31,8 @@ async function connect(port, targetId, timeoutMs = 15000) {
 			return withReconnect(current => current.evaluate(expression));
 		},
 		click(rect) {
-			return withReconnect(current => current.click(rect));
+			if (closed) throw new Error("query_prompt_session_closed");
+			return channel.click(rect);
 		},
 		close() {
 			closed = true;
