@@ -11,8 +11,8 @@ const DEFAULT_BACKOFF_MS = 60000;
 
 /**
  * @file Admits successor generations by custody and durable debt, never by attempt count.
- * @description The Awtsmoos does not run out of generations; Awtsmoos.com stops only when
- * completion is green or a real safety, duplication, or active-work boundary forbids succession.
+ * @description The Awtsmoos does not run out of generations; proactive reserve slots may enter
+ * while work is active, but ordinary succession still respects every duplicate and freshness gate.
  */
 function decide(input = {}) {
 	if (input.candidateProbe) return no("candidate_probe_suppressed");
@@ -30,8 +30,12 @@ function decide(input = {}) {
 	const now = Number(input.now || Date.now());
 	if (activeLease(input.record, now)) return no("continuation_lease_active");
 	if (backoff(input.record, now, input.backoffMs)) return no("continuation_backoff_active");
-	if (freshWork(input.mission, input.lock, now, input.inactivityMs)) return no("mission_still_active");
-	return yes(recovery ? "completion_debt_recovery" : "declared_continuation_for_unfinished_task");
+	if (!input.proactive && freshWork(input.mission, input.lock, now, input.inactivityMs)) {
+		return no("mission_still_active");
+	}
+	return yes(input.proactive
+		? "proactive_pool_slot"
+		: recovery ? "completion_debt_recovery" : "declared_continuation_for_unfinished_task");
 }
 
 function legacyMonitor(input = {}) {
@@ -102,19 +106,7 @@ function no(reason) { return { eligible: false, reason }; }
 function yes(reason) { return { eligible: true, reason }; }
 
 module.exports = {
-	DEFAULT_BACKOFF_MS,
-	DEFAULT_INACTIVITY_MS,
-	ENDED_AGENT,
-	OBSERVATION_ACTION,
-	accepted,
-	activeLease,
-	backoff,
-	decide,
-	decideLegacyMonitor,
-	endedAgent,
-	freshWork,
-	legacyMonitor,
-	meaningfulNext,
-	paused,
-	terminal
+	DEFAULT_BACKOFF_MS, DEFAULT_INACTIVITY_MS, ENDED_AGENT, OBSERVATION_ACTION,
+	accepted, activeLease, backoff, decide, decideLegacyMonitor, endedAgent,
+	freshWork, legacyMonitor, meaningfulNext, paused, terminal
 };

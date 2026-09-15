@@ -1,5 +1,5 @@
 B"H
-1.0.608
+1.0.609
 main.js
 ai/relay/direct/browser/ActiveTargetLease.mjs
 ai/relay/direct/browser/AgentTabCatalog.mjs
@@ -1222,6 +1222,7 @@ lib/runtime/aliases.js
 lib/runtime/async-task-process.js
 lib/runtime/background-update.js
 lib/runtime/boot-resume-loop.js
+lib/runtime/boot-resume-policy.js
 lib/runtime/circuit-breaker.js
 lib/runtime/circuit-liveness.js
 lib/runtime/circuit-policy.js
@@ -1648,6 +1649,7 @@ tools/chatgpt/legalBrowserRelay/responseReader.js
 tools/chatgpt/legalBrowserRelay/textareaPaster.js
 tools/chatgpt/runtime/domOptimizer.js
 tools/chatgpt/runtime/idleDetector.js
+tools/chatgpt/runtime/queryPromptSubmit.js
 tools/chatgpt/runtime/selectors.js
 tools/chatgpt/runtime/sendPrompt.js
 tools/chatgpt/runtime/waitForResponse.js
@@ -2160,6 +2162,8 @@ tools/fs/mission/autoContinuation/eligibility.js
 tools/fs/mission/autoContinuation/handoffPaths.js
 tools/fs/mission/autoContinuation/index.js
 tools/fs/mission/autoContinuation/planningRoots.js
+tools/fs/mission/autoContinuation/poolMaintainer.js
+tools/fs/mission/autoContinuation/proactivePoolLease.js
 tools/fs/mission/autoContinuation/projectRoot.js
 tools/fs/mission/autoContinuation/prompt.js
 tools/fs/mission/autoContinuation/promptPlan.js

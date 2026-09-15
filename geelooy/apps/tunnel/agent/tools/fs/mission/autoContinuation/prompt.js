@@ -1,4 +1,4 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
@@ -8,25 +8,20 @@ const Plan = require("./promptPlan.js");
 const ProjectRoot = require("./projectRoot.js");
 
 const VOLATILE_CHECKPOINT_KEYS = new Set([
-	"reason",
-	"timestamp",
-	"updatedAt",
-	"observedAt",
-	"lastSeenAt"
+	"reason", "timestamp", "updatedAt", "observedAt", "lastSeenAt"
 ]);
 
 /**
- * @file Builds one stable continuation identity and one absolute-path successor prompt.
- * @description
- * The Awtsmoos remembers the deed rather than scheduler shadows. Awtsmoos.com carries
- * one root, one predecessor, one generation, and exact handoff vessels so the next
- * Awts Shliach resumes the same mission instead of searching broadly or birthing a duplicate world.
+ * @file Builds stable continuation identities and absolute-path successor prompts.
+ * @description The Awtsmoos remembers deeds rather than scheduler shadows; optional pool scope
+ * distinguishes bounded sibling messengers without changing ordinary recovery identity.
  */
-function fingerprint(config, mission = {}, lock = {}) {
+function fingerprint(config, mission = {}, lock = {}, scope = "") {
 	const stable = JSON.stringify({
 		missionId: mission.id || mission.missionId || lock.missionId || "",
 		projectRoot: ProjectRoot.resolve(config, mission, lock),
-		next: stableCheckpoint(lock.lastMustCallNext || lock.mustCallNext || null)
+		next: stableCheckpoint(lock.lastMustCallNext || lock.mustCallNext || null),
+		scope: String(scope || "")
 	});
 	return crypto.createHash("sha256").update(stable).digest("hex").slice(0, 24);
 }
@@ -51,6 +46,7 @@ function build(config, mission = {}, lock = {}, fingerprintValue = fingerprint(c
 		`missionId: ${missionId}`,
 		roomId ? `roomId: ${roomId}` : "roomId: use the existing mission room",
 		`continuationFingerprint: ${fingerprintValue}`,
+		context.poolRole ? `Proactive pool role: ${context.poolRole}; slot ${context.poolSlot}. Synchronize before claiming work.` : "",
 		`requiredNextCheckpoint: ${next}`,
 		`absoluteHandoffAndThoughtFiles: ${plans.length ? plans.join(" | ") : "none discovered"}`,
 		...Plan.lines({ ...context, handoffPaths: plans }),
@@ -65,7 +61,7 @@ function build(config, mission = {}, lock = {}, fingerprintValue = fingerprint(c
 		"Never change project root, physical device identity, tunnel identity, or browser ownership without explicit necessity.",
 		"You may spawn bounded sub-agents only through the existing verified-close paced Awtsmoos Shliach system with stable request keys.",
 		"Honor user stop/cancel/pause or blocking user-message gates immediately. Do not claim mission completion until the actual completion gate passes."
-	].join("\n");
+	].filter(Boolean).join("\n");
 }
 
 function stableCheckpoint(value) {

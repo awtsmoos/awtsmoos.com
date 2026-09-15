@@ -13,6 +13,7 @@ const WebsiteStatus = require("./websiteStatus.js");
 const CompletionDebt = require("./completionDebt.js");
 const ContinuationCapsule = require("./continuationCapsule.js");
 const DebtRecoveryLease = require("./debtRecoveryLease.js");
+const ProactivePoolLease = require("./proactivePoolLease.js");
 const SharedShliachTransport = require("./sharedShliachTransport.js");
 
 /**
@@ -33,6 +34,7 @@ function dependencies(overrides = {}) {
 		CompletionDebt: overrides.CompletionDebt || CompletionDebt,
 		ContinuationCapsule: overrides.ContinuationCapsule || ContinuationCapsule,
 		DebtRecoveryLease: overrides.DebtRecoveryLease || DebtRecoveryLease,
+		ProactivePoolLease: overrides.ProactivePoolLease || ProactivePoolLease,
 		SharedShliachTransport: overrides.SharedShliachTransport || SharedShliachTransport
 	};
 }
@@ -49,11 +51,7 @@ function disabled(options = {}) {
 
 function transport(options = {}) {
 	const env = options.env || process.env;
-	return String(
-		options.transport
-		|| env.AWTSMOOS_CONTINUATION_TRANSPORT
-		|| "website_agent"
-	).toLowerCase();
+	return String(options.transport || env.AWTSMOOS_CONTINUATION_TRANSPORT || "website_agent").toLowerCase();
 }
 
 function suppressed(reason) {

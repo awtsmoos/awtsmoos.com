@@ -10,9 +10,9 @@ const RecoveryContext = require("./recoveryContext.js");
 const TerminalDispatch = require("./terminalDispatch.js");
 
 /**
- * @file Coordinates debt-aware, generation-fenced Mission continuation.
- * @description The Awtsmoos lets an ended messenger yield to one successor until durable
- * completion turns green; Awtsmoos.com keeps custody, identity and dispatch separately auditable.
+ * @file Coordinates debt-aware, generation-fenced Mission continuation and reserve slots.
+ * @description The Awtsmoos lets one mission carry several bounded messengers without duplicate
+ * custody; Awtsmoos.com gives each reserve slot a stable fingerprint and one shared browser path.
  */
 async function run(config, options = {}) {
 	if (Helpers.disabled(options)) return Helpers.suppressed("auto_continuation_disabled");
@@ -24,13 +24,16 @@ async function run(config, options = {}) {
 	if (!mission?.id) return Helpers.suppressed("active_mission_missing");
 	const projectRoot = deps.ProjectRoot.resolve(config, mission, lock, options.binding);
 	const scopedConfig = deps.ProjectRoot.scope(config, projectRoot);
-	const fingerprint = Prompt.fingerprint(scopedConfig, mission, lock);
 	const recoveryOptions = {
 		lock,
 		now: options.now,
 		inactivityMs: options.inactivityMs,
 		planningFiles: Prompt.recentPlans(projectRoot)
 	};
+	const probeFingerprint = Prompt.fingerprint(scopedConfig, mission, lock);
+	const probeRecovery = RecoveryContext.build(mission, probeFingerprint, recoveryOptions);
+	const scope = poolScope(options, probeRecovery);
+	const fingerprint = Prompt.fingerprint(scopedConfig, mission, lock, scope);
 	let recovery = RecoveryContext.build(mission, fingerprint, recoveryOptions);
 	const debt = await deps.CompletionDebt.assess(
 		scopedConfig,
@@ -41,7 +44,11 @@ async function run(config, options = {}) {
 	);
 	if (debt.green) return Helpers.suppressed("completion_debt_green");
 	if (!recovery.taskLease) {
-		const fallbackTaskLease = deps.DebtRecoveryLease.build(mission, recovery, debt, fingerprint);
+		const fallbackTaskLease = options.proactive
+			? deps.ProactivePoolLease.build(
+				mission, recovery, debt, fingerprint, options.poolSlot, options.poolRole
+			)
+			: deps.DebtRecoveryLease.build(mission, recovery, debt, fingerprint);
 		if (fallbackTaskLease) {
 			recovery = RecoveryContext.build(mission, fingerprint, {
 				...recoveryOptions,
@@ -49,7 +56,11 @@ async function run(config, options = {}) {
 			});
 		}
 	}
-	const identity = Identity.build(mission, fingerprint, projectRoot, recovery);
+	const identity = {
+		...Identity.build(mission, fingerprint, projectRoot, recovery),
+		poolSlot: Number(options.poolSlot || 0),
+		poolRole: options.poolRole || ""
+	};
 	const blocked = Identity.reconcileActive(scopedConfig, identity, deps, Helpers);
 	if (blocked) return blocked;
 	const current = deps.State.read(scopedConfig, mission.id, fingerprint);
@@ -57,7 +68,8 @@ async function run(config, options = {}) {
 	const terminal = TerminalDispatch.settle(scopedConfig, identity, current, websiteRecord, deps);
 	if (terminal) return terminal;
 	if (websiteRecord) return Helpers.recoverExisting(scopedConfig, identity, current, websiteRecord, deps);
-	const debtRecovery = recovery.taskLease?.kind === "debt_recovery";
+	const recoveryKind = recovery.taskLease?.kind;
+	const debtRecovery = ["debt_recovery", "proactive_pool"].includes(recoveryKind);
 	const decision = deps.Eligibility.decide({
 		mission,
 		lock,
@@ -69,7 +81,8 @@ async function run(config, options = {}) {
 		inactivityMs: options.inactivityMs,
 		backoffMs: options.backoffMs,
 		completionDebt: debt,
-		debtRecovery
+		debtRecovery,
+		proactive: Boolean(options.proactive)
 	});
 	if (!decision.eligible) return Helpers.receipt(identity, decision.reason, false, current, { debt });
 	const lease = deps.State.acquire(scopedConfig, identity, {
@@ -90,9 +103,15 @@ async function run(config, options = {}) {
 	);
 }
 
+function poolScope(options = {}, recovery = {}) {
+	if (!options.poolSlot) return "";
+	return `pool:${options.poolSlot}:${options.poolRole || "worker"}:g${recovery.predecessorGeneration || 1}`;
+}
+
 module.exports = {
 	dispatchContinuation: Dispatch.dispatch,
 	identityFor: Identity.build,
+	poolScope,
 	reconcileActive: Identity.reconcileActive,
 	run
 };

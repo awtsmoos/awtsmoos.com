@@ -5,8 +5,7 @@
 const fs = require("node:fs/promises");
 const os = require("node:os");
 const path = require("node:path");
-const { chromeNavigate } = require("../../../chrome/actions.js");
-const { sendPrompt } = require("../../../chatgpt/runtime/sendPrompt.js");
+const QueryPrompt = require("../../../chatgpt/runtime/queryPromptSubmit.js");
 
 const REGISTRY = path.join(os.homedir(), ".awtsmoos-ai-browser", "device-browser.json");
 const SHARED_PROFILE = path.join(os.homedir(), ".awtsmoos-split-debug-chrome");
@@ -14,8 +13,8 @@ const SHLIACH_URL = "https://chatgpt.com/g/g-6a03feea8398819192067ae3dbfa449c-aw
 
 /**
  * @file Opens one successor chat inside the already-running shared Shliach Chrome profile.
- * @description The Awtsmoos reuses one authenticated browser vessel; Awtsmoos.com never
- * launches a second profile here, and existing navigation/send mechanics remain authoritative.
+ * @description The URL carries the prompt, the page itself fills the composer, Send is clicked
+ * once, submission is witnessed, and the leased tab closes. No textarea mutation occurs here.
  */
 async function registry(file = REGISTRY) {
 	const parsed = JSON.parse(await fs.readFile(file, "utf8"));
@@ -35,28 +34,21 @@ function urlFor(prompt, baseUrl = SHLIACH_URL) {
 
 async function dispatch(context = {}, deps = {}) {
 	const readRegistry = deps.registry || registry;
-	const navigate = deps.navigate || chromeNavigate;
-	const send = deps.send || sendPrompt;
+	const submit = deps.submit || QueryPrompt.submit;
 	const registered = await readRegistry(context.registryFile);
 	const url = urlFor(context.prompt, context.shliachUrl || SHLIACH_URL);
-	const navigation = await navigate({
+	const result = await submit({
 		port: registered.port,
 		url,
-		newTab: true,
-		autoLaunch: false,
-		shared: true
-	});
-	if (navigation?.ok === false) {
-		return { ok: false, error: navigation.error || "shared_shliach_navigation_failed", navigation };
-	}
-	const sent = await send({
-		port: registered.port,
-		prompt: context.prompt,
-		message: context.prompt,
-		timeoutMs: context.sendTimeoutMs
-	});
-	if (!sent?.ok) {
-		return { ok: false, error: sent?.error || "shared_shliach_send_failed", navigation, sent };
+		timeoutMs: context.sendTimeoutMs || 30000,
+		closeOnFailure: true
+	}, deps.submitDeps || {});
+	if (!result?.ok || !result.sent) {
+		return {
+			ok: false,
+			error: result?.error || "shared_shliach_query_send_failed",
+			result
+		};
 	}
 	return {
 		ok: true,
@@ -65,8 +57,9 @@ async function dispatch(context = {}, deps = {}) {
 		port: registered.port,
 		profile: registered.profile,
 		url,
-		navigation,
-		sent
+		chromeTargetId: result.chromeTargetId,
+		sent: true,
+		closed: true
 	};
 }
 
