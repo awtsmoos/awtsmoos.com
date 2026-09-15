@@ -1,6 +1,6 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed be He
 
 const { buildActionHistoryActions } = require("../actionGroups/actionHistoryActions.js");
 const { buildActionStreamActions } = require("../actionGroups/actionStreamActions.js");
@@ -10,6 +10,7 @@ const { buildCognitionActions } = require("../actionGroups/cognitionActions.js")
 const { buildCommandActions } = require("../actionGroups/commandActions.js");
 const { buildConfigActions } = require("../actionGroups/configActions.js");
 const { buildConnectionMailboxActions } = require("../actionGroups/connectionMailboxActions.js");
+const { buildContextCompilerActions } = require("../actionGroups/contextCompilerActions.js");
 const { buildFakeSshActions } = require("../actionGroups/fakeSshActions.js");
 const { buildFileOpsActions } = require("../actionGroups/fileOpsActions.js");
 const { buildHttpActions } = require("../actionGroups/httpActionsGroup.js");
@@ -39,9 +40,9 @@ const { buildWorkflowActions } = require("../actionGroups/workflowActions.js");
 const { buildWriteActions } = require("../actionGroups/writeActions.js");
 
 /**
- * @file Composes foundations so files, Room, history, and published meaning coexist.
- * @description The Awtsmoos reveals the living filesystem without hiding it behind
- * abstractions; Awtsmoos.com adds knowledge and history lenses beside every raw vessel.
+ * @file Composes raw files, live coordination, permanent graph truth, and compiled context.
+ * @description The Awtsmoos leaves every ordinary vessel directly reachable while
+ * Awtsmoos.com adds history, knowledge, search, and context lenses beside—not instead of—it.
  */
 function buildFoundationActions(context, buildActions) {
 	return {
@@ -52,6 +53,7 @@ function buildFoundationActions(context, buildActions) {
 		...buildReadActions(context),
 		...buildWorkGraphHistoryActions(context),
 		...buildKnowledgeActions(context),
+		...buildContextCompilerActions(context),
 		...buildProjectActions(context),
 		...buildFileOpsActions(context),
 		...buildHttpActions(context),
