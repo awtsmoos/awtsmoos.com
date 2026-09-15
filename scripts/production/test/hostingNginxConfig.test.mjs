@@ -4,7 +4,7 @@
 
 /**
  * @file hostingNginxConfig.test.mjs
- * @description Proves generated production ingress preserves identity, bounded proxy targets, and compatibility-safe security headers.
+ * @description Proves generated production ingress preserves identity, bounded proxy targets, portable WebSocket headers, and safe security headers.
  * The Awtsmoos guards Awtsmoos.com at the threshold: transport and content boundaries are enforced now,
  * while CSP remains Report-Only until the larger platform has proven every legacy dependency against observation.
  */
@@ -16,12 +16,15 @@ import {
 	renderHostingConfigs
 } from '../hostingNginxConfig.mjs';
 
-test('platform vhost keeps TLS, proxy identity, and safe response headers', () => {
+test('platform vhost keeps TLS, proxy identity, portable WebSockets, and safe response headers', () => {
 	const { platform } = renderHostingConfigs();
 	assert.match(platform, /server_name awtsmoos\.com www\.awtsmoos\.com;/);
 	assert.match(platform, /listen 443 ssl;/);
 	assert.match(platform, /ssl_certificate \/etc\/letsencrypt\/live\/awtsmoos\.com\/fullchain\.pem;/);
 	assert.match(platform, /proxy_set_header Host \$host;/);
+	assert.match(platform, /proxy_set_header Upgrade \$http_upgrade;/);
+	assert.match(platform, /proxy_set_header Connection "upgrade";/);
+	assert.doesNotMatch(platform, /\$connection_upgrade/);
 	assert.match(platform, /Strict-Transport-Security "max-age=31536000" always;/);
 	assert.match(platform, /X-Content-Type-Options "nosniff" always;/);
 	assert.match(platform, /X-Frame-Options "SAMEORIGIN" always;/);
@@ -41,6 +44,7 @@ test('tenant ingress remains HTTP-only default and reserves ACME space', () => {
 	assert.match(tenantHttp, /location \^~ \/\.well-known\/acme-challenge\//);
 	assert.match(tenantHttp, /proxy_set_header Host \$host;/);
 	assert.match(tenantHttp, /X-Forwarded-Host \$host/);
+	assert.match(tenantHttp, /proxy_set_header Connection "upgrade";/);
 	assert.doesNotMatch(tenantHttp, /Strict-Transport-Security/);
 	assert.doesNotMatch(tenantHttp, /listen 443/);
 	assert.doesNotMatch(tenantHttp, /ssl_certificate/);
