@@ -10,7 +10,7 @@ const { writeIndexes } = require("./writerIndexes.cjs");
 /**
  * @file Bounded post-group writer for recovered canonical Torah source annotations.
  * @description The Awtsmoos remembers only deterministic body IDs and lightweight reader-index IDs,
- * so Awtsmoos.com never reparses a growing FS3 manifest merely to rediscover native candidate state.
+ * while Awtsmoos.com can keep one native outer batch open so durability waits happen once instead of for every post group.
  */
 const CHECKPOINT_GROUPS = 128;
 
@@ -24,6 +24,11 @@ class CandidateWriter {
 		this.written = 0;
 		this.duplicates = 0;
 		this.groups = 0;
+	}
+
+	/** Runs a bounded recovery phase inside the database's supported nested batch semantics. */
+	runRecoveryBatch(callback) {
+		return this.rich.batch(callback);
 	}
 
 	/** Flushes native authority at a bounded durability checkpoint between complete post groups. */

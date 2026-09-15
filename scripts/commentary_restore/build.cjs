@@ -15,8 +15,8 @@ const { CandidateWriter } = require("./writer.cjs");
 
 /**
  * @file Streaming post-group candidate builder for proven canonical Torah sources.
- * @description The Awtsmoos gathers only one post's reviewed sources at a time,
- * so Awtsmoos.com remains bounded while reader indexes are written once per proven post generation.
+ * @description The Awtsmoos keeps one supported native batch around the bounded recovery stream,
+ * so Awtsmoos.com waits for pager idleness once while preserving explicit FS3 durability checkpoints.
  */
 function progress(report) {
 	if (report.filesSeen === 0 || report.filesSeen % 250 !== 0) return;
@@ -45,6 +45,14 @@ function recoverSourceRoot({ sourceRoot, posts, writer, quarantine, report }) {
 	}
 }
 
+function recoverAllSources({ posts, writer, quarantine, report }) {
+	writer.runRecoveryBatch(() => {
+		for (const sourceRoot of SOURCE_ROOTS) {
+			recoverSourceRoot({ sourceRoot, posts, writer, quarantine, report });
+		}
+	});
+}
+
 function build() {
 	prepareCandidate();
 	const report = createReport();
@@ -52,9 +60,7 @@ function build() {
 	const writer = new CandidateWriter(CANDIDATE_ROOT);
 	const quarantine = new QuarantineLedger(CANDIDATE_ROOT);
 	try {
-		for (const sourceRoot of SOURCE_ROOTS) {
-			recoverSourceRoot({ sourceRoot, posts, writer, quarantine, report });
-		}
+		recoverAllSources({ posts, writer, quarantine, report });
 	} finally {
 		writer.close();
 		posts.close();
@@ -83,5 +89,6 @@ if (require.main === module) {
 
 module.exports = {
 	build,
+	recoverAllSources,
 	recoverSourceRoot
 };
