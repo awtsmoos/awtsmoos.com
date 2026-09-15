@@ -1,5 +1,5 @@
 B"H
-1.0.609
+1.0.610
 main.js
 ai/relay/direct/browser/ActiveTargetLease.mjs
 ai/relay/direct/browser/AgentTabCatalog.mjs
@@ -1407,6 +1407,13 @@ lib/self-update.js
 lib/share/audit.js
 lib/share/capability.js
 lib/share/policy.js
+lib/share/project/compare.js
+lib/share/project/contribution.js
+lib/share/project/fork.js
+lib/share/project/publication.js
+lib/share/project/recordStore.js
+lib/share/project/roles.js
+lib/share/project/snapshot.js
 lib/share/redact.js
 lib/share/registry.js
 lib/split-browser-require.js
@@ -1813,6 +1820,8 @@ tools/fs/actionGroups/processSelection.js
 tools/fs/actionGroups/processUnix.js
 tools/fs/actionGroups/processWindows.js
 tools/fs/actionGroups/projectActions.js
+tools/fs/actionGroups/projectCollaborationActions.js
+tools/fs/actionGroups/projectNavigationActions.js
 tools/fs/actionGroups/qualityActions.js
 tools/fs/actionGroups/readActions.js
 tools/fs/actionGroups/remoteDesktopActions.js
@@ -2150,12 +2159,16 @@ tools/fs/mission/assignment/paths.js
 tools/fs/mission/assignment/reconcile.js
 tools/fs/mission/assignment/report.js
 tools/fs/mission/assignment/status.js
+tools/fs/mission/autoContinuation/admissionHealth.js
 tools/fs/mission/autoContinuation/agentEndState.js
 tools/fs/mission/autoContinuation/completionDebt.js
 tools/fs/mission/autoContinuation/continuationCapsule.js
+tools/fs/mission/autoContinuation/coordinatorAdmission.js
 tools/fs/mission/autoContinuation/coordinatorDispatch.js
 tools/fs/mission/autoContinuation/coordinatorHelpers.js
 tools/fs/mission/autoContinuation/coordinatorIdentity.js
+tools/fs/mission/autoContinuation/coordinatorRecovery.js
+tools/fs/mission/autoContinuation/coordinatorScope.js
 tools/fs/mission/autoContinuation/debtRecoveryLease.js
 tools/fs/mission/autoContinuation/dispatch.js
 tools/fs/mission/autoContinuation/eligibility.js
@@ -2171,6 +2184,8 @@ tools/fs/mission/autoContinuation/recoveryAgents.js
 tools/fs/mission/autoContinuation/recoveryContext.js
 tools/fs/mission/autoContinuation/sharedShliachTransport.js
 tools/fs/mission/autoContinuation/state.js
+tools/fs/mission/autoContinuation/stateRecords.js
+tools/fs/mission/autoContinuation/status.js
 tools/fs/mission/autoContinuation/successorAdmission.js
 tools/fs/mission/autoContinuation/successorIdentity.js
 tools/fs/mission/autoContinuation/taskLease.js
@@ -2575,6 +2590,8 @@ tools/fs/staticServerRegistry.js
 tools/fs/staticServers.js
 tools/fs/symbolOutline.js
 tools/fs/tree.js
+tools/fs/virtualOsProject/snapshot.js
+tools/fs/virtualOsProject/views.js
 tools/fs/workflowExpressions.js
 tools/fs/workflowRunner.js
 tools/fs/workGraph/artifactStore.js

@@ -14,12 +14,13 @@ const CompletionDebt = require("./completionDebt.js");
 const ContinuationCapsule = require("./continuationCapsule.js");
 const DebtRecoveryLease = require("./debtRecoveryLease.js");
 const ProactivePoolLease = require("./proactivePoolLease.js");
+const AdmissionHealth = require("./admissionHealth.js");
 const SharedShliachTransport = require("./sharedShliachTransport.js");
 
 /**
  * @file Holds continuation dependencies and compact recovery receipts.
- * @description The Awtsmoos separates custody, debt, context, and transport into vessels;
- * Awtsmoos.com keeps each dependency injectable so continuation can be proven without mystery.
+ * @description The Awtsmoos separates custody, debt, admission, context, and transport;
+ * Awtsmoos.com keeps each dependency injectable so every continuation boundary can be proven.
  */
 function dependencies(overrides = {}) {
 	return {
@@ -35,6 +36,7 @@ function dependencies(overrides = {}) {
 		ContinuationCapsule: overrides.ContinuationCapsule || ContinuationCapsule,
 		DebtRecoveryLease: overrides.DebtRecoveryLease || DebtRecoveryLease,
 		ProactivePoolLease: overrides.ProactivePoolLease || ProactivePoolLease,
+		AdmissionHealth: overrides.AdmissionHealth || AdmissionHealth,
 		SharedShliachTransport: overrides.SharedShliachTransport || SharedShliachTransport
 	};
 }

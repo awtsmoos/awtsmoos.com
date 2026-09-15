@@ -1,18 +1,19 @@
 //B"H
 // Boruch Hashem
 // Blessed is He
-
+const Admission = require("./coordinatorAdmission.js");
 const Dispatch = require("./coordinatorDispatch.js");
 const Helpers = require("./coordinatorHelpers.js");
 const Identity = require("./coordinatorIdentity.js");
 const Prompt = require("./prompt.js");
+const Recovery = require("./coordinatorRecovery.js");
 const RecoveryContext = require("./recoveryContext.js");
-const TerminalDispatch = require("./terminalDispatch.js");
+const Scope = require("./coordinatorScope.js");
 
 /**
- * @file Coordinates debt-aware, generation-fenced Mission continuation and reserve slots.
- * @description The Awtsmoos lets one mission carry several bounded messengers without duplicate
- * custody; Awtsmoos.com gives each reserve slot a stable fingerprint and one shared browser path.
+ * @file Coordinates debt-aware Mission continuation and bounded reserve slots.
+ * @description The Awtsmoos lets several stable messengers share one mission while session
+ * admission, spawn fencing, completion debt, and browser transport remain separately witnessed.
  */
 async function run(config, options = {}) {
 	if (Helpers.disabled(options)) return Helpers.suppressed("auto_continuation_disabled");
@@ -32,8 +33,12 @@ async function run(config, options = {}) {
 	};
 	const probeFingerprint = Prompt.fingerprint(scopedConfig, mission, lock);
 	const probeRecovery = RecoveryContext.build(mission, probeFingerprint, recoveryOptions);
-	const scope = poolScope(options, probeRecovery);
-	const fingerprint = Prompt.fingerprint(scopedConfig, mission, lock, scope);
+	const fingerprint = Prompt.fingerprint(
+		scopedConfig,
+		mission,
+		lock,
+		Scope.poolScope(options, probeRecovery)
+	);
 	let recovery = RecoveryContext.build(mission, fingerprint, recoveryOptions);
 	const debt = await deps.CompletionDebt.assess(
 		scopedConfig,
@@ -43,19 +48,15 @@ async function run(config, options = {}) {
 		{ Mission: deps.Mission }
 	);
 	if (debt.green) return Helpers.suppressed("completion_debt_green");
-	if (!recovery.taskLease) {
-		const fallbackTaskLease = options.proactive
-			? deps.ProactivePoolLease.build(
-				mission, recovery, debt, fingerprint, options.poolSlot, options.poolRole
-			)
-			: deps.DebtRecoveryLease.build(mission, recovery, debt, fingerprint);
-		if (fallbackTaskLease) {
-			recovery = RecoveryContext.build(mission, fingerprint, {
-				...recoveryOptions,
-				fallbackTaskLease
-			});
-		}
-	}
+	recovery = Recovery.applyFallbackLease(
+		deps,
+		mission,
+		recovery,
+		debt,
+		fingerprint,
+		options,
+		recoveryOptions
+	);
 	const identity = {
 		...Identity.build(mission, fingerprint, projectRoot, recovery),
 		poolSlot: Number(options.poolSlot || 0),
@@ -63,28 +64,36 @@ async function run(config, options = {}) {
 	};
 	const blocked = Identity.reconcileActive(scopedConfig, identity, deps, Helpers);
 	if (blocked) return blocked;
-	const current = deps.State.read(scopedConfig, mission.id, fingerprint);
-	const websiteRecord = deps.WebsiteStore.read(identity.websiteMissionId);
-	const terminal = TerminalDispatch.settle(scopedConfig, identity, current, websiteRecord, deps);
-	if (terminal) return terminal;
-	if (websiteRecord) return Helpers.recoverExisting(scopedConfig, identity, current, websiteRecord, deps);
+	const admission = await Admission.reconcile(
+		scopedConfig,
+		options,
+		deps,
+		mission,
+		identity,
+		Helpers
+	);
+	if (admission.done) return admission.result;
 	const recoveryKind = recovery.taskLease?.kind;
-	const debtRecovery = ["debt_recovery", "proactive_pool"].includes(recoveryKind);
 	const decision = deps.Eligibility.decide({
 		mission,
 		lock,
 		taskLease: recovery.taskLease,
-		record: current,
-		websiteRecord,
+		record: admission.current,
+		websiteRecord: admission.websiteRecord,
 		candidateProbe: false,
 		now: options.now,
 		inactivityMs: options.inactivityMs,
 		backoffMs: options.backoffMs,
 		completionDebt: debt,
-		debtRecovery,
+		debtRecovery: ["debt_recovery", "proactive_pool"].includes(recoveryKind),
 		proactive: Boolean(options.proactive)
 	});
-	if (!decision.eligible) return Helpers.receipt(identity, decision.reason, false, current, { debt });
+	if (!decision.eligible) {
+		return Helpers.receipt(identity, decision.reason, false, admission.current, {
+			debt,
+			admission: admission.admission
+		});
+	}
 	const lease = deps.State.acquire(scopedConfig, identity, {
 		owner: options.owner,
 		leaseMs: options.leaseMs,
@@ -93,7 +102,7 @@ async function run(config, options = {}) {
 	if (!lease.ok) return Helpers.receipt(identity, lease.reason, false, lease.record, { debt });
 	return Dispatch.dispatch(
 		scopedConfig,
-		{ ...options, completionDebt: debt, transport: Helpers.transport(options) },
+		{ ...options, completionDebt: debt, transport: admission.transport },
 		deps,
 		mission,
 		lock,
@@ -102,16 +111,10 @@ async function run(config, options = {}) {
 		Helpers
 	);
 }
-
-function poolScope(options = {}, recovery = {}) {
-	if (!options.poolSlot) return "";
-	return `pool:${options.poolSlot}:${options.poolRole || "worker"}:g${recovery.predecessorGeneration || 1}`;
-}
-
 module.exports = {
 	dispatchContinuation: Dispatch.dispatch,
 	identityFor: Identity.build,
-	poolScope,
+	poolScope: Scope.poolScope,
 	reconcileActive: Identity.reconcileActive,
 	run
 };

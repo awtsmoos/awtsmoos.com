@@ -1,6 +1,6 @@
 //B"H
-//Boruch Hashem
-//Blessed be He
+// Boruch Hashem
+// Blessed is He
 
 const { buildActionHistoryActions } = require("../actionGroups/actionHistoryActions.js");
 const { buildActionStreamActions } = require("../actionGroups/actionStreamActions.js");
@@ -11,6 +11,7 @@ const { buildCommandActions } = require("../actionGroups/commandActions.js");
 const { buildConfigActions } = require("../actionGroups/configActions.js");
 const { buildConnectionMailboxActions } = require("../actionGroups/connectionMailboxActions.js");
 const { buildContextCompilerActions } = require("../actionGroups/contextCompilerActions.js");
+const { buildContinuationActions } = require("../actionGroups/continuationActions.js");
 const { buildFakeSshActions } = require("../actionGroups/fakeSshActions.js");
 const { buildFileOpsActions } = require("../actionGroups/fileOpsActions.js");
 const { buildHttpActions } = require("../actionGroups/httpActionsGroup.js");
@@ -24,6 +25,8 @@ const { buildPortActions } = require("../actionGroups/portActions.js");
 const { buildPreviewActions } = require("../actionGroups/previewActions.js");
 const { buildPreviewReceiptActions } = require("../actionGroups/previewReceiptActions.js");
 const { buildProjectActions } = require("../actionGroups/projectActions.js");
+const { buildProjectCollaborationActions } = require("../actionGroups/projectCollaborationActions.js");
+const { buildProjectNavigationActions } = require("../actionGroups/projectNavigationActions.js");
 const { buildQualityActions } = require("../actionGroups/qualityActions.js");
 const { buildReadActions } = require("../actionGroups/readActions.js");
 const { buildRemoteDriveActions } = require("../actionGroups/remoteDriveActions.js");
@@ -40,9 +43,9 @@ const { buildWorkflowActions } = require("../actionGroups/workflowActions.js");
 const { buildWriteActions } = require("../actionGroups/writeActions.js");
 
 /**
- * @file Composes raw files, live coordination, permanent graph truth, and compiled context.
- * @description The Awtsmoos leaves every ordinary vessel directly reachable while
- * Awtsmoos.com adds history, knowledge, search, and context lenses beside—not instead of—it.
+ * @file Composes raw files, graph truth, continuation, Project views, and collaboration.
+ * @description The Awtsmoos leaves every ordinary vessel directly reachable while Awtsmoos.com
+ * adds navigable context, immutable snapshots, forks, contributions, and publication beside it.
  */
 function buildFoundationActions(context, buildActions) {
 	return {
@@ -54,6 +57,9 @@ function buildFoundationActions(context, buildActions) {
 		...buildWorkGraphHistoryActions(context),
 		...buildKnowledgeActions(context),
 		...buildContextCompilerActions(context),
+		...buildContinuationActions(context),
+		...buildProjectNavigationActions(context),
+		...buildProjectCollaborationActions(context),
 		...buildProjectActions(context),
 		...buildFileOpsActions(context),
 		...buildHttpActions(context),

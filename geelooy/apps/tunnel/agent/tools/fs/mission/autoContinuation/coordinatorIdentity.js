@@ -1,15 +1,13 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 const Prompt = require("./prompt.js");
 
 /**
- * @file Builds and reconciles the exact Mission Room successor identity.
- * @description
- * The Awtsmoos lets one checkpoint pass through generations without splitting its
- * lineage. Awtsmoos.com gathers task lease, predecessor fence, session, spawn group,
- * and website mission identity into one small vessel that duplicate ticks must share.
+ * @file Builds and reconciles exact Mission Room successor identity.
+ * @description The Awtsmoos lets ordinary recovery remain singular while proactive pool slots
+ * coexist by exact fingerprint; Awtsmoos.com still settles terminal ordinary predecessors safely.
  */
 function build(mission, fingerprint, projectRoot, recovery) {
 	return {
@@ -25,6 +23,7 @@ function build(mission, fingerprint, projectRoot, recovery) {
 		logicalAgentId: recovery.successorAgentId,
 		successorAgentId: recovery.successorAgentId,
 		agentSessionId: recovery.successorAgentSessionId,
+		successorAgentSessionId: recovery.successorAgentSessionId,
 		successorGeneration: recovery.successorGeneration,
 		generation: recovery.successorGeneration,
 		spawnGroupId: recovery.spawnGroupId,
@@ -35,14 +34,11 @@ function build(mission, fingerprint, projectRoot, recovery) {
 }
 
 /**
- * Settles terminal prior continuations and blocks still-living conflicting ones.
- * @param {object} config Scoped tunnel configuration.
- * @param {object} identity Desired successor identity.
- * @param {object} deps Auto-continuation dependencies.
- * @param {object} Helpers Receipt helpers.
- * @returns {object|null} Blocking receipt or null when admission may continue.
+ * Settles terminal prior ordinary continuations and blocks still-living conflicts.
+ * Pool identities intentionally bypass mission-wide active admission and rely on exact/spawn fences.
  */
 function reconcileActive(config, identity, deps, Helpers) {
+	if (Number(identity.poolSlot || 0) > 0) return null;
 	if (typeof deps.State.readActive !== "function" || typeof deps.State.blocking !== "function") {
 		return null;
 	}
