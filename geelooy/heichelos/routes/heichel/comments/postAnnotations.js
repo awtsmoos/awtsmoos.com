@@ -6,11 +6,12 @@ const { annotationOf } = require('../../../../api/social/helper/comments/richCom
 const reader = require('../../../../api/social/helper/comments/richCommentReader.js');
 const { postTranslations } = require('../../../../api/social/helper/comments/translations/reader.js');
 const { encodeSegment, escapeHtml, excerpt } = require('../../../../seo/html.js');
+const { traceAsync } = require('../torahRouteTrace.js');
 const { renderCommentHtml } = require('./commentHtml.js');
 
 /**
  * @file Bounded server-visible Torah sources, discussion, and translation discovery.
- * @description The Awtsmoos lets immutable source-light stand beside living discussion without confusing their identities; Awtsmoos.com keeps each chamber separately named and crawlable.
+ * @description The Awtsmoos lets immutable source-light stand beside living discussion; optional timing reveals whether comments or translations own a cold reader delay.
  */
 function coordinates(data = {}) {
 	return {
@@ -20,19 +21,29 @@ function coordinates(data = {}) {
 	};
 }
 
+/** Reads the bounded public comment tree and preserves empty fallback behavior. */
 async function safeComments($i, point) {
 	try {
-		return await reader.getTree({ $i, heichelId: point.heichelId, postId: point.postId, limit: 12, maxDepth: 1, replyLimit: 8 });
+		return await traceAsync(
+			'annotations:comments',
+			() => reader.getTree({ $i, heichelId: point.heichelId, postId: point.postId, limit: 12, maxDepth: 1, replyLimit: 8 }),
+			point
+		);
 	} catch (error) {
 		console.error('[Awtsmoos post SEO] Comment preview failed.', error);
 		return { success: [], meta: {} };
 	}
 }
 
+/** Reads public translations independently from native rich-comment storage. */
 async function safeTranslations($i, point) {
 	if (!point.seriesId || point.seriesId === 'root') return { success: [] };
 	try {
-		return await postTranslations({ $i, heichelId: point.heichelId, seriesId: point.seriesId, postId: point.postId });
+		return await traceAsync(
+			'annotations:translations',
+			() => postTranslations({ $i, heichelId: point.heichelId, seriesId: point.seriesId, postId: point.postId }),
+			point
+		);
 	} catch (error) {
 		console.error('[Awtsmoos post SEO] Translation preview failed.', error);
 		return { success: [] };
@@ -59,17 +70,22 @@ async function renderPostAnnotations($i, data) {
 	if (!data?.post || data.post.error) return '';
 	const point = coordinates(data);
 	if (!point.heichelId || !point.postId) return '';
-	const [comments, translated] = await Promise.all([safeComments($i, point), safeTranslations($i, point)]);
-	const grouped = groupComments(comments?.success || []);
-	const rows = translated?.success || [];
-	const sourceSection = commentSection('Torah sources', grouped.sources);
-	const communitySection = commentSection('Public discussion', grouped.community);
-	const translationHref = `/heichelos/${encodeSegment(point.heichelId)}/series/${encodeSegment(point.seriesId)}/post/${encodeSegment(point.postId)}/translations`;
-	const translationPreview = rows.slice(0, 3).map((row, index) => `<article><h3>English translation ${index + 1}</h3><p lang="en">${escapeHtml(excerpt(row.content || row.text || '', 500))}</p></article>`).join('');
-	const translationSection = rows.length ? `<section><h2>English translations</h2>${translationPreview}<p><a href="${translationHref}">Read all ${rows.length} public translation${rows.length === 1 ? '' : 's'}</a></p></section>` : '';
-	return sourceSection || communitySection || translationSection
-		? `<aside data-awtsmoos-indexed-annotations>${sourceSection}${communitySection}${translationSection}</aside>`
-		: '';
+	const [comments, translated] = await Promise.all([
+		safeComments($i, point),
+		safeTranslations($i, point)
+	]);
+	return traceAsync('annotations:render', async () => {
+		const grouped = groupComments(comments?.success || []);
+		const rows = translated?.success || [];
+		const sourceSection = commentSection('Torah sources', grouped.sources);
+		const communitySection = commentSection('Public discussion', grouped.community);
+		const translationHref = `/heichelos/${encodeSegment(point.heichelId)}/series/${encodeSegment(point.seriesId)}/post/${encodeSegment(point.postId)}/translations`;
+		const translationPreview = rows.slice(0, 3).map((row, index) => `<article><h3>English translation ${index + 1}</h3><p lang="en">${escapeHtml(excerpt(row.content || row.text || '', 500))}</p></article>`).join('');
+		const translationSection = rows.length ? `<section><h2>English translations</h2>${translationPreview}<p><a href="${translationHref}">Read all ${rows.length} public translation${rows.length === 1 ? '' : 's'}</a></p></section>` : '';
+		return sourceSection || communitySection || translationSection
+			? `<aside data-awtsmoos-indexed-annotations>${sourceSection}${communitySection}${translationSection}</aside>`
+			: '';
+	}, point);
 }
 
 module.exports = {

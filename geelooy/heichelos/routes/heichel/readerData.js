@@ -1,72 +1,61 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
- * @file readerData.js
- * @description
- * The Awtsmoos gathers one public teaching before the browser awakens; on Awtsmoos.com the same public series river
- * feeds direct doors, named posts, and numbered Roads, so one Torah truth is never split by obsolete API shadows.
+ * @file Reader data resolution for public Torah posts.
+ * @description The Awtsmoos gathers one public teaching before the browser awakens; Awtsmoos.com measures each cold API vessel only when explicit tracing is enabled.
  */
-
 const { aliasFields, heichelFields } = require('./fieldMaps.js');
+const { traceAsync } = require('./torahRouteTrace.js');
 
-/** @description Encodes one public route segment without changing its identity. */
+/** Encodes one public route segment without changing its identity. */
 function encodeSegment(value) {
 	return encodeURIComponent(String(value ?? ''));
 }
 
-/**
- * @description Resolves an ordered series position into its stable post identity.
- * @param {object} series Public series details.
- * @param {string|number} index Series position.
- * @returns {string|null} Stable post ID when the position exists.
- */
+/** Resolves an ordered series position into its stable post identity. */
 function pickSeriesPostId(series, index) {
 	const posts = Array.isArray(series?.posts) ? series.posts : [];
 	const numericIndex = Number.parseInt(String(index), 10);
-	if (!Number.isInteger(numericIndex) || numericIndex < 0 || numericIndex >= posts.length) {
-		return null;
-	}
+	if (!Number.isInteger(numericIndex) || numericIndex < 0 || numericIndex >= posts.length) return null;
 	const entry = posts[numericIndex];
 	return typeof entry === 'string' ? entry : entry?.id || entry?.postId || null;
 }
 
-/**
- * @description Creates public reader-data resolvers bound to the dynamic server request vessel.
- * @param {object} $i Dynamic Awtsmoos request interface.
- * @returns {object} Direct, named-series, and numeric-series loaders.
- */
+/** Creates public reader-data resolvers bound to the dynamic request vessel. */
 function createReaderData($i) {
-	async function fetchPublic(path) {
-		const response = await $i.fetchAwtsmoos(path);
-		return response && !response.error ? response : null;
+	async function fetchPublic(path, stage, context = {}) {
+		return traceAsync(stage, async () => {
+			const response = await $i.fetchAwtsmoos(path);
+			return response && !response.error ? response : null;
+		}, { ...context, path });
 	}
 
-	async function getHeichel(heichelId) {
-		return fetchPublic(`/api/social/heichelos/${encodeSegment(heichelId)}?${heichelFields()}`);
+	function getHeichel(heichelId) {
+		return fetchPublic(
+			`/api/social/heichelos/${encodeSegment(heichelId)}?${heichelFields()}`,
+			'reader-data:heichel',
+			{ heichelId }
+		);
 	}
 
-	async function getAlias(authorId) {
-		if (!authorId) {
-			return null;
-		}
-		try {
-			return await fetchPublic(`/api/social/aliases/${encodeSegment(authorId)}?${aliasFields()}`);
-		} catch (error) {
-			return null;
-		}
+	function getAlias(authorId) {
+		if (!authorId) return Promise.resolve(null);
+		return fetchPublic(
+			`/api/social/aliases/${encodeSegment(authorId)}?${aliasFields()}`,
+			'reader-data:alias',
+			{ authorId }
+		).catch(() => null);
 	}
 
 	async function decorate({ heichelId, seriesId = '', postId, indexInSeries = '', post, series = null }) {
-		const heichel = await getHeichel(heichelId);
-		const alias = await getAlias(post?.author);
-		if (heichel) {
-			heichel.id = heichelId;
-		}
-		if (alias && post?.author) {
-			alias.id = post.author;
-		}
+		const [heichel, alias] = await Promise.all([
+			getHeichel(heichelId),
+			getAlias(post?.author)
+		]);
+		if (heichel) heichel.id = heichelId;
+		if (alias && post?.author) alias.id = post.author;
 		if (post) {
 			post.id = postId;
 			post.heichel = heichel;
@@ -77,25 +66,35 @@ function createReaderData($i) {
 	async function loadDirect(heichelId, postId) {
 		const seriesId = 'root';
 		const post = await fetchPublic(
-			`/api/social/heichelos/${encodeSegment(heichelId)}/series/${seriesId}/post/${encodeSegment(postId)}`
+			`/api/social/heichelos/${encodeSegment(heichelId)}/series/${seriesId}/post/${encodeSegment(postId)}`,
+			'reader-data:post',
+			{ heichelId, seriesId, postId }
 		);
 		return decorate({ heichelId, seriesId, postId, post });
 	}
 
 	async function loadSeriesPost(heichelId, seriesId, postId) {
 		const post = await fetchPublic(
-			`/api/social/heichelos/${encodeSegment(heichelId)}/series/${encodeSegment(seriesId)}/post/${encodeSegment(postId)}`
+			`/api/social/heichelos/${encodeSegment(heichelId)}/series/${encodeSegment(seriesId)}/post/${encodeSegment(postId)}`,
+			'reader-data:post',
+			{ heichelId, seriesId, postId }
 		);
 		return decorate({ heichelId, seriesId, postId, post });
 	}
 
 	async function loadSeriesIndex(heichelId, seriesId, indexInSeries) {
 		const series = await fetchPublic(
-			`/api/social/heichelos/${encodeSegment(heichelId)}/series/${encodeSegment(seriesId)}/details`
+			`/api/social/heichelos/${encodeSegment(heichelId)}/series/${encodeSegment(seriesId)}/details`,
+			'reader-data:series',
+			{ heichelId, seriesId, indexInSeries }
 		);
 		const postId = pickSeriesPostId(series, indexInSeries);
 		const post = postId
-			? await fetchPublic(`/api/social/heichelos/${encodeSegment(heichelId)}/series/${encodeSegment(seriesId)}/post/${encodeSegment(postId)}`)
+			? await fetchPublic(
+				`/api/social/heichelos/${encodeSegment(heichelId)}/series/${encodeSegment(seriesId)}/post/${encodeSegment(postId)}`,
+				'reader-data:post',
+				{ heichelId, seriesId, postId }
+			)
 			: null;
 		return decorate({ heichelId, seriesId, postId, indexInSeries, post, series });
 	}
