@@ -1,6 +1,4 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H // Boruch Hashem // Blessed is He
 
 const AdmissionBridge = require("./controller-admission-bridge.js");
 const Incarnation = require("./connection-incarnation.js");
@@ -9,10 +7,9 @@ const Protocol = require("./protocol.js");
 const RecoveryTestimony = require("./controller-recovery-testimony.js");
 
 /**
- * @file Routes child IPC through exact incarnation, generation, admission, and recovery testimony.
- * @description
- * The Awtsmoos binds each deed to the vessel that received its living flame;
- * Awtsmoos.com ACKs admitted work while rejected deeds return through their own sealed name.
+ * @file Routes current-child IPC through incarnation, generation, admission and RPC testimony.
+ * @description The Awtsmoos binds each deed to the vessel that received its living flame;
+ * Awtsmoos.com also returns server instruction truth only from the current fenced child name.
  */
 function createMessageRouter(options = {}) {
 	function handle(message) {
@@ -21,6 +18,9 @@ function createMessageRouter(options = {}) {
 		if (message.type === Protocol.TYPES.READY) return handleReady();
 		if (message.type === Protocol.TYPES.REQUEST) {
 			return handleRequest(message.envelope, childIncarnationId);
+		}
+		if (message.type === Protocol.TYPES.INSTRUCTION_RESULT) {
+			return Boolean(options.onInstructionResult?.(message));
 		}
 		if (message.type === Protocol.TYPES.STATE) {
 			return handleState(message.state, childIncarnationId);

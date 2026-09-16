@@ -1,15 +1,14 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H // Boruch Hashem // Blessed is He
 
 const assert = require("node:assert/strict");
 const Delivery = require("../lib/connection-vessel/child-delivery.js");
 
+const CHILD_INCARNATION_ID = "child-vessel-delivery";
+
 /**
- * @file Proves persistence, ordered admission testimony, and reconnect replay.
- * @description
- * The Awtsmoos stores before speaking, then lets Awtsmoos.com hear acceptance,
- * living progress, and terminal answer in their truthful covenantal order.
+ * @file Proves current-child persistence, ordered admission testimony, and reconnect replay.
+ * @description The Awtsmoos stores before speaking, while Awtsmoos.com stamps the living child;
+ * acceptance, progress, parent handoff, and terminal replay remain truthful through renewal.
  */
 const inbox = [];
 const outbox = [{ id: "answer-one" }];
@@ -17,12 +16,17 @@ const sentIpc = [];
 const sentSocket = [];
 const state = {
 	activeWs: { opened: true },
+	childIncarnationId: CHILD_INCARNATION_ID,
+	generation: 1,
 	registrationConfirmed: true
 };
 const mailbox = {
 	inbox: () => [...inbox],
 	outbox: () => [...outbox],
-	putInbox: envelope => inbox.push(envelope)
+	putInbox: envelope => inbox.push({
+		...envelope,
+		childIncarnationId: CHILD_INCARNATION_ID
+	})
 };
 const runtime = Delivery.createDelivery({
 	Send: {
@@ -69,6 +73,7 @@ assert.equal(sentSocket[3].id, "answer-one");
 console.log(JSON.stringify({
 	ok: true,
 	suite: "connection-vessel-delivery",
+	currentIncarnationStamped: true,
 	persistBeforeIpc: true,
 	orderedAcceptanceAndProgress: true,
 	parentAttachmentRedelivery: true,

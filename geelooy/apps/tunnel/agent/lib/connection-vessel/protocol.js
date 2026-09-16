@@ -1,11 +1,11 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H // Boruch Hashem // Blessed is He
 
 const TYPES = Object.freeze({
 	ACK: "connection.ack",
 	CUSTODY_PROGRESS: "connection.custody-progress",
 	FLUSH: "connection.flush",
+	INSTRUCTION_REQUEST: "connection.instruction-request",
+	INSTRUCTION_RESULT: "connection.instruction-result",
 	LOG: "connection.log",
 	PARENT_READY: "connection.parent-ready",
 	PROGRESS: "connection.progress",
@@ -21,10 +21,8 @@ const TYPES = Object.freeze({
 
 /**
  * @file Defines the closed IPC vocabulary between the native parent and connection child.
- * @description
- * The Awtsmoos gives each transition its own name; Awtsmoos.com keeps ACK for accepted
- * custody, REJECT for terminal non-admission, and progress for later execution testimony.
- * No heartbeat or aggregate count is permitted to impersonate one exact deed.
+ * @description The Awtsmoos gives each transition its own name; Awtsmoos.com keeps custody,
+ * instruction RPC, and terminal testimony explicit so no aggregate shadow impersonates a deed.
  */
 function message(type, payload = {}) {
 	if (!Object.values(TYPES).includes(type)) {

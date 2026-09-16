@@ -1,9 +1,8 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H // Boruch Hashem // Blessed is He
 
 const ControllerMailbox = require("./controller-mailbox.js");
 const CustodyProgress = require("./controller-custody-progress.js");
+const InstructionBridge = require("./instruction-parent-bridge.js");
 const MessageRouter = require("./controller-message-router.js");
 const ProcessSupervisor = require("./controller-process.js");
 const Protocol = require("./protocol.js");
@@ -12,16 +11,19 @@ const State = require("./controller-state.js");
 const StatsPublisher = require("./controller-stats-publisher.js");
 
 /**
- * @file Composes durable custody with independently supervised connection life.
- * @description
- * The Awtsmoos keeps socket breath, execution custody, child recovery, and parent state
- * in distinct vessels. Awtsmoos.com mirrors testimony before repair and now returns exact
- * execution progress through supervised IPC without confusing current child with accepter.
+ * @file Composes durable custody, instruction RPC, and independently supervised connection life.
+ * @description The Awtsmoos keeps one socket child and one parent execution vessel in harmony;
+ * Awtsmoos.com carries server law across fenced IPC without duplicating connection authority.
  */
 function createController(options = {}) {
 	const mailbox = ControllerMailbox.create(options);
 	let router = null;
-	const proxy = Proxy.createProxy({ mailbox, notify });
+	const instructionBridge = InstructionBridge.create({ notify });
+	const proxy = Proxy.createProxy({
+		instructionRequest: instructionBridge.request,
+		mailbox,
+		notify
+	});
 	const supervisor = ProcessSupervisor.createProcessSupervisor({
 		agentVersion: options.agentVersion,
 		childPath: options.childPath,
@@ -42,6 +44,7 @@ function createController(options = {}) {
 		log,
 		mirror,
 		notify,
+		onInstructionResult: instructionBridge.settle,
 		onRecoveryRequired: supervisor.requestRepair,
 		onRegistered: supervisor.markRegistered,
 		onTerminal: terminal,
@@ -60,18 +63,23 @@ function createController(options = {}) {
 	}
 
 	function mirror(next = {}) {
-		return State.mirror(options, proxy, next);
+		const previous = proxy.snapshot().childIncarnationId;
+		const mirrored = State.mirror(options, proxy, next);
+		const current = proxy.snapshot().childIncarnationId;
+		if (next.running === false || (previous && current && previous !== current)) {
+			instructionBridge.rejectAll();
+		}
+		return mirrored;
 	}
 
 	function terminal(message) {
 		supervisor.preventRestart();
 		mirror({ connected: false, reason: message.reason, running: false, terminal: true });
-		setImmediate(() => {
-			(options.exitProcess || process.exit)(Number(message.exitCode || 0));
-		});
+		setImmediate(() => (options.exitProcess || process.exit)(Number(message.exitCode || 0)));
 	}
 
 	function stop() {
+		instructionBridge.rejectAll("instruction_controller_stopped");
 		supervisor.stop(Protocol.message(Protocol.TYPES.STOP));
 		mirror({ connected: false, running: false });
 	}

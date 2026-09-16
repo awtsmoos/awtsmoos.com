@@ -1,6 +1,4 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H // Boruch Hashem // Blessed is He
 
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
@@ -10,12 +8,12 @@ const test = require("node:test");
 const Mailbox = require("../lib/connection-vessel/mailbox.js");
 const Reset = require("../lib/connection-vessel/mailbox-startup-reset.js");
 
+const TEST_NOW = Date.parse("2026-09-15T20:00:00.000Z");
+
 /**
- * @file Proves restart archives every old mailbox record and exposes empty active lanes.
- * @description
- * The Awtsmoos keeps yesterday's witness without letting it inhabit today's vessel.
- * Awtsmoos.com moves both directions of stale custody into history before the new
- * controller can route a single deed, making restart a clean and testable boundary.
+ * @file Proves restart archives old mailbox evidence, bounds history, and starts empty lanes.
+ * @description The Awtsmoos keeps yesterday's witness without letting it inhabit today's vessel;
+ * Awtsmoos.com tests archive and retention against one clock so truthful history is not fake-old.
  */
 test("startup archives all old mailbox evidence and recreates empty active lanes", () => {
 	const sandbox = fs.mkdtempSync(path.join(os.tmpdir(), "awts-mailbox-reset-"));
@@ -28,7 +26,8 @@ test("startup archives all old mailbox evidence and recreates empty active lanes
 		oldMailbox.putOutbox({ id: "old-request", ok: true });
 
 		const result = Reset.prepare(config, {
-			now: () => 123456789,
+			now: () => TEST_NOW,
+			historyRetention: { now: TEST_NOW },
 			reason: "test_restart",
 			token: () => "fixed"
 		});
@@ -37,6 +36,7 @@ test("startup archives all old mailbox evidence and recreates empty active lanes
 
 		assert.equal(result.archived, true);
 		assert.equal(result.clearedFiles, 2);
+		assert.equal(result.historyRetention.removed, 0);
 		assert.equal(snapshot.inbox.count, 0);
 		assert.equal(snapshot.outbox.count, 0);
 		assert.equal(fs.existsSync(result.archivePath), true);
@@ -48,7 +48,10 @@ test("startup archives all old mailbox evidence and recreates empty active lanes
 		assert.equal(manifest.reason, "test_restart");
 		assert.equal(manifest.files, 2);
 
-		const second = Reset.prepare(config, { reason: "empty_restart" });
+		const second = Reset.prepare(config, {
+			historyRetention: { now: TEST_NOW },
+			reason: "empty_restart"
+		});
 		assert.equal(second.archived, false);
 		assert.equal(Mailbox.createMailbox(config).snapshot().inbox.count, 0);
 	} finally {

@@ -1,8 +1,7 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H // Boruch Hashem // Blessed is He
 
 const HealthPublisher = require("./child-health-publisher.js");
+const InstructionBridge = require("./instruction-child-bridge.js");
 const Ipc = require("./child-runtime-ipc.js");
 const ParentState = require("./child-runtime-parent.js");
 const RuntimeCustody = require("./child-runtime-custody.js");
@@ -14,16 +13,16 @@ const Protocol = require("./protocol.js");
 const Send = require("../runtime/safe-send.js");
 
 /**
- * @file Composes transport, durable custody, parent health, rejection, and one shared cycle witness.
- * @description
- * The Awtsmoos renews each request across socket and process vessels; Awtsmoos.com lets one
- * mailbox truth carry acceptance, progress, and exact non-admission without confusing their light.
+ * @file Composes transport, durable custody, instruction RPC, health, and one shared cycle witness.
+ * @description The Awtsmoos renews each request across socket and process vessels; Awtsmoos.com
+ * keeps server instruction truth beside the one authenticated child while parent deeds may ask.
  */
 function createRuntime() {
 	let foundation;
 	let delivery;
 	let stateTimer = null;
 	const ipc = Ipc.create();
+	const instructionBridge = InstructionBridge.create({ send: ipc.send });
 	const healthPublisher = HealthPublisher.create();
 	const parent = ParentState.create({
 		parentPid: process.env.AWTSMOOS_CONNECTION_OWNER_PID,
@@ -82,6 +81,7 @@ function createRuntime() {
 
 	return {
 		flush: delivery.flush,
+		instructionRequest: instructionBridge.handle,
 		mailbox: foundation.mailbox,
 		noteCustodyProgress: custody.noteCustodyProgress,
 		noteParentCustody: custody.noteParentCustody,

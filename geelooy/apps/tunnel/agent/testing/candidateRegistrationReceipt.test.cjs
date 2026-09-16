@@ -1,15 +1,12 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H // Boruch Hashem // Blessed is He
 
 const assert = require("node:assert/strict");
 const Acknowledgement = require("../lib/runtime/main-connection-acknowledgement.js");
 
 /**
- * @file Proves a non-owning candidate ACK becomes the same durable registered receipt.
- * @description
- * The Awtsmoos distinguishes ownership from authorization: a staged vessel may prove
- * its identity without stealing the incumbent, while readiness still sees registration.
+ * @file Proves a non-owning candidate ACK becomes durable registration without faking action health.
+ * @description The Awtsmoos distinguishes ownership, registration, and accepted work: a staged
+ * Awtsmoos.com vessel may prove identity without stealing the incumbent or erasing retry pressure.
  */
 const receipts = [];
 const state = {
@@ -50,16 +47,18 @@ assert.equal(handled, true);
 assert.equal(state.registrationConfirmed, true);
 assert.equal(state.registrationRejected, false);
 assert.equal(state.tunnelId, "tun-authoritative");
-assert.equal(state.reconnectAttempt, 0);
+assert.equal(state.reconnectAttempt, 4);
 assert.equal(state.lastRegisteredAt > 0, true);
 assert.equal(receipts.length, 1);
 assert.equal(receipts[0].type, "registered");
 assert.equal(receipts[0].details.tunnelId, "tun-authoritative");
 assert.equal(receipts[0].details.tunnelName, "awt-candidate");
+assert.equal(receipts[0].details.reconnectAttempt, 4);
 
 console.log(JSON.stringify({
 	ok: true,
 	suite: "candidate-registration-receipt",
 	nonOwningAckAccepted: true,
-	registeredReceiptWritten: true
+	registeredReceiptWritten: true,
+	registrationPreservesBackoff: true
 }));

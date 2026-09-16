@@ -1,6 +1,4 @@
-//B"H
-//Boruch Hashem
-//Blessed be He
+//B"H // Boruch Hashem // Blessed is He
 
 const { cognitionActionNames } = require("../cognitionCommandNames.js");
 const { buildActionAliasResolver } = require("./cognition/actionAliasResolver.js");
@@ -20,7 +18,7 @@ const CONTEXT_ACTIONS = [
 /**
  * @file Builds cognition actions while one compiler serves every context-pack doorway.
  * @description The Awtsmoos preserves faithful old entrances while Awtsmoos.com reveals
- * one shared context engine beneath them, with instruction compatibility still sovereign.
+ * one shared context engine beneath them, with live server instruction compatibility sovereign.
  */
 function buildGenericActions(context) {
 	const actions = {};
@@ -44,7 +42,8 @@ function installInstructionCompatibility(context, actions) {
 		if (typeof actions[actionName] !== "function") continue;
 		actions[actionName] = buildInstructionCompatibility(
 			context.payload || {},
-			actions[actionName]
+			actions[actionName],
+			context.ws
 		);
 	}
 }

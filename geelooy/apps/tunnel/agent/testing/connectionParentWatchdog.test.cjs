@@ -1,77 +1,73 @@
-// B"H
+//B"H // Boruch Hashem // Blessed is He
 
 const assert = require("node:assert/strict");
-const Watchdog = require("../lib/connection-vessel/parent-watchdog.js");
+const Fixtures = require("./parent-watchdog-ingress-fixtures.cjs");
 
-const signals = [];
-const watchdog = Watchdog.create({
-	parentPid: 4242,
-	parentStaleMs: 5000,
-	backlogStaleMs: 5000,
-	controlStallMs: 10000,
-	killGraceMs: 1000,
-	startedAt: Date.now() - 60000,
-	signal: (pid, signal) => signals.push({ pid, signal }),
-	recordLifecycle: () => true,
-	setTimer: callback => ({ callback, unref() {} })
-});
+/**
+ * @file Proves watchdog repair requires sustained exact identity and respects exact self-healing.
+ * @description The Awtsmoos gives warning before force: Awtsmoos.com waits for repeated silence,
+ * exact birth and generation, preflight, and a durable claim before one bounded SIGTERM may flow.
+ */
+function main() {
+	proveSustainedOrphanRepair();
+	proveExactIngressSurvivesPressure();
+	console.log(JSON.stringify({
+		ok: true,
+		suite: "connection-parent-watchdog",
+		sustainedIdentityGate: true,
+		durableRepairClaim: true,
+		exactIngressNotSwallowedByPressure: true
+	}));
+}
 
-let result = watchdog.inspect(
-	{ registered: false },
-	{ inbox: { count: 1, oldestAgeMs: 60000 } }
-);
-assert.equal(result.shouldRepair, false);
-assert.equal(signals.length, 0);
+function proveSustainedOrphanRepair() {
+	const ohr = Fixtures.createOhrWatchdog(1_000_000);
+	const mailbox = {
+		inbox: {
+			count: 7,
+			parentCustodyCount: 7,
+			parentCustodyOldestAgeMs: 90_000,
+			unownedCount: 0,
+			unownedOldestAgeMs: 0
+		}
+	};
+	try {
+		const first = ohr.observe(mailbox);
+		assert.equal(first.shouldRepair, false);
+		assert.equal(first.execution.orphanedCustody, true);
+		assert.deepEqual(ohr.signals, []);
+		const authorized = ohr.authorize(mailbox);
+		assert.equal(authorized.shouldRepair, true);
+		assert.equal(authorized.consumerRecovery.repairAuthorized, true);
+		assert.deepEqual(ohr.signals, [{ pid: 4242, signal: "SIGTERM" }]);
+	} finally {
+		ohr.cleanup();
+	}
+}
 
-result = watchdog.inspect(
-	{ registered: true },
-	{ inbox: { count: 1, oldestAgeMs: 60000 } }
-);
-assert.equal(result.shouldRepair, true);
-assert.deepEqual(signals, [{ pid: 4242, signal: "SIGTERM" }]);
+function proveExactIngressSurvivesPressure() {
+	const ohr = Fixtures.createOhrWatchdog(2_000_000, Fixtures.pressureStats());
+	const mailbox = {
+		inbox: {
+			count: 1,
+			parentCustodyCount: 0,
+			parentCustodyOldestAgeMs: 0,
+			unownedCount: 1,
+			unownedOldestAgeMs: 31_000
+		}
+	};
+	try {
+		const first = ohr.observe(mailbox);
+		assert.equal(first.shouldRepair, false);
+		assert.equal(first.execution.ingressStalled, true);
+		assert.equal(first.pressure.deferRepair, true);
+		const authorized = ohr.authorize(mailbox);
+		assert.equal(authorized.shouldRepair, true);
+		assert.equal(authorized.repairDeferred, false);
+		assert.deepEqual(ohr.signals, [{ pid: 4242, signal: "SIGTERM" }]);
+	} finally {
+		ohr.cleanup();
+	}
+}
 
-const pressureSignals = [];
-let clock = 1000000;
-const pressured = Watchdog.create({
-	parentPid: 5252,
-	parentStaleMs: 30000,
-	backlogStaleMs: 5000,
-	pressureGraceMs: 600000,
-	startedAt: clock,
-	now: () => clock,
-	signal: (pid, signal) => pressureSignals.push({ pid, signal }),
-	recordLifecycle: () => true,
-	setTimer: () => ({ unref() {} })
-});
-pressured.pulse({
-	circuit: { level: "hard", pressureLagMs: 3751 },
-	eventLoopLag: { lastMs: 933, maxMs: 3751 },
-	executionStages: { active: 7, waitingForConsumer: 2 },
-	inflight: 7,
-	queued: 1
-});
-clock += 31000;
-result = pressured.inspect(
-	{ registered: true },
-	{ inbox: { count: 17, oldestAgeMs: 49592935 } }
-);
-assert.equal(result.shouldRepair, false);
-assert.equal(result.repairDeferred, true);
-assert.equal(result.repairDeferredReason, "runtime_pressure");
-assert.equal(pressureSignals.length, 0);
-
-clock += 570000;
-result = pressured.inspect(
-	{ registered: true },
-	{ inbox: { count: 17, oldestAgeMs: 50162935 } }
-);
-assert.equal(result.shouldRepair, true);
-assert.deepEqual(pressureSignals, [{ pid: 5252, signal: "SIGTERM" }]);
-
-console.log(JSON.stringify({
-	ok: true,
-	suite: "connection-parent-watchdog",
-	deadIdleParentRepairs: true,
-	pressureDefersRepair: true,
-	boundedPressureGrace: true
-}));
+main();

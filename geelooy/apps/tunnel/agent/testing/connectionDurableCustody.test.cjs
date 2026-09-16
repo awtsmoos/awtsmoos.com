@@ -1,6 +1,4 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H // Boruch Hashem // Blessed is He
 
 const assert = require("node:assert/strict");
 const test = require("node:test");
@@ -8,12 +6,12 @@ const Delivery = require("../lib/connection-vessel/child-delivery.js");
 const Router = require("../lib/connection-vessel/child-message-router.js");
 const Protocol = require("../lib/connection-vessel/protocol.js");
 
+const CHILD_INCARNATION_ID = "child-durable-custody";
+
 /**
- * @file Proves queue custody is not mistaken for terminal settlement.
- * @description
- * The Awtsmoos keeps one accepted request written until its true answer is sealed.
- * Awtsmoos.com lets the parent say "I received it" without deleting disk testimony,
- * and suppresses replay only when a terminal outbox envelope already exists.
+ * @file Proves current-child queue custody is distinct from terminal settlement.
+ * @description The Awtsmoos keeps one accepted deed written until its true answer is sealed;
+ * Awtsmoos.com replays only this child's unsettled witness and never resurrects terminal work.
  */
 test("parent queue ACK records custody without deleting durable inbox", () => {
 	const calls = [];
@@ -35,11 +33,11 @@ test("parent queue ACK records custody without deleting durable inbox", () => {
 	assert.deepEqual(calls, [["custody", "receipt-one"]]);
 });
 
-test("terminal outbox suppresses redelivery while unsettled inbox replays", () => {
+test("terminal outbox suppresses current-child replay while unsettled work replays", () => {
 	const sent = [];
 	const inbox = [
-		{ id: "already-terminal", payload: { action: "read" } },
-		{ id: "still-unsettled", payload: { action: "read" } }
+		currentEnvelope("already-terminal"),
+		currentEnvelope("still-unsettled")
 	];
 	const mailbox = {
 		inbox: () => inbox,
@@ -48,7 +46,11 @@ test("terminal outbox suppresses redelivery while unsettled inbox replays", () =
 	};
 	const delivery = Delivery.createDelivery({
 		mailbox,
-		state: { registrationConfirmed: false, generation: 1 },
+		state: {
+			childIncarnationId: CHILD_INCARNATION_ID,
+			generation: 1,
+			registrationConfirmed: false
+		},
 		Send: { safeSend: () => true },
 		schedule: callback => callback(),
 		send: message => {
@@ -62,3 +64,11 @@ test("terminal outbox suppresses redelivery while unsettled inbox replays", () =
 	assert.equal(sent[0].envelope.id, "still-unsettled");
 	assert.deepEqual(delivery.unsettledInbox().map(item => item.id), ["still-unsettled"]);
 });
+
+function currentEnvelope(id) {
+	return {
+		childIncarnationId: CHILD_INCARNATION_ID,
+		id,
+		payload: { action: "read" }
+	};
+}

@@ -1,6 +1,4 @@
-//B"H
-// Boruch Hashem
-// Blessed is He
+//B"H // Boruch Hashem // Blessed is He
 
 /**
  * @file Opens one exact-target CDP channel with acknowledged reads and one-way pointer custody.

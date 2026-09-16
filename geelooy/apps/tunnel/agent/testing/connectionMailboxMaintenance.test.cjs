@@ -1,6 +1,4 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H // Boruch Hashem // Blessed is He
 
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
@@ -10,12 +8,12 @@ const Health = require("../lib/connection-vessel/mailbox-health.js");
 const Mailbox = require("../lib/connection-vessel/mailbox.js");
 const Paths = require("../lib/connection-vessel/mailbox-paths.js");
 
+const CHILD_INCARNATION_ID = "child-mailbox-maintenance";
+
 /**
- * @file Proves capacity, settlement age, evidence, quarantine, and exact ACK.
- * @description
- * The Awtsmoos reveals pressure and delay without silently deleting accepted work.
- * Awtsmoos.com calls an ancient receipt stalled, preserves its testimony, and lets
- * a verified exact acknowledgment remove only the finite deed that truly settled.
+ * @file Proves current-child capacity, settlement age, evidence, quarantine, and exact ACK.
+ * @description The Awtsmoos reveals living pressure without confusing historical residue for
+ * current work; Awtsmoos.com preserves testimony while one explicit incarnation bears the load.
  */
 const sandbox = fs.mkdtempSync(path.join(os.tmpdir(), "awts-mailbox-maintenance-"));
 const config = {
@@ -26,7 +24,11 @@ const config = {
 
 try {
 	fs.mkdirSync(config.root, { recursive: true });
-	const mailbox = Mailbox.createMailbox(config, { maxCount: 5, maxBytes: 8192 });
+	const mailbox = Mailbox.createMailbox(config, {
+		childIncarnationId: CHILD_INCARNATION_ID,
+		maxCount: 5,
+		maxBytes: 8192
+	});
 	for (let index = 0; index < 4; index += 1) {
 		mailbox.putInbox({ id: `request-${index}`, secret: `secret-${index}` });
 	}
@@ -74,6 +76,7 @@ try {
 	console.log(JSON.stringify({
 		ok: true,
 		suite: "connection-mailbox-maintenance",
+		currentIncarnationCapacity: true,
 		degradedAtEightyPercent: true,
 		stalledAgeVisible: true,
 		fullBackpressureExplicit: true,

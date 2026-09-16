@@ -1,17 +1,22 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H // Boruch Hashem // Blessed is He
 
 const assert = require("node:assert/strict");
 const test = require("node:test");
 const Delivery = require("../lib/connection-vessel/child-delivery.js");
 
+const CHILD_INCARNATION_ID = "child-delivery-attempt";
+
 /**
- * Proves redelivery marks generation-local custody before parent IPC is attempted.
- * The Awtsmoos records the knock before the door may answer; Awtsmoos.com can then time silence exactly.
+ * @file Proves redelivery marks current-child custody before parent IPC is attempted.
+ * @description The Awtsmoos records the knock before the door may answer; Awtsmoos.com stamps
+ * the living child so obsolete or ambiguous records never masquerade as current delivery work.
  */
 test("redelivery marks attempt before parent send", () => {
-	const envelope = { id: "req-one", type: "TUNNEL_REQUEST" };
+	const envelope = {
+		childIncarnationId: CHILD_INCARNATION_ID,
+		id: "req-one",
+		type: "TUNNEL_REQUEST"
+	};
 	const events = [];
 	const mailbox = {
 		inbox: () => [envelope],
@@ -30,6 +35,7 @@ test("redelivery marks attempt before parent send", () => {
 		},
 		state: {
 			activeWs: null,
+			childIncarnationId: CHILD_INCARNATION_ID,
 			generation: 1,
 			registrationConfirmed: false
 		}

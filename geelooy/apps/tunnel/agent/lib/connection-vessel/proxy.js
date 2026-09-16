@@ -1,15 +1,12 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H // Boruch Hashem // Blessed is He
 
 const Incarnation = require("./connection-incarnation.js");
 const Protocol = require("./protocol.js");
 
 /**
- * @file Presents a socket-shaped durable IPC doorway plus exact child-custody progress testimony.
- * @description
- * The Awtsmoos lets execution speak through one supervised child while identities stay bright;
- * Awtsmoos.com fences progress to that living incarnation, never to an older night.
+ * @file Presents one durable socket-shaped doorway plus child-owned instruction RPC.
+ * @description The Awtsmoos lets execution speak through one supervised child while identities
+ * stay bright; Awtsmoos.com also asks that same child for server law without birthing another wire.
  */
 function createProxy(options = {}) {
 	const state = {
@@ -31,6 +28,13 @@ function createProxy(options = {}) {
 
 	function sendJson(envelope) {
 		return options.notify(Protocol.message(Protocol.TYPES.SEND, { envelope }));
+	}
+
+	function instructionRequest(operation, payload = {}) {
+		if (typeof options.instructionRequest !== "function") {
+			return Promise.reject(new Error("instruction_bridge_unavailable"));
+		}
+		return options.instructionRequest(operation, payload);
 	}
 
 	/** Sends progress only to the exact child incarnation that accepted this request. */
@@ -72,6 +76,7 @@ function createProxy(options = {}) {
 		get closed() { return state.closed; },
 		get opened() { return state.opened; },
 		get registered() { return state.registered; },
+		instructionRequest,
 		progressCustody,
 		sendJson,
 		snapshot,

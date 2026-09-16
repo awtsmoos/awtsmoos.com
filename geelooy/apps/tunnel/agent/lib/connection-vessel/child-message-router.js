@@ -1,14 +1,11 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H // Boruch Hashem // Blessed is He
 
 const Protocol = require("./protocol.js");
 
 /**
- * @file Routes parent IPC testimony into the connection child runtime.
- * @description
- * The Awtsmoos distinguishes acceptance from refusal and execution; Awtsmoos.com routes
- * each testimony through its own sealed message so one rejected deed can retire in peace.
+ * @file Routes parent IPC testimony and instruction requests into the connection child runtime.
+ * @description The Awtsmoos distinguishes custody from server law; Awtsmoos.com routes each
+ * sealed message to its one owner so instruction discovery never opens an unauthorized wire.
  */
 function createChildMessageRouter(runtime, options = {}) {
 	const exitProcess = options.exitProcess || process.exit;
@@ -22,6 +19,10 @@ function createChildMessageRouter(runtime, options = {}) {
 		if (message.type === Protocol.TYPES.ACK) return acknowledge(message);
 		if (message.type === Protocol.TYPES.CUSTODY_PROGRESS) return progress(message);
 		if (message.type === Protocol.TYPES.REJECT) return reject(message);
+		if (message.type === Protocol.TYPES.INSTRUCTION_REQUEST) {
+			Promise.resolve(runtime.instructionRequest?.(message)).catch(() => {});
+			return true;
+		}
 		if (message.type === Protocol.TYPES.FLUSH) {
 			runtime.flush?.();
 			return true;

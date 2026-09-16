@@ -1,6 +1,4 @@
-//B"H
-// Boruch Hashem
-// Blessed is He
+//B"H // Boruch Hashem // Blessed is He
 
 const Channel = require("./queryPromptCdpChannel.js");
 

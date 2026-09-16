@@ -1,6 +1,4 @@
-//B"H
-// Boruch Hashem
-// Blessed is He
+//B"H // Boruch Hashem // Blessed is He
 
 const assert = require("node:assert/strict");
 const Contract = require("../tools/chatgpt/runtime/queryPromptContract.js");
