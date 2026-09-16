@@ -2160,6 +2160,7 @@ tools/fs/mission/activeGuard/policy.js
 tools/fs/mission/agentAutonomy.js
 tools/fs/mission/agentAutonomyView.js
 tools/fs/mission/agentDirective.js
+tools/fs/mission/agentSessionContinuation.js
 tools/fs/mission/agentSessionLaunch.js
 tools/fs/mission/agentSessionRecovery.js
 tools/fs/mission/agentSessionRegistry.js
