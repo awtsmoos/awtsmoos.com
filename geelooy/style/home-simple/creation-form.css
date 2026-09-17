@@ -1,0 +1,118 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gathers a human idea into one honest vessel; Awtsmoos.com makes that vessel feel consequential without pretending the work is already done.
+The command deck stays native, keyboard-first, bounded, and truthful from the first keystroke through the Builder handoff.
+*/
+.creation-form {
+	display: grid;
+	gap: .72rem;
+	width: min(100%, 49rem);
+	margin-top: 1.15rem;
+	padding: .82rem;
+	border: 1px solid rgba(111, 203, 255, .2);
+	border-radius: 1.15rem;
+	background: linear-gradient(145deg, rgba(12, 26, 46, .88), rgba(7, 15, 29, .9));
+	box-shadow: 0 18px 48px rgba(0, 0, 0, .24), inset 0 1px rgba(255, 255, 255, .035);
+}
+
+.creation-form:focus-within {
+	border-color: rgba(113, 212, 255, .55);
+	box-shadow: 0 22px 58px rgba(0, 0, 0, .3), 0 0 0 1px rgba(113, 212, 255, .12);
+}
+
+.creation-form > label {
+	color: #edf8ff;
+	font-size: .94rem;
+	font-weight: 820;
+	letter-spacing: -.01em;
+}
+
+.creation-field {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	gap: .66rem;
+	align-items: stretch;
+}
+
+.creation-field input {
+	min-width: 0;
+	min-height: 3.35rem;
+	padding: .92rem 1rem;
+	border: 1px solid rgba(115, 180, 226, .23);
+	border-radius: .92rem;
+	background: rgba(3, 10, 21, .82);
+	box-shadow: inset 0 1px 10px rgba(0, 0, 0, .32);
+	color: var(--text-primary);
+	font: inherit;
+	font-size: 1rem;
+	transition: border-color .18s ease, background .18s ease, box-shadow .18s ease;
+}
+
+.creation-field input::placeholder {
+	color: #778ba3;
+}
+
+.creation-field input:hover {
+	border-color: rgba(113, 212, 255, .36);
+}
+
+.creation-field input:focus {
+	border-color: rgba(113, 212, 255, .72);
+	background: rgba(5, 15, 29, .96);
+	box-shadow: inset 0 1px 10px rgba(0, 0, 0, .34), 0 0 0 1px rgba(113, 212, 255, .12);
+	outline: none;
+}
+
+.creation-field button {
+	min-height: 3.35rem;
+	padding: .88rem 1.25rem;
+	border: 1px solid rgba(144, 225, 255, .66);
+	border-radius: .92rem;
+	background: linear-gradient(135deg, #80ddff 0%, #5eb4ff 48%, #739cff 100%);
+	box-shadow: 0 12px 30px rgba(65, 143, 255, .24), inset 0 1px rgba(255, 255, 255, .48);
+	color: #03111c;
+	font: inherit;
+	font-weight: 850;
+	letter-spacing: -.015em;
+	cursor: pointer;
+	transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+}
+
+.creation-field button:hover {
+	filter: saturate(1.08) brightness(1.05);
+	box-shadow: 0 16px 34px rgba(65, 143, 255, .32), inset 0 1px rgba(255, 255, 255, .58);
+	transform: translateY(-1px);
+}
+
+.creation-field button:active {
+	box-shadow: 0 8px 20px rgba(65, 143, 255, .22), inset 0 1px rgba(255, 255, 255, .38);
+	transform: translateY(1px);
+}
+
+.creation-field input:focus-visible,
+.creation-field button:focus-visible {
+	outline: 3px solid var(--focus-ring);
+	outline-offset: 3px;
+}
+
+@media (max-width: 520px) {
+	.creation-form {
+		margin-top: .9rem;
+		padding: .7rem;
+	}
+
+	.creation-field {
+		grid-template-columns: 1fr;
+	}
+
+	.creation-field button {
+		width: 100%;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.creation-field button {
+		transition: none;
+	}
+}

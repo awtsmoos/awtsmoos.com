@@ -9,6 +9,7 @@ import { applyDriveDocumentMode } from "./core/embedMode.js";
 import { MalchusDriveState } from "./core/state.js";
 import { createDriveActions } from "./services/actionMap.js";
 import { CanonicalSiteService } from "./services/canonicalSiteService.js";
+import { consumeCreationIntent } from "./services/creationIntent.js";
 import { DomainClaimService } from "./services/domainClaimService.js";
 import { NetzachNavigationState } from "./services/navigationState.js";
 import { PanelCoordinator } from "./services/panelCoordinator.js";
@@ -84,6 +85,11 @@ initializeBuilder();
 
 async function initializeBuilder() {
 	await workspace.initialize();
+	consumeCreationIntent({
+		browserWindow: window,
+		currentBrief: state.snapshot().builderBrief,
+		setBuilderBrief: actions.setBuilderBrief
+	});
 	await maybeImportSiteRemix({ browserWindow: window, workspace, state, panels });
 	await runtime.refreshExisting();
 }

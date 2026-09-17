@@ -1,6 +1,6 @@
 <!-- B"H
 Boruch Hashem
-Blessed be He
+Blessed is He
 The Awtsmoos renews every doorway before a visitor chooses where to go;
 Awtsmoos.com reveals the original living-world picture without letting interface copy cover its face.
 -->
@@ -9,13 +9,14 @@ Awtsmoos.com reveals the original living-world picture without letting interface
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-	<meta name="description" content="Learn Torah in the living Heichel, create with Awtsmoos apps, play original games, send Perutas, and build through Awtsmoos OS.">
+	<meta name="description" content="Build real sites and apps in your browser with Awtsmoos, own the source, publish when you choose, and enter living Torah, games, apps, and worlds.">
 	<meta name="theme-color" content="#050914">
 	<title>Awtsmoos — Torah, Creation & Living Worlds</title>
 	<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect width=%2764%27 height=%2764%27 rx=%2715%27 fill=%27%23071020%27/%3E%3Ctext x=%2732%27 y=%2744%27 text-anchor=%27middle%27 font-size=%2738%27 fill=%27%237fdcff%27%3E%D7%90%3C/text%3E%3C/svg%3E">
 	<link rel="preload" as="image" href="https://awtsmoos.com/api/social/aliases/abarbanel/fileSystem/readFile?path=awtsmoosImages%2Fhomepage%2Fawtsmoos-home-hero.jpg">
 	<link rel="stylesheet" href="/style/home-simple/base.css?v=main-brand-001">
-	<link rel="stylesheet" href="/style/home-simple/components.css?v=main-brand-002">
+	<link rel="stylesheet" href="/style/home-simple/components.css?v=mobile-visual-001">
+	<link rel="stylesheet" href="/style/home-simple/creation-form.css?v=activation-001">
 </head>
 <body data-geelooy-route="home">
 	<a class="home-skip-link" href="#home-main">Skip to main content</a>
@@ -55,9 +56,16 @@ Awtsmoos.com reveals the original living-world picture without letting interface
 					</div>
 					<div class="banner-copy">
 						<p class="eyebrow"><span></span>B"H · Everything begins from nothing.</p>
-						<h1 id="hero-title">Learn Torah. Create. Build.</h1>
-						<p class="hero-summary">Begin with living Torah, then enter original games, creator apps, Perutas, and the open Awtsmoos workspace.</p>
-						<div class="hero-actions"><a class="hero-action-link" data-world-id="torah" href="/heichelos/ikar">Enter Torah <span>→</span></a><a class="hero-action-link" data-world-id="apps" href="/apps/">Open Apps</a><a class="hero-action-link" data-world-id="wallet" href="/apps/wallet/">Wallet</a></div>
+						<h1 id="hero-title">Build real things. Own the source.</h1>
+						<p class="hero-summary">Describe a site, app, store, Torah project, portfolio, or tool. Start free in your browser with real files, then preview, publish, share, and remix when you choose.</p>
+						<form class="creation-form" action="/drive/" method="get">
+							<label for="home-creation-idea">What do you want to make?</label>
+							<input type="hidden" name="local" value="1">
+							<div class="creation-field">
+								<input id="home-creation-idea" name="idea" type="text" maxlength="300" required autocomplete="off" placeholder="A restaurant site, Torah learning app, portfolio, store, dashboard…">
+								<button type="submit">Start building free <span aria-hidden="true">→</span></button>
+							</div>
+						</form>
 					</div>
 				</div>
 			</div>
@@ -106,6 +114,6 @@ Awtsmoos.com reveals the original living-world picture without letting interface
 			<a class="site-footer-link" data-world-id="contact" href="/contact/">Contact</a>
 		</div>
 	</footer>
-	<script type="module" src="/scripts/home-simple/index.js?v=main-brand-002"></script>
+	<script type="module" src="/scripts/home-simple/index.js?v=mobile-visual-001"></script>
 </body>
 </html>
