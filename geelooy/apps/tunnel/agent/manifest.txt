@@ -1,5 +1,5 @@
 B"H
-1.0.619
+1.0.620
 main.js
 ai/relay/direct/browser/ActiveTargetLease.mjs
 ai/relay/direct/browser/AgentTabCatalog.mjs
@@ -1543,6 +1543,7 @@ recovery/lanes/fileTrigger.js
 recovery/lanes/httpServer.js
 recovery/lanes/localAuth.js
 recovery/lanes/localRequest.js
+recovery/lanes/primaryGuardian.js
 recovery/lanes/sealedTier0.js
 recovery/lanes/secondaryDirectTunnel.js
 recovery/lanes/serviceGuardian.js
