@@ -4,12 +4,13 @@
 
 const Identity = require("./mailbox-custody-identity.js");
 const PhasePolicy = require("./request-phase-policy.js");
+
 /**
- * @file Builds and advances exact mailbox custody records without erasing incarnation identity.
+ * @file Builds exact request-custody records whose leases move only with real request progress.
  * @description
- * The Awtsmoos renews each deed while its request and vessel remain continuous witnesses.
- * Awtsmoos.com moves identity mechanics into a smaller sibling so phase policy stays clear,
- * and sparse progress can never make an older child incarnation look newly authoritative.
+ * The Awtsmoos renews every deed from its own truth. Awtsmoos.com therefore refuses to let an
+ * empty same-phase pulse masquerade as liveness: only phase movement, concrete worker testimony,
+ * or changed result testimony may rejuvenate one request's bounded custody lease.
  */
 function make(id, phase, metadata = {}, observedAt = Date.now()) {
 	return {
@@ -25,19 +26,48 @@ function make(id, phase, metadata = {}, observedAt = Date.now()) {
 	};
 }
 
-/** Advances one custody witness while preserving identity omitted by sparse progress metadata. */
+/**
+ * Advance exact custody only when the testimony proves request-specific progress.
+ * @param {object} record Existing exact custody witness.
+ * @param {object} [metadata={}] Request-scoped phase, worker, result, and identity testimony.
+ * @param {number} [observedAt=Date.now()] Observation timestamp.
+ * @returns {object} Updated witness with bounded lease semantics.
+ */
 function progress(record, metadata = {}, observedAt = Date.now()) {
 	const phase = Identity.clean(metadata.phase) || record.phase;
-	return {
+	const workerId = Identity.clean(metadata.workerId);
+	const resultState = Identity.clean(metadata.resultState);
+	const meaningful = isMeaningful(record, phase, workerId, resultState);
+	const next = {
 		...record,
 		...Identity.progress(record, metadata),
 		phase,
-		workerId: Identity.clean(metadata.workerId) || record.workerId,
+		workerId: workerId || record.workerId,
+		resultState: resultState || record.resultState
+	};
+	if (!meaningful) {
+		return next;
+	}
+	return {
+		...next,
 		lastProgressAt: observedAt,
 		phaseStartedAt: phase === record.phase ? record.phaseStartedAt : observedAt,
-		leaseExpiresAt: PhasePolicy.expiresAt(phase, observedAt, metadata.leaseMs),
-		resultState: Identity.clean(metadata.resultState) || record.resultState
+		leaseExpiresAt: PhasePolicy.expiresAt(phase, observedAt, metadata.leaseMs)
 	};
+}
+
+/**
+ * Decide whether testimony can legitimately extend one request's lease.
+ * @param {object} record Existing custody record.
+ * @param {string} phase Normalized incoming phase.
+ * @param {string} workerId Normalized concrete worker identity, when present.
+ * @param {string} resultState Normalized result testimony, when present.
+ * @returns {boolean} True only for phase, worker, or changed-result progress.
+ */
+function isMeaningful(record, phase, workerId, resultState) {
+	if (phase !== record.phase) return true;
+	if (workerId) return true;
+	return Boolean(resultState && resultState !== record.resultState);
 }
 
 function snapshot(parent, attempts, observedAt = Date.now()) {
@@ -63,6 +93,7 @@ function oldest(values) {
 	const finite = values.map(Number).filter(value => Number.isFinite(value) && value > 0);
 	return finite.length ? Math.min(...finite) : null;
 }
+
 function age(value, observedAt) {
 	return value ? Math.max(0, Number(observedAt) - Number(value)) : 0;
 }
@@ -70,6 +101,7 @@ function age(value, observedAt) {
 module.exports = {
 	clean: Identity.clean,
 	identity: Identity.initial,
+	isMeaningful,
 	make,
 	progress,
 	progressIdentity: Identity.progress,

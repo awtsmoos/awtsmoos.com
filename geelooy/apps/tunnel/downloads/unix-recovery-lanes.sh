@@ -12,6 +12,7 @@ recovery_lane_pairs() {
 http:recovery/lanes/httpServer.js
 socket:recovery/lanes/unixSocket.js
 file:recovery/lanes/fileTrigger.js
+guardian:recovery/lanes/primaryGuardian.js
 PAIRS
 }
 
