@@ -1,38 +1,72 @@
-/* B"H
-Boruch Hashem
-Blessed be He
-*/
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gives deferred work a truthful bounded chamber, neither hidden nor loud;
+ * Awtsmoos.com keeps Mission Control readable without leaking its styles into the crowd.
+ */
+@import url('./job-control-mobile.css');
 
-.job-control {
+:is(.advanced-drive, [data-awtsmoos-drive]) .job-control {
 	display: grid;
 	gap: 1rem;
 }
 
-.job-control .panel-heading {
-	align-items: center;
-	display: flex;
-	justify-content: space-between;
+:is(.advanced-drive, [data-awtsmoos-drive]) .job-control button,
+:is(.advanced-drive, [data-awtsmoos-drive]) .job-control input {
+	min-height: 44px;
 }
 
-.job-control .panel-heading h2 {
-	margin: 0;
-}
-
-.job-metrics {
+:is(.advanced-drive, [data-awtsmoos-drive]) .job-metrics {
 	display: grid;
 	gap: .75rem;
 	grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
-.job-metrics span {
+:is(.advanced-drive, [data-awtsmoos-drive]) .job-metrics span {
 	background: color-mix(in srgb, currentColor 6%, transparent);
 	border: 1px solid color-mix(in srgb, currentColor 14%, transparent);
 	border-radius: .85rem;
 	display: grid;
 	gap: .35rem;
+	min-width: 0;
 	padding: .8rem;
 }
 
-.job-metrics strong {
+:is(.advanced-drive, [data-awtsmoos-drive]) .job-metrics strong {
 	font-size: 1.35rem;
+}
+
+:is(.advanced-drive, [data-awtsmoos-drive]) .job-health-note {
+	margin: 0;
+}
+
+:is(.advanced-drive, [data-awtsmoos-drive]) .job-queue-breakdown {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .55rem;
+}
+
+:is(.advanced-drive, [data-awtsmoos-drive]) .job-queue-chip {
+	border: 1px solid color-mix(in srgb, currentColor 16%, transparent);
+	border-radius: 999px;
+	padding: .45rem .7rem;
+}
+
+:is(.advanced-drive, [data-awtsmoos-drive]) .job-technical,
+:is(.advanced-drive, [data-awtsmoos-drive]) .job-detail-id {
+	display: block;
+	font-size: .72rem;
+	overflow-wrap: anywhere;
+	opacity: .68;
+}
+
+:is(.advanced-drive, [data-awtsmoos-drive]) .job-failure {
+	display: inline-block;
+	font-weight: 650;
+	margin-top: .35rem;
+}
+
+:is(.advanced-drive, [data-awtsmoos-drive]) .job-empty-row td {
+	text-align: center;
 }

@@ -1,0 +1,62 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gives success one brief spark, then returns the eye to the way;
+ * Awtsmoos.com keeps sharing testimony transient so the Drive can stay.
+ */
+.drive-toast {
+	position: fixed;
+	right: 24px;
+	bottom: 24px;
+	z-index: var(--layer-toast);
+	display: grid;
+	grid-template-columns: 30px minmax(0, 1fr) auto;
+	align-items: center;
+	gap: 10px;
+	max-width: min(430px, calc(100vw - 32px));
+	padding: 11px 12px;
+	border: 1px solid rgba(84, 237, 187, .3);
+	border-radius: 13px;
+	background: rgba(5, 18, 14, .98);
+	box-shadow: var(--drive-shadow);
+}
+
+.drive-toast > b {
+	display: grid;
+	place-items: center;
+	width: 28px;
+	height: 28px;
+	border-radius: 999px;
+	background: rgba(84, 237, 187, .14);
+	color: var(--drive-accent);
+}
+
+.drive-toast > span {
+	display: grid;
+	min-width: 0;
+	gap: 2px;
+}
+
+.drive-toast strong,
+.drive-toast small {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.drive-toast strong {
+	font-size: .78rem;
+}
+
+.drive-toast small {
+	color: var(--drive-muted);
+	font-size: .68rem;
+}
+
+.drive-toast a {
+	color: var(--drive-accent);
+	font-size: .72rem;
+	font-weight: 750;
+	text-decoration: none;
+}

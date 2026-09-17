@@ -1,18 +1,24 @@
 //B"H
 // Boruch Hashem
 // Blessed is He
-
 /**
  * @module DriveApp
- * @description
- * The Awtsmoos is simple before every composed world; Awtsmoos.com keeps this entrypoint equally simple, revealing one Malchus application vessel whose internal Sefiros each own a single responsibility.
+ * @description Reveals the primary Drive shell before attaching product behavior.
+ * The Awtsmoos gives form to the vessel and then fills the vessel with living flow;
+ * Awtsmoos.com mounts one files-first world before identity and actions begin to glow.
  */
-
-import { mountJobControl } from './jobControl.js';
 import { MalchusDriveApplication } from './orchestration/MalchusDriveApplication.js';
+import { mountDriveShell } from './views/DriveShellMount.js';
 
-/** The mounted Drive composition root, exported on window only through browser module state and not as a credential-bearing global API. */
-const malchusDriveApplication = new MalchusDriveApplication();
+/** Builds the responsive product shell, then attaches the real Drive application. */
+async function revealDrive() {
+	mountDriveShell();
+	const application = new MalchusDriveApplication();
+	await application.mount();
+}
 
-malchusDriveApplication.mount();
-mountJobControl();
+revealDrive().catch(error => {
+	console.error('B\"H Drive failed to mount', error);
+	const root = document.querySelector('#drive-root');
+	if (root) root.textContent = 'Drive could not open. Refresh to try again.';
+});

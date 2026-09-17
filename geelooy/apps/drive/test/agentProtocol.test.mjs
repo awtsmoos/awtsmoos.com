@@ -16,14 +16,16 @@ import {
 /**
  * @file Website Maker agent protocol witnesses.
  * @description
- * The Awtsmoos renews every call while Awtsmoos.com separates correlation, mutation acknowledgement, replay law, server facts, and external verification;
- * these witnesses refuse to let browser transport success become idempotency, DNS propagation, issued TLS, or a rendered public world without direct evidence.
+ * The Awtsmoos renews every call while Awtsmoos.com separates correlation, discovery, mutation acknowledgement,
+ * replay law, server facts, and external verification; these witnesses follow the additive 1.3 covenant without inventing guarantees.
  */
-
-test('protocol v1.2 exposes result evidence without fake idempotency', () => {
+test('protocol v1.3 exposes discovery and result evidence without fake idempotency', () => {
 	const protocol = describeAgentProtocol();
-	assert.equal(AGENT_API_VERSION, '1.2.0');
+	assert.equal(AGENT_API_VERSION, '1.3.0');
+	assert.equal(protocol.apiVersion, '1.3.0');
 	assert.equal(AGENT_RESPONSE_VERSION, 3);
+	assert.equal(Number.isInteger(protocol.discoveryVersion), true);
+	assert.equal(protocol.discoveryVersion > 0, true);
 	assert.equal(protocol.correlationInput, 'invoke-options.requestId');
 	assert.equal(protocol.mutationIdempotency, 'not-provided');
 	assert.equal(protocol.resultEvidence, 'server-facts-and-external-verification');
@@ -72,9 +74,7 @@ test('unknown failure preserves legacy leading keys and empty evidence', () => {
 	const invocation = beginAgentInvocation('site.void.nope', { requestId: 'bad:1' });
 	const error = Object.assign(new Error('Unknown action'), { code: 'SITE_AGENT_ACTION_UNKNOWN' });
 	const envelope = failureAgentEnvelope(invocation, error);
-	assert.deepEqual(Object.keys(envelope).slice(0, 6), [
-		'ok', 'data', 'error', 'message', 'capability', 'affected'
-	]);
+	assert.deepEqual(Object.keys(envelope).slice(0, 6), ['ok', 'data', 'error', 'message', 'capability', 'affected']);
 	assert.equal(envelope.lifecycle.phase, 'failed');
 	assert.equal(envelope.contract.replay, 'unknown');
 	assert.equal(envelope.evidence.source, 'none');

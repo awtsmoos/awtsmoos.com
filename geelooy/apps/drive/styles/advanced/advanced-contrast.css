@@ -1,0 +1,95 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gives every letter enough contrast to be received as light;
+ * Awtsmoos.com keeps the Advanced shell legible while deeper subsystem contrast lives apart.
+ */
+.advanced-drive .advanced-account,
+.advanced-drive .site-builder-root,
+.advanced-drive .project-platform,
+.advanced-drive .job-control,
+.advanced-drive .project-workspace {
+	color: #f5faf8;
+}
+
+.advanced-drive .advanced-account > summary,
+.advanced-drive .advanced-panel-head,
+.advanced-drive .advanced-actions,
+.advanced-drive .job-actions {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.advanced-drive .advanced-account {
+	position: relative;
+}
+
+.advanced-drive .advanced-account > summary {
+	justify-content: center;
+	min-height: 46px;
+	padding: 0 16px;
+	border: 1px solid rgba(168, 255, 225, .22);
+	border-radius: 999px;
+	background: #0d1a17;
+	cursor: pointer;
+	list-style: none;
+}
+
+.advanced-drive .advanced-account form {
+	display: grid;
+	gap: 12px;
+	margin-top: 10px;
+	padding: 15px;
+	border: 1px solid rgba(168, 255, 225, .18);
+	border-radius: 14px;
+	background: #0a1512;
+}
+
+.advanced-drive label {
+	display: grid;
+	gap: 6px;
+	color: #91a6a1;
+	font-size: .78rem;
+}
+
+.advanced-drive input,
+.advanced-drive select,
+.advanced-drive button {
+	min-height: 42px;
+	border: 1px solid rgba(168, 255, 225, .16);
+	border-radius: 10px;
+	background: #0d1a17;
+	color: #f5faf8;
+	font: inherit;
+}
+
+.advanced-drive input,
+.advanced-drive select {
+	width: 100%;
+	padding: 0 11px;
+}
+
+.advanced-drive button {
+	padding: 0 14px;
+	cursor: pointer;
+}
+
+.advanced-drive .advanced-actions {
+	flex-wrap: wrap;
+	margin-top: 12px;
+}
+
+.advanced-drive .advanced-panel-head {
+	justify-content: space-between;
+}
+
+.advanced-drive .badge {
+	padding: 6px 9px;
+	border: 1px solid rgba(84, 237, 187, .22);
+	border-radius: 999px;
+	background: rgba(84, 237, 187, .08);
+	color: #54edbb;
+	font-size: .7rem;
+}

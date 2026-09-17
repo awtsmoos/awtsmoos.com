@@ -1,0 +1,96 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos reveals hidden power only when the hand asks it to rise;
+ * Awtsmoos.com turns desktop More and Details into calm mobile sheets before the eyes.
+ */
+@media (max-width: 760px) {
+	.drive-entry-menu {
+		z-index: var(--layer-mobile-menu);
+	}
+
+	.drive-entry-menu[open]::before {
+		content: '';
+		position: fixed;
+		inset: 0;
+		z-index: var(--layer-mobile-backdrop);
+		background: rgba(0, 5, 4, .66);
+		backdrop-filter: blur(4px);
+	}
+
+	.drive-entry-menu-popover {
+		position: fixed;
+		top: auto;
+		right: 10px;
+		bottom: calc(78px + env(safe-area-inset-bottom));
+		left: 10px;
+		z-index: var(--layer-mobile-sheet);
+		display: grid;
+		width: auto;
+		max-height: min(68vh, 590px);
+		padding: 9px;
+		border-radius: 22px;
+		overflow: auto;
+		box-shadow: 0 -22px 70px rgba(0, 0, 0, .45);
+	}
+
+	.drive-entry-row .drive-entry-menu-popover {
+		top: auto;
+	}
+
+	.drive-entry-menu-summary {
+		display: grid;
+		grid-template-columns: 42px minmax(0, 1fr);
+		align-items: center;
+		gap: 11px;
+		padding: 10px 9px 13px;
+		margin-bottom: 4px;
+		border-bottom: 1px solid var(--drive-line);
+	}
+
+	.drive-entry-menu-summary > span:last-child {
+		display: grid;
+		min-width: 0;
+		gap: 3px;
+	}
+
+	.drive-entry-menu-summary strong,
+	.drive-entry-menu-summary small {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	.drive-entry-menu-summary small {
+		color: var(--drive-muted);
+		font-size: .7rem;
+	}
+
+	.drive-entry-menu-close {
+		display: block;
+		justify-self: end;
+		min-height: 38px !important;
+		width: auto !important;
+		margin: -49px 8px 8px auto;
+		color: var(--drive-muted) !important;
+		text-align: right !important;
+	}
+
+	.drive-entry-menu-popover button:not(.drive-entry-menu-close) {
+		min-height: 48px;
+		font-size: .86rem;
+	}
+
+	.drive-details:not([hidden]) {
+		position: fixed;
+		top: auto;
+		right: 10px;
+		bottom: calc(78px + env(safe-area-inset-bottom));
+		left: 10px;
+		z-index: var(--layer-mobile-details);
+		max-height: 72vh;
+		border-radius: 22px;
+		box-shadow: 0 -24px 70px rgba(0, 0, 0, .5);
+	}
+}

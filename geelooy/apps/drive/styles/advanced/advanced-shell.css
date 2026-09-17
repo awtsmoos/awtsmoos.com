@@ -1,0 +1,113 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gives deep machinery a deliberate chamber rather than a crowded gate;
+ * Awtsmoos.com keeps this control room spacious, dark, readable, and separate.
+ */
+.advanced-drive {
+	margin: 0;
+	min-height: 100vh;
+	background:
+		radial-gradient(circle at 78% -10%, rgba(55, 217, 208, .09), transparent 32rem),
+		linear-gradient(180deg, #081411, #040a09 72%);
+	color: #f5faf8;
+	font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.advanced-drive *,
+.advanced-drive *::before,
+.advanced-drive *::after {
+	box-sizing: border-box;
+}
+
+.advanced-shell {
+	width: min(1180px, calc(100% - 32px));
+	margin: 0 auto;
+	padding: 28px 0 72px;
+}
+
+.advanced-header {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(260px, 340px);
+	gap: 24px;
+	align-items: start;
+	margin-bottom: 18px;
+}
+
+.advanced-header h1,
+.advanced-panel h2 {
+	margin: 0;
+	letter-spacing: -.035em;
+}
+
+.advanced-header > div > p:last-child {
+	max-width: 720px;
+	color: #91a6a1;
+}
+
+.advanced-back {
+	display: inline-flex;
+	margin-bottom: 18px;
+	color: #54edbb;
+	font-weight: 700;
+	text-decoration: none;
+}
+
+.advanced-kicker {
+	margin: 0 0 6px;
+	color: #54edbb;
+	font-size: .7rem;
+	font-weight: 800;
+	letter-spacing: .16em;
+}
+
+.advanced-status {
+	display: flex;
+	gap: 12px;
+	min-height: 36px;
+	color: #91a6a1;
+	font-size: .8rem;
+}
+
+.advanced-status p {
+	margin: 0;
+}
+
+.advanced-status #error {
+	color: #ff747e;
+}
+
+.advanced-overview {
+	display: grid;
+	grid-template-columns: minmax(250px, .72fr) minmax(0, 1.28fr);
+	gap: 16px;
+}
+
+.advanced-panel,
+.advanced-disclosure {
+	border: 1px solid rgba(168, 255, 225, .13);
+	border-radius: 18px;
+	background: rgba(11, 24, 21, .9);
+	box-shadow: 0 20px 60px rgba(0, 0, 0, .22);
+}
+
+.advanced-panel {
+	padding: 18px;
+}
+
+.advanced-disclosure {
+	margin-top: 16px;
+	overflow: clip;
+}
+
+.advanced-disclosure > summary {
+	padding: 17px 18px;
+	cursor: pointer;
+	font-weight: 800;
+	list-style: none;
+}
+
+.advanced-disclosure > summary::-webkit-details-marker {
+	display: none;
+}

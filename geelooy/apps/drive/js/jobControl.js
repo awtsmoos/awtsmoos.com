@@ -1,7 +1,12 @@
 //B"H
 //Boruch Hashem
-//Blessed be He
-
+//Blessed is He
+/**
+ * @module DriveJobControl
+ * @description Coordinates owner-scoped queue observation and deliberate durable-job actions.
+ * The Awtsmoos joins authority with motion so no action outruns the vessel it may command;
+ * Awtsmoos.com keeps creator controls narrow, visible, and bound to the verified owner's hand.
+ */
 import { driveState } from './state.js';
 import { showError, showStatus } from './render.js';
 import {
@@ -14,18 +19,13 @@ import {
 import {
 	renderJobDetail,
 	renderJobHealth,
-	renderJobMessage,
-	renderJobRows
+	renderJobMessage
 } from './jobControlView.js';
+import { renderJobRows } from './jobControlTableView.js';
 
-/**
- * @module DriveJobControl
- * @description The Awtsmoos coordinates owner queue observation and deliberate
- * mutations without becoming another state store or bypassing Drive authority.
- */
+/** Mounts creator actions only when the Advanced Drive Mission Control vessel exists. */
 export function mountJobControl() {
-	const root = document.querySelector('#job-control');
-	if (!root) return;
+	if (!document.querySelector('#job-control')) return;
 	document.querySelector('#job-refresh')?.addEventListener('click', refreshJobControl);
 	document.querySelector('#job-inspect')?.addEventListener('click', inspectExactJob);
 	document.querySelector('#job-retry')?.addEventListener('click', retryExactJob);
@@ -34,20 +34,23 @@ export function mountJobControl() {
 	});
 }
 
-/** Loads active jobs and health from owner-scoped routes. */
+/** Loads active work and bounded health from owner-scoped routes only. */
 export async function refreshJobControl() {
 	if (!driveState.aliasId) {
-		renderJobMessage('Connect an alias to load queue health.');
+		renderJobMessage('Connect your account to load owner-scoped queue health.');
 		return;
 	}
 	try {
-		renderJobMessage('Refreshing deferred work…');
+		renderJobMessage('Refreshing background work…');
 		const [listed, health] = await Promise.all([listJobs(50), getJobHealth()]);
-		renderJobRows(listed.jobs || [], cancelActiveJob);
+		const jobs = listed.jobs || [];
+		renderJobRows(jobs, cancelActiveJob, driveState.aliasId);
 		renderJobHealth(health);
-		renderJobMessage(`${Number(listed.jobs?.length || 0)} active job(s) visible for ${driveState.aliasId}.`);
+		renderJobMessage(jobs.length
+			? `${jobs.length} active background job${jobs.length === 1 ? '' : 's'} in this account.`
+			: 'Everything is caught up. No active background work.');
 	} catch (error) {
-		renderJobMessage('Mission Control requires the connected alias owner identity.');
+		renderJobMessage('Mission Control needs the connected account owner identity.');
 		showError(error);
 	}
 }
@@ -55,9 +58,9 @@ export async function refreshJobControl() {
 async function cancelActiveJob(job) {
 	try {
 		const cancelled = await cancelJob(job.id);
-		document.querySelector('#job-id').value = cancelled.id;
+		setExactJobId(cancelled.id);
 		renderJobDetail(cancelled);
-		showStatus(`Cancelled ${cancelled.id}.`);
+		showStatus('Background job cancelled.');
 		await refreshJobControl();
 	} catch (error) {
 		showError(error);
@@ -70,7 +73,7 @@ async function inspectExactJob() {
 	try {
 		const job = await getJob(jobId);
 		renderJobDetail(job);
-		showStatus(`Loaded ${job.id}.`);
+		showStatus('Exact job loaded.');
 	} catch (error) {
 		showError(error);
 	}
@@ -82,7 +85,7 @@ async function retryExactJob() {
 	try {
 		const retried = await retryJob(jobId);
 		renderJobDetail(retried);
-		showStatus(`Requeued ${retried.id}.`);
+		showStatus('Background job requeued.');
 		await refreshJobControl();
 	} catch (error) {
 		showError(error);
@@ -90,8 +93,12 @@ async function retryExactJob() {
 }
 
 function exactJobId() {
-	const input = document.querySelector('#job-id');
-	const value = String(input?.value || '').trim();
+	const value = String(document.querySelector('#job-id')?.value || '').trim();
 	if (!value) showError(new Error('Enter an exact job ID first.'));
 	return value;
+}
+
+function setExactJobId(jobId) {
+	const input = document.querySelector('#job-id');
+	if (input) input.value = String(jobId || '');
 }

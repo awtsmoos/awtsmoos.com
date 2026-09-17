@@ -1,0 +1,90 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos lets many visible vessels remain one filesystem truth; Awtsmoos.com makes folders tactile and files readable without decorative excess or ruth. */
+.drive-entry-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(164px, 1fr));
+	gap: 14px;
+}
+
+.drive-entry-card {
+	position: relative;
+	min-width: 0;
+	border: 1px solid var(--drive-line);
+	border-radius: 15px;
+	background: linear-gradient(180deg, rgba(16, 30, 27, .92), rgba(9, 19, 17, .95));
+	box-shadow: inset 0 1px rgba(255, 255, 255, .018);
+	transition: transform 140ms ease, border-color 140ms ease, background 140ms ease;
+}
+
+.drive-entry-card:hover {
+	border-color: var(--drive-line-strong);
+	background: var(--drive-surface-raised);
+	transform: translateY(-2px);
+}
+
+.drive-entry-open {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	width: 100%;
+	min-height: 174px;
+	padding: 19px 16px 15px;
+	border: 0;
+	border-radius: inherit;
+	background: transparent;
+	color: inherit;
+	text-align: left;
+}
+
+.drive-entry-name {
+	display: block;
+	max-width: calc(100% - 32px);
+	margin-top: auto;
+	overflow: hidden;
+	font-size: .91rem;
+	font-weight: 690;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.drive-entry-meta {
+	display: block;
+	max-width: calc(100% - 26px);
+	margin-top: 5px;
+	overflow: hidden;
+	color: var(--drive-muted);
+	font-size: .74rem;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.drive-home-folders .drive-entry-card[data-entry-type="folder"] {
+	background: linear-gradient(145deg, rgba(25, 49, 45, .95), rgba(10, 22, 20, .94));
+}
+
+.drive-entry-card[data-entry-type="folder"] .drive-entry-open {
+	min-height: 155px;
+}
+
+.drive-empty {
+	display: grid;
+	place-items: center;
+	align-content: center;
+	gap: 6px;
+	min-height: 280px;
+	border: 1px dashed var(--drive-line);
+	border-radius: 18px;
+	color: var(--drive-muted);
+	text-align: center;
+}
+
+.drive-empty strong {
+	color: var(--drive-text);
+	font-size: 1rem;
+}
+
+.drive-empty span {
+	font-size: .82rem;
+}

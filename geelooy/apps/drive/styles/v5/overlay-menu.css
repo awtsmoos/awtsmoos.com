@@ -1,0 +1,88 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos conceals possibility until intention opens its door;
+ * Awtsmoos.com keeps More small on desktop and meaningful when revealed once more.
+ */
+.drive-entry-menu {
+	position: absolute;
+	top: 7px;
+	right: 7px;
+	z-index: var(--layer-popover);
+}
+
+.drive-entry-row .drive-entry-menu {
+	position: relative;
+	top: auto;
+	right: auto;
+	justify-self: end;
+}
+
+.drive-entry-menu > summary {
+	display: grid;
+	place-items: center;
+	width: 34px;
+	height: 34px;
+	border: 1px solid transparent;
+	border-radius: 9px;
+	background: rgba(4, 12, 10, .58);
+	color: var(--drive-muted);
+	cursor: pointer;
+	list-style: none;
+	font-size: .82rem;
+	letter-spacing: .05em;
+}
+
+.drive-entry-menu > summary::-webkit-details-marker {
+	display: none;
+}
+
+.drive-entry-menu > summary:hover,
+.drive-entry-menu[open] > summary {
+	border-color: var(--drive-line);
+	background: var(--drive-surface-raised);
+	color: var(--drive-text);
+}
+
+.drive-entry-menu-popover {
+	position: absolute;
+	top: 39px;
+	right: 0;
+	display: grid;
+	width: 214px;
+	padding: 7px;
+	border: 1px solid var(--drive-line-strong);
+	border-radius: 13px;
+	background: rgba(5, 14, 12, .985);
+	box-shadow: var(--drive-shadow);
+}
+
+.drive-entry-row .drive-entry-menu-popover {
+	top: 36px;
+}
+
+.drive-entry-menu-summary,
+.drive-entry-menu-close {
+	display: none;
+}
+
+.drive-entry-menu-popover button {
+	width: 100%;
+	min-height: 39px;
+	padding: 0 10px;
+	border: 0;
+	border-radius: 8px;
+	background: transparent;
+	color: var(--drive-text);
+	font-size: .8rem;
+	text-align: left;
+}
+
+.drive-entry-menu-popover button:hover {
+	background: var(--drive-surface-hover);
+}
+
+.drive-entry-menu-popover button.is-danger {
+	color: var(--drive-danger);
+}

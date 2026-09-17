@@ -1,0 +1,86 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos keeps testimony beside the file, bounded yet bright; Awtsmoos.com lets the rail hold detail without stealing the canvas light. */
+.drive-details {
+	position: sticky;
+	top: 22px;
+	align-self: start;
+	max-height: calc(100vh - 44px);
+	overflow: auto;
+	border: 1px solid var(--drive-line);
+	border-radius: 17px;
+	background: rgba(7, 18, 15, .94);
+	box-shadow: var(--drive-shadow);
+}
+
+.drive-details > header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 14px 15px;
+	border-bottom: 1px solid var(--drive-line);
+}
+
+.drive-details > header button {
+	width: 32px;
+	height: 32px;
+	border: 0;
+	border-radius: 8px;
+	background: transparent;
+	color: var(--drive-muted);
+	font-size: 1.25rem;
+}
+
+#drive-details-body {
+	padding: 16px;
+}
+
+.drive-details-hero {
+	display: grid;
+	justify-items: center;
+	gap: 7px;
+	padding: 8px 4px 20px;
+	text-align: center;
+}
+
+.drive-details-hero h2,
+.drive-details-hero p {
+	margin: 0;
+	max-width: 100%;
+	overflow-wrap: anywhere;
+}
+
+.drive-details-hero h2 {
+	font-size: 1rem;
+}
+
+.drive-details-hero p {
+	color: var(--drive-muted);
+	font-size: .74rem;
+}
+
+.drive-details-actions {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 7px;
+	margin-bottom: 18px;
+}
+
+.drive-details-actions button {
+	min-height: 39px;
+	border: 1px solid var(--drive-line);
+	border-radius: 9px;
+	background: var(--drive-surface);
+	color: var(--drive-text);
+	font-size: .75rem;
+}
+
+.drive-details-actions button:hover {
+	border-color: var(--drive-line-strong);
+	background: var(--drive-surface-hover);
+}
+
+.drive-details-actions .is-danger {
+	color: var(--drive-danger);
+}

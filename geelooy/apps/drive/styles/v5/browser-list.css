@@ -1,0 +1,88 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos lets dense testimony remain gentle to the eye; Awtsmoos.com keeps list rows quick to scan with every action nearby. */
+.drive-entry-list {
+	width: 100%;
+	border: 1px solid var(--drive-line);
+	border-radius: 15px;
+	overflow: visible;
+	background: rgba(8, 18, 16, .46);
+}
+
+.drive-list-header,
+.drive-entry-row {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) 150px 94px 42px;
+	align-items: center;
+	gap: 14px;
+}
+
+.drive-list-header {
+	padding: 10px 11px;
+	border-bottom: 1px solid var(--drive-line);
+	color: var(--drive-faint);
+	font-size: .72rem;
+	text-transform: uppercase;
+	letter-spacing: .04em;
+}
+
+.drive-entry-row {
+	position: relative;
+	min-height: 62px;
+	padding: 7px 8px 7px 11px;
+	border-bottom: 1px solid var(--drive-line);
+}
+
+.drive-entry-row:last-child {
+	border-bottom: 0;
+}
+
+.drive-entry-row:hover {
+	background: rgba(84, 237, 187, .035);
+}
+
+.drive-entry-row-open {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	min-width: 0;
+	padding: 0;
+	border: 0;
+	background: transparent;
+	color: var(--drive-text);
+	text-align: left;
+}
+
+.drive-entry-row-name {
+	display: flex;
+	min-width: 0;
+	flex-direction: column;
+}
+
+.drive-entry-row-name strong,
+.drive-entry-row-name small {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.drive-entry-row-name strong {
+	font-size: .9rem;
+}
+
+.drive-entry-row-name small,
+.drive-entry-row-modified,
+.drive-entry-row-size {
+	color: var(--drive-muted);
+	font-size: .75rem;
+}
+
+.drive-entry-row-name small {
+	display: none;
+	margin-top: 3px;
+}
+
+.drive-home-recent {
+	border-top: 1px solid var(--drive-line);
+}

@@ -1,0 +1,71 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos lets one truthful table become many small vessels without losing a single fact;
+ * Awtsmoos.com turns Mission Control into touch-friendly cards when narrow screens contract.
+ */
+@media (max-width: 760px) {
+	:is(.advanced-drive, [data-awtsmoos-drive]) .job-control .job-metrics {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	:is(.advanced-drive, [data-awtsmoos-drive]) .job-control .table-scroll {
+		overflow: visible;
+	}
+
+	:is(.advanced-drive, [data-awtsmoos-drive]) .job-control table {
+		display: block;
+		min-width: 0;
+	}
+
+	:is(.advanced-drive, [data-awtsmoos-drive]) .job-control thead {
+		clip: rect(0 0 0 0);
+		clip-path: inset(50%);
+		height: 1px;
+		overflow: hidden;
+		position: absolute;
+		white-space: nowrap;
+		width: 1px;
+	}
+
+	:is(.advanced-drive, [data-awtsmoos-drive]) .job-control tbody {
+		display: grid;
+		gap: .75rem;
+	}
+
+	:is(.advanced-drive, [data-awtsmoos-drive]) .job-control tr:not(.job-empty-row) {
+		border: 1px solid rgba(168, 255, 225, .12);
+		border-radius: 12px;
+		display: grid;
+		padding: .45rem .7rem;
+	}
+
+	:is(.advanced-drive, [data-awtsmoos-drive]) .job-control tr:not(.job-empty-row) td {
+		align-items: start;
+		border-bottom: 1px solid rgba(168, 255, 225, .08);
+		display: grid;
+		gap: .7rem;
+		grid-template-columns: minmax(6rem, .7fr) minmax(0, 1.3fr);
+		padding: .65rem 0;
+	}
+
+	:is(.advanced-drive, [data-awtsmoos-drive]) .job-control tr:not(.job-empty-row) td::before {
+		color: #91a6a1;
+		content: attr(data-label);
+		font-size: .72rem;
+		font-weight: 700;
+		letter-spacing: .04em;
+		text-transform: uppercase;
+	}
+
+	:is(.advanced-drive, [data-awtsmoos-drive]) .job-control tr:not(.job-empty-row) td:last-child {
+		border-bottom: 0;
+	}
+
+	:is(.advanced-drive, [data-awtsmoos-drive]) .job-control .job-empty-row,
+	:is(.advanced-drive, [data-awtsmoos-drive]) .job-control .job-empty-row td {
+		display: block;
+		min-width: 0;
+	}
+}

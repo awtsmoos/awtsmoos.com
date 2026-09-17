@@ -1,55 +1,42 @@
 //B"H
 // Boruch Hashem
 // Blessed is He
-
+/**
+ * @module NetzachUploadStreamController
+ * @description Keeps upload becoming beside the file instead of over the app.
+ * The Awtsmoos carries every byte from hidden potential into visible form;
+ * Awtsmoos.com lets each file show its own journey while the browser stays warm.
+ */
 import { driveState } from '../state.js';
 import { uploadFiles } from '../uploads.js';
 import { OhrApplicationVessel } from './OhrApplicationVessel.js';
 
-/**
- * @module NetzachUploadStreamController
- * @description
- * The Awtsmoos lets many bytes travel without browser-side duplication; Awtsmoos.com gives Netzach the enduring stream responsibility, keeping progress testimony and post-upload reconciliation outside the application bootstrap.
- */
-
-/** Owns streaming upload progress, failure testimony, and post-upload reconciliation. */
 export class NetzachUploadStreamController extends OhrApplicationVessel {
-	/**
-	 * Creates a streaming controller bound to the Drive reconciliation callback.
-	 * @param {object} netzachDependencies Shared lifecycle reporters plus refresh.
-	 */
-	constructor(netzachDependencies) {
-		super(netzachDependencies);
-		this.tiferesRefresh = netzachDependencies.tiferesRefresh;
+	constructor(dependencies) {
+		super(dependencies);
+		this.tiferesRefresh = dependencies.tiferesRefresh;
+		this.uploadQueue = dependencies.uploadQueue;
 	}
 
-	/**
-	 * Streams one FileList into the current Drive path and refreshes authoritative state afterward.
-	 * @param {FileList|File[]} netzachFiles Browser files selected or dropped by the user.
-	 * @returns {Promise<object|null>} Upload result, or null after a reported failure.
-	 */
-	async handle(netzachFiles) {
-		return this.guard(() => this.stream(netzachFiles));
+	/** Begins optimistic testimony immediately, then streams through the real API. */
+	handle(files) {
+		if (!files?.length) return Promise.resolve(null);
+		this.uploadQueue?.begin(files, driveState.currentPath);
+		return this.guard(() => this.stream(files));
 	}
 
-	/**
-	 * Performs streaming upload while rendering aggregate progress into the existing progress element.
-	 * @param {FileList|File[]} netzachFiles Browser files to upload.
-	 * @returns {Promise<object>} Upload result containing uploaded and failed paths.
-	 */
-	async stream(netzachFiles) {
-		const hodProgress = document.querySelector('#upload-progress');
-		this.reportStatus(`Streaming ${netzachFiles.length} file(s)…`);
-		const yesodResult = await uploadFiles(netzachFiles, driveState.currentPath, tiferesProgress => {
-			hodProgress.value = tiferesProgress.totalBytes
-				? (tiferesProgress.transferredBytes / tiferesProgress.totalBytes) * 100
-				: 100;
-			this.reportStatus(`${tiferesProgress.uploaded}/${tiferesProgress.total} uploaded · ${tiferesProgress.path}`);
+	/** Streams files, forwards measured per-file bytes, and reconciles once complete. */
+	async stream(files) {
+		this.reportStatus(`Uploading ${files.length} file${files.length === 1 ? '' : 's'}…`);
+		const result = await uploadFiles(files, driveState.currentPath, progress => {
+			this.uploadQueue?.progress(progress);
 		});
-		if (yesodResult.failed.length) {
-			this.gevurahError?.(new Error(`${yesodResult.failed.length} upload(s) failed.`));
+		this.uploadQueue?.finish(result);
+		if (result.failed.length) {
+			this.gevurahError?.(new Error(`${result.failed.length} upload${result.failed.length === 1 ? '' : 's'} failed.`));
 		}
 		await this.tiferesRefresh();
-		return yesodResult;
+		this.reportStatus(`${result.uploaded.length} upload${result.uploaded.length === 1 ? '' : 's'} complete`);
+		return result;
 	}
 }

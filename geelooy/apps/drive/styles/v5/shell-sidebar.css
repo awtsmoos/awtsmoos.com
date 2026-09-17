@@ -1,0 +1,72 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos gives navigation a quiet edge while files remain the land; Awtsmoos.com keeps the rail subdued, intentional, and close at hand. */
+.drive-sidebar {
+	position: sticky;
+	top: 0;
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
+	padding: 26px 18px 22px;
+	border-right: 1px solid var(--drive-line);
+	background: rgba(4, 10, 9, .66);
+	backdrop-filter: blur(18px);
+}
+
+.drive-brand {
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+	color: var(--drive-text);
+	font-size: 1.1rem;
+	font-weight: 760;
+	letter-spacing: -.025em;
+	text-decoration: none;
+}
+
+.drive-brand strong {
+	color: var(--drive-accent);
+}
+
+.drive-brand-mark {
+	width: 27px;
+	height: 27px;
+	border: 2px solid var(--drive-accent);
+	border-radius: 9px;
+	box-shadow: var(--drive-glow);
+	transform: rotate(45deg);
+}
+
+.drive-sidebar-nav {
+	display: grid;
+	gap: 5px;
+	margin-top: 34px;
+}
+
+.drive-sidebar-nav button {
+	min-height: 44px;
+	padding: 0 13px;
+	border: 0;
+	border-radius: 11px;
+	background: transparent;
+	color: var(--drive-muted);
+	text-align: left;
+}
+
+.drive-sidebar-nav button:hover {
+	background: var(--drive-surface-hover);
+	color: var(--drive-text);
+}
+
+.drive-sidebar-nav button[aria-current="true"] {
+	background: rgba(84, 237, 187, .11);
+	color: var(--drive-accent);
+}
+
+.drive-sidebar .drive-advanced-link {
+	margin-top: auto;
+	color: var(--drive-faint);
+	font-size: .75rem;
+	text-decoration: none;
+}

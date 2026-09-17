@@ -1,34 +1,28 @@
-/* B"H */
-/* Boruch Hashem */
-/* Blessed is He */
-
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos clothes editable source in one calm studio; Awtsmoos.com keeps every builder pane contained beneath Drive so creation stays deep, ordered, and true.
+*/
 @import url('./site-builder-readiness.css');
 @import url('./site-builder-forms.css');
 @import url('./site-builder-preview.css');
 @import url('./site-builder-advanced.css');
 @import url('./site-builder-automation.css');
 
-/**
- * The Awtsmoos clothes real editable source in one calm studio while every pane remains a distinct truthful vessel.
- * Awtsmoos.com gives the builder a quiet architectural frame so readiness, creative action, and organized advanced automation can shine without dashboard noise.
- */
-
-.builder-studio,
-.builder-pane,
-.builder-pane > *,
-.builder-code-shell,
-.builder-preview-shell {
+[data-awtsmoos-drive] .builder-studio,
+[data-awtsmoos-drive] .builder-pane,
+[data-awtsmoos-drive] .builder-pane > *,
+[data-awtsmoos-drive] .builder-code-shell,
+[data-awtsmoos-drive] .builder-preview-shell {
 	min-width: 0;
 }
-
-.builder-studio {
+[data-awtsmoos-drive] .builder-studio {
 	display: grid;
 	gap: 1rem;
 	width: min(100%, 72rem);
 	margin: 0 auto;
 }
-
-.builder-intro {
+[data-awtsmoos-drive] .builder-intro {
 	display: grid;
 	gap: .55rem;
 	padding: clamp(1.1rem, 3vw, 1.65rem);
@@ -36,39 +30,33 @@
 	border-radius: 1.35rem;
 	background: color-mix(in srgb, var(--panel, #fff) 94%, currentColor 6%);
 }
-
-.builder-intro h1,
-.builder-intro p {
+[data-awtsmoos-drive] .builder-intro h1,
+[data-awtsmoos-drive] .builder-intro p {
 	margin: 0;
 }
-
-.builder-intro h1 {
+[data-awtsmoos-drive] .builder-intro h1 {
 	font-size: clamp(1.55rem, 4vw, 2.35rem);
 	line-height: 1.08;
 }
-
-.builder-intro-copy {
+[data-awtsmoos-drive] .builder-intro-copy {
 	max-width: 62ch;
 	line-height: 1.6;
 	opacity: .8;
 }
-
-.builder-kicker {
+[data-awtsmoos-drive] .builder-kicker {
 	font-size: .75rem;
 	font-weight: 800;
 	letter-spacing: .13em;
 	text-transform: uppercase;
 }
-
-.builder-pane {
+[data-awtsmoos-drive] .builder-pane {
 	border: 1px solid color-mix(in srgb, currentColor 13%, transparent);
 	border-radius: 1.15rem;
 	background: var(--panel, #fff);
 	overflow: clip;
 	scroll-margin-top: 5rem;
 }
-
-.builder-pane > summary {
+[data-awtsmoos-drive] .builder-pane > summary {
 	display: flex;
 	align-items: center;
 	min-height: 54px;
@@ -76,31 +64,26 @@
 	font-weight: 850;
 	cursor: pointer;
 }
-
-.builder-pane[open] > summary {
+[data-awtsmoos-drive] .builder-pane[open] > summary {
 	border-bottom: 1px solid color-mix(in srgb, currentColor 10%, transparent);
 }
-
-.builder-pane-body {
+[data-awtsmoos-drive] .builder-pane-body {
 	display: grid;
 	gap: 1rem;
 	padding: 1rem;
 }
-
-.builder-preview-shell,
-.builder-code-shell {
+[data-awtsmoos-drive] .builder-preview-shell,
+[data-awtsmoos-drive] .builder-code-shell {
 	width: 100%;
 }
-
-.builder-preview-frame {
+[data-awtsmoos-drive] .builder-preview-frame {
 	display: block;
 	width: 100%;
 	min-height: 28rem;
 	border: 0;
 	background: #fff;
 }
-
-.builder-code-editor {
+[data-awtsmoos-drive] .builder-code-editor {
 	width: 100%;
 	min-height: 22rem;
 	resize: vertical;

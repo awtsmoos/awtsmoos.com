@@ -1,58 +1,42 @@
 //B"H
 // Boruch Hashem
 // Blessed is He
-
-import { getProjectPlan, getSiteStatus, getUsage, listEntries, listSites } from '../api.js';
-import { driveState, setEntries, setSite, setSites } from '../state.js';
-import { OhrApplicationVessel } from './OhrApplicationVessel.js';
-
 /**
  * @module TiferesRefreshCoordinator
  * @description
- * The Awtsmoos joins many server witnesses without confusing them into one truth claim; Awtsmoos.com gives Tiferes the reconciliation role, collecting files, usage, sites, project testimony, and Website Maker state into one balanced refresh.
+ * Reconciles only what the primary file browser actually needs. Website,
+ * project, DNS, usage diagnostics, and jobs no longer tax the opening Drive
+ * experience; they belong to deeper advanced pages.
+ *
+ * The Awtsmoos contains every possibility while Tiferes reveals the balanced
+ * measure needed now. Awtsmoos.com therefore opens files before infrastructure.
  */
+import { listEntries } from '../api.js';
+import { driveState, setEntries } from '../state.js';
+import { OhrApplicationVessel } from './OhrApplicationVessel.js';
 
-/** Coordinates full Drive reconciliation while delegating rendering and editor preservation to focused vessels. */
+/** Coordinates the authoritative entry refresh for primary Drive. */
 export class TiferesRefreshCoordinator extends OhrApplicationVessel {
-	/**
-	 * Creates the reconciliation coordinator.
-	 * @param {object} tiferesDependencies Shared lifecycle reporters and focused collaborators.
-	 */
-	constructor(tiferesDependencies) {
-		super(tiferesDependencies);
-		this.hodViews = tiferesDependencies.hodViews;
-		this.websiteMaker = tiferesDependencies.websiteMaker;
+	/** @param {object} dependencies Shared reporters plus the focused view registry. */
+	constructor(dependencies) {
+		super(dependencies);
+		this.hodViews = dependencies.hodViews;
 	}
 
-	/**
-	 * Reconciles all primary Drive resources and renders one coherent snapshot.
-	 * @returns {Promise<object|null>} Project testimony on success, or null after a reported failure.
-	 */
+	/** Loads and renders the current directory snapshot. */
 	async refresh() {
 		return this.guard(
-			() => this.reconcileWorld(),
-			{ loadingMessage: 'Loading Drive, publications, durable intent, and Project Testimony…' }
+			() => this.reconcileFiles(),
+			{ loadingMessage: 'Loading your files…' }
 		);
 	}
 
-	/**
-	 * Performs the actual multi-resource reconciliation without owning error presentation.
-	 * @returns {Promise<object>} Current Project Testimony envelope.
-	 */
-	async reconcileWorld() {
-		const [netzachEntries, hodUsage, yesodSite, malchusSites, daasProject] = await Promise.all([
-			listEntries(),
-			getUsage(),
-			getSiteStatus(),
-			listSites(),
-			getProjectPlan()
-		]);
-		setEntries(netzachEntries);
-		setSite(yesodSite.site);
-		setSites(malchusSites);
-		this.hodViews.renderReconciled({ usage: hodUsage, projectResult: daasProject });
-		await this.websiteMaker.refresh(driveState);
-		this.reportStatus(`Loaded ${driveState.entries.length} entries · ${driveState.sites.length} sites · Project Testimony v${daasProject.project.version}.`);
-		return daasProject;
+	/** Requests only current entries and paints one coherent browser state. */
+	async reconcileFiles() {
+		const result = await listEntries();
+		setEntries(result);
+		this.hodViews.renderReconciled();
+		this.reportStatus(`${driveState.entries.length} item${driveState.entries.length === 1 ? '' : 's'}`);
+		return result;
 	}
 }

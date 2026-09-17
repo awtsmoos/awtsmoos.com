@@ -1,0 +1,87 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos gives each consequential deed a measured vessel; Awtsmoos.com asks one clear question, then returns the user to the level. */
+dialog {
+	width: min(430px, calc(100vw - 28px));
+	padding: 0;
+	border: 1px solid var(--drive-line-strong);
+	border-radius: 18px;
+	background: #081512;
+	color: var(--drive-text);
+	box-shadow: var(--drive-shadow);
+}
+
+dialog::backdrop {
+	background: rgba(0, 5, 4, .72);
+	backdrop-filter: blur(5px);
+}
+
+dialog form {
+	display: grid;
+	gap: 15px;
+	padding: 20px;
+}
+
+dialog h2,
+dialog p {
+	margin: 0;
+}
+
+dialog h2 {
+	font-size: 1rem;
+}
+
+dialog p {
+	color: var(--drive-muted);
+	font-size: .82rem;
+	line-height: 1.45;
+}
+
+dialog label {
+	display: grid;
+	gap: 7px;
+	color: var(--drive-muted);
+	font-size: .76rem;
+}
+
+dialog input,
+dialog select {
+	min-height: 43px;
+	padding: 0 11px;
+	border: 1px solid var(--drive-line);
+	border-radius: 10px;
+	outline: 0;
+	background: var(--drive-surface);
+	color: var(--drive-text);
+}
+
+dialog input:focus,
+dialog select:focus {
+	border-color: var(--drive-line-strong);
+	box-shadow: var(--drive-glow);
+}
+
+.drive-dialog-actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: 8px;
+	margin-top: 3px;
+}
+
+.drive-dialog-actions button {
+	min-height: 40px;
+	padding: 0 14px;
+	border: 1px solid var(--drive-line);
+	border-radius: 9px;
+	background: var(--drive-surface);
+	color: var(--drive-text);
+}
+
+.drive-dialog-actions button[type="submit"],
+#confirm-submit {
+	border-color: transparent;
+	background: var(--drive-accent);
+	color: #03110c;
+	font-weight: 760;
+}

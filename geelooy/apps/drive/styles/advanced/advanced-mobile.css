@@ -1,0 +1,66 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos contracts even the deep control room without crushing its meaning;
+ * Awtsmoos.com turns many advanced columns into one readable mobile stream.
+ */
+@media (max-width: 760px) {
+	.advanced-shell {
+		width: min(100% - 20px, 1180px);
+		padding: 18px 0 50px;
+	}
+
+	.advanced-header,
+	.advanced-overview {
+		grid-template-columns: 1fr;
+	}
+
+	.advanced-header {
+		gap: 14px;
+	}
+
+	.advanced-header h1 {
+		font-size: 1.8rem;
+	}
+
+	.advanced-account > summary {
+		justify-content: flex-start !important;
+	}
+
+	.advanced-panel,
+	.advanced-disclosure > summary,
+	.advanced-drive .site-builder-root,
+	.advanced-drive .project-platform,
+	.advanced-drive .job-control {
+		padding: 14px !important;
+	}
+
+	.advanced-actions,
+	.advanced-panel-head,
+	.job-actions {
+		align-items: stretch !important;
+		flex-direction: column;
+	}
+
+	.advanced-actions > *,
+	.job-actions > * {
+		width: 100%;
+	}
+
+	.advanced-drive .builder-grid-two,
+	.advanced-drive .builder-grid-three,
+	.advanced-drive .project-grid,
+	.advanced-drive .settings-grid {
+		grid-template-columns: 1fr !important;
+	}
+
+	.advanced-drive .table-scroll {
+		overflow-x: auto;
+		-webkit-overflow-scrolling: touch;
+	}
+
+	.advanced-drive table {
+		min-width: 680px;
+	}
+}

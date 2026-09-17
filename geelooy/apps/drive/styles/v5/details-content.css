@@ -1,0 +1,61 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gives each measured fact its place without making measurement king;
+ * Awtsmoos.com keeps metadata quiet, public truth visible, and copy close at hand.
+ */
+.drive-details-facts {
+	display: grid;
+	grid-template-columns: 76px minmax(0, 1fr);
+	gap: 9px 11px;
+	margin: 0;
+	padding: 15px 0;
+	border-top: 1px solid var(--drive-line);
+	border-bottom: 1px solid var(--drive-line);
+	font-size: .73rem;
+}
+
+.drive-details-facts dt {
+	color: var(--drive-faint);
+}
+
+.drive-details-facts dd {
+	margin: 0;
+	color: var(--drive-muted);
+	overflow-wrap: anywhere;
+}
+
+.drive-details-public {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	gap: 7px;
+	align-items: center;
+	margin-top: 15px;
+}
+
+.drive-details-public strong {
+	grid-column: 1 / -1;
+	font-size: .76rem;
+}
+
+.drive-details-public code {
+	min-width: 0;
+	padding: 9px;
+	border-radius: 8px;
+	background: rgba(84, 237, 187, .05);
+	color: var(--drive-accent);
+	font-size: .68rem;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.drive-details-copy {
+	min-height: 36px;
+	padding: 0 11px;
+	border: 1px solid var(--drive-line-strong);
+	border-radius: 8px;
+	background: rgba(84, 237, 187, .09);
+	color: var(--drive-accent);
+}

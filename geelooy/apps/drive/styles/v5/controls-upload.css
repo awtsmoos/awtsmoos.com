@@ -1,0 +1,62 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos carries each byte from possibility into visible deed; Awtsmoos.com keeps progress beside its file so no global panel steals the lead. */
+#drive-upload-queue {
+	display: grid;
+	gap: 8px;
+	margin-bottom: 14px;
+}
+
+.drive-upload-row {
+	display: grid;
+	grid-template-columns: 38px minmax(0, 1fr);
+	align-items: center;
+	gap: 11px;
+	min-height: 64px;
+	padding: 10px 12px;
+	border: 1px solid var(--drive-line);
+	border-radius: 12px;
+	background: rgba(12, 24, 21, .8);
+}
+
+.drive-upload-row > div {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	gap: 4px 12px;
+	min-width: 0;
+}
+
+.drive-upload-row strong {
+	overflow: hidden;
+	font-size: .86rem;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.drive-upload-row small {
+	color: var(--drive-muted);
+	font-size: .72rem;
+}
+
+.drive-upload-row progress {
+	grid-column: 1 / -1;
+	width: 100%;
+	height: 4px;
+	border: 0;
+	border-radius: 999px;
+	overflow: hidden;
+	accent-color: var(--drive-accent);
+}
+
+.drive-upload-row[data-upload-status="complete"] {
+	border-color: rgba(84, 237, 187, .3);
+}
+
+.drive-upload-row[data-upload-status="failed"] {
+	border-color: rgba(255, 109, 120, .45);
+}
+
+.drive-upload-row[data-upload-status="failed"] small {
+	color: var(--drive-danger);
+}

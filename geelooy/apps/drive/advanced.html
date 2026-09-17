@@ -1,0 +1,76 @@
+<!-- B"H -->
+<!-- Boruch Hashem -->
+<!-- Blessed is He -->
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+	<meta name="theme-color" content="#07110f">
+	<title>Advanced Drive · Awtsmoos</title>
+	<link rel="stylesheet" href="./styles/advanced-drive.css">
+</head>
+<body class="advanced-drive">
+	<main class="advanced-shell">
+		<header class="advanced-header">
+			<div>
+				<a class="advanced-back" href="./">← Files</a>
+				<p class="advanced-kicker">B"H · AWTSMOOS DRIVE</p>
+				<h1>Advanced tools</h1>
+				<p>Publishing, Website Maker, project runtime, storage, and Mission Control live here—away from ordinary file browsing.</p>
+			</div>
+			<details id="drive-account" class="advanced-account">
+				<summary id="drive-alias-chip">Account</summary>
+				<form id="connection-form" autocomplete="off">
+					<label>Account<select id="alias-select" name="aliasId"></select></label>
+					<label>Manual alias<input id="alias-id" name="manualAliasId" autocomplete="off"></label>
+					<label>Identity<select id="credential-type" name="credentialType"><option value="session">Current Awtsmoos session</option><option value="user">User API key</option><option value="drive">Drive bearer token</option></select></label>
+					<label id="credential-field">Credential<input id="credential" name="credential" type="password" autocomplete="off"></label>
+					<button type="submit">Use account</button>
+				</form>
+			</details>
+		</header>
+		<section class="advanced-status" aria-live="polite">
+			<p id="status">Resolving your account…</p>
+			<p id="error" hidden></p>
+		</section>
+		<section class="advanced-overview">
+			<article class="advanced-panel">
+				<p class="advanced-kicker">STORAGE</p>
+				<h2>Usage</h2>
+				<div id="usage">Connect to load usage.</div>
+			</article>
+			<article class="advanced-panel">
+				<div class="advanced-panel-head"><div><p class="advanced-kicker">PRIMARY PUBLICATION</p><h2>Website</h2></div><span id="site-status-badge" class="badge">Not connected</span></div>
+				<label>Website URL<input id="site-url" readonly value="Connect an alias to reveal its URL"></label>
+				<p id="site-summary">A public index.html activates the primary site.</p>
+				<div class="advanced-actions"><button id="open-site" type="button">Open site</button><button id="copy-site" type="button">Copy URL</button><button id="website-mode" type="button">Website upload mode</button></div>
+				<div id="project-workspace" class="project-workspace" aria-live="polite"></div>
+			</article>
+		</section>
+		<details class="advanced-disclosure" open>
+			<summary>Website Maker</summary>
+			<section id="site-builder-root" class="site-builder-root" aria-label="Website Maker" aria-live="polite"></section>
+		</details>
+		<details class="advanced-disclosure">
+			<summary>Project Platform</summary>
+			<section id="project-platform" class="project-platform" aria-label="Project control plane" aria-live="polite"></section>
+		</details>
+		<details class="advanced-disclosure">
+			<summary>Mission Control</summary>
+			<section id="job-control" class="job-control" aria-label="Deferred work mission control">
+				<div class="advanced-panel-head"><div><p class="advanced-kicker">DEFERRED WORK</p><h2>Mission Control</h2></div><span id="job-health-badge" class="badge">Connect an alias</span></div>
+				<p id="job-summary">Queue health and owner controls appear after identity resolves.</p>
+				<div class="job-metrics"><span>Active<strong id="job-active">—</strong></span><span>Queued<strong id="job-queued">—</strong></span><span>Running<strong id="job-running">—</strong></span><span>Oldest ready<strong id="job-oldest">—</strong></span></div>
+				<div class="job-actions"><button id="job-refresh" type="button">Refresh jobs</button><label>Exact job ID<input id="job-id" placeholder="job-…" spellcheck="false"></label><button id="job-inspect" type="button">Inspect</button><button id="job-retry" type="button">Retry</button></div>
+				<div class="table-scroll"><table><thead><tr><th>Type</th><th>Queue</th><th>Status</th><th>Subject</th><th>Available</th><th>Actions</th></tr></thead><tbody id="job-rows"><tr><td colspan="6">Connect an alias to load jobs.</td></tr></tbody></table></div>
+			</section>
+		</details>
+		<details class="advanced-disclosure">
+			<summary>Upload defaults</summary>
+			<div class="advanced-actions"><label>New files<select id="upload-visibility"><option value="private">Private</option><option value="public">Public</option></select></label><label>Cache policy<select id="upload-cache"><option value="mutable">Mutable</option><option value="immutable">Immutable</option></select></label></div>
+		</details>
+	</main>
+	<script type="module" src="./js/advancedApp.js"></script>
+</body>
+</html>

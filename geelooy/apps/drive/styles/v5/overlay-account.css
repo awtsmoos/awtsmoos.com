@@ -1,0 +1,92 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos knows identity before utility chrome gives it a name;
+ * Awtsmoos.com keeps account power compact so files remain the frame.
+ */
+.drive-account {
+	position: relative;
+	z-index: var(--layer-account);
+}
+
+.drive-account > summary {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 44px;
+	min-height: 44px;
+	padding: 0 12px;
+	border: 1px solid var(--drive-line);
+	border-radius: 999px;
+	background: rgba(12, 25, 22, .92);
+	color: var(--drive-text);
+	font-size: .78rem;
+	font-weight: 760;
+	cursor: pointer;
+	list-style: none;
+}
+
+.drive-account > summary::-webkit-details-marker {
+	display: none;
+}
+
+.drive-account[open] > summary {
+	border-color: var(--drive-line-strong);
+	box-shadow: var(--drive-glow);
+}
+
+.drive-account-panel {
+	position: absolute;
+	top: calc(100% + 10px);
+	right: 0;
+	width: min(290px, calc(100vw - 28px));
+	padding: 15px;
+	border: 1px solid var(--drive-line-strong);
+	border-radius: 15px;
+	background: rgba(5, 14, 12, .98);
+	box-shadow: var(--drive-shadow);
+}
+
+.drive-account-panel form {
+	display: grid;
+	gap: 11px;
+}
+
+.drive-account-panel label {
+	display: grid;
+	gap: 5px;
+	color: var(--drive-muted);
+	font-size: .73rem;
+}
+
+.drive-account-panel input,
+.drive-account-panel select,
+.drive-account-panel button {
+	min-height: 39px;
+	border: 1px solid var(--drive-line);
+	border-radius: 9px;
+	background: var(--drive-surface);
+	color: var(--drive-text);
+}
+
+.drive-account-panel input,
+.drive-account-panel select {
+	padding: 0 10px;
+}
+
+.drive-account-panel button {
+	font-weight: 720;
+}
+
+.drive-account-panel details summary,
+.drive-account-panel .drive-advanced-link {
+	color: var(--drive-faint);
+	font-size: .72rem;
+}
+
+.drive-account-panel .drive-advanced-link {
+	display: block;
+	margin-top: 12px;
+	text-decoration: none;
+}

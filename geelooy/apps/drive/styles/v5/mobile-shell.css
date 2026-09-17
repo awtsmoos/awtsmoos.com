@@ -1,0 +1,87 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos folds breadth into a palm without losing the world within; Awtsmoos.com keeps phone chrome ordered so the files may begin. */
+@media (max-width: 760px) {
+	.drive-app {
+		display: block;
+		min-height: 100vh;
+	}
+
+	.drive-sidebar {
+		display: none;
+	}
+
+	.drive-main {
+		padding: max(12px, env(safe-area-inset-top)) 14px calc(92px + env(safe-area-inset-bottom));
+	}
+
+	.drive-header {
+		grid-template-columns: minmax(0, 1fr) auto;
+		gap: 10px;
+		margin-bottom: 14px;
+	}
+
+	.drive-mobile-brand {
+		display: inline-flex;
+		grid-column: 1;
+		grid-row: 1;
+		font-size: 1rem;
+	}
+
+	.drive-mobile-brand .drive-brand-mark {
+		width: 23px;
+		height: 23px;
+		border-radius: 7px;
+	}
+
+	.drive-account {
+		grid-column: 2;
+		grid-row: 1;
+	}
+
+	.drive-search {
+		grid-column: 1 / -1;
+		grid-row: 2;
+	}
+
+	.drive-search-field {
+		min-height: 50px;
+		border-radius: 13px;
+	}
+
+	.drive-toolbar {
+		align-items: stretch;
+		flex-direction: column;
+	}
+
+	.drive-primary-actions {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+	}
+
+	.drive-primary-actions button {
+		min-height: 46px;
+	}
+
+	.drive-toolbar-tools {
+		justify-content: space-between;
+	}
+
+	.drive-toolbar-tools label {
+		display: none;
+	}
+
+	.drive-location-bar {
+		margin: 7px 0 12px;
+	}
+
+	.drive-workspace,
+	.drive-workspace:has(.drive-details:not([hidden])) {
+		display: block;
+	}
+
+	.drive-utility-drawer {
+		font-size: .72rem;
+	}
+}

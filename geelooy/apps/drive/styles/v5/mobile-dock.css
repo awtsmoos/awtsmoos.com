@@ -1,0 +1,59 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos keeps the next human verb close to the hand yet clear of the page;
+ * Awtsmoos.com gives the phone four calm doors and reserves the safe-area stage.
+ */
+.drive-mobile-dock {
+	display: none;
+}
+
+@media (max-width: 760px) {
+	.drive-mobile-dock {
+		position: fixed;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		z-index: var(--layer-mobile-dock);
+		display: grid;
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+		padding: 7px 8px calc(7px + env(safe-area-inset-bottom));
+		border-top: 1px solid var(--drive-line);
+		background: rgba(4, 12, 10, .94);
+		backdrop-filter: blur(18px);
+		box-shadow: 0 -12px 34px rgba(0, 0, 0, .26);
+	}
+
+	.drive-mobile-dock button,
+	.drive-mobile-dock a {
+		display: grid;
+		place-items: center;
+		gap: 3px;
+		min-height: 56px;
+		padding: 5px;
+		border: 0;
+		border-radius: 11px;
+		background: transparent;
+		color: var(--drive-faint);
+		font-size: .83rem;
+		text-decoration: none;
+	}
+
+	.drive-mobile-dock span {
+		font-size: .62rem;
+		font-weight: 700;
+	}
+
+	.drive-mobile-dock [aria-current="true"] {
+		background: rgba(84, 237, 187, .08);
+		color: var(--drive-accent);
+	}
+
+	.drive-toast {
+		right: 10px;
+		bottom: calc(82px + env(safe-area-inset-bottom));
+		left: 10px;
+		max-width: none;
+	}
+}

@@ -1,0 +1,87 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos turns intention into a clear human verb without cluttering the field; Awtsmoos.com lets Upload lead, New Folder follow, and quiet controls yield. */
+.drive-toolbar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 14px;
+	margin-bottom: 11px;
+}
+
+.drive-primary-actions,
+.drive-toolbar-tools,
+.drive-view-switch {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.drive-toolbar button,
+.drive-toolbar select,
+.drive-location-bar button,
+.drive-utility-drawer button,
+.drive-utility-drawer select {
+	min-height: 40px;
+	border: 1px solid var(--drive-line);
+	border-radius: 10px;
+	background: var(--drive-surface);
+	color: var(--drive-text);
+}
+
+.drive-toolbar button,
+.drive-location-bar button,
+.drive-utility-drawer button {
+	padding: 0 13px;
+}
+
+.drive-primary-action {
+	border-color: transparent !important;
+	background: var(--drive-accent) !important;
+	color: #03100c !important;
+	font-weight: 820;
+	box-shadow: 0 7px 24px rgba(84, 237, 187, .15);
+}
+
+.drive-toolbar button:hover,
+.drive-location-bar button:hover,
+.drive-utility-drawer button:hover {
+	border-color: var(--drive-line-strong);
+	background: var(--drive-surface-hover);
+}
+
+.drive-primary-action:hover {
+	background: #70f4c8 !important;
+}
+
+.drive-view-switch {
+	padding: 3px;
+	border: 1px solid var(--drive-line);
+	border-radius: 11px;
+	background: rgba(4, 10, 9, .55);
+}
+
+.drive-view-switch button {
+	min-width: 36px;
+	min-height: 34px;
+	padding: 0;
+	border: 0;
+	background: transparent;
+	color: var(--drive-muted);
+}
+
+.drive-view-switch button[aria-pressed="true"] {
+	background: rgba(84, 237, 187, .12);
+	color: var(--drive-accent);
+}
+
+.drive-toolbar-tools label {
+	color: var(--drive-muted);
+	font-size: .74rem;
+}
+
+.drive-toolbar select,
+.drive-utility-drawer select {
+	padding: 0 28px 0 9px;
+}

@@ -1,0 +1,53 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos renews builder, project, and queue surfaces without surrendering contrast;
+ * Awtsmoos.com keeps old advanced machinery readable inside one isolated chamber.
+ */
+.advanced-drive .site-builder-root,
+.advanced-drive .project-platform,
+.advanced-drive .job-control {
+	padding: 18px !important;
+	background: #0a1512 !important;
+}
+
+.advanced-drive .site-builder-root *,
+.advanced-drive .project-platform *,
+.advanced-drive .job-control * {
+	--surface: #0d1a17;
+	--surface-raised: #12231f;
+	--text: #f5faf8;
+	--muted: #91a6a1;
+}
+
+.advanced-drive .site-builder-root :is(section, article, div),
+.advanced-drive .project-platform :is(section, article, div) {
+	color: inherit;
+}
+
+.advanced-drive .site-builder-root :is(input, textarea, select),
+.advanced-drive .project-platform :is(input, textarea, select) {
+	background: #091310 !important;
+	color: #f5faf8 !important;
+	border-color: rgba(168, 255, 225, .18) !important;
+}
+
+.advanced-drive .site-builder-root :is(p, label, small),
+.advanced-drive .project-platform :is(p, label, small),
+.advanced-drive .job-control :is(p, label, small) {
+	color: #a6b8b4 !important;
+}
+
+.advanced-drive table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.advanced-drive th,
+.advanced-drive td {
+	padding: 10px;
+	border-bottom: 1px solid rgba(168, 255, 225, .1);
+	color: #dce8e5;
+	text-align: left;
+}

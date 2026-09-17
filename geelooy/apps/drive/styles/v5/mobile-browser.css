@@ -1,0 +1,48 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos lets each file remain recognizable when width becomes narrow; Awtsmoos.com keeps the phone browser dense, touchable, and free of horizontal sorrow. */
+@media (max-width: 760px) {
+	.drive-entry-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 10px;
+	}
+
+	.drive-entry-open,
+	.drive-entry-card[data-entry-type="folder"] .drive-entry-open {
+		min-height: 132px;
+		padding: 15px 13px 12px;
+	}
+
+	.drive-entry-name {
+		font-size: .82rem;
+	}
+
+	.drive-entry-meta {
+		font-size: .68rem;
+	}
+
+	.drive-list-header {
+		display: none;
+	}
+
+	.drive-entry-list {
+		border: 0;
+		background: transparent;
+	}
+
+	.drive-entry-row {
+		grid-template-columns: minmax(0, 1fr) 40px;
+		min-height: 62px;
+		padding: 7px 2px;
+	}
+
+	.drive-entry-row-modified,
+	.drive-entry-row-size {
+		display: none;
+	}
+
+	.drive-entry-row-name small {
+		display: block;
+	}
+}
