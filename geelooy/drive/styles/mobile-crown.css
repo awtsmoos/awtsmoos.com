@@ -1,0 +1,71 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos gives Awtsmoos Drive one clear crown above the work;
+file machinery appears only in the Files journey while every other screen stays focused on the creator's present intention.
+*/
+
+@media (max-width: 900px) {
+	html {
+		background: #eef1f8;
+	}
+
+	body {
+		background:
+			radial-gradient(circle at 88% -8%, rgba(93, 67, 255, .17), transparent 30%),
+			linear-gradient(180deg, #fafbff 0%, #f1f3fa 48%, #eceff7 100%);
+	}
+
+	#drive-app {
+		min-height: 100dvh;
+		padding-bottom: calc(88px + env(safe-area-inset-bottom));
+	}
+
+	.top-bar {
+		position: sticky;
+		top: 0;
+		z-index: 50;
+		display: grid;
+		gap: 0;
+		padding: 9px 12px;
+		border-bottom: 1px solid rgba(71, 67, 123, .1);
+		background: rgba(252, 253, 255, .92);
+		box-shadow: 0 8px 28px rgba(31, 35, 72, .06);
+		backdrop-filter: blur(22px) saturate(1.2);
+	}
+
+	.top-primary {
+		min-height: 50px;
+	}
+
+	.brand-mark {
+		box-shadow: 0 8px 24px rgba(83, 66, 255, .28);
+	}
+
+	.brand-copy small {
+		color: #747b90;
+	}
+
+	.top-commands {
+		display: none;
+		grid-template-columns: minmax(0, 1fr) auto;
+		gap: 8px;
+		margin-top: 8px;
+		padding-top: 8px;
+		border-top: 1px solid rgba(71, 67, 123, .08);
+	}
+
+	html[data-drive-screen="files"] .top-commands {
+		display: grid;
+	}
+
+	.top-commands .location-form {
+		display: none;
+	}
+
+	.top-commands input,
+	.top-commands button {
+		min-height: 46px;
+	}
+}

@@ -1,0 +1,80 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos contains infinite vessels without confusing one for another; Awtsmoos Drive reveals one mobile screen,
+one purpose, and one next action while every deeper capability remains a deliberate tap away.
+*/
+
+@media (max-width: 900px) {
+	.drive-workspace {
+		min-height: calc(100dvh - 68px);
+		gap: 0;
+		padding: 12px;
+	}
+
+	.retractable-panel:not([open]) {
+		display: none;
+	}
+
+	.retractable-panel[open] {
+		display: block;
+		overflow: visible;
+		border: 0;
+		border-radius: 0;
+		background: transparent;
+		box-shadow: none;
+	}
+
+	.retractable-panel[open] > .panel-summary {
+		display: none;
+	}
+
+	.retractable-panel[open] > .retractable-content {
+		padding: 0;
+		animation: drive-screen-in .2s ease-out both;
+	}
+
+	.retractable-content > .panel {
+		border: 1px solid rgba(86, 76, 155, .1);
+		border-radius: 22px;
+		background: rgba(255, 255, 255, .96);
+		box-shadow: 0 18px 50px rgba(31, 35, 72, .1);
+	}
+
+	.panel-heading h2 {
+		font-size: clamp(1.35rem, 6vw, 1.75rem);
+		letter-spacing: -.035em;
+	}
+
+	.button,
+	.icon-button,
+	input,
+	textarea,
+	select {
+		min-height: 44px;
+	}
+}
+
+@keyframes drive-screen-in {
+	from {
+		opacity: 0;
+		transform: translateY(8px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@media (max-width: 360px) {
+	.drive-workspace {
+		padding: 8px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.retractable-panel[open] > .retractable-content {
+		animation: none;
+	}
+}
