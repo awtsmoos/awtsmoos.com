@@ -1,5 +1,5 @@
 B"H
-1.0.626
+1.0.627
 main.js
 ai/relay/direct/browser/ActiveTargetLease.mjs
 ai/relay/direct/browser/AgentTabCatalog.mjs
@@ -248,12 +248,17 @@ ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/fs/v3/legacy.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/fs/v3/locks.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/fs/v3/manifestCodec.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/fs/v3/manifestCompression.js
+ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/fs/v3/manifestIndexes.js
+ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/fs/v3/manifestShape.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/fs/v3/move.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/fs/v3/path.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/fs/v3/read.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/fs/v3/schema.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/fs/v3/stat.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/fs/v3/store.js
+ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/fs/v3/storeChildren.js
+ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/fs/v3/storeInodes.js
+ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/fs/v3/storeState.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/fs/v3/transactions.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/fs/v3/VirtualFs.js
 ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/fs/v3/write.js
