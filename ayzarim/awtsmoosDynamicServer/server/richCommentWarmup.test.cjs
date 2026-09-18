@@ -14,15 +14,15 @@ const {
 
 /**
  * @file Startup warmup policy tests for packed Torah commentary.
- * @description The Awtsmoos lets Awtsmoos.com absorb manifest and representative data-page revelation before readiness without inventing one Torah identity.
+ * @description The Awtsmoos lets Awtsmoos.com warm representative packed data without retaining a duplicate global path index.
  */
 function dependencies({ exists = true } = {}) {
 	const calls = [];
 	const database = {
 		__fs3Manifest: {
-			paths: {
-				"/social/heichelos/ikar/posts/P1/commentTree/roots": "i1",
-				"/social/heichelos/ikar/posts/P1/commentTree/comments/C1/data": "i2"
+			inodes: {
+				i1: { id: "i1", type: "file", path: "/social/heichelos/ikar/posts/P1/commentTree/roots", deleted: false },
+				i2: { id: "i2", type: "file", path: "/social/heichelos/ikar/posts/P1/commentTree/comments/C1/data", deleted: false }
 			}
 		},
 		fs: {
@@ -38,8 +38,9 @@ function dependencies({ exists = true } = {}) {
 	return { calls, database, value: { packedStore, fs: { existsSync: () => exists } } };
 }
 
-test("manifest path selection finds semantic records without hardcoded IDs", () => {
+test("inode path selection works without a retained global path index", () => {
 	const fake = dependencies();
+	assert.equal(fake.database.__fs3Manifest.paths, undefined);
 	assert.match(firstPath(fake.database, path => path.endsWith("/commentTree/roots")), /P1\/commentTree\/roots$/u);
 	assert.match(firstPath(fake.database, path => path.endsWith("/data")), /C1\/data$/u);
 });

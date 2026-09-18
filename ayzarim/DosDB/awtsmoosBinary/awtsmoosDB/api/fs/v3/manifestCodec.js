@@ -1,44 +1,21 @@
-// B"H
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
- * @file api/fs/v3/manifestCodec.js
- * @chapter The Map Is Folded Without Losing One Road
+ * @file manifestCodec.js
+ * @chapter The Road Index Sleeps Until The Scroll Is Sealed
  * @description
- * Owns the FS3 manifest token. Legacy JSON bodies remain readable, while new
- * manifests may store compressed bytes with validated original and stored lengths.
+ * The Awtsmoos lets Awtsmoos.com retain the compact living FS3 graph while
+ * preserving the historical v3 disk contract. Full path indexes are rebuilt
+ * only when a manifest is encoded for an explicit flush or database close.
  */
 
-const { ROOT_INODE, ROOT_PATH } = require('./schema');
 const compression = require('./manifestCompression.js');
+const shape = require('./manifestShape.js');
 
-function now() { return Date.now(); }
-function plain(value) { return value && value.__resolve__ ? value.__resolve__() : value; }
-function objectOrEmpty(value) { return value && typeof value === 'object' ? value : {}; }
-
-function blankManifest() {
-	return {
-		version: 3,
-		nextInode: 1,
-		tx: { active: null, lastCommitted: 0 },
-		inodes: {},
-		paths: {},
-		children: {}
-	};
-}
-
-function rootInodeRecord() {
-	return {
-		id: ROOT_INODE,
-		type: 'dir',
-		name: '',
-		parent: null,
-		path: ROOT_PATH,
-		size: 0,
-		ctime: now(),
-		mtime: now(),
-		version: 1,
-		deleted: false
-	};
+function plain(value) {
+	return value && value.__resolve__ ? value.__resolve__() : value;
 }
 
 function tokenBlob(token) {
@@ -51,31 +28,52 @@ function tokenBlob(token) {
 function decodeManifest(db, token) {
 	const value = plain(token);
 	const blob = tokenBlob(value);
-	if (blob) {
-		const bytes = compression.decodeManifestBytes(db, value, blob);
-		const text = bytes.toString('utf8');
-		if (!text.trimStart().startsWith('{')) {
-			const error = new SyntaxError(`FS3_MANIFEST_NOT_JSON bytes=${bytes.length}`);
-			error.code = 'AWTSMOOS_FS3_BAD_MANIFEST';
-			throw error;
-		}
-		return JSON.parse(text);
+	if (!blob) {
+		if (value && value.version === 3 && value.inodes) return value;
+		return shape.blankManifest();
 	}
-	if (value && value.version === 3 && value.inodes) return value;
-	return blankManifest();
+	const bytes = compression.decodeManifestBytes(db, value, blob);
+	const text = bytes.toString('utf8');
+	if (!text.trimStart().startsWith('{')) {
+		const error = new SyntaxError(`FS3_MANIFEST_NOT_JSON bytes=${bytes.length}`);
+		error.code = 'AWTSMOOS_FS3_BAD_MANIFEST';
+		throw error;
+	}
+	return JSON.parse(text);
 }
 
-function encodeManifest(db, manifest) {
-	const previous = plain(db.root && db.root.__fs3_manifest__);
-	const previousBlob = tokenBlob(previous);
-	const bytes = Buffer.from(JSON.stringify(manifest), 'utf8');
-	const encoded = compression.encodeManifestBytes(db, bytes);
-	const blob = db.blob.create(encoded.stored, {
+function persistedPaths(inodes) {
+	const paths = {};
+	for (const inodeId in inodes || {}) {
+		const inode = inodes[inodeId];
+		if (!inode || inode.deleted || typeof inode.path !== 'string') continue;
+		paths[inode.path] = inodeId;
+	}
+	return paths;
+}
+
+function persistenceView(manifest) {
+	return {
+		...manifest,
+		paths: persistedPaths(manifest.inodes)
+	};
+}
+
+function createBlob(db, bytes, encoded) {
+	return db.blob.create(encoded.stored, {
 		kind: 'fs3-manifest',
 		bytes: bytes.length,
 		storedBytes: encoded.stored.length,
 		codec: encoded.codec || 'identity'
 	});
+}
+
+function encodeManifest(db, manifest) {
+	const previous = plain(db.root && db.root.__fs3_manifest__);
+	const previousBlob = tokenBlob(previous);
+	const bytes = Buffer.from(JSON.stringify(persistenceView(manifest)), 'utf8');
+	const encoded = compression.encodeManifestBytes(db, bytes);
+	const blob = createBlob(db, bytes, encoded);
 	if (previousBlob) db.blob.delete(previousBlob);
 	return {
 		__fs3ManifestBlob: true,
@@ -87,32 +85,13 @@ function encodeManifest(db, manifest) {
 	};
 }
 
-function normalizeManifest(manifest) {
-	const value = manifest || blankManifest();
-	value.version = 3;
-	value.nextInode ||= 1;
-	value.tx ||= { active: null, lastCommitted: 0 };
-	value.inodes = objectOrEmpty(value.inodes);
-	value.paths = objectOrEmpty(value.paths);
-	value.children = objectOrEmpty(value.children);
-	if (!value.inodes[ROOT_INODE] || value.inodes[ROOT_INODE].type !== 'dir') {
-		value.inodes[ROOT_INODE] = rootInodeRecord();
-	}
-	value.paths[ROOT_PATH] = ROOT_INODE;
-	value.children[ROOT_INODE] ||= {};
-	let maximum = 0;
-	for (const id of Object.keys(value.inodes)) {
-		if (/^i\d+$/.test(id)) maximum = Math.max(maximum, Number(id.slice(1)));
-	}
-	value.nextInode = Math.max(value.nextInode, maximum + 1);
-	return value;
-}
-
 module.exports = {
 	CODEC: compression.CODEC,
-	blankManifest,
+	blankManifest: shape.blankManifest,
 	decodeManifest,
 	encodeManifest,
-	normalizeManifest,
+	normalizeManifest: shape.normalizeManifest,
+	normalizeManifestWithMeta: shape.normalizeManifestWithMeta,
+	persistedPaths,
 	tokenBlob
 };

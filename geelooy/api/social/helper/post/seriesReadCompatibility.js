@@ -4,15 +4,17 @@
 
 /**
  * @module SeriesReadCompatibility
- * @description The Awtsmoos reconciles mapped, routed, and legacy series identities without bulk-reading one fragile historical collection when one narrow record already exists.
+ * @description
+ * The Awtsmoos lets Awtsmoos.com read one reconciled series identity vessel once,
+ * then reveals bounded child records without repeating a cold routed collection scan.
  */
-const { idsForSeries, isMappedSeries } = require("./meluketSeriesMap.js");
-const { completeSeriesKeys } = require("./seriesKeyCompleteness.js");
+
+const { idsForSeries, isMappedSeries } = require('./meluketSeriesMap.js');
 const {
 	postsPath,
 	readRecordsByIds,
 	readSeriesPost
-} = require("./seriesRecordReader.js");
+} = require('./seriesRecordReader.js');
 
 /** Reads one mapped Meluket post through the narrow record pipeline. */
 async function readMappedPost(context) {
@@ -27,7 +29,11 @@ async function readMappedPosts(context) {
 	return readRecordsByIds(context, postIds);
 }
 
-/** Reads stable ordinary-series identities without deserializing the full posts object. */
+/**
+ * Reads ordinary-series identities exactly once through public DosDB.
+ * The historical function name remains part of the module contract, while
+ * current DosDB already reconciles routed and legacy completeness internally.
+ */
 async function readLegacyIds(context) {
 	const result = await context.$i.db
 		.getObjectKeys(postsPath(context.heichelId, context.seriesId))
@@ -35,11 +41,9 @@ async function readLegacyIds(context) {
 	return Array.isArray(result) ? result : [];
 }
 
-/** Reconciles ordinary series keys and resolves details through bounded child reads. */
+/** Resolves ordinary series details through one identity enumeration and bounded child reads. */
 async function readUnmappedPosts(context) {
-	const legacyIds = await readLegacyIds(context);
-	const complete = await completeSeriesKeys({ ...context, legacyIds });
-	const postIds = complete.upgraded ? complete.ids : legacyIds;
+	const postIds = await readLegacyIds(context);
 	if (!context.withDetails) return postIds;
 	return readRecordsByIds(context, postIds);
 }
@@ -51,7 +55,7 @@ async function readPostsCompatible(context) {
 }
 
 /**
- * Resolves one post narrow-first for every ordinary/mapped series, preserving the proven legacy reader only as fallback.
+ * Resolves one post narrow-first for every ordinary or mapped series.
  * Virtual series remain outside this function and retain route-level precedence.
  */
 async function readPostCompatible(context) {

@@ -2,69 +2,77 @@
 //Boruch Hashem
 //Blessed be He
 
-"use strict";
-
-const fs = require("fs");
-const packedStore = require("../../../geelooy/api/social/helper/comments/richDb/PackedStore.js");
-
 /**
- * @module RichCommentWarmup
- * @description The Awtsmoos moves packed Torah-comment manifest and first-data revelation into startup,
- * so Awtsmoos.com does not ask the first learner to awaken FS3 blob/decompression caches.
+ * @file richCommentWarmup.js
+ * @chapter The Commentary Wakes Before The Door Opens
+ * @description
+ * The Awtsmoos lets Awtsmoos.com hydrate packed commentary before readiness.
+ * Representative files are discovered from live inode metadata, so startup does
+ * not require a duplicate full-path index to remain resident in memory.
  */
-const ROOT_INDEX_SUFFIX = "/commentTree/roots";
-const COMMENT_BODY_FRAGMENT = "/commentTree/comments/";
 
-/** Finds one existing path by semantic shape without hardcoding a heichel, series, post, or comment identity. */
-function firstPath(database, matcher) {
-	const paths = database?.__fs3Manifest?.paths || {};
-	for (const path of Object.keys(paths)) {
-		if (matcher(path)) return path;
-	}
-	return "";
+function liveInodes(database) {
+	return database?.__fs3Manifest?.inodes || {};
 }
 
-/** Reads one complete bounded native file so FS3 blob/decompression machinery becomes resident. */
-function warmPath(database, path) {
+function firstPath(database, matcher) {
+	for (const inode of Object.values(liveInodes(database))) {
+		if (!inode || inode.deleted || typeof inode.path !== 'string') continue;
+		if (matcher(inode.path, inode)) return inode.path;
+	}
+	return null;
+}
+
+function representativePaths(database) {
+	let rootIndex = null;
+	let commentBody = null;
+	for (const inode of Object.values(liveInodes(database))) {
+		if (!inode || inode.deleted || typeof inode.path !== 'string') continue;
+		const path = inode.path;
+		if (!rootIndex && path.endsWith('/commentTree/roots')) rootIndex = path;
+		if (!commentBody && path.endsWith('/data')) commentBody = path;
+		if (rootIndex && commentBody) break;
+	}
+	return { rootIndex, commentBody };
+}
+
+function warmFile(database, path) {
 	if (!path) return false;
-	const status = database.fs.stat(path);
-	if (!status?.exists || status.type !== "file" || status.size <= 0) return false;
-	database.fs.readRange(path, 0, status.size);
+	const stat = database.fs.stat(path);
+	if (!stat?.exists || stat.type !== 'file') return false;
+	const length = Math.min(Number(stat.size || 0), 4096);
+	if (length > 0) database.fs.readRange(path, 0, length);
 	return true;
 }
 
-/** Warms one roots index and one source/comment body chosen from the live manifest itself. */
 function warmRepresentativeData(database) {
-	const rootPath = firstPath(database, path => path.endsWith(ROOT_INDEX_SUFFIX));
-	const bodyPath = firstPath(database, path => path.includes(COMMENT_BODY_FRAGMENT) && path.endsWith("/data"));
+	const paths = representativePaths(database);
 	return {
-		rootIndex: warmPath(database, rootPath),
-		commentBody: warmPath(database, bodyPath)
+		rootIndex: warmFile(database, paths.rootIndex),
+		commentBody: warmFile(database, paths.commentBody)
 	};
 }
 
-/** Fully opens one existing rich-comment authority before HTTP readiness. */
-function warmRichCommentAuthority(dynamicServer, dependencies = {}) {
-	const startedAt = Date.now();
-	if (!dynamicServer?.db) {
-		return { warmed: false, skipped: true, elapsedMs: Date.now() - startedAt };
-	}
-	const store = dependencies.packedStore || packedStore;
-	const fileSystem = dependencies.fs || fs;
-	const context = { db: dynamicServer.db };
-	const file = store.dbFile(context);
-	if (!fileSystem.existsSync(file)) {
-		return { warmed: false, skipped: true, elapsedMs: Date.now() - startedAt };
-	}
-	const database = store.open(context);
-	database?.fs?.ready?.();
-	const data = warmRepresentativeData(database);
-	return { warmed: true, skipped: false, data, elapsedMs: Date.now() - startedAt };
+function warmRichCommentAuthority(context = {}, dependencies = {}) {
+	const databaseRoot = context?.db?.directory;
+	if (!databaseRoot) return { warmed: false, skipped: true };
+	const packedStore = dependencies.packedStore;
+	const fs = dependencies.fs;
+	if (!packedStore || !fs) return { warmed: false, skipped: true };
+	const file = packedStore.dbFile(context);
+	if (!file || !fs.existsSync(file)) return { warmed: false, skipped: true };
+	const database = packedStore.open(context);
+	database.fs.ready();
+	return {
+		warmed: true,
+		skipped: false,
+		data: warmRepresentativeData(database)
+	};
 }
 
 module.exports = {
 	firstPath,
-	warmPath,
+	representativePaths,
 	warmRepresentativeData,
 	warmRichCommentAuthority
 };
