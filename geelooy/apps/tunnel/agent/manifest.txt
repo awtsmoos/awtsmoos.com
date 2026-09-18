@@ -1,5 +1,5 @@
 B"H
-1.0.621
+1.0.622
 main.js
 ai/relay/direct/browser/ActiveTargetLease.mjs
 ai/relay/direct/browser/AgentTabCatalog.mjs
@@ -2227,6 +2227,12 @@ tools/fs/mission/bootPolicy/create.js
 tools/fs/mission/bootPolicy/index.js
 tools/fs/mission/bossProtocol.js
 tools/fs/mission/collaboration.js
+tools/fs/mission/collaboration/agents.js
+tools/fs/mission/collaboration/messages.js
+tools/fs/mission/collaboration/presentation.js
+tools/fs/mission/collaboration/state.js
+tools/fs/mission/collaboration/values.js
+tools/fs/mission/collaboration/work.js
 tools/fs/mission/constitution.js
 tools/fs/mission/continuationControl/actions.js
 tools/fs/mission/continuationControl/decision.js
@@ -2394,6 +2400,7 @@ tools/fs/mission/response/compactHelpers.js
 tools/fs/mission/response/keys.js
 tools/fs/mission/response/size.js
 tools/fs/mission/response/summary.js
+tools/fs/mission/roomActionResponse.js
 tools/fs/mission/roomAgents.js
 tools/fs/mission/roomAgreement.js
 tools/fs/mission/roomBrainstorm.js
