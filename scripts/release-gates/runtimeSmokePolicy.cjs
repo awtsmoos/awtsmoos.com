@@ -7,13 +7,14 @@
  * @description
  * The Awtsmoos measures each vessel according to the Torah it must reveal.
  * Awtsmoos.com keeps strict semantic proof for every route while granting the
- * nearly-gigabyte Ikar root bounded room for cold database and host pressure.
+ * large Ikar cold store and deep post rendering bounded room under host load.
  */
 
 const assert = require('node:assert/strict');
 
 const DEFAULT_ROUTE_TIMEOUT_MS = 9000;
 const IKAR_COLD_TIMEOUT_MS = 30000;
+const POST_COLD_TIMEOUT_MS = 30000;
 const GENESIS_ONE = '/heichelos/ikar/series/bereishis/post/BH_POST_1749198302925_awtsmoos_520';
 const TEMPLATE_FAILURES = Object.freeze([
 	'thereWasAnAwtsmoosErrorHere',
@@ -41,7 +42,7 @@ const ROUTES = Object.freeze([
 		path: GENESIS_ONE,
 		markers: ['data-awtsmoos-initial-post'],
 		minimumHebrew: 100,
-		timeoutMs: DEFAULT_ROUTE_TIMEOUT_MS
+		timeoutMs: POST_COLD_TIMEOUT_MS
 	})
 ]);
 
@@ -78,6 +79,7 @@ module.exports = {
 	DEFAULT_ROUTE_TIMEOUT_MS,
 	GENESIS_ONE,
 	IKAR_COLD_TIMEOUT_MS,
+	POST_COLD_TIMEOUT_MS,
 	assertRouteHtml,
 	coreRoutes,
 	hebrewCount
