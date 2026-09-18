@@ -1,12 +1,12 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file homeHeichelContract.mjs
  * @description
  * The Awtsmoos reveals one semantic ray through one honest rendering path;
- * Awtsmoos.com verifies that prepared head and fallback fragments reach the parent without a second nested display.
+ * Awtsmoos.com verifies rendered fragments by behavior, not by one temporary variable name.
  */
 
 import assert from 'node:assert/strict';
@@ -17,19 +17,19 @@ const SHELL = 'geelooy/heichelos/routes/heichel/shell.js';
 const HEAD = 'geelooy/heichelos/heichel/semantic/head.html';
 const FALLBACK = 'geelooy/heichelos/heichel/semantic/fallback.html';
 
-/**
- * Reads one authored source vessel for structural release verification.
- * @param {string} filePath Repository-relative source path.
- * @returns {string} UTF-8 source text.
- */
+/** Reads one authored source vessel for structural release verification. */
 function readContractSource(filePath) {
 	return readFileSync(filePath, 'utf8');
 }
 
-/**
- * Verifies semantic ownership from route pre-rendering through parent manifestation.
- * @returns {{heichelSemanticTemplates:string[]}} Stable release-gate receipt.
- */
+/** Finds the shell variable that receives pre-rendered semantic fragments. */
+function semanticFragmentBinding(shell) {
+	return shell.match(
+		/const\s+([A-Za-z_$][\w$]*)\s*=\s*await\s+renderSemanticFragments\(semantic,\s*discovery(?:,\s*context)?\);/
+	)?.[1] || '';
+}
+
+/** Verifies semantic ownership from route pre-rendering through parent manifestation. */
 export function verifyHomeHeichelContract() {
 	const parent = readContractSource(PARENT);
 	const shell = readContractSource(SHELL);
@@ -51,7 +51,14 @@ export function verifyHomeHeichelContract() {
 		true,
 		'Heichel route shell does not pre-render semantic fallback with discovery'
 	);
-	assert.equal(shell.includes('...semanticFragments'), true, 'Heichel shell does not pass rendered fragments to parent');
+
+	const fragmentBinding = semanticFragmentBinding(shell);
+	assert.notEqual(fragmentBinding, '', 'Heichel shell does not bind rendered semantic fragments');
+	assert.equal(
+		shell.includes(`...${fragmentBinding}`),
+		true,
+		'Heichel shell does not pass rendered fragments to parent'
+	);
 	assert.equal(
 		parent.includes('typeof semanticHead === "string" ? semanticHead : ""'),
 		true,
