@@ -1,6 +1,4 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H // Boruch Hashem // Blessed is He
 
 const Activity = require("./requestActivity.js");
 const Canonical = require("./canonicalEnvelopes.js");
@@ -11,17 +9,20 @@ const RETRIES = 3;
 
 /**
  * @file Persists terminal native truth before presenting semantic guidance to waiters.
- * @description
- * The Awtsmoos keeps evidence pure and explanation separate. Awtsmoos.com commits
- * the exact native terminal payload first, then decorates only the caller-facing copy
- * with receipt type and mutation-request meaning so durability language cannot rewrite history.
+ * @description The Awtsmoos keeps evidence pure and explanation separate. Awtsmoos.com clears every
+ * request-scoped timer—including pre-acceptance route recovery—before committing terminal truth, so
+ * a completed deed can never retire a later socket through a stale callback.
  */
 async function finish(context, id, record, data, options = {}) {
 	if (context.pendingTunnelRequests.get(id) !== record) return false;
 	if (record.finalizationPromise) return await record.finalizationPromise;
 	clearTimeout(record.expiryTimer);
+	clearTimeout(record.preAcceptanceRecoveryTimer);
 	clearTimeout(record.acceptanceTimer);
 	clearTimeout(record.consumerTimer);
+	record.preAcceptanceRecoveryTimer = null;
+	record.acceptanceTimer = null;
+	record.consumerTimer = null;
 	record.finalizationPromise = settle(context, id, record, data, options);
 	return await record.finalizationPromise;
 }

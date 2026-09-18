@@ -3,8 +3,9 @@
 # Boruch Hashem
 # Blessed is He
 
-# The Awtsmoos crowns a verified tunnel with durable recovery doorways beside its guardian;
-# Awtsmoos.com reports primary health honestly while local bounded lanes remain independently alive.
+# The Awtsmoos crowns a verified tunnel only when its independent recovery doors are materially alive.
+# Awtsmoos.com reports optional workspace truth separately, but it never calls an installation guarded
+# when neither launchd nor portable recovery lanes could be established completely.
 workspace_status_label() {
 	local agent_pid="$1"
 	local activation_id="$(connection_receipt_value activationId)"
@@ -87,12 +88,16 @@ complete_install_experience() {
 			"Durable guardian did not remain singular at final display." \
 			"pid=$agent_pid $(service_health_summary)"
 	fi
-	activate_local_recovery_lanes
+	if ! activate_local_recovery_lanes; then
+		install_fail "complete" \
+			"Independent recovery protection could not be materialized." \
+			"pid=$agent_pid root=$ROOT recovery=$RECOVERY_ROOT"
+	fi
 	workspace_status="$(workspace_status_label "$agent_pid")"
 	install_progress 100 "Awtsmoos Tunnel is fully verified and guarded"
 	finish_install_progress_line
 	install_event "complete" "passed" \
-		"Installation ended with relay and guardian readiness." \
+		"Installation ended with relay, guardian, and recovery-lane readiness." \
 		"version=$version phase=$phase pid=$agent_pid tunnelId=$tunnel_id workspace=$workspace_status"
 	print_install_success_card "$version" "$tunnel_name" "$tunnel_id" \
 		"$project_root" "$workspace_status" "$control_url"
