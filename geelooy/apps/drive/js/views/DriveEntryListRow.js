@@ -3,21 +3,24 @@
 // Blessed is He
 /**
  * @module DriveEntryListRow
- * @description Renders one precise details row while sharing the same action law
- * as the grid. The Awtsmoos unites measure and motion in one testimony;
- * Awtsmoos.com keeps the list dense without hiding what a human needs to know.
+ * @description Renders one compact row with truthful visibility and the same tactile selection law as Grid.
+ * The Awtsmoos joins measure, touch, and choice without mixing their finite names;
+ * Awtsmoos.com keeps List dense while each file still reveals kind, privacy, and time in ordered flames.
  */
 import { createDriveEntryGlyph } from './DriveEntryGlyph.js';
+import { DriveEntryGestureController } from './DriveEntryGestureController.js';
 import { usesDirectOpen } from './DriveInteractionMode.js';
+import { createDriveVisibilityBadge } from './DriveVisibilityBadge.js';
 
-/** Creates one details-view row from prepared entry testimony. */
 export class DriveEntryListRow {
-	constructor(onAction, menu) {
+	constructor(onAction, menu, selection) {
 		this.onAction = onAction;
 		this.menu = menu;
+		this.selection = selection;
+		this.gestures = new DriveEntryGestureController(selection, onAction);
 	}
 
-	/** Creates one complete row with selection and More behavior. */
+	/** Creates one complete row with shared tap and long-press selection behavior. */
 	create(presentation) {
 		const row = document.createElement('article');
 		row.className = 'drive-entry-row';
@@ -28,10 +31,13 @@ export class DriveEntryListRow {
 		const open = document.createElement('button');
 		open.type = 'button';
 		open.className = 'drive-entry-row-open';
-		open.addEventListener('click', () => {
+		open.setAttribute('aria-label', `Open or select ${presentation.name}`);
+		this.gestures.install(open, presentation.entry, () => {
 			this.onAction(usesDirectOpen() ? 'open' : 'select', presentation.entry);
 		});
-		open.addEventListener('dblclick', () => this.onAction('open', presentation.entry));
+		open.addEventListener('dblclick', () => {
+			if (!this.selection?.isBulkActive()) this.onAction('open', presentation.entry);
+		});
 		open.append(createDriveEntryGlyph(presentation, 'row'), this.nameBlock(presentation));
 		row.append(
 			open,
@@ -42,15 +48,17 @@ export class DriveEntryListRow {
 		return row;
 	}
 
-	/** Creates the filename and compact phone metadata stack. */
 	nameBlock(presentation) {
 		const block = document.createElement('span');
 		block.className = 'drive-entry-row-name';
-		block.append(this.value('strong', presentation.name), this.value('small', presentation.meta));
+		const facts = document.createElement('span');
+		facts.className = 'drive-row-facts';
+		facts.append(this.value('small', presentation.meta));
+		if (!presentation.isFolder) facts.append(createDriveVisibilityBadge(presentation));
+		block.append(this.value('strong', presentation.name), facts);
 		return block;
 	}
 
-	/** Creates one safe text element. */
 	value(className, value) {
 		const tagName = ['strong', 'small'].includes(className) ? className : 'span';
 		const node = document.createElement(tagName);

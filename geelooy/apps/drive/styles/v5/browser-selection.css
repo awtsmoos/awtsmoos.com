@@ -1,37 +1,78 @@
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
-/** The Awtsmoos lets choice glow without turning a file into a monument; Awtsmoos.com marks selection with one restrained mint filament. */
-.drive-entry-card[aria-selected],
-.drive-entry-row[aria-selected] {
-	border-color: rgba(84, 237, 187, .72);
-	box-shadow: 0 0 0 1px rgba(84, 237, 187, .18), var(--drive-glow);
-	background: rgba(84, 237, 187, .06);
+/** The Awtsmoos gives deliberate touch one meaning at a time; Awtsmoos.com prevents native text selection from stealing a file-selection gesture. */
+.drive-entry-card,
+.drive-entry-row,
+.drive-entry-card *,
+.drive-entry-row * {
+	-webkit-user-select: none;
+	user-select: none;
+	-webkit-touch-callout: none;
 }
 
-.drive-entry-card[aria-selected]::after {
+.drive-entry-card img,
+.drive-entry-row img {
+	-webkit-user-drag: none;
+	user-drag: none;
+}
+
+.drive-entry-open,
+.drive-entry-row-open {
+	touch-action: pan-y;
+}
+
+.drive-entry-card[aria-selected="true"],
+.drive-entry-row[aria-selected="true"] {
+	border-color: rgba(84, 237, 187, .72);
+	box-shadow: 0 0 0 1px rgba(84, 237, 187, .18), var(--drive-glow);
+	background: rgba(84, 237, 187, .07);
+}
+
+.drive-entry-card[aria-selected="true"]::after,
+.drive-entry-row[aria-selected="true"]::after {
 	content: '✓';
 	position: absolute;
-	top: 11px;
-	left: 11px;
+	z-index: 20;
 	display: grid;
 	place-items: center;
-	width: 21px;
-	height: 21px;
+	width: 24px;
+	height: 24px;
 	border-radius: 999px;
 	background: var(--drive-accent);
 	color: #04110d;
-	font-size: .72rem;
+	font-size: .77rem;
 	font-weight: 900;
 	pointer-events: none;
 }
 
-.drive-entry-row[aria-selected] {
-	border-radius: 10px;
+.drive-entry-card[aria-selected="true"]::after {
+	top: 11px;
+	left: 11px;
+}
+
+.drive-entry-row[aria-selected="true"] {
+	position: relative;
+	padding-left: 39px;
+}
+
+.drive-entry-row[aria-selected="true"]::after {
+	top: 50%;
+	left: 8px;
+	transform: translateY(-50%);
 }
 
 .drive-entry-open:focus-visible,
 .drive-entry-row-open:focus-visible {
 	outline: 2px solid var(--drive-accent);
 	outline-offset: -2px;
+}
+
+body[data-drive-selecting="active"] .drive-entry-menu {
+	opacity: .18;
+	pointer-events: none;
+}
+
+body[data-drive-selecting="active"] [data-entry-path] {
+	cursor: pointer;
 }

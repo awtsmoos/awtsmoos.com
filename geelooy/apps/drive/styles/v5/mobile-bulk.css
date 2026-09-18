@@ -1,0 +1,79 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos gathers selected paths into one temporary mode; Awtsmoos.com lets that mode own the phone dock instead of stacking controls upon controls. */
+@media (max-width: 760px) {
+	body[data-drive-selecting="active"] .drive-mobile-dock {
+		display: none;
+	}
+
+	body[data-drive-selecting="active"] .drive-main {
+		padding-bottom: calc(126px + env(safe-area-inset-bottom));
+	}
+
+	.drive-bulk-bar:not([hidden]) {
+		position: fixed;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		z-index: 92;
+		display: grid;
+		gap: 7px;
+		margin: 0;
+		padding: 9px 10px calc(9px + env(safe-area-inset-bottom));
+		border: 0;
+		border-top: 1px solid rgba(84, 237, 187, .28);
+		border-radius: 0;
+		background: rgba(4, 15, 12, .97);
+		box-shadow: 0 -18px 48px rgba(0, 0, 0, .42);
+		backdrop-filter: blur(18px);
+	}
+
+	.drive-bulk-header {
+		min-height: 28px;
+	}
+
+	.drive-bulk-header strong {
+		font-size: .78rem;
+	}
+
+	.drive-bulk-header button {
+		min-height: 30px;
+		color: var(--drive-accent);
+	}
+
+	.drive-bulk-actions {
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+		gap: 6px;
+	}
+
+	.drive-bulk-actions > button,
+	.drive-bulk-more > summary {
+		min-height: 46px;
+		padding: 3px 5px;
+		font-size: .7rem;
+		white-space: normal;
+		text-align: center;
+	}
+
+	.drive-bulk-more-menu {
+		top: auto;
+		right: 0;
+		bottom: calc(100% + 8px);
+		width: min(250px, calc(100vw - 20px));
+	}
+
+	.drive-bulk-more-menu button {
+		min-height: 46px;
+		font-size: .8rem;
+	}
+
+	.drive-bulk-bar [data-bulk-progress] {
+		min-height: 14px;
+		font-size: .64rem;
+	}
+
+	body[data-drive-selecting="active"] .drive-toast {
+		bottom: calc(118px + env(safe-area-inset-bottom));
+	}
+}

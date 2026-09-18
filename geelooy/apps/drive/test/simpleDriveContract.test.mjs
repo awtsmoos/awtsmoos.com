@@ -11,7 +11,6 @@ import fs from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
-
 const here = path.dirname(fileURLToPath(import.meta.url));
 const drive = path.resolve(here, '..');
 const forbidden = /Files become worlds|Enter an alias|Website Maker|Mission Control|Project Platform|Builder|drive-builder|upload-progress|metadata-dialog/i;
@@ -29,11 +28,28 @@ const primaryFiles = [
 	'js/orchestration/YesodEntryActionRouter.js',
 	'js/orchestration/NetzachUploadStreamController.js'
 ];
-
 function read(relative) {
 	return fs.readFileSync(path.join(drive, relative), 'utf8');
 }
-
+function primarySource() {
+	return primaryFiles.map(read).join('\n');
+}
+function walk(root) {
+	return fs.readdirSync(root, { withFileTypes: true }).flatMap(entry => {
+		const absolute = path.join(root, entry.name);
+		return entry.isDirectory() ? walk(absolute) : [absolute];
+	});
+}
+function userFacingSource() {
+	const roots = ['index.html', 'js/views', 'js/orchestration'];
+	return roots.flatMap(root => {
+		const absolute = path.join(drive, root);
+		if (!fs.statSync(absolute).isDirectory()) return [fs.readFileSync(absolute, 'utf8')];
+		return walk(absolute)
+			.filter(file => file.endsWith('.js'))
+			.map(file => fs.readFileSync(file, 'utf8'));
+	}).join('\n');
+}
 test('primary route is one tiny files-first v5 shell', () => {
 	const html = read('index.html');
 	assert.match(html, /id="drive-root"/);
@@ -42,17 +58,15 @@ test('primary route is one tiny files-first v5 shell', () => {
 	assert.doesNotMatch(html, forbidden);
 	assert.equal((html.match(/stylesheet/g) || []).length, 1);
 });
-
 test('primary product exposes human file verbs without infrastructure copy', () => {
-	const source = primaryFiles.map(read).join('\n');
-	for (const phrase of ['Search files and folders', 'Upload', 'New folder', 'My Drive', 'Shared', 'Recent', 'Trash', 'Details']) {
+	const source = userFacingSource();
+	for (const phrase of ['Search files, folders, and more…', 'Upload', 'New folder', 'My Drive', 'Shared', 'Recent', 'Trash', 'Details']) {
 		assert(source.includes(phrase), phrase);
 	}
 	assert.match(source, /Make public/);
 	assert.match(source, /Public link copied/);
-	assert.doesNotMatch(source, forbidden);
+	assert.doesNotMatch(primarySource(), forbidden);
 });
-
 test('one v5 manifest owns the primary cascade including controls', () => {
 	const manifest = read('styles/drive-v5.css');
 	for (const owner of ['tokens', 'shell', 'browser', 'glyphs', 'controls', 'overlays', 'mobile']) {
@@ -61,7 +75,6 @@ test('one v5 manifest owns the primary cascade including controls', () => {
 	assert(!manifest.includes('dashboard'));
 	assert(!manifest.includes('builder'));
 });
-
 test('identity and private/public file behavior remain grounded in real contracts', () => {
 	assert.match(read('js/driveIdentity.js'), /aliasIdentity/);
 	const router = read('js/orchestration/YesodEntryActionRouter.js');
@@ -69,7 +82,6 @@ test('identity and private/public file behavior remain grounded in real contract
 	assert.match(router, /new Blob/);
 	assert.match(read('js/actions.js'), /visibility: 'public'/);
 });
-
 test('upload testimony forwards real per-file bytes and real desktop drag intent', () => {
 	const uploads = read('js/uploads.js');
 	assert.match(uploads, /fileTransferredBytes/);
@@ -77,32 +89,24 @@ test('upload testimony forwards real per-file bytes and real desktop drag intent
 	assert.match(uploads, /document, 'dragenter'/);
 	assert.match(read('styles/v5/controls-feedback.css'), /is-dragging/);
 });
-
-test('Home Grid List Details and responsive navigation share one entry truth', () => {
+test('Home Grid List Details and responsive navigation share one visible entry truth', () => {
 	const renderer = read('js/views/DriveBrowserRenderer.js');
 	const navigation = read('js/views/DriveNavigationController.js');
 	const modes = read('js/views/DriveViewModeController.js');
-	assert.match(renderer, /mode === 'home'/);
-	assert.match(renderer, /mode === 'list'/);
-	assert.match(renderer, /else host\.append\(this\.grid\(presented\)\)/);
+	assert.match(renderer, /this\.categories\?\.filter\(presented\) \|\| presented/);
+	assert.match(renderer, /home\.render\(visible\)/);
+	assert.match(renderer, /list\(visible\)/);
+	assert.match(renderer, /grid\(visible\)/);
 	assert.match(modes, /'home', 'grid', 'list'/);
 	assert.match(navigation, /data-drive-nav/);
 	assert.match(modes, /compact.*wide|wide.*compact/s);
 });
-
 test('focused primary owners remain within the modular line budget', () => {
 	for (const root of ['js/views', 'js/orchestration', 'styles/v5']) {
 		for (const file of walk(path.join(drive, root))) {
 			if (!/\.(?:js|css)$/.test(file)) continue;
 			const lines = fs.readFileSync(file, 'utf8').split('\n').length;
-			assert(lines <= 121, `${path.relative(drive, file)} has ${lines} physical lines`);
+			assert(lines < 120, `${path.relative(drive, file)} has ${lines} physical lines`);
 		}
 	}
 });
-
-function walk(root) {
-	return fs.readdirSync(root, { withFileTypes: true }).flatMap(entry => {
-		const absolute = path.join(root, entry.name);
-		return entry.isDirectory() ? walk(absolute) : [absolute];
-	});
-}

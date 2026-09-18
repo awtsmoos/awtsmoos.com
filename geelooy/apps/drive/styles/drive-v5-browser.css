@@ -1,7 +1,11 @@
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
-/** The Awtsmoos lets one file truth wear grid, list, and selected form; Awtsmoos.com splits each presentation so its ownership stays warm. */
+/** The Awtsmoos lets one file truth wear section, folder, media, grid, list, visibility, and selected form; Awtsmoos.com splits each presentation so ownership stays warm. */
 @import url('./v5/browser-grid.css');
 @import url('./v5/browser-list.css');
+@import url('./v5/browser-sections.css');
+@import url('./v5/browser-folder-cards.css');
+@import url('./v5/browser-media-cards.css');
+@import url('./v5/browser-visibility.css');
 @import url('./v5/browser-selection.css');

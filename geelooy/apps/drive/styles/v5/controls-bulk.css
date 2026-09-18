@@ -1,0 +1,114 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos gathers many chosen paths beneath one intention; Awtsmoos.com keeps bulk power compact, readable, and subordinate to the file world. */
+.drive-bulk-bar {
+	display: grid;
+	gap: 9px;
+	margin: 0 0 14px;
+	padding: 11px 12px;
+	border: 1px solid rgba(84, 237, 187, .28);
+	border-radius: 14px;
+	background: rgba(84, 237, 187, .08);
+	box-shadow: var(--drive-glow);
+}
+
+.drive-bulk-bar[hidden] {
+	display: none;
+}
+
+.drive-bulk-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+}
+
+.drive-bulk-header strong {
+	color: var(--drive-accent);
+	font-size: .82rem;
+}
+
+.drive-bulk-header button {
+	min-height: 34px;
+	padding: 0 10px;
+	border: 0;
+	border-radius: 9px;
+	background: transparent;
+	color: var(--drive-muted);
+	font-size: .74rem;
+}
+
+.drive-bulk-actions {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 7px;
+}
+
+.drive-bulk-actions > button,
+.drive-bulk-more > summary,
+.drive-bulk-more-menu button {
+	min-height: 38px;
+	padding: 0 10px;
+	border: 1px solid var(--drive-line);
+	border-radius: 9px;
+	background: var(--drive-surface);
+	color: var(--drive-text);
+	font-size: .74rem;
+	white-space: nowrap;
+}
+
+.drive-bulk-actions button:hover,
+.drive-bulk-more > summary:hover {
+	border-color: var(--drive-line-strong);
+	background: var(--drive-surface-hover);
+}
+
+.drive-bulk-actions .is-danger,
+.drive-bulk-more-menu .is-danger {
+	color: var(--drive-danger);
+}
+
+.drive-bulk-more {
+	position: relative;
+}
+
+.drive-bulk-more > summary {
+	display: grid;
+	place-items: center;
+	cursor: pointer;
+	list-style: none;
+}
+
+.drive-bulk-more > summary::-webkit-details-marker {
+	display: none;
+}
+
+.drive-bulk-more-menu {
+	position: absolute;
+	right: 0;
+	top: calc(100% + 7px);
+	z-index: 52;
+	display: grid;
+	width: 210px;
+	gap: 4px;
+	padding: 7px;
+	border: 1px solid var(--drive-line-strong);
+	border-radius: 12px;
+	background: rgba(5, 14, 12, .99);
+	box-shadow: var(--drive-shadow);
+}
+
+.drive-bulk-more-menu button {
+	text-align: left;
+}
+
+.drive-bulk-bar [data-bulk-progress] {
+	min-height: 16px;
+	color: var(--drive-muted);
+	font-size: .68rem;
+}
+
+.drive-bulk-bar[aria-busy="true"] {
+	cursor: progress;
+}

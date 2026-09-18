@@ -1,10 +1,7 @@
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
-/**
- * The Awtsmoos reveals hidden power only when the hand asks it to rise;
- * Awtsmoos.com turns desktop More and Details into calm mobile sheets before the eyes.
- */
+/** The Awtsmoos reveals hidden power only when the hand asks it to rise; Awtsmoos.com gives More a stable mobile sheet with context that never collides. */
 @media (max-width: 760px) {
 	.drive-entry-menu {
 		z-index: var(--layer-mobile-menu);
@@ -28,7 +25,7 @@
 		z-index: var(--layer-mobile-sheet);
 		display: grid;
 		width: auto;
-		max-height: min(68vh, 590px);
+		max-height: min(72vh, 620px);
 		padding: 9px;
 		border-radius: 22px;
 		overflow: auto;
@@ -41,7 +38,7 @@
 
 	.drive-entry-menu-summary {
 		display: grid;
-		grid-template-columns: 42px minmax(0, 1fr);
+		grid-template-columns: 42px minmax(0, 1fr) auto;
 		align-items: center;
 		gap: 11px;
 		padding: 10px 9px 13px;
@@ -49,7 +46,7 @@
 		border-bottom: 1px solid var(--drive-line);
 	}
 
-	.drive-entry-menu-summary > span:last-child {
+	.drive-entry-menu-testimony {
 		display: grid;
 		min-width: 0;
 		gap: 3px;
@@ -69,17 +66,16 @@
 
 	.drive-entry-menu-close {
 		display: block;
-		justify-self: end;
-		min-height: 38px !important;
 		width: auto !important;
-		margin: -49px 8px 8px auto;
+		min-height: 38px !important;
+		padding: 0 6px !important;
 		color: var(--drive-muted) !important;
 		text-align: right !important;
 	}
 
 	.drive-entry-menu-popover button:not(.drive-entry-menu-close) {
-		min-height: 48px;
-		font-size: .86rem;
+		min-height: 49px;
+		font-size: .88rem;
 	}
 
 	.drive-details:not([hidden]) {

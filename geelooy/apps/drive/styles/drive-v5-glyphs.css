@@ -3,7 +3,7 @@
 /* Blessed is He */
 /**
  * The Awtsmoos clothes bytes in signs without confusing sign for source;
- * Awtsmoos.com lets folders glow, file kinds speak, and public images show their course.
+ * Awtsmoos.com lets folders read as folders, file kinds speak, and true thumbnails keep their course.
  */
 [data-awtsmoos-drive] .drive-entry-glyph,
 [data-awtsmoos-drive] .drive-row-glyph {
@@ -12,6 +12,9 @@
 	place-items: center;
 	flex: 0 0 auto;
 	overflow: hidden;
+	border: 1px solid var(--drive-line-strong);
+	border-radius: 13px;
+	background: linear-gradient(145deg, #1b2d29, #101b19);
 }
 
 [data-awtsmoos-drive] .drive-entry-glyph {
@@ -21,27 +24,15 @@
 }
 
 [data-awtsmoos-drive] .drive-row-glyph {
-	width: 38px;
-	height: 34px;
+	width: 42px;
+	height: 38px;
 }
 
 [data-awtsmoos-drive] [data-kind="folder"] {
 	--glyph-color: #54edbb;
-	border-radius: 10px;
-	background: linear-gradient(155deg, color-mix(in srgb, var(--glyph-color) 82%, white), var(--glyph-color));
-	box-shadow: 0 12px 26px color-mix(in srgb, var(--glyph-color) 19%, transparent);
-	overflow: visible;
-}
-
-[data-awtsmoos-drive] [data-kind="folder"]::before {
-	content: "";
-	position: absolute;
-	top: -8px;
-	left: 8%;
-	width: 42%;
-	height: 14px;
-	border-radius: 7px 7px 0 0;
-	background: inherit;
+	border-color: color-mix(in srgb, var(--glyph-color) 45%, transparent);
+	background: linear-gradient(145deg, color-mix(in srgb, var(--glyph-color) 18%, #13221e), #0d1815);
+	box-shadow: 0 10px 24px color-mix(in srgb, var(--glyph-color) 12%, transparent);
 }
 
 [data-awtsmoos-drive] [data-tone="blue"] { --glyph-color: #4c9bff; }
@@ -51,17 +42,30 @@
 [data-awtsmoos-drive] [data-tone="coral"] { --glyph-color: #f5636b; }
 [data-awtsmoos-drive] [data-tone="slate"] { --glyph-color: #8496aa; }
 
-[data-awtsmoos-drive] .drive-entry-glyph:not([data-kind="folder"]),
-[data-awtsmoos-drive] .drive-row-glyph:not([data-kind="folder"]) {
-	border: 1px solid var(--drive-line-strong);
-	border-radius: 11px;
-	background: linear-gradient(145deg, #1b2d29, #101b19);
-	color: var(--drive-accent);
+[data-awtsmoos-drive] .drive-entry-glyph-symbol {
+	position: relative;
+	z-index: var(--layer-content);
+	font-size: 2rem;
+	line-height: 1;
+	filter: saturate(.92);
+}
+
+[data-awtsmoos-drive] .drive-row-glyph .drive-entry-glyph-symbol {
+	font-size: 1.25rem;
+}
+
+[data-awtsmoos-drive] [data-kind="folder"] .drive-entry-glyph-symbol {
+	font-size: 2.35rem;
+}
+
+[data-awtsmoos-drive] .drive-row-glyph[data-kind="folder"] .drive-entry-glyph-symbol {
+	font-size: 1.45rem;
 }
 
 [data-awtsmoos-drive] .drive-entry-glyph img,
 [data-awtsmoos-drive] .drive-row-glyph img {
-	position: relative;
+	position: absolute;
+	inset: 0;
 	z-index: var(--layer-glyph);
 	display: block;
 	width: 100%;
@@ -70,28 +74,6 @@
 	object-fit: cover;
 }
 
-[data-awtsmoos-drive] .drive-entry-glyph:not([data-kind="folder"])::after,
-[data-awtsmoos-drive] .drive-row-glyph:not([data-kind="folder"])::after {
-	font-weight: 800;
-	letter-spacing: -.04em;
-}
-
-[data-awtsmoos-drive] .drive-entry-glyph[data-kind="image"]:has(img)::after,
-[data-awtsmoos-drive] .drive-row-glyph[data-kind="image"]:has(img)::after {
-	content: none;
-}
-
-[data-awtsmoos-drive] [data-kind="image"]::after { content: "IMG"; color: #64b7ff; }
-[data-awtsmoos-drive] [data-kind="pdf"]::after { content: "PDF"; color: #ff7079; }
-[data-awtsmoos-drive] [data-kind="code"]::after { content: "</>"; color: var(--drive-accent); }
-[data-awtsmoos-drive] [data-kind="video"]::after { content: "▶"; color: #61d7ff; }
-[data-awtsmoos-drive] [data-kind="archive"]::after { content: "ZIP"; color: #f1b951; }
-[data-awtsmoos-drive] [data-kind="document"]::after { content: "DOC"; color: #c6d3d0; }
-
-[data-awtsmoos-drive] .drive-entry-glyph::after {
-	font-size: 1rem;
-}
-
-[data-awtsmoos-drive] .drive-row-glyph::after {
-	font-size: .62rem;
+[data-awtsmoos-drive] .has-preview .drive-entry-glyph-symbol {
+	opacity: 0;
 }

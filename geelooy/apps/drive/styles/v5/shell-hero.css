@@ -1,0 +1,70 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos gives the Drive one luminous face without distracting from the files; Awtsmoos.com lets identity, promise, search, and account form a quiet premium threshold. */
+.drive-brand-copy {
+	display: grid;
+	gap: 2px;
+	min-width: 0;
+}
+
+.drive-brand-title {
+	font-size: 1rem;
+	font-weight: 780;
+	letter-spacing: -.03em;
+	white-space: nowrap;
+}
+
+.drive-brand-title strong {
+	color: var(--drive-accent);
+	font-weight: 820;
+}
+
+.drive-brand-copy small {
+	color: var(--drive-muted);
+	font-size: .62rem;
+	font-weight: 520;
+	letter-spacing: .01em;
+}
+
+.drive-hero-header {
+	position: relative;
+}
+
+.drive-hero-header::after {
+	content: '';
+	position: absolute;
+	inset: -24px -18px auto;
+	height: 150px;
+	z-index: -1;
+	background: radial-gradient(circle at 18% 20%, rgba(84, 237, 187, .09), transparent 58%);
+	pointer-events: none;
+}
+
+.drive-search-field {
+	min-height: 48px;
+	border: 1px solid rgba(84, 237, 187, .18);
+	border-radius: 15px;
+	background: rgba(6, 22, 18, .68);
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, .025);
+}
+
+.drive-search-field:focus-within {
+	border-color: rgba(84, 237, 187, .52);
+	box-shadow: 0 0 0 3px rgba(84, 237, 187, .08), var(--drive-glow);
+}
+
+.drive-search-field > span {
+	color: var(--drive-accent);
+	font-size: 1.2rem;
+}
+
+.drive-search-field input {
+	font-size: .86rem;
+}
+
+.drive-account > summary {
+	border-color: rgba(223, 175, 67, .34);
+	background: linear-gradient(145deg, rgba(223, 175, 67, .11), rgba(255, 255, 255, .015));
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, .04);
+}
