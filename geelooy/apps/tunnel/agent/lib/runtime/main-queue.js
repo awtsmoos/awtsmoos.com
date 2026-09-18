@@ -1,8 +1,7 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H // Boruch Hashem // Blessed is He
 
 const AdmissionResult = require("./main-queue-admission-result.js");
+const EmergencyDispatch = require("./main-queue-emergency-dispatch.js");
 const QueueItem = require("./main-queue-item.js");
 const { admissionGate } = require("./main-queue-admission.js");
 const { registerQueueEmergencyController } = require("./main-queue-emergency.js");
@@ -13,10 +12,11 @@ const { createQueueRejection } = require("./main-queue-rejection.js");
 const { createSchedulerIntegrity } = require("./priority/schedulerIntegrity.js");
 
 /**
- * @file Joins exact request identity, admission testimony, provenance, and fair dispatch.
+ * @file Joins exact request identity, parent-owned emergency deeds, admission testimony, and fair dispatch.
  * @description
- * The Awtsmoos receives each deed in one living vessel; Awtsmoos.com now names whether
- * that deed truly entered the queue, so a rejected shadow can never inherit custody anew.
+ * The Awtsmoos receives each deed in one living vessel. Awtsmoos.com now settles scheduler emergency
+ * control in the parent that owns the scheduler, while ordinary deeds enter the same guarded lanes as
+ * before, so a worker process can never mistake its empty module memory for native scheduler death.
  */
 function createQueueRuntime(dependencies) {
 	let scheduleDrain = () => {};
@@ -41,6 +41,9 @@ function createQueueRuntime(dependencies) {
 		const payload = data.payload;
 		if (dependencies.retryControl.handleIngress(ws, data, payload)) {
 			return AdmissionResult.rejected("ingress_resolved");
+		}
+		if (EmergencyDispatch.handle(dependencies, ws, data, payload)) {
+			return AdmissionResult.rejected("parent_emergency_resolved");
 		}
 		integrity.reconcile("before_enqueue");
 		pruner.prune();
