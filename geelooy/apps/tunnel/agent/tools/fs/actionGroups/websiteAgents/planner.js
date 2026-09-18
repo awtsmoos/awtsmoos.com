@@ -1,6 +1,4 @@
-//B"H
-//Boruch Hashem
-//Blessed be He
+//B"H // Boruch Hashem // Blessed is He
 
 const Policy = require("./plannerPolicy.js");
 const Scopes = require("./plannerScopes.js");
@@ -10,7 +8,8 @@ const Target = require("./plannerTarget.js");
  * @file Plans logical website-agent work above one strictly paced physical Shliach browser.
  * @description
  * The Awtsmoos separates durable mission identity from disposable browser sessions. Awtsmoos.com
- * preserves dispatcher testimony while exact first-turn prompts may remain as small as the caller decrees.
+ * preserves dispatcher testimony, bounded admission pressure, and exact first-turn intent while
+ * allowing a large logical family to unfold behind one physically serialized browser vessel.
  */
 function plan(config = {}, input = {}) {
 	const projectRoot = Scopes.canonicalProjectRoot(input.projectRoot || config.root || process.cwd());
@@ -36,32 +35,37 @@ function plan(config = {}, input = {}) {
 			intervalAnchor: "verified-tab-close",
 			postCloseCooldownMs: Policy.POST_CLOSE_COOLDOWN_MS
 		},
-		subagentPolicy: {
-			mode: "optional-unbounded-spaced",
-			topology: "sponsor-lineage-flat-runtime",
-			priority: "optional",
-			allowRecursiveSubagents: input.allowRecursiveSubagents !== false && input.allowRecursiveSubagents !== "false",
-			unboundedLogicalDescendants: true,
-			logicalAgentLimit: null,
-			maxSubagentDepth: null,
-			subagentStartSpacingMs,
-			pressureAwareActivation: input.pressureAwareActivation !== false && input.pressureAwareActivation !== "false",
-			spawnDrainQuantum: Policy.bounded(input.spawnDrainQuantum, 4, 1, 16),
-			spawnDrainMaxQuanta: Policy.bounded(input.spawnDrainMaxQuanta, 2, 1, 8),
-			softPressureQuantum: Policy.bounded(input.softPressureQuantum, 1, 1, 2),
-			spawnDrainWakeMs: Policy.bounded(input.spawnDrainWakeMs, 1000, 250, 60000),
-			softPressureWakeMs: Policy.bounded(input.softPressureWakeMs, 1500, 1500, 60000),
-			hardPressureWakeMs: Policy.bounded(input.hardPressureWakeMs, 3000, 3000, 60000),
-			panicPressureWakeMs: Policy.bounded(input.panicPressureWakeMs, 5000, 5000, 60000),
-			recursiveFanOut: "optional-unbounded-logical-fan-out-with-stable-sponsor-keys",
-			handoffRequired: true,
-			roomUpdates: ["plan", "progress", "handoff", "completion"]
-		},
+		subagentPolicy: subagentPolicy(input, subagentStartSpacingMs),
 		startSpacingMs,
 		collaborationRounds: Policy.bounded(input.collaborationRounds, 2, 1, 8),
 		maxContinuationTurns: Policy.bounded(input.maxContinuationTurns, 6, 1, 12),
 		authPollMs: Policy.bounded(input.authPollMs, 3000, 1000, 30000),
 		agents: createAgents(count, scopes, projectRoot)
+	};
+}
+
+function subagentPolicy(input, subagentStartSpacingMs) {
+	return {
+		mode: "optional-unbounded-spaced",
+		topology: "sponsor-lineage-flat-runtime",
+		priority: "optional",
+		allowRecursiveSubagents: input.allowRecursiveSubagents !== false && input.allowRecursiveSubagents !== "false",
+		unboundedLogicalDescendants: true,
+		logicalAgentLimit: null,
+		maxSubagentDepth: null,
+		maxTotalWebsiteAgents: Policy.bounded(input.maxTotalWebsiteAgents, Policy.MAX_REQUESTED_AGENTS, 1, Policy.MAX_REQUESTED_AGENTS),
+		subagentStartSpacingMs,
+		pressureAwareActivation: input.pressureAwareActivation !== false && input.pressureAwareActivation !== "false",
+		spawnDrainQuantum: Policy.bounded(input.spawnDrainQuantum, 4, 1, 16),
+		spawnDrainMaxQuanta: Policy.bounded(input.spawnDrainMaxQuanta, 2, 1, 8),
+		softPressureQuantum: Policy.bounded(input.softPressureQuantum, 1, 1, 2),
+		spawnDrainWakeMs: Policy.bounded(input.spawnDrainWakeMs, 1000, 250, 60000),
+		softPressureWakeMs: Policy.bounded(input.softPressureWakeMs, 1500, 1500, 60000),
+		hardPressureWakeMs: Policy.bounded(input.hardPressureWakeMs, 3000, 3000, 60000),
+		panicPressureWakeMs: Policy.bounded(input.panicPressureWakeMs, 5000, 5000, 60000),
+		recursiveFanOut: "optional-unbounded-logical-fan-out-with-stable-sponsor-keys",
+		handoffRequired: true,
+		roomUpdates: ["plan", "progress", "handoff", "completion"]
 	};
 }
 
@@ -106,5 +110,6 @@ module.exports = {
 	dispatcherSession,
 	plan,
 	promptScale: Policy.promptScale,
-	scopeCandidates: Scopes.scopeCandidates
+	scopeCandidates: Scopes.scopeCandidates,
+	subagentPolicy
 };
