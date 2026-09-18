@@ -1,27 +1,24 @@
 //B"H
 //Boruch Hashem
 //Blessed is He
+
 /**
  * @module SeriesReadRoutes
  * @description
- * The Awtsmoos reveals series identity and child summaries through bounded
- * server vessels so Awtsmoos.com never makes the browser rediscover one tree.
+ * The Awtsmoos reveals series identity through bounded read vessels; on Awtsmoos.com,
+ * healthy metadata stays whole while transfer placeholders yield only proven identity.
  */
-const {
-	getSeries,
-	getSubSeries,
-	er
-} = require('../../index.js');
-const {
-	getDirectSeriesPrateem
-} = require('../../series/directSeriesPrateem.js');
-const {
-	readSubSeriesSummaries
-} = require('./subSeriesSummaries.js');
+
+const { getSeries, getSubSeries, er } = require('../../index.js');
+const { getDirectSeriesPrateem } = require('../../series/directSeriesPrateem.js');
+const { normalizeSeriesResult } = require('../../series/seriesPrateemRecovery.js');
+const { readSubSeriesSummaries } = require('./subSeriesSummaries.js');
+
 /** Returns whether this request uses the expected HTTP method. */
 function method($i, expected) {
 	return $i.request.method === expected;
 }
+
 /** Normalizes a details query value into one strict Boolean decision. */
 function wantsDetails($i) {
 	return $i.$_GET?.details === true || $i.$_GET?.details === 'true';
@@ -30,11 +27,7 @@ function wantsDetails($i) {
 /** Returns render-ready children only when the caller explicitly requests details. */
 function readChildren($i, heichelId, parentSeriesId, detailed) {
 	if (detailed) {
-		return readSubSeriesSummaries({
-			$i,
-			heichelId,
-			parentSeriesId
-		});
+		return readSubSeriesSummaries({ $i, heichelId, parentSeriesId });
 	}
 	return getSubSeries({
 		$i,
@@ -43,6 +36,18 @@ function readChildren($i, heichelId, parentSeriesId, detailed) {
 		withDetails: false
 	});
 }
+
+/** Reads canonical details and removes only the observed transfer placeholder shape. */
+async function readSeriesDetails($i, heichelId, seriesId) {
+	const result = await getSeries({
+		$i,
+		heichelId,
+		seriesId,
+		withDetails: true
+	});
+	return normalizeSeriesResult(result, seriesId);
+}
+
 /** Normalizes POSTed bulk series identities without accepting empty values. */
 function seriesIds($i) {
 	const value = $i.$_POST?.seriesIds;
@@ -52,6 +57,7 @@ function seriesIds($i) {
 		.map(id => id.trim())
 		.filter(Boolean);
 }
+
 /** Creates the stable read-only series route table for one request. */
 function createSeriesReadRoutes({ $i }) {
 	return {
@@ -68,31 +74,16 @@ function createSeriesReadRoutes({ $i }) {
 					seriesId: vars.series
 				});
 			}
-			return getSeries({
-				$i,
-				heichelId: vars.heichel,
-				seriesId: vars.series,
-				withDetails: true
-			});
+			return readSeriesDetails($i, vars.heichel, vars.series);
 		},
 		'/heichelos/:heichel/series/:series/details': async vars => {
 			if (method($i, 'GET')) {
-				return getSeries({
-					$i,
-					heichelId: vars.heichel,
-					seriesId: vars.series,
-					withDetails: true
-				});
+				return readSeriesDetails($i, vars.heichel, vars.series);
 			}
 			if (!method($i, 'POST')) return er({ code: 'METHOD_NOT_ALLOWED' });
 			const details = {};
 			for (const id of seriesIds($i)) {
-				details[id] = await getSeries({
-					$i,
-					heichelId: vars.heichel,
-					seriesId: id,
-					withDetails: true
-				});
+				details[id] = await readSeriesDetails($i, vars.heichel, id);
 			}
 			return { success: details };
 		},
@@ -114,6 +105,5 @@ function createSeriesReadRoutes({ $i }) {
 		}
 	};
 }
-module.exports = {
-	createSeriesReadRoutes
-};
+
+module.exports = { createSeriesReadRoutes, readSeriesDetails };
