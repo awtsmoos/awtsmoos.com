@@ -1,12 +1,11 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H // Boruch Hashem // Blessed is He
 
 const fs = require("node:fs");
 const path = require("node:path");
 const Arguments = require("./release/manifestArguments.js");
 const Catalog = require("./release/runtimeCatalog.js");
 const Document = require("./release/manifestDocument.js");
+const Guard = require("./release/releaseSourceGuard.js");
 const SourcePaths = require("./release/sourcePaths.js");
 const Version = require("./release/manifestVersion.js");
 
@@ -15,13 +14,11 @@ const OUT = path.join(ROOT, "manifest.txt");
 const REPOSITORY_ROOT = path.resolve(ROOT, "../../../..");
 
 /**
- * @file Builds one deterministic tunnel scroll above every published baseline.
- * @description
- * The Awtsmoos gathers each runtime spark without regression or disguise;
- * Awtsmoos.com receives one ordered manifest whose next-version covenant cannot
- * be overruled by ambient process environment or yesterday's hidden guise.
+ * @file Builds one deterministic Tunnel manifest only above one committed release earth.
+ * @description The Awtsmoos gathers every runtime spark from a source that first proves its identity.
+ * Awtsmoos.com refuses to blend staged rollback, ambient deletion, or untracked runtime files into a
+ * release simply because many Shluchim share one checkout; the manifest alone may advance afterward.
  */
-
 function buildManifest(options = {}) {
 	const previous = Document.readCurrent(options.file || OUT);
 	const version = options.version ||
@@ -29,12 +26,7 @@ function buildManifest(options = {}) {
 		Version.incrementPatch(previous.version);
 	const roots = SourcePaths.resolveRoots(options.repoRoot);
 	const files = Catalog.collectManifestFiles([], roots);
-	return {
-		version,
-		entry: "main.js",
-		files,
-		text: Document.render(version, files)
-	};
+	return { version, entry: "main.js", files, text: Document.render(version, files) };
 }
 
 function writeManifest(options = {}) {
@@ -44,19 +36,13 @@ function writeManifest(options = {}) {
 	return { ...manifest, output };
 }
 
-/**
- * Writes one patch above the highest local, remote-main, or public release.
- * Environment variables cannot pin this durable next-release operation.
- *
- * @param {object} options - Manifest paths and baseline controls.
- * @returns {object} Written manifest and baseline evidence.
- */
+/** Writes one patch only after the selected Git source proves release-safe. */
 function writeNextManifest(options = {}) {
-	const Baselines = require(
-		"../../../../scripts/tunnel/manifestBaselines.cjs"
-	);
+	const Baselines = require("../../../../scripts/tunnel/manifestBaselines.cjs");
 	const output = path.resolve(options.file || OUT);
 	const repoRoot = path.resolve(options.repoRoot || REPOSITORY_ROOT);
+	const sourceRef = options.sourceRef || process.env.AWTSMOOS_RELEASE_SOURCE_REF || "HEAD";
+	const releaseSource = Guard.assertSafe({ repoRoot, sourceRef });
 	const baseline = options.version ? null : Baselines.resolveNextVersion({
 		file: output,
 		repoRoot,
@@ -69,7 +55,7 @@ function writeNextManifest(options = {}) {
 		repoRoot,
 		version: options.version || baseline.version
 	});
-	return { ...result, baseline };
+	return { ...result, baseline, releaseSource };
 }
 
 function agentFiles(repoRoot) {
@@ -87,6 +73,7 @@ if (require.main === module) {
 			ok: true,
 			version: result.version,
 			baseline: result.baseline,
+			releaseSource: result.releaseSource,
 			files: result.files.length,
 			output: result.output
 		}, null, 2));
@@ -97,10 +84,7 @@ if (require.main === module) {
 }
 
 module.exports = {
-	OUT,
-	ROOT,
-	agentFiles,
-	buildManifest,
+	OUT, ROOT, agentFiles, buildManifest,
 	cleanLines: Document.cleanLines,
 	externalFiles,
 	nextPatch: Version.incrementPatch,
