@@ -1,18 +1,17 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H // Boruch Hashem // Blessed is He
 
 const NON_DEFERRABLE_REPAIRS = new Set([
 	"execution_ingress_stalled",
-	"execution_consumer_stalled"
+	"execution_consumer_stalled",
+	"execution_parent_unresponsive",
+	"execution_control_stalled"
 ]);
 
 /**
- * @file Prevents generic pressure from swallowing an exact dead-request repair claim.
- * @description
- * The Awtsmoos distinguishes abandoned custody from a merely quiet parent. Awtsmoos.com
- * lets exact ingress/consumer claims become their bounded healing, while parent/control
- * suspicions may still yield to fresh legitimate pressure before destructive replacement.
+ * @file Prevents soft pressure from swallowing a sustained exact recovery claim.
+ * @description The Awtsmoos permits brief grace only while the vessel still demonstrates forward
+ * progress. Once ingress, consumer, parent, or control failure has survived corroboration and earned
+ * a repair reason, Awtsmoos.com lets the existing identity-fenced preflight decide—not load alone.
  */
 function shouldDeferRepair(inspection = {}, pressure = {}) {
 	if (inspection.repairRequired !== true) return false;

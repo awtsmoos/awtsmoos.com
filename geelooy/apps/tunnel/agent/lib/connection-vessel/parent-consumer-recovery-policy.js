@@ -1,13 +1,11 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H // Boruch Hashem // Blessed is He
 
 /**
- * @file Classifies repair from exact stalled custody before process-wide motion.
- * @description
- * The Awtsmoos gives an abandoned deed stronger testimony than a merely quiet vessel.
- * Awtsmoos.com therefore lets exact consumer/ingress stalls outrank unrelated success,
- * while fresh native motion may still dissolve suspected parent or control silence.
+ * @file Authorizes repair from exact no-progress evidence before generic runtime pressure.
+ * @description The Awtsmoos distinguishes living work from a vessel merely carrying unresolved
+ * custody. Awtsmoos.com never lets soft load or unrelated success conceal a proven ingress,
+ * consumer, parent, or control failure; destructive force still passes the separate sustained
+ * observation, preflight, exact-identity, and durable-ledger gates.
  */
 function classify(evidence = {}) {
 	const execution = evidence.execution || {};
@@ -16,10 +14,6 @@ function classify(evidence = {}) {
 	if (execution.consumerStalled === true && corroborated(execution)) {
 		return allowed(stallReason(execution));
 	}
-	if (execution.recentSuccess === true) return denied("fresh_execution_progress");
-	if (evidence.pressure?.deferRepair === true || execution.backpressured === true) {
-		return denied("runtime_pressure");
-	}
 	if (evidence.parentUnresponsive === true) {
 		return allowed("execution_parent_unresponsive");
 	}
@@ -27,6 +21,10 @@ function classify(evidence = {}) {
 		return allowed("execution_control_stalled");
 	}
 	if (execution.consumerStalled === true) return denied("stall_not_corroborated");
+	if (execution.recentSuccess === true) return denied("fresh_execution_progress");
+	if (evidence.pressure?.deferRepair === true || execution.backpressured === true) {
+		return denied("runtime_pressure");
+	}
 	return denied("consumer_healthy");
 }
 

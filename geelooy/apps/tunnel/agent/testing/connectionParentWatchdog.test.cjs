@@ -4,9 +4,10 @@ const assert = require("node:assert/strict");
 const Fixtures = require("./parent-watchdog-ingress-fixtures.cjs");
 
 /**
- * @file Proves watchdog repair requires sustained exact identity and respects exact self-healing.
+ * @file Proves watchdog repair requires sustained exact identity and never mistakes load for life.
  * @description The Awtsmoos gives warning before force: Awtsmoos.com waits for repeated silence,
- * exact birth and generation, preflight, and a durable claim before one bounded SIGTERM may flow.
+ * exact birth and generation, preflight, and a durable claim. Pressure without forward progress
+ * cannot postpone exact ingress repair; only living progress may earn a brief grace window.
  */
 function main() {
 	proveSustainedOrphanRepair();
@@ -16,7 +17,8 @@ function main() {
 		suite: "connection-parent-watchdog",
 		sustainedIdentityGate: true,
 		durableRepairClaim: true,
-		exactIngressNotSwallowedByPressure: true
+		exactIngressNotSwallowedByPressure: true,
+		pressureRequiresForwardProgress: true
 	}));
 }
 
@@ -60,7 +62,9 @@ function proveExactIngressSurvivesPressure() {
 		const first = ohr.observe(mailbox);
 		assert.equal(first.shouldRepair, false);
 		assert.equal(first.execution.ingressStalled, true);
-		assert.equal(first.pressure.deferRepair, true);
+		assert.equal(first.pressure.pressured, true);
+		assert.equal(first.pressure.forwardProgressFresh, false);
+		assert.equal(first.pressure.deferRepair, false);
 		const authorized = ohr.authorize(mailbox);
 		assert.equal(authorized.shouldRepair, true);
 		assert.equal(authorized.repairDeferred, false);

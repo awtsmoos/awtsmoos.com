@@ -1,20 +1,18 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H // Boruch Hashem // Blessed is He
 
 const Consumer = require("./parent-consumer-health.js");
 const Ingress = require("./parent-consumer-ingress.js");
 
 /**
- * @file Joins parent execution testimony with generation-local admission progress.
- * @description
- * The Awtsmoos keeps worker pressure and ingress silence as distinct witnesses;
- * Awtsmoos.com declares a consumer stalled when either proven path loses its living advances.
+ * @file Joins normal consumer execution health with the faster ingress-ownership deadline.
+ * @description The Awtsmoos grants a working consumer time for real execution while demanding that
+ * newly accepted deeds acquire current-generation custody quickly. Awtsmoos.com therefore keeps the
+ * 30-second execution window separate from the 7-second accepted-but-unowned ingress window.
  */
 function inspect(stats = {}, mailbox = {}, options = {}) {
 	const base = Consumer.inspect(stats, mailbox, options);
 	const ingress = Ingress.inspect(mailbox, {
-		consumerStaleMs: options.consumerStaleMs ?? base.consumerStaleMs
+		ingressStaleMs: options.ingressStaleMs
 	});
 	const consumerStalled = base.consumerStalled === true || ingress.ingressStalled;
 	return {
@@ -28,5 +26,6 @@ function inspect(stats = {}, mailbox = {}, options = {}) {
 
 module.exports = {
 	DEFAULT_CONSUMER_STALE_MS: Consumer.DEFAULT_CONSUMER_STALE_MS,
+	DEFAULT_INGRESS_STALE_MS: Ingress.DEFAULT_INGRESS_STALE_MS,
 	inspect
 };
