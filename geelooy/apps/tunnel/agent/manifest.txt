@@ -1,5 +1,5 @@
 B"H
-1.0.625
+1.0.626
 main.js
 ai/relay/direct/browser/ActiveTargetLease.mjs
 ai/relay/direct/browser/AgentTabCatalog.mjs
@@ -1570,6 +1570,7 @@ recovery/versionCatalog.js
 release/manifestArguments.js
 release/manifestDocument.js
 release/manifestVersion.js
+release/releaseSourceGuard.js
 release/runtimeCatalog.js
 release/runtimeFiles.js
 release/runtimeGitIndex.js
