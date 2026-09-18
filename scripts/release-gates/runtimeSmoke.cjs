@@ -7,8 +7,8 @@
  * @file runtimeSmoke.cjs
  * @description
  * The Awtsmoos boots the canonical Awtsmoos.com composition root from a fresh
- * process and proves real server-rendered Torah over HTTP. A release cannot rely
- * on mocks, an already-running listener, or optional semantic/social machinery.
+ * process and proves real server-rendered Torah over HTTP. Each bounded route
+ * reports its own elapsed time so release failures name the vessel that stalled.
  */
 
 const assert = require('node:assert/strict');
@@ -17,12 +17,12 @@ const path = require('node:path');
 const deps = require('../../ayzarim/awtsmoosDynamicServer/server/deps.js');
 const { resolveDbPath } = require('../../ayzarim/awtsmoosDynamicServer/server/initDb.js');
 const {
+	DEFAULT_ROUTE_TIMEOUT_MS,
 	assertRouteHtml,
 	coreRoutes,
 	hebrewCount
 } = require('./runtimeSmokePolicy.cjs');
 const {
-	FETCH_TIMEOUT_MS,
 	availablePort,
 	spawnRuntime,
 	stopRuntime,
@@ -31,18 +31,25 @@ const {
 
 const REPOSITORY_ROOT = path.resolve(__dirname, '../..');
 
-/** Fetches one smoke route with an independent hard deadline. */
+/** Fetches one smoke route with its explicit bounded deadline and timing witness. */
 async function fetchRoute(origin, route) {
+	const timeoutMs = route.timeoutMs || DEFAULT_ROUTE_TIMEOUT_MS;
+	const startedAt = Date.now();
+	console.log(`B"H - Smoke route ${route.id} starting with ${timeoutMs}ms budget.`);
 	const response = await fetch(new URL(route.path, origin), {
 		redirect: 'follow',
-		signal: AbortSignal.timeout(FETCH_TIMEOUT_MS * 3)
+		signal: AbortSignal.timeout(timeoutMs)
 	});
 	assert(response.ok, `${route.id} returned HTTP ${response.status}`);
 	const html = await response.text();
 	assertRouteHtml(route, html);
+	const elapsedMs = Date.now() - startedAt;
+	console.log(`B"H - Smoke route ${route.id} passed in ${elapsedMs}ms.`);
 	return {
 		id: route.id,
 		path: route.path,
+		timeoutMs,
+		elapsedMs,
 		bytes: Buffer.byteLength(html),
 		hebrewCharacters: hebrewCount(html)
 	};
