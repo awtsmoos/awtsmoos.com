@@ -9,6 +9,7 @@ const { codeArchitectureInstructions } = require("./catalogCodeArchitecture.js")
 const { codeContractInstructions } = require("./catalogCodeContracts.js");
 const { documentationInstructions } = require("./catalogDocs.js");
 const { workModeInstructions } = require("./catalogWorkModes.js");
+const { externalAiInstructions } = require("./catalogExternalAi.js");
 const { missionDiscoveryInstructions } = require("./catalogMissionDiscovery.js");
 const { missionContinuityInstructions } = require("./catalogMissionContinuity.js");
 const { continuationOverrideInstructions } = require("./catalogContinuationOverride.js");
@@ -60,6 +61,7 @@ function allRecords() {
 		...codeContractInstructions,
 		...documentationInstructions,
 		...workModeInstructions,
+		...externalAiInstructions,
 		...missionDiscoveryInstructions,
 		...missionContinuityInstructions,
 		...continuationOverrideInstructions,
