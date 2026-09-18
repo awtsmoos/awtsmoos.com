@@ -1,5 +1,5 @@
 B"H
-1.0.623
+1.0.624
 main.js
 ai/relay/direct/browser/ActiveTargetLease.mjs
 ai/relay/direct/browser/AgentTabCatalog.mjs
@@ -1287,6 +1287,7 @@ lib/runtime/main-pressure-queue.js
 lib/runtime/main-process.js
 lib/runtime/main-queue-admission-result.js
 lib/runtime/main-queue-admission.js
+lib/runtime/main-queue-emergency-dispatch.js
 lib/runtime/main-queue-emergency.js
 lib/runtime/main-queue-item.js
 lib/runtime/main-queue-progress.js
