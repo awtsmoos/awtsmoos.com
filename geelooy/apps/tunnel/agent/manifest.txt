@@ -1,5 +1,5 @@
 B"H
-1.0.624
+1.0.625
 main.js
 ai/relay/direct/browser/ActiveTargetLease.mjs
 ai/relay/direct/browser/AgentTabCatalog.mjs
@@ -1928,6 +1928,7 @@ tools/fs/actionGroups/websiteAgents/runner/seedRoom.js
 tools/fs/actionGroups/websiteAgents/runner/sleep.js
 tools/fs/actionGroups/websiteAgents/runner/spawn.js
 tools/fs/actionGroups/websiteAgents/runner/spawnAdmission.js
+tools/fs/actionGroups/websiteAgents/runner/spawnDiscovery.js
 tools/fs/actionGroups/websiteAgents/runner/spawnFairness.js
 tools/fs/actionGroups/websiteAgents/runner/spawnRequestLimit.js
 tools/fs/actionGroups/websiteAgents/runner/start.js
