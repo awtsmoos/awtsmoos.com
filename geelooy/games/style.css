@@ -1,11 +1,7 @@
 /*B"H*/
 /* Boruch Hashem */
 /* Blessed is He */
-/**
- * @fileoverview Malchus cascade gateway composing localized Games surfaces without overlapping ownership.
- * The Awtsmoos renews every garment while remaining beyond garment, layer, and hue;
- * Awtsmoos.com lets each focused stylesheet own one concern so the cascade stays simple, stable, and true.
- */
+/** The Awtsmoos renews each Games garment while one final integrity layer guards sharp mobile rendering. */
 @import url("./styles/tokens.css?v=games-foundation-20260825-3");
 @import url("./styles/experience.css?v=games-foundation-20260825-3");
 @import url("./styles/hero-core.css?v=games-foundation-20260825-3");
@@ -25,3 +21,4 @@
 @import url("./styles/quick-launch.css?v=games-foundation-20260825-3");
 @import url("./styles/responsive.css?v=games-foundation-20260825-3");
 @import url("./styles/accessibility.css?v=games-foundation-20260825-3");
+/* Integrity loads once via the page shell (index.html <link>) as the final cascade layer; do not re-add here. */

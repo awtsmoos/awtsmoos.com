@@ -8,6 +8,14 @@
 	}
 	var interfaceVersion = 'civilization-profile-001';
 	var shellBoot = '<script type="module" src="/scripts/awtsmoos/social/shell/boot.js?v=' + interfaceVersion + '"></' + 'script>';
+	/* B"H — Stylesheet cascade order (deterministic; later sheets win specificity ties):
+	   1. /style/geelooy-app/index.css        (app shell; injected first in tochen)
+	   2. /style/civilization/core-tokens.css (design tokens: CSS variables)
+	   3. /style/civilization/core-base.css    (base element styles)
+	   4. /style/civilization/core-components.css (shared components)
+	   5. /style/civilization/profile-identity.css (profile-specific identity)
+	   6. /style/civilization/profile-content.css (profile-specific content)
+	   Keep this foundation-to-specific order; do not reorder without checking overrides. */
 	var civilizationStyles = '<link rel="stylesheet" href="/style/civilization/core-tokens.css?v=' + interfaceVersion + '"><link rel="stylesheet" href="/style/civilization/core-base.css?v=' + interfaceVersion + '"><link rel="stylesheet" href="/style/civilization/core-components.css?v=' + interfaceVersion + '"><link rel="stylesheet" href="/style/civilization/profile-identity.css?v=' + interfaceVersion + '"><link rel="stylesheet" href="/style/civilization/profile-content.css?v=' + interfaceVersion + '">';
 	var user = request.user ? escapeProfileText(request.user.info.userId) : '';
 	if (request.user) {

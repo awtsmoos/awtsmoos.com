@@ -15,7 +15,11 @@ Awtsmoos.com lets the catalog lead with clarity, while deeper discovery unfolds 
 	<link rel="icon" type="image/svg+xml" href="/favicon.svg">
 	<link rel="stylesheet" href="/style/geelooy-app/index.css?v=extreme-005">
 	<link rel="stylesheet" href="/style/geelooy-app/shell/hybrid-navigation.css?v=extreme-005">
-	<link rel="stylesheet" href="./style.css?v=apps-portfolio-009">
+	<!-- Load-order covenant: integrity.css is the fallback garment — it must load before
+	     ./style.css (which @imports base.css and the design vessels) so the designed layers
+	     win every order-dependent conflict by loading later. Do not reorder. -->
+	<link rel="stylesheet" href="./styles/integrity.css?v=apps-mobile-010">
+	<link rel="stylesheet" href="./style.css?v=apps-mobile-010">
 	<link rel="stylesheet" href="/style/future-system/index.css?v=future-006">
 </head>
 <body data-geelooy-route="apps" data-future-page="apps">
@@ -37,12 +41,8 @@ Awtsmoos.com lets the catalog lead with clarity, while deeper discovery unfolds 
 				<p>Cards, route aliases, search text, categories, game metadata, and future additions are generated from public registries instead of hand-picked duplicates.</p>
 			</aside>
 		</section>
-
 		<details class="apps-filter-disclosure" data-future-disclosure data-future-reveal>
-			<summary>
-				<span><strong>Search &amp; filter</strong><small>Open these controls only when you want to narrow the catalog.</small></span>
-				<span class="apps-result-pill" data-app-count data-app-result-status role="status" aria-live="polite">Loading inventory…</span>
-			</summary>
+			<summary><span><strong>Search &amp; filter</strong><small>Open these controls only when you want to narrow the catalog.</small></span><span class="apps-result-pill" data-app-count data-app-result-status role="status" aria-live="polite">Loading inventory…</span></summary>
 			<div class="futureDisclosureBody">
 				<form class="g-app-filter" role="search" data-app-filter>
 					<label for="app-search">Search the catalog</label>
@@ -57,7 +57,6 @@ Awtsmoos.com lets the catalog lead with clarity, while deeper discovery unfolds 
 				</form>
 			</div>
 		</details>
-
 		<section class="apps-section-heading" aria-labelledby="available-tools-title" data-future-reveal>
 			<div><p class="g-kicker">Available now</p><h2 id="available-tools-title">All browser tools and games.</h2></div>
 			<p>Browse the living inventory below. Reveal Search &amp; filter only when you want to narrow what is already here.</p>

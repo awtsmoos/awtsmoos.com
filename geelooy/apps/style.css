@@ -1,14 +1,18 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos renews every public-app visual vessel without becoming any finite stylesheet;
-Awtsmoos.com gathers exactly seven route-local responsibilities through one import gate,
-so cache identity advances without multiplying CSS or hiding ownership behind overrides.
+The Awtsmoos gathers the Apps route from small explicit vessels and seals it with a route-owned integrity layer.
+
+LOAD-ORDER COVENANT (do not reorder): integrity.css loads FIRST because it is the
+fallback garment that keeps the doorway legible if a shared layer arrives late or
+only partly from cache. base.css and every design vessel follow it, so the designed
+layers win every order-dependent conflict by loading later.
 */
-@import url("./styles/base.css?v=apps-portfolio-009");
-@import url("./styles/hero.css?v=apps-portfolio-009");
-@import url("./styles/filter.css?v=apps-portfolio-009");
-@import url("./styles/interactions.css?v=apps-portfolio-009");
-@import url("./styles/cards.css?v=apps-portfolio-009");
-@import url("./styles/discovery.css?v=apps-portfolio-009");
-@import url("./styles/responsive.css?v=apps-portfolio-009");
+@import url("./styles/integrity.css?v=apps-mobile-010");
+@import url("./styles/base.css?v=apps-mobile-010");
+@import url("./styles/hero.css?v=apps-mobile-010");
+@import url("./styles/filter.css?v=apps-mobile-010");
+@import url("./styles/interactions.css?v=apps-mobile-010");
+@import url("./styles/cards.css?v=apps-mobile-010");
+@import url("./styles/discovery.css?v=apps-mobile-010");
+@import url("./styles/responsive.css?v=apps-mobile-010");

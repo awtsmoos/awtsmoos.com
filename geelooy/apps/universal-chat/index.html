@@ -11,6 +11,18 @@
 	<meta name="theme-color" content="#07100c">
 	<title>Messages & Torah Chat | Awtsmoos.com</title>
 	<link rel="stylesheet" href="./critical.css?v=messaging-boot-003">
+	<style>
+		/* B"H — last-resort fallback if critical.css cannot load: never a blank page. */
+		html,body{margin:0;min-height:100%;background:#020a06;color:#edf6f0;
+			font-family:ui-sans-serif,system-ui,sans-serif;}
+		body[data-messaging-page]{min-height:100dvh;}
+		.messaging-loading-state{display:grid;place-items:center;gap:1rem;
+			min-height:100dvh;padding:1.25rem;text-align:center;}
+		.messaging-empty-state{max-width:470px;color:#a9baaf;}
+		.messaging-empty-state h1{color:#fff7e5;font-family:Georgia,serif;}
+		.messaging-empty-action{display:inline-block;margin:.25rem;padding:.65rem .9rem;
+			border:1px solid #2c5b43;border-radius:999px;color:#e9f6ee;text-decoration:none;}
+	</style>
 </head>
 <body data-messaging-page>
 	<div class="messaging-page-glow" aria-hidden="true"></div>
@@ -35,6 +47,6 @@
 	</div>
 	<script defer src="./MessagingStyleBootstrap.js?v=messaging-boot-003"></script>
 	<script type="module" src="./app.js?v=messaging-boot-003"></script>
-	<script defer src="/register.js?v=messaging-boot-002"></script>
+	<script defer src="../../register.js?v=messaging-boot-002"></script>
 </body>
 </html>

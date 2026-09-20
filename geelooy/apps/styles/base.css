@@ -6,6 +6,27 @@
  * The Awtsmoos renews the Apps horizon without spilling one ray into another route;
  * Awtsmoos.com gives this vessel its own atmosphere, so shared shells remain untouched at every root.
  */
+
+/**
+ * Token backfill: the shared shell (geelooy/style/geelooy-app/tokens.css) owns the
+ * canonical --g-* family on html.geelooy-route-ready, but these members were never
+ * defined there while the apps vessels consume them without fallbacks. They are
+ * defined here on the apps route root so the doorway never degrades into invalid
+ * declarations. Values follow the existing glass/cyan design language.
+ */
+body[data-geelooy-route="apps"] {
+	--g-text-muted: #aebbd0;
+	--g-surface-2: rgba(26, 36, 50, .94);
+	--g-accent: #7bdcff;
+	--g-accent-2: #a8ebff;
+	--g-font-size-xs: .78rem;
+	--g-font-size-lg: 1.15rem;
+	--g-font-size-xl: 1.5rem;
+	--g-font-weight-bold: 700;
+	--g-font-weight-semibold: 600;
+	--apps-layer-filter: 30;
+}
+
 body[data-geelooy-route="apps"] {
 	background:
 		radial-gradient(circle at 14% 4%, rgb(86 68 255 / 16%), transparent 34rem),
@@ -15,11 +36,16 @@ body[data-geelooy-route="apps"] {
 
 body[data-geelooy-route="apps"] .apps-section-heading {
 	display: grid;
-	grid-template-columns: minmax(0, .65fr) minmax(0, 1.35fr);
 	gap: 24px;
 	align-items: end;
 	min-width: 0;
 	margin: 24px 0 14px;
+}
+
+@media (min-width: 54rem) {
+	body[data-geelooy-route="apps"] .apps-section-heading {
+		grid-template-columns: minmax(0, .65fr) minmax(0, 1.35fr);
+	}
 }
 
 body[data-geelooy-route="apps"] .apps-section-heading h2 {

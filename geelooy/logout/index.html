@@ -1,15 +1,35 @@
-<h1>B"H</h1>
-<?<script>
-    var url = $_GET["redirect"];
-    var red = url ? url : "/"
-    response.setHeader("set-cookie",`awtsmoosKey=; HttpOnly; `+
-            "max-age=0; Path=/;");
-
-    response.setHeader(
-        "refresh",
-        "0; url="+red
-    );
-    
-</script>?>
-Hi. It should refresh automatically.
-If not click <a href="/">here</a>
+<!-- B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos releases one finite session without letting an untrusted redirect steer the traveler elsewhere.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Logged Out · Awtsmoos</title>
+</head>
+<body>
+<?Awtsmoos
+	function safeRedirect(value) {
+		var raw = String(value || "/").trim();
+		try {
+			var url = new URL(raw, "https://awtsmoos.com");
+			return url.hostname === "awtsmoos.com" ? url.pathname + url.search + url.hash : "/";
+		} catch (error) {
+			return raw.startsWith("/") && !raw.startsWith("//") ? raw : "/";
+		}
+	}
+	function esc(value) {
+		return String(value || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+	}
+	var destination = safeRedirect($_GET && $_GET.redirect);
+	setHeader("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0");
+	setHeader("Pragma", "no-cache");
+	setHeader("set-cookie", "awtsmoosKey=; HttpOnly; Max-Age=0; Expires=Thu, 01 Jan 1970 00:00:00 GMT; Path=/; SameSite=Lax; Secure");
+	setHeader("refresh", "0; url=" + destination);
+	return `<main><h1>B&quot;H</h1><p>You are logged out.</p><p><a href="${esc(destination)}">Continue</a></p></main>`;
+?>
+</body>
+</html>
