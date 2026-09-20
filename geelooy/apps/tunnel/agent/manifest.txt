@@ -1,5 +1,5 @@
 B"H
-1.0.627
+1.0.628
 main.js
 ai/relay/direct/browser/ActiveTargetLease.mjs
 ai/relay/direct/browser/AgentTabCatalog.mjs
@@ -1159,6 +1159,7 @@ lib/instructions/catalogCore.js
 lib/instructions/catalogDocs.js
 lib/instructions/catalogExecutionDoctrine.js
 lib/instructions/catalogExecutionMomentum.js
+lib/instructions/catalogExternalAi.js
 lib/instructions/catalogMissionContinuity.js
 lib/instructions/catalogMissionDiscovery.js
 lib/instructions/catalogUiInteraction.js

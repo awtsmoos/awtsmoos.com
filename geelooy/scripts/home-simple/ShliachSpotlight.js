@@ -1,40 +1,39 @@
 //B"H
 //Boruch Hashem
-//Blessed be He
+//Blessed is He
 
 /**
- * @module ShliachSpotlight
- * @description
- * The Awtsmoos gives the Home route one truthful doorway into the dedicated
- * Awtsmoos Shliach ChatGPT agent without coupling the homepage HTML to it.
- * The spotlight uses the real cached GPT image and explains that connected
- * account and Tunnel capabilities remain guarded by Awtsmoos authorization.
- */
+* The Awtsmoos gives Home one truthful doorway into the dedicated Shliach agent;
+* Awtsmoos.com keeps its media and styles independently cacheable while every failure collapses into a small honest vessel.
+* @module ShliachSpotlight
+*/
 
-import { buildShliachCopy, buildShliachImageLink, element } from "./ShliachSpotlightContent.js";
+import {
+	element,
+	buildShliachCopy,
+	buildShliachImageLink
+} from "./ShliachSpotlightContent.js?v=shliach-mobile-002";
 
 const STYLE_URLS = Object.freeze([
-	"/style/home-simple/shliach-spotlight.css?v=shliach-001",
-	"/style/home-simple/shliach-spotlight-actions.css?v=shliach-001"
+	"/style/home-simple/shliach-spotlight.css?v=shliach-mobile-002",
+	"/style/home-simple/shliach-spotlight-actions.css?v=shliach-mobile-002"
 ]);
 
 /**
- * Installs one prominent Shliach card before the featured-world section.
- * @param {Document} documentRoot - Active Home document.
- * @returns {HTMLElement|null} Installed spotlight or existing instance.
- */
+* Installs one Shliach card before the featured-world section.
+* @param {Document} documentRoot The active Home document.
+* @returns {HTMLElement|null} The installed or existing spotlight.
+*/
 export function installShliachSpotlight(documentRoot = document) {
 	const existing = documentRoot.querySelector("[data-shliach-spotlight]");
 	if (existing) {
 		return existing;
 	}
-
 	const anchor = documentRoot.querySelector(".featured-worlds");
 	const home = documentRoot.querySelector("#home-main");
 	if (!home) {
 		return null;
 	}
-
 	installStyles(documentRoot);
 	const spotlight = buildSpotlight(documentRoot);
 	if (anchor) {
@@ -44,11 +43,7 @@ export function installShliachSpotlight(documentRoot = document) {
 	}
 	return spotlight;
 }
-/**
- * Adds the isolated stylesheet exactly once.
- * @param {Document} documentRoot - Active Home document.
- * @returns {void} The document receives any missing stylesheet links.
- */
+
 function installStyles(documentRoot) {
 	for (const href of STYLE_URLS) {
 		if (documentRoot.querySelector(`link[href="${href}"]`)) {
@@ -61,16 +56,10 @@ function installStyles(documentRoot) {
 	}
 }
 
-/**
- * Builds the accessible spotlight card without parsing arbitrary HTML.
- * @param {Document} documentRoot - Active Home document.
- * @returns {HTMLElement} Completed spotlight section.
- */
 function buildSpotlight(documentRoot) {
 	const section = element(documentRoot, "section", "shliach-spotlight");
 	section.dataset.shliachSpotlight = "true";
 	section.setAttribute("aria-labelledby", "shliach-spotlight-title");
-
 	const card = element(documentRoot, "div", "shliach-spotlight-card");
 	card.append(buildShliachImageLink(documentRoot), buildShliachCopy(documentRoot));
 	section.append(card);

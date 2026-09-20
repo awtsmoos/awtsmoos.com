@@ -1,108 +1,105 @@
 //B"H
 //Boruch Hashem
-//Blessed be He
+//Blessed is He
 
 /**
- * @module ShliachSpotlightContent
- * @description
- * The Awtsmoos gives the Shliach spotlight explicit, accessible DOM vessels;
- * Awtsmoos.com keeps external identity, explanatory copy, and actions inspectable
- * without innerHTML or hidden account-authority claims.
- */
+* The Awtsmoos sends one Shliach from Home toward each honest task in sight;
+* Awtsmoos.com serves the public emblem directly and lets honest text remain if media leaves the light.
+* @module ShliachSpotlightContent
+*/
+
+import {
+	element,
+	internalLink,
+	text
+} from "./ShliachSpotlightElements.js";
+
+export { element } from "./ShliachSpotlightElements.js";
 
 export const SHLIACH_URL = "https://chatgpt.com/g/g-6a03feea8398819192067ae3dbfa449c-awtsmoos-shliach-agent";
-export const SHLIACH_IMAGE = "/resources/branding/awtsmoos-shliach-agent.png";
+export const SHLIACH_PAGE = "/Shliach/";
+export const SHLIACH_IMAGE = "https://awtsmoos.com/api/social/drive/public/awtsmoos/file_000000001aa071f5afcedcf09919246e.png";
+const SHLIACH_DESCRIPTION = [
+	"The Awtsmoos Shliach is the dedicated ChatGPT agent for creating and operating Awtsmoos projects.",
+	"Tell it what you want to make; when your account or Tunnel grants the needed capabilities,",
+	"it can work through authenticated Awtsmoos APIs for projects, files, Docs, posts, series, sites, and more."
+].join(" ");
+const SHLIACH_TRUST = [
+	"Your Awtsmoos account permissions remain the authority.",
+	"The agent does not need a separate hidden account backdoor."
+].join(" ");
 
 /**
- * Creates one DOM element with an optional class name.
- * @param {Document} documentRoot - Active Home document.
- * @param {string} tagName - HTML element name.
- * @param {string} className - Optional CSS class.
- * @returns {HTMLElement} Newly created element.
- */
-export function element(documentRoot, tagName, className = "") {
-	const node = documentRoot.createElement(tagName);
-	if (className) {
-		node.className = className;
-	}
-	return node;
-}
-
-/**
- * Builds the large linked real Shliach GPT image.
- * @param {Document} documentRoot - Active Home document.
- * @returns {HTMLAnchorElement} External image link.
- */
+* Builds the Home logo doorway with the canonical public image and compact text fallback.
+* @param {Document} documentRoot The living document.
+* @returns {HTMLAnchorElement} The Shliach campaign image doorway.
+*/
 export function buildShliachImageLink(documentRoot) {
-	const link = externalLink(documentRoot, "shliach-spotlight-image-link");
-	link.setAttribute("aria-label", "Open the Awtsmoos Shliach Agent in ChatGPT");
-
+	const link = internalLink(documentRoot, "shliach-spotlight-image-link", SHLIACH_PAGE);
+	link.setAttribute("aria-label", "Meet the Awtsmoos Shliach Agent");
+	link.dataset.mediaState = "loading";
 	const image = documentRoot.createElement("img");
 	image.className = "shliach-spotlight-image";
 	image.src = SHLIACH_IMAGE;
-	image.alt = "Awtsmoos Shliach Agent logo";
+	image.alt = "Awtsmoos Shliach custom GPT logo";
 	image.width = 512;
 	image.height = 512;
 	image.loading = "lazy";
 	image.decoding = "async";
-	link.append(image);
+	const fallback = buildMediaFallback(documentRoot);
+	image.addEventListener("load", () => revealMedia(link, fallback));
+	image.addEventListener("error", () => {
+		link.dataset.mediaState = "missing";
+		image.hidden = true;
+		fallback.hidden = false;
+	});
+	link.append(image, fallback);
 	return link;
 }
+
 /**
- * Builds the explanatory text and the primary/secondary actions.
- * @param {Document} documentRoot - Active Home document.
- * @returns {HTMLElement} Copy vessel for the spotlight card.
- */
+* Builds explanatory Home copy with launch actions visible before long copy.
+* @param {Document} documentRoot The living document.
+* @returns {HTMLDivElement} The complete copy vessel.
+*/
 export function buildShliachCopy(documentRoot) {
 	const copy = element(documentRoot, "div", "shliach-spotlight-copy");
 	const eyebrow = text(documentRoot, "p", "shliach-spotlight-eyebrow", "Your Awtsmoos agent");
-	const title = text(documentRoot, "h2", "", "Build with the Awtsmoos Shliach");
+	const title = text(documentRoot, "h2", "shliach-spotlight-title", "Build with the Awtsmoos Shliach");
 	title.id = "shliach-spotlight-title";
-	const description = text(
-		documentRoot,
-		"p",
-		"shliach-spotlight-description",
-		"The Awtsmoos Shliach is the dedicated ChatGPT agent for creating and operating Awtsmoos projects. Tell it what you want to make; when your account or Tunnel grants the needed capabilities, it can work through authenticated Awtsmoos APIs for projects, files, Docs, posts, series, sites, and more."
-	);
-	const trust = text(
-		documentRoot,
-		"p",
-		"shliach-spotlight-trust",
-		"Your Awtsmoos account permissions remain the authority. The agent does not need a separate hidden account backdoor."
-	);
-	copy.append(eyebrow, title, description, trust, buildActions(documentRoot));
+	const description = text(documentRoot, "p", "shliach-spotlight-description", SHLIACH_DESCRIPTION);
+	const trust = text(documentRoot, "p", "shliach-spotlight-trust", SHLIACH_TRUST);
+	copy.append(eyebrow, title, buildActions(documentRoot), description, trust);
 	return copy;
 }
-/**
- * Builds the agent and OS actions shown beside the explanation.
- * @param {Document} documentRoot - Active Home document.
- * @returns {HTMLElement} Action-row element.
- */
+
+function revealMedia(link, fallback) {
+	link.dataset.mediaState = "ready";
+	fallback.hidden = true;
+}
+
 function buildActions(documentRoot) {
 	const actions = element(documentRoot, "div", "shliach-spotlight-actions");
-	const openAgent = externalLink(documentRoot, "shliach-spotlight-primary");
-	openAgent.textContent = "Open Awtsmoos Shliach ↗";
-
-	const openOs = documentRoot.createElement("a");
-	openOs.className = "shliach-spotlight-secondary";
-	openOs.href = "/os";
-	openOs.textContent = "Open Awtsmoos OS";
-	actions.append(openAgent, openOs);
+	const openAgent = externalLink(documentRoot, "shliach-spotlight-primary", SHLIACH_URL);
+	openAgent.textContent = "Open actual Shliach on ChatGPT ↗";
+	const discover = internalLink(documentRoot, "shliach-spotlight-secondary", SHLIACH_PAGE);
+	discover.textContent = "Explore /Shliach/";
+	const visibleUrl = externalLink(documentRoot, "shliach-spotlight-url", SHLIACH_URL);
+	visibleUrl.textContent = SHLIACH_URL;
+	actions.append(openAgent, discover, visibleUrl);
 	return actions;
 }
 
-/** Creates one external Shliach link with safe opener isolation. */
-function externalLink(documentRoot, className) {
-	const link = documentRoot.createElement("a");
-	link.className = className;
-	link.href = SHLIACH_URL;
+function externalLink(documentRoot, className, href) {
+	const link = internalLink(documentRoot, className, href);
 	link.target = "_blank";
 	link.rel = "noopener noreferrer";
 	return link;
 }
-/** Creates a text element without HTML parsing. */
-function text(documentRoot, tagName, className, value) {
-	const node = element(documentRoot, tagName, className);
-	node.textContent = value;
-	return node;
+
+function buildMediaFallback(documentRoot) {
+	const fallback = element(documentRoot, "span", "shliach-spotlight-media-fallback");
+	fallback.hidden = true;
+	fallback.textContent = "Awtsmoos Shliach";
+	return fallback;
 }

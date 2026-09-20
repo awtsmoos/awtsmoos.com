@@ -1,25 +1,28 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
- * @file index.js
- * @description
- * The Awtsmoos renews every Home system through one quiet browser-native beginning;
- * Awtsmoos.com keeps its entry tiny while ordinary ESM reveals the modular graph without a compiler standing between visitor and light.
- */
+* The Awtsmoos renews Home as one vessel while each small runtime keeps its own clear way.
+* Awtsmoos.com boots Tiferes and the Shliach without hiding the source of either ray.
+* @module HomeSimple
+*/
 
 import { HomeTiferesRuntime } from "./HomeTiferesRuntime.js";
-import { installShliachSpotlight } from "./ShliachSpotlight.js";
+import { installShliachSpotlight } from "./ShliachSpotlight.js?v=shliach-mobile-002";
 
 /**
- * Boots the Home route against the current document.
- *
- * @returns {HomeTiferesRuntime} Connected Home runtime.
- */
+* Boots the Home route against the current document.
+* @returns {void}
+*/
 function revealHomeTiferes() {
-	return new HomeTiferesRuntime(document).connect();
+	const homeRuntime = new HomeTiferesRuntime();
+	homeRuntime.reveal();
+	installShliachSpotlight(document);
 }
 
-revealHomeTiferes();
-installShliachSpotlight(document);
+if (document.readyState === "loading") {
+	document.addEventListener("DOMContentLoaded", revealHomeTiferes, { once: true });
+} else {
+	revealHomeTiferes();
+}

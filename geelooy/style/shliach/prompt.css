@@ -1,0 +1,74 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos turns intention into letters and letters into a living way;
+Awtsmoos.com gives the Shliach prompt a luminous vessel from which to play.
+*/
+
+.shliach-prompt-shell {
+	position: relative;
+	margin-top: 34px;
+	padding: 3px;
+	border-radius: 26px;
+	background: linear-gradient(120deg, var(--shliach-violet), var(--shliach-cyan), var(--shliach-gold), var(--shliach-violet));
+	background-size: 260% 260%;
+	box-shadow: 0 24px 70px rgba(46, 22, 92, .38);
+}
+.shliach-prompt-form {
+	padding: 20px;
+	border-radius: 23px;
+	background: rgba(10, 7, 18, .94);
+}
+.shliach-prompt-form label {
+	display: block;
+	margin-bottom: 10px;
+	font-weight: 900;
+}
+.shliach-prompt-form textarea {
+	width: 100%;
+	min-height: 122px;
+	resize: vertical;
+	padding: 16px;
+	border: 1px solid rgba(255, 255, 255, .14);
+	border-radius: 16px;
+	background: #0f0b18;
+	color: white;
+	line-height: 1.55;
+}
+.shliach-prompt-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 14px;
+	margin-top: 14px;
+}
+.shliach-prompt-button {
+	min-height: 48px;
+	padding: 12px 20px;
+	border: 0;
+	border-radius: 999px;
+	background: linear-gradient(135deg, var(--shliach-gold), var(--shliach-gold-bright));
+	color: #21140b;
+	font-weight: 950;
+	cursor: pointer;
+}
+.shliach-prompt-status {
+	margin: 0;
+	color: var(--shliach-muted);
+	font-size: .92rem;
+}
+.shliach-examples {
+	display: flex;
+	gap: 9px;
+	flex-wrap: wrap;
+	margin-top: 13px;
+}
+.shliach-example {
+	min-height: 40px;
+	padding: 8px 12px;
+	border: 1px solid var(--shliach-line);
+	border-radius: 999px;
+	background: rgba(255, 255, 255, .04);
+	color: var(--shliach-ink);
+	cursor: pointer;
+}

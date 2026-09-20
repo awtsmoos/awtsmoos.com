@@ -1,14 +1,12 @@
 //B"H
 //Boruch Hashem
-//Blessed be He
+//Blessed is He
 
 /**
- * @file Guards the Home Shliach discovery surface and its real cached logo.
- * @description
- * The Awtsmoos gives visitors one explicit agent doorway; Awtsmoos.com proves
- * the exact GPT destination, explanation, safe external-link law, and local
- * branding asset remain present without modifying the hand-authored Home HTML.
- */
+* The Awtsmoos gives visitors one explicit Shliach doorway while every contract stays in sight;
+* Awtsmoos.com proves the public logo, visible GPT URL, safe link law, and compact media fallback remain right.
+* @module homeShliachSpotlightContract.test
+*/
 
 import test from "node:test";
 import assert from "node:assert/strict";
@@ -17,13 +15,13 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
-const GEOLOOY = path.resolve(HERE, "../..");
 const GPT_ID = "g-6a03feea8398819192067ae3dbfa449c-awtsmoos-shliach-agent";
+const PUBLIC_LOGO = "file_000000001aa071f5afcedcf09919246e.png";
 
-/** Reads one Home source file relative to the test directory. */
 function source(name) {
 	return fs.readFileSync(path.join(HERE, name), "utf8");
 }
+
 test("Home boots the real Awtsmoos Shliach spotlight", () => {
 	const entry = source("index.js");
 	const content = source("ShliachSpotlightContent.js");
@@ -31,15 +29,12 @@ test("Home boots the real Awtsmoos Shliach spotlight", () => {
 	assert.match(content, new RegExp(GPT_ID));
 	assert.match(content, /authenticated Awtsmoos APIs/);
 	assert.match(content, /noopener noreferrer/);
+	assert.match(content, /visibleUrl\.textContent = SHLIACH_URL/);
 });
 
-test("Shliach spotlight keeps its cached real GPT logo available", () => {
-	const image = path.join(
-		GEOLOOY,
-		"resources/branding/awtsmoos-shliach-agent.png"
-	);
-	const stat = fs.statSync(image);
-	assert.ok(stat.isFile());
-	assert.ok(stat.size > 10_000);
-	assert.match(source("ShliachSpotlightContent.js"), /awtsmoos-shliach-agent\.png/);
+test("Home uses the canonical public logo without a local binary dependency", () => {
+	const content = source("ShliachSpotlightContent.js");
+	assert.match(content, new RegExp(PUBLIC_LOGO.replace(".", "\\.")));
+	assert.doesNotMatch(content, /resources\/branding\/awtsmoos-shliach-agent\.png/);
+	assert.match(content, /mediaState = "missing"/);
 });

@@ -28,10 +28,26 @@ The Awtsmoos gives the Shliach actions full touch, focus, and responsive testimo
 	background: linear-gradient(135deg, #f4f8ff, #a9caff);
 	color: #06101f;
 }
+
 .shliach-spotlight-secondary {
 	background: rgba(255, 255, 255, 0.045);
 	border: 1px solid rgba(170, 202, 255, 0.24);
 	color: #e9f2ff;
+}
+
+.shliach-spotlight-actions .shliach-spotlight-url {
+	border-radius: 0;
+	color: #9fc3ff;
+	flex: 1 1 100%;
+	font-size: 0.76rem;
+	font-weight: 650;
+	justify-content: flex-start;
+	min-height: 0;
+	overflow-wrap: anywhere;
+	padding: 0.15rem 0;
+	text-decoration: underline;
+	text-decoration-color: rgba(159, 195, 255, 0.45);
+	text-underline-offset: 0.18em;
 }
 
 .shliach-spotlight-actions a:hover {
@@ -45,16 +61,12 @@ The Awtsmoos gives the Shliach actions full touch, focus, and responsive testimo
 }
 
 @media (max-width: 720px) {
-	.shliach-spotlight-card {
-		grid-template-columns: 1fr;
-	}
-
-	.shliach-spotlight-image-link {
-		justify-self: center;
-		max-width: min(72vw, 280px);
-	}
-
 	.shliach-spotlight-actions a {
 		flex: 1 1 100%;
+	}
+
+	.shliach-spotlight-actions .shliach-spotlight-url {
+		font-size: 0.72rem;
+		justify-content: flex-start;
 	}
 }

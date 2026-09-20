@@ -1,0 +1,37 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets the Shliach words arrive near the image without being pushed below the way;
+Awtsmoos.com keeps title, trust, and mission readable on every screen throughout the day.
+*/
+
+.shliach-spotlight-copy h2 {
+	font-size: clamp(1.75rem, 4vw, 3.2rem);
+	letter-spacing: -.035em;
+	line-height: 1;
+	margin: 0;
+}
+
+.shliach-spotlight-eyebrow {
+	color: #8db7ff;
+	font-size: .78rem;
+	font-weight: 800;
+	letter-spacing: .14em;
+	margin: 0 0 .7rem;
+	text-transform: uppercase;
+}
+
+.shliach-spotlight-description {
+	color: rgba(236, 243, 255, .92);
+	font-size: clamp(1rem, 1.8vw, 1.12rem);
+	line-height: 1.65;
+	margin: 1rem 0 0;
+	max-width: 72ch;
+}
+
+.shliach-spotlight-trust {
+	color: rgba(205, 218, 240, .82);
+	font-size: .9rem;
+	line-height: 1.5;
+	margin: .75rem 0 0;
+}
