@@ -16,26 +16,27 @@
 	<link rel="stylesheet" href="social/panel.css?compact=true">
 	<link rel="stylesheet" href="social/menu.css?compact=true">
 	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=player-shell-003&compact=true">
+	<link rel="stylesheet" href="../styles/awp-polish.css?v=awp-001">
 </head>
 <body>
 	<div id="bh-fuse">B"H</div>
 
-	<div id="loadingScreen" class="menu" style="display: flex;">
+	<div id="loadingScreen" class="menu awp-menu" style="display: flex;">
 		<h2 id="loadingText" role="status" aria-live="polite" aria-atomic="true">Loading Engine... 0%</h2>
 		<div id="progressBar"><div id="progressBarFill"></div></div>
 	</div>
 
-	<div id="mainMenu" class="menu">
-		<button id="playVsAiButton" class="menu-button">Player vs AI</button>
-		<button id="playVsPlayerButton" class="menu-button">Player vs Player — Same Device</button>
-		<button id="createOnlineGameButton" class="menu-button">Create Online Game</button>
-		<button id="aiVsAiButton" class="menu-button">AI vs AI</button>
-		<button id="startWatchableGameButton" class="menu-button">Start Watchable Game</button>
-		<button id="watchLiveGamesButton" class="menu-button">Watch Live Games</button>
-		<button id="chessHistoryButton" class="menu-button">My Chess History</button>
-		<button id="chessStudioButton" class="menu-button">Chess Studio · 3D · Movies · Review</button>
-		<button id="analysisButton" class="menu-button">Analyze Game</button>
-		<button id="teachingsButton" class="menu-button">Teachings</button>
+	<div id="mainMenu" class="menu awp-menu">
+		<button id="playVsAiButton" class="menu-button awp-btn">Player vs AI</button>
+		<button id="playVsPlayerButton" class="menu-button awp-btn">Player vs Player — Same Device</button>
+		<button id="createOnlineGameButton" class="menu-button awp-btn">Create Online Game</button>
+		<button id="aiVsAiButton" class="menu-button awp-btn">AI vs AI</button>
+		<button id="startWatchableGameButton" class="menu-button awp-btn">Start Watchable Game</button>
+		<button id="watchLiveGamesButton" class="menu-button awp-btn">Watch Live Games</button>
+		<button id="chessHistoryButton" class="menu-button awp-btn">My Chess History</button>
+		<button id="chessStudioButton" class="menu-button awp-btn">Chess Studio · 3D · Movies · Review</button>
+		<button id="analysisButton" class="menu-button awp-btn">Analyze Game</button>
+		<button id="teachingsButton" class="menu-button awp-btn">Teachings</button>
 	</div>
 
 	<div id="onlineLobby" class="menu">
@@ -45,15 +46,15 @@
 			<label id="onlineInviteLabel" for="onlineInviteLink">Player invitation link</label>
 			<div id="onlineInviteRow">
 				<input id="onlineInviteLink" type="text" readonly>
-				<button id="copyOnlineInviteButton" class="menu-button">Copy Player Link</button>
+				<button id="copyOnlineInviteButton" class="menu-button awp-btn">Copy Player Link</button>
 			</div>
 		</div>
-		<button id="cancelOnlineButton" class="menu-button">Back to Menu</button>
+		<button id="cancelOnlineButton" class="menu-button awp-btn">Back to Menu</button>
 	</div>
 
-	<div id="colorSelectionMenu" class="menu">
-		<button id="playAsWhiteButton" class="menu-button">Play as White</button>
-		<button id="playAsBlackButton" class="menu-button">Play as Black</button>
+	<div id="colorSelectionMenu" class="menu awp-menu">
+		<button id="playAsWhiteButton" class="menu-button awp-btn">Play as White</button>
+		<button id="playAsBlackButton" class="menu-button awp-btn">Play as Black</button>
 	</div>
 
 	<div id="gameContainer" class="hidden">
@@ -61,7 +62,7 @@
 		<div class="captured-pieces-container">
 			<canvas id="capturedByBlackCanvas" height="90" width="500"></canvas>
 		</div>
-		<button id="drawButton" class="menu-button">Offer / Claim Draw</button>
+		<button id="drawButton" class="menu-button awp-btn">Offer / Claim Draw</button>
 		<div id="board-wrapper">
 			<div id="chessContainer">
 				<canvas id="chessCanvas"></canvas>
@@ -74,8 +75,8 @@
 		<div id="gameOverOverlay" class="hidden">
 			<div id="gameOverText" role="status" aria-live="assertive" aria-atomic="true"></div>
 			<div>
-				<button id="replayButton" class="menu-button">Main Menu</button>
-				<button id="downloadButton" class="menu-button">Download PGN</button>
+				<button id="replayButton" class="menu-button awp-btn">Main Menu</button>
+				<button id="downloadButton" class="menu-button awp-btn">Download PGN</button>
 			</div>
 		</div>
 	</div>
@@ -86,9 +87,9 @@
 			<canvas id="analysisCanvas"></canvas>
 		</div>
 		<div id="analysis-controls">
-			<button id="analysisBackToMenuButton" class="menu-button">Menu</button>
-			<button id="loadPgnButton" class="menu-button">Load PGN</button>
-			<button id="runAnalysisButton" class="menu-button">Analyze Game</button>
+			<button id="analysisBackToMenuButton" class="menu-button awp-btn">Menu</button>
+			<button id="loadPgnButton" class="menu-button awp-btn">Load PGN</button>
+			<button id="runAnalysisButton" class="menu-button awp-btn">Analyze Game</button>
 			<input type="file" id="pgnFileInput" accept=".pgn,.txt" class="hidden">
 			<button id="prevMoveButton" class="menu-button nav-arrow">‹</button>
 			<button id="nextMoveButton" class="menu-button nav-arrow">›</button>
@@ -101,7 +102,7 @@
 			<h2 class="teachings-title">The Secret of the Game</h2>
 			<div id="teachingsText"></div>
 		</div>
-		<button id="backToMenuButton" class="menu-button">Back</button>
+		<button id="backToMenuButton" class="menu-button awp-btn">Back</button>
 	</div>
 
 	<script src="ui/engine-worker-route.js"></script>
