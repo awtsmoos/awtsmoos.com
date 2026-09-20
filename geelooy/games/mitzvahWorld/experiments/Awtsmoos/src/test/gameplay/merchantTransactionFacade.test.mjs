@@ -35,7 +35,7 @@ test('local buy and sell emit accepted receipts from canonical Bag state', async
 	);
 	assert.equal(sold.operation, 'sell');
 	assert.equal(sold.itemQuantity, 0);
-	assert.equal(sold.perutas, before - 38);
+	assert.equal(sold.perutas, before - 30); // buy 75, sellback floor(75*0.6)=45
 	assert.equal(bus.history[0].type, 'merchant:sold');
 });
 

@@ -30,6 +30,24 @@ export class StudioObjectController {
 		return result;
 	}
 
+	/**
+	 * @param {object} documentState Current portable document.
+	 * @param {object[]} catalogParts Composite parts with optional offsets.
+	 * @returns {{document:object,objects:object[]}} Updated document and placed parts.
+	 */
+	addGroup(documentState, catalogParts) {
+		const result = this.mutations.addGroup(
+			documentState,
+			catalogParts,
+			this.view.grid
+		);
+		const last = result.objects[result.objects.length - 1];
+		if (last) {
+			this.view.select(last.id, true);
+		}
+		return result;
+	}
+
 	/** @returns {object} Updated portable document. */
 	update(documentState, id, patch) {
 		return this.mutations.update(

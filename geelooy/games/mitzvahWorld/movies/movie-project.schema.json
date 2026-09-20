@@ -146,7 +146,15 @@
 						"move",
 						"pose",
 						"talk",
-						"jump"
+						"jump",
+						"walk",
+						"run",
+						"stand",
+						"fight",
+						"pray",
+						"celebrate",
+						"wave",
+						"greet"
 					]
 				},
 				"animation": {
@@ -223,7 +231,13 @@
 						"score",
 						"speechTone",
 						"door",
-						"jump"
+						"jump",
+						"wind",
+						"water",
+						"forest",
+						"hearth",
+						"pulse",
+						"shimmer"
 					]
 				},
 				"frequency": {
@@ -268,7 +282,10 @@
 						"camera",
 						"dialogue",
 						"audio",
-						"event"
+						"event",
+						"sequence",
+						"material",
+						"crowd"
 					]
 				},
 				"target": {

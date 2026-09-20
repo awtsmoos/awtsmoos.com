@@ -12,6 +12,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import { remoteFullResolutionTextureUrl } from '../../assets/RemoteTextureCatalog.js';
 import { movieAuthoredTextureCandidates } from '../../movie/MovieAuthoredTextureCandidates.js';
+import { rememberRemoteMaterialImageProvenance } from '../../assets/PublicMaterialRemoteProvenance.js';
 import {
 	MOVIE_TEXTURE_RECOVERY_TIMEOUT_MS,
 	MOVIE_TEXTURE_TIMEOUT_MS,
@@ -23,7 +24,7 @@ test('binds exact real images and hides fake decoration', async () => {
 	const shadow = node({ isMesh: true, material: textureMaterial('data:image/svg+xml,one'), userData: { family: 'reference-cottage-sun-shadows' } });
 	const image = { height: 64, width: 64 };
 	const receipt = await hydrateMovieAuthoredWorldTextures(tree([node({ isMesh: true, material, name: 'stone-path' }), shadow]), {
-		bindTextures() {}, loadTexture: async url => ({ image, ok: true, url })
+		bindTextures() {}, loadTexture: async url => ({ image: rememberRemoteMaterialImageProvenance(image, [url]), ok: true, url })
 	});
 	assert.deepEqual(receipt, { decoded: 1, recovered: 0, substituted: 0, surfaces: 1, urls: 1 });
 	assert.equal(material.mapImage, image);
@@ -48,7 +49,7 @@ test('failed exact texture recovers sequentially to a same-family real source an
 	const loadTexture = async (url, timeout) => {
 		calls.push({ timeout, url });
 		if (url === requested) return { ok: false };
-		return { image: { height: 32, width: 32 }, ok: true };
+		return { image: rememberRemoteMaterialImageProvenance({ height: 32, width: 32 }, [url]), ok: true };
 	};
 	const receipt = await hydrateMovieAuthoredWorldTextures(tree([node({ isMesh: true, material, name: 'water' })]), { bindTextures() {}, loadTexture });
 	assert.equal(receipt.recovered, 1);

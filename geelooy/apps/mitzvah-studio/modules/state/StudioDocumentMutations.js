@@ -56,6 +56,59 @@ export class StudioDocumentMutations {
 		};
 	}
 
+	/**
+	 * Places a composite group of parts as one assembled build.
+	 * The build origin lands on the normal snapped shelf slot; every part keeps
+	 * its relative center offset, so the scene matches the generated preview.
+	 * Parts without an offset are treated as origin parts.
+	 * @param {object} documentState Current portable document.
+	 * @param {object[]} catalogParts Parts carrying optional {offset:{x,y,z}}.
+	 * @param {number} grid Current placement-grid increment.
+	 * @returns {{document:object,objects:object[]}} New document plus placed parts.
+	 */
+	addGroup(documentState, catalogParts, grid) {
+		const parts = (Array.isArray(catalogParts) ? catalogParts : []).filter(part => {
+			return part && typeof part === 'object';
+		});
+		if (parts.length === 0) {
+			return { document: documentState, objects: [] };
+		}
+		const anchor = snapPlacementPoint({
+			x: (documentState.objects.length % 5) * 2 - 4,
+			z: Math.floor(documentState.objects.length / 5) * 2 - 2
+		}, grid);
+		const objects = parts.map(part => {
+			this.sequence += 1;
+			const offset = part.offset && typeof part.offset === 'object' ? part.offset : {};
+			const snapped = snapPlacementPoint({
+				x: anchor.x + (Number(offset.x) || 0),
+				z: anchor.z + (Number(offset.z) || 0)
+			}, grid);
+			return normalizeStudioObject({
+				...part,
+				id: `studio-${String(this.sequence).padStart(4, '0')}`,
+				position: {
+					x: snapped.x,
+					y: Number(offset.y) || 0,
+					z: snapped.z
+				}
+			});
+		});
+		const document = this.history.commit(
+			documentState,
+			'addGroup',
+			draft => {
+				for (const object of objects) {
+					draft.objects.push(object);
+				}
+			}
+		);
+		return {
+			document,
+			objects
+		};
+	}
+
 	/** @returns {object} Document containing one normalized object update. */
 	update(documentState, id, patch) {
 		return this.history.commit(

@@ -32,7 +32,7 @@ test('optional startup performs no catalog preload', async () => {
 });
 
 test('cadence remains capped at two and binds only remote-proven images', async () => {
-	const urls = ['base', 'leaf', 'mix'].map(name => `https://materials.test/${name}.png`);
+	const urls = ['base', 'leaf', 'mix'].map(name => `https://awtsmoos.com/sites/firebase_drive_migration/assets/mitzvah-world/materials/${name}.png`);
 	const fallback = replaceableFallback();
 	const base = { mapImage: null, textureUrl: urls[0] };
 	const leaf = {
@@ -61,7 +61,7 @@ test('cadence remains capped at two and binds only remote-proven images', async 
 });
 
 test('generated transform output never replaces the downloaded remote image', async () => {
-	const url = 'https://materials.test/transform.png';
+	const url = 'https://awtsmoos.com/sites/firebase_drive_migration/assets/mitzvah-world/materials/transform.png';
 	const generated = transformedImage('local-generated-transform');
 	const material = {
 		mapImage: replaceableFallback(),

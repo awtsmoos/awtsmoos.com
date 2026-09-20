@@ -29,8 +29,8 @@ test('water diagnostics match the composed source-to-outlet definitions', () => 
 	assert.equal(water.stats.definitionCount, water.definitions.length);
 	assert.equal(water.stats.transparentWaterDraws, animatedWater.length);
 	assert.equal(water.stats.waterDraws, animatedWater.length);
-	assert.equal(water.stats.surfaceWaterBodies, 2);
-	assert.equal(water.stats.waterBodies, 2);
+	assert.equal(water.stats.surfaceWaterBodies, 3);
+	assert.equal(water.stats.waterBodies, 3);
 	assert.equal(water.stats.riverBedDraws, riverBeds.length);
 	assert.equal(water.stats.riverBedDraws, 1);
 	assert.equal(water.stats.foamDraws, 2);

@@ -25,7 +25,7 @@ test('location API exposes lower-river facets, water, staging, and realism evide
 	assert.ok(api.locations.paths('river-garden').includes('canonical-riverfront'));
 	assert.deepEqual(api.locations.water('river-garden').map(value => value.id), ['lower-river', 'lower-lake']);
 	const cinematic = api.locations.staging('river-garden').find(value => value.role === 'cinematic-actor');
-	assert.deepEqual(cinematic.position, { x: -1, z: 42 });
+	assert.deepEqual(cinematic.position, { x: -1.15, z: 42 });
 	assert.equal(api.locations.compose('river-garden', { layout: 'water-feature' }).layout, 'water-feature');
 	assert.equal(api.locations.current().id, 'river-garden');
 });

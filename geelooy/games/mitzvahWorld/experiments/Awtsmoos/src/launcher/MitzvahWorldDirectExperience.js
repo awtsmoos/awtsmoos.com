@@ -1,16 +1,16 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file MitzvahWorldDirectExperience.js
- * @description Composes optional direct-world presentation after playability through compact local module doors, nesting audio inside one retractable vessel.
- * The Awtsmoos lets the road arrive before its instruments, then gathers each optional power beneath one quiet star;
- * Awtsmoos.com compacts each separately requested local chamber while keeping sound and creative depth folded away from the living world's first bar.
+ * @description Composes deferred direct-world presentation after playability, including the production-bound cinematic rail.
+ * The Awtsmoos lets first control arrive before its instruments, then gathers beauty, sound, and visible action around the runtime already alive.
  */
 
 const CAPSULE_VERSION = '20260821-retractable-command-capsule-01';
 const PRESENTATION_URL = `./MitzvahWorldGameplayPresentation.js?compact=true&v=${CAPSULE_VERSION}`;
+const DIRECT_PLAY_URL = `./MitzvahWorldDirectPlayPresentation.js?compact=true&v=${CAPSULE_VERSION}`;
 const AUDIO_URL = `../app/MinimalMeadowDirectWorldAudio.js?compact=true&v=${CAPSULE_VERSION}`;
 
 /**
@@ -27,6 +27,10 @@ export async function startMitzvahWorldDirectExperience(
 		'creative dock',
 		() => startPresentation('prepareCreativeDockPresentation', null, environment)
 	);
+	const directPlayPresentation = await attempt(
+		'direct-play presentation',
+		() => startDirectPlayPresentation(diagnostics, environment)
+	);
 	const panelHost = environment.AwtsmoosCreativeDock?.audioHost
 		|| environment.document?.body;
 	const audio = await attempt(
@@ -35,6 +39,7 @@ export async function startMitzvahWorldDirectExperience(
 	);
 	return Object.freeze({
 		audio,
+		directPlayPresentation,
 		presentation
 	});
 }
@@ -48,6 +53,11 @@ export async function startMitzvahWorldFullPresentation(
 		'gameplay presentation',
 		() => startPresentation('prepareGameplayPresentation', hosts, environment)
 	);
+}
+
+async function startDirectPlayPresentation(diagnostics, environment) {
+	const module = await import(DIRECT_PLAY_URL);
+	return module.startMitzvahWorldDirectPlayPresentation(diagnostics, environment);
 }
 
 async function startAudio(diagnostics, environment, panelHost) {

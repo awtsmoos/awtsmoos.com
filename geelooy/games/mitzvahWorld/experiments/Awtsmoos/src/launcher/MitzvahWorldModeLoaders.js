@@ -48,6 +48,12 @@ async function openSinglePlayer(hosts, options = {}, environment = globalThis) {
 	const diagnostics = await runtimeModule.createEretzRuntime(hosts, runtimeOptions);
 	markSinglePlayerSession(diagnostics);
 	startModeAftercare('singlePlayer', diagnostics, environment, runtimeOptions);
+	// B"H Track C: attach optional per-frame vessels, then apply a pending
+	// mitzvah-studio world handoff (?studioHandoff=1). Every line is guarded so
+	// these systems can never break world boot.
+	try { await import(releaseUrl('../fx/MitzvahParticleLayer.js')).then(module => module.attachMitzvahParticles({ runtime: diagnostics.runtime })); } catch {}
+	try { await import(releaseUrl('../npc/MitzvahNpcDialogue.js')).then(module => module.attachNpcDialogue({ runtime: diagnostics.runtime, environment })); } catch {}
+	try { await import(releaseUrl('../studio/MitzvahStudioHandoff.js')).then(module => module.maybeApplyStudioHandoff({ runtime: diagnostics.runtime, environment })); } catch {}
 	return diagnostics;
 }
 
@@ -107,3 +113,4 @@ function markSinglePlayerSession(diagnostics) {
 function releaseUrl(specifier) {
 	return resolveMitzvahWorldReleaseResourceUrl(specifier, import.meta.url);
 }
+

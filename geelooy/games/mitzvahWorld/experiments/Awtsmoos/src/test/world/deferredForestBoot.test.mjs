@@ -47,10 +47,12 @@ test('essential terrain defers forest and sacred landmark generation', async () 
 test('bootstrap movement exists before playable publication and post-play coordinator import', async () => {
 	const entry = await readSource('app/createEretzRuntime.js');
 	const assembly = await readSource('app/BootstrapCoreRuntimeAssembly.js');
-	const loopIndex = assembly.indexOf('startBootstrapRuntimeLoop(');
+	const loopRefIndex = assembly.indexOf('startBootstrapRuntimeLoop');
+	const loopCallIndex = assembly.indexOf('startLoop(');
 	const publishIndex = entry.indexOf('publishRuntime(core.diagnostics, environment)');
 	const streamingIndex = entry.indexOf('startPostPlayableStreams(core, options, boot, environment)');
-	assert.ok(loopIndex >= 0, 'Bootstrap movement loop must remain present.');
+	assert.ok(loopRefIndex >= 0, 'Bootstrap movement loop must remain present.');
+	assert.ok(loopCallIndex >= 0, 'Bootstrap movement loop must be started.');
 	assert.ok(publishIndex >= 0, 'Playable runtime publication must remain present.');
 	assert.ok(streamingIndex > publishIndex, 'Post-play coordinator must begin after playability.');
 	assert.match(entry, /EretzPostPlayablePriority\.js/);

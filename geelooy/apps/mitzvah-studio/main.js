@@ -22,7 +22,24 @@ async function bootNativeStudio() {
 		bootMitzvahStudio(document.querySelector('#mitzvah-studio'));
 	} catch (error) {
 		console.error('Mitzvah Studio native editor could not awaken.', error);
+		reportStudioBootFailure();
 	}
+}
+
+/**
+ * Shows a visible failure notice when the native editor cannot start,
+ * so a blank page never stands in for an explanation.
+ */
+function reportStudioBootFailure() {
+	const host = document.querySelector('#mitzvah-studio');
+	if (!host) {
+		return;
+	}
+	const notice = document.createElement('p');
+	notice.setAttribute('role', 'alert');
+	notice.style.cssText = 'margin:2rem auto;max-width:34rem;padding:1.25rem 1.5rem;border:1px solid rgba(255,143,156,.5);border-radius:12px;color:#f6f9ff;background:rgba(10,17,30,.92);font:14px/1.5 system-ui,sans-serif;';
+	notice.textContent = 'Mitzvah Studio could not start. Please reload the page; if it keeps failing, the browser console holds the details.';
+	host.replaceChildren(notice);
 }
 
 /**

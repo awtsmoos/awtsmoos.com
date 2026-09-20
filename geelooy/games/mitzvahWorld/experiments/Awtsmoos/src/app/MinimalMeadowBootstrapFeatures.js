@@ -1,6 +1,6 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file MinimalMeadowBootstrapFeatures.js
@@ -13,36 +13,27 @@ import {
 	createMinimalMeadowBootstrapAnimation,
 	createMinimalMeadowBootstrapHandle
 } from './MinimalMeadowBootstrapFeatureHandle.js';
-import {
-	MinimalMeadowBootstrapCombat
-} from './MinimalMeadowBootstrapCombat.js';
-import {
-	MinimalMeadowBootstrapEquipment
-} from './MinimalMeadowBootstrapEquipment.js';
-import {
-	MinimalMeadowBootstrapInventory
-} from './MinimalMeadowBootstrapInventory.js';
-import {
-	MinimalMeadowBootstrapUi
-} from './MinimalMeadowBootstrapUi.js';
+import { MinimalMeadowBootstrapCombat } from './MinimalMeadowBootstrapCombat.js';
+import { MinimalMeadowBootstrapEquipment } from './MinimalMeadowBootstrapEquipment.js';
+import { MinimalMeadowBootstrapInventory } from './MinimalMeadowBootstrapInventory.js';
+import { MinimalMeadowBootstrapUi } from './MinimalMeadowBootstrapUi.js';
 import {
 	MinimalMeadowBootstrapQuestStore,
 	MinimalMeadowBootstrapRecovery,
 	MinimalMeadowBootstrapStreaming
 } from './MinimalMeadowBootstrapWorldState.js';
-import {
-	installMinimalMeadowCoreMechanics
-} from './MinimalMeadowCoreMechanics.js';
+import { installMinimalMeadowCoreMechanics } from './MinimalMeadowCoreMechanics.js';
+import { handoffBootstrapGameplayContinuity } from './BootstrapStateAuthorityHandoff.js';
 
 export function installMinimalMeadowBootstrapFeatures(
 	runtime,
 	environment = globalThis
 ) {
-	const inventory = new MinimalMeadowBootstrapInventory();
+	const inventory = runtime.inventory || new MinimalMeadowBootstrapInventory();
 	const equipment = new MinimalMeadowBootstrapEquipment(runtime, inventory);
 	const combat = new MinimalMeadowBootstrapCombat(runtime);
 	const quest = new MinimalMeadowBootstrapQuestStore(runtime);
-	const recovery = new MinimalMeadowBootstrapRecovery(runtime);
+	const recovery = runtime.recovery || new MinimalMeadowBootstrapRecovery(runtime);
 	const streaming = new MinimalMeadowBootstrapStreaming();
 	const animation = createMinimalMeadowBootstrapAnimation(runtime);
 	const ui = new MinimalMeadowBootstrapUi(
@@ -64,6 +55,7 @@ export function installMinimalMeadowBootstrapFeatures(
 	runtime.expansion.streaming = streaming;
 	equipment.bindModel(runtime.model);
 	installMinimalMeadowCoreMechanics(runtime, environment);
+	handoffBootstrapGameplayContinuity(runtime);
 	const handle = createMinimalMeadowBootstrapHandle({
 		combat,
 		quest,

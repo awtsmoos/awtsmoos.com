@@ -1,13 +1,15 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file MinimalMeadowWorldSystems.js
- * @description Mounts immediate world truth while reusing the adaptive-quality authority already owned by the core frame and delegating expansion, diagnostics, and rich scheduling to focused vessels.
- * The Awtsmoos gives combat, quest, atmosphere, and safe return while Awtsmoos.com refuses to reset a quality covenant already measuring the living frame; richer systems join the stream without erasing what smoothness learned before their name.
+ * @description Mounts world truth while preserving adaptive quality and transferring state authority.
+ * The Awtsmoos joins richer world garments without multiplying memory's throne;
+ * Awtsmoos.com lets restored quest and recovery flow while each persistence key has one owner alone.
  */
 
+import { handoffBootstrapVerticalSliceContinuity } from './BootstrapStateAuthorityHandoff.js';
 import { ExpansionLandmarkPopulation } from './ExpansionLandmarkPopulation.js';
 import { GameplayRecoveryCoordinator } from './GameplayRecoveryCoordinator.js';
 import { MinimalMeadowAdaptiveQuality } from './MinimalMeadowAdaptiveQuality.js';
@@ -41,6 +43,7 @@ export async function installMinimalMeadowWorldSystems(runtime, environment = gl
 	runtime.expansionLandmarks = new ExpansionLandmarkPopulation(runtime);
 	runtime.recovery = new GameplayRecoveryCoordinator(runtime);
 	runtime.verticalSlice = new MinimalMeadowVerticalSliceRuntime(runtime, environment);
+	handoffBootstrapVerticalSliceContinuity(runtime);
 	runtime.questMountReceipt = mountMinimalMeadowQuest(runtime, environment);
 	runtime.bridgeGameplay = installMinimalMeadowBridgeGameplay(runtime, environment);
 	bindWorldLifecycle(runtime);

@@ -15,7 +15,7 @@ import {
 	meadowMovementStep,
 	meadowTravelFacing
 } from '../app/MinimalMeadowControlMath.js';
-import { applyMovementCollision } from '../app/MinimalMeadowMovementRuntime.js';
+import { applyMovementCollision } from '../app/MitzvahMovementRuntime.js';
 import { setBootstrapMovementYaw } from '../app/BootstrapMovementControllerSupport.js';
 
 export class MoviePerformanceActorMovement {

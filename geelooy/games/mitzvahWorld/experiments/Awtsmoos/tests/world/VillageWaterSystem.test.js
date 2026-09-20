@@ -15,10 +15,11 @@ import { readFileSync, readdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { isSameOriginMaterialUrl } from '../../src/assets/ProductionMaterialUrlPolicy.js';
 import { createVillageWaterDefinitions } from '../../src/world/village/VillageWaterSystem.js';
+import { waterShaderPolicy } from '../../src/world/village/VillageWaterMaterialPolicy.js';
 
 const VILLAGE_DIRECTORY = fileURLToPath(new URL('../../src/world/village/', import.meta.url));
 const DRIVE_ROOT = 'https://awtsmoos.com/sites/firebase_drive_migration/';
-const WATER_SHADER = 'alpine-two-fetch-variant-flow-fresnel-foam-water';
+const WATER_SHADER = waterShaderPolicy().shader;
 
 test('village water composes one connected source-to-outlet definition set', () => {
 	const result = createVillageWaterDefinitions(() => 0);

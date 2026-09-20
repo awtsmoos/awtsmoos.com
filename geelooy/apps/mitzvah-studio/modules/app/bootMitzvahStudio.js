@@ -21,6 +21,8 @@ import { createStudioShell } from '../view/StudioShell.js';
 import { StudioStatusBar } from '../view/StudioStatusBar.js';
 import { StudioToolbar } from '../view/StudioToolbar.js';
 import { StudioDocumentActions } from './StudioDocumentActions.js';
+import { mountGeneratePanel } from '../generate/GeneratePanel.js';
+import { mountMoviePanel } from '../movie/MitzvahMovieStudio.js';
 
 /**
  * Boots one complete standalone Studio instance.
@@ -48,10 +50,28 @@ export function bootMitzvahStudio(root) {
 	documentActions.setFileChooser(() => {
 		toolbar.chooseFile();
 	});
-	new StudioShelf(shell.shelf, catalog, part => {
+	const createPanels = createStudioCreateTabs(shell.shelf);
+	new StudioShelf(createPanels.parts, catalog, part => {
 		const object = state.add(part);
 		announcer(`Added ${object.label}.`);
 	});
+	mountStudioPanel('Generate', panelHost => mountGeneratePanel(panelHost, { state, catalog, announcer }));
+	mountStudioPanel('Movie', panelHost => mountMoviePanel(panelHost, { state, announcer }));
+
+	/**
+	 * Mounts one optional create panel without letting its failure break studio boot.
+	 * @param {string} name Panel name for diagnostics.
+	 * @param {Function} mount Mount function receiving the panel host element.
+	 */
+	function mountStudioPanel(name, mount) {
+		const host = name === 'Generate' ? createPanels.generate : createPanels.movie;
+		try {
+			mount(host);
+		} catch (error) {
+			host.innerHTML = `<p class="empty-state">${name} panel could not start. The library and canvas still work.</p>`;
+			console.warn(`Mitzvah Studio ${name} panel could not mount.`, error);
+		}
+	}
 	const canvas = new StudioCanvas(shell.canvas, state);
 	const inspector = new StudioInspector(shell.inspector, state);
 	const outliner = new StudioOutliner(shell.outliner, state);
@@ -73,6 +93,48 @@ export function bootMitzvahStudio(root) {
 		storage,
 		toolbar
 	});
+}
+
+/**
+ * Builds Library | Generate | Movie tabs inside the shelf region.
+ * @param {HTMLElement} shelf Shelf region element.
+ * @returns {{parts:HTMLElement,generate:HTMLElement,movie:HTMLElement}} Panel hosts.
+ */
+function createStudioCreateTabs(shelf) {
+	const tabs = [
+		{ id: 'parts', label: 'Library' },
+		{ id: 'generate', label: 'Generate' },
+		{ id: 'movie', label: 'Movie' }
+	];
+	shelf.setAttribute('aria-label', 'Create');
+	shelf.innerHTML = `
+		<div class="studio-create-tabs" role="tablist" aria-label="Create">
+			${tabs.map((tab, index) => `
+				<button type="button" role="tab" class="studio-create-tab"
+					data-create-tab="${tab.id}" aria-selected="${index === 0 ? 'true' : 'false'}"
+					aria-controls="studio-create-panel-${tab.id}" id="studio-create-tab-${tab.id}">${tab.label}</button>
+			`).join('')}
+		</div>
+		${tabs.map((tab, index) => `
+			<div class="studio-create-panel" role="tabpanel" id="studio-create-panel-${tab.id}"
+				aria-labelledby="studio-create-tab-${tab.id}"${index === 0 ? '' : ' hidden'}></div>
+		`).join('')}
+	`;
+	const hosts = {};
+	for (const tab of tabs) {
+		hosts[tab.id] = shelf.querySelector(`#studio-create-panel-${tab.id}`);
+	}
+	shelf.querySelectorAll('[data-create-tab]').forEach(button => {
+		button.addEventListener('click', () => {
+			shelf.querySelectorAll('[data-create-tab]').forEach(other => {
+				other.setAttribute('aria-selected', other === button ? 'true' : 'false');
+			});
+			for (const tab of tabs) {
+				hosts[tab.id].hidden = tab.id !== button.dataset.createTab;
+			}
+		});
+	});
+	return hosts;
 }
 
 function announceStudio(message) {

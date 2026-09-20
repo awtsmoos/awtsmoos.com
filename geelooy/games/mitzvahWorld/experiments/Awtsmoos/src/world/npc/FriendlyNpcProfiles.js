@@ -54,18 +54,24 @@ function buildFriendlyNpcProfiles() {
 	if (!primaryQuest) {
 		throw new Error(`B"H | Missing primary friendly quest ${PRIMARY_QUEST_ID}.`);
 	}
-	const primary = createProfile(primaryQuest, 0, {
+	const primary = createProfile(primaryQuest, [primaryQuest.id], 0, {
 		id: 'reb-mendel',
 		name: 'Reb Mendel',
 		primary: true
 	});
-	const questGivers = ADVENTURE_CATALOG
-		.filter(quest => quest.id !== PRIMARY_QUEST_ID)
-		.map((quest, index) => createProfile(quest, index + 1));
+	const giverGroups = new Map();
+	for (const quest of ADVENTURE_CATALOG) {
+		if (quest.id === PRIMARY_QUEST_ID) continue;
+		const giverId = quest.giver.id;
+		if (!giverGroups.has(giverId)) giverGroups.set(giverId, []);
+		giverGroups.get(giverId).push(quest);
+	}
+	const questGivers = [...giverGroups.values()]
+		.map((quests, index) => createProfile(quests[0], quests.map(quest => quest.id), index + 1));
 	return [primary, ...questGivers];
 }
 
-function createProfile(quest, index, overrides = {}) {
+function createProfile(quest, questIds, index, overrides = {}) {
 	const spawnOverride = mainRiverVillageNpcAnchor(quest.id);
 	const spawn = spawnOverride || quest.giver.position;
 	const name = friendlyNpcDisplayName(quest.giver, overrides.name);
@@ -78,6 +84,7 @@ function createProfile(quest, index, overrides = {}) {
 		name,
 		outfit: chossidOutfitFor(index),
 		primary: Boolean(overrides.primary),
+		quest: Object.freeze({ giver: true, ids: Object.freeze([...questIds]) }),
 		questId: quest.id,
 		spawnPolicy: Object.freeze({
 			canonicalWorkplacePreserved: true,

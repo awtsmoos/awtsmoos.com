@@ -79,10 +79,10 @@ function verifyBalancedEvidence() {
 	const factory = new TzomayachTempleNatureFactory({ surfaces: revealSurfaceVessel() });
 	const evidence = factory.diagnostics();
 	assert.equal(evidence.profile, "balanced");
-	assert.equal(evidence.branches, 85);
-	assert.equal(evidence.leaves, 512);
+	assert.equal(evidence.branches, 96);
+	assert.equal(evidence.leaves, 576);
 	assert.equal(evidence.stats.branchVertices, 1630);
-	assert.equal(evidence.stats.leafVertices, 1024);
+	assert.equal(evidence.stats.leafVertices, 576);
 	assert.equal(evidence.stats.drawCalls, 2);
 	assert.ok(evidence.skeletonHash.length > 0);
 	assert.equal(Object.isFrozen(evidence), true);

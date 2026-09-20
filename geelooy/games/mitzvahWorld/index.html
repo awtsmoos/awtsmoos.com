@@ -9,7 +9,7 @@ entry, one independent universal player shell, and the exact first-control
 resources early enough for network and module work to overlap the chooser.
 
 RESPONSIBILITY:
-Provide stable DOM hosts, import map, production styles, self-contained favicon,
+Provide stable DOM hosts, production styles, self-contained favicon,
 version-matched meadow preloads, and the direct generated entrypoint.
 
 NON-RESPONSIBILITY:
@@ -29,14 +29,6 @@ one release key so older flat-color or textureless modules cannot mix with them.
 	<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2064%2064%22%3E%3Ctitle%3EMitzvah%20World%3C/title%3E%3Crect%20width=%2264%22%20height=%2264%22%20rx=%2212%22%20fill=%22%2306130f%22/%3E%3Ctext%20x=%2232%22%20y=%2243%22%20text-anchor=%22middle%22%20font-size=%2234%22%20fill=%22%23f7d774%22%3EM%3C/text%3E%3C/svg%3E">
 	<link rel="stylesheet" href="./styles/generated/mitzvah-world.production.css">
 	<link rel="stylesheet" href="../styles/player-shell/index.css?compact=true">
-	<script type="importmap">
-	{
-		"imports": {
-			"three": "/games/scripts/build/three.module.js",
-			"three/addons/": "/games/scripts/jsm/"
-		}
-	}
-	</script>
 	<link rel="modulepreload" href="./experiments/Awtsmoos/src/mitzvah-world-foundation.compact.js?v=20260915-authored-meadow-03">
 	<link rel="modulepreload" href="./experiments/Awtsmoos/src/mitzvah-world-core.compact.js?v=20260915-authored-meadow-03">
 	<link

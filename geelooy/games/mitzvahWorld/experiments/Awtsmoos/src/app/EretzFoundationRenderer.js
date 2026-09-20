@@ -1,12 +1,12 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file EretzFoundationRenderer.js
- * @description Builds required WebGL with a deliberate authored sky clear distinct from the distance-fog color.
- * The Awtsmoos stretches cool heaven above warm earth while one sun joins both in living light;
- * Awtsmoos.com keeps sky present from the first framebuffer through rich-renderer handoff, so no gray void crowns the sight.
+ * @description Builds required WebGL with a deep authored sky, warm haze, and real shader-ready golden-hour environment.
+ * The Awtsmoos renews cool heaven, amber distance, black garment, and living grass in one ray;
+ * Awtsmoos.com carries that truthful atmosphere from first control into the hydrated renderer without a painted display.
  */
 
 import { REFERENCE_GOLDEN_HOUR } from '../world/lighting/ReferenceGoldenHourPreset.js';
@@ -16,49 +16,45 @@ const GOLDEN_HOUR_ENVIRONMENT = referenceEnvironment(REFERENCE_GOLDEN_HOUR);
 
 export function createEretzFoundationRenderer(canvas, qualityProfile) {
 	const renderer = createMinimalMeadowRenderer(canvas);
+	const renderDistance = qualityProfile.renderDistance;
 	renderer.options ||= {};
 	renderer.options.culling = true;
-	renderer.options.defaultRenderDistance = qualityProfile.renderDistance;
+	renderer.options.defaultRenderDistance = renderDistance;
 	renderer.setClearColor(...GOLDEN_HOUR_ENVIRONMENT.skyColor, 1);
 	renderer.setEnvironment({
 		...GOLDEN_HOUR_ENVIRONMENT,
-		fogFar: qualityProfile.renderDistance * 1.08,
-		fogNear: qualityProfile.renderDistance * 0.38
+		fogFar: renderDistance,
+		fogNear: renderDistance * 0.30
 	});
 	return renderer;
 }
 
-/** Freezes one blue-golden sky and distance-fog environment from the shared authored lighting preset. */
+/**
+ * Freezes the authored cinematic palette consumed by both bootstrap and hydrated rendering.
+ * @param {object} reference Shared golden-hour source of truth.
+ * @returns {Readonly<object>} Renderer environment with immutable color vectors.
+ */
 export function referenceEnvironment(reference) {
-	const cool = reference.coolShadow;
-	const horizon = reference.horizonColor;
-	const sun = reference.sunCore;
+	const cinematic = reference.cinematic;
+	const exposure = (
+		cinematic.exposureMobile + cinematic.exposureDesktop
+	) * 0.5;
 	return Object.freeze({
-		ambient: Object.freeze([
-			cool[0] * 0.78 + 0.145,
-			cool[1] * 0.76 + 0.11,
-			cool[2] * 0.72 + 0.09
-		]),
-		exposure: 1.30,
-		fogColor: Object.freeze([
-			cool[0] * 0.66 + horizon[0] * 0.34,
-			cool[1] * 0.68 + horizon[1] * 0.32,
-			cool[2] * 0.74 + horizon[2] * 0.26
-		]),
-		skyColor: Object.freeze([
-			cool[0] * 0.58 + 0.18,
-			cool[1] * 0.62 + 0.24,
-			cool[2] * 0.70 + 0.27
-		]),
-		sunColor: Object.freeze([
-			sun[0] * 1.22,
-			sun[1] * 1.06,
-			sun[2] * 0.86
-		]),
+		ambient: frozenColor(cinematic.ambient),
+		exposure,
+		fogColor: frozenColor(cinematic.fogColor),
+		skyColor: frozenColor(cinematic.skyColor),
+		sunColor: frozenColor(cinematic.sunColor),
 		sunDirection: Object.freeze(normalized(reference.sunPosition))
 	});
 }
 
+/** Copies one authored RGB vector so renderer state cannot mutate the shared preset. */
+function frozenColor(color) {
+	return Object.freeze([color[0], color[1], color[2]]);
+}
+
+/** Returns a unit direction while preserving a safe zero-vector fallback. */
 function normalized(vector) {
 	const length = Math.hypot(vector[0], vector[1], vector[2]) || 1;
 	return [vector[0] / length, vector[1] / length, vector[2] / length];

@@ -27,23 +27,23 @@ test('failed URLs are skipped until an explicit retry', async () => {
 		}
 	});
 	const root = scene([
-		object('cottage-wall', 'https://example.test/blocked.png'),
-		object('cottage-roof', 'https://example.test/slate.png')
+		object('cottage-wall', 'https://awtsmoos.com/sites/firebase_drive_migration/assets/mitzvah-world/materials/blocked.png'),
+		object('cottage-roof', 'https://awtsmoos.com/sites/firebase_drive_migration/assets/mitzvah-world/materials/slate.png')
 	]);
 	residency.update(root);
 	await Promise.all([...residency.active.values()]);
 	residency.update(root);
 	await Promise.all([...residency.active.values()]);
 	assert.deepEqual(attempts, [
-		'https://example.test/blocked.png',
-		'https://example.test/slate.png'
+		'https://awtsmoos.com/sites/firebase_drive_migration/assets/mitzvah-world/materials/blocked.png',
+		'https://awtsmoos.com/sites/firebase_drive_migration/assets/mitzvah-world/materials/slate.png'
 	]);
 	residency.update(root);
 	assert.equal(residency.active.size, 0);
 	residency.retryFailures();
 	residency.update(root);
 	await Promise.all([...residency.active.values()]);
-	assert.equal(attempts.at(-1), 'https://example.test/blocked.png');
+	assert.equal(attempts.at(-1), 'https://awtsmoos.com/sites/firebase_drive_migration/assets/mitzvah-world/materials/blocked.png');
 });
 
 function scene(objects) {

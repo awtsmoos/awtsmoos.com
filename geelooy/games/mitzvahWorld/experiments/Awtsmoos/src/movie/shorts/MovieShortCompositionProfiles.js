@@ -44,7 +44,7 @@ export function resolveMovieShortCompositionProfile(id = 'world-first') {
 }
 
 export function movieShortCompositionProfile(id = 'world-first') {
-	return resolveMovieShortCompositionProfile(id);
+	return PROFILES[String(id || '').trim()];
 }
 
 export function listMovieShortCompositionProfiles() {

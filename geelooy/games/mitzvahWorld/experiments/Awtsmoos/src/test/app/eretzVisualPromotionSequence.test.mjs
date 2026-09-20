@@ -4,59 +4,55 @@
 
 /**
  * @file eretzVisualPromotionSequence.test.mjs
- * @description Proves lightweight authored worlds settle terrain before yielding a frame and promoting the rich renderer.
- * The Awtsmoos lets Awtsmoos.com add visual garments one at a time: earth completes first, motion receives a frame,
- * then the renderer enters; richer canonical worlds preserve their independent promotion behavior.
+ * @description Proves required authored visuals outrank broad optional post-play work without blocking on remote terrain downloads.
+ * The Awtsmoos lets Awtsmoos.com start earth's garment, return one frame to motion, and awaken the true renderer;
+ * distant enrichment may arrive later, but it may never hold the Chossid or meadow hostage behind its module graph.
  */
 
 import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 import {
 	shouldSerializeEretzVisualPromotion,
 	startEretzVisualPromotionSequence
 } from '../../app/EretzVisualPromotionSequence.js';
 
-test('Blank Meadow policy shape serializes terrain before renderer promotion', async () => {
+const OPTIONS = Object.freeze({
+	worldExperience: Object.freeze({
+		canonicalPromotion: false,
+		postPlayTerrainHydration: true,
+		richRenderer: true
+	})
+});
+
+test('Blank Meadow starts terrain, yields, then promotes renderer without awaiting terrain completion', async () => {
 	const events = [];
-	let resolveTerrain;
-	const terrainHydration = new Promise(resolve => {
-		resolveTerrain = () => {
-			events.push('terrain');
-			resolve({ phase: 'essential-ready' });
-		};
-	});
-	const options = {
-		worldExperience: {
-			canonicalPromotion: false,
-			postPlayTerrainHydration: true,
-			richRenderer: true
-		}
-	};
-	const diagnostics = { runtime: { destroyed: false } };
-	const sequence = startEretzVisualPromotionSequence(
-		diagnostics,
+	const neverSettles = new Promise(() => {});
+	const result = await startEretzVisualPromotionSequence(
+		{ runtime: { destroyed: false } },
 		{},
 		null,
-		options,
-		Promise.resolve({ terrainHydration }),
+		OPTIONS,
+		{ terrain: {} },
 		{
+			startTerrainHydration() {
+				events.push('terrain-start');
+				return neverSettles;
+			},
+			nextFrame: async () => events.push('frame'),
 			loadPolicy: async () => ({
 				startEretzRendererByWorldPolicy() {
 					events.push('renderer');
 					return 'ready';
 				}
-			}),
-			nextFrame: async () => events.push('frame')
+			})
 		}
 	);
-	await Promise.resolve();
-	assert.deepEqual(events, []);
-	resolveTerrain();
-	assert.equal(await sequence, 'ready');
-	assert.deepEqual(events, ['terrain', 'frame', 'renderer']);
+	assert.equal(result, 'ready');
+	assert.deepEqual(events, ['terrain-start', 'frame', 'renderer']);
 });
 
-test('rich worlds do not wait for terrain before renderer policy', async () => {
+test('rich worlds skip the serialized terrain handoff and enter renderer policy directly', async () => {
 	const events = [];
 	const result = await startEretzVisualPromotionSequence(
 		{ runtime: { destroyed: false } },
@@ -69,15 +65,16 @@ test('rich worlds do not wait for terrain before renderer policy', async () => {
 				richRenderer: true
 			}
 		},
-		new Promise(() => {}),
+		{ terrain: {} },
 		{
+			startTerrainHydration: () => events.push('terrain-start'),
+			nextFrame: async () => events.push('frame'),
 			loadPolicy: async () => ({
 				startEretzRendererByWorldPolicy() {
 					events.push('renderer');
 					return 'ready';
 				}
-			}),
-			nextFrame: async () => events.push('frame')
+			})
 		}
 	);
 	assert.equal(result, 'ready');
@@ -85,9 +82,7 @@ test('rich worlds do not wait for terrain before renderer policy', async () => {
 });
 
 test('serialization requires terrain, rich renderer, and a simple-world policy together', () => {
-	assert.equal(shouldSerializeEretzVisualPromotion({
-		worldExperience: { canonicalPromotion: false, postPlayTerrainHydration: true, richRenderer: true }
-	}), true);
+	assert.equal(shouldSerializeEretzVisualPromotion(OPTIONS), true);
 	assert.equal(shouldSerializeEretzVisualPromotion({
 		worldExperience: { canonicalPromotion: true, postPlayTerrainHydration: true, richRenderer: true }
 	}), false);
@@ -97,4 +92,16 @@ test('serialization requires terrain, rich renderer, and a simple-world policy t
 	assert.equal(shouldSerializeEretzVisualPromotion({
 		worldExperience: { canonicalPromotion: false, postPlayTerrainHydration: true, richRenderer: false }
 	}), false);
+});
+
+test('runtime gives required visual promotion priority over the broad optional coordinator', async () => {
+	const source = await readFile(new URL('../../app/createEretzRuntime.js', import.meta.url), 'utf8');
+	const publish = source.indexOf('publishRuntime(core.diagnostics, environment)');
+	const visual = source.indexOf('const visuals = startVisualPromotionAfterPlay(');
+	const optional = source.indexOf('startPostPlayableAfterRequiredVisuals(');
+	assert.ok(publish >= 0);
+	assert.ok(visual > publish);
+	assert.ok(optional > visual);
+	assert.match(source, /core\.foundation/);
+	assert.match(source, /Promise\.resolve\(visualPromise\)/);
 });

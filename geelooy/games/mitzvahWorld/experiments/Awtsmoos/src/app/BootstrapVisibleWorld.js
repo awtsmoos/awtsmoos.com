@@ -1,13 +1,12 @@
 //B"H
 //Boruch Hashem
-//Blessed be He
+//Blessed is He
 
 /**
  * @file BootstrapVisibleWorld.js
- * @description Builds the immediate meadow fallback while Procedural Core owns native hierarchy and meshes.
- * MitzvahWorld retains only first-play semantic placement, scale, fallback visibility, and material roles;
- * the same shared cube can later hydrate with real remote imagery without replacing gameplay state or
- * duplicating reusable renderer construction inside this product-specific bootstrap layer.
+ * @description Builds the immediate bounded meadow as a deeper asymmetric valley using the same shared geometry family.
+ * The Awtsmoos renews one field and six hills into layered distance without multiplying their substance;
+ * Awtsmoos.com keeps every silhouette ready for lawful remote material hydration and truthful first-play presence.
  */
 
 import {
@@ -18,23 +17,23 @@ import { bootstrapCubeGeometry } from './BootstrapCubeGeometry.js';
 import { createBootstrapImmediateMaterial } from './BootstrapImmediateMaterial.js';
 
 const COLORS = Object.freeze({
-	farHill: [0.19, 0.42, 0.18, 1],
-	grass: [0.18, 0.48, 0.2, 1],
-	hill: [0.22, 0.55, 0.23, 1]
+	farHill: [0.21, 0.32, 0.18, 1],
+	grass: [0.14, 0.44, 0.18, 1],
+	hill: [0.18, 0.50, 0.20, 1]
 });
 
 const HILLS = Object.freeze([
-	[-50, 2.5, 30, 26, 5, 28],
-	[48, 3.5, 42, 30, 7, 34],
-	[-62, 6, 82, 42, 12, 36],
-	[64, 7, 92, 46, 14, 40],
-	[-15, 4, 120, 34, 8, 28],
-	[24, 5.5, 132, 38, 11, 32]
+	[-56, 3.5, 30, 38, 7, 34],
+	[54, 4.5, 44, 42, 9, 40],
+	[-72, 7.2, 82, 56, 14, 46],
+	[70, 8.4, 94, 60, 17, 50],
+	[-34, 9.4, 138, 68, 18, 48],
+	[38, 11.2, 154, 76, 22, 56]
 ]);
 
 /**
  * Creates the bounded first-play valley while preserving later remote-material identity.
- * @returns {object} Core-owned group containing the bootstrap field and hill silhouettes.
+ * @returns {object} Core-owned group containing one field and twelve hill tiers.
  */
 export function createBootstrapVisibleWorld() {
 	const group = createNativeWorldGroup({
@@ -47,15 +46,12 @@ export function createBootstrapVisibleWorld() {
 	group.userData = {
 		bootstrapTerrain: true,
 		meshCount: group.children.length,
-		visualMode: 'colored-bootstrap-remote-upgrade'
+		visualMode: 'cinematic-bootstrap-remote-upgrade'
 	};
 	return group;
 }
 
-/**
- * Adds one two-tier hill using semantic material roles that the shared hydrator understands.
- * @returns {void}
- */
+/** Adds one two-tier hill without changing mesh topology or semantic hydration roles. */
 function addHill(group, index, [x, y, z, width, height, depth]) {
 	const color = index > 3 ? COLORS.farHill : COLORS.hill;
 	const role = index > 3 ? 'stone.general' : 'terrain.grass';

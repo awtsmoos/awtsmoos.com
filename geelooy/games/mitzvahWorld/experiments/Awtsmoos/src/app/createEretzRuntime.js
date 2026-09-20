@@ -4,11 +4,9 @@
 
 /**
  * @file createEretzRuntime.js
- * @description Publishes canonical first play, then sequences post-control visual enrichment without blocking control.
- * The Awtsmoos lets Awtsmoos.com reveal movement before adornment: post-play terrain receives its authored garment first,
- * then the prepared rich renderer may enter on a later frame, while richer worlds retain their existing policy behavior.
+ * @description Publishes first control, gives required authored visuals priority, then releases broad optional enrichment.
+ * The Awtsmoos lets Awtsmoos.com reveal movement before adornment while true visual garments outrun distant systems.
  */
-
 import { resolveDeferredAppModuleUrl } from './DeferredAppModuleUrl.js';
 import {
 	markRuntimeFailed,
@@ -21,7 +19,7 @@ const STAGED_RUNTIME_URL = deferred('EretzStagedRuntime.js?v=20260908-current-ho
 const POST_PLAYABLE_URL = deferred('EretzPostPlayablePriority.js?v=20260908-current-hot-path-03');
 const VISUAL_SEQUENCE_URL = deferred('EretzVisualPromotionSequence.js?v=20260915-authored-meadow-03');
 
-/** Creates canonical first play, publishes it, then starts bounded post-play work. */
+/** Creates first play, prioritizes authored visuals, then permits optional post-play work. */
 export async function createEretzRuntime(hosts, options = {}) {
 	const environment = options.environment || globalThis;
 	markRuntimeStarting(environment.document);
@@ -34,8 +32,14 @@ export async function createEretzRuntime(hosts, options = {}) {
 		const core = await createStagedEretzRuntime(hosts, options, boot);
 		boot.complete();
 		publishRuntime(core.diagnostics, environment);
-		const postPlayable = startPostPlayableStreams(core, options, boot, environment);
-		startVisualPromotionAfterPlay(core.diagnostics, environment, boot, options, postPlayable);
+		const visuals = startVisualPromotionAfterPlay(
+			core.diagnostics,
+			environment,
+			boot,
+			options,
+			core.foundation
+		);
+		startPostPlayableAfterRequiredVisuals(core, options, boot, environment, visuals);
 		return core.diagnostics;
 	} catch (error) {
 		boot.fail(error);
@@ -46,15 +50,11 @@ export async function createEretzRuntime(hosts, options = {}) {
 	}
 }
 
-function startVisualPromotionAfterPlay(diagnostics, environment, boot, options, postPlayablePromise) {
+function startVisualPromotionAfterPlay(diagnostics, environment, boot, options, foundation) {
 	diagnostics.rendererPolicyStage = 'loading-sequence';
-	const policyPromise = import(VISUAL_SEQUENCE_URL)
+	const promise = import(VISUAL_SEQUENCE_URL)
 		.then(module => module.startEretzVisualPromotionSequence(
-			diagnostics,
-			environment,
-			boot,
-			options,
-			postPlayablePromise
+			diagnostics, environment, boot, options, foundation
 		))
 		.then(result => {
 			diagnostics.rendererPolicyStage = 'ready';
@@ -65,19 +65,23 @@ function startVisualPromotionAfterPlay(diagnostics, environment, boot, options, 
 			diagnostics.rendererPolicyError = error;
 			return null;
 		});
-	diagnostics.rendererPolicyPromise = policyPromise;
+	diagnostics.rendererPolicyPromise = promise;
+	return promise;
 }
 
-function startPostPlayableStreams(core, options, boot, environment) {
+function startPostPlayableAfterRequiredVisuals(core, options, boot, environment, visualPromise) {
 	const diagnostics = core.diagnostics;
-	diagnostics.postPlayablePriorityStage = 'loading-module';
-	const coordinator = import(POST_PLAYABLE_URL)
+	diagnostics.postPlayablePriorityStage = 'waiting-for-required-visuals';
+	const coordinator = Promise.resolve(visualPromise)
+		.then(() => {
+			diagnostics.postPlayablePriorityStage = 'loading-module';
+			return import(POST_PLAYABLE_URL);
+		})
 		.then(module => module.startEretzPostPlayablePriority({ boot, core, environment, options }))
 		.catch(error => degradedPostPlayablePriority(diagnostics, error));
 	diagnostics.postPlayablePriorityPromise = coordinator;
 	diagnostics.enrichmentPromise = coordinator.then(receipt => receipt?.districts ?? null);
 	diagnostics.deferredEnrichmentPromise = coordinator.then(receipt => receipt?.enrichment ?? null);
-	return coordinator;
 }
 
 function degradedPostPlayablePriority(diagnostics, error) {
@@ -112,5 +116,4 @@ function exposeBootFailure(error, hosts, environment) {
 function deferred(specifier) {
 	return resolveDeferredAppModuleUrl(specifier, import.meta.url, 'createEretzRuntime.js');
 }
-
 export default createEretzRuntime;

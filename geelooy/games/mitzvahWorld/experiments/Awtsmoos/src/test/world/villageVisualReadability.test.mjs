@@ -19,7 +19,7 @@ const sampler = Object.freeze({ heightAt: () => ({ y: 0 }) });
 
 test('river cinema lives downstream with broad-water targets and a midground bank actor', () => {
 	const location = canonicalVillageLocation('river-garden');
-	assert.deepEqual(location.actor, { x: -1, z: 42 });
+	assert.deepEqual(location.actor, { x: -1.15, z: 42 });
 	assert.deepEqual(location.facets.waterFeatures, ['lower-river', 'lower-lake']);
 	for (const rig of ['sideTrack', 'craneReveal', 'orbitLeft', 'dollyIn', 'aerialPullback']) {
 		const shot = canonicalVillageLocationShot(location, rig);
@@ -33,7 +33,8 @@ test('BRIDGE01 uses low continuous parapets instead of repeated battlement posts
 	const parapets = bridge.find(value => value.userData?.part === 'parapets');
 	assert.ok(parapets);
 	assert.ok(parapets.userData.instances <= 8);
-	assert.equal(bridge.length, 5);
+	assert.equal(bridge.length, 6);
+	assert.ok(bridge.some(value => value.userData?.part === 'abutments'));
 });
 
 test('WELL01 exposes open masonry, local water, timber support, rope, and a round bucket', () => {
