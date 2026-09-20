@@ -90,14 +90,32 @@ perform_external_restore() {
 		"version=$RESTORED_VERSION source=$RESTORED_SOURCE nextOffset=$(current_archive_offset)"
 }
 confirm_pending_restore() {
-	[ "$RESTORE_PENDING" = "1" ] || return 0
-	node "$ROOT/scripts/recovery-control.cjs" mark-restored \
-		"$ROOT" "$RESTORED_VERSION" "$RESTORED_SOURCE" \
-		>> "$RECOVERY_LOG" 2>&1 || true
-	RESTORE_PENDING=0
-	reset_archive_offset
-	supervisor_log "restore_confirmed" \
-		"version=$RESTORED_VERSION source=$RESTORED_SOURCE"
+	if [ "$RESTORE_PENDING" = "1" ]; then
+		node "$ROOT/scripts/recovery-control.cjs" mark-restored \
+			"$ROOT" "$RESTORED_VERSION" "$RESTORED_SOURCE" \
+			>> "$RECOVERY_LOG" 2>&1 || true
+		RESTORE_PENDING=0
+		reset_archive_offset
+		supervisor_log "restore_confirmed" \
+			"version=$RESTORED_VERSION source=$RESTORED_SOURCE"
+		return 0
+	fi
+	# Stale-latch guard: a modern agent just registered successfully in this
+	# run, yet the recovery controller still carries a restore latch recorded
+	# for an older incident. That latch is stale -- the failure it recorded has
+	# been superseded by this success. Clear it so the next restart takes the
+	# normal path instead of looping through restore/emergency/legacy forever.
+	# (Legacy-bridge registrations must NOT clear the latch.)
+	if supervisor_agent_command "${CHILD_PID:-}"; then
+		if node "$ROOT/scripts/recovery-control.cjs" before-start "$ROOT" --shell 2>/dev/null | grep -q "AWTSMOOS_RECOVERY_RESTORE='1'"; then
+			local stale_version
+			stale_version="$(head -1 "$ROOT/install-state.txt" 2>/dev/null)"
+			node "$ROOT/scripts/recovery-control.cjs" mark-restored \
+				"$ROOT" "${stale_version:-unknown}" "stale-latch-cleared-after-registration" \
+				>> "$RECOVERY_LOG" 2>&1 || true
+			supervisor_log "stale_restore_latch_cleared" "childPid=${CHILD_PID:-unknown}"
+		fi
+	fi
 }
 restore_detail() {
 	local field="$1"
