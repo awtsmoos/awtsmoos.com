@@ -9,28 +9,29 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 	<title>Reeyuh · Shulchan Aruch Reader</title>
 	<link rel="stylesheet" href="./style.css">
+	<link rel="stylesheet" href="../css/awp-polish.css?v=awp-001">
 </head>
 <body>
 	<div id="BH" aria-hidden="true">B"H</div>
-	<div id="reeyuh-shell" data-nav-open="false">
+	<div id="reeyuh-shell" class="awp-entrance" style="--awp-d:.05s" data-nav-open="false">
 		<header class="reader-header">
 			<div class="reader-title">
-				<p>Reeyuh · Torah reader</p>
-				<h1>Shulchan Aruch</h1>
+				<p class="awp-eyebrow">Reeyuh · Torah reader</p>
+				<h1 class="awp-title-glow">Shulchan Aruch</h1>
 				<p id="reader-status" class="reader-status" role="status" aria-live="polite">Preparing library…</p>
 			</div>
-			<button id="nav-toggle" class="nav-trigger" type="button" aria-controls="reeyuh-navigator" aria-expanded="false">Browse sections</button>
+			<button id="nav-toggle" class="nav-trigger awp-btn-ghost" type="button" aria-controls="reeyuh-navigator" aria-expanded="false">Browse sections</button>
 		</header>
 
 		<div class="reader-layout">
 			<aside id="reeyuh-navigator" class="navigator" aria-label="Shulchan Aruch sections">
-				<input id="portion-search" class="navigator-search" type="search" placeholder="Search sections…" aria-label="Search sections">
+				<input id="portion-search" class="navigator-search awp-input" type="search" placeholder="Search sections…" aria-label="Search sections">
 				<nav id="portion-list" class="portion-list" aria-label="Available sections"></nav>
 			</aside>
 			<button id="nav-backdrop" class="nav-backdrop" type="button" aria-label="Close section browser" hidden></button>
 
 			<main class="reader-main">
-				<section class="reader-surface" aria-labelledby="current-title">
+				<section class="reader-surface awp-panel" aria-labelledby="current-title">
 					<h2 id="current-title" class="current-heading">Shulchan Aruch</h2>
 					<div id="content-output" class="content-output">
 						<p class="content-empty">Connecting to the Sefarim library…</p>

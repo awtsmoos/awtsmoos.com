@@ -229,21 +229,22 @@ In this example, 'user1' has a booking from minute 0 to 30 in hour 8 on day 1. O
             }
         }
 ?>
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#050914">
     <title>Mawgawl · Booking Calendar</title>
     <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="../css/awp-polish.css?v=awp-001">
 
 </head>
-<body>
-    <a id="sefarim" href="./sefarim">
+<body class="awp-page">
+    <a id="sefarim" class="awp-btn-ghost awp-entrance" style="--awp-d:.05s" href="./sefarim">
         Sefarim</a>
-        
-    <div class="month-selector">
-        <select id="monthSelect">
+
+    <div class="month-selector awp-panel awp-entrance" style="--awp-d:.1s">
+        <select id="monthSelect" class="awp-input" aria-label="Month">
             <option value="0">January</option>
             <option value="1">February</option>
             <option value="2">March</option>
@@ -259,20 +260,20 @@ In this example, 'user1' has a booking from minute 0 to 30 in hour 8 on day 1. O
         </select>
         <span id="year"></span>
     </div>
-    <div id="calendar">
+    <div id="calendar" class="awp-entrance" style="--awp-d:.16s">
         <!-- Days will be added here -->
     </div>
-    <div id="hoursPopup">
+    <div id="hoursPopup" class="awp-panel">
         <div id="closeButton">X</div>
         <!-- Hours will be added here -->
     </div>
-    <div id="minutesPopup">
+    <div id="minutesPopup" class="awp-panel">
         <div id="closeMinutesButton">X</div>
         <!-- Minutes will be added here -->
     </div>
-    
+
     <div id="customModal" class="modal">
-        <div class="modal-content">
+        <div class="modal-content awp-panel">
             <span class="close">&times;</span>
             <div class="modalMessage"></div>
         </div>
