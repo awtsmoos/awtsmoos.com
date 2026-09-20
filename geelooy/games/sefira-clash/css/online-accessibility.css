@@ -50,10 +50,10 @@ html[data-high-contrast='true'] a {
 html[data-reduced-motion='true'] *,
 html[data-reduced-motion='true'] *::before,
 html[data-reduced-motion='true'] *::after {
-	scroll-behavior: auto !important;
-	transition-duration: 0.001ms !important;
-	animation-duration: 0.001ms !important;
-	animation-iteration-count: 1 !important;
+	scroll-behavior: auto;
+	transition-duration: 0.001ms;
+	animation-duration: 0.001ms;
+	animation-iteration-count: 1;
 }
 
 .preference-row button[aria-pressed='true'] {

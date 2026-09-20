@@ -34,7 +34,7 @@
 }
 
 .portalMitzvah {
-	color: var(--gold) !important;
+	color: var(--gold);
 	font-weight: 900;
 }
 

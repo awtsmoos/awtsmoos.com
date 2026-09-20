@@ -14,10 +14,10 @@
 .floating-text[data-anchor='player'] { left: 65%; }
 .floating-text[data-anchor='opponent'] { left: 35%; }
 .screen-shake { animation: screenShake 180ms linear; }
-.is-gold { border-color: var(--gold) !important; box-shadow: 0 0 20px rgba(255,217,106,0.16); }
-.is-active { border-color: var(--cyan) !important; background: rgba(105,233,239,0.1) !important; }
+.is-gold { border-color: var(--gold); box-shadow: 0 0 20px rgba(255,217,106,0.16); }
+.is-active { border-color: var(--cyan); background: rgba(105,233,239,0.1) !important; }
 .is-dim { opacity: 0.48; filter: grayscale(0.65); }
-.is-complete { border-color: var(--green) !important; }
+.is-complete { border-color: var(--green); }
 @keyframes floatAway { to { transform: translate(-50%, -125%); opacity: 0; } }
 @keyframes screenShake { 25% { transform: translateX(-5px); } 55% { transform: translateX(4px); } 80% { transform: translateX(-2px); } }
 @media (prefers-reduced-motion: reduce) {

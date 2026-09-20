@@ -1,0 +1,297 @@
+/* B"H — awp-polish.css · v=awp-001
+   Cinematic additive polish for geelooy/games.
+   COVENANT: every rule hangs off an .awp-* class. Nothing here destructively
+   restyles an existing selector; enhancements apply only where markup opts in.
+   No !important anywhere in this sheet.
+   Palette: near-black blues (#050914, #0a1322), 4–8% glass whites,
+   cyan #7bdcff primary, warm amber secondary. Motion physics: 120ms controls,
+   220ms surfaces — everything gated behind prefers-reduced-motion. */
+
+.awp-glass,
+.awp-hud,
+.awp-btn,
+.awp-cta,
+.awp-card,
+.awp-stage,
+.awp-title-screen,
+.awp-catalog {
+	--awp-bg0: #050914;
+	--awp-bg1: #0a1322;
+	--awp-cyan: #7bdcff;
+	--awp-amber: #ffc95c;
+	--awp-glass-bg: rgba(255, 255, 255, 0.05);
+	--awp-glass-bg-strong: rgba(10, 19, 34, 0.62);
+	--awp-line: rgba(255, 255, 255, 0.08);
+	--awp-text: #eef6ff;
+	--awp-muted: #9fb4cc;
+}
+
+/* ---------- ambient: fixed cinematic backdrop (empty div, aria-hidden) ---------- */
+.awp-ambient {
+	position: fixed;
+	inset: 0;
+	z-index: -1;
+	pointer-events: none;
+	background:
+		radial-gradient(40rem 26rem at 16% 6%, rgba(123, 220, 255, 0.09), transparent 70%),
+		radial-gradient(32rem 22rem at 86% 18%, rgba(150, 120, 255, 0.07), transparent 70%),
+		radial-gradient(48rem 32rem at 50% 112%, rgba(20, 60, 120, 0.16), transparent 70%);
+}
+
+/* ---------- glass panel ---------- */
+.awp-glass {
+	background: var(--awp-glass-bg-strong);
+	-webkit-backdrop-filter: blur(18px) saturate(140%);
+	backdrop-filter: blur(18px) saturate(140%);
+	border: 1px solid var(--awp-line);
+	border-radius: 22px;
+	box-shadow:
+		inset 0 1px 0 rgba(255, 255, 255, 0.08),
+		0 24px 60px rgba(0, 0, 0, 0.45),
+		0 4px 16px rgba(0, 0, 0, 0.35);
+}
+
+/* ---------- full title-screen stage (AAA title-screen feel) ---------- */
+.awp-title-screen {
+	position: relative;
+	isolation: isolate;
+	min-height: 100dvh;
+	min-height: 100svh;
+	display: grid;
+	place-items: center;
+	padding:
+		calc(env(safe-area-inset-top, 0px) + 24px)
+		calc(env(safe-area-inset-right, 0px) + 20px)
+		calc(env(safe-area-inset-bottom, 0px) + 24px)
+		calc(env(safe-area-inset-left, 0px) + 20px);
+	background:
+		radial-gradient(42rem 26rem at 50% 12%, rgba(123, 220, 255, 0.09), transparent 70%),
+		radial-gradient(60rem 40rem at 50% 120%, rgba(10, 30, 70, 0.35), transparent 70%),
+		linear-gradient(180deg, #050914 0%, #0a1322 100%);
+}
+
+/* ---------- vignette overlay (empty div, aria-hidden) ---------- */
+.awp-vignette {
+	position: fixed;
+	inset: 0;
+	z-index: 5;
+	pointer-events: none;
+	background: radial-gradient(120% 90% at 50% 45%, transparent 55%, rgba(2, 5, 12, 0.55) 100%);
+}
+
+/* ---------- ultra-low-opacity film grain (empty div, aria-hidden) ---------- */
+.awp-grain {
+	position: fixed;
+	inset: 0;
+	z-index: 6;
+	pointer-events: none;
+	opacity: 0.05;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
+}
+
+/* ---------- typography: eyebrow label + glowing game title ---------- */
+.awp-eyebrow {
+	font-size: 0.72rem;
+	font-weight: 800;
+	letter-spacing: 0.24em;
+	text-transform: uppercase;
+	color: var(--awp-cyan);
+}
+.awp-gametitle {
+	color: var(--awp-text);
+	text-shadow:
+		0 0 26px rgba(123, 220, 255, 0.42),
+		0 2px 14px rgba(0, 0, 0, 0.65);
+	letter-spacing: 0.01em;
+}
+.awp-sub {
+	color: var(--awp-muted);
+	line-height: 1.65;
+}
+
+/* ---------- menu: staggered entrance (fade + 12px rise) ----------
+   Layout-agnostic: adds only the entrance choreography to children,
+   never touches the container's own display/positioning. */
+.awp-menu > * {
+	min-width: 0;
+}
+@media (prefers-reduced-motion: no-preference) {
+	.awp-menu > * {
+		opacity: 0;
+		animation: awp-rise 0.5s cubic-bezier(0.22, 0.9, 0.28, 1) forwards;
+	}
+	.awp-menu > *:nth-child(1) { animation-delay: 0.03s; }
+	.awp-menu > *:nth-child(2) { animation-delay: 0.09s; }
+	.awp-menu > *:nth-child(3) { animation-delay: 0.15s; }
+	.awp-menu > *:nth-child(4) { animation-delay: 0.21s; }
+	.awp-menu > *:nth-child(5) { animation-delay: 0.27s; }
+	.awp-menu > *:nth-child(6) { animation-delay: 0.33s; }
+	.awp-menu > *:nth-child(7) { animation-delay: 0.39s; }
+	.awp-menu > *:nth-child(8) { animation-delay: 0.45s; }
+	.awp-menu > *:nth-child(9) { animation-delay: 0.51s; }
+	.awp-menu > *:nth-child(10) { animation-delay: 0.57s; }
+	.awp-menu > *:nth-child(11) { animation-delay: 0.63s; }
+	.awp-menu > *:nth-child(12) { animation-delay: 0.69s; }
+}
+@keyframes awp-rise {
+	from { opacity: 0; transform: translateY(12px); }
+	to { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------- buttons & CTAs (44px+ touch targets, 120ms physics) ---------- */
+.awp-btn,
+.awp-cta {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	min-height: 48px;
+	min-width: 48px;
+	padding: 12px 22px;
+	border-radius: 14px;
+	border: 1px solid var(--awp-line);
+	background: var(--awp-glass-bg);
+	color: var(--awp-text);
+	font-weight: 700;
+	text-decoration: none;
+	cursor: pointer;
+	-webkit-backdrop-filter: blur(18px) saturate(140%);
+	backdrop-filter: blur(18px) saturate(140%);
+	box-shadow:
+		inset 0 1px 0 rgba(255, 255, 255, 0.08),
+		0 6px 18px rgba(0, 0, 0, 0.35);
+	transition: transform 120ms ease, box-shadow 120ms ease, border-color 120ms ease, background-color 120ms ease;
+}
+.awp-btn:hover,
+.awp-cta:hover {
+	transform: translateY(-2px);
+	border-color: rgba(123, 220, 255, 0.35);
+	box-shadow:
+		inset 0 1px 0 rgba(255, 255, 255, 0.10),
+		0 12px 28px rgba(0, 0, 0, 0.45),
+		0 0 22px rgba(123, 220, 255, 0.18);
+}
+.awp-btn:active,
+.awp-cta:active {
+	transform: translateY(0);
+}
+.awp-btn:focus-visible,
+.awp-cta:focus-visible {
+	outline: 2px solid var(--awp-cyan);
+	outline-offset: 3px;
+}
+/* primary CTA: cyan-tinted glass + gentle glow pulse */
+.awp-cta {
+	background: linear-gradient(135deg, rgba(123, 220, 255, 0.16), rgba(123, 220, 255, 0.05));
+	border-color: rgba(123, 220, 255, 0.35);
+}
+@media (prefers-reduced-motion: no-preference) {
+	.awp-cta {
+		animation: awp-pulse 3.2s ease-in-out infinite;
+	}
+}
+@keyframes awp-pulse {
+	0%, 100% { box-shadow: inset 0 1px 0 rgba(255,255,255,0.10), 0 6px 18px rgba(0,0,0,0.35), 0 0 14px rgba(123,220,255,0.12); }
+	50% { box-shadow: inset 0 1px 0 rgba(255,255,255,0.10), 0 6px 18px rgba(0,0,0,0.35), 0 0 30px rgba(123,220,255,0.30); }
+}
+
+/* ---------- generic hover lift for cards / tiles (220ms surfaces) ---------- */
+.awp-lift {
+	transition: transform 220ms ease, box-shadow 220ms ease;
+}
+.awp-lift:hover {
+	transform: translateY(-3px);
+}
+
+/* ---------- HUD frame: glass strip for status bars ---------- */
+.awp-hud {
+	background: rgba(10, 19, 34, 0.66);
+	-webkit-backdrop-filter: blur(18px) saturate(140%);
+	backdrop-filter: blur(18px) saturate(140%);
+	border: 1px solid var(--awp-line);
+	border-radius: 16px;
+	box-shadow:
+		inset 0 1px 0 rgba(255, 255, 255, 0.07),
+		0 10px 28px rgba(0, 0, 0, 0.40);
+	padding:
+		calc(env(safe-area-inset-top, 0px) + 10px)
+		calc(env(safe-area-inset-right, 0px) + 14px)
+		10px
+		calc(env(safe-area-inset-left, 0px) + 14px);
+}
+
+/* ---------- storefront game card (class added by catalog markup) ---------- */
+.awp-card {
+	transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+}
+.awp-card:hover {
+	transform: translateY(-4px);
+	border-color: rgba(123, 220, 255, 0.30);
+	box-shadow:
+		0 18px 44px rgba(0, 0, 0, 0.50),
+		0 0 28px rgba(123, 220, 255, 0.14);
+}
+@media (prefers-reduced-motion: no-preference) {
+	.awp-catalog .awp-card {
+		opacity: 0;
+		animation: awp-rise 0.55s cubic-bezier(0.22, 0.9, 0.28, 1) forwards;
+	}
+	.awp-catalog .awp-card:nth-child(1) { animation-delay: 0.02s; }
+	.awp-catalog .awp-card:nth-child(2) { animation-delay: 0.07s; }
+	.awp-catalog .awp-card:nth-child(3) { animation-delay: 0.12s; }
+	.awp-catalog .awp-card:nth-child(4) { animation-delay: 0.17s; }
+	.awp-catalog .awp-card:nth-child(5) { animation-delay: 0.22s; }
+	.awp-catalog .awp-card:nth-child(6) { animation-delay: 0.27s; }
+	.awp-catalog .awp-card:nth-child(7) { animation-delay: 0.32s; }
+	.awp-catalog .awp-card:nth-child(8) { animation-delay: 0.37s; }
+	.awp-catalog .awp-card:nth-child(9) { animation-delay: 0.42s; }
+	.awp-catalog .awp-card:nth-child(10) { animation-delay: 0.47s; }
+	.awp-catalog .awp-card:nth-child(11) { animation-delay: 0.52s; }
+	.awp-catalog .awp-card:nth-child(12) { animation-delay: 0.57s; }
+}
+
+/* ---------- game stage wrapper: vignette for canvas areas ---------- */
+.awp-stage {
+	position: relative;
+	isolation: isolate;
+}
+.awp-stage::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: 4;
+	pointer-events: none;
+	background: radial-gradient(115% 100% at 50% 45%, transparent 60%, rgba(2, 5, 12, 0.42) 100%);
+}
+
+/* ---------- reduced motion: hard stop ---------- */
+@media (prefers-reduced-motion: reduce) {
+	.awp-menu > *,
+	.awp-catalog .awp-card,
+	.awp-cta {
+		animation: none;
+		opacity: 1;
+	}
+	.awp-btn,
+	.awp-cta,
+	.awp-lift,
+	.awp-card {
+		transition: none;
+	}
+	.awp-btn:hover,
+	.awp-cta:hover,
+	.awp-lift:hover,
+	.awp-card:hover {
+		transform: none;
+	}
+}
+
+/* ---------- larger screens: roomier glass ---------- */
+@media (min-width: 48rem) {
+	.awp-glass {
+		border-radius: 26px;
+	}
+	.awp-hud {
+		border-radius: 18px;
+	}
+}

@@ -9,241 +9,19 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <style>  
-        :root {
-            --primary: #4f46e5;
-            --primary-hover: #4338ca;
-            --bg: #f8fafc;
-            --surface: #ffffff;
-            --text: #1e293b;
-            --text-light: #64748b;
-            --border: #e2e8f0;
-            --success: #10b981;
-        }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 40px 20px;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 1000px;
-        }
-
-        /* Header */
-        header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-        
-        h1 {
-            font-size: 2.5rem;
-            font-weight: 800;
-            margin-bottom: 10px;
-            background: linear-gradient(135deg, var(--primary), #818cf8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        p.subtitle {
-            color: var(--text-light);
-            font-size: 1.1rem;
-        }
-
-        /* Drop Zone */
-        .drop-zone {
-            background: var(--surface);
-            border: 2px dashed var(--border);
-            border-radius: 20px;
-            padding: 60px 40px;
-            text-align: center;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .drop-zone.drag-over {
-            border-color: var(--primary);
-            background-color: #eef2ff;
-            transform: scale(1.01);
-        }
-
-        .drop-zone i {
-            font-size: 4rem;
-            color: #cbd5e1;
-            margin-bottom: 20px;
-            transition: color 0.3s ease;
-        }
-
-        .drop-zone.drag-over i {
-            color: var(--primary);
-        }
-
-        .drop-zone h3 {
-            font-size: 1.25rem;
-            margin-bottom: 8px;
-        }
-
-        .drop-zone p {
-            color: var(--text-light);
-        }
-
-        /* Controls */
-        .controls {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 30px 0 20px 0;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
-
-        .controls.visible {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        .stats {
-            font-weight: 600;
-            color: var(--text-light);
-        }
-
-        .btn {
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 12px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
-        }
-
-        .btn:hover {
-            background-color: var(--primary-hover);
-            transform: translateY(-2px);
-        }
-
-        .btn:disabled {
-            background-color: var(--text-light);
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .btn.processing {
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* Grid Layout */
-        .file-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 20px;
-            width: 100%;
-        }
-
-        .file-card {
-            background: var(--surface);
-            border-radius: 16px;
-            padding: 16px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-            transition: transform 0.2s;
-            position: relative;
-            border: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .file-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-        }
-
-        .preview-wrapper {
-            width: 100%;
-            height: 200px;
-            background: #f1f5f9;
-            border-radius: 8px;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .preview-wrapper canvas {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .file-info {
-            font-size: 0.9rem;
-            font-weight: 600;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .file-meta {
-            font-size: 0.8rem;
-            color: var(--text-light);
-            display: flex;
-            justify-content: space-between;
-        }
-
-        /* Progress Bar */
-        .progress-container {
-            width: 100%;
-            height: 6px;
-            background: #e2e8f0;
-            border-radius: 3px;
-            margin-top: 20px;
-            overflow: hidden;
-            display: none;
-        }
-
-        .progress-bar {
-            height: 100%;
-            background: var(--success);
-            width: 0%;
-            transition: width 0.3s ease;
-        }
-
-        /* Hidden elements */
-        #hidden-canvas { display: none; }
-        #file-input { display: none; }
-
-    </style>
-</head>
-<body>
+        <link rel="stylesheet" href="./styles.css">
+        <link rel="stylesheet" href="../styles/awp-polish.css?v=awp-001">
+    </head>
+<body class="pdf-glass awp-app awp-app-pdf">
+    <div class="awp-ambient" aria-hidden="true"></div>
 
     <div class="container">
-        <header>
-            <h1>PDF to Hi-Res Image</h1>
+        <header class="awp-reveal">
+            <h1 class="awp-title-glow">PDF to Hi-Res Image</h1>
             <p class="subtitle">Drop files below. Maximum resolution. No stretching.</p>
         </header>
 
-        <div class="drop-zone" id="drop-zone">
+        <div class="drop-zone awp-card-lift" id="drop-zone">
             <i class="fa-regular fa-file-pdf"></i>
             <h3>Drag & Drop PDFs here</h3>
             <p>or click to browse</p>
@@ -252,7 +30,7 @@
 
         <div class="controls" id="controls">
             <div class="stats" id="status-text">0 files loaded</div>
-            <button class="btn" id="convert-btn">
+            <button class="btn awp-cta" id="convert-btn">
                 <i class="fa-solid fa-bolt"></i> Convert & Download
             </button>
         </div>
@@ -354,7 +132,7 @@
 
         async function createCard(data) {
             const div = document.createElement('div');
-            div.className = 'file-card';
+            div.className = 'file-card awp-reveal';
             div.id = `card-${data.id}`;
 
             // Create canvas for thumbnail (Page 1 only)

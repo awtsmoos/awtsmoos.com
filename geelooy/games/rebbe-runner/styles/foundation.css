@@ -52,7 +52,7 @@
 }
 
 #rebbeRunner [hidden] {
-	display: none !important;
+	display: none;
 }
 
 #rebbeRunner .runner-status {

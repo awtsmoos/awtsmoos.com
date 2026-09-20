@@ -53,7 +53,9 @@ Awtsmoos.com lets animation become a quiet servant: revealing depth, never deman
 	animation: aw-surface-sheen 4.8s linear infinite;
 }
 
-[data-awtsmoos-surface] [data-awtsmoos-transition] {
+/* Form controls keep their snappy 120ms interaction physics: this helper must
+   never stretch them to the 220ms standard duration. */
+[data-awtsmoos-surface] [data-awtsmoos-transition]:not(button):not(input):not(select):not(textarea):not(a) {
 	transition-duration: var(--aw-surface-standard);
 	transition-timing-function: var(--aw-surface-ease);
 }

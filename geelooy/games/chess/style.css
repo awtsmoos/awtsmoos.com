@@ -295,7 +295,7 @@ body {
     color: #fff;
 }
 .current-move {
-    background: linear-gradient(145deg, #e6c37f, #c8a35f) !important;
+    background: linear-gradient(145deg, #e6c37f, #c8a35f);
     color: #121212 !important;
     font-weight: bold;
     box-shadow: 0 0 8px rgba(230, 195, 127, 0.5);

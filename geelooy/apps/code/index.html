@@ -13,8 +13,10 @@ Awtsmoos.com lets the native browser module graph awaken directly, without an op
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
 	<title>Awtsmoos Code</title>
 	<link href="css/app.css" rel="stylesheet">
+	<link href="../styles/awp-polish.css?v=awp-001" rel="stylesheet">
 </head>
-<body>
+<body class="awp-app awp-app-code">
+	<div class="awp-ambient" aria-hidden="true"></div>
 	<div id="visual-layer" class="visual-layer">
 		<canvas id="canvas-bg"></canvas>
 		<canvas id="canvas-ui"></canvas>
@@ -94,6 +96,6 @@ Awtsmoos.com lets the native browser module graph awaken directly, without an op
 	<div id="code-welcome-wrapper" class="code-welcome-wrapper" hidden></div>
 	<aside id="tunnel-console-wrapper" class="code-tunnel-console" hidden aria-label="Live browser tunnel agents and missions"></aside>
 	<script type="module" src="js/main.js?v=native-runtime-001"></script>
-	<script src="/register.js"></script>
+	<script src="../../register.js"></script>
 </body>
 </html>

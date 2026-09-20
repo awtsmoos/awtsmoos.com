@@ -13,10 +13,11 @@
 	<link rel="stylesheet" href="styles/stage.css?compact=true">
 	<link rel="stylesheet" href="styles/overlays.css?compact=true">
 	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=player-shell-002&compact=true">
+	<link rel="stylesheet" href="../styles/awp-polish.css?v=awp-001">
 </head>
 <body>
-	<main id="menu-container">
-		<section id="main-menu" class="card">
+	<main id="menu-container" class="awp-menu">
+		<section id="main-menu" class="card awp-glass">
 			<h1>Tikkun HaNachash</h1>
 			<p>Gather sparks, outgrow rival serpents, and survive deeper zones.</p>
 			<p id="highScoreDisplay">Highest Rectification: 0</p>
@@ -34,23 +35,23 @@
 		</nav>
 	</main>
 
-	<section id="pause-panel" class="overlay hidden" role="dialog" aria-label="Game paused">
+	<section id="pause-panel" class="overlay hidden awp-glass" role="dialog" aria-label="Game paused">
 		<h2>Paused</h2>
 		<button id="resume-button" type="button">Resume</button>
 	</section>
-	<section id="settings-panel" class="overlay hidden" role="dialog" aria-modal="true" aria-label="Nachash settings">
+	<section id="settings-panel" class="overlay hidden awp-glass" role="dialog" aria-modal="true" aria-label="Nachash settings">
 		<h2>Settings</h2>
 		<label><input id="mute-setting" type="checkbox"> Mute sound</label>
 		<label><input id="minimap-setting" type="checkbox"> Show minimap</label>
 		<label><input id="effects-setting" type="checkbox"> Reduce effects</label>
 		<button id="settings-close" type="button">Back to Game</button>
 	</section>
-	<section id="game-over-panel" class="overlay hidden" role="dialog" aria-modal="true" aria-label="Run complete">
+	<section id="game-over-panel" class="overlay hidden awp-glass" role="dialog" aria-modal="true" aria-label="Run complete">
 		<h2>The Spark Ascends</h2><p id="final-score"></p>
 		<button id="retry-button" type="button">Renew the Cycle</button>
 		<button id="result-menu-button" type="button">Main Menu</button>
 	</section>
-	<section id="fault-panel" class="overlay hidden" role="alertdialog" aria-modal="true" aria-label="Game engine unavailable">
+	<section id="fault-panel" class="overlay hidden awp-glass" role="alertdialog" aria-modal="true" aria-label="Game engine unavailable">
 		<h2>Engine Interrupted</h2><p id="fault-reason"></p>
 		<button id="fault-retry-button" type="button">Retry Engine</button>
 		<button id="fault-menu-button" type="button">Main Menu</button>

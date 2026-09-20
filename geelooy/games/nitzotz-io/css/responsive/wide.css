@@ -6,7 +6,7 @@
 	.hud {
 		top: 24px;
 		left: 26px;
-		width: 930px;
+		width: min(930px, 100%);
 	}
 	.right-rail {
 		top: 24px;

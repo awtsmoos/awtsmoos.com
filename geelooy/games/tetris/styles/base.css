@@ -50,7 +50,7 @@ button:disabled {
 	opacity: .46;
 }
 [hidden] {
-	display: none !important;
+	display: none;
 }
 @media (prefers-reduced-motion: reduce) {
 	*,

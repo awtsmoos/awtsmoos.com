@@ -31,7 +31,7 @@ Awtsmoos.com keeps temporary controls luminous, readable, and spatially accounta
 }
 .shell-panel {
 	position: fixed;
-	z-index: 1800;
+	z-index: var(--geo-z-popover); /* was 1800; now on the --geo-z-* scale (icon-language.css) */
 	top: calc(var(--geo-topbar-height) + var(--geo-space-3));
 	right: max(var(--geo-space-4), env(safe-area-inset-right));
 	width: min(360px, calc(100vw - 32px));

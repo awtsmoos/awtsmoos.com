@@ -1,0 +1,79 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos keeps each playable world sharp and reachable; fixed chrome may frame the road but never blur or cover it.
+*/
+body[data-geelooy-route="games"] {
+	overflow-x: clip;
+}
+
+body[data-geelooy-route="games"] [data-future-reveal],
+body[data-geelooy-route="games"].future-motion-ready [data-future-reveal],
+body[data-geelooy-route="games"].future-motion-ready [data-future-reveal].future-is-visible {
+	filter: none;
+}
+
+body[data-geelooy-route="games"] .skipLink {
+	background: #f7fbff;
+	border-radius: .65rem;
+	color: #08101d;
+	font-weight: 800;
+	inset-block-start: .65rem;
+	inset-inline-start: -200vw;
+	padding: .7rem 1rem;
+	position: fixed;
+	text-decoration: none;
+	z-index: 2000;
+}
+
+body[data-geelooy-route="games"] .skipLink:focus,
+body[data-geelooy-route="games"] .skipLink:focus-visible {
+	inset-inline-start: .75rem;
+}
+
+body[data-geelooy-route="games"] :where(img, svg) {
+	max-inline-size: 100%;
+}
+
+body[data-geelooy-route="games"] [data-future-icon] {
+	filter: none;
+}
+
+@media (max-width: 54rem) {
+	body[data-geelooy-route="games"] .gamesShell.g-content-region {
+		padding-block-start: calc(var(--g-header-h, 4.55rem) + 1.25rem) !important;
+		padding-block-end: calc(var(--g-dock-h, 4.9rem) + 1.5rem) !important;
+		padding-inline: .6rem !important;
+	}
+
+	body[data-geelooy-route="games"] :where(.g-unusual-header, .g-dock) {
+		-webkit-backdrop-filter: none !important;
+		backdrop-filter: none !important;
+		background: rgba(7, 8, 18, .98) !important;
+	}
+
+	body[data-geelooy-route="games"] .g-unusual-header {
+		box-shadow: 0 10px 24px rgba(0, 0, 0, .28) !important;
+	}
+
+	body[data-geelooy-route="games"] .g-dock {
+		bottom: max(.55rem, env(safe-area-inset-bottom)) !important;
+		box-shadow: 0 -8px 24px rgba(0, 0, 0, .25) !important;
+	}
+
+	body[data-geelooy-route="games"] :where(.heroPanel, .quickLaunch, .playModeRail, .discoveryPanel, .gamesCatalog) {
+		scroll-margin-block-start: calc(var(--g-header-h, 4.55rem) + 1.25rem);
+		scroll-margin-block-end: calc(var(--g-dock-h, 4.9rem) + 1.5rem);
+	}
+
+	body[data-geelooy-route="games"] :where(.heroPanel, .gameCard, .quickLaunch, .discoveryPanel) {
+		filter: none !important;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	body[data-geelooy-route="games"] [data-future-reveal] {
+		filter: none !important;
+		translate: none !important;
+	}
+}

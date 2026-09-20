@@ -15,34 +15,37 @@ Awtsmoos.com lets the catalog lead with clarity, while deeper discovery unfolds 
 	<link rel="icon" type="image/svg+xml" href="/favicon.svg">
 	<link rel="stylesheet" href="/style/geelooy-app/index.css?v=extreme-005">
 	<link rel="stylesheet" href="/style/geelooy-app/shell/hybrid-navigation.css?v=extreme-005">
-	<link rel="stylesheet" href="./style.css?v=apps-portfolio-009">
+	<!-- Load-order covenant: integrity.css is the fallback garment — it must load before
+	     ./style.css (which @imports base.css and the design vessels) so the designed layers
+	     win every order-dependent conflict by loading later. Do not reorder. -->
+	<link rel="stylesheet" href="./styles/integrity.css?v=apps-mobile-010">
+	<link rel="stylesheet" href="./style.css?v=apps-mobile-010">
 	<link rel="stylesheet" href="/style/future-system/index.css?v=future-006">
+	<link rel="stylesheet" href="./styles/awp-polish.css?v=awp-001">
 </head>
-<body data-geelooy-route="apps" data-future-page="apps">
+<body data-geelooy-route="apps" data-future-page="apps" class="awp-app">
+	<div class="awp-ambient" aria-hidden="true"></div>
+	<div class="awp-grain" aria-hidden="true"></div>
 	<main class="g-page geelooy-content-region g-page-stack" aria-labelledby="apps-title" data-geelooy-route-outlet data-route-id="apps">
-		<section class="g-panel g-page-hero apps-hero" data-future-hero data-future-surface data-future-aura data-future-reveal>
+		<section class="g-panel g-page-hero apps-hero awp-hero" data-future-hero data-future-surface data-future-aura data-future-reveal>
 			<div class="apps-hero-copy">
-				<p class="g-kicker">B"H · Every public doorway</p>
-				<h1 id="apps-title">Find the right vessel.</h1>
+				<p class="g-kicker awp-eyebrow">B"H · Every public doorway</p>
+				<h1 id="apps-title" class="awp-title-glow awp-reveal">Find the right vessel.</h1>
 				<p>Open a familiar destination now, or browse the live public catalog below. Search and categories stay tucked away until you need to narrow the field.</p>
 				<nav class="apps-hero-actions" aria-label="Popular app destinations">
-					<a class="g-button g-button-primary" href="./docs/" data-future-action><span data-future-icon="source"></span>Create a document</a>
-					<a class="g-button" href="/games/" data-future-action><span data-future-icon="spark"></span>Play a game</a>
-					<a class="g-button" href="/os" data-future-action><span data-future-icon="orbit"></span>Open Awtsmoos OS</a>
-					<a class="g-button" href="./wallet/" data-future-action><span data-future-icon="wallet"></span>Open Wallet</a>
+					<a class="g-button g-button-primary awp-cta awp-reveal" style="--awp-delay:.05s" href="./docs/" data-future-action><span data-future-icon="source"></span>Create a document</a>
+					<a class="g-button awp-cta awp-reveal" style="--awp-delay:.1s" href="/games/" data-future-action><span data-future-icon="spark"></span>Play a game</a>
+					<a class="g-button awp-cta awp-reveal" style="--awp-delay:.15s" href="/os" data-future-action><span data-future-icon="orbit"></span>Open Awtsmoos OS</a>
+					<a class="g-button awp-cta awp-reveal" style="--awp-delay:.2s" href="./wallet/" data-future-action><span data-future-icon="wallet"></span>Open Wallet</a>
 				</nav>
 			</div>
-			<aside class="apps-economy-note" data-future-surface>
+			<aside class="apps-economy-note awp-glass awp-reveal" style="--awp-delay:.25s" data-future-surface>
 				<strong>Live source inventory.</strong>
 				<p>Cards, route aliases, search text, categories, game metadata, and future additions are generated from public registries instead of hand-picked duplicates.</p>
 			</aside>
 		</section>
-
-		<details class="apps-filter-disclosure" data-future-disclosure data-future-reveal>
-			<summary>
-				<span><strong>Search &amp; filter</strong><small>Open these controls only when you want to narrow the catalog.</small></span>
-				<span class="apps-result-pill" data-app-count data-app-result-status role="status" aria-live="polite">Loading inventory…</span>
-			</summary>
+		<details class="apps-filter-disclosure awp-glass" data-future-disclosure data-future-reveal>
+			<summary><span><strong>Search &amp; filter</strong><small>Open these controls only when you want to narrow the catalog.</small></span><span class="apps-result-pill" data-app-count data-app-result-status role="status" aria-live="polite">Loading inventory…</span></summary>
 			<div class="futureDisclosureBody">
 				<form class="g-app-filter" role="search" data-app-filter>
 					<label for="app-search">Search the catalog</label>
@@ -57,9 +60,8 @@ Awtsmoos.com lets the catalog lead with clarity, while deeper discovery unfolds 
 				</form>
 			</div>
 		</details>
-
 		<section class="apps-section-heading" aria-labelledby="available-tools-title" data-future-reveal>
-			<div><p class="g-kicker">Available now</p><h2 id="available-tools-title">All browser tools and games.</h2></div>
+			<div><p class="g-kicker awp-eyebrow">Available now</p><h2 id="available-tools-title">All browser tools and games.</h2></div>
 			<p>Browse the living inventory below. Reveal Search &amp; filter only when you want to narrow what is already here.</p>
 		</section>
 		<section class="g-grid" data-app-grid aria-live="polite" aria-busy="true" data-future-reveal><p class="g-state">Loading the public app and game catalog…</p></section>

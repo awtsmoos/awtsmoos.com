@@ -28,7 +28,7 @@
 
 .kavanah-hud[hidden],
 .kavanah-overlay[hidden] {
-	display: none !important;
+	display: none;
 }
 
 .kavanah-hud > div {

@@ -12,12 +12,12 @@
 }
 
 .levelCard {
-	min-height: 92px !important;
-	border-radius: 18px !important;
-	background: linear-gradient(135deg, #1c1235, #4a2a78) !important;
-	color: #fff !important;
-	text-align: left !important;
-	padding: 12px !important;
+	min-height: 92px;
+	border-radius: 18px;
+	background: linear-gradient(135deg, #1c1235, #4a2a78);
+	color: #fff;
+	text-align: left;
+	padding: 12px;
 }
 
 .levelCard b {
@@ -39,5 +39,5 @@
 
 .levelCard.current {
 	outline: 2px solid var(--gold);
-	box-shadow: 0 0 28px #ffd36a55 !important;
+	box-shadow: 0 0 28px #ffd36a55;
 }
