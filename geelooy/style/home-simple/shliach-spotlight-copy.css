@@ -1,37 +1,48 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos lets the Shliach words arrive near the image without being pushed below the way;
-Awtsmoos.com keeps title, trust, and mission readable on every screen throughout the day.
+The Awtsmoos lets a few clear words carry the mission without pushing the doorway below the fold.
 */
 
+.shliach-spotlight-copy {
+	min-width: 0;
+}
 .shliach-spotlight-copy h2 {
-	font-size: clamp(1.75rem, 4vw, 3.2rem);
+	font-size: clamp(1.7rem, 3.4vw, 2.8rem);
 	letter-spacing: -.035em;
-	line-height: 1;
+	line-height: .98;
 	margin: 0;
 }
-
 .shliach-spotlight-eyebrow {
 	color: #8db7ff;
-	font-size: .78rem;
-	font-weight: 800;
+	font-size: .74rem;
+	font-weight: 850;
 	letter-spacing: .14em;
-	margin: 0 0 .7rem;
+	margin: 0 0 .42rem;
 	text-transform: uppercase;
 }
-
 .shliach-spotlight-description {
-	color: rgba(236, 243, 255, .92);
-	font-size: clamp(1rem, 1.8vw, 1.12rem);
-	line-height: 1.65;
-	margin: 1rem 0 0;
-	max-width: 72ch;
+	color: rgba(236, 243, 255, .91);
+	font-size: clamp(.96rem, 1.45vw, 1.04rem);
+	line-height: 1.48;
+	margin: .72rem 0 0;
+	max-width: 68ch;
 }
-
 .shliach-spotlight-trust {
-	color: rgba(205, 218, 240, .82);
-	font-size: .9rem;
-	line-height: 1.5;
-	margin: .75rem 0 0;
+	color: rgba(205, 218, 240, .74);
+	font-size: .82rem;
+	line-height: 1.4;
+	margin: .5rem 0 0;
+}
+@media (max-width: 720px) {
+	.shliach-spotlight-copy h2 {
+		font-size: clamp(1.65rem, 8vw, 2.15rem);
+	}
+	.shliach-spotlight-description {
+		font-size: .94rem;
+		line-height: 1.44;
+	}
+	.shliach-spotlight-trust {
+		font-size: .78rem;
+	}
 }

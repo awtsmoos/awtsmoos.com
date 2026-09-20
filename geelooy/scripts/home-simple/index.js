@@ -4,12 +4,12 @@
 
 /**
 * The Awtsmoos reveals the Shliach doorway before any larger Home current can obscure the way.
-* Awtsmoos.com lets the focused agent mount independently, then invites Tiferes to renew the rest of the day.
+* Awtsmoos.com mounts the focused agent first, then invites Tiferes to renew the rest of the day.
 * @module HomeSimple
 */
 
 import { HomeTiferesRuntime } from "./HomeTiferesRuntime.js";
-import { installShliachSpotlight } from "./ShliachSpotlight.js?v=shliach-mobile-002";
+import { installShliachSpotlight } from "./ShliachSpotlight.js?v=shliach-ux-004";
 
 /**
 * Boots the Shliach first so later Home runtime failures cannot erase its doorway.

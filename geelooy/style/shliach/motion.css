@@ -1,58 +1,69 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos recreates motion before a single shimmer can sway;
-Awtsmoos.com lets animation serve the Shliach, never rule the way.
+The Awtsmoos moves without wasting distance; each shimmer should reveal rather than distract.
 */
 
+@keyframes shliach-float {
+	0%, 100% { transform: translateY(0) rotate(-.25deg); }
+	50% { transform: translateY(-6px) rotate(.25deg); }
+}
+@keyframes shliach-spectrum {
+	0% { background-position: 0% 50%; }
+	50% { background-position: 100% 50%; }
+	100% { background-position: 0% 50%; }
+}
 .shliach-logo {
-	animation: shliach-float 7s ease-in-out infinite;
+	animation: shliach-float 6.5s ease-in-out infinite;
 }
 .shliach-prompt-shell {
-	animation: shliach-spectrum 9s linear infinite;
+	animation: shliach-spectrum 8s ease infinite;
 }
 [data-reveal] {
 	opacity: 0;
-	transform: translateY(28px);
-	transition: opacity .7s ease, transform .7s ease;
+	transform: translateY(16px);
+	transition: opacity .48s ease, transform .48s ease;
 }
-[data-reveal].is-revealed {
+[data-reveal].is-visible {
 	opacity: 1;
 	transform: translateY(0);
 }
-@keyframes shliach-float {
-	0%,
-	100% {
-		transform: translateY(0) rotate(-1deg);
-	}
-	50% {
-		transform: translateY(-18px) rotate(1deg);
-	}
+.shliach-art img {
+	transition: filter .24s ease, transform .3s ease;
 }
-@keyframes shliach-spectrum {
-	0% {
-		background-position: 0% 50%;
-	}
-	50% {
-		background-position: 100% 50%;
-	}
-	100% {
-		background-position: 0% 50%;
-	}
+.shliach-art:hover img {
+	filter: saturate(1.06) contrast(1.02);
+	transform: scale(1.012);
+}
+.shliach-prompt-example,
+.shliach-secondary,
+.shliach-nav-links a {
+	transition: border-color .16s ease, background .16s ease, color .16s ease, transform .16s ease;
+}
+.shliach-prompt-example:hover,
+.shliach-secondary:hover {
+	border-color: rgba(125, 213, 255, .35);
+	transform: translateY(-1px);
 }
 @media (prefers-reduced-motion: reduce) {
-	html {
-		scroll-behavior: auto;
-	}
 	*,
 	*::before,
 	*::after {
-		animation-duration: .01ms !important;
-		animation-iteration-count: 1 !important;
-		transition-duration: .01ms !important;
+		scroll-behavior: auto !important;
+	}
+	.shliach-logo,
+	.shliach-prompt-shell {
+		animation: none !important;
 	}
 	[data-reveal] {
-		opacity: 1;
-		transform: none;
+		opacity: 1 !important;
+		transform: none !important;
+		transition: none !important;
+	}
+	.shliach-art img,
+	.shliach-card,
+	.shliach-prompt-button,
+	.shliach-launch {
+		transition: none !important;
 	}
 }

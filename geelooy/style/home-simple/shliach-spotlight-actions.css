@@ -1,72 +1,78 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos gives the Shliach actions full touch, focus, and responsive testimony.
+The Awtsmoos turns three tall rows into one compact field of action and destination.
 */
 
 .shliach-spotlight-actions {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 0.7rem;
-	margin-top: 1.2rem;
+	display: grid;
+	gap: .5rem;
+	grid-template-columns: repeat(2, minmax(0, max-content));
+	margin-top: .78rem;
 }
-
 .shliach-spotlight-actions a {
 	align-items: center;
 	border-radius: 999px;
 	display: inline-flex;
-	font-size: 0.92rem;
-	font-weight: 800;
+	font-size: .86rem;
+	font-weight: 850;
 	justify-content: center;
-	min-height: 48px;
-	padding: 0.72rem 1.15rem;
+	min-height: 42px;
+	padding: .62rem .95rem;
 	text-decoration: none;
-	transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+	transition: transform .16s ease, border-color .16s ease, background .16s ease;
 }
-
-.shliach-spotlight-primary {
-	background: linear-gradient(135deg, #f4f8ff, #a9caff);
-	color: #06101f;
+.shliach-spotlight-actions .shliach-spotlight-primary {
+	background: linear-gradient(135deg, #eaf4ff, #9bc2ff);
+	color: #07101c;
 }
-
-.shliach-spotlight-secondary {
-	background: rgba(255, 255, 255, 0.045);
-	border: 1px solid rgba(170, 202, 255, 0.24);
+.shliach-spotlight-actions .shliach-spotlight-secondary {
+	background: rgba(255, 255, 255, .045);
+	border: 1px solid rgba(170, 202, 255, .24);
 	color: #e9f2ff;
 }
-
 .shliach-spotlight-actions .shliach-spotlight-url {
-	border-radius: 0;
-	color: #9fc3ff;
-	flex: 1 1 100%;
-	font-size: 0.76rem;
+	background: rgba(6, 13, 28, .56);
+	border: 1px solid rgba(139, 184, 255, .16);
+	border-radius: .72rem;
+	color: #a8c8ff;
+	display: block;
+	font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+	font-size: .72rem;
 	font-weight: 650;
-	justify-content: flex-start;
+	grid-column: 1 / -1;
+	line-height: 1.25;
+	max-width: 100%;
 	min-height: 0;
-	overflow-wrap: anywhere;
-	padding: 0.15rem 0;
-	text-decoration: underline;
-	text-decoration-color: rgba(159, 195, 255, 0.45);
-	text-underline-offset: 0.18em;
+	overflow: hidden;
+	padding: .42rem .62rem;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
-
 .shliach-spotlight-actions a:hover {
 	transform: translateY(-1px);
 }
-
 .shliach-spotlight-actions a:focus-visible,
 .shliach-spotlight-image-link:focus-visible {
 	outline: 3px solid #8db7ff;
-	outline-offset: 4px;
+	outline-offset: 3px;
 }
-
 @media (max-width: 720px) {
-	.shliach-spotlight-actions a {
-		flex: 1 1 100%;
+	.shliach-spotlight-actions {
+		grid-template-columns: 1fr 1fr;
+		margin-top: .7rem;
 	}
-
+	.shliach-spotlight-actions a {
+		font-size: .8rem;
+		min-height: 40px;
+		padding: .58rem .62rem;
+	}
 	.shliach-spotlight-actions .shliach-spotlight-url {
-		font-size: 0.72rem;
-		justify-content: flex-start;
+		font-size: .68rem;
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	.shliach-spotlight-actions a {
+		transition: none;
 	}
 }

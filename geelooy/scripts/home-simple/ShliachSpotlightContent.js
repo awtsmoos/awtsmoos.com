@@ -4,7 +4,7 @@
 
 /**
 * The Awtsmoos sends one Shliach from Home toward each honest task in sight;
-* Awtsmoos.com serves the public emblem directly and lets honest text remain if media leaves the light.
+* Awtsmoos.com keeps the public emblem, exact GPT destination, and concise actions in one bright vessel.
 * @module ShliachSpotlightContent
 */
 
@@ -19,20 +19,17 @@ export { element } from "./ShliachSpotlightElements.js";
 export const SHLIACH_URL = "https://chatgpt.com/g/g-6a03feea8398819192067ae3dbfa449c-awtsmoos-shliach-agent";
 export const SHLIACH_PAGE = "/Shliach/";
 export const SHLIACH_IMAGE = "https://awtsmoos.com/api/social/drive/public/awtsmoos/file_000000001aa071f5afcedcf09919246e.png";
+const SHLIACH_DISPLAY_URL = "chatgpt.com/g/…/awtsmoos-shliach-agent";
 const SHLIACH_DESCRIPTION = [
 	"The Awtsmoos Shliach is the dedicated ChatGPT agent for creating and operating Awtsmoos projects.",
-	"Tell it what you want to make; when your account or Tunnel grants the needed capabilities,",
-	"it can work through authenticated Awtsmoos APIs for projects, files, Docs, posts, series, sites, and more."
+	"Give it the mission; when your account or Tunnel grants the needed capabilities, it can work through authenticated Awtsmoos APIs."
 ].join(" ");
-const SHLIACH_TRUST = [
-	"Your Awtsmoos account permissions remain the authority.",
-	"The agent does not need a separate hidden account backdoor."
-].join(" ");
+const SHLIACH_TRUST = "Your Awtsmoos account permissions remain the authority.";
 
 /**
-* Builds the Home logo doorway with the canonical public image and compact text fallback.
+* Builds the public Shliach emblem with a compact text fallback.
 * @param {Document} documentRoot The living document.
-* @returns {HTMLAnchorElement} The Shliach campaign image doorway.
+* @returns {HTMLAnchorElement} The campaign image doorway.
 */
 export function buildShliachImageLink(documentRoot) {
 	const link = internalLink(documentRoot, "shliach-spotlight-image-link", SHLIACH_PAGE);
@@ -58,7 +55,7 @@ export function buildShliachImageLink(documentRoot) {
 }
 
 /**
-* Builds explanatory Home copy with launch actions visible before long copy.
+* Builds concise Home copy with actions before explanatory text.
 * @param {Document} documentRoot The living document.
 * @returns {HTMLDivElement} The complete copy vessel.
 */
@@ -81,11 +78,12 @@ function revealMedia(link, fallback) {
 function buildActions(documentRoot) {
 	const actions = element(documentRoot, "div", "shliach-spotlight-actions");
 	const openAgent = externalLink(documentRoot, "shliach-spotlight-primary", SHLIACH_URL);
-	openAgent.textContent = "Open actual Shliach on ChatGPT ↗";
+	openAgent.textContent = "Open Shliach ↗";
 	const discover = internalLink(documentRoot, "shliach-spotlight-secondary", SHLIACH_PAGE);
-	discover.textContent = "Explore /Shliach/";
+	discover.textContent = "Explore world";
 	const visibleUrl = externalLink(documentRoot, "shliach-spotlight-url", SHLIACH_URL);
-	visibleUrl.textContent = SHLIACH_URL;
+	visibleUrl.textContent = SHLIACH_DISPLAY_URL;
+	visibleUrl.title = SHLIACH_URL;
 	actions.append(openAgent, discover, visibleUrl);
 	return actions;
 }

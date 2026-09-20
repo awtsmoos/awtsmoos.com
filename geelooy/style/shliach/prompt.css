@@ -1,74 +1,96 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos turns intention into letters and letters into a living way;
-Awtsmoos.com gives the Shliach prompt a luminous vessel from which to play.
+The Awtsmoos turns a prompt from an empty field into a focused mission gate;
+Awtsmoos.com keeps the vessel compact, luminous, and ready before intention must wait.
 */
 
 .shliach-prompt-shell {
-	position: relative;
-	margin-top: 34px;
-	padding: 3px;
-	border-radius: 26px;
-	background: linear-gradient(120deg, var(--shliach-violet), var(--shliach-cyan), var(--shliach-gold), var(--shliach-violet));
-	background-size: 260% 260%;
-	box-shadow: 0 24px 70px rgba(46, 22, 92, .38);
+	background: linear-gradient(120deg, var(--shliach-cyan), var(--shliach-violet), var(--shliach-gold), var(--shliach-cyan));
+	background-size: 240% 240%;
+	border-radius: calc(var(--shliach-radius) + 2px);
+	box-shadow: 0 20px 58px rgba(0, 0, 0, .3);
+	margin-top: 20px;
+	padding: 2px;
 }
 .shliach-prompt-form {
-	padding: 20px;
-	border-radius: 23px;
-	background: rgba(10, 7, 18, .94);
+	background: radial-gradient(circle at 18% 0%, rgba(93, 204, 255, .08), transparent 34%), rgba(10, 11, 22, .96);
+	border-radius: var(--shliach-radius);
+	padding: 17px;
 }
 .shliach-prompt-form label {
 	display: block;
+	font-size: .96rem;
+	font-weight: 850;
 	margin-bottom: 10px;
-	font-weight: 900;
 }
 .shliach-prompt-form textarea {
-	width: 100%;
-	min-height: 122px;
+	background: rgba(2, 4, 12, .56);
+	border: 1px solid var(--shliach-line);
+	border-radius: 18px;
+	color: var(--shliach-text);
+	font: inherit;
+	font-size: 1rem;
+	line-height: 1.5;
+	min-height: 104px;
+	padding: 14px;
 	resize: vertical;
-	padding: 16px;
-	border: 1px solid rgba(255, 255, 255, .14);
-	border-radius: 16px;
-	background: #0f0b18;
-	color: white;
-	line-height: 1.55;
+	transition: border-color .16s ease, box-shadow .16s ease;
+	width: 100%;
 }
-.shliach-prompt-row {
+.shliach-prompt-form textarea:focus {
+	border-color: rgba(109, 215, 255, .65);
+	box-shadow: 0 0 0 3px rgba(83, 195, 255, .1);
+	outline: 0;
+}
+.shliach-prompt-examples {
 	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	gap: 14px;
-	margin-top: 14px;
-}
-.shliach-prompt-button {
-	min-height: 48px;
-	padding: 12px 20px;
-	border: 0;
-	border-radius: 999px;
-	background: linear-gradient(135deg, var(--shliach-gold), var(--shliach-gold-bright));
-	color: #21140b;
-	font-weight: 950;
-	cursor: pointer;
-}
-.shliach-prompt-status {
-	margin: 0;
-	color: var(--shliach-muted);
-	font-size: .92rem;
-}
-.shliach-examples {
-	display: flex;
-	gap: 9px;
 	flex-wrap: wrap;
-	margin-top: 13px;
+	gap: 8px;
+	margin-top: 12px;
 }
-.shliach-example {
-	min-height: 40px;
-	padding: 8px 12px;
+.shliach-prompt-example {
+	background: rgba(255, 255, 255, .045);
 	border: 1px solid var(--shliach-line);
 	border-radius: 999px;
-	background: rgba(255, 255, 255, .04);
-	color: var(--shliach-ink);
+	color: var(--shliach-text);
 	cursor: pointer;
+	font: inherit;
+	font-weight: 750;
+	padding: 8px 13px;
+}
+.shliach-prompt-row {
+	align-items: center;
+	display: grid;
+	gap: 12px;
+	grid-template-columns: minmax(0, 1fr) auto;
+	margin-top: 12px;
+}
+.shliach-prompt-status {
+	color: var(--shliach-muted);
+	font-size: .9rem;
+	line-height: 1.45;
+	margin: 0;
+}
+.shliach-prompt-button,
+.shliach-launch {
+	align-items: center;
+	background: linear-gradient(135deg, var(--shliach-gold-bright), #ffe8a0);
+	border: 0;
+	border-radius: 999px;
+	color: #17120a;
+	cursor: pointer;
+	display: inline-flex;
+	font: inherit;
+	font-weight: 950;
+	justify-content: center;
+	min-height: 46px;
+	padding: 10px 18px;
+	text-decoration: none;
+	transition: transform .16s ease, box-shadow .16s ease;
+}
+.shliach-prompt-button:hover,
+.shliach-launch:hover {
+	box-shadow: 0 12px 28px rgba(255, 208, 101, .16);
+	transform: translateY(-2px);
 }

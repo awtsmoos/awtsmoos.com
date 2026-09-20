@@ -3,8 +3,7 @@
 //Blessed is He
 
 /**
-* The Awtsmoos gives visitors one explicit Shliach doorway while every contract stays in sight;
-* Awtsmoos.com proves the public logo, visible GPT URL, safe link law, and compact media fallback remain right.
+* The Awtsmoos proves that a compact Home doorway still carries the exact Shliach mission.
 * @module homeShliachSpotlightContract.test
 */
 
@@ -22,19 +21,22 @@ function source(name) {
 	return fs.readFileSync(path.join(HERE, name), "utf8");
 }
 
-test("Home boots the real Awtsmoos Shliach spotlight", () => {
+test("Home boots the real compact Awtsmoos Shliach spotlight", () => {
 	const entry = source("index.js");
 	const content = source("ShliachSpotlightContent.js");
 	assert.match(entry, /installShliachSpotlight\(document\)/);
+	assert.match(entry, /shliach-ux-004/);
 	assert.match(content, new RegExp(GPT_ID));
 	assert.match(content, /authenticated Awtsmoos APIs/);
 	assert.match(content, /noopener noreferrer/);
-	assert.match(content, /visibleUrl\.textContent = SHLIACH_URL/);
+	assert.match(content, /SHLIACH_DISPLAY_URL/);
+	assert.match(content, /visibleUrl\.title = SHLIACH_URL/);
 });
 
-test("Home uses the canonical public logo without a local binary dependency", () => {
+test("Home keeps the canonical public logo and honest text fallback", () => {
 	const content = source("ShliachSpotlightContent.js");
 	assert.match(content, new RegExp(PUBLIC_LOGO.replace(".", "\\.")));
 	assert.doesNotMatch(content, /resources\/branding\/awtsmoos-shliach-agent\.png/);
 	assert.match(content, /mediaState = "missing"/);
+	assert.match(content, /Open Shliach/);
 });

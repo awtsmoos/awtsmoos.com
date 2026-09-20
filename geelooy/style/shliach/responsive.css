@@ -1,8 +1,8 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos fills the smallest screen and the widest cosmic bay;
-Awtsmoos.com lets the Shliach keep its shape wherever visitors stay.
+The Awtsmoos needs no wasted height to fill a narrow screen with light;
+Awtsmoos.com keeps every Shliach chapter close, touchable, and bright.
 */
 
 @media (max-width: 900px) {
@@ -19,38 +19,95 @@ Awtsmoos.com lets the Shliach keep its shape wherever visitors stay.
 		grid-template-columns: 1fr;
 	}
 	.shliach-logo-stage {
-		min-height: 330px;
+		min-height: 0;
+	}
+	.shliach-logo {
+		width: min(300px, 68vw);
 	}
 	.shliach-grid {
 		grid-template-columns: 1fr 1fr;
 	}
+	.shliach-scene {
+		background-attachment: scroll;
+		min-height: 0;
+	}
+	.shliach-scene > .shliach-shell {
+		padding-block: 38px;
+	}
 }
 @media (max-width: 620px) {
 	:root {
+		--shliach-radius: 20px;
 		--shliach-shell: min(100% - 28px, 1180px);
-		--shliach-radius: 22px;
 	}
 	.shliach-nav-wrap {
 		position: relative;
 	}
 	.shliach-nav-links {
-		gap: 4px;
+		gap: 3px;
 	}
 	.shliach-nav-links a {
-		padding: 8px 9px;
-		font-size: .9rem;
+		font-size: .86rem;
+		padding: 7px 8px;
 	}
 	.shliach-hero {
-		padding-top: 46px;
+		padding: 32px 0 26px;
+	}
+	.shliach-hero h1 {
+		font-size: clamp(2.65rem, 14vw, 4.15rem);
+	}
+	.shliach-lead {
+		font-size: 1rem;
+		line-height: 1.48;
+		margin-top: 16px;
+	}
+	.shliach-logo {
+		width: min(248px, 64vw);
+	}
+	.shliach-section {
+		padding: 26px 0;
+	}
+	.shliach-section-head {
+		margin-bottom: 14px;
 	}
 	.shliach-grid {
+		gap: 11px;
 		grid-template-columns: 1fr;
 	}
+	.shliach-card {
+		padding: 18px;
+	}
+	.shliach-art img {
+		aspect-ratio: 1 / 1;
+		max-height: 460px;
+	}
+	.shliach-prompt-form {
+		padding: 14px;
+	}
+	.shliach-prompt-form textarea {
+		min-height: 96px;
+	}
+	.shliach-prompt-examples {
+		flex-wrap: nowrap;
+		overflow-x: auto;
+		padding-bottom: 3px;
+		scrollbar-width: none;
+	}
+	.shliach-prompt-examples::-webkit-scrollbar {
+		display: none;
+	}
+	.shliach-prompt-example {
+		flex: 0 0 auto;
+	}
 	.shliach-prompt-row {
-		align-items: stretch;
-		flex-direction: column;
+		grid-template-columns: 1fr;
 	}
 	.shliach-prompt-button {
 		width: 100%;
+	}
+	.shliach-cta-band {
+		margin-bottom: 34px;
+		margin-top: 20px;
+		padding: 22px;
 	}
 }

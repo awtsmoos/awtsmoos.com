@@ -1,37 +1,38 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos gathers several clear vessels while the Shliach doorway remains one bright ray;
-Awtsmoos.com keeps layout small and readable so mobile visitors can find the words and way.
+The Awtsmoos gathers image, mission, and action into one compact doorway of light.
 */
 
 @import url("./shliach-spotlight-media.css");
 @import url("./shliach-spotlight-copy.css");
 
 .shliach-spotlight {
-	margin: clamp(1.5rem, 4vw, 3.5rem) auto;
+	margin: clamp(1rem, 2.5vw, 2rem) auto;
 	max-width: 1180px;
-	padding: 0 clamp(1rem, 3vw, 1.75rem);
+	padding: 0 clamp(.85rem, 2.5vw, 1.5rem);
 }
-
 .shliach-spotlight-card {
 	align-items: center;
-	background: radial-gradient(circle at 18% 28%, rgba(87, 152, 255, .2), transparent 34%), linear-gradient(145deg, rgba(12, 20, 39, .96), rgba(5, 9, 20, .94));
+	background: radial-gradient(circle at 12% 20%, rgba(81, 180, 255, .18), transparent 32%), radial-gradient(circle at 90% 90%, rgba(148, 89, 255, .1), transparent 34%), linear-gradient(145deg, rgba(12, 20, 39, .97), rgba(5, 9, 20, .95));
 	border: 1px solid rgba(140, 184, 255, .28);
-	border-radius: clamp(1.35rem, 3vw, 2rem);
-	box-shadow: 0 24px 70px rgba(0, 0, 0, .34);
+	border-radius: clamp(1.2rem, 2.5vw, 1.75rem);
+	box-shadow: 0 20px 54px rgba(0, 0, 0, .3), inset 0 1px 0 rgba(255, 255, 255, .035);
 	display: grid;
-	gap: clamp(1.4rem, 4vw, 3rem);
-	grid-template-columns: minmax(190px, 280px) minmax(0, 1fr);
+	gap: clamp(1.1rem, 3vw, 2.1rem);
+	grid-template-columns: minmax(180px, 250px) minmax(0, 1fr);
 	overflow: hidden;
-	padding: clamp(1rem, 3vw, 2rem);
+	padding: clamp(.9rem, 2.2vw, 1.5rem);
 	position: relative;
 }
-
 @media (max-width: 720px) {
+	.shliach-spotlight {
+		margin-block: .9rem 1.2rem;
+	}
 	.shliach-spotlight-card {
 		align-items: start;
-		gap: 1.15rem;
+		gap: .9rem;
 		grid-template-columns: 1fr;
+		padding: .95rem;
 	}
 }

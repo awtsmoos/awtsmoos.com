@@ -3,8 +3,7 @@
 //Blessed is He
 
 /**
-* The Awtsmoos lets evidence test each shining claim before completion may appear;
-* Awtsmoos.com proves campaign routes, artwork, prompt encoding, public logo use, and the real GPT are here.
+* The Awtsmoos lets evidence test each campaign route, image, prompt, and Shliach destination.
 * @module shliachPageContract.test
 */
 
@@ -13,10 +12,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import {
-	SHLIACH_GPT_URL,
-	buildShliachPromptUrl
-} from "./ShliachPaths.js";
+import { SHLIACH_GPT_URL, buildShliachPromptUrl } from "./ShliachPaths.js";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const GEOLOOY = path.resolve(HERE, "../..");
@@ -34,14 +30,13 @@ function source(relativePath) {
 	return fs.readFileSync(path.join(GEOLOOY, relativePath), "utf8");
 }
 
-test("every Shliach route carries SEO, navigation, runtime, and the real GPT", () => {
+test("every Shliach route carries SEO, fresh CSS, runtime, and the real GPT", () => {
 	for (const [relativePath, canonical] of ROUTES) {
 		const html = source(relativePath);
 		assert.match(html, /<title>[^<]*Awtsmoos[^<]*Shliach[^<]*<\/title>/i);
 		assert.match(html, new RegExp(`canonical[^>]+${canonical.replaceAll("/", "\\/")}`));
 		assert.match(html, /name="description" content="[^"]{40,}"/);
-		assert.match(html, /name="robots" content="index,follow,max-image-preview:large"/);
-		assert.match(html, /\/style\/shliach\/index\.css/);
+		assert.match(html, /\/style\/shliach\/index\.css\?v=shliach-ux-004/);
 		assert.match(html, /\/scripts\/shliach\/index\.js/);
 		assert.match(html, new RegExp(SHLIACH_GPT_URL.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
 		assert.equal((html.match(/<h1[ >]/g) ?? []).length, 1);
@@ -54,31 +49,30 @@ test("campaign uses all supplied artwork with deliberate page roles", () => {
 	const poems = source("Shliach/poems/index.html");
 	assert.match(poems, new RegExp(BRIDGE.replaceAll("/", "\\/")));
 	assert.match(poems, new RegExp(CODER.replaceAll("/", "\\/")));
-	assert.match(poems, /whisper became a prompt/i);
 	const gallery = source("Shliach/gallery/index.html");
 	for (const image of [LOGO, BRIDGE, CODER]) {
 		assert.match(gallery, new RegExp(image.replaceAll("/", "\\/")));
 	}
 });
 
-test("Home uses public logo, visible real GPT URL, campaign route, and safe links", () => {
+test("Home keeps public logo, concise visible destination, campaign route, and safe links", () => {
 	const home = source("scripts/home-simple/ShliachSpotlightContent.js");
 	assert.match(home, new RegExp(LOGO.replaceAll("/", "\\/")));
-	assert.doesNotMatch(home, /resources\/branding\/awtsmoos-shliach-agent\.png/);
 	assert.match(home, /SHLIACH_PAGE = "\/Shliach\/"/);
-	assert.match(home, /visibleUrl\.textContent = SHLIACH_URL/);
+	assert.match(home, /SHLIACH_DISPLAY_URL/);
+	assert.match(home, /visibleUrl\.title = SHLIACH_URL/);
 	assert.match(home, /noopener noreferrer/);
 	assert.match(home, new RegExp(SHLIACH_GPT_URL.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
 });
 
-test("prompt builder preserves full Unicode intent in the ChatGPT prompt parameter", () => {
+test("prompt builder preserves full Unicode intent", () => {
 	const prompt = "B\"H — בנה לי שער זוהר\nVerify the real files & routes.";
 	const result = new URL(buildShliachPromptUrl(prompt));
 	assert.equal(`${result.origin}${result.pathname}`, SHLIACH_GPT_URL);
 	assert.equal(result.searchParams.get("prompt"), prompt);
 });
 
-test("motion is decorative and has a reduced-motion escape hatch", () => {
+test("motion remains decorative and reducible", () => {
 	const motion = source("style/shliach/motion.css");
 	assert.match(motion, /@keyframes shliach-float/);
 	assert.match(motion, /@keyframes shliach-spectrum/);

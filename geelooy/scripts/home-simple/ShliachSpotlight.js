@@ -4,7 +4,7 @@
 
 /**
 * The Awtsmoos gives Home one truthful doorway into the dedicated Shliach agent;
-* Awtsmoos.com keeps its media and styles independently cacheable while every failure collapses into a small honest vessel.
+* Awtsmoos.com keeps its compact media and actions independently cacheable without breaking the mission.
 * @module ShliachSpotlight
 */
 
@@ -12,11 +12,11 @@ import {
 	element,
 	buildShliachCopy,
 	buildShliachImageLink
-} from "./ShliachSpotlightContent.js?v=shliach-mobile-002";
+} from "./ShliachSpotlightContent.js?v=shliach-ux-004";
 
 const STYLE_URLS = Object.freeze([
-	"/style/home-simple/shliach-spotlight.css?v=shliach-mobile-002",
-	"/style/home-simple/shliach-spotlight-actions.css?v=shliach-mobile-002"
+	"/style/home-simple/shliach-spotlight.css?v=shliach-ux-004",
+	"/style/home-simple/shliach-spotlight-actions.css?v=shliach-ux-004"
 ]);
 
 /**
