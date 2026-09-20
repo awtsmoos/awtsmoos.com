@@ -3,6 +3,7 @@ import { h } from "../ui/core/html.js";
 import { PAGE_SPECS } from "./pageSpecs.js";
 import { createMeshPanel } from "../runtime/mesh/meshPanel.js";
 import { createRemoteDesktopPanel } from "../features/remoteDesktopPanel.js";
+import { createSpeakerPanel } from "../features/speakerPanel.js";
 /** B"H — Chapter 915: Panes learned to host born panels and rescued controls. */
 export function findAppRoot() { return document.querySelector("main") || document.querySelector("#app") || document.querySelector(".app") || document.querySelector(".wrap") || document.querySelector(".container") || document.body; }
 function unsafe(node) { return !node || node.closest(".awt-control-shell") || node.matches("html, body, main, #app, .app, .wrap, .container"); }
@@ -24,7 +25,7 @@ function installCommands() {
   return h("div", { classes:["awt-command-grid"], children:commands.map(([label, command]) => commandCard(label, command)) });
 }
 function commandCard(label, command) { const pre = h("pre", { text:command }); const copy = h("button", { attrs:{ type:"button" }, text:"Copy" }); copy.addEventListener("click", () => navigator.clipboard.writeText(command)); return h("div", { classes:["awt-command-card"], children:[h("strong", { text:label }), pre, copy] }); }
-function bornPanel(spec) { if (spec.key === "mesh") return createMeshPanel(); if (spec.key === "remoteDesktop") return createRemoteDesktopPanel(); return null; }
+function bornPanel(spec) { if (spec.key === "mesh") return createMeshPanel(); if (spec.key === "remoteDesktop") return createRemoteDesktopPanel(); if (spec.key === "speaker") return createSpeakerPanel(); return null; }
 function emptyPanel() { return h("div", { classes:["awt-empty-dashboard"], children:[h("strong", { text:"Controls not found" }), h("span", { text:"The original controls for this page were not detected in the DOM." })] }); }
 function createPane(spec, moved) {
   const body = h("div", { classes:["awt-pane-content"] });

@@ -14,6 +14,11 @@ export const remoteDesktopPage = {
 	key: "remoteDesktop", group: "automation", badges: ["core", "consent"], icon: "preview", emoji: "🖥️",
 	title: "Remote desktop", desc: "Create consent-first watch/control sessions over the tunnel."
 };
+export const speakerPage = {
+	key: "speaker", group: "automation", badges: ["core", "audio"], icon: "speaker", emoji: "🔊",
+	title: "Mac speaker", desc: "Make the Mac speak aloud through its speakers: TTS call-outs, output volume, and voice."
+};
+
 
 export const terminalPage = {
 	key: "terminal", group: "automation", badges: ["advanced"], icon: "terminal", emoji: "⌁",
