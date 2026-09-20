@@ -12,23 +12,24 @@
 	<title>Pong · Awtsmoos Games</title>
 	<link rel="stylesheet" href="./style.css?v=pong-production-002&compact=true">
 	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=player-shell-003&compact=true">
+	<link rel="stylesheet" href="../styles/awp-polish.css?v=awp-001">
 </head>
 <body>
-	<main class="pong-stage" aria-label="Pong match">
+	<main class="pong-stage awp-stage" aria-label="Pong match">
 		<canvas id="pongCanvas" tabindex="0" aria-label="Pong court. Drag on the court or use Up and Down arrow keys."></canvas>
-		<button id="pongPauseButton" class="pong-pause" type="button" aria-pressed="false" hidden>Pause</button>
+		<button id="pongPauseButton" class="pong-pause awp-btn" type="button" aria-pressed="false" hidden>Pause</button>
 
-		<section id="pongReady" class="pong-panel" aria-labelledby="pongTitle">
-			<p class="pong-kicker">B"H · Quick Play</p>
-			<h1 id="pongTitle">Pong</h1>
+		<section id="pongReady" class="pong-panel awp-menu" aria-labelledby="pongTitle">
+			<p class="pong-kicker awp-eyebrow">B"H · Quick Play</p>
+			<h1 id="pongTitle" class="awp-gametitle">Pong</h1>
 			<p>Drag the left paddle or use ↑ ↓. First to 10 wins.</p>
-			<button id="pongStartButton" type="button">Play vs AI</button>
+			<button id="pongStartButton" class="awp-cta" type="button">Play vs AI</button>
 		</section>
 
-		<section id="pongResult" class="pong-panel" aria-labelledby="pongResultTitle" hidden>
+		<section id="pongResult" class="pong-panel awp-menu" aria-labelledby="pongResultTitle" hidden>
 			<h2 id="pongResultTitle">Match complete</h2>
 			<p id="pongResultScore" aria-live="polite">0–0</p>
-			<button id="pongRematchButton" type="button">Rematch</button>
+			<button id="pongRematchButton" class="awp-btn" type="button">Rematch</button>
 			<a href="/games/">All Games</a>
 		</section>
 	</main>

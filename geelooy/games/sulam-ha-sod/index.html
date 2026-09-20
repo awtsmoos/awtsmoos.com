@@ -11,16 +11,16 @@
 	<title>Sulam HaSod</title>
 	<link rel="stylesheet" href="./css/game.css?compact=true">
 	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=player-shell-002&compact=true">
+	<link rel="stylesheet" href="../styles/awp-polish.css?v=awp-001">
 </head>
 <body>
-	<main class="shell">
+	<main class="shell awp-stage">
 		<canvas id="game" width="960" height="540" aria-label="Sulam HaSod platformer canvas"></canvas>
-
-		<section class="hud glass" aria-label="game status overlay">
+		<section class="hud glass awp-hud" aria-label="game status overlay">
 			<div class="hudButtons">
 				<button id="actionsBtn" class="hamburger" aria-label="Actions menu" aria-haspopup="true" aria-expanded="false"><span></span><span></span><span></span></button>
 			</div>
-			<div id="actionsMenu" class="actionsMenu glass" hidden>
+			<div id="actionsMenu" class="actionsMenu glass awp-menu" hidden>
 				<button id="mainMenuAction">Main Menu</button>
 				<button id="fullscreenBtn">Fullscreen</button>
 				<button id="webcamBtn">Enable Webcam Bubble</button>
@@ -35,12 +35,16 @@
 				<span id="stats" class="stats">Locked · 0/0 coins</span>
 			</div>
 		</section>
-
 		<section id="menu" class="menu glass">
 			<p class="eyebrow">B"H · Living Kabbalistic Dream Platformer</p>
 			<h1>Sulam HaSod</h1>
-			<p id="menuStatus">Choose a chamber, study the coins, unlock the next gate, or enter the Shefa shop.</p>
-			<div class="menuActions"><button id="playBtn">Continue</button><button id="levelsTab" class="ghost">Levels</button><button id="shopTab" class="ghost">Shop</button><button id="instructionsBtn" class="ghost">Help</button></div>
+			<p id="menuStatus">Continue your climb, or reveal one deeper chamber when you need it.</p>
+			<div class="menuActions" role="toolbar" aria-label="Menu choices">
+				<button id="playBtn">Continue</button>
+				<button id="levelsTab" class="ghost" aria-controls="levelsPanel" aria-expanded="false">Levels</button>
+				<button id="shopTab" class="ghost" aria-controls="shopPanel" aria-expanded="false">Shop</button>
+				<button id="instructionsBtn" class="ghost" aria-controls="instructions" aria-expanded="false">Help</button>
+			</div>
 			<article id="instructions" class="instructions" hidden>
 				<b>How to play</b><br>
 				Desktop: ← → or A/D to move, Space/W to jump.<br>
@@ -48,29 +52,28 @@
 				Coins collected inside a level are unbanked until the door is finished. Leaving to the menu forfeits the run purse.<br>
 				Actions: ☰ opens Main Menu, Fullscreen, Webcam Bubble, and Camera Zoom. Webcam asks for video only.
 			</article>
-			<section class="menuPanel"><h2>Level Selector</h2><div id="levelGrid" class="levelGrid"></div></section>
-			<section class="menuPanel marketPanel">
+			<section id="levelsPanel" class="menuPanel" hidden>
+				<h2>Level Selector</h2>
+				<div id="levelGrid" class="levelGrid"></div>
+			</section>
+			<section id="shopPanel" class="menuPanel marketPanel" hidden>
 				<div class="marketHeader"><h2>Shefa Shop</h2><p id="shopShefa" class="shopShefa">Shefa 0</p></div>
 				<div class="marketUnlock"><div><b>Paid Gate Unlock</b><span id="marketNext">Next paid unlock: —</span></div><button id="marketUnlock">Unlock</button></div>
 				<div id="marketWallet" class="marketWallet" aria-label="coin wallet breakdown"></div>
 				<div id="shopGrid" class="shopGrid"></div>
 			</section>
 		</section>
-
 		<section id="exitConfirm" class="confirmModal glass" hidden>
 			<h2>Exit to Main Menu?</h2>
 			<p id="exitLossText">Unbanked level coins will be lost.</p>
 			<div><button id="confirmExitBtn">Yes, forfeit run</button><button id="cancelExitBtn" class="ghost">Keep climbing</button></div>
 		</section>
-
 		<section id="successBurst" class="successBurst" hidden>
 			<div class="starSeal"><i></i><i></i><i></i></div>
 			<b id="successTitle">Level Complete</b>
 			<span id="successBonus">Bonus +0 Shefa</span>
 		</section>
-
 		<section class="touch" aria-label="mobile controls"><div class="movePad" aria-label="movement controls"><button id="leftBtn" class="moveBtn leftBtn">Left</button><button id="rightBtn" class="moveBtn rightBtn">Right</button></div><button id="jump" class="jump">Jump</button></section>
-
 		<aside id="coinModal" class="coinModal glass" hidden>
 			<button id="coinClose" class="coinClose">×</button>
 			<h2>Talmudic Coin Ladder</h2>
@@ -81,6 +84,7 @@
 	</main>
 	<script type="module" src="/games/scripts/runtime/index.js?compact=true&v=runtime-001"></script>
 	<script type="module" src="./js/main.js?compact=true"></script>
+	<script type="module" src="./js/ui/menuDisclosure.js?compact=true"></script>
 	<script type="module" async src="/games/scripts/player-shell/index.js?v=player-shell-001&compact=true"></script>
 </body>
 </html>

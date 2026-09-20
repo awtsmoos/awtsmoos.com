@@ -15,10 +15,11 @@ Awtsmoos.com lets motion remain the hero: the HUD becomes a compass, the menu be
 	<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='28' fill='%2307121a' stroke='%23ffdf6c' stroke-width='4'/%3E%3Ccircle cx='32' cy='32' r='12' fill='%237edcff'/%3E%3C/svg%3E">
 	<link rel="stylesheet" href="./style.css?v=20260824_ux_2&compact=true">
 	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=player-shell-002&compact=true">
+	<link rel="stylesheet" href="../styles/awp-polish.css?v=awp-001">
 </head>
 <body>
 	<canvas id="game" aria-label="Nitzotz.io living city arena"></canvas>
-	<header class="hud" aria-label="Arena status">
+	<header class="hud awp-hud" aria-label="Arena status">
 		<div class="brand-row">
 			<div class="brand"><span class="brand-kicker">Living city arena</span><b>Nitzotz.io</b><span id="levelText">District 1</span></div>
 			<div class="hud-actions" aria-label="Arena controls">
@@ -31,7 +32,7 @@ Awtsmoos.com lets motion remain the hero: the HUD becomes a compass, the menu be
 			<div class="stat rank-stat"><small>RANK</small><strong id="rankText">1/5</strong></div>
 			<div class="stat timer"><small>TIME</small><strong id="timeText">100</strong></div>
 		</div>
-		<section class="mission" aria-label="Current objective">
+		<section class="mission awp-glass" aria-label="Current objective">
 			<div class="mission-main"><small id="sefText">Malchus</small><strong id="objectiveText">Gather what fits. Grow.</strong></div>
 			<span id="progressText">25 / 390</span>
 			<meter id="sparkMeter" min="0" max="1" value="0" aria-label="District progress"></meter>

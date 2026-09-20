@@ -23,10 +23,11 @@
 	<link rel="stylesheet" href="styles/battlefield.css?compact=true">
 	<link rel="stylesheet" href="styles/sheet.css?compact=true">
 	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=player-shell-003&compact=true">
+	<link rel="stylesheet" href="../styles/awp-polish.css?v=awp-001">
 </head>
 <body>
-	<main id="main-menu">
-		<h1>Migdol 🗼</h1>
+	<main id="main-menu" class="awp-menu">
+		<h1 class="awp-gametitle">Migdol 🗼</h1>
 		<p>Tap open ground to build. Tap a tower for upgrades, range, stats, or selling.</p>
 		<label for="map-select">Map</label>
 		<select id="map-select"></select>
@@ -36,20 +37,20 @@
 			<option value="standard" selected>Standard · 20 health</option>
 			<option value="hard">Hard · 15 health</option>
 		</select>
-		<button id="start-game" type="button">Defend the Gate</button>
+		<button id="start-game" class="awp-cta" type="button">Defend the Gate</button>
 	</main>
 
 	<main id="game-wrapper" class="hidden">
 		<section id="game-container" aria-label="Migdol battlefield">
 			<canvas id="gameCanvas" tabindex="0" aria-label="Tower defense battlefield. Tap open ground to build or a tower to manage it."></canvas>
-			<div id="status-bar" role="status" aria-live="polite">
+			<div id="status-bar" class="awp-hud" role="status" aria-live="polite">
 				<span>🌊 <strong id="wave">0</strong></span>
 				<span>💰 <strong id="perutas">0</strong></span>
 				<span>❤️ <strong id="health">0</strong></span>
 			</div>
 			<div id="play-controls" aria-label="Battle controls">
-				<button id="start-wave" type="button">Start Wave</button>
-				<button id="pause-button" type="button" aria-pressed="false">Pause</button>
+				<button id="start-wave" class="awp-btn" type="button">Start Wave</button>
+				<button id="pause-button" class="awp-btn" type="button" aria-pressed="false">Pause</button>
 				<button id="speed-button" type="button" aria-label="Simulation speed 1 times">1×</button>
 			</div>
 		</section>

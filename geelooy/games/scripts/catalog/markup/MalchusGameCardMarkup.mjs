@@ -29,7 +29,7 @@ export function renderMalchusGameCardMarkup(chochmahGameRecord) {
 	const yesodGameId = escapeHodHtml(chochmahGameRecord.id);
 
 	return `
-		<article class="gameCard${hodFeaturedClass} ${hodPaletteClass}" data-game-id="${yesodGameId}">
+		<article class="gameCard${hodFeaturedClass} ${hodPaletteClass} awp-card" data-game-id="${yesodGameId}">
 			<span class="gameAura" aria-hidden="true"></span>
 			<header class="gameCard__header">
 				<span class="gameIcon" aria-hidden="true">${escapeHodHtml(chochmahGameRecord.icon)}</span>
