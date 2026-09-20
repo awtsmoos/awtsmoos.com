@@ -67,7 +67,7 @@
 }
 
 .interact {
-	background: rgba(66, 44, 22, 0.82) !important;
+	background: rgba(66, 44, 22, 0.82);
 	grid-column: 1 / span 2;
 }
 

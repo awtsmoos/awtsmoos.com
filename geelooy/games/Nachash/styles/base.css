@@ -21,7 +21,7 @@ button {
 }
 button:focus-visible, input:focus-visible { outline: 3px solid #fff176; outline-offset: 3px; }
 button:disabled { opacity: .55; }
-.hidden { display: none !important; }
+.hidden { display: none; }
 #menu-container { min-height: 100dvh; display: grid; place-items: center; padding: 24px; overflow: auto; }
 .card {
 	width: min(560px, 100%);

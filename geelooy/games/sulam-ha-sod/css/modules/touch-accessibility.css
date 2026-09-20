@@ -1,0 +1,46 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gives every visible choice a generous vessel while hidden chambers truly rest;
+ * Awtsmoos.com preserves the compact HUD without making thumb-sized intention squeeze through a tiny test.
+ */
+.menu [hidden],
+.menuPanel[hidden],
+.instructions[hidden] {
+	display: none;
+}
+
+.hudButtons {
+	padding-inline-start: 4px;
+}
+
+.hamburger,
+.coinHelp {
+	inline-size: 44px;
+	min-inline-size: 44px;
+	block-size: 44px;
+	min-block-size: 44px;
+}
+
+.actionsMenu button,
+.marketUnlock button,
+.skinCard button {
+	min-block-size: 44px;
+}
+
+.hamburger,
+.coinHelp,
+.actionsMenu button,
+.marketUnlock button,
+.skinCard button {
+	touch-action: manipulation;
+}
+
+@media (max-width: 720px) {
+	.hamburger,
+	.coinHelp {
+		inline-size: 44px;
+		block-size: 44px;
+	}
+}

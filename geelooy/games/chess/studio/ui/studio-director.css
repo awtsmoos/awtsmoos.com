@@ -37,12 +37,12 @@
 	box-shadow: inset 0 0 0 1px rgba(130, 222, 255, .36);
 }
 .studio-inline-advanced {
-	margin: 0 !important;
-	border: 0 !important;
-	background: transparent !important;
+	margin: 0;
+	border: 0;
+	background: transparent;
 }
 .studio-inline-advanced > summary {
-	padding: 8px 0 !important;
+	padding: 8px 0;
 	color: #b7c5d9;
 }
 .studio-advanced-3d {
@@ -74,7 +74,7 @@
 	width: 100%;
 }
 .studio-toggle-field {
-	grid-template-columns: 1fr auto !important;
+	grid-template-columns: 1fr auto;
 	align-items: center;
 	min-height: 44px;
 	padding: 8px 10px;

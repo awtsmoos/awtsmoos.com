@@ -23,7 +23,7 @@ button, select { font: inherit; }
 button { min-height: 48px; border: 0; border-radius: 12px; padding: 11px 16px; background: var(--accent); color: #fff; font-weight: 800; cursor: pointer; touch-action: manipulation; }
 button:disabled { opacity: .45; cursor: default; }
 button:focus-visible, select:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
-.hidden { display: none !important; }
+.hidden { display: none; }
 
 #main-menu {
 	display: grid;

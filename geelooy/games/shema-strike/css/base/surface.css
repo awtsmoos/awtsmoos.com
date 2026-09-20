@@ -27,7 +27,7 @@
 }
 
 .shema-strike .hidden {
-	display: none !important;
+	display: none;
 }
 
 .shema-strike.reduced-flash #game-canvas {

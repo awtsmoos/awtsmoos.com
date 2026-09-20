@@ -68,7 +68,7 @@
 .telemetry-pool,
 .status-strip,
 .director-strip {
-	display: none !important;
+	display: none;
 }
 
 #message {

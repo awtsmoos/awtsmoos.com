@@ -86,7 +86,7 @@ body {
 }
 
 .hidden {
-	display: none !important;
+	display: none;
 }
 
 @media (pointer: fine) {

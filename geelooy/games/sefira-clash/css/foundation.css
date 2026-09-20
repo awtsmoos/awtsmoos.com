@@ -53,8 +53,8 @@ canvas,
 .touchControls,
 .touchControls * {
 	font: inherit;
-	touch-action: none !important;
-	-webkit-user-drag: none !important;
+	touch-action: none;
+	-webkit-user-drag: none;
 }
 
 button:focus-visible,

@@ -20,7 +20,7 @@
 }
 
 #sefira-boot-manifest.sefiraBootManifest[hidden] {
-	display: none !important;
+	display: none;
 }
 
 #sefira-boot-manifest .sefiraBootManifest__card {

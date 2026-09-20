@@ -52,7 +52,7 @@
 }
 #play-controls button { min-width: 96px; }
 #start-wave { background: var(--good); }
-#speed-button { min-width: 58px !important; }
+#speed-button { min-width: 58px; }
 @media (max-width: 520px) {
 	#status-bar span { min-width: 58px; }
 	#play-controls button { min-width: 86px; padding-inline: 12px; }
