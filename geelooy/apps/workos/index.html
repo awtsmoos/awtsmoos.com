@@ -1,0 +1,33 @@
+<!-- B"H | Boruch Hashem | Blessed is He -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WorkOS — Awtsmoos</title>
+<link rel="stylesheet" href="ui/styles.css">
+<script src="core/util.js"></script>
+<script src="core/events.js"></script>
+<script src="core/entities.js"></script>
+<script src="core/graph.js"></script>
+<script src="core/work.js"></script>
+<script src="core/rooms.js"></script>
+<script src="core/provenance.js"></script>
+<script src="core/capsule.js"></script>
+<script src="core/seed.js"></script>
+<script src="core/store.js"></script>
+<script src="ui/components.js"></script>
+<script src="ui/views/home.js"></script>
+<script src="ui/views/mission.js"></script>
+<script src="ui/app.js"></script>
+</head>
+<body>
+<div id="boot-error" hidden>
+  <div class="boot-error-card">
+    <h1>WorkOS could not start</h1>
+    <p>The WorkOS core (<code>WorkOS</code> global) was not found. The core scripts in <code>core/</code> must load before the UI.</p>
+  </div>
+</div>
+<div id="app" aria-live="polite"></div>
+</body>
+</html>
