@@ -10,16 +10,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
         <link rel="stylesheet" href="./styles.css">
+        <link rel="stylesheet" href="../styles/awp-polish.css?v=awp-001">
     </head>
-<body class="pdf-glass">
+<body class="pdf-glass awp-app awp-app-pdf">
+    <div class="awp-ambient" aria-hidden="true"></div>
 
     <div class="container">
-        <header>
-            <h1>PDF to Hi-Res Image</h1>
+        <header class="awp-reveal">
+            <h1 class="awp-title-glow">PDF to Hi-Res Image</h1>
             <p class="subtitle">Drop files below. Maximum resolution. No stretching.</p>
         </header>
 
-        <div class="drop-zone" id="drop-zone">
+        <div class="drop-zone awp-card-lift" id="drop-zone">
             <i class="fa-regular fa-file-pdf"></i>
             <h3>Drag & Drop PDFs here</h3>
             <p>or click to browse</p>
@@ -28,7 +30,7 @@
 
         <div class="controls" id="controls">
             <div class="stats" id="status-text">0 files loaded</div>
-            <button class="btn" id="convert-btn">
+            <button class="btn awp-cta" id="convert-btn">
                 <i class="fa-solid fa-bolt"></i> Convert & Download
             </button>
         </div>
@@ -130,7 +132,7 @@
 
         async function createCard(data) {
             const div = document.createElement('div');
-            div.className = 'file-card';
+            div.className = 'file-card awp-reveal';
             div.id = `card-${data.id}`;
 
             // Create canvas for thumbnail (Page 1 only)

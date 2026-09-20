@@ -11,6 +11,7 @@
 	<meta name="theme-color" content="#07100c">
 	<title>Messages & Torah Chat | Awtsmoos.com</title>
 	<link rel="stylesheet" href="./critical.css?v=messaging-boot-003">
+	<link rel="stylesheet" href="../styles/awp-polish.css?v=awp-001">
 	<style>
 		/* B"H — last-resort fallback if critical.css cannot load: never a blank page. */
 		html,body{margin:0;min-height:100%;background:#020a06;color:#edf6f0;
@@ -24,7 +25,7 @@
 			border:1px solid #2c5b43;border-radius:999px;color:#e9f6ee;text-decoration:none;}
 	</style>
 </head>
-<body data-messaging-page>
+<body data-messaging-page class="awp-app awp-app-chat">
 	<div class="messaging-page-glow" aria-hidden="true"></div>
 	<div id="messagingAppRoot">
 		<main class="messaging-loading-state" aria-busy="true" aria-labelledby="messaging-fallback-title">
@@ -32,14 +33,14 @@
 				<span class="messaging-loading-mark" aria-hidden="true"></span>
 				<span>Opening Awtsmoos communications…</span>
 			</div>
-			<section class="messaging-empty-state">
+			<section class="messaging-empty-state awp-reveal">
 				<div class="messaging-empty-mark" aria-hidden="true">א</div>
 				<h1 id="messaging-fallback-title">Messages & Torah Chat</h1>
 				<p>The doorway is ready. Live conversations and Torah sources are connecting now.</p>
 				<nav aria-label="Messaging fallback navigation">
-					<a class="messaging-empty-action" href="/">Awtsmoos home</a>
-					<a class="messaging-empty-action" href="/social-hub/">Social Hub</a>
-					<a class="messaging-empty-action" href="/heichelos/">Explore Heichelos</a>
+					<a class="messaging-empty-action awp-cta" href="/">Awtsmoos home</a>
+					<a class="messaging-empty-action awp-cta" href="/social-hub/">Social Hub</a>
+					<a class="messaging-empty-action awp-cta" href="/heichelos/">Explore Heichelos</a>
 				</nav>
 				<noscript><p>Live messaging requires JavaScript, but public Awtsmoos routes remain available above.</p></noscript>
 			</section>

@@ -14,19 +14,21 @@ Awtsmoos.com keeps one quiet treasury, now carrying the same future light withou
 	<title>Awtsmoos Wallet — Balances, Credits & Ownership</title>
 	<link rel="stylesheet" href="./style.css?v=wallet-currency-010">
 	<link rel="stylesheet" href="../../style/future-system/index.css?v=future-004">
+	<link rel="stylesheet" href="../styles/awp-polish.css?v=awp-001">
 </head>
-<body data-future-page="wallet">
+<body data-future-page="wallet" class="awp-app awp-app-wallet">
+	<div class="awp-ambient" aria-hidden="true"></div>
 	<main class="wallet-shell">
-		<section class="hero" data-future-hero data-future-surface data-future-aura data-future-reveal>
+		<section class="hero awp-hero" data-future-hero data-future-surface data-future-aura data-future-reveal>
 			<div>
-				<p class="eyebrow">B"H · Awtsmoos Wallet</p>
-				<h1>One treasury. Every kind of value.</h1>
+				<p class="eyebrow awp-eyebrow">B"H · Awtsmoos Wallet</p>
+				<h1 class="awp-title-glow awp-reveal">One treasury. Every kind of value.</h1>
 				<p class="lead">Send promotional Perutas, top up purchased Perutas, inspect app and game credits, or own optional supporter goods. The ledger keeps exact provenance visible instead of collapsing everything into one unexplained number.</p>
 				<nav class="row wallet-primary-nav" aria-label="Primary Wallet actions">
-					<a href="#send" data-future-action><span data-future-icon="send"></span>Send Perutas</a>
-					<a href="#buy" data-future-action><span data-future-icon="wallet"></span>Buy Perutas</a>
-					<a href="#credits" data-future-action><span data-future-icon="spark"></span>Product Credits</a>
-					<a href="#store" data-future-action><span data-future-icon="spark"></span>Treasury Shop</a>
+					<a class="awp-cta" href="#send" data-future-action><span data-future-icon="send"></span>Send Perutas</a>
+					<a class="awp-cta" href="#buy" data-future-action><span data-future-icon="wallet"></span>Buy Perutas</a>
+					<a class="awp-cta" href="#credits" data-future-action><span data-future-icon="spark"></span>Product Credits</a>
+					<a class="awp-cta" href="#store" data-future-action><span data-future-icon="spark"></span>Treasury Shop</a>
 				</nav>
 				<details class="wallet-more">
 					<summary>More</summary>
@@ -34,7 +36,7 @@ Awtsmoos.com keeps one quiet treasury, now carrying the same future light withou
 						<a href="./docs.html">API Guide</a><a href="/login">Login</a></div>
 				</details>
 			</div>
-			<aside class="balance-card" aria-live="polite" data-future-surface data-future-aura>
+			<aside class="balance-card awp-glass awp-card-lift" aria-live="polite" data-future-surface data-future-aura>
 				<span>Total balance</span><strong id="balance">Loading…</strong><em id="usdValue">Checking account…</em>
 				<div class="balance-breakdown">
 					<div><span>Promotional · sendable</span><b id="promotionalBalance">—</b></div>
@@ -43,8 +45,8 @@ Awtsmoos.com keeps one quiet treasury, now carrying the same future light withou
 			</aside>
 		</section>
 		<section class="grid wallet-actions">
-			<form id="transferForm" class="panel transfer-panel" data-future-surface data-future-reveal>
-				<p class="eyebrow">Person to person</p>
+			<form id="transferForm" class="panel transfer-panel awp-reveal" data-future-surface data-future-reveal>
+				<p class="eyebrow awp-eyebrow">Person to person</p>
 				<h2 id="send">Send promotional Perutas</h2>
 				<p class="muted">Send to an @alias. Purchased Perutas stay account-bound and cannot be transferred.</p>
 				<label for="recipientAlias">Recipient alias</label>
@@ -60,8 +62,8 @@ Awtsmoos.com keeps one quiet treasury, now carrying the same future light withou
 				<button id="transferBtn" type="submit"><span data-future-icon="send"></span>Send promotional Perutas</button>
 				<p id="transferStatus" class="transfer-status" role="status">Enter an @alias and amount to prepare a send.</p>
 			</form>
-			<div id="buy" class="panel checkout-panel" data-future-surface data-future-reveal>
-				<p class="eyebrow">Verified top-up</p><h2>Buy purchased Perutas</h2>
+			<div id="buy" class="panel checkout-panel awp-reveal" data-future-surface data-future-reveal>
+				<p class="eyebrow awp-eyebrow">Verified top-up</p><h2>Buy purchased Perutas</h2>
 				<p class="muted">1¢ = 500 purchased Perutas · 2¢ = 1,000. Provider minimum: $1.00 = 50,000 purchased Perutas. Closed-loop value only; no cash-out.</p>
 				<label for="dollars">USD amount</label>
 				<input id="dollars" type="number" min="1" max="250" step="0.01" value="5" inputmode="decimal">
@@ -72,8 +74,8 @@ Awtsmoos.com keeps one quiet treasury, now carrying the same future light withou
 		</section>
 		<div id="creditPortfolioMount" data-future-reveal></div>
 		<div id="storeMount" data-future-reveal>
-			<section id="store" class="panel treasury-shop" data-future-surface>
-				<p class="eyebrow">Optional supporter goods</p><h2>Treasury Shop</h2>
+			<section id="store" class="panel treasury-shop awp-reveal" data-future-surface>
+				<p class="eyebrow awp-eyebrow">Optional supporter goods</p><h2>Treasury Shop</h2>
 				<p class="muted">Loading server-live Wallet goods…</p>
 			</section>
 		</div>

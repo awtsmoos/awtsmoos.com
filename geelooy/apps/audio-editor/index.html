@@ -12,15 +12,17 @@
 	<title>Awtsmoos Pro Audio Editor</title>
 	<link rel="stylesheet" href="style.css">
 	<link rel="stylesheet" href="accessibility.css">
+	<link rel="stylesheet" href="../styles/awp-polish.css?v=awp-001">
 </head>
-<body>
+<body class="awp-app awp-app-audio">
+	<div class="awp-ambient" aria-hidden="true"></div>
 	<div class="app-container">
-		<header>
-			<h1>B"H Pro Audio Editor</h1>
+		<header class="awp-glass">
+			<h1 class="awp-title-glow awp-reveal">B"H Pro Audio Editor</h1>
 			<div class="header-controls" aria-label="Project actions">
-				<button id="add-track-btn" class="btn primary"><span class="material-icons" aria-hidden="true">add</span> Add Audio</button>
+				<button id="add-track-btn" class="btn primary awp-cta"><span class="material-icons" aria-hidden="true">add</span> Add Audio</button>
 				<input type="file" id="file-input" accept="audio/*" multiple hidden>
-				<button id="export-btn" class="btn success" disabled><span class="material-icons" aria-hidden="true">save_alt</span> Export</button>
+				<button id="export-btn" class="btn success awp-cta" disabled><span class="material-icons" aria-hidden="true">save_alt</span> Export</button>
 			</div>
 		</header>
 		<main class="editor-workspace" aria-label="Audio timeline">
