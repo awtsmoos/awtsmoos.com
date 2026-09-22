@@ -8,6 +8,7 @@ const { economyRoutes } = require("./routeGroups/economyRoutes.js");
 const { previewRoutes } = require("./routeGroups/previewRoutes.js");
 const { dataRoutes } = require("./routeGroups/dataRoutes.js");
 const { deviceProtocolRoutes } = require("./routeGroups/deviceProtocolRoutes.js");
+const { appApiRoutes } = require("./routeGroups/appApiRoutes.js");
 
 /**
  * @file Composes Tunnel Control APIs from explicit security and application domains.
@@ -23,7 +24,8 @@ const routeTable = Object.freeze({
 	...economyRoutes,
 	...previewRoutes,
 	...dataRoutes,
-	...deviceProtocolRoutes
+	...deviceProtocolRoutes,
+	...appApiRoutes
 });
 
 module.exports = {

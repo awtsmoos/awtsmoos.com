@@ -11,6 +11,7 @@
  */
 
 const TUNNEL_SCOPE = Object.freeze({
+	API: "awtsmoos.api",
 	ADMIN: "tunnel.admin",
 	BROWSER: "tunnel.browser",
 	COMMAND: "tunnel.command",
@@ -45,7 +46,8 @@ const CHATGPT_DEFAULT_TUNNEL_SCOPES = Object.freeze([
 
 const CHATGPT_ALLOWED_TUNNEL_SCOPES = Object.freeze([
 	...CHATGPT_DEFAULT_TUNNEL_SCOPES,
-	TUNNEL_SCOPE.ADMIN
+	TUNNEL_SCOPE.ADMIN,
+	TUNNEL_SCOPE.API
 ]);
 
 const OAUTH_SCOPE_DESCRIPTIONS = Object.freeze({
@@ -56,7 +58,8 @@ const OAUTH_SCOPE_DESCRIPTIONS = Object.freeze({
 	[TUNNEL_SCOPE.BROWSER]: "Control authorized browser sessions.",
 	[TUNNEL_SCOPE.MISSION]: "Coordinate delegated mission agents.",
 	[TUNNEL_SCOPE.ROOM]: "Create and mutate shared mission rooms.",
-	[TUNNEL_SCOPE.ADMIN]: "Perform administrative tunnel operations."
+	[TUNNEL_SCOPE.ADMIN]: "Perform administrative tunnel operations.",
+	[TUNNEL_SCOPE.API]: "Call Awtsmoos application APIs (social, heichelos, series, posts) through the tunnel gateway."
 });
 
 function withProfile(scopes) {

@@ -31,6 +31,8 @@ const agentLinks = Object.freeze({
 	oauthMetadataAlias: oauth.metadataAlias,
 	deviceLogin: oauth.deviceVerificationUri,
 	myDevice: `${BASE_URL}/api/tunnel/control/my-device`,
+	appApiCatalog: `${BASE_URL}/api/tunnel/control/app-api/catalog`,
+	appApiCall: `${BASE_URL}/api/tunnel/control/app-api/call`,
 	codeEditor: `${BASE_URL}/apps/code`,
 	virtualOs: `${BASE_URL}/os`
 });
