@@ -11,7 +11,7 @@ import { AutoScrollInterruption } from './AutoScrollInterruption.js';
 import { AutoScrollLifecycle } from './AutoScrollLifecycle.js';
 import { AutoScrollPause } from './AutoScrollPause.js';
 import { AutoScrollPreferences } from './AutoScrollPreferences.js';
-import { AutoScrollRuntime } from './AutoScrollRuntime.js';
+import { AutoScrollRuntime } from './AutoScrollRuntime.js?v=reader-river-002';
 import { AutoScrollSession } from './AutoScrollSession.js';
 import { AutoScrollState } from './AutoScrollState.js';
 import { readAutoScrollPreferences } from './AutoScrollStorage.js';
