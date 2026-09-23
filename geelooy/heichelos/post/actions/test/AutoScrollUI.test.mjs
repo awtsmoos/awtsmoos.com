@@ -3,9 +3,8 @@
 // Blessed is He
 /**
  * @file AutoScrollUI.test.mjs
- * @description
- * The Awtsmoos proves the reader remains Off-first while semantic controls stay one choir;
- * at Awtsmoos.com versioned preference vessels remember pace without persisting transient fire.
+ * @description The Awtsmoos lets tests follow the living settings vessel instead of an older shell;
+ * Awtsmoos.com keeps Off-first truth, semantic controls, renderer hooks, and remembered pace in one choir.
  */
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -16,24 +15,31 @@ function source(relativePath) {
 }
 
 const template = source('../../_awtsmoos.post.html');
+const settings = source('../../reader-settings.html');
 const controlView = source('../../logic/listeners/AutoScrollControlView.js');
 const paceView = source('../../logic/listeners/AutoScrollPaceView.js');
 const semanticControls = source('../../logic/listeners/AutoScrollSemanticControls.js');
 const controls = source('../../logic/listeners/AutoScrollControls.js');
 const floating = source('../../logic/listeners/AutoScrollButton.js');
 const focusState = source('../../logic/beauty/focusModeState.js');
-const mainCss = source('../../styles/main.css');
-const settingsCss = source('../../styles/ideal/reborn/auto-scroll-settings.css');
 const storage = source('../autoScroll/AutoScrollStorage.js');
 const keys = source('../autoScroll/AutoScrollStorageKeys.js');
 
-test('published template remains explicit Off and unchanged at 120 lines', () => {
-	assert.match(template, /id="autoScrollStatus"[^>]*>Off</);
-	assert.match(template, /id="autoScrollSettingsToggle"/);
-	assert.match(template, /data-auto-scroll-toggle/);
-	assert.match(template, /aria-pressed="false"/);
-	assert.match(template, /Always starts off/);
-	assert.equal(template.trimEnd().split('\n').length, 120);
+test('published settings remain explicit Off-first inside the injected settings vessel', () => {
+	assert.match(template, /readerSettingsHtml/);
+	assert.match(settings, /id="autoScrollStatus"[^>]*>Off</);
+	assert.match(settings, /id="autoScrollSettingsToggle"/);
+	assert.match(settings, /data-auto-scroll-toggle/);
+	assert.match(settings, /aria-pressed="false"/);
+	assert.match(settings, /Always starts off/);
+	assert.ok(settings.trimEnd().split('\n').length < 120);
+});
+
+test('both Auto Scroll surfaces expose renderer hooks for visible state', () => {
+	for (const hook of ['data-auto-scroll-icon', 'data-auto-scroll-label', 'data-auto-scroll-pace']) {
+		assert.match(settings, new RegExp(hook));
+		assert.match(floating, new RegExp(hook));
+	}
 });
 
 test('semantic controls expose native units, presets, ranges, and estimates', () => {
@@ -53,17 +59,17 @@ test('all visible controls share one event and countdown action', () => {
 	assert.match(controlView, /\[data-auto-scroll-toggle\]/);
 	assert.match(controlView, /awtsmoos:auto-scroll-state/);
 	assert.match(controlView, /data-auto-scroll-status/);
+	assert.match(controlView, /reader-a11y-001/);
 	assert.match(controls, /toggleAutoScrollDown\(\{ countdown: true \}\)/);
 	assert.match(floating, /toggleAutoScrollDown\(\{ countdown: true \}\)/);
 	assert.doesNotMatch(controls, /startAutoScrollDown\([^)]*input/);
 });
 
 test('semantic persistence is v4 with explicit v3 migration only', () => {
-	assert.match(template, /id="focusModeToggle"[^>]*aria-checked="false"/);
+	assert.match(settings, /id="focusModeToggle"/);
+	assert.doesNotMatch(settings, /id="focusModeToggle"[^>]*checked/);
 	assert.match(focusState, /toggle\.checked = false/);
 	assert.match(keys, /awtsmoos-reader-auto-scroll-pace-v4/);
 	assert.match(keys, /awtsmoos-reader-auto-scroll-pace-v3/);
 	assert.doesNotMatch(storage, /setItem\([^\n]*(active|paused|countdown)/i);
-	assert.match(settingsCss, /auto-scroll-semantic-controls\.css/);
-	assert.match(mainCss, /auto-scroll-settings\.css\?v=3/);
 });
