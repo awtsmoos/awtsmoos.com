@@ -12,11 +12,11 @@ import {
 	element,
 	buildShliachCopy,
 	buildShliachImageLink
-} from "./ShliachSpotlightContent.js?v=shliach-ux-004";
+} from "./ShliachSpotlightContent.js?v=shliach-ux-005";
 
 const STYLE_URLS = Object.freeze([
-	"/style/home-simple/shliach-spotlight.css?v=shliach-ux-004",
-	"/style/home-simple/shliach-spotlight-actions.css?v=shliach-ux-004"
+	"/style/home-simple/shliach-spotlight.css?v=shliach-ux-005",
+	"/style/home-simple/shliach-spotlight-actions.css?v=shliach-ux-005"
 ]);
 
 /**

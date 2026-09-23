@@ -3,7 +3,7 @@
 //Blessed is He
 
 /**
-* The Awtsmoos proves that a compact Home doorway still carries the exact Shliach mission.
+* The Awtsmoos proves that a compact Home doorway still carries the exact Shliach mission while each visual release reaches the visitor fresh.
 * @module homeShliachSpotlightContract.test
 */
 
@@ -16,6 +16,7 @@ import { fileURLToPath } from "node:url";
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const GPT_ID = "g-6a03feea8398819192067ae3dbfa449c-awtsmoos-shliach-agent";
 const PUBLIC_LOGO = "file_000000001aa071f5afcedcf09919246e.png";
+const UX_VERSION = "shliach-ux-005";
 
 function source(name) {
 	return fs.readFileSync(path.join(HERE, name), "utf8");
@@ -24,8 +25,10 @@ function source(name) {
 test("Home boots the real compact Awtsmoos Shliach spotlight", () => {
 	const entry = source("index.js");
 	const content = source("ShliachSpotlightContent.js");
+	const spotlight = source("ShliachSpotlight.js");
 	assert.match(entry, /installShliachSpotlight\(document\)/);
-	assert.match(entry, /shliach-ux-004/);
+	assert.match(entry, new RegExp(UX_VERSION));
+	assert.match(spotlight, new RegExp(UX_VERSION));
 	assert.match(content, new RegExp(GPT_ID));
 	assert.match(content, /authenticated Awtsmoos APIs/);
 	assert.match(content, /noopener noreferrer/);

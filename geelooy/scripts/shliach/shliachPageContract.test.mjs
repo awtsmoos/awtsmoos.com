@@ -3,7 +3,7 @@
 //Blessed is He
 
 /**
-* The Awtsmoos lets evidence test each campaign route, image, prompt, and Shliach destination.
+* The Awtsmoos lets evidence test each campaign route, image, prompt, and Shliach destination while every visual generation arrives fresh.
 * @module shliachPageContract.test
 */
 
@@ -16,6 +16,7 @@ import { SHLIACH_GPT_URL, buildShliachPromptUrl } from "./ShliachPaths.js";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const GEOLOOY = path.resolve(HERE, "../..");
+const UX_VERSION = "shliach-ux-005";
 const LOGO = "https://awtsmoos.com/api/social/drive/public/awtsmoos/file_000000001aa071f5afcedcf09919246e.png";
 const BRIDGE = "https://awtsmoos.com/api/social/drive/public/awtsmoos/12_awtsmoos_hat_logo_pilgrim_golden_bridge.png";
 const CODER = "https://awtsmoos.com/api/social/drive/public/awtsmoos/20_jewish_coder_aleph_gateway_portal_city.png";
@@ -36,7 +37,7 @@ test("every Shliach route carries SEO, fresh CSS, runtime, and the real GPT", ()
 		assert.match(html, /<title>[^<]*Awtsmoos[^<]*Shliach[^<]*<\/title>/i);
 		assert.match(html, new RegExp(`canonical[^>]+${canonical.replaceAll("/", "\\/")}`));
 		assert.match(html, /name="description" content="[^"]{40,}"/);
-		assert.match(html, /\/style\/shliach\/index\.css\?v=shliach-ux-004/);
+		assert.match(html, new RegExp(`/style/shliach/index\\.css\\?v=${UX_VERSION}`));
 		assert.match(html, /\/scripts\/shliach\/index\.js/);
 		assert.match(html, new RegExp(SHLIACH_GPT_URL.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
 		assert.equal((html.match(/<h1[ >]/g) ?? []).length, 1);

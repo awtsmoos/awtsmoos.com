@@ -9,7 +9,7 @@
 */
 
 import { HomeTiferesRuntime } from "./HomeTiferesRuntime.js";
-import { installShliachSpotlight } from "./ShliachSpotlight.js?v=shliach-ux-004";
+import { installShliachSpotlight } from "./ShliachSpotlight.js?v=shliach-ux-005";
 
 /**
 * Boots the Shliach first so later Home runtime failures cannot erase its doorway.

@@ -1,48 +1,67 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos lets a few clear words carry the mission without pushing the doorway below the fold.
+The Awtsmoos lets the Shliach mission speak in a few bright lines on Home, while the dedicated page carries the longer teaching.
 */
 
 .shliach-spotlight-copy {
 	min-width: 0;
 }
+
 .shliach-spotlight-copy h2 {
-	font-size: clamp(1.7rem, 3.4vw, 2.8rem);
-	letter-spacing: -.035em;
-	line-height: .98;
+	font-size: clamp(1.75rem, 4vw, 3.05rem);
+	letter-spacing: -.04em;
+	line-height: 1;
 	margin: 0;
 }
+
 .shliach-spotlight-eyebrow {
 	color: #8db7ff;
 	font-size: .74rem;
 	font-weight: 850;
 	letter-spacing: .14em;
-	margin: 0 0 .42rem;
+	margin: 0 0 .62rem;
 	text-transform: uppercase;
 }
+
 .shliach-spotlight-description {
-	color: rgba(236, 243, 255, .91);
-	font-size: clamp(.96rem, 1.45vw, 1.04rem);
-	line-height: 1.48;
-	margin: .72rem 0 0;
-	max-width: 68ch;
+	color: rgba(236, 243, 255, .9);
+	font-size: clamp(.96rem, 1.7vw, 1.08rem);
+	line-height: 1.58;
+	margin: .9rem 0 0;
+	max-width: 70ch;
 }
+
 .shliach-spotlight-trust {
-	color: rgba(205, 218, 240, .74);
-	font-size: .82rem;
-	line-height: 1.4;
-	margin: .5rem 0 0;
+	color: rgba(205, 218, 240, .75);
+	font-size: .84rem;
+	line-height: 1.45;
+	margin: .6rem 0 0;
 }
+
 @media (max-width: 720px) {
 	.shliach-spotlight-copy h2 {
-		font-size: clamp(1.65rem, 8vw, 2.15rem);
+		font-size: clamp(1.55rem, 7vw, 2rem);
+		line-height: .98;
 	}
+
+	.shliach-spotlight-eyebrow {
+		font-size: .66rem;
+		letter-spacing: .12em;
+		margin-bottom: .45rem;
+	}
+
 	.shliach-spotlight-description {
-		font-size: .94rem;
-		line-height: 1.44;
+		display: -webkit-box;
+		font-size: .88rem;
+		line-height: 1.48;
+		margin-top: .72rem;
+		overflow: hidden;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 3;
 	}
+
 	.shliach-spotlight-trust {
-		font-size: .78rem;
+		display: none;
 	}
 }

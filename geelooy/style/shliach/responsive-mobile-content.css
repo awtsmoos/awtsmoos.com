@@ -1,0 +1,84 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets every phone swipe carry meaning: sections draw close, cards become a rail, and scenes keep their measured light.
+*/
+
+@media (max-width: 620px) {
+	.shliach-section {
+		padding: 38px 0;
+	}
+
+	.shliach-section-head {
+		margin-bottom: 18px;
+	}
+
+	.shliach-section-head p {
+		line-height: 1.52;
+		margin-top: 10px;
+	}
+
+	.shliach-grid {
+		display: grid;
+		gap: 12px;
+		grid-auto-columns: min(82vw, 310px);
+		grid-auto-flow: column;
+		grid-template-columns: none;
+		overflow-x: auto;
+		overscroll-behavior-inline: contain;
+		padding: 2px 16px 14px 0;
+		scroll-snap-type: inline mandatory;
+		scrollbar-width: none;
+	}
+
+	.shliach-grid::-webkit-scrollbar {
+		display: none;
+	}
+
+	.shliach-card {
+		padding: 22px;
+		scroll-snap-align: start;
+	}
+
+	.shliach-scene {
+		min-height: 292px;
+	}
+
+	.shliach-scene > .shliach-shell {
+		padding-block: 48px;
+	}
+
+	.shliach-scene-copy p {
+		font-size: .96rem;
+		line-height: 1.54;
+		margin-top: 12px;
+	}
+
+	.shliach-cta-band {
+		border-radius: 24px;
+		margin: 24px auto 42px;
+		padding: 28px 20px;
+	}
+
+	.shliach-prompt-shell {
+		margin-top: 18px;
+	}
+
+	.shliach-prompt-form {
+		border-radius: 22px;
+		padding: 15px;
+	}
+
+	.shliach-prompt-form textarea {
+		min-height: 108px;
+	}
+
+	.shliach-prompt-foot {
+		align-items: stretch;
+		flex-direction: column;
+	}
+
+	.shliach-prompt-foot .shliach-button {
+		width: 100%;
+	}
+}

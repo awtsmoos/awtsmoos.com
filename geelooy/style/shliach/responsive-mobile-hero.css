@@ -1,0 +1,56 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos brings the first Shliach sight close on a phone so artwork follows action without an empty desert between.
+*/
+
+@media (max-width: 620px) {
+	.shliach-shell {
+		width: min(100% - 32px, var(--shliach-shell));
+	}
+
+	.shliach-nav {
+		gap: 10px;
+		min-height: 62px;
+	}
+
+	.shliach-nav-links {
+		gap: 8px;
+	}
+
+	.shliach-nav-links a {
+		font-size: .78rem;
+	}
+
+	.shliach-hero {
+		padding: 30px 0 18px;
+	}
+
+	.shliach-hero-grid {
+		gap: 14px;
+	}
+
+	.shliach-hero h1 {
+		font-size: clamp(2.65rem, 13vw, 4.35rem);
+	}
+
+	.shliach-lead {
+		font-size: 1rem;
+		line-height: 1.52;
+		margin-top: 16px;
+	}
+
+	.shliach-hero-actions {
+		gap: 8px;
+		margin-top: 18px;
+	}
+
+	.shliach-logo-stage {
+		min-height: 0;
+		padding: 6px 0 2px;
+	}
+
+	.shliach-logo {
+		width: min(260px, 72vw);
+	}
+}

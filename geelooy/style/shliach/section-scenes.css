@@ -1,0 +1,55 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets cinematic light carry meaning without consuming a whole empty viewport on the way.
+*/
+
+.shliach-scene {
+	align-items: center;
+	background-attachment: fixed;
+	background-position: center;
+	background-size: cover;
+	display: flex;
+	min-height: 410px;
+	position: relative;
+}
+
+.shliach-scene::before {
+	background: linear-gradient(90deg, rgba(3, 6, 15, .95), rgba(3, 6, 15, .68) 56%, rgba(3, 6, 15, .36));
+	content: "";
+	inset: 0;
+	position: absolute;
+}
+
+.shliach-scene > .shliach-shell {
+	padding-block: 76px;
+	position: relative;
+	z-index: 1;
+}
+
+.shliach-scene-copy {
+	max-width: 650px;
+}
+
+.shliach-scene-copy h2 {
+	font-size: clamp(2.2rem, 5.8vw, 5rem);
+	letter-spacing: -.05em;
+	line-height: .97;
+	margin: 0;
+}
+
+.shliach-scene-copy p {
+	color: rgba(242, 245, 255, .83);
+	font-size: 1.03rem;
+	line-height: 1.68;
+	margin: 18px 0 0;
+}
+
+.shliach-cta-band {
+	background: linear-gradient(135deg, rgba(78, 178, 255, .1), rgba(255, 200, 91, .07));
+	border: 1px solid rgba(152, 199, 255, .17);
+	border-radius: 30px;
+	margin: 42px auto 68px;
+	padding: clamp(28px, 5vw, 56px);
+	text-align: center;
+}

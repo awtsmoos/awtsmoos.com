@@ -1,0 +1,41 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets the Shliach contract gently on a tablet while preserving the dramatic structure of the larger world.
+*/
+
+@media (max-width: 900px) {
+	.shliach-hero {
+		padding: 44px 0 34px;
+	}
+
+	.shliach-hero-grid {
+		gap: 24px;
+		grid-template-columns: 1fr;
+	}
+
+	.shliach-hero-copy {
+		max-width: 720px;
+	}
+
+	.shliach-logo-stage {
+		min-height: 280px;
+	}
+
+	.shliach-logo {
+		width: min(330px, 70vw);
+	}
+
+	.shliach-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.shliach-scene {
+		background-attachment: scroll;
+		min-height: 340px;
+	}
+
+	.shliach-scene > .shliach-shell {
+		padding-block: 60px;
+	}
+}

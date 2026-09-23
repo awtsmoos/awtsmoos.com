@@ -1,81 +1,92 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos needs no empty distance to make the Shliach bright;
-Awtsmoos.com gathers word, action, and emblem into one concentrated light.
+The Awtsmoos gives the first sight enough wonder to call the eye, never so much distance that the next doorway disappears.
 */
 
 .shliach-hero {
-	overflow: hidden;
-	padding: clamp(42px, 5vw, 58px) 0 clamp(34px, 4vw, 48px);
-	position: relative;
+	padding: 72px 0 54px;
 }
+
 .shliach-hero-grid {
 	align-items: center;
 	display: grid;
-	gap: clamp(26px, 5vw, 54px);
-	grid-template-columns: minmax(0, 1.08fr) minmax(280px, .92fr);
+	gap: clamp(32px, 6vw, 76px);
+	grid-template-columns: minmax(0, 1.04fr) minmax(320px, .96fr);
 }
+
 .shliach-kicker {
-	color: var(--shliach-gold-bright);
-	font-size: .76rem;
-	font-weight: 900;
-	letter-spacing: .16em;
-	margin: 0 0 12px;
+	color: var(--shliach-cyan);
+	font-size: .78rem;
+	font-weight: 850;
+	letter-spacing: .18em;
+	margin: 0 0 14px;
 	text-transform: uppercase;
 }
+
 .shliach-hero h1 {
-	font-size: clamp(2.9rem, 7vw, 6.8rem);
-	letter-spacing: -.06em;
+	font-size: clamp(3.15rem, 7.6vw, 7.5rem);
+	letter-spacing: -.062em;
 	line-height: .9;
 	margin: 0;
-	max-width: 12ch;
+	max-width: 9ch;
 }
+
 .shliach-lead {
 	color: var(--shliach-muted);
-	font-size: clamp(1.02rem, 1.8vw, 1.25rem);
-	line-height: 1.55;
-	margin: 20px 0 0;
-	max-width: 62ch;
+	font-size: clamp(1.06rem, 2vw, 1.3rem);
+	line-height: 1.62;
+	margin: 22px 0 0;
+	max-width: 61ch;
 }
+
 .shliach-hero-actions {
 	display: flex;
 	flex-wrap: wrap;
-	gap: 10px;
-	margin-top: 22px;
+	gap: 12px;
+	margin-top: 26px;
 }
-.shliach-secondary {
-	align-items: center;
-	background: rgba(255, 255, 255, .045);
-	border: 1px solid var(--shliach-line);
-	border-radius: 999px;
-	display: inline-flex;
-	font-weight: 800;
-	justify-content: center;
-	min-height: 44px;
-	padding: 10px 17px;
-	text-decoration: none;
-}
+
 .shliach-logo-stage {
+	align-items: center;
 	display: grid;
 	isolation: isolate;
-	place-items: center;
+	justify-items: center;
+	min-height: 420px;
 	position: relative;
 }
+
 .shliach-logo-stage::before {
-	background: conic-gradient(from 40deg, var(--shliach-violet), var(--shliach-cyan), var(--shliach-gold), var(--shliach-violet));
-	border-radius: 50%;
+	background: radial-gradient(circle, rgba(83, 203, 255, .22), rgba(171, 104, 255, .09) 42%, transparent 70%);
 	content: "";
-	filter: blur(46px);
-	inset: 12%;
-	opacity: .34;
+	inset: 4%;
 	position: absolute;
 	z-index: -1;
 }
+
 .shliach-logo {
-	aspect-ratio: 1;
-	filter: drop-shadow(0 22px 40px rgba(0, 0, 0, .46));
+	border-radius: 13%;
+	box-shadow: 0 28px 100px rgba(36, 152, 255, .18), 0 0 60px rgba(230, 181, 69, .1);
+	display: block;
 	height: auto;
-	object-fit: contain;
-	width: min(360px, 72vw);
+	max-width: 100%;
+	width: min(445px, 86vw);
+}
+
+.shliach-hero-note {
+	align-items: center;
+	color: var(--shliach-muted);
+	display: flex;
+	font-size: .88rem;
+	gap: 9px;
+	margin-top: 18px;
+}
+
+.shliach-hero-note::before {
+	background: var(--shliach-gold);
+	border-radius: 50%;
+	box-shadow: 0 0 15px rgba(255, 207, 105, .55);
+	content: "";
+	height: 7px;
+	width: 7px;
 }
