@@ -18,7 +18,7 @@ const wiring = source('../autoScroll/AutoScrollWiring.js');
 const session = source('../autoScroll/AutoScrollSession.js');
 const runtime = source('../autoScroll/AutoScrollRuntime.js');
 
-assert.match(template, /postLogic\.js\?v=reader-runtime-010/);
+assert.match(template, /postLogic\.js\?v=reader-runtime-011/);
 assert.match(wiring, /AutoScrollRuntime\.js\?v=reader-river-002/);
 assert.match(session, /AutoScrollCountdown\.js\?v=reader-river-002/);
 assert.match(runtime, /AutoScrollBoundaryGate\.js/);
