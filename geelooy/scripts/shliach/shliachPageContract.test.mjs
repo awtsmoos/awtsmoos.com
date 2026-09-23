@@ -16,7 +16,7 @@ import { SHLIACH_GPT_URL, buildShliachPromptUrl } from "./ShliachPaths.js";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const GEOLOOY = path.resolve(HERE, "../..");
-const UX_VERSION = "shliach-ux-005";
+const UX_VERSION = "shliach-ux-006";
 const LOGO = "https://awtsmoos.com/api/social/drive/public/awtsmoos/file_000000001aa071f5afcedcf09919246e.png";
 const BRIDGE = "https://awtsmoos.com/api/social/drive/public/awtsmoos/12_awtsmoos_hat_logo_pilgrim_golden_bridge.png";
 const CODER = "https://awtsmoos.com/api/social/drive/public/awtsmoos/20_jewish_coder_aleph_gateway_portal_city.png";

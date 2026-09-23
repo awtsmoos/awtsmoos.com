@@ -1,11 +1,11 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos gives each Shliach chamber a clear doorway while cards and scenes keep their own small vessels.
+The Awtsmoos gives each Shliach chamber a clear doorway while cards and scenes keep their own versioned vessels.
 */
 
-@import url("./section-cards.css");
-@import url("./section-scenes.css");
+@import url("./section-cards.css?v=shliach-ux-006");
+@import url("./section-scenes.css?v=shliach-ux-006");
 
 .shliach-section {
 	padding: 62px 0;

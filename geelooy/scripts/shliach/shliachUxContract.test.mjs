@@ -3,8 +3,7 @@
 //Blessed is He
 
 /**
-* The Awtsmoos proves that mobile beauty stays dense, navigable, and honest after every release;
-* Awtsmoos.com guards the swipe rail, compact scenes, launcher image, and fresh style key with executable evidence.
+* The Awtsmoos proves mobile beauty stays dense and every Shliach stylesheet arrives from one coherent cache generation.
 * @module shliachUxContract.test
 */
 
@@ -16,6 +15,8 @@ import { fileURLToPath } from "node:url";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const GEOLOOY = path.resolve(HERE, "../..");
+const SHLIACH_STYLE_VERSION = "shliach-ux-006";
+const HOME_SPOTLIGHT_VERSION = "shliach-ux-005";
 
 function source(relativePath) {
 	return fs.readFileSync(path.join(GEOLOOY, relativePath), "utf8");
@@ -39,7 +40,20 @@ test("process cards become a swipeable mobile rail", () => {
 	assert.match(content, /scroll-snap-align:\s*start/);
 });
 
-test("Home spotlight is compact and cache-busted", () => {
+test("Shliach CSS graph uses one fresh generation at every import edge", () => {
+	const files = ["index.css", "sections.css", "responsive.css", "responsive-mobile.css"];
+	for (const name of files) {
+		const css = source(`style/shliach/${name}`);
+		assert.match(css, new RegExp(SHLIACH_STYLE_VERSION));
+		assert.doesNotMatch(css, /shliach-ux-004|shliach-ux-005/);
+	}
+	assert.match(source("style/shliach/sections.css"), /section-cards\.css\?v=shliach-ux-006/);
+	assert.match(source("style/shliach/sections.css"), /section-scenes\.css\?v=shliach-ux-006/);
+	assert.match(source("style/shliach/responsive.css"), /responsive-mobile\.css\?v=shliach-ux-006/);
+	assert.match(source("style/shliach/responsive-mobile.css"), /responsive-mobile-content\.css\?v=shliach-ux-006/);
+});
+
+test("Home spotlight stays compact on its independently proven generation", () => {
 	const layout = source("style/home-simple/shliach-spotlight.css");
 	const media = source("style/home-simple/shliach-spotlight-media.css");
 	const copy = source("style/home-simple/shliach-spotlight-copy.css");
@@ -50,5 +64,5 @@ test("Home spotlight is compact and cache-busted", () => {
 	assert.match(copy, /-webkit-line-clamp:\s*3/);
 	assert.match(copy, /\.shliach-spotlight-trust\s*\{[^}]*display:\s*none/s);
 	assert.match(actions, /text-overflow:\s*ellipsis/);
-	assert.match(runtime, /shliach-ux-005/);
+	assert.match(runtime, new RegExp(HOME_SPOTLIGHT_VERSION));
 });
