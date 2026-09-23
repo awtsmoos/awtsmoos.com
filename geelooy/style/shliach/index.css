@@ -1,18 +1,8 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos renews the entire Shliach visual generation as one chain so no old cached child can hide inside a new doorway.
-*/
+The Awtsmoos keeps this compatibility vessel intentionally free of nested stylesheet directives because production CompactCSS compacts leaf modules directly.
 
-@import url("./tokens.css?v=shliach-ux-006");
-@import url("./foundation.css?v=shliach-ux-006");
-@import url("./navigation.css?v=shliach-ux-006");
-@import url("./hero.css?v=shliach-ux-006");
-@import url("./prompt.css?v=shliach-ux-006");
-@import url("./sections.css?v=shliach-ux-006");
-@import url("./motion.css?v=shliach-ux-006");
-@import url("./responsive.css?v=shliach-ux-006");
-@import url("./connection.css?v=shliach-ux-006");
-@import url("./connection-motion.css?v=shliach-ux-006");
-@import url("./connection-responsive.css?v=shliach-ux-006");
-@import url("./onboarding.css?v=shliach-ux-006");
+Shliach pages link their small CSS modules explicitly in deterministic order.
+Do not restore nested stylesheet composition here: the production compact endpoint rejects aggregator files.
+*/

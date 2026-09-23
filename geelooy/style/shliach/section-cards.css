@@ -1,7 +1,7 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos gives each Shliach step its own edge of light while the three cards remain one unfolding path.
+The Awtsmoos gives each step and poem its own vessel: cards carry sequence, stories pair image with word, and verse keeps room to breathe.
 */
 
 .shliach-grid {
@@ -38,16 +38,12 @@ The Awtsmoos gives each Shliach step its own edge of light while the three cards
 	background: linear-gradient(90deg, #ffd16d, #ff8f6d);
 }
 
-.shliach-card small {
-	background: rgba(255, 210, 112, .09);
-	border: 1px solid rgba(255, 210, 112, .18);
-	border-radius: 999px;
+.shliach-card small,
+.shliach-card > strong {
 	color: var(--shliach-gold);
-	display: inline-flex;
-	font-size: .72rem;
+	font-size: .75rem;
 	font-weight: 900;
-	letter-spacing: .08em;
-	padding: .35rem .58rem;
+	letter-spacing: .07em;
 	text-transform: uppercase;
 }
 
@@ -61,4 +57,53 @@ The Awtsmoos gives each Shliach step its own edge of light while the three cards
 	color: var(--shliach-muted);
 	line-height: 1.56;
 	margin: 0;
+}
+
+.shliach-story {
+	align-items: center;
+	display: grid;
+	gap: clamp(22px, 4vw, 52px);
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.shliach-story article {
+	background: linear-gradient(145deg, rgba(20, 24, 39, .82), rgba(7, 11, 22, .78));
+	border: 1px solid rgba(145, 191, 255, .14);
+	border-radius: 24px;
+	padding: clamp(22px, 4vw, 36px);
+}
+
+.shliach-story h2 {
+	font-size: clamp(1.8rem, 4vw, 3rem);
+	letter-spacing: -.04em;
+	line-height: 1;
+	margin: 9px 0 0;
+}
+
+.shliach-poem {
+	color: rgba(239, 244, 255, .88);
+	font-size: clamp(.98rem, 1.7vw, 1.08rem);
+	line-height: 1.82;
+	margin: 20px 0 0;
+	white-space: pre-line;
+}
+
+.shliach-story .shliach-art {
+	margin: 0;
+}
+
+.shliach-story .shliach-art img {
+	border: 1px solid rgba(255, 255, 255, .12);
+	border-radius: 24px;
+	box-shadow: 0 24px 60px rgba(0, 0, 0, .26);
+	display: block;
+	height: auto;
+	width: 100%;
+}
+
+.shliach-story .shliach-art figcaption {
+	color: var(--shliach-muted);
+	font-size: .78rem;
+	line-height: 1.45;
+	margin-top: 9px;
 }

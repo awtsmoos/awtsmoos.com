@@ -1,7 +1,7 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos lets cinematic light carry meaning without consuming a whole empty viewport on the way.
+The Awtsmoos lets cinematic light carry meaning without consuming an empty viewport; the golden bridge becomes the real visual threshold.
 */
 
 .shliach-scene {
@@ -12,6 +12,10 @@ The Awtsmoos lets cinematic light carry meaning without consuming a whole empty 
 	display: flex;
 	min-height: 410px;
 	position: relative;
+}
+
+.shliach-bridge-scene {
+	background-image: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/12_awtsmoos_hat_logo_pilgrim_golden_bridge.png");
 }
 
 .shliach-scene::before {

@@ -1,8 +1,5 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos lets the smallest vessel stay simple while hero and content laws share one renewed generation.
+The Awtsmoos keeps this compatibility vessel import-free; pages link mobile hero and content modules directly for CompactCSS safety.
 */
-
-@import url("./responsive-mobile-hero.css?v=shliach-ux-006");
-@import url("./responsive-mobile-content.css?v=shliach-ux-006");

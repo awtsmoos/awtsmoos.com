@@ -1,67 +1,81 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos moves without wasting distance; each shimmer should reveal rather than distract.
+The Awtsmoos moves without wasting distance; each shimmer should reveal rather than distract, and every real control receives the motion meant for it.
 */
 
 @keyframes shliach-float {
 	0%, 100% { transform: translateY(0) rotate(-.25deg); }
 	50% { transform: translateY(-6px) rotate(.25deg); }
 }
+
 @keyframes shliach-spectrum {
 	0% { background-position: 0% 50%; }
 	50% { background-position: 100% 50%; }
 	100% { background-position: 0% 50%; }
 }
+
 .shliach-logo {
 	animation: shliach-float 6.5s ease-in-out infinite;
 }
+
 .shliach-prompt-shell {
 	animation: shliach-spectrum 8s ease infinite;
 }
+
 [data-reveal] {
 	opacity: 0;
 	transform: translateY(16px);
 	transition: opacity .48s ease, transform .48s ease;
 }
+
 [data-reveal].is-visible {
 	opacity: 1;
 	transform: translateY(0);
 }
+
 .shliach-art img {
 	transition: filter .24s ease, transform .3s ease;
 }
+
 .shliach-art:hover img {
 	filter: saturate(1.06) contrast(1.02);
 	transform: scale(1.012);
 }
-.shliach-prompt-example,
+
+.shliach-example,
 .shliach-secondary,
 .shliach-nav-links a {
 	transition: border-color .16s ease, background .16s ease, color .16s ease, transform .16s ease;
 }
-.shliach-prompt-example:hover,
+
+.shliach-example:hover,
 .shliach-secondary:hover {
 	border-color: rgba(125, 213, 255, .35);
 	transform: translateY(-1px);
 }
+
 @media (prefers-reduced-motion: reduce) {
 	*,
 	*::before,
 	*::after {
 		scroll-behavior: auto !important;
 	}
+
 	.shliach-logo,
 	.shliach-prompt-shell {
 		animation: none !important;
 	}
+
 	[data-reveal] {
 		opacity: 1 !important;
 		transform: none !important;
 		transition: none !important;
 	}
+
 	.shliach-art img,
 	.shliach-card,
+	.shliach-example,
 	.shliach-prompt-button,
 	.shliach-launch {
 		transition: none !important;

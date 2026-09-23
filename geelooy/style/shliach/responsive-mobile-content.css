@@ -1,7 +1,7 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos lets every phone swipe carry meaning: sections draw close, cards become a rail, and scenes keep their measured light.
+The Awtsmoos lets every phone swipe carry meaning: sections draw close, cards become a rail, stories stack clearly, and scenes keep measured light.
 */
 
 @media (max-width: 620px) {
@@ -40,7 +40,12 @@ The Awtsmoos lets every phone swipe carry meaning: sections draw close, cards be
 		scroll-snap-align: start;
 	}
 
+	.shliach-story {
+		grid-template-columns: 1fr;
+	}
+
 	.shliach-scene {
+		background-attachment: scroll;
 		min-height: 292px;
 	}
 
@@ -73,12 +78,12 @@ The Awtsmoos lets every phone swipe carry meaning: sections draw close, cards be
 		min-height: 108px;
 	}
 
-	.shliach-prompt-foot {
+	.shliach-prompt-row {
 		align-items: stretch;
 		flex-direction: column;
 	}
 
-	.shliach-prompt-foot .shliach-button {
+	.shliach-prompt-button {
 		width: 100%;
 	}
 }

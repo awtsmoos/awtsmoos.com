@@ -1,7 +1,7 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos turns intent into a doorway; the form should feel close, tactile, and ready rather than isolated in empty space.
+The Awtsmoos turns intent into a doorway; each control should feel close, tactile, luminous, and ready for the real mission.
 */
 
 .shliach-prompt-shell {
@@ -64,16 +64,16 @@ The Awtsmoos turns intent into a doorway; the form should feel close, tactile, a
 	outline: none;
 }
 
-.shliach-prompt-examples {
+.shliach-examples {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 8px;
 	margin-top: 12px;
 }
 
-.shliach-prompt-example {
-	background: rgba(255, 255, 255, .035);
-	border: 1px solid rgba(255, 255, 255, .16);
+.shliach-example {
+	background: rgba(255, 255, 255, .04);
+	border: 1px solid rgba(255, 255, 255, .17);
 	border-radius: 999px;
 	color: #edf4ff;
 	cursor: pointer;
@@ -81,18 +81,9 @@ The Awtsmoos turns intent into a doorway; the form should feel close, tactile, a
 	font-size: .82rem;
 	min-height: 42px;
 	padding: .56rem .82rem;
-	transition: background .16s ease, border-color .16s ease, transform .16s ease;
 }
 
-.shliach-prompt-example:hover,
-.shliach-prompt-example:focus-visible {
-	background: rgba(91, 196, 255, .1);
-	border-color: rgba(91, 196, 255, .42);
-	outline: none;
-	transform: translateY(-1px);
-}
-
-.shliach-prompt-foot {
+.shliach-prompt-row {
 	align-items: center;
 	display: flex;
 	gap: 12px;
@@ -100,9 +91,28 @@ The Awtsmoos turns intent into a doorway; the form should feel close, tactile, a
 	margin-top: 14px;
 }
 
-.shliach-prompt-foot p {
+.shliach-prompt-status {
 	color: var(--shliach-muted);
 	font-size: .82rem;
 	line-height: 1.4;
 	margin: 0;
+}
+
+.shliach-prompt-button {
+	background: linear-gradient(135deg, #ffd16d, #ffe9a9);
+	border: 0;
+	border-radius: 999px;
+	color: #17100a;
+	cursor: pointer;
+	font-weight: 900;
+	min-height: 46px;
+	padding: .72rem 1.05rem;
+	white-space: nowrap;
+}
+
+.shliach-example:hover,
+.shliach-example:focus-visible {
+	background: rgba(91, 196, 255, .11);
+	border-color: rgba(91, 196, 255, .44);
+	outline: none;
 }

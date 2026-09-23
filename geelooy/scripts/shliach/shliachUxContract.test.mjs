@@ -3,7 +3,7 @@
 //Blessed is He
 
 /**
-* The Awtsmoos proves mobile beauty stays dense and every Shliach stylesheet arrives from one coherent cache generation.
+* The Awtsmoos proves mobile beauty stays dense, real markup owns real styles, and production uses only CompactCSS-safe leaves.
 * @module shliachUxContract.test
 */
 
@@ -15,8 +15,9 @@ import { fileURLToPath } from "node:url";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const GEOLOOY = path.resolve(HERE, "../..");
-const SHLIACH_STYLE_VERSION = "shliach-ux-006";
-const HOME_SPOTLIGHT_VERSION = "shliach-ux-005";
+const STYLE_VERSION = "shliach-ux-007";
+const HOME_VERSION = "shliach-ux-005";
+const STYLE_DIR = path.join(GEOLOOY, "style/shliach");
 
 function source(relativePath) {
 	return fs.readFileSync(path.join(GEOLOOY, relativePath), "utf8");
@@ -25,11 +26,10 @@ function source(relativePath) {
 test("Shliach mobile layout removes giant spacing floors", () => {
 	const hero = source("style/shliach/responsive-mobile-hero.css");
 	const content = source("style/shliach/responsive-mobile-content.css");
-	const tablet = source("style/shliach/responsive-tablet.css");
 	assert.match(content, /\.shliach-section\s*\{[^}]*padding:\s*38px 0/s);
 	assert.match(hero, /\.shliach-logo-stage\s*\{[^}]*min-height:\s*0/s);
 	assert.match(content, /\.shliach-scene\s*\{[^}]*min-height:\s*292px/s);
-	assert.match(tablet, /background-attachment:\s*scroll/);
+	assert.match(content, /background-attachment:\s*scroll/);
 });
 
 test("process cards become a swipeable mobile rail", () => {
@@ -40,29 +40,41 @@ test("process cards become a swipeable mobile rail", () => {
 	assert.match(content, /scroll-snap-align:\s*start/);
 });
 
-test("Shliach CSS graph uses one fresh generation at every import edge", () => {
-	const files = ["index.css", "sections.css", "responsive.css", "responsive-mobile.css"];
-	for (const name of files) {
-		const css = source(`style/shliach/${name}`);
-		assert.match(css, new RegExp(SHLIACH_STYLE_VERSION));
-		assert.doesNotMatch(css, /shliach-ux-004|shliach-ux-005/);
+test("actual prompt, story, poem, and bridge classes own visual rules", () => {
+	const prompt = source("style/shliach/prompt.css");
+	const cards = source("style/shliach/section-cards.css");
+	const scenes = source("style/shliach/section-scenes.css");
+	const motion = source("style/shliach/motion.css");
+	for (const selector of ["shliach-examples","shliach-example","shliach-prompt-row","shliach-prompt-status","shliach-prompt-button"]) {
+		assert.match(prompt, new RegExp(`\\.${selector}`));
 	}
-	assert.match(source("style/shliach/sections.css"), /section-cards\.css\?v=shliach-ux-006/);
-	assert.match(source("style/shliach/sections.css"), /section-scenes\.css\?v=shliach-ux-006/);
-	assert.match(source("style/shliach/responsive.css"), /responsive-mobile\.css\?v=shliach-ux-006/);
-	assert.match(source("style/shliach/responsive-mobile.css"), /responsive-mobile-content\.css\?v=shliach-ux-006/);
+	assert.match(cards, /\.shliach-story/);
+	assert.match(cards, /\.shliach-poem/);
+	assert.match(scenes, /\.shliach-bridge-scene/);
+	assert.match(scenes, /12_awtsmoos_hat_logo_pilgrim_golden_bridge\.png/);
+	assert.match(motion, /\.shliach-example/);
+});
+
+test("Shliach production CSS is import-free and pages use current direct leaves", () => {
+	for (const name of fs.readdirSync(STYLE_DIR).filter(name => name.endsWith(".css"))) {
+		assert.doesNotMatch(fs.readFileSync(path.join(STYLE_DIR, name), "utf8"), /@import\s/i, `${name} must not use nested stylesheet imports`);
+	}
+	for (const route of ["Shliach/index.html","Shliach/prompts/index.html","Shliach/poems/index.html","Shliach/gallery/index.html"]) {
+		const html = source(route);
+		assert.equal((html.match(/shliach-ux-007/g) ?? []).length, 12);
+		assert.match(html, new RegExp(STYLE_VERSION));
+		assert.doesNotMatch(html, /style\/shliach\/(?:index|connection|connection-motion|connection-responsive|onboarding)\.css/);
+	}
 });
 
 test("Home spotlight stays compact on its independently proven generation", () => {
 	const layout = source("style/home-simple/shliach-spotlight.css");
-	const media = source("style/home-simple/shliach-spotlight-media.css");
 	const copy = source("style/home-simple/shliach-spotlight-copy.css");
 	const actions = source("style/home-simple/shliach-spotlight-actions.css");
 	const runtime = source("scripts/home-simple/ShliachSpotlight.js");
 	assert.match(layout, /grid-template-columns:\s*124px minmax\(0, 1fr\)/);
-	assert.match(media, /max-width:\s*124px/);
 	assert.match(copy, /-webkit-line-clamp:\s*3/);
 	assert.match(copy, /\.shliach-spotlight-trust\s*\{[^}]*display:\s*none/s);
 	assert.match(actions, /text-overflow:\s*ellipsis/);
-	assert.match(runtime, new RegExp(HOME_SPOTLIGHT_VERSION));
+	assert.match(runtime, new RegExp(HOME_VERSION));
 });

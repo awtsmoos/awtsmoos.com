@@ -3,7 +3,7 @@
 //Blessed is He
 
 /**
-* The Awtsmoos lets evidence test each campaign route, image, prompt, and Shliach destination while every visual generation arrives fresh.
+* The Awtsmoos proves every Shliach route carries SEO, the real GPT, supplied art, and only production-safe direct CSS leaves.
 * @module shliachPageContract.test
 */
 
@@ -16,10 +16,11 @@ import { SHLIACH_GPT_URL, buildShliachPromptUrl } from "./ShliachPaths.js";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const GEOLOOY = path.resolve(HERE, "../..");
-const UX_VERSION = "shliach-ux-006";
+const UX_VERSION = "shliach-ux-007";
 const LOGO = "https://awtsmoos.com/api/social/drive/public/awtsmoos/file_000000001aa071f5afcedcf09919246e.png";
 const BRIDGE = "https://awtsmoos.com/api/social/drive/public/awtsmoos/12_awtsmoos_hat_logo_pilgrim_golden_bridge.png";
 const CODER = "https://awtsmoos.com/api/social/drive/public/awtsmoos/20_jewish_coder_aleph_gateway_portal_city.png";
+const STYLES = ["tokens","foundation","navigation","hero","prompt","sections","section-cards","section-scenes","motion","responsive-tablet","responsive-mobile-hero","responsive-mobile-content"];
 const ROUTES = new Map([
 	["Shliach/index.html", "https://awtsmoos.com/Shliach/"],
 	["Shliach/prompts/index.html", "https://awtsmoos.com/Shliach/prompts/"],
@@ -31,13 +32,17 @@ function source(relativePath) {
 	return fs.readFileSync(path.join(GEOLOOY, relativePath), "utf8");
 }
 
-test("every Shliach route carries SEO, fresh CSS, runtime, and the real GPT", () => {
+test("every Shliach route carries SEO, twelve direct CSS leaves, runtime, and real GPT", () => {
 	for (const [relativePath, canonical] of ROUTES) {
 		const html = source(relativePath);
 		assert.match(html, /<title>[^<]*Awtsmoos[^<]*Shliach[^<]*<\/title>/i);
 		assert.match(html, new RegExp(`canonical[^>]+${canonical.replaceAll("/", "\\/")}`));
 		assert.match(html, /name="description" content="[^"]{40,}"/);
-		assert.match(html, new RegExp(`/style/shliach/index\\.css\\?v=${UX_VERSION}`));
+		assert.doesNotMatch(html, /\/style\/shliach\/index\.css|\/style\/shliach\/connection|\/style\/shliach\/onboarding/);
+		for (const name of STYLES) {
+			assert.match(html, new RegExp(`/style/shliach/${name}\\.css\\?v=${UX_VERSION}`));
+		}
+		assert.equal((html.match(/shliach-ux-007/g) ?? []).length, STYLES.length);
 		assert.match(html, /\/scripts\/shliach\/index\.js/);
 		assert.match(html, new RegExp(SHLIACH_GPT_URL.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
 		assert.equal((html.match(/<h1[ >]/g) ?? []).length, 1);
@@ -50,13 +55,12 @@ test("campaign uses all supplied artwork with deliberate page roles", () => {
 	const poems = source("Shliach/poems/index.html");
 	assert.match(poems, new RegExp(BRIDGE.replaceAll("/", "\\/")));
 	assert.match(poems, new RegExp(CODER.replaceAll("/", "\\/")));
-	const gallery = source("Shliach/gallery/index.html");
 	for (const image of [LOGO, BRIDGE, CODER]) {
-		assert.match(gallery, new RegExp(image.replaceAll("/", "\\/")));
+		assert.match(source("Shliach/gallery/index.html"), new RegExp(image.replaceAll("/", "\\/")));
 	}
 });
 
-test("Home keeps public logo, concise visible destination, campaign route, and safe links", () => {
+test("Home keeps public logo, visible destination, campaign route, and safe links", () => {
 	const home = source("scripts/home-simple/ShliachSpotlightContent.js");
 	assert.match(home, new RegExp(LOGO.replaceAll("/", "\\/")));
 	assert.match(home, /SHLIACH_PAGE = "\/Shliach\/"/);
