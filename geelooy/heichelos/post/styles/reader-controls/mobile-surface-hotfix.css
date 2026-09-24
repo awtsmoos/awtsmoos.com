@@ -1,0 +1,97 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * @file Mobile reader surface hotfix.
+ * @description The Awtsmoos gives each phone chamber one opaque bounded vessel;
+ * Awtsmoos.com keeps touch targets above competing reader layers and inside safe-area shores.
+ */
+@media (max-width: 900px) {
+	.all.post-reader-localized-context.awtsmoos-reader-vision > .typography-details:not(.hidden-details) {
+		top: max(.55rem, env(safe-area-inset-top, 0px)) !important;
+		right: max(.55rem, env(safe-area-inset-right, 0px)) !important;
+		bottom: calc(var(--reader-dock-bottom) + var(--reader-dock-height) + .55rem) !important;
+		left: max(.55rem, env(safe-area-inset-left, 0px)) !important;
+		width: auto !important;
+		height: auto !important;
+		min-height: 0 !important;
+		max-height: none !important;
+		max-width: none !important;
+		transform: none !important;
+		border-radius: 1.15rem !important;
+		background: #07111f !important;
+		box-shadow: 0 24px 72px rgba(0, 0, 0, .62) !important;
+		backdrop-filter: none !important;
+		-webkit-backdrop-filter: none !important;
+	}
+
+	.all.post-reader-localized-context.awtsmoos-reader-vision > .typography-details .typography-content {
+		flex: 1 1 auto !important;
+		min-height: 0 !important;
+		overflow-y: auto !important;
+		scroll-padding-block: .75rem 5.5rem;
+		overscroll-behavior: contain;
+	}
+
+	.all.post-reader-localized-context.awtsmoos-reader-vision > .typography-details .reset-section {
+		position: relative !important;
+		flex: 0 0 auto !important;
+		padding: .65rem .75rem calc(.65rem + env(safe-area-inset-bottom, 0px)) !important;
+		background: #07111f !important;
+	}
+
+	.all.post-reader-localized-context.awtsmoos-reader-vision #autoScrollSettingsToggle {
+		position: relative !important;
+		z-index: 2 !important;
+		min-height: 56px !important;
+		pointer-events: auto !important;
+		touch-action: manipulation !important;
+		opacity: 1 !important;
+		color: #f8fbff !important;
+		border: 1px solid rgba(91, 221, 255, .42) !important;
+		background: linear-gradient(135deg, #123458, #0d5367) !important;
+		box-shadow: inset 0 1px 0 rgba(255, 255, 255, .09), 0 9px 24px rgba(0, 0, 0, .24) !important;
+	}
+
+	.all.post-reader-localized-context.awtsmoos-reader-vision #autoScrollSettingsToggle:is(.is-active, [aria-pressed="true"]) {
+		border-color: rgba(52, 211, 153, .62) !important;
+		background: linear-gradient(135deg, #123a35, #08745c) !important;
+	}
+
+	.all.post-reader-localized-context.awtsmoos-reader-vision:has(> .typography-details:not(.hidden-details))
+		> .awtsmoos-auto-scroll-floating {
+		opacity: 0 !important;
+		visibility: hidden !important;
+		pointer-events: none !important;
+	}
+
+	.all.post-reader-localized-context.awtsmoos-reader-vision > .main > .sidebar:not(.hidden-comments) {
+		top: max(.55rem, env(safe-area-inset-top, 0px)) !important;
+		right: max(.55rem, env(safe-area-inset-right, 0px)) !important;
+		bottom: max(.55rem, env(safe-area-inset-bottom, 0px)) !important;
+		left: max(.55rem, env(safe-area-inset-left, 0px)) !important;
+		width: auto !important;
+		height: auto !important;
+		min-height: 0 !important;
+		max-height: none !important;
+		max-width: none !important;
+		transform: none !important;
+		border-radius: 1.15rem !important;
+		background: #07120f !important;
+		box-shadow: 0 24px 72px rgba(0, 0, 0, .66) !important;
+		backdrop-filter: none !important;
+		-webkit-backdrop-filter: none !important;
+	}
+
+	.all.post-reader-localized-context.awtsmoos-reader-vision > .main > .sidebar:not(.hidden-comments) .awtsmoos-sidebar-shell {
+		height: 100% !important;
+		max-height: 100% !important;
+		background: #07120f !important;
+	}
+
+	.all.post-reader-localized-context.awtsmoos-reader-vision:has(> .main > .sidebar:not(.hidden-comments))
+		> :is(.awtsmoos-floating-controls, .awtsmoos-auto-scroll-floating) {
+		opacity: 0 !important;
+		visibility: hidden !important;
+		pointer-events: none !important;
+	}
+}

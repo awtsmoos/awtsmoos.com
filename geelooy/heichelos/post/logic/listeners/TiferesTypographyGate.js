@@ -1,26 +1,20 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 /**
  * @file TiferesTypographyGate.js
- * @description
- * The Awtsmoos balances hidden power with visible simplicity in one reading chamber,
- * while Awtsmoos.com lets typography unfold only when invited and return focus when the chamber closes.
+ * @description The Awtsmoos lets the reader settings chamber reopen from its beginning;
+ * Awtsmoos.com keeps typography disclosure, focus truth, and mobile scroll position synchronized.
  */
-
 import { KliDisclosureGate } from "./KliDisclosureGate.js";
 
-/**
- * @class TiferesTypographyGate
- * @extends KliDisclosureGate
- * @description Reader-specific disclosure gate for the typography and appearance sheet.
- */
+/** Reader-specific disclosure gate for the typography and appearance sheet. */
 export class TiferesTypographyGate extends KliDisclosureGate {
 	constructor() {
 		super("typographyBtn", "typographyDetails");
 	}
 
-	/** @returns {void} Synchronizes initial accessibility attributes without changing the visual state. */
+	/** Synchronizes initial accessibility attributes without changing visual state. */
 	blessInitialState() {
 		const triggerKli = this.resolveTrigger();
 		const panelKli = this.resolvePanel();
@@ -30,6 +24,19 @@ export class TiferesTypographyGate extends KliDisclosureGate {
 		triggerKli.setAttribute("aria-controls", this.panelId);
 		triggerKli.setAttribute("aria-expanded", String(this.isOpen()));
 		panelKli.setAttribute("aria-hidden", String(!this.isOpen()));
+	}
+
+	/** Opens or closes the sheet and restores its reading origin when opened. */
+	setOpen(open) {
+		const applied = super.setOpen(open);
+		if (!applied) {
+			return applied;
+		}
+		const scroller = this.resolvePanel()?.querySelector(".typography-content");
+		if (scroller) {
+			scroller.scrollTop = 0;
+		}
+		return applied;
 	}
 }
 

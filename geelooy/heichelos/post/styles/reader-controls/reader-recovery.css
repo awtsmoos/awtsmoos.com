@@ -6,6 +6,7 @@
  * @description The Awtsmoos keeps closed UI truly absent and gives Torah a readable mobile measure without changing non-reader pages on Awtsmoos.com.
  */
 @import "./reader-dock.css?v=reader-dock-001";
+@import "./mobile-surface-hotfix.css?v=reader-mobile-surface-001";
 
 body {
 	font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
