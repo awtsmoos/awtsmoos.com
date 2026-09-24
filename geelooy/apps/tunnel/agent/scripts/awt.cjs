@@ -10,7 +10,7 @@ const Cli = require("../recovery/manualCli.js");
  * @file Stable human entry for diagnosis, discoverable help, and layered tunnel recovery.
  * @description
  * The Awtsmoos lets a frightened hand speak briefly while Awtsmoos.com answers with the
- * exact safe road: inspect, reconcile, replace, service repair, and only then reinstall.
+ * exact safe road: inspect, reconcile, replace, verify, and only widen authority by consent.
  */
 async function main(argv = process.argv.slice(2)) {
 	const rootArg = argv.find(arg => arg.startsWith("--root="));
@@ -20,14 +20,26 @@ async function main(argv = process.argv.slice(2)) {
 	const args = argv.filter(arg => !arg.startsWith("--root="));
 	const json = args.includes("--json");
 	const result = await Cli.run(root, args);
-	if (json) console.log(JSON.stringify(result, null, 2));
-	else console.log(summary(result));
-	if (!result.ok) process.exitCode = 1;
+	if (json) {
+		console.log(JSON.stringify(result, null, 2));
+	} else {
+		console.log(summary(result));
+	}
+	if (!result.ok) {
+		process.exitCode = 1;
+	}
 	return result;
 }
 
+/**
+ * Converts structured recovery receipts into compact human-readable output.
+ * @param {object} result Recovery result from the local CLI router.
+ * @returns {string} One-line or focused multi-line recovery summary.
+ */
 function summary(result = {}) {
-	if (result.ok && result.command === "help" && result.topic) return topicHelp(result);
+	if (result.ok && result.command === "help" && result.topic) {
+		return topicHelp(result);
+	}
 	if (result.ok && result.command === "diagnose") {
 		return `OK diagnose recommendation=${result.recommendation} identity=${result.identity?.state || "unknown"}`;
 	}
@@ -36,6 +48,9 @@ function summary(result = {}) {
 	}
 	if (result.ok && result.command === "check") {
 		return `OK check version=${result.version} integrity=healthy supervised_child=verified`;
+	}
+	if (result.command === "root-rebind") {
+		return rootRebindSummary(result);
 	}
 	if (result.ok && result.dryRun) {
 		return `OK dry-run command=${result.command} tier=${result.tier ?? "unchanged"} state=${result.state || "ready"}`;
@@ -52,8 +67,23 @@ function summary(result = {}) {
 	if (result.ok && result.command === "sealed-emergency") {
 		return `OK sealed-emergency state=${result.state} pid=${result.pid || 0}`;
 	}
-	if (result.ok && result.command === "restore") return `OK restore tier=${result.tier}`;
-	if (result.ok && result.command === "help") return `awt ${result.commands.join(" | awt ")}`;
+	if (result.ok && result.command === "restore") {
+		return `OK restore tier=${result.tier}`;
+	}
+	if (result.ok && result.command === "help") {
+		return `awt ${result.commands.join(" | awt ")}`;
+	}
+	return errorSummary(result);
+}
+
+function rootRebindSummary(result) {
+	if (result.ok) {
+		return `OK root-rebind state=${result.state} current=${result.currentRoot} target=${result.targetRoot} broad=${result.broad === true}`;
+	}
+	return `ERROR ${result.error || "root_rebind_failed"} current=${result.currentRoot || "unknown"} target=${result.targetRoot || "unknown"}${result.example ? ` example=${result.example}` : ""}`;
+}
+
+function errorSummary(result) {
 	const suggestion = result.suggestion ? ` suggestion=awt ${result.suggestion}` : "";
 	const example = result.example ? ` example=${result.example}` : "";
 	return `ERROR ${result.error || "recovery_failed"}${suggestion}${example}`;
@@ -75,4 +105,4 @@ if (require.main === module) {
 	});
 }
 
-module.exports = { main, summary, topicHelp };
+module.exports = { errorSummary, main, rootRebindSummary, summary, topicHelp };

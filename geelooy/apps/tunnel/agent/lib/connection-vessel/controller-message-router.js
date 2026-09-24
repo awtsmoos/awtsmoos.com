@@ -6,25 +6,26 @@ const CustodyMetadata = require("./mailbox-custody-metadata.js");
 const Protocol = require("./protocol.js");
 const RecoveryTestimony = require("./controller-recovery-testimony.js");
 
+const CHILD_REPAIR_REASONS = new Set([
+	"execution_consumer_stalled",
+	"execution_ingress_stalled",
+	"child_registration_timeout"
+]);
+
 /**
- * @file Routes current-child IPC through incarnation, generation, admission and RPC testimony.
- * @description The Awtsmoos binds each deed to the vessel that received its living flame;
- * Awtsmoos.com also returns server instruction truth only from the current fenced child name.
+ * @file Routes fenced child IPC through admission, recovery, and exact-generation testimony.
+ * @description The Awtsmoos lets the current child ask its living parent for narrow renewal while
+ * Awtsmoos.com rejects arbitrary repair reasons and stale incarnations before any signal is sent.
  */
 function createMessageRouter(options = {}) {
 	function handle(message) {
 		if (!Protocol.valid(message)) return false;
-		const childIncarnationId = Incarnation.clean(message.childIncarnationId);
+		const incarnation = Incarnation.clean(message.childIncarnationId);
 		if (message.type === Protocol.TYPES.READY) return handleReady();
-		if (message.type === Protocol.TYPES.REQUEST) {
-			return handleRequest(message.envelope, childIncarnationId);
-		}
-		if (message.type === Protocol.TYPES.INSTRUCTION_RESULT) {
-			return Boolean(options.onInstructionResult?.(message));
-		}
-		if (message.type === Protocol.TYPES.STATE) {
-			return handleState(message.state, childIncarnationId);
-		}
+		if (message.type === Protocol.TYPES.REPAIR_REQUEST) return handleRepair(message, incarnation);
+		if (message.type === Protocol.TYPES.REQUEST) return handleRequest(message.envelope, incarnation);
+		if (message.type === Protocol.TYPES.INSTRUCTION_RESULT) return Boolean(options.onInstructionResult?.(message));
+		if (message.type === Protocol.TYPES.STATE) return handleState(message.state, incarnation);
 		if (message.type === Protocol.TYPES.TERMINAL) {
 			options.onTerminal(message);
 			return true;
@@ -42,7 +43,13 @@ function createMessageRouter(options = {}) {
 		return true;
 	}
 
-	/** Routes one child request and settles its inbox according to explicit queue admission. */
+	function handleRepair(message, incarnation) {
+		const reason = String(message.reason || "");
+		if (!CHILD_REPAIR_REASONS.has(reason)) return false;
+		if (options.currentIncarnation?.() && options.currentIncarnation() !== incarnation) return false;
+		return Boolean(options.onChildRepairRequest?.(reason));
+	}
+
 	function handleRequest(envelope = {}, childIncarnationId = "") {
 		const receiptId = Protocol.requestId(envelope);
 		if (!receiptId) {
@@ -76,7 +83,7 @@ function createMessageRouter(options = {}) {
 		return true;
 	}
 
-	return { handle, handleRequest, handleState };
+	return { handle, handleRepair, handleRequest, handleState };
 }
 
-module.exports = { createMessageRouter };
+module.exports = { CHILD_REPAIR_REASONS, createMessageRouter };

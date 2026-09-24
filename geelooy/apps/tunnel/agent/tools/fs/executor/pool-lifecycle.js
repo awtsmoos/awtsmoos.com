@@ -12,6 +12,9 @@ const State = require("./pool-state.js");
  * The Awtsmoos grants rest only after each vessel has released its waiting deed.
  * Awtsmoos.com closes timers, clears requester queue accounting, and retires children
  * without turning planned silence into a false failure in the renewed field.
+ *
+ * Item 33: when the idle trim fires after SCALE_DOWN_MS of quiet, the adaptive
+ * effective cap decays back toward MIN_WORKERS along with the worker count.
  */
 function touch(state) {
 	clearTimeout(state.idleTimer);
@@ -22,9 +25,17 @@ function touch(state) {
 
 function schedule(state, policy) {
 	if (state.queue.length || state.workers.some(worker => worker.busy)) return;
-	if (state.workers.length > policy.MIN_WORKERS) {
+	// Item 33: the idle trim fires when the worker count is above minimum OR
+	// when the adaptive cap still has room it grew into — otherwise a pool
+	// that never exceeded MIN_WORKERS could never decay a high dynamicCap,
+	// and growth after decay could never be observed.
+	const capHigh = (Number(state.dynamicCap) || policy.WORKERS) > policy.MIN_WORKERS;
+	if (state.workers.length > policy.MIN_WORKERS || capHigh) {
 		state.scaleTimer = setTimeout(
-			() => trim(state, policy.MIN_WORKERS),
+			() => {
+				trim(state, policy.MIN_WORKERS);
+				Capacity.decayCap(state, policy);
+			},
 			policy.SCALE_DOWN_MS
 		);
 		state.scaleTimer.unref?.();

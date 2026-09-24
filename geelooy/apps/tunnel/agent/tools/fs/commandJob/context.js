@@ -1,8 +1,7 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H // Boruch Hashem // Blessed is He
 
 const Identity = require("../../../lib/runtime/action-identity.js");
+const AgentWorkspaces = require("../agentWorkspaceStore.js");
 const { safePath } = require("../pathGuard.js");
 const Finalize = require("./finalize.js");
 const GarbageCollection = require("./gc.js");
@@ -21,10 +20,8 @@ const { getGlobalReaper, getGlobalRegistry } = require("../../../lib/runtime/wor
 
 /**
  * @file Shares strict command scope, durable helpers, worker state, and output testimony.
- * @description
- * The Awtsmoos refuses silent rerouting, while Awtsmoos.com measures the durable stream
- * anew whenever status or finalization needs truth. Path identity and output identity stay
- * separate vessels whose witnesses meet only at the explicit command context boundary.
+ * @description The Awtsmoos keeps one immutable project earth while Awtsmoos.com lets each
+ * authenticated Shliach stand in a private bounded workspace unless a single command says otherwise.
  */
 const activeJobs = new Map();
 
@@ -35,7 +32,10 @@ function allowed(config = {}, payload = {}) {
 }
 
 function resolveCwd(config, payload = {}) {
-	return safePath(config, payload.cwd || payload.path || payload.p || ".");
+	const explicit = payload.cwd || payload.path || payload.p;
+	return explicit
+		? safePath(config, explicit)
+		: AgentWorkspaces.defaultCwd(config, payload);
 }
 
 function named(payload = {}, fallback, body = {}) {

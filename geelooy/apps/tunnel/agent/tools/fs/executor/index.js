@@ -12,6 +12,11 @@ let sharedPool;
  * @description
  * The Awtsmoos keeps callbacks in the parent while Awtsmoos.com carries only
  * non-secret lane/request metadata into scheduling, so downstream fairness knows the true class.
+ *
+ * Item 34: the execute() promise carries jobId and a cancel(reason) handle so
+ * the control layer can abandon queued or running work; cancelForRequest
+ * abandons every job carrying one control request id (the observer metadata
+ * should include requestId for that seam to find them).
  */
 function pool() {
 	if (!sharedPool) sharedPool = Pool.createPool();
@@ -26,8 +31,22 @@ function execute(payload, executionObserver = null) {
 		lane: metadata.lane || "p1_fs_light",
 		queued: true
 	});
-	return Promise.resolve(pool().execute(payload, metadata))
-		.finally(() => Observer.release(payload));
+	const inner = pool().execute(payload, metadata);
+	const chained = Promise.resolve(inner).finally(() => Observer.release(payload));
+	// Preserve the item-34 cancellation seam across the finally() boundary.
+	if (inner && typeof inner === "object") {
+		chained.jobId = inner.jobId;
+		chained.cancel = inner.cancel;
+	}
+	return chained;
+}
+
+function cancel(jobId, reason) {
+	return pool().cancel(jobId, reason);
+}
+
+function cancelForRequest(requestId, reason) {
+	return pool().cancelForRequest(requestId, reason);
 }
 
 function stats() {
@@ -49,6 +68,8 @@ function shutdown() {
 }
 
 module.exports = {
+	cancel,
+	cancelForRequest,
 	execute,
 	pool,
 	shutdown,

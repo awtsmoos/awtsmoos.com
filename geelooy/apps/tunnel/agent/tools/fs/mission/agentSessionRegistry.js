@@ -1,17 +1,16 @@
-// B"H
+//B"H
 // Boruch Hashem
-// Blessed be He
-
+// Blessed is He
+/**
+ * @module AgentSessionRegistry
+ * @description Governs disposable agent sessions beneath durable mission and room identity.
+ * The Awtsmoos lets a conversation end while its Shliach remains named; Awtsmoos.com
+ * preserves logical agent, room, and mission truth across reconnect and replacement.
+ */
 const crypto = require("node:crypto");
 const Store = require("./agentSessionStore.js");
 const Claims = require("./assignment/claims.js");
 
-/**
- * @file Governs disposable agent/chat sessions independently from durable missions.
- * @description
- * Missions own work; sessions only borrow it. A vanished ChatGPT conversation can
- * therefore be replaced without resetting goals, evidence, paths, or peer discoveries.
- */
 function sessionId(input = {}) {
 	return Store.clean(
 		input.agentSessionId || input.sessionId || input.chatSessionId ||
@@ -30,6 +29,7 @@ async function open(config, input = {}) {
 		logicalAgentId: input.logicalAgentId || input.agentId || previous?.logicalAgentId || "agent",
 		chatId: input.chatId || input.conversationId || previous?.chatId || "",
 		role: input.role || previous?.role || "worker",
+		roomId: input.roomId || previous?.roomId || "",
 		status: "active",
 		startedAt: previous?.startedAt || now,
 		lastSeenAt: now,
@@ -44,17 +44,19 @@ async function open(config, input = {}) {
 	return session;
 }
 
-/** Records one mission borrowing event without transferring mission ownership to the chat. */
+/** Records one mission borrowing event without transferring room ownership to the chat. */
 async function assign(config, session, assignment = {}) {
 	const now = new Date().toISOString();
 	const record = {
 		at: now,
 		missionId: assignment.missionId || "",
+		roomId: assignment.roomId || session.roomId || "",
 		workId: assignment.workId || "",
 		reason: assignment.reason || "dispatcher",
 		projectRoot: assignment.projectRoot || ""
 	};
 	session.activeMissionId = record.missionId;
+	session.roomId = record.roomId;
 	session.lastAssignment = record;
 	session.assignmentHistory = [...(session.assignmentHistory || []), record].slice(-100);
 	session.status = "working";
@@ -62,17 +64,18 @@ async function assign(config, session, assignment = {}) {
 	return Store.save(config, session);
 }
 
-/** Refreshes liveness without mutating mission state. */
+/** Refreshes liveness without mutating durable mission or room state. */
 async function heartbeat(config, input = {}) {
 	const id = sessionId(input);
 	const session = await Store.load(config, id);
 	if (!session) return null;
 	session.lastSeenAt = new Date().toISOString();
 	session.status = input.status || session.status || "active";
+	if (input.roomId) session.roomId = input.roomId;
 	return Store.save(config, session);
 }
 
-/** Ends one chat; only recoverable exhaustion preserves its durable work claim. */
+/** Ends one chat; recoverable exhaustion preserves its durable work claim. */
 async function close(config, input = {}, status = "ended") {
 	const id = sessionId(input);
 	const session = await Store.load(config, id);

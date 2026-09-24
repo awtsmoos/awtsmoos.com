@@ -101,6 +101,18 @@ terminate_executor_pid() {
 stop_managed_child() {
 	if supervisor_agent_command "${CHILD_PID:-}"; then
 		terminate_agent_pid "$CHILD_PID" "supervisor_managed_stop"
+	elif [ "${CHILD_OWNED:-0}" = "1" ] && supervisor_alive "${CHILD_PID:-}"; then
+		# Owned non-agent children (e.g. the legacy bridge client) are not
+		# recognized by supervisor_agent_command, so terminate_agent_pid
+		# refuses them. Terminate them here anyway: waiting below on a child
+		# we never signalled would block the supervisor forever.
+		supervisor_log "agent_termination_requested" "pid=$CHILD_PID reason=supervisor_managed_stop"
+		kill "$CHILD_PID" 2>/dev/null || true
+		for _ in 1 2 3 4 5; do supervisor_alive "$CHILD_PID" || break; sleep 1; done
+		if supervisor_alive "$CHILD_PID"; then
+			kill -9 "$CHILD_PID" 2>/dev/null || true
+		fi
+		supervisor_log "agent_terminated" "pid=$CHILD_PID reason=supervisor_managed_stop"
 	fi
 	if [ "${CHILD_OWNED:-0}" = "1" ]; then wait "$CHILD_PID" 2>/dev/null || true; fi
 	CHILD_OWNED=0

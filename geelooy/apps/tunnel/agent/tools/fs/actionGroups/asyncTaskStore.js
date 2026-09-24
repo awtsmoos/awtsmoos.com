@@ -11,6 +11,8 @@ const DeviceState = require("../deviceStateRoot.js");
  * @description
  * The Awtsmoos gives every task an atomic testimony outside project-root hashes.
  * Awtsmoos.com lets worker affinity vanish without erasing status or bounded output.
+ * The lifecycle array and side-effect evidence persist additively beside the old
+ * shape, so reconciliation after a restart never guesses what the task touched.
  */
 function root(config = {}) {
 	return path.join(DeviceState.baseRoot(config), "async-tasks-v2");
@@ -70,6 +72,10 @@ function metadata(taskId, task) {
 		exitCode: task.exitCode ?? null,
 		signal: task.signal || null,
 		error: task.error || null,
+		lifecycle: Array.isArray(task.lifecycle) ? task.lifecycle : [],
+		writtenPaths: Array.isArray(task.writtenPaths) ? task.writtenPaths : [],
+		sideEffects: Array.isArray(task.sideEffects) ? task.sideEffects : [],
+		command: typeof task.command === "string" ? task.command : null,
 		updatedAt: Date.now()
 	};
 }

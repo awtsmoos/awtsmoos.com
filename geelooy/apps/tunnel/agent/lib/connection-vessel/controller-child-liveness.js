@@ -3,6 +3,7 @@
 // Blessed is He
 
 const Policy = require("./controller-child-liveness-policy.js");
+const Monotonic = require("../runtime/monotonic.js");
 
 /**
  * @file Detects silent connection children only after the parent regains sustained punctual sight.
@@ -12,7 +13,9 @@ const Policy = require("./controller-child-liveness-policy.js");
  * Real IPC alone refreshes child evidence; only silence surviving a clean window earns repair.
  */
 function create(options = {}) {
-	const now = options.now || Date.now;
+	// B12: child-silence math runs on the monotonic clock; wall jumps can no
+	// longer fake a restart verdict or hide a stalled child.
+	const now = options.now || Monotonic.monotonicMs;
 	const timing = Policy.create(options);
 	let startedAt = now();
 	let lastMessageAt = startedAt;

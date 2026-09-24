@@ -5,6 +5,7 @@
 const Evidence = require("./transportLivenessEvidence.js");
 const SchedulerGrace = require("./transportLivenessSchedulerGrace.js");
 const Settings = require("./transportLivenessSettings.js");
+const Monotonic = require("../runtime/monotonic.js");
 
 /**
  * @file Distinguishes dead transport silence from local event-loop suspension without invented evidence.
@@ -18,7 +19,10 @@ const Settings = require("./transportLivenessSettings.js");
  * local evidence and must never impersonate a remote frame or create endless transport life.
  */
 function createTransportLiveness(options = {}) {
-	const now = options.now || Date.now;
+	// B12: liveness math runs on the monotonic clock so NTP/VM clock jumps in
+	// either direction can neither invent a false death nor suppress a real one.
+	// options.now remains injectable for tests.
+	const now = options.now || Monotonic.monotonicMs;
 	const setTimer = options.setTimer || setInterval;
 	const clearTimer = options.clearTimer || clearInterval;
 	const settings = Settings.resolve(options);
@@ -87,7 +91,9 @@ function createTransportLiveness(options = {}) {
 	}
 
 	function evidence(current, idleMs, reason, timerDriftMs = lastTimerDriftMs) {
-		return Evidence.details(testimony, current, idleMs, reason, timerDriftMs);
+		// current/idleMs/lastInboundAt ride the monotonic clock (see above);
+		// keep a wall-clock "at" for human display only — never for math.
+		return Evidence.details(testimony, current, idleMs, reason, timerDriftMs, Date.now());
 	}
 
 	function start() {

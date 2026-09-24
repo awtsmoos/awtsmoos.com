@@ -2,13 +2,12 @@
 // Boruch Hashem
 // Blessed is He
 
-const Policy = require("./parent-watchdog-policy.js");
-
 const REPAIR_REASONS = new Set([
 	"execution_parent_unresponsive",
 	"execution_control_stalled",
 	"execution_ingress_stalled",
-	"execution_consumer_stalled"
+	"execution_consumer_stalled",
+	"execution_pre_consumer_stalled"
 ]);
 
 /**
@@ -17,6 +16,14 @@ const REPAIR_REASONS = new Set([
  * The Awtsmoos lets raw testimony warn without becoming a sword in the same breath;
  * Awtsmoos.com routes parent, control, and consumer candidates through one guarded depth.
  * Only an allowed exact-identity claim may turn measured silence into bounded process death.
+ *
+ * Item 59: the decision path no longer consults the retired pressure-deferral branch.
+ * shouldDeferRepair() was provably dead through this path (classify() only emits
+ * NON_DEFERRABLE_REPAIRS reasons), so a durable claim is never re-gated on pressure here.
+ * The live pressure gate is the "runtime_pressure" denial inside
+ * parent-consumer-recovery-policy.js#classify, which runs BEFORE a candidate can exist.
+ * repairDeferred is therefore always false; the field is kept (constant) so existing
+ * snapshot consumers and tests keep their shape.
  */
 function decide(options = {}) {
 	const inspection = options.inspection || {};
@@ -44,12 +51,12 @@ function decide(options = {}) {
 		repairClaim: durableClaim ? automatic.claim : null,
 		consumerRecovery: recovery.snapshot()
 	};
-	const deferred = Policy.shouldDeferRepair(candidate, pressure);
+	// No post-claim pressure re-gate: the durable claim IS the authority.
+	// (Item 59: the dead deferral branch was retired from this path.)
 	return {
 		...candidate,
-		repairRequired: candidate.repairRequired && !deferred,
-		repairDeferred: deferred,
-		repairDeferredReason: Policy.deferredReason(candidate, pressure)
+		repairDeferred: false,
+		repairDeferredReason: ""
 	};
 }
 

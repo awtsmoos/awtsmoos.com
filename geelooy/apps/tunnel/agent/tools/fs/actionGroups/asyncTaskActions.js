@@ -7,6 +7,7 @@ const { spawnAsyncTask } = require("../../../lib/runtime/async-task-process.js")
 const Identity = require("../../../lib/runtime/processIdentity.js");
 const Cancel = require("./asyncTaskCancel.js");
 const Durability = require("./asyncTaskDurability.js");
+const Lifecycle = require("./asyncTaskLifecycle.js");
 const Observe = require("./asyncTaskObserve.js");
 const Policy = require("./asyncTaskPolicy.js");
 const Responses = require("./asyncTaskResponses.js");
@@ -18,6 +19,8 @@ const TASKS = new Map();
  * @description
  * The Awtsmoos lets a living worker move while its durable testimony remains one;
  * Awtsmoos.com keeps public observation simple and sends both cancellation dialects through one guarded sun.
+ * Every task is born with created/started milestones stamped in place so the live runner, the
+ * durable observer, and the persisted record all witness the same lifecycle object.
  */
 function buildAsyncTaskActions(context) {
 	const { config, payload } = context;
@@ -56,9 +59,15 @@ async function start(config = {}, payload = {}) {
 		timeoutMs: payload.timeoutMs || 300000
 	});
 	runner.task.processIdentity = processIdentity;
+	stampInPlace(runner.task, "created", { taskId, command: command.slice(0, 300) });
+	stampInPlace(runner.task, "started", { pid: runner.task.pid });
 	Durability.persist(config, taskId, runner.task);
 	TASKS.set(taskId, runner);
 	return Responses.receipt(taskId, runner.task, "running", "asyncTaskStart");
+}
+
+function stampInPlace(task, milestone, detail) {
+	return Object.assign(task, Lifecycle.recordMilestone(task, milestone, detail));
 }
 
 function createTaskId(processKey) {

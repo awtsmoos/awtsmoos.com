@@ -21,12 +21,16 @@ function create() {
 		active: new Map(),
 		bootFailures: 0,
 		consecutiveBootFailures: 0,
+		dynamicCap: 0,
+		eagerGrowth: false,
 		familyFailures: new Map(),
+		idempotency: new Map(),
 		idleTimer: null,
 		lastRequesterByRank: new Map(),
 		queue: [],
 		queuedByRequester: new Map(),
 		resourceOwners: new Map(),
+		saturatedPumps: 0,
 		scaleTimer: null,
 		spawnTimer: null,
 		stopped: false,
@@ -47,6 +51,12 @@ function createJob(payload, resolve, reject, metadata = {}) {
 	}, metadata);
 }
 
+/**
+ * Reserve-blind eligibleIndex kept for internal use only. It intentionally
+ * bypasses the interactive reserve (RESERVED_INTERACTIVE_WORKERS: 0); it is NOT
+ * exported from pool.js anymore (item 62) because any external caller would
+ * silently defeat the lane starvation protection.
+ */
 function eligibleIndex(state, maximum, worker = null) {
 	return Priority.eligibleIndex(state, {
 		MAX_PER_REQUESTER: maximum,
@@ -61,7 +71,7 @@ function increment(active, key) {
 function decrement(active, key) {
 	const count = Number(active.get(key) || 0) - 1;
 	if (count > 0) active.set(key, count);
-	else active.delete(key);
+	else active.delete(count);
 }
 
 function failure(code, message, stack, filesystem = null) {
@@ -72,26 +82,47 @@ function failure(code, message, stack, filesystem = null) {
 }
 
 function stats(state, policy) {
+	const running = runningAges(state);
 	return {
 		activeRequesters: requesterCount(state.active),
 		bootFailures: state.bootFailures,
 		busy: state.workers.filter(worker => worker.busy).length,
 		consecutiveBootFailures: state.consecutiveBootFailures,
+		dynamicCap: Number(state.dynamicCap) || policy.WORKERS,
+		eagerGrowth: state.eagerGrowth === true,
 		familyCircuit: Circuit.snapshot(state, policy),
 		maxPerRequester: policy.MAX_PER_REQUESTER,
 		maxQueue: policy.MAX_QUEUE,
 		maxQueuePerRequester: policy.MAX_QUEUE_PER_REQUESTER,
 		minimumWorkers: policy.MIN_WORKERS,
+		oldestRunningAgeMs: running.oldest,
+		oldestRunningAgeMsByLane: running.byLane,
 		queued: state.queue.length,
 		queuedRequesters: state.queuedByRequester.size,
 		ready: state.workers.filter(worker => worker.ready).length,
-		reservedInteractiveWorkers: policy.RESERVED_INTERACTIVE_WORKERS,
 		resourceAffinities: state.resourceOwners.size,
+		reservedInteractiveWorkers: policy.RESERVED_INTERACTIVE_WORKERS,
 		starting: state.workers.filter(worker => !worker.ready).length,
 		taskAffinities: state.taskOwners.size,
 		workerLimit: policy.WORKERS,
 		workers: state.workers.length
 	};
+}
+
+/** Age of the oldest running job overall and per lane (item 36, feeds H51). */
+function runningAges(state) {
+	const byLane = {};
+	let oldest = 0;
+	const now = Date.now();
+	for (const worker of state.workers) {
+		if (!worker.busy || !worker.job) continue;
+		const startedAt = worker.job.assignedAt || worker.job.queuedAt || now;
+		const age = Math.max(0, now - startedAt);
+		if (age > oldest) oldest = age;
+		const lane = worker.job.lane || "unknown";
+		byLane[lane] = Math.max(byLane[lane] || 0, age);
+	}
+	return { oldest, byLane };
 }
 
 function requesterCount(active) {

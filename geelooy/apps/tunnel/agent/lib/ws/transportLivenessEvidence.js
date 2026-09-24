@@ -18,9 +18,14 @@ function result(state, idleMs, timerDriftMs, additions = {}) {
 	};
 }
 
-function details(state = {}, current, idleMs, reason, timerDriftMs) {
+/**
+ * Shapes one transport observation. `current` is the caller's clock-domain value
+ * (monotonic in production); `wallAt` is an optional wall-clock display stamp for
+ * the "at" field so evidence never formats a monotonic value as a date.
+ */
+function details(state = {}, current, idleMs, reason, timerDriftMs, wallAt) {
 	return {
-		at: Number(current),
+		at: Number(wallAt ?? current),
 		idleMs: Number(idleMs),
 		lastInboundAt: Number(state.lastInboundAt()),
 		reason: String(reason || "transport_observation"),

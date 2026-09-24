@@ -29,10 +29,12 @@ function fsSchema(name) {
 	if (/readLines/i.test(name)) return P.pathSchema({ startLine: P.integer("First line."), endLine: P.integer("Last line."), maxChars: P.integer("Maximum returned characters.") });
 	if (/^(bulk|read|stat|textStats|fileHashes|nodeCheckFile|nodeCheckMany|nodeCheckFiles|connectedFiles)$/i.test(name)) return multiPathSchema();
 	if (/^(portList|portFind|portKillSafe|waitForPort)$/i.test(name)) return portSchema();
-	if (/list|tree|findFiles|largeFiles|rootBrowse/i.test(name)) return listSchema();
+	if (/^findFiles$/i.test(name)) return findFilesSchema();
+	if (/list|tree|largeFiles|rootBrowse/i.test(name)) return listSchema();
 	if (/rg|grep|selectString|bulkSearch|find/i.test(name)) return searchSchema();
 	if (/command|Runner|test|lint|typecheck|build/i.test(name)) return commandSchema();
 	if (/http/i.test(name)) return httpSchema();
+	if (/^(mkdirp|ensureFile|touch|deleteFile|deleteTree|emptyDir)$/i.test(name)) return pathTargetsSchema();
 	return P.commonSchema();
 }
 
@@ -73,6 +75,46 @@ function listSchema() {
 	return P.pathSchema({ depth: P.integer("Tree depth."), limit: P.integer("Maximum entries."), pageSize: P.integer("Entries per page."), cursor: P.integer("Zero-based pagination cursor."), maxChars: P.integer("Maximum returned characters."), query: P.string("Optional search query.") });
 }
 
+function findFilesSchema() {
+	return P.objectSchema({
+		searchPath: P.string("Preferred search-start directory, repo-relative. The search begins here; the workspace root never moves."),
+		path: P.string("Search-start directory alias, repo-relative."),
+		p: P.string("Search-start alias."),
+		searchRoot: P.string("Legacy search-start alias; prefer searchPath."),
+		directory: P.string("Legacy search-start alias; prefer searchPath."),
+		root: P.string("LEGACY search-start alias; prefer searchPath. Never the authority boundary: no payload field can change the vessel workspace root."),
+		workspaceRoot: P.string("Informational echo of the immutable authority boundary (the vessel workspace root). Read-only; not a search input."),
+		query: P.string("Optional search query."),
+		find: P.string("Search query alias."),
+		ext: P.string("Optional file extension filter."),
+		includeDirs: P.bool("Include directories in results."),
+		metadata: P.bool("Include file metadata."),
+		stat: P.bool("Metadata alias."),
+		maxVisited: P.integer("Maximum entries to visit."),
+		maxEntries: P.integer("maxVisited alias."),
+		skipDirs: P.array(P.string("Directory names to skip.")),
+		pageSize: P.integer("Entries per page."),
+		maxResults: P.integer("pageSize alias."),
+		limit: P.integer("pageSize alias."),
+		cursor: P.integer("Zero-based pagination cursor."),
+		offset: P.integer("cursor alias.")
+	});
+}
+
+function pathTargetsSchema() {
+	const schema = P.objectSchema({
+		paths: P.array(P.string("Repo-relative paths. Canonical multi-target carrier.")),
+		files: P.array(P.string("Path list alias; same as paths.")),
+		path: P.string("Repo-relative path. Canonical single-target carrier."),
+		p: P.string("Path alias."),
+		params: P.object("Object carrier."),
+		content: P.string("JSON carrier containing path targets."),
+		query: P.string("JSON carrier alias.")
+	});
+	schema.requiredOneOf = ["paths", "files", "path", "p"];
+	return schema;
+}
+
 function searchSchema() {
 	return P.objectSchema({ p: P.string("Repo-relative root/path."), path: P.string("Repo-relative root/path."), query: P.string("Search query."), pattern: P.string("Search pattern."), regex: P.bool("Treat pattern as regex."), maxResults: P.integer("Maximum matches."), maxFiles: P.integer("Maximum files to scan."), maxChars: P.integer("Maximum returned characters.") });
 }
@@ -86,7 +128,7 @@ function httpSchema() {
 }
 
 function imageWriteSchema() {
-	return P.objectSchema({ path: P.string("Destination path."), p: P.string("Path alias."), fileName: P.string("Safe filename."), directory: P.string("Directory."), imageBase64: P.string("Raw base64 image bytes."), content64: P.string("Base64 alias."), dataUrl: P.string("data:image/... payload."), mime: P.string("Image MIME type."), format: P.string("png, jpg, jpeg, webp, gif."), maxBytes: P.integer("Maximum decoded bytes."), timeoutMs: P.integer("Timeout.") });
+	return P.objectSchema({ path: P.string("Destination path."), p: P.string("Path alias."), fileName: P.string("Safe filename."), directory: P.string("Directory."), imageBase64: P.string("Raw base64 image bytes."), content64: P.string("Base64 alias."), dataUrl: P.string("data:image/... payload."), mime: P.string("Image MIME type."), format: P.string("png, jpg, jpeg, webp, gif."), maxBytes: P.integer("Maximum decoded bytes."), timeoutMs: P.integer("Timeout."), });
 }
 
 function fileWriteSpec() {

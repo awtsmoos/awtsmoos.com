@@ -23,7 +23,11 @@ function createFrames(client, limits) {
 			client.close(true);
 		},
 		onPing: payload => client.sendFrame(payload, 0xA),
-		onPong: payload => client.emit("pong", payload),
+		// G3: route pongs through the RTT recorder; older clients without
+		// notePong keep the plain emit.
+		onPong: payload => client.notePong
+			? client.notePong(payload)
+			: client.emit("pong", payload),
 		onMessage: payload => client.emit("message", payload)
 	});
 }

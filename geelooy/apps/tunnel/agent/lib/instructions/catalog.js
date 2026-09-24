@@ -1,6 +1,6 @@
-//B"H
-//Boruch Hashem
-//Blessed be He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 const { coreInstructions } = require("./catalogCore.js");
 const { uiLayoutInstructions } = require("./catalogUiLayout.js");

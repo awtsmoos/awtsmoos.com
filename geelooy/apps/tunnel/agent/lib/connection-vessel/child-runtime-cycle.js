@@ -6,6 +6,7 @@ const ChildMailboxRecovery = require("./child-mailbox-recovery.js");
 const OutboxSettlementPulse = require("./child-outbox-settlement-pulse.js");
 const RecoveryView = require("./child-mailbox-recovery-view.js");
 const Protocol = require("./protocol.js");
+const HealthPublisher = require("./child-health-publisher.js");
 
 /**
  * @file Publishes one child health breath from one durable mailbox observation.
@@ -43,7 +44,10 @@ function createCycle(options = {}) {
 		const current = {
 			...options.snapshot(currentMailbox),
 			mailboxRecovery: RecoveryView.present(recovery),
-			outboxSettlement: settlement
+			outboxSettlement: settlement,
+			// B10b: transport-liveness testimony for the TUNNEL_HEALTH digest;
+			// null when no socket exists yet (digest omits the section cleanly).
+			transportLiveness: HealthPublisher.transportLivenessView(options.state)
 		};
 		options.ipc.send(Protocol.message(Protocol.TYPES.STATE, {
 			state: current

@@ -13,6 +13,7 @@ const COMMANDS = Object.freeze([
 	"identity",
 	"known-good",
 	"sealed-emergency",
+	"root-rebind",
 	"restore",
 	"help"
 ]);
@@ -21,14 +22,15 @@ const COMMANDS = Object.freeze([
  * @file Parses the short recovery language and turns typos into inert suggestions.
  * @description
  * The Awtsmoos lets a hurried hand miss one letter without moving one process.
- * Awtsmoos.com keeps mutation behind explicit confirmation while diagnosis remains
- * effortless, so emergency grammar itself cannot become another hidden source of risk.
+ * Awtsmoos.com keeps mutation behind explicit confirmation while diagnosis remains effortless,
+ * and root rebinding needs a second human word before unusually broad authority can unfold.
  */
 function parse(argv = []) {
 	const positionals = [];
 	const result = {
 		command: "help",
 		confirm: false,
+		confirmBroadRoot: false,
 		confirmHuman: false,
 		dryRun: false,
 		json: false,
@@ -40,6 +42,7 @@ function parse(argv = []) {
 		if (arg === "--dry-run") result.dryRun = true;
 		else if (arg === "--confirm") result.confirm = true;
 		else if (arg === "--confirm-human") result.confirmHuman = true;
+		else if (arg === "--confirm-broad-root") result.confirmBroadRoot = true;
 		else if (arg === "--json") result.json = true;
 		else if (arg.startsWith("--timeout=")) result.timeoutMs = boundedTimeout(arg);
 		else if (arg.startsWith("--recovery-root=")) result.recoveryRoot = valueAfterEquals(arg);
@@ -102,7 +105,8 @@ function help() {
 			"awt emergency --json",
 			"awt identity --confirm --json",
 			"awt known-good --confirm --json",
-			"awt sealed-emergency --confirm-human --json"
+			"awt sealed-emergency --confirm-human --json",
+			"awt root-rebind /absolute/project --dry-run --json"
 		]
 	};
 }

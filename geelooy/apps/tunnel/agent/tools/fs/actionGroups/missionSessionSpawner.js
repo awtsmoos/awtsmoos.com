@@ -1,16 +1,15 @@
 //B"H
-//Boruch Hashem
-//Blessed be He
-
+// Boruch Hashem
+// Blessed is He
+/**
+ * @module MissionSessionSpawner
+ * @description Launches one Shared Shliach session while preserving room/logical identity.
+ * The Awtsmoos renews the process without renewing the messenger's name; Awtsmoos.com
+ * lets one durable room member survive every browser vessel that carries its work.
+ */
 const crypto = require("node:crypto");
 const Launch = require("../mission/agentSessionLaunch.js");
 
-/**
- * @file Manifests one reserved autonomous session through the existing Shared Shliach browser lane.
- * @description
- * Session capacity is reserved before Chrome work begins, preventing maintenance ticks from
- * multiplying slow launches while durable mission identity remains independent from the chat.
- */
 async function spawn(buildActions, config, ws, priorSession, payload = {}, index = 0) {
 	const sessionId = `session_${Date.now().toString(36)}_${crypto.randomBytes(4).toString("hex")}`;
 	const websiteMissionId = `dispatcher-${sessionId}`;
@@ -18,20 +17,27 @@ async function spawn(buildActions, config, ws, priorSession, payload = {}, index
 	const projectRoot = payload.projectRoot || payload.root || config.root;
 	const replacementOf = priorSession?.id || payload.replacementOf || "";
 	const role = payload.role || `autonomous-worker-${index + 1}`;
+	const logicalAgentId = payload.logicalAgentId || payload.agentId || payload.agentName || role;
+	const roomId = payload.roomId || priorSession?.roomId || "";
 	await Launch.reserve(config, {
 		agentSessionId: sessionId,
 		missionId,
 		projectRoot,
 		replacementOf,
 		role,
+		logicalAgentId,
+		roomId,
 		websiteMissionId
 	});
 	try {
 		const actions = buildActions(config, request({
+			...payload,
+			logicalAgentId,
 			missionId,
 			projectRoot,
 			replacementOf,
 			role,
+			roomId,
 			sessionId,
 			websiteMissionId
 		}), ws);
@@ -51,6 +57,8 @@ function request(input) {
 		continuationOnly: true,
 		dispatcherAutonomous: true,
 		agentSessionId: input.sessionId,
+		logicalAgentId: input.logicalAgentId,
+		roomId: input.roomId,
 		replacementOf: input.replacementOf,
 		goal: bootstrapPrompt(input),
 		missionId: input.missionId,
@@ -60,18 +68,18 @@ function request(input) {
 	};
 }
 
-/** Builds the tiny permanent handoff; all deeper operating doctrine comes from Tunnel IDs. */
+/** Gives the spawned messenger only the identity and calls needed to rejoin durable truth. */
 function bootstrapPrompt(input = {}) {
-	const replacement = input.replacementOf
-		? ` replacementOf="${input.replacementOf}"`
-		: "";
+	const replacement = input.replacementOf ? ` replacementOf="${input.replacementOf}"` : "";
+	const room = input.roomId ? ` roomId="${input.roomId}"` : "";
 	return [
 		"B\"H",
 		"Connect to the Awtsmoos Tunnel immediately.",
-		`Call missionAgentConnect with agentSessionId="${input.sessionId}"${replacement} missionId="${input.missionId || ""}" projectRoot="${input.projectRoot}".`,
+		`Call missionAgentConnect with agentSessionId="${input.sessionId}" logicalAgentId="${input.logicalAgentId}"${replacement}${room} missionId="${input.missionId || ""}" projectRoot="${input.projectRoot}".`,
+		room ? `Then call missionRoomJoin with roomId="${input.roomId}" logicalAgentId="${input.logicalAgentId}" agentSessionId="${input.sessionId}" role="${input.role}".` : "",
 		"Use the Tunnel briefing as durable truth. Fetch deeper instruction bodies by ID only when needed.",
 		"Work continuously: report evidence/discoveries, then call missionAgentNextWork whenever the current work closes."
-	].join("\n");
+	].filter(Boolean).join("\n");
 }
 
 module.exports = { bootstrapPrompt, request, spawn };

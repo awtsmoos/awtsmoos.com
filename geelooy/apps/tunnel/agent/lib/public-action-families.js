@@ -20,6 +20,7 @@ const RULES = Object.freeze([
 	[/^(actionBatch|commandBatch|aiCommandBatch|workflow|commandTree|forEachActionBatch|parallelActionBatch)/i, "batch"],
 	[/^(test|lint|typecheck|coverage|syntax|nodeCheck|nodeInstant|instantTests|watchTest|mutation|perfBudget|buildRunner|previewBuildRunner|check)/i, "test"],
 	[/^(command|shell|nodeScript|process|port|npm|packageScript|serverStart|serverStop)/i, "command"],
+	[/^transfer/i, "files"],
 	[/^(read|write|copy|move|delete|mkdir|makeFolder|tree|grep|find|stat|touch|ensureFile|file|bulkWrite|selectString|recentFiles|largeFiles|duplicateBasenames|textStats)/i, "files"],
 	[/^(runtime|simulate|env|config|dependency|workspace|repo|architecture|infer|detect|bundleTrace|routeAudit|moduleGraph|symbol|importResolver|absoluteImport|semantic|tool|provider|model|openApi|schema|policy|security|credential|lockfile|packageManager|installPlan)/i, "runtime"]
 ]);

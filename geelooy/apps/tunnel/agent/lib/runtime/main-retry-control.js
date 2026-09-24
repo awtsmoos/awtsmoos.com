@@ -72,10 +72,24 @@ function create(dependencies) {
 			id: data.id,
 			...correlation,
 			...result,
+			...canonicalRetrySurface(result),
 			controlRequestId
 		});
 
 		return true;
+	}
+
+	// The canonical retry testimony vocabulary is built by
+	// request-retry-shapes.js and returned by the registry; the control layer
+	// passes the testimony block and its mutation-ambiguity flag through
+	// verbatim in every retry response and never rebuilds them.
+	function canonicalRetrySurface(result) {
+		const testimony = result && typeof result === "object" ? result.testimony : null;
+		if (!testimony || typeof testimony !== "object") return {};
+		return {
+			testimony,
+			mutationAmbiguous: testimony.mutationAmbiguous === true
+		};
 	}
 
 	return {

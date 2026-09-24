@@ -12,6 +12,14 @@ const Progress = require("./request-progress.js");
  * Same-socket flushes remain silent, while a reconnect may re-speak acceptance and
  * first progress once from disk—without dispatching a second command.
  */
+/**
+ * Upper bound for the same-generation duplicate-suppression memory.
+ * The map exists so recover() can stay silent for requests already restated in
+ * the current generation; only recent keys matter, so the oldest entries are
+ * evicted FIFO. A long-lived child can no longer grow this map without limit.
+ */
+const LAST_GENERATION_LIMIT = 8192;
+
 function createRequestLifecycle(options = {}) {
 	const acceptance = Acceptance.createRequestAcceptance(options);
 	const progress = Progress.createRequestProgress(options);
@@ -19,7 +27,15 @@ function createRequestLifecycle(options = {}) {
 
 	function accept(envelope, socket) {
 		const key = keyFor(envelope);
-		lastGeneration.set(key, generation());
+		// Falsy keys are never looked up by recover(); storing them is pure
+		// waste, so they are skipped instead of occupying bounded memory.
+		if (key) {
+			if (!lastGeneration.has(key) && lastGeneration.size >= LAST_GENERATION_LIMIT) {
+				const oldest = lastGeneration.keys().next();
+				if (!oldest.done) lastGeneration.delete(oldest.value);
+			}
+			lastGeneration.set(key, generation());
+		}
 		const acceptanceSent = acceptance.accept(envelope, socket);
 		progress.announce(envelope, socket, acceptanceSent);
 		return acceptanceSent;
@@ -54,7 +70,8 @@ function createRequestLifecycle(options = {}) {
 		pendingAcceptances: acceptance.pending,
 		pendingProgress: progress.pending,
 		recover,
-		seen: () => lastGeneration.size
+		seen: () => lastGeneration.size,
+		lastGenerationLimit: () => LAST_GENERATION_LIMIT
 	};
 }
 

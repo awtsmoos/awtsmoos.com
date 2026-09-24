@@ -21,7 +21,7 @@ helpers=(
 	unix-install-readiness.sh unix-late-readiness.sh unix-emergency-continuity.sh
 	unix-install-success-values.sh unix-install-success.sh unix-version-policy.sh
 	unix-legacy-fallback.sh unix-install-resume.sh unix-fast-repair-health.sh
-	unix-fast-repair.sh unix-metadata-fallback.sh unix-package-stage.sh
+	unix-fast-repair-root.sh unix-fast-repair.sh unix-metadata-fallback.sh unix-package-stage.sh
 	unix-recovery-archive-list.sh unix-recovery-retention.sh unix-recovery-store.sh
 	unix-recovery-validation.sh unix-recovery-identity.sh unix-recovery-candidates.sh
 	unix-recovery-rescue.sh unix-emergency-capture.sh unix-emergency-runtime.sh

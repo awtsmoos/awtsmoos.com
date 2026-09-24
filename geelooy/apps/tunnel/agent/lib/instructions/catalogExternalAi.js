@@ -5,20 +5,20 @@
 const { instructionPack } = require("./pack.js");
 
 /**
- * @file Reveals the external-AI tunnel handoff only when the user's intent calls for it.
+ * @file Reveals the persistent external-AI handoff only when intent calls for it.
  * @description
- * A short request becomes a narrow gate instead of a flood of unrelated context.
- * The Awtsmoos renews each bridge from hidden intent to useful light;
- * Awtsmoos.com lets the needed covenant arrive in its proper time and sight.
+ * The Awtsmoos lets a small phrase open exactly one needed gate;
+ * Awtsmoos.com prefers a durable Agent Link, yet keeps device OAuth as a faithful fallback state.
  */
 const externalAiInstructions = Object.freeze([
 	instructionPack({
 		id: "integration.external-ai-connection",
-		version: 1,
-		summary: "Give a copy-ready Awtsmoos external-AI connection workflow using current OAuth, live tunnel discovery, and multi-agent coordination.",
+		version: 2,
+		summary: "Give a copy-ready persistent Awtsmoos external-AI workflow with Agent Link preference, OAuth fallback, live tunnel discovery, and collaboration.",
 		tags: [
 			"external-ai",
 			"external-agent",
+			"agent-link",
 			"oauth",
 			"device-authorization",
 			"pkce",
@@ -41,20 +41,23 @@ const externalAiInstructions = Object.freeze([
 			]
 		},
 		instructions: [
-			"When this pack matches, default to giving the user one complete copy-ready prompt for the external AI unless the user explicitly requests another format.",
-			"Tell the external AI to read the current control docs, docs.json, and agent-manifest at https://awtsmoos.com/api/tunnel/control/ before assuming any action schema.",
-			"Use client_id=external-agent. Prefer the currently documented OAuth authorization-code flow with PKCE when the external AI can safely complete it; otherwise use the documented headless device-authorization flow.",
-			"For device authorization, use https://awtsmoos.com/api/oauth/device-authorization, show verification_uri_complete when available or the verification URL plus user_code, and require only the human approval step from the user.",
-			"Poll https://awtsmoos.com/api/oauth/token with grant_type=urn:ietf:params:oauth:grant-type:device_code, client_id=external-agent, and the returned device_code. Respect interval, authorization_pending, slow_down, expiry, and denial responses.",
-			"Never expose access tokens, refresh tokens, authorization headers, API keys, cookies, credentials, or other secrets in chat.",
-			"After authentication, call https://awtsmoos.com/api/tunnel/control/my-device and discover the live tunnel instead of asking for or hard-coding a friendly tunnel name.",
-			"Route with routeReference when present, otherwise the current documented immutable tunnel identifier. Treat friendly tunnel names as display labels only.",
-			"Inspect the live agent manifest and supported action schema, then discover the project root before forming repository-relative paths.",
-			"Read the repository's agents.md and other local instructions before changing files. Do not assume the tunnel root needs work/awtsmoos.com prepended.",
-			"Discover and use existing missions, rooms, agents, claims, file claims, heartbeats, messages, and handoff facilities so the external AI coordinates with agents already working instead of overwriting them.",
-			"If the tunnel restarts or disconnects, call my-device again and rediscover the immutable route rather than reusing a stale friendly identity.",
-			"Reuse valid authentication when supported, refresh it through the documented OAuth mechanism when possible, and do not force unnecessary repeated human authorization.",
-			"The connection sequence is: current docs -> OAuth -> human verification when required -> token acquisition -> my-device -> immutable route -> capability discovery -> project-root/filesystem verification -> multi-agent collaboration discovery."
+			"When this pack matches, default to one complete copy-ready prompt for the external AI unless the user asks for another format.",
+			"Tell the external AI to read current OAuth metadata plus tunnel docs, docs.json, and agent-manifest before assuming any auth or action schema.",
+			"Use client_id=external-agent. If OAuth metadata advertises awtsmoos_agent_links_endpoint and awtsmoos_agent_link_grant_type, prefer a persistent Agent Link over re-running human authorization every session.",
+			"An Agent Link is account-owned and tunnel-independent. Never bind it to a friendly tunnel name, tunnel ID, or one chat session.",
+			"Create an Agent Link only through the authenticated management endpoint. Treat agent_link_secret as a durable machine credential: receive it once, store it in the external connector's secure vault outside chat, and never echo it to the conversation.",
+			"For later sessions, POST agent_link_secret to https://awtsmoos.com/api/oauth/token with client_id=external-agent and the advertised Agent Link grant type. Never put Agent Link secrets in query strings or URLs.",
+			"Use the returned ordinary short-lived access/refresh tokens for API calls. If the Agent Link is revoked, stop using its refresh lineage and require a newly approved link.",
+			"If Agent Link persistence is unavailable or the external platform cannot securely retain connector credentials, keep using the existing OAuth authorization-code + PKCE flow or headless device-authorization fallback.",
+			"For device authorization, use https://awtsmoos.com/api/oauth/device-authorization, show verification_uri_complete when available or verification URL plus user_code, and require only human approval.",
+			"Poll https://awtsmoos.com/api/oauth/token with grant_type=urn:ietf:params:oauth:grant-type:device_code, client_id=external-agent, and device_code; respect interval, authorization_pending, slow_down, expiry, and denial.",
+			"Never expose Agent Link secrets, access tokens, refresh tokens, authorization headers, API keys, cookies, credentials, or other secrets in chat.",
+			"After every fresh authentication or recovered session, call https://awtsmoos.com/api/tunnel/control/my-device and discover the currently live tunnel rather than remembering a prior route.",
+			"Route with routeReference when present, otherwise the current documented immutable tunnel identifier. Friendly tunnel names are display labels only.",
+			"Inspect live capabilities and discover the project root before forming paths. Read agents.md and local instructions before writing.",
+			"Discover and use missions, rooms, agents, claims, file claims, heartbeats, messages, and handoffs so multiple AIs coordinate rather than overwrite each other.",
+			"If the tunnel disappears, preserve authentication, retry my-device, and rediscover the route. Tunnel availability and authorization are separate states.",
+			"Preferred sequence: current metadata/docs -> persistent Agent Link when supported -> token exchange -> my-device -> live route -> capabilities/root -> collaboration. Fallback sequence remains PKCE/device OAuth -> my-device -> live route."
 		]
 	})
 ]);

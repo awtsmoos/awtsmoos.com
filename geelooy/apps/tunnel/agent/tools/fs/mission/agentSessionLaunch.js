@@ -1,15 +1,14 @@
 //B"H
-//Boruch Hashem
-//Blessed be He
-
+// Boruch Hashem
+// Blessed is He
+/**
+ * @module AgentSessionLaunch
+ * @description Reserves autonomous Shliach capacity before browser manifestation.
+ * The Awtsmoos lets a process change without changing its room; Awtsmoos.com records
+ * mission, room, and logical-agent identity before Chrome can race another scheduler tick.
+ */
 const Store = require("./agentSessionStore.js");
 
-/**
- * @file Reserves autonomous Shliach capacity before any browser mission is manifested.
- * @description
- * A slow Chrome launch must count immediately, otherwise repeated maintenance ticks can
- * mistake one pending messenger for zero workers and create a browser-spawn storm.
- */
 async function reserve(config, input = {}) {
 	const id = Store.clean(input.agentSessionId || input.sessionId || "");
 	if (!id) throw new Error("missing_agent_session_id");
@@ -20,6 +19,7 @@ async function reserve(config, input = {}) {
 		id,
 		logicalAgentId: input.logicalAgentId || previous?.logicalAgentId || "agent",
 		role: input.role || previous?.role || "autonomous-worker",
+		roomId: input.roomId || previous?.roomId || "",
 		status: "launching",
 		startedAt: previous?.startedAt || now,
 		lastSeenAt: now,
@@ -31,7 +31,7 @@ async function reserve(config, input = {}) {
 	return Store.save(config, session);
 }
 
-/** Marks a failed manifestation without converting its durable mission into failure. */
+/** Marks a failed manifestation while preserving durable mission/room testimony. */
 async function failed(config, sessionId, error) {
 	const session = await Store.load(config, sessionId);
 	if (!session) return null;

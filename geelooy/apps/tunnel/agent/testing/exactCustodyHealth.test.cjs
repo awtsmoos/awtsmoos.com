@@ -1,44 +1,96 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 const assert = require("node:assert/strict");
 const test = require("node:test");
 const ConsumerHealth = require("../lib/connection-vessel/parent-consumer-health.js");
-const Orphan = require("../lib/connection-vessel/parent-consumer-orphan.js");
 
 /**
- * @file Proves unrelated scheduler activity cannot conceal one stale custody receipt.
+ * @file Proves request-local admission progress cannot borrow another action's pulse.
  * @description
- * The Awtsmoos renews each request by its own witness. Awtsmoos.com refuses the old
- * arithmetic where a hundred unrelated queued shadows could lend life to one abandoned
- * mutation whose exact lease had already expired.
+ * The Awtsmoos renews each request by its own witness; Awtsmoos.com will not borrow
+ * another action's heartbeat to excuse a frozen gate, nor punish true running labor.
+ * Exact pre-consumer progress must arrive in bounded time, while honest execution
+ * keeps the longer lease that lets patient work reveal completion without confusion.
  */
-test("unrelated execution never subtracts exact stale custody", () => {
-	const expiredRecord = { id: "receipt-A", requestKey: "request-A", phase: "accepted_waiting_for_consumer", leaseExpiresAt: 1 };
-	const orphan = Orphan.inspect(
-		{ queued: 999, inflight: 999 },
-		{ aware: true, count: 1, oldestAgeMs: 120000, records: [expiredRecord] },
-		{ active: 999 },
-		30000
-	);
-	assert.equal(orphan.trackedExecution, 0);
-	assert.equal(orphan.orphanedCustody, true);
-	assert.equal(orphan.orphanedCustodyCount, 1);
+function inspectRecord(record, now = Date.now()) {
+	return ConsumerHealth.inspect({
+		queued: 0,
+		inflight: 0,
+		lastSuccessfulActionAt: now - 100,
+		lanes: {},
+		executionStages: {
+			active: 0,
+			waitingForConsumer: 0,
+			oldestUnstartedAgeMs: 0
+		},
+		filesystemExecutor: {
+			busy: 0,
+			queued: 0,
+			ready: 4,
+			workers: 4
+		}
+	}, {
+		inbox: {
+			count: 1,
+			parentCustodyCount: 1,
+			parentCustodyOldestAgeMs: Math.max(0, now - record.acceptedAt),
+			parentCustodyRecords: [record]
+		}
+	}, {
+		registered: true,
+		orphanRecovery: true,
+		orphanStaleMs: 60000,
+		now
+	});
+}
+
+test("stale pre-consumer custody is unhealthy despite fresh unrelated success", () => {
+	const now = Date.now();
+	const result = inspectRecord({
+		id: "receipt-stale",
+		phase: "accepted_waiting_for_consumer",
+		acceptedAt: now - 9000,
+		phaseStartedAt: now - 9000,
+		lastProgressAt: now - 9000,
+		leaseExpiresAt: now + 120000
+	}, now);
+	assert.equal(result.recentSuccess, true);
+	assert.equal(result.preConsumerStalled, true);
+	assert.equal(result.preConsumerStallCount, 1);
+	assert.equal(result.consumerStalled, true);
+	assert.equal(result.healthy, false);
 });
 
-test("exact expired custody makes execution unhealthy despite unrelated work", () => {
-	const result = ConsumerHealth.inspect({
-		queued: 500,
-		inflight: 20,
-		lanes: {},
-		executionStages: { active: 20 },
-		filesystemExecutor: { busy: 4, queued: 100, ready: 0, workers: 4 }
-	}, {
-		inbox: { parentCustodyCount: 1, parentCustodyOldestAgeMs: 120000, count: 1,
-			parentCustodyRecords: [{ id: "receipt-A", leaseExpiresAt: 1 }] }
-	}, { registered: true, orphanRecovery: true, orphanStaleMs: 60000 });
-	assert.equal(result.healthy, false);
-	assert.equal(result.orphanStalled, true);
-	assert.equal(result.trackedExecution, 0);
+test("fresh pre-consumer custody remains healthy inside the admission covenant", () => {
+	const now = Date.now();
+	const result = inspectRecord({
+		id: "receipt-fresh",
+		phase: "queued",
+		acceptedAt: now - 2000,
+		phaseStartedAt: now - 1500,
+		lastProgressAt: now - 1000,
+		leaseExpiresAt: now + 120000
+	}, now);
+	assert.equal(result.preConsumerStalled, false);
+	assert.equal(result.consumerStalled, false);
+	assert.equal(result.healthy, true);
+});
+
+test("running custody keeps its execution lease instead of the admission deadline", () => {
+	const now = Date.now();
+	const result = inspectRecord({
+		id: "receipt-running",
+		phase: "running",
+		acceptedAt: now - 90000,
+		phaseStartedAt: now - 90000,
+		lastProgressAt: now - 90000,
+		leaseExpiresAt: now + 30000,
+		workerId: "worker-long-running"
+	}, now);
+	assert.equal(result.preConsumerStalled, false);
+	assert.equal(result.orphanStalled, false);
+	assert.equal(result.consumerStalled, false);
+	assert.equal(result.healthy, true);
 });

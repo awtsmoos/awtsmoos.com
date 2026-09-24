@@ -1,9 +1,8 @@
-//B"H
-// Boruch Hashem
-// Blessed is He
+//B"H // Boruch Hashem // Blessed is He
 
 const { buildActionHistoryActions } = require("../actionGroups/actionHistoryActions.js");
 const { buildActionStreamActions } = require("../actionGroups/actionStreamActions.js");
+const { buildAgentWorkspaceActions } = require("../actionGroups/agentWorkspaceActions.js");
 const { buildAsyncTaskActions } = require("../actionGroups/asyncTaskActions.js");
 const { buildBatchAliasActions } = require("../actionGroups/batchAliasActions.js");
 const { buildCognitionActions } = require("../actionGroups/cognitionActions.js");
@@ -19,6 +18,7 @@ const { buildHttpActions } = require("../actionGroups/httpActionsGroup.js");
 const { buildInstructionActions } = require("../actionGroups/instructionActions.js");
 const { buildIsolatedActions } = require("../actionGroups/isolatedActions.js");
 const { buildKnowledgeActions } = require("../actionGroups/knowledgeActions.js");
+const { buildMacCompanionActions } = require("../actionGroups/macCompanionActions.js");
 const { buildNativeGenerationActions } = require("../actionGroups/nativeGenerationActions.js");
 const { buildNodeDomActions } = require("../actionGroups/nodeDomActions.js");
 const { buildOsSurfaceActions } = require("../actionGroups/osSurfaceActions.js");
@@ -50,7 +50,7 @@ const { buildWriteActions } = require("../actionGroups/writeActions.js");
 /**
  * @file Composes raw files, graph truth, live plans, continuation, governance and collaboration.
  * @description The Awtsmoos leaves ordinary files direct while Awtsmoos.com adds one durable plan,
- * Mission, context, health and collaboration truth beside them for every browser and OS surface.
+ * Mission, agent-scoped workspace, context, health and collaboration truth beside every surface.
  */
 function buildFoundationActions(context, buildActions) {
 	return {
@@ -59,7 +59,9 @@ function buildFoundationActions(context, buildActions) {
 		...buildInstructionActions(context),
 		...buildVelocityGuidanceActions(context),
 		...buildSystemHealthActions(context),
+		...buildMacCompanionActions(context),
 		...buildConfigActions(context),
+		...buildAgentWorkspaceActions(context),
 		...buildReadActions(context),
 		...buildPlanActions(context),
 		...buildWorkGraphHistoryActions(context),

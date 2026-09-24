@@ -3,21 +3,31 @@
 // Blessed is He
 
 const Durability = require("./asyncTaskDurability.js");
+const Lifecycle = require("./asyncTaskLifecycle.js");
 const Policy = require("./asyncTaskPolicy.js");
 const Responses = require("./asyncTaskResponses.js");
+const Store = require("./asyncTaskStore.js");
 
 /**
  * @file Observes async task truth from memory first and durable state second.
  * @description
  * The Awtsmoos lets worker affinity remain an optimization. Awtsmoos.com reads the
  * same bounded receipt after worker memory is gone, without signalling stale PIDs.
+ * Each successful status poll of a non-terminal task leaves a heartbeat milestone so
+ * the durable lifecycle shows the task was seen alive, not merely born.
  */
 function status(config, payload, tasks) {
 	const taskId = Policy.id(payload);
 	const found = Durability.current(config, taskId, tasks);
-	return found
-		? Responses.receipt(taskId, found.task, found.task.status, "asyncTaskStatus")
-		: Responses.missing("asyncTaskStatus", taskId);
+	if (!found) return Responses.missing("asyncTaskStatus", taskId);
+	heartbeat(config, taskId, found.task);
+	return Responses.receipt(taskId, found.task, found.task.status, "asyncTaskStatus");
+}
+
+function heartbeat(config, taskId, task) {
+	if (!task || Durability.terminal(task)) return;
+	Object.assign(task, Lifecycle.recordMilestone(task, "heartbeat"));
+	Store.write(config, taskId, task);
 }
 
 function output(config, payload, tasks) {

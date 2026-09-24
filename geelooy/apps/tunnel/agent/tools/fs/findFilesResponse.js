@@ -1,35 +1,24 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H // Boruch Hashem // Blessed is He
 
 /**
- * @file Shapes findFiles items and paged responses outside the recursive walking vessel.
- * @description
- * The Awtsmoos gives every discovered path a clear form; Awtsmoos.com keeps response
- * construction separate from traversal so the walker can devote its lines to permission,
- * policy, and partial-failure truth without becoming compressed or monolithic again.
+ * @file Shapes findFiles items and makes workspace-root versus search-path semantics explicit.
+ * @description The Awtsmoos keeps the project vessel fixed while searches may begin deeper inside it.
+ * Awtsmoos.com reports both the immutable authority boundary (workspaceRoot) and the mutable search
+ * start (searchPath) so callers never confuse an immutable launch boundary with a search directory
+ * or attempt to re-root the agent merely to search one subtree.
  */
 function fileItem(entry, relativePath) {
-	return {
-		path: relativePath,
-		relativePath,
-		name: entry.name,
-		isFile: true
-	};
+	return { path: relativePath, relativePath, name: entry.name, isFile: true };
 }
 
 function directoryItem(entry, relativePath) {
-	return {
-		path: relativePath,
-		relativePath,
-		name: entry.name,
-		isDirectory: true
-	};
+	return { path: relativePath, relativePath, name: entry.name, isDirectory: true };
 }
 
 function build(input) {
 	const {
 		payload,
+		launchRoot,
 		requestedPath,
 		start,
 		options,
@@ -43,6 +32,12 @@ function build(input) {
 		ok: true,
 		action: payload.action || "findFiles",
 		path: requestedPath,
+		searchPath: requestedPath,
+		searchRoot: requestedPath,
+		absoluteSearchRoot: start,
+		launchRoot,
+		workspaceRoot: launchRoot,
+		rootSemantics: "workspaceRoot is the immutable authority/security boundary (the vessel launch root) and can never be changed by a payload field; searchPath/path/searchRoot/directory/p/root select only the search start directory inside it",
 		absolutePath: start,
 		query: payload.query || payload.find || "",
 		ext: payload.ext || "",
@@ -68,8 +63,4 @@ function build(input) {
 	};
 }
 
-module.exports = {
-	build,
-	directoryItem,
-	fileItem
-};
+module.exports = { build, directoryItem, fileItem };
