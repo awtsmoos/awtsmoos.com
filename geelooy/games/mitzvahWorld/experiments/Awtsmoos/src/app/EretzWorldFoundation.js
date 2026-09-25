@@ -4,9 +4,9 @@
 
 /**
  * @file EretzWorldFoundation.js
- * @description Proves WebGL frame and spawn terrain from a lean foundation chunk, then crosses the generated essential-player boundary for the canonical Chossid.
- * The Awtsmoos gives visible earth and first light their own swift vessels before the authored traveler enters his bounded generated garment;
- * Awtsmoos.com keeps renderer and terrain independent of Chossid while the real Chossid remains mandatory before movement may awake.
+ * @description Certifies the real boot-frame draw and spawn terrain at the instant their synchronous evidence exists.
+ * The Awtsmoos reveals light before the browser yields and earth before the traveler arrives; Awtsmoos.com therefore
+ * records each witnessed fact before any scheduling boundary may let an old silence clock overtake already-created reality.
  */
 
 import { createBootstrapWorldFoundation } from './BootstrapWorldFoundation.js';
@@ -16,7 +16,8 @@ import { attachEretzFoundationVisualHydration } from './EretzFoundationVisualHyd
 import { paintEretzWebGlBootFrame } from './EretzWebGlBootFrame.js';
 import {
 	completeMitzvahWorldEssentialMilestone,
-	ESSENTIAL_MILESTONES
+	ESSENTIAL_MILESTONES,
+	updateMitzvahWorldEssentialMilestone
 } from './MitzvahWorldEssentialBoot.js';
 import { markMitzvahWorldStartupMilestone } from './MitzvahWorldStartupMilestones.js';
 import {
@@ -25,7 +26,7 @@ import {
 	throwIfLaunchAborted
 } from './RuntimeLaunchProgress.js';
 
-/** Builds first frame and terrain before loading the generated canonical-player runtime chunk. */
+/** Builds truthful first frame and terrain before crossing the generated canonical-player boundary. */
 export async function createEretzWorldFoundation(hosts, options = {}) {
 	const qualityProfile = options.qualityProfile;
 	if (!qualityProfile) throw new Error('Eretz foundation requires a quality profile.');
@@ -33,25 +34,19 @@ export async function createEretzWorldFoundation(hosts, options = {}) {
 	options.boot?.begin('webgl-context');
 	reportFoundationStage(options, 'Opening WebGL…', 0.08, 'foundation-renderer-services');
 	const services = createEretzFoundationServices(hosts, qualityProfile, environment);
+	refreshMilestone(environment, ESSENTIAL_MILESTONES.RENDERER_FIRST_FRAME, 'foundation-renderer-services');
 	const webGlBootFrame = paintEretzWebGlBootFrame(services, qualityProfile, environment);
-	await nextLaunchFrame(environment);
-	completeMitzvahWorldEssentialMilestone(
-		environment,
-		ESSENTIAL_MILESTONES.RENDERER_FIRST_FRAME,
-		{ importerStage: 'webgl-boot-frame' }
-	);
+	completeMilestone(environment, ESSENTIAL_MILESTONES.RENDERER_FIRST_FRAME, 'webgl-boot-frame');
 	markMitzvahWorldStartupMilestone(environment, 'rendererReady');
 	throwIfLaunchAborted(options.signal);
 
 	options.boot?.begin('bootstrap-visible-world');
+	refreshMilestone(environment, ESSENTIAL_MILESTONES.SPAWN_TERRAIN_EXISTS, 'bootstrap-world-foundation');
 	const world = createBootstrapWorldFoundation(services);
-	completeMitzvahWorldEssentialMilestone(
-		environment,
-		ESSENTIAL_MILESTONES.SPAWN_TERRAIN_EXISTS,
-		{ importerStage: 'bootstrap-world-foundation' }
-	);
+	completeMilestone(environment, ESSENTIAL_MILESTONES.SPAWN_TERRAIN_EXISTS, 'bootstrap-world-foundation');
 	markMitzvahWorldStartupMilestone(environment, 'firstTerrainVisible');
 	throwIfLaunchAborted(options.signal);
+	await nextLaunchFrame(environment);
 
 	reportFoundationStage(options, 'Loading authored player…', 0.42, 'generated-essential-player');
 	const loaded = await loadDeferredEretzEssentialAssets({
@@ -75,10 +70,15 @@ export async function createEretzWorldFoundation(hosts, options = {}) {
 	return attachEretzFoundationVisualHydration(foundation, options, environment);
 }
 
+function refreshMilestone(environment, milestone, importerStage) {
+	updateMitzvahWorldEssentialMilestone(environment, milestone, { importerStage });
+}
+
+function completeMilestone(environment, milestone, importerStage) {
+	completeMitzvahWorldEssentialMilestone(environment, milestone, { importerStage });
+}
+
 /** Reports one exact foundation stage for launch diagnostics. */
 function reportFoundationStage(options, message, progress, stage) {
-	reportLaunchProgress(options, message, progress, {
-		stage,
-		url: import.meta.url
-	});
+	reportLaunchProgress(options, message, progress, { stage, url: import.meta.url });
 }

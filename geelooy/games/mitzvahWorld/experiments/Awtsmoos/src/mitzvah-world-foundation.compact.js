@@ -22647,9 +22647,9 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	/**
 	 * @file EretzWorldFoundation.js
-	 * @description Proves WebGL frame and spawn terrain from a lean foundation chunk, then crosses the generated essential-player boundary for the canonical Chossid.
-	 * The Awtsmoos gives visible earth and first light their own swift vessels before the authored traveler enters his bounded generated garment;
-	 * Awtsmoos.com keeps renderer and terrain independent of Chossid while the real Chossid remains mandatory before movement may awake.
+	 * @description Certifies the real boot-frame draw and spawn terrain at the instant their synchronous evidence exists.
+	 * The Awtsmoos reveals light before the browser yields and earth before the traveler arrives; Awtsmoos.com therefore
+	 * records each witnessed fact before any scheduling boundary may let an old silence clock overtake already-created reality.
 	 */
 
 	const createBootstrapWorldFoundation = __awtsmoosModule_1.createBootstrapWorldFoundation;
@@ -22659,12 +22659,13 @@ const __awtsmoosModule_0 = Object.create(null);
 	const paintEretzWebGlBootFrame = __awtsmoosModule_262.paintEretzWebGlBootFrame;
 	const completeMitzvahWorldEssentialMilestone = __awtsmoosModule_267.completeMitzvahWorldEssentialMilestone;
 	const ESSENTIAL_MILESTONES = __awtsmoosModule_267.ESSENTIAL_MILESTONES;
+	const updateMitzvahWorldEssentialMilestone = __awtsmoosModule_267.updateMitzvahWorldEssentialMilestone;
 	const markMitzvahWorldStartupMilestone = __awtsmoosModule_261.markMitzvahWorldStartupMilestone;
 	const nextLaunchFrame = __awtsmoosModule_277.nextLaunchFrame;
 	const reportLaunchProgress = __awtsmoosModule_277.reportLaunchProgress;
 	const throwIfLaunchAborted = __awtsmoosModule_277.throwIfLaunchAborted;
 
-	/** Builds first frame and terrain before loading the generated canonical-player runtime chunk. */
+	/** Builds truthful first frame and terrain before crossing the generated canonical-player boundary. */
 	async function createEretzWorldFoundation(hosts, options = {}) {
 		const qualityProfile = options.qualityProfile;
 		if (!qualityProfile) throw new Error('Eretz foundation requires a quality profile.');
@@ -22672,25 +22673,19 @@ const __awtsmoosModule_0 = Object.create(null);
 		options.boot?.begin('webgl-context');
 		reportFoundationStage(options, 'Opening WebGL…', 0.08, 'foundation-renderer-services');
 		const services = createEretzFoundationServices(hosts, qualityProfile, environment);
+		refreshMilestone(environment, ESSENTIAL_MILESTONES.RENDERER_FIRST_FRAME, 'foundation-renderer-services');
 		const webGlBootFrame = paintEretzWebGlBootFrame(services, qualityProfile, environment);
-		await nextLaunchFrame(environment);
-		completeMitzvahWorldEssentialMilestone(
-			environment,
-			ESSENTIAL_MILESTONES.RENDERER_FIRST_FRAME,
-			{ importerStage: 'webgl-boot-frame' }
-		);
+		completeMilestone(environment, ESSENTIAL_MILESTONES.RENDERER_FIRST_FRAME, 'webgl-boot-frame');
 		markMitzvahWorldStartupMilestone(environment, 'rendererReady');
 		throwIfLaunchAborted(options.signal);
 
 		options.boot?.begin('bootstrap-visible-world');
+		refreshMilestone(environment, ESSENTIAL_MILESTONES.SPAWN_TERRAIN_EXISTS, 'bootstrap-world-foundation');
 		const world = createBootstrapWorldFoundation(services);
-		completeMitzvahWorldEssentialMilestone(
-			environment,
-			ESSENTIAL_MILESTONES.SPAWN_TERRAIN_EXISTS,
-			{ importerStage: 'bootstrap-world-foundation' }
-		);
+		completeMilestone(environment, ESSENTIAL_MILESTONES.SPAWN_TERRAIN_EXISTS, 'bootstrap-world-foundation');
 		markMitzvahWorldStartupMilestone(environment, 'firstTerrainVisible');
 		throwIfLaunchAborted(options.signal);
+		await nextLaunchFrame(environment);
 
 		reportFoundationStage(options, 'Loading authored player…', 0.42, 'generated-essential-player');
 		const loaded = await loadDeferredEretzEssentialAssets({
@@ -22716,12 +22711,17 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.createEretzWorldFoundation = createEretzWorldFoundation;
+	function refreshMilestone(environment, milestone, importerStage) {
+		updateMitzvahWorldEssentialMilestone(environment, milestone, { importerStage });
+	}
+
+	function completeMilestone(environment, milestone, importerStage) {
+		completeMitzvahWorldEssentialMilestone(environment, milestone, { importerStage });
+	}
+
 	/** Reports one exact foundation stage for launch diagnostics. */
 	function reportFoundationStage(options, message, progress, stage) {
-		reportLaunchProgress(options, message, progress, {
-			stage,
-			url: (( globalThis.location?.origin && globalThis.location.origin !== "null" ? globalThis.location.origin : "https://awtsmoos.local" ) + "/games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzWorldFoundation.js")
-		});
+		reportLaunchProgress(options, message, progress, { stage, url: (( globalThis.location?.origin && globalThis.location.origin !== "null" ? globalThis.location.origin : "https://awtsmoos.local" ) + "/games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzWorldFoundation.js") });
 	}
 
 }
