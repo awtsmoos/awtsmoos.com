@@ -59,8 +59,17 @@ async function vectorSource(options) {
 		options.limit || 10,
 		{ requireIndexed: options.requireIndexed === true }
 	));
+	// Pending comment vectors: newly imported comments surface in semantic
+	// search at query time, before a persisted shard absorbs them (best-effort).
+	const { searchPendingVectors, mergePendingHits } = require('./pendingCommentVectors.js');
+	let pendingMergedHits = source.hits;
+	try {
+		const pending = await searchPendingVectors({ $i: options.$i, queryVector: embedding.vector, limit: options.limit || 10 });
+		pendingMergedHits = mergePendingHits(source.hits, pending, options.limit || 10);
+	} catch (_) {}
 	return {
 		...source,
+		hits: pendingMergedHits,
 		mode: 'vector',
 		queryLanguage: queryLanguage(options.query),
 		engine: 'custom-english-semantic-vector-search',
