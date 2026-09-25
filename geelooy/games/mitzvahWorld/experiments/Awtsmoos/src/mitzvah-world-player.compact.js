@@ -132,23 +132,25 @@ const __awtsmoosModule_56 = Object.create(null);
 
 const __awtsmoosModule_57 = Object.create(null);
 
+const __awtsmoosModule_58 = Object.create(null);
+
 const __awtsmoosModule_50 = Object.create(null);
 
 const __awtsmoosModule_49 = Object.create(null);
 
-const __awtsmoosModule_58 = Object.create(null);
+const __awtsmoosModule_59 = Object.create(null);
 
 const __awtsmoosModule_48 = Object.create(null);
 
 const __awtsmoosModule_2 = Object.create(null);
 
-const __awtsmoosModule_60 = Object.create(null);
+const __awtsmoosModule_61 = Object.create(null);
+
+const __awtsmoosModule_63 = Object.create(null);
 
 const __awtsmoosModule_62 = Object.create(null);
 
-const __awtsmoosModule_61 = Object.create(null);
-
-const __awtsmoosModule_59 = Object.create(null);
+const __awtsmoosModule_60 = Object.create(null);
 
 const __awtsmoosModule_0 = Object.create(null);
 
@@ -3946,15 +3948,18 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	/**
 	 * @file MitzvahWorldEssentialMilestoneCatalog.js
-	 * @description Declares the five facts that alone may open first play.
-	 * The Awtsmoos renews each fact from nothing, while Awtsmoos.com keeps the
-	 * gate narrow and bright: no optional ornament may masquerade as essential light.
+	 * @description Declares the five facts that alone may open first play and the finite silence/hard horizons that guard them.
+	 * The Awtsmoos renews each fact from nothing; Awtsmoos.com measures silence rather than punishing a slower vessel
+	 * that is still revealing truthful progress, while one outer horizon keeps first play bounded.
 	 */
 
-	const ESSENTIAL_BOOT_TIMEOUT_MS = 5000;
-
+	const ESSENTIAL_BOOT_TIMEOUT_MS = 30000;
 
 	__exports.ESSENTIAL_BOOT_TIMEOUT_MS = ESSENTIAL_BOOT_TIMEOUT_MS;
+	const ESSENTIAL_HARD_TIMEOUT_MS = 90000;
+
+
+	__exports.ESSENTIAL_HARD_TIMEOUT_MS = ESSENTIAL_HARD_TIMEOUT_MS;
 	const ESSENTIAL_MILESTONES = Object.freeze({
 		ENTRY_MODULE_EXECUTED: 'entryModuleExecuted',
 		RENDERER_FIRST_FRAME: 'rendererFirstFrame',
@@ -3994,7 +3999,6 @@ const __awtsmoosModule_0 = Object.create(null);
 		});
 	}
 
-	/** Converts camelCase milestone names into stable diagnostic tokens. */
 	function toFailureToken(name) {
 		return name.replace(/([a-z])([A-Z])/g, '$1_$2').toUpperCase();
 	}
@@ -4010,33 +4014,29 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	/**
 	 * @file MitzvahWorldEssentialClock.js
-	 * @description Keeps essential-boot time and watchdog mechanics outside the fact ledger.
-	 * The Awtsmoos renews each measure while no measure contains His light;
-	 * Awtsmoos.com borrows the clock only to reveal when waiting has crossed the bounded night.
+	 * @description Keeps essential-boot time and finite watchdog scheduling outside the fact ledger.
+	 * The Awtsmoos renews each measured instant; Awtsmoos.com schedules only the next truthful deadline,
+	 * never confusing one fixed wall-clock guess with the living progress of a slower browser.
 	 */
 
 	const ESSENTIAL_BOOT_TIMEOUT_MS = __awtsmoosModule_52.ESSENTIAL_BOOT_TIMEOUT_MS;
 
-	/** Arms the single five-second watchdog for first-play readiness. */
-	function scheduleMitzvahWorldEssentialTimeout(environment, callback) {
-		const timer = (environment?.setTimeout?.bind(environment) || setTimeout)(
-			callback,
-			ESSENTIAL_BOOT_TIMEOUT_MS
-		);
+	function scheduleMitzvahWorldEssentialTimeout(environment, callback, delayMilliseconds = ESSENTIAL_BOOT_TIMEOUT_MS) {
+		const schedule = environment?.setTimeout?.bind(environment) || setTimeout;
+		const timer = schedule(callback, Math.max(0, Number(delayMilliseconds) || 0));
 		timer?.unref?.();
 		return timer;
 	}
 
 
 	__exports.scheduleMitzvahWorldEssentialTimeout = scheduleMitzvahWorldEssentialTimeout;
-	/** Cancels a previously armed essential watchdog. */
 	function cancelMitzvahWorldEssentialTimeout(environment, timer) {
+		if (timer === undefined || timer === null) return;
 		(environment?.clearTimeout?.bind(environment) || clearTimeout)(timer);
 	}
 
 
 	__exports.cancelMitzvahWorldEssentialTimeout = cancelMitzvahWorldEssentialTimeout;
-	/** Reads monotonic browser time when possible, with Date as the universal vessel. */
 	function readMitzvahWorldEssentialTime(environment) {
 		return environment?.performance?.now?.() ?? Date.now();
 	}
@@ -4054,12 +4054,11 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	/**
 	 * @file MitzvahWorldEssentialRecord.js
-	 * @description Builds and reads one essential boot fact without owning browser side effects or inventing an early start time.
-	 * The Awtsmoos renews each fact only when its vessel is ready to receive the next light;
-	 * Awtsmoos.com keeps queued milestones timeless until dependency truth opens their measured night.
+	 * @description Builds and reads one essential boot fact while keeping activation time distinct from most recent truthful progress.
+	 * The Awtsmoos renews each fact whenever its vessel reveals another threshold; Awtsmoos.com therefore measures silence
+	 * from the latest witnessed progress instead of condemning an active mobile load for total wall-clock age.
 	 */
 
-	/** Creates one mutable internal record from an immutable definition. */
 	function createEssentialRecord(definition) {
 		return {
 			...definition,
@@ -4069,6 +4068,7 @@ const __awtsmoosModule_0 = Object.create(null);
 			failureCode: null,
 			failureMessage: null,
 			importerStage: null,
+			lastProgressAtMilliseconds: null,
 			resourceStatus: null,
 			resourceUrl: null,
 			startedAtMilliseconds: null,
@@ -4078,29 +4078,20 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.createEssentialRecord = createEssentialRecord;
-	/** Applies only serializable resource/importer evidence. */
 	function applyEssentialDetails(record, details = {}) {
-		if ('importerStage' in details) {
-			record.importerStage = details.importerStage ?? null;
-		}
-		if ('resourceStatus' in details) {
-			record.resourceStatus = details.resourceStatus ?? null;
-		}
-		if ('resourceUrl' in details) {
-			record.resourceUrl = details.resourceUrl ?? null;
-		}
+		if ('importerStage' in details) record.importerStage = details.importerStage ?? null;
+		if ('resourceStatus' in details) record.resourceStatus = details.resourceStatus ?? null;
+		if ('resourceUrl' in details) record.resourceUrl = details.resourceUrl ?? null;
 	}
 
 
 	__exports.applyEssentialDetails = applyEssentialDetails;
-	/** Returns whether a milestone can no longer transition. */
 	function isEssentialTerminal(status) {
 		return status === 'complete' || status === 'failed' || status === 'timed-out';
 	}
 
 
 	__exports.isEssentialTerminal = isEssentialTerminal;
-	/** Returns whether all declared dependencies have completed. */
 	function essentialDependenciesComplete(records, record) {
 		return record.dependencies.every(name => records.get(name)?.status === 'complete');
 	}
@@ -4118,20 +4109,20 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	/**
 	 * @file MitzvahWorldEssentialTiming.js
-	 * @description Owns milestone activation and deadline arithmetic without owning failure presentation or browser timers.
+	 * @description Owns activation and silence-deadline arithmetic for essential first-play facts.
 	 * The Awtsmoos renews every dependency only when its vessel can truly receive the next light;
-	 * Awtsmoos.com therefore starts each milestone clock at activation, while the whole first-play covenant still ends after one bounded night.
+	 * Awtsmoos.com therefore measures each active fact from its latest witnessed progress, never from stale wall-clock memory.
 	 */
 
 	const essentialDependenciesComplete = __awtsmoosModule_55.essentialDependenciesComplete;
 
-	/** Activates every newly dependency-ready pending record exactly once. */
 	function activateReadyEssentialRecords(records, currentTime) {
 		const activated = [];
 		for (const record of records.values()) {
 			if (record.status !== 'pending' || record.startedAtMilliseconds !== null) continue;
 			if (!essentialDependenciesComplete(records, record)) continue;
 			record.startedAtMilliseconds = currentTime;
+			record.lastProgressAtMilliseconds = currentTime;
 			activated.push(record.name);
 		}
 		return activated;
@@ -4139,15 +4130,22 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.activateReadyEssentialRecords = activateReadyEssentialRecords;
-	/** Returns true when one active record has exceeded its own declared timeout. */
+	function touchEssentialRecord(record, currentTime) {
+		if (record.status !== 'pending' || record.startedAtMilliseconds === null) return false;
+		record.lastProgressAtMilliseconds = currentTime;
+		return true;
+	}
+
+
+	__exports.touchEssentialRecord = touchEssentialRecord;
 	function essentialRecordTimedOut(record, currentTime) {
 		if (record.startedAtMilliseconds === null) return false;
-		return currentTime - record.startedAtMilliseconds >= record.timeoutMilliseconds;
+		const latest = record.lastProgressAtMilliseconds ?? record.startedAtMilliseconds;
+		return currentTime - latest >= record.timeoutMilliseconds;
 	}
 
 
 	__exports.essentialRecordTimedOut = essentialRecordTimedOut;
-	/** Returns the first active pending record whose own deadline has elapsed. */
 	function firstTimedOutEssentialRecord(records, currentTime) {
 		return [...records.values()].find(record => {
 			return record.status === 'pending' && essentialRecordTimedOut(record, currentTime);
@@ -4156,7 +4154,6 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.firstTimedOutEssentialRecord = firstTimedOutEssentialRecord;
-	/** Returns the first currently active pending fact for presentation. */
 	function firstActiveEssentialRecord(records) {
 		return [...records.values()].find(record => {
 			return record.status === 'pending' && record.startedAtMilliseconds !== null;
@@ -4165,7 +4162,6 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.firstActiveEssentialRecord = firstActiveEssentialRecord;
-	/** Calculates elapsed time without making queued milestones appear to have been running. */
 	function essentialElapsedMilliseconds(record, currentTime) {
 		if (record.status !== 'pending') return record.elapsedMilliseconds;
 		if (record.startedAtMilliseconds === null) return 0;
@@ -4185,15 +4181,14 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	/**
 	 * @file MitzvahWorldEssentialDeadlinePolicy.js
-	 * @description Names dependency and timeout failures without owning milestone mutation or browser timers.
-	 * The Awtsmoos gives every bounded delay its truthful name while no later vessel inherits an expired clock;
-	 * Awtsmoos.com keeps per-milestone timeout codes distinct from the whole first-play covenant that guards the world around the block.
+	 * @description Names dependency, silence, and whole-first-play timeout failures without owning mutation or timers.
+	 * The Awtsmoos gives every bounded delay its truthful name; Awtsmoos.com distinguishes a silent milestone
+	 * from the outer hard horizon so diagnostics never confuse local stillness with total first-play exhaustion.
 	 */
 
-	const ESSENTIAL_BOOT_TIMEOUT_MS = __awtsmoosModule_52.ESSENTIAL_BOOT_TIMEOUT_MS;
+	const ESSENTIAL_HARD_TIMEOUT_MS = __awtsmoosModule_52.ESSENTIAL_HARD_TIMEOUT_MS;
 	const essentialRecordTimedOut = __awtsmoosModule_54.essentialRecordTimedOut;
 
-	/** Returns dependency failure evidence for an attempted premature completion. */
 	function essentialDependencyFailure(details, missing) {
 		return {
 			...details,
@@ -4204,20 +4199,18 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.essentialDependencyFailure = essentialDependencyFailure;
-	/** Returns timeout evidence only when the record or whole first-play covenant is actually overdue. */
 	function essentialDeadlineFailure(record, currentTime, bootStartedAt, details = {}) {
 		if (essentialRecordTimedOut(record, currentTime)) {
 			return timeoutDetails(record, details, record.timeoutFailureCode);
 		}
-		if (currentTime - bootStartedAt >= ESSENTIAL_BOOT_TIMEOUT_MS) {
-			return timeoutDetails(record, details, 'ESSENTIAL_FIRST_PLAY_DEADLINE_EXCEEDED');
+		if (currentTime - bootStartedAt >= ESSENTIAL_HARD_TIMEOUT_MS) {
+			return timeoutDetails(record, details, 'ESSENTIAL_FIRST_PLAY_HARD_TIMEOUT');
 		}
 		return null;
 	}
 
 
 	__exports.essentialDeadlineFailure = essentialDeadlineFailure;
-	/** Produces one terminal timed-out detail object while preserving resource/importer evidence. */
 	function timeoutDetails(record, details, failureCode) {
 		return {
 			...details,
@@ -4368,6 +4361,69 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldEssentialWatchdog.js ----
+{
+	const __exports = __awtsmoosModule_58;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	const ESSENTIAL_HARD_TIMEOUT_MS = __awtsmoosModule_52.ESSENTIAL_HARD_TIMEOUT_MS;
+	const cancelMitzvahWorldEssentialTimeout = __awtsmoosModule_51.cancelMitzvahWorldEssentialTimeout;
+	const readMitzvahWorldEssentialTime = __awtsmoosModule_51.readMitzvahWorldEssentialTime;
+	const scheduleMitzvahWorldEssentialTimeout = __awtsmoosModule_51.scheduleMitzvahWorldEssentialTimeout;
+
+	/**
+	 * @file MitzvahWorldEssentialWatchdog.js
+	 * @description Schedules one timer for the earliest milestone-silence or whole-first-play deadline.
+	 * The Awtsmoos gives each active fact its own measured silence while one horizon surrounds them all;
+	 * Awtsmoos.com watches whichever truthful boundary arrives first instead of resetting stuck siblings together.
+	 */
+	class MitzvahWorldEssentialWatchdog {
+		constructor(environment, startedAtMilliseconds, onTimeout) {
+			this.environment = environment;
+			this.startedAtMilliseconds = startedAtMilliseconds;
+			this.onTimeout = onTimeout;
+			this.timer = null;
+		}
+
+		rearm(records, currentTime = readMitzvahWorldEssentialTime(this.environment)) {
+			this.cancel();
+			const delay = nextEssentialWatchdogDelay(records, currentTime, this.startedAtMilliseconds);
+			if (!Number.isFinite(delay)) return null;
+			this.timer = scheduleMitzvahWorldEssentialTimeout(this.environment, this.onTimeout, delay);
+			return this.timer;
+		}
+
+		cancel() {
+			cancelMitzvahWorldEssentialTimeout(this.environment, this.timer);
+			this.timer = null;
+		}
+	}
+
+
+	__exports.MitzvahWorldEssentialWatchdog = MitzvahWorldEssentialWatchdog;
+	function nextEssentialWatchdogDelay(records, currentTime, startedAtMilliseconds) {
+		const remaining = [];
+		for (const record of records.values()) {
+			if (record.status !== 'pending' || record.startedAtMilliseconds === null) continue;
+			const latest = record.lastProgressAtMilliseconds ?? record.startedAtMilliseconds;
+			remaining.push(record.timeoutMilliseconds - (currentTime - latest));
+		}
+		remaining.push(ESSENTIAL_HARD_TIMEOUT_MS - (currentTime - startedAtMilliseconds));
+		return Math.max(0, Math.min(...remaining));
+	}
+
+
+	__exports.nextEssentialWatchdogDelay = nextEssentialWatchdogDelay;
+	function essentialHardTimeoutReached(currentTime, startedAtMilliseconds) {
+		return currentTime - startedAtMilliseconds >= ESSENTIAL_HARD_TIMEOUT_MS;
+	}
+
+	__exports.essentialHardTimeoutReached = essentialHardTimeoutReached;
+
+}
+
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldEssentialLedger.js ----
 {
 	const __exports = __awtsmoosModule_50;
@@ -4377,14 +4433,12 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	/**
 	 * @file MitzvahWorldEssentialLedger.js
-	 * @description Owns lifecycle transitions for five essential facts while deadline policy and timing remain separate vessels.
-	 * The Awtsmoos joins dependency to dependency without lending tomorrow's clock to today's light;
-	 * Awtsmoos.com lets each fact begin when ready, while one bounded first-play covenant still guards the night.
+	 * @description Owns five essential facts while one watchdog observes each fact's silence and the whole first-play horizon.
+	 * The Awtsmoos joins dependency to dependency without mistaking active revelation for delay;
+	 * Awtsmoos.com refreshes only the fact that truly progressed while every silent sibling keeps its own finite night.
 	 */
 
-	const cancelMitzvahWorldEssentialTimeout = __awtsmoosModule_51.cancelMitzvahWorldEssentialTimeout;
 	const readMitzvahWorldEssentialTime = __awtsmoosModule_51.readMitzvahWorldEssentialTime;
-	const scheduleMitzvahWorldEssentialTimeout = __awtsmoosModule_51.scheduleMitzvahWorldEssentialTimeout;
 	const essentialDeadlineFailure = __awtsmoosModule_53.essentialDeadlineFailure;
 	const essentialDependencyFailure = __awtsmoosModule_53.essentialDependencyFailure;
 	const timeoutDetails = __awtsmoosModule_53.timeoutDetails;
@@ -4397,20 +4451,29 @@ const __awtsmoosModule_0 = Object.create(null);
 	const activateReadyEssentialRecords = __awtsmoosModule_54.activateReadyEssentialRecords;
 	const firstActiveEssentialRecord = __awtsmoosModule_54.firstActiveEssentialRecord;
 	const firstTimedOutEssentialRecord = __awtsmoosModule_54.firstTimedOutEssentialRecord;
+	const touchEssentialRecord = __awtsmoosModule_54.touchEssentialRecord;
+	const MitzvahWorldEssentialWatchdog = __awtsmoosModule_58.MitzvahWorldEssentialWatchdog;
+	const essentialHardTimeoutReached = __awtsmoosModule_58.essentialHardTimeoutReached;
 
 	class MitzvahWorldEssentialLedger {
 		constructor(environment) {
 			this.environment = environment;
 			this.startedAtMilliseconds = readMitzvahWorldEssentialTime(environment);
-			this.records = new Map(ESSENTIAL_MILESTONE_CATALOG.map(definition => [definition.name, createEssentialRecord(definition)]));
+			this.records = new Map(ESSENTIAL_MILESTONE_CATALOG.map(item => [item.name, createEssentialRecord(item)]));
 			activateReadyEssentialRecords(this.records, this.startedAtMilliseconds);
-			this.timer = scheduleMitzvahWorldEssentialTimeout(environment, () => this.timeout());
+			this.watchdog = new MitzvahWorldEssentialWatchdog(environment, this.startedAtMilliseconds, () => this.timeout());
+			this.rearmWatchdog(this.startedAtMilliseconds);
 			this.publish();
 		}
 
 		update(name, details = {}) {
 			const record = this.requireRecord(name);
-			if (!isEssentialTerminal(record.status)) applyEssentialDetails(record, details);
+			if (!isEssentialTerminal(record.status)) {
+				const now = readMitzvahWorldEssentialTime(this.environment);
+				applyEssentialDetails(record, details);
+				touchEssentialRecord(record, now);
+				this.rearmWatchdog(now);
+			}
 			return this.publish();
 		}
 
@@ -4419,42 +4482,50 @@ const __awtsmoosModule_0 = Object.create(null);
 			if (isEssentialTerminal(record.status)) return this.snapshot();
 			const missing = record.dependencies.find(dependency => this.records.get(dependency)?.status !== 'complete');
 			if (missing) return this.fail(name, essentialDependencyFailure(details, missing));
-			const currentTime = readMitzvahWorldEssentialTime(this.environment);
-			activateReadyEssentialRecords(this.records, currentTime);
-			const deadlineFailure = essentialDeadlineFailure(record, currentTime, this.startedAtMilliseconds, details);
-			if (deadlineFailure) return this.fail(name, deadlineFailure);
+			const now = readMitzvahWorldEssentialTime(this.environment);
+			const failure = essentialDeadlineFailure(record, now, this.startedAtMilliseconds, details);
+			if (failure) return this.fail(name, failure);
 			applyEssentialDetails(record, details);
+			record.lastProgressAtMilliseconds = now;
 			record.status = 'complete';
-			record.completedAtMilliseconds = currentTime;
-			record.elapsedMilliseconds = currentTime - record.startedAtMilliseconds;
-			activateReadyEssentialRecords(this.records, currentTime);
-			this.clearTimerIfFinished();
+			record.completedAtMilliseconds = now;
+			record.elapsedMilliseconds = now - record.startedAtMilliseconds;
+			activateReadyEssentialRecords(this.records, now);
+			this.rearmWatchdog(now);
 			return this.publish();
 		}
 
 		fail(name, details = {}) {
 			const record = this.requireRecord(name);
 			if (isEssentialTerminal(record.status)) return this.snapshot();
-			const currentTime = readMitzvahWorldEssentialTime(this.environment);
+			const now = readMitzvahWorldEssentialTime(this.environment);
 			applyEssentialDetails(record, details);
 			record.status = details.status || 'failed';
 			record.failureCode = details.failureCode || 'ESSENTIAL_BOOT_FAILURE';
 			record.failureMessage = details.failureMessage || null;
-			record.failedAtMilliseconds = currentTime;
-			record.elapsedMilliseconds = currentTime - (record.startedAtMilliseconds ?? this.startedAtMilliseconds);
-			cancelMitzvahWorldEssentialTimeout(this.environment, this.timer);
+			record.failedAtMilliseconds = now;
+			record.elapsedMilliseconds = now - (record.startedAtMilliseconds ?? this.startedAtMilliseconds);
+			this.cancelWatchdog();
 			const snapshot = this.publish();
 			presentMitzvahWorldEssentialFailure(this.environment, snapshot.stalledMilestone);
 			return snapshot;
 		}
 
 		timeout() {
-			const currentTime = readMitzvahWorldEssentialTime(this.environment);
-			const overdue = firstTimedOutEssentialRecord(this.records, currentTime);
-			const record = overdue || firstActiveEssentialRecord(this.records);
-			if (!record) return this.publish();
-			const code = overdue ? record.timeoutFailureCode : 'ESSENTIAL_FIRST_PLAY_DEADLINE_EXCEEDED';
-			return this.fail(record.name, timeoutDetails(record, {}, code));
+			const now = readMitzvahWorldEssentialTime(this.environment);
+			const overdue = firstTimedOutEssentialRecord(this.records, now);
+			if (overdue) return this.fail(overdue.name, timeoutDetails(overdue, {}, overdue.timeoutFailureCode));
+			if (essentialHardTimeoutReached(now, this.startedAtMilliseconds)) {
+				const record = firstActiveEssentialRecord(this.records);
+				if (record) return this.fail(record.name, timeoutDetails(record, {}, 'ESSENTIAL_FIRST_PLAY_HARD_TIMEOUT'));
+			}
+			this.rearmWatchdog(now);
+			return this.publish();
+		}
+
+		cancelWatchdog() {
+			this.watchdog?.cancel();
+			this.timer = null;
 		}
 
 		publish() {
@@ -4473,10 +4544,9 @@ const __awtsmoosModule_0 = Object.create(null);
 			return record;
 		}
 
-		clearTimerIfFinished() {
-			if ([...this.records.values()].every(record => isEssentialTerminal(record.status))) {
-				cancelMitzvahWorldEssentialTimeout(this.environment, this.timer);
-			}
+		rearmWatchdog(now) {
+			if ([...this.records.values()].every(record => isEssentialTerminal(record.status))) return this.cancelWatchdog();
+			this.timer = this.watchdog.rearm(this.records, now);
 		}
 	}
 
@@ -4493,13 +4563,12 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	/**
 	 * @file MitzvahWorldEssentialBoot.js
-	 * @description Publishes one environment-owned essential boot ledger across source modules and independently compiled runtime chunks.
-	 * The Awtsmoos is one while many vessels reveal His light; Awtsmoos.com therefore lets entry, foundation, Chossid, and movement
-	 * testify into one shared Malchus rather than four isolated module memories that could each mistake another chamber for darkness.
+	 * @description Publishes one environment-owned essential ledger across source modules and independently compiled runtime chunks.
+	 * The Awtsmoos is one while many vessels reveal His light; Awtsmoos.com lets entry, renderer, terrain, Chossid, and movement
+	 * testify into one shared Malchus whose silence clocks renew with real progress and whose outer first-play horizon stays finite.
 	 */
 
 	const MitzvahWorldEssentialLedger = __awtsmoosModule_50.MitzvahWorldEssentialLedger;
-	const cancelMitzvahWorldEssentialTimeout = __awtsmoosModule_51.cancelMitzvahWorldEssentialTimeout;
 	const dismissMitzvahWorldEssentialFailure = __awtsmoosModule_56.dismissMitzvahWorldEssentialFailure;
 	const CATALOG_MILESTONES = __awtsmoosModule_52.ESSENTIAL_MILESTONES;
 	__exports.ESSENTIAL_MILESTONES = __awtsmoosModule_52.ESSENTIAL_MILESTONES;
@@ -4507,27 +4576,18 @@ const __awtsmoosModule_0 = Object.create(null);
 	const LEDGER_KEY = 'AwtsmoosMitzvahWorldEssentialLedgerInternal';
 	const RESTART_ENTRY_STAGE = 'world-launch-restart';
 
-	/** Returns the one essential ledger owned by the browser-like environment, even across compiled chunk copies. */
 	function initializeMitzvahWorldEssentialBoot(environment = globalThis) {
-		if (!environment[LEDGER_KEY]) {
-			installLedger(environment, new MitzvahWorldEssentialLedger(environment));
-		}
+		if (!environment[LEDGER_KEY]) installLedger(environment, new MitzvahWorldEssentialLedger(environment));
 		return environment[LEDGER_KEY];
 	}
 
 
 	__exports.initializeMitzvahWorldEssentialBoot = initializeMitzvahWorldEssentialBoot;
-	/**
-	 * Restarts the bounded essential gate at world launch.
-	 * A menu-idle timeout is honest evidence that the menu stalled, but it must never poison first play:
-	 * the world click opens a fresh five-second gate that certifies independently of page load.
-	 * Truthful entry-module evidence (URL, importer stage, resource status) is carried onto the fresh ledger,
-	 * the stale watchdog is disarmed, and any presented menu-idle failure is dismissed.
-	 */
+	/** Restarts first-play custody so menu-idle evidence can never poison a later world click. */
 	function restartMitzvahWorldEssentialBoot(environment = globalThis) {
 		const previous = environment[LEDGER_KEY] || null;
 		const entryEvidence = readEntryEvidence(previous) || { importerStage: RESTART_ENTRY_STAGE };
-		disarmPreviousWatchdog(environment, previous);
+		previous?.cancelWatchdog?.();
 		dismissMitzvahWorldEssentialFailure(environment);
 		installLedger(environment, new MitzvahWorldEssentialLedger(environment));
 		return completeMitzvahWorldEssentialMilestone(
@@ -4539,7 +4599,6 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.restartMitzvahWorldEssentialBoot = restartMitzvahWorldEssentialBoot;
-	/** Installs one environment-owned ledger, replacing any stale world-entry gate. */
 	function installLedger(environment, ledger) {
 		Object.defineProperty(environment, LEDGER_KEY, {
 			configurable: true,
@@ -4549,63 +4608,35 @@ const __awtsmoosModule_0 = Object.create(null);
 		});
 	}
 
-	/** Carries truthful entry-module evidence from the page-load gate onto the fresh world-launch gate. */
 	function readEntryEvidence(previous) {
 		const record = previous?.records?.get?.(CATALOG_MILESTONES.ENTRY_MODULE_EXECUTED);
-		if (!record || record.status !== 'complete') {
-			return null;
-		}
+		if (!record || record.status !== 'complete') return null;
 		const evidence = {};
-		if (record.importerStage != null) {
-			evidence.importerStage = record.importerStage;
-		}
-		if (record.resourceUrl != null) {
-			evidence.resourceUrl = record.resourceUrl;
-		}
-		if (record.resourceStatus != null) {
-			evidence.resourceStatus = record.resourceStatus;
-		}
-		if (Object.keys(evidence).length === 0) {
-			evidence.importerStage = RESTART_ENTRY_STAGE;
-		}
+		if (record.importerStage != null) evidence.importerStage = record.importerStage;
+		if (record.resourceUrl != null) evidence.resourceUrl = record.resourceUrl;
+		if (record.resourceStatus != null) evidence.resourceStatus = record.resourceStatus;
+		if (Object.keys(evidence).length === 0) evidence.importerStage = RESTART_ENTRY_STAGE;
 		return evidence;
 	}
 
-	/** Cancels the stale watchdog so a menu-idle timeout can never overwrite the fresh gate. */
-	function disarmPreviousWatchdog(environment, previous) {
-		const timer = previous?.timer;
-		if (timer === undefined || timer === null) {
-			return;
-		}
-		try {
-			cancelMitzvahWorldEssentialTimeout(environment, timer);
-		} catch (error) {
-			// A stale watchdog must never block world entry; the fresh ledger arms its own.
-		}
-	}
-
-	/** Adds nonterminal importer or resource evidence. */
 	function updateMitzvahWorldEssentialMilestone(environment, name, details = {}) {
 		return initializeMitzvahWorldEssentialBoot(environment).update(name, details);
 	}
 
 
 	__exports.updateMitzvahWorldEssentialMilestone = updateMitzvahWorldEssentialMilestone;
-	/** Completes one witnessed essential fact. */
 	function completeMitzvahWorldEssentialMilestone(environment, name, details = {}) {
 		return initializeMitzvahWorldEssentialBoot(environment).complete(name, details);
 	}
 
 
 	__exports.completeMitzvahWorldEssentialMilestone = completeMitzvahWorldEssentialMilestone;
-	/** Fails one essential fact with actionable evidence. */
 	function failMitzvahWorldEssentialMilestone(environment, name, details = {}) {
 		return initializeMitzvahWorldEssentialBoot(environment).fail(name, details);
 	}
 
 
 	__exports.failMitzvahWorldEssentialMilestone = failMitzvahWorldEssentialMilestone;
-	/** Returns an immutable globally equivalent boot snapshot. */
 	function getMitzvahWorldEssentialBootSnapshot(environment = globalThis) {
 		return initializeMitzvahWorldEssentialBoot(environment).snapshot();
 	}
@@ -4616,7 +4647,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzConstants.js ----
 {
-	const __exports = __awtsmoosModule_58;
+	const __exports = __awtsmoosModule_59;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -4682,7 +4713,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	const ESSENTIAL_MILESTONES = __awtsmoosModule_49.ESSENTIAL_MILESTONES;
 	const updateMitzvahWorldEssentialMilestone = __awtsmoosModule_49.updateMitzvahWorldEssentialMilestone;
-	const PLAYER_MODEL_URL = __awtsmoosModule_58.PLAYER_MODEL_URL;
+	const PLAYER_MODEL_URL = __awtsmoosModule_59.PLAYER_MODEL_URL;
 
 	const GLOBAL_NAME = 'AwtsmoosMitzvahWorldCanonicalChossidTiming';
 
@@ -4773,7 +4804,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	const beginCanonicalChossidTiming = __awtsmoosModule_48.beginCanonicalChossidTiming;
 	const completeCanonicalChossidTiming = __awtsmoosModule_48.completeCanonicalChossidTiming;
 	const recordCanonicalChossidStage = __awtsmoosModule_48.recordCanonicalChossidStage;
-	const PLAYER_MODEL_URL = __awtsmoosModule_58.PLAYER_MODEL_URL;
+	const PLAYER_MODEL_URL = __awtsmoosModule_59.PLAYER_MODEL_URL;
 	const completeMitzvahWorldEssentialMilestone = __awtsmoosModule_49.completeMitzvahWorldEssentialMilestone;
 	const ESSENTIAL_MILESTONES = __awtsmoosModule_49.ESSENTIAL_MILESTONES;
 	const failMitzvahWorldEssentialMilestone = __awtsmoosModule_49.failMitzvahWorldEssentialMilestone;
@@ -4883,7 +4914,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzDeferredHydrationState.js ----
 {
-	const __exports = __awtsmoosModule_60;
+	const __exports = __awtsmoosModule_61;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -4946,7 +4977,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/DeferredAppModuleUrl.js ----
 {
-	const __exports = __awtsmoosModule_62;
+	const __exports = __awtsmoosModule_63;
 	//B"H
 	//Boruch Hashem
 	//Blessed is He
@@ -4984,7 +5015,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzEssentialHydrationUrls.js ----
 {
-	const __exports = __awtsmoosModule_61;
+	const __exports = __awtsmoosModule_62;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -4996,7 +5027,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * so playable earth arrives with speed while later beauty crosses the same truthful path when its appointed light is kindled.
 	 */
 
-	const resolveDeferredAppModuleUrl = __awtsmoosModule_62.resolveDeferredAppModuleUrl;
+	const resolveDeferredAppModuleUrl = __awtsmoosModule_63.resolveDeferredAppModuleUrl;
 
 	const SOURCE_FILE_NAME = 'EretzEssentialHydrationUrls.js';
 	const MATERIAL_SPECIFIER = 'EretzAssetLoader.js?v=20260722-rich-assets-01';
@@ -5037,7 +5068,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzEssentialHydrationState.js ----
 {
-	const __exports = __awtsmoosModule_59;
+	const __exports = __awtsmoosModule_60;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -5049,10 +5080,10 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com names the idle state canonical-stable, so diagnostics agree with the GLB-only covenant in every route.
 	 */
 
-	const createDeferredHydrationState = __awtsmoosModule_60.createDeferredHydrationState;
-	const essentialActorLoaderUrl = __awtsmoosModule_61.essentialActorLoaderUrl;
-	const essentialActorProfilesUrl = __awtsmoosModule_61.essentialActorProfilesUrl;
-	const essentialMaterialHydrationUrl = __awtsmoosModule_61.essentialMaterialHydrationUrl;
+	const createDeferredHydrationState = __awtsmoosModule_61.createDeferredHydrationState;
+	const essentialActorLoaderUrl = __awtsmoosModule_62.essentialActorLoaderUrl;
+	const essentialActorProfilesUrl = __awtsmoosModule_62.essentialActorProfilesUrl;
+	const essentialMaterialHydrationUrl = __awtsmoosModule_62.essentialMaterialHydrationUrl;
 
 	function createEssentialActorHydration(options = {}, dependencies = {}) {
 		const enabled = options.streamCanonicalActors === true;
@@ -5133,8 +5164,8 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	const createEssentialAssetRecord = __awtsmoosModule_1.createEssentialAssetRecord;
 	const loadEretzEssentialPlayerGlb = __awtsmoosModule_2.loadEretzEssentialPlayerGlb;
-	const createEssentialActorHydration = __awtsmoosModule_59.createEssentialActorHydration;
-	const createEssentialMaterialHydration = __awtsmoosModule_59.createEssentialMaterialHydration;
+	const createEssentialActorHydration = __awtsmoosModule_60.createEssentialActorHydration;
+	const createEssentialMaterialHydration = __awtsmoosModule_60.createEssentialMaterialHydration;
 
 	/**
 	 * Loads the canonical player before first gameplay while preserving later NPC/material enrichment.

@@ -4,9 +4,9 @@
 
 /**
  * @file MitzvahWorldEssentialLiveSnapshot.test.js
- * @description Proves the public boot receipt tells time while waiting and reserves "stalled" for witnessed failure.
- * The Awtsmoos renews the clock while Awtsmoos.com makes hidden waiting bright;
- * a living milestone may be active without being condemned before its five-second night.
+ * @description Proves live snapshots expose the 30-second silence covenant, healthy sibling progress, and actionable true-stall evidence.
+ * The Awtsmoos renews each witness that actually speaks; Awtsmoos.com therefore refreshes every healthy sibling explicitly,
+ * while one silent fact remains visible instead of borrowing life from another subsystem's progress.
  */
 
 import assert from 'node:assert/strict';
@@ -15,68 +15,67 @@ import {
 	completeMitzvahWorldEssentialMilestone,
 	ESSENTIAL_MILESTONES,
 	getMitzvahWorldEssentialBootSnapshot,
-	initializeMitzvahWorldEssentialBoot
+	updateMitzvahWorldEssentialMilestone
 } from './MitzvahWorldEssentialBoot.js';
+import { ESSENTIAL_BOOT_TIMEOUT_MS } from './MitzvahWorldEssentialMilestoneCatalog.js';
+import { createEssentialTestEnvironment } from './MitzvahWorldEssentialTestEnvironment.js';
 
-/** Pending evidence ages, exposes its timeout, and remains distinct from failure. */
-test('pending essential fact exposes live elapsed time and active milestone', () => {
-	const environment = fakeEnvironment();
-	initializeMitzvahWorldEssentialBoot(environment);
-	environment.advance(1234);
+const RENDERER = ESSENTIAL_MILESTONES.RENDERER_FIRST_FRAME;
+const TERRAIN = ESSENTIAL_MILESTONES.SPAWN_TERRAIN_EXISTS;
+const CHOSSID = ESSENTIAL_MILESTONES.CANONICAL_CHOSSID_DECODED;
+
+function activateFirstPlaySiblings(environment) {
+	completeMitzvahWorldEssentialMilestone(environment, ESSENTIAL_MILESTONES.ENTRY_MODULE_EXECUTED);
+}
+
+test('pending essential fact exposes live elapsed time and the current silence budget', () => {
+	const environment = createEssentialTestEnvironment();
+	activateFirstPlaySiblings(environment);
+	environment.advance(1200);
 	const snapshot = getMitzvahWorldEssentialBootSnapshot(environment);
-	const entry = snapshot.milestones[ESSENTIAL_MILESTONES.ENTRY_MODULE_EXECUTED];
-	assert.equal(entry.elapsedMilliseconds, 1234);
-	assert.equal(entry.timeoutMilliseconds, 5000);
-	assert.equal(snapshot.activeMilestone.name, ESSENTIAL_MILESTONES.ENTRY_MODULE_EXECUTED);
+	const renderer = snapshot.milestones[RENDERER];
+	assert.equal(renderer.status, 'pending');
+	assert.equal(renderer.elapsedMilliseconds, 1200);
+	assert.equal(renderer.timeoutMilliseconds, ESSENTIAL_BOOT_TIMEOUT_MS);
+	assert.equal(renderer.timeoutMilliseconds, 30000);
 	assert.equal(snapshot.stalledMilestone, null);
 });
 
-/** The active fact advances through the dependency graph as truths complete. */
-test('active milestone advances without inventing a failure', () => {
-	const environment = fakeEnvironment();
-	completeMitzvahWorldEssentialMilestone(environment, ESSENTIAL_MILESTONES.ENTRY_MODULE_EXECUTED);
-	environment.advance(250);
-	const snapshot = getMitzvahWorldEssentialBootSnapshot(environment);
-	assert.equal(snapshot.activeMilestone.name, ESSENTIAL_MILESTONES.RENDERER_FIRST_FRAME);
-	assert.equal(snapshot.activeMilestone.elapsedMilliseconds, 250);
-	assert.equal(snapshot.stalledMilestone, null);
-});
-
-/** Five seconds converts actionable waiting into a concrete timed-out failure. */
-test('watchdog converts active milestone into actionable stalled evidence', () => {
-	const environment = fakeEnvironment();
-	completeMitzvahWorldEssentialMilestone(environment, ESSENTIAL_MILESTONES.ENTRY_MODULE_EXECUTED);
-	environment.advance(5001);
+test('truthful progress for every active sibling keeps the live snapshot healthy', () => {
+	const environment = createEssentialTestEnvironment();
+	activateFirstPlaySiblings(environment);
+	environment.advance(20000);
+	updateMitzvahWorldEssentialMilestone(environment, RENDERER, {
+		importerStage: 'webgl-boot-frame', resourceStatus: 200, resourceUrl: '/renderer/bootstrap'
+	});
+	updateMitzvahWorldEssentialMilestone(environment, TERRAIN, {
+		importerStage: 'bootstrap-world-foundation', resourceStatus: 200, resourceUrl: '/terrain/bootstrap'
+	});
+	updateMitzvahWorldEssentialMilestone(environment, CHOSSID, {
+		importerStage: 'canonical-validation', resourceStatus: 200, resourceUrl: '/chossid.glb'
+	});
+	environment.advance(15000);
 	environment.fireTimeout();
 	const snapshot = getMitzvahWorldEssentialBootSnapshot(environment);
-	assert.equal(snapshot.stalledMilestone.name, ESSENTIAL_MILESTONES.RENDERER_FIRST_FRAME);
-	assert.equal(snapshot.stalledMilestone.status, 'timed-out');
-	assert.ok(snapshot.stalledMilestone.elapsedMilliseconds >= 5000);
+	assert.equal(snapshot.stalledMilestone, null);
+	assert.equal(snapshot.milestones[RENDERER].importerStage, 'webgl-boot-frame');
+	assert.equal(snapshot.milestones[TERRAIN].importerStage, 'bootstrap-world-foundation');
+	assert.equal(snapshot.milestones[CHOSSID].importerStage, 'canonical-validation');
 });
 
-/** Minimal monotonic browser-like clock and watchdog vessel. */
-function fakeEnvironment() {
-	let currentTime = 0;
-	const state = {
-		timeoutCallback: null,
-		advance(milliseconds) {
-			currentTime += milliseconds;
-		},
-		clearTimeout() {
-			state.timeoutCallback = null;
-		},
-		fireTimeout() {
-			state.timeoutCallback?.();
-		},
-		performance: {
-			now() {
-				return currentTime;
-			}
-		},
-		setTimeout(callback) {
-			state.timeoutCallback = callback;
-			return { unref() {} };
-		}
-	};
-	return state;
-}
+test('watchdog converts true post-progress silence into actionable stalled evidence', () => {
+	const environment = createEssentialTestEnvironment();
+	activateFirstPlaySiblings(environment);
+	updateMitzvahWorldEssentialMilestone(environment, RENDERER, {
+		importerStage: 'webgl-boot-frame', resourceUrl: '/renderer/bootstrap'
+	});
+	updateMitzvahWorldEssentialMilestone(environment, TERRAIN, { importerStage: 'terrain-alive' });
+	updateMitzvahWorldEssentialMilestone(environment, CHOSSID, { importerStage: 'chossid-alive' });
+	environment.advance(30001);
+	environment.fireTimeout();
+	const stalled = getMitzvahWorldEssentialBootSnapshot(environment).stalledMilestone;
+	assert.equal(stalled.name, RENDERER);
+	assert.equal(stalled.failureCode, 'ESSENTIAL_RENDERER_FIRST_FRAME_TIMEOUT');
+	assert.equal(stalled.importerStage, 'webgl-boot-frame');
+	assert.equal(stalled.resourceUrl, '/renderer/bootstrap');
+});

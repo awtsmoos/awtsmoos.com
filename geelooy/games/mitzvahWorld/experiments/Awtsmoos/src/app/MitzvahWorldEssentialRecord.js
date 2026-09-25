@@ -4,12 +4,11 @@
 
 /**
  * @file MitzvahWorldEssentialRecord.js
- * @description Builds and reads one essential boot fact without owning browser side effects or inventing an early start time.
- * The Awtsmoos renews each fact only when its vessel is ready to receive the next light;
- * Awtsmoos.com keeps queued milestones timeless until dependency truth opens their measured night.
+ * @description Builds and reads one essential boot fact while keeping activation time distinct from most recent truthful progress.
+ * The Awtsmoos renews each fact whenever its vessel reveals another threshold; Awtsmoos.com therefore measures silence
+ * from the latest witnessed progress instead of condemning an active mobile load for total wall-clock age.
  */
 
-/** Creates one mutable internal record from an immutable definition. */
 export function createEssentialRecord(definition) {
 	return {
 		...definition,
@@ -19,6 +18,7 @@ export function createEssentialRecord(definition) {
 		failureCode: null,
 		failureMessage: null,
 		importerStage: null,
+		lastProgressAtMilliseconds: null,
 		resourceStatus: null,
 		resourceUrl: null,
 		startedAtMilliseconds: null,
@@ -26,25 +26,16 @@ export function createEssentialRecord(definition) {
 	};
 }
 
-/** Applies only serializable resource/importer evidence. */
 export function applyEssentialDetails(record, details = {}) {
-	if ('importerStage' in details) {
-		record.importerStage = details.importerStage ?? null;
-	}
-	if ('resourceStatus' in details) {
-		record.resourceStatus = details.resourceStatus ?? null;
-	}
-	if ('resourceUrl' in details) {
-		record.resourceUrl = details.resourceUrl ?? null;
-	}
+	if ('importerStage' in details) record.importerStage = details.importerStage ?? null;
+	if ('resourceStatus' in details) record.resourceStatus = details.resourceStatus ?? null;
+	if ('resourceUrl' in details) record.resourceUrl = details.resourceUrl ?? null;
 }
 
-/** Returns whether a milestone can no longer transition. */
 export function isEssentialTerminal(status) {
 	return status === 'complete' || status === 'failed' || status === 'timed-out';
 }
 
-/** Returns whether all declared dependencies have completed. */
 export function essentialDependenciesComplete(records, record) {
 	return record.dependencies.every(name => records.get(name)?.status === 'complete');
 }

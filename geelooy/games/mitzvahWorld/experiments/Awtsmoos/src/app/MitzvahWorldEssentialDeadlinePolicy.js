@@ -4,15 +4,14 @@
 
 /**
  * @file MitzvahWorldEssentialDeadlinePolicy.js
- * @description Names dependency and timeout failures without owning milestone mutation or browser timers.
- * The Awtsmoos gives every bounded delay its truthful name while no later vessel inherits an expired clock;
- * Awtsmoos.com keeps per-milestone timeout codes distinct from the whole first-play covenant that guards the world around the block.
+ * @description Names dependency, silence, and whole-first-play timeout failures without owning mutation or timers.
+ * The Awtsmoos gives every bounded delay its truthful name; Awtsmoos.com distinguishes a silent milestone
+ * from the outer hard horizon so diagnostics never confuse local stillness with total first-play exhaustion.
  */
 
-import { ESSENTIAL_BOOT_TIMEOUT_MS } from './MitzvahWorldEssentialMilestoneCatalog.js';
+import { ESSENTIAL_HARD_TIMEOUT_MS } from './MitzvahWorldEssentialMilestoneCatalog.js';
 import { essentialRecordTimedOut } from './MitzvahWorldEssentialTiming.js';
 
-/** Returns dependency failure evidence for an attempted premature completion. */
 export function essentialDependencyFailure(details, missing) {
 	return {
 		...details,
@@ -21,18 +20,16 @@ export function essentialDependencyFailure(details, missing) {
 	};
 }
 
-/** Returns timeout evidence only when the record or whole first-play covenant is actually overdue. */
 export function essentialDeadlineFailure(record, currentTime, bootStartedAt, details = {}) {
 	if (essentialRecordTimedOut(record, currentTime)) {
 		return timeoutDetails(record, details, record.timeoutFailureCode);
 	}
-	if (currentTime - bootStartedAt >= ESSENTIAL_BOOT_TIMEOUT_MS) {
-		return timeoutDetails(record, details, 'ESSENTIAL_FIRST_PLAY_DEADLINE_EXCEEDED');
+	if (currentTime - bootStartedAt >= ESSENTIAL_HARD_TIMEOUT_MS) {
+		return timeoutDetails(record, details, 'ESSENTIAL_FIRST_PLAY_HARD_TIMEOUT');
 	}
 	return null;
 }
 
-/** Produces one terminal timed-out detail object while preserving resource/importer evidence. */
 export function timeoutDetails(record, details, failureCode) {
 	return {
 		...details,

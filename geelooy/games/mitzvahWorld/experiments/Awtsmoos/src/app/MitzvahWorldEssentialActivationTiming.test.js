@@ -4,68 +4,55 @@
 
 /**
  * @file MitzvahWorldEssentialActivationTiming.test.js
- * @description Proves queued facts do not inherit page age and a late Chossid failure can never be reassigned to movement.
- * The Awtsmoos opens each clock only when dependency truth makes its vessel ready;
- * Awtsmoos.com lets movement begin at Chossid completion, not carry an upstream five-second debt already heavy.
+ * @description Proves dependency clocks begin when facts become actionable and a genuinely silent Chossid blocks movement after the current 30-second silence budget.
+ * The Awtsmoos gives each dependent fact its own beginning; Awtsmoos.com never charges movement for time before its witnesses exist,
+ * yet a witness that remains silent beyond its measured night still fails closed with exact identity.
  */
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
 	completeMitzvahWorldEssentialMilestone,
-	ESSENTIAL_MILESTONES as M,
-	getMitzvahWorldEssentialBootSnapshot,
-	initializeMitzvahWorldEssentialBoot
+	ESSENTIAL_MILESTONES,
+	getMitzvahWorldEssentialBootSnapshot
 } from './MitzvahWorldEssentialBoot.js';
+import { createEssentialTestEnvironment } from './MitzvahWorldEssentialTestEnvironment.js';
 
-test('dependency-ready facts activate together while movement remains timeless until Chossid completes', () => {
-	const environment = fakeEnvironment();
-	initializeMitzvahWorldEssentialBoot(environment);
-	assert.equal(snapshot(environment).milestones[M.RENDERER_FIRST_FRAME].startedAtMilliseconds, null);
+const ENTRY = ESSENTIAL_MILESTONES.ENTRY_MODULE_EXECUTED;
+const RENDERER = ESSENTIAL_MILESTONES.RENDERER_FIRST_FRAME;
+const TERRAIN = ESSENTIAL_MILESTONES.SPAWN_TERRAIN_EXISTS;
+const CHOSSID = ESSENTIAL_MILESTONES.CANONICAL_CHOSSID_DECODED;
+const MOVEMENT = ESSENTIAL_MILESTONES.PLAYER_MOVEMENT_ENABLED;
+
+test('movement clock begins only after its three dependencies complete', () => {
+	const environment = createEssentialTestEnvironment();
 	environment.advance(100);
-	completeMitzvahWorldEssentialMilestone(environment, M.ENTRY_MODULE_EXECUTED);
-	let state = snapshot(environment);
-	assert.equal(state.milestones[M.RENDERER_FIRST_FRAME].startedAtMilliseconds, 100);
-	assert.equal(state.milestones[M.SPAWN_TERRAIN_EXISTS].startedAtMilliseconds, 100);
-	assert.equal(state.milestones[M.CANONICAL_CHOSSID_DECODED].startedAtMilliseconds, 100);
-	assert.equal(state.milestones[M.PLAYER_MOVEMENT_ENABLED].startedAtMilliseconds, null);
-	environment.advance(4700);
-	completeMitzvahWorldEssentialMilestone(environment, M.RENDERER_FIRST_FRAME);
-	completeMitzvahWorldEssentialMilestone(environment, M.SPAWN_TERRAIN_EXISTS);
-	completeMitzvahWorldEssentialMilestone(environment, M.CANONICAL_CHOSSID_DECODED);
-	state = snapshot(environment);
-	assert.equal(state.milestones[M.PLAYER_MOVEMENT_ENABLED].startedAtMilliseconds, 4800);
-	environment.advance(100);
-	assert.equal(snapshot(environment).milestones[M.PLAYER_MOVEMENT_ENABLED].elapsedMilliseconds, 100);
+	completeMitzvahWorldEssentialMilestone(environment, ENTRY);
+	environment.advance(1200);
+	completeMitzvahWorldEssentialMilestone(environment, RENDERER);
+	environment.advance(800);
+	completeMitzvahWorldEssentialMilestone(environment, TERRAIN);
+	environment.advance(900);
+	completeMitzvahWorldEssentialMilestone(environment, CHOSSID);
+	const snapshot = getMitzvahWorldEssentialBootSnapshot(environment);
+	assert.equal(snapshot.milestones[MOVEMENT].status, 'pending');
+	assert.equal(snapshot.milestones[MOVEMENT].startedAtMilliseconds, environment.performance.now());
+	assert.equal(snapshot.milestones[MOVEMENT].elapsedMilliseconds, 0);
 });
 
-test('late canonical Chossid is the stalled fact and movement never inherits its expired clock', () => {
-	const environment = fakeEnvironment();
-	initializeMitzvahWorldEssentialBoot(environment);
+test('late silent canonical Chossid is the stalled fact and movement never inherits its expired clock', () => {
+	const environment = createEssentialTestEnvironment();
 	environment.advance(100);
-	completeMitzvahWorldEssentialMilestone(environment, M.ENTRY_MODULE_EXECUTED);
-	environment.advance(4700);
-	completeMitzvahWorldEssentialMilestone(environment, M.RENDERER_FIRST_FRAME);
-	completeMitzvahWorldEssentialMilestone(environment, M.SPAWN_TERRAIN_EXISTS);
-	environment.advance(300);
-	completeMitzvahWorldEssentialMilestone(environment, M.CANONICAL_CHOSSID_DECODED);
-	const state = snapshot(environment);
-	assert.equal(state.stalledMilestone.name, M.CANONICAL_CHOSSID_DECODED);
-	assert.equal(state.stalledMilestone.status, 'timed-out');
-	assert.equal(state.milestones[M.PLAYER_MOVEMENT_ENABLED].startedAtMilliseconds, null);
-	assert.equal(state.milestones[M.PLAYER_MOVEMENT_ENABLED].status, 'pending');
+	completeMitzvahWorldEssentialMilestone(environment, ENTRY);
+	environment.advance(1000);
+	completeMitzvahWorldEssentialMilestone(environment, RENDERER);
+	completeMitzvahWorldEssentialMilestone(environment, TERRAIN);
+	environment.advance(29001);
+	const snapshot = completeMitzvahWorldEssentialMilestone(environment, CHOSSID, {
+		importerStage: 'canonical-validation'
+	});
+	assert.equal(snapshot.stalledMilestone.name, CHOSSID);
+	assert.equal(snapshot.stalledMilestone.failureCode, 'ESSENTIAL_CANONICAL_CHOSSID_DECODED_TIMEOUT');
+	assert.equal(snapshot.milestones[MOVEMENT].status, 'pending');
+	assert.equal(snapshot.milestones[MOVEMENT].startedAtMilliseconds, null);
 });
-
-function snapshot(environment) {
-	return getMitzvahWorldEssentialBootSnapshot(environment);
-}
-
-function fakeEnvironment() {
-	let currentTime = 0;
-	return {
-		advance(milliseconds) { currentTime += milliseconds; },
-		clearTimeout() {},
-		performance: { now: () => currentTime },
-		setTimeout() { return { unref() {} }; }
-	};
-}

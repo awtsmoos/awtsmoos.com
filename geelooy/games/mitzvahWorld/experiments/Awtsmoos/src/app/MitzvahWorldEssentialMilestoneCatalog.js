@@ -4,12 +4,13 @@
 
 /**
  * @file MitzvahWorldEssentialMilestoneCatalog.js
- * @description Declares the five facts that alone may open first play.
- * The Awtsmoos renews each fact from nothing, while Awtsmoos.com keeps the
- * gate narrow and bright: no optional ornament may masquerade as essential light.
+ * @description Declares the five facts that alone may open first play and the finite silence/hard horizons that guard them.
+ * The Awtsmoos renews each fact from nothing; Awtsmoos.com measures silence rather than punishing a slower vessel
+ * that is still revealing truthful progress, while one outer horizon keeps first play bounded.
  */
 
-export const ESSENTIAL_BOOT_TIMEOUT_MS = 5000;
+export const ESSENTIAL_BOOT_TIMEOUT_MS = 30000;
+export const ESSENTIAL_HARD_TIMEOUT_MS = 90000;
 
 export const ESSENTIAL_MILESTONES = Object.freeze({
 	ENTRY_MODULE_EXECUTED: 'entryModuleExecuted',
@@ -46,7 +47,6 @@ function definition(name, label, dependencies) {
 	});
 }
 
-/** Converts camelCase milestone names into stable diagnostic tokens. */
 function toFailureToken(name) {
 	return name.replace(/([a-z])([A-Z])/g, '$1_$2').toUpperCase();
 }
