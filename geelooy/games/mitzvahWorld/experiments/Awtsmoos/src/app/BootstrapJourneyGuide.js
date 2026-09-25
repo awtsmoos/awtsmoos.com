@@ -4,29 +4,25 @@
 
 /**
  * @file BootstrapJourneyGuide.js
- * @description Projects either first-footstep guidance or canonical quest truth into one compact story beat.
- * The Awtsmoos lets the same small lantern carry dawn, mission, struggle, and return;
- * Awtsmoos.com replaces tutorial walls with the one true next sentence the traveler has earned.
+ * @description Projects first-footstep navigation or canonical quest truth into one compact story beat.
+ * The Awtsmoos appoints both story and place; Awtsmoos.com therefore gives the traveler not only words about distant homes,
+ * but one measured arrow and distance to a real canonical family home until a truer quest or danger takes priority.
  */
+
+import { firstHomeDestinationText } from './BootstrapJourneyDestination.js';
 
 const WALK_REVEAL_DISTANCE = 7;
 const JOURNEY_REVEAL_DISTANCE = 22;
 
-/** Remembers first position while yielding immediately to canonical quest truth when it appears. */
 export class BootstrapJourneyGuide {
-	/** @param {object} runtime Immediate or hydrated Mitzvah World runtime. */
 	constructor(runtime) {
 		this.runtime = runtime;
 		this.origin = positionOf(runtime.state);
 	}
 
-	/** @returns {{eyebrow:string,objective:string,hint:string}} Current compact narrative beat. */
 	describe() {
-		const quest = this.runtime.quest;
-		const snapshot = quest?.snapshot?.();
-		return snapshot
-			? questBeat(this.runtime, snapshot)
-			: onboardingBeat(this.runtime, this.origin);
+		const snapshot = this.runtime.quest?.snapshot?.();
+		return snapshot ? questBeat(this.runtime, snapshot) : onboardingBeat(this.runtime, this.origin);
 	}
 }
 
@@ -35,22 +31,10 @@ function questBeat(runtime, snapshot) {
 	const giver = definition.giver || {};
 	const story = definition.story || {};
 	const beats = {
-		active: () => beat(
-			definition.name || 'The eastern road',
-			snapshot.currentObjective?.description || 'Continue the Shlichus.',
-			progressHint(snapshot)
-		),
+		active: () => beat(definition.name || 'The eastern road', snapshot.currentObjective?.description || 'Continue the Shlichus.', progressHint(snapshot)),
 		available: () => availableQuestBeat(runtime, definition, giver, story),
-		completed: () => beat(
-			'Shlichus fulfilled',
-			'The eastern road breathes again.',
-			'Measured intention remains with you.'
-		),
-		ready: () => beat(
-			definition.name || 'The eastern road',
-			`Return to ${giver.name || 'Reb Mendel'}.`,
-			'Bring the recovered vessels home.'
-		)
+		completed: () => beat('Shlichus fulfilled', 'The eastern road breathes again.', 'Measured intention remains with you.'),
+		ready: () => beat(definition.name || 'The eastern road', `Return to ${giver.name || 'Reb Mendel'}.`, 'Bring the recovered vessels home.')
 	};
 	return beats[snapshot.status]?.() || beats.active();
 }
@@ -91,17 +75,16 @@ function phaseLabel(phase) {
 function onboardingBeat(runtime, origin) {
 	const state = runtime.state || {};
 	const target = runtime.enemies?.selected?.profile?.name;
-	if (target) {
-		return beat('A presence stirs', `Face ${target} when you are ready.`, 'Stay moving. Act when the opening is clear.');
-	}
+	if (target) return beat('A presence stirs', `Face ${target} when you are ready.`, 'Stay moving. Act when the opening is clear.');
 	const distance = distanceFrom(origin, positionOf(state));
+	const destination = firstHomeDestinationText(state);
 	if (distance >= JOURNEY_REVEAL_DISTANCE) {
-		return beat('The valley opens', 'Follow the road toward the homes ahead.', 'Explore freely. The world will answer what you approach.');
+		return beat('The valley opens', 'Reach H11, the first family home.', destination);
 	}
 	if (distance >= WALK_REVEAL_DISTANCE || state.moving) {
-		return beat('The first path', 'Keep toward the cottages beyond the meadow.', 'Move with the floating stick. Jump only when you need it.');
+		return beat('The first path', 'Stay on the road toward H11.', destination);
 	}
-	return beat('The valley wakes', 'Walk forward and find the first home.', 'Touch anywhere in the left movement zone and slide.');
+	return beat('The valley wakes', 'Head to the first family home.', `${destination} · Move with the left stick.`);
 }
 
 function beat(eyebrow, objective, hint) {

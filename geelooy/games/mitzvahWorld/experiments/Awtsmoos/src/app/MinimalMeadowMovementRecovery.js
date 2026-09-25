@@ -4,37 +4,39 @@
 
 /**
  * @file MinimalMeadowMovementRecovery.js
- * @description Preserves safe footing and restores model, camera, streaming, and diagnostics.
- * The Awtsmoos sustains each traveler above the abyss; Awtsmoos.com remembers one lawful
- * footing so invalid coordinates, falls, unstuck commands, and checkpoints recover visibly.
+ * @description Recovers the traveler relative to the actual local walkable support instead of one meaningless global abyss number.
+ * The Awtsmoos sustains each foot upon the earth beneath it; Awtsmoos.com remembers only lawful grounded footing
+ * and restores a traveler as soon as visible position sinks materially beneath terrain, threshold, room, tread, or landing.
  */
 
+import { minimalMeadowGroundReceipt } from './MinimalMeadowGroundSupport.js';
+
 const WORLD_LIMIT = 510;
-const FALL_LIMIT = -32;
+const BELOW_SUPPORT_TOLERANCE = 1.25;
+const SAFE_SUPPORT_TOLERANCE = 0.8;
 
 export class MinimalMeadowMovementRecovery {
 	constructor(runtime, state) {
 		this.runtime = runtime;
-		this.safe = snapshot(state);
+		this.safe = snapshot(state, supportHeight(runtime, state));
 		this.recoveries = 0;
 		this.lastReason = null;
 	}
 
 	beforeStep(state) {
-		const reason = recoveryReason(state);
-		if (!reason) return false;
-		return this.restore(state, reason);
+		const reason = recoveryReason(this.runtime, state);
+		return reason ? this.restore(state, reason) : false;
 	}
 
 	afterStep(state) {
-		const reason = recoveryReason(state);
+		const reason = recoveryReason(this.runtime, state);
 		if (reason) return this.restore(state, reason);
-		if (safeFooting(state)) this.checkpoint(state);
+		if (safeFooting(this.runtime, state)) this.checkpoint(state);
 		return false;
 	}
 
 	checkpoint(state) {
-		this.safe = snapshot(state);
+		this.safe = snapshot(state, supportHeight(this.runtime, state));
 		return this.safe;
 	}
 
@@ -58,21 +60,9 @@ export class MinimalMeadowMovementRecovery {
 			y: this.safe.y,
 			z: this.safe.z
 		});
-		this.runtime.model?.position?.set?.(
-			this.safe.x,
-			this.safe.y,
-			this.safe.z
-		);
-		this.runtime.cameraRig?.update?.(
-			this.runtime.camera,
-			state,
-			this.runtime.mainOctree,
-			0
-		);
-		this.runtime.expansion?.streaming?.recover?.(
-			new Error(reason),
-			this.safe
-		);
+		this.runtime.model?.position?.set?.(this.safe.x, this.safe.y, this.safe.z);
+		this.runtime.cameraRig?.update?.(this.runtime.camera, state, this.runtime.mainOctree, 0);
+		this.runtime.expansion?.streaming?.recover?.(new Error(reason), this.safe);
 		this.recoveries += 1;
 		this.lastReason = reason;
 		this.runtime.bus?.emit?.('movement:recovered', this.diagnostics());
@@ -80,39 +70,39 @@ export class MinimalMeadowMovementRecovery {
 	}
 
 	diagnostics() {
-		return Object.freeze({
-			lastReason: this.lastReason,
-			recoveries: this.recoveries,
-			safe: { ...this.safe }
-		});
+		return Object.freeze({ lastReason: this.lastReason, recoveries: this.recoveries, safe: { ...this.safe } });
 	}
 }
 
-function recoveryReason(state) {
-	if (![state.x, state.y, state.z, state.renderY].every(Number.isFinite)) {
-		return 'nonfinite-position';
-	}
-	if (state.renderY < FALL_LIMIT || state.y < FALL_LIMIT) return 'fell-below-world';
-	if (Math.abs(state.x) > WORLD_LIMIT || Math.abs(state.z) > WORLD_LIMIT) {
-		return 'outside-world-bounds';
-	}
+function recoveryReason(runtime, state) {
+	if (![state.x, state.y, state.z, state.renderY].every(Number.isFinite)) return 'nonfinite-position';
+	if (Math.abs(state.x) > WORLD_LIMIT || Math.abs(state.z) > WORLD_LIMIT) return 'outside-world-bounds';
+	const support = supportHeight(runtime, state);
+	if (Number.isFinite(support) && state.renderY < support - BELOW_SUPPORT_TOLERANCE) return 'below-walkable-ground';
 	return null;
 }
 
-function safeFooting(state) {
-	return state.grounded
-		&& Number.isFinite(state.x)
-		&& Number.isFinite(state.renderY)
-		&& Number.isFinite(state.z)
+function safeFooting(runtime, state) {
+	if (!state.grounded || !withinWorld(state)) return false;
+	const support = supportHeight(runtime, state);
+	return Number.isFinite(support) && Math.abs(state.renderY - support) <= SAFE_SUPPORT_TOLERANCE;
+}
+
+function withinWorld(state) {
+	return [state.x, state.renderY, state.z].every(Number.isFinite)
 		&& Math.abs(state.x) <= WORLD_LIMIT
 		&& Math.abs(state.z) <= WORLD_LIMIT;
 }
 
-function snapshot(state) {
+function supportHeight(runtime, state) {
+	return minimalMeadowGroundReceipt(runtime, state.x, state.z, state.renderY, state.previousRenderY ?? state.renderY).height;
+}
+
+function snapshot(state, support) {
 	return Object.freeze({
 		facing: Number(state.facing || 0),
 		x: Number(state.x || 0),
-		y: Number(state.renderY ?? state.y ?? 0),
+		y: Number.isFinite(support) ? support : Number(state.renderY ?? state.y ?? 0),
 		z: Number(state.z || 0)
 	});
 }
