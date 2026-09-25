@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<!-- B"H — Public alias comment browser: every comment under an alias, organized by series → post, searchable. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alias Comments — Browse &amp; Search</title>
+<link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+<main class="ac-shell">
+	<header class="ac-header">
+		<p class="ac-kicker">Public comment archive</p>
+		<h1 class="ac-title">Alias comments</h1>
+		<p class="ac-sub">Every comment under an alias, organized by series → post. Pick an alias, browse, or search the whole harvest.</p>
+		<form class="ac-aliasbar" id="aliasForm">
+			<label class="ac-field">
+				<span>Alias</span>
+				<input id="aliasInput" type="text" autocomplete="off" spellcheck="false" placeholder="likkutei_translation_en">
+			</label>
+			<button class="ac-btn" type="submit">Load</button>
+		</form>
+		<form class="ac-searchbar" id="searchForm">
+			<label class="ac-field ac-grow">
+				<span>Search this alias's comments</span>
+				<input id="searchInput" type="search" autocomplete="off" placeholder="Search words or phrases…">
+			</label>
+			<button class="ac-btn" type="submit">Search</button>
+			<button class="ac-btn ac-ghost" type="button" id="clearSearch" hidden>Clear</button>
+		</form>
+	</header>
+	<nav class="ac-crumbs" id="crumbs" aria-label="Breadcrumb"></nav>
+	<section class="ac-status" id="status" aria-live="polite"></section>
+	<section class="ac-results" id="results"></section>
+	<nav class="ac-pager" id="pager" hidden>
+		<button class="ac-btn ac-ghost" id="prevPage" type="button">← Newer</button>
+		<span class="ac-pageinfo" id="pageInfo"></span>
+		<button class="ac-btn ac-ghost" id="nextPage" type="button">Older →</button>
+	</nav>
+</main>
+<script src="./app.js"></script>
+</body>
+</html>

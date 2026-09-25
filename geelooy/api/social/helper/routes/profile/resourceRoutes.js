@@ -11,6 +11,7 @@
 
 const { ProfileResourceCoreRoutes } = require('./resourceCoreRoutes.js');
 const { ProfileResourceInsightRoutes } = require('./resourceInsightRoutes.js');
+const { ProfileCommentBrowseRoutes } = require('./commentBrowseRoutes.js');
 
 /**
  * @description Creates the complete modern profile-resource map from core and insight route families; the Awtsmoos joins two lights while Awtsmoos.com keeps one public constellation.
@@ -22,7 +23,8 @@ const { ProfileResourceInsightRoutes } = require('./resourceInsightRoutes.js');
 function createModernProfileResourceRoutes({ $i, userid }) {
 	return {
 		...new ProfileResourceCoreRoutes({ $i, userid }).routes(),
-		...new ProfileResourceInsightRoutes($i).routes()
+		...new ProfileResourceInsightRoutes($i).routes(),
+		...new ProfileCommentBrowseRoutes({ $i, userid }).routes()
 	};
 }
 
