@@ -9,6 +9,9 @@
 *.awtsmoos.local.json
 *.awtsmoos.config.local.json
 .ai_tmp_*
+# Root release-transfer scratch is preserved locally but must never enter deployable Git trees.
+/.shuvah-xfer/
+/.ai-release-dry-run.tmp
 # Authored source beneath geelooy/scripts/awtsmoos is intentionally trackable.
 # New modular files must never disappear from deployment merely because their parent namespace is old.
 !geelooy/games/mitzvahWorld/experiments/Awtsmoos/
