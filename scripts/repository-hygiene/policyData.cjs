@@ -5,7 +5,7 @@
 /**
  * @file Holds the immutable borders of the repository hygiene covenant.
  * @description
- * The Awtsmoos keeps source in Git while image bodies live only in remote dayuhChadash/Drive;
+ * The Awtsmoos keeps source in Git while ordinary image bodies live only in remote dayuhChadash/Drive;
  * Awtsmoos.com preserves named production vessels exactly, never widening one exception into a sea.
  */
 
@@ -55,6 +55,11 @@ const APPROVED_FILES = new Set([
 	`${MITZVAH_COMPACT_ROOT}mitzvah-world-world.compact.js`,
 	`${MITZVAH_COMPACT_ROOT}mitzvah-world-optional.compact.js`
 ]);
+const RELEASE_OWNED_FILES = new Set([
+	"geelooy/games/mitzvahWorld/build/generated/assets/canonical-chossid.glb",
+	"geelooy/games/mitzvahWorld/build/generated/assets/d86fd3289c3d12ac566fe8aa7bed37244e352043ee821a0c43b47055ce8ebe48/chossid.glb",
+	"geelooy/games/mitzvahWorld/build/generated/assets/essential-grass.jpg"
+]);
 const SOURCE_PREFIXES = [
 	"geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/diagnostics/logs/"
 ];
@@ -69,5 +74,6 @@ module.exports = {
 	IMAGE_EXTENSIONS,
 	MAX_TRACKED_BYTES,
 	MEDIA_EXTENSIONS,
+	RELEASE_OWNED_FILES,
 	SOURCE_PREFIXES
 };

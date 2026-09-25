@@ -15,14 +15,18 @@ const MITZVAH_PRODUCTION_VESSELS = Object.freeze([
 	"mitzvah-world-world.compact.js",
 	"mitzvah-world-optional.compact.js"
 ]);
+const MITZVAH_RELEASE_ASSETS = Object.freeze([
+	"geelooy/games/mitzvahWorld/build/generated/assets/canonical-chossid.glb",
+	"geelooy/games/mitzvahWorld/build/generated/assets/d86fd3289c3d12ac566fe8aa7bed37244e352043ee821a0c43b47055ce8ebe48/chossid.glb",
+	"geelooy/games/mitzvahWorld/build/generated/assets/essential-grass.jpg"
+]);
 
 /**
  * @file Proves repository hygiene stays narrow while exact production vessels survive.
- * @description
  * The Awtsmoos lets named runtime light cross one measured boundary; Awtsmoos.com
  * refuses every nearby counterfeit so an exception remains a doorway, never a flood.
  */
-test("every standalone image extension is remote-only", () => {
+test("every ordinary standalone image extension is remote-only", () => {
 	for (const file of [
 		"geelooy/resources/home/restored-awtsmoos-hero.jpg",
 		"geelooy/games/seven-mitzvos/favicon.svg",
@@ -49,10 +53,28 @@ test("archives, source maps, and Python bytecode are forbidden", () => {
 	assert(cache.includes("forbidden-extension"));
 });
 
-test("Mitzvah World runtime media stays outside Git", () => {
+test("Mitzvah World ordinary runtime media stays outside Git", () => {
 	const reasons = Policy.classify("geelooy/games/mitzvahWorld/assets/world.glb", 20 * 1024 * 1024);
 	assert(reasons.includes("unapproved-media"));
 	assert(reasons.includes("oversized-file"));
+});
+
+test("exact release-owned Mitzvah first-play assets are deployable", () => {
+	for (const file of MITZVAH_RELEASE_ASSETS) {
+		assert.deepEqual(Policy.classify(file, 2 * 1024 * 1024), [], file);
+		assert.equal(Policy.isApproved(file), true, file);
+		assert.equal(Policy.isReleaseOwned(file), true, file);
+	}
+});
+
+test("nearby generated Mitzvah media remains forbidden", () => {
+	for (const file of [
+		"geelooy/games/mitzvahWorld/build/generated/assets/private.glb",
+		"geelooy/games/mitzvahWorld/build/generated/assets/private.jpg"
+	]) {
+		assert(Policy.classify(file, 1000).length > 0, file);
+		assert.equal(Policy.isReleaseOwned(file), false, file);
+	}
 });
 
 test("exact Mitzvah CompactJS production vessels may exceed the generic byte ceiling", () => {
@@ -84,10 +106,8 @@ test("nearby unowned media remains forbidden", () => {
 });
 
 test("extension archives are published outside Git", () => {
-	assert(Policy.classify(
-		"geelooy/ai/relay/install/awtsmoos-server-extension.zip",
-		30000
-	).includes("forbidden-extension"));
+	assert(Policy.classify("geelooy/ai/relay/install/awtsmoos-server-extension.zip", 30000)
+		.includes("forbidden-extension"));
 });
 
 test("simulator output is forbidden while simulator source remains allowed", () => {
