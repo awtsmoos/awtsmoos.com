@@ -21,6 +21,7 @@ function fields(raw = {}) {
 			Parse.from64(raw.command64) || Parse.from64(raw.commands64) || Parse.from64(raw.script64),
 		scriptText: raw.scriptText || Parse.from64(raw.script64),
 		content: raw.content || Parse.from64(raw.content64),
+		expectedSha256: raw.expectedSha256 || raw.sha256 || "",
 		find: raw.find || Parse.from64(raw.find64),
 		query: raw.query || Parse.from64(raw.query64),
 		replace: raw.replace || Parse.from64(raw.replace64),
