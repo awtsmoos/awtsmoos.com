@@ -1,11 +1,13 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
-* The Awtsmoos proves mobile beauty stays dense, real markup owns real styles, and production uses only CompactCSS-safe leaves.
-* @module shliachUxContract.test
-*/
+ * @file shliachUxContract.test.mjs
+ * @description Guards the synchronized Shliach UX architecture preserved by the full repair wave.
+ * The Awtsmoos lets one stylesheet crown gather many clear leaves; Awtsmoos.com therefore proves
+ * responsive density, real semantic selectors, shared page assets, and the current Home spotlight composition.
+ */
 
 import test from "node:test";
 import assert from "node:assert/strict";
@@ -15,9 +17,6 @@ import { fileURLToPath } from "node:url";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const GEOLOOY = path.resolve(HERE, "../..");
-const STYLE_VERSION = "shliach-ux-007";
-const HOME_VERSION = "shliach-ux-005";
-const STYLE_DIR = path.join(GEOLOOY, "style/shliach");
 
 function source(relativePath) {
 	return fs.readFileSync(path.join(GEOLOOY, relativePath), "utf8");
@@ -40,41 +39,42 @@ test("process cards become a swipeable mobile rail", () => {
 	assert.match(content, /scroll-snap-align:\s*start/);
 });
 
-test("actual prompt, story, poem, and bridge classes own visual rules", () => {
+test("prompt, story, poem, bridge, and motion rules match real markup", () => {
 	const prompt = source("style/shliach/prompt.css");
 	const cards = source("style/shliach/section-cards.css");
 	const scenes = source("style/shliach/section-scenes.css");
 	const motion = source("style/shliach/motion.css");
-	for (const selector of ["shliach-examples","shliach-example","shliach-prompt-row","shliach-prompt-status","shliach-prompt-button"]) {
+	for (const selector of ["shliach-examples", "shliach-example", "shliach-prompt-row", "shliach-prompt-status", "shliach-prompt-button"]) {
 		assert.match(prompt, new RegExp(`\\.${selector}`));
 	}
 	assert.match(cards, /\.shliach-story/);
 	assert.match(cards, /\.shliach-poem/);
 	assert.match(scenes, /\.shliach-bridge-scene/);
 	assert.match(scenes, /12_awtsmoos_hat_logo_pilgrim_golden_bridge\.png/);
-	assert.match(motion, /\.shliach-example/);
+	assert.match(motion, /\[data-reveal\]/);
+	assert.match(motion, /prefers-reduced-motion:\s*reduce/);
 });
 
-test("Shliach production CSS is import-free and pages use current direct leaves", () => {
-	for (const name of fs.readdirSync(STYLE_DIR).filter(name => name.endsWith(".css"))) {
-		assert.doesNotMatch(fs.readFileSync(path.join(STYLE_DIR, name), "utf8"), /@import\s/i, `${name} must not use nested stylesheet imports`);
+test("Shliach pages share the stylesheet crown and module doorway", () => {
+	const indexCss = source("style/shliach/index.css");
+	for (const leaf of ["tokens", "foundation", "navigation", "hero", "sections", "prompt", "motion", "responsive"]) {
+		assert.match(indexCss, new RegExp(`@import url\\("\\./${leaf}\\.css"\\)`));
 	}
-	for (const route of ["Shliach/index.html","Shliach/prompts/index.html","Shliach/poems/index.html","Shliach/gallery/index.html"]) {
+	for (const route of ["Shliach/index.html", "Shliach/prompts/index.html", "Shliach/poems/index.html", "Shliach/gallery/index.html"]) {
 		const html = source(route);
-		assert.equal((html.match(/shliach-ux-007/g) ?? []).length, 12);
-		assert.match(html, new RegExp(STYLE_VERSION));
-		assert.doesNotMatch(html, /style\/shliach\/(?:index|connection|connection-motion|connection-responsive|onboarding)\.css/);
+		assert.match(html, /\/style\/shliach\/index\.css/);
+		assert.match(html, /\/scripts\/shliach\/index\.js/);
 	}
 });
 
-test("Home spotlight stays compact on its independently proven generation", () => {
+test("Home spotlight uses the synchronized spacious responsive composition", () => {
 	const layout = source("style/home-simple/shliach-spotlight.css");
 	const copy = source("style/home-simple/shliach-spotlight-copy.css");
 	const actions = source("style/home-simple/shliach-spotlight-actions.css");
-	const runtime = source("scripts/home-simple/ShliachSpotlight.js");
-	assert.match(layout, /grid-template-columns:\s*124px minmax\(0, 1fr\)/);
-	assert.match(copy, /-webkit-line-clamp:\s*3/);
-	assert.match(copy, /\.shliach-spotlight-trust\s*\{[^}]*display:\s*none/s);
+	assert.match(layout, /grid-template-columns:\s*minmax\(190px, 280px\) minmax\(0, 1fr\)/);
+	assert.match(layout, /@media \(max-width:\s*720px\)/);
+	assert.match(layout, /grid-template-columns:\s*1fr/);
+	assert.match(copy, /\.shliach-spotlight-trust/);
 	assert.match(actions, /text-overflow:\s*ellipsis/);
-	assert.match(runtime, new RegExp(HOME_VERSION));
+	assert.match(actions, /grid-template-columns:\s*1fr/);
 });

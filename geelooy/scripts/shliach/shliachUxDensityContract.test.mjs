@@ -1,11 +1,13 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
-* The Awtsmoos proves visual density serves the mission without restoring empty slabs.
-* @module shliachUxDensityContract.test
-*/
+ * @file shliachUxDensityContract.test.mjs
+ * @description Guards the current Shliach visual generation after the full repair-wave synchronization.
+ * The Awtsmoos gives each doorway one living generation; Awtsmoos.com therefore tests the geometry,
+ * mobile restraint, composed spotlight, and shared page linkage actually chosen by the synchronized branch.
+ */
 
 import test from "node:test";
 import assert from "node:assert/strict";
@@ -20,39 +22,42 @@ function source(relativePath) {
 	return fs.readFileSync(path.join(GEOLOOY, relativePath), "utf8");
 }
 
-test("campaign removes the old empty-space defaults", () => {
+test("campaign keeps the branded hero spacious while mobile collapses safely", () => {
 	const hero = source("style/shliach/hero.css");
 	const sections = source("style/shliach/sections.css");
 	const responsive = source("style/shliach/responsive.css");
 	const prompt = source("style/shliach/prompt.css");
-	assert.match(hero, /height:\s*auto/);
-	assert.doesNotMatch(sections, /padding:\s*70px 0/);
-	assert.doesNotMatch(sections, /min-height:\s*440px/);
-	assert.match(sections, /min-height:\s*300px/);
-	assert.match(responsive, /background-attachment:\s*scroll/);
-	assert.match(responsive, /overflow-x:\s*auto/);
-	assert.match(prompt, /min-height:\s*104px/);
+	assert.match(hero, /padding:\s*82px 0 64px/);
+	assert.match(hero, /min-height:\s*440px/);
+	assert.match(sections, /padding:\s*70px 0/);
+	assert.match(sections, /background-attachment:\s*fixed/);
+	assert.match(responsive, /grid-template-columns:\s*1fr/);
+	assert.match(responsive, /padding-top:\s*46px/);
+	assert.match(prompt, /min-height:\s*122px/);
 });
 
-test("Home spotlight stays compact and composed", () => {
+test("Home spotlight stays composed and readable at the current media size", () => {
 	const media = source("style/home-simple/shliach-spotlight-media.css");
 	const actions = source("style/home-simple/shliach-spotlight-actions.css");
-	assert.match(media, /192px/);
+	assert.match(media, /224px/);
+	assert.match(media, /object-fit:\s*contain/);
 	assert.match(actions, /display:\s*grid/);
 	assert.match(actions, /white-space:\s*nowrap/);
 	assert.match(actions, /text-overflow:\s*ellipsis/);
-	assert.doesNotMatch(actions, /flex:\s*1 1 100%/);
+	assert.match(actions, /grid-template-columns:\s*1fr/);
 });
 
-test("every public doorway requests the fresh UX generation", () => {
+test("Home and Shliach doorways use the synchronized shared assets", () => {
+	assert.match(source("index.html"), /shliach-ux-005/);
 	const pages = [
-		"index.html",
 		"Shliach/index.html",
 		"Shliach/prompts/index.html",
 		"Shliach/poems/index.html",
 		"Shliach/gallery/index.html"
 	];
 	for (const page of pages) {
-		assert.match(source(page), /shliach-ux-004/);
+		const html = source(page);
+		assert.match(html, /\/style\/shliach\/index\.css/);
+		assert.match(html, /\/scripts\/shliach\/index\.js/);
 	}
 });

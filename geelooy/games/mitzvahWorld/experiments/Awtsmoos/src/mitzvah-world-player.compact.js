@@ -4758,9 +4758,9 @@ const __awtsmoosModule_0 = Object.create(null);
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzEssentialPlayerGlb.js ----
 {
 	const __exports = __awtsmoosModule_2;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
+	//B"H
+	//Boruch Hashem
+	//Blessed is He
 
 	/**
 	 * @file EretzEssentialPlayerGlb.js

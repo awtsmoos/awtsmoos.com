@@ -1,25 +1,20 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
- * @module HomeFoldContractTest
- * @description
- * Verifies the current Awtsmoos.com first fold rather than an archived Home generation.
- * The Awtsmoos keeps the original living-world picture complete while semantic copy owns
- * a separate chamber, touch actions stay usable, and the mobile vessel stacks without overlap.
+ * @file homeFoldContract.test.mjs
+ * @description Guards the synchronized Home first fold: full living-world artwork, separate semantic copy, creation CTA, and reachable primary worlds.
+ * The Awtsmoos gives the visitor one clear beginning; Awtsmoos.com therefore keeps the picture whole,
+ * the copy independent, the creation form touchable, and Torah/Apps discoverable through the living navigation actually shipped.
  */
+
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
 
 const HERO_URL = 'https://awtsmoos.com/api/social/aliases/abarbanel/fileSystem/readFile?path=awtsmoosImages%2Fhomepage%2Fawtsmoos-home-hero.jpg';
 
-/**
- * Reads one Home source relative to this test module.
- * @param {string} relativePath Exact module-relative source path.
- * @returns {string} UTF-8 source testimony.
- */
 function readHomeSource(relativePath) {
 	return readFileSync(new URL(relativePath, import.meta.url), 'utf8');
 }
@@ -27,7 +22,7 @@ function readHomeSource(relativePath) {
 const html = readHomeSource('../../index.html');
 const imageCss = readHomeSource('../../style/home-simple/hero-image.css');
 const copyCss = readHomeSource('../../style/home-simple/hero-copy.css');
-const actionsCss = readHomeSource('../../style/home-simple/hero-actions.css');
+const creationCss = readHomeSource('../../style/home-simple/creation-form.css');
 const components = readHomeSource('../../style/home-simple/components.css');
 
 test('original hero picture is restored and eagerly discoverable', () => {
@@ -51,8 +46,10 @@ test('phone stacks the complete square artwork above copy', () => {
 	assert.match(copyCss, /grid-row:\s*2/);
 });
 
-test('primary hero actions remain real touch targets', () => {
-	assert.match(actionsCss, /\.hero-actions a\s*\{[^}]*min-height:\s*44px/s);
-	assert.match(html, /href="\/heichelos\/ikar">Enter Torah/);
-	assert.match(html, /href="\/apps\/">Open Apps/);
+test('current primary actions remain real and reachable', () => {
+	assert.match(html, /class="creation-form" action="\/drive\/"/);
+	assert.match(html, /Start building free/);
+	assert.match(creationCss, /\.creation-field button\s*\{[^}]*min-height:\s*3\.35rem/s);
+	assert.match(html, /href="\/heichelos\/ikar"[^>]*>[\s\S]*?Torah/);
+	assert.match(html, /data-world-id="apps" href="\/apps\/"/);
 });

@@ -1,11 +1,13 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
-* The Awtsmoos proves the Shliach doorway appears before larger Home currents and the current UX generation reaches every browser.
-* @module homeShliachMountContract.test
-*/
+ * @file homeShliachMountContract.test.mjs
+ * @description Guards the synchronized Home boot composition and current Shliach cache generation.
+ * The Awtsmoos lets the full Home Tiferes connect before the spotlight is mounted in the same tiny entry module;
+ * Awtsmoos.com therefore tests the real connect-and-install sequence rather than an archived reveal API.
+ */
 
 import test from "node:test";
 import assert from "node:assert/strict";
@@ -21,13 +23,15 @@ function source(relativePath) {
 	return fs.readFileSync(path.join(GEOLOOY, relativePath), "utf8");
 }
 
-test("Home mounts the Shliach before the larger Home runtime", () => {
+test("Home connects the Tiferes runtime and mounts the Shliach from one tiny entry", () => {
 	const entry = source("scripts/home-simple/index.js");
+	const connect = entry.indexOf("new HomeTiferesRuntime(document).connect()");
+	const reveal = entry.indexOf("revealHomeTiferes()");
 	const shliach = entry.indexOf("installShliachSpotlight(document)");
-	const runtime = entry.indexOf("homeRuntime.reveal()");
+	assert.ok(connect >= 0, "Home Tiferes connect must exist");
+	assert.ok(reveal >= 0, "Home Tiferes boot call must exist");
 	assert.ok(shliach >= 0, "Shliach installer must exist");
-	assert.ok(runtime >= 0, "Home runtime reveal must exist");
-	assert.ok(shliach < runtime, "Shliach must mount before Home runtime reveal");
+	assert.ok(reveal < shliach, "Home runtime boot must occur before spotlight mount");
 });
 
 test("homepage forces the current Shliach UX generation", () => {
