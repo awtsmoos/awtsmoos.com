@@ -4,30 +4,22 @@
 
 /**
  * @file MainMenuLaunchTask.js
- * @description Runs one finite world-entry transaction while preserving the last exact progress stage and URL for visible failure evidence.
- * The Awtsmoos gives every doorway a measure and every fracture a name; Awtsmoos.com will not leave a traveler beside a silent promise,
- * for the bounded gate either opens in time or reveals the stage and road where the waiting became pain.
+ * @description Runs one finite world-entry transaction with progress-aware stall detection and exact failure evidence.
+ * The Awtsmoos gives every doorway a measure without confusing slowness with death; Awtsmoos.com renews the stall gate
+ * when a real threshold is crossed, while one outer horizon still names a launch that truly cannot arrive.
  */
 
 import { restartMitzvahWorldEssentialBoot } from '../app/MitzvahWorldEssentialBoot.js';
-
-const DEFAULT_WORLD_ENTRY_TIMEOUT_MS = 15000;
+import { createMainMenuLaunchDeadline } from './MainMenuLaunchDeadline.js';
 
 export function runMainMenuLaunch(handler, selection, options = {}) {
 	restartWorldEntryEssentialGate(options.environment || globalThis);
 	const evidence = createLaunchEvidence();
-	const observedSelection = observeSelectionProgress(selection, evidence);
-	const bounded = () => runBoundedHandler(handler, observedSelection, options, evidence);
+	const bounded = () => runBoundedHandler(handler, selection, options, evidence);
 	const paintTask = createLaunchPaintTask(options);
 	return paintTask ? paintTask.then(bounded) : bounded();
 }
 
-/**
- * Re-arms the bounded essential gate at world launch.
- * The world click opens a fresh five-second gate that certifies independently of page load,
- * so an honest menu-idle timeout can never poison first play. Evidence-only: a restart
- * failure must never break world entry itself.
- */
 function restartWorldEntryEssentialGate(environment) {
 	try {
 		restartMitzvahWorldEssentialBoot(environment);
@@ -39,8 +31,7 @@ function restartWorldEntryEssentialGate(environment) {
 export function createLaunchPaintTask(options = {}) {
 	const environment = options.environment || globalThis;
 	const browserDocument = environment.document || globalThis.document;
-	const explicit = options.forcePaintTask === true;
-	if (!browserDocument && !explicit) return null;
+	if (!browserDocument && options.forcePaintTask !== true) return null;
 	const schedule = options.paintSchedule
 		|| environment.setTimeout?.bind(environment)
 		|| globalThis.setTimeout?.bind(globalThis);
@@ -50,51 +41,48 @@ export function createLaunchPaintTask(options = {}) {
 }
 
 function runBoundedHandler(handler, selection, options, evidence) {
-	const timeoutMs = options.timeoutMs ?? DEFAULT_WORLD_ENTRY_TIMEOUT_MS;
 	const signal = options.signal;
-	const schedule = options.schedule || globalThis.setTimeout?.bind(globalThis);
-	const cancelSchedule = options.cancelSchedule || globalThis.clearTimeout?.bind(globalThis);
 	return new Promise((resolve, reject) => {
 		let settled = false;
-		let timer = null;
+		let deadline = null;
 		const finish = callback => value => {
 			if (settled) return;
 			settled = true;
-			if (timer !== null) cancelSchedule?.(timer);
+			deadline?.cancel();
 			signal?.removeEventListener?.('abort', abort);
 			callback(value);
 		};
 		const rejectWithEvidence = error => finish(reject)(decorateLaunchError(error, evidence));
+		const rejectTimeout = (code, message) => {
+			const error = decorateLaunchError(Object.assign(new Error(message), { code }), evidence);
+			options.onTimeout?.(error);
+			finish(reject)(error);
+		};
 		const abort = () => rejectWithEvidence(abortError(signal?.reason));
 		if (signal?.aborted) return abort();
 		signal?.addEventListener?.('abort', abort, { once: true });
-		if (schedule && timeoutMs > 0) {
-			timer = schedule(() => {
-				const error = decorateLaunchError(
-					Object.assign(new Error(`World entry timed out after ${timeoutMs} ms.`), {
-						code: 'WORLD_ENTRY_TIMEOUT'
-					}),
-					evidence
-				);
-				options.onTimeout?.(error);
-				finish(reject)(error);
-			}, timeoutMs);
-			timer?.unref?.();
-		}
+		deadline = createMainMenuLaunchDeadline(options, {
+			onStall: milliseconds => rejectTimeout(
+				'WORLD_ENTRY_STALL_TIMEOUT',
+				`World entry made no progress for ${milliseconds} ms.`
+			),
+			onHardTimeout: milliseconds => rejectTimeout(
+				'WORLD_ENTRY_HARD_TIMEOUT',
+				`World entry exceeded the ${milliseconds} ms hard limit.`
+			)
+		});
+		const observedSelection = observeSelectionProgress(selection, evidence, deadline.progress);
 		Promise.resolve()
-			.then(() => handler(selection))
+			.then(() => handler(observedSelection))
 			.then(finish(resolve), rejectWithEvidence);
 	});
 }
 
 function createLaunchEvidence() {
-	return {
-		stage: 'world-entry-handler',
-		url: 'unreported'
-	};
+	return { stage: 'world-entry-handler', url: 'unreported' };
 }
 
-function observeSelectionProgress(selection = {}, evidence) {
+function observeSelectionProgress(selection = {}, evidence, onProgress) {
 	const forward = selection.onProgress;
 	return {
 		...selection,
@@ -103,6 +91,7 @@ function observeSelectionProgress(selection = {}, evidence) {
 				if (detail.stage) evidence.stage = String(detail.stage);
 				if (detail.url) evidence.url = String(detail.url);
 			}
+			onProgress?.();
 			forward?.(detail);
 		}
 	};
@@ -120,7 +109,5 @@ function decorateLaunchError(error, evidence) {
 
 function abortError(reason) {
 	if (reason instanceof Error) return reason;
-	return Object.assign(new Error('World entry was cancelled.'), {
-		name: 'AbortError'
-	});
+	return Object.assign(new Error('World entry was cancelled.'), { name: 'AbortError' });
 }

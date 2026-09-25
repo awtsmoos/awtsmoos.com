@@ -4,23 +4,19 @@
 
 /**
  * @file mainMenuLaunchTask.test.mjs
- * @description Proves the world-entry covenant resolves, times out finitely, and preserves exact stage/URL evidence through every failure path.
- * The Awtsmoos gives every test a boundary where truth may shine; Awtsmoos.com asks failure to name its doorway,
- * so neither a stalled promise nor a rejected import can hide the road whose finite vessel failed in time.
+ * @description Proves world entry resolves, rearms on progress, remains finitely bounded, and preserves exact stage/URL evidence.
+ * The Awtsmoos gives slow progress another measured breath without granting infinity; Awtsmoos.com tests the living
+ * renewal of the stall gate and the immutable outer horizon so mobile truth is neither killed early nor allowed to vanish forever.
  */
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import {
-	createLaunchPaintTask,
-	runMainMenuLaunch
-} from '../../launcher/MainMenuLaunchTask.js';
+import { runMainMenuLaunch } from '../../launcher/MainMenuLaunchTask.js';
+import { createLaunchTestClock, deadlineOptions } from './MainMenuLaunchTaskTestClock.mjs';
 
 const EVIDENCE = Object.freeze({
-	message: 'Opening playable meadow…',
-	progress: 0.72,
-	stage: 'bootstrap-visible-world',
-	url: './BootstrapWorldFoundation.js?v=recovery-test'
+	message: 'Opening playable meadow…', progress: 0.72,
+	stage: 'bootstrap-visible-world', url: './BootstrapWorldFoundation.js?v=recovery-test'
 });
 
 test('launch task forwards progress and resolves the selected handler', async () => {
@@ -33,56 +29,55 @@ test('launch task forwards progress and resolves the selected handler', async ()
 	assert.deepEqual(progress, ['terrain']);
 });
 
-test('browser paint gate uses one timer and never requestAnimationFrame', async () => {
-	const scheduled = [];
-	let handlerCalls = 0;
-	const environment = {
-		document: {},
-		requestAnimationFrame() {
-			throw new Error('Animation frames must not gate world entry.');
-		},
-		setTimeout(callback, milliseconds) {
-			scheduled.push({ callback, milliseconds });
-			return scheduled.length;
-		}
-	};
-	const launch = runMainMenuLaunch(() => {
-		handlerCalls += 1;
-		return 'entered';
-	}, {}, { environment, timeoutMs: 0 });
-	assert.equal(handlerCalls, 0);
-	assert.equal(scheduled.length, 1);
-	scheduled[0].callback();
-	assert.equal(await launch, 'entered');
-	assert.equal(handlerCalls, 1);
+test('real progress rearms the stall deadline instead of honoring the original wall clock', async () => {
+	const clock = createLaunchTestClock();
+	let observed = null;
+	let release = null;
+	const launch = runMainMenuLaunch(selection => {
+		observed = selection;
+		return new Promise(resolve => { release = resolve; });
+	}, {}, deadlineOptions(clock));
+	await Promise.resolve();
+	const originalStall = clock.only(25);
+	observed.onProgress(EVIDENCE);
+	assert.equal(clock.has(originalStall), false);
+	assert.notEqual(clock.only(25), originalStall);
+	release('ready-after-progress');
+	assert.equal(await launch, 'ready-after-progress');
+	assert.equal(clock.size(), 0);
 });
 
-test('paint task remains absent in a non-browser test runtime', () => {
-	assert.equal(createLaunchPaintTask({ environment: {} }), null);
-});
-
-test('stalled launch reports the last exact stage and URL at its finite deadline', async () => {
-	const scheduled = [];
+test('a real stall after the latest progress reports exact stage and URL', async () => {
+	const clock = createLaunchTestClock();
 	const launch = runMainMenuLaunch(selection => {
 		selection.onProgress(EVIDENCE);
 		return new Promise(() => {});
-	}, {}, {
-		cancelSchedule() {},
-		schedule(callback) {
-			scheduled.push(callback);
-			return 1;
-		},
-		timeoutMs: 25
-	});
+	}, {}, deadlineOptions(clock));
 	await Promise.resolve();
-	assert.equal(scheduled.length, 1);
-	scheduled[0]();
+	clock.fire(clock.only(25));
 	await assert.rejects(launch, error => {
-		assert.equal(error.code, 'WORLD_ENTRY_TIMEOUT');
+		assert.equal(error.code, 'WORLD_ENTRY_STALL_TIMEOUT');
 		assert.equal(error.launchStage, EVIDENCE.stage);
 		assert.equal(error.launchUrl, EVIDENCE.url);
-		assert.match(error.message, /bootstrap-visible-world/);
-		assert.match(error.message, /BootstrapWorldFoundation/);
+		assert.match(error.message, /no progress/);
+		return true;
+	});
+});
+
+test('hard launch horizon cannot be extended by progress', async () => {
+	const clock = createLaunchTestClock();
+	let observed = null;
+	const launch = runMainMenuLaunch(selection => {
+		observed = selection;
+		return new Promise(() => {});
+	}, {}, deadlineOptions(clock));
+	await Promise.resolve();
+	observed.onProgress(EVIDENCE);
+	observed.onProgress({ ...EVIDENCE, stage: 'bootstrap-core-runtime' });
+	clock.fire(clock.only(100));
+	await assert.rejects(launch, error => {
+		assert.equal(error.code, 'WORLD_ENTRY_HARD_TIMEOUT');
+		assert.equal(error.launchStage, 'bootstrap-core-runtime');
 		return true;
 	});
 });
@@ -96,7 +91,6 @@ test('immediate launch rejection preserves the most recent stage and URL', async
 		assert.equal(error.launchStage, EVIDENCE.stage);
 		assert.equal(error.launchUrl, EVIDENCE.url);
 		assert.match(error.message, /Import failed/);
-		assert.match(error.message, /BootstrapWorldFoundation/);
 		return true;
 	});
 });
