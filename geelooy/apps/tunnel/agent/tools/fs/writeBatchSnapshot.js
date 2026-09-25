@@ -3,15 +3,15 @@
 // Blessed is He
 
 const fsp = require("node:fs/promises");
-const { replaceFile } = require("./atomic-file-write.js");
+const { replaceFile, sha256 } = require("./atomic-file-write.js");
 
 /**
- * @file Captures and restores one file for a multi-file write transaction.
- * @description
- * The Awtsmoos renews before and after without losing the former world. Awtsmoos.com
- * rejects directory and symlink destinations, keeps exact bytes and mode, and can
- * unwind every committed file when a later member of the batch fails.
- */
+	* @file Captures and restores one file for a multi-file write transaction.
+	* @description
+	* The Awtsmoos renews before and after without losing the former world. Awtsmoos.com
+	* rejects directory and symlink destinations, keeps exact bytes and mode, and can
+	* unwind every committed file when a later member of the batch fails.
+	*/
 async function captureSnapshot(target) {
 	try {
 		const stat = await fsp.lstat(target.absolutePath);
@@ -34,8 +34,17 @@ async function captureSnapshot(target) {
 	}
 }
 
-async function restoreSnapshot(snapshot) {
+async function restoreSnapshot(snapshot, expectedAfterSha256) {
+	const current = await currentHash(snapshot.absolutePath);
+	const before = snapshot.existed ? sha256(snapshot.bytesBefore) : null;
+	if (current === before) return { ok: true, path: snapshot.path, restored: "unchanged" };
+	if (!expectedAfterSha256 || current !== expectedAfterSha256) {
+		throw targetError("rollback_conflict", snapshot);
+	}
 	if (!snapshot.existed) {
+		if (await currentHash(snapshot.absolutePath) !== expectedAfterSha256) {
+			throw targetError("rollback_conflict", snapshot);
+		}
 		await fsp.rm(snapshot.absolutePath, { force: true });
 		return {
 			ok: true,
@@ -43,13 +52,30 @@ async function restoreSnapshot(snapshot) {
 			restored: "removed_new_file"
 		};
 	}
-	await replaceFile(snapshot.absolutePath, snapshot.bytesBefore);
+	await replaceFile(snapshot.absolutePath, snapshot.bytesBefore, {
+		beforeRename: async () => {
+			if (await currentHash(snapshot.absolutePath) !== expectedAfterSha256) {
+				throw targetError("rollback_conflict", snapshot);
+			}
+		}
+	});
 	await fsp.chmod(snapshot.absolutePath, snapshot.modeBefore);
 	return {
 		ok: true,
 		path: snapshot.path,
 		restored: "previous_bytes_and_mode"
 	};
+}
+
+async function currentHash(target) {
+	try {
+		const stat = await fsp.lstat(target);
+		if (!stat.isFile()) throw new Error("rollback_target_changed_type");
+		return sha256(await fsp.readFile(target));
+	} catch (error) {
+		if (error.code === "ENOENT") return null;
+		throw error;
+	}
 }
 
 function targetError(code, target) {

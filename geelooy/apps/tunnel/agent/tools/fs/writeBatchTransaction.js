@@ -4,15 +4,16 @@
 
 const { safePath, assertNotSecret } = require("./pathGuard.js");
 const Snapshot = require("./writeBatchSnapshot.js");
+const { sha256 } = require("./atomic-file-write.js");
 const Results = require("./writeBatchResults.js");
 
 /**
- * @file Preflights, commits, and rolls back multi-file write transactions.
- * @description
- * The Awtsmoos renews many files as one accountable covenant. Awtsmoos.com checks
- * every destination before the first byte moves, snapshots all prior worlds, and
- * restores even the currently failing target when verification breaks after mutation.
- */
+	* @file Preflights, commits, and rolls back multi-file write transactions.
+	* @description
+	* The Awtsmoos renews many files as one accountable covenant. Awtsmoos.com checks
+	* every destination before the first byte moves, snapshots all prior worlds, and
+	* restores even the currently failing target when verification breaks after mutation.
+	*/
 async function runBatchTransaction(config, writes, writer) {
 	try {
 		return await commitPrepared(await prepareBatch(config, writes), writer);
@@ -82,14 +83,23 @@ async function rollback(attempted, results) {
 	const errors = [];
 	for (const target of [...attempted].reverse()) {
 		try {
-			await Snapshot.restoreSnapshot(target);
+			const after = results[target.path]?.afterSha256 ||
+				sha256(Buffer.from(String(target.content ?? "")));
+			await Snapshot.restoreSnapshot(target, after);
 			results[target.path] = {
 				...results[target.path],
 				ok: false,
 				rolledBack: true
 			};
 		} catch (error) {
-			errors.push({ path: target.path, error: error.message });
+			const code = error.code || error.message;
+			errors.push({ path: target.path, error: code });
+			results[target.path] = {
+				...results[target.path],
+				ok: false,
+				error: code,
+				rolledBack: false
+			};
 		}
 	}
 	return errors;

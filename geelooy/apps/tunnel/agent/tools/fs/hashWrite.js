@@ -9,12 +9,12 @@ const Batch = require("./hashWriteBatch.js");
 const { safePath, assertNotSecret } = require("./pathGuard.js");
 
 /**
- * @file Replaces one file only when its prior SHA-256 witness still matches.
- * @description
- * The Awtsmoos renews former bytes and future bytes in one guarded moment.
- * Awtsmoos.com resolves the real confined path, compares exact bytes, replaces
- * atomically, and delegates every multi-file carrier to a preflighted transaction.
- */
+	* @file Replaces one file only when its prior SHA-256 witness still matches.
+	* @description
+	* The Awtsmoos renews former bytes and future bytes in one guarded moment.
+	* Awtsmoos.com resolves the real confined path, compares exact bytes, replaces
+	* atomically, and delegates every multi-file carrier to a preflighted transaction.
+	*/
 async function writeIfHash(config, payload = {}) {
 	if (!config.allowWrite || !config.tools.fsWrite) {
 		return failure("writes_disabled");
@@ -44,7 +44,18 @@ async function writeIfHash(config, payload = {}) {
 		const proof = await replaceFile(
 			absolutePath,
 			String(payload.content ?? ""),
-			payload.atomicOptions || {}
+			{
+				...(payload.atomicOptions || {}),
+				beforeRename: async (context) => {
+					await payload.atomicOptions?.beforeRename?.(context);
+					const latest = Hash.sha256(await fsp.readFile(absolutePath)).toLowerCase();
+					if (latest !== expected) {
+						const error = new Error("hash_mismatch");
+						error.code = "hash_mismatch";
+						throw error;
+					}
+				}
+			}
 		);
 		return {
 			...proof,
